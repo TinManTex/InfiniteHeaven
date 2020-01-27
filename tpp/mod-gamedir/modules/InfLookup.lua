@@ -24,15 +24,19 @@ function this.PostAllModulesLoad()
 end
 
 function this.Init(missionTable)
-  if Ivars.debugMode:Is(1) then
-    InfCore.Log"Dumping unknownStr32"
-    local unknownStr32={InfInspect.Inspect(InfCore.unknownStr32)}
-    InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownStr32.txt",unknownStr32)
-
-    InfCore.Log"Dumping unknownMessages"
-    local unknownMessages={InfInspect.Inspect(InfCore.unknownMessages)}
-    InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownMessages.txt",unknownMessages)
+  if Ivars.debugMode:Is(0) then
+    return
   end
+
+  this.InitObjectLists(missionTable)
+
+  InfCore.Log"Dumping unknownStr32"
+  local unknownStr32={InfInspect.Inspect(InfCore.unknownStr32)}
+  InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownStr32.txt",unknownStr32)
+
+  InfCore.Log"Dumping unknownMessages"
+  local unknownMessages={InfInspect.Inspect(InfCore.unknownMessages)}
+  InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownMessages.txt",unknownMessages)
 end
 
 --lookup-tables>
@@ -45,14 +49,85 @@ function this.GenerateNameList(fmt,num,list)
   return list
 end
 
+--tex TODO: scrape fox2s typeName
+this.gameObjectClass={
+  "TppBear",
+  "TppBuddyDog2",
+  "TppBuddyPuppy",
+  "TppBuddyQuiet2",
+  "TppBossQuiet2",--tex is also sniper parasites
+  "TppCodeTalker2",
+  "TppCommandPost2",
+  "TppCommonWalkerGear2",
+  "TppCorpse",
+  "TppCritterBird",
+  "TppDecoySystem",
+  "TppEagle",
+  "TppEnemyHeli",
+  "TppEspionageRadioSystem",
+  "TppGoat",
+  "TppJackal",
+  "TppMarker2LocatorSystem",
+  "TppNubian",
+  "TppHeli2",
+  "TppHorse2",
+  "TppHostage2",
+  "TppHostageKaz",
+  "TppHostageUnique",
+  "TppHostageUnique2",
+  "TppHuey2",
+  "TppJackal",
+  "TppLiquid2",
+  "TppMantis2",
+  "TppMarkerLocatorSystem",
+  "TppNubian",
+  "TppOcelot2",
+  "TppOtherHeli2",
+  "TppParasite2",
+  "TppPlacedSystem",
+  "TppPlayer2",
+  "TppPlayerHorseforVr",--tex prologue volgin escape
+  "TppRat",
+  "TppSahalen2",
+  "TppSecurityCamera2",
+  "TppSkullFace2",
+  "TppSoldier2",
+  "TppStork",
+  "TppSupplyCboxSystem",
+  "TppSupportAttackSystem",
+  "TppVolgin2",
+  "TppVolgin2forVr",--tex prologue volgin escape
+  "TppUav",
+  "TppVehicle2",
+  "TppWalkerGear2",
+  "TppWolf",
+  "TppZebra",
+}
+
 --TABLESETUP
+--tex TODO: scrape fox2s
 this.objectNameLists={
+  player_locator=this.GenerateNameList("player_locator_%04d",2),
+  helis={"SupportHeli","EnemyHeli","WestHeli"},
+  accPilot={"hos_pilot_0000"},
+  charactersInPrologue={"ishmael","volgin","ocelot","ocelot_horse"},
+  charactersInMb={
+    "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",
+    "mtbs_uq0040_plnt0000|uq_00400000|uq_0040_asset|TppPazLocator"
+  },
+  buddies={"BuddyDogGameObjectLocator","BuddyDogGameObjectLocator","BuddyQuietGameObjectLocator","BuddyWalkerGearGameObjectLocator",},
+  characters={"TppHuey2GameObjectLocator"},
   veh_lv=this.GenerateNameList("veh_lv_%04d",20),--jeeps
   veh_trc=this.GenerateNameList("veh_trc_%04d",10),--trucks
+  wkr_WalkerGear=this.GenerateNameList("wkr_WalkerGear_%04d",10),
   anml_quest=this.GenerateNameList("anml_quest_%02d",10),
   sol_quest=this.GenerateNameList("sol_quest_%04d",10),
   ih_hostage=this.GenerateNameList("ih_hostage_%04d",10),
   itm_Mine_quest=this.GenerateNameList("itm_Mine_quest_%04d",10),
+  itm_revDecoy=this.GenerateNameList("itm_revDecoy_%04d",10),
+  itm_revMine=this.GenerateNameList("itm_revMine_%04d",10),
+  OtherHeli=this.GenerateNameList("OtherHeli%04d",10),
+  TppCorpseGameObjectLocator=this.GenerateNameList("TppCorpseGameObjectLocator%04d",12),--TODO VERIFY max
 }
 
 --tex from TppAnimalBlock animalsTable
@@ -101,6 +176,15 @@ this.objectNameLists.mbVehicleNames={
 for location,cpNames in pairs(InfMain.baseNames) do
   this.objectNameLists["cpNames"..location]=cpNames
 end
+
+function this.InitObjectLists(missionTable)
+  this.objectNameLists.reinforceNames={TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"}
+  this.objectNameLists.reinforceDriver={"reinforce_soldier_driver"}
+  this.objectNameLists.heliUTH=InfNPCHeli.heliNames.UTH
+  this.objectNameLists.heliUTH=InfNPCHeli.heliNames.HP48
+  this.objectNameLists.ihBirdNames=InfAnimal.birdNames
+  this.objectNameLists.reserveSoldierNames=InfMain.reserveSoldierNames
+end
 --
 
 function this.Time(time)
@@ -128,29 +212,9 @@ function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
   return enumNameLookup
 end
 
-
-function this.GetObjectNameLists()
-  local nameLists={
-    {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"},
-    {"hos_pilot_0000"},
-    {"reinforce_soldier_driver"},
-    InfNPCHeli.heliNames.UTH,
-    InfNPCHeli.heliNames.HP48,
-    InfWalkerGear.walkerNames,
-    InfAnimal.birdNames,
-    InfMain.reserveSoldierNames,
-  }
-
-  for listName,list in pairs(this.objectNameLists) do
-    table.insert(nameLists,list)
-  end
-
-  return nameLists
-end
-
-
+--tex for Ivars.warpToListObject
 function this.GetObjectList()
-  --return InfMain.reserveSoldierNames
+ -- return InfMain.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
@@ -165,13 +229,14 @@ function this.GetObjectList()
   --return TppEnemy.armorSoldiers
   --return InfAnimal.birdNames
   -- return objectNameLists[4]
-  --return InfNPC.ene_wildCardNames
+  return InfNPC.ene_wildCardNames
   --return InfHostage.hostageNames
-  --return this.objectNameLists.sol_quest
-  --return {"hos_quest_0000"}
-  return InfWalkerGear.walkerNames
+    --return this.objectNameLists.sol_quest
+    --return {"hos_quest_0000"}
+    --return InfWalkerGear.walkerNames
 end
 
+--tex for Ivars.warpToListObject
 function this.GetObjectInfoOrPos(index)
   local objectList=this.GetObjectList()
 
@@ -250,8 +315,7 @@ function this.ObjectNameForGameId(findId)
     end
   end
 
-  local objectNameLists=this.GetObjectNameLists()
-  for i,list in ipairs(objectNameLists)do
+  for listName,list in pairs(this.objectNameLists) do
     local objectName
     if type(list[1])=="table" then
       objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
@@ -260,14 +324,6 @@ function this.ObjectNameForGameId(findId)
     end
     if objectName then
       return objectName
-    end
-  end
-
-  local enemyHeli="EnemyHeli"
-  local gameId=GetGameObjectId(enemyHeli)
-  if gameId~=NULL_ID then
-    if gameId==findId then
-      return enemyHeli
     end
   end
 
@@ -756,7 +812,7 @@ this.messageSignatures={
     --    Fulton={
     --      {argName="gameId",argType="gameId"},
     --      {argName="gimmickInstanceOrAnimalId",argType="number"},
-    --      {argName="gimmickDataSet",argType="str32"},--TODO: 
+    --      {argName="gimmickDataSet",argType="str32"},--TODO:
     --      {argName="stafforResourceId",argType="number"},--TODO:
     --    },
     FultonInfo={
@@ -844,20 +900,20 @@ this.messageSignatures={
     },
   },
   Player={
---    CalcFultonPercent={--tex TODO: only first two arg appear for some things, test to see if gimmick args do actually show when next to container or some other gimmick 
---      {argName="playerIndex",argType="gameId"},--tex assumed
---      {argName="gameId",argType="gameId"},
---      {argName="gimmickInstanceOrAnimalId",argType="number"},
---      {argName="gimmickDataSet",argType="number"},--TODO: 
---      {argName="stafforResourceId",argType="number"},--TODO:
---    },
---    CalcDogFultonPercent={
---      {argName="playerIndex",argType="gameId"},--tex assumed
---      {argName="gameId",argType="gameId"},
---      {argName="gimmickInstanceOrAnimalId",argType="number"},
---      {argName="gimmickDataSet",argType="number"},--TODO: 
---      {argName="stafforResourceId",argType="number"},--TODO:
---    },
+    --    CalcFultonPercent={--tex TODO: only first two arg appear for some things, test to see if gimmick args do actually show when next to container or some other gimmick
+    --      {argName="playerIndex",argType="gameId"},--tex assumed
+    --      {argName="gameId",argType="gameId"},
+    --      {argName="gimmickInstanceOrAnimalId",argType="number"},
+    --      {argName="gimmickDataSet",argType="number"},--TODO:
+    --      {argName="stafforResourceId",argType="number"},--TODO:
+    --    },
+    --    CalcDogFultonPercent={
+    --      {argName="playerIndex",argType="gameId"},--tex assumed
+    --      {argName="gameId",argType="gameId"},
+    --      {argName="gimmickInstanceOrAnimalId",argType="number"},
+    --      {argName="gimmickDataSet",argType="number"},--TODO:
+    --      {argName="stafforResourceId",argType="number"},--TODO:
+    --    },
     Enter={--tex mission zones
       {argName="zoneType",argType="str32"},--tex outerZone,innerZone,hotZone
     },
@@ -1113,8 +1169,7 @@ end
 function this.AddObjectNamesToStr32List()
   if InfCore.debugMode then
     InfCore.Log"Adding object names to strCode32 list"
-    local objectNameLists=this.GetObjectNameLists()
-    for i,list in ipairs(objectNameLists)do
+    for listName,list in pairs(this.objectNameLists) do
       if type(list[1])=="table" then
         for i,objectName in ipairs(list[1]) do
           InfCore.StrCode32(objectName)

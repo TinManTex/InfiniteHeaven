@@ -328,7 +328,7 @@ function this.RegisterQuests()
     --tex WORKAROUND, cant do in TppQuest.RegisterQuestPackList since it's already using random inside its loop
     local randomFaceListIH=questInfo.questPackList.randomFaceListIH
     if randomFaceListIH then
-      questInfo.questPackList.faceIdList=InfCore.PCall(InfEneFova.GetRandomFaces,randomFaceListIH.gender,randomFaceListIH.count)--DEBUGNOW pcall
+      questInfo.questPackList.faceIdList=InfCore.PCallDebug(InfEneFova.GetRandomFaces,randomFaceListIH.gender,randomFaceListIH.count)
     end
     this.AddToQuestInfoTable(questInfoTable,TppQuest.QUESTTABLE_INDEX,questName,questInfo)
     openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest

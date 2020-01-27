@@ -10,7 +10,7 @@ local SendCommand=GameObject.SendCommand
 this.debugModule=false
 
 --STATE
---tex DEBUGNOW TODO: flip flopping on how to handle mission vars (generated data on mission start)
+--tex TODO: flip flopping on how to handle mission vars (generated data on mission start)
 --want shared state
 --module local is nice seperation wise, but will clear (and usually break whatevers relying on it) when run-time reloading
 --vs big-ole-table, mvars is the way most of the game handles it, but it's a bit opaque,

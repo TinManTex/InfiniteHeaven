@@ -3,7 +3,7 @@
 local this={}
 --face meshes
 this.faceFova={
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk"},--0,
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk"},--0,--males>
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v001_eye0.fpk"},--1,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v002_eye0.fpk"},--2,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v003_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v003_eye0.fpk"},--3,
@@ -29,7 +29,7 @@ this.faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v004_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v004_eye0.fpk"},--23,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v000_eye0.fpk"},--24,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v001_eye0.fpk"},--25,
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v002_eye0.fpk"},--26,
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v002_eye0.fpk"},--26,--<
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fpk"},--27,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_pfs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_pfs0_head_z_eye0.fpk"},--28,--balaclava
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fpk"},--29,
@@ -242,36 +242,44 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/chd/chd1_v04.fv2","/Assets/tpp/pack/fova/chara/chd/chd1_main0_v00.fpk"},--55,134,,
   {"/Assets/tpp/fova/chara/chd/chd1_v05.fv2","/Assets/tpp/pack/fova/chara/chd/chd1_main0_v00.fpk"},--56,135,,
   --dds
-  {"/Assets/tpp/fova/chara/dds/dds0_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},--57,140,,DD_PW,10115,bodyIdTable ASSAULT
-  {"/Assets/tpp/fova/chara/dds/dds0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},--58,141,,DD_PW,10115
+  {"/Assets/tpp/fova/chara/dds/dds0_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},--57,140,,DD_PW,10115 Retake the plat,bodyIdTable ASSAULT
+  {"/Assets/tpp/fova/chara/dds/dds0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},--58,141,,DD_PW,10115 Retake the plat,Mosquito
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds3_main0_v00.fpk"},--59,142,,DD_A default/drab
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v00.fpk"},--60,143,,DD_FOB Tiger
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v01.fv2",""},--61,144,,
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v02.fv2",""},--62,145,,
+  --dd researcher/labcoat male
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--63,146,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--64,147,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--65,148,,
+
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--66,149,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--67,150,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v02.fv2",""},--68,151,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v03.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--69,152,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v04.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--70,153,,
+  --female
   {"/Assets/tpp/fova/chara/dds/ddr1_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--71,154,,
   {"/Assets/tpp/fova/chara/dds/ddr1_main0_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--72,155,,
   {"/Assets/tpp/fova/chara/dds/ddr1_main0_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--73,156,,
+
   {"/Assets/tpp/fova/chara/dds/ddr1_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--74,157,,
   {"/Assets/tpp/fova/chara/dds/ddr1_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--75,158,,
   {"/Assets/tpp/fova/chara/dds/ddr1_main1_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--76,159,,
+
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v01.fv2",""},--77,160,,
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v03.fv2",""},--78,161,,
   {"/Assets/tpp/fova/chara/dds/dds6_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds6_main0_v00.fpk"},--79,162,,
   {"/Assets/tpp/fova/chara/dds/dds6_main0_v01.fv2",""},--80,163,,
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds8_main0_v00.fpk"},--81,164,,
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v01.fv2",""},--82,165,,
+
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v03.fv2",""},--83,166,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v04.fv2",""},--84,167,,
+
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v05.fv2",""},--85,168,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v06.fv2",""},--86,169,,
+
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v02.fv2",""},--87,170,,
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v02.fv2",""},--88,171,,
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--89,172,dds4_enem0_def,
@@ -288,11 +296,11 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dle/dle0_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dle/dle0_plyf0_v00.fpk"},--100,183,dle0_plyf0_def,
   {"/Assets/tpp/fova/chara/dle/dle1_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dle/dle1_plyf0_v00.fpk"},--101,184,dle1_plyf0_def,
   --wss XOF
-  {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00.fpk"},--102,190,,
+  {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00.fpk"},--102,190,,--10150 : Mission 30 - Skull Face, SKULL_AFGH
   {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2",""},--103,191,
   {"/Assets/tpp/fova/chara/wss/wss4_main0_v02.fv2",""},--104,192,
-  {"/Assets/tpp/fova/chara/wss/wss0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss0_main0_v00.fpk"},--105,195,,
-  {"/Assets/tpp/fova/chara/wss/wss3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss3_main0_v00.fpk"},--106,196,,
+  {"/Assets/tpp/fova/chara/wss/wss0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss0_main0_v00.fpk"},--105,195,,--prologue gas mask xof
+  {"/Assets/tpp/fova/chara/wss/wss3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss3_main0_v00.fpk"},--106,196,,--unused?
   --prisoners
   {"/Assets/tpp/fova/chara/prs/prs2_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs2_main0_v01.fpk"},--107,200,,afgh hostage male
   {"/Assets/tpp/fova/chara/prs/prs5_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs5_main0_v01.fpk"},--108,201,,mafr hostage male
@@ -322,8 +330,8 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v100.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v06.fpk"},--128,263,,tan/brown hoodie, brown pants
   --pf unique
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v140.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v07.fpk"},--129,264,,cap, glases, badly clipping medal, brown leather top, light tan muddy pants, fingerless gloves, white hands,Q99071/outland_q99071
-  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v241.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v08.fpk"},--130,265,,brown leather top, light tan muddy pants
-  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v242.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v09.fpk"},--131,266,,brown leather top, light tan muddy pants, cant tell any difference?
+  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v241.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v08.fpk"},--130,265,,brown leather top, light tan muddy pants,s10091
+  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v242.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v09.fpk"},--131,266,,brown leather top, light tan muddy pants, cant tell any difference?,s10091
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v450.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v10.fpk"},--132,267,,red beret, brown leather top, light tan muddy pants
   --soviet unique
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v070.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v07.fpk"},--133,268,,red beret, green vest, tan top, pants
@@ -334,7 +342,7 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v440.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v11.fpk"},--137,272,,red beret, black leather top, black pants,10093 vip
   --soviet unique
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v009.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v11.fpk"},--138,273,,red beret, green vest, grey top, pants
-  {"/Assets/tpp/fova/chara/svs/svs0_unq_v421.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v12.fpk"},--139,274,,wood camo
+  {"/Assets/tpp/fova/chara/svs/svs0_unq_v421.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v12.fpk"},--139,274,,wood camo,s10045
   --pf unique
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v155.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v12.fpk"},--140,275,,red beret cfa light tank shortpants fingerless gloves white hands
   --lost MSF, RETAILBUG pfs and svs dds are swapped in TppEnemyBodyId
@@ -395,6 +403,7 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/ptn/ptn0_v32.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--193,332,,
   {"/Assets/tpp/fova/chara/ptn/ptn0_v33.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--194,333,,
   {"/Assets/tpp/fova/chara/ptn/ptn0_v34.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--195,334,,
+
   {"/Assets/tpp/fova/chara/ptn/ptn1_v00.fv2",""},--196,335,,
   {"/Assets/tpp/fova/chara/ptn/ptn2_v00.fv2",""},--197,336,,
   --cyprus hospital nurses
@@ -409,7 +418,7 @@ this.bodyFova={
   --cyprus hospital doc
   {"/Assets/tpp/fova/chara/dct/dct0_v00.fv2","/Assets/tpp/pack/fova/chara/dct/dct0_main0_v00.fpk"},--206,348,,
   {"/Assets/tpp/fova/chara/dct/dct0_v01.fv2","/Assets/tpp/pack/fova/chara/dct/dct0_main0_v00.fpk"},--207,349,,
-  --?
+  --Mission 20 - Voices - infected prisoners
   {"/Assets/tpp/fova/chara/plh/plh0_v00.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--208,350,,
   {"/Assets/tpp/fova/chara/plh/plh0_v01.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--209,351,,
   {"/Assets/tpp/fova/chara/plh/plh0_v02.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--210,352,,
@@ -460,7 +469,93 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v10.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v10.fpk"}, --240,403,,
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"},   --250,404,,
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"}, --251,405,, --<
+  --tex> OFF CULL
+--  {"/Assets/tpp/fova/chara/dds/dds0_main2_v01.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--252,406,,
+--  {"/Assets/tpp/fova/chara/dds/dds0_main2_v02.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--253,407,,
+--  {"/Assets/tpp/fova/chara/dds/dds0_main2_v04.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--254,408,,
+--  {"/Assets/tpp/fova/chara/dds/dds0_main2_v05.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--255,409,,
+--
+--  {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--256,410,,
+--  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--257,411,,
+--  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--258,412,,
+--<
 }
+
+--tex add player comos to fova system>
+--52 fv2s
+local camoIds={
+  0,
+  1,
+  2,
+  3,
+  5,
+  6,
+  --7,--ARBANBLUE, TODO find fova
+  --8,--ARBANGRAY, TODO find fova
+  --9,--?
+  10,
+  --11,--SANDSTORM, TODO find fova
+  12,
+  --13,--BLACK, TODO find fova
+  14,
+  --15,--?
+  16,
+  17,
+  18,
+  19,
+  20,
+  --21,--?
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44,
+  45,
+  46,
+  47,
+  48,
+  49,
+  50,
+  51,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57,
+  58,
+  59,
+  60,
+}
+local fovaInfo={
+  dds5={"/Assets/tpp/fova/chara/sna/dds5_main0_ply_v%02d.fv2","/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v%02d.fpk"},
+  dds6={"/Assets/tpp/fova/chara/sna/dds6_main0_ply_v%02d.fv2","/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v%02d.fpk"},
+}
+local camoAddStart=#this.bodyFova
+for i,camoId in ipairs(camoIds)do
+  table.insert(this.bodyFova,{string.format(fovaInfo.dds5[1],camoId),string.format(fovaInfo.dds5[2],camoId)})
+end
+for i,camoId in ipairs(camoIds)do
+  table.insert(this.bodyFova,{string.format(fovaInfo.dds6[1],camoId),string.format(fovaInfo.dds6[2],camoId)})
+end
+--<
 
 local no=EnemyFova.INVALID_FOVA_VALUE
 this.faceDefinition={
@@ -998,7 +1093,7 @@ this.faceDefinition={
   --tex slots for run-time face modding, see InfEneFova.ApplyFaceFova >
   {690, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
   {691, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
-  --{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
+--{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
 --<
 }
 
@@ -1279,7 +1374,25 @@ this.bodyDefinition={
   {403,249,0},
   {404,250,0},
   {405,251,0},--<
+  --tex OFF CULL
+--  {406,252,0},--tex>dds0_main2
+--  {407,253,0},
+--  {408,254,0},
+--  {409,255,0},--<
+--  {410,256,0},--tex>wss4_main0
+--  {411,257,0},
+--  {412,258,0},--<
 }
+
+--tex> add player camos to fova system
+local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
+local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
+for i=1,#camoIds*2 do--
+  table.insert(this.bodyDefinition,{bodyIdStart+i,bodyFovaStart+i})
+end
+--dds5=bodyId 406>(+52)458
+--dds5=bodyId 459>(+52)511
+--<
 
 --{bodyId,?type name,?type index,?},--body description (from body id),type description
 this.modBodyFova={
@@ -1334,22 +1447,28 @@ this.modBodyFova={
   {275,"CapType",52,""},--pf unique,red beret
 }
 
-this.highestVanillaFaceId=687--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
+this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
 --OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
 
-if InfModelProc then--tex WORKAROUND Mock
-InfModelProc.Setup(this.faceDefinition)--tex
-end
+
 
 --tex shifted from after table definitions
 if TppSoldierFace~=nil then
-  TppSoldierFace.SetFovaFileTable{
+  this.fovaFileTable={--tex made local, was directly into SetFovaFileTable
     faceFova={table=this.faceFova,maxCount=100},
     faceDecoFova={table=this.faceDecoFova,maxCount=200},
     hairFova={table=this.hairFova,maxCount=20},
     hairDecoFova={table=this.hairDecoFova,maxCount=40},
     bodyFova={table=this.bodyFova,maxCount=256}--RETAILPATCH 1.10 increased from 250
   }
+  this.fovaFileTable.bodyFova.maxCount=#this.bodyDefinition+1--tex
+
+  if InfModelProc then--tex WORKAROUND Mock
+    InfCore.PCall(InfModelProc.Setup,this)--tex
+  end
+
+  TppSoldierFace.SetFovaFileTable(this.fovaFileTable)
+
   TppSoldierFace.SetFaceFovaDefinitionTable{table=this.faceDefinition,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
 
   if TppSoldierFace.ModFaceFovaDefinitionTable~=nil then
@@ -1364,4 +1483,8 @@ if TppSoldierFace~=nil then
 end
 
 return this--tex
+
+
+
+
 --ORIG return{}

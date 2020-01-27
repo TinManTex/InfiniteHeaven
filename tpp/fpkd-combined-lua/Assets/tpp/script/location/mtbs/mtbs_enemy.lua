@@ -772,7 +772,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
     return 0
   end
 
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+  if IvarProc.EnabledForMission"customSoldierType" then--tex>
     InfMain.RandomSetToLevelSeed()
   end--<
 
@@ -807,7 +807,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
     mtbs_enemy.SetupSortieSoldierFovaForMemoryDump( clusterId )
   end
 
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+  if IvarProc.EnabledForMission"customSoldierType" then--tex>
     InfMain.RandomResetToOsTime()
   end--<
 
@@ -1147,8 +1147,8 @@ mtbs_enemy.SetEnemyLocationType = function ()
     --even though I override soldier type during soldier setup it's somewhere after this set command and there
     --it also controls language, so bypassing it to keep soldier salute callouts
     --GOTCHA seems a one type deal, so cant take female into account.
-    if InfMain.IsDDBodyEquip() then
-      local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
+    if IvarProc.EnabledForMission"customSoldierType" then
+      local bodyInfo=InfEneFova.GetMaleBodyInfo()
       local soldierType=EnemyType.TYPE_DD
       if bodyInfo and bodyInfo.soldierSubType and InfMain.IsMbEvent() then
         soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
@@ -2076,7 +2076,7 @@ mtbs_enemy.OnActivateDemoBlock = function()
   local faceIdList = mvars.f30050_soldierFaceIdListPriority
   local normalFaceSoldierNum = #mvars.f30050_soldierFaceIdList
   local faceIdListIndex = 1
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+  if IvarProc.EnabledForMission"customSoldierType" then--tex>
     InfMain.RandomSetToLevelSeed()
   end--<
   for _, solName in ipairs( mvars.f30050_soldierListFovaApplyPriority[clusterId] ) do
@@ -2098,7 +2098,7 @@ mtbs_enemy.OnActivateDemoBlock = function()
     end
     faceIdListIndex = faceIdListIndex + 1
   end
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+  if IvarProc.EnabledForMission"customSoldierType" then--tex>
     InfMain.RandomResetToOsTime()
   end--<
   mtbs_enemy.SetEnableSoldierInCluster( clusterId, true )
@@ -2115,13 +2115,13 @@ mtbs_enemy.OnDeactivateDemoBlock = function(clusterId)
   end
 
   mtbs_enemy._SetAssetsTable(clusterId)
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+  if IvarProc.EnabledForMission"customSoldierType" then--tex>
     InfMain.RandomSetToLevelSeed()
   end--<
   for _, solName in ipairs( mvars.f30050_soldierListFovaApplyPriority[clusterId] ) do
     TppEneFova.ApplyMTBSUniqueSetting( GetGameObjectId("TppSoldier2", solName), 22, false , false )
   end
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+  if IvarProc.EnabledForMission"customSoldierType" then--tex>
     InfMain.RandomResetToOsTime()
   end--<
   mtbs_enemy.SetEnableSoldierInCluster( clusterId, false )

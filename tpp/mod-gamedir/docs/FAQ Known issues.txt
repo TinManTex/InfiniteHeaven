@@ -67,3 +67,6 @@ This may be mitigated in future versions, but not fully fixed since KJP optimize
 Heli in side ops may travel from one sideop to the next (if first sideop is loaded and second is also heli sideop), have yet to test to see if it does switch the sideop it counts towards on death.
 Heli sideop loading may be delayed until very near resulting in sudden pop in of sideop vehicles/soldiers.
 Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world. This won't be fixable as the AI is in the game engine/untouchable.
+
+Wildcard soldiers:
+Attempting to exit the map from an area that has both a female wildcard soldier and a female prisoner sideop will cause in infinite load. Restarting the game will put you back in the map before the attempted exit, clear the sideop and leave the area before attempting to exit the map again.

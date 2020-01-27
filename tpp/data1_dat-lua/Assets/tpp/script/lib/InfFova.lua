@@ -583,7 +583,7 @@ this.playerCamoTypes={
   "SWIMWEAR_C00",--79,OLIVEDRAB
   "SWIMWEAR_C01",--80,TIGERSTRIPE
   "SWIMWEAR_C02",--81,GOLDTIGER
-  "SWIMWEAR_C03",--82,DESERTFOX
+  "SWIMWEAR_C03",--82,FOXTROT
   "SWIMWEAR_C05",--83,WETWORK
   "SWIMWEAR_C06",--84,SPLITTER
   "SWIMWEAR_C38",--85,PARASITE MIST
@@ -1915,6 +1915,8 @@ function this.GetCamoTypes(partsTypeName)
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   end
+  
+  local checkDeveloped=Ivars.skipDevelopChecks:Is(0)
 
   local checkedCamoTypes={}
   if Ivars.skipDevelopChecks:Is(1) then
@@ -1925,7 +1927,7 @@ function this.GetCamoTypes(partsTypeName)
       if camoType then
         local camoInfo=InfFova.playerCamoTypesInfo[camoType+1]
         if camoInfo then
-          if camoInfo.developId then
+          if camoInfo.developId and checkDeveloped then
             if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=camoInfo.developId} then
               table.insert(checkedCamoTypes,camoName)
             end

@@ -57,7 +57,63 @@ missionPackTable[10010]=function(missionCode)
       end
     end
     local faceTable={{636,0,0,1}}
-    local bodyTable={{300,1},{301,1},{302,1},{303,1},{304,1},{305,1},{306,1},{307,1},{308,1},{309,1},{310,1},{311,1},{312,1},{313,1},{314,1},{315,1},{316,1},{317,1},{318,1},{319,1},{320,1},{321,1},{322,1},{323,1},{324,1},{325,1},{326,1},{327,1},{328,1},{329,1},{330,1},{331,1},{332,1},{333,1},{334,1},{337,1},{338,1},{339,1},{340,1},{341,1},{342,1},{343,1},{344,1},{345,1},{346,1},{347,1},{348,1},{349,1},{380,1},{381,1}}
+    local bodyTable={
+      --patients
+      {300,1},
+      {301,1},
+      {302,1},
+      {303,1},
+      {304,1},
+      {305,1},
+      {306,1},
+      {307,1},
+      {308,1},
+      {309,1},
+      {310,1},
+      {311,1},
+      {312,1},
+      {313,1},
+      {314,1},
+      {315,1},
+      {316,1},
+      {317,1},
+      {318,1},
+      {319,1},
+      {320,1},
+      {321,1},
+      {322,1},
+      {323,1},
+      {324,1},
+      {325,1},
+      {326,1},
+      {327,1},
+      {328,1},
+      {329,1},
+      {330,1},
+      {331,1},
+      {332,1},
+      {333,1},
+      {334,1},
+      --RETAILBUG body ids not defined?
+      {337,1},
+      {338,1},
+      {339,1},
+      --nurses
+      {340,1},
+      {341,1},
+      {342,1},
+      {343,1},
+      {344,1},
+      {345,1},
+      {346,1},
+      {347,1},
+      --doctors
+      {348,1},
+      {349,1},
+      --ishmael
+      {380,1},
+      {381,1}
+    }
     TppEneFova.AddUniquePackage{type="hostage",face=faceTable,body=bodyTable}
   end
 end
@@ -644,17 +700,6 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
 
-  --tex IsDDBodyEquip add mission packs>
-  if InfMain.IsDDBodyEquip(missionCode) then
-    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
-    if bodyInfo and bodyInfo.missionPackPath then
-      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-    end
-    local bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
-    if bodyInfo and bodyInfo.missionPackPath then
-      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-    end
-  end--<
   if Ivars.mbZombies:Is(1)then--tex>
     TppSoldierFace.SetUseZombieFova{enabled=true}
   end--<
@@ -732,17 +777,6 @@ missionPackTable[30250]=function(missionCode)
     end
   end
 
-  --tex IsDDBodyEquip add mission packs>
-  if InfMain.IsDDBodyEquip(missionCode) then
-    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
-    if bodyInfo and bodyInfo.missionPackPath then
-      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-    end
-    local bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
-    if bodyInfo and bodyInfo.missionPackPath then
-      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-    end
-  end--<
   if Ivars.mbZombies:Is(1)then--tex>
     TppSoldierFace.SetUseZombieFova{enabled=true}
   end--<

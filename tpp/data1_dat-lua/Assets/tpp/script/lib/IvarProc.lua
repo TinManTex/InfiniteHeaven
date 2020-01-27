@@ -18,7 +18,7 @@ local RETRY=TppScriptVars.CATEGORY_RETRY
 local MB_MANAGEMENT=TppScriptVars.CATEGORY_MB_MANAGEMENT
 local QUEST=TppScriptVars.CATEGORY_QUEST
 local CONFIG=TppScriptVars.CATEGORY_CONFIG
-local RESTARTABLE=TppScriptVars.CATEGORY_MISSION_RESTARTABLE--DEBUGNOW TppDefine.CATEGORY_MISSION_RESTARTABLE
+local RESTARTABLE=TppScriptVars.CATEGORY_MISSION_RESTARTABLE--NMC don't know why the vanilla code uses TppDefine.CATEGORY_MISSION_RESTARTABLE and not TppScriptVars.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
 this.debugModule=false
@@ -345,9 +345,9 @@ function this.MissionCheckMbqf(self,missionCode)
   return missionCode==30250
 end
 
+local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
 function this.MissionCheckMbAll(self,missionCode)
   local missionCode=missionCode or vars.missionCode
-  local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
   return mbFreeMissions[missionCode] or false
 end
 
@@ -357,11 +357,6 @@ function this.MissionCheckMission(self,missionCode)
   return firstDigit==1
 end
 
-this.missionModesAll={
-  "FREE",
-  "MISSION",
-  "MB",
-}
 local missionModeChecks={
   FREE=this.MissionCheckFree,
   MISSION=this.MissionCheckMission,
@@ -416,6 +411,23 @@ function this.IsForMission(ivarList,setting,missionCode)
     end
   end
   return passedCheck
+end
+
+function this.GetForMission(ivarList,missionCode)
+  local missionId=missionCode or vars.missionCode
+  if type(ivarList)=="string" then
+    ivarList=Ivars.missionModeIvars[ivarList]
+  end
+  local passedCheck=false
+  for i=1,#ivarList do
+    local ivar=ivarList[i]
+    if ivar.MissionCheck==nil then
+      InfCore.Log("WARNING: GetForMission on "..ivar.name.." which has no MissionCheck func")
+    elseif ivar:MissionCheck(missionId) then
+      return ivar:Get() 
+    end
+  end
+  return 0
 end
 
 --tex as above but with ivar>0 check

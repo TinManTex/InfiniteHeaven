@@ -2,111 +2,150 @@
 -- InfModelProc.lua
 local this={}
 
-this.infModelRegistry={}
+--STATE
+this.debugModule=false
 
-InfCore.LogFlow"Load InfModelRegistry.lua"
-function this.LoadLibraries()
-  this.infModelRegistry=InfCore.LoadBoxed(InfCore.paths.mod,"InfModelRegistry.lua")
-  if this.infModelRegistry then
-    local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
-    for i,moduleName in ipairs(this.infModelRegistry.headFovaModNames)do
-      if type(moduleName)=="string"then
-        Script.LoadLibrary(commonHeadPath..moduleName..".lua")
-        if _G[moduleName] then
-          InfCore.Log("InfModelRegistry loaded module "..moduleName)
-        else
-          InfCore.Log("InfModelRegistry could not load module "..moduleName)
-        end
-      end
-    end
+--tex TODO: not really proc if holding this state
+this.fovaInfos={}
+this.faceFova={}
+this.faceDecoFova={}
+this.hairFova={}
+this.hairDecoFova={}
+this.headDefinitions={}
+this.faceDefinitions={}
+this.hasFova=false
+
+--
+this.fovaTypes={
+  "faceFova",
+  "faceDecoFova",
+  "hairFova",
+  "hairDecoFova",
+}
+
+
+function this.LoadFovaInfo()
+  InfCore.Log("InfModelProc.LoadFovaInfo")
+  this.fovaInfos={}
+  local fovaInfoFiles=InfCore.GetFileList(InfCore.files.fovaInfo,".lua")
+  for i,fileName in ipairs(fovaInfoFiles)do
+    InfCore.Log("InfModelProc.LoadFovaInfo: "..fileName)
+    this.fovaInfos[fileName]=InfCore.LoadBoxed(InfCore.paths.fovaInfo,fileName)
   end
+  if this.debugModule then
+    InfCore.PrintInspect(fovaInfoFiles,"fovaInfoFiles")--DEBUG
+    InfCore.PrintInspect(this.fovaInfos,"IvarProc.fovaInfos")--DEBUG
+  end
+
+  --CULL
+  --    this.infModelRegistry=InfCore.LoadBoxed(InfCore.paths.mod,"InfModelRegistry.lua")
+  --    if this.infModelRegistry then
+  --      local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
+  --      for i,moduleName in ipairs(this.infModelRegistry.headFovaModNames)do
+  --        if type(moduleName)=="string"then
+  --          Script.LoadLibrary(commonHeadPath..moduleName..".lua")
+  --          if _G[moduleName] then
+  --            InfCore.Log("InfModelRegistry loaded module "..moduleName)
+  --          else
+  --            InfCore.Log("InfModelRegistry could not load module "..moduleName)
+  --          end
+  --        end
+  --      end
+  --    end
 end
 
---tex patches Solder2FaceAndBodyData.faceDefinition acording to infModelRegistry
---IN/OUT faceDefinition - 
-function this.Setup(faceDefinition)
-  local fovaTypes={
-    "faceFova",
-    "faceDecoFova",
-    "hairFova",
-    "hairDecoFova",
-  }
+--tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
+--IN/OUT faceDefinition -
+function this.Setup(faceAndBodyData)
+  InfCore.LogFlow"InfModelRegistry.Setup:"
   local genders={
     MALE=0,
     FEMALE=1,
   }
 
-  --local InfModelRegistry=InfModelRegistry
-  local InfModelRegistry=this.infModelRegistry
-  if InfModelRegistry then
-    InfCore.LogFlow"InfModelRegistry setup"
-    for i,fovaTypeName in ipairs(fovaTypes) do
-      InfModelRegistry[fovaTypeName]={}
-    end
-    InfModelRegistry.headDefinitions={}--headdefinition indicies
-    for i,moduleName in ipairs(InfModelRegistry.headFovaModNames)do
-      if type(moduleName)=="string"then
-        local module=_G[moduleName]
-        if not module then
-          InfCore.Log("InfModelRegistry could not find lua module "..moduleName)
-        else
-          for i,fovaTypeName in ipairs(fovaTypes) do
-            local localFova=this[fovaTypeName]
-            local moduleFova=module[fovaTypeName]
-            if moduleFova then
-              for fovaName,fovaInfo in pairs(moduleFova)do
-                local fovaIndex=#localFova+1
-                if type(fovaInfo)=="table" then
-                  localFova[fovaIndex]=fovaInfo
-                  if InfModelRegistry[fovaTypeName][fovaName] then
-                    InfCore.Log("Conflict module:"..fovaTypeName.."."..fovaName)
-                  end
-                  InfModelRegistry[fovaTypeName][fovaName]=fovaIndex-1
-                end
-              end
-            end
-          end
+  --tex clear this state
+  for i,fovaTypeName in ipairs(this.fovaTypes) do
+    this[fovaTypeName]={}
+  end
+  this.headDefinitions={}
+  this.faceDefinitions={}
 
-          local headDefinitions=module.headDefinitions
-          if headDefinitions then
-            local definitionIndex=#faceDefinition
-            local currentFaceId=faceDefinition[definitionIndex][1]
-            for definitionName,headDefinition in pairs(headDefinitions)do
-              currentFaceId=currentFaceId+1
-              definitionIndex=definitionIndex+1
-              local newFace={
-                currentFaceId,
-                0,
-                genders[headDefinition.gender],
-                0,
-                InfModelRegistry.faceFova[headDefinition.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
-                InfModelRegistry.faceDecoFova[headDefinition.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-                InfModelRegistry.hairFova[headDefinition.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
-                InfModelRegistry.hairDecoFova[headDefinition.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-                0,
-                0,
-                0,
-                "",
-                1,
-                0,
-                0,
-                0,
-                0,
-              }
-              faceDefinition[definitionIndex]=newFace
-              headDefinition.faceId=currentFaceId
-              headDefinition.definitionIndex=definitionIndex
-              InfModelRegistry.headDefinitions[definitionName]=headDefinition
-              InfModelRegistry.headDefinitions[currentFaceId]=definitionName
+  --tex TODO validate
+  for moduleName,module in pairs(this.fovaInfos)do
+    for i,fovaTypeName in ipairs(this.fovaTypes) do
+      local localFova=faceAndBodyData[fovaTypeName]
+      local moduleFova=module[fovaTypeName]
+      if moduleFova then
+        for fovaName,fovaInfo in pairs(moduleFova)do
+          local fovaIndex=#localFova+1
+          if type(fovaInfo)=="table" then
+            localFova[fovaIndex]=fovaInfo
+            if this[fovaTypeName][fovaName] then
+              InfCore.Log("Conflict module:"..fovaTypeName.."."..fovaName)
             end
+            this[fovaTypeName][fovaName]=fovaIndex-1
+            this.hasFova=true
           end
         end
       end
     end
+
+    local headDefinitions=module.headDefinitions
+    if headDefinitions then
+      local definitionIndex=#faceAndBodyData.faceDefinition
+      local currentFaceId=faceAndBodyData.faceDefinition[definitionIndex][1]
+      InfCore.Log("#faceDefinitions:"..definitionIndex.." start faceId:"..currentFaceId)--DEBUG
+      for definitionName,headDefinition in pairs(headDefinitions)do
+        currentFaceId=currentFaceId+1
+        definitionIndex=definitionIndex+1
+        local newFace={
+          currentFaceId,
+          0,
+          genders[headDefinition.gender],
+          0,
+          this.faceFova[headDefinition.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
+          this.faceDecoFova[headDefinition.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+          this.hairFova[headDefinition.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
+          this.hairDecoFova[headDefinition.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+          0,
+          0,
+          0,
+          "",
+          1,
+          0,
+          0,
+          0,
+          0,
+        }
+
+        headDefinition.faceId=currentFaceId
+        headDefinition.faceDefinitionIndex=definitionIndex
+
+        faceAndBodyData.faceDefinition[definitionIndex]=newFace
+        this.faceDefinitions[definitionName]=newFace
+        this.headDefinitions[definitionName]=headDefinition
+        this.headDefinitions[currentFaceId]=definitionName
+      end
+    end
+  end
+
+  --tex update fova counts for TppSoldierFace.SetFovaFileTable
+  if this.debugModule then
+    InfCore.PrintInspect(faceAndBodyData.fovaFileTable)
+  end
+  for i,fovaTypeName in ipairs(this.fovaTypes) do
+    local defaultCount=faceAndBodyData.fovaFileTable[fovaTypeName].maxCount
+    faceAndBodyData.fovaFileTable[fovaTypeName].maxCount=math.max(defaultCount,#faceAndBodyData[fovaTypeName]+1)
+  end
+  if this.debugModule then
+    InfCore.PrintInspect(faceAndBodyData.fovaFileTable)
+
+    InfCore.PrintInspect(this,"InfModelProc")
+    InfCore.PrintInspect(faceAndBodyData,"faceAndBodyData")
   end
 end
 
 --EXEC
-InfCore.PCall(this.LoadLibraries)
+InfCore.PCall(this.LoadFovaInfo)
 
 return this

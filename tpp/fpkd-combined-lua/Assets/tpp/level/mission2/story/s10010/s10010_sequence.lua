@@ -6979,7 +6979,7 @@ sequences.Seq_Game_LoadAvatarPlayer1 = {
 
 		Fox.Log( "sequences.Seq_Game_LoadAvatarPlayer1.OnEnter()" )
 
-		TppUI.FadeOut( 0.0 )
+		--DEBUGWIP TppUI.FadeOut( 0.0 )
 
 		local missionName = TppMission.GetMissionName()
 		if missionName == "s10010" then
@@ -7146,7 +7146,9 @@ sequences.Seq_Demo_SouvenirPhotograph = {
 	OnEnter = function( self )
 
 		Fox.Log( "sequences.Seq_Demo_SouvenirPhotograph.OnEnter()" )
-		s10010_demo.PlaySouvenirPhotograph( { onEnd = function() TppSequence.SetNextSequence( "Seq_Demo_LoadAvatarPlayer2" ) end, } )
+		s10010_demo.PlaySouvenirPhotograph( { onEnd = function() 
+		--DEBUGWIP TppSequence.SetNextSequence( "Seq_Demo_LoadAvatarPlayer2" ) 
+		end, } )
 
 		s10010_sequence.SetEffectVisibility( { effectName = "FxLocatorGroup_fx_tpp_cldcypInside", visible = false, }, true, false )
 		WeatherManager.RequestTag( "group_photo", 0 )
@@ -14654,6 +14656,7 @@ s10010_sequence.eventTableRoot = {
 		p21_010380_door = {
 			{ func = s10010_sequence.SetModelVisibility, identifier = "cypr_l01_other_DataIdentifier", key = "p21_010380_cypr_door002_close", visible = true, },
 		},
+		--DEBUGWIP
 		p21_010380_padon = {
 			{ func = s10010_sequence.ProhibitMoveOnSubEvent, enable = false, },
 			{

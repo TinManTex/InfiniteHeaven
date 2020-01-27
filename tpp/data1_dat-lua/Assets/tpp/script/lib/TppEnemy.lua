@@ -734,17 +734,15 @@ function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG i
   --    end
   --  end
 
-  if InfMain.IsDDBodyEquip(vars.missionCode) then
-    local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
-    local bodyInfo=nil
-    if isFemale then
-      bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
-    else
-      bodyInfo=InfEneFova.GetMaleDDBodyInfo()
-    end
-    if bodyInfo and bodyInfo.soldierSubType then
-      return InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
-    end
+  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local bodyInfo=nil
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo and bodyInfo.soldierSubType then
+    return InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
   end
 
   return soldierType
@@ -795,20 +793,22 @@ function this.GetSoldierSubType(soldierId,soldierType)
   --    local soldierType=GameObject.SendCommand(soldierId,{id="GetSoldier2Type"})
   --    return InfEneFova.enemySubTypes[gvars.forceSoldierSubType]
   --  end--<
-  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
-    local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
-    local bodyInfo=nil
-    if isFemale then
-      bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
-    else
-      bodyInfo=InfEneFova.GetMaleDDBodyInfo()
-    end
-    if bodyInfo and bodyInfo.soldierSubType then
+  --tex> GetSoldierSubType customSoldierType
+  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local bodyInfo=nil
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then
+    if bodyInfo.soldierSubType then
       return bodyInfo.soldierSubType
     else
       return "DD_FOB"
     end
-  end--<
+  end
+  --<
 
   local missionCode=TppMission.GetMissionID()
   if missionCode==10115 or missionCode==11115 then
@@ -1130,10 +1130,33 @@ end
 --  return primary,secondary,tertiary
 --end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
+  --tex> GetBodyId customSoldierType
+  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local bodyInfo=nil
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then
+    local bodyId=bodyInfo.bodyId
+    if bodyId and type(bodyId)=="table"then
+      --tex KLUDE TODO
+      math.randomseed(soldierId)
+      math.random()
+      math.random()
+      math.random()
+
+      bodyId=bodyId[math.random(#bodyId)]
+    end
+    if bodyId then
+      return bodyId
+    end
+  end
+  --<
   local bodyId
   local bodyIdTable={}
-  --InfCore.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
-
+  --InfCore.Log("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
     if soldierSubType=="SOVIET_B"then
@@ -1217,21 +1240,68 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
   --InfCore.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
   return bodyId
 end
-function this.GetFaceId(n,enemyType,n,n)
-  if enemyType==EnemyType.TYPE_SKULL then
+function this.GetFaceId(soldierId,soldierType,subTypeName,soldierConfig)
+  --tex> GetFaceId customSoldierType
+  local bodyInfo=nil
+  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then
+    if bodyInfo.hasFace then
+      return EnemyFova.INVALID_FOVA_VALUE
+    else
+      return nil
+    end
+  end
+  --<
+  if soldierType==EnemyType.TYPE_SKULL then-- NMC has face as part of model
     return EnemyFova.INVALID_FOVA_VALUE
-  elseif enemyType==EnemyType.TYPE_DD then
+  elseif soldierType==EnemyType.TYPE_DD then--NMC faces handled via ApplyMTBSUniqueSetting
     return EnemyFova.INVALID_FOVA_VALUE
-  elseif enemyType==EnemyType.TYPE_CHILD then
+  elseif soldierType==EnemyType.TYPE_CHILD then
     return 630
   end
   return nil
 end
-function this.GetBalaclavaFaceId(t,enemyType,t,config)
-  if enemyType==EnemyType.TYPE_SKULL then
+--CALLER: ApplyPowerSetting
+function this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,soldierConfig)
+  --tex DD/Balaclava style headgear>
+  local bodyInfo=nil
+  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then
+    local wantDDHeadGearMB=Ivars.mbDDHeadGear:Is(1) and Ivars.mbDDHeadGear:MissionCheck()
+    local wantDDHeadGearFREE=true and (vars.missionCode==30010 or vars.missionCode==30020)
+    local wantHeadgear=(wantDDHeadGearMB or wantDDHeadGearFREE) and (soldierConfig.HELMET or soldierConfig.GAS_MASK or soldierConfig.NVG)
+    --InfCore.Log("GetBalaclavaFaceId:"..tostring(wantDDHeadGearMB)..tostring(wantDDHeadGearFREE)..tostring(wantHeadgear)..tostring(wantDDHeadGearMB)..tostring(bodyInfo.useDDHeadgear))--DEBUG
+    if wantHeadgear and bodyInfo and bodyInfo.useDDHeadgear then
+      soldierConfig=soldierConfig or {}
+      local validHeadGearIds=InfCore.PCallDebug(InfEneFova.GetHeadGearForPowers,soldierConfig,isFemale,bodyInfo)
+      if #validHeadGearIds>0 then
+        local rnd=math.random(#validHeadGearIds)--tex TODO random seed management?
+        return TppEnemyFaceId[ validHeadGearIds[rnd] ]
+      end
+    end
+
+    if bodyInfo.hasFace then
+      return EnemyFova.NOT_USED_FOVA_VALUE
+    else
+      return nil
+    end
+  end
+  --<
+
+  if soldierType==EnemyType.TYPE_SKULL then
     return EnemyFova.NOT_USED_FOVA_VALUE
-  elseif enemyType==EnemyType.TYPE_DD then
-    if config.HELMET then
+  elseif soldierType==EnemyType.TYPE_DD then
+    if soldierConfig.HELMET then
       return TppEnemyFaceId.dds_balaclava0
     else
       return TppEnemyFaceId.dds_balaclava2
@@ -1291,8 +1361,9 @@ function this.AddPowerSetting(soldierId,applySettings)
 end
 
 function this.ApplyPowerSetting(soldierId,powerSettings)
-  if soldierId==NULL_ID then
-    return
+  InfCore.PCallDebug(function(soldierId,powerSettings)--tex DEBUG PCall wrap
+    if soldierId==NULL_ID then
+      return
   end
   local soldierType=this.GetSoldierType(soldierId)
   local subTypeName=this.GetSoldierSubType(soldierId,soldierType)
@@ -1379,17 +1450,6 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
       powerLoadout.SMG=true
     end
   end
-  --tex>mbDDHeadGear clear headgear
-  if not TppMission.IsFOBMission(vars.missionCode)then
-    if subTypeName=="DD_FOB"then
-      if not Ivars.mbDDHeadGear:EnabledForMission() then
-        powerLoadout.HELMET=nil
-        powerLoadout.GAS_MASK=nil
-        powerLoadout.NVG=nil
-      end
-    end
-  end
-  --<
 
   if subTypeName~="DD_FOB"then
     --tex>
@@ -1422,12 +1482,15 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
       end
     end
   end
+
+  InfCore.PCall(InfEneFova.ApplyCustomBodyPowers,soldierId,powerLoadout)--tex
+
   mvars.ene_soldierPowerSettings[soldierId]=powerLoadout
   powerSettings=powerLoadout
   local wearEquipFlag=0
-  local bodyId=this.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-  local faceId=this.GetFaceId(soldierId,soldierType,subTypeName,powerSettings)
-  local balaclavaId=this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,powerSettings)
+  local bodyId=InfCore.PCallDebug(this.GetBodyId,soldierId,soldierType,subTypeName,powerSettings)--tex DEBUG PCALL
+  local faceId=InfCore.PCallDebug(this.GetFaceId,soldierId,soldierType,subTypeName,powerSettings)--tex DEBUG PCALL
+  local balaclavaId=InfCore.PCallDebug(this.GetBalaclavaFaceId,soldierId,soldierType,subTypeName,powerSettings)--tex DEBUG PCALL
   local primaryId,secondaryId,tertiaryId=this.GetWeaponId(soldierId,powerSettings)
   if powerSettings.HELMET then
     wearEquipFlag=wearEquipFlag+WearEquip.HELMET
@@ -1460,6 +1523,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
     SKULL_CYPR=EnemySubType.SKULL_CYPR
   }
   GameObject.SendCommand(soldierId,{id="SetSoldier2SubType",type=enemySubTypeForSubTypeName[subTypeName]})
+  end,soldierId,powerSettings)--tex DEBUG PCall wrap
 end
 function this.ApplyPersonalAbilitySettings(soldierId,abilitySettings)
   if soldierId==NULL_ID then
@@ -2555,7 +2619,7 @@ function this.DeclareSVars(missionTable)
   if IvarProc.EnabledForMission("heliPatrols") then
     heliCount=InfNPCHeli.totalAttackHelis
   end
-  TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount--DEBUGNOW
+  TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount
   --<
   local uavCount=0
   local missionId=TppMission.GetMissionID()
@@ -2566,7 +2630,7 @@ function this.DeclareSVars(missionTable)
   if missionTable.enemy then
     local soldierDefine=missionTable.enemy.soldierDefine
     if soldierDefine~=nil then
-      for e,e in pairs(soldierDefine)do
+      for cpName,cpDefine in pairs(soldierDefine)do
         cpCount=cpCount+1
       end
     end
@@ -2790,7 +2854,7 @@ function this.RestoreOnMissionStart2()
     end
   end
   this._RestoreOnMissionStart_Hostage2()
-  if not IvarProc.EnabledForMission("heliPatrols") then--tex added check --DEBUGNOW
+  if not IvarProc.EnabledForMission("heliPatrols") then--tex added check
     for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do
       --NMC another casualty of optimisation I guess, TppEnemyHeli only saves/restores to non array unlike the other gameobject types, even though it's clearly originally set up the same
       svars.enemyHeliName=0

@@ -1,8 +1,0 @@
--- InfProfiles.lua
--- Profiles are lists of settings for IH options. 
--- IH only reads this file/does not write to it. 
--- In-game the settings are saved to your save file when mission saves (usually during mission load).
-
--- See Features and Options.html for longer descriptions of some settings.
-
--- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.

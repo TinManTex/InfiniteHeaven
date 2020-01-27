@@ -2,16 +2,25 @@
 local this={
   description="Mother Base Heaven",
   profile={
-    revengeModeMB="DEFAULT",--{ OFF, FOB, DEFAULT, CUSTOM } -- Mother base prep mode
+    revengeModeMB_ALL="DEFAULT",--{ OFF, FOB, DEFAULT, CUSTOM } -- Mother base prep mode
     --DD Equip menu
-    enableDDEquipMB=0,--{ 0-1 } -- MB staff use DD equipment
+    customWeaponTableMB_ALL=1,--{ 0-1 } -- MB staff use custom equip table
+    weaponTableStrength="NORMAL",--{ NORMAL, STRONG, COMBINED } -- Weapon stengths
+    weaponTableAfgh=1,--{ 0-1 } -- Include Soviet weapons
+    weaponTableMafr=1,--{ 0-1 } -- Include PF weapons
+    weaponTableSkull=1,--{ 0-1 } -- Include XOF weapons
+    weaponTableDD=1,--{ 0-1 } -- Include DD weapons
+    soldierEquipGrade_MIN=3,--{ 1-15 } -- DD weapons grade MIN
+    soldierEquipGrade_MAX=15,--{ 1-15 } -- DD weapons grade MAX
+    allowUndevelopedDDEquip=0,--{ 0-1 } -- Allow undeveloped DD weapons
+    mbDDEquipNonLethal=0,--{ 0-1 } -- DD equipment non-lethal
     soldierEquipGrade_MIN=15,--{ 1-15 } -- DD Equip Grade RND MIN
     soldierEquipGrade_MAX=15,--{ 1-15 } -- DD Equip Grade RND MAX
     allowUndevelopedDDEquip=0,--{ 0-1 } -- Allow undeveloped DD equipment
     mbDDEquipNonLethal=0,--{ 0-1 } -- MB DD Equip non-lethal
     --Mother base menu
-    mbDDSuit="EQUIPGRADE",--{ OFF, EQUIPGRADE, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, XOF, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_PFS } -- DD Suit
-    mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
+    customSoldierTypeMB_ALL="SNEAKING_SUIT",--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, XOF, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_PFS } -- DD Suit
+    customSoldierTypeFemaleMB_ALL="BATTLE_DRESS_FEMALE",--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
     mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
     mbPrioritizeFemale="HALF",--{ OFF, DISABLE, MAX, HALF } -- Female staff selection
     heliPatrolsMB="UTH_AND_HP48",--{ OFF, UTH, UTH_AND_HP48 } -- NPC helis

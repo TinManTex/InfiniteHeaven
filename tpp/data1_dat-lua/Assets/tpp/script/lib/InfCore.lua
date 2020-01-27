@@ -15,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="200"
+this.modVersion="201"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -224,12 +224,11 @@ function this.PrintInspect(var,options)
   if not this.debugMode and (options and not options.force) then
     return
   end
-  
   options=options or emptyTable
-
+  local varName=options.varName or options
   local ins=InfInspect.Inspect(var)
-  if options.varName then
-    ins=options.varName.."="..ins
+  if type(varName)=="string" then
+    ins=varName.."="..ins
   end
   this.Log(ins,options.announceLog)
 end
@@ -357,12 +356,12 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
 end
 
 function this.LoadBoxed(path,fileName)
-  local filePath=path..fileName
+  local filePath=fileName and path..fileName or path
 
   local moduleChunk,error=loadfile(filePath)
   if error then
     local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
-    InfCore.Log("Error loading "..fileName..":"..error,doDebugPrint,true)
+    InfCore.Log("Error loading "..filePath..":"..error,doDebugPrint,true)
     return
   end
 
@@ -372,7 +371,7 @@ function this.LoadBoxed(path,fileName)
   local module=moduleChunk()
 
   if module==nil then
-    InfCore.Log("Error:"..fileName.." returned nil",true,true)
+    InfCore.Log("Error:"..filePath.." returned nil",true,true)
     return
   end
 
@@ -544,12 +543,14 @@ this.paths={
   saves=modPath..[[saves\]],
   profiles=modPath..[[profiles\]],
   modules=modPath..[[modules\]],
+  fovaInfo=modPath..[[fovaInfo\]],
 }
 this.files={
   mod={},
   saves={},
   profiles={},
   modules={},
+  fovaInfo={},
 }
 
 this.logFilePath=this.paths.mod..this.logFileName..".txt"
@@ -572,6 +573,7 @@ else
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")
   
   this.files=this.PCall(this.RefreshFileList)
+--InfCore.PrintInspect(this.paths)--DEBUG
 --InfCore.PrintInspect(this.files)--DEBUG
 end
 

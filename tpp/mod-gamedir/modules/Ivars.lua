@@ -25,10 +25,10 @@ local RETRY=TppScriptVars.CATEGORY_RETRY
 local MB_MANAGEMENT=TppScriptVars.CATEGORY_MB_MANAGEMENT
 local QUEST=TppScriptVars.CATEGORY_QUEST
 local CONFIG=TppScriptVars.CATEGORY_CONFIG
-local RESTARTABLE=TppScriptVars.CATEGORY_MISSION_RESTARTABLE--DEBUGNOW TppDefine.CATEGORY_MISSION_RESTARTABLE
+local RESTARTABLE=TppScriptVars.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
-local EXTERNAL=IvarProc.CATEGORY_EXTERNAL-- was 1024--tex SYNC IvarProc DEBUGNOW
+local EXTERNAL=IvarProc.CATEGORY_EXTERNAL
 
 --tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
 this.missionModeIvars={}
@@ -278,54 +278,88 @@ this.mbDDEquipNonLethal={
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
-this.mbDDSuit={
-  save=EXTERNAL,
-  settings={
-    "OFF",
-    "EQUIPGRADE",
-    "DRAB",
-    "TIGER",
-    "SNEAKING_SUIT",
-    "BATTLE_DRESS",
-    "SWIMWEAR",
-    "PFA_ARMOR",
-    "XOF",
-    "SOVIET_A",
-    "SOVIET_B",
-    "PF_A",
-    "PF_B",
-    "PF_C",
-    "SOVIET_BERETS",
-    "SOVIET_HOODIES",
-    "SOVIET_ALL",
-    "PF_MISC",
-    "PF_ALL",
-    --OFF "MSF_SVS",
-    "MSF_PFS",
-  --"GZ",
-  --"PRISONER_AFGH",
-  --"PRISONER_MAFR",
-  --"SKULLFACE",
-  --"HUEY",
-  --"KAZ",
-  --"KAZ_GZ",
-  --"DOCTOR",
+IvarProc.MissionModeIvars(
+  this,
+  "customSoldierType",
+  {
+    save=EXTERNAL,
+    settings={
+      "OFF",
+      --CULL "EQUIPGRADE",
+      "DRAB",
+      "TIGER",
+      "SNEAKING_SUIT",
+      "BATTLE_DRESS",
+      "SWIMWEAR",
+      "PFA_ARMOR",
+      "SOVIET_A",
+      "SOVIET_B",
+      "PF_A",
+      "PF_B",
+      "PF_C",
+      "SOVIET_BERETS",
+      "SOVIET_HOODIES",
+      "SOVIET_ALL",
+      "PF_MISC",
+      "PF_ALL",
+      --"MSF_SVS",
+      --"MSF_PFS",
+      --"GZ",
+      --"PRISONER_AFGH",
+      --"PRISONER_MAFR",
+      --"SKULLFACE",
+      --"HUEY",
+      --"KAZ",
+      --"KAZ_GZ",
+      --"DOCTOR",
+      --"DD_RESEARCHER",
+      --"DD_RESEARCHER_FEMALE",
+      --"DDS_PILOT1",
+      --"DDS_PILOT2",
+      "MSF_GZ",
+      "MSF_TPP",
+      --"MSF_MEDIC",
+      --"MSF_KOJIMA",
+      --"DDS_GROUNDCREW",
+      "XOF",
+      "XOF_GASMASK",
+      "XOF_GZ",
+      --"WSS1_MAIN0",
+      "GENOME_SOLDIER",
+    },
+    settingNames="customSoldierTypeSettings",
   },
-}
+  {
+    "FREE",
+    --"MISSION",--TODO: missions a bit more complicated with a bunch of specific body setup
+    "MB_ALL",
+  }
+)
 
-this.mbDDSuitFemale={
-  save=EXTERNAL,
-  settings={
-    "EQUIPGRADE",
-    "DRAB_FEMALE",
-    "TIGER_FEMALE",
-    "SNEAKING_SUIT_FEMALE",
-    "BATTLE_DRESS_FEMALE",
-    "SWIMWEAR_FEMALE",
-  --    "PRISONER_AFGH_FEMALE",
-  --    "NURSE_FEMALE",
+IvarProc.MissionModeIvars(
+  this,
+  "customSoldierTypeFemale",
+  {
+    save=EXTERNAL,
+    settings={
+      "OFF",
+      --CULL "EQUIPGRADE",
+      "DRAB_FEMALE",
+      "TIGER_FEMALE",
+      "SNEAKING_SUIT_FEMALE",
+      "BATTLE_DRESS_FEMALE",
+      "SWIMWEAR_FEMALE",
+    --    "PRISONER_AFGH_FEMALE",
+    --    "NURSE_FEMALE",
+    --"DD_RESEARCHER_FEMALE",
+    },
   },
-}
+  {
+    --"FREE",
+    --"MISSION",--TODO: missions a bit more complicated with a bunch of specific body setup
+    "MB_ALL",
+  }
+)
 
 this.mbDDHeadGear={
   save=EXTERNAL,
@@ -412,32 +446,31 @@ this.mbEnableLethalActions={
   settingNames="set_switch",
 }
 
---DEBUGNOW TODO:
 --NONUSER/ handled by profile>
 this.mbHostileSoldiers={
   nonUser=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbNonStaff={--tex also disables negative ogre on kill
   nonUser=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbZombies={
   nonUser=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbEnemyHeli={
   nonUser=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMb,
@@ -445,7 +478,7 @@ this.mbEnemyHeli={
 --< NONUSER
 
 this.mbqfEnableSoldiers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -978,11 +1011,15 @@ IvarProc.MissionModeIvars(
       TppRevenge._SetUiParameters()
     end,
   },
-  IvarProc.missionModesAll
+  {
+    "FREE",
+    "MISSION",
+    "MB_ALL",
+  }
 )
 
-this.revengeModeMB.settings={"OFF","FOB","DEFAULT","CUSTOM","NONDEFAULT"}--DEFAULT = normal enemy prep system (which isn't usually used for MB)
-this.revengeModeMB.settingNames="revengeModeMBSettings"
+this.revengeModeMB_ALL.settings={"OFF","FOB","DEFAULT","CUSTOM","NONDEFAULT"}--DEFAULT = normal enemy prep system (which isn't usually used for MB)
+this.revengeModeMB_ALL.settingNames="revengeModeMBSettings"
 
 this.revengeBlockForMissionCount={
   save=EXTERNAL,
@@ -1097,7 +1134,7 @@ this.randomizeSmallCpPowers={
   settingNames="set_switch",
 }
 
---TODO: CULL
+--CULL
 IvarProc.MissionModeIvars(
   this,
   "enableDDEquip",
@@ -1107,7 +1144,11 @@ IvarProc.MissionModeIvars(
     range=this.switchRange,
     settingNames="set_switch",
   },
-  IvarProc.missionModesAll
+  {
+    "FREE",
+    "MISSION",
+    "MB_ALL",
+  }
 )
 
 --custom revenge config
@@ -1595,7 +1636,7 @@ this.unlockSideOpNumber={
 }
 
 local ivarPrefix="sideops_"
---DEBUGNOW SYNC TppQuest. TODO: don't like this
+--SYNC TppQuest. TODO: don't like this
 this.QUEST_CATEGORIES={
   "STORY",--11,7,2,2
   "EXTRACT_INTERPRETER",--4,2,2
@@ -1856,7 +1897,23 @@ this.manualMissionCode={
     "65414",--gc_2014
     "65415",--tgs_2014
     "65416",--tgs_2014
-  }
+  },
+  OnActivate=function(self,setting)
+    local settingStr=self.settings[setting+1]
+    --InfCore.DebugPrint("TppMission.Load "..settingStr)
+
+    --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
+    --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+    --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+    gvars.mis_nextMissionCodeForMissionClear=tonumber(settingStr)
+    mvars.mis_showLoadingTipsOnMissionFinalize=false
+    --mvars.heli_missionStartRoute
+    --mvars.mis_nextLayoutCode
+    --mvars.mis_nextClusterId
+    --mvars.mis_ignoreMtbsLoadLocationForce
+
+    TppMission.ExecuteMissionFinalize()
+  end,
 }
 
 --AFGH={10020,10033,10034,10036,10040,10041,10043,10044,10045,10050,10052,10054,10060,10070,10150,10151,10153,10156,10164,10199,10260,,,
@@ -1864,6 +1921,25 @@ this.manualMissionCode={
 --MAFR={10080,10081,10082,10085,10086,10090,10091,10093,10100,10110,10120,10121,10130,10140,10154,10160,10162,10171,10200,10195,10211,,,
 --11085,11082,11090,11091,11195,11211,11140,11200,11080,11171,11121,11130},
 --MTBS={10030,10115,11115,10240},
+
+this.manualSequence={
+  --save=EXTERNAL,
+  range={max=1},--DYNAMIC
+  OnSelect=function(self)
+    self.settingNames={}
+    --tex also mvars.seq_demoSequneceList (a subset)
+    for sequenceName,enum in pairs(mvars.seq_sequenceNames)do
+      self.settingNames[enum]=sequenceName
+    end
+    --InfCore.PrintInspect(self.settingNames)--DEBUG
+    self.range.max=#self.settingNames-1
+  end,
+  OnActivate=function(self,setting)
+    local settingStr=self.settingNames[setting+1]
+    --InfCore.DebugPrint(tostring(settingStr))--DEBUG
+    TppSequence.SetNextSequence(settingStr)
+  end,
+}
 
 --appearance
 this.playerType={
@@ -2168,22 +2244,17 @@ this.playerFaceId={
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     local faceId=faceDef[1]
 
-    local InfModelRegistry=InfModelProc.infModelRegistry--tex WORKAROUND
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
-      if not InfModelRegistry or not InfModelRegistry.headDefinitions or #InfModelRegistry.headDefinitions==0 then
+      if not InfModelProc.hasFova then
         return InfMenu.LangString"no_head_fovas"
       end
     end
 
-    if InfModelRegistry then
-      if InfModelRegistry.headDefinitions then
-        local headDefinitionName=InfModelRegistry.headDefinitions[faceId]
-        if headDefinitionName then
-          local headDefinition=InfModelRegistry.headDefinitions[headDefinitionName]
-          local desciption=headDefinition.description or headDefinitionName
-          return "faceId:"..faceId.." - "..desciption
-        end
-      end
+    local headDefinitionName=InfModelProc.headDefinitions[faceId]
+    if headDefinitionName then
+      local headDefinition=InfModelProc.headDefinitions[headDefinitionName]
+      local desciption=headDefinition.description or headDefinitionName
+      return "faceId:"..faceId.." - "..desciption
     end
     return "faceId:"..faceId
 
@@ -2320,15 +2391,15 @@ this.playerFaceFilter={
       [686]=true,--female tatoo skull white white hair
     },
 
-    FOVAMOD=687,--SYNC Soldier2FaceAndBodyData.highestVanillaFaceId,
+    FOVAMOD=689,--SYNC Soldier2FaceAndBodyData.highestVanillaFaceId,
   },
 }
 
 this.playerFaceIdDirect={
   save=EXTERNAL,
-  range={min=0,max=687},
+  range={min=0,max=730},
   OnSelect=function(self)
-    self:SetDirect(vars.playerFaceId)
+  --OFF self:SetDirect(vars.playerFaceId)
   end,
   OnActivate=function(self,setting)
     vars.playerFaceId=setting
@@ -2685,15 +2756,15 @@ this.fovaSelection={
   end,
 }
 
-this.fovaPlayerType={
-  nonUser=true,--DEBUGNOW set
-  save=MISSION,
+this.fovaPlayerType={--Set
+  nonUser=true,
+  save=EXTERNAL,
   range={min=0,max=3},
 }
 
-this.fovaPlayerPartsType={
+this.fovaPlayerPartsType={--Set
   nonUser=true,
-  save=MISSION,--DEBUGNOW set
+  save=EXTERNAL,
   range={min=0,max=127},
 }
 
@@ -3014,8 +3085,7 @@ this.cameraMode={
   end,
 }
 
---tex DEBUGNOW Set
-this.moveScale={
+this.moveScale={--Set
   save=EXTERNAL,
   default=0.5,
   range={max=10,min=0.01,increment=0.1},
@@ -3390,7 +3460,7 @@ this.selectedCp={
     if currentSetting==0 then
       nextSetting=next(mvars.ene_cpList)
     else
-      nextSetting=next(mvars.ene_cpList,hurrentSetting)
+      nextSetting=next(mvars.ene_cpList,currentSetting)
     end
     if nextSetting==nil then
       --InfCore.DebugPrint"self setting==nil"--DEBUG
@@ -3480,6 +3550,18 @@ this.selectedChangeWeapon={--WIP
         angularVelocity=Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
       }
     end
+  end,
+}
+
+this.selectedGameObjectType={
+  nonConfig=true,
+  --save=EXTERNAL,
+  range={max=1},--DYNAMIC (not currently, TODO)
+  OnSelect=function(self)
+    self.range.max=#InfLookup.gameObjectClass-1
+  end,
+  GetSettingText=function(self,setting)
+    return InfLookup.gameObjectClass[setting+1]
   end,
 }
 
@@ -3737,8 +3819,8 @@ this.skipDevelopChecks={
 --others grouped near usage, search NONUSER
 
 --tex used as indicator whether save>ivars should be synced
-this.inf_event={--NONUSER
-  nonUser=true,--DEBUGNOW set
+this.inf_event={--NONUSER--Set
+  nonUser=true,
   save=MISSION,
   settings={"OFF","WARGAME","ROAM"},
 }
@@ -3749,9 +3831,9 @@ this.mis_isGroundStart={--NONUSER WORKAROUND
   range=this.switchRange,
 }
 
-this.mbRepopDiamondCountdown={
+this.mbRepopDiamondCountdown={--NONUSER--Set
   nonUser=true,
-  save=MISSION,--DEBUGNOW set, nonuser
+  save=MISSION,
   default=4,
   range={max=4,min=0,increment=1},
 }

@@ -160,11 +160,11 @@ this.customEquipMenu={
 --tex SYNC motherbaseProfile
 this.motherBaseMenu={
   options={
-    Ivars.revengeModeMB,
+    Ivars.revengeModeMB_ALL,
     InfMenuDefs.customEquipMenu,
     Ivars.mbSoldierEquipRange,
-    Ivars.mbDDSuit,
-    Ivars.mbDDSuitFemale,
+    Ivars.customSoldierTypeMB_ALL,
+    Ivars.customSoldierTypeFemaleMB_ALL,
     Ivars.mbDDHeadGear,
     Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
@@ -193,7 +193,7 @@ this.demosMenu={
     Ivars.useSoldierForDemos,
     Ivars.mbDemoSelection,
     Ivars.mbSelectedDemo,
-    Ivars.forceDemoAllowAction,--DEBUGNOW
+    Ivars.forceDemoAllowAction,
     Ivars.mbDemoOverrideTime,
     Ivars.mbDemoHour,
     Ivars.mbDemoMinute,
@@ -362,10 +362,11 @@ this.revengeMenu={
   options={
     Ivars.revengeModeFREE,
     Ivars.revengeModeMISSION,
-    Ivars.revengeModeMB,
+    Ivars.revengeModeMB_ALL,
     InfMenuDefs.revengeCustomMenu,
     InfMenuDefs.revengeSystemMenu,
     InfMenuDefs.customEquipMenu,
+    Ivars.customSoldierTypeFREE,
     InfMenuCommands.resetRevenge,
     InfMenuCommands.DEBUG_PrintRevengePoints,
     Ivars.changeCpSubTypeFREE,
@@ -569,8 +570,17 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
-    Ivars.disableOutOfBoundsChecks,--DEBUGNOW
-    Ivars.disableGameOver,--DEBUGNOW
+    Ivars.customSoldierTypeFREE,
+    --Ivars.customSoldierTypeMISSION,--TODO:
+    Ivars.customSoldierTypeMB_ALL,
+    Ivars.customSoldierTypeFemaleMB_ALL,
+    Ivars.mbDDHeadGear,
+    Ivars.playerFaceIdDirect,
+    InfMenuDefs.appearanceDebugMenu,
+    Ivars.manualMissionCode,
+    Ivars.manualSequence,
+    Ivars.allowUndevelopedDDEquip,
+    Ivars.skipDevelopChecks,
     InfMenuCommands.DEBUG_DumpValidStrCode,
     --TODO: debugmodeall command/profile
     --Ivars.enableWildCardHostageFREE,--WIP
@@ -660,14 +670,18 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    Ivars.disableGameOver,--DEBUGNOW
+    Ivars.selectedGameObjectType,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
+    Ivars.manualMissionCode,
+    Ivars.manualSequence,
+    Ivars.allowUndevelopedDDEquip,
+    Ivars.skipDevelopChecks,
     InfMenuCommands.setAllFriendly,
     InfMenuCommands.showPosition,
-    Ivars.selectedCp,--DEBUGNOW
-    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+    Ivars.selectedCp,
+    InfMenuCommands.setSelectedCpToMarkerObjectCp,
     Ivars.warpToListObject,
     Ivars.warpToListPosition,
     InfMenuCommands.printLatestUserMarker,

@@ -977,7 +977,7 @@ local function PatchDemos()
                 break
               end
             end
-          end
+        end
         end
       end
     end
@@ -1012,6 +1012,69 @@ local function PatchDemos()
     file:close()
 
   end
+
+end
+
+local function CullExeStrings()
+  print"CullExeStrings"
+
+  --TODO doesnt cover more than one demodata in a file
+  local stringsPath=[[D:\Projects\MGS\tools-other\Strings\]]
+  local inFile=stringsPath.."mgsvtppstrings.txt"
+  local outFile=stringsPath.."mgsvtppstringsculled.txt"
+
+  local file=io.open(inFile,"r")
+  if file==nil then
+    print("cant find "..inFile)
+    return
+  end
+  local strings = {}
+  -- read the lines in table 'lines'
+  local skipList={
+    --   [[.]],
+    " ",
+    --    "\t",
+    "!",
+    [[\%]],
+
+    "@",
+  --    "<",
+  --    ">",
+  --    "(",
+  --    ")",
+  --    "=",
+  --    [[,]],
+  --    [[\]],
+  --    [[/]],
+  --    [[:]],
+  }
+  for line in file:lines() do
+--print(line)
+    local ok=true
+--    --for i,char in ipairs(skipList) do
+      if string.find(line,"%W")  or
+string.find(line,"%A") or
+ string.find(line," ")then
+        ok=false
+      end
+--    --end
+    if ok then
+      print(line)
+      table.insert(strings,line)
+    end
+  end
+  file:close()
+
+
+  local nl='\n'
+
+  local file=io.open(outFile,"w")
+  for i,line in ipairs(strings)do
+  file:write([["]]..line..[[",]]..nl)
+  end
+  file:close()
+
+
 
 end
 
@@ -1050,7 +1113,7 @@ local function main()
   --  LangDictionaryAttack.Run()
   --Data=require"Data"
   -- XmlTest()
-  PatchDemos()
+  --PatchDemos()
 
   --local ExtensionOrder=require"ExtensionOrder"
 
@@ -1088,10 +1151,18 @@ local function main()
   --print(equipId)
   f:close()
 
+  --
+  --for i=406,458 do
+  --  print(i..",")
+  --end
 
 
+  --  for i=459,511 do
+  --    print(i..",")
+  --  end
   -- GenerateLzs()
 
+  --CullExeStrings()
 
   print"main done"
 end

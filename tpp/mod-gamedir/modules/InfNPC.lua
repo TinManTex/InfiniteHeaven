@@ -1,4 +1,5 @@
 -- InfNPC.lua
+-- tex should be InfEnemy or InfSoldier
 -- tex implements soldier additions/modificationa and route changes on MB
 -- Ivars: vehiclePatrolProfile, enableLrrpFreeRoam, enableWildCardFreeRoam, mbAdditionalSoldiers, mbNpcRouteChange
 local this={}
@@ -89,23 +90,31 @@ function this.AddMissionPacks(missionCode,packPaths)
     packPaths[#packPaths+1]=this.packages.mbAdditionalSoldiers
   end
 
+  --tex customSoldierType add mission packs>
+  if missionCode>5 then
+    --InfCore.LogFlow("InfNPC.AddMissionPacks: AddBodyPackPaths")--DEBUG
+    local bodyInfo=InfEneFova.GetMaleBodyInfo(missionCode)
+    InfEneFova.AddBodyPackPaths(bodyInfo)
+    local bodyInfo=InfEneFova.GetFemaleBodyInfo(missionCode)
+    InfEneFova.AddBodyPackPaths(bodyInfo)
+  end
+  --<
+
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
-    if bodyInfo and bodyInfo.missionPackPath then
-      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-    end
+    InfEneFova.AddBodyPackPaths(bodyInfo)
   end
 end
 
 function this.PreMissionLoad(missionCode,currentMissionId)
---  --DEBUGNOW OFF TEST
---   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
+--OFF TEST
+--  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then
 --    local faces={}
 --    InfCore.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
---    TppSoldierFace.OverwriteMissionFovaData{face=faces}
+--    TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
 --    local bodies={}
 --    InfCore.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
---    TppSoldierFace.OverwriteMissionFovaData{body=bodies}
+--    TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}
 --  end
 end
 
@@ -619,14 +628,15 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
   end
 
   local InfEneFova=InfEneFova
-  if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
-    InfCore.Log("AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting",true)
-    return
-  end
-  if not InfEneFova.inf_wildCardMaleFaceList or #InfEneFova.inf_wildCardMaleFaceList==0  then
-    InfCore.Log("AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting",true)
-    return
-  end
+  --CULL
+  --  if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
+  --    InfCore.Log("AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting",true)
+  --    return
+  --  end
+  --  if not InfEneFova.inf_wildCardMaleFaceList or #InfEneFova.inf_wildCardMaleFaceList==0  then
+  --    InfCore.Log("AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting",true)
+  --    return
+  --  end
 
   local uniqueSettings=TppEneFova.GetUniqueSettings()
   --  InfCore.Log"TppEneFova uniqueSettings pre:"
@@ -668,7 +678,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
     fulton=abilityLevel,
     holdup=abilityLevel
   }
-  
+
   this.ene_wildCardNames={}
   this.ene_wildCardInfo={}
 
@@ -684,7 +694,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       InfCore.DebugPrint"#baseNamePool==0"--DEBUG
       break
     end
-  
+
     local cpName=InfUtil.GetRandomPool(baseNamePool)
     local cpDefine=soldierDefine[cpName]
     local soldierName=cpDefine[math.random(#cpDefine)]
@@ -698,6 +708,10 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       if numFemales<this.numWildCards.FEMALE then
         isFemale=true
         numFemales=numFemales+1
+      elseif IvarProc.EnabledForMission"customSoldierType" then
+        --InfCore.Log("AddWildCards EnabledForMission customSoldierType and > numFemales, bailing")--DEBUG
+        --tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies
+        break
       end
 
       --tex choose face
@@ -809,7 +823,7 @@ function this.SetUpEnemy(missionTable)
     if gameId==NULL_ID then
       InfCore.Log("WARNING: InfNPC.SetUpEnemy - "..soldierName.."==NULL_ID")--DEBUG
     else
-      local staffInfo=this.RegenerateStaffParams(gameId)  
+      local staffInfo=this.RegenerateStaffParams(gameId)
       wildCardInfo.staffInfo=staffInfo
     end
   end
@@ -899,14 +913,14 @@ function this.RegenerateStaffParams(gameId)
     staffTypeId=math.random(2,62),
     randomRangeId=6,
     skill=InfUtil.GetRandomInList(skills),
-    --DEBUG
-   --  staffTypeId=62
+  --DEBUG
+  --  staffTypeId=62
   --  randomRangeId=3
   --  skill="InterceptorMissileEngineer3"
   }
 
   TppMotherBaseManagement.RegenerateGameObjectStaffParameter(staffInfo)
-  
+
   return staffInfo
 end
 
@@ -943,10 +957,10 @@ end
 
 function this.ModMissionTableBottom(missionTable,emptyCpPool)
   if this.debugModule then
-    InfCore.LogFlow("InfNPC.ModMissionTableBottom")    
+    InfCore.LogFlow("InfNPC.ModMissionTableBottom")
     InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
     InfCore.PrintInspect(InfMain.soldierPool,{varName="InfMain.soldierPool"})
-    
+
     InfCore.Log("#emptyCpPool:"..#emptyCpPool)
     InfCore.PrintInspect(emptyCpPool,{varName="emptyCpPool"})
   end

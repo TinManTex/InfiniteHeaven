@@ -1,5 +1,25 @@
 Infinite Heaven changelog
 
+r201 - 2017-03-30
+Fixed: Mother base soldier getting set to hostile - thanks captainking91, others for the reports
+
+revengeModeMB is now revengeModeMB_ALL
+
+Refactor: InfEneFova.ddBodyInfo split to modules\InfBodyInfo.lua .bodyInfo.  
+
+Data: ih_soldier_base.fpk/*_mdl.fpk
+
+Refactor: InfModelProc, now loads all fovaInfo files in mod\fovaInfo 
+InfLookup: added (possibly incomplete) gameObjectClass names.
+
+Option: customSoldierTypeFREE - Custom soldier type in Free roam - Override the soldier type of enemy soldiers in Free Roam.
+(via Enemy Prep menu)
+Added settings for DD suit (same options as Custom soldier type): MSF GZ, XOF Gasmasks, XOF GZ, Genome Soldier. May need to re set your DD suit setting as some existing tiems in list have been shifted.
+
+Refactor: InfEneFova.AddBodyPacks added, ddBody pack setup shifted from TppMissionList to InfNPC, in conjunction with the mission mode ivars for customSoldierType give coverage to any mission.
+
+Refactor: Improved GetHeadGearForPowers selection
+
 r200 - 2017-03-05
 Option: forceDemoAllowAction - "Force allow actions" - Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod on the IH files page.
 (via Cutscenes menu)

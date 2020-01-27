@@ -71,6 +71,19 @@ function this.GenerateEvent(missionCode)
     randomTriggered=math.random(100)<Ivars.gameEventChanceMB:Get()
   end
 
+  --tex some of these have been getting stuck on for some users even though they are only applied with noSave
+  if Ivars.mbWarGamesProfile:Is(0) then
+    local clearVars={
+      --mbDDEquipNonLethal=0,
+      mbHostileSoldiers=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=0,
+      mbEnemyHeli=0,
+    }
+    IvarProc.ApplyProfile(clearVars)
+  end
+
   if this.forceEvent or randomTriggered or Ivars.inf_event:Is()>0 then
     InfCore.Log("InfGameEvent.GenerateEvent missionCode:"..missionCode)--DEBUG
     --    InfCore.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
@@ -263,19 +276,19 @@ local warGameSettings={
   },
   SOVIET_INVASION={
     mbDDHeadGear=0,
-    mbDDSuit="SOVIET_B",
+    customSoldierTypeMB_ALL="SOVIET_B",
     customWeaponTableMB_ALL=0,
     mbWargameFemales=0,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
     mbEnemyHeliColor="DEFAULT",
-    revengeModeMB="DEFAULT",--tex TODO generate custom
+    revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=0,
   },
   COYOTE_INVASION={
     mbDDHeadGear=0,
-    mbDDSuit="PF_C",
-    mbDDSuitFemale="BATTLE_DRESS_FEMALE",
+    customSoldierTypeMB_ALL="PF_C",
+    customSoldierTypeFemaleMB_ALL="BATTLE_DRESS_FEMALE",
     customWeaponTableMB_ALL=1,
     weaponTableStrength="STRONG",
     weaponTableAfgh=1,
@@ -286,12 +299,12 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="ROGUE_COYOTE",
     mbEnemyHeliColor="RANDOM_EACH",
-    revengeModeMB="DEFAULT",--tex TODO generate custom
+    revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange={0,1},
   },
   XOF_INVASION={
     mbDDHeadGear=1,
-    mbDDSuit="XOF",
+    customSoldierTypeMB_ALL="XOF",
     customWeaponTableMB_ALL=1,
     weaponTableAfgh=0,
     weaponTableMafr=0,
@@ -305,12 +318,13 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="DDOGS",--tex or soviet?
     mbEnemyHeliColor="RED",
-    revengeModeMB="DEFAULT",--tex TODO generate custom
+    revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },
   FEMME_FATALE={
     mbDDHeadGear=0,
-    mbDDSuitFemale="SWIMWEAR_FEMALE",
+    customSoldierTypeMB_ALL="DRAB",--tex even though this is female only theres still a bunch of code predicated on customSoldierType
+    customSoldierTypeFemaleMB_ALL="SWIMWEAR_FEMALE",
     customWeaponTableMB_ALL=1,
     weaponTableAfgh=0,
     weaponTableMafr=0,
@@ -324,7 +338,7 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="DDOGS",--tex or soviet?
     mbEnemyHeliColor="BLACK",
-    revengeModeMB="DEFAULT",--tex TODO generate custom
+    revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },
   ZOMBIE_DD={
@@ -341,13 +355,13 @@ function this.GenerateWarGameEvent()
   if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
     return
   end
-  
+
   --tex TODO: only catches some times
   --InfCore.Log("GenerateWarGameEvent mbFreeDemoPlayNextIndex:"..tostring(gvars.mbFreeDemoPlayNextIndex))--DEBUG
   if gvars.mbFreeDemoPlayNextIndex and gvars.mbFreeDemoPlayNextIndex~=0 then
     return
   end
-  
+
   local Ivars=Ivars
   Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
 
@@ -374,7 +388,7 @@ function this.GenerateWarGameEvent()
 
   --custom config TODO: make generated config a seperate feature?
   --all the rest, for now just use enemy prep levels
-  --Ivars.revengeModeMB:Set("CUSTOM",true)
+  --Ivars.revengeModeMB_ALL:Set("CUSTOM",true)
   --tex for now just useing enemy prep levels (set via warGames table)
   --end)--
 end

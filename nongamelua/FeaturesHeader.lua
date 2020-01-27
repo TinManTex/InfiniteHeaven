@@ -12,11 +12,11 @@ local this={
     },
     {
       featureDescription="Abort to ACC from title continue",
-      featureHelp="At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking on continue will load ACC instead of continuing mission.",
+      featureHelp="At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking Continue will load ACC instead of continuing mission.",
     },
     {
       featureDescription="Manually trigger Skulls attack on Quarantine platform.",
-      featureHelp="After you have captures some Skulls attack the in their cages to trigger an attack."
+      featureHelp="After you have captured some Skulls attack them in their cages to trigger an attack."
     },
     {
       featureDescription="Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen.",
@@ -28,7 +28,7 @@ local this={
     },
      {
       featureDescription="Toggle Disable pull-out in support heli.",
-      featureHelp="Pressing <Change Stance> while support heli will toggle Disable pull-out. If changing from pull-out to no pull-out you'll still have to exit and enter the heli, but if in disable pull-out pressing it will cause a pull-out."
+      featureHelp="Pressing <Change Stance> while support heli will toggle Disable pull-out. If changing from pull-out to pull-out disabled you'll still have to exit and enter the heli, but while pull-out is disabled pressing it will cause heli to pull-out."
     },
     {
       featureDescription="Manually trigger open heli door at mission start.",
@@ -36,7 +36,7 @@ local this={
     },
     {
       featureDescription="Pause and restart cutscenes.",
-      featureHelp="Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the custscene."
+      featureHelp="Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene."
     },
     {
       featureDescription="Quick menu commands.",
@@ -44,7 +44,7 @@ local this={
     },
     {
       featureDescription="Profiles.",
-      featureHelp="Editable lists of options, see InfProfiles.lua in mod folder."
+      featureHelp="Editable lists of options, see MGS_TPP\mod\profiles folder."
     },
     {
       featureDescription="Reload lua scripts in MGS_TPP without exiting game.",

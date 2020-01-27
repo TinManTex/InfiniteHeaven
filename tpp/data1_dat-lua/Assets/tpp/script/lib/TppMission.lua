@@ -2088,10 +2088,11 @@ function this.EnableInGameFlag(resetMute)
     mvars.mis_missionStateIsNotInGame=true
   end
 end
-function this.ExecuteSystemCallback(s,n)
-  local e=this.systemCallbacks[s]
-  if IsTypeFunc(e)then
-    return e(n)
+function this.ExecuteSystemCallback(callbackName,arg1)
+  --InfCore.LogFlow("TppMission.ExecuteSystemCallback:"..callbackName)--tex DEBUG
+  local CallBack=this.systemCallbacks[callbackName]
+  if IsTypeFunc(CallBack)then
+    return CallBack(arg1)
   end
 end
 function this.Init(missionTable)

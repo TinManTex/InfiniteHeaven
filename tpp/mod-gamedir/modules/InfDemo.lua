@@ -13,7 +13,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --tex don't know if its worth allowing user to override this for the few genuine in game demos
   if currentChecks.inGame then
     return
-  end
+    end
 
   if not IsDemoPaused() and not IsDemoPlaying() then
     return
@@ -33,6 +33,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       InfCore.Log("InfDemo: Restarting "..InfInspect.Inspect(demoId))
       DemoDaemon.RestartAll()
     end
+
   end
 end
 

@@ -1089,41 +1089,42 @@ function this.ResetMissionEndCamera()
   Player.ResetPadMask{settingName="MissionClearCamera"}
   Player.RequestToStopCameraAnimation{}
 end
-function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
+--REF this.PlayCommonMissionEndCamera(this.PlayMissionClearCameraOnRideHorse,this.VEHICLE_MISSION_CLEAR_CAMERA,this.PlayMissionClearCameraOnWalkerGear,this.PlayMissionClearCameraOnFoot,step,unk6)
+function this.PlayCommonMissionEndCamera(HorseCamFunc,VehicleCamFuncs,WalkerGearCamFunc,MissionClearOnFootCamFunc,step,unk6)
   local playMissionClearTime
   local vehicleId=vars.playerVehicleGameObjectId
   if Tpp.IsHorse(vehicleId)then
     GameObject.SendCommand(vehicleId,{id="HorseForceStop"})
-    playMissionClearTime=i(vehicleId,t,n)
+    playMissionClearTime=HorseCamFunc(vehicleId,step,unk6)
   elseif Tpp.IsVehicle(vehicleId)then
     local vehicleType=GameObject.SendCommand(vehicleId,{id="GetVehicleType"})
     GameObject.SendCommand(vehicleId,{id="ForceStop",enabled=true})
-    local r=r[vehicleType]
-    if r then
-      playMissionClearTime=r(vehicleId,t,n)
+    local VehicleCamFunc=VehicleCamFuncs[vehicleType]
+    if VehicleCamFunc then
+      playMissionClearTime=VehicleCamFunc(vehicleId,step,unk6)
     end
   elseif(Tpp.IsPlayerWalkerGear(vehicleId)or Tpp.IsEnemyWalkerGear(vehicleId))then
     GameObject.SendCommand(vehicleId,{id="ForceStop",enabled=true})
-    playMissionClearTime=s(vehicleId,t,n)
+    playMissionClearTime=WalkerGearCamFunc(vehicleId,step,unk6)
   elseif Tpp.IsHelicopter(vehicleId)then
   else
-    playMissionClearTime=l(t,n)
+    playMissionClearTime=MissionClearOnFootCamFunc(step,unk6)
   end
   if playMissionClearTime then
-    local timerName="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)
+    local timerName="Timer_StartPlayMissionClearCameraStep"..tostring(step+1)
     TimerStart(timerName,playMissionClearTime)
   end
 end
-function this._PlayMissionClearCamera(playJingle,t)
-  if playJingle==1 then
+function this._PlayMissionClearCamera(step,unk2)
+  if step==1 then
     TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_common_jingle_clear")
   end
-  this.PlayCommonMissionEndCamera(this.PlayMissionClearCameraOnRideHorse,this.VEHICLE_MISSION_CLEAR_CAMERA,this.PlayMissionClearCameraOnWalkerGear,this.PlayMissionClearCameraOnFoot,playJingle,t)
+  this.PlayCommonMissionEndCamera(this.PlayMissionClearCameraOnRideHorse,this.VEHICLE_MISSION_CLEAR_CAMERA,this.PlayMissionClearCameraOnWalkerGear,this.PlayMissionClearCameraOnFoot,step,unk2)
 end
 function this.RequestMissionClearMotion()
   Player.RequestToPlayDirectMotion{"missionClearMotion",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_f_idl7.gani",false,"","","",false}}
 end
-function this.PlayMissionClearCameraOnFoot(p,c)
+function this.PlayMissionClearCameraOnFoot(unk1,unk2)
   if PlayerInfo.AndCheckStatus{PlayerStatus.NORMAL_ACTION}then
     if PlayerInfo.OrCheckStatus{PlayerStatus.STAND,PlayerStatus.SQUAT}then
       if PlayerInfo.AndCheckStatus{PlayerStatus.CARRY}then
@@ -1143,7 +1144,7 @@ function this.PlayMissionClearCameraOnFoot(p,c)
   local callSeOfCameraInterp=false
   local timeToSleep=20
   local useLastSelectedIndex=false
-  if p==1 then
+  if unk1==1 then
     skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
     skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0)}
     skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
@@ -1151,7 +1152,7 @@ function this.PlayMissionClearCameraOnFoot(p,c)
     interpTimeAtStart=.3
     s=1
     callSeOfCameraInterp=true
-  elseif c then
+  elseif unk2 then
     skeletonNames={"SKL_004_HEAD"}
     skeletonCenterOffsets={Vector3(0,0,.05)}
     skeletonBoundings={Vector3(.1,.125,.1)}
@@ -1190,7 +1191,7 @@ function this.PlayMissionClearCameraOnFoot(p,c)
   }
   return s
 end
-function this.PlayMissionClearCameraOnRideHorse(e,c,p)
+function this.PlayMissionClearCameraOnRideHorse(unk1,unk2,unk3)
   local skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
   local skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0)}
   local skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
@@ -1200,10 +1201,10 @@ function this.PlayMissionClearCameraOnRideHorse(e,c,p)
   local callSeOfCameraInterp=false
   local timeToSleep=20
   local useLastSelectedIndex=false
-  if p then
+  if unk3 then
     timeToSleep=4
   end
-  if c==1 then
+  if unk2==1 then
     skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
     skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0)}
     skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
@@ -1251,61 +1252,61 @@ function this.PlayMissionClearCameraOnRideHorse(e,c,p)
   }
   return o
 end
-function this.PlayMissionClearCameraOnRideLightVehicle(e,l,s)
-  local t=Vector3(-.35,.6,.7)
-  local e=Vector3(0,0,-2.25)
-  local a=.2
+function this.PlayMissionClearCameraOnRideLightVehicle(unk1,unk2,unk3)
+  local offsetTarget=Vector3(-.35,.6,.7)
+  local offsetPos=Vector3(0,0,-2.25)
+  local interpTimeAtStart=.2
   local r
-  local n=false
-  local i=20
-  local o=false
-  if s then
-    i=4
+  local callSeOfCameraInterp=false
+  local timeToSleep=20
+  local useLastSelectedIndex=false
+  if unk3 then
+    timeToSleep=4
   end
-  if l==1 then
-    t=Vector3(-.35,.6,.7)
-    e=Vector3(0,0,-2.25)
-    a=.2
+  if unk2==1 then
+    offsetTarget=Vector3(-.35,.6,.7)
+    offsetPos=Vector3(0,0,-2.25)
+    interpTimeAtStart=.2
     r=.5
-    n=true
+    callSeOfCameraInterp=true
   else
-    t=Vector3(-.35,.4,.7)
-    e=Vector3(0,0,-4)
-    a=.75
-    o=true
+    offsetTarget=Vector3(-.35,.4,.7)
+    offsetPos=Vector3(0,0,-4)
+    interpTimeAtStart=.75
+    useLastSelectedIndex=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=t,offsetPos=e,focalLength=28,aperture=1.875,timeToSleep=i,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=n,useLastSelectedIndex=o}
+  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=offsetTarget,offsetPos=offsetPos,focalLength=28,aperture=1.875,timeToSleep=timeToSleep,interpTimeAtStart=interpTimeAtStart,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=callSeOfCameraInterp,useLastSelectedIndex=useLastSelectedIndex}
   return r
 end
-function this.PlayMissionClearCameraOnRideTruck(e,s,l)
-  local t=Vector3(-.35,1.3,1)
-  local a=Vector3(0,0,-2)
-  local e=.2
+function this.PlayMissionClearCameraOnRideTruck(unk1,unk1,unk3)
+  local offsetTarget=Vector3(-.35,1.3,1)
+  local offsetPos=Vector3(0,0,-2)
+  local interpTimeAtStart=.2
   local n
-  local r=false
-  local o=20
-  local i=false
-  if l then
-    o=4
+  local callSeOfCameraInterp=false
+  local timeToSleep=20
+  local useLastSelectedIndex=false
+  if unk3 then
+    timeToSleep=4
   end
-  if s==1 then
-    t=Vector3(-.35,1.3,1)
-    a=Vector3(0,0,-3)
-    e=.2
+  if unk1==1 then
+    offsetTarget=Vector3(-.35,1.3,1)
+    offsetPos=Vector3(0,0,-3)
+    interpTimeAtStart=.2
     n=.5
-    r=true
+    callSeOfCameraInterp=true
   else
-    t=Vector3(-.35,1,1)
-    a=Vector3(0,0,-6)
-    e=.75
-    i=true
+    offsetTarget=Vector3(-.35,1,1)
+    offsetPos=Vector3(0,0,-6)
+    interpTimeAtStart=.75
+    useLastSelectedIndex=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=t,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=e,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=r,useLastSelectedIndex=i}
+  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=offsetTarget,offsetPos=offsetPos,focalLength=28,aperture=1.875,timeToSleep=timeToSleep,interpTimeAtStart=interpTimeAtStart,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=callSeOfCameraInterp,useLastSelectedIndex=useLastSelectedIndex}
   return n
 end
-function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(a,s,e,RENisQuest)
+function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(unk1,unk2,unk3,RENisQuest)
   local offsetTarget=Vector3(.05,-.5,-2.2)
-  if e==1 then
+  if unk3==1 then
     offsetTarget=Vector3(.05,-.5,-2.2)
   else
     offsetTarget=Vector3(-.05,-1,0)
@@ -1319,7 +1320,7 @@ function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(a,s,e,RENisQuest)
   if RENisQuest then
     timeToSleep=4
   end
-  if s==1 then
+  if unk2==1 then
     offsetPos=Vector3(0,0,-7.5)
     interpTimeAtStart=.2
     r=.5
@@ -1343,52 +1344,52 @@ function this.PlayMissionClearCameraOnRideWesternArmoredVehicle(t,n)
   return a
 end
 function this.PlayMissionClearCameraOnRideTank(e,l,i)
-  local e=Vector3(0,0,-6.5)
+  local offsetPos=Vector3(0,0,-6.5)
   local a=.2
   local n
-  local r=false
+  local callSeOfCameraInterp=false
   local o=20
-  local t=false
+  local useLastSelectedIndex=false
   if i then
     o=4
   end
   if l==1 then
-    e=Vector3(0,0,-6.5)
+    offsetPos=Vector3(0,0,-6.5)
     a=.2
     n=.5
-    r=true
+    callSeOfCameraInterp=true
   else
-    e=Vector3(0,0,-9)
+    offsetPos=Vector3(0,0,-9)
     a=.75
-    t=true
+    useLastSelectedIndex=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{9,165},{9,-165}},offsetTarget=Vector3(0,-.85,3.25),offsetPos=e,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=r,useLastSelectedIndex=t}
+  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{9,165},{9,-165}},offsetTarget=Vector3(0,-.85,3.25),offsetPos=offsetPos,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=callSeOfCameraInterp,useLastSelectedIndex=useLastSelectedIndex}
   return n
 end
 function this.PlayMissionClearCameraOnWalkerGear(a,p,s)
   local n=Vector3(0,.55,.35)
   local a=Vector3(0,0,-3.65)
-  local t=.2
+  local interpTimeAtStart=.2
   local l
-  local i=false
-  local o=20
-  local r=false
+  local callSeOfCameraInterp=false
+  local timeToSleep=20
+  local useLastSelectedIndex=false
   if s then
-    o=4
+    timeToSleep=4
   end
   if p==1 then
     n=Vector3(0,.55,.35)
     a=Vector3(0,0,-3.65)
-    t=.2
+    interpTimeAtStart=.2
     l=1
-    i=true
+    callSeOfCameraInterp=true
   else
     n=Vector3(0,.4,.35)
     a=Vector3(0,0,-4.95)
-    t=3
-    r=true
+    interpTimeAtStart=3
+    useLastSelectedIndex=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=3,followDelayTime=.1,candidateRots={{7,165},{7,-165}},offsetTarget=n,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=t,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=i,useLastSelectedIndex=r}
+  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=3,followDelayTime=.1,candidateRots={{7,165},{7,-165}},offsetTarget=n,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=timeToSleep,interpTimeAtStart=interpTimeAtStart,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=callSeOfCameraInterp,useLastSelectedIndex=useLastSelectedIndex}
   return l
 end
 this.VEHICLE_MISSION_CLEAR_CAMERA={

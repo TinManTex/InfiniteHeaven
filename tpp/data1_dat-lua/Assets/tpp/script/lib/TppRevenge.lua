@@ -300,7 +300,7 @@ this.revengeDefine={
 }
 function this.SelectRevengeType()
   local missionCode=TppMission.GetMissionID()
-  local isMbRevenge=missionCode==30050 and Ivars.revengeModeMB:Is()>0 and not Ivars.revengeModeMB:Is"FOB"--tex
+  local isMbRevenge=missionCode==30050 and Ivars.revengeModeMB_ALL:Is()>0 and not Ivars.revengeModeMB_ALL:Is"FOB"--tex
   if (this.IsNoRevengeMission(missionCode)or missionCode==10115) and (Ivars.disableNoRevengeMissions:Is(0) and not isMbRevenge) then--tex added disable --NMC retake the platform, not revenge mission because mb/ddogs use different system?
     return{}
   end
@@ -1178,12 +1178,12 @@ function this.CanUseReinforceHeli()
   return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"
 end
 function this.SelectReinforceType()
-  if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then--tex why? for quest helis?
-    --    InfCore.DebugPrint("SelectReinforceType already heli")--DEBUG
+  if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then--tex DEBUG
+    InfCore.Log("SelectReinforceType already heli")--tex DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
   if not this.IsUsingSuperReinforce()then
-    --    InfCore.DebugPrint("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--DEBUG
+    InfCore.Log("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--tex DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local reinforceVehicleTypes={}
@@ -1193,7 +1193,7 @@ function this.SelectReinforceType()
   end--
   local canUseReinforceHeli=this.CanUseReinforceHeli() and mvars.revenge_isEnabledSuperReinforce--tex added isEnabledSuper, which is only set by quest heli and shouldnt stop other vehicle
   if canuseReinforceVehicle then
-    --InfCore.DebugPrint("SelectReinforceType canuseReinforceVehicle")
+    InfCore.Log("SelectReinforceType canuseReinforceVehicle")--tex DEBUG
     local reinforceVehiclesForLocation={
       AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
       MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}
@@ -1205,15 +1205,15 @@ function this.SelectReinforceType()
     end
   end
   if canUseReinforceHeli then
-    --InfCore.DebugPrint("SelectReinforceType canuseReinforceHeli")
+    InfCore.Log("SelectReinforceType canuseReinforceHeli")--tex DEBUG
     table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
   if#reinforceVehicleTypes==0 then
-    --InfCore.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUG
+    InfCore.Log("SelectReinforceType #reinforceVehicleTypes==0")--tex DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local randomVehicleType=math.random(1,#reinforceVehicleTypes)
-  --  InfCore.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
+  InfCore.Log("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--tex DEBUG
   return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(soldierIds)

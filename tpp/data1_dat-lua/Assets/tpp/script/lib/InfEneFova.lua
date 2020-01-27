@@ -4,379 +4,20 @@
 local this={}
 local InfEneFova=this
 
+this.debugModule=false
+
 --
 this.inf_wildCardMaleFaceList={}
 this.inf_wildCardFemaleFaceList={}
 
-this.ddBodyInfo={
-  DRAB={--mother base default
-    bodyId=TppEnemyBodyId.dds8_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/dds/dds3_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
-    soldierSubType="DD_FOB",
-  },
-  DRAB_FEMALE={--mother base default
-    bodyId=TppEnemyBodyId.dds8_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
-    soldierSubType="DD_FOB",
-  },
-  TIGER={--FOB default
-    bodyId=TppEnemyBodyId.dds5_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
-    soldierSubType="DD_FOB",
-  },
-  TIGER_FEMALE={--FOB default
-    bodyId=TppEnemyBodyId.dds6_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
-    soldierSubType="DD_FOB",
-  },
-  SNEAKING_SUIT={
-    bodyId=TppEnemyBodyId.dds4_enem0_def,
-    partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
-    soldierSubType="DD_FOB",
-  },
-  SNEAKING_SUIT_FEMALE={
-    bodyId=TppEnemyBodyId.dds4_enef0_def,
-    partsPath="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
-    soldierSubType="DD_FOB",
-  },
-  BATTLE_DRESS={
-    bodyId=TppEnemyBodyId.dds5_enem0_def,
-    partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
-    soldierSubType="DD_FOB",
-  },
-  BATTLE_DRESS_FEMALE={
-    bodyId=TppEnemyBodyId.dds5_enem0_def,
-    partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
-    partsPath="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
-    soldierSubType="DD_FOB",
-  },
-  PFA_ARMOR={
-    bodyId=TppEnemyBodyId.pfa0_v00_a,
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR--tex this pack is essentially just the mis_com_mafr soldier pack
-    isArmor=true,
-    helmetOnly=true,
-    noDDHeadgear=true,
-    hasArmor=true,
-    soldierSubType="DD_FOB",
-  },
-  XOF={--tex Test: when XOF mission fpk loaded it stops salute morale from working?
-    bodyId=TppEnemyBodyId.wss4_main0_v00,--mixed: clava only, helmet with goggles down, helmet with goggles up | gloves at side
-    --TppEnemyBodyId.wss0_main0_v00,--helmet goggles down only
-    --TppEnemyBodyId.wss3_main0_v00,--ditto??
-    partsPath="/Assets/tpp/parts/chara/wss/wss4_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_xof_soldier.fpk",
-    hasFace=true,
-    hasHelmet=true,
-    soldierSubType="SKULL_AFGH",
-  },
-  SOVIET_A={
-    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-    noDDHeadgear=true,
-    soldierSubType="SOVIET_A",
-    hasArmor=true,
-  },
-  SOVIET_B={
-    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-    noDDHeadgear=true,
-    soldierSubType="SOVIET_B",
-    hasArmor=true,
-  },
-  PF_A={
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-    noDDHeadgear=true,
-    soldierSubType="PF_A",
-    hasArmor=true,
-  },
-  PF_B={
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-    noDDHeadgear=true,
-    soldierSubType="PF_B",
-    hasArmor=true,
-  },
-  PF_C={
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-    noDDHeadgear=true,
-    soldierSubType="PF_C",
-    hasArmor=true,
-  },
-  GZ={--tex crash on use, also missing bodyId/Soldier2FaceAndBodyData
-    bodyId=TppEnemyBodyId.dds0_main1_v00,--,TppEnemyBodyId.dds0_main1_v01
-    partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_gz.fpk",
-  },
-  MSF_SVS={
-    --GOTCHA pfs and svs swapped due to retailbug, see TppEnemyBodyId/Soldier2FaceAndBodyData
-    bodyId=TppEnemyBodyId.pfs0_dds0_v00,--tex even though there's a lot more BodyId/Soldier2FaceAndBodyData entries, they're all identical/the same fova
-    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-    noDDHeadgear=true,
-    soldierSubType="DD_FOB",
-  },
-  MSF_PFS={
-    bodyId=TppEnemyBodyId.svs0_dds0_v00,--tex as above
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-    noDDHeadgear=true,
-    soldierSubType="DD_FOB",
-  },
-  SOVIET_BERETS={
-    bodyId={
-      TppEnemyBodyId.svs0_unq_v010,
-      TppEnemyBodyId.svs0_unq_v020,
-      TppEnemyBodyId.svs0_unq_v070,
-      TppEnemyBodyId.svs0_unq_v071,
-      TppEnemyBodyId.svs0_unq_v072,
-      TppEnemyBodyId.svs0_unq_v009,
-    },
-    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-    noDDHeadgear=true,
-    noHelmet=true,--tex TODO: just do a whole equip allowed/disallowed
-  --soldierSubType="SOVIET_B",
-  },
-  SOVIET_HOODIES={
-    bodyId={
-      TppEnemyBodyId.svs0_unq_v060,
-      TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v420,
-    },
-    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-    noDDHeadgear=true,
-  --soldierSubType="SOVIET_B",
-  },
-  SOVIET_ALL={
-    bodyId={
-      TppEnemyBodyId.svs0_rfl_v00_a,
-      TppEnemyBodyId.svs0_rfl_v01_a,
-      TppEnemyBodyId.svs0_rfl_v02_a,
-      TppEnemyBodyId.svs0_mcg_v00_a,
-      TppEnemyBodyId.svs0_mcg_v01_a,
-      TppEnemyBodyId.svs0_mcg_v02_a,
-      TppEnemyBodyId.svs0_snp_v00_a,
-      TppEnemyBodyId.svs0_rdo_v00_a,
-      TppEnemyBodyId.svs0_rfl_v00_b,
-      TppEnemyBodyId.svs0_rfl_v01_b,
-      TppEnemyBodyId.svs0_rfl_v02_b,
-      TppEnemyBodyId.svs0_mcg_v00_b,
-      TppEnemyBodyId.svs0_mcg_v01_b,
-      TppEnemyBodyId.svs0_mcg_v02_b,
-      TppEnemyBodyId.svs0_snp_v00_b,
-      TppEnemyBodyId.svs0_rdo_v00_b,
-      TppEnemyBodyId.sva0_v00_a,
-      TppEnemyBodyId.svs0_unq_v010,
-      TppEnemyBodyId.svs0_unq_v080,
-      TppEnemyBodyId.svs0_unq_v020,
-      TppEnemyBodyId.svs0_unq_v040,
-      TppEnemyBodyId.svs0_unq_v050,
-      TppEnemyBodyId.svs0_unq_v060,
-      TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v070,
-      TppEnemyBodyId.svs0_unq_v071,
-      TppEnemyBodyId.svs0_unq_v072,
-      TppEnemyBodyId.svs0_unq_v420,
-      TppEnemyBodyId.svs0_unq_v009,
-      TppEnemyBodyId.svs0_unq_v421,
-      TppEnemyBodyId.pfs0_dds0_v00,--msf
-    },
-    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-    noDDHeadgear=true,
-  --soldierSubType="SOVIET_B",
-  },
-  PF_MISC={
-    bodyId={
-      TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
-      TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
-      TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
-      TppEnemyBodyId.pfs0_unq_v280,--black suit, white shirt, red white striped tie
-      TppEnemyBodyId.pfs0_unq_v150,--green beret, brown leather top, light tan muddy pants
-      TppEnemyBodyId.pfs0_unq_v140,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
-      TppEnemyBodyId.pfs0_unq_v241,--brown leather top, light tan muddy pants
-      --TppEnemyBodyId.pfs0_unq_v242,--brown leather top, light tan muddy pants, cant tell any difference?
-      TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
-      TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
-    },
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-    noDDHeadgear=true,
-  --soldierSubType="PF_C",
-  },
-  PF_ALL={
-    bodyId={
-      TppEnemyBodyId.pfs0_rfl_v00_a,
-      TppEnemyBodyId.pfs0_rfl_v01_a,
-      TppEnemyBodyId.pfs0_mcg_v00_a,
-      TppEnemyBodyId.pfs0_snp_v00_a,
-      TppEnemyBodyId.pfs0_rdo_v00_a,
-      TppEnemyBodyId.pfs0_rfl_v00_b,
-      TppEnemyBodyId.pfs0_rfl_v01_b,
-      TppEnemyBodyId.pfs0_mcg_v00_b,
-      TppEnemyBodyId.pfs0_snp_v00_b,
-      TppEnemyBodyId.pfs0_rdo_v00_b,
-      TppEnemyBodyId.pfs0_rfl_v00_c,
-      TppEnemyBodyId.pfs0_rfl_v01_c,
-      TppEnemyBodyId.pfs0_mcg_v00_c,
-      TppEnemyBodyId.pfs0_snp_v00_c,
-      TppEnemyBodyId.pfs0_rdo_v00_c,
-      TppEnemyBodyId.pfa0_v00_b,
-      TppEnemyBodyId.pfa0_v00_c,
-      TppEnemyBodyId.pfa0_v00_a,
-      TppEnemyBodyId.pfs0_unq_v210,
-      TppEnemyBodyId.pfs0_unq_v250,
-      TppEnemyBodyId.pfs0_unq_v360,
-      TppEnemyBodyId.pfs0_unq_v280,
-      TppEnemyBodyId.pfs0_unq_v150,
-      TppEnemyBodyId.pfs0_unq_v220,
-      TppEnemyBodyId.pfs0_unq_v140,
-      TppEnemyBodyId.pfs0_unq_v241,
-      TppEnemyBodyId.pfs0_unq_v242,
-      TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,
-      TppEnemyBodyId.pfs0_unq_v155,
-      TppEnemyBodyId.svs0_dds0_v00,--msf
-    },
-    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-    noDDHeadgear=true,
-  --soldierSubType="PF_C",
-  },
-  SWIMWEAR={
-    bodyId={
-      TppEnemyBodyId.dlf_enem0_def,
-      TppEnemyBodyId.dlf_enem1_def,
-      TppEnemyBodyId.dlf_enem2_def,
-      TppEnemyBodyId.dlf_enem3_def,
-      TppEnemyBodyId.dlf_enem4_def,
-      TppEnemyBodyId.dlf_enem5_def,
-      TppEnemyBodyId.dlf_enem6_def,
-      TppEnemyBodyId.dlf_enem7_def,
-      TppEnemyBodyId.dlf_enem8_def,
-      TppEnemyBodyId.dlf_enem9_def,
-      TppEnemyBodyId.dlf_enem10_def,
-      TppEnemyBodyId.dlf_enem11_def,
-    },
-    partsPath="/Assets/tpp/parts/chara/dlf/dlf1_enem0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,
-    soldierSubType="DD_FOB",
-  },
-  SWIMWEAR_FEMALE={
-    bodyId={
-      TppEnemyBodyId.dlf_enef0_def,
-      TppEnemyBodyId.dlf_enef1_def,
-      TppEnemyBodyId.dlf_enef2_def,
-      TppEnemyBodyId.dlf_enef3_def,
-      TppEnemyBodyId.dlf_enef4_def,
-      TppEnemyBodyId.dlf_enef5_def,
-      TppEnemyBodyId.dlf_enef6_def,
-      TppEnemyBodyId.dlf_enef7_def,
-      TppEnemyBodyId.dlf_enef8_def,
-      TppEnemyBodyId.dlf_enef9_def,
-      TppEnemyBodyId.dlf_enef10_def,
-      TppEnemyBodyId.dlf_enef11_def,
-    },
-    partsPath="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,
-    soldierSubType="DD_FOB",
-  },
-  --tex no collision/push target
-  PRISONER_AFGH={
-    bodyId=TppEnemyBodyId.prs2_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh_hostage.fpk",
-    soldierSubType="DD_FOB",
-  },
-  PRISONER_MAFR={
-    bodyId=TppEnemyBodyId.prs5_main0_v00,--tex CRASH on initial game start if access TppEnemyBodyId?
-    partsPath="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk",
-    soldierSubType="DD_FOB",
-  },
-  PRISONER_MAFR_FEMALE={--tex still male body, don't know what's up
-    bodyId=TppEnemyBodyId.prs6_main0_v00,--113
-    partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage_woman.fpk",
-    soldierSubType="DD_FOB",
-  },
-  --tex crash, the file packs are very incomplete from a character standpoint
-  DOCTOR={
-    bodyId={
-      TppEnemyBodyId.dct0_v00,--348,
-    --TppEnemyBodyId.dct0_v01,--349,
-    },
-    partsPath="/Assets/tpp/parts/chara/dct/dct2_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_doctor.fpk",
-    hasFace=true,
-    soldierSubType="DD_FOB",
-  },
-  --tex crash
-  NURSE_FEMALE={
-    bodyId={
-      TppEnemyBodyId.nrs0_v00,--340,
-      TppEnemyBodyId.nrs0_v01,--341,
-      TppEnemyBodyId.nrs0_v02,--342,
-      TppEnemyBodyId.nrs0_v03,--343,
-      TppEnemyBodyId.nrs0_v04,--344,
-      TppEnemyBodyId.nrs0_v05,--345,
-      TppEnemyBodyId.nrs0_v06,--346,
-      TppEnemyBodyId.nrs0_v07,--347,
-    },
-    partsPath="/Assets/tpp/parts/chara/nrs/nrs3_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_nurse.fpk",
-    soldierSubType="DD_FOB",
-  },
-  SKULLFACE={--no collision/pushback
-    bodyId={
-      TppEnemyBodyId.wsp_def,
-      TppEnemyBodyId.wsp_dam,--bloody
-    },
-    partsPath="/Assets/tpp/parts/chara/wsp/wsp0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_skullface.fpk",
-    hasFace=true,
-    soldierSubType="SKULL_AFGH",
-  },
-  HUEY={
-    bodyId={
-      TppEnemyBodyId.hyu0_main0_v00,--377 no glasses
-      TppEnemyBodyId.hyu0_main0_v01,--378 oval glasses
-      TppEnemyBodyId.hyu0_main0_v02,--379 rectangle glasses
-    },
-    partsPath="/Assets/tpp/parts/chara/hyu/hyu0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_huey.fpk",
-    hasFace=true,
-    soldierSubType="DD_FOB",
-  },
-  --tex no walk, or hit collision target. crash on cqc down
-  --mb Kaz - coat and hat
-  KAZ={
-    bodyId=1,--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
-    partsPath="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_miller.fpk",
-    hasFace=true,
-    soldierSubType="DD_FOB",
-  },
-  --tex crash
-  KAZ_GZ={
-    bodyId=1,
-    partsPath="/Assets/tpp/parts/chara/kaz/kaz1_main1_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_miller_gz.fpk",
-    hasFace=true,
-    soldierSubType="DD_FOB",
-  },
+this.bodyTypes={
+  SOLDIER=1,
+  HOSTAGE=2,
+}
+
+this.basePackPaths={
+  SOLDIER="/Assets/tpp/pack/mission2/ih_soldier_base.fpk",--tex built off mis_com_dd_soldier_wait
+--HOSTAGE="",
 }
 
 this.ddSuitToDDBodyInfo={
@@ -387,6 +28,7 @@ this.ddSuitToDDBodyInfo={
 }
 
 --tex see TppEnemyFaceId
+--{[TppEnemyFaceId id]=faceInfo{},}
 this.ddHeadGearInfo={
   --HMT=DD greentop
   --tex OFF till I put selection in
@@ -466,6 +108,7 @@ this.ddHeadGearInfo={
   },
 }
 
+--UNUSED
 this.ddHeadGearSelection={
   {--[---][---][---] Balaclava
     maleId="svs_balaclava",
@@ -508,39 +151,42 @@ this.ddHeadGearSelection={
     femaleId="dds_balaclava15",
   },
 }
---REF mbDDSuit = 0=OFF,EQUIPGRADE,..specific suits
-function this.GetMaleDDBodyInfo()
-  if Ivars.mbDDSuit:Is(0) then
+function this.GetMaleBodyInfo(missionCode)
+  if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
     return nil
   end
-
-  local suitName=nil
-  if Ivars.mbDDSuit:Is"EQUIPGRADE" then
-    if TppEnemy.weaponIdTable.DD==nil then
-      return this.ddBodyInfo.DRAB
-    end
-    local ddSuit=TppEnemy.GetDDSuit()
-    suitName=this.ddSuitToDDBodyInfo[ddSuit]
-  else
-    suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
-  end
-  return this.ddBodyInfo[suitName]
+  --CULL
+  --  local suitName=nil
+  --  if IvarProc.IsForMission("customSoldierType","EQUIPGRADE") then
+  --    if TppEnemy.weaponIdTable.DD==nil then
+  --      return InfBodyInfo.bodyInfo.DRAB
+  --    end
+  --    local ddSuit=TppEnemy.GetDDSuit()
+  --    suitName=this.ddSuitToDDBodyInfo[ddSuit]
+  --  else
+  local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  local suitName=Ivars.customSoldierTypeFREE.settings[customSoldierType+1]--KLUDGE
+  --end
+  return InfBodyInfo.bodyInfo[suitName]
 end
---GOTCHA: relies on mbDDSuit > 0
-local femaleSuffixStr="_FEMALE"
-function this.GetFemaleDDBodyInfo()
-  if Ivars.mbDDSuit:Is(0) then
-    return nil
+function this.GetFemaleBodyInfo(missionCode)
+  if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    return InfBodyInfo.bodyInfo.DRAB --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
+    --OFF return nil
   end
-
-  local suitName=nil
-  if Ivars.mbDDSuitFemale:Is"EQUIPGRADE" then
-    local ddSuit=TppEnemy.GetDDSuit()
-    suitName=this.ddSuitToDDBodyInfo[ddSuit]..femaleSuffixStr
-  else
-    suitName=Ivars.mbDDSuitFemale.settings[Ivars.mbDDSuitFemale:Get()+1]
-  end
-  return this.ddBodyInfo[suitName]
+  --CULL
+  --  local suitName=nil
+  --  if IvarProc.IsForMission("customSoldierTypeFemale","EQUIPGRADE") then
+  --    if TppEnemy.weaponIdTable.DD==nil then
+  --      return InfBodyInfo.bodyInfo.DRAB
+  --    end
+  --    local ddSuit=TppEnemy.GetDDSuit()
+  --    suitName=this.ddSuitToDDBodyInfo[ddSuit].."_FEMALE"
+  --  else
+  local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  local suitName=Ivars.customSoldierTypeFemaleMB_ALL.settings[customSoldierType+1]
+  --  end
+  return InfBodyInfo.bodyInfo[suitName]
 end
 
 --
@@ -554,7 +200,24 @@ this.wildCardFemaleSuits={
 
 this.wildCardFemaleSuitName="SNEAKING_SUIT"--tex set in WildCardFovaSetup
 function this.GetFemaleWildCardBodyInfo()
-  return this.ddBodyInfo[this.wildCardFemaleSuitName]
+  return InfBodyInfo.bodyInfo[this.wildCardFemaleSuitName]
+end
+
+function this.AddBodyPackPaths(bodyInfo,bodyType)
+  if not bodyInfo then
+    return
+  end
+  bodyType=bodyType or "SOLDIER"
+  if bodyInfo.useBasePack then
+    TppPackList.AddMissionPack(this.basePackPaths[bodyType])
+  end
+  if type(bodyInfo.missionPackPath)=="table" then
+    for i,missionPackPath in ipairs(bodyInfo.missionPackPath) do
+      TppPackList.AddMissionPack(missionPackPath)
+    end
+  else
+    TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+  end
 end
 
 --tex non exhaustive, see face and body ids.txt,Soldier2FaceAndBodyData, face and bodyids.txt
@@ -1576,18 +1239,20 @@ this.wildCardBodyTable={
 }
 
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
---IN/Out bodies
+--IN/OUT faces
 function this.WildCardFovaFaces(faces)
   InfMain.RandomSetToLevelSeed()
   local faceBags=this.BuildFaceBags(this.faceIds)
   this.inf_wildCardMaleFaceList={}
   this.inf_wildCardFemaleFaceList={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
-  local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
-  for i=1,InfNPC.numWildCards.MALE do
-    local faceId=this.RandomFaceId(faceBags,"MALE",categoryBag)
-    table.insert(faces,{faceId,1,1,0})
-    table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
+  if not IvarProc.EnabledForMission"customSoldierType" then--tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies
+    local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
+    for i=1,InfNPC.numWildCards.MALE do
+      local faceId=this.RandomFaceId(faceBags,"MALE",categoryBag)
+      table.insert(faces,{faceId,1,1,0})
+      table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
+    end
   end
   local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
   for i=1,InfNPC.numWildCards.FEMALE do
@@ -1619,6 +1284,8 @@ function this.GetRandomFaces(gender,count)
   return faces
 end
 
+--called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
+--IN/OUT bodies
 function this.WildCardFovaBodies(bodies)
   InfMain.RandomSetToLevelSeed()
 
@@ -1644,68 +1311,122 @@ function this.WildCardFovaBodies(bodies)
     end
   end
 
-  local maleBodyTable=this.wildCardBodyTable[locationName]
-  if maleBodyTable then
-    this.SetupBodies(maleBodyTable,bodies)
+  if not IvarProc.EnabledForMission"customSoldierType" then --tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies
+    local maleBodyTable=this.wildCardBodyTable[locationName]
+    if maleBodyTable then
+      this.SetupBodies(maleBodyTable,bodies)
+    end
+    --TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
   end
-  --TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
 
   InfMain.RandomResetToOsTime()
 end
 
-function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)
+function this.GetHeadGearForPowers(powerSettings,isFemale,bodyInfo)
+  if powerSettings==nil then--DEBUGNOW
+    InfCore.Log("GetHeadGearForPowers powerSettings==nil" )
+    return {}
+  end
+
   local validHeadGearIds={}
-  if powerSettings then
-    local gearPowerTypes={
-      HELMET=true,
-      GAS_MASK=true,
-      NVG=true,
-    }
-    if hasHelmet then
-      gearPowerTypes.HELMET=nil
+
+  local gearPowerTypes={
+    HELMET=true,
+    GAS_MASK=true,
+    NVG=true,
+  }
+  --tex copy over soldier powertypes since we may want to filter without modifying actual settings
+  local soldierSettings={}
+  for powerType,bool in pairs(gearPowerTypes)do
+    soldierSettings[powerType]=powerSettings[powerType]
+  end
+
+  --tex using balavlava headgear means it's still using the face system, some of it works out ok,
+  --NVG,GAS_MASK covers different parts so may not be noticable, really depends on the head thats with the body, but tuning for XOF
+  --TODO: may need to reconsider if expanding headgear
+  if bodyInfo.hasFace then
+    if soldierSettings.NVG==nil and soldierSettings.GAS_MASK==nil then
+      return validHeadGearIds
+    end
+  end
+
+  --tex no point in having DD hardtop if body has its own helmet TODO: may need to reconsider if expanding headgear
+  --tex PATCHUP there's no heads with nvg and no helmet/greentop
+  if bodyInfo.hasHelmet then
+    if not soldierSettings.NVG then
+      soldierSettings.HELMET=nil
+    end
+  end
+
+  for headGearId,headGearInfo in pairs(this.ddHeadGearInfo)do
+    local isMatch=true
+    if isFemale then
+      isMatch=headGearInfo.FEMALE==true
+    else
+      isMatch=headGearInfo.MALE==true
     end
 
-    local function IsFemale(faceId)
-      local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
-      return isFemale and isFemale[1]==1
+    if isMatch then
+      for powerType, bool in pairs(gearPowerTypes)do
+        if soldierSettings[powerType] and not headGearInfo[powerType] then
+          isMatch=false
+        end
+        if headGearInfo[powerType] and not soldierSettings[powerType] then
+          isMatch=false
+        end
+      end
     end
-    for headGearId, headGearInfo in pairs(this.ddHeadGearInfo)do
-      local isMatch=true
-      if IsFemale(faceId)==true then
-        if not headGearInfo.FEMALE then
-          isMatch=false
-        end
-      else
-        if not headGearInfo.MALE then
-          isMatch=false
-        end
-      end
-      --      if hasHelmet and headGearInfo.HELMET then --CULL
-      --        if powerSettings.HELMET and not (powerSettings.GAS_MASK or powerSettings.NVG) then--tex really only want to prevent DD helm+nothing
-      --          isMatch=false
-      --        end
-      --      end
-      if hasHelmet and (not headGearInfo.GAS_MASK and not headGearInfo.NVG) then
-        isMatch=false
-      end
+    if isMatch then
+      validHeadGearIds[#validHeadGearIds+1]=headGearId
+    end
+  end
 
-      if isMatch then
-        for powerType, bool in pairs(gearPowerTypes)do
-          if powerSettings[powerType] and not headGearInfo[powerType] then
-            isMatch=false
-          end
-          if headGearInfo[powerType] and not powerSettings[powerType] then
-            isMatch=false
-          end
-        end
-      end
-      if isMatch then
-        validHeadGearIds[#validHeadGearIds+1]=headGearId
+  if this.debugModule then
+    InfCore.Log("GetHeadGearForPowers bodyHasHelmet:"..tostring(bodyInfo.hasHelmet))
+    InfCore.PrintInspect(powerSettings,"GetHeadGearForPowers.powerSettings")
+    InfCore.PrintInspect(soldierSettings,"GetHeadGearForPowers.soldierSettings")
+    InfCore.PrintInspect(validHeadGearIds,"GetHeadGearForPowers.validHeadGearIds")
+  end
+
+  return validHeadGearIds
+end
+
+--CALLER ApplyPowerSetting,ApplyMTBSUniqueSetting
+function this.ApplyCustomBodyPowers(soldierId,powerSettings)
+  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local bodyInfo=nil
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then
+    if bodyInfo.isArmor then
+      powerSettings.ARMOR=true
+      --DEBUGNOW TODO?  mvars.ene_soldierPowerSettings[soldierId].ARMOR=true
+    end
+
+    --tex headgear futzing
+    if bodyInfo.helmetOnly then
+      powerSettings.GAS_MASK=nil
+      powerSettings.NVG=nil
+    end
+
+    --tex PATCHUP there's no heads with nvg and no helmet/greentop
+    if powerSettings.NVG then
+      if bodyInfo.useDDHeadgear then
+        powerSettings.HELMET=true
+        --DEBUGNOW TODO?  mvars.ene_soldierPowerSettings[soldierId].HELMET=true
       end
     end
   end
 
-  return validHeadGearIds
+  local clearHeadGear=false--tex DEBUG>
+  if clearHeadGear then
+    powerSettings.HELMET=nil
+    powerSettings.GAS_MASK=nil
+    powerSettings.NVG=true
+  end--<
 end
 
 this.faceModSlots={

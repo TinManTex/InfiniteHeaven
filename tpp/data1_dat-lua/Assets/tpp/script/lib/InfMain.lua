@@ -946,14 +946,6 @@ function this.IsDDEquip(missionId)
   return false
 end
 
-function this.IsDDBodyEquip(missionId)
-  local missionCode=missionId or vars.missionCode
-  if missionCode==30050 or missionCode==30250 then
-    return Ivars.mbDDSuit:Is()>0
-  end
-  return false
-end
-
 function this.MinMaxIvarRandom(ivarName)
   local ivarMin=Ivars[ivarName.."_MIN"]
   local ivarMax=Ivars[ivarName.."_MAX"]

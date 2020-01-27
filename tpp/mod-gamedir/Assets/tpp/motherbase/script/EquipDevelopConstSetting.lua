@@ -56,6 +56,8 @@
 
 --name,description,long name are in: \Assets\tpp\lang\ui\tpp_weapon.eng.lng2
 
+--parameters continue in EquipDevelopFlowSetting.lua
+
 local descriptiveParamToParamName={
   equipDevelopID="p00",
   equipID="p01",

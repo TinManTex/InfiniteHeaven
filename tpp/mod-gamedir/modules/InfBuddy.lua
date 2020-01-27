@@ -109,7 +109,7 @@ function this.ChangeBuddyVar(commandInfo,setting)
     return
   end
 
-  if Ivars.skipDevelopChecks:Is(0) then
+  if Ivars.allowUndevelopedDDEquip:Is(0) then
     local equipDevelopID=varInfo.equipDevelopID
     if equipDevelopID and not TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=equipDevelopID} then
       InfMenu.Print(varInfo.name..InfMenu.LangString"not_developed")

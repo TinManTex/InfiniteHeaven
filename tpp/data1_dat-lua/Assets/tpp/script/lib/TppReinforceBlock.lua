@@ -133,7 +133,7 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
     return
   end
   if reinforceType==this.REINFORCE_TYPE.HELI and GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"then
-    InfCore.Log"LoadReinforceBlock reinforcetype heli, has TppEnemyHeli"--tex DEBUG
+    InfCore.Log"LoadReinforceBlock reinforcetype heli, has TppEnemyHeli, aborting"--tex DEBUG
     return
   end
   local reinforceBlockId=this.GetReinforceBlockId()

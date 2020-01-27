@@ -13,10 +13,10 @@ Disables self on FOB
 FOB mode automatically uses defaults/unmodified, this does not affect saved settings on return.
 
 Abort to ACC from title continue
-At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking on continue will load ACC instead of continuing mission.
+At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking Continue will load ACC instead of continuing mission.
 
 Manually trigger Skulls attack on Quarantine platform.
-After you have captures some Skulls attack the in their cages to trigger an attack.
+After you have captured some Skulls attack them in their cages to trigger an attack.
 
 Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen.
 The entries will show as a white square with '---' as the text. WARNING: Do not equip these on FOB as there is an equipment check.
@@ -25,20 +25,20 @@ Manually trigger Skulls attack on Quarantine platform.
 After you have captures some Skulls attack the in their cages to trigger an attack.
 
 Toggle Disable pull-out in support heli.
-Pressing <Change Stance> while support heli will toggle Disable pull-out. If changing from pull-out to no pull-out you'll still have to exit and enter the heli, but if in disable pull-out pressing it will cause a pull-out.
+Pressing <Change Stance> while support heli will toggle Disable pull-out. If changing from pull-out to pull-out disabled you'll still have to exit and enter the heli, but while pull-out is disabled pressing it will cause heli to pull-out.
 
 Manually trigger open heli door at mission start.
 Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.
 
 Pause and restart cutscenes.
-Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the custscene.
+Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene.
 
 Quick menu commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 
 Profiles.
-Editable lists of options, see InfProfiles.lua in mod folder.
+Editable lists of options, see MGS_TPPmodprofiles folder.
 
 Reload lua scripts in MGS_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
@@ -75,7 +75,7 @@ ACC Main menu
 IH system menu
 --------------
 1: Select profile : <Profile type>
-Selects a profile described in InfProfiles.lua. Press the &ltAction&gt button to apply the settings of the selected profile.
+Selects a profile from MGS_TPPmodprofiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
 2: Set profile options to game defaults : (Command)
 Sets the options described in the selected profile to their default setting.
 3: Enable Quick Menu : Off, On
@@ -276,14 +276,16 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Reset enemy preparedness levels : (Command)
+7: Custom soldier type in Free roam : Off, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
+Override the soldier type of enemy soldiers in Free Roam
+8: Reset enemy preparedness levels : (Command)
 Resets enemy prep levels to 0
-8: Print enemy prep levels : (Command)
-9: Random CP subtype in free roam : Off, On
+9: Print enemy prep levels : (Command)
+10: Random CP subtype in free roam : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
-10: Random CP subtype in missions : Off, On
+11: Random CP subtype in missions : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
-11: IH interrogation in free roam : Off, On
+12: IH interrogation in free roam : Off, On
 Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
 
 Custom prep menu
@@ -500,8 +502,8 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
-5: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
+4: DD Suit : Off, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
+5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available, Half
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
@@ -672,7 +674,7 @@ appearanceDebugMenu
 5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
 6: playerPartsTypeDirect : 0-100
 7: playerCamoTypeDirect : 0-1000
-8: playerFaceIdDirect : 0-687
+8: playerFaceIdDirect : 0-730
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : (Command)
 11: Print appearance info : (Command)
@@ -869,7 +871,7 @@ appearanceDebugMenu
 5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
 6: playerPartsTypeDirect : 0-100
 7: playerCamoTypeDirect : 0-1000
-8: playerFaceIdDirect : 0-687
+8: playerFaceIdDirect : 0-730
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : (Command)
 11: Print appearance info : (Command)

@@ -18,59 +18,12 @@
           <value>0x00000000</value>
         </property>
         <property name="dataList" type="EntityPtr" container="StringMap" arraySize="2">
-          <value key="GameObjectTppHostage2">0x02D7BED0</value>
           <value key="TexturePackLoadConditioner0000">0x0739A6C0</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="GameObject" classVersion="2" addr="0x02D7BED0" unknown1="88" unknown2="9904">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>GameObjectTppHostage2</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x02D7BDF0</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppHostage2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="totalCount" type="uint32" container="StaticArray" arraySize="1">
-          <value>6</value>
-        </property>
-        <property name="realizedCount" type="uint32" container="StaticArray" arraySize="1">
-          <value>6</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x02D7BF40</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppHostage2Parameter" classVersion="1" addr="0x02D7BF40" unknown1="176" unknown2="9906">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x02D7BED0</value>
-        </property>
-        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value>/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts</value>
-        </property>
-        <property name="motionGraphFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value>/Assets/tpp/motion/motion_graph/hostage2/Hostage2_layers.mog</value>
-        </property>
-        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value>/Assets/tpp/motion/mtar/hostage2/Hostage2_layers.mtar</value>
-        </property>
-        <property name="extensionMtarFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-        <property name="vfxFiles" type="FilePtr" container="StringMap" />
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
+  
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0739A6C0" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

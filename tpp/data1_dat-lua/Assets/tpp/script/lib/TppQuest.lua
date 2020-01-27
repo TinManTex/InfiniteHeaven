@@ -1600,6 +1600,7 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   end
 end
 function this.OnDeactivate(t)
+  InfCore.LogFlow("TppQuest.OnDeactivate:")--tex DEBUG
   if t.questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
     this.OnFinishShootingPractice()
     this.ShootingPracticeStopAllTimer()
@@ -2016,6 +2017,7 @@ function this.UpdateQuestBlockStateAtActive(blockIndexX,blockIndexY)
   end
 end
 function this.QuestBlockOnInitialize(questScript)
+  InfCore.LogFlow("TppQuest.QuestBlockOnInitialize")--tex
   local Messages=questScript.Messages
   if IsTypeFunc(Messages)then
     local messageExecTable=Messages()
@@ -2275,12 +2277,13 @@ function this.GetQuestName(questIdNumber)
   end
 end
 function this.ExecuteSystemCallback(callbackName)
+  InfCore.LogFlow("TppQuest.ExecuteSystemCallback:"..callbackName)--tex DEBUG
   if mvars.qst_systemCallbacks==nil then
     return
   end
   local CallBackFunc=mvars.qst_systemCallbacks[callbackName]
   if CallBackFunc then
-    return CallBackFunc()
+    return InfCore.PCallDebug(CallBackFunc)--tex wrapped in pcall
   end
 end
 function this.IsInvoking()
@@ -2305,6 +2308,7 @@ function this.UpdateOpenQuest()
 end
 --tex heavily REWORKED
 function this.UpdateActiveQuest(updateFlags)
+  InfCore.PCallDebug(function(updateFlags)--tex wrapped in pcall
   InfCore.LogFlow("TppQuest.UpdateActiveQuest "..vars.missionCode)--tex DEBUG
   if not mvars.qst_questList then
     return
@@ -2465,6 +2469,7 @@ function this.UpdateActiveQuest(updateFlags)
       return
     end
   end
+  end,updateFlags)--tex pcall wrap
 end
 --tex ORIG:
 --function this.UpdateActiveQuest(updateFlags)
@@ -2723,6 +2728,7 @@ function this.UpdateRepopFlag(questIndex)
   this.UpdateRepopFlagImpl(questAreaTable)
 end
 function this.UpdateRepopFlagImpl(locationQuests)
+  InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
   local forceRepop=Ivars.unlockSideOps:Is()>0--tex
   local numOpen=0
   for n,questInfo in ipairs(locationQuests.infoList)do
@@ -2751,6 +2757,7 @@ function this.UpdateRepopFlagImpl(locationQuests)
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
     end
   end
+  end,locationQuests)--tex pcall wrap
 end
 function this.CheckAllClearBounus()
   if gvars.qst_allQuestCleared then
@@ -2814,7 +2821,7 @@ function this.NeedUpdateActiveQuest(updateFlags)
     return false
   end
 
-  --tex DEBUGNOW TODO add fix for if all quests disabled (is it all open, or active false that messes it up?)
+  --tex TODO add fix for if all quests disabled (is it all open, or active false that messes it up?)
   return true
 end
 function this.CanOpenSideOpsList()

@@ -29,7 +29,7 @@ this.eng={--english
   patchupMenu="Patchup menu",
   playerHealthScale="Player life scale",
   mbSoldierEquipRange="MB Equip Range Type (MB Prep mode FOB only)",
-  mbDDSuit="DD Suit",
+  customSoldierTypeMB_ALL="DD Suit",
   mbWarGamesProfile="Mother Base War Games",
   clockTimeScale="Clock time scale",
   unlockPlayableAvatar="Unlock playable avatar",
@@ -222,16 +222,14 @@ this.eng={--english
   randomizeSmallCpPowers="Balance small CPs",
   mbDDHeadGear="DD Head gear",--r115
   mbDDHeadGearSettings={"Off","Current prep"},
-  mbDDSuitSettings={
+  customSoldierTypeSettings={
     "Off",
-    "Use Equip Grade",
     "Drab",
     "Tiger",
     "Sneaking",
     "Battle Dress",
     "Swimwear",
     "PF Riot Suit",
-    "XOF",
     "Soviet",
     "Soviet Urban",
     "CFA",
@@ -242,7 +240,12 @@ this.eng={--english
     "Soviet All",
     "PF misc",
     "PF All",
-    "Militaires Sans Frontières",
+    "MSF GZ",
+    "MSF TPP",
+    "XOF",
+    "XOF Gasmasks",
+    "XOF GZ",
+    "Genome Soldier",
   },
   revengeCustomMenu="Custom prep menu",--r117
   revengeSystemMenu="Prep system menu",
@@ -268,9 +271,9 @@ this.eng={--english
   allowUndevelopedDDEquip="Allow undeveloped DD weapons",
   revengeModeFREE="Free roam prep mode",
   revengeModeMISSION="Missions prep mode",
-  revengeModeMB="Mother base prep mode",
+  revengeModeMB_ALL="Mother base prep mode",
   revengeModeSettings={"Enemy prep levels","Custom prep","Prep levels + Custom overrides"},
-  revengeModeMBSettings={"Off","FOB style","Enemy prep levels","Custom prep","Prep levels + Custom overrides"},
+  revengeModeMB_ALLSettings={"Off","FOB style","Enemy prep levels","Custom prep","Prep levels + Custom overrides"},
   mbDemoOverrideTime="Override time",
   mbDemoOverrideTimeSettings={"Cutscene default","Current","Custom"},
   mbDemoHour="Hour",
@@ -301,8 +304,8 @@ this.eng={--english
   fultonHostageHandlingSettings={"Default","Must extract (0%)"},
   disableCamText="Disable mode text feedback",--r128
   mbDDEquipNonLethal="DD equipment non-lethal",
-  mbDDSuitFemale="DD Suit female",--r130
-  mbDDSuitFemaleSettings={"Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress","Swimsuit"},
+  customSoldierTypeFemaleMB_ALL="DD Suit female",--r130
+  customSoldierTypeFemaleMB_ALLSettings={"Off","Drab","Tiger","Sneaking","Battle Dress","Swimsuit"},
   mbPrioritizeFemale="Female staff selection",
   mbPrioritizeFemaleSettings={"Default","None","All available","Half"},
   enableLrrpFreeRoam="Foot patrols in free roam",
@@ -538,6 +541,7 @@ this.eng={--english
   disableOutOfBoundsChecks="Disable out of bounds checks",
   disableGameOver="Disable game over",
   forceDemoAllowAction="Force allow actions",
+  customSoldierTypeFREE="Custom soldier type in Free roam",
 }--eng end
 
 this.help={}
@@ -692,11 +696,12 @@ this.help.eng={
   debugFlow="Logs some script execution flow, requires Debug IH mode to be on.",
   debugMessages="Logs game message system, requires Debug IH mode to be on.",
   skipLogos="Stops the konami/kjp/fox/nvidia logos from showing.",
-  selectProfile="Selects a profile described in InfProfiles.lua. Press the <Action> button to apply the settings of the selected profile.",
+  selectProfile="Selects a profile from MGS_TPP\mod\profiles folder. Press the <Action> button to apply the settings of the selected profile.",
   resetSelectedProfile="Sets the options described in the selected profile to their default setting.",
   sideOpsCategoryMenu="Filters selection of sideops per category, Sideop selection mode will override this.",
   enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
   forceDemoAllowAction="Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.",
+  customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam",
 }
 
 this.cpNames={

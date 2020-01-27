@@ -155,24 +155,6 @@ this.showQuietReunionMissionCount={
   end,
 }
 
-this.loadMission={
-  OnChange=function()
-    local settingStr=Ivars.manualMissionCode.settings[Ivars.manualMissionCode:Get()+1]
-    InfCore.DebugPrint("TppMission.Load "..settingStr)
-    --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
-    --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    gvars.mis_nextMissionCodeForMissionClear=tonumber(settingStr)
-    mvars.mis_showLoadingTipsOnMissionFinalize=false
-    --mvars.heli_missionStartRoute
-    --mvars.mis_nextLayoutCode
-    --mvars.mis_nextClusterId
-    --mvars.mis_ignoreMtbsLoadLocationForce
-
-    TppMission.ExecuteMissionFinalize()
-  end,
-}
-
 this.ogrePointChange=999999
 this.setDemon={
   OnChange=function(self)
@@ -633,6 +615,8 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
+
+
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
@@ -642,16 +626,12 @@ this.DEBUG_SomeShiz={
   end
 }
 
-local index2Min=1--0
-local index2Max=600--14
+local index2Min=300
+local index2Max=334
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
-
-
-
-
 
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -664,16 +644,17 @@ this.DEBUG_SomeShiz2={
 local index3Min=1
 local index3Max=10
 local index3=index3Min
+local toggle3=false
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz3---")
-  
 
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
     end
+    toggle3=not toggle3
   end
 }
 

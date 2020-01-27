@@ -51,6 +51,10 @@ function this.FillList(fillCount,sourceList,fillList)
 end
 
 function this.CopyList(sourceList)
+  if #sourceList==0 then
+    return
+  end
+  
   local newList={}
   for i=1,#sourceList do
     newList[i]=sourceList[i]
