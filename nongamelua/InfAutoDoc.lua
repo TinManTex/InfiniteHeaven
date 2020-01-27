@@ -85,7 +85,9 @@ local function GetSettingText(option)
 end
 
 local function GatherMenus(currentMenu,skipItems,menus,menuNames)
-  for i,item in ipairs(currentMenu)do
+  --print("GatherMenus:")
+  for i,itemRef in ipairs(currentMenu)do
+    local item=InfMenu.GetOptionFromRef(itemRef)
     if skipItems and skipItemsList[item.name] then
     else
       if IsMenu(item) and not menuNames[item.name] then
@@ -129,7 +131,8 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
   table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],menu.name,menuDisplayName))
 
   local hasItems=false
-  for i,item in ipairs(menu.options)do
+  for i,itemRef in ipairs(menu.options)do
+    local item=InfMenu.GetOptionFromRef(itemRef)
     if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
       hasItems=true
     end
@@ -153,7 +156,8 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
   local underLine=CharacterLine("-",underLineLength)
   table.insert(textTable,underLine)
 
-  for i,item in ipairs(menu.options)do
+  for i,itemRef in ipairs(menu.options)do
+    local item=InfMenu.GetOptionFromRef(itemRef)
     table.insert(htmlTable,[[<div id="menuItem">]])
 
     if skipItems and skipItemsList[item.name] then
@@ -258,6 +262,8 @@ local featuresOutputName="Features and Options"
 
 FeaturesHeader=require"FeaturesHeader"
 function this.AutoDoc()
+  print("AutoDoc:")
+
   local textTable={}
   local htmlTable={}
   local profileTable={}
@@ -271,6 +277,7 @@ function this.AutoDoc()
   table.insert(htmlTable,"</head>")
   table.insert(htmlTable,"<body>")
 
+  print("FeaturesHeader:")
   for i,section in pairs(FeaturesHeader)do
     table.insert(textTable,section.title)
     local underLineLength=string.len(section.title)
@@ -354,12 +361,14 @@ function this.AutoDoc()
   local heliSpaceMenus={}
   local heliSpaceMenuNames={}
 
+  print("GatherMenus heliSpace:")
   GatherMenus(menu,skipItems,heliSpaceMenus,heliSpaceMenuNames)
   --InfCore.PrintInspect(heliSpaceMenus)
   table.insert(heliSpaceMenus,1,InfMenuDefs.heliSpaceMenu)
 
   local priorItems={}
 
+  print("PrintMenuSingle heliSpace:")
   local menuCount=1
   for i,menu in ipairs(heliSpaceMenus)do
     PrintMenuSingle(nil,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
@@ -369,12 +378,14 @@ function this.AutoDoc()
 
   table.insert(textTable,"===============")
   table.insert(textTable,"")
+  print("GatherMenus inMissionMenu:")
   menu=InfMenuDefs.inMissionMenu.options
   local inMissionMenus={}
   local inMissionMenuNames={}
   GatherMenus(menu,skipItems,inMissionMenus,inMissionMenuNames)
   table.insert(inMissionMenus,1,InfMenuDefs.inMissionMenu)
   --InfCore.PrintInspect(inMissionMenus)
+  print("PrintMenuSingle inMissionMenus:")
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
     PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
@@ -399,6 +410,7 @@ function this.AutoDoc()
   table.insert(profileTable,"")
   table.insert(profileTable,"return this")
 
+  print("Writing output:")
   local textFilePath=outputFolder..featuresOutputName..".txt"
   local textFile=io.open(textFilePath,"w")
 

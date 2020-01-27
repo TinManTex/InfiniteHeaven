@@ -15,12 +15,15 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="216"
+this.modVersion="218"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
 
 --STATE
+this.session=os.time()--tex using os.time as session id
+this.extSession=0
+
 this.debugMode=true--tex (See GOTCHA below -v-)
 --tex TODO combine into loadState
 this.doneStartup=false
@@ -32,10 +35,12 @@ this.otherModulesOK=false
 
 this.log={}
 
-this.cmdToExtCompletedIndex=1--tex min/confirmed executed by ext
-this.cmdToExtCurrentIndex=0--tex current/max
-this.toExtCommands={}
-this.cmdToMgsvCompletedIndex=0--tex min/confirmed executed by mgsv
+this.mgsvToExtCommands={}
+
+this.mgsvToExtCurrent=0--tex current/max, last command to be written out
+this.mgsvToExtComplete=0--tex min/confirmed executed by ext, only commands above this should be written out
+
+this.extToMgsvComplete=0--tex min/confirmed executed by mgsv
 
 this.logErr=""
 this.str32ToString={}
@@ -76,15 +81,15 @@ function this.ClearLog()
 end
 
 --tex cant log error to log if log doesnt log lol
-function this.WriteLog(filePath,log,startIndex,endIndex)
+function this.WriteLog(filePath,log)
   local logFile,openError=open(filePath,"w")
   if not logFile or openError then
-    --this.DebugPrint("Create log error: "..tostring(error))
+    --this.DebugPrint("Create log error: "..tostring(openError))
     this.logErr=tostring(openError)
     return
   end
 
-  logFile:write(concat(log,nl,startIndex,endIndex))
+  logFile:write(concat(log,nl))
   logFile:close()
 end
 
@@ -131,6 +136,7 @@ function this.WriteLogLine(message)
   logFile:write(logText..line,nl)
   logFile:close()
 end
+
 
 function this.FileExists(filePath)
   local file,openError=open(filePath,"r")
@@ -249,50 +255,58 @@ function this.PrintInspect(var,options)
   this.Log(ins,options.announceLog)
 end
 
-function this.ExtCmd(cmd,args)
-  if ivars.postExtCommands==0 then
+function this.StartExt()
+  local programPath
+
+  for i,filePath in ipairs(this.filesFull.mod)do
+    if string.find(filePath,"IHExt.exe") then
+      programPath=filePath
+      break
+    end
+  end
+  
+  --programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUGNOW
+
+  if not programPath then
+    InfCore.Log("WARNING: StartExt: Could not find IHExt.ext in MGS_TPP\mod\ ",true,true)
     return
   end
 
-  this.cmdToExtCurrentIndex=this.cmdToExtCurrentIndex+1
-
-  args=args or {}
-  if type(args)=="string" then
-    args={args}
-  end
-
-  local message=this.cmdToExtCurrentIndex.."|"..cmd
-  if #args>0 then
-    message=message.."|"..table.concat(args,"|")
-  end
-
-  this.toExtCommands[this.cmdToExtCurrentIndex]=message
-
-  this.toExtCommands[1]="0|cmdToMgsvCompletedIndex|"..this.cmdToMgsvCompletedIndex
-  this.WriteLog(this.toExtCmdsFilePath,this.toExtCommands,this.cmdToExtCompletedIndex)
-  --InfCore.PrintInspect(this.toExtCommands)--DEBUG
+  local strCmd = 'start "" '..programPath..' '..this.gamePath
+  InfCore.Log(strCmd)
+  os.execute(strCmd)
 end
 
---tex from ext to mgsv
-function this.DoToMgsvCommands()
-  local lines=this.GetLines(this.toMgsvCmdsFilePath)
-  if lines then
-    for i,line in ipairs(lines)do
-      local args=InfUtil.Split(line,"|")
-      local messageId=tonumber(args[1])
-      if messageId > this.cmdToMgsvCompletedIndex then
-        --DEBUGNOW TODO exec command
+function this.IHExtRunning()
+  return ivars and ivars.enableIHExt>0 and this.extSession~=0
+end
 
-        this.cmdToMgsvCompletedIndex=messageId
-      end
-    end
+function this.ExtCmd(cmd,...)
+  InfMgsvToExt.ExtCmd(cmd,...)--DEBUGNOW external so can reload it while working on it
+end
 
-    --tex completed ext to mgsv commands completed index is written to mgsv to ext file since
-    --since mgsv should only read incomming and write outgoing file
-    --(and visa versa for whatever is writing ext to mgsv commands).
-    this.toExtCommands[1]="0|cmdToMgsvCompletedIndex|"..this.cmdToMgsvCompletedIndex
-    this.WriteLog(this.toExtCmdsFilePath,this.toExtCommands,this.cmdToExtCompletedIndex)
+local concat=table.concat
+local nl="\r\n"
+local open=io.open
+function this.WriteToExtTxt()
+  local filePath=this.toExtCmdsFilePath
+  local file,openError=open(filePath,"w")
+  if not file or openError then
+    this.Log("WriteToExtTxt: ERROR: "..tostring(openError))
+    return
   end
+  --tex completed ext to mgsv commands completed index is written to mgsv to ext file since
+  --since mgsv should only read incomming and write outgoing file
+  --(and visa versa for whatever is writing ext to mgsv commands).
+  local sessionInfo=this.session.."|extToMgsvComplete|"..this.extToMgsvComplete
+
+  --tex only write from mgsvToExtComplete to mgsvToExtCurrent
+  if this.mgsvToExtCommands[this.mgsvToExtComplete+1] then
+    file:write(sessionInfo,nl,concat(this.mgsvToExtCommands,nl,this.mgsvToExtComplete+1))
+  else
+    file:write(sessionInfo)
+  end
+  file:close()
 end
 
 --tex altered from Tpp.DEBUG_Where
@@ -387,6 +401,33 @@ function this.GetGameObjectId(nameOrType,name)
     end
   end
   return gameId
+end
+
+--tex parses a string reference (SomeModule.someVar) and returns var
+function this.GetStringRef(strReference)
+  if type(strReference)~="string" then
+    InfCore.Log("WARNING GetStringRef: strReference~=string")
+    return nil
+  end
+  local split=InfUtil.Split(strReference,".")
+  if #split<2 then--tex <module>.<name>
+    InfCore.Log("WARNING GetStringRef: #split<2 for "..tostring(strReference),true,true)
+    return nil
+  end
+  local module=_G[split[1]]
+  if module==nil then
+    InfCore.Log("WARNING GetStringRef: could not find module "..tostring(split[1]),true,true)
+    return nil
+  end
+
+  local reference=module[split[2]]
+  if reference==nil then
+    InfCore.Log("WARNING GetStringRef: could not find reference "..strReference,true,true)
+    return nil
+  end
+  --tex TODO: could probably keep recursing down split for nested references
+
+  return reference,split[2]
 end
 
 function this.GetModuleName(scriptPath)
@@ -534,6 +575,9 @@ function this.GetLines(fileName)
         --      end
 
         lines=file:read("*all")
+      end
+      file:close()
+      if lines then
         if luaHostType=="LDT" then--DEBUGNOW KLUDGE differences in line end between implementations
           lines=InfUtil.Split(lines,"\n")
         else
@@ -543,7 +587,6 @@ function this.GetLines(fileName)
           lines[#lines]=nil
         end
       end
-      file:close()
     end
     return lines
   end,fileName)

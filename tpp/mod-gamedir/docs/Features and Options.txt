@@ -78,21 +78,23 @@ ACC Main menu
 
 IH system menu
 --------------
-1: Select profile : <Profile type>
+1: Enable IHExt : Off, On
+IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
+2: Select profile : <Profile type>
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
-2: Set profile options to game defaults : (Command)
+3: Set profile options to game defaults : (Command)
 Sets the options described in the selected profile to their default setting.
-3: Save to UserSaved profile : (Command)
+4: Save to UserSaved profile : (Command)
 Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
-4: Enable Quick Menu : Off, On
+5: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-5: Start offline : Off, On
+6: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-6: Skip startup logos : Off, On
+7: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-7: Load addon mission : 
-8: Include addon missions in completion percentage : Off, On
-9: Reset all IH settings : (Command)
+8: Load addon mission : 
+9: Include addon missions in completion percentage : Off, On
+10: Reset all IH settings : (Command)
 
 Events menu
 -----------
@@ -467,10 +469,10 @@ Patrols and deployments menu
 Foot patrols will travel between random CPs and will cross the field to get there.
 2: Wildcard soldiers Free roam : Off, On
 Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
-3: Heli patrols in free roam : Off, On
+3: Attack heli patrols in free roam : 0-4
 Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
-4: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
-Spawns some npc helis that roam around mother base.
+4: Attack heli patrols in MB : 0-4
+Spawns some npc attack helis that roam around mother base.
 5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
 6: Walker gears in free roam : Off, On
 Adds a Walker gear to each main base.
@@ -498,7 +500,7 @@ Sideops are broken into areas to stop overlap, this setting lets you control the
 6: Show all open sideops : Off, On
 Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.
 7: Force enable enemy heli reinforce (disable heli sideops) : Off, On
-8: Include IH sideops in completion percentage : Off, On
+8: Include add-on sideops in completion percentage : Off, On
 
 Sideops category filter menu
 - Filters selection of sideops per category, Sideop selection mode will override this.
@@ -527,31 +529,33 @@ Mother Base menu
 4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
 5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit
 6: DD Head gear : Off, Current prep
-7: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
-Spawns some npc helis that roam around mother base.
-8: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-9: Walker gears in MB : Off, On
-10: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
-11: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
-12: Repopulate plants and diamonds : Off, On
+7: NPC support heli patrols in MB : 0-3
+Spawns some npc support helis that roam around mother base.
+8: Attack heli patrols in MB : 0-4
+Spawns some npc attack helis that roam around mother base.
+9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+10: Walker gears in MB : Off, On
+11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
+12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
+13: Repopulate plants and diamonds : Off, On
 Regenerates plants on Zoo platform and diamonds on Mother base over time.
-13: Enemy prep decrease on long MB visit : Off, On
+14: Enemy prep decrease on long MB visit : Off, On
 Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
-14: Enable all buddies : Off, On
+15: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-15: More soldiers on MB plats : Off, On
+16: More soldiers on MB plats : Off, On
 Increases soldiers on platforms from 4 soldiers to 9.
-16: Force enable Quaranine platform soldiers : Off, On
+17: Force enable Quaranine platform soldiers : Off, On
 Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
-17: Soldiers move between platforms : Off, On
+18: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
-18: Staff menu
-19: Show characters menu
-20: Show assets menu
-21: Allow lethal actions : Off, On
+19: Staff menu
+20: Show characters menu
+21: Show assets menu
+22: Allow lethal actions : Off, On
 Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
-22: Women in Enemy Invasion mode : 0-100%
-23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+23: Women in Enemy Invasion mode : 0-100%
+24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
 
 Staff menu
 ----------
@@ -702,19 +706,18 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: postExtCommands : Off, On
-6: loadExternalModules : (Command)
-7: copyLogToPrev : (Command)
-8: printPressedButtons : Off, On
-9: Show freecam position : (Command)
-10: Show position : (Command)
-11: Show missionCode : (Command)
-12: Show game language code : (Command)
-13: appearanceDebugMenu
-14: Disable game over : Off, On
-15: Disable out of bounds checks : Off, On
-16: Disable mission intro credits : Off, On
-17: manualMissionCode : 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050
+5: loadExternalModules : (Command)
+6: copyLogToPrev : (Command)
+7: printPressedButtons : Off, On
+8: Show freecam position : (Command)
+9: Show position : (Command)
+10: Show missionCode : (Command)
+11: Show game language code : (Command)
+12: appearanceDebugMenu
+13: Disable game over : Off, On
+14: Disable out of bounds checks : Off, On
+15: Disable mission intro credits : Off, On
+16: manualMissionCode : 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050
 
 appearanceDebugMenu
 -------------------
@@ -926,26 +929,25 @@ Logs game message system, requires Debug IH mode to be on.
 5: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 6: debugOnUpdate : Off, On
-7: postExtCommands : Off, On
-8: loadExternalModules : (Command)
-9: copyLogToPrev : (Command)
-10: setSelectedObjectToMarkerClosest : (Command)
-11: selectedCp : no cp for setting
-12: setSelectedCpToMarkerObjectCp : (Command)
-13: setSelectedCpToMarkerClosestCp : (Command)
-14: DEBUG_PrintCpPowerSettings : (Command)
-15: DEBUG_PrintPowersCount : (Command)
-16: DEBUG_PrintReinforceVars : (Command)
-17: DEBUG_PrintSoldierDefine : (Command)
-18: DEBUG_ShowRevengeConfig : (Command)
-19: appearanceDebugMenu
-20: printPressedButtons : Off, On
-21: printOnBlockChange : Off, On
-22: Disable game over : Off, On
-23: Disable out of bounds checks : Off, On
-24: setAllFriendly : (Command)
-25: Show freecam position : (Command)
-26: Show position : (Command)
+7: loadExternalModules : (Command)
+8: copyLogToPrev : (Command)
+9: setSelectedObjectToMarkerClosest : (Command)
+10: selectedCp : no cp for setting
+11: setSelectedCpToMarkerObjectCp : (Command)
+12: setSelectedCpToMarkerClosestCp : (Command)
+13: dEBUG_PrintCpPowerSettings : (Command)
+14: dEBUG_PrintPowersCount : (Command)
+15: dEBUG_PrintReinforceVars : (Command)
+16: dEBUG_PrintSoldierDefine : (Command)
+17: dEBUG_ShowRevengeConfig : (Command)
+18: appearanceDebugMenu
+19: printPressedButtons : Off, On
+20: printOnBlockChange : Off, On
+21: Disable game over : Off, On
+22: Disable out of bounds checks : Off, On
+23: setAllFriendly : (Command)
+24: Show freecam position : (Command)
+25: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

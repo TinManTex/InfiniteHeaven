@@ -129,7 +129,7 @@ this.ShuffleBag={
 --string
 --tex NMC from lua wiki
 function this.Split(self,sep)
-  local sep = sep or ":"
+  local sep = sep or " "
   local fields = {}
   local pattern = string.format("([^%s]+)", sep)
   self:gsub(pattern, function(c) fields[#fields+1] = c end)

@@ -717,4 +717,20 @@ function this.GetScript(scriptName)
   end
 end
 
+--Commands
+this.ForceAllQuestOpenFlagFalse=function()
+  for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
+    gvars.qst_questOpenFlag[questIndex]=false
+    gvars.qst_questActiveFlag[questIndex]=false
+  end
+  TppQuest.UpdateActiveQuest()
+  InfMenu.PrintLangId"done"
+end
+
+this.RerollQuestSelection=function()
+  InfMain.RegenSeed(vars.missionCode,vars.missionCode)
+
+  InfQuest.UpdateActiveQuest()
+end
+
 return this

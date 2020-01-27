@@ -13,7 +13,6 @@ this.coreModules={
   "Ivars",
   "IvarsPersist",
   "InfMenuCommands",
-  "InfQuickMenuCommands",
   "InfLang",
   "InfMenuDefs",
   "InfQuickMenuDefs",

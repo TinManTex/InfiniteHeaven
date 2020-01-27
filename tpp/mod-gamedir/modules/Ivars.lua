@@ -93,12 +93,21 @@ this.debugOnUpdate={
   end,
 }
 
-this.postExtCommands={
+this.enableIHExt={
   inMission=true,
-  nonConfig=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+  OnChange=function(self,prevSetting,setting)
+    if setting==1 then
+      if InfCore.extSession==0 then
+        InfCore.StartExt()
+        InfMenu.MenuOff()--tex stuff is only triggered on menu on
+      else
+        InfCore.ExtCmd("shutdown")--DEBUGNOW TODO wont actually fire since ExtCmd aborts on enableIHExt off
+      end
+    end
+  end,
 }
 
 this.printPressedButtons={
@@ -219,7 +228,7 @@ this.playerHealthScale={
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
-      return
+     --DEBUGNOW return
     end
     InfMain.ChangeMaxLife(true)
   end,
@@ -421,7 +430,7 @@ this.mbWarGamesProfile={
       mbNonStaff=1,
       mbEnableFultonAddStaff=1,
       mbZombies=0,
-      heliPatrolsMB="HP48",
+      attackHeliPatrolsMB="HP48",
       mbEnemyHeli=1,
     },
     ZOMBIE_DD={
@@ -503,6 +512,7 @@ this.mbZombies={
   settingNames="set_switch",
 }
 
+--tex attackHelis on mb hostile or not
 this.mbEnemyHeli={
   nonUser=true,
   save=EXTERNAL,
@@ -1609,22 +1619,20 @@ this.vehiclePatrolEmblemType={
 
 IvarProc.MissionModeIvars(
   this,
-  "heliPatrols",
+  "attackHeliPatrols",
   {
     save=EXTERNAL,
-    settings={"OFF","ON"},
+    range={max=4,min=0,increment=1},
   },
   {"FREE","MB",}
 )
 
-this.heliPatrolsMB.settings={"OFF","UTH","HP48","UTH_AND_HP48"}
-
---CULL
---this.enemyHeliPatrol={
---  save=EXTERNAL,
---  settings={"OFF","1","3","5","7","ENEMY_PREP"},
---  MissionCheck=IvarProc.MissionCheckFree,
---}
+--DEBUGNOW
+this.supportHeliPatrolsMB={
+  save=EXTERNAL,
+  range={max=3,min=0,increment=1},
+  MissionCheck=IvarProc.MissionCheckMb,
+}
 
 this.putEquipOnTrucks={
   save=EXTERNAL,

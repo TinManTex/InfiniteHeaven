@@ -82,6 +82,7 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnLoad) then
+      InfCore.LogFlow(module.name..".OnLoad:")
       InfCore.PCallDebug(module.OnLoad,nextMissionCode,currentMissionCode)
     end
   end
@@ -95,6 +96,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.PreMissionLoad) then
+      InfCore.LogFlow(module.name..".PreMissionLoad:")
       InfCore.PCallDebug(module.PreMissionLoad,missionId,currentMissionId)
     end
   end
@@ -159,6 +161,7 @@ function this.OnAllocate(missionTable)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnAllocate) then
+      InfCore.LogFlow(module.name..".OnAllocate:")
       InfCore.PCallDebug(module.OnAllocate,missionTable)
     end
   end
@@ -171,6 +174,7 @@ function this.MissionPrepare()
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.MissionPrepare) then
+      InfCore.LogFlow(module.name..".MissionPrepare:")
       InfCore.PCallDebug(module.MissionPrepare)
     end
   end
@@ -283,6 +287,7 @@ function this.Init(missionTable)
     local currentChecks=this.UpdateExecChecks(this.execChecks)
     for i,module in ipairs(InfModules)do
       if module.Init then
+        InfCore.LogFlow(module.name..".Init:")
         InfCore.PCallDebug(module.Init,missionTable,currentChecks)
       end
     end
@@ -297,6 +302,7 @@ function this.SetUpEnemy(missionTable)
   end
   for i,module in ipairs(InfModules) do
     if IsFunc(module.SetUpEnemy) then
+      InfCore.LogFlow(module.name..".SetUpEnemy:")
       InfCore.PCallDebug(module.SetUpEnemy,missionTable)
     end
   end
@@ -331,6 +337,7 @@ function this.AddMissionPacks(missionCode,packPaths)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.AddMissionPacks) then
+      InfCore.LogFlow(module.name..".AddMissionPacks:")
       InfCore.PCallDebug(module.AddMissionPacks,missionCode,packPaths)
     end
   end
@@ -347,6 +354,7 @@ function this.OnMissionCanStartBottom()
   local currentChecks=this.UpdateExecChecks(this.execChecks)
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnMissionCanStart) then
+      InfCore.LogFlow(module.name..".OnMissionCanStart:")
       InfCore.PCallDebug(module.OnMissionCanStart,currentChecks)
     end
   end
@@ -388,6 +396,7 @@ function this.OnReload(missionTable)
 
   for i,module in ipairs(InfModules)do
     if module.OnReload then
+      InfCore.LogFlow(module.name..".OnReload:")
       InfCore.PCallDebug(module.OnReload,missionTable)
     end
   end
@@ -402,6 +411,7 @@ function this.OnMissionGameEndTop()
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnMissionGameEnd) then
+      InfCore.LogFlow(module.name..".OnMissionGameEnd:")
       InfCore.PCallDebug(module.OnMissionGameEnd)
     end
   end
@@ -2020,6 +2030,7 @@ function this.LoadExternalModules(isReload)
     local module=_G[moduleName]
     if module then
       if IsFunc(module.PostAllModulesLoad) then
+        InfCore.LogFlow(module.name..".PostAllModulesLoad:")
         InfCore.PCallDebug(module.PostAllModulesLoad)
       end
     end

@@ -1,17 +1,13 @@
 ----loadLDT.lua
 
---DEBUGNOW DEBUGNOW
---local yield=coroutine.yield
---coroutine.yield=function(...)print("YIELDING")return yield(...)end
-
 --tex MockFox host stuff
 luaHostType="LDT"
 
 foxGamePath="C:/GamesSD/MGS_TPP/"--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
---foxGamePath=[[D:\Projects\MGS\MockFox\MockFox\Assets\MGS_TPP\]]--DEBUGNOW
+--foxGamePath=[[D:\Projects\MGS\MockFox\MockFox\Assets\MGS_TPP\]]
 
 foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"--tex path of tpps scripts (qar luas) -- IH
---foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified DEBUGNOW
+--foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified
 mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFoxLua/"--tex path of MockFox scripts
 
 package.path=nil--KLUDGE have mockfox default package path code run, will kill existing / LDT provided package.path

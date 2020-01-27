@@ -1,7 +1,7 @@
 = Infinite heaven =
-r216 - 2017-08-13
+r218 - 2017-08-31
 by tin man tex
-For MGSV version 1.10 (in title screen) 1.0.11.0 in exe
+For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -16,6 +16,16 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r218:
+Change: heliPatrolsMB, heliPatrolsFREE renamed attackHeliPatrolsFREE, attackHeliPatrolsFREE "Attack heli patrols in free roam",
+  "Attack heli patrols in MB", value is now number of attack helis.
+Option: supportHeliPatrolsMB - split from heliPatrolsMB, is number of support npc helis, count will take priority over attack helis to fit to number of mother base clusters built.
+Beyond giving some more control over amount of helis you face, it also lets things be a bit quieter in mother base while still having helis fly around. 
+Because of this change you will have to set the options again, sorry for the inconvenience.
+
+Fixed: ApplyProfile failing on random table of setting strings. 
+Fixed: ApplyProfile failing on missing ivar.
+
 New for r216:
 Fixed: Random roam event selection failing.
 
@@ -27,6 +37,8 @@ Option: mbForceBattleGearDevelopLevel - Force BattleGear built level - Changes t
 
 Options: MB Ocean options - adjust various parameters of ocean movement.
 (via MB Ocean menu while in mother base)
+[youtube]uh0iZfVDUUc[/youtube]
+https://youtu.be/uh0iZfVDUUc
 
 New for r215:
 Fixed: Hang on load, due to a ghost of an old file or something. Sorry.

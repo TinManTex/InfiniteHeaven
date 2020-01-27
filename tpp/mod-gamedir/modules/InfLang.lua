@@ -352,10 +352,9 @@ this.eng={--english
   startOnFootMISSION="Start missions on foot",
   startOnFootMB_ALL="Start Mother base on foot",
   onFootSettingsNames={"Off","All but assault LZs","All LZs"},
-  heliPatrolsFREE="Heli patrols in free roam",
-  heliPatrolsMB="Heli patrols in MB",
-  heliPatrolsFREESettings={"Off","On"},
-  heliPatrolsMBSettings={"Off","Support helis","Attack helis","Support and Attack helis"},--r144
+  attackHeliPatrolsFREE="Attack heli patrols in free roam",
+  attackHeliPatrolsMB="Attack heli patrols in MB",
+  supportHeliPatrolsMB="NPC support heli patrols in MB",
   mbMoraleBoosts="Staff-wide morale boost for good visit",--r146
   mb_morale_visit_noticed="Word has spread of your visit",
   mb_morale_boosted="Staff-wide morale has improved due to your visit",
@@ -420,7 +419,7 @@ this.eng={--english
     "Soviet attack",
     "Rogue Coyote attack",
     "XOF attack",
-    "Femme Fatales",
+    "Femme Fatales attack",
     "DD Infection outbreak",
     "Zombie Obliteration (non DD)",
   },
@@ -550,13 +549,13 @@ this.eng={--english
   resourceScalePoster="Poster scale",
   resourceScaleDiamond="Diamond scale",
   resourceScaleContainer="Container scale",
-  DEBUG_PrintRevengePoints="Print enemy prep levels",
+  dEBUG_PrintRevengePoints="Print enemy prep levels",
   disableOutOfBoundsChecks="Disable out of bounds checks",
   disableGameOver="Disable game over",
   forceDemoAllowAction="Force allow actions",
   customSoldierTypeFREE="Custom soldier type in Free roam",
   mbAdditionalNpcs="Additional NPCs",
-  ihSideopsPercentageCount="Include IH sideops in completion percentage",
+  ihSideopsPercentageCount="Include add-on sideops in completion percentage",
   saveToProfile="Save to UserSaved profile",
   mbShowShips="Show ships",
   enableFultonAlarmsMB="Enable asset alarms",
@@ -599,6 +598,7 @@ this.eng={--english
   mbShowHuey="Show Huey",
   mbForceBattleGearDevelopLevel="Force BattleGear built level",
   mbOceanMenu="MB Ocean menu",
+  enableIHExt="Enable IHExt",
 }--eng end
 
 this.help={}
@@ -684,7 +684,8 @@ this.help.eng={
   enableWildCardFreeRoam="Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.",
   mbEnableOcelot="Enables Ocelot to roam the command platform.",
   mbCollectionRepop="Regenerates plants on Zoo platform and diamonds on Mother base over time.",
-  heliPatrolsMB="Spawns some npc helis that roam around mother base.",
+  attackHeliPatrolsMB="Spawns some npc attack helis that roam around mother base.",
+  supportHeliPatrolsMB="Spawns some npc support helis that roam around mother base.",
   enemyHeliColor="Shared between free roam and MB attack helis.",
   soldierHealthScale="0% will kill off all enemies",
   soldierSightDistScale="A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.",
@@ -700,7 +701,7 @@ this.help.eng={
   forceSuperReinforce="In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.",
   enableSoldiersWithVehicleReinforce="Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.",
   enableLrrpFreeRoam="Foot patrols will travel between random CPs and will cross the field to get there.",
-  heliPatrolsFREE="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
+  attackHeliPatrolsFREE="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
   vehiclePatrolProfile="Replaces the patrolling trucks in free roam with other vehicles.",
   mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
   warpPlayerUpdate="Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
@@ -769,6 +770,7 @@ this.help.eng={
   clearPriorityStaff="Clears MB staff priority list entirely",
   mbShowHuey="Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.",
   mbForceBattleGearDevelopLevel="Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.",
+  enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
 }
 
 this.cpNames={

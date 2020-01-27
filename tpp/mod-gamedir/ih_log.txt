@@ -1,255 +1,265 @@
-|0.087|InfCore start 08/22/17 15:25:32
-|0.091|Infinite Heaven r216
-|0.094|InfCore.RefreshFileList
-|0.098|dir /b /s "C:\GamesSD\MGS_TPP\mod\*.*" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt"
-|0.174|package.path:./?.lua;C:/GamesSD/MGS_TPP/lua/?.lua;C:/GamesSD/MGS_TPP/lua/?/init.lua;C:/GamesSD/MGS_TPP/?.lua;C:/GamesSD/MGS_TPP/?/init.lua;C:/GamesSD/MGS_TPP/mod/?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua;;D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFoxLua//?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua
-|0.182|Load InfInit.lua
-|0.187|LoadExternalModule Ivars
-|0.198|LoadExternalModule IvarsPersist
-|0.203|IvarsPersist.SetupVars
-|0.207|IvarProc.LoadEvars
-|0.21|IvarProc.LoadSave
-|0.215|InfInit.lua done
-|0.219|InfModelProc.LoadFovaInfo
-|0.223|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
-|0.227|init.lua done
-|0.232|start.lua
-|0.238|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
-|0.242|Found external for C:/GamesSD/MGS_TPP/mod/Tpp/Scripts/Equip/EquipIdTable.lua
-|0.249|---------- EquipIdTable personal
-|0.254|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
-|0.269|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
-|0.275|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
-|0.279|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
-|0.284|Loading parameter tables
-|0.288|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
-|0.295|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
-|0.3|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
-|0.309|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
-|0.314|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
-|0.318|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
-|0.323|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
-|0.328|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
-|0.338|InfModelRegistry.Setup:
-|0.343|#faceDefinitions:513 start faceId:690
-|0.348|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
-|0.354|Load Tpp.lua
-|0.359|Tpp.lua done
-|0.364|InfRequiresStart - start of TppDefine requires-list
-|0.371|Load TppDefine.lua
-|0.375|TppDefine.lua done
-|0.483|Load InfMain.lua
-|0.487|InfMain Exec
-|0.492|InfMain.LoadExternalModules
-|0.496|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfMenuCommands", "InfQuickMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfProcessExt", "InfPuppy", "InfQuest", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp" }
-|0.5|LoadExternalModule Ivars
-|0.51|Ivars.SetupIvars
-|0.518|LoadExternalModule IvarsPersist
-|0.523|LoadExternalModule InfMenuCommands
-|0.531|LoadExternalModule InfQuickMenuCommands
-|0.535|LoadExternalModule InfLang
-|0.542|LoadExternalModule InfMenuDefs
-|0.551|LoadExternalModule InfQuickMenuDefs
-|0.556|LoadExternalModule DebugIHQuest
-|0.562|LoadExternalModule IHDebugVars
-|0.568|LoadExternalModule IHGenKnownModuleNames
-|0.574|LoadExternalModule IHGenMockModules
-|0.587|LoadExternalModule IHGenModuleReferences
-|0.6|LoadExternalModule IHGenUnknownHashes
-|0.606|LoadExternalModule IHStringsExtensions
-|0.611|LoadExternalModule IHTearDown
-|0.617|LoadExternalModule InfAnimal
-|0.622|LoadExternalModule InfBodyInfo
-|0.628|LoadExternalModule InfBuddy
-|0.633|LoadExternalModule InfCamera
-|0.638|LoadExternalModule InfDemo
-|0.643|LoadExternalModule InfEnemyPhase
-|0.648|LoadExternalModule InfEquip
-|0.655|LoadExternalModule InfGameEvent
-|0.66|LoadExternalModule InfHelicopter
-|0.665|LoadExternalModule InfInterrogation
-|0.67|LoadExternalModule InfLookup
-|0.677|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GIMMICK
-|0.681|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROCKET_ARM
-|0.686|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BOSS
-|0.69|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum HELI_MINI_GUN
-|0.694|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_LOADED
-|0.698|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_EMPTIED
-|0.705|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_NONE
-|0.709|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_WALKER_GEAR_GET_IN
-|0.713|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_NONE
-|0.718|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_CAUTION
-|0.722|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_EVASION
-|0.727|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_BATTLE
-|0.731|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_CP
-|0.737|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_REINFORCE
-|0.741|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_LOST
-|0.745|LoadExternalModule InfMBAssets
-|0.751|LoadExternalModule InfMBGimmick
-|0.756|LoadExternalModule InfMBStaff
-|0.761|LoadExternalModule InfMBVisit
-|0.767|LoadExternalModule InfMission
-|0.773|LoadExternalModule InfNPC
-|0.781|LoadExternalModule InfNPCHeli
-|0.787|LoadExternalModule InfNPCOcelot
-|0.792|LoadExternalModule InfParasite
-|0.799|LoadExternalModule InfProcessExt
-|0.804|LoadExternalModule InfPuppy
-|0.809|LoadExternalModule InfQuest
-|0.814|LoadExternalModule InfResources
-|0.82|LoadExternalModule InfSoldier
-|0.826|LoadExternalModule InfSoldierParams
-|0.832|LoadExternalModule InfUserMarker
-|0.837|LoadExternalModule InfVehicle
-|0.843|LoadExternalModule InfWalkerGear
-|0.848|LoadExternalModule InfWarp
-|0.853|PostAllModulesLoad
-|0.857|DebugModeEnable:true
-|0.861|Ivars.PostAllModulesLoad
-|0.866|IHDebugVars.PostAllModulesLoad: setting debug vars
-|0.87|mission_block blockId=nil
-|0.875|quest_block blockId=nil
-|0.879|demo_block blockId=nil
-|0.884|reinforce_block blockId=nil
-|0.888|npc_block blockId=nil
-|0.893|animal_block blockId=nil
-|0.898|TppResidentBlockGroup blockId=nil
-|0.902|CommonStageBlockGroup blockId=nil
-|0.909|DebugModeEnable:true
-|0.915|ihExternal names={ "MbmCommonSetting", "AFC0", "AFC1", "AFDA", "AFN0", "CUBA", "MBA0", "MBA1", "MBA2", "RMA0", "SVA0", "EquipIdTable", "12000_ombs", "12020_afc0", "12030_afn0", "12040_afda", "12050_afc1", "12060_cuba", "12070_mba0", "12080_sva0", "12090_rma0", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLang", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommands", "InfMenuDefs", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfProcessExt", "InfPuppy", "InfQuest", "InfQuickMenuCommands", "InfQuickMenuDefs", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "Ivars", "IvarsPersist", "mgoHeadgear_fovaInfo", "ih_priority_staff", "ih_priority_staff", "ih_priority_staff", "ih_save - Copy (10)", "ih_save - Copy (11)", "ih_save - Copy (12)", "ih_save - Copy (13)", "ih_save - Copy (14)", "ih_save - Copy (15)", "ih_save - Copy (16)", "ih_save - Copy (17)", "ih_save - Copy (18)", "ih_save - Copy (19)", "ih_save - Copy (2)", "ih_save - Copy (20)", "ih_save - Copy (21)", "ih_save - Copy (22)", "ih_save - Copy (23)", "ih_save - Copy (24)", "ih_save - Copy (25)", "ih_save - Copy (26)", "ih_save - Copy (27)", "ih_save - Copy (28)", "ih_save - Copy (29)", "ih_save - Copy (3)", "ih_save - Copy (30)", "ih_save - Copy (31)", "ih_save - Copy (4)", "ih_save - Copy (5)", "ih_save - Copy (6)", "ih_save - Copy (7)", "ih_save - Copy (8)", "ih_save - Copy (9)", "ih_save - Copy", "ih_save - debug", "ih_save", "ih_save", "ih_save_prev - Copy", "ih_save_prev", "All_Options_Example", "CustomPrep_Max", "CustomPrep_Min", "CustomPrep_Wide", "Fulton_Heaven", "MotherBase_Heaven", "Revenge_Heaven", "Subsistence_Bounder", "Subsistence_Game", "Subsistence_Pure", "ih_quest_q30100", "ih_quest_q30101", "ih_quest_q30102", "ih_quest_q30155", "ih_quest_q30156" }
-|0.92|IHTearDown.PostAllModulesLoad
-|0.931|BuildMockModulesFromReferences
-|0.936|TppPickable could not find key DEBUG_DropWeapon
-|0.94|TppGameSequence could not find key GetInstance
-|0.944|TppGameSequence could not find key RequestGameSetup
-|0.949|Could not find module 'name' from moduleReferences in modules
-|0.954|MotherBaseConstructConnector could not find key SetContainerGimmickList
-|0.958|TppMbDev could not find key EQP_DEV_WP_sg01_v00
-|0.962|TppMbDev could not find key EQP_DEV_SWP_Grenade
-|0.967|TppMbDev could not find key EQP_DEV_WP_hg08
-|0.972|TppMbDev could not find key EQP_DEV_WP_ar00_v08
-|0.976|TppMbDev could not find key EQP_DEV_WP_hg01_v00
-|0.98|TppMbDev could not find key EQP_DEV_WP_hg00_v01
-|0.985|TppMbDev could not find key EQP_DEV_SWP_SmokeGrenade
-|0.989|TppMbDev could not find key EQP_DEV_WP_ar01_v00
-|0.993|TppMbDev could not find key EQP_DEV_WP_sr01_v00
-|0.998|TppMbDev could not find key EQP_DEV_WP_ms00
-|1.002|TppMbDev could not find key EQP_DEV_WP_mg03_v00
-|1.007|TppMbDev could not find key EQP_DEV_WP_ar00_v07
-|1.011|TppMbDev could not find key EQP_DEV_WP_ar00_v06
-|1.015|TppMbDev could not find key EQP_DEV_SWP_Magazine
-|1.02|TppMbDev could not find key EQP_DEV_SWP_C4
-|1.024|TppMbDev could not find key EQP_DEV_WP_sm00_v00
-|1.028|PlayerCamoType could not find key NONE
-|1.033|TppNetworkUtil could not find key DEBUG_DumpServerParameter
-|1.037|TppScriptVars could not find key CATEGORY_MGO
-|1.041|TppMotherBaseManagement could not find key DEBUG_DirectAddRandomStaffs
-|1.045|TppMotherBaseManagement could not find key DEBUG_DumpMbsParam
-|1.05|Demo could not find key playerPartsType
-|1.054|TppEquip could not find key EQP_MB_500216
-|1.059|TppEquip could not find key EQP_MB_500203
-|1.063|TppEquip could not find key EQP_HL_300504
-|1.067|TppEquip could not find key EQP_HL_300101
-|1.071|TppEquip could not find key EQP_DW_220525
-|1.076|TppEquip could not find key EQP_DW_220301
-|1.081|TppEquip could not find key EQP_HL_300605
-|1.085|TppEquip could not find key EQP_HL_300001
-|1.089|TppEquip could not find key EQP_DW_220102
-|1.093|TppEquip could not find key EQP_DW_220103
-|1.098|TppEquip could not find key EQP_HL_300606
-|1.103|TppEquip could not find key EQP_DH_210801
-|1.107|TppEquip could not find key BLA_ms01
-|1.111|TppEquip could not find key EQP_HL_300502
-|1.115|TppEquip could not find key BL_SWP_Magazine
-|1.12|TppEquip could not find key EQP_DH_210500
-|1.125|TppEquip could not find key EQP_DW_220104
-|1.129|TppEquip could not find key EQP_DW_220202
-|1.134|TppEquip could not find key EQP_MB_500215
-|1.138|TppEquip could not find key EQP_DW_221404
-|1.143|TppEquip could not find key BL_IT_TimeCigarette
-|1.147|TppEquip could not find key EQP_MB_500227
-|1.152|TppEquip could not find key EQP_DW_221004
-|1.156|TppEquip could not find key EQP_DW_221305
-|1.161|TppEquip could not find key EQP_DW_220602
-|1.165|TppEquip could not find key EQP_DW_221103
-|1.169|TppEquip could not find key EQP_WP_East_sr_010
-|1.174|TppEquip could not find key EQP_HL_300002
-|1.179|TppEquip could not find key EQP_MB_500204
-|1.183|TppEquip could not find key EQP_DH_210704
-|1.188|TppEquip could not find key EQP_DW_221306
-|1.193|TppEquip could not find key BL_SWP_Grenade
-|1.197|TppEquip could not find key EQP_DW_221104
-|1.201|TppEquip could not find key EQP_DD_210301
-|1.206|TppEquip could not find key EQP_HL_300304
-|1.21|TppEquip could not find key EQP_MB_500103
-|1.214|TppEquip could not find key EQP_MB_500214
-|1.219|TppEquip could not find key EQP_HL_300303
-|1.223|TppEquip could not find key EQP_DW_220603
-|1.228|TppEquip could not find key EQP_MB_500114
-|1.232|TppEquip could not find key EQP_HL_300003
-|1.236|TppEquip could not find key EQP_DD_210102
-|1.24|TppEquip could not find key EQP_HL_300414
-|1.245|TppEquip could not find key EQP_MB_500226
-|1.249|TppEquip could not find key EQP_DW_220204
-|1.254|TppEquip could not find key EQP_MB_500115
-|1.258|TppEquip could not find key EQP_HL_300604
-|1.262|TppEquip could not find key EQP_MB_500225
-|1.266|TppEquip could not find key EQP_MB_500105
-|1.27|TppEquip could not find key EQP_MB_500104
-|1.275|TppEquip could not find key EQP_MB_500205
-|1.279|TppEquip could not find key EQP_HL_300005
-|1.283|TppEquip could not find key EQP_DH_210603
-|1.287|TppEquip could not find key EQP_DW_220303
-|1.291|TppEquip could not find key EQP_DD_210123
-|1.295|TppEquip could not find key EQP_DW_221507
-|1.3|TppEquip could not find key EQP_MB_500116
-|1.304|TppEquip could not find key EQP_DW_220002
-|1.308|TppEquip could not find key EQP_DW_220414
-|1.312|TppEquip could not find key EQP_HL_300415
-|1.316|TppEquip could not find key EQP_DW_221505
-|1.321|TppEquip could not find key EQP_WP_Quiet_st_050
-|1.325|TppEquip could not find key EQP_DW_221406
-|1.33|TppEquip could not find key UD_None
-|1.334|TppEquip could not find key EQP_WP_Quiet_st_030
-|1.338|TppEquip could not find key EQP_HL_300302
-|1.342|TppEquip could not find key EQP_HL_300413
-|1.346|TppEquip could not find key EQP_DW_220604
-|1.351|TppEquip could not find key EQP_DW_221002
-|1.355|TppEquip could not find key EQP_WP_Quiet_st_040
-|1.359|TppEquip could not find key EQP_DW_221304
-|1.363|TppEquip could not find key EQP_DW_220003
-|1.368|TppEquip could not find key EQP_WP_Quiet_st_060
-|1.372|TppEquip could not find key EQP_DW_221405
-|1.376|TppEquip could not find key EQP_HL_300004
-|1.38|TppEquip could not find key EQP_DW_221003
-|1.384|TppEquip could not find key EQP_DH_210602
-|1.389|TppEquip could not find key EQP_WP_Quiet_st_010
-|1.393|TppEquip could not find key EQP_DW_221105
-|1.397|TppEquip could not find key EQP_DH_210604
-|1.401|TppEquip could not find key EQP_DD_210000
-|1.405|TppEquip could not find key EQP_DD_210113
-|1.409|TppEquip could not find key EQP_DW_221506
-|1.413|TppEquip could not find key EPQ_None
-|1.418|TppEquip could not find key EQP_DW_220605
-|1.422|TppEquip could not find key EQP_WP_Quiet_st_020
-|1.426|TppEquip could not find key EQP_HL_300503
-|1.43|TppEquip could not find key EQP_HL_300202
-|1.434|TppEquip could not find key EQP_DW_220203
-|1.439|TppEquip could not find key EQP_DW_220004
-|1.443|TppEquip could not find key EQP_DH_210901
-|1.448|TppEquip could not find key EQP_DD_210214
-|1.452|TppEquip could not find key BLA_mgs0_miss2
-|1.456|TppEquip could not find key EQP_DD_210401
-|1.461|Game could not find key DEBUG_AddScript
-|1.465|GameObject could not find key NULL_IDdem
-|1.47|GameObject could not find key SpecialActionEnd
-|1.474|Fox could not find key StrCode32l
-|1.478|Fox could not find key HungUp
-|1.482|Player could not find key DEBUG_PlaceAround
-|1.487|Player could not find key NotifyChangedPlayerRailAction
-|1.491|Player could not find key UnSetPause
-|1.495|PlayerType could not find key MGO_MALE
-|1.501|notFound={
+|0.773|InfCore start 08/31/17 15:09:36
+|0.777|Infinite Heaven r218
+|0.781|InfCore.RefreshFileList
+|0.785|dir /b /s "C:\GamesSD\MGS_TPP\mod\*.*" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt"
+|0.852|package.path:./?.lua;C:/GamesSD/MGS_TPP/lua/?.lua;C:/GamesSD/MGS_TPP/lua/?/init.lua;C:/GamesSD/MGS_TPP/?.lua;C:/GamesSD/MGS_TPP/?/init.lua;C:/GamesSD/MGS_TPP/mod/?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua;;D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFoxLua//?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua
+|0.865|Load InfInit.lua
+|0.869|LoadExternalModule Ivars
+|0.88|LoadExternalModule IvarsPersist
+|0.886|IvarsPersist.SetupVars
+|0.89|IvarProc.LoadEvars
+|0.893|IvarProc.LoadSave
+|0.898|start "" C:/GamesSD/MGS_TPP/mod/IHExt.exe C:/GamesSD/MGS_TPP/
+|0.95|InfInit.lua done
+|0.956|InfModelProc.LoadFovaInfo
+|0.96|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
+|0.966|init.lua done
+|0.972|start.lua
+|0.979|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
+|0.984|Found external for C:/GamesSD/MGS_TPP/mod/Tpp/Scripts/Equip/EquipIdTable.lua
+|0.991|---------- EquipIdTable personal
+|0.997|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
+|1.015|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
+|1.022|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
+|1.027|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
+|1.032|Loading parameter tables
+|1.037|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
+|1.045|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
+|1.051|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
+|1.061|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
+|1.066|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
+|1.071|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
+|1.076|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
+|1.081|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
+|1.092|InfModelRegistry.Setup:
+|1.097|#faceDefinitions:513 start faceId:690
+|1.101|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
+|1.107|Load Tpp.lua
+|1.112|Tpp.lua done
+|1.117|InfRequiresStart - start of TppDefine requires-list
+|1.125|Load TppDefine.lua
+|1.129|TppDefine.lua done
+|1.241|Load InfMain.lua
+|1.247|InfMain Exec
+|1.252|InfMain.LoadExternalModules
+|1.257|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "NoVolunteers" }
+|1.261|LoadExternalModule Ivars
+|1.273|Ivars.SetupIvars
+|1.282|LoadExternalModule IvarsPersist
+|1.289|LoadExternalModule InfMenuCommands
+|1.298|LoadExternalModule InfLang
+|1.305|LoadExternalModule InfMenuDefs
+|1.313|LoadExternalModule InfQuickMenuDefs
+|1.318|LoadExternalModule DebugIHQuest
+|1.324|LoadExternalModule IHDebugVars
+|1.33|LoadExternalModule IHGenKnownModuleNames
+|1.336|LoadExternalModule IHGenMockModules
+|1.355|LoadExternalModule IHGenModuleReferences
+|1.37|LoadExternalModule IHGenUnknownHashes
+|1.375|LoadExternalModule IHStringsExtensions
+|1.381|LoadExternalModule IHTearDown
+|1.387|LoadExternalModule InfAnimal
+|1.392|LoadExternalModule InfBodyInfo
+|1.399|LoadExternalModule InfBuddy
+|1.405|LoadExternalModule InfCamera
+|1.412|LoadExternalModule InfDemo
+|1.419|LoadExternalModule InfEnemyPhase
+|1.426|LoadExternalModule InfEquip
+|1.432|LoadExternalModule InfExtToMgsv
+|1.438|LoadExternalModule InfGameEvent
+|1.444|LoadExternalModule InfHelicopter
+|1.449|LoadExternalModule InfInterrogation
+|1.455|LoadExternalModule InfLookup
+|1.463|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GIMMICK
+|1.468|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROCKET_ARM
+|1.473|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BOSS
+|1.477|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum HELI_MINI_GUN
+|1.482|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_LOADED
+|1.486|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_EMPTIED
+|1.494|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_NONE
+|1.499|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_WALKER_GEAR_GET_IN
+|1.504|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_NONE
+|1.508|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_CAUTION
+|1.513|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_EVASION
+|1.519|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_BATTLE
+|1.524|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_CP
+|1.53|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_REINFORCE
+|1.536|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_LOST
+|1.542|LoadExternalModule InfMBAssets
+|1.548|LoadExternalModule InfMBGimmick
+|1.554|LoadExternalModule InfMBStaff
+|1.56|LoadExternalModule InfMBVisit
+|1.567|LoadExternalModule InfMgsvToExt
+|1.573|LoadExternalModule InfMission
+|1.579|LoadExternalModule InfNPC
+|1.587|LoadExternalModule InfNPCHeli
+|1.594|LoadExternalModule InfNPCOcelot
+|1.6|LoadExternalModule InfParasite
+|1.608|LoadExternalModule InfPuppy
+|1.614|LoadExternalModule InfQuest
+|1.621|LoadExternalModule InfResources
+|1.627|LoadExternalModule InfSoldier
+|1.634|LoadExternalModule InfSoldierParams
+|1.64|LoadExternalModule InfUserMarker
+|1.645|LoadExternalModule InfVehicle
+|1.651|LoadExternalModule InfWalkerGear
+|1.657|LoadExternalModule InfWarp
+|1.663|LoadExternalModule NoVolunteers
+|1.668|PostAllModulesLoad
+|1.673|DebugModeEnable:true
+|1.677|Ivars.PostAllModulesLoad:
+|1.681|Ivars.PostAllModulesLoad
+|1.686|InfMenuCommands.PostAllModulesLoad:
+|1.691|InfMenuCommands.BuildCommandItems
+|1.698|InfMenuDefs.PostAllModulesLoad:
+|1.702|Adding module menuDefs
+|1.707|IHDebugVars.PostAllModulesLoad:
+|1.711|IHDebugVars.PostAllModulesLoad: setting debug vars
+|1.716|mission_block blockId=nil
+|1.72|quest_block blockId=nil
+|1.724|demo_block blockId=nil
+|1.729|reinforce_block blockId=nil
+|1.734|npc_block blockId=nil
+|1.738|animal_block blockId=nil
+|1.743|TppResidentBlockGroup blockId=nil
+|1.748|CommonStageBlockGroup blockId=nil
+|1.754|DebugModeEnable:true
+|1.76|IHGenKnownModuleNames.PostAllModulesLoad:
+|1.765|ihExternal names={ "MbmCommonSetting", "AFC0", "AFC1", "AFDA", "AFN0", "CUBA", "MBA0", "MBA1", "MBA2", "RMA0", "SVA0", "12000_ombs", "12020_cypr", "EquipIdTable", "12000_ombs", "12020_afc0", "12030_afn0", "12040_afda", "12050_afc1", "12060_cuba", "12070_mba0", "12080_sva0", "12090_rma0", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLang", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommands", "InfMenuDefs", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfQuickMenuDefs", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "Ivars", "IvarsPersist", "NoVolunteers", "mgoHeadgear_fovaInfo", "ih_priority_staff", "ih_priority_staff", "ih_priority_staff", "ih_save - Copy (10)", "ih_save - Copy (11)", "ih_save - Copy (12)", "ih_save - Copy (13)", "ih_save - Copy (14)", "ih_save - Copy (15)", "ih_save - Copy (16)", "ih_save - Copy (17)", "ih_save - Copy (18)", "ih_save - Copy (19)", "ih_save - Copy (2)", "ih_save - Copy (20)", "ih_save - Copy (21)", "ih_save - Copy (22)", "ih_save - Copy (23)", "ih_save - Copy (24)", "ih_save - Copy (25)", "ih_save - Copy (26)", "ih_save - Copy (27)", "ih_save - Copy (28)", "ih_save - Copy (29)", "ih_save - Copy (3)", "ih_save - Copy (30)", "ih_save - Copy (31)", "ih_save - Copy (4)", "ih_save - Copy (5)", "ih_save - Copy (6)", "ih_save - Copy (7)", "ih_save - Copy (8)", "ih_save - Copy (9)", "ih_save - Copy", "ih_save - debug", "ih_save", "ih_save", "ih_save_prev - Copy", "ih_save_prev", "All_Options_Example", "CustomPrep_Max", "CustomPrep_Min", "CustomPrep_Wide", "Fulton_Heaven", "MotherBase_Heaven", "Revenge_Heaven", "Subsistence_Bounder", "Subsistence_Game", "Subsistence_Pure", "ih_quest_q30100", "ih_quest_q30101", "ih_quest_q30102", "ih_quest_q30155" }
+|1.77|IHTearDown.PostAllModulesLoad:
+|1.775|IHTearDown.PostAllModulesLoad
+|1.785|BuildMockModulesFromReferences
+|1.79|TppPickable could not find key DEBUG_DropWeapon
+|1.795|TppGameSequence could not find key GetInstance
+|1.799|TppGameSequence could not find key RequestGameSetup
+|1.804|Could not find module 'name' from moduleReferences in modules
+|1.809|MotherBaseConstructConnector could not find key SetContainerGimmickList
+|1.814|TppMbDev could not find key EQP_DEV_WP_sg01_v00
+|1.819|TppMbDev could not find key EQP_DEV_SWP_Grenade
+|1.824|TppMbDev could not find key EQP_DEV_WP_hg08
+|1.828|TppMbDev could not find key EQP_DEV_WP_ar00_v08
+|1.833|TppMbDev could not find key EQP_DEV_WP_hg01_v00
+|1.838|TppMbDev could not find key EQP_DEV_WP_hg00_v01
+|1.843|TppMbDev could not find key EQP_DEV_SWP_SmokeGrenade
+|1.848|TppMbDev could not find key EQP_DEV_WP_ar01_v00
+|1.852|TppMbDev could not find key EQP_DEV_WP_sr01_v00
+|1.857|TppMbDev could not find key EQP_DEV_WP_ms00
+|1.862|TppMbDev could not find key EQP_DEV_WP_mg03_v00
+|1.867|TppMbDev could not find key EQP_DEV_WP_ar00_v07
+|1.872|TppMbDev could not find key EQP_DEV_WP_ar00_v06
+|1.876|TppMbDev could not find key EQP_DEV_SWP_Magazine
+|1.881|TppMbDev could not find key EQP_DEV_SWP_C4
+|1.886|TppMbDev could not find key EQP_DEV_WP_sm00_v00
+|1.891|PlayerCamoType could not find key NONE
+|1.895|TppNetworkUtil could not find key DEBUG_DumpServerParameter
+|1.9|TppScriptVars could not find key CATEGORY_MGO
+|1.905|TppMotherBaseManagement could not find key DEBUG_DirectAddRandomStaffs
+|1.91|TppMotherBaseManagement could not find key DEBUG_DumpMbsParam
+|1.915|Demo could not find key playerPartsType
+|1.92|TppEquip could not find key EQP_MB_500216
+|1.924|TppEquip could not find key EQP_MB_500203
+|1.929|TppEquip could not find key EQP_HL_300504
+|1.933|TppEquip could not find key EQP_HL_300101
+|1.938|TppEquip could not find key EQP_DW_220525
+|1.943|TppEquip could not find key EQP_DW_220301
+|1.947|TppEquip could not find key EQP_HL_300605
+|1.953|TppEquip could not find key EQP_HL_300001
+|1.958|TppEquip could not find key EQP_DW_220102
+|1.963|TppEquip could not find key EQP_DW_220103
+|1.968|TppEquip could not find key EQP_HL_300606
+|1.973|TppEquip could not find key EQP_DH_210801
+|1.978|TppEquip could not find key BLA_ms01
+|1.983|TppEquip could not find key EQP_HL_300502
+|1.989|TppEquip could not find key BL_SWP_Magazine
+|1.994|TppEquip could not find key EQP_DH_210500
+|1.998|TppEquip could not find key EQP_DW_220104
+|2.003|TppEquip could not find key EQP_DW_220202
+|2.008|TppEquip could not find key EQP_MB_500215
+|2.013|TppEquip could not find key EQP_DW_221404
+|2.018|TppEquip could not find key BL_IT_TimeCigarette
+|2.022|TppEquip could not find key EQP_MB_500227
+|2.027|TppEquip could not find key EQP_DW_221004
+|2.032|TppEquip could not find key EQP_DW_221305
+|2.037|TppEquip could not find key EQP_DW_220602
+|2.042|TppEquip could not find key EQP_DW_221103
+|2.046|TppEquip could not find key EQP_WP_East_sr_010
+|2.051|TppEquip could not find key EQP_HL_300002
+|2.056|TppEquip could not find key EQP_MB_500204
+|2.061|TppEquip could not find key EQP_DH_210704
+|2.065|TppEquip could not find key EQP_DW_221306
+|2.071|TppEquip could not find key BL_SWP_Grenade
+|2.075|TppEquip could not find key EQP_DW_221104
+|2.08|TppEquip could not find key EQP_DD_210301
+|2.085|TppEquip could not find key EQP_HL_300304
+|2.09|TppEquip could not find key EQP_MB_500103
+|2.096|TppEquip could not find key EQP_MB_500214
+|2.101|TppEquip could not find key EQP_HL_300303
+|2.105|TppEquip could not find key EQP_DW_220603
+|2.11|TppEquip could not find key EQP_MB_500114
+|2.115|TppEquip could not find key EQP_HL_300003
+|2.12|TppEquip could not find key EQP_DD_210102
+|2.125|TppEquip could not find key EQP_HL_300414
+|2.129|TppEquip could not find key EQP_MB_500226
+|2.134|TppEquip could not find key EQP_DW_220204
+|2.139|TppEquip could not find key EQP_MB_500115
+|2.144|TppEquip could not find key EQP_HL_300604
+|2.149|TppEquip could not find key EQP_MB_500225
+|2.153|TppEquip could not find key EQP_MB_500105
+|2.158|TppEquip could not find key EQP_MB_500104
+|2.163|TppEquip could not find key EQP_MB_500205
+|2.167|TppEquip could not find key EQP_HL_300005
+|2.172|TppEquip could not find key EQP_DH_210603
+|2.176|TppEquip could not find key EQP_DW_220303
+|2.181|TppEquip could not find key EQP_DD_210123
+|2.186|TppEquip could not find key EQP_DW_221507
+|2.19|TppEquip could not find key EQP_MB_500116
+|2.195|TppEquip could not find key EQP_DW_220002
+|2.2|TppEquip could not find key EQP_DW_220414
+|2.206|TppEquip could not find key EQP_HL_300415
+|2.21|TppEquip could not find key EQP_DW_221505
+|2.215|TppEquip could not find key EQP_WP_Quiet_st_050
+|2.22|TppEquip could not find key EQP_DW_221406
+|2.225|TppEquip could not find key UD_None
+|2.229|TppEquip could not find key EQP_WP_Quiet_st_030
+|2.234|TppEquip could not find key EQP_HL_300302
+|2.239|TppEquip could not find key EQP_HL_300413
+|2.244|TppEquip could not find key EQP_DW_220604
+|2.248|TppEquip could not find key EQP_DW_221002
+|2.253|TppEquip could not find key EQP_WP_Quiet_st_040
+|2.258|TppEquip could not find key EQP_DW_221304
+|2.262|TppEquip could not find key EQP_DW_220003
+|2.267|TppEquip could not find key EQP_WP_Quiet_st_060
+|2.272|TppEquip could not find key EQP_DW_221405
+|2.277|TppEquip could not find key EQP_HL_300004
+|2.282|TppEquip could not find key EQP_DW_221003
+|2.286|TppEquip could not find key EQP_DH_210602
+|2.291|TppEquip could not find key EQP_WP_Quiet_st_010
+|2.296|TppEquip could not find key EQP_DW_221105
+|2.301|TppEquip could not find key EQP_DH_210604
+|2.305|TppEquip could not find key EQP_DD_210000
+|2.31|TppEquip could not find key EQP_DD_210113
+|2.315|TppEquip could not find key EQP_DW_221506
+|2.319|TppEquip could not find key EPQ_None
+|2.324|TppEquip could not find key EQP_DW_220605
+|2.328|TppEquip could not find key EQP_WP_Quiet_st_020
+|2.333|TppEquip could not find key EQP_HL_300503
+|2.338|TppEquip could not find key EQP_HL_300202
+|2.342|TppEquip could not find key EQP_DW_220203
+|2.347|TppEquip could not find key EQP_DW_220004
+|2.352|TppEquip could not find key EQP_DH_210901
+|2.356|TppEquip could not find key EQP_DD_210214
+|2.361|TppEquip could not find key BLA_mgs0_miss2
+|2.366|TppEquip could not find key EQP_DD_210401
+|2.371|Game could not find key DEBUG_AddScript
+|2.376|GameObject could not find key NULL_IDdem
+|2.381|GameObject could not find key SpecialActionEnd
+|2.386|Fox could not find key StrCode32l
+|2.391|Fox could not find key HungUp
+|2.396|Player could not find key DEBUG_PlaceAround
+|2.401|Player could not find key NotifyChangedPlayerRailAction
+|2.407|Player could not find key UnSetPause
+|2.412|PlayerType could not find key MGO_MALE
+|2.418|notFound={
   Demo = {
     playerPartsType = true
   },
@@ -411,72 +421,84 @@
   },
   name = true
 }
-|1.505|combine mockModulesFromRefs to mockModules
-|1.511|isMockFox, will not output dump files
-|1.515|LoadStrings
-|1.52|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExe.txt
-|1.781|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
-|1.835|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExtensions.txt
-|1.841|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
-|1.916|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
-|1.94|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
-|4.419|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
-|4.425|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
-|4.434|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
-|4.53|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
-|5.021|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
-|5.027|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
-|8.757|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsLua.txt
-|8.985|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsManual.txt
-|8.99|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/lang_dictionary.txt
-|9.004|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/mtar_dictionary.txt
-|9.01|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/qar_dictionary.txt
-|9.086|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/subp_dictionary.txt
-|9.092|InfLookup.AddObjectNamesToStr32List:
-|9.098|InfLookup.BuildPath32ToDataSetName:
-|10.533|InfLookup.LoadGameObjectNames
-|14.28|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
-|15.634|InfQuest.LoadQuestDefs
-|15.639|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
-|15.644|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
-|15.649|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
-|15.654|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
-|15.658|InfQuest.LoadQuestDefs: ih_quest_q30156.lua
-|15.662|IvarProc.SetupInfProfiles
-|15.669|InfMain.lua done
-|15.683|InfHook done, requires-list done
-|15.69|Load TppDefine.lua
-|15.695|TppDefine.lua done
-|15.703|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
-|15.71|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
-|15.717|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
-|15.725|start2nd.lua start
-|15.731|Loading mother base settings
-|15.735|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|15.739|Found external for C:/GamesSD/MGS_TPP/mod//Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|15.748|MbmCommonSetting.lua - personal tweaks
-|15.753|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
-|15.761|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
-|15.769|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
-|15.777|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
-|15.788|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
-|15.794|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
-|15.811|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
-|15.827|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
-|15.833|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
-|15.844|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
-|15.854|InfMain.LoadLibraries
-|15.859|InfMain.LoadModelInfoModules
-|15.867|InfMission.SetupMissions
-|15.872|start2nd.lua done
-|15.877|TppVarInit.InitializeOnStartTitle
-|15.882|TppVarInit.StartInitMission 10010
-|15.887|TppMission.Load nextMissionCode:1 currentMissionCode:nil
-|15.891|loadSettings={
+|2.423|combine mockModulesFromRefs to mockModules
+|2.429|isMockFox, will not output dump files
+|2.434|InfLookup.PostAllModulesLoad:
+|2.44|LoadStrings
+|2.444|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExe.txt
+|2.692|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
+|2.748|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExtensions.txt
+|2.754|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
+|2.829|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
+|2.852|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
+|5.29|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
+|5.296|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
+|5.306|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
+|5.401|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
+|5.884|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
+|5.891|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
+|9.567|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsLua.txt
+|9.794|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsManual.txt
+|9.801|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/lang_dictionary.txt
+|9.814|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/mtar_dictionary.txt
+|9.821|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/qar_dictionary.txt
+|9.895|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/subp_dictionary.txt
+|9.901|InfLookup.AddObjectNamesToStr32List:
+|9.907|InfLookup.BuildPath32ToDataSetName:
+|11.377|InfLookup.LoadGameObjectNames
+|15.11|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
+|16.455|InfNPC.PostAllModulesLoad:
+|16.46|InfQuest.PostAllModulesLoad:
+|16.465|InfQuest.LoadQuestDefs
+|16.47|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
+|16.475|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
+|16.48|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
+|16.484|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
+|16.489|NoVolunteers.PostAllModulesLoad:
+|16.494|IvarProc.SetupInfProfiles
+|16.501|InfMain.lua done
+|16.515|InfHook done, requires-list done
+|16.523|Load TppDefine.lua
+|16.528|TppDefine.lua done
+|16.537|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
+|16.544|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
+|16.553|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
+|16.561|start2nd.lua start
+|16.567|Loading mother base settings
+|16.572|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|16.577|Found external for C:/GamesSD/MGS_TPP/mod//Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|16.587|MbmCommonSetting.lua - personal tweaks
+|16.592|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
+|16.6|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
+|16.608|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
+|16.617|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
+|16.629|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
+|16.636|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
+|16.653|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
+|16.669|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
+|16.675|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
+|16.686|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
+|16.696|InfMain.LoadLibraries
+|16.701|InfMain.LoadModelInfoModules
+|16.708|InfMission.SetupMissions
+|16.713|InfMission.LoadMissionDefs: 12000_ombs.lua
+|16.718|InfMission.LoadMissionDefs: 12020_cypr.lua
+|16.723|Adding mission 12000
+|16.727|Adding mission 12020
+|16.732|RegistMissionEpisodeNo(12000,51)
+|16.737|RegistMissionEpisodeNo(12020,52)
+|16.741|start2nd.lua done
+|16.746|TppVarInit.InitializeOnStartTitle
+|16.752|TppVarInit.StartInitMission 10010
+|16.756|TppMission.Load nextMissionCode:1 currentMissionCode:nil
+|16.761|loadSettings={
   force = true,
   showLoadingTips = false
 }
-|15.896|TppEneFova.InitializeUniqueSetting
-|15.9|TppEneFova.PreMissionLoad locationName:nil missionId:1
-|15.904|InfMain.PreMissionLoad
-|15.909|start.lua done
+|16.766|InfParasite.OnLoad:
+|16.77|TppEneFova.InitializeUniqueSetting
+|16.775|TppEneFova.PreMissionLoad locationName:nil missionId:1
+|16.78|InfMain.PreMissionLoad
+|16.784|InfEquip.PreMissionLoad:
+|16.789|InfSoldier.PreMissionLoad:
+|16.794|start.lua done

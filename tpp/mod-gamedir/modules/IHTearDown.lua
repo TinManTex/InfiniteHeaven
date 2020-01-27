@@ -402,8 +402,11 @@ function this.DumpModules()
       missedModules[name]=true
     end
   end
-  
-  --DEBUGNOW
+
+  if vars.missionCode<=5 then
+    InfCore.Log("vars.missionCode<=5, will not output dump files")
+    return  
+  end
   if isMockFox then
     InfCore.Log("isMockFox, will not output dump files")
     return

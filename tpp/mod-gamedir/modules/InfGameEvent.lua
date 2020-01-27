@@ -255,7 +255,7 @@ local warGamesBase={
     mbNonStaff=1,
     mbEnableFultonAddStaff=1,
     mbZombies=0,
-    heliPatrolsMB="HP48",
+    attackHeliPatrolsMB=4,
     mbEnemyHeli=1,
   },
   ZOMBIE_DD={
@@ -354,7 +354,7 @@ local warGameSettings={
   FEMME_FATALE={
     mbDDHeadGear=0,
     customSoldierTypeMB_ALL="DRAB",--tex even though this is female only theres still a bunch of code predicated on customSoldierType
-    customSoldierTypeFemaleMB_ALL={"SWIMWEAR_FEMALE","SWIMWEAR2_FEMALE","SWIMWEAR3_FEMALE"},--DEBUGNOW DEBUGNOW TEST
+    customSoldierTypeFemaleMB_ALL={"SWIMWEAR_FEMALE","SWIMWEAR2_FEMALE","SWIMWEAR3_FEMALE"},
     customWeaponTableMB_ALL=1,
     weaponTableAfgh=0,
     weaponTableMafr=0,
@@ -429,10 +429,7 @@ function this.GenerateWarGameEvent()
   --end)--
 end
 
-function this.ForceEvent()
-  InfMenu.PrintLangId"event_forced"
-  this.forceEvent=true
-end
+
 
 function this.GetEventNames()
   local eventNames={}
@@ -443,6 +440,11 @@ function this.GetEventNames()
     eventNames[#eventNames+1]=eventName
   end
   return eventNames
+end
+
+function this.ForceGameEvent()
+  InfMenu.PrintLangId"event_forced"
+  this.forceEvent=true
 end
 
 return this

@@ -25,13 +25,16 @@ ih_save={}
 
 --EXEC
 if not InfCore.modDirFail then
-  InfCore.LoadExternalModule"Ivars"  
+  InfCore.LoadExternalModule"Ivars"
   InfCore.LoadExternalModule"IvarsPersist"
   if Ivars==nil then
     InfCore.Log"Ivars==nil"--DEBUG
-  else    
+  else
     IvarsPersist.SetupVars()
     IvarProc.LoadEvars()
+    if ivars.enableIHExt==1 then
+      InfCore.StartExt()
+    end
   end
 
   --InfCore.PrintInspect(evars)--DEBUG

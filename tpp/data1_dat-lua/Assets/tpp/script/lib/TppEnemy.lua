@@ -2620,7 +2620,7 @@ function this.DeclareSVars(missionTable)
   end
   --tex WIP
   local heliCount=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT
-  if IvarProc.EnabledForMission("heliPatrols") then
+  if IvarProc.EnabledForMission("attackHeliPatrols") then
     heliCount=InfNPCHeli.totalAttackHelis
   end
   TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount
@@ -2858,7 +2858,7 @@ function this.RestoreOnMissionStart2()
     end
   end
   this._RestoreOnMissionStart_Hostage2()
-  if not IvarProc.EnabledForMission("heliPatrols") then--tex added check
+  if not IvarProc.EnabledForMission("attackHeliPatrols") then--tex added check
     for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do
       --NMC another casualty of optimisation I guess, TppEnemyHeli only saves/restores to non array unlike the other gameobject types, even though it's clearly originally set up the same
       svars.enemyHeliName=0
@@ -2920,7 +2920,7 @@ function this.RestoreOnContinueFromCheckPoint2()
   --a manual unrealize will fix that, but may just send it into an actual lostcontrol
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
-  if InfNPCHeli and not IvarProc.EnabledForMission("heliPatrols") then
+  if InfNPCHeli and not IvarProc.EnabledForMission("attackHeliPatrols") then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       local typeHeli={type="TppEnemyHeli"}
       SendCommand(typeHeli,{id="RestoreFromSVars"})
@@ -2963,7 +2963,7 @@ function this.StoreSVars(_markerOnly)
   end
   this._StoreSVars_Hostage(markerOnly)
   --tex WORKAROUND added bypass, see restore
-  if InfNPCHeli and not IvarProc.EnabledForMission("heliPatrols") then
+  if InfNPCHeli and not IvarProc.EnabledForMission("attackHeliPatrols") then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
     end

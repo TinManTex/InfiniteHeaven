@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r216
+-- Defaults / example of all profile options for IH r218
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -13,6 +13,7 @@ local this={
 	loadOnACCStart=false,--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)
 	profile={
 		--IH system menu
+		enableIHExt=0,--{ 0-1 } -- Enable IHExt
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
@@ -211,8 +212,8 @@ local this={
 		--Patrols and deployments menu
 		enableLrrpFreeRoam=0,--{ 0-1 } -- Foot patrols in free roam
 		enableWildCardFreeRoam=0,--{ 0-1 } -- Wildcard soldiers Free roam
-		heliPatrolsFREE=0,--{ OFF, ON } -- Heli patrols in free roam
-		heliPatrolsMB=0,--{ OFF, UTH, HP48, UTH_AND_HP48 } -- Heli patrols in MB
+		attackHeliPatrolsFREE=0,--{ 0-4 } -- Attack heli patrols in free roam
+		attackHeliPatrolsMB=0,--{ 0-4 } -- Attack heli patrols in MB
 		mbEnemyHeliColor=0,--{ DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Attack heli class
 		enableWalkerGearsFREE=0,--{ 0-1 } -- Walker gears in free roam
 		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears in MB
@@ -229,7 +230,7 @@ local this={
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS, ADDON_QUEST } -- Sideop selection mode
 		showAllOpenSideopsOnUi=0,--{ 0-1 } -- Show all open sideops
-		ihSideopsPercentageCount=0,--{ 0-1 } -- Include IH sideops in completion percentage
+		ihSideopsPercentageCount=0,--{ 0-1 } -- Include add-on sideops in completion percentage
 		--Sideops category filter menu
 		sideops_STORY=1,--{ 0-1 } -- Story/unique
 		sideops_EXTRACT_INTERPRETER=1,--{ 0-1 } -- Extract interpreter
@@ -251,6 +252,7 @@ local this={
 		customSoldierTypeMB_ALL=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX } -- DD Suit
 		customSoldierTypeFemaleMB_ALL=0,--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
+		supportHeliPatrolsMB=0,--{ 0-3 } -- NPC support heli patrols in MB
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
 		mbCollectionRepop=0,--{ 0-1 } -- Repopulate plants and diamonds

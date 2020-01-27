@@ -4,7 +4,45 @@ local this={}
 local NULL_ID=GameObject.NULL_ID
 local GetTypeIndex=GameObject.GetTypeIndex
 
---usermarkers
+this.userMarkerMenu={
+  context="MISSION",
+  options={
+    "InfMenuCommands.WarpToUserMarker",
+    "InfUserMarker.PrintLatestUserMarker",
+    "InfUserMarker.PrintUserMarkers",
+    --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
+    --    "Ivars.selectedCp",--DEBUG
+    "InfMenuCommands.QuietMoveToLastMarker",
+  }
+}
+--WIP
+--this.menuDefs={
+--  userMarkerMenu=this.userMarkerMenu,
+--}
+
+--Commands
+function this.PrintUserMarkers()
+  --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
+  --userMarkerAddFlag maps to alphabet from 1 and is reused/wraps
+  local maxMarkers=5--tex TODO VERIFY
+  for index=0,maxMarkers-1 do
+    this.PrintUserMarker(index)
+  end
+
+  InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
+  InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
+end
+this.PrintLatestUserMarker=function()
+  local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
+  if lastMarkerIndex==nil then
+    InfCore.DebugPrint("lastMarkerIndex==nil")
+  else
+    this.PrintUserMarker(lastMarkerIndex)
+    this.PrintMarkerGameObject(lastMarkerIndex)
+  end
+end
+
+--
 local alphaTable={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
 function this.PrintUserMarker(index)
   --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
@@ -22,17 +60,6 @@ function this.PrintUserMarker(index)
   InfCore.Log(message)
   InfCore.DebugPrint(message)
   --InfCore.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
-end
-function this.PrintUserMarkers()
-  --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
-  --userMarkerAddFlag maps to alphabet from 1 and is reused/wraps
-  local maxMarkers=5--tex TODO VERIFY
-  for index=0,maxMarkers-1 do
-    this.PrintUserMarker(index)
-  end
-
-  InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
-  InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
 end
 function this.PrintMarkerGameObject(index)
   local gameId=vars.userMarkerGameObjId[index]

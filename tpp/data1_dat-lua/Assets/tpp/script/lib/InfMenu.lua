@@ -47,6 +47,26 @@ this.minSettingButton=InfButton.RELOAD
 this.lastAutoDisplayString=""
 this.maxAutoDisplayRepeat=3
 
+
+function this.GetCurrentOption()
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  return this.GetOptionFromRef(optionRef)
+end
+
+--IN/SIDE: InfMenuCommands.commandItems
+function this.GetOptionFromRef(optionRef)
+  local option,name=InfCore.GetStringRef(optionRef)
+  if option then
+    if type(option)=="function" then
+      local itemName=InfMenuCommands.ItemNameForFunctionName(name)
+      return InfMenuCommands.commandItems[itemName]
+    else
+      return option
+    end
+  end
+  return nil
+end
+
 --tex mod settings menu manipulation
 function this.NextOption(incrementMult)
   local oldIndex=this.currentIndex
@@ -78,6 +98,7 @@ function this.PreviousOption(incrementMult)
   end
   this.GetSetting(oldIndex)
 end
+
 function this.GetSetting(previousIndex,previousMenuOptions)
   if this.currentMenuOptions==nil then
     InfCore.Log("WARNING: currentMenuOptions == nil!",true)--DEBUG
@@ -97,7 +118,8 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   --    end
   --  end
 
-  local option=this.currentMenuOptions[this.currentIndex]
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
   if option==nil then
     InfCore.Log("WARNING: option == nil! currentIndex="..tostring(this.currentIndex),true)--DEBUG
     return
@@ -199,24 +221,35 @@ function this.ChangeSetting(option,value)
 end
 
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
-  local option=this.currentMenuOptions[this.currentIndex]
-  local currentSetting=ivars[option.name]
-  if currentSetting then
-    IvarProc.SetSetting(option,currentSetting)
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option then
+    local currentSetting=ivars[option.name]
+    if currentSetting then
+      IvarProc.SetSetting(option,currentSetting)
+    end
   end
 end
 
 function this.ActivateCurrent()--tex run activate function
-  local option=this.currentMenuOptions[this.currentIndex]
-  if IsFunc(option.OnActivate) then
-    InfCore.PCallDebug(option.OnActivate,option,ivars[option.name])
-  else
-    this.SetCurrent()
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option then
+    if IsFunc(option.OnActivate) then
+      InfCore.PCallDebug(option.OnActivate,option,ivars[option.name])
+    else
+      this.SetCurrent()
+    end
   end
 end
 
 function this.NextSetting(incrementMult)
-  local option=this.currentMenuOptions[this.currentIndex]
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option==nil then
+    InfCore.Log("InfMenu.NextSetting: WARNING option==nil")
+    return
+  end
   if option.disabled then
     if option.disabledReason then
       this.PrintLangId(option.disabledReason)
@@ -244,8 +277,11 @@ function this.NextSetting(incrementMult)
   end
 end
 function this.PreviousSetting(incrementMult)
-  local option=this.currentMenuOptions[this.currentIndex]
-
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option==nil then
+    InfCore.Log("InfMenu.PreviousSetting: WARNING option==nil")
+  end
   if IsFunc(option.GetPrev) then
     local newSetting=option:GetPrev(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
@@ -284,25 +320,38 @@ function this.GoMenu(menu,goBack)
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
 
-  if ivars.postExtCommands>0 then
-    InfCore.ExtCmd'clear'
+  if InfCore.IHExtRunning() then
+    --InfCore.ExtCmd'clear'
     if menu==this.topMenu then
-      InfCore.ExtCmd("print","Top menu")
+      --InfCore.ExtCmd("print","Top menu")
     end
     if menu.parent then
       local optionIndex=menu.parentOption
-      local option=menu.parent.options[optionIndex]
-      local settingText=this.GetSettingText(optionIndex,option,false,true)
-      InfCore.ExtCmd("print",settingText)
-    end
-    InfCore.ExtCmd("print","----------")
-    for optionIndex=1,#menu.options do
-      local option=this.currentMenuOptions[optionIndex]
-      if option.OnSelect then
-        option:OnSelect(ivars[option.name])
+      local optionRef=menu.parent.options[optionIndex]
+      local option=this.GetOptionFromRef(optionRef)
+      if option then
+        local settingText=this.GetSettingText(optionIndex,option,false,true)
+        --InfCore.ExtCmd("print",settingText)
       end
-      local settingText=this.GetSettingText(optionIndex,option,false,true)
-      InfCore.ExtCmd('print',settingText)
+    end
+    --InfCore.ExtCmd("print","----------")
+    for optionIndex=1,#menu.options do
+      local optionRef=this.currentMenuOptions[optionIndex]
+      local option=this.GetOptionFromRef(optionRef)
+      if option then
+        if option.OnSelect then
+          option:OnSelect(ivars[option.name])
+        end
+        local settingText=this.GetSettingText(optionIndex,option,false,true)
+        --InfCore.ExtCmd('print',settingText)
+      end
+    end
+    local optionIndex=this.currentIndex
+    local optionRef=this.currentMenuOptions[optionIndex]
+    local option=this.GetOptionFromRef(optionRef)
+    if option~=nil then
+      local settingText=this.GetSettingText(optionIndex,option,false)
+      InfMgsvToExt.SetMenuLine(settingText)
     end
   end
 
@@ -312,7 +361,7 @@ end
 function this.GoBackCurrent()
   if this.currentMenu.parent==nil then
     if this.currentMenu~=this.topMenu then
-      TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
+      InfCore.Log("ERROR GoBackCurrent parent == nil")
     end
     return
   end
@@ -323,9 +372,9 @@ function this.GoBackCurrent()
 end
 
 --tex display settings
-function this.DisplayCurrentSetting(dontLog)
+function this.DisplayCurrentSetting()
   if this.menuOn then
-    this.DisplaySetting(this.currentIndex,false,dontLog)
+    this.DisplaySetting(this.currentIndex,false)
   end
 end
 
@@ -381,11 +430,12 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
     settingText=tostring(currentSetting)
   end
 
-  if option.OnActivate then
-    if not noCommandType then
-      optionSeperator=itemIndicators.activate..optionSeperator
-    end
-  end
+  --DEBUGNOW what is this?
+  --  if option.OnActivate then
+  --    if not noCommandType then
+  --      optionSeperator=itemIndicators.activate..optionSeperator
+  --    end
+  --  end
 
   if option.isPercent then
     settingSuffix="%"
@@ -410,14 +460,23 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
   return fullSettingText
 end
 
-function this.DisplaySetting(optionIndex,optionNameOnly,dontLog)
-  local option=this.currentMenuOptions[optionIndex]
-  local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
-  --OFF this.QueueDisplay(message)
-  TppUiCommand.AnnounceLogDelayTime(0)
-  TppUiCommand.AnnounceLogView(settingText)
-  if not dontLog then
-    InfCore.ExtCmd("printbottom",settingText)
+function this.DisplaySetting(optionIndex,optionNameOnly)
+  local optionRef=this.currentMenuOptions[optionIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option==nil then
+    InfCore.Log("InfMenu.DisplaySetting: WARNING option==nil")
+    return
+  else
+    local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
+    --OFF this.QueueDisplay(message)
+
+    if InfCore.IHExtRunning() then
+      --InfCore.ExtCmd("printbottom",settingText)
+      InfMgsvToExt.SetMenuLine(settingText)
+    else
+      TppUiCommand.AnnounceLogDelayTime(0)
+      TppUiCommand.AnnounceLogView(settingText)
+    end
   end
   this.lastDisplay=GetElapsedTime()
 end
@@ -460,24 +519,27 @@ function this.AutoDisplay()
   --    this.DisplayQueue()
   --  end
 end
-function this.DisplayHelpText()
-  local option=this.currentMenuOptions[this.currentIndex]
-  if option.helpText~=nil then
+function this.GetCurrentHelpText()
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option then
     --this.lastDisplay=GetElapsedTime()
-    TppUiCommand.AnnounceLogView(option.helpText)--ADDLANG:
+    return this.LangStringHelp(option.name)
   end
 end
 function this.ResetSetting()
-  local option=this.currentMenuOptions[this.currentIndex]
-  if option.optionType=="OPTION" then
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option and option.optionType=="OPTION" then
     IvarProc.SetSetting(option,option.default)
     this.PrintLangId"setting_default"--"Setting to default.."
     this.DisplayCurrentSetting()
   end
 end
 function this.MinSetting()
-  local option=this.currentMenuOptions[this.currentIndex]
-  if option.optionType=="OPTION" then
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option and option.optionType=="OPTION" then
     IvarProc.SetSetting(option,option.range.min)
     this.PrintLangId"setting_minimum"--"Setting to minimum.."
     this.DisplayCurrentSetting()
@@ -486,9 +548,10 @@ end
 function this.ResetSettings()
   for n,menu in pairs(InfMenuDefs.allMenus) do
     --InfCore.DebugPrint(menu.name)
-    for m,option in pairs(menu.options) do
+    for m,optionRef in pairs(menu.options) do
       --InfCore.DebugPrint(option.name)
-      if option.save then--tex using identifier for all ivar/resetable settings
+      local option=this.GetOptionFromRef(optionRef)
+      if option and option.save then--tex using identifier for all ivar/resetable settings
         --InfCore.DebugPrint(option.name)--DEBUG
         if ivars[option.name]~=option.default then
           IvarProc.SetSetting(option,option.default)
@@ -500,8 +563,9 @@ end
 function this.ResetSettingsDisplay()
   this.PrintLangId"setting_defaults"--"Setting mod options to defaults..."
   for i=1,#this.currentMenuOptions do
-    local option=this.currentMenuOptions[i]
-    if option.save then
+    local optionRef=this.currentMenuOptions[i]
+    local option=this.GetOptionFromRef(optionRef)
+    if option and option.save then
       IvarProc.SetSetting(option,option.default)
       this.DisplaySetting(i)
     end
@@ -534,6 +598,7 @@ end
 
 function this.LangString(langId)
   if langId==nil or langId=="" then
+    InfCore.Log("WANRING: InfMenu.LangString langId is empty")
     TppUiCommand.AnnounceLogView"LangString langId empty"
     return ""
   end
@@ -597,6 +662,18 @@ function this.GetLangTable(langId,index)
   return langTable
 end
 
+function this.LangStringHelp(langId)
+  if langId==nil or langId=="" then
+    InfCore.Log("WANRING: InfMenu.LangString langId is empty")
+    TppUiCommand.AnnounceLogView"LangString langId empty"
+    return ""
+  end
+  local languageCode=this.GetLanguageCode()
+  local langTable=InfLang.help[languageCode] or InfLang.help.eng
+  local langString=langTable[langId] or InfLang.help.eng[langId] or langId
+  return langString
+end
+
 function this.CpNameString(cpName,location)
   local location=location or InfUtil.GetLocationName()
   local languageCode=this.GetLanguageCode()
@@ -647,18 +724,27 @@ function this.OnActivate()
   local message=InfCore.modName.." r"..InfCore.modVersion.." ".. this.LangString"menu_open_help"--(Press Up/Down,Left/Right to navigate menu)
   TppUiCommand.AnnounceLogView(message)
 
-  if ivars.postExtCommands>0 then
-    InfCore.ExtCmd'clear'
-    InfCore.ExtCmd('print',message)
+  if InfCore.IHExtRunning() then
+    InfMgsvToExt.ShowMenu()
+
+    --InfCore.ExtCmd'clear'
+    --InfCore.ExtCmd('print',message)
     for optionIndex=1,#this.currentMenuOptions do
-      local option=this.currentMenuOptions[optionIndex]
-      local settingText=this.GetSettingText(optionIndex,option,false,true)
-      InfCore.ExtCmd('print',settingText)
+      local optionRef=this.currentMenuOptions[optionIndex]
+      local option=this.GetOptionFromRef(optionRef)
+      if option then
+        local settingText=this.GetSettingText(optionIndex,option,false,true)
+        --InfCore.ExtCmd('print',settingText)
+      end
     end
     local optionIndex=this.currentIndex
-    local option=this.currentMenuOptions[optionIndex]
-    local settingText=this.GetSettingText(optionIndex,option,false)
-    InfCore.ExtCmd("printbottom",settingText)
+    local optionRef=this.currentMenuOptions[optionIndex]
+    local option=this.GetOptionFromRef(optionRef)
+    if option then
+      local settingText=this.GetSettingText(optionIndex,option,false)
+      --InfCore.ExtCmd("printbottom",settingText)
+      InfMgsvToExt.SetMenuLine(settingText)
+    end
   end
 
   InfMain.OnMenuOpen()
@@ -671,9 +757,11 @@ function this.OnDeactivate()
   this.DeactivateControlSet()
   InfMain.OnMenuClose()
 
-  if ivars.postExtCommands>0 then
-    InfCore.ExtCmd("clear")
-    InfCore.ExtCmd("printbottom",this.LangString"menu_off")
+  if InfCore.IHExtRunning() then
+    InfMgsvToExt.HideMenu()
+
+    --InfCore.ExtCmd("clear")
+    --InfCore.ExtCmd("printbottom",this.LangString"menu_off")
   end
 end
 
@@ -733,7 +821,7 @@ function this.Update(execCheck)
   end
 
   --quickmenu>
-  local InfQuickMenuDefs=InfQuickMenuDefs
+  local InfQuickMenuDefs=InfQuickMenuDefsUser or InfQuickMenuDefs
   if InfQuickMenuDefs and not this.menuOn then
     if InfQuickMenuDefs.forceEnable or Ivars.enableQuickMenu:Is(1) then
       local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton
@@ -756,8 +844,13 @@ function this.Update(execCheck)
           if InfButton.OnButtonHoldTime(button) then
             --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
             if this.quickMenuOn then
-              if IsFunc(commandInfo.Command) then
-                commandInfo.Command()
+              local Command,name=InfCore.GetStringRef(commandInfo.Command)
+              if Command==nil then
+                InfCore.Log("WARNING: Could not find function for QuickMenu command:"..tostring(commandInfo.Command))
+              elseif type(Command)~="function"then
+                InfCore.Log("WARNING: QuickMenu command "..tostring(commandInfo.Command).." is not a function")
+              else
+                Command()
               end
             end
           end
@@ -780,6 +873,11 @@ function this.ActivateControlSet()
   InfButton.buttonStates[this.menuLeftButton].decrement=0.1
 
   local repeatRate=0.85
+  if InfCore.IHExtRunning() then
+    repeatRate=0.25
+    this.autoRateHeld=0.25
+    InfButton.incrementMultIncrementMult=1.1
+  end
   InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
   InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
   InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
@@ -795,6 +893,8 @@ function this.DeactivateControlSet()
 end
 
 function this.DoControlSet()
+  local ihextIsRunning=InfCore.IHExtRunning()
+
   if InfButton.OnButtonDown(this.minSettingButton) then
     this.MinSetting()
   end
@@ -842,6 +942,9 @@ function this.DoControlSet()
   elseif InfButton.OnButtonRepeat(this.menuRightButton) then
     this.autoDisplayRate=this.autoRateHeld
     this.NextSetting(incrementMod*InfButton.GetRepeatMult())
+    if ihextIsRunning then
+      this.DisplayCurrentSetting()
+    end
   end
 
   if InfButton.OnButtonDown(this.menuLeftButton) then
@@ -852,6 +955,9 @@ function this.DoControlSet()
   elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
     this.autoDisplayRate=this.autoRateHeld
     this.PreviousSetting(incrementMod*InfButton.GetRepeatMult())
+    if ihextIsRunning then
+      this.DisplayCurrentSetting()
+    end
   end
 end
 
@@ -886,8 +992,8 @@ function this.BuildProfileMenu(profile)
       options[#options+1]=ivar
     end
   end
-  options[#options+1]=InfMenuCommands.revertProfile
-  options[#options+1]=InfMenuCommands.goBackItem
+  options[#options+1]='InfMenuCommands.RevertProfile'
+  options[#options+1]='InfMenuCommands.GoBackItem'
 
   return {
     isProfileMenu=true,
@@ -909,9 +1015,9 @@ function this.AddDevMenus()
   InfCore.Log"AddDevMenus"
   local heliSpaceMenu=InfMenuDefs.heliSpaceMenu.options
   local inMissionMenu=InfMenuDefs.inMissionMenu.options
-  if heliSpaceMenu[1]~=InfMenuDefs.devInAccMenu then
-    table.insert(heliSpaceMenu,1,InfMenuDefs.devInAccMenu)
-    table.insert(inMissionMenu,1,InfMenuDefs.devInMissionMenu)
+  if heliSpaceMenu[1]~="InfMenuDefs.devInAccMenu" then
+    table.insert(heliSpaceMenu,1,'InfMenuDefs.devInAccMenu')
+    table.insert(inMissionMenu,1,'InfMenuDefs.devInMissionMenu')
   end
 end
 

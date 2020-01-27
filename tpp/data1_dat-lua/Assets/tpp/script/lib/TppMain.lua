@@ -186,6 +186,7 @@ function this.OnAllocate(missionTable)
     if not TppMission.IsFOBMission(vars.missionCode)then
       for i,module in ipairs(InfModules)do
         if module.DeclareSVars then
+          InfCore.LogFlow(module.name..".DeclareSVars:")
           ApendArray(allSvars,InfCore.PCallDebug(module.DeclareSVars,missionTable))
         end
       end
@@ -820,7 +821,7 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
     this.StageBlockCurrentPosition()
   end
 end
-function this.StageBlockCurrentPosition(e)
+function this.StageBlockCurrentPosition(yieldTillEmpty)
   if vars.initialPlayerFlag==PlayerFlag.USE_VARS_FOR_INITIAL_POS then
     StageBlockCurrentPositionSetter.SetEnable(true)
     StageBlockCurrentPositionSetter.SetPosition(vars.initialPlayerPosX,vars.initialPlayerPosZ)
@@ -830,7 +831,7 @@ function this.StageBlockCurrentPosition(e)
   if TppMission.IsHelicopterSpace(vars.missionCode)then
     StageBlockCurrentPositionSetter.SetEnable(true)
     StageBlockCurrentPositionSetter.DisablePosition()
-    if e then
+    if yieldTillEmpty then
       while not StageBlock.LargeAndSmallBlocksAreEmpty()do
         coroutine.yield()
       end
@@ -922,6 +923,7 @@ function this.SetMessageFunction(missionTable)--RENAME:
   if not TppMission.IsFOBMission(vars.missionCode)then
     for i,module in ipairs(InfModules)do
       if module.OnMessage then
+        InfCore.LogFlow("SetMessageFunction:"..module.name)
         onMessageTableSize=onMessageTableSize+1
         onMessageTable[onMessageTableSize]=module.OnMessage
       end

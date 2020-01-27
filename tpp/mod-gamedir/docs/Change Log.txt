@@ -1,4 +1,23 @@
 Infinite Heaven changelog
+r218 - 2017-08-31
+heliPatrolsMB, heliPatrolsFREE renamed attackHeliPatrolsFREE, attackHeliPatrolsFREE "Attack heli patrols in free roam",
+  "Attack heli patrols in MB", value is now number of attack helis.
+Option: supportHeliPatrolsMB - split from heliPatrolsMB, is number of support npc helis, count will take priority over attack helis to fit to number of mother base clusters built.
+Beyond giving some more control over amount of helis you face, it also lets things be a bit quieter in mother base while still having helis fly around. 
+Because of this change you will have to set the options again, sorry for the inconvenience.
+
+Refactor: InfMenuDefs,InfQuickMenuDefs commands change to string/lazy binding. Some commands that were just wrappers to other modules reference them directly.
+InfQuickMenuCommands: Merged with InfMenuCommands
+
+Fixed: ApplyProfile failing on random table of setting strings. 
+Fixed: ApplyProfile failing on missing ivar.
+
+IHExt: Shift from console to wpf proto branch.
+
+Option: enableIHExt (was postExtCommands) 'Enable IHExt', now launches IHExt (if present).
+
+r217 - 2017-08-22
+Just repack/snakebite exe version for 1.0.12.0 which only updated exe.
 
 r216 - 2017-08-22
 GameEvent: Other swimsuits added to Femme Fatales event.

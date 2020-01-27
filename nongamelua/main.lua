@@ -1268,6 +1268,9 @@ end
 
 local function main()
   print("main()")
+  
+  local bit=require'bit'
+
 
 
   print"Running AutoDoc"

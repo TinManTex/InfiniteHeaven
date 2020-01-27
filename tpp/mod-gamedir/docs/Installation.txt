@@ -51,7 +51,7 @@ This step should only take a minute or so if no other mods installed (longer wit
 See log.txt in the snakebite folder which is updated with the installs progress.
 If it takes an excessively long time refer to the sticky on the snakebite posts page for possible fixes.
 
-Troubleshooting: See FAQ Known issues.txt.
+Troubleshooting: See Troubleshooting.txt.
 
 Note:
 ------------------------------

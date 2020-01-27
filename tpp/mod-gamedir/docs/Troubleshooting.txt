@@ -2,39 +2,44 @@ Dealing with issues:
 
 If you have issues with Snakebite try the suggestions on the stickied post on the snakebite nexus posts.
 
-There is a common issue when upgrading IH to a new version due to some bug with Snakebite.
-It may manifest as:
-Various idroid ui icons appearing blank.
-Infinite loads.
+For other issues can you please provide the following files to help me test:
 
-Try using snakebite to uninstall IH, if the issue still arises then it's the snakebite issue, you will need to reset it by:
-
-1: Pressing the 'Restore original game files' button in snakebites settings page.
-2: Verifying game cache through steam.
-3: Running the game un-modded and causing it to do a save (going to mother base and returning for example)
-4: Running snakebite again and going through it's setup.
-5: Installing IH again.
-
-If this does not fix the problem then uploading your save files for me to test with would be appreciated.
-If you could provide the following information:
-What the issue seems to be.
-How to reproduce the issue (if it's not immediately apparent)
-
-The games save files are in:
+Your save game that's at the point it's having issues.
+The save files are in:
 <steam path>\userdata\<user id>\311340\remote
 (Default install path of steam is C:\Program Files\Steam)
 
 Usually TPP_GAME_DATA alone is sufficient.
-mega.co.nz has worked fine for uploading for many people, as has dropbox.
-You can message me the link on nexus if you wish.
 
-Also include Infinite Heavens settings file ih_save.lua in MGS_TPP\mod
+ih_save.lua from your MGSV_TPP\mod\saves folder.
+snakebite.xml from the MGSV_TPP folder.
+ih_log.txt from the MGSV_TPP\mod folder.
 
-'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error:
-If you get this message shortly after startup
-Make sure your game folder is actually named MGS_TPP.
-Try running mgsvtpp as Administrator.
-Try copying the mod folder to C:\mod, after running the game again open ih_log.txt from the mod folder and message me the log.
+If you need a place to upload mega.co.nz works well, as does dropbox.
+You can message me the link if you wish.
+
+After you have done so there's a couple of things you can try:
+
+Abort to ACC from title:
+At the title screen hold down the Escape key for a couple of seconds, the Fox logo will flash up breifly, upon selecting continue the game will load into ACC instead of the mission the save was on.
+
+Clear IH settings completely:
+Exit the game and delete MGS_TPP\mod\saves\ih_save.lua
+
+Resetting from scratch:
+
+1: Pressing the 'Restore original game files' button in snakebites settings page.
+2: Verifying game cache through the properties for the game in steam.
+At this point MGSV will be considered unmodded, but verify by loading the game.
+
+Re-rerun snakebite and go through it's steps.
+Again test to see if the game loads.
+
+Install Infinite Heaven only.
+Test again to see if the issue still occurs.
+
+If the game save is in-mission and not in ACC you may need to Abort to ACC from title (see below)
+
 
 Known issues:
 

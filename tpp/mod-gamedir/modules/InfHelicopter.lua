@@ -86,7 +86,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
       if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
         --InfCore.DebugPrint"IsTimerActive"--DEBUG
-        GameObject.SendCommand(heliId,{id="RequestSnedDoorOpen"})
+        SendCommand(heliId,{id="RequestSnedDoorOpen"})
     else
       if Ivars.disablePullOutHeli:Is(1) then
         --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
@@ -104,6 +104,13 @@ end
 function this.HeliOrderRecieved()
   if InfMain.execChecks.inGame and not InfMain.execChecks.inHeliSpace then
     InfMenu.PrintLangId"order_recieved"
+  end
+end
+
+this.PullOutHeli=function()
+  local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+  if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    SendCommand(gameObjectId,{id="PullOut",forced=true})
   end
 end
 

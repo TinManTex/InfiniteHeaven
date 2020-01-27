@@ -161,9 +161,13 @@ function this.SetSetting(self,setting,noSave)
   end
 
   if type(setting)=="string" then
+    if not self.enum then
+      InfCore.Log("WARNING: SetSetting: no enum settings on "..self.name,true)--DEBUG
+      return
+    end
     setting=self.enum[setting]
     if setting==nil then
-      InfCore.Log("SetSetting: no setting on "..self.name,true)--DEBUG
+      InfCore.Log("WARNING: SetSetting: no setting "..setting.." on "..self.name,true)--DEBUG
       return
     end
   end
@@ -471,17 +475,17 @@ function this.IvarEnabledForMission(self,missionCode)
   return self:Is()>0 and self:MissionCheck(missionId)
 end
 
---
+--  
+local random=math.random
+local type=type
+local tableType="table"
+local stringType="string"
 function this.ApplyProfile(profile,noSave)
   InfCore.LogFlow"IvarProc.ApplyProfile"
-  local random=math.random
-  local type=type
-  local tableType="table"
-  local stringType="string"
 
   for ivarName,setting in pairs(profile)do
     if type(setting)==tableType then
-      if setting[1]==stringType then
+      if type(setting[1])==stringType then
         --tex setting=={"SOMESETTINGNAME",...}
         setting=setting[random(#setting)]
       else
@@ -489,7 +493,12 @@ function this.ApplyProfile(profile,noSave)
         setting=random(setting[1],setting[2])
       end
     end
-    Ivars[ivarName]:Set(setting,noSave)
+    local ivar=Ivars[ivarName]
+    if not ivar then
+      InfCore.Log("WARNING: ApplyProfile: could not find ivar "..ivarName)
+    else
+      ivar:Set(setting,noSave)
+    end
   end
 end
 function this.ResetProfile(profile)
@@ -699,6 +708,8 @@ function this.SetupInfProfiles()
   local fileNames=InfCore.GetFileList(InfCore.files.profiles,".lua")
 
   --InfCore.PrintInspect(fileNames)--DEBUG
+  --DEBUGNOW TODO only load loadonstart, otherwise just keep the names and only load when specific one selected in option, 
+  --no point keeping loaded/storing in profiles[] if it's only applied on load or via user action.
 
   local profiles={}
   local profileNames={}

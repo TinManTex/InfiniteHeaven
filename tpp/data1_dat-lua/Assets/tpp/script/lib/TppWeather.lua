@@ -203,14 +203,14 @@ function this.RestoreMissionStartWeather()
   vars.extraWeatherInterval=gvars.missionStartExtraWeatherInterval
   WeatherManager.RestoreFromSVars()
 end
-function this.OverrideColorCorrectionLUT(e)
-  TppColorCorrection.SetLUT(e)
+function this.OverrideColorCorrectionLUT(unk1)
+  TppColorCorrection.SetLUT(unk1)
 end
 function this.RestoreColorCorrectionLUT()
   TppColorCorrection.RemoveLUT()
 end
-function this.OverrideColorCorrectionParameter(t,e,r)
-  TppColorCorrection.SetParameter(t,e,r)
+function this.OverrideColorCorrectionParameter(unk1,unk2,unk3)
+  TppColorCorrection.SetParameter(unk1,unk2,unk3)
 end
 function this.RestoreColorCorrectionParameter()
   TppColorCorrection.RemoveParameter()

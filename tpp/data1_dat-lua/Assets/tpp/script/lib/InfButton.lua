@@ -6,7 +6,7 @@ local bit=bit
 local Time=Time
 local PlayerVars=PlayerVars
 
-local incrementMultIncrementMult=1.5--tex i r good at naming
+this.incrementMultIncrementMult=1.5--tex i r good at naming
 local maxIncrementMult=50
 local defaultIncrementMult=1
 local currentIncrementMult=defaultIncrementMult
@@ -202,7 +202,7 @@ function this.OnButtonRepeat(buttonMask)
         --          repeatRate=repeatRate-buttonState.decrement
         --        end
         --        buttonState.repeatRate=repeatRate--]]
-        currentIncrementMult=currentIncrementMult*incrementMultIncrementMult
+        currentIncrementMult=currentIncrementMult*this.incrementMultIncrementMult
         --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG
         if currentIncrementMult>maxIncrementMult then
           currentIncrementMult=maxIncrementMult

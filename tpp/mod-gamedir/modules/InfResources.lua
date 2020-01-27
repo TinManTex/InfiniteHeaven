@@ -11,6 +11,8 @@ this.debugModule=false
 --TppDefine
 this.SMALL_DIAMOND_GMP=10000
 this.LARGE_DIAMOND_GMP=100000
+--TppTerminal
+this.GMP_POSTER=500
 
 --MbmCommonSetting20BaseRecSec.lua
 
@@ -103,6 +105,7 @@ this.RESOURCE_INFORMATION_TABLE={
 
 --tex pretty much above default tables * resource scale
 function this.ScaleResourceTables()
+  InfCore.LogFlow("ScaleResourceTables")
   for collectionType,collectionInfo in pairs(TppTerminal.RESOURCE_INFORMATION_TABLE)do
     local defaultInfo=this.RESOURCE_INFORMATION_TABLE[collectionType]
     local resourceScale=Ivars["resourceScale"..defaultInfo.scaleType]:Get()/100
@@ -110,11 +113,14 @@ function this.ScaleResourceTables()
   end
 
   local diamondScale=Ivars.resourceScaleDiamond:Get()/100
-  local smallDiamondGmp=this.SMALL_DIAMOND_GMP*diamondScale
-  local largeDiamondGmp=this.LARGE_DIAMOND_GMP*diamondScale
+  TppDefine.SMALL_DIAMOND_GMP=this.SMALL_DIAMOND_GMP*diamondScale
+  TppDefine.LARGE_DIAMOND_GMP=this.LARGE_DIAMOND_GMP*diamondScale
 
-  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=smallDiamondGmp}
-  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=largeDiamondGmp}
+  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=TppDefine.SMALL_DIAMOND_GMP}
+  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=TppDefine.LARGE_DIAMOND_GMP}
+  
+  local posterScale=Ivars.resourceScalePoster:Get()/100
+  TppTerminal.GMP_POSTER=this.GMP_POSTER--*posterScale--DEBUGNOW TODO figure out where gmp is actually given, OnPickUpCollection suggests its different from RESOURCE_INFORMATION_TABLE? 
 
   local containerScale=Ivars.resourceScaleContainer:Get()/100
   for k,resourceCounts in pairs(this.scaledContainerParams) do
@@ -142,7 +148,7 @@ function this.ScaleResourceTables()
     InfCore.PrintInspect(TppTerminal.RESOURCE_INFORMATION_TABLE)
 
     InfCore.Log("smallDiamondGmp:"..this.SMALL_DIAMOND_GMP.." largeDiamondGmp:"..this.LARGE_DIAMOND_GMP)
-    InfCore.Log("scaled smallDiamondGmp:"..smallDiamondGmp.." largeDiamondGmp:"..largeDiamondGmp)
+    InfCore.Log("scaled smallDiamondGmp:"..TppDefine.SMALL_DIAMOND_GMP.." largeDiamondGmp:"..TppDefine.LARGE_DIAMOND_GMP)
 
     InfCore.PrintInspect(this.containerParams,{varName="containerParams"})
 
@@ -151,17 +157,19 @@ function this.ScaleResourceTables()
 end
 
 function this.DefaultResourceTables()
+  InfCore.LogFlow("DefaultResourceTables")
   for collectionType,collectionInfo in pairs(TppTerminal.RESOURCE_INFORMATION_TABLE)do
     local defaultInfo=this.RESOURCE_INFORMATION_TABLE[collectionType]
     collectionInfo.count=this.RESOURCE_INFORMATION_TABLE[collectionType].count
   end
+  
+  TppDefine.SMALL_DIAMOND_GMP=this.SMALL_DIAMOND_GMP
+  TppDefine.LARGE_DIAMOND_GMP=this.LARGE_DIAMOND_GMP
 
-  local smallDiamondGmp=this.SMALL_DIAMOND_GMP
-  local largeDiamondGmp=this.LARGE_DIAMOND_GMP
+  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=TppDefine.SMALL_DIAMOND_GMP}
+  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=TppDefine.LARGE_DIAMOND_GMP}
 
-  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=smallDiamondGmp}
-  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=largeDiamondGmp}
-
+  TppTerminal.GMP_POSTER=this.GMP_POSTER
 
   TppMotherBaseManagement.RegisterContainerParam(this.containerParams)
 end

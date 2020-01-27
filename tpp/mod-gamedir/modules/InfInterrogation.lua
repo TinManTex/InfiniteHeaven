@@ -104,7 +104,7 @@ this.InterCall_Location=function(soldierId,cpId,interName)
       interrFuncs[#interrFuncs+1]=this.LrrpLocation
     end
 
-    --  if InfNPCHeli and IvarProc.EnabledForMission("heliPatrols") then
+    --  if InfNPCHeli and IvarProc.EnabledForMission("attackHeliPatrols") then
     --    table.insert(interrFuncs,this.HeliLocation)
     --  end
 

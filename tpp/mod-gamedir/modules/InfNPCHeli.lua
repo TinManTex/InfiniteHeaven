@@ -40,7 +40,7 @@ local routeTimeMax=5*60
 
 local levelToColor={0,0,0,1,1,2}
 
-local heliPatrolsStr="heliPatrols"
+local attackHeliPatrolsStr="attackHeliPatrols"
 
 this.totalAttackHelis=5--tex for svars, must match max instance count/fox2 totalcount (so includes reinforce/quest heli)
 
@@ -53,9 +53,11 @@ this.packages={
   },
   mtbs={
     "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
-    "/Assets/tpp/pack/mission2/ih/ih_westheli_defloc.fpk",
   },
   mbqf={},
+  westheli={
+    "/Assets/tpp/pack/mission2/ih/ih_westheli_defloc.fpk",
+  },
   "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",
   "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",
   "/Assets/tpp/pack/mission2/ih/ih_enemyheli_loc.fpk",
@@ -287,32 +289,41 @@ for location,routeCpInfo in pairs(this.heliRouteToCp)do
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if not IvarProc.EnabledForMission(heliPatrolsStr,missionCode) then
-    return
-  end
-
   local locationName=InfUtil.GetLocationName()
-  for i,packPath in ipairs(this.packages[locationName]) do
-    packPaths[#packPaths+1]=packPath
+  if IvarProc.EnabledForMission(attackHeliPatrolsStr,missionCode) then
+    for i,packPath in ipairs(this.packages[locationName]) do
+      packPaths[#packPaths+1]=packPath
+    end
+    for i,packPath in ipairs(this.packages) do
+      packPaths[#packPaths+1]=packPath
+    end
   end
-  for i,packPath in ipairs(this.packages) do
-    packPaths[#packPaths+1]=packPath
+  if Ivars.supportHeliPatrolsMB:EnabledForMission(missionCode) then
+    for i,packPath in ipairs(this.packages.westheli)do
+      packPaths[#packPaths+1]=packPath
+    end
   end
 end
 
 function this.Init(missionTable,currentChecks)
   this.messageExecTable=nil
+  
+  this.active=0
 
-  if not IvarProc.EnabledForMission(heliPatrolsStr) then
+  if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
     return
   end
+  
+  this.active=1
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   local isMb=vars.missionCode==30050
   local isOuterPlat=vars.missionCode==30150 or vars.missionCode==30250
 
-  this.heliList={}
+  this.heliList={}    
+  
+  local numAttackHelis=IvarProc.GetForMission(attackHeliPatrolsStr)
   if isOuterPlat then
     return
   elseif isMb then
@@ -324,39 +335,25 @@ function this.Init(missionTable,currentChecks)
       end
     end
     --InfCore.Log("InfNPCHeli numClusters "..numClusters)--DEBUG
-
-    if Ivars.heliPatrolsMB:Is"UTH" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
-      local numSupportHelis=math.min(this.maxHelis.UTH,numClusters)
+    local numSupportHelis=Ivars.supportHeliPatrolsMB:Get()
+    numSupportHelis=math.min(numSupportHelis,numClusters)
+    if numSupportHelis>0 then
       this.heliNames.UTH=InfLookup.GenerateNameList("WestHeli%04d",numSupportHelis)
       for i=1,numSupportHelis do
         this.heliList[#this.heliList+1]=this.heliNames.UTH[i]
       end
     end
-    
-    local numAttackHelis=numClusters-#this.heliList
-    if numAttackHelis > 0 then
-      if Ivars.heliPatrolsMB:Is"HP48" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
-        this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numAttackHelis)
-      
-        for i=1,numAttackHelis do
-          this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
-        end
+
+    local numHelisAvailable=numClusters-#this.heliList
+    numHelisAvailable=math.min(numAttackHelis,numHelisAvailable)
+    if numHelisAvailable>0 then
+      this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numHelisAvailable)
+
+      for i=1,numHelisAvailable do
+        this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
       end
     end
-  elseif Ivars.heliPatrolsFREE:Is()>0 then
-    --local numAttackHelis=0
-    --    if Ivars.heliPatrolsFREE:Is"ENEMY_PREP" then
-    --      local level=InfMain.GetAverageRevengeLevel()
-    --      local levelToHeli={0,1,3,5,6,7}--tex TUNE GOTCHA tuned to max helis of 7
-    --      numAttackHelis=levelToHeli[level+1]
-    --    else
-    --      --tex from 1 (ignoring 0, off) SYNC Ivars.heliPatrolsFREE
-    --      local settingToHeliNum={1,3,5,7}
-    --      numAttackHelis=settingToHeliNum[Ivars.heliPatrolsFREE:Get()]
-    --    end
-    --numAttackHelis=math.min(numAttackHelis,#this.heliNames.HP48)
-
-    local numAttackHelis=this.maxHelis.HP48
+  elseif numAttackHelis>0 then
     this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numAttackHelis)
 
     for i=1,numAttackHelis do
@@ -418,7 +415,7 @@ function this.Init(missionTable,currentChecks)
 end
 
 function this.OnMissionCanStart(currentChecks)
-  if not IvarProc.EnabledForMission(heliPatrolsStr) then
+  if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
     return
   end
   local isMb=vars.missionCode==30050
@@ -437,9 +434,13 @@ end
 function this.OnReload(missionTable)
   this.messageExecTable=nil
 
-  if not IvarProc.EnabledForMission(heliPatrolsStr) then
+  this.active=0
+
+  if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
     return
   end
+  
+  this.active=1
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
@@ -480,8 +481,13 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if not currentChecks.inGame then
     return
   end
+  
+  if this.active==0 then
+    return
+  end
 
-  if not IvarProc.EnabledForMission(heliPatrolsStr) then
+  --tex TODO: this.active (set up on init/reload) instead
+  if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
     return
   end
 
@@ -591,7 +597,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
         else
           heliRoute=routesBag:Next()
           heliRoute=StrCode32(heliRoute)
-          
+
           if gvars.heli_missionStartRoute then
             InfCore.Log("gvars.heli_missionStartRoute=".. gvars.heli_missionStartRoute.." heliroute="..heliRoute)--DEBUGNOW
             if heliRoute==gvars.heli_missionStartRoute then
@@ -599,10 +605,10 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
               local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
               local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
               if not startOnFoot then
-            
-              heliRoute=routesBag:Next()
-              heliRoute=StrCode32(heliRoute)
-              InfCore.Log("heliroute==misisonstartroute, changing to:"..heliRoute)--DEBUGNOW
+
+                heliRoute=routesBag:Next()
+                heliRoute=StrCode32(heliRoute)
+                InfCore.Log("heliroute==misisonstartroute, changing to:"..heliRoute)--DEBUGNOW
               end
             end
           end
@@ -694,7 +700,7 @@ function this.GetEnemyHeliColor()
   return Ivars.mbEnemyHeliColor:Get()
 end
 
-this.heliColors={
+this.heliColors={--DEBUGNOW
   [TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},
   [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
   [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}

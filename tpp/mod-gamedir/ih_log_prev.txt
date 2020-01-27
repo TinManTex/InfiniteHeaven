@@ -1,255 +1,257 @@
-|0.089|InfCore start 08/22/17 15:10:05
-|0.093|Infinite Heaven r216
-|0.096|InfCore.RefreshFileList
-|0.1|dir /b /s "C:\GamesSD\MGS_TPP\mod\*.*" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt"
-|0.169|package.path:./?.lua;C:/GamesSD/MGS_TPP/lua/?.lua;C:/GamesSD/MGS_TPP/lua/?/init.lua;C:/GamesSD/MGS_TPP/?.lua;C:/GamesSD/MGS_TPP/?/init.lua;C:/GamesSD/MGS_TPP/mod/?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua;;D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFoxLua//?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua
-|0.178|Load InfInit.lua
-|0.182|LoadExternalModule Ivars
-|0.193|LoadExternalModule IvarsPersist
-|0.198|IvarsPersist.SetupVars
-|0.202|IvarProc.LoadEvars
-|0.206|IvarProc.LoadSave
-|0.21|InfInit.lua done
-|0.214|InfModelProc.LoadFovaInfo
-|0.218|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
-|0.222|init.lua done
-|0.228|start.lua
-|0.234|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
-|0.238|Found external for C:/GamesSD/MGS_TPP/mod/Tpp/Scripts/Equip/EquipIdTable.lua
-|0.244|---------- EquipIdTable personal
-|0.248|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
-|0.263|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
-|0.269|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
-|0.274|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
-|0.279|Loading parameter tables
-|0.283|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
-|0.291|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
-|0.295|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
-|0.304|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
-|0.309|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
-|0.314|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
-|0.318|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
-|0.323|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
-|0.333|InfModelRegistry.Setup:
-|0.338|#faceDefinitions:513 start faceId:690
-|0.342|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
-|0.348|Load Tpp.lua
-|0.352|Tpp.lua done
-|0.357|InfRequiresStart - start of TppDefine requires-list
-|0.365|Load TppDefine.lua
-|0.368|TppDefine.lua done
-|0.478|Load InfMain.lua
-|0.483|InfMain Exec
-|0.487|InfMain.LoadExternalModules
-|0.491|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfMenuCommands", "InfQuickMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfProcessExt", "InfPuppy", "InfQuest", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp" }
-|0.495|LoadExternalModule Ivars
-|0.506|Ivars.SetupIvars
-|0.514|LoadExternalModule IvarsPersist
-|0.518|LoadExternalModule InfMenuCommands
-|0.526|LoadExternalModule InfQuickMenuCommands
-|0.53|LoadExternalModule InfLang
-|0.537|LoadExternalModule InfMenuDefs
-|0.546|LoadExternalModule InfQuickMenuDefs
-|0.551|LoadExternalModule DebugIHQuest
-|0.556|LoadExternalModule IHDebugVars
-|0.562|LoadExternalModule IHGenKnownModuleNames
-|0.567|LoadExternalModule IHGenMockModules
-|0.581|LoadExternalModule IHGenModuleReferences
-|0.593|LoadExternalModule IHGenUnknownHashes
-|0.599|LoadExternalModule IHStringsExtensions
-|0.604|LoadExternalModule IHTearDown
-|0.609|LoadExternalModule InfAnimal
-|0.614|LoadExternalModule InfBodyInfo
-|0.62|LoadExternalModule InfBuddy
-|0.625|LoadExternalModule InfCamera
-|0.631|LoadExternalModule InfDemo
-|0.635|LoadExternalModule InfEnemyPhase
-|0.64|LoadExternalModule InfEquip
-|0.647|LoadExternalModule InfGameEvent
-|0.652|LoadExternalModule InfHelicopter
-|0.657|LoadExternalModule InfInterrogation
-|0.662|LoadExternalModule InfLookup
-|0.669|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GIMMICK
-|0.673|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROCKET_ARM
-|0.677|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BOSS
-|0.681|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum HELI_MINI_GUN
-|0.685|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_LOADED
-|0.689|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_EMPTIED
-|0.696|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_NONE
-|0.7|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_WALKER_GEAR_GET_IN
-|0.704|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_NONE
-|0.708|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_CAUTION
-|0.712|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_EVASION
-|0.717|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_BATTLE
-|0.721|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_CP
-|0.727|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_REINFORCE
-|0.731|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_LOST
-|0.735|LoadExternalModule InfMBAssets
-|0.74|LoadExternalModule InfMBGimmick
-|0.745|LoadExternalModule InfMBStaff
-|0.75|LoadExternalModule InfMBVisit
-|0.755|LoadExternalModule InfMission
-|0.76|LoadExternalModule InfNPC
-|0.768|LoadExternalModule InfNPCHeli
-|0.774|LoadExternalModule InfNPCOcelot
-|0.781|LoadExternalModule InfParasite
-|0.788|LoadExternalModule InfProcessExt
-|0.793|LoadExternalModule InfPuppy
-|0.798|LoadExternalModule InfQuest
-|0.804|LoadExternalModule InfResources
-|0.809|LoadExternalModule InfSoldier
-|0.815|LoadExternalModule InfSoldierParams
-|0.821|LoadExternalModule InfUserMarker
-|0.827|LoadExternalModule InfVehicle
-|0.832|LoadExternalModule InfWalkerGear
-|0.838|LoadExternalModule InfWarp
-|0.843|PostAllModulesLoad
-|0.848|DebugModeEnable:true
-|0.852|Ivars.PostAllModulesLoad
-|0.857|IHDebugVars.PostAllModulesLoad: setting debug vars
-|0.861|mission_block blockId=nil
-|0.865|quest_block blockId=nil
-|0.87|demo_block blockId=nil
-|0.875|reinforce_block blockId=nil
-|0.88|npc_block blockId=nil
-|0.884|animal_block blockId=nil
-|0.888|TppResidentBlockGroup blockId=nil
-|0.892|CommonStageBlockGroup blockId=nil
-|0.899|DebugModeEnable:true
-|0.904|ihExternal names={ "MbmCommonSetting", "AFC0", "AFC1", "AFDA", "AFN0", "CUBA", "MBA0", "MBA1", "MBA2", "RMA0", "SVA0", "EquipIdTable", "12000_ombs", "12020_afc0", "12030_afn0", "12040_afda", "12050_afc1", "12060_cuba", "12070_mba0", "12080_sva0", "12090_rma0", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLang", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommands", "InfMenuDefs", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfProcessExt", "InfPuppy", "InfQuest", "InfQuickMenuCommands", "InfQuickMenuDefs", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "Ivars", "IvarsPersist", "mgoHeadgear_fovaInfo", "ih_priority_staff", "ih_priority_staff", "ih_priority_staff", "ih_save - Copy (10)", "ih_save - Copy (11)", "ih_save - Copy (12)", "ih_save - Copy (13)", "ih_save - Copy (14)", "ih_save - Copy (15)", "ih_save - Copy (16)", "ih_save - Copy (17)", "ih_save - Copy (18)", "ih_save - Copy (19)", "ih_save - Copy (2)", "ih_save - Copy (20)", "ih_save - Copy (21)", "ih_save - Copy (22)", "ih_save - Copy (23)", "ih_save - Copy (24)", "ih_save - Copy (25)", "ih_save - Copy (26)", "ih_save - Copy (27)", "ih_save - Copy (28)", "ih_save - Copy (29)", "ih_save - Copy (3)", "ih_save - Copy (30)", "ih_save - Copy (31)", "ih_save - Copy (4)", "ih_save - Copy (5)", "ih_save - Copy (6)", "ih_save - Copy (7)", "ih_save - Copy (8)", "ih_save - Copy (9)", "ih_save - Copy", "ih_save - debug", "ih_save", "ih_save", "ih_save_prev - Copy", "ih_save_prev", "All_Options_Example", "CustomPrep_Max", "CustomPrep_Min", "CustomPrep_Wide", "Fulton_Heaven", "MotherBase_Heaven", "Revenge_Heaven", "Subsistence_Bounder", "Subsistence_Game", "Subsistence_Pure", "ih_quest_q30100", "ih_quest_q30101", "ih_quest_q30102", "ih_quest_q30155", "ih_quest_q30156" }
-|0.909|IHTearDown.PostAllModulesLoad
-|0.918|BuildMockModulesFromReferences
-|0.923|TppPickable could not find key DEBUG_DropWeapon
-|0.927|TppGameSequence could not find key GetInstance
-|0.932|TppGameSequence could not find key RequestGameSetup
-|0.936|Could not find module 'name' from moduleReferences in modules
-|0.941|MotherBaseConstructConnector could not find key SetContainerGimmickList
-|0.946|TppMbDev could not find key EQP_DEV_WP_sg01_v00
-|0.95|TppMbDev could not find key EQP_DEV_SWP_Grenade
-|0.955|TppMbDev could not find key EQP_DEV_WP_hg08
-|0.959|TppMbDev could not find key EQP_DEV_WP_ar00_v08
-|0.963|TppMbDev could not find key EQP_DEV_WP_hg01_v00
-|0.968|TppMbDev could not find key EQP_DEV_WP_hg00_v01
-|0.972|TppMbDev could not find key EQP_DEV_SWP_SmokeGrenade
-|0.977|TppMbDev could not find key EQP_DEV_WP_ar01_v00
-|0.982|TppMbDev could not find key EQP_DEV_WP_sr01_v00
-|0.986|TppMbDev could not find key EQP_DEV_WP_ms00
-|0.991|TppMbDev could not find key EQP_DEV_WP_mg03_v00
-|0.995|TppMbDev could not find key EQP_DEV_WP_ar00_v07
-|0.999|TppMbDev could not find key EQP_DEV_WP_ar00_v06
-|1.004|TppMbDev could not find key EQP_DEV_SWP_Magazine
-|1.008|TppMbDev could not find key EQP_DEV_SWP_C4
-|1.013|TppMbDev could not find key EQP_DEV_WP_sm00_v00
-|1.017|PlayerCamoType could not find key NONE
-|1.021|TppNetworkUtil could not find key DEBUG_DumpServerParameter
-|1.026|TppScriptVars could not find key CATEGORY_MGO
-|1.03|TppMotherBaseManagement could not find key DEBUG_DirectAddRandomStaffs
-|1.035|TppMotherBaseManagement could not find key DEBUG_DumpMbsParam
-|1.039|Demo could not find key playerPartsType
-|1.044|TppEquip could not find key EQP_MB_500216
-|1.048|TppEquip could not find key EQP_MB_500203
-|1.053|TppEquip could not find key EQP_HL_300504
-|1.057|TppEquip could not find key EQP_HL_300101
-|1.062|TppEquip could not find key EQP_DW_220525
-|1.067|TppEquip could not find key EQP_DW_220301
-|1.071|TppEquip could not find key EQP_HL_300605
-|1.076|TppEquip could not find key EQP_HL_300001
-|1.081|TppEquip could not find key EQP_DW_220102
-|1.085|TppEquip could not find key EQP_DW_220103
-|1.09|TppEquip could not find key EQP_HL_300606
-|1.094|TppEquip could not find key EQP_DH_210801
-|1.099|TppEquip could not find key BLA_ms01
-|1.103|TppEquip could not find key EQP_HL_300502
-|1.108|TppEquip could not find key BL_SWP_Magazine
-|1.113|TppEquip could not find key EQP_DH_210500
-|1.117|TppEquip could not find key EQP_DW_220104
-|1.121|TppEquip could not find key EQP_DW_220202
-|1.126|TppEquip could not find key EQP_MB_500215
-|1.13|TppEquip could not find key EQP_DW_221404
-|1.134|TppEquip could not find key BL_IT_TimeCigarette
-|1.139|TppEquip could not find key EQP_MB_500227
-|1.143|TppEquip could not find key EQP_DW_221004
-|1.147|TppEquip could not find key EQP_DW_221305
-|1.151|TppEquip could not find key EQP_DW_220602
-|1.156|TppEquip could not find key EQP_DW_221103
-|1.16|TppEquip could not find key EQP_WP_East_sr_010
-|1.165|TppEquip could not find key EQP_HL_300002
-|1.17|TppEquip could not find key EQP_MB_500204
-|1.175|TppEquip could not find key EQP_DH_210704
-|1.179|TppEquip could not find key EQP_DW_221306
-|1.184|TppEquip could not find key BL_SWP_Grenade
-|1.188|TppEquip could not find key EQP_DW_221104
-|1.192|TppEquip could not find key EQP_DD_210301
-|1.196|TppEquip could not find key EQP_HL_300304
-|1.201|TppEquip could not find key EQP_MB_500103
-|1.205|TppEquip could not find key EQP_MB_500214
-|1.209|TppEquip could not find key EQP_HL_300303
-|1.214|TppEquip could not find key EQP_DW_220603
-|1.218|TppEquip could not find key EQP_MB_500114
-|1.223|TppEquip could not find key EQP_HL_300003
-|1.227|TppEquip could not find key EQP_DD_210102
-|1.232|TppEquip could not find key EQP_HL_300414
-|1.236|TppEquip could not find key EQP_MB_500226
-|1.241|TppEquip could not find key EQP_DW_220204
-|1.245|TppEquip could not find key EQP_MB_500115
-|1.249|TppEquip could not find key EQP_HL_300604
-|1.253|TppEquip could not find key EQP_MB_500225
-|1.258|TppEquip could not find key EQP_MB_500105
-|1.262|TppEquip could not find key EQP_MB_500104
-|1.267|TppEquip could not find key EQP_MB_500205
-|1.271|TppEquip could not find key EQP_HL_300005
-|1.275|TppEquip could not find key EQP_DH_210603
-|1.279|TppEquip could not find key EQP_DW_220303
-|1.283|TppEquip could not find key EQP_DD_210123
-|1.288|TppEquip could not find key EQP_DW_221507
-|1.292|TppEquip could not find key EQP_MB_500116
-|1.296|TppEquip could not find key EQP_DW_220002
-|1.3|TppEquip could not find key EQP_DW_220414
-|1.304|TppEquip could not find key EQP_HL_300415
-|1.309|TppEquip could not find key EQP_DW_221505
-|1.313|TppEquip could not find key EQP_WP_Quiet_st_050
-|1.317|TppEquip could not find key EQP_DW_221406
-|1.321|TppEquip could not find key UD_None
-|1.326|TppEquip could not find key EQP_WP_Quiet_st_030
-|1.33|TppEquip could not find key EQP_HL_300302
-|1.335|TppEquip could not find key EQP_HL_300413
-|1.339|TppEquip could not find key EQP_DW_220604
-|1.343|TppEquip could not find key EQP_DW_221002
-|1.347|TppEquip could not find key EQP_WP_Quiet_st_040
-|1.351|TppEquip could not find key EQP_DW_221304
-|1.355|TppEquip could not find key EQP_DW_220003
-|1.36|TppEquip could not find key EQP_WP_Quiet_st_060
-|1.364|TppEquip could not find key EQP_DW_221405
-|1.369|TppEquip could not find key EQP_HL_300004
-|1.373|TppEquip could not find key EQP_DW_221003
-|1.378|TppEquip could not find key EQP_DH_210602
-|1.382|TppEquip could not find key EQP_WP_Quiet_st_010
-|1.387|TppEquip could not find key EQP_DW_221105
-|1.391|TppEquip could not find key EQP_DH_210604
-|1.395|TppEquip could not find key EQP_DD_210000
-|1.399|TppEquip could not find key EQP_DD_210113
-|1.404|TppEquip could not find key EQP_DW_221506
-|1.408|TppEquip could not find key EPQ_None
-|1.412|TppEquip could not find key EQP_DW_220605
-|1.416|TppEquip could not find key EQP_WP_Quiet_st_020
-|1.421|TppEquip could not find key EQP_HL_300503
-|1.425|TppEquip could not find key EQP_HL_300202
-|1.429|TppEquip could not find key EQP_DW_220203
-|1.433|TppEquip could not find key EQP_DW_220004
-|1.438|TppEquip could not find key EQP_DH_210901
-|1.442|TppEquip could not find key EQP_DD_210214
-|1.446|TppEquip could not find key BLA_mgs0_miss2
-|1.45|TppEquip could not find key EQP_DD_210401
-|1.454|Game could not find key DEBUG_AddScript
-|1.458|GameObject could not find key NULL_IDdem
-|1.463|GameObject could not find key SpecialActionEnd
-|1.467|Fox could not find key StrCode32l
-|1.471|Fox could not find key HungUp
-|1.476|Player could not find key DEBUG_PlaceAround
-|1.48|Player could not find key NotifyChangedPlayerRailAction
-|1.484|Player could not find key UnSetPause
-|1.489|PlayerType could not find key MGO_MALE
-|1.494|notFound={
+|0|InfCore start 08/31/17 14:47:09
+|0|Infinite Heaven r218
+|0|InfCore.RefreshFileList
+|0|dir /b /s "C:\GamesSD\MGS_TPP\mod\*.*" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt"
+|0|package.path:./?.lua;C:/GamesSD/MGS_TPP/lua/?.lua;C:/GamesSD/MGS_TPP/lua/?/init.lua;C:/GamesSD/MGS_TPP/?.lua;C:/GamesSD/MGS_TPP/?/init.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua
+|0|Load InfInit.lua
+|0|LoadExternalModule Ivars
+|0|LoadExternalModule IvarsPersist
+|0|IvarsPersist.SetupVars
+|0|IvarProc.LoadEvars
+|0|IvarProc.LoadSave
+|0|start "" C:/GamesSD/MGS_TPP/mod/IHExt.exe C:/GamesSD/MGS_TPP/
+|0|InfInit.lua done
+|0|InfModelProc.LoadFovaInfo
+|0|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
+|0|init.lua done
+|0|start.lua
+|0.050050326644801|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
+|0.050050326644801|Found external for C:/GamesSD/MGS_TPP/mod/Tpp/Scripts/Equip/EquipIdTable.lua
+|0.050050326644801|---------- EquipIdTable personal
+|0.050050326644801|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
+|0.16683442214934|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
+|0.16683442214934|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
+|0.16683442214934|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
+|0.16683442214934|Loading parameter tables
+|0.20854290011596|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
+|0.24190978454583|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
+|0.2752766689757|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
+|0.30864355340556|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
+|0.30864355340556|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
+|0.30864355340556|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
+|0.30864355340556|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
+|0.36703547358712|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
+|0.36703547358712|InfModelRegistry.Setup:
+|0.36703547358712|#faceDefinitions:513 start faceId:690
+|0.44211083598361|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
+|0.51718619838011|Load Tpp.lua
+|0.51718619838011|Tpp.lua done
+|0.60060315431336|InfRequiresStart - start of TppDefine requires-list
+|0.65065424638241|Load TppDefine.lua
+|0.65065424638241|TppDefine.lua done
+|0.96763964846615|mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
+|0.96763964846615|mbdvc_map_location_parameter.GetLocationParameter 65534
+|3.4201056540614|Load InfMain.lua
+|3.4201056540614|InfMain Exec
+|3.4201056540614|InfMain.LoadExternalModules
+|3.4201056540614|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "NoVolunteers" }
+|3.4201056540614|LoadExternalModule Ivars
+|3.4201056540614|Ivars.SetupIvars
+|3.4201056540614|LoadExternalModule IvarsPersist
+|3.4201056540614|LoadExternalModule InfMenuCommands
+|3.4201056540614|LoadExternalModule InfLang
+|3.4201056540614|LoadExternalModule InfMenuDefs
+|3.4201056540614|LoadExternalModule InfQuickMenuDefs
+|3.4201056540614|LoadExternalModule DebugIHQuest
+|3.4201056540614|LoadExternalModule IHDebugVars
+|3.4201056540614|LoadExternalModule IHGenKnownModuleNames
+|3.4201056540614|LoadExternalModule IHGenMockModules
+|3.4201056540614|LoadExternalModule IHGenModuleReferences
+|3.4201056540614|LoadExternalModule IHGenUnknownHashes
+|3.4201056540614|LoadExternalModule IHStringsExtensions
+|3.4201056540614|LoadExternalModule IHTearDown
+|3.4201056540614|LoadExternalModule InfAnimal
+|3.4201056540614|LoadExternalModule InfBodyInfo
+|3.4201056540614|LoadExternalModule InfBuddy
+|3.4201056540614|LoadExternalModule InfCamera
+|3.4201056540614|LoadExternalModule InfDemo
+|3.4201056540614|LoadExternalModule InfEnemyPhase
+|3.4201056540614|LoadExternalModule InfEquip
+|3.4201056540614|LoadExternalModule InfExtToMgsv
+|3.4201056540614|LoadExternalModule InfGameEvent
+|3.4201056540614|LoadExternalModule InfHelicopter
+|3.4201056540614|LoadExternalModule InfInterrogation
+|3.4201056540614|LoadExternalModule InfLookup
+|3.4201056540614|LoadExternalModule InfMBAssets
+|3.4201056540614|LoadExternalModule InfMBGimmick
+|3.4201056540614|LoadExternalModule InfMBStaff
+|3.4201056540614|LoadExternalModule InfMBVisit
+|3.4201056540614|LoadExternalModule InfMgsvToExt
+|3.4201056540614|LoadExternalModule InfMission
+|3.4201056540614|LoadExternalModule InfNPC
+|3.4201056540614|LoadExternalModule InfNPCHeli
+|3.4201056540614|LoadExternalModule InfNPCOcelot
+|3.4201056540614|LoadExternalModule InfParasite
+|3.4201056540614|LoadExternalModule InfPuppy
+|3.4201056540614|LoadExternalModule InfQuest
+|3.4201056540614|LoadExternalModule InfResources
+|3.4201056540614|LoadExternalModule InfSoldier
+|3.4201056540614|LoadExternalModule InfSoldierParams
+|3.4201056540614|LoadExternalModule InfUserMarker
+|3.4201056540614|LoadExternalModule InfVehicle
+|3.4201056540614|LoadExternalModule InfWalkerGear
+|3.4201056540614|LoadExternalModule InfWarp
+|3.4201056540614|LoadExternalModule NoVolunteers
+|3.4201056540614|PostAllModulesLoad
+|3.4201056540614|DebugModeEnable:true
+|3.4201056540614|Ivars.PostAllModulesLoad:
+|3.4201056540614|Ivars.PostAllModulesLoad
+|3.4201056540614|InfMenuCommands.PostAllModulesLoad:
+|3.4201056540614|InfMenuCommands.BuildCommandItems
+|3.4201056540614|InfMenuDefs.PostAllModulesLoad:
+|3.4201056540614|Adding module menuDefs
+|3.4201056540614|IHDebugVars.PostAllModulesLoad:
+|3.4201056540614|IHDebugVars.PostAllModulesLoad: setting debug vars
+|3.4201056540614|mission_block blockId=4294967295
+|3.4201056540614|quest_block blockId=4294967295
+|3.4201056540614|demo_block blockId=4294967295
+|3.4201056540614|reinforce_block blockId=4294967295
+|3.4201056540614|npc_block blockId=4294967295
+|3.4201056540614|animal_block blockId=4294967295
+|3.4201056540614|TppResidentBlockGroup blockId=4294967295
+|3.4201056540614|CommonStageBlockGroup blockId=4294967295
+|3.4201056540614|DebugModeEnable:true
+|3.4201056540614|IHGenKnownModuleNames.PostAllModulesLoad:
+|3.4201056540614|ihExternal names={ "MbmCommonSetting", "AFC0", "AFC1", "AFDA", "AFN0", "CUBA", "MBA0", "MBA1", "MBA2", "RMA0", "SVA0", "12000_ombs", "12020_cypr", "EquipIdTable", "12000_ombs", "12020_afc0", "12030_afn0", "12040_afda", "12050_afc1", "12060_cuba", "12070_mba0", "12080_sva0", "12090_rma0", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLang", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommands", "InfMenuDefs", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfQuickMenuDefs", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "Ivars", "IvarsPersist", "NoVolunteers", "mgoHeadgear_fovaInfo", "ih_priority_staff", "ih_priority_staff", "ih_priority_staff", "ih_save - Copy (10)", "ih_save - Copy (11)", "ih_save - Copy (12)", "ih_save - Copy (13)", "ih_save - Copy (14)", "ih_save - Copy (15)", "ih_save - Copy (16)", "ih_save - Copy (17)", "ih_save - Copy (18)", "ih_save - Copy (19)", "ih_save - Copy (2)", "ih_save - Copy (20)", "ih_save - Copy (21)", "ih_save - Copy (22)", "ih_save - Copy (23)", "ih_save - Copy (24)", "ih_save - Copy (25)", "ih_save - Copy (26)", "ih_save - Copy (27)", "ih_save - Copy (28)", "ih_save - Copy (29)", "ih_save - Copy (3)", "ih_save - Copy (30)", "ih_save - Copy (31)", "ih_save - Copy (4)", "ih_save - Copy (5)", "ih_save - Copy (6)", "ih_save - Copy (7)", "ih_save - Copy (8)", "ih_save - Copy (9)", "ih_save - Copy", "ih_save - debug", "ih_save", "ih_save", "ih_save_prev - Copy", "ih_save_prev", "All_Options_Example", "CustomPrep_Max", "CustomPrep_Min", "CustomPrep_Wide", "Fulton_Heaven", "MotherBase_Heaven", "Revenge_Heaven", "Subsistence_Bounder", "Subsistence_Game", "Subsistence_Pure", "ih_quest_q30100", "ih_quest_q30101", "ih_quest_q30102", "ih_quest_q30155" }
+|3.4201056540614|IHTearDown.PostAllModulesLoad:
+|3.4201056540614|IHTearDown.PostAllModulesLoad
+|3.4201056540614|BuildMockModulesFromReferences
+|3.4201056540614|TppPickable could not find key DEBUG_DropWeapon
+|3.4201056540614|TppGameSequence could not find key GetInstance
+|3.4201056540614|TppGameSequence could not find key RequestGameSetup
+|3.4201056540614|Could not find module 'name' from moduleReferences in modules
+|3.4201056540614|Could not find module 'TppPlaced' from moduleReferences in modules
+|3.4201056540614|TppBullet could not find key ClearBulletMark
+|3.4201056540614|MotherBaseConstructConnector could not find key SetContainerGimmickList
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_sg01_v00
+|3.4201056540614|TppMbDev could not find key EQP_DEV_SWP_Grenade
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_hg08
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_ar00_v08
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_hg01_v00
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_hg00_v01
+|3.4201056540614|TppMbDev could not find key EQP_DEV_SWP_SmokeGrenade
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_ar01_v00
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_sr01_v00
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_ms00
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_mg03_v00
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_ar00_v07
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_ar00_v06
+|3.4201056540614|TppMbDev could not find key EQP_DEV_SWP_Magazine
+|3.4201056540614|TppMbDev could not find key EQP_DEV_SWP_C4
+|3.4201056540614|TppMbDev could not find key EQP_DEV_WP_sm00_v00
+|3.4201056540614|PlayerCamoType could not find key NONE
+|3.4201056540614|TppNetworkUtil could not find key DEBUG_DumpServerParameter
+|3.4201056540614|TppScriptVars could not find key CATEGORY_MGO
+|3.4201056540614|Could not find module 'HighSpeedCamera' from moduleReferences in modules
+|3.4201056540614|TppMotherBaseManagement could not find key DEBUG_DirectAddRandomStaffs
+|3.4201056540614|TppMotherBaseManagement could not find key DEBUG_DumpMbsParam
+|3.4201056540614|Demo could not find key playerPartsType
+|3.4201056540614|TppEquip could not find key EQP_MB_500216
+|3.4201056540614|TppEquip could not find key EQP_MB_500203
+|3.4201056540614|TppEquip could not find key EQP_HL_300504
+|3.4201056540614|TppEquip could not find key EQP_HL_300101
+|3.4201056540614|TppEquip could not find key EQP_DW_220525
+|3.4201056540614|TppEquip could not find key EQP_DW_220301
+|3.4201056540614|TppEquip could not find key EQP_HL_300605
+|3.4201056540614|TppEquip could not find key EQP_HL_300001
+|3.4201056540614|TppEquip could not find key EQP_DW_220102
+|3.4201056540614|TppEquip could not find key EQP_DW_220103
+|3.4201056540614|TppEquip could not find key EQP_HL_300606
+|3.4201056540614|TppEquip could not find key EQP_DH_210801
+|3.4201056540614|TppEquip could not find key BLA_ms01
+|3.4201056540614|TppEquip could not find key EQP_HL_300502
+|3.4201056540614|TppEquip could not find key BL_SWP_Magazine
+|3.4201056540614|TppEquip could not find key EQP_DH_210500
+|3.4201056540614|TppEquip could not find key EQP_DW_220104
+|3.4201056540614|TppEquip could not find key EQP_DW_220202
+|3.4201056540614|TppEquip could not find key EQP_MB_500215
+|3.4201056540614|TppEquip could not find key EQP_DW_221404
+|3.4201056540614|TppEquip could not find key BL_IT_TimeCigarette
+|3.4201056540614|TppEquip could not find key EQP_MB_500227
+|3.4201056540614|TppEquip could not find key EQP_DW_221004
+|3.4201056540614|TppEquip could not find key EQP_DW_221305
+|3.4201056540614|TppEquip could not find key EQP_DW_220602
+|3.4201056540614|TppEquip could not find key EQP_DW_221103
+|3.4201056540614|TppEquip could not find key EQP_WP_East_sr_010
+|3.4201056540614|TppEquip could not find key EQP_HL_300002
+|3.4201056540614|TppEquip could not find key EQP_MB_500204
+|3.4201056540614|TppEquip could not find key EQP_DH_210704
+|3.4201056540614|TppEquip could not find key EQP_DW_221306
+|3.4201056540614|TppEquip could not find key BL_SWP_Grenade
+|3.4201056540614|TppEquip could not find key EQP_DW_221104
+|3.4201056540614|TppEquip could not find key EQP_DD_210301
+|3.4201056540614|TppEquip could not find key EQP_HL_300304
+|3.4201056540614|TppEquip could not find key EQP_MB_500103
+|3.4201056540614|TppEquip could not find key EQP_MB_500214
+|3.4201056540614|TppEquip could not find key EQP_HL_300303
+|3.4201056540614|TppEquip could not find key EQP_DW_220603
+|3.4201056540614|TppEquip could not find key EQP_MB_500114
+|3.4201056540614|TppEquip could not find key EQP_HL_300003
+|3.4201056540614|TppEquip could not find key EQP_DD_210102
+|3.4201056540614|TppEquip could not find key EQP_HL_300414
+|3.4201056540614|TppEquip could not find key EQP_MB_500226
+|3.4201056540614|TppEquip could not find key EQP_DW_220204
+|3.4201056540614|TppEquip could not find key EQP_MB_500115
+|3.4201056540614|TppEquip could not find key EQP_HL_300604
+|3.4201056540614|TppEquip could not find key EQP_MB_500225
+|3.4201056540614|TppEquip could not find key EQP_MB_500105
+|3.4201056540614|TppEquip could not find key EQP_MB_500104
+|3.4201056540614|TppEquip could not find key EQP_MB_500205
+|3.4201056540614|TppEquip could not find key EQP_HL_300005
+|3.4201056540614|TppEquip could not find key EQP_DH_210603
+|3.4201056540614|TppEquip could not find key EQP_DW_220303
+|3.4201056540614|TppEquip could not find key EQP_DD_210123
+|3.4201056540614|TppEquip could not find key EQP_DW_221507
+|3.4201056540614|TppEquip could not find key EQP_MB_500116
+|3.4201056540614|TppEquip could not find key EQP_DW_220002
+|3.4201056540614|TppEquip could not find key EQP_DW_220414
+|3.4201056540614|TppEquip could not find key EQP_HL_300415
+|3.4201056540614|TppEquip could not find key EQP_DW_221505
+|3.4201056540614|TppEquip could not find key EQP_WP_Quiet_st_050
+|3.4201056540614|TppEquip could not find key EQP_DW_221406
+|3.4201056540614|TppEquip could not find key UD_None
+|3.4201056540614|TppEquip could not find key EQP_WP_Quiet_st_030
+|3.4201056540614|TppEquip could not find key EQP_HL_300302
+|3.4201056540614|TppEquip could not find key EQP_HL_300413
+|3.4201056540614|TppEquip could not find key EQP_DW_220604
+|3.4201056540614|TppEquip could not find key EQP_DW_221002
+|3.4201056540614|TppEquip could not find key EQP_WP_Quiet_st_040
+|3.4201056540614|TppEquip could not find key EQP_DW_221304
+|3.4201056540614|TppEquip could not find key EQP_DW_220003
+|3.4201056540614|TppEquip could not find key EQP_WP_Quiet_st_060
+|3.4201056540614|TppEquip could not find key EQP_DW_221405
+|3.4201056540614|TppEquip could not find key EQP_HL_300004
+|3.4201056540614|TppEquip could not find key EQP_DW_221003
+|3.4201056540614|TppEquip could not find key EQP_DH_210602
+|3.4201056540614|TppEquip could not find key EQP_WP_Quiet_st_010
+|3.4201056540614|TppEquip could not find key EQP_DW_221105
+|3.4201056540614|TppEquip could not find key EQP_DH_210604
+|3.4201056540614|TppEquip could not find key EQP_DD_210000
+|3.4201056540614|TppEquip could not find key EQP_DD_210113
+|3.4201056540614|TppEquip could not find key EQP_DW_221506
+|3.4201056540614|TppEquip could not find key EPQ_None
+|3.4201056540614|TppEquip could not find key EQP_DW_220605
+|3.4201056540614|TppEquip could not find key EQP_WP_Quiet_st_020
+|3.4201056540614|TppEquip could not find key EQP_HL_300503
+|3.4201056540614|TppEquip could not find key EQP_HL_300202
+|3.4201056540614|TppEquip could not find key EQP_DW_220203
+|3.4201056540614|TppEquip could not find key EQP_DW_220004
+|3.4201056540614|TppEquip could not find key EQP_DH_210901
+|3.4201056540614|TppEquip could not find key EQP_DD_210214
+|3.4201056540614|TppEquip could not find key BLA_mgs0_miss2
+|3.4201056540614|TppEquip could not find key EQP_DD_210401
+|3.4201056540614|Game could not find key DEBUG_AddScript
+|3.4201056540614|GameObject could not find key NULL_IDdem
+|3.4201056540614|GameObject could not find key SpecialActionEnd
+|3.4201056540614|Fox could not find key StrCode32l
+|3.4201056540614|Fox could not find key HungUp
+|3.4201056540614|Could not find module 'CaptureCage' from moduleReferences in modules
+|3.4201056540614|Player could not find key DEBUG_PlaceAround
+|3.4201056540614|Player could not find key NotifyChangedPlayerRailAction
+|3.4201056540614|Player could not find key UnSetPause
+|3.4201056540614|PlayerType could not find key MGO_MALE
+|3.4201056540614|notFound={
+  CaptureCage = true,
   Demo = {
     playerPartsType = true
   },
@@ -264,6 +266,7 @@
     NULL_IDdem = true,
     SpecialActionEnd = true
   },
+  HighSpeedCamera = true,
   MotherBaseConstructConnector = {
     SetContainerGimmickList = true
   },
@@ -277,6 +280,9 @@
   },
   PlayerType = {
     MGO_MALE = true
+  },
+  TppBullet = {
+    ClearBulletMark = true
   },
   TppEquip = {
     BLA_mgs0_miss2 = true,
@@ -406,77 +412,834 @@
   TppPickable = {
     DEBUG_DropWeapon = true
   },
+  TppPlaced = true,
   TppScriptVars = {
     CATEGORY_MGO = true
   },
   name = true
-}
-|1.499|combine mockModulesFromRefs to mockModules
-|1.505|isMockFox, will not output dump files
-|1.509|LoadStrings
-|1.514|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExe.txt
-|1.766|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
-|1.82|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExtensions.txt
-|1.826|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
-|1.902|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
-|1.924|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
-|4.389|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
-|4.396|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
-|4.405|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
-|4.502|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
-|4.999|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
-|5.005|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
-|8.703|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsLua.txt
-|8.945|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsManual.txt
-|8.951|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/lang_dictionary.txt
-|8.965|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/mtar_dictionary.txt
-|8.971|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/qar_dictionary.txt
-|9.047|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/subp_dictionary.txt
-|9.053|InfLookup.AddObjectNamesToStr32List:
-|9.059|InfLookup.BuildPath32ToDataSetName:
-|10.537|InfLookup.LoadGameObjectNames
-|14.506|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
-|15.877|InfQuest.LoadQuestDefs
-|15.882|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
-|15.887|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
-|15.891|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
-|15.896|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
-|15.901|InfQuest.LoadQuestDefs: ih_quest_q30156.lua
-|15.911|IvarProc.SetupInfProfiles
-|15.919|InfMain.lua done
-|15.932|InfHook done, requires-list done
-|15.94|Load TppDefine.lua
-|15.944|TppDefine.lua done
-|15.953|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
-|15.96|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
-|15.967|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
-|15.974|start2nd.lua start
-|15.98|Loading mother base settings
-|15.984|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|15.988|Found external for C:/GamesSD/MGS_TPP/mod//Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|15.998|MbmCommonSetting.lua - personal tweaks
-|16.003|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
-|16.011|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
-|16.018|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
-|16.026|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
-|16.037|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
-|16.044|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
-|16.06|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
-|16.076|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
-|16.082|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
-|16.093|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
-|16.103|InfMain.LoadLibraries
-|16.108|InfMain.LoadModelInfoModules
-|16.114|InfMission.SetupMissions
-|16.118|start2nd.lua done
-|16.123|TppVarInit.InitializeOnStartTitle
-|16.128|TppVarInit.StartInitMission 10010
-|16.132|TppMission.Load nextMissionCode:1 currentMissionCode:nil
-|16.137|loadSettings={
+}
+|3.4201056540614|combine mockModulesFromRefs to mockModules
+|3.4201056540614|DumpSaveVars inputVars==nil
+|3.4201056540614|DumpSaveVars inputVars==nil
+|3.4201056540614|DumpToFiles D:\Projects\MGS\dump\modulesDump\
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\ModulesDump.lua
+|3.4201056540614|DumpToFiles D:\Projects\MGS\dump\mockModules\
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\MockModules.lua
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\IHGenUnfoundReferences.lua
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\IHMissedModules.lua
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\\varsDump\vars.lua
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\\varsDump\mvars.lua
+|3.4201056540614|WriteTable D:\Projects\MGS\dump\IHGenEntityClassDictionary.lua
+|3.4201056540614|InfLookup.PostAllModulesLoad:
+|3.4201056540614|LoadStrings
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExe.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExtensions.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsLua.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsManual.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/lang_dictionary.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/mtar_dictionary.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/qar_dictionary.txt
+|3.4201056540614|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/subp_dictionary.txt
+|3.4201056540614|InfLookup.AddObjectNamesToStr32List:
+|3.4201056540614|InfLookup.BuildPath32ToDataSetName:
+|3.4201056540614|InfLookup.LoadGameObjectNames
+|3.4201056540614|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
+|3.4201056540614|InfNPC.PostAllModulesLoad:
+|3.4201056540614|InfQuest.PostAllModulesLoad:
+|3.4201056540614|InfQuest.LoadQuestDefs
+|3.4201056540614|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
+|3.4201056540614|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
+|3.4201056540614|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
+|3.4201056540614|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
+|3.4201056540614|NoVolunteers.PostAllModulesLoad:
+|3.4201056540614|IvarProc.SetupInfProfiles
+|3.4201056540614|InfMain.lua done
+|8.7588074179816|InfHook done, requires-list done
+|8.7921743024115|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
+|8.7921743024115|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
+|8.850566222593|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
+|8.9423252823459|start2nd.lua start
+|8.9923756089907|Loading mother base settings
+|8.9923756089907|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|8.9923756089907|Found external for C:/GamesSD/MGS_TPP/mod//Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|8.9923756089907|MbmCommonSetting.lua - personal tweaks
+|9.0174006447424|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
+|9.0424256804941|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
+|9.0591093778504|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
+|9.0841344136021|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
+|9.1091594493538|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
+|9.1341844851055|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
+|9.1592095208572|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
+|9.192576405287|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
+|9.2259432897169|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
+|9.2593101741468|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
+|9.2843352098985|InfMain.LoadLibraries
+|9.2843352098985|InfMain.LoadModelInfoModules
+|9.2843352098985|InfMission.SetupMissions
+|9.2843352098985|InfMission.LoadMissionDefs: 12000_ombs.lua
+|9.2843352098985|InfMission.LoadMissionDefs: 12020_cypr.lua
+|9.2843352098985|Adding mission 12000
+|9.2843352098985|Adding mission 12020
+|9.2843352098985|RegistMissionEpisodeNo(12000,51)
+|9.2843352098985|RegistMissionEpisodeNo(12020,52)
+|9.2843352098985|start2nd.lua done
+|9.4511696320478|TppVarInit.InitializeOnStartTitle
+|9.4511696320478|TppVarInit.StartInitMission 10010
+|9.4511696320478|TppMission.Load nextMissionCode:1 currentMissionCode:nil
+|9.4511696320478|loadSettings={
   force = true,
   showLoadingTips = false
-}
-|16.141|TppEneFova.InitializeUniqueSetting
-|16.145|TppEneFova.PreMissionLoad locationName:nil missionId:1
-|16.149|InfMain.PreMissionLoad
-|16.154|start.lua done
+}
+|9.4511696320478|InfParasite.OnLoad:
+|9.4511696320478|TppEneFova.InitializeUniqueSetting
+|9.4511696320478|TppEneFova.PreMissionLoad locationName:nil missionId:1
+|9.4511696320478|InfMain.PreMissionLoad
+|9.4511696320478|InfEquip.PreMissionLoad:
+|9.4511696320478|InfSoldier.PreMissionLoad:
+|9.4511696320478|start.lua done
+|9.4511696320478|TppMissionList.GetLocationPackagePath 1
+|9.4511696320478|locationPackPaths={ "/Assets/tpptest/pack/location/empty/empty.fpk" }
+|9.4511696320478|TppMissionList.GetMissionPackagePath 1
+|9.4511696320478|InfMain.AddMissionPacks 1
+|9.4511696320478|InfAnimal.AddMissionPacks:
+|9.4511696320478|InfEquip.AddMissionPacks:
+|9.4511696320478|InfMBAssets.AddMissionPacks:
+|9.4511696320478|InfNPC.AddMissionPacks:
+|9.4511696320478|InfNPCHeli.AddMissionPacks:
+|9.4511696320478|InfNPCOcelot.AddMissionPacks:
+|9.4511696320478|InfParasite.AddMissionPacks:
+|9.4511696320478|InfPuppy.AddMissionPacks:
+|9.4511696320478|InfSoldier.AddMissionPacks:
+|9.4511696320478|InfVehicle.AddMissionPacks:
+|9.4511696320478|InfWalkerGear.AddMissionPacks:
+|9.4511696320478|missionPackPaths={ "/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk", "/Assets/tpp/pack/mission2/init/init.fpk" }
+|9.4511696320478|OnAllocate Top 1
+|9.4511696320478|DebugModeEnable:true
+|9.4511696320478|AddDevMenus
+|9.4511696320478|HookPre TppUI.FadeOut(0)
+|9.4511696320478|inf_levelSeed -1852300496
+|9.4511696320478|InfEquip.OnAllocate:
+|9.4511696320478|InfQuest.OnAllocate:
+|9.4511696320478|InfResources.OnAllocate:
+|9.4511696320478|ScaleResourceTables
+|9.4511696320478|InfSoldierParams.OnAllocate:
+|9.4511696320478|InfParasite.MissionPrepare:
+|9.4511696320478|TppSequence.DeclareSVars
+|9.4511696320478|TppResult.DeclareSVars
+|9.4511696320478|TppSound.DeclareSVars
+|9.4511696320478|TppTerminal.DeclareSVars
+|9.4511696320478|TppMarker.DeclareSVars
+|9.4511696320478|TppRadio.DeclareSVars
+|9.4511696320478|TppPlayer.DeclareSVars
+|9.4511696320478|TppScriptBlock.DeclareSVars
+|9.4511696320478|TppMission.DeclareSVars
+|9.4511696320478|TppEnemy.DeclareSVars
+|9.4511696320478|TppInterrogation.DeclareSVars
+|9.4511696320478|TppCheckPoint.DeclareSVars
+|9.4511696320478|TppTrap.DeclareSVars
+|9.4511696320478|TppFreeHeliRadio.DeclareSVars
+|9.4511696320478|TppHero.DeclareSVars
+|9.4511696320478|TppRanking.DeclareSVars
+|9.4511696320478|InfParasite.DeclareSVars:
+|9.4511696320478|InfMission.OpenMissions
+|9.4511696320478|Clearing 40
+|9.4511696320478|Clearing 42
+|9.4511696320478|Clearing 44
+|9.4511696320478|Clearing 47
+|9.4511696320478|Clearing 50
+|9.4511696320478|Clearing 51
+|9.4511696320478|Clearing 52
+|9.4511696320478|Clearing 54
+|9.4511696320478|Clearing 56
+|9.4511696320478|Clearing 58
+|9.4511696320478|Clearing 61
+|9.4511696320478|Clearing 63
+|9.4511696320478|Clearing 64
+|9.4511696320478|Opening 12000
+|9.4511696320478|Opening 12020
+|9.4511696320478|TppRevenge._SetUiParameters 
+|9.4511696320478|TppRevenge._CreateRevengeConfig
+|9.4511696320478|revengeConfig={
+  COMBAT_LOW = true,
+  HOLDUP_LOW = true,
+  STEALTH_LOW = true
+}
+|9.4511696320478|OnAllocate Bottom 1
+|9.4511696320478|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.4511696320478|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.4511696320478|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.4511696320478|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.4511696320478|OnInitialize Top 1
+|9.4511696320478|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|9.4511696320478|Adding IHStringsExe strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapeTrap strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapePaths strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapeAfgh strings to strCode32List
+|9.4511696320478|Adding subp_dictionary strings to strCode32List
+|9.4511696320478|Adding IHStringsGameObjectNames strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapeMafr strings to strCode32List
+|9.4511696320478|Adding mtar_dictionary strings to strCode32List
+|9.4511696320478|Adding IHStringsExeMgsGroundZeroes strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapeMtbs strings to strCode32List
+|9.4511696320478|Adding lang_dictionary strings to strCode32List
+|9.4511696320478|Adding IHStringsManual strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapeLz strings to strCode32List
+|9.4511696320478|Adding qar_dictionary strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2ScrapeLy strings to strCode32List
+|9.4511696320478|Adding IHStringsExtensions strings to strCode32List
+|9.4511696320478|Adding IHStringsFox2Scrape strings to strCode32List
+|9.4511696320478|Adding IHStringsLua strings to strCode32List
+|9.4511696320478|InfQuest.RegisterQuests
+|9.4511696320478|RegisterQuests ih_quest_q30100 168
+|9.4511696320478|RegisterQuests ih_quest_q30101 169
+|9.4511696320478|RegisterQuests ih_quest_q30102 170
+|9.4511696320478|RegisterQuests ih_quest_q30155 171
+|9.4511696320478|numUiQuests:161
+|9.4511696320478|TppSave.Init
+|9.4511696320478|TppLocation.Init
+|9.4511696320478|TppSequence.Init
+|9.4511696320478|TppWeather.Init
+|9.4511696320478|TppUI.Init
+|9.4511696320478|TppResult.Init
+|9.4511696320478|TppSound.Init
+|9.4511696320478|TppTerminal.Init
+|9.4511696320478|TppMarker.Init
+|9.4511696320478|TppRadio.Init
+|9.4511696320478|TppPlayer.Init
+|9.4511696320478|TppHelicopter.Init
+|9.4511696320478|TppMission.Init
+|9.4511696320478|TppStory.Init
+|9.4511696320478|InfMission.OpenMissions
+|9.4511696320478|Clearing 40
+|9.4511696320478|Clearing 42
+|9.4511696320478|Clearing 44
+|9.4511696320478|Clearing 47
+|9.4511696320478|Clearing 50
+|9.4511696320478|Clearing 51
+|9.4511696320478|Clearing 52
+|9.4511696320478|Clearing 54
+|9.4511696320478|Clearing 56
+|9.4511696320478|Clearing 58
+|9.4511696320478|Clearing 61
+|9.4511696320478|Clearing 63
+|9.4511696320478|Clearing 64
+|9.4511696320478|Opening 12000
+|9.4511696320478|Opening 12020
+|9.4511696320478|TppDemo.Init
+|9.4511696320478|TppEnemy.Init
+|9.4511696320478|TppInterrogation.Init
+|9.4511696320478|TppGimmick.Init
+|9.4511696320478|TppCheckPoint.Init
+|9.4511696320478|TppQuest.Init
+|9.4511696320478|TppRevenge.Init
+|9.4511696320478|TppReinforceBlock.Init
+|9.4511696320478|TppFreeHeliRadio.Init
+|9.4511696320478|TppHero.Init
+|9.4511696320478|TppTelop.Init
+|9.4511696320478|TppRatBird.Init
+|9.4511696320478|TppAnimal.Init
+|9.4511696320478|TppTutorial.Init
+|9.4511696320478|TppPaz.Init
+|9.4511696320478|TppRanking.Init
+|9.4511696320478|InfMain.Init
+|9.4511696320478|InfAnimal.Init:
+|9.4511696320478|InfBuddy.Init:
+|9.4511696320478|InfEnemyPhase.Init:
+|9.4511696320478|InfEquip.Init:
+|9.4511696320478|InfHelicopter.Init:
+|9.4511696320478|InfInterrogation.Init:
+|9.4511696320478|InfLookup.Init:
+|9.4511696320478|Dumping unknownStr32
+|9.4511696320478|Dumping unknownMessages
+|9.4511696320478|InfMBGimmick.Init:
+|9.4511696320478|InfMBVisit.Init:
+|9.4511696320478|InfMgsvToExt.Init:
+|9.4511696320478|InfMission.Init:
+|9.4511696320478|InfNPC.Init:
+|9.4511696320478|InfNPCHeli.Init:
+|9.4511696320478|InfNPCOcelot.Init:
+|9.4511696320478|InfParasite.Init:
+|9.4511696320478|InfPuppy.Init:
+|9.4511696320478|InfSoldier.Init:
+|9.4511696320478|InfWalkerGear.Init:
+|9.4511696320478|InfMenu.Init
+|9.4511696320478|SetMessageFunction:InfAnimal
+|9.4511696320478|SetMessageFunction:InfBuddy
+|9.4511696320478|SetMessageFunction:InfEquip
+|9.4511696320478|SetMessageFunction:InfMBGimmick
+|9.4511696320478|SetMessageFunction:InfMBVisit
+|9.4511696320478|SetMessageFunction:InfNPC
+|9.4511696320478|SetMessageFunction:InfNPCHeli
+|9.4511696320478|SetMessageFunction:InfNPCOcelot
+|9.4511696320478|SetMessageFunction:InfParasite
+|9.4511696320478|SetMessageFunction:InfSoldier
+|9.4511696320478|HookPre TppQuest.UpdateActiveQuest()
+|9.4511696320478|OnInitialize Bottom 1
+|9.4511696320478|TppSequence.OnChangeSVars
+|9.4511696320478|HookPre TppScriptBlock.PreloadSettingOnMissionStart()
+|9.4511696320478|HookPre TppScriptBlock.ReloadScriptBlock()
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|9.4511696320478|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|9.4511696320478|TppUI.OnChangeSVars
+|9.4511696320478|TppMission.OnChangeSVars
+|9.4511696320478|HookPre TppLocation.ActivateBlock()
+|9.4511696320478|InfMain.OnMissionCanStartBottom
+|9.4511696320478|InfEquip.OnMissionCanStart:
+|9.4511696320478|InfGameEvent.OnMissionCanStart:
+|9.4511696320478|InfMBVisit.OnMissionCanStart:
+|9.4511696320478|InfNPCHeli.OnMissionCanStart:
+|9.4511696320478|InfParasite.OnMissionCanStart:
+|9.4511696320478|DoExtToMgsvCommands IHExt session changed
+|12.73780774839|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.73780774839|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.73780774839|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.73780774839|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.73780774839|TppSequence.OnChangeSVars
+|12.73780774839|TppSequence.SetNextSequence from Seq_Demo_Start to Seq_Demo_WaitCopyRightLogo
+|12.73780774839|TppUI.OnChangeSVars
+|12.73780774839|TppMission.OnChangeSVars
+|12.73780774839|TppSequence.OnChangeSVars
+|12.73780774839|TppUI.OnChangeSVars
+|12.73780774839|TppMission.OnChangeSVars
+|12.73780774839|TppSequence.SetNextSequence from Seq_Demo_WaitCopyRightLogo to Seq_Demo_SetInitialLanguage
+|12.787858075035|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|12.787858075035|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|12.787858075035|TppSequence.OnChangeSVars
+|12.787858075035|TppSequence.SetNextSequence from Seq_Demo_SetInitialLanguage to Seq_Demo_SetSavedLanguage
+|12.787858075035|TppUI.OnChangeSVars
+|12.787858075035|TppMission.OnChangeSVars
+|12.787858075035|TppSequence.OnChangeSVars
+|12.787858075035|TppUI.OnChangeSVars
+|12.787858075035|TppMission.OnChangeSVars
+|13.805548050145|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|13.805548050145|mbdvc_map_location_parameter.GetLocationParameter 1
+|14.906655236331|TppSequence.SetNextSequence from Seq_Demo_SetSavedLanguage to Seq_Demo_StartCheckNecessaryStorageSpace
+|14.923338678546|TppSequence.OnChangeSVars
+|14.923338678546|TppSequence.SetNextSequence from Seq_Demo_StartCheckNecessaryStorageSpace to Seq_Demo_CheckInstalled
+|14.923338678546|TppUI.OnChangeSVars
+|14.923338678546|TppMission.OnChangeSVars
+|14.923338678546|TppSequence.OnChangeSVars
+|14.923338678546|TppSequence.SetNextSequence from Seq_Demo_CheckInstalled to Seq_Demo_StartInstall
+|14.923338678546|TppUI.OnChangeSVars
+|14.923338678546|TppMission.OnChangeSVars
+|14.923338678546|TppSequence.OnChangeSVars
+|14.923338678546|TppSequence.SetNextSequence from Seq_Demo_StartInstall to Seq_Demo_ConfirmAutoSave
+|14.923338678546|TppUI.OnChangeSVars
+|14.923338678546|TppMission.OnChangeSVars
+|14.923338678546|TppSequence.OnChangeSVars
+|14.923338678546|TppSequence.SetNextSequence from Seq_Demo_ConfirmAutoSave to Seq_Demo_StartSignIn
+|14.923338678546|TppUI.OnChangeSVars
+|14.923338678546|TppMission.OnChangeSVars
+|14.923338678546|TppSequence.OnChangeSVars
+|14.923338678546|TppSequence.SetNextSequence from Seq_Demo_StartSignIn to Seq_Demo_CreateOrLoadSaveData
+|14.923338678546|TppUI.OnChangeSVars
+|14.923338678546|TppMission.OnChangeSVars
+|14.923338678546|TppSequence.OnChangeSVars
+|14.923338678546|TppUI.OnChangeSVars
+|14.923338678546|TppMission.OnChangeSVars
+|15.340424478778|OnMessage|sender: UI, messageId: PopupClose, popupId=1200:LOADING_SAVE_DATA, unk1=0 (number), 
+|15.340424478778|OnMessage|sender: UI, messageId: PopupClose, popupId=1200:LOADING_SAVE_DATA, unk1=0 (number), 
+|16.258014055741|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|17.058819282058|TppSequence.SetNextSequence from Seq_Demo_CreateOrLoadSaveData to Seq_Demo_LogInKonamiServer
+|17.075502724272|TppSequence.OnChangeSVars
+|17.075502724272|TppUI.OnChangeSVars
+|17.075502724272|TppMission.OnChangeSVars
+|17.092186166487|OnMessage|sender: Network, messageId: StartLogin, (no signature): arg0=0, 
+|17.092186166487|OnMessage|sender: Network, messageId: StartLogin, (no signature): arg0=0, 
+|18.743846945766|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|18.743846945766|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|20.328773956185|Could not read ih_toMgsvCmds
+|21.997118177678|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|21.997118177678|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|25.200339082945|OnMessage|sender: UI, messageId: PopupClose, popupId=3404051590 (popupId), unk1=0 (number), 
+|25.200339082945|OnMessage|sender: UI, messageId: PopupClose, popupId=3404051590 (popupId), unk1=0 (number), 
+|26.551697902355|OnMessage|sender: Network, messageId: EndLogin
+|26.551697902355|OnMessage|sender: Network, messageId: EndLogin
+|26.551697902355|TppSequence.SetNextSequence from Seq_Demo_LogInKonamiServer to Seq_Demo_CheckPatchDlcForInvitation
+|26.551697902355|TppSequence.OnChangeSVars
+|26.551697902355|TppSequence.SetNextSequence from Seq_Demo_CheckPatchDlcForInvitation to Seq_Demo_CheckMgoInvitation
+|26.551697902355|TppUI.OnChangeSVars
+|26.551697902355|TppMission.OnChangeSVars
+|26.551697902355|TppSequence.OnChangeSVars
+|26.551697902355|TppSequence.SetNextSequence from Seq_Demo_CheckMgoInvitation to Seq_Demo_CheckDlc
+|26.551697902355|TppUI.OnChangeSVars
+|26.551697902355|TppMission.OnChangeSVars
+|26.551697902355|TppSequence.OnChangeSVars
+|26.551697902355|TppUI.OnChangeSVars
+|26.551697902355|TppMission.OnChangeSVars
+|26.651798555644|TppSequence.SetNextSequence from Seq_Demo_CheckDlc to Seq_Demo_ShowDlcAnnouncePopup
+|26.668481997859|TppSequence.OnChangeSVars
+|26.668481997859|TppUI.OnChangeSVars
+|26.668481997859|TppMission.OnChangeSVars
+|27.302452802027|OnMessage|sender: UI, messageId: EndDlcAnnounce, (no signature): arg0=0, arg1=0, 
+|27.302452802027|OnMessage|sender: UI, messageId: EndDlcAnnounce, (no signature): arg0=0, arg1=0, 
+|27.302452802027|TppSequence.SetNextSequence from Seq_Demo_ShowDlcAnnouncePopup to Seq_Demo_CheckPatchDlc
+|27.302452802027|TppSequence.OnChangeSVars
+|27.302452802027|TppUI.OnChangeSVars
+|27.302452802027|TppMission.OnChangeSVars
+|27.302452802027|TppSequence.SetNextSequence from Seq_Demo_CheckPatchDlc to Seq_Demo_CheckCompatibilityPatchDlc
+|27.335819686457|TppSequence.OnChangeSVars
+|27.335819686457|TppUI.OnChangeSVars
+|27.335819686457|TppMission.OnChangeSVars
+|27.335819686457|TppSequence.SetNextSequence from Seq_Demo_CheckCompatibilityPatchDlc to Seq_Demo_CheckBootTypeMgo
+|27.369186570887|TppSequence.OnChangeSVars
+|27.369186570887|TppSequence.SetNextSequence from Seq_Demo_CheckBootTypeMgo to Seq_Demo_Init
+|27.369186570887|TppUI.OnChangeSVars
+|27.369186570887|TppMission.OnChangeSVars
+|27.369186570887|TppSequence.OnChangeSVars
+|27.369186570887|TppUI.OnChangeSVars
+|27.369186570887|TppMission.OnChangeSVars
+|28.770595716941|Could not read ih_toMgsvCmds
+|30.956126647097|TppSequence.SetNextSequence from Seq_Demo_Init to Seq_Demo_StartTitle
+|30.981151682849|TppSequence.OnChangeSVars
+|30.981151682849|TppUI.OnChangeSVars
+|30.981151682849|TppMission.OnChangeSVars
+|31.064568638782|TppVarInit.StartTitle 1
+|31.064568638782|TppMission.RequestLoad next:40020 current:1
+|31.064568638782|InfMain.OnStartTitle
+|31.064568638782|InfQuest.SetupInstalledQuestsState
+|31.064568638782|InfQuest.ReadQuestStates
+|31.064568638782|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|31.064568638782|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|31.064568638782|TppMission.LoadWithChunkCheck 40020
+|31.064568638782|TppMission.Load nextMissionCode:40020 currentMissionCode:1
+|31.064568638782|loadSettings={
+  showLoadingTips = false
+}
+|31.064568638782|InfParasite.OnLoad:
+|31.064568638782|TppEneFova.InitializeUniqueSetting
+|31.064568638782|TppEneFova.PreMissionLoad locationName:mafr missionId:40020
+|31.064568638782|InfMain.PreMissionLoad
+|31.064568638782|InfEquip.PreMissionLoad:
+|31.064568638782|InfSoldier.PreMissionLoad:
+|31.064568638782|TppMissionList.GetLocationPackagePath 20
+|31.064568638782|locationPackPaths={ "/Assets/tpp/pack/location/mafr/mafr.fpk" }
+|31.064568638782|TppMissionList.GetMissionPackagePath 40020
+|31.064568638782|InfMain.AddMissionPacks 40020
+|31.064568638782|InfAnimal.AddMissionPacks:
+|31.064568638782|InfEquip.AddMissionPacks:
+|31.064568638782|InfMBAssets.AddMissionPacks:
+|31.064568638782|InfNPC.AddMissionPacks:
+|31.064568638782|InfNPCHeli.AddMissionPacks:
+|31.064568638782|InfNPCOcelot.AddMissionPacks:
+|31.064568638782|InfParasite.AddMissionPacks:
+|31.064568638782|InfPuppy.AddMissionPacks:
+|31.064568638782|InfSoldier.AddMissionPacks:
+|31.064568638782|InfVehicle.AddMissionPacks:
+|31.064568638782|InfWalkerGear.AddMissionPacks:
+|31.064568638782|missionPackPaths={ "/Assets/tpp/pack/mission2/heli/heli_common_script.fpk", "/Assets/tpp/pack/mission2/common/title_sequence.fpk", "/Assets/tpp/pack/mission2/heli/heli_ui.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/location/mafr/pack_common/mafr_script.fpk", "/Assets/tpp/pack/mission2/heli/h40020/h40020_area.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk" }
+|31.064568638782|OnAllocate Top 40020
+|31.064568638782|DebugModeEnable:true
+|31.064568638782|AddDevMenus
+|31.064568638782|HookPre TppUI.FadeOut(0)
+|31.064568638782|inf_levelSeed -1852300496
+|31.064568638782|InfEquip.OnAllocate:
+|31.064568638782|InfQuest.OnAllocate:
+|31.064568638782|InfResources.OnAllocate:
+|31.064568638782|ScaleResourceTables
+|31.064568638782|InfSoldierParams.OnAllocate:
+|31.064568638782|InfParasite.MissionPrepare:
+|31.064568638782|TppSequence.DeclareSVars
+|31.064568638782|TppResult.DeclareSVars
+|31.064568638782|TppSound.DeclareSVars
+|31.064568638782|TppTerminal.DeclareSVars
+|31.064568638782|TppMarker.DeclareSVars
+|31.064568638782|TppRadio.DeclareSVars
+|31.064568638782|TppPlayer.DeclareSVars
+|31.064568638782|TppScriptBlock.DeclareSVars
+|31.064568638782|TppMission.DeclareSVars
+|31.064568638782|TppEnemy.DeclareSVars
+|31.064568638782|TppInterrogation.DeclareSVars
+|31.064568638782|TppCheckPoint.DeclareSVars
+|31.064568638782|TppTrap.DeclareSVars
+|31.064568638782|TppFreeHeliRadio.DeclareSVars
+|31.064568638782|TppHero.DeclareSVars
+|31.064568638782|TppRanking.DeclareSVars
+|31.064568638782|InfParasite.DeclareSVars:
+|31.064568638782|InfMission.OpenMissions
+|31.064568638782|Clearing 40
+|31.064568638782|Clearing 42
+|31.064568638782|Clearing 44
+|31.064568638782|Clearing 47
+|31.064568638782|Clearing 50
+|31.064568638782|Clearing 51
+|31.064568638782|Clearing 52
+|31.064568638782|Clearing 54
+|31.064568638782|Clearing 56
+|31.064568638782|Clearing 58
+|31.064568638782|Clearing 61
+|31.064568638782|Clearing 63
+|31.064568638782|Clearing 64
+|31.064568638782|Opening 12000
+|31.064568638782|Opening 12020
+|31.064568638782|TppRevenge._SetUiParameters 
+|31.064568638782|TppRevenge._CreateRevengeConfig
+|31.064568638782|revengeConfig={}
+|31.064568638782|OnAllocate Bottom 40020
+|31.064568638782|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=7945 (number), blockIndexY=7945 (number), 
+|31.064568638782|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=57857 (number), blockIndexY=57857 (number), 
+|31.064568638782|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=7945 (number), blockIndexY=7945 (number), 
+|31.064568638782|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=57857 (number), blockIndexY=57857 (number), 
+|31.064568638782|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|31.064568638782|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|31.064568638782|OnInitialize Top 40020
+|31.064568638782|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|31.064568638782|Adding IHStringsExe strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapeTrap strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapePaths strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapeAfgh strings to strCode32List
+|31.064568638782|Adding subp_dictionary strings to strCode32List
+|31.064568638782|Adding IHStringsGameObjectNames strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapeMafr strings to strCode32List
+|31.064568638782|Adding mtar_dictionary strings to strCode32List
+|31.064568638782|Adding IHStringsExeMgsGroundZeroes strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapeMtbs strings to strCode32List
+|31.064568638782|Adding lang_dictionary strings to strCode32List
+|31.064568638782|Adding IHStringsManual strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapeLz strings to strCode32List
+|31.064568638782|Adding qar_dictionary strings to strCode32List
+|31.064568638782|Adding IHStringsFox2ScrapeLy strings to strCode32List
+|31.064568638782|Adding IHStringsExtensions strings to strCode32List
+|31.064568638782|Adding IHStringsFox2Scrape strings to strCode32List
+|31.064568638782|Adding IHStringsLua strings to strCode32List
+|31.064568638782|Adding sequence.DEBUG_strCode32List to strCode32List
+|31.064568638782|InfQuest.RegisterQuests
+|31.064568638782|RegisterQuests ih_quest_q30100 168
+|31.064568638782|RegisterQuests ih_quest_q30101 169
+|31.064568638782|RegisterQuests ih_quest_q30102 170
+|31.064568638782|RegisterQuests ih_quest_q30155 171
+|31.064568638782|numUiQuests:161
+|31.064568638782|TppSave.Init
+|31.064568638782|TppLocation.Init
+|31.064568638782|TppSequence.Init
+|31.064568638782|TppWeather.Init
+|31.064568638782|TppUI.Init
+|31.064568638782|TppResult.Init
+|31.064568638782|TppSound.Init
+|31.064568638782|TppTerminal.Init
+|31.064568638782|TppMarker.Init
+|31.064568638782|TppRadio.Init
+|31.064568638782|TppPlayer.Init
+|31.064568638782|TppHelicopter.Init
+|31.064568638782|TppMission.Init
+|31.064568638782|TppStory.Init
+|31.064568638782|InfMission.OpenMissions
+|31.064568638782|Clearing 40
+|31.064568638782|Clearing 42
+|31.064568638782|Clearing 44
+|31.064568638782|Clearing 47
+|31.064568638782|Clearing 50
+|31.064568638782|Clearing 51
+|31.064568638782|Clearing 52
+|31.064568638782|Clearing 54
+|31.064568638782|Clearing 56
+|31.064568638782|Clearing 58
+|31.064568638782|Clearing 61
+|31.064568638782|Clearing 63
+|31.064568638782|Clearing 64
+|31.064568638782|Opening 12000
+|31.064568638782|Opening 12020
+|31.064568638782|TppDemo.Init
+|31.064568638782|TppEnemy.Init
+|31.064568638782|TppInterrogation.Init
+|31.064568638782|TppGimmick.Init
+|31.064568638782|TppCheckPoint.Init
+|31.064568638782|TppQuest.Init
+|31.064568638782|TppRevenge.Init
+|31.064568638782|TppReinforceBlock.Init
+|31.064568638782|TppFreeHeliRadio.Init
+|31.064568638782|TppHero.Init
+|31.064568638782|TppTelop.Init
+|31.064568638782|TppRatBird.Init
+|31.064568638782|TppAnimal.Init
+|31.064568638782|TppTutorial.Init
+|31.064568638782|TppPaz.Init
+|31.064568638782|TppRanking.Init
+|31.064568638782|InfMain.Init
+|31.064568638782|InfAnimal.Init:
+|31.064568638782|InfBuddy.Init:
+|31.064568638782|InfEnemyPhase.Init:
+|31.064568638782|InfEquip.Init:
+|31.064568638782|InfHelicopter.Init:
+|31.064568638782|InfInterrogation.Init:
+|31.064568638782|InfLookup.Init:
+|31.064568638782|Dumping unknownStr32
+|31.064568638782|Dumping unknownMessages
+|31.064568638782|InfMBGimmick.Init:
+|31.064568638782|InfMBVisit.Init:
+|31.064568638782|InfMgsvToExt.Init:
+|31.064568638782|InfMission.Init:
+|31.064568638782|InfNPC.Init:
+|31.064568638782|InfNPCHeli.Init:
+|31.064568638782|InfNPCOcelot.Init:
+|31.064568638782|InfParasite.Init:
+|31.064568638782|InfPuppy.Init:
+|31.064568638782|InfSoldier.Init:
+|31.064568638782|InfWalkerGear.Init:
+|31.064568638782|InfMenu.Init
+|31.064568638782|SetMessageFunction:InfAnimal
+|31.064568638782|SetMessageFunction:InfBuddy
+|31.064568638782|SetMessageFunction:InfEquip
+|31.064568638782|SetMessageFunction:InfMBGimmick
+|31.064568638782|SetMessageFunction:InfMBVisit
+|31.064568638782|SetMessageFunction:InfNPC
+|31.064568638782|SetMessageFunction:InfNPCHeli
+|31.064568638782|SetMessageFunction:InfNPCOcelot
+|31.064568638782|SetMessageFunction:InfParasite
+|31.064568638782|SetMessageFunction:InfSoldier
+|31.064568638782|HookPre TppQuest.UpdateActiveQuest()
+|31.064568638782|OnInitialize Bottom 40020
+|31.064568638782|TppSequence.OnChangeSVars
+|31.064568638782|HookPre TppScriptBlock.PreloadSettingOnMissionStart()
+|31.064568638782|HookPre TppScriptBlock.ReloadScriptBlock()
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|31.064568638782|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|31.064568638782|TppUI.OnChangeSVars
+|31.064568638782|TppMission.OnChangeSVars
+|31.064568638782|InfQuest.GetSideOpsListTable
+|31.064568638782|overCount:-31
+|31.064568638782|#sideOpsListTable:161
+|39.623174495043|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|39.623174495043|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|42.225791480573|HookPre TppLocation.ActivateBlock()
+|42.225791480573|InfQuest.DisableLandingZones:
+|42.225791480573|DisableLandingZones IsActive:ih_quest_q30155
+|42.225791480573|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|42.225791480573|InfMain.OnMissionCanStartBottom
+|42.225791480573|InfEquip.OnMissionCanStart:
+|42.225791480573|InfGameEvent.OnMissionCanStart:
+|42.225791480573|InfMBVisit.OnMissionCanStart:
+|42.225791480573|InfNPCHeli.OnMissionCanStart:
+|42.225791480573|InfParasite.OnMissionCanStart:
+|42.26749995854|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|42.26749995854|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|43.226798013469|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|43.226798013469|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|43.226798013469|TppSequence.OnChangeSVars
+|43.226798013469|TppUI.OnChangeSVars
+|43.226798013469|TppMission.OnChangeSVars
+|43.226798013469|Could not read ih_toMgsvCmds
+|43.226798013469|Could not read ih_toMgsvCmds
+|44.327905199655|HookPre TppUI.FadeIn(2,FadeInOnStartTitle)
+|44.344588641869|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|44.344588641869|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|44.344588641869|HookPre TppUI.FadeIn(2,FadeInOnStartTitle)
+|46.346601707662|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=965318480:FadeInOnStartTitle (str32), unk1=0 (number), 
+|46.346601707662|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=965318480:FadeInOnStartTitle (str32), unk1=0 (number), 
+|54.004301684316|OnMessage|sender: UI, messageId: TitleMenu, action=3261117285:PressStart (str32), 
+|54.004301684316|OnMessage|sender: UI, messageId: TitleMenu, action=3261117285:PressStart (str32), 
+|54.004301684316|TppSequence.SetNextSequence from Seq_Demo_StartHasTitleMission to Seq_Game_PushStart
+|54.004301684316|TppSequence.OnChangeSVars
+|54.004301684316|TppUI.OnChangeSVars
+|54.004301684316|TppMission.OnChangeSVars
+|54.004301684316|TppSequence.SetNextSequence from Seq_Game_PushStart to Seq_Game_TitleMenu
+|54.037668568746|TppSequence.OnChangeSVars
+|54.037668568746|TppUI.OnChangeSVars
+|54.037668568746|TppMission.OnChangeSVars
+|54.079377046713|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|54.079377046713|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|54.588222161839|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|54.588222161839|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|64.36471929979|Could not read ih_toMgsvCmds
+|79.746853021959|OnMessage|sender: UI, messageId: TitleMenu, action=1439467306:Continue (str32), 
+|79.746853021959|OnMessage|sender: UI, messageId: TitleMenu, action=1439467306:Continue (str32), 
+|79.746853021959|TppSequence.SetNextSequence from Seq_Game_TitleMenu to Seq_Demo_CheckDlc
+|79.746853021959|TppSequence.OnChangeSVars
+|79.746853021959|TppSequence.SetNextSequence from Seq_Demo_CheckDlc to Seq_Game_ChunkLoading
+|79.746853021959|TppUI.OnChangeSVars
+|79.746853021959|TppMission.OnChangeSVars
+|79.746853021959|TppSequence.OnChangeSVars
+|79.746853021959|TppUI.OnChangeSVars
+|79.746853021959|TppMission.OnChangeSVars
+|79.746853021959|TppSequence.SetNextSequence from Seq_Game_ChunkLoading to Seq_Game_ChunkInstalled
+|79.788561499925|TppSequence.OnChangeSVars
+|79.788561499925|TppSequence.SetNextSequence from Seq_Game_ChunkInstalled to Seq_Game_MainGame
+|79.788561499925|TppUI.OnChangeSVars
+|79.788561499925|TppMission.OnChangeSVars
+|79.788561499925|TppSequence.OnChangeSVars
+|79.788561499925|TppUI.OnChangeSVars
+|79.788561499925|TppMission.OnChangeSVars
+|79.788561499925|TppSequence.OnChangeSVars
+|79.788561499925|TppUI.OnChangeSVars
+|79.788561499925|TppMission.OnChangeSVars
+|79.788561499925|WARNING: SetContent: could not find uiElement menuLine
+|83.016807696086|InfMenu.OnActivate
+|83.050174580516|Could not read ih_toMgsvCmds
+|85.66947500826|OnMessage|sender: UI, messageId: EndAnnounceLog
+|85.66947500826|OnMessage|sender: UI, messageId: EndAnnounceLog
+|86.086561063634|Could not read ih_toMgsvCmds
+|89.790285235349|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|89.790285235349|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|99.149696317927|WARNING: SetSetting for unlockSideOpNumber OUT OF BOUNDS
+|99.166379760142|OnMessage|sender: UI, messageId: StartAnnounceLog
+|99.166379760142|OnMessage|sender: UI, messageId: StartAnnounceLog
+|99.817034006524|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|99.817034006524|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|100.55110546398|Could not read ih_toMgsvCmds
+|101.51874511245|Could not read ih_toMgsvCmds
+|101.53542855466|HookPre TppQuest.UpdateActiveQuest()
+|101.53542855466|unlockSideOpNumber:22 diamond_q10600 diamond
+|101.53542855466|InfQuest.DisableLandingZones:
+|101.53542855466|DisableLandingZones IsActive:ih_quest_q30155
+|101.53542855466|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|101.53542855466|InfQuest.GetSideOpsListTable
+|101.53542855466|overCount:-31
+|101.53542855466|#sideOpsListTable:161
+|101.65221213988|OnMessage|sender: UI, messageId: EndAnnounceLog
+|101.65221213988|OnMessage|sender: UI, messageId: EndAnnounceLog
+|103.72095948482|WARNING: SetSetting: no enum settings on unlockSideOpNumber
+|103.73764292703|OnMessage|sender: UI, messageId: StartAnnounceLog
+|103.73764292703|OnMessage|sender: UI, messageId: StartAnnounceLog
+|106.2735261437|OnMessage|sender: UI, messageId: EndAnnounceLog
+|106.2735261437|OnMessage|sender: UI, messageId: EndAnnounceLog
+|108.75935903373|WARNING: SetSetting: no enum settings on unlockSideOpNumber
+|108.77604247594|OnMessage|sender: UI, messageId: StartAnnounceLog
+|108.77604247594|OnMessage|sender: UI, messageId: StartAnnounceLog
+|108.99292722474|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|108.99292722474|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|110.36096948636|HookPre TppQuest.UpdateActiveQuest()
+|110.36096948636|unlockSideOpNumber:100 quest_q52080 cliffTown
+|110.36096948636|InfQuest.DisableLandingZones:
+|110.36096948636|DisableLandingZones IsActive:ih_quest_q30155
+|110.36096948636|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|110.36096948636|InfQuest.GetSideOpsListTable
+|110.36096948636|overCount:-31
+|110.36096948636|#sideOpsListTable:161
+|111.31192569261|OnMessage|sender: UI, messageId: EndAnnounceLog
+|111.31192569261|OnMessage|sender: UI, messageId: EndAnnounceLog
+|118.85284157376|HookPre TppQuest.UpdateActiveQuest()
+|118.85284157376|InfQuest.DisableLandingZones:
+|118.85284157376|DisableLandingZones IsActive:ih_quest_q30155
+|118.85284157376|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|118.85284157376|InfQuest.GetSideOpsListTable
+|118.85284157376|overCount:-31
+|118.85284157376|#sideOpsListTable:161
+|119.01967599591|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|119.01967599591|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|121.27194069493|OnMessage|sender: UI, messageId: StartAnnounceLog
+|121.27194069493|OnMessage|sender: UI, messageId: StartAnnounceLog
+|123.0237021275|OnMessage|sender: UI, messageId: EndAnnounceLog
+|123.0237021275|OnMessage|sender: UI, messageId: EndAnnounceLog
+|129.04642476709|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|129.04642476709|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|136.82090883925|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|136.82090883925|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|136.88764260811|Could not read ih_toMgsvCmds
+|140.37448203103|Could not read ih_toMgsvCmds
+|146.84765761042|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|146.84765761042|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|150.95178414015|Could not read ih_toMgsvCmds
+|153.1873656521|Could not read ih_toMgsvCmds
+|156.8744063816|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|156.8744063816|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|166.90115515277|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|166.90115515277|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|167.68527693687|Could not read ih_toMgsvCmds
+|168.33593118326|OnMessage|sender: UI, messageId: StartAnnounceLog
+|168.33593118326|OnMessage|sender: UI, messageId: StartAnnounceLog
+|170.07100917361|OnMessage|sender: UI, messageId: EndAnnounceLog
+|170.07100917361|OnMessage|sender: UI, messageId: EndAnnounceLog
+|176.92790392395|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|176.92790392395|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|186.95465269512|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|186.95465269512|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|191.75948405302|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|191.75948405302|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|193.02742566136|Could not read ih_toMgsvCmds
+|193.09415943022|Could not read ih_toMgsvCmds
+|201.23567923111|Could not read ih_toMgsvCmds
+|201.7862328242|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|201.7862328242|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|210.96212604241|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|210.96212604241|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|211.67951405765|Could not read ih_toMgsvCmds
+|213.98182908332|Could not read ih_toMgsvCmds
+|213.99851252553|WARNING: SetSetting: no enum settings on soldierParamsProfile
+|214.01519596775|OnMessage|sender: UI, messageId: StartAnnounceLog
+|214.01519596775|OnMessage|sender: UI, messageId: StartAnnounceLog
+|216.60112951106|OnMessage|sender: UI, messageId: EndAnnounceLog
+|216.60112951106|OnMessage|sender: UI, messageId: EndAnnounceLog
+|220.98887481359|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|220.98887481359|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|222.0065647887|OnMessage|sender: UI, messageId: StartAnnounceLog
+|222.0065647887|OnMessage|sender: UI, messageId: StartAnnounceLog
+|222.0065647887|Could not read ih_toMgsvCmds
+|222.56545972019|Could not read ih_toMgsvCmds
+|223.75832622127|OnMessage|sender: UI, messageId: EndAnnounceLog
+|223.75832622127|OnMessage|sender: UI, messageId: EndAnnounceLog
+|229.22215341909|Could not read ih_toMgsvCmds
+|231.01562358476|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|231.01562358476|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|235.1864841385|Could not read ih_toMgsvCmds
+|241.04237235594|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|241.04237235594|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|251.06912112711|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|251.06912112711|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|254.10550761023|Could not read ih_toMgsvCmds
+|259.29405813908|Could not read ih_toMgsvCmds
+|261.09586989829|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|261.09586989829|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|261.34612153151|Could not read ih_toMgsvCmds
+|270.2717631165|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|270.2717631165|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|272.02352454907|Could not read ih_toMgsvCmds
+|272.04020799128|OnMessage|sender: UI, messageId: StartAnnounceLog
+|272.04020799128|OnMessage|sender: UI, messageId: StartAnnounceLog
+|272.77427944874|Could not read ih_toMgsvCmds
+|273.79196942385|OnMessage|sender: UI, messageId: EndAnnounceLog
+|273.79196942385|OnMessage|sender: UI, messageId: EndAnnounceLog
+|275.05156918351|Could not read ih_toMgsvCmds
+|277.54574392221|Could not read ih_toMgsvCmds
+|278.37991603296|Could not read ih_toMgsvCmds
+|279.39760600807|Could not read ih_toMgsvCmds
+|280.29851188768|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|280.29851188768|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|281.68323759152|InfQuest.GetSideOpsListTable
+|281.68323759152|overCount:-31
+|281.68323759152|#sideOpsListTable:161
+|281.69992103373|mbdvc_map_location_parameter.GetLocationParameter 20
+|281.69992103373|OnMessage|sender: Player, messageId: 2990447840, (no signature): arg0=0, 
+|281.69992103373|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|281.69992103373|OnMessage|sender: Player, messageId: 2990447840, (no signature): arg0=0, 
+|281.69992103373|mbdvc_map_mission_parameter.GetMissionParameter2 40020
+|281.69992103373|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|281.69992103373|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|281.69992103373|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|281.69992103373|InfMenu.OnDeactivate
+|281.69992103373|SaveEvars
+|281.69992103373|Saving IHGenUnknownHashes
+|281.69992103373|InfMBStaff.Save
+|281.81670512924|OnMessage|sender: UI, messageId: StartAnnounceLog
+|281.81670512924|OnMessage|sender: Player, messageId: 2990447840, (no signature): arg0=1, 
+|281.81670512924|OnMessage|sender: UI, messageId: StartAnnounceLog
+|281.81670512924|OnMessage|sender: Player, messageId: 2990447840, (no signature): arg0=1, 
+|282.63419379777|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|282.63419379777|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|282.65087723998|OnMessage|sender: Player, messageId: 2307345963, (no signature): arg0=1, 
+|282.65087723998|OnMessage|sender: Player, messageId: 2307345963, (no signature): arg0=0, 
+|282.65087723998|OnMessage|sender: Player, messageId: 2307345963, (no signature): arg0=1, 
+|282.65087723998|OnMessage|sender: Player, messageId: 2307345963, (no signature): arg0=0, 
+|283.48504935073|OnMessage|sender: UI, messageId: EndAnnounceLog
+|283.48504935073|OnMessage|sender: UI, messageId: EndAnnounceLog

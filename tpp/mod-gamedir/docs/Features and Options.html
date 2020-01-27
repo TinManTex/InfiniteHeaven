@@ -110,37 +110,41 @@
 <div id="systemMenu">IH system menu</div>
 </div>
 <div id="menuItem">
-<div>1: Select profile : &ltProfile type&gt</div>
+<div>1: Enable IHExt : Off, On</div>
+<div id="itemHelp">IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.</div>
+</div>
+<div id="menuItem">
+<div>2: Select profile : &ltProfile type&gt</div>
 <div id="itemHelp">Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
 </div>
 <div id="menuItem">
-<div>2: Set profile options to game defaults : (Command)</div>
+<div>3: Set profile options to game defaults : (Command)</div>
 <div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>3: Save to UserSaved profile : (Command)</div>
+<div>4: Save to UserSaved profile : (Command)</div>
 <div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.</div>
 </div>
 <div id="menuItem">
-<div>4: Enable Quick Menu : Off, On</div>
+<div>5: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>5: Start offline : Off, On</div>
+<div>6: Start offline : Off, On</div>
 <div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>6: Skip startup logos : Off, On</div>
+<div>7: Skip startup logos : Off, On</div>
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>7: Load addon mission : </div>
+<div>8: Load addon mission : </div>
 </div>
 <div id="menuItem">
-<div>8: Include addon missions in completion percentage : Off, On</div>
+<div>9: Include addon missions in completion percentage : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: Reset all IH settings : (Command)</div>
+<div>10: Reset all IH settings : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1110,12 +1114,12 @@
 <div id="itemHelp">Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.</div>
 </div>
 <div id="menuItem">
-<div>3: Heli patrols in free roam : Off, On</div>
+<div>3: Attack heli patrols in free roam : 0-4</div>
 <div id="itemHelp">Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.</div>
 </div>
 <div id="menuItem">
-<div>4: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
-<div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
+<div>4: Attack heli patrols in MB : 0-4</div>
+<div id="itemHelp">Spawns some npc attack helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
 <div>5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
@@ -1188,7 +1192,7 @@
 <div>7: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Include IH sideops in completion percentage : Off, On</div>
+<div>8: Include add-on sideops in completion percentage : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1275,63 +1279,67 @@
 <div>6: DD Head gear : Off, Current prep</div>
 </div>
 <div id="menuItem">
-<div>7: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
-<div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
+<div>7: NPC support heli patrols in MB : 0-3</div>
+<div id="itemHelp">Spawns some npc support helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>8: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
+<div>8: Attack heli patrols in MB : 0-4</div>
+<div id="itemHelp">Spawns some npc attack helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>9: Walker gears in MB : Off, On</div>
+<div>9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
 </div>
 <div id="menuItem">
-<div>10: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
+<div>10: Walker gears in MB : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
+<div>11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
 </div>
 <div id="menuItem">
-<div>12: Repopulate plants and diamonds : Off, On</div>
+<div>12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
+</div>
+<div id="menuItem">
+<div>13: Repopulate plants and diamonds : Off, On</div>
 <div id="itemHelp">Regenerates plants on Zoo platform and diamonds on Mother base over time.</div>
 </div>
 <div id="menuItem">
-<div>13: Enemy prep decrease on long MB visit : Off, On</div>
+<div>14: Enemy prep decrease on long MB visit : Off, On</div>
 <div id="itemHelp">Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat </div>
 </div>
 <div id="menuItem">
-<div>14: Enable all buddies : Off, On</div>
+<div>15: Enable all buddies : Off, On</div>
 <div id="itemHelp">Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.</div>
 </div>
 <div id="menuItem">
-<div>15: More soldiers on MB plats : Off, On</div>
+<div>16: More soldiers on MB plats : Off, On</div>
 <div id="itemHelp">Increases soldiers on platforms from 4 soldiers to 9.</div>
 </div>
 <div id="menuItem">
-<div>16: Force enable Quaranine platform soldiers : Off, On</div>
+<div>17: Force enable Quaranine platform soldiers : Off, On</div>
 <div id="itemHelp">Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.</div>
 </div>
 <div id="menuItem">
-<div>17: Soldiers move between platforms : Off, On</div>
+<div>18: Soldiers move between platforms : Off, On</div>
 <div id="itemHelp">Soldiers will periodically move between platforms (only within the same cluster).</div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#mbStaffMenu">Staff menu</a></div>
+<div>19: <a href="#mbStaffMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
+<div>20: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
+<div>21: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: Allow lethal actions : Off, On</div>
+<div>22: Allow lethal actions : Off, On</div>
 <div id="itemHelp">Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.</div>
 </div>
 <div id="menuItem">
-<div>22: Women in Enemy Invasion mode : 0-100%</div>
+<div>23: Women in Enemy Invasion mode : 0-100%</div>
 </div>
 <div id="menuItem">
-<div>23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+<div>24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1694,43 +1702,40 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: postExtCommands : Off, On</div>
+<div>5: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>6: loadExternalModules : (Command)</div>
+<div>6: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>7: copyLogToPrev : (Command)</div>
+<div>7: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: printPressedButtons : Off, On</div>
+<div>8: Show freecam position : (Command)</div>
 </div>
 <div id="menuItem">
-<div>9: Show freecam position : (Command)</div>
+<div>9: Show position : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: Show position : (Command)</div>
+<div>10: Show missionCode : (Command)</div>
 </div>
 <div id="menuItem">
-<div>11: Show missionCode : (Command)</div>
+<div>11: Show game language code : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: Show game language code : (Command)</div>
+<div>12: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>13: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>14: Disable game over : Off, On</div>
+<div>14: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>15: Disable out of bounds checks : Off, On</div>
+<div>15: Disable mission intro credits : Off, On</div>
 </div>
 <div id="menuItem">
-<div>16: Disable mission intro credits : Off, On</div>
-</div>
-<div id="menuItem">
-<div>17: manualMissionCode : 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050</div>
+<div>16: manualMissionCode : 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2257,64 +2262,61 @@
 <div>6: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: postExtCommands : Off, On</div>
+<div>7: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>8: loadExternalModules : (Command)</div>
+<div>8: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>9: copyLogToPrev : (Command)</div>
+<div>9: setSelectedObjectToMarkerClosest : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: setSelectedObjectToMarkerClosest : (Command)</div>
+<div>10: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>11: selectedCp : no cp for setting</div>
+<div>11: setSelectedCpToMarkerObjectCp : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: setSelectedCpToMarkerObjectCp : (Command)</div>
+<div>12: setSelectedCpToMarkerClosestCp : (Command)</div>
 </div>
 <div id="menuItem">
-<div>13: setSelectedCpToMarkerClosestCp : (Command)</div>
+<div>13: dEBUG_PrintCpPowerSettings : (Command)</div>
 </div>
 <div id="menuItem">
-<div>14: DEBUG_PrintCpPowerSettings : (Command)</div>
+<div>14: dEBUG_PrintPowersCount : (Command)</div>
 </div>
 <div id="menuItem">
-<div>15: DEBUG_PrintPowersCount : (Command)</div>
+<div>15: dEBUG_PrintReinforceVars : (Command)</div>
 </div>
 <div id="menuItem">
-<div>16: DEBUG_PrintReinforceVars : (Command)</div>
+<div>16: dEBUG_PrintSoldierDefine : (Command)</div>
 </div>
 <div id="menuItem">
-<div>17: DEBUG_PrintSoldierDefine : (Command)</div>
+<div>17: dEBUG_ShowRevengeConfig : (Command)</div>
 </div>
 <div id="menuItem">
-<div>18: DEBUG_ShowRevengeConfig : (Command)</div>
+<div>18: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>19: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>20: printPressedButtons : Off, On</div>
+<div>20: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>21: printOnBlockChange : Off, On</div>
+<div>21: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>22: Disable game over : Off, On</div>
+<div>22: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>23: Disable out of bounds checks : Off, On</div>
+<div>23: setAllFriendly : (Command)</div>
 </div>
 <div id="menuItem">
-<div>24: setAllFriendly : (Command)</div>
+<div>24: Show freecam position : (Command)</div>
 </div>
 <div id="menuItem">
-<div>25: Show freecam position : (Command)</div>
-</div>
-<div id="menuItem">
-<div>26: Show position : (Command)</div>
+<div>25: Show position : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
