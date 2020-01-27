@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- NODEPS
 local this = {}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32
 
 --indexed by mbLayout or 0 where layout n/a
 local groundStartPositionsInitial={
@@ -263,6 +263,11 @@ function this.GetGroundStartPosition(missionStartRoute,missionCode)
   local missionCode=missionCode or vars.missionCode
   local layout=0
   if missionCode==30050 or missionCode==10115 then
+    --GOTCHA: mbLayoutCode isnt updated on a command cluster plat build (ditto TppMotherBaseManagement.GetMbsClusterGrade) till after TppMain.ReservePlayerLoadingPosition
+    --see InfMain.OnGameStart for workaround
+    --tex updated at the same time as mbLayoutCode I guess
+    --local grade=TppMotherBaseManagement.GetMbsClusterGrade{category="Command"}--tex
+    --InfCore.Log("GetGroundStartPosition:: mbLayoutCode:"..vars.mbLayoutCode.." GetMbsClusterGrade:"..grade)
     layout=vars.mbLayoutCode
   end
   return this.groundStartPositions[layout+1][missionStartRoute]
@@ -277,13 +282,13 @@ function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
   local TppMath=TppMath
 
   for dropLzName,aprLzName in pairs(lzTable)do
-    --InfLog.DebugPrint(dropLzName.." -- "..aprLzName)
+    --InfCore.DebugPrint(dropLzName.." -- "..aprLzName)
     local lzCoords=InfLZ.GetGroundStartPosition(StrCode32(dropLzName),missionCode)
     if lzCoords==nil then
-      --InfLog.DebugPrint("lzPos==nil")--DEBUG
+    --InfCore.DebugPrint("lzPos==nil")--DEBUG
     else
       local distSqr=TppMath.FindDistance(position,lzCoords.pos)
---      InfLog.DebugPrint(aprLzName.." dist:"..math.sqrt(distSqr))--DEBUG
+      --      InfCore.DebugPrint(aprLzName.." dist:"..math.sqrt(distSqr))--DEBUG
       if distSqr<distance then
         if TppHelicopter.GetLandingZoneExists{landingZoneName=aprLzName}then
           TppHelicopter.SetDisableLandingZone{landingZoneName=aprLzName}

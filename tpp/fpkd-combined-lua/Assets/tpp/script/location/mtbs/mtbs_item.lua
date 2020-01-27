@@ -106,7 +106,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
       for k,v in ipairs(assetTable.containers)do
         if (k % 4) == 0 then
           if type(v)=="string" then
-            --InfLog.DebugPrint(tostring(v))
+            --InfCore.DebugPrint(tostring(v))
            -- Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
           end
         end
@@ -115,7 +115,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
       for k,v in ipairs(assetTable.eastAAGs)do
         --if (k % 4) == 0 then
           if type(v)=="string" then
-            --InfLog.DebugPrint(tostring(v))
+            --InfCore.DebugPrint(tostring(v))
           --  Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
           end
         --end
@@ -123,7 +123,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
       for k,v in ipairs(assetTable.westAAGs)do
         --if (k % 4) == 0 then
           if type(v)=="string" then
-            --InfLog.DebugPrint(tostring(v))
+            --InfCore.DebugPrint(tostring(v))
            -- Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
           end
         --end
@@ -132,7 +132,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
       for k,v in ipairs(assetTable.irsensors)do
         --if (k % 4) == 0 then
           if type(v)=="string" then
-            --InfLog.DebugPrint(tostring(v))
+            --InfCore.DebugPrint(tostring(v))
             --Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IR_SENSOR,v,dataSet,false)
           end
         --end

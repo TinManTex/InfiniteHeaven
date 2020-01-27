@@ -4,7 +4,7 @@
 local this={}
 
 local TppDefine=TppDefine
-local InfLog=InfLog
+local InfCore=InfCore
 
 this.debugModule=false
 
@@ -15,11 +15,23 @@ this.debugModule=false
 this.numIHQuests=100
 this.questNameFmt="quest_q301%02d"
 
+this.questsRegistered=false
+
 --tex see LoadQuestDefs,
 this.ihQuestNames={}
 --tex see LoadQuestDefs, RegisterQuests
 --k=questName,v=questDef module
 this.ihQuestsInfo={}
+
+--k=questName,v=quest status gvar index
+this.installedQuests={}
+
+function this.PostModuleReload(prevModule)
+  this.questsRegistered=prevModule.questsRegistered
+  this.ihQuestNames=prevModule.ihQuestNames
+  this.ihQuestsInfo=prevModule.ihQuestsInfo
+  this.installedQuests=prevModule.installedQuests
+end
 
 function this.CanOpenClusterGrade0(questName)
   local questInfo=this.ihQuestsInfo[questName]
@@ -72,12 +84,12 @@ local blockQuests={
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
   if vars.missionCode==30050 and InfGameEvent.IsMbEvent() then
-    --InfLog.Add("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
+    --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
     return true
   end
 
   if Ivars.inf_event:Is"WARGAME" then--tex WARGAME is mb events
-    --InfLog.Add("BlockQuest on WARGAME "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
+    --InfCore.Log("BlockQuest on WARGAME "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
     return true
   end
 
@@ -110,12 +122,12 @@ local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
   --tex TODO: need to get intended mission code
   if vars.missionCode==30050 and InfGameEvent.IsMbEvent() then
-    --InfLog.Add("GetForced on event "..tostring(vars.missionCode))--DEBUG
+    --InfCore.Log("GetForced on event "..tostring(vars.missionCode))--DEBUG
     return nil
   end
 
   if Ivars.inf_event:Is"WARGAME" then
-    --InfLog.Add("GetForced on Wargame "..tostring(vars.missionCode))--DEBUG
+    --InfCore.Log("GetForced on Wargame "..tostring(vars.missionCode))--DEBUG
     return nil
   end
 
@@ -136,7 +148,7 @@ function this.GetForced()
       unlockedArea=TppQuestList.questAreaTable[unlockedName]
       forcedQuests[unlockedArea]=unlockedName
       forcedCount=forcedCount+1
-      InfLog.Add(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
+      InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
     end
   end
 
@@ -144,8 +156,8 @@ function this.GetForced()
     return nil
   else
     if this.debugModule then
-      InfLog.Add("forcedQuests")
-      InfLog.PrintInspect(forcedQuests)
+      InfCore.Log("forcedQuests")
+      InfCore.PrintInspect(forcedQuests)
     end
 
     return forcedQuests
@@ -155,19 +167,19 @@ end
 local questDefPath="/Assets/tpp/script/ih/quest/"
 local extension=".lua"
 function this.LoadQuestDefs()
-  InfLog.AddFlow"LoadQuestDefs"
+  InfCore.LogFlow"LoadQuestDefs"
   for i=0,this.numIHQuests-1 do
     local questId=string.format(this.questNameFmt,i)
     local moduleName="ih_"..questId
     local path=questDefPath..moduleName..extension
-    --InfLog.Add("Attempting to load module "..path)--DEBUG
+    --InfCore.Log("Attempting to load module "..path)--DEBUG
     Script.LoadLibrary(path)
     local module=_G[moduleName]
     if module then
-      InfLog.Add("Loaded questDef "..moduleName)
-      
-      --tex TODO DEBUGNOW validate questDef
-      
+      InfCore.Log("Loaded questDef "..moduleName)
+
+      --tex TODO validate questDef
+
       this.ihQuestNames[#this.ihQuestNames+1]=questId
       this.ihQuestsInfo[questId]=module
     end
@@ -212,11 +224,10 @@ local gvarFlagNames={
 }
 function this.GetGvarFlags()
   local gvarFlags={}
-  for gvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES+1,TppDefine.QUEST_MAX-1 do
-    gvarFlags[gvarIndex]={}
+  for questGvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES,TppDefine.QUEST_MAX-1 do
+    gvarFlags[questGvarIndex]={}
     for i,gvarName in ipairs(gvarFlagNames)do
-      gvarFlags[gvarIndex][gvarName]=gvars[gvarName]
-      gvars[gvarName]=false
+      gvarFlags[questGvarIndex][gvarName]=gvars[gvarName][questGvarIndex]
     end
   end
   return gvarFlags
@@ -224,7 +235,7 @@ end
 
 --tex ASSUMPTION: questInfo.areaName valid
 --IN/OUT questList,questAreaTable
---DEBUGNOW WIP
+-- WIP
 function this.AddToQuestListQuick(questList,questAreaTable,questAreaToQuestListIndex,questName,questInfo)
   if not questAreaTable[questName]then
     questAreaTable[questName]=questInfo.areaName
@@ -261,121 +272,172 @@ end
 --TODO: if you really want to be able to add/remove willy nilly, instead of automatically registering all in ihQuestsInfo
 --have the user manually register/deregister. would have to have saved table of questname to index
 function this.RegisterQuests()
-  InfLog.AddFlow("InfQuest.RegisterQuests")--DEBUG
+  InfCore.LogFlow("InfQuest.RegisterQuests")
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
 
   if this.debugModule then
-    InfLog.Add("numVanillaUiQuests:"..TppQuest.NUM_VANILLA_UI_QUESTS.." #questInfoTable:"..#questInfoTable)
+    InfCore.Log("numVanillaUiQuests:"..TppQuest.NUM_VANILLA_UI_QUESTS.." #questInfoTable:"..#questInfoTable)
   end
 
   --tex already registered, TODO alternatively, set a bool, but if its in the module make sure you transfer it on module reload
-  if #questInfoTable>TppQuest.NUM_VANILLA_UI_QUESTS then
+  if this.questsRegistered then
+    InfCore.Log"Quests already registered"
+    --InfCore.PrintInspect(questInfoTable)--DEBUG
+
+    --tex WORKAROUND, cant do in TppQuest.RegisterQuestPackList since it's already using random inside its loop
+    for i,questName in ipairs(this.ihQuestNames)do
+      local questInfo=this.ihQuestsInfo[questName]
+      local faceSettings=questInfo.questPackList.randomFaceListIH
+      if faceSettings then
+        questInfo.questPackList.faceIdList=InfEneFova.GetRandomFaces(faceSettings.gender,faceSettings.count)
+      end
+    end
+
     return
   end
 
-  --DEBUGNOW TODO load, validate installedQuests
-  --k=questName,v=gvarIndex / TppDefine.QUEST_INDEX (QUEST_DEFINE index)
-  this.installedQuests={
-    quest_q30100=TppDefine.NUM_VANILLA_QUEST_DEFINES+1,--DEBUGNOW
-    quest_q30101=TppDefine.NUM_VANILLA_QUEST_DEFINES+2,
-    quest_q30102=TppDefine.NUM_VANILLA_QUEST_DEFINES+3,
-    --quest_q30103=TppDefine.NUM_VANILLA_QUEST_DEFINES+4,
-  }
-
-  --tex back up existing flag states
-  local gvarFlags=this.GetGvarFlags()
+  local TppQuest=TppQuest
+  local TppQuestList=TppQuestList
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
-  local questTableIndexes=TppQuest.QUESTTABLE_INDEX
   local openQuestCheckTable=TppQuest.GetCanOpenQuestTable()
-  local questAreaTable=TppQuestList.questAreaTable
-  local questAreaToQuestListIndex=TppQuest.questAreaToQuestListIndex
-  local questList=TppQuestList.questList
+
+  InfMain.RandomSetToLevelSeed()
 
   for i,questName in ipairs(this.ihQuestNames)do
     local questInfo=this.ihQuestsInfo[questName]
 
     local questIndex=#TppDefine.QUEST_DEFINE+1
 
-    InfLog.Add("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
+    InfCore.Log("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
     if this.debugModule then
-      InfLog.PrintInspect(questInfo)
+      InfCore.PrintInspect(questInfo)
     end
 
     TppDefine.QUEST_DEFINE[questIndex]=questName
     TppDefine.QUEST_INDEX=TppDefine.Enum(TppDefine.QUEST_DEFINE)
-    --InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
+    --InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
     TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]=questInfo.questRank
-    --InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
+    --InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
 
     if questInfo.questPackList.randomFaceList then
       table.insert(TppDefine.QUEST_RANDOM_FACE_DEFINE,questName)
       TppDefine.QUEST_RANDOM_FACE_INDEX=TppDefine.Enum(TppDefine.QUEST_RANDOM_FACE_DEFINE)
-      --InfLog.PrintInspect(TppDefine.QUEST_RANDOM_FACE_INDEX)
+      --InfCore.PrintInspect(TppDefine.QUEST_RANDOM_FACE_INDEX)
     end
-    this.AddToQuestInfoTable(questInfoTable,questTableIndexes,questName,questInfo)
+    --tex WORKAROUND, cant do in TppQuest.RegisterQuestPackList since it's already using random inside its loop
+    local randomFaceListIH=questInfo.questPackList.randomFaceListIH
+    if randomFaceListIH then
+      questInfo.questPackList.faceIdList=InfCore.PCall(InfEneFova.GetRandomFaces,randomFaceListIH.gender,randomFaceListIH.count)--DEBUGNOW pcall
+    end
+    this.AddToQuestInfoTable(questInfoTable,TppQuest.QUESTTABLE_INDEX,questName,questInfo)
     openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest
     TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
 
-    this.AddToQuestList(questList,questAreaTable,questName,questInfo)
+    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaTable,questName,questInfo)
     TppQuestList.questPackList[questName]=questInfo.questPackList
-
---TODO
---    if not this.installedQuests[questName] then
---      InfLog.Add(questName.." was not previously installed")
---    else
---      local previousIndex=this.installedQuests[questName]
---
---      if previousIndex~=questIndex then
---        InfLog.Add(questName.." shifting from previous index of "..previousIndex)
---      end
---
---      for i,gvarName in ipairs(gvarFlagNames)do
---        gvars[gvarName]=gvarFlags[previousIndex][gvarName]
---      end
---    end
-
-    this.installedQuests[questName]=questIndex
   end
 
-  --TODO: save installedQuests
+  InfMain.RandomResetToOsTime()
 
-  InfLog.Add("numUiQuests:"..#questInfoTable)
+  this.questsRegistered=true
+
+  InfCore.Log("numUiQuests:"..#questInfoTable)
 
   if this.debugModule then
-    InfLog.Add"QUEST_INDEX"
-    InfLog.PrintInspect(TppDefine.QUEST_INDEX)
-    InfLog.Add"QUEST_RANK_TABLE"
-    InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)
-    InfLog.Add"questAreaTable"
-    InfLog.PrintInspect(questAreaTable)
-    InfLog.Add"questList"
-    InfLog.PrintInspect(questList)
-    InfLog.Add"openQuestCheckTable"
-    InfLog.PrintInspect(openQuestCheckTable)
-    InfLog.Add"questPackList"
-    InfLog.PrintInspect(TppQuestList.questPackList)
+    InfCore.Log"QUEST_INDEX"
+    InfCore.PrintInspect(TppDefine.QUEST_INDEX)
+    InfCore.Log"QUEST_RANK_TABLE"
+    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)
+    InfCore.Log"questAreaTable"
+    InfCore.PrintInspect(TppQuestList.questAreaTable)
+    InfCore.Log"questList"
+    InfCore.PrintInspect(TppQuestList.questList)
+    InfCore.Log"openQuestCheckTable"
+    InfCore.PrintInspect(openQuestCheckTable)
+    InfCore.Log"questPackList"
+    InfCore.PrintInspect(TppQuestList.questPackList)
   end
+end
+
+--DEBUG
+function this.DEBUG_PrintQuestClearedFlags()
+  for i=0,TppDefine.QUEST_MAX-1 do
+    InfCore.Log("qst_questClearedFlag["..i.."]="..tostring(gvars.qst_questClearedFlag[i]))
+  end
+end
+
+--DEBUGNOW TEST add example quest and rocks quest test one at a time and remove (in different order)
+--CALLER: TppVarInit.StartTitle - since registerquests is  run before the first game save/gvar load
+function this.SetupInstalledQuestsState()
+  InfCore.LogFlow"InfQuest.SetupInstalledQuestsState"
+  --  InfCore.Log"pre"
+  --this.DEBUG_PrintQuestClearedFlags()
+
+  this.installedQuests=this.ReadInstalledQuests()
+  if this.debugModule then
+  InfCore.Log("ReadInstalledQuests:")
+  InfCore.PrintInspect(this.installedQuests)
+  end
+
+  --tex back up existing flag states
+  local gvarFlags=this.GetGvarFlags()
+  if this.debugModule then
+    --InfCore.PrintInspect(gvarFlags)
+  end
+
+  for i,questName in ipairs(this.ihQuestNames)do
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if questIndex==nil then
+      InfCore.Log("InfQuest.SetupInstalledQuestsStates: Error: questIndex==nil for "..questName)
+    else
+
+      if not this.installedQuests[questName] then
+        InfCore.Log(questName.." was not previously installed, clearing")
+        for i,gvarName in ipairs(gvarFlagNames)do
+          gvars[gvarName][questIndex]=false
+        end
+      else
+        local previousIndex=this.installedQuests[questName]
+        InfCore.Log(previousIndex)
+
+        if previousIndex~=questIndex then
+          InfCore.Log(questName.." shifting from previous index of "..previousIndex)
+        end
+
+        for i,gvarName in ipairs(gvarFlagNames)do
+          local previousValue=gvarFlags[previousIndex][gvarName]
+          gvars[gvarName][questIndex]=previousValue
+        end
+      end
+
+      this.installedQuests[questName]=questIndex
+      --tex will be saved on next ih_save
+    end
+  end
+
+  --  InfCore.Log"post"
+  --this.DEBUG_PrintQuestClearedFlags()
 end
 
 --tex GetSideOpsListTable is called by engine for sideops ui
 function this.PrintSideOpsListTable()
   local sideOpsTable=TppQuest.GetSideOpsListTable()
-  InfLog.PrintInspect(sideOpsTable)
+  InfCore.PrintInspect(sideOpsTable)
 end
 
 function this.PrintQuestArea()
   if vars.missionCode==30050 then
     local clusterId=MotherBaseStage.GetCurrentCluster()
     local clusterName=TppDefine.CLUSTER_NAME[clusterId+1]
-    InfLog.Add("Quest Area: Mtbs"..clusterName)
+    InfCore.Log("Quest Area: Mtbs"..clusterName)
     return
   end
 
   local currentQuestTable=TppQuest.GetCurrentQuestTable()
   if currentQuestTable==nil then
-    InfLog.Add("currentQuestTable==nil")
+    InfCore.Log("currentQuestTable==nil")
     return
   end
 
@@ -409,7 +471,7 @@ function this.PrintQuestArea()
         areaInfoMessage=areaInfoMessage.." "..areaType.."="..tostring(inArea)
       end
 
-      InfLog.Add(areaInfoMessage,false,true)
+      InfCore.Log(areaInfoMessage,false,true)
     end
   end
 end
@@ -435,6 +497,53 @@ function this.ResetQuestState(gvarIndex,value)
   gvars.qst_questOpenFlag[gvarIndex]=value
   gvars.qst_questClearedFlag[gvarIndex]=value
   gvars.qst_questActiveFlag[gvarIndex]=value
+end
+
+local typeString="string"
+local typeNumber="number"
+local typeFunction="function"
+local typeTable="table"
+function this.ReadInstalledQuests()
+  InfCore.LogFlow"InfQuest.ReadInstalledQuests"
+
+  local ih_save=IvarProc.LoadSave()
+  if ih_save==nil then
+    local errorText="ReadInstalledQuests Error: ih_save==nil"
+    InfCore.Log(errorText,true,true)
+    return
+  end
+
+  if ih_save.installedQuests==nil then
+    InfCore.Log"ReadInstalledQuests: ih_save.installedQuests==nil"
+    return {}
+  end
+
+  if type(ih_save.installedQuests)~=typeTable then
+    local errorText="ReadInstalledQuests Error: ih_save.evars~=typeTable"
+    InfCore.Log(errorText,true,true)
+    return
+  end
+
+  local installedQuests={}
+  for name,gvarIndex in pairs(ih_save.installedQuests) do
+    if type(name)~=typeString then
+      InfCore.Log("ReadInstalledQuests ih_save: name~=string:"..tostring(name),false,true)
+    else
+      if type(gvarIndex)~=typeNumber then
+        InfCore.Log("ReadInstalledQuests ih_save: value~=number: "..name.."="..tostring(gvarIndex),false,true)
+      elseif gvarIndex<0 or gvarIndex>TppDefine.QUEST_MAX-1 then
+        InfCore.Log("ReadInstalledQuests ih_save: gvarIndex out of bounds: "..name.."="..tostring(gvarIndex),false,true)
+      else
+        --tex will clear removed entries
+        if this.ihQuestsInfo[name]==nil then
+          InfCore.Log("ReadInstalledQuests ih_save: "..name.." not found in ihQuestsInfo")
+        else
+          installedQuests[name]=gvarIndex
+        end
+      end
+    end
+  end
+  return installedQuests
 end
 
 function this.Test_SetRatPosition()

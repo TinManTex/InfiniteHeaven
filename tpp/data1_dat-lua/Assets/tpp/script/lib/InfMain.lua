@@ -1,15 +1,11 @@
 -- DOBUILD: 1
 --InfMain.lua
-InfLog.AddFlow"Load InfMain.lua"
+InfCore.LogFlow"Load InfMain.lua"
 local this={}
-
-this.modVersion="196"
-this.modName="Infinite Heaven"
-this.saveName="ih_save.lua"
 
 --LOCALOPT:
 local InfMain=this
-local InfLog=InfLog
+local InfCore=InfCore
 local IvarProc=IvarProc
 local InfButton=InfButton
 local TppMission=TppMission
@@ -21,7 +17,7 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32
 
 this.modulesOK=false
 this.appliedProfiles=false
@@ -51,14 +47,18 @@ this.packages={
 }
 
 function this.OnLoadEvars()
+  --InfQuest.DEBUG_PrintQuestClearedFlags()--DEBUG
   local enable=Ivars.debugMode:Is(1)
   this.DebugModeEnable(enable)
 end
 
---CALLER: init_sequence
-function this.OnCreateOrLoadSaveData()
-  InfLog.AddFlow"InfMain.OnCreateOrLoadSaveData"
-  InfLog.gameSaveFirstLoad=true
+--CALLER: TppVarInit.StartTitle, game save actually first loaded
+--not super accurate execution timing wise
+function this.OnStartTitle()
+  InfCore.LogFlow"InfMain.OnStartTitle"
+  InfCore.gameSaveFirstLoad=true
+
+  InfQuest.SetupInstalledQuestsState()
 end
 
 --tex from InfHooks hook on TppSave.DoSave
@@ -76,18 +76,18 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnLoad) then
-      InfLog.PCallDebug(module.OnLoad,nextMissionCode,currentMissionCode)
+      InfCore.PCallDebug(module.OnLoad,nextMissionCode,currentMissionCode)
     end
   end
 end
 
 --CALLER: TppEneFova.PreMissionLoad
 function this.PreMissionLoad(missionId,currentMissionId)
-  InfLog.AddFlow"InfMain.PreMissionLoad"
+  InfCore.LogFlow"InfMain.PreMissionLoad"
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.PreMissionLoad) then
-      InfLog.PCallDebug(module.PreMissionLoad,missionId,currentMissionId)
+      InfCore.PCallDebug(module.PreMissionLoad,missionId,currentMissionId)
     end
   end
 end
@@ -104,11 +104,15 @@ function this.OnAllocate(missionTable)
     return
   end
 
+  if gvars then
+    InfCore.Log("inf_levelSeed "..tostring(gvars.inf_levelSeed))--DEBUG
+  end
+
   InfSoldierParams.SoldierParametersMod()
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnAllocate) then
-      InfLog.PCallDebug(module.OnAllocate,missionTable)
+      InfCore.PCallDebug(module.OnAllocate,missionTable)
     end
   end
 end
@@ -123,7 +127,7 @@ end
 
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
-  InfLog.PCallDebug(function(missionTable)--DEBUG
+  InfCore.PCallDebug(function(missionTable)--DEBUG
     if TppMission.IsFOBMission(vars.missionCode)then
       return
   end
@@ -145,22 +149,22 @@ function this.OnInitializeTop(missionTable)
         InfWalkerGear.walkerPool=InfUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
         InfWalkerGear.mvar_walkerInfo={}
       end
-      InfLog.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
+      InfCore.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
 
-      InfLog.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans,this.emptyCpPool)
+      InfCore.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans,this.emptyCpPool)
 
       enemyTable.soldierTypes=enemyTable.soldierTypes or {}
       enemyTable.soldierSubTypes=enemyTable.soldierSubTypes or {}
       enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
       enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
 
-      InfLog.PCallDebug(InfNPC.AddLrrps,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines,this.emptyCpPool)
-      InfLog.PCallDebug(InfWalkerGear.AddLrrpWalkers,this.lrrpDefines,InfWalkerGear.walkerPool)
-      InfLog.PCallDebug(InfNPC.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
+      InfCore.PCallDebug(InfNPC.AddLrrps,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines,this.emptyCpPool)
+      InfCore.PCallDebug(InfWalkerGear.AddLrrpWalkers,this.lrrpDefines,InfWalkerGear.walkerPool)
+      InfCore.PCallDebug(InfNPC.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
 
-      InfLog.PCallDebug(InfNPC.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
+      InfCore.PCallDebug(InfNPC.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
 
-      InfLog.PCallDebug(InfNPC.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
+      InfCore.PCallDebug(InfNPC.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
 
       --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
       local ejectVehiclesSoldiers=false
@@ -176,7 +180,7 @@ end
 
 --tex called about halfway through TppMain.OnInitialize (on all require libs)
 function this.Init(missionTable)
-  InfLog.PCallDebug(function(missionTable)--DEBUG
+  InfCore.PCallDebug(function(missionTable)--DEBUG
     this.abortToAcc=false
 
     if TppMission.IsFOBMission(vars.missionCode) then
@@ -195,7 +199,7 @@ function this.Init(missionTable)
     local currentChecks=this.UpdateExecChecks(this.execChecks)
     for i,module in ipairs(InfModules)do
       if module.Init then
-        InfLog.PCallDebug(module.Init,missionTable,currentChecks)
+        InfCore.PCallDebug(module.Init,missionTable,currentChecks)
       end
     end
 
@@ -204,7 +208,7 @@ function this.Init(missionTable)
     if Ivars.debugMode:Is(1) then
       local strCode32List={}
 
-      local InfStrCode=this.LoadExternalModule("InfStrCode",true,true)--tex module wont assign to global issue again
+      local InfStrCode=InfCore.LoadExternalModule("InfStrCode",true,true)--tex module wont assign to global issue again
       if InfStrCode then
         Tpp.ApendArray(strCode32List,InfStrCode.DEBUG_strCode32List)
       end
@@ -222,19 +226,19 @@ end
 
 --tex just after mission script_enemy.SetUpEnemy
 function this.SetUpEnemy(missionTable)
-  InfLog.AddFlow("InfMain.SetUpEnemy "..vars.missionCode)
+  InfCore.LogFlow("InfMain.SetUpEnemy "..vars.missionCode)
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
   for i,module in ipairs(InfModules) do
     if IsFunc(module.SetUpEnemy) then
-      InfLog.PCallDebug(module.SetUpEnemy,missionTable)
+      InfCore.PCallDebug(module.SetUpEnemy,missionTable)
     end
   end
 end
 
 function this.OnInitializeBottom(missionTable)
-  ---InfLog.PCall(function(missionTable)--DEBUG
+  ---InfCore.PCall(function(missionTable)--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -247,7 +251,7 @@ function this.OnInitializeBottom(missionTable)
         for cpName,layerTable in pairs(interrogationTable)do
           local cpId=GetGameObjectId("TppCommandPost2",cpName)
           if cpId==NULL_ID then
-            InfLog.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUG
+            InfCore.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUG
           else
             --tex TODO KLUDGE, cant actually see how it's reset normally,
             --but it doesn't seem to trigger unless I do
@@ -268,9 +272,7 @@ end
 
 --IN/OUT packPath
 function this.AddMissionPacks(missionCode,packPaths)
-
-
-  InfLog.AddFlow("InfMain.AddMissionPacks "..missionCode)
+  InfCore.LogFlow("InfMain.AddMissionPacks "..missionCode)
   if TppMission.IsFOBMission(missionCode)then
     return
   end
@@ -284,16 +286,16 @@ function this.AddMissionPacks(missionCode,packPaths)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.AddMissionPacks) then
-      InfLog.PCallDebug(module.AddMissionPacks,missionCode,packPaths)
+      InfCore.PCallDebug(module.AddMissionPacks,missionCode,packPaths)
     end
   end
 
-  InfLog.PrintInspect(packPaths)--DEBUG
+  InfCore.PrintInspect(packPaths)--DEBUG
 end
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
 function this.OnMissionCanStartBottom()
-  --InfLog.PCall(function()--DEBUG
+  --InfCore.PCall(function()--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -301,7 +303,7 @@ function this.OnMissionCanStartBottom()
   local currentChecks=this.UpdateExecChecks(this.execChecks)
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnMissionCanStart) then
-      InfLog.PCallDebug(module.OnMissionCanStart,currentChecks)
+      InfCore.PCallDebug(module.OnMissionCanStart,currentChecks)
     end
   end
 
@@ -334,7 +336,7 @@ function this.OnReload(missionTable)
 
   for i,module in ipairs(InfModules)do
     if module.OnReload then
-      InfLog.PCallDebug(module.OnReload,missionTable)
+      InfCore.PCallDebug(module.OnReload,missionTable)
     end
   end
 end
@@ -348,7 +350,7 @@ function this.OnMissionGameEndTop()
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnMissionGameEnd) then
-      InfLog.PCallDebug(module.OnMissionGameEnd)
+      InfCore.PCallDebug(module.OnMissionGameEnd)
     end
   end
 end
@@ -358,7 +360,7 @@ function this.AbortMissionTop(abortInfo)
     return
   end
 
-  --InfLog.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
+  --InfCore.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
 
   InfGameEvent.DisableEvent()
@@ -420,20 +422,20 @@ function this.Messages()
     --      {msg="VehicleBroken",func=InfReinforce.OnVehicleBrokenReinforce},
     --      {msg="Returned", --[[sender = "EnemyHeli",--]]
     --        func = function(gameObjectId)
-    --        --InfLog.DebugPrint("GameObject msg: Returned")--DEBUG
+    --        --InfCore.DebugPrint("GameObject msg: Returned")--DEBUG
     --        end
     --      },
     --      {msg="RequestedHeliTaxi",func=function(gameObjectId,currentLandingZoneName,nextLandingZoneName)
-    --        --InfLog.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
+    --        --InfCore.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
     --        end},
     --      {msg="StartedPullingOut",func=function()
-    --        --InfLog.DebugPrint("StartedPullingOut")--DEBUG
+    --        --InfCore.DebugPrint("StartedPullingOut")--DEBUG
     --      end},
     --      {
     --        msg = "RoutePoint2",--DEBUG
     --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
-    --          InfLog.PCall(function()
-    --            InfLog.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
+    --          InfCore.PCall(function()
+    --            InfCore.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
     --          end)
     --        end
     --      },
@@ -442,7 +444,7 @@ function this.Messages()
     --      {
     --        msg="MotherBaseCurrentClusterLoadStart",
     --        func=function(clusterId)
-    --          InfLog.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
+    --          InfCore.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
     --        end,
     --      },
     --OFF CULL unused{msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
@@ -452,72 +454,73 @@ function this.Messages()
     --      {
     --        msg="OnPickUpWeapon",
     --        func=function(playerGameObjectId,equipId,number)
-    --          InfLog.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
+    --          InfCore.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
     --        end
     --      },
     --      {msg="RideHelicopter",func=function()
-    --        InfLog.DebugPrint"RideHelicopter"
+    --        InfCore.DebugPrint"RideHelicopter"
     --      end},
     },
     UI={
       --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
-        --InfLog.Add("FadeInOnGameStart",true)--DEBUG
+        --InfCore.Log("FadeInOnGameStart",true)--DEBUG
         this.FadeInOnGameStart()
       end},
       --this.FadeInOnGameStart},
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()--fires on: returning to heli from mission
         --  TppUiStatusManager.ClearStatus"AnnounceLog"
         --InfMenu.ModWelcome()
-        --InfLog.DebugPrint"FadeInOnStartMissionGame"--DEBUG
+        --InfCore.DebugPrint"FadeInOnStartMissionGame"--DEBUG
         --this.FadeInOnGameStart()
         end},
       {msg="EndFadeIn",sender="OnEndGameStartFadeIn",func=function()--fires on: on-foot mother base, both initial and continue
-        --InfLog.DebugPrint"OnEndGameStartFadeIn"--DEBUG
+        --InfCore.DebugPrint"OnEndGameStartFadeIn"--DEBUG
         this.FadeInOnGameStart()
       end},
       --tex Heli mission-prep ui
       {msg="MissionPrep_EndSlotSelect",func=function()
-        --InfLog.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
+        --InfCore.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
         InfFova.CheckModelChange()
       end},
     --      {msg="MissionPrep_ExitWeaponChangeMenu",func=function()
-    --        InfLog.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
+    --        InfCore.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
     --      end},
     --      {msg="MissionPrep_EndItemSelect",func=function()
-    --        InfLog.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
+    --        InfCore.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
     --      end},
     --      {msg="MissionPrep_EndEdit",func=function()
-    --        InfLog.DebugPrint"MissionPrep_EndEdit"--DEBUG
+    --        InfCore.DebugPrint"MissionPrep_EndEdit"--DEBUG
     --      end},
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
-    --Timer={
+    Timer={
+      {msg="Finish",sender="Timer_WaitStartingGame",func=this.OnGameStart},
     --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
-    --},
+    },
     --    Terminal={
     --      {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
-    --        --InfLog.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
+    --        --InfCore.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
     --      end},
     --      {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
-    --        --InfLog.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
+    --        --InfCore.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
     --      end},
     --      {msg="MbDvcActHeliLandStartPos",func=function(set,x,y,z)
-    --        --InfLog.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
+    --        --InfCore.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
     --        end},
     --      {msg="MbDvcActCallRescueHeli",func=function(param1,param2)
-    --        --InfLog.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
+    --        --InfCore.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
     --        end},
     --    },
     Block={
       {msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(blockIndexX,blockIndexY,clusterIndex)
         if Ivars.printOnBlockChange:Is(1) then
-          InfLog.DebugPrint("OnSmallBlockIndex - x:"..blockIndexX..", y:"..blockIndexY.." clusterIndex:"..tostring(clusterIndex))
+          InfCore.DebugPrint("OnSmallBlockIndex - x:"..blockIndexX..", y:"..blockIndexY.." clusterIndex:"..tostring(clusterIndex))
         end
       end},
       {msg="OnChangeLargeBlockState",func=function(blockNameStr32,blockStatus)
         if Ivars.printOnBlockChange:Is(1) then
-          InfLog.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
+          InfCore.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
         end
       end},
     --      {msg="OnChangeSmallBlockState",func=function(blockNameStr32,blockStatus)
@@ -553,15 +556,15 @@ function this.OnDamage(gameId,attackId,attackerId)
   end
 
   if Tpp.IsPlayer(attackerId) then
-    --InfLog.DebugPrint"OnDamage attacked by player"
+    --InfCore.DebugPrint"OnDamage attacked by player"
     local soldierAlertOnHeavyVehicleDamage=Ivars.soldierAlertOnHeavyVehicleDamage:Get()
     if soldierAlertOnHeavyVehicleDamage>0 then
       if vehicleAttacks[attackId] then
-        --InfLog.DebugPrint"OnDamage AttackIsVehicle"
+        --InfCore.DebugPrint"OnDamage AttackIsVehicle"
         for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup
           if soldierIds[gameId]~=nil then
             if TppEnemy.GetPhaseByCPID(cpId)<soldierAlertOnHeavyVehicleDamage then
-              --InfLog.DebugPrint"OnDamage found soldier in idlist"
+              --InfCore.DebugPrint"OnDamage found soldier in idlist"
               local command={id="SetPhase",phase=soldierAlertOnHeavyVehicleDamage}
               SendCommand(cpId,command)
               break
@@ -578,15 +581,15 @@ function this.OnFultonVehicle(vehicleId)
 --tex not actually that useful, need to alert nearby cps instead
 --  local cpAlertOnVehicleFulton=Ivars.cpAlertOnVehicleFulton:Get()
 --  if cpAlertOnVehicleFulton>0 then--tex
---    InfLog.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUG
+--    InfCore.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUG
 --    local riderIdArray=SendCommand(vehicleId,{id="GetRiderId"})
 --    for seatIndex,riderId in ipairs(riderIdArray) do
 --      if seatIndex==1 then
 --        if riderId~=NULL_ID then
---          InfLog.DebugPrint"vehicle has driver"--DEBUG
+--          InfCore.DebugPrint"vehicle has driver"--DEBUG
 --          for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
 --            if soldierIds[riderId]~=nil then
---              InfLog.DebugPrint"found rider cp"--DEBUG
+--              InfCore.DebugPrint"found rider cp"--DEBUG
 --              if TppEnemy.GetPhaseByCPID(cpId)<cpAlertOnVehicleFulton then
 --                local command={id="SetPhase",phase=cpAlertOnVehicleFulton}
 --                SendCommand(cpId,command)
@@ -610,6 +613,24 @@ function this.OnPhaseChange(gameObjectId,phase,oldPhase)
   end
 end
 
+function this.OnGameStart()
+  --tex WORKAROUND, vars.mbLayout (also TppMotherBaseManagement.GetMbsClusterGrade) isn't updated on a command cluster plat built till after TppMain.ReservePlayerLoadingPosition
+  if vars.missionCode==30050 then
+    if gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.ON_FOOT then
+      --InfCore.Log("playerposfailsafe ON_FOOT playerY="..vars.playerPosY)--DEBUG
+      if vars.playerPosY<-9 then
+        InfCore.Log("PlayerPos Failsafe")
+        --tex TODO could store vars.mbLayout during load and compare to see if it's changed?
+        if gvars.heli_missionStartRoute then
+          local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
+          --InfCore.PrintInspect(groundStartPosition)--DEBUG
+          TppPlayer.Warp{pos=groundStartPosition.pos,rotY=vars.playerRotY}
+        end
+      end
+    end
+  end
+end
+
 --CALLER: TppUiFadeIn
 --tex calling from function rather than msg since it triggers on start, possibly splash or loading screen, which fova naturally doesnt like because it doesn't exist then
 function this.OnFadeInDirect()
@@ -622,6 +643,7 @@ end
 
 --msg called fadeins
 function this.FadeInOnGameStart()
+  InfCore.LogFlow"InfMain.FadeInOnGameStart"
   this.WeaponVarsSanityCheck()
 
   if TppMission.IsFOBMission(vars.missionCode)then
@@ -647,7 +669,7 @@ function this.OnMenuClose()
     end
   end
 
-  InfLog.PCallDebug(IvarProc.SaveEvars)
+  InfCore.PCallDebug(IvarProc.SaveEvars)
 end
 
 --Caller heli_common_sequence.Seq_Game_MainGame.OnEnter
@@ -664,7 +686,7 @@ function this.OnEnterACC()
     --    }
     --    for i,developId in ipairs(developIds) do
     --      if not TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
-    --        InfLog.Add("SetEquipDeveloped "..developId)
+    --        InfCore.Log("SetEquipDeveloped "..developId)
     --        TppMotherBaseManagement.SetEquipDeveloped{equipDevelopID=developId}
     --      end
     --    end
@@ -713,7 +735,7 @@ function this.UpdateExecChecks(currentChecks)
     if not currentChecks.inHeliSpace then
       currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
       --if not initialAction then--DEBUG
-      --InfLog.DebugPrint"not initialAction"
+      --InfCore.DebugPrint"not initialAction"
       --end
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
       currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId)-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
@@ -726,7 +748,7 @@ function this.UpdateExecChecks(currentChecks)
 end
 
 function this.Update()
-  InfLog.PCallDebug(function()--DEBUG
+  InfCore.PCallDebug(function()--DEBUG
     local InfMenu=InfMenu
     if TppMission.IsFOBMission(vars.missionCode) then
       return
@@ -772,7 +794,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   end
 
   if execChecks==nil then
-    InfLog.DebugPrint"update module has no execChecks var, aborting"
+    InfCore.DebugPrint"update module has no execChecks var, aborting"
     return
   end
   for check,ivarCheck in pairs(execChecks) do
@@ -782,11 +804,11 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   end
 
   if not IsFunc(ExecUpdateFunc) then
-    InfLog.DebugPrint"ExecUpdateFunc is not a function"
+    InfCore.DebugPrint"ExecUpdateFunc is not a function"
     return
   end
 
-  InfLog.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
+  InfCore.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
 
   if updateRate>0 then
     execState.nextUpdate=currentTime+updateRate
@@ -794,7 +816,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
 
   --DEBUG
   --if currentChecks.inGame then
-  -- InfLog.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))
+  -- InfCore.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))
   --end
 end
 
@@ -832,7 +854,7 @@ function this.DoControlSet(currentChecks)
       for i,button in ipairs(combo)do
         InfButton.buttonStates[button].heldStart=0
       end
-      InfLog.DebugPrint("LoadExternalModules")
+      InfCore.DebugPrint("LoadExternalModules")
       this.LoadExternalModules(true)
       if not this.modulesOK then
         this.ModuleErrorMessage()
@@ -867,13 +889,13 @@ function this.RegenSeed(currentMission,nextMission)
   if TppMission.IsHelicopterSpace(nextMission) and currentMission>5 then
     this.RandomResetToOsTime()
     Ivars.inf_levelSeed:Set(math.random(0,2147483647))
-    InfLog.Add("InfMain.RegenSeed new seed "..tostring(gvars.inf_levelSeed))--DEBUG
+    InfCore.Log("InfMain.RegenSeed new seed "..tostring(gvars.inf_levelSeed))--DEBUG
   end
 end
 
 function this.RandomSetToLevelSeed()
-  --  InfLog.Add("RandomSetToLevelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
-  --  InfLog.Add("caller:"..InfLog.DEBUG_Where(2))--DEBUG
+  --  InfCore.Log("RandomSetToLevelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
+  --  InfCore.Log("caller:"..InfCore.DEBUG_Where(2))--DEBUG
   math.randomseed(gvars.inf_levelSeed)
   math.random()
   math.random()
@@ -881,8 +903,8 @@ function this.RandomSetToLevelSeed()
 end
 
 function this.RandomResetToOsTime()
-  --  InfLog.Add"RandomResetToOsTime"--DEBUG
-  --  InfLog.Add("caller:"..InfLog.DEBUG_Where(2))--DEBUG
+  --  InfCore.Log"RandomResetToOsTime"--DEBUG
+  --  InfCore.Log("caller:"..InfCore.DEBUG_Where(2))--DEBUG
   math.randomseed(os.time())
   math.random()
   math.random()
@@ -991,7 +1013,7 @@ function this.RandomizeCpSubTypeTable()
   local locationName=InfUtil.locationNames[vars.locationCode]
   local locationSubTypes=cpSubTypes[locationName]
   if locationSubTypes==nil then
-    InfLog.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
+    InfCore.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
     return
   end
 
@@ -1053,7 +1075,6 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
---tex TODO:
 this.cpPositions={
   afgh={
     afgh_citadelSouth_ob={-1682.557,536.637,-2409.226},
@@ -1162,7 +1183,7 @@ function this.GetClosestCp(position)
   local locationName=InfUtil.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   if cpPositions==nil then
-    InfLog.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
+    InfCore.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
     return nil,nil,nil
   end
 
@@ -1171,22 +1192,22 @@ function this.GetClosestCp(position)
   local closestPosition=nil
   for cpName,cpPosition in pairs(cpPositions)do
     if cpPosition==nil then
-      InfLog.DebugPrint("cpPosition==nil for "..tostring(cpName))
+      InfCore.DebugPrint("cpPosition==nil for "..tostring(cpName))
       return
     elseif #cpPosition~=3 then
-      InfLog.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
+      InfCore.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
       return
     end
 
     local distSqr=TppMath.FindDistance(position,cpPosition)
-    --InfLog.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
+    --InfCore.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
     if distSqr<closestDist then
       closestDist=distSqr
       closestCp=cpName
       closestPosition=cpPosition
     end
   end
-  --InfLog.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
+  --InfCore.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
   local cpId=GetGameObjectId(closestCp)
   if cpId and cpId~=NULL_ID then
     return closestCp,closestDist,closestPosition
@@ -1203,7 +1224,7 @@ function this.GetClosestLz(position)
   local locationName=InfUtil.GetLocationName()
 
   if not TppLandingZone.assaultLzs[locationName] then
-    InfLog.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+    InfCore.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
   end
   local lzTables={
     TppLandingZone.assaultLzs[locationName],
@@ -1215,10 +1236,10 @@ function this.GetClosestLz(position)
       if coords then
         local cpPos=coords.pos
         if cpPos==nil then
-          InfLog.DebugPrint("coords.pos==nil for "..dropLzName)
+          InfCore.DebugPrint("coords.pos==nil for "..dropLzName)
           return
         elseif #cpPos~=3 then
-          InfLog.DebugPrint("#coords.pos~=3 for "..dropLzName)
+          InfCore.DebugPrint("#coords.pos~=3 for "..dropLzName)
           return
         end
 
@@ -1234,7 +1255,6 @@ function this.GetClosestLz(position)
 
   return closestRoute,closestDist,closestPosition
 end
-
 --<cp stuff
 
 --tex a few demo files force their own snake heads which naturally goes badly if DD female and use current soldier in cutscenes
@@ -1249,11 +1269,11 @@ function this.SetSubsistenceSettings()
   --tex no go, see OnMissionCanStartBottom for alt solution
   --  if TppMission.IsFOBMission(vars.missionCode) then
   --    if vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None then
-  --      --InfLog.Add("TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None")--DEBUG
+  --      --InfCore.Log("TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None")--DEBUG
   --      TppPlayer.SetInitWeapons({{primaryHip="EQP_WP_30001"}},true)
   --    end
   --    if vars.weapons[TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None then
-  --      --InfLog.Add("TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None")--DEBUG
+  --      --InfCore.Log("TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None")--DEBUG
   --      TppPlayer.SetInitWeapons({{secondary="EQP_WP_10101"}},true)
   --    end
   --    return
@@ -1290,7 +1310,7 @@ function this.SetSubsistenceSettings()
     if itemIvar:Is()>0 then
       --TODO: check against developed
       --local currentLevel=Player.GetItemLevel(equip)
-      --InfLog.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
+      --InfCore.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
       --tex levels = grades in dev menu, so 1=off since there's no grade 1 for these
       Player.SetItemLevel(itemIvar.equipId,itemIvar:Get())
     end
@@ -1572,7 +1592,7 @@ function this.BuildEmptyCpPool(soldierDefine)
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
-      InfLog.DebugPrint("BuildEmptyCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
+      InfCore.DebugPrint("BuildEmptyCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
     else
       if #cpDefine==0 then
         --tex cp is labeled _lrrp
@@ -1584,8 +1604,8 @@ function this.BuildEmptyCpPool(soldierDefine)
       end
     end
   end
-  --  InfLog.Add"cpPool"--DEBUG
-  --  InfLog.PrintInspect(cpPool)--DEBUG
+  --  InfCore.Log"cpPool"--DEBUG
+  --  InfCore.PrintInspect(cpPool)--DEBUG
   return cpPool
 end
 
@@ -1594,7 +1614,7 @@ function this.BuildBaseCpPool(soldierDefine)
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
-      InfLog.DebugPrint("BuildCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
+      InfCore.DebugPrint("BuildCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
     else
       if #cpDefine>0 then
         if not cpDefine.lrrpVehicle and not cpDefine.travelPlan then
@@ -1603,8 +1623,8 @@ function this.BuildBaseCpPool(soldierDefine)
       end
     end
   end
-  --  InfLog.Add"cpPool"--DEBUG
-  --  InfLog.PrintInspect(cpPool)--DEBUG
+  --  InfCore.Log"cpPool"--DEBUG
+  --  InfCore.PrintInspect(cpPool)--DEBUG
   return cpPool
 end
 
@@ -1615,7 +1635,7 @@ function this.BuildCpPoolWildCard(soldierDefine)
     if #cpDefine>0 then
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfLog.Add("BuildCpPoolWildCard: soldierDefine cpId==NULL",true)--DEBUG
+        InfCore.Log("BuildCpPoolWildCard: soldierDefine cpId==NULL",true)--DEBUG
       else
         --tex TODO: allow quest_cp, but regenerate soldier on quest load
         if cpName=="quest_cp" then
@@ -1654,14 +1674,14 @@ end
 ---
 
 function this.ClearStatus()
-  InfLog.PCall(function()
+  InfCore.PCall(function()
     local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
     SplashScreen.Show(splash,0,0.3,0)
 
     vars.playerDisableActionFlag=PlayerDisableAction.NONE
     Player.SetPadMask{settingName="AllClear"}
     Tpp.SetGameStatus{target="all",enable=true,scriptName="InfMain.lua"}
-    InfLog.DebugPrint"Cleared status"
+    InfCore.DebugPrint"Cleared status"
   end)
 end
 
@@ -1844,21 +1864,64 @@ function this.DisplayFox32(foxString)
 end
 
 function this.DebugModeEnable(enable)
-  local prevMode=InfLog.debugMode
+  InfCore.Log("DebugModeEnable:"..tostring(enable),false,true)
+  local prevMode=InfCore.debugMode
 
   if enable then
-    InfLog.PCall(InfHooks.SetupDebugHooks)
-
-    --InfLog.Add"InfHooks:"--DEBUG
-    --InfLog.PrintInspect(InfHooks)
-    InfMenu.AddDevMenus()
+    if InfHooks then
+      InfCore.PCall(InfHooks.SetupDebugHooks)
+    end
+    --InfCore.Log"InfHooks:"--DEBUG
+    --InfCore.PrintInspect(InfHooks)
+    if InfMenu then
+      InfMenu.AddDevMenus()
+    end
   end
-  InfLog.debugMode=enable
+  InfCore.debugMode=enable
+end
+
+--modules
+--SIDE: modules,this.modulesOK
+--isReload = user initiated
+function this.LoadExternalModules(isReload)
+  this.modulesOK=true
+  for i,moduleName in ipairs(InfModules.moduleNames) do
+    InfCore.LoadExternalModule(moduleName,isReload)
+    local module=_G[moduleName]
+    if module then
+      module.name=moduleName
+      table.insert(InfModules,module)
+    else
+      this.modulesOK=false
+    end
+  end
+
+  InfCore.PCallDebug(this.PostAllModulesLoad)
+
+  --NOTE: On first load only InfMain has been loaded at this point, so can't reference other IH lib modules.
+  for i,moduleName in ipairs(InfModules.moduleNames) do
+    local module=_G[moduleName]
+    if module then
+      if IsFunc(module.PostAllModulesLoad) then
+        InfCore.PCallDebug(module.PostAllModulesLoad)
+      end
+    end
+  end
+end
+
+function this.ModuleErrorMessage()
+  --tex TODO: if InfLang then printlangid else -v-
+  InfCore.DebugPrint"Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt"
+  InfCore.Log("Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt",false,true)
+end
+
+function this.PostAllModulesLoad()
+
 end
 
 --CALLER end of start2nd.lua
 function this.LoadLibraries()
-  InfLog.AddFlow"InfMain.LoadLibraries"
+  InfCore.LogFlow"InfMain.LoadLibraries"
   this.LoadModelInfoModules()
   if InfQuest then
     InfQuest.LoadQuestDefs()
@@ -1866,7 +1929,6 @@ function this.LoadLibraries()
 end
 
 function this.LoadModelInfoModules()
-
   local plpartsPacks={--tex SYNC: InfFova
     "plparts_avatar_man",
     "plparts_battledress",
@@ -1906,99 +1968,25 @@ function this.LoadModelInfoModules()
   end)
 end
 
-function this.PostAllModulesLoad()
-  if Ivars.debugMode:Is(1) then
-    InfMenu.AddDevMenus()
-  end
-end
-
---modules
-function this.LoadExternalModule(moduleName,isReload,skipPrint)
-  local prevModule=_G[moduleName]
-  if isReload then
-    if prevModule and prevModule.PreModuleReload then
-      InfLog.PCallDebug(prevModule.PreModuleReload)
-    end
-  end
-
-  --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
-  package.loaded[moduleName]=nil
-  local sucess,module=pcall(require,moduleName)
-  if not sucess then
-    InfLog.Add(module,false,true)
-    --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
-    if InfLog.doneStartup and not skipPrint then
-      InfLog.DebugPrint("Could not load module "..moduleName)
-    end
-    return nil
-  else
-    _G[moduleName]=module
-  end
-
-  if isReload then
-    if module.PostModuleReload then
-      InfLog.PCallDebug(module.PostModuleReload,prevModule)
-    end
-  end
-
-  return module
-end
-
---SIDE: modules,this.modulesOK
---isReload = user initiated
-function this.LoadExternalModules(isReload)
-  this.modulesOK=true
-  for i,moduleName in ipairs(InfModules.moduleNames) do
-    this.LoadExternalModule(moduleName,isReload)
-    local module=_G[moduleName]
-    if module then
-      module.name=moduleName
-      table.insert(InfModules,module)
-    else
-      this.modulesOK=false
-    end
-  end
-
-  InfLog.PCallDebug(this.PostAllModulesLoad)
-
-  --NOTE: On first load only InfMain has been loaded at this point, so can't reference other IH lib modules.
-  for i,moduleName in ipairs(InfModules.moduleNames) do
-    local module=_G[moduleName]
-    if module then
-      if IsFunc(module.PostAllModulesLoad) then
-        InfLog.PCallDebug(module.PostAllModulesLoad)
-      end
-    end
-  end
-end
-
-function this.ModuleErrorMessage()
-  --tex TODO: if InfLang then printlangid else -v-
-  InfLog.DebugPrint"Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt"
-  InfLog.Add("Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt",false,true)
-end
-
 --EXEC
-ivars={}--tex GLOBAL
-evars={}--tex GLOBAL
-
 _G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
 
 if Mock==nil then
-  this.LoadExternalModule"InfModules"
+  InfCore.LogFlow"InfMain LoadExternalModules"
+  InfCore.LoadExternalModule"InfModules"
   if not InfModules then
     this.ModuleErrorMessage()
   else
-    InfLog.AddFlow"InfMain.LoadExternalModules"
+    InfCore.LogFlow"InfMain.LoadExternalModules"
     this.LoadExternalModules()
     if not this.modulesOK then
       this.ModuleErrorMessage()
     end
 
-    InfLog.doneStartup=true
+    InfCore.doneStartup=true
   end
 end
 
-InfLog.AddFlow"InfMain.lua done"
+InfCore.LogFlow"InfMain.lua done"
 
 return this

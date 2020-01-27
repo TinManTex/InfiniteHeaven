@@ -3,7 +3,7 @@ local this={}
 
 --LOCALOPT
 local InfMain=InfMain
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -183,12 +183,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       local npcName=npcList[n]
       local gameId=GetGameObjectId(npcName)
       if gameId==NULL_ID then
-      --InfLog.DebugPrint("gameId==NULL_ID")
+      --InfCore.DebugPrint("gameId==NULL_ID")
       else
-        --InfLog.DebugPrint("setupNpc")--DEBUG
+        --InfCore.DebugPrint("setupNpc")--DEBUG
 
         if this.mbDemoWasPlay then
-        --InfLog.DebugPrint("mbDemoWasPlay")--DEBUG
+        --InfCore.DebugPrint("mbDemoWasPlay")--DEBUG
         else
           local command={id="Warp",position=commandCoreStartPos,degRotationY=commandCoreStartRot}
           SendCommand(gameId,command)
@@ -213,7 +213,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     local npcName=npcList[n]
     local gameId=GetGameObjectId(npcName)
     if gameId==NULL_ID then
-    --InfLog.DebugPrint("gameId==NULL_ID")
+    --InfCore.DebugPrint("gameId==NULL_ID")
     else
       if npcTimes[n]< currentTime then
         npcTimes[n]=currentTime+Random(routeTimeMin,routeTimeMax)
@@ -221,7 +221,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
         local routeIdx=Random(#npcRoutes)
 
         --        local routeTime=npcTimes[n]-Time.GetRawElapsedTimeSinceStartUp()--DEBUG
-        --        InfLog.DebugPrint(npcName .. " routeIdx ".. routeIdx .. " for "..routeTime)--DEBUG
+        --        InfCore.DebugPrint(npcName .. " routeIdx ".. routeIdx .. " for "..routeTime)--DEBUG
         local command={id="SetSneakRoute",route=npcRoutes[routeIdx]}
         SendCommand(gameId,command)
       end

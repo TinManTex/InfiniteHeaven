@@ -80,7 +80,7 @@ local extensionTools={
 
 local extensions={
 --categories={"Target"
-"bnk",--Wwise SoundBank,http://wiki.xentax.com/index.php/Wwise_SoundBank_(*.bnk),https://github.com/Vextil/Wwise-Unpacker,http://forum.xentax.com/viewtopic.php?f=13&t=4450&p=89662#p89662
+"bnk",--Wwise SoundBank - info: http://wiki.xentax.com/index.php/Wwise_SoundBank_(*.bnk), tool: https://github.com/Vextil/Wwise-Unpacker,tool:http://forum.xentax.com/viewtopic.php?f=13&t=4450&p=89662#p89662
 "col",--
 "demo",--
 "demox",--
@@ -99,24 +99,24 @@ local extensions={
 "fstb",--
 "ftex",--
 "ftexs",--
-"gani",--
+"gani",--animation
 "lani",--
 "mtar",--
 "mtard",--
 "caar",--
 "geom",--collision geometry
 "gskl",--
-"nav",--
-"nav2",--
+"nav",--navmesh
+"nav2",--navmesh
 "sani",--
 "sand",--
 "mog",--
-"fv2",--
+"fv2",--Form Variation, info: http://forum.xentax.com/viewtopic.php?p=121318#p121318, info: https://unknown321.github.io/mgsv_research/fv2.html
 "cani",--
 "fmtt",--
 "lpsh",--
 "ffnt",--
-"fova",--
+"fova",--Form Variation,GZ
 "pftxs",--
 "frl",--
 "frld",--

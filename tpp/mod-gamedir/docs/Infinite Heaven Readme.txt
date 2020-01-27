@@ -1,5 +1,5 @@
 = Infinite heaven =
-r196 - 2016-12-10
+r197 - 2017-01-11
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -20,9 +20,15 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
-NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGS_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+NOTE: Infinite Heaven has been restructured, with some of its files now loading from a sub-folder of MGS_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
 
 NOTE: Infinite Heaven now uses SnakeBite 0.8.4, get it here: http://www.nexusmods.com/metalgearsolidvtpp/mods/106
+
+New for r197
+Fixed: Start offline option preventing dlc items - thanks morbidslinky for the fix.
+
+Fixed: Starting on map floor on mother base start on foot on first visit after building a platform in the command cluster - thanks NasaNhak 
+(InfMain.OnGameStart)
 
 New for r196
 Build for SnakeBite 0.8.4

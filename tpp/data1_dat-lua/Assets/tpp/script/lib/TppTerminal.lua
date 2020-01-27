@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsTypeTable=Tpp.IsTypeTable
 local SendCommand=GameObject.SendCommand
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -43,9 +43,9 @@ this.keyItemRewardTable={
   [TppMotherBaseManagementConst.DESIGN_3010]="key_item_3010",
   [TppMotherBaseManagementConst.DESIGN_3020]="key_item_3020"}
 this.parasiteSquadFultonResouceId={
-  [Fox.StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},
-  [Fox.StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},
-  [Fox.StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}
+  [StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},
+  [StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},
+  [StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}
 }
 this.MOTHER_BASE_SECTION_LIST={"Combat","BaseDev","Spy","Medical","Security","Hospital","Prison","Separation"}
 local MBMConst=TppMotherBaseManagementConst or{}
@@ -1297,7 +1297,7 @@ function this.OnFultonVehicle(vehicleId,a,a,resourceId,a,playerIndex)
     OnlineChallengeTask.UpdateOnFultonVehicle(vehicleId)
   end--<
 end
-function this.OnFultonContainer(gameId,t,n,staffOrResourceId,M,playerIndex,reduceThisContainer)
+function this.OnFultonContainer(gameId,locatorNameHash,dataSetNameHash,staffOrResourceId,M,playerIndex,reduceThisContainer)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
@@ -1305,13 +1305,13 @@ function this.OnFultonContainer(gameId,t,n,staffOrResourceId,M,playerIndex,reduc
     if not this.CheckAddTempBuffer(playerIndex)then
       return
     end
-    local resourceId,visual,owner=MotherBaseConstructConnector.GetContainerResourceId(t,n)
+    local resourceId,visual,owner=MotherBaseConstructConnector.GetContainerResourceId(locatorNameHash,dataSetNameHash)
     if resourceId==nil then
       resourceId=0
     end
     TppMotherBaseManagement.AddTempResource{resourceId=resourceId,count=1,visual=visual,owner=owner}
   else
-    local gimmickName=TppGimmick.GetGimmickID(gameId,t,n)
+    local gimmickName=TppGimmick.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
     if not gimmickName then
       gimmickName="commFacility_cntn001"
     end

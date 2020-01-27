@@ -134,8 +134,8 @@ function this.ChangeNormalTrapState(trapName,enable)
     return true
   end
 end
-function this.ChangeTriggerTrapState(e,a)
-  Geo.GeoLuaEnableTriggerTrap(e,a)
+function this.ChangeTriggerTrapState(trapName,enable)
+  Geo.GeoLuaEnableTriggerTrap(trapName,enable)
   return true
 end
 return this

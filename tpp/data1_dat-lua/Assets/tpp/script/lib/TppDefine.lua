@@ -1,10 +1,10 @@
 -- DOBUILD: 1
 -- TppDefine.lua
 -- tex modfying some values via other modules
-InfLog.Add"Load TppDefine.lua"--tex --DEBUG
+InfCore.Log"Load TppDefine.lua"--tex --DEBUG
 local this={}
 
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 
@@ -1464,4 +1464,5 @@ this.DEFAULT_DROP_ROUTE={
 this.DIRECTION_ZOOM_IN_CAMERA_ZOOM_INTERP_TIME=1
 this.DIRECTION_ZOOM_IN_CAMERA_ROTATION_INTERP_TIME=1
 this.ENEMY_HELI_COLORING_TYPE={DEFAULT=0,BLACK=1,RED=2}
+InfCore.LogFlow"TppDefine.lua done"
 return this

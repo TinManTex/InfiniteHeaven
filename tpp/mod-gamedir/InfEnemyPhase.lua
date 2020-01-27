@@ -34,7 +34,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   local mvars=mvars  
   
   if mvars.ene_soldierDefine==nil then
-    --InfLog.DebugPrint"WARNING: InfEnemyPhase.Update - ene_soldierDefine==nil"
+    --InfCore.DebugPrint"WARNING: InfEnemyPhase.Update - ene_soldierDefine==nil"
     return
   end
 
@@ -127,7 +127,7 @@ end
 function this.ChangePhase(cpName,phase)
   local gameId=GetGameObjectId("TppCommandPost2",cpName)
   if gameId==NULL_ID then
-    InfLog.DebugPrint("Could not find cp "..cpName)
+    InfCore.DebugPrint("Could not find cp "..cpName)
     return
   end
   local command={id="SetPhase",phase=phase}
@@ -137,7 +137,7 @@ end
 function this.SetKeepAlert(cpName,enable)
   local gameId=GetGameObjectId("TppCommandPost2",cpName)
   if gameId==NULL_ID then
-    InfLog.DebugPrint("Could not find cp "..cpName)
+    InfCore.DebugPrint("Could not find cp "..cpName)
     return
   end
   local command={id="SetKeepAlert",enable=enable}

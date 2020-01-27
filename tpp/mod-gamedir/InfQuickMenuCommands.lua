@@ -11,7 +11,7 @@ this.ToggleCamMode=function()
 end
 
 this.ToggleFreeCam=function()
-  --InfLog.DebugPrint"quickmenu RELOAD"--DEBUG
+  --InfCore.DebugPrint"quickmenu RELOAD"--DEBUG
   if Ivars.adjustCameraUpdate:Is(0) then
     Ivars.adjustCameraUpdate:Set(1)
   else

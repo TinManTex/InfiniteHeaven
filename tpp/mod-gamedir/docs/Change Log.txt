@@ -1,5 +1,44 @@
 Infinite Heaven changelog
 
+r197 - 2017-01-11
+Refactor: Rename InfLog to InfCore, .Add to .Log
+
+Refactor: InfInspect loading shifted to init.lua
+Refactor: IvarProc,Ivars - dependancies removed
+
+Refactor: InfProc - save system made a little more ameniable to reading/writing other sections.
+
+Build: Included TppVarInit to manually hook StartTitle (as its loaded after requires list/InfHook)
+
+Fix: gameSaveFirstLoad now somewhat accurate (wasn't actually used), and InfMain.OnStartTitle can be used as on-first game save load.
+
+InfQuest: installedQuests management of gvars quest states for IH quest sub-mods. The existing IH quests will be cleared on start of this version but will keep their state as long as the ih_save has the installedQuests added.
+
+Module: InfSecurityCam WIP
+Data: ih_security_cam.fpk
+Works but crashes on map exit (some times, but consistantly till (sometimes) proper map reset (ie not just abort to acc/start again), assuming its the combined gameobject/allocation issue.
+
+Module: InfUAV WIP
+Data: ih_uav.fpk/d
+Working, but not useful without custom routes.
+
+Module: InfHostage WIP (acually starteds in prior versions). 
+Setting face via uniquesettings doesn't seem to set body skin fova?
+SetRelative vehicle requires a route to be set. 
+Hostages can't follow travelplans as far as I can tell.
+A few attempt to expand quest random face system to more than one face per quest, but the whole thing is super flakey and will more often than not not load the head, including weirdness where it will, then will stop rendering it while in game.
+
+Fixed: Start offline option preventing dlc items - thanks morbidslinky for the fix.
+
+Fixed: Starting on map floor on mother base start on foot on first visit after building a platform in the command cluster - thanks NasaNhak 
+(InfMain.OnGameStart)
+
+Refactor: Ivars system,ih_save loaded on init.lua, now (non-gvar) ivars useable from very start of script system execution.
+
+Command: setAllFriendly - In debug stuff menu
+
+Feature: External loading/replacement of most scripts via MGS_TPP\mod\<script path>, more for modder expermentation than average user.
+
 r196 - 2016-12-10
 Core: GetPath nil fallback to C:\
 

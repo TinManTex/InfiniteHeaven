@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- TppClock.lua
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local t=(1/60)/60
 local c=1/60
 local hour=60*60

@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 local this={}
-local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
@@ -718,14 +718,14 @@ end
 function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG is below
   local soldierType = this._GetSoldierType(soldierId)
 
-  --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
+  --InfCore.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
   --tex CULL
   --  if Ivars.forceSoldierSubType:Is()>0 then--tex WIP:
-  --    --InfLog.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
+  --    --InfCore.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
   --    local subType = this.GetSoldierSubType(soldierId,soldierType)
   --    local typeForSubType=InfEneFova.soldierTypeForSubtypes[subType]
   --    if typeForSubType~=soldierType then
-  --      --InfLog.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
+  --      --InfCore.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
   --      if soldierId~=nil then
   --        mvars.ene_soldierTypes=mvars.ene_soldierTypes or {}
   --        mvars.ene_soldierTypes[soldierId]=soldierType
@@ -1132,7 +1132,7 @@ end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
   local bodyId
   local bodyIdTable={}
-  --InfLog.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
+  --InfCore.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
 
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
@@ -1214,7 +1214,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
       bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
     end
   end
-  --InfLog.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
+  --InfCore.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
   return bodyId
 end
 function this.GetFaceId(n,enemyType,n,n)
@@ -2553,7 +2553,7 @@ function this.DeclareSVars(missionTable)
   --tex WIP
   local heliCount=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT
   if IvarProc.EnabledForMission("heliPatrols") then
-    heliCount=InfNPCHeli.numAttackHelis
+    heliCount=InfNPCHeli.totalAttackHelis
   end
   TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount--DEBUGNOW
   --<
@@ -2811,7 +2811,7 @@ function this.RestoreOnMissionStart2()
   --WIP
   else--tex>
     --tex what it should be :/
-    local heliCount=InfNPCHeli.numAttackHelis
+    local heliCount=InfNPCHeli.totalAttackHelis
     for e=0,heliCount-1 do
       svars.enemyHeliName[e]=0
       svars.enemyHeliLocation[e*4+0]=0
@@ -2838,12 +2838,12 @@ function this.RestoreOnMissionStart2()
 end
 function this.RestoreOnContinueFromCheckPoint2()
   do
-    local e={type="TppCommandPost2"}
-    SendCommand(e,{id="RestoreFromSVars"})
+    local tppCommandPost2={type="TppCommandPost2"}
+    SendCommand(tppCommandPost2,{id="RestoreFromSVars"})
   end
   if GameObject.GetGameObjectIdByIndex("TppSoldier2",0)~=NULL_ID then
-    local e={type="TppSoldier2"}
-    SendCommand(e,{id="RestoreFromSVars"})
+    local tppSoldier2={type="TppSoldier2"}
+    SendCommand(tppSoldier2,{id="RestoreFromSVars"})
   end
   this._RestoreOnContinueFromCheckPoint_Hostage2()
   --tex WORKAROUND added bypass, save/RestoreFromSVars only saves one heli,
@@ -3155,9 +3155,9 @@ function this.AssignSoldiersToCP()
     local isChild=false
     for soldierId,soldierName in pairs(soldierIds)do
       --      if Ivars.forceSoldierSubType:EnabledForMission() then--tex> WIP TODO: Why is this hanging FOB?
-      --        --InfLog.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
+      --        --InfCore.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
       --        --   gvars.soldierTypeForced[soldierId]=true
-      --        --  InfLog.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
+      --        --  InfCore.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
       --        mvars.ene_soldierSubType[soldierId]=forceSubType
       --      end--<
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
@@ -4264,8 +4264,8 @@ function this.AutoFultonRecoverNeutralizedTarget(gameId,a)
   end
 end
 function this.CheckQuestTargetOnOutOfActiveArea(n)
-  InfLog.Add("CheckQuestTargetOnOutOfActiveArea")--tex DEBUG, see RETAILBUG below
-  InfLog.PrintInspect(n)--tex DEBUG
+  InfCore.Log("CheckQuestTargetOnOutOfActiveArea")--tex DEBUG, see RETAILBUG below
+  InfCore.PrintInspect(n)--tex DEBUG
   if not IsTypeTable(n)then
     return
   end
@@ -4788,7 +4788,7 @@ function this.SetupActivateQuestVehicle(vehicleList,targetList)
   if mvars.ene_isQuestSetup==false then
     mvars.ene_questVehicleList={}
     this.SpawnVehicles(vehicleList)
-    --InfLog.DebugPrint"OnActivateQuest vehicleList"--DEBUG
+    --InfCore.DebugPrint"OnActivateQuest vehicleList"--DEBUG
     for a,vehicleInfo in ipairs(vehicleList)do
       if vehicleInfo.locator then
         local command={id="Despawn",locator=vehicleInfo.locator}
@@ -5795,9 +5795,9 @@ function this._RestoreOnContinueFromCheckPoint_Hostage2()
       "TppSkullFace2",
       "TppMantis2"
     }
-    for t,e in ipairs(restoreGameIdTypes)do
-      if GameObject.GetGameObjectIdByIndex(e,0)~=NULL_ID then
-        SendCommand({type=e},{id="RestoreFromSVars"})
+    for i,hostageObjectType in ipairs(restoreGameIdTypes)do
+      if GameObject.GetGameObjectIdByIndex(hostageObjectType,0)~=NULL_ID then
+        SendCommand({type=hostageObjectType},{id="RestoreFromSVars"})
       end
     end
   end

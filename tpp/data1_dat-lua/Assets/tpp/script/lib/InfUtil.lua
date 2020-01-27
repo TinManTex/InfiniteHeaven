@@ -27,7 +27,7 @@ function this.ResetObjectPool(objectType,objectNames)
     local objectName=objectNames[i]
     local gameId=GetGameObjectId(objectType,objectName)
     if gameId==NULL_ID then
-      InfLog.Add("ResetObjectPool: "..objectName.."==NULL_ID")--DEBUG
+      InfCore.Log("ResetObjectPool: "..objectName.."==NULL_ID")--DEBUG
     else
       pool[#pool+1]=objectName
     end

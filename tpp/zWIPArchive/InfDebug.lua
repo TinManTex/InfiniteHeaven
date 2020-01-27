@@ -7,7 +7,7 @@ function this.PrintGlobals()
   for k,v in pairs(_G) do
     globals=globals..tostring(k)..":"..tostring(v).."\n"
   end
-  InfLog.DebugPrint(globals)
+  InfCore.DebugPrint(globals)
 end
 
 function this.locals()
@@ -46,7 +46,7 @@ end
 
 local function ErrorCallBack(err)
   --return debug.traceback(err)
-  InfLog.DebugPrint(err)
+  InfCore.DebugPrint(err)
 end
 --TODO
 --
@@ -66,10 +66,10 @@ end
 --  end
 --
 --  if Func==nil then
---    InfLog.DebugPrint("TryFunc func == nil")
+--    InfCore.DebugPrint("TryFunc func == nil")
 --    return
 --  elseif type(Func)~="function" then
---    InfLog.DebugPrint("TryFunc func~=function")
+--    InfCore.DebugPrint("TryFunc func~=function")
 --    return
 --  end
 --

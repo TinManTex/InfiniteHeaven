@@ -1,8 +1,8 @@
 -- DOBUILD: 1
 -- Tpp.lua
-InfLog.AddFlow"Load Tpp.lua"--tex
+InfCore.LogFlow"Load Tpp.lua"--tex
 local this={}
-local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local type=type
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -31,9 +31,9 @@ local PHASE_ALERT=TppGameObject.PHASE_ALERT
 local NULL_ID=GameObject.NULL_ID
 local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
-local InfLog=InfLog--tex
+local InfCore=InfCore--tex
 this.requires={
-  --"/Assets/tpp/script/lib/InfDebugMarkFlow.lua",--tex DEBUG
+  "/Assets/tpp/script/lib/InfRequiresStart.lua",--tex
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
   "/Assets/tpp/script/lib/TppSave.lua",
@@ -86,8 +86,7 @@ this.requires={
   "/Assets/tpp/script/lib/TppRanking.lua",
   "/Assets/tpp/script/lib/TppTrophy.lua",
   "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-  "/Assets/tpp/script/lib/IvarProc.lua",--tex>
-  "/Assets/tpp/script/lib/InfButton.lua",  
+  "/Assets/tpp/script/lib/InfButton.lua",--tex>
   "/Assets/tpp/script/lib/InfUtil.lua",
   "/Assets/tpp/script/lib/InfMain.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",
@@ -97,7 +96,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfGameEvent.lua",
-  "/Assets/tpp/script/lib/InfInspect.lua",
   "/Assets/tpp/script/lib/InfPersistence.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
@@ -307,13 +305,13 @@ function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,
   if ivars.debugMode>0 and ivars.debugMessages>0 then
     if messageIdRecievers.func then
       if CheckMessageOption(messageIdRecievers.option)then
-        InfLog.PCallDebug(messageIdRecievers.func,arg0,arg1,arg2,arg3)
+        InfCore.PCallDebug(messageIdRecievers.func,arg0,arg1,arg2,arg3)
       end
     end
     local sender=messageIdRecievers.sender
     if sender and sender[arg0]then
       if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
-        InfLog.PCallDebug(sender[arg0],arg0,arg1,arg2,arg3)
+        InfCore.PCallDebug(sender[arg0],arg0,arg1,arg2,arg3)
       end
     end
   else--<
@@ -444,7 +442,7 @@ function this.SetGameStatus(status)
       end
     end
   end
-  if Ivars.debugMode:Is()>0 or InfLog.doneStartup==false then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
+  if Ivars.debugMode:Is()>0 or InfCore.doneStartup==false then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
     TppUiStatusManager.ClearStatus("AnnounceLog")
   end--<
 end
@@ -910,5 +908,5 @@ do
     end
   end
 end
-InfLog.AddFlow"Tpp.lua done"--tex
+InfCore.LogFlow"Tpp.lua done"--tex
 return this

@@ -2271,7 +2271,7 @@ sequences.Seq_Game_MainGame = {
 							if attackId == TppDamage.ATK_10101 or
 							 attackId == TppDamage.ATK_10102 or
 							 attackId == TppDamage.ATK_10105 or
-							 attackId == TppDamage.ATK_10107 or
+							 attackId == TppDamage.ATKh_10107 or
 							 attackId == TppDamage.ATK_10117 or
 							 attackId == TppDamage.ATK_10214 or
 							 attackId == TppDamage.ATK_10216 or

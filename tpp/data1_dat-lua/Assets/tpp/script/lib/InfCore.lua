@@ -1,5 +1,5 @@
 -- DOBUILD: 1
--- InfLog.lua
+-- InfCore.lua
 local this={}
 
 --LOCALOPT
@@ -8,7 +8,14 @@ local type=type
 local open=io.open
 local tostring=tostring
 local concat=table.concat
+local string=string
 local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
+
+local InfCore=this
+
+this.modVersion="197"
+this.modName="Infinite Heaven"
+this.saveName="ih_save.lua"
 
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
@@ -17,8 +24,6 @@ this.ihSaveFirstLoad=false
 this.gameSaveFirstLoad=false
 
 this.log={}
-
-this.modules={}
 
 this.str32ToString={}
 this.unknownStr32={}
@@ -30,7 +35,7 @@ local functionType="function"
 
 --GOTCHA since io open append doesnt appear to work ('Domain error') I'm writing the whole log to file on every Add
 --which is naturally bad performance for a lot of frequent Adds.
-function this.Add(message,announceLog,force)
+function this.Log(message,announceLog,force)
   if not this.debugMode and not force then
     return
   end
@@ -94,6 +99,15 @@ function this.WriteLogLine(message)
   logFile:close()
 end
 
+function this.FileExists(filePath)
+  local file,error=open(filePath,"r")
+  if file and not error then
+    file:close()
+    return true
+  end
+  return false
+end
+
 function this.CopyFileToPrev(fileName,ext)
   local filePath=this.modPath..fileName..ext
   local file,error=open(filePath,"r")
@@ -146,17 +160,17 @@ end
 
 function this.PCall(func,...)
   if func==nil then
-    this.Add("PCall func == nil")
+    this.Log("PCall func == nil")
     return
   elseif type(func)~=functionType then
-    this.Add("PCall func~=function")
+    this.Log("PCall func~=function")
     return
   end
 
   local sucess,result=pcall(func,...)
   if not sucess then
-    this.Add("ERROR:"..result)
-    this.Add("caller:"..this.DEBUG_Where(2))
+    this.Log("ERROR:"..result)
+    this.Log("caller:"..this.DEBUG_Where(2))
     return
   else
     return result
@@ -166,10 +180,10 @@ end
 --tex as above but intended to pass through unless debugmode on
 function this.PCallDebug(func,...)
   --  if func==nil then
-  --    this.Add("PCallDebug func == nil")
+  --    this.Log("PCallDebug func == nil")
   --    return
   --  elseif type(func)~=functionType then
-  --    this.Add("PCallDebug func~=function")
+  --    this.Log("PCallDebug func~=function")
   --    return
   --  end
 
@@ -179,8 +193,8 @@ function this.PCallDebug(func,...)
 
   local sucess, result=pcall(func,...)
   if not sucess then
-    this.Add("ERROR:"..result)
-    this.Add("caller:"..this.DEBUG_Where(2))
+    this.Log("ERROR:"..result)
+    this.Log("caller:"..this.DEBUG_Where(2))
     return
   else
     return result
@@ -193,7 +207,7 @@ function this.PrintInspect(inspectee,announceLog,force)
   end
 
   local ins=InfInspect.Inspect(inspectee)
-  this.Add(ins,announceLog)
+  this.Log(ins,announceLog)
 end
 
 --tex altered from Tpp.DEBUG_Where
@@ -211,14 +225,14 @@ function this.DEBUG_Where(stackLevel)
   return"(unknown)"
 end
 
-function this.AddFlow(message)
+function this.LogFlow(message)
   if not this.debugMode then
     return false
   end
   --  local stackLevel=2
   --  local stackInfo=debug.getinfo(stackLevel,"n")
-  --  this.Add(tostring(stackInfo.name).."| "..message)
-  this.Add(message)
+  --  this.Log(tostring(stackInfo.name).."| "..message)
+  this.Log(message)
 end
 
 --tex would rather have this in InfLookup, but needs to be loaded before libModules
@@ -227,6 +241,10 @@ local StrCode32=Fox.StrCode32
 function this.StrCode32(encodeString)
   local strCode=StrCode32(encodeString)
   if this.debugMode then
+    if type(encodeString)=="number"then
+      InfCore.Log("InfCore.StrCode32: WARNING: Attempting to encode a number: "..encodeString)
+      InfCore.Log("caller: "..this.DEBUG_Where(2))
+    end
     this.str32ToString[strCode]=encodeString
   end
   return strCode
@@ -258,13 +276,50 @@ local function Split(str,delim,maxNb)
   return result
 end
 
+function this.GetModuleName(scriptPath)
+  local split=Split(scriptPath,"/")
+  local moduleName=split[#split]
+  return string.sub(moduleName,1,-string.len(".lua")-1)
+end
+
+function this.LoadExternalModule(moduleName,isReload,skipPrint)
+  local prevModule=_G[moduleName]
+  if isReload then
+    if prevModule and prevModule.PreModuleReload then
+      InfCore.PCallDebug(prevModule.PreModuleReload)
+    end
+  end
+
+  --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
+  package.loaded[moduleName]=nil
+  local sucess,module=pcall(require,moduleName)
+  if not sucess then
+    InfCore.Log(module,false,true)
+    --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
+    if InfCore.doneStartup and not skipPrint then
+      InfCore.DebugPrint("Could not load module "..moduleName)
+    end
+    return nil
+  else
+    _G[moduleName]=module
+  end
+
+  if isReload then
+    if module.PostModuleReload then
+      InfCore.PCallDebug(module.PostModuleReload,prevModule)
+    end
+  end
+
+  return module
+end
+
 function this.LoadBoxed(fileName)
-  local filePath=InfLog.modPath..fileName
+  local filePath=InfCore.modPath..fileName
 
   local moduleChunk,error=loadfile(filePath)
   if error then
     local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
-    InfLog.Add("Error loading "..fileName..":"..error,doDebugPrint,true)
+    InfCore.Log("Error loading "..fileName..":"..error,doDebugPrint,true)
     return
   end
 
@@ -274,23 +329,63 @@ function this.LoadBoxed(fileName)
   local module=moduleChunk()
 
   if module==nil then
-    InfLog.Add("Error:"..fileName.." returned nil",true,true)
+    InfCore.Log("Error:"..fileName.." returned nil",true,true)
     return
   end
 
   return module
 end
 
+--tex with external alternate
+function this.DoFile(path)
+  local scriptPath=InfCore.modPath..path
+  local externLoaded=false
+  if InfCore.FileExists(scriptPath) then
+    InfCore.Log("Found external for "..scriptPath)
+    local ModuleChunk,error=loadfile(scriptPath)
+    if error then
+      InfCore.Log("Error loading "..scriptPath..":"..error)
+    else
+      local Module=ModuleChunk()
+      externLoaded=true
+    end
+  end
+  if not externLoaded then
+    dofile(path)
+  end
+end
+
+--tex with alternate external loading
+function this.LoadLibrary(path)
+  local scriptPath=InfCore.modPath..path
+  local externLoaded=false
+  if InfCore.FileExists(scriptPath) then
+    InfCore.Log("Found external for "..scriptPath)
+    local ModuleChunk,error=loadfile(scriptPath)
+    if error then
+      InfCore.Log("Error loading "..scriptPath..":"..error)
+    else
+      local Module=ModuleChunk()
+      if Module then
+        local moduleName=this.GetModuleName(scriptPath)
+        _G[moduleName]=Module
+      end
+      externLoaded=true
+    end
+  end
+  if not externLoaded then
+    Script.LoadLibrary(path)
+  end
+end
+
 function this.OnLoadEvars()
-  --tex InfLog is in use before loadevars
-  --TODO: shift evar loading to InfLog initial load
   --  this.debugMode=evars.debugMode==1--tex handled via DebugModeEnalbe
   this.debugOnUpdate=evars.debugOnUpdate==1
   --tex TODO: this is not firing
   if not this.ihSaveFirstLoad then
     this.ihSaveFirstLoad=true
     if not this.debugMode then
-      InfLog.Add("Further logging disabled while debugMode is off",false,true)
+      InfCore.Log("Further logging disabled while debugMode is off",false,true)
     end
   end
 end
@@ -308,14 +403,13 @@ local function GetGamePath()
   if gamePath==nil then
     return[[C:\]]
   end
-  
+
   local stripLength=10--tex length "\lua\?.lua"
-  gamePath=gamePath:gsub("\\","/")--tex because escaping sucks
   gamePath=gamePath:sub(1,-stripLength)
   return gamePath
 end
 
-this.modSubPath="mod/"
+this.modSubPath=[[mod\]]
 this.logFileName="ih_log"
 this.prev="_prev"
 this.ext=".txt"
@@ -324,13 +418,13 @@ this.ext=".txt"
 --tex no dice
 --this.FoxLog=Fox.Log
 --Fox.Log=function(message)
---  this.AddMessage(message)
+--  this.LogMessage(message)
 --  this.FoxLog(message)
 --end
 
 --local print=print
 --print=function(...)
---  InfLog.Add(...,true)
+--  InfCore.Log(...,true)
 --  print(...)
 --end
 
@@ -341,12 +435,20 @@ this.modPath=this.gamePath..this.modSubPath
 this.logFilePath=this.modPath..this.logFileName..this.ext
 this.logFilePathPrev=this.modPath..this.logFileName..this.prev..this.ext
 
-package.path=package.path..";"..this.modPath.."?.lua"
+local addPaths=";"..this.modPath.."?.lua"
+addPaths=addPaths";"..this.modPath.."lib\lua\?.lua"--DEBUGNOW
+package.path=package.path..addPaths
+
+--DEBUGNOW
+local addPaths=";"..this.modPath.."?.lua"
+addPaths=addPaths";"..this.modPath.."lib\lua\?.lua"--DEBUGNOW
+package.cpath=package.cpath..addPaths
 
 this.CopyFileToPrev(this.logFileName,this.ext)
 this.ClearFile(this.logFileName,this.ext)
 
 local time=os.date("%x %X")
-this.Add("InfLog start "..time)
-this.Add("package.path:"..package.path)
+this.Log("InfCore start "..time)
+this.Log("package.path:"..package.path)
+
 return this

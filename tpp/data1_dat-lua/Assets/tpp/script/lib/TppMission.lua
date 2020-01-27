@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- TppMission.lua
 local this={}
-local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
@@ -432,7 +432,7 @@ function this.RestartMission(loadInfo)
   end
 end
 function this.ExecuteRestartMission(isReturnToMission)
-  InfLog.AddFlow("TppMission.ExecuteRestartMission")--tex
+  InfCore.LogFlow("TppMission.ExecuteRestartMission")--tex
   this.SafeStopSettingOnMissionReload()
   TppQuest.OnMissionGameEnd()
   TppPlayer.ResetInitialPosition()
@@ -517,7 +517,7 @@ function this.ReturnToMission(_loadInfo)
   this.RestartMission(loadInfo)
 end
 function this.ExecuteContinueFromCheckPoint(popupId,popupResult,RENdoMissionCallback)
-  InfLog.AddFlow("TppMission.ExecuteContinueFromCheckPoint")--tex
+  InfCore.LogFlow("TppMission.ExecuteContinueFromCheckPoint")--tex
   TppQuest.OnMissionGameEnd()
   TppWeather.OnEndMissionPrepareFunction()
   this.SafeStopSettingOnMissionReload()
@@ -869,7 +869,7 @@ function this.VarSaveForMissionAbort()
   end
 end
 function this.LoadForMissionAbort()
-  InfLog.AddFlow("TppMission.LoadForMissionAbort")--tex
+  InfCore.LogFlow("TppMission.LoadForMissionAbort")--tex
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
     this.RequestLoad(vars.missionCode,mvars.mis_abortCurrentMissionCode,mvars.mis_missionAbortLoadingOption)
@@ -1222,7 +1222,7 @@ function this.MissionFinalize(options)
   end
 end
 function this.ExecuteMissionFinalize()
-  InfLog.AddFlow("TppMission.ExecuteMissionFinalize "..vars.missionCode)--tex
+  InfCore.LogFlow("TppMission.ExecuteMissionFinalize "..vars.missionCode)--tex
   InfMain.ExecuteMissionFinalizeTop()--tex
   local nextLocationName=TppPackList.GetLocationNameFormMissionCode(gvars.mis_nextMissionCodeForMissionClear)
   if nextLocationName then
@@ -2054,8 +2054,8 @@ function this.OnAllocate(missionTable)
   mvars.mis_isOutsideOfMissionArea=false
   mvars.mis_isOutsideOfHotZone=true
   this.MessageHandler={
-    OnMessage=function(i,s,n,t,a,o)
-      this.OnMessageWhileLoading(i,s,n,t,a,o)
+    OnMessage=function(sender,messageId,arg0,arg1,arg2,arg3)
+      this.OnMessageWhileLoading(sender,messageId,arg0,arg1,arg2,arg3)
     end
   }
   GameMessage.SetMessageHandler(this.MessageHandler,{"UI","Radio","Video","Network","Nt"})
@@ -2168,7 +2168,7 @@ function this.CheckMessageOptionWhileLoading()
   return true
 end
 function this.OnMessageWhileLoading(sender,messageId,arg0,arg1,arg2,arg3)
-  local n=Tpp.DEBUG_StrCode32ToString
+  --ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
   local strLogText
   Tpp.DoMessage(this.messageExecTableWhileLoading,this.CheckMessageOptionWhileLoading,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
@@ -3496,7 +3496,7 @@ function this.GoToEmergencyMission()
   this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=emergencyMissionCode,nextHeliRoute=startRoute,nextLayoutCode=mbLayoutCode,nextClusterId=clusterId}
 end
 function this.RequestLoad(nextMission,currentMission,options)
-  InfLog.AddFlow("TppMission.RequestLoad next:"..nextMission.." current:"..tostring(currentMission))--tex
+  InfCore.LogFlow("TppMission.RequestLoad next:"..nextMission.." current:"..tostring(currentMission))--tex
   if not mvars then
     return
   end
@@ -3507,7 +3507,7 @@ function this.RequestLoad(nextMission,currentMission,options)
   mvars.mis_loadRequest={nextMission=nextMission,currentMission=currentMission,options=options}
 end
 function this.LoadWithChunkCheck()
-  InfLog.AddFlow("TppMission.LoadWithChunkCheck "..vars.missionCode)--tex
+  InfCore.LogFlow("TppMission.LoadWithChunkCheck "..vars.missionCode)--tex
   local nextMission,currentMission,loadOptions=mvars.mis_loadRequest.nextMission,mvars.mis_loadRequest.currentMission,mvars.mis_loadRequest.options
   local chunkIndex=Tpp.GetChunkIndex(vars.locationCode)
   if this.IsChunkLoading(chunkIndex)then
@@ -3545,7 +3545,7 @@ function this.IsChunkLoading(chunkIndex)
   return true
 end
 function this.Load(nextMissionCode,currentMissionCode,loadSettings)
-  InfLog.AddFlow("TppMission.Load nextMissionCode:"..tostring(nextMissionCode).." currentMissionCode:"..tostring(currentMissionCode))--tex
+  InfCore.LogFlow("TppMission.Load nextMissionCode:"..tostring(nextMissionCode).." currentMissionCode:"..tostring(currentMissionCode))--tex
   InfMain.OnLoad(nextMissionCode,currentMissionCode)--tex
   local showLoadingTips
   if(loadSettings and loadSettings.showLoadingTips~=nil)then
@@ -3600,7 +3600,7 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
   TppUI.ShowAccessIcon()
 end
 function this.ExecuteReload()
-  InfLog.AddFlow("TppMission.ExecuteReload "..vars.missionCode)--tex
+  InfCore.LogFlow("TppMission.ExecuteReload "..vars.missionCode)--tex
   if mvars.mis_nextLocationCode then
     vars.locationCode=mvars.mis_nextLocationCode
   end

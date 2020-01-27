@@ -19,7 +19,6 @@ this.moduleNames={
   "InfVehicle",
   "InfNPC",
   "InfNPCOcelot",
-  "InfHostage",
   "InfPuppy",
   "InfAnimal",
   "InfNPCHeli",

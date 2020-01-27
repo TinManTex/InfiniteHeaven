@@ -2,7 +2,7 @@
 -- tex implements parasite/skulls unit event
 local this={}
 
-local InfLog=InfLog
+local InfCore=InfCore
 local InfMain=InfMain
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -250,7 +250,7 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
   if this.parasiteType=="CAMO" then
     if TppQuest.IsActive"waterway_q99010" then
-      InfLog.Add("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
+      InfCore.Log("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
       enabledTypes.CAMO=false
     end
   end
@@ -277,7 +277,7 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   --this.parasiteType="ARMOR"
   --this.parasiteType="CAMO"
 
-  InfLog.Add("OnLoad parasiteType:"..this.parasiteType)
+  InfCore.Log("OnLoad parasiteType:"..this.parasiteType)
 
   InfMain.RandomResetToOsTime()
 end
@@ -376,16 +376,16 @@ function this.FadeInOnGameStart()
 
   if svars.inf_parasiteEvent then
     if TppMission.IsMissionStart() then
-      InfLog.Add"InfParasite mission start, clear, StartEventTimer"
+      InfCore.Log"InfParasite mission start, clear, StartEventTimer"
       this.EndEvent()
       this.StartEventTimer()
     else
-      InfLog.Add"InfParasite mission start ContinueEvent"
+      InfCore.Log"InfParasite mission start ContinueEvent"
       local continueTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
       this.StartEventTimer(continueTime)
     end
   else
-    InfLog.Add"InfParasite mission start StartEventTimer"
+    InfCore.Log"InfParasite mission start StartEventTimer"
     this.StartEventTimer()
   end
 end
@@ -482,7 +482,7 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
   if vars.missionCode~=30250 then
     return
   end
-  --InfLog.DebugPrint"OnDamage"--DEBUG
+  --InfCore.DebugPrint"OnDamage"--DEBUG
 
   local isHostage=false
   for i,parasiteName in pairs(hostageParasites) do
@@ -495,7 +495,7 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
   if isHostage then
     this.hostageParasiteHitCount=this.hostageParasiteHitCount+1
-    --InfLog.Add("hostageParasiteHitCount "..this.hostageParasiteHitCount,true)--DEBUG
+    --InfCore.Log("hostageParasiteHitCount "..this.hostageParasiteHitCount,true)--DEBUG
 
     if this.hostageParasiteHitCount>triggerAttackCount then
       this.hostageParasiteHitCount=0
@@ -515,7 +515,7 @@ function this.OnDamageCamoParasite(parasiteIndex,gameId)
 end
 
 function this.OnDying(gameId)
-  --InfLog.PCall(function(gameId)--DEBUG
+  --InfCore.PCall(function(gameId)--DEBUG
   local parasiteType=nil
   local typeIndex=GetTypeIndex(gameId)
   if not this.isParasiteObjectType[typeIndex] then
@@ -540,20 +540,20 @@ function this.OnDying(gameId)
   states[parasiteIndex]=stateTypes.DOWNED
 
   if this.debugModule then
-    InfLog.Add("OnDying is para",true)
+    InfCore.Log("OnDying is para",true)
   end
-  InfLog.PrintInspect(states)--DEBUG
+  InfCore.PrintInspect(states)--DEBUG
   
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    --InfLog.DebugPrint"OnDying all eliminated"--DEBUG
+    --InfCore.DebugPrint"OnDying all eliminated"--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
 end
 
 function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
-  --InfLog.PCall(function(gameId)--DEBUG
+  --InfCore.PCall(function(gameId)--DEBUG
   local typeIndex=GetTypeIndex(gameId)
   if not this.isParasiteObjectType[typeIndex] then
     return
@@ -576,22 +576,22 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
 
   states[parasiteIndex]=stateTypes.FULTONED
 
-  InfLog.PrintInspect(states)
+  InfCore.PrintInspect(states)
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    --InfLog.Add"OnFulton all eliminated"--DEBUG
+    --InfCore.Log"OnFulton all eliminated"--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
 end
 
 function this.InitEvent()
-  --InfLog.PCall(function()--DEBUG
-  InfLog.Add("InfParasite InitEvent")--DEBUG
+  --InfCore.PCall(function()--DEBUG
+  InfCore.Log("InfParasite InitEvent")--DEBUG
 
   if not this.ParasiteEventEnabled() then
-    InfLog.Add("InfParasite InitEvent not para")--DEBUG
+    InfCore.Log("InfParasite InitEvent not para")--DEBUG
     return
   end
 
@@ -612,7 +612,7 @@ function this.InitEvent()
   this.SetupParasites()
 
   if TppMission.IsMissionStart() then
-    --InfLog.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
+    --InfCore.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
     svars.inf_parasiteEvent=false
   end
 
@@ -627,7 +627,7 @@ end
 
 local Timer_ParasiteEventStr="Timer_ParasiteEvent"
 function this.StartEventTimer(time)
-  --InfLog.PCall(function(time)--DEBUG
+  --InfCore.PCall(function(time)--DEBUG
   if not this.ParasiteEventEnabled() then
     return
   end
@@ -638,7 +638,7 @@ function this.StartEventTimer(time)
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    InfLog.Add("StartEventTimer numCleared==numParasites aborting")
+    InfCore.Log("StartEventTimer numCleared==numParasites aborting")
     this.EndEvent()
     return
   end
@@ -646,7 +646,7 @@ function this.StartEventTimer(time)
   local minute=60
   local nextEventTime=time or math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
   --local nextEventTime=10--DEBUG
-  InfLog.Add("Timer_ParasiteEvent start in "..nextEventTime,this.debugModule)--DEBUG
+  InfCore.Log("Timer_ParasiteEvent start in "..nextEventTime,this.debugModule)--DEBUG
   
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
@@ -660,7 +660,7 @@ function this.StartEvent()
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    InfLog.Add("StartEvent numCleared==numParasites aborting",this.debugModule)
+    InfCore.Log("StartEvent numCleared==numParasites aborting",this.debugModule)
     this.EndEvent()
     return
   end
@@ -692,7 +692,7 @@ function this.Timer_ParasiteAppear()
 end
 
 function this.ParasiteAppear()
-  InfLog.PCallDebug(function()--DEBUG
+  InfCore.PCallDebug(function()--DEBUG
 
     local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
     local closestPos=playerPos
@@ -703,7 +703,7 @@ function this.ParasiteAppear()
     local cpDistance
     local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
     if closestCp==nil or cpPosition==nil then
-      InfLog.DebugPrint"WARNING: ParasiteAppear closestCp==nil"--DEBUG
+      InfCore.DebugPrint"WARNING: ParasiteAppear closestCp==nil"--DEBUG
       return
     end
 
@@ -712,7 +712,7 @@ function this.ParasiteAppear()
     if not isMb then--tex TODO: implement for mb
       local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPos)
       if closestLz==nil or lzPosition==nil then
-        InfLog.DebugPrint"WARNING: ParasiteAppear closestLz==nil"--DEBUG
+        InfCore.DebugPrint"WARNING: ParasiteAppear closestLz==nil"--DEBUG
         return
       end
 
@@ -728,7 +728,7 @@ function this.ParasiteAppear()
       closestPos=playerPos
     end
 
-    InfLog.Add("ParasiteAppear "..this.parasiteType.." closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),this.debugModule)
+    InfCore.Log("ParasiteAppear "..this.parasiteType.." closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),this.debugModule)
 
 
     this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
@@ -759,7 +759,7 @@ function this.ParasiteAppear()
       end
     end
     if armorFultoned and this.parasiteType=="ARMOR" then
-      --InfLog.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+      --InfCore.DebugPrint"Timer_ParasiteCombat start"--DEBUG
       TimerStart("Timer_ParasiteCombat",4)
     end
 
@@ -793,7 +793,7 @@ local SetZombies=function(soldierNames,position,radius)
         soldierDistance=TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},position)
       end
       if not position or (radius and soldierDistance<radius) then
-        --InfLog.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
+        --InfCore.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
         this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina)
       end
     end
@@ -807,7 +807,7 @@ function this.ZombifyFree(closestCp,position)
   if closestCp then
     local cpDefine=mvars.ene_soldierDefine[closestCp]
     if cpDefine==nil then
-      InfLog.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
+      InfCore.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
     else
       SetZombies(cpDefine)
     end
@@ -858,15 +858,15 @@ local groups={
 }
 local groupSniper="groupSniper"
 function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
-  --InfLog.Add"CamoParasiteAppear"--DEBUG
+  --InfCore.Log"CamoParasiteAppear"--DEBUG
   --tex camo parasites rely on having route set, otherwise they'll do a constant grenade drop evade on the same spot
   local routeCount,cpRoutes=this.GetRoutes(closestCp)
 
-  --  InfLog.PrintInspect("CamoParasiteAppear cpRoutes")--DEBUG
-  --  InfLog.PrintInspect(cpRoutes)
+  --  InfCore.PrintInspect("CamoParasiteAppear cpRoutes")--DEBUG
+  --  InfCore.PrintInspect(cpRoutes)
 
   if routeCount<numParasites then
-    InfLog.Add("WARNING: CamoParasiteAppear - routeCount< #camo parasites",true)
+    InfCore.Log("WARNING: CamoParasiteAppear - routeCount< #camo parasites",true)
     return
   end
 
@@ -879,11 +879,11 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
     if states[index]==stateTypes.READY then
       local gameId=GetGameObjectId("TppBossQuiet2",parasiteName)
       if gameId==NULL_ID then
-        InfLog.Add("WARNING: CamoParasiteAppear - "..parasiteName.. " not found",true)
+        InfCore.Log("WARNING: CamoParasiteAppear - "..parasiteName.. " not found",true)
       else
         local parasiteRotY=0
 
-        InfLog.Add(parasiteName.." appear",this.debugModule)
+        InfCore.Log(parasiteName.." appear",this.debugModule)
 
         --ASSUMPTION 4 parasites
         --half circle with 2 leads
@@ -925,14 +925,14 @@ function this.GetRoutes(cpName)
     routeSets=mvars.ene_routeSetsDefine[cpName]
   end
   if not routeSets then
-    InfLog.Add"CamoParasiteAppear - no routesets found, aborting"
+    InfCore.Log"CamoParasiteAppear - no routesets found, aborting"
     return
   end
 
   local cpRoutes={}
   --tex TODO prioritze picking sniper group first?
   if routeSets==nil then
-    InfLog.DebugPrint("WARNING CamoParasiteAppear no routesets for "..cpName)--DEBUG
+    InfCore.DebugPrint("WARNING CamoParasiteAppear no routesets for "..cpName)--DEBUG
     return
   end
 
@@ -964,14 +964,14 @@ function this.Timer_StartCombat()
 end
 
 function this.Timer_MonitorEvent()
-  --  InfLog.PCall(function()--DEBUG
-  --InfLog.Add("MonitorEvent",true)
+  --  InfCore.PCall(function()--DEBUG
+  --InfCore.Log("MonitorEvent",true)
   if svars.inf_parasiteEvent==false then
     return
   end
 
   if this.parasitePos==nil then
-    InfLog.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
+    InfCore.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
     return
   end
 
@@ -983,8 +983,8 @@ function this.Timer_MonitorEvent()
     outOfRange=true
   end
 
-  --InfLog.Add("Timer_MonitorEvent "..this.parasiteType.. " escapeDistanceSqr:"..escapeDistance.." distSqr:"..distSqr)--DEBUG
-  --InfLog.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
+  --InfCore.Log("Timer_MonitorEvent "..this.parasiteType.. " escapeDistanceSqr:"..escapeDistance.." distSqr:"..distSqr)--DEBUG
+  --InfCore.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
 
   --tex TppParasites aparently dont support GetPosition, frustrating inconsistancy, you'd figure it would be a function of all gameobjects
   --  for i,parasiteName in pairs(this.parasiteNames.ARMOR) do
@@ -992,7 +992,7 @@ function this.Timer_MonitorEvent()
   --    if gameId~=NULL_ID then
   --      local parasitePos=SendCommand(gameId,{id="GetPosition"})
   --      local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
-  --     -- InfLog.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
+  --     -- InfCore.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
   --      if distSqr<escapeDistance[this.parasiteType] then
   --        outOfRange=false
   --        break
@@ -1006,7 +1006,7 @@ function this.Timer_MonitorEvent()
         if gameId~=NULL_ID then
           local parasitePos=SendCommand(gameId,{id="GetPosition"})
           local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
-          InfLog.Add("Monitor: "..parasiteName.." dist:"..math.sqrt(distSqr),this.debugModule)--DEBUG
+          InfCore.Log("Monitor: "..parasiteName.." dist:"..math.sqrt(distSqr),this.debugModule)--DEBUG
           if distSqr<escapeDistance then
             outOfRange=false
             break
@@ -1018,10 +1018,10 @@ function this.Timer_MonitorEvent()
 
   if this.parasiteType=="MIST" then
     if distSqr>playerRange then
-      InfLog.Add("MonitorEvent: > playerRange",this.debugModule)
-      InfLog.Add("MonitorEvent: lastcontactTime:"..this.lastContactTime,this.debugModule)
+      InfCore.Log("MonitorEvent: > playerRange",this.debugModule)
+      InfCore.Log("MonitorEvent: lastcontactTime:"..this.lastContactTime,this.debugModule)
       if this.lastContactTime<Time.GetRawElapsedTimeSinceStartUp() then
-        InfLog.Add("MonitorEvent: lastContactTime timeout, starting combat",this.debugModule)
+        InfCore.Log("MonitorEvent: lastContactTime timeout, starting combat",this.debugModule)
         --SendCommand({type="TppParasite2"},{id="StartCombat"})
         this.parasitePos=playerPos
         this.ParasiteAppear()
@@ -1030,7 +1030,7 @@ function this.Timer_MonitorEvent()
   end
 
   if outOfRange then
-    InfLog.Add("MonitorEvent: out of range :"..math.sqrt(distSqr).."> "..math.sqrt(escapeDistance).. ", ending event",this.debugModule)
+    InfCore.Log("MonitorEvent: out of range :"..math.sqrt(distSqr).."> "..math.sqrt(escapeDistance).. ", ending event",this.debugModule)
     this.EndEvent()
     TimerStop("Timer_ParasiteMonitor")
     this.StartEventTimer()
@@ -1041,7 +1041,7 @@ function this.Timer_MonitorEvent()
 end
 
 function this.EndEvent()
-  InfLog.Add("EndEvent",this.debugModule)
+  InfCore.Log("EndEvent",this.debugModule)
 
   svars.inf_parasiteEvent=false
   TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
@@ -1189,7 +1189,7 @@ function this.CamoParasiteOnDisableFight(parasiteName)
 end
 
 function this.SetCamoRoutes(routeBag,gameId)
-  InfLog.Add("SetCamoRoutes",this.debugModule)--DEBUG
+  InfCore.Log("SetCamoRoutes",this.debugModule)--DEBUG
   local attackRoute=routeBag:Next()
   local runRoute=routeBag:Next()
   local deadRoute=attackRoute--routeBag:Next()

@@ -124,7 +124,7 @@ end
 
 --end mock stuff
 
-InfLog=require"InfLog"
+InfCore=require"InfCore"
 InfPersistence=require"InfPersistence"
 
 --start.lua
@@ -265,7 +265,7 @@ InfMain=require"InfMain"
 InfLookup=require"InfLookup"
 
 Ivars=require"Ivars"
-Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfLog.PCall
+Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfCore.PCall
 InfLang=require"InfLang"
 Ivars.PostAllModulesLoad()
 

@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- TppAnimal.lua
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
@@ -278,7 +278,7 @@ function this.CheckQuestAllTarget(questType,messageId,checkGameId,checkAnimalId)
   if not Tpp.IsAnimal(checkGameId)then
     return
   end
-  --InfLog.Add("TppAnimal.CheckQuestAllTarget messageId:"..tostring(messageId).." checkAnimalId:"..tostring(checkAnimalId) )--tex DEBUG
+  --InfCore.Log("TppAnimal.CheckQuestAllTarget messageId:"..tostring(messageId).." checkAnimalId:"..tostring(checkAnimalId) )--tex DEBUG
   local questClearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local databaseId=this.GetDataBaseIdFromAnimalId(checkAnimalId)
   local currentQuestName=TppQuest.GetCurrentQuestName()
@@ -304,9 +304,9 @@ function this.CheckQuestAllTarget(questType,messageId,checkGameId,checkAnimalId)
   end
 
   local stateCounts=this.GetQuestCount()
---  InfLog.Add("TppAnimal.CheckQuestAllTarget:")--tex DEBUG
---  InfLog.PrintInspect(stateCounts)
---  InfLog.PrintInspect(mvars.ani_questTargetList)
+--  InfCore.Log("TppAnimal.CheckQuestAllTarget:")--tex DEBUG
+--  InfCore.PrintInspect(stateCounts)
+--  InfCore.PrintInspect(mvars.ani_questTargetList)
 --  --<
   if questType==TppDefine.QUEST_TYPE.ANIMAL_RECOVERED then
     if stateCounts.total==1 then

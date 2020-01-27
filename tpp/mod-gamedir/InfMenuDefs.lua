@@ -566,19 +566,20 @@ this.devInAccMenu={
   nonConfig=true,
   options={
     --TODO: debugmodeall command/profile
-    Ivars.enableWildCardHostageFREE,--WIP
-    Ivars.debugMode,
-    Ivars.debugMessages,
-    Ivars.debugFlow,
-    Ivars.debugOnUpdate,
+    --Ivars.enableWildCardHostageFREE,--WIP
+    Ivars.enableSecurityCamFREE,
+
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
     InfMenuDefs.sideOpsMenu,
     InfMenuDefs.sideOpsCategoryMenu,
+    InfMenuCommands.forceRegenSeed,    
     Ivars.debugValue,
+    Ivars.debugMode,
+    Ivars.debugMessages,
+    Ivars.debugFlow,
     Ivars.debugOnUpdate,
-    InfMenuCommands.forceRegenSeed,
   }
 }
 
@@ -643,6 +644,7 @@ this.debugInMissionMenu={
     --InfMenuCommands.showMbEquipGrade,
     Ivars.printPressedButtons,
     Ivars.printOnBlockChange,
+    InfMenuCommands.setAllFriendly,
     InfMenuCommands.showPosition,
   --InfMenuCommands.DEBUG_ClearAnnounceLog,
   }
@@ -651,6 +653,7 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
+    InfMenuCommands.setAllFriendly,
     InfMenuCommands.showPosition,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,

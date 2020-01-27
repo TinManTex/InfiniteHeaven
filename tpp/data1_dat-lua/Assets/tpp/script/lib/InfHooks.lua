@@ -2,8 +2,8 @@
 -- InfHooks.lua
 local this={}
 
-local InfLog=InfLog
-local PCall=InfLog.PCall
+local InfCore=InfCore
+local PCall=InfCore.PCall
 local stringFormat=string.format
 
 this.debugHooksEnabled=false
@@ -15,19 +15,19 @@ this.debugHooksEnabled=false
 this.hookFuncs={
   TppSave={
     VarRestoreOnMissionStart=function()
-      InfLog.AddFlow("InfHook TppSave.VarRestoreOnMissionStart")
+      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
       this.TppSave.VarRestoreOnMissionStart()
       --post-hook
       IvarProc.OnLoadVarsFromSlot()
     end,
     VarRestoreOnContinueFromCheckPoint=function()
-      InfLog.AddFlow("InfHook TppSave.VarRestoreOnContinueFromCheckPoint")
+      InfCore.LogFlow("InfHook TppSave.VarRestoreOnContinueFromCheckPoint")
       this.TppSave.VarRestoreOnContinueFromCheckPoint()
 
       IvarProc.OnLoadVarsFromSlot()
     end,
     DoSave=function(saveParams,force)
-      InfLog.AddFlow("InfHook TppSave.DoSave")
+      InfCore.LogFlow("InfHook TppSave.DoSave")
       local saveResult=this.TppSave.DoSave(saveParams,force)
 
       InfMain.OnSave(saveParams,force)
@@ -36,8 +36,8 @@ this.hookFuncs={
   },
 --tex no go for some reason.
 --  LoadGameDataFromSaveFile=function(area)
---    return InfLog.PCall(function(area)--DEBUG
---    --InfLog.AddFlow("InfHook TppSave.LoadGameDataFromSaveFile("..tostring(area)..")")
+--    return InfCore.PCall(function(area)--DEBUG
+--    --InfCore.LogFlow("InfHook TppSave.LoadGameDataFromSaveFile("..tostring(area)..")")
 --    local loadResult=this.LoadGameDataFromSaveFile(area)
 
 
@@ -71,11 +71,11 @@ function this.GetFunction(moduleName,functionName)
   local originalModule=_G[moduleName]
   local originalFunction=nil
   if not originalModule then
-    InfLog.Add("WARNING: InfHooks.GetFunction could not find module:"..tostring(moduleName))
+    InfCore.Log("WARNING: InfHooks.GetFunction could not find module:"..tostring(moduleName))
   else
     originalFunction=originalModule[functionName]
     if originalFunction==nil then
-      InfLog.Add("WARNING: InfHooks.GetFunction could not find function:"..moduleName.."."..tostring(functionName))
+      InfCore.Log("WARNING: InfHooks.GetFunction could not find function:"..moduleName.."."..tostring(functionName))
     end
   end
   return originalModule,originalFunction
@@ -85,13 +85,13 @@ function this.AddHook(moduleName,functionName,hookFunction)
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     if type(hookFunction)~="function" then
-      InfLog.Add("Error: InfHook.AddHook("..moduleName..","..functionName..") hookFunc is not a function")
+      InfCore.Log("Error: InfHook.AddHook("..moduleName..","..functionName..") hookFunc is not a function")
     else
       this[moduleName]=this[moduleName]or{}--tex existing or new
       local moduleHooks=this[moduleName]
       if moduleHooks[functionName] then
         --tex TODO: just swap out existing hook using original, but log a warning
-        InfLog.Add("Error: attempting to add a hook to a previously hooked function: "..moduleName.."."..functionName)
+        InfCore.Log("Error: attempting to add a hook to a previously hooked function: "..moduleName.."."..functionName)
       else
         moduleHooks[functionName]=originalFunction--tex save original function ref
         originalModule[functionName]=hookFunction--tex override
@@ -105,11 +105,11 @@ function this.RemoveHook(moduleName,functionName)
   if hookedModule and hookedFunction then
     local moduleHooks=this[moduleName]
     if not moduleHooks then
-      InfLog.Add("Error: InfHook.RemoveHook cannot find any hooks for module: "..moduleName.."."..functionName)
+      InfCore.Log("Error: InfHook.RemoveHook cannot find any hooks for module: "..moduleName.."."..functionName)
     else
       local originalFunction=moduleHooks[functionName]
       if not originalFunction then
-        InfLog.Add("Error: InfHook.RemoveHook cannot find any hook for function: "..moduleName.."."..functionName)
+        InfCore.Log("Error: InfHook.RemoveHook cannot find any hook for function: "..moduleName.."."..functionName)
       else
         hookedModule[functionName]=originalFunction--tex restore
         moduleHooks[functionName]=nil--tex clear
@@ -136,7 +136,7 @@ function this.CreatePostHookDebugShim(moduleName,functionName,hookFunction)
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     local ShimFunction=function(...)
-      InfLog.AddFlow(stringFormat(flowFmt,moduleName,functionName))
+      InfCore.LogFlow(stringFormat(flowFmt,moduleName,functionName))
       local ret=PCall(originalFunction,...)
       local hookRet=PCall(hookFunction,...,ret)
 
@@ -147,13 +147,13 @@ function this.CreatePostHookDebugShim(moduleName,functionName,hookFunction)
   return nil
 end
 
---tex for wrapping a function in PCall and giving an AddFlow call
+--tex for wrapping a function in PCall and giving an LogFlow call
 function this.CreateDebugWrap(moduleName,functionName)
   local flowFmt="InfHook DebugPreWrap %s.%s"
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     local ShimFunction=function(...)
-      InfLog.AddFlow(stringFormat(flowFmt,moduleName,functionName))
+      InfCore.LogFlow(stringFormat(flowFmt,moduleName,functionName))
       return PCall(originalFunction,...)
     end
     return ShimFunction
@@ -194,7 +194,7 @@ local function AddHooks(hookFuncs)
     end
   end
 end
-InfLog.PCallDebug(AddHooks,this.hookFuncs)
+InfCore.PCallDebug(AddHooks,this.hookFuncs)
 
 --this.AnnounceLogView=TppUiCommand.AnnounceLogView
 --TppUiCommand.AnnounceLogView=function(message)
@@ -211,6 +211,6 @@ InfLog.PCallDebug(AddHooks,this.hookFuncs)
 --  this.AnnounceLogViewJoinLangId(...)
 --end
 
-InfLog.AddFlow"InfHook done, requires-list done"--tex ASSUMPTION infhooks last in requires list
+InfCore.LogFlow"InfHook done, requires-list done"--tex ASSUMPTION infhooks last in requires list
 
 return this

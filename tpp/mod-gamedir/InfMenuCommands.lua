@@ -3,7 +3,7 @@ local this={}
 --tex lines kinda blurry between Commands and Ivars, currently commands arent saved/have no gvar associated
 --NOTE: tablesetup at end sets up every table in this with an OnChange as a menu command
 --LOCALOPT:
-local InfLog=InfLog
+local InfCore=InfCore
 local InfMain=InfMain
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -104,9 +104,9 @@ this.showPosition={
   OnChange=function()
     if InfUtil.GetLocationName()=="afgh" or InfUtil.GetLocationName()=="mafr" then
       local blockNameStr32=Tpp.GetLoadedLargeBlock()
-      InfLog.Add("Current large block:"..InfLookup.StrCode32ToString(blockNameStr32),false,true)
+      InfCore.Log("Current large block:"..InfLookup.StrCode32ToString(blockNameStr32),false,true)
       local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
-      InfLog.Add("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
+      InfCore.Log("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
     end
     InfQuest.PrintQuestArea()
 
@@ -118,11 +118,11 @@ this.showPosition={
     table.insert(this.positions,positionTable)
     table.insert(this.positionsXML,positionXML)
 
-    --    InfLog.Add(positionTable)
-    --    InfLog.Add(positionXML)
-    InfLog.Add("positions:\n"..table.concat(this.positions,"\n"),false,true)
-    InfLog.Add("positionsxml:\n"..table.concat(this.positionsXML,"\n"),false,true)
-    InfLog.DebugPrint("Position written to ih_log")
+    --    InfCore.Log(positionTable)
+    --    InfCore.Log(positionXML)
+    InfCore.Log("positions:\n"..table.concat(this.positions,"\n"),false,true)
+    InfCore.Log("positionsxml:\n"..table.concat(this.positionsXML,"\n"),false,true)
+    InfCore.DebugPrint("Position written to ih_log")
   end,
 }
 
@@ -157,7 +157,7 @@ this.showQuietReunionMissionCount={
 this.loadMission={
   OnChange=function()
     local settingStr=Ivars.manualMissionCode.settings[Ivars.manualMissionCode:Get()+1]
-    InfLog.DebugPrint("TppMission.Load "..settingStr)
+    InfCore.DebugPrint("TppMission.Load "..settingStr)
     --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
     --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
     --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
@@ -288,21 +288,21 @@ this.printSightFormParameter={
 this.printHearingTable={
   OnChange=function()
     InfSoldierParams.ApplyHearingIvarsToSoldierParams()
-    InfLog.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter,true,true)
+    InfCore.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter,true,true)
   end,
 }
 
 this.printHealthTableParameter={
   OnChange=function()
     InfSoldierParams.ApplyHealthIvarsToSoldierParams()
-    InfLog.PrintInspect(InfSoldierParams.lifeParameterTable,true,true)
+    InfCore.PrintInspect(InfSoldierParams.lifeParameterTable,true,true)
   end,
 }
 
 this.printCustomRevengeConfig={
   OnChange=function()
     local revengeConfig=InfRevenge.CreateCustomRevengeConfig()
-    InfLog.PrintInspect(revengeConfig,true,true)
+    InfCore.PrintInspect(revengeConfig,true,true)
   end
 }
 
@@ -334,7 +334,7 @@ this.forceAllQuestOpenFlagFalse={
 this.warpToCamPos={
   OnChange=function()
     local warpPos=InfCamera.ReadPosition"FreeCam"
-    InfLog.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    InfCore.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
     TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
   end,
 }
@@ -345,10 +345,10 @@ this.warpToUserMarker={
       return
     end
 
-    -- InfLog.DebugPrint"Warping to newest marker"
+    -- InfCore.DebugPrint"Warping to newest marker"
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
     if lastMarkerIndex==nil then
-      --InfLog.DebugPrint("lastMarkerIndex==nil")
+      --InfCore.DebugPrint("lastMarkerIndex==nil")
       InfMenu.PrintLangId"no_marker_found"
     else
       InfUserMarker.PrintUserMarker(lastMarkerIndex)
@@ -365,7 +365,7 @@ this.printLatestUserMarker={
   OnChange=function()
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
     if lastMarkerIndex==nil then
-      InfLog.DebugPrint("lastMarkerIndex==nil")
+      InfCore.DebugPrint("lastMarkerIndex==nil")
     else
       InfUserMarker.PrintUserMarker(lastMarkerIndex)
       InfUserMarker.PrintMarkerGameObject(lastMarkerIndex)
@@ -377,7 +377,7 @@ this.setSelectedCpToMarkerObjectCp={
   OnChange=function()
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
     if lastMarkerIndex==nil then
-      InfLog.DebugPrint("lastMarkerIndex==nil")
+      InfCore.DebugPrint("lastMarkerIndex==nil")
       return
     end
     --      InfMain.PrintUserMarker(lastMarkerIndex)
@@ -385,26 +385,26 @@ this.setSelectedCpToMarkerObjectCp={
     local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
 
     if gameId==nil then
-      InfLog.DebugPrint"gameId==nil"
+      InfCore.DebugPrint"gameId==nil"
       return
     end
     local soldierName,cpName=InfLookup.ObjectNameForGameId(gameId)
     if cpName==nil then
-      InfLog.DebugPrint"cpName==nil"
+      InfCore.DebugPrint"cpName==nil"
       return
     end
 
     for cpId,currentName in pairs(mvars.ene_cpList)do
-      --InfLog.DebugPrint(tostring(n).." "..tostring(currentName))
+      --InfCore.DebugPrint(tostring(n).." "..tostring(currentName))
       if currentName==cpName then
         Ivars.selectedCp:Set(cpId)
-        InfLog.DebugPrint("selectedCp set to "..cpId..":"..cpName)
+        InfCore.DebugPrint("selectedCp set to "..cpId..":"..cpName)
         return
       end
     end
 
-    InfLog.DebugPrint(cpName.." not found in ene_cpList")
-    InfLog.PrintInspect(mvars.ene_cpList,true,true)
+    InfCore.DebugPrint(cpName.." not found in ene_cpList")
+    InfCore.PrintInspect(mvars.ene_cpList,true,true)
   end
 }
 function this.QuietMoveToLastMarker()
@@ -452,7 +452,7 @@ function this.DEBUG_BuddyCycleVar(commandInfo)
   local buddyGameId=GameObject.GetGameObjectIdByIndex(commandInfo.objectType,0)
   InfBuddy.buddyPosition=GameObject.SendCommand(buddyGameId,{id="GetPosition"})
   if InfBuddy.buddyPosition==nil then
-    InfLog.DebugPrint("buddy GetPosition()==nil")--DEBUG
+    InfCore.DebugPrint("buddy GetPosition()==nil")--DEBUG
     InfBuddy.buddyPosition=Vector3(vars.playerPosX,vars.playerPosY+0.05,vars.playerPosZ)
   end
   InfBuddy.buddyType=commandInfo.buddyType
@@ -471,7 +471,7 @@ function this.DEBUG_BuddyCycleVar(commandInfo)
 
   local varType=AdvanceType(vars[commandInfo.varName])
 
-  InfLog.DebugPrint("changed vars."..commandInfo.varName.." to "..varType)--DEBUG
+  InfCore.DebugPrint("changed vars."..commandInfo.varName.." to "..varType)--DEBUG
 
   vars[commandInfo.varName]=varType
 
@@ -544,14 +544,14 @@ this.requestHeliLzToLastMarker={
 
       --closestRoute=InfLZ.str32LzToLz[closestRoute]--CULL
       if not TppLandingZone.assaultLzs[locationName] then
-        InfLog.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+        InfCore.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
       end
       local aprRoute=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
-      --InfLog.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
+      --InfCore.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
 
       local heliId=GetGameObjectId("TppHeli2","SupportHeli")
       if heliId==NULL_ID then
-        --InfLog.DebugPrint"heliId==NULL_ID"--DEBUG
+        --InfCore.DebugPrint"heliId==NULL_ID"--DEBUG
         return
       end
       SendCommand(heliId,{id="CallToLandingZoneAtName",name=aprRoute})
@@ -604,22 +604,22 @@ this.DEBUG_PrintInterrogationInfo={
       gameId=GameObject.GetGameObjectId(objectName)
     end
     if gameId==nil or gameId==GameObject.NULL_ID then
-      InfLog.DebugPrint"gameId== nil or NULL_ID"
+      InfCore.DebugPrint"gameId== nil or NULL_ID"
       return
     end
 
     local soldierICPQId=InfInterrogation.GetInterCpQuestId(gameId)
     if soldierICPQId==nil then
-      InfLog.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
+      InfCore.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
       return
     end
 
     local cpName=InfInterrogation.interCpQuestSoldiersCps[soldierICPQId]
     if cpName==nil then
-      InfLog.DebugPrint"cpName==nil"--DEBUG
+      InfCore.DebugPrint"cpName==nil"--DEBUG
       return
     end
-    InfLog.DebugPrint("quest cpName:"..cpName)
+    InfCore.DebugPrint("quest cpName:"..cpName)
   end
 }
 
@@ -630,32 +630,13 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
-    InfLog.Add"---------------------DEBUG_SomeShiz---------------------"
-
-    local hostageNames={
-      --"hos_quest_0000",
-      "ih_hostage_0000",
-      "ih_hostage_0001",
-      "ih_hostage_0002",
-      "ih_hostage_0003",
-    }
-
-    for i,hostageName in ipairs(hostageNames)do
-      local hostageObject=GetGameObjectId(hostageName)
-
-      if hostageObject==NULL_ID then
-        InfLog.Add(hostageName.."==NULL_ID",true)
-      else
-        local playerPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-        local command={id="Warp",degRotationY=vars.playerRotY,position=playerPos}
-        GameObject.SendCommand(hostageObject,command)
-      end
-    end
-
+    InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
+    
+    local socket=require"socket"
     --    local lasterUserMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
     --    local gameId=vars.userMarkerGameObjId[lasterUserMarkerIndex]
     --    if gameId==NULL_ID then
-    --      InfLog.DebugPrint"gameId==NULL_ID"
+    --      InfCore.DebugPrint"gameId==NULL_ID"
     --      return
     --    end
     --
@@ -664,22 +645,22 @@ this.DEBUG_SomeShiz={
     --
     --    local objectName=InfLookup.ObjectNameForGameId(gameId)
     --    if objectName==nil then
-    --      InfLog.DebugPrint"objectName==nil"
+    --      InfCore.DebugPrint"objectName==nil"
     --      return
     --    end
-    --    InfLog.DebugPrint(objectName)
+    --    InfCore.DebugPrint(objectName)
     --
-    --    InfLog.Add(objectName,true)
+    --    InfCore.Log(objectName,true)
     --
     --    local wildCardInfo=InfNPC.ene_wildCardInfo[objectName]
     --    if wildCardInfo==nil then
-    --      InfLog.DebugPrint"wildCardInfo==nil"
+    --      InfCore.DebugPrint"wildCardInfo==nil"
     --      return
     --    end
     --
-    --    InfLog.PrintInspect(wildCardInfo)
+    --    InfCore.PrintInspect(wildCardInfo)
 
-    InfLog.DebugPrint("index1:"..index1)
+    InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
       index1=index1Min
@@ -693,50 +674,12 @@ local index2Max=600--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
-    InfLog.Add("---DEBUG_SomeShiz2---")
-
-    local hostageNames={
-      --"hos_quest_0000",
-      "ih_hostage_0000",
-      "ih_hostage_0001",
-      "ih_hostage_0002",
-      "ih_hostage_0003",
-    }
-    for i,hostageName in ipairs(hostageNames)do
-      local hostageId=GetGameObjectId(hostageName)
-      
-      
-      TppEnemy.RegistHoldRecoveredState(hostageName)
-      
-      
-      local command={
-        id="SetHostage2Flag",
-        flag="unlocked",
-        on=true,
-      }
-      SendCommand(hostageId,command)
-      --
-      --                 TppHostage2.SetHostageType{
-      --      gameObjectType  = "TppHostage2",
-      --      hostageType   = "Mob",
-      --    }
+    InfCore.Log("---DEBUG_SomeShiz2---")
 
 
-      --     GameObject.SendCommand( hostageId, { id = "SetFollowed", enable = true } )
-      --     local command={id="SetHostage2Flag",flag="commonNpc",on=true}
-      --     GameObject.SendCommand( hostageId,command)
-
-      local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_FLEE }
-      SendCommand(hostageId,command)
 
 
-      local vehicleId=GetGameObjectId("veh_lv_0002")
-      local setVehicle={id="SetRelativeVehicle",targetId=vehicleId,rideFromBeginning=true}
-      SendCommand(hostageId,setVehicle)
-    end
-    InfLog.DebugPrint"doop"
-
-    InfLog.DebugPrint("index2:"..index2)
+    InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
       index2=index2Min
@@ -750,33 +693,33 @@ local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
 
-local positionsList={
-  {pos={845.075,297.156,2379.230},rot=79.401},
-  {pos={793.784,292.014,2472.851},rot=22.450},
-  {pos={724.948,290.399,2482.498},rot=46.496},
-  {pos={694.904,293.442,2460.756},rot=-49.662},
-  {pos={693.468,291.960,2447.803},rot=-102.257},
-  {pos={779.257,291.816,2577.759},rot=-134.101},
-  {pos={771.967,286.862,2562.339},rot=98.388},
-  {pos={864.529,302.099,2510.342},rot=-85.682},
-  {pos={851.171,297.145,2481.231},rot=-129.925},
-}
+    local positionsList={
+      {pos={845.075,297.156,2379.230},rot=79.401},
+      {pos={793.784,292.014,2472.851},rot=22.450},
+      {pos={724.948,290.399,2482.498},rot=46.496},
+      {pos={694.904,293.442,2460.756},rot=-49.662},
+      {pos={693.468,291.960,2447.803},rot=-102.257},
+      {pos={779.257,291.816,2577.759},rot=-134.101},
+      {pos={771.967,286.862,2562.339},rot=98.388},
+      {pos={864.529,302.099,2510.342},rot=-85.682},
+      {pos={851.171,297.145,2481.231},rot=-129.925},
+    }
 
-local TARGET_HOSTAGE_NAME="hos_quest_0000"
-index3Max=#positionsList
-
-
-  local coords=positionsList[index3]--InfUtil.GetRandomInList(positionsList)
-
-  local hostageId=GetGameObjectId(TARGET_HOSTAGE_NAME)
-  if hostageId==GameObject.NULL_ID then
-  else
-    local command={id="Warp",position=Vector3(coords.pos[1],coords.pos[2],coords.pos[3]),degRotationY=coords.rot}
-    GameObject.SendCommand(hostageId,command)
-  end
+    local TARGET_HOSTAGE_NAME="hos_quest_0000"
+    index3Max=#positionsList
 
 
-    InfLog.DebugPrint("index3:"..index3)
+    local coords=positionsList[index3]--InfUtil.GetRandomInList(positionsList)
+
+    local hostageId=GetGameObjectId(TARGET_HOSTAGE_NAME)
+    if hostageId==GameObject.NULL_ID then
+    else
+      local command={id="Warp",position=Vector3(coords.pos[1],coords.pos[2],coords.pos[3]),degRotationY=coords.rot}
+      GameObject.SendCommand(hostageId,command)
+    end
+
+
+    InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
@@ -835,7 +778,7 @@ this.DEBUG_RandomizeAllIvars={
     for name,ivar in pairs(Ivars) do
       if IsIvar(ivar) then
         if not ivar.range or not ivar.range.max then
-          InfLog.DebugPrint("WARNING: ivar "..name.." hase no range set")
+          InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
         elseif not skipIvars[name] and ivar.save then
           table.insert(ivarNames,name)
         end
@@ -868,7 +811,7 @@ this.DEBUG_RandomizeAllIvars={
     --        local start=84
     --        local finish=85
 
-    InfLog.DebugPrint("start: "..start.." finish: "..finish)
+    InfCore.DebugPrint("start: "..start.." finish: "..finish)
 
     for i,name in ipairs(ivarNames) do
       if i>finish then
@@ -885,7 +828,7 @@ this.DEBUG_RandomizeAllIvars={
         --end
       end
     end
-    InfLog.DebugPrint(tostring(log))
+    InfCore.DebugPrint(tostring(log))
   end
 }
 
@@ -942,7 +885,7 @@ this.DEBUG_SetIvarsToNonDefault={
     for name,ivar in pairs(Ivars) do
       if IsIvar(ivar) then
         if not ivar.range or not ivar.range.max then
-          InfLog.DebugPrint("WARNING: ivar "..name.." hase no range set")
+          InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
         elseif not skipIvars[name] and ivar.save then
           table.insert(ivarNames,name)
         end
@@ -964,7 +907,7 @@ this.DEBUG_SetIvarsToNonDefault={
 --SYNC run PrintIvars on main.
 this.DEBUG_SetIvarsToDefault={
   OnChange=function()
-    InfLog.DebugPrint"DEBUG_SetIvarsToDefault"
+    InfCore.DebugPrint"DEBUG_SetIvarsToDefault"
 
     local ivarNames={
       }
@@ -973,12 +916,12 @@ this.DEBUG_SetIvarsToDefault={
       local ivar=Ivars[ivarName]
       local currentSetting=ivars[ivarName]
       if ivar==nil then
-        InfLog.Add(ivarName.."==nil")
+        InfCore.Log(ivarName.."==nil")
 
       elseif not ivar.save then
-      --InfLog.DebugPrint(ivarName.." save not set")
+      --InfCore.DebugPrint(ivarName.." save not set")
       elseif currentSetting~=ivar.default then
-        InfLog.Add(ivarName..":"..tostring(currentSetting).." not default:"..tostring(ivar.default)..", resetting")
+        InfCore.Log(ivarName..":"..tostring(currentSetting).." not default:"..tostring(ivar.default)..", resetting")
         IvarProc.SetSetting(ivar,ivar.default)
       end
     end
@@ -1027,21 +970,21 @@ this.DEBUG_PrintRevengePoints={
     --tex from TppRevenge. , cutting out dummy, max, and reordering to ui order
     local REVENGE_TYPE_NAME={"FULTON","HEAD_SHOT","STEALTH","COMBAT","NIGHT_S","NIGHT_C","LONG_RANGE","VEHICLE","TRANQ","SMOKE","M_STEALTH","M_COMBAT"}
 
-    --      InfLog.DebugPrint"Revenge Levels"
+    --      InfCore.DebugPrint"Revenge Levels"
     local revengeLevelsStr=""
     --      for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
     --        revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE[revengeTypeName]))
     --        revengeLevelsStr=revengeLevelsStr.." "
     --      end
-    --      InfLog.DebugPrint(revengeLevelsStr)
+    --      InfCore.DebugPrint(revengeLevelsStr)
 
-    InfLog.DebugPrint"Revenge points"
+    InfCore.DebugPrint"Revenge points"
     local revengeLevelsStr=""
     for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
       revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE[revengeTypeName]))
       revengeLevelsStr=revengeLevelsStr.." "
     end
-    InfLog.DebugPrint(revengeLevelsStr)
+    InfCore.DebugPrint(revengeLevelsStr)
   end
 }
 
@@ -1061,13 +1004,13 @@ this.DEBUG_CycleHeliRoutes={
     local heliIndex=1
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
-    --InfLog.DebugPrint(heliName.."==NULL_ID")--DEBUG
+    --InfCore.DebugPrint(heliName.."==NULL_ID")--DEBUG
     else
       if #heliRoutes==0 then
         --heliRoutes=this.ResetLzPool()
         heliRoutes=InfUtil.CopyList(InfNPCHeli.heliRoutes.afgh)
       end
-      --InfLog.PrintInspect(heliRoutes)--DEBUG
+      --InfCore.PrintInspect(heliRoutes)--DEBUG
       this.heliRoute=StrCode32(heliRoutes[routeIndex])
       routeIndex=routeIndex+1
       if routeIndex>#heliRoutes then
@@ -1075,14 +1018,14 @@ this.DEBUG_CycleHeliRoutes={
       end
 
       InfNPCHeli.SetRoute(this.heliRoute,heliIndex)
-      --InfLog.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+      --InfCore.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
       --GameObject.SendCommand(heliObjectId,{id="SetForceRoute",route=this.heliRoute,point=0,warp=true})
     end
     local groundStartPosition=InfLZ.GetGroundStartPosition(this.heliRoute)
     if groundStartPosition==nil then
-      InfLog.DebugPrint" groundStartPosition==nil"
+      InfCore.DebugPrint" groundStartPosition==nil"
     else
-      InfLog.DebugPrint("warped to "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+      InfCore.DebugPrint("warped to "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
       TppPlayer.Warp{pos={groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3]},rotY=vars.playerCameraRotation[1]}
     end
   end
@@ -1126,7 +1069,7 @@ this.DEBUG_DropItem={
 
 this.DEBUG_PrintVarsClock={
   OnChange=function()
-    InfLog.DebugPrint("vars.clock:"..vars.clock)
+    InfCore.DebugPrint("vars.clock:"..vars.clock)
   end,
 }
 
@@ -1135,78 +1078,78 @@ this.DEBUG_PrintFultonSuccessInfo={
     local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
     local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
 
-    InfLog.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
+    InfCore.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
 
     --  local doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
     --
     --  if doFuncSuccess==nil then
-    --    InfLog.DebugPrint"doFuncSuccess nil, bumped to 100"
+    --    InfCore.DebugPrint"doFuncSuccess nil, bumped to 100"
     --    doFuncSuccess=100
     --  end
-    --  InfLog.DebugPrint("doFuncSuccess:"..doFuncSuccess)
+    --  InfCore.DebugPrint("doFuncSuccess:"..doFuncSuccess)
 
   end,
 }
 
 this.DEBUG_ShowRevengeConfig={
   OnChange=function()
-    --InfLog.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
-    InfLog.DebugPrint("RevengeType:")
-    InfLog.PrintInspect(mvars.revenge_revengeType)
+    --InfCore.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
+    InfCore.DebugPrint("RevengeType:")
+    InfCore.PrintInspect(mvars.revenge_revengeType)
 
-    InfLog.DebugPrint("RevengeConfig:")
-    InfLog.PrintInspect(mvars.revenge_revengeConfig)
+    InfCore.DebugPrint("RevengeConfig:")
+    InfCore.PrintInspect(mvars.revenge_revengeConfig)
   end,
 }
 
 this.DEBUG_PrintSoldierDefine={
   OnChange=function()
-    InfLog.Add("SoldierDefine:",true)
-    InfLog.PrintInspect(mvars.ene_soldierDefine)
+    InfCore.Log("SoldierDefine:",true)
+    InfCore.PrintInspect(mvars.ene_soldierDefine)
   end,
 }
 
 
 this.DEBUG_PrintSoldierIDList={
   OnChange=function()
-    InfLog.DebugPrint("SoldierIdList:")
-    InfLog.PrintInspect(mvars.ene_soldierIDList)
+    InfCore.DebugPrint("SoldierIdList:")
+    InfCore.PrintInspect(mvars.ene_soldierIDList)
   end,
 }
 
 
 this.DEBUG_PrintReinforceVars={
   OnChange=function()
-    InfLog.DebugPrint("reinforce_activated: "..tostring(mvars.reinforce_activated))
-    InfLog.DebugPrint("reinforceType: "..mvars.reinforce_reinforceType)
-    InfLog.DebugPrint("reinforceCpId: "..mvars.reinforce_reinforceCpId)
-    InfLog.DebugPrint("isEnabledSoldiers: "..tostring(mvars.reinforce_isEnabledSoldiers))
-    InfLog.DebugPrint("isEnabledVehicle: "..tostring(mvars.reinforce_isEnabledVehicle))
+    InfCore.DebugPrint("reinforce_activated: "..tostring(mvars.reinforce_activated))
+    InfCore.DebugPrint("reinforceType: "..mvars.reinforce_reinforceType)
+    InfCore.DebugPrint("reinforceCpId: "..mvars.reinforce_reinforceCpId)
+    InfCore.DebugPrint("isEnabledSoldiers: "..tostring(mvars.reinforce_isEnabledSoldiers))
+    InfCore.DebugPrint("isEnabledVehicle: "..tostring(mvars.reinforce_isEnabledVehicle))
   end,
 }
 
 this.DEBUG_PrintVehicleTypes={
   OnChange=function()
-    InfLog.DebugPrint("Vehicle.type.EASTERN_LIGHT_VEHICLE="..Vehicle.type.EASTERN_LIGHT_VEHICLE)
-    InfLog.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE)
-    InfLog.DebugPrint("Vehicle.type.EASTERN_TRUCK="..Vehicle.type.EASTERN_TRUCK)
-    InfLog.DebugPrint("Vehicle.type.WESTERN_TRUCK="..Vehicle.type.WESTERN_TRUCK)
-    InfLog.DebugPrint("Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE)
-    InfLog.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE)
-    InfLog.DebugPrint("Vehicle.type.EASTERN_TRACKED_TANK="..Vehicle.type.EASTERN_TRACKED_TANK)
-    InfLog.DebugPrint("Vehicle.type.WESTERN_TRACKED_TANK="..Vehicle.type.WESTERN_TRACKED_TANK)
+    InfCore.DebugPrint("Vehicle.type.EASTERN_LIGHT_VEHICLE="..Vehicle.type.EASTERN_LIGHT_VEHICLE)
+    InfCore.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE)
+    InfCore.DebugPrint("Vehicle.type.EASTERN_TRUCK="..Vehicle.type.EASTERN_TRUCK)
+    InfCore.DebugPrint("Vehicle.type.WESTERN_TRUCK="..Vehicle.type.WESTERN_TRUCK)
+    InfCore.DebugPrint("Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE)
+    InfCore.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE)
+    InfCore.DebugPrint("Vehicle.type.EASTERN_TRACKED_TANK="..Vehicle.type.EASTERN_TRACKED_TANK)
+    InfCore.DebugPrint("Vehicle.type.WESTERN_TRACKED_TANK="..Vehicle.type.WESTERN_TRACKED_TANK)
   end,
 }
 
 this.DEBUG_PrintVehiclePaint={
   OnChange=function()
-    InfLog.DebugPrint("Vehicle.class.DEFAULT="..Vehicle.class.DEFAULT)
-    InfLog.DebugPrint("Vehicle.class.DARK_GRAY="..Vehicle.class.DARK_GRAY)
-    InfLog.DebugPrint("Vehicle.class.OXIDE_RED="..Vehicle.class.OXIDE_RED)
-    InfLog.DebugPrint("Vehicle.paintType.NONE="..Vehicle.paintType.NONE)
-    InfLog.DebugPrint("Vehicle.paintType.FOVA_0="..Vehicle.paintType.FOVA_0)
-    InfLog.DebugPrint("Vehicle.paintType.FOVA_1="..Vehicle.paintType.FOVA_1)
-    InfLog.DebugPrint("Vehicle.paintType.FOVA_2="..Vehicle.paintType.FOVA_2)
+    InfCore.DebugPrint("Vehicle.class.DEFAULT="..Vehicle.class.DEFAULT)
+    InfCore.DebugPrint("Vehicle.class.DARK_GRAY="..Vehicle.class.DARK_GRAY)
+    InfCore.DebugPrint("Vehicle.class.OXIDE_RED="..Vehicle.class.OXIDE_RED)
+    InfCore.DebugPrint("Vehicle.paintType.NONE="..Vehicle.paintType.NONE)
+    InfCore.DebugPrint("Vehicle.paintType.FOVA_0="..Vehicle.paintType.FOVA_0)
+    InfCore.DebugPrint("Vehicle.paintType.FOVA_1="..Vehicle.paintType.FOVA_1)
+    InfCore.DebugPrint("Vehicle.paintType.FOVA_2="..Vehicle.paintType.FOVA_2)
   end,
 }
 
@@ -1218,19 +1161,19 @@ this.DEBUG_RandomizeCp={--CULL only for debug purpose with a print in the functi
 
 this.DEBUG_PrintRealizedCount={
   OnChange=function()
-    InfLog.DebugPrint("MAX_REALIZED_COUNT:"..EnemyFova.MAX_REALIZED_COUNT)
+    InfCore.DebugPrint("MAX_REALIZED_COUNT:"..EnemyFova.MAX_REALIZED_COUNT)
   end,
 }
 this.DEBUG_PrintEnemyFova={
   OnChange=function()
-    InfLog.PrintInspect(EnemyFova)
-    InfLog.PrintInspect(getmetatable(EnemyFova))
+    InfCore.PrintInspect(EnemyFova)
+    InfCore.PrintInspect(getmetatable(EnemyFova))
   end,
 }
 
 this.DEBUG_PrintPowersCount={
   OnChange=function()
-    --InfLog.PrintInspect(mvars.ene_soldierPowerSettings)
+    --InfCore.PrintInspect(mvars.ene_soldierPowerSettings)
     local totalPowerSettings={}
 
     local totalSoldierCount=0
@@ -1246,19 +1189,19 @@ this.DEBUG_PrintPowersCount={
         totalPowerSettings[powerType]=totalPowerSettings[powerType]+1
       end
     end
-    InfLog.DebugPrint("totalSoldierCount:"..totalSoldierCount)
-    InfLog.PrintInspect(totalPowerSettings)
+    InfCore.DebugPrint("totalSoldierCount:"..totalSoldierCount)
+    InfCore.PrintInspect(totalPowerSettings)
   end
 }
 
 this.DEBUG_PrintCpPowerSettings={
   OnChange=function()
-    --InfLog.PrintInspect(mvars.ene_soldierPowerSettings)
+    --InfCore.PrintInspect(mvars.ene_soldierPowerSettings)
     if Ivars.selectedCp:Is()>0 then
       local soldierList=mvars.ene_soldierIDList[Ivars.selectedCp:Get()]
       if soldierList then
         for soldierId,n in pairs(soldierList)do
-          InfLog.PrintInspect(mvars.ene_soldierPowerSettings[soldierId])
+          InfCore.PrintInspect(mvars.ene_soldierPowerSettings[soldierId])
         end
       end
     end
@@ -1316,44 +1259,44 @@ this.DEBUG_PrintCpSizes={
       end
     end
 
-    InfLog.PrintInspect(cpSizes)
-    InfLog.PrintInspect(cpTypesAverage)
+    InfCore.PrintInspect(cpSizes)
+    InfCore.PrintInspect(cpTypesAverage)
   end
 }
 
 this.DEBUG_ChangePhase={
   OnChange=function()
-    InfLog.DebugPrint("Changephase b")
+    InfCore.DebugPrint("Changephase b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.ChangePhase(cpName,Ivars.maxPhase:Get())
     end
-    InfLog.DebugPrint("Changephase e")
+    InfCore.DebugPrint("Changephase e")
   end
 }
 
 this.DEBUG_KeepPhaseOn={
   OnChange=function()
-    InfLog.DebugPrint("DEBUG_KeepPhaseOn b")
+    InfCore.DebugPrint("DEBUG_KeepPhaseOn b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,true)
     end
-    InfLog.DebugPrint("DEBUG_KeepPhaseOn e")
+    InfCore.DebugPrint("DEBUG_KeepPhaseOn e")
   end
 }
 
 this.DEBUG_KeepPhaseOff={
   OnChange=function()
-    InfLog.DebugPrint("DEBUG_KeepPhaseOff b")
+    InfCore.DebugPrint("DEBUG_KeepPhaseOff b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,false)
     end
-    InfLog.DebugPrint("DEBUG_KeepPhaseOff e")
+    InfCore.DebugPrint("DEBUG_KeepPhaseOff e")
   end
 }
 
 this.printPlayerPhase={
   OnChange=function()
-    InfLog.DebugPrint("vars.playerPhase=".. vars.playerPhase ..":".. Ivars.phaseSettings[vars.playerPhase+1])
+    InfCore.DebugPrint("vars.playerPhase=".. vars.playerPhase ..":".. Ivars.phaseSettings[vars.playerPhase+1])
   end,
 }
 
@@ -1366,7 +1309,7 @@ this.DEBUG_SetPlayerPhaseToIvar={
 this.DEBUG_ShowPhaseEnums={
   OnChange=function()
     for n, phaseName in ipairs(Ivars.maxPhase.settings) do
-      InfLog.DebugPrint(phaseName..":".. Ivars.maxPhase.settingsTable[n])
+      InfCore.DebugPrint(phaseName..":".. Ivars.maxPhase.settingsTable[n])
     end
   end,
 }
@@ -1374,24 +1317,24 @@ this.DEBUG_ShowPhaseEnums={
 
 this.DEBUG_Item2={
   OnChange=function()
-    InfLog.DebugPrint("EnemyTypes:")
-    InfLog.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
-    InfLog.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
-    InfLog.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
-    InfLog.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
-    InfLog.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )
-    --InfLog.PrintInspect(gvars.soldierTypeForced)
+    InfCore.DebugPrint("EnemyTypes:")
+    InfCore.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
+    InfCore.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
+    InfCore.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
+    InfCore.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
+    InfCore.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )
+    --InfCore.PrintInspect(gvars.soldierTypeForced)
   end,
 }
 
 this.DEBUG_InspectAllMenus={
   OnChange=function()
-    --InfLog.PrintInspect(InfMenuDefs.allMenus)
+    --InfCore.PrintInspect(InfMenuDefs.allMenus)
     for n,menu in ipairs(InfMenuDefs.allMenus) do
       if menu==nil then
-        InfLog.DebugPrint("menu==nil at index "..n)
+        InfCore.DebugPrint("menu==nil at index "..n)
       elseif menu.name==nil then
-        InfLog.DebugPrint("menu.name==nil at index "..n)
+        InfCore.DebugPrint("menu.name==nil at index "..n)
       else
         InfMenu.PrintLangId(menu.name)
       end
@@ -1425,13 +1368,13 @@ this.DEBUG_WarpToObject={
     --local objectList=InfNPCHeli.heliList
 
     if objectList==nil then
-      InfLog.DebugPrint"objectList nil"
+      InfCore.DebugPrint"objectList nil"
       return
     end
     this.warpObjecList=objectList
 
     if #objectList==0 then
-      InfLog.DebugPrint"objectList empty"
+      InfCore.DebugPrint"objectList empty"
       return
     end
 
@@ -1445,15 +1388,15 @@ this.DEBUG_WarpToObject={
         gameId=GameObject.GetGameObjectId(objectName)
       end
       if gameId==nil or gameId==GameObject.NULL_ID then
-        InfLog.Add(objectName.." gameId==NULL_ID")
+        InfCore.Log(objectName.." gameId==NULL_ID")
         warpPos=Vector3(0,0,0)
       else
         warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
         if warpPos==nil then
-          InfLog.Add("GetPosition nil for "..objectName,true)
+          InfCore.Log("GetPosition nil for "..objectName,true)
           return
         else
-          InfLog.Add(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ(),true)
+          InfCore.Log(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ(),true)
         end
       end
       this.currentWarpIndex=this.currentWarpIndex+1
@@ -1471,7 +1414,7 @@ this.DEBUG_WarpToObject={
     end
 
     if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
-      InfLog.DebugPrint(objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+      InfCore.DebugPrint(objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
     end
   end,
@@ -1483,11 +1426,11 @@ this.DEBUG_WarpToReinforceVehicle={
     local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
 
     if vehicleId==GameObject.NULL_ID then
-      InfLog.DebugPrint"vehicleId==NULL_ID"
+      InfCore.DebugPrint"vehicleId==NULL_ID"
       return
     end
     local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
-    InfLog.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    InfCore.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
     TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
   end,
 }
@@ -1509,13 +1452,13 @@ this.DEBUG_PrintObjectListPosition={
     --local objectList=InfNPCHeli.heliList
 
     if objectList==nil then
-      InfLog.DebugPrint"objectList nil"
+      InfCore.DebugPrint"objectList nil"
       return
     end
     this.warpObjecList=objectList
 
     if #objectList==0 then
-      InfLog.DebugPrint"objectList empty"
+      InfCore.DebugPrint"objectList empty"
       return
     end
 
@@ -1529,15 +1472,15 @@ this.DEBUG_PrintObjectListPosition={
         gameId=GameObject.GetGameObjectId(objectName)
       end
       if gameId==nil or gameId==GameObject.NULL_ID then
-        InfLog.Add(objectName.." gameId==NULL_ID")
+        InfCore.Log(objectName.." gameId==NULL_ID")
         pos=Vector3(0,0,0)
       else
         pos=GameObject.SendCommand(gameId,{id="GetPosition"})
         if pos==nil then
-          InfLog.Add("GetPosition nil for "..objectName,true)
+          InfCore.Log("GetPosition nil for "..objectName,true)
           return
         else
-          InfLog.Add(this.currentWarpIndex..":"..objectName.." pos:".. pos:GetX()..",".. pos:GetY().. ","..pos:GetZ(),true)
+          InfCore.Log(this.currentWarpIndex..":"..objectName.." pos:".. pos:GetX()..",".. pos:GetY().. ","..pos:GetZ(),true)
         end
       end
       this.currentWarpIndex=this.currentWarpIndex+1
@@ -1577,9 +1520,9 @@ this.HeliMenuOnTest={--CULL: UI system overrides it :(
       {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
       {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
     }
-    InfLog.DebugPrint("blih")--DEBUG
+    InfCore.DebugPrint("blih")--DEBUG
     TppTerminal.EnableDvcMenuByList(dvcMenu)
-    InfLog.DebugPrint("bleh")--DEBUG
+    InfCore.DebugPrint("bleh")--DEBUG
   end,
 }
 
@@ -1600,10 +1543,10 @@ this.loadExternalModules={
 
 this.copyLogToPrev={
   OnChange=function()
-    local fileName=InfLog.logFileName
-    local ext=InfLog.ext
-    InfLog.CopyFileToPrev(fileName,ext)
-    InfLog.ClearFile(fileName,ext)
+    local fileName=InfCore.logFileName
+    local ext=InfCore.ext
+    InfCore.CopyFileToPrev(fileName,ext)
+    InfCore.ClearFile(fileName,ext)
   end
 }
 
@@ -1626,13 +1569,107 @@ this.dropCurrentEquip={
     -- return --tex think I'll allow it so user can quick dump hand to default
     end
 
-    InfLog.Add("dropCurrentEquip currentInventorySlot"..vars.currentInventorySlot.."currentItemIndex "..vars.currentItemIndex.." currentSupportWeaponIndex "..vars.currentSupportWeaponIndex)
+    InfCore.Log("dropCurrentEquip currentInventorySlot"..vars.currentInventorySlot.."currentItemIndex "..vars.currentItemIndex.." currentSupportWeaponIndex "..vars.currentSupportWeaponIndex)
 
     Player.UnsetEquip{
       slotType=slotType,
       subIndex=subIndex,
       dropPrevEquip=true,
     }
+  end
+}
+
+this.setAllFriendly={
+  OnChange=function()
+    --DEBUG
+    --tex loops at 512
+    --    local count=1100
+    --    local objectType="TppSoldier2"
+    --    for index=0,count-1 do
+    --      local gameId=GameObject.GetGameObjectIdByIndex(objectType,index)
+    --      --tex GetGameObjectIdByIndex errors on index > instance count: 'instance index range error. index n is larger than maxInstanceCount n.'
+    --      if gameId==NULL_ID then
+    --        --tex shouldnt happen
+    --        InfCore.Log("object index "..index.." ==NULL_ID")
+    --      else
+    --        local name=InfLookup.ObjectNameForGameId(gameId)
+    --        InfCore.Log("Soldier index "..index..": gameId:"..gameId.." name:"..tostring(name))
+    --        --tex return an 'instance index range error. index <GetGameObjectIdByIndex index> is larger than maxInstanceCount <instance count>.'
+    --        --which makes little sense since the gameId is the same/is not the index.
+    --        --errors/non errors seem to loop too (getting out of sync with the actual inputted index)
+    --        --ex:
+    ----        |765.58408987113|Soldier index 842: gameId:1354 name:nil << tex fine even though index is over instance count
+    ----        |765.58408987113|ERROR:C:/GamesSD/MGS_TPP/mod/InfMenuCommands.lua:770: instance index range error. index 330 is larger than maxInstanceCount 330. << not even reporting correct index
+    ----        |765.58408987113|Soldier index 843: gameId:1355 name:nil
+    --        some other commands seem to be less safe and will hang or crash the game past max index
+    --        so will have to either be dead accurate with the max index you supply, reply on GetPosition as a canary/break on error for those gameobjects that support it
+    --        local pos=InfCore.PCall(function()GameObject.SendCommand(gameId,{id="GetPosition"})end)
+    --      end
+    --    end
+
+
+    --GOTCHA: there's some funkyness to GetGameObjectIdByIndex.
+    --GetMaxInstanceCount only works on a couple of gameobjects, hostages and walker gears (more frustrating kjp inconsistancy)
+    --GetGameObjectIdByIndex itself doesn't seem to care about inputting index > instance count, it will loop the returned gameobject eturning the same gameobjectids
+    --but running GameObject.SendCommand on a gameid from an index > instance count will return an 'instance index range error. index <GetGameObjectIdByIndex> is larger than maxInstanceCount <instance count>.'
+    --which doesn't really make sense, it suggests that the gameid has the index, even though on inspection it seems exactly the same/repeated < index gameid
+    --and it's only for some commands, others will hang or crash the game (again, this wouldn't be an issue if GetGameObjectIdByIndex didn't have a (seeminly) unsafe implmentation.
+    local function RunOnAllObjects(objectType,instanceCount,RunFunc)
+      local count=SendCommand({type=objectType},{id="GetMaxInstanceCount"})
+      InfCore.Log(objectType.." maxInstanceCount:"..tostring(count))--DEBUG
+      if count==nil then
+        count=instanceCount--SYNC soldier max instance/totalCount
+      end
+      if count and count>0 then
+        for index=0,count-1 do
+          local gameId=GameObject.GetGameObjectIdByIndex(objectType,index)
+          --tex GetGameObjectIdByIndex errors on index > instance count: 'instance index range error. index n is larger than maxInstanceCount n.'
+          if gameId==NULL_ID then
+            --tex shouldnt happen
+            InfCore.Log("object index "..index.." ==NULL_ID")
+          else
+            local success,ret=pcall(RunFunc,gameId,index)
+            if not success then
+              InfCore.Log("RunOnAllObjects GetGameObjectIdByIndex > instance count at index "..index..", breaking")
+              break
+            end
+          end
+        end
+      end
+    end
+
+    local function Vec3ToString(vec3)
+      return vec3:GetX()..","..vec3:GetY()..","..vec3:GetZ()
+    end
+    local function PrintSoldierInfo(gameId,index)
+      local pos=GameObject.SendCommand(gameId,{id="GetPosition"})
+      local posString=Vec3ToString(pos)
+      local name=InfLookup.ObjectNameForGameId(gameId)
+      InfCore.Log("Soldier index "..index..": gameId:"..gameId.." name:"..tostring(name).." pos:"..posString)
+    end
+
+    local function SetFriendly(gameId)
+      SendCommand(gameId,{id="SetFriendly",enabled=true})
+    end
+
+    local function SetHeliNoNotice(gameId)
+      SendCommand(gameId,{id="SetEyeMode",mode="Close"})
+      SendCommand(gameId,{id="SetRestrictNotice",enabled=true})
+      SendCommand(gameId,{id="SetCombatEnabled",enabled=false})
+    end
+
+    RunOnAllObjects("TppSoldier2",350,SetFriendly)
+    local heliInstances=1
+
+    if Ivars.heliPatrolsFREE:Is()>0 then
+      heliInstances=5
+    end
+    RunOnAllObjects("TppEnemyHeli",heliInstances,SetHeliNoNotice)
+
+    for cpId,cpName in pairs(mvars.ene_cpList)do
+      local command={id="SetFriendlyCp"}
+      GameObject.SendCommand(cpId,command)
+    end
   end
 }
 

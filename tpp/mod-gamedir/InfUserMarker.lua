@@ -18,9 +18,9 @@ function this.PrintUserMarker(index)
   local gameId=vars.userMarkerGameObjId[index]
   local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
   local message="userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId)
-  InfLog.Add(message)
-  InfLog.DebugPrint(message)
-  --InfLog.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
+  InfCore.Log(message)
+  InfCore.DebugPrint(message)
+  --InfCore.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
 end
 function this.PrintUserMarkers()
   --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
@@ -30,21 +30,21 @@ function this.PrintUserMarkers()
     this.PrintUserMarker(index)
   end
 
-  InfLog.Add("userMarkerLocationId:"..vars.userMarkerLocationId,true)
-  InfLog.Add("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
+  InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
+  InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
 end
 function this.PrintMarkerGameObject(index)
   local gameId=vars.userMarkerGameObjId[index]
   if gameId==NULL_ID then
-    InfLog.DebugPrint"gameId==NULL_ID"
+    InfCore.DebugPrint"gameId==NULL_ID"
     return
   end
   local typeIndex=GetTypeIndex(gameId)
   local typeStr=InfLookup.gameObjectTypeToString[typeIndex]
   local soldierName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
-  InfLog.Add(soldierName,true)
-  InfLog.Add(gameId.."="..typeStr,true)
-  InfLog.Add("cpName:"..tostring(cpName),true)
+  InfCore.Log(soldierName,true)
+  InfCore.Log(gameId.."="..typeStr,true)
+  InfCore.Log("cpName:"..tostring(cpName),true)
 end
 function this.GetLastAddedUserMarkerIndex()
   if vars.userMarkerSaveCount==0 then
@@ -126,7 +126,7 @@ function this.WarpToUserMarker(index)
   local markerPos=nil
   local gameId=vars.userMarkerGameObjId[index]
   if gameId~=NULL_ID then
-    --InfLog.DebugPrint("gameId~=NULL_ID")--DEBUG
+    --InfCore.DebugPrint("gameId~=NULL_ID")--DEBUG
 
     local typeIndex=GameObject.GetTypeIndex(gameId)
     if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
@@ -137,12 +137,12 @@ function this.WarpToUserMarker(index)
   end
 
   if markerPos==nil then
-    --InfLog.DebugPrint("markerPos==nil")--DEBUG
+    --InfCore.DebugPrint("markerPos==nil")--DEBUG
     offSetUp=1.5
     markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index],vars.userMarkerPosZ[index])
   end
 
-  InfLog.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ()) 
+  InfCore.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ()) 
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 

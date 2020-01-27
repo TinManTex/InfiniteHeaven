@@ -1,16 +1,16 @@
 -- DOBUILD: 1
 -- IvarProc.lua
 -- tex functions for working on Ivars and their associated ivars,evars,gvars
+-- STATELESS (except for debugModule)
+-- EXECLESS
 local this={}
 
 --LOCALOPT
-local InfLog=InfLog
-local IsString=Tpp.IsTypeString
-local IsNumber=Tpp.IsTypeNumber
-local IsFunc=Tpp.IsTypeFunc
-local IsTable=Tpp.IsTypeTable
-local Enum=TppDefine.Enum
+local InfCore=InfCore
 local vars=vars
+local type=type
+local loadfile=loadfile
+local tostring=tostring
 
 local GLOBAL=TppScriptVars.CATEGORY_GAME_GLOBAL
 local MISSION=TppScriptVars.CATEGORY_MISSION
@@ -18,10 +18,21 @@ local RETRY=TppScriptVars.CATEGORY_RETRY
 local MB_MANAGEMENT=TppScriptVars.CATEGORY_MB_MANAGEMENT
 local QUEST=TppScriptVars.CATEGORY_QUEST
 local CONFIG=TppScriptVars.CATEGORY_CONFIG
-local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
+local RESTARTABLE=TppScriptVars.CATEGORY_MISSION_RESTARTABLE--DEBUGNOW TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
-local EXTERNAL=1024--tex SYNC Ivars
+this.debugModule=false
+
+this.CATEGORY_EXTERNAL=1024--tex SYNC Ivars
+
+function this.IsFOBMission(missionCode)
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==5 then
+    return true
+  else
+    return false
+  end
+end
 
 local function IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
@@ -35,13 +46,13 @@ end
 function this.GetSaved(self)
   local gvar=nil
   if self.save then
-    if self.save==EXTERNAL then
+    if self.save==this.CATEGORY_EXTERNAL then
       gvar=evars[self.name]
-    else
+    elseif gvars then
       gvar=gvars[self.name]
     end
-    if gvar==nil then
-      InfLog.Add("IvarProc.GetSaved: WARNING ivar.save but no gvar found for "..tostring(self.name),true)
+    if gvar==nil and gvars then
+      InfCore.Log("IvarProc.GetSaved: WARNING ivar.save but no gvar found for "..tostring(self.name),true)
     end
   end
   return gvar
@@ -49,7 +60,7 @@ end
 
 function this.SetSaved(self,value)
   if value~=nil and self.save then
-    if self.save==EXTERNAL then
+    if self.save==this.CATEGORY_EXTERNAL then
       evars[self.name]=value
     else
       gvars[self.name]=value
@@ -60,7 +71,7 @@ end
 --tex currently not used. GOTCHA currently only supports settingsTable as array, see GetTableSetting
 function this.GetTableSettingDirect(self,setting)
   if not self.settingsTable then
-    InfLog.Add("GetTableSettingDirect no settingsTable for "..self.name)
+    InfCore.Log("GetTableSettingDirect no settingsTable for "..self.name)
     return nil
   end
 
@@ -75,7 +86,7 @@ this.GetTableSetting=function(self)
   local returnValue=nil
   if self.settingsTable then
     local currentSetting
-    if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+    if this.IsFOBMission(vars.missionCode) and not self.allowFob then
       currentSetting=self.default
     else
       currentSetting=ivars[self.name]
@@ -89,7 +100,7 @@ this.GetTableSetting=function(self)
       tableSetting=self.settingsTable[settingName]
     end
 
-    if IsFunc(tableSetting) then
+    if type(tableSetting)=="function" then
       returnValue=tableSetting()
     else
       returnValue=tableSetting
@@ -100,7 +111,7 @@ end
 
 function this.GetSettingNameDirect(self,setting)
   if not self.settings then
-    InfLog.Add("GetSettingNameDirect no settings for "..self.name)
+    InfCore.Log("GetSettingNameDirect no settings for "..self.name)
     return nil
   end
 
@@ -112,7 +123,7 @@ end
 
 function this.GetSettingName(self,setting)
   if not self.settings then
-    InfLog.Add("GetSettingName no settings for "..self.name)
+    InfCore.Log("GetSettingName no settings for "..self.name)
     return nil
   end
 
@@ -127,23 +138,23 @@ function this.SetDirect(self,setting)
 end
 
 function this.SetSetting(self,setting,noSave)
-  --InfLog.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
+  --InfCore.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   if self==nil then
-    InfLog.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
+    InfCore.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
     return
   end
-  if not IsTable(self) then
-    InfLog.DebugPrint("WARNING: SetSetting: self ~= table!")
+  if type(self)~="table" then
+    InfCore.DebugPrint("WARNING: SetSetting: self ~= table!")
     return
   end
   if self.option then
-    InfLog.DebugPrint("WARNING: SetSetting called on menu")
+    InfCore.DebugPrint("WARNING: SetSetting called on menu")
     return
   end
 
   local currentSetting=ivars[self.name]
   if currentSetting==nil then
-    InfLog.DebugPrint("WARNING: SetSetting: ivar setting==nil")
+    InfCore.DebugPrint("WARNING: SetSetting: ivar setting==nil")
     return
   end
 
@@ -161,7 +172,7 @@ function this.SetSetting(self,setting,noSave)
       return
     end
   end
-  --InfLog.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
+  --InfCore.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   local prevSetting=currentSetting
   ivars[self.name]=setting
   if self.save and not noSave then
@@ -171,8 +182,8 @@ function this.SetSetting(self,setting,noSave)
     end
   end
   if self.OnChange then
-    --InfLog.Add("SetSetting OnChange for "..self.name)--DEBUG
-    InfLog.PCallDebug(self.OnChange,self,prevSetting,setting)
+    --InfCore.Log("SetSetting OnChange for "..self.name)--DEBUG
+    InfCore.PCallDebug(self.OnChange,self,prevSetting,setting)
   end
 end
 
@@ -182,7 +193,7 @@ end
 
 this.OptionIsDefault=function(self)
   local currentSetting
-  if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+  if this.IsFOBMission(vars.missionCode) and not self.allowFob then
     currentSetting=self.default
   else
     currentSetting=ivars[self.name]
@@ -193,21 +204,20 @@ end
 
 local type=type
 local numberType="number"
-local TppMission=TppMission
 --tex NOTE: returns currentsetting if no setting given
 this.OptionIsSetting=function(self,setting)
   if self==nil then
-    InfLog.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
+    InfCore.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
     return
   end
 
   if not IsIvar(self) then
-    InfLog.DebugPrint("self not Ivar. Is or Get called with . instead of :")
+    InfCore.DebugPrint("self not Ivar. Is or Get called with . instead of :")
     return
   end
 
   local currentSetting
-  if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+  if this.IsFOBMission(vars.missionCode) and not self.allowFob then
     currentSetting=self.default
   else
     currentSetting=ivars[self.name]
@@ -220,13 +230,13 @@ this.OptionIsSetting=function(self,setting)
   end
 
   if self.enum==nil then
-    InfLog.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
+    InfCore.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
     return false
   end
 
   local settingIndex=self.enum[setting]
   if settingIndex==nil then
-    InfLog.DebugPrint("WARNING ivar "..self.name.." has no setting named "..tostring(setting))
+    InfCore.DebugPrint("WARNING ivar "..self.name.." has no setting named "..tostring(setting))
     return false
   end
   return settingIndex==currentSetting
@@ -239,9 +249,9 @@ this.OnChangeProfile=function(self,previousSetting,setting)
     local settingName=self.settings[currentSetting+1]
     local settingTable=self.settingsTable[settingName]
 
-    if IsFunc(settingTable) then
+    if type(settingTable)=="function" then
       returnValue=settingTable()
-    elseif IsTable(settingTable) then
+    elseif type(settingTable)=="table" then
       this.ApplyProfile(settingTable)
     end
   end
@@ -281,12 +291,12 @@ end
 function this.MinMaxIvar(Ivars,name,minSettings,maxSettings,ivarSettings,dontSetIvars)
   local ivarMin={
     subName=name,
-    save=MISSION,
+    save=this.CATEGORY_EXTERNAL,
     OnChange=this.PushMax,
   }
   local ivarMax={
     subName=name,
-    save=MISSION,
+    save=this.CATEGORY_EXTERNAL,
     OnChange=this.PushMin,
   }
 
@@ -337,7 +347,7 @@ end
 
 function this.MissionCheckMbAll(self,missionCode)
   local missionCode=missionCode or vars.missionCode
-  if TppMission.IsMbFreeMissions(missionCode) then
+  if TppMission.IsMbFreeMissions(missionCode) then--DEBUGNOW dependancy
     return true
   end
   return false
@@ -345,7 +355,7 @@ end
 
 function this.MissionCheckMission(self,missionCode)
   local missionCode=missionCode or vars.missionCode
-  if TppMission.IsStoryMission(missionCode) then
+  if TppMission.IsStoryMission(missionCode) then--tex DEBUGNOW DEPENDANCY TppMission, TODO: check if missioncheck (ivar .MissionCheck :MissionCheck) are used in normal use of ivars (ie so cant be used when IvarProc shifter to init.lua/before TppDefine.requires modules)
     return true
   end
   return false
@@ -369,7 +379,7 @@ local missionModeChecks={
 --  Ivars,
 --  "someIvarName",
 --  {
---    save=MISSION,
+--    save=EXTERNAL,
 --    range=this.switchRange,
 --    settingNames="set_switch",
 --  },
@@ -403,7 +413,7 @@ function this.IsForMission(ivarList,setting,missionCode)
   for i=1,#ivarList do
     local ivar=ivarList[i]
     if ivar.MissionCheck==nil then
-      InfLog.Add("WARNING: IsForMission on "..ivar.name.." which has no MissionCheck func")
+      InfCore.Log("WARNING: IsForMission on "..ivar.name.." which has no MissionCheck func")
     elseif ivar:Is(setting) and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
@@ -420,7 +430,7 @@ function this.EnabledForMission(ivarList,missionCode)
     local name=ivarList
     ivarList=Ivars.missionModeIvars[ivarList]
     if ivarList==nil then
-      InfLog.Add("EnabledForMission cannot find missionModeIvars:"..tostring(name))
+      InfCore.Log("EnabledForMission cannot find missionModeIvars:"..tostring(name))
       return false
     end
   end
@@ -429,7 +439,7 @@ function this.EnabledForMission(ivarList,missionCode)
   for i=1,#ivarList do
     local ivar=ivarList[i]
     if ivar.MissionCheck==nil then
-      InfLog.Add("WARNING: EnabledFoMission on "..ivar.name.." which has no MissionCheck func")
+      InfCore.Log("WARNING: EnabledFoMission on "..ivar.name.." which has no MissionCheck func")
     elseif ivar:Is()>0 and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
@@ -441,7 +451,7 @@ end
 function this.IvarEnabledForMission(self,missionCode)
   local missionId=missionCode or vars.missionCode
   if self.MissionCheck==nil then
-    InfLog.Add("WARNING: EnabledFoMission on "..self.name.." which has no MissionCheck func")
+    InfCore.Log("WARNING: EnabledFoMission on "..self.name.." which has no MissionCheck func")
     return false
   end
   return self:Is()>0 and self:MissionCheck(missionId)
@@ -449,7 +459,7 @@ end
 
 --
 function this.ApplyProfile(profile,noSave)
-  InfLog.AddFlow"IvarProc.ApplyProfile"
+  InfCore.LogFlow"IvarProc.ApplyProfile"
   local random=math.random
   local type=type
   local tableType="table"
@@ -472,7 +482,7 @@ function this.ResetProfile(profile)
   for i,ivarName in ipairs(profile) do
     local ivar=Ivars[ivarName]
     if ivar==nil then
-      InfLog.DebugPrint("WARNING: ResetProfile cant find ivar "..ivarName)
+      InfCore.DebugPrint("WARNING: ResetProfile cant find ivar "..ivarName)
     else
       ivar:Reset()
     end
@@ -490,22 +500,12 @@ end
 
 --CALLER: TppSave.DoSave > InfMain.OnSave (via InfHooks)
 function this.OnSave()
-  InfLog.PCallDebug(this.SaveEvars)
+  InfCore.PCallDebug(this.SaveEvars)
 end
 
 --CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
 function this.OnLoadVarsFromSlot()
-  InfLog.PCallDebug(this.LoadEvars)
-
-  if Ivars.inf_event:Is()>0 then
-    InfLog.Add("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
-    return
-  end
-  for name,ivar in pairs(Ivars) do
-    if IsIvar(ivar) then
-      this.UpdateSettingFromGvar(ivar)
-    end
-  end
+  InfCore.PCallDebug(this.LoadEvars)
 end
 
 --debug stuff
@@ -513,27 +513,27 @@ end
 function this.PrintNonDefaultVars()
   local varTable=Ivars.DeclareVars()
   if varTable==nil then
-    InfLog.DebugPrint("varTable not found")
+    InfCore.DebugPrint("varTable not found")
     return
   end
 
   for name,value in pairs(evars) do
     local default=Ivars[name].default
     if value~=default then
-      InfLog.DebugPrint("DEBUG: "..name.." current value "..value.." is not default "..default)
+      InfCore.DebugPrint("DEBUG: "..name.." current value "..value.." is not default "..default)
     end
   end
 end
 
 function this.PrintGvarSettingMismatch()
-  --InfLog.PCall(function()--DEBUG
+  --InfCore.PCall(function()--DEBUG
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
       local gvar=this.GetSaved(ivar)
       if gvar~=nil then
         if ivars[ivar.name]~=gvar then
-          InfLog.Add("WARNING: ivar setting/gvar mismatch for "..name,true)
-          InfLog.Add("setting:"..tostring(ivars[ivar.name]).." gvar value:"..tostring(gvar),true)
+          InfCore.Log("WARNING: ivar setting/gvar mismatch for "..name,true)
+          InfCore.Log("setting:"..tostring(ivars[ivar.name]).." gvar value:"..tostring(gvar),true)
         end
       end
     end
@@ -545,7 +545,7 @@ end
 function this.PrintSaveVarCount()
   local varTable=Ivars.DeclareVars()
   if varTable==nil then
-    InfLog.DebugPrint("varTable not found")
+    InfCore.DebugPrint("varTable not found")
     return
   end
 
@@ -553,12 +553,12 @@ function this.PrintSaveVarCount()
   for n,gvarInfo in pairs(varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
-      InfLog.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
+      InfCore.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
     else
       gvarCountCount=gvarCountCount+1
     end
   end
-  InfLog.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#varTable)
+  InfCore.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#varTable)
 
   local bools=0
   for name, ivar in pairs(Ivars) do
@@ -570,7 +570,7 @@ function this.PrintSaveVarCount()
       end
     end
   end
-  InfLog.DebugPrint("potential ivar bools:"..bools)
+  InfCore.DebugPrint("potential ivar bools:"..bools)
 
   local scriptVarTypes={
     [TppScriptVars.TYPE_BOOL]="TYPE_BOOL",
@@ -610,23 +610,23 @@ function this.PrintSaveVarCount()
     return typeCounts,arrayCounts,totalCount,totalCountArray
   end
 
-  InfLog.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
+  InfCore.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
 
-  InfLog.DebugPrint"Ivars.varTable"
+  InfCore.DebugPrint"Ivars.varTable"
   local ivarTable=Ivars.DeclareVars()
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,ivarTable,TppScriptVars.CATEGORY_MISSION)
 
-  InfLog.DebugPrint"typeCounts"
-  InfLog.PrintInspect(typeCounts)
+  InfCore.DebugPrint"typeCounts"
+  InfCore.PrintInspect(typeCounts)
 
-  InfLog.DebugPrint"arrayCounts"
-  InfLog.PrintInspect(arrayCounts)
+  InfCore.DebugPrint"arrayCounts"
+  InfCore.PrintInspect(arrayCounts)
 
-  InfLog.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfCore.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
 
 
-  --  InfLog.PrintInspect(TppScriptVars)
+  --  InfCore.PrintInspect(TppScriptVars)
 
   --  local categories={
   --    [TppScriptVars.CATEGORY_NONE]="CATEGORY_NONE",
@@ -644,50 +644,50 @@ function this.PrintSaveVarCount()
   --  }
 
   --  for categoryType, categoryName in pairs(categories) do
-  --    InfLog.DebugPrint(categoryName..":"..tostring(categoryType))
+  --    InfCore.DebugPrint(categoryName..":"..tostring(categoryType))
   --  end
 
-  InfLog.DebugPrint"TppGVars.DeclareGVarsTable"
+  InfCore.DebugPrint"TppGVars.DeclareGVarsTable"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
 
-  InfLog.DebugPrint"typeCounts"
-  InfLog.PrintInspect(typeCounts)
+  InfCore.DebugPrint"typeCounts"
+  InfCore.PrintInspect(typeCounts)
 
-  InfLog.DebugPrint"arrayCounts"
-  InfLog.PrintInspect(arrayCounts)
+  InfCore.DebugPrint"arrayCounts"
+  InfCore.PrintInspect(arrayCounts)
 
-  InfLog.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfCore.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
-  InfLog.DebugPrint"TppMain.allSvars"
+  InfCore.DebugPrint"TppMain.allSvars"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppMain.allSvars,TppScriptVars.CATEGORY_MISSION)
-  InfLog.DebugPrint"typeCounts"
-  InfLog.PrintInspect(typeCounts)
+  InfCore.DebugPrint"typeCounts"
+  InfCore.PrintInspect(typeCounts)
 
-  InfLog.DebugPrint"arrayCounts"
-  InfLog.PrintInspect(arrayCounts)
+  InfCore.DebugPrint"arrayCounts"
+  InfCore.PrintInspect(arrayCounts)
 
-  InfLog.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfCore.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
-  --    InfLog.PrintInspect(TppMain.allSvars)
+  --    InfCore.PrintInspect(TppMain.allSvars)
 end
 
 --IN: FILE: InfProfiles.lua
 --OUT: profileNames
 --SIDE: Ivars.profiles
 function this.SetupInfProfiles()
-  InfLog.AddFlow"IvarProc.SetupInfProfiles"
+  InfCore.LogFlow"IvarProc.SetupInfProfiles"
   --tex TODO: just can't seem to assign a loaded module to Global for some reason, works fine in external VM, and works fine at end of InfMain
   --InfProfiles=require"InfProfiles"--
   --  local infProfiles=require"InfProfiles"
   --    if infProfiles then
   --      --_G["InfProfiles"]=infProfiles
   --      InfProfiles=infProfiles
-  --      InfLog.PrintInspect(InfProfiles)
+  --      InfCore.PrintInspect(InfProfiles)
   --    end
-  --  InfLog.PrintInspect(InfProfiles)
+  --  InfCore.PrintInspect(InfProfiles)
 
   local fileName="InfProfiles.lua"
-  local infProfiles=InfLog.LoadBoxed(fileName)
+  local infProfiles=InfCore.LoadBoxed(fileName)
   if infProfiles==nil then
     Ivars.profiles=nil
     return nil
@@ -698,21 +698,21 @@ function this.SetupInfProfiles()
     if type(profileName)=="string" then
       if type(profileInfo)=="table" then
         if not profileInfo.profile then
-          InfLog.DebugPrint("WARNING: profile on "..tostring(profileName).." is nil",true)
+          InfCore.DebugPrint("WARNING: profile on "..tostring(profileName).." is nil",true)
         else
           if type(profileInfo)=="table" then
             --tex ok
             table.insert(profileNames,profileName)
             profileInfo.name=profileName
           else
-            InfLog.Add("WARNING: profile on "..tostring(profileName).." is not a table",true)
+            InfCore.Log("WARNING: profile on "..tostring(profileName).." is not a table",true)
           end
         end
       else
-        InfLog.Add("WARNING: profileInfo for "..tostring(profileName).." is not a table",true)
+        InfCore.Log("WARNING: profileInfo for "..tostring(profileName).." is not a table",true)
       end
     else
-      InfLog.Add("WARNING: profileName is not a string:"..tostring(profileName),true)
+      InfCore.Log("WARNING: profileName is not a string:"..tostring(profileName),true)
     end
   end
 
@@ -728,7 +728,7 @@ function this.SetupInfProfiles()
     end
   end
   if firstProfileCount>1 then
-    InfLog.DebugPrint("WARNING: multiple profiles with firstProfile set")
+    InfCore.DebugPrint("WARNING: multiple profiles with firstProfile set")
   end
 
   Ivars.profiles=infProfiles
@@ -737,7 +737,7 @@ end
 
 function this.ApplyInfProfiles(profileNames)
   if not Ivars.profiles or profileNames==nil then
-    InfLog.Add"ApplyInfProfiles: profileNames==nil"--DEBUG
+    InfCore.Log"ApplyInfProfiles: profileNames==nil"--DEBUG
     return
   else
     for i,profileName in ipairs(profileNames)do
@@ -745,7 +745,7 @@ function this.ApplyInfProfiles(profileNames)
       if profileInfo.loadOnACCStart then
         local profileName=profileInfo.description or profileName
         InfMenu.Print(InfMenu.LangString"applying_profile".." "..profileName)
-        InfLog.Add("Applying profile "..profileName)
+        InfCore.Log("Applying profile "..profileName)
         IvarProc.ApplyProfile(profileInfo.profile)
       end
     end
@@ -782,10 +782,10 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   local dateTime=os.date("%x %X")
   local profile={
     description="Saved profile "..dateTime,
-    modVersion=InfMain.modVersion,
+    modVersion=InfCore.modVersion,
     profile=this.BuildProfile(onlyNonDefault),
   }
-  --InfLog.PrintInspect(profile)--DEBUGN
+  --InfCore.PrintInspect(profile)--DEBUGN
 
   local profileName="savedProfile"
   if not defaultSlot then
@@ -794,17 +794,16 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   Ivars.savedProfiles[profileName]=profile
 
   local profilesFileName="InfSavedProfiles.lua"
-  InfPersistence.Store(InfLog.modPath..profilesFileName,Ivars.savedProfiles)
+  InfPersistence.Store(InfCore.modPath..profilesFileName,Ivars.savedProfiles)
 end
 
-local evarLineFormatStr="\t%s=%g,"
-function this.BuildEvarsText(evars,ihVer,inMission,onlyNonDefault)
-  local Ivars=Ivars
 
+--IN-Side evars,InfQuest.installedQuests
+function this.BuildSaveText(ihVer,inMission,onlyNonDefault,newSave)
   local inMission=inMission or false
 
-  local evarsText={
-    "-- "..InfMain.saveName,
+  local saveTextList={
+    "-- "..InfCore.saveName,
     "-- Save file for IH options",
     "-- While this file is editable, editing an inMission save is likely to cause issues.",
     "-- See Readme for more info",
@@ -812,36 +811,57 @@ function this.BuildEvarsText(evars,ihVer,inMission,onlyNonDefault)
     "this.ihVer="..ihVer,
     "this.saveTime="..os.time(),
     "this.inMission="..tostring(inMission),
-    "this.evars={"
   }
 
-  for name,value in pairs(evars)do
-    local ivar=Ivars[name]
-    if not onlyNonDefault or value~=ivar.default then
-      if ivar and ivar.save and ivar.save==EXTERNAL then
-        evarsText[#evarsText+1]=string.format(evarLineFormatStr,name,value)
-      end
+  this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
+  --tex also skips depenancy on InfQuest
+  if not newSave then
+    if InfQuest then
+      this.BuildTableText("installedQuests",InfQuest.installedQuests,saveTextList)
     end
   end
 
-  evarsText[#evarsText+1]="}"
-  evarsText[#evarsText+1]="return this"
+  saveTextList[#saveTextList+1]="return this"
 
-  return evarsText
+  return saveTextList
 end
 
-function this.WriteEvars(evarsTextList,saveName)
-  local filePath=InfLog.modPath..saveName
+--IN/OUT saveTextList
+local evarLineFormatStr="\t%s=%g,"
+function this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
+  saveTextList[#saveTextList+1]="this.evars={"
+  for name,value in pairs(evars)do
+    local ivar=Ivars[name]
+    if not onlyNonDefault or value~=ivar.default then
+      if ivar and ivar.save and ivar.save==this.CATEGORY_EXTERNAL then
+        saveTextList[#saveTextList+1]=string.format(evarLineFormatStr,name,value)
+      end
+    end
+  end
+  saveTextList[#saveTextList+1]="}"
+end
+
+local saveLineFormatStr="\t%s=%s,"
+function this.BuildTableText(tableName,sourceTable,saveTextList)
+  saveTextList[#saveTextList+1]="this."..tableName.."={"
+  for k,v in pairs(sourceTable)do
+    saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,v)
+  end
+  saveTextList[#saveTextList+1]="}"
+end
+
+function this.WriteSave(saveTextLines,saveName)
+  local filePath=InfCore.modPath..saveName
 
   local saveFile,error=io.open(filePath,"w")
   if not saveFile or error then
     local errorText="WriteEvars: Create save error: "..tostring(error)
-    InfLog.DebugPrint(errorText)
-    InfLog.Add(errorText)
+    InfCore.DebugPrint(errorText)
+    InfCore.Log(errorText)
     return
   end
 
-  saveFile:write(table.concat(evarsTextList,"\r\n"))
+  saveFile:write(table.concat(saveTextLines,"\r\n"))
   saveFile:close()
 end
 
@@ -849,29 +869,29 @@ local typeString="string"
 local typeNumber="number"
 local typeFunction="function"
 local typeTable="table"
---tex validates loadfiled module and returns table of just evars 
+--tex validates loadfiled module and returns table of just evars
 function this.ReadEvars(ih_save)
   if ih_save==nil then
     local errorText="ReadEvars Error: ih_save==nil"
-    InfLog.Add(errorText,true,true)
+    InfCore.Log(errorText,true,true)
     return
   end
 
   if type(ih_save.evars)~=typeTable then
     local errorText="ReadEvars Error: ih_save.evars~=typeTable"
-    InfLog.Add(errorText,true,true)
+    InfCore.Log(errorText,true,true)
     return
   end
 
   local loadedEvars={}
   for name,value in pairs(ih_save.evars) do
     if type(name)~=typeString then
-      InfLog.Add("ReadEvars ih_save: name~=string:"..tostring(name),false,true)
+      InfCore.Log("ReadEvars ih_save: name~=string:"..tostring(name),false,true)
     else
       if type(value)~=typeNumber then
-        InfLog.Add("ReadEvars ih_save: value~=string: "..name.."="..tostring(value),false,true)
+        InfCore.Log("ReadEvars ih_save: value~=number: "..name.."="..tostring(value),false,true)
       elseif ivars and ivars[name]==nil then
-        InfLog.Add("ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
+        InfCore.Log("ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
       else
         loadedEvars[name]=value
       end
@@ -881,55 +901,94 @@ function this.ReadEvars(ih_save)
 end
 
 function this.SaveEvars()
-  InfLog.AddFlow"SaveEvars"
-  local saveName=InfMain.saveName
+  InfCore.LogFlow"SaveEvars"
+  local saveName=InfCore.saveName
   local onlyNonDefault=true
 
   --tex TODO: figure out some last-know good method and write a backup
 
   local inGame=not mvars.mis_missionStateIsNotInGame
-  local inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
+  local inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)--DEBUGNOW dependance
   local inMission=inGame and not inHeliSpace
 
-  local evars=evars
-  local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,inMission,onlyNonDefault)
-  --InfLog.PrintInspect(evarsTextList)
-  this.WriteEvars(evarsTextList,saveName)
+  local saveTextList=this.BuildSaveText(InfCore.modVersion,inMission,onlyNonDefault)
+  --InfCore.PrintInspect(evarsTextList)
+  this.WriteSave(saveTextList,saveName)
 end
 
-function this.LoadEvars()
-  InfLog.AddFlow"IvarProc.LoadEvars"
-  local saveName=InfMain.saveName
-  local filePath=InfLog.modPath..saveName
+function this.LoadSave()
+  InfCore.LogFlow"IvarProc.LoadSave"
+  local saveName=InfCore.saveName
+  local filePath=InfCore.modPath..saveName
   local ih_save_chunk,error=loadfile(filePath)
   if ih_save_chunk==nil then
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
     --TODO back up exising save in this case
-    if not InfLog.ihSaveFirstLoad then
+    if not InfCore.ihSaveFirstLoad then
       --tex create
-      InfLog.Add("No ih_save.lua found or error, creating new",false,true)
-      local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,false,true)
-      --InfLog.PrintInspect(evarsTextList)
-      this.WriteEvars(evarsTextList,saveName)
-    else
-      local errorText="LoadEvars: loadfile error: "..tostring(error)
-      InfLog.Add(errorText,true,true)
-      return
+      InfCore.Log("LoadSave: No ih_save.lua found or error, creating new",false,true)
+      local saveTextList=this.BuildSaveText(InfCore.modVersion,false,true,true)
+      --InfCore.PrintInspect(evarsTextList)
+      this.WriteSave(saveTextList,saveName)
+      ih_save_chunk,error=loadfile(filePath)
     end
-  else
-    local sandboxEnv={}
-    setfenv(ih_save_chunk,sandboxEnv)
-    local ih_save=ih_save_chunk()
+  end
 
+  if ih_save_chunk==nil then
+    local errorText="LoadSave Error: loadfile error: "..tostring(error)
+    InfCore.Log(errorText,true,true)
+    return nil
+  end
+
+  local sandboxEnv={}
+  setfenv(ih_save_chunk,sandboxEnv)
+  local ih_save=ih_save_chunk()
+
+  if ih_save==nil then
+    local errorText="LoadSave Error: ih_save==nil"
+    InfCore.Log(errorText,true,true)
+
+    return nil
+  end
+
+  if type(ih_save)~="table"then
+    local errorText="LoadSave Error: ih_save==table"
+    InfCore.Log(errorText,true,true)
+
+    return nil
+  end
+
+  return ih_save
+end
+
+function this.LoadEvars()
+  InfCore.LogFlow"IvarProc.LoadEvars"
+  local ih_save=this.LoadSave()
+  if ih_save then
     local loadedEvars=this.ReadEvars(ih_save)
+    if this.debugModule then
+      InfCore.PrintInspect(loadedEvars)
+    end
     if loadedEvars then
       for name,value in pairs(loadedEvars) do
         evars[name]=value
       end
     end
 
-    InfLog.OnLoadEvars()
-    InfMain.OnLoadEvars()
+    if gvars and Ivars.inf_event:Is()>0 then
+      InfCore.Log("IvarProc.LoadEvars: is mis event, skiping UpdateSettingFromGvar."..vars.missionCode)--DEBUG
+    else
+      for name,ivar in pairs(Ivars) do
+        if IsIvar(ivar) then
+          this.UpdateSettingFromGvar(ivar)
+        end
+      end
+    end
+
+    InfCore.OnLoadEvars()
+    if InfMain then
+      InfMain.OnLoadEvars()
+    end
   end
 end
 

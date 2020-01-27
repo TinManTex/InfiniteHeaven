@@ -623,7 +623,7 @@ mtbs_enemy.SetupSecurityCamera = function ()
       if cameraTable.camera then
         local gameObjectId = GameObject.GetGameObjectId("TppSecurityCamera2", cameraTable.camera )
         SendCommand( gameObjectId, {id = "SetCommandPost", cp=mtbs_enemy.cpNameDefine } )
-
+        
 
         if cameraTable.target then
           SendCommand( gameObjectId, {id = "SetSneakTarget", target = cameraTable.target } )

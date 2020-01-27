@@ -98,7 +98,7 @@ function this.DEBUG_PrintPressed()
         --TppUiCommand.AnnounceLogView("scannedButtonsDirect: ".. PlayerVars.scannedButtonsDirect)
         --TppUiCommand.AnnounceLogView("scannedButtons: ".. PlayerVars.scannedButtons)
         --if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then--DEBUG: scannedbuttons instead of direct
-        InfLog.Add(name.."="..buttonMask,true)
+        InfCore.Log(name.."="..buttonMask,true)
       end
     end
   end

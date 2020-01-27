@@ -14,13 +14,7 @@ local this={}
 
 --LOCALOPT:
 local Ivars=this
-local InfLog=InfLog
-local InfMain=InfMain
-local IsString=Tpp.IsTypeString
-local IsNumber=Tpp.IsTypeNumber
-local IsFunc=Tpp.IsTypeFunc
-local IsTable=Tpp.IsTypeTable
-local Enum=TppDefine.Enum
+local InfCore=InfCore
 
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -31,11 +25,10 @@ local RETRY=TppScriptVars.CATEGORY_RETRY
 local MB_MANAGEMENT=TppScriptVars.CATEGORY_MB_MANAGEMENT
 local QUEST=TppScriptVars.CATEGORY_QUEST
 local CONFIG=TppScriptVars.CATEGORY_CONFIG
-local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
+local RESTARTABLE=TppScriptVars.CATEGORY_MISSION_RESTARTABLE--DEBUGNOW TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
-local EXTERNAL=1024--tex SYNC IvarProc
-this.EXTERNAL=EXTERNAL--tex SYNC IvarProc--DEBUGNOW
+local EXTERNAL=IvarProc.CATEGORY_EXTERNAL-- was 1024--tex SYNC IvarProc DEBUGNOW
 
 --tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
 this.missionModeIvars={}
@@ -91,7 +84,7 @@ this.debugOnUpdate={
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,prevStting,setting)
-    InfLog.debugOnUpdate=setting==1
+    InfCore.debugOnUpdate=setting==1
   end,
 }
 
@@ -491,10 +484,15 @@ this.mbDemoSelection={
   save=EXTERNAL,
   settings={"DEFAULT","PLAY","DISABLED"},
 }
+
 this.mbSelectedDemo={
   save=EXTERNAL,
-  range={max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1},
-  settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
+  range={max=1},--DYNAMIC
+  settingNames={"NONE"},
+  OnSelect=function(self)
+    self.range.max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1
+    self.settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST
+  end,
 }
 
 this.mbDemoOverrideTime={
@@ -704,25 +702,25 @@ this.disableMenuDrop={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
-  menuId=TppTerminal.MBDVCMENU.MSN_DROP,
+  menuId="MSN_DROP",
 }
 this.disableMenuBuddy={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
-  menuId=TppTerminal.MBDVCMENU.MSN_BUDDY,
+  menuId="MSN_BUDDY",
 }
 this.disableMenuAttack={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
-  menuId=TppTerminal.MBDVCMENU.MSN_ATTACK,
+  menuId="MSN_ATTACK",
 }
 this.disableMenuHeliAttack={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
-  menuId=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,
+  menuId="MSN_HELI_ATTACK",
 }
 this.disableMenuIvars={
   this.disableMenuDrop,
@@ -762,13 +760,13 @@ this.disableTranslators={
   settingNames="set_switch",
   OnChange=function(self,prevSetting,setting)
     if setting==1 then
-      InfLog.DebugPrint"removing tranlatable"--DEBUG
+      InfCore.DebugPrint"removing tranlatable"--DEBUG
       vars.isRussianTranslatable=0
       vars.isAfrikaansTranslatable=0
       vars.isKikongoTranslatable=0
       vars.isPashtoTranslatable=0
     elseif setting==0 then
-      InfLog.DebugPrint"adding tranlatable"--DEBUG
+      InfCore.DebugPrint"adding tranlatable"--DEBUG
       --tex don't really need to do this, is handled by TppQuest.AcquireKeyItemOnMissionStart
       if TppQuest.IsCleard"ruins_q19010"then
         vars.isRussianTranslatable=1
@@ -1100,7 +1098,7 @@ function this.SetMinMax(baseName,min,max)
   local ivarMin=this[baseName.."_MIN"]
   local ivarMax=this[baseName.."_MAX"]
   if ivarMin==nil or ivarMax==nil then
-    InfLog.DebugPrint("SetMinMax: could not find ivar for "..baseName)
+    InfCore.DebugPrint("SetMinMax: could not find ivar for "..baseName)
     return
   end
   ivarMin:Set(min)
@@ -1372,6 +1370,13 @@ this.enableWildCardHostageFREE={--WIP
   MissionCheck=IvarProc.MissionCheckFree,
 }
 
+this.enableSecurityCamFREE={--WIP
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+
 --tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
 --IvarProc.MinMaxIvar(
 --  this,
@@ -1551,12 +1556,12 @@ this.unlockSideOpNumber={
   range={max=157},--DYNAMIC, TODO: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
   SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
-    --InfLog.DebugPrint(questName)--DEBUG
+    --InfCore.DebugPrint(questName)--DEBUG
     return InfQuest.BlockQuest(questName)
   end,
-  OnSelect=function(self)
+  OnSelect=function(self,setting)
     self.range.max=#TppQuest.GetQuestInfoTable()
-    if self.setting>self.range.max then
+    if setting>self.range.max then
       self:Set(0)
     end
   end,
@@ -1564,7 +1569,27 @@ this.unlockSideOpNumber={
 }
 
 local ivarPrefix="sideops_"
-for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
+--DEBUGNOW SYNC TppQuest. TODO: don't like this
+this.QUEST_CATEGORIES={
+  "STORY",--11,7,2,2
+  "EXTRACT_INTERPRETER",--4,2,2
+  "BLUEPRINT",--6,4,2,Secure blueprint
+  "EXTRACT_HIGHLY_SKILLED",--16,9,,Extract highly-skilled soldier
+  "PRISONER",--20,10,Prisoner extraction
+  "CAPTURE_ANIMAL",--4,2,
+  "WANDERING_SOLDIER",--10,5,Wandering Mother Base soldier
+  "DDOG_PRISONER",--5,Unlucky Dog
+  "ELIMINATE_HEAVY_INFANTRY",--16
+  "MINE_CLEARING",--10
+  "ELIMINATE_ARMOR_VEHICLE",--14,Eliminate the armored vehicle unit
+  "EXTRACT_GUNSMITH",--3,Extract the Legendary Gunsmith
+  --"EXTRACT_CONTAINERS",--1, #110
+  --"INTEL_AGENT_EXTRACTION",--1, #112
+  "ELIMINATE_TANK_UNIT",--14
+  "ELIMINATE_PUPPETS",--15
+  "TARGET_PRACTICE",--7,0,0,7
+}
+for i,categoryName in ipairs(this.QUEST_CATEGORIES)do
   local ivarName=ivarPrefix..categoryName
   local ivar={
     save=EXTERNAL,
@@ -1852,7 +1877,7 @@ this.playerType={
 
     if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentPlayerType])
       or (InfFova.playerTypeGroup.VENOM[currentPlayerType] and InfFova.playerTypeGroup.DD[newSetting]) then
-      --InfLog.DebugPrint"playerTypeGroup changed"--DEBUG
+      --InfCore.DebugPrint"playerTypeGroup changed"--DEBUG
       vars.playerPartsType=0
     end
 
@@ -1955,16 +1980,16 @@ this.playerPartsType={
 
     self.settings=playerPartsTypes
     self.range.max=#playerPartsTypes-1
-    self.enum=Enum(self.settings)
+    self.enum=TppDefine.Enum(self.settings)
     if #self.settings==0 then
-      InfLog.DebugPrint("WARNING: #self.settings==0 for playerType")
+      InfCore.DebugPrint("WARNING: #self.settings==0 for playerType")
       return
     end
 
     local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
     local setting=self.enum[partsTypeName]
     if setting==nil then
-      --InfLog.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
+      --InfCore.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
       ivars[self.name]=0
     else
       ivars[self.name]=self.enum[partsTypeName]
@@ -1978,10 +2003,10 @@ this.playerPartsType={
       return
     end
 
-    --InfLog.PrintInspect(playerCamoTypes)--DEBUG
-    local enum=Enum(playerCamoTypes)
+    --InfCore.PrintInspect(playerCamoTypes)--DEBUG
+    local enum=TppDefine.Enum(playerCamoTypes)
     local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
-    --InfLog.DebugPrint(camoName)--DEBUG
+    --InfCore.DebugPrint(camoName)--DEBUG
 
     --tex sort out camo type too
     local camoType=PlayerCamoType[camoName]
@@ -2025,10 +2050,10 @@ this.playerCamoType={
       return
     end
 
-    --InfLog.PrintInspect(playerCamoTypes)--DEBUG
-    local enum=Enum(playerCamoTypes)
+    --InfCore.PrintInspect(playerCamoTypes)--DEBUG
+    local enum=TppDefine.Enum(playerCamoTypes)
     local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
-    --InfLog.DebugPrint(camoName)--DEBUG
+    --InfCore.DebugPrint(camoName)--DEBUG
 
     local camoSetting=enum[camoName]
     if camoSetting==nil then
@@ -2108,7 +2133,7 @@ this.playerFaceId={
   settingsTable={1},--DYNAMIC
   --noSettingCounter=true,
   GetSettingText=function(self,setting)
-    return InfLog.PCall(function(self)--DEBUG
+    return InfCore.PCall(function(self)--DEBUG
       if InfFova.playerTypeGroup.VENOM[vars.playerType] then
         return InfMenu.LangString"only_for_dd_soldier"
     end
@@ -2117,7 +2142,7 @@ this.playerFaceId={
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     local faceId=faceDef[1]
 
-    local InfModelRegistry=InfLog.InfModelRegistry--tex WORKAROUND
+    local InfModelRegistry=InfModelProc.infModelRegistry--tex WORKAROUND
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
       if not InfModelRegistry or not InfModelRegistry.headDefinitions or #InfModelRegistry.headDefinitions==0 then
         return InfMenu.LangString"no_head_fovas"
@@ -2228,7 +2253,7 @@ this.playerFaceId={
 
 this.playerFaceFilter={
   --save=EXTERNAL,
-  settings={"ALL","HEADGEAR","UNIQUE","FOVAMOD"},--DEBUGNOW lang
+  settings={"ALL","HEADGEAR","UNIQUE","FOVAMOD"},
   settingsTable={
     ALL=0,
     HEADGEAR={
@@ -2269,7 +2294,7 @@ this.playerFaceFilter={
       [686]=true,--female tatoo skull white white hair
     },
 
-    FOVAMOD=Soldier2FaceAndBodyData.highestVanillaFaceId,
+    FOVAMOD=687,--SYNC Soldier2FaceAndBodyData.highestVanillaFaceId,
   },
 }
 
@@ -2331,7 +2356,7 @@ this.faceFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    --InfLog.PrintInspect(settingsTable)--DEBUG
+    --InfCore.PrintInspect(settingsTable)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
   end,
@@ -2378,7 +2403,7 @@ this.faceDecoFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    InfLog.PrintInspect(settingsTable)--DEBUG
+    InfCore.PrintInspect(settingsTable)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
   end,
@@ -2420,7 +2445,7 @@ this.hairFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    --InfLog.PrintInspect(settings)--DEBUG
+    --InfCore.PrintInspect(settings)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
   end,
@@ -2585,7 +2610,7 @@ this.enableFovaMod={
 this.fovaSelection={
   nonConfig=true,--tex too dependant on installed mods/dynamic settings
   save=EXTERNAL,
-  range={min=0,max=255},--limits max fovas TODO consider
+  range={min=0,max=255},--DYNAMIC limits max fovas TODO consider
   OnSelect=function(self)
     local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
     if modelDescription then
@@ -2601,7 +2626,7 @@ this.fovaSelection={
 
       self.range.max=#fovaTable-1
       if InfFova.FovaInfoChanged(fovaTable,self:Get()+1) then
-        --InfLog.DebugPrint"OnSelect FovaInfoChanged"--DEBUG
+        --InfCore.DebugPrint"OnSelect FovaInfoChanged"--DEBUG
         self:Reset()
       end
 
@@ -2609,7 +2634,7 @@ this.fovaSelection={
       for i=1,#fovaTable do
         local fovaDescription,fovaFile=InfFova.GetFovaInfo(fovaTable,i)
 
-        if not fovaDescription or not IsString(fovaDescription)then
+        if not fovaDescription or not type(fovaDescription)=="string"then
           self.settingNames[i]=i
         else
           self.settingNames[i]=fovaDescription
@@ -2624,7 +2649,7 @@ this.fovaSelection={
     end
   end,
   --  OnDeselect=function(self)
-  --    InfLog.DebugPrint"fovaSelection OnDeselect"--DEBUG
+  --    InfCore.DebugPrint"fovaSelection OnDeselect"--DEBUG
   --    if Ivars.enableMod:Is(0) then
   --    --InfMenu.PrintLangId"fova_is_not_set"--DEBUG
   --    end
@@ -2710,7 +2735,7 @@ this.playerHandEquip={
 --CULL
 this.playerHeadgear={--DOC: player appearance.txt
   save=EXTERNAL,
-  range={max=7},--TODO: needed something, anything here, RETRY now that I've changed unset max default to 1 from 0
+  range={max=1},--DYNAMIC
   maleSettingsTable={
     0,
     550,--Balaclava Male
@@ -3331,7 +3356,7 @@ this.selectedCp={
   GetNext=function(self,currentSetting)
     self.prev=self.setting
     if mvars.ene_cpList==nil then
-      InfLog.DebugPrint"mvars.ene_cpList==nil"--DEBUG
+      InfCore.DebugPrint"mvars.ene_cpList==nil"--DEBUG
       return 0
     end--
 
@@ -3342,7 +3367,7 @@ this.selectedCp={
       nextSetting=next(mvars.ene_cpList,hurrentSetting)
     end
     if nextSetting==nil then
-      --InfLog.DebugPrint"self setting==nil"--DEBUG
+      --InfCore.DebugPrint"self setting==nil"--DEBUG
       nextSetting=next(mvars.ene_cpList)
     end
     return nextSetting
@@ -3380,10 +3405,10 @@ this.selectedChangeWeapon={--WIP
     local equipName=InfEquip.tppEquipTableTest[setting]
     local equipId=TppEquip[equipName]
     if equipId==nil then
-      InfLog.DebugPrint("no equipId found for "..equipName)
+      InfCore.DebugPrint("no equipId found for "..equipName)
       return
     else
-      --      InfLog.DebugPrint("set "..equipName)
+      --      InfCore.DebugPrint("set "..equipName)
       --      Player.ChangeEquip{
       --        equipId = equipId,
       --        stock = 30,
@@ -3412,7 +3437,7 @@ this.selectedChangeWeapon={--WIP
       --        temporaryChange = true,
       --      }
 
-      InfLog.DebugPrint("drop "..equipName)
+      InfCore.DebugPrint("drop "..equipName)
       local dropPosition=Vector3(vars.playerPosX,vars.playerPosY+1,vars.playerPosZ)
 
       local linearMax=2
@@ -3588,7 +3613,7 @@ this.warpToListObject={
 
     if position[1]~=0 or position[2]~=0 or position[3]~=0 then
       position[2]=position[2]+1
-      InfLog.Add(objectName.." pos:".. position[1]..",".. position[2].. ","..position[3],true)
+      InfCore.Log(objectName.." pos:".. position[1]..",".. position[2].. ","..position[3],true)
       TppPlayer.Warp{pos=position,rotY=vars.playerCameraRotation[1]}
     end
   end,
@@ -3621,7 +3646,7 @@ this.warpToListPosition={
 
     if position[1]~=0 or position[2]~=0 or position[3]~=0 then
       position[2]=position[2]+1
-      InfLog.Add("pos:".. position[1]..",".. position[2].. ","..position[3],true)
+      InfCore.Log("pos:".. position[1]..",".. position[2].. ","..position[3],true)
       TppPlayer.Warp{pos=position,rotY=vars.playerCameraRotation[1]}
     end
   end,
@@ -3677,7 +3702,7 @@ this.debugValue={
   default=400,
   range={max=400,min=0,increment=10},
   OnChange=function(self,previousSetting,setting)
-    InfLog.Add("debugValue:"..setting)
+    InfCore.Log("debugValue:"..setting)
   end,
 }
 
@@ -3767,7 +3792,7 @@ function this.DeclareVars()
           svarType=TppScriptVars.TYPE_INT32
         else
           ok=false
-          InfLog.Add("WARNING Ivars.DeclareVars could not find svarType")
+          InfCore.Log("WARNING Ivars.DeclareVars could not find svarType")
         end
 
         local gvar={name=name,type=svarType,value=ivar.default,save=true,sync=false,wait=false,category=ivar.save}--tex what is sync? think it's network synce, but MakeSVarsTable for seqences sets it to true for all (but then 50050/fob does make a lot of use of it)
@@ -3791,6 +3816,17 @@ function this.DeclareVars()
 end
 
 --TABLESETUP: Ivars
+function this.Enum(enumNames)
+  if type(enumNames)~="table"then
+    return
+  end
+  local enumTable={}
+  for i,enumName in pairs(enumNames)do
+    enumTable[enumName]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
+  end
+  return enumTable
+end
+
 function this.SetupIvars()
   local ivars=ivars
   local IvarProc=IvarProc
@@ -3811,7 +3847,7 @@ function this.SetupIvars()
       ivars[ivar.name]=ivars[ivar.name] or ivar.default
 
       if ivar.settings then
-        ivar.enum=Enum(ivar.settings)
+        ivar.enum=this.Enum(ivar.settings)--DEBUGNOW 
         --      for name,enum in ipairs(ivar.enum) do
         --        ivar[name]=false
         --        if enum==ivar.default then
@@ -3866,7 +3902,7 @@ end
 --<
 
 --EXEC
-InfLog.PCall(function()
+InfCore.PCall(function()
   --DEBUG
   --local breakSave=false
   --if breakSave then

@@ -875,7 +875,7 @@ function this.GetLocationPackagePath(locationId)
   return packPath
 end
 function this.GetMissionPackagePath(missionCode)
-  InfLog.AddFlow("TppMissionList.GetMissionPackagePath "..missionCode)--tex
+  InfCore.LogFlow("TppMissionList.GetMissionPackagePath "..missionCode)--tex
   TppPackList.SetUseDdEmblemFova(missionCode)
   local packPaths
   if missionPackTable[missionCode]==nil then

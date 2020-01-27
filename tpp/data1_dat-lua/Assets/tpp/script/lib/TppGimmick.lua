@@ -542,8 +542,9 @@ function this.SetCommunicateGimmick(e)
     GameObject.SendCommand(tppCommandPost,command)
   end
 end
-function this.BreakGimmick(gameId,n,t,i)
-  local gimmickId=this.GetGimmickID(gameId,n,t)
+function this.BreakGimmick(gameId,locatorNameHash,dataSetNameHash,i)
+  local gimmickId=this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
+  --GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   if not gimmickId then
     return
   end
@@ -559,7 +560,7 @@ function this.BreakGimmick(gameId,n,t,i)
   this.PowerCut(gimmickId,true,t)
   this.SetHeroicAndOrgPoint(gimmickId,i)
 end
-function this.GetGimmickID(gameId,n,i)
+function this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   local typeIndex=GetTypeIndex(gameId)
   local gim_identifierTable=mvars.gim_identifierTable
   if not gim_identifierTable then
@@ -569,11 +570,11 @@ function this.GetGimmickID(gameId,n,i)
   if not e then
     return
   end
-  local e=e[n]
+  local e=e[locatorNameHash]
   if not e then
     return
   end
-  local n=e[i]
+  local n=e[dataSetNameHash]
   if not e then
     return
   end
@@ -674,8 +675,8 @@ function this._ShowCommCutOffAnnounceLog(e)
   end
   GameObject.SendCommand(cpId,{id="SetCommunicateAnnounce"})
 end
-function this.SwitchGimmick(gameId,i,t,o)
-  local gimmickId=this.GetGimmickID(gameId,i,t)
+function this.SwitchGimmick(gameId,locatorNameHash,dataSetNameHash,o)
+  local gimmickId=this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   if not gimmickId then
     return
   end
@@ -695,20 +696,20 @@ function this.PowerCut(gimmickId,powerCutOn,RENsomeBool)
     end
   end
 end
-function this.SetHeroicAndOrgPoint(n,e)
+function this.SetHeroicAndOrgPoint(gimmickId,e)
   if e==NULL_ID then
     return
   end
-  local e=mvars.gim_identifierParamTable[n].gimmickType
+  local e=mvars.gim_identifierParamTable[gimmickId].gimmickType
   if not e then
     return
   end
   TppHero.AnnounceBreakGimmickByGimmickType(e)
 end
-function this.EnableCollectionTable(collectionNames,e,o)
-  local n=0
-  if not e then
-    n=1
+function this.EnableCollectionTable(collectionNames,enable,force)
+  local showFlag=0
+  if not enable then
+    showFlag=1
   end
   local function IsGotKeyItem(locator)
     local typeId=TppCollection.GetTypeIdByLocatorName(locator)
@@ -724,10 +725,10 @@ function this.EnableCollectionTable(collectionNames,e,o)
     end
     return false
   end
-  for t,locator in pairs(collectionNames)do
+  for i,locator in pairs(collectionNames)do
     if TppCollection.IsExistLocator(locator)then
-      if not IsGotKeyItem(locator)or o then
-        TppCollection.RepopCountOperation("SetAt",locator,n)
+      if not IsGotKeyItem(locator)or force then
+        TppCollection.RepopCountOperation("SetAt",locator,showFlag)
       end
     end
   end

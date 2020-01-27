@@ -1,10 +1,11 @@
 -- DOBUILD: 1
 -- TppPlayer.lua
 local this={}
+local StrCode32=InfCore.StrCode32--tex
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
-local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local TimerStart=GkEventTimerManager.Start
 local TimerStop=GkEventTimerManager.Stop
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -362,11 +363,12 @@ end
 function this.SetWeapons(weaponTable)
   this._SetWeapons(weaponTable,"weapons")
 end
-function this.SetInitWeapons(weaponTable,noSave)--tex added noSave
+--tex added noSave
+function this.SetInitWeapons(weaponTable,noSave)
   if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER and not noSave then--tex added noSave
     this.SaveWeaponsToUsingTemp(weaponTable)
-end
-this._SetWeapons(weaponTable,"initWeapons")
+  end
+  this._SetWeapons(weaponTable,"initWeapons")
 end
 function this._SetWeapons(weaponTable,category)
   if not IsTypeTable(weaponTable)then
@@ -817,9 +819,9 @@ function this.ShowIconForIntel(e,t)
   end
   if not t then
     if Tpp.IsNotAlert()then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=StrCode32"GetIntel",messageInDisplay=Fox.StrCode32"IntelIconInDisplay",messageArg=e}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=StrCode32"GetIntel",messageInDisplay=StrCode32"IntelIconInDisplay",messageArg=e}
     elseif trapName then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG,message=StrCode32"NGIntel",messageInDisplay=Fox.StrCode32"IntelIconInDisplay",messageArg=e}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG,message=StrCode32"NGIntel",messageInDisplay=StrCode32"IntelIconInDisplay",messageArg=e}
       if not TppRadio.IsPlayed(TppRadio.COMMON_RADIO_LIST[TppDefine.COMMON_RADIO.CANNOT_GET_INTEL_ON_ALERT])then
         TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CANNOT_GET_INTEL_ON_ALERT)
       end
@@ -883,7 +885,7 @@ function this.ShowIconForQuest(e,a)
     a=mvars.ply_questStartFlagInfo[e]
   end
   if not a then
-    Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=StrCode32"QuestStarted",messageInDisplay=Fox.StrCode32"QuestIconInDisplay",messageArg=e}
+    Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=StrCode32"QuestStarted",messageInDisplay=StrCode32"QuestIconInDisplay",messageArg=e}
   end
 end
 function this.QuestStarted(a)
@@ -1823,7 +1825,7 @@ function this.SetSelfSubsistenceOnHardMission()
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     this.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
   end
-  
+
   InfMain.SetSubsistenceSettings()--tex
 end
 function this.OnReload()
@@ -1917,9 +1919,9 @@ function this.MakeFultonRecoverSucceedRatio(unk1,_gameId,gimmickInstanceOrAnimal
   --  end
   --  end--<
   --WIP
---  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
---    percentage=0
---  end--<
+  --  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
+  --    percentage=0
+  --  end--<
   if Tpp.IsFultonContainer(gameId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
     percentage=0
   end--<

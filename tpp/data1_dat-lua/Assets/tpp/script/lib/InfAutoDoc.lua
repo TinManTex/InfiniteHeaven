@@ -310,7 +310,7 @@ function this.AutoDoc()
 
   table.insert(profileTable,header)
   table.insert(profileTable,"local profiles={}")
-  table.insert(profileTable,"-- Defaults/example of all profile options for IH r"..InfMain.modVersion)
+  table.insert(profileTable,"-- Defaults/example of all profile options for IH r"..InfCore.modVersion)
   table.insert(profileTable,"profiles.defaults={")
   table.insert(profileTable,"\tdescription=\"Defaults/All disabled\",")
   table.insert(profileTable,"\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.")
@@ -318,7 +318,7 @@ function this.AutoDoc()
 
   table.insert(profileTable,"\tprofile={")
 
-  --patchup
+  --patchup DEBUGNOW remove any dependancies in Ivars, check these
   --tex TODO provide more descriptive lists?
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
@@ -336,7 +336,7 @@ function this.AutoDoc()
   local heliSpaceMenuNames={}
 
   GatherMenus(menu,skipItems,heliSpaceMenus,heliSpaceMenuNames)
-  --InfLog.PrintInspect(heliSpaceMenus)
+  --InfCore.PrintInspect(heliSpaceMenus)
   table.insert(heliSpaceMenus,1,InfMenuDefs.heliSpaceMenu)
 
   local priorItems={}
@@ -355,7 +355,7 @@ function this.AutoDoc()
   local inMissionMenuNames={}
   GatherMenus(menu,skipItems,inMissionMenus,inMissionMenuNames)
   table.insert(inMissionMenus,1,InfMenuDefs.inMissionMenu)
-  --InfLog.PrintInspect(inMissionMenus)
+  --InfCore.PrintInspect(inMissionMenus)
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
     PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)

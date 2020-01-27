@@ -674,9 +674,9 @@ function fovaSetupFuncs.afgh(locationName,missionId)
   end
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then--tex>
     local faces={}
-    InfLog.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
+    InfCore.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
     TppSoldierFace.OverwriteMissionFovaData{face=faces}
-    InfLog.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
+    InfCore.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
   end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
@@ -756,9 +756,9 @@ function fovaSetupFuncs.mafr(locationName,missionId)
   end
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then--tex>
     local faces={}
-    InfLog.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
+    InfCore.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
     TppSoldierFace.OverwriteMissionFovaData{face=faces}
-    InfLog.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
+    InfCore.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
   end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
@@ -1215,7 +1215,7 @@ local femaleHostageFlag=32
 local defaultMaleFaceId=0
 
 function this.InitializeUniqueSetting()
-  InfLog.AddFlow"TppEneFova.InitializeUniqueSetting"--tex DEBUG
+  InfCore.LogFlow"TppEneFova.InitializeUniqueSetting"--tex DEBUG
   l_uniqueSettings={}
   l_uniqueFaceFovas={}
   l_uniqueBodyFovas={}
@@ -1430,7 +1430,7 @@ function this.AddUniquePackage(uniqueSettings)
   end
 end
 function this.ApplyUniqueSetting()
-  InfLog.AddFlow("ApplyUniqueSetting: #"..#l_uniqueSettings.. " UniqueSettings")--tex DEBUG
+  InfCore.LogFlow("ApplyUniqueSetting: #"..#l_uniqueSettings.. " UniqueSettings")--tex DEBUG
   local NULL_ID=GameObject.NULL_ID
   local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
   if gvars.ene_fovaUniqueTargetIds[0]==NULL_ID then
@@ -1519,7 +1519,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
         powerSettings=powerSettings or {}
         bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-        --InfLog.Add("bodyid:".. tostring(bodyId))--tex DEBUG
+        --InfCore.Log("bodyid:".. tostring(bodyId))--tex DEBUG
       end
 
       if bodyInfo.isArmor then

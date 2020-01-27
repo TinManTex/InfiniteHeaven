@@ -645,7 +645,9 @@ function this.GetCategoryBag(categoryChances,gender,categories)
   local bag=InfUtil.ShuffleBag:New()
   for i,category in ipairs(categories) do
     local chance=categoryChances[gender][category]
-    bag:Add(category,chance)
+    if chance then
+      bag:Add(category,chance)
+    end
   end
   return bag
 end
@@ -1593,11 +1595,29 @@ function this.WildCardFovaFaces(faces)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
-  
-  InfLog.Add"inf_wildCardFemaleFaceList"--DEBUG
-  InfLog.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
+
+  InfCore.Log"inf_wildCardFemaleFaceList"--DEBUG
+  InfCore.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
   --TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
-   InfMain.RandomResetToOsTime()
+  InfMain.RandomResetToOsTime()
+end
+
+function this.GetRandomFaces(gender,count)
+  InfMain.RandomSetToLevelSeed()
+  local faceBags=this.BuildFaceBags(this.faceIds)
+  local categoryBag
+  if gender=="MALE" then
+    categoryBag=this.GetCategoryBag(this.categoryChances,gender,{"UNCOMMON","UNIQUE"})
+  else
+    categoryBag=this.GetCategoryBag(this.categoryChances,gender,{"COMMON","UNIQUE"})
+  end
+  local faces={}
+  for i=1,count do
+    local faceId=this.RandomFaceId(faceBags,gender,categoryBag)
+    table.insert(faces,faceId)
+  end
+  InfMain.RandomResetToOsTime()
+  return faces
 end
 
 function this.WildCardFovaBodies(bodies)
@@ -1630,7 +1650,7 @@ function this.WildCardFovaBodies(bodies)
     this.SetupBodies(maleBodyTable,bodies)
   end
   --TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
-  
+
   InfMain.RandomResetToOsTime()
 end
 
@@ -1775,7 +1795,7 @@ function this.PrintFaceInfo(faceId)
       local hairFovaInfo=InfEneFova.hairFovaInfo[hairFova+1]
       local hairDecoFovaInfo=InfEneFova.hairDecoFovaInfo[hairDecoFova+1]
 
-      InfLog.DebugPrint(
+      InfCore.DebugPrint(
         string.format("faceId:%s, faceFova: %s, faceDecoFova: %s, hairFova: %s, hairDecoFova: %s",
           faceId,
           faceFovaInfo.name,
@@ -1792,7 +1812,7 @@ end
 local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
 function this.SetupBodies(bodyIds,bodies,count)
   if bodyIds==nil then return end
-  
+
   local count=count or MAX_REALIZED_COUNT
 
   if type(bodyIds)=="number"then

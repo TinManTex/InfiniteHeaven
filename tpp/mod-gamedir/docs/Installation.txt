@@ -1,9 +1,8 @@
-Infinite heaven installation:
+Infinite Heaven installation:
 
 Preparation/insurance:
 ------------------------------
 End/Abort any mission back to ACC before upgrading Infinite Heaven, upgrading a save that's mid-mission is likely to cause issues.
-
 
 (Default install path of steam is C:\Program Files\Steam)
 Back up your save files for safety:
@@ -32,10 +31,10 @@ or paste this to File Explorer or your browser steam://validate/287700
 
 If it gets stuck at 0% for more than a few minutes steam is being stupid, validate one of the valve games first, hl2, portal etc then try validating mgsv again.
 
-It should say 1 or two files need to be redownloaded, so go to steam downloads and make sure that happens.
+It should say 1 or two files need to be redownloaded, so go to steam downloads and make sure that is happening.
 
 Install Snakebite:
-Get SnakeBite Mod Manager 0.8.3 or later from 
+Get SnakeBite Mod Manager 0.8.4 or later from 
 [url=http://nexusmods.com/metalgearsolidvtpp/mods/106/]http://nexusmods.com/metalgearsolidvtpp/mods/106/[/url]
 and run through its setup.
 
@@ -59,40 +58,26 @@ Browse to the Infinite Heaven.msgv from the Infinite Heaven zip file.
 
 This step should only take a minute or so if no other mods installed (longer with other mods installed, basically proportional to the size of 00.dat). If it takes an excessively long time refer to the sticky on the snakebite posts page for possible fixes.
 
-WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
-
 Part 2 - External mod files:
-Open <steam path>\steamapps\common\MGS_TPP\
-
-Make a copy of MGS_TPP\mod\ for safety.
-Delete all files in MGS_TPP\mod\ except for ih_save.lua
-
 Copy the mod folder from the Infinite Heaven.zip to MGS_TPP\mod
 
-'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error:
-If you get this message shortly after startup,
-Doublecheck you have copied the mod folder contents from the Infinite Heaven zip to MGS_TPP\mod
+If updating from a previous IH version:
+Delete all files in MGS_TPP\mod\ except for ih_save.lua before you copy the new version \mod files over.
+
+Troubleshooting:
+----------------
+Getting the 'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error
+If you get this message shortly after startup:
+Double-check you have copied the Infinite Heaven .zip \mod folder to MGS_TPP\mod
 Make sure your game folder is actually named MGS_TPP.
 Try copying the mod folder to C:\mod, after running the game again open ih_log.txt from the mod folder and message me the log.
+
+See FAQ Known issues.txt for further troubleshooting.
 
 Note:
 ------------------------------
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
-
-Trouble with install:
-------------------------------
-Check the Log.txt in the folder Snakebite was installed to (Program Files by default), make sure you do this just after you encounter the issue since the log is cleared each time Snakebite starts.
-
-Revert the game to unmodified:
-Right click on the game in steam library, choose properties from bottom of menu, local files tab, verify integrity of game cache button.
-or paste this to File Explorer or your browser steam://validate/287700
-And try again.
-
-If you are on Windows 7 then install .net 4.5: https://www.microsoft.com/en-us/download/details.aspx?id=42642
-
-Something else to try:
-Run Snakebite as administrator by right clicking it's shortcut.
 
 Using alongside other mods:
 ------------------------------

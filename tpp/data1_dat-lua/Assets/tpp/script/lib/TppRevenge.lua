@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 --TppRevenge.lua
 local this={}
-local StrCode32=InfLog.StrCode32 --tex was Fox.StrCode32
+local StrCode32=InfCore.StrCode32 --tex was Fox.StrCode32
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
@@ -870,7 +870,7 @@ function this.AddRevengePointByTriggerType(revengeTriggerType)
     local newPoints=gvars.rev_revengePoint[revType]
     --NMC ORPHAN debugText=debugText..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(currentRevengePoints)..("->"..(tostring(newPoints).." ")))))
   end
-  --InfLog.DebugPrint(debugText)--tex might as well use their helpfully created string
+  --InfCore.DebugPrint(debugText)--tex might as well use their helpfully created string
 end
 function this.SetRevengePoint(revengeType,points)
   local maxLevel=this.GetRevengeLvMax(revengeType)
@@ -1149,7 +1149,7 @@ function this.ApplyMissionTendency(missionId,isAbort)
       if combatLevel>#missionTendancyPointTable.COMBAT then
         combatLevel=#missionTendancyPointTable.COMBAT
       end
-      --InfLog.DebugPrint(missionTendancy.." add points: stealth:"..tostring(missionTendancyPointTable.STEALTH[stealthLevel])..", combat:"..tostring(missionTendancyPointTable.COMBAT[combatLevel]))--DEBUG
+      --InfCore.DebugPrint(missionTendancy.." add points: stealth:"..tostring(missionTendancyPointTable.STEALTH[stealthLevel])..", combat:"..tostring(missionTendancyPointTable.COMBAT[combatLevel]))--DEBUG
       --tex> bit of a kludge, would prefer to scale free roam by time in world
       local notFree=missionId~=30010 and missionId~=30020
       local didSomething=this.GetRevengePoint(this.REVENGE_TYPE.M_STEALTH)>0 or this.GetRevengePoint(this.REVENGE_TYPE.M_COMBAT)>0
@@ -1175,11 +1175,11 @@ function this.CanUseReinforceHeli()
 end
 function this.SelectReinforceType()
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then--tex why? for quest helis?
-    --    InfLog.DebugPrint("SelectReinforceType already heli")--DEBUG
+    --    InfCore.DebugPrint("SelectReinforceType already heli")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
   if not this.IsUsingSuperReinforce()then
-    --    InfLog.DebugPrint("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--DEBUG
+    --    InfCore.DebugPrint("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local reinforceVehicleTypes={}
@@ -1189,7 +1189,7 @@ function this.SelectReinforceType()
   end--
   local canUseReinforceHeli=this.CanUseReinforceHeli() and mvars.revenge_isEnabledSuperReinforce--tex added isEnabledSuper, which is only set by quest heli and shouldnt stop other vehicle
   if canuseReinforceVehicle then
-    --InfLog.DebugPrint("SelectReinforceType canuseReinforceVehicle")
+    --InfCore.DebugPrint("SelectReinforceType canuseReinforceVehicle")
     local reinforceVehiclesForLocation={
       AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
       MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}
@@ -1201,15 +1201,15 @@ function this.SelectReinforceType()
     end
   end
   if canUseReinforceHeli then
-    --InfLog.DebugPrint("SelectReinforceType canuseReinforceHeli")
+    --InfCore.DebugPrint("SelectReinforceType canuseReinforceHeli")
     table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
   if#reinforceVehicleTypes==0 then
-    --InfLog.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUG
+    --InfCore.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local randomVehicleType=math.random(1,#reinforceVehicleTypes)
-  --  InfLog.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
+  --  InfCore.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
   return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(soldierIds)
@@ -1352,7 +1352,7 @@ function this._CreateRevengeConfig(revengeTypes)
   --Still possibly will hit the limit (especially if sideops 8 soldiers get set), but less blatant than the prior CUSTOM 100% or COMBAT_5 with 4 soldiers
   --EDIT: dropping to 1
   if revengeConfig.ARMOR and this.CanUseArmor() then
-    --InfLog.Add("_CreateRevengeConfig Limiting Armor:"..revengeConfig.ARMOR)--DEBUG
+    --InfCore.Log("_CreateRevengeConfig Limiting Armor:"..revengeConfig.ARMOR)--DEBUG
     if type(revengeConfig.ARMOR)=="string" then--tex is a "some%", which is only possible via custom config
       --tex no finnese here, just convert from supposed average cp size of 5 (have no idea what actual average is)
       revengeConfig.ARMOR=this.GetSoldierCountFromPercentPower(revengeConfig.ARMOR,5)
@@ -1366,7 +1366,7 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
     revengeConfig.ARMOR=math.min(revengeConfig.ARMOR,cpLimit)
-    --InfLog.Add("_CreateRevengeConfig Armor limited:"..revengeConfig.ARMOR)--DEBUG
+    --InfCore.Log("_CreateRevengeConfig Armor limited:"..revengeConfig.ARMOR)--DEBUG
   end
   --<
   local revengeComboExclusionNonRequire={NO_KILL_WEAPON={"MG"}}
@@ -1411,8 +1411,8 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  InfLog.Add"TppRevenge._CreateRevengeConfig"--tex DEBUG
-  InfLog.PrintInspect(revengeConfig)--tex DEBUG
+  InfCore.Log"TppRevenge._CreateRevengeConfig"--tex DEBUG
+  InfCore.PrintInspect(revengeConfig)--tex DEBUG
   return revengeConfig
 end
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
@@ -1515,7 +1515,7 @@ function this._AllocateResources(config)
       local weaponId=weaponIdTable[weaponStrength][weaponName] or weaponIdTable.NORMAL[weaponName]
       if weaponId==nil then
       --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
-      --InfLog.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
+      --InfCore.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
       elseif Tpp.IsTypeTable(weaponId)then
         for i,weaponId in ipairs(weaponId)do
           loadWeaponIds[weaponId]=true
@@ -1725,7 +1725,7 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
         settingSoldierCount=unfulfilledPowers[powerType]
       end--<
       --      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-      --        InfLog.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+      --        InfCore.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
       --      end--
       local comboExcludeList=powerComboExclusionList[powerType]or{}
       local soldierCount=settingSoldierCount
@@ -2023,8 +2023,8 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   end
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --      InfLog.DebugPrint("totalSoldierCount:" .. totalSoldierCount.." totalWanted weapons:"..totalWanted)
-  --      InfLog.PrintInspect(wantedWeapons)--DEBUG
+  --      InfCore.DebugPrint("totalSoldierCount:" .. totalSoldierCount.." totalWanted weapons:"..totalWanted)
+  --      InfCore.PrintInspect(wantedWeapons)--DEBUG
   --    end--
 
   --    if revengeConfigCp.SMG==nil then
@@ -2044,7 +2044,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   numBalance,sumBalance,originalWeaponSettings=InfRevenge.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-  --      InfLog.PrintInspect(originalWeaponSettings)
+  --      InfCore.PrintInspect(originalWeaponSettings)
   --    end--<
 
   if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
@@ -2058,10 +2058,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   end
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-  --      InfLog.DebugPrint("revengeConfig")
-  --      InfLog.PrintInspect(revengeConfig)
-  --      InfLog.DebugPrint("revengeConfigCp")
-  --      InfLog.PrintInspect(revengeConfigCp)
+  --      InfCore.DebugPrint("revengeConfig")
+  --      InfCore.PrintInspect(revengeConfig)
+  --      InfCore.DebugPrint("revengeConfigCp")
+  --      InfCore.PrintInspect(revengeConfigCp)
   --    end--<
   end--balanceWeaponPowers
 
@@ -2123,13 +2123,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
   --      --if not InfUtil.IsTableEmpty(unfulfilledPowers) then
-  --      InfLog.DebugPrint"unfulfilledPowers:"
-  --      InfLog.PrintInspect(unfulfilledPowers)
+  --      InfCore.DebugPrint"unfulfilledPowers:"
+  --      InfCore.PrintInspect(unfulfilledPowers)
   --      --end--
   --    end--<
   --
   --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --    InfLog.PrintInspect(cpConfig)
+  --    InfCore.PrintInspect(cpConfig)
   --  end--<
 
   --tex fix issues with RADIO body>
@@ -2491,8 +2491,8 @@ function this._OnReinforceRespawn(soldierIds)
     TppEnemy.AddPowerSetting(soldierIds,{})
     o50050_enemy.AssignAndSetupRespawnSoldier(soldierIds)
   else
-    --    InfLog.DebugPrint"_OnReinforceRespawn"--tex DEBUG>
-    --    InfLog.PrintInspect(soldierIds)--<
+    --    InfCore.DebugPrint"_OnReinforceRespawn"--tex DEBUG>
+    --    InfCore.PrintInspect(soldierIds)--<
     this.ApplyPowerSettingsForReinforce{soldierIds}
   end
 end

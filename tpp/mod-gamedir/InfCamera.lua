@@ -37,7 +37,7 @@ local function GetCurrentCamName()
   --    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.DASH}then
   --      return "PlayerDash"
   --    else
-  --      InfLog.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
+  --      InfCore.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
   --    end
   --  else
   return "FreeCam"
@@ -130,7 +130,7 @@ function this.OnActivateCameraAdjust()
   --KLUDGE
   local currentCamName=GetCurrentCamName()
   local currentCamPos=this.ReadPosition(currentCamName)
-  --InfLog.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
+  --InfCore.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
   if currentCamPos:GetX()==0 and currentCamPos:GetY()==0 and currentCamPos:GetZ()==0 then
     local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
     WritePosition(currentCamName,currentPos+cameraOffsetDefault)
@@ -147,7 +147,7 @@ function this.OnDectivateCameraAdjust()
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-  --InfLog.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
+  --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
   local Ivars=Ivars
   if not currentChecks.inGame then
     if Ivars.adjustCameraUpdate:Is(1) then
@@ -176,7 +176,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 end
 
 function this.DoControlSet(currentChecks)
-  --InfLog.PCall(function(currentChecks)--DEBUG
+  --InfCore.PCall(function(currentChecks)--DEBUG
   local Ivars=Ivars
   local InfButton=InfButton
 
@@ -333,7 +333,7 @@ function this.DoControlSet(currentChecks)
       local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
       local camMoveDir=rotYQuat:Rotate(vMoveDir)
       movePosition=movePosition+camMoveDir
-      --InfLog.DebugPrint("movePosition "..movePosition:GetX()..","..movePosition:GetY()..","..movePosition:GetZ())
+      --InfCore.DebugPrint("movePosition "..movePosition:GetX()..","..movePosition:GetY()..","..movePosition:GetZ())
     end
   end
 

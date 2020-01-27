@@ -1,4 +1,3 @@
--- DOBUILD: 0 --DEBUGNOW personal tweaks
 --MbmCommonSetting.lua
 --RETAILPATCH 1090
 this={}
@@ -124,7 +123,6 @@ TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=315,g=0,f=0,e=
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=322,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=329,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=336,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0}
---[[ORIG
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=343,g=0,f=0,e=3,d=5,c=10,b=37,a=35,s=10,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=350,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=357,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0}
@@ -155,39 +153,6 @@ TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=868,g=0,f=0,e=
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=882,g=0,f=0,e=0,d=0,c=3,b=10,a=17,s=70,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=910,g=0,f=0,e=0,d=0,c=3,b=6,a=16,s=75,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=1050,g=0,f=0,e=0,d=0,c=0,b=3,a=17,s=80,sp=0,spp=0}--RETAILPATCH 1090
---]]
---tex personal tweaks
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=343,g=0,f=0,e=3,d=5,c=10,b=37,a=35,s=10,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=350,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=357,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=364,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=371,g=0,f=0,e=3,d=6,c=11,b=35,a=35,s=10,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=378,g=0,f=0,e=3,d=6,c=11,b=35,a=35,s=10,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=385,g=0,f=0,e=3,d=5,c=11,b=31,a=35,s=15,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=392,g=0,f=0,e=3,d=5,c=11,b=31,a=35,s=15,sp=5,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=399,g=0,f=0,e=3,d=6,c=11,b=30,a=35,s=15,sp=10,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=406,g=0,f=0,e=3,d=6,c=11,b=30,a=35,s=15,sp=10,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=413,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=10,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=420,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=10,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=427,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=10,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=434,g=0,f=0,e=3,d=6,c=11,b=20,a=35,s=25,sp=15,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=441,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=15,spp=5}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=448,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=15,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=455,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=15,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=518,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=15,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=574,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=20,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=630,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=20,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=686,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=20,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=728,g=0,f=0,e=0,d=2,c=5,b=13,a=40,s=40,sp=25,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=756,g=0,f=0,e=0,d=0,c=3,b=13,a=39,s=45,sp=25,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=784,g=0,f=0,e=0,d=0,c=3,b=13,a=34,s=50,sp=25,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=812,g=0,f=0,e=0,d=0,c=3,b=13,a=29,s=55,sp=30,spp=10}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=840,g=0,f=0,e=0,d=0,c=3,b=10,a=27,s=60,sp=30,spp=15}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=868,g=0,f=0,e=0,d=0,c=3,b=10,a=22,s=65,sp=30,spp=15}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=882,g=0,f=0,e=0,d=0,c=3,b=10,a=17,s=70,sp=30,spp=15}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=910,g=0,f=0,e=0,d=0,c=3,b=6,a=16,s=75,sp=30,spp=20}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=1050,g=0,f=0,e=0,d=0,c=0,b=3,a=17,s=80,sp=30,spp=20}--RETAILPATCH 1090
---<
 TppMotherBaseManagement.RegisterStaffMinBaseRank{minBaseRank="G"}
 local sectionLvLines={
   {lv=1,lineSectionPoint=43},

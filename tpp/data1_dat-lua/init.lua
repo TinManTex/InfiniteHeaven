@@ -2,7 +2,13 @@
 -- init.lua
 -- tex first script loaded by engine
 
-Script.LoadLibrary("/Assets/tpp/script/lib/InfLog.lua")--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/IvarProc.lua"--tex
+--tex init seems to be loaded sandboxed, or some other funkery preventing _G from being added to, so loading some external modules to global inside InfInit (LoadLibrary is not boxed).
+Script.LoadLibrary"/Assets/tpp/script/lib/InfInit.lua"--tex
+
+local dofile=InfCore.DoFile--tex allow external alternate
 
 local platform=Fox.GetPlatformName()
 local deviceName=""
@@ -452,4 +458,4 @@ if EdRouteDataNodeEvent then
   EdRouteDataEdgeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")
 end
 Fox.SetBreakIgnore(true)
-InfLog.AddFlow"init.lua done"--tex
+InfCore.LogFlow"init.lua done"--tex

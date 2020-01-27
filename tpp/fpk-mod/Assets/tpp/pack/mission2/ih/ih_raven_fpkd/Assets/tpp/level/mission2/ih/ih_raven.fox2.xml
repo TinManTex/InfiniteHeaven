@@ -20,7 +20,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="11">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="10">
           <value key="CritterBirdGameObject">0x05191900</value>
           <value key="ih_raven_0000">0x051919E0</value>
           <value key="ih_raven_0001">0x05191BA0</value>

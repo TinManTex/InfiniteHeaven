@@ -2,7 +2,7 @@
 --InfFova.lua
 local this={}
 
-local InfLog=InfLog
+local InfCore=InfCore
 
 --tex vars.playerType categorises plparts pack
 --corresponding to PlayerType enum
@@ -1820,22 +1820,22 @@ this.playerFaceEquipIdInfo={
 
 local modelInfoSuffix="_modelInfo"
 function this.PrintPlayerBodyVars()
-  --  InfLog.DebugPrint"playerTypes"
+  --  InfCore.DebugPrint"playerTypes"
   --  for n,name in ipairs(this.playerTypes) do
   --    local enum=PlayerType[name]
-  --    InfLog.DebugPrint(name.."="..tostring(enum))
+  --    InfCore.DebugPrint(name.."="..tostring(enum))
   --  end
 
-  --  InfLog.DebugPrint"playerPartsTypes"
+  --  InfCore.DebugPrint"playerPartsTypes"
   --  for n,name in ipairs(this.playerPartsTypes) do
   --    local enum=PlayerPartsType[name]
-  --    InfLog.DebugPrint(name.."="..tostring(enum))
+  --    InfCore.DebugPrint(name.."="..tostring(enum))
   --  end
 
-  InfLog.DebugPrint"playerCamoTypes"
+  InfCore.DebugPrint"playerCamoTypes"
   for n,name in ipairs(this.playerCamoTypes) do
     local enum=PlayerCamoType[name]
-    InfLog.DebugPrint(name.."="..tostring(enum))
+    InfCore.DebugPrint(name.."="..tostring(enum))
   end
 end
 
@@ -1849,11 +1849,11 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
     local partsType=InfFova.PlayerPartsType[partsTypeName]
     local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
     if not partsTypeInfo then
-      InfLog.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
+      InfCore.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
     else
       local plPartsName=partsTypeInfo.plPartsName
       if not plPartsName then
-        InfLog.DebugPrint("WARNING: could not find plPartsName for "..partsTypeName)
+        InfCore.DebugPrint("WARNING: could not find plPartsName for "..partsTypeName)
       else
         local playerTypeName=InfFova.playerTypes[playerType+1]
         if plPartsName.ALL or plPartsName[playerTypeName] then
@@ -1877,21 +1877,21 @@ function this.GetCamoTypes(partsTypeName)
   local partsType=InfFova.PlayerPartsType[partsTypeName]
   local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
   if not partsTypeInfo then
-    InfLog.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
+    InfCore.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
     return
   end
 
   local playerTypeName=InfFova.playerTypes[vars.playerType+1]
-  --InfLog.DebugPrint(playerTypeName)--DEBUG
+  --InfCore.DebugPrint(playerTypeName)--DEBUG
 
   local plPartsName=partsTypeInfo.plPartsName
   if not plPartsName then
-    InfLog.DebugPrint("WARNING: could not find plPartsName on "..partsTypeName)--DEBUG
+    InfCore.DebugPrint("WARNING: could not find plPartsName on "..partsTypeName)--DEBUG
     return
   end
 
   if plPartsName and not plPartsName.ALL and not plPartsName[playerTypeName] then
-    InfLog.DebugPrint("WARNING: "..tostring(plPartsName).." not supported for player type "..tostring(playerTypeName))--DEBUG
+    InfCore.DebugPrint("WARNING: "..tostring(plPartsName).." not supported for player type "..tostring(playerTypeName))--DEBUG
     return
   end
 
@@ -1902,7 +1902,7 @@ function this.GetCamoTypes(partsTypeName)
     if camoType~=nil then
       table.insert(playerCamoTypes,partsTypeName)
     else
-      InfLog.Add("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
+      InfCore.Log("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   else
@@ -1911,7 +1911,7 @@ function this.GetCamoTypes(partsTypeName)
     elseif partsTypeInfo.camoTypes[1] then--tex ASSUMPTION list of camotype names
       playerCamoTypes=partsTypeInfo.camoTypes
     else
-      InfLog.Add("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
+      InfCore.Log("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   end
@@ -1947,35 +1947,35 @@ function this.GetCurrentFovaTable(printInfo)
 end
 function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
   if playerTypeName==nil then
-    InfLog.DebugPrint"WARNING: GetFovaTable playerTypeName==nil"
+    InfCore.DebugPrint"WARNING: GetFovaTable playerTypeName==nil"
     return
   end
   if playerPartsTypeName==nil then
-    InfLog.DebugPrint"WARNING: GetFovaTable playerPartsTypeName==nil"
+    InfCore.DebugPrint"WARNING: GetFovaTable playerPartsTypeName==nil"
     return
   end
-  --InfLog.DebugPrint(playerTypeName.." "..playerPartsTypeName)--DEBUG
+  --InfCore.DebugPrint(playerTypeName.." "..playerPartsTypeName)--DEBUG
 
   local playerPartsType=this.PlayerPartsType[playerPartsTypeName]
   if playerPartsType==nil then
-    InfLog.DebugPrint"WARNING: GetFovaTable playerPartsType==nil"
+    InfCore.DebugPrint"WARNING: GetFovaTable playerPartsType==nil"
     return
   end
 
   local playerPartsTypeInfo=this.playerPartsTypesInfo[playerPartsType+1]
   if playerPartsTypeInfo==nil then
-    InfLog.DebugPrint"WARNING: GetFovaTable playerPartsTypeInfo==nil"
+    InfCore.DebugPrint"WARNING: GetFovaTable playerPartsTypeInfo==nil"
     return
   end
 
   if playerPartsTypeInfo.name~=playerPartsTypeName then
-    InfLog.DebugPrint"WARNING: GetFovaTable playerPartsTypeInfo.name~=playerPartsTypeName"
+    InfCore.DebugPrint"WARNING: GetFovaTable playerPartsTypeInfo.name~=playerPartsTypeName"
     return
   end
 
   if playerPartsTypeInfo.plPartsName==nil then
     --TODO: warning off till all filled out
-    --InfLog.Add"WARNING: GetFovaTable playerPartsTypeInfo.plPartsName==nil"
+    --InfCore.Log"WARNING: GetFovaTable playerPartsTypeInfo.plPartsName==nil"
     return
   end
 
@@ -1983,27 +1983,27 @@ function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
 
   local plPartsName=playerPartsTypeInfo.plPartsName.ALL or playerPartsTypeInfo.plPartsName[playerTypeName]
   if plPartsName==nil then
-    InfLog.DebugPrint"WARNING: GetFovaTable plPartsName==nil"
+    InfCore.DebugPrint"WARNING: GetFovaTable plPartsName==nil"
     return
   end
 
   if printInfo then
-    InfLog.DebugPrint("playerType:"..playerTypeName..", playerParts:"..playerPartsTypeName..", plPartName:"..plPartsName)
+    InfCore.DebugPrint("playerType:"..playerTypeName..", playerParts:"..playerPartsTypeName..", plPartName:"..plPartsName)
   end
 
   local moduleName=plPartsName..modelInfoSuffix
   local modelInfo=_G[moduleName]
   if modelInfo then
-  --InfLog.DebugPrint("modelInfo "..moduleName.." found")--DEBUG
+  --InfCore.DebugPrint("modelInfo "..moduleName.." found")--DEBUG
   else
-    --InfLog.DebugPrint("modelInfo "..moduleName.." not found")--DEBUG
+    --InfCore.DebugPrint("modelInfo "..moduleName.." not found")--DEBUG
     return nil,modelDescription
   end
 
   local modelInfoDescription=modelInfo.modelDescription
   if modelInfoDescription then
     if type(modelInfoDescription)~="string" then
-      InfLog.DebugPrint("WARNING: GetFovaTable modelDescription is not a string")
+      InfCore.DebugPrint("WARNING: GetFovaTable modelDescription is not a string")
     else
       modelDescription=modelInfoDescription
     end
@@ -2013,11 +2013,11 @@ function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
 
   local fovaTable=modelInfo.fovaTable
   if fovaTable==nil then
-    --OFF InfLog.DebugPrint"WARNING: GetFovaTable fovaTable==nil"
+    --OFF InfCore.DebugPrint"WARNING: GetFovaTable fovaTable==nil"
     return fovaTable,modelDescription,noBlackDiamond
   end
   if #fovaTable==0 then
-    InfLog.DebugPrint"WARNING: GetFovaTable #fovaTable==0"
+    InfCore.DebugPrint"WARNING: GetFovaTable #fovaTable==0"
     return
   end
 
@@ -2027,7 +2027,7 @@ end
 function this.GetFovaInfo(fovaTable,fovaIndex)
   local currentFovaInfo=fovaTable[fovaIndex]
   if currentFovaInfo==nil then
-    InfLog.DebugPrint"WARNING: GetFovaInfo currentFovaInfo==nil"
+    InfCore.DebugPrint"WARNING: GetFovaInfo currentFovaInfo==nil"
     return
   end
 
@@ -2035,7 +2035,7 @@ function this.GetFovaInfo(fovaTable,fovaIndex)
 
   if fovaDescription then
     if type(fovaDescription)~="string" then
-      InfLog.DebugPrint"WARNING: GetFovaInfo fovaDescription~=string"
+      InfCore.DebugPrint"WARNING: GetFovaInfo fovaDescription~=string"
       fovaDescription=nil
     end
   end
@@ -2043,11 +2043,11 @@ function this.GetFovaInfo(fovaTable,fovaIndex)
 
   local fovaFile=currentFovaInfo.fovaFile
   if fovaFile==nil then
-    InfLog.DebugPrint"WARNING: GetFovaInfo fovaFile==nil"
+    InfCore.DebugPrint"WARNING: GetFovaInfo fovaFile==nil"
     return
   end
   if type(fovaFile)~="string" then
-    InfLog.DebugPrint"WARNING: GetFovaInfo fovaFile~=string"
+    InfCore.DebugPrint"WARNING: GetFovaInfo fovaFile~=string"
     return
   end
 
@@ -2058,29 +2058,29 @@ end
 
 function this.FovaInfoChanged(fovaTable,fovaIndex)
   if fovaIndex<1 then
-    InfLog.DebugPrint"WARNING: FovaInfoChanged fovaIndex<1"
+    InfCore.DebugPrint"WARNING: FovaInfoChanged fovaIndex<1"
     return true
   end
 
   if fovaIndex>#fovaTable then
-    --InfLog.DebugPrint"FovaInfoChanged fovaIndex>#fovaTable"--DEBUG
+    --InfCore.DebugPrint"FovaInfoChanged fovaIndex>#fovaTable"--DEBUG
     return true
   end
 
   if Ivars.fovaPlayerType:Get()~=vars.playerType then
-    --InfLog.DebugPrint"FovaInfoChanged Ivars.fovaPlayerType~=vars.playerType"--DEBUG
+    --InfCore.DebugPrint"FovaInfoChanged Ivars.fovaPlayerType~=vars.playerType"--DEBUG
     return true
   end
 
   if Ivars.fovaPlayerPartsType:Get()~=vars.playerPartsType then
-    --InfLog.DebugPrint"FovaInfoChanged Ivars.fovaPlayerType~=vars.playerType"--DEBUG
+    --InfCore.DebugPrint"FovaInfoChanged Ivars.fovaPlayerType~=vars.playerType"--DEBUG
     return true
   end
 end
 
 
 function this.SetFovaMod(fovaIndex,ignoreChanged)
-  --InfLog.DebugPrint("SetFovaMod fovaIndex="..fovaIndex)--DEBUG
+  --InfCore.DebugPrint("SetFovaMod fovaIndex="..fovaIndex)--DEBUG
 
   local fovaTable,fovaDescription,noBlackDiamond=this.GetCurrentFovaTable()
   if fovaTable==nil then
@@ -2088,19 +2088,19 @@ function this.SetFovaMod(fovaIndex,ignoreChanged)
   end
 
   if not ignoreChanged and this.FovaInfoChanged(fovaTable,fovaIndex) then
-    --InfLog.DebugPrint"SetFovaMod FovaInfoChanged, returning"--DEBUG
+    --InfCore.DebugPrint"SetFovaMod FovaInfoChanged, returning"--DEBUG
     return
   end
 
 
   if fovaIndex>#fovaTable then
-    InfLog.DebugPrint"WARNING: SetFovaMod fovaIndex>#fovaTable"
+    InfCore.DebugPrint"WARNING: SetFovaMod fovaIndex>#fovaTable"
     return
   end
 
   local fovaDescription,fovaFile=this.GetFovaInfo(fovaTable,fovaIndex)
 
-  --InfLog.DebugPrint("applyfova "..fovaFile)--DEBUG
+  --InfCore.DebugPrint("applyfova "..fovaFile)--DEBUG
   Player.ApplyFormVariationWithFile(fovaFile)
 
   if Ivars.enableFovaMod:Is(1) then

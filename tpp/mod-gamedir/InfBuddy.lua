@@ -135,9 +135,9 @@ function this.ChangeBuddyVar(commandInfo,setting)
 end
 --tex on Timer_CycleBuddyReturn finish
 function this.CycleBuddyReturn()
-  --InfLog.DebugPrint"CycleBuddyReturn"--DEBUG
+  --InfCore.DebugPrint"CycleBuddyReturn"--DEBUG
   if not this.buddyPosition then
-    InfLog.DebugPrint"WARNING: CycleBuddyReturn could not find saved buddyPosition"
+    InfCore.DebugPrint"WARNING: CycleBuddyReturn could not find saved buddyPosition"
   else
     TppBuddy2BlockController.CallBuddy(this.buddyType,this.buddyPosition,vars.playerRotY)
     this.buddyPosition=nil

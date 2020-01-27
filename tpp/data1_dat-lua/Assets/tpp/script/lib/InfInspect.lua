@@ -3,7 +3,7 @@
 -- NMC
 -- DESC: Debug functions for inspecting lua.
 
---tex usage local stringout = InfInspect.Inspect(sometable) InfLog.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
+--tex usage local stringout = InfInspect.Inspect(sometable) InfCore.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
 local inspect ={
   _VERSION = 'inspect.lua 3.0.0',
   _URL     = 'http://github.com/kikito/inspect.lua',

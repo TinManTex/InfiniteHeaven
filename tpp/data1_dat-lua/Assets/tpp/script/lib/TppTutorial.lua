@@ -512,13 +512,13 @@ function this.SetEnemyHeliMessageWithinRange()
     GameObject.SendCommand(e,{id="SetMessagePlayerIsWithinRange",name="CheckRange400",enabled=true,range=400})
   end
 end
-function this.OnIconSwitchShown(i,E,T,n)
-  local T=TppGimmick.GetGimmickID(E,T,n)
-  if not T then
+function this.OnIconSwitchShown(i,gimickGameId,locatorNameHash,dataSetNameHash)
+  local gimmickId=TppGimmick.GetGimmickID(gimickGameId,locatorNameHash,dataSetNameHash)
+  if not gimmickId then
     return
   end
-  local T=mvars.gim_connectPowerCutAreaTable[T]
-  if T then
+  local powerCutArea=mvars.gim_connectPowerCutAreaTable[gimmickId]
+  if powerCutArea then
     this.DispGuide("ELECTRICITY",this.DISPLAY_OPTION.TIPS)
   end
 end

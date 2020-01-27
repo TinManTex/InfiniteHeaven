@@ -212,7 +212,7 @@ mbdvc_map_location_parameter = {
 	
 	--NMC: called once at init
 	GetGlobalLocationParameter = function()
-	 InfLog.AddFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
+	 InfCore.LogFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
 	 local enableSpySearch=true--tex
 	 local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
 		return {

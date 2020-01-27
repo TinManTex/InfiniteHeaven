@@ -29,7 +29,7 @@ function this.CreateCustomRevengeConfig(onlyNonDefault)
       local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
       if random~=nil then
         random=this.round(random)
-        --InfLog.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
+        --InfCore.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
         if random>0 then
           revengeConfig[powerType]=tostring(random).."%"
         end
@@ -94,14 +94,14 @@ function this.CreateCustomRevengeConfig(onlyNonDefault)
 
   InfMain.RandomResetToOsTime()
 
---  InfLog.Add("CreateCustomRevengeConfig onlyNonDefault:"..tostring(onlyNonDefault))--DEBUG
---  InfLog.PrintInspect(revengeConfig)
+--  InfCore.Log("CreateCustomRevengeConfig onlyNonDefault:"..tostring(onlyNonDefault))--DEBUG
+--  InfCore.PrintInspect(revengeConfig)
   return revengeConfig
 end
 
 local function AvePowerSetting(powerType)
   if Ivars[powerType.."_MIN"]==nil or Ivars[powerType.."_MAX"]==nil then
-    InfLog.DebugPrint("AvePowerSetting cannot find powertype:"..powerType)--DEBUG
+    InfCore.DebugPrint("AvePowerSetting cannot find powertype:"..powerType)--DEBUG
     return 0
   end
 
@@ -187,7 +187,7 @@ function this.SetCustomRevengeUiParameters()
   end
   local longRange=this.round(uiRange*ave)
 
-  --InfLog.DebugPrint("fulton="..fulton.." headShot="..headShot.." stealth="..stealth.." combat="..combat.." night="..night.." longRange="..longRange)--DEBUG
+  --InfCore.DebugPrint("fulton="..fulton.." headShot="..headShot.." stealth="..stealth.." combat="..combat.." night="..night.." longRange="..longRange)--DEBUG
   TppUiCommand.RegisterEnemyRevengeParameters{fulton=fulton,headShot=headShot,stealth=stealth,combat=combat,night=night,longRange=longRange}
 end
 
@@ -211,7 +211,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
           originalSettingsTable[powerType]=percentage
           numBalance=numBalance+1
           sumBalance=sumBalance+percentage
-          --InfLog.DebugPrint("powerType:"..powerType.." powerSetting:"..tostring(powerSetting).." numtopercentage:"..percentage)--DEBUG
+          --InfCore.DebugPrint("powerType:"..powerType.." powerSetting:"..tostring(powerSetting).." numtopercentage:"..percentage)--DEBUG
         end
       elseif Tpp.IsTypeString(powerSetting)then
         if powerSetting:sub(-1)=="%"then
@@ -219,7 +219,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
           originalSettingsTable[powerType]=percentage
           numBalance=numBalance+1
           sumBalance=sumBalance+percentage
-          --InfLog.DebugPrint("powerType:"..powerType.." powerSetting:"..powerSetting.." stringtopercentage:"..percentage)--DEBUG
+          --InfCore.DebugPrint("powerType:"..powerType.." powerSetting:"..powerSetting.." stringtopercentage:"..percentage)--DEBUG
         end
       end
     end--if powersetting
@@ -232,7 +232,7 @@ end
 --CALLER: TppRevenge._ApplyRevengeToCp
 function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,revengeConfig)
   if numBalance==0 then
-    InfLog.DebugPrint"BalancePowers numballance==0"
+    InfCore.DebugPrint"BalancePowers numballance==0"
     return
   end
 
@@ -251,7 +251,7 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
       end
     end
 
-    --InfLog.DebugPrint("numBalance:"..numBalance.." balancePercent:"..balancePercent.." underflow:"..underflow)--DEBUG
+    --InfCore.DebugPrint("numBalance:"..numBalance.." balancePercent:"..balancePercent.." underflow:"..underflow)--DEBUG
 
     --OFF if underflow>0 then--tex distribute underflow evenly
     -- balancePercent=balancePercent+(underflow/aboveBalance)
@@ -264,11 +264,11 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
         local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
         local bump=math.min(underflow,toOriginalPercent)
         underflow=underflow-bump
-        -- InfLog.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
+        -- InfCore.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
         revengeConfig[powerType]=tostring(balancePercent+bump).."%"
       end
     end
-    --InfLog.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." balancePercent:"..balancePercent)--DEBUG
+    --InfCore.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." balancePercent:"..balancePercent)--DEBUG
   end--if numbalance
   return revengeConfig--tex already been edited in-place, but this is clearer
 end--function

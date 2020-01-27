@@ -90,7 +90,7 @@ function this.ClearMoraleInfo()
 end
 
 function this.PrintMoraleInfo()
-  InfLog.DebugPrint("saluteRewards:"..saluteRewards)
+  InfCore.DebugPrint("saluteRewards:"..saluteRewards)
 end
 
 function this.GetTotalSalutes()
@@ -103,7 +103,7 @@ end
 
 --tex on SaluteRaiseMorale msg
 function this.CheckSalutes()
-  --InfLog.PCall(function()--DEBUG
+  --InfCore.PCall(function()--DEBUG
   --tex already mission filtered
   if Ivars.mbMoraleBoosts:Is(0) then
     return
@@ -117,14 +117,14 @@ function this.CheckSalutes()
 
   saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
   local totalSalutes=this.GetTotalSalutes()
-  --InfLog.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
-  --InfLog.PrintInspect(saluteClusterCounts)--DEBUG
+  --InfCore.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
+  --InfCore.PrintInspect(saluteClusterCounts)--DEBUG
 
   local modTotalSalutes=totalSalutes%rewardOnSalutesCount
-  --InfLog.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
+  --InfCore.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
   if modTotalSalutes==0 then
     saluteRewards=saluteRewards+1
-    --InfLog.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
+    --InfCore.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
     InfMenu.PrintLangId"mb_morale_visit_noticed"
   end
 
@@ -134,10 +134,10 @@ function this.CheckSalutes()
       totalClustersVisited=totalClustersVisited+1
     end
   end
-  --InfLog.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
+  --InfCore.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
   if rewardOnClustersCount[totalClustersVisited] and clusterRewards[totalClustersVisited]==false then
     clusterRewards[totalClustersVisited]=true
-    --InfLog.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
+    --InfCore.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
     InfMenu.PrintLangId"mb_morale_visit_noticed"
   end
 
@@ -169,7 +169,7 @@ function this.CheckMoraleReward()
     moraleBoost=moraleBoost+longVisitRewards
   end
 
-  --InfLog.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
+  --InfCore.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
   if moraleBoost>0 then
     InfMenu.PrintLangId"mb_morale_boosted"
     TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleBoost}
@@ -202,7 +202,7 @@ function this.StartLongMbVisitClock()
   visitDaysCount=0
 
   local currentTime=TppClock.GetTime("number")
-  InfLog.Add"RegisterClock MbVisitDay"
+  InfCore.Log"RegisterClock MbVisitDay"
   TppClock.RegisterClockMessage("MbVisitDay",currentTime)
 end
 
@@ -212,7 +212,7 @@ function this.OnMbVisitDay(sender,time)
     return
   end
 
-  InfLog.Add"OnMbVisitDay"--DEBUG
+  InfCore.Log"OnMbVisitDay"--DEBUG
   visitDaysCount=visitDaysCount+1
   if visitDaysCount>0 then
     local modLongVisit=visitDaysCount%rewardOnVisitDaysCount

@@ -4,9 +4,9 @@
 local this={}
 
 --LOCALOPT
-local InfLog=InfLog
+local InfCore=InfCore
 local InfMain=InfMain
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -101,10 +101,10 @@ function this.PreMissionLoad(missionCode,currentMissionId)
 --  --DEBUGNOW OFF TEST
 --   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
 --    local faces={}
---    InfLog.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
+--    InfCore.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
 --    TppSoldierFace.OverwriteMissionFovaData{face=faces}
 --    local bodies={}
---    InfLog.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
+--    InfCore.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
 --    TppSoldierFace.OverwriteMissionFovaData{body=bodies}
 --  end
 end
@@ -148,7 +148,7 @@ function this.MotherBaseCurrentClusterActivated(clusterId)
 end
 
 function this.InitCluster(clusterId)
-  --InfLog.PCall(function(clusterId)--DEBUG
+  --InfCore.PCall(function(clusterId)--DEBUG
   if vars.missionCode~=30050 then
     return
   end
@@ -209,7 +209,7 @@ function this.InitCluster(clusterId)
         local npcName=soldierList[j]
         local gameId=GetGameObjectId(npcName)
         if gameId==NULL_ID then
-          InfLog.Add("WARNING: InfNPC.InitCluster "..npcName.." not found")--DEBUG
+          InfCore.Log("WARNING: InfNPC.InitCluster "..npcName.." not found")--DEBUG
         else
           local newIndex=#npcList+1
           npcList[newIndex]=npcName
@@ -238,7 +238,7 @@ function this.InitCluster(clusterId)
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-  --InfLog.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
+  --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
   if not currentChecks.inGame then
     return
   end
@@ -254,7 +254,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   if #npcList==0 then
-    --InfLog.DebugPrint"Update #npcList==0 aborting"--DEBUG
+    --InfCore.DebugPrint"Update #npcList==0 aborting"--DEBUG
     return
   end
 
@@ -269,7 +269,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   local gameId=GetGameObjectId(npcName)
   if gameId==NULL_ID then
-    InfLog.Add("WARNING: InfNPC.Update "..npcName.." not found")--DEBUG
+    InfCore.Log("WARNING: InfNPC.Update "..npcName.." not found")--DEBUG
     return
   end
 
@@ -286,7 +286,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if #availablePlats>0 then
     platIndex=availablePlats[Random(#availablePlats)]
   else
-    --InfLog.DebugPrint"#availablePlats==0"--DEBUG
+    --InfCore.DebugPrint"#availablePlats==0"--DEBUG
     platIndex=Random(1,grade)
     --return--CULL
   end
@@ -300,9 +300,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   local routeIdx=Random(#platRoutes)
   local route=platRoutes[routeIdx]
   --GOTCHA possible inf loop if #route on plat * maxSoldiersOnSameRoute < maxSoldiersPerPlat
-  --InfLog.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUG
+  --InfCore.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUG
   if #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat then
-    InfLog.Add("WARNING: InfNPC:Update - #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting")--DEBUG
+    InfCore.Log("WARNING: InfNPC:Update - #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting")--DEBUG
     return
   end
 
@@ -319,7 +319,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
   numSoldiersOnRoute[route]=numSoldiersOnRoute[route]+1
 
-  --InfLog.DebugPrint(npcName .. " from plat "..tostring(lastPlat).." to plat "..platIndex.. " routeIdx ".. routeIdx .. " nextRouteTime "..nextRouteTime)--DEBUG
+  --InfCore.DebugPrint(npcName .. " from plat "..tostring(lastPlat).." to plat "..platIndex.. " routeIdx ".. routeIdx .. " nextRouteTime "..nextRouteTime)--DEBUG
   local command={id="SetSneakRoute",route=route}
   SendCommand(gameId,command)
   local command={id="SwitchRoute",route=route}
@@ -348,8 +348,8 @@ this.soldierPool=nil
 --IN-SIDE: InfMain.soldierPool
 --tex adds extra soldiers,route names to mb cps
 function this.ModifyEnemyAssetTable()
-  InfLog.AddFlow"InfNPC.ModifyEnemyAssetTable"
-  --InfLog.PCall(function()--DEBUG
+  InfCore.LogFlow"InfNPC.ModifyEnemyAssetTable"
+  --InfCore.PCall(function()--DEBUG
   if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
     return
   end
@@ -381,7 +381,7 @@ function this.ModifyEnemyAssetTable()
 
         local soldierList=platInfo.soldierList
         --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
-        --        InfLog.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
+        --        InfCore.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
         --        end--<
 
         local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
@@ -414,15 +414,15 @@ function this.ModifyEnemyAssetTable()
         soldierCountFinal=soldierCountFinal+#soldierList
         --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
         --          local totalRouteCount=#sneakRoutes+#nightRoutes
-        --          InfLog.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
-        --          --InfLog.PrintInspect(soldierList)--DEBUG
+        --          InfCore.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
+        --          --InfCore.PrintInspect(soldierList)--DEBUG
         --        end--<
       end
     end
 
-    --InfLog.DebugPrint(string.format("cluster:%d routeCount:%d soldierCountFinal:%d",clusterId,routeCount,soldierCountFinal))--DEBUG
+    --InfCore.DebugPrint(string.format("cluster:%d routeCount:%d soldierCountFinal:%d",clusterId,routeCount,soldierCountFinal))--DEBUG
   end
-  --InfLog.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
+  --InfCore.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
   --end)--
 end
 
@@ -450,11 +450,11 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
-    --InfLog.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    --InfCore.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
     else
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfLog.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+        InfCore.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
         if n<=halfBases then
           baseNameBag1:Add(cpName)
@@ -464,7 +464,7 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
       end
     end
   end
-  --InfLog.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
+  --InfCore.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
 
   local addedLrrpCount=0--DEBUG
 
@@ -474,7 +474,7 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
   for i=1,numLrrps do
     --tex the main limiter, available empty cps to use for lrrps
     if #emptyCpPool==0 then
-      InfLog.Add"#cpPool==0"--DEBUG
+      InfCore.Log"#cpPool==0"--DEBUG
       break
     end
 
@@ -515,9 +515,9 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
   InfMain.RandomResetToOsTime()
 
   if this.debugModule then
-    InfLog.Add("AddLrrps: addedLrrpCount:"..addedLrrpCount)
-    InfLog.Add"InfMain.lrrpDefines"
-    InfLog.PrintInspect(lrrpDefines)
+    InfCore.Log("AddLrrps: addedLrrpCount:"..addedLrrpCount)
+    InfCore.Log"InfMain.lrrpDefines"
+    InfCore.PrintInspect(lrrpDefines)
   end
 end
 
@@ -563,10 +563,10 @@ function this.ModifyLrrpSoldiers(soldierDefine,soldierPool)
 
   if this.debugModule then
     local poolChange=#soldierPool-initPoolSize
-    InfLog.Add("ModifyLrrpSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
-    InfLog.PrintInspect(soldierPool)
-    InfLog.Add"seatChanges"
-    InfLog.PrintInspect(seatChanges)
+    InfCore.Log("ModifyLrrpSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
+    InfCore.PrintInspect(soldierPool)
+    InfCore.Log"seatChanges"
+    InfCore.PrintInspect(seatChanges)
   end
 
   InfMain.RandomResetToOsTime()
@@ -582,7 +582,7 @@ end
 
 --tex total limit TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
 this.numWildCards={
-  MALE=7,
+  MALE=5,
   FEMALE=5,
 }
 
@@ -622,24 +622,24 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
   local InfEneFova=InfEneFova
   if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
-    InfLog.Add("AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting",true)
+    InfCore.Log("AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting",true)
     return
   end
   if not InfEneFova.inf_wildCardMaleFaceList or #InfEneFova.inf_wildCardMaleFaceList==0  then
-    InfLog.Add("AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting",true)
+    InfCore.Log("AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting",true)
     return
   end
 
   local uniqueSettings=TppEneFova.GetUniqueSettings()
-  --  InfLog.Add"TppEneFova uniqueSettings pre:"
-  --  InfLog.PrintInspect(uniqueSettings)
+  --  InfCore.Log"TppEneFova uniqueSettings pre:"
+  --  InfCore.PrintInspect(uniqueSettings)
   --
 
   if InfMain.IsContinue() then
     for soldierName,wildCardInfo in pairs(this.ene_wildCardInfo)do
       local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
       if gameObjectId==NULL_ID then
-        InfLog.Add("WARNING: AddWildCards continue "..soldierName.."==NULL_ID")--DEBUG
+        InfCore.Log("WARNING: AddWildCards continue "..soldierName.."==NULL_ID")--DEBUG
       else
         local command={id="UseExtendParts",enabled=wildCardInfo.isFemale}
         SendCommand(gameObjectId,command)
@@ -677,13 +677,13 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
   local numFemales=0
   local maleFaceIdPool=InfUtil.CopyList(InfEneFova.inf_wildCardMaleFaceList)
   local femaleFaceIdPool=InfUtil.CopyList(InfEneFova.inf_wildCardFemaleFaceList)
-  --InfLog.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
-  --  InfLog.DebugPrint"ene_wildCardFaceList"--DEBUG >
-  --  InfLog.PrintInspect(InfEneFova.inf_wildCardFaceList)--<
+  --InfCore.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
+  --  InfCore.DebugPrint"ene_wildCardFaceList"--DEBUG >
+  --  InfCore.PrintInspect(InfEneFova.inf_wildCardFaceList)--<
 
   for i=1,this.numWildCards.total do
     if #baseNamePool==0 then
-      InfLog.DebugPrint"#baseNamePool==0"--DEBUG
+      InfCore.DebugPrint"#baseNamePool==0"--DEBUG
       break
     end
   
@@ -693,7 +693,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
     local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
     if gameObjectId==NULL_ID then
-      InfLog.Add("WARNING: AddWildCards "..soldierName.."==NULL_ID")--DEBUG
+      InfCore.Log("WARNING: AddWildCards "..soldierName.."==NULL_ID")--DEBUG
     else
 
       local isFemale=false
@@ -710,7 +710,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
         faceIdPool=maleFaceIdPool
       end
       if #faceIdPool==0 then
-        InfLog.Add("#faceIdPool too small, aborting",true)--DEBUG
+        InfCore.Log("#faceIdPool too small, aborting",true)--DEBUG
         break
       end
 
@@ -721,7 +721,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       if isFemale then
         local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
         if not bodyInfo or not bodyInfo.bodyId then
-          InfLog.Add("WARNING no bodyinfo for wildcard",true)--DEBUG
+          InfCore.Log("WARNING no bodyinfo for wildcard",true)--DEBUG
         else
           bodyId=bodyInfo.bodyId
           if bodyId and type(bodyId)=="table"then
@@ -741,7 +741,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
         if uniqueSettings[i].name==soldierName then
           hasSetting=true
           if isFemale and not FaceIsFemale(uniqueSettings[i].faceId) then
-            InfLog.Add("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female",true)--DEBUG
+            InfCore.Log("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female",true)--DEBUG
           end
         end
       end
@@ -784,15 +784,15 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
   --DEBUG
   if this.debugModule then
-    InfLog.Add"ene_wildCardInfo:"
-    InfLog.PrintInspect(this.ene_wildCardInfo)
+    InfCore.Log"ene_wildCardInfo:"
+    InfCore.PrintInspect(this.ene_wildCardInfo)
     local uniqueSettings=TppEneFova.GetUniqueSettings()
-    InfLog.Add"TppEneFova uniqueSettings"
-    InfLog.PrintInspect(uniqueSettings)
+    InfCore.Log"TppEneFova uniqueSettings"
+    InfCore.PrintInspect(uniqueSettings)
 
-    --InfLog.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
+    --InfCore.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
 
-    --InfLog.Add("num wildCards"..numLrrps)--DEBUG
+    --InfCore.Log("num wildCards"..numLrrps)--DEBUG
   end
   InfMain.RandomResetToOsTime()
 end
@@ -811,7 +811,7 @@ function this.SetUpEnemy(missionTable)
   for soldierName,wildCardInfo in pairs(this.ene_wildCardInfo)do
     local gameId=GetGameObjectId("TppSoldier2",soldierName)
     if gameId==NULL_ID then
-      InfLog.Add("WARNING: InfNPC.SetUpEnemy - "..soldierName.."==NULL_ID")--DEBUG
+      InfCore.Log("WARNING: InfNPC.SetUpEnemy - "..soldierName.."==NULL_ID")--DEBUG
     else
       local staffInfo=this.RegenerateStaffParams(gameId)  
       wildCardInfo.staffInfo=staffInfo
@@ -923,7 +923,7 @@ function this.GetNumSeats(lrrpVehicle)
       local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
       if baseTypeInfo then
         numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
-        --InfLog.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
+        --InfCore.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
       end
     end
   end
@@ -933,27 +933,27 @@ end
 --DEBUGNOW
 function this.ModMissionTableTop(missionTable,emptyCpPool)
   if this.debugModule then
-    InfLog.Add("----ModMissionTableTop----")
-    InfLog.Add("#soldierPool:"..#InfMain.soldierPool)
-    InfLog.PrintInspect(InfMain.soldierPool)
+    InfCore.Log("----ModMissionTableTop----")
+    InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
+    InfCore.PrintInspect(InfMain.soldierPool)
 
-    InfLog.Add("#emptyCpPool:"..#emptyCpPool)
-    InfLog.PrintInspect(emptyCpPool)
+    InfCore.Log("#emptyCpPool:"..#emptyCpPool)
+    InfCore.PrintInspect(emptyCpPool)
 
     local baseCpPool=InfMain.BuildBaseCpPool(missionTable.enemy.soldierDefine)
-    InfLog.Add("#baseCpPool:"..#baseCpPool)
-    InfLog.PrintInspect(baseCpPool)
+    InfCore.Log("#baseCpPool:"..#baseCpPool)
+    InfCore.PrintInspect(baseCpPool)
   end
 end
 
 function this.ModMissionTableBottom(missionTable,emptyCpPool)
   if this.debugModule then
-    InfLog.Add("----ModMissionTableBottom----")
-    InfLog.Add("#soldierPool:"..#InfMain.soldierPool)
-    InfLog.PrintInspect(InfMain.soldierPool)
+    InfCore.Log("----ModMissionTableBottom----")
+    InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
+    InfCore.PrintInspect(InfMain.soldierPool)
 
-    InfLog.Add("#emptyCpPool:"..#emptyCpPool)
-    InfLog.PrintInspect(emptyCpPool)
+    InfCore.Log("#emptyCpPool:"..#emptyCpPool)
+    InfCore.PrintInspect(emptyCpPool)
   end
 end
 

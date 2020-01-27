@@ -1,7 +1,7 @@
 -- InfWalkerGear.lua
 local this={}
 
-local InfLog=InfLog
+local InfCore=InfCore
 local InfMain=InfMain
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
@@ -223,7 +223,7 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
     for i,walkerName in ipairs(this.walkerNames) do
       local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
       if walkerId==NULL_ID then
-        InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
+        InfCore.DebugPrint("WARNING NULL_ID for "..walkerName)
       else
         local storePos=walkerStorePositions[locationName]
         local command={id="SetPosition",pos={storePos[1]+i,storePos[2],storePos[3]},rotY=0}
@@ -240,7 +240,7 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
   for cpName,coordList in pairs(positions)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
-      InfLog.Add("InfWalker.positions "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+      InfCore.Log("InfWalker.positions "..tostring(cpName).." cpId==NULL_ID")--DEBUG
     else
       positionCps[#positionCps+1]=cpName
     end
@@ -250,12 +250,12 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
   local numWalkers=#this.walkerNames
   for i=1,numWalkers do
     if #walkerPool==0 then
-      InfLog.Add("SetupGearsFREE: #walkerPool==0")
+      InfCore.Log("SetupGearsFREE: #walkerPool==0")
       break
     end
 
     if #positionCps==0 then
-      InfLog.Add("SetupGearsFREE: #positionCps==0")
+      InfCore.Log("SetupGearsFREE: #positionCps==0")
       break
     end
 
@@ -291,9 +291,9 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
   InfMain.RandomResetToOsTime()
 
   if this.debugModule then
-    InfLog.Add("SetupGearsFREE: "..numSetup.." of "..numWalkers.." walker gears set")
-    InfLog.Add"walkerPool"
-    InfLog.PrintInspect(walkerPool)
+    InfCore.Log("SetupGearsFREE: "..numSetup.." of "..numWalkers.." walker gears set")
+    InfCore.Log"walkerPool"
+    InfCore.PrintInspect(walkerPool)
   end
 end
 
@@ -331,7 +331,7 @@ function this.SetupGearsMB()
 
   --tex don't want to bother with this case
   if numWalkers<#platsPool then
-    InfLog.DebugPrint"SetupWalkerGearPositions - WANRING: less walkers than clusters, aborting"
+    InfCore.DebugPrint"SetupWalkerGearPositions - WANRING: less walkers than clusters, aborting"
     return
   end
 
@@ -344,7 +344,7 @@ function this.SetupGearsMB()
 
     for i=1,walkersPerCluster do
       if numAssigned==numWalkers then
-        --InfLog.DebugPrint"numAssigned==numWalkers"--DEBUG
+        --InfCore.DebugPrint"numAssigned==numWalkers"--DEBUG
         break
       end
       if #plats>0 then
@@ -356,8 +356,8 @@ function this.SetupGearsMB()
     end
   end
 
-  --InfLog.DebugPrint("numWalkers:"..numWalkers.." walkersPerCluster: "..walkersPerCluster.." numAssigned:"..numAssigned)--DEBUG
-  --InfLog.PrintInspect(this.walkerPlats)--DEBUG
+  --InfCore.DebugPrint("numWalkers:"..numWalkers.." walkersPerCluster: "..walkersPerCluster.." numAssigned:"..numAssigned)--DEBUG
+  --InfCore.PrintInspect(this.walkerPlats)--DEBUG
 
   --tex assign unassigned
   while numAssigned<numWalkers do
@@ -380,8 +380,8 @@ function this.SetupGearsMB()
     walkerIndex=walkerIndex+1
   end
 
-  --InfLog.DebugPrint("numWalkers:"..numWalkers.." numAssigned:"..numAssigned)--DEBUG
-  --InfLog.PrintInspect(this.walkerPlats)--DEBUG
+  --InfCore.DebugPrint("numWalkers:"..numWalkers.." numAssigned:"..numAssigned)--DEBUG
+  --InfCore.PrintInspect(this.walkerPlats)--DEBUG
 
   local function GetRandomColorType()
     return math.random(0,4)--tex NOTE leaving out HUEY_PROTO because of texure error
@@ -398,7 +398,7 @@ function this.SetupGearsMB()
       local walkerName=this.walkerNames[walkerIndex]
       local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
       if walkerId==NULL_ID then
-        InfLog.Add("WARNING NULL_ID for "..walkerName,true)
+        InfCore.Log("WARNING NULL_ID for "..walkerName,true)
       else
 
         local coord=walkerStartPositions.mtbs[clusterId][platId]
@@ -457,19 +457,19 @@ function this.AddLrrpWalkers(lrrpDefines,walkerPool)
     return
   end
 
-  --    InfLog.Add"AddLrrpWalkers - walkerpool:--"--DEBUG
-  --  InfLog.PrintInspect(walkerPool)
+  --    InfCore.Log"AddLrrpWalkers - walkerpool:--"--DEBUG
+  --  InfCore.PrintInspect(walkerPool)
 
   InfMain.RandomSetToLevelSeed()
 
   for i=1,this.numLrrpWalkers do
     if #walkerPool==0 then
-      InfLog.Add"AddLrrpWalkers #walkerPool==0"
+      InfCore.Log"AddLrrpWalkers #walkerPool==0"
       return
     end
     local walkerName=walkerPool[#walkerPool]
     walkerPool[#walkerPool]=nil
-    InfLog.Add("AddLrrpWalkers #"..i.." "..walkerName)
+    InfCore.Log("AddLrrpWalkers #"..i.." "..walkerName)
     local lrrpName=lrrpDefines[math.random(#lrrpDefines)]
     local cpDefine=lrrpDefines[lrrpName].cpDefine
     cpDefine.lrrpWalker=walkerName
@@ -500,10 +500,10 @@ function this.GetNumDDWalkers()
   for i,resourceName in ipairs(walkerResourceNames)do
 
     local gearCount=TppMotherBaseManagement.GetResourceUsableCount{resource=resourceName}
-    InfLog.DebugPrint(resourceName..":"..gearCount)
+    InfCore.DebugPrint(resourceName..":"..gearCount)
     totalGears=totalGears+gearCount
   end
-  InfLog.DebugPrint("totalGears:"..totalGears)
+  InfCore.DebugPrint("totalGears:"..totalGears)
 end
 
 function this.SetUpEnemyGear(missionTable,lrrpDefines)
@@ -519,7 +519,7 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
     return
   end
 
-  InfLog.AddFlow"InfWalkerGear.SetUpEnemyGear"
+  InfCore.LogFlow"InfWalkerGear.SetUpEnemyGear"
 
   local walkerIndex=1
   local numWalkers=#InfWalkerGear.walkerNames
@@ -537,7 +537,7 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
 
         local soldierName=cpDefine[1]--tex ASSUMPTION only 1 walker/soldier per lrrp
         local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-        InfLog.Add("Setup walker gear: "..walkerName..", soldier:"..soldierName)
+        InfCore.Log("Setup walker gear: "..walkerName..", soldier:"..soldierName)
         if TppMission.IsMissionStart() then
           local locationName=InfUtil.GetLocationName()
           --OFF local cpPositions=walkerStartPositions[locationName]
@@ -546,8 +546,8 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
           --tex currently soldiers will get off when they reach lrrp hold, so better to have them start at the oposite base position
           local cpPos=cpPositions[lrrpDefine.base2]
 
-          InfLog.Add("IsMissionStart: "..cpName..", base1:"..lrrpDefine.base1..", base2:"..lrrpDefine.base2)--DEBUG
-          --InfLog.PrintInspect(cpPos)--DEBUG
+          InfCore.Log("IsMissionStart: "..cpName..", base1:"..lrrpDefine.base1..", base2:"..lrrpDefine.base2)--DEBUG
+          --InfCore.PrintInspect(cpPos)--DEBUG
           
           local rotY=0
           --tex the start soldier positions are more often than not no good for walker and it pushes the walker to nav mesh safe position instead

@@ -6,15 +6,17 @@
 local this={}
 
 --LOCAOPT
-local InfLog=InfLog
+local InfCore=InfCore
 local TppGameObject=TppGameObject
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local NULL_ID=GameObject.NULL_ID
 
 
-this.DEBUG_strCode32List={
-}
+this.DEBUG_strCode32List={}
+
+function this.PostModuleReload(prevModule)
+end
 
 --lookup-tables>
 --tex from exe, don't know if anythings missing (as it commonly seems)
@@ -190,10 +192,12 @@ this.mbVehicleNames={
 function this.GetObjectNameLists()
   local nameLists={
     {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"},
+    {"reinforce_soldier_driver"},
     InfNPCHeli.heliNames.UTH,
     InfNPCHeli.heliNames.HP48,
     InfWalkerGear.walkerNames,
     InfAnimal.birdNames,
+    InfMain.reserveSoldierNames,
   }
 
   for listName,list in pairs(this.objectNameLists) do
@@ -219,10 +223,10 @@ function this.GetObjectList()
   --return InfNPCHeli.heliList
   --return TppEnemy.armorSoldiers
   --return InfAnimal.birdNames
- -- return objectNameLists[4]  
- --return InfNPC.ene_wildCardNames
- --return InfHostage.hostageNames
- --return this.objectNameLists.sol_quest
+  -- return objectNameLists[4]
+  --return InfNPC.ene_wildCardNames
+  --return InfHostage.hostageNames
+  --return this.objectNameLists.sol_quest
  return {"hos_quest_0000"}
 end
 
@@ -339,49 +343,49 @@ this.tppDamageEnumToName=this.BuildTppDamageLookup()
 --isStrCode on guaranteed strcodes to add that code to unknowns (this function is also used in a blanket fashion in PrintOnMessage with potential non-strcodes)
 function this.StrCode32ToString(strCode,isStrCode)
   if type(strCode)=="number" then
-    --tex using InfLog since this is built up using Fox.StrCode32 replacement InfLog.StrCode32, since InfLog is loaded before lib modules
-    local returnString=InfLog.str32ToString[strCode]
+    --tex using InfCore since this is built up using Fox.StrCode32 replacement InfCore.StrCode32, since InfCore is loaded before lib modules
+    local returnString=InfCore.str32ToString[strCode]
     if returnString==nil then
       returnString=TppDbgStr32.DEBUG_StrCode32ToString(strCode)
       if returnString then
-        InfLog.str32ToString[strCode]=returnString--tex push back into InfLog str32ToString so I can dump that as a verified in-use dictionary
+        InfCore.str32ToString[strCode]=returnString--tex push back into InfCore str32ToString so I can dump that as a verified in-use dictionary
       end
     end
     if isStrCode and returnString==nil then
-      InfLog.unknownStr32[strCode]=true
+      InfCore.unknownStr32[strCode]=true
     end
     if returnString==nil then
       return strCode
     end
-    
+
     return returnString
   end
   return strCode
 end
 
 function this.DumpStrCodeTables()
-  InfLog.Add("InfLog.str32ToString")
-  --InfLog.PrintInspect(InfLog.str32ToString)
+  InfCore.Log("InfCore.str32ToString")
+  --InfCore.PrintInspect(InfCore.str32ToString)
 
   local strings={}
   local strToCode={}
-  for strCode,str in pairs(InfLog.str32ToString)do
+  for strCode,str in pairs(InfCore.str32ToString)do
     table.insert(strings,str)
     strToCode[str]=strCode
   end
   table.sort(strings)
   for i,str in ipairs(strings) do
-    InfLog.Add(str.."="..strToCode[str])
+    InfCore.Log(str.."="..strToCode[str])
   end
 
-  InfLog.Add("InfLog.unknownStr32")
-  InfLog.PrintInspect(InfLog.unknownStr32)
+  InfCore.Log("InfCore.unknownStr32")
+  InfCore.PrintInspect(InfCore.unknownStr32)
 end
 --< lookup tables
 
 --debugMessages
 function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
-  --InfLog.PCall(function(sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
+  --InfCore.PCall(function(sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
   local lookupFuncs={
     {this.StrCode32ToString,"str32"},
     {this.ObjectNameForGameId,"gameId"},
@@ -433,11 +437,11 @@ function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
   if hasArgs then
     messageInfoString=messageInfoString..", "..argsString
   end
-  InfLog.Add(messageInfoString)
+  InfCore.Log(messageInfoString)
   for i,arg in ipairs(args)do
     if arg and type(arg)=="table" then
-      InfLog.Add("arg"..(i-1))
-      InfLog.PrintInspect(arg)
+      InfCore.Log("arg"..(i-1))
+      InfCore.PrintInspect(arg)
     end
   end
   --end,sender,messageId,arg0,arg1,arg2,arg3)--DEBUG

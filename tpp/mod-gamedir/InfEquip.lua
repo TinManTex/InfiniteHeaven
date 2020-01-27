@@ -3,7 +3,7 @@
 
 local this={}
 
-local InfLog=InfLog
+local InfCore=InfCore
 local InfMain=InfMain
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
@@ -832,23 +832,23 @@ this.tppEquipTable={--SYNC: EquipIdTable
 
 --tex DEBUG, requires EquipIdTable.lua in build
 function this.CheckTppEquipTable()
-  InfLog.DebugPrint"Checking InfEquip.tppEquipTable>TppEquip id"
+  InfCore.DebugPrint"Checking InfEquip.tppEquipTable>TppEquip id"
   local equipIdToString={}
   for i,equipIdStr in ipairs(this.tppEquipTable)do
     local equipId=TppEquip[equipIdStr]
     if equipId==nil then
-      InfLog.DebugPrint("Could not find "..tostring(equipIdStr))
+      InfCore.DebugPrint("Could not find "..tostring(equipIdStr))
     else
       equipIdToString[equipId]=equipIdStr
     end
   end
 
-  InfLog.DebugPrint"Checking TppEquip id>InfEquip.tppEquipTable"
+  InfCore.DebugPrint"Checking TppEquip id>InfEquip.tppEquipTable"
   for i,equipInfo in pairs(EquipIdTable.equipIdTable)do
     local equipId=equipInfo[1]
     local equipIdStr=this.tppEquipTable[equipId]
     if equipIdStr==nil then
-      InfLog.DebugPrint("Could not find equipid:"..tostring(equipId).." EquipIdTable index:"..i)
+      InfCore.DebugPrint("Could not find equipid:"..tostring(equipId).." EquipIdTable index:"..i)
     end
   end
 end
@@ -1009,7 +1009,7 @@ end
 
 --soldier item drops
 function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
-  --InfLog.PCall(function(gameId,sourceId,neutralizeType,neutralizeCause)--DEBUG
+  --InfCore.PCall(function(gameId,sourceId,neutralizeType,neutralizeCause)--DEBUG
   local dropChance=Ivars.itemDropChance:Get()/Ivars.perSoldierCount
   if dropChance==0 then
     return
@@ -1034,7 +1034,7 @@ function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
   --      [NeutralizeType.FULTON]="FULTON",
   --    }
 
-  --InfLog.DebugPrint("Neutralize gameId:"..gameId.." sourceId:"..sourceId.. " neutralizeType:"..neutralizeTypes[neutralizeType].." neutralizeCause:"..neutralizeCause)--DEBUG
+  --InfCore.DebugPrint("Neutralize gameId:"..gameId.." sourceId:"..sourceId.. " neutralizeType:"..neutralizeTypes[neutralizeType].." neutralizeCause:"..neutralizeCause)--DEBUG
   if this.dropChanceBag:Next()<=dropChance then
     --      GkEventTimerManager.Start("Timer_DropItem",dropTimer)
     --      this.inf_dropQueue[#this.inf_dropQueue]=gameId
@@ -1055,7 +1055,7 @@ function this.DropItem(gameId)
 
   local equipId=TppEquip[equipName]
 
-  --InfLog.DebugPrint("drop "..equipName)--DEBUG
+  --InfCore.DebugPrint("drop "..equipName)--DEBUG
 
   --TUNE
   local number=1
@@ -1147,7 +1147,7 @@ function this.PutEquipOnTrucks()
         local vehicleId=GetGameObjectId(vehicleName)
         if vehicleId~=NULL_ID then
           local itemLocator=pickableBag:Next()
-          --InfLog.Add("PutOn "..vehicleName.." "..itemLocator)--DEBUG
+          --InfCore.Log("PutOn "..vehicleName.." "..itemLocator)--DEBUG
           TppPickable.PutOn(itemLocator,vehicleId,0)
           numPutOn=numPutOn+1
           if numPutOn==pickableCount then
@@ -1184,7 +1184,7 @@ local maxEquipment=35--48
 --CALLER: TppEneFova.PreMissionLoad
 --OUT: TppEnemy.weaponIdTable.DD, TppEnemy.weaponIdTable.CUSTOM
 function this.CreateCustomWeaponTable(missionCode)
-  --InfLog.PCall(function(missionCode)--DEBUG
+  --InfCore.PCall(function(missionCode)--DEBUG
   if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
     return nil
   end
@@ -1206,7 +1206,7 @@ function this.CreateCustomWeaponTable(missionCode)
   end
 
   if noneActive then
-    InfLog.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
+    InfCore.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
     local weaponIdTable={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
     TppEnemy.weaponIdTable.DD=nil
     TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
@@ -1261,7 +1261,7 @@ function this.CreateCustomWeaponTable(missionCode)
     end
   end
 
-  --InfLog.DebugPrint("CreateCustomWeaponTable total equip count: "..totalCount)--DEBUG
+  --InfCore.DebugPrint("CreateCustomWeaponTable total equip count: "..totalCount)--DEBUG
 
   local aboveCount=totalCount-maxEquipment
   if aboveCount>0 then
@@ -1272,7 +1272,7 @@ function this.CreateCustomWeaponTable(missionCode)
       return false
     end
     table.sort(idCounts,SortFunc)
-    --InfLog.PrintInspect(idCounts)--DEBUG
+    --InfCore.PrintInspect(idCounts)--DEBUG
     while aboveCount>0 do
       for i,countInfo in ipairs(idCounts) do
         if countInfo.count>4 then
@@ -1291,7 +1291,7 @@ function this.CreateCustomWeaponTable(missionCode)
     weaponIds.bag=shuffleBag
   end
 
-  --InfLog.PrintInspect(weaponIdTable)--DEBUG
+  --InfCore.PrintInspect(weaponIdTable)--DEBUG
 
   TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
   --end,missionCode)--DEBUG
@@ -1325,7 +1325,7 @@ function this.CreateDDWeaponIdTable()
       else
         local developId=ddWeaponInfo.developId
         local developGrade=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        --InfLog.DebugPrint("dd power:"..tostring(powerType).." developid:"..tostring(ddWeaponInfo.developId).." developRank:"..tostring(developRank))--DEBUG
+        --InfCore.DebugPrint("dd power:"..tostring(powerType).." developid:"..tostring(ddWeaponInfo.developId).." developRank:"..tostring(developRank))--DEBUG
         local isDeveloped=TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId}
         if Ivars.allowUndevelopedDDEquip:Is(1) then
           isDeveloped=true

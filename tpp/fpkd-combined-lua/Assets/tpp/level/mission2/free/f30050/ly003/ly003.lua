@@ -393,31 +393,42 @@ this.enemyAssetTable = {
 					},
 				},
 			},
+			--tex was empty> DEBUGNOW
       uavList = {
- --       "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0000",
-        --DEBUGWIP
---        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0001",
---        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0000",
---        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0001",
+        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0000",
+        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0001",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0000",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0001",
       },
       uavSneakRoute = {
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0000",
---        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0001",
---        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_around_0to7_ptl_0000",
---        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_around_7to0_ptl_0000",
+        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0001",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_around_0to7_ptl_0000",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_around_7to0_ptl_0000",
       },
       uavCombatRoute = {
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_cbt_0000",
---        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_cbt_0001",
---        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_lower_cbt_0000",
---        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_upper_cbt_0000",
+        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_cbt_0001",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_lower_cbt_0000",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_upper_cbt_0000",
       },
+      --<
 			mineList = {
 			},
 			decyList = {
 			},
-			securityCameraList = {
-			},
+			--DEBUGNOW
+      securityCameraList = {
+         { camera = "ly013_cl00_camera0000|cl00pl0_mb_fndt_plnt_camera|scm_cp00",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_mb_fndt_plnt_camera|scm_cp01",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_mb_fndt_plnt_camera|scm_cp05",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_mb_fndt_plnt_camera|scm_cp07",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_uq_0000_camera|scm_0002",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_uq_0000_camera|scm_0003",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_uq_0000_camera|scm_0001",target = nil },
+         { camera = "ly013_cl00_camera0000|cl00pl0_uq_0000_camera|scm_0000",target = nil },
+
+      },
 		},
 		plnt1 = {
 			soldierList = {
@@ -483,12 +494,12 @@ this.enemyAssetTable = {
 					},
 				},
 			},
-			uavList = {
-			},
-			uavSneakRoute = {
-			},
-			uavCombatRoute = {
-			},
+      uavList = {
+      },
+      uavSneakRoute = {
+      },
+      uavCombatRoute = {
+      },
 			mineList = {
 			},
 			decyList = {
@@ -561,12 +572,12 @@ this.enemyAssetTable = {
 					},
 				},
 			},
-			uavList = {
-			},
-			uavSneakRoute = {
-			},
-			uavCombatRoute = {
-			},
+      uavList = {
+      },
+      uavSneakRoute = {
+      },
+      uavCombatRoute = {
+      },
 			mineList = {
 			},
 			decyList = {
@@ -632,12 +643,12 @@ this.enemyAssetTable = {
 					},
 				},
 			},
-			uavList = {
-			},
-			uavSneakRoute = {
-			},
-			uavCombatRoute = {
-			},
+      uavList = {
+      },
+      uavSneakRoute = {
+      },
+      uavCombatRoute = {
+      },
 			mineList = {
 			},
 			decyList = {

@@ -131,24 +131,24 @@ function this.ScaleResourceTables()
   if this.debugModule then
     for i,scaleType in ipairs(Ivars.resourceScaleTypes) do
       local resourceScale=Ivars["resourceScale"..scaleType]:Get()/100
-      InfLog.Add("resourceScale"..scaleType.."="..tostring(resourceScale))
+      InfCore.Log("resourceScale"..scaleType.."="..tostring(resourceScale))
     end
 
 
-    InfLog.Add("RESOURCE_INFORMATION_TABLE")
-    InfLog.PrintInspect(this.RESOURCE_INFORMATION_TABLE)
+    InfCore.Log("RESOURCE_INFORMATION_TABLE")
+    InfCore.PrintInspect(this.RESOURCE_INFORMATION_TABLE)
 
-    InfLog.Add("scaled RESOURCE_INFORMATION_TABLE")
-    InfLog.PrintInspect(TppTerminal.RESOURCE_INFORMATION_TABLE)
+    InfCore.Log("scaled RESOURCE_INFORMATION_TABLE")
+    InfCore.PrintInspect(TppTerminal.RESOURCE_INFORMATION_TABLE)
 
-    InfLog.Add("smallDiamondGmp:"..this.SMALL_DIAMOND_GMP.." largeDiamondGmp:"..this.LARGE_DIAMOND_GMP)
-    InfLog.Add("scaled smallDiamondGmp:"..smallDiamondGmp.." largeDiamondGmp:"..largeDiamondGmp)
+    InfCore.Log("smallDiamondGmp:"..this.SMALL_DIAMOND_GMP.." largeDiamondGmp:"..this.LARGE_DIAMOND_GMP)
+    InfCore.Log("scaled smallDiamondGmp:"..smallDiamondGmp.." largeDiamondGmp:"..largeDiamondGmp)
 
-    InfLog.Add("containerParams")
-    InfLog.PrintInspect(this.containerParams)
+    InfCore.Log("containerParams")
+    InfCore.PrintInspect(this.containerParams)
 
-    InfLog.Add("scaledContainerParams")
-    InfLog.PrintInspect(this.scaledContainerParams)
+    InfCore.Log("scaledContainerParams")
+    InfCore.PrintInspect(this.scaledContainerParams)
   end
 end
 

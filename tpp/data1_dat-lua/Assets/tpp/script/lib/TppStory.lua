@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 this.storySequenceTable={}
 this.storySequenceTable_Master={
   {main="s10010"},

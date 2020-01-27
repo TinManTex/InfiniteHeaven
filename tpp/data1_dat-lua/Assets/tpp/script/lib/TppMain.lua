@@ -8,7 +8,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
 local UpdateScriptsInScriptBlocks=ScriptBlock.UpdateScriptsInScriptBlocks
 local GetCurrentMessageResendCount=Mission.GetCurrentMessageResendCount
-local InfLog=InfLog--tex
+local InfCore=InfCore--tex
 
 local moduleUpdateFuncs={}
 local numModuleUpdateFuncs=0
@@ -77,8 +77,8 @@ function this.DisableBlackLoading()
   TppUI.FinishLoadingTips()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
-  --InfLog.PCallDebug(function(missionTable)--tex can't use consistantly since it triggers yield across c boundary error
-  InfLog.AddFlow("OnAllocate Top "..vars.missionCode)--tex
+  --InfCore.PCallDebug(function(missionTable)--tex can't use consistantly since it triggers yield across c boundary error
+  InfCore.LogFlow("OnAllocate Top "..vars.missionCode)--tex
   InfMain.OnAllocateTop(missionTable)--tex
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
@@ -308,11 +308,11 @@ if missionTable.sequence then
   TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
 end
 --end,missionTable)--DEBUG
-InfLog.AddFlow("OnAllocate Bottom "..vars.missionCode)--tex
+InfCore.LogFlow("OnAllocate Bottom "..vars.missionCode)--tex
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
-  --InfLog.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
-  InfLog.AddFlow("OnInitialize Top "..vars.missionCode)--tex
+  --InfCore.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
+  InfCore.LogFlow("OnInitialize Top "..vars.missionCode)--tex
   InfMain.OnInitializeTop(missionTable)--tex
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
@@ -332,7 +332,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppAnimalBlock.InitializeBlockStatus()
   if TppQuestList then
-    InfLog.PCallDebug(InfQuest.RegisterQuests)--tex
+    InfCore.PCallDebug(InfQuest.RegisterQuests)--tex
     TppQuest.RegisterQuestList(TppQuestList.questList)
     TppQuest.RegisterQuestPackList(TppQuestList.questPackList)
   end
@@ -492,7 +492,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   TppDemo.UpdateNuclearAbolitionFlag()
   TppQuest.AcquireKeyItemOnMissionStart()
   InfMain.OnInitializeBottom(missionTable)--tex
-  InfLog.AddFlow("OnInitialize Bottom "..vars.missionCode)--tex
+  InfCore.LogFlow("OnInitialize Bottom "..vars.missionCode)--tex
   --end,missionTable)--tex DEBUG
 end
 function this.SetUpdateFunction(missionTable)
@@ -862,12 +862,12 @@ function this.OnUpdate(missionTable)
   local missionScriptOnUpdateFuncs=missionScriptOnUpdateFuncs
   --NMC OFF local t=RENAMEsomeupdatetable2
   --tex
-  if InfLog.debugOnUpdate then
+  if InfCore.debugOnUpdate then
     for i=1,numModuleUpdateFuncs do
-      InfLog.PCallDebug(moduleUpdateFuncs[i])
+      InfCore.PCallDebug(moduleUpdateFuncs[i])
     end
     for i=1,numOnUpdate do
-      InfLog.PCallDebug(missionScriptOnUpdateFuncs[i])
+      InfCore.PCallDebug(missionScriptOnUpdateFuncs[i])
     end
     --ORIG>
   else

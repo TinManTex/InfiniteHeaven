@@ -17,7 +17,7 @@ this.reinforceInfo={
 }
 
 function this.OnRequestLoadReinforce(cpId)
-  InfLog.DebugPrint"OnRequestLoadReinforce"--DEBUGWIP
+  InfCore.DebugPrint"OnRequestLoadReinforce"--DEBUGWIP
   if this.reinforceInfo.cpId~=cpId then
     this.reinforceInfo.cpId=cpId
     this.reinforceInfo.count=0
@@ -26,15 +26,15 @@ function this.OnRequestLoadReinforce(cpId)
   this.reinforceInfo.request=this.reinforceInfo.request+1
 end
 function this.OnRequestAppearReinforce(cpId)
-  InfLog.DebugPrint"OnRequestAppearReinforce"--DEBUGWIP
+  InfCore.DebugPrint"OnRequestAppearReinforce"--DEBUGWIP
   this.reinforceInfo.count=this.reinforceInfo.count+1
 end
 function this.OnCancelReinforce(cpId)
-  InfLog.DebugPrint"OnCancelReinforce"--DEBUGWIP
+  InfCore.DebugPrint"OnCancelReinforce"--DEBUGWIP
 end
 
 function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopter shiz.txt
-  InfLog.DebugPrint"InfReinforce.OnHeliLostControlReinforce"--DEBUGWIP
+  InfCore.DebugPrint"InfReinforce.OnHeliLostControlReinforce"--DEBUGWIP
 
   if true then return end--DEBUGWIP
 
@@ -49,17 +49,17 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
   end
 
   if not mvars.reinforce_activated then
-    --InfLog.DebugPrint"OnHeliLostControlReinforce is reinforce heli but not reinforce_activated"
+    --InfCore.DebugPrint"OnHeliLostControlReinforce is reinforce heli but not reinforce_activated"
     return
   end
 
   if (state==StrCode32("Start")) then
   elseif (state==StrCode32("End")) then
-    --InfLog.DebugPrint"OnHeliLostControlReinforce is reinforce heli"
+    --InfCore.DebugPrint"OnHeliLostControlReinforce is reinforce heli"
     --this.CheckAndFinishReinforce()
 
     if TppReinforceBlock._HasHeli() then--tex reinforcetype is heli
-      --InfLog.DebugPrint"start timer FinishReinforce"
+      --InfCore.DebugPrint"start timer FinishReinforce"
       local cpId=mvars.reinforce_reinforceCpId
       --TppReinforceBlock.FinishReinforce(cpId)
       TimerStart("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
@@ -68,7 +68,7 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
 end
 
 function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after TppEnemy._OnVehicleBroken
-  InfLog.DebugPrint"InfReinforce.OnVehicleBroken"--DEBUGWIP
+  InfCore.DebugPrint"InfReinforce.OnVehicleBroken"--DEBUGWIP
 
   if true then return end--DEBUG
 
@@ -79,16 +79,16 @@ function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after T
   end
 
   if not mvars.reinforce_activated then
-    --InfLog.DebugPrint"OnVehicleBrokenReinforce is reinforce vehicle but not reinforce_activated"
+    --InfCore.DebugPrint"OnVehicleBrokenReinforce is reinforce vehicle but not reinforce_activated"
     return
   end
 
   if (state==StrCode32("Start")) then
   elseif (state==StrCode32("End")) then
-    --InfLog.DebugPrint"OnVehicleBrokenReinforce is reinforce vehicle"
+    --InfCore.DebugPrint"OnVehicleBrokenReinforce is reinforce vehicle"
     --this.CheckAndFinishReinforce()
     if TppReinforceBlock._HasVehicle() then--tex reinforcetype is heli
-      --InfLog.DebugPrint"Do timer FinishReinforce"
+      --InfCore.DebugPrint"Do timer FinishReinforce"
       local cpId=mvars.reinforce_reinforceCpId
       --TppReinforceBlock.FinishReinforce(cpId)
       TimerStart("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
@@ -97,12 +97,12 @@ function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after T
 end
 
 function this.OnFulton(vehicleId)
-  InfLog.DebugPrint"InfReinforce.OnFulton"--DEBUGWIP
+  InfCore.DebugPrint"InfReinforce.OnFulton"--DEBUGWIP
 
 end
 
 function this.OnTimer_FinishReinforce()
-  InfLog.DebugPrint"InfReinforce.OnTimer_FinishReinforce FinishReinforce"--DEBUGWIP
+  InfCore.DebugPrint"InfReinforce.OnTimer_FinishReinforce FinishReinforce"--DEBUGWIP
   local cpId=mvars.reinforce_reinforceCpId
   TppReinforceBlock.FinishReinforce(cpId)
   TppReinforceBlock.UnloadReinforceBlock(cpId)
@@ -113,7 +113,7 @@ function this.CheckAndFinishReinforce()
     return false
   end
   if this.CheckReinforceDeactivate() then
-    --InfLog.DebugPrint"Do FinishReinforce"
+    --InfCore.DebugPrint"Do FinishReinforce"
     local cpId=mvars.reinforce_reinforceCpId
     TppReinforceBlock.FinishReinforce(cpId)
   end
@@ -136,7 +136,7 @@ function this.CheckReinforceDeactivate()
   local heliAlive
   local heliReal
 
-  InfLog.DebugPrint("hasVehicle: "..tostring(hasVehicle).." hasHeli: "..tostring(hasHeli).." hasSoldier: "..tostring(hasSoldier))
+  InfCore.DebugPrint("hasVehicle: "..tostring(hasVehicle).." hasHeli: "..tostring(hasHeli).." hasSoldier: "..tostring(hasSoldier))
 
   local deadCount=0
   for n,soldierName in ipairs(TppReinforceBlock.REINFORCE_SOLDIER_NAMES)do
@@ -154,7 +154,7 @@ function this.CheckReinforceDeactivate()
     soldiersDead=true
   end
 
-  InfLog.DebugPrint("soldiersEliminated:"..tostring(soldiersDead))
+  InfCore.DebugPrint("soldiersEliminated:"..tostring(soldiersDead))
 
   local vehicleId=GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
   local driverId=GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
@@ -170,7 +170,7 @@ function this.CheckReinforceDeactivate()
 
     vehicleAlive=SendCommand(vehicleId,{id="IsAlive"})
     vehicleReal=SendCommand(vehicleId,{id="IsReal"})
-    InfLog.DebugPrint("vehicleBroken:"..tostring(vehicleBroken).." vehicleAlive:"..tostring(vehicleAlive))--.." vehicleReal:"..tostring(vehicleReal))
+    InfCore.DebugPrint("vehicleBroken:"..tostring(vehicleBroken).." vehicleAlive:"..tostring(vehicleAlive))--.." vehicleReal:"..tostring(vehicleReal))
   end
 
 
@@ -179,22 +179,22 @@ function this.CheckReinforceDeactivate()
     heliBroken=SendCommand(heliId,{id="IsBroken"})
     heliAlive=SendCommand(heliId,{id="IsAlive"})
     --heliReal=SendCommand(heliId,{id="IsReal"})
-    InfLog.DebugPrint("heliBroken:"..tostring(heliBroken).." heliAlive:"..tostring(heliAlive))--.." heliReal:"..tostring(heliReal))
+    InfCore.DebugPrint("heliBroken:"..tostring(heliBroken).." heliAlive:"..tostring(heliAlive))--.." heliReal:"..tostring(heliReal))
 
     --    local aiState = SendCommand(heliId,{id="GetAiState"})--tex CULL only support heli aparently, returns strcode32 ""
-    --    --InfLog.DebugPrint("heliAiState:"..tostring(aiState))
+    --    --InfCore.DebugPrint("heliAiState:"..tostring(aiState))
     --    if aiState==StrCode32("WaitPoint") then
-    --      InfLog.DebugPrint("heliAiState: WaitPoint")
+    --      InfCore.DebugPrint("heliAiState: WaitPoint")
     --    elseif aiState==StrCode32("Descent") then
-    --      InfLog.DebugPrint("heliAiState: Descent")
+    --      InfCore.DebugPrint("heliAiState: Descent")
     --    elseif aiState==StrCode32("Landing") then
-    --      InfLog.DebugPrint("heliAiState: Landing")
+    --      InfCore.DebugPrint("heliAiState: Landing")
     --    elseif aiState==StrCode32("PullOut") then
-    --      InfLog.DebugPrint("heliAiState: PullOut")
+    --      InfCore.DebugPrint("heliAiState: PullOut")
     --    elseif aiState==StrCode32("") then
-    --    InfLog.DebugPrint("heliAiState: errr")
+    --    InfCore.DebugPrint("heliAiState: errr")
     --    else
-    --      InfLog.DebugPrint("heliAiState: unknown")
+    --      InfCore.DebugPrint("heliAiState: unknown")
     --    end
 
   end

@@ -1,14 +1,14 @@
 -- DOBUILD: 1
 local this={}
 --LOCALOPT:
-local InfLog=InfLog
+local InfCore=InfCore
 local InfButton=InfButton
 local InfMain=InfMain
 --tex TODO cant reference modules that reload (unless you build a system to update this reference)
 --local InfLang=InfLang
 --local Ivars=Ivars
 local IvarProc=IvarProc
-local InfLog=InfLog
+local InfCore=InfCore
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
@@ -80,7 +80,7 @@ function this.PreviousOption(incrementMult)
 end
 function this.GetSetting(previousIndex,previousMenuOptions)
   if this.currentMenuOptions==nil then
-    InfLog.Add("WARNING: currentMenuOptions == nil!",true)--DEBUG
+    InfCore.Log("WARNING: currentMenuOptions == nil!",true)--DEBUG
     return
   end
 
@@ -93,13 +93,13 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   --        previousOption:OnDeselect()
   --      end
   --    else
-  --      InfLog.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUG
+  --      InfCore.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUG
   --    end
   --  end
 
   local option=this.currentMenuOptions[this.currentIndex]
   if option==nil then
-    InfLog.Add("WARNING: option == nil! currentIndex="..tostring(this.currentIndex),true)--DEBUG
+    InfCore.Log("WARNING: option == nil! currentIndex="..tostring(this.currentIndex),true)--DEBUG
     return
   end
 
@@ -109,7 +109,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     ivars[option.name]=gvar
   end
   if IsFunc(option.OnSelect) then
-    InfLog.PCallDebug(option.OnSelect,option,ivars[option.name])
+    InfCore.PCallDebug(option.OnSelect,option,ivars[option.name])
   end
 end
 
@@ -195,7 +195,7 @@ function this.ChangeSetting(option,value)
   end
 
   IvarProc.SetSetting(option,newSetting)
-  --InfLog.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
+  --InfCore.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
 end
 
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
@@ -209,7 +209,7 @@ end
 function this.ActivateCurrent()--tex run activate function
   local option=this.currentMenuOptions[this.currentIndex]
   if IsFunc(option.OnActivate) then
-    InfLog.PCallDebug(option.OnActivate,option,ivars[option.name])
+    InfCore.PCallDebug(option.OnActivate,option,ivars[option.name])
   else
     this.SetCurrent()
   end
@@ -263,7 +263,7 @@ end
 
 function this.GoMenu(menu,goBack)
   if menu.options==nil then
-    InfLog.DebugPrint("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu")
+    InfCore.DebugPrint("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu")
     return
   end
 
@@ -451,11 +451,11 @@ function this.MinSetting()
 end
 function this.ResetSettings()
   for n,menu in pairs(InfMenuDefs.allMenus) do
-    --InfLog.DebugPrint(menu.name)
+    --InfCore.DebugPrint(menu.name)
     for m,option in pairs(menu.options) do
-      --InfLog.DebugPrint(option.name)
+      --InfCore.DebugPrint(option.name)
       if option.save then--tex using identifier for all ivar/resetable settings
-        --InfLog.DebugPrint(option.name)--DEBUG
+        --InfCore.DebugPrint(option.name)--DEBUG
         if ivars[option.name]~=option.default then
           IvarProc.SetSetting(option,option.default)
       end
@@ -607,7 +607,7 @@ function this.OnActivate()
 
   this.GetSetting()
   TppUiStatusManager.ClearStatus"AnnounceLog"
-  TppUiCommand.AnnounceLogView(InfMain.modName.." r"..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
+  TppUiCommand.AnnounceLogView(InfCore.modName.." r"..InfCore.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
 
   InfMain.OnMenuOpen()
 end
@@ -632,7 +632,7 @@ end
 
 function this.Update(execCheck)
   local InfMenuDefs=InfMenuDefs
-  --InfLog.PCallDebug(function(execCheck)--DEBUG
+  --InfCore.PCallDebug(function(execCheck)--DEBUG
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   if not execCheck.inGame then
@@ -666,7 +666,7 @@ function this.Update(execCheck)
 
   --TODO NOTE controlset toggle on button
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-    --InfLog.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
+    --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
     this.ToggleMenu(execCheck)
   end
 
@@ -811,7 +811,7 @@ function this.ModWelcome()
   --end
   TppUiCommand.AnnounceLogDelayTime(0)
 
-  InfMenu.Print(InfMain.modName.." r"..InfMain.modVersion)
+  InfMenu.Print(InfCore.modName.." r"..InfCore.modVersion)
   InfMenu.PrintLangId"menu_keys"
 end
 
@@ -821,7 +821,7 @@ function this.BuildProfileMenu(profile)
   for ivarName,setting in pairs(profile)do
     local ivar=Ivars[ivarName]
     if ivar==nil then
-      InfLog.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUG
+      InfCore.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUG
     else
       revertProfile[ivarName]=ivars[ivar.name]
       options[#options+1]=ivar
@@ -847,7 +847,7 @@ function this.RevertProfileMenu()
 end
 
 function this.AddDevMenus()
-  InfLog.Add"AddDevMenus"
+  InfCore.Log"AddDevMenus"
   local heliSpaceMenu=InfMenuDefs.heliSpaceMenu.options
   local inMissionMenu=InfMenuDefs.inMissionMenu.options
   if heliSpaceMenu[1]~=InfMenuDefs.devInAccMenu then

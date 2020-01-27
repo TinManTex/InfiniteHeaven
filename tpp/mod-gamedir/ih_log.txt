@@ -1,0 +1,159 @@
+|0|InfCore start 01/11/17 20:54:26
+|0|package.path:.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua;C:\GamesSD\MGS_TPP\mod\?.lua
+|0|Load InfInit.lua
+|0|IvarProc.LoadEvars
+|0|IvarProc.LoadSave
+|0|InfInit.lua done
+|0|Found external for C:\GamesSD\MGS_TPP\mod\Fox/Scripts/Gr/gr_init_dx11.lua
+|0|init.lua done
+|0|start.lua
+|0.25025188862249|Loading parameter tables
+|0.40040276665431|Load InfModelRegistry.lua
+|0.42542782794572|InfModelRegistry setup
+|0.50050301181995|Load Tpp.lua
+|0.50050301181995|Tpp.lua done
+|0.55055415496948|InfRequiresStart - start of TppDefine requires-list
+|0.60060453269398|Load TppDefine.lua
+|0.60060453269398|InfCore.StrCode32: WARNING: Attempting to encode a number: 982961015
+|0.60060453269398|caller: /Assets/tpp/script/lib/TppDefine.lua:469 - 
+|0.60060453269398|InfCore.StrCode32: WARNING: Attempting to encode a number: 2770109797
+|0.60060453269398|caller: /Assets/tpp/script/lib/TppDefine.lua:469 - 
+|0.60060453269398|TppDefine.lua done
+|0.75075566586748|mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
+|3.3867422260244|Load InfMain.lua
+|3.3867422260244|InfMain LoadExternalModules
+|3.3867422260244|InfMain.LoadExternalModules
+|3.3867422260244|InfMain.lua done
+|4.4878505359634|InfHook done, requires-list done
+|4.7047355061029|Loading mother base settings
+|4.7047355061029|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|4.7047355061029|MbmCommonSetting.lua - personal tweaks
+|4.7464440266358|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
+|4.7881525471687|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
+|4.8465445269431|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
+|4.8965949046676|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
+|4.9466452823921|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
+|4.9800122008751|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
+|5.021720721408|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
+|5.0801127011824|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
+|5.1134796196654|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
+|5.1551881401983|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
+|5.1968966607312|InfMain.LoadLibraries
+|5.1968966607312|LoadQuestDefs
+|5.1968966607312|Loaded questDef ih_quest_q30100
+|5.1968966607312|Loaded questDef ih_quest_q30101
+|5.1968966607312|Loaded questDef ih_quest_q30102
+|5.1968966607312|start2nd.lua done
+|5.4638320085952|TppVarInit.StartInitMission 10010
+|5.4638320085952|TppMission.Load nextMissionCode:1 currentMissionCode:nil
+|5.4638320085952|TppEneFova.InitializeUniqueSetting
+|5.4638320085952|InfMain.PreMissionLoad
+|5.4638320085952|start.lua done
+|5.4638320085952|TppMissionList.GetMissionPackagePath 1
+|5.4638320085952|InfMain.AddMissionPacks 1
+|5.4638320085952|{ "/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk", "/Assets/tpp/pack/mission2/init/init.fpk" }
+|5.4638320085952|OnAllocate Top 1
+|5.4638320085952|inf_levelSeed 4934224
+|5.4638320085952|InfHook TppSave.VarRestoreOnMissionStart
+|5.4638320085952|IvarProc.LoadEvars
+|5.4638320085952|IvarProc.LoadSave
+|5.4638320085952|DebugModeEnable:true
+|5.4638320085952|AddDevMenus
+|5.4638320085952|TppRevenge._CreateRevengeConfig
+|5.4638320085952|{
+  COMBAT_LOW = true,
+  HOLDUP_LOW = true,
+  STEALTH_LOW = true
+}
+|5.4638320085952|OnAllocate Bottom 1
+|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|5.4638320085952|OnInitialize Top 1
+|5.4638320085952|InfQuest.RegisterQuests
+|5.4638320085952|RegisterQuests quest_q30100 168
+|5.4638320085952|RegisterQuests quest_q30101 169
+|5.4638320085952|RegisterQuests quest_q30102 170
+|5.4638320085952|numUiQuests:160
+|5.4638320085952|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
+|5.4638320085952|TppQuest.UpdateActiveQuest 1
+|5.4638320085952|OnInitialize Bottom 1
+|5.7808177341837|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|5.7808177341837|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|6.4731816754185|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|6.4731816754185|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|6.48986513466|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|6.48986513466|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|7.4741892299084|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|8.3083621919834|OnMessage|sender: UI, messageId: PopupClose, arg0=1200||str32:1200, arg1=0, 
+|8.3083621919834|OnMessage|sender: UI, messageId: PopupClose, arg0=1200||str32:1200, arg1=0, 
+|9.2259524502659|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|9.9266577384089|OnMessage|sender: Network, messageId: 2282751356, arg0=0, 
+|9.9266577384089|OnMessage|sender: Network, messageId: 2282751356, arg0=0, 
+|11.544953284834|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
+|11.544953284834|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
+|14.898328592376|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
+|14.898328592376|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
+|18.101552766744|OnMessage|sender: UI, messageId: PopupClose, arg0=3404051590||str32:3404051590, arg1=0, 
+|18.101552766744|OnMessage|sender: UI, messageId: PopupClose, arg0=3404051590||str32:3404051590, arg1=0, 
+|19.536330261513|OnMessage|sender: Network, messageId: EndLogin
+|19.536330261513|OnMessage|sender: Network, messageId: EndLogin
+|20.186985171931|OnMessage|sender: UI, messageId: EndDlcAnnounce, arg0=0, arg1=0, 
+|20.186985171931|OnMessage|sender: UI, messageId: EndDlcAnnounce, arg0=0, arg1=0, 
+|23.823979286578|TppVarInit.StartTitle 1
+|23.823979286578|InfHook TppSave.VarRestoreOnMissionStart
+|23.823979286578|IvarProc.LoadEvars
+|23.823979286578|IvarProc.LoadSave
+|23.823979286578|DebugModeEnable:true
+|23.823979286578|AddDevMenus
+|23.823979286578|TppMission.RequestLoad next:40050 current:1
+|23.823979286578|InfMain.OnStartTitle
+|23.823979286578|InfQuest.SetupInstalledQuestsState
+|23.823979286578|InfQuest.ReadInstalledQuests
+|23.823979286578|IvarProc.LoadSave
+|23.823979286578|167
+|23.823979286578|168
+|23.823979286578|169
+|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.823979286578|TppMission.LoadWithChunkCheck 40050
+|23.823979286578|TppMission.Load nextMissionCode:40050 currentMissionCode:1
+|23.823979286578|TppEneFova.InitializeUniqueSetting
+|23.823979286578|InfMain.PreMissionLoad
+|23.823979286578|TppMissionList.GetMissionPackagePath 40050
+|23.823979286578|InfMain.AddMissionPacks 40050
+|23.823979286578|{ "/Assets/tpp/pack/mission2/heli/heli_common_script.fpk", "/Assets/tpp/pack/mission2/common/title_sequence.fpk", "/Assets/tpp/pack/mission2/heli/heli_ui.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/location/mtbs/pack_common/mtbs_script.fpk", "/Assets/tpp/pack/mission2/heli/h40050/h40050_area.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk" }
+|23.823979286578|OnAllocate Top 40050
+|23.823979286578|inf_levelSeed 3176823476
+|23.823979286578|TppRevenge._CreateRevengeConfig
+|23.823979286578|{}
+|23.823979286578|OnAllocate Bottom 40050
+|23.823979286578|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterLoadStart, arg0=0, 
+|23.823979286578|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterLoadStart, arg0=0, 
+|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.823979286578|OnInitialize Top 40050
+|23.823979286578|InfQuest.RegisterQuests
+|23.823979286578|Quests already registered
+|23.823979286578|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
+|23.823979286578|TppQuest.UpdateActiveQuest 40050
+|23.823979286578|OnInitialize Bottom 40050
+|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
+|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
+|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
+|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
+|25.242073832389|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterActivated, arg0=0, 
+|25.242073832389|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterActivated, arg0=0, 
+|25.659160313426|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterDeactivated, arg0=0, 
+|25.659160313426|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterDeactivated, arg0=0, 
+|31.331536455536|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|31.331536455536|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|33.567119993897|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|33.567119993897|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|34.551444089145|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|34.551444089145|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|45.712678321709|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|45.712678321709|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|47.714693430689|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|47.714693430689|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 

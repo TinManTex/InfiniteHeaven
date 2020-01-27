@@ -1032,7 +1032,7 @@ sequences.Seq_Game_ChunkInstalled = {
 	end,
 
 	OnEndFadeOutSelectContinue = function()
-	 InfLog.AddFlow("title_sequence.OnEndFadeOutSelectContinue "..tostring(vars.missionCode))--tex
+	 InfCore.LogFlow("title_sequence.OnEndFadeOutSelectContinue "..tostring(vars.missionCode))--tex
 		local titleMissionCode = vars.missionCode
 		this.DoEnableGameStatusFunction()
 		TppMission.SafeStopSettingOnMissionReload()	
@@ -1133,7 +1133,7 @@ sequences.Seq_Game_ChunkInstalled = {
 	end,
 
 	OnUpdateForNewGameLoad = function()
-		InfLog.AddFlow("title_sequence.OnUpdateForNewGameLoad "..tostring(vars.missionCode))--tex
+		InfCore.LogFlow("title_sequence.OnUpdateForNewGameLoad "..tostring(vars.missionCode))--tex
 		if TppSave.IsEnqueuedSaveData() or IsSavingOrLoading() then
 			Fox.Log("Now saveing wait.")
 			return
