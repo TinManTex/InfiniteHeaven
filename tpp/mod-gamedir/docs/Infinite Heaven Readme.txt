@@ -1,5 +1,5 @@
 = Infinite heaven =
-r208 - 2017-05-30
+r209 - 2017-07-17
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -16,6 +16,13 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r209:
+Fixed: Skulls event being forced to Sniper skulls, forgot to revert my debug test which means:
+Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls.
+Should actually be fixed now. Sorry.
+Fixed: Accidentally left out the IH mother base animal sideops, Blackfoot Down in r208. Woops.
+Fixed: Not being able to use weapons/weapon ammo count wrong with custom soldier equipment and other settings on alongside sideops mod. Thanks various people for reports.
+
 New for r208:
 Fixed: Female soldiers defaulting to male olive drab body when DD suit female set to Off instead of olive drab female while DD Suit for male not Off - thanks Saladin1251 for the report and save files.
 Fixed: Invisible helmets for female wildcard soldiers (removed helmet propety alltogether) - thanks halo4kid for the report.
@@ -182,7 +189,7 @@ When enabled hold the <Call> button then hold one of the following:
 
 Profiles:
 Profiles are lists of settings for IH options, can be used as an alternative, or in conjunction with IHs in-game menu.
-See InfProfiles Readme and InfProfiles.lua for further info.
+See MGS_TPP\mod\profiles\All_Options_Example.lua for more info.
 
 Settings save file:
 IH writes its settings to ih_save.lua in the MGS_TPP\mod\saves folder.
@@ -213,6 +220,8 @@ Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
 Various people for their donations, including:
+Lee
+Nicholas
 Gary
 Joseph
 Lisa

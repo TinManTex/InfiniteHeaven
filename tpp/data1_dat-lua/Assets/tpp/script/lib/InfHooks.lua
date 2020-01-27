@@ -14,12 +14,13 @@ this.debugHooksEnabled=false
 --can also isolate your hook function in a pcall to isolate it crashing from impacting the original function
 this.hookFuncs={
   TppSave={
-    VarRestoreOnMissionStart=function()
-      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
-      this.TppSave.VarRestoreOnMissionStart()
-      --post-hook
-      IvarProc.OnLoadVarsFromSlot()
-    end,
+--CULL
+--    VarRestoreOnMissionStart=function()
+--      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
+--      this.TppSave.VarRestoreOnMissionStart()
+--      --post-hook
+--      IvarProc.OnLoadVarsFromSlot()
+--    end,
     VarRestoreOnContinueFromCheckPoint=function()
       InfCore.LogFlow("InfHook TppSave.VarRestoreOnContinueFromCheckPoint")
       this.TppSave.VarRestoreOnContinueFromCheckPoint()
@@ -72,7 +73,7 @@ this.debugPCallHooks={
     ClearDDParameter=true,
     PrepareDDParameter=true,
     SetUpDDParameter=true,
-    ChangeRouteUsingGimmick=true,--DEBUGNOW
+    ChangeRouteUsingGimmick=true,--tex TODO see if/when this hits
   },
   TppGimmick={
     OnActivateQuest=true,

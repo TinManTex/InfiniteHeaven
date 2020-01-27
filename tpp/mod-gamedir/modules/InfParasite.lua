@@ -273,7 +273,7 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   --TODO force type via ivar
   --this.parasiteType="MIST"
   --this.parasiteType="ARMOR"
-  this.parasiteType="CAMO"--DEBUGNOW --DEBUGNOW
+  --this.parasiteType="CAMO"
 
   InfCore.Log("OnLoad parasiteType:"..this.parasiteType)
 

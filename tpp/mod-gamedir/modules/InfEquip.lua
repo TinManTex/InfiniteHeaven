@@ -12,7 +12,7 @@ this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_pickable_loc.fpk",
 }
 
-this.debugModule=false
+this.debugModule=true--DEBUGNOW
 
 --STATE
 --soldier item drops
@@ -1469,34 +1469,97 @@ this.soldierDropTable={
 --tex GOTCHA there's a limit to how much equip can be loaded before it starts crapping out - players weapons not showing/test equip spawn function crash on ~110th item in list (but weirdly on mg but not sniper in same list position).
 --TppEquip.CreateEquipMissionBlockGroup and/or TppEquip.AllocInstances?
 --tex also only items with p4 set to TppEquip.EQP_BLOCK_MISSION in /Tpp/Scripts/Equip/EquipIdTable.lua need to be loaded (mostly weapons, support items are alread loaded in EQP_BLOCK_COMMON).
+--OUT/SIDE: this.currentLoadTable
 function this.LoadEquipTable()
   local equipLoadTable={}
-  --tex TODO: find a better indicator of equipable mission loading
 
+  local equipCount=0
   for n,equipName in ipairs(this.tppEquipTableTest)do
     local equipId=TppEquip[equipName]
     if equipId~=nil then
-      equipLoadTable[#equipLoadTable+1]=equipId
+      equipLoadTable[equipId]=true
+      equipCount=equipCount+1
     end
   end
-  
+  InfCore.Log("InfEquip.LoadEquipTable - #testEquipCount="..equipCount)--DEBUGNOW
+
   --tex can't skip if itemDropChance 0 because user may enable during mission.
   --tex TODO: equipid TppEquip.EQP_BLOCK_MISSION lookup, then run whole table:
   --for category,equipNames in pairs(this.soldierDropTable)do
   --for n,equipName in ipairs(equipNames)do
-  
-    for n,equipName in ipairs(this.soldierDropTable.HANDGUNS)do
-      local equipId=TppEquip[equipName]
-      if equipId~=nil then
-        equipLoadTable[#equipLoadTable+1]=equipId
+  --8 guns
+  for n,equipName in ipairs(this.soldierDropTable.HANDGUNS)do
+    local equipId=TppEquip[equipName]
+    if equipId~=nil then
+      if not equipLoadTable[equipId] then
+        equipLoadTable[equipId]=true
       end
     end
+  end
   --tex TODO add to this.currentEquipLoad table in a once-per-mission way.
   --end
 
-  if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
-    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+  --8 guns
+  if Ivars.enableWildCardFreeRoam:EnabledForMission() then
+    for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
+      equipLoadTable[equipId]=true
+    end
   end
+
+  --tex dont really like having this here rather than in InfQuest, but is easiest way to keep track of equipment loaded so the limit can be managed
+  if InfQuest then
+    if TppMission.IsFreeMission(vars.missionCode) or TppMission.IsStoryMission(vars.missionCode) then--tex TODO theres a quests allowed for mission function or table somewhere.
+      local equipCount=0
+      for questName,questInfo in pairs(InfQuest.ihQuestsInfo)do
+        if TppQuest.IsActive(questName) then
+          if questInfo.requestEquipIds then
+            InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
+            for n,equipName in ipairs(questInfo.requestEquipIds)do
+              local equipId=TppEquip[equipName]
+              if equipId==nil then
+                InfCore.Log("InfQuest.LoadEquipTable: requestEquipIds ERROR: "..questName.."  could not find equipId "..tostring(equipId))
+              else
+                equipLoadTable[equipId]=true
+                equipCount=equipCount+1
+              end
+            end
+          end
+        end
+      end
+      InfCore.Log("InfEquip.LoadEquipTable - #questEquipCount="..equipCount)--DEBUGNOW
+    end
+  end
+
+  local loadEquipTable={}
+  for equipId,bool in pairs(equipLoadTable)do
+    loadEquipTable[#loadEquipTable+1]=equipId
+  end
+
+  InfCore.Log("InfEquip.LoadEquipTable - #loadEquipTable="..#loadEquipTable)--DEBUGNOW
+
+  this.currentLoadTable=equipLoadTable--tex also acts as init/clear. also see AddToCurrentLoadTable which is called after this (TppMain.OnAllocate > TppRevenge.DecideRevenge > _AllocateResources vs TppMain.OnAllocate > module.OnAllocate)
+
+  if #loadEquipTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
+    TppEquip.RequestLoadToEquipMissionBlock(loadEquipTable)
+  end
+
+  --tex setup weaponIdTable.CUSTOM
+  --is RequestLoadToEquipMissionBlock in TppRevenge._AllocateResources
+  InfCore.PCallDebug(this.CreateCustomWeaponTable,vars.missionCode,nil,this.currentLoadTable,#loadEquipTable)--DEBUGNOW TEST was in PremissionLoad (ala TppEnemy.PrepareDDParameter)
+end
+
+--CALLER: TppRevenge._AllocateResources
+--SIDE: this.currentLoadTable
+function this.AddToCurrentLoadTable(loadEquipTable)
+  for i,equipId in ipairs(loadEquipTable)do
+    this.currentLoadTable[equipId]=true
+  end
+  --DEBUGNOW
+  local count=0
+  for equipId,bool in pairs(this.currentLoadTable)do
+    count=count+1
+  end
+  InfCore.Log("InfEquip.AddToCurrentLoadTable - #loadEquipTable="..#loadEquipTable.." #currentLoadTable="..count)--DEBUGNOW
 end
 
 function this.Messages()
@@ -1533,7 +1596,7 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.PreMissionLoad(missionId,currentMissionId)
-  this.CreateCustomWeaponTable(missionId)
+--DEBUGNOW CULL this.CreateCustomWeaponTable(missionId)
 end
 
 function this.Init(missionTable)
@@ -1543,7 +1606,7 @@ function this.Init(missionTable)
     return
   end
 
-	--tex cant skip on itemDropChance since its an inmission var
+  --tex cant skip on itemDropChance since its an inmission var
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
@@ -1754,11 +1817,10 @@ local ivarNames={
 
 --tex see GOTCHA note before LoadEquipTable above
 --Don't know if it's a count or a memory thing (which would depend on the mix of equipment loaded)
-local maxEquipment=35--48
---CALLER: TppEneFova.PreMissionLoad
+local maxEquipment=45--47--ok --50 no good
+--CALLER: LoadEquipTable
 --OUT: TppEnemy.weaponIdTable.DD, TppEnemy.weaponIdTable.CUSTOM
-function this.CreateCustomWeaponTable(missionCode,settingsTable)
-  --InfCore.PCall(function(missionCode)--DEBUG
+function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable,currentLoadCount)
   if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
     return nil
   end
@@ -1783,7 +1845,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable)
     end
   end
 
-  InfCore.PrintInspect(activeTypes,{varName="activeTypes"})
+  InfCore.PrintInspect(activeTypes,"activeTypes")
 
   if noneActive then
     InfCore.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
@@ -1794,93 +1856,128 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable)
   end
 
   if activeTypes.DD then
+    --tex usually built with TppEneFova.PreMissionLoad > TppEnemy.PrepareDDParameter > _CreateDDWeaponIdTable
     TppEnemy.weaponIdTable.DD=this.CreateDDWeaponIdTable()
   end
 
+  --tex combine all active weapon tables
+  local allTotal=0
   local allNoDuplicates={}
   for weaponTableType,ivarType in pairs(weaponTableTypes) do
     if activeTypes[ivarType] then
       local weaponTable=TppEnemy.weaponIdTable[weaponTableType]
       for strength,weapons in pairs(weaponTable)do
         if strengthType=="COMBINED" or strengthType==strength then
-          for weaponName,weaponId in pairs(weapons)do
-            allNoDuplicates[weaponName]=allNoDuplicates[weaponName] or {}
+          for weaponType,weaponId in pairs(weapons)do
+            allNoDuplicates[weaponType]=allNoDuplicates[weaponType] or {}
             if type(weaponId)=="table" then
               for i,weaponId in ipairs(weaponId)do
-                allNoDuplicates[weaponName][weaponId]=true
+                allNoDuplicates[weaponType][weaponId]=true
               end
             else
-              allNoDuplicates[weaponName][weaponId]=true
+              allNoDuplicates[weaponType][weaponId]=true
             end
+            allTotal=allTotal+1
           end
         end
       end
     end
   end
 
-  --tex transform back to TppEnemy.weaponIdTable format NOTE: only builds NORMAL because there's no point in doing a normal strong split when you have control over building the table and the purpose is variation
-  local weaponIdTable={NORMAL={}}
-  for weaponName,weaponIds in pairs(allNoDuplicates)do
-    local toWeaponIds=weaponIdTable.NORMAL[weaponName] or {}
+  --tex transform back to TppEnemy.weaponIdTable format
+  local weaponIdTableAll={}
+  for weaponType,weaponIds in pairs(allNoDuplicates)do
+    local toWeaponIds=weaponIdTableAll[weaponType] or {}
     for weaponId,bool in pairs(weaponIds)do
       table.insert(toWeaponIds,weaponId)
     end
-    weaponIdTable.NORMAL[weaponName]=toWeaponIds
+    weaponIdTableAll[weaponType]=toWeaponIds
   end
 
-  --tex pare down till under max count, pretty arbitrary algo
-  local skipCount={
+  InfCore.Log("allTotal="..allTotal)
+  if this.debugModule then
+    InfCore.PrintInspect(weaponIdTableAll,"weaponIdTableAll")--DEBUG
+  end
+
+  --tex these dont count towards equipcount or always resident? VERIFY
+  local skipType={
     IS_NOKILL=true,
     GRENADE=true,
     STUN_GRENADE=true,
     SNEAKING_SUIT=true,
     BATTLE_DRESS=true,
   }
-  local totalCount=0
-  local idCounts={}
-  for weaponName,weaponIds in pairs(weaponIdTable.NORMAL)do
-    if not skipCount[weaponName] then
-      totalCount=totalCount+#weaponIds
-      table.insert(idCounts,{weaponName=weaponName,count=#weaponIds})
-    end
-  end
 
-  --InfCore.DebugPrint("CreateCustomWeaponTable total equip count: "..totalCount)--DEBUG
-
-  local aboveCount=totalCount-maxEquipment
-  if aboveCount>0 then
-    local SortFunc=function(a,b)
-      if b.count<a.count then
-        return true
-      end
-      return false
-    end
-    table.sort(idCounts,SortFunc)
-    --InfCore.PrintInspect(idCounts)--DEBUG
-    while aboveCount>0 do
-      for i,countInfo in ipairs(idCounts) do
-        if countInfo.count>4 then
-          local weaponIds=weaponIdTable.NORMAL[countInfo.weaponName]
-          table.remove(weaponIds,math.random(#weaponIds))
-          countInfo.count=#weaponIds
-          aboveCount=aboveCount-1
+  --tex add those that are already in the current loaded equip table (soldier drops, wildcards, quests etc from loadequiptable).
+  --NOTE: only builds NORMAL because there's no point in doing a normal strong split when you have control over building the table and the purpose is variation
+  local weaponIdTableFinal={NORMAL={}}
+  for weaponType,weaponIds in pairs(weaponIdTableAll)do
+    if skipType[weaponType] then
+      weaponIdTableFinal.NORMAL[weaponType]=weaponIds--tex some of these not actually weaponids for these
+    else
+      weaponIdTableFinal.NORMAL[weaponType]=weaponIdTableFinal.NORMAL[weaponType] or {}
+      for i,weaponId in ipairs(weaponIds)do
+        if currentLoadTable[weaponId] then
+          table.insert(weaponIdTableFinal.NORMAL[weaponType],weaponId)
         end
       end
     end
   end
 
-  for weaponName,weaponIds in pairs(weaponIdTable.NORMAL)do
+  if this.debugModule then
+    InfCore.PrintInspect(weaponIdTableFinal,"weaponIdTableFinal Initial")--DEBUG
+  end
+
+  --tex add more weapons till we hit the limit
+  local toAddCount=maxEquipment-currentLoadCount
+  InfCore.Log("CreateCustomWeaponTable currentLoadCount="..currentLoadCount.." maxEquipment="..maxEquipment.." toAddCount="..toAddCount)--DEBUGNOW
+
+  local function GetLeastWeaponType(weaponTable,weaponTypes)
+    local leastWeaponCount=9999999999
+    local leastWeaponType
+    for weaponType,weaponIds in pairs(weaponTable)do
+      if weaponTypes[weaponType] then
+        if #weaponIds<leastWeaponCount then
+          leastWeaponCount=#weaponIds
+          leastWeaponType=weaponType
+        end
+      end
+    end
+    return leastWeaponType
+  end
+
+  InfMain.RandomSetToLevelSeed()
+  for i=1,toAddCount do
+    local leastWeaponTypes={}
+    for weaponType,weaponIds in pairs(weaponIdTableFinal.NORMAL)do
+      if not skipType[weaponType] and #weaponIdTableAll[weaponType]>0 then
+        leastWeaponTypes[weaponType]=true
+      end
+    end
+
+    local leastWeaponType=GetLeastWeaponType(weaponIdTableFinal.NORMAL,leastWeaponTypes)
+    --InfCore.Log("leastWeaponType="..tostring(leastWeaponType))--DEBUG
+    local weaponIds=weaponIdTableAll[leastWeaponType]
+    if #weaponIds>0 then
+      local rnd=math.random(#weaponIds)
+      local weaponId=weaponIds[rnd]
+      table.remove(weaponIds,rnd)
+      table.insert(weaponIdTableFinal.NORMAL[leastWeaponType],weaponId)
+    end
+  end
+  InfMain.RandomResetToOsTime()
+
+  for weaponName,weaponIds in pairs(weaponIdTableFinal.NORMAL)do
     local shuffleBag=InfUtil.ShuffleBag:New()
     shuffleBag:Fill(weaponIds)
     weaponIds.bag=shuffleBag
   end
 
   if this.debugModule then
-    InfCore.PrintInspect(weaponIdTable,"weaponIdTable")--DEBUG
+    InfCore.PrintInspect(weaponIdTableFinal,"weaponIdTableFinal")--DEBUG
   end
 
-  TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
-  --end,missionCode)--DEBUG
+  TppEnemy.weaponIdTable.CUSTOM=weaponIdTableFinal
 end
 
 --tex adapted from TppEnemy._CreateDDWeaponIdTable

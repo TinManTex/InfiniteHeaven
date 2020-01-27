@@ -70,6 +70,7 @@ function this.SetVarsTitleHeliSpace()
   TppPlayer.ResetMissionStartPosition()
 end
 function this.InitializeOnStartTitle()
+  InfCore.LogFlow("TppVarInit.InitializeOnStartTitle")--tex DEBUG
   this.InitializeOnStatingMainFrame()
   this.InitializeOnNewGameAtFirstTime()
   this.InitializeOnNewGame()

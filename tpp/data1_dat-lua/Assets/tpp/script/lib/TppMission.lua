@@ -218,10 +218,10 @@ end
 --tex NOTE GOTCHA these should now only be used for mission sequence scripts, otherwise just use the gvar directly
 --this is to work around mission timers/setup not triggering on start-on foot because of heli traps not triggering
 function this.IsStartFromHelispace()
-  return gvars.mis_isStartFromHelispace and Ivars.mis_isGroundStart:Is(0)--tex WORKAROUND added ivar
+  return gvars.mis_isStartFromHelispace and not igvars.mis_isGroundStart--tex WORKAROUND added ivar
 end
 function this.IsStartFromFreePlay()
-  return gvars.mis_isStartFromFreePlay or Ivars.mis_isGroundStart:Is(1)--tex WORKAROUND added ivar
+  return gvars.mis_isStartFromFreePlay or igvars.mis_isGroundStart--tex WORKAROUND added ivar
 end
 function this.AcceptMission(missionCode)
   if this.IsEmergencyMission(missionCode)then

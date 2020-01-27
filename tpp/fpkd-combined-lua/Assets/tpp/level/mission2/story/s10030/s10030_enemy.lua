@@ -433,9 +433,9 @@ function this.SetupSoldierFace()
 		local gameObjectId = GameObject.GetGameObjectId("TppSoldier2", soldierName )
 		if gameObjectId == DEMO_SOLDIER_00 	
 				or gameObjectId == DEMO_SOLDIER_01 
-				or gameObjectId == DEMO_SOLDIER_02 then
+				or gameObjectId == DEMO_SOLDIER_02 then--RETAILBUG DEMO_SOLDIER_02 not defined
 			TppEneFova.ApplyMTBSUniqueSetting( gameObjectId, faceId, true )
-		elseif gameObjectId ~= NULL_ID then
+		elseif gameObjectId ~= NULL_ID then--RETAILBUG NULL_ID not defined
 			TppEneFova.ApplyMTBSUniqueSetting( gameObjectId, faceId, false )
 		end
 	end

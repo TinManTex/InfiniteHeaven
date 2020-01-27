@@ -781,7 +781,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
       local soldierPowers={}
       for n,power in pairs(gearPowers) do
-        local skip=power=="ARMOR" and isFemale--tex WORKAROUND, not actually applying ddheadgear at the moment --DEBUGNOW
+        local skip=power=="HELMET" and isFemale--tex WORKAROUND, not actually applying ddheadgear at the moment --DEBUGNOW
         if not skip then
           soldierPowers[#soldierPowers+1]=power
         end

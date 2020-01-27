@@ -1,11 +1,18 @@
 -- MockFoxEngine.lua
 
 --library modules
-bit=require"bit"
+--DEBUGNOW bit=require"bit" --TODO: do this by default, if moonSharp then redirect to its standard lib which I think has bit32 module
+bit={}
+bit.bnot=function()end
+bit.band=function()end
+bit.bor=function()end
+bit.bxor=function()end
 
 --engine side
 
---mock
+--tex mock module definitions to fill out stuff missed by InfTearDown
+--or to add actual functionality instead of empty functions
+
 local mainApplication={}
 mainApplication.AddGame=function(self,game)end
 mainApplication.SetMainGame=function(self,game)end
@@ -47,30 +54,24 @@ AssetConfiguration.RegisterExtensionInfo=function(extensionInfo)
   print(extensionInfo)
 end
 
-Chunk={}
-Chunk.INDEX_CYPR=0
-Chunk.INDEX_AFGH=1
-Chunk.INDEX_MAFR=2
-Chunk.INDEX_MTBS=3
-Chunk.INDEX_MTBS=3
-Chunk.INDEX_MGO=4
-
-DemoDaemon={}
-
 --mock
 local mainGame={}
 mainGame.CreateScene=function(self,sceneName)return{}end
 mainGame.CreateBucket=function(self,bucketName,scene)return{}end
 mainGame.SetMainBucket=function(self,bucket)end
 --
-Editor=function(initTable)
-  return mainGame
-end
+--DEBUGNOW
+--Editor=function(initTable)
+--  return mainGame
+--end
 EditorBase=Editor
 Game=Editor
 
 Fox={}
-Fox.StrCode32=function(encodeString)--TODO IMPLEMENT
+Fox.StrCode32=function(encodeString)--DEBUGNOW TODO IMPLEMENT
+  return encodeString
+end
+Fox.PathFileNameCode32=function(encodeString)--DEBUGNOW TODO IMPLEMENT
   return encodeString
 end
 Fox.GetPlatformName=function()
@@ -106,16 +107,10 @@ foxmath.Sin=math.sin
 foxmath.Sqrt=math.sqrt
 foxmath.Tan=math.tan
 
-GameObject={}
-
 GkEventTimerManager={}
 GkEventTimerManager.Start=function()end
 GkEventTimerManager.Stop=function()end
 GkEventTimerManager.IsTimerActive=function()end
-
-HeadshotMessageFlag={}
-
-Mission={}
 
 MotherBaseStage={}
 --REF {0,10,20,30,40,70,80,90,980}
@@ -123,52 +118,37 @@ MotherBaseStage.RegisterModifyLayoutCodes=function(layoutCodes)
   MotherBaseStage._layoutCodes=layoutCodes
 end
 
-NeutralizeCause={}
-NeutralizeFobCause={}
-NeutralizeType={}
-
-PathMapper={}
---PathMapper.Add=function(name,path)end
-
-Player={}
-Player.InitCamoufTable=function(dataTable)
+PhDaemon={}
+PhDaemon.GetInstance=function()--DEBUGNOW KLUDGE
+  return PhDaemon
 end
 
-PlayerType={}
-PlayerType.SNAKE=0
-PlayerType.DD_MALE=1
-PlayerType.DD_FEMALE=2
-PlayerType.AVATAR=3
-
-Popup={}
-Popup.TYPE_ONE_BUTTON=1
-Popup.TYPE_TWO_BUTTON=2
-Popup.TYPE_ONE_CANCEL_BUTTON=3
-Popup.SELECT_OK=1
-
 Script={}
+--DEBUGNOW
 Script.LoadLibrary=function(scriptPath)
   local split=MockUtil.Split(scriptPath,"/")
   local moduleName=split[#split]
   moduleName=string.sub(moduleName,1,-string.len(".lua")-1)
   print("ScriptLoad:"..scriptPath)
 
-  local moduleChunk=dofile(projectDataPath..scriptPath)
-  --DEBUGNOW
-  if loadError then
-    print(loadError)
-  else
-    local module=moduleChunk--DEBUGNOWmoduleChunk()
+  local ret=dofile(projectDataPath..scriptPath)
+
+    local module=ret--DEBUGNOWmoduleChunk()
     if not module then
       print(moduleName.."==nil")
     else
       if _G[moduleName] then
-        _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides
+        _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides --DEBUGNOW
       else
         _G[moduleName]=module
       end
+      --DEBUGNOW TODO: guard against module recursion
+      if module.requires then
+        for i,modulePath in ipairs(module.requires)do
+          Script.LoadLibrary(modulePath)
+        end
+      end
     end
-  end
 end
 Script.LoadLibraryAsync=Script.LoadLibrary
 --tex used in conjunction with above
@@ -176,19 +156,16 @@ Script.IsLoadingLibrary=function()
   return false
 end
 
-ScriptBlock={}
-StageBlock={}
-
 Time={}
 Time.GetRawElapsedTimeSinceStartUp=function()--TODO IMPLEMENT
   return os.time()
 end
 
-TppGameMode={}
 TppGameObject={}
 
+--tex in exe order
 local gameObjectTypes={
-  "GAME_OBJECT_TYPE_PLAYER2",
+  "GAME_OBJECT_TYPE_PLAYER2",--0
   "GAME_OBJECT_TYPE_COMMAND_POST2",
   "GAME_OBJECT_TYPE_SOLDIER2",
   "GAME_OBJECT_TYPE_HOSTAGE2",
@@ -198,7 +175,7 @@ local gameObjectTypes={
   "GAME_OBJECT_TYPE_OCELOT2",
   "GAME_OBJECT_TYPE_HUEY2",
   "GAME_OBJECT_TYPE_CODE_TALKER2",
-  "GAME_OBJECT_TYPE_SKULL_FACE2",
+  "GAME_OBJECT_TYPE_SKULL_FACE2",--10
   "GAME_OBJECT_TYPE_MANTIS2",
   "GAME_OBJECT_TYPE_BIRD2",
   "GAME_OBJECT_TYPE_HORSE2",
@@ -284,10 +261,18 @@ local gameObjectTypes={
   "GAME_OBJECT_TYPE_SAMPLE_MANAGER",
 }
 for i=1,#gameObjectTypes do
-  TppGameObject[gameObjectTypes[i]]=i-1
+  TppGameObject[gameObjectTypes[i]]=i-1--DEBUGNOW TODO VERIFY enums
 end
 
-TppNetworkUtil={}
+--tex hidden from referece scrape by local opt in TppTerminal
+TppMotherBaseManagementConst={
+  STAFF_UNIQUE_TYPE_ID_OCELOT=249,
+  STAFF_UNIQUE_TYPE_ID_MILLER=250,
+  STAFF_UNIQUE_TYPE_ID_QUIET=251,--tex is caught by scrape, but put here just to mentally fill the enum
+  STAFF_UNIQUE_TYPE_ID_HEUY=252,
+  STAFF_UNIQUE_TYPE_ID_CODE_TALKER=253,
+}
+
 TppScriptVars={
   TYPE_BOOL=0,
   TYPE_INT32=1,
@@ -316,7 +301,25 @@ TppScriptVars={
   CATEGORY_ALL=255,
 }
 
-TppSystem={}
+--DEBUGNOW
+--tex Don't know the actual implementation, but gvars need to be set up at some point due to start.lua kicking things off via TppVarInit
+TppScriptVars.DeclareGVars=function(gvarsTable)    
+  --tex essentially TppGVars.AllInitialize(), but TppGVars hasn't actually returned at this point so cant access it via global
+  if gvarsTable==nil then
+    return
+  end
+  for a,gvar in ipairs(gvarsTable)do
+    local name,arraySize,value=gvar.name,gvar.arraySize,gvar.value
+    if arraySize and(arraySize>1)then
+      gvars[name]={}--tex
+      for e=0,(arraySize-1)do
+        gvars[name][e]=value
+      end
+    else
+      gvars[name]=value
+    end
+  end
+end
 
 TppUiCommand={}
 TppUiCommand.AnnounceLogDelayTime=function()
@@ -326,13 +329,9 @@ TppUiCommand.AnnounceLogView=function(string)
 end
 
 WeatherManager={}
---VERIFY
 WeatherManager.FOG_TYPE_PARASITE=0
 WeatherManager.FOG_TYPE_NORMAL=1
-WeatherManager.NIGHT_START_CLOCK=65653
-WeatherManager.NIGHT_END_CLOCK=21873
-
-
+WeatherManager.FOG_TYPE_EERIE=2--reffed, but for completion
 
 --SYNC mgsv 1.09
 TppScriptVars.GetProgramVersionTable=function()
@@ -362,44 +361,17 @@ TppSystemUtility.GetCurrentGameMode=function()
   return "TPP"
 end
 
-TppDamage={}
-TppDamage.ReloadDamageParameter=function(dataTable)
-end
 
---TODO actual values
-TppDamage.ATK_VehicleHit=1
-TppDamage.ATK_Tankgun_20mmAutoCannon=2
-TppDamage.ATK_Tankgun_30mmAutoCannon=3
-TppDamage.ATK_Tankgun_105mmRifledBoreGun=4
-TppDamage.ATK_Tankgun_120mmSmoothBoreGun=5
-TppDamage.ATK_Tankgun_125mmSmoothBoreGun=6
-TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile=7
-TppDamage.ATK_Tankgun_30mmAutoCannon=8
-TppDamage.ATK_Wav1=9
-TppDamage.ATK_WavCannon=10
-TppDamage.ATK_TankCannon=11
-TppDamage.ATK_WavRocket=12
-TppDamage.ATK_HeliMiniGun=13
-TppDamage.ATK_HeliChainGun=14
-
-TppBullet={}
-TppBullet.ReloadRecoilMaterials=function(datTable)
-end
-TppEnemy={}
-TppEnemy.FOB_DD_SUIT_ATTCKER=1
-TppEnemy.FOB_DD_SUIT_SNEAKING=2
-TppEnemy.FOB_DD_SUIT_BTRDRS=3
-TppEnemy.FOB_PF_SUIT_ARMOR=4
 
 TppSoldier2={}
 TppSoldier2.ReloadSoldier2ParameterTables=function(paramTable)
 end
 
 --UserData
---DEBUGNOW KLUDGE
---Vector3=function(x,y,z)
---
---end
+--DEBUGNOW KLUDGE DEBUGNOW
+Vector3=function(x,y,z)
+
+end
 --Vector3={
 --  x=0,
 --  y=0,
@@ -422,39 +394,9 @@ end
 --  Sub = <function 6>,
 --  ToString = <function 7>,
 
---enums and values, TODO: possibly IMPLEMENT
-EnemyType={}
 
-EnemyFova={}
-EnemyFova.INVALID_FOVA_VALUE=32767
-EnemyFova.MAX_REALIZED_COUNT=255
-PlayerCamoType={}
-
-PlayerDisableAction={}
-PlayerPad={}
-PlayerCamoType={}
-BuddyType={
-  HORSE=1,
-  DOG=2,
-  QUIET=3,
-  WALKER_GEAR=4,
-  BATTLE_GEAR=5,
-}
 
 TppEquip={}
-TppEquip.ReloadEquipIdTable=function(equipIdTable)
-  TppEquip.equipIdTable=equipIdTable
-end
-TppEquip.ReloadEquipParameterTables=function(dataTable)
-end
-TppEquip.ReloadEquipParameterTables2=function(dataTable)
-end
-TppEquip.ReloadEquipMotionData=function(dataTable)
-end
-TppEquip.ReloadEquipMotionData2=function(dataTable)
-end
-TppEquip.ReloadChimeraPartsInfoTable=function(dataTable)
-end
 TppEquip.IsExistFile=function(filePath)
   filePath=projectDataPath..filePath
   local f=io.open(filePath,"r")
@@ -464,43 +406,238 @@ TppEquip.IsExistFile=function(filePath)
   end
 end
 
-TppSoldierFace={}
-TppSoldierFace.SetFovaFileTable=function(fovaFileTable)
+TppCommand={}
+TppCommand.Weather={}
+
+TppCommand.Weather.RegisterClockMessage=function(params)
+  local id=params.id--Str32
+  local seconds=params.seconds
+  local isRepeat=params.isRepeat--bool
 end
-TppSoldierFace.SetFaceFovaDefinitionTable=function(fovaFileTable)
+TppCommand.Weather.UnregisterClockMessage=function(params)
+  local id=params.id--Str32
 end
-TppSoldierFace.SetBodyFovaDefinitionTable=function(fovaFileTable)
+TppCommand.Weather.SetClockTimeScale=function(newTimeScale)
 end
+TppCommand.Weather.UnregisterAllClockMessages=function()end
+
+--tex manually pulled together since my references scraper doesnt handle tables
+--filled out further by checking out exe section
+Vehicle={
+  instanceCountMax=60,
+  life={
+    BROKEN=0,
+    EXTINCTION=-1000,
+  },
+  observation={
+    CRASH=1,
+    PLAYER_WILL_HARM_VEHICLE=2,
+    PLAYER_WILL_BREAK_VEHICLE=4,
+    PLAYER_STOPS_VEHICLE_BY_BREAKING_WHEELS=8,
+  },
+  speed={
+    FORWARD_SLOW=2.7777778513638,
+    FORWARD_NORMAL=8.3333335540913,
+    FORWARD_FAST=12.500000331137,
+    FORWARD_MAX=27.777778513638,
+    BACKWARD_SLOW=-1.3888889256819,
+    BACKWARD_NORMAL=-2.7777778513638,
+    BACKWARD_FAST=-5.5555557027275,
+    BACKWARD_MAX=-27.777778513638,
+  },
+  state={
+    CAN_FULTON=1,
+    SPEED_DOWN=2,
+  },
+  class={
+    DEFAULT=0,
+    DARK_GRAY=1,
+    OXIDE_RED=2,
+  },
+  paintType={
+    NONE=0,
+    RANK_0=1,
+    RANK_1=2,
+    RANK_2=3,
+    FOVA_0=4,
+    FOVA_1=5,
+    FOVA_2=6,
+    CUSTOM=7,
+  },
+  type={
+    WESTERN_LIGHT_VEHICLE=1,
+    EASTERN_LIGHT_VEHICLE=2,
+    WESTERN_TRUCK=3,
+    EASTERN_TRUCK=4,
+    WESTERN_WHEELED_ARMORED_VEHICLE=5,
+    EASTERN_WHEELED_ARMORED_VEHICLE=6,
+    WESTERN_TRACKED_TANK=7,
+    EASTERN_TRACKED_TANK=8,
+  },
+  subType={
+    NONE=0,
+    WESTERN_TRUCK_CARGO_ITEM_BOX=1,
+    WESTERN_TRUCK_CARGO_CONTAINER=2,
+    WESTERN_TRUCK_CARGO_CISTERN=3,
+    WESTERN_TRUCK_HOOD=4,
+    EASTERN_TRUCK_CARGO_AMMUNITION=1,
+    EASTERN_TRUCK_CARGO_MATERIAL=2,
+    EASTERN_TRUCK_CARGO_DRUM=3,
+    EASTERN_TRUCK_CARGO_GENERATOR=4,
+    WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN=1,
+    WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON=2,
+    EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY=1,
+  },
+  emblemType={
+    LOCAL_PLAYER=1,
+    OPPONENT_PLAYER=2,
+  },
+}
+
+--EVER_UNREAL,--DEBUGNOW from exe, dont know where these fit
+--SPIRITED_AWAY,
+
+--tex derived from Inspecting runtime output of Vehicle.svars with difference instanceCounts
+Vehicle.svars=function(params)
+  local instanceCount=params.instanceCount or Vehicle.instanceCountMax
+  local svars={
+    {
+      arraySize=instanceCount+1,
+      category=8,
+      name="ene_veh_name",
+      save=true,
+      sync=false,
+      type=2,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=(instanceCount+1)*12,
+      category=8,
+      name="ene_veh_life",
+      save=true,
+      sync=false,
+      type=6,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=instanceCount+1,
+      category=8,
+      name="ene_veh_state",
+      save=true,
+      sync=false,
+      type=6,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=(instanceCount+1)*4,
+      category=8,
+      name="ene_veh_attitude",
+      save=true,
+      sync=false,
+      type=3,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=(instanceCount+1)*3,
+      category=8,
+      name="ene_veh_ammo",
+      save=true,
+      sync=false,
+      type=7,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=instanceCount+1,
+      category=16,
+      name="ene_veh_marker",
+      save=true,
+      sync=false,
+      type=2,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=instanceCount+1,
+      category=8,
+      name="ene_veh_stash",
+      save=true,
+      sync=false,
+      type=2,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=1,
+      category=8,
+      name="ene_veh_relief",
+      save=true,
+      sync=false,
+      type=2,
+      value=0,
+      wait=false
+    },
+    {
+      arraySize=16,
+      category=8,
+      name="ene_veh_convoy",
+      save=true,
+      sync=false,
+      type=7,
+      value=0,
+      wait=false
+    },
+  }
+
+  return svars
+end
+
+Vehicle.SaveCarry=function(params)
+  local options=params.options
+  local initialPosition=params.initialPosition
+  local initialRotY=params.initialRotY
+  local save=params.save--ASSUMPTION, in same section in exe
+  local sync=params.sync--ASSUMPTION, in same section in exe
+end
+Vehicle.LoadCarry=function()end
+Vehicle.ClearCarry=function()end
+Vehicle.FinishCarry=function()end
+Vehicle.SetIgnoreDisableNpc=function(ignoreDisableNpc)--bool
+end
+
+
 
 vars={}
---DEBUGNOW vars.missionCode=1
-
 mvars={}
 svars={}
 gvars={}
 
 
+--tex merge with mock modules build from InfTeardown
+local mockModules=require"MockModules"
+if mockModules then
+  for moduleName,mockModule in pairs(mockModules)do
+    print("Adding mock module "..moduleName)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---< engine side
+    local module=_G[moduleName] or {}
+    _G[moduleName]=module
+    for k,v in pairs(mockModule)do
+      --DEBUGNOW
+      if type(module)=="function" then--TODO: fix above modules that I've made functions (Application etc
+        print("warning module "..moduleName.." is function")
+      elseif module[k]==nil then
+        if v=="<function>" then
+          module[k]=function()end
+        elseif v=="<table>" then
+          print("warning key "..k.." is table")
+        else
+          module[k]=v
+        end
+      end
+    end
+  end
+end

@@ -1523,13 +1523,13 @@ function this.RegisterUniqueSetting(uniqueType,name,faceId,bodyId)
   end
   table.insert(l_uniqueSettings,{name=name,faceId=faceId,bodyId=bodyId,flag=flag})
   do
-    local entryIdxFaceId=1
-    local entryIdxCount1=2
-    local entryIdxCount2=3
-    local entryIdxCount3=4
+    local faceIdEntryIdx=1
+    local eneFaceCountEntryIdx=2
+    local eneFaceCountEntryIdx2=3
+    local hosFaceCountEntryIdx=4
     local faceFova=nil
     for i,_faceFova in ipairs(l_uniqueFaceFovas)do
-      if _faceFova[entryIdxFaceId]==faceId then
+      if _faceFova[faceIdEntryIdx]==faceId then
         faceFova=_faceFova
       end
     end
@@ -1538,10 +1538,10 @@ function this.RegisterUniqueSetting(uniqueType,name,faceId,bodyId)
       table.insert(l_uniqueFaceFovas,faceFova)
     end
     if uniqueType=="enemy"then
-      faceFova[entryIdxCount1]=faceFova[entryIdxCount1]+1
-      faceFova[entryIdxCount2]=faceFova[entryIdxCount2]+1
+      faceFova[eneFaceCountEntryIdx]=faceFova[eneFaceCountEntryIdx]+1
+      faceFova[eneFaceCountEntryIdx2]=faceFova[eneFaceCountEntryIdx2]+1
     elseif uniqueType=="hostage"then
-      faceFova[entryIdxCount3]=faceFova[entryIdxCount3]+1
+      faceFova[hosFaceCountEntryIdx]=faceFova[hosFaceCountEntryIdx]+1
     end
   end
   do

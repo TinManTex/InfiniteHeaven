@@ -11,6 +11,7 @@ this.moduleNames={}
 --tex while most modules are just loaded in whatever order dir > returns, still need to handle order of these -v- since there's some depenancies between them
 this.coreModules={
   "Ivars",
+  "IvarsPersist",
   "InfMenuCommands",
   "InfQuickMenuCommands",
   "InfLang",

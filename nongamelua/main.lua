@@ -1,28 +1,33 @@
 --main.lua
 local this={}
 
-externalLoad=true
+--tex KLUDGE MoonSharp doesnt set/use package path? DEBUGNOW
+package.path = package.path or ""
+package.cpath = package.cpath or ""
 
 projectDataPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"
 
 
-package.path=package.path..";./?.lua"
+package.cpath=package.cpath..";./MockFox/?.dll"--tex for bit.dll
+package.path=package.path..";./MockFox/?.lua"
 
-package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
-
-package.cpath=package.cpath..";./MockFox/?.dll"
-package.path=package.path..";./Data1Lua/Tpp/?.lua"
-package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"
+--non mock stuff >
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
 
-package.path=package.path..";./ExternalLua/?.lua"
-package.path=package.path..";./ExternalLua/modules/?.lua"
+package.path=package.path..";./?.lua"
 
 package.path=package.path..";./nonmgscelua/?.lua"
+package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
+
+--package.path=package.path..";./Data1Lua/Tpp/?.lua"
+package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"--for AutoDoc
+--<
+
 
 --
-Mock=[[C:\]]--DEBUGNOW[[C:\GamesSD\MGS_TPP\]]--tex indicator to stop InfMain from running loadexternalmodules on its load
+--Mock=[[C:\]]--DEBUGNOW
+Mock=[[C:\GamesSD\MGS_TPP\]]--
 
 
 
@@ -51,53 +56,52 @@ end
 --
 --tex not set up as a coroutine, so yield==nil?
 yield=function()--DEBUGNOW
+  --DEBUGNOW coroutine.yield()--DEBUGNOW
 end
 
-loadfile=function(path)
-  return loadfile(projectDataPath..path)
-end
+--DEBUGNOW
+--local _loadfile=loadfile
+--loadfile=function(path)
+--  return _loadfile(projectDataPath..path)
+--end
 
 dofile("MockFox/MockFoxEngine.lua")
 
 print"parse main.lua: MockFoxEngine done"
 
---local init,err=loadfile("./Data1Lua/init.lua")--tex TODO DEBUG loadfile hangs in LDT?
---if not err then
---init()
---else
---print(tostring(err))
---end
-
-dofile("MockFox/MockFoxPatchup.lua")
+vars=require"vars"
 
 dofile("MockFox/initMock.lua")
+
+--dofile(projectDataPath.."init.lua")
+
+
+--do
+--  local startMock=function()loadfile"MockFox/startMock.lua"end
+--  local co=coroutine.create(startMock)
+--  repeat
+--    --coroutine.yield()
+--    local ok,ret=coroutine.resume(co)
+--    if not ok then
+--      error(ret)
+--    end
+--  until coroutine.status(co)=="dead"
+--end
 dofile("MockFox/startMock.lua")
 
 
 --TODO really do need to module load these since TppDefine is already loaded at this point
 ---------
-afgh_routeSets=require"afgh_routeSets"
-mafr_routeSets=require"mafr_routeSets"
-afgh_travelPlans=require"afgh_travelPlans"
-mafr_travelPlans=require"mafr_travelPlans"
+--DEBUGNOW
+--afgh_routeSets=require"afgh_routeSets"
+--mafr_routeSets=require"mafr_routeSets"
+--afgh_travelPlans=require"afgh_travelPlans"
+--mafr_travelPlans=require"mafr_travelPlans"
 
 
-Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfCore.PCall
-InfLang=require"InfLang"
-Ivars.PostAllModulesLoad()
 
-InfMenuCommands=require"InfMenuCommands"
-InfMenuDefs=require"InfMenuDefs"
-InfMenu=require"InfMenu"
 InfAutoDoc=require"InfAutoDoc"
 
-InfLZ=require"InfLZ"
-
-
-
-InfEquip=require"InfEquip"
-InfEneFova=require"InfEneFova"
-InfFova=require"InfFova"
 
 
 
@@ -1439,10 +1443,10 @@ end
 local function main()
   print("main()")
 
-  print(package.path)
-
-  print(os.date("%x %X"))
-  print(os.time())
+--  print(package.path)
+--
+--  print(os.date("%x %X"))
+--  print(os.time())
 
   print"Running AutoDoc"
   InfAutoDoc.AutoDoc()
@@ -1530,94 +1534,10 @@ local function main()
   --  local addrToEntityNames={}
 
 
-  XmlTest()
+  --XmlTest()
 
 
-  this.gamePath=[[C:\GamesSD\MGS_TPP\]]
-  this.paths={}
-  this.paths.mod=this.gamePath..[[mod\]]
-  this.files={}
-  this.files.mod={}
-
-  this.ihFiles=nil
-  this.filesFull={}
-  this.filesFull.mod={}
-
-
-  function this.GetLines(fileName)
-    return InfCore.PCall(function(fileName)
-      local lines
-      local file,openError=io.open(fileName,"r")
-      if file and not openError then
-        --tex lines crashes with no error, dont know what kjp did to io
-        --      for line in file:lines() do
-        --        if line then
-        --          table.insert(lines,line)
-        --        end
-        --      end
-
-        lines=file:read("*all")
-        file:close()
-
-        lines=InfUtil.Split(lines,"\n")
-        if lines[#lines]=="" then
-          lines[#lines]=nil
-        end
-      end
-      return lines
-    end,fileName)
-  end
-
-
-
-  function this.RefreshFileList()
-    InfCore.LogFlow"InfCore.RefreshFileList"
-
-
-    local path=this.paths.mod
-    local ihFilesName=path..[[ih_files.txt]]
-    local cmd=[[dir /b /s "]]..path..[[" > "]]..ihFilesName..[["]]
-    InfCore.Log(cmd)
-    os.execute(cmd)
-    this.ihFiles=this.GetLines(ihFilesName)
-    if this.ihFiles then
-      InfCore.PrintInspect(this.ihFiles)--DEBUGNOW
-      local stripLen=string.len(path)
-      for i,line in ipairs(this.ihFiles)do
-        if line then
-          local subPath=string.sub(line,stripLen+1)
-          --print(subPath)--DEBUGNOW
-          local isFile=InfUtil.FindLast(subPath,".")~=nil
-          local split=InfUtil.Split(subPath,[[\]])
-          local isRoot=#split==1
-          local subFolder=split[1]
-          InfCore.PrintInspect(split)--DEBUGNOW
-
-          if not isRoot then
-            --this.paths[subFolder]=this.paths[subFolder] or {}
-            this.files[subFolder]=this.files[subFolder] or {}
-            this.filesFull[subFolder]=this.files[subFolder] or {}
-          end
-          if isFile then
-            if isRoot then
-              subFolder="mod"
-            end
-            table.insert(this.files[subFolder],split[#split])
-            table.insert(this.filesFull[subFolder],line)
-          else
-            this.paths[subFolder]=this.paths.mod..subFolder.."\\"
-          end
-        end
-      end
-    end
-
-    --DEBUGNOW
-    InfCore.PrintInspect(this.paths,"paths")
-    InfCore.PrintInspect(this.files,"files")
-  end
-
-  this.RefreshFileList()
-
+  
 
   print"main done"
 end

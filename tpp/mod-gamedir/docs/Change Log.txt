@@ -1,6 +1,27 @@
 Infinite Heaven changelog
 
-r208- 2017-05-30
+r209 - 2017-07-17
+Debug: loadToACC settable on ih_save to have game load ACC on continue from title menu instead of loading saved mission. 
+Is same as holding Escape for a couple of seconds at tile, but possibly more discoverable or providable.
+
+AutoDoc/WriteProfile: IsForProfile now excludes non save ivars.
+
+Mock: Bunch of work on Mock pulling from Dump.
+
+Fixed: Skulls event being forced to Sniper skulls, forgot to revert my debug test which means:
+Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls.
+Should actually be fixed now. Sorry.
+
+Fixed: Accidentally left out the IH mother base animal sideops, Blackfoot Down in r208. Woops.
+
+IvarProc.LoadEvars loads ih_save.lua to global module (instead of just to a local and operating/discarding that), InfQuest.ReadQuestStates reads from that instead of loading ih_save.lua
+
+Refactor: Equipment loading centralized in InfEquip.LoadEquipTable, CreateCustomWeaponTable now takes that loaded equip into account for equipment limit.
+Fixed: Not being able to use weapons/weapon ammo count wrong with custom soldier equipment and other settings on alongside sideops mod. Thanks various people for reports.
+
+ih_save will retain addon sideops states even when game run with addon sideops not installed.
+
+r208 - 2017-05-30
 Option: loadAddonMission - "Load addon mission" - WIP
 (via IH system menu)
 

@@ -765,19 +765,37 @@ sequences.Seq_Game_TitleMenu = {
 		this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
 		TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
 	end,
+	--tex REWORKED
 	OnSelectContinue = function()
-		if TppMission.IsHelicopterSpace(gvars.title_nextMissionCode)
-		or ( gvars.title_nextMissionCode == 10115 )
-		or ( gvars.title_nextMissionCode == 50050 ) then
-			this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
-	  elseif InfMain.abortToAcc then--tex>
-	     InfMain.abortToAcc=false
-	     this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )	     
-		else--<
-			this.SetOnSelectFlag( SELECT_FLAG.SELECT_CONTINUE )
-		end
-		TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
-	end,
+   local loadToHeliMissions={[10115]=true,[50050]=true}
+   
+   local loadToHeli=TppMission.IsHelicopterSpace(gvars.title_nextMissionCode) 
+    or loadToHeliMissions[gvars.title_nextMissionCode] 
+    or InfMain.abortToAcc 
+    or (ih_save and ih_save.loadToACC)--tex added abortToAcc/loadToACC
+     
+    if loadToHeli then--tex> 
+      InfMain.abortToAcc=false
+    end--<
+  
+    if loadToHeli then
+    	this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
+    else
+    	this.SetOnSelectFlag( SELECT_FLAG.SELECT_CONTINUE )
+    end
+    TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
+  end,
+	--ORIG
+--	OnSelectContinue = function()
+--    if TppMission.IsHelicopterSpace(gvars.title_nextMissionCode)
+--    or ( gvars.title_nextMissionCode == 10115 )
+--    or ( gvars.title_nextMissionCode == 50050 ) then
+--      this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
+--    else
+--      this.SetOnSelectFlag( SELECT_FLAG.SELECT_CONTINUE )
+--    end
+--    TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
+--  end,
 	OnSelectGameStart = function()
 		this.SetOnSelectFlag( SELECT_FLAG.SELECT_GAME_START )
 		TppSequence.SetNextSequence("Seq_Demo_CheckDlc")

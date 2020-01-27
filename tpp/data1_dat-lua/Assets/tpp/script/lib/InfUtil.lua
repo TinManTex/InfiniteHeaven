@@ -213,9 +213,6 @@ end
 
 --tex ex returns "cm_f0_h2_v000_eye1.fv2" from "/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2"
 function this.GetFileName(path,stripExt)
-  if Mock then--KLUDGE
-    if path==nil then return "nil_path" end
-  end
   local lastPos=this.FindLast(path,"/")
   local fileName=string.sub(path,lastPos+1,#path)
   if stripExt then

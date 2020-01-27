@@ -15,24 +15,33 @@ function this.PostModuleReload(prevModule)
 end
 
 function this.DisableEvent()
-  if vars.missionCode==30050 and Ivars.inf_event:Is"WARGAME" then
-    Ivars.inf_event:Set(0)
-    this.inf_enabledEvents={}
-  end
-  if (vars.missionCode==30010 or vars.missionCode==30020) and Ivars.inf_event:Is"ROAM" then
-    Ivars.inf_event:Set(0)
-    this.inf_enabledEvents={}
+  local eventMissions={
+    [30010]=true,
+    [30020]=true,
+    [30050]=true,
+  }
+
+  if eventMissions[vars.missionCode] then
+    if igvars.inf_event~=false then
+      igvars.inf_event=false
+      this.inf_enabledEvents={}
+      --DEBUGNOW
+      local IvarProc=IvarProc
+      for name,ivar in pairs(Ivars) do
+        if IvarProc.IsIvar(ivar) then
+          IvarProc.UpdateSettingFromGvar(ivar)
+        end
+      end
+    end
   end
 end
 
 function this.OnMissionCanStart()
-  if Ivars.inf_event:Is(0) then
+  if not igvars.inf_event then
     return
   end
 
-  if Ivars.inf_event:Is"ROAM" then
-    this.DisableLzs()
-  end
+  this.DisableLzs()
 
   this.doInjury=false
   if this.inf_enabledEvents.CRASHLAND then
@@ -84,10 +93,10 @@ function this.GenerateEvent(missionCode)
     IvarProc.ApplyProfile(clearVars)
   end
 
-  if this.forceEvent or randomTriggered or Ivars.inf_event:Is()>0 then
+  if this.forceEvent or randomTriggered or igvars.inf_event then
     InfCore.Log("InfGameEvent.GenerateEvent missionCode:"..missionCode)--DEBUG
     --    InfCore.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
-    --    InfCore.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
+    --    InfCore.DebugPrint("inf_levelSeed:"..tostring(igvars.inf_levelSeed))--DEBUG
 
 
     if missionCode==30050 then
@@ -155,8 +164,7 @@ end
 
 function this.GenerateRoamEvent(missionCode)
   --InfCore.PCall(function(missionCode)--DEBUG
-  local Ivar=Ivars
-  Ivars.inf_event:Set"ROAM"--tex see ivar declaration for notes
+  igvars.inf_event=true
 
   this.inf_enabledEvents={}
   local numEvents=0
@@ -368,7 +376,7 @@ local warGameSettings={
 function this.GenerateWarGameEvent()
   --InfCore.PCallDebug(function()--DEBUG
   --tex user is doing wargames anyway
-  if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
+  if Ivars.mbWarGamesProfile:Is()>0 and not igvars.inf_event then
     return
   end
 
@@ -378,8 +386,7 @@ function this.GenerateWarGameEvent()
     return
   end
 
-  local Ivars=Ivars
-  Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
+  igvars.inf_event=true
 
   this.inf_enabledEvents={}
 

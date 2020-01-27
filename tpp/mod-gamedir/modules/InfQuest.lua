@@ -49,38 +49,39 @@ end
 
 function this.OnAllocate(missionTable)
   if missionTable.enemy then
-    this.LoadEquipTable()
+    --CULL this.LoadEquipTable()
   end
 end
 
 --tex see InfEquip.LoadEquipTable for notes
-function this.LoadEquipTable()
-  if not TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsStoryMission(vars.missionCode) then
-    return
-  end
-
-  local equipLoadTable={}
-
-  for questName,questInfo in pairs(this.ihQuestsInfo)do
-    if TppQuest.IsActive(questName) then
-      if questInfo.requestEquipIds then
-        InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
-        for n,equipName in ipairs(questInfo.requestEquipIds)do
-          local equipId=TppEquip[equipName]
-          if equipId==nil then
-            InfCore.Log("InfQuest.LoadEquipTable: requestEquipIds ERROR: "..questName.."  could not find equipId "..tostring(equipId))
-          else
-            equipLoadTable[#equipLoadTable+1]=equipId
-          end
-        end
-      end
-    end
-  end
-
-  if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
-    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
-  end
-end
+--CULL, now in InfEquip.LoadEquipTable
+--function this.LoadEquipTable()
+--  if not TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsStoryMission(vars.missionCode) then
+--    return
+--  end
+--
+--  local equipLoadTable={}
+--
+--  for questName,questInfo in pairs(this.ihQuestsInfo)do
+--    if TppQuest.IsActive(questName) then
+--      if questInfo.requestEquipIds then
+--        InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
+--        for n,equipName in ipairs(questInfo.requestEquipIds)do
+--          local equipId=TppEquip[equipName]
+--          if equipId==nil then
+--            InfCore.Log("InfQuest.LoadEquipTable: requestEquipIds ERROR: "..questName.."  could not find equipId "..tostring(equipId))
+--          else
+--            equipLoadTable[#equipLoadTable+1]=equipId
+--          end
+--        end
+--      end
+--    end
+--  end
+--
+--  if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
+--    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+--  end
+--end
 
 function this.CanOpenClusterGrade0(questName)
   local questInfo=this.ihQuestsInfo[questName]
@@ -143,13 +144,8 @@ local blockQuests={
 --block quests>
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
-  if vars.missionCode==30050 and InfMain.IsMbEvent() then
+  if InfMain.IsMbEvent() then
     --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
-    return true
-  end
-
-  if Ivars.inf_event:Is"WARGAME" then--tex WARGAME is mb events
-    --InfCore.Log("BlockQuest on WARGAME "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
     return true
   end
 
@@ -181,13 +177,8 @@ local forcedQuests={}
 local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
   --tex TODO: need to get intended mission code
-  if vars.missionCode==30050 and InfMain.IsMbEvent() then
+  if InfMain.IsMbEvent() then
     --InfCore.Log("GetForced on event "..tostring(vars.missionCode))--DEBUG
-    return nil
-  end
-
-  if Ivars.inf_event:Is"WARGAME" then
-    --InfCore.Log("GetForced on Wargame "..tostring(vars.missionCode))--DEBUG
     return nil
   end
 
@@ -585,10 +576,10 @@ function this.GetQuestPositions()
 end
 
 --tex set questCleared gvars from ih_save state
+--IN/SIDE: ih_save
 function this.ReadQuestStates()
   InfCore.LogFlow"InfQuest.ReadQuestStates"
 
-  local ih_save=IvarProc.LoadSave()
   if ih_save==nil then
     local errorText="ReadQuestStates Error: ih_save==nil"
     InfCore.Log(errorText,true,true)
@@ -645,6 +636,18 @@ function this.GetCurrentStates()
       end
 
       questClearStates[questName]=bitState
+    end
+  end
+
+  --tex WORKAROUND (not quite the place for it, should have it's own func then anoteher uniting the two tables
+  --transfer over existing states in ih_save
+  --this will cover any runs of ih without the addon quests installed
+  --downside is old data will still persist if developer changes questName
+  if ih_save and ih_save.questStates then
+    for questName,bitState in ipairs(ih_save.questStates)do
+      if not questClearStates[questName] then
+        questClearStates[questName]=bitState
+      end
     end
   end
 

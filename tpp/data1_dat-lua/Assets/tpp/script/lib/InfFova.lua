@@ -1833,7 +1833,7 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
   local playerPartsTypes={}
   for i,partsTypeName in ipairs(playerPartsTypeSettings) do
     local partsType=InfFova.PlayerPartsType[partsTypeName]
-    if partsType==nil then--DEBUGNOW
+    if partsType==nil then
       InfCore.Log("GetPlayerPartsTypes: WARNING: partsType==nil for "..tostring(partsTypeName))
     end
     local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]

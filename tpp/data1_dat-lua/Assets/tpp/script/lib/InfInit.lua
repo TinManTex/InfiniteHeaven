@@ -17,19 +17,23 @@ function this.MBManagementSettings()
   TppMotherBaseManagement.RegFlwDev{p50=877,p51=0,p52=1,p53=0,p54=0,p55=0,p56=0,p57=0,p58="",p59=0,p60="",p61=0,p62=1,p63=0,p64=0,p65="",p66=0,p67="",p68=0,p69=0,p70=0,p71=0,p72=0,p73=0,p74=1}
 end
 
---STATE
-ivars={}--tex GLOBAL
-evars={}--tex GLOBAL
+--STATE GLOBAL --TODO put declaration somewhere clearer, infcore?
+ivars={}
+evars={}
+igvars={}
+ih_save={}
 
 --EXEC
 if not InfCore.modDirFail then
-  InfCore.LoadExternalModule"Ivars"
+  InfCore.LoadExternalModule"Ivars"  
+  InfCore.LoadExternalModule"IvarsPersist"
   if Ivars==nil then
     InfCore.Log"Ivars==nil"--DEBUG
-  else
+  else    
+    IvarsPersist.SetupVars()
     IvarProc.LoadEvars()
   end
-  
+
   --InfCore.PrintInspect(evars)--DEBUG
 end
 

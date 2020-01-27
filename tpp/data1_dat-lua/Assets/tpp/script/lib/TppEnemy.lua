@@ -1909,6 +1909,7 @@ function this.SetSaluteVoiceList()
   local typeSoldier={type="TppSoldier2"}
   GameObject.SendCommand(typeSoldier,{id="SetSaluteVoiceList",list=saluteVoiceList})
 end
+--CALLER: some _sequence scripts at MissionPrepare
 function this.RequestLoadWalkerGearEquip()
   TppEquip.RequestLoadToEquipMissionBlock{TppEquip.EQP_WP_West_hg_010}
 end

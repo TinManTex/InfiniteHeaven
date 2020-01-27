@@ -16,8 +16,10 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="208"
+this.modVersion="209"
 this.modName="Infinite Heaven"
+
+this.debugModule=false
 
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
@@ -31,9 +33,10 @@ this.otherModulesOK=false
 
 this.log={}
 
-this.currentCmdIndex=0
-this.output={}
-this.extCmdIndex={}--tex map [cmd index]=output index
+this.cmdToExtCompletedIndex=1--tex min/confirmed executed by ext
+this.cmdToExtCurrentIndex=0--tex current/max
+this.toExtCommands={}
+this.cmdToMgsvCompletedIndex=0--tex min/confirmed executed by mgsv
 
 this.logErr=""
 this.str32ToString={}
@@ -74,7 +77,7 @@ function this.ClearLog()
 end
 
 --tex cant log error to log if log doesnt log lol
-function this.WriteLog(filePath,log)
+function this.WriteLog(filePath,log,startIndex,endIndex)
   local logFile,openError=open(filePath,"w")
   if not logFile or openError then
     --this.DebugPrint("Create log error: "..tostring(error))
@@ -82,7 +85,7 @@ function this.WriteLog(filePath,log)
     return
   end
 
-  logFile:write(concat(log,nl))
+  logFile:write(concat(log,nl,startIndex,endIndex))
   logFile:close()
 end
 
@@ -252,23 +255,45 @@ function this.ExtCmd(cmd,args)
     return
   end
 
-  this.currentCmdIndex=this.currentCmdIndex+1
+  this.cmdToExtCurrentIndex=this.cmdToExtCurrentIndex+1
 
   args=args or {}
   if type(args)=="string" then
     args={args}
   end
 
-  local message=this.currentCmdIndex.."|"..cmd
+  local message=this.cmdToExtCurrentIndex.."|"..cmd
   if #args>0 then
     message=message.."|"..table.concat(args,"|")
   end
-  this.extCmdIndex[this.currentCmdIndex]=message
-  this.output[this.currentCmdIndex]=message
 
-  --InfCore.PrintInspect(this.output)--DEBUG
+  this.toExtCommands[this.cmdToExtCurrentIndex]=message
 
-  this.WriteLog(this.toExtCmdsFilePath,this.output)
+  this.toExtCommands[1]="0|cmdToMgsvCompletedIndex|"..this.cmdToMgsvCompletedIndex
+  this.WriteLog(this.toExtCmdsFilePath,this.toExtCommands,this.cmdToExtCompletedIndex)
+  --InfCore.PrintInspect(this.toExtCommands)--DEBUG
+end
+
+--tex from ext to mgsv
+function this.DoToMgsvCommands()
+  local lines=this.GetLines(this.toMgsvCmdsFilePath)
+  if lines then
+    for i,line in ipairs(lines)do
+      local args=InfUtil.Split(line,"|")
+      local messageId=tonumber(args[1])
+      if messageId > this.cmdToMgsvCompletedIndex then
+        --DEBUGNOW TODO exec command
+
+        this.cmdToMgsvCompletedIndex=messageId
+      end
+    end
+
+    --tex completed ext to mgsv commands completed index is written to mgsv to ext file since
+    --since mgsv should only read incomming and write outgoing file
+    --(and visa versa for whatever is writing ext to mgsv commands).
+    this.toExtCommands[1]="0|cmdToMgsvCompletedIndex|"..this.cmdToMgsvCompletedIndex
+    this.WriteLog(this.toExtCmdsFilePath,this.toExtCommands,this.cmdToExtCompletedIndex)
+  end
 end
 
 --tex altered from Tpp.DEBUG_Where
@@ -431,6 +456,10 @@ end
 --tex with external alternate
 function this.DoFile(path)
   local scriptPath=InfCore.paths.mod..path
+  if Mock then--tex DEBUGNOW KLUDGE doesnt have access to scripts in qar so pointing to a seperate source and reusing the ih external alternate loading (which means actual alternates in \mod\ wont be used)
+    scriptPath=projectDataPath..path
+  end
+
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
@@ -472,8 +501,8 @@ function this.LoadLibrary(path)
 end
 
 function this.OnLoadEvars()
-  --  this.debugMode=evars.debugMode==1--tex handled via DebugModeEnalbe
-  this.debugOnUpdate=evars.debugOnUpdate==1
+  --  this.debugMode=ivars.debugMode==1--tex handled via DebugModeEnalbe
+  this.debugOnUpdate=ivars.debugOnUpdate==1
   --tex TODO: this is not firing
   if not this.ihSaveFirstLoad then
     this.ihSaveFirstLoad=true
@@ -487,21 +516,27 @@ function this.GetLines(fileName)
   return InfCore.PCall(function(fileName)
     local lines
     local file,openError=io.open(fileName,"r")
-    if file and not openError then
-      --tex lines crashes with no error, dont know what kjp did to io
-      --      for line in file:lines() do
-      --        if line then
-      --          table.insert(lines,line)
-      --        end
-      --      end
+    if file then
+      if not openError then
+        --tex lines crashes with no error, dont know what kjp did to io
+        --      for line in file:lines() do
+        --        if line then
+        --          table.insert(lines,line)
+        --        end
+        --      end
 
-      lines=file:read("*all")
-      file:close()
+        lines=file:read("*all")
 
-      lines=InfUtil.Split(lines,"\r\n")
-      if lines[#lines]=="" then
-        lines[#lines]=nil
+        if Mock then--DEBUGNOW KLUDGE differences in line end between implementations
+          lines=InfUtil.Split(lines,"\n")
+        else
+          lines=InfUtil.Split(lines,"\r\n")
+        end
+        if lines[#lines]=="" then
+          lines[#lines]=nil
+        end
       end
+      file:close()
     end
     return lines
   end,fileName)
@@ -516,6 +551,7 @@ function this.RefreshFileList()
   InfCore.Log(cmd)
   os.execute(cmd)
   this.ihFiles=this.GetLines(ihFilesName)
+  --InfCore.PrintInspect(this.ihFiles,"ihFiles")--DEBUG
   if this.ihFiles then
     this.paths={
       mod=this.modPath,
@@ -526,7 +562,7 @@ function this.RefreshFileList()
     this.filesFull={
       mod={},
     }
-  
+
     local stripLen=string.len(path)
     for i,line in ipairs(this.ihFiles)do
       if line then
@@ -540,7 +576,7 @@ function this.RefreshFileList()
         if isRoot then
           subFolder="mod"
         end
-        
+
         this.files[subFolder]=this.files[subFolder] or {}
         this.filesFull[subFolder]=this.filesFull[subFolder] or {}
         if not this.paths[subFolder] then
@@ -610,6 +646,7 @@ end
 this.saveName="ih_save.lua"
 this.logFileName="ih_log"
 this.toExtCmdsFileName="ih_toextcmds"
+this.toMgsvCmdsFileName="ih_tomgsvcmds"
 this.prev="_prev"
 
 --hook
@@ -632,12 +669,6 @@ this.gamePath=GetGamePath()
 this.modPath=this.gamePath..[[mod\]]
 this.paths={
   mod=this.modPath,
---  profiles=modPath..[[profiles\]],
---  modules=modPath..[[modules\]],
---  fovaInfo=modPath..[[fovaInfo\]],
---  quests=modPath..[[quests\]],
---  locations=modPath..[[locations\]],
---  missions=modPath..[[locations\]],
 }
 this.files={
   mod={},
@@ -651,6 +682,9 @@ this.logFilePath=this.paths.mod..this.logFileName..".txt"
 this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"
 
 this.toExtCmdsFilePath=this.paths.mod..this.toExtCmdsFileName..".txt"
+this.toMgsvCmdsFilePath=this.paths.mod..this.toMgsvCmdsFileName..".txt"
+local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
+local error=this.ClearFile(this.paths.mod,this.toMgsvCmdsFileName,".txt")
 
 this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
 local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")

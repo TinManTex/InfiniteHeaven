@@ -1407,9 +1407,7 @@ if TppSoldierFace~=nil then
   }
   this.fovaFileTable.bodyFova.maxCount=#this.bodyDefinition+1--tex
 
-  if InfModelProc then--tex WORKAROUND Mock
-    InfCore.PCall(InfModelProc.Setup,this)--tex
-  end
+  InfCore.PCall(InfModelProc.Setup,this)--tex
 
   TppSoldierFace.SetFovaFileTable(this.fovaFileTable)
 

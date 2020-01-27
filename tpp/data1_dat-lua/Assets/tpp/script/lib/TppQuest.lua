@@ -1150,7 +1150,6 @@ end--<
 --NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction
 function this.GetSideOpsListTable()
   InfCore.LogFlow("InfQuest.GetSideOpsListTable")--tex DEBUG
-  return InfCore.PCall(function()--DEBUGNOW
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
     local clearedNotActive={}--tex
@@ -1171,13 +1170,12 @@ function this.GetSideOpsListTable()
       end
     end
 
-
     --tex manage ui entry limit>
     local maxUIQuests=192
     local overCount=#sideOpsListTable-maxUIQuests
     InfCore.Log("overCount:"..overCount)--tex DEBUG
     if overCount>0 then
-      --tex DEBUGNOW TODO user message?
+      --tex TODO user message?
       InfMain.RandomSetToLevelSeed()
 
       for i=1,overCount do
@@ -1211,7 +1209,6 @@ function this.GetSideOpsListTable()
   --    InfCore.LogFlow("TppQuest.GetSideOpsListTable"--tex DEBUG
   --    InfCore.PrintInspect(sideOpsListTable)--tex DEBUG
   return sideOpsListTable
-  end)--DEBUGNOW
 end
 function this.GetBounusGMP(questName)
   local rank=TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]

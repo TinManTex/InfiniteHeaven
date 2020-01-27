@@ -1542,15 +1542,8 @@ function this._AllocateResources(config)
   if missionId==10080 or missionId==11080 then
     table.insert(equipLoadTable,TppEquip.EQP_WP_Wood_ar_010)
   end
-  if TppEquip.RequestLoadToEquipMissionBlock then    
-    --tex> TODO: pare it down to actual used
-    if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
-      for weaponType,weaponId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
-        table.insert(equipLoadTable,weaponId)
-      end
-    end
-    InfEquip.currentLoadTable=equipLoadTable
-    --<
+  if TppEquip.RequestLoadToEquipMissionBlock then
+    InfEquip.AddToCurrentLoadTable(equipLoadTable)--tex
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
 end

@@ -36,7 +36,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  if InfMain.IsMbEvent() then
+  if InfMain.IsMbEvent(missionCode) then
     return
   end
 

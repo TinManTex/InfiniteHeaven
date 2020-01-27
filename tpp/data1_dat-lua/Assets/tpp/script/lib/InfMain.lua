@@ -55,9 +55,7 @@ this.packages={
 }
 
 function this.OnLoadEvars()
-  --InfQuest.DEBUG_PrintQuestClearedFlags()--DEBUG
-  local enable=Ivars.debugMode:Is(1)
-  this.DebugModeEnable(enable)
+
 end
 
 --CALLER: TppVarInit.StartTitle, game save actually first loaded
@@ -103,6 +101,9 @@ function this.PreMissionLoad(missionId,currentMissionId)
 end
 
 function this.OnAllocateTop(missionTable)
+  local enable=Ivars.debugMode:Is(1)
+  this.DebugModeEnable(enable)
+
   if gvars.isContinueFromTitle then
     this.isContinueFromTitle=true
   end
@@ -121,11 +122,10 @@ function this.OnAllocate(missionTable)
     return
   end
 
-  if gvars then
-    InfCore.Log("inf_levelSeed "..tostring(gvars.inf_levelSeed))--DEBUG
+  if igvars then
+    InfCore.Log("inf_levelSeed "..tostring(igvars.inf_levelSeed))--DEBUG
   end
 
-  --DEBUGNOW
   local equipOnTrucks=Ivars.vehiclePatrolProfile:EnabledForMission() and Ivars.vehiclePatrolTruckEnable:Is(1) and Ivars.putEquipOnTrucks:Is(1)
   --tex not sure how TppPickable.DropItem is implemented, but bunging it in case it creates locators.
   local increasedWeapons=IvarProc.EnabledForMission("customWeaponTable") or Ivars.itemDropChance:Is()>0 or Ivars.enableWildCardFreeRoam:EnabledForMission() or equipOnTrucks
@@ -178,9 +178,29 @@ function this.OnInitializeTop(missionTable)
     if TppMission.IsFOBMission(vars.missionCode)then
       return
   end
-  
+
   if Ivars.debugMode:Is(1) then
     InfLookup.BuildGameIdToNames()
+
+    --tex initializing TppDbgStr32s strcode32 to string tables (cribbed from TppDebug.DEBUG_OnReload)
+    --TODO: split out more static ones to DebugModeEnable (InfLookup,TppDbgStr32), would require DEBUG_RegisterStrcode32invert to append to strCode32ToString instead of overwrite
+    local strCode32List={}
+    for i,module in ipairs(InfModules) do
+      if module.lookupStrings then
+        InfCore.Log("Adding "..tostring(module.name).." to strCode32List")
+        Tpp.ApendArray(strCode32List,module.lookupStrings)
+      end
+    end
+
+    Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
+    for name,module in pairs(missionTable)do
+      if module.DEBUG_strCode32List then
+        InfCore.Log("Adding "..tostring(module.name).." to strCode32List")
+        Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
+      end
+    end
+    --InfCore.PrintInspect(strCode32List,"strCode32List")--DEBUG
+    TppDbgStr32.DEBUG_RegisterStrcode32invert(strCode32List)
   end
 
   this.RandomizeCpSubTypeTable()
@@ -193,16 +213,16 @@ function this.OnInitializeTop(missionTable)
         local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
         this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
         this.soldierPool=InfUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
- 
+
         this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
         this.lrrpDefines={}
 
         InfWalkerGear.walkerPool=InfUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
-        InfWalkerGear.mvar_walkerInfo={}        
-        
---        InfCore.Log("numReserveSoldiers:"..numReserveSoldiers)--tex DEBUG
---        InfCore.PrintInspect(this.reserveSoldierNames,"reserveSoldierNames")--tex DEBUG
---        InfCore.PrintInspect(this.soldierPool,"soldierPool")--tex DEBUG
+        InfWalkerGear.mvar_walkerInfo={}
+
+        --        InfCore.Log("numReserveSoldiers:"..numReserveSoldiers)--tex DEBUG
+        --        InfCore.PrintInspect(this.reserveSoldierNames,"reserveSoldierNames")--tex DEBUG
+        --        InfCore.PrintInspect(this.soldierPool,"soldierPool")--tex DEBUG
       end
       InfCore.PCallDebug(InfSoldier.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
 
@@ -256,27 +276,6 @@ function this.Init(missionTable)
       if module.Init then
         InfCore.PCallDebug(module.Init,missionTable,currentChecks)
       end
-    end
-
-    --tex initializing TppDbgStr32s strcode32 to string tables (cribbed from TppDebug.DEBUG_OnReload)
-    --TODO: split out more static ones to DebugModeEnable (InfLookup,TppDbgStr32), would require DEBUG_RegisterStrcode32invert to append to strCode32ToString instead of overwrite
-    if Ivars.debugMode:Is(1) then
-      local strCode32List={}
-      for i,module in ipairs(InfModules) do
-        if module.lookupStrings then
-          InfCore.Log("Adding "..tostring(module.name).." to strCode32List")
-          Tpp.ApendArray(strCode32List,module.lookupStrings)
-        end
-      end
-
-      Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
-      for name,module in pairs(missionTable)do
-        if module.DEBUG_strCode32List then
-          Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
-        end
-      end
-      --InfCore.PrintInspect(strCode32List,"strCode32List")--DEBUG
-      TppDbgStr32.DEBUG_RegisterStrcode32invert(strCode32List)
     end
   end,missionTable)--
 end
@@ -439,15 +438,22 @@ function this.ExecuteMissionFinalizeFree(missionFinalize)
 
   --tex repop count decrement for plants
   if Ivars.mbCollectionRepop:Is(1) then
+    
     if missionFinalize.isZoo then
       TppGimmick.DecrementCollectionRepopCount()
     elseif missionFinalize.isMotherBase then
+
       --tex dont want it too OP
-      Ivars.mbRepopDiamondCountdown:Set(Ivars.mbRepopDiamondCountdown:Get()-1)
-      if Ivars.mbRepopDiamondCountdown:Is(0) then
-        Ivars.mbRepopDiamondCountdown:Reset()
+      local defaultValue=IvarsPersist.mbRepopDiamondCountdown
+      local value=igvars.mbRepopDiamondCountdown
+      value=value-1
+      if value<=0 then
+        value=defaultValue
+        --InfCore.Log("mbCollectionRepop decrement/reset")--DEBUG
         TppGimmick.DecrementCollectionRepopCount()
       end
+      --InfCore.Log("mbRepopDiamondCountdown decrement from "..igvars.mbRepopDiamondCountdown.." to "..value)--DEBUG
+      igvars.mbRepopDiamondCountdown=value
     end
   end
 end
@@ -744,7 +750,7 @@ function this.OnEnterACC()
 end
 --tex on holding esc at title
 function this.ClearOnAbortToACC()
-  Ivars.inf_event:Set(0)
+  igvars.inf_event=false
 end
 
 this.execChecks={
@@ -914,15 +920,15 @@ function this.RegenSeed(currentMission,nextMission)
   -- this does mean that free roam<>mission wont get a change though, but that may be useful in some circumstances
   if TppMission.IsHelicopterSpace(nextMission) and currentMission>5 then
     this.RandomResetToOsTime()
-    Ivars.inf_levelSeed:Set(math.random(0,2147483647))
-    InfCore.Log("InfMain.RegenSeed new seed "..tostring(gvars.inf_levelSeed))--DEBUG
+    igvars.inf_levelSeed=math.random(0,2147483647)
+    InfCore.Log("InfMain.RegenSeed new seed "..tostring(igvars.inf_levelSeed))--DEBUG
   end
 end
 
 function this.RandomSetToLevelSeed()
-  --  InfCore.Log("RandomSetToLevelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
+  --  InfCore.Log("RandomSetToLevelSeed:"..tostring(igvars.inf_levelSeed))--DEBUG
   --  InfCore.Log("caller:"..InfCore.DEBUG_Where(2))--DEBUG
-  math.randomseed(gvars.inf_levelSeed)
+  math.randomseed(igvars.inf_levelSeed)
   math.random()
   math.random()
   math.random()
@@ -1386,7 +1392,7 @@ function this.SetSubsistenceSettings()
   }
 
   for i,ivar in ipairs(ospIvars) do
-    if Ivars.inf_event:Is(0) then
+    if igvars.inf_event==false then
       IvarProc.UpdateSettingFromGvar(ivar)
     end
 
@@ -1741,8 +1747,9 @@ function this.IsStartOnFoot(missionCode,isAssaultLz)
   end
 end
 
-function this.IsMbEvent()
-  return Ivars.mbWarGamesProfile:Is()>0 or Ivars.inf_event:Is"WARGAME"
+function this.IsMbEvent(missionCode)
+  missionCode=missionCode or vars.missionCode
+  return missionCode==30050 and (Ivars.mbWarGamesProfile:Is()>0 or igvars.inf_event~=false)
 end
 
 function this.GetAverageRevengeLevel()

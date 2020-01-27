@@ -34,7 +34,7 @@ function this.IsFOBMission(missionCode)
   end
 end
 
-local function IsIvar(ivar)--TYPEID
+function this.IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
 end
 
@@ -140,35 +140,35 @@ end
 function this.SetSetting(self,setting,noSave)
   --InfCore.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   if self==nil then
-    InfCore.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
+    InfCore.Log("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?",true)
     return
   end
   if type(self)~="table" then
-    InfCore.DebugPrint("WARNING: SetSetting: self ~= table!")
+    InfCore.Log("WARNING: SetSetting: self ~= table!",true)
     return
   end
   if self.option then
-    InfCore.DebugPrint("WARNING: SetSetting called on menu")
+    InfCore.Log("WARNING: SetSetting called on menu",true)
     return
   end
 
   local currentSetting=ivars[self.name]
   if currentSetting==nil then
-    InfCore.DebugPrint("WARNING: SetSetting: ivar setting==nil")
+    InfCore.Log("WARNING: SetSetting: ivar setting==nil",true)
     return
   end
 
   if type(setting)=="string" then
     setting=self.enum[setting]
     if setting==nil then
-      TppUiCommand.AnnounceLogView("SetSetting: no setting on "..self.name)--DEBUG
+      InfCore.Log("SetSetting: no setting on "..self.name,true)--DEBUG
       return
     end
   end
 
   if self.noBounds~=true then
     if setting < self.range.min or setting > self.range.max then
-      TppUiCommand.AnnounceLogView("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS")
+      InfCore.Log("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS",true)
       return
     end
   end
@@ -211,7 +211,7 @@ this.OptionIsSetting=function(self,setting)
     return
   end
 
-  if not IsIvar(self) then
+  if not this.IsIvar(self) then
     InfCore.DebugPrint("self not Ivar. Is or Get called with . instead of :")
     return
   end
@@ -542,7 +542,7 @@ end
 function this.PrintGvarSettingMismatch()
   --InfCore.PCall(function()--DEBUG
   for name,ivar in pairs(Ivars) do
-    if IsIvar(ivar) then
+    if this.IsIvar(ivar) then
       local gvar=this.GetSaved(ivar)
       if gvar~=nil then
         if ivars[ivar.name]~=gvar then
@@ -576,7 +576,7 @@ function this.PrintSaveVarCount()
 
   local bools=0
   for name, ivar in pairs(Ivars) do
-    if IsIvar(ivar) then
+    if this.IsIvar(ivar) then
       if ivar.save then
         if ivar.range.max==1 then
           bools=bools+1
@@ -759,22 +759,24 @@ function this.ApplyInfProfiles(profileNames)
   end
 end
 
-
-local function IsForProfile(item)
+function this.IsForProfile(item)
   if item.nonConfig
     or item.optionType~="OPTION"
     or item.nonUser
+    or item.nonConfig
+    or item.save==nil
   then
     return false
   end
+
   return true
 end
 
 function this.BuildProfile(onlyNonDefault)
   local profile={}
   for ivarName,ivar in pairs(Ivars)do
-    if IsIvar(ivar) then
-      if IsForProfile(ivar) then
+    if this.IsIvar(ivar) then
+      if this.IsForProfile(ivar) then
         local currentSetting=ivars[ivar.name]
         if not onlyNonDefault or currentSetting~=ivar.default then
           if ivar.settings then
@@ -884,9 +886,11 @@ function this.BuildSaveText(ihVer,inMission,onlyNonDefault,newSave)
     "this.ihVer="..ihVer,
     "this.saveTime="..os.time(),
     "this.inMission="..tostring(inMission),
+    "this.loadToACC=false",
   }
 
   this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
+  this.BuildTableText("igvars",igvars,saveTextList)
   --tex also skips depenancy on InfQuest
   if not newSave then
     if InfQuest then
@@ -919,7 +923,7 @@ local saveLineFormatStr="\t%s=%s,"
 function this.BuildTableText(tableName,sourceTable,saveTextList)
   saveTextList[#saveTextList+1]="this."..tableName.."={"
   for k,v in pairs(sourceTable)do
-    saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,v)
+    saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,tostring(v))
   end
   saveTextList[#saveTextList+1]="}"
 end
@@ -1036,9 +1040,10 @@ function this.LoadSave()
   return ih_save
 end
 
+--SIDE: ih_save (global module)
 function this.LoadEvars()
   InfCore.LogFlow"IvarProc.LoadEvars"
-  local ih_save=this.LoadSave()
+  ih_save=this.LoadSave()
   if ih_save then
     local loadedEvars=this.ReadEvars(ih_save)
     if this.debugModule then
@@ -1050,11 +1055,31 @@ function this.LoadEvars()
       end
     end
 
-    if gvars and Ivars.inf_event:Is()>0 then
+    if ih_save.igvars then
+      --InfCore.PrintInspect(igvars,"igvars, preload")--DEBUG
+      --InfCore.PrintInspect(ih_save.igvars,"ih_save.igvars")--DEBUG
+    
+      for name,value in pairs(ih_save.igvars) do
+        if type(name)=="string" then
+          if igvars[name]~=nil and value~=nil then
+            if type(value)~=type(igvars[name]) then
+              InfCore.Log("WARNING: ih_save igvar "..name.." type does not match")
+            else
+              igvars[name]=value
+            end
+          else
+            InfCore.Log("LoadEvars could not find igvar "..name)
+          end
+        end
+      end
+      --InfCore.PrintInspect(igvars,"igvars, loaded")--DEBUG
+    end
+
+    if InfCore.doneStartup and igvars.inf_event==true then
       InfCore.Log("IvarProc.LoadEvars: is mis event, skiping UpdateSettingFromGvar."..vars.missionCode)--DEBUG
     else
       for name,ivar in pairs(Ivars) do
-        if IsIvar(ivar) then
+        if this.IsIvar(ivar) then
           this.UpdateSettingFromGvar(ivar)
         end
       end

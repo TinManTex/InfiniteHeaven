@@ -591,6 +591,21 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
         else
           heliRoute=routesBag:Next()
           heliRoute=StrCode32(heliRoute)
+          
+          if gvars.heli_missionStartRoute then
+            InfCore.Log("gvars.heli_missionStartRoute=".. gvars.heli_missionStartRoute.." heliroute="..heliRoute)--DEBUGNOW
+            if heliRoute==gvars.heli_missionStartRoute then
+              local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
+              local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
+              local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
+              if not startOnFoot then
+            
+              heliRoute=routesBag:Next()
+              heliRoute=StrCode32(heliRoute)
+              InfCore.Log("heliroute==misisonstartroute, changing to:"..heliRoute)--DEBUGNOW
+              end
+            end
+          end
 
           heliRouteIds[heliIndex]=heliRoute
           local groundStartPosition=InfLZ.GetGroundStartPosition(heliRoute)

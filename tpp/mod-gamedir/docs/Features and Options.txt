@@ -91,7 +91,8 @@ Start the game in offline mode, this also removes the connect option from the pa
 6: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
 7: Load addon mission : 
-8: Reset all IH settings : (Command)
+8: Include addon missions in completion percentage : Off, On
+9: Reset all IH settings : (Command)
 
 Events menu
 -----------
@@ -704,10 +705,10 @@ appearanceDebugMenu
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : (Command)
 11: Print appearance info : (Command)
-12: faceFova : could not find InfEneFova.faceFova
-13: faceDecoFova : could not find InfEneFova.faceDecoFova
-14: hairFova : could not find InfEneFova.hairFova
-15: hairDecoFova : could not find InfEneFova.hairDecoFova
+12: faceFova : Only for DD soldiers
+13: faceDecoFova : Only for DD soldiers
+14: hairFova : Only for DD soldiers
+15: hairDecoFova : Only for DD soldiers
 16: faceFovaUnknown1 : 0-50
 17: faceFovaUnknown2 : 0-1
 18: faceFovaUnknown3 : 0-4
@@ -905,10 +906,10 @@ appearanceDebugMenu
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : (Command)
 11: Print appearance info : (Command)
-12: faceFova : could not find InfEneFova.faceFova
-13: faceDecoFova : could not find InfEneFova.faceDecoFova
-14: hairFova : could not find InfEneFova.hairFova
-15: hairDecoFova : could not find InfEneFova.hairDecoFova
+12: faceFova : Only for DD soldiers
+13: faceDecoFova : Only for DD soldiers
+14: hairFova : Only for DD soldiers
+15: hairDecoFova : Only for DD soldiers
 16: faceFovaUnknown1 : 0-50
 17: faceFovaUnknown2 : 0-1
 18: faceFovaUnknown3 : 0-4

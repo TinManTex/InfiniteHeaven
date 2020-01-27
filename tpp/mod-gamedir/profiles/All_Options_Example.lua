@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r208
+-- Defaults / example of all profile options for IH r209
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -17,7 +17,7 @@ local this={
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
-		loadAddonMission=0,--{  } -- Non-save -- Load addon mission
+		ihMissionsPercentageCount=0,--{ 0-1 } -- Include addon missions in completion percentage
 		--Events menu
 		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
@@ -286,9 +286,7 @@ local this={
 		mbDemoMinute=0,--{ 0-59 } -- Minute
 		mbDemoOverrideWeather=0,--{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather
 		--Camera menu
-		cameraMode=0,--{ DEFAULT, CAMERA } -- Non-save -- Camera mode
 		moveScale=0.5,--{ 0.01-10 } -- Cam speed scale
-		disableCamText=0,--{ 0-1 } -- Non-save -- Disable mode text feedback
 		--Time scale menu
 		speedCamContinueTime=10,--{ 0-1000 } -- TSM length (seconds)
 		speedCamWorldTimeScale=0.3,--{ 0-100 } -- TSM world time scale
@@ -315,11 +313,9 @@ local this={
 		resourceScaleDiamond=100,--{ 100-1000 } -- Diamond scale (percentage)
 		resourceScaleContainer=100,--{ 100-1000 } -- Container scale (percentage)
 		--Debug menu
-		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
 		disableGameOver=0,--{ 0-1 } -- Disable game over
 		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
-		manualMissionCode="10010",--{ 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050 } -- Non-save -- 
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
 	}

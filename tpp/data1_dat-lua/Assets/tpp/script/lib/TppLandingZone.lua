@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
-local breakableList={
+this.aacrGimmickInfo={--tex was local
   cliffTown_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/afgh/block_large/cliffTown/afgh_cliffTown_gimmick.fox2"},
   commFacility_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/afgh/block_large/commFacility/afgh_commFacility_asset.fox2"},
   enemyBase_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/afgh/block_large/enemyBase/afgh_enemyBase_gimmick.fox2"},
@@ -267,8 +267,9 @@ function this.IsAssaultDropLandingZone(heliRoute)
   local drpLz=mvars.ldz_assaultDropLandingZoneTable[heliRoute]
   return drpLz
 end
+--IsAACRGimmickBroken
 function this.IsBrokenGimmick(gimmickId)
-  local gimmick=breakableList[gimmickId]
+  local gimmick=this.aacrGimmickInfo[gimmickId]
   if gimmick==nil then
     return
   end

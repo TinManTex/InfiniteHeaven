@@ -180,6 +180,9 @@ end
 function this.GetFemaleBodyInfo(missionCode)
   --InfCore.Log("GetFemaleBodyInfo")--DEBUG
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
+      return nil
+    end
     return InfBodyInfo.bodyInfo.DRAB_FEMALE --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
       --OFF return nil
   end
@@ -1252,7 +1255,8 @@ function this.WildCardFovaFaces(faces)
   local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
   for i=1,InfSoldier.numWildCards.FEMALE do
     local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
-    table.insert(faces,{faceId,1,1,0})
+    --ASSUMPTION faces not picked more than once by wildcard  -v- -^-
+    table.insert(faces,{faceId,1,1,0})--DEBUGNOW TODO see if i still run into issues with male soldier being assigned female heads when this is >1
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
 

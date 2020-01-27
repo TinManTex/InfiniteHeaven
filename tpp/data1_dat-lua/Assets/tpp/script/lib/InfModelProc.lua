@@ -9,7 +9,7 @@ this.debugModule=false
 this.fovaInfos={}
 
 --tex fova index lookups by fv2 - this[fovaTypeName][fovaName]=fovaIndex, TABLESETUP in Setup()
---DEBUGNOW TODO put lookups in InfEneFova instead, merge or shift the current tables there
+--TODO put lookups in InfEneFova instead, merge or shift the current tables there
 --TODO also integrate fv2 info from external fovainfo modules
 this.faceFova={}
 this.faceDecoFova={}

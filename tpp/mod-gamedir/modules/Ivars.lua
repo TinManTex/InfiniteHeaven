@@ -5,7 +5,9 @@
 --Ivars as a whole are actually split across several modules/tables
 --this module is mostly defintion of the bounds, settings and functions to run on changing Ivar state
 --the working state/value of an Ivar is in the global ivar table, with save values in either gvars (the game save system) or evars (IHs save system)
---the IvarProc module ties together the Ivar definitions and their state
+--the IvarProc module ties together the Ivar definitions and their live state in igvars{} (global)
+--save values are split out to evars{} (global), this mirrors the prior setup of ivar/gvar pair split and is currently mostly to allow ivars to be temporarily disconnected from their 
+--saved state as in ih events
 
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
 --in general this means all stuff should have a 0 that at least does nothing,
@@ -1744,7 +1746,7 @@ this.sideOpsSelectionMode={
   OnChange=this.UpdateActiveQuest,
 }
 
-this.showAllOpenSideopsOnUi={--DEBUGNOW
+this.showAllOpenSideopsOnUi={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -2038,7 +2040,6 @@ this.manualSequence={
   end,
 }
 
---DEBUGNOW
 this.loadAddonMission={
   --OFF save=EXTERNAL,
   settings={},
@@ -3726,18 +3727,22 @@ this.dropLoadedEquip={--WIP
   --OFF save=EXTERNAL,
   range={max=1,min=1},--tex DYNAMIC
   OnSelect=function(self)
-    self.range.max=#InfEquip.currentLoadTable
+    self.settingsTable={}
+    for equipId,bool in pairs(InfEquip.currentLoadTable)do
+      self.settingsTable[#self.settingsTable+1]=equipId
+    end
+    self.range.max=#self.settingsTable
     if self.range.max==0 then
       self.range.max=1
     end
   end,
   GetSettingText=function(self,setting)
-    local equipId=InfEquip.currentLoadTable[setting]
+    local equipId=self.settingsTable[setting]
     local equipName=InfLookup.TppEquip.equipId[equipId]
     return tostring(equipName)
   end,
   OnActivate=function(self,setting)
-    local equipId=InfEquip.currentLoadTable[setting]
+    local equipId=self.settingsTable[setting]
     local equipName=InfLookup.TppEquip.equipId[equipId]
     if equipId==nil then
       InfCore.DebugPrint("no equipId found for "..equipName)
@@ -4194,41 +4199,9 @@ this.skipDevelopChecks={
   range=this.switchRange,
   settingNames="set_switch",
 }
-
---non user save vars
---others grouped near usage, search NONUSER
-
---tex used as indicator whether save>ivars should be synced
-this.inf_event={--NONUSER--Set
-  nonUser=true,
-  save=MISSION,
-  settings={"OFF","WARGAME","ROAM"},
-}
-
-this.mis_isGroundStart={--NONUSER WORKAROUND
-  nonUser=true,
-  save=MISSION,
-  range=this.switchRange,
-}
-
-this.mbRepopDiamondCountdown={--NONUSER--Set
-  nonUser=true,
-  save=MISSION,
-  default=4,
-  range={max=4,min=0,increment=1},
-}
-
-this.inf_levelSeed={--NONUSER--tex cribbed from rev_revengeRandomValue
-  nonUser=true,
-  save=RESTARTABLE,
-  noBounds=true,
-  range={max=int32,},
-  default=4934224,
-  svarType=TppScriptVars.TYPE_UINT32,
-}
 --end ivar defines
 
-local function IsIvar(ivar)--TYPEID
+function this.IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and (ivar.range or ivar.settings)
 end
 
@@ -4253,7 +4226,7 @@ function this.DeclareVars()
   --    end
 
   for name, ivar in pairs(Ivars) do
-    if IsIvar(ivar) then
+    if this.IsIvar(ivar) then
       if ivar.save and ivar.save~=EXTERNAL then
         local ok=true
         local svarType=0
@@ -4315,7 +4288,7 @@ function this.SetupIvars()
 
   local optionType="OPTION"
   for name,ivar in pairs(this) do
-    if IsIvar(ivar) then
+    if this.IsIvar(ivar) then
       ivar.optionType=optionType
       --ivar.name=ivar.name or name
       ivar.name=name
@@ -4373,7 +4346,7 @@ function this.PostAllModulesLoad()
   local languageCode=AssetConfiguration.GetDefaultCategory"Language"
   local langTable=InfLang[languageCode] or InfLang.eng
   for name,ivar in pairs(this) do
-    if IsIvar(ivar) then
+    if this.IsIvar(ivar) then
       local settingNames=name..settingsStr
       if langTable[settingNames] then
         ivar.settingNames=settingNames
@@ -4385,7 +4358,7 @@ end
 --<
 
 --EXEC
-InfCore.PCall(function()
+--InfCore.PCall(function()
   --DEBUG
   --local breakSave=false
   --if breakSave then
@@ -4400,12 +4373,12 @@ InfCore.PCall(function()
 
   --DEBUG turn off saving
   --for name, ivar in pairs(this) do
-  --  if IsIvar(ivar) then
+  --  if this.IsIvar(ivar) then
   --    ivar.save=nil
   --  end
   --end
+--end)
 
-  this.SetupIvars()
-end)
+InfCore.PCall(this.SetupIvars)
 
 return this

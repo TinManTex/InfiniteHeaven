@@ -97,7 +97,7 @@ local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   end
 end
 
-local function IsForProfile(item,currentMenu,priorMenus,priorItems)
+local function IsForProfileAutoDoc(item,currentMenu,priorMenus,priorItems)
   if priorMenus then
     for i,menu in ipairs(priorMenus) do
       if currentMenu==menu then
@@ -109,15 +109,12 @@ local function IsForProfile(item,currentMenu,priorMenus,priorItems)
   if priorItems[item.name] then
     return false
   end
-
-  if currentMenu.nonConfig
-    or item.optionType~="OPTION"
-    or item.nonUser
-    or item.nonConfig
-  then
+  
+  if currentMenu.nonConfig then
     return false
   end
-  return true
+
+  return IvarProc.IsForProfile(item)
 end
 
 local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
@@ -133,7 +130,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
 
   local hasItems=false
   for i,item in ipairs(menu.options)do
-    if IsForProfile(item,menu,priorMenus,priorItems) then
+    if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
       hasItems=true
     end
   end
@@ -197,10 +194,10 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
           table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],helpLangString))
         end
 
-        if IsForProfile(item,menu,priorMenus,priorItems) then
+        if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
           local profileLine={}
           table.insert(profileLine,"\t\t"..item.name.."=")
-          --InfCore.Log("profileline --- "..item.name)--DEBUGNOW
+          --InfCore.Log("profileline --- "..item.name)--DEBUG
           if item.settings then
             local setting=item.settings[item.default+1]
             if setting and setting~="DEFAULT" and setting~="OFF" then

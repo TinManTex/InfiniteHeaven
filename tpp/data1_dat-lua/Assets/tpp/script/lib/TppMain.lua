@@ -639,7 +639,7 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
       --TppHelicopter.ResetMissionStartHelicopterRoute()
       if not isMbFree then
         --tex WORKAROUND mission timers fix see TppMission.IsStartFromHelispace note
-        Ivars.mis_isGroundStart:Set(1)
+        igvars.mis_isGroundStart=true
       end
       local pos=groundStartPosition.pos
       local rotY=groundStartPosition.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest
@@ -805,7 +805,7 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART]=function(missionL
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
 --
 function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
-  Ivars.mis_isGroundStart:Set(0)--tex WORKAROUND
+  igvars.mis_isGroundStart=false--tex WORKAROUND
   this.DisableGameStatus()
   loadPositionFuncs[missionLoadType](missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)--tex broke out from this functions
   if isHeliSpace and isLocationChange then
