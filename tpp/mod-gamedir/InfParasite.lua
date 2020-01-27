@@ -1,6 +1,5 @@
 -- InfParasite.lua
 -- tex implements parasite/skulls unit event
-
 local this={}
 
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -24,8 +23,6 @@ this.packages={
 
 --STATE
 local disableFight=false--DEBUG
-
-local eventInitialized=false
 
 this.parasiteType="ARMOR"
 
@@ -199,6 +196,27 @@ this.isParasiteObjectType={
   [TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2]=true,
 }
 
+this.bgmList={
+  ARMOR={
+    bgm_metallic={
+      start="Play_bgm_s10140_metallic",
+      finish="Set_Switch_bgm_s10140_metallic_ed",
+      restore="Set_Switch_bgm_s10140_metallic_op",
+      switch={
+        "Set_Switch_bgm_s10140_metallic_op",
+        "Set_Switch_bgm_s10140_metallic_sn",
+        "Set_Switch_bgm_s10140_metallic_al",
+        "Set_Switch_bgm_s10140_metallic_ed",
+      },
+    },
+    bgm_post_metallic={
+      start="Play_bgm_s10140_post_metallic",
+      finish="Stop_bgm_s10140_post_metallic",
+    },
+  },
+}
+
+
 function this.PreModuleReload()
   local timers={
     "Timer_ParasiteEvent",
@@ -227,21 +245,23 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
     end
   end
 
-  --this.parasiteType="MIST"--DEBUG
+  --tex DEBUG
+  --TODO force type via ivar
+  --this.parasiteType="MIST"
   --this.parasiteType="ARMOR"
-  -- this.parasiteType="CAMO"
+  --this.parasiteType="CAMO"
 
   InfLog.Add("OnLoad parasiteType:"..this.parasiteType)
 
   InfMain.RandomResetToOsTime()
 end
 
-function this.AddMissionPacks(missionCode)
+function this.AddMissionPacks(missionCode,packPaths)
   if not this.ParasiteEventEnabled(missionCode)then
     return
   end
 
-  TppPackList.AddMissionPack(this.packages[this.parasiteType])
+  packPaths[#packPaths+1]=this.packages[this.parasiteType]
 end
 
 function this.Init(missionTable)
@@ -313,13 +333,10 @@ end
 
 function this.OnMissionCanStart()
   if not this.ParasiteEventEnabled() then
-    eventInitialized=false
     return
   end
 
-  if not eventInitialized then
-    this.InitEvent()
-  end
+  this.InitEvent()
 end
 
 function this.FadeInOnGameStart()
@@ -541,9 +558,10 @@ end
 
 function this.InitEvent()
   --InfLog.PCall(function()--DEBUG
-  InfLog.Add("InfParasite InitEvent")
+  InfLog.Add("InfParasite InitEvent")--DEBUG
 
   if not this.ParasiteEventEnabled() then
+    InfLog.Add("InfParasite InitEvent not para")--DEBUG
     return
   end
 
@@ -559,28 +577,28 @@ function this.InitEvent()
 
   this.hostageParasiteHitCount=0
 
+  numParasites=#this.parasiteNames[this.parasiteType]
+
+  this.SetupParasites()
+
   if TppMission.IsMissionStart() then
     --InfLog.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
     svars.inf_parasiteEvent=false
+    return
   end
 
   for index,state in ipairs(this.parasiteNames[this.parasiteType])do
     states[index]=stateTypes.READY
     hitCounts[index]=0
   end
-
-  numParasites=#this.parasiteNames[this.parasiteType]
-
-  this.SetupParasites()
-
-  eventInitialized=true
   --end)--
 end
 
 local Timer_ParasiteEventStr="Timer_ParasiteEvent"
 function this.StartEventTimer(time)
-  if not this.ParasiteEventEnabled() then
-    return
+  --InfLog.PCall(function(time)--DEBUG
+    if not this.ParasiteEventEnabled() then
+      return
   end
 
   if Ivars.enableParasiteEvent:Is(0) then
@@ -600,6 +618,7 @@ function this.StartEventTimer(time)
   InfLog.Add("Timer_ParasiteEvent start in "..nextEventTime,true)--DEBUG
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
+  --end,time)--
 end
 
 function this.StartEvent()
@@ -641,7 +660,7 @@ function this.Timer_ParasiteAppear()
 end
 
 function this.ParasiteAppear()
-  --InfLog.PCall(function()--DEBUG
+  InfLog.PCallDebug(function()--DEBUG
 
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   local closestPos=playerPos
@@ -677,7 +696,7 @@ function this.ParasiteAppear()
     closestPos=playerPos
   end
 
-  InfLog.Add("ParasiteAppear closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),true)
+  InfLog.Add("ParasiteAppear "..this.parasiteType.." closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),true)
 
 
   this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
@@ -713,7 +732,7 @@ function this.ParasiteAppear()
   end
 
   TimerStart("Timer_ParasiteMonitor",monitorRate)
-  --end)--
+  end)--
 end
 
 function this.ZombifyMB(disableDamage)

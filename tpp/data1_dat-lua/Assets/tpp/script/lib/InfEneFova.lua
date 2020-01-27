@@ -1593,7 +1593,8 @@ function this.WildCardFova(bodies)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
-  --InfLog.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
+  InfLog.Add"inf_wildCardFemaleFaceList"--DEBUG
+  InfLog.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
   TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
 
   local locationName=InfMain.GetLocationName()
@@ -1756,29 +1757,27 @@ function this.ApplyFaceFova()
 end
 
 function this.PrintFaceInfo(faceId)
-  InfLog.PCall(function(faceId)--DEBUG
-    for i,faceDef in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
-      if faceDef[1]==faceId then
-        local faceFova=faceDef[5]
-        local faceDecoFova=faceDef[6]
-        local hairFova=faceDef[7]
-        local hairDecoFova=faceDef[8]
-        local faceFovaInfo=InfEneFova.faceFovaInfo[faceFova+1]
-        local faceDecoFovaInfo=InfEneFova.faceDecoFovaInfo[faceDecoFova+1]
-        local hairFovaInfo=InfEneFova.hairFovaInfo[hairFova+1]
-        local hairDecoFovaInfo=InfEneFova.hairDecoFovaInfo[hairDecoFova+1]
+  for i,faceDef in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    if faceDef[1]==faceId then
+      local faceFova=faceDef[5]
+      local faceDecoFova=faceDef[6]
+      local hairFova=faceDef[7]
+      local hairDecoFova=faceDef[8]
+      local faceFovaInfo=InfEneFova.faceFovaInfo[faceFova+1]
+      local faceDecoFovaInfo=InfEneFova.faceDecoFovaInfo[faceDecoFova+1]
+      local hairFovaInfo=InfEneFova.hairFovaInfo[hairFova+1]
+      local hairDecoFovaInfo=InfEneFova.hairDecoFovaInfo[hairDecoFova+1]
 
-        InfLog.DebugPrint(
-          string.format("faceId:%s, faceFova: %s, faceDecoFova: %s, hairFova: %s, hairDecoFova: %s",
-            faceId,
-            faceFovaInfo.name,
-            faceDecoFovaInfo.name,
-            hairFovaInfo.name,
-            hairDecoFovaInfo.name))
-        break
-      end
+      InfLog.DebugPrint(
+        string.format("faceId:%s, faceFova: %s, faceDecoFova: %s, hairFova: %s, hairDecoFova: %s",
+          faceId,
+          faceFovaInfo.name,
+          faceDecoFovaInfo.name,
+          hairFovaInfo.name,
+          hairDecoFovaInfo.name))
+      break
+    end
   end
-  end,faceId)--DEBUG
 end
 
 --In: bodyIds

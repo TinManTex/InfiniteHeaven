@@ -1,7 +1,7 @@
 -- TppGimmick.lua
 local this={}
 local StrCode32=Fox.StrCode32
-local IsTypeTable=GameObject.GetTypeIndex
+local GetTypeIndex=GameObject.GetTypeIndex
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local IsTypeTable=Tpp.IsTypeTable
@@ -560,12 +560,12 @@ function this.BreakGimmick(gameId,n,t,i)
   this.SetHeroicAndOrgPoint(gimmickId,i)
 end
 function this.GetGimmickID(gameId,n,i)
-  local isTable=IsTypeTable(gameId)
+  local typeIndex=GetTypeIndex(gameId)
   local gim_identifierTable=mvars.gim_identifierTable
   if not gim_identifierTable then
     return
   end
-  local e=gim_identifierTable[isTable]
+  local e=gim_identifierTable[typeIndex]
   if not e then
     return
   end

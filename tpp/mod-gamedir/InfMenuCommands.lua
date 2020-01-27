@@ -168,7 +168,6 @@ this.removeDemon={
 }
 
 this.returnQuiet={
-  settingNames="set_do",
   OnChange=function()
     if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
       InfMenu.PrintLangId"quiet_already_returned"--"Quiet has already returned."
@@ -282,6 +281,8 @@ this.printCustomRevengeConfig={
   OnChange=function()
     local revengeConfig=InfRevenge.CreateCustomRevengeConfig()
     InfLog.PrintInspect(revengeConfig)
+    local ins=InfInspect.Inspect(revengeConfig)
+    InfLog.DebugPrint(revengeConfig)
   end
 }
 
@@ -603,8 +604,22 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
-  --DEBUGNOW
-    InfLog.Add"---------------------"
+    
+    InfLog.Add"DEBUG_SomeShiz---------------------"
+    
+    --    InfLog.Add(tostring(InfMain.prelog))
+    --    InfLog.Add(tostring(InfLog.logErr))
+
+    --    local evars=IvarProc.ReadEvars(IvarProc.saveName)
+    --    InfLog.PrintInspect(evars)
+
+
+    --InfMain.ScaleResourceTables()
+
+    if true then return end
+    --
+
+    --TppPlayer.Warp{pos={"-612.1607","504.688","-1145.31091" },rotY=vars.playerCameraRotation[1]}
 
     --WIP
     --    local defaultSlot=true
@@ -625,12 +640,8 @@ local index2Max=1--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
-    --WIP
     InfLog.Add("-----")
-    --DEBUGNOW
-    --    for func, count in pairs(Counters) do
-    --      InfLog.Add(">> "..getname(func).." "..count)
-    --    end
+
 
     --    local profilesFileName="InfSavedProfiles.lua"
     --    local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)
@@ -1283,78 +1294,22 @@ this.DEBUG_ClearAnnounceLog={
 }
 
 this.currentWarpIndex=1
-local singleStep=false
+local singleStep=true
 this.DEBUG_WarpToObject={
   OnChange=function()
-
     --local objectList=InfMain.reserveSoldierNames
-
     --        local travelPlan="travelArea2_01"
     --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
     local objectList=InfMain.ene_wildCardSoldiers
-
-    local objectList=InfParasite.parasiteNames.CAMO
-
-    --local objectList=InfMain.truckNames
+    --local objectList=InfParasite.parasiteNames.CAMO
+    --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}
-    --local objectList=InfMain.jeepNames
-
-    --    local objectList={
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001",
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002",
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
-    --    }
-    --local objectList={"sol_field_0002"}
-
-
-
+    --local objectList=InfLookup.jeepNames
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
     --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
-
-
-
-    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
-    --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
-    --local objectList={"EnemyHeli"}
-    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
-
-    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
-
-    --    local objectList={
-    --      "veh_cl01_cl00_0000",
-    --      "veh_cl02_cl00_0000",
-    --      "veh_cl03_cl00_0000",
-    --      "veh_cl04_cl00_0000",
-    --      "veh_cl05_cl00_0000",
-    --      "veh_cl06_cl00_0000",
-    --      "veh_cl00_cl04_0000",
-    --      "veh_cl00_cl02_0000",
-    --      "veh_cl00_cl03_0000",
-    --      "veh_cl00_cl01_0000",
-    --      "veh_cl00_cl05_0000",
-    --      "veh_cl00_cl06_0000",
-    --    }
-
-    --    local objectList={
-    --      --  "WestHeli0000",
-    --      --  "WestHeli0001",
-    --      --  "WestHeli0002",
-    --      --  "EnemyHeli",
-    --      "EnemyHeli0000",
-    --      "EnemyHeli0001",
-    --      "EnemyHeli0002",
-    --      "EnemyHeli0003",
-    --      "EnemyHeli0004",
-    --      "EnemyHeli0005",
-    --      "EnemyHeli0006",
-    --    }
-
-
     --local objectList=InfInterrogation.interCpQuestSoldiers
-
     --local objectList=InfWalkerGear.walkerList
-
+    --local objectList=InfNPCHeli.heliList
 
     if objectList==nil then
       InfLog.DebugPrint"objectList nil"
@@ -1367,7 +1322,7 @@ this.DEBUG_WarpToObject={
       return
     end
 
-    local count=0
+    local stepCount=0
     local warpPos=Vector3(0,0,0)
     local objectName="NULL"
     local function Step()
@@ -1377,7 +1332,7 @@ this.DEBUG_WarpToObject={
         gameId=GameObject.GetGameObjectId(objectName)
       end
       if gameId==nil or gameId==GameObject.NULL_ID then
-        InfLog.DebugPrint"gameId==NULL_ID"
+        InfLog.Add(objectName.." gameId==NULL_ID")
         warpPos=Vector3(0,0,0)
       else
         warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
@@ -1385,21 +1340,21 @@ this.DEBUG_WarpToObject={
           InfLog.Add("GetPosition nil for "..objectName,true)
           return
         else
-          InfLog.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+          InfLog.Add(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ(),true)
         end
       end
       this.currentWarpIndex=this.currentWarpIndex+1
       if this.currentWarpIndex>#objectList then
         this.currentWarpIndex=1
       end
-      count=count+1
+      stepCount=stepCount+1
     end
 
-    Step()
-
-    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
+    while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and stepCount<=#objectList do
       Step()
-      --coroutine.yield()
+      if singleStep then
+        break
+      end
     end
 
     if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
@@ -1421,6 +1376,70 @@ this.DEBUG_WarpToReinforceVehicle={
     local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
     InfLog.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
     TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+  end,
+}
+
+this.DEBUG_PrintObjectListPosition={
+  OnChange=function()
+    --local objectList=InfMain.reserveSoldierNames
+    --        local travelPlan="travelArea2_01"
+    --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
+    --local objectList=InfMain.ene_wildCardSoldiers
+    --local objectList=InfParasite.parasiteNames.CAMO
+    --local objectList=InfLookup.truckNames
+    --local objectList={"veh_trc_0000"}
+    --local objectList=InfLookup.jeepNames
+    --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+    --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+    --local objectList=InfInterrogation.interCpQuestSoldiers
+    local objectList=InfWalkerGear.walkerList
+    --local objectList=InfNPCHeli.heliList
+
+    if objectList==nil then
+      InfLog.DebugPrint"objectList nil"
+      return
+    end
+    this.warpObjecList=objectList
+
+    if #objectList==0 then
+      InfLog.DebugPrint"objectList empty"
+      return
+    end
+
+    local stepCount=0
+    local pos=Vector3(0,0,0)
+    local objectName="NULL"
+    local function Step()
+      objectName=objectList[this.currentWarpIndex]
+      local gameId=objectName
+      if type(objectName)=="string" then
+        gameId=GameObject.GetGameObjectId(objectName)
+      end
+      if gameId==nil or gameId==GameObject.NULL_ID then
+        InfLog.Add(objectName.." gameId==NULL_ID")
+        pos=Vector3(0,0,0)
+      else
+        pos=GameObject.SendCommand(gameId,{id="GetPosition"})
+        if pos==nil then
+          InfLog.Add("GetPosition nil for "..objectName,true)
+          return
+        else
+          InfLog.Add(this.currentWarpIndex..":"..objectName.." pos:".. pos:GetX()..",".. pos:GetY().. ","..pos:GetZ(),true)
+        end
+      end
+      this.currentWarpIndex=this.currentWarpIndex+1
+      if this.currentWarpIndex>#objectList then
+        this.currentWarpIndex=1
+      end
+      stepCount=stepCount+1
+    end
+
+    while (pos:GetX()==0 and pos:GetY()==0 and pos:GetZ()==0) and stepCount<=#objectList do
+      Step()
+      if singleStep then
+        break
+      end
+    end
   end,
 }
 
@@ -1468,7 +1487,10 @@ this.loadExternalModules={
 
 this.copyLogToPrev={
   OnChange=function()
-    InfLog.CopyLogToPrev()
+    local fileName=InfLog.logFileName
+    local ext=InfLog.ext
+    InfLog.CopyFileToPrev(fileName,ext)
+    InfLog.ClearFile(fileName,ext)
   end
 }
 

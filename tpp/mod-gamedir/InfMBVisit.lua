@@ -24,7 +24,7 @@ local longVisitRewards=0
 local revengeDecayCount=0
 
 function this.Init(missionTable)
-  if not IvarProc.MissionCheckMb() then
+  if not IvarProc.MissionCheckMbAll() then
     return
   end
 
@@ -34,7 +34,7 @@ function this.Init(missionTable)
 end
 
 function this.OnReload(missionTable)
-  if not IvarProc.MissionCheckMb() then
+  if not IvarProc.MissionCheckMbAll() then
     return
   end
 
@@ -47,7 +47,7 @@ function this.OnMissionCanStart()
 end
 
 function this.OnMissionGameEnd()
-  if not IvarProc.MissionCheckMb() then
+  if not IvarProc.MissionCheckMbAll() then
     return
   end
   this.CheckMoraleReward()
@@ -64,7 +64,7 @@ function this.Messages()
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if not IvarProc.MissionCheckMb() then
+  if not IvarProc.MissionCheckMbAll() then
     return
   end
 
@@ -105,7 +105,7 @@ end
 function this.CheckSalutes()
   --InfLog.PCall(function()--DEBUG
   --tex already mission filtered
-  if not Ivars.mbMoraleBoosts:Is(1) then
+  if Ivars.mbMoraleBoosts:Is(0) then
     return
   end
 
@@ -147,7 +147,7 @@ end
 
 function this.CheckMoraleReward()
   --tex already mission filtered
-  if not Ivars.mbMoraleBoosts:Is(0) then
+  if Ivars.mbMoraleBoosts:Is(0) then
     return
   end
 
@@ -194,10 +194,15 @@ function this.StartLongMbVisitClock()
     TppClock.UnregisterClockMessage("MbVisitDay")
     return
   end
+  
+  if Ivars.mbMoraleBoosts:Is(0) then
+    return
+  end
 
   visitDaysCount=0
 
   local currentTime=TppClock.GetTime("number")
+  InfLog.Add"RegisterClock MbVisitDay"
   TppClock.RegisterClockMessage("MbVisitDay",currentTime)
 end
 
@@ -207,7 +212,7 @@ function this.OnMbVisitDay(sender,time)
     return
   end
 
-  --InfLog.DebugPrint"OnMbVisitDay"--DEBUG
+  InfLog.Add"OnMbVisitDay"--DEBUG
   visitDaysCount=visitDaysCount+1
   if visitDaysCount>0 then
     local modLongVisit=visitDaysCount%rewardOnVisitDaysCount

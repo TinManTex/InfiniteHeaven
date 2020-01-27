@@ -108,16 +108,12 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   end
 
   --tex make sure ivar is synced from saved
-  if option.save then
-    local gvar=gvars[option.name]
-    if gvar~=nil then
-      ivars[option.name]=gvar
-    else
-      InfLog.Add("Option Menu Error: gvar -"..option.name.."- not found",true)
-    end
+  local gvar=IvarProc.GetSaved(option)
+  if gvar~=nil then
+    ivars[option.name]=gvar
   end
   if IsFunc(option.OnSelect) then
-    InfLog.PCall(option.OnSelect,option)
+    InfLog.PCallDebug(option.OnSelect,option)
   end
 end
 
@@ -217,7 +213,7 @@ end
 function this.ActivateCurrent()--tex run activate function
   local option=this.currentMenuOptions[this.currentIndex]
   if IsFunc(option.OnActivate) then
-    InfLog.PCall(option.OnActivate,option,ivars[option.name])
+    InfLog.PCallDebug(option.OnActivate,option,ivars[option.name])
   else
     this.SetCurrent()
   end
@@ -631,7 +627,6 @@ end
 
 function this.OnDeactivate()
   this.PrintLangId"menu_off"--"Menu Off"
-  --tex CULL InfMessageLog.display={}
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()
   InfMain.OnMenuClose()
@@ -643,14 +638,14 @@ function this.CheckActivate(execCheck)
 end
 
 --tex CULL, handled on a command by command basis
-function this.CheckActivateQuickMenu(execCheck)
-  local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
-  return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
-end
+--function this.CheckActivateQuickMenu(execCheck)
+--  local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
+--  return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
+--end
 
 function this.Update(execCheck)
   local InfMenuDefs=InfMenuDefs
-  --InfLog.PCall(function(execCheck)--DEBUG
+  --InfLog.PCallDebug(function(execCheck)--DEBUG
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   if not execCheck.inGame then

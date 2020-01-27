@@ -1722,7 +1722,7 @@ function this.GetCamoTypes(partsTypeName)
     if camoType~=nil then
       table.insert(playerCamoTypes,partsTypeName)
     else
-      InfLog.DebugPrint("WARNING: cannot find camo type for "..partsTypeName)--DEBUGNOW
+      InfLog.Add("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   else
@@ -1731,7 +1731,7 @@ function this.GetCamoTypes(partsTypeName)
     elseif partsTypeInfo.camoTypes[1] then--tex ASSUMPTION list of camotype names
       playerCamoTypes=partsTypeInfo.camoTypes
     else
-      InfLog.DebugPrint("WARNING: cannot find camo type for "..partsTypeName)--DEBUGNOW
+      InfLog.Add("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   end

@@ -88,8 +88,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfMain.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
-  "/Assets/tpp/script/lib/InfEquip.lua",
-  "/Assets/tpp/script/lib/InfVehicle.lua",
   "/Assets/tpp/script/lib/InfRevenge.lua",
   "/Assets/tpp/script/lib/InfUserMarker.lua",
   "/Assets/tpp/script/lib/InfSoldierParams.lua",

@@ -7,27 +7,27 @@
 
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
+
+
 local profiles={}
 
--- Defaults/example of all profile options for IH r189
+
+-- Defaults/example of all profile options for IH r190
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
 	loadOnACCStart=false,
 	profile={
 		--IH system menu
-		enableQuickMenu=0,--{ 0-1 } -- Enable QuickMenu
+		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
-		--World menu
+		--Events menu
 		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
 		enableParasiteEvent=0,--{ 0-1 } -- Enable Skull attacks in Free roam
 		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
 		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
 		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
-		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
-		randomizeMineTypes=0,--{ 0-1 } -- Randomize minefield mine types
-		additionalMineFields=0,--{ 0-1 } -- Enable additional minefields
 		--Player restrictions menu
 		disableHeliAttack=0,--{ 0-1 } -- Disable support heli attack
 		disableFulton=0,--{ 0-1 } -- Disable fulton action
@@ -95,12 +95,11 @@ profiles.defaults={
 		soldierAlertOnHeavyVehicleDamage="PHASE_SNEAK",--{ PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT } -- Alert phase on vehicle attack
 		printPhaseChanges=0,--{ 0-1 } -- Print phase changes
 		--Enemy Prep menu
-		revengeModeFREE=0,--{ DEFAULT, CUSTOM } -- Free roam prep mode
-		revengeModeMISSION=0,--{ DEFAULT, CUSTOM } -- Missions prep mode
-		revengeModeMB=0,--{ OFF, FOB, DEFAULT, CUSTOM } -- Mother base prep mode
+		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
+		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode
+		revengeModeMB=0,--{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode
 		changeCpSubTypeFREE=0,--{ 0-1 } -- Random CP subtype in free roam
 		changeCpSubTypeMISSION=0,--{ 0-1 } -- Random CP subtype in missions
-		enableWildCardFreeRoam=0,--{ 0-1 } -- Wildcard soldiers Free roam
 		enableInfInterrogation=0,--{ 0-1 } -- IH interrogation in free roam
 		--Custom prep menu
 		reinforceCount_MIN=1,--{ 1-99 } -- Reinforce calls min
@@ -181,14 +180,16 @@ profiles.defaults={
 		enableMgVsShotgunVariation=0,--{ 0-1 } -- Mg vs Shotgun variation
 		randomizeSmallCpPowers=0,--{ 0-1 } -- Balance small CPs
 		disableConvertArmorToShield=0,--{ 0-1 } -- Disable convert armor to shield (if armor off)
+		randomizeMineTypes=0,--{ 0-1 } -- Randomize minefield mine types
+		additionalMineFields=0,--{ 0-1 } -- Enable additional minefields
 		--Custom soldier equip menu
 		customWeaponTableFREE=0,--{ 0-1 } -- Enemy use custom equip table in free roam
 		customWeaponTableMISSION=0,--{ 0-1 } -- Enemy use custom equip table in missions
 		customWeaponTableMB_ALL=0,--{ 0-1 } -- MB staff use custom equip table
 		weaponTableStrength="NORMAL",--{ NORMAL, STRONG, COMBINED } -- Weapon stengths
-		weaponTableAfgh=0,--{ 0-1 } -- Include Soviet weapons
-		weaponTableMafr=0,--{ 0-1 } -- Include PF weapons
-		weaponTableSkull=0,--{ 0-1 } -- Include XOF weapons
+		weaponTableAfgh=1,--{ 0-1 } -- Include Soviet weapons
+		weaponTableMafr=1,--{ 0-1 } -- Include PF weapons
+		weaponTableSkull=1,--{ 0-1 } -- Include XOF weapons
 		weaponTableDD=0,--{ 0-1 } -- Include DD weapons
 		soldierEquipGrade_MIN=3,--{ 1-15 } -- DD weapons grade MIN
 		soldierEquipGrade_MAX=15,--{ 1-15 } -- DD weapons grade MAX
@@ -200,10 +201,14 @@ profiles.defaults={
 		forceReinforceRequest=0,--{ 0-1 } -- Force reinforce request for heli
 		disableReinforceHeliPullOut=0,--{ 0-1 } -- Disable reinforce heli pull-out
 		enableSoldiersWithVehicleReinforce=0,--{ 0-1 } -- Soldier reinforce with all vehicle reinforce types
-		--Enemy patrols menu
+		--Patrols and deployments menu
 		enableLrrpFreeRoam=0,--{ 0-1 } -- Foot patrols in free roam
-		enemyHeliPatrol=0,--{ OFF, 1, 3, 5, 7, ENEMY_PREP } -- Heli patrols in free roam
+		enableWildCardFreeRoam=0,--{ 0-1 } -- Wildcard soldiers Free roam
+		heliPatrolsFREE=0,--{ OFF, ON } -- Heli patrols in free roam
+		heliPatrolsMB=0,--{ OFF, UTH, HP48, UTH_AND_HP48 } -- Heli patrols in MB
 		mbEnemyHeliColor=0,--{ DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Attack heli class
+		enableWalkerGearsFREE=0,--{ 0-1 } -- Walker gears in free roam
+		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears in MB
 		vehiclePatrolProfile=0,--{ OFF, SINGULAR, EACH_VEHICLE } -- Vehicle patrols in free roam
 		vehiclePatrolClass=0,--{ DEFAULT, DARK_GRAY, OXIDE_RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Vehicle patrol class
 		vehiclePatrolLvEnable=1,--{ 0-1 } -- Allow jeeps
@@ -222,8 +227,6 @@ profiles.defaults={
 		mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		mbPrioritizeFemale=0,--{ OFF, DISABLE, MAX } -- Female staff selection
-		npcHeliUpdate=0,--{ OFF, UTH, HP48, UTH_AND_HP48 } -- NPC helis
-		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
 		mbCollectionRepop=0,--{ 0-1 } -- Repopulate plants and diamonds
@@ -271,7 +274,10 @@ profiles.defaults={
 		startOnFootFREE=0,--{ OFF, NOT_ASSAULT, ALL } -- Start free roam on foot
 		startOnFootMISSION=0,--{ OFF, NOT_ASSAULT, ALL } -- Start missions on foot
 		startOnFootMB_ALL=0,--{ OFF, NOT_ASSAULT, ALL } -- Start Mother base on foot
-		--Debug/system menu
+		--Progression menu
+		resourceAmountScale=100,--{ 100-1000 } -- Resource amount scale (percentage)
+		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
+		--Debug menu
 		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Buddy menu
@@ -295,7 +301,7 @@ profiles.motherBaseHeaven={
     mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
     mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
     mbPrioritizeFemale="MAX",--{ OFF, DISABLE, MAX } -- Female staff selection
-    npcHeliUpdate="UTH_AND_HP48",--{ OFF, UTH, UTH_AND_HP48 } -- NPC helis
+    heliPatrolsMB="UTH_AND_HP48",--{ OFF, UTH, UTH_AND_HP48 } -- NPC helis
     enableWalkerGearsMB=1,--{ 0-1 } -- Walker gears
     mbWalkerGearsColor="DDOGS",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
     mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons

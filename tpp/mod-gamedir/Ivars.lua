@@ -2,11 +2,16 @@
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
 --lots of shortcuts/ivar setup depending-on defined values is done in SetupIvars
---Currently tied to gvars, so keep save setting commented out if editing module at runtime
-local this={}
+--Ivars as a whole are actually split across several modules/tables
+--this module is mostly defintion of the bounds, settings and functions to run on changing Ivar state
+--the working state/value of an Ivar is in the global ivar table, with save values in either gvars (the game save system) or evars (IHs save system)
+--the IvarProc module ties together the Ivar definitions and their state
+
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
 --in general this means all stuff should have a 0 that at least does nothing,
 --dont let the lure of nice straight setting>game value lure you, just -1 it
+local this={}
+
 --LOCALOPT:
 local Ivars=this
 local IsString=Tpp.IsTypeString
@@ -26,6 +31,8 @@ local QUEST=TppScriptVars.CATEGORY_QUEST
 local CONFIG=TppScriptVars.CATEGORY_CONFIG
 local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
+
+local EXTERNAL=1024--tex SYNC IvarProc
 
 --tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
 this.missionModeIvars={}
@@ -52,7 +59,7 @@ this.simpleProfileSettings={"DEFAULT","CUSTOM"}
 
 this.debugMode={
   nonConfig=true,
-  save=GLOBAL,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
@@ -61,14 +68,14 @@ this.debugMode={
 
 this.debugMessages={
   nonConfig=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.debugFlow={
   nonConfig=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -86,7 +93,7 @@ this.printOnBlockChange={
 --parameters
 --tex TODO: change over name to something more accurate next time you do a change that would require the user to update their settings anyway
 this.soldierParamsProfile={
-  save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -100,7 +107,7 @@ local function OnChangeEnemyParam(self,currentSetting,setting)
 end
 
 this.soldierSightDistScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=100,
   range=this.sightScaleRange,
   isPercent=true,
@@ -108,7 +115,7 @@ this.soldierSightDistScale={
 }
 
 this.soldierNightSightDistScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=100,
   range=this.sightScaleRange,
   isPercent=true,
@@ -116,7 +123,7 @@ this.soldierNightSightDistScale={
 }
 
 this.soldierHearingDistScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=100,
   range={max=400,min=0,increment=5},
   isPercent=true,
@@ -165,7 +172,7 @@ this.soldierHearingDistScale={
 --  for i,name in ipairs(this[listName]) do
 --    local ivarName=name..this.sightDistScaleName
 --    local ivar={
---      save=MISSION,
+--      save=EXTERNAL,
 --      default=1,
 --      range=this.sightScaleRange,
 --    }
@@ -175,14 +182,14 @@ this.soldierHearingDistScale={
 --
 this.healthScaleRange={max=900,min=0,increment=20}
 this.soldierHealthScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=100,
   range=this.healthScaleRange,
   isPercent=true,
 }
 ---end soldier params
 this.playerHealthScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=100,
   range={max=650,min=0,increment=20},--tex GOTCHA see InfMain.ChangeMaxLife,http://wiki.tesnexus.com/index.php/Life
   isPercent=true,
@@ -198,33 +205,36 @@ IvarProc.MissionModeIvars(
   this,
   "customWeaponTable",
   {
-    save=MISSION,
+    save=EXTERNAL,
     range=this.switchRange,
     settingNames="set_switch",
   },
   {"FREE","MISSION","MB_ALL",}
 )
 this.weaponTableStrength={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"NORMAL","STRONG","COMBINED"},
 }
 this.weaponTableAfgh={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
+  default=1,
   settingNames="set_switch",
 }
 this.weaponTableMafr={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
+  default=1,
   settingNames="set_switch",
 }
 this.weaponTableSkull={--xof
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
+  default=1,
   settingNames="set_switch",
 }
 this.weaponTableDD={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -243,25 +253,25 @@ IvarProc.MinMaxIvar(
 )
 
 this.allowUndevelopedDDEquip={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbSoldierEquipRange={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"SHORT","MEDIUM","LONG","RANDOM"},
 }
 
 this.mbDDEquipNonLethal={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
 this.mbDDSuit={
-  save=MISSION,
+  save=EXTERNAL,
   settings={
     "OFF",
     "EQUIPGRADE",
@@ -296,7 +306,7 @@ this.mbDDSuit={
 }
 
 this.mbDDSuitFemale={
-  save=MISSION,
+  save=EXTERNAL,
   settings={
     "EQUIPGRADE",
     "DRAB_FEMALE",
@@ -310,13 +320,13 @@ this.mbDDSuitFemale={
 }
 
 this.mbDDHeadGear={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
 this.mbWarGamesProfile={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","TRAINING","INVASION","ZOMBIE_DD","ZOMBIE_OBLITERATION"},
   settingsTable={
     OFF={
@@ -343,7 +353,7 @@ this.mbWarGamesProfile={
       mbNonStaff=1,
       mbEnableFultonAddStaff=1,
       mbZombies=0,
-      npcHeliUpdate="HP48",
+      heliPatrolsMB="HP48",
       mbEnemyHeli=1,
     },
     ZOMBIE_DD={
@@ -369,30 +379,31 @@ this.mbWarGamesProfile={
 }
 
 this.mbWargameFemales={
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=100,increment=10},
   isPercent=true,
 }
 
 this.mbAdditionalSoldiers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbNpcRouteChange={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.mbEnableLethalActions={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
+--DEBUGNOW TODO:
 --NONUSER/ handled by profile>
 this.mbHostileSoldiers={
   nonUser=true,
@@ -430,81 +441,81 @@ this.mbqfEnableSoldiers={
   settingNames="set_switch",
 }
 
-this.mbEnemyHeliColor={
-  save=MISSION,
+this.mbEnemyHeliColor={--TODO RENAME, split into missionmode
+  save=EXTERNAL,
   settings={"DEFAULT","BLACK","RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
 }
 
 this.mbEnableFultonAddStaff={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 --
 this.mbEnableBuddies={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbPrioritizeFemale={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","DISABLE","MAX"},
 }
 --<motherbase
 
 --demos
 this.useSoldierForDemos={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 this.mbDemoSelection={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","PLAY","DISABLED"},
 }
 this.mbSelectedDemo={
-  save=MISSION,
+  save=EXTERNAL,
   range={max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1},
   settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
 }
 
 this.mbDemoOverrideTime={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","CURRENT","CUSTOM"},
 }
 
 this.mbDemoHour={
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=23},
 }
 
 this.mbDemoMinute={
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=59},
 }
 
 this.mbDemoOverrideWeather={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","CURRENT","SUNNY","CLOUDY","RAINY","SANDSTORM","FOGGY","POURING"},
 }
 
 --patchup
 this.langOverride={
-  save=GLOBAL,
+  save=EXTERNAL,
   range=this.switchRange,
   allowFob=true,
 }
 
 this.startOffline={
-  save=GLOBAL,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.enableQuickMenu={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -522,12 +533,12 @@ this.setFirstFobBuilt={
 }
 
 this.disableLzs={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","ASSAULT","REGULAR"},
 }
 
 this.disableHeliAttack={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self)
@@ -550,12 +561,12 @@ end
 --tex not happy with the lack of flexibility as GetLocationParameter is only read once on init,
 --now just bypassing on trap enter/exit, doesnt give control of search type though
 this.disableSpySearch={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 this.disableHerbSearch={
-  save=GLOBAL,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=RequireRestartMessage,
@@ -565,25 +576,25 @@ this.disableHerbSearch={
 
 --tex also TppBuddyService.SetDisableAllBuddy
 this.disableSelectBuddy={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableSelectTime={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableSelectVehicle={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableHeadMarkers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,prevSetting,setting)
@@ -596,7 +607,7 @@ this.disableHeadMarkers={
 }
 
 this.disableWorldMarkers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,prevSetting,setting)
@@ -609,7 +620,7 @@ this.disableWorldMarkers={
 }
 
 this.disableXrayMarkers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,prevSetting,setting)
@@ -619,13 +630,13 @@ this.disableXrayMarkers={
 }
 
 this.disableFulton={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.dontOverrideFreeLoadout={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -636,7 +647,7 @@ local ospSlotClearSettings={
   "EQUIP_NONE",
 }
 this.clearItems={
-  save=MISSION,
+  save=EXTERNAL,
   settings=ospSlotClearSettings,
   settingNames="set_switch",
   settingsTable={
@@ -646,7 +657,7 @@ this.clearItems={
 }
 
 this.clearSupportItems={
-  save=MISSION,
+  save=EXTERNAL,
   settings=ospSlotClearSettings,
   settingNames="set_switch",
   settingsTable={
@@ -656,37 +667,37 @@ this.clearSupportItems={
 }
 
 this.setSubsistenceSuit={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.setDefaultHand={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableMenuDrop={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_DROP,
 }
 this.disableMenuBuddy={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_BUDDY,
 }
 this.disableMenuAttack={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_ATTACK,
 }
 this.disableMenuHeliAttack={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,
@@ -699,32 +710,32 @@ this.disableMenuIvars={
 }
 
 this.disableSupportMenu={--tex doesnt use dvcmenu, RESEARCH, not sure actually what it is
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.abortMenuItemControl={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableRetry={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.gameOverOnDiscovery={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 --tex no go
 this.disableTranslators={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,prevSetting,setting)
@@ -756,23 +767,23 @@ this.disableTranslators={
 
 --fulton success>
 --this.fultonSoldierVariationRange={--WIP
---  save=MISSION,
+--  save=EXTERNAL,
 --  default=0,
 --  range={max=100,min=0,increment=1},
 --}
 --this.fultonOtherVariationRange={
---  save=MISSION,
+--  save=EXTERNAL,
 --  default=0,
 --  range={max=100,min=0,increment=1},
 --}
 --
 --this.fultonVariationInvRate={
---  save=MISSION,
+--  save=EXTERNAL,
 --  range={max=500,min=10,increment=10},
 --}
 
 this.fultonNoMbSupport={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnSelect=function()
@@ -782,7 +793,7 @@ this.fultonNoMbSupport={
   end,
 }
 this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnSelect=function()
@@ -793,43 +804,43 @@ this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
 }
 
 this.fultonDyingPenalty={
-  save=MISSION,
+  save=EXTERNAL,
   default=70,
   range={max=100,min=0,increment=5},
 }
 
 this.fultonSleepPenalty={
-  save=MISSION,
+  save=EXTERNAL,
   default=0,
   range={max=100,min=0,increment=5},
 }
 
 this.fultonHoldupPenalty={
-  save=MISSION,
+  save=EXTERNAL,
   default=10,
   range={max=100,min=0,increment=5},
 }
 
 this.fultonDontApplyMbMedicalToSleep={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.fultonHostageHandling={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
 }
 
 this.fultonWildCardHandling={--WIP
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
 }
 
 this.fultonMotherBaseHandling={ --WIP
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
 }
@@ -839,47 +850,47 @@ this.fultonMotherBaseHandling={ --WIP
 --CULL this.handLevelRange={max=4,min=0,increment=1}
 local handLevelSettings={"DEFAULT","DISABLE","GRADE2","GRADE3","GRADE4"}
 this.handLevelSonar={
-  save=MISSION,
+  save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_ACTIVESONAR,
 }
 
 this.handLevelPhysical={--tex called Mobility in UI
-  save=MISSION,
+  save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PHYSICAL,
 }
 
 this.handLevelPrecision={
-  save=MISSION,
+  save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PRECISION,
 }
 
 this.handLevelMedical={
-  save=MISSION,
+  save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_MEDICAL,
 }
 
 this.itemLevelFulton={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","GRADE1","GRADE2","GRADE3","GRADE4"},
   equipId=TppEquip.EQP_IT_Fulton,
 }
 this.itemLevelWormhole={
-  save=MISSION,
+  save=EXTERNAL,
   --range=this.switchRange,
   settings={"DEFAULT","DISABLE","ENABLE"},
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
 }
 --<item levels
 this.primaryWeaponOsp={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settings=ospSlotClearSettings,
   settingNames="weaponOspSettings",
@@ -889,7 +900,7 @@ this.primaryWeaponOsp={
   },
 }
 this.secondaryWeaponOsp={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settings=ospSlotClearSettings,
   settingNames="weaponOspSettings",
@@ -899,7 +910,7 @@ this.secondaryWeaponOsp={
   },
 }
 this.tertiaryWeaponOsp={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settings=ospSlotClearSettings,
   settingNames="weaponOspSettings",
@@ -914,8 +925,8 @@ IvarProc.MissionModeIvars(
   this,
   "revengeMode",
   {
-    save=MISSION,
-    settings={"DEFAULT","CUSTOM"},
+    save=EXTERNAL,
+    settings={"DEFAULT","CUSTOM","NONDEFAULT"},
     settingNames="revengeModeSettings",
     OnChange=function()
       TppRevenge._SetUiParameters()
@@ -924,42 +935,42 @@ IvarProc.MissionModeIvars(
   IvarProc.missionModesAll
 )
 
-this.revengeModeMB.settings={"OFF","FOB","DEFAULT","CUSTOM"}--DEFAULT = normal enemy prep system (which isn't usually used for MB)
+this.revengeModeMB.settings={"OFF","FOB","DEFAULT","CUSTOM","NONDEFAULT"}--DEFAULT = normal enemy prep system (which isn't usually used for MB)
 this.revengeModeMB.settingNames="revengeModeMBSettings"
 
 this.revengeBlockForMissionCount={
-  save=MISSION,
+  save=EXTERNAL,
   default=3,
   range={max=10},
 }
 
 this.disableNoRevengeMissions={--WIP
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableNoStealthCombatRevengeMission={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.revengeDecayOnLongMbVisit={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
 this.applyPowersToLrrp={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.applyPowersToOuterBase={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -969,7 +980,7 @@ IvarProc.MissionModeIvars(
   this,
   "allowHeavyArmor",
   {
-    save=MISSION,
+    save=EXTERNAL,
     range=this.switchRange,
     settingNames="set_switch",
   },
@@ -978,64 +989,64 @@ IvarProc.MissionModeIvars(
 
 --WIP TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
 --this.allowLrrpArmorInFree={
---  save=MISSION,
+--  save=EXTERNAL,
 --  range=this.switchRange,
 --  settingNames="set_switch",
 --}
 
 this.allowHeadGearCombo={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   allowHeadGearComboThreshold=120,
 }
 
 this.allowMissileWeaponsCombo={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.balanceHeadGear={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   balanceHeadGearThreshold=100,
 }
 
 this.balanceWeaponPowers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   balanceWeaponsThreshold=100,
 }
 
 this.disableConvertArmorToShield={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableMissionsWeaponRestriction={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableMotherbaseWeaponRestriction={--WIP
-  --OFF WIP save=MISSION,
+  --OFF WIP save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.enableMgVsShotgunVariation={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.randomizeSmallCpPowers={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -1045,7 +1056,7 @@ IvarProc.MissionModeIvars(
   this,
   "enableDDEquip",
   {
-    --OFF save=MISSION,--
+    --OFF save=EXTERNAL,--
     nonConfig=true,--
     range=this.switchRange,
     settingNames="set_switch",
@@ -1280,18 +1291,18 @@ IvarProc.MinMaxIvar(
 --<revenge stuff
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
 this.forceSuperReinforce={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","ON_CONFIG","FORCE_CONFIG"},
 }
 
 this.forceReinforceRequest={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, also turns off heli quests
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function()
@@ -1300,25 +1311,25 @@ this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, als
 }
 
 this.enableSoldiersWithVehicleReinforce={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.disableReinforceHeliPullOut={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 --this.currentReinforceCount={--NONUSER
---  save=MISSION,
+--  save=EXTERNAL,
 --  range={max=100},
 --}
 
 --lrrp
 this.enableLrrpFreeRoam={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckFree,
@@ -1326,7 +1337,7 @@ this.enableLrrpFreeRoam={
 
 --wildcard
 this.enableWildCardFreeRoam={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckFree,
@@ -1345,69 +1356,81 @@ this.enableWildCardFreeRoam={
 
 --patrol vehicle stuff>
 this.vehiclePatrolProfile={--TODO rename, this is not an IH profile 'vehicle patrol style?'
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","SINGULAR","EACH_VEHICLE"},
   MissionCheck=IvarProc.MissionCheckFree,
 }
 this.vehiclePatrolLvEnable={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.vehiclePatrolTruckEnable={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.vehiclePatrolWavEnable={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.vehiclePatrolWavHeavyEnable={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.vehiclePatrolTankEnable={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.vehiclePatrolPaintType={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={max=10},
 }
 
 this.vehiclePatrolClass={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","DARK_GRAY","OXIDE_RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
 }
 
 this.vehiclePatrolEmblemType={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={max=10},
 }
 
-this.enemyHeliPatrol={
-  save=MISSION,
-  --DEBUGNOW r187 TODO cut down to actual max value (3)
-  settings={"OFF","1","3","5","7","ENEMY_PREP"},
-  MissionCheck=IvarProc.MissionCheckFree,
-}
+IvarProc.MissionModeIvars(
+  this,
+  "heliPatrols",
+  {
+    save=EXTERNAL,
+    settings={"OFF","ON"},
+  },
+  {"FREE","MB",}
+)
+
+this.heliPatrolsMB.settings={"OFF","UTH","HP48","UTH_AND_HP48"}
+
+--CULL
+--this.enemyHeliPatrol={
+--  save=EXTERNAL,
+--  settings={"OFF","1","3","5","7","ENEMY_PREP"},
+--  MissionCheck=IvarProc.MissionCheckFree,
+--}
 
 this.putEquipOnTrucks={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -1416,7 +1439,7 @@ IvarProc.MissionModeIvars(
   this,
   "startOnFoot",
   {
-    save=MISSION,
+    save=EXTERNAL,
     settings={"OFF","NOT_ASSAULT","ALL"},
     settingNames="onFootSettingsNames",
   },
@@ -1424,7 +1447,7 @@ IvarProc.MissionModeIvars(
 )
 
 this.clockTimeScale={
-  save=GLOBAL,
+  save=EXTERNAL,
   default=20,
   range={max=10000,min=1,increment=1},
   OnChange=function()
@@ -1437,7 +1460,7 @@ this.clockTimeScale={
 }
 
 this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
-  save=MISSION,
+  save=EXTERNAL,
   settings={
     "DEFAULT",
     "DD_A",
@@ -1464,7 +1487,7 @@ IvarProc.MissionModeIvars(
   this,
   "changeCpSubType",
   {
-    save=MISSION,
+    save=EXTERNAL,
     range=this.switchRange,
     settingNames="set_switch",
     OnChange=function(self,prevSetting,setting)
@@ -1487,13 +1510,13 @@ function this.UpdateActiveQuest()
   TppQuest.UpdateActiveQuest()
 end
 this.unlockSideOps={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","REPOP","OPEN"},
   OnChange=this.UpdateActiveQuest,
 }
 
 this.unlockSideOpNumber={
-  save=MISSION,
+  save=EXTERNAL,
   range={max=this.numQuests},
   SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
@@ -1504,7 +1527,7 @@ this.unlockSideOpNumber={
 }
 
 this.sideOpsSelectionMode={
-  save=MISSION,
+  save=EXTERNAL,
   settings={
     "OFF",
     "RANDOM",
@@ -1531,61 +1554,61 @@ this.sideOpsSelectionMode={
 
 --mbshowstuff
 this.mbShowBigBossPosters={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbShowQuietCellSigns={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbShowMbEliminationMonument={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbShowSahelan={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbShowAiPod={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbShowEli={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbShowCodeTalker={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbUnlockGoalDoors={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbEnableOcelot={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbEnablePuppy={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"OFF","MISSING_EYE","NORMAL_EYES"},
   OnChange=function(self,prevSetting,setting)
     local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
@@ -1603,25 +1626,25 @@ this.mbEnablePuppy={
 }
 
 this.mbDontDemoDisableBuddy={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbCollectionRepop={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.mbMoraleBoosts={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 --
 this.manualMissionCode={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   settings={
     --LOC,TYPE,Notes
     "1",--INIT
@@ -1733,14 +1756,8 @@ this.manualMissionCode={
 --MTBS={10030,10115,11115,10240},
 
 --appearance
---CULL this.useAppearance={
---  save=MISSION,
---  range=this.switchRange,
---  settingNames="set_switch",
---}
-
 this.playerType={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
     PlayerType.SNAKE,
@@ -1802,7 +1819,7 @@ this.playerType={
 }
 
 this.playerTypeDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
     PlayerType.SNAKE,
@@ -1858,7 +1875,7 @@ local playerPartsTypeSettings={
 }
 
 this.playerPartsType={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   settings=playerPartsTypeSettings,--DYNAMIC
   GetSettingText=function(self,setting)
     local InfFova=InfFova
@@ -1935,7 +1952,7 @@ this.playerPartsType={
 }
 
 this.playerPartsTypeDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=100},
   OnSelect=function(self)
     ivars[self.name]=vars.playerPartsType
@@ -1947,7 +1964,7 @@ this.playerPartsTypeDirect={
 
 --tex GOTCHA: setting var.playerCamoType to a unique type (non-common/only one camo type for it) seems to lock it in/prevent vars.playerPartsType from applying until set back to a common camo type
 this.playerCamoType={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   --settings=playerCamoTypes,--DYNAMIC
   range={min=0,max=1000},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -2000,7 +2017,7 @@ this.playerCamoTypeDirect={
 }
 
 this.playerFaceEquipId={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=100},--DYNAMIC
   settingsTable={0},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -2030,7 +2047,7 @@ this.playerFaceEquipId={
 }
 
 this.playerFaceEquipIdDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=100},--TODO
   OnSelect=function(self)
     self:SetDirect(vars.playerFaceEquipId)
@@ -2041,7 +2058,7 @@ this.playerFaceEquipIdDirect={
 }
 
 this.playerFaceId={
-  --save=MISSION,
+  --save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   currentGender=0,--STATE
   settingsTable={1},--DYNAMIC
@@ -2163,7 +2180,7 @@ this.playerFaceId={
 }
 
 this.playerFaceFilter={
-  --save=MISSION,
+  --save=EXTERNAL,
   settings={"ALL","UNIQUE","FOVAMOD"},
   settingsTable={
     ALL=0,
@@ -2173,7 +2190,7 @@ this.playerFaceFilter={
 }
 
 this.playerFaceIdDirect={
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=687},
   OnSelect=function(self)
     self:SetDirect(vars.playerFaceId)
@@ -2185,20 +2202,20 @@ this.playerFaceIdDirect={
 
 --tex saving prefered faceId per gender
 this.maleFaceId={
-  save=MISSION,
+  save=EXTERNAL,
   default=0,
   range={min=0,max=5000},--TODO sync max?, Soldier2FaceAndBodyData.MAX_FACEID, but since since ivar gvar size is based on range.max, make sure ivars that change their max during run have a specified fixed size, because I don't  know if the save system is robust enough to handle size changes.
 }
 
 this.femaleFaceId={
-  save=MISSION,
+  save=EXTERNAL,
   default=350,
   range={min=0,max=5000},--TODO see above
 }
 
 --tex WIP
 this.faceFova={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -2240,7 +2257,7 @@ this.faceFova={
 }
 
 this.faceDecoFova={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -2286,7 +2303,7 @@ this.faceDecoFova={
   end,
 }
 this.hairFova={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -2328,7 +2345,7 @@ this.hairFova={
   end,
 }
 this.hairDecoFova={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
   OnSelect=function(self)
@@ -2345,7 +2362,7 @@ this.hairDecoFova={
 --<
 
 this.faceFovaDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.faceFova-1
@@ -2355,7 +2372,7 @@ this.faceFovaDirect={
   end,
 }
 this.faceDecoFovaDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.faceDecoFova-1
@@ -2365,7 +2382,7 @@ this.faceDecoFovaDirect={
   end,
 }
 this.hairFovaDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.hairFova-1
@@ -2375,7 +2392,7 @@ this.hairFovaDirect={
   end,
 }
 this.hairDecoFovaDirect={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.hairDecoFova-1
@@ -2386,70 +2403,70 @@ this.hairDecoFovaDirect={
 }
 
 this.faceFovaUnknown1={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=50},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown2={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown3={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=4},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown4={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=4},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown5={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown6={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown7={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown8={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown9={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown10={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
@@ -2459,7 +2476,7 @@ this.faceFovaUnknown10={
 --fovaInfo
 this.enableFovaMod={
   nonConfig=true,--tex too dependant on installed mods/dynamic settings
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnSelect=function(self)
@@ -2483,7 +2500,7 @@ this.enableFovaMod={
 --tex: index into fovaInfor for current playerType,playerPartsType
 this.fovaSelection={
   nonConfig=true,--tex too dependant on installed mods/dynamic settings
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=255},--limits max fovas TODO consider
   OnSelect=function(self)
     local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
@@ -2534,14 +2551,14 @@ this.fovaSelection={
 }
 
 this.fovaPlayerType={
-  nonUser=true,
+  nonUser=true,--DEBUGNOW set
   save=MISSION,
   range={min=0,max=3},
 }
 
 this.fovaPlayerPartsType={
   nonUser=true,
-  save=MISSION,
+  save=MISSION,--DEBUGNOW set
   range={min=0,max=127},
 }
 
@@ -2556,7 +2573,7 @@ this.playerHandTypes={
 
 --tex driven by playerHandEquip
 --this.playerHandType={
---  --save=MISSION,
+--  --save=EXTERNAL,
 --  range={min=0,max=1000},
 --  OnChange=function(self)
 --    if self.setting>0 then--TODO: add off/default/noset setting
@@ -2590,7 +2607,7 @@ for n,equipType in ipairs(playerHandEquipTypes)do
 end
 
 this.playerHandEquip={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   settings=playerHandEquipTypes,
 
   settingsTable=playerHandEquipIds,
@@ -2608,7 +2625,7 @@ this.playerHandEquip={
 
 --CULL
 this.playerHeadgear={--DOC: player appearance.txt
-  save=MISSION,
+  save=EXTERNAL,
   range={max=7},--TODO: needed something, anything here, RETRY now that I've changed unset max default to 1 from 0
   maleSettingsTable={
     0,
@@ -2679,7 +2696,7 @@ this.phaseSettings={
 --}
 
 this.minPhase={
-  save=MISSION,
+  save=EXTERNAL,
   settings=this.phaseSettings,
   --settingsTable=this.phaseTable,
   OnChange=function(self,previousSetting,setting)
@@ -2692,7 +2709,7 @@ this.minPhase={
 }
 
 this.maxPhase={
-  save=MISSION,
+  save=EXTERNAL,
   settings=this.phaseSettings,
   default=#this.phaseSettings-1,
   --settingsTable=this.phaseTable,
@@ -2706,7 +2723,7 @@ this.maxPhase={
 }
 
 this.keepPhase={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 --OFF
@@ -2720,17 +2737,17 @@ this.keepPhase={
 }
 
 this.phaseUpdateRate={--seconds
-  save=MISSION,
+  save=EXTERNAL,
   default=3,
   range={min=1,max=255},
 }
 this.phaseUpdateRange={--seconds
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=255},
 }
 
 this.phaseUpdate={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,previousSetting,setting)
@@ -2739,30 +2756,30 @@ this.phaseUpdate={
 }
 
 this.printPhaseChanges={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 --
 this.soldierAlertOnHeavyVehicleDamage={
-  save=MISSION,
+  save=EXTERNAL,
   settings=this.phaseSettings,
 }
 
 this.cpAlertOnVehicleFulton={
-  --OFF WIP save=MISSION,
+  --OFF WIP save=EXTERNAL,
   settings=this.phaseSettings,
 }
 
 --this.ogrePointChange={
---  --save=MISSION,
+--  --save=EXTERNAL,
 --  default=-100,
 --  range={min=-10000,max=10000,increment=100},
 --}
 
 --this.ogrePointChange={
---  save=MISSION,
+--  save=EXTERNAL,
 --  settings={"DEFAULT","NORMAL","DEMON"},
 --  settingsTable=99999999,
 --  OnChange=function(self)
@@ -2776,14 +2793,14 @@ this.cpAlertOnVehicleFulton={
 
 --telop
 this.telopMode={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.warpPlayerUpdate={
   nonConfig=true,
-  --save=MISSION,
+  --save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   isMode=true,
@@ -2812,7 +2829,7 @@ this.warpPlayerUpdate={
 
 this.adjustCameraUpdate={
   nonConfig=true,
-  --save=MISSION,
+  --save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   isMode=true,
@@ -2850,7 +2867,7 @@ this.adjustCameraUpdate={
 }
 
 this.cameraMode={
-  --save=MISSION,
+  --save=EXTERNAL,
   settings={"DEFAULT","CAMERA"},--"PLAYER","CAMERA"},
   OnChange=function(self,previousSetting)
     if self:Is"DEFAULT" then
@@ -2862,14 +2879,15 @@ this.cameraMode={
   end,
 }
 
+--tex DEBUGNOW Set
 this.moveScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=0.5,
   range={max=10,min=0.01,increment=0.1},
 }
 
 this.disableCamText={
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -2884,43 +2902,43 @@ this.camNames={
 
 for i,camName in ipairs(this.camNames) do
   this["focalLength"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=21,
     range={max=10000,min=0.1,increment=1},
   }
 
   this["focusDistance"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=8.175,
     range={max=1000,min=0.01,increment=0.1},
   }
 
   this["aperture"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=1.875,
     range={max=100,min=0.001,increment=0.1},
   }
 
   this["distance"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
   }
 
   this["positionX"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }
   this["positionY"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }
   this["positionZ"..camName]={
-    --OFF save=MISSION,
+    --OFF save=EXTERNAL,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
@@ -2929,17 +2947,17 @@ end
 
 --highspeedcamera/slowmo
 this.speedCamContinueTime={
-  save=MISSION,
+  save=EXTERNAL,
   default=10,
   range={max=1000,min=0,increment=1},
 }
 this.speedCamWorldTimeScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=0.3,
   range={max=100,min=0,increment=0.1},
 }
 this.speedCamPlayerTimeScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,
   range={max=100,min=0,increment=0.1},
 }
@@ -3000,7 +3018,7 @@ end
 
 this.buddyChangeEquipVar={
   nonConfig=true,
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={max=5,min=1},
   GetSettingText=BuddyVarGetSettingText,
   OnSelect=BuddyVarOnSelect,
@@ -3009,7 +3027,7 @@ this.buddyChangeEquipVar={
 
 --quiet
 this.quietRadioMode={
-  save=MISSION,
+  save=EXTERNAL,
   range={min=0,max=31},
   OnChange=function(self,previousSetting,setting)
     if setting>0 or previousSetting~=0 then
@@ -3021,7 +3039,7 @@ this.quietRadioMode={
 }
 
 this.repopulateRadioTapes={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -3031,7 +3049,7 @@ IvarProc.MissionModeIvars(
   this,
   "enableWalkerGears",
   {
-    save=MISSION,
+    save=EXTERNAL,
     range=this.switchRange,
     settingNames="set_switch",
   },
@@ -3040,7 +3058,7 @@ IvarProc.MissionModeIvars(
 
 
 this.mbWalkerGearsColor={
-  save=MISSION,
+  save=EXTERNAL,
   settings={
     "SOVIET",--green, default
     "ROGUE_COYOTE",--Blue grey
@@ -3054,7 +3072,7 @@ this.mbWalkerGearsColor={
 }
 
 this.mbWalkerGearsWeapon={
-  save=MISSION,
+  save=EXTERNAL,
   settings={
     "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles
     "MINIGUN",
@@ -3065,41 +3083,44 @@ this.mbWalkerGearsWeapon={
 }
 --
 
-this.npcUpdate={--tex NONUSER
-  --save=MISSION,
-  nonUser=true,
-  default=1,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
+--CULL
+--this.npcUpdate={--tex NONUSER
+--  --save=MISSION,
+--  nonUser=true,
+--  default=1,
+--  range=this.switchRange,
+--  settingNames="set_switch",
+--}
 
-this.npcOcelotUpdate={--tex NONUSER
-  --save=MISSION,
-  nonUser=true,
-  default=1,
-  range=this.switchRange,
-  settingNames="set_switch",
-  execCheckTable={inGame=true,inHeliSpace=false},
-  MissionCheck=IvarProc.MissionCheckMb,
-}
+--CULL
+--this.npcOcelotUpdate={--tex NONUSER DEBUGNOW
+--  --save=MISSION,
+--  nonUser=true,
+--  default=1,
+--  range=this.switchRange,
+--  settingNames="set_switch",
+--  execCheckTable={inGame=true,inHeliSpace=false},
+--  MissionCheck=IvarProc.MissionCheckMb,
+--}
 
-this.npcHeliUpdate={
-  save=MISSION,
-  settings={"OFF","UTH","HP48","UTH_AND_HP48"},
-  MissionCheck=IvarProc.MissionCheckMb,
-}
+--CULL
+--this.npcHeliUpdate={
+--  save=EXTERNAL,
+--  settings={"OFF","UTH","HP48","UTH_AND_HP48"},
+--  MissionCheck=IvarProc.MissionCheckMb,
+--}
 
 --support heli
-this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
-  --save=MISSION,
-  nonUser=true,
-  default=1,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
+--this.heliUpdate={--tex NONUSER, InfHeli always active to pick up pull out
+--  --save=MISSION,
+--  nonUser=true,
+--  default=1,
+--  range=this.switchRange,
+--  settingNames="set_switch",
+--}
 
 this.defaultHeliDoorOpenTime={--seconds
-  save=MISSION,
+  save=EXTERNAL,
   default=15,
   range={min=0,max=120},
 }
@@ -3114,7 +3135,7 @@ local HeliEnabledGameCommand=function(self,previousSetting,setting)
 end
 
 this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   gameEnabledCommand="SetGettingOutEnabled",
@@ -3122,7 +3143,7 @@ this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actu
 }
 
 this.setInvincibleHeli={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   gameEnabledCommand="SetInvincible",
@@ -3130,7 +3151,7 @@ this.setInvincibleHeli={
 }
 
 this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
   range={min=0,max=15},
   OnChange=function(self,previousSetting,setting)
@@ -3143,7 +3164,7 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
 }
 
 this.disablePullOutHeli={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,previousSetting,setting)
@@ -3164,7 +3185,7 @@ this.disablePullOutHeli={
 }
 
 this.setLandingZoneWaitHeightTop={
-  save=MISSION,
+  save=EXTERNAL,
   default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
   range={min=5,max=50,increment=5},
   OnChange=function(self,previousSetting,setting)
@@ -3177,7 +3198,7 @@ this.setLandingZoneWaitHeightTop={
 }
 
 this.disableDescentToLandingZone={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self,previousSetting,setting)
@@ -3197,7 +3218,7 @@ this.disableDescentToLandingZone={
 }
 
 this.setSearchLightForcedHeli={
-  save=MISSION,
+  save=EXTERNAL,
   settings={"DEFAULT","OFF","ON"},
   settingNames="set_default_off_on",
   OnChange=function(self,previousSetting,setting)
@@ -3220,7 +3241,7 @@ this.setSearchLightForcedHeli={
 
 this.selectedCp={
   nonConfig=true,
-  save=MISSION,
+  --save=EXTERNAL,
   range={max=9999},--DYNAMIC (not currently, TODO)
   prev=nil,--STATE
   GetNext=function(self,currentSetting)
@@ -3266,7 +3287,7 @@ this.selectedCp={
 --
 local currentCategory=0
 this.selectedChangeWeapon={--WIP
-  --OFF save=MISSION,
+  --OFF save=EXTERNAL,
   range={max=490,min=1},--tex SYNC: tppEquipTable
   GetSettingText=function(self,setting)
     return InfEquip.tppEquipTableTest[setting]
@@ -3328,7 +3349,7 @@ this.selectedChangeWeapon={--WIP
 }
 
 this.enableInfInterrogation={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckFree,
@@ -3337,7 +3358,7 @@ this.enableInfInterrogation={
 --item drops
 this.perSoldierCount=10
 this.itemDropChance={
-  save=MISSION,
+  save=EXTERNAL,
   --range={min=0,max=this.perSoldierCount,increment=1},
   range={min=0,max=100,increment=10},
   isPercent=true,
@@ -3348,7 +3369,7 @@ IvarProc.MissionModeIvars(
   this,
   "gameEventChance",
   {
-    save=MISSION,
+    save=EXTERNAL,
     range={min=0,max=100,increment=5},
     isPercent=true,
   },
@@ -3357,14 +3378,14 @@ IvarProc.MissionModeIvars(
 
 --parasite
 this.enableParasiteEvent={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckFree,
 }
 
 this.parasiteWeather={
-  save=MISSION,
+  save=EXTERNAL,
   default=1,--parasite
   settings={"NONE","PARASITE_FOG","RANDOM"},
 }
@@ -3395,7 +3416,7 @@ IvarProc.MinMaxIvar(
 
 this.selectProfile={
   nonConfig=true,
-  --save=MISSION,
+  --save=EXTERNAL,
   range={min=0,max=0},
   GetSettingText=function(self,setting)
     if Ivars.profiles==nil or self.settings==nil then
@@ -3432,27 +3453,32 @@ this.selectProfile={
 
 --mines
 this.randomizeMineTypes={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.additionalMineFields={
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.resourceAmountScale={
-  save=MISSION,
+  save=EXTERNAL,
   default=100,
   range={max=1000,min=100,increment=100},
   isPercent=true,
+  --DEBUGNOW TEST in Helispace
+  OnChange=function()
+    InfResources.ScaleResourceTables()
+  end,
 }
 
+--tex NOTE: not currently exposed
 this.skipDevelopChecks={
   nonConfig=true,
-  save=MISSION,
+  save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -3462,7 +3488,7 @@ this.skipDevelopChecks={
 
 --tex used as indicator whether save>ivars should be synced
 this.inf_event={--NONUSER
-  nonUser=true,
+  nonUser=true,--DEBUGNOW set
   save=MISSION,
   settings={"OFF","WARGAME","ROAM"},
 }
@@ -3475,7 +3501,7 @@ this.mis_isGroundStart={--NONUSER WORKAROUND
 
 this.mbRepopDiamondCountdown={
   nonUser=true,
-  save=MISSION,
+  save=MISSION,--DEBUGNOW set, nonuser
   default=4,
   range={max=4,min=0,increment=1},
 }
@@ -3494,7 +3520,8 @@ local function IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and (ivar.range or ivar.settings)
 end
 
---ivar system setup
+--ivar system setup>
+--gvars setup
 function this.DeclareVars()
   local varTable={}
   --varTable={
@@ -3515,7 +3542,7 @@ function this.DeclareVars()
 
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if ivar.save then
+      if ivar.save and ivar.save~=EXTERNAL then
         local ok=true
         local svarType=0
         local max=ivar.range.max or 0
@@ -3605,6 +3632,10 @@ function this.SetupIvars()
       ivar.GetSettingName=IvarProc.GetSettingName
       ivar.MissionCheck=ivar.MissionCheck or IvarProc.MissionCheckAll
       ivar.EnabledForMission=IvarProc.IvarEnabledForMission
+      
+      if ivar.save and ivar.save==EXTERNAL then
+        evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
+      end
     end--is ivar
   end
 end
@@ -3626,6 +3657,7 @@ function this.PostModulesReload()
     end
   end
 end
+--<
 
 --EXEC
 InfLog.PCall(function()

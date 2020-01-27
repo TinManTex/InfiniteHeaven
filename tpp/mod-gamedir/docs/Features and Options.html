@@ -28,7 +28,7 @@
 <div id="menuItem">Manually trigger open heli door at mission start.</div>
 <div id="itemHelp">Pressing &ltChange Stance&gt while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.</div>
 <div id="menuItem">Quick menu commands.</div>
-<div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
+<div id="itemHelp">(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)<br/>Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 <div id="menuItem">Profiles.</div>
 <div id="itemHelp">Editable lists of options, see InfProfiles.lua in mod folder.</div>
 <div id="menuItem">Reload lua scripts in MGSV_TPP without exiting game.</div>
@@ -45,59 +45,55 @@
 <div id="heliSpaceMenu">ACC Main menu</div>
 </div>
 <div id="menuItem">
-<div>1: Trigger random IH event : (Command)</div>
-<div id="itemHelp">  Events are temporary custom profiles for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
+<div>1: <a href="#systemMenu">IH system menu</a></div>
 </div>
 <div id="menuItem">
-<div>2: <a href="#systemMenu">IH system menu</a></div>
+<div>2: <a href="#eventsMenu">Events menu</a></div>
 </div>
 <div id="menuItem">
-<div>3: <a href="#worldMenu">World menu</a></div>
+<div>3: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>4: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+<div>4: <a href="#playerSettingsMenu">Player settings menu</a></div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#playerSettingsMenu">Player settings menu</a></div>
+<div>5: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+<div>6: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>7: <a href="#revengeMenu">Enemy Prep menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#revengeMenu">Enemy Prep menu</a></div>
+<div>8: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
+<div>9: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#enemyPatrolMenu">Enemy patrols menu</a></div>
+<div>10: <a href="#sideOpsMenu">Side ops menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#sideOpsMenu">Side ops menu</a></div>
+<div>11: <a href="#motherBaseMenu">Mother Base menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#motherBaseMenu">Mother Base menu</a></div>
+<div>12: <a href="#demosMenu">Cutscenes menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#demosMenu">Cutscenes menu</a></div>
+<div>13: <a href="#cameraMenu">Camera menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#cameraMenu">Camera menu</a></div>
+<div>14: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>15: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>16: <a href="#progressionMenu">Progression menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#progressionMenu">Progression menu</a></div>
-</div>
-<div id="menuItem">
-<div>18: <a href="#debugMenu">Debug/system menu</a></div>
+<div>17: <a href="#debugMenu">Debug menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -114,7 +110,7 @@
 <div>2: Set profile options to game defaults : (Command)</div>
 </div>
 <div id="menuItem">
-<div>3: Enable QuickMenu : Off, On</div>
+<div>3: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
@@ -132,39 +128,32 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="worldMenu">World menu</div>
+<div id="eventsMenu">Events menu</div>
 </div>
 <div id="menuItem">
-<div>1: Free roam event random trigger chance : 0-100%</div>
+<div>1: Trigger random IH event : (Command)</div>
+<div id="itemHelp">  Events are temporary custom profiles for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
+</div>
+<div id="menuItem">
+<div>2: Free roam event random trigger chance : 0-100%</div>
 <div id="itemHelp">Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')</div>
 </div>
 <div id="menuItem">
-<div>2: MB event random trigger chance : 0-100%</div>
+<div>3: MB event random trigger chance : 0-100%</div>
 <div id="itemHelp">Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')</div>
 </div>
 <div id="menuItem">
-<div>3: Enable Skull attacks in Free roam : Off, On</div>
+<div>4: Enable Skull attacks in Free roam : Off, On</div>
 <div id="itemHelp">Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.</div>
 </div>
 <div id="menuItem">
-<div>4: Skull attack min (minutes) : 0-180</div>
+<div>5: Skull attack min (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>5: Skull attack max (minutes) : 0-180</div>
+<div>6: Skull attack max (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>6: Weather on Skull attack : None, Parasite fog, Random</div>
-</div>
-<div id="menuItem">
-<div>7: Repopulate music tape radios : Off, On</div>
-</div>
-<div id="menuItem">
-<div>8: Randomize minefield mine types : Off, On</div>
-<div id="itemHelp">Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.</div>
-</div>
-<div id="menuItem">
-<div>9: Enable additional minefields : Off, On</div>
-<div id="itemHelp">In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.</div>
+<div>7: Weather on Skull attack : None, Parasite fog, Random</div>
 </div>
 <div id="menuItem">
 </div>
@@ -574,13 +563,14 @@
 <div id="menuHelp">Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.</div>
 </div>
 <div id="menuItem">
-<div>1: Free roam prep mode : Enemy prep levels, Custom prep</div>
+<div>1: Free roam prep mode : Enemy prep levels, Custom prep, Prep levels + Custom overrides</div>
+<div id="itemHelp">Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all the settings in the Custom prep menu, Prep levels + Custom overrides - overrides the Enemy prep levels config with any Custom prep settings that aren't set to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>2: Missions prep mode : Enemy prep levels, Custom prep</div>
+<div>2: Missions prep mode : Enemy prep levels, Custom prep, Prep levels + Custom overrides</div>
 </div>
 <div id="menuItem">
-<div>3: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep</div>
+<div>3: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides</div>
 </div>
 <div id="menuItem">
 <div>4: <a href="#revengeCustomMenu">Custom prep menu</a></div>
@@ -604,11 +594,7 @@
 <div id="itemHelp">Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan</div>
 </div>
 <div id="menuItem">
-<div>10: Wildcard soldiers Free roam : Off, On</div>
-<div id="itemHelp">Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.</div>
-</div>
-<div id="menuItem">
-<div>11: IH interrogation in free roam : Off, On</div>
+<div>10: IH interrogation in free roam : Off, On</div>
 <div id="itemHelp">Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)</div>
 </div>
 <div id="menuItem">
@@ -952,6 +938,14 @@
 <div id="itemHelp">Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.</div>
 </div>
 <div id="menuItem">
+<div>15: Randomize minefield mine types : Off, On</div>
+<div id="itemHelp">Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.</div>
+</div>
+<div id="menuItem">
+<div>16: Enable additional minefields : Off, On</div>
+<div id="itemHelp">In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.</div>
+</div>
+<div id="menuItem">
 </div>
 <div id="menuItem">
 </div>
@@ -1037,44 +1031,58 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="enemyPatrolMenu">Enemy patrols menu</div>
+<div id="enemyPatrolMenu">Patrols and deployments menu</div>
 </div>
 <div id="menuItem">
 <div>1: Foot patrols in free roam : Off, On</div>
 <div id="itemHelp">Foot patrols will travel between random CPs and will cross the field to get there.</div>
 </div>
 <div id="menuItem">
-<div>2: Heli patrols in free roam : None, 1, 3, 5, 7, Enemy prep</div>
+<div>2: Wildcard soldiers Free roam : Off, On</div>
+<div id="itemHelp">Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.</div>
+</div>
+<div id="menuItem">
+<div>3: Heli patrols in free roam : Off, On</div>
 <div id="itemHelp">Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.</div>
 </div>
 <div id="menuItem">
-<div>3: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
-<div id="itemHelp">Shared between free roam and MB attack helis.</div>
+<div>4: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
+<div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>4: Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)</div>
+<div>5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
+</div>
+<div id="menuItem">
+<div>6: Walker gears in free roam : Off, On</div>
+<div id="itemHelp">Adds a Walker gear to each main base.</div>
+</div>
+<div id="menuItem">
+<div>7: Walker gears in MB : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)</div>
 <div id="itemHelp">Replaces the patrolling trucks in free roam with other vehicles.</div>
 </div>
 <div id="menuItem">
-<div>5: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep</div>
+<div>9: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep</div>
 </div>
 <div id="menuItem">
-<div>6: Allow jeeps : Off, On</div>
+<div>10: Allow jeeps : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Allow trucks : Off, On</div>
+<div>11: Allow trucks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Allow wheeled armored vehicles : Off, On</div>
+<div>12: Allow wheeled armored vehicles : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: Allow heavy wheeled armored vehicles : Off, On</div>
+<div>13: Allow heavy wheeled armored vehicles : Off, On</div>
 </div>
 <div id="menuItem">
-<div>10: Allow tanks : Off, On</div>
+<div>14: Allow tanks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Equipment on trucks : Off, On</div>
+<div>15: Equipment on trucks : Off, On</div>
 <div id="itemHelp">Puts a random piece of equipment on the back of patrol trucks.</div>
 </div>
 <div id="menuItem">
@@ -1112,7 +1120,7 @@
 <div id="motherBaseMenu">Mother Base menu</div>
 </div>
 <div id="menuItem">
-<div>1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep</div>
+<div>1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides</div>
 </div>
 <div id="menuItem">
 <div>2: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
@@ -1134,15 +1142,14 @@
 <div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
 </div>
 <div id="menuItem">
-<div>8: NPC helis : Off, Support helis, Attack helis, Support and Attack helis</div>
+<div>8: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
 <div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
 <div>9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
-<div id="itemHelp">Shared between free roam and MB attack helis.</div>
 </div>
 <div id="menuItem">
-<div>10: Walker gears : Off, On</div>
+<div>10: Walker gears in MB : Off, On</div>
 </div>
 <div id="menuItem">
 <div>11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
@@ -1159,36 +1166,40 @@
 <div id="itemHelp">Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.</div>
 </div>
 <div id="menuItem">
-<div>15: Enable all buddies : Off, On</div>
+<div>15: Enemy prep decrease on long MB visit : Off, On</div>
+<div id="itemHelp">Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat </div>
+</div>
+<div id="menuItem">
+<div>16: Enable all buddies : Off, On</div>
 <div id="itemHelp">Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.</div>
 </div>
 <div id="menuItem">
-<div>16: More soldiers on MB plats : Off, On</div>
+<div>17: More soldiers on MB plats : Off, On</div>
 <div id="itemHelp">Increases soldiers on platforms from 4 soldiers to 9.</div>
 </div>
 <div id="menuItem">
-<div>17: Force enable Quaranine platform soldiers : Off, On</div>
+<div>18: Force enable Quaranine platform soldiers : Off, On</div>
 <div id="itemHelp">Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.</div>
 </div>
 <div id="menuItem">
-<div>18: Soldiers move between platforms : Off, On</div>
+<div>19: Soldiers move between platforms : Off, On</div>
 <div id="itemHelp">Soldiers will periodically move between platforms (only within the same cluster).</div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
+<div>20: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
+<div>21: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: Allow lethal actions : Off, On</div>
+<div>22: Allow lethal actions : Off, On</div>
 <div id="itemHelp">Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.</div>
 </div>
 <div id="menuItem">
-<div>22: Women in Enemy Invasion mode : 0-100%</div>
+<div>23: Women in Enemy Invasion mode : 0-100%</div>
 </div>
 <div id="menuItem">
-<div>23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+<div>24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1390,22 +1401,29 @@
 <div id="progressionMenu">Progression menu</div>
 </div>
 <div id="menuItem">
-<div>1: Unlock playable avatar : (Command)</div>
+<div>1: Resource amount scale : 100-1000%</div>
+<div id="itemHelp">Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)</div>
+</div>
+<div id="menuItem">
+<div>2: Repopulate music tape radios : Off, On</div>
+</div>
+<div id="menuItem">
+<div>3: Unlock playable avatar : (Command)</div>
 <div id="itemHelp">Unlock avatar before mission 46</div>
 </div>
 <div id="menuItem">
-<div>2: Unlock weapon customization : (Command)</div>
+<div>4: Unlock weapon customization : (Command)</div>
 <div id="itemHelp">Unlock without having to complete legendary gunsmith missions</div>
 </div>
 <div id="menuItem">
-<div>3: Reset Paz state to beginning : (Command)</div>
+<div>5: Reset Paz state to beginning : (Command)</div>
 </div>
 <div id="menuItem">
-<div>4: Return Quiet after mission 45 : (Command)</div>
+<div>6: Return Quiet after mission 45 : (Command)</div>
 <div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
 </div>
 <div id="menuItem">
-<div>5: showQuietReunionMissionCount : (Command)</div>
+<div>7: showQuietReunionMissionCount : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1415,7 +1433,7 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="debugMenu">Debug/system menu</div>
+<div id="debugMenu">Debug menu</div>
 </div>
 <div id="menuItem">
 <div>1: Debug IH mode : Off, On</div>

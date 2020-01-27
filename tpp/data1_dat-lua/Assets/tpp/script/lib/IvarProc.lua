@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- IvarProc.lua
+-- tex functions for working on Ivars and their associated ivars,evars,gvars
 local this={}
 
 --LOCALOPT
@@ -19,12 +20,40 @@ local CONFIG=TppScriptVars.CATEGORY_CONFIG
 local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
+local EXTERNAL=1024--tex SYNC Ivars
+
 local function IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
 end
 
 function this.GetSetting(self)
   return ivars[self.name]
+end
+
+--tex TODO bounds checking?
+function this.GetSaved(self)
+  local gvar=nil
+  if self.save then
+    if self.save==EXTERNAL then
+      gvar=evars[self.name]
+    else
+      gvar=gvars[self.name]
+    end
+    if gvar==nil then
+      InfLog.Add("IvarProc.GetSaved: WARNING ivar.save but no gvar found for "..tostring(self.name),true)
+    end
+  end
+  return gvar
+end
+
+function this.SetSaved(self,value)
+  if value~=nil and self.save then
+    if self.save==EXTERNAL then
+      evars[self.name]=value
+    else
+      gvars[self.name]=value
+    end
+  end
 end
 
 --tex currently not used. GOTCHA currently only supports settingsTable as array, see GetTableSetting
@@ -135,14 +164,14 @@ function this.SetSetting(self,setting,noSave)
   local prevSetting=currentSetting
   ivars[self.name]=setting
   if self.save and not noSave then
-    local gvar=gvars[self.name]
+    local gvar=this.GetSaved(self)
     if gvar~=nil then
-      gvars[self.name]=setting
+      this.SetSaved(self,setting)
     end
   end
   if self.OnChange then
     --InfLog.Add("SetSetting OnChange for "..self.name)--DEBUG
-    InfLog.PCall(self.OnChange,self,prevSetting,setting)
+    InfLog.PCallDebug(self.OnChange,self,prevSetting,setting)
     -- end
   end
 end
@@ -337,6 +366,7 @@ local missionModeChecks={
 --and adds them to Ivars, as well as Ivars.missionModeIvars for IsForMission,EnabledForMission support
 --USAGE
 --IvarProc.MissionModeIvars(
+--  Ivars,
 --  "someIvarName",
 --  {
 --    save=MISSION,
@@ -344,7 +374,6 @@ local missionModeChecks={
 --    settingNames="set_switch",
 --  },
 --  {"FREE","MISSION",},
---  Ivars
 --)
 --OUT: Ivars
 function this.MissionModeIvars(Ivars,name,ivarDefine,missionModes)
@@ -443,19 +472,39 @@ end
 
 this.UpdateSettingFromGvar=function(option)
   if option.save then
-    local gvar=gvars[option.name]
+    local gvar=IvarProc.GetSaved(option)
     if gvar~=nil then
       ivars[option.name]=gvar
-    else
-      InfLog.Add("UpdateSettingFromGvar: WARNING option.save but no gvar found for "..tostring(option.name),true)
     end
   end
 end
 
---tex called on TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint
+--CALLER: TppSave.DoSave > InfMain.OnSave (via InfHooks)
+function this.OnSave()
+  InfLog.PCallDebug(this.SaveEvars)
+end
+
+--CALLER: init_sequence.CreateOrLoadSaveData > InfMain.OnCreateOrLoadSaveData
+function this.OnCreateOrLoadSaveData()
+  local saveName=InfMain.saveName
+  local filePath=InfLog.modPath..saveName
+  local ih_save,error=loadfile(filePath)
+  if ih_save==nil then
+    --tex create
+    local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,false,true)
+    --InfLog.PrintInspect(evarsTextList)
+    this.WriteEvars(evarsTextList,saveName)
+  else
+    InfLog.PCallDebug(this.LoadEvars)
+  end
+end
+
+--CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
 function this.OnLoadVarsFromSlot()
+  InfLog.PCallDebug(this.LoadEvars)
+
   if Ivars.inf_event:Is()>0 then
-    --InfLog.DebugPrint("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
+    InfLog.Add("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
     return
   end
   for name,ivar in pairs(Ivars) do
@@ -474,31 +523,23 @@ function this.PrintNonDefaultVars()
     return
   end
 
-  for n,gvarInfo in pairs(varTable) do
-    local gvar=gvars[gvarInfo.name]
-    if gvar==nil then
-      InfLog.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
-    else
-      if gvar~=gvarInfo.value then
-        InfLog.DebugPrint("DEBUG: "..gvarInfo.name.." current value "..tostring(gvar).." is not default "..tostring(gvarInfo.value))
-      end
+  for name,value in pairs(evars) do
+    local default=Ivars[name].default
+    if value~=default then
+      InfLog.DebugPrint("DEBUG: "..name.." current value "..value.." is not default "..default)
     end
   end
 end
 
 function this.PrintGvarSettingMismatch()
   --InfLog.PCall(function()--DEBUG
-  for name, ivar in pairs(Ivars) do
+  for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if ivar.save then
-        local gvar=gvars[ivar.name]
-        if gvar==nil then
-          InfLog.DebugPrint("WARNING ".. ivar.name.." has no gvar")
-        else
-          if ivars[ivar.name]~=gvar then
-            InfLog.Add("WARNING: ivar setting/gvar mismatch for "..name,true)
-            InfLog.Add("setting:"..tostring(ivars[ivar.name]).." gvar value:"..tostring(gvar),true)
-          end
+      local gvar=this.GetSaved(ivar)
+      if gvar~=nil then
+        if ivars[ivar.name]~=gvar then
+          InfLog.Add("WARNING: ivar setting/gvar mismatch for "..name,true)
+          InfLog.Add("setting:"..tostring(ivars[ivar.name]).." gvar value:"..tostring(gvar),true)
         end
       end
     end
@@ -506,6 +547,7 @@ function this.PrintGvarSettingMismatch()
   --end)--
 end
 
+--tex TODO update to catch evars
 function this.PrintSaveVarCount()
   local varTable=Ivars.DeclareVars()
   if varTable==nil then
@@ -766,6 +808,127 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
 
   local profilesFileName="InfSavedProfiles.lua"
   InfPersistence.Store(InfLog.modPath..profilesFileName,Ivars.savedProfiles)
+end
+
+local evarLineFormatStr="\t%s=%g,"
+function this.BuildEvarsText(evars,ihVer,inMission,onlyNonDefault)
+  local Ivars=Ivars
+
+  local inMission=inMission or false
+
+  local evarsText={
+    "-- "..InfMain.saveName,
+    "-- Save file for IH options",
+    "-- While this file is editable, editing an inMission save is likely to cause issues.",
+    "-- See Readme for more info",
+    "local this={}",
+    "this.ihVer="..ihVer,
+    "this.saveTime="..os.time(),
+    "this.inMission="..tostring(inMission),
+    "this.evars={"
+  }
+
+  for name,value in pairs(evars)do
+    local ivar=Ivars[name]
+    if not onlyNonDefault or value~=ivar.default then
+      if ivar and ivar.save and ivar.save==EXTERNAL then
+        evarsText[#evarsText+1]=string.format(evarLineFormatStr,name,value)
+      end
+    end
+  end
+
+  evarsText[#evarsText+1]="}"
+  evarsText[#evarsText+1]="return this"
+
+  return evarsText
+end
+
+function this.WriteEvars(evarsTextList,saveName)
+  local filePath=InfLog.modPath..saveName
+
+  local saveFile,error=io.open(filePath,"w")
+  if not saveFile or error then
+    local errorText="WriteEvars: Create save error: "..tostring(error)
+    InfLog.DebugPrint(errorText)
+    InfLog.Add(errorText)
+    return
+  end
+
+  saveFile:write(table.concat(evarsTextList,"\r\n"))
+  saveFile:close()
+end
+
+local typeString="string"
+local typeNumber="number"
+local typeFunction="function"
+local typeTable="table"
+function this.ReadEvars(saveName)
+  local filePath=InfLog.modPath..saveName
+  local ih_save,error=loadfile(filePath)
+  if ih_save==nil then
+    local errorText="ReadEvars: Read save error: "..tostring(error)
+    InfLog.DebugPrint(errorText)
+    InfLog.Add(errorText)
+    return
+  end
+  if type(ih_save)~=typeFunction then
+    local errorText="ReadEvars: LoadEvars~=typeFunction"
+    InfLog.DebugPrint(errorText)
+    InfLog.Add(errorText)
+    return
+  end
+  ih_save=ih_save()
+  if type(ih_save.evars)~=typeTable then
+    local errorText="ReadEvars: LoadEvars.evars~=typeTable"
+    InfLog.DebugPrint(errorText)
+    InfLog.Add(errorText)
+    return
+  end
+
+  local loadedEvars={}
+  for name,value in pairs(ih_save.evars) do
+    if type(name)~=typeString then
+      InfLog.Add("ReadEvars: name~=string:"..tostring(name))
+    else
+      if type(value)~=typeNumber then
+        InfLog.Add("ReadEvars: value~=string: "..name.."="..tostring(value))
+      elseif ivars and ivars[name]==nil then
+        InfLog.Add("ReadEvars: ivars["..name.."]==nil")
+      else
+        loadedEvars[name]=value
+      end
+    end
+  end
+  return loadedEvars
+end
+
+function this.SaveEvars()
+  local saveName=InfMain.saveName
+  local onlyNonDefault=true
+
+  --tex TODO: figure out some last-know good method and write a backup
+
+  local inGame=not mvars.mis_missionStateIsNotInGame
+  local inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
+  local inMission=inGame and not inHeliSpace
+
+  local evars=evars
+  local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,inMission,onlyNonDefault)
+  --InfLog.PrintInspect(evarsTextList)
+  this.WriteEvars(evarsTextList,saveName)
+end
+
+function this.LoadEvars()
+  local saveName=InfMain.saveName
+
+  local evars=evars
+
+  local loadedEvars=this.ReadEvars(saveName)
+  if loadedEvars then
+    for name,value in pairs(loadedEvars) do
+      evars[name]=value
+    end
+  end
 end
 
 return this

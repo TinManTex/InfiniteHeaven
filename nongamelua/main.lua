@@ -3,6 +3,9 @@ externalLoad=true
 
 projectDataPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"
 
+
+package.path=package.path..";./?.lua"
+
 package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
 
 package.cpath=package.cpath..";./MockFox/?.dll"
@@ -14,6 +17,7 @@ package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?
 package.path=package.path..";./ExternalLua/?.lua"
 
 package.path=package.path..";./nonmgscelua/?.lua"
+
 --
 
 bit=require"bit"
@@ -292,7 +296,6 @@ this.requires={
   --OFF "/Assets/tpp/script/lib/InfReinforce.lua",
   "/Assets/tpp/script/lib/InfCamera.lua",
   "/Assets/tpp/script/lib/InfUserMarker.lua",
-  --CULL"/Assets/tpp/script/lib/InfPatch.lua",
   "/Assets/tpp/script/lib/InfEnemyPhase.lua",
   "/Assets/tpp/script/lib/InfHelicopter.lua",
   "/Assets/tpp/script/lib/InfNPC.lua",

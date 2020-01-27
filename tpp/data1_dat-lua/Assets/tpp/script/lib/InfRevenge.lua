@@ -7,73 +7,84 @@ function this.round(num,idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
-function this.CreateCustomRevengeConfig()
+local function GetMinMaxIvars(name)
+  return Ivars[name.."_MIN"],Ivars[name.."_MAX"]
+end
+
+local function GetNonDefaultRandom(ivarMin,ivarMax,nonDefaultOnly)
+  if nonDefaultOnly and (ivarMin:IsDefault() and ivarMax:IsDefault()) then
+    return nil
+  end
+  return math.random(ivarMin:Get(),ivarMax:Get())
+end
+
+--tex onlyNonDefault will only add powerTypes to revengeConfig if their repsective Ivar isn't its default.
+function this.CreateCustomRevengeConfig(onlyNonDefault)
   local revengeConfig={}
   InfMain.RandomSetToLevelSeed()
   for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
     local powerTable=Ivars[powerTableName]
     for m,powerType in ipairs(powerTable)do
-      local min=Ivars[powerType.."_MIN"]:Get()
-      local max=Ivars[powerType.."_MAX"]:Get()
-      local random=math.random(min,max)
-      random=this.round(random)
-      --InfLog.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
-      if random>0 then
-        revengeConfig[powerType]=tostring(random).."%"
+      local ivarMin,ivarMax=GetMinMaxIvars(powerType)
+      local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+      if random~=nil then
+        random=this.round(random)
+        --InfLog.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
+        if random>0 then
+          revengeConfig[powerType]=tostring(random).."%"
+        end
       end
     end
   end
 
   for n,powerType in ipairs(Ivars.abilitiesWithLevels)do
-    local ivarMin=Ivars[powerType.."_MIN"]
-    local ivarMax=Ivars[powerType.."_MAX"]
-    local random=math.random(ivarMin:Get(),ivarMax:Get())
-    if random>0 then
+    local ivarMin,ivarMax=GetMinMaxIvars(powerType)
+    local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+    if random~=nil and random>0 then
       local powerType=powerType.."_"..ivarMin.settings[random+1]
       revengeConfig[powerType]=true
     end
   end
 
   for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
-    local ivarMin=Ivars[powerType.."_MIN"]
-    local ivarMax=Ivars[powerType.."_MAX"]
-    local random=math.random(ivarMin:Get(),ivarMax:Get())
-    if random==1 then
+    local ivarMin,ivarMax=GetMinMaxIvars(powerType)
+    local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+    if random~=nil and random==1 then
       revengeConfig[powerType]=true
     end
   end
 
   for n,powerType in ipairs(Ivars.cpEquipBoolPowers)do
-    local ivarMin=Ivars[powerType.."_MIN"]
-    local ivarMax=Ivars[powerType.."_MAX"]
-    local random=math.random(ivarMin:Get(),ivarMax:Get())
-    if random==1 then
+    local ivarMin,ivarMax=GetMinMaxIvars(powerType)
+    local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+    if random~=nil and random==1 then
       revengeConfig[powerType]=true
     end
   end
 
-  local random=math.random(Ivars.reinforceLevel_MIN:Get(),Ivars.reinforceLevel_MAX:Get())
-  if random>0 then
-    revengeConfig.SUPER_REINFORCE=true
-  end
-  if random==Ivars.reinforceLevel_MIN.enum.BLACK_SUPER_REINFORCE then
-    revengeConfig.BLACK_SUPER_REINFORCE=true
+  local ivarMin,ivarMax=GetMinMaxIvars"reinforceLevel"
+  local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+  if random~=nil and random>0 then
+    revengeConfig[ ivarMin.settings[random+1] ]=true
   end
 
-  local random=math.random(Ivars.revengeIgnoreBlocked_MIN:Get(),Ivars.revengeIgnoreBlocked_MAX:Get())
-  if random>0 then
+  local ivarMin,ivarMax=GetMinMaxIvars"revengeIgnoreBlocked"
+  local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+  if random~=nil and random>0 then
     revengeConfig.IGNORE_BLOCKED=true
   end
 
-  local random=math.random(Ivars.reinforceCount_MIN:Get(),Ivars.reinforceCount_MAX:Get())
-  --  if random>0 then
-  revengeConfig.REINFORCE_COUNT=random
-  --  end
+  local ivarMin,ivarMax=GetMinMaxIvars"reinforceCount"
+  local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
+  if random~=nil then
+    revengeConfig.REINFORCE_COUNT=random
+  end
 
+  --tex TODO if not onlyNonDefault or not missionvar mbDDEquipNonLethal IsDefault
   if Ivars.mbDDEquipNonLethal:EnabledForMission() then
     revengeConfig.NO_KILL_WEAPON=true
   end
-  
+
   if InfMain.IsDDBodyEquip(vars.missionCode) then
     local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
     if bodyInfo and (not bodyInfo.hasArmor) and (vars.missionCode==30050 or vars.missionCode==30250) then--tex TODO: handle mother base special case better, especially with the male/female split
@@ -82,6 +93,9 @@ function this.CreateCustomRevengeConfig()
   end
 
   InfMain.RandomResetToOsTime()
+
+--  InfLog.Add("CreateCustomRevengeConfig onlyNonDefault:"..tostring(onlyNonDefault))--DEBUG
+--  InfLog.PrintInspect(revengeConfig)
   return revengeConfig
 end
 

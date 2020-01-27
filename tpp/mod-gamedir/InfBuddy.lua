@@ -97,8 +97,6 @@ function this.GetTableIndexForBuddyVar(var,varTypeTable)
 end
 
 function this.ChangeBuddyVar(commandInfo,setting)
-  --InfLog.PCall(function(commandInfo,setting)--DEBUG
-
   if vars.buddyType~=commandInfo.buddyType then
     InfMenu.Print(InfMenu.LangString"current_buddy_not"..InfMenu.LangString(commandInfo.nameLangId))
     return
@@ -134,7 +132,6 @@ function this.ChangeBuddyVar(commandInfo,setting)
   
   --tex can't change buddy vars on the same frame, so set and have them return
   GkEventTimerManager.Start("Timer_CycleBuddyReturn",0.3)
-  --end,commandInfo,setting)--
 end
 --tex on Timer_CycleBuddyReturn finish
 function this.CycleBuddyReturn()

@@ -1,16 +1,25 @@
 -- InfWalkerGear.lua
 local this={}
 
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
+local SendCommand=GameObject.SendCommand
+
 this.walkerPlats={}
 
 this.walkerList={}
 
 local walkerNamePre="wkr_WalkerGear_"
-local numWalkerGears=20--tex dependant on the entity defs
-for i=0,numWalkerGears-1 do
+this.numWalkerGears=16--tex dependant on the entity defs
+for i=0,this.numWalkerGears-1 do
   local name=string.format("%s%04d", walkerNamePre,i)
   this.walkerList[#this.walkerList+1]=name
 end
+
+this.packages={
+  "/Assets/tpp/pack/mission2/common/mis_com_walkergear.fpk",--TppDefine.MISSION_COMMON_PACK.WALKERGEAR
+  "/Assets/tpp/pack/mission2/ih/ih_walker_gear_defloc.fpk"
+}
 
 local walkerGearEquip={
   WALKERGEAR_EQP_MACHINEGUN=0,
@@ -36,8 +45,18 @@ local cpSubTypeToColor={
   PF_C="ROGUE_COYOTE",
 }
 
+--tex doesn't seem to have an unrealize command, so have to put unused walkers out of the way
+--if it's an invalid spawn position it seems it will shift it to a 'safeposition' - in afgh its near the guardpost 11 (near the lz in the middle of map)
+--sometimes see lrrp soldiers put there. guess it's nearest nav mesh position thing?
+local walkerStorePositions={
+  afgh={-2787.008,429.208,-838.168},
+  mafr={2881.206,103.251,-851.613},
+}
+
+local walkerStartPositions={}
+
 --REF clusters {"Command","Combat","Develop","BaseDev","Support","Spy","Medical"}
-local walkerStartPositionsMb={
+walkerStartPositions.mtbs={
   --command
   {
     {pos={1.275,0.00,-30.20},rot=0},
@@ -89,126 +108,156 @@ local walkerStartPositionsMb={
   },
 }
 
-local walkerStartPositionsWorld={
-  afgh={
-    afgh_remnants_cp={
-      {pos={-906.802,288.846,1923.874},rot=100.7},
-    },
-    afgh_field_cp={
-      {pos={415.052,270.933,2207.31},rot=-178.46},
-    },
-    afgh_village_cp={
-      {pos={507.349,320.454,1160.997},rot=73},
-    },
-    afgh_commFacility_cp={
-      {pos={1491.027,357.429,469.534},rot=131.386},
-    },
-    afgh_bridge_cp={
-      {pos={1941.284,322.766,-528.093},rot=50.1},
-    },
-    afgh_fort_cp={
-      {pos={2136.47,455.56,-179.82},rot=47.827},
-    },
-    afgh_cliffTown_cp={
-      {pos={779.312,463.273,-989.820},rot=-177.267},
-    },
-    afgh_slopedTown_cp={
-      {pos={541.161,328.605,58.012},rot=8.95},
-    },
-    afgh_enemyBase_cp={
-      {pos={-628.698,353.423,457.301},rot=96.6},
-    },
-    afgh_tent_cp={
-      {pos={-1763.372,311.495,784.801},rot=0178.618},
-    },
-    afgh_powerPlant_cp={
-      {pos={-676.716,533.915,-1474.162},rot=82.7},
-    },
-    afgh_sovietBase_cp={
-      {pos={-2335.55,439.315,-1482.474},rot=-58.77},
-    },
-    afgh_citadel_cp={
-      {pos={-1232.651,600.599,-3098.633},rot=90.475},
-    },
+walkerStartPositions.afgh={
+  afgh_cliffTown_cp={
+    {pos={779.312,463.273,-989.820},rot=-177.267},
+  },
+  afgh_tent_cp={
+    {pos={-1763.372,311.495,784.801},rot=178.618},
+  },
+  afgh_powerPlant_cp={
+    {pos={-676.716,533.915,-1474.162},rot=82.7},
+  },
+  afgh_sovietBase_cp={
+    {pos={-2335.55,439.315,-1482.474},rot=-58.77},
+  },
+  afgh_remnants_cp={
+    {pos={-906.802,288.846,1923.874},rot=100.7},
+  },
+  afgh_field_cp={
+    {pos={415.052,270.933,2207.31},rot=-178.46},
+  },
+  afgh_citadel_cp={
+    {pos={-1232.651,600.599,-3098.633},rot=90.475},
+  },
+  afgh_fort_cp={
+    {pos={2144.533,455.413,-1752.163},rot=-31},
+  },
+  afgh_village_cp={
+    {pos={506.986,320.590,1154.721},rot=73},
+  },
+  afgh_bridge_cp={
+    {pos={1941.284,322.766,-528.093},rot=50.1},
+  },
+  afgh_commFacility_cp={
+    {pos={1491.027,357.429,469.534},rot=131.386},
+  },
+  afgh_slopedTown_cp={
+    {pos={541.161,328.605,58.012},rot=8.95},
+  },
+  afgh_enemyBase_cp={
+    {pos={-599.556,344.370,440.566},rot=-21.056},
+  },
+}
+
+walkerStartPositions.mafr={
+  mafr_flowStation_cp={
+    {pos={-1016.995,-13.298,-205.649},rot=30.056},
+  },
+  mafr_banana_cp={
+    {pos={252.424,44.181,-1220.282},rot=-77.555},
+  },
+  mafr_diamond_cp={
+    {pos={1356.577,139.196,-1621.228},rot=-105.199},
+  },
+  mafr_lab_cp={
+    {pos={2688.769,174.224,-2423.233},rot=-95.755},
+  },
+  mafr_swamp_cp={
+    {pos={-49.960,-4.169,65.055},rot=155.761},
+  },
+  mafr_outland_cp={
+    {pos={-623.962,-11.043,999.645},rot=141.762},
+  },
+  mafr_savannah_cp={
+    {pos={985.901,26.219,-219.649},rot=-80.459},
+  },
+  mafr_pfCamp_cp={
+    {pos={780.558,-11.102,1179.146},rot=-119.793},
+  },--Nova Braga Airport
+  mafr_hill_cp={
+    {pos={2172.074,56.796,407.998},rot=-29.473},
   },
 }
 
 function this.Init()
-  this.SetupWalkerGear()
-end
-
-function this.SetupWalkerGear()
-  if vars.missionCode==30050 then
-    this.SetupWalkerGearMb()
+  if not IvarProc.EnabledForMission("enableWalkerGears") then
     return
   end
-  --OFF WIP
-  --  if vars.missionCode==30010 or vars.missionCode==30020 then
-  --    this.SetupWalkerGearWorld()
-  --  end
+
+  if vars.missionCode==30050 then
+    this.SetupGearsMB()
+  else
+    this.SetupGearsFREE()
+  end
 end
 
-function this.SetupWalkerGearWorld()
-  --InfLog.PCall(function()--DEBUG
-
-    if not Ivars.enableWalkerGearsFREE:EnabledForMission() then
-      return
+function this.AddMissionPacks(missionCode,packPaths)
+  if not IvarProc.EnabledForMission("enableWalkerGears",missionCode) then
+    return
   end
 
+  for i,packPath in ipairs(this.packages) do
+    packPaths[#packPaths+1]=packPath
+  end
+end
+
+function this.SetupGearsFREE()
   InfMain.RandomSetToLevelSeed()
 
   local locationName=InfMain.GetLocationName()
 
-  local positions=walkerStartPositionsWorld[locationName]
+  local positions=walkerStartPositions[locationName]
 
   local cpPool={}
   for cpName,coordList in pairs(positions)do
     cpPool[#cpPool+1]=cpName
   end
 
+  local numSetup=0
   local numWalkers=#this.walkerList
   for i=1,numWalkers do
     local walkerName=this.walkerList[i]
-    local walkerId=GameObject.GetGameObjectId("TppCommonWalkerGear2",walkerName)
-    if walkerId==GameObject.NULL_ID then
+    local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
+    if walkerId==NULL_ID then
       InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
     else
-      --ASSUMPTION only one pos per cp
-      local cpName=InfMain.GetRandomPool(cpPool)
-      local coord=positions[cpName][1]
-
-
-      local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
-      GameObject.SendCommand(walkerId,command)
-
-
-      local cpSubType=TppEnemy.subTypeOfCp[cpName]
-      local colorName=cpSubTypeToColor[cpSubType]
-      local walkerColorType=walkerGearColorType[colorName]
-
-      local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
-      if cpId==GameObject.NULL_ID then
-        InfLog.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
+      if #cpPool==0 then
+        local storePos=walkerStorePositions[locationName]
+        local command={id="SetPosition",pos={storePos[1]+i,storePos[2],storePos[3]},rotY=0}
+        SendCommand(walkerId,command)
       else
+        --ASSUMPTION only one pos per cp
+        local cpName=InfMain.GetRandomPool(cpPool)
+
+        if TppMission.IsMissionStart() then
+          local coord=positions[cpName][1]
+          local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
+          SendCommand(walkerId,command)
+        end
+
+        local cpId=GetGameObjectId("TppCommandPost2",cpName)
+        if cpId==NULL_ID then
+          InfLog.Add(tostring(cpName).." cpId==NULL_ID")--DEBUG
+          --tex TODO: set to some color
+        else
+          local cpSubType=TppEnemy.subTypeOfCp[cpName]
+          local colorName=cpSubTypeToColor[cpSubType]
+          local walkerColorType=walkerGearColorType[colorName]
+
+          local command={id="SetColoringType",type=walkerColorType}
+          SendCommand(walkerId,command)
+        end
+
+        numSetup=i
       end
-      local command={id="SetColoringType",type=walkerColorType}
-      GameObject.SendCommand(walkerId,command)
     end
   end
   InfMain.RandomResetToOsTime()
-
-  --end)--
+  InfLog.Add("SetupGearsFREE: "..numSetup.." of "..numWalkers.." walker gears set")
 end
 
-function this.SetupWalkerGearMb()
-  if not Ivars.enableWalkerGearsMB:EnabledForMission() then
-    return
-  end
-  
-  if TppPackList.IsMissionPackLabel"BattleHanger"or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())then
-    return
-  end
-
+function this.SetupGearsMB()
   InfMain.RandomSetToLevelSeed()
 
   local numClusters=0
@@ -235,7 +284,7 @@ function this.SetupWalkerGearMb()
       end
     end
   end
-  
+
   if numWalkers>totalPlats then
     numWalkers=totalPlats
   end
@@ -278,11 +327,11 @@ function this.SetupWalkerGearMb()
         clusters[#clusters+1]=clusterId
       end
     end
-    
+
     if #clusters==0 then
       break
     end
-    
+
     local clusterId=clusters[math.random(1,#clusters)]
     local plats=platsPool[clusterId]
     local plat=InfMain.GetRandomPool(plats)
@@ -307,14 +356,16 @@ function this.SetupWalkerGearMb()
   for clusterId,plats in ipairs(this.walkerPlats) do
     for platId,walkerIndex in pairs(plats)do
       local walkerName=this.walkerList[walkerIndex]
-      local walkerId=GameObject.GetGameObjectId("TppCommonWalkerGear2",walkerName)
-      if walkerId==GameObject.NULL_ID then
+      local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
+      if walkerId==NULL_ID then
         InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
       else
 
-        local coord=walkerStartPositionsMb[clusterId][platId]
-        local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
-        GameObject.SendCommand(walkerId,command)
+        local coord=walkerStartPositions.mtbs[clusterId][platId]
+        if TppMission.IsMissionStart() then
+          local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
+          SendCommand(walkerId,command)
+        end
 
         if Ivars.mbWalkerGearsWeapon:Is()>0 then
           if Ivars.mbWalkerGearsWeapon:Is"RANDOM" then
@@ -325,7 +376,7 @@ function this.SetupWalkerGearMb()
             walkerGearWeapon=Ivars.mbWalkerGearsWeapon:Get()-1
           end
           local command={id="SetMainWeapon",weapon=walkerGearWeapon}
-          GameObject.SendCommand(walkerId,command)
+          SendCommand(walkerId,command)
         end
 
         if Ivars.mbWalkerGearsColor:Is"RANDOM" then
@@ -345,7 +396,7 @@ function this.SetupWalkerGearMb()
         --        GameObject.SendCommand(walkerId,command)
 
         local command={id="SetColoringType",type=walkerColorType}
-        GameObject.SendCommand(walkerId,command)
+        SendCommand(walkerId,command)
       end
     end
   end

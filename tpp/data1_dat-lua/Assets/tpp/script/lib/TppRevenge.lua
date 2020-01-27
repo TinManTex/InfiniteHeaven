@@ -1304,6 +1304,19 @@ function this._CreateRevengeConfig(revengeTypes)
         end
       end
     end--for revengetypes
+
+    --tex>
+    local applyNonDefault=IvarProc.IsForMission("revengeMode","NONDEFAULT")
+    if applyNonDefault then
+      local nonDefaultConfig=InfRevenge.CreateCustomRevengeConfig(applyNonDefault)
+
+      for powerType,setting in pairs(nonDefaultConfig)do
+        revengeConfig[powerType]=setting
+        mvars.ene_missionRequiresPowerSettings[powerType]=setting
+        disablePowerSettings[powerType]=nil
+      end
+    end
+    --<
   end
 
   if not revengeConfig.IGNORE_BLOCKED then
@@ -1367,6 +1380,8 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
+  InfLog.Add"TppRevenge._CreateRevengeConfig"--tex DEBUG
+  InfLog.PrintInspect(revengeConfig)--tex DEBUG
   return revengeConfig
 end
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
@@ -2068,6 +2083,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     local addRadio=false
+    
     if isLrrpVehicleCp and isVehiclePatrols then
       local vehicleInfo=mvars.inf_patrolVehicleInfo[isLrrpVehicleCp]
       if vehicleInfo then
@@ -2386,7 +2402,7 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-local AttackIsVehicle=function(attackId)--RETAILBUG: seems like attackid must be a typo and f
+local AttackIsVehicle=function(attackId)
   if(((((((((((((attackId==TppDamage.ATK_VehicleHit
     or attackId==TppDamage.ATK_Tankgun_20mmAutoCannon)
     or attackId==TppDamage.ATK_Tankgun_30mmAutoCannon)
@@ -2402,13 +2418,13 @@ local AttackIsVehicle=function(attackId)--RETAILBUG: seems like attackid must be
     or attackId==TppDamage.ATK_HeliMiniGun)
     or attackId==TppDamage.ATK_HeliChainGun)
     or attackId==TppDamage.ATK_WalkerGear_BodyAttack
-then
-  return true
-end
-return false
+  then
+    return true
+  end
+  return false
 end
 --ORIG: RETAILBUG: --RETAILBUG: seems like attackid must be a typo (unless they randomly decided to use one Global and stop using camelCase
---local AttackedByVehicle=function(e)--RETAILBUG: seems like attackid must be a typo and f
+--local AttackedByVehicle=function(e)
 --  if(((((((((((((attackid==TppDamage.ATK_VehicleHit or e==TppDamage.ATK_Tankgun_20mmAutoCannon)or e==TppDamage.ATK_Tankgun_30mmAutoCannon)or e==TppDamage.ATK_Tankgun_105mmRifledBoreGun)or e==TppDamage.ATK_Tankgun_120mmSmoothBoreGun)or e==TppDamage.ATK_Tankgun_125mmSmoothBoreGun)or e==TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile)or e==TppDamage.ATK_Tankgun_30mmAutoCannon)or e==TppDamage.ATK_Wav1)or e==TppDamage.ATK_WavCannon)or e==TppDamage.ATK_TankCannon)or e==TppDamage.ATK_WavRocket)or e==TppDamage.ATK_HeliMiniGun)or e==TppDamage.ATK_HeliChainGun)or attackid==TppDamage.ATK_WalkerGear_BodyAttack then
 --    return true
 --  end

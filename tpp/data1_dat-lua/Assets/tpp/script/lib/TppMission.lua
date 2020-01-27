@@ -516,7 +516,7 @@ function this.ReturnToMission(_loadInfo)
   this.SetHeroicAndOgrePointInSlot(missionHeroicPoint,missionOgrePoint)
   this.RestartMission(loadInfo)
 end
-function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
+function this.ExecuteContinueFromCheckPoint(popupId,popupResult,RENdoMissionCallback)
   InfLog.AddFlow("TppMission.ExecuteContinueFromCheckPoint")--tex
   TppQuest.OnMissionGameEnd()
   TppWeather.OnEndMissionPrepareFunction()
@@ -548,11 +548,11 @@ function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
     showAnnounceLog=this.ExecuteOnReturnToMissionCallback()
   end
   if usingNormalMissionSlot then
-    if a==GameOverMenu.POPUP_RESULT_YES then
-      if RENpopupId==GameOverMenu.STEALTH_ASSIST_POPUP then
+    if popupResult==GameOverMenu.POPUP_RESULT_YES then
+      if popupId==GameOverMenu.STEALTH_ASSIST_POPUP then
         svars.dialogPlayerDeadCount=0
       end
-      if RENpopupId==GameOverMenu.PERFECT_STEALTH_POPUP then
+      if popupId==GameOverMenu.PERFECT_STEALTH_POPUP then
         svars.chickCapEnabled=true
       end
     end

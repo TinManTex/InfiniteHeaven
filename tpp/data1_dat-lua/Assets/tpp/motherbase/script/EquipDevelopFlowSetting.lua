@@ -11,31 +11,31 @@ this={}
 --TppMotherBaseManagement.RegFlwDev{
 --  p50=0,--index of develop item defined by order of TppMotherBaseManagement.RegCstDev calls 
 --nasanhak combo of p51 and p52 creates the dev chain for an item/weapon - can be customized but if not careful, may break development menu tabs/game in subtle ways
---  p51=0,--nasanhak order of dev of item chains, from 0
---  p52=1,--grade, grade 0 doesnt show in dev pages
---  p53=0,--development gmp
---  p54=100,--deployment cost gmp
+--  p51=0,--derivationIndex--nasanhak order of dev of item chains, from 0
+--  p52=1,--developRank2--grade, grade 0 doesnt show in dev pages
+--  p53=0,--developGmpCost--development gmp
+--  p54=100,--usageGmpCost--deployment cost gmp
 --nasanhak first unit type requirement is not set in this file, or in any file as far as I can tell
---  p55=0,--MB development cluster level requirement 1 --cannot be zero if a unit type is set
---  p56={0-7},--MB development cluster 2 id--VERIFY 0=none, 1=command>7=medical, see REF below VERIFY
---  p57=0,--MB development cluster level requirement 2 --cannot be zero if a unit type is set
---  p58="<resourceId>",--Development resource 1 id, see resource ids below
---  p59=0,--Development resource 1 quantity
---  p60="<resourceId>",--Development resource 2 id,, see resource ids below
---  p61=0,--Development resource 2 quantity
---  p62=1,--{0,1} - set as developed
+--  p55=0,--sectionLvForDevelop--MB development cluster level requirement 1 --cannot be zero if a unit type is set
+--  p56={0-7},--sectionID2ForDevelop--MB development cluster 2 id--VERIFY 0=none, 1=command>7=medical, see REF below VERIFY
+--  p57=0,--sectionLv2ForDevelop--MB development cluster level requirement 2 --cannot be zero if a unit type is set
+--  p58="<resourceId>",--resourceType1--Development resource 1 id, see resource ids below
+--  p59=0,--resourceType1Count--Development resource 1 quantity
+--  p60="<resourceId>",--resourceType2--Development resource 2 id,, see resource ids below
+--  p61=0,--resourceType2Count--Development resource 2 quantity
+--  p62=1,--{0,1}--initialAvailable - set as developed
 --  p63=0,--
 --  p64=0,--
---  p65="",--Deployment resource 1 id
---  p66=0,--Deployment resource 1 quantity
---  p67="",--Deployment resource 2 id
---  p68=0,--Deployment resource 2 quantity
+--  p65="",--resourceUsageType1--Deployment resource 1 id
+--  p66=0,--resourceUsageType1Count--Deployment resource 1 quantity
+--  p67="",--resourceUsageType2--Deployment resource 2 id
+--  p68=0,--resourceUsageType2Count--Deployment resource 2 quantity
 --  p69=0,--{0,1} nasanhak 1=hide from development tabs, used for enemy weapons and DLC
 --  p70=0,--
---  p71=0,--Development time
---  p72={0-7},--Offline (0) Online (1)
---  p73=0,--
---  p74=1--nasanhak online item - changing to 0 does nothing seemingly
+--  p71=0,--developTimeMinute--Development time
+--  p72={0-7},--isValidMbCoin??  --Offline (0) Online (1)
+--  p73=0,--intimacyPoint -- buddy points reuired for dev
+--  p74=1--isFobAvailable
 --}
 
 --Resource ids

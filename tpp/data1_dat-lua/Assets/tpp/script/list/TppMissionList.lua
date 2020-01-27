@@ -676,20 +676,11 @@ missionPackTable[30010]=function(missionCode)
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30010.fpk"
   end
-
-  InfParasite.AddMissionPacks(missionCode)--tex
-  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
-  end--<
-
-  if Ivars.enemyHeliPatrol:Is()>0 then--tex>
-    TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
   end--<
 end
 missionPackTable[30020]=function(missionCode)
@@ -698,19 +689,11 @@ missionPackTable[30020]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30020/f30020.fpk"
 
-  InfParasite.AddMissionPacks(missionCode)--tex
-  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
-  end--<
-
-  if Ivars.enemyHeliPatrol:Is()>0 then--tex>
-    TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
   end--<
 end
 missionPackTable[30050]=function(missionCode)
@@ -718,12 +701,7 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
 
-  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex
   --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--tex
-
-  if Ivars.mbEnableOcelot:Is(1) and Ivars.mbWarGamesProfile:Is(0) then--tex>
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_ocelot.fpk"
-  end--<
 
   --tex IsDDBodyEquip add mission packs>
   if InfMain.IsDDBodyEquip(missionCode) then
@@ -785,12 +763,6 @@ missionPackTable[30050]=function(missionCode)
     end
   end
   TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Paz"}
-
-  if Ivars.npcHeliUpdate:Is"HP48" or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
-    TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
-  end--<
 end
 missionPackTable[30150]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
@@ -834,8 +806,6 @@ missionPackTable[30250]=function(missionCode)
   if Ivars.mbZombies:Is(1)then--tex>
     TppSoldierFace.SetUseZombieFova{enabled=true}
   end--<
-
-  InfParasite.AddMissionPacks(missionCode)--tex
 end
 missionPackTable[40010]=function(missionCode)
   if gvars.ini_isTitleMode then
@@ -968,16 +938,17 @@ end
 function this.GetMissionPackagePath(missionCode)
   InfLog.AddFlow("TppMissionList.GetMissionPackagePath "..missionCode)--tex
   TppPackList.SetUseDdEmblemFova(missionCode)
-  local packPath
+  local packPaths
   if missionPackTable[missionCode]==nil then
-    packPath=TppPackList.MakeMissionPackList(missionCode,TppPackList.MakeDefaultMissionPackList)
+    packPaths=TppPackList.MakeMissionPackList(missionCode,TppPackList.MakeDefaultMissionPackList)
   elseif Tpp.IsTypeFunc(missionPackTable[missionCode])then
-    packPath=TppPackList.MakeMissionPackList(missionCode,missionPackTable[missionCode])
+    packPaths=TppPackList.MakeMissionPackList(missionCode,missionPackTable[missionCode])
   elseif Tpp.IsTypeTable(missionPackTable[missionCode])then
-    packPath=missionPackTable[missionCode]
+    packPaths=missionPackTable[missionCode]
   end
-  InfVehicle.AddVehiclePacks(missionCode,packPath)--tex
-  return packPath
+  InfMain.AddMissionPacks(missionCode,packPaths)--tex
+
+  return packPaths
 end
 if Mission.SetLocationPackagePathFunc then
   Mission.SetLocationPackagePathFunc(this.GetLocationPackagePath)

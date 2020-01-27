@@ -6,6 +6,8 @@ local this={}
 this.debugMode=true--tex (See GOTCHA below -v-)
 this.doneStartup=false
 
+this.log={}
+
 this.modules={}
 
 this.str32ToString={}
@@ -18,13 +20,41 @@ local functionType="function"
 
 function this.Add(message,announceLog)
   --tex GOTCHA, true setting wont kick in till gvars is initiallized, would be solved if shifting away from gvars to direct file save/load
-  if Ivars and gvars and gvars.debugMode then
-    this.debugMode=gvars.debugMode>0
+  if Ivars and evars and evars.debugMode then
+    this.debugMode=evars.debugMode>0
   end
   if this.debugMode==false then
     return
   end
 
+  if announceLog then
+    this.DebugPrint(message)
+  end
+
+  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+
+  local line="|"..elapsedTime.."|"..message
+  this.log[#this.log+1]=line
+
+  this.WriteLog(this.log)
+end
+
+function this.WriteLog(log)
+  local filePath=this.logFilePath
+
+  --tex NOTE io open append doesnt appear to work - 'Domain error'
+  local logFile,error=io.open(filePath,"w")
+  if not logFile or error then
+    --this.DebugPrint("Create log error: "..tostring(error))
+    this.logErr=tostring(error)
+    return
+  end
+
+  logFile:write(table.concat(log,nl))
+  logFile:close()
+end
+
+function this.WriteLogLine(message)
   local filePath=this.logFilePath
 
   --tex NOTE io open append doesnt appear to work - 'Domain error'
@@ -55,31 +85,32 @@ function this.Add(message,announceLog)
   local line="|"..elapsedTime.."|"..message
   logFile:write(logText..line,nl)
   logFile:close()
-
-  if announceLog then
-    this.DebugPrint(line)
-  end
 end
 
-function this.CopyLogToPrev()
-  local logFile,error=io.open(this.logFilePath,"r")
-  if logFile and not error then
-    local logText=logFile:read("*all")
-    logFile:close()
+function this.CopyFileToPrev(fileName,ext)
+  local filePath=this.modPath..fileName..ext
+  local file,error=io.open(filePath,"r")
+  if file and not error then
+    local fileText=file:read("*all")
+    file:close()
 
-    local logFilePrev,error=io.open(this.logFilePathPrev,"w")
-    if not logFilePrev or error then
+    local filePathPrev=this.modPath..fileName..this.prev..ext
+    local filePrev,error=io.open(filePathPrev,"w")
+    if not filePrev or error then
       return
     end
 
-    logFilePrev:write(logText)
-    logFilePrev:close()
+    filePrev:write(fileText)
+    filePrev:close()
+  end
+end
 
-    local logFile,error=io.open(this.logFilePath,"w")
-    if logFile then
-      logFile:write""--tex clear
-      logFile:close()
-    end
+function this.ClearFile(fileName,ext)
+  local filePath=this.modPath..fileName..ext
+  local logFile,error=io.open(filePath,"w")
+  if logFile then
+    logFile:write""
+    logFile:close()
   end
 end
 --
@@ -127,17 +158,17 @@ end
 
 --tex as above but intended to pass through unless debugmode on
 function this.PCallDebug(func,...)
-  if func==nil then
-    this.Add("PCallDebug func == nil")
-    return
-  elseif type(func)~=functionType then
-    this.Add("PCallDebug func~=function")
-    return
-  end
+  --  if func==nil then
+  --    this.Add("PCallDebug func == nil")
+  --    return
+  --  elseif type(func)~=functionType then
+  --    this.Add("PCallDebug func~=function")
+  --    return
+  --  end
 
   --tex TODO: see GOTCHA in Add.
-  if Ivars and gvars and gvars.debugMode then
-    this.debugMode=gvars.debugMode>0
+  if Ivars and evars and evars.debugMode then
+    this.debugMode=evars.debugMode>0
   end
 
   if not this.debugMode then
@@ -178,9 +209,9 @@ function this.AddFlow(message)
   if Ivars.debugFlow:Is(0) then
     return
   end
---  local stackLevel=2
---  local stackInfo=debug.getinfo(stackLevel,"n")
---  this.Add(tostring(stackInfo.name).."| "..message)
+  --  local stackLevel=2
+  --  local stackInfo=debug.getinfo(stackLevel,"n")
+  --  this.Add(tostring(stackInfo.name).."| "..message)
   this.Add(message)
 end
 
@@ -288,15 +319,17 @@ this.ext=".txt"
 
 --EXEC
 this.gamePath=GetGamePath()
+--this.gamePath=[[C:\GamesSD\MGS_TPP\]]--DEBUG override
 this.modPath=this.gamePath..this.modSubPath
 this.logFilePath=this.modPath..this.logFileName..this.ext
 this.logFilePathPrev=this.modPath..this.logFileName..this.prev..this.ext
 
 package.path=package.path..";"..this.modPath.."?.lua"
 
-this.CopyLogToPrev()
+this.CopyFileToPrev(this.logFileName,this.ext)
+this.ClearFile(this.logFileName,this.ext)
 
 local time=os.date("%x %X")
 this.Add("InfLog start "..time)
-
+--this.Add(package.path)--DEBUG
 return this

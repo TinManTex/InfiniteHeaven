@@ -11,10 +11,15 @@ local SendCommand=GameObject.SendCommand
 local Random=math.random
 
 --updateState
-this.active=Ivars.npcOcelotUpdate
+this.active=Ivars.mbEnableOcelot
 this.execCheckTable={inGame=true,inHeliSpace=false}
 this.execState={
   nextUpdate=0,
+}
+
+--
+this.packages={
+  "/Assets/tpp/pack/mission2/free/f30050/f30050_ocelot.fpk",
 }
 
 --tex just outside core door
@@ -83,6 +88,21 @@ function this.Init()
     npcTimes[n]=0
   end
 end
+
+function this.AddMissionPacks(missionCode,packPaths)
+  if not this.active:EnabledForMission(missionCode) then
+    return
+  end
+  
+  if Ivars.mbWarGamesProfile:Is(1) then
+    return
+  end
+
+  for i,packPath in ipairs(this.packages) do
+    packPaths[#packPaths+1]=packPath
+  end
+end
+
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local Ivars=Ivars
   if not currentChecks.inGame then

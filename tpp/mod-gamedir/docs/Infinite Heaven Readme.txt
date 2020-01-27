@@ -1,5 +1,5 @@
 = Infinite heaven =
-r190 - 2016-10-24
+r190 - 2016-11-06
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -21,6 +21,30 @@ Recent changes/additions
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+New for r190
+NOTE: Infinite Heaven now save its options to ih_save.lua in MGSV_TPP\mod folder. You will have to set the settings up from scratch when updating to this version.
+See 'Settings save file:' below for more notes.
+Settings are now saved on IH menu close (as well as on normal save).
+
+Fixed: Wild card soldiers faces showing incorrect (most noticably female/male heads/bodies mixups) when in Afghanistan with vehicle patrols on - thanks shynbean, Silverforte for the report.
+Fixed: Morale boosts options not applying - thanks Alduintheworldnommer for the report
+Fixed: Attack helis not showing in mother base with Support and Attack helis
+
+Menus: Enemy patrols menu renamed 'Patrols and deployments menu'
+Wilcard shifted to Patrols and deployments menu
+Repopulate music tape radios" shifted to progression menu
+"Randomize minefield mine types", "Enable additional minefields" shifted to Prep system menu
+Events stuff shifted to Events menu
+
+Option: resourceAmountScale - "Resource amount scale" "Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)"
+Module: InfResource - implements above via ScaleResourceTables()  
+
+Added Setting: Enemy prep mode "Prep levels + Custom overrides" setting added - overrides the Enemy prep levels config with any Custom prep settings that aren't set to their default setting - thanks rargh for the suggestion
+
+Option: enableWalkerGearsFREE - "Walker gears in free roam" - "Adds a Walker gear to each main base."
+(via Patrols and deployments menu)
+Known issue: In Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad. This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
 
 New for r189
 Fixed: Skull attack not restarting if continuing from a save.
@@ -110,15 +134,10 @@ Press <Change Stance> button to go to previous menu.
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
 
-QuickMenu:
-- A way to quickly trigger certain Infinite Heaven commands.
-
-Hold down <Call>(Q or Left bumper) and press:
-
-<Binoculars>(F or Right bumper) to toggle the IH main menu
-
-In mission Quick Menu:
+Quick Menu:
+A way to quickly trigger certain Infinite Heaven commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
+
 <Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
 <Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but nessesary to activate the inter landingzone ride on heli)
 <Action>(E key or Y button) to activate TSM
@@ -129,6 +148,15 @@ In mission Quick Menu:
 Profiles:
 Profiles are lists of settings for IH options, can be used as an alternative, or in conjunction with IHs in-game menu.
 See InfProfiles Readme and InfProfiles.lua for further info.
+
+Settings save file:
+IH writes ih_save.lua in the MGSV_TPP\mod folder.
+Save file for IH options, other IH state variables are still saved to the normal game save.
+Saved on IH menu close, and also when the game saves normally.
+Only saves settings changed from their default
+Read on game load
+While the file is editable, editing an inMission save is likely to cause issues.
+Theres is also no current read/write retry on locked file so editing while game is running is not advised.
 
 Known Issues
 ------------------------------

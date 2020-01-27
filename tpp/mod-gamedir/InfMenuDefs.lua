@@ -154,13 +154,14 @@ this.motherBaseMenu={
     Ivars.mbDDHeadGear,
     Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
-    Ivars.npcHeliUpdate,
+    Ivars.heliPatrolsMB,
     Ivars.mbEnemyHeliColor,
     Ivars.enableWalkerGearsMB,
     Ivars.mbWalkerGearsColor,
     Ivars.mbWalkerGearsWeapon,
     Ivars.mbCollectionRepop,
     Ivars.mbMoraleBoosts,
+    Ivars.revengeDecayOnLongMbVisit,
     Ivars.mbEnableBuddies,
     Ivars.mbAdditionalSoldiers,
     Ivars.mbqfEnableSoldiers,
@@ -188,6 +189,8 @@ this.demosMenu={
 
 this.progressionMenu={
   options={
+    Ivars.resourceAmountScale,
+    Ivars.repopulateRadioTapes,
     InfMenuCommands.unlockPlayableAvatar,
     InfMenuCommands.unlockWeaponCustomization,
     InfMenuCommands.resetPaz,
@@ -272,6 +275,8 @@ this.revengeSystemMenu={
     Ivars.randomizeSmallCpPowers,
     Ivars.disableConvertArmorToShield,
     --Ivars.balanceWeaponPowers,--WIP
+    Ivars.randomizeMineTypes,
+    Ivars.additionalMineFields,
   }
 }
 --
@@ -335,7 +340,6 @@ this.revengeMenu={
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFREE,
     Ivars.changeCpSubTypeMISSION,
-    Ivars.enableWildCardFreeRoam,
     Ivars.enableInfInterrogation,
   }
 }
@@ -396,8 +400,12 @@ this.enemyReinforceMenu={
 this.enemyPatrolMenu={
   options={
     Ivars.enableLrrpFreeRoam,
-    Ivars.enemyHeliPatrol,
+    Ivars.enableWildCardFreeRoam,
+    Ivars.heliPatrolsFREE,
+    Ivars.heliPatrolsMB,
     Ivars.mbEnemyHeliColor,
+    Ivars.enableWalkerGearsFREE,
+    Ivars.enableWalkerGearsMB,
     Ivars.vehiclePatrolProfile,
     Ivars.vehiclePatrolClass,
     Ivars.vehiclePatrolLvEnable,
@@ -460,18 +468,15 @@ this.disableSupportMenuMenu={
   }
 }
 
-this.worldMenu={
+this.eventsMenu={
   options={
+    InfMenuCommands.forceGameEvent,
     Ivars.gameEventChanceFREE,
     Ivars.gameEventChanceMB,
     Ivars.enableParasiteEvent,
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
     Ivars.parasiteWeather,
-    --WIP Ivars.resourceAmountScale,
-    Ivars.repopulateRadioTapes,
-    Ivars.randomizeMineTypes,
-    Ivars.additionalMineFields,
   }
 }
 this.playerRestrictionsMenu={
@@ -531,13 +536,12 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --Ivars.debugMode,
-    InfMenuCommands.forceGameEvent,
     InfMenuDefs.systemMenu,
-    InfMenuDefs.worldMenu,
+    InfMenuDefs.eventsMenu,
     InfMenuDefs.playerRestrictionsMenu,
     InfMenuDefs.playerSettingsMenu,
     InfMenuDefs.soldierParamsMenu,
@@ -602,9 +606,11 @@ this.inMissionMenu={
   noGoBackItem=true,--tex is root
   options={
 --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.showPosition,
+--    InfMenuCommands.DEBUG_ToggleParasiteEvent,
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     ----
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,

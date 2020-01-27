@@ -212,10 +212,9 @@ mbdvc_map_location_parameter = {
 	
 	--NMC: called once at init
 	GetGlobalLocationParameter = function()
-
-	 local enableSpySearch=true --Ivars.disableSpySearch:Is(0)--tex
-	 local enableHerbSearch=InfMain.ReadSaveVar("disableHerbSearch")==0--tex ivars aparently havent been restored from save at this point, so read directly
-	 --InfLog.DebugPrint("GetGlobalLocationParameter "..tostring(vars.missionCode))--tex DEBUG
+	 InfLog.AddFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
+	 local enableSpySearch=true--tex
+	 local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
 		return {
 			{	
 				locationId = 10,

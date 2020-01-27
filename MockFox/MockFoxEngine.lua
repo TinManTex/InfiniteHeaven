@@ -237,7 +237,7 @@ TppScriptVars={
   GROUP_BIT_GVARS=4,
   GROUP_BIT_SVARS=8,
   GROUP_BIT_ALL=15,
-  
+
   CATEGORY_NONE=0,
   CATEGORY_CONFIG=1,
   CATEGORY_MISSION_RESTARTABLE=2,
@@ -288,6 +288,23 @@ end
 TppDamage={}
 TppDamage.ReloadDamageParameter=function(dataTable)
 end
+
+--TODO actual values
+TppDamage.ATK_VehicleHit=1
+TppDamage.ATK_Tankgun_20mmAutoCannon=2
+TppDamage.ATK_Tankgun_30mmAutoCannon=3
+TppDamage.ATK_Tankgun_105mmRifledBoreGun=4
+TppDamage.ATK_Tankgun_120mmSmoothBoreGun=5
+TppDamage.ATK_Tankgun_125mmSmoothBoreGun=6
+TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile=7
+TppDamage.ATK_Tankgun_30mmAutoCannon=8
+TppDamage.ATK_Wav1=9
+TppDamage.ATK_WavCannon=10
+TppDamage.ATK_TankCannon=11
+TppDamage.ATK_WavRocket=12
+TppDamage.ATK_HeliMiniGun=13
+TppDamage.ATK_HeliChainGun=14
+
 TppBullet={}
 TppBullet.ReloadRecoilMaterials=function(datTable)
 end
@@ -355,6 +372,10 @@ vars={}
 mvars={}
 svars={}
 gvars={}
+
+
+
+
 
 
 

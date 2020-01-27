@@ -43,10 +43,10 @@
           <value>0</value>
         </property>
         <property name="totalCount" type="uint32" container="StaticArray" arraySize="1">
-          <value>4</value>
+          <value>5</value>
         </property>
         <property name="realizedCount" type="uint32" container="StaticArray" arraySize="1">
-          <value>4</value>
+          <value>5</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x04BD7550</value>

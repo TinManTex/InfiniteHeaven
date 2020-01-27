@@ -10,7 +10,7 @@ local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 
 --updateState
-this.active=1--tex KLUDGE TODO always active since its controlled by Ivars.npcHeliUpdate and Ivars.enemyHeliPatrol,  --DEBUGNOW r187
+this.active=1
 this.execCheckTable={inGame=true,inHeliSpace=false}
 this.execState={
   nextUpdate=0,
@@ -35,9 +35,24 @@ local routeTimeMax=5*60
 
 local levelToColor={0,0,0,1,1,2}
 
-this.heliEnableIvars={
-  Ivars.npcHeliUpdate,
-  Ivars.enemyHeliPatrol,
+local heliPatrolsStr="heliPatrols"
+
+this.numAttackHelis=4--tex for svars, must match max instance count/fox2 totalcount (so includes reinforce/quest heli)
+
+this.packages={
+  afgh={
+    "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
+  },
+  mafr={
+    "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
+  },
+  mtbs={
+    "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
+    "/Assets/tpp/pack/mission2/ih/ih_westheli_defloc.fpk",
+  },
+  "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",
+  "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",
+  "/Assets/tpp/pack/mission2/ih/ih_enemyheli_loc.fpk",
 }
 
 --tex defined by the entity/data definitions
@@ -53,10 +68,10 @@ this.heliNames={
     "EnemyHeli0000",
     "EnemyHeli0001",
     "EnemyHeli0002",
+    "EnemyHeli0003",
   --tex reduced due to crash bug/match enemy_heli_<locaction>.fox2
-  --    "EnemyHeli0003",
-  --    "EnemyHeli0004",
-  --    "EnemyHeli0005",
+  --      "EnemyHeli0004",
+  --      "EnemyHeli0005",
   --    "EnemyHeli0006",
   },
 }
@@ -339,8 +354,22 @@ local function ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliCluster
   return clusterPool[math.random(#clusterPool)]
 end
 
+function this.AddMissionPacks(missionCode,packPaths)
+  if not IvarProc.EnabledForMission(heliPatrolsStr,missionCode) then
+    return
+  end
+
+  local locationName=InfMain.GetLocationName()
+  for i,packPath in ipairs(this.packages[locationName]) do
+    packPaths[#packPaths+1]=packPath
+  end
+  for i,packPath in ipairs(this.packages) do
+    packPaths[#packPaths+1]=packPath
+  end
+end
+
 function this.Init(missionTable,currentChecks)
-  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
 
@@ -352,34 +381,33 @@ function this.Init(missionTable,currentChecks)
   this.heliList={}
   if isOuterPlat then
     return
-    --tex non user, set by wargame
   elseif isMb then
-    if Ivars.npcHeliUpdate:Is"UTH" or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then
+    if Ivars.heliPatrolsMB:Is"UTH" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
       for i,heliName in ipairs(this.heliNames.UTH)do
         this.heliList[#this.heliList+1]=heliName
       end
     end
-    --ASSUMPTION #heliNames.HP48<=numclusters
-    local numAttackHelis=#this.heliNames.HP48-#this.heliList
-    if Ivars.npcHeliUpdate:Is"HP48" or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then
+    local numClusters=7
+    local numAttackHelis=numClusters-#this.heliList
+    if Ivars.heliPatrolsMB:Is"HP48" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
       for i=1,numAttackHelis do
         this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
       end
     end
-  elseif Ivars.enemyHeliPatrol:Is()>0 then
-    local numAttackHelis=0
+  elseif Ivars.heliPatrolsFREE:Is()>0 then
+    --local numAttackHelis=0
+    --    if Ivars.heliPatrolsFREE:Is"ENEMY_PREP" then
+    --      local level=InfMain.GetAverageRevengeLevel()
+    --      local levelToHeli={0,1,3,5,6,7}--tex TUNE GOTCHA tuned to max helis of 7
+    --      numAttackHelis=levelToHeli[level+1]
+    --    else
+    --      --tex from 1 (ignoring 0, off) SYNC Ivars.heliPatrolsFREE
+    --      local settingToHeliNum={1,3,5,7}
+    --      numAttackHelis=settingToHeliNum[Ivars.heliPatrolsFREE:Get()]
+    --    end
+    --numAttackHelis=math.min(numAttackHelis,#this.heliNames.HP48)
 
-    if Ivars.enemyHeliPatrol:Is"ENEMY_PREP" then
-      local level=InfMain.GetAverageRevengeLevel()
-      local levelToHeli={0,1,3,5,6,7}--tex TUNE GOTCHA tuned to max helis of 7
-      numAttackHelis=levelToHeli[level+1]
-    else
-      --tex from 1 (ignoring 0, off) SYNC Ivars.enemyHeliPatrol
-      local settingToHeliNum={1,3,5,7}
-      numAttackHelis=settingToHeliNum[Ivars.enemyHeliPatrol:Get()]
-    end
-
-    numAttackHelis=math.min(numAttackHelis,#this.heliNames.HP48)
+    local numAttackHelis=#this.heliNames.HP48
 
     for i=1,numAttackHelis do
       this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
@@ -435,10 +463,13 @@ function this.Init(missionTable,currentChecks)
       end
     end
   end
+
+  InfLog.Add"InfNPCHeli heliList"--DEBUG
+  InfLog.PrintInspect(this.heliList)--DEBUG
 end
 
 function this.OnMissionCanStart(currentChecks)
-  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
   local isMb=vars.missionCode==30050
@@ -454,7 +485,7 @@ function this.OnMissionCanStart(currentChecks)
 end
 
 function this.OnReload(missionTable)
-  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
 
@@ -483,13 +514,12 @@ function this.Messages()
 end
 
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
 
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-
 
 
 local searchLightOn={id="SetSearchLightForcedType",type="On"}
@@ -503,7 +533,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
 
@@ -634,15 +664,17 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
           if clusterLzs and #clusterLzs>0 then
             local currentLandingZoneName=clusterLzs[math.random(#clusterLzs)]
             local nextLandingZoneName=clusterLzs[math.random(#clusterLzs)]
-            local heliTaxiSettings=mtbs_helicopter.RequestHeliTaxi(heliObjectId,StrCode32(currentLandingZoneName),StrCode32(nextLandingZoneName))
-            if heliTaxiSettings then
-              local currentClusterRoute=heliTaxiSettings.currentClusterRoute
-              local relayRoute=heliTaxiSettings.relayRoute
-              local nextClusterRoute=heliTaxiSettings.nextClusterRoute
+            if currentLandingZoneName and nextLandingZoneName then--tex may be nil on demos
+              local heliTaxiSettings=mtbs_helicopter.RequestHeliTaxi(heliObjectId,StrCode32(currentLandingZoneName),StrCode32(nextLandingZoneName))
+              if heliTaxiSettings then
+                local currentClusterRoute=heliTaxiSettings.currentClusterRoute
+                local relayRoute=heliTaxiSettings.relayRoute
+                local nextClusterRoute=heliTaxiSettings.nextClusterRoute
 
-              heliRoute=currentClusterRoute
-            else
-              InfLog.DebugPrint("Warning: UpdateNPCHeli - no heliTaxiSettings for".. currentLandingZoneName .." ".. nextLandingZoneName)
+                heliRoute=currentClusterRoute
+              else
+                InfLog.DebugPrint("Warning: UpdateNPCHeli - no heliTaxiSettings for".. currentLandingZoneName .." ".. nextLandingZoneName)
+              end
             end
           end
           --not mb

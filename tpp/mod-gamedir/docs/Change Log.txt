@@ -1,5 +1,46 @@
 Infinite Heaven changelog
 
+r190 - 2016-11-06
+Fixed: Wild card soldiers faces showing incorrect (most noticably female/male heads/bodies mixups) when in Afghanistan with vehicle patrols on - thanks shynbean, Silverforte for the report.
+
+Menus: Enemy patrols menu renamed 'Patrols and deployments menu'
+Wilcard shifted to Patrols and deployments menu
+Repopulate music tape radios" shifted to progression menu
+"Randomize minefield mine types", "Enable additional minefields" shifted to Prep system menu
+Events stuff shifted to Events menu
+
+Feature: Settings save file - evars/ih_save.lua - Most Ivars now write to evars instead of gvars. Various InfProc functions for reading/writing evars to ih_save.lua.
+
+Refactor: InfHooks back to table of hooks idea.
+InfHooks: TppSave.DoSave  > InfMain.OnSave
+
+InfLog: log adds lines to table and writes out all via table concat.
+
+Fixed: Morale boosts options not applying - thanks Alduintheworldnommer for the report
+
+Refactor: InfMain ModifyEnemyAssetTable to InfNPC
+
+Refactor: InfVehicle to external
+Refactor: InfEquip shited to external
+
+Data: Westheli def and loc split from f30050_heli.fox2 to ih_westheli_defloc.fox2/fpk
+Data: soldier locators split from f30050_npc.fox to to ih_soldier_loc_mb.fox2/fpk, 30010,30030 to ih_soldier_loc_free.fox2/fpk, extra soldier count in 30010/30020 unified from 40/60 to 50. TotalCount in mafr dropped to combat combined pack crash (combinations of soldier/para/walker/heli crash, decreasing totalcounts of the principle game objects fix it. Assuming some memory allocation limit/issue at this point.)
+Data: ih_walker_gear_loc.fpk / ih_walker_gear_loc.fox2
+Data: walker totalCount dropped to 16 to prevent combo crash
+Data: Added sdf file and referencing fox2 to ih_parasite_mist - should hopefully fix the Mist Skulls make not sound issue (even though on my initial test I couldn't reproduce) - thanks angelolujan1 for the report
+Refactor: External module calls for TppMissionList.GetMissionPackagePath > AddMissionPacks
+
+Fixed: Attack helis not showing in mother base with Support and Attack helis.
+
+Option: resourceAmountScale - "Resource amount scale" "Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)"
+Module: InfResource - implements above via ScaleResourceTables()  
+
+Added Setting: Enemy prep mode "Prep levels + Custom overrides" setting added - overrides the Enemy prep levels config with any Custom prep settings that aren't set to their default setting - thanks rargh for the suggestion
+
+Option: enableWalkerGearsFREE - "Walker gears in free roam" - "Adds a Walker gear to each main base."
+(via Patrols and deployments menu)
+Known issue: In Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad. This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
+
 r189 - 2016-10-24
 Fixed: Skull attack not restarting if continuing from a save.
 Fixed: Crash on first encounter of Quiet in free roam with Skull attacks on - thanks Silverforte for the report and save file.

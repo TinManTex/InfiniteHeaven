@@ -31,6 +31,7 @@ Manually trigger open heli door at mission start.
 Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.
 
 Quick menu commands.
+(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 
 Profiles.
@@ -47,6 +48,36 @@ Basic terms used in the Infinite Heaven menu:
 
 ACC Main menu
 -------------
+1: IH system menu
+2: Events menu
+3: Player restrictions menu
+4: Player settings menu
+5: Soldier parameters menu
+6: Enemy phases menu
+7: Enemy Prep menu
+8: Enemy reinforcements menu
+9: Patrols and deployments menu
+10: Side ops menu
+11: Mother Base menu
+12: Cutscenes menu
+13: Camera menu
+14: Time scale menu
+15: Support heli menu
+16: Progression menu
+17: Debug menu
+
+IH system menu
+--------------
+1: Select profile : <Profile type>
+2: Set profile options to game defaults : (Command)
+3: Enable Quick Menu : Off, On
+Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
+4: Start offline : Off, On
+Start the game in offline mode, this also removes the connect option from the pause menu.
+5: Reset all IH settings : (Command)
+
+Events menu
+-----------
 1: Trigger random IH event : (Command)
   Events are temporary custom profiles for free roam and mother base. 
   Free roam events (can stack): 
@@ -60,50 +91,15 @@ ACC Main menu
   XOF attack, 
   DD Infection outbreak, 
   Zombie Obliteration (non DD)
-2: IH system menu
-3: World menu
-4: Player restrictions menu
-5: Player settings menu
-6: Soldier parameters menu
-7: Enemy phases menu
-8: Enemy Prep menu
-9: Enemy reinforcements menu
-10: Enemy patrols menu
-11: Side ops menu
-12: Mother Base menu
-13: Cutscenes menu
-14: Camera menu
-15: Time scale menu
-16: Support heli menu
-17: Progression menu
-18: Debug/system menu
-
-IH system menu
---------------
-1: Select profile : <Profile type>
-2: Set profile options to game defaults : (Command)
-3: Enable QuickMenu : Off, On
-Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-4: Start offline : Off, On
-Start the game in offline mode, this also removes the connect option from the pause menu.
-5: Reset all IH settings : (Command)
-
-World menu
-----------
-1: Free roam event random trigger chance : 0-100%
+2: Free roam event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')
-2: MB event random trigger chance : 0-100%
+3: MB event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
-3: Enable Skull attacks in Free roam : Off, On
+4: Enable Skull attacks in Free roam : Off, On
 Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
-4: Skull attack min (minutes) : 0-180
-5: Skull attack max (minutes) : 0-180
-6: Weather on Skull attack : None, Parasite fog, Random
-7: Repopulate music tape radios : Off, On
-8: Randomize minefield mine types : Off, On
-Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
-9: Enable additional minefields : Off, On
-In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
+5: Skull attack min (minutes) : 0-180
+6: Skull attack max (minutes) : 0-180
+7: Weather on Skull attack : None, Parasite fog, Random
 
 Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
@@ -259,9 +255,10 @@ Displays when phase changes.
 Enemy Prep menu
 - Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.
 ---------------
-1: Free roam prep mode : Enemy prep levels, Custom prep
-2: Missions prep mode : Enemy prep levels, Custom prep
-3: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
+1: Free roam prep mode : Enemy prep levels, Custom prep, Prep levels + Custom overrides
+Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all the settings in the Custom prep menu, Prep levels + Custom overrides - overrides the Enemy prep levels config with any Custom prep settings that aren't set to their default setting.
+2: Missions prep mode : Enemy prep levels, Custom prep, Prep levels + Custom overrides
+3: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
@@ -271,9 +268,7 @@ Resets enemy prep levels to 0
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
 9: Random CP subtype in missions : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
-10: Wildcard soldiers Free roam : Off, On
-Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
-11: IH interrogation in free roam : Off, On
+10: IH interrogation in free roam : Off, On
 Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
 
 Custom prep menu
@@ -396,6 +391,10 @@ In the default game the enemy prep config chooses randomly either MG or Shotguns
 Adds limits and some randomisation to small cp/lrrps enemy prep application
 14: Disable convert armor to shield (if armor off) : Off, On
 Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
+15: Randomize minefield mine types : Off, On
+Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
+16: Enable additional minefields : Off, On
+In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
 
 Custom soldier equip menu
 - Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation
@@ -427,23 +426,29 @@ In the normal game vehicle reinforcments through this system is only used for tw
 5: Soldier reinforce with all vehicle reinforce types : Off, On
 Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.
 
-Enemy patrols menu
-------------------
+Patrols and deployments menu
+----------------------------
 1: Foot patrols in free roam : Off, On
 Foot patrols will travel between random CPs and will cross the field to get there.
-2: Heli patrols in free roam : None, 1, 3, 5, 7, Enemy prep
+2: Wildcard soldiers Free roam : Off, On
+Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
+3: Heli patrols in free roam : Off, On
 Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
-3: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-Shared between free roam and MB attack helis.
-4: Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
+4: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
+Spawns some npc helis that roam around mother base.
+5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+6: Walker gears in free roam : Off, On
+Adds a Walker gear to each main base.
+7: Walker gears in MB : Off, On
+8: Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
 Replaces the patrolling trucks in free roam with other vehicles.
-5: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
-6: Allow jeeps : Off, On
-7: Allow trucks : Off, On
-8: Allow wheeled armored vehicles : Off, On
-9: Allow heavy wheeled armored vehicles : Off, On
-10: Allow tanks : Off, On
-11: Equipment on trucks : Off, On
+9: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
+10: Allow jeeps : Off, On
+11: Allow trucks : Off, On
+12: Allow wheeled armored vehicles : Off, On
+13: Allow heavy wheeled armored vehicles : Off, On
+14: Allow tanks : Off, On
+15: Equipment on trucks : Off, On
 Puts a random piece of equipment on the back of patrol trucks.
 
 Side ops menu
@@ -457,7 +462,7 @@ Sideops are broken into areas to stop overlap, this setting lets you control the
 
 Mother Base menu
 ----------------
-1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
+1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
 4: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
@@ -465,31 +470,32 @@ Mother Base menu
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
-8: NPC helis : Off, Support helis, Attack helis, Support and Attack helis
+8: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
 Spawns some npc helis that roam around mother base.
 9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-Shared between free roam and MB attack helis.
-10: Walker gears : Off, On
+10: Walker gears in MB : Off, On
 11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
 12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
 13: Repopulate plants and diamonds : Off, On
 Regenerates plants on Zoo platform and diamonds on Mother base over time.
 14: Staff-wide morale boost for good visit : Off, On
 Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
-15: Enable all buddies : Off, On
+15: Enemy prep decrease on long MB visit : Off, On
+Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
+16: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-16: More soldiers on MB plats : Off, On
+17: More soldiers on MB plats : Off, On
 Increases soldiers on platforms from 4 soldiers to 9.
-17: Force enable Quaranine platform soldiers : Off, On
+18: Force enable Quaranine platform soldiers : Off, On
 Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
-18: Soldiers move between platforms : Off, On
+19: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
-19: Show characters menu
-20: Show assets menu
-21: Allow lethal actions : Off, On
+20: Show characters menu
+21: Show assets menu
+22: Allow lethal actions : Off, On
 Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
-22: Women in Enemy Invasion mode : 0-100%
-23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+23: Women in Enemy Invasion mode : 0-100%
+24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
 
 Show characters menu
 --------------------
@@ -577,17 +583,20 @@ Disables Assault Landing Zones (those usually in the center of a base that the s
 
 Progression menu
 ----------------
-1: Unlock playable avatar : (Command)
+1: Resource amount scale : 100-1000%
+Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)
+2: Repopulate music tape radios : Off, On
+3: Unlock playable avatar : (Command)
 Unlock avatar before mission 46
-2: Unlock weapon customization : (Command)
+4: Unlock weapon customization : (Command)
 Unlock without having to complete legendary gunsmith missions
-3: Reset Paz state to beginning : (Command)
-4: Return Quiet after mission 45 : (Command)
+5: Reset Paz state to beginning : (Command)
+6: Return Quiet after mission 45 : (Command)
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-5: showQuietReunionMissionCount : (Command)
+7: showQuietReunionMissionCount : (Command)
 
-Debug/system menu
------------------
+Debug menu
+----------
 1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
 2: debugMessages : Off, On
@@ -821,4 +830,3 @@ appearanceDebugMenu
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
-

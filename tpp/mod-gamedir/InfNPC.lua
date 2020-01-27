@@ -1,5 +1,6 @@
 -- InfNPC.lua
--- tex implements soldier route changes on MB 
+-- tex implements soldier route changes on MB, and extra soldier loading
+-- Ivars - mbAdditionalSoldiers, mbNpcRouteChange
 local this={}
 
 --LOCALOPT
@@ -56,8 +57,22 @@ local maxSoldiersPerPlat=12--SYNC with plat counts, and keep in mind max instace
 
 local plntPrefix="plnt"
 
-function this.Init(missionTable)
+this.packages={
+  "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
+}
+
+function this.AddMissionPacks(missionCode,packPaths)
   if not this.active:EnabledForMission() then
+    return
+  end
+
+  for i,packPath in ipairs(this.packages) do
+    packPaths[#packPaths+1]=packPath
+  end
+end
+
+function this.Init(missionTable)
+  if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
     return
   end
 
@@ -112,10 +127,6 @@ function this.InitCluster(clusterId)
   numSoldiersOnPlat={}
   numSoldiersOnRoute={}
 
-  if TppPackList.IsMissionPackLabel"BattleHanger"or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())then
-    return
-  end
-
   local isRouteChange=Ivars.mbNpcRouteChange:Is(1)
 
   local clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
@@ -160,7 +171,7 @@ function this.InitCluster(clusterId)
         local npcName=soldierList[j]
         local gameId=GetGameObjectId(npcName)
         if gameId==NULL_ID then
-          InfLog.DebugPrint(npcName.." not found")--DEBUG
+          InfLog.Add(npcName.." not found")--DEBUG
         else
           local newIndex=#npcList+1
           npcList[newIndex]=npcName
@@ -220,7 +231,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   local gameId=GetGameObjectId(npcName)
   if gameId==NULL_ID then
-    InfLog.DebugPrint(npcName.." not found")--DEBUG
+    InfLog.Add(npcName.." not found")--DEBUG
     return
   end
 
@@ -284,6 +295,91 @@ end
 function this.OnEliminated(soldierId)
 --TODO: find index in npclist
 --npcPlats[index] > decrease soldiersonplat,npcRoutes[index] decrease soldiersonroute
+end
+
+--tex additional soldiers:
+
+--TUNE
+-- CULL local additionalSoldiersPerPlat=5
+local maxSoldiersOnPlat=9
+this.numReserveSoldiers=140
+
+--STATE
+this.reserveSoldierNames=nil
+this.soldierPool=nil
+
+--caller: mtbs_enemy.OnLoad
+--IN/OUT: mb layout lua (ex ly003) .enemyAssetTable (via TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable)
+function this.ModifyEnemyAssetTable()
+  --InfLog.PCall(function()--DEBUG
+  if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
+    return
+  end
+
+  this.reserveSoldierNames=InfMain.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
+  this.soldierPool=InfMain.ResetPool(this.reserveSoldierNames)
+
+  local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable
+
+  local plntPrefix="plnt"
+  for clusterId=1,#TppDefine.CLUSTER_NAME do
+    --local clusterName=TppDefine.CLUSTER_NAME[clusterId]
+    local totalPlatsRouteCount=0--DEBUG
+    local soldierCountFinal=0
+
+    local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+    if grade>0 then
+      for i=1,grade do
+        local clusterAssetTable=GetMBEnemyAssetTable(clusterId)
+        local platName=plntPrefix..(i-1)
+
+        local platInfo=clusterAssetTable[platName]
+
+        local soldierList=platInfo.soldierList
+        --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
+        --        InfLog.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
+        --        end--<
+
+        local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
+        local nightRoutes=platInfo.soldierRouteList.Night[1].inPlnt
+
+        local addedRoutes=false
+        for i=1,#sneakRoutes do
+          if sneakRoutes[i]==nightRoutes[1] then
+            addedRoutes=true
+            break
+          end
+        end
+        if not addedRoutes then
+          for i=1,#nightRoutes do
+            sneakRoutes[#sneakRoutes+1]=nightRoutes[i]
+          end
+          for i=1,#sneakRoutes do
+            nightRoutes[#nightRoutes+1]=sneakRoutes[i]
+          end
+        end
+
+        local minRouteCount=math.min(#sneakRoutes,#nightRoutes)
+        --OFF totalPlatsRouteCount=totalPlatsRouteCount+minRouteCount --DEBUG
+
+        --CULL local numToAdd=math.min((minRouteCount-3)-#soldierList,additionalSoldiersPerPlat)--tex MAGIC this only really affects main plats which only have 12(-6soldiers) routes (with combined sneak/night). Rest have 15+
+        local numToAdd=maxSoldiersOnPlat-#soldierList
+        if numToAdd>0 then
+          InfMain.FillList(numToAdd,this.soldierPool,soldierList)
+        end
+        soldierCountFinal=soldierCountFinal+#soldierList
+        --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
+        --          local totalRouteCount=#sneakRoutes+#nightRoutes
+        --          InfLog.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
+        --          --InfLog.PrintInspect(soldierList)--DEBUG
+        --        end--<
+      end
+    end
+
+    --InfLog.DebugPrint(string.format("cluster:%d routeCount:%d soldierCountFinal:%d",clusterId,routeCount,soldierCountFinal))--DEBUG
+  end
+  --InfLog.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
+  --end)--
 end
 
 return this

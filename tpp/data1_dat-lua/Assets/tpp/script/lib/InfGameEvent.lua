@@ -197,7 +197,7 @@ local warGamesBase={
     mbNonStaff=1,
     mbEnableFultonAddStaff=1,
     mbZombies=0,
-    npcHeliUpdate="HP48",
+    heliPatrolsMB="HP48",
     mbEnemyHeli=1,
   },
   ZOMBIE_DD={

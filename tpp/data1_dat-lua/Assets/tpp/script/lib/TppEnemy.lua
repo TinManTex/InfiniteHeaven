@@ -2536,6 +2536,18 @@ function this.OnAllocate(missionTable)
   mvars.ene_isQuestHeli=false
 end
 function this.DeclareSVars(missionTable)
+  --tex>
+  local walkerGearCount=4
+  if IvarProc.EnabledForMission("enableWalkerGears") then
+    walkerGearCount=InfWalkerGear.numWalkerGears
+  end
+  --tex WIP
+  local heliCount=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT
+  if IvarProc.EnabledForMission("heliPatrols") then
+    heliCount=InfNPCHeli.numAttackHelis
+  end
+  TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount--DEBUGNOW
+  --<
   local uavCount=0
   local missionId=TppMission.GetMissionID()
   if TppMission.IsFOBMission(missionId)then
@@ -2614,12 +2626,12 @@ function this.DeclareSVars(missionTable)
     {name="enemyHeliRouteEventIndex",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="enemyHeliMarker",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
     {name="enemyHeliLife",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_name",arraySize=4,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_life",arraySize=4,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_partslife",arraySize=4*24,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_location",arraySize=4*4,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_bulletleft",arraySize=4*2,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_marker",arraySize=4*2,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+    {name="ene_wkrg_name",arraySize=walkerGearCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},--tex NMC arraysSize was '4'-v-
+    {name="ene_wkrg_life",arraySize=walkerGearCount,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_partslife",arraySize=walkerGearCount*24,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_location",arraySize=walkerGearCount*4,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_bulletleft",arraySize=walkerGearCount*2,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_marker",arraySize=walkerGearCount*2,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
     {name="ene_holdRecoveredStateName",arraySize=TppDefine.MAX_HOLD_RECOVERED_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="ene_isRecovered",arraySize=TppDefine.MAX_HOLD_RECOVERED_STATE_COUNT,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="ene_holdBrokenStateName",arraySize=TppDefine.MAX_HOLD_VEHICLE_BROKEN_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
@@ -2769,38 +2781,46 @@ function this.RestoreOnMissionStart2()
     end
   end
   this._RestoreOnMissionStart_Hostage2()
-  for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do
-    --NMC another casualty of optimisation I guess, TppEnemyHeli only saves/restores to non array unlike the other gameobject types, even though it's clearly originally set up the same
-    svars.enemyHeliName=0
-    svars.enemyHeliLocation[0]=0
-    svars.enemyHeliLocation[1]=0
-    svars.enemyHeliLocation[2]=0
-    svars.enemyHeliLocation[3]=0
-    svars.enemyHeliCp=0
-    svars.enemyHeliFlag=0
-    svars.enemyHeliSneakRoute=0
-    svars.enemyHeliCautionRoute=0
-    svars.enemyHeliAlertRoute=0
-    svars.enemyHeliRouteNodeIndex=0
-    svars.enemyHeliRouteEventIndex=0
-    svars.enemyHeliMarker=0
-    svars.enemyHeliLife=0
-    --tex what it should be :/
-    --    svars.enemyHeliName[e]=0
-    --    svars.enemyHeliLocation[e*4+0]=0
-    --    svars.enemyHeliLocation[e*4+1]=0
-    --    svars.enemyHeliLocation[e*4+2]=0
-    --    svars.enemyHeliLocation[e*4+3]=0
-    --    svars.enemyHeliCp[e]=0
-    --    svars.enemyHeliFlag[e]=0
-    --    svars.enemyHeliSneakRoute[e]=0
-    --    svars.enemyHeliCautionRoute[e]=0
-    --    svars.enemyHeliAlertRoute[e]=0
-    --    svars.enemyHeliRouteNodeIndex[e]=0
-    --    svars.enemyHeliRouteEventIndex[e]=0
-    --    svars.enemyHeliMarker[e]=0
-    --    svars.enemyHeliLife[e]=0
+  if not IvarProc.EnabledForMission("heliPatrols") then--tex added check --DEBUGNOW
+    for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do
+      --NMC another casualty of optimisation I guess, TppEnemyHeli only saves/restores to non array unlike the other gameobject types, even though it's clearly originally set up the same
+      svars.enemyHeliName=0
+      svars.enemyHeliLocation[0]=0
+      svars.enemyHeliLocation[1]=0
+      svars.enemyHeliLocation[2]=0
+      svars.enemyHeliLocation[3]=0
+      svars.enemyHeliCp=0
+      svars.enemyHeliFlag=0
+      svars.enemyHeliSneakRoute=0
+      svars.enemyHeliCautionRoute=0
+      svars.enemyHeliAlertRoute=0
+      svars.enemyHeliRouteNodeIndex=0
+      svars.enemyHeliRouteEventIndex=0
+      svars.enemyHeliMarker=0
+      svars.enemyHeliLife=0
   end
+  --WIP
+  else--tex>
+    --tex what it should be :/
+    local heliCount=InfNPCHeli.numAttackHelis
+    for e=0,heliCount-1 do
+      svars.enemyHeliName[e]=0
+      svars.enemyHeliLocation[e*4+0]=0
+      svars.enemyHeliLocation[e*4+1]=0
+      svars.enemyHeliLocation[e*4+2]=0
+      svars.enemyHeliLocation[e*4+3]=0
+      svars.enemyHeliCp[e]=0
+      svars.enemyHeliFlag[e]=0
+      svars.enemyHeliSneakRoute[e]=0
+      svars.enemyHeliCautionRoute[e]=0
+      svars.enemyHeliAlertRoute[e]=0
+      svars.enemyHeliRouteNodeIndex[e]=0
+      svars.enemyHeliRouteEventIndex[e]=0
+      svars.enemyHeliMarker[e]=0
+      svars.enemyHeliLife[e]=0
+    end
+  end
+  --<
   for e=0,TppDefine.MAX_SECURITY_CAMERA_COUNT-1 do
     svars.securityCameraCp[e]=0
     svars.securityCameraMarker[e]=0
@@ -2823,7 +2843,7 @@ function this.RestoreOnContinueFromCheckPoint2()
   --a manual unrealize will fix that, but may just send it into an actual lostcontrol
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
-  if InfNPCHeli and not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
+  if InfNPCHeli and not IvarProc.EnabledForMission("heliPatrols") then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       local typeHeli={type="TppEnemyHeli"}
       SendCommand(typeHeli,{id="RestoreFromSVars"})
@@ -2866,7 +2886,7 @@ function this.StoreSVars(_markerOnly)
   end
   this._StoreSVars_Hostage(markerOnly)
   --tex WORKAROUND added bypass, see restore
-  if InfNPCHeli and not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
+  if InfNPCHeli and not IvarProc.EnabledForMission("heliPatrols") then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
     end
@@ -3021,7 +3041,7 @@ function this.DefineSoldiers(soldierDefine)
           local soldierId=GetGameObjectId(v)
           if soldierId==NULL_ID then
           else
-            mvars.ene_soldierIDList[cpId][soldierId]=v--tex changed to v/soldier name (so can be used as a soldierId>soldierName lookup, all other references to ene_soldierIDList[cpId]/soldierIdList now 'soldierName' from 'cpDefineIndex'. 
+            mvars.ene_soldierIDList[cpId][soldierId]=v--tex changed to v/soldier name (so can be used as a soldierId>soldierName lookup, all other references to ene_soldierIDList[cpId]/soldierIdList now 'soldierName' from 'cpDefineIndex'.
             --ORIG mvars.ene_soldierIDList[cpId][soldierId]=k--NMC as far as I can see this value was never referenced in vanilla, I don't see how knowing the cpDefine index of a soldier would have been useful anyway
           end
         end
@@ -3336,7 +3356,7 @@ function this.GetPrioritizedRouteTable(cpId,routeSet,routeSetsPriorities,routeSe
     return
   end
   if mvars.ene_funcRouteSetPriority then
-  --NMC only mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants, plantTables, sysPhase )
+    --NMC only mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants, plantTables, sysPhase )
     routeList=mvars.ene_funcRouteSetPriority(cpId,routeSet,routeSetsPriorities,routeSetTagStr32)
   else
     local maxRoutes=0
@@ -3348,7 +3368,7 @@ function this.GetPrioritizedRouteTable(cpId,routeSet,routeSetsPriorities,routeSe
         end
       end
     end
-    --NMC GOTCHA, subtle difference from above not IsTable(route). thanks NasaNhak. 
+    --NMC GOTCHA, subtle difference from above not IsTable(route). thanks NasaNhak.
     --this leads to routes in a table (sniper routes, since they are bundled with some other into) being added first
     local routeNum=1
     for i=1,maxRoutes do
@@ -5710,7 +5730,7 @@ function this._IsRouteSetTypeValid(routeSetType)
   for t,t in paris(this.ROUTE_SET_TYPES)do--RETAILBUG: type
     if(routeSetType==this.ROUTE_SET_TYPES[i])then--RETAILBUG: bad index
       return true
-    end
+  end
   end
   return false
 end

@@ -32,7 +32,7 @@ local function CharacterLine(character,length)
   return characterLine
 end
 
---WORKAROUND redo
+--WORKAROUND TODO REDO
 local function GetSettingText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
@@ -42,8 +42,7 @@ local function GetSettingText(option)
     end
     --tex old style direct non localized table
     if IsTable(settingNames) then
-      --tex lua indexed from 1, but settings from 0
-      --DEBUGNOW settingText=option.setting..":"..settingNames[option.setting+1]
+      --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
       for i,settingName in ipairs(settingNames)do
         settingText=settingText..settingName..", "
       end
@@ -74,7 +73,7 @@ local function GetSettingText(option)
     if option.range then
       settingText=option.range.min.."-"..option.range.max
     else
-      settingText="DEBUGNOW GetSettingsText no decent output found"--DEBUGNOW
+      settingText="DEBUGNOW GetSettingsText no decent output found"--DEBUG TODO
     end
   end
   return settingText
@@ -116,16 +115,16 @@ local function IsForProfile(item,currentMenu,priorMenus,priorItems)
   return true
 end
 
-local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)
+local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
   menuCount=menuCount+1
 
   local menuDisplayName=InfMenu.LangString(menu.name)
 
-  textFile:write(menuDisplayName,nl)
+  table.insert(textTable,menuDisplayName)
 
-  htmlFile:write([[<div id="menu">]],nl)
-  htmlFile:write([[<div id="menuTitle">]],nl)
-  htmlFile:write(string.format([[<div id="%s">%s</div>]],menu.name,menuDisplayName),nl)
+  table.insert(htmlTable,[[<div id="menu">]])
+  table.insert(htmlTable,[[<div id="menuTitle">]])
+  table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],menu.name,menuDisplayName))
 
   local hasItems=false
   for i,item in ipairs(menu.options)do
@@ -134,110 +133,112 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     end
   end
   if hasItems then
-    profileFile:write("\t\t--"..menuDisplayName,nl)
+    table.insert(profileTable,"\t\t--"..menuDisplayName)
   end
 
   local menuHelpLangString=InfLang.help.eng[menu.name]
   if menuHelpLangString then
-    textFile:write("- "..menuHelpLangString,nl)
+    table.insert(textTable,"- "..menuHelpLangString)
 
     menuHelpLangString=string.gsub(menuHelpLangString,nl,"<br/>")
-    htmlFile:write(string.format([[<div id="menuHelp">%s</div>]],menuHelpLangString),nl)
+    table.insert(htmlTable,string.format([[<div id="menuHelp">%s</div>]],menuHelpLangString))
 
-    --profileFile:write("-- "..menuHelpLangString,nl)
+    --table.insert(profileTable,"-- "..menuHelpLangString)
   end
-  htmlFile:write("</div>",nl)
+  table.insert(htmlTable,"</div>")
 
   local underLineLength=string.len(menuDisplayName)
   local underLine=CharacterLine("-",underLineLength)
-  textFile:write(underLine,nl)
+  table.insert(textTable,underLine)
 
   for i,item in ipairs(menu.options)do
-    htmlFile:write([[<div id="menuItem">]],nl)
+    table.insert(htmlTable,[[<div id="menuItem">]])
 
     if skipItems and skipItemsList[item.name] then
 
     else
-    --DEBUGNOW
+    --DEBUG
 --      print("name:"..item.name)
 --      print("desc:"..tostring(item.description))
 --      print("langstr:"..tostring(InfMenu.LangString(item.name)))
       local settingDescription=item.description or InfMenu.LangString(item.name)
       local indexDisplayLine=i..": "
 
-      --htmlFile:write(string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
+      --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
 
       if IsMenu(item) then
         menuCount=menuCount+1
-        textFile:write(indexDisplayLine..settingDescription,nl)
-        htmlFile:write(string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription),nl)
+        
+        table.insert(textTable,indexDisplayLine..settingDescription)
+        table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription))
       else
-        local settingText=GetSettingText(item)--DEBUGNOW InfMenu.GetSettingText(i,item)
-        textFile:write(indexDisplayLine..settingDescription.." : "..settingText,nl)
+        local settingText=GetSettingText(item)--DEBUG WORKAROUND InfMenu.GetSettingText(i,item)
+        table.insert(textTable,indexDisplayLine..settingDescription.." : "..settingText)
 
         local settingsDisplayText=settingDescription.." : "..settingText
         settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
         settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
-        htmlFile:write(string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText),nl)
-        --htmlFile:write(string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription),nl)
+        table.insert(htmlTable,string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText))
+        --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription))
 
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
           helpLangString=string.gsub(helpLangString,"<","&lt")
           helpLangString=string.gsub(helpLangString,">","&gt")
 
-          textFile:write(helpLangString,nl)
+          table.insert(textTable,helpLangString)
 
           helpLangString=string.gsub(helpLangString, nl, "<br/>")
-          htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],helpLangString),nl)
+          table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],helpLangString))
         end
 
         if IsForProfile(item,menu,priorMenus,priorItems) then
-          profileFile:write("\t\t"..item.name.."=")
+          local profileLine={}
+          table.insert(profileLine,"\t\t"..item.name.."=")
           if item.settings then
             local setting=item.settings[item.default+1]
             if setting~="DEFAULT" and setting~="OFF" then
-              profileFile:write("\""..setting.."\"")
+              table.insert(profileLine,"\""..setting.."\"")
             else
-              profileFile:write(item.default)
+              table.insert(profileLine,item.default)
             end
           else
-            profileFile:write(item.default)
+            table.insert(profileLine,item.default)
           end
-          profileFile:write(",")
+          table.insert(profileLine,",")
 
           local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
-          profileFile:write("--")
+          table.insert(profileLine,"--")
           if item.settings then
-            profileFile:write("{ ")
+            table.insert(profileLine,"{ ")
             for i,setting in ipairs(item.settings)do
-              profileFile:write(setting)
+              table.insert(profileLine,setting)
               if i~=#item.settings then
-                profileFile:write(", ")
+                table.insert(profileLine,", ")
               end
             end
-            profileFile:write(" }")
+            table.insert(profileLine," }")
           else
-            profileFile:write("{ ")
-            profileFile:write(item.range.min.."-"..item.range.max)
-            profileFile:write(" }")
+            table.insert(profileLine,"{ ")
+            table.insert(profileLine,item.range.min.."-"..item.range.max)
+            table.insert(profileLine," }")
           end
           if not item.save then
-            profileFile:write(" -- Non-save")
+            table.insert(profileLine," -- Non-save")
           end
-          profileFile:write(" -- "..optionName)
+          table.insert(profileLine," -- "..optionName)
           if item.isPercent then
-            profileFile:write(" (percentage)")
+            table.insert(profileLine," (percentage)")
           end
-          profileFile:write(nl)
+          table.insert(profileTable,table.concat(profileLine))
 
           priorItems[item.name]=true
         end
       end
     end
-    htmlFile:write("</div>",nl)
+    table.insert(htmlTable,"</div>")
   end
-  htmlFile:write("</div>",nl)--id=menu
+  table.insert(htmlTable,"</div>")--id=menu
 end
 
 local function EscapeHtml(line)
@@ -252,58 +253,54 @@ local projectFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\"
 local featuresOutputName="Features and Options"
 
 FeaturesHeader=require"FeaturesHeader"
-function this.AutoDoc()
-  local textFilePath=projectFolder..featuresOutputName..".txt"
-  local textFile=io.open(textFilePath,"w")
-
-  local htmlFilePath=projectFolder..featuresOutputName..".html"
-  local htmlFile=io.open(htmlFilePath,"w")
-
-  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\InfProfiles.lua"
-  local profileFile=io.open(profileFilePath,"w")
+function this.AutoDoc()  
+  local textTable={}
+  local htmlTable={}
+  local profileTable={}
   
-  htmlFile:write("<!DOCTYPE html>",nl)
-  htmlFile:write("<html>",nl)
-  htmlFile:write("<head>",nl)
-  htmlFile:write([[<link rel="stylesheet" type="text/css" href="features.css">]],nl)
-  htmlFile:write(string.format([[<title>%s</title>]],featuresOutputName),nl)
-  htmlFile:write("</head>",nl)
-  htmlFile:write("<body>",nl)
+  
+  table.insert(htmlTable,"<!DOCTYPE html>")
+  table.insert(htmlTable,"<html>")
+  table.insert(htmlTable,"<head>")
+  table.insert(htmlTable,[[<link rel="stylesheet" type="text/css" href="features.css">]])
+  table.insert(htmlTable,string.format([[<title>%s</title>]],featuresOutputName))
+  table.insert(htmlTable,"</head>")
+  table.insert(htmlTable,"<body>")
 
   for i,section in pairs(FeaturesHeader)do
-    textFile:write(section.title,nl)
+    table.insert(textTable,section.title)
     local underLineLength=string.len(section.title)
     local underLine=CharacterLine("=",underLineLength)
-    textFile:write(underLine,nl)
-    textFile:write(nl)
+    table.insert(textTable,underLine)
+    table.insert(textTable,"")
 
-    htmlFile:write([[<div id="menu">]],nl)
-    htmlFile:write(string.format([[<div id="menuTitle">%s</div>]],section.title),nl)
+    table.insert(htmlTable,[[<div id="menu">]])
+    table.insert(htmlTable,string.format([[<div id="menuTitle">%s</div>]],section.title))
     for i,line in ipairs(section)do
       if type(line)=="table" then
         if line.link then
-          textFile:write(line[1],nl)
-          textFile:write("[url="..line.link.."]"..line.link.."[/url]",nl)
+          table.insert(textTable,line[1])
+          table.insert(textTable,"[url="..line.link.."]"..line.link.."[/url]")
         
-          htmlFile:write(string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]),nl)
+          table.insert(htmlTable,string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]))
         elseif line.featureDescription then
-          textFile:write(string.format(line.featureDescription),nl)
-          textFile:write(string.format(line.featureHelp),nl)
+          table.insert(textTable,string.format(line.featureDescription))
+          table.insert(textTable,string.format(line.featureHelp))
         
-          htmlFile:write(string.format([[<div id="menuItem">%s</div>]],EscapeHtml(line.featureDescription)),nl)
-          htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],EscapeHtml(line.featureHelp)),nl)
+          table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],EscapeHtml(line.featureDescription)))
+          table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],EscapeHtml(line.featureHelp)))
         end
       else
-        textFile:write(line,nl)
+        table.insert(textTable,line)
       
         line=EscapeHtml(line)
-        htmlFile:write(string.format([[<div id="menuItem">%s</div>]],line),nl)
+        table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],line))
       end
-      textFile:write(nl)
+      table.insert(textTable,"")
     end   
     
-    htmlFile:write([[</div>]],nl)
-    htmlFile:write("<br/>",nl)
+    table.insert(htmlTable,[[</div>]])
+    table.insert(htmlTable,"<br/>")
   end
 
   local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
@@ -311,25 +308,26 @@ function this.AutoDoc()
   local header=headerFile:read("*all")
   headerFile:close()
 
-  profileFile:write(header)
-  profileFile:write(nl)
-  profileFile:write("local profiles={}",nl)
-  profileFile:write(nl)
-  profileFile:write("-- Defaults/example of all profile options for IH r"..InfMain.modVersion,nl)
-  profileFile:write("profiles.defaults={",nl)
-  profileFile:write("\tdescription=\"Defaults/All disabled\",",nl)
-  profileFile:write("\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.",nl)
-  profileFile:write("\tloadOnACCStart=false,",nl)--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)
+  table.insert(profileTable,header)
+  table.insert(profileTable,nl)
+  table.insert(profileTable,"local profiles={}")
+  table.insert(profileTable,nl)
+  table.insert(profileTable,"-- Defaults/example of all profile options for IH r"..InfMain.modVersion)
+  table.insert(profileTable,"profiles.defaults={")
+  table.insert(profileTable,"\tdescription=\"Defaults/All disabled\",")
+  table.insert(profileTable,"\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.")
+  table.insert(profileTable,"\tloadOnACCStart=false,")--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)
 
-  profileFile:write("\tprofile={",nl)
+  table.insert(profileTable,"\tprofile={")
 
   --patchup
+  --tex TODO provide more descriptive lists?
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
   Ivars.fovaSelection.settingNames={"<Fova selection>"}
   Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
-  Ivars.playerPartsType.settings={"<Suits for player type>"}--DEBUGNOW
-  Ivars.playerCamoType.settings={"<Camos for player type>"}--DEBUGNOW
+  Ivars.playerPartsType.settings={"<Suits for player type>"}
+  Ivars.playerCamoType.settings={"<Camos for player type>"}
   Ivars.selectProfile.settingNames={"<Profile type>"}
 
 
@@ -346,13 +344,13 @@ function this.AutoDoc()
 
   local menuCount=1
   for i,menu in ipairs(heliSpaceMenus)do
-    PrintMenuSingle(nil,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)
-    textFile:write(nl)
-    htmlFile:write("<br/>",nl)
+    PrintMenuSingle(nil,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
+    table.insert(textTable,"")
+    table.insert(htmlTable,"<br/>")
   end
 
-  textFile:write("===============",nl)
-  textFile:write(nl)
+  table.insert(textTable,"===============")
+  table.insert(textTable,"")
   menu=InfMenuDefs.inMissionMenu.options
   local inMissionMenus={}
   local inMissionMenuNames={}
@@ -361,28 +359,40 @@ function this.AutoDoc()
   --InfLog.PrintInspect(inMissionMenus)
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
-    PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)
-    textFile:write(nl)
-    htmlFile:write("<br/>",nl)
+    PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
+    table.insert(textTable,"")
+    table.insert(htmlTable,"<br/>")
   end
 
-  htmlFile:write("</body>",nl)
-  htmlFile:write("</html>",nl)
+  table.insert(htmlTable,"</body>")
+  table.insert(htmlTable,"</html>")
 
-  profileFile:write("\t}",nl)
-  profileFile:write("}",nl)
-  profileFile:write(nl)
+  table.insert(profileTable,"\t}")
+  table.insert(profileTable,"}")
+  table.insert(profileTable,"")
 
   local heavenProfilesPath=projectFolder.."!modlua\\InfProfiles\\InfHeavenProfiles.lua"
   local heavenProfilesFile=io.open(heavenProfilesPath)
   local heavenProfiles=heavenProfilesFile:read("*all")
   heavenProfilesFile:close()
 
-  profileFile:write(heavenProfiles,nl)
+  table.insert(profileTable,heavenProfiles)
 
+  table.insert(profileTable,"")
+  table.insert(profileTable,"return profiles")
+  
+  local textFilePath=projectFolder..featuresOutputName..".txt"
+  local textFile=io.open(textFilePath,"w")
 
-  profileFile:write(nl)
-  profileFile:write("return profiles",nl)
+  local htmlFilePath=projectFolder..featuresOutputName..".html"
+  local htmlFile=io.open(htmlFilePath,"w")
+
+  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\InfProfiles.lua"
+  local profileFile=io.open(profileFilePath,"w")
+  
+  textFile:write(table.concat(textTable,nl))
+  htmlFile:write(table.concat(htmlTable,nl))
+  profileFile:write(table.concat(profileTable,nl))
 
   textFile:close()
   htmlFile:close()

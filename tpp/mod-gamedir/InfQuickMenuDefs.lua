@@ -24,7 +24,7 @@
 
 local this={}
 
---this.forceEnable=true--tex overrides the IH menu option
+--this.forceEnable=true--tex overrides the Enable quick menu option in the IH system menu
 
 --tex button to hold to enable the quick menu command buttons
 --make sure this doesn't conflict with any of the menu command buttons below

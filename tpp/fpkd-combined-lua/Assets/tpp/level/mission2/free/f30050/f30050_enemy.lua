@@ -445,7 +445,7 @@ this.OnLoad = function()
   Fox.Log("*** f30050_enemy onload ***")
   mtbs_enemy.SetUseUiSettings(false)    
   
-  InfMain.ModifyEnemyAssetTable()--tex
+  InfNPC.ModifyEnemyAssetTable()--tex
 
   mvars.clusterConstructTable = {}
   for clusterId = 1, #TppDefine.CLUSTER_NAME do

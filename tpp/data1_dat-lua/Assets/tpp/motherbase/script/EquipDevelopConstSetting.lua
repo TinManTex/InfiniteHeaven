@@ -6,24 +6,34 @@
 --NuLLxD https://github.com/NuLLxD/MGSVLUA
 --unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt
 --nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960
+--EquipDevelopSettingMgo.lua
 --TppMotherBaseManagement.RegCstDev
 --{
---   p00=50071, //Item ID
---   p01=TppEquip.EQP_WP_Com_sg_020_FL, //Asset name
---   p02=TppMbDev.EQP_DEV_TYPE_Shotgun, //Asset type
---   p03=0, //Prerequisite Item ID
---   p04=0, //Specialist/staff skill requirement (handgun specialist, cybernetics specialist, etc)
---   p05=65535, //Design requirements - 65535, TppMotherBaseManagementConst.DESIGN_2000,
---   p06="name_wp_4040", //Item name (displayed in iDroid)
---   p07="info_wp_4040", //Item description (displayed in iDroid)
---   p08="/Assets/tpp/ui/texture/EquipIcon/npc/ui_wp_com_sg_020_alp", //Item picture (displayed in iDroid)
---   p09=TppMbDev.EQP_DEV_GROUP_WEAPON_180, //Item group (tool/item/skin/etc)
---   p30="real_wp_4040", //Base item --tex long name?
---   p31=0, //??? (boolean)
---   p32=0, --boolean --nasanhak Allow weapon customization: set to 1 to make a weapon customizable; will crash for guns with barrels that are not customizable by default - exception is missiles, set to 0 to remove customization from a weapon
---   p33=0, --boolean --nasanhak Allow color change: set to 0 to restrict some level of customizability, I can see that color alone is disabled :? --maybe it is only for color customizability like for MISSILES! Of course
---   p34=0, //??? (boolean)
---   p35=0 //Equippable by security staff (boolean)
+--p00=50071,--equipDevelopID
+--p01=TppEquip.EQP_WP_Com_sg_020_FL,--equipID
+--p02=TppMbDev.EQP_DEV_TYPE_Shotgun,--equipDevelopTypeID
+--p03=0,--baseEquipDevelopId --Prerequisite Item ID
+--p04=0, //Specialist/staff skill requirement (handgun specialist, cybernetics specialist, etc)
+--p05=65535,--bluePrintId //Design requirements - 65535, TppMotherBaseManagementConst.DESIGN_2000,
+--p06="name_wp_4040",--langEquipName //Item name (displayed in iDroid)
+--p07="info_wp_4040",--langEquipInfo //Item description (displayed in iDroid)
+--p08="/Assets/tpp/ui/texture/EquipIcon/npc/ui_wp_com_sg_020_alp",--ftexPath //Item picture (displayed in iDroid)
+--p09=TppMbDev.EQP_DEV_GROUP_WEAPON_180,--equipDevelopGroupID //Item group (tool/item/skin/etc)
+--p10="ability_0105",--langPowerUpInfo0
+--p11="ability_0010",--langPowerUpInfo1
+--p12="", --langPowerUpInfo2
+--p13="",--langPowerUpInfo3 
+--p14="",--langPowerUpInfo4
+--p15="",--langPowerUpInfo5
+--p16="",--langPowerUpInfo6
+--p17="",--langPowerUpInfo7
+--p30="real_wp_4040",--langEquipRealName
+--p31=0,--isResultRankLimited
+--p32=0,--isCustomEnable--boolean--nasanhak Allow weapon customization: set to 1 to make a weapon customizable; will crash for guns with barrels that are not customizable by default - exception is missiles, set to 0 to remove customization from a weapon
+--p33=0,--isColorChangeEnable--boolean --nasanhak Allow color change: set to 0 to restrict some level of customizability, I can see that color alone is disabled :? --maybe it is only for color customizability like for MISSILES! Of course
+--p34=0,--??? (boolean)
+--p35=0,--Equippable by security staff (boolean)
+--p36=0,--??
 --}
 
 --name,description,long name: \Assets\tpp\lang\ui\tpp_weapon.eng.lng2

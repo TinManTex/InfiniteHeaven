@@ -1,4 +1,3 @@
--- DOBUILD: 0 --DEBUGWIP changes to allow saving of gvars into config
 -- TppSave.lua
 local this={}
 
@@ -382,10 +381,10 @@ function this.ProcessSaveQueue()
     end
   end
 end
-function this.DoSave(saveParams,n)
-  local r=true
-  if n then
-    r=false
+function this.DoSave(saveParams,force)
+  local checkResult=true
+  if force then
+    checkResult=false
   end
   local category
   local saveFileVersion
@@ -420,7 +419,7 @@ function this.DoSave(saveParams,n)
     doSaveFunc()
   end
   local saveResult=TppScriptVars.WriteSlotToFile(saveParams.savingSlot,fileName,needIcon)
-  if r then
+  if checkResult then
     gvars.sav_SaveResultCheckFileName=StrCode32(fileName)
     if isCheckPoint then
       gvars.sav_isCheckPointSaving=true
@@ -550,8 +549,7 @@ function this.VarSaveQuest(missionCode)
   this.SaveVarsToSlot(TppDefine.SAVE_SLOT.QUEST,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_QUEST)
 end
 function this.VarSaveConfig()
-  this.SaveVarsToSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_CONFIG)--tex change to all since now storing IH vars
-  --ORIG this.SaveVarsToSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_CONFIG)
+  this.SaveVarsToSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_CONFIG)
 end
 function this.VarSaveMGO()
   this.SaveVarsToSlot(TppDefine.SAVE_SLOT.MGO,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_MGO)
@@ -672,8 +670,7 @@ function this.VarRestoreOnMissionStart()
     TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,TppDefine.VARS_GROUP_GAME_DATA_ON_START_MISSION,TppScriptVars.CATEGORY_MB_MANAGEMENT)
     TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.QUEST,TppDefine.VARS_GROUP_GAME_DATA_ON_START_MISSION,TppScriptVars.CATEGORY_QUEST)
   end
-  TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_CONFIG)--tex change to all since now storing IH vars
-  --ORIG TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_CONFIG)
+  TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_CONFIG)
   TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.PERSONAL,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_PERSONAL)
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.MGO,TppDefine.VARS_GROUP_GAME_DATA_ON_START_MISSION,TppScriptVars.CATEGORY_MGO)
@@ -691,8 +688,7 @@ function this.VarRestoreOnContinueFromCheckPoint()
   end
   TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_MB_MANAGEMENT)
   TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.QUEST,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_QUEST)
-  TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_CONFIG)--tex change to all since now storing IH vars
-  --ORIG TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_CONFIG)
+  TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.CONFIG,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_CONFIG)
   TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.PERSONAL,TppScriptVars.GROUP_BIT_VARS,TppScriptVars.CATEGORY_PERSONAL)
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.MGO,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_MGO)

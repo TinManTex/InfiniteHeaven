@@ -175,6 +175,8 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
         end
       end
     end
+    --tex>
+    --tex not fob check pretty critical here since svars mismatch actoss clients cause corruption and hangs across clients
     if not TppMission.IsFOBMission(vars.missionCode)then
       for i,module in ipairs(InfModules)do
         if module.DeclareSVars then
@@ -182,6 +184,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
         end
       end
     end
+    --<
     local missionSvars={}
     for name,module in pairs(missionTable)do
       if IsTypeFunc(module.DeclareSVars)then
@@ -269,7 +272,6 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppSequence.SaveMissionStartSequence()
     TppScriptVars.SetSVarsNotificationEnabled(true)
 end
-InfSoldierParams.SoldierParametersMod()--tex
 if missionTable.enemy then
   if IsTypeTable(missionTable.enemy.soldierPowerSettings)then
     TppEnemy.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)
@@ -357,7 +359,6 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   if mvars.loc_locationCommonTable then
     mvars.loc_locationCommonTable.OnInitialize()
   end
-  InfMain.ModifyMinesAndDecoys()--tex
   TppLandingZone.OnInitialize()
   for t,lib in ipairs(Tpp._requireList)do
     if _G[lib].Init then

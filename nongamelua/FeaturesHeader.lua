@@ -36,7 +36,7 @@ local this={
     },
     {
       featureDescription="Quick menu commands.",
-      featureHelp="Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder."
+      featureHelp="(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)\r\nShortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder."
     },
     {
       featureDescription="Profiles.",

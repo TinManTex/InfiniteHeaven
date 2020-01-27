@@ -414,8 +414,7 @@ function this.GetFaceGroupTableAtGroupType(faceGroupType)
   end
   return faces
 end
---NMC selectKey is just name of index, ex missionId/10200, or area name/"Africa".
-fovaSetupFuncs[10200]=function(selectKey,missionId)
+fovaSetupFuncs[10200]=function(locationName,missionId)
   this.SetHostageFaceTable(missionId)
   local bodies={
     {TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},
@@ -436,7 +435,7 @@ fovaSetupFuncs[10200]=function(selectKey,missionId)
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 fovaSetupFuncs[11200]=fovaSetupFuncs[10200]
-fovaSetupFuncs[10120]=function(selectKey,missionId)
+fovaSetupFuncs[10120]=function(locationName,missionId)
   this.SetHostageFaceTable(missionId)
   local bodies={
     {TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},
@@ -456,14 +455,16 @@ fovaSetupFuncs[10120]=function(selectKey,missionId)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
-fovaSetupFuncs[10040]=function(selectKey,missionId)
+fovaSetupFuncs[10040]=function(locationName,missionId)
+  --tex ORIG:>
   local fovaSetupFuncs=Select(fovaSetupFuncs)
   fovaSetupFuncs:case("Afghan",missionId)
+  --<
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
-fovaSetupFuncs[10045]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Afghan",missionId)
+fovaSetupFuncs[10045]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   local e={}
   for a=0,9 do
     table.insert(e,a)
@@ -487,21 +488,18 @@ fovaSetupFuncs[10045]=function(selectKey,missionId)
   local bodyIds={{svs0_unq_v421,1}}
   TppSoldierFace.OverwriteMissionFovaData{body=bodyIds,additionalMode=true}
 end
-fovaSetupFuncs[10052]=function(selectKey,missionId)
-  local missionFovaFunc=Select(fovaSetupFuncs)
-  missionFovaFunc:case("Afghan",missionId)
+fovaSetupFuncs[10052]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   TppSoldierFace.SetSplitRaceForHostageRandomFaceId{enabled=true}
 end
 fovaSetupFuncs[11052]=fovaSetupFuncs[10052]
-fovaSetupFuncs[10090]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Africa",missionId)
+fovaSetupFuncs[10090]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
 fovaSetupFuncs[11090]=fovaSetupFuncs[10090]
-fovaSetupFuncs[10091]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Africa",missionId)
+fovaSetupFuncs[10091]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   local e={}
   for a=0,9 do
     table.insert(e,a)
@@ -532,9 +530,8 @@ fovaSetupFuncs[10091]=function(selectKey,missionId)
   TppSoldierFace.OverwriteMissionFovaData{body=e,additionalMode=true}
 end
 fovaSetupFuncs[11091]=fovaSetupFuncs[10091]
-fovaSetupFuncs[10080]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Africa",missionId)
+fovaSetupFuncs[10080]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   if TppPackList.IsMissionPackLabel"afterPumpStopDemo"then
   else
     TppSoldier2.SetExtendPartsInfo{type=2,path="/Assets/tpp/parts/chara/chd/chd0_main0_def_v00.parts"}
@@ -554,7 +551,7 @@ fovaSetupFuncs[10080]=function(selectKey,missionId)
   end
 end
 fovaSetupFuncs[11080]=fovaSetupFuncs[10080]
-fovaSetupFuncs[10115]=function(selectKey,missionId)
+fovaSetupFuncs[10115]=function(locationName,missionId)
   local faces={}
   for e=0,9 do
     table.insert(faces,e)
@@ -578,19 +575,17 @@ fovaSetupFuncs[10115]=function(selectKey,missionId)
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
 end
 fovaSetupFuncs[11115]=fovaSetupFuncs[10115]
-fovaSetupFuncs[10130]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Africa",missionId)
+fovaSetupFuncs[10130]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
 fovaSetupFuncs[11130]=fovaSetupFuncs[10130]
-fovaSetupFuncs[10140]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Africa",missionId)
+fovaSetupFuncs[10140]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
 fovaSetupFuncs[11140]=fovaSetupFuncs[10140]
-fovaSetupFuncs[10150]=function(selectKey,missionId)
+fovaSetupFuncs[10150]=function(locationName,missionId)
   local a={}
   for e=0,9 do
     table.insert(a,e)
@@ -611,29 +606,26 @@ fovaSetupFuncs[10150]=function(selectKey,missionId)
   local e={{TppEnemyBodyId.wss4_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
 end
-fovaSetupFuncs[10151]=function(selectKey,missionId)
+fovaSetupFuncs[10151]=function(locationName,missionId)
 end
 fovaSetupFuncs[11151]=fovaSetupFuncs[10151]
-fovaSetupFuncs[30010]=function(selectKey,missionId)
-  --NMC: this approach is a bit silly imho, using a switch/case method to just select one function
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Afghan",missionId)
+fovaSetupFuncs[30010]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   TppSoldierFace.SetUseZombieFova{enabled=true}
   local body={{TppEnemyBodyId.prs3_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=body}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs3_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs3_main0_def_v00PartsAfghanFree,bodyId=TppEnemyBodyId.prs3_main0_v00}
 end
-fovaSetupFuncs[30020]=function(selectKey,missionId)
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Africa",missionId)
+fovaSetupFuncs[30020]=function(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED, see fovaSetupFuncs[10040]
   TppSoldierFace.SetUseZombieFova{enabled=true}
   local body={{TppEnemyBodyId.prs6_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=body}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs6_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs6_main0_def_v00PartsAfricaFree,bodyId=TppEnemyBodyId.prs6_main0_v00}
 end
-function fovaSetupFuncs.Afghan(selectKey,missionId)
+function fovaSetupFuncs.afgh(locationName,missionId)
   if missionId==10010 then
     return
   end
@@ -689,7 +681,7 @@ function fovaSetupFuncs.Afghan(selectKey,missionId)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs2_main0_def_v00PartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
 end
-function fovaSetupFuncs.Africa(selectKey,missionId)
+function fovaSetupFuncs.mafr(locationName,missionId)
   local isMoreVariationMode=0
   if TppSoldierFace.IsMoreVariationMode~=nil then
     isMoreVariationMode=TppSoldierFace.IsMoreVariationMode()
@@ -770,7 +762,7 @@ function fovaSetupFuncs.Africa(selectKey,missionId)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
-function fovaSetupFuncs.Mbqf(selectKey,missionId)
+function fovaSetupFuncs.mbqf(locationName,missionId)
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   local faces={}
@@ -838,7 +830,7 @@ function fovaSetupFuncs.Mbqf(selectKey,missionId)
   TppSoldierFace.OverwriteMissionFovaData{face=faces,body=bodies}
   TppSoldierFace.SetSoldierUseHairFova(true)
 end
-function fovaSetupFuncs.Mb(area,missionId)
+function fovaSetupFuncs.mtbs(locationName,missionId)
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
@@ -1121,7 +1113,7 @@ function fovaSetupFuncs.Mb(area,missionId)
   end
   TppSoldierFace.SetSoldierUseHairFova(true)
 end
-function fovaSetupFuncs.Cyprus(selectKey,missionId)
+function fovaSetupFuncs.cypr(locationName,missionId)
   local a={}
   for e=0,5 do
     table.insert(a,e)
@@ -1131,7 +1123,7 @@ function fovaSetupFuncs.Cyprus(selectKey,missionId)
   local e={{TppEnemyBodyId.wss0_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
 end
-function fovaSetupFuncs.default(selectKey,missionId)
+function fovaSetupFuncs.default(locationName,missionId)
   TppSoldierFace.SetMissionFovaData{face={},body={}}
   if missionId>6e4 then
     local e={{30,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT}}
@@ -1165,15 +1157,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   end
   InfEquip.CreateCustomWeaponTable(missionId)--tex
   --tex REWORKED>
-  
-  --tex leaving here for clarity, could: shift them next to rest of fova func definitions
-  --TODO: just rename the area functions themselves, but would also have to change the other uses of Select :case
-  fovaSetupFuncs.afgh=fovaSetupFuncs.Afghan
-  fovaSetupFuncs.mafr=fovaSetupFuncs.Africa
-  fovaSetupFuncs.cypr=fovaSetupFuncs.Cyprus
-  fovaSetupFuncs.mtbs=fovaSetupFuncs.Mb
-  fovaSetupFuncs.mbqf=fovaSetupFuncs.Mbqf
-  
+  --tex the respective area name fova functions have been renamed to match locationName output (ex fovaSetupFuncs.Afghan to fovaSetupFuncs.afgh)  
   local locationName=InfMain.GetLocationName()
   local fovaFuncName="default"
   if fovaSetupFuncs[missionId] then
@@ -1182,7 +1166,6 @@ function this.PreMissionLoad(missionId,currentMissionId)
     fovaFuncName=locationName
   end
   --tex 1st parameter wasn't actually used in vanilla, only for the switch/case, might as well repurpose it
-  --TODO: replace Select/case calls in the missionId fova funcs to: fovaSetupFuncs[locationName](locationName,missionId)
   fovaSetupFuncs[fovaFuncName](locationName,missionId)
   --<
 --ORIG  
