@@ -17,9 +17,9 @@ function this.Messages()
       end}
     },
     GameObject={
-      {msg="Carried",func=function(a,r)
+      {msg="Carried",func=function(gameId,r)
         if r==0 then
-          this._OnSearchTarget(a,nil,"Carried")
+          this._OnSearchTarget(gameId,nil,"Carried")
         end
       end},
       {msg="Restraint",func=function(a,r)

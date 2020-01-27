@@ -335,6 +335,7 @@ this.printCurrentAppearance={
   end,
 }
 
+--quest TODO should probably put in infquest
 this.forceAllQuestOpenFlagFalse={
   OnChange=function()
     for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
@@ -344,6 +345,14 @@ this.forceAllQuestOpenFlagFalse={
     TppQuest.UpdateActiveQuest()
     InfMenu.PrintLangId"done"
   end,
+}
+
+this.rerollQuestSelection={
+  OnChange=function()
+    InfMain.RegenSeed(vars.missionCode,vars.missionCode)
+
+    InfQuest.UpdateActiveQuest()
+  end
 }
 
 --
@@ -648,8 +657,20 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
+ 
+    --
+    --    local nextMissionId = TppDefine.SYS_MISSION_ID.MTBS_FREE
+    --    --if not TppTerminal.IsCleardRetakeThePlatform() then
+    --    nextMissionId = TppDefine.SYS_MISSION_ID.MTBS_HELI
+    --    --end
+    --
+    --    TppMission.ReserveMissionClear{
+    --      nextMissionId = nextMissionId,
+    --      missionClearType = TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,
+    --    }
 
 
+    --
     --InfCore.PrintInspect(MotherBaseStage.GetCurrentCluster(),"MotherBaseStage.GetCurrentCluster")
     --InfCore.PrintInspect(mtbs_cluster.GetCurrentClusterId(),"mtbs_cluster.GetCurrentClusterId")
 
@@ -1203,7 +1224,6 @@ this.DEBUG_RandomizeAllIvars={
       playerHandEquip=true,
       cpAlertOnVehicleFulton=true,
       enableGetOutHeli=true,
-      selectedChangeWeapon=true,
       forceSoldierSubType=true,
       setTakeOffWaitTime=true,
       disableNoRevengeMissions=true,
@@ -1310,7 +1330,6 @@ this.DEBUG_SetIvarsToNonDefault={
       playerHandEquip=true,
       cpAlertOnVehicleFulton=true,
       enableGetOutHeli=true,
-      selectedChangeWeapon=true,
       forceSoldierSubType=true,
       setTakeOffWaitTime=true,
       disableNoRevengeMissions=true,

@@ -2088,8 +2088,20 @@ function this.EnableInGameFlag(resetMute)
     mvars.mis_missionStateIsNotInGame=true
   end
 end
+--tex>
+local skipLogCallBack={
+  OnUpdateWhileMissionPrepare=true,
+  OnUpdateStorySequenceInGame=true,
+}
+--<
 function this.ExecuteSystemCallback(callbackName,arg1)
-  --InfCore.LogFlow("TppMission.ExecuteSystemCallback:"..callbackName)--tex DEBUG
+  --tex> DEBUG
+  if ivars.debugFlow then
+    if not skipLogCallBack[callbackName] then
+      InfCore.LogFlow("TppMission.ExecuteSystemCallback:"..callbackName.."("..tostring(arg1)..")")
+    end
+  end
+  --<
   local CallBack=this.systemCallbacks[callbackName]
   if IsTypeFunc(CallBack)then
     return CallBack(arg1)
@@ -3234,9 +3246,9 @@ function this._ShowObjective(objectiveDefine,RENAMEbool)
     TppMarker.Enable(objectiveDefine.gameObjectName,objectiveDefine.visibleArea,objectiveDefine.goalType,objectiveDefine.viewType,objectiveDefine.randomRange,objectiveDefine.setImportant,objectiveDefine.setNew,objectiveDefine.mapRadioName,objectiveDefine.langId,objectiveDefine.goalLangId,objectiveDefine.setInterrogation)
   end
   if objectiveDefine.gimmickId then
-    local i,gameObjectName=TppGimmick.GetGameObjectId(objectiveDefine.gimmickId)
-    if i then
-      TppMarker.Enable(gameObjectName,objectiveDefine.visibleArea,objectiveDefine.goalType,objectiveDefine.viewType,objectiveDefine.randomRange,objectiveDefine.setImportant,objectiveDefine.setNew,objectiveDefine.mapRadioName,objectiveDefine.langId,objectiveDefine.goalLangId,objectiveDefine.setInterrogation)
+    local ret,gameId=TppGimmick.GetGameObjectId(objectiveDefine.gimmickId)
+    if ret then
+      TppMarker.Enable(gameId,objectiveDefine.visibleArea,objectiveDefine.goalType,objectiveDefine.viewType,objectiveDefine.randomRange,objectiveDefine.setImportant,objectiveDefine.setNew,objectiveDefine.mapRadioName,objectiveDefine.langId,objectiveDefine.goalLangId,objectiveDefine.setInterrogation)
     end
   end
   if objectiveDefine.photoId then
@@ -3370,9 +3382,9 @@ function this.DisableObjective(objectiveDefine)
     TppMarker.Disable(objectiveDefine.gameObjectName,objectiveDefine.mapRadioName)
   end
   if objectiveDefine.gimmickId then
-    local n,i=TppGimmick.GetGameObjectId(objectiveDefine.gimmickId)
-    if n then
-      TppMarker.Disable(i,objectiveDefine.mapRadioName)
+    local ret,gameId=TppGimmick.GetGameObjectId(objectiveDefine.gimmickId)
+    if ret then
+      TppMarker.Disable(gameId,objectiveDefine.mapRadioName)
     end
   end
   if objectiveDefine.photoId then

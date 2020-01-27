@@ -24,12 +24,15 @@ function this.Init(missionTable)
   if vars.missionCode~=30050 then
     return
   end
-  
-  if Ivars.enableFultonAlarmsMB:Is(0) and Ivars.enableIRSensorsMB:Is(0) then
-    return
-  end
+
+  --CULL
+  --  if Ivars.enableFultonAlarmsMB:Is(0) and Ivars.enableIRSensorsMB:Is(0) then
+  --    return
+  --  end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+  this.InitCluster()
 end
 
 function this.OnReload(missionTable)
@@ -38,12 +41,15 @@ function this.OnReload(missionTable)
   if vars.missionCode~=30050 then
     return
   end
-  
-  if Ivars.enableFultonAlarmsMB:Is(0) and Ivars.enableIRSensorsMB:Is(0) then
-    return
-  end
+
+  --CULL
+  --  if Ivars.enableFultonAlarmsMB:Is(0) and Ivars.enableIRSensorsMB:Is(0) then
+  --    return
+  --  end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+  this.InitCluster()
 end
 
 function this.Messages()
@@ -101,10 +107,118 @@ function this.Messages()
         this.RequestNoticeGimmick(irSensorId,gameObjectId)
       end},
     },
+    MotherBaseStage={
+      --{msg="MotherBaseCurrentClusterLoadStart",func=this.MotherBaseCurrentClusterLoadStart},
+      {msg="MotherBaseCurrentClusterActivated",func=this.MotherBaseCurrentClusterActivated},
+    },
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+
+function this.MotherBaseCurrentClusterActivated(clusterId)
+  this.InitCluster(clusterId)
+end
+
+function this.InitCluster(clusterId)
+  if vars.missionCode~=30050 then
+    return
+  end
+
+  --  if not Ivars.mbAdditionalNpcs:EnabledForMission() then
+  --    return
+  --  end
+
+  clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
+  if this.debugModule then
+    InfCore.Log("InfMBGimmick.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]))
+  end
+
+  local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+  --tex no plats on cluster
+  if grade==0 then
+    return
+  end
+
+  --tex mbqf,zoo
+  if vars.missionCode~=30050 then
+    grade=1
+  end
+  --zoo
+  if vars.missionCode==30150 then
+    clusterId=8
+  end
+  if vars.missionCode==30250 then
+    clusterId=7
+  end
+
+  --
+  if not mvars.mbItem_funcGetAssetTable then
+    return
+  end
+
+  local layoutCode=vars.mbLayoutCode
+  local dataSet=string.format("/Assets/tpp/level/location/mtbs/block_area/ly%03d/cl%02d/mtbs_ly%03d_cl%02d_item.fox2",layoutCode,clusterId,layoutCode,clusterId)
+  local assetTable=mvars.mbItem_funcGetAssetTable(clusterId+1)
+  if assetTable then
+    if Ivars.hideContainersMB:Is(1) then
+      for k,v in ipairs(assetTable.containers)do
+        if type(v)=="string" then
+          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
+        end
+      end
+    end
+    if Ivars.hideAACannonsMB:Is(1) then
+      for k,v in ipairs(assetTable.eastAAGs)do
+        if type(v)=="string" then
+          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
+        end
+      end
+    end
+    if Ivars.hideAAGatlingsMB:Is(1) then
+      for k,v in ipairs(assetTable.westAAGs)do
+        if type(v)=="string" then
+          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
+        end
+      end
+    end
+
+
+    if Ivars.hideTurretMgsMB:Is(1) then
+      for k,v in ipairs(assetTable.westTurrets)do
+        if type(v)=="string" then
+          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN,v,dataSet,true)
+        end
+      end
+      for k,v in ipairs(assetTable.eastTurrets)do
+        if type(v)=="string" then
+          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN,v,dataSet,true)
+        end
+      end
+    end
+
+    if Ivars.hideMortarsMB:Is(1) then
+      for k,v in ipairs(assetTable.mortars)do
+        if type(v)=="string" then
+          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_MORTAR,v,dataSet,true)
+        end
+      end
+    end
+
+
+    --tex forcing show is no go
+    --      for k,v in ipairs(assetTable.irsensors)do
+    --        if type(v)=="string" then
+    --          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IR_SENSOR,v,dataSet,false)
+    --        end
+    --      end
+    --      for k,v in ipairs(assetTable.stolenAlarms)do
+    --        if type(v)=="string" then
+    --          Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,v,dataSet,false)
+    --        end
+    --      end
+  end
 end
 
 this.OnBreakGimmick=function(gameObjectId,locatorNameHash,dataSetNameHash,AttackerId)

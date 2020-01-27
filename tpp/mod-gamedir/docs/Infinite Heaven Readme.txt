@@ -1,5 +1,5 @@
 = Infinite heaven =
-r205 - 2017-04-29
+r206 - 2017-05-02
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -18,17 +18,39 @@ Recent changes/additions
 ------------------------------
 NOTE: With SnakeBite 0.8.6 you no longer need to manually copy the \mod folder to MGS_TPP\, SnakeBite will install it.
 
+New for r206:
+Option: rerollQuestSelection - Reroll quest selection
+(via Sideops menu)
+
+Fixed: NPC positions on outer clusters when command cluster is under grad 4/not fully built (currently just disabling NPCs on the outer clusters for that situation).
+
+Fixed: XRay markers. No idea how I broke it, or more specifically why it was working when it was called where it was.
+
+Option: hideContainersMB - "Hide containers"
+Option: hideAACannonsMB - "Hide AA cannons"
+Option: hideAAGatlingsMB - "Hide AA gatlings"
+Option: hideTurretMgsMB - "Hide turret machineguns"
+(via Mother base > Show Assets menu)
+Removing AA guns can be good for wargames if you dont want something that can swiss cheese helis around.
+Removing all the AA and the conainers can be useful if you want to drive/gallop around the platforms without so much stuff being in the way.
+
+Fixed: Some custom soldier type/dd suit bodies incorrect.
+
 New for r205:
 Option addition: DD Suit - Fatigues All - will have random selection from all fatigue camos.
 
 Fixed: various DD suit/wildcard females issues. 
 
-Option: enableFultonAlarmsMB - "Enable asset alarms" - "Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.",
-Option: enableIRSensorsMB - "Enable ir sensors" - "Enable ir sensor gates. Only partially working, will only be at level 1 (one beam) and will only trigger alarm once.",
+Option: enableFultonAlarmsMB - "Enable asset alarms" - "Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once."
+Option: enableIRSensorsMB - "Enable ir sensors" - "Enable ir sensor gates. Only partially working, will only be at level 1 (one beam) and will only trigger alarm once."
 (via Mother base > Show Assets menu)
+[youtube]4tzwI6daxI0[/youtube]
+https://youtu.be/4tzwI6daxI0
 
 Option: mbShowShips - "Show ships" - Shows some ships around mother base.
 (via Mother base > Show Assets menu)
+[youtube]UQBKTgKCT9o[/youtube]
+https://youtu.be/UQBKTgKCT9o
 
 Sideop update: Blackfoot down updated. Added soldiers to river LZ (routes from q11050).
 
@@ -82,13 +104,6 @@ Option: forceDemoAllowAction - "Force allow actions" - Prevents disabling of pla
 Feature: Quickmenu binds for when cutscenes running, currently only Free cam useful with above option and Disable cutscene camera mod.
 [youtube]cmCK82ft9Oo[/youtube]
 https://youtu.be/cmCK82ft9Oo
-
-Fixed: Non critical external modules failing to load will no longer block the IH menu from opening - thanks CantStoptheBipBop for the report.
-Fixed: Skull attack on quarantine platform failing part way through ParasiteAppear - thanks pk5547 for the report.
-Fixed: Cutscene reset.
-Fixed: Using mbShowCodeTalker - "Show Code Talker" option on a save before meeting him causing infinite load - thanks junguler for the report.
-Fixed: Quick heli pull-out toggle no longer triggers if idroid open.
-Fixed: FreeCam code not disabling when changing level.
 
 Disclaimer:
 ------------------------------

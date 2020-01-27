@@ -1,3 +1,4 @@
+--fox2 scrape mtbs
 local this={}
 this.lookupStrings={
 "mtbs_2014E3_a",

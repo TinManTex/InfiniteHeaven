@@ -1,5 +1,5 @@
 -- Example_Defaults.lua
--- Defaults / example of all profile options for IH r205
+-- Defaults / example of all profile options for IH r206
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -267,6 +267,11 @@ local this={
 		mbShowShips=0,--{ 0-1 } -- Show ships
 		enableFultonAlarmsMB=0,--{ 0-1 } -- Enable asset alarms
 		enableIRSensorsMB=0,--{ 0-1 } -- Enable IR sensors
+		hideContainersMB=0,--{ 0-1 } -- Hide containers
+		hideAACannonsMB=0,--{ 0-1 } -- Hide AA cannons
+		hideAAGatlingsMB=0,--{ 0-1 } -- Hide AA gatlings
+		hideTurretMgsMB=0,--{ 0-1 } -- Hide turret machineguns
+		hideMortarsMB=0,--{ 0-1 } -- Hide mortars
 		mbUnlockGoalDoors=0,--{ 0-1 } -- Unlock goal doors
 		--Cutscenes menu
 		mbDemoSelection=0,--{ DEFAULT, PLAY, DISABLED } -- MB cutscene play mode

@@ -549,6 +549,12 @@ this.eng={--english
   mbShowShips="Show ships",
   enableFultonAlarmsMB="Enable asset alarms",
   enableIRSensorsMB="Enable IR sensors",
+  hideContainersMB="Hide containers",
+  hideAACannonsMB="Hide AA cannons",
+  hideAAGatlingsMB="Hide AA gatlings",
+  hideTurretMgsMB="Hide turret machineguns",
+  hideMortarsMB="Hide mortars",
+  rerollQuestSelection="Reroll quest selection",
 }--eng end
 
 this.help={}
@@ -658,7 +664,7 @@ this.help.eng={
   itemDropChance="Chance soldier will drop an item when eliminated.",
   randomizeMineTypes="Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.",
   additionalMineFields="In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.",
-    disableSpySearch="Stops the Intel teams enemy spotting audio notification and indication on the idroid map.",
+  disableSpySearch="Stops the Intel teams enemy spotting audio notification and indication on the idroid map.",
   disableHerbSearch="Stops the Intel teams plant spotting audio notification and indication on the idroid map. Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.",
   putEquipOnTrucks="Puts a random piece of equipment on the back of patrol trucks.",
   requestHeliLzToLastMarker=[[
@@ -675,16 +681,13 @@ this.help.eng={
   Move cam with normal move keys 
   <Dash>(Shift or Left stick click) to move up
   <Switch zoom>(Middle mouse or Right stick click) to move down
-  
   Hold the following and move left stick up/down to increase/decrease the settings:
   <Fire> - Zoom/focal length
   <Reload> - Aperture (DOF)
   <Stance> - Focus distance (DOF) 
   <Action> - Cam move speed
   <Ready weapon> - Camera orbit distance
-  
   Or hold <Binocular> and press the above to reset that setting.
-  
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
   soldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",
   allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.",

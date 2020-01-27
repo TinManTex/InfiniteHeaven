@@ -1,5 +1,5 @@
--- ih_quest_q30155.lua
--- IH quest definition - example quest, afgh wailo village hostage
+-- ih_quest_q30155.lua - name of file is used as questName, filname can have any name as long as it has a q3<questId> suffix, see InfQuest.lua
+-- pilot quest testbed
 local this={
   questPackList={
     "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
@@ -7,7 +7,7 @@ local this={
     "/Assets/tpp/pack/mission2/quest/ih/ih_pilot_quest.fpk",--quest fpk
   },
   locationId=TppDefine.LOCATION_ID.MAFR,
-  areaName="lab",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList. 
+  areaName="lab",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.
   --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
   iconPos=Vector3(2617.876,100.002,-1857.330),--position of the quest area circle in idroid
   radius=4,--radius of the quest area circle
@@ -19,5 +19,39 @@ local this={
     "lz_lab_S0000|lz_lab_S_0000",
   },
 }
+
 return this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

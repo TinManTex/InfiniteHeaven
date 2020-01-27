@@ -34,12 +34,17 @@ this.hookFuncs={
       return saveResult
     end,
   },
---  TppSequence={--DEBUGNOW
---    SetNextSequence=function(sequenceName,params)
---      InfCore.Log("TppMission.SetNextSequence:"..tostring(sequenceName))
---      this.TppSequence.SetNextSequence(sequenceName,params)
---    end
---  },
+  TppSequence={
+    SetNextSequence=function(sequenceName,params)
+      local currentId=svars.seq_sequence
+      local prevName=""
+      if currentId then
+        prevName=TppSequence.GetSequenceNameWithIndex(currentId) 
+      end
+      InfCore.Log("TppSequence.SetNextSequence from "..prevName.." to "..sequenceName)
+      this.TppSequence.SetNextSequence(sequenceName,params)
+    end,
+  },
 --tex no go for some reason.
 --  LoadGameDataFromSaveFile=function(area)
 --    return InfCore.PCall(function(area)--DEBUG
@@ -53,9 +58,6 @@ this.hookFuncs={
 }
 
 this.debugPCallHooks={
-  TppQuest={
-    UpdateActiveQuest=true,
-  },
   TppAnimal={
     OnActivateQuest=true,
     OnDeactivateQuest=true,
@@ -65,6 +67,11 @@ this.debugPCallHooks={
     OnActivateQuest=true,
     OnDeactivateQuest=true,
     CheckQuestAllTarget=true,
+    DefineSoldiers=true,
+    SetUpSoldiers=true,
+    ClearDDParameter=true,
+    PrepareDDParameter=true,
+    SetUpDDParameter=true,
   },
   TppGimmick={
     OnActivateQuest=true,
@@ -72,7 +79,35 @@ this.debugPCallHooks={
     CheckQuestAllTarget=true,
   },
   TppMission={
+    ExecuteMissionFinalize=true,
+    MissionFinalize=true,
+    MissionGameEnd=true,
+    OnCanMissionClear=true,
+    ReserveMissionClear=true,
     UpdateObjective=true,
+  },
+  TppQuest={
+    UpdateActiveQuest=true,
+  },
+  TppRevenge={
+    SetUpEnemy=true,
+  },
+  TppScriptBlock={
+    InitScriptBlockState=true,
+    FinalizeScriptBlockState=true,
+    ActivateScriptBlockState=true,
+    DeactivateScriptBlockState=true,
+    RequestActivate=true,
+    Load=true,
+    Unload=true,
+    SaveScriptBlockId=true,
+    PreloadRequestOnMissionStart=true,
+    PreloadSettingOnMissionStart=true,
+    ReloadScriptBlock=true,
+    ResolveSavedScriptBlockInfo=true,
+  },
+  TppSequence={
+    ReserveNextSequence=true,
   },
 }
 
@@ -139,13 +174,20 @@ function this.CreatePreHookShim(moduleName,functionName,hookFunction)
   return nil
 end
 
-local flowFmt="InfHook %s.%s"
+
 --tex GOTCHA doesn't handle multiple return
 function this.CreatePostHookDebugShim(moduleName,functionName,hookFunction)
+  local flowFmt="HookPost %s.%s(%s)"
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     local ShimFunction=function(...)
-      InfCore.LogFlow(stringFormat(flowFmt,moduleName,functionName))
+      local argsStrings={}
+      local arg={...}
+      for i,v in ipairs(arg) do
+        argsStrings[#argsStrings+1]=tostring(v)
+      end
+      local argsString=table.concat(argsStrings,",")
+      InfCore.LogFlow(stringFormat(flowFmt,moduleName,functionName,argsString))
       local ret=PCall(originalFunction,...)
       local hookRet=PCall(hookFunction,...,ret)
 
@@ -158,11 +200,17 @@ end
 
 --tex for wrapping a function in PCall and giving an LogFlow call
 function this.CreateDebugWrap(moduleName,functionName)
-  local flowFmt="InfHook DebugPreWrap %s.%s"
+  local flowFmt="HookPre %s.%s(%s)"
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     local ShimFunction=function(...)
-      InfCore.LogFlow(stringFormat(flowFmt,moduleName,functionName))
+      local argsStrings={}
+      local arg={...}
+      for i,v in ipairs(arg) do
+        argsStrings[#argsStrings+1]=tostring(v)
+      end
+      local argsString=table.concat(argsStrings,",")
+      InfCore.LogFlow(stringFormat(flowFmt,moduleName,functionName,argsString))
       return PCall(originalFunction,...)
     end
     return ShimFunction

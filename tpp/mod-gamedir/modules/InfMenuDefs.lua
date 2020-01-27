@@ -105,6 +105,7 @@ end
 
 this.sideOpsMenu={
   options={
+    InfMenuCommands.rerollQuestSelection,
     Ivars.unlockSideOpNumber,
     Ivars.unlockSideOps,
     Ivars.sideOpsSelectionMode,
@@ -137,6 +138,11 @@ this.motherBaseShowAssetsMenu={
     Ivars.mbShowShips,
     Ivars.enableFultonAlarmsMB,
     Ivars.enableIRSensorsMB,
+    Ivars.hideContainersMB,
+    Ivars.hideAACannonsMB,
+    Ivars.hideAAGatlingsMB,
+    Ivars.hideTurretMgsMB,
+    Ivars.hideMortarsMB,
     Ivars.mbUnlockGoalDoors,
   }
 }
@@ -579,10 +585,11 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
-    InfMenuDefs.appearanceMenu,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
+    Ivars.selectEvent,--DEBUGNOW
+    InfMenuDefs.appearanceMenu,
     Ivars.postExtCommands,--DEBUGNOW
     InfMenuDefs.appearanceDebugMenu,
     Ivars.customSoldierTypeFREE,
@@ -686,7 +693,9 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    Ivars.selectedChangeWeapon,--DEBUGNOW
+    Ivars.warpToListObject,
+    Ivars.dropLoadedEquip,--DEBUGNOW
+    Ivars.dropTestEquip,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
@@ -698,7 +707,6 @@ this.devInMissionMenu={
     InfMenuCommands.setAllFriendly,
     Ivars.selectedCp,
     InfMenuCommands.setSelectedCpToMarkerObjectCp,
-    Ivars.warpToListObject,
     Ivars.warpToListPosition,
     InfMenuCommands.printLatestUserMarker,
     Ivars.debugValue,

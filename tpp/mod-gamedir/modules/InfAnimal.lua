@@ -121,6 +121,7 @@ end
 
 function this.SetupBirds(clusterId)
   local clusterName=InfMain.CLUSTER_NAME[clusterId+1]
+  --tex TODO: i only have positions for mbLayout 3, should either add others, or disable on different layouts
   local clusterCenters=birdCenters[clusterName]
 
   local birdInfo={

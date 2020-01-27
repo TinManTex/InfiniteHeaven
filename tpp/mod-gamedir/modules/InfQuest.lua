@@ -1,6 +1,6 @@
 -- InfQuest.lua
 -- tex implements various sideops/quest selection options
--- also new quest setup
+-- and IH quest addon system
 local this={}
 
 local TppDefine=TppDefine
@@ -13,7 +13,7 @@ this.debugModule=false
 --it uses the q name as the lookup for the lang string name_<qname> and info_<qname>
 --I'm not sure if anything before that has any signifincance, many have quest_ as the prefix, others have the quest area name.
 --Because of this restriction any mod authors that want to build a sideop will have to notify me so to not collide with others
-this.questNameFmt="quest_q3%04d"--tex currently straddling between 30010 : Little Lost Sheep and 39010 : Legendary Brown Bear
+--questNameFmt="q3%04d"--tex currently straddling between 30010 : Little Lost Sheep and 39010 : Legendary Brown Bear
 --tex current questIds claimed
 --q30100 - q30102--IH mb quests
 --q30103--IH quest example
@@ -22,6 +22,9 @@ this.questNameFmt="quest_q3%04d"--tex currently straddling between 30010 : Littl
 --q30156-q30199--darkhaven
 --q30200-q30299--ih reserved
 --q30300-q30349--caplag
+
+--GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla quests.
+--this is governing the qst_* gvars that hold the quest states (see TppGvars).
 
 this.questsRegistered=false
 
@@ -35,6 +38,15 @@ function this.PostModuleReload(prevModule)
   this.questsRegistered=prevModule.questsRegistered
   this.ihQuestNames=prevModule.ihQuestNames
   this.ihQuestsInfo=prevModule.ihQuestsInfo
+end
+
+function this.PostAllModulesLoad()
+  --DEBUGNOW TODO see if these can work as the sole calls to LoadQuestDefs,RegisterQuests.
+  this.LoadQuestDefs()
+  if this.questsRegistered then
+    this.RegisterQuests()
+    --DEBUGNOW
+  end
 end
 
 function this.CanOpenClusterGrade0(questName)
@@ -175,6 +187,29 @@ function this.GetForced()
   end
 end
 
+local gvarFlagNames={
+  "qst_questOpenFlag",
+  "qst_questRepopFlag",
+  "qst_questClearedFlag",
+  "qst_questActiveFlag",
+}
+local gvarFlagTypes=Tpp.Enum(gvarFlagNames)
+
+--CULL
+function this.GetGvarFlags()
+  local gvarFlags={}
+  for questGvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES,TppDefine.QUEST_MAX-1 do
+    gvarFlags[questGvarIndex]={}
+    for i,gvarName in ipairs(gvarFlagNames)do
+      gvarFlags[questGvarIndex][gvarName]=gvars[gvarName][questGvarIndex]
+    end
+  end
+  return gvarFlags
+end
+
+--tex loads the quest definitions/scripts from MGS_TPP\mod\quests
+--the name of the script file will be used for questName throughout the tables
+--name of file can be anything, provided it has a qname suffix (see notes at start of this file).
 --SIDE: this.ihQuestNames,this.ihQuestsInfo
 function this.LoadQuestDefs()
   InfCore.LogFlow("InfQuest.LoadQuestDefs")
@@ -227,70 +262,43 @@ function this.LoadQuestDefs()
     InfCore.PrintInspect(ihQuestsInfo,"LoadQuestDefs ihQuestsInfo")
   end
 
-  --DEBUGNOW
   this.ihQuestNames=ihQuestNames
   this.ihQuestsInfo=ihQuestsInfo
 end
 
---REF TppQuestList.questList={
+--REF
+--TppQuestList.questList={
 --  {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsCombat",clusterName="Combat",
 --    infoList={
 --    {name="mtbs_q42070",invokeStepName="QStep_Start"},
 --    {name="quest_q30100",invokeStepName="QStep_Start"},
+--TppQuestList.questAreaTable
+--tex just grinding through arrays since too many lookup tables are a pain to manage and this is a once-on-load, or on user command function.
 function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
-  --tex TODO: build an area>questList areaQuests index lookup? -- use TppQuest.questAreaToQuestListIndex (after verifying its valid)
-  if not questAreaTable[questName]then
-    for i,areaQuests in ipairs(questList)do
-      if areaQuests.locationId==questInfo.locationId
-        and areaQuests.areaName==questInfo.areaName then
-        local questAdded=false
-        local infoList=areaQuests.infoList
-        for i,areaQuest in ipairs(infoList)do
-          if areaQuest==questName then
-            questAdded=true
-            break
-          end
-        end
-        if not questAdded then
-          questAreaTable[questName]=questInfo.areaName
-          local infoEntry={name=questName,invokeStepName="QStep_Start"}
-          table.insert(infoList,infoEntry)
+  for i,areaQuests in ipairs(questList)do
+    if areaQuests.locationId==questInfo.locationId
+      and areaQuests.areaName==questInfo.areaName then
+
+      local infoList=areaQuests.infoList
+
+      --tex find existing index
+      local infoListIndex
+      for i,areaQuest in ipairs(infoList)do
+        if areaQuest.name==questName then
+          infoListIndex=i
           break
         end
       end
+      --tex get new index
+      if not infoListIndex then
+        infoListIndex=#infoList+1
+      end
+
+      questAreaTable[questName]=questInfo.areaName
+      infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}
+
+      break
     end
-  end
-end
-
-local gvarFlagNames={
-  "qst_questOpenFlag",
-  "qst_questRepopFlag",
-  "qst_questClearedFlag",
-  "qst_questActiveFlag",
-}
-local gvarFlagTypes=Tpp.Enum(gvarFlagNames)
-
---CULL
-function this.GetGvarFlags()
-  local gvarFlags={}
-  for questGvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES,TppDefine.QUEST_MAX-1 do
-    gvarFlags[questGvarIndex]={}
-    for i,gvarName in ipairs(gvarFlagNames)do
-      gvarFlags[questGvarIndex][gvarName]=gvars[gvarName][questGvarIndex]
-    end
-  end
-  return gvarFlags
-end
-
---tex ASSUMPTION: questInfo.areaName valid
---IN/OUT questList,questAreaTable
--- WIP
-function this.AddToQuestListQuick(questList,questAreaTable,questAreaToQuestListIndex,questName,questInfo)
-  if not questAreaTable[questName]then
-    questAreaTable[questName]=questInfo.areaName
-    local areaIndex=questAreaToQuestListIndex[questInfo.areaName]
-    local areaQuests=questList[areaIndex]
-    areaQuests.infoList[#areaQuests.infoList]={name=questName,invokeStepName="QStep_Start"}
   end
 end
 
@@ -298,28 +306,27 @@ end
 --  --[[XXX]]{questName="quest_q30100",questId="quest_q30100",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},--tex
 --  --[[XXX]]{questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
 --IN/OUT: questInfoTable,questTableIndexes
-function this.AddToQuestInfoTable(questInfoTable,questTableIndexes,questName,questInfo)
-  if not questTableIndexes[questName] then
-    local index=#questInfoTable+1
-    questTableIndexes[questName]=index
-    questInfoTable[index]={
-      questName=questName,
-      questId=questName,
-      locationId=questInfo.locationId,
-      clusterId=TppDefine.CLUSTER_DEFINE[questInfo.clusterName],
-      plntId=questInfo.plntId,
-      iconPos=questInfo.iconPos,
-      radius=questInfo.radius,
-      category=questInfo.category,
-    }
-  end
+--DEBUGNOW
+function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,questInfo)
+  local addQuestInfo={
+    questName=questName,
+    questId=questName,
+    locationId=questInfo.locationId,
+    clusterId=TppDefine.CLUSTER_DEFINE[questInfo.clusterName],
+    plntId=questInfo.plntId,
+    iconPos=questInfo.iconPos,
+    radius=questInfo.radius,
+    category=questInfo.category,
+  }
+
+  --tex get existing index (if user manually reloading scripts in-game), or add new (on first call/startup).
+  local questInfoIndex=questInfoIndexes[questName] or #questInfoTable+1
+  questInfoIndexes[questName]=questInfoIndex
+  questInfoTable[questInfoIndex]=addQuestInfo
 end
 
 --CALLER: InfMain OnInitialize, before TppQuest.RegisterQuestList
 --tex basically just pulls together a lot of scattered data for easier setup of new quests
---GOTCHA: since the quest save variables (gvars.qst_questOpenFlag etc) are indexed there will be issues with removing quests
---TODO: if you really want to be able to add/remove willy nilly, instead of automatically registering all in ihQuestsInfo
---have the user manually register/deregister. would have to have saved table of questname to index
 function this.RegisterQuests()
   InfCore.LogFlow("InfQuest.RegisterQuests")
 
@@ -329,26 +336,9 @@ function this.RegisterQuests()
     InfCore.Log("numVanillaUiQuests:"..TppQuest.NUM_VANILLA_UI_QUESTS.." #questInfoTable:"..#questInfoTable)
   end
 
-  --tex already registered, TODO alternatively, set a bool, but if its in the module make sure you transfer it on module reload
-  if this.questsRegistered then
-    InfCore.Log"Quests already registered"
-    --InfCore.PrintInspect(questInfoTable)--DEBUG
-
-    --tex WORKAROUND, cant do in TppQuest.RegisterQuestPackList since it's already using random inside its loop
-    --GOTCHA: since it's putting it into faceId list randomFaceListIH doesn't work with mixed random and defined faces like randomFaceList does
-    for i,questName in ipairs(this.ihQuestNames)do
-      local questInfo=this.ihQuestsInfo[questName]
-      local faceSettings=questInfo.questPackList.randomFaceListIH
-      if faceSettings then
-        questInfo.questPackList.faceIdList=InfEneFova.GetRandomFaces(faceSettings.gender,faceSettings.count)
-      end
-    end
-
-    return
-  end
-
   local TppQuest=TppQuest
   local TppQuestList=TppQuestList
+  local QUEST_DEFINE=TppDefine.QUEST_DEFINE
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
   local openQuestCheckTable=TppQuest.GetCanOpenQuestTable()
@@ -358,7 +348,17 @@ function this.RegisterQuests()
   for i,questName in ipairs(this.ihQuestNames)do
     local questInfo=this.ihQuestsInfo[questName]
 
-    local questIndex=#TppDefine.QUEST_DEFINE+1
+    --tex find existing or new
+    local questIndex
+    for i,_questName in ipairs(QUEST_DEFINE)do
+      if _questName==questName then
+        questIndex=i--DEBUGNOW
+        break
+      end
+    end
+    if not questIndex then
+      questIndex=#QUEST_DEFINE+1
+    end
 
     InfCore.Log("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
     if this.debugModule then
@@ -650,6 +650,31 @@ function this.DisableLandingZones()
         end
       end
     end
+  end
+end
+
+function this.UpdateActiveQuest()
+  for i=0,TppDefine.QUEST_MAX-1 do
+    gvars.qst_questRepopFlag[i]=false
+  end
+
+  for i,areaQuests in ipairs(TppQuestList.questList)do
+    TppQuest.UpdateRepopFlagImpl(areaQuests)
+  end
+  TppQuest.UpdateActiveQuest()
+
+  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
+end
+
+--tex called from quest script to have the external quest defintion script as the quest script
+function this.GetScript(scriptName)
+  InfCore.Log("InfQuest.GetScript: "..tostring(scriptName))
+  local questScript=this.ihQuestsInfo[scriptName]
+  if not questScript then
+    InfCore.Log("InfQuest.GetScript: ERROR could not find quest script "..tostring(scriptName))
+    return {}
+  else
+    return questScript
   end
 end
 

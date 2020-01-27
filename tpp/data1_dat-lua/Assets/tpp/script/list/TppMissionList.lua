@@ -902,6 +902,7 @@ missionPackTable[50050]=function(missionCode)
   TppPackList.AddFOBLayoutPack(missionCode)
 end
 function this.GetLocationPackagePath(locationId)
+  InfCore.LogFlow("TppMissionList.GetLocationPackagePath "..locationId)--tex
   local packPath=locationPackTable[locationId]
   if packPath then
   end

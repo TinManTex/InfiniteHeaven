@@ -443,11 +443,11 @@ this.questPackList={
 function this.BuildQuestAreaTable(questAreaTable)
   for n,areaQuests in ipairs(this.questList)do
     for i,info in ipairs(areaQuests.infoList)do
-      questAreaTable[info.name]=areaQuests.areaName
+      local questName=info.name
+      questAreaTable[questName]=areaQuests.areaName
     end
   end
 end
-
 this.questAreaTable={}--tex TABLESETUP
 this.BuildQuestAreaTable(this.questAreaTable)
 --<

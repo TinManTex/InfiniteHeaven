@@ -312,10 +312,12 @@ this.missionVarsList = {
 	isPhaseOverCaution = false,
 	isRecognizedTarget = false,
 	isSuccessFultonTarget = false,
+	--RETAILBUG undefined 
 	numClusterId,
 	numCurrentClusterGrade,
 	numHostageRecovered,
 	numHostageKilled,
+	--
 	deadStaffList = {},
 	isMarkedTargetByIntel = false,
 	canClearMission_10115 = false,

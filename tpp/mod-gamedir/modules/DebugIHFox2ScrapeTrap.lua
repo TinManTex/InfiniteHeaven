@@ -1,3 +1,4 @@
+--fox2 scrape trap
 local this={
 "trap_0000",
 "trap_0001",

@@ -476,14 +476,15 @@ Puts a random piece of equipment on the back of patrol trucks.
 
 Side ops menu
 -------------
-1: Open specific sideop # : 0-157
-2: Unlock Sideops mode : Off, Force Replayable, Force Open
+1: Reroll quest selection : (Command)
+2: Open specific sideop # : 0-157
+3: Unlock Sideops mode : Off, Force Replayable, Force Open
 Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.
-3: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
+4: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
 Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.
-4: Sideops category filter menu
-5: Force enable enemy heli reinforce (disable heli sideops) : Off, On
-6: Include IH sideops in completion percentage. : Off, On
+5: Sideops category filter menu
+6: Force enable enemy heli reinforce (disable heli sideops) : Off, On
+7: Include IH sideops in completion percentage. : Off, On
 
 Sideops category filter menu
 - Filters selection of sideops per category, Sideop selection mode will override this.
@@ -567,7 +568,12 @@ Show assets menu
 Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.
 6: Enable IR sensors : Off, On
 Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.
-7: Unlock goal doors : Off, On
+7: Hide containers : Off, On
+8: Hide AA cannons : Off, On
+9: Hide AA gatlings : Off, On
+10: Hide turret machineguns : Off, On
+11: Hide mortars : Off, On
+12: Unlock goal doors : Off, On
 
 Cutscenes menu
 --------------
@@ -589,16 +595,13 @@ Camera menu
   Move cam with normal move keys 
   &ltDash&gt(Shift or Left stick click) to move up
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
-  
   Hold the following and move left stick up/down to increase/decrease the settings:
   &ltFire&gt - Zoom/focal length
   &ltReload&gt - Aperture (DOF)
   &ltStance&gt - Focus distance (DOF) 
   &ltAction&gt - Cam move speed
   &ltReady weapon&gt - Camera orbit distance
-  
   Or hold &ltBinocular&gt and press the above to reset that setting.
-  
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
 3: Warp body to FreeCam position : (Command)
@@ -673,13 +676,14 @@ Logs some script execution flow, requires Debug IH mode to be on.
 6: loadExternalModules : (Command)
 7: copyLogToPrev : (Command)
 8: printPressedButtons : Off, On
-9: Show position : (Command)
-10: Show missionCode : (Command)
-11: Show game language code : (Command)
-12: appearanceDebugMenu
-13: Disable game over : Off, On
-14: Disable out of bounds checks : Off, On
-15: Disable mission intro credits : Off, On
+9: showFreeCamPosition : (Command)
+10: Show position : (Command)
+11: Show missionCode : (Command)
+12: Show game language code : (Command)
+13: appearanceDebugMenu
+14: Disable game over : Off, On
+15: Disable out of bounds checks : Off, On
+16: Disable mission intro credits : Off, On
 
 appearanceDebugMenu
 -------------------
@@ -744,16 +748,13 @@ Camera menu
   Move cam with normal move keys 
   &ltDash&gt(Shift or Left stick click) to move up
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
-  
   Hold the following and move left stick up/down to increase/decrease the settings:
   &ltFire&gt - Zoom/focal length
   &ltReload&gt - Aperture (DOF)
   &ltStance&gt - Focus distance (DOF) 
   &ltAction&gt - Cam move speed
   &ltReady weapon&gt - Camera orbit distance
-  
   Or hold &ltBinocular&gt and press the above to reset that setting.
-  
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
 3: Warp body to FreeCam position : (Command)
@@ -880,7 +881,8 @@ Logs some script execution flow, requires Debug IH mode to be on.
 20: Disable game over : Off, On
 21: Disable out of bounds checks : Off, On
 22: setAllFriendly : (Command)
-23: Show position : (Command)
+23: showFreeCamPosition : (Command)
+24: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

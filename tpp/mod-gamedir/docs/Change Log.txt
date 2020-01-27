@@ -1,5 +1,37 @@
 Infinite Heaven changelog
 
+r206 - 2017-05-02
+
+FreeCam: Speed adjust rate change to be slower.
+
+Option: rerollQuestSelection - Reroll quest selection
+(via Sideops menu)
+
+Fixed: NPC positions on outer clusters when command cluster is under grad 4/not fully built (currently just disabling NPCs on the outer clusters for that situation).
+
+Fixed: XRay markers. 
+No idea how I broke it, or more specifically why it was working when it was called where it was.
+
+Command: selectedChangeWeapon renamed dropTestEquip
+Command: dropLoadedEquip pulls from loadEquip table.
+Command: selectEvent
+
+Option: hideContainersMB - "Hide containers"
+Option: hideAACannonsMB - "Hide AA cannons"
+Option: hideAAGatlingsMB - "Hide AA gatlings"
+Option: hideTurretMgsMB - "Hide turret machineguns"
+(via Mother base > Show Assets menu)
+Removing AA guns can be good for wargames if you dont want something that can swiss cheese helis around.
+Removing all the AA and the conainers can be useful if you want to drive/gallop around the platforms without so much stuff being in the way.
+
+Fixed: Some custom soldier type/dd suit bodies incorrect.
+
+Debuging: Logging of TpSequence.SetNextSequence
+InfHooks: Debughooks also logging function args
+
+InfQuest: Allow quest block script to use external quest definition as its replacement. 
+InfQuest: Reworked to allow reloading scripts while in-game.
+
 r205 - 2017-04-29
 Addition: DD Suit - Fatigues All - will have random selection from all fatigue camos.
 

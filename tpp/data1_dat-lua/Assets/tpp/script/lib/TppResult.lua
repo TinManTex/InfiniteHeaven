@@ -154,14 +154,14 @@ function this.SetSpecialBonusMaxCount(e)
   end
 end
 function this._CompleteBonus(isCompleteSvar,bonusTask)
-  local t=true
+  local isComplete=true
   if svars[isCompleteSvar]then
-    t=false
+    isComplete=false
   end
   svars[isCompleteSvar]=true
   if bonusTask then
     bonusTask.isComplete=true
-    TppUI.EnableMissionTask(bonusTask,t)
+    TppUI.EnableMissionTask(bonusTask,isComplete)
   end
 end
 function this.RegistNoMissionClearRank()
@@ -967,7 +967,7 @@ function this._SetSpecialBonusResultScore(t,i,n,r,s,o,a)
     TppUiCommand.SetResultScore("invalid","bonus",t)
     return
   end
-  local s=this.MakeMissionTaskLangId(a.taskNo)
+  local taskLangId=this.MakeMissionTaskLangId(a.taskNo)
   local a=svars[i]
   if(not svars[o])and(a==0)then
     TppUiCommand.SetResultScore("invalid","bonus",t)
@@ -979,17 +979,17 @@ function this._SetSpecialBonusResultScore(t,i,n,r,s,o,a)
     e=a
   end
   if e==-1 then
-    TppUiCommand.SetResultScore(s,"bonus",t,e,n)
+    TppUiCommand.SetResultScore(taskLangId,"bonus",t,e,n)
   else
-    TppUiCommand.SetResultScore(s,"bonus_rate",t,e,r,n)
+    TppUiCommand.SetResultScore(taskLangId,"bonus_rate",t,e,r,n)
   end
 end
-function this.MakeMissionTaskLangId(t)
-  local e=vars.missionCode
-  if(e>=11e3)and(e<12e3)then
-    e=e-1e3
+function this.MakeMissionTaskLangId(taskNo)
+  local missionCode=vars.missionCode
+  if(missionCode>=11e3)and(missionCode<12e3)then
+    missionCode=missionCode-1e3
   end
-  return"task_mission_"..(string.format("%02d",vars.locationCode)..("_"..(tostring(e)..("_"..string.format("%02d",t)))))
+  return"task_mission_"..(string.format("%02d",vars.locationCode)..("_"..(tostring(missionCode)..("_"..string.format("%02d",taskNo)))))
 end
 function this.SaveMissionClearPlayStyleParameter()
   if svars.bestScorePerfectStealthNoKillBonusScore>0 then

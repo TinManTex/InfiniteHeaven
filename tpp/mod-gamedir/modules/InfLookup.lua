@@ -62,7 +62,7 @@ function this.PostAllModulesLoad()
 
   InfCore.PCallDebug(this.AddObjectNamesToStr32List)
   InfCore.PCallDebug(this.BuildSubtitleIdLookup)
-  
+
   if this.debugModule then
     InfCore.PrintInspect(this.lookups,"InfLookup.lookups")
   end
@@ -273,10 +273,10 @@ function this.SubtitleIdToSubtitleName(subtitleId)
   local subtitleName=this.subtitleIdToSubtitleName[subtitleId]
   if subtitleName then
     --tex> TODO: actually check log when this fires with valid (see note in BuildSubtitleIdLookup), see uses of ConvertToSubtitlesId for missions/cases to test
---    local str32=Fox.StrCode32[subtitleName]
---    if str32==subtitleId then
---      InfCore.Log("InfLookup.SubtitleIdToSubtitleName str32==subtitleId")
---    end
+    --    local str32=Fox.StrCode32[subtitleName]
+    --    if str32==subtitleId then
+    --      InfCore.Log("InfLookup.SubtitleIdToSubtitleName str32==subtitleId")
+    --    end
     --<
     return subtitleName
   end
@@ -337,11 +337,11 @@ function this.GetObjectList()
   -- return objectNameLists[4]
   --return InfSoldier.ene_wildCardNames
   --return InfNPC.hostageNames
- -- return this.objectNameLists.sol_quest
-    --return {"hos_quest_0000"}
-    --return InfWalkerGear.walkerNames
-    --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
-    return {"vehicle_quest_0000"}
+  -- return this.objectNameLists.sol_quest
+  --return {"hos_quest_0000"}
+  --return InfWalkerGear.walkerNames
+  return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
+  --return {"vehicle_quest_0000"}
 end
 
 --tex for Ivars.warpToListObject
@@ -399,7 +399,21 @@ function this.ObjectNameForGameIdList(findId,list,objectType)
   end
 end
 --returns name or nil
-function this.ObjectNameForGameId(findId)
+
+function this.GameObjectNameFromSoldierIDList(findId)
+  if mvars.ene_soldierIDList then
+    for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
+      for soldierId,soldierName in pairs(soldierIds)do
+        if soldierId==findId then
+          local cpName=mvars.ene_cpList[cpId]
+          return soldierName,cpName
+        end
+      end
+    end
+  end
+end
+
+function this.ObjectNameForGameId(findId,objectType)
   if findId==0 then
     return "Player"--ASSUMPTION -- player instance 0, single player/local player
   end
@@ -412,21 +426,19 @@ function this.ObjectNameForGameId(findId)
     return "NULL_ID"
   end
 
-  if mvars.ene_soldierIDList then
-    for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
-      for soldierId,soldierName in pairs(soldierIds)do
-        if soldierId==findId then
-          local cpName=mvars.ene_cpList[cpId]
-          return soldierName,cpName
-        end
-      end
+  if not objectType or objectType=="TppSoldier2" then
+    local objectName=this.GameObjectNameFromSoldierIDList(findId)
+    if objectName then
+      return objectName
     end
   end
 
   for listName,list in pairs(this.objectNameLists) do
     local objectName
-    if type(list[1])=="table" then
-      objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
+    if type(list[1])=="table" then--tex {{nameList},"objectType"}
+      if not objectType or objectType==list[2] then
+        objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
+    end
     else
       objectName=this.ObjectNameForGameIdList(findId,list)
     end
@@ -435,7 +447,15 @@ function this.ObjectNameForGameId(findId)
     end
   end
 
-  
+  if DebugIHStringsGameObjectNames then
+    local module=DebugIHStringsGameObjectNames
+    if module.lookupStrings then
+      local objectName=this.ObjectNameForGameIdList(findId,module.lookupStrings)
+      if objectName then
+        return objectName
+      end
+    end
+  end
   --nuclear option, try str32 lists
   --  for i,module in ipairs(InfModules) do
   --    if module.lookupStrings then
@@ -878,6 +898,13 @@ local gameClasses={
   "TppSystem",
 }
 
+--tex player carry soldier/hostage
+this.carryState={
+  [0]="START",--going through pick up animation
+  [1]="END",--dropped/thrown
+  [2]="CARRYING",
+}
+
 --tex simplified lookup name to lookup table or function
 this.lookups={
   str32=this.StrCode32ToString,
@@ -888,6 +915,7 @@ this.lookups={
   popupId=this.PopupErrorId,
   landingZone=this.LandingZoneName,
   subtitleId=this.SubtitleIdToSubtitleName,
+  carryState=this.carryState,
 }
 --tex crushes down this[gameclass][lookup] to lookups[lookup] - ex this.lookups.phase=TppGameObject.phase
 for i,gameClass in ipairs(gameClasses)do
@@ -911,10 +939,12 @@ function this.Lookup(lookupType,value)
   return lookedupValue
 end
 
+--tex message signatures for PrintOnMessage/Ivars.debugMessages
 -- {
 --  TYPE={
 --    MSG={
 --      [arg(n+1)]={argName=<arg name>,argType=<lookupType>},
+-- lookupType for this.lookups table.
 this.messageSignatures={
   Block={
     OnScriptBlockStateTransition={
@@ -950,6 +980,10 @@ this.messageSignatures={
     CalledFromStandby={--SupportHeli
       {argName="gameId",argType="gameId"},
     },
+    Carried={--carry soldier/hostage
+      {argName="gameId",argType="gameId"},
+      {argName="carryState",argType="carryState"},
+    },
     ChangePhase={
       {argName="cpId",argType="cpId"},
       {argName="phase",argType="phase"},
@@ -973,7 +1007,7 @@ this.messageSignatures={
       {argName="gameId",argType="gameId"},
       {argName="gimmickInstanceOrAnimalId",argType="number"},
       {argName="gimmickDataSet",argType="str32"},--TODO:
-      {argName="staffIdorResourceId",argType="number"},--TODO:
+      {argName="staffIdOrResourceId",argType="number"},--TODO:
     },
     FultonInfo={
       {argName="gameId",argType="gameId"},
@@ -1105,23 +1139,27 @@ this.messageSignatures={
     },
   },
   Player={
-    --    CalcFultonPercent={--tex TODO: only first two arg appear for some things, test to see if gimmick args do actually show when next to container or some other gimmick
-    --      {argName="playerIndex",argType="gameId"},--tex assumed
-    --      {argName="gameId",argType="gameId"},
-    --      {argName="gimmickInstanceOrAnimalId",argType="number"},
-    --      {argName="gimmickDataSet",argType="number"},--TODO:
-    --      {argName="stafforResourceId",argType="number"},--TODO:
-    --    },
-    --    CalcDogFultonPercent={
-    --      {argName="playerIndex",argType="gameId"},--tex assumed
-    --      {argName="gameId",argType="gameId"},
-    --      {argName="gimmickInstanceOrAnimalId",argType="number"},
-    --      {argName="gimmickDataSet",argType="number"},--TODO:
-    --      {argName="stafforResourceId",argType="number"},--TODO:
-    --    },
+        CalcFultonPercent={--tex TODO: only first two arg appear? test to see if gimmick args do actually show when next to container or some other gimmick
+          {argName="playerIndex",argType="gameId"},--tex assumed
+          {argName="gameId",argType="gameId"},
+--          {argName="gimmickInstanceOrAnimalId",argType="number"},
+--          {argName="gimmickDataSet",argType="number"},--TODO:
+--          {argName="stafforResourceId",argType="number"},--TODO:
+        },
+        CalcDogFultonPercent={
+          {argName="playerIndex",argType="gameId"},--tex assumed
+          {argName="gameId",argType="gameId"},
+--          {argName="gimmickInstanceOrAnimalId",argType="number"},
+--          {argName="gimmickDataSet",argType="number"},--TODO:
+--          {argName="stafforResourceId",argType="number"},--TODO:
+        },
     CBoxSlideEnd={
       {argName="gameId",argType="gameId"},--tex player instance I guess
       {argName="distance",argType="number"},--tex distance of slide
+    },
+    Dead={
+      {argName="playerId",argType="gameId"},
+      {argName="deathType",argType="str32"},
     },
     Enter={--tex mission zones
       {argName="zoneType",argType="str32"},--tex outerZone,innerZone,hotZone
@@ -1130,7 +1168,7 @@ this.messageSignatures={
       {argName="gameId",argType="gameId"},--tex player instance I guess
       {argName="targetObjectId",argType="gameId"},
       {argName="isContainer",argType="number"},--boolAsNumber
-      {argName="isContainer",argType="number"},--boolAsNumber
+      {argName="isNuclear",argType="number"},--boolAsNumber
     },
     OnAmmoLessInMagazine={
       {argName="unk0",argType="number"},--TODO
@@ -1166,7 +1204,7 @@ this.messageSignatures={
     OnPickUpWeapon={
       {argName="playerIndex",argType="number"},
       {argName="equipId",argType="equipId"},
-      {argName="blueprintNumber",argType="number"},--blueprint number, ? VERIFY
+      {argName="pickupNumber",argType="number"},--blueprint number or casset number or ? VERIFY doesnt seem to directly match countRaw on the TppPickableLocatorParameter as arg3 was returning 60 for a rawcount 1
     },
     OnVehicleRide_Start={
       {argName="playerId",argType="number"},
@@ -1177,6 +1215,10 @@ this.messageSignatures={
       {argName="playerIndex",argType="number"},
       {argName="attackId",argType="attackId"},
       {argName="attackerId",argType="gameId"},
+    },
+    PlayerFulton={
+      {argName="playerIndex",argType="number"},
+      {argName="targetId",argType="gameId"},
     },
     PlayerHoldWeapon={
       {argName="equipId",argType="equipId"},
@@ -1190,9 +1232,10 @@ this.messageSignatures={
       {argName="unk2",argType="number"},--TODO
       {argName="unk3",argType="number"},--TODO
     },
-    PlayerFulton={
-      {argName="playerIndex",argType="number"},
-      {argName="targetId",argType="gameId"},
+    PutMarkerWithBinocle={
+      {argName="x",argType="number"},
+      {argName="y",argType="number"},
+      {argName="z",argType="number"},
     },
     SetMarkerBySearch={--tex object was marked by looking at it
       {argName="typeIndex",argType="typeIndex"},
@@ -1407,14 +1450,17 @@ function this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
       hasArgs=true
 
       if argDef then
-        local argValue=this.Lookup(argDef.argType,arg) or tostring(arg)
+        local lookupValue=this.Lookup(argDef.argType,arg)
         local argTypeSuff=""
-        --if this.debugModule then --tex TODO always give type if the lookup failed?
-        if argDef.argName~=argDef.argType or argValue==tostring(arg) then--tex KLUDGE
+        if argDef.argName~=argDef.argType or lookupValue==nil then--tex KLUDGE
           argTypeSuff=" ("..argDef.argType..")"
         end
-        --end
-        argsString=argsString..argDef.argName.."="..argValue..argTypeSuff..", "
+        if lookupValue then
+          lookupValue=arg..":"..lookupValue--DEBUGNOW
+        else
+          lookupValue=tostring(arg)
+        end
+        argsString=argsString..argDef.argName.."="..lookupValue..argTypeSuff..", "
       else
         InfCore.Log("InfLookup.PrintMessageSignature: WARNING: incomplete signature? no var found for arg"..tostring(argNum)..":"..tostring(arg))
         --tex TODO: fall back to normal try-all-lookups

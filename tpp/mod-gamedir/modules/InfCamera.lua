@@ -274,7 +274,7 @@ function this.DoControlSet(currentChecks)
         --        local camMoveDir=rotYQuat:Rotate(vMoveDir)
         --        movePosition=movePosition+camMoveDir
       elseif InfButton.ButtonDown(InfMain.speedModeButton) then
-        local newValue=moveScale:Get()-leftStickY*adjustScaleSlow--WIP TODO own scale
+        local newValue=moveScale:Get()-leftStickY*adjustScaleVerySlow--WIP TODO own scale
         newValue=IvarClamp(moveScale,newValue)
         moveScale:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.distanceModeButton) then

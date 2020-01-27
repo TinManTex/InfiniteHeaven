@@ -1131,9 +1131,15 @@ local function Stringify()
 --  local inFile=stringsPath.."scrapetppxml.txt"
 --  local outFile=stringsPath.."scrapetppxmlstrinified.txt"
 
-  local stringsPath=[[D:\Projects\MGS\MGSVTOOLS\FoxEngine.TranslationTool.v0.2.4\]]
-  local inFile=stringsPath.."lang_dictionary.txt"
-  local outFile=stringsPath.."lang_dictionary_stringified.txt"
+--  local stringsPath=[[D:\Projects\MGS\MGSVTOOLS\FoxEngine.TranslationTool.v0.2.4\]]
+--  local filename="lang_dictionary"
+
+  local stringsPath=[[D:\Projects\MGS\Tools\]]
+  local filename="scrapegameobjectnames"
+  
+  
+  local inFile=stringsPath..filename..".txt"
+  local outFile=stringsPath..filename.."_stringified.txt"
 
   local file=io.open(inFile,"r")
   if file==nil then

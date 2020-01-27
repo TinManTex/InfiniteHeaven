@@ -1918,7 +1918,6 @@ sequences.Seq_Game_Setup = {
   OnUpdate = function()
     local blockId = ScriptBlock.GetScriptBlockId(SCRIPT_BLOCK_NAME)
     if blockId == ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
-
       Fox.Error(SCRIPT_BLOCK_NAME .. " is not found")
       TppSequence.SetNextSequence("Seq_Game_MainGame")
       return

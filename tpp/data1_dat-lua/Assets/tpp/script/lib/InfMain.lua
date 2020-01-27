@@ -92,6 +92,8 @@ end
 --CALLER: TppEneFova.PreMissionLoad
 function this.PreMissionLoad(missionId,currentMissionId)
   InfCore.LogFlow"InfMain.PreMissionLoad"
+  
+  this.ClearXRay()
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.PreMissionLoad) then
@@ -1418,8 +1420,11 @@ function this.ClearMarkers()
   if Ivars.disableWorldMarkers:Is(1) then
     TppUiStatusManager.SetStatus("WorldMarker","INVALID")
   end
+end
+
+function this.ClearXRay()
   if Ivars.disableXrayMarkers:Is(1) then
-    --TppSoldier2.DisableMarkerModelEffect()
+    --TppSoldier2.DisableMarkerModelEffect() 
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   end
 end
@@ -1984,7 +1989,7 @@ function this.LoadLibraries()
   InfCore.LogFlow"InfMain.LoadLibraries"
   this.LoadModelInfoModules()
   if InfQuest then
-    InfQuest.LoadQuestDefs()
+   --DEBUGNOW InfQuest.LoadQuestDefs()
   end
 end
 

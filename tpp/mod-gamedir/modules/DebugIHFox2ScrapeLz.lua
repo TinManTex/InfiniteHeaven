@@ -1,3 +1,4 @@
+--fox2 scrape lz
 local this={
 "lz_apr_diamond_S_s10100",
 "lz_banana_E0000|lz_banana_E_0000",

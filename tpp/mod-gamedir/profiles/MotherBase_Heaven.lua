@@ -46,6 +46,7 @@ local this={
     mbShowSahelan=1,--{ 0-1 } -- Show Sahelanthropus
     mbUnlockGoalDoors=1,--{ 0-1 } -- Unlock goal doors
     mbShowShips=1,--{ 0-1 } -- Show ships
+    enableIRSensorsMB=1,--{ 0-1 } -- Enable IR sensors
   }
 }
 return this

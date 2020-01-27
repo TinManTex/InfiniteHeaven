@@ -1,4 +1,4 @@
-
+--fox2 scrape afgh
 local this={}
 this.lookupStrings={
 "afgh",

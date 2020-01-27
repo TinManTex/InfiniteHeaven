@@ -88,13 +88,15 @@ function this.GenerateEvent(missionCode)
     InfCore.Log("InfGameEvent.GenerateEvent missionCode:"..missionCode)--DEBUG
     --    InfCore.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
     --    InfCore.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
-    this.forceEvent=false
+
 
     if missionCode==30050 then
       this.GenerateWarGameEvent(missionCode)
     elseif missionCode==30010 or missionCode==30020 then
       this.GenerateRoamEvent(missionCode)
     end
+
+    this.forceEvent=false
 
     InfCore.PrintInspect(this.inf_enabledEvents,{varName="InfGameEvent.inf_enabledEvents"})
   end
@@ -158,11 +160,25 @@ function this.GenerateRoamEvent(missionCode)
 
   this.inf_enabledEvents={}
   local numEvents=0
-  for i=1,#roamEventNames do
-    if math.random(100)<100/#roamEventNames then--TUNE
-      local eventName=roamEventNames[i]
-      this.inf_enabledEvents[eventName]=true
-      numEvents=numEvents+1
+
+  local forcedEvent=false
+  if this.forceEvent then
+    if type(this.forceEvent)=="string" then
+      if roamEventNames[this.forceEvent] then
+        forcedEvent=this.forceEvent
+      end
+    end
+  end
+  if forcedEvent then
+    this.inf_enabledEvents[forcedEvent]=true
+    numEvents=numEvents+1
+  else
+    for i=1,#roamEventNames do
+      if math.random(100)<100/#roamEventNames then--TUNE
+        local eventName=roamEventNames[i]
+        this.inf_enabledEvents[eventName]=true
+        numEvents=numEvents+1
+      end
     end
   end
   if numEvents==0 then
@@ -368,6 +384,13 @@ function this.GenerateWarGameEvent()
   this.inf_enabledEvents={}
 
   local warGame=warGames[math.random(#warGames)]
+  if this.forceEvent then
+    if type(this.forceEvent)=="string" then
+      if warGamesEnum[this.forceEvent] then
+        warGame=this.forceEvent
+      end
+    end
+  end
   --local warGame="TRAINING"--DEBUG
   this.inf_enabledEvents[warGame]=true
   local wargameBaseType=warGamesBaseTypes[warGame]
@@ -396,6 +419,17 @@ end
 function this.ForceEvent()
   InfMenu.PrintLangId"event_forced"
   this.forceEvent=true
+end
+
+function this.GetEventNames()
+  local eventNames={}
+  for i,eventName in ipairs(roamEventNames)do
+    eventNames[#eventNames+1]=eventName
+  end
+  for i,eventName in ipairs(warGames)do
+    eventNames[#eventNames+1]=eventName
+  end
+  return eventNames
 end
 
 return this

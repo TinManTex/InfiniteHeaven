@@ -69,16 +69,19 @@ this.bodyInfo={
       TppEnemyBodyId.dds5_main0_ply_v06,
       TppEnemyBodyId.dds5_main0_ply_v07,
       TppEnemyBodyId.dds5_main0_ply_v08,
+      --none TppEnemyBodyId.dds5_main0_ply_v09,
       TppEnemyBodyId.dds5_main0_ply_v10,
       TppEnemyBodyId.dds5_main0_ply_v11,
       TppEnemyBodyId.dds5_main0_ply_v12,
       TppEnemyBodyId.dds5_main0_ply_v13,
       TppEnemyBodyId.dds5_main0_ply_v14,
+      --none TppEnemyBodyId.dds5_main0_ply_v15,
       TppEnemyBodyId.dds5_main0_ply_v16,
       TppEnemyBodyId.dds5_main0_ply_v17,
       TppEnemyBodyId.dds5_main0_ply_v18,
       TppEnemyBodyId.dds5_main0_ply_v19,
       TppEnemyBodyId.dds5_main0_ply_v20,
+      --none TppEnemyBodyId.dds5_main0_ply_v21,
       TppEnemyBodyId.dds5_main0_ply_v22,
       TppEnemyBodyId.dds5_main0_ply_v23,
       TppEnemyBodyId.dds5_main0_ply_v24,
@@ -999,9 +1002,10 @@ this.bodyInfo={
 }
 --TABLESETUP
 function this.GetBodyIds(bodyInfo)
-  local bodyIds=bodyInfo.bodyIds or {}
+  local bodyIds=bodyInfo.bodyIds
   if bodyIds then
   elseif bodyInfo.soldierSubType then
+    bodyIds={}
     local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
     if bodyIdTable then
       for powerType,bodyTable in pairs(bodyIdTable)do

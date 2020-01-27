@@ -1657,16 +1657,7 @@ IvarProc.MissionModeIvars(
 )
 
 function this.UpdateActiveQuest()
-  for i=0,TppDefine.QUEST_MAX-1 do
-    gvars.qst_questRepopFlag[i]=false
-  end
-
-  for i,areaQuests in ipairs(TppQuestList.questList)do
-    TppQuest.UpdateRepopFlagImpl(areaQuests)
-  end
-  TppQuest.UpdateActiveQuest()
-
-  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
+  InfQuest.UpdateActiveQuest()
 end
 
 this.unlockSideOps={
@@ -3636,8 +3627,50 @@ this.selectedCp={
 }
 
 --
-local currentCategory=0
-this.selectedChangeWeapon={--WIP
+this.dropLoadedEquip={--WIP
+  inMission=true,
+  nonConfig=true,
+  --OFF save=EXTERNAL,
+  range={max=1,min=1},--tex DYNAMIC
+  OnSelect=function(self)
+    self.range.max=#InfEquip.currentLoadTable
+    if self.range.max==0 then
+      self.range.max=1
+    end
+  end,
+  GetSettingText=function(self,setting)
+    local equipId=InfEquip.currentLoadTable[setting]
+    local equipName=InfLookup.TppEquip.equipId[equipId]
+    return tostring(equipName)
+  end,
+  OnActivate=function(self,setting)
+    local equipId=InfEquip.currentLoadTable[setting]
+    local equipName=InfLookup.TppEquip.equipId[equipId]
+    if equipId==nil then
+      InfCore.DebugPrint("no equipId found for "..equipName)
+      return
+    else
+      InfCore.DebugPrint("drop "..equipName)
+      local dropPosition=Vector3(vars.playerPosX,vars.playerPosY+1,vars.playerPosZ)
+
+      local linearMax=2
+      local angularMax=14
+
+      local number=100
+
+      TppPickable.DropItem{
+        equipId=equipId,
+        number=number,
+        position=dropPosition,
+        rotation=Quat.RotationY(0),
+        linearVelocity=Vector3(math.random(-linearMax,linearMax),math.random(-linearMax,linearMax),math.random(-linearMax,linearMax)),
+        angularVelocity=Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
+      }
+    end
+  end,
+}
+
+this.dropTestEquip={--WIP
   inMission=true,
   nonConfig=true,
   --OFF save=EXTERNAL,
@@ -3748,6 +3781,21 @@ IvarProc.MissionModeIvars(
   },
   {"FREE","MB",}
 )
+
+--DEBUGNOW
+this.selectEvent={
+  save=EXTERNAL,
+  range={max=1},--DYNAMIC
+  OnSelect=function(self)
+    self.settingNames=InfGameEvent.GetEventNames()
+    InfCore.PrintInspect(self.settings)--DEBUGNOW
+    self.range.max=#self.settingNames-1
+  end,
+  OnActivate=function(self,setting)
+    InfMenu.PrintLangId"event_forced"--DEBUGNOW
+    InfGameEvent.forceEvent=self.settingNames[setting+1]
+  end,
+}
 
 --parasite
 this.enableParasiteEvent={
@@ -3915,7 +3963,7 @@ this.warpToListPosition={
   end,
 }
 
---mb assets --DEBUGNOW
+--mb assets
 this.enableIRSensorsMB={
   save=EXTERNAL,
   range=this.switchRange,
@@ -3923,6 +3971,36 @@ this.enableIRSensorsMB={
 }
 
 this.enableFultonAlarmsMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideContainersMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideAACannonsMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideAAGatlingsMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideTurretMgsMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideMortarsMB={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",

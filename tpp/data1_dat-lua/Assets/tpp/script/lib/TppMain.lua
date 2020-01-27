@@ -170,9 +170,10 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   do
     local allSvars={}
     this.allSvars=allSvars--tex DEBUG see Ivars debug thingamy
-    for t,lib in ipairs(Tpp._requireList)do
+    for i,lib in ipairs(Tpp._requireList)do
       if _G[lib]then
         if _G[lib].DeclareSVars then
+          InfCore.LogFlow(lib..".DeclareSVars")--tex DEBUG
           ApendArray(allSvars,_G[lib].DeclareSVars(missionTable))
         end
       end
@@ -363,8 +364,9 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     mvars.loc_locationCommonTable.OnInitialize()
   end
   TppLandingZone.OnInitialize()
-  for t,lib in ipairs(Tpp._requireList)do
+  for i,lib in ipairs(Tpp._requireList)do
     if _G[lib].Init then
+      InfCore.LogFlow(lib..".Init")--tex DEBUG
       _G[lib].Init(missionTable)
     end
   end
@@ -842,8 +844,9 @@ function this.OnReload(missionTable)
       TppEnemy.MakeShiftChangeTable()
     end
   end
-  for t,lib in ipairs(Tpp._requireList)do
+  for i,lib in ipairs(Tpp._requireList)do
     if _G[lib].OnReload then
+      InfCore.LogFlow(lib..".OnReload")--tex DEBUG
       _G[lib].OnReload(missionTable)
     end
   end
@@ -884,6 +887,7 @@ end
 function this.OnChangeSVars(subScripts,varName,key)
   for i,lib in ipairs(Tpp._requireList)do
     if _G[lib].OnChangeSVars then
+      InfCore.LogFlow(lib..".OnChangeSVars")--tex DEBUG
       _G[lib].OnChangeSVars(varName,key)
     end
   end

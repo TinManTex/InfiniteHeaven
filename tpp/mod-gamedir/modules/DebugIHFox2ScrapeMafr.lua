@@ -1,5 +1,4 @@
-
-
+--fox2 scrape mafr
 local this={}
 this.lookupStrings={
 "mafr",

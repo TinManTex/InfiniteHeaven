@@ -1053,14 +1053,23 @@ function this.InitCluster(clusterId)
   end
 
   clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
-  if this.debugModule then
-    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]))
-  end
 
   local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+  local commandGrade=TppLocation.GetMbStageClusterGrade(0)
+  
   if this.debugModule then
-    InfCore.Log("grade:"..tostring(grade))
+    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]).." grade:"..tostring(grade).." commandGrade:"..tostring(commandGrade))
   end
+  
+  --tex WORKAROUND outer cluster positions change depending on the command grade (due to the amount of connections for bridges on the command plats)
+  --and currently only have positions for mbLayout 3 - all plats on command built
+  --command (clusterId 0) is fine, plat positions dont change
+  if clusterId~=0 then 
+    if commandGrade<4 then
+      grade=0--tex bail out
+    end
+  end
+
   --tex no plats on cluster
   if grade==0 then
     return
@@ -1094,7 +1103,7 @@ function this.InitCluster(clusterId)
       end
     end
   end
-  if this.debugModule then--DEBUGNOW
+  if this.debugModule then
   --InfCore.PrintInspect(positionBags,"positionBags")
   end
   --DEBUGNOW TODO if positionBag empty then warn, abort

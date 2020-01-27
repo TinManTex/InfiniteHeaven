@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="205"
+this.modVersion="206"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -284,6 +284,9 @@ end
 function this.LogFlow(message)
   if not this.debugMode then
     return false
+  end
+  if ivars and not ivars.debugFlow then
+    return --DEBUGNOW
   end
   --  local stackLevel=2
   --  local stackInfo=debug.getinfo(stackLevel,"n")

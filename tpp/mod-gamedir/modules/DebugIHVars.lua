@@ -13,7 +13,7 @@ function this.PostAllModulesLoad()
 
   --InfNPC.debugModule=true
   --InfModelProc.debugModule=true
-  --InfQuest.debugModule=true
+  InfQuest.debugModule=true
   --TppQuest.debugModule=true
   --InfInterrogation.debugModule=true
   --InfMBGimmick.debugModule=true
@@ -21,7 +21,8 @@ function this.PostAllModulesLoad()
 
   --TODO hangs InfWalkerGear=true
 
- Ivars.customSoldierTypeFREE:Set"OFF"--DEBUGNOW
+ --Ivars.customSoldierTypeFREE:Set"OFF"
+ --Ivars.disableXrayMarkers:Set(1)
 
 end
 

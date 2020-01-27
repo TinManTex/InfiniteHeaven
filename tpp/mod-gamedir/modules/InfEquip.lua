@@ -23,6 +23,8 @@ this.inf_dropQueue={}
 local dropTimeOut=7*60
 local dropTimer=0.6
 
+this.currentLoadTable={}
+
 this.tppEquipTableTest={
   --  "EQP_IT_Stealth",
   --  "EQP_IT_Nvg",
@@ -1486,6 +1488,7 @@ function this.LoadEquipTable()
       equipLoadTable[#equipLoadTable+1]=equipId
     end
   end
+  --tex TODO add to this.currentEquipLoad table in a once-per-mission way.
   --end
 
   if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
@@ -1781,7 +1784,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable)
   if noneActive then
     InfCore.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
     local weaponIdTable={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
-    TppEnemy.weaponIdTable.DD=nil
+    TppEnemy.weaponIdTable.DD=nil--DEBUGNOW TppEnemy.ClearDDParameter
     TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
     return weaponIdTable
   end

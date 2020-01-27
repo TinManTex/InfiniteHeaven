@@ -469,7 +469,7 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v10.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v10.fpk"}, --240,403,,
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"},   --250,404,,
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"}, --251,405,, --<
-  --tex> OFF CULL
+--tex> OFF CULL
 --  {"/Assets/tpp/fova/chara/dds/dds0_main2_v01.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--252,406,,
 --  {"/Assets/tpp/fova/chara/dds/dds0_main2_v02.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--253,407,,
 --  {"/Assets/tpp/fova/chara/dds/dds0_main2_v04.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main2_v00_ih.fpk"},--254,408,,
@@ -482,78 +482,17 @@ this.bodyFova={
 }
 
 --tex add player comos to fova system>
---52 fv2s
-local camoIds={
-  0,
-  1,
-  2,
-  3,
-  5,
-  6,
-  7,
-  8,
-  --9,--?
-  10,
-  11,
-  12,
-  13,
-  14,
-  --15,--?
-  16,
-  17,
-  18,
-  19,
-  20,
-  --21,--?
-  22,
-  23,
-  24,
-  25,
-  26,
-  27,
-  28,
-  29,
-  30,
-  31,
-  32,
-  33,
-  35,
-  36,
-  37,
-  38,
-  39,
-  40,
-  41,
-  42,
-  43,
-  44,
-  45,
-  46,
-  47,
-  48,
-  49,
-  50,
-  51,
-  52,
-  53,
-  54,
-  55,
-  56,
-  57,
-  58,
-  59,
-  60,
-}
+local numCamos=60 --tex from 0. missing 9,15,21 (see inffova), but will add them for simplicty since they're otherwise complete/contiguous.
 --tex TODO player dds6/female fatigue fovas dont seem to apply to dd6, while player dds5 to dd5 is fine.
 local fovaInfo={
   dds5={"/Assets/tpp/fova/chara/sna/dds5_main0_ply_v%02d.fv2","/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v%02d.fpk"},
   dds6={"/Assets/tpp/fova/chara/sna/dds6_main0_ply_v%02d.fv2","/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v%02d.fpk"},
 }
 local camoAddStart=#this.bodyFova
-for i,camoId in ipairs(camoIds)do
+for camoId=0,numCamos do
   table.insert(this.bodyFova,{string.format(fovaInfo.dds5[1],camoId),string.format(fovaInfo.dds5[2],camoId)})
 end
-for i,camoId in ipairs(camoIds)do
+for camoId=0,numCamos do
   table.insert(this.bodyFova,{string.format(fovaInfo.dds6[1],camoId),string.format(fovaInfo.dds6[2],camoId)})
 end
 --<
@@ -567,7 +506,7 @@ this.faceDefinition={
   --ui textures in \texture1_dat\Assets\tpp\ui\texture\StaffImage
 
   --unknown unk1: ranges male: 0,1,2,3,16,17,18,19,48,50, female: 32,34,35,48,50, -- dd headgears (both gender) 16
-  --for males initially appears to be race (see InfEneFova .RACE) when in the range 0-3, but then what is above that? 
+  --for males initially appears to be race (see InfEneFova .RACE) when in the range 0-3, but then what is above that?
 
   --unk6 range {0,1,3}, 3 seems common face, 1 unique, 0?
   --unk6->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
@@ -1376,7 +1315,7 @@ this.bodyDefinition={
   {403,249,0},
   {404,250,0},
   {405,251,0},--<
-  --tex OFF CULL
+--tex OFF CULL
 --  {406,252,0},--tex>dds0_main2
 --  {407,253,0},
 --  {408,254,0},
@@ -1389,15 +1328,15 @@ this.bodyDefinition={
 --tex> add player camos to fova system
 local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
 local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
-for i,camoId in ipairs(camoIds)do
-  table.insert(this.bodyDefinition,{bodyIdStart+i,bodyFovaStart+i})
-  TppEnemyBodyId[string.format("dds5_main0_ply_v%02d",camoId)]=bodyIdStart+i
+for camoId=0,numCamos do
+  table.insert(this.bodyDefinition,{bodyIdStart+camoId,bodyFovaStart+camoId})
+  TppEnemyBodyId[string.format("dds5_main0_ply_v%02d",camoId)]=bodyIdStart+camoId
 end
 local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
 local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
-for i,camoId in ipairs(camoIds)do
-  table.insert(this.bodyDefinition,{bodyIdStart+i,bodyFovaStart+i})
-  TppEnemyBodyId[string.format("dds6_main0_ply_v%02d",camoId)]=bodyIdStart+i
+for camoId=0,numCamos do
+  table.insert(this.bodyDefinition,{bodyIdStart+camoId,bodyFovaStart+camoId})
+  TppEnemyBodyId[string.format("dds6_main0_ply_v%02d",camoId)]=bodyIdStart+camoId
 end
 --<
 
@@ -1488,6 +1427,11 @@ if TppSoldierFace~=nil then
 end
 
 return this--tex
+
+
+
+
+
 
 
 
