@@ -665,7 +665,12 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-  
+
+  --DEBUGNOW
+  InfCore.PrintInspect(Ivars,"Ivars")
+  InfCore.PrintInspect(ivars,"ivars")
+  InfCore.PrintInspect(evars,"evars")
+
   InfCore.DebugPrint("index1:"..index1)
   index1=index1+increment
   if index1>index1Max then
@@ -1534,8 +1539,8 @@ end
 this.commandItems={}
 
 local optionType="COMMAND"
-local IsTable=Tpp.IsTypeTable
-local IsFunction=Tpp.IsTypeFunc
+local IsTable=function(checkType)return type(checkType)=="table" end--tex removed dependancy on Tpp.IsTypeTable
+local IsFunction=function(checkType)return type(checkType)=="function" end
 local switchRange={max=1,min=0,increment=1}
 --tex add menu items for plain functions
 
@@ -1544,6 +1549,7 @@ function this.ItemNameForFunctionName(name)
   return name:sub(1,1):lower()..name:sub(2,name:len())
 end
 
+--build out full item definition
 --OUT/SIDE ivars
 function this.BuildCommandItem(Command,name)
   --tex menu item name is function name with lowercase 1st char

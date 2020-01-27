@@ -430,13 +430,6 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
     settingText=tostring(currentSetting)
   end
 
-  --DEBUGNOW what is this?
-  --  if option.OnActivate then
-  --    if not noCommandType then
-  --      optionSeperator=itemIndicators.activate..optionSeperator
-  --    end
-  --  end
-
   if option.isPercent then
     settingSuffix="%"
   end

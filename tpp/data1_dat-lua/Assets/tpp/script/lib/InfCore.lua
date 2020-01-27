@@ -15,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="218"
+this.modVersion="219"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -283,6 +283,10 @@ end
 
 function this.ExtCmd(cmd,...)
   InfMgsvToExt.ExtCmd(cmd,...)--DEBUGNOW external so can reload it while working on it
+end
+
+--tex LEGACY, InfProcessExt was deleted r218 but the file may linger if the user didnt uninstall correctly using snakebite (or if snakebite messed up)
+function this.DoToMgsvCommands()
 end
 
 local concat=table.concat

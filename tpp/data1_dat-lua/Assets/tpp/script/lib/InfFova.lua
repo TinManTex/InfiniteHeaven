@@ -668,7 +668,7 @@ this.playerCamoTypes={
   "SWIMWEAR_H_C46",--,IRON BLUE
   "SWIMWEAR_H_C48",--,RED RUST
   "SWIMWEAR_H_C53",--114,MUD
-}
+}--SYNC player2_camout_param
 
 --tex camos that apply to partsType NORMAL,NORMAL_SCARF,NAKED
 this.playerCamoTypesCommon={
@@ -2553,8 +2553,7 @@ function this.CheckModelChange()
   this.SetFovaMod(Ivars.fovaSelection:Get()+1)
 end
 
---CALLER: InfMain.OnFadeInDirect
-function this.OnFadeIn()
+function this.OnFadeInDirect()
   if Ivars.enableFovaMod:Is(1) then
     this.SetFovaMod(Ivars.fovaSelection:Get()+1)
   end

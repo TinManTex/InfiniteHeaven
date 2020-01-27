@@ -4,7 +4,7 @@ local this={}
 local concat=table.concat
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-  if ivars.postExtCommands==0 then
+  if not ivars.enableIHExt then
     return
   end
 

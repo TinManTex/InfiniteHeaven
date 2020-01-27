@@ -1,4 +1,4 @@
-Dealing with issues:
+Troubleshooting:
 
 If you have issues with Snakebite try the suggestions on the stickied post on the snakebite nexus posts.
 
@@ -11,9 +11,10 @@ The save files are in:
 
 Usually TPP_GAME_DATA alone is sufficient.
 
-ih_save.lua from your MGSV_TPP\mod\saves folder.
-snakebite.xml from the MGSV_TPP folder.
-ih_log.txt from the MGSV_TPP\mod folder.
+Some files from the MGS_TPP game folder (usually in Steam\SteamApps\common)
+ih_save.lua from your MGS_TPP\mod\saves folder.
+snakebite.xml from the MGS_TPP folder.
+ih_log.txt from the MGS_TPP\mod folder.
 
 If you need a place to upload mega.co.nz works well, as does dropbox.
 You can message me the link if you wish.
@@ -27,9 +28,9 @@ Clear IH settings completely:
 Exit the game and delete MGS_TPP\mod\saves\ih_save.lua
 
 Resetting from scratch:
-
 1: Pressing the 'Restore original game files' button in snakebites settings page.
 2: Verifying game cache through the properties for the game in steam.
+3: Delete the entire MGS_TPP\mod (you may want to copy off the ih_save.lua in MGs\mod\saves first)
 At this point MGSV will be considered unmodded, but verify by loading the game.
 
 Re-rerun snakebite and go through it's steps.
@@ -38,7 +39,7 @@ Again test to see if the game loads.
 Install Infinite Heaven only.
 Test again to see if the issue still occurs.
 
-If the game save is in-mission and not in ACC you may need to Abort to ACC from title (see below)
+If the game save is in-mission and not in ACC you may need to Abort to ACC from title (see below).
 
 
 Known issues:

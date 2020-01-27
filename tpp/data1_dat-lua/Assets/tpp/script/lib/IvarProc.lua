@@ -475,7 +475,7 @@ function this.IvarEnabledForMission(self,missionCode)
   return self:Is()>0 and self:MissionCheck(missionId)
 end
 
---  
+--
 local random=math.random
 local type=type
 local tableType="table"
@@ -708,7 +708,7 @@ function this.SetupInfProfiles()
   local fileNames=InfCore.GetFileList(InfCore.files.profiles,".lua")
 
   --InfCore.PrintInspect(fileNames)--DEBUG
-  --DEBUGNOW TODO only load loadonstart, otherwise just keep the names and only load when specific one selected in option, 
+  --DEBUGNOW TODO only load loadonstart, otherwise just keep the names and only load when specific one selected in option,
   --no point keeping loaded/storing in profiles[] if it's only applied on load or via user action.
 
   local profiles={}
@@ -937,7 +937,7 @@ function this.BuildTableText(tableName,sourceTable,saveTextList)
   for k,v in pairs(sourceTable)do
     if type(k)=="number" then
       saveTextList[#saveTextList+1]=string.format(saveLineFormatNumber,k,tostring(v))
-    else 
+    else
       saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,tostring(v))
     end
   end
@@ -984,9 +984,13 @@ function this.ReadEvars(ih_save)
     else
       if type(value)~=typeNumber then
         InfCore.Log("ReadEvars ih_save: value~=number: "..name.."="..tostring(value),false,true)
-      elseif ivars and ivars[name]==nil then
-        InfCore.Log("ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
       else
+        --tex used to use this to clear out unknown ivars, 
+        --but now that ivars can be defined in modules, and ReadEvars is run once before modules are loaded
+        --they're now cleared in Ivars.PostAllModulesLoad / after the module ivars are added
+        if ivars and ivars[name]==nil then
+          InfCore.Log("ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
+        end
         loadedEvars[name]=value
       end
     end
@@ -1032,14 +1036,14 @@ function this.LoadSave()
   InfCore.LogFlow"IvarProc.LoadSave"
   local saveName=InfCore.saveName
   local filePath=InfCore.paths.saves..saveName
-  
+
   --tex GOTCHA MoonSharp raises exception on loadfile instead of converting it to loadError return like normal lua interpreters
   if not InfCore.FileExists(filePath) then
-     if not InfCore.ihSaveFirstLoad then
+    if not InfCore.ihSaveFirstLoad then
       this.CreateNewSave(filePath,saveName)
-    end   
+    end
   end
-  
+
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil or loadError then
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
@@ -1096,7 +1100,7 @@ function this.LoadEvars()
     if ih_save.igvars then
       --InfCore.PrintInspect(igvars,"igvars, preload")--DEBUG
       --InfCore.PrintInspect(ih_save.igvars,"ih_save.igvars")--DEBUG
-    
+
       for name,value in pairs(ih_save.igvars) do
         if type(name)=="string" then
           if igvars[name]~=nil and value~=nil then
@@ -1128,7 +1132,7 @@ function this.LoadEvars()
       InfMain.OnLoadEvars()
     end
   end
-  
+
   if InfMBStaff then
     ih_priority_staff=InfMBStaff.LoadSave() or ih_priority_staff
   end

@@ -700,15 +700,38 @@ function this.OnGameStart()
   end
 end
 
---CALLER: TppUiFadeIn
---tex calling from function rather than msg since it triggers on start, possibly splash or loading screen, which fova naturally doesnt like because it doesn't exist then
-function this.OnFadeInDirect()
-  if TppMission.IsFOBMission(vars.missionCode)then
+--CALLER: TppUI.FadeIn
+function this.OnFadeInDirect(msgName)
+  InfCore.LogFlow("InfMain.OnFadeInDirect:"..tostring(msgName))
+  if vars.missionCode > 5 and TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+  --tex calling from function rather than msg since it triggers on start, possibly splash or loading screen, which fova naturally doesnt like because it doesn't exist then
+  InfFova.OnFadeInDirect()
+
+  for i,module in ipairs(InfModules) do
+    if module.OnFadeInDirect then
+      module.OnFadeInDirect(msgName)
+    end
+  end
+end
+
+--CALLER: TppUI.FadeOut
+function this.OnFadeOutDirect(msgName)
+  InfCore.LogFlow("InfMain.OnFadeOutDirect:"..tostring(msgName))
+  if vars.missionCode > 5 and TppMission.IsFOBMission(vars.missionCode)then
     return
   end
 
-  InfFova.OnFadeIn()
+  for i,module in ipairs(InfModules) do
+    if module.OnFadeOutDirect then
+      module.OnFadeOutDirect(msgName)
+    end
+  end
 end
+
+
+
 
 --msg called fadeins
 function this.FadeInOnGameStart()

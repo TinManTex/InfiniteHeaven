@@ -646,22 +646,8 @@ this.devInAccMenu={
     "InfMenuCommands.DEBUG_SomeShiz2",
     "InfMenuCommands.DEBUG_SomeShiz3",
     --"Ivars.customBodyTypeMB_ALL",--DEBUGNOW
-    "InfMenuDefs.appearanceMenu",
-    "Ivars.skipDevelopChecks",
-    "Ivars.loadAddonMission",--DEBUGNOW TEST DEBUGNOW add lang, shift to some user menu
-    "Ivars.ihMissionsPercentageCount",--DEBUGNOW
-    "Ivars.manualMissionCode",--DEBUGNOW
     "Ivars.selectEvent",
-    "InfMenuDefs.appearanceMenu",
-    "InfMenuDefs.appearanceDebugMenu",
-    "Ivars.customSoldierTypeFREE",
     --"Ivars.customSoldierTypeMISSION",--TODO:
-    "Ivars.customSoldierTypeMB_ALL",
-    "Ivars.customSoldierTypeFemaleMB_ALL",
-    "Ivars.mbDDHeadGear",
-    "Ivars.playerFaceIdDirect",
-    "InfMenuDefs.appearanceDebugMenu",
-    "Ivars.manualMissionCode",
     "Ivars.manualSequence",
     "Ivars.allowUndevelopedDDEquip",
     "Ivars.skipDevelopChecks",
@@ -669,8 +655,6 @@ this.devInAccMenu={
     --TODO: debugmodeall command/profile
     --"Ivars.enableWildCardHostageFREE",--WIP
     --"Ivars.enableSecurityCamFREE",
-    "InfMenuDefs.sideOpsMenu",
-    "InfMenuDefs.sideOpsCategoryMenu",
     "InfMenuCommands.ForceRegenSeed",
     "Ivars.debugValue",
     "Ivars.debugMode",
@@ -747,6 +731,9 @@ this.debugInMissionMenu={
     "Ivars.disableGameOver",
     "Ivars.disableOutOfBoundsChecks",
     "InfMenuCommands.SetAllFriendly",
+    "InfMenuCommands.ResetStageBlockPosition",
+    "InfMenuCommands.SetStageBlockPositionToMarkerClosest",
+    "InfMenuCommands.SetStageBlockPositionToFreeCam",
     "InfMenuCommands.ShowFreeCamPosition",
     "InfMenuCommands.ShowPosition",
   --"InfMenuCommands.DEBUG_ClearAnnounceLog",

@@ -96,4 +96,8 @@ function this.RunOnAllObjects(objectType,instanceCount,RunFunc)
   end
 end
 
+function this.IsDemoPlaying()
+  return DemoDaemon.IsDemoPaused() or DemoDaemon.IsDemoPlaying() or DemoDaemon.GetPlayingDemoId()
+end
+
 return this

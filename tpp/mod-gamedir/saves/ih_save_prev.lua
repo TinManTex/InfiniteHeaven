@@ -3,8 +3,8 @@
 -- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.
 -- See Readme for more info
 local this={}
-this.ihVer=218
-this.saveTime=1504147952
+this.ihVer=219
+this.saveTime=1504423958
 this.inMission=false
 this.loadToACC=false
 this.evars={
@@ -39,7 +39,9 @@ this.evars={
 	enableWalkerGearsMB=1,
 	mbNpcRouteChange=1,
 	unlockSideOps=1,
+	unlockSideOpNumber=111,
 	resourceScaleMaterial=1000,
+	playerHealthScale=650,
 	resourceScaleDiamond=1000,
 	skipDevelopChecks=1,
 	dontOverrideFreeLoadout=1,
@@ -62,6 +64,7 @@ this.evars={
 	mbShowHuey=1,
 	mbShowSahelan=1,
 	speedCamNoDustEffect=1,
+	ivarTest=1,
 	mbAdditionalNpcs=1,
 	mbSoldierEquipRange=2,
 	customSoldierTypeMB_ALL=25,
@@ -115,7 +118,7 @@ this.igvars={
 	mis_isGroundStart=false,
 	inf_event=false,
 	mbRepopDiamondCountdown=1,
-	inf_levelSeed=-1852300496,
+	inf_levelSeed=-1138460600,
 }
 this.questStates={
 	ih_quest_q30100=17,

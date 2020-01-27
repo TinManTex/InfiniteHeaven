@@ -75,6 +75,7 @@ ACC Main menu
 15: Support heli menu
 16: Progression menu
 17: Debug menu
+19: playAnimMenu
 
 IH system menu
 --------------
@@ -748,6 +749,10 @@ appearanceDebugMenu
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
 
+playAnimMenu
+------------
+1: ivarTest : 0-1
+
 ===============
 
 In Mission menu
@@ -946,8 +951,11 @@ Logs some script execution flow, requires Debug IH mode to be on.
 21: Disable game over : Off, On
 22: Disable out of bounds checks : Off, On
 23: setAllFriendly : (Command)
-24: Show freecam position : (Command)
-25: Show position : (Command)
+24: resetStageBlockPosition : (Command)
+25: setStageBlockPositionToMarkerClosest : (Command)
+26: setStageBlockPositionToFreeCam : (Command)
+27: Show freecam position : (Command)
+28: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

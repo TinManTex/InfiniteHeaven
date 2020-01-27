@@ -1,6 +1,8 @@
---DEBUGNOW
 --NoVolunteers.lua
+--DEBUGNOW
 local this={}
+
+if true then return{} end--DEBUGNOW
 
 function this.PostAllModulesLoad()
 	--tex since IH currently doesnt modify AddVolunteerStaffs, 

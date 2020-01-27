@@ -1,4 +1,13 @@
 Infinite Heaven changelog
+
+r219 - 2017-09-03
+(Actually added in r218, but not in easily accessable menu)
+Options: setStageBlockPositionToMarkerClosest, setStageBlockPositionToFreeCam, resetStageBlockPosition - sets stageblock loading position. You have to put player in a safe spot/bump player health to 650% so they dont die when their current position unloads and they (may) fall through terrain till they hit level floor.
+(via in mission debug menu)
+
+Fixed: Lag or load hangs due to a file that was removed for r218 that may have been left in MGS_TPP\mod\modules if mod user didn't uninstall r217 or earlier correctly using snakebite.
+Detail: Added empty function InfCore.DoToMgsvCommands which InfProcessExt calls. Would not have been an issue except I also removed the ivar that would exit before the call and the check for it was ==0, a not ivar would have covered the ivar being null too and prevented the issue (though I would not have been aware of the file lingering for some users).
+
 r218 - 2017-08-31
 heliPatrolsMB, heliPatrolsFREE renamed attackHeliPatrolsFREE, attackHeliPatrolsFREE "Attack heli patrols in free roam",
   "Attack heli patrols in MB", value is now number of attack helis.
@@ -15,6 +24,7 @@ Fixed: ApplyProfile failing on missing ivar.
 IHExt: Shift from console to wpf proto branch.
 
 Option: enableIHExt (was postExtCommands) 'Enable IHExt', now launches IHExt (if present).
+
 
 r217 - 2017-08-22
 Just repack/snakebite exe version for 1.0.12.0 which only updated exe.

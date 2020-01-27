@@ -1,5 +1,5 @@
 = Infinite heaven =
-r218 - 2017-08-31
+r219 - 2017-09-03
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,13 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r219:
+(Actually added in r218, but not in easily accessable menu)
+Options: setStageBlockPositionToMarkerClosest, setStageBlockPositionToFreeCam, resetStageBlockPosition - sets stageblock loading position. You have to put player in a safe spot/bump player health to 650% so they dont die when their current position unloads and they (may) fall through terrain till they hit level floor.
+(via in mission debug menu)
+
+Fixed: Lag or load hangs due to a file that was removed for r218 that may have been left in MGS_TPP\mod\modules if mod user didn't uninstall r217 or earlier correctly using snakebite.
+
 New for r218:
 Change: heliPatrolsMB, heliPatrolsFREE renamed attackHeliPatrolsFREE, attackHeliPatrolsFREE "Attack heli patrols in free roam",
   "Attack heli patrols in MB", value is now number of attack helis.

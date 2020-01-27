@@ -228,7 +228,7 @@ this.playerHealthScale={
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
-     --DEBUGNOW return
+    --DEBUGNOW return
     end
     InfMain.ChangeMaxLife(true)
   end,
@@ -4535,64 +4535,81 @@ function this.Enum(enumNames)
   return enumTable
 end
 
-function this.SetupIvars()
-  InfCore.LogFlow("Ivars.SetupIvars")
+local optionType="OPTION"
+--build out full definition
+function this.BuildIvar(name,ivar)
   local ivars=ivars
   local IvarProc=IvarProc
+  if this.IsIvar(ivar) then
+    ivar.optionType=optionType
+    --ivar.name=ivar.name or name
+    ivar.name=name
 
-  local optionType="OPTION"
+    ivar.range=ivar.range or {}
+    ivar.range.max=ivar.range.max or 1
+    ivar.range.min=ivar.range.min or 0
+    ivar.range.increment=ivar.range.increment or 1
+
+    ivar.default=ivar.default or ivar.range.min
+    ivars[ivar.name]=ivars[ivar.name] or ivar.default
+
+    if ivar.settings then
+      ivar.enum=this.Enum(ivar.settings)
+      --      for name,enum in ipairs(ivar.enum) do
+      --        ivar[name]=false
+      --        if enum==ivar.default then
+      --          ivar[name]=true
+      --        end
+      --      end
+      --      ivar[ivar.settings[ivar.default] ]=true
+      ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
+    end
+    local i,f = math.modf(ivar.range.increment)--tex get fractional part
+    f=math.abs(f)
+    ivar.isFloat=false
+    if f<1 and f~=0 then
+      ivar.isFloat=true
+    end
+
+    ivar.IsDefault=IvarProc.OptionIsDefault
+    ivar.Is=IvarProc.OptionIsSetting
+    ivar.Get=IvarProc.OptionIsSetting
+    ivar.Set=IvarProc.SetSetting
+    ivar.SetDirect=IvarProc.SetDirect
+    ivar.Reset=IvarProc.ResetSetting
+    ivar.GetTableSetting=IvarProc.GetTableSetting
+    ivar.GetSettingName=IvarProc.GetSettingName
+    ivar.MissionCheck=ivar.MissionCheck--tex OFF or IvarProc.MissionCheckAll--rather have the functions on it bring up warnings than have it cause issues by going through
+    ivar.EnabledForMission=IvarProc.IvarEnabledForMission
+
+    if ivar.save and ivar.save==EXTERNAL then
+      evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
+    end
+  end--is ivar
+  return ivar
+end
+
+function this.SetupIvars()
+  InfCore.LogFlow("Ivars.SetupIvars")
   for name,ivar in pairs(this) do
-    if this.IsIvar(ivar) then
-      ivar.optionType=optionType
-      --ivar.name=ivar.name or name
-      ivar.name=name
-
-      ivar.range=ivar.range or {}
-      ivar.range.max=ivar.range.max or 1
-      ivar.range.min=ivar.range.min or 0
-      ivar.range.increment=ivar.range.increment or 1
-
-      ivar.default=ivar.default or ivar.range.min
-      ivars[ivar.name]=ivars[ivar.name] or ivar.default
-
-      if ivar.settings then
-        ivar.enum=this.Enum(ivar.settings)
-        --      for name,enum in ipairs(ivar.enum) do
-        --        ivar[name]=false
-        --        if enum==ivar.default then
-        --          ivar[name]=true
-        --        end
-        --      end
-        --      ivar[ivar.settings[ivar.default] ]=true
-        ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
-      end
-      local i,f = math.modf(ivar.range.increment)--tex get fractional part
-      f=math.abs(f)
-      ivar.isFloat=false
-      if f<1 and f~=0 then
-        ivar.isFloat=true
-      end
-
-      ivar.IsDefault=IvarProc.OptionIsDefault
-      ivar.Is=IvarProc.OptionIsSetting
-      ivar.Get=IvarProc.OptionIsSetting
-      ivar.Set=IvarProc.SetSetting
-      ivar.SetDirect=IvarProc.SetDirect
-      ivar.Reset=IvarProc.ResetSetting
-      ivar.GetTableSetting=IvarProc.GetTableSetting
-      ivar.GetSettingName=IvarProc.GetSettingName
-      ivar.MissionCheck=ivar.MissionCheck--tex OFF or IvarProc.MissionCheckAll--rather have the functions on it bring up warnings than have it cause issues by going through
-      ivar.EnabledForMission=IvarProc.IvarEnabledForMission
-
-      if ivar.save and ivar.save==EXTERNAL then
-        evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
-      end
-    end--is ivar
+    this.BuildIvar(name,ivar)
   end
 end
 
 function this.PostAllModulesLoad()
-  InfCore.LogFlow"Ivars.PostAllModulesLoad"
+  --DEBUGNOW
+  --tex add module ivars to this
+  for i,module in ipairs(InfModules) do
+    if module.ivars then
+      for name,ivarDef in pairs(module.ivars)do
+        if this.IsIvar(ivarDef) then
+          InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)--DEBUGNOW
+          this[name]=this.BuildIvar(name,ivarDef)
+        end
+      end
+    end
+  end
+
   --tex check to see if theres a settingNames in InfLang
   --has to be postmodules since InfLang is loaded after Ivars
   --GOTCHA this will lock in language till next modules reload (not that there's any actual InfLang translations I'm aware of lol)

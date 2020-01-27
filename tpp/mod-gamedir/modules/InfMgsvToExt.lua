@@ -3,6 +3,8 @@ local this={}
 
 local concat=table.concat
 
+this.debugModule=false--DEBUGNOW
+
 --FORMAT
 --uiElements={
 --  name={<uielement info>}
@@ -50,6 +52,7 @@ function this.ExtCmd(cmd,...)
 end
 
 --mgsvtoext commands
+--tex creates a ui element from a wpf xaml definition
 function this.CreateUiElement(name,xamlStr)
   if this.uiElements[name] then
     InfCore.Log('WARNING: CreateUiElement: uiElement '..name..' already exists')

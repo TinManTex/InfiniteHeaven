@@ -230,8 +230,9 @@ local function ToStrCode32(value)
   return nil
 end
 --IN: pretty much the only parms I can see is exceptGameStatus
-function this.FadeIn(fadeSpeed,fadeInName,scdDemoID,parms)
-  local fadeInNameStr32=ToStrCode32(fadeInName)
+--msgName fires events with that name as fade progresses
+function this.FadeIn(fadeSpeed,msgName,scdDemoID,parms)
+  local msgNameS32=ToStrCode32(msgName)
   if parms then
     mvars.ui_onEndFadeInExceptGameStatus=parms.exceptGameStatus
   elseif mvars.ui_onEndFadeInOverrideExceptGameStatus then
@@ -240,9 +241,9 @@ function this.FadeIn(fadeSpeed,fadeInName,scdDemoID,parms)
     mvars.ui_onEndFadeInExceptGameStatus=nil
   end
   TppSoundDaemon.ResetMute"Outro"
-  CallFadeIn(fadeSpeed,fadeInNameStr32,scdDemoID)
+  CallFadeIn(fadeSpeed,msgNameS32,scdDemoID)
   this.EnableGameStatusOnFadeInStart()
-  InfMain.OnFadeInDirect()--tex
+  InfMain.OnFadeInDirect(msgName)--tex
 end
 function this.OverrideFadeInGameStatus(status)
   mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary=status
@@ -259,6 +260,7 @@ end
 function this.SetFadeColorToWhite()
   FadeFunction.SetFadeColor(255,255,255,255)
 end
+--msgName fires events with that name as fade progresses
 function this.FadeOut(fadeSpeed,msgName,p,setupInfo)
   local setMute,exceptGameStatus
   if Tpp.IsTypeTable(setupInfo)then
@@ -275,6 +277,7 @@ function this.FadeOut(fadeSpeed,msgName,p,setupInfo)
     end
   end
   CallFadeOut(fadeSpeed,strCodeMsgName,p)
+  InfMain.OnFadeOutDirect(msgName)--tex
 end
 function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)
   if InfLookup and InfCore.debugMode then --tex >logging

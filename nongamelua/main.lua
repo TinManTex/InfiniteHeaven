@@ -1267,6 +1267,16 @@ end
 
 
 local function main()
+
+local bep=(true and 'blurg') or false
+print("bep:"..tostring(bep))
+
+local bop=(false and 'blorg') or false
+print("bop:"..tostring(bop))
+
+print"-///////---------"
+--DEBUGNOW
+
   print("main()")
   
   local bit=require'bit'
