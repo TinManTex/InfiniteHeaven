@@ -53,7 +53,7 @@ ACC Main menu
 14: Time scale menu
 15: Support heli menu
 16: Debug/system menu
-17: Reset all Infinite Heaven settings : (Command)
+17: Reset all IH settings : (Command)
 
 
 World menu
@@ -155,7 +155,7 @@ Fulton levels menu
 Fulton success menu
 - Adjust the success rate of fultoning
 -------------------
-1: Fulton success profile : Default, Heaven, Custom
+1: Fulton success profile : Defaults, Heaven, Custom
 2: Disable MB fulton support : Off, On
 Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.
 3: Disable MB fulton medical : Off, On
@@ -188,8 +188,19 @@ Subtracts 999999 points from demon score
 3: Add demon points : (Command)
 Adds 999999 points to demon score
 4: Use selected soldier in all cutscenes and missions : Off, On
-5: Headgear (cosmetic, DD characters only) : Don't set (change character to reset head), Balaclava 1, Balaclava 2, DD heavy headgear, Gas mask and balaclava, Gas mask and DD headgear, Gas mask and DD heavy headgear, NVG and DD heavy headgear, NVG, Gas mask and DD heavy headgear
-6: Form Variation menu
+5: Appearance menu
+
+
+Appearance menu
+---------------
+1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+2: Suit type : <Suits for player type>
+3: Camo type : <Camos for player type>
+4: Headgear : None
+5: Face : faceId:0
+6: Print face info : (Command)
+7: Print appearance info : (Command)
+8: Form Variation menu
 
 
 Form Variation menu
@@ -208,12 +219,13 @@ Due to the way Soldier2ParameterTables.lua is set up turn this off if you have a
 0% will kill off all enemies
 3: Soldier sight scale : 0-400%
 A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in iDroid Log&gtAll tab)' to see exact values.
-4: Soldier hearing distance scale : 0-400%
-5: Soldier item drop chance : 0-100%
+4: Soldier night sight scale : 0-400%
+5: Soldier hearing distance scale : 0-400%
+6: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-6: Print health param table (look in iDroid Log>All tab) : (Command)
-7: Print sight param table (look in iDroid Log>All tab) : (Command)
-8: Print hearing distance table (look in iDroid Log>All tab) : (Command)
+7: Print health param table (look in iDroid Log>All tab) : (Command)
+8: Print sight param table (look in iDroid Log>All tab) : (Command)
+9: Print hearing distance table (look in iDroid Log>All tab) : (Command)
 
 
 Enemy phases menu
@@ -362,7 +374,7 @@ CP equip strength menu
 
 Prep system menu
 ----------------
-1: Enemy prep system profile : Default, Heaven, Custom
+1: Enemy prep system profile : Defaults, Heaven, Custom
 2: Resupply in #missions : 0-10
 The number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 3: Apply enemy prep to guard posts : Off, On
@@ -398,7 +410,7 @@ DD Equip menu
 A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.
 5: DD Equip Grade RND MAX : 1-15
 6: Allow undeveloped DD equipment : Off, On
-Whether to limit the selection to equipment you have developed or allow all equipment.
+Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.
 7: MB DD Equip non-lethal : Off, On
 8: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
 
@@ -448,7 +460,7 @@ Mother Base menu
 ----------------
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
 2: DD Equip menu
-3: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
+3: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
 4: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 5: DD Head gear : Off, Current prep
 6: Female staff selection : Default, None, All available
@@ -463,7 +475,7 @@ Shared between free roam and MB attack helis.
 12: Repopulate plants and diamonds : Off, On
 Regenerates plants on Zoo platform and diamonds on Mother base over time.
 13: Staff-wide morale boost for good visit : Off, On
-Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must exit via heli for it to apply.
+Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
 14: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 15: More soldiers on MB plats : Off, On
@@ -578,9 +590,39 @@ Instantly return Quiet, runs same code as the Reunion mission 11 replay.
 8: showQuietReunionMissionCount : (Command)
 9: Set questOpenFlag array to false : (Command)
 10: Show position : (Command)
-11: DEBUG_PrintSaveVarCount : (Command)
-12: Show missionCode : (Command)
-13: Show game language code : (Command)
+11: Show missionCode : (Command)
+12: Show game language code : (Command)
+13: appearanceDebugMenu
+
+
+appearanceDebugMenu
+-------------------
+1: faceFovaDirect : 0-1000
+2: faceDecoFovaDirect : 0-1000
+3: hairFovaDirect : 0-1000
+4: hairDecoFovaDirect : 0-1000
+5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+6: playerPartsTypeDirect : 0-100
+7: playerCamoTypeDirect : 0-1000
+8: playerFaceIdDirect : 0-687
+9: playerFaceEquipIdDirect : 0-100
+10: Print face info : (Command)
+11: Print appearance info : (Command)
+12: faceFova : cm_m0_h0_v000_eye0.fv2
+13: faceDecoFova : cm_w000_m.fv2
+14: hairFova : cm_m0_h0_v000_eye0.fv2
+15: hairDecoFova : 0-1000
+16: faceFovaUnknown1 : 0-50
+17: faceFovaUnknown2 : 0-1
+18: faceFovaUnknown3 : 0-4
+19: faceFovaUnknown4 : 0-4
+20: faceFovaUnknown5 : 0-1
+21: faceFovaUnknown6 : 0-3
+22: faceFovaUnknown7 : 0-303
+23: faceFovaUnknown8 : 0-303
+24: faceFovaUnknown9 : 0-303
+25: faceFovaUnknown10 : 0-3
+26: Form Variation menu
 
 
 ===============
@@ -601,13 +643,14 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 5: Time scale menu
 6: User marker menu
 7: Buddy menu
-8: Markers menu
-9: Enemy phases menu
-10: Support heli menu
-11: Debug stuff menu
-12: Soldier item drop chance : 0-100%
+8: Appearance menu
+9: Markers menu
+10: Enemy phases menu
+11: Support heli menu
+12: Debug stuff menu
+13: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-13: Player life scale : 0-650%
+14: Player life scale : 0-650%
 
 
 Camera menu
@@ -659,12 +702,32 @@ Sets a position similar to the Quiet attack positions, but can be nearly anywher
 
 Buddy menu
 ----------
-1: Buddy Equipment <Action> : No buddy set
+1: Buddy Equipment : No buddy set
 Buddy equiment is changed to selected setting when &ltAction&gt is pressed.
 2: Quiet move to last marker : (Command)
 Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
 3: Quiets MB radio track (0=Auto) : 0-31
 Changes the music track of the radio played in Quiets cell on the medical platform in mother base.
+
+
+Appearance menu
+---------------
+1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+2: Suit type : <Suits for player type>
+3: Camo type : <Camos for player type>
+4: Headgear : None
+5: Face : faceId:0
+6: Print face info : (Command)
+7: Print appearance info : (Command)
+8: Form Variation menu
+
+
+Form Variation menu
+- Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
+-------------------
+1: Use selected fova : Off, On
+2: <Character model description> : <Fova selection>
+3: Print current body info : (Command)
 
 
 Markers menu
@@ -722,6 +785,37 @@ Switches on some error messages and enables the announce-log during loading.
 6: DEBUG_PrintReinforceVars : (Command)
 7: DEBUG_PrintSoldierDefine : (Command)
 8: DEBUG_ShowRevengeConfig : (Command)
-9: Show position : (Command)
+9: appearanceDebugMenu
+10: Show position : (Command)
+
+
+appearanceDebugMenu
+-------------------
+1: faceFovaDirect : 0-1000
+2: faceDecoFovaDirect : 0-1000
+3: hairFovaDirect : 0-1000
+4: hairDecoFovaDirect : 0-1000
+5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+6: playerPartsTypeDirect : 0-100
+7: playerCamoTypeDirect : 0-1000
+8: playerFaceIdDirect : 0-687
+9: playerFaceEquipIdDirect : 0-100
+10: Print face info : (Command)
+11: Print appearance info : (Command)
+12: faceFova : cm_m0_h0_v000_eye0.fv2
+13: faceDecoFova : cm_w000_m.fv2
+14: hairFova : cm_m0_h0_v000_eye0.fv2
+15: hairDecoFova : 0-1000
+16: faceFovaUnknown1 : 0-50
+17: faceFovaUnknown2 : 0-1
+18: faceFovaUnknown3 : 0-4
+19: faceFovaUnknown4 : 0-4
+20: faceFovaUnknown5 : 0-1
+21: faceFovaUnknown6 : 0-3
+22: faceFovaUnknown7 : 0-303
+23: faceFovaUnknown8 : 0-303
+24: faceFovaUnknown9 : 0-303
+25: faceFovaUnknown10 : 0-3
+26: Form Variation menu
 
 

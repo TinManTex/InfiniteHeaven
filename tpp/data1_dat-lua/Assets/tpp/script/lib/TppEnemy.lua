@@ -446,6 +446,30 @@ this.weaponIdTable={
       ASSAULT=TppEquip.EQP_WP_East_ar_020}
   }
 }
+--tex TABLESETUP>
+this.allNoDups={}
+for soldierType,weaponTable in pairs(this.weaponIdTable)do
+  for strength,weapons in pairs(weaponTable)do
+    this.allNoDups[strength]=this.allNoDups[strength] or {}
+    for weaponName,weaponId in pairs(weapons)do
+      this.allNoDups[strength][weaponName]=this.allNoDups[strength][weaponName] or {}
+      this.allNoDups[strength][weaponName][weaponId]=true
+    end
+  end
+end
+local all={}
+for strength,weapons in pairs(this.allNoDups)do
+  all[strength]=all[strength] or {}
+  for weaponName,weaponIds in pairs(weapons)do
+    all[strength][weaponName]=all[strength][weaponName] or {}
+    for weaponId,bool in pairs(weaponIds)do
+      table.insert(all[strength][weaponName],weaponId)
+    end
+  end
+end
+this.allNoDups=nil
+this.weaponIdTable.ALL=all
+--<
 this.gunLightWeaponIds={
   [TppEquip.EQP_WP_Com_sg_011]=TppEquip.EQP_WP_Com_sg_011_FL,
   [TppEquip.EQP_WP_Com_sg_020]=TppEquip.EQP_WP_Com_sg_020_FL,
@@ -992,6 +1016,10 @@ end
 function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
   local weaponIdTable={}
+  
+--  if true then--DEBUGNOW
+--  return this.weaponIdTable.ALL--DEBUGNOW
+--  end--DEBUGNOW
 
   if InfMain.IsDDEquip() then--tex>
     return this.weaponIdTable.DD
@@ -1024,6 +1052,80 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   end
   return weaponIdTable
 end
+--tex REWORKED
+local weaponTypes={
+  primary={
+    "SNIPER",
+    "SHOTGUN",
+    "MG",
+    "SMG",
+    "ASSAULT",  
+  },
+  tertiary={
+   "SHIELD",
+   "MISSILE",
+  },
+}
+--tex functionally equivalent to original, but heavier performance wise lol, but eh, I felt like refactoring
+--and it makes choosing final weapon ids from a table in IH easier
+--DEBUGNOW WIP
+function this.GetWeaponIdNEW(soldierId,config)
+ return InfInspect.TryFunc(function(soldierId,config)--DEBUGNOW
+  local soldierType=this.GetSoldierType(soldierId)
+  local soldierSubType=this.GetSoldierSubType(soldierId,soldierType)
+  local missionCode=TppMission.GetMissionID()
+  if(missionCode==10080 or missionCode==11080)and soldierType==EnemyType.TYPE_CHILD then
+    return TppEquip.EQP_WP_Wood_ar_010,TppEquip.EQP_WP_West_hg_010,nil
+  end
+  local weaponIdTable=this.GetWeaponIdTable(soldierType,soldierSubType)
+  if weaponIdTable==nil then
+    return nil,nil,nil
+  end
+  
+  weaponIdTable.STRONG=weaponIdTable.STRONG or weaponIdTable.NORMAL
+
+  local weaponStrengths=TppRevenge.GetWeaponStrengths(mvars.revenge_revengeConfig)
+
+  local weapons={
+    primary=weaponIdTable[weaponStrengths.ASSAULT].ASSAULT,
+    secondary=weaponIdTable[weaponStrengths.HANDGUN].HANDGUN,
+    tertiary=TppEquip.EQP_None,
+  }
+  
+  for slotName,weaponTypes in pairs(weaponTypes) do
+    for i,weaponName in ipairs(weaponTypes)do
+      if config[weaponName] then
+        local weaponStrength=weaponStrengths[weaponName]
+        weapons[slotName]=weaponIdTable[weaponStrength][weaponName] or weaponIdTable.NORMAL[weaponName]
+      end
+    end
+  end
+  
+  --tex> WIP DEBUGNOW
+  for slotName,weaponId in pairs(weapons)do
+    if Tpp.IsTypeTable(weaponId) then
+      --if not rando then--DEBUGNOW
+      weaponId=weaponId[1]
+      --else
+      --weaponId=weaponId[math.random(#weaponId)]
+    end
+  end
+  --<
+  
+  for slotName,weaponId in pairs(weapons)do
+    if weaponId==nil then
+      weaponId=TppEquip.EQP_None
+    end
+  end
+  
+  if config.GUN_LIGHT then
+    local gunWithLight=this.gunLightWeaponIds[weapons.primary]
+    weapons.primary=gunWithLight or weapons.primary
+  end
+  return weapons.primary,weapons.secondary,weapons.tertiary
+  end,soldierId,config)--DEBUGNOW
+end
+--ORIG
 function this.GetWeaponId(soldierId,config)
   local primary,secondary,tertiary
   local soldierType=this.GetSoldierType(soldierId)

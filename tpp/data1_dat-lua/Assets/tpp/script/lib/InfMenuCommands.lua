@@ -41,6 +41,12 @@ this.goBackItem={
 }
 
 --commands
+this.printFaceInfo={
+  OnChange=function()
+    InfEneFova.PrintFaceInfo(vars.playerFaceId)
+  end,
+}
+
 this.showPosition={
   OnChange=function()
     TppUiCommand.AnnounceLogView(string.format("%.3f,%.3f,%.3f | %.3f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerCameraRotation[1]))
@@ -367,7 +373,14 @@ this.quietMoveToLastMarker={
     InfMenu.MenuOff()
   end
 }
-
+--
+this.ApplyFaceFova={
+  OnChange=function()
+    InfInspect.TryFunc(function()--DEBUGNOW
+      InfEneFova.ApplyFaceFova()
+    end)
+  end
+}
 
 --DEBUG CULL
 function this.DEBUG_BuddyCycleVar(commandInfo)
@@ -562,10 +575,12 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+--DEBUGNOW
+--InfInspect.PrintInspect(TppEnemy.allNoDups)
+--      InfInspect.PrintInspect(TppEnemy.weaponIdTable.ALL)
+InfInspect.PrintInspect(mvars.revenge_loadedEquip)
 
-
-
-      end)
+    end)
     InfMenu.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
@@ -576,14 +591,16 @@ this.DEBUG_SomeShiz={
 
 
 
-local index2Min=0
-local index2Max=4
+
+
+local index2Min=0--0
+local index2Max=1--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-      end)
+    end)
     InfMenu.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -592,14 +609,14 @@ this.DEBUG_SomeShiz2={
   end
 }
 
-local index3Min=0
-local index3Max=1
+local index3Min=320
+local index3Max=689
 local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-
-      end)
+      vars.playerFaceId=index3
+    end)
     InfMenu.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then
@@ -643,7 +660,7 @@ this.DEBUG_RandomizeAllIvars={
         mbShowQuietCellSigns=true,
         manualMissionCode=true,
         playerType=true,
-        playerCammoTypes=true,
+        playerCamoType=true,
         playerPartsType=true,
         playerFaceEquipIdApearance=true,
         playerFaceIdApearance=true,
@@ -721,6 +738,82 @@ this.DEBUG_RandomizeAllIvars={
   end
 }
 
+this.DEBUG_SetIvarsToNonDefault={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      --tex randomize (most)all ivars
+      local skipIvars={
+        debugMode=true,
+
+        abortMenuItemControl=true,
+
+        mbDemoSelection=true,
+
+        warpPlayerUpdate=true,
+        adjustCameraUpdate=true,
+        --non user
+        inf_event=true,
+        mis_isGroundStart=true,
+        inf_levelSeed=true,
+        mbHostileSoldiers=true,
+        mbEnableLethalActions=true,
+        mbNonStaff=true,
+        mbZombies=true,
+        mbEnemyHeli=true,
+        npcUpdate=true,
+        heliUpdate=true,
+
+        --WIP/OFF
+        blockFobTutorial=true,
+        setFirstFobBuilt=true,
+        disableTranslators=true,
+        vehiclePatrolPaintType=true,
+        vehiclePatrolEmblemType=true,
+        mbShowQuietCellSigns=true,
+        manualMissionCode=true,
+        playerType=true,
+        playerCamoType=true,
+        playerPartsType=true,
+        playerFaceEquipIdApearance=true,
+        playerFaceIdApearance=true,
+        playerHandEquip=true,
+        cpAlertOnVehicleFulton=true,
+        disableQuietHumming=true,
+        enableGetOutHeli=true,
+        selectedChangeWeapon=true,
+        forceSoldierSubType=true,
+        setTakeOffWaitTime=true,
+        disableNoRevengeMissions=true,
+      }
+
+      local ivarNames={}
+      local function IsIvar(ivar)--TYPEID
+        return type(ivar)=="table" and (ivar.range or ivar.settings)
+      end
+      for name,ivar in pairs(Ivars) do
+        if IsIvar(ivar) then
+          if not ivar.range or not ivar.range.max then
+            InfMenu.DebugPrint("WARNING: ivar "..name.." hase no range set")
+          elseif not skipIvars[name] and ivar.save then
+            table.insert(ivarNames,name)
+          end
+        end
+      end
+
+      for i,name in ipairs(ivarNames) do
+        local ivar=Ivars[name]
+        local value=ivar.default+ivar.range.increment
+        if value>ivar.range.max then
+          value=ivar.default-ivar.range.increment
+        end
+
+        ivar:Set(value,true)
+      end
+
+    end)--
+  end
+}
+
 --SYNC run PrintIvars on main.
 this.DEBUG_SetIvarsToDefault={
   OnChange=function()
@@ -739,7 +832,7 @@ this.DEBUG_SetIvarsToDefault={
           --InfMenu.DebugPrint(ivarName.." save not set")
           elseif ivar.setting~=ivar.default then
             InfMenu.DebugPrint(ivarName.." not default, resetting")
-            InfMenu.SetSetting(ivar,ivar.default,true)
+            Ivars.SetSetting(ivar,ivar.default,true)
           end
         end
       end
@@ -1309,7 +1402,7 @@ this.DEBUG_WarpToObject={
 
         while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
           Step()
-          --coroutine.yeild()
+          --coroutine.yield()
         end
 
         if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then

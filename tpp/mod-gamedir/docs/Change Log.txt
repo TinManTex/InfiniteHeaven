@@ -1,5 +1,30 @@
 Infinite Heaven changelog
 
+r176
+Fixed: Buddy equip change developed check.
+Option: soldierNightSightDistScale - seperate sight scale applied to night
+
+Player type - Snake, Avatar, DD Male, DD Female
+Suit type - the different suits, will use the Fova lua name if the model swap has included it.
+Camo type - Cammo, if the suit supports it
+Headgear - The usual mission selectable headgear. Bandanas(Snake/Avatar), Balaclavas etc.
+Face - (DD soldiers only), cycle backward to the end to get the more unique faces, including Hideo. 
+The previous player headgear (cosmetic) option has been removed, the headgear is in the faces list about a quater from the end.
+(via Appearance menu in Player settings menu or in In Mission menu)
+Research: Runtime faceDefinition mod, Soldier2FaceAndBodyData, Ivar. *Fova, InfFova.ApplyFaceFova. Unfortunately SetFaceFovaDefinitionTable crashes the engine if run multiple times.
+Option: resourceAmountScale - Resource amount scale - Since Anyones Tpp improvements mods and other resource mods conflict might as well add it so they don't have to jump through hoops.
+Addition: Menu up and down now support bigger increments by holding <Fire>
+Options:  playerType,playerPartsType,playerCamoType,playerFaceEquipId,playerFaceId. Options been there forever, just had it disabled since Threesocks mod was good enough. Now made (mostly) usernice, so user can use Hideo and Big Boss sneaking suit options as well as the FOB camos they have unlocked. Face selection still needs work, rather than having users cycle through hundreds of faces.
+Reverted: Removed fulton restriction on Invasion. The weirdness is still there, but the odd extraction count seems to be with normal extractions.
+
+r175
+REVERTED
+Refactor: Majority of settings shifted from mission save slot to config
+Seperate save file TPP_CONFIG_DATA_MOD with increased size.
+Basically want (have for long time) breathing space with the amount of stuff I can save.
+Now does a config slot save on IH menu close.
+NOTE: This means users will have to re-set both the game config and the IH settings.
+
 r174 - 2016-08-09
 Refactor: DD body info, making male/female split a bit clearer.
 Fixed: Skull event clear does disable weather changes - thanks mgs5tppfan for the report

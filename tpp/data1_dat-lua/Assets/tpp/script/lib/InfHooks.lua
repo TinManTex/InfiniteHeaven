@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- InfHooks.lua
 -- DEP Ivars
 local this={}
 
@@ -22,6 +23,21 @@ local this={}
 --for name,hookFunction in ipairs(this.hooks)do
 --  this[name]=TppSave[name]--tex save original function ref
 --  TppSave[name]=hookFunction--tex override
+--end
+
+--this.AnnounceLogView=TppUiCommand.AnnounceLogView
+--TppUiCommand.AnnounceLogView=function(message)
+--  this.AnnounceLogView(message)
+--end
+--
+--this.AnnounceLogViewLangId=TppUiCommand.AnnounceLogViewLangId
+--TppUiCommand.AnnounceLogViewLangId=function(...)
+--  this.AnnounceLogViewLangId(...)
+--end
+--
+--this.AnnounceLogViewJoinLangId=TppUiCommand.AnnounceLogViewJoinLangId
+--TppUiCommand.AnnounceLogViewJoinLangId=function(...)
+--  this.AnnounceLogViewJoinLangId(...)
 --end
 
 this.VarRestoreOnMissionStart=TppSave.VarRestoreOnMissionStart

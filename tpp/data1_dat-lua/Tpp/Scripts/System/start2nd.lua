@@ -69,6 +69,8 @@ if Script.LoadLibrary then
     "plparts_silver",
     "plparts_sneaking_suit",
     "plparts_venom",
+    "plparts_ddm_swimwear",
+    "plparts_ddf_swimwear",
   }
 
   local path="/Assets/tpp/pack/player/parts/"

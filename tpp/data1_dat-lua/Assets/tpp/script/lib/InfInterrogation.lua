@@ -52,22 +52,22 @@ this.InterCall_Location=function(soldierId,cpId,interName)
 end
 
 function this.LrrpLocation()
-  InfInspect.TryFunc(function()--DEBUGNOW
+  --InfInspect.TryFunc(function()--DEBUG
   --InfMenu.DebugPrint"LrrpLocation"--DEBUG
   --tex TODO: eliminated check
   local lrrpDefine=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
   local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
   local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
-  
+
   if base1Name==nil then
     InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
   end
   if base2Name==nil then
     InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base2))
   end
-  
+
   InfMenu.PrintFormatLangId("interrogate_lrrp",base1Name,base2Name)
-  end)--
+  --end)--
 end
 
 function this.WildCardLocation()
@@ -104,7 +104,7 @@ end
 
 --TUNE
 local maxInterCpQuests=10
-local numQuestSoldiers=maxInterCpQuests*2--SYNC Ivars svar inf_interCpQuestStatus GOTCHA must be < #cp names
+local numQuestSoldiers=maxInterCpQuests*2--SYNC Ivars gvar inf_interCpQuestStatus GOTCHA must be < #cp names
 
 this.interCpQuestSoldiers={}
 this.interCpQuestIds={}
@@ -141,10 +141,16 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   if Ivars.enableInfInterrogation:Is(0) or not Ivars.enableInfInterrogation:MissionCheck() then
     return
   end
+  
+  if TppMission.IsMissionStart() then
+    for i=0,numQuestSoldiers do
+      gvars.inf_interCpQuestStatus[i]=false
+    end
+  end  
 
   local InfMain=InfMain
 
-    InfMain.RandomSetToLevelSeed()
+  InfMain.RandomSetToLevelSeed()
 
   --tex basic interrogations
   uniqueInterrogation.unique=uniqueInterrogation.unique or {}
@@ -173,9 +179,9 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
         InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
         baseNameBag:Add(cpName)
+      end
     end
-    end
-    end
+  end
 
   local soldierIndex=1
   local numBases=baseNameBag:Count()
@@ -184,7 +190,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   local evenBases=(numBases%2)==0
   if not evenBases then
     numBases=numBases-1
-    end
+  end
   for i=1,numBases do
     local cpName=baseNameBag:Next()
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
@@ -277,7 +283,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
   end
 
   --tex starting
-  if not svars.inf_interCpQuestStatus[partnerICPQId] then
+  if not gvars.inf_interCpQuestStatus[partnerICPQId] then
     local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
     local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
     local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
@@ -287,15 +293,15 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
     --        set up marker?
     --        save starttime
     --        save startposition? -- TODO: just calculate between base positions
-    svars.inf_interCpQuestStatus[soldierICPQId]=true
+    gvars.inf_interCpQuestStatus[soldierICPQId]=true
     --tex complete quest
-  elseif svars.inf_interCpQuestStatus[partnerICPQId] and not svars.inf_interCpQuestStatus[soldierICPQId] then
+  elseif gvars.inf_interCpQuestStatus[partnerICPQId] and not gvars.inf_interCpQuestStatus[soldierICPQId] then
     InfMenu.PrintLangId"intercp_complete"
     this.GiveInterCpQuestReward()
 
-    svars.inf_interCpQuestStatus[soldierICPQId]=true
+    gvars.inf_interCpQuestStatus[soldierICPQId]=true
     --tex quest completed
-  elseif svars.inf_interCpQuestStatus[soldierICPQId] and svars.inf_interCpQuestStatus[partnerICPQId] then
+  elseif gvars.inf_interCpQuestStatus[soldierICPQId] and gvars.inf_interCpQuestStatus[partnerICPQId] then
     --       --InfMenu.DebugPrint"InterCall_InterCpQuest, quest was already completed "--DEBUG
     InfMenu.PrintLangId"intercp_repeat"
   else

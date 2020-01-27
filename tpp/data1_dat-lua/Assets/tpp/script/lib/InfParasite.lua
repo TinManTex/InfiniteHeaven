@@ -104,7 +104,7 @@ local numDownedThisEvent=0
 local clearLimit=4
 this.parasitePos=nil
 
-function this.ParasiteEvent()
+function this.ParasiteEventEnabled()
   if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
     return true
   end
@@ -133,7 +133,7 @@ function this.OnDamage(gameId,attackId,attackerId)
   local typeIndex=GameObject.GetTypeIndex(gameId)
   --TODO
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-    if not this.ParasiteEvent() then
+    if not this.ParasiteEventEnabled() then
       return
     end
     --InfMenu.DebugPrint"OnDamage para"--DEBUG
@@ -147,7 +147,7 @@ function this.OnDying(gameId)
   --InfMenu.DebugPrint"OnDying para"--DEBUG
   local typeIndex=GameObject.GetTypeIndex(gameId)
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-    if not this.ParasiteEvent() then
+    if not this.ParasiteEventEnabled() then
       return
     end
     --InfMenu.DebugPrint"OnDying is para"--DEBUG
@@ -173,7 +173,7 @@ function this.OnDying(gameId)
 end
 
 function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
-  if not this.ParasiteEvent() then
+  if not this.ParasiteEventEnabled() then
     return
   end
 
@@ -182,7 +182,7 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
 end
 
 function this.FadeInOnGameStart()
-  if not this.ParasiteEvent() then
+  if not this.ParasiteEventEnabled() then
     return
   end
 
@@ -202,7 +202,7 @@ function this.FadeInOnGameStart()
 end
 
 function this.InitEvent()
-  if not this.ParasiteEvent() then
+  if not this.ParasiteEventEnabled() then
     return
   end
 
@@ -219,6 +219,10 @@ function this.InitEvent()
 end
 
 function this.StartEventTimer()
+  if not this.ParasiteEventEnabled() then
+    return
+  end
+
   --InfInspect.TryFunc(function()--DEBUG
   --InfMenu.DebugPrint("Timer_ParasiteEvent start")--DEBUG
   local minute=60
@@ -266,7 +270,7 @@ function this.ContinueEvent()
 end
 
 function this.ParasiteAppear()
-  --InfInspect.TryFunc(function()--DEBUGNOW
+  --InfInspect.TryFunc(function()--DEBUG
   --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
 
   numDownedThisEvent=0
@@ -434,7 +438,7 @@ function this.MonitorEvent()
   --    if gameId~=NULL_ID then
   --      local parasitePos=SendCommand(gameId,{id="GetPosition"})
   --      local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
-  --      InfMenu.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUGNOW
+  --     -- InfMenu.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
   --      if distSqr<escapeDistance then
   --        outOfRange=false
   --        break

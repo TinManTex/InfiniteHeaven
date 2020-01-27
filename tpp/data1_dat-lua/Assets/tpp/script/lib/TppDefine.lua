@@ -1,3 +1,4 @@
+-- DOBUILD: 0 --DEBUGNOW has config file name changes
 -- TppDefine.lua
 local this={}
 local E=bit.bnot
@@ -12,8 +13,8 @@ function this.Enum(enumNames)
   end
   return enumTable
 end
-this.SMALL_DIAMOND_GMP=1e4
-this.LARGE_DIAMOND_GMP=1e5
+this.SMALL_DIAMOND_GMP=10000
+this.LARGE_DIAMOND_GMP=100000
 this.MAX_32BIT_UINT=4294967295
 this.EXCEPTION_QUEUE_MAX=255
 this.PICKABLE_MAX=16
@@ -158,7 +159,8 @@ this.PROGRAM_SAVE_FILE_VERSION_OFFSET=65535
 this.GAME_SAVE_FILE_NAME="TPP_GAME_DATA"
 this.GAME_SAVE_FILE_NAME_TMP="TPP_GAME_DATA_TMP"
 this.MGO_MAIN_SAVE_FILE_NAME="MGO_MAIN_DATA"
-this.CONFIG_SAVE_FILE_NAME="TPP_CONFIG_DATA"
+this.CONFIG_SAVE_FILE_NAME="TPP_CONFIG_DATA_MOD"--tex seperating save file since engine (rightfully) complains about unexpected file size change when reverting to vanilla
+--ORIG this.CONFIG_SAVE_FILE_NAME="TPP_CONFIG_DATA" 
 this.MGO_SAVE_FILE_NAME="MGO_GAME_DATA"
 this.PERSONAL_DATA_SAVE_FILE_NAME="PERSONAL_DATA"
 this.CATEGORY_MISSION_RESTARTABLE=2
@@ -173,7 +175,7 @@ this.SAVE_FILE_INFO={
   [TppScriptVars.CATEGORY_PERSONAL]={version=100,slot=this.SAVE_SLOT.PERSONAL}
 }
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  this.SAVE_FILE_INFO[TppScriptVars.CATEGORY_MGO]={version=102,slot=this.SAVE_SLOT.MGO}
+  this.SAVE_FILE_INFO[TppScriptVars.CATEGORY_MGO]={version=102,slot=this.SAVE_SLOT.MGO}--NMC this overrides CATEGORY_MISSION_RESTARTABLE
 end
 this.PROGRAM_SAVE_FILE_VERSION=TppScriptVars.GetProgramVersionTable()
 this.VARS_GROUP_GAME_DATA_ON_START_MISSION=bor(TppScriptVars.GROUP_BIT_GVARS,TppScriptVars.GROUP_BIT_VARS)

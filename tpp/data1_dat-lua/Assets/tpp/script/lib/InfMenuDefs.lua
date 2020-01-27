@@ -14,14 +14,63 @@ this.fovaModMenu={
   }
 }
 
+this.appearanceMenu={
+  options={
+    Ivars.playerType,
+    Ivars.playerPartsType,
+    Ivars.playerCamoType,
+    Ivars.playerFaceEquipId,
+    Ivars.playerFaceId,
+    InfMenuCommands.printFaceInfo,
+    --OFF Ivars.playerHeadgear,
+    InfMenuCommands.printCurrentAppearance,
+    this.fovaModMenu,
+  }
+}
+
+this.appearanceDebugMenu={
+  options={
+    Ivars.faceFovaDirect,
+    Ivars.faceDecoFovaDirect,
+    Ivars.hairFovaDirect,
+    Ivars.hairDecoFovaDirect,
+    Ivars.playerTypeDirect,
+    Ivars.playerPartsTypeDirect,
+    Ivars.playerCamoTypeDirect,
+    Ivars.playerFaceIdDirect,
+    Ivars.playerFaceEquipIdDirect,
+
+    InfMenuCommands.printFaceInfo,
+    --OFF Ivars.playerHeadgear,
+    InfMenuCommands.printCurrentAppearance,
+
+    Ivars.faceFova,
+    Ivars.faceDecoFova,
+    Ivars.hairFova,
+    Ivars.hairDecoFova,
+
+    Ivars.faceFovaUnknown1,
+    Ivars.faceFovaUnknown2,
+    Ivars.faceFovaUnknown3,
+    Ivars.faceFovaUnknown4,
+    Ivars.faceFovaUnknown5,
+    Ivars.faceFovaUnknown6,
+    Ivars.faceFovaUnknown7,
+    Ivars.faceFovaUnknown8,
+    Ivars.faceFovaUnknown9,
+    Ivars.faceFovaUnknown10,
+    this.fovaModMenu,
+  }
+}
+
 this.playerSettingsMenu={
   options={
     Ivars.playerHealthScale,
     InfMenuCommands.removeDemon,
     InfMenuCommands.setDemon,
     Ivars.useSoldierForDemos,
-    Ivars.playerHeadgear,
-    this.fovaModMenu,
+    --Ivars.playerHeadgear,
+    this.appearanceMenu,
   }
 }
 this.soldierParamsMenu={
@@ -29,6 +78,7 @@ this.soldierParamsMenu={
     Ivars.soldierParamsProfile,
     Ivars.soldierHealthScale,
     Ivars.soldierSightDistScale,
+    Ivars.soldierNightSightDistScale,
     Ivars.soldierHearingDistScale,
     Ivars.itemDropChance,
     InfMenuCommands.printHealthTableParameter,
@@ -81,16 +131,18 @@ this.dDEquipMenu={
     Ivars.enableDDEquipMB,
     Ivars.enableDDEquipFREE,
     Ivars.enableDDEquipMISSION,
-    Ivars.mbSoldierEquipGrade_MIN,
-    Ivars.mbSoldierEquipGrade_MAX,
+    Ivars.soldierEquipGrade_MIN,
+    Ivars.soldierEquipGrade_MAX,
     Ivars.allowUndevelopedDDEquip,
     Ivars.mbDDEquipNonLethal,
     Ivars.mbSoldierEquipRange,
   }
 }
 
+--tex SYNC motherbaseProfile
 this.motherBaseMenu={
   options={
+    --OFF TODO Ivars.motherbaseProfile,
     Ivars.revengeModeMB,
     this.dDEquipMenu,
     Ivars.mbDDSuit,
@@ -145,9 +197,9 @@ this.debugMenu={
     InfMenuCommands.showQuietReunionMissionCount,
     InfMenuCommands.forceAllQuestOpenFlagFalse,
     InfMenuCommands.showPosition,
-    InfMenuCommands.DEBUG_PrintSaveVarCount,
     InfMenuCommands.showMissionCode,
     InfMenuCommands.showLangCode,
+    this.appearanceDebugMenu,
   }
 }
 
@@ -284,19 +336,6 @@ this.revengeMenu={
   }
 }
 --
-
-this.appearanceMenu={
-  options={
-    Ivars.playerType,
-    Ivars.playerPartsType,
-    Ivars.playerCammoTypes,
-    Ivars.playerFaceEquipId,
-    Ivars.playerFaceId,
-    Ivars.playerHeadgear,
-    InfMenuCommands.printCurrentAppearance,
-  }
-}
-
 this.playerRestrictionsInMissionMenu={
   options={
     Ivars.disableHeadMarkers,
@@ -438,6 +477,7 @@ this.worldMenu={
     Ivars.enableParasiteEvent,
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
+    --WIP DEBUGNOW Ivars.resourceAmountScale,
     Ivars.repopulateRadioTapes,
     Ivars.randomizeMineTypes,
     Ivars.additionalMineFields,
@@ -489,11 +529,13 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
-    --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --    Ivars.playerFaceId,--DEBUGNOW
+    --    --InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+    --    --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
+    --    --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG
     --Ivars.vehiclePatrolPaintType,
@@ -542,6 +584,7 @@ this.debugInMissionMenu={
     InfMenuCommands.DEBUG_PrintSoldierDefine,
     --InfMenuCommands.DEBUG_PrintSoldierIDList,
     InfMenuCommands.DEBUG_ShowRevengeConfig,
+    this.appearanceDebugMenu,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
     --InfMenuCommands.DEBUG_ChangePhase,
     --InfMenuCommands.DEBUG_KeepPhaseOn,
@@ -560,21 +603,25 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
+    --  Ivars.playerFaceIdDirect,
+
+
+
     --Ivars.buddyChangeEquipVar,--DEBUG
---    InfMenuCommands.DEBUG_buddyCycleVar,--DEBUG
---    InfMenuCommands.DEBUG_buddyCycle,--DEBUG
---    InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
-    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
-    --InfMenuCommands.resetAllSettingsItem,--DEBUG
-    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-    --    Ivars.itemDropChance,--DEBUG
-    --    Ivars.playerFaceIdApearance,--DEBUG
-    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --    this.appearanceMenu,--DEBUG    --
-    --    InfMenuCommands.DEBUG_DropItem,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --    InfMenuCommands.DEBUG_buddyCycleVar,--DEBUG
+    --    --    InfMenuCommands.DEBUG_buddyCycle,--DEBUG
+    --        InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
+    --    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
+    --    --InfMenuCommands.resetAllSettingsItem,--DEBUG
+    --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+    --    --    Ivars.itemDropChance,--DEBUG
+    --    --    Ivars.playerFaceIdApearance,--DEBUG
+    --    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+    --    --    this.appearanceMenu,--DEBUG    --
+    --    --    InfMenuCommands.DEBUG_DropItem,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
     --    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --    InfMenuCommands.doEnemyReinforce,--WIP
@@ -585,6 +632,7 @@ this.inMissionMenu={
     this.timeScaleMenu,
     this.userMarkerMenu,
     this.buddyMenu,
+    this.appearanceMenu,
     this.playerRestrictionsInMissionMenu,
     this.phaseMenu,
     this.supportHeliMenu,

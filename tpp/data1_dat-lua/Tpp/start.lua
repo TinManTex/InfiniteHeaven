@@ -576,14 +576,14 @@ if Script.LoadLibrary then
   else
     tppOrMgoPath="/Assets/tpp/"
   end
-  local e
+  local filePath
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    e="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
+    filePath="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
   else
-    e="Tpp/Scripts/Equip/EquipIdTable.lua"
+    filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
   end
-  Script.LoadLibraryAsync(e)
-  while Script.IsLoadingLibrary(e)do
+  Script.LoadLibraryAsync(filePath)
+  while Script.IsLoadingLibrary(filePath)do
     yield()
   end
   local e=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"

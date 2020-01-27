@@ -1,241 +1,53 @@
 --main.lua
 externalLoad=true
 
+projectDataPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"
+
+package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
+
 package.path=package.path..";./Data1Lua/Tpp/"
 package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"
-package.path=package.path..";./Data1Lua/Tpp/Scripts/Equip/?.lua"
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
 --
-package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
 
---MOCK
---engine side
-AssetConfiguration={}
-AssetConfiguration.GetDefaultCategory=function()
-  return "eng"
-end
-AssetConfiguration.IsDiscOrHddImage=function()
-  return false
-end
-AssetConfiguration.GetConfigurationFromAssetManager=function(configName)
-  local hasConfig={
-    EnableWindowsDX11Texture=true,
-  }
-  return hasConfig[configName] or false
+--UTIL
+Util={}
+
+function Util.Split(s, delimiter)
+  local result = {};
+  for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+    table.insert(result, match);
+  end
+  return result;
 end
 
-AssetConfiguration.defaultTargetDirectory=""
-AssetConfiguration.SetDefaultTargetDirectory=function(tag)
-  AssetConfiguration.defaultTargetDirectory=tag
+function Util.MergeTable(table1,table2,n)
+  local mergedTable=table1
+  for k,v in pairs(table2)do
+    if table1[k]==nil then
+      mergedTable[k]=v
+    else
+      mergedTable[k]=v
+    end
+  end
+  return mergedTable
+end
+--
+--tex not set up as a coroutine, so yield==nil?
+yield=function()
 end
 
-AssetConfiguration.targetDirectories={}
-AssetConfiguration.SetTargetDirectory=function(fileType,tag)
-  AssetConfiguration.targetDirectories[fileType]=tag
-end
+dofile("MockFoxEngine.lua")
 
-Fox={}
-Fox.StrCode32=function(encodeString)--TODO IMPLEMENT
-  return encodeString
-end
-Fox.GetPlatformName=function()
-  return "Windows"
-end
+--local init,err=loadfile("./Data1Lua/init.lua")
+--if not err then
+--init()
+--else
+--print(tostring(err))
+--end
 
-GameObject={}
-Time={}
-Time.GetRawElapsedTimeSinceStartUp=function()--TODO IMPLEMENT
-  return os.time()
-end
-
-TppGameMode={}
-TppGameObject={}
-
-local gameObjectTypes={
-  "GAME_OBJECT_TYPE_PLAYER2",
-  "GAME_OBJECT_TYPE_COMMAND_POST2",
-  "GAME_OBJECT_TYPE_SOLDIER2",
-  "GAME_OBJECT_TYPE_HOSTAGE2",
-  "GAME_OBJECT_TYPE_HOSTAGE_UNIQUE",
-  "GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2",
-  "GAME_OBJECT_TYPE_HOSTAGE_KAZ",
-  "GAME_OBJECT_TYPE_OCELOT2",
-  "GAME_OBJECT_TYPE_HUEY2",
-  "GAME_OBJECT_TYPE_CODE_TALKER2",
-  "GAME_OBJECT_TYPE_SKULL_FACE2",
-  "GAME_OBJECT_TYPE_MANTIS2",
-  "GAME_OBJECT_TYPE_BIRD2",
-  "GAME_OBJECT_TYPE_HORSE2",
-  "GAME_OBJECT_TYPE_HELI2",
-  "GAME_OBJECT_TYPE_ENEMY_HELI",
-  "GAME_OBJECT_TYPE_OTHER_HELI",
-  "GAME_OBJECT_TYPE_OTHER_HELI2",
-  "GAME_OBJECT_TYPE_BUDDYQUIET2",
-  "GAME_OBJECT_TYPE_BUDDYDOG2",
-  "GAME_OBJECT_TYPE_BUDDYPUPPY",
-  "GAME_OBJECT_TYPE_SAHELAN2",
-  "GAME_OBJECT_TYPE_PARASITE2",
-  "GAME_OBJECT_TYPE_LIQUID2",
-  "GAME_OBJECT_TYPE_VOLGIN2",
-  "GAME_OBJECT_TYPE_BOSSQUIET2",
-  "GAME_OBJECT_TYPE_UAV",
-  "GAME_OBJECT_TYPE_SECURITYCAMERA2",
-  "GAME_OBJECT_TYPE_GOAT",
-  "GAME_OBJECT_TYPE_NUBIAN",
-  "GAME_OBJECT_TYPE_CRITTER_BIRD",
-  "GAME_OBJECT_TYPE_STORK",
-  "GAME_OBJECT_TYPE_EAGLE",
-  "GAME_OBJECT_TYPE_RAT",
-  "GAME_OBJECT_TYPE_ZEBRA",
-  "GAME_OBJECT_TYPE_WOLF",
-  "GAME_OBJECT_TYPE_JACKAL",
-  "GAME_OBJECT_TYPE_BEAR",
-  "GAME_OBJECT_TYPE_CORPSE",
-  "GAME_OBJECT_TYPE_MBQUIET",
-  "GAME_OBJECT_TYPE_COMMON_HORSE2",
-  "GAME_OBJECT_TYPE_HORSE2_FOR_VR",
-  "GAME_OBJECT_TYPE_PLAYER_HORSE2_FOR_VR",
-  "GAME_OBJECT_TYPE_VOLGIN2_FOR_VR",
-  "GAME_OBJECT_TYPE_WALKERGEAR2",
-  "GAME_OBJECT_TYPE_COMMON_WALKERGEAR2",
-  "GAME_OBJECT_TYPE_BATTLEGEAR",
-  "GAME_OBJECT_TYPE_EXAMPLE",
-  "GAME_OBJECT_TYPE_SAMPLE_GAME_OBJECT",
-  "GAME_OBJECT_TYPE_NOTICE_OBJECT",
-  "GAME_OBJECT_TYPE_VEHICLE",
-  "GAME_OBJECT_TYPE_MOTHER_BASE_CONTAINER",
-  "GAME_OBJECT_TYPE_EQUIP_SYSTEM",
-  "GAME_OBJECT_TYPE_PICKABLE_SYSTEM",
-  "GAME_OBJECT_TYPE_COLLECTION_SYSTEM",
-  "GAME_OBJECT_TYPE_THROWING_SYSTEM",
-  "GAME_OBJECT_TYPE_PLACED_SYSTEM",
-  "GAME_OBJECT_TYPE_SHELL_SYSTEM",
-  "GAME_OBJECT_TYPE_BULLET_SYSTEM3",
-  "GAME_OBJECT_TYPE_CASING_SYSTEM",
-  "GAME_OBJECT_TYPE_FULTON",
-  "GAME_OBJECT_TYPE_BALLOON_SYSTEM",
-  "GAME_OBJECT_TYPE_PARACHUTE_SYSTEM",
-  "GAME_OBJECT_TYPE_SUPPLY_CBOX",
-  "GAME_OBJECT_TYPE_SUPPORT_ATTACK",
-  "GAME_OBJECT_TYPE_RANGE_ATTACK",
-  "GAME_OBJECT_TYPE_CBOX",
-  "GAME_OBJECT_TYPE_OBSTRUCTION_SYSTEM",
-  "GAME_OBJECT_TYPE_DECOY_SYSTEM",
-  "GAME_OBJECT_TYPE_CAPTURECAGE_SYSTEM",
-  "GAME_OBJECT_TYPE_DUNG_SYSTEM",
-  "GAME_OBJECT_TYPE_MARKER2_LOCATOR",
-  "GAME_OBJECT_TYPE_ESPIONAGE_RADIO",
-  "GAME_OBJECT_TYPE_MGO_ACTOR",
-  "GAME_OBJECT_TYPE_FOB_GAME_DAEMON",
-  "GAME_OBJECT_TYPE_SYSTEM_RECEIVER",
-  "GAME_OBJECT_TYPE_SEARCHLIGHT",
-  "GAME_OBJECT_TYPE_FULTONABLE_CONTAINER",
-  "GAME_OBJECT_TYPE_GARBAGEBOX",
-  "GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE",
-  "GAME_OBJECT_TYPE_GATLINGGUN",
-  "GAME_OBJECT_TYPE_MORTAR",
-  "GAME_OBJECT_TYPE_MACHINEGUN",
-  "GAME_OBJECT_TYPE_DOOR",
-  "GAME_OBJECT_TYPE_WATCH_TOWER",
-  "GAME_OBJECT_TYPE_TOILET",
-  "GAME_OBJECT_TYPE_ESPIONAGEBOX",
-  "GAME_OBJECT_TYPE_IR_SENSOR",
-  "GAME_OBJECT_TYPE_EVENT_ANIMATION",
-  "GAME_OBJECT_TYPE_BRIDGE",
-  "GAME_OBJECT_TYPE_WATER_TOWER",
-  "GAME_OBJECT_TYPE_RADIO_CASSETTE",
-  "GAME_OBJECT_TYPE_POI_SYSTEM",
-  "GAME_OBJECT_TYPE_SAMPLE_MANAGER",
-}
-for i=1,#gameObjectTypes do
-  TppGameObject[gameObjectTypes[i]]=i-1
-end
-
-TppNetworkUtil={}
-TppScriptVars={
-  CATEGORY_NONE=0,
-  CATEGORY_CONFIG=1,
-  CATEGORY_MISSION_RESTARTABLE=2,
-  CATEGORY_GAME_GLOBAL=4,
-  CATEGORY_MISSION=8,
-  CATEGORY_RETRY=16,
-  CATEGORY_MB_MANAGEMENT=32,
-  CATEGORY_QUEST=64,
-  CATEGORY_PERSONAL=128,
-  CATEGORY_ALL=255,
-}
-
---TYPE_BOOL=0
---TYPE_INT32=1
---TYPE_UINT32=2
---TYPE_FLOAT=3
---TYPE_INT8=4
---TYPE_UINT8=5
---TYPE_INT16=6
---TYPE_UINT16=7
-
---SYNC mgsv 1.09
-TppScriptVars.GetProgramVersionTable=function()
-  --NOTE indexed by CATEGORY_
-  return {
-    0,0,nil,1,
-    [0]=0,--CATEGORY_NONE=0,
-    --[1]=??--CATEGORY_CONFIG
-    --[2]=??CATEGORY_MISSION_RESTARTABLE=
-    --[4]=??CATEGORY_GAME_GLOBAL=
-    [8]=2,--CATEGORY_MISSION=
-    [16]=0,--CATEGORY_RETRY=
-    [32]=5,--CATEGORY_MB_MANAGEMENT=
-    [64]=0,--CATEGORY_QUEST
-    [128]=1,--CATEGORY_PERSONAL
-  }
-end
-
-
-TppSystemUtility={
-  gameModes={
-    "TPP",
-    "MGO",
-  }
-}
-TppSystemUtility.GetCurrentGameMode=function()
-  return "TPP"
-end
-
-
-
-
-
-bit={}--TODO IMPLEMENT: add implementation of whatever bit library this was again
---enums and values, TODO: possibly IMPLEMENT
-EnemyType={}
-PlayerDisableAction={}
-PlayerPad={}
-PlayerType={}
-PlayerCamoType={}
-BuddyType={
-  HORSE=1,
-  DOG=2,
-  QUIET=3,
-  WALKER_GEAR=4,
-  BATTLE_GEAR=5,
-}
-
-TppEquip={}
-TppEquip.ReloadEquipIdTable=function(equipIdTable)
-  TppEquip.equipIdTable=equipIdTable
-end
-
-vars={}
-mvars={}
-svars={}
-gvars={}
-
---< engine side
---dofile("./Data1Lua/init.lua")
-
---modules - would be able to include these too if I mocked every non module variable lol
+--Mock modules - would be able to include these too if I mocked every non module variable lol
 TppDefine={}
 TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST={}
 local numMbDemos=47--SYNC #MB_FREEPLAY_DEMO_PRIORITY_LIST
@@ -273,15 +85,198 @@ end
 
 --end mock stuff
 
-Tpp=require"Tpp"
-EquipIdTable=require"EquipIdTable"
+--start.lua
+local tppOrMgoPath
+if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+  tppOrMgoPath="/Assets/mgo/"
+else
+  tppOrMgoPath="/Assets/tpp/"
+end
+local filePath
+if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+  filePath="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
+else
+  filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
+end
+Script.LoadLibraryAsync(filePath)
+while Script.IsLoadingLibrary(filePath)do
+  yield()
+end
+local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
+if TppEquip.IsExistFile(filePath)then
+  Script.LoadLibrary(filePath)
+else
+  Script.LoadLibrary"Tpp/Scripts/Equip/EquipParameters.lua"
+end
+yield()
+local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
+if TppEquip.IsExistFile(filePath)then
+  Script.LoadLibrary(filePath)
+end
+Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"
+Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"
+if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+  Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerTables.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerProgression.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/ChimeraPartsPackageTable.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/EquipConfig.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/WeaponParameterTables.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/RulesetConfig.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/SafeSpawnConfig.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/SoundtrackConfig.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/PresetRadioConfig.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/player/Stats/StatTables.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/PointOfInterestConfig.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/damage/ParameterTables/DamageParameterTables.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipMotionData.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"
+  Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
+else
+    yield()
+    Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
+    yield()
+    Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
+    yield()
+    Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
+    yield()
+  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"
+  Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"
+  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
+  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
+  yield()
+  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"
+  yield()
+end
+if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
+else
+  Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
+end
+if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+  Script.LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"
+end
+Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
+--  while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
+--    yield()
+--  end
+--Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
+Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
+--Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
+--  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+--    Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/lib/PostTppOverrides.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/lib/MgoMain.lua"
+--    Script.LoadLibrary"Tpp/Scripts/System/Block/Overflow.lua"
+--    Script.LoadLibrary"/Assets/mgo/level_asset/config/TppMissionList.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/utils/Utils.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterGear.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterConnectPointFiles.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/player/PlayerResources.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/player/PlayerDefaults.lua"
+--    Script.LoadLibrary"/Assets/mgo/script/Matchmaking.lua"
+--  else
+--Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"
+--Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"
+--  end
+--end
+yield()
+pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
 
+Script.LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
+-------=====================
+this.requires={
+  "/Assets/tpp/script/lib/TppDefine.lua",
+  "/Assets/tpp/script/lib/TppMath.lua",
+  "/Assets/tpp/script/lib/TppSave.lua",
+  "/Assets/tpp/script/lib/TppLocation.lua",
+  "/Assets/tpp/script/lib/TppSequence.lua",
+  "/Assets/tpp/script/lib/TppWeather.lua",
+  "/Assets/tpp/script/lib/TppDbgStr32.lua",
+  "/Assets/tpp/script/lib/TppDebug.lua",
+  "/Assets/tpp/script/lib/TppClock.lua",
+  "/Assets/tpp/script/lib/TppUI.lua",
+  "/Assets/tpp/script/lib/TppResult.lua",
+  "/Assets/tpp/script/lib/TppSound.lua",
+  "/Assets/tpp/script/lib/TppTerminal.lua",
+  "/Assets/tpp/script/lib/TppMarker.lua",
+  "/Assets/tpp/script/lib/TppRadio.lua",
+  "/Assets/tpp/script/lib/TppPlayer.lua",
+  "/Assets/tpp/script/lib/TppHelicopter.lua",
+  "/Assets/tpp/script/lib/TppScriptBlock.lua",
+  "/Assets/tpp/script/lib/TppMission.lua",
+  "/Assets/tpp/script/lib/TppStory.lua",
+  "/Assets/tpp/script/lib/TppDemo.lua",
+  "/Assets/tpp/script/lib/TppEnemy.lua",
+  "/Assets/tpp/script/lib/TppGeneInter.lua",
+  "/Assets/tpp/script/lib/TppInterrogation.lua",
+  "/Assets/tpp/script/lib/TppGimmick.lua",
+  "/Assets/tpp/script/lib/TppMain.lua",
+  "/Assets/tpp/script/lib/TppDemoBlock.lua",
+  "/Assets/tpp/script/lib/TppAnimalBlock.lua",
+  "/Assets/tpp/script/lib/TppCheckPoint.lua",
+  "/Assets/tpp/script/lib/TppPackList.lua",
+  "/Assets/tpp/script/lib/TppQuest.lua",
+  "/Assets/tpp/script/lib/TppTrap.lua",
+  "/Assets/tpp/script/lib/TppReward.lua",
+  "/Assets/tpp/script/lib/TppRevenge.lua",
+  "/Assets/tpp/script/lib/TppReinforceBlock.lua",
+  "/Assets/tpp/script/lib/TppEneFova.lua",
+  "/Assets/tpp/script/lib/TppFreeHeliRadio.lua",
+  "/Assets/tpp/script/lib/TppHero.lua",
+  "/Assets/tpp/script/lib/TppTelop.lua",
+  "/Assets/tpp/script/lib/TppRatBird.lua",
+  "/Assets/tpp/script/lib/TppMovie.lua",
+  "/Assets/tpp/script/lib/TppAnimal.lua",
+  "/Assets/tpp/script/lib/TppException.lua",
+  "/Assets/tpp/script/lib/TppTutorial.lua",
+  "/Assets/tpp/script/lib/TppLandingZone.lua",
+  "/Assets/tpp/script/lib/TppCassette.lua",
+  "/Assets/tpp/script/lib/TppEmblem.lua",
+  "/Assets/tpp/script/lib/TppDevelopFile.lua",
+  "/Assets/tpp/script/lib/TppPaz.lua",
+  "/Assets/tpp/script/lib/TppRanking.lua",
+  "/Assets/tpp/script/lib/TppTrophy.lua",
+  "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
+  "/Assets/tpp/script/lib/Ivars.lua",--tex>
+  "/Assets/tpp/script/lib/InfLang.lua",
+  "/Assets/tpp/script/lib/InfButton.lua",
+  "/Assets/tpp/script/lib/InfMain.lua",
+  "/Assets/tpp/script/lib/InfMenuCommands.lua",
+  "/Assets/tpp/script/lib/InfMenuDefs.lua",
+  "/Assets/tpp/script/lib/InfQuickMenuDefs.lua",
+  "/Assets/tpp/script/lib/InfMenu.lua",
+  "/Assets/tpp/script/lib/InfEneFova.lua",
+  "/Assets/tpp/script/lib/InfEquip.lua",
+  --OFF "/Assets/tpp/script/lib/InfSplash.lua",
+  "/Assets/tpp/script/lib/InfVehicle.lua",
+  "/Assets/tpp/script/lib/InfRevenge.lua",
+  --OFF "/Assets/tpp/script/lib/InfReinforce.lua",
+  "/Assets/tpp/script/lib/InfCamera.lua",
+  "/Assets/tpp/script/lib/InfUserMarker.lua",
+  --CULL"/Assets/tpp/script/lib/InfPatch.lua",
+  "/Assets/tpp/script/lib/InfEnemyPhase.lua",
+  "/Assets/tpp/script/lib/InfHelicopter.lua",
+  "/Assets/tpp/script/lib/InfNPC.lua",
+  "/Assets/tpp/script/lib/InfNPCOcelot.lua",
+  "/Assets/tpp/script/lib/InfNPCHeli.lua",
+  "/Assets/tpp/script/lib/InfWalkerGear.lua",
+  "/Assets/tpp/script/lib/InfInterrogation.lua",
+  "/Assets/tpp/script/lib/InfSoldierParams.lua",
+  "/Assets/tpp/script/lib/InfInspect.lua",
+  "/Assets/tpp/script/lib/InfFova.lua",
+  "/Assets/tpp/script/lib/InfLZ.lua",
+  "/Assets/tpp/script/lib/InfGameEvent.lua",
+  "/Assets/tpp/script/lib/InfParasite.lua",
+  "/Assets/tpp/script/lib/InfBuddy.lua",
+  "/Assets/tpp/script/lib/InfHooks.lua",--<
+}
+--TODO really do need to module load these since TppDefine is already loaded at this point
+---------
 afgh_routeSets=require"afgh_routeSets"
 mafr_routeSets=require"mafr_routeSets"
 afgh_travelPlans=require"afgh_travelPlans"
 mafr_travelPlans=require"mafr_travelPlans"
-
-
 
 --TppDefine=require"TppDefine"
 
@@ -298,6 +293,8 @@ InfLZ=require"InfLZ"
 
 InfInspect=require"InfInspect"
 InfEquip=require"InfEquip"
+InfEneFova=require"InfEneFova"
+InfFova=require"InfFova"
 
 --LOCALOPT
 local IsFunc=Tpp.IsTypeFunc
@@ -623,6 +620,8 @@ local function AutoDoc()
   Ivars.fovaSelection.description="<Character model description>"
   Ivars.fovaSelection.settingNames={"<Fova selection>"}
   Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
+  Ivars.playerPartsType.settings={"<Suits for player type>"}--DEBUGNOW
+  Ivars.playerCamoType.settings={"<Camos for player type>"}--DEBUGNOW
 
 
   local menu=InfMenuDefs.heliSpaceMenu.options
@@ -871,17 +870,187 @@ end
 
 --print ivars
 local function PrintIvars()
+  local outPutFile="D:\\Projects\\MGS\\!InfiniteHeaven\\ivars.lua"
+  local f=io.open(outPutFile,"w")
+
+  local function WriteLine(text)
+    f:write(text,"\n")
+  end
+
+  WriteLine("local ivars={")
+
+  local ivarNames={}
+
+  local SortFunc=function(a,b) return a < b end
 
   local optionType="OPTION"
   for name,ivar in pairs(Ivars) do
     if type(ivar)=="table" then
       if ivar.save then
         if ivar.optionType==optionType then
-          print("\""..name.."\",")
+          table.insert(ivarNames,name)
         end
       end
     end
   end
+  table.sort(ivarNames,SortFunc)
+  --InfInspect.PrintInspect(ivarNames)
+
+  for i,name in ipairs(ivarNames) do
+    --print("\""..name.."\",")
+    WriteLine("\t".."\""..name.."\",")
+    local optionName=InfLang.eng[name] or InfLang.help.eng[name] or ""
+    local ivar=Ivars[name]
+    --WriteLine("  "..name.."="..tostring(ivar.default)..",--"..optionName)
+  end
+
+
+  WriteLine("}")
+  f:close()
+end
+--
+--fova/face id stuff
+local faceFovaEntryIndex={
+  faceId=1,
+  unknown1=2,
+  gender=3,
+  unknown2=4,
+  faceFova=5,
+  faceDecoFova=6,
+  hairFova=7,
+  hairDecoFova=8,
+  unknown3=9,
+  unknown4=10,
+  unknown5=11,
+  uiTextureName=12,
+  unknown6=13,
+  unknown7=14,
+  unknown8=15,
+  unknown9=16,
+  unknown10=17,
+}
+
+local GENDER={
+  MALE=0,
+  FEMALE=1,
+}
+
+local function CheckSoldierFova()
+  for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    if entry[faceFovaEntryIndex.gender]==GENDER.FEMALE then
+    end
+  end
+
+
+end
+
+local function FindMissingFovas()
+  print"faceFovas"
+  local faceFovas={}
+  for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    if entry[faceFovaEntryIndex.gender]==GENDER.FEMALE then
+      faceFovas[entry[faceFovaEntryIndex.faceFova]]=true
+    end
+  end
+
+  for faceFova,bool in pairs(faceFovas)do
+    print(faceFova)
+  end
+
+  print"faceDecoFovas"
+  local faceDecoFovas={}
+  for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    if entry[faceFovaEntryIndex.gender]==GENDER.FEMALE then
+      faceDecoFovas[entry[faceFovaEntryIndex.faceDecoFova]]=true
+    end
+  end
+
+  for id,bool in pairs(faceDecoFovas)do
+    print(id)
+  end
+
+  print"hairFovas"
+  local hairFovas={}
+  for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    if entry[faceFovaEntryIndex.gender]==GENDER.FEMALE then
+      hairFovas[entry[faceFovaEntryIndex.hairFova]]=true
+    end
+  end
+
+  for id,bool in pairs(hairFovas)do
+    print(id)
+  end
+
+  print"hairDecoFovas"
+  local hairDecoFovas={}
+  for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    if entry[faceFovaEntryIndex.gender]==GENDER.FEMALE then
+      hairDecoFovas[entry[faceFovaEntryIndex.hairDecoFova]]=true
+    end
+  end
+
+  for id,bool in pairs(hairDecoFovas)do
+    print(id)
+  end
+end
+
+
+
+
+local function BuildFovaTypesList()
+  local function BuildList(tableName,fovaTable)
+    print("this."..tableName.."Info={")
+    local list={}
+    for i,entry in ipairs(fovaTable)do
+      local split=Util.Split(entry[1],"/")
+      local id=split[#split]
+      table.insert(list,id)
+      print("{")
+      print("\tname=".."\""..id.."\","..tableName.."="..(i-1)..",")
+      print("},")
+    end
+    print("}")
+    return list
+  end
+
+  local faceFovas=BuildList("faceFova",Soldier2FaceAndBodyData.faceFova)
+  print()
+  local faceDecos=BuildList("faceDecoFova",Soldier2FaceAndBodyData.faceDecoFova)
+  print()
+  local hairFovas=BuildList("hairFova",Soldier2FaceAndBodyData.hairFova)
+  print()
+  local hairDecoFovas=BuildList("hairDecoFova",Soldier2FaceAndBodyData.hairDecoFova)
+end
+
+
+local function FaceDefinitionAnalyse()
+local paramNames={
+ "faceFova",
+  "faceDecoFova",
+  "hairFova",
+  "hairDecoFova",
+}
+
+  local analysis={
+    MALE={},
+    FEMALE={},
+  }
+
+  for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    local index=i-1
+    local gender="MALE"
+    if entry[faceFovaEntryIndex.gender]==GENDER.FEMALE then
+      gender="FEMALE"
+    end
+    table.insert(analysis[gender],index)
+    
+    local analyseParamName="faceFova"
+    local analyseParam=entry[InfEneFova.faceDefinitionParams[analyseParamName]]
+    
+    local analyseParamTable=analysis[analyseParam] or {}
+    analysis[analyseParam]=analyseParamTable or {}
+  end
+
 end
 --
 
@@ -894,6 +1063,11 @@ local function main()
   --PrintGenericRoutes2()
 
   PrintIvars()
+
+  CheckSoldierFova()
+
+  --BuildFovaTypesList()
+FaceDefinitionAnalyse()
 
   --XmlTest()
 end

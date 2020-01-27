@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r174"
+this.modVersion="r176"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -187,15 +187,15 @@ function this.MinMaxIvarRandom(ivarName)
   return math.random(ivarMin:Get(),ivarMax:Get())
 end
 
-function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldierEquipGrade
+function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: soldierEquipGrade
   local missionCode=missionId or vars.missionCode
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   if this.IsDDEquip(missionCode) then
     InfMain.RandomSetToLevelSeed()
-    grade=this.MinMaxIvarRandom"mbSoldierEquipGrade"
+    grade=this.MinMaxIvarRandom"soldierEquipGrade"
     InfMain.RandomResetToOsTime()
   end
-  --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.mbSoldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
+  --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.soldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
   --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUG
   return grade
 end
@@ -1050,8 +1050,11 @@ function this.OnInitializeBottom(missionTable)
   --end,missionTable)--DEBUG
 end
 
-function this.OnAllocateTop(missionTable)
 
+function this.OnAllocateTop(missionTable)
+  --if not Ivars.resourceAmountScale:IsDefault() then
+  this.ScaleResourceTables()
+  --end
 end
 --via TppMain
 function this.OnMissionCanStartBottom()
@@ -1069,9 +1072,10 @@ function this.OnMissionCanStartBottom()
   end
 
   --tex WORKAROUND invasion mode extract from mb weirdness, just disable for now
-  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then
-    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
-  end
+  --DEBUGNOW
+  --  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then
+  --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
+  --  end
 
   this.StartLongMbVisitClock()
 
@@ -1265,7 +1269,7 @@ function this.Update()
 
     local abortButton=InfButton.ESCAPE
     InfButton.buttonStates[abortButton].holdTime=2
-        
+
     if InfButton.OnButtonHoldTime(abortButton) then
       if gvars.ini_isTitleMode then
         local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
@@ -1534,6 +1538,9 @@ function this.OnMenuOpen()
 
 end
 function this.OnMenuClose()
+  TppSave.VarSaveConfig()
+  TppSave.SaveConfigData()
+
   local activeControlMode=this.GetActiveControlMode()
   if activeControlMode then
     if IsFunc(activeControlMode.OnActivate) then
@@ -1947,6 +1954,11 @@ function this.AddLrrps(soldierDefine,travelPlans)
   InfMain.RandomResetToOsTime()
 end
 
+local function FaceIsFemale(faceId)
+  local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
+  return isFemale and isFemale[1]==1
+end
+
 this.MAX_WILDCARD_FACES=16
 --TUNE:
 --afgh has ~39 cps, mafr ~33
@@ -1956,8 +1968,8 @@ this.numWildCardFemales=5
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
   --InfInspect.TryFunc(function(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 
-    if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
-      return
+  if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
+    return
   end
 
   local InfEneFova=InfEneFova
@@ -2131,6 +2143,9 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       for i=1,#uniqueSettings do
         if uniqueSettings[i].name==soldierName then
           hasSetting=true
+          if isFemale and not FaceIsFemale(uniqueSettings[i].faceId) then
+            InfMenu.DebugPrint("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female")--DEBUG
+          end
         end
       end
       if not hasSetting then
@@ -2647,9 +2662,9 @@ function this.ModifyEnemyAssetTable()
         local platInfo=clusterAssetTable[platName]
 
         local soldierList=platInfo.soldierList
---        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
---        InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
---        end--<
+        --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
+        --        InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
+        --        end--<
 
         local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
         local nightRoutes=platInfo.soldierRouteList.Night[1].inPlnt
@@ -2671,19 +2686,19 @@ function this.ModifyEnemyAssetTable()
         end
 
         local minRouteCount=math.min(#sneakRoutes,#nightRoutes)
-        --OFF totalPlatsRouteCount=totalPlatsRouteCount+minRouteCount --DEBUG 
-        
+        --OFF totalPlatsRouteCount=totalPlatsRouteCount+minRouteCount --DEBUG
+
         --CULL local numToAdd=math.min((minRouteCount-3)-#soldierList,additionalSoldiersPerPlat)--tex MAGIC this only really affects main plats which only have 12(-6soldiers) routes (with combined sneak/night). Rest have 15+
         local numToAdd=maxSoldiersOnPlat-#soldierList
         if numToAdd>0 then
           FillList(numToAdd,this.soldierPool,soldierList)
         end
         soldierCountFinal=soldierCountFinal+#soldierList
---        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
---          local totalRouteCount=#sneakRoutes+#nightRoutes
---          InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
---          --InfInspect.PrintInspect(soldierList)--DEBUG
---        end--<
+        --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
+        --          local totalRouteCount=#sneakRoutes+#nightRoutes
+        --          InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
+        --          --InfInspect.PrintInspect(soldierList)--DEBUG
+        --        end--<
       end
     end
 
@@ -2727,7 +2742,33 @@ function this.ModifyMinesAndDecoys()
     InfMain.RandomResetToOsTime()
   end
 end
-
+--
+function this.ScaleResourceTables()
+  --tex TODO migrate RESOURCE_INFORMATION_TABLE here (or shift this stuff to own module) once I can be bothered faffing about with table copying and cull the scaling in TppPlayer OnPickUpCollection and TppTerminal AddPickedUpResourceToTempBuffer
+  local resourceScale=Ivars.resourceAmountScale:Get()/100
+  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=TppDefine.SMALL_DIAMOND_GMP*resourceScale}
+  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=TppDefine.LARGE_DIAMOND_GMP*resourceScale}
+  --tex defaults, from MbmCommonSetting20BaseRecSec.lua
+  --tex GOTCHA I think values might be capped at 10k
+  local containerParams={
+    commonMetalCounts={white=750,red=7500,yellow=1500},
+    fuelResourceCounts={white=750,red=7500,yellow=1500},
+    bioticResourceCounts={white=750,red=7500,yellow=1500},
+    minorMetalCounts={white=400,red=4000,yellow=800},
+    preciousMetalCounts={white=50,red=500,yellow=100},
+    usableResourceContainerRate=50,
+    redContainerCountRate=40,
+    yellowContainerCountRate=40
+  }
+  for k,v in pairs(containerParams) do
+    if IsTable(v) then
+      for containerType,resourceCount in pairs(v) do
+        v[containerType]=resourceCount*resourceScale
+      end
+    end
+  end
+  TppMotherBaseManagement.RegisterContainerParam(containerParams)
+end
 --
 function this.ReadSaveVar(name,category)
   local category=category or TppScriptVars.CATEGORY_GAME_GLOBAL
@@ -2745,6 +2786,16 @@ this.locationNames={
 }
 function this.GetLocationName()
   return this.locationNames[vars.locationCode]
+end
+--tex the default sort anyway
+local SortAscendFunc=function(a,b)
+  if a<b then
+    return true
+  end
+  return false
+end
+function this.SortAscend(sortTable)
+  table.sort(sortTable)
 end
 
 function this.ClearTable(_table)
@@ -2812,5 +2863,31 @@ this.ShuffleBag={
     return #self.data
   end,
 }
+
+function this.IsMBDemoStage()
+  if vars.missionCode~=30050 then
+    return false
+  end
+
+  return (not TppPackList.IsMissionPackLabel"default") or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())
+end
+
+
+function this.PlayerVarsSanityCheck()
+  local faceEquipInfo=InfFova.playerFaceEquipIdInfo[vars.playerFaceEquipId+1]
+  if faceEquipInfo and faceEquipInfo.playerTypes and not faceEquipInfo.playerTypes[vars.playerType] then
+    vars.playerFaceEquipId=0
+  end
+
+  if TppMission.IsFOBMission(vars.missionCode)then
+    if vars.playerFaceId > Soldier2FaceAndBodyData.highestVanillaFaceId then
+      if vars.playerType==PlayerType.DD_MALE then
+        vars.playerFaceId=0
+      elseif vars.playerType==PlayerType.DD_FEMALE then
+        vars.playerFaceId=InfEneFova.DEFAULT_FACEID_FEMALE
+      end
+    end
+  end
+end
 
 return this

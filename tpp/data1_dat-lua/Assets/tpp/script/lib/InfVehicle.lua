@@ -397,6 +397,10 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 function this.AddVehiclePacks(missionCode,missionPackPath)
+  if TppMission.IsFOBMission(missionCode)then
+    return
+  end
+  
   if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
     return
   end

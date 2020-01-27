@@ -27,7 +27,7 @@ this.eng={--english
   setting_defaults="Setting options for current menu to defaults...",--r61
   setting_default="Setting to default..",
   setting_minimum="Setting to minimum..",
-  resetSettingsItem="Reset all settings in current menu",--r61
+  resetSettingsItem="Reset current menu",--r61
   setting_disallowed="is currently disallowed",
   goBackItem="Menu Back",
   menu_off="Menu Off",
@@ -37,7 +37,6 @@ this.eng={--english
   demosMenu="Cutscenes menu",
   patchupMenu="Patchup menu",
   playerHealthScale="Player life scale",
-  mbSoldierEquipGrade="DD Equip Grade",
   mbSoldierEquipRange="MB Equip Range (MB Prep mode FOB only)",
   mbDDSuit="DD Suit",
   mbWarGamesProfile="Mother Base War Games",
@@ -82,7 +81,7 @@ this.eng={--english
   revenge_reset="Enemy prep levels reset",--r70-v-
   revengeMenu="Enemy Prep menu",
   sideOpsMenu="Side ops menu",
-  resetAllSettingsItem="Reset all Infinite Heaven settings",
+  resetAllSettingsItem="Reset all IH settings",
   disableHeadMarkers="Disable head markers",
   disableSelectBuddy="Disable select-buddy",
   disableHeliAttack="Disable support heli attack",
@@ -181,6 +180,7 @@ this.eng={--english
   soldierParamsProfileSettings={"Off (use game/other mod settings, requires restart)","Custom"},
   soldierHealthScale="Soldier life scale",
   soldierSightDistScale="Soldier sight scale",
+  soldierNightSightDistScale="Soldier night sight scale",
   printSightFormParameter="Print sight param table (look in iDroid Log>All tab)",
   printHealthTableParameter="Print health param table (look in iDroid Log>All tab)",
   playerSettingsMenu="Player settings menu",
@@ -219,7 +219,6 @@ this.eng={--english
   removed_demon=" demon points subtracted, visual should refresh on mission start or retry command.",
   fultonSuccessMenu="Fulton success menu",--r104
   fultonSuccessProfile="Fulton success profile",
-  fultonSuccessProfileSettings={"Default","Heaven","Custom"},
   fultonNoMbSupport="Disable MB fulton support",
   fultonNoMbMedical="Disable MB fulton medical",
   fultonDyingPenalty="Target dying penalty",
@@ -243,7 +242,6 @@ this.eng={--english
   allowMissileWeaponsCombo="Allow missile combo with other weapons",
   disableConvertArmorToShield="Disable convert armor to shield (if armor off)",
   revengeProfile="Enemy prep system profile",--r113
-  revengeProfileSettings={"Default","Heaven","Custom"},
   enableMgVsShotgunVariation="Mg vs Shotgun variation",
   randomizeSmallCpPowers="Balance small CPs",
   mbDDHeadGear="DD Head gear",--r115
@@ -255,7 +253,7 @@ this.eng={--english
     "Tiger",
     "Sneaking",
     "Battle Dress",
-    "Swimsuit",
+    "Swimwear",
     "PF Riot Suit",
     "XOF",
     "Soviet",
@@ -295,8 +293,8 @@ this.eng={--english
   enableDDEquipMB="MB staff use DD equipment",
   enableDDEquipFREE="Enemy use DD equipment in free roam",
   enableDDEquipMISSION="Enemy use DD equipment in missions",--r125
-  mbSoldierEquipGrade_MIN="DD Equip Grade RND MIN",
-  mbSoldierEquipGrade_MAX="DD Equip Grade RND MAX",
+  soldierEquipGrade_MIN="DD Equip Grade RND MIN",
+  soldierEquipGrade_MAX="DD Equip Grade RND MAX",
   allowUndevelopedDDEquip="Allow undeveloped DD equipment",
   revengeModeSettings={"Enemy prep levels","Custom prep"},--121
   revengeModeMB="Mother base prep mode",
@@ -391,7 +389,7 @@ this.eng={--english
   phase_modification_enabled="Phase modifications enabled",
   disableSpySearch="Disable Intel team enemy spotting",
   disableHerbSearch="Disable Intel team herb spotting (requires game restart)",
-  restart_required="Will change on next game restart",
+  restart_required=" will apply on next game restart",
   enableWalkerGearsMB="Walker gears",
   mbWalkerGearsColor="Walker gears type",
   mbWalkerGearsColorSettingNames={
@@ -482,7 +480,7 @@ this.eng={--english
   parasitePeriod_MIN="Skull attack min (minutes)",
   parasitePeriod_MAX="Skull attack max (minutes)",
   set_default_off_on={"Default","Off","On"},
-  no_buddy_set="No buddy set",  
+  no_buddy_set="No buddy set",
   current_buddy_not="Current buddy is not ",
   not_developed=" has not been developed",
   allready_set=" is allready set",
@@ -491,8 +489,20 @@ this.eng={--english
   buddy_horse="D-Horse",
   buddy_dog="D-Dog",
   buddy_walkergear="D-Walker",
-  buddyChangeEquipVar="Buddy Equipment <Action>",--DEBUGNOW TODO some other indicator for OnAction options
+  buddyChangeEquipVar="Buddy Equipment",
   buddyMenu="Buddy menu",
+  motherbaseProfile="Mother Base profile",
+  heavenProfileSettings={"Defaults","Heaven","Custom"},
+  resourceAmountScale="Resource amount scale",
+  playerType="Player type",
+  playerPartsType="Suit type",
+  playerCamoType="Camo type",
+  playerFaceEquipId="Headgear",
+  playerFaceId="Face",
+  printFaceInfo="Print face info",
+  printCurrentAppearance="Print appearance info",
+  appearanceMenu="Appearance menu",
+  only_for_dd_soldier="Only for DD soldiers",
 }--eng end
 
 this.help={}
@@ -563,7 +573,7 @@ this.help.eng={
   defaultHeliDoorOpenTime="Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person. Press <STANCE> to manually open the door.",
   disablePullOutHeli="Prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again. Press <STANCE> while in the heli to get it to pull-out again (or use menu). NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.",
   cameraMenu="Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
-  mbMoraleBoosts="Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must exit via heli for it to apply.",
+  mbMoraleBoosts="Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.",
   mbEnableBuddies="Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.",
   quietMoveToLastMarker="Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.",
   revengeDecayOnLongMbVisit="Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat ",
@@ -635,11 +645,12 @@ this.help.eng={
   Or hold <Binocular> and press the above to reset that setting.
   
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
-  mbSoldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",
-  allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment.",
+  soldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",
+  allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.",
   enableParasiteEvent="Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.",
   quietRadioMode="Changes the music track of the radio played in Quiets cell on the medical platform in mother base.",
   buddyChangeEquipVar="Buddy equiment is changed to selected setting when <Action> is pressed.",
+  resourceAmountScale="Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)",
 }
 
 this.cpNames={

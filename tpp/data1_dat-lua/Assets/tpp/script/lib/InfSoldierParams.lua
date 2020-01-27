@@ -249,7 +249,11 @@ function this.ApplySightIvarsToSoldierParams()
         if IsTable(item) and item.distance~=nil then
           local default=sightParamsDefaults[name][childName].distance
           if default>0 then
-            item.distance=default*(Ivars.soldierSightDistScale:Get()/100)
+            if name=="nightSight" then
+              item.distance=default*(Ivars.soldierNightSightDistScale:Get()/100)
+            else
+              item.distance=default*(Ivars.soldierSightDistScale:Get()/100)
+            end
             --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)
           end
         end

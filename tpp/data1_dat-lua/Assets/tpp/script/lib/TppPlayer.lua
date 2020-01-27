@@ -1405,21 +1405,21 @@ function this.FOBPlayMissionClearCamera()
   end
   TimerStart("Timer_FOBStartPlayMissionClearCameraStep1",.25)
 end
-function this._FOBPlayMissionClearCamera(a)
-  this.FOBPlayCommonMissionEndCamera(this.FOBPlayMissionClearCameraOnFoot,a)
+function this._FOBPlayMissionClearCamera(camMode)
+  this.FOBPlayCommonMissionEndCamera(this.FOBPlayMissionClearCameraOnFoot,camMode)
 end
-function this.FOBPlayCommonMissionEndCamera(t,a)
-  local e
-  e=t(a)
-  if e then
-    local a="Timer_FOBStartPlayMissionClearCameraStep"..tostring(a+1)
-    TimerStart(a,e)
+function this.FOBPlayCommonMissionEndCamera(CamFunc,camMode)
+  local delay
+  delay=CamFunc(camMode)
+  if delay then
+    local timerName="Timer_FOBStartPlayMissionClearCameraStep"..tostring(camMode+1)
+    TimerStart(timerName,delay)
   end
 end
 function this.FOBRequestMissionClearMotion()
   Player.RequestToPlayDirectMotion{"missionClearMotionFob",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_win_idl.gani",false,"","","",false}}
 end
-function this.FOBPlayMissionClearCameraOnFoot(l)
+function this.FOBPlayMissionClearCameraOnFoot(camMode)
   Player.SetCurrentSlot{slotType=PlayerSlotType.ITEM,subIndex=0}
   if PlayerInfo.OrCheckStatus{PlayerStatus.STAND,PlayerStatus.SQUAT,PlayerStatus.CRAWL}then
     if PlayerInfo.AndCheckStatus{PlayerStatus.CARRY}then
@@ -1437,15 +1437,15 @@ function this.FOBPlayMissionClearCameraOnFoot(l)
   local skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
   local offsetPos=Vector3(0,0,-4.5)
   local interpTimeAtStart=.3
-  local i
+  local delay
   local callSeOfCameraInterp=false
-  if l==1 then
+  if camMode==1 then
     skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
     skeletonCenterOffsets={Vector3(0,.25,0),Vector3(0,-.05,0)}
     skeletonBoundings={Vector3(.1,.125,.1),Vector3(.1,.125,.1)}
     offsetPos=Vector3(0,0,-1)
     interpTimeAtStart=.3
-    i=1
+    delay=1
     callSeOfCameraInterp=true
   else
     skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
@@ -1455,11 +1455,11 @@ function this.FOBPlayMissionClearCameraOnFoot(l)
     interpTimeAtStart=3
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=4,followDelayTime=.1,candidateRots={{-10,170},{-10,-170}},skeletonNames=skeletonNames,skeletonCenterOffsets=skeletonCenterOffsets,skeletonBoundings=skeletonBoundings,offsetPos=offsetPos,focalLength=28,aperture=1.875,timeToSleep=20,interpTimeAtStart=interpTimeAtStart,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=callSeOfCameraInterp}
-  return i
+  return delay
 end
 function this.PlayMissionAbortCamera()
-  local e=this.SetPlayerStatusForMissionEndCamera()
-  if not e then
+  local playEndCam=this.SetPlayerStatusForMissionEndCamera()
+  if not playEndCam then
     return
   end
   TimerStart("Timer_StartPlayMissionAbortCamera",.25)
@@ -1720,6 +1720,7 @@ function this.MissionStartPlayerTypeSetting()
       vars.playerPartsType=PlayerPartsType.NORMAL
     end
   end
+  InfMain.PlayerVarsSanityCheck()--tex
 end
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -1968,9 +1969,10 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   --  end
   --  end--<
   --WIP
-  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
-    percentage=0
-  end--<
+  --DEBUGNOW
+--  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
+--    percentage=0
+--  end--<
   if Tpp.IsFultonContainer(gameId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
     percentage=0
   end--<
@@ -2102,6 +2104,9 @@ function this.OnPickUpCollection(playerId,resourceId,resourceType,langId)
   local resourceCount
   if TppTerminal.RESOURCE_INFORMATION_TABLE[resourceType]and TppTerminal.RESOURCE_INFORMATION_TABLE[resourceType].count then
     resourceCount=TppTerminal.RESOURCE_INFORMATION_TABLE[resourceType].count
+    if not Ivars.resourceAmountScale:IsDefault() then--tex>
+      resourceCount=resourceCount*(Ivars.resourceAmountScale:Get()/100)
+    end--<
   end
   if TppCollection.IsHerbByType(resourceType)then
     local gameId=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)

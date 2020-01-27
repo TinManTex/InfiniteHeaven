@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 0
 -- TppWeather.lua
 local this={}
 local minuteInSeconds=60
@@ -121,7 +121,7 @@ function this.SetDefaultWeatherProbabilities()
   local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
 
   --tex reworked>
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfMain.GetLocationName()--tex use TppLocation.GetLocationName() if modding this independantly from Infinite Heaven
   locationName=string.upper(locationName)
   local heliSuffix=""
   if isHeliSpace then
@@ -129,8 +129,7 @@ function this.SetDefaultWeatherProbabilities()
   end
 
   weatherProbabilities=weatherProbabilitiesTable[locationName]
-  --DEBUGNOW OFF ORIG extraWeatherProbabilities=extraWeatherProbabilitiesTable[locationName..heliSuffix]
-  extraWeatherProbabilities=altExtraWeatherProbabilitiesTable[locationName..heliSuffix]--DEBUGNOW
+  extraWeatherProbabilities=extraWeatherProbabilitiesTable[locationName..heliSuffix]
   --<
   -- ORIG
   --  if TppLocation.IsAfghan()then

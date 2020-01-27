@@ -67,6 +67,7 @@ this.inMission={
   end,
 }
 
+--tex KLUDGE, dont like the implementation of this
 for index,option in ipairs(InfMenuDefs.inMissionMenu.options)do
   if option==InfMenuCommands.requestHeliLzToLastMarker then
     this.requestHeliMenuIndex=index

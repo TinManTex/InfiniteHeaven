@@ -70,10 +70,8 @@ function this.CreateCustomRevengeConfig()
   revengeConfig.REINFORCE_COUNT=random
   --  end
 
-  if vars.missionCode==30050 then
-    if Ivars.mbDDEquipNonLethal:Is(1) then
-      revengeConfig.NO_KILL_WEAPON=true
-    end
+  if Ivars.mbDDEquipNonLethal:Is(1) and Ivars.mbDDEquipNonLethal:MissionCheck() then
+    revengeConfig.NO_KILL_WEAPON=true
   end
   
   if InfMain.IsDDBodyEquip(vars.missionCode) then
