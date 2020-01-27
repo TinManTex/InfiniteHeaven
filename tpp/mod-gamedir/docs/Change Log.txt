@@ -1,5 +1,12 @@
 Infinite Heaven changelog
 
+r214 - 2017-08-13
+Fixed: ih_priority_staff sometimes clearing saved data
+
+BuildTool: Copy docs to makebite\GameDir
+InfAutoDoc: Now writes All options profile to release - thanks pk5547 for the report.
+Now that these are automated should stop me from ocasionally forgetting to include the current ones when building release lol.
+
 r213 - 2017-08-09
 Fixed: playerPartsType/'Suit type' syntax error causing it to be missing from menu - thanks SoullessMadness for the report
 Fixed: Heavy Armor in free roam option being missing from menu, and the knock on effect of the rest of the menu options being missing from Features and Options document and All options profile. Thanks Nano-Ocelot, pk5547 for the reports.

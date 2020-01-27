@@ -1,5 +1,6 @@
 --fox2 scrape lz
-local this={
+local this={}
+this.lookupStrings={
 "lz_apr_diamond_S_s10100",
 "lz_banana_E0000|lz_banana_E_0000",
 "lz_banana_E0000|rt_apr_banana_E_0000",

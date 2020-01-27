@@ -1,5 +1,5 @@
 = Infinite heaven =
-r213 - 2017-08-03
+r214 - 2017-08-13
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.11.0 in exe
 
@@ -16,8 +16,12 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r214:
+Fixed: ih_priority_staff sometimes clearing saved data
+
+All_Options_Example profile up to date, had been forgetting to copy it during my release packaging, now automated that copy - - thanks pk5547 for the report.
+
 New for r213:
-r213 - 2017-08-09
 Fixed: playerPartsType/'Suit type' syntax error causing it to be missing from menu - thanks SoullessMadness for the report
 Fixed: Heavy Armor in free roam option being missing from menu, and the knock on effect of the rest of the menu options being missing from Features and Options document and All options profile. Thanks Nano-Ocelot, pk5547 for the reports.
 
@@ -43,8 +47,6 @@ Menu: Staff menu, apart from the above, mbPrioritizeFemale,mbMoraleBoosts have b
 
 Option: mbEnableMissionPrep - "Enable mission prep to MB" - may require an exit/return from ACC to take effect.
 (via Mission-prep restrictions menu)
-
-More mockfox stuff.
 
 New for r212:
 Fixed: Primary/Secondary NONE slots conflicting with swimsuit dev entries.

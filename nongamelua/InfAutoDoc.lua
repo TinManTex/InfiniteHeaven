@@ -7,7 +7,7 @@ local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
 
-local nl="\n"
+local nl="\n"--tex LDT uses unix endings, else "\r\n"
 
 local tableStr="table"
 local function IsMenu(item)
@@ -109,7 +109,7 @@ local function IsForProfileAutoDoc(item,currentMenu,priorMenus,priorItems)
   if priorItems[item.name] then
     return false
   end
-  
+
   if currentMenu.nonConfig then
     return false
   end
@@ -311,20 +311,19 @@ function this.AutoDoc()
   --  local headerFile=io.open(headerFilePath)
   --  local header=headerFile:read("*all")
   --  headerFile:close()
-  local header=
-    [[
--- Profiles are lists of settings for IH options. 
--- IH only reads this file/does not write to it.
--- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
--- Or by setting loadOnACCStart=true, below.
--- This profile lists all options, with their default settings.
--- See Features and Options.html for longer descriptions of some settings.
--- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
-  ]]
+  local header={
+    "-- Profiles are lists of settings for IH options.",
+    "-- IH only reads this file/does not write to it.",
+    "-- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.",
+    "-- Or by setting loadOnACCStart=true, below.",
+    "-- This profile lists all options, with their default settings.",
+    "-- See Features and Options.html for longer descriptions of some settings.",
+    "-- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.",
+  }
 
   table.insert(profileTable,"-- All_Options_Example.lua")
   table.insert(profileTable,"-- Defaults / example of all profile options for IH r"..InfCore.modVersion)
-  table.insert(profileTable,header)
+  table.insert(profileTable,table.concat(header,nl))
   table.insert(profileTable,"local this={")
   table.insert(profileTable,"\tdescription=\"Defaults/All disabled\",")
   table.insert(profileTable,"\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.")
@@ -409,13 +408,19 @@ function this.AutoDoc()
   local profileFilePath=projectFolder.."!modlua\\ExternalLua\\profiles\\All_Options_Example.lua"
   local profileFile=io.open(profileFilePath,"w")
 
+  local profileFilePath=projectFolder.."!modlua\\ExternalLuaRelease\\profiles\\All_Options_Example.lua"
+  local profileFileRelease=io.open(profileFilePath,"w")
+
   textFile:write(table.concat(textTable,nl))
   htmlFile:write(table.concat(htmlTable,nl))
   profileFile:write(table.concat(profileTable,nl))
+  profileFileRelease:write(table.concat(profileTable,nl))
+
 
   textFile:close()
   htmlFile:close()
   profileFile:close()
+  profileFileRelease:close()
 
   print"--autodoc done--"
 end

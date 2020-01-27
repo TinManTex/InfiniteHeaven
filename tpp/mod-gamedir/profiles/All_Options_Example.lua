@@ -1,13 +1,12 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r213
--- Profiles are lists of settings for IH options. 
+-- Defaults / example of all profile options for IH r214
+-- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
 -- Or by setting loadOnACCStart=true, below.
 -- This profile lists all options, with their default settings.
 -- See Features and Options.html for longer descriptions of some settings.
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
-  
 local this={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -50,6 +49,7 @@ local this={
 		disableSelectTime=0,--{ 0-1 } -- Disable select-sortie time
 		disableSelectBuddy=0,--{ 0-1 } -- Disable select-buddy
 		disableSelectVehicle=0,--{ 0-1 } -- Disable select vehicle
+		mbEnableMissionPrep=0,--{ 0-1 } -- Enable mission prep to MB
 		--Disable mission support-menus menu
 		disableMenuDrop=0,--{ 0-1 } -- Disable Supply drop support-menu
 		disableMenuBuddy=0,--{ 0-1 } -- Disable Buddies support-menu

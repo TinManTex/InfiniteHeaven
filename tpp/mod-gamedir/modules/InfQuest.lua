@@ -49,7 +49,7 @@ end
 
 function this.OnAllocate(missionTable)
   if missionTable.enemy then
-    --CULL this.LoadEquipTable()
+  --CULL this.LoadEquipTable()
   end
 end
 
@@ -250,8 +250,11 @@ function this.LoadQuestDefs()
     InfCore.Log("InfQuest.LoadQuestDefs: "..fileName)
 
     local questName=InfUtil.StripExt(fileName)
-    ihQuestsInfo[questName]=InfCore.LoadSimpleModule(InfCore.paths.quests,fileName)
-    ihQuestNames[#ihQuestNames+1]=questName
+    local module=InfCore.LoadSimpleModule(InfCore.paths.quests,fileName)
+    if module.questPackList then--tex TYPE
+      ihQuestsInfo[questName]=module
+      ihQuestNames[#ihQuestNames+1]=questName
+    end
   end
 
   --TODO validate questDef

@@ -766,7 +766,6 @@ end
 function this.SetupStaffList()
   InfCore.LogFlow("SetupStaffList")--tex DEBUG
   --tex made local to module --OFF local MAX_STAFF_NUM_ON_CLUSTER = 18
-  ih_priority_staff=InfMBStaff.LoadSave() or ih_priority_staff--tex
   local staffList = {}
   math.randomseed(TppScriptVars.GetTotalPlayTime())
 

@@ -4,6 +4,7 @@
 --IHINTERNAL
 Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/InfTppUtil.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"--tex
 --tex mgstpp is a bit more graceful about the errors and will just sit and spin
 --but want to bail here to let mockfox user know of error/make it showstopper.

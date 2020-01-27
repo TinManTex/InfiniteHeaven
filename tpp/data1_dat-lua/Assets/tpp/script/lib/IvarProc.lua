@@ -1106,6 +1106,10 @@ function this.LoadEvars()
       InfMain.OnLoadEvars()
     end
   end
+  
+  if InfMBStaff then
+    ih_priority_staff=InfMBStaff.LoadSave() or ih_priority_staff
+  end
 end
 
 return this

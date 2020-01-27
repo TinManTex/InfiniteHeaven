@@ -168,7 +168,7 @@ function this.MissionPrepare()
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
-  
+
   for i,module in ipairs(InfModules) do
     if IsFunc(module.MissionPrepare) then
       InfCore.PCallDebug(module.MissionPrepare)
@@ -222,12 +222,12 @@ function this.OnInitializeTop(missionTable)
       if not this.IsContinue() then
         local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
         this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
-        this.soldierPool=InfUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
+        this.soldierPool=InfTppUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
 
         this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
         this.lrrpDefines={}
 
-        InfWalkerGear.walkerPool=InfUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
+        InfWalkerGear.walkerPool=InfTppUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
         InfWalkerGear.mvar_walkerInfo={}
 
         --        InfCore.Log("numReserveSoldiers:"..numReserveSoldiers)--tex DEBUG
@@ -248,7 +248,7 @@ function this.OnInitializeTop(missionTable)
       InfCore.PCallDebug(InfSoldier.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
 
       InfCore.PCallDebug(InfSoldier.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
-      
+
       InfCore.PCallDebug(InfSoldier.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
 
       --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
@@ -357,7 +357,7 @@ function this.OnMissionCanStartBottom()
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=InfTppUtil.GetLocationName()
   if Ivars.disableLzs:Is"ASSAULT" then
     InfLZ.DisableLzs(TppLandingZone.assaultLzs[locationName])
   elseif Ivars.disableLzs:Is"REGULAR" then
@@ -1337,7 +1337,7 @@ function this.SetSubsistenceSettings()
   --tex: DEF: Player.SetItemLevel(equipId,itemGrade)
   --itemGrade is grade as shown in idroid item development
   --it's kind of a case by case to how the items deal with the levels and if they disable
-  
+
   --tex hands have no grade 1 entry shown in dev, will disable at grade 1
   local handLevelIvars={
     Ivars.handLevelSonar,
@@ -1925,22 +1925,6 @@ function this.ValueOrIvarValue(value)
     value=value:Get()
   end
   return value
-end
-
---tex just from Tpp.IsGameObjectType, don't want to change it from local
-function this.IsGameObjectType(gameObject,checkType)
-  if gameObject==nil then
-    return
-  end
-  if gameObject==NULL_ID then
-    return
-  end
-  local typeIndex=GetTypeIndex(gameObject)
-  if typeIndex==checkType then
-    return true
-  else
-    return false
-  end
 end
 
 function this.DisplayFox32(foxString)

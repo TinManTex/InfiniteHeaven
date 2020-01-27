@@ -15,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="213"
+this.modVersion="214"
 this.modName="Infinite Heaven"
 
 this.debugModule=false

@@ -4,7 +4,7 @@
 local this={}
 
 function this.PostAllModulesLoad()
-  InfCore.Log("IHDebugVars.PostAllModulesLoad: setting debug vars")
+  InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
 
 
   local blockNames={
@@ -19,7 +19,7 @@ function this.PostAllModulesLoad()
   }
   for i,blockName in ipairs(blockNames)do
     local blockId=ScriptBlock.GetScriptBlockId(blockName)
-    InfCore.Log(blockName.." blockId="..blockId)
+    InfCore.Log(blockName.." blockId="..tostring(blockId))
   end
 
   local staffVarNames={

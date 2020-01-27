@@ -816,6 +816,7 @@ this.DEBUG_SomeShiz={
     count=count+1
     InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
 
+
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
@@ -1684,7 +1685,7 @@ this.copyLogToPrev={
 
 this.dropCurrentEquip={
   OnChange=function()
-    if vars.playerVehicleGameObjectId~=NULL_ID and not InfMain.IsGameObjectType(vars.playerVehicleGameObjectId,TppGameObject.GAME_OBJECT_TYPE_HORSE2) then
+    if vars.playerVehicleGameObjectId~=NULL_ID and not InfTppUtil.IsGameObjectType(vars.playerVehicleGameObjectId,TppGameObject.GAME_OBJECT_TYPE_HORSE2) then
       return
     end
 

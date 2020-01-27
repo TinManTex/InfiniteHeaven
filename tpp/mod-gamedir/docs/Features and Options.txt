@@ -170,6 +170,7 @@ Only allows ASAP at mission prep
 Prevents use of buddies during mission prep.
 3: Disable select vehicle : Off, On
 Disallows at mission prep.
+4: Enable mission prep to MB : Off, On
 
 Disable mission support-menus menu
 - Disables mission support menus in iDroid
@@ -558,15 +559,11 @@ Staff menu
 Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB
 2: Remove player staff to MB priority : (Command)
 Removes the last sortie selected DD member to the Mother Base priority staff list
-3: Add marked staff id MB priority : (Command)
-Adds the most recently marked staff member to the MB priority list
-4: Remove marked staff to MB priority : (Command)
-Removes the most recently marked staff member from the MB priority list
-5: Clear MB staff priority list : (Command)
+3: Clear MB staff priority list : (Command)
 Clears MB staff priority list entirely
-6: Female staff selection : Default, None, All available, Half
+4: Female staff selection : Default, None, All available, Half
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
-7: Staff-wide morale boost for good visit : Off, On
+5: Staff-wide morale boost for good visit : Off, On
 Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
 
 Show characters menu
@@ -763,13 +760,14 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 7: User marker menu
 8: Buddy menu
 9: Appearance menu
-10: Markers menu
-11: Enemy phases menu
-12: Support heli menu
-13: Debug stuff menu
-14: Soldier item drop chance : 0-100%
+10: Staff menu
+11: Markers menu
+12: Enemy phases menu
+13: Support heli menu
+14: Debug stuff menu
+15: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-15: Player life scale : 0-650%
+16: Player life scale : 0-650%
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -842,6 +840,19 @@ Form Variation menu
 1: Use selected fova : Off, On
 2: <Character model description> : <Fova selection>
 3: Print current body info : (Command)
+
+Staff menu
+----------
+1: Add player staff to MB priority : (Command)
+Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB
+2: Remove player staff to MB priority : (Command)
+Removes the last sortie selected DD member to the Mother Base priority staff list
+3: Add marked staff to MB priority : (Command)
+Adds the most recently marked staff member to the MB priority list
+4: Remove marked staff from MB priority : (Command)
+Removes the most recently marked staff member from the MB priority list
+5: Clear MB staff priority list : (Command)
+Clears MB staff priority list entirely
 
 Markers menu
 ------------

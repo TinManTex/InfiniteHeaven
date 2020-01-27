@@ -1,5 +1,6 @@
 --fox2 scrape trap
-local this={
+local this={}
+this.lookupStrings={
 "trap_0000",
 "trap_0001",
 "trap_0002",
