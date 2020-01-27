@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r177"
+this.modVersion="r178"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -553,7 +553,15 @@ end
 
 --<quest/sideops stuff
 function this.SetSubsistenceSettings()
-  if not TppMission.IsFOBMission(vars.missionCode) then
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+
+  if TppMission.IsHelicopterSpace(vars.missionCode) then
+    return
+  end
+
+  if vars.missionCode<=TppDefine.SYS_MISSION_ID.TITLE then
     return
   end
 
@@ -576,6 +584,7 @@ function this.SetSubsistenceSettings()
       Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
     end
   end
+
 
   if TppMission.IsActualSubsistenceMission()then
     return
@@ -602,16 +611,16 @@ function this.SetSubsistenceSettings()
     local initSetting=ivar:GetTable()
     if initSetting then
       if ivar==Ivars.clearItems then
-        this.SetInitItems(initSetting,true)
+        TppPlayer.SetInitItems(initSetting,true)
       else
-        this.SetInitWeapons(initSetting,true)
+        TppPlayer.SetInitWeapons(initSetting,true)
       end
     end
   end
 
   if Ivars.setSubsistenceSuit:Is(1) then
     local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
-    this.RegisterTemporaryPlayerType(playerSettings)
+    TppPlayer.RegisterTemporaryPlayerType(playerSettings)
   end
   if Ivars.setDefaultHand:Is(1) then
     mvars.ply_isExistTempPlayerType=true
@@ -998,6 +1007,18 @@ function this.FadeInOnGameStart()
 
   --TppUiStatusManager.ClearStatus"AnnounceLog"
   --InfMenu.ModWelcome()
+end
+
+local appliedProfiles=false
+function this.OnEnterACC()
+  InfMenu.ModWelcome()
+
+  if not appliedProfiles then
+    appliedProfiles=true
+    --InfMenu.DebugPrint"SetupInfProfiles"--DEBUG
+    local profileNames=Ivars.SetupInfProfiles()
+    Ivars.ApplyInfProfiles(profileNames)
+  end
 end
 
 function this.ClearMarkers()
@@ -1677,7 +1698,7 @@ end
 --lrrp plus
 this.baseNames={
   afgh={
-    --DEBUGNOW HANG "afgh_citadelSouth_ob",--Guard Post 01, East Afghanistan Central Base Camp
+    --TODO HANG "afgh_citadelSouth_ob",--Guard Post 01, East Afghanistan Central Base Camp
     "afgh_sovietSouth_ob",--Guard Post 02, South Afghanistan Central Base Camp
     "afgh_plantWest_ob",--Guard Post 03, NW Serak Power Plant
     "afgh_waterwayEast_ob",--Guard Post 04, East Aabe Shifap Ruins
@@ -1739,7 +1760,7 @@ this.baseNames={
     "mafr_pfCampNorth_ob",--Guard Post 14, NE Nova Braga Airport
     "mafr_savannahEast_ob",--Guard Post 15, South Ditadi Abandoned Village
     "mafr_hillNorth_ob",--Guard Post 16, NE Munoko ya Nioka Station
-    --DEBUGNOW HANG addlrrp  "mafr_factoryWest_ob",--Guard Post 17, West Ngumba Industrial Zone
+    --TODO HANG addlrrp  "mafr_factoryWest_ob",--Guard Post 17, West Ngumba Industrial Zone
     "mafr_pfCampEast_ob",--Guard Post 18, East Nova Braga Airport
     "mafr_hillWest_ob",--Guard Post 19, NW Munoko ya Nioka Station
     "mafr_factorySouth_ob",--Guard Post 20, SW Ngumba Industrial Zone

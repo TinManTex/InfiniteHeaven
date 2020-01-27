@@ -420,7 +420,7 @@ this.playerPartsTypesInfo={
 --tex vars.playerCamoType drives some fova applications
 --\chunk0_dat\Assets\tpp\pack\player\fova\plfova_*.fpk*
 --corresponding to PlayerCamoType enum
---TODO DEBUGNOW where is animals/leopard camo?
+--TODO where is animals/leopard camo?
 this.playerCamoTypes={
   "OLIVEDRAB",--0
   "SPLITTER",--1

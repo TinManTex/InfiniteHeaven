@@ -369,17 +369,9 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
           --tex lua indexed from 1, but settings from 0
           settingText=settingNames[option.setting+1]
         end
-        --DEBUGNOW CULL
-        --        if #settingNames>2 then
-        --          settingText=option.setting..":"..settingText
-        --        end
       else
         local langTable
         settingText,langTable=this.LangTableString(settingNames,option.setting+1)
-        --DEBUGNOW CULL
-        --        if langTable and #langTable>2 then
-        --          settingText=option.setting..":"..settingText
-        --        end
       end
     elseif IsFunc(option.GetSettingText) then
       optionSeperator=itemIndicators.equals

@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 0 --DEBUGWIP
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
 local mtbs_item = {}
@@ -102,7 +102,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
     local dataSet = string.format( "/Assets/tpp/level/location/mtbs/block_area/ly%03d/cl%02d/mtbs_ly%03d_cl%02d_item.fox2", layoutCode, clusterId, layoutCode, clusterId )
     local assetTable = mvars.mbItem_funcGetAssetTable( clusterId + 1 )
     if assetTable then     
-       --tex>DEBUGNOW
+       --tex>DEBUGWIP
       for k,v in ipairs(assetTable.containers)do
         if (k % 4) == 0 then
           if type(v)=="string" then
@@ -111,7 +111,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
           end
         end
       end--<
-      --tex>DEBUGNOW
+      --tex>DEBUGWIP
       for k,v in ipairs(assetTable.westAAGs)do
         if (k % 4) == 0 then
           if type(v)=="string" then

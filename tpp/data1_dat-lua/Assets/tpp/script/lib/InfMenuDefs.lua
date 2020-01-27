@@ -15,11 +15,13 @@ this.fovaModMenu={
 }
 
 this.appearanceMenu={
+  nonConfig=true,
   options={
     Ivars.playerType,
     Ivars.playerPartsType,
     Ivars.playerCamoType,
     Ivars.playerFaceEquipId,
+    Ivars.playerFaceFilter,
     Ivars.playerFaceId,
     InfMenuCommands.printFaceInfo,
     --OFF Ivars.playerHeadgear,
@@ -29,6 +31,7 @@ this.appearanceMenu={
 }
 
 this.appearanceDebugMenu={
+  nonConfig=true,
   options={
     Ivars.faceFovaDirect,
     Ivars.faceDecoFovaDirect,
@@ -237,7 +240,6 @@ this.fultonLevelMenu={
 
 this.fultonSuccessMenu={
   options={
-    Ivars.fultonSuccessProfile,
     Ivars.fultonNoMbSupport,
     Ivars.fultonNoMbMedical,
     Ivars.fultonDyingPenalty,
@@ -529,11 +531,13 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --Ivars.printOnBlockChange,
---   InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --this.appearanceMenu,--DEBUG
+
+    Ivars.selectProfile,
+    --InfMenuCommands.applySelectedProfile,
+    InfMenuCommands.resetSelectedProfile,
     InfMenuCommands.forceGameEvent,
     this.worldMenu,
     this.playerRestrictionsMenu,
@@ -558,6 +562,7 @@ this.heliSpaceMenu={
 }
 
 this.debugInMissionMenu={
+  nonConfig=true,
   options={
     Ivars.debugMode,
     --InfMenuCommands.DEBUG_RandomizeCp,
@@ -595,9 +600,9 @@ this.inMissionMenu={
   noGoBackItem=true,--tex is root
   options={
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
     Ivars.warpPlayerUpdate,

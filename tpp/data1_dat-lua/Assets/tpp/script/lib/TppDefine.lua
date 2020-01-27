@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW has config file name changes
+-- DOBUILD: 0 --DEBUGWIP has config file name changes
 -- TppDefine.lua
 local this={}
 local E=bit.bnot

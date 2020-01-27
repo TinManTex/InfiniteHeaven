@@ -995,7 +995,7 @@ this.faceDefinition={
   {688, 0, 0, 0,44,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex Hideo TODO: find hideo ui texture name
   --{689, 0, 0, 0,45,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex not-a-snail dude? same as 623 but all-in one I guess.
   --<
-  --tex slots for run-time face modding, see InfMenuCommands.ApplyFaceFova >
+  --tex slots for run-time face modding, see InfEneFova.ApplyFaceFova >
   {690, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
   {691, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
 --<
@@ -1335,7 +1335,7 @@ this.modBodyFova={
 
 --tex>
 this.highestVanillaFaceId=687--tex the highest faceid unmodded for sanity checking on fob
-this.MAX_FACEID=671--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
+--OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
 
 local fovaTypes={
   "faceFova",
@@ -1349,16 +1349,18 @@ local genders={
 }
 local InfModelRegistry=InfModelRegistry
 if InfModelRegistry then  
-  InfMessageLog.AddDebug(InfMessageLog.debug,"InfModelRegistry Setup")
+  InfMessageLog.AddMessage(InfMessageLog.debug,"InfModelRegistry Setup")
 
   for i,fovaTypeName in ipairs(fovaTypes) do
     InfModelRegistry[fovaTypeName]={}
   end
   InfModelRegistry.headDefinitions={}--headdefinition indicies
-  for i,moduleName in ipairs(InfModelRegistry)do
+  for i,moduleName in ipairs(InfModelRegistry.headFovaModNames)do
     if type(moduleName)=="string"then
       local module=_G[moduleName]
-      if module then
+      if not module then
+        InfMessageLog.AddMessage(InfMessageLog.debug,"InfModelRegistry could not find lua module "..moduleName)
+      else
         for i,fovaTypeName in ipairs(fovaTypes) do
           local localFova=this[fovaTypeName]
           local moduleFova=module[fovaTypeName]

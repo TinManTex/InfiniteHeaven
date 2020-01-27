@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- InfSoldierParams.lua
 -- DEPS: gvars, TppSoldier2, Tpp
 local this={}
 

@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW changes to allow saving of gvars into config
+-- DOBUILD: 0 --DEBUGWIP changes to allow saving of gvars into config
 -- TppSave.lua
 local this={}
 local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading

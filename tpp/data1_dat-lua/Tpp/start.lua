@@ -632,13 +632,14 @@ if Script.LoadLibrary then
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
     yield()
     --tex>
+    Script.LoadLibrary"/Assets/tpp/script/lib/InfProfiles.lua"    
     Script.LoadLibrary"/Assets/tpp/script/lib/InfModelRegistry.lua"
     yield()
     if InfModelRegistry then
       local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
-      for i,moduleName in ipairs(InfModelRegistry)do
+      for i,moduleName in ipairs(InfModelRegistry.headFovaModNames)do
         if type(moduleName)=="string"then
-          Script.LoadLibrary(moduleName..".lua")
+          Script.LoadLibrary(commonHeadPath..moduleName..".lua")
         end
       end
     end

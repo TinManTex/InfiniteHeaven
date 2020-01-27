@@ -1,5 +1,5 @@
 = Infinite heaven =
-r177 - 2016-09-02
+r178 - 2016-09-06
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -43,6 +43,12 @@ From the very start nearly a year ago I designed Infinite Heaven to disable its 
 Sorry to those who it has affected.
 
 I would like to thank those that reported the issue, those that offered help with testing, and most recently i-ghost and Maniac_34 for helping me test while tracking down the issue.
+
+New for r178
+Feature: Custom profiles - You can now edit/creat custom setting profiles. See InfProfiles folder from the Infinite Heaven .zip
+
+Option: Filter faces - "Show all","Unique","Head fova mods" - filters the list of faces in the appearance menu
+Fixed: A number of player restriction options not applying - thanks Gambchon for the report.
 
 New for r177
 Reverted: Menu only print option name on menu up/down. Too much of an anoyance for little gain.
@@ -155,6 +161,9 @@ In mission Quick Menu:
 <Reload>(R key or B button) to activate Free cam
 <Dash>(Shift or Left stick click) to activate Static camera
 <Change Stance>(C key or A button) to have Quiet move to last usermarker
+
+Profiles:
+See InfProfiles Readme
 
 Known Issues
 ------------------------------

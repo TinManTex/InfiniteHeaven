@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW config file size
+-- DOBUILD: 0 --DEBUGWIP config file size
 -- TppVarInit.lua
 local this={}
 local i=Tpp.IsTypeFunc
@@ -106,7 +106,7 @@ function this.InitializeOnStatingMainFrame()
   local platform=TppGameSequence.GetTargetPlatform()
   if((platform=="Steam"or platform=="Win32")or platform=="Win64")then
     configSize=256*oneK--tex increased config size
-    --ORIF configSize=2*oneK
+    --ORIG configSize=2*oneK
   end
   saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]=configSize
   saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG_SAVE+1]=saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]

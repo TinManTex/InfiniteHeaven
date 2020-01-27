@@ -1551,7 +1551,7 @@ function this.AddPickedUpResourceToTempBuffer(resourceType,langId)
   end
   local resourceName=this.RESOURCE_INFORMATION_TABLE[resourceType].resourceName
   local resourceCount=this.RESOURCE_INFORMATION_TABLE[resourceType].count
-  if not Ivars.resourceAmountScale:IsDefault() then--tex> --DEBUGNOW
+  if not Ivars.resourceAmountScale:IsDefault() then--tex>
     resourceCount=resourceCount*(Ivars.resourceAmountScale:Get()/100)
   end--<
   if TppCollection.IsHerbByType(resourceType)then

@@ -41,6 +41,34 @@ this.goBackItem={
 }
 
 --commands
+
+--profiles
+this.applySelectedProfile={
+  OnChange=function()
+    local profileInfo=Ivars.selectProfile:GetProfileInfo()
+    if profileInfo==nil then
+      InfMenu.PrintLangId"no_profiles_installed"
+      return
+    end
+
+    InfMenu.PrintLangId"applying_profile"
+    Ivars.ApplyProfile(profileInfo.profile)
+  end,
+}
+
+this.resetSelectedProfile={
+  OnChange=function()
+    local profileInfo=Ivars.selectProfile:GetProfileInfo()
+    if profileInfo==nil then
+      InfMenu.PrintLangId"no_profiles_installed"
+      return
+    end
+
+    InfMenu.PrintLangId"applying_profile"
+    Ivars.ResetProfile(profileInfo.profile)
+  end,
+}
+
 this.printFaceInfo={
   OnChange=function()
     InfEneFova.PrintFaceInfo(vars.playerFaceId)
@@ -616,9 +644,11 @@ local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --DEBUGNOW
-      InfInspect.PrintInspect(InfModelRegistry)
-      InfInspect.PrintInspect(quiet_modelInfo)
+
+      InfInspect.PrintInspect(InfProfiles)
+      --      InfInspect.PrintInspect(InfModelRegistry)
+      --      InfInspect.PrintInspect(quiet_modelInfo)
+      --      InfInspect.PrintInspect(example_heads_info)
     end)
     InfMenu.DebugPrint("index3:"..index3)
     index3=index3+1

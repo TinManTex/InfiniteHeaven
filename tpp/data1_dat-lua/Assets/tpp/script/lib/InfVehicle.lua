@@ -499,7 +499,7 @@ function this.SetupConvoy()
           convoyIds[#convoyIds+1]=GetGameObjectId("TppVehicle2",vehicleName)
           local vehicleId=GetGameObjectId("TppVehicle2",vehicleName)
           if vehicleId==NULL_ID then
-            InfMenu.DebugPrint(vehicleName.." gameId==NULL_ID")--DEBUGNOW
+            InfMenu.DebugPrint("SetupConvoy: "..vehicleName.." gameId==NULL_ID")--DEBUG
           else
             if i>1 then--tex patrolVehicleConvoyInfo includes lead vehicle, which already has position
               --InfMenu.DebugPrint("SetPosition "..vehicleName)--DEBUG

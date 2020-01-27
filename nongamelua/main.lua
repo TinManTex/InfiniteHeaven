@@ -47,6 +47,8 @@ end
 
 dofile("MockFox/MockFoxEngine.lua")
 
+print"parse: MockFoxEngine done"
+
 --local init,err=loadfile("./Data1Lua/init.lua")
 --if not err then
 --init()
@@ -140,13 +142,13 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"
   Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
 else
-    yield()
-    Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
-    yield()
-    Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
-    yield()
-    Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
-    yield()
+  yield()
+  Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
+  yield()
+  Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
+  yield()
+  Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
+  yield()
   Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"
   Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"
   Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
@@ -193,19 +195,24 @@ pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
 Script.LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
 
 yield()
-do
-  local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
-  repeat
-    coroutine.yield()
-    local a,t=coroutine.resume(e)
-    if not a then
-      error(t)
-    end
-  until coroutine.status(e)=="dead"
-end
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  dofile"Tpp/Scripts/System/start3rd.lua"
-end
+
+--loadfile"Tpp/Scripts/System/start2nd.lua"
+--do
+--  local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
+--  repeat
+--    coroutine.yield()
+--    local a,t=coroutine.resume(e)
+--    if not a then
+--      error(t)
+--    end
+--  until coroutine.status(e)=="dead"
+--end
+--if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+--  dofile"Tpp/Scripts/System/start3rd.lua"
+--end
+
+
+print"parse: start done"
 
 
 -------=====================
@@ -356,7 +363,6 @@ local skipItemsList={
   menuOffItem=true,
 }
 
-
 local function CharacterLine(character,length)
   local characterLine=""
   for j=1,length do
@@ -413,94 +419,6 @@ local function GetSettingsText(option)
   return settingText
 end
 
---local depthToLetter={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
-local depthToLetter={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
-local function PrintMenuFull(menu,depth,menuCount,skipItems)
-
-  for i,item in ipairs(menu)do
-    if skipItems and skipItemsList[item.name] then
-
-    else
-      local settingName = item.description or InfMenu.LangString(item.name)
-      local indents=CharacterLine(" ",depth)
-      local indexDisplayLine="["..depthToLetter[menuCount]..i.."] "
-      local indexDisplayLineLength=string.len(indexDisplayLine)
-      local displayLine=indexDisplayLine..settingName
-
-      if IsMenu(item) then
-        menuCount=menuCount+1
-        local helpLangString=InfLang.help.eng[item.name]
-        if helpLangString then
-          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          Write(indents..displayLine.." - "..helpLangString)
-        else
-          Write(indents..displayLine)
-        end
-
-        local indentsUnderLine=CharacterLine(" ",depth+1)
-        local underLineLength=string.len(displayLine)-1
-        local underLine=CharacterLine("-",underLineLength+depth+1)
-        Write(indentsUnderLine..underLine)
-
-        PrintMenuFull(item.options,depth+1,menuCount,skipItems)
-      else
-        local settingText=GetSettingsText(item)
-        Write(indents..displayLine.." : "..settingText)
-
-        local helpLangString=InfLang.help.eng[item.name]
-        if helpLangString then
-          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          Write(indents..indentsIndexDisplay.."- "..helpLangString)
-        end
-      end
-    end
-  end
-end
-
---tex just print menu
-local function PrintMenu(menu,depth,menuCount,skipItems)
-
-  for i,item in ipairs(menu)do
-    if skipItems and skipItemsList[item.name] then
-
-    else
-      local settingName = item.description or InfMenu.LangString(item.name)
-      local indents=CharacterLine(" ",depth)
-      local indexDisplayLine="["..depthToLetter[menuCount]..i.."] "
-      local indexDisplayLineLength=string.len(indexDisplayLine)
-      local displayLine=indexDisplayLine..settingName
-
-      if IsMenu(item) then
-        menuCount=menuCount+1
-        local helpLangString=InfLang.help.eng[item.name]
-        --        if helpLangString then
-        --          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-        --          --print(indents..displayLine.." - "..helpLangString)
-        --        else
-        Write(indents..displayLine)
-        --        end
-
-        local indentsUnderLine=CharacterLine(" ",depth+1)
-        local underLineLength=string.len(displayLine)-1
-        local underLine=CharacterLine("-",underLineLength+depth+1)
-        --print(indentsUnderLine..underLine)
-
-        PrintMenu(item.options,depth+1,menuCount,skipItems)
-      else
-        local settingText=GetSettingsText(item)
-        Write(indents..displayLine.." : "..settingText)
-
-        local helpLangString=InfLang.help.eng[item.name]
-        if helpLangString then
-          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          --print(indents..indentsIndexDisplay.."- "..helpLangString)
-        end
-      end
-    end
-  end
-end
-
-
 local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   for i,item in ipairs(currentMenu)do
     if skipItems and skipItemsList[item.name] then
@@ -514,36 +432,65 @@ local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   end
 end
 
-local function PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
-  local menuDisplayName=InfMenu.LangString(menu.name)
-  local indexDisplayLine="["..depthToLetter[menuCount].."] "
-  local indexDisplayLineLength=string.len(indexDisplayLine)
-
-  htmlFile:write([[<div id="menu">]],"\n")
-  --if IsMenu(item) then
+local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)
   menuCount=menuCount+1
 
-  Write(menuDisplayName)
+  local menuDisplayName=InfMenu.LangString(menu.name)
 
+  textFile:write(menuDisplayName,"\n")
+
+  htmlFile:write([[<div id="menu">]],"\n")
   htmlFile:write([[<div id="menuTitle">]],"\n")
-
   htmlFile:write(string.format([[<div id="%s">%s</div>]],menu.name,menuDisplayName),"\n")
+
+  local function ForProfile(item,currentMenu,priorMenus,priorItems)
+    if priorMenus then
+      for i,menu in ipairs(priorMenus) do
+        if currentMenu==menu then
+          return
+        end
+      end
+    end
+
+    if priorItems[item.name] then
+      return false
+    end
+
+    if menu.nonConfig
+      or item.optionType~="OPTION"
+      or item.nonUser
+      or item.nonConfig
+      or item.OnSubSettingChanged
+    then
+      return false
+    end
+    return true
+  end
+
+  local hasItems=false
+  for i,item in ipairs(menu.options)do
+    if ForProfile(item,menu,priorMenus,priorItems) then
+      hasItems=true
+    end
+  end
+  if hasItems then
+    profileFile:write("\t\t--"..menuDisplayName,"\n")
+  end
 
   local menuHelpLangString=InfLang.help.eng[menu.name]
   if menuHelpLangString then
-    local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-    Write("- "..menuHelpLangString)
+    textFile:write("- "..menuHelpLangString,"\n")
 
     menuHelpLangString=string.gsub(menuHelpLangString,"\n","<br/>")
     htmlFile:write(string.format([[<div id="menuHelp">%s</div>]],menuHelpLangString),"\n")
+
+    --profileFile:write("-- "..menuHelpLangString,"\n")
   end
   htmlFile:write("</div>","\n")
 
   local underLineLength=string.len(menuDisplayName)
   local underLine=CharacterLine("-",underLineLength)
-  Write(underLine)
-  --end
-
+  textFile:write(underLine,"\n")
 
   for i,item in ipairs(menu.options)do
     htmlFile:write([[<div id="menuItem">]],"\n")
@@ -558,11 +505,11 @@ local function PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
 
       if IsMenu(item) then
         menuCount=menuCount+1
-        Write(indexDisplayLine..settingDescription)
+        textFile:write(indexDisplayLine..settingDescription,"\n")
         htmlFile:write(string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription),"\n")
       else
         local settingText=GetSettingsText(item)
-        Write(indexDisplayLine..settingDescription.." : "..settingText)
+        textFile:write(indexDisplayLine..settingDescription.." : "..settingText,"\n")
 
         local settingsDisplayText=settingDescription.." : "..settingText
         settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
@@ -572,15 +519,55 @@ local function PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
 
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
-          local indentsIndexDisplay=CharacterLine(" ",string.len(indexDisplayLine))
-          --CULL Write(indentsIndexDisplay.."- "..helpLangString)
           helpLangString=string.gsub(helpLangString,"<","&lt")
           helpLangString=string.gsub(helpLangString,">","&gt")
 
-          Write(helpLangString)
+          textFile:write(helpLangString,"\n")
 
           helpLangString=string.gsub(helpLangString, "\n", "<br/>")
           htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],helpLangString),"\n")
+        end
+
+        if ForProfile(item,menu,priorMenus,priorItems) then
+          profileFile:write("\t\t"..item.name.."=")
+          if item.settings then
+            local setting=item.settings[item.default+1]
+            if setting~="DEFAULT" and setting~="OFF" then
+              profileFile:write("\""..setting.."\"")
+            else
+              profileFile:write(item.default)
+            end
+          else
+            profileFile:write(item.default)
+          end
+          profileFile:write(",")
+
+          local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
+          profileFile:write("--")
+          if item.settings then
+            profileFile:write("{ ")
+            for i,setting in ipairs(item.settings)do
+              profileFile:write(setting)
+              if i~=#item.settings then
+                profileFile:write(", ")
+              end
+            end
+            profileFile:write(" }")
+          else
+            profileFile:write("{ ")
+            profileFile:write(item.range.min.."-"..item.range.max)
+            profileFile:write(" }")
+          end
+          if not item.save then
+            profileFile:write(" -- Non-save")
+          end
+          profileFile:write(" -- "..optionName)
+          if item.isPercent then
+            profileFile:write(" (percentage)")
+          end
+          profileFile:write("\n")
+
+          priorItems[item.name]=true
         end
       end
     end
@@ -603,13 +590,21 @@ local function EscapeHtml(line)
 end
 
 local function AutoDoc()
-  io.output(projectFolder..featuresOutputName..".txt")
-  io.input(projectFolder..featuresHeader)
-  local header=io.read("*all")
-  Write(header)
+  local textFilePath=projectFolder..featuresOutputName..".txt"
+  local textFile=io.open(textFilePath,"w")
 
-  local htmlOutPutFile=projectFolder..featuresOutputName..".html"
-  local htmlFile=io.open(htmlOutPutFile,"w")
+  local htmlFilePath=projectFolder..featuresOutputName..".html"
+  local htmlFile=io.open(htmlFilePath,"w")
+
+  local profileFilePath=projectFolder.."!modlua\\InfProfiles\\InfProfiles.lua"
+  local profileFile=io.open(profileFilePath,"w")
+
+
+  local headerFilePath=projectFolder..featuresHeader
+  local headerFile=io.open(headerFilePath)
+  local header=headerFile:read("*all")
+  headerFile:close()
+  textFile:write(header)
 
   htmlFile:write("<!DOCTYPE html>","\n")
   htmlFile:write("<html>","\n")
@@ -639,6 +634,23 @@ local function AutoDoc()
     htmlFile:write("<br/>","\n")
   end
 
+  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
+  local headerFile=io.open(headerFilePath)
+  local header=headerFile:read("*all")
+  headerFile:close()
+  
+  profileFile:write(header)
+  profileFile:write("\n")
+  profileFile:write("local profiles={}","\n")
+  profileFile:write("\n")
+  profileFile:write("-- Defaults/example of all profile options for IH "..InfMain.modVersion,"\n")
+  profileFile:write("profiles.defaults={","\n")
+  profileFile:write("\tdescription=\"Defaults/All disabled\",","\n")
+  profileFile:write("\tfirstProfile=true,--puts profile first for the IH menu option, only one profile should have this set.","\n")
+  profileFile:write("\tloadOnACCStart=false,","\n")--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first) 
+  
+  profileFile:write("\tprofile={","\n")
+
   --patchup
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
@@ -651,23 +663,23 @@ local function AutoDoc()
   local menu=InfMenuDefs.heliSpaceMenu.options
   local skipItems=true
 
-  local docTable={}
-
   local heliSpaceMenus={}
   local heliSpaceMenuNames={}
   GatherMenus(menu,skipItems,heliSpaceMenus,heliSpaceMenuNames)
   --InfInspect.PrintInspect(heliSpaceMenus)
   table.insert(heliSpaceMenus,1,InfMenuDefs.heliSpaceMenu)
 
+  local priorItems={}
+
   local menuCount=1
   for i,menu in ipairs(heliSpaceMenus)do
-    PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
-    Write"\n"
+    PrintMenuSingle(nil,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)
+    textFile:write("\n")
     htmlFile:write("<br/>","\n")
   end
 
-  Write"==============="
-  Write"\n"
+  textFile:write("===============\n")
+  textFile:write("\n")
   menu=InfMenuDefs.inMissionMenu.options
   local inMissionMenus={}
   local inMissionMenuNames={}
@@ -676,23 +688,34 @@ local function AutoDoc()
   --InfInspect.PrintInspect(inMissionMenus)
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
-    PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
-    Write("\n")
+    PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)
+    textFile:write("\n")
     htmlFile:write("<br/>","\n")
   end
-
-  --PrintMenu(menu,0,menuCount,skipItems)
-  --DEBUGNOW
-
-  --InfMenu.DisplaySetting(InfMenu.currentIndex)
-
 
   htmlFile:write("</body>","\n")
   htmlFile:write("</html>","\n")
 
-  htmlFile:close()
+  profileFile:write("\t}","\n")
+  profileFile:write("}","\n")
+  profileFile:write("\n")
+  
+  local heavenProfilesPath=projectFolder.."!modlua\\InfProfiles\\InfHeavenProfiles.lua"
+  local heavenProfilesFile=io.open(heavenProfilesPath)
+  local heavenProfiles=heavenProfilesFile:read("*all")
+  heavenProfilesFile:close()
+  
+  profileFile:write(heavenProfiles,"\n")
+  
+  
+  profileFile:write("\n")
+  profileFile:write("return profiles","\n")
 
-  print"--done--"
+  textFile:close()
+  htmlFile:close()
+  profileFile:close()
+
+  print"--autodoc done--"
 end
 
 -- end autodoc
@@ -928,8 +951,53 @@ local function PrintIvars()
     --WriteLine("  "..name.."="..tostring(ivar.default)..",--"..optionName)
   end
 
+  WriteLine("}")
+  f:close()
+end
+
+
+local function WriteDefaultIvarProfile()
+  local outPutFile="D:\\Projects\\MGS\\!InfiniteHeaven\\default profile raw.lua"
+  local f=io.open(outPutFile,"w")
+
+  local function WriteLine(text)
+    f:write(text,"\n")
+  end
+
+  WriteLine("local profiles={}")
+  WriteLine("profiles.defaults={")
+
+  local ivarNames={}
+
+  local SortFunc=function(a,b) return a < b end
+
+  local optionType="OPTION"
+  for name,ivar in pairs(Ivars) do
+    if type(ivar)=="table" then
+      if ivar.save then
+        if ivar.optionType==optionType then
+          if not ivar.nonUser and not ivar.nonConfig then
+            table.insert(ivarNames,name)
+          end
+        end
+      end
+    end
+  end
+  table.sort(ivarNames,SortFunc)
+  --InfInspect.PrintInspect(ivarNames)
+
+  --DEBUGNOW TODO add SETTINGS, range as comment
+  for i,name in ipairs(ivarNames) do
+    local optionName=InfLang.eng[name] or InfLang.help.eng[name] or ""
+    local ivar=Ivars[name]
+    local line="\t"..name.."="..tostring(ivar.default)..",--"..optionName
+    WriteLine(line)
+    --WriteLine("  "..name.."="..tostring(ivar.default)..",--"..optionName)
+  end
+
 
   WriteLine("}")
+  WriteLine("return this")
   f:close()
 end
 --
@@ -1018,9 +1086,6 @@ local function FindMissingFovas()
   end
 end
 
-
-
-
 local function BuildFovaTypesList()
   local function BuildList(tableName,fovaTable)
     print("this."..tableName.."Info={")
@@ -1048,12 +1113,12 @@ end
 
 
 local function FaceDefinitionAnalyse()
-local paramNames={
- "faceFova",
-  "faceDecoFova",
-  "hairFova",
-  "hairDecoFova",
-}
+  local paramNames={
+    "faceFova",
+    "faceDecoFova",
+    "hairFova",
+    "hairDecoFova",
+  }
 
   local analysis={
     MALE={},
@@ -1067,10 +1132,10 @@ local paramNames={
       gender="FEMALE"
     end
     table.insert(analysis[gender],index)
-    
+
     local analyseParamName="faceFova"
     local analyseParam=entry[InfEneFova.faceDefinitionParams[analyseParamName]]
-    
+
     local analyseParamTable=analysis[analyseParam] or {}
     analysis[analyseParam]=analyseParamTable or {}
   end
@@ -1079,7 +1144,9 @@ end
 --
 
 local function main()
+  print("main()")
   AutoDoc()
+  --WriteDefaultIvarProfile()
 
   --PrintEquipId()
 
@@ -1094,6 +1161,8 @@ local function main()
   FaceDefinitionAnalyse()
 
   --XmlTest()
+
+  print"main done"
 end
 
 main()

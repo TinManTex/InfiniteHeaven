@@ -141,7 +141,7 @@ function this.WarpToUserMarker(index)
     markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index],vars.userMarkerPosZ[index])
   end
 
-  InfMenu.DebugPrint("Warped to marker "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())--DEBUGNOW ADDLANG
+  InfMenu.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ()) 
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 

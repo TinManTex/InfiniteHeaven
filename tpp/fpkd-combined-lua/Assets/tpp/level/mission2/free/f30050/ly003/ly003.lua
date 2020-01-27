@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 0 --DEBUGWIP
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050_ly003.fpkd
 
@@ -395,7 +395,7 @@ this.enemyAssetTable = {
 			},
       uavList = {
  --       "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0000",
-        --DEBUGNOW
+        --DEBUGWIP
 --        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0001",
 --        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0000",
 --        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0001",

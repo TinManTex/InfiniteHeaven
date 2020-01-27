@@ -1,5 +1,11 @@
 Infinite Heaven changelog
 
+r178 - 2016-09-06
+Option: playerFaceIdFilter - Filter faces - "Show all","Unique","Head fova mods" - filters the list of faces in the appearance menu
+Fixed: A number of player restriction options not applying - thanks Gambchon for the report.
+Feature: Custom profiles - InfProfiles - selectProfile
+Autodoc: Extended to write defaults profile.
+
 r177 - 2016-09-02
 Fixed: Trigger game event option does not require random trigger chance settings to be enabled.
 Fixed: Incorrect ammo count after disabling OSP weapon options. May still happen after exiting real subsistence missions into free-play, but can be fixed by changing the affected weapons to different types.

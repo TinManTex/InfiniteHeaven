@@ -218,7 +218,6 @@ this.eng={--english
   removeDemon="Subtract demon points",
   removed_demon=" demon points subtracted, visual should refresh on mission start or retry command.",
   fultonSuccessMenu="Fulton success menu",--r104
-  fultonSuccessProfile="Fulton success profile",
   fultonNoMbSupport="Disable MB fulton support",
   fultonNoMbMedical="Disable MB fulton medical",
   fultonDyingPenalty="Target dying penalty",
@@ -503,6 +502,16 @@ this.eng={--english
   printCurrentAppearance="Print appearance info",
   appearanceMenu="Appearance menu",
   only_for_dd_soldier="Only for DD soldiers",
+  no_head_fovas="No head fova mods found",
+  playerFaceFilter="Filter faces",
+  playerFaceFilterSettings={"Show all","Unique","Head fova mods"},
+  selectProfile="Select profile",
+  applySelectedProfile="Apply profile",
+  resetSelectedProfile="Set profile options to defaults",
+  no_profiles_installed="No profiles installed",
+  applying_profile="Applying profile",
+  warped_to_marker="Warped to marker",
+  none_defined="None defined",
 }--eng end
 
 this.help={}

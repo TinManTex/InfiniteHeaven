@@ -1,4 +1,4 @@
--- DOBUILD: 0 -- OFF WIP DEBUGNOW
+-- DOBUILD: 0 -- OFF WIP DEBUGWIP
 --InfReinforce.lua
 local this={}
 --localopt
@@ -17,7 +17,7 @@ this.reinforceInfo={
 }
 
 function this.OnRequestLoadReinforce(cpId)
-  InfMenu.DebugPrint"OnRequestLoadReinforce"--DEBUGNOW
+  InfMenu.DebugPrint"OnRequestLoadReinforce"--DEBUGWIP
   if this.reinforceInfo.cpId~=cpId then
     this.reinforceInfo.cpId=cpId
     this.reinforceInfo.count=0
@@ -26,17 +26,17 @@ function this.OnRequestLoadReinforce(cpId)
   this.reinforceInfo.request=this.reinforceInfo.request+1
 end
 function this.OnRequestAppearReinforce(cpId)
-  InfMenu.DebugPrint"OnRequestAppearReinforce"--DEBUGNOW
+  InfMenu.DebugPrint"OnRequestAppearReinforce"--DEBUGWIP
   this.reinforceInfo.count=this.reinforceInfo.count+1
 end
 function this.OnCancelReinforce(cpId)
-  InfMenu.DebugPrint"OnCancelReinforce"--DEBUGNOW
+  InfMenu.DebugPrint"OnCancelReinforce"--DEBUGWIP
 end
 
 function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopter shiz.txt
-  InfMenu.DebugPrint"InfReinforce.OnHeliLostControlReinforce"--DEBUGNOW
+  InfMenu.DebugPrint"InfReinforce.OnHeliLostControlReinforce"--DEBUGWIP
 
-  if true then return end--DEBUGNOW
+  if true then return end--DEBUGWIP
 
   local gameObjectType=GameObject.GetTypeIndex(gameId)
   if gameObjectType~=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI then
@@ -68,7 +68,7 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
 end
 
 function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after TppEnemy._OnVehicleBroken
-  InfMenu.DebugPrint"InfReinforce.OnVehicleBroken"--DEBUGNOW
+  InfMenu.DebugPrint"InfReinforce.OnVehicleBroken"--DEBUGWIP
 
   if true then return end--DEBUG
 
@@ -97,12 +97,12 @@ function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after T
 end
 
 function this.OnFulton(vehicleId)
-  InfMenu.DebugPrint"InfReinforce.OnFulton"--DEBUGNOW
+  InfMenu.DebugPrint"InfReinforce.OnFulton"--DEBUGWIP
 
 end
 
 function this.OnTimer_FinishReinforce()
-  InfMenu.DebugPrint"InfReinforce.OnTimer_FinishReinforce FinishReinforce"--DEBUGNOW
+  InfMenu.DebugPrint"InfReinforce.OnTimer_FinishReinforce FinishReinforce"--DEBUGWIP
   local cpId=mvars.reinforce_reinforceCpId
   TppReinforceBlock.FinishReinforce(cpId)
   TppReinforceBlock.UnloadReinforceBlock(cpId)
