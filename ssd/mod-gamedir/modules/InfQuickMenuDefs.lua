@@ -15,7 +15,6 @@
 --InfButton.CALL - <Call radio/interrogate> - (Q or Left bumper)
 --InfButton.SUBJECT - <Binoculars/scope> - (F or Right bumper)
 --InfButton.DASH - (Shift or Left stick click)
---InfButton.ZOOM_CHANGE - (Middle mouse or Right stick click)
 
 --InfButton.UP - (Arrow/Dpad Up)
 --InfButton.DOWN - (Arrow/Dpad Down)
@@ -28,11 +27,7 @@ local this={}
 
 --this.forceEnable=true--tex overrides the Enable quick menu option in the IH system menu
 
---tex button to hold to enable the quick menu command buttons
---make sure this doesn't conflict with any of the menu command buttons below
-this.quickMenuHoldButton=InfButton.CALL
-
-this.inHeliSpace={
+this.inSafeSpace={
   [InfButton.RELOAD]={Command='InfCamera.ToggleFreeCam'},
 }
 this.inMission={
@@ -42,7 +37,6 @@ this.inMission={
   [InfButton.HOLD]={Command='InfUserMarker.WarpToLastUserMarker'},
   [InfButton.ACTION]={immediate=true,Command='InfTimeScale.HighSpeedCameraToggle'},--tex TSM, immediate because: It's on a key that is less likely to be accidentally triggered. Need the responsiveness. TSM actually affects timing of deactivation lol (same issue with phantom cigar and menu activation) 
   [InfButton.RELOAD]={Command='InfCamera.ToggleFreeCam'},
-  [InfButton.DASH]={Command='InfCamera.ToggleCamMode'},
   [InfButton.STANCE]={Command='InfMenuCommandsTpp.QuietMoveToLastMarker'},
 }
 --tex cutscenes

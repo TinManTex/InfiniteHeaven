@@ -1,0 +1,1711 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppLensFlareShape" super="" version="11" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TppLensFlareShapeCircle" super="" version="1" />
+    <class name="TppLensFlareShapeArray" super="" version="0" />
+    <class name="TppLensFlareField" super="" version="2" />
+    <class name="TppLensFlareMaterial" super="" version="3" />
+    <class name="TppHandLightLensFlareRoot" super="" version="4" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x09A3F430" unknown1="304" unknown2="2425">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="23">
+          <value key="TppLensFlareShapeFlare1">0x09A3F4A0</value>
+          <value key="TppLensFlareShapeFlare2">0x09A3F660</value>
+          <value key="TppLensFlareShapeArray2">0x09A3F820</value>
+          <value key="TppLensFlareShapeHStreak1">0x09A3F9E0</value>
+          <value key="TppLensFlareShapeCircle6">0x09A3FBA0</value>
+          <value key="TppLensFlareShapeArray10">0x09A3FDD0</value>
+          <value key="TppLensFlareShapeArray1">0x09A3FF90</value>
+          <value key="TppLensFlareFieldScale1a">0x09A3FCF0</value>
+          <value key="TppLensFlareFieldAlpha1a">0x09E201D0</value>
+          <value key="TppLensFlareField0002a">0x09E20240</value>
+          <value key="TppLensFlareFieldArrayAlpha2a">0x09E202B0</value>
+          <value key="TppLensFlareFieldArrayScale1a">0x09E20320</value>
+          <value key="TppLensFlareFieldHStreakScale1a">0x09E20390</value>
+          <value key="TppLensFlareFieldHStreakScale2a">0x09E20400</value>
+          <value key="TppLensFlareFieldHStreakAlpha1a">0x09E20470</value>
+          <value key="TppLensFlareFieldCircleScale1a">0x09E204E0</value>
+          <value key="TppLensFlareField0007a">0x09E20550</value>
+          <value key="TppLensFlareField0014a">0x09E205C0</value>
+          <value key="TppLensFlareMaterial0005a">0x09E20630</value>
+          <value key="TppLensFlareMaterial0002a">0x09E206A0</value>
+          <value key="TppLensFlareMaterial0003a">0x09E20710</value>
+          <value key="TppLensFlareField0007b">0x09E20780</value>
+          <value key="TppHandLightLensFlareRoot0000">0x09E207F0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShape" classVersion="11" addr="0x09A3F4A0" unknown1="816" unknown2="2427">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeFlare1</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09A3F510</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareMaterial0003a">0x09E20710</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.5" b="0.4" a="0.5" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>-1.257408</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>4.7</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareField0002a">0x09E20240</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareField0002a">0x09E20240</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldArrayAlpha2a">0x09E202B0</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09A3F510" unknown1="112" unknown2="2438">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F4A0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.108119" y="-0.076096" z="-0.008301" w="0.991187" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.208406" y="32.4360237" z="56.8136673" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShape" classVersion="11" addr="0x09A3F660" unknown1="816" unknown2="2444">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeFlare2</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09A3F6D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareMaterial0005a">0x09E20630</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.695" b="0.5" a="1" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldScale1a">0x09A3FCF0</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldScale1a">0x09A3FCF0</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldAlpha1a">0x09E201D0</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_s_lensflare_flash_for_sun</value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0.34</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09A3F6D0" unknown1="112" unknown2="2455">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F660</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.108119" y="-0.076096" z="-0.008301" w="0.991187" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.208406" y="32.4360237" z="56.8136673" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShape" classVersion="11" addr="0x09A3F820" unknown1="816" unknown2="2461">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeArray2</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09A3F890</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareMaterial0002a">0x09E206A0</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.478431" b="0.341177" a="0.4" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>-1.5</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldArrayScale1a">0x09E20320</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldArrayScale1a">0x09E20320</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldArrayAlpha2a">0x09E202B0</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09A3F890" unknown1="112" unknown2="2472">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F820</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.108119" y="-0.076096" z="-0.008301" w="0.991187" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.208406" y="32.4360237" z="56.8136673" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShape" classVersion="11" addr="0x09A3F9E0" unknown1="816" unknown2="2478">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeHStreak1</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09A3FA50</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareMaterial0005a">0x09E20630</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.799308" b="0.411765" a="0.4" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldHStreakScale1a">0x09E20390</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldHStreakScale2a">0x09E20400</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldHStreakAlpha1a">0x09E20470</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09A3FA50" unknown1="112" unknown2="2489">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F9E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.128049" y="0.870761" z="-0.310479" w="-0.35914" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1447.48242" y="339.7023" z="1476.694" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShapeCircle" classVersion="1" addr="0x09A3FBA0" unknown1="832" unknown2="2495">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeCircle6</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09A3FC10</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="0.2" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>27.0216</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>0.008851</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.94</value>
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.63</value>
+        </property>
+        <property name="divideNum" type="uint32" container="StaticArray" arraySize="1">
+          <value>16</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09A3FC10" unknown1="112" unknown2="2506">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3FBA0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.013337" y="0.801167" z="0.017858" w="0.598025" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-137.606415" y="35.55163" z="143.353561" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShapeArray" classVersion="0" addr="0x09A3FDD0" unknown1="912" unknown2="2512">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeArray10</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09A3FE40</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareMaterial0002a">0x09E206A0</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.125372</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldCircleScale1a">0x09E204E0</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareFieldCircleScale1a">0x09E204E0</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareField0007b">0x09E20780</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="spriteCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="offsetScaleMin" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="offsetScaleMax" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="sizeScaleMin" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="sizeScaleMax" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="randomColorMin" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.921523" b="0.258824" a="0.3" />
+        </property>
+        <property name="randomColorMax" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.7" b="0.8" a="0.7" />
+        </property>
+        <property name="randomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09A3FE40" unknown1="112" unknown2="2523">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3FDD0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.108119" y="-0.076096" z="-0.008301" w="0.991187" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.208406" y="32.4360237" z="56.8136673" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareShapeArray" classVersion="0" addr="0x09A3FF90" unknown1="912" unknown2="2529">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareShapeArray1</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09E20080</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147483655</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareMaterial0005a">0x09E20630</value>
+        </property>
+        <property name="width" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0.7" g="1" b="0.8" a="0.7" />
+        </property>
+        <property name="offsetType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="offsetScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetX" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="baseOffsetY" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rotateType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="baseRotate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="screenSpaceRotSpeedX" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotSpeedY" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="screenSpaceRotField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="scaleFieldX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareField0002a">0x09E20240</value>
+        </property>
+        <property name="scaleFieldY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareField0002a">0x09E20240</value>
+        </property>
+        <property name="scaleFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="alphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareField0014a">0x09E205C0</value>
+        </property>
+        <property name="alphaFieldPickSunPositionFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="shieldFadeOutTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="shieldFadeInTime" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="angleScaleGraphX" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleScaleGraphY" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="angleAlphaGraph" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="distanceScaling" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="limitDistance" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="notDrawMultiple" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="seName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="seCallThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="scaleOnZoom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="spriteCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="offsetScaleMin" type="float" container="StaticArray" arraySize="1">
+          <value>-0.7</value>
+        </property>
+        <property name="offsetScaleMax" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="sizeScaleMin" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="sizeScaleMax" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="randomColorMin" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.611165" b="0.231373" a="0.5" />
+        </property>
+        <property name="randomColorMax" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0.4991" b="0.447059" a="0.7" />
+        </property>
+        <property name="randomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>15</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09E20080" unknown1="112" unknown2="2540">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3FF90</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.108119" y="-0.076096" z="-0.008301" w="0.991187" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.208406" y="32.4360237" z="56.8136673" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09A3FCF0" unknown1="208" unknown2="2546">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldScale1a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.2</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E201D0" unknown1="208" unknown2="2548">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldAlpha1a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.2</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20240" unknown1="208" unknown2="2550">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareField0002a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E202B0" unknown1="208" unknown2="2552">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldArrayAlpha2a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20320" unknown1="208" unknown2="2554">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldArrayScale1a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.1</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20390" unknown1="208" unknown2="2556">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldHStreakScale1a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.2</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20400" unknown1="208" unknown2="2558">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldHStreakScale2a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>2.1</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20470" unknown1="208" unknown2="2560">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldHStreakAlpha1a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.2</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.5</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E204E0" unknown1="208" unknown2="2562">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareFieldCircleScale1a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.5</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20550" unknown1="208" unknown2="2564">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareField0007a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.2</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E205C0" unknown1="208" unknown2="2566">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareField0014a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareMaterial" classVersion="3" addr="0x09E20630" unknown1="288" unknown2="2568">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareMaterial0005a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="texture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/flare/fx_flrcom01_ib_alp.ftex</value>
+        </property>
+        <property name="arcAlphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="arcAlphaFadeAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="arcAlphaBaseAngle" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="maskShape" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="debugDrawMaskShape" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareMaterial" classVersion="3" addr="0x09E206A0" unknown1="288" unknown2="2572">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareMaterial0002a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="texture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/flare/fx_flr03_iy_alp_clp.ftex</value>
+        </property>
+        <property name="arcAlphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="arcAlphaFadeAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="arcAlphaBaseAngle" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="maskShape" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="debugDrawMaskShape" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareMaterial" classVersion="3" addr="0x09E20710" unknown1="288" unknown2="2576">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareMaterial0003a</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="texture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/flare/fx_flr04_iy_alp_clp.ftex</value>
+        </property>
+        <property name="arcAlphaField" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="arcAlphaFadeAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="arcAlphaBaseAngle" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="maskShape" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="debugDrawMaskShape" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLensFlareField" classVersion="2" addr="0x09E20780" unknown1="208" unknown2="2580">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLensFlareField0007b</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="interpType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="debugDrawFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugDrawColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="0" b="0" a="0.5" />
+        </property>
+        <property name="innerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="centerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="outerScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="innerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="centerValue" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="outerValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reverse" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppHandLightLensFlareRoot" classVersion="4" addr="0x09E207F0" unknown1="1008" unknown2="2582">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppHandLightLensFlareRoot0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09A3F430</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x09E20860</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="independentEditMode" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="takeover" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="debugFillCheck" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="needCollisionCheck" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="exposureBlend" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="lensFlareName" type="String" container="StaticArray" arraySize="1">
+          <value>fx_tpp_flrlns01_s2LG</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="5">
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareShapeFlare1">0x09A3F4A0</value>
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareShapeFlare2">0x09A3F660</value>
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareShapeArray1">0x09A3FF90</value>
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareShapeArray2">0x09A3F820</value>
+          <value packagePath="" archivePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf" nameInArchive="TppLensFlareShapeArray10">0x09A3FDD0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x09E20860" unknown1="112" unknown2="2590">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09E207F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.108119" y="-0.076096" z="-0.008301" w="0.991187" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.208406" y="32.4360237" z="56.8136673" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

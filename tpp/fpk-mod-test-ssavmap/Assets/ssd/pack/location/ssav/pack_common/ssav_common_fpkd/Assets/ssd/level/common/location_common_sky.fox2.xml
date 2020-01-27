@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppSky" super="" version="11" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TppTextureLoader" super="" version="1" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x052FF510" unknown1="304" unknown2="297173">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="3">
+          <value key="TppSky0000">0x052FF580</value>
+          <value key="TppTextureLoader0000">0x052FF660</value>
+          <value key="TexturePackLoadConditioner0000">0x0C0C40D0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSky" classVersion="11" addr="0x052FF580" unknown1="480" unknown2="297175">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppSky0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x052FF510</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x052FF5F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="model" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_model/fxm_sky/sky_dome/Scenes/sky_dome_a.fmdl</value>
+        </property>
+        <property name="cloudTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/cloud/fx_cldafg01_st_alp_nmp.ftex</value>
+        </property>
+        <property name="textureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="lightExtinction" type="float" container="StaticArray" arraySize="1">
+          <value>0.19</value>
+        </property>
+        <property name="diffusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.02</value>
+        </property>
+        <property name="dirLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="ambLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="inCloudScatterGain" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="density" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="cloudWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="densityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="densityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="dom2TextureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="dom2CloudDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="dom2WindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.15</value>
+        </property>
+        <property name="dom2DensityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="dom2DensityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="dom3TextureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="dom3CloudDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="dom3WindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.03</value>
+        </property>
+        <property name="dom3DensityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>15</value>
+        </property>
+        <property name="dom3DensityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.05</value>
+        </property>
+        <property name="cylCloudTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/cloud/fx_cldcyl01_st_nmp_alp.ftex</value>
+        </property>
+        <property name="cylTextureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="cylCloudDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="cylDiffusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.02</value>
+        </property>
+        <property name="cylScatterGain" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="cylDirLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="cylAmbLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="cylWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>-0.3</value>
+        </property>
+        <property name="cylDensityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="cylDensityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>-0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x052FF5F0" unknown1="112" unknown2="297178">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x052FF580</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="3800" y="1520" z="3800" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x052FF660" unknown1="216" unknown2="349289">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x052FF510</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" arraySize="1">
+          <value key="mafr_clearSky_a">/Assets/tpp/effect/gr_pic/lut/mafr_clearSky_a_FILTERLUT.ftex</value>
+        </property>
+        <property name="forceLargeTextures" type="Path" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0C0C40D0" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x052FF510</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

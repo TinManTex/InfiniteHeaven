@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_143_127.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_terrain.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_path.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_objBrush.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_nav.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_light.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_gimmick.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_effect.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_coverPoint.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_asset.fox2" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/middle_africa/watchtower/mafr_wtct002/mafr_wtct002_vrtn002.parts" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/break/fx_ssd_brkuntwct01_s6.vfx" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/middle_africa/watchtower/mafr_wtct002/mafr_wtct002_vrtn002.tgt" />
+  </Entries>
+  <References />
+</ArchiveFile>

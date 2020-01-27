@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_savannah_stealthArea_c02.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_stealthArea_c02.frt" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_stealthArea_c02_fox2_geotrap_win.trap" />
+  </Entries>
+  <References />
+</ArchiveFile>

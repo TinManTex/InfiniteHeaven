@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
-  <Entries>
-    <Entry LangId="name_q30103" Color="5" Value="IH sideop example" />
-    <Entry LangId="info_q30103" Color="5" Value="Description for IH sideop" />   
-  </Entries>
-</LangFile>

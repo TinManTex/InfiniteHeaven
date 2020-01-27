@@ -1,0 +1,149 @@
+{
+  "Name": "rt_uav_0",
+  "Nodes": [
+    {
+      "Position": {
+        "X": 1105.9386,
+        "Y": 16.3315945,
+        "Z": 1541.68237
+      },
+      "EdgeEvent": {
+        "EventType": "MoveFast",
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+      },
+      "Events": [
+        {
+          "EventType": 4125130163,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        {
+          "EventType": "WaitIdle",
+          "Param1": 1,
+          "Param2": 345637223,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1122.752,
+        "Y": 17.3432922,
+        "Z": 1596.62976
+      },
+      "EdgeEvent": {
+        "EventType": "MoveFast",
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+      },
+      "Events": [
+        {
+          "EventType": 4125130163,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        {
+          "EventType": "WaitIdle",
+          "Param1": 1,
+          "Param2": 4249223527,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1163.01819,
+        "Y": 16.34119,
+        "Z": 1601.38428
+      },
+      "EdgeEvent": {
+        "EventType": "MoveFast",
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+      },
+      "Events": [
+        {
+          "EventType": 4125130163,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        {
+          "EventType": "WaitIdle",
+          "Param1": 1,
+          "Param2": 3578200423,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        }
+      ]
+    },
+  ]
+}

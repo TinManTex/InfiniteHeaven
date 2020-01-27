@@ -3,21 +3,15 @@
 -- NMC first script loaded by engine
 --tex >
 --IHINTERNAL
-Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"
-Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"
-Script.LoadLibrary"/Assets/tpp/script/lib/InfTppUtil.lua"
-Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"
+Script.LoadLibrary"/Assets/tpp/script/lib/InfInit.lua"
+local increaseMemoryAlloc=Ivars and Ivars.sys_increaseMemoryAlloc:Get()==1--tex DEBUGNOW
+
 --tex mgstpp is a bit more graceful about the errors and will just sit and spin
 --but want to bail here to let mockfox user know of error/make it showstopper.
 if isMockFox and InfCore.modDirFail then
   print"ERROR: modDirFail"
   return
 end
-Script.LoadLibrary"/Assets/tpp/script/lib/IvarProc.lua"
---tex init seems to be loaded sandboxed, or some other funkery preventing _G from being added to, so loading some external modules to global inside InfInit (LoadLibrary is not boxed).
---inits Ivars.lua, IvarsPersist.lua via InfCore.LoadExternal (which would otherwise fail since the reference to module wouldn't be added as global)
-Script.LoadLibrary"/Assets/tpp/script/lib/InfInit.lua"
-Script.LoadLibrary"/Assets/tpp/script/lib/InfModelProc.lua"
 
 local dofile=InfCore.DoFile--tex allow external alternate
 --<
@@ -350,8 +344,15 @@ if NavWorldDaemon then
   NavWorldDaemon.AddScene"MainScene"
 end
 if PhDaemon then
-  PhDaemon.SetMemorySize(2560,1536,1024)
-  PhDaemon.SetMaxRigidBodyNum(500)
+  --tex>
+  if increaseMemoryAlloc then
+    PhDaemon.SetMemorySize(5120,3072,2048)--tex as editor value in start.lua
+    PhDaemon.SetMaxRigidBodyNum(700)
+  else
+    --<
+    PhDaemon.SetMemorySize(2560,1536,1024)
+    PhDaemon.SetMaxRigidBodyNum(500)
+  end
   local phDaemon=PhDaemon()
 end
 if SimDaemon then

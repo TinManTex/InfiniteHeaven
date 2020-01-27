@@ -216,15 +216,15 @@ local skipClassSet={
 }
 
 this.registerIvars={
-  'vehiclePatrolProfile',
-  'vehiclePatrolLvEnable',
-  'vehiclePatrolTruckEnable',
-  'vehiclePatrolWavEnable',
-  'vehiclePatrolWavHeavyEnable',
-  'vehiclePatrolTankEnable',
-  'vehiclePatrolPaintType',
-  'vehiclePatrolClass',
-  'vehiclePatrolEmblemType',
+  "vehiclePatrolProfile",
+  "vehiclePatrolLvEnable",
+  "vehiclePatrolTruckEnable",
+  "vehiclePatrolWavEnable",
+  "vehiclePatrolWavHeavyEnable",
+  "vehiclePatrolTankEnable",
+  "vehiclePatrolPaintType",
+  "vehiclePatrolClass",
+  "vehiclePatrolEmblemType",
 }
 
 --patrol vehicle stuff>

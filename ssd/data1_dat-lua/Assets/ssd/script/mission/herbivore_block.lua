@@ -1,11 +1,11 @@
-local n={}
-function n.OnAllocate()
-TppAnimalBlock.OnAllocate(n)
+local this={}
+function this.OnAllocate()
+  TppAnimalBlock.OnAllocate(this)
 end
-function n.OnInitialize()
-TppAnimalBlock.OnInitializeAnimalBlock(animalTypeSetting)
+function this.OnInitialize()
+  TppAnimalBlock.OnInitializeAnimalBlock(animalTypeSetting)--RETAILBUG: ORPHAN: param unused anyway
 end
-function n.OnTerminate()
-TppAnimalBlock.OnTerminate()
+function this.OnTerminate()
+  TppAnimalBlock.OnTerminate()
 end
-return n
+return this

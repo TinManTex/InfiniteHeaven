@@ -11,15 +11,15 @@ this.resetDemoButton=InfButton.RELOAD
 
 -->
 this.registerIvars={
-  'useSoldierForDemos',
-  'mbDemoSelection',
-  'mbSelectedDemo',
-  'forceDemoAllowAction',
-  'mbDemoOverrideTime',
-  'mbDemoHour',
-  'mbDemoMinute',
-  'mbDemoOverrideWeather',
-  'mbDontDemoDisableBuddy',
+  "useSoldierForDemos",
+  "mbDemoSelection",
+  "mbSelectedDemo",
+  "forceDemoAllowAction",
+  "mbDemoOverrideTime",
+  "mbDemoHour",
+  "mbDemoMinute",
+  "mbDemoOverrideWeather",
+  "mbDontDemoDisableBuddy",
 }
 
 this.useSoldierForDemos={
@@ -77,11 +77,11 @@ this.mbDontDemoDisableBuddy={
 --< ivar defs
 -->
 this.registerMenus={
-  'demosMenu',
+  "demosMenu",
 }
 
 this.demosMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.useSoldierForDemos",
     "Ivars.mbDemoSelection",

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_144_129.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/sound/ambient/mafr/mafr_144_129.adm" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/ssav_144_129_asset_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/ssav_144_129_light_fox2_tgrxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/ssav_144_129_terrain.htre" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/lba/ssav_drum001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/lba/ssav_wdbx003.lba" />
+    <Entry FilePath="/Assets/tpp/level/location/mafr/block_small/144/144_129/lba/mafr_drum001_vrtn001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/ssav_144_129_light.lpsh" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/ssav_144_129_nav.nav2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_129/ssav_144_129_objBrush.obrb" />
+  </Entries>
+  <References>
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk" />
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_extraLarge/ssav_north.fpk" />
+  </References>
+</ArchiveFile>

@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppPermanentGimmickData" super="" version="0" />
+    <class name="TppPermanentGimmickGatlingGunParameter" super="" version="0" />
+    <class name="TppPermanentGimmickImportantBreakableParameter" super="" version="2" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x06905330" unknown1="304" unknown2="319919">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="4">
+          <value key="nad0_main0_def_gim_i0000|TppPermanentGimmick_nad0_main0_def">0x06FF5FE0</value>
+          <value key="cut0_gim_i0000|TppPermanentGimmick_cut0_main0_def_v00">0x06FF60C0</value>
+          <value key="ssde_flor001_cold001_gim_i0000|TppPermanentGimmick_ssde_flor001_cold001">0x06FF6600</value>
+          <value key="TexturePackLoadConditioner0000">0x043A3880</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickData" classVersion="0" addr="0x06FF5FE0" unknown1="200" unknown2="2280">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>nad0_main0_def_gim_i0000|TppPermanentGimmick_nad0_main0_def</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06905330</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/mecha/nad/nad0_main0_def.parts</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/nad0_main0_def.lba</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x06FF6050</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickGatlingGunParameter" classVersion="0" addr="0x06FF6050" unknown1="112" unknown2="7075">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06FF5FE0</value>
+        </property>
+        <property name="life" type="uint32" container="StaticArray" arraySize="1">
+          <value>2400</value>
+        </property>
+        <property name="maxXAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="minXAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>-45</value>
+        </property>
+        <property name="maxYAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>180</value>
+        </property>
+        <property name="minYAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>-180</value>
+        </property>
+        <property name="animPath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/bodies/nad0/nad0/nad0_ammo_anim.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/nad0/nad0_ammo_anim.mtar</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickData" classVersion="0" addr="0x06FF60C0" unknown1="200" unknown2="82989">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cut0_gim_i0000|TppPermanentGimmick_cut0_main0_def_v00</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06905330</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/mecha/cut/cut0_main0_def_v00.parts</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/cut0_main0_def_v00.lba</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x06FF6130</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickImportantBreakableParameter" classVersion="2" addr="0x06FF6130" unknown1="72" unknown2="83001">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06FF60C0</value>
+        </property>
+        <property name="life" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="flag1" type="uint32" container="StaticArray" arraySize="1">
+          <value>50462767</value>
+        </property>
+        <property name="flag2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickData" classVersion="0" addr="0x06FF6600" unknown1="200" unknown2="12393">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ssde_flor001_cold001_gim_i0000|TppPermanentGimmick_ssde_flor001_cold001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06905330</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/ssd_comm/floor/ssde_flor001/ssde_flor001_cold001.parts</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/ssde_flor001_cold001.lba</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x06FF6670</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickImportantBreakableParameter" classVersion="2" addr="0x06FF6670" unknown1="72" unknown2="12426">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06FF6600</value>
+        </property>
+        <property name="life" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="flag1" type="uint32" container="StaticArray" arraySize="1">
+          <value>34078767</value>
+        </property>
+        <property name="flag2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x043A3880" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x06905330</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

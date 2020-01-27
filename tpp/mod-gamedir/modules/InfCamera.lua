@@ -21,7 +21,7 @@ this.distanceModeButton=InfButton.HOLD
 this.speedModeButton=InfButton.ACTION
 
 --tex updateState
-this.active='adjustCameraUpdate'
+this.active="adjustCameraUpdate"
 this.execState={
   nextUpdate=0,
 }
@@ -32,10 +32,10 @@ local cameraOffsetDefault=Vector3(0,0.75,0)
 
 -->
 this.registerIvars={
-  'adjustCameraUpdate',
-  'cameraMode',
-  'moveScale',
-  'disableCamText',
+  "adjustCameraUpdate",
+  "cameraMode",
+  "moveScale",
+  "disableCamText",
 }
 
 this.adjustCameraUpdate={
@@ -47,8 +47,8 @@ this.adjustCameraUpdate={
   isMode=true,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
   OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,
-  OnChange=function(self,previousSetting,setting)
-    if Ivars.warpPlayerUpdate:Is(1) then
+  OnChange=function(self,setting)
+    if Ivars.warpPlayerUpdate and Ivars.warpPlayerUpdate:Is(1) then--DEBUGNOW rethink
       self:SetDirect(0)
       InfMenu.PrintLangId"other_control_active"
       return
@@ -82,7 +82,7 @@ this.cameraMode={
   inMission=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"DEFAULT","CAMERA"},--"PLAYER","CAMERA"},
-  OnChange=function(self,previousSetting)
+  OnChange=function(self)
     if self:Is"DEFAULT" then
       Player.SetAroundCameraManualMode(false)
     else
@@ -114,13 +114,13 @@ this.camNames={
 --  "PlayerDash",
 }
 this.camIvarPrefixes={
-  'focalLength',
-  'focusDistance',
-  'aperture',
-  'distance',
-  'positionX',
-  'positionY',
-  'positionZ',
+  "focalLength",
+  "focusDistance",
+  "aperture",
+  "distance",
+  "positionX",
+  "positionY",
+  "positionZ",
 }
 
 for i,camName in ipairs(this.camNames) do
@@ -225,11 +225,11 @@ end
 --< menu commands
 -->
 this.registerMenus={
-  'cameraMenu',
+  "cameraMenu",
 }
 
 this.cameraMenu={
-    --WIP parentRefs={"InfMenuDefs.heliSpaceMenu","InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.adjustCameraUpdate",
     "Ivars.cameraMode",
@@ -436,7 +436,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
   local Ivars=Ivars
 
-  if not currentChecks.inGame then
+  if not currentChecks.inGame and (not currentChecks.inSafeSpace and not currentChecks.missionCanStart) then
     if not IsDemoPaused() and not IsDemoPlaying() then
       if Ivars.adjustCameraUpdate:Is(1) then
         Ivars.adjustCameraUpdate:Set(0)
@@ -509,17 +509,21 @@ function this.DoControlSet(currentChecks)
   moveZ=-leftStickY*currentMoveScale
 
   local moveAmount=1
-  if not InfButton.ButtonDown(this.resetModeButton) then--tex reusing these buttons in reset mode
+  --tex reusing these buttons in reset mode
+  if not InfButton.ButtonDown(this.resetModeButton) then
     if InfButton.ButtonDown(this.moveUpButton)
       or InfButton.OnButtonRepeat(this.moveUpButton) then
-    moveY=moveAmount*currentMoveScale
-    didMove=true
-  end
-  if InfButton.ButtonDown(this.moveDownButton)
-    or InfButton.OnButtonRepeat(this.moveDownButton) then
-    moveY=-moveAmount*currentMoveScale
-    didMove=true
-  end
+      moveY=moveAmount*currentMoveScale
+      didMove=true
+    end
+    --KLUDGE moving down when trying to use menu is annoying
+    if this.moveDownButton~=InfMenu.menuAltButton or not currentChecks.inMenu then
+    if InfButton.ButtonDown(this.moveDownButton)
+      or InfButton.OnButtonRepeat(this.moveDownButton) then
+      moveY=-moveAmount*currentMoveScale
+      didMove=true
+      end
+    end
   end
 
   if not currentChecks.inMenu then
@@ -600,26 +604,26 @@ function this.DoControlSet(currentChecks)
     --
     if Ivars.disableCamText:Is(0) then
       if InfButton.OnButtonDown(this.zoomModeButton) or InfButton.OnButtonUp(this.zoomModeButton) then
-        InfMenu.Print(currentCamName.." "..InfMenu.LangString"focal_length_mode".." "..focalLength:Get())
+        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"focal_length_mode".." "..focalLength:Get())
       end
       if InfButton.OnButtonDown(this.apertureModeButton) or InfButton.OnButtonUp(this.apertureModeButton) then
-        InfMenu.Print(currentCamName.." "..InfMenu.LangString"aperture_mode".." "..aperture:Get())
+        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"aperture_mode".." "..aperture:Get())
       end
       if InfButton.OnButtonDown(this.focusDistanceModeButton) or InfButton.OnButtonUp(this.focusDistanceModeButton) then
-        InfMenu.Print(currentCamName.." "..InfMenu.LangString"focus_distance_mode".." "..focusDistance:Get())
+        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"focus_distance_mode".." "..focusDistance:Get())
       end
       --CULL
       --      if InfButton.OnButtonDown(InfMain.verticalModeButton) then
-      --        InfMenu.Print(currentCamName.." "..InfMenu.LangString"vertical_mode")
+      --        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"vertical_mode")
       --      end
       if InfButton.OnButtonDown(this.speedModeButton) or InfButton.OnButtonUp(this.speedModeButton) then
-        InfMenu.Print(currentCamName.." "..InfMenu.LangString"speed_mode".." "..moveScale:Get())
+        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"speed_mode".." "..moveScale:Get())
       end
       if InfButton.OnButtonDown(this.distanceModeButton) or InfButton.OnButtonUp(this.distanceModeButton) then
-        InfMenu.Print(currentCamName.." "..InfMenu.LangString"distance_mode".." "..cameraDistance:Get())
+        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"distance_mode".." "..cameraDistance:Get())
       end
       if InfButton.OnButtonDown(this.resetModeButton) then
-        InfMenu.Print(currentCamName.." "..InfMenu.LangString"reset_mode")
+        InfMenu.Print(currentCamName.." "..InfLangProc.LangString"reset_mode")
       end
     end
     --inmenu-v-

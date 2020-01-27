@@ -1,5 +1,5 @@
 local this={}
-local a=Fox.StrCode32
+local StrCode32=Fox.StrCode32
 function this.QuatToRotX(e)
   local e=e:Rotate(Vector3(0,1,0))
   local e=foxmath.Atan2(e:GetZ(),e:GetY())

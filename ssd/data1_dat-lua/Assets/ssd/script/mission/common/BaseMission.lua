@@ -1,9 +1,10 @@
+-- BaseMission.lua
 local this={}
-local e=Fox.StrCode32
-local t=Tpp.StrCode32Table
-function this.CreateInstance(n)
+local StrCode32=Fox.StrCode32
+local StrCode32Table=Tpp.StrCode32Table
+function this.CreateInstance(missionName)
   local instance={}
-  instance.missionName=n
+  instance.missionName=missionName
   instance.NO_RESULT=true
   instance.sequences={}
   instance.sequenceList={"Seq_Game_MainGame"}
@@ -20,24 +21,36 @@ function this.CreateInstance(n)
   end
   function instance.OnRestoreSVars()
   end
-  instance.messageTable={Trap={{sender="trap_base",msg="Enter",func=function()
-    instance.OnReturnToBaseOrCamp()
-    TppQuest.UpdateActiveQuest()
-    TppMission.UpdateCheckPointAtCurrentPosition()
-  end,option={isExecFastTravel=true}},{sender="trap_base",msg="Exit",func=function()SsdBlankMap.StartExploration()
-    TppMission.UpdateCheckPointAtCurrentPosition()
-  end,option={isExecFastTravel=true}}},GameObject={{msg="GimmickIn",func=function(t,n)
-    if n==Fox.StrCode32"TYPE_CAMP"then
-      instance.OnReturnToBaseOrCamp()
-      TppMission.UpdateCheckPointAtCurrentPosition()
-    end
-  end}},nil}
+  instance.messageTable={
+    Trap={
+      {sender="trap_base",msg="Enter",func=function()
+        instance.OnReturnToBaseOrCamp()
+        TppQuest.UpdateActiveQuest()
+        TppMission.UpdateCheckPointAtCurrentPosition()
+      end,option={isExecFastTravel=true}},
+      {sender="trap_base",msg="Exit",func=function()
+        SsdBlankMap.StartExploration()
+        TppMission.UpdateCheckPointAtCurrentPosition()
+      end,option={isExecFastTravel=true}}
+    },
+    GameObject={
+      {msg="GimmickIn",func=function(t,n)
+        if n==Fox.StrCode32"TYPE_CAMP"then
+          instance.OnReturnToBaseOrCamp()
+          TppMission.UpdateCheckPointAtCurrentPosition()
+        end
+      end}
+    },
+    nil
+  }
   function instance.Messages()
     if instance.messageTable then
-      return t(instance.messageTable)
+      return StrCode32Table(instance.messageTable)
     end
   end
-  function instance.OnReturnToBaseOrCamp()SsdSbm.ShowSettlementReport()SsdBlankMap.UpdateReachInfo()
+  function instance.OnReturnToBaseOrCamp()
+    SsdSbm.ShowSettlementReport()
+    SsdBlankMap.UpdateReachInfo()
   end
   return instance
 end

@@ -1,0 +1,1528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppSharedGimmickData" super="" version="1" />
+    <class name="StaticModelArray" super="" version="4" />
+    <class name="GeoxPathPack" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x03B2C330" unknown1="304" unknown2="49496">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="35">
+          <value key="mafr_drum001_vrtn001_gim_i0000|TppSharedGimmick_mafr_drum001_vrtn001">0x06027E10</value>
+          <value key="mafr_drum001_vrtn002_gim_i0000|TppSharedGimmick_mafr_drum001_vrtn002">0x060289E0</value>
+          <value key="mafr_wdbx003_gim_i0000|TppSharedGimmick_mafr_wdbx003">0x0602FA50</value>
+          <value key="mafr_wdbx003_vrtn002_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn002">0x060D1430</value>
+          <value key="mafr_wdbx003_vrtn003_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn003">0x060D2D90</value>
+          <value key="mafr_wdbx003_vrtn004_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn004">0x060D4FB0</value>
+          <value key="mafr_wdbx003_vrtn005_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn005">0x060D71D0</value>
+          <value key="mafr_wdbx003_vrtn006_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn006">0x060D93F0</value>
+          <value key="mafr_wdbx003_vrtn007_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn007">0x060DB610</value>
+          <value key="afgh_sndb002_vrtn002_gim_i0000|TppSharedGimmick_afgh_sndb002_vrtn002">0x060DC720</value>
+          <value key="afgh_gnsc005_clor004_gim_i0000|TppSharedGimmick_afgh_gnsc005_clor004">0x060DE010</value>
+          <value key="afgh_gnsc005_clor005_gim_i0000|TppSharedGimmick_afgh_gnsc005_clor005">0x060DF510</value>
+          <value key="mafr_tank006_gim_i0000|TppSharedGimmick_mafr_tank006">0x06150550</value>
+          <value key="mafr_tank006_vrtn002_gim_i0000|TppSharedGimmick_mafr_tank006_vrtn002">0x06150B00</value>
+          <value key="afgh_char002_gim_i0000|TppSharedGimmick_afgh_char002">0x06151270</value>
+          <value key="mafr_bckt002_gim_i0000|TppSharedGimmick_mafr_bckt002">0x06152460</value>
+          <value key="afgh_asht001_gim_i0000|TppSharedGimmick_afgh_asht001">0x06153490</value>
+          <value key="afgh_dish003_gim_i0000|TppSharedGimmick_afgh_dish003">0x061544C0</value>
+          <value key="ssda_dish006_vrtn002_gim_i0000|TppSharedGimmick_afgh_dish006_vrtn002">0x061587B0</value>
+          <value key="mafr_lamp001_gim_i0000|TppSharedGimmick_mafr_lamp001">0x06159380</value>
+          <value key="gntn_crto001_vrtn001_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn001">0x06159930</value>
+          <value key="gntn_crto001_vrtn002_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn002">0x0615A180</value>
+          <value key="gntn_crto001_vrtn003_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn003">0x0615A9D0</value>
+          <value key="gntn_crto001_vrtn004_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn004">0x0615B220</value>
+          <value key="cypr_bttl001_vrtn001_gim_i0000|TppSharedGimmick_cypr_bttl001_vrtn001">0x0615C170</value>
+          <value key="ssde_boxx003_vrtn005_gim_i0000|TppSharedGimmick_ssde_boxx003_vrtn005">0x0615CD40</value>
+          <value key="ssde_iron001_gim_i0000|TppSharedGimmick_ssde_iron001">0x0615D1A0</value>
+          <value key="mtbs_btty001_gim_i0000|TppSharedGimmick_mtbs_btty001">0x0615DC20</value>
+          <value key="cypr_mdeq004_vrtn001_gim_i0000|TppSharedGimmick_cypr_mdeq004_vrtn001">0x0615E470</value>
+          <value key="afgh_radi001_gim_i0000|TppSharedGimmick_afgh_radi001">0x0615EC50</value>
+          <value key="StaticModelArray0000">0x063C6B40</value>
+          <value key="StaticModelArray0001">0x063C6BB0</value>
+          <value key="StaticModelArray0002">0x063C6D00</value>
+          <value key="GeoxPathPack0000">0x063C75C0</value>
+          <value key="TexturePackLoadConditioner0000">0x063C7E80</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06027E10" unknown1="296" unknown2="401602">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_drum001_vrtn001_gim_i0000|TppSharedGimmick_mafr_drum001_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/drum/mafr_drum001/scenes/mafr_drum001_vrtn001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/drum/mafr_drum001/scenes/mafr_drum001_vrtn001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/drum/mafr_drum001/mafr_drum001_vrtn001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_drum001_vrtn001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>270</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060289E0" unknown1="296" unknown2="401611">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_drum001_vrtn002_gim_i0000|TppSharedGimmick_mafr_drum001_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/drum/mafr_drum001/scenes/mafr_drum001_vrtn002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/drum/mafr_drum001/scenes/mafr_drum001_vrtn002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/drum/mafr_drum001/mafr_drum001_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_drum001_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>270</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0602FA50" unknown1="296" unknown2="1641795">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_gim_i0000|TppSharedGimmick_mafr_wdbx003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060D1430" unknown1="296" unknown2="3183838">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_vrtn002_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060D2D90" unknown1="296" unknown2="3183838">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_vrtn003_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003_vrtn003.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003_vrtn003.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060D4FB0" unknown1="296" unknown2="3183838">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_vrtn004_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003_vrtn004.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003_vrtn004.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060D71D0" unknown1="296" unknown2="3183838">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_vrtn005_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003_vrtn005.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003_vrtn005.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060D93F0" unknown1="296" unknown2="3183838">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_vrtn006_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003_vrtn006.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003_vrtn006.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060DB610" unknown1="296" unknown2="454136">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wdbx003_vrtn007_gim_i0000|TppSharedGimmick_mafr_wdbx003_vrtn007</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.fmdl</value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/desk/mafr_desk001/scenes/mafr_desk001_rbbl001.geom</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/middle_africa/wood_box/mafr_wdbx003/mafr_wdbx003_vrtn007.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_wdbx003_vrtn007.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2147746048</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>65536</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060DC720" unknown1="296" unknown2="14604191">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_sndb002_vrtn002_gim_i0000|TppSharedGimmick_afgh_sndb002_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/sandbag/afgh_sndb002/scenes/afgh_sndb002_vrtn002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/sandbag/afgh_sndb002/scenes/afgh_sndb002_vrtn002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/afghanistan/sandbag/afgh_sndb002/afgh_sndb002_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_sndb002_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060DE010" unknown1="296" unknown2="137467261">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_gnsc005_clor004_gim_i0000|TppSharedGimmick_afgh_gnsc005_clor004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/gunny_sack/afgh_gnsc005/scenes/afgh_gnsc005_clor004.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/gunny_sack/afgh_gnsc005/scenes/afgh_gnsc005_clor004.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/afghanistan/gunny_sack/afgh_gnsc005/afgh_gnsc005_clor004.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_gnsc005_clor004.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x060DF510" unknown1="296" unknown2="137472551">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_gnsc005_clor005_gim_i0000|TppSharedGimmick_afgh_gnsc005_clor005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/gunny_sack/afgh_gnsc005/scenes/afgh_gnsc005_clor005.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/gunny_sack/afgh_gnsc005/scenes/afgh_gnsc005_clor005.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/afghanistan/gunny_sack/afgh_gnsc005/afgh_gnsc005_clor005.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_gnsc005_clor005.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06150550" unknown1="296" unknown2="47639">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tank006_gim_i0000|TppSharedGimmick_mafr_tank006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tank/mafr_tank006/scenes/mafr_tank006.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tank/mafr_tank006/scenes/mafr_tank006.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/tank/mafr_tank006/mafr_tank006.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_tank006.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06150B00" unknown1="296" unknown2="47781">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tank006_vrtn002_gim_i0000|TppSharedGimmick_mafr_tank006_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tank/mafr_tank006/scenes/mafr_tank006_vrtn002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tank/mafr_tank006/scenes/mafr_tank006_vrtn002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/tank/mafr_tank006/mafr_tank006_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_tank006_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06151270" unknown1="296" unknown2="8961692">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_char002_gim_i0000|TppSharedGimmick_afgh_char002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/chair/afgh_char002/scenes/afgh_char002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/chair/afgh_char002/scenes/afgh_char002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/afghanistan/chair/afgh_char002/afgh_char002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_char002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06152460" unknown1="296" unknown2="46443">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_bckt002_gim_i0000|TppSharedGimmick_mafr_bckt002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt002/scenes/mafr_bckt002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt002/scenes/mafr_bckt002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/bucket/mafr_bckt002/mafr_bckt002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_bckt002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06153490" unknown1="296" unknown2="43098">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_asht001_gim_i0000|TppSharedGimmick_afgh_asht001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/ashtray/afgh_asht001/scenes/afgh_asht001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/ashtray/afgh_asht001/scenes/afgh_asht001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/afghanistan/ashtray/afgh_asht001/afgh_asht001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_asht001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x061544C0" unknown1="296" unknown2="43602">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_dish003_gim_i0000|TppSharedGimmick_afgh_dish003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/dish/afgh_dish003/scenes/afgh_dish003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/dish/afgh_dish003/scenes/afgh_dish003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/afghanistan/dish/afgh_dish003/afgh_dish003.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_dish003.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x061587B0" unknown1="296" unknown2="4269162">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ssda_dish006_vrtn002_gim_i0000|TppSharedGimmick_afgh_dish006_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/environ/object/ssd_afgh/dish/ssda_dish006/scenes/ssda_dish006_vrtn002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/environ/object/ssd_afgh/dish/ssda_dish006/scenes/ssda_dish006_vrtn002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/ssd_afgh/dish/ssda_dish006/ssda_dish006_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/ssda_dish006_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06159380" unknown1="296" unknown2="3916">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_lamp001_gim_i0000|TppSharedGimmick_mafr_lamp001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/lamp/mafr_lamp001/scenes/mafr_lamp001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/lamp/mafr_lamp001/scenes/mafr_lamp001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/lamp/mafr_lamp001/mafr_lamp001_emit001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mafr_lamp001_emit001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>1573397</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x06159930" unknown1="296" unknown2="326977">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>gntn_crto001_vrtn001_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/guantanamo/carton/gntn_crto001/gntn_crto001_vrtn001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/gntn_crto001_vrtn001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615A180" unknown1="296" unknown2="3933787">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>gntn_crto001_vrtn002_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/guantanamo/carton/gntn_crto001/gntn_crto001_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/gntn_crto001_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615A9D0" unknown1="296" unknown2="3933791">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>gntn_crto001_vrtn003_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/guantanamo/carton/gntn_crto001/gntn_crto001_vrtn003.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/gntn_crto001_vrtn003.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615B220" unknown1="296" unknown2="450117">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>gntn_crto001_vrtn004_gim_i0000|TppSharedGimmick_gntn_crto001_vrtn004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/guantanamo/carton/gntn_crto001/scenes/gntn_crto001_crto001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/guantanamo/carton/gntn_crto001/gntn_crto001_vrtn004.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/gntn_crto001_vrtn004.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615C170" unknown1="296" unknown2="70258">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cypr_bttl001_vrtn001_gim_i0000|TppSharedGimmick_cypr_bttl001_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/cyprus/bottle/cypr_bttl001/scenes/cypr_bttl001_vrtn001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/cyprus/bottle/cypr_bttl001/scenes/cypr_bttl001_vrtn001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/cyprus/bottle/cypr_bttl001/cypr_bttl001_vrtn001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/cypr_bttl001_vrtn001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615CD40" unknown1="296" unknown2="18795159">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ssde_boxx003_vrtn005_gim_i0000|TppSharedGimmick_ssde_boxx003_vrtn005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/environ/object/ssd_base/box/ssde_boxx003/scenes/ssde_boxx003_vrtn005.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/environ/object/ssd_base/box/ssde_boxx003/scenes/ssde_boxx003_vrtn005.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/ssd_comm/box/ssde_boxx003/ssde_boxx003_vrtn005.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/ssde_boxx003_vrtn005.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615D1A0" unknown1="296" unknown2="9602602">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ssde_iron001_gim_i0000|TppSharedGimmick_ssde_iron001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/environ/object/ssd_base/iron/ssde_iron001/scenes/ssde_iron001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/environ/object/ssd_base/iron/ssde_iron001/scenes/ssde_iron001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/ssd_comm/iron/ssde_iron001/ssde_iron001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/ssde_iron001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615DC20" unknown1="296" unknown2="5161159">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mtbs_btty001_gim_i0000|TppSharedGimmick_mtbs_btty001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/mother_base/battery/mtbs_btty001/scenes/mtbs_btty001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/mother_base/battery/mtbs_btty001/scenes/mtbs_btty001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/mother_base/battery/mtbs_btty001/mtbs_btty001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/mtbs_btty001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615E470" unknown1="296" unknown2="735905">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cypr_mdeq004_vrtn001_gim_i0000|TppSharedGimmick_cypr_mdeq004_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/cyprus/med_equip/cypr_mdeq004/scenes/cypr_mdeq004_vrtn001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/cyprus/med_equip/cypr_mdeq004/scenes/cypr_mdeq004_vrtn001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/cyprus/med_equip/cypr_mdeq004/cypr_mdeq004_vrtn001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/cypr_mdeq004_vrtn001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0615EC50" unknown1="296" unknown2="8272373">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_radi001_gim_i0000|TppSharedGimmick_afgh_radi001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/radio/afgh_radi001/scenes/afgh_radi001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/radio/afgh_radi001/scenes/afgh_radi001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/parts/environ/object/afghanistan/radio/afgh_radi001/afgh_radi001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/lba/afgh_radi001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x063C6B40" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/drum/mafr_drum001/scenes/mafr_drum001_vrtn001_pc.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="6">
+          <value>
+            <Row1 Column1="0.821149" Column2="0" Column3="-0.570713758" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.570713758" Column2="0" Column3="0.821149" Column4="0" />
+            <Row4 Column1="867.9418" Column2="5.517367" Column3="-118.418968" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9994503" Column2="0" Column3="0.03315146" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.03315146" Column2="0" Column3="0.9994503" Column4="0" />
+            <Row4 Column1="855.561035" Column2="5.596519" Column3="-145.339508" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.559192061" Column2="0" Column3="0.8290387" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.8290387" Column2="0" Column3="0.559192061" Column4="0" />
+            <Row4 Column1="868.403259" Column2="5.518679" Column3="-117.742355" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9961948" Column2="0" Column3="-0.08715495" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.08715495" Column2="0" Column3="0.9961948" Column4="0" />
+            <Row4 Column1="827.8787" Column2="5.512465" Column3="-103.188332" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.7301638" Column2="0" Column3="-0.683272362" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.683272362" Column2="0" Column3="0.7301638" Column4="0" />
+            <Row4 Column1="822.6085" Column2="5.510166" Column3="-154.030075" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9829352" Column2="0" Column3="-0.183952227" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.183952227" Column2="0" Column3="0.9829352" Column4="0" />
+            <Row4 Column1="853.776" Column2="5.566147" Column3="-103.968704" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="6">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x063C6BB0" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/wood_box/mafr_wdbx003/scenes/mafr_wdbx003_pc.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="10">
+          <value>
+            <Row1 Column1="0.999263048" Column2="0" Column3="-0.0383849367" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.0383849367" Column2="0" Column3="0.999263048" Column4="0" />
+            <Row4 Column1="835.1798" Column2="5.562984" Column3="-128.713867" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.0366419554" Column2="0" Column3="0.9993283" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.9993283" Column2="0" Column3="0.0366419554" Column4="0" />
+            <Row4 Column1="836.1372" Column2="5.562984" Column3="-129.751968" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9993284" Column2="0" Column3="0.03664384" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.03664384" Column2="0" Column3="0.9993284" Column4="0" />
+            <Row4 Column1="861.950134" Column2="5.51239" Column3="-146.767792" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.526956558" Column2="0" Column3="0.849891841" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.849891841" Column2="0" Column3="0.526956558" Column4="0" />
+            <Row4 Column1="869.3603" Column2="5.554633" Column3="-119.358986" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.995227337" Column2="0" Column3="-0.0975833461" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.0975833461" Column2="0" Column3="0.995227337" Column4="0" />
+            <Row4 Column1="832.12085" Column2="5.510166" Column3="-105.375389" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.106260896" Column2="0" Column3="0.9943378" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.9943378" Column2="0" Column3="0.106260896" Column4="0" />
+            <Row4 Column1="832.1193" Column2="5.510166" Column3="-105.375725" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.0941096544" Column2="0" Column3="0.9955611" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.9955611" Column2="0" Column3="0.0941096544" Column4="0" />
+            <Row4 Column1="833.0157" Column2="5.510166" Column3="-106.465004" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.106260896" Column2="0" Column3="0.9943378" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.9943378" Column2="0" Column3="0.106260896" Column4="0" />
+            <Row4 Column1="832.0141" Column2="5.510166" Column3="-106.360123" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.989526033" Column2="0" Column3="-0.1443545" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.1443545" Column2="0" Column3="0.989526033" Column4="0" />
+            <Row4 Column1="853.9507" Column2="5.510166" Column3="-105.213921" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.841512144" Column2="0" Column3="-0.540238" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.540238" Column2="0" Column3="0.841512144" Column4="0" />
+            <Row4 Column1="867.953369" Column2="5.526708" Column3="-119.67202" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="10">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x063C6D00" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/drum/mafr_drum001/scenes/mafr_drum001_vrtn002_pc.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="5">
+          <value>
+            <Row1 Column1="0.9997014" Column2="0" Column3="0.0244361665" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.0244361665" Column2="0" Column3="0.9997014" Column4="0" />
+            <Row4 Column1="856.362366" Column2="5.585313" Column3="-145.316559" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.996195436" Column2="0" Column3="-0.08714695" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.08714695" Column2="0" Column3="0.996195436" Column4="0" />
+            <Row4 Column1="828.6725" Column2="5.512363" Column3="-103.246521" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.00173282623" Column2="-0.99999845" Column3="-0.000209312886" Column4="0" />
+            <Row2 Column1="0.9927558" Column2="0.001745434" Column3="-0.120136969" Column4="0" />
+            <Row3 Column1="0.120137155" Column2="3.799796E-07" Column3="0.9927573" Column4="0" />
+            <Row4 Column1="830.5728" Column2="5.923476" Column3="-103.449173" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.1805107" Column2="0" Column3="0.983573258" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.983573258" Column2="0" Column3="0.1805107" Column4="0" />
+            <Row4 Column1="853.6293" Column2="5.567047" Column3="-104.757309" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.6845485" Column2="0" Column3="0.7289673" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.7289673" Column2="0" Column3="0.6845485" Column4="0" />
+            <Row4 Column1="822.0348" Column2="5.510168" Column3="-153.488846" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="5">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxPathPack" classVersion="0" addr="0x063C75C0" unknown1="336" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GeoxPathPack0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="pathFixedPackFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_large/savannah/ssav_savannah_gimmick_fox2_0_win.gpfp</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x063C7E80" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03B2C330</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

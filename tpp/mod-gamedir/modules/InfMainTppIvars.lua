@@ -5,70 +5,68 @@ this.ivarsPersist={
   mbRepopDiamondCountdown=4,
 }
 
--->
 this.registerIvars={
-  'playerHealthScale',
-  'mbEnableLethalActions',
-  'mbqfEnableSoldiers',
-  'mbEnableBuddies',
-  'mbPrioritizeFemale',
-  'mbEnableMissionPrep',
-  'disableLzs',
-  'disableSpySearch',
-  'disableHerbSearch',
-  'disableSelectBuddy',
-  'disableSelectTime',
-  'disableSelectVehicle',
-  'disableHeadMarkers',
-  'disableWorldMarkers',
-  'disableXrayMarkers',
-  'disableFulton',
-  'dontOverrideFreeLoadout',
-  'clearItems',
-  'clearSupportItems',
-  'setSubsistenceSuit',
-  'setDefaultHand',
-  'disableMenuDrop',
-  'disableMenuBuddy',
-  'disableMenuAttack',
-  'disableMenuHeliAttack',
-  'disableSupportMenu',
-  'abortMenuItemControl',
-  'disableRetry',
-  'gameOverOnDiscovery',
-  'disableOutOfBoundsChecks',
-  'disableGameOver',
-  'disableTranslators',
-  'fultonNoMbSupport',
-  'fultonNoMbMedical',
-  'fultonDyingPenalty',
-  'fultonSleepPenalty',
-  'fultonHoldupPenalty',
-  'fultonDontApplyMbMedicalToSleep',
-  'fultonHostageHandling',
-  'fultonWildCardHandling',
-  'fultonMotherBaseHandling',
-  'handLevelSonar',
-  'handLevelPhysical',
-  'handLevelPrecision',
-  'handLevelMedical',
-  'itemLevelFulton',
-  'itemLevelWormhole',
-  'itemLevelIntScope',
-  'itemLevelIDroid',
-  'primaryWeaponOsp',
-  'secondaryWeaponOsp',
-  'tertiaryWeaponOsp',
-  'randomizeMineTypes',
-  'additionalMineFields',
-  'repopulateRadioTapes',
-  'quietRadioMode',
-  'telopMode',
-  'mbUnlockGoalDoors',
-  'mbForceBattleGearDevelopLevel',
-  'mbCollectionRepop',
-
-  'playerHandEquip',
+  "playerHealthScale",
+  "mbEnableLethalActions",
+  "mbqfEnableSoldiers",
+  "mbEnableBuddies",
+  "mbPrioritizeFemale",
+  "mbEnableMissionPrep",
+  "disableLzs",
+  "disableSpySearch",
+  "disableHerbSearch",
+  "disableSelectBuddy",
+  "disableSelectTime",
+  "disableSelectVehicle",
+  "disableHeadMarkers",
+  "disableWorldMarkers",
+  "disableXrayMarkers",
+  "disableFulton",
+  "dontOverrideFreeLoadout",
+  "clearItems",
+  "clearSupportItems",
+  "setSubsistenceSuit",
+  "setDefaultHand",
+  "disableMenuDrop",
+  "disableMenuBuddy",
+  "disableMenuAttack",
+  "disableMenuHeliAttack",
+  "disableSupportMenu",
+  "abortMenuItemControl",
+  "disableRetry",
+  "gameOverOnDiscovery",
+  "disableOutOfBoundsChecks",
+  "disableGameOver",
+  "disableTranslators",
+  "fultonNoMbSupport",
+  "fultonNoMbMedical",
+  "fultonDyingPenalty",
+  "fultonSleepPenalty",
+  "fultonHoldupPenalty",
+  "fultonDontApplyMbMedicalToSleep",
+  "fultonHostageHandling",
+  "fultonWildCardHandling",
+  "fultonMotherBaseHandling",
+  "handLevelSonar",
+  "handLevelPhysical",
+  "handLevelPrecision",
+  "handLevelMedical",
+  "itemLevelFulton",
+  "itemLevelWormhole",
+  "itemLevelIntScope",
+  "itemLevelIDroid",
+  "primaryWeaponOsp",
+  "secondaryWeaponOsp",
+  "tertiaryWeaponOsp",
+  "randomizeMineTypes",
+  "additionalMineFields",
+  "repopulateRadioTapes",
+  "quietRadioMode",
+  "telopMode",
+  "mbUnlockGoalDoors",
+  "mbForceBattleGearDevelopLevel",
+  "mbCollectionRepop",
+  "playerHandEquip",
 }
 
 this.playerHealthScale={
@@ -81,7 +79,7 @@ this.playerHealthScale={
     if mvars.mis_missionStateIsNotInGame then
     --DEBUGNOW return
     end
-    InfMain.ChangeMaxLife(true)
+    InfMainTpp.ChangeMaxLife(true)
   end,
 }
 
@@ -126,8 +124,8 @@ this.disableLzs={
 --spysearch
 local function RequireRestartMessage(self)
   --if self.setting==1 then
-  local settingName = self.description or InfMenu.LangString(self.name)
-  InfMenu.Print(settingName..InfMenu.LangString"restart_required")
+  local settingName = self.description or InfLangProc.LangString(self.name)
+  InfMenu.Print(settingName..InfLangProc.LangString"restart_required")
   --end
 end
 --tex not happy with the lack of flexibility as GetLocationParameter is only read once on init,
@@ -170,7 +168,7 @@ this.disableHeadMarkers={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     if setting==1 then
       TppUiStatusManager.SetStatus("HeadMarker","INVALID")
     else
@@ -184,7 +182,7 @@ this.disableWorldMarkers={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     if setting==1 then
       TppUiStatusManager.SetStatus("WorldMarker","INVALID")
     else
@@ -197,7 +195,7 @@ this.disableXrayMarkers={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     local enabled=setting==1
     TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
   end,
@@ -276,11 +274,12 @@ this.disableMenuHeliAttack={
   settingNames="set_switch",
   menuId="MSN_HELI_ATTACK",
 }
+
 this.disableMenuIvars={
-  'disableMenuDrop',
-  'disableMenuBuddy',
-  'disableMenuAttack',
-  'disableMenuHeliAttack',
+  "disableMenuDrop",
+  "disableMenuBuddy",
+  "disableMenuAttack",
+  "disableMenuHeliAttack",
 }
 
 this.disableSupportMenu={--tex doesnt use dvcmenu, RESEARCH, not sure actually what it is
@@ -307,7 +306,7 @@ this.gameOverOnDiscovery={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     mvars.mis_isExecuteGameOverOnDiscoveryNotice=setting==1
   end,
 }
@@ -317,7 +316,7 @@ this.disableOutOfBoundsChecks={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     local enable=setting==0
     mvars.mis_ignoreAlertOfMissionArea=not enable
     local trapName="trap_mission_failed_area"
@@ -338,7 +337,7 @@ this.disableTranslators={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     if setting==1 then
       InfCore.DebugPrint"removing tranlatable"--DEBUG
       vars.isRussianTranslatable=0
@@ -444,14 +443,14 @@ this.fultonMotherBaseHandling={ --WIP
 }
 --<fulton success
 --item levels>
-local function OnChangeItemLevel(self,prevSetting,setting)
+local function OnChangeItemLevel(self,setting)
   if setting>0 then
     --tex itemlevel == grade, but ivar setting 0 = don't set, so shifting down 1.
     Player.SetItemLevel(self.equipId,setting-1)
   end
 end
 --tex doesnt set item level to grade 0, most items don't seem to disable at grade 0 anyway.
-local function OnChangeItemLevelNoZero(self,prevSetting,setting)
+local function OnChangeItemLevelNoZero(self,setting)
   if setting>0 then
     Player.SetItemLevel(self.equipId,setting)
   end
@@ -580,7 +579,7 @@ this.additionalMineFields={
 this.quietRadioMode={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=31},
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting,previousSetting)
     if setting>0 or previousSetting~=0 then
       if f30050_sequence and mvars.f30050_quietRadioName then
         f30050_sequence.PlayMusicFromQuietRoom()
@@ -649,7 +648,7 @@ IvarProc.MissionModeIvars(
 --    "CHILD_A",
 --  },
 --  --settingNames=InfEneFova.enemySubTypes,
---  OnChange=function(self,prevSetting,setting)
+--  OnChange=function(self,setting)
 --    if setting==0 then
 --      InfMainTpp.ResetCpTableToDefault()
 --    end
@@ -663,7 +662,7 @@ IvarProc.MissionModeIvars(
     save=IvarProc.CATEGORY_EXTERNAL,
     range=Ivars.switchRange,
     settingNames="set_switch",
-    OnChange=function(self,prevSetting,setting)
+    OnChange=function(self,setting)
       if setting==0 then
         InfMainTpp.ResetCpTableToDefault()
       end
@@ -686,8 +685,8 @@ local playerHandTypes={
 --this.playerHandType={
 --  --save=IvarProc.CATEGORY_EXTERNAL,
 --  range={min=0,max=1000},
---  OnChange=function(self)
---    if self.setting>0 then--TODO: add off/default/noset setting
+--  OnChange=function(self,setting)
+--    if setting>0 then--TODO: add off/default/noset setting
 --      vars.playerHandType=self.setting
 --    end
 --  end,
@@ -726,7 +725,7 @@ this.playerHandEquip={
   OnSelect=function(self)
   -- self:Set(vars.playerHandEquip,true)
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if setting>0 then--TODO: add off/default/noset setting
       --DEBUG OFF vars.playerHandType=handEquipTypeToHandType[playerHandEquipTypes[setting]]
       vars.handEquip=self.settingsTable[setting]
@@ -735,37 +734,25 @@ this.playerHandEquip={
 }
 --< ivar defs
 
--->
 this.registerMenus={
-  'buddyMenu',
-  'playerRestrictionsMenu',
-  'playerRestrictionsInMissionMenu',
-  'disableSupportMenuMenu',
-  'missionPrepRestrictionsMenu',
-  'markersMenu',
-  'enemyPatrolMenu',
-  'progressionMenu',
-  'motherBaseMenu',
-  'playerSettingsMenu',
-  'ospMenu',
-  'itemLevelMenu',
-  'handLevelMenu',
-  'fultonLevelMenu',
-  'fultonSuccessMenu',
+  "playerRestrictionsMenu",
+  "playerRestrictionsInMissionMenu",
+  "disableSupportMenuMenu",
+  "missionPrepRestrictionsMenu",
+  "markersMenu",
+  "enemyPatrolMenu",
+  "progressionMenu",
+  "motherBaseMenu",
+  "playerSettingsMenu",
+  "ospMenu",
+  "itemLevelMenu",
+  "handLevelMenu",
+  "fultonLevelMenu",
+  "fultonSuccessMenu",
 }
-
-this.buddyMenu={
-  options={
-    "Ivars.buddyChangeEquipVar",
-    "InfMenuCommandsTpp.QuietMoveToLastMarker",
-    "Ivars.quietRadioMode",
-  }
-}
-
-
 
 this.playerRestrictionsMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.disableHeliAttack",
     "Ivars.disableFulton",
@@ -789,6 +776,7 @@ this.playerRestrictionsMenu={
 }
 
 this.playerRestrictionsInMissionMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.disableHeadMarkers",
     --"Ivars.disableXrayMarkers",--tex doesn"t seem to work realtime
@@ -826,7 +814,7 @@ this.markersMenu={
 }
 
 this.enemyPatrolMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.enableLrrpFreeRoam",
     "Ivars.enableWildCardFreeRoam",
@@ -847,7 +835,7 @@ this.enemyPatrolMenu={
 }
 
 this.progressionMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "InfResources.resourceScaleMenu",
     "Ivars.repopulateRadioTapes",
@@ -861,7 +849,7 @@ this.progressionMenu={
 }
 
 this.motherBaseMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.revengeModeMB_ALL",
     "InfEquip.customEquipMenu",
@@ -892,7 +880,7 @@ this.motherBaseMenu={
 }
 
 this.playerSettingsMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.playerHealthScale",
     "InfMenuCommandsTpp.RemoveDemon",

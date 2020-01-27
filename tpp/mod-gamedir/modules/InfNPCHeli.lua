@@ -14,7 +14,7 @@ this.debugModule=false
 
 --updateState
 this.active=1
-this.execCheckTable={inGame=true,inHeliSpace=false}
+this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
 }
@@ -288,10 +288,9 @@ for location,routeCpInfo in pairs(this.heliRouteToCp)do
   end
 end
 
--->
 this.registerIvars={
-  'mbEnemyHeliColor',
-  'supportHeliPatrolsMB',
+  "mbEnemyHeliColor",
+  "supportHeliPatrolsMB",
 }
 
 IvarProc.MissionModeIvars(
@@ -396,7 +395,7 @@ function this.Init(missionTable,currentChecks)
     local numSupportHelis=Ivars.supportHeliPatrolsMB:Get()
     numSupportHelis=math.min(numSupportHelis,numClusters)
     if numSupportHelis>0 then
-      this.heliNames.UTH=InfLookup.GenerateNameList("WestHeli%04d",numSupportHelis)
+      this.heliNames.UTH=InfUtil.GenerateNameList("WestHeli%04d",numSupportHelis)
       for i=1,numSupportHelis do
         this.heliList[#this.heliList+1]=this.heliNames.UTH[i]
       end
@@ -405,14 +404,14 @@ function this.Init(missionTable,currentChecks)
     local numHelisAvailable=numClusters-#this.heliList
     numHelisAvailable=math.min(numAttackHelis,numHelisAvailable)
     if numHelisAvailable>0 then
-      this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numHelisAvailable)
+      this.heliNames.HP48=InfUtil.GenerateNameList("EnemyHeli%04d",numHelisAvailable)
 
       for i=1,numHelisAvailable do
         this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
       end
     end
   elseif numAttackHelis>0 then
-    this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numAttackHelis)
+    this.heliNames.HP48=InfUtil.GenerateNameList("EnemyHeli%04d",numAttackHelis)
 
     for i=1,numAttackHelis do
       this.heliList[#this.heliList+1]=this.heliNames.HP48[i]

@@ -1,0 +1,14 @@
+{
+    "baseParam": [{
+        "life": 2200,
+        "limbLife": 1000,
+        "shieldLife": 2400,
+        "defenseValue": 5500,
+        "shieldDefenseValue": 1000,
+        "driveDamage": 44,
+        "machineGunAmmoCount": 500,
+        "addBarrelHeatRateAtShoot": 22,
+        "downBarrelHeatRateSpeed": 126
+    }]
+
+}

@@ -1,0 +1,830 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 13:54:09 UTC+13:00 2017">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="ModelDescription" super="" version="12" />
+    <class name="FoxTargetDescription" super="" version="1" />
+    <class name="EffectDescription" super="" version="6" />
+    <class name="FileResourceDescription" super="" version="1" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x0512BC30" unknown1="232" unknown2="1326045">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="19">
+          <value key="ModelDescription0000">0x0512B990</value>
+          <value key="FoxTargetDescription0000">0x0512BA00</value>
+          <value key="EffectDescription0000">0x0512B760</value>
+          <value key="EffectDescription0001">0x0512B7D0</value>
+          <value key="EffectDescription0002">0x0512B530</value>
+          <value key="EffectDescription0003">0x0512B5A0</value>
+          <value key="EffectDescription0004">0x0512B300</value>
+          <value key="EffectDescription0005">0x0512B370</value>
+          <value key="EffectDescription0006">0x0512B0D0</value>
+          <value key="EffectDescription0007">0x0512B140</value>
+          <value key="EffectDescription0008">0x0512AEA0</value>
+          <value key="FileResourceDescription0000">0x0512AF10</value>
+          <value key="FileResourceDescription0001">0x0512AC70</value>
+          <value key="FileResourceDescription0002">0x0512ACE0</value>
+          <value key="FileResourceDescription0003">0x0512AA40</value>
+          <value key="FoxTargetDescription0001">0x0512AAB0</value>
+          <value key="FoxTargetDescription0002">0x0512A810</value>
+          <value key="FileResourceDescription0004">0x0512A880</value>
+          <value key="FileResourceDescription0005">0x0512A5E0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="ModelDescription" classVersion="12" addr="0x0512B990" unknown1="288" unknown2="1326047">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ModelDescription0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" />
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Body</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/mecha/uav/Scenes/uav0_main0_def.fmdl</value>
+        </property>
+        <property name="connectPointFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/mecha/uav/Scenes/uav0_main0_def.fcnp</value>
+        </property>
+        <property name="gameRigFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="helpBoneFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="lipAdjustBinaryFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="facialSettingFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="invisibleMeshNames" type="String" container="DynamicArray" />
+        <property name="lodFarPixelSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearPixelSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FoxTargetDescription" classVersion="1" addr="0x0512BA00" unknown1="112" unknown2="1326051">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FoxTargetDescription0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>DefenseTarget</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="targetFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/mecha/uav/UavDefense.tgt</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B760" unknown1="232" unknown2="1326099">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>MuzzleFlash</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" />
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" arraySize="1">
+          <value>CNP_LMG_MUZZLE_FRASH</value>
+        </property>
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" />
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" />
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/muzzle/fx_tpp_mzfasr10m_s0FG.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B7D0" unknown1="232" unknown2="1327484">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>MuzzleFlashUnderBarrel</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" />
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" arraySize="1">
+          <value>CNP_GRENADE_MUZZLE_FRASH</value>
+        </property>
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" />
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" />
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/muzzle/fx_tpp_mzfgrl01_s0LG.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B530" unknown1="232" unknown2="1328869">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Lamp</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" />
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" arraySize="1">
+          <value>CNP_EYE</value>
+        </property>
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" />
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="-0.0485" y="0.04" z="0.085" w="0" />
+        </property>
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" />
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchctvflrchf01_s0.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B5A0" unknown1="232" unknown2="1329470">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>BrokenSmoke</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" arraySize="1">
+          <value>SKL_000_ROOT</value>
+        </property>
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" />
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" />
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" />
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value>fx_tpp_smkmchbrk01_m1LG</value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B300" unknown1="232" unknown2="1329473">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>BreakExplosion</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" arraySize="1">
+          <value>SKL_000_ROOT</value>
+        </property>
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" />
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" />
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" />
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value>Mch</value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/explosion/fx_tpp_expgrnd01_s2LG.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B370" unknown1="232" unknown2="1331878">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Light</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" />
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" arraySize="1">
+          <value>CNP_LIGHT</value>
+        </property>
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" />
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" />
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/flare/fx_tpp_gunlgt02_s5MG.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B0D0" unknown1="232" unknown2="1332480">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>DropWater</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" arraySize="1">
+          <value>SKL_000_ROOT</value>
+        </property>
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" />
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" />
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" />
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/splash/fx_tpp_splwtr09_s1.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512B140" unknown1="232" unknown2="1333335">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0007</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>BreakExplosionS</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" arraySize="1">
+          <value>SKL_000_ROOT</value>
+        </property>
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" />
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" />
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" />
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/explosion/fx_tpp_expuav01_s2.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="EffectDescription" classVersion="6" addr="0x0512AEA0" unknown1="232" unknown2="1334709">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>EffectDescription0008</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Ricochet</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="connectDestinationSkelNames" type="String" container="DynamicArray" />
+        <property name="connectDestinationCnpNames" type="String" container="DynamicArray" />
+        <property name="offsetSkelPositions" type="Vector3" container="DynamicArray" />
+        <property name="offsetCnpPositions" type="Vector3" container="DynamicArray" />
+        <property name="generalSkelParameters" type="Vector4" container="DynamicArray" />
+        <property name="generalCnpParameters" type="Vector4" container="DynamicArray" />
+        <property name="effectConnect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="changeEffectConnectSetting" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="visibleModelWithEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createStartEffect" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="effectRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectKind" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="effectVariationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromVfxFileLoader" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectFileFromFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/ricochet/fx_tpp_rctirn01L_s0LG.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FileResourceDescription" classVersion="1" addr="0x0512AF10" unknown1="112" unknown2="1335905">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FileResourceDescription0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Mtar</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="fileResource" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/uav/Uav_layers.mtar</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FileResourceDescription" classVersion="1" addr="0x0512AC70" unknown1="112" unknown2="1335909">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FileResourceDescription0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Fova1</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="fileResource" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/fova/mecha/uav/uav0_v00.fv2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FileResourceDescription" classVersion="1" addr="0x0512ACE0" unknown1="112" unknown2="1335913">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FileResourceDescription0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Fova2</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="fileResource" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/fova/mecha/uav/uav0_v01.fv2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FileResourceDescription" classVersion="1" addr="0x0512AA40" unknown1="112" unknown2="1335917">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FileResourceDescription0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Fova3</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="fileResource" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/fova/mecha/uav/uav1_v00.fv2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FoxTargetDescription" classVersion="1" addr="0x0512AAB0" unknown1="112" unknown2="1335921">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FoxTargetDescription0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>DefenseTargetLmg</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="targetFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/mecha/uav/UavDefenseLmg.tgt</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FoxTargetDescription" classVersion="1" addr="0x0512A810" unknown1="112" unknown2="1335957">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FoxTargetDescription0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>DefenseTargetGl</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="targetFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/mecha/uav/UavDefenseGl.tgt</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FileResourceDescription" classVersion="1" addr="0x0512A880" unknown1="112" unknown2="1335993">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FileResourceDescription0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Fova4</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="fileResource" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/fova/mecha/uav/uav1_v01.fv2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FileResourceDescription" classVersion="1" addr="0x0512A5E0" unknown1="112" unknown2="1335997">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FileResourceDescription0005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0512BC30</value>
+        </property>
+        <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x0512B990</value>
+        </property>
+        <property name="partName" type="String" container="StaticArray" arraySize="1">
+          <value>Fova5</value>
+        </property>
+        <property name="buildType" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="fileResource" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/fova/mecha/uav/uav1_v02.fv2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

@@ -1066,14 +1066,14 @@ function this.FadeOutOnMissionGameEnd(fadeDelay,fadeSpeed,fadeId)
     TimerStart("Timer_FadeOutOnMissionGameEndStart",fadeDelay)
   end
 end
-function this._FadeOutOnMissionGameEnd(faseSpeed,fadeId)
-  TppUI.FadeOut(faseSpeed,fadeId,nil,{exceptGameStatus={AnnounceLog="SUSPEND_LOG"}})
+function this._FadeOutOnMissionGameEnd(fadeSpeed,fadeId)
+  TppUI.FadeOut(fadeSpeed,fadeId,nil,{exceptGameStatus={AnnounceLog="SUSPEND_LOG"}})
 end
-function this.CheckGameOverDemo(e)
-  if e>TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK then
+function this.CheckGameOverDemo(gameOverType)
+  if gameOverType>TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK then
     return false
   end
-  if band(svars.mis_gameOverType,TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK)==e then
+  if band(svars.mis_gameOverType,TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK)==gameOverType then
     return true
   else
     return false
@@ -1415,11 +1415,11 @@ function this.ExecuteMissionFinalize()
   if not this.IsFOBMission(vars.missionCode)then
     local reserveNextMissionStartSave=true
     TppSave.VarSave(currentMissionCode,true)
-    local i=false
-    do
-      i=true
+    local saveGameData=false
+    do--NMC I dont get this
+      saveGameData=true
     end
-    if i and(not RENoffline)then
+    if saveGameData and(not RENoffline)then
       TppSave.SaveGameData(currentMissionCode,nil,nil,reserveNextMissionStartSave,true)
     end
     if mvars.mis_needSaveConfigOnNewMission then
@@ -1564,10 +1564,10 @@ function this.IsMissionStart()
     return true
   end
 end
-function this.IsSysMissionId(n)
+function this.IsSysMissionId(missionCode)
   local e
-  for i,e in pairs(TppDefine.SYS_MISSION_ID)do
-    if n==e then
+  for i,_missionCode in pairs(TppDefine.SYS_MISSION_ID)do
+    if missionCode==_missionCode then
       return true
     end
   end
@@ -2165,9 +2165,9 @@ function this.OnReload(missionTable)
   for i,name in ipairs(callBackNames)do
     local systemCallbacks=_G.TppMission.systemCallbacks
     if systemCallbacks then
-      local callback=systemCallbacks[name]
+      local Callback=systemCallbacks[name]
       this.systemCallbacks=this.systemCallbacks or{}
-      this.systemCallbacks[name]=callback
+      this.systemCallbacks[name]=Callback
     end
   end
 end
@@ -2465,7 +2465,7 @@ function this.CreateMbSaveCoroutine()
 end
 function this.ResumeMbSaveCoroutine()
   if this.waitMbSyncAndSaveCoroutine then
-    local n,n=coroutine.resume(this.waitMbSyncAndSaveCoroutine)
+    local ok,ret=coroutine.resume(this.waitMbSyncAndSaveCoroutine)
     if coroutine.status(this.waitMbSyncAndSaveCoroutine)=="dead"then
       this.waitMbSyncAndSaveCoroutine=nil
       return
@@ -2660,14 +2660,14 @@ function this.EstablishedGameOver()
       gvars.continueTipsCount=gvars.continueTipsCount+1
     end
   end
-  local OnGameOver
+  local onGameOver
   if this.systemCallbacks.OnGameOver then
-    OnGameOver=this.systemCallbacks.OnGameOver()
+    onGameOver=this.systemCallbacks.OnGameOver()
   end
   if not mvars.mis_isGameOverReasonSuicide then
     svars.dialogPlayerDeadCount=svars.dialogPlayerDeadCount+1
   end
-  if not OnGameOver then
+  if not onGameOver then
     if this.CheckGameOverDemo(TppDefine.GAME_OVER_TYPE.PLAYER_FALL_DEAD)then
       TppPlayer.PlayFallDeadCamera()
       this.ShowGameOverMenu{delayTime=TppPlayer.PLAYER_FALL_DEAD_DELAY_TIME}
@@ -3234,7 +3234,7 @@ function this.ShowUpdateObjective(objectiveSetting)
   mvars.mis_updateObjectiveRadioGroupName=nil
   mvars.mis_updateObjectiveOnHelicopterStart=nil
 end
-function this._ShowObjective(objectiveDefine,RENAMEbool)
+function this._ShowObjective(objectiveDefine,enableTask)
   if objectiveDefine.packLabel then
     if not TppPackList.IsMissionPackLabelList(objectiveDefine.packLabel)then
       return
@@ -3279,7 +3279,7 @@ function this._ShowObjective(objectiveDefine,RENAMEbool)
     TppEnemy.LetCpHasTarget(objectiveDefine.targetBgmCp,true)
   end
   if objectiveDefine.missionTask then
-    TppUI.EnableMissionTask(objectiveDefine.missionTask,RENAMEbool)
+    TppUI.EnableMissionTask(objectiveDefine.missionTask,enableTask)
   end
   if objectiveDefine.spySearch then
     TppUI.EnableSpySearch(objectiveDefine.spySearch)
@@ -3342,7 +3342,7 @@ function this.IsEnableAnyParentMissionObjective(objectiveName)
     return false
   end
   local hasEnabled
-  for _objectiveName,s in pairs(objectiveDefine.parent)do
+  for _objectiveName,unkV1 in pairs(objectiveDefine.parent)do
     if this.IsEnableMissionObjective(_objectiveName)then
       return true
     else
@@ -3622,9 +3622,12 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
       TppEneFova.InitializeUniqueSetting()
       TppEnemy.PreMissionLoad(nextMissionCode,currentMissionCode)
     end
+    InfCore.LogFlow("Mission.LoadLocation")--tex
     Mission.LoadLocation(locationSettings)
+    InfCore.LogFlow("Mission.LoadMission")--tex
     Mission.LoadMission(loadSettings)
   else
+    InfCore.LogFlow("Mission.RequestToReload")--tex
     Mission.RequestToReload()
   end
   TppUI.ShowAccessIcon()
@@ -3759,24 +3762,24 @@ function this.StartHelicopterDoorOpenTimer()
   TimerStart("Timer_MissionStartHeliDoorOpen",time)
 end
 function this.GetObjectiveRadioOption(n)
-  local e={}
+  local objectiveRadioOption={}
   if IsTypeTable(n.radioOptions)then
     for i,n in pairs(n.radioOptions)do
-      e[i]=n
+      objectiveRadioOption[i]=n
     end
   end
   if FadeFunction.IsFadeProcessing()then
-    local delayTime=e.delayTime
+    local delayTime=objectiveRadioOption.delayTime
     local fadeTime=TppUI.FADE_SPEED.FADE_NORMALSPEED+1.2
     if IsTypeString(delayTime)then
-      e.delayTime=TppRadio.PRESET_DELAY_TIME[delayTime]+fadeTime
+      objectiveRadioOption.delayTime=TppRadio.PRESET_DELAY_TIME[delayTime]+fadeTime
     elseif IsTypeNumber(delayTime)then
-      e.delayTime=delayTime+fadeTime
+      objectiveRadioOption.delayTime=delayTime+fadeTime
     else
-      e.delayTime=fadeTime
+      objectiveRadioOption.delayTime=fadeTime
     end
   end
-  return e
+  return objectiveRadioOption
 end
 function this.OnMissionStart()
   if this.IsMissionStart()then

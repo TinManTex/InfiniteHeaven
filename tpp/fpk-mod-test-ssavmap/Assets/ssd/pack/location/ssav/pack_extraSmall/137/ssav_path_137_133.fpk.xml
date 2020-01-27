@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_path_137_133.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/137/137_133/ssav_137_133_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/137/137_133/ssav_137_133_path_fox2_0_win.gpfp" />
+  </Entries>
+  <References>
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk" />
+  </References>
+</ArchiveFile>

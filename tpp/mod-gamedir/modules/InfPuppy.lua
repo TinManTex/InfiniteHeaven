@@ -5,21 +5,20 @@ local this={}
 local InfMain=InfMain
 local SendCommand=GameObject.SendCommand
 
-this.active='mbEnablePuppy'
+this.active="mbEnablePuppy"
 
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_puppy.fpk",
 }
 
--->
 this.registerIvars={
-  'mbEnablePuppy',
+  "mbEnablePuppy",
 }
 
 this.mbEnablePuppy={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"OFF","MISSING_EYE","NORMAL_EYES"},
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
     if setting==0 then
       gvars.qst_questRepopFlag[puppyQuestIndex]=false

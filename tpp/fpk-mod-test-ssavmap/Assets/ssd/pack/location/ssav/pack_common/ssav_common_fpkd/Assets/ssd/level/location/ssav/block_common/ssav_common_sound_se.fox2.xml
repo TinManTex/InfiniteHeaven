@@ -1,0 +1,802 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="SoundPackage" super="" version="1" />
+    <class name="SoundAreaGlobal" super="" version="1" />
+    <class name="SoundAreaParameter" super="" version="4" />
+    <class name="TppSoundWorld" super="" version="8" />
+    <class name="TppAmbientParameter" super="" version="1" />
+    <class name="TppAmbientSoundSource" super="" version="0" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x058A8740" unknown1="304" unknown2="1286947">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="19">
+          <value key="SoundPackage0000">0x058A8970</value>
+          <value key="SoundAreaGlobal0000">0x058A89E0</value>
+          <value key="SoundWorld_24H">0x058A8BA0</value>
+          <value key="SoundPackage_env">0x058A8DD0</value>
+          <value key="TppAmbientParameter0000">0x058A8E40</value>
+          <value key="TppAmbientParameter0001">0x058A9000</value>
+          <value key="TppAmbientParameter0002">0x058A90E0</value>
+          <value key="TppAmbientParameter0003">0x058A9230</value>
+          <value key="TppAmbientParameter0004">0x058A92A0</value>
+          <value key="TppAmbientParameter0005">0x058A93F0</value>
+          <value key="TppAmbientParameter0006">0x058A97E0</value>
+          <value key="TppAmbientParameter0007">0x058A9930</value>
+          <value key="TppAmbientSoundSource0004">0x058A9A10</value>
+          <value key="TppAmbientSoundSource0007">0x058A9E00</value>
+          <value key="TppAmbientSoundSource0005">0x058AA110</value>
+          <value key="TppAmbientSoundSource0003">0x058AA340</value>
+          <value key="TppAmbientSoundSource0002">0x058AA500</value>
+          <value key="TppAmbientSoundSource0000">0x058AA810</value>
+          <value key="TexturePackLoadConditioner0000">0x0C0C9150</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundPackage" classVersion="1" addr="0x058A8970" unknown1="152" unknown2="1286949">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundPackage0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="soundDataFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/sound/package/mafr_common_01.sdf</value>
+        </property>
+        <property name="syncLoad" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGlobal" classVersion="1" addr="0x058A89E0" unknown1="136" unknown2="1286951">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaGlobal0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058A8B30</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x058A8B30" unknown1="152" unknown2="1286953">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A89E0</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" />
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSoundWorld" classVersion="8" addr="0x058A8BA0" unknown1="568" unknown2="1286955">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundWorld_24H</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="updateSeconds" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="startMorning" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="midMorning" type="float" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="endMorning" type="float" container="StaticArray" arraySize="1">
+          <value>9</value>
+        </property>
+        <property name="startEvening" type="float" container="StaticArray" arraySize="1">
+          <value>16</value>
+        </property>
+        <property name="midEvening" type="float" container="StaticArray" arraySize="1">
+          <value>17.5</value>
+        </property>
+        <property name="endEvening" type="float" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="situationEvent" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_situation</value>
+        </property>
+        <property name="clockRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>BG_afgh_24hours</value>
+        </property>
+        <property name="windVelocityRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>wind_volume</value>
+        </property>
+        <property name="windDirectionRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>wind_direction</value>
+        </property>
+        <property name="rainRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>rain_volume</value>
+        </property>
+        <property name="heightRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>height</value>
+        </property>
+        <property name="ambientParameter" type="EntityLink" container="StaticArray" arraySize="8">
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0000">0x058A8E40</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0001">0x058A9000</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0002">0x058A90E0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0003">0x058A9230</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0004">0x058A92A0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0005">0x058A93F0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0006">0x058A97E0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_common/ssav_common_sound_se.fox2" nameInArchive="TppAmbientParameter0007">0x058A9930</value>
+        </property>
+        <property name="categoryFpvStateGroup" type="String" container="StaticArray" arraySize="1">
+          <value>camera_fps</value>
+        </property>
+        <property name="categoryFpvStateValue" type="String" container="StaticArray" arraySize="1">
+          <value>fps</value>
+        </property>
+        <property name="dashStartEventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_p_fastmv_wind_dash_st</value>
+        </property>
+        <property name="dashFinishEventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_p_fastmv_wind_dash_ed</value>
+        </property>
+        <property name="blockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="blockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="unlinkedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="unlinkedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="interferenceSlope" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundPackage" classVersion="1" addr="0x058A8DD0" unknown1="152" unknown2="1286965">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundPackage_env</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="soundDataFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/sound/package/env_mafr.sdf</value>
+        </property>
+        <property name="syncLoad" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A8E40" unknown1="200" unknown2="1286967">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_ext">1</value>
+          <value key="gen8_int_m">0.1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A9000" unknown1="200" unknown2="1286969">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="1">
+          <value key="gen8_ext">1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A90E0" unknown1="200" unknown2="1286971">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_ext">1</value>
+          <value key="gen8_int_l">0.15</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A9230" unknown1="200" unknown2="1286973">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_ext">1</value>
+          <value key="gen8_int_l">0.2</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A92A0" unknown1="200" unknown2="1286975">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="1">
+          <value key="gen8_ext">1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A93F0" unknown1="200" unknown2="1286977">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_ext">1</value>
+          <value key="gen8_int_l">0.15</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A97E0" unknown1="200" unknown2="1287001">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="1">
+          <value key="gen8_ext">1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientParameter" classVersion="1" addr="0x058A9930" unknown1="200" unknown2="1287003">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientParameter0007</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_ext">1</value>
+          <value key="gen8_int_l">0.1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientSoundSource" classVersion="0" addr="0x058A9A10" unknown1="352" unknown2="1287005">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientSoundSource0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058A9BD0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_ssd_forest</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>3000</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+        <property name="ambientIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058A9BD0" unknown1="112" unknown2="1287008">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A9A10</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.014445" y="-0" z="0.092634" w="0.995595" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2350.1687" y="172.684769" z="-1423.51733" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientSoundSource" classVersion="0" addr="0x058A9E00" unknown1="352" unknown2="1287012">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientSoundSource0007</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058A9F50</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_ssd_fog</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>3000</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+        <property name="ambientIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058A9F50" unknown1="112" unknown2="1287015">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A9E00</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.014445" y="-0" z="0.092634" w="0.995595" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2350.1687" y="172.684769" z="-1423.51733" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientSoundSource" classVersion="0" addr="0x058AA110" unknown1="352" unknown2="1287019">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientSoundSource0005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058AA180</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_ssd_fog_water</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>3000</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+        <property name="ambientIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058AA180" unknown1="112" unknown2="1287022">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058AA110</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.014445" y="-0" z="0.092634" w="0.995595" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2350.1687" y="172.684769" z="-1423.51733" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientSoundSource" classVersion="0" addr="0x058AA340" unknown1="352" unknown2="1287026">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientSoundSource0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058AA490</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_ssd_fog_forest</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>3000</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+        <property name="ambientIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058AA490" unknown1="112" unknown2="1287029">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058AA340</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.014445" y="-0" z="0.092634" w="0.995595" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2350.1687" y="172.684769" z="-1423.51733" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientSoundSource" classVersion="0" addr="0x058AA500" unknown1="352" unknown2="1287033">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientSoundSource0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058AA650</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_ssd_fog_diamond</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>3000</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+        <property name="ambientIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058AA650" unknown1="112" unknown2="1287036">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058AA500</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.014445" y="-0" z="0.092634" w="0.995595" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2350.1687" y="172.684769" z="-1423.51733" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAmbientSoundSource" classVersion="0" addr="0x058AA810" unknown1="352" unknown2="1287040">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppAmbientSoundSource0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058AA880</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>env_mafr_ssd_fog_lab</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>3000</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+        <property name="ambientIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058AA880" unknown1="112" unknown2="1287043">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058AA810</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.014445" y="-0" z="0.092634" w="0.995595" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2350.1687" y="172.684769" z="-1423.51733" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0C0C9150" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058A8740</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

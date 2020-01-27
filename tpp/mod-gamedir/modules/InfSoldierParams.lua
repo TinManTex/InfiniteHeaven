@@ -4,13 +4,12 @@ local this={}
 
 local IsTable=Tpp.IsTypeTable
 
--->
 this.registerIvars={
-  'soldierParamsProfile',
-  'soldierSightDistScale',
-  'soldierNightSightDistScale',
-  'soldierHearingDistScale',
-  'soldierHealthScale',
+  "soldierParamsProfile",
+  "soldierSightDistScale",
+  "soldierNightSightDistScale",
+  "soldierHearingDistScale",
+  "soldierHealthScale",
 }
 
 local EXTERNAL=IvarProc.CATEGORY_EXTERNAL
@@ -24,7 +23,7 @@ this.soldierParamsProfile={
 
 --enemy parameters sight
 this.sightScaleRange={max=400,min=0,increment=5}
-local function OnChangeEnemyParam(self,currentSetting,setting)
+local function OnChangeEnemyParam(self,setting)
   if Ivars.soldierParamsProfile:Is(0) then
     Ivars.soldierParamsProfile:Set(1)
   end
@@ -111,14 +110,12 @@ this.soldierHealthScale={
   isPercent=true,
 }
 --< ivar defs
-
--->
 this.registerMenus={
-  'soldierParamsMenu',
+  "soldierParamsMenu",
 }
 
 this.soldierParamsMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.soldierParamsProfile",
     "Ivars.soldierHealthScale",

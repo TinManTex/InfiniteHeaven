@@ -49,7 +49,9 @@ function this.OnAllocate(a)
   mvars.animalBlockScript[e].OnMessage=function(e,e,e,e,e,e,e)
   end
 end
-function this.OnInitializeAnimalBlock()coroutine.yield()coroutine.yield()
+function this.OnInitializeAnimalBlock()
+coroutine.yield()
+coroutine.yield()
   if not mvars.animalBlockNameList then
     return
   end

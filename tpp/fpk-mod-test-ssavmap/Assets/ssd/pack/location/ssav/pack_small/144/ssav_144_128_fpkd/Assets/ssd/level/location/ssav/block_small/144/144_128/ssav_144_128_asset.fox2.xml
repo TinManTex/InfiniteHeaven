@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppObjectBrushSkeletonModelReserveResource" super="" version="0" />
+    <class name="StaticModelArray" super="" version="4" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x03174610" unknown1="304" unknown2="2046008">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="6">
+          <value key="TppObjectBrushSkeletonModelReserveResource_Skeleton_mafr_tree030_middle">0x03178270</value>
+          <value key="StaticModelArray0000">0x0317D520</value>
+          <value key="StaticModelArray0001">0x0317D590</value>
+          <value key="StaticModelArray0002">0x065B3E30</value>
+          <value key="StaticModelArray0003">0x0317D1A0</value>
+          <value key="TexturePackLoadConditioner0000">0x0317DE50</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppObjectBrushSkeletonModelReserveResource" classVersion="0" addr="0x03178270" unknown1="144" unknown2="2055191">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppObjectBrushSkeletonModelReserveResource_Skeleton_mafr_tree030_middle</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03174610</value>
+        </property>
+        <property name="pluginName" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree028_middle</value>
+        </property>
+        <property name="reserveLodLevel0" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="reserveLodLevel1" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="reserveLodLevel2" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="reserveLodLevel3" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x0317D520" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03174610</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/cliff/mafr_clff003/scenes/mafr_clff003_vrtn001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/cliff/mafr_clff003/scenes/mafr_clff003_vrtn001.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="17">
+          <value>
+            <Row1 Column1="0.934918165" Column2="-0.05138216" Column3="0.351123661" Column4="0" />
+            <Row2 Column1="0.048101455" Column2="0.998679042" Column3="0.0180659" Column4="0" />
+            <Row3 Column1="-0.3515881" Column2="-5.70900738E-07" Column3="0.9361547" Column4="0" />
+            <Row4 Column1="1430.33337" Column2="46.9733047" Column3="-546.7095" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.990286767" Column2="-0.124153227" Column3="0.06259476" Column4="0" />
+            <Row2 Column1="0.130636245" Column2="0.984953046" Column3="-0.113144323" Column4="0" />
+            <Row3 Column1="-0.0476056673" Column2="0.120222464" Column3="0.991604865" Column4="0" />
+            <Row4 Column1="1482.138" Column2="49.84349" Column3="-532.051636" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.5426191" Column2="-0.2129711" Column3="0.812532365" Column4="0" />
+            <Row2 Column1="0.5676487" Column2="0.8059832" Column3="-0.167828724" Column4="0" />
+            <Row3 Column1="-0.619145" Column2="0.552299559" Column3="0.558234453" Column4="0" />
+            <Row4 Column1="1486.52148" Column2="72.6215057" Column3="-593.9787" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.434497178" Column2="-0.2642777" Column3="0.8610266" Column4="0" />
+            <Row2 Column1="0.496220648" Column2="0.72756654" Column3="0.4737209" Column4="0" />
+            <Row3 Column1="-0.7516479" Column2="0.6330906" Column3="-0.184985042" Column4="0" />
+            <Row4 Column1="1468.534" Column2="75.1840057" Column3="-611.9287" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.741766334" Column2="0.09039585" Column3="-0.6645353" Column4="0" />
+            <Row2 Column1="-0.572869" Column2="0.429809153" Column3="0.697913945" Column4="0" />
+            <Row3 Column1="0.3487115" Column2="0.8983826" Column3="-0.267031729" Column4="0" />
+            <Row4 Column1="1422.31555" Column2="83.94399" Column3="-638.1125" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.6896707" Column2="-0.28179124" Column3="0.667037368" Column4="0" />
+            <Row2 Column1="0.445895642" Column2="0.5605439" Column3="0.6978289" Column4="0" />
+            <Row3 Column1="-0.570545554" Column2="0.778705239" Column3="-0.260938883" Column4="0" />
+            <Row4 Column1="1432.67065" Column2="65.86482" Column3="-593.334839" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.324395984" Column2="0.325838536" Column3="-0.8880261" Column4="0" />
+            <Row2 Column1="-0.6481681" Column2="0.6071852" Column3="0.4595678" Column4="0" />
+            <Row3 Column1="0.688940644" Column2="0.7246748" Column3="0.0142314434" Column4="0" />
+            <Row4 Column1="1508.5603" Column2="67.499176" Column3="-581.875366" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.9915961" Column2="-0.104115143" Column3="0.07673043" Column4="0" />
+            <Row2 Column1="0.02946861" Column2="0.395788342" Column3="0.917867243" Column4="0" />
+            <Row3 Column1="-0.125933" Column2="0.91241914" Column3="-0.389391124" Column4="0" />
+            <Row4 Column1="1513.88525" Column2="69.999176" Column3="-588.237854" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.8436083" Column2="0.160963923" Column3="-0.512264252" Column4="0" />
+            <Row2 Column1="-0.2964762" Column2="0.9350383" Column3="-0.194434673" Column4="0" />
+            <Row3 Column1="0.447689533" Column2="0.31590125" Column3="0.836528242" Column4="0" />
+            <Row4 Column1="1462.392" Column2="59.4830475" Column3="-577.248047" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.981104434" Column2="-0.148364589" Column3="-0.124125123" Column4="0" />
+            <Row2 Column1="-0.175446019" Column2="0.4122387" Column3="0.894021" Column4="0" />
+            <Row3 Column1="-0.08147265" Column2="0.898912" Column3="-0.430474877" Column4="0" />
+            <Row4 Column1="1462.392" Column2="62.69555" Column3="-583.7605" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.5606192" Column2="-0.100053638" Column3="-0.8220079" Column4="0" />
+            <Row2 Column1="-0.704448" Column2="0.57941556" Column3="0.409915864" Column4="0" />
+            <Row3 Column1="0.4352708" Column2="0.8088679" Column3="-0.395314336" Column4="0" />
+            <Row4 Column1="1477.92139" Column2="73.02151" Column3="-597.816162" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.226017" Column2="-0.283000052" Column3="0.9321035" Column4="0" />
+            <Row2 Column1="0.6785357" Column2="0.640810847" Column3="0.3590929" Column4="0" />
+            <Row3 Column1="-0.6989244" Column2="0.7136311" Column3="0.0471941233" Column4="0" />
+            <Row4 Column1="1438.3407" Column2="79.07963" Column3="-628.1523" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.506103039" Column2="-0.373887718" Column3="0.7772159" Column4="0" />
+            <Row2 Column1="0.69143337" Column2="0.7145454" Column3="-0.106502935" Column4="0" />
+            <Row3 Column1="-0.515535057" Column2="0.591296" Column3="0.620153368" Column4="0" />
+            <Row4 Column1="1465.866" Column2="83.81258" Column3="-643.6611" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.6092419" Column2="-0.323744446" Column3="0.7238874" Column4="0" />
+            <Row2 Column1="0.435126156" Column2="0.899643958" Column3="0.0361350924" Column4="0" />
+            <Row3 Column1="-0.66293937" Column2="0.292967677" Column3="0.6889707" Column4="0" />
+            <Row4 Column1="1487.93042" Column2="79.5259552" Column3="-627.993469" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.973870635" Column2="0.147377014" Column3="-0.172788486" Column4="0" />
+            <Row2 Column1="-0.201792479" Column2="0.9106086" Column3="-0.360654116" Column4="0" />
+            <Row3 Column1="0.104190424" Column2="0.3860979" Column3="0.91655463" Column4="0" />
+            <Row4 Column1="1487.93042" Column2="79.0259552" Column3="-625.168457" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.8155256" Column2="-0.2729192" Column3="0.51030916" Column4="0" />
+            <Row2 Column1="0.277294725" Column2="0.5897" Column3="0.758523345" Column4="0" />
+            <Row3 Column1="-0.5079449" Column2="0.7601086" Column3="-0.40523237" Column4="0" />
+            <Row4 Column1="1413.35913" Column2="83.41707" Column3="-637.4663" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.8380645" Column2="-0.36226207" Column3="0.407921731" Column4="0" />
+            <Row2 Column1="0.23886323" Column2="0.428587049" Column3="0.8713513" Column4="0" />
+            <Row3 Column1="-0.4904878" Column2="0.827692568" Column3="-0.272648156" Column4="0" />
+            <Row4 Column1="1458.14636" Column2="69.62852" Column3="-597.7077" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="17">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x0317D590" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03174610</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/rock/mafr_rock002/scenes/mafr_rock002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/rock/mafr_rock002/scenes/mafr_rock002.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="23">
+          <value>
+            <Row1 Column1="0.9672601" Column2="-0.04675418" Column3="0.249443159" Column4="0" />
+            <Row2 Column1="0.0171925258" Column2="0.992697537" Column3="0.119398527" Column4="0" />
+            <Row3 Column1="-0.253204" Column2="-0.111200891" Column3="0.9610006" Column4="0" />
+            <Row4 Column1="1448.18555" Column2="80.03501" Column3="-614.90155" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.495024234" Column2="0.183478072" Column3="-0.849286437" Column4="0" />
+            <Row2 Column1="0.00239354372" Column2="0.9771584" Column3="0.212498546" Column4="0" />
+            <Row3 Column1="0.8688762" Column2="-0.107224792" Column3="0.483277947" Column4="0" />
+            <Row4 Column1="1441.998" Column2="80.8100052" Column3="-618.7391" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9624994" Column2="0.1615743" Column3="-0.217918947" Column4="0" />
+            <Row2 Column1="-0.131345123" Column2="0.980408132" Column3="0.146793738" Column4="0" />
+            <Row3 Column1="0.237367615" Column2="-0.112666264" Column3="0.9648642" Column4="0" />
+            <Row4 Column1="1422.71252" Column2="69.3196259" Column3="-596.90155" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.8717806" Column2="0.0244430937" Column3="-0.48928684" Column4="0" />
+            <Row2 Column1="0.110583544" Column2="0.9827955" Column3="-0.147933692" Column4="0" />
+            <Row3 Column1="0.4772529" Column2="-0.183072746" Column3="-0.859485" Column4="0" />
+            <Row4 Column1="1509.45789" Column2="78.81917" Column3="-600.266052" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.934545755" Column2="-0.125029087" Column3="-0.333154738" Column4="0" />
+            <Row2 Column1="0.16400066" Column2="0.982213855" Column3="0.0914315" Column4="0" />
+            <Row3 Column1="0.315797627" Column2="-0.140084475" Column3="0.93842864" Column4="0" />
+            <Row4 Column1="1503.92517" Column2="82.2436" Column3="-612.553955" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.5348094" Column2="0.08879097" Column3="-0.840295553" Column4="0" />
+            <Row2 Column1="0.1224789" Column2="0.975815058" Column3="0.181063414" Column4="0" />
+            <Row3 Column1="0.8360499" Column2="-0.199752867" Column3="0.511000037" Column4="0" />
+            <Row4 Column1="1461.91919" Column2="89.9090652" Column3="-647.8601" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.5089126" Column2="0.151560992" Column3="-0.847372949" Column4="0" />
+            <Row2 Column1="0.270252079" Column2="0.9627388" Column3="0.009888776" Column4="0" />
+            <Row3 Column1="0.817297637" Column2="-0.223971516" Column3="-0.530909657" Column4="0" />
+            <Row4 Column1="1490.99707" Column2="87.77821" Column3="-644.765564" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.973822534" Column2="0.161257446" Column3="0.160205588" Column4="0" />
+            <Row2 Column1="-0.1709019" Column2="0.984104753" Column3="0.0482750125" Column4="0" />
+            <Row3 Column1="-0.1498744" Column2="-0.07439068" Column3="0.9859025" Column4="0" />
+            <Row4 Column1="1486.73462" Column2="86.490715" Column3="-641.2781" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.4908347" Column2="-0.2627066" Column3="0.830703735" Column4="0" />
+            <Row2 Column1="0.329189271" Column2="0.938700438" Column3="0.102353156" Column4="0" />
+            <Row3 Column1="-0.8066709" Column2="0.223219573" Column3="0.547226667" Column4="0" />
+            <Row4 Column1="1417.4635" Column2="83.03488" Column3="-625.846558" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9938893" Column2="0.0303705446" Column3="-0.106121138" Column4="0" />
+            <Row2 Column1="-0.0270385742" Column2="0.9990995" Column3="0.0326970778" Column4="0" />
+            <Row3 Column1="0.107018605" Column2="-0.0296279173" Column3="0.9938155" Column4="0" />
+            <Row4 Column1="1521.463" Column2="87.05041" Column3="-634.985352" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.460490584" Column2="0.215905815" Column3="-0.8610077" Column4="0" />
+            <Row2 Column1="-0.021789968" Column2="0.972426057" Column3="0.232191414" Column4="0" />
+            <Row3 Column1="0.887397766" Column2="-0.08816079" Column3="0.4524976" Column4="0" />
+            <Row4 Column1="1525.363" Column2="86.3379059" Column3="-631.935364" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.228368536" Column2="0.476857454" Column3="-0.8487978" Column4="0" />
+            <Row2 Column1="-0.36271885" Column2="0.8507417" Column3="0.380360544" Column4="0" />
+            <Row3 Column1="0.9034853" Column2="0.22101146" Column3="0.367247283" Column4="0" />
+            <Row4 Column1="1389.08533" Column2="79.0000153" Column3="-627.328" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.983915746" Column2="0.15959537" Column3="0.08024475" Column4="0" />
+            <Row2 Column1="-0.178307861" Column2="0.850342751" Column3="0.495100319" Column4="0" />
+            <Row3 Column1="0.0107799582" Column2="-0.501445234" Column3="0.865122557" Column4="0" />
+            <Row4 Column1="1383.3103" Column2="83.80001" Column3="-636.8155" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.5382982" Column2="0.4672807" Column3="-0.701346" Column4="0" />
+            <Row2 Column1="-0.193522409" Column2="0.8785045" Column3="0.436783165" Column4="0" />
+            <Row3 Column1="0.82023567" Column2="-0.09939429" Column3="0.5633263" Column4="0" />
+            <Row4 Column1="1353.79785" Column2="80.6000061" Column3="-645.153" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.8174286" Column2="0.120779812" Column3="-0.5632332" Column4="0" />
+            <Row2 Column1="-0.224194586" Column2="0.8339704" Column3="0.504213154" Column4="0" />
+            <Row3 Column1="0.5306187" Column2="0.538429558" Column3="-0.6546339" Column4="0" />
+            <Row4 Column1="1388.38062" Column2="71.83202" Column3="-614.8873" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9955227" Column2="0.03193042" Column3="0.08896639" Column4="0" />
+            <Row2 Column1="-0.03282426" Column2="0.9994241" Column3="0.008601761" Column4="0" />
+            <Row3 Column1="-0.0886405" Column2="-0.0114834951" Column3="0.9959975" Column4="0" />
+            <Row4 Column1="1369.78345" Column2="63.0016365" Column3="-615.4647" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.245814428" Column2="-0.261037141" Column3="0.9335095" Column4="0" />
+            <Row2 Column1="-0.102712" Column2="0.9506198" Column3="0.292869449" Column4="0" />
+            <Row3 Column1="-0.96386236" Column2="-0.16787459" Column3="0.206864357" Column4="0" />
+            <Row4 Column1="1361.90308" Column2="64.93787" Column3="-621.309753" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.625298858" Column2="-0.0576022752" Column3="0.7782578" Column4="0" />
+            <Row2 Column1="-0.127852157" Column2="0.991358936" Column3="-0.029349111" Column4="0" />
+            <Row3 Column1="-0.7698422" Column2="-0.117853813" Column3="-0.627260149" Column4="0" />
+            <Row4 Column1="1497.77515" Column2="76.1904449" Column3="-587.807861" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.763943553" Column2="0.0601015724" Column3="-0.6424785" Column4="0" />
+            <Row2 Column1="-0.1404288" Column2="0.9872747" Column3="-0.07462197" Column4="0" />
+            <Row3 Column1="0.6298179" Column2="0.147229373" Column3="0.7626621" Column4="0" />
+            <Row4 Column1="1496.17517" Column2="76.1904449" Column3="-589.932861" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.884558439" Column2="0.0114792176" Column3="-0.466288358" Column4="0" />
+            <Row2 Column1="0.06406161" Column2="0.987233341" Column3="0.145830333" Column4="0" />
+            <Row3 Column1="0.46200946" Column2="-0.158866614" Column3="0.872530162" Column4="0" />
+            <Row4 Column1="1517.48291" Column2="78.46917" Column3="-600.69104" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.639783561" Column2="0.05747668" Column3="-0.7664098" Column4="0" />
+            <Row2 Column1="0.008067761" Column2="0.997647" Column3="0.06808371" Column4="0" />
+            <Row3 Column1="0.7685197" Column2="0.0373752862" Column3="-0.638741851" Column4="0" />
+            <Row4 Column1="1368.9906" Column2="68.16287" Column3="-622.359741" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.8271981" Column2="-0.0130915977" Column3="0.5617582" Column4="0" />
+            <Row2 Column1="-0.0792616159" Column2="0.9870142" Column3="0.139716208" Column4="0" />
+            <Row3 Column1="-0.5562925" Column2="-0.160098821" Column3="0.8154185" Column4="0" />
+            <Row4 Column1="1478.68091" Column2="62.98119" Column3="-569.2038" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.632659554" Column2="-0.2110964" Column3="0.7451037" Column4="0" />
+            <Row2 Column1="0.0152940527" Column2="0.9653504" Column3="0.260508537" Column4="0" />
+            <Row3 Column1="-0.774278641" Column2="-0.153417483" Column3="0.613966644" Column4="0" />
+            <Row4 Column1="1447.45789" Column2="61.25721" Column3="-575.812744" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="23">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x065B3E30" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03174610</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/clod/mafr_clod005/scenes/mafr_clod005.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/clod/mafr_clod005/scenes/mafr_clod005.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="3">
+          <value>
+            <Row1 Column1="0.931357741" Column2="-0.07997621" Column3="0.3552134" Column4="0" />
+            <Row2 Column1="0.0507066138" Column2="0.9945615" Column3="0.09097422" Column4="0" />
+            <Row3 Column1="-0.360557318" Column2="-0.06671787" Column3="0.93034786" Column4="0" />
+            <Row4 Column1="1426.81628" Column2="78.12181" Column3="-617.915" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.5047203" Column2="0.258280456" Column3="-0.8237403" Column4="0" />
+            <Row2 Column1="-0.0552399829" Column2="0.96190244" Column3="0.267753959" Column4="0" />
+            <Row3 Column1="0.861513436" Column2="-0.089637354" Column3="0.499759078" Column4="0" />
+            <Row4 Column1="1442.47876" Column2="69.53431" Column3="-602.527466" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9268199" Column2="0.07719287" Column3="0.3674863" Column4="0" />
+            <Row2 Column1="-0.206659436" Column2="0.9219586" Column3="0.3275426" Column4="0" />
+            <Row3 Column1="-0.313523173" Column2="-0.3795175" Column3="0.870442152" Column4="0" />
+            <Row4 Column1="1362.24133" Column2="75.28431" Column3="-636.4774" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="3">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x0317D1A0" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03174610</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/cliff/mafr_clff015/scenes/mafr_clff015_wall002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/cliff/mafr_clff015/scenes/mafr_clff015_wall002.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="0.4231165" Column2="-0.0211735722" Column3="0.265563726" Column4="0" />
+            <Row2 Column1="0.06273431" Column2="0.492320955" Column3="-0.0607000329" Column4="0" />
+            <Row3 Column1="-0.2589147" Column2="0.0846862942" Column3="0.419274867" Column4="0" />
+            <Row4 Column1="1477.91614" Column2="67.90685" Column3="-593.3157" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.405456483" Column2="-0.08404406" Column3="0.2802519" Column4="0" />
+            <Row2 Column1="-0.0879129842" Column2="0.4917921" Column3="0.0202934127" Column4="0" />
+            <Row3 Column1="-0.27906242" Column2="-0.03281938" Column3="-0.4135777" Column4="0" />
+            <Row4 Column1="1506.77856" Column2="68.96935" Column3="-596.8531" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="2">
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0317DE50" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03174610</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

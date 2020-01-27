@@ -15,8 +15,6 @@ local StrCode32=Fox.StrCode32
 
 this.debugModule=false
 
-this.positions={}--tex used to write positions to file
-
 this.str32ToString={}--tex what the <module>.DEBUG_StrCode32ToString tables are loaded into as well as mod\strings\*.txt, migrates into InfCore.str32ToString if this.StrCode32ToString gets any hits.
 
 this.subtitleId32ToString={}--tex NOTE: interrogation name is also subtitleId (TODO also note in wiki for subp?)
@@ -308,14 +306,14 @@ function this.InitObjectLists(missionTable)
   this.objectNameLists.reinforceNames={TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"}
   this.objectNameLists.reinforceDriver={"reinforce_soldier_driver"}
   if InfNPCHeli then
-  this.objectNameLists.heliUTH=InfNPCHeli.heliNames.UTH
-  this.objectNameLists.heliUTH=InfNPCHeli.heliNames.HP48
+    this.objectNameLists.heliUTH=InfNPCHeli.heliNames.UTH
+    this.objectNameLists.heliUTH=InfNPCHeli.heliNames.HP48
   end
   if InfAnimal then
-  this.objectNameLists.ihBirdNames=InfAnimal.birdNames
+    this.objectNameLists.ihBirdNames=InfAnimal.birdNames
   end
   if InfMainTpp then
-  this.objectNameLists.reserveSoldierNames=InfMainTpp.reserveSoldierNames
+    this.objectNameLists.reserveSoldierNames=InfMainTpp.reserveSoldierNames
   end
 end
 --
@@ -382,9 +380,13 @@ function this.BuildPath32ToDataSetName()
 end
 
 --tex gives {[gameClass.Enum]=enum name}
-function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
+function this.BuildGameClassEnumNameLookup(gameClassName,enumNames)
+  InfCore.LogFlow("InfLookup.BuildGameClassEnumNameLookup: "..gameClassName)
+
+  local gameClass=_G[gameClassName]
+
   if gameClass==nil then
-    InfCore.Log("InfLookup.BuildGameClassEnumNameLookup: WARNING: gameclass == nil")
+    InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup: gameclass "..gameClassName.." == nil")
     return
   end
 
@@ -394,35 +396,78 @@ function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
     if enum then
       if enumNameLookup[enum] then
         if this.debugModule then
-          InfCore.Log("InfLookup.BuildGameClassEnumNameLookup WARNING: "..name.." with enum "..enum.." is same as ".. enumNameLookup[enum])--DEBUG
+          InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup "..name.." with enum "..enum.." is same as ".. enumNameLookup[enum])--DEBUG
         end
         enumNameLookup[enum]=enumNameLookup[enum].."||"..name
       else
         enumNameLookup[enum]=name
       end
     else
-      InfCore.Log("InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum "..tostring(name))
+      InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum "..tostring(name))
     end
   end
+  if #enumNameLookup==0 then
+    InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup: "..gameClassName.." #enumNameLookup==0")
+  end
   return enumNameLookup
+end
+
+--tex assumes gameclass has lua readable enum names like TppDamage, and not whatever index fancyness gameclasses like ScritBlock do
+function this.BuildDirectGameClassEnumLookup(gameClassName,filter)
+  InfCore.LogFlow("InfLookup.BuildGameClassEnumNameLookup: "..gameClassName)
+
+  local gameClass=_G[gameClassName]
+
+  --tex WORKAROUND autodoc/mock
+  if gameClass==nil then
+    InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup: gameClass "..gameClassName.."==nil")
+    return {}
+  end
+
+  local enumToName={}
+  for k,v in pairs(gameClass)do
+    if type(v)=="number" then
+      if string.find(k,filter)~=nil then
+        if enumToName[v] then
+          if this.debugModule then
+            InfCore.Log("WARNING: InfLookup.BuildDirectGameClassEnumLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
+          end
+          enumToName[v]=enumToName[v].."|"..k
+        else
+          enumToName[v]=k
+        end
+      end
+    end
+  end
+  if #enumToName==0 then
+    InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup: gameClass "..gameClassName.." "..filter.." #enumToName==0")
+  end
+  return enumToName
 end
 
 function this.GetWarpPositions()
   --return InfQuest.GetQuestPositions()
   return {
-    {779.312,463.273,-989.820},
-    {-1763.372,311.495,784.801},
-    {-676.716,533.915,-1474.162},
-    {-2335.55,439.315,-1482.474},
-    {-906.802,288.846,1923.874},
-    {415.052,270.933,2207.31},
-    {-1232.651,600.599,-3098.633},
-    {2144.533,455.413,-1752.163},
-    {506.986,320.590,1154.721},
-    {1941.284,322.766,-528.093},
-    {1491.027,357.429,469.534},
-    {541.161,328.605,58.012},
-    {-599.556,344.370,440.566},
+    -- {-9.945616,12.7759752,-19.8869019}
+
+    { -1629.01758,
+      354.5217,
+      -275.7946
+    }
+
+  --    {779.312,463.273,-989.820},
+  --    {-1763.372,311.495,784.801},
+  --    {-676.716,533.915,-1474.162},
+  --    {-2335.55,439.315,-1482.474},
+  --    {-906.802,288.846,1923.874},
+  --    {415.052,270.933,2207.31},
+  --    {-1232.651,600.599,-3098.633},
+  --    {2144.533,455.413,-1752.163},
+  --    {506.986,320.590,1154.721},
+  --    {1941.284,322.766,-528.093},
+  --    {1491.027,357.429,469.534},
+  --    {541.161,328.605,58.012},
+  --    {-599.556,344.370,440.566},
 
   --{"-1632.896","354.2058","-262.6951"},
   --{"-1587.207","355.2009","-255.2439"},--
@@ -432,6 +477,7 @@ end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
+  -- return{"ih_uav_0000","ih_uav_0001","ih_uav_0002","ih_uav_0003"}--DEBUGNOW
   --return {InfMenuCommands.selectedObject}
   --   return{ "sol_mtbs_0000",
   --    "sol_mtbs_0001",
@@ -458,9 +504,9 @@ function this.GetObjectList()
   -- return objectNameLists[4]
   --return InfSoldier.ene_wildCardNames
   --return InfNPC.hostageNames
-  --return this.objectNameLists.sol_quest
-  --return {"hos_quest_0000"}
-  return InfWalkerGear.walkerNames
+  return this.objectNameLists.sol_quest
+    --return {"hos_quest_0000"}
+    --return InfWalkerGear.walkerNames
     --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
     --return {"vehicle_quest_0000"}
 end
@@ -599,6 +645,9 @@ function this.ObjectNameForGameId(findId,objectType)
 end
 
 function this.GameObjectNameForGimmickId(gimmickId)
+  if mvars.gim_identifierParamTable==nil then
+    return "WARNING: mvars.gim_identifierParamTable==nil"
+  end
   local ret,gameId=TppGimmick.GetGameObjectId(gimmickId)
   return this.ObjectNameForGameId(gameId)
 end
@@ -620,7 +669,7 @@ function this.CpNameForCpId(cpId)
     end
   end
   if cpName==nil then
-    InfCore.Log("InfLookup.CpNameForCpId: WARNING: could not find cpName in lists")
+    InfCore.Log("WARNING: InfLookup.CpNameForCpId: could not find cpName in lists")
     this.ObjectNameForGameId(cpId)
   end
   return cpName
@@ -631,7 +680,7 @@ function this.SoldierSvarIndexForName(soldierName)
   local svarIndex=this.soldierSvarIndexes[s32Name]
   --DEBUGNOW TODO check out of bounds?
   if svars.solName[svarIndex]~=s32Name then
-    InfCore.Log("InfLookup.SoldierSvarIndexForName: WARNING: soldierSvarIndexes index for "..soldierName.."/"..s32Name.." does not match svars index")--DEBUGNOW
+    InfCore.Log("WARNING: InfLookup.SoldierSvarIndexForName: soldierSvarIndexes index for "..soldierName.."/"..s32Name.." does not match svars index")--DEBUGNOW
     --DEBUGNOW TODO: not picking up quest soldiers for some reason, either: I'm doing something wrong, or they're flagged no to save?
     for i=0,mvars.ene_maxSoldierStateCount-1 do
       if svars.solName[i]==s32Name then
@@ -644,31 +693,6 @@ function this.SoldierSvarIndexForName(soldierName)
   return svarIndex
 end
 
---tex assumes gameclass has lua readable enum names like TppDamage, and not whatever index fancyness gameclasses like ScritBlock do
-function this.BuildDirectGameClassEnumLookup(gameClass,filter)
-  --tex WORKAROUND autodoc/mock
-  if gameClass==nil then
-    return {}
-  end
-
-  local enumToName={}
-  for k,v in pairs(gameClass)do
-    if type(v)=="number" then
-      if string.find(k,filter)~=nil then
-        if enumToName[v] then
-          if this.debugModule then
-            InfCore.Log("InfLookup.BuildDirectGameClassEnumLookup WARNING: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
-          end
-          enumToName[v]=enumToName[v].."|"..k
-        else
-          enumToName[v]=k
-        end
-      end
-    end
-  end
-  return enumToName
-end
-
 --TABLESETUP
 function this.BuildTppEquipLookup()
   local enumToName={}
@@ -677,7 +701,7 @@ function this.BuildTppEquipLookup()
       if string.find(k,"EQP_")~=nil and string.find(k,"EQP_TYPE_")==nil and string.find(k,"EQP_BLOCK_")==nil then
         if enumToName[v] then
           if this.debugModule then
-            InfCore.Log("InfLookup.BuildTppEquipLookup WARNING: "..k.." with enum "..v.." is same as ".. enumToName[v])
+            InfCore.Log("WARNING: InfLookup.BuildTppEquipLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])
           end
           enumToName[v]=enumToName[v].."|"..k
         else
@@ -715,12 +739,12 @@ function this.StrCode32ToString(strCode,isStrCode)
     end
 
     if type(returnString)=="number" then
-      InfCore.Log("InfLookup.StrCode32ToString: WARNING: returnString for strCode:"..strCode.." is a number: "..returnString)
+      InfCore.Log("WARNING: InfLookup.StrCode32ToString: returnString for strCode:"..strCode.." is a number: "..returnString)
     end
 
     return returnString
   else
-    InfCore.Log("InfLookup.StrCode32ToString: WARNING: strCode:"..tostring(strCode).." is not a number.")
+    InfCore.Log("WARNING: InfLookup.StrCode32ToString: strCode:"..tostring(strCode).." is not a number.")
   end
 end
 
@@ -745,7 +769,7 @@ end
 
 --game class lookups
 this.HeadshotMessageFlag={
-  headshotMessageFlag=this.BuildGameClassEnumNameLookup(HeadshotMessageFlag,
+  headshotMessageFlag=this.BuildGameClassEnumNameLookup("HeadshotMessageFlag",
     {--are bitflags,
       "IS_TRANQ_HANDGUN",--1
       "IS_JUST_UNCONSCIOUS",--2
@@ -774,7 +798,7 @@ end
 this.NeutralizeCause={
   --TODO: at lease one missing (gap in consecurive enum)
   --22 missing, trigger by doing holdup, or fultoning walker?
-  neutralizeCause=this.BuildGameClassEnumNameLookup(NeutralizeCause,
+  neutralizeCause=this.BuildGameClassEnumNameLookup("NeutralizeCause",
     {
       "CQC",
       "NO_KILL",
@@ -803,7 +827,7 @@ this.NeutralizeCause={
 
 this.NeutralizeFobCause={
   --TODO: at lease two missing (gaps in consecurive enum)
-  neutralizeFobCause=this.BuildGameClassEnumNameLookup(NeutralizeFobCause,
+  neutralizeFobCause=this.BuildGameClassEnumNameLookup("NeutralizeFobCause",
     {
       "CQC",
       "CQC_KNIFE",
@@ -834,13 +858,13 @@ this.NeutralizeFobCause={
 }
 
 this.NeutralizeType={
-  neutralizeType=this.BuildGameClassEnumNameLookup(NeutralizeType,
+  neutralizeType=this.BuildGameClassEnumNameLookup("NeutralizeType",
     {"INVALID","FAINT","SLEEP","DYING","HOLDUP","FULTON"}
   ),
 }
 
 this.ScriptBlock={
-  scriptBlockState=this.BuildGameClassEnumNameLookup(ScriptBlock,
+  scriptBlockState=this.BuildGameClassEnumNameLookup("ScriptBlock",
     {
       "SCRIPT_BLOCK_STATE_EMPTY",
       "SCRIPT_BLOCK_STATE_PROCESSING",
@@ -848,7 +872,7 @@ this.ScriptBlock={
       "SCRIPT_BLOCK_STATE_ACTIVE",
     }
   ),
-  scriptBlockStateTransition=this.BuildGameClassEnumNameLookup(ScriptBlock,
+  scriptBlockStateTransition=this.BuildGameClassEnumNameLookup("ScriptBlock",
     {
       "TRANSITION_LOADED",
       "TRANSITION_ACTIVATED",
@@ -859,7 +883,7 @@ this.ScriptBlock={
 }
 
 this.StageBlock={
-  stageBlockState=this.BuildGameClassEnumNameLookup(StageBlock,
+  stageBlockState=this.BuildGameClassEnumNameLookup("StageBlock",
     {
       "INACTIVE",
       "ACTIVE",
@@ -868,18 +892,18 @@ this.StageBlock={
 }
 
 this.TppCollection={
-  resourceType=this.BuildDirectGameClassEnumLookup(TppCollection,"TYPE_"),
+  resourceType=this.BuildDirectGameClassEnumLookup("TppCollection","TYPE_"),
 }
 
 this.TppDamage={
-  attackId=this.BuildDirectGameClassEnumLookup(TppDamage,"ATK_"),
-  damageSource=this.BuildDirectGameClassEnumLookup(TppDamage,"DAM_SOURCE_"),
-  injuryType=this.BuildDirectGameClassEnumLookup(TppDamage,"INJ_TYPE_"),
+  attackId=this.BuildDirectGameClassEnumLookup("TppDamage","ATK_"),
+  damageSource=this.BuildDirectGameClassEnumLookup("TppDamage","DAM_SOURCE_"),
+  injuryType=this.BuildDirectGameClassEnumLookup("TppDamage","INJ_TYPE_"),
 }
 
 this.TppEquip={
   equipId=this.BuildTppEquipLookup(),
-  equipType=this.BuildDirectGameClassEnumLookup(TppEquip,"EQP_TYPE_"),
+  equipType=this.BuildDirectGameClassEnumLookup("TppEquip","EQP_TYPE_"),
 }
 
 --DEBUG >
@@ -990,10 +1014,10 @@ local gameObjectTypes={
 
 this.TppGameObject={
   --tex: no go, TppGameObject seems to have more dynamic indexing funkyness
-  --  typeIndex=this.BuildDirectGameClassEnumLookup(TppGameObject,"GAME_OBJECT_TYPE_"),
-  --  routeEventFailedType=this.BuildDirectGameClassEnumLookup(TppGameObject,"ROUTE_EVENT_FAILED_TYPE_"),
+  --  typeIndex=this.BuildDirectGameClassEnumLookup("TppGameObject","GAME_OBJECT_TYPE_"),
+  --  routeEventFailedType=this.BuildDirectGameClassEnumLookup("TppGameObject","ROUTE_EVENT_FAILED_TYPE_"),
 
-  phase=this.BuildGameClassEnumNameLookup(TppGameObject,
+  phase=this.BuildGameClassEnumNameLookup("TppGameObject",
     {
       "PHASE_SNEAK",
       "PHASE_CAUTION",
@@ -1001,7 +1025,7 @@ this.TppGameObject={
       "PHASE_ALERT",
     }
   ),
-  routeEventFailedType=this.BuildGameClassEnumNameLookup(TppGameObject,
+  routeEventFailedType=this.BuildGameClassEnumNameLookup("TppGameObject",
     {
       "ROUTE_EVENT_FAILED_TYPE_NONE",
       "ROUTE_EVENT_FAILED_TYPE_VEHICLE_GET_IN",
@@ -1013,7 +1037,7 @@ this.TppGameObject={
       "ROUTE_EVENT_FAILED_TYPE_LOST_VEHICLE_HOSTAGE_TAKE_OUT_OF",
     }
   ),
-  vehicleActionType=this.BuildGameClassEnumNameLookup(TppGameObject,
+  vehicleActionType=this.BuildGameClassEnumNameLookup("TppGameObject",
     {
       "VEHICLE_ACTION_TYPE_GOT_IN_VEHICLE",
       "VEHICLE_ACTION_TYPE_GOT_OUT_VEHICLE",
@@ -1021,11 +1045,11 @@ this.TppGameObject={
     }
   ),
 
-  typeIndex=this.BuildGameClassEnumNameLookup(TppGameObject,gameObjectTypes),
+  typeIndex=this.BuildGameClassEnumNameLookup("TppGameObject",gameObjectTypes),
 }
 
 this.TppSystem={
-  bgmPhase=this.BuildGameClassEnumNameLookup(TppSystem,
+  bgmPhase=this.BuildGameClassEnumNameLookup("TppSystem",
     {
       --tex actual enum order, from 0
       "BGM_PHASE_NONE",
@@ -1106,7 +1130,7 @@ function this.Lookup(lookupType,value)
     lookedupValue=lookup[value]
   else
     if lookupType~="number" then
-      InfCore.Log("InfLookup.Lookup: WARNING no lookup of type "..lookupType)
+      InfCore.Log("WARNING: InfLookup.Lookup: no lookup of type "..lookupType)
     end
   end
   return lookedupValue
@@ -1675,7 +1699,7 @@ end
 function this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
   --ASSUMPTION: if message has any args they are contiguous (none nil)
   if #signature<#args then
-    InfCore.Log("InfLookup.PrintMessageSignature: WARNING: incomplete signature? #signature<#args")
+    InfCore.Log("WARNING: InfLookup.PrintMessageSignature: incomplete signature? #signature<#args")
   end
 
   local hasArgs=false
@@ -1699,13 +1723,13 @@ function this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
         end
         argsString=argsString..argDef.argName.."="..lookupValue..argTypeSuff..", "
       else
-        InfCore.Log("InfLookup.PrintMessageSignature: WARNING: incomplete signature? no var found for arg"..tostring(argNum)..":"..tostring(arg))
+        InfCore.Log("WARNING: InfLookup.PrintMessageSignature: incomplete signature? no var found for arg"..tostring(argNum)..":"..tostring(arg))
         --tex TODO: fall back to normal try-all-lookups
         argsString=argsString.."arg"..argNum.."="..tostring(arg)..", "
       end
     else
       if argDef then
-        InfCore.Log("InfLookup.PrintMessageSignature: WARNING: arg"..tostring(argNum).." is nil but has signature arg defined")
+        InfCore.Log("WARNING: InfLookup.PrintMessageSignature: arg"..tostring(argNum).." is nil but has signature arg defined")
       end
     end
   end
@@ -1749,14 +1773,14 @@ function this.BuildDictionaryLookup(name,lookupTable)
   local dictionaryPath=InfCore.modPath..[[\strings\]]..this.dictionaries[name].fileName
   local lines=InfCore.GetLines(dictionaryPath)
   if lines==nil then
-    InfCore.Log("BuBuildDictionaryLookup: could not load "..this.dictionaries[name].fileName)
+    InfCore.Log("WARNING: InfLookup.BuildDictionaryLookup: could not load "..this.dictionaries[name].fileName)
     return
   end
   local HashFunction=this.dictionaries[name].HashFunction
   for i,str in ipairs(lines) do
     local hash=HashFunction(str)--tex is just StrCode32, but whatevs
     if (lookupTable[hash]) then
-      InfCore.Log("InfLookup.BuildDictionaryLookup("..name.."): WARNING: collision for hash:"..hash.." between "..str.." and "..lookupTable[hash])
+      InfCore.Log("WARNING: InfLookup.BuildDictionaryLookup("..name.."): collision for hash:"..hash.." between "..str.." and "..lookupTable[hash])
     end
     lookupTable[hash]=str
   end

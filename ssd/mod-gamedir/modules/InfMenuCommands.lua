@@ -41,6 +41,10 @@ this.GoBackItem=function()
   InfMenu.GoBackCurrent()
 end
 
+this.GoBackTopItem=function()
+  InfMenu.GoBackTop()
+end
+
 --commands
 
 --profiles
@@ -124,7 +128,7 @@ end
 
 this.ShowLangCode=function()
   local languageCode=AssetConfiguration.GetDefaultCategory"Language"
-  TppUiCommand.AnnounceLogView(InfMenu.LangString"language_code"..": "..languageCode)
+  TppUiCommand.AnnounceLogView(InfLangProc.LangString"language_code"..": "..languageCode)
 end
 --
 
@@ -167,7 +171,7 @@ this.SetSelectedCpToMarkerClosestCp=function()
     return
   end
   local markerPos=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-  
+
   local cpName=InfMain.GetClosestCp{markerPos:GetX(),markerPos:GetY(),markerPos:GetZ()}
   if not cpName then
     InfCore.Log("Could not find cp",false,true)
@@ -286,59 +290,94 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
+  
+InfCore.Log("zzzzzzzzzzzzt")
+  mvars.mis_fobDisableAlertMissionArea=true
+    mvars.mis_ignoreAlertOfMissionArea=true
+    mvars.mis_enableAlertOutOfMissionArea=false
+    local enable=false
+    mvars.mis_ignoreAlertOfMissionArea=true
+    local trapName="trap_mission_failed_area"
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
+    local trapName="innerZone"--DEBUGNOW
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
+    local trapName="outerZone"--DEBUGNOW
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
+    local trapName="trap_border_a"--DEBUGNOW
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
+    local trapName="trap_border_b"--DEBUGNOW
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
 
- -- vars.playerType=index1
---DEBUGNOW  
---  local markerVarNames={
---    "ssdMarker_User_flag",
---    "ssdMarker_User_flag_mafr",
---  "ssdMarker_User_markerType",
---  "ssdMarker_User_markerType_mafr",
---  "ssdMarker_User_posX",
---  "ssdMarker_User_posX_mafr",
---  "ssdMarker_User_posY",
---  "ssdMarker_User_posY_mafr",
---  "ssdMarker_User_posZ",
---  "ssdMarker_User_posZ_mafr", 
---  }
---  
---   local max=5
---  for i,varName in ipairs(markerVarNames)do
---   -- for j=0, max do
---      InfCore.PrintInspect(vars[varName][0],varName)--.."["..j.."]")
---   -- end
---  end
---  
---  InfCore.Log("------------")
---    for i,varName in ipairs(markerVarNames)do
---    for j=0, max do
---      InfCore.PrintInspect(vars[varName][j],varName.."["..j.."]")
---    end
---  end
---  
---
- InfCore.PrintInspect(vars,"vars")
---  InfCore.PrintInspect(cvars,"cvars")
---  InfCore.PrintInspect(fvars,"fvars")
---
---  if true then return end
---
---  local routes={
---    "rt_hover_1",
---    "rt_hover_2",
---  }
---
---  index1Max=#routes
---
---  local route=routes[index1]
---
---  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
---  if heliId==NULL_ID then
---    InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
---    return
---  end
---
---  SendCommand(heliId,{id="SetForceRoute",route=route,point=0})--,warp=true})--DEBUG
+if true then return end
+
+--DEBUGNOW
+local S32=Fox.StrCode32
+SsdBuilding.CreateItem{row=0,col=0,buildingId=S32"PRD_BLD_GadgetPlant_A",rotType=0}
+SsdBuilding.CreateItem{row=32,col=32,buildingId=S32"PRD_BLD_GadgetPlant_A",rotType=0}
+--SsdBuilding.CreateItem{row=63,col=63,buildingId=S32"PRD_BLD_GadgetPlant_A",rotType=0}
+
+if true then return end
+
+  InfCore.DebugPrint("SetSsdMistWallVisibility:"..tostring(toggle1))
+  TppEffectUtility.SetSsdMistWallVisibility(toggle1)
+
+  -- vars.playerType=index1
+  --DEBUGNOW
+  --  local markerVarNames={
+  --    "ssdMarker_User_flag",
+  --    "ssdMarker_User_flag_mafr",
+  --  "ssdMarker_User_markerType",
+  --  "ssdMarker_User_markerType_mafr",
+  --  "ssdMarker_User_posX",
+  --  "ssdMarker_User_posX_mafr",
+  --  "ssdMarker_User_posY",
+  --  "ssdMarker_User_posY_mafr",
+  --  "ssdMarker_User_posZ",
+  --  "ssdMarker_User_posZ_mafr",
+  --  }
+  --
+  --   local max=5
+  --  for i,varName in ipairs(markerVarNames)do
+  --   -- for j=0, max do
+  --      InfCore.PrintInspect(vars[varName][0],varName)--.."["..j.."]")
+  --   -- end
+  --  end
+  --
+  --  InfCore.Log("------------")
+  --    for i,varName in ipairs(markerVarNames)do
+  --    for j=0, max do
+  --      InfCore.PrintInspect(vars[varName][j],varName.."["..j.."]")
+  --    end
+  --  end
+  --
+  --
+  --InfCore.PrintInspect(vars,"vars")
+  --  InfCore.PrintInspect(cvars,"cvars")
+  --  InfCore.PrintInspect(fvars,"fvars")
+  --
+  --  if true then return end
+  --
+  --  local routes={
+  --    "rt_hover_1",
+  --    "rt_hover_2",
+  --  }
+  --
+  --  index1Max=#routes
+  --
+  --  local route=routes[index1]
+  --
+  --  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+  --  if heliId==NULL_ID then
+  --    InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
+  --    return
+  --  end
+  --
+  --  SendCommand(heliId,{id="SetForceRoute",route=route,point=0})--,warp=true})--DEBUG
 
   InfCore.DebugPrint("index1:"..index1)
   index1=index1+increment
@@ -351,25 +390,25 @@ end
 local index2Min=300
 local index2Max=334
 local index2=index2Min
+local toggle2=true
 this.DEBUG_SomeShiz2=function()
   InfCore.Log("---DEBUG_SomeShiz2---")
 
-  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
-  if heliId==NULL_ID then
-    InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
-    return
-  end
+InfCore.PrintInspect(InfLookup.TppDamage.attackId,"---------attackId")
+InfCore.PrintInspect(TppDamage,"---------TppDamage")
+InfCore.PrintInspect(TppDamage.ATK_None,"---------ATK_None")
 
-  local route=""
-
-  SendCommand(heliId,{id="SetForceRoute",enabled=false})--,warp=true})--DEBUG
- 
+if true then return end
+  --DEBUGNOW
+  InfCore.DebugPrint("FogWallController:"..tostring(toggle2))
+  FogWallController.SetEnabled(toggle2)
 
   InfCore.DebugPrint("index2:"..index2)
   index2=index2+1
   if index2>index2Max then
     index2=index2Min
   end
+  toggle2=not toggle2
 end
 
 local index3Min=1
@@ -379,25 +418,18 @@ local toggle3=false
 this.DEBUG_SomeShiz3=function()
   InfCore.Log("---DEBUG_SomeShiz3---")
 
-InfCore.PrintInspect(TppLandingZone.assaultLzs,"assaultLzs")
-InfCore.PrintInspect(TppLandingZone.missionLzs,"missionLzs")
 
-  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-  local closestRoute
-  if lastMarkerIndex==nil then
-    InfMenu.PrintLangId"no_marker_found"
-    return
+  --if TppGameStatus.IsSet("","S_FOG_PASSAGE")and not TppGameStatus.IsSet("","S_NEED_OXYGEN_MASK")then
+  if toggle3 then
+    InfCore.DebugPrint("Set S_FOG_PASSAGE,S_NEED_OXYGEN_MASK")
+    TppGameStatus.Set("IHDustController","S_FOG_PASSAGE")
+    TppGameStatus.Set("IHDustController","S_NEED_OXYGEN_MASK")
   else
-    local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
-
-    closestRoute=InfLZ.GetClosestLz(markerPostion)
+    InfCore.DebugPrint("Reset S_FOG_PASSAGE,S_NEED_OXYGEN_MASK")
+    TppGameStatus.Reset("IHDustController","S_FOG_PASSAGE")
+    TppGameStatus.Reset("IHDustController","S_NEED_OXYGEN_MASK")
   end
-  
-  InfCore.PrintInspect(closestRoute,"closestRoute")
 
-  local gmp=1000000
-  --TppMotherBaseManagement.AddGmp{gmp=gmp}
   --DEBUGNOW
 
   InfCore.DebugPrint("index3:"..index3)
@@ -861,7 +893,7 @@ end
 --TODO: have menu system work off commands direct
 this.commandItems={}
 
-local optionType="COMMAND"
+local OPTIONTYPE_COMMAND="COMMAND"
 local IsTable=function(checkType)return type(checkType)=="table" end--tex removed dependancy on Tpp.IsTypeTable
 local IsFunction=function(checkType)return type(checkType)=="function" end
 local switchRange={max=1,min=0,increment=1}
@@ -881,7 +913,7 @@ function this.BuildCommandItem(Command,name)
   if not IsTable(menuItem) then
     InfCore.Log("WARNING:"..itemName.."is not a table")
   else
-    menuItem.optionType=optionType
+    menuItem.optionType=OPTIONTYPE_COMMAND
     menuItem.name=itemName
     menuItem.default=0
     ivars[itemName]=menuItem.default--tex DEBUGNOW TODO remove command dependancy on ivar/switching
@@ -900,19 +932,19 @@ function this.BuildCommandItems()
   --tex TODO: have InfMenuDefs use module.registerMenus too?
   for name,item in pairs(InfMenuDefs) do
     if IsTable(item) and item.options then
-        --InfCore.Log("item:"..name)--DEBUG
-        for i,optionRef in ipairs(item.options)do
-          --InfCore.Log("optionRef:"..optionRef)--DEBUG
-          local Command,refName=InfCore.GetStringRef(optionRef)
-          if Command and IsFunction(Command) then
-            --InfCore.Log("refName:"..refName)--DEBUG
-            local menuItem,itemName=this.BuildCommandItem(Command,refName)
-            --InfCore.Log("itemName:"..itemName)--DEBUG
-            this.commandItems[itemName]=menuItem
-          end
+      --InfCore.Log("item:"..name)--DEBUG
+      for i,optionRef in ipairs(item.options)do
+        --InfCore.Log("optionRef:"..optionRef)--DEBUG
+        local Command,refName=InfCore.GetStringRef(optionRef)
+        if Command and IsFunction(Command) then
+          --InfCore.Log("refName:"..refName)--DEBUG
+          local menuItem,itemName=this.BuildCommandItem(Command,refName)
+          --InfCore.Log("itemName:"..itemName)--DEBUG
+          this.commandItems[itemName]=menuItem
         end
       end
     end
+  end
 
   for i,module in ipairs(InfModules) do
     if module.registerMenus and module~=InfMenuDefs then
@@ -922,7 +954,7 @@ function this.BuildCommandItems()
       for j,name in ipairs(module.registerMenus)do
         local menuDef=module[name]
         if not menuDef then
-          InfCore.Log("InfMenuCommands.BuildCommandItems: WARNING: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: InfMenuCommands.BuildCommandItems: could not find "..name.." in "..module.name)
         else
           if menuDef.options then
             for i,optionRef in ipairs(menuDef.options)do
@@ -934,7 +966,7 @@ function this.BuildCommandItems()
                 --InfCore.Log("itemName:"..itemName)--DEBUG
                 this.commandItems[itemName]=menuItem
               end
-  end
+            end
           end
         end
       end--for registermenu

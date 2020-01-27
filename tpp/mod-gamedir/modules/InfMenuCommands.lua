@@ -41,6 +41,10 @@ this.GoBackItem=function()
   InfMenu.GoBackCurrent()
 end
 
+this.GoBackTopItem=function()
+  InfMenu.GoBackTop()
+end
+
 --commands
 
 --profiles
@@ -124,7 +128,7 @@ end
 
 this.ShowLangCode=function()
   local languageCode=AssetConfiguration.GetDefaultCategory"Language"
-  TppUiCommand.AnnounceLogView(InfMenu.LangString"language_code"..": "..languageCode)
+  TppUiCommand.AnnounceLogView(InfLangProc.LangString"language_code"..": "..languageCode)
 end
 --
 
@@ -167,7 +171,7 @@ this.SetSelectedCpToMarkerClosestCp=function()
     return
   end
   local markerPos=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-  
+
   local cpName=InfMain.GetClosestCp{markerPos:GetX(),markerPos:GetY(),markerPos:GetZ()}
   if not cpName then
     InfCore.Log("Could not find cp",false,true)
@@ -287,6 +291,38 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
 
+
+
+  InfUAV.SetupUAV()
+  if true then return end
+  local fileList=File.GetFileListTable("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
+  InfCore.PrintInspect(fileList,"fileList")
+
+
+  --    GetBlockPackagePath = "<function>",
+  --    GetFileListTable = "<function>",
+  --    GetReferenceCount = "<function>",
+
+  local identifier="HelispaceLocatorIdentifier"
+  --  local locatorName="BuddyQuietLocator"
+  local key="BuddyDDogLocator"
+  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
+  local dataSet=Data.GetDataSet(data)
+  local dataSetFile=DataSet.GetDataSetFile(dataSet)
+  local  blockPackagePath=File.GetBlockPackagePath(dataSetFile)
+
+  -- local  blockPackagePath=File.GetBlockPackagePath("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
+
+  -- local  blockPackagePath=File.GetBlockPackagePath(data)
+  InfCore.PrintInspect(blockPackagePath,"blockPackagePath")
+
+  --local  referenceCount=File.GetReferenceCount("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
+  local  referenceCount=File.GetReferenceCount("Tpp/Scripts/Equip/EquipMotionData.lua")
+  InfCore.PrintInspect(referenceCount,"referenceCount")
+
+  if true then return end
+
+  --DEBUGNOW
 
   local routes={
     "rt_hover_1",
@@ -880,7 +916,7 @@ function this.BuildCommandItems()
       for j,name in ipairs(module.registerMenus)do
         local menuDef=module[name]
         if not menuDef then
-          InfCore.Log("InfMenuCommands.BuildCommandItems: WARNING: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: InfMenuCommands.BuildCommandItems: could not find "..name.." in "..module.name)
         else
           if menuDef.options then
             for i,optionRef in ipairs(menuDef.options)do

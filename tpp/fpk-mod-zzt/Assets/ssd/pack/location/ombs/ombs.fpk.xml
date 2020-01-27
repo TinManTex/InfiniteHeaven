@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ombs.fpk" FpkType="Fpk">
-  <Entries>
-    <Entry FilePath="/Assets/ssd/level/location/ombs/block_common/ombs_common_packages.fstb" />
-    <Entry FilePath="/Assets/ssd/level/location/ombs/block_common/ssd_ombs_climateSettings.twpf" />
-  </Entries>
-  <References />
-</ArchiveFile>

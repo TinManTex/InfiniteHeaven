@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="e01010.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/mission/debug/common/robby_asset_fox2_grxla_win.grxla" />
+    <Entry FilePath="/Assets/tpp/chara/avr/Scenes/avr_stage.fmdl" />
+    <Entry FilePath="/Assets/tpp/chara/avr/Scenes/avr_stage.geom" />
+  </Entries>
+  <References />
+</ArchiveFile>

@@ -1,0 +1,97 @@
+{
+    "Name": "rt_quest_d_0002",
+    "Nodes": [
+      {
+        "Position": {
+"X": -1137.373,"Y": -20.597,"Z": 217.835
+        },
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+          {
+            "EventType": "RelaxedWalk",
+            "Param1": 0,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 0,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          },
+          {
+            "EventType": "RelaxedIdleAct",
+            "Param1": 1,
+            "Param2": 3421963199,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 496717012,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          }
+        ]
+      },
+      {
+        "Position": {
+"X": -1145.998,"Y": -20.381,"Z": 215.817
+        },
+        "EdgeEvent": {
+          "EventType": "None",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+          {
+            "EventType": "RelaxedWalk",
+            "Param1": 0,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 0,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          },
+          {
+            "EventType": "RelaxedIdleAct",
+            "Param1": 1,
+            "Param2": 2626029018,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 496717012,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          }
+        ]
+      }
+    ]
+  }

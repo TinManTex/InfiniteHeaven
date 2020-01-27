@@ -8,12 +8,11 @@ this.missionInfo={}
 
 this.missionListSlotIndices={}--tex need it for OpenMissions
 
--->
 this.registerIvars={
-  'manualMissionCode',
-  'manualSequence',
-  'loadAddonMission',
-  'ihMissionsPercentageCount',
+  "manualMissionCode",
+  "manualSequence",
+  "loadAddonMission",
+  "ihMissionsPercentageCount",
 }
 
 this.manualMissionCode={

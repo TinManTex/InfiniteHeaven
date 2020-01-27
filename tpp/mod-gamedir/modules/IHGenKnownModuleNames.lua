@@ -758,7 +758,7 @@ this.tppInternal={
   WeaponPartsUiSetting=true,
 }
 
-this.ssdinternal={
+this.ssdInternal={
 --126ed3c69bef2=true,
 --1bf8f1382950b=true,
 --1d9eb39d875ae=true,

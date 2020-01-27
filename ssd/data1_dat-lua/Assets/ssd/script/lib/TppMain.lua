@@ -1,3 +1,4 @@
+-- DOBUILD: 1
 -- ssd TppMain.lua
 local this={}
 local ApendArray=Tpp.ApendArray
@@ -16,10 +17,10 @@ local numDebugUpdateFuncs=0
 local qarReleaseUpdateFuncs={}
 local numQarReleaseUpdateFuncs=0
 local onMessageTable={}
-local unk3={}
+local unkM3={}
 local onMessageTableSize=0
 local messageExecTable={}
-local unk4={}
+local unkM4={}
 local messageExecTableSize=0
 --NMC: cant actually see this referenced anywhere
 local function WaitForQuark()
@@ -105,28 +106,86 @@ function this.OnAllocate(missionTable)
     SsdCreatureBlock.QARELEASE_DEBUG_Init()
     TppAnimalBlock.QARELEASE_DEBUG_Init()
   end
-  TppException.OnAllocate(missionTable)
-  TppClock.OnAllocate(missionTable)
-  TppTrap.OnAllocate(missionTable)
-  TppCheckPoint.OnAllocate(missionTable)
-  TppUI.OnAllocate(missionTable)
-  TppDemo.OnAllocate(missionTable)
-  TppScriptBlock.OnAllocate(missionTable)
-  TppSound.OnAllocate(missionTable)
-  TppPlayer.OnAllocate(missionTable)
-  TppMission.OnAllocate(missionTable)
-  TppTerminal.OnAllocate(missionTable)
-  TppEnemy.OnAllocate(missionTable)
-  TppRadio.OnAllocate(missionTable)
-  TppGimmick.OnAllocate(missionTable)
-  TppMarker.OnAllocate(missionTable)
-  this.ClearStageBlockMessage()
-  TppQuest.OnAllocate(missionTable)
-  TppAnimal.OnAllocate(missionTable)
-  SsdFlagMission.OnAllocate(missionTable)
-  SsdBaseDefense.OnAllocate(missionTable)
-  SsdCreatureBlock.OnAllocate(missionTable)
-  InfMain.OnAllocate(missionTable)--tex
+
+  --tex REWORKED to allow pcall TODO: should probably lua-hang on error rather than let it continue
+  local libAllocateOrder={
+    "TppException",
+    "TppClock",
+    "TppTrap",
+    "TppCheckPoint",
+    "TppUI",
+    "TppDemo",
+    "TppScriptBlock",
+    "TppSound",
+    "TppPlayer",
+    "TppMission",
+    "TppTerminal",
+    "TppEnemy",
+    "TppRadio",
+    "TppGimmick",
+    "TppMarker",
+  }
+  --tex in lua pcalls on a yield triggers an 'attempt to yield across metamethod/C-call boundary' error
+  local yields={
+    TppUI=true,
+  }
+  for i,libName in ipairs(libAllocateOrder)do
+    InfCore.LogFlow(libName..".OnAllocate")
+    if not _G[libName].OnAllocate then
+      InfCore.Log("ERROR: TppMain.OnAllocate: could not find "..libName..".OnAllocate",false,true)
+    else
+      if yields[libName] then
+        _G[libName].OnAllocate(missionTable)
+      else
+        InfCore.PCallDebug(_G[libName].OnAllocate,missionTable)
+      end
+    end
+  end
+  this.ClearStageBlockMessage()--tex VERIFY that TppQuest, TppAnimal .onallocate needs ClearStageBlockMessage (see ORIG)
+  local libAllocateOrderPostBlockMessageClear={
+    "TppQuest",
+    "TppAnimal",
+    "SsdFlagMission",
+    "SsdBaseDefense",
+    "SsdCreatureBlock",
+    "InfMain",--tex
+  }
+  for i,libName in ipairs(libAllocateOrderPostBlockMessageClear)do
+    InfCore.LogFlow(libName..".OnAllocate")
+    if not _G[libName].OnAllocate then
+      InfCore.Log("ERROR: TppMain.OnAllocate: could not find "..libName..".OnAllocate",false,true)
+    else
+      if yields[libName] then
+        _G[libName].OnAllocate(missionTable)
+      else
+        InfCore.PCallDebug(_G[libName].OnAllocate,missionTable)
+      end
+    end
+  end
+
+  --ORIG
+  --  TppException.OnAllocate(missionTable)
+  --  TppClock.OnAllocate(missionTable)
+  --  TppTrap.OnAllocate(missionTable)
+  --  TppCheckPoint.OnAllocate(missionTable)
+  --  TppUI.OnAllocate(missionTable)
+  --  TppDemo.OnAllocate(missionTable)
+  --  TppScriptBlock.OnAllocate(missionTable)
+  --  TppSound.OnAllocate(missionTable)
+  --  TppPlayer.OnAllocate(missionTable)
+  --  TppMission.OnAllocate(missionTable)
+  --  TppTerminal.OnAllocate(missionTable)
+  --  TppEnemy.OnAllocate(missionTable)
+  --  TppRadio.OnAllocate(missionTable)
+  --  TppGimmick.OnAllocate(missionTable)
+  --  TppMarker.OnAllocate(missionTable)
+  --  this.ClearStageBlockMessage()
+  --  TppQuest.OnAllocate(missionTable)
+  --  TppAnimal.OnAllocate(missionTable)
+  --  SsdFlagMission.OnAllocate(missionTable)
+  --  SsdBaseDefense.OnAllocate(missionTable)
+  --  SsdCreatureBlock.OnAllocate(missionTable)
+
   local function LocationOnAllocate()
     if TppLocation.IsAfghan()then
       if afgh then
@@ -158,7 +217,8 @@ function this.OnAllocate(missionTable)
     for i,lib in ipairs(Tpp._requireList)do
       if _G[lib]then
         if _G[lib].DeclareSVars then
-          ApendArray(allSvars,_G[lib].DeclareSVars(missionTable))
+          InfCore.LogFlow(lib..".DeclareSVars")--tex DEBUG
+          ApendArray(allSvars,InfCore.PCallDebug(_G[lib].DeclareSVars,missionTable))--tex PCall
         end
       end
     end
@@ -183,6 +243,7 @@ function this.OnAllocate(missionTable)
     TppRadioCommand.SetScriptDeclVars()
     if gvars.ini_isTitleMode then
       TppPlayer.MissionStartPlayerTypeSetting()
+      Gimmick.RestoreSaveDataPermanentGimmickFromMission()--RETAILPATCH: 1.0.5.0
     else
       if TppMission.IsMissionStart()then
         TppVarInit.InitializeForNewMission(missionTable)
@@ -412,12 +473,14 @@ function this.SetUpdateFunction(missionTable)
     InfMain.Update,--tex
   }
   numModuleUpdateFuncs=#moduleUpdateFuncs
+
   for name,module in pairs(missionTable)do
     if IsTypeFunc(module.OnUpdate)then
       numOnUpdate=numOnUpdate+1
       missionScriptOnUpdateFuncs[numOnUpdate]=module.OnUpdate
     end
   end
+
   if(Tpp.IsQARelease()or nil)then
     qarReleaseUpdateFuncs={
       TppSave.QAReleaseDebugUpdate,
@@ -661,7 +724,7 @@ function this.SetMessageFunction(missionTable)--RENAME:
     end
   end
   --tex>
-  if not InfMain.IsFOBMission(vars.missionCode)then
+  if not InfMain.IsOnlineMission(vars.missionCode)then
     for i,module in ipairs(InfModules)do
       if module.OnMessage then
         InfCore.LogFlow("SetMessageFunction:"..module.name)
@@ -684,9 +747,13 @@ end
 --args are lua type number, but may represent enum,int,float, StrCode32, whatever.
 --arg0 may match sender (not messageClass) in messageexec definition (see Tpp.DoMessage)
 function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
-  if Ivars.debugMessages:Is(1) and InfLookup then--tex>
-    InfCore.PCall(InfLookup.PrintOnMessage,sender,messageId,arg0,arg1,arg2,arg3)
-  end--<
+  --tex>
+  if InfCore.debugMode and Ivars.debugMessages:Is(1) then
+    if InfLookup then
+      InfCore.PCall(InfLookup.PrintOnMessage,sender,messageId,arg0,arg1,arg2,arg3)
+    end
+  end
+  --<
   local mvars=mvars--LOCALOPT
   local strLogTextEmpty=""
   --ORPHAN local T
@@ -694,8 +761,8 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
   local CheckMessageOption=TppMission.CheckMessageOption--LOCALOPT
   local TppDebug=TppDebug
   --ORPHAN local T=TppDebug
-  --ORPHAN local T=unk3
-  --ORPHAN local T=unk4
+  --ORPHAN local T=unkM3
+  --ORPHAN local T=unkM4
   local resendCount=TppDefine.MESSAGE_GENERATION[sender]and TppDefine.MESSAGE_GENERATION[sender][messageId]
   if not resendCount then
     resendCount=TppDefine.DEFAULT_MESSAGE_GENERATION

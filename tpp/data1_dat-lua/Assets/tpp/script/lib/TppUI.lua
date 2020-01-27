@@ -260,14 +260,14 @@ end
 function this.SetFadeColorToWhite()
   FadeFunction.SetFadeColor(255,255,255,255)
 end
---msgName fires events with that name as fade progresses
-function this.FadeOut(fadeSpeed,msgName,p,setupInfo)
+--msgName: events are fired with that name as fade progresses
+function this.FadeOut(fadeSpeed,msgName,unkP3,fadeoutInfo)
   local setMute,exceptGameStatus
-  if Tpp.IsTypeTable(setupInfo)then
-    setMute=setupInfo.setMute
-    exceptGameStatus=setupInfo.exceptGameStatus
+  if Tpp.IsTypeTable(fadeoutInfo)then
+    setMute=fadeoutInfo.setMute
+    exceptGameStatus=fadeoutInfo.exceptGameStatus
   end
-  local strCodeMsgName=ToStrCode32(msgName)
+  local msgNameS32=ToStrCode32(msgName)
   this.DisableGameStatusOnFade(exceptGameStatus)
   if setMute then
     TppSound.SetMuteOnLoading()
@@ -276,7 +276,7 @@ function this.FadeOut(fadeSpeed,msgName,p,setupInfo)
       TppSoundDaemon.SetMute"Outro"
     end
   end
-  CallFadeOut(fadeSpeed,strCodeMsgName,p)
+  CallFadeOut(fadeSpeed,msgNameS32,unkP3)
   InfMain.OnFadeOutDirect(msgName)--tex
 end
 function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)

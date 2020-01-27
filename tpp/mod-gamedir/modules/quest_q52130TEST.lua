@@ -32,48 +32,58 @@ this.QUEST_TABLE = {
 	enemyList = {
 		{
 			enemyName = "sol_quest_0000",
-			route_d = "rt_across_river_2story_bottom_hill_ruin", 	route_c = "rt_across_river_2story_bottom_hill_ruin",
+			--DEBUGNOW route_d = "rt_across_river_2story_bottom_hill_ruin", 	route_c = "rt_across_river_2story_bottom_hill_ruin",
+		--	route_d = "rt_quest_d_0002",   route_c = "rt_quest_d_0002",
+		--	route_d = "rt_quest_d_0003",   route_c = "rt_quest_d_0003",
+			route_d = "rt_quest_d_0001",   route_c = "rt_quest_d_0001",
+		--	route_d = "rt_bbb_test",   route_c = "rt_bbb_test",
+	--	  route_d = "rt_quest_d_0001_0000",   route_c = "rt_quest_d_0001_0000",
+	--	route_d = "rt_quest_d_0001",   route_c = "rt_quest_d_0001",
+	--	route_d = "aaa_bbb_ccc_ddd_eee",   route_c = "aaa_bbb_ccc_ddd_eee",
+	--	route_d = "zzz_fff_ggg_hhh",   route_c = "zzz_fff_ggg_hhh",
+
+		--route_d = "rt_quest_d_0002",   route_c = "rt_quest_d_0002",
 			powerSetting = { },
 			--rideFromVehicleId = "vehicle_quest_0000",
 		},
-		{
-			enemyName = "sol_quest_0001",
-			route_d = "rt_across_river_bank_patrol_near_wav", 	route_c = "rt_across_river_bank_patrol_near_wav",
-			powerSetting = { },
-			--rideFromVehicleId = "vehicle_quest_0001",
-		},
-		{
-			enemyName = "sol_quest_0002",
-			route_d = "rt_across_river_overcrop_to_2story_ruin", 	route_c = "rt_across_river_overcrop_to_2story_ruin",
-			powerSetting = { "SOFT_ARMOR", "HELMET", "SHIELD" },
-		},
-		{
-			enemyName = "sol_quest_0003",
-			route_d = "rt_around_bottom_hill_ruin", 	route_c = "rt_around_bottom_hill_ruin",
-			powerSetting = { "SOFT_ARMOR", "HELMET" },
-		},
-		{
-			enemyName = "sol_quest_0004",
-			route_d = "rt_broken_bridge_and_river", 	route_c = "rt_broken_bridge_and_river",
-			powerSetting = { "HELMET", "SOFT_ARMOR", "MISSILE" },
-		},
-		{
-			enemyName = "sol_quest_0005",
-			route_d = "rt_hill_top", 	route_c = "rt_hill_top",
-			powerSetting = { "SOFT_ARMOR", "HELMET", "SNIPER" },
-		},
-		{
-			enemyName = "sol_quest_0006",
-			route_d = "rt_river_ledge", 	route_c = "rt_river_ledge",
-			powerSetting = { "SOFT_ARMOR", "HELMET", "SNIPER" },
-		},
-		{
-			enemyName = "sol_quest_0007",
-			route_d = "rt_wav_river", 	route_c = "rt_wav_river",
-			--route_d = "rt_aim_test", 	route_c = "rt_aim_test",--DEBUGNOW
-			powerSetting = { "SOFT_ARMOR", "HELMET", "SNIPER" },
-			--rideFromVehicleId = "vehicle_quest_0000",--DEBUGNOW
-		},
+--		{
+--			enemyName = "sol_quest_0001",
+--			route_d = "rt_across_river_bank_patrol_near_wav", 	route_c = "rt_across_river_bank_patrol_near_wav",
+--			powerSetting = { },
+--			--rideFromVehicleId = "vehicle_quest_0001",
+--		},
+--		{
+--			enemyName = "sol_quest_0002",
+--			route_d = "rt_across_river_overcrop_to_2story_ruin", 	route_c = "rt_across_river_overcrop_to_2story_ruin",
+--			powerSetting = { "SOFT_ARMOR", "HELMET", "SHIELD" },
+--		},
+--		{
+--			enemyName = "sol_quest_0003",
+--			route_d = "rt_around_bottom_hill_ruin", 	route_c = "rt_around_bottom_hill_ruin",
+--			powerSetting = { "SOFT_ARMOR", "HELMET" },
+--		},
+--		{
+--			enemyName = "sol_quest_0004",
+--			route_d = "rt_broken_bridge_and_river", 	route_c = "rt_broken_bridge_and_river",
+--			powerSetting = { "HELMET", "SOFT_ARMOR", "MISSILE" },
+--		},
+--		{
+--			enemyName = "sol_quest_0005",
+--			route_d = "rt_hill_top", 	route_c = "rt_hill_top",
+--			powerSetting = { "SOFT_ARMOR", "HELMET", "SNIPER" },
+--		},
+--		{
+--			enemyName = "sol_quest_0006",
+--			route_d = "rt_river_ledge", 	route_c = "rt_river_ledge",
+--			powerSetting = { "SOFT_ARMOR", "HELMET", "SNIPER" },
+--		},
+--		{
+--			enemyName = "sol_quest_0007",
+--			route_d = "rt_wav_river", 	route_c = "rt_wav_river",
+--			--route_d = "rt_aim_test", 	route_c = "rt_aim_test",--DEBUGNOW
+--			powerSetting = { "SOFT_ARMOR", "HELMET", "SNIPER" },
+--			--rideFromVehicleId = "vehicle_quest_0000",--DEBUGNOW
+--		},
 	},
 	
 --	vehicleList = {

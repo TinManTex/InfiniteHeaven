@@ -1,0 +1,274 @@
+Infinite Heaven features
+========================
+
+YouTube playlist demonstrating many features
+[url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
+
+All options in Infinite Heaven start set to game defaults and can be adjusted in the Infinite Heaven menus.
+
+Discrete features
+=================
+
+Quick menu commands.
+(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
+Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
+
+Settings save file.
+IH writes its settings to ih_save.lua in the MGS_TPPmodsaves folder.
+While the file is editable, editing an inMission save is likely to cause issues.
+
+Profiles.
+Editable lists of options as an alternative to using the in game IH menu, see the \mod\profiles folder in your MGS_TPP game folder.
+
+Reload lua scripts in MGS_TPP without exiting game.
+Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
+
+IHExt overlay
+IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.
+The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.
+Enable via the IH System menu.
+Source can be found at https://github.com/TinManTex/IHExt/
+
+Menu, Options and Settings
+==========================
+
+Basic terms used in the Infinite Heaven menu:
+[Option] : [Setting(s)] 
+
+Safe-space menu
+---------------
+1: devInAccMenu : DEBUGNOW GetSettingsText no decent output found
+2: IH system menu
+3: Camera menu
+4: Debug menu
+5: Misc menu
+6: Time scale menu
+
+IH system menu
+--------------
+1: Enable IHExt : Off, On
+IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
+2: Enable help text (IHExt) : Off, On
+Shows help text in IHExt for some options.
+3: Give IHExt focus : 0-1
+4: Select profile : No profiles installed
+Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
+5: Set profile options to game defaults : 0-1
+Sets the options described in the selected profile to their default setting.
+6: Save to UserSaved profile : 0-1
+Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
+7: Enable Quick Menu : Off, On
+Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
+8: Reset all IH settings : 0-1
+
+Camera menu
+- Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
+-----------
+1: Adjust-cam [Mode] : Off, On
+  Move cam with normal move keys 
+
+  &ltDash&gt(Shift or Left stick click) to move up
+
+  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
+
+  Hold the following and move left stick up/down to increase/decrease the settings:
+
+  &ltFire&gt - Zoom/focal length
+
+  &ltReload&gt - Aperture (DOF)
+
+  &ltStance&gt - Focus distance (DOF) 
+
+  &ltAction&gt - Cam move speed
+
+  &ltReady weapon&gt - Camera orbit distance
+
+  Or hold &ltBinocular&gt and press the above to reset that setting.
+
+  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
+2: Camera mode : Default, Free cam
+3: Warp body to FreeCam position : 0-1
+4: Cam speed scale : 0.01-10
+5: Disable mode text feedback : Off, On
+6: setStageBlockPositionToFreeCam : 0-1
+7: Show freecam position : 0-1
+
+Debug menu
+----------
+1: Debug IH mode : Off, On
+Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.
+2: debugMessages : Off, On
+Logs game message system, requires Debug IH mode to be on.
+3: debugFlow : Off, On
+Logs some script execution flow, requires Debug IH mode to be on.
+4: debugOnUpdate : Off, On
+5: loadExternalModules : 0-1
+6: copyLogToPrev : 0-1
+7: printPressedButtons : Off, On
+8: Show freecam position : 0-1
+9: Show position : 0-1
+10: Show missionCode : 0-1
+11: Show game language code : 0-1
+13: Disable game over : Off, On
+14: Disable out of bounds checks : Off, On
+16: manualMissionCode : 
+
+Misc menu
+---------
+1: Disable common radio warnings : Off, On
+Disables radio warnings by the AI about your oxygen, health etc status.
+2: Enable gender select : Off, On
+Enables gender select for when using the in-base avatar editor.
+3: Disable game over : Off, On
+4: Disable out of bounds checks : Off, On
+
+Time scale menu
+---------------
+1: Toggle TSM : 0-1
+Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.
+2: TSM length (seconds) : 0-1000
+The time in seconds of the TSM
+3: TSM world time scale : 0-100
+Time scale of the world, including soldiers/vehicles during TSM
+4: TSM player time scale : 0-100
+Time scale of the player during TSM
+5: No screen effect : Off, On
+Does not apply the dust and blur effect while TSM is active.
+6: Clock time scale : 1-10000
+Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
+
+===============
+
+In-mission menu
+---------------
+1: devInMissionMenu : DEBUGNOW GetSettingsText no decent output found
+2: Camera menu
+3: Debug stuff menu
+4: Misc menu
+5: Positions menu
+6: Time scale menu
+7: User marker menu
+8: dustControllerMenu
+9: gearMenu
+
+Camera menu
+- Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
+-----------
+1: Adjust-cam [Mode] : Off, On
+  Move cam with normal move keys 
+
+  &ltDash&gt(Shift or Left stick click) to move up
+
+  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
+
+  Hold the following and move left stick up/down to increase/decrease the settings:
+
+  &ltFire&gt - Zoom/focal length
+
+  &ltReload&gt - Aperture (DOF)
+
+  &ltStance&gt - Focus distance (DOF) 
+
+  &ltAction&gt - Cam move speed
+
+  &ltReady weapon&gt - Camera orbit distance
+
+  Or hold &ltBinocular&gt and press the above to reset that setting.
+
+  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
+2: Camera mode : Default, Free cam
+3: Warp body to FreeCam position : 0-1
+4: Cam speed scale : 0.01-10
+5: Disable mode text feedback : Off, On
+6: setStageBlockPositionToFreeCam : 0-1
+7: Show freecam position : 0-1
+
+Debug stuff menu
+----------------
+1: Debug IH mode : Off, On
+Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.
+2: debugMessages : Off, On
+Logs game message system, requires Debug IH mode to be on.
+3: debugFlow : Off, On
+Logs some script execution flow, requires Debug IH mode to be on.
+4: debugOnUpdate : Off, On
+5: loadExternalModules : 0-1
+6: copyLogToPrev : 0-1
+7: printPressedButtons : Off, On
+8: printOnBlockChange : Off, On
+9: Disable game over : Off, On
+10: Disable out of bounds checks : Off, On
+11: resetStageBlockPosition : 0-1
+12: setStageBlockPositionToMarkerClosest : 0-1
+13: setStageBlockPositionToFreeCam : 0-1
+14: Show freecam position : 0-1
+15: Show position : 0-1
+16: checkPointSave : 0-1
+
+Misc menu
+---------
+1: Enable minimap : Off, On
+2: Disable common radio warnings : Off, On
+Disables radio warnings by the AI about your oxygen, health etc status.
+3: Enable gender select : Off, On
+Enables gender select for when using the in-base avatar editor.
+4: Disable game over : Off, On
+5: Disable out of bounds checks : Off, On
+
+Positions menu
+- For adding positions in the game to a Positions List, and writing them to files.
+--------------
+1: Add current position to Positions List : 0-1
+Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.
+2: Add markers to Positions List : 0-1
+Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+3: Write Positions List : 0-1
+Writes Positions List to files in MGS_TPP\mod\
+4: Clear Positions List : 0-1
+Clears Positions List
+
+Time scale menu
+---------------
+1: Toggle TSM : 0-1
+Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.
+2: TSM length (seconds) : 0-1000
+The time in seconds of the TSM
+3: TSM world time scale : 0-100
+Time scale of the world, including soldiers/vehicles during TSM
+4: TSM player time scale : 0-100
+Time scale of the player during TSM
+5: No screen effect : Off, On
+Does not apply the dust and blur effect while TSM is active.
+6: Clock time scale : 1-10000
+Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
+
+User marker menu
+----------------
+1: Warp to latest marker : 0-1
+2: Print latest marker : 0-1
+3: Print all markers : 0-1
+4: Add markers to Positions List : 0-1
+Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+5: Write Positions List : 0-1
+Writes Positions List to files in MGS_TPP\mod\
+6: Clear Positions List : 0-1
+Clears Positions List
+
+dustControllerMenu
+- WIP alternate to games FogWallController
+------------------
+1: dust_enableController : Off, On
+2: dust_requireOxygenMask : Off, On
+3: dust_wallVisible : Off, On
+4: dust_forceWeather : NONE, FOGGY, SUNNY, RAINY, SANDSTORM
+5: dust_fogDensity : 0-1
+6: dust_fogType : NORMAL, PARASITE, EERIE
+
+gearMenu
+- WIP changing gear parts directly
+--------
+1: gear_Helmet : 0-1
+2: gear_Arm : 0-1
+3: gear_UpperBody : 0-1
+4: gear_LowerBody : 0-1
+5: gear_Inner : 0-1

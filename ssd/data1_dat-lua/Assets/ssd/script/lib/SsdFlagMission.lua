@@ -413,13 +413,13 @@ function this.OnSubScriptMessage(r,s,l,i,n,a,t)
 end
 function this.OnDeactivate(e)
 end
-function this.InitializePackList(a)
+function this.InitializePackList(locationName)
   mvars.loadedInfoList={}
   local n={}
-  local e=SsdMissionList.FLAG_MISSION_LIST
-  for t=1,#e do
-    local e=e[t]
-    if e.location==a then
+  local FLAG_MISSION_LIST=SsdMissionList.FLAG_MISSION_LIST
+  for i=1,#FLAG_MISSION_LIST do
+    local e=FLAG_MISSION_LIST[i]
+    if e.location==locationName then
       n[e.name]={}
       table.insert(mvars.loadedInfoList,e)
       table.insert(n[e.name],e.pack)

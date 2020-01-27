@@ -10,46 +10,85 @@ local u=DemoDaemon.GetPlayingDemoId
 this.MOVET_TO_POSITION_RESULT={[o"success"]="success",[o"failure"]="failure",[o"timeout"]="timeout"}
 this.messageExecTable={}
 function this.Messages()
-  return Tpp.StrCode32Table{Player={{msg="DemoSkipped",func=this.OnDemoSkipAndBlockLoadEnd,option={isExecDemoPlaying=true,isExecMissionClear=true,isExecGameOver=true}},{msg="DemoSkipStart",func=this.EnableWaitBlockLoadOnDemoSkip,option={isExecDemoPlaying=true,isExecMissionClear=true,isExecGameOver=true}},{msg="FinishInterpCameraToDemo",func=this.OnEndGameCameraInterp,option={isExecMissionClear=true,isExecGameOver=true}},{msg="FinishMovingToPosition",sender="DemoStartMoveToPosition",func=function(a,n)
-    local e=this.MOVET_TO_POSITION_RESULT[n]
-    mvars.dem_waitingMoveToPosition=nil
-  end,option={isExecMissionClear=true,isExecGameOver=true}}},Demo={{msg="PlayInit",func=this._OnDemoInit,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},{msg="Play",func=this._OnDemoPlay,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},{msg="Finish",func=this._OnDemoEnd,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},{msg="Interrupt",func=this._OnDemoInterrupt,option={isExecMissionClear=true,isExecDemoPlaying=true}},{msg="Skip",func=this._OnDemoSkip,option={isExecMissionClear=true,isExecDemoPlaying=true}},{msg="Disable",func=this._OnDemoDisable},{msg="StartMissionTelop",func=function()
-    if mvars.dm_doneStartMissionTelop then
-      return
-    end
-    local e=TppMission.GetNextMissionCodeForMissionClear()
-    TppUI.StartMissionTelop(e)
-    mvars.dm_doneStartMissionTelop=true
-  end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="StartCastTelopLeft",func=function()
-    TppTelop.StartCastTelop"LEFT_START"end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="StartCastTelopRight",func=function()
-    TppTelop.StartCastTelop"RIGHT_START"end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="afgh_base_AI_ON",func=function()afgh_base.SetAiVisibility(true)
-      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="afgh_base_AI_OFF",func=function()afgh_base.SetAiVisibility(false)
-      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="afgh_base_Digger_ON",func=function()afgh_base.SetDiggerVisibility(true)
-        end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="afgh_base_Digger_OFF",func=function()afgh_base.SetDiggerVisibility(false)
-        end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="mafr_base_AI_ON",func=function()mafr_base.SetAiVisibility(true)
-          end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="mafr_base_AI_OFF",func=function()mafr_base.SetAiVisibility(false)
-          end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="mafr_factory_jungle_asset_on",func=function()mafr_base.SetFactoryAssetVisibility("p40_000010_after_ON_before_OFF",true)
-            end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="mafr_factory_jungle_asset_off",func=function()mafr_base.SetFactoryAssetVisibility("p40_000010_after_ON_before_OFF",false)
-            end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="ShowDefenseGameWormhole",func=function()
-              local e=TppMission.GetInitialWaveName()
-              TppEnemy.EnableWaveSpawnPointEffect(e)Mission.EnableWaveEffect()
-            end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="RescueDemo_voiceStart",func=function()
-              local e=GameObject.SendCommand({type="SsdCrew"},{id="GetRescuedCrew"})
-              if not e then
-                return
-              end
-              local n=GameObject.SendCommand(e,{id="GetCrewType"})
-              if n~=CrewType.UNIQUE_SETH then
-                GameObject.SendCommand(e,{id="SetDemoVoice",voiceId="POWV_0050"})
-              end
-            end,option={isExecDemoPlaying=true,isExecMissionClear=true}},{msg="RescueDemo_facialStart",func=function()
-              local e=GameObject.SendCommand({type="SsdCrew"},{id="GetRescuedCrew"})
-              if e then
-                GameObject.SendCommand(e,{id="SetDemoFacial",facialId="rescue_demo"})
-              end
-            end,option={isExecDemoPlaying=true,isExecMissionClear=true}}},UI={{msg="EndFadeOut",sender="DemoPlayFadeIn",func=function(n,e)
-    local e=mvars.dem_invScdDemolist[e]
-            end,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},{msg="DemoPauseSkip",func=this.FadeOutOnSkip,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}}}}
+  return Tpp.StrCode32Table{
+    Player={
+      {msg="DemoSkipped",func=this.OnDemoSkipAndBlockLoadEnd,option={isExecDemoPlaying=true,isExecMissionClear=true,isExecGameOver=true}},
+      {msg="DemoSkipStart",func=this.EnableWaitBlockLoadOnDemoSkip,option={isExecDemoPlaying=true,isExecMissionClear=true,isExecGameOver=true}},
+      {msg="FinishInterpCameraToDemo",func=this.OnEndGameCameraInterp,option={isExecMissionClear=true,isExecGameOver=true}},
+      {msg="FinishMovingToPosition",sender="DemoStartMoveToPosition",func=function(a,n)
+        local e=this.MOVET_TO_POSITION_RESULT[n]
+        mvars.dem_waitingMoveToPosition=nil
+      end,option={isExecMissionClear=true,isExecGameOver=true}}},
+    Demo={
+      {msg="PlayInit",func=this._OnDemoInit,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
+      {msg="Play",func=this._OnDemoPlay,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
+      {msg="Finish",func=this._OnDemoEnd,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
+      {msg="Interrupt",func=this._OnDemoInterrupt,option={isExecMissionClear=true,isExecDemoPlaying=true}},
+      {msg="Skip",func=this._OnDemoSkip,option={isExecMissionClear=true,isExecDemoPlaying=true}},
+      {msg="Disable",func=this._OnDemoDisable},
+      {msg="StartMissionTelop",func=function()
+        if mvars.dm_doneStartMissionTelop then
+          return
+        end
+        local e=TppMission.GetNextMissionCodeForMissionClear()
+        TppUI.StartMissionTelop(e)
+        mvars.dm_doneStartMissionTelop=true
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="StartCastTelopLeft",func=function()
+        TppTelop.StartCastTelop"LEFT_START"end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="StartCastTelopRight",func=function()
+        TppTelop.StartCastTelop"RIGHT_START"end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="afgh_base_AI_ON",func=function()
+        afgh_base.SetAiVisibility(true)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="afgh_base_AI_OFF",func=function()
+        afgh_base.SetAiVisibility(false)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="afgh_base_Digger_ON",func=function()
+        afgh_base.SetDiggerVisibility(true)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="afgh_base_Digger_OFF",func=function()
+        afgh_base.SetDiggerVisibility(false)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="mafr_base_AI_ON",func=function()
+        mafr_base.SetAiVisibility(true)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="mafr_base_AI_OFF",func=function()
+        mafr_base.SetAiVisibility(false)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="mafr_factory_jungle_asset_on",func=function()
+        mafr_base.SetFactoryAssetVisibility("p40_000010_after_ON_before_OFF",true)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="mafr_factory_jungle_asset_off",func=function()
+        mafr_base.SetFactoryAssetVisibility("p40_000010_after_ON_before_OFF",false)
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="ShowDefenseGameWormhole",func=function()
+        local e=TppMission.GetInitialWaveName()
+        TppEnemy.EnableWaveSpawnPointEffect(e)
+        Mission.EnableWaveEffect()
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="RescueDemo_voiceStart",func=function()
+        local e=GameObject.SendCommand({type="SsdCrew"},{id="GetRescuedCrew"})
+        if not e then
+          return
+        end
+        local n=GameObject.SendCommand(e,{id="GetCrewType"})
+        if n~=CrewType.UNIQUE_SETH then
+          GameObject.SendCommand(e,{id="SetDemoVoice",voiceId="POWV_0050"})
+        end
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="RescueDemo_facialStart",func=function()
+        local e=GameObject.SendCommand({type="SsdCrew"},{id="GetRescuedCrew"})
+        if e then
+          GameObject.SendCommand(e,{id="SetDemoFacial",facialId="rescue_demo"})
+        end
+      end,option={isExecDemoPlaying=true,isExecMissionClear=true}}},
+    UI={
+      {msg="EndFadeOut",sender="DemoPlayFadeIn",func=function(n,e)
+        local e=mvars.dem_invScdDemolist[e]
+      end,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
+      {msg="DemoPauseSkip",func=this.FadeOutOnSkip,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}}}
+  }
 end
 this.PLAY_REQUEST_START_FUNC={missionStateCheck=function(n,e)
   local n=e.isExecMissionClear
@@ -1040,7 +1079,8 @@ function this.GetPlayerVoiceSoundEventName()
   local e={[PlayerType.AVATAR_MALE]={"Set_State_ply_ma","Set_State_ply_mb","Set_State_ply_mc","Set_State_ply_md"},[PlayerType.AVATAR_FEMALE]={"Set_State_ply_fa","Set_State_ply_fb","Set_State_ply_fc","Set_State_ply_fd"}}
   local e=e[vars.playerType]
   if not e then
-    return"player_ma"end
+    return"player_ma"
+  end
   local n=e[vars.avatarVoiceIndex+1]
   if not n then
     return e[1]

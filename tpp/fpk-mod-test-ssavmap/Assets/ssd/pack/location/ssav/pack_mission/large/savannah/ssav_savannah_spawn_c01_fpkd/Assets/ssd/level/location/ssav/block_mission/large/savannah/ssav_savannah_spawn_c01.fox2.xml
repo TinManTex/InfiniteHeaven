@@ -1,0 +1,1687 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppCombatLocatorSetData" super="" version="1" />
+    <class name="TppCombatLocatorData" super="" version="5" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x02D74AE0" unknown1="304" unknown2="313645">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="27">
+          <value key="TppCombatLocatorSetData0000">0x02D74B50</value>
+          <value key="SpawnPoint_01_00_0000">0x02D74D10</value>
+          <value key="SpawnPoint_01_04_0000">0x02D76F30</value>
+          <value key="SpawnPoint_02_00_0000">0x02D7C1E0</value>
+          <value key="SpawnPoint_02_00_0001">0x02D7C3A0</value>
+          <value key="SpawnPoint_02_01_0000">0x02FD44C0</value>
+          <value key="SpawnPoint_02_02_0000">0x02FD4680</value>
+          <value key="SpawnPoint_02_03_0000">0x02FD4840</value>
+          <value key="SpawnPoint_02_04_0000">0x02FD4A00</value>
+          <value key="SpawnPoint_02_03_0001">0x02FD4BC0</value>
+          <value key="SpawnPoint_02_05_0000">0x02FDD750</value>
+          <value key="SpawnPoint_02_06_0000">0x02FDD910</value>
+          <value key="SpawnPoint_03_01_0000">0x044C1350</value>
+          <value key="SpawnPoint_03_02_0000">0x044C1510</value>
+          <value key="SpawnPoint_03_03_0000">0x044C16D0</value>
+          <value key="SpawnPoint_03_04_0000">0x044C1890</value>
+          <value key="SpawnPoint_03_05_0000">0x044C1A50</value>
+          <value key="SpawnPoint_03_00_0000">0x044C1C10</value>
+          <value key="SpawnPoint_03_06_0000">0x044C1DD0</value>
+          <value key="SpawnPoint_03_00_0001">0x044CE630</value>
+          <value key="SpawnPoint_01_00_0001">0x04638EB0</value>
+          <value key="SpawnPoint_01_01_0000">0x04639070</value>
+          <value key="SpawnPoint_01_02_0000">0x04639230</value>
+          <value key="SpawnPoint_01_03_0000">0x046393F0</value>
+          <value key="SpawnPoint_01_05_0000">0x046395B0</value>
+          <value key="SpawnPoint_01_06_0000">0x04639770</value>
+          <value key="TexturePackLoadConditioner0000">0x045628C0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorSetData" classVersion="1" addr="0x02D74B50" unknown1="144" unknown2="313647">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppCombatLocatorSetData0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="locators" type="EntityLink" container="DynamicArray" arraySize="25">
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_00_0000">0x02D7C1E0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_00_0001">0x02D7C3A0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_01_0000">0x02FD44C0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_02_0000">0x02FD4680</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_03_0000">0x02FD4840</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_03_0001">0x02FD4BC0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_04_0000">0x02FD4A00</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_05_0000">0x02FDD750</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_02_06_0000">0x02FDD910</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_00_0000">0x044C1C10</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_01_0000">0x044C1350</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_02_0000">0x044C1510</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_03_0000">0x044C16D0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_04_0000">0x044C1890</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_05_0000">0x044C1A50</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_06_0000">0x044C1DD0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_03_00_0001">0x044CE630</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_00_0000">0x02D74D10</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_00_0001">0x04638EB0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_01_0000">0x04639070</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_02_0000">0x04639230</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_03_0000">0x046393F0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_04_0000">0x02D76F30</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_05_0000">0x046395B0</value>
+          <value packagePath="" archivePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_spawn_c01.fox2" nameInArchive="SpawnPoint_01_06_0000">0x04639770</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02D74D10" unknown1="336" unknown2="313746">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_00_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02D74D80</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02D74D80" unknown1="112" unknown2="313749">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74D10</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.019264" y="-0" z="0.013181" w="0.999728" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="877.085938" y="6.695827" z="-192.023483" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02D76F30" unknown1="336" unknown2="313921">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_04_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02D76FA0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02D76FA0" unknown1="112" unknown2="313924">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D76F30</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="944.5812" y="16.1267071" z="-164.722748" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02D7C1E0" unknown1="336" unknown2="314341">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_00_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02D7C250</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02D7C250" unknown1="112" unknown2="314344">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D7C1E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="969.8505" y="6.509518" z="-333.692657" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02D7C3A0" unknown1="336" unknown2="314350">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_00_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02D7C410</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02D7C410" unknown1="112" unknown2="314353">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D7C3A0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="961.525452" y="6.32114" z="-332.870819" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FD44C0" unknown1="336" unknown2="315020">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_01_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FD4530</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FD4530" unknown1="112" unknown2="315023">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FD44C0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1011.96442" y="19.5650234" z="-313.3263" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FD4680" unknown1="336" unknown2="315029">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_02_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FD46F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FD46F0" unknown1="112" unknown2="315032">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FD4680</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="959.762939" y="20.242569" z="-296.1228" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FD4840" unknown1="336" unknown2="315038">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_03_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FD48B0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FD48B0" unknown1="112" unknown2="315041">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FD4840</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="901.2602" y="6.905052" z="-294.709167" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FD4A00" unknown1="336" unknown2="315047">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_04_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FD4A70</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FD4A70" unknown1="112" unknown2="315050">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FD4A00</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="934.776855" y="19.0270538" z="-300.650726" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FD4BC0" unknown1="336" unknown2="315056">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_03_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FD4C30</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FD4C30" unknown1="112" unknown2="315059">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FD4BC0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="894.2638" y="6.671898" z="-287.239563" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FDD750" unknown1="336" unknown2="315786">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_05_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FDD7C0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FDD7C0" unknown1="112" unknown2="315789">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FDD750</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="884.7579" y="9.275467" z="-248.149719" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x02FDD910" unknown1="336" unknown2="315795">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_02_06_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x02FDD980</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x02FDD980" unknown1="112" unknown2="315798">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02FDD910</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="935.0356" y="17.9020653" z="-235.757172" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C1350" unknown1="336" unknown2="316100">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_01_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C13C0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C13C0" unknown1="112" unknown2="316103">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C1350</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="960.1557" y="11.1345835" z="-85.67663" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C1510" unknown1="336" unknown2="316109">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_02_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C1580</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C1580" unknown1="112" unknown2="316112">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C1510</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="937.589661" y="14.2385654" z="-139.95401" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C16D0" unknown1="336" unknown2="316118">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_03_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C1740</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C1740" unknown1="112" unknown2="316121">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C16D0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1050.44714" y="25.29551" z="-125.095238" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C1890" unknown1="336" unknown2="316127">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_04_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C1900</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C1900" unknown1="112" unknown2="316130">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C1890</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1044.8374" y="29.20736" z="-158.1215" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C1A50" unknown1="336" unknown2="316136">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_05_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C1AC0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C1AC0" unknown1="112" unknown2="316139">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C1A50</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1078.978" y="30.15451" z="-157.871582" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C1C10" unknown1="336" unknown2="316145">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_00_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C1C80</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C1C80" unknown1="112" unknown2="316148">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C1C10</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1007.651" y="16.9672165" z="-90.21058" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044C1DD0" unknown1="336" unknown2="316154">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_06_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044C1E40</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044C1E40" unknown1="112" unknown2="316157">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044C1DD0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1066.564" y="33.778862" z="-207.703934" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x044CE630" unknown1="336" unknown2="317199">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_03_00_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x044CE6A0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x044CE6A0" unknown1="112" unknown2="317202">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x044CE630</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1020.74213" y="18.5105743" z="-96.4087" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x04638EB0" unknown1="336" unknown2="319407">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_00_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x04638F20</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x04638F20" unknown1="112" unknown2="319410">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x04638EB0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.032878" y="-0" z="0.104616" w="0.993969" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="895.1352" y="8.174297" z="-151.766266" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x04639070" unknown1="336" unknown2="319416">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_01_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x046390E0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x046390E0" unknown1="112" unknown2="319419">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x04639070</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="911.838745" y="8.66224" z="-116.579231" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x04639230" unknown1="336" unknown2="319425">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_02_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x046392A0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x046392A0" unknown1="112" unknown2="319428">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x04639230</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="926.864258" y="13.5293922" z="-182.35289" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x046393F0" unknown1="336" unknown2="319434">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_03_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x04639460</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x04639460" unknown1="112" unknown2="319437">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046393F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="945.589539" y="8.671814" z="-104.531204" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x046395B0" unknown1="336" unknown2="319443">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_05_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x04639620</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x04639620" unknown1="112" unknown2="319446">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046395B0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="868.489136" y="6.124352" z="-215.983566" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCombatLocatorData" classVersion="5" addr="0x04639770" unknown1="336" unknown2="319452">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SpawnPoint_01_06_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x046397E0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>2.5</value>
+        </property>
+        <property name="lostSearchRadius" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="isUseWaitPrioirty" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isReinforcePoint" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="memberCount" type="uint8" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="memberCountFront" type="uint8" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="subLocators" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x046397E0" unknown1="112" unknown2="319455">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x04639770</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.17279" z="0" w="0.984959" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="914.226563" y="13.5378838" z="-201.723633" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x045628C0" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D74AE0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

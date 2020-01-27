@@ -1,0 +1,98 @@
+{
+	"Name" : "rt_uav_1",
+	"Nodes" : [
+		{
+			"Position": {"X": 1024.365,"Y": -11.038,"Z": 1572.486},
+			"EdgeEvent" : {
+				"EventType" : "RelaxedWalk",
+	            "Param1": 0,
+	            "Param2": 0,
+	            "Param3": 0,
+	            "Param4": 0,
+	            "Param5": 0,
+	            "Param6": 0,
+	            "Param7": 0,
+	            "Param8": 0,
+	            "Param9": 0,
+	            "Param10": 0,
+			},
+			"Events" : [
+				{
+					"EventType" : "RelaxedWalk",
+		            "Param1": 0,
+		            "Param2": 0,
+		            "Param3": 0,
+		            "Param4": 0,
+		            "Param5": 0,
+		            "Param6": 0,
+		            "Param7": 0,
+		            "Param8": 0,
+		            "Param9": 0,
+		            "Param10": 0,		
+				},
+			]
+		},
+		{
+			"Position": {"X": 1024.365,"Y": -11.038,"Z": 1572.486},
+			"EdgeEvent" : {
+				"EventType" : "RelaxedWalk",
+	            "Param1": 0,
+	            "Param2": 0,
+	            "Param3": 0,
+	            "Param4": 0,
+	            "Param5": 0,
+	            "Param6": 0,
+	            "Param7": 0,
+	            "Param8": 0,
+	            "Param9": 0,
+	            "Param10": 0,
+			},
+			"Events" : [
+				{
+					"EventType" : "RelaxedWalk",
+		            "Param1": 0,
+		            "Param2": 0,
+		            "Param3": 0,
+		            "Param4": 0,
+		            "Param5": 0,
+		            "Param6": 0,
+		            "Param7": 0,
+		            "Param8": 0,
+		            "Param9": 0,
+		            "Param10": 0,		
+				},
+			]
+		},
+		{
+			"Position": {"X": 1024.365,"Y": -11.038,"Z": 1572.486},
+			"EdgeEvent" : {
+				"EventType" : "RelaxedWalk",
+	            "Param1": 0,
+	            "Param2": 0,
+	            "Param3": 0,
+	            "Param4": 0,
+	            "Param5": 0,
+	            "Param6": 0,
+	            "Param7": 0,
+	            "Param8": 0,
+	            "Param9": 0,
+	            "Param10": 0,
+			},
+			"Events" : [
+				{
+					"EventType" : "RelaxedWalk",
+		            "Param1": 0,
+		            "Param2": 0,
+		            "Param3": 0,
+		            "Param4": 0,
+		            "Param5": 0,
+		            "Param6": 0,
+		            "Param7": 0,
+		            "Param8": 0,
+		            "Param9": 0,
+		            "Param10": 0,		
+				},
+			]
+		},
+	]
+}

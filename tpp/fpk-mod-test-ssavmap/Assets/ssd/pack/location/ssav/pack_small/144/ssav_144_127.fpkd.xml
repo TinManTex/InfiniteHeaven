@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_144_127.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_trap.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_terrain.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_path.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_objBrush.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_nav.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_light.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_gimmick.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_effect.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_coverPoint.fox2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/144/144_127/ssav_144_127_asset.fox2" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/middle_africa/watchtower/mafr_wtct002/mafr_wtct002_vrtn002.parts" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/afghanistan/radio/afgh_radi001/afgh_radi001_csst001.parts" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrcom00_s0LG.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/break/fx_ssd_brkuntwct01_s6.vfx" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/middle_africa/watchtower/mafr_wtct002/mafr_wtct002_vrtn002.tgt" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/afghanistan/radio/afgh_radi001/afgh_radi001.tgt" />
+    <Entry FilePath="/Assets/tpp/parts/environ/object/afghanistan/radio/afgh_radi001/afgh_radi001.ph" />
+    <Entry FilePath="/Assets/tpp/level_asset/trap/exec/TppTrapExecChangeCamera.lua" />
+  </Entries>
+  <References />
+</ArchiveFile>

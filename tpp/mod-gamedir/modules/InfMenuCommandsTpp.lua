@@ -1,6 +1,11 @@
 -- InfMenuCommandsTpp.lua
 local this={}
 
+local SendCommand=GameObject.SendCommand
+local NULL_ID=GameObject.NULL_ID
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndex=GameObject.GetTypeIndex
+
 this.ShowMbEquipGrade=function()
   local soldierGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   local infGrade = InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()
@@ -20,13 +25,13 @@ this.SetDemon=function()
   --TppMotherBaseManagement.SetOgrePoint{ogrePoint=99999999}
 
   TppHero.SetOgrePoint(this.ogrePointChange)
-  InfMenu.Print("-"..this.ogrePointChange .. InfMenu.LangString"set_demon")
+  InfMenu.Print("-"..this.ogrePointChange .. InfLangProc.LangString"set_demon")
 end
 this.RemoveDemon=function()
   --TppMotherBaseManagement.SetOgrePoint{ogrePoint=1}
   --TppMotherBaseManagement.SubOgrePoint{ogrePoint=-999999999}
   TppHero.SetOgrePoint(-this.ogrePointChange)
-  InfMenu.Print(this.ogrePointChange .. InfMenu.LangString"removed_demon")
+  InfMenu.Print(this.ogrePointChange .. InfLangProc.LangString"removed_demon")
 end
 
 this.ReturnQuiet=function()
@@ -120,10 +125,10 @@ end
 this.PrintFultonSuccessBonus=function()
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
   local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
-  InfMenu.Print(InfMenu.LangString"fulton_mb_support"..":"..mbSectionSuccess)
+  InfMenu.Print(InfLangProc.LangString"fulton_mb_support"..":"..mbSectionSuccess)
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
   local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
-  InfMenu.Print(InfMenu.LangString"fulton_mb_medical"..":"..mbSectionSuccess)
+  InfMenu.Print(InfLangProc.LangString"fulton_mb_medical"..":"..mbSectionSuccess)
 end
 
 this.PrintBodyInfo=function()
@@ -373,7 +378,7 @@ InfMenuCommands.quietMoveToLastMarker={
 }
 function this.QuietMoveToLastMarker()
   if vars.buddyType~=BuddyType.QUIET then
-    InfMenu.Print(InfMenu.LangString"current_buddy_not"..InfMenu.LangString"buddy_quiet")
+    InfMenu.Print(InfLangProc.LangString"current_buddy_not"..InfLangProc.LangString"buddy_quiet")
     return
   end
 

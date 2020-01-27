@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_143_127.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/sound/ambient/mafr/mafr_143_127.adm" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_terrain_fox2_win.ftdp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_gimmick_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_gimmick_fox2_grxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_light_fox2_tgrxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_terrain.htre" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/cypr_cabl002_vrtn001_scl.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/cypr_utpl001_vrtn001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/gntn_srlg001_gm.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/hw01_tpod0_def.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/ssav_brrc001_vrtn001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/ssav_lght002.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/ssav_tent001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/lba/ssav_wtct002_vrtn001.lba" />
+    <Entry FilePath="/Assets/tpp/level/location/mafr/block_small/143/143_127/lba/mafr_wtct002_vrtn002.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_light.lpsh" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_nav.nav2" />
+    <Entry FilePath="/Assets/ssd/pack/location/ssav/pack_small/143/ssav_143_127_0.tcvp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_asset_fox2_geotrap_win.trap" />
+    <Entry FilePath="/Assets/ssd/environ/object/ssd_base/barricade/ssde_brrc001/scenes/ssde_brrc001_rbbl003.fmdl" />
+    <Entry FilePath="/Assets/ssd/environ/object/ssd_base/rubble/ssde_rbbl005/scenes/ssde_rbbl005_prst001.fmdl" />
+    <Entry FilePath="/Assets/ssd/environ/object/ssd_base/rubble/ssde_rbbl005/scenes/ssde_rbbl005_prst002.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/tank/mafr_tank005/scenes/mafr_tank005_dbri001.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/watchtower/mafr_wtct002/scenes/mafr_wtct002_vrtn002.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/watchtower/mafr_wtct002/scenes/mafr_wtct002_vrtn002.geom" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/watchtower/mafr_wtct002/scenes/mafr_wtct002_vrtn002.fcnp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_127/ssav_143_127_objBrush.obrb" />
+  </Entries>
+  <References>
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk" />
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_extraLarge/ssav_north.fpk" />
+  </References>
+</ArchiveFile>

@@ -68,8 +68,8 @@ this.debugMode={
   range=Ivars.switchRange,
   settingNames="set_switch",
   -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
-  allowFob=true,
-  OnChange=function(self,prevStting,setting)
+  allowOnline=true,
+  OnChange=function(self,setting)
     InfMain.DebugModeEnable(setting==1)
   end,
 }
@@ -96,7 +96,7 @@ this.debugOnUpdate={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevStting,setting)
+  OnChange=function(self,setting)
     InfCore.debugOnUpdate=setting==1
   end,
 }
@@ -119,7 +119,7 @@ this.enableIHExt={
       end
     end
   end,
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     if setting==1 then
       --tex extSession 0 should catch this without
       --      if not InfCore.IHExtInstalled() then
@@ -144,6 +144,17 @@ this.enableHelp={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+  OnChange=function(self,setting)
+    InfCore.ExtCmd("UiElementVisible","menuHelp",setting)--tex TODO: shouldnt be nessesary, DisplayCurrentSetting should handle it DEBUGNOW
+      InfMenu.DisplayCurrentSetting()
+  end,
+}
+
+this.sys_increaseMemoryAlloc={--DEBUGNOW
+  nonConfig=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
 }
 
 this.printPressedButtons={
@@ -158,15 +169,12 @@ this.printOnBlockChange={
   settingNames="set_switch",
 }
 
---motherbase>
-
-
 --patchup
 this.langOverride={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
-  allowFob=true,
+  allowOnline=true,
 }
 
 this.startOffline={
@@ -186,222 +194,6 @@ this.enableQuickMenu={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-}
---
-this.manualMissionCode={
-  inMission=true,
-  --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={
-    --LOC,TYPE,Notes
-    --    "1",--INIT
-    --    "5",--TITLE
-    --storyMissions
-    "10010",--CYPR
-    "10020",
-    "10030",
-    "10036",
-    "10043",
-    "10033",
-    "10040",
-    "10041",
-    "10044",
-    "10052",
-    "10054",
-    "10050",
-    "10070",
-    "10080",
-    "10086",
-    "10082",
-    "10090",
-    "10195",
-    "10091",
-    "10100",
-    "10110",
-    "10121",
-    "10115",
-    "10120",
-    "10085",
-    "10200",
-    "10211",
-    "10081",
-    "10130",
-    "10140",
-    "10150",
-    "10151",
-    "10045",
-    "10156",
-    "10093",
-    "10171",
-    "10240",
-    "10260",
-    "10280",--CYPR
-    --hard missions
-    "11043",
-    "11041",--missingno
-    "11054",
-    "11085",--missingno
-    "11082",
-    "11090",
-    "11036",--missingno
-    "11033",
-    "11050",
-    "11091",--missingno
-    "11195",--missingno
-    "11211",--missingno
-    "11140",
-    "11200",--missingno
-    "11080",
-    "11171",--missingno
-    "11121",
-    "11115",--missingno
-    "11130",
-    "11044",
-    "11052",--missingno
-    "11151",
-    --
-    --"10230",--FLYK,missing completely, chap 3, no load
-    --in PLAY_DEMO_END_MISSION, no other refs
-    --    "11070",
-    --    "11100",
-    --    "11110",
-    --    "11150",
-    --    "11240",
-    --    "11260",
-    --    "11280",
-    --    "11230",
-    --free mission
-    "30010",--AFGH,FREE
-    "30020",--MAFR,FREE
-    "30050",--MTBS,FREE
-    "30150",--MTBS,MTBS_ZOO,FREE
-    "30250",--MBQF,MBTS_WARD,FREE
-    --heli space
-    "40010",--AFGH,AFGH_HELI,HLSP
-    "40020",--MAFR,MAFR_HELI,HLSP
-    "40050",--MTBS
-  --"40060",--HLSP,HELI_SPACE,--no load
-  --online
-  --"50050",--MTBS,FOB
-  --select??
-  --"60000",--SELECT --6e4
-  --show demonstrations (not demos lol)
-  --    "65020",--AFGH,e3_2014
-  --    "65030",--MTBS,e3_2014
-  --    "65050",--MAFR??,e3_2014
-  --    "65060",--MAFR,tgs_2014
-  --    "65414",--gc_2014
-  --    "65415",--tgs_2014
-  --    "65416",--tgs_2014
-  },
-  OnActivate=function(self,setting)
-    local settingStr=self.settings[setting+1]
-    local missionCode=tonumber(settingStr)
-    InfCore.Log("manualMissionCode "..settingStr)
-
-    local loadDirect=false
-
-    --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
-    --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    if loadDirect then
-      gvars.mis_nextMissionCodeForMissionClear=missionCode
-      mvars.mis_showLoadingTipsOnMissionFinalize=false
-      --mvars.heli_missionStartRoute
-      --mvars.mis_nextLayoutCode
-      --mvars.mis_nextClusterId
-      --mvars.mis_ignoreMtbsLoadLocationForce
-
-      TppMission.ExecuteMissionFinalize()
-    else
-      TppMission.ReserveMissionClear{
-        missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,
-        nextMissionId=missionCode,
-      }
-    end
-  end,
-}
-
---AFGH={10020,10033,10034,10036,10040,10041,10043,10044,10045,10050,10052,10054,10060,10070,10150,10151,10153,10156,10164,10199,10260,,,
---11036,11043,11041,11033,11050,11054,11044,11052,11151},
---MAFR={10080,10081,10082,10085,10086,10090,10091,10093,10100,10110,10120,10121,10130,10140,10154,10160,10162,10171,10200,10195,10211,,,
---11085,11082,11090,11091,11195,11211,11140,11200,11080,11171,11121,11130},
---MTBS={10030,10115,11115,10240},
-
-this.manualSequence={
-  inMission=true,
-  --save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC
-  OnSelect=function(self)
-    self.settingNames={}
-    --tex also mvars.seq_demoSequneceList (a subset)
-    for sequenceName,enum in pairs(mvars.seq_sequenceNames)do
-      self.settingNames[enum]=sequenceName
-    end
-    --InfCore.PrintInspect(self.settingNames)--DEBUG
-    self.range.max=#self.settingNames-1
-  end,
-  OnActivate=function(self,setting)
-    local settingStr=self.settingNames[setting+1]
-    --InfCore.DebugPrint(tostring(settingStr))--DEBUG
-    TppSequence.SetNextSequence(settingStr)
-  end,
-}
-
-this.loadAddonMission={
-  --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={},
-  OnSelect=function(self)
-    self.settings={}
-    for i,missionCode in pairs(InfMission.missionIds)do
-      self.settings[#self.settings+1]=tostring(missionCode)
-    end
-    self.range.max=#self.settings-1
-    self.settingNames=self.settings
-  end,
-  GetSettingText=function(self,setting)
-    if #self.settings==0 then
-      return "No addon missions installed"--DEBUGNOW TODO langid
-    end
-
-    local settingStr=self.settings[setting+1]
-    local missionCode=tonumber(settingStr)
-    local missionInfo=InfMission.missionInfo[missionCode]
-    if missionInfo then
-      return missionInfo.description or settingStr--DEBUGNOW
-    else
-      return "No missionInfo for "..settingStr --DEBUGNOW TODO langid
-    end
-  end,
-  OnActivate=function(self,setting)
-    if #self.settings==0 then
-      return
-    end
-
-    local settingStr=self.settings[setting+1]
-    local missionCode=tonumber(settingStr)
-    InfCore.Log("manualMissionCode "..settingStr)
-
-    local loadDirect=false
-
-    --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
-    --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    if loadDirect then
-      gvars.mis_nextMissionCodeForMissionClear=missionCode
-      mvars.mis_showLoadingTipsOnMissionFinalize=false
-      --mvars.heli_missionStartRoute
-      --mvars.mis_nextLayoutCode
-      --mvars.mis_nextClusterId
-      --mvars.mis_ignoreMtbsLoadLocationForce
-
-      TppMission.ExecuteMissionFinalize()
-    else
-      TppMission.ReserveMissionClear{
-        missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,
-        nextMissionId=missionCode,
-      }
-    end
-  end,
 }
 
 this.selectedCp={
@@ -598,8 +390,8 @@ this.selectProfile={
   --save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    if Ivars.profiles==nil or self.settings==nil then
-      return InfMenu.LangString"no_profiles_installed"
+    if Ivars.profileNames==nil or #Ivars.profileNames==0 or self.settings==nil then
+      return InfLangProc.LangString"no_profiles_installed"
     else
       local profileName=self.settings[setting+1]
       local profileInfo=Ivars.profiles[profileName]
@@ -735,8 +527,18 @@ this.debugValue={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=400,
   range={max=400,min=0,increment=10},
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     InfCore.Log("debugValue:"..setting)
+  end,
+}
+
+--tex dummy for search
+this.searchItem={
+  inMission=true,
+  range={max=0,min=0},
+  GetSettingText=function()return " " end,
+  OnSelect=function(self)
+    InfCore.ExtCmd("SelectAllText","menuLine")
   end,
 }
 --end ivar defines
@@ -821,13 +623,13 @@ function this.Enum(enumNames)
   return enumTable
 end
 
-local optionType="OPTION"
+local OPTIONTYPE_OPTION="OPTION"
 --build out full definition
 function this.BuildIvar(name,ivar)
   local ivars=ivars
   local IvarProc=IvarProc
   if this.IsIvar(ivar) then
-    ivar.optionType=optionType
+    ivar.optionType=OPTIONTYPE_OPTION
     --ivar.name=ivar.name or name
     ivar.name=name
 
@@ -894,9 +696,9 @@ function this.PostAllModulesLoad()
       for j,name in pairs(module.registerIvars)do
         local ivarDef=module[name]
         if not ivarDef then
-          InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..name.." in "..module.name)
         elseif not this.IsIvar(ivarDef) then
-          InfCore.Log("Ivars.PostAllModulesLoad: WARNING: "..name.." in "..module.name.." is not an Ivar.")
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..name.." in "..module.name.." is not an Ivar.")
         else
           --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
           --tex set them to nonconfig by default so to not trip up AutoDoc
@@ -925,7 +727,7 @@ function this.PostAllModulesLoad()
         for i,ivarName in ipairs(ivarNames)do
           local ivar=this[ivarName]
           if not ivar then
-            InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find missionMode Ivar ".. ivarName.." from "..module.name)
+            InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find missionMode Ivar ".. ivarName.." from "..module.name)
           else
             table.insert(this.missionModeIvars[name],ivar)
           end
@@ -936,21 +738,31 @@ function this.PostAllModulesLoad()
 
   --tex likewise update vars
   local convertIvars={
-    'active',
-    'updateRate',
+    "active",
+    "updateRate",
+    "enableIvars",
   }
   for i,module in ipairs(InfModules) do
     --KLUDGE: just doing in-place conversion, these values where already Ivar or number, so why not string > Ivar fixup lol
-    for i,convertName in ipairs(convertIvars)do
+    for j,convertName in ipairs(convertIvars)do
       if type(module[convertName])=="string" then
         local ivar=Ivars[module[convertName]]
         if not ivar then
-          InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find active Ivar ".. convertName.." from "..module.name)
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find active Ivar ".. convertName.." from "..module.name)
         else
           module[convertName]=ivar
         end
+      elseif type(module[convertName])=="table" then
+        for j,ivarName in ipairs(module[convertName])do
+          local ivar=Ivars[ivarName]
+          if not ivar then
+            InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find active Ivar ".. convertName.." from "..module.name)
+          else
+            module[convertName][j]=ivar
       end
     end
+      end--if string or table
+    end--for convertIvars
   end
 
   if this.debugModule then
@@ -977,7 +789,7 @@ function this.PostAllModulesLoad()
   --tex kill orphaned save values
   for name,value in pairs(evars)do
     if not ivars[name] then
-      InfCore.Log("Ivars.PostAllModulesLoad: WARNING: Could not find ivar for evar "..name)
+      InfCore.Log("WARNING: Ivars.PostAllModulesLoad: Could not find ivar for evar "..name)
       evars[name]=nil
     end
   end

@@ -1,173 +1,228 @@
-local e={}
-local r=60
-local t=60*60
-local i={AFGH={{TppDefine.WEATHER.SUNNY,70},{TppDefine.WEATHER.RAINY,30}},MAFR={{TppDefine.WEATHER.SUNNY,70},{TppDefine.WEATHER.RAINY,30}},AFGH_NO_SANDSTORM={{TppDefine.WEATHER.SUNNY,100}}}
-local s={{TppDefine.WEATHER.SUNNY,5*t,8*t},{TppDefine.WEATHER.CLOUDY,0,0},{TppDefine.WEATHER.SANDSTORM,13*r,20*r},{TppDefine.WEATHER.RAINY,1*t,2*t},{TppDefine.WEATHER.FOGGY,13*r,20*r}}
-local o={AFGH={},MAFR={},AFGH_NO_SANDSTORM={}}
-local n={[TppDefine.WEATHER.SANDSTORM]=true,[TppDefine.WEATHER.FOGGY]=true}
-local a="Script"local T="WeatherSystem"local r=20
-local h=255
-e.DEFENSE_GAME_FOG_DENSITY={START=.05,WAVE=.0175}
-function e.RequestWeather(n,t,i)
-local e,t=e._GetRequestWeatherArgs(t,i)WeatherManager.PauseNewWeatherChangeRandom(true)
-if e==nil then
-e=r
+-- ssd TppWeather.lua
+local this={}
+local minuteInSeconds=60
+local hourInSeconds=60*60
+local weatherProbabilitiesTable={
+  AFGH={
+    {TppDefine.WEATHER.SUNNY,70},
+    {TppDefine.WEATHER.RAINY,30}
+  },
+  MAFR={
+    {TppDefine.WEATHER.SUNNY,70},
+    {TppDefine.WEATHER.RAINY,30}
+  },
+  AFGH_NO_SANDSTORM={
+    {TppDefine.WEATHER.SUNNY,100}
+  }
+}
+local weatherDurations={
+  {TppDefine.WEATHER.SUNNY,5*hourInSeconds,8*hourInSeconds},
+  {TppDefine.WEATHER.CLOUDY,0,0},
+  {TppDefine.WEATHER.SANDSTORM,13*minuteInSeconds,20*minuteInSeconds},
+  {TppDefine.WEATHER.RAINY,1*hourInSeconds,2*hourInSeconds},
+  {TppDefine.WEATHER.FOGGY,13*minuteInSeconds,20*minuteInSeconds}
+}
+local extraWeatherProbabilitiesTable={
+  AFGH={},
+  MAFR={},
+  AFGH_NO_SANDSTORM={}
+}
+local sandStormOrFoggy={[TppDefine.WEATHER.SANDSTORM]=true,[TppDefine.WEATHER.FOGGY]=true}
+local userIdScript="Script"
+local userIdWeather="WeatherSystem"
+local defaultInterpTime=20
+local unkM1NoWeather=255
+this.DEFENSE_GAME_FOG_DENSITY={START=.05,WAVE=.0175}
+function this.RequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
+  WeatherManager.PauseNewWeatherChangeRandom(true)
+  if interpTime==nil then
+    interpTime=defaultInterpTime
+  end
+  WeatherManager.RequestWeather{
+    priority=WeatherManager.REQUEST_PRIORITY_SCRIPT,
+    userId=userIdScript,
+    weatherType=weatherType,
+    interpTime=interpTime,
+    fogDensity=fogInfo.fogDensity,
+    fogType=fogInfo.fogType
+  }
 end
-WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_SCRIPT,userId=a,weatherType=n,interpTime=e,fogDensity=t.fogDensity,fogType=t.fogType}
+function this.CancelRequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
+  WeatherManager.PauseNewWeatherChangeRandom(false)
+  if interpTime==nil then
+    interpTime=defaultInterpTime
+  end
+  --NMC seems like they added cancelrequest call for ssd (ala CancelForceRequestWeather), tpp just requested the new? DEBUGNOW VERIFY with unmodded tpp
+  WeatherManager.CancelRequestWeather{
+    priority=WeatherManager.REQUEST_PRIORITY_SCRIPT,
+    userId=userIdScript
+  }
+  if weatherType~=nil then
+    WeatherManager.RequestWeather{
+      priority=WeatherManager.REQUEST_PRIORITY_NORMAL,
+      userId=userIdScript,
+      weatherType=weatherType,
+      interpTime=interpTime,
+      fogDensity=fogInfo.fogDensity,
+      fogType=fogInfo.fogType
+    }
+  end
 end
-function e.CancelRequestWeather(n,i,t)
-local e,t=e._GetRequestWeatherArgs(i,t)WeatherManager.PauseNewWeatherChangeRandom(false)
-if e==nil then
-e=r
+function this.ForceRequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
+  if interpTime==nil then
+    interpTime=defaultInterpTime
+  end
+  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,
+    userId=userIdScript,
+    weatherType=weatherType,
+    interpTime=interpTime,
+    fogDensity=fogInfo.fogDensity,
+    fogType=fogInfo.fogType
+  }
 end
-WeatherManager.CancelRequestWeather{priority=WeatherManager.REQUEST_PRIORITY_SCRIPT,userId=a}
-if n~=nil then
-WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=a,weatherType=n,interpTime=e,fogDensity=t.fogDensity,fogType=t.fogType}
+function this.ForceRequestFoggyForDefenseGame(param1,defenseStage)
+  if not Tpp.IsTypeString(defenseStage)then
+    return
+  end
+  local fogDensity=this.DEFENSE_GAME_FOG_DENSITY[defenseStage]
+  if not fogDensity then
+    return
+  end
+  this.ForceRequestWeather(TppDefine.WEATHER.FOGGY,param1,{fogDensity=fogDensity})
 end
+function this.ForceRequestCloudyForDefenseGame(param1,defenseStage)
+  if not Tpp.IsTypeString(defenseStage)then
+    return
+  end
+  local fogDensity=this.DEFENSE_GAME_FOG_DENSITY[defenseStage]
+  if not fogDensity then
+    return
+  end
+  this.ForceRequestWeather(TppDefine.WEATHER.CLOUDY,param1,{fogDensity=fogDensity})
 end
-function e.ForceRequestWeather(n,i,t)
-local e,t=e._GetRequestWeatherArgs(i,t)
-if e==nil then
-e=r
+function this.CancelForceRequestWeather(n,param1,param2)
+  local interpTime,fogDensity=this._GetRequestWeatherArgs(param1,param2)
+  if interpTime==nil then
+    interpTime=defaultInterpTime
+  end
+  WeatherManager.CancelRequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userIdScript}
+  if n~=nil then
+    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdScript,weatherType=n,interpTime=interpTime,fogDensity=fogDensity.fogDensity,fogType=fogDensity.fogType}
+  end
 end
-WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=a,weatherType=n,interpTime=e,fogDensity=t.fogDensity,fogType=t.fogType}
+function this.SetDefaultWeatherDurations()WeatherManager.SetWeatherDurations(weatherDurations)
+  if not WeatherManager.SetExtraWeatherInterval then
+    return
+  end
+  WeatherManager.SetExtraWeatherInterval(5*hourInSeconds,8*hourInSeconds)
 end
-function e.ForceRequestFoggyForDefenseGame(t,r)
-if not Tpp.IsTypeString(r)then
-return
+function this.SetDefaultWeatherProbabilities()
+  local weatherProbabilities
+  local extraWeatherProbabilities
+  if TppLocation.IsAfghan()then
+    weatherProbabilities=weatherProbabilitiesTable.AFGH
+    extraWeatherProbabilities=extraWeatherProbabilitiesTable.AFGH
+  elseif TppLocation.IsMiddleAfrica()then
+    weatherProbabilities=weatherProbabilitiesTable.MAFR
+    extraWeatherProbabilities=extraWeatherProbabilitiesTable.MAFR
+  end
+  if weatherProbabilities then
+    WeatherManager.SetNewWeatherProbabilities("default",weatherProbabilities)
+  end
+  if extraWeatherProbabilities then
+    WeatherManager.SetExtraWeatherProbabilities(extraWeatherProbabilities)
+  end
 end
-local r=e.DEFENSE_GAME_FOG_DENSITY[r]
-if not r then
-return
+function this.SetWeatherProbabilitiesAfghNoSandStorm()
+  WeatherManager.SetNewWeatherProbabilities("default",weatherProbabilitiesTable.AFGH_NO_SANDSTORM)
+  WeatherManager.SetExtraWeatherProbabilities(extraWeatherProbabilitiesTable.AFGH_NO_SANDSTORM)
 end
-e.ForceRequestWeather(TppDefine.WEATHER.FOGGY,t,{fogDensity=r})
+function this.SetMissionStartWeather(weatherType)
+  mvars.missionStartWeatherScript=weatherType
 end
-function e.ForceRequestCloudyForDefenseGame(t,r)
-if not Tpp.IsTypeString(r)then
-return
+function this.SaveMissionStartWeather()
+  gvars.missionStartWeather=vars.weather
+  if sandStormOrFoggy[gvars.missionStartWeather]then
+    gvars.missionStartWeather=TppDefine.WEATHER.SUNNY
+  end
+  WeatherManager.StoreToSVars()
+  gvars.missionStartWeatherNextTime=vars.weatherNextTime
+  gvars.missionStartExtraWeatherInterval=vars.extraWeatherInterval
 end
-local r=e.DEFENSE_GAME_FOG_DENSITY[r]
-if not r then
-return
+function this.RestoreMissionStartWeather()
+  WeatherManager.InitializeWeather()
+  local missionStartWeather=mvars.missionStartWeatherScript or gvars.missionStartWeather
+  local defaultWeatherType=TppDefine.WEATHER.SUNNY
+  local weatherType
+  if missionStartWeather==TppDefine.WEATHER.SANDSTORM or missionStartWeather==TppDefine.WEATHER.RAINY then
+    weatherType=missionStartWeather
+  else
+    defaultWeatherType=missionStartWeather
+  end
+  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdWeather,weatherType=defaultWeatherType,interpTime=defaultInterpTime}
+  if weatherType~=nil then
+    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_EXTRA,userId=userIdWeather,weatherType=weatherType,interpTime=defaultInterpTime}
+  end
+  WeatherManager.StoreToSVars()
+  vars.weatherNextTime=gvars.missionStartWeatherNextTime
+  vars.extraWeatherInterval=gvars.missionStartExtraWeatherInterval
+  WeatherManager.RestoreFromSVars()
 end
-e.ForceRequestWeather(TppDefine.WEATHER.CLOUDY,t,{fogDensity=r})
+function this.OverrideColorCorrectionLUT(unkP1)
+  TppColorCorrection.SetLUT(unkP1)
 end
-function e.CancelForceRequestWeather(n,t,i)
-local e,t=e._GetRequestWeatherArgs(t,i)
-if e==nil then
-e=r
+function this.RestoreColorCorrectionLUT()
+  TppColorCorrection.RemoveLUT()
 end
-WeatherManager.CancelRequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=a}
-if n~=nil then
-WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=a,weatherType=n,interpTime=e,fogDensity=t.fogDensity,fogType=t.fogType}
+function this.OverrideColorCorrectionParameter(unkP1,unkP2,unkP3)
+  TppColorCorrection.SetParameter(unkP1,unkP2,unkP3)
 end
+function this.RestoreColorCorrectionParameter()
+  TppColorCorrection.RemoveParameter()
 end
-function e.SetDefaultWeatherDurations()WeatherManager.SetWeatherDurations(s)
-if not WeatherManager.SetExtraWeatherInterval then
-return
+function this.StoreToSVars()
+  WeatherManager.StoreToSVars()
 end
-WeatherManager.SetExtraWeatherInterval(5*t,8*t)
+function this.RestoreFromSVars()
+  local normalWeatherType=vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_NORMAL]
+  if sandStormOrFoggy[normalWeatherType]then
+    vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_NORMAL]=TppDefine.WEATHER.SUNNY
+    vars.weatherNextTime=0
+  end
+  local extraWeatherType=vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_EXTRA]
+  if sandStormOrFoggy[extraWeatherType]then
+    vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_EXTRA]=unkM1NoWeather
+    vars.weatherNextTime=0
+  end
+  WeatherManager.RestoreFromSVars()
 end
-function e.SetDefaultWeatherProbabilities()
-local e
-local r
-if TppLocation.IsAfghan()then
-e=i.AFGH
-r=o.AFGH
-elseif TppLocation.IsMiddleAfrica()then
-e=i.MAFR
-r=o.MAFR
+function this.Init()
+  TppEffectUtility.RemoveColorCorrectionLut()
+  TppEffectUtility.RemoveColorCorrectionParameter()
 end
-if e then
-WeatherManager.SetNewWeatherProbabilities("default",e)
+function this.OnMissionCanStart()
+  TppEffectWeatherParameterMediator.RestoreDefaultParameters()
 end
-if r then
-WeatherManager.SetExtraWeatherProbabilities(r)
+local SetDefaultReflectionTexture=WeatherManager.SetDefaultReflectionTexture or function()end
+function this.OnEndMissionPrepareFunction()
+  if WeatherManager.ClearTag then
+    WeatherManager.ClearTag()
+  else
+    WeatherManager.RequestTag("default",0)
+  end
+  SetDefaultReflectionTexture()
 end
+--NMC returns interpTime (integer), fogInfo (table)
+function this._GetRequestWeatherArgs(param1,param2)
+  if Tpp.IsTypeTable(param1)then
+    return nil,param1
+  elseif Tpp.IsTypeTable(param2)then
+    return param1,param2
+  else
+    return param1,{}
+  end
 end
-function e.SetWeatherProbabilitiesAfghNoSandStorm()WeatherManager.SetNewWeatherProbabilities("default",i.AFGH_NO_SANDSTORM)WeatherManager.SetExtraWeatherProbabilities(o.AFGH_NO_SANDSTORM)
-end
-function e.SetMissionStartWeather(e)
-mvars.missionStartWeatherScript=e
-end
-function e.SaveMissionStartWeather()
-gvars.missionStartWeather=vars.weather
-if n[gvars.missionStartWeather]then
-gvars.missionStartWeather=TppDefine.WEATHER.SUNNY
-end
-WeatherManager.StoreToSVars()
-gvars.missionStartWeatherNextTime=vars.weatherNextTime
-gvars.missionStartExtraWeatherInterval=vars.extraWeatherInterval
-end
-function e.RestoreMissionStartWeather()WeatherManager.InitializeWeather()
-local e=mvars.missionStartWeatherScript or gvars.missionStartWeather
-local a=TppDefine.WEATHER.SUNNY
-local t
-if e==TppDefine.WEATHER.SANDSTORM or e==TppDefine.WEATHER.RAINY then
-t=e
-else
-a=e
-end
-WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=T,weatherType=a,interpTime=r}
-if t~=nil then
-WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_EXTRA,userId=T,weatherType=t,interpTime=r}
-end
-WeatherManager.StoreToSVars()
-vars.weatherNextTime=gvars.missionStartWeatherNextTime
-vars.extraWeatherInterval=gvars.missionStartExtraWeatherInterval
-WeatherManager.RestoreFromSVars()
-end
-function e.OverrideColorCorrectionLUT(e)
-TppColorCorrection.SetLUT(e)
-end
-function e.RestoreColorCorrectionLUT()
-TppColorCorrection.RemoveLUT()
-end
-function e.OverrideColorCorrectionParameter(r,t,e)
-TppColorCorrection.SetParameter(r,t,e)
-end
-function e.RestoreColorCorrectionParameter()
-TppColorCorrection.RemoveParameter()
-end
-function e.StoreToSVars()WeatherManager.StoreToSVars()
-end
-function e.RestoreFromSVars()
-local e=vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_NORMAL]
-if n[e]then
-vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_NORMAL]=TppDefine.WEATHER.SUNNY
-vars.weatherNextTime=0
-end
-local e=vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_EXTRA]
-if n[e]then
-vars.requestWeatherType[WeatherManager.REQUEST_PRIORITY_EXTRA]=h
-vars.weatherNextTime=0
-end
-WeatherManager.RestoreFromSVars()
-end
-function e.Init()
-TppEffectUtility.RemoveColorCorrectionLut()
-TppEffectUtility.RemoveColorCorrectionParameter()
-end
-function e.OnMissionCanStart()
-TppEffectWeatherParameterMediator.RestoreDefaultParameters()
-end
-local r=WeatherManager.SetDefaultReflectionTexture or function()
-end
-function e.OnEndMissionPrepareFunction()
-if WeatherManager.ClearTag then
-WeatherManager.ClearTag()
-else
-WeatherManager.RequestTag("default",0)
-end
-r()
-end
-function e._GetRequestWeatherArgs(e,r)
-if Tpp.IsTypeTable(e)then
-return nil,e
-elseif Tpp.IsTypeTable(r)then
-return e,r
-else
-return e,{}
-end
-end
-return e
+return this

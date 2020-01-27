@@ -1,0 +1,74 @@
+{
+    "team_parameter_table": [{
+        "id_str": "SURVIVAL_SKILL_RATIO",
+        "id": 1365316790,
+        "value": 1000
+    }, {
+        "id_str": "SURVIVAL_ITEM_RATIO",
+        "id": 548754991,
+        "value": 1000
+    }, {
+        "id_str": "COMBAT_SKILL_RATIO",
+        "id": 4079950696,
+        "value": 1000
+    }, {
+        "id_str": "COMBAT_ITEM_RATIO",
+        "id": 2587942297,
+        "value": 1000
+    }, {
+        "id_str": "SUPPLY_ITEM_MAX",
+        "id": 1217222511,
+        "value": 10
+    }],
+
+    "mission_parameter_table": [{
+        "id_str": "DIFFICULTY_TIME_RATIO",
+        "id": 775080142,
+        "value": 1000
+    }, {
+        "id_str": "SURVIVAL_TIME_RATIO",
+        "id": 2615289945,
+        "value": 0
+    }, {
+        "id_str": "COMBAT_TIME_RATIO",
+        "id": 1699620316,
+        "value": 0
+    }, {
+        "id_str": "SUVIVAL_NEW_APPROACH_RATIO",
+        "id": 1019067384,
+        "value": 1500
+    }, {
+        "id_str": "COMBAT_NEW_APPROACH_RATIO",
+        "id": 1462382249,
+        "value": 1500
+    }, {
+        "id_str": "SUCCESS_MAX_RATIO",
+        "id": 3124762305,
+        "value": 2000
+    }, {
+        "id_str": "SUCCESS_MIN_RATIO",
+        "id": 236080855,
+        "value": 500
+    }, {
+        "id_str": "SUCCESS_MAX_CONSTANT",
+        "id": 3561023488,
+        "value": 950
+    }, {
+        "id_str": "INJURY_MAX_RATIO",
+        "id": 986752330,
+        "value": 2000
+    }, {
+        "id_str": "INJURY_MIN_RATIO",
+        "id": 1118167413,
+        "value": 500
+    }, {
+        "id_str": "INJURY_MAX_CONSTANT",
+        "id": 3717179054,
+        "value": 950
+    }, {
+        "id_str": "SUPPORT_DEFENDER_REWARD_BONUS",
+        "id": 2929520988,
+        "value": 1100
+    }]
+
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="e01010.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_sound_se.fox2" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_sound_music.fox2" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_sequence.fox2" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_radio.fox2" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_npc.fox2" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_item.fox2" />
+    <Entry FilePath="/Assets/ssd/level/mission/debug/common/robby_asset.fox2" />
+    <Entry FilePath="/Assets/tpp/script/mission/mission_main.lua" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_sound.lua" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_sequence.lua" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_radio.lua" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_enemy.lua" />
+    <Entry FilePath="/Assets/ssd/level/mission/extra/e01010/e01010_demo.lua" />
+  </Entries>
+  <References />
+</ArchiveFile>

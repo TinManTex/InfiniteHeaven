@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+    <class name="TppCollectionLocatorArray" super="" version="1" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x05912C40" unknown1="304" unknown2="256324">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="2">
+          <value key="TexturePackLoadConditioner0000">0x0C0C8B30</value>
+          <value key="TppCollectionLocatorArray0000">0x0C768430</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0C0C8B30" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05912C40</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppCollectionLocatorArray" classVersion="1" addr="0x0C768430" unknown1="264" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppCollectionLocatorArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05912C40</value>
+        </property>
+        <property name="positions" type="Vector3" container="DynamicArray" arraySize="113">
+          <value x="2629.15747" y="181.129547" z="-2462.71436" w="9973.241" />
+          <value x="2660.876" y="174.216385" z="-2479.31665" w="10120.8545" />
+          <value x="2503.06763" y="201.032089" z="-2371.51831" w="9409.174" />
+          <value x="2605.77246" y="185.389481" z="-2403.64453" w="9866.922" />
+          <value x="2562.20728" y="195.488815" z="-2430.01514" w="9662.362" />
+          <value x="2703.42578" y="160.23967" z="-2373.29932" w="10332.9844" />
+          <value x="2694.32886" y="159.558121" z="-2369.84619" w="10298.6406" />
+          <value x="2814.57764" y="188.128464" z="-2428.695" w="10693.9248" />
+          <value x="2827.72583" y="186.942581" z="-2404.362" w="10750.0752" />
+          <value x="2687.411" y="159.435379" z="-2350.104" w="10271.3379" />
+          <value x="2640.86646" y="185.54039" z="-2337.02832" w="10006.8447" />
+          <value x="2696.61475" y="158.8454" z="-2364.2" w="10309.9229" />
+          <value x="2697.03516" y="157.527237" z="-2350.30225" w="10315.5586" />
+          <value x="2638.41626" y="153.397827" z="-2274.40723" w="10093.4717" />
+          <value x="2651.42749" y="144.655075" z="-2241.85278" w="10171.7451" />
+          <value x="2655.78784" y="145.082138" z="-2241.63647" w="10187.9053" />
+          <value x="2641.22778" y="144.975525" z="-2252.66968" w="10129.9844" />
+          <value x="2729.39355" y="156.188477" z="-2269.009" w="10449.0088" />
+          <value x="2177.49463" y="192.739441" z="-2199.08887" w="8131.76025" />
+          <value x="2611.17578" y="141.153442" z="-2236.527" w="10021.2432" />
+          <value x="2620.73584" y="140.921951" z="-2238.119" w="10060.1777" />
+          <value x="2611.41846" y="139.54039" z="-2223.17725" w="10027.0527" />
+          <value x="2687.67847" y="142.1649" z="-2213.38159" w="10324.2188" />
+          <value x="2717.4314" y="148.059067" z="-2214.53345" w="10425.5488" />
+          <value x="2718.04541" y="148.102539" z="-2215.6394" w="10427.874" />
+          <value x="2739.01733" y="150.740372" z="-2217.64917" w="10503.8486" />
+          <value x="2174.82324" y="195.0342" z="-2155.91528" w="8114.19043" />
+          <value x="2578.87427" y="119.74588" z="-2112.7146" w="9956.26" />
+          <value x="2628.0686" y="136.272614" z="-2115.08765" w="10103.457" />
+          <value x="2652.867" y="137.796448" z="-2136.95044" w="10198.0781" />
+          <value x="2667.84985" y="146.061188" z="-2174.98682" w="10233.2158" />
+          <value x="2143.36426" y="191.355942" z="-2109.19873" w="7999.389" />
+          <value x="2552.48242" y="120.666985" z="-2083.11475" w="9847.929" />
+          <value x="2600.02246" y="122.340584" z="-2054.77637" w="10033.0684" />
+          <value x="2612.88647" y="130.24939" z="-2069.86719" w="10060.7979" />
+          <value x="2629.76685" y="135.912109" z="-2068.40259" w="10111.3311" />
+          <value x="2584.23218" y="117.056824" z="-2037.05579" w="9985.758" />
+          <value x="2631.307" y="127.264618" z="-2003.702" w="10143.4336" />
+          <value x="2569.92358" y="112.5" z="-1932.75952" w="9942.194" />
+          <value x="2530.592" y="112.943115" z="-1896.49329" w="9783.539" />
+          <value x="2528.05762" y="112.909958" z="-1894.37634" w="9773.501" />
+          <value x="2678.52637" y="83.92684" z="-1901.02637" w="10462.3252" />
+          <value x="2663.43115" y="94.22427" z="-1893.868" w="10371.0518" />
+          <value x="2663.82983" y="74.4709244" z="-1847.74365" w="10431.9063" />
+          <value x="2659.86646" y="70.40561" z="-1834.58423" w="10428.249" />
+          <value x="2480.82666" y="101.22113" z="-1788.39185" w="9619.644" />
+          <value x="1312.57312" y="141.293564" z="-1670.01636" w="4826.41162" />
+          <value x="1291.055" y="143.0351" z="-1690.10986" w="4735.11475" />
+          <value x="1244.8728" y="139.942383" z="-1607.6156" w="4559.664" />
+          <value x="1268.65442" y="142.398285" z="-1650.432" w="4647.423" />
+          <value x="1290.181" y="139.514587" z="-1635.94092" w="4742.18" />
+          <value x="2579.32617" y="74.81067" z="-1608.88135" w="10092.873" />
+          <value x="1214.02759" y="140.3684" z="-1573.59058" w="4435.00537" />
+          <value x="1392.391" y="138.4631" z="-1593.88147" w="5154.175" />
+          <value x="2636.3894" y="69.54988" z="-1578.99011" w="10336.9082" />
+          <value x="2634.00171" y="69.54988" z="-1564.51709" w="10327.3574" />
+          <value x="1198.51343" y="140.403839" z="-1513.73022" w="4372.84229" />
+          <value x="1156.39453" y="148.523819" z="-1477.15234" w="4180.007" />
+          <value x="1196.63013" y="139.814514" z="-1528.21545" w="4367.077" />
+          <value x="1250.41907" y="138.677841" z="-1499.134" w="4585.64258" />
+          <value x="1251.99951" y="138.981064" z="-1496.27087" w="4591.05469" />
+          <value x="1377.47107" y="131.312439" z="-1534.06543" w="5115.947" />
+          <value x="1582.77039" y="125.071869" z="-1509.08459" w="5955.86572" />
+          <value x="1557.40564" y="128.480972" z="-1531.56628" w="5844.17969" />
+          <value x="2458.28662" y="89.86095" z="-1507.56042" w="9563.563" />
+          <value x="2476.46973" y="88.88484" z="-1510.6554" w="9639.225" />
+          <value x="1427.65186" y="120.397308" z="-1435.57373" w="5349.41553" />
+          <value x="2543.62671" y="69.66203" z="-1428.44214" w="9965.52051" />
+          <value x="2551.78882" y="69.95326" z="-1421.29944" w="9997.296" />
+          <value x="2551.27246" y="70.08565" z="-1427.69507" w="9994.833" />
+          <value x="1489.365" y="124.60601" z="-1402.16858" w="5583.642" />
+          <value x="1541.747" y="124.928551" z="-1345.73877" w="5792.202" />
+          <value x="2547.66479" y="69.46299" z="-1362.394" w="9982.27051" />
+          <value x="2543.74829" y="69.53288" z="-1357.67468" w="9966.395" />
+          <value x="2412.27319" y="78.3985748" z="-1168.04163" w="9413.897" />
+          <value x="2414.35474" y="78.07002" z="-1168.67371" w="9423.209" />
+          <value x="2434.21582" y="71.1002" z="-1203.37585" w="9523.5625" />
+          <value x="2537.12817" y="72.18248" z="-1166.59778" w="9931.965" />
+          <value x="2366.448" y="86.56261" z="-1109.5564" w="9206.10449" />
+          <value x="2380.85718" y="87.20593" z="-1097.43738" w="9261.811" />
+          <value x="1560.82092" y="120.360237" z="-1030.82446" w="5882.203" />
+          <value x="1548.14392" y="123.431351" z="-1030.59265" w="5822.28174" />
+          <value x="1546.97656" y="120.2836" z="-1010.39941" w="5827.05566" />
+          <value x="1544.22009" y="120.930908" z="-1009.33521" w="5814.088" />
+          <value x="2367.86768" y="102.3864" z="-902.1148" w="9164.312" />
+          <value x="2398.4436" y="85.11531" z="-953.7272" w="9338.429" />
+          <value x="2378.65039" y="96.40172" z="-915.835754" w="9225.396" />
+          <value x="2382.864" y="96.35788" z="-927.5998" w="9242.383" />
+          <value x="2746.61426" y="95.24688" z="-940.7874" w="10700.7168" />
+          <value x="2745.62183" y="95.25087" z="-945.0201" w="10696.7344" />
+          <value x="2744.455" y="95.38014" z="-939.4411" w="10691.68" />
+          <value x="2743.936" y="95.28144" z="-942.657654" w="10689.8994" />
+          <value x="2362.39819" y="102.417252" z="-892.9931" w="9142.341" />
+          <value x="2391.494" y="85.89827" z="-874.137" w="9308.281" />
+          <value x="2418.48218" y="84.7532" z="-840.777832" w="9419.669" />
+          <value x="2393.1748" y="84.3101044" z="-854.7982" w="9319.769" />
+          <value x="2489.084" y="83.68316" z="-852.8342" w="9705.286" />
+          <value x="2483.903" y="83.6925659" z="-832.189148" w="9684.534" />
+          <value x="2337.73" y="90.87298" z="-783.8024" w="9078.301" />
+          <value x="2335.54" y="89.79952" z="-788.677368" w="9072.762" />
+          <value x="2410.47" y="83.3898849" z="-826.734" w="9391.71" />
+          <value x="2488.63232" y="73.27043" z="-792.902954" w="9734.718" />
+          <value x="2477.134" y="72.2140961" z="-816.507" w="9691.894" />
+          <value x="2475.989" y="71.10201" z="-807.484741" w="9690.65" />
+          <value x="2477.19653" y="71.22201" z="-808.479248" w="9695.12" />
+          <value x="2405.143" y="86.3546143" z="-737.50354" w="9361.509" />
+          <value x="2384.91675" y="85.88742" z="-747.96814" w="9282.005" />
+          <value x="2360.22461" y="86.83416" z="-654.404663" w="9180.39551" />
+          <value x="2360.58716" y="86.77704" z="-652.4539" w="9182.018" />
+          <value x="2357.079" y="87.3314743" z="-655.105347" w="9166.322" />
+          <value x="2373.8064" y="87.16" z="-674.441833" w="9233.745" />
+          <value x="2383.717" y="94.693634" z="-646.4393" w="9250.787" />
+          <value x="2387.373" y="96.60847" z="-659.3704" w="9259.667" />
+        </property>
+        <property name="rotations" type="uint32" container="DynamicArray" arraySize="113">
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>1124100511</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>3301440914</value>
+          <value>30129152</value>
+          <value>43850752</value>
+          <value>1152677317</value>
+          <value>2147483648</value>
+          <value>3855803959</value>
+          <value>74708667</value>
+          <value>2244161304</value>
+          <value>2214130688</value>
+          <value>21358592</value>
+          <value>3985644529</value>
+          <value>42132480</value>
+          <value>63080448</value>
+          <value>2147483648</value>
+          <value>2172030976</value>
+          <value>1097025780</value>
+          <value>2167895040</value>
+          <value>2195713024</value>
+          <value>2159623168</value>
+          <value>3357577087</value>
+          <value>44257280</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>554983809</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>1096459292</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2774640412</value>
+          <value>2688979968</value>
+          <value>25829376</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>708881312</value>
+          <value>1222640639</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>555191567</value>
+          <value>2147483648</value>
+          <value>1217397759</value>
+          <value>1222640639</value>
+          <value>561515736</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>282067967</value>
+          <value>2147483648</value>
+          <value>602984326</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>1247806463</value>
+          <value>570818833</value>
+          <value>652278498</value>
+          <value>550999040</value>
+          <value>4103078895</value>
+          <value>332399615</value>
+          <value>196084735</value>
+          <value>14680064</value>
+          <value>1885365136</value>
+          <value>2147483648</value>
+          <value>1304429567</value>
+          <value>45089791</value>
+          <value>2749222912</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>1222640639</value>
+          <value>196084735</value>
+          <value>1500513279</value>
+          <value>1222640639</value>
+          <value>525337599</value>
+          <value>2147483648</value>
+          <value>1432355839</value>
+          <value>1432355839</value>
+          <value>190841855</value>
+          <value>1137705983</value>
+          <value>1198523391</value>
+          <value>2147483648</value>
+          <value>1432355839</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2727975936</value>
+          <value>3866566057</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>2147483648</value>
+          <value>1170211839</value>
+          <value>1432355839</value>
+          <value>2147483648</value>
+          <value>2692655104</value>
+          <value>3900855100</value>
+          <value>4208001938</value>
+          <value>2864752476</value>
+          <value>2147483648</value>
+          <value>1742829418</value>
+          <value>2036343752</value>
+        </property>
+        <property name="infos" type="uint32" container="DynamicArray" arraySize="113">
+          <value>1778165504</value>
+          <value>1706411393</value>
+          <value>1686301197</value>
+          <value>1700307453</value>
+          <value>1776654408</value>
+          <value>1776966771</value>
+          <value>1777462989</value>
+          <value>1707177768</value>
+          <value>1708690078</value>
+          <value>1770686602</value>
+          <value>1702365702</value>
+          <value>1776235065</value>
+          <value>1764160689</value>
+          <value>1677854117</value>
+          <value>1697210359</value>
+          <value>1703493148</value>
+          <value>1703345837</value>
+          <value>1679450254</value>
+          <value>1766411451</value>
+          <value>1678437910</value>
+          <value>1707984962</value>
+          <value>1698176298</value>
+          <value>1688506054</value>
+          <value>1762447552</value>
+          <value>1767805311</value>
+          <value>1680696935</value>
+          <value>1705168336</value>
+          <value>1696379720</value>
+          <value>1762688441</value>
+          <value>1696717735</value>
+          <value>1678489403</value>
+          <value>1753989149</value>
+          <value>1711014011</value>
+          <value>1698632351</value>
+          <value>1771487129</value>
+          <value>1770458791</value>
+          <value>1770220064</value>
+          <value>1700387840</value>
+          <value>1687995905</value>
+          <value>1680720687</value>
+          <value>1693567006</value>
+          <value>1711076051</value>
+          <value>1775856871</value>
+          <value>1710131832</value>
+          <value>1764445538</value>
+          <value>1710381483</value>
+          <value>1767022142</value>
+          <value>1694716346</value>
+          <value>1700838414</value>
+          <value>1709053364</value>
+          <value>1765059440</value>
+          <value>1702334478</value>
+          <value>1696978794</value>
+          <value>1694507118</value>
+          <value>1691532066</value>
+          <value>1677981674</value>
+          <value>1764160647</value>
+          <value>1704720710</value>
+          <value>1763782637</value>
+          <value>1702303726</value>
+          <value>1703141501</value>
+          <value>1704760955</value>
+          <value>1704789205</value>
+          <value>1700284539</value>
+          <value>1705834828</value>
+          <value>1709058710</value>
+          <value>1706430047</value>
+          <value>1682200985</value>
+          <value>1690995068</value>
+          <value>1693201840</value>
+          <value>1770668146</value>
+          <value>1772865866</value>
+          <value>1690271047</value>
+          <value>1683584386</value>
+          <value>1773133240</value>
+          <value>1767900591</value>
+          <value>1702420785</value>
+          <value>1689521900</value>
+          <value>1699813022</value>
+          <value>1698654470</value>
+          <value>1705694521</value>
+          <value>1778110206</value>
+          <value>1705647728</value>
+          <value>1704704455</value>
+          <value>1692767061</value>
+          <value>1767122064</value>
+          <value>1678312017</value>
+          <value>1693114978</value>
+          <value>1766257983</value>
+          <value>1769885083</value>
+          <value>1772882435</value>
+          <value>1772565550</value>
+          <value>1685009925</value>
+          <value>1705750495</value>
+          <value>1762335720</value>
+          <value>1772469273</value>
+          <value>1774934130</value>
+          <value>1706326136</value>
+          <value>1682308323</value>
+          <value>1684772222</value>
+          <value>1770627438</value>
+          <value>1773691438</value>
+          <value>1710317889</value>
+          <value>1678613741</value>
+          <value>1678870978</value>
+          <value>1769372890</value>
+          <value>1773669016</value>
+          <value>1697469407</value>
+          <value>1700440391</value>
+          <value>1697942791</value>
+          <value>1770923753</value>
+          <value>1764355000</value>
+          <value>1761679282</value>
+        </property>
+        <property name="segmentIndices" type="uint16" container="DynamicArray" arraySize="64">
+          <value>3305</value>
+          <value>3431</value>
+          <value>3432</value>
+          <value>3434</value>
+          <value>3435</value>
+          <value>3436</value>
+          <value>3561</value>
+          <value>3562</value>
+          <value>3689</value>
+          <value>3690</value>
+          <value>3810</value>
+          <value>3816</value>
+          <value>3817</value>
+          <value>3818</value>
+          <value>3937</value>
+          <value>3944</value>
+          <value>3945</value>
+          <value>4065</value>
+          <value>4071</value>
+          <value>4072</value>
+          <value>4073</value>
+          <value>4200</value>
+          <value>4201</value>
+          <value>4328</value>
+          <value>4455</value>
+          <value>4457</value>
+          <value>4585</value>
+          <value>4710</value>
+          <value>4820</value>
+          <value>4947</value>
+          <value>4948</value>
+          <value>4968</value>
+          <value>5074</value>
+          <value>5077</value>
+          <value>5097</value>
+          <value>5202</value>
+          <value>5203</value>
+          <value>5205</value>
+          <value>5208</value>
+          <value>5222</value>
+          <value>5334</value>
+          <value>5351</value>
+          <value>5463</value>
+          <value>5464</value>
+          <value>5479</value>
+          <value>5861</value>
+          <value>5862</value>
+          <value>5863</value>
+          <value>5988</value>
+          <value>5989</value>
+          <value>6104</value>
+          <value>6232</value>
+          <value>6372</value>
+          <value>6373</value>
+          <value>6378</value>
+          <value>6500</value>
+          <value>6501</value>
+          <value>6502</value>
+          <value>6628</value>
+          <value>6629</value>
+          <value>6630</value>
+          <value>6757</value>
+          <value>6884</value>
+          <value>6885</value>
+        </property>
+        <property name="locatorIndices" type="uint16" container="DynamicArray" arraySize="64">
+          <value>0</value>
+          <value>2</value>
+          <value>3</value>
+          <value>5</value>
+          <value>7</value>
+          <value>8</value>
+          <value>9</value>
+          <value>11</value>
+          <value>13</value>
+          <value>17</value>
+          <value>18</value>
+          <value>19</value>
+          <value>22</value>
+          <value>23</value>
+          <value>26</value>
+          <value>27</value>
+          <value>28</value>
+          <value>31</value>
+          <value>32</value>
+          <value>33</value>
+          <value>35</value>
+          <value>36</value>
+          <value>37</value>
+          <value>38</value>
+          <value>39</value>
+          <value>41</value>
+          <value>43</value>
+          <value>45</value>
+          <value>46</value>
+          <value>48</value>
+          <value>50</value>
+          <value>51</value>
+          <value>52</value>
+          <value>53</value>
+          <value>54</value>
+          <value>56</value>
+          <value>59</value>
+          <value>61</value>
+          <value>62</value>
+          <value>64</value>
+          <value>66</value>
+          <value>67</value>
+          <value>70</value>
+          <value>71</value>
+          <value>72</value>
+          <value>74</value>
+          <value>76</value>
+          <value>77</value>
+          <value>78</value>
+          <value>79</value>
+          <value>80</value>
+          <value>82</value>
+          <value>84</value>
+          <value>85</value>
+          <value>88</value>
+          <value>92</value>
+          <value>93</value>
+          <value>96</value>
+          <value>98</value>
+          <value>100</value>
+          <value>101</value>
+          <value>105</value>
+          <value>107</value>
+          <value>110</value>
+        </property>
+        <property name="locatorCounts" type="uint16" container="DynamicArray" arraySize="64">
+          <value>2</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>4</value>
+          <value>1</value>
+          <value>1</value>
+          <value>3</value>
+          <value>1</value>
+          <value>3</value>
+          <value>1</value>
+          <value>1</value>
+          <value>3</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>1</value>
+          <value>1</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>1</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>3</value>
+          <value>2</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>3</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>1</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>3</value>
+          <value>4</value>
+          <value>1</value>
+          <value>3</value>
+          <value>2</value>
+          <value>2</value>
+          <value>1</value>
+          <value>4</value>
+          <value>2</value>
+          <value>3</value>
+          <value>3</value>
+        </property>
+        <property name="groupIds" type="uint8" container="DynamicArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="segmentInfoIndices" type="uint16" container="DynamicArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="segmentInfoCounts" type="uint16" container="DynamicArray" arraySize="1">
+          <value>64</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

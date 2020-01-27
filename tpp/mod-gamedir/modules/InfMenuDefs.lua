@@ -2,31 +2,16 @@
 --
 local this={}
 --LOCALOPT
+local InfCore=InfCore
 --tex NOTE its ok to reference modules that are reloaded before this is reloaded
 local Ivars=Ivars
 local InfMenuDefs=this
 
 this.debugModule=false
 
-this.heliSpaceMenu={
+this.safeSpaceMenu={
   options={
-    "InfMenuDefs.systemMenu",--DEBUGNOW
-    "InfGameEvent.eventsMenu",
-    "InfMainTppIvars.playerRestrictionsMenu",
-    "InfMainTppIvars.playerSettingsMenu",
-    "InfSoldierParams.soldierParamsMenu",
-    "InfEnemyPhase.phaseMenu",
-    "InfRevengeIvars.revengeMenu",
-    "InfReinforce.enemyReinforceMenu",
-    "InfMainTppIvars.enemyPatrolMenu",
-    "InfQuestIvars.sideOpsMenu",
-    "InfMainTppIvars.motherBaseMenu",
-    "InfDemo.demosMenu",
-    "InfCamera.cameraMenu",
-    "InfTimeScale.timeScaleMenu",
-    "InfHelicopter.supportHeliMenu",
-    "InfMainTppIvars.progressionMenu",
-    "InfMenuDefs.debugMenu",--DEBUGNOW
+    "InfMenuDefs.systemMenu",--tex forced order (first) rather than just by context
   }
 }
 
@@ -36,21 +21,8 @@ this.inMissionMenu={
     "InfHelicopter.ForceExitHeliAlt",
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
-    "InfCamera.cameraMenu",
-    "InfTimeScale.timeScaleMenu",
-    "InfPositions.positionsMenu",
-    "InfMotion.motionsMenu",
-    "InfUserMarker.userMarkerMenu",
-    "InfMainTppIvars.buddyMenu",
-    "InfFovaIvars.appearanceMenu",
-    "InfMBStaff.mbStaffInMissionMenu",
-    "InfMainTppIvars.playerRestrictionsInMissionMenu",
-    "InfEnemyPhase.phaseMenu",
-    "InfHelicopter.supportHeliMenu",
-    "InfMBAssets.mbOceanMenu",
-    "InfMenuDefs.debugInMissionMenu",
-    "Ivars.itemDropChance",
-    "Ivars.playerHealthScale",
+    "Ivars.itemDropChance",--DEBUGNOW
+    "Ivars.playerHealthScale",--DEBUGNOW
   }
 }
 
@@ -63,10 +35,10 @@ this.systemMenu={
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
     --
     "Ivars.selectProfile",
-    --"InfMenuCommands.ApplySelectedProfile",
+    --WIP "InfMenuCommands.ApplySelectedProfile",
     "InfMenuCommands.ResetSelectedProfile",
     "InfMenuCommands.SaveToProfile",
-    --"InfMenuCommands.ViewProfile",--DEBUG
+    --WIP "InfMenuCommands.ViewProfile",
     "Ivars.enableQuickMenu",
     "Ivars.startOffline",
     "Ivars.skipLogos",
@@ -81,6 +53,8 @@ this.devInAccMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "Ivars.quest_useAltForceFulton",--DEBUGNOW
+    "Ivars.sys_increaseMemoryAlloc",--DEBUGNOW
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
     "InfMenuCommands.DEBUG_SomeShiz3",
@@ -104,6 +78,7 @@ this.devInAccMenu={
 }
 
 this.debugMenu={
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.debugMode",
     "Ivars.debugMessages",
@@ -125,9 +100,8 @@ this.debugMenu={
 }
 
 this.debugInMissionMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
-    "InfFovaIvars.appearanceMenu",
-    "InfFovaIvars.appearanceDebugMenu",
     "Ivars.debugMode",
     "Ivars.debugMessages",
     "Ivars.debugFlow",
@@ -149,6 +123,7 @@ this.debugInMissionMenu={
     "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
     --"InfMenuCommandsTpp.DEBUG_PrintSoldierIDList",
     "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig",
+    "InfFovaIvars.appearanceDebugMenu",
     "InfFovaIvars.appearanceDebugMenu",
     --"InfMenuCommandsTpp.DEBUG_ShowPhaseEnums",--CULL
     --"InfMenuCommandsTpp.DEBUG_ChangePhase",
@@ -180,6 +155,11 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "InfMenuCommands.DEBUG_SomeShiz",
+    "InfMenuCommands.DEBUG_SomeShiz2",
+    "InfMenuCommands.DEBUG_SomeShiz3",
+    "Ivars.warpToListPosition",
+    "Ivars.warpToListObject",
     "InfHelicopter.RequestHeliLzToLastMarker",--DEBUGNOW
     "InfHelicopter.RequestHeliLzToLastMarkerAlt",--DEBUGNOW
     "InfHelicopter.ForceExitHeli",
@@ -187,23 +167,15 @@ this.devInMissionMenu={
     "InfHelicopter.PullOutHeli",
     "InfHelicopter.ChangeToIdleStateHeli",
     "Ivars.disablePullOutHeli",
-    "InfCore.StartIHExt",--DEBUGNOW
-    "InfMenuCommands.DEBUG_SomeShiz",
-    "InfMenuCommands.DEBUG_SomeShiz2",
-    "InfMenuCommands.DEBUG_SomeShiz3",
     "InfMenuCommands.SetSelectedObjectToMarkerClosest",
     --"Ivars.selectedCp",
     --"InfMenuCommands.SetSelectedCpToMarkerObjectCp",
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
     "Ivars.selectedCp",
-    "Ivars.warpToListObject",
     "InfUserMarker.PrintLatestUserMarker",
     "InfMenuCommands.SetAllZombie",
     "InfMenuCommands.CheckPointSave",
     "Ivars.manualMissionCode",
-    "InfCore.ClearLog",
-    "Ivars.warpToListPosition",
-    "Ivars.warpToListObject",
     "Ivars.setCamToListObject",
     "Ivars.dropLoadedEquip",
     "Ivars.dropTestEquip",
@@ -221,11 +193,22 @@ this.devInMissionMenu={
     "InfMenuCommands.SetAllFriendly",
     "InfCamera.ShowFreeCamPosition",
     "InfMenuCommands.ShowPosition",
+    "InfCore.ClearLog",
   }
 }
+
+this.searchMenu={
+  noDoc=true,
+  nonConfig=true,
+  options={
+    "Ivars.searchItem",
+    "InfMenuCommands.GoBackTopItem",
+  }
+}
+
 --<
 this.rootMenus={
-  heliSpaceMenu=true,
+  safeSpaceMenu=true,
   inMissionMenu=true,
 }
 
@@ -257,8 +240,7 @@ end
 --Menu definitions, or MenuDefs list the options as StringRefs which are just a string representation of <module name>.<option name>
 --InfMenuDefs has a few basic menudefs, the rest are in respective IH modules which may also contain the Ivar and Commands they are referencing.
 function this.SetupMenuDefs()
-  InfCore.LogFlow("Adding module menuDefs")
-
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: generate menus")
   for i,module in ipairs(InfModules) do
     if module.GenerateMenus then
       InfCore.Log(module.name..".GenerateMenus")
@@ -266,6 +248,7 @@ function this.SetupMenuDefs()
     end
   end
 
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: register menus")
   --tex add menus in this module to be picked up by registermodules
   --TODO: possibly replace registermodules completely with this, change .options to .menuOptions to give it a more explicit identifier
   this.registerMenus={}
@@ -275,7 +258,7 @@ function this.SetupMenuDefs()
     end
   end
 
-
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: build menu items and gather children menus")
   local parentRefs={}
   for i,module in ipairs(InfModules) do
     if module.registerMenus then
@@ -285,7 +268,7 @@ function this.SetupMenuDefs()
       for j,name in ipairs(module.registerMenus)do
         local menuDef=module[name]
         if not menuDef then
-          InfCore.Log("InfMenuDefs.PostAllModulesLoad: WARNING: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: InfMenuDefs.PostAllModulesLoad: could not find "..name.." in "..module.name)
           --TODO: elseif not IsMenu(menuDef) or something
         elseif this.IsMenu(menuDef) then
           local newRef=module.name.."."..name
@@ -310,15 +293,24 @@ function this.SetupMenuDefs()
               end
             end
           end--if parentRefs
-
-
         end--if menudef
       end--for registermenu
     end--if registermenu
   end--for infmodules
 
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: add children menus to parents")
   if this.debugModule then
     InfCore.PrintInspect(parentRefs,"parentRefs")
+  end
+
+  local function SortRefByLangName(refA, refB)
+    local itemA,nameA=InfCore.GetStringRef(refA)
+    local itemB,nameB=InfCore.GetStringRef(refB)
+
+    local langA=InfLangProc.LangString(nameA)
+    local langB=InfLangProc.LangString(nameB)
+
+    return langB > langA
   end
 
   --tex add the gathered children menus to the parents
@@ -328,12 +320,14 @@ function this.SetupMenuDefs()
       InfCore.Log("WARNING: InfMenuDefs.SetupMenus: could not find parentMenu:"..parentRef)
     else
       --tex TODO: would want to sort by inflang menu name
+      table.sort(childrenRefs,SortRefByLangName)--DEBUGNOW
       for i,childRef in ipairs(childrenRefs)do
         table.insert(parentMenu.options,childRef)
       end
     end
   end
 
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: add bottom items")
   for i,module in ipairs(InfModules) do
     if module.registerMenus then
       if this.debugModule then
@@ -342,11 +336,9 @@ function this.SetupMenuDefs()
       for j,name in ipairs(module.registerMenus)do
         local menuDef=module[name]
         if not menuDef then
-          InfCore.Log("InfMenuDefs.PostAllModulesLoad: WARNING: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: InfMenuDefs.PostAllModulesLoad: could not find "..name.." in "..module.name)
           --TODO: elseif not IsMenu(menuDef) or something
         elseif this.IsMenu(menuDef) then
-
-
           --tex add bottom commands
           --TODO: add option to skip
           --tex see if it actually needs resetitem
@@ -380,15 +372,15 @@ function this.SetupMenuDefs()
     if ivars.enableIHExt>0 then-- TODO another ivar, also change 'Turn off menu' to only add if ivar
     --local alreadyAdded=false
     --tex shouldnt be needed, assuming that it's not tranfering anything on modulereload
-    --    for i,optionRef in ipairs(this.heliSpaceMenu.options)do
+    --    for i,optionRef in ipairs(this.safeSpaceMenu.options)do
     --      if optionRef=="InfMgsvToExt.TakeFocus" then
     --        alreadyAdded=true
     --        break
     --      end
     --    end
     --if not alreadyAdded then
-    --      local insertPos=#this.heliSpaceMenu.options-this.heliSpaceMenu.insertEndOffset
-    --      table.insert(this.heliSpaceMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
+    --      local insertPos=#this.safeSpaceMenu.options-this.safeSpaceMenu.insertEndOffset
+    --      table.insert(this.safeSpaceMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
     --
     --      local insertPos=#this.inMissionMenu.options-this.inMissionMenu.insertEndOffset
     --      table.insert(this.inMissionMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
@@ -397,38 +389,72 @@ function this.SetupMenuDefs()
   end
 
   --VALIDATE
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: validate")
   for n,item in pairs(this) do
     if this.IsMenu(item) then
       for i,optionRef in ipairs(item.options)do
         if type(optionRef)~="string"then
-          InfCore.Log("InfMenuDefs: WARNING option "..i.." on menu "..n.."~=string")
+          InfCore.Log("WARNING: InfMenuDefs: option "..i.." on menu "..n.."~=string")
         end
       end
     end
   end
 
   --tex TODO RETHINK
-  --TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: allMenus")
   this.allMenus={}
-  local i=1
-  for n,item in pairs(this) do
-    if this.IsMenu(item) then
-      this.allMenus[i]=item
-      i=i+1
-    end
-  end
-
-  --tex for search
-  this.allItems={}
-  for n,item in pairs(this) do
-    if this.IsMenu(item) then
-      for i,optionRef in ipairs(item.options)do
-        if type(optionRef)=="string"then
-          this.allItems[#this.allItems+1]=optionRef
+  for i,module in ipairs(InfModules) do
+    if module.registerMenus then
+      for j,name in ipairs(module.registerMenus)do
+        local menuDef=module[name]
+        if not menuDef then
+        elseif this.IsMenu(menuDef) then
+          this.allMenus[#this.allMenus+1]=menuDef
         end
       end
     end
   end
+
+  --tex for search DEBUGNOW, need some kind of context filter (safespace/inmission)
+  InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: allItems")
+  this.allItems={
+    safeSpaceMenu={},
+    inMissionMenu={},
+  }
+
+  local function GetOptionRefsFromMenu(source,dest)
+    for i,optionRef in ipairs(source.options)do
+      table.insert(dest,optionRef)
+
+      local option,name=InfCore.GetStringRef(optionRef)
+      if this.IsMenu(option) then
+        GetOptionRefsFromMenu(option,dest)
+      end
+    end
+  end
+  
+  GetOptionRefsFromMenu(this.safeSpaceMenu,this.allItems.safeSpaceMenu)
+  GetOptionRefsFromMenu(this.inMissionMenu,this.allItems.inMissionMenu)
+  
+
+    InfCore.PrintInspect(this.allItems,"InfMenuDefs.allItems------------")--DEBUGNOW
+
+
+--CULL
+--  for i,module in ipairs(InfModules) do
+--    if module.registerMenus then
+--      for j,name in ipairs(module.registerMenus)do
+--        local menuDef=module[name]
+--        if not menuDef then
+--        elseif this.IsMenu(menuDef) then
+--          for k,optionRef in ipairs(menuDef.options)do
+--            local option,name=InfCore.GetStringRef(optionRef)
+--            this.allItems[#this.allItems+1]=optionRef
+--          end
+--        end
+--      end
+--    end
+--  end
 
   if this.debugModule then
     InfCore.PrintInspect(this,"InfMenuDefs")

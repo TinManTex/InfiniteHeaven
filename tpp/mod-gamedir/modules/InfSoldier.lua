@@ -20,8 +20,8 @@ local GetMbStageClusterGrade=TppLocation.GetMbStageClusterGrade
 this.debugModule=false
 
 --updateState
-this.active='mbNpcRouteChange'
-this.execCheckTable={inGame=true,inHeliSpace=false}
+this.active="mbNpcRouteChange"
+this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
 }
@@ -30,8 +30,8 @@ local updateMin=30
 local updateMax=80
 
 this.enableIvars={
-  'mbNpcRouteChange',
-  'mbAdditionalSoldiers',
+  "mbNpcRouteChange",
+  "mbAdditionalSoldiers",
 }
 
 -- command plat salutation routes
@@ -80,12 +80,11 @@ this.packages={
   mbAdditionalSoldiers="/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
 }
 
--->
 this.registerIvars={
-  'mbAdditionalSoldiers',
-  'mbNpcRouteChange',
-  'enableLrrpFreeRoam',
-  'enableWildCardFreeRoam',
+  "mbAdditionalSoldiers",
+  "mbNpcRouteChange",
+  "enableLrrpFreeRoam",
+  "enableWildCardFreeRoam",
 }
 
 this.mbAdditionalSoldiers={
@@ -451,7 +450,7 @@ function this.ModifyEnemyAssetTable()
 
   --tex this is before ModMissionTable so have to set up itself
   local numReserveSoldiers=InfMainTpp.reserveSoldierCounts[vars.missionCode] or 0
-  this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
+  this.reserveSoldierNames=InfUtil.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
   this.soldierPool=InfUtil.CopyList(this.reserveSoldierNames)
 
   local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable

@@ -2,7 +2,20 @@ local this={}
 this.MGO_INVITATION_CANCEL_POPUP_ID=5010
 this.CLOSE_INIVITATION_CANCEL_POPUP_INTERVAL=1.5
 this.PROCESS_STATE=Tpp.Enum{"EMPTY","START","SHOW_DIALOG","SUSPEND","FINISH"}
-this.TYPE=Tpp.Enum{"INVITATION_ACCEPT","DISCONNECT_FROM_PSN","DISCONNECT_FROM_KONAMI","DISCONNECT_FROM_NETWORK","SESSION_DISCONNECT_FROM_HOST","SESSION_JOIN_FAILED","SIGNIN_USER_CHANGED","INVITATION_PATCH_DLC_CHECKING","INVITATION_PATCH_DLC_ERROR","INVITATION_ACCEPT_BY_OTHER","INVITATION_ACCEPT_WITHOUT_SIGNIN","WAIT_MGO_CHUNK_INSTALLATION"}
+this.TYPE=Tpp.Enum{
+  "INVITATION_ACCEPT",
+  "DISCONNECT_FROM_PSN",
+  "DISCONNECT_FROM_KONAMI",
+  "DISCONNECT_FROM_NETWORK",
+  "SESSION_DISCONNECT_FROM_HOST",
+  "SESSION_JOIN_FAILED",
+  "SIGNIN_USER_CHANGED",
+  "INVITATION_PATCH_DLC_CHECKING",
+  "INVITATION_PATCH_DLC_ERROR",
+  "INVITATION_ACCEPT_BY_OTHER",
+  "INVITATION_ACCEPT_WITHOUT_SIGNIN",
+  "WAIT_MGO_CHUNK_INSTALLATION"
+}
 this.GAME_MODE=Tpp.Enum{"TPP","TPP_FOB","MGO"}
 this.TYPE_DISCONNECT_NETWORK_LIST={"DISCONNECT_FROM_PSN","DISCONNECT_FROM_KONAMI","DISCONNECT_FROM_NETWORK"}
 this.TYPE_DISCONNECT_P2P_LIST={"SESSION_DISCONNECT_FROM_HOST","SESSION_JOIN_FAILED"}
@@ -17,61 +30,74 @@ function this.IsDisabledMgoInChinaKorea()
   end
   return false
 end
-this.SHOW_EXECPTION_DIALOG={[this.TYPE.INVITATION_ACCEPT]=function()
-  this.mgoInvitationUpdateCount=0
-  this.mgoInvitationPopupId=nil
-  if this.IsDisabledMgoInChinaKorea()then
-    return 5013
-  elseif TppStory.CanPlayMgo()then
-    if this.GetCurrentGameMode()==this.GAME_MODE.TPP_FOB then
-      this.mgoInvitationPopupId=this.MGO_INVITATION_CANCEL_POPUP_ID
-      return this.MGO_INVITATION_CANCEL_POPUP_ID
+this.SHOW_EXECPTION_DIALOG={
+  [this.TYPE.INVITATION_ACCEPT]=function()
+    this.mgoInvitationUpdateCount=0
+    this.mgoInvitationPopupId=nil
+    if this.IsDisabledMgoInChinaKorea()then
+      return 5013
+    elseif TppStory.CanPlayMgo()then
+      if this.GetCurrentGameMode()==this.GAME_MODE.TPP_FOB then
+        this.mgoInvitationPopupId=this.MGO_INVITATION_CANCEL_POPUP_ID
+        return this.MGO_INVITATION_CANCEL_POPUP_ID
+      else
+        return 5001,Popup.TYPE_TWO_BUTTON,nil,true
+      end
     else
-      return 5001,Popup.TYPE_TWO_BUTTON,nil,true
+      return 5004
     end
-  else
-    return 5004
-  end
-end,[this.TYPE.DISCONNECT_FROM_PSN]=function()
-  return TppDefine.ERROR_ID.DISCONNECT_FROM_PSN
-end,[this.TYPE.DISCONNECT_FROM_KONAMI]=function()
-  return TppDefine.ERROR_ID.DISCONNECT_FROM_KONAMI
-end,[this.TYPE.DISCONNECT_FROM_NETWORK]=function()
-  return TppDefine.ERROR_ID.DISCONNECT_FROM_NETWORK
-end,[this.TYPE.SESSION_DISCONNECT_FROM_HOST]=function()
-  if this.GetCurrentGameMode()=="TPP"then
+  end,
+  [this.TYPE.DISCONNECT_FROM_PSN]=function()
+    return TppDefine.ERROR_ID.DISCONNECT_FROM_PSN
+  end,
+  [this.TYPE.DISCONNECT_FROM_KONAMI]=function()
+    return TppDefine.ERROR_ID.DISCONNECT_FROM_KONAMI
+  end,
+  [this.TYPE.DISCONNECT_FROM_NETWORK]=function()
     return TppDefine.ERROR_ID.DISCONNECT_FROM_NETWORK
+  end,
+  [this.TYPE.SESSION_DISCONNECT_FROM_HOST]=function()
+    if this.GetCurrentGameMode()=="TPP"then
+      return TppDefine.ERROR_ID.DISCONNECT_FROM_NETWORK
+    end
+    return TppDefine.ERROR_ID.SESSION_ABANDON
+  end,
+  [this.TYPE.SESSION_JOIN_FAILED]=function()
+    return TppDefine.ERROR_ID.FAILED_JOIN_SESSION
+  end,
+  [this.TYPE.SIGNIN_USER_CHANGED]=function()
+    return TppDefine.ERROR_ID.SIGNIN_USER_CHANGED
+  end,
+  [this.TYPE.INVITATION_PATCH_DLC_CHECKING]=function()
+    return 5100,false,"POPUP_TYPE_NO_BUTTON_NO_EFFECT",nil
+  end,
+  [this.TYPE.INVITATION_PATCH_DLC_ERROR]=function()
+    return 5103
+  end,
+  [this.TYPE.INVITATION_ACCEPT_BY_OTHER]=function()
+    return 5005
+  end,
+  [this.TYPE.INVITATION_ACCEPT_WITHOUT_SIGNIN]=function()
+    return 5012
+  end,
+  [this.TYPE.WAIT_MGO_CHUNK_INSTALLATION]=function()
+    return TppDefine.ERROR_ID.NOW_INSTALLING,Popup.TYPE_ONE_CANCEL_BUTTON
   end
-  return TppDefine.ERROR_ID.SESSION_ABANDON
-end,[this.TYPE.SESSION_JOIN_FAILED]=function()
-  return TppDefine.ERROR_ID.FAILED_JOIN_SESSION
-end,[this.TYPE.SIGNIN_USER_CHANGED]=function()
-  return TppDefine.ERROR_ID.SIGNIN_USER_CHANGED
-end,[this.TYPE.INVITATION_PATCH_DLC_CHECKING]=function()
-  return 5100,false,"POPUP_TYPE_NO_BUTTON_NO_EFFECT",nil
-end,[this.TYPE.INVITATION_PATCH_DLC_ERROR]=function()
-  return 5103
-end,[this.TYPE.INVITATION_ACCEPT_BY_OTHER]=function()
-  return 5005
-end,[this.TYPE.INVITATION_ACCEPT_WITHOUT_SIGNIN]=function()
-  return 5012
-end,[this.TYPE.WAIT_MGO_CHUNK_INSTALLATION]=function()
-  return TppDefine.ERROR_ID.NOW_INSTALLING,Popup.TYPE_ONE_CANCEL_BUTTON
-end}
+}
 function this.NoProcessOnEndExceptionDialog()
   if not gvars.canExceptionHandling then
     return this.PROCESS_STATE.SUSPEND
   end
   if not Tpp.IsMaster()then
-    local n=this.TYPE[gvars.exc_processingExecptionType]
-    local n=this.GetCurrentGameMode()
-    local e=this.GAME_MODE[n]
+    local exceptionType=this.TYPE[gvars.exc_processingExecptionType]
+    local gameMode=this.GetCurrentGameMode()
+    local gameType=this.GAME_MODE[gameMode]
   end
   return this.PROCESS_STATE.FINISH
 end
 function this.OnEndExceptionForDisconnectDialog()
-  local n=vars.missionCode
-  if n==TppDefine.SYS_MISSION_ID.INIT then
+  local missionCode=vars.missionCode
+  if missionCode==TppDefine.SYS_MISSION_ID.INIT then
     return this.PROCESS_STATE.FINISH
   end
   if not gvars.canExceptionHandling then
@@ -90,14 +116,23 @@ function this.OnEndExceptionForDisconnectDialog()
   end
   FadeFunction.SetFadeCallEnable(false)
   TppVideoPlayer.StopVideo()
-  TppUI.FinishLoadingTips()SsdUiSystem.RequestForceClose()SignIn.SetStartupProcessCompleted(false)SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
+  TppUI.FinishLoadingTips()
+  SsdUiSystem.RequestForceClose()
+  SignIn.SetStartupProcessCompleted(false)
+  SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
   TppRadio.StopForException()
   TppMusicManager.StopMusicPlayer(1)
   TppMusicManager.EndSceneMode()
-  TppRadioCommand.SetEnableIgnoreGamePause(false)GkEventTimerManager.StopAll()StageBlockCurrentPositionSetter.SetEnable(false)
-  TppQuest.OnMissionGameEnd()SsdFlagMission.OnMissionGameEnd()SsdBaseDefense.OnMissionGameEnd()
-  TppScriptBlock.UnloadAll()Mission.AddFinalizer(function()
-    TppMission.DisablePauseForShowResult()FadeFunction.SetFadeCallEnable(true)
+  TppRadioCommand.SetEnableIgnoreGamePause(false)
+  GkEventTimerManager.StopAll()
+  StageBlockCurrentPositionSetter.SetEnable(false)
+  TppQuest.OnMissionGameEnd()
+  SsdFlagMission.OnMissionGameEnd()
+  SsdBaseDefense.OnMissionGameEnd()
+  TppScriptBlock.UnloadAll()
+  Mission.AddFinalizer(function()
+    TppMission.DisablePauseForShowResult()
+    FadeFunction.SetFadeCallEnable(true)
     TppUI.SetFadeColorToBlack()
     gvars.waitLoadingTipsEnd=false
   end)
@@ -159,16 +194,24 @@ function this.OnEndExceptionDialogForSignInUserChange()
   end
   gvars.isLoadedInitMissionOnSignInUserChanged=true
   SignIn.SetStartupProcessCompleted(false)
-  TppUiCommand.SetLoadIndicatorVisible(true)SsdUiSystem.RequestForceClose()StageBlockCurrentPositionSetter.SetEnable(false)SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
+  TppUiCommand.SetLoadIndicatorVisible(true)
+  SsdUiSystem.RequestForceClose()
+  StageBlockCurrentPositionSetter.SetEnable(false)
+  SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
   TppRadio.Stop()
   TppMusicManager.StopMusicPlayer(1)
   TppMusicManager.EndSceneMode()
-  TppRadioCommand.SetEnableIgnoreGamePause(false)GkEventTimerManager.StopAll()
-  TppQuest.OnMissionGameEnd()SsdFlagMission.OnMissionGameEnd()SsdBaseDefense.OnMissionGameEnd()
-  TppScriptBlock.UnloadAll()Mission.AddFinalizer(function()
+  TppRadioCommand.SetEnableIgnoreGamePause(false)
+  GkEventTimerManager.StopAll()
+  TppQuest.OnMissionGameEnd()
+  SsdFlagMission.OnMissionGameEnd()
+  SsdBaseDefense.OnMissionGameEnd()
+  TppScriptBlock.UnloadAll()
+  Mission.AddFinalizer(function()
     this.waitPatchDlcCheckCoroutine=nil
     TppSave.missionStartSaveFilePool=nil
-    TppMission.DisablePauseForShowResult()FadeFunction.SetFadeCallEnable(true)
+    TppMission.DisablePauseForShowResult()
+    FadeFunction.SetFadeCallEnable(true)
     TppUI.SetFadeColorToBlack()
     gvars.isLoadedInitMissionOnSignInUserChanged=false
     gvars.waitLoadingTipsEnd=false
@@ -202,22 +245,23 @@ function this.OnEndExceptionDialogForMgoInvitationAccept()
   end
   if TppSave.IsSaving()then
     if DebugText then
-      local e=DebugText.NewContext()DebugText.Print(e,{.5,.5,1},"TppException : Wating saving process.")
+      local context=DebugText.NewContext()
+      DebugText.Print(context,{.5,.5,1},"TppException : Wating saving process.")
     end
     return this.PROCESS_STATE.SUSPEND
   end
-  local n=TppUiCommand.GetPopupSelect()
-  if n==Popup.SELECT_OK then
+  local popupType=TppUiCommand.GetPopupSelect()
+  if popupType==Popup.SELECT_OK then
     PatchDlc.StartCheckingPatchDlc()
     if PatchDlc.IsCheckingPatchDlc()then
-      local n=this.GetCurrentGameMode()
-      this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_CHECKING,n)
+      local gameMode=this.GetCurrentGameMode()
+      this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_CHECKING,gameMode)
     else
       if PatchDlc.DoesExistPatchDlc()then
         this.CheckMgoChunkInstallation()
       else
-        local n=this.GetCurrentGameMode()
-        this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_ERROR,n)
+        local gameMode=this.GetCurrentGameMode()
+        this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_ERROR,gameMode)
       end
     end
   else
@@ -235,8 +279,8 @@ function this.OnEndExceptionDialogForPatchDlcCheck()
   if PatchDlc.DoesExistPatchDlc()then
     this.CheckMgoChunkInstallation()
   else
-    local n=this.GetCurrentGameMode()
-    this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_ERROR,n)
+    local gameMode=this.GetCurrentGameMode()
+    this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_ERROR,gameMode)
   end
   return this.PROCESS_STATE.FINISH
 end
@@ -245,15 +289,16 @@ function this.CheckMgoChunkInstallation()
     this.GoToMgoByInivitaion()
   else
     Tpp.StartWaitChunkInstallation(Chunk.INDEX_MGO)
-    local n=this.GetCurrentGameMode()
-    this.Enqueue(this.TYPE.WAIT_MGO_CHUNK_INSTALLATION,n)
+    local gameMode=this.GetCurrentGameMode()
+    this.Enqueue(this.TYPE.WAIT_MGO_CHUNK_INSTALLATION,gameMode)
   end
 end
 function this.GoToMgoByInivitaion()
   TppPause.RegisterPause"GoToMGO"TppGameStatus.Set("GoToMGO","S_DISABLE_PLAYER_PAD")
   this.isNowGoingToMgo=true
   this.fadeOutRemainTimeForGoToMgo=TppUI.FADE_SPEED.FADE_HIGHSPEED
-  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,"GoToMgoByInivitaion",TppUI.FADE_PRIORITY.SYSTEM,{setMute=true})FadeFunction.SetFadeCallEnable(false)
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,"GoToMgoByInivitaion",TppUI.FADE_PRIORITY.SYSTEM,{setMute=true})
+  FadeFunction.SetFadeCallEnable(false)
 end
 function this.UpdateMgoChunkInstallingPopup()
   Tpp.ShowChunkInstallingPopup(Chunk.INDEX_MGO,true)
@@ -281,9 +326,9 @@ function this.OnEndExceptionDialogForInvitationAcceptFromOther()
     return this.PROCESS_STATE.SUSPEND
   end
   if not Tpp.IsMaster()then
-    local n=this.TYPE[gvars.exc_processingExecptionType]
-    local n=this.GetCurrentGameMode()
-    local e=this.GAME_MODE[n]
+    local exceptionType=this.TYPE[gvars.exc_processingExecptionType]
+    local gameMode=this.GetCurrentGameMode()
+    local gameType=this.GAME_MODE[gameMode]
   end
   this.CancelMgoInvitation()
   return this.PROCESS_STATE.FINISH
@@ -293,9 +338,9 @@ function this.OnEndExceptionDialogForInvitationAcceptWithoutSignIn()
     return this.PROCESS_STATE.SUSPEND
   end
   if not Tpp.IsMaster()then
-    local n=this.TYPE[gvars.exc_processingExecptionType]
-    local n=this.GetCurrentGameMode()
-    local e=this.GAME_MODE[n]
+    local exceptionType=this.TYPE[gvars.exc_processingExecptionType]
+    local gameMode=this.GetCurrentGameMode()
+    local gameType=this.GAME_MODE[gameMode]
   end
   this.CancelMgoInvitation()
   return this.PROCESS_STATE.FINISH
@@ -311,7 +356,9 @@ function this.OnEndExceptionDialogForCheckMgoChunkInstallation()
   end
   return this.PROCESS_STATE.FINISH
 end
-function this.CancelMgoInvitation()InvitationManager.ResetAccept()InvitationManager.EnableMessage(true)
+function this.CancelMgoInvitation()
+InvitationManager.ResetAccept()
+InvitationManager.EnableMessage(true)
   if Chunk.GetChunkState(Chunk.INDEX_MGO)~=Chunk.STATE_INSTALLED then
     Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
   end
@@ -319,33 +366,50 @@ end
 function this.CoopMissionEndOnException()
   return this.PROCESS_STATE.FINISH
 end
-this.POPUP_CLOSE_CHECK_FUNC={[this.TYPE.INVITATION_ACCEPT]=this.UpdateMgoInvitationAccept,[this.TYPE.INVITATION_PATCH_DLC_CHECKING]=this.UpdateMgoPatchDlcCheckingPopup,[this.TYPE.WAIT_MGO_CHUNK_INSTALLATION]=this.UpdateMgoChunkInstallingPopup}
-this.TPP_ON_END_EXECPTION_DIALOG={[this.TYPE.INVITATION_ACCEPT]=this.OnEndExceptionDialogForMgoInvitationAccept,[this.TYPE.DISCONNECT_FROM_PSN]=this.OnEndExceptionForDisconnectDialog,[this.TYPE.DISCONNECT_FROM_KONAMI]=this.OnEndExceptionForDisconnectDialog,[this.TYPE.DISCONNECT_FROM_NETWORK]=this.OnEndExceptionForDisconnectDialog,[this.TYPE.SESSION_DISCONNECT_FROM_HOST]=this.OnEndExceptionForFromHost,[this.TYPE.SESSION_JOIN_FAILED]=this.OnEndExceptionForFromHost,[this.TYPE.SIGNIN_USER_CHANGED]=this.OnEndExceptionDialogForSignInUserChange,[this.TYPE.INVITATION_PATCH_DLC_CHECKING]=this.OnEndExceptionDialogForPatchDlcCheck,[this.TYPE.INVITATION_PATCH_DLC_ERROR]=this.OnEndExceptionDialogForPatchDlcError,[this.TYPE.INVITATION_ACCEPT_BY_OTHER]=this.OnEndExceptionDialogForInvitationAcceptFromOther,[this.TYPE.INVITATION_ACCEPT_WITHOUT_SIGNIN]=this.OnEndExceptionDialogForInvitationAcceptWithoutSignIn,[this.TYPE.WAIT_MGO_CHUNK_INSTALLATION]=this.OnEndExceptionDialogForCheckMgoChunkInstallation}
-function this.RegisterOnEndExceptionDialog(n,t)
-  this.OnEndExceptionDialog[n]=t
+this.POPUP_CLOSE_CHECK_FUNC={
+  [this.TYPE.INVITATION_ACCEPT]=this.UpdateMgoInvitationAccept,
+  [this.TYPE.INVITATION_PATCH_DLC_CHECKING]=this.UpdateMgoPatchDlcCheckingPopup,
+  [this.TYPE.WAIT_MGO_CHUNK_INSTALLATION]=this.UpdateMgoChunkInstallingPopup
+}
+this.TPP_ON_END_EXECPTION_DIALOG={
+  [this.TYPE.INVITATION_ACCEPT]=this.OnEndExceptionDialogForMgoInvitationAccept,
+  [this.TYPE.DISCONNECT_FROM_PSN]=this.OnEndExceptionForDisconnectDialog,
+  [this.TYPE.DISCONNECT_FROM_KONAMI]=this.OnEndExceptionForDisconnectDialog,
+  [this.TYPE.DISCONNECT_FROM_NETWORK]=this.OnEndExceptionForDisconnectDialog,
+  [this.TYPE.SESSION_DISCONNECT_FROM_HOST]=this.OnEndExceptionForFromHost,
+  [this.TYPE.SESSION_JOIN_FAILED]=this.OnEndExceptionForFromHost,
+  [this.TYPE.SIGNIN_USER_CHANGED]=this.OnEndExceptionDialogForSignInUserChange,
+  [this.TYPE.INVITATION_PATCH_DLC_CHECKING]=this.OnEndExceptionDialogForPatchDlcCheck,
+  [this.TYPE.INVITATION_PATCH_DLC_ERROR]=this.OnEndExceptionDialogForPatchDlcError,
+  [this.TYPE.INVITATION_ACCEPT_BY_OTHER]=this.OnEndExceptionDialogForInvitationAcceptFromOther,
+  [this.TYPE.INVITATION_ACCEPT_WITHOUT_SIGNIN]=this.OnEndExceptionDialogForInvitationAcceptWithoutSignIn,
+  [this.TYPE.WAIT_MGO_CHUNK_INSTALLATION]=this.OnEndExceptionDialogForCheckMgoChunkInstallation
+}
+function this.RegisterOnEndExceptionDialog(gameType,exceptionType)
+  this.OnEndExceptionDialog[gameType]=exceptionType
 end
 this.RegisterOnEndExceptionDialog(this.GAME_MODE.TPP,this.TPP_ON_END_EXECPTION_DIALOG)
 function this.GetCurrentGameMode()
   return this.GAME_MODE.TPP
 end
-function this.Enqueue(n,t)
-  if not this.TYPE[n]then
+function this.Enqueue(exceptionName,t)
+  if not this.TYPE[exceptionName]then
     return
   end
-  local o=gvars.exc_exceptionQueueDepth
-  local i=gvars.exc_exceptionQueueDepth+1
-  if i>=TppDefine.EXCEPTION_QUEUE_MAX then
+  local exc_exceptionQueueDepth=gvars.exc_exceptionQueueDepth
+  local exc_exceptionQueueDepth=gvars.exc_exceptionQueueDepth+1
+  if exc_exceptionQueueDepth>=TppDefine.EXCEPTION_QUEUE_MAX then
     return
   end
-  if(gvars.exc_processingExecptionType==n)then
+  if(gvars.exc_processingExecptionType==exceptionName)then
     return
   end
-  if this.HasQueue(n,t)then
+  if this.HasQueue(exceptionName,t)then
     return
   end
-  gvars.exc_exceptionQueueDepth=i
-  gvars.exc_exceptionQueue[o]=n
-  gvars.exc_queueGameMode[o]=t
+  gvars.exc_exceptionQueueDepth=exc_exceptionQueueDepth
+  gvars.exc_exceptionQueue[exc_exceptionQueueDepth]=exceptionName
+  gvars.exc_queueGameMode[exc_exceptionQueueDepth]=t
 end
 function this.Dequeue(e)
   local e=e or 0
@@ -388,10 +452,12 @@ function this.FinishProcess()
   this.DisablePause()
 end
 function this.EnablePause()
-  TppPause.RegisterPause"TppException.lua"TppGameStatus.Set("TppException","S_DISABLE_PLAYER_PAD")
+  TppPause.RegisterPause"TppException.lua"
+  TppGameStatus.Set("TppException","S_DISABLE_PLAYER_PAD")
 end
 function this.DisablePause()
-  TppPause.UnregisterPause"TppException.lua"TppGameStatus.Reset("TppException","S_DISABLE_PLAYER_PAD")
+  TppPause.UnregisterPause"TppException.lua"
+  TppGameStatus.Reset("TppException","S_DISABLE_PLAYER_PAD")
 end
 this.currentErrorPopupLangId=nil
 local n=false
@@ -409,7 +475,8 @@ function this.Update()
       else
         if not n then
           n=true
-          Mission.SwitchApplication"mgo"end
+          Mission.SwitchApplication"mgo"
+          end
       end
     end
     return
@@ -424,19 +491,21 @@ function this.Update()
     return
   end
   if(gvars.exc_processState>this.PROCESS_STATE.EMPTY)then
-    local t=this.GetCurrentGameMode()
+    local gameMod=this.GetCurrentGameMode()
     if this.IsProcessing()then
       gvars.exc_processState=this.PROCESS_STATE.SHOW_DIALOG
-      local n=this.POPUP_CLOSE_CHECK_FUNC[gvars.exc_processingExecptionType]
-      if n then
-        n()
+      local PopupCloseCheckFunc=this.POPUP_CLOSE_CHECK_FUNC[gvars.exc_processingExecptionType]
+      if PopupCloseCheckFunc then
+        PopupCloseCheckFunc()
       end
       if DebugText then
-        local n=DebugText.NewContext()DebugText.Print(n,{.5,.5,1},"TppException : Now execption proccessing. execptionType = "..(tostring(this.TYPE[gvars.exc_processingExecptionType])..(", gameMode = "..tostring(this.GAME_MODE[t]))))DebugText.Print(n,{.5,.5,1},"TppException : queueDepth = "..tostring(gvars.exc_exceptionQueueDepth))
+        local context=DebugText.NewContext()
+        DebugText.Print(context,{.5,.5,1},"TppException : Now execption proccessing. execptionType = "..(tostring(this.TYPE[gvars.exc_processingExecptionType])..(", gameMode = "..tostring(this.GAME_MODE[gameMod]))))
+        DebugText.Print(context,{.5,.5,1},"TppException : queueDepth = "..tostring(gvars.exc_exceptionQueueDepth))
       end
     else
       this.currentErrorPopupLangId=nil
-      local n=this.OnEndExceptionDialog[t]
+      local n=this.OnEndExceptionDialog[gameMod]
       if not n then
         this.FinishProcess()
         return
@@ -447,14 +516,16 @@ function this.Update()
         return
       end
       gvars.exc_processState=n()
-      local n=gvars.exc_processState
+      local exc_processState=gvars.exc_processState
       if DebugText then
-        local o=DebugText.NewContext()DebugText.Print(o,{.5,.5,1},"TppException : Now execption proccessing. execptionType = "..(tostring(this.TYPE[gvars.exc_processingExecptionType])..(", gameMode = "..tostring(this.GAME_MODE[t]))))DebugText.Print(o,{.5,.5,1},"TppException : gvars.exc_processState = "..tostring(n))
+        local context=DebugText.NewContext()
+        DebugText.Print(context,{.5,.5,1},"TppException : Now execption proccessing. execptionType = "..(tostring(this.TYPE[gvars.exc_processingExecptionType])..(", gameMode = "..tostring(this.GAME_MODE[gameMod]))))
+        DebugText.Print(context,{.5,.5,1},"TppException : gvars.exc_processState = "..tostring(exc_processState))
       end
-      if n>this.PROCESS_STATE.SHOW_DIALOG then
+      if exc_processState>this.PROCESS_STATE.SHOW_DIALOG then
         this.DisablePause()
       end
-      if n==this.PROCESS_STATE.FINISH then
+      if exc_processState==this.PROCESS_STATE.FINISH then
         this.FinishProcess()
       end
     end
@@ -496,17 +567,34 @@ function this.OnReload(n)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.Messages()
-  return Tpp.StrCode32Table{Network={{msg="InvitationAccept",func=this.OnInvitationAccept},{msg="DisconnectFromPsn",func=this.OnDisconnectFromPsn},{msg="DisconnectFromKonami",func=this.OnDisconnectFromKonami},{msg="DisconnectFromNetwork",func=this.OnDisconnectFromNetwork},{msg="SignInUserChanged",func=this.SignInUserChanged},{msg="InvitationAcceptByOther",func=this.OnInvitationAcceptByOther},{msg="InvitationAcceptWithoutSignIn",func=this.OnInvitationAcceptWithoutSignIn},{msg="EndLogin",func=function()
-    gvars.exc_skipServerSaveForException=false
-    gvars.exc_processingForDisconnect=false
-  end},{msg="SessionDisconnectFromHost",func=this.OnSessionDisconnectFromHost},{msg="FailedJoinSession",func=this.OnFailedJoinSession},{msg="NoPrivilegeMultiPlay",func=function()
-    TppUiCommand.ShowErrorPopup(2310)
-  end}},Nt={{msg="SessionDisconnectFromHost",func=this.OnSessionDisconnectFromHost},{msg="FailedJoinSession",func=this.OnFailedJoinSession},{msg="SessionDeleteMember",func=function()
-    if TppServerManager.FobIsSneak()then
-      local e=4181
-      TppUiCommand.ShowErrorPopup(e)
-    end
-  end}},Dlc={{msg="DlcStatusChanged",func=this.OnDlcStatusChanged}}}
+  return Tpp.StrCode32Table{
+    Network={
+      {msg="InvitationAccept",func=this.OnInvitationAccept},
+      {msg="DisconnectFromPsn",func=this.OnDisconnectFromPsn},
+      {msg="DisconnectFromKonami",func=this.OnDisconnectFromKonami},
+      {msg="DisconnectFromNetwork",func=this.OnDisconnectFromNetwork},
+      {msg="SignInUserChanged",func=this.SignInUserChanged},
+      {msg="InvitationAcceptByOther",func=this.OnInvitationAcceptByOther},
+      {msg="InvitationAcceptWithoutSignIn",func=this.OnInvitationAcceptWithoutSignIn},
+      {msg="EndLogin",func=function()
+        gvars.exc_skipServerSaveForException=false
+        gvars.exc_processingForDisconnect=false
+      end},
+      {msg="SessionDisconnectFromHost",func=this.OnSessionDisconnectFromHost},
+      {msg="FailedJoinSession",func=this.OnFailedJoinSession},
+      {msg="NoPrivilegeMultiPlay",func=function()
+        TppUiCommand.ShowErrorPopup(2310)
+      end}},
+    Nt={
+      {msg="SessionDisconnectFromHost",func=this.OnSessionDisconnectFromHost},
+      {msg="FailedJoinSession",func=this.OnFailedJoinSession},
+      {msg="SessionDeleteMember",func=function()
+        if TppServerManager.FobIsSneak()then
+          local e=4181
+          TppUiCommand.ShowErrorPopup(e)
+        end
+      end}},
+    Dlc={{msg="DlcStatusChanged",func=this.OnDlcStatusChanged}}}
 end
 function this.OnInvitationAccept()
   local n=this.GetCurrentGameMode()
@@ -530,10 +618,10 @@ function this.OnDisconnectFromKonami()
   this.Update()
 end
 function this.OnDisconnectFromNetwork()
-  local n=this.GetCurrentGameMode()
+  local gameMode=this.GetCurrentGameMode()
   vars.invitationDisableRecieveFlag=1
   this.DequeueP2PDisconnectException()
-  this.Enqueue(this.TYPE.DISCONNECT_FROM_NETWORK,n)
+  this.Enqueue(this.TYPE.DISCONNECT_FROM_NETWORK,gameMode)
   this._OnDisconnectNetworkCommon()
   this.Update()
 end

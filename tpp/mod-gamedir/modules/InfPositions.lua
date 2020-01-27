@@ -8,7 +8,9 @@ this.positions={}
 this.registerMenus={
   'positionsMenu',
 }
+
 this.positionsMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "InfPositions.AddPosition",
     "InfPositions.AddMarkerPositions",--DEBUGNOW TODO: where to have this
@@ -82,7 +84,7 @@ function this.ClearPositions()
 end
 
 function this.WritePositions()
-  InfCore.Log("InfLookup.WritePositions:")
+  InfCore.Log("InfPositions.WritePositions:")
 
   local writeTypes={
     positions_plain={fmt='%.3f,%.3f,%.3f,%3f,'},

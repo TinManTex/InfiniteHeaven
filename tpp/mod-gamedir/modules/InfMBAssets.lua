@@ -1,27 +1,26 @@
 --InfMBAssets.lua
 local this={}
 
--->
 this.registerIvars={
-  'mbShowBigBossPosters',
-  'mbShowQuietCellSigns',
-  'mbShowMbEliminationMonument',
-  'mbShowSahelan',
-  'mbShowAiPod',
-  'mbShowShips',
-  'mbShowEli',
-  'mbShowCodeTalker',
-  'mbShowHuey',
-  'mbEnableOceanSettings',
-  'mbSetOceanBaseHeight',
-  'mbSetOceanProjectionScale',
-  'mbSetOceanBlendEnd',
-  'mbSetOceanFarProjectionAmplitude',
-  'mbSetOceanSpecularIntensity',
-  'mbSetOceanDisplacementStrength',
-  'mbSetOceanWaveAmplitude',
-  'mbSetOceanWindDirectionP1',
-  'mbSetOceanWindDirectionP2',
+  "mbShowBigBossPosters",
+  "mbShowQuietCellSigns",
+  "mbShowMbEliminationMonument",
+  "mbShowSahelan",
+  "mbShowAiPod",
+  "mbShowShips",
+  "mbShowEli",
+  "mbShowCodeTalker",
+  "mbShowHuey",
+  "mbEnableOceanSettings",
+  "mbSetOceanBaseHeight",
+  "mbSetOceanProjectionScale",
+  "mbSetOceanBlendEnd",
+  "mbSetOceanFarProjectionAmplitude",
+  "mbSetOceanSpecularIntensity",
+  "mbSetOceanDisplacementStrength",
+  "mbSetOceanWaveAmplitude",
+  "mbSetOceanWindDirectionP1",
+  "mbSetOceanWindDirectionP2",
 }
 
 this.mbShowBigBossPosters={
@@ -96,7 +95,7 @@ this.mbEnableOceanSettings={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -115,7 +114,7 @@ this.mbSetOceanBaseHeight={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=-100,max=100,increment=5},
   default=-23,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -130,7 +129,7 @@ this.mbSetOceanProjectionScale={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=2000,increment=10},
   default=60,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -145,7 +144,7 @@ this.mbSetOceanBlendEnd={-- Distance high frequency wave mesh ends
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=2000,increment=10},
   default=380,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -160,7 +159,7 @@ this.mbSetOceanFarProjectionAmplitude={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=-100,max=100,increment=1},
   default=0,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -175,7 +174,7 @@ this.mbSetOceanSpecularIntensity={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=-30,max=30,increment=1},
   default=1,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -190,7 +189,7 @@ this.mbSetOceanDisplacementStrength={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=10,increment=0.005},
   default=0.01,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -205,7 +204,7 @@ this.mbSetOceanWaveAmplitude={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=10,increment=0.100},
   default=0.500,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -220,7 +219,7 @@ this.mbSetOceanWindDirectionP1={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=-10,max=10,increment=0.1},
   default=0.1,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -236,7 +235,7 @@ this.mbSetOceanWindDirectionP2={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=-10,max=10,increment=0.1},
   default=0.1,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if not self:MissionCheck(vars.missionCode) then
       return
     end
@@ -251,9 +250,9 @@ this.mbSetOceanWindDirectionP2={
 
 --< ivar defs
 this.registerMenus={
-  'motherBaseShowCharactersMenu',
-  'motherBaseShowAssetsMenu',
-  'mbOceanMenu',
+  "motherBaseShowCharactersMenu",
+  "motherBaseShowAssetsMenu",
+  "mbOceanMenu",
 }
 
 this.motherBaseShowCharactersMenu={
@@ -291,6 +290,7 @@ this.motherBaseShowAssetsMenu={
 }
 
 this.mbOceanMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.mbEnableOceanSettings",
     "Ivars.mbSetOceanBaseHeight",
@@ -322,7 +322,7 @@ this.langStrings={
   },
   help={
     eng={
-      mbShowHuey="Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.", 
+      mbShowHuey="Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.",
     },
   },
 }

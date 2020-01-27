@@ -2,11 +2,11 @@
 local this={}
 
 this.registerIvars={
-  'clockTimeScale',
-  'speedCamContinueTime',
-  'speedCamWorldTimeScale',
-  'speedCamPlayerTimeScale',
-  'speedCamNoDustEffect',
+  "clockTimeScale",
+  "speedCamContinueTime",
+  "speedCamWorldTimeScale",
+  "speedCamPlayerTimeScale",
+  "speedCamNoDustEffect",
 }
 
 this.clockTimeScale={
@@ -102,10 +102,11 @@ end
 
 
 this.registerMenus={
-  'timeScaleMenu',
+  "timeScaleMenu",
 }
 
 this.timeScaleMenu={
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
   options={
     "InfTimeScale.HighSpeedCameraToggle",
     "Ivars.speedCamContinueTime",

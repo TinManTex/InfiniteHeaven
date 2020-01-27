@@ -86,15 +86,9 @@ this.requires={
   "/Assets/tpp/script/lib/TppRanking.lua",
   "/Assets/tpp/script/lib/TppTrophy.lua",
   "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-  "/Assets/tpp/script/lib/InfButton.lua",--tex>
-  "/Assets/tpp/script/lib/InfModules.lua",
-  "/Assets/tpp/script/lib/InfMain.lua",
-  "/Assets/tpp/script/lib/InfMenu.lua",
-  "/Assets/tpp/script/lib/InfEneFova.lua",
-  "/Assets/tpp/script/lib/InfRevenge.lua",
-  "/Assets/tpp/script/lib/InfLZ.lua",
-  "/Assets/tpp/script/lib/InfPersistence.lua",
-  "/Assets/tpp/script/lib/InfHooks.lua",--<
+--  "/Assets/tpp/script/lib/InfButton.lua",--tex>--CULL
+--  "/Assets/tpp/script/lib/InfModules.lua",
+--  "/Assets/tpp/script/lib/InfMain.lua",--<
 }
 function this.IsTypeFunc(e)
   return type(e)=="function"
@@ -304,7 +298,11 @@ function this.DoMessage(messageExecTable,CheckMessageOption,messageClass,message
     return
   end
   local unkBool=true
-  this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,unkBool)
+  if InfCore.debugMode and Ivars.debugMessages:Get()==1 then--tex> wrap in pcall
+    InfCore.PCall(this.DoMessageAct,messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,unkBool)
+  else--<
+    this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,unkBool)
+  end
 end
 function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
   if messageIdRecievers.func then
@@ -643,7 +641,7 @@ function this.IsLoadedSmallBlock(blockIndexX,blockIndexY)
   local blockSize=4
   local minX,minY=StageBlock.GetCurrentMinimumSmallBlockIndex()
   local maxX=minX+blockSize
-  local maxY=minX+blockSize--RETAILBUG: should be minY+blockSize? but function isn't used anywhere?
+  local maxY=minY+blockSize--RETAILBUG: was minX+blockSize (is fixed in SSD), but function isn't used anywhere?
   return((minX<=blockIndexX and maxX>=blockIndexX)and minY<=blockIndexY)and maxY>=blockIndexY
 end
 function this.IsLoadedLargeBlock(blockName)
@@ -663,7 +661,7 @@ function this.GetLoadedLargeBlock()
   end
   return nil
 end
-function this.GetChunkIndex(locationId,isMGO)--tex VERIFY, ssd param2 is missioncode 
+function this.GetChunkIndex(locationId,isMGO)--tex VERIFY, ssd param2 is missioncode
   local chunkIndex
   if isMGO then
     chunkIndex=Chunk.INDEX_MGO
@@ -682,7 +680,7 @@ function this.StartWaitChunkInstallation(chunkIndex)
 end
 local r=1
 local chunkInstallPopupUpdateTime=0
-function this.ShowChunkInstallingPopup(t,l)
+function this.ShowChunkInstallingPopup(chunkId,useOneCancelButtonPopup)
   local frameTime=Time.GetFrameTime()
   chunkInstallPopupUpdateTime=chunkInstallPopupUpdateTime-frameTime
   if chunkInstallPopupUpdateTime>0 then
@@ -693,102 +691,108 @@ function this.ShowChunkInstallingPopup(t,l)
     chunkInstallPopupUpdateTime=0
   end
   local platform=Fox.GetPlatformName()
-  local installEta=Chunk.GetChunkInstallationEta(t)
+  local installEta=Chunk.GetChunkInstallationEta(chunkId)
   if installEta and platform=="PS4"then
     if installEta>86400 then
       installEta=86400
     end
     TppUiCommand.SetErrorPopupParam(installEta)
   end
-  local installRate=Chunk.GetChunkInstallationRate(t)
+  local installRate=Chunk.GetChunkInstallationRate(chunkId)
   if installRate and platform=="XboxOne"then
     TppUiCommand.SetErrorPopupParam(installRate*1e4,"None",2)
   end
-  local e
-  if l then
-    e=Popup.TYPE_ONE_CANCEL_BUTTON
+  local popupType
+  if useOneCancelButtonPopup then
+    popupType=Popup.TYPE_ONE_CANCEL_BUTTON
   else
     TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"
   end
-  TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,e)
+  TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,popupType)
 end
 function this.ClearChunkInstallPopupUpdateTime()
   chunkInstallPopupUpdateTime=0
 end
-function this.GetFormatedStorageSizePopupParam(unkp1)
-  local n=1024
-  local e=1024*n
-  local l=1024*e
-  local l,r,i=unkp1/l,unkp1/e,unkp1/n
-  local n=0
-  local e=""
-  if l>=1 then
-    n=l*100
-    e="G"
-  elseif r>=1 then
-    n=r*100
-    e="M"
-  elseif i>=1 then
-    n=i*100
-    e="K"
+function this.GetFormatedStorageSizePopupParam(neededSpace)
+  local toKb=1024
+  local toMb=1024*toKb
+  local toGb=1024*toMb
+  local gb,mg,kb=neededSpace/toGb,neededSpace/toMb,neededSpace/toKb
+  local size=0
+  local unitLetter=""
+  if gb>=1 then
+    size=gb*100
+    unitLetter="G"
+  elseif mg>=1 then
+    size=mg*100
+    unitLetter="M"
+  elseif kb>=1 then
+    size=kb*100
+    unitLetter="K"
   else
-    return unkp1,"",0
+    return neededSpace,"",0
   end
-  local n=math.ceil(n)
-  return n,e,2
+  local sizeValue=math.ceil(size)
+  return sizeValue,unitLetter,2
 end
 --RETAILPATCH 1070 reworked>
-function this.PatchDlcCheckCoroutine(p1,p2,p3,p4)
-  if p4==nil then
-    p4=PatchDlc.PATCH_DLC_TYPE_MGO_DATA
+function this.PatchDlcCheckCoroutine(OnPatchExist,OnPatchNotExist,skipDlcTypeCheck,dlcType)
+  if dlcType==nil then
+    dlcType=PatchDlc.PATCH_DLC_TYPE_MGO_DATA
   end
-  local n={[PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=true,[PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=true}
-  if not n[p4]then
+  local validTypes={
+  [PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=true,
+  [PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=true
+  }
+  if not validTypes[dlcType]then
     Fox.Hungup"Invalid dlc type."
     return false
   end
-  local function RENf1(e)
+  local function DebugPrint(message)
   end
-  local function RENf2()
+  local function ClosePopupYield()
     if TppUiCommand.IsShowPopup()then
       TppUiCommand.ErasePopup()
       while TppUiCommand.IsShowPopup()do
-        RENf1"waiting popup closed..."
+        DebugPrint"waiting popup closed..."
         coroutine.yield()
       end
     end
   end
-  local function RENf3()
+  local function YeildWhileSaving()
     while TppSave.IsSaving()do
-      RENf1"waiting saving end..."
+      DebugPrint"waiting saving end..."
       coroutine.yield()
     end
   end
-  RENf3()
-  PatchDlc.StartCheckingPatchDlc(p4)
+  YeildWhileSaving()
+  PatchDlc.StartCheckingPatchDlc(dlcType)
   if PatchDlc.IsCheckingPatchDlc()then
-    if not p3 then
-      RENf2()
-      local n={[PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=5100,[PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=5150}
-      local e=n[p4]
+    if not skipDlcTypeCheck then
+      ClosePopupYield()
+      local errorIds={
+      [PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=5100,
+      [PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=5150
+      }
+      local errorId=errorIds[dlcType]
       TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"
-      TppUiCommand.ShowErrorPopup(e)
+      TppUiCommand.ShowErrorPopup(errorId)
     end
     while PatchDlc.IsCheckingPatchDlc()do
-      RENf1"waiting checking PatchDlc end..."
+      DebugPrint"waiting checking PatchDlc end..."
       coroutine.yield()
       TppUI.ShowAccessIconContinue()
     end
   end
-  RENf2()
-  if PatchDlc.DoesExistPatchDlc(p4)then
-    if p1 then
-      p1()
+  ClosePopupYield()
+  if PatchDlc.DoesExistPatchDlc(dlcType)then
+    if OnPatchExist then
+      OnPatchExist()
     end
     return true
   else
-    if p2 then
-      p2()
+    if OnPatchNotExist then
+      OnPatchNotExist()
     end
     return false
   end

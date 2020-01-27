@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="features.css">
+<title>Features and Options</title>
+</head>
+<body>
+<div id="menu">
+<div id="menuTitle">Infinite Heaven features</div>
+<div id="menuItem"><a href="https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF">YouTube playlist demonstrating many features</a></div>
+<div id="menuItem">All options in Infinite Heaven start set to game defaults and can be adjusted in the Infinite Heaven menus.</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">Discrete features</div>
+<div id="menuItem">Quick menu commands.</div>
+<div id="itemHelp">(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)<br/>Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
+<div id="menuItem">Settings save file.</div>
+<div id="itemHelp">IH writes its settings to ih_save.lua in the MGS_TPPmodsaves folder.<br/>While the file is editable, editing an inMission save is likely to cause issues.</div>
+<div id="menuItem">Profiles.</div>
+<div id="itemHelp">Editable lists of options as an alternative to using the in game IH menu, see the \mod\profiles folder in your MGS_TPP game folder.</div>
+<div id="menuItem">Reload lua scripts in MGS_TPP without exiting game.</div>
+<div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
+<div id="menuItem">IHExt overlay</div>
+<div id="itemHelp">IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.<br/>The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.<br/>Enable via the IH System menu.<br/>Source can be found at https://github.com/TinManTex/IHExt/</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">Menu, Options and Settings</div>
+<div id="menuItem">Basic terms used in the Infinite Heaven menu:<br/>[Option] : [Setting(s)] </div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="safeSpaceMenu">Safe-space menu</div>
+</div>
+<div id="menuItem">
+<div>1: devInAccMenu : DEBUGNOW GetSettingsText no decent output found</div>
+</div>
+<div id="menuItem">
+<div>2: <a href="#systemMenu">IH system menu</a></div>
+</div>
+<div id="menuItem">
+<div>3: <a href="#cameraMenu">Camera menu</a></div>
+</div>
+<div id="menuItem">
+<div>4: <a href="#debugMenu">Debug menu</a></div>
+</div>
+<div id="menuItem">
+<div>5: <a href="#ssdSafeSpaceMenu">Misc menu</a></div>
+</div>
+<div id="menuItem">
+<div>6: <a href="#timeScaleMenu">Time scale menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="systemMenu">IH system menu</div>
+</div>
+<div id="menuItem">
+<div>1: Enable IHExt : Off, On</div>
+<div id="itemHelp">IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.</div>
+</div>
+<div id="menuItem">
+<div>2: Enable help text (IHExt) : Off, On</div>
+<div id="itemHelp">Shows help text in IHExt for some options.</div>
+</div>
+<div id="menuItem">
+<div>3: Give IHExt focus : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Select profile : No profiles installed</div>
+<div id="itemHelp">Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
+</div>
+<div id="menuItem">
+<div>5: Set profile options to game defaults : 0-1</div>
+<div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
+</div>
+<div id="menuItem">
+<div>6: Save to UserSaved profile : 0-1</div>
+<div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.</div>
+</div>
+<div id="menuItem">
+<div>7: Enable Quick Menu : Off, On</div>
+<div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
+</div>
+<div id="menuItem">
+<div>8: Reset all IH settings : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="cameraMenu">Camera menu</div>
+<div id="menuHelp">Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.</div>
+</div>
+<div id="menuItem">
+<div>1: Adjust-cam [Mode] : Off, On</div>
+<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+</div>
+<div id="menuItem">
+<div>2: Camera mode : Default, Free cam</div>
+</div>
+<div id="menuItem">
+<div>3: Warp body to FreeCam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Cam speed scale : 0.01-10</div>
+</div>
+<div id="menuItem">
+<div>5: Disable mode text feedback : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: setStageBlockPositionToFreeCam : 0-1</div>
+</div>
+<div id="menuItem">
+<div>7: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="debugMenu">Debug menu</div>
+</div>
+<div id="menuItem">
+<div>1: Debug IH mode : Off, On</div>
+<div id="itemHelp">Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.</div>
+</div>
+<div id="menuItem">
+<div>2: debugMessages : Off, On</div>
+<div id="itemHelp">Logs game message system, requires Debug IH mode to be on.</div>
+</div>
+<div id="menuItem">
+<div>3: debugFlow : Off, On</div>
+<div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
+</div>
+<div id="menuItem">
+<div>4: debugOnUpdate : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: loadExternalModules : 0-1</div>
+</div>
+<div id="menuItem">
+<div>6: copyLogToPrev : 0-1</div>
+</div>
+<div id="menuItem">
+<div>7: printPressedButtons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>9: Show position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>10: Show missionCode : 0-1</div>
+</div>
+<div id="menuItem">
+<div>11: Show game language code : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+<div>13: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+<div>14: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+<div>16: manualMissionCode : </div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="ssdSafeSpaceMenu">Misc menu</div>
+</div>
+<div id="menuItem">
+<div>1: Disable common radio warnings : Off, On</div>
+<div id="itemHelp">Disables radio warnings by the AI about your oxygen, health etc status.</div>
+</div>
+<div id="menuItem">
+<div>2: Enable gender select : Off, On</div>
+<div id="itemHelp">Enables gender select for when using the in-base avatar editor.</div>
+</div>
+<div id="menuItem">
+<div>3: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+<div>4: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="timeScaleMenu">Time scale menu</div>
+</div>
+<div id="menuItem">
+<div>1: Toggle TSM : 0-1</div>
+<div id="itemHelp">Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.</div>
+</div>
+<div id="menuItem">
+<div>2: TSM length (seconds) : 0-1000</div>
+<div id="itemHelp">The time in seconds of the TSM</div>
+</div>
+<div id="menuItem">
+<div>3: TSM world time scale : 0-100</div>
+<div id="itemHelp">Time scale of the world, including soldiers/vehicles during TSM</div>
+</div>
+<div id="menuItem">
+<div>4: TSM player time scale : 0-100</div>
+<div id="itemHelp">Time scale of the player during TSM</div>
+</div>
+<div id="menuItem">
+<div>5: No screen effect : Off, On</div>
+<div id="itemHelp">Does not apply the dust and blur effect while TSM is active.</div>
+</div>
+<div id="menuItem">
+<div>6: Clock time scale : 1-10000</div>
+<div id="itemHelp">Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="inMissionMenu">In-mission menu</div>
+</div>
+<div id="menuItem">
+<div>1: devInMissionMenu : DEBUGNOW GetSettingsText no decent output found</div>
+</div>
+<div id="menuItem">
+<div>2: <a href="#cameraMenu">Camera menu</a></div>
+</div>
+<div id="menuItem">
+<div>3: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
+</div>
+<div id="menuItem">
+<div>4: <a href="#ssdInMissionMenu">Misc menu</a></div>
+</div>
+<div id="menuItem">
+<div>5: <a href="#positionsMenu">Positions menu</a></div>
+</div>
+<div id="menuItem">
+<div>6: <a href="#timeScaleMenu">Time scale menu</a></div>
+</div>
+<div id="menuItem">
+<div>7: <a href="#userMarkerMenu">User marker menu</a></div>
+</div>
+<div id="menuItem">
+<div>8: <a href="#dustControllerMenu">dustControllerMenu</a></div>
+</div>
+<div id="menuItem">
+<div>9: <a href="#gearMenu">gearMenu</a></div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="cameraMenu">Camera menu</div>
+<div id="menuHelp">Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.</div>
+</div>
+<div id="menuItem">
+<div>1: Adjust-cam [Mode] : Off, On</div>
+<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+</div>
+<div id="menuItem">
+<div>2: Camera mode : Default, Free cam</div>
+</div>
+<div id="menuItem">
+<div>3: Warp body to FreeCam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Cam speed scale : 0.01-10</div>
+</div>
+<div id="menuItem">
+<div>5: Disable mode text feedback : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: setStageBlockPositionToFreeCam : 0-1</div>
+</div>
+<div id="menuItem">
+<div>7: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="debugInMissionMenu">Debug stuff menu</div>
+</div>
+<div id="menuItem">
+<div>1: Debug IH mode : Off, On</div>
+<div id="itemHelp">Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.</div>
+</div>
+<div id="menuItem">
+<div>2: debugMessages : Off, On</div>
+<div id="itemHelp">Logs game message system, requires Debug IH mode to be on.</div>
+</div>
+<div id="menuItem">
+<div>3: debugFlow : Off, On</div>
+<div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
+</div>
+<div id="menuItem">
+<div>4: debugOnUpdate : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: loadExternalModules : 0-1</div>
+</div>
+<div id="menuItem">
+<div>6: copyLogToPrev : 0-1</div>
+</div>
+<div id="menuItem">
+<div>7: printPressedButtons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: printOnBlockChange : Off, On</div>
+</div>
+<div id="menuItem">
+<div>9: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+<div>11: resetStageBlockPosition : 0-1</div>
+</div>
+<div id="menuItem">
+<div>12: setStageBlockPositionToMarkerClosest : 0-1</div>
+</div>
+<div id="menuItem">
+<div>13: setStageBlockPositionToFreeCam : 0-1</div>
+</div>
+<div id="menuItem">
+<div>14: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>15: Show position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>16: checkPointSave : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="ssdInMissionMenu">Misc menu</div>
+</div>
+<div id="menuItem">
+<div>1: Enable minimap : Off, On</div>
+</div>
+<div id="menuItem">
+<div>2: Disable common radio warnings : Off, On</div>
+<div id="itemHelp">Disables radio warnings by the AI about your oxygen, health etc status.</div>
+</div>
+<div id="menuItem">
+<div>3: Enable gender select : Off, On</div>
+<div id="itemHelp">Enables gender select for when using the in-base avatar editor.</div>
+</div>
+<div id="menuItem">
+<div>4: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="positionsMenu">Positions menu</div>
+<div id="menuHelp">For adding positions in the game to a Positions List, and writing them to files.</div>
+</div>
+<div id="menuItem">
+<div>1: Add current position to Positions List : 0-1</div>
+<div id="itemHelp">Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.</div>
+</div>
+<div id="menuItem">
+<div>2: Add markers to Positions List : 0-1</div>
+<div id="itemHelp">Adds current user markers to positions list, positions list can be written to file with Write Positons List command.</div>
+</div>
+<div id="menuItem">
+<div>3: Write Positions List : 0-1</div>
+<div id="itemHelp">Writes Positions List to files in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>4: Clear Positions List : 0-1</div>
+<div id="itemHelp">Clears Positions List</div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="timeScaleMenu">Time scale menu</div>
+</div>
+<div id="menuItem">
+<div>1: Toggle TSM : 0-1</div>
+<div id="itemHelp">Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.</div>
+</div>
+<div id="menuItem">
+<div>2: TSM length (seconds) : 0-1000</div>
+<div id="itemHelp">The time in seconds of the TSM</div>
+</div>
+<div id="menuItem">
+<div>3: TSM world time scale : 0-100</div>
+<div id="itemHelp">Time scale of the world, including soldiers/vehicles during TSM</div>
+</div>
+<div id="menuItem">
+<div>4: TSM player time scale : 0-100</div>
+<div id="itemHelp">Time scale of the player during TSM</div>
+</div>
+<div id="menuItem">
+<div>5: No screen effect : Off, On</div>
+<div id="itemHelp">Does not apply the dust and blur effect while TSM is active.</div>
+</div>
+<div id="menuItem">
+<div>6: Clock time scale : 1-10000</div>
+<div id="itemHelp">Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="userMarkerMenu">User marker menu</div>
+</div>
+<div id="menuItem">
+<div>1: Warp to latest marker : 0-1</div>
+</div>
+<div id="menuItem">
+<div>2: Print latest marker : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: Print all markers : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Add markers to Positions List : 0-1</div>
+<div id="itemHelp">Adds current user markers to positions list, positions list can be written to file with Write Positons List command.</div>
+</div>
+<div id="menuItem">
+<div>5: Write Positions List : 0-1</div>
+<div id="itemHelp">Writes Positions List to files in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>6: Clear Positions List : 0-1</div>
+<div id="itemHelp">Clears Positions List</div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="dustControllerMenu">dustControllerMenu</div>
+<div id="menuHelp">WIP alternate to games FogWallController</div>
+</div>
+<div id="menuItem">
+<div>1: dust_enableController : Off, On</div>
+</div>
+<div id="menuItem">
+<div>2: dust_requireOxygenMask : Off, On</div>
+</div>
+<div id="menuItem">
+<div>3: dust_wallVisible : Off, On</div>
+</div>
+<div id="menuItem">
+<div>4: dust_forceWeather : NONE, FOGGY, SUNNY, RAINY, SANDSTORM</div>
+</div>
+<div id="menuItem">
+<div>5: dust_fogDensity : 0-1</div>
+</div>
+<div id="menuItem">
+<div>6: dust_fogType : NORMAL, PARASITE, EERIE</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="gearMenu">gearMenu</div>
+<div id="menuHelp">WIP changing gear parts directly</div>
+</div>
+<div id="menuItem">
+<div>1: gear_Helmet : 0-1</div>
+</div>
+<div id="menuItem">
+<div>2: gear_Arm : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: gear_UpperBody : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: gear_LowerBody : 0-1</div>
+</div>
+<div id="menuItem">
+<div>5: gear_Inner : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+</body>
+</html>

@@ -5831,12 +5831,12 @@ this.announceForPhase={
 function this._AnnouncePhaseChange(cpId,phase)
   local cpSubType=this.GetCpSubType(cpId)
   if cpSubType==nil then
-    InfCore.Log("TppEnemy._AnnouncePhaseChange: WARNING cpSubType==nil for cpId "..tostring(cpId))
+    InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: cpSubType==nil for cpId "..tostring(cpId))
     return
   end
   local cpLangId=this.cpSubTypeToLangId[cpSubType]
   if cpLangId==nil then
-    InfCore.Log("TppEnemy._AnnouncePhaseChange: WARNING unknown cpSubType "..cpSubType.." for cpId "..tostring(cpId))
+    InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: unknown cpSubType "..cpSubType.." for cpId "..tostring(cpId))
   end
   cpLangId=cpLangId or "cmmn_ene_soviet"--tex default to sov
   if cpLangId=="" then--tex unless specifically none

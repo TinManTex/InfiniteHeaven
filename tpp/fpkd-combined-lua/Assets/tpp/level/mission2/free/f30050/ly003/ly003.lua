@@ -58,7 +58,7 @@ this.enemyAssetTable = {
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0000",
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0001",
         "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0000",
-        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0001",
+        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav1|uav_0001",
       },
       uavSneakRoute = {
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0000",

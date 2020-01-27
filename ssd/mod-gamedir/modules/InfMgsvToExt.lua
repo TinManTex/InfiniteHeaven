@@ -1,9 +1,12 @@
 -- InfMgsvToExt.lua
 local this={}
 
+local InfCore=InfCore
+local ivars=ivars
 local concat=table.concat
+local type=type
 
-this.debugModule=false--DEBUGNOW
+this.debugModule=false
 
 --FORMAT
 --uiElements={
@@ -18,9 +21,9 @@ end
 function this.Init()
   --DEBUGNOW
   if vars.missionCode <=5 then
-    InfCore.ExtCmd("UiElementVisible","runningLabel",1)
+    this.ExtCmd("UiElementVisible","runningLabel",1)
   else
-    InfCore.ExtCmd("UiElementVisible","runningLabel",0)
+    this.ExtCmd("UiElementVisible","runningLabel",0)
   end
 end
 
@@ -36,7 +39,7 @@ function this.ExtCmd(cmd,...)
 
   InfCore.mgsvToExtCurrent=InfCore.mgsvToExtCurrent+1
 
-  local args={...}--tex doesnt catch intermediary params that are nil
+  local args={...}--tex GOTOCHA doesnt catch intermediary params that are nil
   local message=InfCore.mgsvToExtCurrent..'|'..cmd
   if #args>0 then
     message=message..'|'..concat(args,'|')
@@ -64,7 +67,7 @@ function this.CreateUiElement(name,xamlStr)
   this.uiElements[name]=xamlStr
 
   --InfCore.PrintInspect(xamlStr,'xamlStr')--DEBUG
-  InfCore.ExtCmd('CreateUiElement',name,xamlStr)
+  this.ExtCmd('CreateUiElement',name,xamlStr)
 end
 
 function this.RemoveUiElement(name)
@@ -73,22 +76,7 @@ function this.RemoveUiElement(name)
     return
   end
 
-  InfCore.ExtCmd('RemoveUiElement',name)
-end
-
---tex set Content on uiElement
-function this.SetContent(name,content)
-  --  if not this.uiElements[name] then
-  --    InfCore.Log('WARNING: SetContent: could not find uiElement '..name)
-  --    return
-  --  end
-
-  if type(content)~='string' then
-    InfCore.Log('WARNING: SetContent: content is not string')
-    return
-  end
-
-  InfCore.ExtCmd('SetContent',name,content)
+  this.ExtCmd('RemoveUiElement',name)
 end
 
 --Menu specific
@@ -133,30 +121,33 @@ local inputLineXaml={
   [[/>]],
 }
 
-local menuElementName='menuLine'
+local menuLine='menuLine'
+local menuItems='menuItems'
+local menuSetting='menuSetting'
 local inputElementName='inputLine'
+local UiElementVisible='UiElementVisible'
+
 function this.ShowMenu()
-  --DEBUGNOW this.CreateUiElement(menuElementName,table.concat(menuLineXaml))
-  --DEBUGNOW this.CreateUiElement(inputElementName,table.concat(inputLineXaml))
-  InfCore.ExtCmd('UiElementVisible','menuWrap',1)
-  InfCore.ExtCmd('UiElementVisible','menuItems',1)
-  InfCore.ExtCmd('UiElementVisible','menuTitle',1)
-  if ivars.enableHelp>0 then
-    InfCore.ExtCmd('UiElementVisible','menuHelp',1)
-  end
+  --DEBUGNOW this.CreateUiElement(menuLine,table.concat(menuLineXaml))
+  --DEBUGNOW this.CreateUiElement(inputLine,table.concat(inputLineXaml))
+  this.ExtCmd(UiElementVisible,'menuWrap',1)
+  this.ExtCmd(UiElementVisible,'menuItems',1)
+  this.ExtCmd(UiElementVisible,'menuTitle',1)
+  this.ExtCmd(UiElementVisible,'menuHelp',ivars.enableHelp)
 end
 
 function this.HideMenu()
-  InfCore.ExtCmd('UiElementVisible','menuWrap',0)
-  InfCore.ExtCmd('UiElementVisible','menuItems',0)
-  InfCore.ExtCmd('UiElementVisible','menuTitle',0)
-  InfCore.ExtCmd('UiElementVisible','menuHelp',0)
+  this.ExtCmd(UiElementVisible,'menuWrap',0)
+  this.ExtCmd(UiElementVisible,'menuItems',0)
+  this.ExtCmd(UiElementVisible,'menuTitle',0)
+  this.ExtCmd(UiElementVisible,'menuHelp',0)
 end
 
 function this.SetMenuLine(fullText,text)
-  InfCore.ExtCmd('SetContent',menuElementName,text)
-  InfCore.ExtCmd('UpdateTable','menuItems',InfMenu.currentIndex-1,fullText)
-  InfCore.ExtCmd('SelectItem','menuItems',InfMenu.currentIndex-1)
+  --DEBUGNOW ExtCmd('SetContent',menuElementName,text)
+  this.ExtCmd('SetTextBox',menuLine,text)
+  this.ExtCmd('UpdateTable',menuItems,InfMenu.currentIndex-1,fullText)
+  this.ExtCmd('SelectItem',menuItems,InfMenu.currentIndex-1)
   --DEBUGNOW
   --DEBUGNOW setting the combo settings only needs to be run on selection of setting, selectcombo still needs to be run though
   local currentOption=InfMenu.GetCurrentOption()
@@ -169,21 +160,21 @@ function this.SetMenuLine(fullText,text)
 
     local settingNames=currentOption.settingNames
     if type(currentOption.GetSettingText)=="function" then
-      InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+      this.ExtCmd('SelectCombo',menuSetting,currentSetting)
     elseif settingNames then
-      InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+      this.ExtCmd('SelectCombo',menuSetting,currentSetting)
     elseif currentOption.settings then
-      InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+      this.ExtCmd('SelectCombo',menuSetting,currentSetting)
     elseif currentSetting then--tex just a straight value
-      InfCore.ExtCmd('ClearCombo','menuSetting')
-      InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
-      InfCore.ExtCmd('SelectCombo','menuSetting',0)
+      this.ExtCmd('ClearCombo',menuSetting)
+      this.ExtCmd('AddToCombo',menuSetting,currentSetting)
+      this.ExtCmd('SelectCombo',menuSetting,0)
     end
   end
 end
 
 function this.TakeFocus()
-  InfCore.ExtCmd('TakeFocus')
+  this.ExtCmd('TakeFocus')
 end
 
 return this

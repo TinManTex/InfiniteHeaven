@@ -1,0 +1,110 @@
+{
+  "Name": "aaa_someroute",
+  "Nodes": [
+    {
+      "Position": {
+            "X": -9.945616,
+            "Y": 12.7759752,
+            "Z": -19.8869019
+      },
+      "EdgeEvent": {
+        "EventType": "MoveFast",
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+      },
+      "Events": [
+        {
+          "EventType": "WaitIdle",
+          "Param1": 1,
+          "Param2": 345637223,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        }
+      ]
+    },
+    {
+      "Position": {
+            "X": -9.945616,
+            "Y": 12.7759752,
+            "Z": -19.8869019
+      },
+      "EdgeEvent": {
+        "EventType": "MoveFast",
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+      },
+      "Events": [
+        {
+          "EventType": "WaitIdle",
+          "Param1": 1,
+          "Param2": 4249223527,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        }
+      ]
+    },
+    {
+      "Position": {
+            "X": -9.945616,
+            "Y": 12.7759752,
+            "Z": -19.8869019
+      },
+      "EdgeEvent": {
+        "EventType": "WaitIdle",
+        "Param1": 1,
+        "Param2": 3578200423,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+      },
+      "Events": [
+        {
+          "EventType": "WaitIdle",
+          "Param1": 1,
+          "Param2": 3578200423,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        }
+      ]
+    },
+  ]
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_143_129.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/sound/ambient/mafr/mafr_143_129.adm" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_129/ssav_143_129_light_fox2_tgrxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_129/ssav_143_129_terrain.htre" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_129/ssav_143_129_light.lpsh" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_129/ssav_143_129_nav.nav2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/143/143_129/ssav_143_129_objBrush.obrb" />
+  </Entries>
+  <References>
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk" />
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_extraLarge/ssav_north.fpk" />
+  </References>
+</ArchiveFile>

@@ -17,7 +17,7 @@ this.hostageNames={}
 this.npcInfo={}
 
 this.registerIvars={
-  'mbAdditionalNpcs',
+  "mbAdditionalNpcs",
 }
 
 --tex tripping up on my naming here, mbAdditionalNpcs=hostage mobs as standins, mbNpcRouteChange=soldier route change
@@ -45,7 +45,7 @@ function this.PostModuleReload(prevModule)
 end
 
 function this.PostAllModulesLoad()
-  this.hostageNames=InfLookup.GenerateNameList("ih_hostage_%04d",this.numHostages)
+  this.hostageNames=InfUtil.GenerateNameList("ih_hostage_%04d",this.numHostages)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)

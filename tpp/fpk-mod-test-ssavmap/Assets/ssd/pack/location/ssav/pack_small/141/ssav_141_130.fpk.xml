@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_141_130.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/sound/ambient/mafr/mafr_141_130.adm" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/141/141_130/ssav_141_130_light_fox2_tgrxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/141/141_130/ssav_141_130_terrain.htre" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/141/141_130/ssav_141_130_light.lpsh" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/141/141_130/ssav_141_130_nav.nav2" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/141/141_130/ssav_141_130_nav_boss.nav2" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/clod/mafr_clod005/scenes/mafr_clod005.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/rock/mafr_rock002/scenes/mafr_rock002.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/rock/mafr_rock010/scenes/mafr_rock010.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/rock/mafr_rock011/scenes/mafr_rock011.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/tree/mafr_tree010/scenes/mafr_tree010_dead001.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/clod/mafr_clod005/scenes/mafr_clod005.geom" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/rock/mafr_rock002/scenes/mafr_rock002.geom" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/rock/mafr_rock010/scenes/mafr_rock010.geom" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/rock/mafr_rock011/scenes/mafr_rock011.geom" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/tree/mafr_tree010/scenes/mafr_tree010_dead001.geom" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/141/141_130/ssav_141_130_objBrush.obrb" />
+  </Entries>
+  <References>
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk" />
+  </References>
+</ArchiveFile>

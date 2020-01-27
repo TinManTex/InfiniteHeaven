@@ -37,9 +37,11 @@ end
 --stamps are above with Stamp instead of user, MAXMARKERS 64
 
 this.registerMenus={
-  'userMarkerMenu',
+  "userMarkerMenu",
 }
+
 this.userMarkerMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "InfUserMarker.WarpToLastUserMarker",
     "InfUserMarker.PrintLatestUserMarker",
@@ -47,8 +49,8 @@ this.userMarkerMenu={
     "InfPositions.AddMarkerPositions",
     "InfPositions.WritePositions",
     "InfPositions.ClearPositions",
-    --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
-    --    "Ivars.selectedCp",--DEBUG
+  --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
+  --    "Ivars.selectedCp",--DEBUG
   }
 }
 --< menu defs
@@ -263,6 +265,11 @@ function this.WarpToUserMarker(index)
     InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: could not find marker")--DEBUGNOW
     return
   end
+  if markerPos:GetX()==0 and markerPos:GetY()==0 and markerPos:GetZ()==0 then
+    InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: markerPos=0,0,0",true)--DEBUGNOW
+    return 
+  end
+  
   if vars.userMarkerGameObjId~=nil then
     local gameId=vars.userMarkerGameObjId[index]
     if gameId~=NULL_ID then
@@ -275,8 +282,32 @@ function this.WarpToUserMarker(index)
     end
   end
 
-  InfCore.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
+  InfCore.DebugPrint(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+end
+
+function this.Init()
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+function this.OnReload(missionTable)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+
+function this.Messages()
+  return Tpp.StrCode32Table{
+    Terminal={
+      --SSD
+      {msg="MbTerminalUserMarkerPressed",
+        func=function(stampId,posX,posY,isTargetMarker)
+
+        end},
+    },
+  }
 end
 
 return this

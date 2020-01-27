@@ -1,5 +1,5 @@
 = Infinite heaven =
-r225 - 2018-03-06
+r226 - 2018-04-03
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,25 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r226
+A bunch of background code changes like last version so if you hit any issues please report them please.
+
+Changes to buttons/keys:
+InfMenu: While menu open hold <Switch Zoom> (V key or RStick click) + player move (WSAD or left stick) to navigate menu
+Quick menu: No longer uses <Call>, now activated with <Switch Zoom> (V key or RStick click) + command key (see MGS_TPP\mod\modules\InfQuickMenuDefs.lua)
+
+Fixed: IHExt InfMenu.GetSetting GetSettingText out of bounds. Affected buddyChangeEquipVar, possibly a couple other menu items - thanks WyteKnight for the report.
+Fixed: QuietMoveToLastMarker not working, hadn't transfered a localopt of SendCommand  - thanks WyteKnight for the report.
+Fixed: DropCurrentEquip not working, issue as above - thanks Saladin1251 for the report.
+Fixed: Changing 'Player life scale' in-mission not working - thanks Ronix0 for the report.
+Fixed: Zombie Obliteration hang on load, hadn't added localopts when moving SetUpMBZombie from InfMain - thanks magicc4ke for the report.
+Fixed: IHExt - not displaying current setting upon activating an option from IHExt.
+
+IHExt: MenuLine changed from Label to TextBox, GotKeyboardFocus, EnterText commands.
+IHExt: Search (EnterText > InfMenu.BuildMenuDefForSearch). Alt-tab to IHExt, click or tab the text of the menu line below the menu list. Type something and press Enter.
+[youtube]k51-8vHI2mU[/youtube]
+https://youtu.be/EdReKIafMps
+
 New for r225:
 Fixed: Hang on load with no ih_save, wasn't initializing igvars oops - thanks серёжа for the report and the save files to test.
 
@@ -47,20 +66,6 @@ Implmentation wise this works by forcing the heli to a specific route, the WIP v
 [youtube]FnPdGm1gXWY[/youtube]
 https://youtu.be/FnPdGm1gXWY
 
-New for r222:
-IHExt: IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.
-The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.
-Option: Enable IHExt - Starts IHExt, from that point on will start while game is starting up.
-Option: Enable help text (IHExt) - Shows longer description help text in IHExt for some options.
-(via IH system menu)
-[youtube]lqYmBCeIbEA[/youtube]
-https://youtu.be/lqYmBCeIbEA
-
-If you have concerns about IH running the IHExt executable the (terribly rough) source is here for viewing/compiling yourself:
-https://github.com/TinManTex/IHExt 
-
-Fixed: Custom sideops with helis not allocating a heli (if no normal heli sidops also active) - Adding hasEnemyHeli to quest definition will add it to the heli quest list - which means force heli reinforce will also block those quests - thanks MorbidSlinky for the report.
-
 Disclaimer:
 ------------------------------
 Use the mod at you own risk (which can be mitigated by backing up saves and files replaced by mod)
@@ -77,8 +82,9 @@ Usage:
 
 Infinite Heaven menu:
 
-While in ACC Heli (full menu), or in-mission (small menu)
-Hold <Quick dive> (space key or X button on controller) for 2 seconds to toggle the mod menu when in the ACC or in-mission.
+While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)
+Press and hold <Switch Zoom> (V key or RStick click) then press <Dash> (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.
+
 
 The menu system will display the current
 [#]: [Option name] : [Setting value or description] [menu item type symbol]
@@ -92,7 +98,11 @@ Command that closes menu when done >]
 [Option Name] <Action> : [Setting]
 Selected setting is applied by pressing <Action> 
 
-Use either Arrow keys or Dpad to navigate the menu.
+While menu is open:
+Use Arrow keys or Dpad to navigate the menu
+or
+Hold <Switch Zoom> (V key or RStick click) and press movement keys or Left Stick to navigate the menu.
+
 Up/Down to select option.
 Left/Right to change setting or open sub menu.
 
@@ -110,7 +120,7 @@ Quick Menu:
 A way to quickly trigger certain Infinite Heaven commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 
-When enabled hold the <Call> button then hold one of the following:
+When enabled hold the <Switch Zoom> (V key or RStick click) button then hold one of the following:
 
 <Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
 <Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but necesary to activate the inter landingzone ride on heli)
@@ -152,6 +162,7 @@ Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
 sai for FoxLib and further MGSV research.
+Morbidslinky for creating Side Ops companion and his poking at the quest system.
 Various people for their donations, including:
 Domenico
 Jeong

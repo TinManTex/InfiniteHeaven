@@ -1,0 +1,26 @@
+{
+	"param" : [ 
+		{ "map_id":"SINGLE_AFGH", "tex_path":"/Assets/ssd/ui/texture/map/stage_01_height_clp_alp.ftex", "road_tex_path":"/Assets/ssd/ui/texture/map/stage_01_road_clp.ftex", "left_up_x":125, "left_up_y":135, "block_size":22, "rot":-45, "top_pos_y":350, "bottom_pos_y":268 }, 
+		{ "map_id":"SINGLE_MAFR", "tex_path":"/Assets/ssd/ui/texture/map/stage_02_height_clp_alp.ftex", "road_tex_path":"/Assets/ssd/ui/texture/map/stage_02_road_clp.ftex", "left_up_x":138, "left_up_y":110, "block_size":23, "rot":-45, "top_pos_y":227, "bottom_pos_y":69 }, 
+		{ "map_id":"COOP_MAP1", "tex_path":"/Assets/ssd/ui/texture/map/coop_afgh_field_clp_alp.ftex", "road_tex_path":"", "left_up_x":133, "left_up_y":146, "block_size":7, "rot":-45, "top_pos_y":415, "bottom_pos_y":268 }, 
+		{ "map_id":"COOP_MAP2", "tex_path":"/Assets/ssd/ui/texture/map/coop_afgh_village_clp_alp.ftex", "road_tex_path":"", "left_up_x":135, "left_up_y":139, "block_size":5, "rot":-45, "top_pos_y":374, "bottom_pos_y":313 }, 
+		{ "map_id":"COOP_MAP3", "tex_path":"/Assets/ssd/ui/texture/map/coop_afgh_enemybase_clp_alp.ftex", "road_tex_path":"", "left_up_x":126, "left_up_y":134, "block_size":5, "rot":-45, "top_pos_y":455, "bottom_pos_y":301 }, 
+		{ "map_id":"COOP_MAP4", "tex_path":"/Assets/ssd/ui/texture/map/coop_mafr_diamond_clp_alp.ftex", "road_tex_path":"", "left_up_x":141, "left_up_y":119, "block_size":5, "rot":-45, "top_pos_y":168, "bottom_pos_y":118 }, 
+		{ "map_id":"COOP_MAP5", "tex_path":"/Assets/ssd/ui/texture/map/coop_mafr_pfcamp_clp_alp.ftex", "road_tex_path":"", "left_up_x":137, "left_up_y":139, "block_size":6, "rot":-45, "top_pos_y":5, "bottom_pos_y":-11 }, 
+		{ "map_id":"COOP_MAP6", "tex_path":"/Assets/ssd/ui/texture/map/coop_mafr_savannah_clp_alp.ftex", "road_tex_path":"", "left_up_x":138, "left_up_y":129, "block_size":5, "rot":-45, "top_pos_y":28, "bottom_pos_y":3 }
+	],
+
+	"sunny_areas" : [ 
+		{ "area_name":1177083442, "vars_index":0, "location":1312607737, "trap_name":1008956958, "map_name_messageID":258048712624859 }, 
+		{ "area_name":2017901330, "vars_index":1, "location":1312607737, "trap_name":2947532702, "map_name_messageID":258048712624859 }, 
+		{ "area_name":2662813156, "vars_index":2, "location":1312607737, "trap_name":1511413065, "map_name_messageID":258048712624859 }, 
+		{ "area_name":1070973880, "vars_index":3, "location":1312607737, "trap_name":2692171563, "map_name_messageID":258048712624859 }, 
+		{ "area_name":1761774382, "vars_index":4, "location":1312607737, "trap_name":3318048497, "map_name_messageID":258048712624859 }, 
+		{ "area_name":2652647355, "vars_index":5, "location":43815227, "trap_name":1107281967, "map_name_messageID":258048712624859 }, 
+		{ "area_name":3929133852, "vars_index":6, "location":43815227, "trap_name":3032244591, "map_name_messageID":258048712624859 }, 
+		{ "area_name":3456629052, "vars_index":7, "location":43815227, "trap_name":1350993449, "map_name_messageID":258048712624859 }, 
+		{ "area_name":4268538885, "vars_index":8, "location":43815227, "trap_name":0, "map_name_messageID":258048712624859 }, 
+		{ "area_name":2391838185, "vars_index":9, "location":43815227, "trap_name":0, "map_name_messageID":258048712624859 }
+	]
+
+}

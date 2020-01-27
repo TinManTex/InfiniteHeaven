@@ -3,7 +3,7 @@ local this={}
 
 -->
 this.registerIvars={
-  'mbDDHeadGear',
+  "mbDDHeadGear",
 }
 
 IvarProc.MissionModeIvars(

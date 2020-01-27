@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_path_143_128.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/143/143_128/ssav_143_128_path.fox2" />
+  </Entries>
+  <References />
+</ArchiveFile>

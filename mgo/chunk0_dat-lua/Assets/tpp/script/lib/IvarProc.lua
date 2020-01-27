@@ -775,7 +775,7 @@ function this.ApplyInfProfiles(profileNames)
       local profileInfo=Ivars.profiles[profileName]
       if profileInfo.loadOnACCStart then
         local profileName=profileInfo.description or profileName
-        InfMenu.Print(InfMenu.LangString"applying_profile".." "..profileName)
+        InfMenu.Print(InfLangProc.LangString"applying_profile".." "..profileName)
         InfCore.Log("Applying profile "..profileName)
         IvarProc.ApplyProfile(profileInfo.profile)
       end

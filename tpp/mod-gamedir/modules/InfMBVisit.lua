@@ -24,8 +24,8 @@ local longVisitRewards=0
 local revengeDecayCount=0
 
 this.registerIvars={
-  'mbMoraleBoosts',
-  'revengeDecayOnLongMbVisit',
+  "mbMoraleBoosts",
+  "revengeDecayOnLongMbVisit",
 }
 
 this.mbMoraleBoosts={

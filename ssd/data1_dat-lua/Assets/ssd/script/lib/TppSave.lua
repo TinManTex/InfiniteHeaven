@@ -1,11 +1,11 @@
 local this={}
-local r=Tpp.IsTypeFunc
-local s=Tpp.IsTypeTable
-local i=TppScriptVars.IsSavingOrLoading
-local S=SsdSaveSystem.IsIdle
-local _=SsdSaveSystem.ICON_TYPE_SAVE
-local T=SsdSaveSystem.ICON_TYPE_LOAD
-local a=SsdSaveSystem.ICON_TYPE_NONE
+local IsTypeFunc=Tpp.IsTypeFunc
+local IsTypeTable=Tpp.IsTypeTable
+local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
+local IsIdle=SsdSaveSystem.IsIdle
+local ICON_TYPE_SAVE=SsdSaveSystem.ICON_TYPE_SAVE
+local ICON_TYPE_LOAD=SsdSaveSystem.ICON_TYPE_LOAD
+local ICON_TYPE_NONE=SsdSaveSystem.ICON_TYPE_NONE
 this.saveQueueDepth=0
 this.saveQueueList={}
 local p={{checkStorySequenceSpan={TppDefine.STORY_SEQUENCE.BEFORE_s10050,TppDefine.STORY_SEQUENCE.CLEARED_s10050},checkMissionCode=10050,checkMissionSequence=3,returnStorySequence=TppDefine.STORY_SEQUENCE.BEFORE_s10050,returnMissionCode=30020,returnLocationCode=TppDefine.LOCATION_ID.MAFR},{checkStorySequenceSpan={TppDefine.STORY_SEQUENCE.CLEARED_k40260,TppDefine.STORY_SEQUENCE.BEFORE_STORY_LAST},checkMissionCode=30010,checkMissionSequence=9,returnStorySequence=TppDefine.STORY_SEQUENCE.BEFORE_k40270,returnMissionCode=30010,returnLocationCode=TppDefine.LOCATION_ID.SSD_AFGH},{checkStorySequenceSpan={TppDefine.STORY_SEQUENCE.BEFORE_k40270,TppDefine.STORY_SEQUENCE.CLEARED_STORY_LAST},checkMissionCode=10060,checkMissionSequence=3,returnStorySequence=TppDefine.STORY_SEQUENCE.BEFORE_k40270,returnMissionCode=30010,returnLocationCode=TppDefine.LOCATION_ID.SSD_AFGH}}
@@ -51,7 +51,7 @@ function this.NeedWaitSavingErrorCheck()
   end
 end
 function this.IsSaving()
-  if i()then
+  if IsSavingOrLoading()then
     return true
   end
   if this.IsEnqueuedSaveData()then
@@ -60,7 +60,7 @@ function this.IsSaving()
   if(gvars.sav_SaveResultCheckFileName~=0)then
     return true
   end
-  if not S()then
+  if not IsIdle()then
     return true
   end
   return false
@@ -264,7 +264,7 @@ function this.SaveImportedGameData()
   return n
 end
 function this.SaveToServer(a,n)
-  if n and r(n)then
+  if n and IsTypeFunc(n)then
     table.insert(mvars.sav_serverSaveFinishCallback,n)
   end
   if not a then
@@ -294,15 +294,16 @@ function this.SaveToServer(a,n)
   end
   this.ReserveVarRestoreForContinue()
 end
-function this.LoadFromServer(e)
-  if e and r(e)then
-    table.insert(mvars.sav_serverSaveFinishCallback,e)
+function this.LoadFromServer(ServerSaveFinishCallback)
+  if ServerSaveFinishCallback and IsTypeFunc(ServerSaveFinishCallback)then
+    table.insert(mvars.sav_serverSaveFinishCallback,ServerSaveFinishCallback)
   end
   if gvars.exc_skipServerSaveForException then
     return
   end
   gvars.sav_skipRestoreToVars=false
-  SsdSaveSystem.Reset()SsdSaveSystem.LoadInit()
+  SsdSaveSystem.Reset()
+  SsdSaveSystem.LoadInit()
 end
 function this.AddServerSaveCallbackFunc(e)
   if mvars.mis_skipServerSave or mvars.fms_skipServerSave then
@@ -311,7 +312,7 @@ function this.AddServerSaveCallbackFunc(e)
   if gvars.exc_skipServerSaveForException then
     return
   end
-  if not r(e)then
+  if not IsTypeFunc(e)then
     return
   end
   table.insert(mvars.sav_serverSaveFinishCallback,e)
@@ -367,7 +368,7 @@ function this.EnqueueSave(a,i,t,r,S)
     return
   end
   local n
-  if s(a)then
+  if IsTypeTable(a)then
     n=a
   else
     if i==nil then
@@ -443,7 +444,7 @@ function this.DoSave(a,n)
   local r
   local t
   local S
-  if s(a.slot)then
+  if IsTypeTable(a.slot)then
     this.SetUpCompositSlot()i=a.fileName
     r=a.needIcon
     t=a.doSaveFunc
@@ -477,7 +478,7 @@ function this.DoSave(a,n)
 end
 function this.Update()
   local a=gvars
-  if(not i())then
+  if(not IsSavingOrLoading())then
     if(a.sav_SaveResultCheckFileName~=0)then
       local n=true
       local t=TppScriptVars.GetLastResult()
@@ -503,7 +504,7 @@ function this.Update()
       end
     end
   end
-  if i()then
+  if IsSavingOrLoading()then
     local e=TppScriptVars.GetSaveState()
     if e==TppScriptVars.STATE_SAVING then
       if a.sav_isPersonalSaving or a.sav_isConfigSaving then
@@ -515,21 +516,21 @@ function this.Update()
       TppUI.ShowLoadingIcon()
     end
   end
-  if not S()then
+  if not IsIdle()then
     local e=SsdSaveSystem.GetIconType()
-    if e==_ then
+    if e==ICON_TYPE_SAVE then
       if a.sav_isCheckPointSaving then
         TppUI.ShowSavingIcon"checkpoint"else
         TppUI.ShowSavingIcon()
       end
-    elseif e==T then
+    elseif e==ICON_TYPE_LOAD then
       TppUI.ShowLoadingIcon()
     end
   else
     local e=mvars.sav_serverSaveFinishCallback
-    if s(e)and next(e)then
+    if IsTypeTable(e)and next(e)then
       for a,e in pairs(e)do
-        if r(e)then
+        if IsTypeFunc(e)then
           e()
         end
       end
@@ -569,7 +570,9 @@ function this.GetSaveResultErrorMessage(a)
 end
 function this.Init(a)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-  mvars.sav_serverSaveFinishCallback={}Mission.ClearDeceptiveSaveSettings()Mission.SetDeceptiveSaveSettings(p)
+  mvars.sav_serverSaveFinishCallback={}
+  Mission.ClearDeceptiveSaveSettings()
+  Mission.SetDeceptiveSaveSettings(p)
 end
 function this.OnReload(a)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())Mission.ClearDeceptiveSaveSettings()Mission.SetDeceptiveSaveSettings(p)
@@ -591,12 +594,12 @@ function this.WaitingAllEnqueuedSaveOnStartMission()
   this.WaitServerSaving()
 end
 function this.WaitSaving()
-  while i()do
+  while IsSavingOrLoading()do
     this.CoroutineYieldWithShowSavingIcon()
   end
 end
 function this.WaitServerSaving()
-  while not S()do
+  while not IsIdle()do
     this.CoroutineYieldWithShowSavingIcon()
   end
 end

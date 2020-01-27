@@ -735,9 +735,22 @@ function this._SetDefenseTargetBrokenCamera()
   local a=e+t:Rotate(Vector3(.064699664,.107832773,-.992061513)*n)
   Player.RequestToPlayCameraNonAnimation{isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,positionAndTargetMode=true,position=a,target=e,isCollisionCheck=false,focalLength=18,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.001,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=16}
 end
-local a={[Fox.StrCode32"com_ai001_gim_n0000|srt_aip0_main0_def"]=4.2,[Fox.StrCode32"com_ai002_gim_n0000|srt_pup0_main0_ssd_v00"]=4.2,[Fox.StrCode32"com_ai003_gim_n0000|srt_ssde_swtc001"]=3.6,[Fox.StrCode32"whm0_gim_n0000|srt_whm0_main0_def_v00"]=8.5,[Fox.StrCode32"com_portal001_gim_n0000|srt_ftp0_main0_def_v00"]=8}
-local c={[Fox.StrCode32"whm0_gim_n0000|srt_whm0_main0_def_v00"]={foxmath.DegreeToRadian(300)},[Fox.StrCode32"com_portal001_gim_n0000|srt_ftp0_main0_def_v00"]={foxmath.DegreeToRadian(210),[Gimmick.GetDataSetCode"/Assets/ssd/level/location/afgh/block_extraLarge/south/afgh_south_gimmick.fox2"]=foxmath.DegreeToRadian(45)},[Fox.StrCode32"com_ai003_gim_n0000|srt_ssde_swtc001"]={foxmath.DegreeToRadian(215)}}
-local l={[Fox.StrCode32"whm0_gim_n0000|srt_whm0_main0_def_v00"]=Vector3(0,2,0),[Fox.StrCode32"com_portal001_gim_n0000|srt_ftp0_main0_def_v00"]=Vector3(0,10,0)}
+local a={
+  [Fox.StrCode32"com_ai001_gim_n0000|srt_aip0_main0_def"]=4.2,
+  [Fox.StrCode32"com_ai002_gim_n0000|srt_pup0_main0_ssd_v00"]=4.2,
+  [Fox.StrCode32"com_ai003_gim_n0000|srt_ssde_swtc001"]=3.6,
+  [Fox.StrCode32"whm0_gim_n0000|srt_whm0_main0_def_v00"]=8.5,
+  [Fox.StrCode32"com_portal001_gim_n0000|srt_ftp0_main0_def_v00"]=8
+}
+local c={
+  [Fox.StrCode32"whm0_gim_n0000|srt_whm0_main0_def_v00"]={foxmath.DegreeToRadian(300)},
+  [Fox.StrCode32"com_portal001_gim_n0000|srt_ftp0_main0_def_v00"]={foxmath.DegreeToRadian(210),[Gimmick.GetDataSetCode"/Assets/ssd/level/location/afgh/block_extraLarge/south/afgh_south_gimmick.fox2"]=foxmath.DegreeToRadian(45)},
+  [Fox.StrCode32"com_ai003_gim_n0000|srt_ssde_swtc001"]={foxmath.DegreeToRadian(215)}
+}
+local l={
+  [Fox.StrCode32"whm0_gim_n0000|srt_whm0_main0_def_v00"]=Vector3(0,2,0),
+  [Fox.StrCode32"com_portal001_gim_n0000|srt_ftp0_main0_def_v00"]=Vector3(0,10,0)
+}
 function this.GetDefenseTargetBrokenCameraInfo(r,o,e,t)
   local camDistance=4.2
   if e and a[e]then

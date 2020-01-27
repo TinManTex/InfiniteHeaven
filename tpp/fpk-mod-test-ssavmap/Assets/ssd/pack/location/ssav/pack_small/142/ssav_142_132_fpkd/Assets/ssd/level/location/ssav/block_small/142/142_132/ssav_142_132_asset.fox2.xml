@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="Material" super="" version="6" />
+    <class name="StaticModelArray" super="" version="4" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x029746F0" unknown1="304" unknown2="304868">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="8">
+          <value key="cm_mafr_dc_dirt003_">0x02975790</value>
+          <value key="cm_mafr_dc_grnd004_">0x029758E0</value>
+          <value key="cm_mafr_dc_grbg003__">0x02975A30</value>
+          <value key="StaticModelArray0000">0x02979EE0</value>
+          <value key="StaticModelArray0001">0x02979F50</value>
+          <value key="StaticModelArray0002">0x02979FC0</value>
+          <value key="StaticModelArray0003">0x0297A030</value>
+          <value key="TexturePackLoadConditioner0000">0x0297A570</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x02975790" unknown1="224" unknown2="304960">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cm_mafr_dc_dirt003_</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_dirt003/sourceimages/cm_mafr_dc_dirt003_bsm_alp.ftex</value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_dirt003/sourceimages/cm_mafr_dc_dirt003_srm.ftex</value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_dirt003/sourceimages/cm_mafr_dc_dirt003_nrm.ftex</value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x029758E0" unknown1="224" unknown2="304962">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cm_mafr_dc_grnd004_</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_grnd004/sourceimages/cm_mafr_dc_grnd004_bsm_alp.ftex</value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_grnd004/sourceimages/cm_mafr_dc_grnd004_srm.ftex</value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_grnd004/sourceimages/cm_mafr_dc_grnd004_nrm.ftex</value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x02975A30" unknown1="224" unknown2="304964">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cm_mafr_dc_grbg003__</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_grbg003/sourceimages/cm_mafr_dc_grbg003_bsm_alp.ftex</value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_grbg003/sourceimages/cm_mafr_dc_grbg003_srm.ftex</value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/decal/middle_africa/cm_mafr_dc_grbg003/sourceimages/cm_mafr_dc_grbg003_nrm.ftex</value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x02979EE0" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/clod/mafr_clod005/scenes/mafr_clod005.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/clod/mafr_clod005/scenes/mafr_clod005.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="-0.9979484" Column2="0" Column3="0.06400315" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.06400315" Column2="0" Column3="-0.9979484" Column4="0" />
+            <Row4 Column1="1183.12939" Column2="15.215497" Column3="-122.688362" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.9984003" Column2="0.0565413721" Column3="0" Column4="0" />
+            <Row2 Column1="-0.0565413721" Column2="0.9984003" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="1" Column4="0" />
+            <Row4 Column1="1248.923" Column2="17.6552315" Column3="-50.0486565" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="2">
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x02979F50" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="1" Column2="0" Column3="0" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="1" Column4="0" />
+            <Row4 Column1="1273.49292" Column2="12.8570929" Column3="-79.3369141" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.953339338" Column2="0" Column3="-0.3019034" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.3019034" Column2="0" Column3="-0.953339338" Column4="0" />
+            <Row4 Column1="1274.2887" Column2="18.2564468" Column3="-11.7554836" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="2">
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x02979FC0" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/cliff/mafr_clff003/scenes/mafr_clff003_vrtn001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/cliff/mafr_clff003/scenes/mafr_clff003_vrtn001.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="11">
+          <value>
+            <Row1 Column1="0.1619698" Column2="-0.0243505836" Column3="0.986493945" Column4="0" />
+            <Row2 Column1="0.443236262" Column2="0.8949708" Column3="-0.05068171" Column4="0" />
+            <Row3 Column1="-0.8816489" Column2="0.4454594" Column3="0.155751467" Column4="0" />
+            <Row4 Column1="1168.6167" Column2="6.553671" Column3="-21.4420033" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.3251597" Column2="0.0233964622" Column3="-0.9453687" Column4="0" />
+            <Row2 Column1="-0.821025" Column2="0.48907" Column3="0.29449597" Column4="0" />
+            <Row3 Column1="0.469241321" Column2="0.871930361" Column3="-0.139816344" Column4="0" />
+            <Row4 Column1="1172.61267" Column2="6.081203" Column3="-5.20209" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.406501472" Column2="-0.059034735" Column3="0.911737859" Column4="0" />
+            <Row2 Column1="0.374721348" Column2="0.89934516" Column3="0.2253038" Column4="0" />
+            <Row3 Column1="-0.8332676" Column2="0.433235258" Column3="-0.343463242" Column4="0" />
+            <Row4 Column1="1188.97546" Column2="11.0187292" Column3="-14.0023279" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.129002452" Column2="0.0399259627" Column3="-0.9908384" Column4="0" />
+            <Row2 Column1="-0.87628603" Column2="0.463139445" Column3="0.132751882" Column4="0" />
+            <Row3 Column1="0.464195818" Column2="0.885384738" Column3="-0.0247585773" Column4="0" />
+            <Row4 Column1="1186.36218" Column2="9.33484" Column3="-4.090752" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.161969379" Column2="-0.02435109" Column3="0.986494243" Column4="0" />
+            <Row2 Column1="0.595226645" Column2="0.799764335" Column3="-0.07798588" Column4="0" />
+            <Row3 Column1="-0.787063658" Column2="0.5998196" Column3="0.144032" Column4="0" />
+            <Row4 Column1="1210.40161" Column2="11.7883978" Column3="-76.96674" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.783957541" Column2="-0.0482070148" Column3="-0.6189357" Column4="0" />
+            <Row2 Column1="-0.5806867" Column2="0.4095474" Column3="0.7036136" Column4="0" />
+            <Row3 Column1="0.219563812" Column2="0.9110133" Column3="-0.349059463" Column4="0" />
+            <Row4 Column1="1217.355" Column2="12.1360617" Column3="-69.05165" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.8479926" Column2="-0.165070176" Column3="-0.5036414" Column4="0" />
+            <Row2 Column1="-0.396459639" Column2="0.828215063" Column3="0.3960796" Column4="0" />
+            <Row3 Column1="0.351742268" Column2="0.5355475" Column3="-0.7677635" Column4="0" />
+            <Row4 Column1="1223.49866" Column2="13.0998268" Column3="-48.2643776" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.1256104" Column2="0.0228178054" Column3="0.991816461" Column4="0" />
+            <Row2 Column1="0.411854744" Column2="0.9083162" Column3="-0.0730565041" Column4="0" />
+            <Row3 Column1="-0.9025498" Column2="0.41766125" Column3="0.104696393" Column4="0" />
+            <Row4 Column1="1218.24792" Column2="13.7394676" Column3="-42.67843" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.6859069" Column2="0.07309537" Column3="0.724007964" Column4="0" />
+            <Row2 Column1="0.509689748" Column2="0.6618607" Column3="-0.5496866" Column4="0" />
+            <Row3 Column1="-0.5193715" Column2="0.746053636" Column3="0.416719" Column4="0" />
+            <Row4 Column1="1233.94922" Column2="13.92047" Column3="-40.0042953" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.980973" Column2="-0.166450888" Column3="0.09990361" Column4="0" />
+            <Row2 Column1="-0.04134582" Column2="0.6819528" Column3="0.7302261" Column4="0" />
+            <Row3 Column1="-0.189676434" Column2="0.712203443" Column3="-0.675858438" Column4="0" />
+            <Row4 Column1="1244.81287" Column2="15.2722521" Column3="-42.1723061" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.0624005944" Column2="-0.0361368358" Column3="-0.997395635" Column4="0" />
+            <Row2 Column1="-0.840648532" Column2="0.540573359" Column3="0.0330092" Column4="0" />
+            <Row3 Column1="0.5379722" Column2="0.8405199" Column3="-0.06411004" Column4="0" />
+            <Row4 Column1="1220.47644" Column2="14.0577564" Column3="-26.0318871" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="11">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x0297A030" unknown1="272" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/rock/mafr_rock011/scenes/mafr_rock011.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/rock/mafr_rock011/scenes/mafr_rock011.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="-0.737265766" Column2="-0.09428053" Column3="-0.6689894" Column4="0" />
+            <Row2 Column1="0.241884977" Column2="0.8877375" Column3="-0.3916804" Column4="0" />
+            <Row3 Column1="0.6308148" Column2="-0.4505919" Column3="-0.6316932" Column4="0" />
+            <Row4 Column1="1161.45825" Column2="7.348619" Column3="-38.108532" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.299785584" Column2="0.06127858" Column3="-0.952034533" Column4="0" />
+            <Row2 Column1="0.357086241" Column2="0.9325995" Column3="-0.0524156541" Column4="0" />
+            <Row3 Column1="0.8846548" Column2="-0.355672479" Column3="-0.301461518" Column4="0" />
+            <Row4 Column1="1164.0575" Column2="7.028705" Column3="-30.0277748" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="2">
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0297A570" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x029746F0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

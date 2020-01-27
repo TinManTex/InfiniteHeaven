@@ -1,13 +1,12 @@
 -- InfReinforce.lua
 local this={}
 
--->
 this.registerIvars={
-  'forceSuperReinforce',
-  'forceReinforceRequest',
-  'enableHeliReinforce',
-  'enableSoldiersWithVehicleReinforce',
-  'disableReinforceHeliPullOut',
+  "forceSuperReinforce",
+  "forceReinforceRequest",
+  "enableHeliReinforce",
+  "enableSoldiersWithVehicleReinforce",
+  "disableReinforceHeliPullOut",
 }
 
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
@@ -49,13 +48,12 @@ this.disableReinforceHeliPullOut={
 --}
 --<
 
--->
 this.registerMenus={
-  'enemyReinforceMenu',
+  "enemyReinforceMenu",
 }
 
 this.enemyReinforceMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.forceSuperReinforce",
     "Ivars.enableHeliReinforce",

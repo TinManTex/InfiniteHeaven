@@ -156,6 +156,10 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       local settings={}
 
       if type(option.GetSettingText)=="function" then
+        local min=0
+        if option.range then
+          min=option.range.min
+        end
         local max
         if option.settings then
           max=#option.settings
@@ -169,7 +173,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
         if type(option.settingNames)=="table" then
           settings=option.settingNames
         else
-          settings=InfMenu.GetLangTable(option.settingNames)
+          settings=InfMenu.LangTable(option.settingNames)
         end
       elseif option.settings then
         settings=option.settings
@@ -674,7 +678,7 @@ end
 
 function this.LangString(langId)
   if langId==nil or langId=="" then
-    InfCore.Log("WANRING: InfMenu.LangString langId is empty")
+    InfCore.Log("WANRING: InfLangProc.LangString langId is empty")
     TppUiCommand.AnnounceLogView"LangString langId empty"
     return ""
   end
@@ -718,7 +722,7 @@ function this.LangTableString(langId,index)
   return langTable[index],langTable
 end
 
-function this.GetLangTable(langId)
+function this.LangTable(langId)
   if langId==nil or langId=="" then
     InfCore.Log("ERROR: GetLangTable langId empty",false,true)
     return {}
@@ -740,7 +744,7 @@ end
 
 function this.LangStringHelp(langId)
   if langId==nil or langId=="" then
-    InfCore.Log("WANRING: InfMenu.LangString langId is empty")
+    InfCore.Log("WANRING: InfLangProc.LangString langId is empty")
     TppUiCommand.AnnounceLogView"LangString langId empty"
     return ""
   end

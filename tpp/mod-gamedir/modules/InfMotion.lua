@@ -6,12 +6,12 @@
 local this={}
 
 --REF DEBUGNOW TppPaz has more info on anim system
--->
+
 this.registerIvars={
-  'motionGroupIndex',
-  'motionGaniIndex',
-  'motionHold',
-  'motionRepeat',
+  "motionGroupIndex",
+  "motionGaniIndex",
+  "motionHold",
+  "motionRepeat",
 }
 
 this.motionGroupIndex={
@@ -23,7 +23,7 @@ this.motionGroupIndex={
   OnSelect=function(self)
     self.range.max=#this.motionGroups
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if setting>#this.motionGroups then
       self:Set(1)
     end
@@ -81,17 +81,17 @@ InfMenuCommands.playCurrentMotion={
   isMenuOff=true,
 }
 --<
--->
 this.registerMenus={
-  'motionsMenu',
+  "motionsMenu",
 }
 
 this.motionsMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.motionGroupIndex",
     "Ivars.motionGaniIndex",
-    'Ivars.motionHold',
-    'Ivars.motionRepeat',
+    "Ivars.motionHold",
+    "Ivars.motionRepeat",
     "InfMotion.StopMotion",
     "InfMotion.PlayCurrentMotion",
   }
@@ -124,34 +124,34 @@ this.langStrings={
 
 this.motions={
   --tex looking at anims from mtar_dictionary attack, see https://github.com/TinManTex/mgsv-lookup-strings/tree/master/Strings/brutegen/mtar-gani
---  zzTest={
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_q_ed.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_q_idl.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_q_st.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_s_ed.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_s_idl.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_s_st.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_b2f_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_f2b_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_idl_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_stp_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/enet/enetnon/enetnon_ful_idl.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snappaz/snappaz_give_book.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_dh2s_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_p_idl.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_dh_lp.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_idl_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_idl_r.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_tn_0.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_tn_l0.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s2dh_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_rde_rear_st_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_rde_st_l.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_rde_st_r.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_dve_ed_b.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_dve_lp_b.gani",
---    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_dve_st_b.gani",
---  },
+  --  zzTest={
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_q_ed.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_q_idl.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_q_st.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_s_ed.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_s_idl.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapcig/snapcig_s_st.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_b2f_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_f2b_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_idl_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_c_stp_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/enet/enetnon/enetnon_ful_idl.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snappaz/snappaz_give_book.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_dh2s_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_p_idl.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_dh_lp.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_idl_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_idl_r.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_tn_0.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_tn_l0.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s2dh_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_rde_rear_st_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_rde_st_l.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_rde_st_r.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_dve_ed_b.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_dve_lp_b.gani",
+  --    "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapplv/snapplv_s_dve_st_b.gani",
+  --  },
   missionClearMotion={"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_f_idl7.gani"},
   missionClearMotionFob={
     "/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_win_idl.gani",

@@ -68,8 +68,8 @@ this.debugMode={
   range=Ivars.switchRange,
   settingNames="set_switch",
   -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
-  allowFob=true,
-  OnChange=function(self,prevStting,setting)
+  allowOnline=true,
+  OnChange=function(self,setting)
     InfMain.DebugModeEnable(setting==1)
   end,
 }
@@ -96,7 +96,7 @@ this.debugOnUpdate={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,prevStting,setting)
+  OnChange=function(self,setting)
     InfCore.debugOnUpdate=setting==1
   end,
 }
@@ -119,7 +119,7 @@ this.enableIHExt={
       end
     end
   end,
-  OnChange=function(self,prevSetting,setting)
+  OnChange=function(self,setting)
     if setting==1 then
       --tex extSession 0 should catch this without
       --      if not InfCore.IHExtInstalled() then
@@ -144,6 +144,17 @@ this.enableHelp={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+  OnChange=function(self,setting)
+    InfCore.ExtCmd("UiElementVisible","menuHelp",setting)--tex TODO: shouldnt be nessesary, DisplayCurrentSetting should handle it DEBUGNOW
+      InfMenu.DisplayCurrentSetting()
+  end,
+}
+
+this.sys_increaseMemoryAlloc={--DEBUGNOW
+  nonConfig=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
 }
 
 this.printPressedButtons={
@@ -158,15 +169,12 @@ this.printOnBlockChange={
   settingNames="set_switch",
 }
 
---motherbase>
-
-
 --patchup
 this.langOverride={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
-  allowFob=true,
+  allowOnline=true,
 }
 
 this.startOffline={
@@ -382,8 +390,8 @@ this.selectProfile={
   --save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    if Ivars.profiles==nil or self.settings==nil then
-      return InfMenu.LangString"no_profiles_installed"
+    if Ivars.profileNames==nil or #Ivars.profileNames==0 or self.settings==nil then
+      return InfLangProc.LangString"no_profiles_installed"
     else
       local profileName=self.settings[setting+1]
       local profileInfo=Ivars.profiles[profileName]
@@ -519,8 +527,18 @@ this.debugValue={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=400,
   range={max=400,min=0,increment=10},
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     InfCore.Log("debugValue:"..setting)
+  end,
+}
+
+--tex dummy for search
+this.searchItem={
+  inMission=true,
+  range={max=0,min=0},
+  GetSettingText=function()return " " end,
+  OnSelect=function(self)
+    InfCore.ExtCmd("SelectAllText","menuLine")
   end,
 }
 --end ivar defines
@@ -678,9 +696,9 @@ function this.PostAllModulesLoad()
       for j,name in pairs(module.registerIvars)do
         local ivarDef=module[name]
         if not ivarDef then
-          InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..name.." in "..module.name)
         elseif not this.IsIvar(ivarDef) then
-          InfCore.Log("Ivars.PostAllModulesLoad: WARNING: "..name.." in "..module.name.." is not an Ivar.")
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..name.." in "..module.name.." is not an Ivar.")
         else
           --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
           --tex set them to nonconfig by default so to not trip up AutoDoc
@@ -709,7 +727,7 @@ function this.PostAllModulesLoad()
         for i,ivarName in ipairs(ivarNames)do
           local ivar=this[ivarName]
           if not ivar then
-            InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find missionMode Ivar ".. ivarName.." from "..module.name)
+            InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find missionMode Ivar ".. ivarName.." from "..module.name)
           else
             table.insert(this.missionModeIvars[name],ivar)
           end
@@ -720,9 +738,9 @@ function this.PostAllModulesLoad()
 
   --tex likewise update vars
   local convertIvars={
-    'active',
-    'updateRate',
-    'enableIvars',
+    "active",
+    "updateRate",
+    "enableIvars",
   }
   for i,module in ipairs(InfModules) do
     --KLUDGE: just doing in-place conversion, these values where already Ivar or number, so why not string > Ivar fixup lol
@@ -730,7 +748,7 @@ function this.PostAllModulesLoad()
       if type(module[convertName])=="string" then
         local ivar=Ivars[module[convertName]]
         if not ivar then
-          InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find active Ivar ".. convertName.." from "..module.name)
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find active Ivar ".. convertName.." from "..module.name)
         else
           module[convertName]=ivar
         end
@@ -738,7 +756,7 @@ function this.PostAllModulesLoad()
         for j,ivarName in ipairs(module[convertName])do
           local ivar=Ivars[ivarName]
           if not ivar then
-            InfCore.Log("Ivars.PostAllModulesLoad: WARNING: could not find active Ivar ".. convertName.." from "..module.name)
+            InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find active Ivar ".. convertName.." from "..module.name)
           else
             module[convertName][j]=ivar
           end
@@ -771,7 +789,7 @@ function this.PostAllModulesLoad()
   --tex kill orphaned save values
   for name,value in pairs(evars)do
     if not ivars[name] then
-      InfCore.Log("Ivars.PostAllModulesLoad: WARNING: Could not find ivar for evar "..name)
+      InfCore.Log("WARNING: Ivars.PostAllModulesLoad: Could not find ivar for evar "..name)
       evars[name]=nil
     end
   end

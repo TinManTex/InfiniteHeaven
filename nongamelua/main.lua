@@ -2,7 +2,19 @@
 local this={}
 
 --tex MockFox
-dofile('./MockFoxLua/loadLDT.lua')
+local LoadLDT=dofile('../MockFoxLua/loadLDT.lua')
+LoadLDT.Load{
+  gameId="tpp",
+  --tex MockFox host stuff
+  luaHostType="LDT",
+
+  foxGamePath="c:/Steam/SteamApps/common/MGS_TPP/",--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
+
+  foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
+  --foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified
+  
+  mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
+}
 
 --
 ----non mock stuff >
@@ -164,7 +176,7 @@ local function PrintGenericRoutes2()
       lrrpCpName=CpNameForLrrpNumber(lrrpNumberDefine,i)
 
       if lrrpCpName~=""then
-         description=InfLangProc.CpNameString(lrrpCpName,"afgh") or InfLangProc.CpNameString(lrrpCpName,"mafr") or ""
+        description=InfLangProc.CpNameString(lrrpCpName,"afgh") or InfLangProc.CpNameString(lrrpCpName,"mafr") or ""
       end
 
 
@@ -1378,30 +1390,30 @@ local function ReconstructGZPaths()
 end
 
 local filterChars={
-'~',
-'!',
-'@',
-'#',
-'%$',
-'%',
-'%^',
-'&',
-'*',
-'%(',
-'%)',
-'%+',
-'=',
-'{',
-'}',
-'%?',
-'<',
-'>',
-'%[',
-']',
-'%*',
+  '~',
+  '!',
+  '@',
+  '#',
+  '%$',
+  '%',
+  '%^',
+  '&',
+  '*',
+  '%(',
+  '%)',
+  '%+',
+  '=',
+  '{',
+  '}',
+  '%?',
+  '<',
+  '>',
+  '%[',
+  ']',
+  '%*',
 
-[[']],
-[["]],
+  [[']],
+  [["]],
 
 
 -- /
@@ -1437,8 +1449,8 @@ local function GetPathsFromStrings()
       elseif string.find(line,'/')==1 then--tex leaves out some gz paths like Z:/  and ./Tpp/
         if string.find(line,'%.') then--DEBUGNOW should actually fix stripext instead
           line=InfUtil.StripExt(line)
-        end
-        completeUnique[line]=true
+      end
+      completeUnique[line]=true
       end
     end
   end
@@ -1452,16 +1464,16 @@ local function GetPathsFromStrings()
 
 
   local nl="\r"
---  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
---  local file=io.open(fileName,"w")
---  file:write(table.concat(complete,nl))
---  file:close()
+  --  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
+  --  local file=io.open(fileName,"w")
+  --  file:write(table.concat(complete,nl))
+  --  file:close()
 
 
---  for i,path in ipairs(complete)do
---    complete[i]=InfUtil.StripExt(path)
---  end
---  table.sort(complete)
+  --  for i,path in ipairs(complete)do
+  --    complete[i]=InfUtil.StripExt(path)
+  --  end
+  --  table.sort(complete)
 
   local fileName=[[D:\Projects\MGS\!ToolOutput\stringsPaths.txt]]
   local file=io.open(fileName,"w")
@@ -1503,16 +1515,16 @@ local function GetCombinedObjectNamesFromStrings()
 
 
   local nl="\r"
---  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
---  local file=io.open(fileName,"w")
---  file:write(table.concat(complete,nl))
---  file:close()
+  --  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
+  --  local file=io.open(fileName,"w")
+  --  file:write(table.concat(complete,nl))
+  --  file:close()
 
 
---  for i,path in ipairs(complete)do
---    complete[i]=InfUtil.StripExt(path)
---  end
---  table.sort(complete)
+  --  for i,path in ipairs(complete)do
+  --    complete[i]=InfUtil.StripExt(path)
+  --  end
+  --  table.sort(complete)
 
   local fileName=[[D:\Projects\MGS\!ToolOutput\multiObjectNames.txt]]
   local file=io.open(fileName,"w")
@@ -1539,8 +1551,14 @@ local function main()
 
 
   print"Running AutoDoc"
+  local projectFolder=[[D:\Projects\MGS\!InfiniteHeaven\tpp\]]
+  local outputFolder=[[D:\Projects\MGS\!InfiniteHeaven\tpp\external\docs\]]
+  local featuresOutputName="Features and Options"
+
+  local FeaturesHeader=require"FeaturesHeader"
+
   local InfAutoDoc=require"InfAutoDoc"
-  InfAutoDoc.AutoDoc()
+  InfAutoDoc.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputName)
 
   print"BLEHHHHHHHHHHHHHHH"
   print(InfUtil.GetLocationName())

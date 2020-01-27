@@ -3,18 +3,36 @@
 -- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.
 -- See Readme for more info
 local this={}
-this.ihVer=224
-this.saveTime=1520148115
+this.ihVer=4
+this.saveTime=1522659440
 this.inMission=false
 this.loadToACC=false
 this.evars={
+	avatar_enableGenderSelect=1,
 	enableQuickMenu=1,
+	disableGameOver=1,
 	debugFlow=1,
+	disableCommonRadio=1,
+	disableOutOfBoundsChecks=1,
+	dust_requireOxygenMask=0,
+	speedCamContinueTime=1000,
+	debugMode=1,
+	gear_Inner=8,
+	gear_Helmet=29,
+	enableHelp=1,
+	speedCamPlayerTimeScale=1.5,
+	dust_wallVisible=0,
+	gear_Arm=11,
 	enableIHExt=1,
 	debugMessages=1,
 	debugOnUpdate=1,
-	debugMode=1,
+	dust_forceWeather=3,
+	speedCamWorldTimeScale=0.2,
 }
 this.igvars={
+	mis_isGroundStart=false,
+	inf_event=false,
+	name=IvarsPersist,
+	inf_levelSeed=1,
 }
 return this

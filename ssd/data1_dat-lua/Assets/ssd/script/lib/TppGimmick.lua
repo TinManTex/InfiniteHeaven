@@ -433,7 +433,8 @@ function this.BreakConnectedGimmick(e)
   if not e then
     return
   end
-  local e=mvars.gim_identifierParamTable[e]Gimmick.BreakGimmick(e.type,e.locatorName,e.dataSetName,false)
+  local e=mvars.gim_identifierParamTable[e]
+  Gimmick.BreakGimmick(e.type,e.locatorName,e.dataSetName,false)
 end
 function this.CheckBrokenAndBreakConnectedGimmick(i)
   if not mvars.gim_checkBrokenAndBreakConnectTable then

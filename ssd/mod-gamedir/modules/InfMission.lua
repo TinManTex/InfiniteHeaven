@@ -8,12 +8,11 @@ this.missionInfo={}
 
 this.missionListSlotIndices={}--tex need it for OpenMissions
 
--->
 this.registerIvars={
-  'manualMissionCode',
-  'manualSequence',
-  'loadAddonMission',
-  'ihMissionsPercentageCount',
+  "manualMissionCode",
+  "manualSequence",
+  "loadAddonMission",
+  "ihMissionsPercentageCount",
 }
 
 this.manualMissionCode={
@@ -361,6 +360,8 @@ function this.LoadLibraries()
   for locationName,locationId in pairs(InfUtil.locationIdForName)do
     InfUtil.locationNames[locationId]=locationName
   end
+
+  --TppDefine.LOCATION_CHUNK_INDEX_TABLE[location]=Chunkbleh --tex DEBUGNOW see what requires LOCATION_CHUNK_INDEX_TABLE for addon missions, fallback to some default instead of nil?
 
   TppLocation.GetLocationName=InfUtil.GetLocationName--tex replace the vanilla function with IHs
 

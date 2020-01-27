@@ -1,14 +1,109 @@
 --InfLangProc.lua
 --Processing methods for IH Lang strings
 local this={}
+local IsTable=Tpp.IsTypeTable
 
+local GetAssetConfig=AssetConfiguration.GetDefaultCategory
+--tex my own shizzy langid stuff since games is too limitied
+function this.GetLanguageCode()
+  --Cht over Jpn
+  local languageCode=GetAssetConfig"Language"
+  if Ivars.langOverride:Is(1) then
+    if languageCode=="jpn" then
+      languageCode="cht"
+    end
+  end
+  if Ivars[languageCode]==nil then
+    languageCode="eng"
+  end
+  return languageCode
+end
 
+function this.LangString(langId)
+  if langId==nil or langId=="" then
+    InfCore.Log("WARNING: InfLangProc.LangString langId is empty",false,true)
+    TppUiCommand.AnnounceLogView"LangString langId empty"
+    return ""
+  end
+  local languageCode=this.GetLanguageCode()
+  local langString=InfLang[languageCode][langId]
+  if (langString==nil or langString=="") and languageCode~="eng" then
+    --TppUiCommand.AnnounceLogView("no langstring for " .. languageCode)
+    langString=InfLang.eng[langId]
+  end
+
+  if langString==nil or langString=="" then
+    --TppUiCommand.AnnounceLogView"PrintLangId langString empty"
+    return langId
+  end
+
+  return langString
+end
+
+function this.LangTableString(langId,index)
+  if langId==nil or langId=="" then
+    InfCore.Log("LangTableString langId empty",true)
+    return ""
+  end
+  local languageCode=this.GetLanguageCode()
+  local langTable=InfLang[languageCode][langId]
+  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
+    langTable=InfLang.eng[langId]
+  end
+
+  if langTable==nil or langTable=="" or not IsTable(langTable) then
+    --TppUiCommand.AnnounceLogView"LangTableString langTable empty"
+    return langId .. ":" .. index
+  end
+
+  if index < 1 or index > #langTable then
+    --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
+    return langId .. " OUTOFBOUNDS:" .. index
+  end
+
+  return langTable[index],langTable
+end
+
+function this.LangTable(langId)
+  if langId==nil or langId=="" then
+    InfCore.Log("ERROR: GetLangTable langId empty",false,true)
+    return {}
+  end
+  local languageCode=this.GetLanguageCode()
+  local langTable=InfLang[languageCode][langId]
+  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)--DEBUG
+    langTable=InfLang.eng[langId]
+  end
+
+  if langTable==nil or langTable=="" or not IsTable(langTable) then
+    InfCore.Log("ERROR: LangTableString langTable empty",false,true)--DEBUG
+    return {langId .. ":" .. "n"}
+  end
+
+  return langTable
+end
+
+function this.LangStringHelp(langId)
+  if langId==nil or langId=="" then
+    InfCore.Log("WARNING: InfLangProc.LangString langId is empty",false,true)
+    TppUiCommand.AnnounceLogView"LangString langId empty"
+    return ""
+  end
+  local languageCode=this.GetLanguageCode()
+  local langTable=InfLang.help[languageCode] or InfLang.help.eng
+  local langString=langTable[langId] or InfLang.help.eng[langId] -- or langId
+  return langString
+end
+
+--TODO split out to its own module?
 function this.CpNameString(cpName,location)
   local location=location or InfUtil.GetLocationName()
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLangCpNames.cpNames[location]
   if locationCps==nil then
-    InfCore.Log("InfMenu.CpNameString: WARNING No name for "..tostring(cpName).." in "..tostring(location))
+    InfCore.Log("WARNING: InfMenu.CpNameString: No name for "..tostring(cpName).." in "..tostring(location),false,true)
     return nil
   end
   local cps=locationCps[languageCode] or locationCps["eng"]
@@ -70,9 +165,9 @@ function this.PostAllModulesLoad()
     end
   end
 
-  -- if this.debugModule then --DEBUGNOW
-  InfCore.PrintInspect(InfLang,"InfLang---------------------------")--DEBUGNOW
-  -- end
+  if this.debugModule then
+  --InfCore.PrintInspect(InfLang,"InfLang")
+  end
 end
 
 return this

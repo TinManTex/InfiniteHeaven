@@ -3,42 +3,42 @@ local this={}
 
 -->
 this.registerIvars={
-  'playerType',
-  'playerTypeDirect',
-  'playerPartsType',
-  'playerPartsTypeDirect',
-  'playerCamoType',
-  'playerCamoTypeDirect',
-  'playerFaceEquipId',
-  'playerFaceEquipIdDirect',
-  'playerFaceId',
-  'playerFaceFilter',
-  'playerFaceIdDirect',
-  'maleFaceId',
-  'femaleFaceId',
-  'faceFova',
-  'faceDecoFova',
-  'hairFova',
-  'hairDecoFova',
-  'faceFovaDirect',
-  'faceDecoFovaDirect',
-  'hairFovaDirect',
-  'hairDecoFovaDirect',
-  'faceFovaUnknown1',
-  'faceFovaUnknown2',
-  'faceFovaUnknown3',
-  'faceFovaUnknown4',
-  'faceFovaUnknown5',
-  'faceFovaUnknown6',
-  'faceFovaUnknown7',
-  'faceFovaUnknown8',
-  'faceFovaUnknown9',
-  'faceFovaUnknown10',
-  'enableFovaMod',
-  'fovaSelection',
-  'fovaPlayerType',
-  'fovaPlayerPartsType',
-  'skipDevelopChecks',
+  "playerType",
+  "playerTypeDirect",
+  "playerPartsType",
+  "playerPartsTypeDirect",
+  "playerCamoType",
+  "playerCamoTypeDirect",
+  "playerFaceEquipId",
+  "playerFaceEquipIdDirect",
+  "playerFaceId",
+  "playerFaceFilter",
+  "playerFaceIdDirect",
+  "maleFaceId",
+  "femaleFaceId",
+  "faceFova",
+  "faceDecoFova",
+  "hairFova",
+  "hairDecoFova",
+  "faceFovaDirect",
+  "faceDecoFovaDirect",
+  "hairFovaDirect",
+  "hairDecoFovaDirect",
+  "faceFovaUnknown1",
+  "faceFovaUnknown2",
+  "faceFovaUnknown3",
+  "faceFovaUnknown4",
+  "faceFovaUnknown5",
+  "faceFovaUnknown6",
+  "faceFovaUnknown7",
+  "faceFovaUnknown8",
+  "faceFovaUnknown9",
+  "faceFovaUnknown10",
+  "enableFovaMod",
+  "fovaSelection",
+  "fovaPlayerType",
+  "fovaPlayerPartsType",
+  "skipDevelopChecks",
 }
 
 --appearance
@@ -70,7 +70,7 @@ this.playerType={
   OnSelect=function(self)
     ivars[self.name]=self.playerTypeToSetting[vars.playerType]
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
 
     local currentPlayerType=vars.playerType
     local newSetting=self:GetTableSetting()
@@ -202,7 +202,7 @@ this.playerPartsType={
       self:Set(self.enum[partsTypeName])
     end
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     local partsTypeName=self.settings[setting+1]
     local partsType=InfFova.PlayerPartsType[partsTypeName]
 
@@ -233,7 +233,7 @@ this.playerCamoType={
   GetSettingText=function(self,setting)
     local camoName=self.settings[setting+1]
     if camoName==nil then
-      return InfMenu.LangString"no_developed_camo"
+      return InfLangProc.LangString"no_developed_camo"
     end
     --InfCore.PrintInspect(camoName,"camoName")--DEBUG
     local camoType=PlayerCamoType[camoName]
@@ -278,7 +278,7 @@ this.playerCamoType={
 
     self:Set(camoSetting)
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     local camoName=self.settings[setting+1]
     vars.playerCamoType=PlayerCamoType[camoName]
   end,
@@ -324,7 +324,7 @@ this.playerFaceEquipId={
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     vars.playerFaceEquipId=self.settingsTable[setting+1]
   end,
 }
@@ -351,7 +351,7 @@ this.playerFaceId={
   GetSettingText=function(self,setting)
     return InfCore.PCall(function(self)--DEBUG
       if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-        return InfMenu.LangString"only_for_dd_soldier"
+        return InfLangProc.LangString"only_for_dd_soldier"
     end
 
     local faceDefId=self.settingsTable[setting+1]
@@ -360,7 +360,7 @@ this.playerFaceId={
 
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
       if not InfModelProc.hasFova then
-        return InfMenu.LangString"no_head_fovas"
+        return InfLangProc.LangString"no_head_fovas"
       end
     end
 
@@ -442,7 +442,7 @@ this.playerFaceId={
     self.range.max=#settingsTable-1
     self.currentGender=gender
   end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     local faceDefId=self.settingsTable[setting+1]
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     vars.playerFaceId=faceDef[1]
@@ -527,7 +527,7 @@ this.femaleFaceId={
 --tex WIP
 this.GetSettingTextFova=function(self,setting)
   if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-    return InfMenu.LangString"only_for_dd_soldier"
+    return InfLangProc.LangString"only_for_dd_soldier"
   end
   local fovaType=self.name
   local fovaIndex=self.settingsTable[setting+1]
@@ -881,7 +881,7 @@ this.fovaSelection={
       InfFova.SetFovaMod(self:Get()+1,true)
     else
       self.range.max=0
-      self.settingNames={InfMenu.LangString"no_fova_found"}
+      self.settingNames={InfLangProc.LangString"no_fova_found"}
       return
     end
   end,
@@ -918,11 +918,10 @@ this.skipDevelopChecks={
 }
 --< ivar defs
 
--->
 this.registerMenus={
-  'appearanceMenu',
-  'appearanceDebugMenu',
-  'fovaModMenu',
+  "appearanceMenu",
+  "appearanceDebugMenu",
+  "fovaModMenu",
 }
 
 this.fovaModMenu={
@@ -935,6 +934,7 @@ this.fovaModMenu={
 
 this.appearanceMenu={
   nonConfig=true,
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.playerType",
     "Ivars.playerPartsType",

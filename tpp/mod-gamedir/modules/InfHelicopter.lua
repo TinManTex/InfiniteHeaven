@@ -12,8 +12,8 @@ local InfButton=InfButton
 this.debugModule=false
 
 --updateState
-this.active=1--'heliUpdate'
-this.execCheckTable={inGame=true,inHeliSpace=false}
+this.active=1--"heliUpdate"
+this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
 }
@@ -24,17 +24,16 @@ local TRACK_FORCEROUTE_NONE=0
 local TRACK_FORCEROUTE_WAITFOREXIT=1
 local TRACK_FORCEROUTE_EXITED=2
 
--->
 this.registerIvars={
-  'disableHeliAttack',
-  'defaultHeliDoorOpenTime',
-  'enableGetOutHeli',
-  'setInvincibleHeli',
-  'setTakeOffWaitTime',
-  'disablePullOutHeli',
-  'setLandingZoneWaitHeightTop',
-  'disableDescentToLandingZone',
-  'setSearchLightForcedHeli',
+  "disableHeliAttack",
+  "defaultHeliDoorOpenTime",
+  "enableGetOutHeli",
+  "setInvincibleHeli",
+  "setTakeOffWaitTime",
+  "disablePullOutHeli",
+  "setLandingZoneWaitHeightTop",
+  "disableDescentToLandingZone",
+  "setSearchLightForcedHeli",
 }
 
 this.disableHeliAttack={
@@ -68,7 +67,7 @@ this.defaultHeliDoorOpenTime={--seconds
   range={min=0,max=120},
 }
 
-local HeliEnabledGameCommand=function(self,previousSetting,setting)
+local HeliEnabledGameCommand=function(self,setting)
   if TppMission.IsFOBMission(vars.missionCode) then return end
   local enable=setting==1
   local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
@@ -100,7 +99,7 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
   range={min=0,max=15},
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
@@ -114,7 +113,7 @@ this.disablePullOutHeli={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
@@ -135,7 +134,7 @@ this.setLandingZoneWaitHeightTop={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
   range={min=5,max=50,increment=5},
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
@@ -149,7 +148,7 @@ this.disableDescentToLandingZone={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
@@ -170,7 +169,7 @@ this.setSearchLightForcedHeli={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"DEFAULT","OFF","ON"},
   settingNames="set_default_off_on",
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
@@ -188,13 +187,12 @@ this.setSearchLightForcedHeli={
   end,
 }
 --< ivar defs
--->
 this.registerMenus={
-  'supportHeliMenu',
+  "supportHeliMenu",
 }
 
 this.supportHeliMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu","InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
   options={
     --"Ivars.setTakeOffWaitTime",
     --"InfHelicopter.PullOutHeli",
@@ -408,7 +406,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 end
 
 function this.HeliOrderRecieved()
-  if InfMain.execChecks.inGame and not InfMain.execChecks.inHeliSpace then
+  if InfMain.execChecks.inGame and not InfMain.execChecks.inSafeSpace then
     InfMenu.PrintLangId"order_recieved"
   end
 end

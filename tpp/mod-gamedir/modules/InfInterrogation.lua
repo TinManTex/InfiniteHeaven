@@ -50,9 +50,8 @@ local parasiteResourceNames={
   "ParasiteCuring",--armor
 }
 
--->
 this.registerIvars={
-  'enableInfInterrogation',
+  "enableInfInterrogation",
 }
 
 this.enableInfInterrogation={

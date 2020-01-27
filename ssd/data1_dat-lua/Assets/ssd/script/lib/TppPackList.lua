@@ -1,7 +1,8 @@
 local this={}
 local n={"s","e","f","h","o"}
 local e={"story","extra","free","heli","online"}
-function this.MakeDefaultMissionPackList(i)this.AddLocationCommonScriptPack(i)
+function this.MakeDefaultMissionPackList(i)
+  this.AddLocationCommonScriptPack(i)
 end
 function this.AddMissionPack(i)
   if Tpp.IsTypeString(i)then
@@ -43,10 +44,14 @@ function this.AddLocationCommonMissionAreaPack(i)
   elseif i=="ssd_afgh2"then
     this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_afgh2.fpk"end
 end
-function this.AddZombieCommonPack(i)this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ZOMBIE)
+function this.AddZombieCommonPack(i)
+  this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ZOMBIE)
 end
-function this.AddCoopCommonPack(i)this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_coop.fpk"this.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_coop.fpk"end
-function this.AddFreeCommonPack(i)this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_opening_demo.fpk"end
+function this.AddCoopCommonPack(i)
+  this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_coop.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_coop.fpk"end
+function this.AddFreeCommonPack(i)
+  this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_opening_demo.fpk"end
 function this.IsMissionPackLabelList(i)
   if not Tpp.IsTypeTable(i)then
     return
@@ -58,7 +63,33 @@ function this.IsMissionPackLabelList(i)
   end
   return false
 end
-function this.AddRobbyStagePack(i)this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_robby_stage.fpk"this.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_staging_area.fpk"this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SSD_PLAYER_EMOTION)this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_range_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_stealthArea_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_stealthArea_c02.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_range_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_stealthArea_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_stealthArea_c02.fpk"this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_range_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_stealthArea_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_stealthArea_c02.fpk"this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_range_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_stealthArea_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_stealthArea_c02.fpk"this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_range_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_stealthArea_c01.fpk"this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_stealthArea_c02.fpk"end
+function this.AddRobbyStagePack(i)
+  this.AddMissionPack"/Assets/ssd/pack/mission/common/mis_com_robby_stage.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_staging_area.fpk"
+  this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SSD_PLAYER_EMOTION)
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_range_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_stealthArea_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_stealthArea_c02.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_range_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_stealthArea_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_stealthArea_c02.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_range_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_stealthArea_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_stealthArea_c02.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_range_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_stealthArea_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_stealthArea_c02.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_range_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_stealthArea_c01.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_stealthArea_c02.fpk"
+  this.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r01.fpk"--RETAILPATCH: 1.0.5.0>
+  this.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_r01.fpk"--<
+end
 function this.IsMissionPackLabel(s)
   if not Tpp.IsTypeString(s)then
     return
@@ -101,8 +132,11 @@ function this.SetMissionPackLabelName(s)
     gvars.pck_missionPackLabelName=Fox.StrCode32(s)
   end
 end
-function this.SetDefaultMissionPackLabelName()this.SetMissionPackLabelName"default"end
-function this.MakeMissionPackList(a,i)this.missionPackList={}
+function this.SetDefaultMissionPackLabelName()
+  this.SetMissionPackLabelName"default"
+end
+function this.MakeMissionPackList(a,i)
+  this.missionPackList={}
   if Tpp.IsTypeFunc(i)then
     i(a)
   end

@@ -1,8 +1,8 @@
+-- DOBUILD: 1
 -- SsdMissionList.lua
 local this={}
 local missionTypes={STORY=1,FLAG=2,DEF=3,FREE=4,COOP=5,EVENT=6,NORMAL=6,INIT=7,TITLE=8,MATCHING=9,EXTRA=10,SYSTEM=10,DEBUG=11}
-this.LOCAL_MISSION_LIST={}
-this.MISSION_LIST={}
+this.LOCAL_MISSION_LIST={}this.MISSION_LIST={}
 this.MISSION_ENUM={}
 this.MISSION_LIST_FOR_LOCATION={}
 this.MISSION_LIST_FOR_IGNORE_MISSION_LIST_UI={}
@@ -50,8 +50,7 @@ local missionSmallPackTable={
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_148.fpk",
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_149.fpk",
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_150.fpk",
-    "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_151.fpk"
-  },
+    "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_151.fpk"},
   [1]={
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/135/afgh_path_135_139.fpk",
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/135/afgh_path_135_140.fpk",
@@ -77,8 +76,7 @@ local missionSmallPackTable={
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_140.fpk",
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_141.fpk",
     "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_142.fpk",
-    "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_143.fpk"
-  },
+    "/Assets/ssd/pack/location/afgh/pack_extraSmall/139/afgh_path_139_143.fpk"},
   [2]={
     "/Assets/ssd/pack/location/mafr/pack_extraSmall/141/mafr_path_141_118.fpk",
     "/Assets/ssd/pack/location/mafr/pack_extraSmall/141/mafr_path_141_119.fpk",
@@ -100,14 +98,11 @@ local missionSmallPackTable={
     "/Assets/ssd/pack/location/mafr/pack_extraSmall/145/mafr_path_145_119.fpk",
     "/Assets/ssd/pack/location/mafr/pack_extraSmall/145/mafr_path_145_120.fpk",
     "/Assets/ssd/pack/location/mafr/pack_extraSmall/145/mafr_path_145_121.fpk",
-    "/Assets/ssd/pack/location/mafr/pack_extraSmall/145/mafr_path_145_122.fpk"
-  }
-}
+    "/Assets/ssd/pack/location/mafr/pack_extraSmall/145/mafr_path_145_122.fpk"}}
 this.MISSION_DEFINE_LIST={
   {type=missionTypes.FREE,name="f30010",location=locationEnums.SSD_AFGH,
     pack=function(s)
-      this._AddCommonMissionPack(s,"free",
-        "f30010")
+      this._AddCommonMissionPack(s,"free","f30010")
       TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SSD_AFGH_SPAWN_POINT)
       TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SSD_PLAYER_EMOTION)
       TppPackList.AddMissionPack"/Assets/ssd/pack/collectible/rewardCbox/rewardCbox.fpk"
@@ -132,8 +127,7 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.FLAG,name="k40075",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40077",location=locationEnums.SSD_AFGH},
   {type=missionTypes.COOP,name="c20010",location=locationEnums.SSD_AFGH,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_plant_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_spawn_c01.fpk"
@@ -146,8 +140,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20020",location=locationEnums.SSD_AFGH,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_plant_c01.fpk"
@@ -161,8 +154,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20030",location=locationEnums.SSD_AFGH,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_plant_c01.fpk"
@@ -181,8 +173,7 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.STORY,name="s10030",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40145",location=locationEnums.SSD_AFGH},
   {type=missionTypes.COOP,name="c20110",location=locationEnums.SSD_AFGH,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_plant_c01.fpk"
@@ -195,8 +186,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20120",location=locationEnums.SSD_AFGH,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_c01.fpk"
@@ -210,8 +200,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20130",location=locationEnums.SSD_AFGH,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_c01.fpk"
@@ -227,7 +216,10 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.FLAG,name="k40140",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40150",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40155",location=locationEnums.SSD_AFGH},
-  {type=missionTypes.STORY,name="s10035",location=locationEnums.SSD_AFGH},
+  {type=missionTypes.STORY,name="s10035",location=locationEnums.SSD_AFGH,pack=function(s)--RETAILPATCH: 1.0.5.0 added packs
+    this._AddCommonMissionPack(s,"story","s10035")
+    TppPackList.AddMissionPack"/Assets/ssd/pack/mission/story/s10035/s10035_sound.fpk"
+  end},--<
   {type=missionTypes.FREE,name="f30020",location=locationEnums.MAFR,
     pack=function(s)
       this._AddCommonMissionPack(s,"free","f30020")
@@ -240,8 +232,7 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.FLAG,name="k40170",location=locationEnums.MAFR},
   {type=missionTypes.STORY,name="s10040",location=locationEnums.MAFR},
   {type=missionTypes.COOP,name="c20210",location=locationEnums.MAFR,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_spawn_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_plant_c01.fpk"
@@ -254,8 +245,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20220",location=locationEnums.MAFR,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_spawn_c01.fpk"
@@ -269,8 +259,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20230",location=locationEnums.MAFR,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_spawn_c01.fpk"
@@ -300,8 +289,7 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.FLAG,name="k40310",location=locationEnums.MAFR},
   {type=missionTypes.FLAG,name="k40320",location=locationEnums.MAFR},
   {type=missionTypes.COOP,name="c20610",location=locationEnums.SPFC,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_plant_c01.fpk"
@@ -315,8 +303,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20620",location=locationEnums.SPFC,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c02.fpk"
@@ -331,8 +318,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20630",location=locationEnums.SPFC,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c02.fpk"
@@ -347,8 +333,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20710",location=locationEnums.SSAV,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_plant_c01.fpk"
@@ -362,8 +347,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20720",location=locationEnums.SSAV,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c02.fpk"
@@ -378,8 +362,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20730",location=locationEnums.SSAV,
-    pack=function(s)
-      this._AddCoopCommonMissionPack(s)
+    pack=function(s)this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c02.fpk"
@@ -393,15 +376,72 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_walkerGear_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_script_c01.fpk"
     end},
-  {type=missionTypes.INIT,name="s00001",location=locationEnums.INIT,
-    pack={
-      "/Assets/ssd/pack/ui/ssd_init_mission_ui.fpk",
-      "/Assets/ssd/pack/ui/ssd_option_menu_ui.fpk",
-      "/Assets/ssd/pack/mission/init/init.fpk"}},
+  --RETAILPATCH: 1.0.5.0>
+  {type=missionTypes.COOP,name="c20105",location=locationEnums.SSD_AFGH,
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_plant_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_range_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_wormhole_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r03.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_walkerGear_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_gimmick_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_gimmick_r02.fpk"
+    end},
+  {type=missionTypes.COOP,name="c20115",location=locationEnums.SSD_AFGH,
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_plant_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_range_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_wormhole_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r02.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_walkerGear_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_gimmick_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_gimmick_r03.fpk"
+    end},
+  {type=missionTypes.COOP,name="c20125",location=locationEnums.SSD_AFGH,
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_plant_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_range_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_wormhole_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_r02.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_walkerGear_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_gimmick_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_gimmick_r03.fpk"
+    end},
+  {type=missionTypes.COOP,name="c20725",location=locationEnums.SSAV,
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_plant_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_range_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_script_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_wormhole_c01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_r02.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_spawn_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_walkerGear_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_gimmick_r01.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_gimmick_r02.fpk"
+    end},
+  --<
+  {type=missionTypes.INIT,name="s00001",location=locationEnums.INIT,pack={
+    "/Assets/ssd/pack/ui/ssd_init_mission_ui.fpk",
+    "/Assets/ssd/pack/ui/ssd_option_menu_ui.fpk",
+    "/Assets/ssd/pack/mission/init/init.fpk"}},
   {type=missionTypes.TITLE,name="s00005",location=locationEnums.INIT,
     pack=function(s)
-      local e=not TppPackList.IsMissionPackLabel"StagingArea"
-      TppPackList.AddTitleMissionPack(s,e)
+      local e=not TppPackList.IsMissionPackLabel"StagingArea"TppPackList.AddTitleMissionPack(s,e)
       this._AddCommonMissionPack(21010,"coop","c21010")
     end},
   {type=missionTypes.MATCHING,name="c21000",location=locationEnums.INIT,
@@ -474,8 +514,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_main_staff_defeat_end.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_staff_roll_defeat_end.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_staff_roll_return_end.fpk"
-    end}
-}
+    end}}
 this.ZOMBIE_PACK_LIST={
   afgh={
     {loadCondition=function(s,a)
@@ -661,6 +700,83 @@ this.ZOMBIE_PACK_LIST={
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_gluttony.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_ray.fpk"}},
+    --RETAILPATCH: 1.0.5.0>
+    {loadCondition=function(s,a)
+      return a==20105
+    end,
+    npcs={{
+      TppGameObject.GAME_OBJECT_TYPE_ZOMBIE,"Zombie","ZombieNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_BOM,"ZombieBom","ZombieBomNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_DASH,"ZombieDash","ZombieDashNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_SHELL,"ZombieShell","ZombieShellNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_ARMOR,"ZombieArmor","ZombieArmorNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_PACK,"ZombiePack","ZombiePackNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_1,"SirenCamera","SirenCameraNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_2,"Spider","SpiderNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_3,"Mimic","MimicNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_BOSS_1,"Aerial","AerialNormal"}},
+    pack={
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie_64c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiebom_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiedash_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombieshell_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiearmor_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiepack_4c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_camera_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_spider_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk"}},
+    {loadCondition=function(s,a)
+      return a==20115
+    end,
+    npcs={{
+      TppGameObject.GAME_OBJECT_TYPE_ZOMBIE,"Zombie","ZombieNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_BOM,"ZombieBom","ZombieBomNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_DASH,"ZombieDash","ZombieDashNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_SHELL,"ZombieShell","ZombieShellNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_ARMOR,"ZombieArmor","ZombieArmorNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_PACK,"ZombiePack","ZombiePackNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_1,"SirenCamera","SirenCameraNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_2,"Spider","SpiderNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_3,"Mimic","MimicNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_BOSS_1,"Aerial","AerialNormal"}},
+    pack={
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie_64c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiebom_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiedash_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombieshell_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiearmor_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiepack_4c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_camera_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_spider_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk"}},
+    {loadCondition=function(s,a)
+      return a==20125
+    end,
+    npcs={{
+      TppGameObject.GAME_OBJECT_TYPE_ZOMBIE,"Zombie","ZombieNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_BOM,"ZombieBom","ZombieBomNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_DASH,"ZombieDash","ZombieDashNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_SHELL,"ZombieShell","ZombieShellNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_ARMOR,"ZombieArmor","ZombieArmorNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_PACK,"ZombiePack","ZombiePackNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_1,"SirenCamera","SirenCameraNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_2,"Spider","SpiderNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_INSECT_3,"Mimic","MimicNormal"},
+    {TppGameObject.GAME_OBJECT_TYPE_BOSS_1,"Aerial","AerialNormal"}},
+    pack={
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie_64c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiebom_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiedash_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombieshell_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiearmor_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiepack_4c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_camera_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_spider_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk"}},
+    --<
     {loadCondition=function(s,a)
       return TppMission.IsMultiPlayMission(a)
     end},
@@ -785,8 +901,7 @@ this.ZOMBIE_PACK_LIST={
     npcs={
       {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE,"Zombie","ZombieNormal"}},
     pack={
-      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie.fpk"}}
-  },
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie.fpk"}}},
   mafr={
     {loadCondition=function(s,a)
       return a==20210
@@ -890,8 +1005,7 @@ this.ZOMBIE_PACK_LIST={
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiearmor.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_camera.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_spider.fpk",
-      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic.fpk"}}
-  },
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic.fpk"}}},
   ombs={},
   spfc={
     {loadCondition=function(s,a)
@@ -972,8 +1086,7 @@ this.ZOMBIE_PACK_LIST={
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic_8c.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_gluttony.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk",
-      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_ray.fpk"}}
-  },
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_ray.fpk"}}},
   ssav={
     {loadCondition=function(s,a)
       return a==20710
@@ -1053,8 +1166,36 @@ this.ZOMBIE_PACK_LIST={
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic_8c.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_gluttony.fpk",
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk",
-      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_ray.fpk"}}
-  },
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_ray.fpk"}},
+    --RETAILPATCH: 1.0.5.0>
+    {loadCondition=function(s,a)
+      return a==20725
+    end,
+    npcs={
+      {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE,"Zombie","ZombieNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_BOM,"ZombieBom","ZombieBomNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_DASH,"ZombieDash","ZombieDashNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_SHELL,"ZombieShell","ZombieShellNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_ARMOR,"ZombieArmor","ZombieArmorNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_PACK,"ZombiePack","ZombiePackNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_INSECT_1,"SirenCamera","SirenCameraNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_INSECT_2,"Spider","SpiderNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_INSECT_3,"Mimic","MimicNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_BOSS_3,"Gluttony","GluttonyNormal"},
+      {TppGameObject.GAME_OBJECT_TYPE_BOSS_1,"Aerial","AerialNormal"}},
+    pack={
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie_64c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiebom_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiedash_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombieshell_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiearmor_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombiepack_4c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_camera_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_spider_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_mimic_8c.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_gluttony.fpk",
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_aerial.fpk"}}},
+  --<
   aftr={
     {loadCondition=function(a,a)
       return true
@@ -1064,9 +1205,7 @@ this.ZOMBIE_PACK_LIST={
       {TppGameObject.GAME_OBJECT_TYPE_ZOMBIE_EVENT,"ZombieXOF","ZombieXOFNormal"}},
     pack={
       "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombie.fpk",
-      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombieXOF.fpk"}}
-  }
-}
+      "/Assets/ssd/pack/npc/gameobject/npc_gameobject_zombieXOF.fpk"}}}}
 local missionPackTable={}
 local npcsMissionPackTable={}
 function this._MakeFlagAndDefMissionPackPath(a,e)
@@ -1097,8 +1236,7 @@ function this._MakeMissionPackPathInfo(p,e)
     return
   end
   local a=function(s)
-    this._AddCommonMissionPack(s,c,p)
-  end
+    this._AddCommonMissionPack(s,c,p)end
   return a
 end
 for p,c in pairs(locationEnums)do
@@ -1129,17 +1267,19 @@ for p,c in ipairs(this.MISSION_DEFINE_LIST)do
       npcsMissionPackTable[d]=k
     end
     if _<=missionTypes.NORMAL then
-      table.insert(this.MISSION_LIST,p)
-      table.insert(this.LOCAL_MISSION_LIST,p)
+      table.insert(this.MISSION_LIST,p)table.insert(this.LOCAL_MISSION_LIST,p)
     end
     local i=(_==missionTypes.FLAG)
     local n=(_==missionTypes.DEF)
     if i or n then
       local p
       if o==locationEnums.SSD_AFGH then
-        p="afgh"elseif o==locationEnums.MAFR then
-        p="mafr"elseif o==locationEnums.SBRI then
-        p="sbri"end
+        p="afgh"
+      elseif o==locationEnums.MAFR then
+        p="mafr"
+      elseif o==locationEnums.SBRI then
+        p="sbri"
+      end
       if p then
         local s={}s.name=c.name
         s.pack=t
@@ -1161,15 +1301,13 @@ for p,c in ipairs(this.MISSION_DEFINE_LIST)do
     end
     if not i and not n then
       if not c.useOrderBox then
-        table.insert(this.NO_ORDER_BOX_MISSION_LIST,p)
-      end
+        table.insert(this.NO_ORDER_BOX_MISSION_LIST,p)end
     end
     if not s then
       local s
       if o==locationEnums.SSD_AFGH then
         s="afgh"else
-        s=string.lower(locationNames[o+1])
-      end
+        s=string.lower(locationNames[o+1])end
       this.LOCATION_BY_MISSION_CODE[p]=s
     end
   end
@@ -1236,19 +1374,19 @@ function this.GetMissionPackagePath(missionCode)
   InfCore.PrintInspect(packPaths,"missionPackPaths")--tex DEBUG
   return packPaths
 end
-function this.GetZombiePackagePath(p)
-  local s=TppLocation.GetLocationName()
-  if not s then
+function this.GetZombiePackagePath(missionCode)
+  local locationName=TppLocation.GetLocationName()
+  if not locationName then
     return
   end
-  local s=this.ZOMBIE_PACK_LIST[s]
+  local s=this.ZOMBIE_PACK_LIST[locationName]
   if not s then
     return
   end
   local c={}
   local o=TppStory.GetCurrentStorySequence()
   for s,e in ipairs(s)do
-    if e.loadCondition and e.loadCondition(o,p)then
+    if e.loadCondition and e.loadCondition(o,missionCode)then
       local s=e.pack
       if Tpp.IsTypeString(s)then
         s={s}
@@ -1281,7 +1419,13 @@ function this.AssignDefaultInfosToGameObjectType()
   SsdNpc.AssignInfosToGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_3,npcType="Gluttony",partsType="GluttonyNormal"}
   SsdNpc.AssignInfosToGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_KAIJU,npcType="Kaiju",partsType="KaijuNormal"}
 end
-function this.ResetAssinedDefaultInfosFromGameObjectType()SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_INSECT_1}SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_INSECT_2}SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_INSECT_3}SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_1}SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_2}SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_3}
+function this.ResetAssinedDefaultInfosFromGameObjectType()
+  SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_INSECT_1}
+  SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_INSECT_2}
+  SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_INSECT_3}
+  SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_1}
+  SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_2}
+  SsdNpc.ResetAssignedInfosFromGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_BOSS_3}
 end
 function this.AssignDefaultInfosToGameObjectTypeForZombie()
   SsdNpc.AssignInfosToGameObjectType{gameObjectType=TppGameObject.GAME_OBJECT_TYPE_ZOMBIE,npcType="Zombie",partsType="ZombieNormal"}

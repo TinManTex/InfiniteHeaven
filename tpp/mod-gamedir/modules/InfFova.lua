@@ -2261,15 +2261,15 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
   for i,partsTypeName in ipairs(playerPartsTypeSettings) do
     local partsType=InfFova.PlayerPartsType[partsTypeName]
     if partsType==nil then
-      InfCore.Log("GetPlayerPartsTypes: WARNING: partsType==nil for "..tostring(partsTypeName))
+      InfCore.Log("WARNING: GetPlayerPartsTypes: partsType==nil for "..tostring(partsTypeName))
     end
     local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
     if not partsTypeInfo then
-      InfCore.Log("GetPlayerPartsTypes: WARNING: could not find partsTypeInfo for "..partsTypeName,true)
+      InfCore.Log("WARNING: GetPlayerPartsTypes: could not find partsTypeInfo for "..partsTypeName,true)
     else
       local plPartsName=partsTypeInfo.plPartsName
       if not plPartsName then
-        InfCore.Log("GetPlayerPartsTypes: WARNING: could not find plPartsName for "..partsTypeName,true)
+        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find plPartsName for "..partsTypeName,true)
       else
         local playerTypeName=InfFova.playerTypes[playerType+1]
         if plPartsName.ALL or plPartsName[playerTypeName] then

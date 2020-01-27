@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_140_135.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/sound/ambient/mafr/mafr_140_135.adm" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_terrain_fox2_win.ftdp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_asset_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_gimmick_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_nav_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_asset_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_gimmick_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_asset_fox2_tgrxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_light_fox2_tgrxla_win.grxla" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_terrain.htre" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/afgh_drum002.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/afgh_tlet001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/gntn_trsh001_vrtn002.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/ssav_tent001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/ssav_tent002_vrtn002.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/ssav_tnwl001.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/lba/ssav_wtct002.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_light.lpsh" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_nav.nav2" />
+    <Entry FilePath="/Assets/ssd/pack/location/ssav/pack_small/140/ssav_140_135.nta" />
+    <Entry FilePath="/Assets/ssd/pack/location/ssav/pack_small/140/ssav_140_135_0.tcvp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_asset_fox2_geotrap_win.trap" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_gimmick_fox2_geotrap_win.trap" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_small/140/140_135/ssav_140_135_objBrush.obrb" />
+  </Entries>
+  <References>
+    <Reference FilePath="/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk" />
+  </References>
+</ArchiveFile>

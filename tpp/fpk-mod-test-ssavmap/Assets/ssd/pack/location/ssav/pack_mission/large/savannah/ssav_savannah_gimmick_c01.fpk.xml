@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_savannah_gimmick_c01.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/cut0_main0_def_v00.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/nad0_main0_def.lba" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/ssde_flor001_cold001.lba" />
+    <Entry FilePath="/Assets/tpp/motion/mtar/nad0/nad0_ammo_anim.mtar" />
+    <Entry FilePath="/Assets/ssd/environ/object/ssd_base/floor/ssde_flor001/scenes/ssde_flor001_cold001.fmdl" />
+    <Entry FilePath="/Assets/ssd/mecha/cut/Scenes/cut0_main0_def.fmdl" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_model/fxm_fragment/scenes/fxm_fragment02.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/tank/mafr_tank005/scenes/mafr_tank005_dbri001.fmdl" />
+    <Entry FilePath="/Assets/tpp/mecha/dbr/Scenes/dbr0_main0_def.fmdl" />
+    <Entry FilePath="/Assets/tpp/mecha/nad/Scenes/nad0_brlh0_def.fmdl" />
+    <Entry FilePath="/Assets/tpp/mecha/nad/Scenes/nad0_main0_def.fmdl" />
+    <Entry FilePath="/Assets/ssd/environ/object/ssd_base/floor/ssde_flor001/scenes/ssde_flor001_cold001.geom" />
+    <Entry FilePath="/Assets/ssd/mecha/cut/Scenes/cut0_main0_def.gskl" />
+    <Entry FilePath="/Assets/tpp/mecha/nad/Scenes/nad0_main0_bre.gskl" />
+    <Entry FilePath="/Assets/tpp/mecha/nad/Scenes/nad0_main0_def.gskl" />
+    <Entry FilePath="/Assets/ssd/environ/object/ssd_base/floor/ssde_flor001/scenes/ssde_flor001_cold001.fcnp" />
+    <Entry FilePath="/Assets/tpp/mecha/nad/Scenes/nad0_main0_def.fcnp" />
+    <Entry FilePath="/Assets/tpp/mecha/nad/Scenes/nad0_main0_def.frdv" />
+  </Entries>
+  <References />
+</ArchiveFile>

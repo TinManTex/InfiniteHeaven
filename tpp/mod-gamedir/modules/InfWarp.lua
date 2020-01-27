@@ -12,15 +12,15 @@ this.moveUpButton=InfButton.DASH
 this.moveDownButton=InfButton.ZOOM_CHANGE
 
 --updateState
-this.active='warpPlayerUpdate'
-this.execCheckTable={inGame=true,inHeliSpace=false}
+this.active="warpPlayerUpdate"
+this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
 }
 
 
 this.registerIvars={
-  'warpPlayerUpdate',
+  "warpPlayerUpdate",
 }
 
 this.warpPlayerUpdate={
@@ -32,7 +32,7 @@ this.warpPlayerUpdate={
   isMode=true,
   --tex WIP OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
   OnModeActivate=function()InfMain.OnActivateWarpPlayer()end,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if Ivars.adjustCameraUpdate:Is(1) then
       self:SetDirect(0)
       InfMenu.PrintLangId"other_control_active"
@@ -100,7 +100,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if not currentChecks.inGame or currentChecks.inHeliSpace then
+  if not currentChecks.inGame or currentChecks.inSafeSpace then
     if Ivars.warpPlayerUpdate:Is(1) then
       Ivars.warpPlayerUpdate:Set(0)
     end

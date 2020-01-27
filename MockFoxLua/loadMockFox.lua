@@ -31,8 +31,11 @@ local defaultPackagePaths={
   foxGamePath..[[lua\?\init.lua]],
   foxGamePath..[[?.lua]],
   foxGamePath..[[?\init.lua]],
+  
   foxGamePath..[[mod\?.lua]],
   foxGamePath..[[mod\modules\?.lua]],
+  foxGamePath..[[lua\?.lua]],
+  foxGamePath..[[lua\modules\?.lua]],
 }
 
 if package.path==nil then
@@ -54,7 +57,7 @@ end
 
 MockUtil=require"MockUtil"
 
-dofile(mockFoxPath.."/MockFoxEngine.lua")
+dofile(mockFoxPath.."MockFoxEngine.lua")
 
 --tex WORKAROUND fox luas not being in working path
 LoadFile=loadfile
@@ -74,8 +77,6 @@ dofile=function(path)
     return DoFile(path)
   end
 end
-
-vars=require"vars"
 
 print("loadMockFox done")
 

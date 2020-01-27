@@ -185,7 +185,7 @@ this.enableResourceScale={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if setting==1 then
       InfResources.ScaleResourceTables()
     else
@@ -214,18 +214,16 @@ for i,resourceScaleType in ipairs(this.resourceScaleTypes)do
 end
 
 this.registerIvars={
-  'enableResourceScale',
-  'resourceScaleMaterial',
-  'resourceScalePlant',
-  'resourceScalePoster',
-  'resourceScaleDiamond',
-  'resourceScaleContainer',
+  "enableResourceScale",
+  "resourceScaleMaterial",
+  "resourceScalePlant",
+  "resourceScalePoster",
+  "resourceScaleDiamond",
+  "resourceScaleContainer",
 }
 --<
-
--->
 this.registerMenus={
-  'resourceScaleMenu',
+  "resourceScaleMenu",
 }
 
 this.resourceScaleMenu={

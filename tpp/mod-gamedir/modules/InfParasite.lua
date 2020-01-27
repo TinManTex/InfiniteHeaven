@@ -229,13 +229,12 @@ this.bgmList={
   },
 }
 
--->
 this.registerIvars={
-  'enableParasiteEvent',
-  'armorParasiteEnabled',
-  'mistParasiteEnabled',
-  'camoParasiteEnabled',
-  'parasiteWeather',
+  "enableParasiteEvent",
+  "armorParasiteEnabled",
+  "mistParasiteEnabled",
+  "camoParasiteEnabled",
+  "parasiteWeather",
 }
 
 this.enableParasiteEvent={
@@ -278,15 +277,15 @@ IvarProc.MinMaxIvar(
   "parasitePeriod",
   {
     default=10,
-    OnChange=function(self)
-      IvarProc.PushMax(self)
+    OnChange=function(self,setting,prevSetting)
+      IvarProc.PushMax(self,setting,prevSetting)
       InfParasite.StartEventTimer()
     end,
   },
   {
     default=30,
-    OnChange=function(self)
-      IvarProc.PushMin(self)
+    OnChange=function(self,setting,prevSetting)
+      IvarProc.PushMin(self,setting,prevSetting)
       InfParasite.StartEventTimer()
     end,
   },

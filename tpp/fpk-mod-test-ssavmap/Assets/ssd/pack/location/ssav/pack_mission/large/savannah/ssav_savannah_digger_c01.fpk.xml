@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_savannah_digger_c01.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/lba/whm0_main0_def_v00.lba" />
+    <Entry FilePath="/Assets/ssd/motion/mtar/gimmick/digger/digger.mtar" />
+    <Entry FilePath="/Assets/ssd/mecha/whm/Scenes/whm0_main0_def.fmdl" />
+    <Entry FilePath="/Assets/tpp/environ/object/middle_africa/tank/mafr_tank003/scenes/mafr_tank003_dbri001.fmdl" />
+    <Entry FilePath="/Assets/ssd/mecha/whm/Scenes/whm0_main0_def.gskl" />
+    <Entry FilePath="/Assets/ssd/mecha/whm/Scenes/whm0_main0_def.fcnp" />
+    <Entry FilePath="/Assets/ssd/mecha/whm/Scenes/whm0_main0_def.frdv" />
+  </Entries>
+  <References />
+</ArchiveFile>

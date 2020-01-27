@@ -206,9 +206,9 @@ SoundCoreDaemon.SetInterferenceRTPCName("obstruction_rtpc","occlusion_rtpc")
 SoundCoreDaemon.SetDopplerRTPCName"doppler"
 SoundCoreDaemon.SetRearParameter("rear_rtpc",5)
 if TppSoundDaemon then
-  local e=TppSoundDaemon{}
+  local tppSoundDaemon=TppSoundDaemon{}
   if TppSoundEditorDaemon then
-    local e=TppSoundEditorDaemon{}
+    local tppSoundEditorDaemon=TppSoundEditorDaemon{}
   end
 end
 TppRadioCommand.CreateSoundControl()
@@ -570,6 +570,7 @@ yield()
 if TppSystemUtility.GetCurrentGameMode()=="TPP"then
   Script.LoadLibrary"/Assets/ssd/level_asset/chara/player/game_object/player2_camouf_param.lua"
 end
+InfCore.LogFlow("Most LoadLibrary libs done")--tex a good place to do stuff on the libs before much is run in them (you'd have to do it from within a library though since start is sandboxed) DEBUGNOW
 yield()
 if Editor then
   TppGeoMaterial.EDIT_CheckWastedMaterialNames()

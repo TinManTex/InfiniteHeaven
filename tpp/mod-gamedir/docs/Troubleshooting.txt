@@ -11,13 +11,24 @@ The save files are in:
 
 Usually TPP_GAME_DATA alone is sufficient.
 
-Some files from the MGS_TPP game folder (usually in Steam\SteamApps\common)
-ih_save.lua from your MGS_TPP\mod\saves folder.
+Some files from the MGS_TPP game folder (usually in Steam\SteamApps\common):
+
 snakebite.xml from the MGS_TPP folder.
+
+The entire MGS_TPP\mod folder.
+Or if that's an issue, just the: 
+ih_save.lua from your MGS_TPP\mod\saves folder.
 ih_log.txt from the MGS_TPP\mod folder.
+ih_files.txt from the MGS_TPP\mod folder.
 
 If you need a place to upload mega.co.nz works well, as does dropbox.
 You can message me the link if you wish.
+
+'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error:
+If you get this message shortly after startup
+Make sure your game folder is actually named MGS_TPP.
+Try running mgsvtpp as Administrator.
+Try copying the mod folder to C:\mod, after running the game again open ih_log.txt from the mod folder and message me the log.
 
 After you have done so there's a couple of things you can try:
 
@@ -39,42 +50,4 @@ Again test to see if the game loads.
 Install Infinite Heaven only.
 Test again to see if the issue still occurs.
 
-If the game save is in-mission and not in ACC you may need to Abort to ACC from title (see below).
-
-
-Known issues:
-
-The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
-
-SideOps:
-If every sideop is greyed out change the Unlock Sideops mode to any setting, this should refresh the list, after the change you can change the setting back to what it was or off if you wish.
-
-Replaying sideop 144: Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
-
-With Walker gears in free roam in Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad (it's the 0,0,0 point). This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
-
-Same issue as above with Skull sniper.
-
-Enemy Life percentage doesn't seem to affect stun.
-
-Enable soldier parameter settings:
-When setting this option to Off you must exit to title to have the setting save, then restart the game to have it load the default (or other mods) enemy parameters.
-
-Vehicle reinforcements:
-Currently if the heli leaves the reinforce variable will stay active so you will not have further vehicle reinforcements for the mission.
-Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a round of attack even though it's far away.
-
-DD equip:
-Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
-
-Patrol helicopters: 
-Heli state is not saved and will reset on checkpoint reload, so helis may vanish (to another place on the map).
-This may be mitigated in future versions, but not fully fixed since KJP optimized a bit too far so can only save/load one heli.
-Heli in side ops may travel from one sideop to the next (if first sideop is loaded and second is also heli sideop), have yet to test to see if it does switch the sideop it counts towards on death.
-Heli sideop loading may be delayed until very near resulting in sudden pop in of sideop vehicles/soldiers.
-Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world. This won't be fixable as the AI is in the game engine/untouchable.
-
-Wildcard soldiers:
-Attempting to exit the map from an area that has both a female wildcard soldier and a female prisoner sideop will cause in infinite load. Restarting the game will put you back in the map before the attempted exit, clear the sideop and leave the area before attempting to exit the map again.
-
-Additional NPCs: Crash on exit from title after having returned to acc from mb during the game session with mbAdditionalNpcs.
+If the game save is in-mission and not in ACC you may need to Abort to ACC from title (see above).

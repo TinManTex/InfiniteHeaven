@@ -20,7 +20,7 @@ this.numLrrpWalkers=5--tex FREE pulled from total
 this.walkersPerLrrp=1--tex soldiers done respect each others personal space lol, which is more of an issue with walkers. unless I can set up command SetForceFormationLine
 this.numWalkerGears=10--DEBUGNOW--tex dependant on the entity defs
 
-this.walkerNames=InfLookup.GenerateNameList("wkr_WalkerGear_%04d",this.numWalkerGears)
+this.walkerNames=InfUtil.GenerateNameList("wkr_WalkerGear_%04d",this.numWalkerGears)
 
 this.packages={
   "/Assets/tpp/pack/mission2/common/mis_com_walkergear.fpk",--TppDefine.MISSION_COMMON_PACK.WALKERGEAR
@@ -197,12 +197,11 @@ walkerStartPositions.mafr={
 --{pos={225.789,1.643,-624.561},rotY=71.320,},
 }
 
--->
 this.registerIvars={
-  'enableWalkerGearsFREE',
-  'enableWalkerGearsMB',
-  'mbWalkerGearsColor',
-  'mbWalkerGearsWeapon',
+  "enableWalkerGearsFREE",
+  "enableWalkerGearsMB",
+  "mbWalkerGearsColor",
+  "mbWalkerGearsWeapon",
 }
 
 IvarProc.MissionModeIvars(

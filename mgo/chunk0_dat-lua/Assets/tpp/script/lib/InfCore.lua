@@ -423,23 +423,23 @@ end
 --tex parses a string reference (SomeModule.someVar) and returns var
 function this.GetStringRef(strReference)
   if type(strReference)~="string" then
-    InfCore.Log("WARNING GetStringRef: strReference~=string")
+    InfCore.Log("WARNING: InfCore.GetStringRef: strReference~=string")
     return nil
   end
   local split=InfUtil.Split(strReference,".")
   if #split<2 then--tex <module>.<name>
-    InfCore.Log("WARNING GetStringRef: #split<2 for "..tostring(strReference),true,true)
+    InfCore.Log("WARNING: InfCore.GetStringRef: #split<2 for "..tostring(strReference),true,true)
     return nil
   end
   local module=_G[split[1]]
   if module==nil then
-    InfCore.Log("WARNING GetStringRef: could not find module "..tostring(split[1]),true,true)
+    InfCore.Log("WARNING: InfCore.GetStringRef: could not find module "..tostring(split[1]),true,true)
     return nil
   end
 
   local reference=module[split[2]]
   if reference==nil then
-    InfCore.Log("WARNING GetStringRef: could not find reference "..strReference,true,true)
+    InfCore.Log("WARNING: InfCore.GetStringRef: could not find reference "..strReference,true,true)
     return nil
   end
   --tex TODO: could probably keep recursing down split for nested references
@@ -683,7 +683,7 @@ end
 function this.GetFileList(files,filter,stripFilter)
   local fileNames={}
   if files==nil then
-    InfCore.Log"InfCore.GetFileList: ERROR files==nil"
+    InfCore.Log"ERROR: InfCore.GetFileList: files==nil"
     return fileNames
   end
 

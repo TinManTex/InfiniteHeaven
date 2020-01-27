@@ -207,10 +207,9 @@ function this.IsPriorityStaff(staffId)
   return ih_priority_staff.staffIds[staffId]
 end
 
--->
 this.registerMenus={
-  'mbStaffMenu',
-  'mbStaffInMissionMenu',
+  "mbStaffMenu",
+  "mbStaffInMissionMenu",
 }
 
 this.mbStaffMenu={
@@ -224,6 +223,7 @@ this.mbStaffMenu={
 }
 
 this.mbStaffInMissionMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "InfMBStaff.AddPlayerStaff",
     "InfMBStaff.RemovePlayerStaff",

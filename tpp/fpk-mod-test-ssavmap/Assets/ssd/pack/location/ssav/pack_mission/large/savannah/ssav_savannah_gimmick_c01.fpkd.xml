@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_savannah_gimmick_c01.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_gimmick_c01.fox2" />
+    <Entry FilePath="/Assets/tpp/parts/mecha/nad/nad0_main0_def.parts" />
+    <Entry FilePath="/Assets/ssd/parts/mecha/cut/cut0_main0_def_v00.parts" />
+    <Entry FilePath="/Assets/ssd/parts/environ/object/ssd_comm/floor/ssde_flor001/ssde_flor001_cold001.parts" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/smoke/fx_tpp_smkmchbrk03_s5.vfx" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/smoke/fx_tpp_smkdnwobj01_m1.vfx" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/muzzle/fx_tpp_mzfgg01_s0FG.vfx" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/muzzle/fx_tpp_mzfair00m_s0.vfx" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchnadblhsmk00_s1.vfx" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchnadblh00_s3LG.vfx" />
+    <Entry FilePath="/Assets/tpp/effect/vfx_data/explosion/fx_tpp_expmchnad01_m1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/weapon/fx_ssd_wepflountice01_s1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/break/fx_ssd_brkflo01_s1.vfx" />
+    <Entry FilePath="/Assets/tpp/parts/mecha/nad/nad0_main0_def.tgt" />
+    <Entry FilePath="/Assets/ssd/parts/environ/object/ssd_comm/floor/ssde_flor001/ssde_flor001_cold001.tgt" />
+  </Entries>
+  <References />
+</ArchiveFile>

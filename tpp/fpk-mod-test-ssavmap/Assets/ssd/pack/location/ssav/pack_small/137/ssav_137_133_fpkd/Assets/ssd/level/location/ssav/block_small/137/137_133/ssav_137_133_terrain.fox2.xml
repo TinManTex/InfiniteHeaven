@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TerrainBlock" super="" version="0" />
+    <class name="TerrainDecalPack" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x02D79460" unknown1="304" unknown2="6649449">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="3">
+          <value key="TerrainBlock_2084">0x02D794D0</value>
+          <value key="TerrainDecalPack0000">0x02D7EE80</value>
+          <value key="TexturePackLoadConditioner0000">0x02D7D8A0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TerrainBlock" classVersion="0" addr="0x02D794D0" unknown1="208" unknown2="6649451">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TerrainBlock_2084</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D79460</value>
+        </property>
+        <property name="id" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="terrainName" type="String" container="StaticArray" arraySize="1">
+          <value>TerrainRender0000</value>
+        </property>
+        <property name="filePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_small/137/137_133/ssav_137_133_terrain.htre</value>
+        </property>
+        <property name="filePath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_small/137/137_133/ssav_137_133_terrain.htre</value>
+        </property>
+        <property name="pos" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="576" y="0" z="64" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TerrainDecalPack" classVersion="0" addr="0x02D7EE80" unknown1="160" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TerrainDecalPack0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D79460</value>
+        </property>
+        <property name="terrainDecalPackFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/level/location/ssav/block_small/137/137_133/ssav_137_133_terrain_fox2_win.ftdp</value>
+        </property>
+        <property name="materialLinks" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="DATA_IDENTIFIER" archivePath="mafr_common_decalMaterial" nameInArchive="TestKey20">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x02D7D8A0" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x02D79460</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

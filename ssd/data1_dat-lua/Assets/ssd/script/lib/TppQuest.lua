@@ -109,20 +109,20 @@ function this.GetQuestBlockIndex(t)
     end
   end
 end
-function this.RegisterQuestInfo(n)
-  if not n then
+function this.RegisterQuestInfo(questName)
+  if not questName then
     return
   end
-  local t=this.GetQuestBlockIndex(n)
+  local t=this.GetQuestBlockIndex(questName)
   if not t then
-    t=this.SearchBlockIndex(n)
+    t=this.SearchBlockIndex(questName)
     if not t then
       return
     end
   end
   this.ResetQuestStatus(t)
-  this.SetCurrentQuestName(t,n)
-  mvars.qst_currentQuestTable[t]=this.GetQuestTable(t,n)
+  this.SetCurrentQuestName(t,questName)
+  mvars.qst_currentQuestTable[t]=this.GetQuestTable(t,questName)
   return t
 end
 function this.RegisterQuestStepList(n,e)
@@ -179,16 +179,16 @@ end
 function this.QuestBlockOnInitialize(s)
   local t=s.questBlockIndex
   if not t then
-    local n=s.questName
-    if n then
-      t=this.SearchBlockIndex(n)
+    local questName=s.questName
+    if questName then
+      t=this.SearchBlockIndex(questName)
     end
     if not t then
       return
     else
       this.ResetQuestStatus(t)
-      this.SetCurrentQuestName(t,n)
-      mvars.qst_currentQuestTable[t]=this.GetQuestTable(t,n)
+      this.SetCurrentQuestName(t,questName)
+      mvars.qst_currentQuestTable[t]=this.GetQuestTable(t,questName)
     end
   end
   local n=s.Messages
@@ -929,7 +929,7 @@ function this.SearchQuestFromAllSpecifiedArea(r,t,l,a)
     end
   end
 end
-function this.SearchBlockIndex(s)
+function this.SearchBlockIndex(questName)
   local e=0
   for t=1,#n do
     if e~=0 then
@@ -943,7 +943,7 @@ function this.SearchBlockIndex(s)
         end
         local n=n[a]
         for a,n in ipairs(n.infoList)do
-          if n.name==s then
+          if n.name==questName then
             e=t
             break
           end
@@ -1989,8 +1989,9 @@ if(Tpp.IsQARelease()or nil)then
     if not a or a==0 then
       s(t,"Load Target[-] : -----")
     else
-      local n=TppQuestList.QUEST_DEFINE[a]
-      local e=this.SearchBlockIndex(n)s(t,"Load Target["..(tostring(e)..("] : "..tostring(n))))
+      local questName=TppQuestList.QUEST_DEFINE[a]
+      local e=this.SearchBlockIndex(questName)
+      s(t,"Load Target["..(tostring(e)..("] : "..tostring(questName))))
     end
     for r=1,#n do
       local n=n[r]s(t,"Block : "..n)
@@ -2055,17 +2056,18 @@ if(Tpp.IsQARelease()or nil)then
     if t==0 then
       return
     end
-    local t=TppQuestList.QUEST_DEFINE[t]
-    if not t then
+    local questName=TppQuestList.QUEST_DEFINE[t]
+    if not questName then
       return
     end
-    local s=this.SearchBlockIndex(t)
+    local s=this.SearchBlockIndex(questName)
     if s==0 then
       return
     end
-    TppCrew.UpdateActiveQuest(t)Mission.RecreateBaseCrew()
+    TppCrew.UpdateActiveQuest(questName)
+    Mission.RecreateBaseCrew()
     this.UnloadCurrentQuestBlock(n[s])
-    mvars.qst_reserveNextQuest[s]=t
+    mvars.qst_reserveNextQuest[s]=questName
   end
 end
 return this

@@ -1,97 +1,101 @@
+-- SsdFastTravel.lua
 local this={}
-local t=Fox.StrCode32
-local n={}
-local i={}
+local StrCode32=Fox.StrCode32
+local identifierLinkNameS32ToIdentifierName={}
+local identifierLinkNameS32ToIdentifierLinkName={}
+--REF fastTravelPointTableList
+--{identifierLinkName="fast_afgh00",pointNameMessageID="map_ft_afgh_01_name",mapIconNameMessageID="map_icon_fastTravel_afgh_01_name",gimmickLocatorName="com_portal001_gim_n0000|srt_ftp0_main0_def_v00",gimmickDatasetName="/Assets/ssd/level/location/afgh/block_small/129/129_150/afgh_129_150_gimmick.fox2",waterTankGimmickLocatorName="ssde_tank002_vrtn003_gim_n0000|srt_ssde_tank002_vrtn003",waterTankGimmickDatasetName="/Assets/ssd/level/location/afgh/block_small/130/130_151/afgh_130_151_gimmick.fox2",identifierName="DataIdentifier_afgh_common_fasttravel",locationID=TppDefine.LOCATION_ID.SSD_AFGH,blankMapAreas=a.fast_base,autoBoot=true,enableLocationChange=true},
+--...
 function this.InitializeFastTravelPoints()
-  n={}
-  i={}
+  identifierLinkNameS32ToIdentifierName={}
+  identifierLinkNameS32ToIdentifierLinkName={}
   mvars.fastTravelPointTableTable={}
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=this.RegisterFastTravelPoints()
-    for a,e in ipairs(a)do
-      local a=e.identifierLinkName
-      mvars.fastTravelPointTableTable[a]=e
-      local s=FastTravelSystem.IsUnlocked{identifierLinkName=a}
-      Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=e.gimmickLocatorName,dataSetName=e.gimmickDatasetName,powerOff=not s}
-      n[t(a)]=e.identifierName
-      i[t(a)]=a
+    local fastTravelPointTableList=this.RegisterFastTravelPoints()
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      local identifierLinkName=travelPointInfo.identifierLinkName
+      mvars.fastTravelPointTableTable[identifierLinkName]=travelPointInfo
+      local isUnlocked=FastTravelSystem.IsUnlocked{identifierLinkName=identifierLinkName}
+      Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName,powerOff=not isUnlocked}
+      identifierLinkNameS32ToIdentifierName[StrCode32(identifierLinkName)]=travelPointInfo.identifierName
+      identifierLinkNameS32ToIdentifierLinkName[StrCode32(identifierLinkName)]=identifierLinkName
     end
-    for a,e in ipairs(SsdFastTravelPointList.returnToBasePointTableList)do
-      local a=e.identifierLinkName
-      n[t(a)]=e.identifierName
-      i[t(a)]=a
+    for i,returnPointInfo in ipairs(SsdFastTravelPointList.returnToBasePointTableList)do
+      local identifierLinkName=returnPointInfo.identifierLinkName
+      identifierLinkNameS32ToIdentifierName[StrCode32(identifierLinkName)]=returnPointInfo.identifierName
+      identifierLinkNameS32ToIdentifierLinkName[StrCode32(identifierLinkName)]=identifierLinkName
     end
-    Tpp.DEBUG_DumpTable(i)
+    Tpp.DEBUG_DumpTable(identifierLinkNameS32ToIdentifierLinkName)
   end
 end
 function this.RegisterFastTravelPoints()
-  local a=SsdFastTravelPointList.fastTravelPointTableList
-  FastTravelSystem.RegisterPoints{pointInfos=a}
-  return a
+  local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+  FastTravelSystem.RegisterPoints{pointInfos=fastTravelPointTableList}
+  return fastTravelPointTableList
 end
-function this.UnlockFastTravelPoint(i)
-  local e
-  if Tpp.IsTypeString(i)then
-    e={i}
-  elseif Tpp.IsTypeTable(i)then
-    e=i
+function this.UnlockFastTravelPoint(travelPointName)
+  local travelPoints
+  if Tpp.IsTypeString(travelPointName)then
+    travelPoints={travelPointName}
+  elseif Tpp.IsTypeTable(travelPointName)then
+    travelPoints=travelPointName
   end
-  if e then
-    for i,e in ipairs(e)do
-      FastTravelSystem.Unlock{identifierLinkName=e}
-      this.UnlockFastTravelPointGimmick(e)
+  if travelPoints then
+    for i,identifierLinkName in ipairs(travelPoints)do
+      FastTravelSystem.Unlock{identifierLinkName=identifierLinkName}
+      this.UnlockFastTravelPointGimmick(identifierLinkName)
     end
   end
 end
-function this.UnlockFastTravelPointGimmick(e)
+function this.UnlockFastTravelPointGimmick(travelPointName)
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for i,a in ipairs(a)do
-      if(a.identifierLinkName==e and a.gimmickLocatorName)and a.gimmickDatasetName then
-        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName,powerOff=false}
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if(travelPointInfo.identifierLinkName==travelPointName and travelPointInfo.gimmickLocatorName)and travelPointInfo.gimmickDatasetName then
+        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName,powerOff=false}
         break
       end
     end
   end
 end
-function this.LockFastTravelPointGimmick(e)
+function this.LockFastTravelPointGimmick(travelPointName)
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for i,a in ipairs(a)do
-      if(a.identifierLinkName==e and a.gimmickLocatorName)and a.gimmickDatasetName then
-        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName,powerOff=true}break
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if(travelPointInfo.identifierLinkName==travelPointName and travelPointInfo.gimmickLocatorName)and travelPointInfo.gimmickDatasetName then
+        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName,powerOff=true}break
       end
     end
   end
 end
-function this.InvisibleFastTravelPointGimmick(i,e)
+function this.InvisibleFastTravelPointGimmick(identifierLinkName,visible)
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for t,a in ipairs(a)do
-      if(a.identifierLinkName==i and a.gimmickLocatorName)and a.gimmickDatasetName then
-        Gimmick.InvisibleGimmick(0,a.gimmickLocatorName,a.gimmickDatasetName,e,{gimmickId="GIM_P_Portal"})
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if(travelPointInfo.identifierLinkName==identifierLinkName and travelPointInfo.gimmickLocatorName)and travelPointInfo.gimmickDatasetName then
+        Gimmick.InvisibleGimmick(0,travelPointInfo.gimmickLocatorName,travelPointInfo.gimmickDatasetName,visible,{gimmickId="GIM_P_Portal"})
         break
       end
     end
   end
 end
-function this.ActionFastTravelPointGimmick(t,i,e)
+function this.ActionFastTravelPointGimmick(travelPointName,action,param1)
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for n,a in ipairs(a)do
-      if(a.identifierLinkName==t and a.gimmickLocatorName)and a.gimmickDatasetName then
-        Gimmick.SetAction{gimmickId="GIM_P_Digger",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName,action=i,param1=e}
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if(travelPointInfo.identifierLinkName==travelPointName and travelPointInfo.gimmickLocatorName)and travelPointInfo.gimmickDatasetName then
+        Gimmick.SetAction{gimmickId="GIM_P_Digger",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName,action=action,param1=param1}
         break
       end
     end
   end
 end
-function this.ResetFastTravelPointGimmick(e)
+function this.ResetFastTravelPointGimmick(travelPointName)
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for i,a in ipairs(a)do
-      if(a.identifierLinkName==e and a.gimmickLocatorName)and a.gimmickDatasetName then
-        Gimmick.ResetGimmick(0,a.gimmickLocatorName,a.gimmickDatasetName,{gimmickId="GIM_P_Portal"})
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if(travelPointInfo.identifierLinkName==travelPointName and travelPointInfo.gimmickLocatorName)and travelPointInfo.gimmickDatasetName then
+        Gimmick.ResetGimmick(0,travelPointInfo.gimmickLocatorName,travelPointInfo.gimmickDatasetName,{gimmickId="GIM_P_Portal"})
         break
       end
     end
@@ -99,58 +103,58 @@ function this.ResetFastTravelPointGimmick(e)
 end
 function this.UnlockAllFastTravelPointGimmick()
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for e,a in ipairs(a)do
-      if a.gimmickLocatorName and a.gimmickDatasetName then
-        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName,powerOff=false}
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if travelPointInfo.gimmickLocatorName and travelPointInfo.gimmickDatasetName then
+        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName,powerOff=false}
       end
     end
   end
 end
 function this.UnlockAllAutoBootFastTravelPointGimmick()
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for e,a in ipairs(a)do
-      if(a.autoBoot and a.gimmickLocatorName)and a.gimmickDatasetName then
-        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName,powerOff=false}
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if(travelPointInfo.autoBoot and travelPointInfo.gimmickLocatorName)and travelPointInfo.gimmickDatasetName then
+        Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName,powerOff=false}
       end
     end
   end
 end
-function this.GetFastTravelPointNameFromGimmick(i,e,a)
-  if Tpp.IsTypeString(e)then
-    e=Fox.StrCode32(e)
+function this.GetFastTravelPointNameFromGimmick(gimmickId,locatorNameS32,unkP3)
+  if Tpp.IsTypeString(locatorNameS32)then
+    locatorNameS32=Fox.StrCode32(locatorNameS32)
   end
-  if Tpp.IsTypeString(a)then
-    a=Fox.StrCode32(a)
+  if Tpp.IsTypeString(unkP3)then
+    unkP3=Fox.StrCode32(unkP3)
   end
   if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-    local a=SsdFastTravelPointList.fastTravelPointTableList
-    for t,a in ipairs(a)do
-      if a.gimmickLocatorName and Fox.StrCode32(a.gimmickLocatorName)==e then
-        local e=Gimmick.SsdGetGameObjectId{gimmickId="GIM_P_Portal",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName}
-        if i==e then
-          return a.identifierLinkName
+    local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+    for i,travelPointInfo in ipairs(fastTravelPointTableList)do
+      if travelPointInfo.gimmickLocatorName and Fox.StrCode32(travelPointInfo.gimmickLocatorName)==locatorNameS32 then
+        local gameObjectId=Gimmick.SsdGetGameObjectId{gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName}
+        if gimmickId==gameObjectId then
+          return travelPointInfo.identifierLinkName
         end
       end
     end
   end
 end
-function this.GetFastTravelPointName(a)
-  return n[a],i[a]
+function this.GetFastTravelPointName(identifierLinkNameS32)
+  return identifierLinkNameS32ToIdentifierName[identifierLinkNameS32],identifierLinkNameS32ToIdentifierLinkName[identifierLinkNameS32]
 end
-function this.GetFastTravelPointGimmickIdentifier(a)
+function this.GetFastTravelPointGimmickIdentifier(travelPointName)
   if not mvars.fastTravelPointTableTable then
     return
   end
-  local a=mvars.fastTravelPointTableTable[a]
-  if not a then
+  local travelPointInfo=mvars.fastTravelPointTableTable[travelPointName]
+  if not travelPointInfo then
     return
   end
-  local a={gimmickId="GIM_P_Portal",name=a.gimmickLocatorName,dataSetName=a.gimmickDatasetName}
-  return a
+  local gimmickInfo={gimmickId="GIM_P_Portal",name=travelPointInfo.gimmickLocatorName,dataSetName=travelPointInfo.gimmickDatasetName}
+  return gimmickInfo
 end
-function this.GetQuestName(a)
-  return SsdFastTravelPointList.FAST_TRAVEL_TO_QUEST[a]
+function this.GetQuestName(travelPointName)
+  return SsdFastTravelPointList.FAST_TRAVEL_TO_QUEST[travelPointName]
 end
 return this

@@ -50,7 +50,7 @@ local function GetSettingText(option)
 
       settingText=string.sub(settingText,1,#settingText-2)
     else
-      local settingTable=InfMenu.GetLangTable(settingNames)
+      local settingTable=InfLangProc.LangTable(settingNames)
       --settingText=InfInspect.Inspect(settingTable)
       for i,settingName in ipairs(settingTable)do
         settingText=settingText..settingName..", "
@@ -89,12 +89,16 @@ local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   --print("GatherMenus:")
   for i,itemRef in ipairs(currentMenu)do
     local item=InfMenu.GetOptionFromRef(itemRef)
-    if skipItems and skipItemsList[item.name] then
+    if item==nil then
+      print("WARNING: InfAutoDoc.GatherMenus: item==nil for itemRef: "..tostring(itemRef))
     else
-      if IsMenu(item) and not menuNames[item.name] then
-        menuNames[item.name]=true
-        table.insert(menus,item)
-        GatherMenus(item.options,skipItems,menus,menuNames)
+      if skipItems and skipItemsList[item.name] then
+      else
+        if IsMenu(item) and not menuNames[item.name] then
+          menuNames[item.name]=true
+          table.insert(menus,item)
+          GatherMenus(item.options,skipItems,menus,menuNames)
+        end
       end
     end
   end
@@ -107,6 +111,11 @@ local function IsForProfileAutoDoc(item,currentMenu,priorMenus,priorItems)
         return
       end
     end
+  end
+
+  if item==nil then
+    print("WARNING: InfAutoDoc.IsForProfileAutoDoc: item==nil")
+    return false
   end
 
   if priorItems[item.name] then
@@ -123,7 +132,7 @@ end
 local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
   menuCount=menuCount+1
 
-  local menuDisplayName=InfMenu.LangString(menu.name)
+  local menuDisplayName=InfLangProc.LangString(menu.name)
 
   table.insert(textTable,menuDisplayName)
 
@@ -161,86 +170,91 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     local item=InfMenu.GetOptionFromRef(itemRef)
     table.insert(htmlTable,[[<div id="menuItem">]])
 
-    if skipItems and skipItemsList[item.name] then
-
+    if item==nil then
+      print("WARNING: InfAutoDoc.PrintMenuSingle: item==nil for itemRef:"..tostring(itemRef))
     else
-      --DEBUG
-      --      print("name:"..item.name)
-      --      print("desc:"..tostring(item.description))
-      --      print("langstr:"..tostring(InfMenu.LangString(item.name)))
-      local settingDescription=item.description or InfMenu.LangString(item.name)
-      local indexDisplayLine=i..": "
 
-      --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
+      if skipItems and skipItemsList[item.name] then
 
-      if IsMenu(item) then
-        menuCount=menuCount+1
-
-        table.insert(textTable,indexDisplayLine..settingDescription)
-        table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription))
       else
-        local settingText=GetSettingText(item)--DEBUG WORKAROUND InfMenu.GetSettingText(i,item)
-        table.insert(textTable,indexDisplayLine..settingDescription.." : "..settingText)
+        --DEBUG
+        --      print("name:"..item.name)
+        --      print("desc:"..tostring(item.description))
+        --      print("langstr:"..tostring(InfLangProc.LangString(item.name)))
+        local settingDescription=item.description or InfLangProc.LangString(item.name)
+        local indexDisplayLine=i..": "
 
-        local settingsDisplayText=settingDescription.." : "..settingText
-        settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
-        settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
-        table.insert(htmlTable,string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText))
-        --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription))
+        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
 
-        local helpLangString=InfLang.help.eng[item.name]
-        if helpLangString then
-          helpLangString=string.gsub(helpLangString,"<","&lt")
-          helpLangString=string.gsub(helpLangString,">","&gt")
+        if IsMenu(item) then
+          menuCount=menuCount+1
 
-          table.insert(textTable,helpLangString)
+          table.insert(textTable,indexDisplayLine..settingDescription)
+          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription))
+        else
+          local settingText=GetSettingText(item)--DEBUG WORKAROUND InfMenu.GetSettingText(i,item)
+          table.insert(textTable,indexDisplayLine..settingDescription.." : "..settingText)
 
-          helpLangString=string.gsub(helpLangString, nl, "<br/>")
-          table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],helpLangString))
-        end
+          local settingsDisplayText=settingDescription.." : "..settingText
+          settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
+          settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
+          table.insert(htmlTable,string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText))
+          --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription))
 
-        if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
-          local profileLine={}
-          table.insert(profileLine,"\t\t"..item.name.."=")
-          --InfCore.Log("profileline --- "..item.name)--DEBUG
-          if item.settings then
-            local setting=item.settings[item.default+1]
-            if setting and setting~="DEFAULT" and setting~="OFF" then
-              table.insert(profileLine,"\""..setting.."\"")
+          local helpLangString=InfLang.help.eng[item.name]
+          if helpLangString then
+            helpLangString=string.gsub(helpLangString,"<","&lt")
+            helpLangString=string.gsub(helpLangString,">","&gt")
+
+            table.insert(textTable,helpLangString)
+
+            helpLangString=string.gsub(helpLangString, nl, "<br/>")
+            table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],helpLangString))
+          end
+
+          if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
+            local profileLine={}
+            table.insert(profileLine,"\t\t"..item.name.."=")
+            --InfCore.Log("profileline --- "..item.name)--DEBUG
+            if item.settings then
+              local setting=item.settings[item.default+1]
+              if setting and setting~="DEFAULT" and setting~="OFF" then
+                table.insert(profileLine,"\""..setting.."\"")
+              else
+                table.insert(profileLine,item.default)
+              end
             else
               table.insert(profileLine,item.default)
             end
-          else
-            table.insert(profileLine,item.default)
-          end
-          table.insert(profileLine,",")
+            table.insert(profileLine,",")
 
-          local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
-          table.insert(profileLine,"--")
-          if item.settings then
-            table.insert(profileLine,"{ ")
-            for i,setting in ipairs(item.settings)do
-              table.insert(profileLine,setting)
-              if i~=#item.settings then
-                table.insert(profileLine,", ")
+            local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
+            table.insert(profileLine,"--")
+            if item.settings then
+              table.insert(profileLine,"{ ")
+              for i,setting in ipairs(item.settings)do
+                table.insert(profileLine,setting)
+                if i~=#item.settings then
+                  table.insert(profileLine,", ")
+                end
               end
+              table.insert(profileLine," }")
+            else
+              table.insert(profileLine,"{ ")
+              table.insert(profileLine,item.range.min.."-"..item.range.max)
+              table.insert(profileLine," }")
             end
-            table.insert(profileLine," }")
-          else
-            table.insert(profileLine,"{ ")
-            table.insert(profileLine,item.range.min.."-"..item.range.max)
-            table.insert(profileLine," }")
-          end
-          if not item.save then
-            table.insert(profileLine," -- Non-save")
-          end
-          table.insert(profileLine," -- "..optionName)
-          if item.isPercent then
-            table.insert(profileLine," (percentage)")
-          end
-          table.insert(profileTable,table.concat(profileLine))
+            if not item.save then
+              table.insert(profileLine," -- Non-save")
+            end
+            table.insert(profileLine," -- "..optionName)
+            if item.isPercent then
+              table.insert(profileLine," (percentage)")
+            end
+            table.insert(profileTable,table.concat(profileLine))
 
-          priorItems[item.name]=true
+            priorItems[item.name]=true
+          end
         end
       end
     end
@@ -256,13 +270,7 @@ local function EscapeHtml(line)
   return line
 end
 
-
-local projectFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\"
-local outputFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\docs\\"
-local featuresOutputName="Features and Options"
-
-FeaturesHeader=require"FeaturesHeader"
-function this.AutoDoc()
+function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputName)
   print("AutoDoc:")
 
   local textTable={}
@@ -342,36 +350,38 @@ function this.AutoDoc()
   --patchup TODO remove any dependancies in Ivars, check these
   --tex TODO provide more descriptive lists?
   --Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
-  Ivars.fovaSelection.description="<Character model description>"
-  Ivars.fovaSelection.settingNames={"<Fova selection>"}
-  Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
-  Ivars.playerFaceEquipId.settingNames={"<Headgear for DD type>"}
-  Ivars.playerPartsType.settingNames={"<Suits for player type>"}
-  Ivars.playerCamoType.settings={"<Camos for player type>"}
-  Ivars.selectProfile.settingNames={"<Profile name>"}
-  Ivars.faceFovaDirect.GetSettingText=nil
-  Ivars.faceDecoFovaDirect.GetSettingText=nil
-  Ivars.hairFovaDirect.GetSettingText=nil
-  Ivars.hairDecoFovaDirect.GetSettingText=nil
-  Ivars.playerFaceId.GetSettingText=nil
-  Ivars.playerFaceId.settingNames={"<Face Id for player type and face filter>"}
+  --DEBUGNOW
+  if gameId=="tpp" then
+    Ivars.fovaSelection.description="<Character model description>"
+    Ivars.fovaSelection.settingNames={"<Fova selection>"}
+    Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
+    Ivars.playerFaceEquipId.settingNames={"<Headgear for DD type>"}
+    Ivars.playerPartsType.settingNames={"<Suits for player type>"}
+    Ivars.playerCamoType.settings={"<Camos for player type>"}
+    Ivars.selectProfile.settingNames={"<Profile name>"}
+    Ivars.faceFovaDirect.GetSettingText=nil
+    Ivars.faceDecoFovaDirect.GetSettingText=nil
+    Ivars.hairFovaDirect.GetSettingText=nil
+    Ivars.hairDecoFovaDirect.GetSettingText=nil
+    Ivars.playerFaceId.GetSettingText=nil
+    Ivars.playerFaceId.settingNames={"<Face Id for player type and face filter>"}
+  end
 
-
-  local menu=InfMenuDefs.heliSpaceMenu.options
+  local menu=InfMenuDefs.safeSpaceMenu.options
   local skipItems=true
-  local heliSpaceMenus={}
-  local heliSpaceMenuNames={}
+  local safeSpaceMenus={}
+  local safeSpaceMenuNames={}
 
-  print("GatherMenus heliSpace:")
-  GatherMenus(menu,skipItems,heliSpaceMenus,heliSpaceMenuNames)
-  --InfCore.PrintInspect(heliSpaceMenus)
-  table.insert(heliSpaceMenus,1,InfMenuDefs.heliSpaceMenu)
+  print("GatherMenus safeSpace:")
+  GatherMenus(menu,skipItems,safeSpaceMenus,safeSpaceMenuNames)
+  --InfCore.PrintInspect(safeSpaceMenus)
+  table.insert(safeSpaceMenus,1,InfMenuDefs.safeSpaceMenu)
 
   local priorItems={}
 
-  print("PrintMenuSingle heliSpace:")
+  print("PrintMenuSingle safeSpace:")
   local menuCount=1
-  for i,menu in ipairs(heliSpaceMenus)do
+  for i,menu in ipairs(safeSpaceMenus)do
     PrintMenuSingle(nil,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
     table.insert(textTable,"")
     table.insert(htmlTable,"<br/>")
@@ -389,7 +399,7 @@ function this.AutoDoc()
   print("PrintMenuSingle inMissionMenus:")
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
-    PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
+    PrintMenuSingle(safeSpaceMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
     table.insert(textTable,"")
     table.insert(htmlTable,"<br/>")
   end
@@ -418,10 +428,10 @@ function this.AutoDoc()
   local htmlFilePath=outputFolder..featuresOutputName..".html"
   local htmlFile=io.open(htmlFilePath,"w")
 
-  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\profiles\\All_Options_Example.lua"
+  local profileFilePath=projectFolder.."external\\profiles\\All_Options_Example.lua"
   local profileFile=io.open(profileFilePath,"w")
 
-  local profileFilePath=projectFolder.."!modlua\\ExternalLuaRelease\\profiles\\All_Options_Example.lua"
+  local profileFilePath=projectFolder.."external-release\\profiles\\All_Options_Example.lua"
   local profileFileRelease=io.open(profileFilePath,"w")
 
   textFile:write(table.concat(textTable,nl))

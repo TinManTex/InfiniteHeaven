@@ -1,0 +1,16 @@
+Event: None - 104983832
+As Edge: 0, as Node: 9
+files:
+ih_uav_test.frt
+routes:
+rt_heli_quest_0000
+
+Event: RelaxedWalk - 1500257626
+As Edge: 15, as Node: 21
+files:
+ih_uav_test.frt
+routes:
+1322622738
+2214928967
+rt_heli_quest_0000
+

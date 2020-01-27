@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_savannah_digger_c01.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_digger_c01.fox2" />
+    <Entry FilePath="/Assets/ssd/parts/mecha/whm/whm0_main0_def_v00.parts" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_mission/large/savannah/ssav_savannah_digger_c01_FxLocators.vfxlb" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/smoke/fx_ssd_smkmchbrk03_s5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_wepexpskw01_l1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmspkltb02_s1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmspk01_s1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmsmk01_s3.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmsltdst01_s2.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmskw01_l1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin08_m5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin07_s5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin06_m5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin05_m5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin04_m5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin02_s5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/mecha/fx_ssd_mchwhmlin01_s5.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/item/fx_ssd_itmwrm15_m1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/item/fx_ssd_itmwrm12_s1.vfx" />
+    <Entry FilePath="/Assets/ssd/effect/vfx_data/explosion/fx_ssd_expbrkmch01_s5.vfx" />
+  </Entries>
+  <References />
+</ArchiveFile>

@@ -15,7 +15,9 @@ function this.CreateInstance(e,a)
   instance.commonMessageTable=instance.AddMessage(instance.commonMessageTable,{GameObject={{msg="Dead",func=function(a)
     local a=instance.GetTargetNameFromGameObjectId(a)
     if a then
-      TppUI.ShowAnnounceLog"target_died"SsdFlagMission.ClearWithSave(TppDefine.FLAG_MISSION_CLEAR_TYPE.FAILURE,instance.missionName)SsdFlagMission.FadeOutAndUnloadBlock()
+      TppUI.ShowAnnounceLog"target_died"
+      SsdFlagMission.ClearWithSave(TppDefine.FLAG_MISSION_CLEAR_TYPE.FAILURE,instance.missionName)
+      SsdFlagMission.FadeOutAndUnloadBlock()
     end
   end}}})
   function instance.ClearCondition()
@@ -29,7 +31,9 @@ function this.CreateInstance(e,a)
   instance.flagStep.GameMain.messageTable={GameObject={{msg="Carried",func=function(a,t)
     local e=instance.GetTargetNameFromGameObjectId(a)
     if e then
-      TppUI.ShowAnnounceLog"recoverTarget"SsdFlagMission.SetNextStep"GameEscape"end
+      TppUI.ShowAnnounceLog"recoverTarget"
+      SsdFlagMission.SetNextStep"GameEscape"
+      end
   end}}}
   return instance
 end

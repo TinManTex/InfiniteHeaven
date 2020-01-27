@@ -758,7 +758,7 @@ this.tppInternal={
   WeaponPartsUiSetting=true,
 }
 
-this.ssdinternal={
+this.ssdInternal={
   --126ed3c69bef2=true,
 --1bf8f1382950b=true,
 --1d9eb39d875ae=true,
@@ -804,6 +804,9 @@ BaseFreeMissionRadio=true,
 BaseFreeMissionSequence=true,
 BaseMissionRadio=true,
 BaseMissionSequence=true,
+BaseRescueMissionSequence=true,
+BaseRescueMissionEnemy=true,
+BaseRescueMissionRadio=true,
 BaseQuest=true,
 base_q54110=true,
 base_q54120=true,
@@ -1373,7 +1376,7 @@ end
 
 function this.PostAllModulesLoad()
   this.BuildIHExternalList()
-  --DEBUGNOW this.BuildIHModelInfoList()
+  this.BuildIHModelInfoList()
 end
 
 return this

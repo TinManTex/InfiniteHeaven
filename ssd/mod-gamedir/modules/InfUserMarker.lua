@@ -1,4 +1,8 @@
 --InfUserMarker.lua
+--tex GOTCHA user marker has been changed a fair deal in SSD, only rough support here for the moment
+--currently only seems to be 1 saved marker per location (and only mafr and ??)
+--unless I want to use the stamps instead/aswell.
+--Other GOTCHA user marker vars only seems to update on save instead of instant like TPP
 local this={}
 --localopt
 local NULL_ID=GameObject.NULL_ID
@@ -33,9 +37,10 @@ end
 --stamps are above with Stamp instead of user, MAXMARKERS 64
 
 this.registerMenus={
-  'userMarkerMenu',
+  "userMarkerMenu",
 }
 this.userMarkerMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "InfUserMarker.WarpToLastUserMarker",
     "InfUserMarker.PrintLatestUserMarker",
@@ -43,8 +48,8 @@ this.userMarkerMenu={
     "InfPositions.AddMarkerPositions",
     "InfPositions.WritePositions",
     "InfPositions.ClearPositions",
-    --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
-    --    "Ivars.selectedCp",--DEBUG
+  --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
+  --    "Ivars.selectedCp",--DEBUG
   }
 }
 --< menu defs
@@ -85,11 +90,11 @@ function this.PrintUserMarkers()
   end
 
   if vars.userMarkerLocationId then
-  InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
+    InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
   end
   if vars.userMarkerSaveCount then
-  InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
-end
+    InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
+  end
 end
 this.PrintLatestUserMarker=function()
   local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
@@ -226,11 +231,11 @@ function this.GetMarkerPosition(index)
 
   if vars.userMarkerGameObjId then
     local gameId=vars.userMarkerGameObjId[index]
-  if gameId==NULL_ID then
-    markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
-  else
-    markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-  end
+    if gameId==NULL_ID then
+      markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
+    else
+      markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+    end
   elseif InfCore.gameId=="SSD" then
     local locationSuffix=""
 
@@ -261,20 +266,49 @@ function this.WarpToUserMarker(index)
     InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: could not find marker")--DEBUGNOW
     return
   end
+  if markerPos:GetX()==0 and markerPos:GetY()==0 and markerPos:GetZ()==0 then
+    InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: markerPos=0,0,0",true)--DEBUGNOW
+    return 
+  end
+  
   if vars.userMarkerGameObjId~=nil then
-  local gameId=vars.userMarkerGameObjId[index]
-  if gameId~=NULL_ID then
-    --InfCore.DebugPrint("gameId~=NULL_ID")--DEBUG
+    local gameId=vars.userMarkerGameObjId[index]
+    if gameId~=NULL_ID then
+      --InfCore.DebugPrint("gameId~=NULL_ID")--DEBUG
 
-    local typeIndex=GameObject.GetTypeIndex(gameId)
-    if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
-      offSetUp=3
+      local typeIndex=GameObject.GetTypeIndex(gameId)
+      if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
+        offSetUp=3
+      end
     end
   end
-  end
 
-  InfCore.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
+  InfCore.DebugPrint(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+end
+
+function this.Init()
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+function this.OnReload(missionTable)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+
+function this.Messages()
+  return Tpp.StrCode32Table{
+    Terminal={
+      --SSD
+      {msg="MbTerminalUserMarkerPressed",
+        func=function(stampId,posX,posY,isTargetMarker)
+
+        end},
+    },
+  }
 end
 
 return this

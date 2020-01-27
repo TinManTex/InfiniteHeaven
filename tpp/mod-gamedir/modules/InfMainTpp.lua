@@ -96,6 +96,7 @@ function this.OnAllocate(missionTable)
   --if increasedWeapons then
   --FLOW set: TppMain.OnAllocate  (before ih modules .OnAllocate) > TppPlayer.OnAllocate
   --FLOW usage: TppMain.OnAllocate (near end / after modules .OnAllocate) > TppPlayer.SetMaxPickableLocatorCount > TppPickable.OnAllocate
+  mvars.ply_maxPlacedLocatorCount=mvars.ply_maxPlacedLocatorCount+20
   mvars.ply_maxPickableLocatorCount=mvars.ply_maxPickableLocatorCount+100
   mvars.ply_equipMissionBlockGroupSize=mvars.ply_equipMissionBlockGroupSize*2
   --end
@@ -122,7 +123,7 @@ function this.OnInitializeTop(missionTable)
     if Tpp.IsTypeTable(enemyTable.soldierDefine) then
       if not InfMain.IsContinue() then
         local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
-        this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
+        this.reserveSoldierNames=InfUtil.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
         this.soldierPool=InfTppUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
 
         this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)

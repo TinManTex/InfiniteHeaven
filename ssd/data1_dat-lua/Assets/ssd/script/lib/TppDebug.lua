@@ -23,19 +23,34 @@ function this.ExportSavedPlayLog()
   end
 end
 this.PERF_CHECK_TYPE=Tpp.Enum{"OnUpdate","OnMessage","OnEnter"}
-local n={}
+local perfTimes={}
 local c={}
-local s={}
+local perfCheckTimesStrings={}
 local p=2
 local t=0
 local d=0
-local g=Tpp.ApendArray
-local i=Tpp.IsTypeTable
-local u=GkEventTimerManager.IsTimerActive
-local l=Tpp.DEBUG_StrCode32ToString
-this.Colors={black=Color(0,0,0,1),white=Color(1,1,1,1),red=Color(1,0,0,1),green=Color(0,1,0,1),blue=Color(0,0,1,1),yellow=Color(1,1,0,1),magenta=Color(1,0,1,1),cyan=Color(0,1,1,1),darkRed=Color(.5,0,0,1),darkGreen=Color(0,.5,0,1),darkBlue=Color(0,0,.5,1),darkYellow=Color(.5,.5,0,1),purple=Color(.5,0,.5,1),darkCyan=Color(0,.5,.5,1)}
+local ApendArray=Tpp.ApendArray
+local IsTypeTable=Tpp.IsTypeTable
+local IsTimerActive=GkEventTimerManager.IsTimerActive
+local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
+this.Colors={
+  black=Color(0,0,0,1),
+  white=Color(1,1,1,1),
+  red=Color(1,0,0,1),
+  green=Color(0,1,0,1),
+  blue=Color(0,0,1,1),
+  yellow=Color(1,1,0,1),
+  magenta=Color(1,0,1,1),
+  cyan=Color(0,1,1,1),
+  darkRed=Color(.5,0,0,1),
+  darkGreen=Color(0,.5,0,1),
+  darkBlue=Color(0,0,.5,1),
+  darkYellow=Color(.5,.5,0,1),
+  purple=Color(.5,0,.5,1),
+  darkCyan=Color(0,.5,.5,1)
+}
 function this.DEBUG_SetSVars(e)
-  if not i(e)then
+  if not IsTypeTable(e)then
     return
   end
   for e,a in pairs(e)do
@@ -43,7 +58,7 @@ function this.DEBUG_SetSVars(e)
   end
 end
 function this.DEBUG_SetGVars(e)
-  if not i(e)then
+  if not IsTypeTable(e)then
     return
   end
   for e,a in pairs(e)do
@@ -84,7 +99,7 @@ function this.DEBUG_GetSysVarsLog()
   return e
 end
 function this.DEBUG_WarpHelicopter(n,o,d,r,t)
-  if not i(soldierNameTable)then
+  if not IsTypeTable(soldierNameTable)then
     soldierNameTable={soldierNameTable}
   end
   local i=GameObject.GetGameObjectId
@@ -104,7 +119,7 @@ function this.DEBUG_WarpHelicopter(n,o,d,r,t)
   local a=i(n)e(a,{id="SetPosition",position=d,rotY=0})
 end
 function this.DEBUG_WarpVehicleAndSoldier(o,d,t,n,r,l)
-  if not i(o)then
+  if not IsTypeTable(o)then
     o={o}
   end
   local i=GameObject.GetGameObjectId
@@ -340,12 +355,280 @@ function this.DEBUG_SetFobPlayerDefence()
   GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=e})
   GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId=TppEquip.EQP_HAND_KILL_ROCKET})
 end
-function this.DEBUG_SetFullBuildingLv2()SsdBuilding.CreateItemNoAreaCheck{row=5,col=5,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=5,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=5,col=6,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=7,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=8,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=9,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=10,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=11,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=12,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=13,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=14,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=15,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=16,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=17,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=18,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=19,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=20,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=21,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=22,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=23,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=24,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=25,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=26,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=5,col=27,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=6,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=6,col=7,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=8,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=9,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=10,buildingId=2047294370,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=10,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=11,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=12,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=13,buildingId=1863642738,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=13,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=14,buildingId=3112186681,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=6,col=15,buildingId=437535977,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=6,col=15,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=15,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=6,col=16,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=17,buildingId=3112186681,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=6,col=17,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=6,col=18,buildingId=1863642738,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=18,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=19,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=20,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=21,buildingId=2047294370,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=21,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=22,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=23,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=24,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=6,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=7,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=7,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=7,col=7,buildingId=1093098322,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=7,col=13,buildingId=1409296845,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=7,col=18,buildingId=1409296845,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=7,col=24,buildingId=1093098322,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=7,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=7,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=8,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=8,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=8,col=8,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=8,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=8,col=9,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=11,buildingId=3117056327,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=8,col=15,buildingId=3957950430,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=17,buildingId=2257713863,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=19,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=20,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=21,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=22,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=8,col=23,buildingId=383879117,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=8,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=8,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=9,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=9,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=9,col=16,buildingId=3957950430,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=9,col=18,buildingId=1409296845,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=9,col=23,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=9,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=9,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=10,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=10,col=6,buildingId=2047294370,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=10,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=10,col=10,buildingId=3720622844,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=10,col=20,buildingId=3021102576,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=10,col=25,buildingId=2047294370,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=10,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=11,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=11,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=11,col=13,buildingId=2613037565,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=11,col=18,buildingId=2613037565,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=11,col=24,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=11,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=11,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=12,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=12,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=12,col=7,buildingId=1409296845,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=12,col=9,buildingId=1409296845,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=12,col=12,buildingId=580776287,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=12,col=15,buildingId=3143437912,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=12,col=17,buildingId=3143437912,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=12,col=22,buildingId=1820501102,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=12,col=24,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=12,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=12,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=13,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=13,col=6,buildingId=1863642738,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=13,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=13,col=11,buildingId=1054361841,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=13,col=12,buildingId=1054361841,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=13,col=25,buildingId=1863642738,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=13,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=13,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=14,col=5,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=14,col=6,buildingId=2796709262,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=14,col=9,buildingId=3689573976,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=14,col=10,buildingId=4234203837,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=14,col=11,buildingId=1404046253,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=14,col=12,buildingId=2703659172,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=14,col=20,buildingId=1644834109,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=14,col=22,buildingId=1409296845,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=14,col=25,buildingId=2796709262,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=14,col=27,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=15,col=6,buildingId=3957950430,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=15,col=8,buildingId=3957950430,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=15,col=12,buildingId=2613037565,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=15,col=22,buildingId=3957950430,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=15,col=24,buildingId=3957950430,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=15,col=25,buildingId=437535977,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=15,col=25,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=15,col=26,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=15,col=27,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=16,col=7,buildingId=3957950430,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=16,col=16,buildingId=2625649824,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=16,col=23,buildingId=3957950430,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=16,col=26,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=16,col=27,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=17,col=5,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=17,col=6,buildingId=2796709262,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=17,col=8,buildingId=4116412189,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=17,col=10,buildingId=2223843695,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=17,col=11,buildingId=2506757893,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=17,col=12,buildingId=863306859,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=17,col=21,buildingId=2613037565,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=17,col=22,buildingId=1409296845,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=17,col=25,buildingId=2796709262,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=17,col=25,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=17,col=27,buildingId=163668932,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=18,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=18,col=6,buildingId=1863642738,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=18,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=18,col=12,buildingId=3376579107,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=18,col=20,buildingId=1397617911,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=18,col=25,buildingId=1863642738,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=18,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=19,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=19,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=19,col=12,buildingId=2116940568,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=19,col=13,buildingId=3945085880,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=19,col=14,buildingId=3578620159,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=19,col=15,buildingId=3803098091,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=19,col=20,buildingId=835115097,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=19,col=23,buildingId=1409296845,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=19,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=19,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=20,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=20,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=20,col=8,buildingId=1644834109,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=20,col=10,buildingId=944156047,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=20,col=13,buildingId=979467397,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=20,col=14,buildingId=1643368598,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=20,col=15,buildingId=1409296845,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=20,col=19,buildingId=3517572710,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=20,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=20,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=21,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=21,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=21,col=15,buildingId=3182362963,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=21,col=16,buildingId=3957950430,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=21,col=25,buildingId=2047294370,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=21,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=22,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=22,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=22,col=11,buildingId=714016154,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=22,col=13,buildingId=159237363,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=22,col=15,buildingId=3182362963,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=22,col=17,buildingId=3957950430,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=22,col=19,buildingId=3830834128,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=22,col=23,buildingId=383879117,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=22,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=22,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=23,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=23,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=23,col=7,buildingId=3720622844,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=23,col=9,buildingId=3737545838,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=23,col=10,buildingId=944156047,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=23,col=13,buildingId=3284077456,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=23,col=16,buildingId=3957950430,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=23,col=20,buildingId=3284077456,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=23,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=23,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=24,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=24,col=6,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=24,col=15,buildingId=186472885,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=24,col=17,buildingId=3957950430,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=24,col=19,buildingId=3517572710,rotType=270}SsdBuilding.CreateItemNoAreaCheck{row=24,col=21,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=24,col=22,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=24,col=25,buildingId=1093098322,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=24,col=26,buildingId=3525131870,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=24,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=25,col=5,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=25,col=9,buildingId=2047294370,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=25,col=11,buildingId=1697219898,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=25,col=13,buildingId=3117056327,rotType=90}SsdBuilding.CreateItemNoAreaCheck{row=25,col=15,buildingId=1863642738,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=25,col=16,buildingId=1002106857,rotType=0}SsdBuilding.CreateItemNoAreaCheck{row=25,col=16,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=25,col=18,buildingId=1863642738,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=25,col=18,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=25,col=21,buildingId=2047294370,rotType=180}SsdBuilding.CreateItemNoAreaCheck{row=25,col=27,buildingId=3383408509,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=26,col=5,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=26,col=7,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=8,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=9,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=10,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=11,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=12,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=13,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=14,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=15,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=16,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=17,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=18,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=19,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=20,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=21,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=22,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=23,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=24,buildingId=3525131870,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=26,col=27,buildingId=3550945654,edgeType=1}SsdBuilding.CreateItemNoAreaCheck{row=27,col=5,buildingId=3550945654,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=6,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=7,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=8,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=9,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=10,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=11,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=12,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=13,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=14,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=15,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=16,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=17,buildingId=163668932,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=18,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=19,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=20,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=21,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=22,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=23,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=24,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=25,buildingId=3383408509,edgeType=0}SsdBuilding.CreateItemNoAreaCheck{row=27,col=26,buildingId=3550945654,edgeType=0}
+function this.DEBUG_SetFullBuildingLv2()
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=5,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=5,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=6,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=7,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=8,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=9,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=10,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=11,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=12,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=13,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=14,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=15,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=16,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=17,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=18,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=19,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=20,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=21,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=22,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=23,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=24,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=25,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=26,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=5,col=27,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=7,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=8,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=9,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=10,buildingId=2047294370,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=10,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=11,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=12,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=13,buildingId=1863642738,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=13,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=14,buildingId=3112186681,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=15,buildingId=437535977,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=15,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=15,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=16,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=17,buildingId=3112186681,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=17,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=18,buildingId=1863642738,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=18,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=19,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=20,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=21,buildingId=2047294370,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=21,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=22,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=23,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=24,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=6,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=7,buildingId=1093098322,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=13,buildingId=1409296845,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=18,buildingId=1409296845,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=24,buildingId=1093098322,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=7,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=8,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=8,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=9,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=11,buildingId=3117056327,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=15,buildingId=3957950430,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=17,buildingId=2257713863,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=19,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=20,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=21,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=22,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=23,buildingId=383879117,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=8,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=16,buildingId=3957950430,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=18,buildingId=1409296845,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=23,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=9,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=6,buildingId=2047294370,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=10,buildingId=3720622844,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=20,buildingId=3021102576,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=25,buildingId=2047294370,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=10,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=13,buildingId=2613037565,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=18,buildingId=2613037565,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=24,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=11,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=7,buildingId=1409296845,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=9,buildingId=1409296845,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=12,buildingId=580776287,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=15,buildingId=3143437912,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=17,buildingId=3143437912,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=22,buildingId=1820501102,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=24,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=12,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=6,buildingId=1863642738,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=11,buildingId=1054361841,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=12,buildingId=1054361841,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=25,buildingId=1863642738,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=13,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=5,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=6,buildingId=2796709262,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=9,buildingId=3689573976,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=10,buildingId=4234203837,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=11,buildingId=1404046253,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=12,buildingId=2703659172,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=20,buildingId=1644834109,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=22,buildingId=1409296845,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=25,buildingId=2796709262,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=14,col=27,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=6,buildingId=3957950430,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=8,buildingId=3957950430,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=12,buildingId=2613037565,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=22,buildingId=3957950430,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=24,buildingId=3957950430,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=25,buildingId=437535977,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=25,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=26,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=15,col=27,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=16,col=7,buildingId=3957950430,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=16,col=16,buildingId=2625649824,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=16,col=23,buildingId=3957950430,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=16,col=26,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=16,col=27,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=5,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=6,buildingId=2796709262,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=8,buildingId=4116412189,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=10,buildingId=2223843695,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=11,buildingId=2506757893,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=12,buildingId=863306859,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=21,buildingId=2613037565,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=22,buildingId=1409296845,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=25,buildingId=2796709262,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=25,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=17,col=27,buildingId=163668932,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=6,buildingId=1863642738,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=12,buildingId=3376579107,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=20,buildingId=1397617911,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=25,buildingId=1863642738,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=18,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=12,buildingId=2116940568,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=13,buildingId=3945085880,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=14,buildingId=3578620159,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=15,buildingId=3803098091,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=20,buildingId=835115097,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=23,buildingId=1409296845,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=19,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=8,buildingId=1644834109,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=10,buildingId=944156047,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=13,buildingId=979467397,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=14,buildingId=1643368598,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=15,buildingId=1409296845,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=19,buildingId=3517572710,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=20,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=21,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=21,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=21,col=15,buildingId=3182362963,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=21,col=16,buildingId=3957950430,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=21,col=25,buildingId=2047294370,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=21,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=11,buildingId=714016154,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=13,buildingId=159237363,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=15,buildingId=3182362963,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=17,buildingId=3957950430,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=19,buildingId=3830834128,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=23,buildingId=383879117,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=22,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=7,buildingId=3720622844,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=9,buildingId=3737545838,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=10,buildingId=944156047,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=13,buildingId=3284077456,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=16,buildingId=3957950430,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=20,buildingId=3284077456,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=23,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=6,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=15,buildingId=186472885,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=17,buildingId=3957950430,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=19,buildingId=3517572710,rotType=270}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=21,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=22,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=25,buildingId=1093098322,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=26,buildingId=3525131870,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=24,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=5,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=9,buildingId=2047294370,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=11,buildingId=1697219898,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=13,buildingId=3117056327,rotType=90}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=15,buildingId=1863642738,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=16,buildingId=1002106857,rotType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=16,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=18,buildingId=1863642738,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=18,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=21,buildingId=2047294370,rotType=180}
+  SsdBuilding.CreateItemNoAreaCheck{row=25,col=27,buildingId=3383408509,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=5,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=7,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=8,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=9,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=10,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=11,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=12,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=13,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=14,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=15,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=16,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=17,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=18,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=19,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=20,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=21,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=22,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=23,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=24,buildingId=3525131870,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=26,col=27,buildingId=3550945654,edgeType=1}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=5,buildingId=3550945654,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=6,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=7,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=8,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=9,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=10,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=11,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=12,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=13,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=14,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=15,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=16,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=17,buildingId=163668932,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=18,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=19,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=20,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=21,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=22,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=23,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=24,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=25,buildingId=3383408509,edgeType=0}
+  SsdBuilding.CreateItemNoAreaCheck{row=27,col=26,buildingId=3550945654,edgeType=0}
 end
 function this.DEBUG_SetZombieBaitParam()
   for a,e in ipairs(TppDefine.ZOMBIE_TYPE_LIST)do
     if GameObject.DoesGameObjectExistWithTypeName(e)then
-      local e=string.sub(e,4).."Dev"DebugMenu.SetDebugMenuValue(e,"WaveSearchRange",14)DebugMenu.SetDebugMenuValue(e,"WaveNoiseRange",25)DebugMenu.SetDebugMenuValue(e,"PlayerNoiseRange",10)
+      local e=string.sub(e,4).."Dev"
+      DebugMenu.SetDebugMenuValue(e,"WaveSearchRange",14)
+      DebugMenu.SetDebugMenuValue(e,"WaveNoiseRange",25)
+      DebugMenu.SetDebugMenuValue(e,"PlayerNoiseRange",10)
     end
   end
 end
@@ -396,110 +679,120 @@ function this.QARELEASE_DEBUG_Init()
   e.AddDebugMenu(" MatchingRoom","ReturnToMatchingRoom","bool",mvars.qaDebug,"returnToMatchingRoom")
 end
 function this.QAReleaseDebugUpdate()
-  local i=svars
-  local a=mvars
-  local r=DebugText.Print
-  local o=DebugText.NewContext()
-  if a.qaDebug then
+  local svars=svars
+  local mvars=mvars
+  local DebugPrint=DebugText.Print
+  local context=DebugText.NewContext()
+  if mvars.qaDebug then
     local e=(DebugMenu.GetDebugMenuValue(" <Ssd>","OfflineMode")=="ON")
     if e then
-      r(o,{1,.1,.1},"OFFLINE MODE")
+      DebugPrint(context,{1,.1,.1},"OFFLINE MODE")
     end
   end
-  if a.qaDebug.returnSelect then
-    TppUI.FadeOut(0)SsdUiSystem.RequestForceClose()TitleMenuSystem.RequestClose()
+  if mvars.qaDebug.returnSelect then
+    TppUI.FadeOut(0)
+    SsdUiSystem.RequestForceClose()
+    TitleMenuSystem.RequestClose()
     TppSave.ReserveVarRestoreForMissionStart()
-    TppMission.SafeStopSettingOnMissionReload()tpp_editor_menu2.StartTestStage(6e4)a.qaDebug.returnSelect=false
+    TppMission.SafeStopSettingOnMissionReload()
+    tpp_editor_menu2.StartTestStage(6e4)
+    mvars.qaDebug.returnSelect=false
   end
-  if a.qaDebug.warpToBase then
-    local e={afgh=Vector3(-442,288,2239),mafr=Vector3(2790,96,-910)}
-    if a.ply_deliveryWarpState~=TppPlayer.DELIVERY_WARP_STATE.START_WARP then
-      local r=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-      local o=TppLocation.GetLocationName()
-      if e[o]then
-        r=e[o]
+  if mvars.qaDebug.warpToBase then
+    local basePositions={afgh=Vector3(-442,288,2239),mafr=Vector3(2790,96,-910)}
+    if mvars.ply_deliveryWarpState~=TppPlayer.DELIVERY_WARP_STATE.START_WARP then
+      local pos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+      local locationName=TppLocation.GetLocationName()
+      if basePositions[locationName]then
+        pos=basePositions[locationName]
       end
-      a.qaDebug.warpToBase=false
-      local e={type="TppPlayer2",index=0}
-      local a={id="WarpAndWaitBlock",pos=r,unrealize=true}
-      GameObject.SendCommand(e,a)
+      mvars.qaDebug.warpToBase=false
+      local playerId={type="TppPlayer2",index=0}
+      local command={id="WarpAndWaitBlock",pos=pos,unrealize=true}
+      GameObject.SendCommand(playerId,command)
     end
   end
-  if a.seq_doneDumpCanMissionStartRefrainIds then
-    r(o,{1,0,0},"TppSequence: Mission.CanStart() wait is time out!\nPlease screen shot [Mission > ViewStartRefrain > true] , [Pause > ShowFlags > true] and [Pause > ShowInstances > true]")
+  if mvars.seq_doneDumpCanMissionStartRefrainIds then
+    DebugPrint(context,{1,0,0},"TppSequence: Mission.CanStart() wait is time out!\nPlease screen shot [Mission > ViewStartRefrain > true] , [Pause > ShowFlags > true] and [Pause > ShowInstances > true]")
   end
   if TppSave.DEBUG_EraseAllGameDataCounter then
     if TppSave.DEBUG_EraseAllGameDataCounter>0 then
-      r(o,{1,.5,.5},"TppSave.EraseAllGameDataSaveRequest : erase game data save request!")
+      DebugPrint(context,{1,.5,.5},"TppSave.EraseAllGameDataSaveRequest : erase game data save request!")
       TppSave.DEBUG_EraseAllGameDataCounter=TppSave.DEBUG_EraseAllGameDataCounter-Time.GetFrameTime()
     else
       TppSave.DEBUG_EraseAllGameDataCounter=nil
     end
   end
-  if a.qaDebug.forceCheckPointSave then
-    a.qaDebug.forceCheckPointSave=false
+  if mvars.qaDebug.forceCheckPointSave then
+    mvars.qaDebug.forceCheckPointSave=false
     TppMission.VarSaveOnUpdateCheckPoint()
   end
   if gvars.DEBUG_showSysVars then
-    local e=this.DEBUG_GetSysVarsLog()r(o,{.5,.5,1},"LuaSystem showSysVars")r(o,"hordeTimer = "..tostring(vars.timeUntilNextHorde))
+    local e=this.DEBUG_GetSysVarsLog()
+    DebugPrint(context,{.5,.5,1},"LuaSystem showSysVars")
+    DebugPrint(context,"hordeTimer = "..tostring(vars.timeUntilNextHorde))
     for a,e in ipairs(e)do
-      r(o,e)
+      DebugPrint(context,e)
     end
-    local e={[FobMode.MODE_ACTUAL]="MODE_ACTUAL",[FobMode.MODE_SHAM]="MODE_SHAM",[FobMode.MODE_VISIT]="MODE_VISIT",[FobMode.MODE_NONE]="MODE_NONE"}r(o,"killCount = "..tostring(i.killCount))r(o,"totalKillCount = "..tostring(gvars.totalKillCount))
+    local fobModeToString={[FobMode.MODE_ACTUAL]="MODE_ACTUAL",[FobMode.MODE_SHAM]="MODE_SHAM",[FobMode.MODE_VISIT]="MODE_VISIT",[FobMode.MODE_NONE]="MODE_NONE"}
+    DebugPrint(context,"killCount = "..tostring(svars.killCount))DebugPrint(context,"totalKillCount = "..tostring(gvars.totalKillCount))
   end
   if gvars.DEBUG_showGameStatus then
-    r(o,"")r(o,{.5,.5,1},"LuaSystem gameStatus")
+    DebugPrint(context,"")DebugPrint(context,{.5,.5,1},"LuaSystem gameStatus")
     for a,e in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
       local e=TppGameStatus.IsSet("TppMain.lua",a)
       if e then
-        r(o," statusType = "..(tostring(a)..(", IsSet = "..tostring(e))))
+        DebugPrint(context," statusType = "..(tostring(a)..(", IsSet = "..tostring(e))))
       end
     end
     local e=TppGameStatus.IsSet("TppMain.lua","S_IS_BLACK_LOADING")
     if e then
-      r(o," statusType = "..(tostring"S_IS_BLACK_LOADING"..(", IsSet = "..tostring(e))))
+      DebugPrint(context," statusType = "..(tostring"S_IS_BLACK_LOADING"..(", IsSet = "..tostring(e))))
     end
-    r(o,"UIStatus")
+    DebugPrint(context,"UIStatus")
     local e={{CallMenu="INVALID"},{PauseMenu="INVALID"},{EquipHud="INVALID"},{EquipPanel="INVALID"},{CqcIcon="INVALID"},{ActionIcon="INVALID"},{AnnounceLog="SUSPEND_LOG"},{AnnounceLog="INVALID_LOG"},{BaseName="INVALID"},{Damage="INVALID"},{Notice="INVALID"},{HeadMarker="INVALID"},{WorldMarker="INVALID"},{HudText="INVALID"},{GmpInfo="INVALID"},{AtTime="INVALID"},{InfoTypingText="INVALID"},{ResourcePanel="SHOW_IN_HELI"}}
     for a,e in pairs(e)do
       for a,e in pairs(e)do
         if(TppUiStatusManager.CheckStatus(a,e)==true)then
-          r(o,string.format(" UI = %s, Status = %s",a,e))
+          DebugPrint(context,string.format(" UI = %s, Status = %s",a,e))
         end
       end
     end
   end
-  if a.qaDebug.showWeaponVars then
-    local e={"PRIMARY_HIP","PRIMARY_BACK","SECONDARY"}r(o,{.5,.5,1},"LuaSystem WeaponVars")
+  if mvars.qaDebug.showWeaponVars then
+    local e={"PRIMARY_HIP","PRIMARY_BACK","SECONDARY"}DebugPrint(context,{.5,.5,1},"LuaSystem WeaponVars")
     for a,e in ipairs(e)do
-      local a=TppDefine.WEAPONSLOT[e]r(o,string.format("Slot:%16s : vars.initWeapons = %04d, vars.weapons = %04d",e,vars.initWeapons[a],vars.weapons[a]))
+      local a=TppDefine.WEAPONSLOT[e]DebugPrint(context,string.format("Slot:%16s : vars.initWeapons = %04d, vars.weapons = %04d",e,vars.initWeapons[a],vars.weapons[a]))
     end
     for e=0,7 do
-      r(o,string.format("Slot:%d : vars.supportWeapons = %04d, vars.initSupportWeapons = %04d, gvars.ply_lastWeaponsUsingTemp = %04d",e,vars.supportWeapons[e],vars.initSupportWeapons[e],gvars.ply_lastWeaponsUsingTemp[e+TppDefine.WEAPONSLOT.SUPPORT_0]))
+      DebugPrint(context,string.format("Slot:%d : vars.supportWeapons = %04d, vars.initSupportWeapons = %04d, gvars.ply_lastWeaponsUsingTemp = %04d",e,vars.supportWeapons[e],vars.initSupportWeapons[e],gvars.ply_lastWeaponsUsingTemp[e+TppDefine.WEAPONSLOT.SUPPORT_0]))
     end
     for e=0,7 do
-      r(o,string.format("Slot:%d : vars.items = %04d, vars.initItems = %04d, gvars.ply_lastItemsUsingTemp = %04d",e,vars.items[e],vars.initItems[e],gvars.ply_lastItemsUsingTemp[e]))
+      DebugPrint(context,string.format("Slot:%d : vars.items = %04d, vars.initItems = %04d, gvars.ply_lastItemsUsingTemp = %04d",e,vars.items[e],vars.initItems[e],gvars.ply_lastItemsUsingTemp[e]))
     end
   end
-  if a.qaDebug.showPlayerPartsType then
-    r(o,{.5,.5,1},"LuaSystem ShowPlayerPartsType")r(o,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))r(o,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))r(o,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))r(o,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
+  if mvars.qaDebug.showPlayerPartsType then
+    DebugPrint(context,{.5,.5,1},"LuaSystem ShowPlayerPartsType")DebugPrint(context,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))
+    DebugPrint(context,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))
+    DebugPrint(context,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))
+    DebugPrint(context,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
   end
-  if a.qaDebug.gotFobStatusCount then
-    r(o,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")a.qaDebug.gotFobStatusCount=a.qaDebug.gotFobStatusCount+1
-    if a.qaDebug.gotFobStatusCount>120 then
-      a.qaDebug.gotFobStatusCount=nil
+  if mvars.qaDebug.gotFobStatusCount then
+    DebugPrint(context,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")mvars.qaDebug.gotFobStatusCount=mvars.qaDebug.gotFobStatusCount+1
+    if mvars.qaDebug.gotFobStatusCount>120 then
+      mvars.qaDebug.gotFobStatusCount=nil
     end
   end
-  if a.qaDebug.setFobForGPU then
-    a.qaDebug.setFobForGPU=false
+  if mvars.qaDebug.setFobForGPU then
+    mvars.qaDebug.setFobForGPU=false
     this.DEBUG_FobGPU()
   end
-  if a.qaDebug.showEventTask then
-    if not a.ui_eventTaskDefine then
-      a.qaDebug.showEventTask=false
+  if mvars.qaDebug.showEventTask then
+    if not mvars.ui_eventTaskDefine then
+      mvars.qaDebug.showEventTask=false
       return
     end
-    r(o,{.5,.5,1},"LuaUI ShowEventTask")
+    DebugPrint(context,{.5,.5,1},"LuaUI ShowEventTask")
     local function d(i,e,d)
       local t
       if FobUI.IsCompleteEventTask(e,d)then
@@ -507,80 +800,84 @@ function this.QAReleaseDebugUpdate()
         t=" x "end
       local n=i[e]and i[e].detectType
       if n then
-        local a=a.qaDebug.debugEventTaskTextTable and a.qaDebug.debugEventTaskTextTable[n]
+        local a=mvars.qaDebug.debugEventTaskTextTable and mvars.qaDebug.debugEventTaskTextTable[n]
         if not a then
-          a="threshold is"end
-        r(o,string.format("   Task %1d : [%s] %s %06.2f : ( Current %06.2f )",e,t,a,i[e].threshold,FobUI.GetCurrentEventTaskValue(e,d)))
+          a="threshold is"
+        end
+        DebugPrint(context,string.format("   Task %1d : [%s] %s %06.2f : ( Current %06.2f )",e,t,a,i[e].threshold,FobUI.GetCurrentEventTaskValue(e,d)))
       end
     end
-    r(o,{.5,1,.5},"FobSneak eventTask")
+    DebugPrint(context,{.5,1,.5},"FobSneak eventTask")
     for o=0,7 do
-      local e=a.ui_eventTaskDefine.sneak
+      local e=mvars.ui_eventTaskDefine.sneak
       if e and e[o]then
         d(e,o,true)
       end
     end
-    r(o,{.5,1,.5},"FobDefence eventTask")
+    DebugPrint(context,{.5,1,.5},"FobDefence eventTask")
     for r=0,7 do
-      local e=a.ui_eventTaskDefine.defence
+      local e=mvars.ui_eventTaskDefine.defence
       if e and e[r]then
         d(e,r,false)
       end
     end
   end
-  if a.qaDebug.forceMissionReload then
-    a.qaDebug.forceMissionReload=false
+  if mvars.qaDebug.forceMissionReload then
+    mvars.qaDebug.forceMissionReload=false
     TppMission.Reload()
   end
-  if a.qaDebug.setInitialInventory then
-    a.qaDebug.setInitialInventory=false
-    SsdSbm.AddProduction{id="PRD_EQP_WP_Machete_A",tryEquip=true}SsdSbm.AddProduction{id="PRD_ACC_Body_21",tryEquip=true}SsdSbm.AddProduction{id="PRD_ACC_Foot_03",tryEquip=true}SsdSbm.AddProduction{id="PRD_ACC_Arm_06",tryEquip=true}
+  if mvars.qaDebug.setInitialInventory then
+    mvars.qaDebug.setInitialInventory=false
+    SsdSbm.AddProduction{id="PRD_EQP_WP_Machete_A",tryEquip=true}
+    SsdSbm.AddProduction{id="PRD_ACC_Body_21",tryEquip=true}
+    SsdSbm.AddProduction{id="PRD_ACC_Foot_03",tryEquip=true}
+    SsdSbm.AddProduction{id="PRD_ACC_Arm_06",tryEquip=true}
   end
-  if a.qaDebug.setInitialBuilding then
-    a.qaDebug.setInitialBuilding=false
+  if mvars.qaDebug.setInitialBuilding then
+    mvars.qaDebug.setInitialBuilding=false
     TppVarInit.InitializeBuildingData(true)
   end
-  if a.qaDebug.resetAllBuilding then
-    a.qaDebug.resetAllBuilding=false
+  if mvars.qaDebug.resetAllBuilding then
+    mvars.qaDebug.resetAllBuilding=false
     SsdBuilding.DEBUG_RemoveAllNetwork()
   end
-  if a.qaDebug.setFullBuildingLv2 then
-    a.qaDebug.setFullBuildingLv2=false
+  if mvars.qaDebug.setFullBuildingLv2 then
+    mvars.qaDebug.setFullBuildingLv2=false
     this.DEBUG_SetFullBuildingLv2()
   end
-  if(a.qaDebug.returnToAfghBase or a.qaDebug.returnToMafrBase)or a.qaDebug.returnToMatchingRoom then
+  if(mvars.qaDebug.returnToAfghBase or mvars.qaDebug.returnToMafrBase)or mvars.qaDebug.returnToMatchingRoom then
     if not TppMission.IsMatchingRoom()then
-      a.qaDebug.returnToAfghBase=false
-      a.qaDebug.returnToMafrBase=false
-      a.qaDebug.returnToMatchingRoom=false
+      mvars.qaDebug.returnToAfghBase=false
+      mvars.qaDebug.returnToMafrBase=false
+      mvars.qaDebug.returnToMatchingRoom=false
     end
   end
-  if a.qaDebug.showUnlockedFastTravel then
-    r(o,{.5,.5,1},"showUnlockedFastTravel")
+  if mvars.qaDebug.showUnlockedFastTravel then
+    DebugPrint(context,{.5,.5,1},"showUnlockedFastTravel")
     if Tpp.IsTypeTable(SsdFastTravelPointList)and Tpp.IsTypeTable(SsdFastTravelPointList.fastTravelPointTableList)then
-      local e=SsdFastTravelPointList.fastTravelPointTableList
-      for e,a in ipairs(e)do
-        local e=a.identifierLinkName
-        local i=FastTravelSystem.IsUnlocked{identifierLinkName=e}
-        if i then
-          r(o,tostring(e)..(" / "..tostring(a.mapIconNameMessageID)))
+      local fastTravelPointTableList=SsdFastTravelPointList.fastTravelPointTableList
+      for e,a in ipairs(fastTravelPointTableList)do
+        local identifierLinkName=a.identifierLinkName
+        local isUnloacked=FastTravelSystem.IsUnlocked{identifierLinkName=identifierLinkName}
+        if isUnloacked then
+          DebugPrint(context,tostring(identifierLinkName)..(" / "..tostring(a.mapIconNameMessageID)))
         end
       end
     end
   end
-  if a.qaDebug.showSavedGVarsFlag then
-    r(o,{.5,.5,1},"showServerSavedGVarsFlag")
+  if mvars.qaDebug.showSavedGVarsFlag then
+    DebugPrint(context,{.5,.5,1},"showServerSavedGVarsFlag")
     if TppGVars.DeclareGVarsTable then
       for a,e in ipairs(TppGVars.DeclareGVarsTable)do
         if e.server then
           local e=e.name
-          r(o,"gvars."..(tostring(e)..(" : "..tostring(gvars[e]))))
+          DebugPrint(context,"gvars."..(tostring(e)..(" : "..tostring(gvars[e]))))
         end
       end
     end
   end
-  if a.qaDebug.setZombieBaitParam then
-    a.qaDebug.setZombieBaitParam=false
+  if mvars.qaDebug.setZombieBaitParam then
+    mvars.qaDebug.setZombieBaitParam=false
     this.DEBUG_SetZombieBaitParam()
   end
 end
@@ -595,10 +892,11 @@ function this.Print2D(a)
   local n=a.xPos or 25
   local i=a.yPos or 425
   local t=a.size or 20
-  local r=a.color or"white"local a=a.text or""r=this._GetColor(r)GrxDebug.Print2D{life=o,x=n,y=i,size=t,color=r,args={a}}
+  local r=a.color or"white"local a=a.text or""r=this._GetColor(r)
+  GrxDebug.Print2D{life=o,x=n,y=i,size=t,color=r,args={a}}
 end
 function this.DEBUG_MakeUserSVarList(e)
-  if not i(e)then
+  if not IsTypeTable(e)then
     return
   end
   mvars.dbg_userSaveVarList={}
@@ -606,7 +904,8 @@ function this.DEBUG_MakeUserSVarList(e)
     table.insert(mvars.dbg_userSaveVarList,e.name)
   end
 end
-function this.AddReturnToSelector(e)e:AddItem("< return",DebugSelector.Pop)
+function this.AddReturnToSelector(e)
+  e:AddItem("< return",DebugSelector.Pop)
 end
 function this.DEBUG_Init()
   mvars.debug.showSVars=false;(nil).AddDebugMenu("LuaMission","DBG.showSVars","bool",mvars.debug,"showSVars")
@@ -632,98 +931,115 @@ function this.DEBUG_Init()
   mvars.debug.selectedWeaponId=0;(nil).AddDebugMenu("LuaWeapon","weaponSelect","int32",mvars.debug,"selectedWeaponId")
   mvars.debug.enableWeaponChange=false;(nil).AddDebugMenu("LuaWeapon","enableWeaponChange","bool",mvars.debug,"enableWeaponChange")
 end
-function this.DEBUG_OnReload(a)n={}c={}s={}t=0
+function this.DEBUG_OnReload(missionTable)
+  perfTimes={}
+  c={}
+  perfCheckTimesStrings={}
+  t=0
   d=0
   this.PERF_CHECK_TYPE=Tpp.Enum(this.PERF_CHECK_TYPE)
-  local e={}g(e,TppDbgStr32.DEBUG_strCode32List)
-  for r,a in pairs(a)do
-    if a.DEBUG_strCode32List then
-      g(e,a.DEBUG_strCode32List)
+  local strings={}
+  ApendArray(strings,TppDbgStr32.DEBUG_strCode32List)
+  for k,v in pairs(missionTable)do
+    if v.DEBUG_strCode32List then
+      ApendArray(strings,v.DEBUG_strCode32List)
     end
   end
-  TppDbgStr32.DEBUG_RegisterStrcode32invert(e)
+  TppDbgStr32.DEBUG_RegisterStrcode32invert(strings)
 end
 function this.DebugUpdate()
-  local t=svars
-  local a=mvars
-  local i=a.debug
-  local o=DebugText.Print
-  local r=DebugText.NewContext()
+  local svars=svars
+  local mvars=mvars
+  local debug=mvars.debug
+  local DebugPrint=DebugText.Print
+  local context=DebugText.NewContext()
   if(not TppUiCommand.IsEndMissionTelop())then
-    o(r,{.5,.5,1},"Now showing result.")
+    DebugPrint(context,{.5,.5,1},"Now showing result.")
   end
   if gvars.needWaitMissionInitialize then
-    o(r,{.5,.5,1},"Now neew wait mission initialize.")
+    DebugPrint(context,{.5,.5,1},"Now neew wait mission initialize.")
   end
-  if i.showSVars then
-    o(r,"")o(r,{.5,.5,1},"LuaMission DBG.showSVars")
-    for a,e in pairs(a.dbg_userSaveVarList)do
-      o(r,string.format(" %s = %s",tostring(e),tostring(t[e])))
+  if debug.showSVars then
+    DebugPrint(context,"")DebugPrint(context,{.5,.5,1},"LuaMission DBG.showSVars")
+    for k,v in pairs(mvars.dbg_userSaveVarList)do
+      DebugPrint(context,string.format(" %s = %s",tostring(v),tostring(svars[v])))
     end
   end
-  if i.showMVars then
-    o(r,{.5,.5,1},"LuaMission DBG.showMVars")
-    for a,e in pairs(a)do
-      o(r,string.format(" %s = %s",tostring(a),tostring(e)))
+  if debug.showMVars then
+    DebugPrint(context,{.5,.5,1},"LuaMission DBG.showMVars")
+    for k,v in pairs(mvars)do
+      DebugPrint(context,string.format(" %s = %s",tostring(k),tostring(v)))
     end
   end
-  if i.showMissionArea then
-    o(r,{.5,.5,1},"LuaMission MIS.missionArea")
+  if debug.showMissionArea then
+    DebugPrint(context,{.5,.5,1},"LuaMission MIS.missionArea")
     local e
-    if a.mis_isOutsideOfMissionArea then
-      e="Outside"else
-      e="Inside"end
-    o(r,"outerZone : "..e)
-    if a.mis_isAlertOutOfMissionArea then
-      e="Outside"else
-      e="Inside"end
-    o(r,"innerZone : "..e)
-    if a.mis_isOutsideOfHotZone then
-      e="Outside"else
-      e="Inside"end
-    o(r,"hotZone : "..e)o(r,"hotZone clear check : isNotAlert = "..(tostring(a.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(a.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(a.debug.notHotZone_isNotHelicopter))))))o(r,"Mission clear timer: "..tostring(u"Timer_OutsideOfHotZoneCount"))o(r,{.5,1,.5},"Recent all target status")
-    local e=a.debug.checkedTargetStatus or{}
-    for e,a in pairs(e)do
-      o(r,"  TargetName = "..(e..(" : "..a)))
+    if mvars.mis_isOutsideOfMissionArea then
+      e="Outside"
+    else
+      e="Inside"
+    end
+    DebugPrint(context,"outerZone : "..e)
+    if mvars.mis_isAlertOutOfMissionArea then
+      e="Outside"
+    else
+      e="Inside"
+    end
+    DebugPrint(context,"innerZone : "..e)
+    if mvars.mis_isOutsideOfHotZone then
+      e="Outside"
+    else
+      e="Inside"
+    end
+    DebugPrint(context,"hotZone : "..e)
+    DebugPrint(context,"hotZone clear check : isNotAlert = "..(tostring(mvars.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(mvars.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(mvars.debug.notHotZone_isNotHelicopter))))))
+    DebugPrint(context,"Mission clear timer: "..tostring(IsTimerActive"Timer_OutsideOfHotZoneCount"))
+    DebugPrint(context,{.5,1,.5},"Recent all target status")
+    local checkedTargetStatus=mvars.debug.checkedTargetStatus or{}
+    for e,a in pairs(checkedTargetStatus)do
+      DebugPrint(context,"  TargetName = "..(e..(" : "..a)))
     end
   end
-  if a.debug.showClearState then
-    o(r,{.5,.5,1},"LuaMission MIS.showClearState")o(r,"missionClearState = "..tostring(TppDefine.MISSION_CLEAR_STATE_LIST[gvars.mis_missionClearState+1]))
+  if mvars.debug.showClearState then
+    DebugPrint(context,{.5,.5,1},"LuaMission MIS.showClearState")
+    DebugPrint(context,"missionClearState = "..tostring(TppDefine.MISSION_CLEAR_STATE_LIST[gvars.mis_missionClearState+1]))
   end
-  if a.debug.openEmergencyTimer then
-    a.debug.openEmergencyTimer=false
-    if a.mis_openEmergencyMissionTimerName then
-      GkEventTimerManager.Stop(a.mis_openEmergencyMissionTimerName)GkEventTimerManager.Start(a.mis_openEmergencyMissionTimerName,1)
+  if mvars.debug.openEmergencyTimer then
+    mvars.debug.openEmergencyTimer=false
+    if mvars.mis_openEmergencyMissionTimerName then
+      GkEventTimerManager.Stop(mvars.mis_openEmergencyMissionTimerName)GkEventTimerManager.Start(mvars.mis_openEmergencyMissionTimerName,1)
     end
   end
-  if a.debug.closeEmergencyTimer then
-    a.debug.closeEmergencyTimer=false
-    if a.mis_closeEmergencyMissionTimerName then
-      GkEventTimerManager.Stop(a.mis_closeEmergencyMissionTimerName)GkEventTimerManager.Start(a.mis_closeEmergencyMissionTimerName,1)
+  if mvars.debug.closeEmergencyTimer then
+    mvars.debug.closeEmergencyTimer=false
+    if mvars.mis_closeEmergencyMissionTimerName then
+      GkEventTimerManager.Stop(mvars.mis_closeEmergencyMissionTimerName)GkEventTimerManager.Start(mvars.mis_closeEmergencyMissionTimerName,1)
     end
   end
-  if i.showSysSVars then
-    o(r,"")o(r,{.5,.5,1},"LuaSystem DBG.showSysSVars")
-    for e,a in pairs(t.__as)do
+  if debug.showSysSVars then
+    DebugPrint(context,"")DebugPrint(context,{.5,.5,1},"LuaSystem DBG.showSysSVars")
+    for e,a in pairs(svars.__as)do
       if(a<=1)then
-        o(r,string.format(" %s = %s",tostring(e),tostring(t[e])))
+        DebugPrint(context,string.format(" %s = %s",tostring(e),tostring(svars[e])))
       else
-        o(r,string.format(" %s = %s",tostring(e),tostring(a)))
+        DebugPrint(context,string.format(" %s = %s",tostring(e),tostring(a)))
         for a=0,(a-1)do
-          o(r,string.format("   %s[%d] = %s",tostring(e),a,tostring(t[e][a])))
+          DebugPrint(context,string.format("   %s[%d] = %s",tostring(e),a,tostring(svars[e][a])))
         end
       end
     end
   end
-  if i.showDebugPerfCheck then
-    o(r,{.5,.5,1},"LuaSystem DBG.showPerf")
-    for i,a in pairs(s)do
-      o(r," perf["..(this.PERF_CHECK_TYPE[i]..("] = "..a)))
+  if debug.showDebugPerfCheck then
+    DebugPrint(context,{.5,.5,1},"LuaSystem DBG.showPerf")
+    for i,a in pairs(perfCheckTimesStrings)do
+      DebugPrint(context," perf["..(this.PERF_CHECK_TYPE[i]..("] = "..a)))
     end
   end
-  if a.debug.AnimalBlock then
-    o(r,{.5,.5,1},"LuaSystem DBG.AnimalBlock")
-    local t,i=Tpp.GetCurrentStageSmallBlockIndex()o(r,string.format("current block position (x,y) = (%03d, %03d)",t,i))o(r,"Load animal block area = "..tostring(a.animalBlockAreaName))
+  if mvars.debug.AnimalBlock then
+    DebugPrint(context,{.5,.5,1},"LuaSystem DBG.AnimalBlock")
+    local t,i=Tpp.GetCurrentStageSmallBlockIndex()
+    DebugPrint(context,string.format("current block position (x,y) = (%03d, %03d)",t,i))
+    DebugPrint(context,"Load animal block area = "..tostring(mvars.animalBlockAreaName))
     local t=ScriptBlock.GetScriptBlockId"animal_block"local i
     if t~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
       i=ScriptBlock.GetScriptBlockState(t)
@@ -734,82 +1050,83 @@ function this.DebugUpdate()
       t="SCRIPT_BLOCK_STATE_PROCESSING"elseif i==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
       t="SCRIPT_BLOCK_STATE_INACTIVE"elseif i==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
       t="SCRIPT_BLOCK_STATE_ACTIVE"end
-    o(r,"animal block state : "..tostring(t))
-    if a.animalBlockScript then
-      o(r,"animalBlockScript exist")
-      local i=""if a.animalBlockScript.OnMessage then
+    DebugPrint(context,"animal block state : "..tostring(t))
+    if mvars.animalBlockScript then
+      DebugPrint(context,"animalBlockScript exist")
+      local i=""if mvars.animalBlockScript.OnMessage then
         i="exist"else
         i="  not"end
-      local t=""if a.animalBlockScript.OnReload then
+      local t=""if mvars.animalBlockScript.OnReload then
         t="exist"else
         t="  not"end
-      o(r,"OnMessage "..(tostring(i)..(" OnReload "..tostring(t))))
-      this.ShowMessageTable(r,"MessageTable",a.animalBlockScript.messageExecTable)
+      DebugPrint(context,"OnMessage "..(tostring(i)..(" OnReload "..tostring(t))))
+      this.ShowMessageTable(context,"MessageTable",mvars.animalBlockScript.messageExecTable)
     else
       if i==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE or i==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
-        o(r,{1,0,0},"this data is invalid!!!! please check data!!!")
+        DebugPrint(context,{1,0,0},"this data is invalid!!!! please check data!!!")
       else
-        o(r,"animalBlockScript   not")
+        DebugPrint(context,"animalBlockScript   not")
       end
     end
   end
-  if a.debug.ply_intelTrap then
-    o(r,{.5,.5,1},"LuaSystem PLY.intelTrap")
-    for e,a in pairs(a.ply_intelTrapInfo)do
+  if mvars.debug.ply_intelTrap then
+    DebugPrint(context,{.5,.5,1},"LuaSystem PLY.intelTrap")
+    for e,a in pairs(mvars.ply_intelTrapInfo)do
       if Tpp.IsTypeString(e)then
-        o(r,{.5,1,.5},"intelName = "..tostring(e))
+        DebugPrint(context,{.5,1,.5},"intelName = "..tostring(e))
         for a,e in pairs(a)do
-          o(r,tostring(a)..(" = "..tostring(e)))
+          DebugPrint(context,tostring(a)..(" = "..tostring(e)))
         end
       end
     end
   end
-  if(i.showSubscriptMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage subScripts")
+  if(debug.showSubscriptMessageTable>0)then
+    DebugPrint(context,{.5,.5,1},"LuaMessage subScripts")
     local o={"sequence","enemy","demo","radio","sound"}
-    local o=o[a.debug.showSubscriptMessageTable]
+    local o=o[mvars.debug.showSubscriptMessageTable]
     if o then
       local i=TppMission.GetMissionName()..("_"..o)
-      if a.rad_subScripts[o]then
-        local a=a.rad_subScripts[o]._messageExecTable
-        this.ShowMessageTable(r,i,a)
+      if mvars.rad_subScripts[o]then
+        local a=mvars.rad_subScripts[o]._messageExecTable
+        this.ShowMessageTable(context,i,a)
       end
     end
   end
-  if(i.showSequenceMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage sequence")
-    local o=TppSequence.GetSequenceNameWithIndex(a.debug.showSequenceMessageTable)
-    if a.seq_sequenceTable then
-      local a=a.seq_sequenceTable[o]
+  if(debug.showSequenceMessageTable>0)then
+    DebugPrint(context,{.5,.5,1},"LuaMessage sequence")
+    local o=TppSequence.GetSequenceNameWithIndex(mvars.debug.showSequenceMessageTable)
+    if mvars.seq_sequenceTable then
+      local a=mvars.seq_sequenceTable[o]
       if a then
         local a=a._messageExecTable
-        this.ShowMessageTable(r,o,a)
+        this.ShowMessageTable(context,o,a)
       end
     end
   end
-  if(i.showLocationMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage location")
+  if(debug.showLocationMessageTable>0)then
+    DebugPrint(context,{.5,.5,1},"LuaMessage location")
   end
-  if(i.showLibraryMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage library")
-    local a=Tpp._requireList[i.showLibraryMessageTable]
+  if(debug.showLibraryMessageTable>0)then
+    DebugPrint(context,{.5,.5,1},"LuaMessage library")
+    local a=Tpp._requireList[debug.showLibraryMessageTable]
     local o=_G[a].messageExecTable
-    this.ShowMessageTable(r,a,o)
+    this.ShowMessageTable(context,a,o)
   end
-  if a.debug.showWeaponSelect then
-    o(r,{.5,.5,1},"LuaWeapon")
-    if a.debug.weaponCategory<1 then
-      a.debug.weaponCategory=1
+  if mvars.debug.showWeaponSelect then
+    DebugPrint(context,{.5,.5,1},"LuaWeapon")
+    if mvars.debug.weaponCategory<1 then
+      mvars.debug.weaponCategory=1
     end
-    if a.debug.weaponCategory>#a.debug.weaponCategoryList then
-      a.debug.weaponCategory=#a.debug.weaponCategoryList
+    if mvars.debug.weaponCategory>#mvars.debug.weaponCategoryList then
+      mvars.debug.weaponCategory=#mvars.debug.weaponCategoryList
     end
-    local e=a.debug.weaponCategory
-    local t=a.debug.weaponCategoryList[a.debug.weaponCategory]o(r,{.5,1,.5},"Current weapon category : "..t[1])
+    local e=mvars.debug.weaponCategory
+    local t=mvars.debug.weaponCategoryList[mvars.debug.weaponCategory]
+    DebugPrint(context,{.5,1,.5},"Current weapon category : "..t[1])
     local l,s
     local e,i,n=0,1,5
-    if a.debug.selectedWeaponId>0 then
-      i=a.debug.selectedWeaponId
+    if mvars.debug.selectedWeaponId>0 then
+      i=mvars.debug.selectedWeaponId
     end
     for a,u in pairs(TppEquip)do
       local g=string.sub(a,1,t[2])
@@ -825,9 +1142,9 @@ function this.DebugUpdate()
           if e==i then
             l=u
             s=a
-            o(r,{.5,1,.5},"> EquipId = TppEquip."..a)
+            DebugPrint(context,{.5,1,.5},"> EquipId = TppEquip."..a)
           else
-            o(r,"  EquipId = TppEquip."..a)
+            DebugPrint(context,"  EquipId = TppEquip."..a)
           end
         end
         if e==(i+n)then
@@ -835,29 +1152,30 @@ function this.DebugUpdate()
         end
       end
     end
-    if a.debug.enableWeaponChange then
-      GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId={l}})a.debug.enableWeaponChange=false
+    if mvars.debug.enableWeaponChange then
+      GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId={l}})
+      mvars.debug.enableWeaponChange=false
     end
   end
 end
-function this.ShowMessageTable(a,o,r)
-  local e=DebugText.Print
-  e(a,{.5,1,.5},o)
+function this.ShowMessageTable(context,o,r)
+  local DebugPrint=DebugText.Print
+  DebugPrint(context,{.5,1,.5},o)
   if r==nil then
     return
   end
   for o,r in pairs(r)do
-    local i=l(o)
+    local i=DEBUG_StrCode32ToString(o)
     if r then
       for o,r in pairs(r)do
-        local o=l(o)
+        local o=DEBUG_StrCode32ToString(o)
         if r.func then
-          e(a,{1,1,1},i..(" : "..(o..(" : "..tostring(r.func)))))
+          DebugPrint(context,{1,1,1},i..(" : "..(o..(" : "..tostring(r.func)))))
         end
         local r=r.sender
         if r then
           for t,r in pairs(r)do
-            e(a,{1,1,1},i..(" : "..(o..(" : Sender = "..(l(t)..(" : "..tostring(r)))))))
+            DebugPrint(context,{1,1,1},i..(" : "..(o..(" : Sender = "..(DEBUG_StrCode32ToString(t)..(" : "..tostring(r)))))))
           end
         end
       end
@@ -865,54 +1183,55 @@ function this.ShowMessageTable(a,o,r)
   end
 end
 function this.PerfCheckStart(a)
-  local e=this
-  if((a<=0)and(a>#e.PERF_CHECK_TYPE))then
+  local this=this
+  if((a<=0)and(a>#this.PERF_CHECK_TYPE))then
     return
   end
-  if(a==e.PERF_CHECK_TYPE.OnUpdate)then
-    if(n[e.PERF_CHECK_TYPE.OnUpdate]~=nil)then
-      t=t+(os.clock()-n[e.PERF_CHECK_TYPE.OnUpdate])
+  if(a==this.PERF_CHECK_TYPE.OnUpdate)then
+    if(perfTimes[this.PERF_CHECK_TYPE.OnUpdate]~=nil)then
+      t=t+(os.clock()-perfTimes[this.PERF_CHECK_TYPE.OnUpdate])
     end
   end
-  n[a]=os.clock()
+  perfTimes[a]=os.clock()
 end
-function this.PerfCheckEnd(a,r)
-  local i=mvars
-  local o=this
-  if((a<=0)and(a>#o.PERF_CHECK_TYPE))then
+function this.PerfCheckEnd(perfCheckTypeEnum,r)
+  local mvars=mvars
+  local this=this
+  if((perfCheckTypeEnum<=0)and(perfCheckTypeEnum>#this.PERF_CHECK_TYPE))then
     return
   end
-  local l=r or""local e=0
-  local r=os.clock()-n[a]
-  if(a==o.PERF_CHECK_TYPE.OnUpdate)then
+  local l=r or""
+  local e=0
+  local perfDelta=os.clock()-perfTimes[perfCheckTypeEnum]
+  if(perfCheckTypeEnum==this.PERF_CHECK_TYPE.OnUpdate)then
     if(t<p)then
-      if(r>d)then
-        d=r
+      if(perfDelta>d)then
+        d=perfDelta
       end
     else
       t=0
-      d=r
+      d=perfDelta
     end
     e=d
   else
-    e=r
+    e=perfDelta
   end
-  s[a]=string.format("%4.2f",e*1e3)..("ms."..l)
-  if i.debug and i.debug.showDebugPerfCheck then
+  perfCheckTimesStrings[perfCheckTypeEnum]=string.format("%4.2f",e*1e3)..("ms."..l)
+  if mvars.debug and mvars.debug.showDebugPerfCheck then
     if(e>1/60)then
     else
-      if(a~=o.PERF_CHECK_TYPE.OnUpdate)then
+      if(perfCheckTypeEnum~=this.PERF_CHECK_TYPE.OnUpdate)then
       end
     end
   end
 end
 function this.ErrorNotSupportYet(e)
 end
-function this._GetColor(a)
-  local e=this.Colors[a]
-  if(e==nil)then
+function this._GetColor(colorName)
+  local color=this.Colors[colorName]
+  if(color==nil)then
     return nil
   end
-  return e
+  return color
 end
 return this

@@ -1,198 +1,206 @@
-local r={}
-local e=Fox.StrCode32
-local e=Tpp.StrCode32Table
-local t=Tpp.IsTypeTable
-local i=GameObject.GetGameObjectId
-local e=GameObject.GetGameObjectIdByIndex
-function r.CreateInstance(n)
-local e={}
-e.requires={}
-e.missionName=n
-e.soldierDefine={cp_base={nil},nil}
-e.routeSets={cp_base={priority={"groupA"},sneak_day={groupA={}},sneak_night={groupA={}},caution={groupA={}},hold={default={}},nil},nil}
-e.combatSetting={cp_base={},nil}
-function e.InitEnemy()
+-- BaseFreeMissionEnemy.lua
+local this={}
+local StrCode32=Fox.StrCode32
+local StrCode32Table=Tpp.StrCode32Table
+local IsTypeTable=Tpp.IsTypeTable
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetGameObjectIdByIndex=GameObject.GetGameObjectIdByIndex
+function this.CreateInstance(missionName)
+  local instance={}
+  instance.requires={}
+  instance.missionName=missionName
+  instance.soldierDefine={cp_base={nil},nil}
+  instance.routeSets={cp_base={priority={"groupA"},sneak_day={groupA={}},sneak_night={groupA={}},caution={groupA={}},hold={default={}},nil},nil}
+  instance.combatSetting={cp_base={},nil}
+  function instance.InitEnemy()
+  end
+  function instance.SetUpEnemy()
+    instance.SetWave()
+    instance.SetWormHoleDropInstanceCount()
+    instance.SetVehicle()
+    instance.SetWalkerGear()
+    instance.SetCreature()
+    instance.SetStartKaiju(true)
+  end
+  function instance.OnLoad()
+  end
+  function instance.GetSpawnLocatorNames(waveName)
+    local waveSettingTable=instance.waveSettingTable
+    if Tpp.IsTypeTable(waveSettingTable)then
+      local locatorNames={}
+      local waveInfo=waveSettingTable[waveName]
+      while waveInfo do
+        if waveInfo.endLoop then
+          break
+        end
+        local spawnTableName=waveInfo.spawnTableName
+        if spawnTableName then
+          local spawnSetting=instance.spawnSettingTable[spawnTableName]
+          if Tpp.IsTypeTable(spawnSetting)then
+            local locatorSet=spawnSetting.locatorSet
+            if Tpp.IsTypeTable(locatorSet)then
+              local spawnLocator=locatorSet.spawnLocator
+              if spawnLocator then
+                local addToTable=true
+                for i,_locatorName in ipairs(locatorNames)do
+                  if _locatorName==spawnLocator then
+                    addToTable=false
+                  end
+                end
+                if addToTable then
+                  table.insert(locatorNames,spawnLocator)
+                end
+                waveInfo=instance.waveSettingTable[waveInfo.nextWave]
+              else
+                waveInfo=nil
+              end
+            end
+          end
+        end
+      end
+      return locatorNames
+    end
+  end
+  function instance.SetWave()
+    if mvars.loc_locationCommomnWaveSettings then
+      local locationCommomnWaveSettings={
+        mvars.loc_locationCommomnWaveSettings.waveList,
+        mvars.loc_locationCommomnWaveSettings.propertyTable,
+        mvars.loc_locationCommomnWaveSettings.waveTable,
+        mvars.loc_locationCommomnWaveSettings.spawnPointDefine
+      }
+      TppMission.RegisterFreePlayWaveSetting(locationCommomnWaveSettings)
+      TppMission.SetUpWaveSetting{locationCommomnWaveSettings}
+    end
+  end
+  function instance.SetCreature()
+    local creatureDataTable=instance.creatureDataTable
+    if IsTypeTable(creatureDataTable)then
+      for name,creatureInfo in pairs(creatureDataTable)do
+        if creatureInfo.enemytype=="SsdZombie"or creatureInfo.enemytype=="SsdZombieDash"then
+          local gameObjectType={type=creatureInfo.enemytype}
+          if creatureInfo.route then
+            local command={id="SetSneakRoute",route=creatureInfo.route,name=name,point=0}
+            GameObject.SendCommand(gameObjectType,command)
+          end
+        elseif creatureInfo.enemytype=="SsdInsect1"then
+          local gameObjectId=GameObject.GetGameObjectId(creatureInfo.enemytype,name)
+          if gameObjectId~=NULL_ID then--RETAILBUG
+            if creatureInfo.route then
+              local command={id="SetSneakRoute",route=creatureInfo.route,name=name,point=0}
+              GameObject.SendCommand(gameObjectId,command)
+            end
+            if creatureInfo.target then
+              local command={id="SetSneakTarget",target=creatureInfo.target}
+              GameObject.SendCommand(gameObjectId,command)
+            end
+          end
+        elseif creatureInfo.enemytype=="SsdInsect2"then
+          local gameObjectId=GameObject.GetGameObjectId(creatureInfo.enemytype,name)
+          if gameObjectId~=NULL_ID then--RETAILBUG
+            if creatureInfo.route then
+              local command={id="SetSneakRoute",route=creatureInfo.route,name=name,point=0}
+              GameObject.SendCommand(gameObjectId,command)
+            end
+            if creatureInfo.isStiction then
+              local command={id="SetSpider",isProwl=true,isStiction=true}
+              GameObject.SendCommand(gameObjectId,command)
+            end
+          end
+        end
+      end
+    end
+  end
+  function instance.SetVehicle()
+    local spawnList=instance.spawnList
+    if IsTypeTable(spawnList)then
+      for i,spawnInfo in ipairs(spawnList)do
+        GameObject.SendCommand({type="TppVehicle2"},spawnInfo)
+      end
+    end
+  end
+  function instance.SetWalkerGear()
+    local walkerGearTableList=instance.walkerGearTableList
+    if IsTypeTable(walkerGearTableList)then
+      for i,walkerInfo in ipairs(walkerGearTableList)do
+        local gameObjectId=GetGameObjectId(walkerInfo.name)
+        if gameObjectId~=NULL_ID then--RETAILBUG:
+          GameObject.SendCommand(gameObjectId,{id="SetEnabled",enabled=false})
+          if walkerInfo.coloringType then
+            GameObject.SendCommand(gameObjectId,{id="SetColoringType",type=walkerInfo.coloringType})
+          end
+        end
+      end
+    end
+  end
+  function instance.SetWormHoleDropInstanceCount()
+    if IsTypeTable(mvars.loc_locationWormholeQuest)and IsTypeTable(mvars.loc_locationWormholeQuest.wormholeDropInstanceCountTable)then
+      for i,wormholeDropInfo in pairs(mvars.loc_locationWormholeQuest.wormholeDropInstanceCountTable)do
+        if GameObject.GetGameObjectIdByIndex(wormholeDropInfo.gameObjectType,0)~=GameObject.NULL_ID then
+          local gameObjectType={type=wormholeDropInfo.gameObjectType}
+          local command={id="SetDropInstanceCount",count=wormholeDropInfo.count}
+          GameObject.SendCommand(gameObjectType,command)
+        end
+      end
+    end
+  end
+  function instance.SetStartKaiju(setPosition)
+    local storySequence=TppStory.GetCurrentStorySequence()
+    local railInfo=nil
+    local kaijuRailList=instance.kaijuRailList--NMC f30010_enemy.kaijuRailList
+    local validRailInfos={}
+    local priorityRailInfo=nil
+    local setEnabledFromStart=false
+    if storySequence<=TppDefine.STORY_SEQUENCE.CLEARED_k40030 or (storySequence>=TppDefine.STORY_SEQUENCE.CLEARED_STORY_LAST) then
+      return
+    end
+    if IsTypeTable(kaijuRailList)then
+      for i,_railInfo in ipairs(kaijuRailList)do
+        if _railInfo.railName and _railInfo.pos then
+          if storySequence==_railInfo.sequence and _railInfo.isPriority==true then
+            priorityRailInfo=_railInfo
+          elseif storySequence>=_railInfo.sequence then
+            table.insert(i,_railInfo)
+          end
+        end
+      end
+      if priorityRailInfo~=nil then
+        railInfo=priorityRailInfo
+      else
+        if#validRailInfos==0 then
+          return
+        end
+        local rndIndex=math.random(1,#validRailInfos)
+        railInfo=validRailInfos[rndIndex]
+      end
+      if IsTypeTable(railInfo)then
+        setEnabledFromStart=false
+        if storySequence>=TppDefine.STORY_SEQUENCE.CLEARED_AFGH_LAST and storySequence<=TppDefine.STORY_SEQUENCE.BEFORE_STORY_LAST then
+          if setPosition==true or TppGameStatus.IsSet("","S_IN_BASE_CHECKPOINT")and railInfo.pos then
+            TppEnemy.SetKaijuRailOneArmedStartPosition(railInfo.railName,railInfo.pos)
+          else
+            TppEnemy.SetKaijuRailOneArmed(railInfo.railName)
+          end
+          setEnabledFromStart=true
+        else
+          if setPosition==true or TppGameStatus.IsSet("","S_IN_BASE_CHECKPOINT")and railInfo.pos then
+            TppEnemy.SetKaijuRailStartPosition(railInfo.railName,railInfo.pos)
+          else
+            TppEnemy.SetKaijuRail(railInfo.railName)
+          end
+          setEnabledFromStart=true
+        end
+        if setEnabledFromStart==true then
+          TppEnemy.SetEnableKaiju()
+        end
+      end
+    end
+  end
+  function instance.SetEndKaiju()
+    TppEnemy.SetDisableKaiju()
+    local time=instance.KaijuEnableTimer or(60*2)
+    GkEventTimerManager.Start("TimerKaijuEnable",time)
+  end
+  return instance
 end
-function e.SetUpEnemy()
-e.SetWave()
-e.SetWormHoleDropInstanceCount()
-e.SetVehicle()
-e.SetWalkerGear()
-e.SetCreature()
-e.SetStartKaiju(true)
-end
-function e.OnLoad()
-end
-function e.GetSpawnLocatorNames(t)
-local n=e.waveSettingTable
-if Tpp.IsTypeTable(n)then
-local a={}
-local n=n[t]
-while n do
-if n.endLoop then
-break
-end
-local t=n.spawnTableName
-if t then
-local t=e.spawnSettingTable[t]
-if Tpp.IsTypeTable(t)then
-local t=t.locatorSet
-if Tpp.IsTypeTable(t)then
-local t=t.spawnLocator
-if t then
-local o=true
-for n,e in ipairs(a)do
-if e==t then
-o=false
-end
-end
-if o then
-table.insert(a,t)
-end
-n=e.waveSettingTable[n.nextWave]
-else
-n=nil
-end
-end
-end
-end
-end
-return a
-end
-end
-function e.SetWave()
-if mvars.loc_locationCommomnWaveSettings then
-local e={mvars.loc_locationCommomnWaveSettings.waveList,mvars.loc_locationCommomnWaveSettings.propertyTable,mvars.loc_locationCommomnWaveSettings.waveTable,mvars.loc_locationCommomnWaveSettings.spawnPointDefine}
-TppMission.RegisterFreePlayWaveSetting(e)
-TppMission.SetUpWaveSetting{e}
-end
-end
-function e.SetCreature()
-local e=e.creatureDataTable
-if t(e)then
-for n,e in pairs(e)do
-if e.enemytype=="SsdZombie"or e.enemytype=="SsdZombieDash"then
-local t={type=e.enemytype}
-if e.route then
-local e={id="SetSneakRoute",route=e.route,name=n,point=0}
-GameObject.SendCommand(t,e)
-end
-elseif e.enemytype=="SsdInsect1"then
-local t=GameObject.GetGameObjectId(e.enemytype,n)
-if t~=NULL_ID then
-if e.route then
-local e={id="SetSneakRoute",route=e.route,name=n,point=0}
-GameObject.SendCommand(t,e)
-end
-if e.target then
-local e={id="SetSneakTarget",target=e.target}
-GameObject.SendCommand(t,e)
-end
-end
-elseif e.enemytype=="SsdInsect2"then
-local t=GameObject.GetGameObjectId(e.enemytype,n)
-if t~=NULL_ID then
-if e.route then
-local e={id="SetSneakRoute",route=e.route,name=n,point=0}
-GameObject.SendCommand(t,e)
-end
-if e.isStiction then
-local e={id="SetSpider",isProwl=true,isStiction=true}
-GameObject.SendCommand(t,e)
-end
-end
-end
-end
-end
-end
-function e.SetVehicle()
-local e=e.spawnList
-if t(e)then
-for n,e in ipairs(e)do
-GameObject.SendCommand({type="TppVehicle2"},e)
-end
-end
-end
-function e.SetWalkerGear()
-local e=e.walkerGearTableList
-if t(e)then
-for e,n in ipairs(e)do
-local e=i(n.name)
-if e~=NULL_ID then
-GameObject.SendCommand(e,{id="SetEnabled",enabled=false})
-if n.coloringType then
-GameObject.SendCommand(e,{id="SetColoringType",type=n.coloringType})
-end
-end
-end
-end
-end
-function e.SetWormHoleDropInstanceCount()
-if t(mvars.loc_locationWormholeQuest)and t(mvars.loc_locationWormholeQuest.wormholeDropInstanceCountTable)then
-for n,e in pairs(mvars.loc_locationWormholeQuest.wormholeDropInstanceCountTable)do
-if GameObject.GetGameObjectIdByIndex(e.gameObjectType,0)~=GameObject.NULL_ID then
-local n={type=e.gameObjectType}
-local e={id="SetDropInstanceCount",count=e.count}
-GameObject.SendCommand(n,e)
-end
-end
-end
-end
-function e.SetStartKaiju(r)
-local a=TppStory.GetCurrentStorySequence()
-local n=nil
-local e=e.kaijuRailList
-local i={}
-local l=nil
-local o=false
-if a<=TppDefine.STORY_SEQUENCE.CLEARED_k40030 or a>=TppDefine.STORY_SEQUENCE.CLEARED_STORY_LAST then
-return
-end
-if t(e)then
-for n,e in ipairs(e)do
-if e.railName and e.pos then
-if a==e.sequence and e.isPriority==true then
-l=e
-elseif a>=e.sequence then
-table.insert(i,e)
-end
-end
-end
-if l~=nil then
-n=l
-else
-if#i==0 then
-return
-end
-local e=math.random(1,#i)n=i[e]
-end
-if t(n)then
-o=false
-if a>=TppDefine.STORY_SEQUENCE.CLEARED_AFGH_LAST and a<=TppDefine.STORY_SEQUENCE.BEFORE_STORY_LAST then
-if r==true or TppGameStatus.IsSet("","S_IN_BASE_CHECKPOINT")and n.pos then
-TppEnemy.SetKaijuRailOneArmedStartPosition(n.railName,n.pos)
-else
-TppEnemy.SetKaijuRailOneArmed(n.railName)
-end
-o=true
-else
-if r==true or TppGameStatus.IsSet("","S_IN_BASE_CHECKPOINT")and n.pos then
-TppEnemy.SetKaijuRailStartPosition(n.railName,n.pos)
-else
-TppEnemy.SetKaijuRail(n.railName)
-end
-o=true
-end
-if o==true then
-TppEnemy.SetEnableKaiju()
-end
-end
-end
-end
-function e.SetEndKaiju()
-TppEnemy.SetDisableKaiju()
-local e=e.KaijuEnableTimer or(60*2)GkEventTimerManager.Start("TimerKaijuEnable",e)
-end
-return e
-end
-return r
+return this

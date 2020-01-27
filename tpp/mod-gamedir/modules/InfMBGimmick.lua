@@ -19,13 +19,13 @@ this.burgularAlarmRange=RANGE_ALRM_LV01
 this.burgularAlarmTime=TIME_ALRM_LV01
 
 this.registerIvars={
-  'enableIRSensorsMB',
-  'enableFultonAlarmsMB',
-  'hideContainersMB',
-  'hideAACannonsMB',
-  'hideAAGatlingsMB',
-  'hideTurretMgsMB',
-  'hideMortarsMB',
+  "enableIRSensorsMB",
+  "enableFultonAlarmsMB",
+  "hideContainersMB",
+  "hideAACannonsMB",
+  "hideAAGatlingsMB",
+  "hideTurretMgsMB",
+  "hideMortarsMB",
 }
 
 --mb assets

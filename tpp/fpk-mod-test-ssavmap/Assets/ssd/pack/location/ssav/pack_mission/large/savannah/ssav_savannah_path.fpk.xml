@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ssav_savannah_path.fpk" FpkType="Fpk">
+  <Entries>
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/139/139_131/ssav_139_131_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/139/139_132/ssav_139_132_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/140/140_130/ssav_140_130_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/140/140_131/ssav_140_131_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/140/140_132/ssav_140_132_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/141/141_130/ssav_141_130_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/141/141_131/ssav_141_131_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/141/141_132/ssav_141_132_path_fox2_0_geoprim_win.geoms" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/139/139_131/ssav_139_131_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/139/139_132/ssav_139_132_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/140/140_130/ssav_140_130_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/140/140_131/ssav_140_131_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/140/140_132/ssav_140_132_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/141/141_130/ssav_141_130_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/141/141_131/ssav_141_131_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/ssd/level/location/ssav/block_extraSmall/141/141_132/ssav_141_132_path_fox2_0_win.gpfp" />
+    <Entry FilePath="/Assets/fox/environ/object/scenes/cube.fmdl" />
+    <Entry FilePath="/Assets/fox/environ/object/scenes/cube.geom" />
+  </Entries>
+  <References />
+</ArchiveFile>

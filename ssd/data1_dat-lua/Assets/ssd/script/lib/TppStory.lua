@@ -1,3 +1,4 @@
+-- ssd TppStory.lua
 local this={}
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeNumber=Tpp.IsTypeNumber
@@ -19,60 +20,60 @@ function this.IncrementStorySequence()
   gvars.str_storySequence=gvars.str_storySequence+1
   TppTrophy.UnlockByStorySequence()
 end
-function this.PermitMissionOpen(e)
-  local e=SsdMissionList.MISSION_ENUM[tostring(e)]
-  if e then
-    gvars.str_missionOpenPermission[e]=true
+function this.PermitMissionOpen(missionCode)
+  local missionEnum=SsdMissionList.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    gvars.str_missionOpenPermission[missionEnum]=true
   end
 end
-function this.MissionOpen(n)
-  this.SetMissionOpenFlag(n,true)
-  this.EnableMissionNewOpenFlag(n)
-  Mission.RequestOpenMissionToServer(n)
+function this.MissionOpen(missionCode)
+  this.SetMissionOpenFlag(missionCode,true)
+  this.EnableMissionNewOpenFlag(missionCode)
+  Mission.RequestOpenMissionToServer(missionCode)
 end
-function this.MissionClose(n)
-  this.SetMissionOpenFlag(n,false)
+function this.MissionClose(missionCode)
+  this.SetMissionOpenFlag(missionCode,false)
 end
-function this.SetMissionOpenFlag(e,i)
-  local e=SsdMissionList.MISSION_ENUM[tostring(e)]
-  if e then
-    local n=gvars.str_missionOpenPermission[e]
+function this.SetMissionOpenFlag(missionCode,open)
+  local missionEnum=SsdMissionList.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    local n=gvars.str_missionOpenPermission[missionEnum]
     if n then
-      gvars.str_missionOpenFlag[e]=i
+      gvars.str_missionOpenFlag[missionEnum]=open
     end
   end
 end
 function this.GetMissionEnemyLevel()
-  local t=this.GetCurrentStorySequenceTable()
-  if not t or not IsTypeTable(t)then
+  local currentStorySequenceTable=this.GetCurrentStorySequenceTable()
+  if not currentStorySequenceTable or not IsTypeTable(currentStorySequenceTable)then
     return 0,0
   end
-  local i=t.baseEnemyLevel
-  local t=t.enemyLevelRandRange or 0
-  if not i then
-    i=0
-    local s=this.GetCurrentStorySequence()
-    if s>0 then
-      for s=(s-1),0,-1 do
+  local baseEnemyLevel=currentStorySequenceTable.baseEnemyLevel
+  local enemyLevelRandRange=currentStorySequenceTable.enemyLevelRandRange or 0
+  if not baseEnemyLevel then
+    baseEnemyLevel=0
+    local currentStorySequence=this.GetCurrentStorySequence()
+    if currentStorySequence>0 then
+      for s=(currentStorySequence-1),0,-1 do
         local e=this.GetStorySequenceTable(s)
         if IsTypeTable(e)and e.baseEnemyLevel then
           if e.enemyLevelRandRange then
-            t=e.enemyLevelRandRange
+            enemyLevelRandRange=e.enemyLevelRandRange
           end
-          i=e.baseEnemyLevel
+          baseEnemyLevel=e.baseEnemyLevel
           break
         end
       end
     end
   end
-  return i,t
+  return baseEnemyLevel,enemyLevelRandRange
 end
 function this.GetRegionEnemyLevel()
-  local i=this.GetCurrentStorySequence()
-  if i<=0 then
+  local currentStorySequence=this.GetCurrentStorySequence()
+  if currentStorySequence<=0 then
     return
   end
-  for i=i,0,-1 do
+  for i=currentStorySequence,0,-1 do
     local e=this.GetStorySequenceTable(i)
     if IsTypeTable(e)and(e.regionEnemyLevelSetting)then
       return e.regionEnemyLevelSetting
@@ -80,97 +81,97 @@ function this.GetRegionEnemyLevel()
   end
 end
 function this.GetMissionGuideLine()
-  local e=this.GetCurrentStorySequenceTable()
-  if not e or not IsTypeTable(e)then
+  local currentStorySequenceTable=this.GetCurrentStorySequenceTable()
+  if not currentStorySequenceTable or not IsTypeTable(currentStorySequenceTable)then
     return
   end
-  local e=e.guideLine
-  if not IsTypeTable(e)then
+  local guideLine=currentStorySequenceTable.guideLine
+  if not IsTypeTable(guideLine)then
     return
   end
-  return e
+  return guideLine
 end
 function this.GetNextMissionInfo()
-  local e=SsdStorySequenceList.sequenceAutoLoadMissionList[gvars.str_storySequence+1]
-  if not IsTypeTable(e)then
+  local missionInfo=SsdStorySequenceList.sequenceAutoLoadMissionList[gvars.str_storySequence+1]
+  if not IsTypeTable(missionInfo)then
     return
   end
-  return e
+  return missionInfo
 end
 function this.GetObjectiveInfoAtAnotherLocation()
-  local e=this.GetCurrentStorySequenceTable()
-  if not e or not IsTypeTable(e)then
+  local currentStorySequenceTable=this.GetCurrentStorySequenceTable()
+  if not currentStorySequenceTable or not IsTypeTable(currentStorySequenceTable)then
     return
   end
-  local e=e.objectiveInfoAtAnotherLocation
-  if not IsTypeTable(e)then
+  local objectiveInfoAtAnotherLocation=currentStorySequenceTable.objectiveInfoAtAnotherLocation
+  if not IsTypeTable(objectiveInfoAtAnotherLocation)then
     return
   end
-  return e
+  return objectiveInfoAtAnotherLocation
 end
 function this.GetGuideLineInfoAtAnotherLocation()
-  local e=this.GetCurrentStorySequenceTable()
-  if not e or not IsTypeTable(e)then
+  local currentStorySequenceTable=this.GetCurrentStorySequenceTable()
+  if not currentStorySequenceTable or not IsTypeTable(currentStorySequenceTable)then
     return
   end
-  local e=e.guideLineInfoAtAnotherLocation
-  if not IsTypeTable(e)then
+  local guideLineInfoAtAnotherLocation=currentStorySequenceTable.guideLineInfoAtAnotherLocation
+  if not IsTypeTable(guideLineInfoAtAnotherLocation)then
     return
   end
-  return e
+  return guideLineInfoAtAnotherLocation
 end
 function this.GetMarkerInfoAtAnotherLocation()
-  local e=this.GetCurrentStorySequenceTable()
-  if not e or not IsTypeTable(e)then
+  local currentStorySequenceTable=this.GetCurrentStorySequenceTable()
+  if not currentStorySequenceTable or not IsTypeTable(currentStorySequenceTable)then
     return
   end
-  local e=e.markerInfoAtAnotherLocation
-  if not IsTypeTable(e)then
+  local markerInfoAtAnotherLocation=currentStorySequenceTable.markerInfoAtAnotherLocation
+  if not IsTypeTable(markerInfoAtAnotherLocation)then
     return
   end
-  return e
+  return markerInfoAtAnotherLocation
 end
-function this.IsMissionOpen(e)
-  local e=SsdMissionList.MISSION_ENUM[tostring(e)]
-  if e then
-    return gvars.str_missionOpenFlag[e]
+function this.IsMissionOpen(missionCode)
+  local missionEnum=SsdMissionList.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    return gvars.str_missionOpenFlag[missionEnum]
   end
   return false
 end
-function this.IsMissionCleard(e)
-  local e=SsdMissionList.MISSION_ENUM[tostring(e)]
-  if e then
-    return gvars.str_missionClearedFlag[e]
+function this.IsMissionCleard(missionCode)
+  local missionEnum=SsdMissionList.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    return gvars.str_missionClearedFlag[missionEnum]
   end
   return false
 end
 function this.CalcAllMissionClearedCount()
-  local n=0
-  local e=0
-  for i,s in pairs(SsdMissionList.MISSION_ENUM)do
-    local t=TppDefine.MISSING_NUMBER_MISSION_ENUM[i]
-    if not t then
-      local i=tonumber(i)
-      if(gvars.str_missionClearedFlag[s])then
-        n=n+1
+  local completedCount=0
+  local totalCount=0
+  for missionCodeStr,enum in pairs(SsdMissionList.MISSION_ENUM)do
+    local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
+    if not missingNumberEnum then
+      local missionCode=tonumber(missionCodeStr)
+      if(gvars.str_missionClearedFlag[enum])then
+        completedCount=completedCount+1
       end
-      e=e+1
+      totalCount=totalCount+1
     end
   end
-  return n,e
+  return completedCount,totalCount
 end
 function this.CalcAllMissionTaskCompletedCount()
-  local n=0
-  local e=0
-  for i,t in pairs(SsdMissionList.MISSION_ENUM)do
-    local t=TppDefine.MISSING_NUMBER_MISSION_ENUM[i]
-    if not t then
-      local i=tonumber(i)
-      n=n+TppUI.GetTaskCompletedNumber(i)
-      e=e+TppUI.GetMaxMissionTask(i)
+  local completedCount=0
+  local totalCount=0
+  for missionCodeStr,enum in pairs(SsdMissionList.MISSION_ENUM)do
+    local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
+    if not missingNumberEnum then
+      local missionCode=tonumber(missionCodeStr)
+      completedCount=completedCount+TppUI.GetTaskCompletedNumber(missionCode)
+      totalCount=totalCount+TppUI.GetMaxMissionTask(missionCode)
     end
   end
-  return n,e
+  return completedCount,totalCount
 end
 function this.UpdateMissionCleardFlag(e)
   local e=SsdMissionList.MISSION_ENUM[tostring(e)]
@@ -335,7 +336,8 @@ function this.UpdateDisplayMissionList()
   end
   local e=n
   if e=="afgh"then
-    e="SSD_AFGH"else
+    e="SSD_AFGH"
+  else
     e=string.upper(e)
   end
   if not SsdMissionList.MISSION_LIST_FOR_LOCATION[e]then
@@ -683,7 +685,7 @@ if DebugMenu then
     DebugMenu.AddDebugMenu("LuaSystem","AllMissionTaskClear","bool",mvars.qaDebug,"allMissionTaskClear")
   end
   function this.QAReleaseDebugUpdate()
-    local t=5
+    local unkL1=5
     local svars=svars
     local mvars=mvars
     local Context=DebugText.NewContext()
@@ -703,7 +705,7 @@ if DebugMenu then
       for o,i in ipairs(SsdMissionList.MISSION_LIST)do
         local o=o-1
         if gvars.str_missionOpenPermission[o]then
-          e=math.floor(s/t)+1
+          e=math.floor(s/unkL1)+1
           if n[e]then
             n[e]=n[e]..(", "..tostring(i))
           else
@@ -724,7 +726,7 @@ if DebugMenu then
       for o,i in ipairs(SsdMissionList.MISSION_LIST)do
         local o=o-1
         if gvars.str_missionOpenFlag[o]then
-          e=math.floor(s/t)+1
+          e=math.floor(s/unkL1)+1
           if n[e]then
             n[e]=n[e]..(", "..tostring(i))
           else
@@ -745,7 +747,7 @@ if DebugMenu then
       for o,i in ipairs(SsdMissionList.MISSION_LIST)do
         local o=o-1
         if gvars.str_missionClearedFlag[o]then
-          e=math.floor(s/t)+1
+          e=math.floor(s/unkL1)+1
           if n[e]then
             n[e]=n[e]..(", "..tostring(i))
           else
@@ -783,13 +785,13 @@ if DebugMenu then
     if mvars.qaDebug.openAllMission then
       mvars.qaDebug.openAllMission=false
       Mission.DEBUG_DisableUpdateEffectveMission()
-      for n,i in pairs(SsdMissionList.MISSION_ENUM)do
-        local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[n]
-        if not i then
-          local n=tonumber(n)
-          this.PermitMissionOpen(n)
-          this.MissionOpen(n)
-          this.UpdateMissionCleardFlag(n)
+      for missionCodeStr,enum in pairs(SsdMissionList.MISSION_ENUM)do
+        local missingEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
+        if not missingEnum then
+          local missionCode=tonumber(missionCodeStr)
+          this.PermitMissionOpen(missionCode)
+          this.MissionOpen(missionCode)
+          this.UpdateMissionCleardFlag(missionCode)
         end
       end
       Mission.SetLocationReleaseState(Mission.LOCATION_RELEASE_STATE_AFGH_AND_MAFR)
@@ -827,12 +829,12 @@ if DebugMenu then
   end
   function this.QARELEASE_DEBUG_AddProductForPacing()
     gvars.DEBUG_reserveAddProductForPacing=false
-    local function t(e)
-      return SsdStorySequenceList.DEBUG_storySequenceTable[e+1]
+    local function GetDebugStorySequenceTable(storySequence)
+      return SsdStorySequenceList.DEBUG_storySequenceTable[storySequence+1]
     end
-    local n=this.GetCurrentStorySequence()
-    for i=TppDefine.STORY_SEQUENCE.STORY_START,n do
-      local e=t(i)
+    local currentStorySequence=this.GetCurrentStorySequence()
+    for storySequence=TppDefine.STORY_SEQUENCE.STORY_START,currentStorySequence do
+      local e=GetDebugStorySequenceTable(storySequence)
       if e then
         if e.Equip then
           TppPlayer.DEBUG_ProductAndEquipWithTable(e.Equip)
@@ -850,26 +852,26 @@ if DebugMenu then
           SsdFastTravel.RegisterFastTravelPoints()
           for n,e in ipairs(e.FastTravel)do
             SsdFastTravel.UnlockFastTravelPoint(e)
-            local e=SsdFastTravel.GetQuestName(e)
-            if e then
-              local n=TppQuest.GetQuestIndex(e)
-              if n then
-                TppQuest.UpdateClearFlag(n,true)
+            local questName=SsdFastTravel.GetQuestName(e)
+            if questName then
+              local questIndex=TppQuest.GetQuestIndex(questName)
+              if questIndex then
+                TppQuest.UpdateClearFlag(questIndex,true)
               end
-              Mission.RequestClearQuestToServer(TppQuestList.QUEST_DEFINE_IN_NUMBER[e])
+              Mission.RequestClearQuestToServer(TppQuestList.QUEST_DEFINE_IN_NUMBER[questName])
             end
           end
         end
-        if e.overrideVarsFunction and(i==n)then
+        if e.overrideVarsFunction and(storySequence==currentStorySequence)then
           e.overrideVarsFunction()
         end
       end
     end
     local e={"PRD_CURE_Bleeding","PRD_CURE_Sprain","PRD_CURE_Ruptura","PRD_CURE_Tiredness","PRD_CURE_Weakening","PRD_CURE_Poison_Normal","PRD_CURE_Poison_Deadly","PRD_CURE_Poison_Food","PRD_CURE_Poison_Water"}
-    for n,e in ipairs(e)do
-      local n=SsdSbm.GetCountProduction{id=e,inInventory=true,inWarehoud=false}
+    for n,id in ipairs(e)do
+      local n=SsdSbm.GetCountProduction{id=id,inInventory=true,inWarehoud=false}
       if n<5 then
-        SsdSbm.AddProduction{id=e,toInventory=true,count=(5-n)}
+        SsdSbm.AddProduction{id=id,toInventory=true,count=(5-n)}
       end
     end
   end

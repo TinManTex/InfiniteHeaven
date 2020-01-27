@@ -1,6 +1,9 @@
+-- DOBUILD: 1
 -- ssd Tpp.lua
+InfInit=require"mod/core/InfInit"--tex here since can't add own internal scripts to ssd at the moment, and I don't think any earlier Script.LoadLoadlibraries are worth it
+InfCore.LogFlow"Load Tpp.lua"--tex
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local type=type
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -105,6 +108,9 @@ this.requires={
   "/Assets/ssd/script/mission/coop/BaseCoopMissionSequence.lua",
   "/Assets/ssd/script/mission/coop/BaseCoopMissionEnemy.lua",
   "/Assets/ssd/script/mission/coop/BaseCoopMissionRadio.lua",
+  "/Assets/ssd/script/mission/coop/BaseRescueMissionSequence.lua",--RETAILPATCH: 1.0.5.0>
+  "/Assets/ssd/script/mission/coop/BaseRescueMissionEnemy.lua",
+  "/Assets/ssd/script/mission/coop/BaseRescueMissionRadio.lua",--<
   "/Assets/ssd/script/mission/defense/BaseBaseDigging.lua"
 }
 function this.IsTypeFunc(e)
@@ -177,8 +183,8 @@ function this.SplitString(string,delim)
       table.insert(splitStringTable,splitString)
       break
     else
-      local s=string.sub(splitString,0,splitIndex-1)
-      table.insert(splitStringTable,s)
+      local subString=string.sub(splitString,0,splitIndex-1)
+      table.insert(splitStringTable,subString)
       splitString=string.sub(splitString,splitIndex+1)
     end
   end
@@ -311,205 +317,211 @@ function this.MakeMessageExecTable(messagesS32)
   return messageExecTable
 end
 --tex NMC CheckMessageOption seems to always be TppMission.CheckMessageOption
-function this.DoMessage(messageExecTable,s,t,r,a,o,d,l,i)
+function this.DoMessage(messageExecTable,CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   if not messageExecTable then
     return
   end
-  local n=messageExecTable[t]
-  if not n then
+  local classMessages=messageExecTable[sender]
+  if not classMessages then
     return
   end
-  local n=n[r]
-  if not n then
+  local messageIdRecievers=classMessages[messageId]
+  if not messageIdRecievers then
     return
   end
-  local t=true
-  this.DoMessageAct(n,s,a,o,d,l,i,t)
+  local unkBool=true
+  if InfCore.debugMode and Ivars.debugMessages:Get()==1 then--tex> wrap in pcall
+    InfCore.PCall(this.DoMessageAct,messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,unkBool)
+  else--<
+    this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,unkBool)
+  end
 end
-function this.DoMessageAct(n,l,e,i,s,r,t)
-  if n.func then
-    if l(n.option)then
-      n.func(e,i,s,r)
+function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
+  if messageIdRecievers.func then
+    if CheckMessageOption(messageIdRecievers.option)then
+      messageIdRecievers.func(arg0,arg1,arg2,arg3)
     end
   end
-  local t=n.sender
-  if t and t[e]then
-    if l(n.senderOption[e])then
-      t[e](e,i,s,r)
+  local senders=messageIdRecievers.sender
+  if senders and senders[arg0]then
+    if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
+      senders[arg0](arg0,arg1,arg2,arg3)
     end
   end
 end
-function this.GetRotationY(e)
-  if not e then
+function this.GetRotationY(rotQuat)
+  if not rotQuat then
     return
   end
-  if(type(e.Rotate)=="function")then
-    local e=e:Rotate(Vector3(0,0,1))
-    local e=foxmath.Atan2(e:GetX(),e:GetZ())
-    return TppMath.RadianToDegree(e)
+  if(type(rotQuat.Rotate)=="function")then
+    local rotVec=rotQuat:Rotate(Vector3(0,0,1))
+    local rotRadian=foxmath.Atan2(rotVec:GetX(),rotVec:GetZ())
+    return TppMath.RadianToDegree(rotRadian)
   end
 end
-function this.GetLocator(n,t)
-  local n,t=this.GetLocatorByTransform(n,t)
-  if n~=nil then
-    return TppMath.Vector3toTable(n),this.GetRotationY(t)
+function this.GetLocator(identifier,key)
+  local pos,rotQuat=this.GetLocatorByTransform(identifier,key)
+  if pos~=nil then
+    return TppMath.Vector3toTable(pos),this.GetRotationY(rotQuat)
   else
     return nil
   end
 end
-function this.GetLocatorByTransform(n,t)
-  local e=this.GetDataWithIdentifier(n,t,"TransformData")
-  if e==nil then
+function this.GetLocatorByTransform(identifier,key)
+  local transFormData=this.GetDataWithIdentifier(identifier,key,"TransformData")
+  if transFormData==nil then
     return
   end
-  local e=e.worldTransform
-  return e.translation,e.rotQuat
+  local worldTransform=transFormData.worldTransform
+  return worldTransform.translation,worldTransform.rotQuat
 end
-function this.GetDataWithIdentifier(e,n,t)
-  local e=DataIdentifier.GetDataWithIdentifier(e,n)
-  if e==NULL then
+function this.GetDataWithIdentifier(identifier,key,typeName)
+  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
+  --GOTCHA: NULL seems to be a valid return, likely used as SQL NULL - https://www.exasol.com/support/browse/SOL-129
+  --either way the game relies on this value in a couple of calls, but this makes me worried with stuff like above testing for this function returning nil
+  if data==NULL then
     return
   end
-  if(e:IsKindOf(t)==false)then
+  if(data:IsKindOf(typeName)==false)then
     return
   end
-  return e
+  return data
 end
-function this.GetDataBodyWithIdentifier(e,t,n)
-  local e=DataIdentifier.GetDataBodyWithIdentifier(e,t)
-  if(e.data==nil)then
+function this.GetDataBodyWithIdentifier(identifier,key,typeName)
+  local dataBody=DataIdentifier.GetDataBodyWithIdentifier(identifier,key)
+  if(dataBody.data==nil)then
     return
   end
-  if(e.data:IsKindOf(n)==false)then
+  if(dataBody.data:IsKindOf(typeName)==false)then
     return
   end
-  return e
+  return dataBody
 end
-function this.SetGameStatus(n)
-  if not IsTypeTable(n)then
+function this.SetGameStatus(status)
+  if not IsTypeTable(status)then
     return
   end
-  local s=n.enable
-  local t=n.scriptName
-  local e=n.target
-  local n=n.except
-  if s==nil then
+  local enable=status.enable
+  local scriptName=status.scriptName
+  local target=status.target
+  local except=status.except
+  if enable==nil then
     return
   end
-  if e=="all"then
-    e={}
-    for t,n in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      e[t]=n
+  if target=="all"then
+    target={}
+    for statusName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+      target[statusName]=statusType
     end
-    for t,n in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      e[t]=n
+    for statusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      target[statusName]=statusType
     end
-  elseif IsTypeTable(e)then
-    e=e
+  elseif IsTypeTable(target)then
+    target=target
   else
     return
   end
-  if IsTypeTable(n)then
-    for n,t in pairs(n)do
-      e[n]=t
+  if IsTypeTable(except)then
+    for statusName,set in pairs(except)do
+      target[statusName]=set
     end
   end
-  if s then
-    for n,s in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      if e[n]then
-        TppGameStatus.Reset(t,n)
+  if enable then
+    for statusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      if target[statusName]then
+        TppGameStatus.Reset(scriptName,statusName)
       end
     end
-    for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local t=e[n]
-      local e=mvars.ui_unsetUiSetting
-      if IsTypeTable(e)and e[n]then
-        TppUiStatusManager.UnsetStatus(n,e[n])
+    for statusName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+      local status=target[statusName]
+      local ui_unsetUiSetting=mvars.ui_unsetUiSetting
+      if IsTypeTable(ui_unsetUiSetting)and ui_unsetUiSetting[statusName]then
+        TppUiStatusManager.UnsetStatus(statusName,ui_unsetUiSetting[statusName])
       else
-        if t then
-          TppUiStatusManager.ClearStatus(n)
+        if status then
+          TppUiStatusManager.ClearStatus(statusName)
         end
       end
     end
   else
-    for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local e=e[n]
-      if e then
-        TppUiStatusManager.SetStatus(n,e)
+    for statusName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+      local status=target[statusName]
+      if status then
+        TppUiStatusManager.SetStatus(statusName,status)
       else
-        TppUiStatusManager.ClearStatus(n)
+        TppUiStatusManager.ClearStatus(statusName)
       end
     end
-    for n,s in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      local e=e[n]
-      if e then
-        TppGameStatus.Set(t,n)
+    for statusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      local status=target[statusName]
+      if status then
+        TppGameStatus.Set(scriptName,statusName)
       end
     end
   end
 end
 function this.GetAllDisableGameStatusTable()
-  local e={}
-  for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-    e[n]=false
+  local statusTable={}
+  for statusName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+    statusTable[statusName]=false
   end
-  for n,t in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-    e[n]=false
+  for statusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+    statusTable[statusName]=false
   end
-  return e
+  return statusTable
 end
 function this.GetHelicopterStartExceptGameStatus()
-  local e={}
-  e.EquipPanel=false
-  e.AnnounceLog=false
-  e.HeadMarker=false
-  e.WorldMarker=false
-  return e
+  local status={}
+  status.EquipPanel=false
+  status.AnnounceLog=false
+  status.HeadMarker=false
+  status.WorldMarker=false
+  return status
 end
-local function n(e,n)
-  if e==nil then
+local function IsGameObjectType(gameObject,checkType)
+  if gameObject==nil then
     return
   end
-  if e==NULL_ID then
+  if gameObject==NULL_ID then
     return
   end
-  local e=GetTypeIndex(e)
-  if e==n then
+  local typeIndex=GetTypeIndex(gameObject)
+  if typeIndex==checkType then
     return true
   else
     return false
   end
 end
-function this.IsPlayer(e)
-  return n(e,GAME_OBJECT_TYPE_PLAYER2)
+function this.IsPlayer(gameId)
+  return IsGameObjectType(gameId,GAME_OBJECT_TYPE_PLAYER2)
 end
-function this.IsLocalPlayer(e)
-  if e==PlayerInfo.GetLocalPlayerIndex()then
+function this.IsLocalPlayer(playerIndex)
+  if playerIndex==PlayerInfo.GetLocalPlayerIndex()then
     return true
   else
     return false
   end
 end
 function this.IsCommandPost(e)
-  return n(e,GAME_OBJECT_TYPE_COMMAND_POST2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_COMMAND_POST2)
 end
 function this.IsKaiju(e)
-  return n(e,GAME_OBJECT_TYPE_KAIJU)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_KAIJU)
 end
 function this.IsBoss1(e)
-  return n(e,GAME_OBJECT_TYPE_BOSS_1)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_BOSS_1)
 end
 function this.IsBoss2(e)
-  return n(e,GAME_OBJECT_TYPE_BOSS_2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_BOSS_2)
 end
 function this.IsBoss3(e)
-  return n(e,GAME_OBJECT_TYPE_BOSS_3)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_BOSS_3)
 end
 function this.IsZombie(e)
-  return n(e,GAME_OBJECT_TYPE_ZOMBIE)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_ZOMBIE)
 end
 function this.IsSoldier(e)
-  return n(e,GAME_OBJECT_TYPE_SOLDIER2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_SOLDIER2)
 end
 function this.IsHostage(e)
   if e==nil then
@@ -522,40 +534,40 @@ function this.IsHostage(e)
   return TppDefine.HOSTAGE_GM_TYPE[e]
 end
 function this.IsVolgin(e)
-  return n(e,GAME_OBJECT_TYPE_VOLGIN2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_VOLGIN2)
 end
 function this.IsHelicopter(e)
-  return n(e,GAME_OBJECT_TYPE_HELI2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_HELI2)
 end
 function this.IsEnemyHelicopter(e)
-  return n(e,GAME_OBJECT_TYPE_ENEMY_HELI)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_ENEMY_HELI)
 end
 function this.IsHorse(e)
-  return n(e,GAME_OBJECT_TYPE_HORSE2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_HORSE2)
 end
 function this.IsVehicle(e)
-  return n(e,GAME_OBJECT_TYPE_VEHICLE)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_VEHICLE)
 end
 function this.IsPlayerWalkerGear(e)
-  return n(e,GAME_OBJECT_TYPE_WALKERGEAR2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_WALKERGEAR2)
 end
 function this.IsEnemyWalkerGear(e)
-  return n(e,GAME_OBJECT_TYPE_COMMON_WALKERGEAR2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_COMMON_WALKERGEAR2)
 end
 function this.IsUav(e)
-  return n(e,GAME_OBJECT_TYPE_UAV)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_UAV)
 end
 function this.IsFultonContainer(e)
-  return n(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
 end
 function this.IsMortar(e)
-  return n(e,TppGameObject.GAME_OBJECT_TYPE_MORTAR)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_MORTAR)
 end
 function this.IsGatlingGun(e)
-  return n(e,TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN)
 end
 function this.IsMachineGun(e)
-  return n(e,TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN)
 end
 function this.IsFultonableGimmick(e)
   if e==nil then
@@ -578,7 +590,7 @@ function this.GetBuddyTypeFromGameObjectId(e)
   return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[e]
 end
 function this.IsMarkerLocator(e)
-  return n(e,GAME_OBJECT_TYPE_MARKER2_LOCATOR)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_MARKER2_LOCATOR)
 end
 function this.IsAnimal(e)
   if e==nil then
@@ -591,13 +603,13 @@ function this.IsAnimal(e)
   return TppDefine.ANIMAL_GAMEOBJECT_TYPE[e]
 end
 function this.IsBossQuiet(e)
-  return n(e,GAME_OBJECT_TYPE_BOSSQUIET2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_BOSSQUIET2)
 end
 function this.IsParasiteSquad(e)
-  return n(e,GAME_OBJECT_TYPE_PARASITE2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_PARASITE2)
 end
 function this.IsSecurityCamera(e)
-  return n(e,GAME_OBJECT_TYPE_SECURITYCAMERA2)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_SECURITYCAMERA2)
 end
 function this.IsGunCamera(n)
   if n==NULL_ID then
@@ -609,14 +621,14 @@ function this.IsGunCamera(n)
   return e
 end
 function this.IsUAV(e)
-  return n(e,GAME_OBJECT_TYPE_UAV)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_UAV)
 end
-function this.IncrementPlayData(e)
-  if gvars[e]==nil then
+function this.IncrementPlayData(gvarName)
+  if gvars[gvarName]==nil then
     return
   end
-  if gvars[e]<TppDefine.MAX_32BIT_UINT then
-    gvars[e]=gvars[e]+1
+  if gvars[gvarName]<TppDefine.MAX_32BIT_UINT then
+    gvars[gvarName]=gvars[gvarName]+1
   end
 end
 function this.IsNotAlert()
@@ -627,26 +639,26 @@ function this.IsNotAlert()
   end
 end
 function this.IsPlayerStatusNormal()
-  local e=vars
-  if e.playerLife>0 and e.playerStamina>0 then
+  local vars=vars
+  if vars.playerLife>0 and vars.playerStamina>0 then
     return true
   else
     return false
   end
 end
-function this.AreaToIndices(e)
-  local n,t,i,s=e[1],e[2],e[3],e[4]
-  local e={}
-  for i=n,i do
-    for n=t,s do
-      table.insert(e,{i,n})
+function this.AreaToIndices(areaExtents)
+  local xMin,yMin,xMax,yMax=areaExtents[1],areaExtents[2],areaExtents[3],areaExtents[4]
+  local areaIndicies={}
+  for x=xMin,xMax do
+    for y=yMin,yMax do
+      table.insert(areaIndicies,{x,y})
     end
   end
-  return e
+  return areaIndicies
 end
-function this.CheckBlockArea(e,t,n)
-  local r,e,s,i=e[1],e[2],e[3],e[4]
-  if(((t>=r)and(t<=s))and(n>=e))and(n<=i)then
+function this.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
+  local xMin,yMin,xMax,yMax=areaExtents[1],areaExtents[2],areaExtents[3],areaExtents[4]
+  if(((blockIndexX>=xMin)and(blockIndexX<=xMax))and(blockIndexY>=yMin))and(blockIndexY<=yMax)then
     return true
   end
   return false
@@ -660,22 +672,22 @@ function this.FillBlockArea(e,r,s,n,t,i)
   end
 end
 function this.GetCurrentStageSmallBlockIndex()
-  local e=2
-  local t,n=StageBlock.GetCurrentMinimumSmallBlockIndex()
-  return(t+e),(n+e)
+  local halfBlockSize=2
+  local x,y=StageBlock.GetCurrentMinimumSmallBlockIndex()
+  return(x+halfBlockSize),(y+halfBlockSize)
 end
-function this.IsLoadedSmallBlock(n,e)
-  local t=4
-  local s,i=StageBlock.GetCurrentMinimumSmallBlockIndex()
-  local r=s+t
-  local t=i+t
-  return((s<=n and n<=r)and i<=e)and e<=t
+function this.IsLoadedSmallBlock(blockIndexX,blockIndexY)
+  local blockSize=4
+  local minX,minY=StageBlock.GetCurrentMinimumSmallBlockIndex()
+  local maxX=minX+blockSize
+  local maxY=minY+blockSize
+  return((minX<=blockIndexX and blockIndexX<=maxX)and minY<=blockIndexY)and blockIndexY<=maxY
 end
-function this.IsLoadedLargeBlock(e)
-  local n=StrCode32(e)
-  local e=StageBlock.GetLoadedLargeBlocks(0)
-  for t,e in pairs(e)do
-    if e==n then
+function this.IsLoadedLargeBlock(blockName)
+  local checkBlockNameStr32=StrCode32(blockName)
+  local largeBlocks=StageBlock.GetLoadedLargeBlocks(0)
+  for i,blockNameStr32 in pairs(largeBlocks)do
+    if blockNameStr32==checkBlockNameStr32 then
       return true
     end
   end
@@ -688,18 +700,19 @@ function this.GetLoadedLargeBlock()
   end
   return nil
 end
+--NMC is just GetChunkIndex in TPP, guess they added concurrent chunk installation or something
 function this.GetChunkIndexList(locationId,missionCode)
   local chunkIndexList={}
   if missionCode and TppMission.IsMultiPlayMission(missionCode)then
     chunkIndexList={Chunk.INDEX_AFGH,Chunk.INDEX_MAFR}
   else
-    local n=TppDefine.LOCATION_CHUNK_INDEX_TABLE[locationId]
-    if n==nil then
+    local chunkIndex=TppDefine.LOCATION_CHUNK_INDEX_TABLE[locationId]
+    if chunkIndex==nil then
       if not TppGameSequence.IsMaster()then
         Fox.Hungup()
       end
     else
-      chunkIndexList={n}
+      chunkIndexList={chunkIndex}
     end
   end
   return chunkIndexList
@@ -711,7 +724,8 @@ function this.StartWaitChunkInstallation(chunkIndex)
 end
 local timeIncrement=1
 local chunkInstallPopupUpdateTime=0
-function this.ShowChunkInstallingPopup(unkTableP1ChunkIds,unkP2)
+--NMC p1 was chunkId, now table of
+function this.ShowChunkInstallingPopup(chunkIds,useOneCancelButtonPopup)
   local frameTime=Time.GetFrameTime()
   chunkInstallPopupUpdateTime=chunkInstallPopupUpdateTime-frameTime
   if chunkInstallPopupUpdateTime>0 then
@@ -723,7 +737,7 @@ function this.ShowChunkInstallingPopup(unkTableP1ChunkIds,unkP2)
   end
   local platform=Fox.GetPlatformName()
   local totalInstallEta=0
-  for i,chunkId in ipairs(unkTableP1ChunkIds)do
+  for i,chunkId in ipairs(chunkIds)do
     local installEta=Chunk.GetChunkInstallationEta(chunkId)
     if installEta then
       totalInstallEta=totalInstallEta+installEta
@@ -736,51 +750,56 @@ function this.ShowChunkInstallingPopup(unkTableP1ChunkIds,unkP2)
     TppUiCommand.SetErrorPopupParam(totalInstallEta)
   end
   local totalInstallRate=0
-  for t,chunkId in ipairs(unkTableP1ChunkIds)do
+  for t,chunkId in ipairs(chunkIds)do
     local installRate=Chunk.GetChunkInstallationRate(chunkId)
     if installRate then
       totalInstallRate=totalInstallRate+installRate
     end
   end
-  totalInstallRate=totalInstallRate/#unkTableP1ChunkIds
+  totalInstallRate=totalInstallRate/#chunkIds
   if totalInstallRate and platform=="XboxOne"then
     TppUiCommand.SetErrorPopupParam(totalInstallRate*1e4,"None",2)
   end
   local popupType
-  if unkP2 then
+  if useOneCancelButtonPopup then
     popupType=Popup.TYPE_ONE_CANCEL_BUTTON
   else
-    TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"end
+    TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"
+  end
   TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,popupType)
 end
 function this.ClearChunkInstallPopupUpdateTime()
   chunkInstallPopupUpdateTime=0
 end
-function this.GetFormatedStorageSizePopupParam(unkP1)
-  local n=1024
-  local e=1024*n
-  local s=1024*e
-  local r,s,i=unkP1/s,unkP1/e,unkP1/n
-  local n=0
-  local e=""if r>=1 then
-    n=r*100
-    e="G"elseif s>=1 then
-    n=s*100
-    e="M"elseif i>=1 then
-    n=i*100
-    e="K"else
-    return unkP1,"",0
+function this.GetFormatedStorageSizePopupParam(neededSpace)
+  local toKb=1024
+  local toMb=1024*toKb
+  local toGb=1024*toMb
+  local gb,mb,kb=neededSpace/toGb,neededSpace/toMb,neededSpace/toKb
+  local size=0
+  local unitLetter=""
+  if gb>=1 then
+    size=gb*100
+    unitLetter="G"
+  elseif mb>=1 then
+    size=mb*100
+    unitLetter="M"
+  elseif kb>=1 then
+    size=kb*100
+    unitLetter="K"
+  else
+    return neededSpace,"",0
   end
-  local n=math.ceil(n)
-  return n,e,2
+  local sizeValue=math.ceil(size)
+  return sizeValue,unitLetter,2
 end
 if DebugText then
   this.DEBUG_debugDlcTypeTextTable={
-  [PatchDlc.PATCH_DLC_TYPE_MGO_DATA]="PATCH_DLC_TYPE_MGO_DATA",
-  [PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]="PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA"
+    [PatchDlc.PATCH_DLC_TYPE_MGO_DATA]="PATCH_DLC_TYPE_MGO_DATA",
+    [PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]="PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA"
   }
 end
-function this.PatchDlcCheckCoroutine(UnkFuncP1,UnkFuncP2,unkP3,dlcType)
+function this.PatchDlcCheckCoroutine(OnPatchExist,OnPatchNotExist,skipDlcTypeCheck,dlcType)
   if dlcType==nil then
     dlcType=PatchDlc.PATCH_DLC_TYPE_MGO_DATA
   end
@@ -817,7 +836,7 @@ function this.PatchDlcCheckCoroutine(UnkFuncP1,UnkFuncP2,unkP3,dlcType)
   YeildWhileSaving()
   PatchDlc.StartCheckingPatchDlc(dlcType)
   if PatchDlc.IsCheckingPatchDlc()then
-    if not unkP3 then
+    if not skipDlcTypeCheck then
       ClosePopupYield()
       local errorIds={
         [PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=5100,
@@ -835,13 +854,13 @@ function this.PatchDlcCheckCoroutine(UnkFuncP1,UnkFuncP2,unkP3,dlcType)
   end
   ClosePopupYield()
   if PatchDlc.DoesExistPatchDlc(dlcType)then
-    if UnkFuncP1 then
-      UnkFuncP1()
+    if OnPatchExist then
+      OnPatchExist()
     end
     return true
   else
-    if UnkFuncP2 then
-      UnkFuncP2()
+    if OnPatchNotExist then
+      OnPatchNotExist()
     end
     return false
   end
@@ -869,19 +888,19 @@ function this.ClearDidCancelPatchDlcDownloadRequest()
     TppSave.CheckAndSavePersonalData()
   end
 end
-function this.MergeMessageTable(e,n)
-  if not e then
-    e={}
+function this.MergeMessageTable(table1,table2)
+  if not table1 then
+    table1={}
   end
-  for n,t in pairs(n)do
-    if not e[n]then
-      e[n]={}
+  for k,v in pairs(table2)do
+    if not table1[k]then
+      table1[k]={}
     end
-    for s,t in ipairs(t)do
-      table.insert(e[n],t)
+    for k2,v2 in ipairs(v)do
+      table.insert(table1[k],v2)
     end
   end
-  return e
+  return table1
 end
 function this.IsBaseLoaded()
   return this.IsLoadedSmallBlock(129,150)
@@ -892,7 +911,8 @@ function this.DEBUG_DunmpBlockArea(s,t,n)
     e=e..string.format("%02d,",n)
   end
   for t=1,t do
-    local e=""for n=1,n do
+    local e=""
+    for n=1,n do
       e=e..string.format("%02d,",s[t][n])
     end
   end
@@ -968,57 +988,5 @@ do
     end
   end
 end
-
---tex >
-Tpp=this--WORKAROUND so IH modules can use TPP while we're still in it
-
-local function SafeRequire(moduleName)
-  local ok,ret=pcall(function()
-    return require(moduleName)
-  end)
-  if ok then
-    return ret
-  else
-    if InfCore then
-      InfCore.Log(tostring(ret))
-    end
-    return nil
-  end
-end
-
-InfCore=SafeRequire"InfCore"--tex log not up yet
-if InfCore then
-  InfInspect=SafeRequire"InfInspect"
-  InfUtil=SafeRequire"InfUtil"
-  IvarProc=SafeRequire"IvarProc"
-  InfInit=SafeRequire"InfInit"
-
-
-  InfButton=SafeRequire"InfButton"
-  InfModules=SafeRequire"InfModules"
-  InfMain=SafeRequire"InfMain"
-  InfMenu=SafeRequire"InfMenu"
-  InfHooks=SafeRequire"InfHooks"
-end
-
---tex WORKAROUND, since not in requires list propper
-this._requireList[#this._requireList+1]="InfMain"--tex Init,OnReload,OnMessage..?
-this._requireList[#this._requireList+1]="InfMenu"--tex only for Init
-
---WORKAROUND: since InfCore isn't up at the start of this module
-StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
-
 InfCore.LogFlow"Tpp.lua done"--tex
-
---DEBUGNOW REF
---  "/Assets/tpp/script/lib/InfButton.lua",--tex>
---  "/Assets/tpp/script/lib/InfModules.lua",
---  "/Assets/tpp/script/lib/InfMain.lua",
---  "/Assets/tpp/script/lib/InfMenu.lua",
---  "/Assets/tpp/script/lib/InfEneFova.lua",
---  "/Assets/tpp/script/lib/InfRevenge.lua",
---  "/Assets/tpp/script/lib/InfLZ.lua",
---  "/Assets/tpp/script/lib/InfPersistence.lua",
---  "/Assets/tpp/script/lib/InfHooks.lua",--<
-
 return this

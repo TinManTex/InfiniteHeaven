@@ -76,7 +76,7 @@ end
 --        for n,equipName in ipairs(questInfo.requestEquipIds)do
 --          local equipId=TppEquip[equipName]
 --          if equipId==nil then
---            InfCore.Log("InfQuest.LoadEquipTable: requestEquipIds ERROR: "..questName.."  could not find equipId "..tostring(equipId))
+--            InfCore.Log("ERROR InfQuest.LoadEquipTable: requestEquipIds "..questName.."  could not find equipId "..tostring(equipId))
 --          else
 --            equipLoadTable[#equipLoadTable+1]=equipId
 --          end
@@ -540,13 +540,15 @@ function this.PrintQuestArea()
     return
   end
 
+  local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
+  local blockIndexMessage="blockIndexX:"..blockIndexX..",blockIndexY:"..blockIndexY
+  InfCore.Log(blockIndexMessage,false,true)
+
   local areaTypes={
     loadArea=false,
     invokeArea=false,
     activeArea=false,
   }
-
-  local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
 
   local numAreas=#mvars.qst_questList
   for i=1,numAreas do
@@ -640,7 +642,7 @@ function this.GetCurrentStates()
   for i,questName in ipairs(this.ihQuestNames)do
     local questIndex=TppDefine.QUEST_INDEX[questName]
     if not questIndex then
-      InfCore.Log("InfQuest.GetQuestStates: ERROR: Could not find questIndex for "..questName)
+      InfCore.Log("ERROR: InfQuest.GetQuestStates: Could not find questIndex for "..questName,false,true)
     else
       local bitState=0
       for i=1,#gvarFlagNames do
@@ -723,7 +725,7 @@ function this.GetScript(scriptName)
   InfCore.Log("InfQuest.GetScript: "..tostring(scriptName))
   local questScript=this.ihQuestsInfo[scriptName]
   if not questScript then
-    InfCore.Log("InfQuest.GetScript: ERROR could not find quest script "..tostring(scriptName))
+    InfCore.Log("ERROR: InfQuest.GetScript: could not find quest script "..tostring(scriptName),false,true)
     return {}
   else
     return questScript

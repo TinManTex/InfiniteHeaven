@@ -16,8 +16,8 @@ local SendCommand=GameObject.SendCommand
 local random=math.random
 
 --updateState
-this.active='phaseUpdate'
-this.execCheckTable={inGame=true,inHeliSpace=false}
+this.active="phaseUpdate"
+this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
   lastPhase=0,
@@ -39,15 +39,15 @@ this.phaseSettings={
 --}
 
 this.registerIvars={
-  'minPhase',
-  'maxPhase',
-  'keepPhase',
-  'phaseUpdateRate',
-  'phaseUpdateRange',
-  'phaseUpdate',
-  'printPhaseChanges',
-  'soldierAlertOnHeavyVehicleDamage',
-  'cpAlertOnVehicleFulton',
+  "minPhase",
+  "maxPhase",
+  "keepPhase",
+  "phaseUpdateRate",
+  "phaseUpdateRange",
+  "phaseUpdate",
+  "printPhaseChanges",
+  "soldierAlertOnHeavyVehicleDamage",
+  "cpAlertOnVehicleFulton",
 }
 
 this.minPhase={
@@ -55,7 +55,7 @@ this.minPhase={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.phaseSettings,
   --settingsTable=this.phaseTable,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if setting>Ivars.maxPhase:Get() then
       Ivars.maxPhase:Set(setting)
     end
@@ -70,7 +70,7 @@ this.maxPhase={
   settings=this.phaseSettings,
   default=#this.phaseSettings-1,
   --settingsTable=this.phaseTable,
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     if setting<Ivars.minPhase:Get() then
       Ivars.minPhase:Set(setting)
     end
@@ -84,14 +84,6 @@ this.keepPhase={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
---OFF
---  OnChange=function(self)
---
---    if self.setting>0 and Ivars.phaseUpdate:Is(0) then
---      InfMenu.PrintLangId"phase_modification_enabled"
---      Ivars.phaseUpdate:Set(1)
---    end
---  end,
 }
 
 this.phaseUpdateRate={--seconds
@@ -111,7 +103,7 @@ this.phaseUpdate={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=function(self,previousSetting,setting)
+  OnChange=function(self,setting)
     this.execState.nextUpdate=0
   end,
 }
@@ -136,11 +128,11 @@ this.cpAlertOnVehicleFulton={
 }
 --<ivar defs
 this.registerMenus={
-  'phaseMenu',
+  "phaseMenu",
 }
 
 this.phaseMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu","InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
   options={
     --InfMenuCommandsTpp.printPlayerPhase",--DEBUG
     "Ivars.phaseUpdate",
@@ -328,7 +320,7 @@ local function PhaseName(index)
 end
 function this.OnPhaseChange(gameObjectId,phase,oldPhase)
   if Ivars.printPhaseChanges:Is(1) and Ivars.phaseUpdate:Is(0) then
-    InfMenu.Print("cpId:"..gameObjectId.." cpName:"..tostring(InfLookup.CpNameForCpId(gameObjectId)).."Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
+    InfMenu.Print("cpId:"..gameObjectId.." cpName:"..tostring(InfLookup.CpNameForCpId(gameObjectId)).."Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfLangProc.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
   end
 end
 

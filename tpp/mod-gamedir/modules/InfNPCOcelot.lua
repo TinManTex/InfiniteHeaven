@@ -12,8 +12,8 @@ local Random=math.random
 local GetCurrentCluster=MotherBaseStage.GetCurrentCluster
 
 --updateState
-this.active='mbEnableOcelot'
-this.execCheckTable={inGame=true,inHeliSpace=false}
+this.active="mbEnableOcelot"
+this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
 }
@@ -84,9 +84,8 @@ local routeTimeMax=6*60
 this.mbDemoWasPlay=false
 this.setupNpc=false
 
--->
 this.registerIvars={
-  'mbEnableOcelot',
+  "mbEnableOcelot",
 }
 
 this.mbEnableOcelot={

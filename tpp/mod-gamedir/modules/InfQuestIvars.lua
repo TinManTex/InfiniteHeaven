@@ -1,13 +1,13 @@
 -- InfQuestIvars.lua
 local this={}
 
--->
 this.registerIvars={
-  'unlockSideOps',
-  'unlockSideOpNumber',
-  'sideOpsSelectionMode',
-  'showAllOpenSideopsOnUi',
-  'ihSideopsPercentageCount',
+  "unlockSideOps",
+  "unlockSideOpNumber",
+  "sideOpsSelectionMode",
+  "showAllOpenSideopsOnUi",
+  "ihSideopsPercentageCount",
+  "quest_useAltForceFulton",
 }
 
 local function UpdateActiveQuest()
@@ -115,16 +115,21 @@ this.ihSideopsPercentageCount={
     --    TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
   end,
 }
+
+this.quest_useAltForceFulton={--DEBUGNOW
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
 --< ivar defs
 
--->
 this.registerMenus={
-  'sideOpsMenu',
-  'sideOpsCategoryMenu',
+  "sideOpsMenu",
+  "sideOpsCategoryMenu",
 }
 
 this.sideOpsMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "InfQuest.RerollQuestSelection",
     "Ivars.unlockSideOpNumber",

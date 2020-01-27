@@ -998,8 +998,8 @@ function this.DebugUpdate()
   end
 end
 function this.ShowMessageTable(r,o,a)
-  local e=(nil).Print
-  e(r,{.5,1,.5},o)
+  local DebugPrint=(nil).Print
+  DebugPrint(r,{.5,1,.5},o)
   if a==nil then
     return
   end
@@ -1009,12 +1009,12 @@ function this.ShowMessageTable(r,o,a)
       for t,a in pairs(a)do
         local t=DEBUG_StrCode32ToString(t)
         if a.func then
-          e(r,{1,1,1},o..(" : "..(t..(" : "..tostring(a.func)))))
+          DebugPrint(r,{1,1,1},o..(" : "..(t..(" : "..tostring(a.func)))))
         end
         local a=a.sender
         if a then
           for n,a in pairs(a)do
-            e(r,{1,1,1},o..(" : "..(t..(" : Sender = "..(DEBUG_StrCode32ToString(n)..(" : "..tostring(a)))))))
+            DebugPrint(r,{1,1,1},o..(" : "..(t..(" : Sender = "..(DEBUG_StrCode32ToString(n)..(" : "..tostring(a)))))))
           end
         end
       end

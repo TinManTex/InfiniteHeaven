@@ -1,22 +1,21 @@
 -- InfRevengeIvars.lua
 local this={}
 
--->
 this.registerIvars={
-  'revengeBlockForMissionCount',
-  'disableNoRevengeMissions',
-  'disableNoStealthCombatRevengeMission',
-  'applyPowersToLrrp',
-  'applyPowersToOuterBase',
-  'allowHeadGearCombo',
-  'allowMissileWeaponsCombo',
-  'balanceHeadGear',
-  'balanceWeaponPowers',
-  'disableConvertArmorToShield',
-  'disableMissionsWeaponRestriction',
-  'disableMotherbaseWeaponRestriction',
-  'enableMgVsShotgunVariation',
-  'randomizeSmallCpPowers',
+  "revengeBlockForMissionCount",
+  "disableNoRevengeMissions",
+  "disableNoStealthCombatRevengeMission",
+  "applyPowersToLrrp",
+  "applyPowersToOuterBase",
+  "allowHeadGearCombo",
+  "allowMissileWeaponsCombo",
+  "balanceHeadGear",
+  "balanceWeaponPowers",
+  "disableConvertArmorToShield",
+  "disableMissionsWeaponRestriction",
+  "disableMotherbaseWeaponRestriction",
+  "enableMgVsShotgunVariation",
+  "randomizeSmallCpPowers",
 }
 
 IvarProc.MissionModeIvars(
@@ -221,12 +220,12 @@ this.percentagePowerTables={
 
 --
 
-local function OnChangeCustomRevengeMin(self)
-  IvarProc.PushMax(self)
+local function OnChangeCustomRevengeMin(self,setting,prevSetting)
+  IvarProc.PushMax(self,setting,prevSetting)
   InfRevenge.SetCustomRevengeUiParameters()
 end
-local function OnChangeCustomeRevengeMax(self)
-  IvarProc.PushMin(self)
+local function OnChangeCustomeRevengeMax(self,setting,prevSetting)
+  IvarProc.PushMin(self,setting,prevSetting)
   InfRevenge.SetCustomRevengeUiParameters()
 end
 
@@ -389,16 +388,14 @@ IvarProc.MinMaxIvar(
 )
 --<custom revenge config
 --< ivar defs
-
--->
 this.registerMenus={
-  'revengeMenu',
-  'revengeSystemMenu',
-  'revengeCustomMenu',
+  "revengeMenu",
+  "revengeSystemMenu",
+  "revengeCustomMenu",
 }
 
 this.revengeMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.revengeModeFREE",
     "Ivars.revengeModeMISSION",

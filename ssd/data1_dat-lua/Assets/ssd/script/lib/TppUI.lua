@@ -1,13 +1,13 @@
 local this={}
-local n=Fox.StrCode32
-local n=Tpp.IsTypeTable
-local i=GameObject.GetGameObjectId
-local i=GameObject.NULL_ID
-local t=FadeFunction.CallFadeIn
-local _=FadeFunction.CallFadeOut
+local StrCode32=Fox.StrCode32
+local IsTypeTable=Tpp.IsTypeTable
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
+local CallFadeIn=FadeFunction.CallFadeIn
+local CallFadeOut=FadeFunction.CallFadeOut
 if SsdFadeManager then
-  t=SsdFadeManager.RequestFadeIn
-  _=SsdFadeManager.RequestFadeOut
+  CallFadeIn=SsdFadeManager.RequestFadeIn
+  CallFadeOut=SsdFadeManager.RequestFadeOut
 end
 local d=0
 this.FADE_SPEED={FADE_MOMENT=0,FADE_HIGHESTSPEED=.5,FADE_HIGHSPEED=1,FADE_NORMALSPEED=2,FADE_LOWSPEED=4,FADE_LOWESTSPEED=8}
@@ -36,16 +36,16 @@ function this.Messages()
       this._UpdateCoopMissionPauseMenuList()
     end}}}
 end
-local function s(e)
-  if type(e)=="string"then
-    return Fox.StrCode32(e)
-  elseif type(e)=="number"then
-    return e
+local function ToStrCode32(value)
+  if type(value)=="string"then
+    return Fox.StrCode32(value)
+  elseif type(value)=="number"then
+    return value
   end
   return nil
 end
 function this.FadeIn(a,o,n,i)
-  local o=s(o)
+  local o=ToStrCode32(o)
   if i then
     mvars.ui_onEndFadeInExceptGameStatus=i.exceptGameStatus
   elseif mvars.ui_onEndFadeInOverrideExceptGameStatus then
@@ -58,7 +58,7 @@ function this.FadeIn(a,o,n,i)
       n=this.FADE_PRIORITY.USER
     end
   end
-  t(a,o,n)
+  CallFadeIn(a,o,n)
   this.EnableGameStatusOnFadeInStart()
 end
 function this.OverrideFadeInGameStatus(e)
@@ -70,30 +70,35 @@ end
 function this.GetOverrideGameStatus()
   return mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary
 end
-function this.SetFadeColorToBlack()FadeFunction.SetFadeColor(0,0,0,255)
+function this.SetFadeColorToBlack()
+  FadeFunction.SetFadeColor(0,0,0,255)
 end
-function this.SetFadeColorToWhite()FadeFunction.SetFadeColor(255,255,255,255)
+function this.SetFadeColorToWhite()
+  FadeFunction.SetFadeColor(255,255,255,255)
 end
-function this.FadeOut(d,u,t,i)
-  local o,a
-  if n(i)then
-    o=i.setMute
-    a=i.exceptGameStatus
+--msgName: events are fired with that name as fade progresses
+function this.FadeOut(fadeSpeec,msgName,fadePriority,fadoutInfo)
+  local setMute,exceptGameStatus
+  if IsTypeTable(fadoutInfo)then
+    setMute=fadoutInfo.setMute
+    exceptGameStatus=fadoutInfo.exceptGameStatus
   end
-  local n=s(u)
-  this.DisableGameStatusOnFade(a)
-  if o then
+  local msgNameS32=ToStrCode32(msgName)
+  this.DisableGameStatusOnFade(exceptGameStatus)
+  if setMute then
     TppSound.SetMuteOnLoading()
   else
     if(not TppSoundDaemon.CheckCurrentMuteIs"Pause")and(not TppSoundDaemon.CheckCurrentMuteMoreThan"Outro")then
-      TppSoundDaemon.SetMute"Outro"end
-  end
-  if SsdFadeManager then
-    if not t then
-      t=this.FADE_PRIORITY.USER
+      TppSoundDaemon.SetMute"Outro"
     end
   end
-  _(d,n,t)
+  if SsdFadeManager then
+    if not fadePriority then
+      fadePriority=this.FADE_PRIORITY.USER
+    end
+  end
+  CallFadeOut(fadeSpeec,msgNameS32,fadePriority)
+  InfMain.OnFadeOutDirect(msgName)--tex
 end
 function this.ShowAnnounceLog(o,a,t,n,i)
   if gvars.ini_isTitleMode then
@@ -172,7 +177,7 @@ function this.EnableMissionTask(i,t)
   if t==nil then
     t=true
   end
-  if not n(i)then
+  if not IsTypeTable(i)then
     return
   end
   local n={}
@@ -261,7 +266,7 @@ function this.GetTaskCompletedNumber(e)
   return e
 end
 function this.ShowControlGuide(i)
-  if not n(i)then
+  if not IsTypeTable(i)then
     return
   end
   local t,o,n,s,a,_,d
@@ -374,13 +379,13 @@ function this.SetCoopFullUiLockType(e)e=e or TppStory.GetCurrentStorySequence()
     SsdUiSystem.Lock(SsdUiLockType.COOP_FULL)
   end
 end
-function this.OnAllocate(n)
+function this.OnAllocate(missionTable)
   local i=true
-  if n.sequence then
-    if n.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS then
-      mvars.ui_onEndFadeInOverrideExceptGameStatus=n.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS
+  if missionTable.sequence then
+    if missionTable.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS then
+      mvars.ui_onEndFadeInOverrideExceptGameStatus=missionTable.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS
     end
-    if n.sequence.NO_LOAD_UI_DEFAULT_BLOCK then
+    if missionTable.sequence.NO_LOAD_UI_DEFAULT_BLOCK then
       i=false
     end
   end
@@ -390,15 +395,15 @@ function this.OnAllocate(n)
     return
   end
   MapInfoSystem.SetupInfos(TppQuestList)
-  if n.sequence then
-    if n.sequence.UNSET_UI_SETTING then
-      mvars.ui_unsetUiSetting=n.sequence.UNSET_UI_SETTING
+  if missionTable.sequence then
+    if missionTable.sequence.UNSET_UI_SETTING then
+      mvars.ui_unsetUiSetting=missionTable.sequence.UNSET_UI_SETTING
     end
-    if n.sequence.UNSET_PAUSE_MENU_SETTING then
-      mvars.ui_unsetPauseMenuSetting=n.sequence.UNSET_PAUSE_MENU_SETTING
+    if missionTable.sequence.UNSET_PAUSE_MENU_SETTING then
+      mvars.ui_unsetPauseMenuSetting=missionTable.sequence.UNSET_PAUSE_MENU_SETTING
     end
-    if n.sequence.UNSET_GAME_OVER_MENU_SETTING then
-      mvars.ui_unsetGameOverMenuSetting=n.sequence.UNSET_GAME_OVER_MENU_SETTING
+    if missionTable.sequence.UNSET_GAME_OVER_MENU_SETTING then
+      mvars.ui_unsetGameOverMenuSetting=missionTable.sequence.UNSET_GAME_OVER_MENU_SETTING
     end
   end
   if TppMission.IsMissionStart()then
@@ -415,7 +420,9 @@ function this.LoadAndWaitUiDefaultBlock()
   local e=false
   e=not TppUiCommand.IsTppUiReady()
   while e and(n<i)do
-    e=not TppUiCommand.IsTppUiReady()n=n+Time.GetFrameTime()coroutine.yield()
+    e=not TppUiCommand.IsTppUiReady()
+    n=n+Time.GetFrameTime()
+    coroutine.yield()
   end
 end
 function this.OnMissionStart()
@@ -466,7 +473,7 @@ function this.OnChangeSVars(e,e)
 end
 function this.DisableGameStatusOnFade(e)
   local i={S_DISABLE_NPC=false}
-  if n(e)then
+  if IsTypeTable(e)then
     for e,n in pairs(e)do
       i[e]=n
     end
@@ -481,9 +488,9 @@ function this.EnableGameStatusOnFadeInStart()
 end
 function this.EnableGameStatusOnFade()
   local e,i
-  if n(mvars.ui_onEndFadeInExceptGameStatus)then
+  if IsTypeTable(mvars.ui_onEndFadeInExceptGameStatus)then
     i=mvars.ui_onEndFadeInExceptGameStatus
-  elseif n(mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary)then
+  elseif IsTypeTable(mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary)then
     i=mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary
   else
     if TppDemo.IsNotPlayable()then
@@ -508,7 +515,7 @@ function this.SetDefaultGameOverMenu()
   this._SetGameOverMenu(n)
 end
 function this.SetGameOverMenu(e)
-  if not n(e)or not next(e)then
+  if not IsTypeTable(e)or not next(e)then
     return
   end
   GameOverMenuSystem.RegisterGameOverMenuItems(e)
@@ -517,13 +524,13 @@ function this.SetDefenseGameMenu()
   if TppMission.IsMultiPlayMission(vars.missionCode)then
     return
   end
-  if n(mvars.ui_unsetPauseMenuSetting)then
+  if IsTypeTable(mvars.ui_unsetPauseMenuSetting)then
     table.insert(mvars.ui_unsetPauseMenuSetting,GamePauseMenu.RETURN_TO_BASE)
   else
     mvars.ui_unsetPauseMenuSetting={GamePauseMenu.RETURN_TO_BASE}
   end
   this._UpdateSingleMissionPauseMenuList()
-  if n(mvars.ui_unsetGameOverMenuSetting)then
+  if IsTypeTable(mvars.ui_unsetGameOverMenuSetting)then
     table.insert(mvars.ui_unsetGameOverMenuSetting,GameOverMenuType.RETURN_TO_BASE)
   else
     mvars.ui_unsetGameOverMenuSetting={GameOverMenuType.RETURN_TO_BASE}
@@ -544,14 +551,14 @@ function this.UnsetDefenseGameMenu()
     end
     return e
   end
-  if n(mvars.ui_unsetPauseMenuSetting)then
+  if IsTypeTable(mvars.ui_unsetPauseMenuSetting)then
     local e=i(mvars.ui_unsetPauseMenuSetting,GamePauseMenu.RETURN_TO_BASE)
     if e then
       table.remove(mvars.ui_unsetPauseMenuSetting,e)
     end
   end
   this._UpdateSingleMissionPauseMenuList()
-  if n(mvars.ui_unsetGameOverMenuSetting)then
+  if IsTypeTable(mvars.ui_unsetGameOverMenuSetting)then
     local e=i(mvars.ui_unsetGameOverMenuSetting,GameOverMenuType.RETURN_TO_BASE)
     if e then
       table.remove(mvars.ui_unsetGameOverMenuSetting,e)
@@ -575,7 +582,7 @@ function this._UpdateSingleMissionPauseMenuList()
   this._UpdatePauseMenu(n)
 end
 function this._UpdatePauseMenu(i)
-  if not n(i)then
+  if not IsTypeTable(i)then
     return
   end
   if Tpp.DEBUG_Where then
@@ -586,7 +593,7 @@ function this._UpdatePauseMenu(i)
   TppUiCommand.RegisterPauseMenuPage(i)
 end
 function this._DeletePauseMenu(i,e)
-  if not n(e)then
+  if not IsTypeTable(e)then
     return
   end
   for e,t in ipairs(e)do

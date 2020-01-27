@@ -1,10 +1,41 @@
 Infinite Heaven changelog
 
+r226 - 2018-04-03
+Changes to buttons/keys:
+InfMenu: While menu open hold <Switch Zoom> (V key or RStick click) + player move (WSAD or left stick) to navigate menu
+Quick menu: No longer uses <Call>, now activated with <Switch Zoom> (V key or RStick click) + command key (see MGS_TPP\mod\modules\InfQuickMenuDefs.lua)
+
+ChangeLog: merged some older seperate modfpk/data changelogs.
+
+Refactor: OnChange self,setting,previousSetting swapped to self,setting,previousSetting.
+Refactor: InfMenu lang stuff moved to InfLangProc.
+Refactor: InfMenu, InfLZ, InfRevenge to external.
+Refactor: execChecks.inHelispace renamed inSafeSpace, missioncode check function added
+Refactor: InfMenuDefs.heliSpaceMenu renamed safeSpaceMenu
+Refactor: Remaining Tpp requires modules InfButton, InfModules, InfMain moved to external / core
+Refactor: InfInitMain to load and Exec prior Tpp requires modules and kick off LoadExternalModules
+InfCore: LoadLibrary: Wrapped lua chunk load in PCall to catch errors (was only catching LoadFile)
+
+WIP: sys_increaseMemoryAlloc - increases various memory allocation sizes, to no noticable effect on stability -_-
+WIP: quest_useAltForceFulton - fires CheckDeactiveQuestAreaForceFulton when outside quest activeArea instead of by traps, needs testing as posibly the trap method was added because of issues with what this is attempting.
+
+Fixed: IHExt InfMenu.GetSetting GetSettingText out of bounds. Affected buddyChangeEquipVar, possibly a couple other menu items - thanks WyteKnight for the report.
+Fixed: QuietMoveToLastMarker not working, hadn't transfered a localopt of SendCommand  - thanks WyteKnight for the report.
+Fixed: DropCurrentEquip not working, issue as above - thanks Saladin1251 for the report.
+Fixed: Changing 'Player life scale' in-mission not working - thanks Ronix0 for the report.
+Fixed: Zombie Obliteration hang on load, hadn't added localopts when moving SetUpMBZombie from InfMain - thanks magicc4ke for the report.
+Fixed: IHExt - not displaying current setting upon activating an option from IHExt.
+
+IHExt: MenuLine changed from Label to TextBox, GotKeyboardFocus, EnterText commands.
+IHExt: Search (EnterText > InfMenu.BuildMenuDefForSearch). Alt-tab to IHExt, click or tab the text of the menu line below the menu list. Type something and press Enter.
+
 r225 - 2018-03-07
 Fixed: Hang on load with no ih_save, wasn't initializing igvars oops - thanks серёжа for the report and the save files to test.
 
 r224 - 2018-03-06
-Refactor: InfMain.LoadLibraries > module.LoadLibrzaries
+IHExt: args[1] - gameProcessName
+
+Refactor: InfMain.LoadLibraries > module.LoadLibraries
 Refactor: Ivars split into modules that have the main use/implmentation of the Ivar (or even <module>Ivars when that gets too hefty).
 Refactor: InfMenuDefs split into modules.
 Refactor: InfLang split into modules.
@@ -563,6 +594,13 @@ resourceScaleDiamond="Diamond scale"
 resourceScaleContainer="Container scale"
 (via Progression menu > Resource scale menu)
 
+Data:
+ih_hostage_pdd5.fpk/d from mis_com_fob_hostage
+split to:
+ih_hostage_loc - 4 hostage locators
+
+ih_hostage_pdd5_def - TppHostage2 hostage defintion with prs/pdd5_main0_def_v00.parts to match ih_hostage_dd
+
 r194 - 2016-11-18
 
 Fixed: Some defaults not applying on fob.
@@ -736,6 +774,10 @@ Fixed: Hard crash in some situations with attack heli patrols (possibly with mor
 
 Option: Enable QuickMenu, quickmenu is now disabled by default.
 Menu: IH system menu - shifted various options related to IH itself here.
+
+Data:
+\Assets\tpp\pack\mission2\ih\ih_parasite_camo_fpk
+\Assets\tpp\pack\mission2\ih\ih_parasite_camo_fpkd
 
 r186 - 2016-09-30
 Fixed: Profiles with loadOnACCStart not applying - thanks pk5547 for the report
@@ -970,6 +1012,10 @@ Sidop 82 - make contact with emerich blocked from selection since it's simply a 
 Option: putEquipOnTrucks  - Equipment on trucks - 
 (via Patrol vehicle menu)
 
+Data:
+f30010_item.fox2 - copied/added to project
+TppPickableLocatorParameter - some picables added for puton trucks
+
 r161 - 2016-06-11 - public release
 Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 
 BarelyFatal for the report and the save file to test with.
@@ -998,6 +1044,13 @@ Option:  mbAdditionalSoldiers="Enable more soldiers on MB plats",
 Option:  mbNpcRouteChange, InfNPC - Soldiers move between platforms, soldiers will periodically move between platforms (only within the same cluster).
 (via Mother base menu)
 Autodoc: prepend Features into, output directly to file.
+
+Data:
+f30050_npc.fox2
+Soldier2GameObject_DDmlWait
+realizedcount increased from 12 to 24
+totalcount from 126 to 250
+soldier locators added (100)
 
 r158 - 2016-06-01 - public release
 Fixed: disableLzs rename holdout (still noCentralLzs) on bounder profile
@@ -1072,6 +1125,10 @@ Shifted Ocelots start position.
 Added "All one random type","Each heli random type" to heli class.
 Options: vehiclePatrolClass - "Vehicle patrol class" - "Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep" 
 
+Data:
+f30050_npc.fox2 - added WalkerGearGameObject, usually it's in it's own .fox2 (walkergear_main_enemy ex) in the mission fpkd
+f30010_npc.fox2 - added walker gear gobject and locators
+
 r150 - 2016-05-04 - public release
 Ivars - minPhase,maxPhase,keepPhase now turns on phaseUpdate
 Refactor: Ivar execChecks renamed execCheckTable to prevent name confusion
@@ -1130,6 +1187,7 @@ Workaround: bunch of trouble figuring out heli weirdness on checkpoint restore t
 Workaround: disabled wormhole in Invasion, already did so with fulton (or rather set sucess to 0) but didnt remember wormhole doesnt use sucess %, also fixed my workaround applying 0 success if invasion on even if not in motherbase, woops.
 Modfpk: heli locators added to free roam fox2s
 Modfpk: heli interiors sbh0_intr0_ene.fmdl to reinforce heli fpks, reference in fpkd/fox2
+
 
 
 r144
@@ -1211,7 +1269,9 @@ Option: mbEnableOcelot - runs an update function to enable/warp and set a route 
 Decreased alphaDistance on free cam to 0.1, should be able to get closer to character without them fading out.
 
 r134
-veh_rl_*.fpkd/*fox2 - bodyInstances,attachmentInstanceCount increased to 4. 1 - player vehicle + 2 (quests max) + 1 patrol. See modfpk.txt
+veh_rl_*.fpkd/*fox2 - bodyInstances,attachmentInstanceCount increased to 4. 1 - player vehicle + 2 (quests max) + 1 patrol. 
+These packs are actually for the player vehicle but I'm loading them to get the patrol vehicles to work, the veh_mc* packs in common don't actually have ready-to-go data definitions. Editing data is falling into 'not default by default' behaviour which I don't really like, but there's not many options. In the past I tried rolling my own packs but there's issues with fpkds with fox2s (can see this by unpacking an fpkd changing the gztool file pack xml order and repacking) that lead to crashes or extreme memory leaks (like several gb of memory in a minute).
+
 Blockquests: removed armor vehicle quest block on vehicle patrol
 Regression: Patrol vehicle spawn type random to level seed
 Refactor: TppEnemyFova> break out WildCardFova

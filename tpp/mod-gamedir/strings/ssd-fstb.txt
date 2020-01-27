@@ -1,0 +1,31 @@
+
+.fpk
+/Assets/ssd/environ/superlow/afgh/large/field/scenes/spl_afgh_field.fmdl
+/Assets/ssd/pack/location/afgh/pack_common/afgh_common.fpk
+/Assets/ssd/pack/location/afgh/pack_extraLarge/afgh_east.fpk
+/Assets/ssd/pack/location/afgh/pack_extraLarge/afgh_south.fpk
+/Assets/ssd/pack/location/afgh/pack_large/afgh_base.fpk
+/Assets/ssd/pack/location/afgh/pack_large/afgh_base2.fpk
+/Assets/ssd/pack/location/afgh/pack_large/afgh_dungeon2.fpk
+/Assets/ssd/pack/location/afgh/pack_large/afgh_field.fpk
+/Assets/ssd/pack/location/afgh/pack_large/afgh_village.fpk
+/Assets/ssd/pack/location/mafr/pack_common/mafr_common.fpk
+/Assets/ssd/pack/location/mafr/pack_extraLarge/mafr_north.fpk
+/Assets/ssd/pack/location/mafr/pack_extraLarge/mafr_northEast.fpk
+/Assets/ssd/pack/location/mafr/pack_extraLarge/mafr_west.fpk
+/Assets/ssd/pack/location/mafr/pack_large/mafr_diamond.fpk
+/Assets/ssd/pack/location/mafr/pack_large/mafr_factory.fpk
+/Assets/ssd/pack/location/mafr/pack_large/mafr_lab.fpk
+/Assets/ssd/pack/location/ombs/pack_common/ombs_common.fpk
+/Assets/ssd/pack/location/spfc/pack_common/spfc_common.fpk
+/Assets/ssd/pack/location/spfc/pack_extraLarge/spfc_south.fpk
+/Assets/ssd/pack/location/spfc/pack_large/spfc_pfCamp.fpk
+/Assets/ssd/pack/location/ssav/pack_common/ssav_common.fpk
+/Assets/ssd/pack/location/ssav/pack_extraLarge/ssav_north.fpk
+/Assets/ssd/pack/location/ssav/pack_large/ssav_savannah.fpk
+/Assets/tpp/environ/superlow/afgh/large/village/scenes/spl_afgh_village.fmdl
+Copyright (C) 1999-2016 Mark Russinovich
+FSTB
+l)@
+Strings v2.53 - Search for ANSI and Unicode strings in binary images.
+Sysinternals - www.sysinternals.com

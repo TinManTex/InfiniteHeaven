@@ -93,6 +93,8 @@ this.debugPCallHooks={
     ShowUpdateObjective=true,
   },
   TppQuest={
+    OnMissionGameEnd=true,
+    UnloadCurrentQuestBlock=true,
     UpdateActiveQuest=true,
   },
   TppResult={
@@ -128,11 +130,11 @@ function this.GetFunction(moduleName,functionName)
   local originalModule=_G[moduleName]
   local originalFunction=nil
   if not originalModule then
-    InfCore.Log("WARNING: InfHooks.GetFunction could not find module:"..tostring(moduleName))
+    InfCore.Log("WARNING: InfHooks.GetFunction could not find module:"..tostring(moduleName),false,true)
   else
     originalFunction=originalModule[functionName]
     if originalFunction==nil then
-      InfCore.Log("WARNING: InfHooks.GetFunction could not find function:"..moduleName.."."..tostring(functionName))
+      InfCore.Log("WARNING: InfHooks.GetFunction could not find function:"..moduleName.."."..tostring(functionName),false,true)
     end
   end
   return originalModule,originalFunction
@@ -142,13 +144,13 @@ function this.AddHook(moduleName,functionName,hookFunction)
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     if type(hookFunction)~="function" then
-      InfCore.Log("Error: InfHook.AddHook("..moduleName..","..functionName..") hookFunc is not a function")
+      InfCore.Log("ERROR: InfHook.AddHook("..moduleName..","..functionName..") hookFunc is not a function")
     else
       this[moduleName]=this[moduleName]or{}--tex existing or new
       local moduleHooks=this[moduleName]
       if moduleHooks[functionName] then
         --tex TODO: just swap out existing hook using original, but log a warning
-        InfCore.Log("Error: attempting to add a hook to a previously hooked function: "..moduleName.."."..functionName)
+        InfCore.Log("ERROR: InfHook.AddHook: attempting to add a hook to a previously hooked function: "..moduleName.."."..functionName)
       else
         moduleHooks[functionName]=originalFunction--tex save original function ref
         originalModule[functionName]=hookFunction--tex override
@@ -162,11 +164,11 @@ function this.RemoveHook(moduleName,functionName)
   if hookedModule and hookedFunction then
     local moduleHooks=this[moduleName]
     if not moduleHooks then
-      InfCore.Log("Error: InfHook.RemoveHook cannot find any hooks for module: "..moduleName.."."..functionName)
+      InfCore.Log("ERROR: InfHook.RemoveHook cannot find any hooks for module: "..moduleName.."."..functionName)
     else
       local originalFunction=moduleHooks[functionName]
       if not originalFunction then
-        InfCore.Log("Error: InfHook.RemoveHook cannot find any hook for function: "..moduleName.."."..functionName)
+        InfCore.Log("ERROR: InfHook.RemoveHook cannot find any hook for function: "..moduleName.."."..functionName)
       else
         hookedModule[functionName]=originalFunction--tex restore
         moduleHooks[functionName]=nil--tex clear
@@ -232,6 +234,7 @@ function this.CreateDebugWrap(moduleName,functionName)
 end
 
 function this.SetupDebugHooks()
+  InfCore.LogFlow("InfHooks.SetupDebugHooks:")
   if not this.debugHooksEnabled then
     this.debugHooksEnabled=true
     this.AddDebugHooks(this.debugPCallHooks,true)
@@ -240,6 +243,7 @@ end
 
 --hookDef table format: this.debugPCallHooks
 function this.AddDebugHooks(hookDef,enable)
+  InfCore.LogFlow("InfHooks.AddDebugHooks:")
   for moduleName,moduleHooks in pairs(hookDef)do
     for functionName,hookInfo in pairs(moduleHooks)do
       if hookInfo==true then
@@ -258,13 +262,14 @@ function this.AddDebugHooks(hookDef,enable)
 end
 
 local function AddHooks(hookFuncs)
+  InfCore.LogFlow("InfHooks.AddHooks:")
   for moduleName,moduleHooks in pairs(hookFuncs)do
     for functionName,hookFunction in pairs(moduleHooks)do
       this.AddHook(moduleName,functionName,hookFunction)
     end
   end
 end
-InfCore.PCallDebug(AddHooks,this.hookFuncs)
+
 
 --this.AnnounceLogView=TppUiCommand.AnnounceLogView
 --TppUiCommand.AnnounceLogView=function(message)
@@ -281,6 +286,6 @@ InfCore.PCallDebug(AddHooks,this.hookFuncs)
 --  this.AnnounceLogViewJoinLangId(...)
 --end
 
-InfCore.LogFlow"InfHook done, requires-list done"--tex ASSUMPTION infhooks last in requires list
+InfCore.PCallDebug(AddHooks,this.hookFuncs)
 
 return this

@@ -1,14 +1,18 @@
-local n={}
-local e=TppDemoBlock.OnAllocate
-local o=TppDemoBlock.OnInitialize
-local l=TppDemoBlock.OnUpdate
-local c=TppDemoBlock.OnTerminate
-function n.OnAllocate()e()
+local this={}
+local OnAllocate=TppDemoBlock.OnAllocate
+local OnInitialize=TppDemoBlock.OnInitialize
+local OnUpdate=TppDemoBlock.OnUpdate
+local OnTerminate=TppDemoBlock.OnTerminate
+function this.OnAllocate()
+  OnAllocate()
 end
-function n.OnInitialize()o()
+function this.OnInitialize()
+  OnInitialize()
 end
-function n.OnUpdate()l()
+function this.OnUpdate()
+  OnUpdate()
 end
-function n.OnTerminate()c()
+function this.OnTerminate()
+  OnTerminate()
 end
-return n
+return this

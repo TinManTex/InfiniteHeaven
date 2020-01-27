@@ -1,0 +1,338 @@
+{
+  "Name": 132331158,
+  "Nodes": [
+    {
+      "Position": {
+        "X": 1105.9386,
+        "Y": 16.3315945,
+        "Z": 1541.68237
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "\"],\""
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "me\":"
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1122.752,
+        "Y": 17.3432922,
+        "Z": 1596.62976
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "taAi"
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "31,-"
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1163.01819,
+        "Y": 16.34119,
+        "Z": 1601.38428
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "4,\"d"
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "\":[\""
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1211.52393,
+        "Y": 17.7411957,
+        "Z": 1592.05737
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "3259"
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "e\":\""
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1256.46265,
+        "Y": 17.7979279,
+        "Z": 1578.51636
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "s_q5"
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "fals"
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1281.24512,
+        "Y": 17.74121,
+        "Z": 1522.29651
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "e\":\""
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "3184"
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1261.64282,
+        "Y": 17.84291,
+        "Z": 1467.99866
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "5,-1"
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "7188"
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1190.9884,
+        "Y": 17.84291,
+        "Z": 1454.1864
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": ":[\"\""
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "int\""
+        }
+      ]
+    },
+    {
+      "Position": {
+        "X": 1108.98254,
+        "Y": 14.7304554,
+        "Z": 1490.5321
+      },
+      "EdgeEvent": {
+        "EventType": 1500257626,
+        "Param1": 0,
+        "Param2": 0,
+        "Param3": 0,
+        "Param4": 0,
+        "Param5": 0,
+        "Param6": 0,
+        "Param7": 0,
+        "Param8": 0,
+        "Param9": 0,
+        "Param10": 0,
+        "Snippet": "\":\"E"
+      },
+      "Events": [
+        {
+          "EventType": 104983832,
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+          "Snippet": "[106"
+        }
+      ]
+    }
+  ]
+}

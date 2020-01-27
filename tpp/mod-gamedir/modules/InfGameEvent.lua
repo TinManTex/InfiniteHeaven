@@ -5,24 +5,25 @@ local this={}
 local InfCore=InfCore
 local InfMain=InfMain
 local SendCommand=GameObject.SendCommand
+local NULL_ID=GameObject.NULL_ID
+local GetGameObjectId=GameObject.GetGameObjectId
 
 this.forceEvent=false
 this.inf_enabledEvents={}
 this.doInjury=false
 
--->
 this.registerIvars={
-  'mbWarGamesProfile',
-  'mbWargameFemales',
-  'mbHostileSoldiers',
-  'mbNonStaff',
-  'mbZombies',
-  'mbEnemyHeli',
-  'mbEnableFultonAddStaff',
-  'selectEvent',
-  'enableEventHUNTED',
-  'enableEventCRASHLAND',
-  'enableEventLOST_COMS',
+  "mbWarGamesProfile",
+  "mbWargameFemales",
+  "mbHostileSoldiers",
+  "mbNonStaff",
+  "mbZombies",
+  "mbEnemyHeli",
+  "mbEnableFultonAddStaff",
+  "selectEvent",
+  "enableEventHUNTED",
+  "enableEventCRASHLAND",
+  "enableEventLOST_COMS",
 }
 
 this.mbWarGamesProfile={
@@ -170,12 +171,12 @@ this.enableEventLOST_COMS={
   settingNames="set_switch",
 }
 --< ivar defs
--->
 this.registerMenus={
-  'eventsMenu',
+  "eventsMenu",
 }
+
 this.eventsMenu={
-  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "InfGameEvent.ForceGameEvent",
     "Ivars.gameEventChanceFREE",
@@ -637,7 +638,7 @@ function this.GenerateWarGameEvent()
   this.inf_enabledEvents[warGame]=true
   local wargameBaseType=warGamesBaseTypes[warGame]
 
-  local warGameNames=InfMenu.GetLangTable"events_mb"
+  local warGameNames=InfLangProc.LangTable"events_mb"
   --tex ugh, TODO better
   local warGameIndex=warGamesEnum[warGame]
   local warGameName=warGameNames[warGameIndex]

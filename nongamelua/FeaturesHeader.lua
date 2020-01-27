@@ -60,7 +60,7 @@ local this={
     },
     {
       featureDescription="IHExt overlay",
-      featureHelp="IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.\r\nThe normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.\r\nSource can be found at https://github.com/TinManTex/IHExt/"
+      featureHelp="IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.\r\nThe normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings. It can also display more descriptive help text for the current option. Can also search by selecting the menu line below the menu list, typing something and pressing enter.\r\nEnable via the IH System menu.\r\nSource can be found at https://github.com/TinManTex/IHExt/"
     },
   },
   {

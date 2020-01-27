@@ -62,6 +62,7 @@ this.DeclareGVarsTable={
   {name="DEBUG_skipInitialEquip",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="DEBUG_skipInitializeOnNewGame",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="DEBUG_reserveAddProductForPacing",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
+  {name="DEBUG_reserveBaseActivated",type=TppScriptVars.TYPE_BOOL,value=false,save=false},--RETAILPATCH: 1.0.5.0
   {name="mis_isFromAvatarRoom",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="cLobby_isStartBase",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="mis_processingHostmigration",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
@@ -180,10 +181,13 @@ this.DeclareGVarsTable={
   {name="res_coopBestWaveCount",type=TppScriptVars.TYPE_UINT8,arraySize=TppDefine.MISSION_COUNT_MAX,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION,init=true},
   {name="res_coopBestPersonalScore",type=TppScriptVars.TYPE_UINT32,arraySize=TppDefine.MISSION_COUNT_MAX,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION,init=true},
   {name="res_coopBestIrisScore",type=TppScriptVars.TYPE_UINT32,arraySize=TppDefine.MISSION_COUNT_MAX,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION,init=true},
+  {name="res_coopBestRescuedCount",type=TppScriptVars.TYPE_UINT8,arraySize=TppDefine.MISSION_COUNT_MAX,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION,init=true},--RETAILPATCH: 1.0.5.0
   {name="mis_isDemoGluttonyBossAppearance",type=TppScriptVars.TYPE_BOOL,value=false,save=false,server=true},
   {name="mis_isDemoAerialBossAppearance",type=TppScriptVars.TYPE_BOOL,value=false,save=false,server=true},
+  {name="mis_isNotifiedBuildingLevel",type=TppScriptVars.TYPE_BOOL,value=false,save=false,server=true},--RETAILPATCH: 1.0.5.0
   nil
 }
+Tpp.ApendArray(this.DeclareGVarsTable,Ivars.DeclareVars())--tex
 TppScriptVars.DeclareGVars(this.DeclareGVarsTable)
 Mission.RegisterUserGvars()
 if Fox.GetPlatformName()=="PS3"then
@@ -193,14 +197,14 @@ function this.AllInitialize()
   if this.DeclareGVarsTable==nil then
     return
   end
-  for a,e in ipairs(this.DeclareGVarsTable)do
-    local a,e,p=e.name,e.arraySize,e.value
-    if e and(e>1)then
-      for e=0,(e-1)do
-        gvars[a][e]=p
+  for i,gvar in ipairs(this.DeclareGVarsTable)do
+    local name,arraySize,value=gvar.name,gvar.arraySize,gvar.value
+    if arraySize and(arraySize>1)then
+      for j=0,(arraySize-1)do
+        gvars[name][j]=value
       end
     else
-      gvars[a]=p
+      gvars[name]=value
     end
   end
 end
@@ -208,15 +212,15 @@ function this.InitializeOnTitle()
   if this.DeclareGVarsTable==nil then
     return
   end
-  for a,e in ipairs(this.DeclareGVarsTable)do
-    local r,e,a,p=e.name,e.arraySize,e.value,e.init
-    if p and(p==true)then
-      if e and(e>1)then
-        for e=0,(e-1)do
-          gvars[r][e]=a
+  for i,gvar in ipairs(this.DeclareGVarsTable)do
+    local name,arraySize,value,init=gvar.name,gvar.arraySize,gvar.value,gvar.init
+    if init and(init==true)then
+      if arraySize and(arraySize>1)then
+        for j=0,(arraySize-1)do
+          gvars[name][j]=value
         end
       else
-        gvars[r]=a
+        gvars[name]=value
       end
     end
   end

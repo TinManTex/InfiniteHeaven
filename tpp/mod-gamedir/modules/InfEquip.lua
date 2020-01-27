@@ -1478,16 +1478,16 @@ this.soldierDropTable={
 }
 
 this.registerIvars={
-  'weaponTableStrength',
-  'weaponTableAfgh',
-  'weaponTableMafr',
-  'weaponTableSkull',
-  'weaponTableDD',
-  'allowUndevelopedDDEquip',
-  'mbSoldierEquipRange',
-  'mbDDEquipNonLethal',
-  'putEquipOnTrucks',
-  'itemDropChance',
+  "weaponTableStrength",
+  "weaponTableAfgh",
+  "weaponTableMafr",
+  "weaponTableSkull",
+  "weaponTableDD",
+  "allowUndevelopedDDEquip",
+  "mbSoldierEquipRange",
+  "mbDDEquipNonLethal",
+  "putEquipOnTrucks",
+  "itemDropChance",
 }
 
 --custom weapon table
@@ -1878,7 +1878,7 @@ function this.DropItem(gameId)
 
   local dropPosition=GameObject.SendCommand(gameId,{id="GetPosition"})
   if not dropPosition then
-    InfCore.Log("InfEquip.DropItem - WARNING GetPosition nil for gameId:"..tostring(gameId))
+    InfCore.Log("WARNING: InfEquip.DropItem: GetPosition nil for gameId:"..tostring(gameId))
   else
     dropPosition=Vector3(dropPosition:GetX(),dropPosition:GetY()+dropOffsetY,dropPosition:GetZ())
 
@@ -1899,7 +1899,7 @@ end
 --  EQP_SWP_CaptureCage_G02={"pickable_item_capturecage_",1},
 --  EQP_IT_CBox_WR={"pickable_item_cardboardbox_",1},
 --}
-
+--tex truck items
 local pickables={
   afgh={--WORKAROUND
     "pickable_ih_0000",--EQP_WP_East_ms_020--4283898693--cgm 25
@@ -2142,7 +2142,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
       end
     end
     if typeCount==0 then
-      InfCore.Log("WARNING typeCount==0 while toAddCount="..toAddCount)--DEBUGNOW
+      InfCore.Log("WARNING: typeCount==0 while toAddCount="..toAddCount)--DEBUGNOW
       break
     end
 

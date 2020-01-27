@@ -1,0 +1,4082 @@
+{
+    "d51510_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 2,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 0,
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0007",
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0008",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0007",
+                "countZombie": 7,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0008",
+                "countZombie": 8,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 5,
+                "waitTime": 80.0,
+                "countSpider": 3,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 6,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 5,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 5,
+                "countZombieBom": 2,
+                "waitTime": 10.0,
+                "countSpider": 3,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 10,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 2682,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 3710,
+            "AttackPower_SW": 0
+        }
+    },
+    "d52010_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 3,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 8,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0005",
+                "countZombie": 2,
+                "countZombieBom": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0000",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthEast0003",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "groupId": 1,
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieBom": 5
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 3,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "countZombie": 3,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombieArmor": 2,
+                "countZombie": 3,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0005",
+                "waitTime": 65.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 16,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "waitTime": 5.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 266,
+            "AttackPower_NE": 3768,
+            "AttackPower_SE": 2596,
+            "AttackPower_SW": 0
+        }
+    },
+    "d52010_attack_3": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 3,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 9.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0007",
+                "waitTime": 25.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "waitTime": 6.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 9.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 3,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 3,
+                "countZombieBom": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 65.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0006",
+                "waitTime": 5.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 5.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 3,
+                "countZombieBom": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 7300,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 0,
+            "AttackPower_SW": 7017
+        }
+    },
+    "d51510_attack_2": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 2,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 8,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 13,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombie": 2,
+                "countZombieBom": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0009",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 13,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "groupId": 1,
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieBom": 5
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombie": 3,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 3,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 2,
+                "countZombie": 3,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 13,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "waitTime": 65.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 13,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "waitTime": 5.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 1500,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 1087,
+            "AttackPower_SW": 3631
+        }
+    },
+    "d50500_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 1,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 7,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 7,
+                "waitTime": 6.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 7,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 8,
+                "waitTime": 6.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthEast0005",
+                "countZombie": 5,
+                "countZombieBom": 2,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombie": 5,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 9,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 6,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 9,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 8,
+                "waitTime": 10.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 9,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 10,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 9,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 1243,
+            "AttackPower_NE": 1344,
+            "AttackPower_SE": 1615,
+            "AttackPower_SW": 0
+        }
+    },
+    "d52510_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 3,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "waitTime": 15.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "groupId": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieBom": 3
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "waitTime": 12.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "waitTime": 12.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "waitTime": 12.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "countZombieArmor": 4,
+                "countZombie": 2,
+                "waitTime": 30.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "groupId": 1,
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieBom": 3
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0003",
+                "countZombie": 6,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0008",
+                "countZombie": 3,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombieArmor": 2,
+                "countZombie": 3,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "waitTime": 65.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0003",
+                "countZombieArmor": 4,
+                "countZombie": 2,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombieArmor": 4,
+                "countZombie": 2,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0008",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 0,
+            "AttackPower_NE": 3834,
+            "AttackPower_SE": 10209,
+            "AttackPower_SW": 0
+        }
+    },
+    "d59010_attack_2": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 8,
+                "countZombieBom": 1,
+                "waitTime": 10.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 10,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 3696,
+            "AttackPower_NE": 2334,
+            "AttackPower_SE": 0,
+            "AttackPower_SW": 0
+        }
+    },
+    "d59010_attack_3": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 4,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 739,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 4263,
+            "AttackPower_SW": 1348
+        }
+    },
+    "d52010_attack_2": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 3,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 18,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "groupId": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieBom": 5
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "groupId": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieBom": 5
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 16,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "groupId": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieBom": 5
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombieArmor": 2,
+                "countZombie": 6,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "groupId": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieBom": 5
+            }, {
+                "level": 18,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 3,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieBom": 5,
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "countZombie": 3,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "countZombieBom": 5,
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 3,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombieBom": 5,
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombie": 3,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombieBom": 5,
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombie": 0,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 3738,
+            "AttackPower_NE": 3671,
+            "AttackPower_SE": 3693,
+            "AttackPower_SW": 3814
+        }
+    },
+    "d52510_attack_2": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 3,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "countZombie": 0,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0000",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombieArmor": 1,
+                "countZombie": 3,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0001",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0000",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 2,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0008",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 1991,
+            "AttackPower_NE": 1991,
+            "AttackPower_SE": 2987,
+            "AttackPower_SW": 1991
+        }
+    },
+    "d59110_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 7,
+                "countZombieBom": 1,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 8,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "countZombie": 8,
+                "waitTime": 10.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 10,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 8,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 0,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 1894,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 3083,
+            "AttackPower_SW": 0
+        }
+    },
+    "d59010_attack_4": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0007",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombie": 4,
+                "countZombieBom": 3,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 4,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 870,
+            "AttackPower_NE": 1044,
+            "AttackPower_SE": 6568,
+            "AttackPower_SW": 1870
+        }
+    },
+    "d59010_attack_5": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 35.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 2,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombieArmor": 2,
+                "countZombie": 2,
+                "countZombieBom": 2,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "waitTime": 85.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "waitTime": 0.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "waitTime": 0.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "waitTime": 0.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 4,
+                "waitTime": 50.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 2,
+                "countZombie": 4,
+                "waitTime": 30.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 4,
+                "waitTime": 30.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 5916,
+            "AttackPower_NE": 391,
+            "AttackPower_SE": 2479,
+            "AttackPower_SW": 4828
+        }
+    },
+    "d51010_attack_2": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 2,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 12,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 12,
+                "locatorName": "SpawnPoint_base_SouthEast0009",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 12,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombie": 7,
+                "countZombieBom": 1,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0005",
+                "countZombie": 8,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 5,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 10,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombieArmor": 2,
+                "countZombie": 3,
+                "countZombieBom": 2,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0009",
+                "countZombie": 8,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 10,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 213,
+            "AttackPower_NE": 852,
+            "AttackPower_SE": 2743,
+            "AttackPower_SW": 1713
+        }
+    },
+    "d52510_attack_3": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 3,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 60.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0006",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombieArmor": 2,
+                "countZombie": 5,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "waitTime": 0.0,
+                "countSpider": 5,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthEast0007",
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 65.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "waitTime": 0.0,
+                "countSpider": 5,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "waitTime": 0.0,
+                "countSpider": 5,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 22,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 0,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 5810,
+            "AttackPower_NE": 4581,
+            "AttackPower_SE": 1037,
+            "AttackPower_SW": 3635
+        }
+    },
+    "d51010_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 2,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0004",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 7,
+                "waitTime": 6.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 8,
+                "waitTime": 6.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "countZombie": 5,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 9,
+                "locatorName": "SpawnPoint_base_NorthEast0003",
+                "waitTime": 20.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "countZombie": 8,
+                "countZombieBom": 2,
+                "waitTime": 10.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 10,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "countZombie": 0,
+                "waitTime": 70.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 399,
+            "AttackPower_NE": 1614,
+            "AttackPower_SE": 2696,
+            "AttackPower_SW": 426
+        }
+    },
+    "d59110_attack_3": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "countZombie": 4,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0000",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 14,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 724,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 4174,
+            "AttackPower_SW": 1320
+        }
+    },
+    "d59110_attack_4": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0007",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombie": 4,
+                "countZombieBom": 3,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 4,
+                "waitTime": 20.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0006",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombie": 4,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_k40075_0002_3",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 906,
+            "AttackPower_NE": 1087,
+            "AttackPower_SE": 6840,
+            "AttackPower_SW": 1947
+        }
+    },
+    "d59010_attack_1": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0005",
+                "countZombie": 7,
+                "countZombieBom": 1,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 8,
+                "waitTime": 6.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "countZombie": 8,
+                "waitTime": 10.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0004",
+                "countZombie": 10,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 15,
+                "locatorName": "SpawnPoint_base_SouthEast0003",
+                "countZombie": 0,
+                "waitTime": 90.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 2215,
+            "AttackPower_NE": 0,
+            "AttackPower_SE": 3605,
+            "AttackPower_SW": 0
+        }
+    },
+    "d59110_attack_2": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 5,
+                "waitTime": 25.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 5,
+                "waitTime": 12.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "waitTime": 6.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "countZombieBom": 1,
+                "waitTime": 80.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 5,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "countZombie": 8,
+                "countZombieBom": 1,
+                "waitTime": 10.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 10,
+                "countZombieBom": 1,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 11,
+                "locatorName": "SpawnPoint_base_NorthWest0002",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 3390,
+            "AttackPower_NE": 2141,
+            "AttackPower_SE": 0,
+            "AttackPower_SW": 0
+        }
+    },
+    "d59110_attack_5": {
+        "openStrategy": {
+            "OPEN_STRATEGY_01": [{
+                "openJitter": [0.0, 1.0],
+                "openCountAtOnce": [2, 3],
+                "wormholeListName": "WH_ENERGY_01",
+                "waveMask": 4294967295,
+                "openIntervalTime": [30.0, 60.0],
+                "openOnce": 1
+            }]
+        },
+        "dropItemLists": {
+            "DROP_ENERGY": [{
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }, {
+                "items": ["COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A", "COL_Score_A"],
+                "itemType": "ENERGY"
+            }]
+        },
+        "wormholeLists": {
+            "WH_ENERGY_01": {
+                "positions": [
+                    [-445.0, 308.0, 2236.0],
+                    [-445.0, 308.0, 2256.0],
+                    [-455.0, 308.0, 2236.0],
+                    [-455.0, 308.0, 2246.0],
+                    [-455.0, 308.0, 2256.0],
+                    [-435.0, 308.0, 2236.0],
+                    [-435.0, 308.0, 2246.0],
+                    [-435.0, 308.0, 2256.0]
+                ],
+                "dropItemListNames": ["DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY", "DROP_ENERGY"]
+            }
+        },
+        "waveMaxCountTable": {
+            "ZombieArmor": [-1],
+            "ZombieBom": [-1],
+            "ZombieExFire": [-1],
+            "Spider": [-1],
+            "Zombie": [-1],
+            "SirenCamera": [-1],
+            "Mimic": [-1],
+            "ZombieExIce": [-1],
+            "ZombieShell": [-1],
+            "ZombieDash": [-1],
+            "ZombieExElec": [-1]
+        },
+        "finishType": "TIMER",
+        "totalWaveCount": 5,
+        "waveLimitTimeList": [360.0],
+        "waveList": ["WAVE_01"],
+        "spawnList": {
+            "WAVE_01": [{
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombie": 0,
+                "waitTime": 0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 4,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthEast0000",
+                "countZombie": 4,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 35.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 2,
+                "countZombieBom": 2,
+                "waitTime": 15.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 21,
+                "locatorName": "SpawnPoint_base_SouthWest0003",
+                "countZombieArmor": 2,
+                "countZombie": 2,
+                "countZombieBom": 2,
+                "waitTime": 9.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthEast0001",
+                "waitTime": 85.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthEast0002",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "waitTime": 0.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0004",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "waitTime": 0.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_SouthWest0002",
+                "waitTime": 0.0,
+                "countZombieDash": 1,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthWest0001",
+                "waitTime": 0.0,
+                "countZombieDash": 2,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 4,
+                "waitTime": 50.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0005",
+                "countZombieArmor": 2,
+                "countZombie": 4,
+                "waitTime": 30.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 1,
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0000",
+                "countZombie": 4,
+                "waitTime": 30.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 19,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0001",
+                "countZombieArmor": 2,
+                "countZombie": 4,
+                "waitTime": 0.0,
+                "routes": [],
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_SouthEast0002",
+                "countZombie": 4,
+                "countZombieBom": 1,
+                "waitTime": 0.0,
+                "routes": [],
+                "countZombieShell": 1,
+                "groupId": 1
+            }, {
+                "level": 17,
+                "locatorName": "SpawnPoint_base_NorthWest0003",
+                "countZombie": 0,
+                "waitTime": 120.0,
+                "routes": [],
+                "groupId": 1
+            }]
+        },
+        "defenseLimitTime": 360.0,
+        "autoDefense": {
+            "AttackPower_NW": 6277,
+            "AttackPower_NE": 418,
+            "AttackPower_SE": 2682,
+            "AttackPower_SW": 5400
+        }
+    }
+}

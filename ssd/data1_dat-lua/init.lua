@@ -330,7 +330,8 @@ if ReplayService then
   ReplayService.Boot()
 end
 if NavWorldDaemon then
-  NavWorldDaemon.AddScene"MainScene"end
+  NavWorldDaemon.AddScene"MainScene"
+end
 if PhDaemon then
   PhDaemon.SetMemorySize(2560,1536,1024)
   PhDaemon.SetMaxRigidBodyNum(500)
@@ -338,7 +339,8 @@ if PhDaemon then
 end
 if SimDaemon then
   local simDaemon=SimDaemon()
-  simDaemon.defaultViewPort="MainViewport"end
+  simDaemon.defaultViewPort="MainViewport"
+end
 if DesDaemon then
   local desDaemon=DesDaemon()
 end
@@ -348,7 +350,7 @@ end
 if FoxTestLuaActor then
   if FoxTestLuaActor then
     FoxTestLuaActor.ExecGlobal'dofile("script/luaunit.lua")'
-    end
+  end
 end
 if UiDaemon then
   local uiDaemon=UiDaemon{name="UiDaemon"}
@@ -383,22 +385,22 @@ if GrDaemon then
     end
     if deviceName=="directx11"then
       FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"
-      else
+    else
       FoxGameFrame.SetGameFrameWaitType"VirtualVsync"
-      end
+    end
   end
   if platform=="Xbox360"then
     FoxGameFrame.SetGameFrameWaitType"ExternalVsyncOffset"
-    end
+  end
   if platform=="PS3"then
     FoxGameFrame.SetGameFrameWaitType"ExternalWait"
-    end
+  end
   if platform=="XboxOne"then
     FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"
-    end
+  end
   if platform=="PS4"then
     FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"
-    end
+  end
 end
 if PerformanceViewer then
   local performanceViewer=PerformanceViewer{name="PerformanceViewer"}
@@ -429,7 +431,7 @@ if SoundCommand then
 end
 if Editor then
   Fox.SetActMode"EDIT"
-  end
+end
 if platform=="Windows"then
   if GrxLightCapture then
     GrxLightCapture():InitInstance()
@@ -441,11 +443,11 @@ end
 if Editor then
   package.path=package.path..";/Assets/fox/editor_scripts/?.lua"
   package.path=package.path..";/Assets/mgo/editor_scripts/?.lua"
-  end
+end
 if Editor then
   EdDemoEditBlockController.AddToolsBlockPath"/Assets/fox/demo/event/info/EdDemoEditTools.fpk"
   EdDemoEditBlockController.AddToolsBlockPath"/Assets/fox/demo/event/info/EdProceduralDemoEditTools.fpk"
-  end
+end
 if EdRouteDataNodeEvent then
   EdRouteDataNodeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")
   EdRouteDataEdgeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")

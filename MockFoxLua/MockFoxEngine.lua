@@ -1,6 +1,7 @@
 -- MockFoxEngine.lua
-
---library modules
+--manually created mock fox engine library modules
+--TODO: rename to MockFoxEngineCommon?
+--TODO: split off tpp specific into ./tpp/MockFoxEngineGame.lua (see ssd equivalent)
 
 --tex mgstpp uses bitops http://bitop.luajit.org/
 --if luaHostType=="LDT" then
@@ -23,20 +24,20 @@ if luaHostType=="MoonSharp" then
   bit.bxor=bit32.bxor
   bit.lshift=bit32.lshift
   bit.rshift=bit32.rshift
-  --tex the rest havent been used in TPP as far as I can see>  
+  --tex the rest havent been used in TPP as far as I can see>
   bit.arshift=bit32.arshift
   bit.rol=bit32.lrotate
   bit.ror=bit32.rrotate
   --  DEBUGNOW
---  bit.bswap=
---  bit.tobit=
+  --  bit.bswap=
+  --  bit.tobit=
   bit.tohex=function(x,n)
     n=n or 8--tex seems to be bitops default, max n, positive number for lowercase
     if (n < -8 or n == 0 or n > 8 ) then
       print("tohex: n out of range")
       return
-    end    
-    
+    end
+
     local nums=math.abs(n)
     local fmt="%0"..nums.."x"
     local hexString=string.format(fmt,x)
@@ -45,7 +46,7 @@ if luaHostType=="MoonSharp" then
     end
     return hexString
   end
-end 
+end
 --end
 
 --userdata
@@ -127,7 +128,7 @@ ScriptFile={}
 --EditorBase=Editor
 --Game=Editor
 
-local IHGenEntityClassDictionary=require"IHGenEntityClassDictionary"--tex dumped by IHTearDown.DumpEntityClassDictionary
+local IHGenEntityClassDictionary=require(gameId.."/IHGenEntityClassDictionary")--tex dumped by IHTearDown.DumpEntityClassDictionary
 EntityClassDictionary={}
 EntityClassDictionary.GetCategoryList=function()
   local categoryList={}
@@ -222,10 +223,10 @@ File={}
 --tex seems to be for every file loaded via Script.LoadLibrary ?
 --GetReferenceCount()={ [<lua path>]=<reference count (number)>,
 File.GetFileListTable=function()
-  return Script.fileListTable 
+  return Script.fileListTable
 end
 File.GetReferenceCount=function()
-  return Script.referenceCounts 
+  return Script.referenceCounts
 end
 
 GkEventTimerManager={}
@@ -267,7 +268,7 @@ Script.LoadLibrary=function(scriptPath)
   end
 
   local ret=dofile(scriptPath)
-  
+
   local module=ret--DEBUGNOWmoduleChunk()
   if not module then
     print("module "..moduleName.."==nil")
@@ -276,22 +277,22 @@ Script.LoadLibrary=function(scriptPath)
     Script.fileListTable[scriptPath]=Script.fileListTable[scriptPath] or {mockUserDataType="ScriptFile"}--TODO: ScriptFile userdata
     Script.referenceCounts[scriptPath]=Script.referenceCounts[scriptPath] or 0
     Script.referenceCounts[scriptPath]=Script.referenceCounts[scriptPath]+1
-    
+
     module._scriptInstanceId={mockUserDataType="unnamed/scriptInstanceId"}--tex has no metatable
     module._scriptPath=moduleName
-  
+
     if _G[moduleName] then
       print("Merging "..moduleName.." with existing")
       _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides --DEBUGNOW
     else
       _G[moduleName]=module
     end
-    
+
     --tex stop it from complaining if not called from inside coroutine
     --DEBUGNOW
---    if coroutine.running()~=nil then
---      coroutine.yield()
---    end
+    --    if coroutine.running()~=nil then
+    --      coroutine.yield()
+    --    end
 
     if module.requires then
       print("Loading "..moduleName..".requires modules")
@@ -821,58 +822,76 @@ local metafunctions={
   __newindex=true,
 }
 
+--PROC
+local AddMockModules=function(mockModules)
+  for moduleName,mockModule in pairs(mockModules)do
+    --print("Adding mock module "..moduleName)--DEBUG
+
+    local module=_G[moduleName] or {}
+    _G[moduleName]=module
+
+    local metaTable=nil
+
+    for k,v in pairs(mockModule)do
+      --DEBUGNOW
+      if type(module)=="function" then--TODO: fix above modules that I've made functions (Application etc
+        print("warning module "..moduleName.." is function")
+      elseif type(module)=="userdata" and metafunctions[k] then--DEBUGNOW KLUDGE workaround moonsharp userdata TODO can you add keys to userdata from lua in other vms?
+
+      elseif module[k]==nil then
+        if v=="<function>" then
+          if metafunctions[k] then
+            metaTable=metaTable or {}
+
+            if k=="__call" then
+              metaTable[k]=function(self,...)
+                return self--tex since this seems mostly used for instance creation this works ok
+              end
+            elseif k=="__index" then
+              metaTable[k]=function(self,k)
+                return rawget(self,k)--tex just do what would be done anyway
+              end
+            elseif k=="__newindex" then
+              metaTable[k]=function(self,k,v)
+                rawset(self,k,v)--tex just do what would be done anyway
+              end
+            end
+
+          else
+            module[k]=function(...)end
+          end
+        elseif v=="<table>" then
+          print("warning key "..k.." is table")
+        else
+          module[k]=v
+        end
+      end
+    end
+
+    if metaTable~=nil then
+      setmetatable(module,metaTable)
+    end
+  end
+end
+
+--EXEC
+-- TODO: split EXEC and PROC into MockFoxEngineProc or something and just leave this (MockFoxEngine.lua) as mock modules definition
+
+print("Loading MockFoxEngineGame ("..gameId..")")
+local mockFoxEngineModulesGameId=require(gameId.."/MockFoxEngineGame")
+if not mockFoxEngineModulesGameId then
+  print"ERROR: mockFoxEngineModulesGameId==nil"
+  return
+end
+AddMockModules(mockFoxEngineModulesGameId)
+
 print"Loading mock modules"
-local mockModules=require"MockModules"
+local mockModules=require(gameId.."/MockModulesGenerated")
 if not mockModules then
-	print"ERROR: mockModules==nil"--DEBUGNOW
+  print"ERROR: mockModules==nil"--DEBUGNOW
   return
 end
 print"Adding mock modules"
-for moduleName,mockModule in pairs(mockModules)do
-  --print("Adding mock module "..moduleName)--DEBUG
+AddMockModules(mockModules)
 
-  local module=_G[moduleName] or {}
-  _G[moduleName]=module
-
-  local metaTable=nil
-
-  for k,v in pairs(mockModule)do
-    --DEBUGNOW
-    if type(module)=="function" then--TODO: fix above modules that I've made functions (Application etc
-      print("warning module "..moduleName.." is function")
-    elseif type(module)=="userdata" and metafunctions[k] then--DEBUGNOW KLUDGE workaround moonsharp userdata TODO can you add keys to userdata from lua in other vms?
-      
-    elseif module[k]==nil then
-      if v=="<function>" then
-        if metafunctions[k] then
-          metaTable=metaTable or {}
-
-          if k=="__call" then
-            metaTable[k]=function(self,...)
-              return self--tex since this seems mostly used for instance creation this works ok
-            end
-          elseif k=="__index" then
-            metaTable[k]=function(self,k)
-              return rawget(self,k)--tex just do what would be done anyway
-            end
-          elseif k=="__newindex" then
-            metaTable[k]=function(self,k,v)
-              rawset(self,k,v)--tex just do what would be done anyway
-            end
-          end
-
-        else
-          module[k]=function(...)end
-        end
-      elseif v=="<table>" then
-        print("warning key "..k.." is table")
-      else
-        module[k]=v
-      end
-    end
-  end
-
-  if metaTable~=nil then
-    setmetatable(module,metaTable)
-  end
-end
+vars=require(gameId.."/vars")

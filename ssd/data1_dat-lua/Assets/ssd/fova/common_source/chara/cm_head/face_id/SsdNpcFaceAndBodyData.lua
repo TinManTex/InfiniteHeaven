@@ -37,8 +37,11 @@ local faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h1_v002_eye0.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face/cm_f0_h1_v002_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fpk"}}
-local faceDecoFova={{"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v019_eye0.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v019_eye0.fpk"},
+}
+local faceDecoFova={
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w001_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/cm_w001_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w002_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/cm_w002_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w003_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/cm_w003_m.fpk"},
@@ -91,7 +94,8 @@ local faceDecoFova={{"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_b000_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/sp_b000_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_y000_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/sp_y000_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_y001_m.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/face_deco/sp_y001_m.fpk"}}
-local hairFova={{"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c000.fpk"},
+local hairFova={
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c001.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c001.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c002.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c002.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c003.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c003.fpk"},
@@ -105,8 +109,10 @@ local hairFova={{"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c104.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c104.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c105.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c105.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c106.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c106.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c107.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c107.fpk"}}
-local hairDecoFova={{"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c107.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair/cm_hair_c107.fpk"}
+}
+local hairDecoFova={
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c001.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c001.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c002.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c002.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c003.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c003.fpk"},
@@ -123,7 +129,8 @@ local hairDecoFova={{"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c104_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c104_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c105_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c105_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c106_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c106_c000.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c107_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c107_c000.fpk"}}
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c107_c000.fv2","/Assets/ssd/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c107_c000.fpk"}
+}
 local bodyFova={}
 if SsdNpcFaceSystem~=nil then
   SsdNpcFaceSystem.SetFovaFileTable{
@@ -569,7 +576,8 @@ local faceDefinition={
   {516,35,1,0,36,44,7,17,1,1,0,"ui_face_516",3,0,0,0,0},
   {517,35,1,0,34,44,10,13,4,1,1,"ui_face_517",3,0,0,0,0},
   {518,35,1,0,35,44,10,13,1,1,0,"ui_face_518",3,0,0,0,0},
-  {519,35,1,0,36,44,10,13,4,1,0,"ui_face_519",3,0,0,0,0}
+  {519,35,1,0,36,44,10,13,4,1,0,"ui_face_519",3,0,0,0,0},
+  {550,0,0,0,37,no,no,no,no,no,0,"ui_face_000",3},
 }
 if SsdNpcFaceSystem~=nil then
   SsdNpcFaceSystem.SetFaceIdInfoTable{table=faceDefinition,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
@@ -592,14 +600,16 @@ local bodyDefinition={
   {14,14,0},
   {15,15,0},
   {16,16,0},
-  {100,17,0},
-  {101,18,0},
-  {102,19,0},
-  {103,20,0},
-  {104,21,0},
-  {110,22,0},
-  {111,23,0},
-  {112,24,0}
+  {17,17,0},--RETAILPATCH: 1.0.5.0 added entries 17,18 and rest adjusted >
+  {18,18,0},
+  {100,19,0},
+  {101,20,0},
+  {102,21,0},
+  {103,22,0},
+  {104,23,0},
+  {110,24,0},
+  {111,25,0},
+  {112,26,0},--<
 }
 if SsdNpcFaceSystem~=nil then
   SsdNpcFaceSystem.SetBodyIdInfoTable{table=bodyDefinition}

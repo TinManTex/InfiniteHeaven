@@ -70,7 +70,7 @@ this.walkerGearChangeMainWeaponVar={
 
 -->
 this.registerIvars={
-  'buddyChangeEquipVar',
+  "buddyChangeEquipVar",
 }
 
 --buddies
@@ -82,18 +82,18 @@ local buddyTypeToCommandInfo={
 }
 
 local function GetCommandInfo(name)
-  local commandInfo=InfBuddy[name] or InfBuddy[buddyTypeToCommandInfo[vars.buddyType]]
+  local commandInfo=--[[InfBuddy[name] or--]] InfBuddy[buddyTypeToCommandInfo[vars.buddyType]]
   return commandInfo
 end
 
 local BuddyVarGetSettingText=function(self,setting)
   if vars.buddyType==BuddyType.NONE then
-    return InfMenu.LangString"no_buddy_set"
+    return InfLangProc.LangString"no_buddy_set"
   end
 
   local commandInfo=GetCommandInfo(self.name)
   if not commandInfo then
-    return InfMenu.LangString"none_defined"
+    return InfLangProc.LangString"none_defined"
   end
 
   local varTypeTable=commandInfo.varTypeTable
@@ -101,7 +101,7 @@ local BuddyVarGetSettingText=function(self,setting)
 end
 local BuddyVarOnSelect=function(self)
   if vars.buddyType==BuddyType.NONE then
-    return InfMenu.LangString"no_buddy_set"
+    return InfLangProc.LangString"no_buddy_set"
   end
 
   local commandInfo=GetCommandInfo(self.name)
@@ -111,7 +111,7 @@ local BuddyVarOnSelect=function(self)
   local var=vars[commandInfo.varName]
   local varTypeTable=commandInfo.varTypeTable
   self.range.max=#varTypeTable
-  local index=InfBuddy.GetTableIndexForBuddyVar(var,varTypeTable)
+  local index=this.GetTableIndexForBuddyVar(var,varTypeTable)
   self:SetDirect(index)
 end
 local BuddyVarOnActivate=function(self,setting)
@@ -123,7 +123,7 @@ local BuddyVarOnActivate=function(self,setting)
   if not commandInfo then
     return
   end
-  InfBuddy.ChangeBuddyVar(commandInfo,setting)
+  this.ChangeBuddyVar(commandInfo,setting)
 end
 
 this.buddyChangeEquipVar={
@@ -136,6 +136,19 @@ this.buddyChangeEquipVar={
   OnActivate=BuddyVarOnActivate,
 }
 --< ivar defs
+this.registerMenus={
+  "buddyMenu",
+}
+
+this.buddyMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
+  options={
+    "Ivars.buddyChangeEquipVar",
+    "InfMenuCommandsTpp.QuietMoveToLastMarker",
+    "Ivars.quietRadioMode",
+  }
+}
+
 this.langStrings={
   eng={
     no_buddy_set="No buddy set",
@@ -188,26 +201,26 @@ end
 
 function this.ChangeBuddyVar(commandInfo,setting)
   if vars.buddyType~=commandInfo.buddyType then
-    InfMenu.Print(InfMenu.LangString"current_buddy_not"..InfMenu.LangString(commandInfo.nameLangId))
+    InfMenu.Print(InfLangProc.LangString"current_buddy_not"..InfLangProc.LangString(commandInfo.nameLangId))
     return
   end
 
   local varInfo=commandInfo.varTypeTable[setting]
 
   if vars[commandInfo.varName]==varInfo.varType then
-    InfMenu.Print(varInfo.name..InfMenu.LangString"allready_set")
+    InfMenu.Print(varInfo.name..InfLangProc.LangString"allready_set")
     return
   end
 
   if Ivars.allowUndevelopedDDEquip:Is(0) then
     local equipDevelopID=varInfo.equipDevelopID
     if equipDevelopID and not TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=equipDevelopID} then
-      InfMenu.Print(varInfo.name..InfMenu.LangString"not_developed")
+      InfMenu.Print(varInfo.name..InfLangProc.LangString"not_developed")
       return
     end
   end
 
-  InfMenu.Print(InfMenu.LangString(commandInfo.nameLangId)..": "..InfMenu.LangString"changing_to"..varInfo.name)
+  InfMenu.Print(InfLangProc.LangString(commandInfo.nameLangId)..": "..InfLangProc.LangString"changing_to"..varInfo.name)
 
   local buddyGameId=GameObject.GetGameObjectIdByIndex(commandInfo.objectType,0)
   this.buddyPosition=GameObject.SendCommand(buddyGameId,{id="GetPosition"})
@@ -225,14 +238,20 @@ function this.ChangeBuddyVar(commandInfo,setting)
 end
 --tex on Timer_CycleBuddyReturn finish
 function this.CycleBuddyReturn()
-  --InfCore.DebugPrint"CycleBuddyReturn"--DEBUG
-  if not this.buddyPosition then
-    InfCore.DebugPrint"WARNING: CycleBuddyReturn could not find saved buddyPosition"
-  else
-    TppBuddy2BlockController.CallBuddy(this.buddyType,this.buddyPosition,vars.playerRotY)
-    this.buddyPosition=nil
-    this.buddyType=BuddyType.NONE
+  --InfCore.Log("CycleBuddyReturn",true)--DEBUG
+  if this.buddyPosition==nil then
+    InfCore.Log("WARNING: CycleBuddyReturn could not find saved buddyPosition",true)
+    return
   end
+
+  if this.buddyType==BuddyType.NONE then
+    InfCore.Log("CycleBuddyReturn this.buddyType==BuddyType.NONE")
+    return
+  end
+
+  TppBuddy2BlockController.CallBuddy(this.buddyType,this.buddyPosition,vars.playerRotY)
+  this.buddyPosition=nil
+  this.buddyType=BuddyType.NONE
 end
 
 return this

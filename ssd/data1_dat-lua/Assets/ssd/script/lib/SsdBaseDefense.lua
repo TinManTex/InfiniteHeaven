@@ -1,138 +1,141 @@
+-- SsdBaseDefense
 local this={}
-local S=256
-local c=0
-local l=1
-local u=0
-local s="base_defense_block"
-local i="BStep_Clear"
+local MAX_STEPS=256
+local stepNumberNone=0
+local step1=1
+local missionNameNone=0
+local base_defense_blockStr="base_defense_block"
+local BStep_ClearStr="BStep_Clear"
 local p=600
 local StrCode32=Fox.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
-local d=GkEventTimerManager.Start
+local TimerStart=GkEventTimerManager.Start
 local f=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local t=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
-local m={"S_DISABLE_TARGET","S_DISABLE_NPC_NOTICE","S_DISABLE_PLAYER_DAMAGE","S_DISABLE_THROWING","S_DISABLE_PLACEMENT"}
+local statusDisableOnReward={"S_DISABLE_TARGET","S_DISABLE_NPC_NOTICE","S_DISABLE_PLAYER_DAMAGE","S_DISABLE_THROWING","S_DISABLE_PLACEMENT"}
 local o={}
-function this.RegisterStepList(e)
-  if not IsTypeTable(e)then
+function this.RegisterStepList(stepList)
+  if not IsTypeTable(stepList)then
     return
   end
-  local n=#e
+  local n=#stepList
   if n==0 then
     return
   end
-  if n>=S then
+  if n>=MAX_STEPS then
     return
   end
-  table.insert(e,i)
-  mvars.bdf_stepList=Tpp.Enum(e)
+  table.insert(stepList,BStep_ClearStr)
+  mvars.bdf_stepList=Tpp.Enum(stepList)
 end
-function this.RegisterStepTable(n)
-  if not IsTypeTable(n)then
+function this.RegisterStepTable(stepTable)
+  if not IsTypeTable(stepTable)then
     return
   end
-  this.RegisterResultStepTable(n)
-  mvars.bdf_stepTable=n
+  this.RegisterResultStepTable(stepTable)
+  mvars.bdf_stepTable=stepTable
 end
-function this.RegisterResultStepTable(e)e[i]={
-  OnEnter=function()
-  end,
-  OnLeave=function()
-  end}
+function this.RegisterResultStepTable(resultStepTable)
+  resultStepTable[BStep_ClearStr]={
+    OnEnter=function()
+    end,
+    OnLeave=function()
+    end
+  }
 end
-function this.RegisterSystemCallbacks(t)
-  if not IsTypeTable(t)then
+function this.RegisterSystemCallbacks(callbacks)
+  if not IsTypeTable(callbacks)then
     return
   end
   mvars.bdf_systemCallbacks=mvars.bdf_systemCallbacks or{}
-  local function s(n,e)
-    if IsTypeFunc(n[e])then
-      mvars.bdf_systemCallbacks[e]=n[e]
+  local function AddCallBack(callbacks,funcName)
+    if IsTypeFunc(callbacks[funcName])then
+      mvars.bdf_systemCallbacks[funcName]=callbacks[funcName]
     end
   end
-  local e={"OnActivate","OnDeactivate","OnTerminate","OnGameStart"}
-  for n=1,#e do
-    s(t,e[n])
+  local callbackNames={"OnActivate","OnDeactivate","OnTerminate","OnGameStart"}
+  for n=1,#callbackNames do
+    AddCallBack(callbacks,callbackNames[n])
   end
 end
-function this.SetNextStep(t)
+function this.SetNextStep(stepName)
   if not mvars.bdf_stepTable then
     return
   end
   if not mvars.bdf_stepList then
     return
   end
-  local n=mvars.bdf_stepTable[t]
-  local t=mvars.bdf_stepList[t]
+  local n=mvars.bdf_stepTable[stepName]
+  local stepNumber=mvars.bdf_stepList[stepName]
   if n==nil then
     return
   end
-  if t==nil then
+  if stepNumber==nil then
     return
   end
-  if(t~=l)and this.IsInvoking()then
-    local n=this.GetStepTable(gvars.bdf_currentStepNumber)
-    local e=n.OnLeave
-    if IsTypeFunc(e)then
-      e(n)
+  if(stepNumber~=step1)and this.IsInvoking()then
+    local stepTable=this.GetStepTable(gvars.bdf_currentStepNumber)
+    local OnLeave=stepTable.OnLeave
+    if IsTypeFunc(OnLeave)then
+      OnLeave(stepTable)
     end
   end
-  gvars.bdf_currentStepNumber=t
+  gvars.bdf_currentStepNumber=stepNumber
   local t=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
-  local e=this.GetBlockState()
+  local blockState=this.GetBlockState()
   if mvars.bdf_allocated then
-    local e=n.OnEnter
-    if IsTypeFunc(e)then
-      e(n)
+    local OnEnter=n.OnEnter
+    if IsTypeFunc(OnEnter)then
+      OnEnter(n)
     end
   end
 end
-function this.ClearWithSave(t,n)
-  if not n then
-    n=this.GetCurrentMissionName()
+function this.ClearWithSave(clearType,currentMissionName)
+  if not currentMissionName then
+    currentMissionName=this.GetCurrentMissionName()
   end
   TppStory.UpdateStorySequence{updateTiming="BaseDefenseEnd"}
-  if t==TppDefine.BASE_DEFENSE_CLEAR_TYPE.CLEAR then
-    this.Clear(n)
-  elseif t==TppDefine.BASE_DEFENSE_CLEAR_TYPE.FAILURE then
-    this.Failure(n)
+  if clearType==TppDefine.BASE_DEFENSE_CLEAR_TYPE.CLEAR then
+    this.Clear(currentMissionName)
+  elseif clearType==TppDefine.BASE_DEFENSE_CLEAR_TYPE.FAILURE then
+    this.Failure(currentMissionName)
   end
   BaseDefenseManager.WaveEnd()
   TppStory.UpdateStorySequence{updateTiming="OnBaseDefenseClear"}
   this.Save()
 end
-function this.Clear(n)
-  if n==nil then
-    n=this.GetCurrentMissionName()
-    if n==nil then
+function this.Clear(currentMissionName)
+  if currentMissionName==nil then
+    currentMissionName=this.GetCurrentMissionName()
+    if currentMissionName==nil then
       return
     end
   end
-  this.ShowAnnounceLog(t.CLEAR,n)
-  this.PlayClearRadio(n)
-  this.GetClearKeyItem(n)
+  this.ShowAnnounceLog(t.CLEAR,currentMissionName)
+  this.PlayClearRadio(currentMissionName)
+  this.GetClearKeyItem(currentMissionName)
   TppMission.OnClearDefenseGame()
 end
-function this.Failure(n)
-  if n==nil then
-    n=this.GetCurrentMissionName()
-    if n==nil then
+function this.Failure(currentMissionName)
+  if currentMissionName==nil then
+    currentMissionName=this.GetCurrentMissionName()
+    if currentMissionName==nil then
       return
     end
   end
   BaseDefenseManager.Failure()
-  this.ShowAnnounceLog(t.FAILURE,n)
+  this.ShowAnnounceLog(t.FAILURE,currentMissionName)
 end
 function this.Save()
   TppMission.VarSaveOnUpdateCheckPoint()
 end
 function this.SetClearFlag(e)
 end
-function this.SetDestructionTime(e)
-  mvars.destructionTime=e
+function this.SetDestructionTime(time)
+  mvars.destructionTime=time
 end
 function this.StartDestruction()
   mvars.isStartDestruction=true
@@ -145,10 +148,10 @@ function this.GetTotalWaveCount()
   return BaseDefenseManager.GetTotalWaveCount()
 end
 function this.OnAllocate(n)
-  local n=BaseDefenseManager.GetMissionCodeList()
+  local missionCodeList=BaseDefenseManager.GetMissionCodeList()
   local t={}
-  for e=1,#n do
-    local e="d"..tostring(n[e])
+  for e=1,#missionCodeList do
+    local e="d"..tostring(missionCodeList[e])
     table.insert(t,e)
   end
   o=TppDefine.Enum(t)
@@ -179,6 +182,7 @@ function this.OnStart(e,n,t)
   end
   mvars.bdf_loadMissionName=("d"..tostring(e))
   mvars.bdf_skipBreakDiggingGameOver=true
+  mvars.bdf_waitLoading=false--RETAILPATCH: 1.0.5.0
   local e="/Assets/ssd/level_asset/defense_game/debug/"..(tostring(mvars.bdf_loadMissionName)..("_attack_"..(tostring(n)..".json")))
   Mission.LoadDefenseGameDataJson(e)
   if not t then
@@ -229,8 +233,8 @@ function this.StartRewardSequence(a)
   this.OnStartRewardSequence(a,n)
 end
 function this.OnStartRewardSequence(n,t)
-  Player.SetPadMask{settingName="BaseDiggingClearDefense",except=false,buttons=(((PlayerPad.HOLD+PlayerPad.FIRE)+PlayerPad.CALL)+PlayerPad.SUBJECT)+PlayerPad.SKILL}
-  for n,e in ipairs(m)do
+  Player.SetPadMask{settingName="BaseDiggingClearDefense",except=false,buttons=(((PlayerPad.HOLD+PlayerPad.FIRE)+PlayerPad.CALL)+PlayerPad.SUBJECT)+PlayerPad.SKILL}--RETAILPATCH:1.0.5.0 added +SKILL
+  for n,e in ipairs(statusDisableOnReward)do
     TppGameStatus.Set("BaseBaseDigging",e)
   end
   TppUiStatusManager.SetStatus("PauseMenu","INVALID")
@@ -315,19 +319,22 @@ function this.Messages()
       end},
       {msg="Finish",sender="Timer_BdfBaseDiggingFinish",func=function()
         if mvars.bdf_viewTotalResult then
-          d("Timer_BdfRewardDrop",.1)
+          TimerStart("Timer_BdfRewardDrop",.1)
         end
         this.StartResultSequence()
-        this.SetNextStep(i)
+        this.SetNextStep(BStep_ClearStr)
       end}},
     UI={
       {msg="EndFadeOut",sender="FadeOutOnStartBaseDefense",func=function()
+        mvars.bdf_waitLoading=SsdBuilding.IsNetworkBusy()--RETAILPATCH: 1.0.5.0
         TppMain.DisablePlayerPad()
         TppEnemy.SetEnemyLevelForBaseDefense()
         TppQuest.SetUnloadableAll(true)
-        SsdBuildingMenuSystem.CloseBuildingMenu()
-        SsdUiSystem.RequestForceCloseForMissionClear()
-        this.LoadMission(mvars.bdf_loadMissionName)
+        if not mvars.bdf_waitLoading then--RETAILPATCH: 1.0.5.0 added check
+          SsdBuildingMenuSystem.CloseBuildingMenu()
+          SsdUiSystem.RequestForceCloseForMissionClear()
+          this.LoadMission(mvars.bdf_loadMissionName)
+        end
       end},
       {msg="EndFadeOut",sender="FadeOutOnFinishBaseDefense",func=function()
         TppMain.DisablePlayerPad()
@@ -343,13 +350,14 @@ function this.Messages()
         Gimmick.SetAllSwitchInvalid(false)
         local e=TppStory.GetCurrentStorySequence()
         TppEnemy.SetEnemyLevelBySequence(e)
-        TppQuest.SetUnloadableAll(false)d("Timer_BdfCheckUnload",1)
+        TppQuest.SetUnloadableAll(false)TimerStart("Timer_BdfCheckUnload",1)
       end},
       {msg="EndFadeIn",sender="FadeInOnStartDefense",func=function()
         TppMain.EnablePlayerPad()
       end},
       {msg="EndFadeIn",sender="FadeInOnFinishDefense",func=function()
         BaseDefenseManager.OpenNextWaveTime{displayTime=10}
+        RewardPopupSystem.RequestOpen(RewardPopupSystem.OPEN_TYPE_CHECK_POINT)--RETAILPATCH: 1.0.5.0
       end},
       {msg="BaseDefenseMissionResultClosed",func=this.OpenRewardResult,option={isExecMissionPrepare=true,isExecDemoPlaying=true,isExecFastTravel=true}},
       {msg="BaseDefenseRewardClosed",func=this.FinishWave,option={isExecMissionPrepare=true,isExecDemoPlaying=true,isExecFastTravel=true}},
@@ -397,7 +405,7 @@ function this.InitializePackList(e)
     table.insert(mvars.loadedInfoList,n)
     table.insert(e[n],t)
   end
-  TppScriptBlock.RegisterCommonBlockPackList(s,e)
+  TppScriptBlock.RegisterCommonBlockPackList(base_defense_blockStr,e)
 end
 function this.InitializeActiveStatus()
   local n=this.GetBlockState()
@@ -412,7 +420,7 @@ function this.InitializeActiveStatus()
     mvars.bdf_requestInitializeActiveStatus=true
     return
   end
-  gvars.bdf_currentStepNumber=l
+  gvars.bdf_currentStepNumber=step1
   local n=mvars.bdf_stepList[gvars.bdf_currentStepNumber]
   this.SetNextStep(n)
 end
@@ -463,7 +471,8 @@ function this.QAReleaseDebugUpdate()
     this.UnloadBaseDefenseBlock()
   end
   if mvars.qaDebug.showCurrentBdfState then
-    n(t,"")n(t,{.5,.5,1},"BaseDefense showCurrentState")
+    n(t,"")
+    n(t,{.5,.5,1},"BaseDefense showCurrentState")
     local a=this.GetCurrentMissionName()
     if not a then
       n(t,"Current Mission : -----")
@@ -480,7 +489,9 @@ function this.QAReleaseDebugUpdate()
     e[ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING]="PROCESSING"
     e[ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE]="INACTIVE"
     e[ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE]="ACTIVE"
-    n(t,"Block State : "..tostring(e[a]))n(t,"gvars.bdf_currentMissionName : "..tostring(gvars.bdf_currentMissionName))n(t,"gvars.bdf_currentStepNumber : "..tostring(gvars.bdf_currentStepNumber))
+    n(t,"Block State : "..tostring(e[a]))
+    n(t,"gvars.bdf_currentMissionName : "..tostring(gvars.bdf_currentMissionName))
+    n(t,"gvars.bdf_currentStepNumber : "..tostring(gvars.bdf_currentStepNumber))
     if not mvars.bdf_stepList then
       n(t,"Sequence is not Defined...")
     else
@@ -490,11 +501,13 @@ function this.QAReleaseDebugUpdate()
     n(t,"--- Base Destruction State ---")
     if mvars.isStartDestruction then
       n(t,"DestructionTime[sec] : "..tostring(mvars.destructionTime))
-      local e=Mission.GetBaseDestructionRate()n(t,"   BaseDamageRate[%] : "..tostring(e*100))
+      local e=Mission.GetBaseDestructionRate()
+      n(t,"   BaseDamageRate[%] : "..tostring(e*100))
     else
       n(t,"Destruction isn't started yet...")
     end
-    n(t,"")n(t,"--- BaseDefense ThreatValue ---")
+    n(t,"")
+    n(t,"--- BaseDefense ThreatValue ---")
   end
   do
     if s==0 then
@@ -520,21 +533,21 @@ function this.QAReleaseDebugUpdate()
   end
 end
 function this.OnInitialize(n)
-  local t=n.Messages
-  if IsTypeFunc(t)then
-    local e=t()
-    mvars.bdf_scriptBlockMessageExecTable=Tpp.MakeMessageExecTable(e)
+  local Messages=n.Messages
+  if IsTypeFunc(Messages)then
+    local messageTable=Messages()
+    mvars.bdf_scriptBlockMessageExecTable=Tpp.MakeMessageExecTable(messageTable)
   end
   this.MakeStepMessageExecTable()
   this._ResetMissionInfo(n)
 end
 function this._ResetMissionInfo(t)
-  local n=this.GetCurrentMissionName()
-  if not n then
-    local n=t.missionName
-    if n then
+  local currentMissionName=this.GetCurrentMissionName()
+  if not currentMissionName then
+    local missionName=t.missionName
+    if missionName then
       this.ResetMissionStatus()
-      this.SetCurrentMissionName(n)
+      this.SetCurrentMissionName(missionName)
     end
   end
 end
@@ -544,12 +557,13 @@ function this.OnTerminate()
   mvars.bdf_lastBlockState=nil
   mvars.bdf_stepList=nil
   mvars.bdf_stepTable=nil
-  gvars.bdf_currentStepNumber=c
+  gvars.bdf_currentStepNumber=stepNumberNone
   mvars.bdf_scriptBlockMessageExecTable=nil
   mvars.bdf_rewardCount=0
+  mvars.bdf_waitLoading=false--RETAILPATCH: 1.0.5.0
   this.ClearCurrentMissionName()
-  local e=ScriptBlock.GetScriptBlockId(s)
-  TppScriptBlock.FinalizeScriptBlockState(e)
+  local scriptBlockId=ScriptBlock.GetScriptBlockId(base_defense_blockStr)
+  TppScriptBlock.FinalizeScriptBlockState(scriptBlockId)
   TppMission.OnEndDefenseGame()
   TppMission.EnableBaseCheckPoint()
 end
@@ -560,65 +574,79 @@ function this._CanActivate()
   return true
 end
 function this.OnUpdate()
-  local s=this.GetBlockState()
-  if s==nil then
+  local blockState=this.GetBlockState()
+  if blockState==nil then
     return
   end
-  local t=ScriptBlock
-  local n=mvars
-  local i=n.bdf_lastBlockState
-  local r=t.SCRIPT_BLOCK_STATE_INACTIVE
-  local t=t.SCRIPT_BLOCK_STATE_ACTIVE
-  if n.bdf_requestInitializeActiveStatus then
+  local ScriptBlock=ScriptBlock
+  local mvars=mvars
+  local bdf_lastBlockState=mvars.bdf_lastBlockState
+  local SCRIPT_BLOCK_STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
+  local SCRIPT_BLOCK_STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
+  if mvars.bdf_waitLoading then--RETAILPATCH: 1.0.5.0>
+    mvars.bdf_waitLoading=SsdBuilding.IsNetworkBusy()
+    if not mvars.bdf_waitLoading then
+      SsdBuildingMenuSystem.CloseBuildingMenu()
+      SsdUiSystem.RequestForceCloseForMissionClear()
+      this.LoadMission(mvars.bdf_loadMissionName)
+    else
+      return
+    end
+  end--<
+  if mvars.bdf_requestInitializeActiveStatus then
     this.InitializeActiveStatus()
     return
   end
-  if s==r then
+  if blockState==SCRIPT_BLOCK_STATE_INACTIVE then
     if this._CanActivate()then
       this.ActivateBaseDefenseBlock()
       this.ClearBlockStateRequest()
     end
-    n.bdf_lastInactiveToActive=false
-  elseif s==t then
+    mvars.bdf_lastInactiveToActive=false
+  elseif blockState==SCRIPT_BLOCK_STATE_ACTIVE then
     if not this._CanActivate()then
       return
     end
-    local t
+    local stepTable
     if this.IsInvoking()then
-      t=this.GetStepTable(gvars.bdf_currentStepNumber)
+      stepTable=this.GetStepTable(gvars.bdf_currentStepNumber)
     end
-    if n.bdf_lastInactiveToActive then
-      n.bdf_lastInactiveToActive=false
-      n.bdf_deactivated=false
-      this.ExecuteSystemCallback"OnActivate"n.bdf_allocated=true
-      this.Invoke()t=this.GetStepTable(gvars.bdf_currentStepNumber)
+    if mvars.bdf_lastInactiveToActive then
+      mvars.bdf_lastInactiveToActive=false
+      mvars.bdf_deactivated=false
+      this.ExecuteSystemCallback"OnActivate"
+      mvars.bdf_allocated=true
+      this.Invoke()
+      stepTable=this.GetStepTable(gvars.bdf_currentStepNumber)
       this.ExecuteSystemCallback("OnGameStart",BaseDefenseManager.GetCurrentWaveIndex())
-      BaseDefenseManager.RestoreScore()do
-        local e={-441.836,288.34,2232.67}
-        local n=TppPlayer.GetPosition()
-        local n=TppMath.FindDistance(e,n)
-        local e={-441.8,288.15,2234}
-        if n<4 then
-          TppPlayer.Warp{pos=e,rotY=0}Player.RequestToSetCameraRotation{rotX=20,rotY=-141,interpTime=0}
+      BaseDefenseManager.RestoreScore()
+      do
+        local startPos={-441.836,288.34,2232.67}
+        local playerPos=TppPlayer.GetPosition()
+        local dist=TppMath.FindDistance(startPos,playerPos)
+        local warpPos={-441.8,288.15,2234}
+        if dist<4 then
+          TppPlayer.Warp{pos=warpPos,rotY=0}
+          Player.RequestToSetCameraRotation{rotX=20,rotY=-141,interpTime=0}
         end
       end
       TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnStartDefense",TppUI.FADE_PRIORITY.MISSION)
     end
-    if(not i)or i<=r then
-      n.bdf_lastInactiveToActive=true
+    if(not bdf_lastBlockState)or bdf_lastBlockState<=SCRIPT_BLOCK_STATE_INACTIVE then
+      mvars.bdf_lastInactiveToActive=true
     end
-    if t and IsTypeFunc(t.OnUpdate)then
-      t.OnUpdate(t)
+    if stepTable and IsTypeFunc(stepTable.OnUpdate)then
+      stepTable.OnUpdate(stepTable)
     end
-    if n.bdf_blockStateRequest==f.DEACTIVATE then
+    if mvars.bdf_blockStateRequest==f.DEACTIVATE then
       this.DeactivateBaseDefenseBlock()
       this.ClearBlockStateRequest()
     end
   else
-    n.bdf_lastInactiveToActive=false
+    mvars.bdf_lastInactiveToActive=false
     this.ClearBlockStateRequest()
   end
-  n.bdf_lastBlockState=s
+  mvars.bdf_lastBlockState=blockState
 end
 function this.GetOpenableMissionList()
   local e={}
@@ -635,12 +663,12 @@ function this.GetOpenableMissionList()
   return e
 end
 function this.OnMissionGameEnd()
-  local n=this.GetBlockState()
-  if not n then
+  local blockState=this.GetBlockState()
+  if not blockState then
     return
   end
   mvars.bdf_isMissionEnd=true
-  if n==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
+  if blockState==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
     this._DoDeactivate()
   end
 end
@@ -648,56 +676,56 @@ function this.ClearBlockStateRequest()
   mvars.bdf_blockStateRequest=f.NONE
 end
 function this.Invoke()
-  gvars.bdf_currentStepNumber=l
-  local n=mvars.bdf_stepList[gvars.bdf_currentStepNumber]
-  this.SetNextStep(n)
+  gvars.bdf_currentStepNumber=step1
+  local stepName=mvars.bdf_stepList[gvars.bdf_currentStepNumber]
+  this.SetNextStep(stepName)
 end
-function this.LoadMission(n)
-  local t=TppScriptBlock.Load(s,n)
-  if t==false then
+function this.LoadMission(missionName)
+  local loaded=TppScriptBlock.Load(base_defense_blockStr,missionName)
+  if loaded==false then
     return
   end
   this.ResetMissionStatus()
-  this.SetCurrentMissionName(n)
+  this.SetCurrentMissionName(missionName)
   TppMission.DisableBaseCheckPoint()
 end
 function this.GetCurrentMissionName()
   return mvars.bdf_currentMissionName
 end
-function this.SetCurrentMissionName(e)
-  mvars.bdf_currentMissionName=e
-  gvars.bdf_currentMissionName=Fox.StrCode32(e)
+function this.SetCurrentMissionName(currentMissionName)
+  mvars.bdf_currentMissionName=currentMissionName
+  gvars.bdf_currentMissionName=Fox.StrCode32(currentMissionName)
 end
 function this.ClearCurrentMissionName()
   mvars.bdf_currentMissionName=nil
-  gvars.bdf_currentMissionName=u
+  gvars.bdf_currentMissionName=missionNameNone
 end
 function this.ResetMissionStatus()
-  gvars.bdf_currentMissionName=u
-  gvars.bdf_currentStepNumber=c
+  gvars.bdf_currentMissionName=missionNameNone
+  gvars.bdf_currentStepNumber=stepNumberNone
 end
 function this.UnloadBaseDefenseBlock()
-  TppScriptBlock.Unload(s)
+  TppScriptBlock.Unload(base_defense_blockStr)
 end
 function this.ActivateBaseDefenseBlock()
-  local e=ScriptBlock.GetScriptBlockId(s)
+  local e=ScriptBlock.GetScriptBlockId(base_defense_blockStr)
   TppScriptBlock.ActivateScriptBlockState(e)
 end
 function this.DeactivateBaseDefenseBlock()
-  local e=ScriptBlock.GetScriptBlockId(s)
+  local e=ScriptBlock.GetScriptBlockId(base_defense_blockStr)
   TppScriptBlock.DeactivateScriptBlockState(e)
 end
 function this.ExecuteSystemCallback(e,n)
   if mvars.bdf_systemCallbacks==nil then
     return
   end
-  local e=mvars.bdf_systemCallbacks[e]
-  if e then
-    return e(n)
+  local CallBack=mvars.bdf_systemCallbacks[e]
+  if CallBack then
+    return CallBack(n)
   end
 end
 function this.IsInvoking()
-  if gvars.bdf_currentStepNumber~=c then
+  if gvars.bdf_currentStepNumber~=stepNumberNone then
     return true
   else
     return false
@@ -713,14 +741,14 @@ function this.IsCleared(e)
   local e=tonumber(string.sub(e,-5))
   return BaseDefenseManager.IsCleared(e)
 end
-function this.IsEnd(n)
-  if n==nil then
-    n=this.GetCurrentMissionName()
-    if n==nil then
+function this.IsEnd(currentMissionName)
+  if currentMissionName==nil then
+    currentMissionName=this.GetCurrentMissionName()
+    if currentMissionName==nil then
       return
     end
   end
-  if mvars.bdf_stepList[gvars.bdf_currentStepNumber]==i then
+  if mvars.bdf_stepList[gvars.bdf_currentStepNumber]==BStep_ClearStr then
     return true
   end
   return false
@@ -735,34 +763,34 @@ function this.MakeStepMessageExecTable()
     return
   end
   for n,e in pairs(mvars.bdf_stepTable)do
-    local n=e.Messages
-    if IsTypeFunc(n)then
-      local n=n(e)
-      e._messageExecTable=Tpp.MakeMessageExecTable(n)
+    local CreateMessagesFunc=e.Messages
+    if IsTypeFunc(CreateMessagesFunc)then
+      local messageTable=CreateMessagesFunc(e)
+      e._messageExecTable=Tpp.MakeMessageExecTable(messageTable)
     end
   end
 end
-function this.GetStepTable(e)
+function this.GetStepTable(stepNumber)
   if mvars.bdf_stepList==nil then
     return
   end
-  local e=mvars.bdf_stepList[e]
-  if e==nil then
+  local stepName=mvars.bdf_stepList[stepNumber]
+  if stepName==nil then
     return
   end
-  local e=mvars.bdf_stepTable[e]
-  if e~=nil then
-    return e
+  local stepTable=mvars.bdf_stepTable[stepName]
+  if stepTable~=nil then
+    return stepTable
   else
     return
   end
 end
 function this.GetBlockState()
-  local e=ScriptBlock.GetScriptBlockId(s)
-  if e==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
+  local blockId=ScriptBlock.GetScriptBlockId(base_defense_blockStr)
+  if blockId==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
     return
   end
-  return ScriptBlock.GetScriptBlockState(e)
+  return ScriptBlock.GetScriptBlockState(blockId)
 end
 function this.PlayClearRadio(e)
 end
@@ -775,34 +803,34 @@ end
 function this.IsMissionActivated()
   return this.GetBlockState()==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
 end
-function this.SetWaveIntervalTime(e)
-  mvars.bdf_nextWaveWaitHour=e
+function this.SetWaveIntervalTime(time)
+  mvars.bdf_nextWaveWaitHour=time
 end
 function this.FinishWave()
   Player.ResetPadMask{settingName="BaseDiggingClearDefense"}
-  for n,e in ipairs(m)do
-    TppGameStatus.Reset("BaseBaseDigging",e)
+  for i,gameStatusName in ipairs(statusDisableOnReward)do
+    TppGameStatus.Reset("BaseBaseDigging",gameStatusName)
   end
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,"FadeOutOnFinishBaseDefense",TppUI.FADE_PRIORITY.MISSION)
 end
-function this._CheckUnloadBlock(s,t,n)
-  local e=this.GetBlockState()
-  if e==nil then
-    if n and IsTypeFunc(n)then
-      n()
+function this._CheckUnloadBlock(timerName,msgName,DoOnUnloadFunc)
+  local blockState=this.GetBlockState()
+  if blockState==nil then
+    if DoOnUnloadFunc and IsTypeFunc(DoOnUnloadFunc)then
+      DoOnUnloadFunc()
     end
     Mission.SendMessage("Mission","OnBaseDefenseEnd")
-    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,t,TppUI.FADE_PRIORITY.MISSION)
+    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,msgName,TppUI.FADE_PRIORITY.MISSION)
     return
   end
-  if e==ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY then
-    if n and IsTypeFunc(n)then
-      n()
+  if blockState==ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY then
+    if DoOnUnloadFunc and IsTypeFunc(DoOnUnloadFunc)then
+      DoOnUnloadFunc()
     end
     Mission.SendMessage("Mission","OnBaseDefenseEnd")
-    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,t,TppUI.FADE_PRIORITY.MISSION)
+    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,msgName,TppUI.FADE_PRIORITY.MISSION)
   else
-    d(s,1)
+    TimerStart(timerName,1)
   end
 end
 return this

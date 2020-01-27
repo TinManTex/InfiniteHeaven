@@ -1,0 +1,37 @@
+{
+	"setting" : [ 
+		{ "type":1, "nameId":"COMMUNICATION_010" }, 
+		{ "type":0, "nameId":"B040" }, 
+		{ "type":1, "nameId":"COMMUNICATION_002" }, 
+		{ "type":0, "nameId":"B370" }, 
+		{ "type":1, "nameId":"COMMUNICATION_023" }, 
+		{ "type":0, "nameId":"B130" }, 
+		{ "type":1, "nameId":"COMMUNICATION_003" }, 
+		{ "type":0, "nameId":"B320" }, 
+		{ "type":1, "nameId":"COMMUNICATION_005" }, 
+		{ "type":0, "nameId":"B350" }, 
+		{ "type":1, "nameId":"COMMUNICATION_004" }, 
+		{ "type":0, "nameId":"D020" }, 
+		{ "type":1, "nameId":"COMMUNICATION_021" }, 
+		{ "type":0, "nameId":"D010" }, 
+		{ "type":1, "nameId":"COMMUNICATION_001" }, 
+		{ "type":0, "nameId":"D190" }, 
+		{ "type":1, "nameId":"COMMUNICATION_020" }, 
+		{ "type":0, "nameId":"D300" }, 
+		{ "type":1, "nameId":"COMMUNICATION_009" }, 
+		{ "type":0, "nameId":"D310" }, 
+		{ "type":1, "nameId":"COMMUNICATION_026" }, 
+		{ "type":0, "nameId":"D320" }, 
+		{ "type":1, "nameId":"COMMUNICATION_003" }, 
+		{ "type":0, "nameId":"B390" }, 
+		{ "type":1, "nameId":"COMMUNICATION_028" }, 
+		{ "type":0, "nameId":"D170" }, 
+		{ "type":1, "nameId":"COMMUNICATION_009" }, 
+		{ "type":0, "nameId":"D180" }, 
+		{ "type":1, "nameId":"COMMUNICATION_022" }, 
+		{ "type":0, "nameId":"D200" }, 
+		{ "type":1, "nameId":"COMMUNICATION_001" }, 
+		{ "type":0, "nameId":"D270" }
+	]
+
+}
