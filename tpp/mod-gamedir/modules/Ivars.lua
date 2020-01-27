@@ -20,6 +20,7 @@ local InfCore=InfCore
 
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
+local SendCommand=GameObject.SendCommand
 
 local GLOBAL=TppScriptVars.CATEGORY_GAME_GLOBAL
 local MISSION=TppScriptVars.CATEGORY_MISSION
@@ -430,7 +431,7 @@ this.mbWarGamesProfile={
       mbNonStaff=1,
       mbEnableFultonAddStaff=1,
       mbZombies=0,
-      attackHeliPatrolsMB="HP48",
+      attackHeliPatrolsMB=4,
       mbEnemyHeli=1,
     },
     ZOMBIE_DD={
@@ -648,7 +649,7 @@ this.disableHeliAttack={
     local enable=self:Is(0)
     local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
-      GameObject.SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable})
+      SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable})
     end
   end,
 }
@@ -1622,7 +1623,9 @@ IvarProc.MissionModeIvars(
   "attackHeliPatrols",
   {
     save=EXTERNAL,
-    range={max=4,min=0,increment=1},
+    --CULL range={max=4,min=0,increment=1},
+    settings={"0","1","2","3","4","ENEMY_PREP"},--SYNC #InfNPCHeli.heliNames.HP48
+    settingNames="attackHeliPatrolsSettings",
   },
   {"FREE","MB",}
 )
@@ -3463,7 +3466,7 @@ this.warpPlayerUpdate={
 
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()
-      InfMenu.menuOn=false
+      InfMenu.MenuOff()
     end
   end,
 }
@@ -3503,7 +3506,7 @@ this.adjustCameraUpdate={
 
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()--TODO only restore those that menu disables that this doesnt
-      InfMenu.menuOn=false
+      InfMenu.MenuOff()
     end
   end,
 }
@@ -3792,7 +3795,7 @@ local HeliEnabledGameCommand=function(self,previousSetting,setting)
   local enable=setting==1
   local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
   if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
-    GameObject.SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
+    SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
   end
 end
 
@@ -3823,7 +3826,7 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
-      GameObject.SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=setting})
+      SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=setting})
     end
   end,
 }
@@ -3844,7 +3847,7 @@ this.disablePullOutHeli={
       else
         command="EnablePullOut"
       end
-      GameObject.SendCommand(gameObjectId,{id=command})
+      SendCommand(gameObjectId,{id=command})
       InfHelicopter.HeliOrderRecieved()
     end
   end,
@@ -3859,7 +3862,7 @@ this.setLandingZoneWaitHeightTop={
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
-      GameObject.SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=setting})
+      SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=setting})
     end
   end,
 }
@@ -3880,7 +3883,7 @@ this.disableDescentToLandingZone={
       else
         command="EnableDescentToLandingZone"
       end
-      GameObject.SendCommand(gameObjectId,{id=command})
+      SendCommand(gameObjectId,{id=command})
     end
   end,
 }
@@ -3901,7 +3904,7 @@ this.setSearchLightForcedHeli={
         command={id="SetSearchLightForcedType",type="Off"}
       end
       if command then
-        GameObject.SendCommand(gameObjectId,command)
+        SendCommand(gameObjectId,command)
         InfHelicopter.HeliOrderRecieved()
       end
     end
@@ -4584,6 +4587,7 @@ function this.BuildIvar(name,ivar)
 
     if ivar.save and ivar.save==EXTERNAL then
       evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
+      ivars[ivar.name]=evars[ivar.name]--tex for late-defined/module ivars a previously saved value will already be loaded
     end
   end--is ivar
   return ivar
@@ -4597,13 +4601,19 @@ function this.SetupIvars()
 end
 
 function this.PostAllModulesLoad()
-  --DEBUGNOW
   --tex add module ivars to this
   for i,module in ipairs(InfModules) do
     if module.ivars then
       for name,ivarDef in pairs(module.ivars)do
         if this.IsIvar(ivarDef) then
           InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)--DEBUGNOW
+          --tex set them to nonconfig by default so to not trip up AutoDoc
+          if ivarDef.nonConfig~=false then--tex unless we specficially want it to be for config
+            ivarDef.nonConfig=true
+          end
+          if ivarDef.noDoc~=false then
+            ivarDef.noDoc=true
+          end
           this[name]=this.BuildIvar(name,ivarDef)
         end
       end
@@ -4625,6 +4635,15 @@ function this.PostAllModulesLoad()
       ivar.settingNames=ivar.settingNames or ivar.settings--tex fall back to settings table
     end
   end
+
+  --tex kill orphaned save values
+  for name,value in pairs(evars)do
+    if not ivars[name] then
+      InfCore.Log("Ivars.PostAllModulesLoad: Could not find ivar for evar "..name)
+      evars[name]=nil
+    end
+  end
+
 end
 --<
 

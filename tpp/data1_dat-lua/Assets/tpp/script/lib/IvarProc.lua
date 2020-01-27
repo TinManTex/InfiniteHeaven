@@ -774,7 +774,6 @@ function this.IsForProfile(item)
   if item.nonConfig
     or item.optionType~="OPTION"
     or item.nonUser
-    or item.nonConfig
     or item.save==nil
   then
     return false
@@ -917,23 +916,28 @@ end
 
 --IN/OUT saveTextList
 local evarLineFormatStr="\t%s=%g,"
+local evarOpen="this.evars={"
+local tableClose="}"
 function this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
-  saveTextList[#saveTextList+1]="this.evars={"
+  saveTextList[#saveTextList+1]=evarOpen
   for name,value in pairs(evars)do
     local ivar=Ivars[name]
-    if not onlyNonDefault or value~=ivar.default then
-      if ivar and ivar.save and ivar.save==this.CATEGORY_EXTERNAL then
+    if not ivar then
+      InfCore.Log("WARNING: IvarProc.BuildEvarsText: Could not find ivar for evar "..name)
+    elseif not onlyNonDefault or value~=ivar.default then
+      if ivar.save and ivar.save==this.CATEGORY_EXTERNAL then
         saveTextList[#saveTextList+1]=string.format(evarLineFormatStr,name,value)
       end
     end
   end
-  saveTextList[#saveTextList+1]="}"
+  saveTextList[#saveTextList+1]=tableClose
 end
 
 local saveLineFormatStr="\t%s=%s,"
 local saveLineFormatNumber="\t[%s]=%s,"
+local tableHeaderFmt="this.%s={"
 function this.BuildTableText(tableName,sourceTable,saveTextList)
-  saveTextList[#saveTextList+1]="this."..tableName.."={"
+  saveTextList[#saveTextList+1]=string.format(tableHeaderFmt,tableName)
   for k,v in pairs(sourceTable)do
     if type(k)=="number" then
       saveTextList[#saveTextList+1]=string.format(saveLineFormatNumber,k,tostring(v))
@@ -941,7 +945,7 @@ function this.BuildTableText(tableName,sourceTable,saveTextList)
       saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,tostring(v))
     end
   end
-  saveTextList[#saveTextList+1]="}"
+  saveTextList[#saveTextList+1]=tableClose
 end
 
 function this.WriteSave(saveTextLines,saveName)
@@ -966,13 +970,13 @@ local typeTable="table"
 --tex validates loadfiled module and returns table of just evars
 function this.ReadEvars(ih_save)
   if ih_save==nil then
-    local errorText="ReadEvars Error: ih_save==nil"
+    local errorText="ERROR: ReadEvars: ih_save==nil"
     InfCore.Log(errorText,true,true)
     return
   end
 
   if type(ih_save.evars)~=typeTable then
-    local errorText="ReadEvars Error: ih_save.evars~=typeTable"
+    local errorText="ERROR: ReadEvars: ih_save.evars~=typeTable"
     InfCore.Log(errorText,true,true)
     return
   end
@@ -980,16 +984,16 @@ function this.ReadEvars(ih_save)
   local loadedEvars={}
   for name,value in pairs(ih_save.evars) do
     if type(name)~=typeString then
-      InfCore.Log("ReadEvars ih_save: name~=string:"..tostring(name),false,true)
+      InfCore.Log("WARNING: ReadEvars ih_save: name~=string:"..tostring(name),false,true)
     else
       if type(value)~=typeNumber then
-        InfCore.Log("ReadEvars ih_save: value~=number: "..name.."="..tostring(value),false,true)
+        InfCore.Log("WARNING: ReadEvars ih_save: value~=number: "..name.."="..tostring(value),false,true)
       else
         --tex used to use this to clear out unknown ivars, 
         --but now that ivars can be defined in modules, and ReadEvars is run once before modules are loaded
         --they're now cleared in Ivars.PostAllModulesLoad / after the module ivars are added
         if ivars and ivars[name]==nil then
-          InfCore.Log("ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
+          InfCore.Log("WARNING: ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
         end
         loadedEvars[name]=value
       end

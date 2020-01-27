@@ -2309,6 +2309,8 @@ function this.UnsetAlertRoute(soldierId)
   end
 end
 function this.RegistRoutePointMessage(e)
+  InfCore.Log("-------!!!!!!!!!!!RegistRoutePointMessage")--tex DEBUGNOW cant see any calls to this, check if from engine (but even if so I would have expected to see some kind setfunc referencing it then)
+  InfCore.PrintInspect(e,"e")--tex DEBUGNOW
   if not IsTypeTable(e)then
     return
   end

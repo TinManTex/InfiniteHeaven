@@ -75,27 +75,27 @@ ACC Main menu
 15: Support heli menu
 16: Progression menu
 17: Debug menu
-19: playAnimMenu
 
 IH system menu
 --------------
 1: Enable IHExt : Off, On
 IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
-2: Select profile : <Profile type>
+2: Give IHExt focus : (Command)
+3: Select profile : <Profile name>
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
-3: Set profile options to game defaults : (Command)
+4: Set profile options to game defaults : (Command)
 Sets the options described in the selected profile to their default setting.
-4: Save to UserSaved profile : (Command)
+5: Save to UserSaved profile : (Command)
 Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
-5: Enable Quick Menu : Off, On
+6: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-6: Start offline : Off, On
+7: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-7: Skip startup logos : Off, On
+8: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-8: Load addon mission : 
-9: Include addon missions in completion percentage : Off, On
-10: Reset all IH settings : (Command)
+9: Load addon mission : 
+10: Include addon missions in completion percentage : Off, On
+11: Reset all IH settings : (Command)
 
 Events menu
 -----------
@@ -470,9 +470,9 @@ Patrols and deployments menu
 Foot patrols will travel between random CPs and will cross the field to get there.
 2: Wildcard soldiers Free roam : Off, On
 Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
-3: Attack heli patrols in free roam : 0-4
+3: Attack heli patrols in free roam : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
-4: Attack heli patrols in MB : 0-4
+4: Attack heli patrols in MB : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Spawns some npc attack helis that roam around mother base.
 5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
 6: Walker gears in free roam : Off, On
@@ -532,7 +532,7 @@ Mother Base menu
 6: DD Head gear : Off, Current prep
 7: NPC support heli patrols in MB : 0-3
 Spawns some npc support helis that roam around mother base.
-8: Attack heli patrols in MB : 0-4
+8: Attack heli patrols in MB : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Spawns some npc attack helis that roam around mother base.
 9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
 10: Walker gears in MB : Off, On
@@ -748,10 +748,6 @@ appearanceDebugMenu
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
-
-playAnimMenu
-------------
-1: ivarTest : 0-1
 
 ===============
 

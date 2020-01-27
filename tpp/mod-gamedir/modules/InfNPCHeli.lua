@@ -307,13 +307,13 @@ end
 
 function this.Init(missionTable,currentChecks)
   this.messageExecTable=nil
-  
+
   this.active=0
 
   if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
     return
   end
-  
+
   this.active=1
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -321,9 +321,17 @@ function this.Init(missionTable,currentChecks)
   local isMb=vars.missionCode==30050
   local isOuterPlat=vars.missionCode==30150 or vars.missionCode==30250
 
-  this.heliList={}    
-  
+  this.heliList={}
+
   local numAttackHelis=IvarProc.GetForMission(attackHeliPatrolsStr)
+
+  local level=InfMain.GetAverageRevengeLevel()
+  if numAttackHelis>#this.heliNames.HP48 then--tex ENEMY_PREP
+    local levelToHeli={0,1,2,3,4,4}--tex SYNC #this.heliNames.HP48
+    numAttackHelis=levelToHeli[level+1]
+  end
+  InfCore.Log("InfNPCHeli.Init: AverageRevengeLevel:"..level.." numAttackHelis:"..numAttackHelis)--DEBUGNOW
+
   if isOuterPlat then
     return
   elseif isMb then
@@ -439,7 +447,7 @@ function this.OnReload(missionTable)
   if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
     return
   end
-  
+
   this.active=1
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -481,7 +489,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if not currentChecks.inGame then
     return
   end
-  
+
   if this.active==0 then
     return
   end

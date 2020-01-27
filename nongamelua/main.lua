@@ -1266,19 +1266,165 @@ local function PrintEquipId()
 end
 
 
+local function GetLinesUnique(path)
+  print(path)
+  local file=io.open(path,"r")
+  local lines = {}
+  -- read the lines in table 'lines'
+  for line in file:lines() do
+    lines[line]=true
+  end
+  file:close()
+  return lines
+end
+
+local function GetLines(path)
+  print(path)
+  local file=io.open(path,"r")
+  local lines = {}
+  -- read the lines in table 'lines'
+  for line in file:lines() do
+    table.insert(lines,line)
+  end
+  file:close()
+  return lines
+end
+
+local function FindUnacounterHashes()
+
+
+  local tppDict=GetLinesUnique([[D:\GitHub\mgsv-lookup-strings\FmdlTool\fmdl_dictionary_tpp.txt]])
+
+  local supTypes={
+    "bones",
+    "materials",
+    "meshGroups",
+    "texturetype",
+    "unknown",
+  }
+
+  for i,subType in ipairs(supTypes)do
+    local path = [[D:\GitHub\mgsv-lookup-strings\FmdlTool\Dictionaries\]] .. subType..".txt"
+    local lines=GetLinesUnique(path)
+    for line,bool in pairs(lines)do
+      tppDict[line]=nil
+    end
+  end
+
+  local culled={}
+  for line,bool in pairs(tppDict)do
+    table.insert(culled,line)
+  end
+  table.sort(culled)
+  local nl="\r"
+  local fileName=[[D:\GitHub\mgsv-lookup-strings\FmdlTool\Dictionaries\unaccounted.txt]]
+  local file=io.open(fileName,"w")
+  file:write(table.concat(culled,nl))
+  file:close()
+end
+
+--tex input gz fmdl strings (from fmdltool fork)
+--and attempt to reconstruct paths
+local function ReconstructGZPaths()
+
+  local gzFmdlStringsPath=[[D:\GitHub\mgsv-lookup-strings\FmdlTool\Strings\]]
+  local outFile=[[D:\Projects\MGS\!ToolOutput\]].."dir.txt"
+  local cmd=[[dir /b /s "]]..gzFmdlStringsPath..[[*.txt" > "]]..outFile
+  print(cmd)
+  os.execute(cmd)
+
+  local dirs=GetLines(outFile)
+  --InfCore.PrintInspect(dirs)--DEBUG
+
+  local completeUnique={}
+
+  for i,dir in ipairs(dirs)do
+    print(dir)
+    local lines=GetLines(dir)
+    local paths={}
+    local fileNames={}
+    for i,line in ipairs(lines)do
+      if string.find(line,'/') then
+        table.insert(paths,line)
+      elseif string.find(line,'%.') then
+        table.insert(fileNames,line)
+      end
+    end
+    --InfCore.PrintInspect(paths,"paths")--DEBUGNOW
+    --InfCore.PrintInspect(fileNames,"fileNames")--DEBUGNOW
+    for i,path in ipairs(paths)do
+      for j,fileName in ipairs(fileNames)do
+        completeUnique[path..fileName]=true
+      end
+    end
+  end
+
+  print("sorting and writing")
+  local complete={}
+  for path,bool in pairs(completeUnique)do
+    table.insert(complete,path)
+  end
+  table.sort(complete)
+  
+
+  local nl="\r"
+  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
+  local file=io.open(fileName,"w")
+  file:write(table.concat(complete,nl))
+  file:close()
+  
+  
+    for i,path in ipairs(complete)do
+    complete[i]=InfUtil.StripExt(path)
+  end
+  table.sort(complete)
+  
+  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePathsNoExt.txt]]
+  local file=io.open(fileName,"w")
+  file:write(table.concat(complete,nl))
+  file:close()
+  
+
+  --for each *.fmdl_strings.txt
+  --
+  --for each line
+  --  find '/'
+  --   add to paths
+  --
+  --for each line
+  --  find '.tga','.dds','.psd' ?
+  --    add to files
+  --
+  --
+  --
+  --for each paths
+  --  for each files
+  --    add path..filename to complete
+  --
+  --
+  --for each complete
+  --  strip extension?
+
+end
+
 local function main()
 
-local bep=(true and 'blurg') or false
-print("bep:"..tostring(bep))
+  --tex figure out unnacounted hashes
+  --FindUnacountedHashes()
 
-local bop=(false and 'blorg') or false
-print("bop:"..tostring(bop))
+  ReconstructGZPaths()
 
-print"-///////---------"
---DEBUGNOW
+  local bep=(true and 'blurg') or false
+  print("bep:"..tostring(bep))
+
+  local bop=(false and 'blorg') or false
+  print("bop:"..tostring(bop))
+
+  print"-///////---------"
+  --DEBUGNOW
 
   print("main()")
-  
+
   local bit=require'bit'
 
 
@@ -1286,13 +1432,13 @@ print"-///////---------"
   print"Running AutoDoc"
   local InfAutoDoc=require"InfAutoDoc"
   InfAutoDoc.AutoDoc()
-  
+
   print"BLEHHHHHHHHHHHHHHH"
   print(InfUtil.GetLocationName())
 
 
 
---TESTSHIZ
+  --TESTSHIZ
   --WriteDefaultIvarProfile()
 
   --PrintGenericRoutes()
@@ -1380,74 +1526,74 @@ print"-///////---------"
 
 
 
-local blah={
-  '<?xml version="1.0" encoding="utf-8"?>\n',
-  {
+  local blah={
+    '<?xml version="1.0" encoding="utf-8"?>\n',
     {
       {
-        empty = 1,
-        label = "Entry",
-        xarg = {
-          Color = "1",
-          LangId = "unit_metre",
-          Value = "m"
-        }
+        {
+          empty = 1,
+          label = "Entry",
+          xarg = {
+            Color = "1",
+            LangId = "unit_metre",
+            Value = "m"
+          }
+        },
+        {
+          empty = 1,
+          label = "Entry",
+          xarg = {
+            Color = "1",
+            LangId = "mb_title_gmp",
+            Value = "GMP"
+          }
+        },
+        {
+          empty = 1,
+          label = "Entry",
+          xarg = {
+            Color = "1",
+            LangId = "mb_title_time",
+            Value = "TIME"
+          }
+        },
+        {
+          empty = 1,
+          label = "Entry",
+          xarg = {
+            Color = "1",
+            LangId = "common_new",
+            Value = "NEW"
+          }
+        },
+        {
+          empty = 1,
+          label = "Entry",
+          xarg = {
+            Color = "1",
+            LangId = "tpp_gmp",
+            Value = "GMP"
+          }
+        },
+        {
+          empty = 1,
+          label = "Entry",
+          xarg = {
+            Color = "1",
+            LangId = "tpp_loc_afghan",
+            Value = "Northern Kabul, Afghanistan"
+          }
+        },
+        label = "Entries"
       },
-      {
-        empty = 1,
-        label = "Entry",
-        xarg = {
-          Color = "1",
-          LangId = "mb_title_gmp",
-          Value = "GMP"
-        }
-      },
-      {
-        empty = 1,
-        label = "Entry",
-        xarg = {
-          Color = "1",
-          LangId = "mb_title_time",
-          Value = "TIME"
-        }
-      },
-      {
-        empty = 1,
-        label = "Entry",
-        xarg = {
-          Color = "1",
-          LangId = "common_new",
-          Value = "NEW"
-        }
-      },
-      {
-        empty = 1,
-        label = "Entry",
-        xarg = {
-          Color = "1",
-          LangId = "tpp_gmp",
-          Value = "GMP"
-        }
-      },
-      {
-        empty = 1,
-        label = "Entry",
-        xarg = {
-          Color = "1",
-          LangId = "tpp_loc_afghan",
-          Value = "Northern Kabul, Afghanistan"
-        }
-      },
-      label = "Entries"
-    },
-    label = "LangFile",
-    xarg = {
-      Endianess = "BigEndian",
-      xsd = "http://www.w3.org/2001/XMLSchema",
-      xsi = "http://www.w3.org/2001/XMLSchema-instance"
+      label = "LangFile",
+      xarg = {
+        Endianess = "BigEndian",
+        xsd = "http://www.w3.org/2001/XMLSchema",
+        xsi = "http://www.w3.org/2001/XMLSchema-instance"
+      }
     }
   }
-}
 
 
   print"main done"

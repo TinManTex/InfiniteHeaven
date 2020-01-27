@@ -11,7 +11,7 @@ this.ivars={
 }
 
 this.playAnimMenu={
-  nonConfig=true,--DEBUGNOW
+  description="Play anim menu",--DEBUGNOW
   context="HELISPACE",
   options={
     "Ivars.ivarTest",

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r219 - 2017-09-03
+r220 - 2017-09-11
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,10 +16,19 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r220:
+Addition: Added 'Enemy prep' setting to Attack heli patrols options (return of an old feature) - sets the number of helis to scale with enemy prep level.
+
+Fixed: Hang on load when ih_save contains an unknown variable (most recently caused by my rename of heliPatrols ivars) - thanks ashy8000 for the save files and others for the reports.
+
+Fixed: Re-added <Action> tag to options that have OnActivate, was a bit too zealous in removing it. 
+
 New for r219:
 (Actually added in r218, but not in easily accessable menu)
 Options: setStageBlockPositionToMarkerClosest, setStageBlockPositionToFreeCam, resetStageBlockPosition - sets stageblock loading position. You have to put player in a safe spot/bump player health to 650% so they dont die when their current position unloads and they (may) fall through terrain till they hit level floor.
 (via in mission debug menu)
+[youtube]A_XJeQk0kvI[/youtube]
+https://youtu.be/A_XJeQk0kvI
 
 Fixed: Lag or load hangs due to a file that was removed for r218 that may have been left in MGS_TPP\mod\modules if mod user didn't uninstall r217 or earlier correctly using snakebite.
 
@@ -81,138 +90,6 @@ Menu: Staff menu, apart from the above, mbPrioritizeFemale,mbMoraleBoosts have b
 
 Option: mbEnableMissionPrep - "Enable mission prep to MB" - may require an exit/return from ACC to take effect.
 (via Mission-prep restrictions menu)
-
-New for r212:
-Fixed: Primary/Secondary NONE slots conflicting with swimsuit dev entries.
-Fixed: Camo type appearance menu option erroring when no developed camos for current suit.
-Fixed: Suit type option now sets playerCamoType on change.
-
-New for r211:
-Updated for mgstpp 1.0.11.0
-
-Added: itemLevelIntScope - Int-Scope level, itemLevelIDroid - Int-Scope level. Lets you set the item grade - thanks Saladin1251 for the suggestion. 
-(via Player restrictions > Item level menu)
-
-Fixed: Invisible tanks in Afghanistan freeroam sideops with vehicle patrols on. Misspelled veh_rl_east_tnk_fpkd as veh_rl_east_tank_fpkd when I renamed them back in r196 due to snakebite dictionary update. Oops - thanks pk5547 for save data and report.
-
-New for r210:
-Fixed: Quarantine platform soldiers having no weapons with custom equip table.
-Fixed: mbNpcRouteChange - 'Soldiers move between platforms' not working on initial cluster load, looks like I broke it in r208 - thanks pk5547 for save data, others for the report.
-Fixed: Additional npcs with no faces on quarantine and Skulls T-Posing, just disabling additional npcs on quarantine completely at the moment - thanks pk5547 for save data and report.
-Fixed: InfEquip.DropItem on GetPosition nil (Eli)
-
-New for r209:
-Fixed: Skulls event being forced to Sniper skulls, forgot to revert my debug test which means:
-Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls.
-Should actually be fixed now. Sorry.
-Fixed: Accidentally left out the IH mother base animal sideops, Blackfoot Down in r208. Woops.
-Fixed: Not being able to use weapons/weapon ammo count wrong with custom soldier equipment and other settings on alongside sideops mod. Thanks various people for reports.
-
-New for r208:
-Fixed: Female soldiers defaulting to male olive drab body when DD suit female set to Off instead of olive drab female while DD Suit for male not Off - thanks Saladin1251 for the report and save files.
-Fixed: Invisible helmets for female wildcard soldiers (removed helmet propety alltogether) - thanks halo4kid for the report.
-
-Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls. Thanks AyyKyu for the report and files.
-
-Fixed: Sideop list not showing sideops > 192. This is a hard limit in the ui, this workaround manages by skipping random cleared but not currently active sideops. Reroll sideops selection will also reroll this selection.
-
-Option: showAllOpenSideopsOnUi "Show all open sideops" - "Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list."
-(via Sideops menu)
-
-Option: speedCamNoDustEffect - "No screen effect" - "Does not apply the dust and blur effect while TSM is active."
-(via Time scale menu)
-
-New for r207:
-Fixed: 'Fatigues All' Custom soldier type/DD suit hanging on load.
-
-Addition: Addon sideop on Sideop selection mode to filter for additional sideops.
-
-New for r206:
-Option: rerollQuestSelection - Reroll sideops selection
-(via Sideops menu)
-
-Fixed: NPC positions on outer clusters when command cluster is under grad 4/not fully built (currently just disabling NPCs on the outer clusters for that situation).
-
-Fixed: XRay markers. No idea how I broke it, or more specifically why it was working when it was called where it was.
-
-Option: hideContainersMB - "Hide containers"
-Option: hideAACannonsMB - "Hide AA cannons"
-Option: hideAAGatlingsMB - "Hide AA gatlings"
-Option: hideTurretMgsMB - "Hide turret machineguns"
-(via Mother base > Show Assets menu)
-Removing AA guns can be good for wargames if you dont want something that can swiss cheese helis around.
-Removing all the AA and the conainers can be useful if you want to drive/gallop around the platforms without so much stuff being in the way.
-
-Fixed: Some custom soldier type/dd suit bodies incorrect.
-
-New for r205:
-Option addition: DD Suit - Fatigues All - will have random selection from all fatigue camos.
-
-Fixed: various DD suit/wildcard females issues. 
-
-Option: enableFultonAlarmsMB - "Enable asset alarms" - "Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once."
-Option: enableIRSensorsMB - "Enable ir sensors" - "Enable ir sensor gates. Only partially working, will only be at level 1 (one beam) and will only trigger alarm once."
-(via Mother base > Show Assets menu)
-[youtube]4tzwI6daxI0[/youtube]
-https://youtu.be/4tzwI6daxI0
-
-Option: mbShowShips - "Show ships" - Shows some ships around mother base.
-(via Mother base > Show Assets menu)
-[youtube]UQBKTgKCT9o[/youtube]
-https://youtu.be/UQBKTgKCT9o
-
-Sideop update: Blackfoot down updated. Added soldiers to river LZ (routes from q11050).
-
-Option change: Add/subtract demon points decreased to 90k per use - thanks SoullessMadness for the suggestion.
-See https://www.gamefaqs.com/boards/718564-metal-gear-solid-v-the-phantom-pain/72466130 for breakdown of the demon points levels.
-
-New for r204:
-Improved: Soldier item drop now has chance to drop Pentezemin, Noctocyanin, Acceleramin. 
-
-Sideop: Blackfoot down, was mostly built for testing out sideop features.
-[youtube]3PUfwreDMNI[/youtube]
-https://youtu.be/3PUfwreDMNI
-
-Command: Save to UserSaved profile. - "Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua."
-(via IH system menu)
-
-Fixed: Setting Custom soldier type to a DD body showing the Staff member has died message/points - thanks coolguy3090 for the report.
-
-Change: <STANCE> heli-pull out toggle changed from press to hold 0.85.
-
-New for r202:
-Fixed: Number of helis on < 7 clusters, including mass bunching when only command is built.
-
-Option: ihSideopsPercentageCount - "Include IH sideops in completion percentage." - Additional IH sideops count towards game completion percent - defaults to off.
-(via sideops menu)
-
-Option: mbAdditionalNpcs - "Additional NPCs" - Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
-(via mother base > Show characters menu)
-[youtube]Z3oZfrW1Ads[/youtube]
-https://youtu.be/Z3oZfrW1Ads
-
-MGO headgear fova mod
-[youtube]QJpDwlRCybg[/youtube]
-https://youtu.be/QJpDwlRCybg
-(must download from IH nexus files page under optional files)
-
-New for r201:
-Fixed: Mother base soldier getting set to hostile - thanks captainking91, others for the reports
-Option: customSoldierTypeFREE - Custom soldier type in Free roam - Override the soldier type of enemy soldiers in Free Roam.
-(via Enemy Prep menu)
-Added settings for DD suit (same options as Custom soldier type): MSF GZ, XOF Gasmasks, XOF GZ, Genome Soldier. May need to re set your DD suit setting as some existing items in list have been shifted.
-[youtube]lbTLjpAjGso[/youtube]
-https://youtu.be/lbTLjpAjGso
-[youtube]fNusYTO57hA[/youtube]
-https://youtu.be/fNusYTO57hA
-
-New for r200:
-Option: forceDemoAllowAction - "Force allow actions" - Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod on the IH files page.
-(via Cutscenes menu)
-
-Feature: Quickmenu binds for when cutscenes running, currently only Free cam useful with above option and Disable cutscene camera mod.
-[youtube]cmCK82ft9Oo[/youtube]
-https://youtu.be/cmCK82ft9Oo
 
 Disclaimer:
 ------------------------------
@@ -305,6 +182,8 @@ Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
 Various people for their donations, including:
+Domenico
+Jeong
 Lee
 Nicholas
 Gary

@@ -161,24 +161,24 @@ function this.DispGuide_TrapCarryThrow()
     TppUiCommand.CallButtonGuide(e)
   end
 end
-function this.DispGuide(n,i,_)
-  local T=TppStory.GetCurrentStorySequence()
+function this.DispGuide(tipName,displayOption,_)
+  local storySequence=TppStory.GetCurrentStorySequence()
   local isNotAlert=not Tpp.IsNotAlert()
-  if i==this.DISPLAY_OPTION.TIPS then
-    this.DispTipsGuide(n,T,isNotAlert,_)
-  elseif i==this.DISPLAY_OPTION.CONTROL then
-    this.DispControlGuide(n,T,isNotAlert,_)
-  elseif i==this.DISPLAY_OPTION.TIPS_CONTROL then
-    this.DispControlGuide(n,T,isNotAlert)
-    this.DispTipsGuide(n,T,isNotAlert)
-  elseif i==this.DISPLAY_OPTION.PAUSE_CONTROL then
-    this.DispControlGuide(n,T,isNotAlert,nil,true)
-  elseif i==this.DISPLAY_OPTION.TIPS_IGONORE_RADIO then
-    this.DispTipsGuide(n,T,isNotAlert,_,false,true)
-  elseif i==this.DISPLAY_OPTION.CONTROL_IGONORE_RADIO then
-    this.DispControlGuide(n,T,isNotAlert,_,false,true)
-  elseif i==this.DISPLAY_OPTION.TIPS_IGONORE_DISPLAY then
-    this.DispTipsGuide(n,T,isNotAlert,_,false,false,true)
+  if displayOption==this.DISPLAY_OPTION.TIPS then
+    this.DispTipsGuide(tipName,storySequence,isNotAlert,_)
+  elseif displayOption==this.DISPLAY_OPTION.CONTROL then
+    this.DispControlGuide(tipName,storySequence,isNotAlert,_)
+  elseif displayOption==this.DISPLAY_OPTION.TIPS_CONTROL then
+    this.DispControlGuide(tipName,storySequence,isNotAlert)
+    this.DispTipsGuide(tipName,storySequence,isNotAlert)
+  elseif displayOption==this.DISPLAY_OPTION.PAUSE_CONTROL then
+    this.DispControlGuide(tipName,storySequence,isNotAlert,nil,true)
+  elseif displayOption==this.DISPLAY_OPTION.TIPS_IGONORE_RADIO then
+    this.DispTipsGuide(tipName,storySequence,isNotAlert,_,false,true)
+  elseif displayOption==this.DISPLAY_OPTION.CONTROL_IGONORE_RADIO then
+    this.DispControlGuide(tipName,storySequence,isNotAlert,_,false,true)
+  elseif displayOption==this.DISPLAY_OPTION.TIPS_IGONORE_DISPLAY then
+    this.DispTipsGuide(tipName,storySequence,isNotAlert,_,false,false,true)
   end
 end
 function this.DispTipsGuide(n,i,S,O,T,_,p)

@@ -1819,7 +1819,7 @@ function this.GetAverageRevengeLevel()
   local stealthLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)
   local combatLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
 
-  return math.ceil((stealthLevel+combatLevel)/2)
+  return math.floor((stealthLevel+combatLevel)/2)
 end
 
 --tex doesn't seem to work, either I'm doing something wrong or the buddy system doesnt use it for mb

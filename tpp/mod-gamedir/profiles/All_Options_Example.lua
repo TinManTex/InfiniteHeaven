@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r219
+-- Defaults / example of all profile options for IH r220
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -212,8 +212,8 @@ local this={
 		--Patrols and deployments menu
 		enableLrrpFreeRoam=0,--{ 0-1 } -- Foot patrols in free roam
 		enableWildCardFreeRoam=0,--{ 0-1 } -- Wildcard soldiers Free roam
-		attackHeliPatrolsFREE=0,--{ 0-4 } -- Attack heli patrols in free roam
-		attackHeliPatrolsMB=0,--{ 0-4 } -- Attack heli patrols in MB
+		attackHeliPatrolsFREE="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in free roam
+		attackHeliPatrolsMB="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in MB
 		mbEnemyHeliColor=0,--{ DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Attack heli class
 		enableWalkerGearsFREE=0,--{ 0-1 } -- Walker gears in free roam
 		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears in MB

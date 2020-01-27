@@ -131,6 +131,14 @@ this.routeSets = {
   },
 }
 
+--DEBUGNOW defined in InfDebugRoutes module
+if ivars.debugEnableRouteTest==1 then
+  --tex overwrite cp with just one soldier with no routes set.
+  this.soldierDefine.mbqf_mtbs_cp={"sol_mtbs_0000",}
+  this.routeSets.mbqf_mtbs_cp.sneak_day.groupA =   {}
+  this.routeSets.mbqf_mtbs_cp.sneak_night.groupA = {}
+end
+
 this.combatSetting = {
   nil
 }

@@ -100,8 +100,8 @@ this.sideOpsCategoryMenu={
 local ivarPrefix="sideops_"
 for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
   if categoryName~="ADDON_QUEST" then--tex only for selection ivar currently
-  local ivarName=ivarPrefix..categoryName
-  table.insert(this.sideOpsCategoryMenu.options,"Ivars."..ivarName)
+    local ivarName=ivarPrefix..categoryName
+    table.insert(this.sideOpsCategoryMenu.options,"Ivars."..ivarName)
   end
 end
 
@@ -609,6 +609,7 @@ this.buddyMenu={
 this.systemMenu={
   options={
     "Ivars.enableIHExt",
+    "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
     "Ivars.selectProfile",
     --"InfMenuCommands.ApplySelectedProfile",
     "InfMenuCommands.ResetSelectedProfile",
@@ -640,6 +641,7 @@ this.mbOceanMenu={
 }
 
 this.devInAccMenu={
+  noDoc=true,
   nonConfig=true,
   options={
     "InfMenuCommands.DEBUG_SomeShiz",
@@ -667,6 +669,7 @@ this.devInAccMenu={
 this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
+  insertEndOffset=1,--tex MenuOffItem
   options={
     "InfMenuDefs.systemMenu",
     "InfMenuDefs.eventsMenu",
@@ -690,7 +693,6 @@ this.heliSpaceMenu={
 }
 
 this.debugInMissionMenu={
-  nonConfig=true,
   options={
     "InfMenuDefs.appearanceMenu",
     "InfMenuDefs.appearanceDebugMenu",
@@ -741,6 +743,7 @@ this.debugInMissionMenu={
 }
 
 this.devInMissionMenu={
+  noDoc=true,
   nonConfig=true,
   options={
     "InfCore.StartExt",--DEBUGNOW
@@ -749,7 +752,7 @@ this.devInMissionMenu={
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
-    "InfMenuCommands.DEBUG_SomeShiz3",    
+    "InfMenuCommands.DEBUG_SomeShiz3",
     "InfMenuCommands.SetSelectedObjectToMarkerClosest",
     --"Ivars.selectedCp",
     --"InfMenuCommands.SetSelectedCpToMarkerObjectCp",
@@ -789,6 +792,7 @@ this.devInMissionMenu={
 this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
+  insertEndOffset=2,--tex ResetSettingsItem,MenuOffItem
   options={
     "InfMenuCommands.RequestHeliLzToLastMarker",
     "InfMenuCommands.ForceExitHeli",
@@ -820,7 +824,7 @@ local IsFunc=Tpp.IsTypeFunc
 
 --tex build up full item object from partial definition
 function this.BuildMenuItem(name,item)
- if IsTable(item) then
+  if IsTable(item) then
     if item.options then
       item.optionType=optionType
       item.name=name
@@ -836,7 +840,7 @@ function this.BuildMenuItem(name,item)
   end
 end
 
---WIP DEBUGNOW 
+--WIP DEBUGNOW
 this.menuForContext={
   HELISPACE=this.heliSpaceMenu,
   MISSION=this.inMissionMenu,
@@ -844,12 +848,25 @@ this.menuForContext={
 
 function this.PostAllModulesLoad()
   InfCore.LogFlow("Adding module menuDefs")
+  
+  --tex DEBUGNOW monkeying around with inserting menu items currently breaks AutoDoc
+  if isMockFox then
+    return
+  end
+  
   for i,module in ipairs(InfModules) do
     if IsTable(module.menuDefs) then
       for name,menuDef in pairs(module.menuDefs)do
         local newRef=module.name.."."..name
         InfCore.Log(newRef)
         this.BuildMenuItem(name,menuDef)
+        --tex set them to nonconfig by default so to not trip up AutoDoc
+        if menuDef.nonConfig~=false then--tex unless we specficially want it to be for config
+          menuDef.nonConfig=true
+        end
+        if menuDef.noDoc~=false then
+          menuDef.noDoc=true
+        end        
         if menuDef.context then
           local menuForContext=this.menuForContext[menuDef.context]
           if menuForContext then
@@ -863,13 +880,21 @@ function this.PostAllModulesLoad()
               end
             end
             if not alreadyAdded then
-              InfCore.Log("Adding "..newRef.." to menu")
-              table.insert(menuForContext.options,newRef)
+              local insertPos = menuForContext.insertEndOffset and (#menuForContext.options-menuForContext.insertEndOffset) or #menuForContext.options
+              InfCore.Log("Adding "..newRef.." to menu at pos "..insertPos.." of "..#menuForContext.options)
+              table.insert(menuForContext.options,insertPos,newRef)
             end
           end
         end
       end
     end
+  end
+
+  if ivars.enableIHExt>0 then--DEBUGNOW TODO another ivar, also change 'Turn off menu' to only add if ivar
+    local insertPos=#this.heliSpaceMenu.options-this.heliSpaceMenu.insertEndOffset
+    this.heliSpaceMenu.options[insertPos]="InfMgsvToExt.TakeFocus"
+    local insertPos=#this.inMissionMenu.options-this.inMissionMenu.insertEndOffset
+    this.inMissionMenu.options[insertPos]="InfMgsvToExt.TakeFocus"
   end
 end
 
@@ -900,7 +925,7 @@ for n,item in pairs(this) do
         if type(optionRef)~="string"then
           InfCore.Log("InfMenuDefs: WARNING option "..i.." on menu "..n.."~=string")
         end
-      end
+    end
     end
   end
 end

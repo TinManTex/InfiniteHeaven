@@ -1,5 +1,18 @@
 Infinite Heaven changelog
 
+r220 - 2017-09-11
+Addition: Added 'Enemy prep' setting to Attack heli patrols options - sets the number of helis to scale with enemy prep level.
+
+Fixed: Hang on load when ih_save contains an unknown variable (most recently caused by my rename of heliPatrols ivars) - an access to the ivar slipped outside of my check to see if the ivar actually existed. - thanks ashy8000 for the save files and others for the reports.
+
+Fixed: Re-added <Action> tag to options that have OnActivate, was a bit too zealous in removing it. 
+
+InfButton: some localopts, adjustments for repeat speed with IHExt.
+
+Debugging: InfCore.PCall force logs error.
+
+IHExt: Output menu to list.
+
 r219 - 2017-09-03
 (Actually added in r218, but not in easily accessable menu)
 Options: setStageBlockPositionToMarkerClosest, setStageBlockPositionToFreeCam, resetStageBlockPosition - sets stageblock loading position. You have to put player in a safe spot/bump player health to 650% so they dont die when their current position unloads and they (may) fall through terrain till they hit level floor.
@@ -7,6 +20,8 @@ Options: setStageBlockPositionToMarkerClosest, setStageBlockPositionToFreeCam, r
 
 Fixed: Lag or load hangs due to a file that was removed for r218 that may have been left in MGS_TPP\mod\modules if mod user didn't uninstall r217 or earlier correctly using snakebite.
 Detail: Added empty function InfCore.DoToMgsvCommands which InfProcessExt calls. Would not have been an issue except I also removed the ivar that would exit before the call and the check for it was ==0, a not ivar would have covered the ivar being null too and prevented the issue (though I would not have been aware of the file lingering for some users).
+
+Modules: Support for Ivar and menu definitions in IH modules.
 
 r218 - 2017-08-31
 heliPatrolsMB, heliPatrolsFREE renamed attackHeliPatrolsFREE, attackHeliPatrolsFREE "Attack heli patrols in free roam",

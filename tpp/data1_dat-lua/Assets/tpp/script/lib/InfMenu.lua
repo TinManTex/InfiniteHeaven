@@ -27,10 +27,14 @@ this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
 this.autoRatePressed=0.1
 this.autoDisplayRate=this.autoDisplayDefault
+this.repeatRateDefault=0.85
+this.repeatRateIHExt=0.25
 this.menuOn=false
 this.quickMenuOn=false
 this.toggleMenuHoldTime=1.25
 this.quickMenuHoldTime=0.8
+this.menuAltButton=InfButton.ZOOM_CHANGE
+this.menuAltActive=InfButton.SUBJECT
 this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
@@ -299,9 +303,10 @@ end
 
 function this.GoMenu(menu,goBack)
   if menu.options==nil then
-    InfCore.DebugPrint("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu")
+    InfCore.Log("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu",true,true)
     return
   end
+  InfCore.LogFlow("InfMenu.GoMenu:"..menu.name)--DEBUG
 
   if not goBack and menu~=this.topMenu then
     menu.parent=this.currentMenu
@@ -321,9 +326,9 @@ function this.GoMenu(menu,goBack)
   this.currentMenuOptions=menu.options
 
   if InfCore.IHExtRunning() then
-    --InfCore.ExtCmd'clear'
+    InfCore.ExtCmd('ClearTable','menuItems')
     if menu==this.topMenu then
-      --InfCore.ExtCmd("print","Top menu")
+    --InfCore.ExtCmd("print","Top menu")
     end
     if menu.parent then
       local optionIndex=menu.parentOption
@@ -331,7 +336,7 @@ function this.GoMenu(menu,goBack)
       local option=this.GetOptionFromRef(optionRef)
       if option then
         local settingText=this.GetSettingText(optionIndex,option,false,true)
-        --InfCore.ExtCmd("print",settingText)
+        --InfCore.ExtCmd('SetContent','menuName',settingText)
       end
     end
     --InfCore.ExtCmd("print","----------")
@@ -342,17 +347,18 @@ function this.GoMenu(menu,goBack)
         if option.OnSelect then
           option:OnSelect(ivars[option.name])
         end
-        local settingText=this.GetSettingText(optionIndex,option,false,true)
-        --InfCore.ExtCmd('print',settingText)
+        local settingText=this.GetSettingText(optionIndex,option,false,false)
+        InfCore.ExtCmd('AddToTable','menuItems',settingText)
       end
     end
-    local optionIndex=this.currentIndex
-    local optionRef=this.currentMenuOptions[optionIndex]
-    local option=this.GetOptionFromRef(optionRef)
-    if option~=nil then
-      local settingText=this.GetSettingText(optionIndex,option,false)
-      InfMgsvToExt.SetMenuLine(settingText)
-    end
+    --CULL handled by displaycurrent
+--    local optionIndex=this.currentIndex
+--    local optionRef=this.currentMenuOptions[optionIndex]
+--    local option=this.GetOptionFromRef(optionRef)
+--    if option~=nil then
+--      local settingText=this.GetSettingText(optionIndex,option,false)
+--      InfMgsvToExt.SetMenuLine(settingText)
+--    end
   end
 
   this.GetSetting(previousIndex,previousMenuOptions)
@@ -429,6 +435,12 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
     optionSeperator=itemIndicators.equals
     settingText=tostring(currentSetting)
   end
+  
+  if option.OnActivate then
+    if not option.noActivateText then
+      optionSeperator=itemIndicators.activate..optionSeperator
+    end
+  end
 
   if option.isPercent then
     settingSuffix="%"
@@ -502,9 +514,9 @@ end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
     if GetElapsedTime()-this.lastDisplay>this.autoDisplayRate then
-      --if #InfMessageLog.display==0 then
-      this.DisplayCurrentSetting(true)
-      --end
+      if not InfCore.IHExtRunning() then
+        this.DisplayCurrentSetting(true)
+      end
     end
   end
   --OFF
@@ -735,7 +747,6 @@ function this.OnActivate()
     local option=this.GetOptionFromRef(optionRef)
     if option then
       local settingText=this.GetSettingText(optionIndex,option,false)
-      --InfCore.ExtCmd("printbottom",settingText)
       InfMgsvToExt.SetMenuLine(settingText)
     end
   end
@@ -752,9 +763,6 @@ function this.OnDeactivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.HideMenu()
-
-    --InfCore.ExtCmd("clear")
-    --InfCore.ExtCmd("printbottom",this.LangString"menu_off")
   end
 end
 
@@ -775,13 +783,21 @@ function this.Update(execCheck)
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   if not execCheck.inGame then
-    this.menuOn = false
+    if this.menuOn then
+      this.MenuOff()
+    end
   else
     if this.menuOn then
       --TODO NOTE controlset deactivate on game state change
       if not this.CheckActivate(execCheck) then
-        this.menuOn=false
-        this.OnDeactivate()
+        this.MenuOff()
+        return
+      end
+
+      --tex while pause is bound to escape key by default it is not actually the ESCAPE button mask
+      --so if pause is bound to something else this wont catch it.
+      if InfButton.OnButtonDown(InfButton.ESCAPE) then
+        this.MenuOff()
         return
       end
     end
@@ -804,6 +820,12 @@ function this.Update(execCheck)
     if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
       --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
       this.ToggleMenu(execCheck)
+    end
+
+    if InfButton.ButtonHeld(this.menuAltButton) then
+      if InfButton.OnButtonDown(this.menuAltActive) then
+        InfCore.ExtCmd('TakeFocus')
+      end
     end
 
     if this.menuOn then
@@ -865,10 +887,8 @@ function this.ActivateControlSet()
   InfButton.buttonStates[this.menuRightButton].decrement=0.1
   InfButton.buttonStates[this.menuLeftButton].decrement=0.1
 
-  local repeatRate=0.85
+  local repeatRate=this.repeatRateDefault
   if InfCore.IHExtRunning() then
-    repeatRate=0.25
-    this.autoRateHeld=0.25
     InfButton.incrementMultIncrementMult=1.1
   end
   InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
@@ -930,13 +950,16 @@ function this.DoControlSet()
   if InfButton.OnButtonDown(this.menuRightButton) then
     this.NextSetting(incrementMod)
     this.DisplayCurrentSetting()
+    InfButton.buttonStates[this.menuRightButton].repeatRate=this.repeatRateDefault--tex slow initial repeat
   elseif InfButton.OnButtonUp(this.menuRightButton) then
     this.autoDisplayRate=this.autoDisplayDefault
   elseif InfButton.OnButtonRepeat(this.menuRightButton) then
     this.autoDisplayRate=this.autoRateHeld
     this.NextSetting(incrementMod*InfButton.GetRepeatMult())
+    --tex handled by autodisplay if not ihext otherwise announcelog would choke on too many updates
     if ihextIsRunning then
       this.DisplayCurrentSetting()
+      InfButton.buttonStates[this.menuRightButton].repeatRate=this.repeatRateIHExt--tex quicker repeat
     end
   end
 

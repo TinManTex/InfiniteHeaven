@@ -62,6 +62,8 @@ function this.PostAllModulesLoad()
     --  'InfWalkerGear',
     --'InfSoldier',
     --'InfEneFova',
+      'InfExtToMgsv',
+      'InfMgsvToExt',
     }
   for i,moduleName in ipairs(debugModules)do
     _G[moduleName].debugModule=true

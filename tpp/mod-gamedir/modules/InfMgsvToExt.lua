@@ -76,10 +76,10 @@ end
 
 --tex set Content on uiElement
 function this.SetContent(name,content)
-  if not this.uiElements[name] then
-    InfCore.Log('WARNING: SetContent: could not find uiElement '..name)
-    return
-  end
+--  if not this.uiElements[name] then
+--    InfCore.Log('WARNING: SetContent: could not find uiElement '..name)
+--    return
+--  end
 
   if type(content)~='string' then
     InfCore.Log('WARNING: SetContent: content is not string')
@@ -96,14 +96,13 @@ end
 local menuLineXaml={
   [[<Label ]],
   [[xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" ]],
-  [[xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" ]],
-  [[x:Name="menuLine" ]],
+  [[Name="menuLine" ]],
   [[Content="--menuLine--" ]],
   [[Foreground="White" ]],
   [[Background="Transparent" ]],
   [[FontSize="25" ]],
-  [[Canvas.Left="140" ]],
-  [[Canvas.Top="506">]],
+  [[Canvas.Left="45" ]],
+  [[Canvas.Top="545">]],
   [[<Label.Effect>]],
   [[<DropShadowEffect ]],
   [[ShadowDepth="2" ]],
@@ -119,7 +118,7 @@ local inputLineXaml={
   [[<TextBox ]],
   [[xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" ]],
   [[xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" ]],
-  [[x:Name="inputLine" ]],
+  [[Name="inputLine" ]],
   [[Height="26" ]],
   [[MinWidth="36" ]],
   [[Foreground="White" ]],
@@ -135,20 +134,29 @@ local inputLineXaml={
 local menuElementName='menuLine'
 local inputElementName='inputLine'
 function this.ShowMenu()
-  this.CreateUiElement(menuElementName,table.concat(menuLineXaml))
+  --DEBUGNOW this.CreateUiElement(menuElementName,table.concat(menuLineXaml))
   --DEBUGNOW this.CreateUiElement(inputElementName,table.concat(inputLineXaml))
-
-  InfCore.ExtCmd('UiElementVisible',menuElementName,1)
-  InfCore.ExtCmd('UiElementVisible',inputElementName,1)
+  InfCore.ExtCmd('UiElementVisible','menuWrap',1)
+  --InfCore.ExtCmd('UiElementVisible',menuElementName,1)
+  --InfCore.ExtCmd('UiElementVisible',inputElementName,1)
+  InfCore.ExtCmd('UiElementVisible','lbMenuItems',1)
 end
 
 function this.HideMenu()
-  InfCore.ExtCmd('UiElementVisible',menuElementName,0)
-  InfCore.ExtCmd('UiElementVisible',inputElementName,0)
+  InfCore.ExtCmd('UiElementVisible','menuWrap',0)
+  --InfCore.ExtCmd('UiElementVisible',menuElementName,0)
+  --InfCore.ExtCmd('UiElementVisible',inputElementName,0)
+  InfCore.ExtCmd('UiElementVisible','lbMenuItems',0)
 end
 
 function this.SetMenuLine(content)
-  this.SetContent(menuElementName,content)
+  InfCore.ExtCmd('SetContent',menuElementName,content)
+  InfCore.ExtCmd('UpdateTable','menuItems',InfMenu.currentIndex-1,content)--DEBUGNOW
+  InfCore.ExtCmd('SelectItem','menuItems',InfMenu.currentIndex-1)
+end
+
+function this.TakeFocus()
+  InfCore.ExtCmd('TakeFocus')
 end
 
 return this

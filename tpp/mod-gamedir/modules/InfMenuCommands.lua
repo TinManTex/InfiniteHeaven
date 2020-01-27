@@ -550,7 +550,7 @@ this.RequestHeliLzToLastMarkerAlt=function()
     return
   end
 
-  InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),true)--DEBUGNOW
+  InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),true)--DEBUG
   local lzInfo=InfLZ.lzInfo[lzName]
   if not lzInfo then
     InfCore.Log("no lzInfo for "..tostring(lzName))
@@ -665,7 +665,7 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-
+  
   --DEBUGNOW
   InfCore.PrintInspect(Ivars,"Ivars")
   InfCore.PrintInspect(ivars,"ivars")

@@ -12,10 +12,11 @@ local nl="\n"--tex LDT uses unix endings, else "\r\n"
 local tableStr="table"
 local function IsMenu(item)
   if type(item)==tableStr then
-    if item.options then
+    if item.options and not item.noDoc then
       return true
     end
   end
+  return false
 end
 
 local skipItemsList={
@@ -347,7 +348,7 @@ function this.AutoDoc()
   Ivars.playerFaceEquipId.settingNames={"<Headgear for DD type>"}
   Ivars.playerPartsType.settingNames={"<Suits for player type>"}
   Ivars.playerCamoType.settings={"<Camos for player type>"}
-  Ivars.selectProfile.settingNames={"<Profile type>"}
+  Ivars.selectProfile.settingNames={"<Profile name>"}
   Ivars.faceFovaDirect.GetSettingText=nil
   Ivars.faceDecoFovaDirect.GetSettingText=nil
   Ivars.hairFovaDirect.GetSettingText=nil

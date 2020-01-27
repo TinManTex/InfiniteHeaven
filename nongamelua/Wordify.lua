@@ -11,7 +11,7 @@ end
 
 --BreakIntoWords
 local inputFile=[[D:\GitHub\mgsv-lookup-strings\GzsTool\qar_dictionary.txt]]
-local inputFile=[[D:\GitHub\mgsv-lookup-strings\MtarTool\mtar_dictionary.txt]]
+--local inputFile=[[D:\GitHub\mgsv-lookup-strings\MtarTool\mtar_dictionary.txt]]
 local file=io.open(inputFile,"r")
 local wordsUnique={}
 -- read the lines in table 'lines'
@@ -31,7 +31,9 @@ table.sort(words)
 
 local nl="\r"
 local fileName=[[D:\Projects\MGS\!ToolOutput\]]..[[qar_dictionary_words.txt]]
-local fileName=[[D:\Projects\MGS\!ToolOutput\]]..[[mtar_dictionary_words.txt]]
+--local fileName=[[D:\Projects\MGS\!ToolOutput\]]..[[mtar_dictionary_words.txt]]
 local file=io.open(fileName,"w")
 file:write(table.concat(words,nl))
 file:close()
+
+print("done")

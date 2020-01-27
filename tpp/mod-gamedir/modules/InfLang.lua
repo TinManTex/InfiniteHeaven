@@ -599,6 +599,8 @@ this.eng={--english
   mbForceBattleGearDevelopLevel="Force BattleGear built level",
   mbOceanMenu="MB Ocean menu",
   enableIHExt="Enable IHExt",
+  takeFocus="Give IHExt focus",
+  attackHeliPatrolsSettings={"No helis","1 heli","2 helis","3 helis","4 helis","Enemy prep"},
 }--eng end
 
 this.help={}

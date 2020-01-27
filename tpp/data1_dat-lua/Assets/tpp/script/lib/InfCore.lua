@@ -15,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="219"
+this.modVersion="220"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -210,8 +210,8 @@ function this.PCall(func,...)
 
   local sucess,result=pcall(func,...)
   if not sucess then
-    this.Log("ERROR:"..result)
-    this.Log("caller:"..this.DEBUG_Where(2))
+    this.Log("ERROR:"..result,false,true)
+    this.Log("caller:"..this.DEBUG_Where(2),false,true)
     return
   else
     return result
@@ -265,7 +265,7 @@ function this.StartExt()
     end
   end
   
-  --programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUGNOW
+  programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUGNOW
 
   if not programPath then
     InfCore.Log("WARNING: StartExt: Could not find IHExt.ext in MGS_TPP\mod\ ",true,true)
@@ -456,13 +456,13 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     InfCore.Log("ERROR: "..module,false,true)
     --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
     if InfCore.doneStartup and not skipPrint then
-      InfCore.DebugPrint("Could not load module "..moduleName)
+      InfCore.Log("Could not load module "..moduleName)
     end
     return nil
   elseif type(module)=="table" then
     _G[moduleName]=module
   else
-    InfCore.Log("InfCoreLoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module))
+    InfCore.Log("InfCoreLoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module),false,true)
   end
 
   if isReload then
@@ -481,7 +481,7 @@ function this.LoadSimpleModule(path,fileName,box)
   local moduleChunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if loadError then
     local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
-    InfCore.Log("Error loading "..filePath..":"..loadError,doDebugPrint,true)
+    InfCore.Log("Error loading "..filePath..":"..loadError,doDebugPrint,true,true)
     return
   end
 
