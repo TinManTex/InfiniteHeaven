@@ -12,6 +12,8 @@ this.packages={
 }
 
 function this.Init()
+  this.messageExecTable=nil
+
   if not this.active:EnabledForMission() then
     return
   end

@@ -30,6 +30,7 @@ this.bodyInfo={
     useDDHeadgear=true,
   },
   DRAB_FEMALE={--DDS, mother base default
+    gender="FEMALE",
     bodyId=TppEnemyBodyId.dds8_main0_v00,
     partsPath="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
@@ -44,6 +45,7 @@ this.bodyInfo={
     useDDHeadgear=true,
   },
   TIGER_FEMALE={--DDS, FOB default
+    gender="FEMALE",
     bodyId=TppEnemyBodyId.dds6_main0_v00,
     partsPath="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts",--tex also dds6_main0_def_v00.parts?
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
@@ -124,6 +126,7 @@ this.bodyInfo={
   },
   --tex TODO fova not applying unlike males
   FATIGUES_CAMO_MIX_FEMALE={
+    gender="FEMALE",
     bodyId={
       459,
       460,
@@ -201,6 +204,7 @@ this.bodyInfo={
     useDDHeadgear=true,
   },
   SNEAKING_SUIT_FEMALE={--DDS
+    gender="FEMALE",
     bodyId=TppEnemyBodyId.dds4_enef0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
@@ -215,11 +219,15 @@ this.bodyInfo={
     useDDHeadgear=true,
   },
   BATTLE_DRESS_FEMALE={--DDS
+    gender="FEMALE",
     bodyId=TppEnemyBodyId.dds5_enem0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
     soldierSubType="DD_FOB",
     useDDHeadgear=true,
+    config={
+      ARMOR=true,
+    },
   },
   PFA_ARMOR={
     bodyId=TppEnemyBodyId.pfa0_v00_a,
@@ -229,6 +237,9 @@ this.bodyInfo={
     helmetOnly=true,--tex no gas mask or nvg.
     hasArmor=true,
     soldierSubType="DD_FOB",
+    config={
+      ARMOR=true,
+    },
   },
   --prologue cyprus gasmask xof
   XOF_GASMASK={
@@ -239,7 +250,7 @@ this.bodyInfo={
     partsPath="/Assets/tpp/parts/chara/wss/wss0_main0_def_v00_ih_sol.parts",
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_l01_fpkd
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/wss0_main0_mdl.fpk",
     },
     hasFace=true,
@@ -254,9 +265,10 @@ this.bodyInfo={
   WSS1_MAIN0={--tex soldier CRASH on loaded/soldier realize
     bodyId=1,
     partsPath="/Assets/tpp/parts/chara/wss/wss1_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/wss/wss1_main0_def_v00_ih_hos.parts",
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s06_fpkd
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/wss1_main0_mdl.fpk",
     },
     hasFace=true,
@@ -271,7 +283,7 @@ this.bodyInfo={
     partsPath="/Assets/tpp/parts/chara/wss/wss2_main0_def_v00_ih_sol.parts",
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s06_fpkd
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/wss2_main0_mdl.fpk",
     },
     hasFace=true,
@@ -345,7 +357,7 @@ this.bodyInfo={
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8040_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8041_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds0_main0_mdl.fpk",
     },
     hasFace=true,
@@ -359,7 +371,7 @@ this.bodyInfo={
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main1_def_v00_ih_sol.parts",
     --\chunk3_dat\Assets\tpp\pack\mission2\story\s10115\s10115_area_fpkd
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds0_main1_mdl.fpk",
     },
     hasFace=true,
@@ -379,7 +391,7 @@ this.bodyInfo={
     },
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00_ih_sol.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds0_main2_mdl.fpk",
     },
   },
@@ -387,8 +399,9 @@ this.bodyInfo={
   DDS_PILOT1={--DDS1_MAIN0
     bodyId=1,
     partsPath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds1_main0_mdl.fpk",
     },
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10280\s10280_d14_fpkd\Assets\tpp\parts\chara\dds\dds1_main0_def_v00.parts
@@ -401,7 +414,7 @@ this.bodyInfo={
     bodyId=1,
     partsPath="/Assets/tpp/parts/chara/dds/dds2_main0_def_v00_ih_sol.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds2_main0_mdl.fpk",
     },
     hasFace=true,
@@ -411,10 +424,11 @@ this.bodyInfo={
   --also side of face covering designed for this faces guys, wide cheeks push through the geometry
   --ISSUE: soldier CRASH on loading
   DDS_GROUNDCREW={--DDS4_MAIN0
-    bodyId=1,
+    --bodyId=1,
     partsPath="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_hos.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds4_main0_mdl.fpk",
     },
     hasFace=true,--tex TODO but overriding seems fine/cant see any contention for many faces
@@ -424,8 +438,9 @@ this.bodyInfo={
   DDS_PILOT2={--DDS9_MAIN0
     bodyId=1,
     partsPath="/Assets/tpp/parts/chara/dds/dds9_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/dds9_main0_def_v00_ih_hos.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/dds9_main0_mdl.fpk",
     },
     --\chunk2_dat\Assets\tpp\pack\mission2\heli\h40010\h40010_area_fpkd
@@ -581,6 +596,7 @@ this.bodyInfo={
     soldierSubType="DD_FOB",
   },
   SWIMWEAR_FEMALE={
+    gender="FEMALE",
     bodyId={
       TppEnemyBodyId.dlf_enef0_def,
       TppEnemyBodyId.dlf_enef1_def,
@@ -599,16 +615,28 @@ this.bodyInfo={
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,
     soldierSubType="DD_FOB",
   },
-  --tex no collision/push target
   PRISONER_AFGH={
-    bodyId=TppEnemyBodyId.prs2_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh_hostage.fpk",
+    bodyId={
+      TppEnemyBodyId.prs2_main0_v00,
+      TppEnemyBodyId.prs2_main0_v01,
+    },
+    partsPath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/prs2_main0_mdl.fpk",
+    },
+    --REF "/Assets/tpp/pack/mission2/common/mis_com_afgh_hostage.fpk",
     soldierSubType="DD_FOB",
   },
   PRISONER_AFGH_FEMALE={
-    partsPath="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts",
-  --\chunk1_dat\Assets\tpp\pack\mission2\quest\extra\quest_q20025_fpkd
+    --TODO partsPathHostage="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/prs3_main0_mdl.fpk",
+    },
+  --REF \chunk1_dat\Assets\tpp\pack\mission2\quest\extra\quest_q20025_fpkd
   --and in bunch of other quest fpkds
   },
   --10040 : Mission 6 - Where Do the Bees Sleep Hamid prisoner
@@ -617,15 +645,26 @@ this.bodyInfo={
   --\chunk2_dat\Assets\tpp\pack\mission2\story\s10040\s10040_area_fpkd
   },
   PRISONER_MAFR={
-    bodyId=TppEnemyBodyId.prs5_main0_v00,--tex CRASH on initial game start if access TppEnemyBodyId?
+    bodyId=TppEnemyBodyId.prs5_main0_v00,
     partsPath="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk",
+    partsPathHostage="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/prs5_main0_mdl.fpk",
+    },
+    --REF "/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk",
     soldierSubType="DD_FOB",
   },
   PRISONER_MAFR_FEMALE={--tex still male body, don't know what's up
+    gender="FEMALE",
     bodyId=TppEnemyBodyId.prs6_main0_v00,--113
-    partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage_woman.fpk",
+    --TODO partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/prs6_main0_mdl.fpk",
+    },
+    --REF "/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage_woman.fpk",
     soldierSubType="DD_FOB",
   },
   --Kojima prisoner DD tiger body - sideop q99080 Intel Agent Extraction
@@ -696,7 +735,12 @@ this.bodyInfo={
   --prologue hospital patients
   PATIENT={
     --TODO has a whole bunch of fv2s
-    partsPath="/Assets/tpp/parts/chara/ptn/ptn0_main0_def_v00.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/ptn0_main0_mdl.fpk",
+    },
+    --TODO partsPath="/Assets/tpp/parts/chara/ptn/ptn0_main0_def_v00.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/ptn/ptn0_main0_def_v00_ih_hos.parts",
     --\chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s03_fpkd
     hasFace=true,
   },
@@ -731,7 +775,12 @@ this.bodyInfo={
   KAZ={
     bodyId=1,--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
     partsPath="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_miller.fpk",
+    partsPathHostage="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/kaz0_main0_mdl.fpk",
+    },
+    --REF "/Assets/tpp/pack/mission2/common/mis_com_miller.fpk",
     hasFace=true,
     soldierSubType="DD_FOB",
   },
@@ -786,55 +835,52 @@ this.bodyInfo={
   --wmu1_main0_def_v00.parts
   --wmu3_main0_def_v00.parts
   --tex lab coat and red id tag, used in epidemic/quarantine
-  --also some dds drab since it's used in shining lights
-  DD_RESEARCHER={
-    bodyId={
-      1,
-    --REF
-    --dd researcher/labcoat male
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--63,146,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--64,147,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--65,148,,
-    --
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--66,149,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--67,150,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v02.fv2",""},--68,151,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v03.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--69,152,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v04.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--70,153,,
-    --  --female
-    --  {"/Assets/tpp/fova/chara/dds/ddr1_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--71,154,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr1_main0_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--72,155,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr1_main0_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--73,156,,
-    --
-    --  {"/Assets/tpp/fova/chara/dds/ddr1_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--74,157,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr1_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--75,158,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr1_main1_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--76,159,,
+  --fmdl also contains some dds (drab,tiger) since it's used in shining lights
+  DDS_RESEARCHER={
+    --bodyId={
+    --1,
+    --tex dont know why wolbachia throat shows by default, should only be with the shining lights nvg. and I'm sure I had it at some point without it showing, maybe when they are as soldier, not hostage?
+    --TppEnemyBodyId.ddr0_main0_v00,--wolbachia throat, default clean lab coat, ocasionally lab goggles
+    --TppEnemyBodyId.ddr0_main0_v01,--wolbachia throat, dds DRAB
+    --TppEnemyBodyId.ddr0_main0_v02,--wolbachia throat, dds tiger
 
+    --TppEnemyBodyId.ddr0_main1_v00=149,--bloody lab coat
+    --TppEnemyBodyId.ddr0_main1_v01=150,--bloody lab coat with knife stuck in?
+    --TppEnemyBodyId.ddr0_main1_v02=151,--fova not in fova common packs, likely in shining lights mission pack
+    --TppEnemyBodyId.ddr0_main1_v03=152,--bloody drab
+    --TppEnemyBodyId.ddr0_main1_v04=153,--bloody tiger
+    -- all have bloody eyeballs
+    --not sure goggles are binary on specific fovas or using fova seed/randomisation
 
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v03.fv2",""},--83,166,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v04.fv2",""},--84,167,,
+    --fovas not in fova common packs, in shining lights mission pack
+    -- TppEnemyBodyId.ddr0_main0_v03=166,
+    -- TppEnemyBodyId.ddr0_main0_v04=167,
     --
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v05.fv2",""},--85,168,,
-    --  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v06.fv2",""},--86,169,,
-
-    --TppEnemyBodyId.ddr0_main0_v00,--default clean lab coat, ocasionally lab goggles
-    --TppEnemyBodyId.ddr0_main0_v01,--dds DRAB
-    --TppEnemyBodyId.ddr0_main0_v02,--dds tiger
-    --TppEnemyBodyId.ddr0_main0_v03,
-    --TppEnemyBodyId.ddr0_main0_v04,
-    },
+    --  ddr0_main1_v05=168,
+    --  ddr0_main1_v06=169,
+    --},
     partsPath="/Assets/tpp/parts/chara/dds/ddr0_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/ddr0_main0_def_v00_ih_hos.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/ddr0_main0_mdl.fpk",
     },
     noSkinTones=true,
   },
-  DD_RESEARCHER_FEMALE={
+  DDS_RESEARCHER_FEMALE={
+    --  ddr1_main0_v00=154,
+    --  ddr1_main0_v01=155,
+    --  ddr1_main0_v02=156,
+    --
+    --  ddr1_main1_v00=157,
+    --  ddr1_main1_v01=158,
+    --  ddr1_main1_v02=159,
+    gender="FEMALE",
     bodyId=1,--tex TODO
     partsPath="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00_ih_hos.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/ddr1_main0_mdl.fpk",
     },
     noSkinTones=true,
@@ -866,12 +912,16 @@ this.bodyInfo={
     bodyId=1,
     partsPath="/Assets/tpp/parts/chara/gns/gns0_main0_def_v00_ih_sol.parts",
     missionPackPath={
-      "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",
+      "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/gns0_main0_mdl.fpk",
     },
     soldierSubType="DD_FOB",
     hasFace=true,
-    hasHelmet=true,
+    config={
+      HELMET=false,
+    --GAS_MASK=true,
+    --NVG=true,
+    },
   },
 }
 

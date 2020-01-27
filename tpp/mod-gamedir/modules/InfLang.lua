@@ -224,9 +224,9 @@ this.eng={--english
   mbDDHeadGearSettings={"Off","Current prep"},
   customSoldierTypeSettings={
     "Off",
-    "Drab",
-    "Tiger",
-    "Sneaking",
+    "Drab fatigues",
+    "Tiger fatigues",
+    "Sneaking suit",
     "Battle Dress",
     "Swimwear",
     "PF Riot Suit",
@@ -542,6 +542,8 @@ this.eng={--english
   disableGameOver="Disable game over",
   forceDemoAllowAction="Force allow actions",
   customSoldierTypeFREE="Custom soldier type in Free roam",
+  mbAdditionalNpcs="Additional NPCs",
+  ihSideopsPercentageCount="Include IH sideops in completion percentage.",
 }--eng end
 
 this.help={}
@@ -702,6 +704,7 @@ this.help.eng={
   enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
   forceDemoAllowAction="Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.",
   customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam",
+  mbAdditionalNpcs="Adds different NPCs standing around mother base, including ground crew, researchers and Miller.",
 }
 
 this.cpNames={

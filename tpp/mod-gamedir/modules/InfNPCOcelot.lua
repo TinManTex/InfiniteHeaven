@@ -100,6 +100,8 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.Init()
+  this.messageExecTable=nil
+
   if not this.active:EnabledForMission() then
     return
   end
@@ -111,6 +113,8 @@ function this.Init()
 end
 
 function this.OnReload(missionTable)
+  this.messageExecTable=nil
+
   if not this.active:EnabledForMission() then
     return
   end
@@ -127,10 +131,6 @@ function this.Messages()
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if not this.active:EnabledForMission() then
-    return
-  end
-
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 

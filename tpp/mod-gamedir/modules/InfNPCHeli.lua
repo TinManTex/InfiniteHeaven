@@ -81,6 +81,12 @@ this.heliNames={
   },
 }
 
+--SYNC number of locators
+this.maxHelis={
+  UTH=3,
+  HP48=4,
+}
+
 --tex TODO: pre convert to str32
 this.heliRoutes={
   afgh={
@@ -294,6 +300,8 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.Init(missionTable,currentChecks)
+  this.messageExecTable=nil
+
   if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
@@ -307,16 +315,31 @@ function this.Init(missionTable,currentChecks)
   if isOuterPlat then
     return
   elseif isMb then
-    if Ivars.heliPatrolsMB:Is"UTH" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
-      for i,heliName in ipairs(this.heliNames.UTH)do
-        this.heliList[#this.heliList+1]=heliName
+    local numClusters=0
+    for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
+      local grade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
+      if grade>0 then
+        numClusters=numClusters+1
       end
     end
-    local numClusters=7
+    --InfCore.Log("InfNPCHeli numClusters "..numClusters)--DEBUG
+
+    if Ivars.heliPatrolsMB:Is"UTH" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
+      local numSupportHelis=math.min(this.maxHelis.UTH,numClusters)
+      this.heliNames.UTH=InfLookup.GenerateNameList("WestHeli%04d",numSupportHelis)
+      for i=1,numSupportHelis do
+        this.heliList[#this.heliList+1]=this.heliNames.UTH[i]
+      end
+    end
+    
     local numAttackHelis=numClusters-#this.heliList
-    if Ivars.heliPatrolsMB:Is"HP48" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
-      for i=1,numAttackHelis do
-        this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
+    if numAttackHelis > 0 then
+      if Ivars.heliPatrolsMB:Is"HP48" or Ivars.heliPatrolsMB:Is"UTH_AND_HP48" then
+        this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numAttackHelis)
+      
+        for i=1,numAttackHelis do
+          this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
+        end
       end
     end
   elseif Ivars.heliPatrolsFREE:Is()>0 then
@@ -332,7 +355,8 @@ function this.Init(missionTable,currentChecks)
     --    end
     --numAttackHelis=math.min(numAttackHelis,#this.heliNames.HP48)
 
-    local numAttackHelis=#this.heliNames.HP48
+    local numAttackHelis=this.maxHelis.HP48
+    this.heliNames.HP48=InfLookup.GenerateNameList("EnemyHeli%04d",numAttackHelis)
 
     for i=1,numAttackHelis do
       this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
@@ -410,6 +434,8 @@ function this.OnMissionCanStart(currentChecks)
 end
 
 function this.OnReload(missionTable)
+  this.messageExecTable=nil
+
   if not IvarProc.EnabledForMission(heliPatrolsStr) then
     return
   end
@@ -439,10 +465,6 @@ function this.Messages()
 end
 
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if not IvarProc.EnabledForMission(heliPatrolsStr) then
-    return
-  end
-
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
@@ -568,7 +590,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
         else
           heliRoute=routesBag:Next()
           heliRoute=StrCode32(heliRoute)
-            
+
           heliRouteIds[heliIndex]=heliRoute
           local groundStartPosition=InfLZ.GetGroundStartPosition(heliRoute)
           if groundStartPosition then

@@ -110,6 +110,7 @@ this.sideOpsMenu={
     Ivars.sideOpsSelectionMode,
     InfMenuDefs.sideOpsCategoryMenu,
     Ivars.enableHeliReinforce,
+    Ivars.ihSideopsPercentageCount,
   }
 }
 
@@ -119,6 +120,7 @@ this.motherBaseShowCharactersMenu={
     Ivars.mbEnablePuppy,
     Ivars.mbShowCodeTalker,
     Ivars.mbShowEli,
+    Ivars.mbAdditionalNpcs,
     Ivars.mbEnableBirds,
     InfMenuCommands.resetPaz,
     InfMenuCommands.returnQuiet,
@@ -570,6 +572,8 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    InfMenuDefs.appearanceMenu,
+    InfMenuDefs.appearanceDebugMenu,
     Ivars.customSoldierTypeFREE,
     --Ivars.customSoldierTypeMISSION,--TODO:
     Ivars.customSoldierTypeMB_ALL,
@@ -627,6 +631,8 @@ this.heliSpaceMenu={
 this.debugInMissionMenu={
   nonConfig=true,
   options={
+    InfMenuDefs.appearanceMenu,
+    InfMenuDefs.appearanceDebugMenu,
     Ivars.debugMode,
     Ivars.debugMessages,
     Ivars.debugFlow,
@@ -670,16 +676,15 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    Ivars.selectedGameObjectType,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
+    Ivars.selectedGameObjectType,
     Ivars.manualMissionCode,
     Ivars.manualSequence,
     Ivars.allowUndevelopedDDEquip,
     Ivars.skipDevelopChecks,
     InfMenuCommands.setAllFriendly,
-    InfMenuCommands.showPosition,
     Ivars.selectedCp,
     InfMenuCommands.setSelectedCpToMarkerObjectCp,
     Ivars.warpToListObject,
@@ -691,10 +696,7 @@ this.devInMissionMenu={
     Ivars.parasitePeriod_MAX,
     InfMenuCommands.DEBUG_ToggleParasiteEvent,
     InfMenuCommands.DEBUG_DumpValidStrCode,
-    Ivars.debugMode,
-    Ivars.debugMessages,
-    Ivars.debugFlow,
-    Ivars.debugOnUpdate,
+    InfMenuCommands.showPosition,
   }
 }
 

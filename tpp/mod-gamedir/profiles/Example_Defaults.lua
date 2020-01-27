@@ -1,13 +1,22 @@
 -- Example_Defaults.lua
--- Defaults / example of all profile options for IH r201
+-- Defaults / example of all profile options for IH r202
+
   
+
 -- Profiles are lists of settings for IH options. 
+
 -- IH only reads this file/does not write to it.
+
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
+
+
 
 -- See Features and Options.html for longer descriptions of some settings.
 
+
+
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
+
   
 local this={
 	description="Defaults/All disabled",
@@ -222,6 +231,7 @@ local this={
 		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS } -- Sideop selection mode
+		ihSideopsPercentageCount=0,--{ 0-1 } -- Include IH sideops in completion percentage.
 		--Sideops category filter menu
 		sideops_STORY=1,--{ 0-1 } -- Story/unique
 		sideops_EXTRACT_INTERPRETER=1,--{ 0-1 } -- Extract interpreter
@@ -260,6 +270,7 @@ local this={
 		mbEnablePuppy=0,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
 		mbShowCodeTalker=0,--{ 0-1 } -- Show Code Talker
 		mbShowEli=0,--{ 0-1 } -- Show Eli
+		mbAdditionalNpcs=0,--{ 0-1 } -- Additional NPCs
 		mbEnableBirds=0,--{ 0-1 } -- Enable Birds
 		--Show assets menu
 		mbShowBigBossPosters=0,--{ 0-1 } -- Show Big Boss posters

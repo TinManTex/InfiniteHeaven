@@ -1287,6 +1287,7 @@ function this.RegisterQuestSystemCallbacks(callbackFunctions)
   if not IsTypeTable(callbackFunctions)then
     return
   end
+  InfQuest.RegisterQuestSystemCallbacks(callbackFunctions)--tex
   mvars.qst_systemCallbacks=mvars.qst_systemCallbacks or{}
   local function SetCallBack(callBackFunc,callbackName)
     if IsTypeFunc(callBackFunc[callbackName])then
@@ -1731,8 +1732,10 @@ function this.RegisterQuestPackList(questPackList,blockName)
       end
     end
   end
-  --  InfCore.Log"RegisterQuestPackList"--tex DEBUG
-  --  InfCore.PrintInspect(fpkList)--DEBUG
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(questPackList,"RegisterQuestPackList.questPackList")--DEBUG
+    InfCore.PrintInspect(fpkList,"RegisterQuestPackList.fpkList")--DEBUG
+  end--<
   TppScriptBlock.RegisterCommonBlockPackList(blockName,fpkList)
 end
 function this.SetDefaultQuestBlock()
@@ -2016,8 +2019,15 @@ function this.UpdateQuestBlockStateAtActive(blockIndexX,blockIndexY)
     end
   end
 end
+--tex added, only called if quest scrip .OnAllocate call it, so none of the vanilla quest scripts.
+function this.QuestBlockOnAllocate(questScript)
+  InfCore.LogFlow("TppQuest.QuestBlockOnAllocate")--tex
+  InfQuest.QuestBlockOnAllocate(questScript)--tex
+end
+--<
 function this.QuestBlockOnInitialize(questScript)
   InfCore.LogFlow("TppQuest.QuestBlockOnInitialize")--tex
+  InfQuest.QuestBlockOnInitialize(questScript)--tex
   local Messages=questScript.Messages
   if IsTypeFunc(Messages)then
     local messageExecTable=Messages()
@@ -2027,7 +2037,8 @@ function this.QuestBlockOnInitialize(questScript)
   mvars.qst_skipTerminateFlag=nil
   mvars.qst_isRadioTarget=false
 end
-function this.QuestBlockOnTerminate()
+function this.QuestBlockOnTerminate(questScript)
+  InfQuest.QuestBlockOnTerminate(questScript)--tex--tex
   this.ExecuteSystemCallback"OnTerminate"
   mvars.qst_systemCallbacks=nil
   mvars.qst_lastQuestBlockState=nil
@@ -2051,7 +2062,8 @@ function this._CanActivateQuest()
   end
   return true
 end
-function this.QuestBlockOnUpdate()
+function this.QuestBlockOnUpdate(questScript)
+  InfQuest.QuestBlockOnUpdate(questScript)--tex
   local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
   local questBlockState=thisLocal.GetQuestBlockState()
   if questBlockState==nil then
@@ -2306,10 +2318,8 @@ function this.UpdateOpenQuest()
     end
   end
 end
---tex heavily REWORKED
+--tex heavily REWORKED --PCall InfHooked
 function this.UpdateActiveQuest(updateFlags)
-  InfCore.PCallDebug(function(updateFlags)--tex wrapped in pcall
-  InfCore.LogFlow("TppQuest.UpdateActiveQuest "..vars.missionCode)--tex DEBUG
   if not mvars.qst_questList then
     return
   end
@@ -2469,7 +2479,6 @@ function this.UpdateActiveQuest(updateFlags)
       return
     end
   end
-  end,updateFlags)--tex pcall wrap
 end
 --tex ORIG:
 --function this.UpdateActiveQuest(updateFlags)
@@ -2729,34 +2738,34 @@ function this.UpdateRepopFlag(questIndex)
 end
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
-  local forceRepop=Ivars.unlockSideOps:Is()>0--tex
-  local numOpen=0
-  for n,questInfo in ipairs(locationQuests.infoList)do
-    local questName=questInfo.name
-    if this.IsOpen(questName)then
-      if not questInfo.isOnce or forceRepop then--tex added forcerepop
-        numOpen=numOpen+1
-      end
-      if this.IsRepop(questName)or not this.IsCleard(questName)then
-        local CheckQuestFunc=checkQuestFuncs[questName]
-        if(CheckQuestFunc==nil)or CheckQuestFunc()then
-          return
+    local forceRepop=Ivars.unlockSideOps:Is()>0--tex
+    local numOpen=0
+    for n,questInfo in ipairs(locationQuests.infoList)do
+      local questName=questInfo.name
+      if this.IsOpen(questName)then
+        if not questInfo.isOnce or forceRepop then--tex added forcerepop
+          numOpen=numOpen+1
+        end
+        if this.IsRepop(questName)or not this.IsCleard(questName)then
+          local CheckQuestFunc=checkQuestFuncs[questName]
+          if(CheckQuestFunc==nil)or CheckQuestFunc()then
+            return
+          end
         end
       end
     end
-  end
-  if numOpen<=1 and(not TppLocation.IsMotherBase())then
-    return
-  end
-  for n,questInfo in ipairs(locationQuests.infoList)do
-    if this.IsCleard(questInfo.name)and((not questInfo.isOnce) or forceRepop) then--tex added forceRepop
-      gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
+    if numOpen<=1 and(not TppLocation.IsMotherBase())then
+      return
     end
-    local CheckQuestFunc=checkQuestFuncs[questInfo.name]
-    if CheckQuestFunc and(not CheckQuestFunc())then
-      gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
+    for n,questInfo in ipairs(locationQuests.infoList)do
+      if this.IsCleard(questInfo.name)and((not questInfo.isOnce) or forceRepop) then--tex added forceRepop
+        gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
+      end
+      local CheckQuestFunc=checkQuestFuncs[questInfo.name]
+      if CheckQuestFunc and(not CheckQuestFunc())then
+        gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
+      end
     end
-  end
   end,locationQuests)--tex pcall wrap
 end
 function this.CheckAllClearBounus()
@@ -2785,10 +2794,16 @@ function this.CalcQuestClearedCount()
   for n,questInfo in ipairs(questInfoTable)do
     local questName=questInfo.questName
     local questIndex=TppDefine.QUEST_INDEX[questName]
-    if gvars.qst_questClearedFlag[questIndex]then
-      clearedCount=clearedCount+1
+    --tex ihSideopsPercentageCount>
+    local isIHQuest=InfQuest~=nil and InfQuest.ihQuestsInfo[questName]~=nil
+    local countIHQuest=Ivars.ihSideopsPercentageCount:Is(1)
+    if not isIHQuest or (isIHQuest and countIHQuest) then
+      --<
+      if gvars.qst_questClearedFlag[questIndex]then
+        clearedCount=clearedCount+1
+      end
+      totalCount=totalCount+1
     end
-    totalCount=totalCount+1
   end
   return clearedCount,totalCount
 end
@@ -2974,22 +2989,36 @@ function this.IsRandomFaceQuestName(questName)
   end
   return false
 end
-function this.GetRandomFaceId(questName)
+--tex KLUDGE added index
+function this.GetRandomFaceId(questName,index)
   if questName==nil then
     questName=this.GetCurrentQuestName()
     if questName==nil then
       return
     end
   end
-  local faceIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
-  if faceIndex then
-    return gvars.qst_randomFaceId[faceIndex]
+  --tex support for randomFaceListIH>
+  if index then
+    local questPackList=TppQuestList.questPackList[questName]
+    if questPackList and questPackList.randomFaceListIH then
+      if questPackList.faceIdList then
+        if this.debugModule then--tex>
+          InfCore.Log("TppQuest.GetRandomFaceId: randomFaceListIH faceId for index "..index.." :"..tostring(questPackList.faceIdList[index]))--DEBUG
+        end--<
+        return questPackList.faceIdList[index]
+      end
+    end
+  end
+  --<
+  local questIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
+  if questIndex then
+    return gvars.qst_randomFaceId[questIndex]
   end
 end
 function this.SetRandomFaceId(questName,faceId)
-  local faceIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
-  if faceIndex then
-    gvars.qst_randomFaceId[faceIndex]=faceId
+  local questIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
+  if questIndex then
+    gvars.qst_randomFaceId[questIndex]=faceId
   end
 end
 function this.OnQuestAreaAnnounceText(questIdNumber)

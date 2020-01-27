@@ -87,7 +87,6 @@ this.requires={
   "/Assets/tpp/script/lib/TppTrophy.lua",
   "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
   "/Assets/tpp/script/lib/InfButton.lua",--tex>
-  "/Assets/tpp/script/lib/InfUtil.lua",
   "/Assets/tpp/script/lib/InfModules.lua",
   "/Assets/tpp/script/lib/InfMain.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",

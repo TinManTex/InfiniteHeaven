@@ -54,7 +54,7 @@ function this.CopyList(sourceList)
   if #sourceList==0 then
     return
   end
-  
+
   local newList={}
   for i=1,#sourceList do
     newList[i]=sourceList[i]
@@ -63,10 +63,10 @@ function this.CopyList(sourceList)
 end
 
 function this.GetRandomPool(pool)
---DEBUGNOW
---  if pool==nil or #pool==0 then
---    return
---  end
+  --DEBUGNOW
+  --  if pool==nil or #pool==0 then
+  --    return
+  --  end
   local rndIndex=math.random(#pool)
   local name=pool[rndIndex]
   table.remove(pool,rndIndex)
@@ -173,6 +173,57 @@ function this.IsGameObjectType(gameObject,checkType)
   else
     return false
   end
+end
+
+--string
+--tex NMC from lua wiki
+function this.Split(str,delim,maxNb)
+  -- Eliminate bad cases...
+  if string.find(str,delim)==nil then
+    return{str}
+  end
+  if maxNb==nil or maxNb<1 then
+    maxNb=0--No limit
+  end
+  local result={}
+  local pat="(.-)"..delim.."()"
+  local nb=0
+  local lastPos
+  for part,pos in string.gfind(str,pat) do
+    nb=nb+1
+    result[nb]=part
+    lastPos=pos
+    if nb==maxNb then break end
+  end
+  -- Handle the last field
+  if nb~=maxNb then
+    result[nb+1]=string.sub(str,lastPos)
+  end
+  return result
+end
+
+function this.FindLast(searchString,findString)
+  --Set the third arg to false to allow pattern matching
+  local found=searchString:reverse():find(findString:reverse(),nil,true)
+  if found then
+    return searchString:len()-findString:len()-found+2
+  else
+    return found
+  end
+end
+
+--tex ex returns "cm_f0_h2_v000_eye1.fv2" from "/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2"
+function this.GetFileName(path,stripExt)
+  if Mock then--KLUDGE DEBUGNOW
+    if path==nil then return "nil_path" end
+  end
+  local lastPos=this.FindLast(path,"/")
+  local fileName=string.sub(path,lastPos+1,#path)
+  if stripExt then
+    local lastPos=this.FindLast(fileName,[[.]])
+    fileName=string.sub(fileName,1,lastPos-1)
+  end
+  return fileName
 end
 
 return this

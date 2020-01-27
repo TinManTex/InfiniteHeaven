@@ -11,11 +11,12 @@ local concat=table.concat
 local string=string
 local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 
+local InfUtil=InfUtil
 local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="201"
+this.modVersion="202"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -289,34 +290,8 @@ function this.StrCode32(encodeString)
   return strCode
 end
 
---tex NMC from lua wiki
-function this.Split(str,delim,maxNb)
-  -- Eliminate bad cases...
-  if string.find(str,delim)==nil then
-    return{str}
-  end
-  if maxNb==nil or maxNb<1 then
-    maxNb=0--No limit
-  end
-  local result={}
-  local pat="(.-)"..delim.."()"
-  local nb=0
-  local lastPos
-  for part,pos in string.gfind(str,pat) do
-    nb=nb+1
-    result[nb]=part
-    lastPos=pos
-    if nb==maxNb then break end
-  end
-  -- Handle the last field
-  if nb~=maxNb then
-    result[nb+1]=string.sub(str,lastPos)
-  end
-  return result
-end
-
 function this.GetModuleName(scriptPath)
-  local split=this.Split(scriptPath,"/")
+  local split=InfUtil.Split(scriptPath,"/")
   local moduleName=split[#split]
   return string.sub(moduleName,1,-string.len(".lua")-1)
 end
@@ -460,7 +435,7 @@ function this.RefreshFileList()
         lines=file:read("*all")
         file:close()
 
-        lines=InfCore.Split(lines,"\r\n")
+        lines=InfUtil.Split(lines,"\r\n")
         if lines[#lines]=="" then
           lines[#lines]=nil
         end
@@ -499,7 +474,7 @@ end
 
 local function GetGamePath()
   local gamePath=nil
-  local paths=this.Split(package.path,";")
+  local paths=InfUtil.Split(package.path,";")
   for i,path in ipairs(paths) do
     if string.find(path,"MGS_TPP") then
       gamePath=path

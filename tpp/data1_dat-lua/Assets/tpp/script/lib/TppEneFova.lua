@@ -1355,14 +1355,16 @@ local l_uniqueSettings={}
 local l_uniqueFaceFovas={}
 local l_uniqueBodyFovas={}
 local l_hostageBodyIds={}
-local numDdHostages=0
-local RENsomeNumber2=0
+local ddHostageIndex=0
+local femaleHostageIndex=0
+local maleHostageIndex=0--tex
 local faceIdS10081=0
 local faceIdS10091_0=0
 local faceIdS10091_1=0
 local RENddIndexFlagMax=15
 local ddHostageFlag=16
 local femaleHostageFlag=32
+local maleHostageFlag=64--tex
 local defaultMaleFaceId=0
 
 function this.InitializeUniqueSetting()
@@ -1371,8 +1373,8 @@ function this.InitializeUniqueSetting()
   l_uniqueFaceFovas={}
   l_uniqueBodyFovas={}
   l_hostageBodyIds={}
-  numDdHostages=0
-  RENsomeNumber2=0
+  ddHostageIndex=0
+  femaleHostageIndex=0
   faceIdS10081=0
   faceIdS10091_0=0
   faceIdS10091_1=0
@@ -1406,16 +1408,16 @@ function this.GetStaffIdForDD(missionId,ddIndex)
   return staffId
 end
 function this.GetFaceIdForDdHostage(missionId)
-  local ddIndex=numDdHostages
-  numDdHostages=numDdHostages+1
-  local staffId=this.GetStaffIdForDD(missionId,ddIndex)
-  local ddIndexFlagged=bit.bor(ddHostageFlag,ddIndex)
+  local facegroupIndex=ddHostageIndex
+  ddHostageIndex=ddHostageIndex+1
+  local staffId=this.GetStaffIdForDD(missionId,facegroupIndex)
+  local ddIndexFlagged=bit.bor(ddHostageFlag,facegroupIndex)
   if staffId~=defaultMaleFaceId then
     local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
     if missionId==10081 then
       faceIdS10081=faceId
     elseif missionId==10091 or missionId==11091 then
-      if ddIndex>0 then
+      if facegroupIndex>0 then
         faceIdS10091_1=faceId
       else
         faceIdS10091_0=faceId
@@ -1423,16 +1425,16 @@ function this.GetFaceIdForDdHostage(missionId)
     end
     return faceId,ddIndexFlagged
   end
-  local a=(gvars.hosface_groupNumber+ddIndex)%30
-  local randomFaceId=50+a
+  local faceGroupIndex=(gvars.hosface_groupNumber+facegroupIndex)%30
+  local randomFaceId=50+faceGroupIndex
   if TppSoldierFace.GetRandomFaceId~=nil then
-    local useIndex=gvars.solface_groupNumber+ddIndex
+    local useIndex=gvars.solface_groupNumber+facegroupIndex
     randomFaceId=TppSoldierFace.GetRandomFaceId{race={0,2,3},gender=0,useIndex=useIndex}
   end
   if missionId==10081 then
     faceIdS10081=randomFaceId
   elseif missionId==10091 or missionId==11091 then
-    if ddIndex>0 then
+    if facegroupIndex>0 then
       faceIdS10091_1=randomFaceId
     else
       faceIdS10091_0=randomFaceId
@@ -1450,12 +1452,12 @@ function this.GetFaceId_s10091_1()
   return faceIdS10091_1
 end
 function this.GetFaceIdForFemaleHostage(missionCode)
-  local RENsomeNumber=femaleHostageFlag
+  local flag=femaleHostageFlag
   if missionCode==10086 then
-    return 613,RENsomeNumber
+    return 613,flag
   end
-  local t=RENsomeNumber2
-  RENsomeNumber2=RENsomeNumber2+1
+  local facegroupIndex=femaleHostageIndex
+  femaleHostageIndex=femaleHostageIndex+1
   local race={}
   table.insert(race,0)
   if TppLocation.IsAfghan()then
@@ -1464,22 +1466,52 @@ function this.GetFaceIdForFemaleHostage(missionCode)
     table.insert(race,2)
     table.insert(race,3)
   end
-  local useIndex=gvars.solface_groupNumber+t
+  local useIndex=gvars.solface_groupNumber+facegroupIndex
   local faceId=EnemyFova.INVALID_FOVA_VALUE
   if TppSoldierFace.GetRandomFaceId~=nil then
     faceId=TppSoldierFace.GetRandomFaceId{race=race,gender=1,useIndex=useIndex}
     if faceId~=EnemyFova.INVALID_FOVA_VALUE then
-      return faceId,RENsomeNumber
+      return faceId,flag
     else
-      local faceGroup=(gvars.hosface_groupNumber+t)%50
+      local faceGroup=(gvars.hosface_groupNumber+facegroupIndex)%50
       faceId=350+faceGroup
     end
   else
-    local faceGroup=(gvars.hosface_groupNumber+t)%50
+    local faceGroup=(gvars.hosface_groupNumber+facegroupIndex)%50
     faceId=350+faceGroup
   end
-  return faceId,RENsomeNumber
+  return faceId,flag
 end
+--tex>
+function this.GetFaceIdForMaleHostage(missionCode)
+  local flag=maleHostageFlag
+  local facegroupIndex=maleHostageIndex
+  maleHostageIndex=maleHostageIndex+1
+  local race={}
+  table.insert(race,0)
+  if TppLocation.IsAfghan()then
+    table.insert(race,3)
+  elseif TppLocation.IsMiddleAfrica()then
+    table.insert(race,2)
+    table.insert(race,3)
+  end
+  local useIndex=gvars.solface_groupNumber+facegroupIndex
+  local faceId=EnemyFova.INVALID_FOVA_VALUE
+  if TppSoldierFace.GetRandomFaceId~=nil then
+    faceId=TppSoldierFace.GetRandomFaceId{race=race,gender=0,useIndex=useIndex}
+    if faceId~=EnemyFova.INVALID_FOVA_VALUE then
+      return faceId,flag
+    else
+      local faceGroup=(gvars.hosface_groupNumber+facegroupIndex)%50
+      faceId=350+faceGroup
+    end
+  else
+    local faceGroup=(gvars.hosface_groupNumber+facegroupIndex)%50
+    faceId=350+faceGroup
+  end
+  return faceId,flag
+end
+--<
 function this.GetFaceIdAndFlag(fovaType,faceId)
   local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
   if faceId=="female"then
@@ -1488,6 +1520,13 @@ function this.GetFaceIdAndFlag(fovaType,faceId)
     else
       return NOT_USED_FOVA_VALUE,0
     end
+  elseif faceId=="male"then--tex>
+    if fovaType=="hostage"then
+      return this.GetFaceIdForMaleHostage(vars.missionCode)
+  else
+    return NOT_USED_FOVA_VALUE,0
+  end
+  --<
   elseif faceId=="dd"then
     if fovaType=="hostage"then
       return this.GetFaceIdForDdHostage(vars.missionCode)
@@ -1624,6 +1663,10 @@ function this.ApplyUniqueSetting()
       end
       local command={id="SetHostage2Flag",flag="dd",on=true}
       GameObject.SendCommand(soldierId,command)
+    elseif band(fovaUniqueFlag,maleHostageFlag)~=0 then--tex>
+      local command={id="SetHostage2Flag",flag="dd",on=true}
+      GameObject.SendCommand(soldierId,command)
+      --<
     elseif band(fovaUniqueFlag,femaleHostageFlag)~=0 then
       local command={id="SetHostage2Flag",flag="female",on=true}
       GameObject.SendCommand(soldierId,command)

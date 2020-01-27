@@ -114,7 +114,7 @@ Script.LoadLibrary=function(scriptPath)
   else
     _G[moduleName]=module
   end
-  --print("ScriptLoad:"..moduleName)
+  print("ScriptLoad:"..moduleName)
 end
 Script.LoadLibraryAsync=Script.LoadLibrary
 Script.IsLoadingLibrary=function()

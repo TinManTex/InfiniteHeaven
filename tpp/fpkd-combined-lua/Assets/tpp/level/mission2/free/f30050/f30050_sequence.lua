@@ -778,20 +778,10 @@ function this.SetupStaffList()
   if Ivars.mbPrioritizeFemale:Is"DISABLE" then--tex> clear staff list of female
     local newList={}
     for sectionId = TppMotherBaseManagementConst.SECTION_COMBAT, TppMotherBaseManagementConst.SECTION_SECURITY do
-
-      local newStaffListOnCluster={}
-      newList[sectionId]=newStaffListOnCluster
-
-      local staffListOnCluster=staffList[sectionId]
-      local staffNum = #staffListOnCluster
-      local staffListIndex = 1
-      for i = 1, staffNum do
-        local staffId = staffListOnCluster[staffListIndex]
-        if staffId == nil then
-          break
-        end
-        if not this.IsFemale( staffId ) then
-          table.insert(newStaffListOnCluster,staffId)
+      newList[sectionId]={}
+      for i,staffId in ipairs(staffList[sectionId])do
+        if not this.IsFemale(staffId) then
+          table.insert(newList[sectionId],staffId)
         end
       end
     end
@@ -800,7 +790,7 @@ function this.SetupStaffList()
   --<
   mvars.f30050_staffIdList = {}
 
-
+  --NMC command staff are pulled from each section
   local commandStaffList = {}
   for i = 1, MAX_STAFF_NUM_ON_CLUSTER do
     for j = TppMotherBaseManagementConst.SECTION_COMBAT, TppMotherBaseManagementConst.SECTION_SECURITY do

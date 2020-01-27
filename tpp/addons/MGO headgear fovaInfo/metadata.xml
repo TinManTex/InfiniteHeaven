@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="MGO headgear fovaInfo mod" Version="r1" Author="tinmantex" Website="http://www.nexusmods.com/metalgearsolidvtpp/mods/45">
+  <MGSVersion Version="1.0.7.1" />
+  <SBVersion Version="0.8.5.0" />
+  <Description>MGO headgear fovaInfo mod r1
+For Infinite Heaven r202+
+
+Mostly just full MGO helmets that works without any modification, mostly full headgear.
+
+1. Install 'MGO headgear fovaInfo.mgsv' with snakebite.
+2. Copy mod\fovaInfo\mgoHeadgear_fovaInfo.lua to MGS_TPP\mod\fovaInfo
+
+In Infinite Heaven menu
+Player settings &gt; Appearance menu
+Change 'Filter faces' option to 'Head fova mods'
+Then chose head in 'Face' option.</Description>
+  <QarEntries>
+    <QarEntry Hash="5921071179809692706" FilePath="/Assets/mgo/pack/player/fova/hat_f00.fpk" Compressed="true" ContentHash="1E4B98B1EB7DC37E7C062E2128001B04" />
+    <QarEntry Hash="17101257254756949026" FilePath="/Assets/mgo/pack/player/fova/hat_f00.fpkd" Compressed="true" ContentHash="581D134195EFB7EC24AE1CA1F3C5686D" />
+    <QarEntry Hash="12897147002606591010" FilePath="/Assets/mgo/pack/player/fova/hat_f00.pftxs" Compressed="false" ContentHash="B0FEAB00012E3B2D898CECC5C6261B05" />
+    <QarEntry Hash="5920488340830306748" FilePath="/Assets/mgo/pack/player/fova/hat_f01.fpk" Compressed="true" ContentHash="E1F0B0E1AF0A5ECC86C71D35F2F0FFD1" />
+    <QarEntry Hash="17100674415777563068" FilePath="/Assets/mgo/pack/player/fova/hat_f01.fpkd" Compressed="true" ContentHash="2084AB0220BAE60B9921129F902F1B6F" />
+    <QarEntry Hash="12896564163627205052" FilePath="/Assets/mgo/pack/player/fova/hat_f01.pftxs" Compressed="false" ContentHash="1219CB43A811A7F82DDA363AB47114CB" />
+    <QarEntry Hash="5920496929881892200" FilePath="/Assets/mgo/pack/player/fova/hat_f02.fpk" Compressed="true" ContentHash="311DBCF96F2FF246A2F4713C7AE4A23E" />
+    <QarEntry Hash="17100683004829148520" FilePath="/Assets/mgo/pack/player/fova/hat_f02.fpkd" Compressed="true" ContentHash="9140131148A3543D77B31BD93ED8A8EF" />
+    <QarEntry Hash="12896572752678790504" FilePath="/Assets/mgo/pack/player/fova/hat_f02.pftxs" Compressed="false" ContentHash="8A8971009B5EE00E62CC2316A917E80F" />
+    <QarEntry Hash="5920331444251560112" FilePath="/Assets/mgo/pack/player/fova/hat_f03.fpk" Compressed="true" ContentHash="1A2CADACD0BDF8DF980E99CFD9F822DF" />
+    <QarEntry Hash="17100517519198816432" FilePath="/Assets/mgo/pack/player/fova/hat_f03.fpkd" Compressed="true" ContentHash="2BEB18C9BDA38B42540ACDA4D7FFBC57" />
+    <QarEntry Hash="12896407267048458416" FilePath="/Assets/mgo/pack/player/fova/hat_f03.pftxs" Compressed="false" ContentHash="825A0D2BDCA3F0854B50ED40CE204AE4" />
+    <QarEntry Hash="5920094631466488463" FilePath="/Assets/mgo/pack/player/fova/hat_f04.fpk" Compressed="true" ContentHash="5827EBE2472B75DADE406B4753DECF3C" />
+    <QarEntry Hash="17100280706413744783" FilePath="/Assets/mgo/pack/player/fova/hat_f04.fpkd" Compressed="true" ContentHash="0103C5DB7257242AD3147E1F2C164E8D" />
+    <QarEntry Hash="12896170454263386767" FilePath="/Assets/mgo/pack/player/fova/hat_f04.pftxs" Compressed="false" ContentHash="A4D5313F9DF4F846615E552FE72DE5DF" />
+    <QarEntry Hash="5920535267499426950" FilePath="/Assets/mgo/pack/player/fova/hat_f07.fpk" Compressed="true" ContentHash="2C6C7DDF6B4B84B57DB7069E925F883E" />
+    <QarEntry Hash="17100721342446683270" FilePath="/Assets/mgo/pack/player/fova/hat_f07.fpkd" Compressed="true" ContentHash="11992332FFAEACC9AB6E3D2B15247E6B" />
+    <QarEntry Hash="12896611090296325254" FilePath="/Assets/mgo/pack/player/fova/hat_f07.pftxs" Compressed="false" ContentHash="A0D2E21316A304129E06923AA79A32A5" />
+    <QarEntry Hash="5920822709788454787" FilePath="/Assets/mgo/pack/player/fova/hat_f10.fpk" Compressed="true" ContentHash="08BBA500687EE5D85C3BF01C052520A7" />
+    <QarEntry Hash="17101008784735711107" FilePath="/Assets/mgo/pack/player/fova/hat_f10.fpkd" Compressed="true" ContentHash="B66796D5E8E8A605F192BDD54E302E81" />
+    <QarEntry Hash="12896898532585353091" FilePath="/Assets/mgo/pack/player/fova/hat_f10.pftxs" Compressed="false" ContentHash="C8F787A4FBBFA10F760B04EB71C8D39A" />
+    <QarEntry Hash="5920801773682343045" FilePath="/Assets/mgo/pack/player/fova/hat_f13.fpk" Compressed="true" ContentHash="0FCD85FD5ECB3767FC5E5529B8F046E5" />
+    <QarEntry Hash="17100987848629599365" FilePath="/Assets/mgo/pack/player/fova/hat_f13.fpkd" Compressed="true" ContentHash="91B67374BB3163699CCDFC07CD8AB21C" />
+    <QarEntry Hash="12896877596479241349" FilePath="/Assets/mgo/pack/player/fova/hat_f13.pftxs" Compressed="false" ContentHash="568946E0866CFD7FFE1F7930329D0D41" />
+    <QarEntry Hash="5920150052811736269" FilePath="/Assets/mgo/pack/player/fova/hat_f14.fpk" Compressed="true" ContentHash="C81E734EA4A831A0A963FA7E486F54F6" />
+    <QarEntry Hash="17100336127758992589" FilePath="/Assets/mgo/pack/player/fova/hat_f14.fpkd" Compressed="true" ContentHash="2D6A0EB593BEFE31197939B260D2008E" />
+    <QarEntry Hash="5920676068250058259" FilePath="/Assets/mgo/pack/player/fova/hat_f15.fpk" Compressed="true" ContentHash="E868DF9FB226F0717750598CA9E97CC8" />
+    <QarEntry Hash="17100862143197314579" FilePath="/Assets/mgo/pack/player/fova/hat_f15.fpkd" Compressed="true" ContentHash="EF96A80390B6BC3B1F69C16D7D2F799E" />
+    <QarEntry Hash="12896751891046956563" FilePath="/Assets/mgo/pack/player/fova/hat_f15.pftxs" Compressed="false" ContentHash="17B6A940A6BE69AEAA8F34144807F46B" />
+    <QarEntry Hash="5920941451285411983" FilePath="/Assets/mgo/pack/player/fova/hat_f16.fpk" Compressed="true" ContentHash="819AD54EBA527EA25F30C4DA98158E5D" />
+    <QarEntry Hash="17101127526232668303" FilePath="/Assets/mgo/pack/player/fova/hat_f16.fpkd" Compressed="true" ContentHash="43D7945900BFF4A68F2F8F28220D69CD" />
+    <QarEntry Hash="12897017274082310287" FilePath="/Assets/mgo/pack/player/fova/hat_f16.pftxs" Compressed="false" ContentHash="7E8074CB846A61883747E11E7FAED66B" />
+    <QarEntry Hash="5920175022444038159" FilePath="/Assets/mgo/pack/player/fova/hat_f17.fpk" Compressed="true" ContentHash="00AB7EEA7D24702E174048340FE0EF09" />
+    <QarEntry Hash="17100361097391294479" FilePath="/Assets/mgo/pack/player/fova/hat_f17.fpkd" Compressed="true" ContentHash="FC9324E28542A5AB6495DE5FA8D7AE79" />
+    <QarEntry Hash="12896250845240936463" FilePath="/Assets/mgo/pack/player/fova/hat_f17.pftxs" Compressed="false" ContentHash="C825541CF019228E22095E7309DC3631" />
+    <QarEntry Hash="5920910801756571057" FilePath="/Assets/mgo/pack/player/fova/hat_f18.fpk" Compressed="true" ContentHash="09C77B620F72208E306C44C65C504F13" />
+    <QarEntry Hash="17101096876703827377" FilePath="/Assets/mgo/pack/player/fova/hat_f18.fpkd" Compressed="true" ContentHash="CDA0C567563BE690402858649EDC7F61" />
+    <QarEntry Hash="12896986624553469361" FilePath="/Assets/mgo/pack/player/fova/hat_f18.pftxs" Compressed="false" ContentHash="C825541CF019228E22095E7309DC3631" />
+    <QarEntry Hash="5919987744446007244" FilePath="/Assets/mgo/pack/player/fova/hat_f19.fpk" Compressed="true" ContentHash="CDB0833AB4557596D3406BFA35BAC664" />
+    <QarEntry Hash="17100173819393263564" FilePath="/Assets/mgo/pack/player/fova/hat_f19.fpkd" Compressed="true" ContentHash="A1BDB7D136DBA2342E61C580E14B8571" />
+    <QarEntry Hash="12896063567242905548" FilePath="/Assets/mgo/pack/player/fova/hat_f19.pftxs" Compressed="false" ContentHash="371BB463B5F51247E1895FCC4FBE06E0" />
+    <QarEntry Hash="5920232892027941795" FilePath="/Assets/mgo/pack/player/fova/hat_f20.fpk" Compressed="true" ContentHash="3A39653BAFFC371504FC9C5DF0E818F3" />
+    <QarEntry Hash="17100418966975198115" FilePath="/Assets/mgo/pack/player/fova/hat_f20.fpkd" Compressed="true" ContentHash="0BF7EC6848E6C4A22A07C9F26F4E4D1B" />
+    <QarEntry Hash="12896308714824840099" FilePath="/Assets/mgo/pack/player/fova/hat_f20.pftxs" Compressed="false" ContentHash="6809F948168D4B8BA059F408402CBC6B" />
+    <QarEntry Hash="5920705566748326136" FilePath="/Assets/mgo/pack/player/fova/hat_f21.fpk" Compressed="true" ContentHash="ECA3B9456AB3F1E8521F669A63AC6042" />
+    <QarEntry Hash="17100891641695582456" FilePath="/Assets/mgo/pack/player/fova/hat_f21.fpkd" Compressed="true" ContentHash="6F60D8406DCF80F0DB14841033DC2CBB" />
+    <QarEntry Hash="12896781389545224440" FilePath="/Assets/mgo/pack/player/fova/hat_f21.pftxs" Compressed="false" ContentHash="69E9C928F0B1682C5CC20868D2EBF497" />
+    <QarEntry Hash="5920264711768466246" FilePath="/Assets/mgo/pack/player/fova/hat_f22.fpk" Compressed="true" ContentHash="1C15650C83F13ACA71609A56F65072BB" />
+    <QarEntry Hash="17100450786715722566" FilePath="/Assets/mgo/pack/player/fova/hat_f22.fpkd" Compressed="true" ContentHash="16A21B29D895B085ACDEC6A9BF94F966" />
+    <QarEntry Hash="12896340534565364550" FilePath="/Assets/mgo/pack/player/fova/hat_f22.pftxs" Compressed="false" ContentHash="39934DB966342A9EBCC25763938712D2" />
+    <QarEntry Hash="5920509776465334909" FilePath="/Assets/mgo/pack/player/fova/hat_f23.fpk" Compressed="true" ContentHash="9582F6DA051D0263AFC6A500E218EF7B" />
+    <QarEntry Hash="17100695851412591229" FilePath="/Assets/mgo/pack/player/fova/hat_f23.fpkd" Compressed="true" ContentHash="620D26ACBD926BC2857683343472AFA9" />
+    <QarEntry Hash="12896585599262233213" FilePath="/Assets/mgo/pack/player/fova/hat_f23.pftxs" Compressed="false" ContentHash="00513BE017497AEF9C07CC39B27F8AEC" />
+    <QarEntry Hash="5920586960897448395" FilePath="/Assets/mgo/pack/player/fova/hat_m00.fpk" Compressed="true" ContentHash="039B615651D5009D84FFFE9FEA0C584F" />
+    <QarEntry Hash="17100773035844704715" FilePath="/Assets/mgo/pack/player/fova/hat_m00.fpkd" Compressed="true" ContentHash="55A58EFF617312D7B9C046189055E4FB" />
+    <QarEntry Hash="12896662783694346699" FilePath="/Assets/mgo/pack/player/fova/hat_m00.pftxs" Compressed="false" ContentHash="B0FEAB00012E3B2D898CECC5C6261B05" />
+    <QarEntry Hash="5920375887812169017" FilePath="/Assets/mgo/pack/player/fova/hat_m01.fpk" Compressed="true" ContentHash="C259E5FFFF579EF034CE64D1CF400EA7" />
+    <QarEntry Hash="17100561962759425337" FilePath="/Assets/mgo/pack/player/fova/hat_m01.fpkd" Compressed="true" ContentHash="241A2EB9182F4E0112C9BC9CFA66E616" />
+    <QarEntry Hash="12896451710609067321" FilePath="/Assets/mgo/pack/player/fova/hat_m01.pftxs" Compressed="false" ContentHash="1219CB43A811A7F82DDA363AB47114CB" />
+    <QarEntry Hash="5920439806073103292" FilePath="/Assets/mgo/pack/player/fova/hat_m02.fpk" Compressed="true" ContentHash="F971CD0C53835DB3214C47D732EE5E67" />
+    <QarEntry Hash="17100625881020359612" FilePath="/Assets/mgo/pack/player/fova/hat_m02.fpkd" Compressed="true" ContentHash="F9A5CA4917628458ED25D5D356330B1A" />
+    <QarEntry Hash="12896515628870001596" FilePath="/Assets/mgo/pack/player/fova/hat_m02.pftxs" Compressed="false" ContentHash="8A8971009B5EE00E62CC2316A917E80F" />
+    <QarEntry Hash="5921102029949643216" FilePath="/Assets/mgo/pack/player/fova/hat_m03.fpk" Compressed="true" ContentHash="B52097E50F1A5140F43072B497C85182" />
+    <QarEntry Hash="17101288104896899536" FilePath="/Assets/mgo/pack/player/fova/hat_m03.fpkd" Compressed="true" ContentHash="F06AF31F0A7123F4CC31EC387B1302B4" />
+    <QarEntry Hash="12897177852746541520" FilePath="/Assets/mgo/pack/player/fova/hat_m03.pftxs" Compressed="false" ContentHash="825A0D2BDCA3F0854B50ED40CE204AE4" />
+    <QarEntry Hash="5920714466574552925" FilePath="/Assets/mgo/pack/player/fova/hat_m04.fpk" Compressed="true" ContentHash="81326F6B56EC04ACA211D2912212E323" />
+    <QarEntry Hash="17100900541521809245" FilePath="/Assets/mgo/pack/player/fova/hat_m04.fpkd" Compressed="true" ContentHash="8678E2FBBC89C46A37458E966D903FF0" />
+    <QarEntry Hash="12896790289371451229" FilePath="/Assets/mgo/pack/player/fova/hat_m04.pftxs" Compressed="false" ContentHash="A4D5313F9DF4F846615E552FE72DE5DF" />
+    <QarEntry Hash="5920295354749999916" FilePath="/Assets/mgo/pack/player/fova/hat_m05.fpk" Compressed="true" ContentHash="A6E75BB4F053982B40D3D159E90ACED8" />
+    <QarEntry Hash="17100481429697256236" FilePath="/Assets/mgo/pack/player/fova/hat_m05.fpkd" Compressed="true" ContentHash="E12903F87807238BE34AF2BED2FAFB53" />
+    <QarEntry Hash="12896371177546898220" FilePath="/Assets/mgo/pack/player/fova/hat_m05.pftxs" Compressed="false" ContentHash="0C80A057F2450B5D49CE53320E742A41" />
+    <QarEntry Hash="5920801658896588273" FilePath="/Assets/mgo/pack/player/fova/hat_m06.fpk" Compressed="true" ContentHash="A07C9FF84D835299E3A52D462315960E" />
+    <QarEntry Hash="17100987733843844593" FilePath="/Assets/mgo/pack/player/fova/hat_m06.fpkd" Compressed="true" ContentHash="70BB28EE21B76FA3F072D0898463CBCA" />
+    <QarEntry Hash="12896877481693486577" FilePath="/Assets/mgo/pack/player/fova/hat_m06.pftxs" Compressed="false" ContentHash="EB7A8301AD9AE2A4B15641B5FA482426" />
+    <QarEntry Hash="5920577588563767285" FilePath="/Assets/mgo/pack/player/fova/hat_m07.fpk" Compressed="true" ContentHash="B40A9DCCC87E4F6CBF170B5FE988D86C" />
+    <QarEntry Hash="17100763663511023605" FilePath="/Assets/mgo/pack/player/fova/hat_m07.fpkd" Compressed="true" ContentHash="55F344AFCB1A1D9CA79EBA787042108E" />
+    <QarEntry Hash="12896653411360665589" FilePath="/Assets/mgo/pack/player/fova/hat_m07.pftxs" Compressed="false" ContentHash="A0D2E21316A304129E06923AA79A32A5" />
+    <QarEntry Hash="5920678117418760467" FilePath="/Assets/mgo/pack/player/fova/hat_m08.fpk" Compressed="true" ContentHash="78DCEF412A7339FC49A271B81E7FEE1F" />
+    <QarEntry Hash="17100864192366016787" FilePath="/Assets/mgo/pack/player/fova/hat_m08.fpkd" Compressed="true" ContentHash="122EDFFB9EAC4A55A8CA041FF7393E36" />
+    <QarEntry Hash="12896753940215658771" FilePath="/Assets/mgo/pack/player/fova/hat_m08.pftxs" Compressed="false" ContentHash="0478778A50CC9169B913FBF3887BEE36" />
+    <QarEntry Hash="5920786754721214373" FilePath="/Assets/mgo/pack/player/fova/hat_m09.fpk" Compressed="true" ContentHash="EF6580AD71D7FC9F87B10D505F1FD34F" />
+    <QarEntry Hash="17100972829668470693" FilePath="/Assets/mgo/pack/player/fova/hat_m09.fpkd" Compressed="true" ContentHash="66CDBC254EF70EA84BF0BAF670EDAE79" />
+    <QarEntry Hash="12896862577518112677" FilePath="/Assets/mgo/pack/player/fova/hat_m09.pftxs" Compressed="false" ContentHash="09DD2C832AABF2CE19DDADF5D2181DFB" />
+    <QarEntry Hash="5920099664531682075" FilePath="/Assets/mgo/pack/player/fova/hat_m10.fpk" Compressed="true" ContentHash="373A35726E4C7DC5A8A85940A57F82D8" />
+    <QarEntry Hash="17100285739478938395" FilePath="/Assets/mgo/pack/player/fova/hat_m10.fpkd" Compressed="true" ContentHash="8ED66FE4D902B20F4EA2624E5BAF6302" />
+    <QarEntry Hash="12896175487328580379" FilePath="/Assets/mgo/pack/player/fova/hat_m10.pftxs" Compressed="false" ContentHash="C8F787A4FBBFA10F760B04EB71C8D39A" />
+    <QarEntry Hash="5920549286794665917" FilePath="/Assets/mgo/pack/player/fova/hat_m11.fpk" Compressed="true" ContentHash="CF4C02C6BCE86C8C223CE99CD221F286" />
+    <QarEntry Hash="17100735361741922237" FilePath="/Assets/mgo/pack/player/fova/hat_m11.fpkd" Compressed="true" ContentHash="1EBABA0889E891375038C509A8B4E324" />
+    <QarEntry Hash="12896625109591564221" FilePath="/Assets/mgo/pack/player/fova/hat_m11.pftxs" Compressed="false" ContentHash="021DAC0BD5A9375C35C7B3BF97FF745C" />
+    <QarEntry Hash="5920003903745719782" FilePath="/Assets/mgo/pack/player/fova/hat_m12.fpk" Compressed="true" ContentHash="B576475E451D60AF23A7BDBF58FED426" />
+    <QarEntry Hash="17100189978692976102" FilePath="/Assets/mgo/pack/player/fova/hat_m12.fpkd" Compressed="true" ContentHash="4C518B73140C3E501436CE7F6E597BC9" />
+    <QarEntry Hash="12896079726542618086" FilePath="/Assets/mgo/pack/player/fova/hat_m12.pftxs" Compressed="false" ContentHash="132023A8A8D034ECF9A9DEC2D34074EC" />
+    <QarEntry Hash="5920099495234695113" FilePath="/Assets/mgo/pack/player/fova/hat_m13.fpk" Compressed="true" ContentHash="B070034E9B1122AE0E122CC81EA085E3" />
+    <QarEntry Hash="17100285570181951433" FilePath="/Assets/mgo/pack/player/fova/hat_m13.fpkd" Compressed="true" ContentHash="EE64B5CB11D249F206E36015C3249568" />
+    <QarEntry Hash="12896175318031593417" FilePath="/Assets/mgo/pack/player/fova/hat_m13.pftxs" Compressed="false" ContentHash="568946E0866CFD7FFE1F7930329D0D41" />
+    <QarEntry Hash="5920498252830745326" FilePath="/Assets/mgo/pack/player/fova/hat_m14.fpk" Compressed="true" ContentHash="6B7B72754740AC7BC40A574E158E52F2" />
+    <QarEntry Hash="17100684327778001646" FilePath="/Assets/mgo/pack/player/fova/hat_m14.fpkd" Compressed="true" ContentHash="D7D95138333F1C717B81AD9D7E9133BF" />
+    <QarEntry Hash="12896574075627643630" FilePath="/Assets/mgo/pack/player/fova/hat_m14.pftxs" Compressed="false" ContentHash="B1BCED4DCF73C2F91BA45E44F7D88733" />
+    <QarEntry Hash="5920338976418669840" FilePath="/Assets/mgo/pack/player/fova/hat_m15.fpk" Compressed="true" ContentHash="F6DB82DEBF5FE0F4352EE011F190DC8E" />
+    <QarEntry Hash="17100525051365926160" FilePath="/Assets/mgo/pack/player/fova/hat_m15.fpkd" Compressed="true" ContentHash="2CB75A13F588CDC0588CC5C45074E734" />
+    <QarEntry Hash="12896414799215568144" FilePath="/Assets/mgo/pack/player/fova/hat_m15.pftxs" Compressed="false" ContentHash="17B6A940A6BE69AEAA8F34144807F46B" />
+    <QarEntry Hash="5920922823806120001" FilePath="/Assets/mgo/pack/player/fova/hat_m16.fpk" Compressed="true" ContentHash="3C92C083615D8E22742C31EA33926A5B" />
+    <QarEntry Hash="17101108898753376321" FilePath="/Assets/mgo/pack/player/fova/hat_m16.fpkd" Compressed="true" ContentHash="F7BDC6A49235534E513DB4CBE2736E44" />
+    <QarEntry Hash="12896998646603018305" FilePath="/Assets/mgo/pack/player/fova/hat_m16.pftxs" Compressed="false" ContentHash="7E8074CB846A61883747E11E7FAED66B" />
+    <QarEntry Hash="5920283415445480219" FilePath="/Assets/mgo/pack/player/fova/hat_m17.fpk" Compressed="true" ContentHash="3CC91D750297A3D3738749BA62B10787" />
+    <QarEntry Hash="17100469490392736539" FilePath="/Assets/mgo/pack/player/fova/hat_m17.fpkd" Compressed="true" ContentHash="FA896A54D6CA1B6612AF14378CDEDA69" />
+    <QarEntry Hash="12896359238242378523" FilePath="/Assets/mgo/pack/player/fova/hat_m17.pftxs" Compressed="false" ContentHash="C825541CF019228E22095E7309DC3631" />
+    <QarEntry Hash="5921091114572302636" FilePath="/Assets/mgo/pack/player/fova/hat_m18.fpk" Compressed="true" ContentHash="AC483EA6AD58665A2BC13CCD3F6C5F2E" />
+    <QarEntry Hash="17101277189519558956" FilePath="/Assets/mgo/pack/player/fova/hat_m18.fpkd" Compressed="true" ContentHash="F29E4EEE19362D8B14E60A56DA8F472A" />
+    <QarEntry Hash="12897166937369200940" FilePath="/Assets/mgo/pack/player/fova/hat_m18.pftxs" Compressed="false" ContentHash="C825541CF019228E22095E7309DC3631" />
+    <QarEntry Hash="5920361307159858715" FilePath="/Assets/mgo/pack/player/fova/hat_m19.fpk" Compressed="true" ContentHash="2F82CA826698A7E257B764184E09C819" />
+    <QarEntry Hash="17100547382107115035" FilePath="/Assets/mgo/pack/player/fova/hat_m19.fpkd" Compressed="true" ContentHash="462355B404513DD1D264BF6CCB1DBDE0" />
+    <QarEntry Hash="12896437129956757019" FilePath="/Assets/mgo/pack/player/fova/hat_m19.pftxs" Compressed="false" ContentHash="371BB463B5F51247E1895FCC4FBE06E0" />
+    <QarEntry Hash="5921007918562646624" FilePath="/Assets/mgo/pack/player/fova/hat_m20.fpk" Compressed="true" ContentHash="E64C76729BAB75019FE2D1BE2CB22973" />
+    <QarEntry Hash="17101193993509902944" FilePath="/Assets/mgo/pack/player/fova/hat_m20.fpkd" Compressed="true" ContentHash="45C9626EC0EDC34C5AA4B909C907666C" />
+    <QarEntry Hash="12897083741359544928" FilePath="/Assets/mgo/pack/player/fova/hat_m20.pftxs" Compressed="false" ContentHash="9155D77253394A326C228C8E7C5E0284" />
+    <QarEntry Hash="5921002029170155344" FilePath="/Assets/mgo/pack/player/fova/hat_m21.fpk" Compressed="true" ContentHash="7E1C8093C5939115352DCD3F97066A6C" />
+    <QarEntry Hash="17101188104117411664" FilePath="/Assets/mgo/pack/player/fova/hat_m21.fpkd" Compressed="true" ContentHash="99A5E53B17BC8FA28E5C94BB7D3EC807" />
+    <QarEntry Hash="12897077851967053648" FilePath="/Assets/mgo/pack/player/fova/hat_m21.pftxs" Compressed="false" ContentHash="F99090C75695415778A92DDB4167BDE9" />
+    <QarEntry Hash="5920841305891540211" FilePath="/Assets/mgo/pack/player/fova/hat_m22.fpk" Compressed="true" ContentHash="CE0DDD9A2DFDB7A5C7EB4BFA277E99BF" />
+    <QarEntry Hash="17101027380838796531" FilePath="/Assets/mgo/pack/player/fova/hat_m22.fpkd" Compressed="true" ContentHash="5D7B225F8BB2DB9F7F5744BC2F60E305" />
+    <QarEntry Hash="12896917128688438515" FilePath="/Assets/mgo/pack/player/fova/hat_m22.pftxs" Compressed="false" ContentHash="39934DB966342A9EBCC25763938712D2" />
+    <QarEntry Hash="5920373942803973699" FilePath="/Assets/mgo/pack/player/fova/hat_m23.fpk" Compressed="true" ContentHash="197FD1F5CDDA255E7418BE04D6CF55E3" />
+    <QarEntry Hash="17100560017751230019" FilePath="/Assets/mgo/pack/player/fova/hat_m23.fpkd" Compressed="true" ContentHash="39CE8E07C95CE7CFBED3F570A112D007" />
+    <QarEntry Hash="12896449765600872003" FilePath="/Assets/mgo/pack/player/fova/hat_m23.pftxs" Compressed="false" ContentHash="4B814705078690988EF0776D5A28BB3F" />
+    <QarEntry Hash="5921072312470356194" FilePath="/Assets/mgo/pack/player/fova/inh_f00.fpk" Compressed="true" ContentHash="CCF821C8B87CB428A18CD71EE317864C" />
+    <QarEntry Hash="17101258387417612514" FilePath="/Assets/mgo/pack/player/fova/inh_f00.fpkd" Compressed="true" ContentHash="1116F225921055A393A36115D8EE33B9" />
+    <QarEntry Hash="12897148135267254498" FilePath="/Assets/mgo/pack/player/fova/inh_f00.pftxs" Compressed="false" ContentHash="463FBA73B42AFEAF2DE31504C76ED50C" />
+    <QarEntry Hash="5920143729939691732" FilePath="/Assets/mgo/pack/player/fova/inh_f01.fpk" Compressed="true" ContentHash="D09918F8FBEB789D422160C20DD247FB" />
+    <QarEntry Hash="17100329804886948052" FilePath="/Assets/mgo/pack/player/fova/inh_f01.fpkd" Compressed="true" ContentHash="5306659ECF1B9B15D53404C1C24AB97A" />
+    <QarEntry Hash="12896219552736590036" FilePath="/Assets/mgo/pack/player/fova/inh_f01.pftxs" Compressed="false" ContentHash="07275EC8C0EF16B5EA3DBF3773B73496" />
+    <QarEntry Hash="5920129485579861084" FilePath="/Assets/mgo/pack/player/fova/inh_f02.fpk" Compressed="true" ContentHash="585FB0F135EFB39EF045C621F45722B7" />
+    <QarEntry Hash="17100315560527117404" FilePath="/Assets/mgo/pack/player/fova/inh_f02.fpkd" Compressed="true" ContentHash="EFFA6E488FFC64A4A31D0C3773FD9AB9" />
+    <QarEntry Hash="12896205308376759388" FilePath="/Assets/mgo/pack/player/fova/inh_f02.pftxs" Compressed="false" ContentHash="F7D80C9E3DF609631BA62F28472A14CC" />
+    <QarEntry Hash="5920401823940840702" FilePath="/Assets/mgo/pack/player/fova/inh_f03.fpk" Compressed="true" ContentHash="A93726044F2ABB10A2A9EFD103651C10" />
+    <QarEntry Hash="17100587898888097022" FilePath="/Assets/mgo/pack/player/fova/inh_f03.fpkd" Compressed="true" ContentHash="4F2B8F68B43FA1CD4C0557B364C46D05" />
+    <QarEntry Hash="12896477646737739006" FilePath="/Assets/mgo/pack/player/fova/inh_f03.pftxs" Compressed="false" ContentHash="9B314B6A97E03EF1620240BB8EB3D569" />
+    <QarEntry Hash="5920195281282017716" FilePath="/Assets/mgo/pack/player/fova/inh_f04.fpk" Compressed="true" ContentHash="ACF7053A695C97151BCCC9AA9DE7CA67" />
+    <QarEntry Hash="17100381356229274036" FilePath="/Assets/mgo/pack/player/fova/inh_f04.fpkd" Compressed="true" ContentHash="45FA79179A57CE1389069149F08EB8CD" />
+    <QarEntry Hash="12896271104078916020" FilePath="/Assets/mgo/pack/player/fova/inh_f04.pftxs" Compressed="false" ContentHash="4E9F6D13D9FEF57D6E1634853B189BD3" />
+    <QarEntry Hash="5920298344220164293" FilePath="/Assets/mgo/pack/player/fova/inh_m00.fpk" Compressed="true" ContentHash="3E7115BB161329E36748D10AB3897DDA" />
+    <QarEntry Hash="17100484419167420613" FilePath="/Assets/mgo/pack/player/fova/inh_m00.fpkd" Compressed="true" ContentHash="64E320275DBB53CD8AF02EA928FA7B23" />
+    <QarEntry Hash="12896374167017062597" FilePath="/Assets/mgo/pack/player/fova/inh_m00.pftxs" Compressed="false" ContentHash="463FBA73B42AFEAF2DE31504C76ED50C" />
+    <QarEntry Hash="5920226196725547669" FilePath="/Assets/mgo/pack/player/fova/inh_m01.fpk" Compressed="true" ContentHash="6CCCEF865F6B48CC97955DED88CD538E" />
+    <QarEntry Hash="17100412271672803989" FilePath="/Assets/mgo/pack/player/fova/inh_m01.fpkd" Compressed="true" ContentHash="1CE10424C0AD02A1E0807F0E6133BEC4" />
+    <QarEntry Hash="12896302019522445973" FilePath="/Assets/mgo/pack/player/fova/inh_m01.pftxs" Compressed="false" ContentHash="07275EC8C0EF16B5EA3DBF3773B73496" />
+    <QarEntry Hash="5921087125944527556" FilePath="/Assets/mgo/pack/player/fova/inh_m02.fpk" Compressed="true" ContentHash="419634B22D63B9086BE5CE66AB720894" />
+    <QarEntry Hash="17101273200891783876" FilePath="/Assets/mgo/pack/player/fova/inh_m02.fpkd" Compressed="true" ContentHash="F6DB41E9431BD39CDE6E628029F7C6B6" />
+    <QarEntry Hash="12897162948741425860" FilePath="/Assets/mgo/pack/player/fova/inh_m02.pftxs" Compressed="false" ContentHash="F7D80C9E3DF609631BA62F28472A14CC" />
+    <QarEntry Hash="5920023032021788966" FilePath="/Assets/mgo/pack/player/fova/inh_m03.fpk" Compressed="true" ContentHash="F2061C64D8128824BF64CFEAB4276C94" />
+    <QarEntry Hash="17100209106969045286" FilePath="/Assets/mgo/pack/player/fova/inh_m03.fpkd" Compressed="true" ContentHash="C451455A92DCD8FCE4FEF1546FBC7230" />
+    <QarEntry Hash="12896098854818687270" FilePath="/Assets/mgo/pack/player/fova/inh_m03.pftxs" Compressed="false" ContentHash="3715AB903BB0E628692B11245942E335" />
+    <QarEntry Hash="5920963763952710279" FilePath="/Assets/mgo/pack/player/fova/inh_m04.fpk" Compressed="true" ContentHash="415A738F7F207498B1CBC2D098173390" />
+    <QarEntry Hash="17101149838899966599" FilePath="/Assets/mgo/pack/player/fova/inh_m04.fpkd" Compressed="true" ContentHash="12C6CF5F5665368FE5EF55A89F8BB493" />
+    <QarEntry Hash="12897039586749608583" FilePath="/Assets/mgo/pack/player/fova/inh_m04.pftxs" Compressed="false" ContentHash="4E9F6D13D9FEF57D6E1634853B189BD3" />
+    <QarEntry Hash="5921056717909370900" FilePath="/Assets/mgo/pack/player/fova/ins_f00.fpk" Compressed="true" ContentHash="2FFA6EFD462CAAD58209F9123D74B2B9" />
+    <QarEntry Hash="17101242792856627220" FilePath="/Assets/mgo/pack/player/fova/ins_f00.fpkd" Compressed="true" ContentHash="3A48AE4398ECEC3CD41135741D8D28B5" />
+    <QarEntry Hash="12897132540706269204" FilePath="/Assets/mgo/pack/player/fova/ins_f00.pftxs" Compressed="false" ContentHash="341E7D430808CD9A3C16EC9BBAA9F3C7" />
+    <QarEntry Hash="5920265079996944709" FilePath="/Assets/mgo/pack/player/fova/ins_f01.fpk" Compressed="true" ContentHash="DA0E88805CA724BDF51E5EE5EE9A6F28" />
+    <QarEntry Hash="17100451154944201029" FilePath="/Assets/mgo/pack/player/fova/ins_f01.fpkd" Compressed="true" ContentHash="D693E8A9A64570F20940B912C9A9A7EA" />
+    <QarEntry Hash="12896340902793843013" FilePath="/Assets/mgo/pack/player/fova/ins_f01.pftxs" Compressed="false" ContentHash="3E541067E23487994155AFBB696E0B8B" />
+    <QarEntry Hash="5920693051904932574" FilePath="/Assets/mgo/pack/player/fova/ins_f02.fpk" Compressed="true" ContentHash="32DC5E973D7AE957E0383E8C859CB226" />
+    <QarEntry Hash="17100879126852188894" FilePath="/Assets/mgo/pack/player/fova/ins_f02.fpkd" Compressed="true" ContentHash="31F92FB94684CCD3E9398267115C5766" />
+    <QarEntry Hash="12896768874701830878" FilePath="/Assets/mgo/pack/player/fova/ins_f02.pftxs" Compressed="false" ContentHash="1801C0767DA3C1BDF130D3B5B8BD334B" />
+    <QarEntry Hash="5920088792213359798" FilePath="/Assets/mgo/pack/player/fova/ins_m01.fpk" Compressed="true" ContentHash="4DDDD0AF73C1844CF4931D1B8531F8E9" />
+    <QarEntry Hash="17100274867160616118" FilePath="/Assets/mgo/pack/player/fova/ins_m01.fpkd" Compressed="true" ContentHash="F0F6924225FE698A7898A41E47F10726" />
+    <QarEntry Hash="12896164615010258102" FilePath="/Assets/mgo/pack/player/fova/ins_m01.pftxs" Compressed="false" ContentHash="8B51403EFCA790EB90936F0A32FE9D93" />
+    <QarEntry Hash="5920363650939881701" FilePath="/Assets/mgo/pack/player/fova/reh_f00.fpk" Compressed="true" ContentHash="75E3FE86FFF7377B568B1EBBFD7BED01" />
+    <QarEntry Hash="17100549725887138021" FilePath="/Assets/mgo/pack/player/fova/reh_f00.fpkd" Compressed="true" ContentHash="35C85F7587FF8757F67E39998A32C041" />
+    <QarEntry Hash="12896439473736780005" FilePath="/Assets/mgo/pack/player/fova/reh_f00.pftxs" Compressed="false" ContentHash="01218388C6148E48471D22077407FF58" />
+    <QarEntry Hash="5921040624071608386" FilePath="/Assets/mgo/pack/player/fova/reh_f01.fpk" Compressed="true" ContentHash="CC415D5022218DE770BABE0A29174AF9" />
+    <QarEntry Hash="17101226699018864706" FilePath="/Assets/mgo/pack/player/fova/reh_f01.fpkd" Compressed="true" ContentHash="DF3227B19CC0945AD98C8B37DC357437" />
+    <QarEntry Hash="12897116446868506690" FilePath="/Assets/mgo/pack/player/fova/reh_f01.pftxs" Compressed="false" ContentHash="0D4F9A18C779217F9522D58AD06C841D" />
+    <QarEntry Hash="5920258852344517991" FilePath="/Assets/mgo/pack/player/fova/reh_f02.fpk" Compressed="true" ContentHash="8C802034C059B16C80C97FDBA177EC95" />
+    <QarEntry Hash="17100444927291774311" FilePath="/Assets/mgo/pack/player/fova/reh_f02.fpkd" Compressed="true" ContentHash="F5E9072C069AD7251A2B9E3C3F478281" />
+    <QarEntry Hash="12896334675141416295" FilePath="/Assets/mgo/pack/player/fova/reh_f02.pftxs" Compressed="false" ContentHash="40C1868D0C26A0037C0116852A3BA214" />
+    <QarEntry Hash="5920947003047712158" FilePath="/Assets/mgo/pack/player/fova/reh_f03.fpk" Compressed="true" ContentHash="7489A5731ABE9AA3C87863A7A9CFE6EF" />
+    <QarEntry Hash="17101133077994968478" FilePath="/Assets/mgo/pack/player/fova/reh_f03.fpkd" Compressed="true" ContentHash="24032AE53EB4D66D92D8EE89C97D190C" />
+    <QarEntry Hash="12897022825844610462" FilePath="/Assets/mgo/pack/player/fova/reh_f03.pftxs" Compressed="false" ContentHash="2DF406533A0E9A34E9E71A639C8163FE" />
+    <QarEntry Hash="5920633025363394538" FilePath="/Assets/mgo/pack/player/fova/reh_f04.fpk" Compressed="true" ContentHash="78DE402E245517D47F486F18C1FC50DC" />
+    <QarEntry Hash="17100819100310650858" FilePath="/Assets/mgo/pack/player/fova/reh_f04.fpkd" Compressed="true" ContentHash="EB1A8C5A1030CA2348140FD113FFEF1F" />
+    <QarEntry Hash="12896708848160292842" FilePath="/Assets/mgo/pack/player/fova/reh_f04.pftxs" Compressed="false" ContentHash="C8E5F9958126507264FE85EF5CCF2505" />
+    <QarEntry Hash="5920762168652891959" FilePath="/Assets/mgo/pack/player/fova/reh_m00.fpk" Compressed="true" ContentHash="893029A6DDA0BAC2380BBFAC6327CFA4" />
+    <QarEntry Hash="17100948243600148279" FilePath="/Assets/mgo/pack/player/fova/reh_m00.fpkd" Compressed="true" ContentHash="D16667FBE12543843A17426F3BCC0CF2" />
+    <QarEntry Hash="12896837991449790263" FilePath="/Assets/mgo/pack/player/fova/reh_m00.pftxs" Compressed="false" ContentHash="01218388C6148E48471D22077407FF58" />
+    <QarEntry Hash="5920915259477522185" FilePath="/Assets/mgo/pack/player/fova/reh_m01.fpk" Compressed="true" ContentHash="5379DF18432F18AEA1FD2E98922689A3" />
+    <QarEntry Hash="17101101334424778505" FilePath="/Assets/mgo/pack/player/fova/reh_m01.fpkd" Compressed="true" ContentHash="091D655C4AEBB105CFBF3455AC4E541C" />
+    <QarEntry Hash="12896991082274420489" FilePath="/Assets/mgo/pack/player/fova/reh_m01.pftxs" Compressed="false" ContentHash="0D4F9A18C779217F9522D58AD06C841D" />
+    <QarEntry Hash="5920094222397998957" FilePath="/Assets/mgo/pack/player/fova/reh_m02.fpk" Compressed="true" ContentHash="FE99024C0C31F86A07F03555A24233DD" />
+    <QarEntry Hash="17100280297345255277" FilePath="/Assets/mgo/pack/player/fova/reh_m02.fpkd" Compressed="true" ContentHash="3749DCFBBDD941EF7CF66466E4D48C00" />
+    <QarEntry Hash="12896170045194897261" FilePath="/Assets/mgo/pack/player/fova/reh_m02.pftxs" Compressed="false" ContentHash="40C1868D0C26A0037C0116852A3BA214" />
+    <QarEntry Hash="5920967143026085782" FilePath="/Assets/mgo/pack/player/fova/reh_m03.fpk" Compressed="true" ContentHash="CE937B4B3D382AE1E6A6EAF508206B42" />
+    <QarEntry Hash="17101153217973342102" FilePath="/Assets/mgo/pack/player/fova/reh_m03.fpkd" Compressed="true" ContentHash="F6795A5522A67DC64CFF522DD3089369" />
+    <QarEntry Hash="12897042965822984086" FilePath="/Assets/mgo/pack/player/fova/reh_m03.pftxs" Compressed="false" ContentHash="2DF406533A0E9A34E9E71A639C8163FE" />
+    <QarEntry Hash="5920504698640491015" FilePath="/Assets/mgo/pack/player/fova/reh_m04.fpk" Compressed="true" ContentHash="67814BED8C94F89F1FF892620E8C098E" />
+    <QarEntry Hash="17100690773587747335" FilePath="/Assets/mgo/pack/player/fova/reh_m04.fpkd" Compressed="true" ContentHash="0B260CA3099E2CBA0249793264403B2C" />
+    <QarEntry Hash="12896580521437389319" FilePath="/Assets/mgo/pack/player/fova/reh_m04.pftxs" Compressed="false" ContentHash="71E2BF42357E6AB536510F47D8B17F9F" />
+    <QarEntry Hash="5920497435953586479" FilePath="/Assets/mgo/pack/player/fova/res_f00.fpk" Compressed="true" ContentHash="B5CACC122B62DAE0523067B462647542" />
+    <QarEntry Hash="17100683510900842799" FilePath="/Assets/mgo/pack/player/fova/res_f00.fpkd" Compressed="true" ContentHash="4F7ED80C27C55749E20538B01AC86687" />
+    <QarEntry Hash="12896573258750484783" FilePath="/Assets/mgo/pack/player/fova/res_f00.pftxs" Compressed="false" ContentHash="CB8C2156190E8F81D3530627BA21D4C4" />
+    <QarEntry Hash="5920507007608524115" FilePath="/Assets/mgo/pack/player/fova/res_f01.fpk" Compressed="true" ContentHash="5DCBF0B7666E4B3ABC019C027BF05371" />
+    <QarEntry Hash="17100693082555780435" FilePath="/Assets/mgo/pack/player/fova/res_f01.fpkd" Compressed="true" ContentHash="20C53E1592B19A0FBE4EACC634AD4254" />
+    <QarEntry Hash="12896582830405422419" FilePath="/Assets/mgo/pack/player/fova/res_f01.pftxs" Compressed="false" ContentHash="F5E1D1EB47C05369D0B66DBB5AA62C35" />
+    <QarEntry Hash="5920965346332110168" FilePath="/Assets/mgo/pack/player/fova/res_f02.fpk" Compressed="true" ContentHash="9E4809BAF6DBFA819778607E4D6BDE6E" />
+    <QarEntry Hash="17101151421279366488" FilePath="/Assets/mgo/pack/player/fova/res_f02.fpkd" Compressed="true" ContentHash="01589D57224CE040DAC884AAC490804E" />
+    <QarEntry Hash="12897041169129008472" FilePath="/Assets/mgo/pack/player/fova/res_f02.pftxs" Compressed="false" ContentHash="117EFFF800B292B0A99DC3862DE413C4" />
+    <QarEntry Hash="5920344706270710673" FilePath="/Assets/mgo/pack/player/fova/res_m01.fpk" Compressed="true" ContentHash="E2DC8E664A4E43E5EBF38D3101A1B22C" />
+    <QarEntry Hash="17100530781217966993" FilePath="/Assets/mgo/pack/player/fova/res_m01.fpkd" Compressed="true" ContentHash="A0804BD4EC903F3565CAC6D2A5281D33" />
+    <QarEntry Hash="12896420529067608977" FilePath="/Assets/mgo/pack/player/fova/res_m01.pftxs" Compressed="false" ContentHash="4DB237CC9340938274F8D45DC90A49C3" />
+    <QarEntry Hash="5920260760482090432" FilePath="/Assets/mgo/pack/player/fova/teh_f00.fpk" Compressed="true" ContentHash="54EE654C1049242D63190490E4780035" />
+    <QarEntry Hash="17100446835429346752" FilePath="/Assets/mgo/pack/player/fova/teh_f00.fpkd" Compressed="true" ContentHash="969A86A11E9CF21E7295EDE5BA6BD1D8" />
+    <QarEntry Hash="12896336583278988736" FilePath="/Assets/mgo/pack/player/fova/teh_f00.pftxs" Compressed="false" ContentHash="0E419EA2B8D5994E8B3290A7C2F23FAB" />
+    <QarEntry Hash="5920835313415639878" FilePath="/Assets/mgo/pack/player/fova/teh_f01.fpk" Compressed="true" ContentHash="2F9282BB4D4BBA65880B8E502B41DC08" />
+    <QarEntry Hash="17101021388362896198" FilePath="/Assets/mgo/pack/player/fova/teh_f01.fpkd" Compressed="true" ContentHash="F544A689DEC9D9A96068E00EA0D5D0C4" />
+    <QarEntry Hash="12896911136212538182" FilePath="/Assets/mgo/pack/player/fova/teh_f01.pftxs" Compressed="false" ContentHash="9FA1E332D870C372EAF7619E6B466F8F" />
+    <QarEntry Hash="5921009018959056515" FilePath="/Assets/mgo/pack/player/fova/teh_f02.fpk" Compressed="true" ContentHash="AD266438819089D93FB0FFCBD621CABF" />
+    <QarEntry Hash="17101195093906312835" FilePath="/Assets/mgo/pack/player/fova/teh_f02.fpkd" Compressed="true" ContentHash="6BFC3E5FF0DE640D64AC6DE6F72CAAE0" />
+    <QarEntry Hash="12897084841755954819" FilePath="/Assets/mgo/pack/player/fova/teh_f02.pftxs" Compressed="false" ContentHash="F3C3C31EF0E6673DD410D61C31B4BB45" />
+    <QarEntry Hash="5920483340770122502" FilePath="/Assets/mgo/pack/player/fova/teh_f03.fpk" Compressed="true" ContentHash="BBC02511FFEAA40EB98FBD89311DB154" />
+    <QarEntry Hash="17100669415717378822" FilePath="/Assets/mgo/pack/player/fova/teh_f03.fpkd" Compressed="true" ContentHash="260A51DA3633FC93B708AEE3EC1D7C24" />
+    <QarEntry Hash="12896559163567020806" FilePath="/Assets/mgo/pack/player/fova/teh_f03.pftxs" Compressed="false" ContentHash="E06D263160CF7E765D8236C2692BA16D" />
+    <QarEntry Hash="5920104801079656689" FilePath="/Assets/mgo/pack/player/fova/teh_f04.fpk" Compressed="true" ContentHash="2179DB2FBE8A7289F416B3765F100B1B" />
+    <QarEntry Hash="17100290876026913009" FilePath="/Assets/mgo/pack/player/fova/teh_f04.fpkd" Compressed="true" ContentHash="ECD762A77B40FF69FB118A5145CB3178" />
+    <QarEntry Hash="12896180623876554993" FilePath="/Assets/mgo/pack/player/fova/teh_f04.pftxs" Compressed="false" ContentHash="873460E24E348BCC433359EA7225644C" />
+    <QarEntry Hash="5920856018514100728" FilePath="/Assets/mgo/pack/player/fova/teh_m00.fpk" Compressed="true" ContentHash="C3ECAF182044CC4259EC4DAC7B883E1D" />
+    <QarEntry Hash="17101042093461357048" FilePath="/Assets/mgo/pack/player/fova/teh_m00.fpkd" Compressed="true" ContentHash="2FE562262BB1AD2C979ED8C59DBFC32D" />
+    <QarEntry Hash="12896931841310999032" FilePath="/Assets/mgo/pack/player/fova/teh_m00.pftxs" Compressed="false" ContentHash="0E419EA2B8D5994E8B3290A7C2F23FAB" />
+    <QarEntry Hash="5920390110282153847" FilePath="/Assets/mgo/pack/player/fova/teh_m01.fpk" Compressed="true" ContentHash="92535EBA8D2306B22868A030D9A37943" />
+    <QarEntry Hash="17100576185229410167" FilePath="/Assets/mgo/pack/player/fova/teh_m01.fpkd" Compressed="true" ContentHash="E04CBE7491E2872AA1034BBB6A731B05" />
+    <QarEntry Hash="12896465933079052151" FilePath="/Assets/mgo/pack/player/fova/teh_m01.pftxs" Compressed="false" ContentHash="9FA1E332D870C372EAF7619E6B466F8F" />
+    <QarEntry Hash="5921048644947859768" FilePath="/Assets/mgo/pack/player/fova/teh_m02.fpk" Compressed="true" ContentHash="9ABF350C6BBA36DD87DEE3691FF93F1D" />
+    <QarEntry Hash="17101234719895116088" FilePath="/Assets/mgo/pack/player/fova/teh_m02.fpkd" Compressed="true" ContentHash="C728F5BE07183C3BB560C7E0C6C46198" />
+    <QarEntry Hash="12897124467744758072" FilePath="/Assets/mgo/pack/player/fova/teh_m02.pftxs" Compressed="false" ContentHash="F3C3C31EF0E6673DD410D61C31B4BB45" />
+    <QarEntry Hash="5920857983281830454" FilePath="/Assets/mgo/pack/player/fova/teh_m03.fpk" Compressed="true" ContentHash="E4A3B66A15B3BDDD3FDE641E8FE9AFCE" />
+    <QarEntry Hash="17101044058229086774" FilePath="/Assets/mgo/pack/player/fova/teh_m03.fpkd" Compressed="true" ContentHash="D21760A0622D6010EBEADE1FBEB9D802" />
+    <QarEntry Hash="12896933806078728758" FilePath="/Assets/mgo/pack/player/fova/teh_m03.pftxs" Compressed="false" ContentHash="E06D263160CF7E765D8236C2692BA16D" />
+    <QarEntry Hash="5920603912352156679" FilePath="/Assets/mgo/pack/player/fova/teh_m04.fpk" Compressed="true" ContentHash="15E6E28E7616F69B5D72F7B80DCE9655" />
+    <QarEntry Hash="17100789987299412999" FilePath="/Assets/mgo/pack/player/fova/teh_m04.fpkd" Compressed="true" ContentHash="8A75E76389B14BDB5068A3BE31F908FA" />
+    <QarEntry Hash="12896679735149054983" FilePath="/Assets/mgo/pack/player/fova/teh_m04.pftxs" Compressed="false" ContentHash="873460E24E348BCC433359EA7225644C" />
+    <QarEntry Hash="5920522719417253042" FilePath="/Assets/mgo/pack/player/fova/tes_f00.fpk" Compressed="true" ContentHash="4AC17F32FBF6B1F7EB000519C1C0A14C" />
+    <QarEntry Hash="17100708794364509362" FilePath="/Assets/mgo/pack/player/fova/tes_f00.fpkd" Compressed="true" ContentHash="8EBCD4E5C919A5F8A1B76C95CFF42067" />
+    <QarEntry Hash="12896598542214151346" FilePath="/Assets/mgo/pack/player/fova/tes_f00.pftxs" Compressed="false" ContentHash="7F593F844438AF7E2F07DC5B8627152F" />
+    <QarEntry Hash="5920193671847880244" FilePath="/Assets/mgo/pack/player/fova/tes_f01.fpk" Compressed="true" ContentHash="3965FFB2995EE3ECE46F92359F5C2199" />
+    <QarEntry Hash="17100379746795136564" FilePath="/Assets/mgo/pack/player/fova/tes_f01.fpkd" Compressed="true" ContentHash="F7EE8C7D9B978898FC272A256C3A2938" />
+    <QarEntry Hash="12896269494644778548" FilePath="/Assets/mgo/pack/player/fova/tes_f01.pftxs" Compressed="false" ContentHash="CC37DBC847BE0E17E67D2CB10C6CED0E" />
+    <QarEntry Hash="5920425151629561561" FilePath="/Assets/mgo/pack/player/fova/tes_f02.fpk" Compressed="true" ContentHash="C529B729F42F9CC2B5FD5ACBCD14E9E1" />
+    <QarEntry Hash="17100611226576817881" FilePath="/Assets/mgo/pack/player/fova/tes_f02.fpkd" Compressed="true" ContentHash="EB75D63860C3C153847BD08CFEA94B18" />
+    <QarEntry Hash="12896500974426459865" FilePath="/Assets/mgo/pack/player/fova/tes_f02.pftxs" Compressed="false" ContentHash="2E3710514A7848205B21C06425E674C7" />
+    <QarEntry Hash="5920461534372175013" FilePath="/Assets/mgo/pack/player/fova/tes_m01.fpk" Compressed="true" ContentHash="13609B7193F644BD2C5F3C256ABB333D" />
+    <QarEntry Hash="17100647609319431333" FilePath="/Assets/mgo/pack/player/fova/tes_m01.fpkd" Compressed="true" ContentHash="973FD04BE0788EF034F5FA2B1ED00E60" />
+    <QarEntry Hash="12896537357169073317" FilePath="/Assets/mgo/pack/player/fova/tes_m01.pftxs" Compressed="false" ContentHash="CC37DBC847BE0E17E67D2CB10C6CED0E" />
+  </QarEntries>
+  <FpkEntries>
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f00.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat0_main0_def_f.fmdl" ContentHash="C9BBF8D2D906F5F09C8E74A3EB6F524B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f00.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f00.fv2" ContentHash="96F0CECC66AEF9FC52841DDE6E89A808" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f00.fox2" ContentHash="DD13D491C4671CF62F636DC91780B0B5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f01.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat1_main0_def_f.fmdl" ContentHash="2E0B33886782F510B079A3F8D1AE83CC" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f01.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f01.fv2" ContentHash="FF0D95E3FB7D50020F792F464B0C4DA5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f01.fox2" ContentHash="814FEE659B470BE340120EE1BEFADBE2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f02.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat2_main0_def_f.fmdl" ContentHash="ACBF7D431FE0FC6CF6815D9BAD2031C8" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f02.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f02.fv2" ContentHash="14490EFA1205AFE79C7E9C0221EA4C68" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f02.fox2" ContentHash="8B4A82382D169D3535C211AE3E6DC6BA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f03.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat3_main0_def_f.fmdl" ContentHash="71E20679DD40EC42266A4355CFB3A2DA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f03.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f03.fv2" ContentHash="0F0FEDB641C3960D3C62E0CF37B6C425" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f03.fox2" ContentHash="5B2DD6A998999E2988287558D1679405" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f04.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat4_main0_def_f.fmdl" ContentHash="49A987FE810D17C3DD4B835FBBDF30AB" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f04.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f04.fv2" ContentHash="94DCF5FFB2DED92C5ADF1AA58BE2061F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f04.fox2" ContentHash="377652554409C19889BF7426E74BE88A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f07.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat7_main0_def_f.fmdl" ContentHash="F368B2FF2F86DE9C74D7298CB0AA8C09" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f07.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f07.fv2" ContentHash="0ED859FE1C81E1740EAC62B22FFB1F67" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f07.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f07.fox2" ContentHash="1E831405AA5D6F731F9FBB13513295BE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f10.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat10_main0_def_f.fmdl" ContentHash="07D5AD2C850C0350F4C5DE9AA859FB05" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f10.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f10.fv2" ContentHash="D4DA6B54EE0C965AA039723086DF8E61" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f10.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat10_main0_def_f.sim" ContentHash="C81C9C1A0FD6B4B56203AC42E77769D9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f10.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f10.fox2" ContentHash="7295FB07CA1EC0687BFD09A26602115A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f13.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat13_main0_def_f.fmdl" ContentHash="D8A60A113D0206526B2F5FF59A24B528" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f13.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f13.fv2" ContentHash="BAA3D518B3B921EC353BD7A4865E87D6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f13.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat13_main0_def.sim" ContentHash="7B31E17083123F0B04F479F3227C4DBB" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f13.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f13.fox2" ContentHash="FFF88F4796C2FADEB356BAD6E3B53F43" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f14.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f14.fox2" ContentHash="E1CE8D8FE598947AE5D20DDDD4460D08" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f15.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat15_main0_def_f.fmdl" ContentHash="A23FEF9382CDF2EDAC9BF2DCA3C2C130" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f15.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f15.fv2" ContentHash="05BB39D94DFFFF78D579EB8E04EC1CDE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f15.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f15.fox2" ContentHash="8AEE9A33ECC997F5702B444A35E49559" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f16.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat16_main0_def_f.fmdl" ContentHash="5D32B5CFC7D19CFF840B52766E5F103E" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f16.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f16.fv2" ContentHash="18ED6F836030EEA7CEC4EDD3F6038D18" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f16.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f16.fox2" ContentHash="0781397A6BDB01A86F815038F34D9807" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f17.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat17_main0_def_f.fmdl" ContentHash="F30C8FBCB71F2EF3123C3A1509F68AE9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f17.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f17.fv2" ContentHash="FAF7A0BB097B08BFB6A014CF08EF99E2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f17.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat17_main0_def.sim" ContentHash="B76BBABA0B8FB4CF2E5C8E508CCBD922" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f17.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f17.fox2" ContentHash="5383A6A0ADFC586A962D215CAF1196D2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f18.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat18_main0_def_f.fmdl" ContentHash="E59DF70EDF51B2B19C393701BFD6D9FB" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f18.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f18.fv2" ContentHash="3BDF2ED959957F9FA7BBDFEA78376364" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f18.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat18_main0_def.sim" ContentHash="971FCE3CDA0F1B8A51A7745210107D5C" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f18.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f18.fox2" ContentHash="8636115E15E4939C2A619353128627F4" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f19.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat19_main0_def_f.fmdl" ContentHash="D8B1A447FE749D8089AF62EFC2A978BD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f19.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f19.fv2" ContentHash="624160F6781656D73F040B8F9EBCECCF" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f19.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f19.fox2" ContentHash="BBD93E6B6608E29CC5C15B467DB86F5C" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f20.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat20_main0_def_f.fmdl" ContentHash="F7B83A1697FEABABB66508BD6DCCD764" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f20.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f20.fv2" ContentHash="CE56C7D1C36EF0C136EFFDF15BA21A80" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f20.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f20.fox2" ContentHash="ACF4ABB7E6C01AA423850102AADFD1C5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f21.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat21_main0_def_f.fmdl" ContentHash="B92456A09179D69EA7ECC08E010E5138" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f21.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f21.fv2" ContentHash="6B00AB500D4173B454153577C46E7896" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f21.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat21_main0_def_f.sim" ContentHash="BBDEF349843A1D498720FF498E15DF51" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f21.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f21.fox2" ContentHash="F2D09C0BE2380B0CF9719497253575A6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f22.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat22_main0_def_f.fmdl" ContentHash="88965F29E5572448CBC012B6EA2CAEC9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f22.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f22.fv2" ContentHash="5AA5FAC5F94333F2A9EE60F2C73C9040" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f22.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f22.fox2" ContentHash="DD9CD5E4F19EF6BF85973BC225E3CB70" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f23.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat23_main0_def_f.fmdl" ContentHash="97B4BB254FD809F2D5D4DBAE71B696B0" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f23.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_f23.fv2" ContentHash="8B4566F8290DD642E43F6AF791A86687" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f23.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat23_main0_def_f_s00.sim" ContentHash="138ADA9391F1CD8FA303278FC62837A5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_f23.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_f23.fox2" ContentHash="44669417ADCA284725BDDCB997CC15D3" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m00.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat0_main0_def.fmdl" ContentHash="5EE0A2D5AC50A00BCEBF65BC44BF2159" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m00.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m00.fv2" ContentHash="082552D83CA3D24E0320A74C0405F40E" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m00.fox2" ContentHash="B0B5BC73288307E2807AF6BC2BD5D899" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m01.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat1_main0_def.fmdl" ContentHash="F9F6202A53060FBD601C50E32AD33E74" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m01.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m01.fv2" ContentHash="67E055AE462BB7D470485EF85E8AF1F4" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m01.fox2" ContentHash="B1FB06608E3882C73D825E46529C0AF9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m02.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat2_main0_def.fmdl" ContentHash="3D78094A3CFD018C1147FB051A55E3F4" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m02.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m02.fv2" ContentHash="8DDB331A6CEFC32359DFFF2C0A76A760" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m02.fox2" ContentHash="DEBE0296C8C0779CDDE6290E7D37127C" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m03.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat3_main0_def.fmdl" ContentHash="F5D85659B3E1D34A361DAB27BE3463B7" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m03.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m03.fv2" ContentHash="D01115E05E24D4C52C68780A2AF98194" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m03.fox2" ContentHash="5DA4F6EC7D0B5C4CB01468C1F1555491" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m04.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat4_main0_def.fmdl" ContentHash="B31FF3D6E3698498EE3F81B082AB0830" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m04.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m04.fv2" ContentHash="3E37C216BA4179547E3BA9EAA149F5C9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m04.fox2" ContentHash="A2CA1AF30975814EED6E46A3167540A5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m05.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat5_main1_def.fmdl" ContentHash="7D073CB477A1F091592B91A7F93CB4B8" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m05.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m05.fv2" ContentHash="40DE1E9D9ADD77B19D618805CA85A37A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m05.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat5_main1_def.sim" ContentHash="0540421CA36EEE11F956D933839CD16D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m05.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m05.fox2" ContentHash="A0C98D873E7AA98C33426F79ECAA800F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m06.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat6_main0_def.fmdl" ContentHash="EBB5CEF4408D1542790785C300C3BBC3" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m06.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m06.fv2" ContentHash="3A369AA3939230BF9DE209853C912E80" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m06.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat6_main0_def.sim" ContentHash="80E2E60A57AAA530359D2558F574BEE6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m06.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m06.fox2" ContentHash="C0FA1BE2F8B0B56BA0BAE169AF89E81F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m07.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat7_main0_def.fmdl" ContentHash="8507088E58507D11E6F8C7BD1BF4D8AA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m07.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m07.fv2" ContentHash="EB22F17D0F13C45DF97FDA06F965234A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m07.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m07.fox2" ContentHash="293A10B7CDD7F9101268F75E21E8C5A5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m08.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat8_main0_def.fmdl" ContentHash="5E9CD5EB3DA57DE63C305C203D38C9DC" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m08.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m08.fv2" ContentHash="BD5B46744B4BEE69E9A0CDEA683CACFB" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m08.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat8_main0_def.sim" ContentHash="E3745FACFD928DEF8BD80CB2B2857A28" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m08.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m08.fox2" ContentHash="99F19B1154A459B9D2AD62719415E070" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m09.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat9_main1_def.fmdl" ContentHash="93F380C6CC4F5DAF5308736007BD892F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m09.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m09.fv2" ContentHash="51503D5B010BEFC99E30E417673BF2FE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m09.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m09.fox2" ContentHash="9A4BE36DCB97C9E2B80F903377B8E078" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m10.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat10_main0_def.fmdl" ContentHash="D9CB03A0001F80A966753AC75E7018ED" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m10.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m10.fv2" ContentHash="FEB15860A2CBC4FC1ED48FEF45CC0346" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m10.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat10_main0_def.sim" ContentHash="DD727AA61249280CD65C59DCA3F23C44" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m10.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m10.fox2" ContentHash="1DEFE57D4BA9F0A062BED73329C5F62D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m11.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat11_main0_def.fmdl" ContentHash="8C181988C271B0756AC735B25C449B42" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m11.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m11.fv2" ContentHash="8AFD0BB62A129F803EE3328C311F5696" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m11.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat11_main0_def.sim" ContentHash="80A36923E4569103BED43C8200E3C936" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m11.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m11.fox2" ContentHash="35EFF9C0165458B3E8B4668729421385" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m12.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat12_main0_def.fmdl" ContentHash="C718B5A73064906EC80C403CFA0DAEE2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m12.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m12.fv2" ContentHash="F3B8CCFCB33887C02E8D8D5FB4787E31" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m12.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat12_main0_def.sim" ContentHash="44B10435657E02E399E9CA7B333F6016" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m12.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m12.fox2" ContentHash="37B2C486456FA5946B85780ECB3D547D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m13.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat13_main0_def.fmdl" ContentHash="2CD950CE544E8C31402AD70927221BFD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m13.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m13.fv2" ContentHash="B3AB2E428263FDD53BE10C89B724742B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m13.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat13_main0_def.sim" ContentHash="7B31E17083123F0B04F479F3227C4DBB" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m13.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m13.fox2" ContentHash="F5CC9F12A421210B706A2434301FCCAD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m14.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat14_main0_def.fmdl" ContentHash="F8F9BF0FC7E8246928181C3BB7A493DD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m14.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m14.fv2" ContentHash="0B6109D81CE22C295612F4A9E9674725" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m14.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m14.fox2" ContentHash="9E08D3970E71F63C7A4FB952ECC43109" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m15.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat15_main0_def.fmdl" ContentHash="9A786C3F532DD53C777EDB3CC934FAD3" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m15.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m15.fv2" ContentHash="DD059F8268FF700FE7EE5D984181221F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m15.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m15.fox2" ContentHash="F2530FC2EEE7A039EFE6103BC19D3F18" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m16.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat16_main0_def.fmdl" ContentHash="9FA72EF8C8340D69D816A531309117C6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m16.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m16.fv2" ContentHash="01A1D8C27978A023ADFC326C3F2F4C89" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m16.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m16.fox2" ContentHash="821C22349FB11CFD248F83EE22359667" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m17.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat17_main0_def.fmdl" ContentHash="052CFA9B549CBF1BB74C0D352DDFA839" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m17.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m17.fv2" ContentHash="A7527860BA872FA88A1FCD6475E0EC32" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m17.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat17_main0_def.sim" ContentHash="325311F7199A458E3787B6D15F692638" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m17.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m17.fox2" ContentHash="EC088D2E4BCD6FFB281F97105A0E2B1D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m18.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat18_main0_def.fmdl" ContentHash="37F4DAA27B289757FD60BEB6515DC17A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m18.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m18.fv2" ContentHash="DD127F9886AAADDD13F5256ADCDC7D49" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m18.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat18_main0_def.sim" ContentHash="9F2D59DCE1403C287051C92FF7F41978" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m18.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m18.fox2" ContentHash="3ABA28F1F9E77C7B37707C8D5E38CE38" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m19.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat19_main0_def.fmdl" ContentHash="2D72200FB0F753740686A830913F2C26" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m19.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m19.fv2" ContentHash="104F85CBC3888B4EB8FCFB8F30D8B1DA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m19.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m19.fox2" ContentHash="E99F6F8EC3530F97C7E8F82E6BFC04A9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m20.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat20_main0_def.fmdl" ContentHash="37BB6BB667D222781B66C8CDFEA04132" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m20.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m20.fv2" ContentHash="47DB7B7CE2D428436666380799341488" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m20.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m20.fox2" ContentHash="4F31A97EB68024FEF1F0CB50F7BF1038" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m21.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat21_main0_def.fmdl" ContentHash="B5FFD9136A923B64277CCF263C1ED829" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m21.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m21.fv2" ContentHash="A9877CF84E635C6F633DD1DF8331292D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m21.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat21_main0_def.sim" ContentHash="48FD6228938121D69614A1B6952AAED9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m21.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m21.fox2" ContentHash="1357A39D3F646D1FB06E5DEA2583AC6E" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m22.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat22_main0_def.fmdl" ContentHash="CD1DA67D9017A6E5CA5D0D9640CC670C" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m22.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m22.fv2" ContentHash="55292A153771184517A78F04E1623F90" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m22.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m22.fox2" ContentHash="3BDC3ED3003AA708BCAD42D520D9C5B1" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m23.fpk" FilePath="/Assets/mgo/chara/hats/Scenes/hat23_main0_def.fmdl" ContentHash="F61D1F82D0863288DA833CBBEE74F242" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m23.fpk" FilePath="/Assets/mgo/fova/chara/hat/hat_m23.fv2" ContentHash="482834F12ECDC3CAA3C1923CC76D9F3F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m23.fpkd" FilePath="/Assets/mgo/chara/hats/Fox_Files/hat23_main0_def_s00.sim" ContentHash="53BD75CAAA2929202E52BE0FC982E538" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/hat_m23.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/hat_m23.fox2" ContentHash="B5DCBC4AF88DAA68DA8941AFEDF62A35" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f00.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh0_main0_def_f.fmdl" ContentHash="1DF336FDA0B40AF44AF102F6AE48AF5B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f00.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_f00.fv2" ContentHash="CF46CA61F38E0FB9A8E5055609B1B0EF" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_f00.fox2" ContentHash="8D2BEF52879D245C9453852555096C7B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f01.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh1_main0_def_f.fmdl" ContentHash="48542FABFA252319715C7C40418CD8C3" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f01.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_f01.fv2" ContentHash="2D69B632637F173DD4F209E828EFED3B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_f01.fox2" ContentHash="3BA9D430CDF3A007DE4DAA8A5F036DC8" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f02.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh2_main0_def_f.fmdl" ContentHash="7AF94F4EAAAE208AFDAC5EA0928B6984" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f02.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_f02.fv2" ContentHash="1E890EE536959E2DFF6CACA22FB2F99D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_f02.fox2" ContentHash="DC84B7FEA1BC0A45EFC0C55A9B77F56D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f03.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh3_main0_def_f.fmdl" ContentHash="A41CB6844522B5E3B28AB45578C40A03" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f03.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_f03.fv2" ContentHash="86A1078F2DB3067CBF2E955E3622FC88" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_f03.fox2" ContentHash="48D00909F79A6F0390E4968FB801F401" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f04.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh4_main0_def_f.fmdl" ContentHash="4465ADC90E147490357F6CFFC0FFB699" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f04.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_f04.fv2" ContentHash="C71D10079523BC19280D0072C578A1FF" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_f04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_f04.fox2" ContentHash="BDBCFE7F13643513CC1AE57D50347059" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m00.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh0_main0_def.fmdl" ContentHash="0725FBB3566C9C5BB2D00E0888A2DDBE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m00.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_m00.fv2" ContentHash="8C5376BAA84E799C4D7C8B279C6E14C7" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_m00.fox2" ContentHash="AE66AE2758F8B2A5B9B40968B23BE1BC" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m01.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh1_main0_def.fmdl" ContentHash="65347E65BF00119AB5119BCB357A1449" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m01.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_m01.fv2" ContentHash="EB8746050A39DE2DFF210DAA96066C60" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_m01.fox2" ContentHash="08B2A6DFB400C94E61ED8FE6BBA6FD22" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m02.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh2_main0_def.fmdl" ContentHash="F3CB304BCB05CD7C53B80CB931A5031D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m02.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_m02.fv2" ContentHash="F2D2BA2B9F09691966896C11FD88E6CD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_m02.fox2" ContentHash="E119ECC7C8B6E680F4B5CAF018BA0A5A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m03.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh3_main0_def.fmdl" ContentHash="DFB39806B30F25F2CD7C21D3BAEC7176" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m03.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_m03.fv2" ContentHash="8F829EBA1C7EC8CE1CD530624B21FFCF" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_m03.fox2" ContentHash="609E9A5F74E8B5DC47791FA170A64C80" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m04.fpk" FilePath="/Assets/mgo/chara/inf_head/Scenes/inh4_main0_def.fmdl" ContentHash="DD505939F16ABDECD5F5BFF0A6AC6645" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m04.fpk" FilePath="/Assets/mgo/fova/chara/head/inh_m04.fv2" ContentHash="C37C41412BBDBE747FAE50B88EA5495B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/inh_m04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/inh_m04.fox2" ContentHash="0C6370F694C3446FC8647986877E48FE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f00.fpk" FilePath="/Assets/mgo/chara/inf_suit/Scenes/ins0_main0_def_f.fmdl" ContentHash="6056F5A727A917DBEB5873084D414E7D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f00.fpk" FilePath="/Assets/mgo/chara/inf_suit/Scenes/ins0_main0_def_f.frdv" ContentHash="57205B9747A4186AFA50AAFB3C2DECA8" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f00.fpk" FilePath="/Assets/mgo/fova/chara/body/ins_f00.fv2" ContentHash="2B78CC10475D19EFD8439B52BD1479CE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/ins_f00.fox2" ContentHash="EDAE2923A730E6DF5828DF5DA9636B9A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f01.fpk" FilePath="/Assets/mgo/chara/inf_suit/Scenes/ins0_mask0_def_f.fmdl" ContentHash="1170DA6EB709D4AF863129C1FBC78CAD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f01.fpk" FilePath="/Assets/mgo/fova/chara/body/ins_f01.fv2" ContentHash="B20F8D5CF3DEB727E1DCA70ECBC93608" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/ins_f01.fox2" ContentHash="533CD62C356EA174E6513A4859E2F199" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f02.fpk" FilePath="/Assets/mgo/chara/inf_suit/Scenes/ins1_main0_def_f.fmdl" ContentHash="DC7FB32F82BDA25E3DE9DD3C80CDCA07" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f02.fpk" FilePath="/Assets/mgo/chara/inf_suit/Scenes/ins1_main0_def_f.frdv" ContentHash="1E6D75840347496424E4BF5B901C57B2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f02.fpk" FilePath="/Assets/mgo/fova/chara/body/ins_f02.fv2" ContentHash="230DEC6AD66306188498068ADFB826A7" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f02.fpkd" FilePath="/Assets/mgo/chara/inf_suit/Fox_files/ins1_bust0_def.sim" ContentHash="BD529684509D0CD652E5790D31E9B0AC" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/ins_f02.fox2" ContentHash="1E10265346BF9A63975C00742BDE1056" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_m01.fpk" FilePath="/Assets/mgo/chara/inf_suit/Scenes/ins0_mask0_def.fmdl" ContentHash="C4D4DE540B057AB1C3434CB968FA1920" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_m01.fpk" FilePath="/Assets/mgo/fova/chara/body/ins_m01.fv2" ContentHash="9913B2DC867646A689B2C8B8489976C2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/ins_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/ins_m01.fox2" ContentHash="CF095C75F88C787459325B73C2A1E56C" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f00.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh0_main0_def_f.fmdl" ContentHash="69F1D0CAD00DF173EC5A443DB85C4DFA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f00.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_f00.fv2" ContentHash="CB4353F40C202B5E86D35CA5F2421F47" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f00.fpkd" FilePath="/Assets/mgo/chara/rec_head/Fox_files/reh0_main0_def_f.sim" ContentHash="3E9811E6F238FF2654D5791620D5F3C6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_f00.fox2" ContentHash="1C6F2D6373A56EF57EEA5698C8D133E8" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f01.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh1_main0_def_f.fmdl" ContentHash="E13FCC64E1F14E3040B7441A1A8AB156" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f01.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_f01.fv2" ContentHash="9F8DA846CC6EED1E9208FFDA7231C22B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_f01.fox2" ContentHash="A968109E31A76C00FC47F45E622A336F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f02.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh2_main0_def_f.fmdl" ContentHash="52F0E764250D1BBB13EC9BD81D0EF1A1" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f02.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_f02.fv2" ContentHash="ABE8FD7AC9097F173BDFCD574456F249" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_f02.fox2" ContentHash="C6418F86D3E6023390FCE0053D413B3D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f03.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh3_main0_def_f.fmdl" ContentHash="1B7FA06BC923F2A7A822E483DED9E675" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f03.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_f03.fv2" ContentHash="86EDB8E88C08A38F364607D79FE48170" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_f03.fox2" ContentHash="FCDF601AE86D0902768B80AB297F3EA6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f04.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh4_main0_def_f.fmdl" ContentHash="EA883DC738699ACFFB543B5180130B85" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f04.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_f04.fv2" ContentHash="7C19416B9FE856CAD0D6711ABE2D0FCF" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_f04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_f04.fox2" ContentHash="95FF68CDAB37E010049F3CE6096DD6A2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m00.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh0_main0_def.fmdl" ContentHash="71DCE126D32FC04A12DC7BDF20617927" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m00.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_m00.fv2" ContentHash="29BFC0E44C92F5C99AD886FBFE2A3237" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m00.fpkd" FilePath="/Assets/mgo/chara/rec_head/Fox_files/reh0_main0_def.sim" ContentHash="FE76910492824302FF84B4A312EA5649" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_m00.fox2" ContentHash="2F95E040989BB567FEE1CA25C4E8E0D0" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m01.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh1_main0_def.fmdl" ContentHash="25C88469071C05D3F06B62F44B57571E" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m01.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_m01.fv2" ContentHash="2A1C20264FE2E3D148E2CFE6B450E9DC" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_m01.fox2" ContentHash="33F754959374622C202BCC033C0C8ED6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m02.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh2_main0_def.fmdl" ContentHash="267A9B22A303BC3527E7CAFE05B5623D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m02.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_m02.fv2" ContentHash="387BED6D5617C5D823DC61F93F0DE940" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_m02.fox2" ContentHash="B127F2C1F5DA9413BAAE34B9FA9C34D6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m03.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh3_main0_def.fmdl" ContentHash="D03578E26779057CB407E60D4E26841A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m03.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_m03.fv2" ContentHash="43A648126964D349E5A884E3E4BBBA3F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_m03.fox2" ContentHash="B6C57B4CB0C2B08BFDAFC6D5EB00E06A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m04.fpk" FilePath="/Assets/mgo/chara/rec_head/Scenes/reh4_main0_def.fmdl" ContentHash="E42CD4B6B3E4F1A274E820330607847C" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m04.fpk" FilePath="/Assets/mgo/fova/chara/head/reh_m04.fv2" ContentHash="8BE0E61DC3A525053C465C0C4767CC71" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/reh_m04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/reh_m04.fox2" ContentHash="E09412BC746CEEC160EDC1D79652837D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f00.fpk" FilePath="/Assets/mgo/chara/rec_suit/Scenes/res0_main0_def_f.fmdl" ContentHash="AFF1757015C4E8B3EB00E5558BB1A5B7" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f00.fpk" FilePath="/Assets/mgo/fova/chara/body/res_f00.fv2" ContentHash="8D602DF0A64DBC99ABB9B92473D62330" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/res_f00.fox2" ContentHash="EDAE2923A730E6DF5828DF5DA9636B9A" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f01.fpk" FilePath="/Assets/mgo/chara/rec_suit/Scenes/res0_mask0_def_f.fmdl" ContentHash="17100DD0FA23BF136EC1D43A69525B35" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f01.fpk" FilePath="/Assets/mgo/fova/chara/body/res_f01.fv2" ContentHash="04E755EF8F750EBD6FEDD2726F8167FC" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/res_f01.fox2" ContentHash="0661C8BD97C21D8F7B6F03DF07A6F0DA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f02.fpk" FilePath="/Assets/mgo/chara/rec_suit/Scenes/res1_main0_def_f.fmdl" ContentHash="4712A4167D400BDFAE9F146AF31113D9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f02.fpk" FilePath="/Assets/mgo/chara/rec_suit/Scenes/res1_main0_def_f.frdv" ContentHash="1E6D75840347496424E4BF5B901C57B2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f02.fpk" FilePath="/Assets/mgo/fova/chara/body/res_f02.fv2" ContentHash="BBF01C2BD247905EDB223C7A7467A712" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f02.fpkd" FilePath="/Assets/mgo/chara/inf_suit/Fox_files/ins1_bust0_def.sim" ContentHash="3E6066860FB99A29DA1FF5912E91411B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/res_f02.fox2" ContentHash="4954B5027E06D55883609E3EEAE2EA57" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_m01.fpk" FilePath="/Assets/mgo/chara/rec_suit/Scenes/res0_mask0_def.fmdl" ContentHash="83E74D1B3F8E1BB2528F34F354C6BCEA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_m01.fpk" FilePath="/Assets/mgo/fova/chara/body/res_m01.fv2" ContentHash="07A461821D1CEA4179B29DDF544A5899" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/res_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/res_m01.fox2" ContentHash="64F01671FEC75BFA5BBC9EC76A135E38" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f00.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh0_main0_def_f.fmdl" ContentHash="A1E6255673FF70A84E4ED33E3093FAB7" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f00.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_f00.fv2" ContentHash="3BAD0C84C76F164A4131D2E3B2A3D4E1" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_f00.fox2" ContentHash="DA878235DB2417CF0E3A09AF63D93043" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f01.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh1_main0_def_f.fmdl" ContentHash="AA54DD7E62045C180EF43E0E17EE6CDE" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f01.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_f01.fv2" ContentHash="E31AC6A06C69DD53271CD0525C930186" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_f01.fox2" ContentHash="C9F85A2E9C9190195175DB576E26B1F6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f02.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh2_main0_def_f.fmdl" ContentHash="C84960F7654BC698A452DD6F550974AD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f02.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_f02.fv2" ContentHash="F24B41461728F996D6BC9FD1B63AF7B9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_f02.fox2" ContentHash="C73D2102DF1AE52F4C55776AFB5A0968" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f03.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh3_main0_def_f.fmdl" ContentHash="68DCEE00E0BEB31DC222CAF3F466C212" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f03.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_f03.fv2" ContentHash="377D17168AC439C6D7BBAD26585EA79E" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_f03.fox2" ContentHash="FBFEBDF5F29DD571648A74745C47D611" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f04.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh4_main0_def_f.fmdl" ContentHash="EAFC9BDFB5479CB1F4A672CEB0A6B510" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f04.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_f04.fv2" ContentHash="C9C86E63412F663C6D171F8D586624E0" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_f04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_f04.fox2" ContentHash="ADFFE3B2952326D18612513E687B4475" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m00.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh0_main0_def.fmdl" ContentHash="E39BB272925E91E4290AE25113413529" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m00.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_m00.fv2" ContentHash="66EFF83576DF7857D90BFC6FE636AA13" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_m00.fox2" ContentHash="B2CFA4C185CBE7416E0812C608438061" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m01.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh1_main0_def.fmdl" ContentHash="AD959658EBCBC54140EB42CE010D0305" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m01.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_m01.fv2" ContentHash="E037A563E66BD14EBC5DDFFD02A9E53B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_m01.fox2" ContentHash="A074B22576EEFFC988F7195619F27BED" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m02.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh2_main0_def.fmdl" ContentHash="ED2ACFB432F9785B02E7D5AE45C2735E" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m02.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_m02.fv2" ContentHash="AA07F258A7BD64272204FB60205AB7AD" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_m02.fox2" ContentHash="B46F7CE53E4EC1400328C34CF856133F" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m03.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh3_main0_def.fmdl" ContentHash="B162416E782C6EDCF1EFCD0EA0C21ED9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m03.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_m03.fv2" ContentHash="18E7F19341A8E82A5775F69CA9271BA5" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m03.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_m03.fox2" ContentHash="4CD8CCD1FAF86C629A542870A403E104" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m04.fpk" FilePath="/Assets/mgo/chara/tec_head/Scenes/teh4_main0_def.fmdl" ContentHash="D1A99157E6BD4FFAFDF78B268FD17710" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m04.fpk" FilePath="/Assets/mgo/fova/chara/head/teh_m04.fv2" ContentHash="5553BAD32CB846BAA06210FBC214466D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/teh_m04.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/teh_m04.fox2" ContentHash="ABCBCE8BB5597D580829A1590ABADC91" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f00.fpk" FilePath="/Assets/mgo/chara/tec_suit/Scenes/tes0_main0_def_f.fmdl" ContentHash="EAADBA4BC873D18957E6998723D0B49D" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f00.fpk" FilePath="/Assets/mgo/chara/tec_suit/Scenes/tes0_main0_def_f.frdv" ContentHash="57D422DDFFC4B6F4012D83198169D028" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f00.fpk" FilePath="/Assets/mgo/fova/chara/body/tes_f00.fv2" ContentHash="B6C18F83E82407C52439CD3E3647B8BA" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f00.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/tes_f00.fox2" ContentHash="79F33F9913927219BF93B499F4E147D3" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f01.fpk" FilePath="/Assets/mgo/chara/tec_suit/Scenes/tes0_helm0_def_f.fmdl" ContentHash="E3E513C9EADF074803A1851DA1188546" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f01.fpk" FilePath="/Assets/mgo/fova/chara/body/tes_f01.fv2" ContentHash="AC1E8EF9DB9034A89403BB566935BA64" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/tes_f01.fox2" ContentHash="72B2B24F1BDE3DD03EA8E6E077BC4BC6" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f02.fpk" FilePath="/Assets/mgo/chara/tec_suit/Scenes/tes1_main0_def_f.fmdl" ContentHash="79BB14BC0B19103020FCFEC75AEE0707" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f02.fpk" FilePath="/Assets/mgo/chara/tec_suit/Scenes/tes1_main0_def_f.frdv" ContentHash="1E6D75840347496424E4BF5B901C57B2" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f02.fpk" FilePath="/Assets/mgo/fova/chara/body/tes_f02.fv2" ContentHash="D3D6D79C0CCDF3A794EAE89677175F1B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f02.fpkd" FilePath="/Assets/mgo/chara/inf_suit/Fox_files/ins1_bust0_def.sim" ContentHash="3E6066860FB99A29DA1FF5912E91411B" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_f02.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/tes_f02.fox2" ContentHash="8265E350F39398238D46B411AC411CD1" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_m01.fpk" FilePath="/Assets/mgo/chara/tec_suit/Scenes/tes0_helm0_def.fmdl" ContentHash="27C44603F6B5B0C053620937EF6430B9" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_m01.fpk" FilePath="/Assets/mgo/fova/chara/body/tes_m01.fv2" ContentHash="AC3E7D2AD0EB80FE4B9AF2FF8721FE48" />
+    <FpkEntry FpkFile="/Assets/mgo/pack/player/fova/tes_m01.fpkd" FilePath="/Assets/mgo/level_asset/chara/player/fova/tes_m01.fox2" ContentHash="C0329097D288DFFDF68E251DEDFF483E" />
+  </FpkEntries>
+  <FileEntries>
+    <FileEntry FilePath="/mod/fovaInfo/mgoHeadgear_fovaInfo.lua" ContentHash="7716B1DD13D13175EC635FDBF3AC0940" />
+  </FileEntries>
+</ModEntry>

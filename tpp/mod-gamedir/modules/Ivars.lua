@@ -326,6 +326,8 @@ IvarProc.MissionModeIvars(
       "XOF_GZ",
       --"WSS1_MAIN0",
       "GENOME_SOLDIER",
+    --      "PRISONER_AFGH",
+    --      "PRISONER_MAFR",
     },
     settingNames="customSoldierTypeSettings",
   },
@@ -438,6 +440,15 @@ this.mbNpcRouteChange={
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMb,
+}
+
+--tex tripping up on my naming here, mbAdditionalNpcs=hostage mobs as standins, mbNpcRouteChange=soldier route change
+--TODO: rename when you have a batch of other save vars to break
+this.mbAdditionalNpcs={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
 this.mbEnableLethalActions={
@@ -1694,6 +1705,18 @@ this.sideOpsSelectionMode={
   OnChange=this.UpdateActiveQuest,
 }
 
+this.ihSideopsPercentageCount={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function()
+    TppMission.SetPlayRecordClearInfo()
+    --DEBIGNOW
+--    local clearCount,allCount=TppQuest.CalcQuestClearedCount()
+--    TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
+  end,
+}
+
 --mbshowstuff
 this.mbShowBigBossPosters={
   save=EXTERNAL,
@@ -2257,22 +2280,6 @@ this.playerFaceId={
       return "faceId:"..faceId.." - "..desciption
     end
     return "faceId:"..faceId
-
-      --    local faceFova=faceDef[5]
-      --    local faceDecoFova=faceDef[6]
-      --    local hairFova=faceDef[7]
-      --    local hairDecoFova=faceDef[8]
-      --    local faceFovaInfo=InfEneFova.faceFovaInfo[faceFova+1]
-      --    local faceDecoFovaInfo=InfEneFova.faceDecoFovaInfo[faceDecoFova+1]
-      --    local hairFovaInfo=InfEneFova.hairFovaInfo[hairFova+1]
-      --    local hairDecoFovaInfo=InfEneFova.hairDecoFovaInfo[hairDecoFova+1]
-      --
-      --    return string.format("faceId:%s, f:%s, fd:%s, h:%s, hd:%s",
-      --      faceDef[1],
-      --      faceFovaInfo.description or faceFovaInfo.name,
-      --      faceDecoFovaInfo.description or faceDecoFovaInfo.name,
-      --      hairFovaInfo.description or hairFovaInfo.name,
-      --      hairDecoFovaInfo.description or hairDecoFovaInfo.name)
     end,self,setting)--DEBUG
   end,
   OnSelect=function(self)
@@ -2283,11 +2290,12 @@ this.playerFaceId={
       return
     end
 
-    local faceModSlots={}
-    for i,slot in ipairs(InfEneFova.faceModSlots)do
-      local faceId=Soldier2FaceAndBodyData.faceDefinition[slot][1]
-      faceModSlots[faceId]=true
-    end
+    --CULL
+    --    local faceModSlots={}
+    --    for i,slot in ipairs(InfEneFova.faceModSlots)do
+    --      local faceId=Soldier2FaceAndBodyData.faceDefinition[slot][1]
+    --      faceModSlots[faceId]=true
+    --    end
 
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
     local settingsTable={}
@@ -2295,16 +2303,18 @@ this.playerFaceId={
     local filter=Ivars.playerFaceFilter:GetTableSetting()
     local isUpperLimit=type(filter)=="number"
     local isDirect=type(filter)=="table"
-    for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+    for faceDefinitionIndex,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
       local faceId=entry[1]
       if (isUpperLimit and faceId>=filter) or (isDirect and filter[faceId]) then
         if entry[InfEneFova.faceDefinitionParams.gender]==gender then
-          if not faceModSlots[faceId] then
-            table.insert(settingsTable,i)
-          end
+          --CULLif not faceModSlots[faceId] then
+          table.insert(settingsTable,faceDefinitionIndex)
+          --end
         end
       end
     end
+
+    --InfCore.PrintInspect(settingsTable,"settingsTable")--DEBUG
 
     if #settingsTable==0 then
       self:SetDirect(0)
@@ -2391,7 +2401,7 @@ this.playerFaceFilter={
       [686]=true,--female tatoo skull white white hair
     },
 
-    FOVAMOD=689,--SYNC Soldier2FaceAndBodyData.highestVanillaFaceId,
+    FOVAMOD=691,--SYNC Soldier2FaceAndBodyData.highestVanillaFaceId,
   },
 }
 
@@ -2420,18 +2430,26 @@ this.femaleFaceId={
 }
 
 --tex WIP
+this.GetSettingTextFova=function(self,setting)
+  if InfFova.playerTypeGroup.VENOM[vars.playerType] then
+    return InfMenu.LangString"only_for_dd_soldier"
+  end
+  local fovaType=self.name
+  local fovaIndex=self.settingsTable[setting+1]
+  local fovaName=InfEneFova.GetFovaName(fovaType,fovaIndex)
+
+  local fovaInfo=InfEneFova[fovaType][fovaName]
+  if fovaInfo==nil then
+    return "could not find InfEneFova."..fovaType
+  end
+  return fovaInfo.description or fovaInfo.name
+end
+
 this.faceFova={
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
-  GetSettingText=function(self,setting)
-    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-      return InfMenu.LangString"only_for_dd_soldier"
-    end
-    local faceFova=self.settingsTable[setting+1]
-    local faceFovaInfo=InfEneFova.faceFovaInfo[faceFova+1]
-    return faceFovaInfo.description or faceFovaInfo.name
-  end,
+  GetSettingText=this.GetSettingTextFova,
   OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self.settings={"NOT_FOR_PLAYERTYPE"}
@@ -2466,14 +2484,7 @@ this.faceDecoFova={
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
-  GetSettingText=function(self,setting)
-    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-      return InfMenu.LangString"only_for_dd_soldier"
-    end
-    local faceDecoFova=self.settingsTable[setting+1]
-    local faceDecoFovaInfo=InfEneFova.faceDecoFovaInfo[faceDecoFova+1]
-    return faceDecoFovaInfo.description or faceDecoFovaInfo.name
-  end,
+  GetSettingText=this.GetSettingTextFova,
   OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self.settings={"NOT_FOR_PLAYERTYPE"}
@@ -2512,14 +2523,7 @@ this.hairFova={
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
-  GetSettingText=function(self,setting)
-    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-      return InfMenu.LangString"only_for_dd_soldier"
-    end
-    local hairFova=self.settingsTable[setting+1]
-    local hairFovaInfo=InfEneFova.faceFovaInfo[hairFova+1]
-    return hairFovaInfo.description or hairFovaInfo.name
-  end,
+  GetSettingText=this.GetSettingTextFova,
   OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self.settings={"NOT_FOR_PLAYERTYPE"}
@@ -2554,6 +2558,7 @@ this.hairDecoFova={
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
+  GetSettingText=this.GetSettingTextFova,
   OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self.settings={"NOT_FOR_PLAYERTYPE"}
@@ -2573,6 +2578,11 @@ this.faceFovaDirect={
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.faceFova-1
   end,
+  GetSettingText=function(self,setting)
+    local fovaInfo=Soldier2FaceAndBodyData.faceFova[setting+1]
+    local path=fovaInfo[1]
+    return InfUtil.GetFileName(path)
+  end,
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
@@ -2582,6 +2592,11 @@ this.faceDecoFovaDirect={
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.faceDecoFova-1
+  end,
+  GetSettingText=function(self,setting)
+    local fovaInfo=Soldier2FaceAndBodyData.faceDecoFova[setting+1]
+    local path=fovaInfo[1]
+    return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
@@ -2593,6 +2608,11 @@ this.hairFovaDirect={
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.hairFova-1
   end,
+  GetSettingText=function(self,setting)
+    local fovaInfo=Soldier2FaceAndBodyData.hairFova[setting+1]
+    local path=fovaInfo[1]
+    return InfUtil.GetFileName(path)
+  end,
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
@@ -2602,6 +2622,11 @@ this.hairDecoFovaDirect={
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.hairDecoFova-1
+  end,
+  GetSettingText=function(self,setting)
+    local fovaInfo=Soldier2FaceAndBodyData.hairDecoFova[setting+1]
+    local path=fovaInfo[1]
+    return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()

@@ -24,6 +24,8 @@ function this.PostAllModulesLoad()
 end
 
 function this.Init(missionTable)
+  this.messageExecTable=nil
+
   if Ivars.debugMode:Is(0) then
     return
   end
@@ -229,8 +231,8 @@ function this.GetObjectList()
   --return TppEnemy.armorSoldiers
   --return InfAnimal.birdNames
   -- return objectNameLists[4]
-  return InfNPC.ene_wildCardNames
-  --return InfHostage.hostageNames
+  --return InfSoldier.ene_wildCardNames
+  return InfNPC.hostageNames
     --return this.objectNameLists.sol_quest
     --return {"hos_quest_0000"}
     --return InfWalkerGear.walkerNames

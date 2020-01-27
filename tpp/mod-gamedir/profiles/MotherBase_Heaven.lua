@@ -36,6 +36,7 @@ local this={
     mbWargameFemales=15,--{ 0-100 } -- Women in Enemy Invasion mode (percentage)
     --Show characters menu
     mbEnableOcelot=1,--{ 0-1 } -- Enable Ocelot
+    mbAdditionalNpcs=1,--{ 0-1 } -- Additional NPCs
     mbEnablePuppy="NORMAL_EYES",--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
     mbShowCodeTalker=1,--{ 0-1 } -- Show Code Talker
     mbShowEli=1,--{ 0-1 } -- Show Eli

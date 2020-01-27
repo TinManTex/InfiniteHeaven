@@ -12,6 +12,8 @@ this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_pickable_loc.fpk",
 }
 
+this.debugModule=false
+
 --STATE
 --soldier item drops
 this.inf_lastNeutralized={}--tex actually next can drop time
@@ -938,10 +940,6 @@ function this.Messages()
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
-  end
-
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
@@ -969,6 +967,8 @@ function this.PreMissionLoad(missionId,currentMissionId)
 end
 
 function this.Init(missionTable)
+  this.messageExecTable=nil
+
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -1000,6 +1000,8 @@ function this.OnMissionCanStart()
 end
 
 function this.OnReload(missionTable)
+  this.messageExecTable=nil
+  
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -1185,11 +1187,12 @@ local maxEquipment=35--48
 --CALLER: TppEneFova.PreMissionLoad
 --OUT: TppEnemy.weaponIdTable.DD, TppEnemy.weaponIdTable.CUSTOM
 function this.CreateCustomWeaponTable(missionCode,settingsTable)
-  InfCore.LogFlow"InfEquip.CreateCustomWeaponTable"
   --InfCore.PCall(function(missionCode)--DEBUG
   if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
     return nil
-  end
+  end  
+  
+  InfCore.LogFlow"InfEquip.CreateCustomWeaponTable"
 
   local strengthType
   local activeTypes
@@ -1301,7 +1304,9 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable)
     weaponIds.bag=shuffleBag
   end
 
-  --InfCore.PrintInspect(weaponIdTable)--DEBUG
+  if this.debugModule then
+    InfCore.PrintInspect(weaponIdTable,"weaponIdTable")--DEBUG
+  end
 
   TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
   --end,missionCode)--DEBUG

@@ -238,7 +238,7 @@ end
 --IN/OUT: soldierDefine
 --OUT-SIDE: this.inf_patrolVehicleInfo,this.inf_patrolVehicleConvoyInfo
 --IN-SIDE: this.convoys
---tex adds convoys, and sets up vehicles, InfNPC.ModifyLrrpSoldiers fills them.
+--tex adds convoys, and sets up vehicles, InfSoldier.ModifyLrrpSoldiers fills them.
 function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpPool)
   --InfCore.PCall(function(vehicleSpawnList,soldierDefine)--DEBUG
   if not Ivars.vehiclePatrolProfile:EnabledForMission() then

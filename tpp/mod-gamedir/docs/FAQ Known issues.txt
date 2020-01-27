@@ -70,3 +70,5 @@ Heli patrol known bug: support heli cannot target helis when there's multiple he
 
 Wildcard soldiers:
 Attempting to exit the map from an area that has both a female wildcard soldier and a female prisoner sideop will cause in infinite load. Restarting the game will put you back in the map before the attempted exit, clear the sideop and leave the area before attempting to exit the map again.
+
+Additional NPCs: Crash on exit from title after having returned to acc from mb during the game session with mbAdditionalNpcs.

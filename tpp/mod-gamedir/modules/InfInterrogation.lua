@@ -49,6 +49,8 @@ local parasiteResourceNames={
 }
 
 function this.Init(missionTable)
+  this.messageExecTable=nil
+
   if not Ivars.enableInfInterrogation:EnabledForMission() then
     return
   end
@@ -141,8 +143,8 @@ end
 
 function this.WildCardLocation()
   --InfCore.DebugPrint"WildCardLocation"--DEBUG
-  local soldierName=InfUtil.GetRandomInList(InfNPC.ene_wildCardNames)
-  local cpName=InfNPC.ene_wildCardInfo[soldierName].cpName
+  local soldierName=InfUtil.GetRandomInList(InfSoldier.ene_wildCardNames)
+  local cpName=InfSoldier.ene_wildCardInfo[soldierName].cpName
   local cpNameString=InfMenu.CpNameString(cpName,InfUtil.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end

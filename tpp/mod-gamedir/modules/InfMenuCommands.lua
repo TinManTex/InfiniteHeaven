@@ -95,6 +95,7 @@ this.revertProfile={
 this.printFaceInfo={
   OnChange=function()
     InfEneFova.PrintFaceInfo(vars.playerFaceId)
+    this.PrintFaceInfo(vars.playerFaceId)
   end,
 }
 
@@ -114,7 +115,7 @@ this.showPosition={
     --tex TODO: dump to seperate file
     local x,y,z=vars.playerPosX,vars.playerPosY,vars.playerPosZ
     local rotY=vars.playerCameraRotation[1]
-    local positionTable=string.format("{%.3f,%.3f,%.3f}, | %.3f",x,y,z,rotY)
+    local positionTable=string.format("{pos={%.3f,%.3f,%.3f},rotY=%.3f,},",x,y,z,rotY)
     local positionXML=string.format('<value x="%.3f" y="%.3f" z="%.3f" w="0" />',x,y,z)
     table.insert(this.positions,positionTable)
     table.insert(this.positionsXML,positionXML)
@@ -608,14 +609,95 @@ this.DEBUG_PrintInterrogationInfo={
 
 local toggle1=false
 local index1Min=1
-local index1Max=10
+local index1Max=4
 local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
+    --DEBUGNOW
+    local motionTable={
+      --func = s10010_sequence.PushMotionOnSubEvent,
+      locatorName = "ptn_p21_010410_0000",
+      motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ptn0/ptn0/ptn0_guilty_a_idl.gani",
+      specialActionName = "end_of_ptn0_guilty_a_idl",
+      position = Vector3( -101.977997, 102.175000, -1674.468872 ),
+      idle = true,
+      again = true,
+    }
 
+    --    index1Max=#InfNPC.motionTable
+    index1Max=#InfNPC.hostageNames
+    --    motionTable=InfNPC.motionTable[index1]
+    --
+    local locatorName=motionTable.locatorName
+    local motionPath=motionTable.motionPath
+    local specialActionName=motionTable.specialActionName
+    local position=motionTable.position
+    local rotationY=motionTable.rotationY
+    local idle=motionTable.idle
+    local enableGunFire=motionTable.enableGunFire
+    local OnStart=motionTable.OnStart
+    local action=motionTable.action or "PlayMotion"
+    local state=motionTable.state
+    local enableAim=motionTable.enableAim
+    local charaControl=motionTable.charaControl
+    local startPos=motionTable.startPos
+    local startRot=motionTable.startRot
+    local interpFrame=motionTable.interpFrame
+    local enableCollision=motionTable.enableCollisionorfalse
+    local enableSubCollision=motionTable.enableSubCollisionorfalse
+    local enableGravity=motionTable.enableGravityorfalse
+    local enableCurtain=motionTable.enableCurtain
+
+    local autoFinish=false
+
+    local locatorName=InfNPC.hostageNames[index1]
+
+    local motionPath=InfNPC.motionPaths[math.random(#InfNPC.motionPaths)]
+
+    local gameObjectId = GameObject.GetGameObjectId( locatorName )
+    GameObject.SendCommand( gameObjectId, { id = "SetHostage2Flag", flag= "disableMarker", on=true } )
+    InfCore.Log("locatorName:"..locatorName.." gameId:"..tostring(gameObjectId),true)
+    InfCore.Log("motionPath:"..InfUtil.GetFileName(motionPath),true)
+    if gameObjectId ~= GameObject.NULL_ID then
+      TppUiCommand.RegisterIconUniqueInformation{markerId=gameObjectId,langId="marker_friend_mb"}
+      --      local faceId=nil
+      --      local bodyId=TppEnemyBodyId.ddr0_main0_v00
+      --      GameObject.SendCommand( gameObjectId, { id = "ChangeFova", faceId = faceId, bodyId = bodyId, } )
+      local enableMob=true
+      GameObject.SendCommand(gameObjectId,{id="SetEnabled",enabled=enableMob})
+      local command={id="SetHostage2Flag",flag="unlocked",on=true,updateModel=true}
+      GameObject.SendCommand(gameObjectId,command)
+
+      local command={id="SetHostage2Flag",flag="disableFulton",on=true}
+      GameObject.SendCommand(gameObjectId,command)
+
+      GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="commonNpc",on=true,})
+      -- GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableDamageReaction",on=true,})
+      GameObject.SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
+
+      GameObject.SendCommand(gameObjectId,{
+        id = "SpecialAction",
+        action = action,
+        path = motionPath,
+        state = state,
+        autoFinish = autoFinish,
+        enableMessage = true,
+        enableGravity = motionTable.enableGravity,
+        enableCollision = enableCollision,
+        enableSubCollision = enableSubCollision,
+        enableGunFire = enableGunFire,
+        enableAim = enableAim,
+        startPos = startPos,
+        startRot = startRot,
+        enableCurtain = enableCurtain,
+      })
+
+      local command={id="Warp",degRotationY=-92.8,position=Vector3(vars.playerPosX+1,vars.playerPosY,vars.playerPosZ)}
+      GameObject.SendCommand(gameObjectId,command)
+    end
 
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -632,6 +714,15 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
+
+    InfCore.Log("missionCode: "..tostring(vars.missionCode),true)
+    InfCore.Log("mbLayoutCode: "..tostring(vars.mbLayoutCode),true)
+    local firstCluster=MotherBaseStage.GetFirstCluster()
+    InfCore.Log("firstCluster: "..tostring(firstCluster),true)
+    local currentCluster=MotherBaseStage.GetCurrentCluster()
+    InfCore.Log("currentCluster: "..tostring(currentCluster),true)
+    local grade=TppLocation.GetMbStageClusterGrade(currentCluster)
+    InfCore.Log("grade: "..tostring(grade),true)
 
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -1287,7 +1378,7 @@ this.DEBUG_WarpToObject={
     local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
     --         local objectList=InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
-    --local objectList=InfNPC.ene_wildCardNames
+    --local objectList=InfSoldier.ene_wildCardNames
     --local objectList=InfParasite.parasiteNames.CAMO
     --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}

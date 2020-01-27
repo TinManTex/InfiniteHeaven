@@ -62,51 +62,51 @@ local walkerStorePositions={
 
 local walkerStartPositions={}
 
---REF clusters {"Command","Combat","Develop","BaseDev","Support","Spy","Medical"}
+--DEBUGNOW TODO check positions match clusters
 walkerStartPositions.mtbs={
-  --command
+  --Command
   {
     {pos={1.275,0.00,-30.20},rot=0},
     {pos={117.35,0.00,-5.05},rot=-94},
     {pos={233.315,0.00,-57.34},rot=131},
     {pos={323.00,0.00,-51.00},rot=180},
   },
-  --combat
+  --Combat
   {
     {pos={1149.00,0.00,-591.00},rot=45},
     {pos={1150.15,0.00,-741.00},rot=0},
     {pos={1253.00,4.00,-809.00},rot=-90},
     {pos={1356.065,0.00,-792.547},rot=90},
   },
-  --r&d
+  --Develop
   {
     {pos={1199.72,32.00,298.822},rot=135},
     {pos={1317.23,0.00,338.366},rot=-45},
     {pos={1410.00,0.00,231.00},rot=-45},
     {pos={1526.00,0.00,229.00},rot=-180},
   },
-  --base dev
+  --Support
   {
     {pos={-754.00,8.00,-356.00},rot=0},
     {pos={-821.587,0.00,-473.22},rot=-45},
     {pos={-952.00,0.00,-483.00},rot=0},
     {pos={-1015.132,0.00,-570.126},rot=0},
   },
-  --support
+  --Medical
   {
     {pos={372.00,0.00,875.00},rot=0},
     {pos={464.62,0.00,937.96},rot=135},
     {pos={435.637,0.00,1074.866},rot=90},
     {pos={343.397,0.00,1166.265},rot=45},
   },
-  --intel
+  --Spy
   {
     {pos={-654.565,4.00,536.165},rot=89},
     {pos={-693.882,0.00,665.266},rot=0},
     {pos={-794.00,0.00,740.00},rot=-45},
     {pos={-797.00,0.00,853.00},rot=0},
   },
-  --med
+  --BaseDev
   {
     {pos={-143.546,0.00,-973.570},rot=134.5},
     {pos={-121.202,0.00,-1076.245},rot=230},
@@ -188,6 +188,8 @@ walkerStartPositions.mafr={
 }
 
 function this.Init()
+  this.messageExecTable=nil
+  
   if not IvarProc.EnabledForMission("enableWalkerGears") then
     return
   end

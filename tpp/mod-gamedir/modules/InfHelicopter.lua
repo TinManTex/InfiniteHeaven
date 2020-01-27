@@ -17,6 +17,8 @@ this.execState={
 }
 
 function this.Init()
+  this.messageExecTable=nil
+
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end

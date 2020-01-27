@@ -4726,7 +4726,7 @@ function this.OnAllocateQuestFova(questTable)
           end
           --NMC: relies on randomFaceList in TppQuestList
           if hostageDef.isFaceRandom then
-            local faceId=TppQuest.GetRandomFaceId()
+            local faceId=TppQuest.GetRandomFaceId(mvars.qst_currentQuestName,index)--tex index added
             if faceId then
               local n=1
               local face={faceId,0,n}
@@ -5174,7 +5174,7 @@ function this.SetupActivateQuestHostage(hostageList)
           local faceId=hostageInfo.faceId or false
           local bodyId=hostageInfo.bodyId or false
           if hostageInfo.isFaceRandom then
-            faceId=TppQuest.GetRandomFaceId()
+            faceId=TppQuest.GetRandomFaceId(mvars.qst_currentQuestName,index)--tex added index
           end
           if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
             GameObject.SendCommand(hostageId,{id="ChangeFova",bodyId=bodyId,faceId=faceId})

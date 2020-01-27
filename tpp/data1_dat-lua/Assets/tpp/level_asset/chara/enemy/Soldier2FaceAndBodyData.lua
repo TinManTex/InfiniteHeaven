@@ -30,10 +30,10 @@ this.faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v000_eye0.fpk"},--24,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v001_eye0.fpk"},--25,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h2_v002_eye0.fpk"},--26,--<
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fpk"},--27,
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fpk"},--27,--balaclava
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_pfs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_pfs0_head_z_eye0.fpk"},--28,--balaclava
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fpk"},--29,
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fpk"},--30,--dd headgear> TODO: am I sure I'm not off by one?
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fpk"},--29,--dd headgear>
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fpk"},--30
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds3_eqhd1_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds3_eqhd1_eye0.fpk"},--31,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds8_eqhd1_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds8_eqhd1_eye0.fpk"},--32,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds3_eqhd4_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds3_eqhd4_eye0.fpk"},--33,
@@ -571,8 +571,8 @@ this.faceDefinition={
   --unk6->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
 
   --changing faceFova and also unknown1 (other params currently untested) changes voice
-
-  --{n,50, 1, 1,58,60,13,24, 4, 4, 1,N/A          , 3,303,303,303,3}--maximums
+  --{n,50, 1, 1,58,60,13,24, 4, 4, 1,N/A          , 3,303,303,303,3}--maximums (from values)
+  --{n,50, 1, 1,58,no,no,no,no,no, 1,N/A          , 3,303,303,303,3}--actual maximums (no=EnemyFova.INVALID_FOVA_VALUE)
   --{n,       50,     1,   1,      58,          60,      13,          24,   4,   4,   1,N/A          ,   3, 303, 303, 303,    3}--maximums
   --{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
   {  0, 0, 0, 0, 3, 0,no,no, 0, 0, 0,"ui_face_000", 3,  4,  2,  6,3},--male>
@@ -1020,7 +1020,7 @@ this.faceDefinition={
   {558,16, 0, 0,31,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask and clava Male
   {559,16, 1, 0,32,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask and clava Female
   {560,16, 0, 0,33,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask DD helm Male
-  {561,16, 0, 0,34,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask DD greentop helm Mal
+  {561,16, 0, 0,34,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask DD greentop helm Male
   {562,16, 1, 0,35,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask DD helm Female
   {563,16, 1, 0,36,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask DD greentop helm Female
   {564,16, 0, 0,37,no,no,no,no,no, 0,""           , 0},--,,,,--NVG DDgreentop Male
@@ -1091,8 +1091,8 @@ this.faceDefinition={
   --{689, 0, 0, 0,45,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex not-a-snail dude? same as 623 but all-in one I guess.
   --<
   --tex slots for run-time face modding, see InfEneFova.ApplyFaceFova >
-  {690, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
-  {691, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
+  {689, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
+  {690, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
 --{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
 --<
 }
@@ -1449,8 +1449,6 @@ this.modBodyFova={
 
 this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
 --OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
-
-
 
 --tex shifted from after table definitions
 if TppSoldierFace~=nil then

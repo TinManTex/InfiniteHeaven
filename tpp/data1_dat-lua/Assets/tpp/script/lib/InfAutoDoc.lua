@@ -162,10 +162,10 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     if skipItems and skipItemsList[item.name] then
 
     else
-    --DEBUG
---      print("name:"..item.name)
---      print("desc:"..tostring(item.description))
---      print("langstr:"..tostring(InfMenu.LangString(item.name)))
+      --DEBUG
+      --      print("name:"..item.name)
+      --      print("desc:"..tostring(item.description))
+      --      print("langstr:"..tostring(InfMenu.LangString(item.name)))
       local settingDescription=item.description or InfMenu.LangString(item.name)
       local indexDisplayLine=i..": "
 
@@ -173,7 +173,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
 
       if IsMenu(item) then
         menuCount=menuCount+1
-        
+
         table.insert(textTable,indexDisplayLine..settingDescription)
         table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription))
       else
@@ -258,12 +258,12 @@ local projectFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\"
 local featuresOutputName="Features and Options"
 
 FeaturesHeader=require"FeaturesHeader"
-function this.AutoDoc()  
+function this.AutoDoc()
   local textTable={}
   local htmlTable={}
   local profileTable={}
-  
-  
+
+
   table.insert(htmlTable,"<!DOCTYPE html>")
   table.insert(htmlTable,"<html>")
   table.insert(htmlTable,"<head>")
@@ -286,42 +286,51 @@ function this.AutoDoc()
         if line.link then
           table.insert(textTable,line[1])
           table.insert(textTable,"[url="..line.link.."]"..line.link.."[/url]")
-        
+
           table.insert(htmlTable,string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]))
         elseif line.featureDescription then
           table.insert(textTable,string.format(line.featureDescription))
           table.insert(textTable,string.format(line.featureHelp))
-        
+
           table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],EscapeHtml(line.featureDescription)))
           table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],EscapeHtml(line.featureHelp)))
         end
       else
         table.insert(textTable,line)
-      
+
         line=EscapeHtml(line)
         table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],line))
       end
       table.insert(textTable,"")
-    end   
-    
+    end
+
     table.insert(htmlTable,[[</div>]])
     table.insert(htmlTable,"<br/>")
   end
 
---  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
---  local headerFile=io.open(headerFilePath)
---  local header=headerFile:read("*all")
---  headerFile:close()
+  --  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
+  --  local headerFile=io.open(headerFilePath)
+  --  local header=headerFile:read("*all")
+  --  headerFile:close()
   local header=
-  [[
+    [[
+
   
+
 -- Profiles are lists of settings for IH options. 
+
 -- IH only reads this file/does not write to it.
+
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
+
+
 
 -- See Features and Options.html for longer descriptions of some settings.
 
+
+
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
+
   ]]
 
   table.insert(profileTable,"-- Example_Defaults.lua")
@@ -344,6 +353,12 @@ function this.AutoDoc()
   Ivars.playerPartsType.settingNames={"<Suits for player type>"}
   Ivars.playerCamoType.settings={"<Camos for player type>"}
   Ivars.selectProfile.settingNames={"<Profile type>"}
+  Ivars.faceFovaDirect.GetSettingText=nil
+  Ivars.faceDecoFovaDirect.GetSettingText=nil
+  Ivars.hairFovaDirect.GetSettingText=nil
+  Ivars.hairDecoFovaDirect.GetSettingText=nil
+  Ivars.playerFaceId.GetSettingText=nil
+  Ivars.playerFaceId.settingNames={"<Face Id for player type and face filter>"}
 
 
   local menu=InfMenuDefs.heliSpaceMenu.options
@@ -386,16 +401,16 @@ function this.AutoDoc()
   table.insert(profileTable,"}")
   table.insert(profileTable,"")
 
---  local heavenProfilesPath=projectFolder.."!modlua\\InfProfiles\\InfHeavenProfiles.lua"
---  local heavenProfilesFile=io.open(heavenProfilesPath)
---  local heavenProfiles=heavenProfilesFile:read("*all")
---  heavenProfilesFile:close()
---
---  table.insert(profileTable,heavenProfiles)
+  --  local heavenProfilesPath=projectFolder.."!modlua\\InfProfiles\\InfHeavenProfiles.lua"
+  --  local heavenProfilesFile=io.open(heavenProfilesPath)
+  --  local heavenProfiles=heavenProfilesFile:read("*all")
+  --  heavenProfilesFile:close()
+  --
+  --  table.insert(profileTable,heavenProfiles)
 
   table.insert(profileTable,"")
   table.insert(profileTable,"return this")
-  
+
   local textFilePath=projectFolder..featuresOutputName..".txt"
   local textFile=io.open(textFilePath,"w")
 
@@ -404,7 +419,7 @@ function this.AutoDoc()
 
   local profileFilePath=projectFolder.."!modlua\\ExternalLua\\profiles\\Example_Defaults.lua"
   local profileFile=io.open(profileFilePath,"w")
-  
+
   textFile:write(table.concat(textTable,nl))
   htmlFile:write(table.concat(htmlTable,nl))
   profileFile:write(table.concat(profileTable,nl))

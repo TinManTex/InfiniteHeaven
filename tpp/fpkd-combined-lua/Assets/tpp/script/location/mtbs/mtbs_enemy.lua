@@ -1238,7 +1238,7 @@ mtbs_enemy.SetSecurityStaffIdList = function( clusterId, staffIdList )
   mvars.mbSoldier_placedCountTotal = 0
 
   mvars.mbSoldier_MB_staffIdList[clusterId] = staffIdList
-  mvars.mbSoldier_placedCountTotal = #staffIdList
+  mvars.mbSoldier_placedCountTotal = #staffIdList--NMC not actually accurate, would only be the count of the cluster SetSecurityStaffIdList is last called with, o50050 where it's used overrides it though and as that only uses one cluster its not an issue there
 
 end
 
@@ -1977,6 +1977,7 @@ end
 
 
 mtbs_enemy.OnAllocateDemoBlock = function()
+  InfCore.LogFlow("mtbs_enemy.OnAllocateDemoBlock:")--tex DEBUG
   if not mvars.mbEnemy_initializedEnemy then
     return
   end

@@ -214,8 +214,10 @@ this.questPackList={
   sovietBase_q99020={"/Assets/tpp/pack/mission2/quest/afgh/sovietBase/sovietBase_q99020.fpk"},
   sovietBase_q99030={"/Assets/tpp/pack/mission2/quest/afgh/sovietBase/sovietBase_q99030.fpk"},
   tent_q99040={"/Assets/tpp/pack/mission2/quest/afgh/tent/tent_q99040.fpk"},
-  cliffTown_q99080={"/Assets/tpp/pack/mission2/quest/afgh/cliffTown/cliffTown_q99080.fpk",
-    bodyIdList={TppDefine.QUEST_BODY_ID_LIST.Q99080_02}},
+  cliffTown_q99080={
+    "/Assets/tpp/pack/mission2/quest/afgh/cliffTown/cliffTown_q99080.fpk",
+    bodyIdList={TppDefine.QUEST_BODY_ID_LIST.Q99080_02}
+  },
   field_q30010={"/Assets/tpp/pack/mission2/quest/afgh/field/field_q30010.fpk"},
   outland_q40010={"/Assets/tpp/pack/mission2/quest/mafr/outland/outland_q40010.fpk"},
   sovietBase_q99070={"/Assets/tpp/pack/mission2/quest/afgh/sovietBase/sovietBase_q99070.fpk",

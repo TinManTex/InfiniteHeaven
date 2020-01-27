@@ -53,7 +53,8 @@ end
 --    }
 --  },
 --  locationId=TppDefine.LOCATION_ID.AFGH,
---  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList
+--  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList. 
+--  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
 --  iconPos=Vector3(489.741,321.901,1187.506),--position of the quest area circle in idroid
 --  radius=4,--radius of the quest area circle
 --  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
@@ -285,6 +286,7 @@ function this.RegisterQuests()
     --InfCore.PrintInspect(questInfoTable)--DEBUG
 
     --tex WORKAROUND, cant do in TppQuest.RegisterQuestPackList since it's already using random inside its loop
+    --GOTCHA: since it's putting it into faceId list randomFaceListIH doesn't work with mixed random and defined faces like randomFaceList does
     for i,questName in ipairs(this.ihQuestNames)do
       local questInfo=this.ihQuestsInfo[questName]
       local faceSettings=questInfo.questPackList.randomFaceListIH
@@ -414,6 +416,26 @@ function this.SetupInstalledQuestsState()
   --this.DEBUG_PrintQuestClearedFlags()
 end
 
+--tex called from equivalent TppQuest funcs
+--QuestBlockOnAllocate only called in added ih quests, not vanilla quests, the rest of the functions called by vannila quest scripts
+function this.QuestBlockOnAllocate(questScript)--tex 
+
+end
+--tex called during questScript .OnAllocate
+function this.RegisterQuestSystemCallbacks(callbackFunctions)
+
+end
+function this.QuestBlockOnInitialize(questScript)
+
+end
+function this.QuestBlockOnUpdate(questScript)
+
+end
+function this.QuestBlockOnTerminate(questScript)
+
+end
+--
+
 --tex GetSideOpsListTable is called by engine for sideops ui
 function this.PrintSideOpsListTable()
   local sideOpsTable=TppQuest.GetSideOpsListTable()
@@ -425,12 +447,6 @@ function this.PrintQuestArea()
     local clusterId=MotherBaseStage.GetCurrentCluster()
     local clusterName=TppDefine.CLUSTER_NAME[clusterId+1]
     InfCore.Log("Quest Area: Mtbs"..clusterName)
-    return
-  end
-
-  local currentQuestTable=TppQuest.GetCurrentQuestTable()
-  if currentQuestTable==nil then
-    InfCore.Log("currentQuestTable==nil")
     return
   end
 

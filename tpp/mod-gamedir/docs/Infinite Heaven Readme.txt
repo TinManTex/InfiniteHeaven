@@ -1,5 +1,5 @@
 = Infinite heaven =
-r201 - 2017-03-30
+r202 - 2017-04-09
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -8,19 +8,34 @@ A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay throu
 Has several hundred toggleable options ranging from Subsistence mode for all missions, replay side-ops, Mother base invasions with multiple attack helicopters, Skull attacks in Free roam, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
 Full Infinite Heaven features and options:
-[url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]Here[/url]
+[url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
 Or see the Features and Options.html file in the Infinite Heaven .zip
 
 YouTube playlist of demonstrations for many features:
-[url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]Here[/url]
+[url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
 Recent changes/additions
 ------------------------------
+r202 - 2017-04-09
+NOTE: With SnakeBite 0.8.6 you no longer need to manually copy the \mod folder to MGS_TPP\, SnakeBite will install it.
+
+Fixed: Number of helis on < 7 clusters, including mass bunching when only command is built.
+
+Option: ihSideopsPercentageCount - "Include IH sideops in completion percentage." - Additional IH sideops count towards game completion percent - defaults to off.
+(via sideops menu)
+
+Option: mbAdditionalNpcs - "Additional NPCs" - Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
+(via mother base > Show characters menu)
+
 New for r201:
 Fixed: Mother base soldier getting set to hostile - thanks captainking91, others for the reports
 Option: customSoldierTypeFREE - Custom soldier type in Free roam - Override the soldier type of enemy soldiers in Free Roam.
 (via Enemy Prep menu)
-Added settings for DD suit (same options as Custom soldier type): MSF GZ, XOF Gasmasks, XOF GZ, Genome Soldier. May need to re set your DD suit setting as some existing tiems in list have been shifted.
+Added settings for DD suit (same options as Custom soldier type): MSF GZ, XOF Gasmasks, XOF GZ, Genome Soldier. May need to re set your DD suit setting as some existing items in list have been shifted.
+[youtube]lbTLjpAjGso[/youtube]
+https://youtu.be/lbTLjpAjGso
+[youtube]fNusYTO57hA[/youtube]
+https://youtu.be/fNusYTO57hA
 
 New for r200:
 Option: forceDemoAllowAction - "Force allow actions" - Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod on the IH files page.

@@ -151,7 +151,7 @@ function this.OnInitializeTop(missionTable)
         InfWalkerGear.walkerPool=InfUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
         InfWalkerGear.mvar_walkerInfo={}
       end
-      InfCore.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
+      InfCore.PCallDebug(InfSoldier.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
 
       InfCore.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans,this.emptyCpPool)
 
@@ -160,13 +160,13 @@ function this.OnInitializeTop(missionTable)
       enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
       enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
 
-      InfCore.PCallDebug(InfNPC.AddLrrps,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines,this.emptyCpPool)
+      InfCore.PCallDebug(InfSoldier.AddLrrps,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines,this.emptyCpPool)
       InfCore.PCallDebug(InfWalkerGear.AddLrrpWalkers,this.lrrpDefines,InfWalkerGear.walkerPool)
-      InfCore.PCallDebug(InfNPC.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
+      InfCore.PCallDebug(InfSoldier.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
 
-      InfCore.PCallDebug(InfNPC.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
+      InfCore.PCallDebug(InfSoldier.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
 
-      InfCore.PCallDebug(InfNPC.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
+      InfCore.PCallDebug(InfSoldier.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
 
       --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
       local ejectVehiclesSoldiers=false
@@ -272,6 +272,7 @@ function this.OnInitializeBottom(missionTable)
   --end,missionTable)--DEBUG
 end
 
+--CALLER: TppMissionList.GetMissionPackagePath
 --IN/OUT packPath
 function this.AddMissionPacks(missionCode,packPaths)
   InfCore.LogFlow("InfMain.AddMissionPacks "..missionCode)

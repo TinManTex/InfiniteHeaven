@@ -458,7 +458,7 @@
 <div>5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods</div>
 </div>
 <div id="menuItem">
-<div>6: Face : nil</div>
+<div>6: Face : &ltFace Id for player type and face filter&gt</div>
 </div>
 <div id="menuItem">
 <div>7: Print face info : (Command)</div>
@@ -602,7 +602,7 @@
 <div>6: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: Custom soldier type in Free roam : Off, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier</div>
+<div>7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier</div>
 <div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam</div>
 </div>
 <div id="menuItem">
@@ -1140,6 +1140,9 @@
 <div>5: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
 </div>
 <div id="menuItem">
+<div>6: Include IH sideops in completion percentage. : Off, On</div>
+</div>
+<div id="menuItem">
 </div>
 <div id="menuItem">
 </div>
@@ -1215,7 +1218,7 @@
 <div>3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range</div>
 </div>
 <div id="menuItem">
-<div>4: DD Suit : Off, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier</div>
+<div>4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier</div>
 </div>
 <div id="menuItem">
 <div>5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit</div>
@@ -1312,17 +1315,21 @@
 <div>4: Show Eli : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: Enable Birds : Off, On</div>
+<div>5: Additional NPCs : Off, On</div>
+<div id="itemHelp">Adds different NPCs standing around mother base, including ground crew, researchers and Miller.</div>
 </div>
 <div id="menuItem">
-<div>6: Reset Paz state to beginning : (Command)</div>
+<div>6: Enable Birds : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Return Quiet after mission 45 : (Command)</div>
+<div>7: Reset Paz state to beginning : (Command)</div>
+</div>
+<div id="menuItem">
+<div>8: Return Quiet after mission 45 : (Command)</div>
 <div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
 </div>
 <div id="menuItem">
-<div>8: showQuietReunionMissionCount : (Command)</div>
+<div>9: showQuietReunionMissionCount : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1646,16 +1653,16 @@
 <div>11: Print appearance info : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: faceFova : cm_m0_h0_v000_eye0.fv2</div>
+<div>12: faceFova : could not find InfEneFova.faceFova</div>
 </div>
 <div id="menuItem">
-<div>13: faceDecoFova : cm_w000_m.fv2</div>
+<div>13: faceDecoFova : could not find InfEneFova.faceDecoFova</div>
 </div>
 <div id="menuItem">
-<div>14: hairFova : cm_m0_h0_v000_eye0.fv2</div>
+<div>14: hairFova : could not find InfEneFova.hairFova</div>
 </div>
 <div id="menuItem">
-<div>15: hairDecoFova : 0-1000</div>
+<div>15: hairDecoFova : could not find InfEneFova.hairDecoFova</div>
 </div>
 <div id="menuItem">
 <div>16: faceFovaUnknown1 : 0-50</div>
@@ -1877,7 +1884,7 @@
 <div>5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods</div>
 </div>
 <div id="menuItem">
-<div>6: Face : nil</div>
+<div>6: Face : &ltFace Id for player type and face filter&gt</div>
 </div>
 <div id="menuItem">
 <div>7: Print face info : (Command)</div>
@@ -2023,67 +2030,73 @@
 <div id="debugInMissionMenu">Debug stuff menu</div>
 </div>
 <div id="menuItem">
-<div>1: Debug IH mode : Off, On</div>
+<div>1: <a href="#appearanceMenu">Appearance menu</a></div>
+</div>
+<div id="menuItem">
+<div>2: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+</div>
+<div id="menuItem">
+<div>3: Debug IH mode : Off, On</div>
 <div id="itemHelp">Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.</div>
 </div>
 <div id="menuItem">
-<div>2: debugMessages : Off, On</div>
+<div>4: debugMessages : Off, On</div>
 <div id="itemHelp">Logs game message system, requires Debug IH mode to be on.</div>
 </div>
 <div id="menuItem">
-<div>3: debugFlow : Off, On</div>
+<div>5: debugFlow : Off, On</div>
 <div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
 </div>
 <div id="menuItem">
-<div>4: debugOnUpdate : Off, On</div>
+<div>6: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: loadExternalModules : (Command)</div>
+<div>7: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>6: copyLogToPrev : (Command)</div>
+<div>8: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>7: selectedCp : no cp for setting</div>
+<div>9: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>8: setSelectedCpToMarkerObjectCp : (Command)</div>
+<div>10: setSelectedCpToMarkerObjectCp : (Command)</div>
 </div>
 <div id="menuItem">
-<div>9: DEBUG_PrintCpPowerSettings : (Command)</div>
+<div>11: DEBUG_PrintCpPowerSettings : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: DEBUG_PrintPowersCount : (Command)</div>
+<div>12: DEBUG_PrintPowersCount : (Command)</div>
 </div>
 <div id="menuItem">
-<div>11: DEBUG_PrintReinforceVars : (Command)</div>
+<div>13: DEBUG_PrintReinforceVars : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: DEBUG_PrintSoldierDefine : (Command)</div>
+<div>14: DEBUG_PrintSoldierDefine : (Command)</div>
 </div>
 <div id="menuItem">
-<div>13: DEBUG_ShowRevengeConfig : (Command)</div>
+<div>15: DEBUG_ShowRevengeConfig : (Command)</div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>16: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>15: printPressedButtons : Off, On</div>
+<div>17: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>16: printOnBlockChange : Off, On</div>
+<div>18: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>17: Disable game over : Off, On</div>
+<div>19: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>18: Disable out of bounds checks : Off, On</div>
+<div>20: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>19: setAllFriendly : (Command)</div>
+<div>21: setAllFriendly : (Command)</div>
 </div>
 <div id="menuItem">
-<div>20: Show position : (Command)</div>
+<div>22: Show position : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2129,16 +2142,16 @@
 <div>11: Print appearance info : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: faceFova : cm_m0_h0_v000_eye0.fv2</div>
+<div>12: faceFova : could not find InfEneFova.faceFova</div>
 </div>
 <div id="menuItem">
-<div>13: faceDecoFova : cm_w000_m.fv2</div>
+<div>13: faceDecoFova : could not find InfEneFova.faceDecoFova</div>
 </div>
 <div id="menuItem">
-<div>14: hairFova : cm_m0_h0_v000_eye0.fv2</div>
+<div>14: hairFova : could not find InfEneFova.hairFova</div>
 </div>
 <div id="menuItem">
-<div>15: hairDecoFova : 0-1000</div>
+<div>15: hairDecoFova : could not find InfEneFova.hairDecoFova</div>
 </div>
 <div id="menuItem">
 <div>16: faceFovaUnknown1 : 0-50</div>

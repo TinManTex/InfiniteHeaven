@@ -24,6 +24,8 @@ local longVisitRewards=0
 local revengeDecayCount=0
 
 function this.Init(missionTable)
+  this.messageExecTable=nil
+
   if not IvarProc.MissionCheckMbAll() then
     return
   end
@@ -34,6 +36,8 @@ function this.Init(missionTable)
 end
 
 function this.OnReload(missionTable)
+  this.messageExecTable=nil
+  
   if not IvarProc.MissionCheckMbAll() then
     return
   end
@@ -64,10 +68,6 @@ function this.Messages()
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if not IvarProc.MissionCheckMbAll() then
-    return
-  end
-
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 

@@ -1,5 +1,29 @@
 Infinite Heaven changelog
 
+r202 - 2017-04-09
+Fixed: Number of helis on < 7 clusters, including mass bunching when only command is built.
+
+Option: ihSideopsPercentageCount - "Include IH sideops in completion percentage." - Additional IH sideops count towards game completion percent - defaults to off.
+(via sideops menu)
+
+Refactor: InfModelProc - fovaInfo entries can now be referenced by fv2 filename, allows using existing entries instead of having to add duplicate.
+Refactor: InfEneFova - the various head fova infos now referenced by fova name instead of index.
+Refactor: Some functions shifted from InfCore to InfUtil, InfUtil loaded earlier during startup.
+
+Refactor: pattern for messages in external modules changed to niling messageExecTable straight off in Init/OnReload and having OnMessage just be a call to Tpp.DoMessage instead of bailing on specific checks. 
+
+Feature: Completed randomFaceListIH for quests, a downside is it doesn't support mixed specific face and random like randomFaceList does - thanks MorbidSlinky for the headsup.
+
+Known Issue: Crash on exit from title after having returned to acc from mb during the game session with mbAdditionalNpcs. Similar issue to r179 which also involved hostage entities (do comp r179 vs r178/f30050_npc.fox2)
+
+Data: ih_hostage_base.fpk/d - based off mis_com_mafr_hostage.fpk, to complement bodyInfo system.
+
+Refactor: InfNPC to InfSoldier
+Module: InfNPC - split from InfHostage, handles mbAdditionalNpcs="Additional NPCs",
+
+Option: mbAdditionalNpcs - "Additional NPCs" - Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
+(via mother base > Show characters menu)
+
 r201 - 2017-03-30
 Fixed: Mother base soldier getting set to hostile - thanks captainking91, others for the reports
 

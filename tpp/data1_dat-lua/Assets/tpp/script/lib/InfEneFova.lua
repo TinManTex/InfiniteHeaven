@@ -16,8 +16,8 @@ this.bodyTypes={
 }
 
 this.basePackPaths={
-  SOLDIER="/Assets/tpp/pack/mission2/ih_soldier_base.fpk",--tex built off mis_com_dd_soldier_wait
---HOSTAGE="",
+  SOLDIER="/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk",--tex built off mis_com_dd_soldier_wait.fpk
+  HOSTAGE="/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--tex built off mis_com_mafr_hostage.fpk
 }
 
 this.ddSuitToDDBodyInfo={
@@ -42,7 +42,7 @@ this.ddHeadGearInfo={
     MALE=true,
     HELMET=true,
   },
-  dds_balaclava1={--553, --[M][---][---][---] DD blacktop  - some oddness here this shows as helmet/greentop (like 552) when player face set to this, so is the fova for player not set right? TODO:
+  dds_balaclava1={--553, --[M][---][---][---] DD blacktop  - some oddness here this shows as helmet/greentop (like 552) when player face set to this, so is the fova for player not set right? TODO: sort this out, force balaclava for soldiers to each
     MALE=true,
   },
   dds_balaclava2={--554, --[M][---][---][---] DD no blacktop - same issue as above
@@ -172,7 +172,7 @@ end
 function this.GetFemaleBodyInfo(missionCode)
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
     return InfBodyInfo.bodyInfo.DRAB --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
-    --OFF return nil
+      --OFF return nil
   end
   --CULL
   --  local suitName=nil
@@ -208,12 +208,13 @@ function this.AddBodyPackPaths(bodyInfo,bodyType)
     return
   end
   bodyType=bodyType or "SOLDIER"
-  if bodyInfo.useBasePack then
-    TppPackList.AddMissionPack(this.basePackPaths[bodyType])
-  end
   if type(bodyInfo.missionPackPath)=="table" then
     for i,missionPackPath in ipairs(bodyInfo.missionPackPath) do
-      TppPackList.AddMissionPack(missionPackPath)
+      if missionPackPath=="BASE_PACK" then--tex GOTCHA this means base pack is likely to be added multiple times, but doesnt seem to be an issue.
+        TppPackList.AddMissionPack(this.basePackPaths[bodyType])
+      else
+        TppPackList.AddMissionPack(missionPackPath)
+      end
     end
   else
     TppPackList.AddMissionPack(bodyInfo.missionPackPath)
@@ -360,6 +361,7 @@ this.PLAYERTYPE_GENDER={
   [PlayerType.DD_FEMALE]=this.GENDER.FEMALE,
 }
 
+--tex unlike race I I think I just made this enum up? not that useful though
 this.HAIRCOLOR={
   BROWN=0,
   BLACK=1,
@@ -367,829 +369,808 @@ this.HAIRCOLOR={
   AUBURN=3,
   RED=4,
   WHITE=5,
+  GREEN=6,
 }
 
-this.faceFovas={
-  FEMALE={
-    49,--35,36,37,38,39,57,
-    50,--35,36,37,38,42,43,58,
-    51,--35,36,37,38,41,59,
-    52,--35,36,37,38,60,
-    53,--39,40,41,
-    54,--39,40,41,
-    55,--39,40,41,
-    56,--39,40,41,42,43,44
-    57,--37,38,42,43,44,
-    58,--42,43,44,
+--headGearId = this.ddHeadGearInfo key
+this.faceFova={
+  ["cm_m0_h0_v000_eye0.fv2"]={
+    gender="MALE",
   },
-}
-
-this.faceFovaInfo={
-  {
-    name="cm_m0_h0_v000_eye0.fv2",
-    faceFova=0,
+  ["cm_m0_h0_v001_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v001_eye0.fv2",
-    faceFova=1,
+  ["cm_m0_h0_v002_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v002_eye0.fv2",
-    faceFova=2,
+  ["cm_m0_h0_v003_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v003_eye0.fv2",
-    faceFova=3,
+  ["cm_m0_h0_v004_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v004_eye0.fv2",
-    faceFova=4,
+  ["cm_m0_h0_v005_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v005_eye1.fv2",
-    faceFova=5,
+  ["cm_m0_h0_v006_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v006_eye1.fv2",
-    faceFova=6,
+  ["cm_m0_h0_v007_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v007_eye0.fv2",
-    faceFova=7,
+  ["cm_m0_h0_v008_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v008_eye0.fv2",
-    faceFova=8,
+  ["cm_m0_h0_v009_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v009_eye1.fv2",
-    faceFova=9,
+  ["cm_m0_h0_v010_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v010_eye0.fv2",
-    faceFova=10,
+  ["cm_m0_h0_v011_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v011_eye0.fv2",
-    faceFova=11,
+  ["cm_m0_h0_v012_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v012_eye1.fv2",
-    faceFova=12,
+  ["cm_m0_h0_v013_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v013_eye0.fv2",
-    faceFova=13,
+  ["cm_m0_h0_v014_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v014_eye1.fv2",
-    faceFova=14,
+  ["cm_m0_h0_v015_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v015_eye1.fv2",
-    faceFova=15,
+  ["cm_m0_h0_v016_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v016_eye1.fv2",
-    faceFova=16,
+  ["cm_m0_h0_v017_eye1.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v017_eye1.fv2",
-    faceFova=17,
+  ["cm_m0_h0_v018_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h0_v018_eye0.fv2",
-    faceFova=18,
+  ["cm_m0_h1_v000_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h1_v000_eye0.fv2",
-    faceFova=19,
+  ["cm_m0_h1_v001_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h1_v001_eye0.fv2",
-    faceFova=20,
+  ["cm_m0_h1_v002_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h1_v002_eye0.fv2",
-    faceFova=21,
+  ["cm_m0_h1_v003_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h1_v003_eye0.fv2",
-    faceFova=22,
+  ["cm_m0_h1_v004_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h1_v004_eye0.fv2",
-    faceFova=23,
+  ["cm_m0_h2_v000_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h2_v000_eye0.fv2",
-    faceFova=24,
+  ["cm_m0_h2_v001_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h2_v001_eye0.fv2",
-    faceFova=25,
+  ["cm_m0_h2_v002_eye0.fv2"]={
+    gender="MALE",
   },
-  {
-    name="cm_m0_h2_v002_eye0.fv2",
-    faceFova=26,
-  },
-  {
-    name="cm_svs0_head_z_eye0.fv2",
+  ["cm_svs0_head_z_eye0.fv2"]={
     description="Soviet Balaclava",
-    faceFova=27,
+    gender="MALE",
+    type="BALACLAVA",
+    headGearId="svs_balaclava",
   },
-  {
-    name="cm_pfs0_head_z_eye0.fv2",
+  ["cm_pfs0_head_z_eye0.fv2"]={
     description="PF Balaclava",
-    faceFova=28,
+    gender="MALE",
+    type="BALACLAVA",
+    headGearId="pfs_balaclava",
   },
-  {
-    name="cm_dds5_head_z_eye0.fv2",
-    desciption="DD armor helmet (green top)",
-    faceFova=29,
+  --TODO: give headGearId and clear up descriptions with ddgearinfo tppfaceid in game dd headgear
+  ["cm_dds5_head_z_eye0.fv2"]={
+    description="DD Mask with Helmet (Greentop)",--HP-Headgear
+    gender="MALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds6_head_z_eye0.fv2",
-    desciption="DD armor helmet (green top)",
-    faceFova=30,
-    gender=this.GENDER.FEMALE,
+  ["cm_dds6_head_z_eye0.fv2"]={
+    description="DD Mask with Helmet (Greentop)",--HP-Headgear
+    gender="FEMALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds3_eqhd1_eye0.fv2",
-    description="DD Gas Mask and Balaclava",
-    faceFova=31,
+  ["cm_dds3_eqhd1_eye0.fv2"]={
+    description="Gas mask and clava Male",
+    gender="MALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds8_eqhd1_eye0.fv2",
-    description="DD Gas Mask and Balaclava",
-    faceFova=32,
-    gender=this.GENDER.FEMALE,
+  ["cm_dds8_eqhd1_eye0.fv2"]={
+    description="Gas mask and clava Female",
+    gender="FEMALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds3_eqhd4_eye0.fv2",
-    description="Gas mask DD helm",
-    faceFova=33,
+  ["cm_dds3_eqhd4_eye0.fv2"]={
+    description="Gas mask DD helm Male",
+    gender="MALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds3_eqhd5_eye0.fv2",
-    description="Gas mask DD greentop",
-    faceFova=34,
+  ["cm_dds3_eqhd5_eye0.fv2"]={
+    description="Gas mask DD greentop helm Male",
+    gender="MALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds8_eqhd2_eye0.fv2",
-    description="Gas mask DD helm",
-    faceFova=35,
-    gender=this.GENDER.FEMALE,
+  ["cm_dds8_eqhd2_eye0.fv2"]={
+    description="Gas mask DD helm Female",
+    gender="FEMALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds8_eqhd3_eye0.fv2",
-    description="Gas mask DD greentop",
-    faceFova=36,
-    gender=this.GENDER.FEMALE,
+  ["cm_dds8_eqhd3_eye0.fv2"]={
+    description="Gas mask DD greentop helm Female",
+    gender="FEMALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds3_eqhd6_eye0.fv2",
-    description="NVG DDgreentop",
-    faceFova=37,
+  ["cm_dds3_eqhd6_eye0.fv2"]={
+    description="NVG DDgreentop Male",
+    gender="MALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds3_eqhd7_eye0.fv2",
-    description="NVG DD greentop GasMask",
-    faceFova=38,
+  ["cm_dds3_eqhd7_eye0.fv2"]={
+    description="NVG DDgreentop GasMask Male",
+    gender="MALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds8_eqhd6_eye0.fv2",
-    description="NVG DD greentop",
-    faceFova=39,
-    gender=this.GENDER.FEMALE,
+  ["cm_dds8_eqhd6_eye0.fv2"]={
+    description="NVG DDgreentop Female",--total cover VERIFY, bit of nose shows?
+    gender="FEMALE",
+    type="BALACLAVA",
   },
-  {
-    name="cm_dds8_eqhd7_eye0.fv2",
-    description="NVG DD greentop GasMask",
-    faceFova=40,
-    gender=this.GENDER.FEMALE,
+  ["cm_dds8_eqhd7_eye0.fv2"]={
+    description="NVG DDgreentop GasMask Female",--total cover VERIFY, bit ofnose shows?
+    gender="FEMALE",
+    type="BALACLAVA",
+  },--<
+  ["cm_unq_v000_eye1.fv2"]={--41,--bio engineer / glasses dude
+    type="UNIQUE",
   },
-  {
-    name="cm_unq_v000_eye1.fv2",
-    faceFova=41,
+  ["cm_unq_v001_eye1.fv2"]={
+    type="UNIQUE",
+  },--42,--includes hair>
+  ["cm_unq_v002_eye0.fv2"]={
+    type="UNIQUE",
+  },--43,--<
+  ["cm_unq_v003_eye1.fv2"]={
+    description="Hideo",--kojima, hair, glasses -- all-in-one, also has hair.sim
+    type="UNIQUE",
   },
-  {
-    name="cm_unq_v001_eye1.fv2",
-    faceFova=42,
+  ["cm_unq_v004_eye0.fv2"]={
+    type="UNIQUE",
+  },--45,
+  ["cm_unq_v005_eye0.fv2"]={
+    type="UNIQUE",
+  },--46,--
+  ["cm_unq_v006_eye0.fv2"]={
+    type="UNIQUE",
+  },--47,
+  ["cm_unq_v007_eye0.fv2"]={
+    type="UNIQUE",
+  },--48,
+  ["cm_f0_h0_v000_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_unq_v002_eye0.fv2",
-    faceFova=43,
+  ["cm_f0_h0_v001_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {--unique all-in-one, also has hair.sim
-    name="cm_unq_v003_eye1.fv2",
-    description="Hideo",
-    faceFova=44,
+  ["cm_f0_h0_v002_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_unq_v004_eye0.fv2",
-    faceFova=45,
+  ["cm_f0_h0_v003_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_unq_v005_eye0.fv2",
-    faceFova=46,
+  ["cm_f0_h1_v000_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_unq_v006_eye0.fv2",
-    faceFova=47,
+  ["cm_f0_h1_v001_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_unq_v007_eye0.fv2",
-    faceFova=48,
+  ["cm_f0_h1_v002_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_f0_h0_v000_eye0.fv2",
-    faceFova=49,
+  ["cm_f0_h2_v000_eye1.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_f0_h0_v001_eye0.fv2",
-    faceFova=50,
+  ["cm_f0_h2_v001_eye0.fv2"]={
+    gender="FEMALE",
   },
-  {
-    name="cm_f0_h0_v002_eye0.fv2",
-    faceFova=51,
-  },
-  {
-    name="cm_f0_h0_v003_eye0.fv2",
-    faceFova=52,
-  },
-  {
-    name="cm_f0_h1_v000_eye0.fv2",
-    faceFova=53,
-  },
-  {
-    name="cm_f0_h1_v001_eye0.fv2",
-    faceFova=54,
-  },
-  {
-    name="cm_f0_h1_v002_eye0.fv2",
-    faceFova=55,
-  },
-  {
-    name="cm_f0_h2_v000_eye1.fv2",
-    faceFova=56,
-  },
-  {
-    name="cm_f0_h2_v001_eye0.fv2",
-    faceFova=57,
-  },
-  {
-    name="cm_f0_h2_v002_eye0.fv2",
-    faceFova=58,
+  ["cm_f0_h2_v002_eye0.fv2"]={
+    gender="FEMALE",
   },
 }
+--< faceFova
+--face textures
+--TODO not sure on how kjp made determination between brown/black for race var, have just all as black for now - see this.RACE table to see if you can figure out from data. Also guessing one of the faceDefinition unks is race, but don't know which
+this.faceDecoFova={
+  ["cm_w000_m.fv2"]={--light stubble
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,--or brown? shaved
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w001_m.fv2"]={--stubble
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,--or brown? shaved
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w002_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,--or brown? shaved
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w003_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w004_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w005_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w006_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w007_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w008_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w009_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w010_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w011_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w012_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w013_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w014_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w015_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w016_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w017_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w018_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_w019_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_b000_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b001_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b002_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b003_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b004_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b005_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b006_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b007_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b008_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b009_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_b010_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_y000_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.ASIAN,
+  },
+  ["cm_y001_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.ASIAN,
+  },
+  ["cm_y002_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.ASIAN,
+  },
+  ["cm_y003_m.fv2"]={
+    gender="MALE",
+    race=this.RACE.ASIAN,
+  },
 
-this.faceDecoFovaInfo={
-  {
-    name="cm_w000_m.fv2",
-    faceDecoFova=0,
-  },
-  {
-    name="cm_w001_m.fv2",
-    faceDecoFova=1,
-  },
-  {
-    name="cm_w002_m.fv2",
-    faceDecoFova=2,
-  },
-  {
-    name="cm_w003_m.fv2",
-    faceDecoFova=3,
-  },
-  {
-    name="cm_w004_m.fv2",
-    faceDecoFova=4,
-  },
-  {
-    name="cm_w005_m.fv2",
-    faceDecoFova=5,
-  },
-  {
-    name="cm_w006_m.fv2",
-    faceDecoFova=6,
-  },
-  {
-    name="cm_w007_m.fv2",
-    faceDecoFova=7,
-  },
-  {
-    name="cm_w008_m.fv2",
-    faceDecoFova=8,
-  },
-  {
-    name="cm_w009_m.fv2",
-    faceDecoFova=9,
-  },
-  {
-    name="cm_w010_m.fv2",
-    faceDecoFova=10,
-  },
-  {
-    name="cm_w011_m.fv2",
-    faceDecoFova=11,
-  },
-  {
-    name="cm_w012_m.fv2",
-    faceDecoFova=12,
-  },
-  {
-    name="cm_w013_m.fv2",
-    faceDecoFova=13,
-  },
-  {
-    name="cm_w014_m.fv2",
-    faceDecoFova=14,
-  },
-  {
-    name="cm_w015_m.fv2",
-    faceDecoFova=15,
-  },
-  {
-    name="cm_w016_m.fv2",
-    faceDecoFova=16,
-  },
-  {
-    name="cm_w017_m.fv2",
-    faceDecoFova=17,
-  },
-  {
-    name="cm_w018_m.fv2",
-    faceDecoFova=18,
-  },
-  {
-    name="cm_w019_m.fv2",
-    faceDecoFova=19,
-  },
-  {
-    name="cm_b000_m.fv2",
-    faceDecoFova=20,
-  },
-  {
-    name="cm_b001_m.fv2",
-    faceDecoFova=21,
-  },
-  {
-    name="cm_b002_m.fv2",
-    faceDecoFova=22,
-  },
-  {
-    name="cm_b003_m.fv2",
-    faceDecoFova=23,
-  },
-  {
-    name="cm_b004_m.fv2",
-    faceDecoFova=24,
-  },
-  {
-    name="cm_b005_m.fv2",
-    faceDecoFova=25,
-  },
-  {
-    name="cm_b006_m.fv2",
-    faceDecoFova=26,
-  },
-  {
-    name="cm_b007_m.fv2",
-    faceDecoFova=27,
-  },
-  {
-    name="cm_b008_m.fv2",
-    faceDecoFova=28,
-  },
-  {
-    name="cm_b009_m.fv2",
-    faceDecoFova=29,
-  },
-  {
-    name="cm_b010_m.fv2",
-    faceDecoFova=30,
-  },
-  {
-    name="cm_y000_m.fv2",
-    faceDecoFova=31,
-  },
-  {
-    name="cm_y001_m.fv2",
-    faceDecoFova=32,
-  },
-  {
-    name="cm_y002_m.fv2",
-    faceDecoFova=33,
-  },
-  {
-    name="cm_y003_m.fv2",
-    faceDecoFova=34,
-  },
-  {
-    name="cm_w000_f.fv2",
-    faceDecoFova=35,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
+  ["cm_w000_f.fv2"]={
+    gender="FEMALE",
     race=this.RACE.CAUCASIAN,
   },
-  {
-    name="cm_w001_f.fv2",
-    faceDecoFova=36,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
+  ["cm_w001_f.fv2"]={
+    gender="FEMALE",
     race=this.RACE.CAUCASIAN,
   },
-  {
-    name="cm_w002_f.fv2",
-    faceDecoFova=37,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
+  ["cm_w002_f.fv2"]={
+    gender="FEMALE",
     race=this.RACE.CAUCASIAN,
   },
-  {
-    name="cm_w003_f.fv2",
-    faceDecoFova=38,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
+  ["cm_w003_f.fv2"]={
+    gender="FEMALE",
+    race=this.RACE.CAUCASIAN,
+  },
+  ["cm_b000_f.fv2"]={
+    gender="FEMALE",
     race=this.RACE.BLACK,
   },
-  {
-    name="cm_b000_f.fv2",
-    faceDecoFova=39,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
+  ["cm_b001_f.fv2"]={
+    gender="FEMALE",
     race=this.RACE.BLACK,
   },
-  {
-    name="cm_b001_f.fv2",
-    faceDecoFova=40,
-    gender=this.GENDER.FEMALE,
+  ["cm_b002_f.fv2"]={
+    gender="FEMALE",
+    race=this.RACE.BLACK,
+  },
+  ["cm_y000_f.fv2"]={
+    gender="FEMALE",
+    race=this.RACE.ASIAN,
+  },
+  ["cm_y001_f.fv2"]={
+    gender="FEMALE",
+    race=this.RACE.ASIAN,
+  },
+  ["cm_y002_f.fv2"]={
+    gender="FEMALE",
+    race=this.RACE.ASIAN,
+  },
+
+  ["sp_w000_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_w001_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_w002_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,--shaved
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_w003_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_w004_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_b000_m.fv2"]={
+    gender="MALE",
     hairColor=this.HAIRCOLOR.BLACK,
     race=this.RACE.BLACK,
   },
-  {
-    name="cm_b002_f.fv2",
-    faceDecoFova=41,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
-    race=this.RACE.BLACK,
-  },
-  {
-    name="cm_y000_f.fv2",
-    faceDecoFova=42,
-    gender=this.GENDER.FEMALE,
+  ["sp_y000_m.fv2"]={
+    gender="MALE",
     hairColor=this.HAIRCOLOR.BLACK,
     race=this.RACE.ASIAN,
   },
-  {
-    name="cm_y001_f.fv2",
-    faceDecoFova=43,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
+  ["sp_y001_m.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
     race=this.RACE.ASIAN,
   },
-  {
-    name="cm_y002_f.fv2",
-    faceDecoFova=44,
-    gender=this.GENDER.FEMALE,
-    hairColor=this.HAIRCOLOR.BROWN,
-    race=this.RACE.ASIAN,
-  },
-  {
-    name="sp_w000_m.fv2",
-    faceDecoFova=45,
-  },
-  {
-    name="sp_w001_m.fv2",
-    faceDecoFova=46,
-  },
-  {
-    name="sp_w002_m.fv2",
-    faceDecoFova=47,
-  },
-  {
-    name="sp_w003_m.fv2",
-    faceDecoFova=48,
-  },
-  {
-    name="sp_w004_m.fv2",
-    faceDecoFova=49,
-  },
-  {
-    name="sp_b000_m.fv2",
-    faceDecoFova=50,
-  },
-  {
-    name="sp_y000_m.fv2",
-    faceDecoFova=51,
-  },
-  {
-    name="sp_y001_m.fv2",
-    faceDecoFova=52,
-  },
-  {
-    name="sp_face_m000.fv2",
-    faceDecoFova=53,
-  },
-  {
-    name="sp_face_m001.fv2",
-    faceDecoFova=54,
-  },
-  {
-    name="sp_face_m002.fv2",
-    faceDecoFova=55,
-  },
-  {
-    name="sp_face_m003.fv2",
-    faceDecoFova=56,
-  },
-  {--tatoo_foxhound
-    name="sp_face_f000.fv2",
-    faceDecoFova=57,
-    gender=this.GENDER.FEMALE,
+
+  ["sp_face_m000.fv2"]={
+    description="Tatoo Foxhound",--black foxhound
+    gender="MALE",
     hairColor=this.HAIRCOLOR.BROWN,
     race=this.RACE.CAUCASIAN,
   },
-  {--tatoo_ddogemblem
-    name="sp_face_f001.fv2",
-    faceDecoFova=58,
-    gender=this.GENDER.FEMALE,
+  ["sp_face_m001.fv2"]={
+    description="Tatoo DDogs emblem",--white and black ddog emblem
+    gender="MALE",
     hairColor=this.HAIRCOLOR.RED,
     race=this.RACE.CAUCASIAN,
   },
-  {--tatoo_fox
-    name="sp_face_f002.fv2",
-    faceDecoFova=59,
-    gender=this.GENDER.FEMALE,
+  ["sp_face_m002.fv2"]={
+    description="Tatoo Fox",--fox logo fox
+    gender="MALE",
     hairColor=this.HAIRCOLOR.BROWN,
     race=this.RACE.CAUCASIAN,
   },
-  {--tattoo_whiteskull
-    name="sp_face_f003.fv2",
-    faceDecoFova=60,
-    gender=this.GENDER.FEMALE,
+  ["sp_face_m003.fv2"]={
+    description="Tatoo White skull",
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,--shaved
+    race=this.RACE.CAUCASIAN,
+  },
+
+  ["sp_face_f000.fv2"]={
+    description="Tatoo Foxhound",--black foxhound
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_face_f001.fv2"]={
+    description="Tatoo DDogs emblem",--white and black ddog emblem
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.RED,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_face_f002.fv2"]={
+    description="Tatoo Fox",--fox logo fox
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    race=this.RACE.CAUCASIAN,
+  },
+  ["sp_face_f003.fv2"]={
+    description="Tatoo White skull",
+    gender="FEMALE",
     hairColor=this.HAIRCOLOR.WHITE,
     race=this.RACE.CAUCASIAN,
   },
-}
-this.faceDecoFovaInfo[EnemyFova.INVALID_FOVA_VALUE+1]={
-  name="NO_FOVA",
-  description="None",
-  faceDecoFova=EnemyFova.INVALID_FOVA_VALUE,
-}
+}--<faceDecoFova
 
-this.hairFovaInfo={
-  {
-    name="cm_hair_c000.fv2",
-    hairFova=0,
+--hair meshes
+--TODO: descriptions. im terrible at describing haircuts
+this.hairFova={
+  ["cm_hair_c000.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c000_c000.fv2",
+      "cm_hair_c000_c001.fv2",
+      "cm_hair_c000_c002.fv2",
+      "cm_hair_c000_c003.fv2",
+      "sp_hair_m000.fv2",
+      "sp_hair_m001.fv2",
+    },
   },
-  {
-    name="cm_hair_c001.fv2",
-    hairFova=1,
+  ["cm_hair_c001.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c001_c000.fv2",
+      "cm_hair_c001_c001.fv2",
+      "sp_hair_m002.fv2",
+    },
   },
-  {
-    name="cm_hair_c002.fv2",
-    hairFova=2,
+  ["cm_hair_c002.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c002_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c003.fv2",
-    hairFova=3,
+  ["cm_hair_c003.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c003_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c004.fv2",
-    hairFova=4,
+  ["cm_hair_c004.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c106_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c005.fv2",
-    hairFova=5,
+  ["cm_hair_c005.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c005_c000.fv2",
+    },
   },
-  {
-    name="sp_hair_c000.fv2",
-    hairFova=6,
+  ["sp_hair_c000.fv2"]={
+    gender="MALE",
+    hairDecoFovas={
+      "cm_hair_c004_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c100.fv2",
+  ["cm_hair_c100.fv2"]={
     description="Bob",
-    hairFova=7,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      10,
-      17,
+      "cm_hair_c100_c000.fv2",
+      "cm_hair_c107_c000.fv2",
     },
   },
-  {
-    name="cm_hair_c101.fv2",
+  ["cm_hair_c101.fv2"]={
     description="Pixie",
-    hairFova=8,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      11,
-      22,
-      24,
+      "cm_hair_c101_c000.fv2",
+      "sp_hair_f001.fv2",
+      "sp_hair_f003.fv2",
     },
   },
-  {
-    name="cm_hair_c102.fv2",
+  ["cm_hair_c102.fv2"]={
     description="Crop",
-    hairFova=9,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      12,
-      21,
-      23,
+      "cm_hair_c102_c000.fv2",
+      "sp_hair_f000.fv2",
+      "sp_hair_f002.fv2",
     },
   },
-  {
-    name="cm_hair_c103.fv2",
+  ["cm_hair_c103.fv2"]={
     description="Ponytail bangs",
-    hairFova=10,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      13,
+      "cm_hair_c103_c000.fv2",
     },
   },
-  {
-    name="cm_hair_c104.fv2",
+  ["cm_hair_c104.fv2"]={
     description="Ponytail parted",
-    hairFova=11,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      14,
+      "cm_hair_c104_c000.fv2",
     },
   },
-  {
-    name="cm_hair_c105.fv2",
+  ["cm_hair_c105.fv2"]={
     description="Bun",
-    hairFova=12,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      15,
+      "cm_hair_c105_c000.fv2",
     },
   },
-  {
-    name="cm_hair_c106.fv2",
+  ["cm_hair_c106.fv2"]={
     description="Afro-texured short",
-    hairFova=13,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
     hairDecoFovas={
-      16,
+      "cm_hair_c106_c000.fv2",
     },
   },
   --tex unused?
-  {
-    name="cm_hair_c107.fv2",
-    hairFova=14,
-    gender=this.GENDER.FEMALE,
+  ["cm_hair_c107.fv2"]={
+    gender="FEMALE",
+    hairDecoFovas={
+      "cm_hair_c107_c000.fv2",--tex no actual headdefinitions with this i can see?
+    },
   },
-}
-this.hairFovaInfo[EnemyFova.INVALID_FOVA_VALUE+1]={
-  name="NO_FOVA",
-  description="None",
-  hairFova=EnemyFova.INVALID_FOVA_VALUE,
-}
+}--<hairFova
 
-this.hairDecoFovaInfo={
-  {
-    name="cm_hair_c000_c000.fv2",
-    hairDecoFova=0,
+--hair textures
+--tex colors not that accurate
+this.hairDecoFova={
+  ["cm_hair_c000_c000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,--blonde brown
+    hairFova={
+      "cm_hair_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c000_c001.fv2",
-    hairDecoFova=1,
+  ["cm_hair_c000_c001.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,--dark brown
+    hairFova={
+      "cm_hair_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c000_c002.fv2",
-    hairDecoFova=2,
+  ["cm_hair_c000_c002.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c000_c003.fv2",
-    hairDecoFova=3,
+  ["cm_hair_c000_c003.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,--dark brown
+    hairFova={
+      "cm_hair_c000.fv2",
+    },
   },
-  {
-    name="cm_hair_c001_c000.fv2",
-    hairDecoFova=4,
+  ["cm_hair_c001_c000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c001.fv2"
+    },
   },
-  {
-    name="cm_hair_c001_c001.fv2",
-    hairDecoFova=5,
+  ["cm_hair_c001_c001.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c001.fv2"
+    },
   },
-  {
-    name="cm_hair_c002_c000.fv2",
-    hairDecoFova=6,
+  ["cm_hair_c002_c000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c002.fv2"
+    },
   },
-  {
-    name="cm_hair_c003_c000.fv2",
-    hairDecoFova=7,
+  ["cm_hair_c003_c000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
+    hairFova={
+      "cm_hair_c003.fv2"
+    },
   },
-  {
-    name="cm_hair_c004_c000.fv2",
-    hairDecoFova=8,
+  ["cm_hair_c004_c000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLACK,
+    hairFova={
+      "sp_hair_c000.fv2"
+    },
   },
-  {
-    name="cm_hair_c005_c000.fv2",
-    hairDecoFova=9,
+  ["cm_hair_c005_c000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLOND,
+    hairFova={
+      "cm_hair_c005.fv2"
+    },
   },
-  {
-    name="cm_hair_c100_c000.fv2",
+  ["cm_hair_c100_c000.fv2"]={
     description="Blond",
-    hairDecoFova=10,
-    gender=this.GENDER.FEMALE,
-    hairFova=7,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BLOND,
+    hairFova={
+      "cm_hair_c100.fv2",
+    },
   },
-  {
-    name="cm_hair_c101_c000.fv2",
+  ["cm_hair_c101_c000.fv2"]={
     description="Brown",
-    hairDecoFova=11,
-    hairFova=8,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c101.fv2",
+    },
   },
-  {
-    name="cm_hair_c102_c000.fv2",
+  ["cm_hair_c102_c000.fv2"]={
     description="Dark brown",
-    hairDecoFova=12,
-    gender=this.GENDER.FEMALE,
-    hairFova=9,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c102.fv2",
+    },
   },
-  {
-    name="cm_hair_c103_c000.fv2",
+  ["cm_hair_c103_c000.fv2"]={
     description="Brown",
-    hairDecoFova=13,
-    gender=this.GENDER.FEMALE,
-    hairFova=10,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c103.fv2",
+    },
   },
-  {
-    name="cm_hair_c104_c000.fv2",
+  ["cm_hair_c104_c000.fv2"]={
     name="Brown",
-    hairDecoFova=14,
-    gender=this.GENDER.FEMALE,
-    hairFova=11,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c104.fv2",
+    },
   },
-  {
-    name="cm_hair_c105_c000.fv2",
+  ["cm_hair_c105_c000.fv2"]={
     description="Brown",
-    hairDecoFova=15,
-    gender=this.GENDER.FEMALE,
-    hairFova=12,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c105.fv2",
+    },
   },
-  {
-    name="cm_hair_c106_c000.fv2",
+  ["cm_hair_c106_c000.fv2"]={
     description="Dark brown",
-    hairDecoFova=16,
-    gender=this.GENDER.FEMALE,
-    hairFova=13,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c004.fv2",
+      "cm_hair_c106.fv2",
+    },
   },
-  {
-    name="cm_hair_c107_c000.fv2",
+  ["cm_hair_c107_c000.fv2"]={
     description="Brown",
-    hairDecoFova=17,
-    gender=this.GENDER.FEMALE,
-    hairFova=7,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.BROWN,
+    hairFova={
+      "cm_hair_c100.fv2",
+    --"cm_hair_c107.fv2"--tex no heads actually referencing this match?
+    },
   },
-  {
-    name="sp_hair_m000.fv2",
-    hairDecoFova=18,
+  ["sp_hair_m000.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLOND,--light brown?
+    hairFova={
+      "cm_hair_c000.fv2",
+    },
   },
-  {
-    name="sp_hair_m001.fv2",
-    hairDecoFova=19,
+  ["sp_hair_m001.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.RED,
+    hairFova={
+      "cm_hair_c000.fv2",
+    },
   },
-  {
-    name="sp_hair_m002.fv2",
-    hairDecoFova=20,
+  ["sp_hair_m002.fv2"]={
+    gender="MALE",
+    hairColor=this.HAIRCOLOR.BLONDE,
+    hairFova={
+      "cm_hair_c001.fv2",
+    },
   },
-  {
-    name="sp_hair_f000.fv2",
+  ["sp_hair_f000.fv2"]={
     description="Green",
-    hairDecoFova=21,
-    gender=this.GENDER.FEMALE,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.GREEN,
     hairFova=9,
   },
-  {
-    name="sp_hair_f001.fv2",
+  ["sp_hair_f001.fv2"]={
     description="Red",
-    hairDecoFova=22,
-    gender=this.GENDER.FEMALE,
-    hairFova=8,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.RED,
+    hairFova={
+      "cm_hair_c101.fv2",
+    },
   },
-  {
-    name="sp_hair_f002.fv2",
+  ["sp_hair_f002.fv2"]={
     description="Auburn",
-    hairDecoFova=23,
-    gender=this.GENDER.FEMALE,
-    hairFova=9,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.AUBURN,
+    hairFova={
+      "cm_hair_c102.fv2",
+    },
   },
-  {
-    name="sp_hair_f003.fv2",
+  ["sp_hair_f003.fv2"]={
     description="White",
-    hairDecoFova=24,
-    gender=this.GENDER.FEMALE,
-    hairFova=8,
+    gender="FEMALE",
+    hairColor=this.HAIRCOLOR.WHITE,
+    hairFova={
+      "cm_hair_c101.fv2",
+    },
   },
-}
-this.hairDecoFovaInfo[EnemyFova.INVALID_FOVA_VALUE+1]={
-  name="NO_FOVA",
-  description="None",
-  hairDecoFova=EnemyFova.INVALID_FOVA_VALUE,
 }
 
 this.faceDefinitionParams=Tpp.Enum{
@@ -1211,6 +1192,11 @@ this.faceDefinitionParams=Tpp.Enum{
   "unknown9",
   "unknown10",
 }
+
+function this.GetFovaName(fovaType,fovaIndex)
+  local faceDecoName=Soldier2FaceAndBodyData[fovaType][fovaIndex]
+  return InfUtil.GetFileName(faceDecoName)
+end
 
 
 this.wildCardBodyTable={
@@ -1248,14 +1234,14 @@ function this.WildCardFovaFaces(faces)
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   if not IvarProc.EnabledForMission"customSoldierType" then--tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies
     local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
-    for i=1,InfNPC.numWildCards.MALE do
+    for i=1,InfSoldier.numWildCards.MALE do
       local faceId=this.RandomFaceId(faceBags,"MALE",categoryBag)
       table.insert(faces,{faceId,1,1,0})
       table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
     end
   end
   local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
-  for i=1,InfNPC.numWildCards.FEMALE do
+  for i=1,InfSoldier.numWildCards.FEMALE do
     local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
@@ -1419,6 +1405,15 @@ function this.ApplyCustomBodyPowers(soldierId,powerSettings)
         --DEBUGNOW TODO?  mvars.ene_soldierPowerSettings[soldierId].HELMET=true
       end
     end
+
+    if bodyInfo.config then
+      local gear={"HELMET","GAS_MASK","NVG","ARMOR"}
+      for i,power in ipairs(gear)do
+        if bodyInfo.config[power]~=nil then
+          powerSettings[power]=bodyInfo.config[power]
+        end
+      end
+    end
   end
 
   local clearHeadGear=false--tex DEBUG>
@@ -1429,6 +1424,8 @@ function this.ApplyCustomBodyPowers(soldierId,powerSettings)
   end--<
 end
 
+--Soldier2FaceAndBodyData.faceDefinition indexes for
+--DEBUGNOW TODO: make so faceDefinition is built from the ivars on startup (just apply same to both so if player loading game with face set you don't have to worry about saving current used mod face slot)
 this.faceModSlots={
   512,
   513,
@@ -1504,24 +1501,32 @@ function this.ApplyFaceFova()
 end
 
 function this.PrintFaceInfo(faceId)
-  for i,faceDef in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
+  local faceAndBodyData=Soldier2FaceAndBodyData
+  for i,faceDef in ipairs(faceAndBodyData.faceDefinition)do
     if faceDef[1]==faceId then
-      local faceFova=faceDef[5]
-      local faceDecoFova=faceDef[6]
-      local hairFova=faceDef[7]
-      local hairDecoFova=faceDef[8]
-      local faceFovaInfo=InfEneFova.faceFovaInfo[faceFova+1]
-      local faceDecoFovaInfo=InfEneFova.faceDecoFovaInfo[faceDecoFova+1]
-      local hairFovaInfo=InfEneFova.hairFovaInfo[hairFova+1]
-      local hairDecoFovaInfo=InfEneFova.hairDecoFovaInfo[hairDecoFova+1]
+      local faceInfoString=""
+      for i,fovaType in ipairs(InfModelProc.fovaTypes)do
+        local index=faceDef[InfEneFova.faceDefinitionParams[fovaType]]
+        local fovaInfo=faceAndBodyData[fovaType][index]
+        local name
+        if fovaInfo then
+          name=InfUtil.GetFileName(fovaInfo[1])
+        elseif index==EnemyFova.INVALID_FOVA_VALUE then
+          name="nil_fova"
+        else
+          name=index
+        end
 
-      InfCore.DebugPrint(
-        string.format("faceId:%s, faceFova: %s, faceDecoFova: %s, hairFova: %s, hairDecoFova: %s",
-          faceId,
-          faceFovaInfo.name,
-          faceDecoFovaInfo.name,
-          hairFovaInfo.name,
-          hairDecoFovaInfo.name))
+        local fovaInfoExt=InfEneFova[fovaType][name]
+        local description=name
+        if fovaInfoExt and fovaInfoExt.description then
+          description=description..":"..fovaInfoExt.description
+        end
+
+        faceInfoString=faceInfoString..fovaType..":"..description..", "
+      end
+
+      InfCore.Log(faceInfoString,true)
       break
     end
   end

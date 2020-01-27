@@ -220,7 +220,7 @@ Appearance menu
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
-6: Face : nil
+6: Face : <Face Id for player type and face filter>
 7: Print face info : (Command)
 8: Print appearance info : (Command)
 9: Form Variation menu
@@ -276,7 +276,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : Off, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
+7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
 Override the soldier type of enemy soldiers in Free Roam
 8: Reset enemy preparedness levels : (Command)
 Resets enemy prep levels to 0
@@ -477,6 +477,7 @@ Lets you force story and one-time sideops to be replayable, and open sideops bef
 Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.
 4: Sideops category filter menu
 5: Force enable enemy heli reinforce (disable heli sideops) : Off, On
+6: Include IH sideops in completion percentage. : Off, On
 
 Sideops category filter menu
 - Filters selection of sideops per category, Sideop selection mode will override this.
@@ -502,7 +503,7 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : Off, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
+4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
 5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available, Half
@@ -542,11 +543,13 @@ Enables Ocelot to roam the command platform.
 Note: The training side-op on the command platform will be disabled while this is active.
 3: Show Code Talker : Off, On
 4: Show Eli : Off, On
-5: Enable Birds : Off, On
-6: Reset Paz state to beginning : (Command)
-7: Return Quiet after mission 45 : (Command)
+5: Additional NPCs : Off, On
+Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
+6: Enable Birds : Off, On
+7: Reset Paz state to beginning : (Command)
+8: Return Quiet after mission 45 : (Command)
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-8: showQuietReunionMissionCount : (Command)
+9: showQuietReunionMissionCount : (Command)
 
 Show assets menu
 ----------------
@@ -678,10 +681,10 @@ appearanceDebugMenu
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : (Command)
 11: Print appearance info : (Command)
-12: faceFova : cm_m0_h0_v000_eye0.fv2
-13: faceDecoFova : cm_w000_m.fv2
-14: hairFova : cm_m0_h0_v000_eye0.fv2
-15: hairDecoFova : 0-1000
+12: faceFova : could not find InfEneFova.faceFova
+13: faceDecoFova : could not find InfEneFova.faceDecoFova
+14: hairFova : could not find InfEneFova.hairFova
+15: hairDecoFova : could not find InfEneFova.hairDecoFova
 16: faceFovaUnknown1 : 0-50
 17: faceFovaUnknown2 : 0-1
 18: faceFovaUnknown3 : 0-4
@@ -781,7 +784,7 @@ Appearance menu
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
-6: Face : nil
+6: Face : <Face Id for player type and face filter>
 7: Print face info : (Command)
 8: Print appearance info : (Command)
 9: Form Variation menu
@@ -838,29 +841,31 @@ Disables Assault Landing Zones (those usually in the center of a base that the s
 
 Debug stuff menu
 ----------------
-1: Debug IH mode : Off, On
+1: Appearance menu
+2: appearanceDebugMenu
+3: Debug IH mode : Off, On
 Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.
-2: debugMessages : Off, On
+4: debugMessages : Off, On
 Logs game message system, requires Debug IH mode to be on.
-3: debugFlow : Off, On
+5: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
-4: debugOnUpdate : Off, On
-5: loadExternalModules : (Command)
-6: copyLogToPrev : (Command)
-7: selectedCp : no cp for setting
-8: setSelectedCpToMarkerObjectCp : (Command)
-9: DEBUG_PrintCpPowerSettings : (Command)
-10: DEBUG_PrintPowersCount : (Command)
-11: DEBUG_PrintReinforceVars : (Command)
-12: DEBUG_PrintSoldierDefine : (Command)
-13: DEBUG_ShowRevengeConfig : (Command)
-14: appearanceDebugMenu
-15: printPressedButtons : Off, On
-16: printOnBlockChange : Off, On
-17: Disable game over : Off, On
-18: Disable out of bounds checks : Off, On
-19: setAllFriendly : (Command)
-20: Show position : (Command)
+6: debugOnUpdate : Off, On
+7: loadExternalModules : (Command)
+8: copyLogToPrev : (Command)
+9: selectedCp : no cp for setting
+10: setSelectedCpToMarkerObjectCp : (Command)
+11: DEBUG_PrintCpPowerSettings : (Command)
+12: DEBUG_PrintPowersCount : (Command)
+13: DEBUG_PrintReinforceVars : (Command)
+14: DEBUG_PrintSoldierDefine : (Command)
+15: DEBUG_ShowRevengeConfig : (Command)
+16: appearanceDebugMenu
+17: printPressedButtons : Off, On
+18: printOnBlockChange : Off, On
+19: Disable game over : Off, On
+20: Disable out of bounds checks : Off, On
+21: setAllFriendly : (Command)
+22: Show position : (Command)
 
 appearanceDebugMenu
 -------------------
@@ -875,10 +880,10 @@ appearanceDebugMenu
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : (Command)
 11: Print appearance info : (Command)
-12: faceFova : cm_m0_h0_v000_eye0.fv2
-13: faceDecoFova : cm_w000_m.fv2
-14: hairFova : cm_m0_h0_v000_eye0.fv2
-15: hairDecoFova : 0-1000
+12: faceFova : could not find InfEneFova.faceFova
+13: faceDecoFova : could not find InfEneFova.faceDecoFova
+14: hairFova : could not find InfEneFova.hairFova
+15: hairDecoFova : could not find InfEneFova.hairDecoFova
 16: faceFovaUnknown1 : 0-50
 17: faceFovaUnknown2 : 0-1
 18: faceFovaUnknown3 : 0-4

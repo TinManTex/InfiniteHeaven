@@ -1,1 +1,10 @@
-{}
+{
+  MotherBaseManagement = {
+    [1625350245] = true
+  },
+  Player = {
+    [2307345963] = true,
+    [2990447840] = true,
+    [4225550632] = true
+  }
+}
