@@ -20,7 +20,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="305">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="265">
           <value key="Soldier2GameObject">0x109FE010</value>
           <value key="sol_enemyBase_0000">0x109FD2F0</value>
           <value key="sol_enemyBase_0001">0x109FCF00</value>

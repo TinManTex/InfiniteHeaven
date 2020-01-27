@@ -22,7 +22,6 @@ this.topMenu=this.currentMenu
 this.currentIndex=1--tex lua tables are indexed from 1
 this.currentDepth=0
 this.lastDisplay=0
-this.lastMenuPress=0
 this.displayQueueSize=2--OFF
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
@@ -63,8 +62,6 @@ function this.NextOption(incrementMult)
     this.currentIndex=1
   end
   this.GetSetting(oldIndex)
-
-  this.lastMenuPress=Time.GetRawElapsedTimeSinceStartUp()
 end
 function this.PreviousOption(incrementMult)
   local oldIndex=this.currentIndex
@@ -80,8 +77,6 @@ function this.PreviousOption(incrementMult)
     this.currentIndex = #this.currentMenuOptions
   end
   this.GetSetting(oldIndex)
-
-  this.lastMenuPress=Time.GetRawElapsedTimeSinceStartUp()
 end
 function this.GetSetting(previousIndex,previousMenuOptions)
   if this.currentMenuOptions==nil then
@@ -247,8 +242,6 @@ function this.NextSetting(incrementMult)
 
     this.ChangeSetting(option,increment)
   end
-
-  this.lastMenuPress=Time.GetRawElapsedTimeSinceStartUp()
 end
 function this.PreviousSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
@@ -266,8 +259,6 @@ function this.PreviousSetting(incrementMult)
     end
     this.ChangeSetting(option,increment)
   end
-
-  this.lastMenuPress=Time.GetRawElapsedTimeSinceStartUp()
 end
 
 function this.GoMenu(menu,goBack)
@@ -279,11 +270,6 @@ function this.GoMenu(menu,goBack)
   if not goBack and menu~=this.topMenu then
     menu.parent=this.currentMenu
     menu.parentOption=this.currentIndex
-    this.currentDepth=this.currentDepth+1
-  elseif menu==this.topMenu then
-    this.currentDepth=0
-  elseif goBack then
-    this.currentDepth=this.currentDepth-1
   end
 
   local previousIndex=this.currentIndex
@@ -578,7 +564,7 @@ function this.GetLangTable(langId,index)
 end
 
 function this.CpNameString(cpName,location)
-  local location=location or InfMain.GetLocationName()
+  local location=location or InfUtil.GetLocationName()
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLang.cpNames[location]
   if locationCps==nil then

@@ -267,7 +267,7 @@ InfLookup=require"InfLookup"
 Ivars=require"Ivars"
 Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfLog.PCall
 InfLang=require"InfLang"
-Ivars.PostModulesReload()
+Ivars.PostAllModulesLoad()
 
 InfMenuCommands=require"InfMenuCommands"
 InfMenuDefs=require"InfMenuDefs"
@@ -740,70 +740,7 @@ local function FaceDefinitionAnalyse()
 
 end
 --
-local function GetFilesOfType(extension)
 
-
-  local basePath=[[J:\GameData\MGS\!!masternew\]]
-
-  local dirsFileName=extension.."FileDirs.txt"
-  local outPutFile="D:\\Projects\\MGS\\"..extension.."Files.txt"
-
-  local searchPattern="*."..extension
-
-  --dirsFileName=searchPattern..dirsFileName
-
-  local command=string.format([[dir /s /b %s%s > %s]],basePath,searchPattern,dirsFileName)
-  print(command)
-  os.execute(command)
-
-  local fileDirs={}
-
-  local dirsFile,error=io.open(dirsFileName,"r")
-  if dirsFile then
-    while true do
-      local line=dirsFile:read()
-      if line==nil then break end
-      table.insert(fileDirs,line)
-    end
-    dirsFile:close()
-  end
-
-
-  local fileNameCounts={}
-  local fileNamesAndPaths={}
-  for i,filePath in ipairs(fileDirs)do
-    local split=Util.Split(filePath,"\\")
-    local fileName=split[#split]
-    fileNameCounts[fileName]=fileNameCounts[fileName] or 0
-    fileNameCounts[fileName]=fileNameCounts[fileName]+1
-    table.remove(split,#split)
-    fileNamesAndPaths[fileName]=table.concat(split)
-  end
-
-
-  local fileNames={}
-  for fileName,count in pairs(fileNameCounts)do
-    table.insert(fileNames,fileName)
-  end
-
-  local ins=InfInspect.Inspect(fileNameCounts)
-  print(ins)
-
-  table.sort(fileNames)
-
-
-
-  local f=io.open(outPutFile,"w")
-
-
-
-
-  for i,fileName in ipairs(fileNames)do
-    print(fileName)
-    f:write(fileName,"\n")
-  end
-  f:close()
-end
 
 local function TestGamePath()
   local function Split(str,delim,maxNb)
@@ -858,11 +795,11 @@ end
 
 local function main()
   print("main()")
-    print(package.path)
-    
-      print(os.date("%x %X"))
+  print(package.path)
+
+  print(os.date("%x %X"))
   print(os.time())
-    
+
   print"Running AutoDoc"
   InfAutoDoc.AutoDoc()
   --WriteDefaultIvarProfile()
@@ -896,6 +833,37 @@ local function main()
 
   --
   --GetFilesOfType("mtar")
+
+  --create string table
+  local function readAll(file)
+    local f = io.open(file, "r")
+    local content = f:read("*all")
+    f:close()
+    return content
+  end
+
+  local strcodetxt=[[D:\Projects\MGS\Tools\lang_dictionary.txt]]
+  local strcodetxtout=[[D:\Projects\MGS\Tools\lang_dictionary_txttable.txt]]
+  local allTxt=readAll(strcodetxt)
+  local outTxt={
+  }
+  local file,error=io.open(strcodetxt,"r")
+  if file then
+    while true do
+      local line=file:read()
+      if line==nil then break end
+      local line='\"'..line..'\",'
+      table.insert(outTxt,line)
+    end
+    file:close()
+  end
+
+  local f=io.open(strcodetxtout,"w")
+
+    f:write(table.concat(outTxt,"\n"))
+    --print(equipId)
+  f:close()
+  
 
 
   print"main done"

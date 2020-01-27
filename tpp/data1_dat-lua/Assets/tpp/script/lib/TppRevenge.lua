@@ -1339,7 +1339,7 @@ function this._CreateRevengeConfig(revengeTypes)
     revengeConfig.ARMOR=nil
   end
 
-  --tex limit armor 
+  --tex limit armor
   --armor uses seperate models than the normal bodies with some internal limit,
   --beyond that it will either default to the default bodyid for that soldier, or not render a body at all.
   --likewise the collision model has a limit, but will be mismatched
@@ -1350,13 +1350,14 @@ function this._CreateRevengeConfig(revengeTypes)
   --KLUDGE, TODO: cant be bothered mathing it at the moment, fit this to num cps and total soldiers, under the limit (and covering forced noArmorForMission missions), better handled in _ApplyRevengeToCp
   --currently just setting to 2 soldiers per cp, which is 78 for afghs 39 cps (and preventing lrrps in TppRevenge._ApplyRevengeToCp)
   --Still possibly will hit the limit (especially if sideops 8 soldiers get set), but less blatant than the prior CUSTOM 100% or COMBAT_5 with 4 soldiers
+  --EDIT: dropping to 1
   if revengeConfig.ARMOR and this.CanUseArmor() then
     --InfLog.Add("_CreateRevengeConfig Limiting Armor:"..revengeConfig.ARMOR)--DEBUG
     if type(revengeConfig.ARMOR)=="string" then--tex is a "some%", which is only possible via custom config
       --tex no finnese here, just convert from supposed average cp size of 5 (have no idea what actual average is)
       revengeConfig.ARMOR=this.GetSoldierCountFromPercentPower(revengeConfig.ARMOR,5)
     end
-    local cpLimit=2
+    local cpLimit=1--EDIT: dropping from 2 to 1
     local missionCode=vars.missionCode
     if TppMission.IsStoryMission(missionCode) then
       if not TppEneFova.noArmorForMission[missionCode] then
@@ -1864,9 +1865,9 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   if totalSoldierCount==0 then--tex> early out
     return
   end--<
-  
+
   --tex limit armor, see 'limit armor' in _CreateRevengeConfig>
-  if isLrrpCp then
+  if isLrrpCp or isOuterBaseCp then
     if revengeConfigCp.ARMOR then
       if IvarProc.EnabledForMission"allowHeavyArmor" or IvarProc.EnabledForMission"revengeMode" then
         revengeConfigCp.ARMOR=false
@@ -2121,7 +2122,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   end--<
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+  --      --if not InfUtil.IsTableEmpty(unfulfilledPowers) then
   --      InfLog.DebugPrint"unfulfilledPowers:"
   --      InfLog.PrintInspect(unfulfilledPowers)
   --      --end--

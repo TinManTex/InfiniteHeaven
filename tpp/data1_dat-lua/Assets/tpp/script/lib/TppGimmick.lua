@@ -747,8 +747,8 @@ function this.InitQuest()
   mvars.gim_questMarkCount=0
   mvars.gim_questMarkTotalCount=0
 end
-function this.OnAllocateQuest(e)
-  if e==nil then
+function this.OnAllocateQuest(questTable)
+  if questTable==nil then
     return
   end
   if mvars.gim_isQuestSetup==false then

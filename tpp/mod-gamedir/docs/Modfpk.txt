@@ -2,6 +2,14 @@ Modfpk
 
 
 
+r195
+ih_hostage_pdd5.fpk/d from mis_com_fob_hostage
+split to:
+ih_hostage_loc - 4 hostage locators
+
+ih_hostage_pdd5_def - TppHostage2 hostage defintion with prs/pdd5_main0_def_v00.parts to match ih_hostage_dd
+
+
 r187
 \Assets\tpp\pack\mission2\ih\ih_parasite_camo_fpk
 \Assets\tpp\pack\mission2\ih\ih_parasite_camo_fpkd

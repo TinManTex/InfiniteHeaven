@@ -314,10 +314,10 @@ function this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(i,o)
   end
   this.SetAndAnnounceHeroicOgrePoint(i,nil,n)
 end
-function this.SetAndAnnounceHeroicOgrePointForQuestClear(n)
-  local n=this.QUEST_CLEAR[n]
-  if n then
-    this.SetAndAnnounceHeroicOgrePoint(n)
+function this.SetAndAnnounceHeroicOgrePointForQuestClear(rank)
+  local pointTable=this.QUEST_CLEAR[rank]
+  if pointTable then
+    this.SetAndAnnounceHeroicOgrePoint(pointTable)
   end
 end
 function this.HorseRided(n)

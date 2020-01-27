@@ -1033,8 +1033,8 @@ function this.UpdatePackList(demoName)
     TppQuest.RegisterQuestPackList(packList,"demo_block")
   end
 end
-function this.RegisterFovaPack(e)
-  mvars.f30050demo_fovaPackList=e
+function this.RegisterFovaPack(packList)
+  mvars.f30050demo_fovaPackList=packList
 end
 function this.GetPackListForStorySequence()
   mvars.f30050_isSetLiquid=false

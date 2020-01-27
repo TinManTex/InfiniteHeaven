@@ -13,7 +13,8 @@ local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
 this.doneStartup=false
-this.doneFirstLoad=false
+this.ihSaveFirstLoad=false
+this.gameSaveFirstLoad=false
 
 this.log={}
 
@@ -260,16 +261,17 @@ end
 function this.LoadBoxed(fileName)
   local filePath=InfLog.modPath..fileName
 
-  local moduleFunc,error=loadfile(filePath)
+  local moduleChunk,error=loadfile(filePath)
   if error then
-    InfLog.Add("Error loading "..fileName..":"..error,true,true)
+    local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
+    InfLog.Add("Error loading "..fileName..":"..error,false,true)
     return
   end
 
   local sandboxEnv={}
-  setfenv(moduleFunc,sandboxEnv)
+  setfenv(moduleChunk,sandboxEnv)
 
-  local module=moduleFunc()
+  local module=moduleChunk()
 
   if module==nil then
     InfLog.Add("Error:"..fileName.." returned nil",true,true)
@@ -282,12 +284,19 @@ end
 function this.OnLoadEvars()
   --tex InfLog is in use before loadevars
   --TODO: shift evar loading to InfLog initial load
-  this.debugMode=evars.debugMode==1
+  --  this.debugMode=evars.debugMode==1--tex handled via DebugModeEnalbe
   this.debugOnUpdate=evars.debugOnUpdate==1
+  --tex TODO: this is not firing
+  if not this.ihSaveFirstLoad then
+    this.ihSaveFirstLoad=true
+    if not this.debugMode then
+      InfLog.Add("Further logging disabled while debugMode is off",false,true)
+    end
+  end
 end
 
 local function GetGamePath()
-  local gamePath=""
+  local gamePath=nil
   local paths=Split(package.path,";")
   for i,path in ipairs(paths) do
     if string.find(path,"MGS_TPP") then
@@ -295,6 +304,15 @@ local function GetGamePath()
       break
     end
   end
+  --TODO: TEST fallback so at least log can print
+  if gamePath==nil then
+    if Mock==nil then
+      return [[C:\]]
+    else
+      return [[D:\temp]]
+    end
+  end
+
   local stripLength=10--tex length "\lua\?.lua"
   gamePath=gamePath:gsub("\\","/")--tex because escaping sucks
   gamePath=gamePath:sub(1,-stripLength)
@@ -334,5 +352,6 @@ this.ClearFile(this.logFileName,this.ext)
 
 local time=os.date("%x %X")
 this.Add("InfLog start "..time)
+--this.Add"package.path:"
 --this.Add(package.path)--DEBUG
 return this

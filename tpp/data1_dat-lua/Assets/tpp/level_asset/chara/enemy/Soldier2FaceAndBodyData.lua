@@ -294,10 +294,10 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/wss/wss0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss0_main0_v00.fpk"},--105,195,,
   {"/Assets/tpp/fova/chara/wss/wss3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss3_main0_v00.fpk"},--106,196,,
   --prisoners
-  {"/Assets/tpp/fova/chara/prs/prs2_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs2_main0_v01.fpk"},--107,200,,
-  {"/Assets/tpp/fova/chara/prs/prs5_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs5_main0_v01.fpk"},--108,201,,
-  {"/Assets/tpp/fova/chara/prs/prs3_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs3_main0_v01.fpk"},--109,202,,
-  {"/Assets/tpp/fova/chara/prs/prs6_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs6_main0_v01.fpk"},--110,203,,
+  {"/Assets/tpp/fova/chara/prs/prs2_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs2_main0_v01.fpk"},--107,200,,afgh hostage male
+  {"/Assets/tpp/fova/chara/prs/prs5_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs5_main0_v01.fpk"},--108,201,,mafr hostage male
+  {"/Assets/tpp/fova/chara/prs/prs3_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs3_main0_v01.fpk"},--109,202,,afgh hostage female
+  {"/Assets/tpp/fova/chara/prs/prs6_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs6_main0_v01.fpk"},--110,203,,mafr hostage female
   --children
   {"/Assets/tpp/fova/chara/chd/chd2_v00.fv2","/Assets/tpp/pack/fova/chara/chd/chd2_main0_v00.fpk"},--111,205,,Q20913/outland_q20913
   {"/Assets/tpp/fova/chara/chd/chd2_v01.fv2","/Assets/tpp/pack/fova/chara/chd/chd2_main0_v00.fpk"},--112,206,,Q20914/lab_q20914
@@ -423,8 +423,8 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},--217,371,,glasses
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},--218,372,,??
   --prisoners
-  {"/Assets/tpp/fova/chara/prs/prs7_main0_v00.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v00.fpk"},--219,373,,Q99080_01,not in questPackList.bodyIdList??
-  {"/Assets/tpp/fova/chara/prs/prs7_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v01.fpk"},--220,374,,Q99080_02,cliffTown_q99080
+  {"/Assets/tpp/fova/chara/prs/prs7_main0_v00.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v00.fpk"},--219,373,,Q99080_01,dd suit, unused
+  {"/Assets/tpp/fova/chara/prs/prs7_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v01.fpk"},--220,374,,Q99080_02,dd suit tiger stripe, used for kojima
   --skullface
   {"/Assets/tpp/fova/chara/wsp/wsp_def.fv2","/Assets/tpp/pack/fova/chara/wsp/wsp0_main0_v00.fpk"},--221,375,,
   {"/Assets/tpp/fova/chara/wsp/wsp_dam.fv2","/Assets/tpp/pack/fova/chara/wsp/wsp0_main0_v00.fpk"},--222,376,,

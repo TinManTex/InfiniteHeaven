@@ -19,7 +19,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="4">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="5">
           <value key="EnemyHeli0000">0x10000000</value>
           <value key="EnemyHeli0001">0x10000010</value>
           <value key="EnemyHeli0002">0x10000020</value>

@@ -6,6 +6,8 @@ local InfLog=InfLog
 local PCall=InfLog.PCall
 local stringFormat=string.format
 
+this.debugHooksEnabled=false
+
 --tex GOTCHA be cautious when hooking scripts that can be reloaded (like scriptblocks or IH external modules)
 --scriptblocks are also more likely to cause yield across c-call boundary.
 --pre-hooking (calling your hook function before the original function) will allow multiple-return functions to return as normal
@@ -147,6 +149,7 @@ end
 
 --tex for wrapping a function in PCall and giving an AddFlow call
 function this.CreateDebugWrap(moduleName,functionName)
+  local flowFmt="InfHook DebugPreWrap %s.%s"
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
     local ShimFunction=function(...)
@@ -158,8 +161,15 @@ function this.CreateDebugWrap(moduleName,functionName)
   return nil
 end
 
+function this.SetupDebugHooks()
+  if not this.debugHooksEnabled then
+    this.debugHooksEnabled=true
+    this.AddDebugHooks(this.debugPCallHooks,true)
+  end
+end
+
 --hookDef table format: this.debugPCallHooks
-function this.SetupDebugHooks(hookDef,enable)
+function this.AddDebugHooks(hookDef,enable)
   for moduleName,moduleHooks in pairs(hookDef)do
     for functionName,hookInfo in pairs(moduleHooks)do
       if hookInfo==true then
@@ -177,14 +187,14 @@ function this.SetupDebugHooks(hookDef,enable)
   end
 end
 
-local function SetupHooks(hookFuncs)
+local function AddHooks(hookFuncs)
   for moduleName,moduleHooks in pairs(hookFuncs)do
     for functionName,hookFunction in pairs(moduleHooks)do
       this.AddHook(moduleName,functionName,hookFunction)
     end
   end
 end
-InfLog.PCallDebug(SetupHooks,this.hookFuncs)
+InfLog.PCallDebug(AddHooks,this.hookFuncs)
 
 --this.AnnounceLogView=TppUiCommand.AnnounceLogView
 --TppUiCommand.AnnounceLogView=function(message)

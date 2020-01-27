@@ -8,7 +8,7 @@
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
 local profiles={}
--- Defaults/example of all profile options for IH r194
+-- Defaults/example of all profile options for IH r195
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -218,7 +218,7 @@ profiles.defaults={
 		vehiclePatrolTankEnable=1,--{ 0-1 } -- Allow tanks
 		putEquipOnTrucks=0,--{ 0-1 } -- Equipment on trucks
 		--Side ops menu
-		unlockSideOpNumber=0,--{ 0-0 } -- Open specific sideop #
+		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS } -- Sideop selection mode
 		--Sideops category filter menu
@@ -238,11 +238,11 @@ profiles.defaults={
 		sideops_ELIMINATE_PUPPETS=1,--{ 0-1 } -- Eliminate wandering puppets
 		sideops_TARGET_PRACTICE=1,--{ 0-1 } -- Target practice
 		--Mother Base menu
-		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range (MB Prep mode FOB only)
+		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
 		mbDDSuit=0,--{ OFF, EQUIPGRADE, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, XOF, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_PFS } -- DD Suit
 		mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
-		mbPrioritizeFemale=0,--{ OFF, DISABLE, MAX } -- Female staff selection
+		mbPrioritizeFemale=0,--{ OFF, DISABLE, MAX, HALF } -- Female staff selection
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
 		mbCollectionRepop=0,--{ 0-1 } -- Repopulate plants and diamonds
@@ -259,6 +259,7 @@ profiles.defaults={
 		mbEnablePuppy=0,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
 		mbShowCodeTalker=0,--{ 0-1 } -- Show Code Talker
 		mbShowEli=0,--{ 0-1 } -- Show Eli
+		mbEnableBirds=0,--{ 0-1 } -- Enable Birds
 		--Show assets menu
 		mbShowBigBossPosters=0,--{ 0-1 } -- Show Big Boss posters
 		mbShowMbEliminationMonument=0,--{ 0-1 } -- Show nuke elimination monument
@@ -291,8 +292,17 @@ profiles.defaults={
 		startOnFootMISSION=0,--{ OFF, NOT_ASSAULT, ALL } -- Start missions on foot
 		startOnFootMB_ALL=0,--{ OFF, NOT_ASSAULT, ALL } -- Start Mother base on foot
 		--Progression menu
-		resourceAmountScale=100,--{ 100-1000 } -- Resource amount scale (percentage)
 		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
+		--Resource scale menu
+		enableResourceScale=0,--{ 0-1 } -- Enable resource amount scales
+		resourceScaleMaterial=100,--{ 100-1000 } -- Material case scale (percentage)
+		resourceScalePlant=100,--{ 100-1000 } -- Plant scale (percentage)
+		resourceScalePoster=100,--{ 100-1000 } -- Poster scale (percentage)
+		resourceScaleDiamond=100,--{ 100-1000 } -- Diamond scale (percentage)
+		resourceScaleContainer=100,--{ 100-1000 } -- Container scale (percentage)
+		--Debug menu
+		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
+		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
 	}
@@ -313,7 +323,7 @@ profiles.motherBaseHeaven={
     mbDDSuit="EQUIPGRADE",--{ OFF, EQUIPGRADE, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, XOF, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_PFS } -- DD Suit
     mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
     mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
-    mbPrioritizeFemale="MAX",--{ OFF, DISABLE, MAX } -- Female staff selection
+    mbPrioritizeFemale="HALF",--{ OFF, DISABLE, MAX, HALF } -- Female staff selection
     heliPatrolsMB="UTH_AND_HP48",--{ OFF, UTH, UTH_AND_HP48 } -- NPC helis
     enableWalkerGearsMB=1,--{ 0-1 } -- Walker gears
     mbWalkerGearsColor="DDOGS",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type

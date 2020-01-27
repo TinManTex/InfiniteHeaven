@@ -216,7 +216,7 @@ end
 --IN/OUT: walkerPool,walkerInfos
 --IN-SIDE: this.walkerNames
 function this.SetupGearsFREE(walkerInfos,walkerPool)
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   --tex shift too 'off' position
 
   if TppMission.IsMissionStart() then
@@ -265,7 +265,7 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
 
     local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
     --ASSUMPTION only one pos per cp
-    local cpName=InfMain.GetRandomPool(positionCps)
+    local cpName=InfUtil.GetRandomPool(positionCps)
     walkerInfo.cpName=cpName
 
     if TppMission.IsMissionStart() then
@@ -348,7 +348,7 @@ function this.SetupGearsMB()
         break
       end
       if #plats>0 then
-        local plat=InfMain.GetRandomPool(plats)
+        local plat=InfUtil.GetRandomPool(plats)
         this.walkerPlats[clusterId][plat]=walkerIndex
         numAssigned=numAssigned+1
         walkerIndex=walkerIndex+1
@@ -374,7 +374,7 @@ function this.SetupGearsMB()
 
     local clusterId=clusters[math.random(1,#clusters)]
     local plats=platsPool[clusterId]
-    local plat=InfMain.GetRandomPool(plats)
+    local plat=InfUtil.GetRandomPool(plats)
     this.walkerPlats[clusterId][plat]=walkerIndex
     numAssigned=numAssigned+1
     walkerIndex=walkerIndex+1
@@ -539,7 +539,7 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
         local soldierId=GetGameObjectId("TppSoldier2",soldierName)
         InfLog.Add("Setup walker gear: "..walkerName..", soldier:"..soldierName)
         if TppMission.IsMissionStart() then
-          local locationName=InfMain.GetLocationName()
+          local locationName=InfUtil.GetLocationName()
           --OFF local cpPositions=walkerStartPositions[locationName]
           local cpPositions=InfMain.cpPositions[locationName]
           local lrrpDefine=lrrpDefines[cpName]

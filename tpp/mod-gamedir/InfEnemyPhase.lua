@@ -10,8 +10,6 @@ local PHASE_SNEAK=TppGameObject.PHASE_SNEAK
 local PHASE_CAUTION=TppGameObject.PHASE_CAUTION
 local PHASE_EVASION=TppGameObject.PHASE_EVASION
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
-local ChangePhase=InfMain.ChangePhase
-local SetKeepAlert=InfMain.SetKeepAlert
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
@@ -65,14 +63,14 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 --      end
 
       if currentPhase<minPhase then
-        ChangePhase(cpName,minPhase)--gvars.minPhase)
+        this.ChangePhase(cpName,minPhase)--gvars.minPhase)
       end
       if currentPhase>maxPhase then
-        ChangePhase(cpName,maxPhase)
+        this.ChangePhase(cpName,maxPhase)
       end
 
       if keepPhase then
-        SetKeepAlert(cpName,true)
+        this.SetKeepAlert(cpName,true)
       else
       --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
       end
@@ -90,12 +88,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       if minPhase==PHASE_EVASION then
         if execState.alertBump then
           execState.alertBump=false
-          ChangePhase(cpName,PHASE_EVASION)
+          this.ChangePhase(cpName,PHASE_EVASION)
         end
       end
       if currentPhase<minPhase then
         if minPhase==PHASE_EVASION then
-          ChangePhase(cpName,PHASE_ALERT)
+          this.ChangePhase(cpName,PHASE_ALERT)
           execState.alertBump=true
         end
       end
@@ -125,6 +123,25 @@ function this.GetUpdateRate()
   end
 
   return updateRate
+end
+function this.ChangePhase(cpName,phase)
+  local gameId=GetGameObjectId("TppCommandPost2",cpName)
+  if gameId==NULL_ID then
+    InfLog.DebugPrint("Could not find cp "..cpName)
+    return
+  end
+  local command={id="SetPhase",phase=phase}
+  SendCommand(gameId,command)
+end
+
+function this.SetKeepAlert(cpName,enable)
+  local gameId=GetGameObjectId("TppCommandPost2",cpName)
+  if gameId==NULL_ID then
+    InfLog.DebugPrint("Could not find cp "..cpName)
+    return
+  end
+  local command={id="SetKeepAlert",enable=enable}
+  GameObject.SendCommand(gameId,command)
 end
 
 return this

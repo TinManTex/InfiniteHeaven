@@ -119,6 +119,7 @@ this.motherBaseShowCharactersMenu={
     Ivars.mbEnablePuppy,
     Ivars.mbShowCodeTalker,
     Ivars.mbShowEli,
+    Ivars.mbEnableBirds,
     InfMenuCommands.resetPaz,
     InfMenuCommands.returnQuiet,
     InfMenuCommands.showQuietReunionMissionCount,
@@ -200,9 +201,20 @@ this.demosMenu={
   }
 }
 
+this.resourceScaleMenu={
+  options={
+    Ivars.enableResourceScale,
+    Ivars.resourceScaleMaterial,
+    Ivars.resourceScalePlant,
+    Ivars.resourceScalePoster,
+    Ivars.resourceScaleDiamond,
+    Ivars.resourceScaleContainer,
+  }
+}
+
 this.progressionMenu={
   options={
-    Ivars.resourceAmountScale,
+    InfMenuDefs.resourceScaleMenu,
     Ivars.repopulateRadioTapes,
     InfMenuCommands.unlockPlayableAvatar,
     InfMenuCommands.unlockWeaponCustomization,
@@ -218,7 +230,7 @@ this.debugMenu={
     Ivars.debugMode,
     Ivars.debugMessages,
     Ivars.debugFlow,
-    Ivars.debugUpdate,
+    Ivars.debugOnUpdate,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     Ivars.printPressedButtons,
@@ -553,16 +565,20 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
-  --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-  --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-  --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-  --    InfMenuDefs.sideOpsMenu,
-  --    InfMenuDefs.sideOpsCategoryMenu,--DEBUG
-  --    Ivars.debugValue,
-  --    Ivars.debugOnUpdate,
-  --Ivars.resourceAmountScale,--DEBUG
-  --InfMenuCommands.forceRegenSeed,--DEBUGNOW
-  --Ivars.debugMode,
+    --TODO: debugmodeall command/profile
+    Ivars.enableWildCardHostageFREE,--WIP
+    Ivars.debugMode,
+    Ivars.debugMessages,
+    Ivars.debugFlow,
+    Ivars.debugOnUpdate,
+    InfMenuCommands.DEBUG_SomeShiz,
+    InfMenuCommands.DEBUG_SomeShiz2,
+    InfMenuCommands.DEBUG_SomeShiz3,
+    InfMenuDefs.sideOpsMenu,
+    InfMenuDefs.sideOpsCategoryMenu,
+    Ivars.debugValue,
+    Ivars.debugOnUpdate,
+    InfMenuCommands.forceRegenSeed,
   }
 }
 
@@ -597,7 +613,7 @@ this.debugInMissionMenu={
     Ivars.debugMode,
     Ivars.debugMessages,
     Ivars.debugFlow,
-    Ivars.debugUpdate,
+    Ivars.debugOnUpdate,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     --InfMenuCommands.DEBUG_RandomizeCp,
@@ -635,16 +651,22 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
+    InfMenuCommands.showPosition,
+    InfMenuCommands.DEBUG_SomeShiz,
+    InfMenuCommands.DEBUG_SomeShiz2,
+    InfMenuCommands.DEBUG_SomeShiz3,
+    Ivars.warpToListObject,
+    Ivars.warpToListPosition,
     InfMenuCommands.printLatestUserMarker,
     Ivars.debugValue,
     InfMenuCommands.DEBUG_PrintSoldierDefine,
-    InfMenuCommands.showPosition,
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
     InfMenuCommands.DEBUG_ToggleParasiteEvent,
-    InfMenuCommands.DEBUG_SomeShiz,
-    InfMenuCommands.DEBUG_SomeShiz,
-    InfMenuCommands.DEBUG_SomeShiz2,
+    Ivars.debugMode,
+    Ivars.debugMessages,
+    Ivars.debugFlow,
+    Ivars.debugOnUpdate,
   }
 }
 

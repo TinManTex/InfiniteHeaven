@@ -255,13 +255,13 @@ function this._RegisterWeatherTable(sender,param,func)
   }
   weatherTableCount=weatherTableCount+1
 end
-function this._RegisterClockMessage(t,i,o,n,a,l)
-  local t=string.format(t,a)
-  this._RegisterWeatherTable(t,n,l)
-  local e=i+o*a
-  local e=TppClock.FormalizeTime(e,"string")
-  TppClock.RegisterClockMessage(t,e)
-  return t
+function this._RegisterClockMessage(clockFmt,clockTime,timeLagClock,RENsomeBool,animalGroupCount,changeRouteFunc)
+  local clockName=string.format(clockFmt,animalGroupCount)
+  this._RegisterWeatherTable(clockName,RENsomeBool,changeRouteFunc)
+  local time=clockTime+timeLagClock*animalGroupCount
+  local tppClockTime=TppClock.FormalizeTime(time,"string")
+  TppClock.RegisterClockMessage(clockName,tppClockTime)
+  return clockName
 end
 function this._AddClockMessage(n,t,a,r)
   local numAnimals=1

@@ -85,13 +85,27 @@ function this.PostModuleReload()
   this.Init()
 end
 
+function this.AddMissionPacks(missionCode,packPaths)
+  if not this.active:EnabledForMission(missionCode) then
+    return
+  end
+
+  if InfGameEvent.IsMbEvent() then
+    return
+  end
+
+  for i,packPath in ipairs(this.packages) do
+    packPaths[#packPaths+1]=packPath
+  end
+end
+
 function this.Init()
   if not this.active:EnabledForMission() then
     return
   end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-  
+
   local clusterId=GetCurrentCluster()
   this.InitCluster(clusterId)
 end
@@ -137,22 +151,8 @@ function this.InitCluster(clusterId)
   end
 end
 
-function this.AddMissionPacks(missionCode,packPaths)
-  if not this.active:EnabledForMission(missionCode) then
-    return
-  end
-
-  if InfGameEvent.IsMbEvent() then
-    return
-  end
-
-  for i,packPath in ipairs(this.packages) do
-    packPaths[#packPaths+1]=packPath
-  end
-end
-
 function this.Update(currentChecks,currentTime,execChecks,execState)
-  
+
   local Ivars=Ivars
   if not currentChecks.inGame then
     return

@@ -120,7 +120,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   TppAnimal.OnAllocate(missionTable)
   InfMain.OnAllocate(missionTable)--tex
   --tex reworked
-  local locationModule=_G[InfMain.GetLocationName()]
+  local locationModule=_G[InfUtil.GetLocationName()]
   if locationModule then
     locationModule.OnAllocate()
   end--

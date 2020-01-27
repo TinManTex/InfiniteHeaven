@@ -7,7 +7,7 @@ local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local SendCommand=GameObject.SendCommand
 
-this.debugModule=false
+this.debugModule=true--DEBUGNOW
 
 --STATE
 --tex DEBUGNOW TODO: flip flopping on how to handle mission vars (generated data on mission start)
@@ -215,6 +215,11 @@ local skipClassSet={
   [Vehicle.type.WESTERN_TRUCK]=true,
 }
 
+function this.PostModuleReload(prevModule)
+  this.inf_patrolVehicleInfo=prevModule.inf_patrolVehicleInfo
+  this.inf_patrolVehicleConvoyInfo=prevModule.inf_patrolVehicleConvoyInfo
+end
+
 function this.BuildEnabledList(patrolVehicleEnabledList)
   local patrolVehicleEnabledList={}
   for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
@@ -243,7 +248,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
   if InfMain.IsContinue() then
     return
   end
-  
+
   if vehicleSpawnList==nil then
     return
   end
@@ -256,7 +261,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
 
   InfMain.RandomSetToLevelSeed()
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
 
   this.inf_patrolVehicleInfo={}
   this.inf_patrolVehicleConvoyInfo={}
@@ -293,36 +298,42 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
     local vehicle=nil
     local vehicleType=nil
 
-    --tex only changing type on patrol vehicles
-    if patrolVehicles[spawnInfo.locator] then
-      if not Ivars.vehiclePatrolProfile:Is"SINGULAR" then
-        baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
-      end
-      local baseTypeInfo=this.vehicleBaseTypes[baseType]
-      if baseTypeInfo~=nil then
-        local vehicles=baseTypeInfo[locationName]
-        if vehicles==nil then
-          vehicleType=locationVehiclePrefix[locationName]..baseType
-        else
-          vehicleType=vehicles[math.random(#vehicles)]
-        end
+    local vehicleId=GetGameObjectId(spawnInfo.locator)
+    if vehicleId==NULL_ID then
+      InfLog.Add("InfVehicle.ModifyVehiclePatrol "..spawnInfo.locator.."==NULL_ID")
+    else
 
-        if vehicleType==nil then
-          InfLog.DebugPrint("warning: vehicleType==nil")
-          break
+      --tex only changing type on patrol vehicles
+      if patrolVehicles[spawnInfo.locator] then
+        if not Ivars.vehiclePatrolProfile:Is"SINGULAR" then
+          baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
         end
+        local baseTypeInfo=this.vehicleBaseTypes[baseType]
+        if baseTypeInfo~=nil then
+          local vehicles=baseTypeInfo[locationName]
+          if vehicles==nil then
+            vehicleType=locationVehiclePrefix[locationName]..baseType
+          else
+            vehicleType=vehicles[math.random(#vehicles)]
+          end
 
-        vehicle=vehicleSpawnInfoTable[vehicleType]
-        if vehicle==nil then
-          InfLog.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
-          break
+          if vehicleType==nil then
+            InfLog.DebugPrint("warning: vehicleType==nil")
+            break
+          end
+
+          vehicle=vehicleSpawnInfoTable[vehicleType]
+          if vehicle==nil then
+            InfLog.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
+            break
+          end
+          --tex used for ModifyLrrpSoldiers
+          this.inf_patrolVehicleInfo[spawnInfo.locator]=vehicle
+
+          --tex overwrite spawn info
+          spawnInfo.type=vehicle.type
+          spawnInfo.subType=vehicle.subType
         end
-        --tex used for ModifyLrrpSoldiers
-        this.inf_patrolVehicleInfo[spawnInfo.locator]=vehicle
-
-        --tex overwrite spawn info
-        spawnInfo.type=vehicle.type
-        spawnInfo.subType=vehicle.subType
       end
       --<if isPatrolVehicle
     end
@@ -357,17 +368,11 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
 end
 
 --OUT: missionPackPath
-local function AddMissionPack(packPath,packPaths)
-  if Tpp.IsTypeString(packPath)then
-    packPaths[#packPaths+1]=packPath
-  end
-end
-
---IN: vehicleType,vehicleSpawnInfoTable
-local GetPackPath=function(vehicleType)
+--IN/OUT: packPaths
+local function AddVehiclePack(vehicleType,packPaths)
   local vehicle=vehicleSpawnInfoTable[vehicleType]
-  if vehicle~=nil then
-    return vehicle.packPath or nil
+  if vehicle and vehicle.packPath then
+    packPaths[#packPaths+1]=vehicle.packPath
   end
 end
 
@@ -382,28 +387,20 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
 
   for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
     if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
       --InfLog.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
       local vehicles=typeInfo[locationName]
 
-      if vehicles==nil then
-        local vehicleType=locationVehiclePrefix[locationName]..baseType
-        local packPath=GetPackPath(vehicleType)
-        if packPath~=nil then
-          --InfLog.DebugPrint("packpath: "..tostring(packPath))--DEBUG
-          AddMissionPack(packPath,packPaths)
+      if vehicles then
+        for n,vehicleType in pairs(vehicles) do
+          AddVehiclePack(vehicleType,packPaths)
         end
       else
-        for n,vehicleType in pairs(vehicles) do
-          local packPath=GetPackPath(vehicleType)
-          if packPath~=nil then
-            --InfLog.DebugPrint("packpath: "..tostring(packPath))--DEBUG
-            AddMissionPack(packPath,packPaths)
-          end
-        end
+        local vehicleType=locationVehiclePrefix[locationName]..baseType
+        AddVehiclePack(vehicleType,packPaths)
       end
     end--if ivar
   end--for vehicle base types
@@ -496,8 +493,8 @@ function this.SetupConvoyCpDefine(convoys,soldierDefine,travelPlans,cpPool,freeL
         local cpName=cpPool[#cpPool]
         cpPool[#cpPool]=nil
 
-        local vehicleName=InfMain.GetRandomPool(freeLvs)
-
+        local vehicleName=InfUtil.GetRandomPool(freeLvs)
+      
         local cpDefine=soldierDefine[cpName]
         --TODO cpDefine.convoyIndex=i
         cpDefine.lrrpTravelPlan=travelPlan
@@ -532,7 +529,7 @@ function this.SetupConvoy()
     return
   end
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   local convoys=this.convoys[locationName]
 
   --InfLog.PrintInspect(this.inf_patrolVehicleConvoyInfo)--DEBUG

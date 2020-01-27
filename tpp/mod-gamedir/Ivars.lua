@@ -35,6 +35,7 @@ local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
 local EXTERNAL=1024--tex SYNC IvarProc
+this.EXTERNAL=EXTERNAL--tex SYNC IvarProc--DEBUGNOW
 
 --tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
 this.missionModeIvars={}
@@ -476,7 +477,7 @@ this.mbEnableBuddies={
 
 this.mbPrioritizeFemale={
   save=EXTERNAL,
-  settings={"OFF","DISABLE","MAX"},
+  settings={"OFF","DISABLE","MAX","HALF"},
 }
 --<motherbase
 
@@ -1364,6 +1365,13 @@ this.enableWildCardFreeRoam={
   MissionCheck=IvarProc.MissionCheckFree,
 }
 
+this.enableWildCardHostageFREE={--WIP
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+
 --tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
 --IvarProc.MinMaxIvar(
 --  this,
@@ -1540,7 +1548,7 @@ this.unlockSideOps={
 
 this.unlockSideOpNumber={
   save=EXTERNAL,
-  range={max=0},--DYNAMIC
+  range={max=157},--DYNAMIC, TODO: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
   SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
     --InfLog.DebugPrint(questName)--DEBUG
@@ -1548,6 +1556,9 @@ this.unlockSideOpNumber={
   end,
   OnSelect=function(self)
     self.range.max=#TppQuest.GetQuestInfoTable()
+    if self.setting>self.range.max then
+      self:Set(0)
+    end
   end,
   OnChange=this.UpdateActiveQuest,
 }
@@ -1664,6 +1675,13 @@ this.mbEnablePuppy={
     TppQuest.UpdateActiveQuest()
   end,
   MissionCheck=IvarProc.MissionCheckMb,
+}
+
+this.mbEnableBirds={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,--TODO extend to quarantine, and zoo? lol
 }
 
 this.mbDontDemoDisableBuddy={
@@ -3536,6 +3554,39 @@ this.warpToListObject={
   end,
 }
 
+--DEBUGNOW
+function this.GetPositionsList()
+  local positionsList={}
+
+  return InfQuest.GetQuestPositions()
+end
+
+this.warpToListPosition={
+  range={max=1},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local positionsList=this.GetPositionsList()
+    local position=positionsList[setting+1]
+    return "pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
+  end,
+  OnSelect=function(self)
+    local positionsList=this.GetPositionsList()
+    local numObjects=#positionsList
+
+    self.range.max=numObjects-1
+    self.setting=0
+  end,
+  OnActivate=function(self,setting)
+    local positionsList=this.GetPositionsList()
+    local position=positionsList[setting+1]
+
+    if position[1]~=0 or position[2]~=0 or position[3]~=0 then
+      position[2]=position[2]+1
+      InfLog.Add("pos:".. position[1]..",".. position[2].. ","..position[3],true)
+      TppPlayer.Warp{pos=position,rotY=vars.playerCameraRotation[1]}
+    end
+  end,
+}
+
 --mines
 this.randomizeMineTypes={
   save=EXTERNAL,
@@ -3549,15 +3600,37 @@ this.additionalMineFields={
   settingNames="set_switch",
 }
 
-this.resourceAmountScale={
+this.enableResourceScale={
   save=EXTERNAL,
-  default=100,
-  range={max=1000,min=100,increment=100},
-  isPercent=true,
-  OnChange=function()
-    InfResources.ScaleResourceTables()
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,previousSetting,setting)
+    if setting==1 then
+      InfResources.ScaleResourceTables()
+    else
+
+    end
   end,
 }
+
+this.resourceScaleTypes={
+  "Material",
+  "Plant",
+  "Poster",
+  "Diamond",
+  "Container",
+}
+
+for i,resourceScaleType in ipairs(this.resourceScaleTypes)do
+  local ivar={
+    save=EXTERNAL,
+    default=100,
+    range={max=1000,min=100,increment=100},
+    isPercent=true,
+  }
+
+  this["resourceScale"..resourceScaleType]=ivar
+end
 
 this.debugValue={
   save=EXTERNAL,
@@ -3733,7 +3806,7 @@ function this.SetupIvars()
   end
 end
 
-function this.PostModulesReload()
+function this.PostAllModulesLoad()
   --tex check to see if theres a settingNames in InfLang
   --has to be postmodules since InfLang is loaded after Ivars
   --GOTCHA this will lock in language till next modules reload (not that there's any actual InfLang translations I'm aware of lol)

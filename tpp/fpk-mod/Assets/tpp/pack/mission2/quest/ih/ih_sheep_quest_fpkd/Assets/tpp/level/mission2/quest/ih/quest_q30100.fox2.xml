@@ -21,7 +21,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="4">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="7">
           <value key="ScriptBlockScript0000">0x02D7A030</value>
           <value key="NubianGameObject">0x02D7A0A0</value>
           <value key="anml_quest_00">0x03000000</value>

@@ -12,6 +12,10 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local NULL_ID=GameObject.NULL_ID
 
+
+this.DEBUG_strCode32List={
+}
+
 --lookup-tables>
 --tex from exe, don't know if anythings missing (as it commonly seems)
 this.gameObjectStringToType={
@@ -130,9 +134,13 @@ function this.GenerateNameList(fmt,num,list)
 end
 
 --TABLESETUP
-this.jeepNames=this.GenerateNameList("veh_lv_%04d",20)
-this.truckNames=this.GenerateNameList("veh_trc_%04d",10)
-this.questAnimalNames=this.GenerateNameList("anml_quest_%02d",10)
+local objectNameLists={
+  this.GenerateNameList("veh_lv_%04d",20),--jeeps
+  this.GenerateNameList("veh_trc_%04d",10),--trucks
+  this.GenerateNameList("anml_quest_%02d",10),
+  this.GenerateNameList("sol_quest_%04d",10),
+  this.GenerateNameList("ih_hostage_%04d",10),
+}
 
 --tex from TppAnimalBlock animalsTable
 --REF
@@ -158,59 +166,100 @@ local animalLocatorPrefixes={
   "anml_rat_%02d",
   "anml_NoAnimal_%02d",
 }
+for i,fmt in ipairs(animalLocatorPrefixes)do
+  table.insert(objectNameLists,this.GenerateNameList("anml_quest_%02d",10))
+end
+
+--ORPHAN
+this.mbVehicleNames={
+  "veh_cl01_cl00_0000",
+  "veh_cl02_cl00_0000",
+  "veh_cl03_cl00_0000",
+  "veh_cl04_cl00_0000",
+  "veh_cl05_cl00_0000",
+  "veh_cl06_cl00_0000",
+  "veh_cl00_cl04_0000",
+  "veh_cl00_cl02_0000",
+  "veh_cl00_cl03_0000",
+  "veh_cl00_cl01_0000",
+  "veh_cl00_cl05_0000",
+  "veh_cl00_cl06_0000",
+}
+
+function this.GetObjectNameLists()
+  local nameLists={
+    {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"},
+    InfNPCHeli.heliNames.UTH,
+    InfNPCHeli.heliNames.HP48,
+    InfWalkerGear.walkerNames,
+    InfAnimal.birdNames,
+  }
+
+  for i,list in ipairs(objectNameLists) do
+    table.insert(nameLists,list)
+  end
+
+  return nameLists
+end
 
 
 function this.GetObjectList()
   --return InfMain.reserveSoldierNames
-    --        local travelPlan="travelArea2_01"
-    --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
-    --return InfNPC.ene_wildCardInfo
-    --return InfParasite.parasiteNames[InfParasite.parasiteType]
-    --return InfLookup.truckNames
-    --return InfLookup.jeepNames
-    --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-    --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
-    --return InfInterrogation.interCpQuestSoldiers
-    --return InfWalkerGear.walkerNames
-    --return InfNPCHeli.heliList
-    return TppEnemy.armorSoldiers
+  --        local travelPlan="travelArea2_01"
+  --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
+
+  --return InfParasite.parasiteNames[InfParasite.parasiteType]
+  --return InfLookup.truckNames
+  --return InfLookup.jeepNames
+  --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+  --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+  --return InfInterrogation.interCpQuestSoldiers
+  --return InfWalkerGear.walkerNames
+  --return InfNPCHeli.heliList
+  --return TppEnemy.armorSoldiers
+  --return InfAnimal.birdNames
+ -- return objectNameLists[4]  
+ --return InfNPC.ene_wildCardNames
+ return InfHostage.hostageNames
 end
 
 function this.GetObjectInfoOrPos(index)
-    local objectList=this.GetObjectList()
+  local objectList=this.GetObjectList()
 
-    if objectList==nil then
-      return nil,"objectList nil"
-    end
+  if objectList==nil then
+    return nil,"objectList nil"
+  end
 
-    if #objectList==0 then
-      return nil,"objectList empty"
-    end
+  if #objectList==0 then
+    return nil,"objectList empty"
+  end
 
-    local objectName=objectList[index]
-    if objectName==nil then
-      return nil,"objectName==nil for index "..index,nil
-    end
-    local gameId=objectName
-    if type(objectName)=="string" then
-      gameId=GetGameObjectId(objectName)
-    end
-    if gameId==nil then
-      return objectName,objectName.." nil"
-    end
-    if gameId==NULL_ID then
-      return objectName,objectName.." NULL_ID"
-    end
+  local objectName=objectList[index]
+  if objectName==nil then
+    return nil,"objectName==nil for index "..index,nil
+  end
+  local gameId=objectName
+  if type(objectName)=="string" then
+    gameId=GetGameObjectId(objectName)
+  end
+  if gameId==nil then
+    return objectName,objectName.." nil"
+  end
+  if gameId==NULL_ID then
+    return objectName,objectName.." NULL_ID"
+  end
 
-    local position=GameObject.SendCommand(gameId,{id="GetPosition"})
-    if position==nil then
-      return objectName,objectName.." nil for GetPosition"
-    end
-    
-    position={position:GetX(),position:GetY(),position:GetZ()}
-    
-    return objectName,"",position
+  local position=GameObject.SendCommand(gameId,{id="GetPosition"})
+  if position==nil then
+    return objectName,objectName.." nil for GetPosition"
+  end
+
+  position={position:GetX(),position:GetY(),position:GetZ()}
+
+  return objectName,"",position
 end
+
+
 
 --tex there's no real lookup for this I've found
 --there's probably faster tables (look in DefineSoldiers()) that have the cpId>soldierId, but this is nice for the soldiername,cpname
@@ -242,15 +291,7 @@ function this.ObjectNameForGameId(findId)
     end
   end
 
-  local objectNameLists={
-    {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"},
-    InfNPCHeli.heliNames.UTH,
-    InfNPCHeli.heliNames.HP48,
-    InfWalkerGear.walkerNames,
-    this.jeepNames,
-    this.truckNames,
-    this.questAnimalNames,
-  }
+  local objectNameLists=this.GetObjectNameLists()
   for i,list in ipairs(objectNameLists)do
     local objectName
     if type(list[1])=="table" then
@@ -306,14 +347,19 @@ function this.StrCode32ToString(strCode,isStrCode)
     if isStrCode and returnString==nil then
       InfLog.unknownStr32[strCode]=true
     end
+    if returnString==nil then
+      return strCode
+    end
+    
     return returnString
   end
+  return strCode
 end
 
-function this.DumpStrCodeTables()  
-  InfLog.Add("InfLog.str32ToString")  
+function this.DumpStrCodeTables()
+  InfLog.Add("InfLog.str32ToString")
   --InfLog.PrintInspect(InfLog.str32ToString)
-  
+
   local strings={}
   local strToCode={}
   for strCode,str in pairs(InfLog.str32ToString)do
@@ -322,7 +368,7 @@ function this.DumpStrCodeTables()
   end
   table.sort(strings)
   for i,str in ipairs(strings) do
-    InfLog.Add(str.."="..strToCode[str])    
+    InfLog.Add(str.."="..strToCode[str])
   end
 
   InfLog.Add("InfLog.unknownStr32")
@@ -333,12 +379,12 @@ end
 --debugMessages
 function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
   --InfLog.PCall(function(sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
-    local lookupFuncs={
-      {this.StrCode32ToString,"str32"},
-      {this.ObjectNameForGameId,"gameId"},
-      {this.TppGameObjectTypeIndexToName,"typeIndex"},
-      {this.TppDamageEnumToName,"TppDamage"},
-    }
+  local lookupFuncs={
+    {this.StrCode32ToString,"str32"},
+    {this.ObjectNameForGameId,"gameId"},
+    {this.TppGameObjectTypeIndexToName,"typeIndex"},
+    {this.TppDamageEnumToName,"TppDamage"},
+  }
 
   --tex TODO: messageprofile
   --{messageIdName,{arg0Name,arg0Lookup}...}

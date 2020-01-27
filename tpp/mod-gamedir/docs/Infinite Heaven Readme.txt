@@ -1,5 +1,5 @@
 = Infinite heaven =
-r194 - 2016-11-18
+r195 - 2016-12-03
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -21,6 +21,26 @@ Recent changes/additions
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+New for r195
+Wildcard soldiers and hostages have staff parameters regenerated. Should always have a skill assigned now and have high stats (in respect to current mb level/stats draw)
+
+Fixed: Crash on startup with missing InfModelRegistry/mod folder
+Fixed: Phasechange update not working, had found the issue just prior, but thanks GloomMouse for the report anyway.
+Fixed: (partial), setting unlockSideOpNumber via profile will not give OUT OF BOUNDS error, but currently still won't be able to set them > 157 - to new sideops - thanks pk5547 for the report.
+
+Option: "Female staff selection" - added Half setting.
+Option: mbEnableBirds - "Enable Birds" - enables birds flying around mother base.
+(via the Mother base > Show characters menu)
+
+Expanded resource amount scales to scale by type:
+enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
+resourceScaleMaterial="Material case scale"
+resourceScalePlant="Plant scale"
+resourceScalePoster="Poster scale"
+resourceScaleDiamond="Diamond scale"
+resourceScaleContainer="Container scale"
+(via Progression menu > Resource scale menu)
 
 New for r194
 New sideops for Mother Base:
@@ -127,7 +147,7 @@ A way to quickly trigger certain Infinite Heaven commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 
 <Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
-<Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but nessesary to activate the inter landingzone ride on heli)
+<Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but necesary to activate the inter landingzone ride on heli)
 <Action>(E key or Y button) to activate TSM
 <Reload>(R key or B button) to activate Free cam
 <Dash>(Shift or Left stick click) to activate Static camera
@@ -171,6 +191,7 @@ Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
 Various people for their donations, including:
+Lisa
 Надежда
 Ian
 WolfJack

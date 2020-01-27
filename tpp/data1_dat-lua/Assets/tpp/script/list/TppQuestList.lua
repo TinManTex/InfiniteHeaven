@@ -435,14 +435,14 @@ this.questPackList={
   mtbs_q42070={"/Assets/tpp/pack/mission2/quest/mtbs/Combat/quest_q42070.fpk"},
 }
 
---tex>
+--tex lookup table>
 function this.BuildQuestAreaTable(questAreaTable)
   for n,areaQuests in ipairs(this.questList)do
     for i,info in ipairs(areaQuests.infoList)do
       questAreaTable[info.name]=areaQuests.areaName
     end
-  end--
-end--<
+  end
+end
 
 this.questAreaTable={}--tex TABLESETUP
 this.BuildQuestAreaTable(this.questAreaTable)

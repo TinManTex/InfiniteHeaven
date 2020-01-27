@@ -1,6 +1,6 @@
 -- InfQuest.lua
 -- tex implements various sideops/quest selection options
--- WIP also easier new quest setup
+-- also new quest setup
 local this={}
 
 local TppDefine=TppDefine
@@ -8,70 +8,64 @@ local InfLog=InfLog
 
 this.debugModule=false
 
-this.ihQuestNames={
-  "quest_q30100",
-  "quest_q30101",
-  "quest_q30102",
-}
+--tex the engine breaks down the quest name in some cases to the last 6 characters (ie q30010), or just the numbers
+--see TppQuest GetQuestNameId, GetQuestName
+--it uses the q name as the lookup for the lang string name_<qname> and info_<qname>
+--I'm not sure if anything before that has any signifincance, many have quest_ as the prefix, others have the quest area name.
+this.numIHQuests=100
+this.questNameFmt="quest_q301%02d"
 
-local CanOpenClusterGrade0=function(questName)
+--tex see LoadQuestDefs,
+this.ihQuestNames={}
+--tex see LoadQuestDefs, RegisterQuests
+--k=questName,v=questDef module
+this.ihQuestsInfo={}
+
+function this.CanOpenClusterGrade0(questName)
   local questInfo=this.ihQuestsInfo[questName]
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>0
 end
-local function AllwaysOpenQuest()
+function this.AllwaysOpenQuest()
   return true
 end
 
---tex see RegisterQuests
-this.ihQuestsInfo={
-  quest_q30100={--mtbs sheep
-    questPackList={"/Assets/tpp/pack/mission2/quest/ih/ih_sheep_quest.fpk"},
-    locationId=TppDefine.LOCATION_ID.MTBS,
-    areaName="MtbsCombat",
-    clusterName="Combat",
-    plntId=TppDefine.PLNT_DEFINE.Special,
-    category=TppQuest.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL,
-    questCompleteLangId="announce_quest_extract_animal",
-    canOpenQuest=CanOpenClusterGrade0,
-    questRank=TppDefine.QUEST_RANK.G,
-  },
-  quest_q30101={--mtbs bird
-    questPackList={"/Assets/tpp/pack/mission2/quest/ih/ih_bird_quest.fpk"},
-    locationId=TppDefine.LOCATION_ID.MTBS,
-    areaName="MtbsSpy",
-    clusterName="Spy",
-    plntId=TppDefine.PLNT_DEFINE.Special,
-    category=TppQuest.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL,
-    questCompleteLangId="announce_quest_extract_animal",
-    canOpenQuest=CanOpenClusterGrade0,
-    questRank=TppDefine.QUEST_RANK.G,
-  },
-  quest_q30102={--mtbs rat
-    questPackList={"/Assets/tpp/pack/mission2/quest/ih/ih_rat_quest.fpk"},
-    locationId=TppDefine.LOCATION_ID.MTBS,
-    areaName="MtbsSupport",
-    clusterName="Support",
-    plntId=TppDefine.PLNT_DEFINE.Special,
-    category=TppQuest.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL,
-    questCompleteLangId="announce_quest_extract_animal",
-    canOpenQuest=CanOpenClusterGrade0,
-    questRank=TppDefine.QUEST_RANK.G,
-  },
-}
+--REF questDef
+-- ih_quest_q30103.lua
+-- IH quest definition - example quest, afgh wailo village hostage
+--local this={
+--  questPackList={
+--    "/Assets/tpp/pack/mission2/quest/ih/ih_example_quest.fpk",--quest fpk
+--    randomFaceList={--for hostage isFaceRandom, see TppQuestList
+--      race={TppDefine.QUEST_RACE_TYPE.ASIA},
+--      gender=TppDefine.QUEST_GENDER_TYPE.WOMAN
+--    }
+--  },
+--  locationId=TppDefine.LOCATION_ID.AFGH,
+--  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList
+--  iconPos=Vector3(489.741,321.901,1187.506),--position of the quest area circle in idroid
+--  radius=4,--radius of the quest area circle
+--  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
+--  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
+--  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest is open or not
+--  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
+--}
+--return this
+
+--REF questCompleteLangId =
+--"quest_extract_elite",--Highly-Skilled Soldier Extracted [%d/%d]"
+--"quest_defeat_armor",--"Heavy Infantry Eliminated [%d/%d]"
+--"quest_defeat_zombie",--"Wandering Puppet Eliminated [%d/%d]"
+--"quest_extract_hostage","Prisoner Extracted [%d/%d]"
+--"quest_defeat_armor_vehicle","Armored Vehicle Unit Eliminated [%d/%d]"
+--"quest_defeat_tunk","Tank Unit Eliminated [%d/%d]"
+--"quest_target_eliminate","Target Destroyed [%d/%d]"
+--"mine_quest_log",--"Mine Cleared [%d/%d]"
+--"quest_extract_animal",--"Animal Extracted [%d/%d]"--tex added by IH
+
 
 local blockQuests={
   tent_q99040=true, -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
   sovietBase_q99020=true,-- 82, make contact with emmeric
-}
-
-local mbShootingPracticeQuests={
-  mtbs_q42010=true,
-  mtbs_q42020=true,
-  mtbs_q42030=true,
-  mtbs_q42040=true,
-  mtbs_q42050=true,
-  mtbs_q42060=true,
-  mtbs_q42070=true,
 }
 
 --block quests>
@@ -93,14 +87,7 @@ function this.BlockQuest(questName)
     end
   end
 
-  --tex TODO
-  -- if Ivars.mbBlockShootingQuests:Is(1) then
-  --    if mbShootingPracticeQuests[questName] then
-  --    if TppQuest.IsCleard(questName) then
-  --      return true
-  --    end
-  --  end
-  -- end
+  --TODO instead of faffing about in tppquest to filter categories just filter here
 
   --tex block heli quests to allow super reinforce
   if Ivars.enableHeliReinforce:Is(1) then
@@ -142,7 +129,7 @@ function this.GetForced()
 
   --tex find name and area for unlocksideop
   local unlockSideOpNumber=Ivars.unlockSideOpNumber:Get()
-  if unlockSideOpNumber>0 then
+  if unlockSideOpNumber>0 and unlockSideOpNumber<=#questTable  then
     local unlockedName=questTable[unlockSideOpNumber].questName
     local unlockedArea=nil
     if unlockedName~=nil then
@@ -165,12 +152,35 @@ function this.GetForced()
   end
 end
 
+local questDefPath="/Assets/tpp/script/ih/quest/"
+local extension=".lua"
+function this.LoadQuestDefs()
+  InfLog.AddFlow"LoadQuestDefs"
+  for i=0,this.numIHQuests-1 do
+    local questId=string.format(this.questNameFmt,i)
+    local moduleName="ih_"..questId
+    local path=questDefPath..moduleName..extension
+    --InfLog.Add("Attempting to load module "..path)--DEBUG
+    Script.LoadLibrary(path)
+    local module=_G[moduleName]
+    if module then
+      InfLog.Add("Loaded questDef "..moduleName)
+      
+      --tex TODO DEBUGNOW validate questDef
+      
+      this.ihQuestNames[#this.ihQuestNames+1]=questId
+      this.ihQuestsInfo[questId]=module
+    end
+  end
+end
+
 --REF TppQuestList.questList={
 --  {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsCombat",clusterName="Combat",
 --    infoList={
 --    {name="mtbs_q42070",invokeStepName="QStep_Start"},
 --    {name="quest_q30100",invokeStepName="QStep_Start"},
 function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
+  --tex TODO: build an area>questList areaQuests index lookup? -- use TppQuest.questAreaToQuestListIndex (after verifying its valid)
   if not questAreaTable[questName]then
     for i,areaQuests in ipairs(questList)do
       if areaQuests.locationId==questInfo.locationId
@@ -187,15 +197,47 @@ function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
           questAreaTable[questName]=questInfo.areaName
           local infoEntry={name=questName,invokeStepName="QStep_Start"}
           table.insert(infoList,infoEntry)
+          break
         end
       end
     end
   end
 end
 
+local gvarFlagNames={
+  "qst_questOpenFlag",
+  "qst_questRepopFlag",
+  "qst_questClearedFlag",
+  "qst_questActiveFlag",
+}
+function this.GetGvarFlags()
+  local gvarFlags={}
+  for gvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES+1,TppDefine.QUEST_MAX-1 do
+    gvarFlags[gvarIndex]={}
+    for i,gvarName in ipairs(gvarFlagNames)do
+      gvarFlags[gvarIndex][gvarName]=gvars[gvarName]
+      gvars[gvarName]=false
+    end
+  end
+  return gvarFlags
+end
+
+--tex ASSUMPTION: questInfo.areaName valid
+--IN/OUT questList,questAreaTable
+--DEBUGNOW WIP
+function this.AddToQuestListQuick(questList,questAreaTable,questAreaToQuestListIndex,questName,questInfo)
+  if not questAreaTable[questName]then
+    questAreaTable[questName]=questInfo.areaName
+    local areaIndex=questAreaToQuestListIndex[questInfo.areaName]
+    local areaQuests=questList[areaIndex]
+    areaQuests.infoList[#areaQuests.infoList]={name=questName,invokeStepName="QStep_Start"}
+  end
+end
+
 --REF TppQuest.questInfoTable={
 --  --[[XXX]]{questName="quest_q30100",questId="quest_q30100",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},--tex
 --  --[[XXX]]{questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
+--IN/OUT: questInfoTable,questTableIndexes
 function this.AddToQuestInfoTable(questInfoTable,questTableIndexes,questName,questInfo)
   if not questTableIndexes[questName] then
     local index=#questInfoTable+1
@@ -222,42 +264,87 @@ function this.RegisterQuests()
   InfLog.AddFlow("InfQuest.RegisterQuests")--DEBUG
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
+
+  if this.debugModule then
+    InfLog.Add("numVanillaUiQuests:"..TppQuest.NUM_VANILLA_UI_QUESTS.." #questInfoTable:"..#questInfoTable)
+  end
+
+  --tex already registered, TODO alternatively, set a bool, but if its in the module make sure you transfer it on module reload
+  if #questInfoTable>TppQuest.NUM_VANILLA_UI_QUESTS then
+    return
+  end
+
+  --tex DEBUGNOW TODO: load, validate ihQuestNames,ihQuestsInfo
+
+  --DEBUGNOW TODO load, validate installedQuests
+  --k=questName,v=gvarIndex / TppDefine.QUEST_INDEX (QUEST_DEFINE index)
+  this.installedQuests={
+    quest_q30100=TppDefine.NUM_VANILLA_QUEST_DEFINES+1,--DEBUGNOW
+    quest_q30101=TppDefine.NUM_VANILLA_QUEST_DEFINES+2,
+    quest_q30102=TppDefine.NUM_VANILLA_QUEST_DEFINES+3,
+    --quest_q30103=TppDefine.NUM_VANILLA_QUEST_DEFINES+4,
+  }
+
+  --tex back up existing flag states
+  local gvarFlags=this.GetGvarFlags()
+
+  local questInfoTable=TppQuest.GetQuestInfoTable()
   local questTableIndexes=TppQuest.QUESTTABLE_INDEX
   local openQuestCheckTable=TppQuest.GetCanOpenQuestTable()
   local questAreaTable=TppQuestList.questAreaTable
+  local questAreaToQuestListIndex=TppQuest.questAreaToQuestListIndex
   local questList=TppQuestList.questList
-
-  --tex TODO: validate ihQuestNames,ihQuestsInfo
 
   for i,questName in ipairs(this.ihQuestNames)do
     local questInfo=this.ihQuestsInfo[questName]
-    local questIndex=TppDefine.QUEST_INDEX[questName]
-    --InfLog.Add("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
+
+    local questIndex=#TppDefine.QUEST_DEFINE+1
+
+    InfLog.Add("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
     if this.debugModule then
       InfLog.PrintInspect(questInfo)
     end
-    if questIndex==nil then
-      questIndex=#TppDefine.QUEST_DEFINE+1
-      if this.debugModule then
-        InfLog.Add("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
-      end
-      TppDefine.QUEST_DEFINE[questIndex]=questName
-      TppDefine.QUEST_INDEX=TppDefine.Enum(TppDefine.QUEST_DEFINE)
-      --InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
-      TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]=questInfo.questRank
-      --InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
 
-      this.AddToQuestInfoTable(questInfoTable,questTableIndexes,questName,questInfo)
-      openQuestCheckTable[questName]=questInfo.canOpenQuest or AllwaysOpenQuest
-      TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
+    TppDefine.QUEST_DEFINE[questIndex]=questName
+    TppDefine.QUEST_INDEX=TppDefine.Enum(TppDefine.QUEST_DEFINE)
+    --InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
+    TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]=questInfo.questRank
+    --InfLog.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
 
-      this.AddToQuestList(questList,questAreaTable,questName,questInfo)
-      TppQuestList.questPackList[questName]=questInfo.questPackList
+    if questInfo.questPackList.randomFaceList then
+      table.insert(TppDefine.QUEST_RANDOM_FACE_DEFINE,questName)
+      TppDefine.QUEST_RANDOM_FACE_INDEX=TppDefine.Enum(TppDefine.QUEST_RANDOM_FACE_DEFINE)
+      InfLog.PrintInspect(TppDefine.QUEST_RANDOM_FACE_INDEX)--DEBUGNOW
     end
+    this.AddToQuestInfoTable(questInfoTable,questTableIndexes,questName,questInfo)
+    openQuestCheckTable[questName]=questInfo.canOpenQuest or AllwaysOpenQuest
+    TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
+
+    this.AddToQuestList(questList,questAreaTable,questName,questInfo)
+    TppQuestList.questPackList[questName]=questInfo.questPackList
+
+    if not this.installedQuests[questName] then
+      InfLog.Add(questName.." was not previously installed")
+    else
+      local previousIndex=this.installedQuests[questName]
+
+      if previousIndex~=questIndex then
+        InfLog.Add(questName.." shifting from previous index of "..previousIndex)
+      end
+
+      for i,gvarName in ipairs(gvarFlagNames)do
+        gvars[gvarName]=gvarFlags[previousIndex][gvarName]
+      end
+    end
+
+    this.installedQuests[questName]=questIndex
   end
 
+  --DEBUGNOW TODO: save installedQuests
+
+  InfLog.Add("numUiQuests:"..#questInfoTable)
+
   if this.debugModule then
-    InfLog.AddFlow"InfQuest.RegisterQuests"
     InfLog.Add"QUEST_INDEX"
     InfLog.PrintInspect(TppDefine.QUEST_INDEX)
     InfLog.Add"QUEST_RANK_TABLE"
@@ -279,37 +366,76 @@ function this.PrintSideOpsListTable()
   InfLog.PrintInspect(sideOpsTable)
 end
 
---
-function this.Test_SetBirdPostion()
-  local birdInfo={
-    name="anml_quest_00",
-    birdType="TppStork",
-    center={-679.108,31.5,534.532},
-    radius=0,
-    height=0,
-    ground={-679.108,29.809,534.532},
-    perch={-679.108,29.809,534.532},
+function this.PrintQuestArea()
+  if vars.missionCode==30050 then
+    local clusterId=MotherBaseStage.GetCurrentCluster()
+    local clusterName=TppDefine.CLUSTER_NAME[clusterId+1]
+    InfLog.Add("Quest Area: Mtbs"..clusterName)
+    return
+  end
+
+  local currentQuestTable=TppQuest.GetCurrentQuestTable()
+  if currentQuestTable==nil then
+    InfLog.Add("currentQuestTable==nil")
+    return
+  end
+
+  local areaTypes={
+    loadArea=false,
+    invokeArea=false,
+    activeArea=false,
   }
 
-  --tex TppBirdLocatorParameter2 - radius=5, height=10
+  local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
 
-  local birdGameId={type=birdInfo.birdType,index=0}
-  local setEnabledCommand={id="SetEnabled",name=birdInfo.name,birdIndex=0,enabled=true}
-  GameObject.SendCommand(birdGameId,setEnabledCommand)
-  if(birdInfo.center and birdInfo.radius)and birdInfo.height then
-    local changeFlyingZoneCommand={id="ChangeFlyingZone",name=birdInfo.name,center=birdInfo.center,radius=birdInfo.radius,height=birdInfo.height}
-    GameObject.SendCommand(birdGameId,changeFlyingZoneCommand)
-    local setLandingPointCommand=nil
-    if birdInfo.ground then
-      setLandingPointCommand={id="SetLandingPoint",birdIndex=0,name=birdInfo.name,groundPos=birdInfo.ground}
-      GameObject.SendCommand(birdGameId,setLandingPointCommand)
-    elseif birdInfo.perch then
-      setLandingPointCommand={id="SetLandingPoint",birdIndex=0,name=birdInfo.name,perchPos=birdInfo.perch}
-      GameObject.SendCommand(birdGameId,setLandingPointCommand)
+  local numAreas=#mvars.qst_questList
+  for i=1,numAreas do
+    local areasQuestInfo=mvars.qst_questList[i]--TppQuestList .questList
+
+    for areaType,inArea in pairs(areaTypes)do
+      areaTypes[areaType]=TppQuest.IsInsideArea(areaType,areasQuestInfo,blockIndexX,blockIndexY)
     end
-    local setAutoLandingCommand={id="SetAutoLanding",name=birdInfo.name}
-    GameObject.SendCommand(birdGameId,setAutoLandingCommand)
+
+    local inAnyArea=false
+    for areaType,inArea in pairs(areaTypes)do
+      if areaTypes[areaType]==true then
+        inAnyArea=true
+        break
+      end
+    end
+
+    if inAnyArea then
+      local areaInfoMessage="Quest area: "..areasQuestInfo.areaName..", in:"
+      for areaType,inArea in pairs(areaTypes)do
+        areaInfoMessage=areaInfoMessage.." "..areaType.."="..tostring(inArea)
+      end
+
+      InfLog.Add(areaInfoMessage,false,true)
+    end
   end
+end
+
+function this.GetQuestPositions()
+  local positions={}
+  local questTable=TppQuest.GetQuestInfoTable()
+  for sideopNum,sideOpInfo in ipairs(questTable)do
+    if sideOpInfo.locationId==vars.locationCode then
+      local iconPos=sideOpInfo.iconPos
+      if iconPos then
+        local pos={iconPos:GetX(),iconPos:GetY(),iconPos:GetZ()}
+        table.insert(positions,pos)
+      end
+    end
+  end
+  return positions
+end
+
+function this.ResetQuestState(gvarIndex,value)
+  --VALIDATE gvarIndex>0 <TppDefine.QUEST_MAX
+  local value=value or false
+  gvars.qst_questOpenFlag[gvarIndex]=value
+  gvars.qst_questClearedFlag[gvarIndex]=value
+  gvars.qst_questActiveFlag[gvarIndex]=value
 end
 
 function this.Test_SetRatPosition()
@@ -340,7 +466,7 @@ function this.Test_SetRatPosition()
     {366.645,-4.013,849.100},
   }
 
-  local positionBag=InfMain.ShuffleBag:New()
+  local positionBag=InfUtil.ShuffleBag:New()
   for i,coords in ipairs(positionsList)do
     positionBag:Add(coords)
   end

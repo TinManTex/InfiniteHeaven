@@ -39,7 +39,7 @@ this={}
 --}
 
 --Resource ids
---TODO figure out which plant is which, find a good place for this info, maybe just wiki link
+--See TppTerminal.RESOURCE_INFORMATION_TABLE for plant types
 --"CommonMetal"
 --"MinorMetal"
 --"PreciousMetal"

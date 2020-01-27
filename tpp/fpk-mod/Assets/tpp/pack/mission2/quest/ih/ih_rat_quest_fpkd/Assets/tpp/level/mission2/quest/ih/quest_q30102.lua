@@ -173,7 +173,7 @@ local positionsList={
   {366.645,-4.413,849.100},
 }
 
-local positionBag=InfMain.ShuffleBag:New()
+local positionBag=InfUtil.ShuffleBag:New()
 for i,coords in ipairs(positionsList)do
   positionBag:Add(coords)
 end

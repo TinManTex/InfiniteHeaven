@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- TppDefine.lua
 -- tex modfying some values via other modules
-InfLog.Add"TppDefine.lua, requires-list start"--tex
+InfLog.Add"Load TppDefine.lua"--tex --DEBUG
 local this={}
 
 local StrCode32=Fox.StrCode32
@@ -640,6 +640,7 @@ this.QUEST_DEFINE={
   "mtbs_q42070",
   "mtbs_return_quiet"
 }
+this.NUM_VANILLA_QUEST_DEFINES=167--tex added
 this.QUEST_RANDOM_FACE_DEFINE={
   "quest_q20015",
   "quest_q20025",
@@ -717,16 +718,16 @@ this.QUEST_RANDOM_FACE_INDEX=this.Enum(this.QUEST_RANDOM_FACE_DEFINE)
 this.QUEST_RANK_LIST={"S","A","B","C","D","E","F","G","H","I"}
 this.QUEST_RANK=Tpp.Enum(this.QUEST_RANK_LIST)
 this.QUEST_BONUS_GMP={
-  [this.QUEST_RANK.S]=3e5,
-  [this.QUEST_RANK.A]=2e5,
-  [this.QUEST_RANK.B]=18e4,
-  [this.QUEST_RANK.C]=14e4,
-  [this.QUEST_RANK.D]=12e4,
-  [this.QUEST_RANK.E]=1e5,
-  [this.QUEST_RANK.F]=9e4,
-  [this.QUEST_RANK.G]=8e4,
-  [this.QUEST_RANK.H]=6e4,
-  [this.QUEST_RANK.I]=3e4
+  [this.QUEST_RANK.S]=300000,
+  [this.QUEST_RANK.A]=200000,
+  [this.QUEST_RANK.B]=180000,
+  [this.QUEST_RANK.C]=140000,
+  [this.QUEST_RANK.D]=120000,
+  [this.QUEST_RANK.E]=100000,
+  [this.QUEST_RANK.F]=90000,
+  [this.QUEST_RANK.G]=80000,
+  [this.QUEST_RANK.H]=60000,
+  [this.QUEST_RANK.I]=30000
 }
 this.QUEST_RANK_TABLE={
   [this.QUEST_INDEX.waterway_q99012]=this.QUEST_RANK.C,
@@ -890,30 +891,30 @@ this.QUEST_RANK_TABLE={
 this.QUEST_BODY_ID_LIST={
   AFGH_ARMOR=49,
   MAFR_ARMOR=109,
-  Q20910=207,
-  Q20911=208,
-  Q20912=209,
-  Q20913=205,
-  Q20914=206,
-  Q19010=259,
-  Q19011=255,
-  Q19012=111,
-  Q19013=110,
-  Q99070=110,
-  Q99071=264,
-  Q99072=110,
-  MSF_01=280,
-  MSF_02=281,
-  MSF_03=292,
-  MSF_04=293,
-  MSF_05=294,
-  MSF_06=295,
-  MSF_07=286,
-  MSF_08=297,
-  MSF_09=288,
-  MSF_10=289,
-  Q99080_01=373,
-  Q99080_02=374,
+  Q20910=207,--chd2_v02
+  Q20911=208,--chd2_v03
+  Q20912=209,--chd2_v04
+  Q20913=205,--chd2_v00
+  Q20914=206,--chd2_v01
+  Q19010=259,--svs0_unq_v020
+  Q19011=255,--pfs0_unq_v150
+  Q19012=111,--prs5_main0_v00
+  Q19013=110,--prs2_main0_v00
+  Q99070=110,--prs2_main0_v00
+  Q99071=264,--pfs0_unq_v140
+  Q99072=110,--prs2_main0_v00
+  MSF_01=280,--
+  MSF_02=281,--
+  MSF_03=292,--
+  MSF_04=293,--
+  MSF_05=294,--
+  MSF_06=295,--
+  MSF_07=286,--
+  MSF_08=297,--
+  MSF_09=288,--
+  MSF_10=289,--
+  Q99080_01=373,--prs7_main0_v00
+  Q99080_02=374,--prs7_main0_v01
   MAFR_ARMOR_ZRS=TppEnemyBodyId.pfa0_v00_a,
   MAFR_ARMOR_CFA=TppEnemyBodyId.pfa0_v00_b,
   MAFR_ARMOR_RC=TppEnemyBodyId.pfa0_v00_c,

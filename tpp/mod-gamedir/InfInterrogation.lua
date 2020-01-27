@@ -107,8 +107,8 @@ function this.LrrpLocation()
   --tex TODO: eliminated check
   local lrrpName=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
   local lrrpDefine=InfMain.lrrpDefines[lrrpName]
-  local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
-  local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
+  local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfUtil.GetLocationName())
+  local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfUtil.GetLocationName())
 
   if base1Name==nil then
     InfLog.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
@@ -135,17 +135,17 @@ function this.WalkerStaticLocation()
   local infoName=walkerInfos[math.random(#walkerInfos)]
   local walkerInfo=walkerInfos[infoName]
   local cpName=walkerInfo.cpName
-  local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
+  local cpNameString=InfMenu.CpNameString(cpName,InfUtil.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_walker",cpNameString)
   --end)--
 end
 
 function this.WildCardLocation()
   --InfLog.DebugPrint"WildCardLocation"--DEBUG
-  local ene_wildCardInfo=InfNPC.ene_wildCardInfo
+  local ene_wildCardInfo=InfNPC.ene_wildCardNames
   local soldierName=ene_wildCardInfo[math.random(#ene_wildCardInfo)]
   local cpName=ene_wildCardInfo[soldierName].cpName
-  local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
+  local cpNameString=InfMenu.CpNameString(cpName,InfUtil.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end
 
@@ -160,7 +160,7 @@ function this.HeliLocation()
 
   local route
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   --tex TODO: badslow
   local StrCode32=Fox.StrCode32
   for i,routeName in pairs(InfNPCHeli.heliRoutes[locationName]) do
@@ -220,8 +220,8 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
 
   local numLrrps=0--DEBUG
 
-  local baseNameBag=InfMain.ShuffleBag:New()
-  local locationName=InfMain.GetLocationName()
+  local baseNameBag=InfUtil.ShuffleBag:New()
+  local locationName=InfUtil.GetLocationName()
   local baseNames=InfMain.baseNames[locationName]
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
@@ -340,7 +340,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
   if not gvars.inf_interCpQuestStatus[partnerICPQId] then
     local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
     local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
-    local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
+    local cpNameLang=InfMenu.CpNameString(partnerCpName,InfUtil.GetLocationName())
     --InfLog.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
     InfMenu.PrintFormatLangId("intercp_comrade_location",cpNameLang)
     --tex TODO:

@@ -964,6 +964,10 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 end
 
+function this.PreMissionLoad(missionId,currentMissionId)
+  this.CreateCustomWeaponTable(missionId)
+end
+
 function this.Init(missionTable)
   if TppMission.IsFOBMission(vars.missionCode)then
     return
@@ -973,13 +977,13 @@ function this.Init(missionTable)
 
   this.inf_lastNeutralized={}
 
-  this.dropChanceBag=InfMain.ShuffleBag:New()
+  this.dropChanceBag=InfUtil.ShuffleBag:New()
   for i=1,Ivars.perSoldierCount do
     local amount=1
     this.dropChanceBag:Add(i,amount)
   end
 
-  this.dropItemBag=InfMain.ShuffleBag:New()
+  this.dropItemBag=InfUtil.ShuffleBag:New()
   for name,amount in pairs(this.itemDropInfo) do
     this.dropItemBag:Add(name,amount)
   end
@@ -1131,8 +1135,8 @@ function this.PutEquipOnTrucks()
   end
 
   InfMain.RandomSetToLevelSeed()
-  local locationName=InfMain.GetLocationName()
-  local pickableBag=InfMain.ShuffleBag:New(pickables[locationName])
+  local locationName=InfUtil.GetLocationName()
+  local pickableBag=InfUtil.ShuffleBag:New(pickables[locationName])
   local pickableCount=pickableBag:Count()
 
   if InfVehicle.inf_patrolVehicleInfo then
@@ -1282,7 +1286,7 @@ function this.CreateCustomWeaponTable(missionCode)
   end
 
   for weaponName,weaponIds in pairs(weaponIdTable.NORMAL)do
-    local shuffleBag=InfMain.ShuffleBag:New()
+    local shuffleBag=InfUtil.ShuffleBag:New()
     shuffleBag:Fill(weaponIds)
     weaponIds.bag=shuffleBag
   end

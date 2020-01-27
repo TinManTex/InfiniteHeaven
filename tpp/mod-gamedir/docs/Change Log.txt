@@ -1,5 +1,52 @@
 Infinite Heaven changelog
 
+r195 - 2016-12-03
+
+Wildcard soldiers and hostages have staff parameters regenerated. Should always have a skill assigned now and have high stats (in respect to current mb level/stats draw)
+
+Refactor: Only call module prereload/postreload on actual user module reload. 
+PostAllModulesReload renamed PostAllModulesLoad to clarify it's execution.
+
+mbPrioritizeFemale - "Female staff selection" - added Half setting.
+
+Fixed: Crash on startup with missing InfModelRegistry (loadboxed forceing debugprint/anouncelog in start.lua which is aparently too early for announcelog system)
+
+InfEnemyPhase - fixed phasechange update, had found the issue just prior, but thanks GloomMouse for the report anyway.
+
+InfQuest: Added randomFaceList support to registerquests
+
+InfQuest: WIP quest mod support. Split questInfo into seperate modules to allow quest mods. Example quest created, but broke it at some point, and still need documentation, need to get this version out though for some fixes.
+
+Show position command: expanded to logprint large block name, small block index, quest area and isinside areatypes;
+command now adds positions to a table and logprints them out, useful for getting a bunch of positions without having to scour the output for them individually (though I should just dump them to a file)
+
+Functionality: Extended TppEneFova PreMissionLoad fova setup to external modules.
+
+Data: ih_quest.<langcode>.lng2 split to ih_general.<langcode>lng2
+Module: InfUtil - split some functions from InfMain
+
+Fixed: (partial), setting unlockSideOpNumber via profile will not give OUT OF BOUNDS error, but currently still won't be able to set them > 157 - to new sideops - thanks pk5547 for the report.
+
+Refactor: Shifted IvarProc.OnCreateOrLoadSaveData into LoadEvars, consequently ih_save initial load is earlier, in init mission load.
+Need to split from gvars if I want to go earlier.
+
+Data: Split ih_bird_quest.fpk/d into ih_raven.fpk/d
+Increased number of ravens to 8.
+Sideop: Birds in the belfrey - number of birds increased.
+Data: Split ih_rat_quest.fpk/d into ih_rat.fpk/d
+
+Option: mbEnableBirds - "Enable Birds" - enables birds flying around mother base.
+(via the Mother base > Show characters menu)
+
+Expanded resource amount scales to scale by type:
+enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
+resourceScaleMaterial="Material case scale"
+resourceScalePlant="Plant scale"
+resourceScalePoster="Poster scale"
+resourceScaleDiamond="Diamond scale"
+resourceScaleContainer="Container scale"
+(via Progression menu > Resource scale menu)
+
 r194 - 2016-11-18
 
 Fixed: Some defaults not applying on fob.
@@ -15,6 +62,7 @@ Debug: Added debugUpdate - pcalls on TppMain.OnUpdate / module updates
 InfMain: Added PostModuleReload callback for external modules
 
 Module Additions: ihQuestsInfo,RegisterQuests - pulls together various quest data for easier setup of new quests.
+
 SideOp: quest_q30100 - "Sheep in the Keep" - "Logistics had a mishap and let a herd of sheep loose on the Command Platform. Fulton them so they can take them to the Conservation Platform." 
 SideOp: quest_q30101 - "Birds in the Belfry" - "Your staff has been having some issues with birds roosting in the Intel Platform Enclosure. See if you can clear them out." 
 SideOp: quest_q30102 - "Rats in the Basement" - "The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." 

@@ -98,16 +98,31 @@ this.printFaceInfo={
   end,
 }
 
+this.positions={}
+this.positionsXML={}
 this.showPosition={
   OnChange=function()
+    if InfUtil.GetLocationName()=="afgh" or InfUtil.GetLocationName()=="mafr" then
+      local blockNameStr32=Tpp.GetLoadedLargeBlock()
+      InfLog.Add("Current large block:"..InfLookup.StrCode32ToString(blockNameStr32),false,true)
+      local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
+      InfLog.Add("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
+    end
+    InfQuest.PrintQuestArea()
+
+    --tex TODO: dump to seperate file
     local x,y,z=vars.playerPosX,vars.playerPosY,vars.playerPosZ
     local rotY=vars.playerCameraRotation[1]
     local positionTable=string.format("{%.3f,%.3f,%.3f}, | %.3f",x,y,z,rotY)
-    local positionXML=string.format('<value x="%.3f" y="%.3f" z="%.3f" w="1" />',x,y,z)
+    local positionXML=string.format('<value x="%.3f" y="%.3f" z="%.3f" w="0" />',x,y,z)
+    table.insert(this.positions,positionTable)
+    table.insert(this.positionsXML,positionXML)
 
-    InfLog.Add(positionTable)
-    InfLog.Add(positionXML)
-    TppUiCommand.AnnounceLogView(positionTable)
+    --    InfLog.Add(positionTable)
+    --    InfLog.Add(positionXML)
+    InfLog.Add("positions:\n"..table.concat(this.positions,"\n"),false,true)
+    InfLog.Add("positionsxml:\n"..table.concat(this.positionsXML,"\n"),false,true)
+    InfLog.DebugPrint("Position written to ih_log")
   end,
 }
 
@@ -508,7 +523,7 @@ this.DEBUG_ToggleParasiteEvent={
 this.requestHeliLzToLastMarker={
   isMenuOff=true,
   OnChange=function()
-    local locationName=InfMain.GetLocationName()
+    local locationName=InfUtil.GetLocationName()
     if locationName~="afgh" and locationName~="mafr" then
       InfMenu.PrintLangId"not_for_location"
       return
@@ -607,7 +622,7 @@ this.DEBUG_PrintInterrogationInfo={
     InfLog.DebugPrint("quest cpName:"..cpName)
   end
 }
---
+
 local toggle1=false
 local index1Min=1
 local index1Max=3
@@ -616,31 +631,7 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfLog.Add"---------------------DEBUG_SomeShiz---------------------"
-
---    InfLog.Add("armor:"..tostring(#TppEnemy.armorSoldiers).." total:"..tostring(TppEnemy.totalSoldiers))
---    InfLog.PrintInspect(TppEnemy.armorSoldiers)
---    --InfLog.PrintInspect(mvars.ene_soldierPowerSettings)
---    InfLog.Add"ene_soldierPowerSettings"
---    for soldierId,powers in pairs(mvars.ene_soldierPowerSettings)do
---      local soldierName=InfLookup.ObjectNameForGameId(soldierId) or "NAMENOTFOUND"
---      InfLog.Add(soldierId.." "..soldierName..":"..tostring(powers.ARMOR))
---    end
-    --DEBUGNOW
-    local enable=toggle1
-    for questName,questInfo in pairs(InfQuest.ihQuestsInfo)do
-      local questIndex=TppDefine.QUEST_INDEX[questName]
-      gvars.qst_questOpenFlag[questIndex]=enable
-      gvars.qst_questClearedFlag[questIndex]=enable
-      gvars.qst_questActiveFlag[questIndex]=enable
-    end
-    Ivars.UpdateActiveQuest()
-
-    --TppPlayer.Warp{pos={"-612.1607","504.688","-1145.31091" },rotY=vars.playerCameraRotation[1]}
-
-    --WIP
-    --    local defaultSlot=true
-    --    local onlyNonDefault=false
-    --    IvarProc.WriteProfile(defaultSlot,onlyNonDefault)
+ 
 
     InfLog.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -652,18 +643,12 @@ this.DEBUG_SomeShiz={
 }
 
 local index2Min=0--0
-local index2Max=1--14
+local index2Max=600--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
-    InfLog.Add("-----")
-    local questName=InfQuest.ihQuestNames[1]
-    local questIndex=TppDefine.QUEST_INDEX[questName]
-InfLog.PrintInspect(gvars.qst_questOpenFlag[questIndex])
+    InfLog.Add("---DEBUG_SomeShiz2---")
 
-    --    local profilesFileName="InfSavedProfiles.lua"
-    --    local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)
-    --    InfLog.PrintInspect(savedProfiles)
 
 
     InfLog.DebugPrint("index2:"..index2)
@@ -674,12 +659,13 @@ InfLog.PrintInspect(gvars.qst_questOpenFlag[questIndex])
   end
 }
 
-local index3Min=320
-local index3Max=689
+local index3Min=1
+local index3Max=10
 local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
-    --InfLog.PrintInspect(InfModelRegistry)
+   
+
 
     InfLog.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -970,7 +956,7 @@ this.DEBUG_CycleHeliRoutes={
     else
       if #heliRoutes==0 then
         --heliRoutes=this.ResetLzPool()
-        heliRoutes=InfMain.ResetPool(InfNPCHeli.heliRoutes.afgh)
+        heliRoutes=InfUtil.CopyList(InfNPCHeli.heliRoutes.afgh)
       end
       --InfLog.PrintInspect(heliRoutes)--DEBUG
       this.heliRoute=StrCode32(heliRoutes[routeIndex])
@@ -1499,7 +1485,7 @@ this.changeToIdleStateHeli={--tex seems to set heli into 'not called'/invisible/
 
 this.loadExternalModules={
   OnChange=function()
-    InfMain.LoadExternalModules()
+    InfMain.LoadExternalModules(true)
   end
 }
 

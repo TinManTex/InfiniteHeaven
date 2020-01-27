@@ -16,7 +16,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="4">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="3">
           <value key="se_e_wmu">0x080C8BA0</value>
           <value key="SoundPackageBGM">0x080C89E0</value>
           <value key="TexturePackLoadConditioner0000">0x0B5D7550</value>

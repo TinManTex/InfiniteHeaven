@@ -20,7 +20,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="117">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="6">
           <value key="TppCamoParasiteGameObject">0x057A59C0</value>
           <value key="wmu_camo_ih_0000">0x057A5AA0</value>
           <value key="wmu_camo_ih_0001">0x057A5C60</value>

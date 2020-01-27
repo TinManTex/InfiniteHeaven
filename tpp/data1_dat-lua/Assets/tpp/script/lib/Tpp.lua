@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- Tpp.lua
+InfLog.AddFlow"Load Tpp.lua"--tex
 local this={}
 local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
 local type=type
@@ -32,6 +33,7 @@ local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local InfLog=InfLog--tex
 this.requires={
+  --"/Assets/tpp/script/lib/InfDebugMarkFlow.lua",--tex DEBUG
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
   "/Assets/tpp/script/lib/TppSave.lua",
@@ -85,7 +87,8 @@ this.requires={
   "/Assets/tpp/script/lib/TppTrophy.lua",
   "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
   "/Assets/tpp/script/lib/IvarProc.lua",--tex>
-  "/Assets/tpp/script/lib/InfButton.lua",
+  "/Assets/tpp/script/lib/InfButton.lua",  
+  "/Assets/tpp/script/lib/InfUtil.lua",
   "/Assets/tpp/script/lib/InfMain.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
@@ -907,4 +910,5 @@ do
     end
   end
 end
+InfLog.AddFlow"Tpp.lua done"--tex
 return this

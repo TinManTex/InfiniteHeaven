@@ -1114,7 +1114,7 @@
 <div id="sideOpsMenu">Side ops menu</div>
 </div>
 <div id="menuItem">
-<div>1: Open specific sideop # : 0-0</div>
+<div>1: Open specific sideop # : 0-157</div>
 </div>
 <div id="menuItem">
 <div>2: Unlock Sideops mode : Off, Force Replayable, Force Open</div>
@@ -1203,7 +1203,7 @@
 <div>2: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>3: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random</div>
+<div>3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range</div>
 </div>
 <div id="menuItem">
 <div>4: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières</div>
@@ -1215,8 +1215,8 @@
 <div>6: DD Head gear : Off, Current prep</div>
 </div>
 <div id="menuItem">
-<div>7: Female staff selection : Default, None, All available</div>
-<div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
+<div>7: Female staff selection : Default, None, All available, Half</div>
+<div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
 </div>
 <div id="menuItem">
 <div>8: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
@@ -1303,14 +1303,17 @@
 <div>4: Show Eli : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: Reset Paz state to beginning : (Command)</div>
+<div>5: Enable Birds : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: Return Quiet after mission 45 : (Command)</div>
+<div>6: Reset Paz state to beginning : (Command)</div>
+</div>
+<div id="menuItem">
+<div>7: Return Quiet after mission 45 : (Command)</div>
 <div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
 </div>
 <div id="menuItem">
-<div>7: showQuietReunionMissionCount : (Command)</div>
+<div>8: showQuietReunionMissionCount : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1479,8 +1482,7 @@
 <div id="progressionMenu">Progression menu</div>
 </div>
 <div id="menuItem">
-<div>1: Resource amount scale : 100-1000%</div>
-<div id="itemHelp">Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)</div>
+<div>1: <a href="#resourceScaleMenu">Resource scale menu</a></div>
 </div>
 <div id="menuItem">
 <div>2: Repopulate music tape radios : Off, On</div>
@@ -1511,6 +1513,35 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="resourceScaleMenu">Resource scale menu</div>
+</div>
+<div id="menuItem">
+<div>1: Enable resource amount scales : Off, On</div>
+<div id="itemHelp">Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)</div>
+</div>
+<div id="menuItem">
+<div>2: Material case scale : 100-1000%</div>
+</div>
+<div id="menuItem">
+<div>3: Plant scale : 100-1000%</div>
+</div>
+<div id="menuItem">
+<div>4: Poster scale : 100-1000%</div>
+</div>
+<div id="menuItem">
+<div>5: Diamond scale : 100-1000%</div>
+</div>
+<div id="menuItem">
+<div>6: Container scale : 100-1000%</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="debugMenu">Debug menu</div>
 </div>
 <div id="menuItem">
@@ -1524,6 +1555,125 @@
 <div id="menuItem">
 <div>3: debugFlow : Off, On</div>
 <div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
+</div>
+<div id="menuItem">
+<div>4: debugOnUpdate : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: loadExternalModules : (Command)</div>
+</div>
+<div id="menuItem">
+<div>6: copyLogToPrev : (Command)</div>
+</div>
+<div id="menuItem">
+<div>7: printPressedButtons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: Show position : (Command)</div>
+</div>
+<div id="menuItem">
+<div>9: Show missionCode : (Command)</div>
+</div>
+<div id="menuItem">
+<div>10: Show game language code : (Command)</div>
+</div>
+<div id="menuItem">
+<div>11: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+</div>
+<div id="menuItem">
+<div>12: Disable mission intro credits : Off, On</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="appearanceDebugMenu">appearanceDebugMenu</div>
+</div>
+<div id="menuItem">
+<div>1: faceFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>2: faceDecoFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>3: hairFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>4: hairDecoFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
+</div>
+<div id="menuItem">
+<div>6: playerPartsTypeDirect : 0-100</div>
+</div>
+<div id="menuItem">
+<div>7: playerCamoTypeDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>8: playerFaceIdDirect : 0-687</div>
+</div>
+<div id="menuItem">
+<div>9: playerFaceEquipIdDirect : 0-100</div>
+</div>
+<div id="menuItem">
+<div>10: Print face info : (Command)</div>
+</div>
+<div id="menuItem">
+<div>11: Print appearance info : (Command)</div>
+</div>
+<div id="menuItem">
+<div>12: faceFova : cm_m0_h0_v000_eye0.fv2</div>
+</div>
+<div id="menuItem">
+<div>13: faceDecoFova : cm_w000_m.fv2</div>
+</div>
+<div id="menuItem">
+<div>14: hairFova : cm_m0_h0_v000_eye0.fv2</div>
+</div>
+<div id="menuItem">
+<div>15: hairDecoFova : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>16: faceFovaUnknown1 : 0-50</div>
+</div>
+<div id="menuItem">
+<div>17: faceFovaUnknown2 : 0-1</div>
+</div>
+<div id="menuItem">
+<div>18: faceFovaUnknown3 : 0-4</div>
+</div>
+<div id="menuItem">
+<div>19: faceFovaUnknown4 : 0-4</div>
+</div>
+<div id="menuItem">
+<div>20: faceFovaUnknown5 : 0-1</div>
+</div>
+<div id="menuItem">
+<div>21: faceFovaUnknown6 : 0-3</div>
+</div>
+<div id="menuItem">
+<div>22: faceFovaUnknown7 : 0-303</div>
+</div>
+<div id="menuItem">
+<div>23: faceFovaUnknown8 : 0-303</div>
+</div>
+<div id="menuItem">
+<div>24: faceFovaUnknown9 : 0-303</div>
+</div>
+<div id="menuItem">
+<div>25: faceFovaUnknown10 : 0-3</div>
+</div>
+<div id="menuItem">
+<div>26: <a href="#fovaModMenu">Form Variation menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
 </div>
 </div>
 <br/>
@@ -1864,6 +2014,143 @@
 <div id="menuItem">
 <div>3: debugFlow : Off, On</div>
 <div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
+</div>
+<div id="menuItem">
+<div>4: debugOnUpdate : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: loadExternalModules : (Command)</div>
+</div>
+<div id="menuItem">
+<div>6: copyLogToPrev : (Command)</div>
+</div>
+<div id="menuItem">
+<div>7: selectedCp : no cp for setting</div>
+</div>
+<div id="menuItem">
+<div>8: setSelectedCpToMarkerObjectCp : (Command)</div>
+</div>
+<div id="menuItem">
+<div>9: printPressedButtons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: DEBUG_PrintCpPowerSettings : (Command)</div>
+</div>
+<div id="menuItem">
+<div>11: DEBUG_PrintPowersCount : (Command)</div>
+</div>
+<div id="menuItem">
+<div>12: DEBUG_PrintReinforceVars : (Command)</div>
+</div>
+<div id="menuItem">
+<div>13: DEBUG_PrintSoldierDefine : (Command)</div>
+</div>
+<div id="menuItem">
+<div>14: DEBUG_ShowRevengeConfig : (Command)</div>
+</div>
+<div id="menuItem">
+<div>15: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+</div>
+<div id="menuItem">
+<div>16: printPressedButtons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>17: printOnBlockChange : Off, On</div>
+</div>
+<div id="menuItem">
+<div>18: Show position : (Command)</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="appearanceDebugMenu">appearanceDebugMenu</div>
+</div>
+<div id="menuItem">
+<div>1: faceFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>2: faceDecoFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>3: hairFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>4: hairDecoFovaDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
+</div>
+<div id="menuItem">
+<div>6: playerPartsTypeDirect : 0-100</div>
+</div>
+<div id="menuItem">
+<div>7: playerCamoTypeDirect : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>8: playerFaceIdDirect : 0-687</div>
+</div>
+<div id="menuItem">
+<div>9: playerFaceEquipIdDirect : 0-100</div>
+</div>
+<div id="menuItem">
+<div>10: Print face info : (Command)</div>
+</div>
+<div id="menuItem">
+<div>11: Print appearance info : (Command)</div>
+</div>
+<div id="menuItem">
+<div>12: faceFova : cm_m0_h0_v000_eye0.fv2</div>
+</div>
+<div id="menuItem">
+<div>13: faceDecoFova : cm_w000_m.fv2</div>
+</div>
+<div id="menuItem">
+<div>14: hairFova : cm_m0_h0_v000_eye0.fv2</div>
+</div>
+<div id="menuItem">
+<div>15: hairDecoFova : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>16: faceFovaUnknown1 : 0-50</div>
+</div>
+<div id="menuItem">
+<div>17: faceFovaUnknown2 : 0-1</div>
+</div>
+<div id="menuItem">
+<div>18: faceFovaUnknown3 : 0-4</div>
+</div>
+<div id="menuItem">
+<div>19: faceFovaUnknown4 : 0-4</div>
+</div>
+<div id="menuItem">
+<div>20: faceFovaUnknown5 : 0-1</div>
+</div>
+<div id="menuItem">
+<div>21: faceFovaUnknown6 : 0-3</div>
+</div>
+<div id="menuItem">
+<div>22: faceFovaUnknown7 : 0-303</div>
+</div>
+<div id="menuItem">
+<div>23: faceFovaUnknown8 : 0-303</div>
+</div>
+<div id="menuItem">
+<div>24: faceFovaUnknown9 : 0-303</div>
+</div>
+<div id="menuItem">
+<div>25: faceFovaUnknown10 : 0-3</div>
+</div>
+<div id="menuItem">
+<div>26: <a href="#fovaModMenu">Form Variation menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
 </div>
 </div>
 <br/>

@@ -360,7 +360,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   for i,packPath in ipairs(this.packages[locationName]) do
     packPaths[#packPaths+1]=packPath
   end
@@ -478,8 +478,8 @@ function this.OnMissionCanStart(currentChecks)
   if isMb then
   --tex done in mtbs_cluster.SetUpLandingZone
   else
-    local locationName=InfMain.GetLocationName()
-    this.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
+    local locationName=InfUtil.GetLocationName()
+    this.enabledLzs=InfUtil.CopyList(this.heliRoutes[locationName])
   end
   --InfLog.PrintInspect(this.enabledLzs)--DEBUG
   --this.SetRoutes()
@@ -558,12 +558,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   local InfLZ=InfLZ
 
   local isMb=vars.missionCode==30050
-  local locationName=InfMain.locationNames[vars.locationCode]
+  local locationName=InfUtil.locationNames[vars.locationCode]
 
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   local isNight=WeatherManager.IsNight()
   local heliRouteIds=this.heliRouteIds
-  local locationName=InfMain.locationNames[vars.locationCode]
+  local locationName=InfUtil.locationNames[vars.locationCode]
   for n=1,#this.heliList do
     local heliName=this.heliList[n]
     local heliObjectId = GetGameObjectId(heliName)
@@ -683,11 +683,11 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
           --tex trying to overcome the heli will keep going if set to same route, which for free roam assault lzs means going off till disapearing,
           --setforcerouting to point 0 doesnt seem to do it, neither does setroute to "" then setting route again
           while heliRoute==nil or heliRoute==heliRouteIds[n] do
-            heliRoute=InfMain.GetRandomPool(this.enabledLzs)
+            heliRoute=InfUtil.GetRandomPool(this.enabledLzs)
             heliRoute=StrCode32(heliRoute)
 
             if #this.enabledLzs==0 then
-              this.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
+              this.enabledLzs=InfUtil.CopyList(this.heliRoutes[locationName])
             end
           end
           heliRouteIds[n]=heliRoute

@@ -819,6 +819,8 @@ function this.SetupStaffList()
     local minFemaleStaffOnCluster = 2--tex> game default=2
     if Ivars.mbPrioritizeFemale:Is"MAX" then
       minFemaleStaffOnCluster=MAX_STAFF_NUM_ON_CLUSTER
+    elseif Ivars.mbPrioritizeFemale:Is"HALF" then
+      minFemaleStaffOnCluster=math.ceil(MAX_STAFF_NUM_ON_CLUSTER/2)
     end--<
     mvars.f30050_staffIdList[clusterIndex+1] = {}
     --NMC: force select some females
@@ -1156,7 +1158,14 @@ this.RegisterFovaFpk = function( clusterId )
   f30050_demo.RegisterFovaPack( fovaPackList )
 end
 
-
+--tex>
+local gameOverKillTypes={
+  [TppGameObject.GAME_OBJECT_TYPE_SOLDIER2]=true,
+  [TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2]=true,
+  [TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE]=true,
+  [TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2]=true,
+}
+--<
 
 function this.Messages()
   return
@@ -1194,9 +1203,6 @@ function this.Messages()
             if not Tpp.IsPlayer(gameObjectId) then
               --tex> NDBD
               local typeIndex=GameObject.GetTypeIndex(gameObjectId)
-              local gameOverKillTypes={
-                [TppGameObject.GAME_OBJECT_TYPE_SOLDIER2]=true,
-              }
               if gameOverKillTypes[typeIndex]then
                 if Ivars.mbNonStaff:Is(0) then--tex added check --<
                   mvars.f30050_deadGameObjectId = gameObjectId
@@ -1212,9 +1218,6 @@ function this.Messages()
             if not Tpp.IsPlayer(gameObjectId) then
               --tex> NDBD
               local typeIndex=GameObject.GetTypeIndex(gameObjectId)
-              local gameOverKillTypes={
-                [TppGameObject.GAME_OBJECT_TYPE_SOLDIER2]=true,
-              }
               if gameOverKillTypes[typeIndex]then
                 if Ivars.mbNonStaff:Is(0) then--tex added check--<
                   mvars.f30050_deadGameObjectId = gameObjectId

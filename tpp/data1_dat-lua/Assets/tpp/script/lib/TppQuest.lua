@@ -18,6 +18,7 @@ local missionTypes=TppDefine.Enum{"MISSION","FREE","HELI"}
 local QUEST_STATUS_TYPES=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
 local afgAreaList={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
 local mafrAreaList={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
+local mtbsAreaList={"MtbsCommand","MtbsCombat","MtbsDevelop","MtbsMedical","MtbsSupport","MtbsSpy","MtbsBaseDev","MtbsPaz"}--tex
 local shootingPracticeMarkers={
   Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",
   Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
@@ -52,57 +53,58 @@ this.QUEST_CATEGORIES={
 this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)
 --NMC: see http://wiki.tesnexus.com/index.php/Mission_codes#Side_Op_mission_codes (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
 --actual GetQuestNameId. lang ids for quests are name_<questId>, info_<questId>
+--index preceding the info (ie --[[001]]) is the sideop number in idroid
 --tex added categories-v-
 local questInfoTable={
   --[[001]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
-  --[[XXX]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
-  --[[XXX]]{questName="outland_q19011",questId="outland_q19011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.113,20.445,-930.962),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
-  --[[XXX]]{questName="hill_q19012",questId="hill_q19012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1910.658,59.872,-231.274),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
-  --[[XXX]]{questName="ruins_q60115",questId="quest_q60115",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(501.702,321.852,1194.651),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
-  --[[XXX]]{questName="sovietBase_q60110",questId="quest_q60110",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-719.57,536.851,-1571.775),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
-  --[[XXX]]{questName="citadel_q60112",questId="quest_q60112",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(785.013,473.162,-916.954),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
-  --[[XXX]]{questName="outland_q60113",questId="quest_q60113",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-281.612,-8.36,751.687),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
-  --[[XXX]]{questName="pfCamp_q60114",questId="quest_q60114",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(712.931,-3.225,1221.926),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
+  --[[002]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
+  --[[003]]{questName="outland_q19011",questId="outland_q19011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.113,20.445,-930.962),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
+  --[[004]]{questName="hill_q19012",questId="hill_q19012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1910.658,59.872,-231.274),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
+  --[[005]]{questName="ruins_q60115",questId="quest_q60115",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(501.702,321.852,1194.651),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
+  --[[006]]{questName="sovietBase_q60110",questId="quest_q60110",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-719.57,536.851,-1571.775),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
+  --[[007]]{questName="citadel_q60112",questId="quest_q60112",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(785.013,473.162,-916.954),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
+  --[[008]]{questName="outland_q60113",questId="quest_q60113",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-281.612,-8.36,751.687),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
+  --[[009]]{questName="pfCamp_q60114",questId="quest_q60114",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(712.931,-3.225,1221.926),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
   --[[010]]{questName="sovietBase_q60111",questId="quest_q60111",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2330.799,438.515,-1568.261),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.BLUEPRINT},
-  --[[XXX]]{questName="tent_q10010",questId="tent_q10010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1426.164,319.449,1053.029),radius=5.5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="field_q10020",questId="field_q10020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(574.394,320.805,1091.39),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="fort_q10080",questId="fort_q10080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2144.585,459.984,-1764.566),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="cliffTown_q10050",questId="cliffTown_q10050",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(545.646,339.103,7.983),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="waterway_q10040",questId="waterway_q10040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1200,399,-660),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="commFacility_q10060",questId="commFacility_q10060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1580.025,346.609,47.889),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="pfCamp_q10200",questId="pfCamp_q10200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1830.153,-12.065,1217.415),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="outland_q10100",questId="outland_q10100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1117,-22,-250),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="savannah_q10300",questId="savannah_q10300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(352.291,-5.991,.927),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[011]]{questName="tent_q10010",questId="tent_q10010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1426.164,319.449,1053.029),radius=5.5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[012]]{questName="field_q10020",questId="field_q10020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(574.394,320.805,1091.39),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[013]]{questName="fort_q10080",questId="fort_q10080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2144.585,459.984,-1764.566),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[014]]{questName="cliffTown_q10050",questId="cliffTown_q10050",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(545.646,339.103,7.983),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[015]]{questName="waterway_q10040",questId="waterway_q10040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1200,399,-660),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[016]]{questName="commFacility_q10060",questId="commFacility_q10060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1580.025,346.609,47.889),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[017]]{questName="pfCamp_q10200",questId="pfCamp_q10200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1830.153,-12.065,1217.415),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[018]]{questName="outland_q10100",questId="outland_q10100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1117,-22,-250),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[019]]{questName="savannah_q10300",questId="savannah_q10300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(352.291,-5.991,.927),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
   --[[020]]{questName="banana_q10500",questId="banana_q10500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(846.97,36.452,-917.762),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="hill_q10400",questId="hill_q10400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2155.126,56.012,392.11),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="diamond_q10600",questId="diamond_q10600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1611.429,128.189,-848.904),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="ruins_q10030",questId="ruins_q10030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1301.97,331.741,1746.641),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="sovietBase_q10070",questId="sovietBase_q10070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2081.274,436.152,-1532.619),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="lab_q10700",questId="lab_q10700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2695.907,154.625,-2304.778),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="citadel_q10090",questId="citadel_q10090",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1258.72,598.68,-3055.925),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
-  --[[XXX]]{questName="quest_q20065",questId="quest_q20065",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1481.748,359.7492,467.3845),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20025",questId="quest_q20025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(419.7284,270.3819,2206.412),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20075",questId="quest_q20075",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2200.667,443.142,-1632.121),radius=5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[021]]{questName="hill_q10400",questId="hill_q10400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2155.126,56.012,392.11),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[022]]{questName="diamond_q10600",questId="diamond_q10600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1611.429,128.189,-848.904),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[023]]{questName="ruins_q10030",questId="ruins_q10030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1301.97,331.741,1746.641),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[024]]{questName="sovietBase_q10070",questId="sovietBase_q10070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2081.274,436.152,-1532.619),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[025]]{questName="lab_q10700",questId="lab_q10700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2695.907,154.625,-2304.778),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[026]]{questName="citadel_q10090",questId="citadel_q10090",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1258.72,598.68,-3055.925),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_HIGHLY_SKILLED},
+  --[[027]]{questName="quest_q20065",questId="quest_q20065",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1481.748,359.7492,467.3845),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[028]]{questName="quest_q20025",questId="quest_q20025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(419.7284,270.3819,2206.412),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[029]]{questName="quest_q20075",questId="quest_q20075",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2200.667,443.142,-1632.121),radius=5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
   --[[030]]{questName="quest_q20805",questId="quest_q20805",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1876.726,321.956,-426.263),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20905",questId="quest_q20905",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1807.693,468.119,-1232.137),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20305",questId="quest_q20305",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(303.023,-5.295,401.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20035",questId="quest_q20035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1444.029,332.4536,1493.478),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q23005",questId="quest_q23005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(269.693,43.457,-1208.378),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20045",questId="quest_q20045",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1721.014,349.7935,-300.9322),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q21005",questId="quest_q21005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-902.816,288.046,1905.899),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20105",questId="quest_q20105",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-318.246,-13.006,1078.101),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q24005",questId="quest_q24005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2527.301,71.168,-817.188),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20505",questId="quest_q20505",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(592.412,52.144,-955.067),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[031]]{questName="quest_q20905",questId="quest_q20905",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1807.693,468.119,-1232.137),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[032]]{questName="quest_q20305",questId="quest_q20305",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(303.023,-5.295,401.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[033]]{questName="quest_q20035",questId="quest_q20035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1444.029,332.4536,1493.478),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[034]]{questName="quest_q23005",questId="quest_q23005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(269.693,43.457,-1208.378),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[035]]{questName="quest_q20045",questId="quest_q20045",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1721.014,349.7935,-300.9322),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[036]]{questName="quest_q21005",questId="quest_q21005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-902.816,288.046,1905.899),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[037]]{questName="quest_q20105",questId="quest_q20105",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-318.246,-13.006,1078.101),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[038]]{questName="quest_q24005",questId="quest_q24005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2527.301,71.168,-817.188),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[039]]{questName="quest_q20505",questId="quest_q20505",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(592.412,52.144,-955.067),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
   --[[040]]{questName="quest_q20605",questId="quest_q20605",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1532.148,127.692,-1296.662),radius=5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q25005",questId="quest_q25005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(967.334,-11.938,1269.883),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q27005",questId="quest_q27005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2073.421,51.254,355.372),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q26005",questId="quest_q26005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1728.982,155.168,-1869.883),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20055",questId="quest_q20055",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(784.1397,474.0518,-1008.116),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q22005",questId="quest_q22005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1326.552,598.564,-3041.07),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="quest_q20405",questId="quest_q20405",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2172.657,56.106,377.634),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
-  --[[XXX]]{questName="field_q30010",questId="field_q30010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(516.088,321.572,1065.328),radius=5,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
-  --[[XXX]]{questName="waterway_q39010",questId="waterway_q39010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-473.987,417.258,-496.137),radius=7,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
-  --[[XXX]]{questName="lab_q39011",questId="lab_q39011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2656.23,144.117,-2173.246),radius=7,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
+  --[[041]]{questName="quest_q25005",questId="quest_q25005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(967.334,-11.938,1269.883),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[042]]{questName="quest_q27005",questId="quest_q27005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2073.421,51.254,355.372),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[043]]{questName="quest_q26005",questId="quest_q26005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1728.982,155.168,-1869.883),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[044]]{questName="quest_q20055",questId="quest_q20055",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(784.1397,474.0518,-1008.116),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[045]]{questName="quest_q22005",questId="quest_q22005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1326.552,598.564,-3041.07),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[046]]{questName="quest_q20405",questId="quest_q20405",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2172.657,56.106,377.634),radius=4,category=this.QUEST_CATEGORIES_ENUM.PRISONER},
+  --[[047]]{questName="field_q30010",questId="field_q30010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(516.088,321.572,1065.328),radius=5,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
+  --[[048]]{questName="waterway_q39010",questId="waterway_q39010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-473.987,417.258,-496.137),radius=7,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
+  --[[049]]{questName="lab_q39011",questId="lab_q39011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2656.23,144.117,-2173.246),radius=7,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
   --[[050]]{questName="pfCamp_q39012",questId="pfCamp_q39012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1367.551,-3.12,1892.457),radius=7,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},
   --[[XXX]]{questName="commFacility_q80060",questId="commFacility_q80060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1385.748,368,-23.469),radius=5,category=this.QUEST_CATEGORIES_ENUM.WANDERING_SOLDIER},
   --[[XXX]]{questName="field_q80020",questId="field_q80020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(482.031,286.844,2474.655),radius=5,category=this.QUEST_CATEGORIES_ENUM.WANDERING_SOLDIER},
@@ -164,15 +166,15 @@ local questInfoTable={
   --[[XXX]]{questName="sovietBase_q99070",questId="quest_q99070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2127.887,436.594,-1564.366),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_GUNSMITH},
   --[[XXX]]{questName="tent_q99072",questId="quest_q99072",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1761.536,310.333,806.76),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_GUNSMITH},
   --[[110]]{questName="outland_q40010",questId="outland_q40010",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.904,20.496,-932.784),radius=5,category=this.QUEST_CATEGORIES_ENUM.STORY,},--this.QUEST_CATEGORIES_ENUM.EXTRACT_CONTAINERS,
-  --[[XXX]]{questName="mtbs_q99011",questId="mtbs_q99011",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="cliffTown_q99080",questId="cliffTown_q99080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(530.911,335.119,29.67),radius=5,category=this.QUEST_CATEGORIES_ENUM.STORY},--this.QUEST_CATEGORIES_ENUM.INTEL_AGENT_EXTRACTION
-  --[[XXX]]{questName="mtbs_q99050",questId="mtbs_q99050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Common1,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},--this.QUEST_CATEGORIES_ENUM.EXTRACT_CONTAINERS,
-  --[[XXX]]{questName="quest_q52035",questId="quest_q52035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(730.943,320.818,88.148),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
-  --[[XXX]]{questName="quest_q52025",questId="quest_q52025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-608.622,278.374,1694.876),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
-  --[[XXX]]{questName="quest_q52015",questId="quest_q52015",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1836.664,358.543,-326.481),radius=6,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
-  --[[XXX]]{questName="quest_q52075",questId="quest_q52075",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1349.26,11.259,285.945),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
-  --[[XXX]]{questName="quest_q52065",questId="quest_q52065",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(811.036,-11.657,1193.033),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
-  --[[XXX]]{questName="quest_q52045",questId="quest_q52045",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1722.589,152.294,-2079.907),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
+  --[[111]]{questName="mtbs_q99011",questId="mtbs_q99011",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[112]]{questName="cliffTown_q99080",questId="cliffTown_q99080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(530.911,335.119,29.67),radius=5,category=this.QUEST_CATEGORIES_ENUM.STORY},--this.QUEST_CATEGORIES_ENUM.INTEL_AGENT_EXTRACTION
+  --[[113]]{questName="mtbs_q99050",questId="mtbs_q99050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Common1,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},--this.QUEST_CATEGORIES_ENUM.EXTRACT_CONTAINERS,
+  --[[114]]{questName="quest_q52035",questId="quest_q52035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(730.943,320.818,88.148),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
+  --[[115]]{questName="quest_q52025",questId="quest_q52025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-608.622,278.374,1694.876),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
+  --[[116]]{questName="quest_q52015",questId="quest_q52015",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1836.664,358.543,-326.481),radius=6,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
+  --[[117]]{questName="quest_q52075",questId="quest_q52075",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1349.26,11.259,285.945),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
+  --[[118]]{questName="quest_q52065",questId="quest_q52065",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(811.036,-11.657,1193.033),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
+  --[[119]]{questName="quest_q52045",questId="quest_q52045",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1722.589,152.294,-2079.907),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
   --[[120]]{questName="quest_q52055",questId="quest_q52055",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-350.247,-2.555,-190.417),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
   --[[XXX]]{questName="quest_q52095",questId="quest_q52095",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2429.92,61.019,189.081),radius=6,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
   --[[XXX]]{questName="quest_q52085",questId="quest_q52085",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1898.048,316.223,610.601),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_TANK_UNIT},
@@ -194,41 +196,50 @@ local questInfoTable={
   --[[XXX]]{questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
   --[[XXX]]{questName="cliffTown_q71060",questId="quest_q71060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(782.651,463.722,-1027.08),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
   --[[140]]{questName="diamond_q71500",questId="quest_q71500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1518,145,-2115),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
-  --[[XXX]]{questName="banana_q71400",questId="quest_q71400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(278.127,42.996,-1232.378),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
-  --[[XXX]]{questName="outland_q71200",questId="quest_q71200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-594.489,-17.482,1095.318),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
-  --[[XXX]]{questName="sovietBase_q99030",questId="sovietBase_q99030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2199.997,456.352,-1581.944),radius=6,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="tent_q99040",questId="tent_q99040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1762.503,310.288,802.482),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="outland_q20913",questId="quest_q20913",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-958.532,-14.1,-224.044),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="lab_q20914",questId="quest_q20914",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2747.504,200.042,-2401.418),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="sovietBase_q20912",questId="quest_q20912",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1573.917,369.848,-321.113),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="tent_q20910",questId="quest_q20910",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-865.471,300.445,1949.157),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="fort_q20911",questId="quest_q20911",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2181.73,470.912,-1815.881),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[141]]{questName="banana_q71400",questId="quest_q71400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(278.127,42.996,-1232.378),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
+  --[[142]]{questName="outland_q71200",questId="quest_q71200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-594.489,-17.482,1095.318),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
+  --[[143]]{questName="sovietBase_q99030",questId="sovietBase_q99030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2199.997,456.352,-1581.944),radius=6,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[144]]{questName="tent_q99040",questId="tent_q99040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1762.503,310.288,802.482),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[145]]{questName="outland_q20913",questId="quest_q20913",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-958.532,-14.1,-224.044),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[146]]{questName="lab_q20914",questId="quest_q20914",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2747.504,200.042,-2401.418),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[147]]{questName="sovietBase_q20912",questId="quest_q20912",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1573.917,369.848,-321.113),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[148]]{questName="tent_q20910",questId="quest_q20910",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-865.471,300.445,1949.157),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[149]]{questName="fort_q20911",questId="quest_q20911",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2181.73,470.912,-1815.881),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
   --[[150]]{questName="waterway_q99012",questId="waterway_q99012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1335.904,398.264,-739.165),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="mtbs_q42010",questId="mtbs_q42010",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Command,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-  --[[XXX]]{questName="mtbs_q42020",questId="mtbs_q42020",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-  --[[XXX]]{questName="mtbs_q42030",questId="mtbs_q42030",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Support,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-  --[[XXX]]{questName="mtbs_q42040",questId="mtbs_q42040",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.BaseDev,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-  --[[XXX]]{questName="mtbs_q42060",questId="mtbs_q42060",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Spy,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-  --[[XXX]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
+  --[[151]]{questName="mtbs_q42010",questId="mtbs_q42010",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Command,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
+  --[[152]]{questName="mtbs_q42020",questId="mtbs_q42020",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
+  --[[153]]{questName="mtbs_q42030",questId="mtbs_q42030",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Support,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
+  --[[154]]{questName="mtbs_q42040",questId="mtbs_q42040",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.BaseDev,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
+  --[[155]]{questName="mtbs_q42060",questId="mtbs_q42060",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Spy,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
+  --[[156]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
   --[[157]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
 }
 
 --TABLESETUP
---tex>
+--tex various lookup tables>
+this.NUM_VANILLA_UI_QUESTS=157--tex indexed/user facing quests only for unmodified questInfoTable -^-
+
 this.QUESTTABLE_INDEX={}
 for index,questInfo in ipairs(questInfoTable) do
   this.QUESTTABLE_INDEX[questInfo.questName]=index
-end--<
--->
---local questLocations={}--tex>
---for index,questInfo in ipairs(questTable) do
---  questLocations[questInfo.questName]=questInfo.locationId
---end--<
-this.questNameForUiIndex={}--tex>
+end
+--tex TppQuestList.questList is indexed in this order
+local areaLists={afgAreaList,mafrAreaList,mtbsAreaList}
+
+this.questAreaToQuestListIndex={}
+local index=0
+for i,areaList in ipairs(areaLists)do
+  for i,areaName in ipairs(areaList)do
+    index=index+1
+    this.questAreaToQuestListIndex[areaName]=index
+  end
+end
+
+this.questNameForUiIndex={}
 for index,questInfo in ipairs(questInfoTable) do
   this.questNameForUiIndex[index]=questInfo.questName
-end--<
---tex>
+end
+
 function this.GetQuestInfoTable()
   return questInfoTable
 end
@@ -1244,26 +1255,29 @@ end
 function this.RegisterCanActiveQuestListInMission(questName)
   mvars.qst_canActiveQuestList=questName
 end
-function this.RegisterQuestStepList(e)
-  if not IsTypeTable(e)then
+
+--NMC CALLER: quest script OnAllocate
+function this.RegisterQuestStepList(questStepNames)
+  if not IsTypeTable(questStepNames)then
     return
   end
-  local t=#e
-  if t==0 then
+  local numSteps=#questStepNames
+  if numSteps==0 then
     return
   end
-  if t>=maxSteps then
+  if numSteps>=maxSteps then
     return
   end
-  table.insert(e,questStepClear)
-  mvars.qst_questStepList=Tpp.Enum(e)
+  table.insert(questStepNames,questStepClear)
+  mvars.qst_questStepList=Tpp.Enum(questStepNames)
 end
-function this.RegisterQuestStepTable(e)
-  if not IsTypeTable(e)then
+--NMC CALLER: quest script OnAllocate, just after above.
+function this.RegisterQuestStepTable(questStepTable)
+  if not IsTypeTable(questStepTable)then
     return
   end
-  e[questStepClear]={}
-  mvars.qst_questStepTable=e
+  questStepTable[questStepClear]={}
+  mvars.qst_questStepTable=questStepTable
   if mtbs_enemy and vars.missionCode==30050 then
     mtbs_enemy.OnAllocateDemoBlock()
   end
@@ -1479,14 +1493,14 @@ function this.Save()
   TppSave.VarSaveQuest(vars.missionCode)
   TppSave.SaveGameData(vars.missionCode)
 end
-function this.SetClearFlag(e)
-  if e==nil then
+function this.SetClearFlag(questName)
+  if questName==nil then
     return
   end
   --RETAILBUG: WTF, but function not actually used it seems
-  local t=TppDefine.QUEST_INDEX[e]
-  if gvars.qst_questClearedFlag[e]then
-    gvars.qst_questClearedFlag[t]=true
+  local questIndex=TppDefine.QUEST_INDEX[questName]
+  if gvars.qst_questClearedFlag[questName]then
+    gvars.qst_questClearedFlag[questIndex]=true
   end
 end
 --should be
@@ -1533,8 +1547,8 @@ function this.Messages()
           TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED)
         end},
       {msg="QuestAreaAnnounceText",
-        func=function(t)
-          this.OnQuestAreaAnnounceText(t)
+        func=function(questIdNumber)
+          this.OnQuestAreaAnnounceText(questIdNumber)
         end}
     },
     Marker={
@@ -2137,9 +2151,9 @@ function this.GetCurrentAreaName()
     return nil
   end
 end
-function this.SetCurrentQuestName(e)
-  mvars.qst_currentQuestName=e
-  gvars.qst_currentQuestName=StrCode32(e)
+function this.SetCurrentQuestName(questName)
+  mvars.qst_currentQuestName=questName
+  gvars.qst_currentQuestName=StrCode32(questName)
 end
 function this.ClearCurrentQuestName()
   mvars.qst_currentQuestName=nil
@@ -2160,11 +2174,11 @@ function this.DeactivateCurrentQuestBlock()
   local blockId=ScriptBlock.GetScriptBlockId(mvars.qst_blockName)
   TppScriptBlock.DeactivateScriptBlockState(blockId)
 end
-function this.SearchQuestFromAllSpecifiedArea(areaName,blockIndexX,blockIndexY,clusterIndex)
+function this.SearchQuestFromAllSpecifiedArea(areaType,blockIndexX,blockIndexY,clusterIndex)
   local numAreas=#mvars.qst_questList
   for i=1,numAreas do
     local locationAreaQuestTable=mvars.qst_questList[i]--TppQuestList .questList
-    if this.IsInsideArea(areaName,locationAreaQuestTable,blockIndexX,blockIndexY,clusterIndex)then
+    if this.IsInsideArea(areaType,locationAreaQuestTable,blockIndexX,blockIndexY,clusterIndex)then
       --OFF ORPHAN local n={}
       for n,questInfo in ipairs(locationAreaQuestTable.infoList)do
         local questForArea=questInfo.name
@@ -2175,7 +2189,7 @@ function this.SearchQuestFromAllSpecifiedArea(areaName,blockIndexX,blockIndexY,c
     end
   end
 end
-function this.IsInsideArea(areaName,locationAreaQuestTable,blockIndexX,blockIndexY,clusterId)
+function this.IsInsideArea(areaType,locationAreaQuestTable,blockIndexX,blockIndexY,clusterId)
   do
     local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
     local locationId=TppDefine.LOCATION_ID[locationName]
@@ -2187,7 +2201,7 @@ function this.IsInsideArea(areaName,locationAreaQuestTable,blockIndexX,blockInde
     return TppDefine.CLUSTER_NAME[clusterId]==locationAreaQuestTable.clusterName
   else
     --OFF ORPHAN local t=e.areaName
-    local areaExtents=locationAreaQuestTable[areaName]
+    local areaExtents=locationAreaQuestTable[areaType]
     if areaExtents==nil then
       return
     end
@@ -2250,19 +2264,19 @@ function this.GetQuestNameId(questName)
   end
   return false
 end
-function this.GetQuestName(n)
+function this.GetQuestName(questIdNumber)
   for i,questInfo in ipairs(questInfoTable)do
-    local t=tonumber(string.sub(questInfo.questId,-5))
-    if n==t then
+    local currentIdNumber=tonumber(string.sub(questInfo.questId,-5))
+    if questIdNumber==currentIdNumber then
       return questInfo.questName
     end
   end
 end
-function this.ExecuteSystemCallback(e)
+function this.ExecuteSystemCallback(callbackName)
   if mvars.qst_systemCallbacks==nil then
     return
   end
-  local CallBackFunc=mvars.qst_systemCallbacks[e]
+  local CallBackFunc=mvars.qst_systemCallbacks[callbackName]
   if CallBackFunc then
     return CallBackFunc()
   end
@@ -2311,7 +2325,7 @@ function this.UpdateActiveQuest(updateFlags)
 
       --tex selectionmode overrides individual selection categories filter
       if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
-        enabled=false
+        enabled=true
       end
 
       enabledCategories[categoryEnum]=enabled
@@ -2945,8 +2959,8 @@ function this.IsRandomFaceQuestName(questName)
       return
     end
   end
-  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
-  if e then
+  local faceIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
+  if faceIndex then
     return true
   end
   return false
@@ -2963,33 +2977,33 @@ function this.GetRandomFaceId(questName)
     return gvars.qst_randomFaceId[faceIndex]
   end
 end
-function this.SetRandomFaceId(questName,faceId)
-  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
-  if e then
-    gvars.qst_randomFaceId[e]=faceId
+function this.SetRandomFaceId(questName,faceIds)
+  local faceIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
+  if faceIndex then
+    gvars.qst_randomFaceId[faceIndex]=faceIds
   end
 end
-function this.OnQuestAreaAnnounceText(t)
-  local n=this.GetQuestName(t)
-  local t
-  if n then
-    for a,e in pairs(questRadioList)do
-      if a==n then
-        if e.radioNameFirst then
-          if e.radioNameSecond then
-            if TppRadio.IsPlayed(e.radioNameFirst)then
-              t=e.radioNameSecond
+function this.OnQuestAreaAnnounceText(questIdNumber)
+  local questName=this.GetQuestName(questIdNumber)
+  local radioName
+  if questName then
+    for radioQuestName,radioInfo in pairs(questRadioList)do
+      if radioQuestName==questName then
+        if radioInfo.radioNameFirst then
+          if radioInfo.radioNameSecond then
+            if TppRadio.IsPlayed(radioInfo.radioNameFirst)then
+              radioName=radioInfo.radioNameSecond
             else
-              t=e.radioNameFirst
+              radioName=radioInfo.radioNameFirst
             end
           else
-            t=e.radioNameFirst
+            radioName=radioInfo.radioNameFirst
           end
         end
       end
     end
-    if t~=nil then
-      TppRadio.Play(t,{delayTime="mid"})
+    if radioName~=nil then
+      TppRadio.Play(radioName,{delayTime="mid"})
     end
     TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
   end
@@ -3013,8 +3027,8 @@ function this.DeactiveQuestAreaTrapMessages()
   else
     return
   end
-  for a,t in ipairs(arealList)do
-    local trapName=this.GetTrapName(t)
+  for i,areaName in ipairs(arealList)do
+    local trapName=this.GetTrapName(areaName)
     local message={msg="Exit",sender=trapName,
       func=function(e,e)
         TppEnemy.CheckDeactiveQuestAreaForceFulton()
@@ -3023,8 +3037,8 @@ function this.DeactiveQuestAreaTrapMessages()
   end
   return deactiveQuestAreaTrapMessages
 end
-function this.GetTrapName(e)
-  return"trap_preDeactiveQuestArea_"..e
+function this.GetTrapName(areaName)
+  return"trap_preDeactiveQuestArea_"..areaName
 end
 function this._ChangeToEnable(instanceName,makerType,gameObjectId,identificationCode)
   if identificationCode==StrCode32"Player"and this.IsInvoking()then
@@ -3118,13 +3132,13 @@ function this.CancelShootingPractice()
   this.OnQuestShootingTimerEnd()
   this.SetCancelShootingPracticeStartUi()
 end
-function this.StartSafeTimer(t,n)
-  this.StopTimer(t)
-  GkEventTimerManager.Start(t,n)
+function this.StartSafeTimer(timerName,time)
+  this.StopTimer(timerName)
+  GkEventTimerManager.Start(timerName,time)
 end
-function this.StopTimer(e)
-  if GkEventTimerManager.IsTimerActive(e)then
-    GkEventTimerManager.Stop(e)
+function this.StopTimer(timerName)
+  if GkEventTimerManager.IsTimerActive(timerName)then
+    GkEventTimerManager.Stop(timerName)
   end
 end
 function this.ShootingPracticeStopAllTimer()
@@ -3136,23 +3150,23 @@ function this.OnQuestShootingTimerEnd()
   TppUiStatusManager.UnsetStatus("DisplayTimer","STOP_VISIBLE")
   TppUiCommand.EraseDisplayTimer()
 end
-function this.ShowShootingPracticeStartUi(t,n)
-  this.ShowShootingPracticeGroundUi(t,n)
-  this.ShowShootingPracticeMarker(t)
+function this.ShowShootingPracticeStartUi(offsetType,startUiPosition)
+  this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
+  this.ShowShootingPracticeMarker(offsetType)
 end
-function this.ShowShootingPracticeGroundUi(e,t)
-  mvars.qst_shootingPracticeStartUiPos=t or mvars.qst_shootingPracticeStartUiPos
-  mvars.qst_shootingPracticeOffsetType=e or mvars.qst_shootingPracticeOffsetType
-  local e,t=mtbs_cluster.GetPosAndRotY(mvars.qst_shootingPracticeOffsetType,"plnt0",mvars.qst_shootingPracticeStartUiPos,0)
-  TppUiCommand.SetMbStageSpot("show",Vector3(e[1],e[2],e[3]))
+function this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
+  mvars.qst_shootingPracticeStartUiPos=startUiPosition or mvars.qst_shootingPracticeStartUiPos
+  mvars.qst_shootingPracticeOffsetType=offsetType or mvars.qst_shootingPracticeOffsetType
+  local pos,rotY=mtbs_cluster.GetPosAndRotY(mvars.qst_shootingPracticeOffsetType,"plnt0",mvars.qst_shootingPracticeStartUiPos,0)
+  TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
 end
-function this.ShowShootingPracticeMarker(t)
-  if t then
-    for n,e in pairs(shootingPracticeMarkers)do
-      if n~=t then
-        TppMarker.Disable(e)
+function this.ShowShootingPracticeMarker(offsetType)
+  if offsetType then
+    for clusterName,locatorName in pairs(shootingPracticeMarkers)do
+      if clusterName~=offsetType then
+        TppMarker.Disable(locatorName)
       else
-        mvars.qst_shootingPracticeMarkerName=e or mvars.qst_shootingPracticeMarkerName
+        mvars.qst_shootingPracticeMarkerName=locatorName or mvars.qst_shootingPracticeMarkerName
       end
     end
   end
@@ -3182,10 +3196,10 @@ function this.ClearShootingPracticeMvars()
   mvars.qst_isShootingPracticeStarted=false
 end
 function this.HideAllShootingPracticeForUi()
-  for t,e in pairs(shootingPracticeMarkers)do
-    local t=GameObject.GetGameObjectId(e)
-    if t~=GameObject.NULL_ID then
-      TppMarker.Disable(e)
+  for clusterName,locatorName in pairs(shootingPracticeMarkers)do
+    local gameId=GameObject.GetGameObjectId(locatorName)
+    if gameId~=GameObject.NULL_ID then
+      TppMarker.Disable(locatorName)
     end
   end
 end

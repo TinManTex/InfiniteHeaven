@@ -117,7 +117,7 @@ function this.DisableLzs()
   local missionCode=vars.missionCode
   if this.inf_enabledEvents.HUNTED then
     local startPos={gvars.ply_missionStartPos[0],gvars.ply_missionStartPos[1],gvars.ply_missionStartPos[2]}
-    local locationName=InfMain.GetLocationName()
+    local locationName=InfUtil.GetLocationName()
     InfLZ.DisableLzsWithinDist(TppLandingZone.assaultLzs[locationName],startPos,disableLzsFromStartDistance,missionCode)
     InfLZ.DisableLzsWithinDist(TppLandingZone.missionLzs[locationName],startPos,disableLzsFromStartDistance,missionCode)
   end

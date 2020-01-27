@@ -20,7 +20,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="4">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="3">
           <value key="BuddyPuppy">0x073C8660</value>
           <value key="BuddyPuppyLocator">0x073C8740</value>
           <value key="TexturePackLoadConditioner0000">0x073CEB00</value>

@@ -1,8 +1,6 @@
 -- DOBUILD: 1
 --InfEneFova.lua
 
---DEPENDANCY InfMain.ShuffleBag, todo thow in InfUtil and require
-
 local this={}
 local InfEneFova=this
 
@@ -580,7 +578,7 @@ this.faceIds={
       {
         602,--glasses,
         621,--Tan
-        622,--hideo, NOTE doesn't show if vars.playerFaceId
+        --622,--hideo, NOTE doesn't show if vars.playerFaceId or assigned to wildcard, not sure how it's loaded for mission then, maybe its in the mission fpks?
         627,--finger
         628,--eye
         646,--beardy mcbeard
@@ -627,7 +625,7 @@ function this.BuildFaceBags(faceIds)
   local faceBags={MALE={},FEMALE={}}
   for gender,categoryTables in pairs(faceIds) do
     for category,faceIdTables in pairs(categoryTables)do
-      local faceBag=InfMain.ShuffleBag:New()
+      local faceBag=InfUtil.ShuffleBag:New()
       faceBags[gender][category]=faceBag
       for i,faceIds in ipairs(faceIdTables) do
         if faceIds.min then
@@ -644,7 +642,7 @@ function this.BuildFaceBags(faceIds)
 end
 
 function this.GetCategoryBag(categoryChances,gender,categories)
-  local bag=InfMain.ShuffleBag:New()
+  local bag=InfUtil.ShuffleBag:New()
   for i,category in ipairs(categories) do
     local chance=categoryChances[gender][category]
     bag:Add(category,chance)
@@ -1577,7 +1575,7 @@ this.wildCardBodyTable={
 
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/Out bodies
-function this.WildCardFova(bodies)
+function this.WildCardFovaSetup()
   --InfLog.PCall(function(bodies)--DEBUG
   InfMain.RandomSetToLevelSeed()
   local faceBags=this.BuildFaceBags(this.faceIds)
@@ -1586,24 +1584,26 @@ function this.WildCardFova(bodies)
   this.inf_wildCardFemaleFaceList={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
-  for i=1,InfNPC.MAX_WILDCARD_FACES-InfNPC.numWildCardFemales do--SYNC numwildcards
+  for i=1,InfNPC.numWildCards.MALE do
     local faceId=this.RandomFaceId(faceBags,"MALE",categoryBag)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
   end
   local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
-  for i=1,InfNPC.numWildCardFemales+1 do
+  for i=1,InfNPC.numWildCards.FEMALE do
     local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
+  
   InfLog.Add"inf_wildCardFemaleFaceList"--DEBUG
   InfLog.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
   TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
 
-  this.wildCardFemaleSuitName=this.wildCardFemaleSuits[math.random(#this.wildCardFemaleSuits)]
+  local bodies={}
+  this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
   local bodyInfo=this.GetFemaleWildCardBodyInfo()
   if bodyInfo then
     if bodyInfo.bodyId then
@@ -1627,6 +1627,8 @@ function this.WildCardFova(bodies)
   if maleBodyTable then
     this.SetupBodies(maleBodyTable,bodies)
   end
+  TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}
+  
   InfMain.RandomResetToOsTime()
   --end,bodies)--DEBUG
 end
@@ -1787,8 +1789,10 @@ end
 --In: bodyIds
 --In/Out: bodies
 local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
-function this.SetupBodies(bodyIds,bodies)
+function this.SetupBodies(bodyIds,bodies,count)
   if bodyIds==nil then return end
+  
+  local count=count or MAX_REALIZED_COUNT
 
   if type(bodyIds)=="number"then
     local bodyEntry={bodyIds,MAX_REALIZED_COUNT}

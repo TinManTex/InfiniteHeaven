@@ -464,7 +464,7 @@ Puts a random piece of equipment on the back of patrol trucks.
 
 Side ops menu
 -------------
-1: Open specific sideop # : 0-0
+1: Open specific sideop # : 0-157
 2: Unlock Sideops mode : Off, Force Replayable, Force Open
 Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.
 3: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
@@ -495,12 +495,12 @@ Mother Base menu
 ----------------
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
-3: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
+3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
 4: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
 5: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 6: DD Head gear : Off, Current prep
-7: Female staff selection : Default, None, All available
-By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
+7: Female staff selection : Default, None, All available, Half
+By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
 8: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
 Spawns some npc helis that roam around mother base.
 9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
@@ -536,10 +536,11 @@ Enables Ocelot to roam the command platform.
 Note: The training side-op on the command platform will be disabled while this is active.
 3: Show Code Talker : Off, On
 4: Show Eli : Off, On
-5: Reset Paz state to beginning : (Command)
-6: Return Quiet after mission 45 : (Command)
+5: Enable Birds : Off, On
+6: Reset Paz state to beginning : (Command)
+7: Return Quiet after mission 45 : (Command)
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-7: showQuietReunionMissionCount : (Command)
+8: showQuietReunionMissionCount : (Command)
 
 Show assets menu
 ----------------
@@ -615,8 +616,7 @@ Disables Assault Landing Zones (those usually in the center of a base that the s
 
 Progression menu
 ----------------
-1: Resource amount scale : 100-1000%
-Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)
+1: Resource scale menu
 2: Repopulate music tape radios : Off, On
 3: Unlock playable avatar : (Command)
 Unlock avatar before mission 46
@@ -627,6 +627,16 @@ Unlock without having to complete legendary gunsmith missions
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
 7: showQuietReunionMissionCount : (Command)
 
+Resource scale menu
+-------------------
+1: Enable resource amount scales : Off, On
+Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)
+2: Material case scale : 100-1000%
+3: Plant scale : 100-1000%
+4: Poster scale : 100-1000%
+5: Diamond scale : 100-1000%
+6: Container scale : 100-1000%
+
 Debug menu
 ----------
 1: Debug IH mode : Off, On
@@ -635,6 +645,44 @@ Switches on logging messages to ih_log.txt (at the cost of longer load times) an
 Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
+4: debugOnUpdate : Off, On
+5: loadExternalModules : (Command)
+6: copyLogToPrev : (Command)
+7: printPressedButtons : Off, On
+8: Show position : (Command)
+9: Show missionCode : (Command)
+10: Show game language code : (Command)
+11: appearanceDebugMenu
+12: Disable mission intro credits : Off, On
+
+appearanceDebugMenu
+-------------------
+1: faceFovaDirect : 0-1000
+2: faceDecoFovaDirect : 0-1000
+3: hairFovaDirect : 0-1000
+4: hairDecoFovaDirect : 0-1000
+5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+6: playerPartsTypeDirect : 0-100
+7: playerCamoTypeDirect : 0-1000
+8: playerFaceIdDirect : 0-687
+9: playerFaceEquipIdDirect : 0-100
+10: Print face info : (Command)
+11: Print appearance info : (Command)
+12: faceFova : cm_m0_h0_v000_eye0.fv2
+13: faceDecoFova : cm_w000_m.fv2
+14: hairFova : cm_m0_h0_v000_eye0.fv2
+15: hairDecoFova : 0-1000
+16: faceFovaUnknown1 : 0-50
+17: faceFovaUnknown2 : 0-1
+18: faceFovaUnknown3 : 0-4
+19: faceFovaUnknown4 : 0-4
+20: faceFovaUnknown5 : 0-1
+21: faceFovaUnknown6 : 0-3
+22: faceFovaUnknown7 : 0-303
+23: faceFovaUnknown8 : 0-303
+24: faceFovaUnknown9 : 0-303
+25: faceFovaUnknown10 : 0-3
+26: Form Variation menu
 
 ===============
 
@@ -786,3 +834,47 @@ Switches on logging messages to ih_log.txt (at the cost of longer load times) an
 Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
+4: debugOnUpdate : Off, On
+5: loadExternalModules : (Command)
+6: copyLogToPrev : (Command)
+7: selectedCp : no cp for setting
+8: setSelectedCpToMarkerObjectCp : (Command)
+9: printPressedButtons : Off, On
+10: DEBUG_PrintCpPowerSettings : (Command)
+11: DEBUG_PrintPowersCount : (Command)
+12: DEBUG_PrintReinforceVars : (Command)
+13: DEBUG_PrintSoldierDefine : (Command)
+14: DEBUG_ShowRevengeConfig : (Command)
+15: appearanceDebugMenu
+16: printPressedButtons : Off, On
+17: printOnBlockChange : Off, On
+18: Show position : (Command)
+
+appearanceDebugMenu
+-------------------
+1: faceFovaDirect : 0-1000
+2: faceDecoFovaDirect : 0-1000
+3: hairFovaDirect : 0-1000
+4: hairDecoFovaDirect : 0-1000
+5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+6: playerPartsTypeDirect : 0-100
+7: playerCamoTypeDirect : 0-1000
+8: playerFaceIdDirect : 0-687
+9: playerFaceEquipIdDirect : 0-100
+10: Print face info : (Command)
+11: Print appearance info : (Command)
+12: faceFova : cm_m0_h0_v000_eye0.fv2
+13: faceDecoFova : cm_w000_m.fv2
+14: hairFova : cm_m0_h0_v000_eye0.fv2
+15: hairDecoFova : 0-1000
+16: faceFovaUnknown1 : 0-50
+17: faceFovaUnknown2 : 0-1
+18: faceFovaUnknown3 : 0-4
+19: faceFovaUnknown4 : 0-4
+20: faceFovaUnknown5 : 0-1
+21: faceFovaUnknown6 : 0-3
+22: faceFovaUnknown7 : 0-303
+23: faceFovaUnknown8 : 0-303
+24: faceFovaUnknown9 : 0-303
+25: faceFovaUnknown10 : 0-3
+26: Form Variation menu

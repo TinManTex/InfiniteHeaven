@@ -19,7 +19,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="50">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="13">
           <value key="pickable_ih_0000">0x10000000</value>
           <value key="pickable_ih_0001">0x10000010</value>
           <value key="pickable_ih_0002">0x10000020</value>

@@ -4,6 +4,7 @@
 local this={}
 this.moduleNames={
   "InfLookup",
+  --"InfStrCode",--DEBUGNOW
   "Ivars",
   "InfMenuCommands",
   "InfQuickMenuCommands",
@@ -19,7 +20,9 @@ this.moduleNames={
   "InfVehicle",
   "InfNPC",
   "InfNPCOcelot",
+  "InfHostage",
   "InfPuppy",
+  "InfAnimal",
   "InfNPCHeli",
   "InfWalkerGear",
   "InfMBVisit", 

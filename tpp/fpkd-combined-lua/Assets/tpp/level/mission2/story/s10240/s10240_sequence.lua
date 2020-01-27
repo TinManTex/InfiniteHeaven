@@ -1485,7 +1485,7 @@ this.RoutPointAction = function(objectId,routeId,routeNode,message)
 	Fox.Log("RoutePoint2 function" )
 	Fox.Log( objectId )
 	
-	if message == Fox.StrCode32(MESSAGE_ROUTE.EVENT1040) then
+	if message == StrCode32(MESSAGE_ROUTE.EVENT1040) then
 		Fox.Log("1F4 soldier arrived 2F1")
 		svars.isDoEvent00 = 3 
 		s10240_enemy02.IdleEvent2F1()
@@ -1589,7 +1589,7 @@ this.ChangeMotionForEvent = function( characterId, commandId )
 	
 	elseif characterId == GameObject.GetGameObjectId( ENEMY_2200 ) or
 	 characterId == GameObject.GetGameObjectId( ENEMY_2210 ) then
-	 	if commandId == Fox.StrCode32("2roukaFire") then
+	 	if commandId == StrCode32("2roukaFire") then
 			svars.isDoEvent2rouka = true
 			s10240_enemy02.ForObieEvent2rouka()
 		else
@@ -1618,7 +1618,7 @@ this.ChangeMotionForEvent = function( characterId, commandId )
 	elseif characterId == GameObject.GetGameObjectId( ENEMY_1200 ) then
 		
 		if svars.numDoEventLast < 2 then
-			if commandId == Fox.StrCode32("LastManWakeUp") then
+			if commandId == StrCode32("LastManWakeUp") then
 				s10240_enemy02.SetWakeMotionLastMan2()
 			else
 				s10240_enemy02.SetIdleMotionLastMan()
@@ -2271,7 +2271,7 @@ sequences.Seq_Game_MainGame = {
 							if attackId == TppDamage.ATK_10101 or
 							 attackId == TppDamage.ATK_10102 or
 							 attackId == TppDamage.ATK_10105 or
-							 attackId == TppDamage.ATK_10107 or
+							 attackId == TppDamage.ATKh_10107 or
 							 attackId == TppDamage.ATK_10117 or
 							 attackId == TppDamage.ATK_10214 or
 							 attackId == TppDamage.ATK_10216 or
@@ -2323,13 +2323,13 @@ sequences.Seq_Game_MainGame = {
 					func = function(characterId,actionId,commandId)
 						Fox.Log("SpecialActionEnd")
 
-						if commandId == Fox.StrCode32("ObieLoop") then
+						if commandId == StrCode32("ObieLoop") then
 							s10240_enemy02.SetObieLoopMotion(characterId)
 							
 						
-						elseif commandId == Fox.StrCode32("E2F_Turn_End") then
+						elseif commandId == StrCode32("E2F_Turn_End") then
 							s10240_enemy02.IdleEvent2F1B()	
-						elseif commandId == Fox.StrCode32("E2F_HandGun_End") then
+						elseif commandId == StrCode32("E2F_HandGun_End") then
 							s10240_enemy02.IdleEvent2F1HandGun()	
 
 						end			
@@ -3219,7 +3219,7 @@ sequences.Seq_Game_Slaughter = {
 							return
 						end
 						
-						if label == Fox.StrCode32("DD_660") then
+						if label == StrCode32("DD_660") then
 							
 							Fox.Log("talk: last man 01 end")
 							s10240_radio.LastMan01()
@@ -3292,7 +3292,7 @@ sequences.Seq_Game_Slaughter = {
 					msg = "SpecialActionEnd",
 					func = function(characterId,actionId,commandId)
 						Fox.Log("SpecialActionEnd")
-						if commandId == Fox.StrCode32("ObieLoop") then
+						if commandId == StrCode32("ObieLoop") then
 							s10240_enemy02.SetObieLoopMotion(characterId)
 						else
 							this.ChangeMotionForEvent(characterId,commandId)

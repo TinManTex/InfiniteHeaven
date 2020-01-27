@@ -1,8 +1,9 @@
 -- DOBUILD: 1
 --InfMain.lua
+InfLog.AddFlow"Load InfMain.lua"
 local this={}
 
-this.modVersion="194"
+this.modVersion="195"
 this.modName="Infinite Heaven"
 this.saveName="ih_save.lua"
 
@@ -35,6 +36,8 @@ this.emptyCpPool={}
 
 this.lrrpDefines={}--tex from AddLrrps
 
+this.reserveSoldierNames={}
+
 --TUNE
 this.smokedTimeOut=60--seconds
 
@@ -48,22 +51,14 @@ this.packages={
 }
 
 function this.OnLoadEvars()
-  if Ivars.debugMode:Is()>0 then
-    InfMenu.AddDevMenus()
-  end
+  local enable=Ivars.debugMode:Is(1)
+  this.DebugModeEnable(enable)
 end
 
 --CALLER: init_sequence
 function this.OnCreateOrLoadSaveData()
-  InfLog.AddFlow"OnCreateOrLoadSaveData"--tex can't figure out why this isn't working, InfLog is up (obviously, because InfMain is too), but nothing.
-  this.debugLog=Time.GetRawElapsedTimeSinceStartUp().."|OnCreateOrLoadSaveData"--DEBUG
-
-  IvarProc.OnCreateOrLoadSaveData()
-
-  --
-  if Ivars.debugMode:Is()>0 then
-    this.DebugModeEnable(true)
-  end
+  InfLog.AddFlow"InfMain.OnCreateOrLoadSaveData"
+  InfLog.gameSaveFirstLoad=true
 end
 
 --tex from InfHooks hook on TppSave.DoSave
@@ -82,6 +77,17 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnLoad) then
       InfLog.PCallDebug(module.OnLoad,nextMissionCode,currentMissionCode)
+    end
+  end
+end
+
+--CALLER: TppEneFova.PreMissionLoad
+function this.PreMissionLoad(missionId,currentMissionId)
+  InfLog.AddFlow"InfMain.PreMissionLoad"
+
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.PreMissionLoad) then
+      InfLog.PCallDebug(module.PreMissionLoad,missionId,currentMissionId)
     end
   end
 end
@@ -131,12 +137,12 @@ function this.OnInitializeTop(missionTable)
       if not this.IsContinue() then
         local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
         this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
-        this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
+        this.soldierPool=InfUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
         this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
 
         this.lrrpDefines={}
 
-        InfWalkerGear.walkerPool=InfMain.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
+        InfWalkerGear.walkerPool=InfUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
         InfWalkerGear.mvar_walkerInfo={}
       end
       InfLog.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
@@ -170,41 +176,49 @@ end
 
 --tex called about halfway through TppMain.OnInitialize (on all require libs)
 function this.Init(missionTable)
-  --InfLog.PCall(function(missionTable)--DEBUG
-  this.abortToAcc=false
+  InfLog.PCallDebug(function(missionTable)--DEBUG
+    this.abortToAcc=false
 
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return
-  end
-
-  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-
-  InfMain.ModifyMinesAndDecoys()
-
-  if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
-    mvars.trm_isAlwaysDirectAddStaff=false
-  end
-
-  --end,missionTable)--DEBUG
-
-  local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i,module in ipairs(InfModules)do
-    if module.Init then
-      InfLog.PCallDebug(module.Init,missionTable,currentChecks)
+    if TppMission.IsFOBMission(vars.missionCode) then
+      return
     end
-  end
 
-  --tex initializing TppDbgStr32s strcode32 to string tables (cribbed from TppDebug.DEBUG_OnReload)
-  if Ivars.debugMode:Is(1) then
-    local strCode32List={}
-    Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
-    for name,module in pairs(missionTable)do
-      if module.DEBUG_strCode32List then
-        Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
+    this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+    InfMain.ModifyMinesAndDecoys()
+
+    if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
+      mvars.trm_isAlwaysDirectAddStaff=false
+    end
+
+    --tex TODO: pull this out of surrounding PCall if it intereferes with module pcall info
+    local currentChecks=this.UpdateExecChecks(this.execChecks)
+    for i,module in ipairs(InfModules)do
+      if module.Init then
+        InfLog.PCallDebug(module.Init,missionTable,currentChecks)
       end
     end
-    TppDbgStr32.DEBUG_RegisterStrcode32invert(strCode32List)
-  end
+
+    --tex initializing TppDbgStr32s strcode32 to string tables (cribbed from TppDebug.DEBUG_OnReload)
+    --TODO: split out more static ones to DebugModeEnable (InfLookup,TppDbgStr32), would require DEBUG_RegisterStrcode32invert to append to strCode32ToString instead of overwrite
+    if Ivars.debugMode:Is(1) then
+      local strCode32List={}
+
+      --DEBUGNOW
+      --this.LoadExternalModule"InfStrCode"
+      if InfStrCode then
+        Tpp.ApendArray(strCode32List,InfStrCode.DEBUG_strCode32List)
+      end
+
+      Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
+      for name,module in pairs(missionTable)do
+        if module.DEBUG_strCode32List then
+          Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
+        end
+      end
+      TppDbgStr32.DEBUG_RegisterStrcode32invert(strCode32List)
+    end
+  end,missionTable)--
 end
 
 --tex just after mission script_enemy.SetUpEnemy
@@ -255,6 +269,8 @@ end
 
 --IN/OUT packPath
 function this.AddMissionPacks(missionCode,packPaths)
+
+
   InfLog.AddFlow("InfMain.AddMissionPacks "..missionCode)
   if TppMission.IsFOBMission(missionCode)then
     return
@@ -295,7 +311,7 @@ function this.OnMissionCanStartBottom()
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   if Ivars.disableLzs:Is"ASSAULT" then
     InfLZ.DisableLzs(TppLandingZone.assaultLzs[locationName])
   elseif Ivars.disableLzs:Is"REGULAR" then
@@ -818,7 +834,7 @@ function this.DoControlSet(currentChecks)
         InfButton.buttonStates[button].heldStart=0
       end
       InfLog.DebugPrint("LoadExternalModules")
-      this.LoadExternalModules()
+      this.LoadExternalModules(true)
       if not this.modulesOK then
         this.ModuleErrorMessage()
       end
@@ -845,14 +861,6 @@ this.speedModeButton=InfButton.ACTION
 
 this.nextEditCamButton=InfButton.RIGHT
 this.prevEditCamButton=InfButton.LEFT
-
-function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
-  local next=next
-  if next(checkTable)==nil then
-    return true
-  end
-  return false
-end
 
 function this.RegenSeed(currentMission,nextMission)
   --tex hard to find a line to draw in the sand between one mission and the next, so i'm just going for if you've gone to acc then that you're new levelseed set
@@ -981,7 +989,7 @@ function this.RandomizeCpSubTypeTable()
     return
   end
 
-  local locationName=this.locationNames[vars.locationCode]
+  local locationName=InfUtil.locationNames[vars.locationCode]
   local locationSubTypes=cpSubTypes[locationName]
   if locationSubTypes==nil then
     InfLog.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
@@ -1152,7 +1160,7 @@ function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   position=position or playerPos
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   if cpPositions==nil then
     InfLog.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
@@ -1193,7 +1201,7 @@ function this.GetClosestLz(position)
   local closestDist=9999999999999999
   local closestPosition=nil
 
-  local locationName=InfMain.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
 
   if not TppLandingZone.assaultLzs[locationName] then
     InfLog.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
@@ -1548,22 +1556,6 @@ this.baseNames={
   },--#34
 }
 
---ORPHAN
-this.mbVehicleNames={
-  "veh_cl01_cl00_0000",
-  "veh_cl02_cl00_0000",
-  "veh_cl03_cl00_0000",
-  "veh_cl04_cl00_0000",
-  "veh_cl05_cl00_0000",
-  "veh_cl06_cl00_0000",
-  "veh_cl00_cl04_0000",
-  "veh_cl00_cl02_0000",
-  "veh_cl00_cl03_0000",
-  "veh_cl00_cl01_0000",
-  "veh_cl00_cl05_0000",
-  "veh_cl00_cl06_0000",
-}
-
 --reserve soldierpool
 --tex number of soldier locators in fox2s
 this.reserveSoldierCounts={
@@ -1572,51 +1564,7 @@ this.reserveSoldierCounts={
   [30050]=140,
 }
 
-this.reserveSoldierNames={}
 
-function this.ResetObjectPool(objectType,objectNames)
-  local pool={}
-  for i=1,#objectNames do
-    local objectName=objectNames[i]
-    local gameId=GetGameObjectId(objectType,objectName)
-    if gameId==NULL_ID then
-      InfLog.Add("ResetObjectPool: "..objectName.."==NULL_ID")--DEBUG
-    else
-      pool[#pool+1]=objectName
-    end
-  end
-  return pool
-end
-
---tex removes fillCount number of items from sourceList and adds to fillList
-function this.FillList(fillCount,sourceList,fillList)
-  local addedSoldiers={}
-  while fillCount>0 and #sourceList>0 do
-    local soldierName=sourceList[#sourceList]
-    if soldierName then
-      sourceList[#sourceList]=nil--pop
-      fillList[#fillList+1]=soldierName
-      addedSoldiers[#addedSoldiers+1]=soldierName
-      fillCount=fillCount-1
-    end
-  end
-  return addedSoldiers
-end
-
-function this.ResetPool(objectNames)
-  local namePool={}
-  for i=1,#objectNames do
-    namePool[i]=objectNames[i]
-  end
-  return namePool
-end
-
-function this.GetRandomPool(pool)
-  local rndIndex=math.random(#pool)
-  local name=pool[rndIndex]
-  table.remove(pool,rndIndex)
-  return name
-end
 
 --tex in the mission soldierDefine tables there's a bunch of empty _lrrp cps that I'm repurposing
 local lrrpInd="_lrrp"
@@ -1771,7 +1719,7 @@ function this.ModifyMinesAndDecoys()
     return
   end
 
-  local mineTypeBag=InfMain.ShuffleBag:New(mineFieldMineTypes)
+  local mineTypeBag=InfUtil.ShuffleBag:New(mineFieldMineTypes)
   if mvars.rev_revengeMineList then
     InfMain.RandomSetToLevelSeed()
     for cpName,mineFields in pairs(mvars.rev_revengeMineList)do
@@ -1800,106 +1748,9 @@ function this.ReadSaveVar(name,category)
   return TppScriptVars.GetVarValueInSlot(globalSlotForSaving,"gvars",name,0)
 end
 
---UTIL TODO shift all util functions somewhere
-this.locationIdForName={
-  afgh=10,
-  mafr=20,
-  cypr=30,
-  mtbs=50,
-  mbqf=55,
-}
-
-this.locationNames={
-  [10]="afgh",
-  [20]="mafr",
-  [30]="cypr",
-  [50]="mtbs",
-  [55]="mbqf",
-}
-function this.GetLocationName()
-  return this.locationNames[vars.locationCode]
-end
-
 function this.IsContinue()
   return gvars.sav_varRestoreForContinue and not this.isContinueFromTitle
 end
-
---tex the default sort anyway
-local SortAscendFunc=function(a,b)
-  if a<b then
-    return true
-  end
-  return false
-end
-function this.SortAscend(sortTable)
-  table.sort(sortTable)
-end
-
-function this.ClearTable(_table)
-  for i=0, #_table do
-    _table[i]=nil
-  end
-end
-
-this.ShuffleBag={
-  currentItem=nil,
-  currentPosition=-1,
-  data={},
-  New=function(self,table)
-    local newBag={}
-    newBag.currentItem=nil
-    newBag.currentPosition=-1
-    newBag.data={}
-
-    setmetatable(newBag,self)
-    self.__index=self
-
-    if table then
-      newBag:Fill(table)
-    end
-
-    return newBag
-  end,
-  Fill=function(self,table,amount)
-    local tableTypeStr="table"
-    for i=1,#table do
-      local item=table[i]
-      if type(item)==tableTypeStr then
-        self:Add(item[1],item[2])
-      else
-        self:Add(item,amount)
-      end
-    end
-  end,
-  Add=function(self,item,amount)
-    local amount=amount or 1
-    for i=1,amount do
-      self.data[#self.data+1]=item
-
-      self.currentPosition=#self.data
-    end
-  end,
-  Next=function(self)
-    --run out, start again
-    if self.currentPosition<2 then
-      self.currentPosition=#self.data
-      self.currentItem=self.data[1]
-      return self.currentItem
-    end
-    --picks between start of array and currentposition, which decreases from end of array
-    local pos=math.random(self.currentPosition)
-
-    self.currentItem=self.data[pos]
-    self.data[pos]=self.data[self.currentPosition]
-    self.data[self.currentPosition]=self.currentItem
-    self.currentPosition=self.currentPosition-1
-
-    return self.currentItem
-  end,
-  Count=function(self)
-    return #self.data
-  end,
-}
 
 function this.IsMBDemoStage()
   if vars.missionCode~=30050 then
@@ -1964,8 +1815,6 @@ function this.WeaponVarsSanityCheck()
   end
 end
 
-
-
 function this.ValueOrIvarValue(value)
   local value=value or 0
   if IsTable(value) then
@@ -1996,19 +1845,81 @@ function this.DisplayFox32(foxString)
 end
 
 function this.DebugModeEnable(enable)
-  InfLog.debugMode=enable
+  local prevMode=InfLog.debugMode
+
   if enable then
-    InfLog.PCall(InfHooks.SetupDebugHooks,InfHooks.debugPCallHooks,true)
+    InfLog.PCall(InfHooks.SetupDebugHooks)
+
     --InfLog.Add"InfHooks:"--DEBUG
     --InfLog.PrintInspect(InfHooks)
+    InfMenu.AddDevMenus()
+  end
+  InfLog.debugMode=enable
+end
+
+--CALLER end of start2nd.lua
+function this.LoadLibraries()
+  InfLog.AddFlow"InfMain.LoadLibraries"
+  this.LoadModelInfoModules()
+  if InfQuest then
+    InfQuest.LoadQuestDefs()
+  end
+end
+
+function this.LoadModelInfoModules()
+
+  local plpartsPacks={--tex SYNC: InfFova
+    "plparts_avatar_man",
+    "plparts_battledress",
+    "plparts_ddf_battledress",
+    "plparts_ddf_parasite",
+    "plparts_ddf_venom",
+    "plparts_ddm_battledress",
+    "plparts_ddm_parasite",
+    "plparts_ddm_venom",
+    "plparts_dd_female",
+    "plparts_dd_male",
+    "plparts_gold",
+    "plparts_gz_suit",
+    "plparts_hospital",
+    "plparts_leather",
+    "plparts_mgs1",
+    "plparts_naked",
+    "plparts_ninja",
+    "plparts_normal",
+    "plparts_normal_scarf",
+    "plparts_parasite",
+    "plparts_raiden",
+    "plparts_silver",
+    "plparts_sneaking_suit",
+    "plparts_venom",
+    "plparts_ddm_swimwear",
+    "plparts_ddf_swimwear",
+  }
+
+  local path="/Assets/tpp/pack/player/parts/"
+  local suffix="_modelInfo"
+  local extension=".lua"
+  local sucess, err = pcall(function()
+    for n,packName in ipairs(plpartsPacks) do
+      Script.LoadLibrary(path..packName..suffix..extension)
+    end
+  end)
+end
+
+function this.PostAllModulesLoad()
+  if Ivars.debugMode:Is(1) then
+    InfMenu.AddDevMenus()
   end
 end
 
 --modules
-function this.LoadExternalModule(moduleName)
-  local module=_G[moduleName]
-  if module and module.PreModuleReload then
-    InfLog.PCallDebug(module.PreModuleReload)
+function this.LoadExternalModule(moduleName,isReload)
+  local prevModule=_G[moduleName]
+  if isReload then
+    if prevModule and prevModule.PreModuleReload then
+      InfLog.PCallDebug(prevModule.PreModuleReload)
+    end
   end
 
   --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
@@ -2024,18 +1935,21 @@ function this.LoadExternalModule(moduleName)
     _G[moduleName]=module
   end
 
-  if module and module.PostModuleReload then
-    InfLog.PCallDebug(module.PostModuleReload)
+  if isReload then
+    if module.PostModuleReload then
+      InfLog.PCallDebug(module.PostModuleReload,prevModule)
+    end
   end
 
   return module
 end
 
 --SIDE: modules,this.modulesOK
-function this.LoadExternalModules()
+--isReload = user initiated
+function this.LoadExternalModules(isReload)
   this.modulesOK=true
   for i,moduleName in ipairs(InfModules.moduleNames) do
-    this.LoadExternalModule(moduleName)
+    this.LoadExternalModule(moduleName,isReload)
     local module=_G[moduleName]
     if module then
       module.name=moduleName
@@ -2045,12 +1959,14 @@ function this.LoadExternalModules()
     end
   end
 
+  InfLog.PCallDebug(this.PostAllModulesLoad)
+
   --NOTE: On first load only InfMain has been loaded at this point, so can't reference other IH lib modules.
   for i,moduleName in ipairs(InfModules.moduleNames) do
     local module=_G[moduleName]
     if module then
-      if IsFunc(module.PostModulesReload) then
-        InfLog.PCallDebug(module.PostModulesReload)
+      if IsFunc(module.PostAllModulesLoad) then
+        InfLog.PCallDebug(module.PostAllModulesLoad)
       end
     end
   end
@@ -2078,8 +1994,11 @@ if Mock==nil then
     if not this.modulesOK then
       this.ModuleErrorMessage()
     end
+
     InfLog.doneStartup=true
   end
 end
+
+InfLog.AddFlow"InfMain.lua done"
 
 return this

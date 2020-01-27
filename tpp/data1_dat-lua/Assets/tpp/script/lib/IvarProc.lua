@@ -481,7 +481,7 @@ end
 
 this.UpdateSettingFromGvar=function(option)
   if option.save then
-    local gvar=IvarProc.GetSaved(option)
+    local gvar=this.GetSaved(option)
     if gvar~=nil then
       ivars[option.name]=gvar
     end
@@ -491,28 +491,6 @@ end
 --CALLER: TppSave.DoSave > InfMain.OnSave (via InfHooks)
 function this.OnSave()
   InfLog.PCallDebug(this.SaveEvars)
-end
-
---CALLER: init_sequence.CreateOrLoadSaveData > InfMain.OnCreateOrLoadSaveData
-function this.OnCreateOrLoadSaveData()
-  local saveName=InfMain.saveName
-  local filePath=InfLog.modPath..saveName
-  local ih_save,error=loadfile(filePath)
-  if ih_save==nil then
-    --tex create
-    InfLog.Add("No ih_save.lua found, creating new",false,true)
-    local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,false,true)
-    --InfLog.PrintInspect(evarsTextList)
-    this.WriteEvars(evarsTextList,saveName)
-  else
-    InfLog.PCallDebug(this.LoadEvars)
-  end
-
-  if evars.debugMode==nil or evars.debugMode==0 then
-    InfLog.Add("debugMode=0, logging is disabled",false,true)
-  end
-
-  InfLog.doneFirstLoad=true
 end
 
 --CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
@@ -871,21 +849,16 @@ local typeString="string"
 local typeNumber="number"
 local typeFunction="function"
 local typeTable="table"
-function this.ReadEvars(saveName)
-  local filePath=InfLog.modPath..saveName
-  local ih_save,error=loadfile(filePath)
+--tex validates loadfiled module and returns table of just evars 
+function this.ReadEvars(ih_save)
   if ih_save==nil then
-    local errorText="ReadEvars: loadfile error: "..tostring(error)
+    local errorText="ReadEvars Error: ih_save==nil"
     InfLog.Add(errorText,true,true)
     return
   end
 
-  local sandboxEnv={}
-  setfenv(ih_save,sandboxEnv)
-
-  ih_save=ih_save()
   if type(ih_save.evars)~=typeTable then
-    local errorText="ReadEvars: LoadEvars.evars~=typeTable"
+    local errorText="ReadEvars Error: ih_save.evars~=typeTable"
     InfLog.Add(errorText,true,true)
     return
   end
@@ -893,12 +866,12 @@ function this.ReadEvars(saveName)
   local loadedEvars={}
   for name,value in pairs(ih_save.evars) do
     if type(name)~=typeString then
-      InfLog.Add("ReadEvars: name~=string:"..tostring(name),true,true)
+      InfLog.Add("ih_save: name~=string:"..tostring(name),false,true)
     else
       if type(value)~=typeNumber then
-        InfLog.Add("ReadEvars: value~=string: "..name.."="..tostring(value),true,true)
+        InfLog.Add("ih_save: value~=string: "..name.."="..tostring(value),false,true)
       elseif ivars and ivars[name]==nil then
-        InfLog.Add("ReadEvars: ivars["..name.."]==nil",true,true)
+        InfLog.Add("ih_save: cannot find ivar for evar "..name,false,true)
       else
         loadedEvars[name]=value
       end
@@ -925,20 +898,39 @@ function this.SaveEvars()
 end
 
 function this.LoadEvars()
-  InfLog.AddFlow"LoadEvars"
+  InfLog.AddFlow"IvarProc.LoadEvars"
   local saveName=InfMain.saveName
-
-  local evars=evars
-
-  local loadedEvars=this.ReadEvars(saveName)
-  if loadedEvars then
-    for name,value in pairs(loadedEvars) do
-      evars[name]=value
+  local filePath=InfLog.modPath..saveName
+  local ih_save_chunk,error=loadfile(filePath)
+  if ih_save_chunk==nil then
+    --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
+    --TODO back up exising save in this case
+    if not InfLog.ihSaveFirstLoad then
+      --tex create
+      InfLog.Add("No ih_save.lua found or error, creating new",false,true)
+      local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,false,true)
+      --InfLog.PrintInspect(evarsTextList)
+      this.WriteEvars(evarsTextList,saveName)
+    else
+      local errorText="LoadEvars: loadfile error: "..tostring(error)
+      InfLog.Add(errorText,true,true)
+      return
     end
-  end
+  else
+    local sandboxEnv={}
+    setfenv(ih_save_chunk,sandboxEnv)
+    local ih_save=ih_save_chunk()
 
-  InfLog.OnLoadEvars()
-  InfMain.OnLoadEvars()
+    local loadedEvars=this.ReadEvars(ih_save)
+    if loadedEvars then
+      for name,value in pairs(loadedEvars) do
+        evars[name]=value
+      end
+    end
+
+    InfLog.OnLoadEvars()
+    InfMain.OnLoadEvars()
+  end
 end
 
 return this

@@ -1332,16 +1332,16 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
 
 
 
---tex DEBUG> CULL  
---this.totalSoldiers=this.totalSoldiers+1
---  this.armorLimit=Ivars.debugValue:Get()
---  powerLoadout.SOFT_ARMOR=false
---  powerLoadout.ARMOR=true
---  if #this.armorSoldiers >= this.armorLimit then
---    powerLoadout.ARMOR=false
---    powerLoadout.SOFT_ARMOR=true
---  end
---<
+  --tex DEBUG> CULL
+  --this.totalSoldiers=this.totalSoldiers+1
+  --  this.armorLimit=Ivars.debugValue:Get()
+  --  powerLoadout.SOFT_ARMOR=false
+  --  powerLoadout.ARMOR=true
+  --  if #this.armorSoldiers >= this.armorLimit then
+  --    powerLoadout.ARMOR=false
+  --    powerLoadout.SOFT_ARMOR=true
+  --  end
+  --<
   if powerLoadout.ARMOR then
     --table.insert(this.armorSoldiers,soldierId)--tex DEBUG CULL
     powerLoadout.SNIPER=nil
@@ -1875,8 +1875,8 @@ function this.AssignUniqueStaffType(info)
     if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=uniqueStaffTypeId}then
       if alreadyExistParam then
         local staffInfo={gameObjectId=gameId}
-        for n,t in pairs(alreadyExistParam)do
-          staffInfo[n]=t
+        for k,v in pairs(alreadyExistParam)do
+          staffInfo[k]=v
         end
         TppMotherBaseManagement.RegenerateGameObjectStaffParameter(staffInfo)
         return
@@ -1992,8 +1992,8 @@ end
 function this.SetVipHostage(names)--NMC: ORPHAN aparently
   this.SetRescueTargets(names)
 end
-function this.SetExcludeHostage(e)
-  mvars.ene_excludeHostageGameObjectId=GetGameObjectId(e)
+function this.SetExcludeHostage(hostagName)
+  mvars.ene_excludeHostageGameObjectId=GetGameObjectId(hostagName)
 end
 function this.GetAllHostages()
   local hostageObjectTypes={"TppHostage2","TppHostageUnique","TppHostageUnique2"}
@@ -4511,7 +4511,10 @@ function this.SetupQuestEnemy()
   end
   TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=questCp,locatorSetName=questLocatorSetName}
 end
-function this.OnAllocateQuest(body,face,a)
+
+--CALLER: mtbs_enemy.OnAllocateDemoBlock
+function this.OnAllocateQuest(body,face,setHostage)
+
   local function SetAndConvertExtendFova(body,face)
     local fovaSetType="SetNone"
     if IsTypeTable(face)and IsTypeTable(body)then
@@ -4526,11 +4529,13 @@ function this.OnAllocateQuest(body,face,a)
     end
     return fovaSetType
   end
+
   if face==nil and body==nil then
     return
   end
-  a=a or false
-  if a==false then
+  --NMC never called with true as far as i can tell
+  setHostage=setHostage or false
+  if setHostage==false then
     local command
     local fovaSetType=SetAndConvertExtendFova(body,face)
     if fovaSetType=="SetFaceAndBody"then
@@ -4545,10 +4550,10 @@ function this.OnAllocateQuest(body,face,a)
   else
     if body then
       local hostageBodyTable={}
-      for t,e in ipairs(body)do
-        local t=e[1]
-        if IsTypeNumber(t)then
-          table.insert(hostageBodyTable,e[1])
+      for index,bodyDef in ipairs(body)do
+        local bodyId=bodyDef[1]
+        if IsTypeNumber(bodyId)then
+          table.insert(hostageBodyTable,bodyDef[1])
         end
       end
       TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended, this is only called from mtbs_enemy, and with an empty table so as far as i can see it's not used (faces are though), however it does in OnAllocateQuestFova
@@ -4573,6 +4578,7 @@ function this.OnAllocateQuest(body,face,a)
     end
   end
 end
+--CALLER: quest script OnAllocate
 function this.OnAllocateQuestFova(questTable)
   local faces={}
   local bodies={}
@@ -4619,11 +4625,11 @@ function this.OnAllocateQuestFova(questTable)
     end
   end
   if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
-    for n,enemyDef in pairs(questTable.enemyList)do
+    for index,enemyDef in pairs(questTable.enemyList)do
       if enemyDef.enemyName then
         if enemyDef.bodyId then
           local n=1
-          local  body={enemyDef.bodyId,n,0}
+          local body={enemyDef.bodyId,n,0}
           table.insert(bodies,body)
           setBody=true
         end
@@ -4637,7 +4643,7 @@ function this.OnAllocateQuestFova(questTable)
     end
   end
   if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
-    for n,hostageDef in pairs(questTable.hostageList)do
+    for index,hostageDef in pairs(questTable.hostageList)do
       if hostageDef.hostageName then
         if hostageDef.bodyId then
           local n=1
@@ -4666,11 +4672,11 @@ function this.OnAllocateQuestFova(questTable)
   if setHostageBody==true then
     local hostageBodyTable={}
     local setBodyTable=false
-    for a,n in ipairs(bodies)do
-      if n[3]>=1 then
-        local n=n[1]
-        if IsTypeNumber(n)then
-          table.insert(hostageBodyTable,n)
+    for i,bodyDef in ipairs(bodies)do
+      if bodyDef[3]>=1 then
+        local bodyId=bodyDef[1]
+        if IsTypeNumber(bodyId)then
+          table.insert(hostageBodyTable,bodyId)
           setBodyTable=true
         end
       end
@@ -4764,7 +4770,8 @@ function this.OnActivateQuest(questTable)
     mvars.ene_isQuestSetup=true
   end
 end
-function this.SetupActivateQuestTarget(targetList)--quest lua quest table .targetList
+--targetList = quest lua quest table .targetList
+function this.SetupActivateQuestTarget(targetList)
   if mvars.ene_isQuestSetup==false then
     for n,targetName in pairs(targetList)do
       local targetId=targetName
@@ -4777,7 +4784,7 @@ function this.SetupActivateQuestTarget(targetList)--quest lua quest table .targe
         TppMarker.SetQuestMarker(targetName)
       end
     end
-end
+  end
 end
 function this.SetupActivateQuestVehicle(vehicleList,targetList)
   if mvars.ene_isQuestSetup==false then
@@ -4823,7 +4830,8 @@ function this.SetupActivateQuestHeli(heliList)
     end
   end
 end
-function this.SetupActivateQuestCp(cpList)--quest lua QUEST_TABLE .cpList
+--cpList = quest lua QUEST_TABLE .cpList
+function this.SetupActivateQuestCp(cpList)
   if mvars.ene_isQuestSetup==false then
     for name,listItem in pairs(cpList)do
       if not listItem.cpName then
@@ -4859,148 +4867,152 @@ function this.SetupActivateQuestCp(cpList)--quest lua QUEST_TABLE .cpList
         end
       end
     end
+  end
 end
-end
-function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_TABLE.enemyList
-  local i=1
-  local function SetupEnemy(enemyDef,disable)
-    local soldierId=enemyDef.enemyName
-    if IsTypeString(soldierId)then
-      soldierId=GameObject.GetGameObjectId(soldierId)
-    end
-    if soldierId==NULL_ID then
-    else
-      if disable==false then
-        if mvars.ene_isQuestSetup==false then
-          if enemyDef.soldierType then
-            this.SetSoldierType(soldierId,enemyDef.soldierType)
-          end
-          if enemyDef.soldierSubType then
-            this.SetSoldierSubType(soldierId,enemyDef.soldierSubType)
-          else
-            if TppLocation.IsMiddleAfrica()then
-            end
-          end
-          local applyPowerSetting=true
-          if enemyDef.powerSetting then
-            for n,powerType in ipairs(enemyDef.powerSetting)do
-              if powerType=="QUEST_ARMOR"then
-                if mvars.ene_questArmorId==0 then
-                  applyPowerSetting=false
-                end
-              end
-            end
-          end
-          if applyPowerSetting==true then
-            local powerSetting=enemyDef.powerSetting or{nil}
-            this.ApplyPowerSetting(soldierId,powerSetting)
-          else
-            this.ApplyPowerSetting(soldierId,{nil})
-          end
-          if enemyDef.cpName then
-            GameObject.SendCommand(soldierId,{id="SetCommandPost",cp=enemyDef.cpName})
-          end
-          if(enemyDef.staffTypeId or enemyDef.skill)or enemyDef.uniqueTypeId then
-            local staffTypeId=enemyDef.staffTypeId or TppDefine.STAFF_TYPE_ID.NORMAL
-            local skill=enemyDef.skill or false
-            local uniqueTypeId=enemyDef.uniqueTypeId or false
-            if skill==false and uniqueTypeId==false then
-              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=soldierId,staffTypeId=staffTypeId}
-            elseif skill~=false and IsTypeString(skill)then
-              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=soldierId,staffTypeId=staffTypeId,skill=skill}
-            elseif uniqueTypeId~=false then
-              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=soldierId,staffType="Unique",uniqueTypeId=uniqueTypeId}
-            end
-          else
-            if mvars.ene_questTargetList[soldierId]then
-              TppMotherBaseManagement.RegenerateGameObjectQuestStaffParameter{gameObjectId=soldierId}
-            end
-          end
-          if enemyDef.voiceType then
-            if((enemyDef.voiceType=="ene_a"or enemyDef.voiceType=="ene_b")or enemyDef.voiceType=="ene_c")or enemyDef.voiceType=="ene_d"then
-              GameObject.SendCommand(soldierId,{id="SetVoiceType",voiceType=enemyDef.voiceType})
-            end
-          else
-            local voiceTypes={"ene_a","ene_b","ene_c","ene_d"}
-            local rnd=math.random(4)
-            local randomVoiceType=voiceTypes[rnd]
-            GameObject.SendCommand(soldierId,{id="SetVoiceType",voiceType=randomVoiceType})
+
+--tex broken out from SetupActivateQuestEnemy
+local function SetupEnemyDef(enemyDef,disable)
+  local soldierId=enemyDef.enemyName
+  if IsTypeString(soldierId)then
+    soldierId=GameObject.GetGameObjectId(soldierId)
+  end
+  if soldierId==NULL_ID then
+  else
+    if disable==false then
+      if mvars.ene_isQuestSetup==false then
+        if enemyDef.soldierType then
+          this.SetSoldierType(soldierId,enemyDef.soldierType)
+        end
+        if enemyDef.soldierSubType then
+          this.SetSoldierSubType(soldierId,enemyDef.soldierSubType)
+        else
+          if TppLocation.IsMiddleAfrica()then
           end
         end
-        if enemyDef.bodyId or enemyDef.faceId then
-          local faceId=enemyDef.faceId or false
-          local bodyId=enemyDef.bodyId or false
-          if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
-            GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId})
-          elseif IsTypeNumber(faceId)then
-            GameObject.SendCommand(soldierId,{id="ChangeFova",faceId=faceId})
-          elseif IsTypeNumber(bodyId)then
-            GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId})
-          end
-        end
-        if enemyDef.isBalaclava==true then
-          if mvars.ene_questGetLoadedFaceTable~=nil then
-            local loadedFaceTable=mvars.ene_questGetLoadedFaceTable
-            local numLoadedFaces=#mvars.ene_questGetLoadedFaceTable
-            if numLoadedFaces>0 and mvars.ene_questBalaclavaId~=0 then
-              local faceId=mvars.ene_questGetLoadedFaceTable[i]
-              if mvars.ene_questGetLoadedFaceTable[i+1]then
-                i=i+1
-              else
-                i=1
-              end
-              if enemyDef.soldierSubType=="PF_A"or enemyDef.soldierSubType=="PF_C"then
-                GameObject.SendCommand(soldierId,{id="ChangeFova",isScarf=true})
-              else
-                GameObject.SendCommand(soldierId,{id="ChangeFova",balaclavaFaceId=mvars.ene_questBalaclavaId,faceId=faceId})
+        local applyPowerSetting=true
+        if enemyDef.powerSetting then
+          for n,powerType in ipairs(enemyDef.powerSetting)do
+            if powerType=="QUEST_ARMOR"then
+              if mvars.ene_questArmorId==0 then
+                applyPowerSetting=false
               end
             end
           end
         end
-        if mvars.ene_isQuestSetup==false then
-          if enemyDef.route_d then
-            this.SetSneakRoute(soldierId,enemyDef.route_d)
-          end
-          if enemyDef.route_c then
-            this.SetCautionRoute(soldierId,enemyDef.route_c)
-          end
-          if enemyDef.route_a then
-            this.SetAlertRoute(soldierId,enemyDef.route_a)
-          end
-          if enemyDef.rideFromVehicleId then
-            local vehicleId=enemyDef.rideFromVehicleId
-            if IsTypeString(vehicleId)then
-              vehicleId=GameObject.GetGameObjectId(vehicleId)
-            end
-            GameObject.SendCommand(soldierId,{id="SetRelativeVehicle",targetId=vehicleId,rideFromBeginning=true})
-          end
-          if enemyDef.isZombie then
-            GameObject.SendCommand(soldierId,{id="SetZombie",enabled=true,isMsf=false,isZombieSkin=true,isHagure=true})
-          end
-          if enemyDef.isMsf then
-            GameObject.SendCommand(soldierId,{id="SetZombie",enabled=true,isMsf=true})
-          end
-          if enemyDef.isZombieUseRoute then
-            GameObject.SendCommand(soldierId,{id="SetZombieUseRoute",enabled=true})
-          end
-          if enemyDef.isBalaclava==true then
-            GameObject.SendCommand(soldierId,{id="SetSoldier2Flag",flag="highRank",on=true})
-          end
-          GameObject.SendCommand(soldierId,{id="SetEnabled",enabled=true})
-          this.SetQuestEnemy(soldierId,false)
+        if applyPowerSetting==true then
+          local powerSetting=enemyDef.powerSetting or{nil}
+          this.ApplyPowerSetting(soldierId,powerSetting)
+        else
+          this.ApplyPowerSetting(soldierId,{nil})
         end
-      else
-        local isDisable=enemyDef.isDisable or false
-        if isDisable==true then
-          GameObject.SendCommand(soldierId,{id="SetEnabled",enabled=false})
+        if enemyDef.cpName then
+          GameObject.SendCommand(soldierId,{id="SetCommandPost",cp=enemyDef.cpName})
+        end
+        if(enemyDef.staffTypeId or enemyDef.skill)or enemyDef.uniqueTypeId then
+          local staffTypeId=enemyDef.staffTypeId or TppDefine.STAFF_TYPE_ID.NORMAL
+          local skill=enemyDef.skill or false
+          local uniqueTypeId=enemyDef.uniqueTypeId or false
+          if skill==false and uniqueTypeId==false then
+            TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=soldierId,staffTypeId=staffTypeId}
+          elseif skill~=false and IsTypeString(skill)then
+            TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=soldierId,staffTypeId=staffTypeId,skill=skill}
+          elseif uniqueTypeId~=false then
+            TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=soldierId,staffType="Unique",uniqueTypeId=uniqueTypeId}
+          end
+        else
+          if mvars.ene_questTargetList[soldierId]then
+            TppMotherBaseManagement.RegenerateGameObjectQuestStaffParameter{gameObjectId=soldierId}
+          end
+        end
+        if enemyDef.voiceType then
+          if((enemyDef.voiceType=="ene_a"or enemyDef.voiceType=="ene_b")or enemyDef.voiceType=="ene_c")or enemyDef.voiceType=="ene_d"then
+            GameObject.SendCommand(soldierId,{id="SetVoiceType",voiceType=enemyDef.voiceType})
+          end
+        else
+          local voiceTypes={"ene_a","ene_b","ene_c","ene_d"}
+          local rnd=math.random(4)
+          local randomVoiceType=voiceTypes[rnd]
+          GameObject.SendCommand(soldierId,{id="SetVoiceType",voiceType=randomVoiceType})
         end
       end
+      if enemyDef.bodyId or enemyDef.faceId then
+        local faceId=enemyDef.faceId or false
+        local bodyId=enemyDef.bodyId or false
+        if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
+          GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId})
+        elseif IsTypeNumber(faceId)then
+          GameObject.SendCommand(soldierId,{id="ChangeFova",faceId=faceId})
+        elseif IsTypeNumber(bodyId)then
+          GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId})
+        end
+      end
+      if enemyDef.isBalaclava==true then
+        if mvars.ene_questGetLoadedFaceTable~=nil then
+          local loadedFaceTable=mvars.ene_questGetLoadedFaceTable
+          local numLoadedFaces=#mvars.ene_questGetLoadedFaceTable
+          if numLoadedFaces>0 and mvars.ene_questBalaclavaId~=0 then
+            local faceId=mvars.ene_questGetLoadedFaceTable[i]
+            if mvars.ene_questGetLoadedFaceTable[i+1]then
+              i=i+1
+            else
+              i=1
+            end
+            if enemyDef.soldierSubType=="PF_A"or enemyDef.soldierSubType=="PF_C"then
+              GameObject.SendCommand(soldierId,{id="ChangeFova",isScarf=true})
+            else
+              GameObject.SendCommand(soldierId,{id="ChangeFova",balaclavaFaceId=mvars.ene_questBalaclavaId,faceId=faceId})
+            end
+          end
+        end
+      end
+      if mvars.ene_isQuestSetup==false then
+        if enemyDef.route_d then
+          this.SetSneakRoute(soldierId,enemyDef.route_d)
+        end
+        if enemyDef.route_c then
+          this.SetCautionRoute(soldierId,enemyDef.route_c)
+        end
+        if enemyDef.route_a then
+          this.SetAlertRoute(soldierId,enemyDef.route_a)
+        end
+        if enemyDef.rideFromVehicleId then
+          local vehicleId=enemyDef.rideFromVehicleId
+          if IsTypeString(vehicleId)then
+            vehicleId=GameObject.GetGameObjectId(vehicleId)
+          end
+          GameObject.SendCommand(soldierId,{id="SetRelativeVehicle",targetId=vehicleId,rideFromBeginning=true})
+        end
+        if enemyDef.isZombie then
+          GameObject.SendCommand(soldierId,{id="SetZombie",enabled=true,isMsf=false,isZombieSkin=true,isHagure=true})
+        end
+        if enemyDef.isMsf then
+          GameObject.SendCommand(soldierId,{id="SetZombie",enabled=true,isMsf=true})
+        end
+        if enemyDef.isZombieUseRoute then
+          GameObject.SendCommand(soldierId,{id="SetZombieUseRoute",enabled=true})
+        end
+        if enemyDef.isBalaclava==true then
+          GameObject.SendCommand(soldierId,{id="SetSoldier2Flag",flag="highRank",on=true})
+        end
+        GameObject.SendCommand(soldierId,{id="SetEnabled",enabled=true})
+        this.SetQuestEnemy(soldierId,false)
+      end
+    else
+      local isDisable=enemyDef.isDisable or false
+      if isDisable==true then
+        GameObject.SendCommand(soldierId,{id="SetEnabled",enabled=false})
+      end
     end
-  end--Setup func
+  end
+end
+
+--enemyList= from <quest>.lua .QUEST_TABLE.enemyList
+function this.SetupActivateQuestEnemy(enemyList)
+  local i=1
 
   for n,enemyDef in pairs(enemyList)do
     if enemyDef.enemyName then
-      SetupEnemy(enemyDef,false)
+      SetupEnemyDef(enemyDef,false)
     elseif enemyDef.setCp then
       local cpId=GetGameObjectId(enemyDef.setCp)
       if cpId==NULL_ID then
@@ -5014,13 +5026,14 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
         if cpId then
           for soldierId,soldierName in pairs(mvars.ene_soldierIDList[cpId])do
             local enemyDef={enemyName=soldierId,isDisable=enemyDef.isDisable}
-            SetupEnemy(enemyDef,true)
+            SetupEnemyDef(enemyDef,true)
           end
         end
       end
     end
   end
 end
+
 function this.SetupActivateQuestHostage(hostageList)
   local isAfghan=TppLocation.IsAfghan()
   local isMiddleAfrica=TppLocation.IsMiddleAfrica()
@@ -5117,8 +5130,8 @@ function this.OnDeactivateQuest(questTable)
       this.SetupDeactivateQuestCp(questTable.cpList)
     end
     if questTable.isQuestZombie==true then
-      local e={type="TppSoldier2"}
-      GameObject.SendCommand(e,{id="UnregistSwarmEffect"})
+      local tppSoldier2Type={type="TppSoldier2"}
+      GameObject.SendCommand(tppSoldier2Type,{id="UnregistSwarmEffect"})
     end
     if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
       this.SetupDeactivateQuestEnemy(questTable.enemyList)
@@ -5132,13 +5145,12 @@ function this.OnDeactivateQuest(questTable)
     end
   end
 end
-function this.SetupDeactivateQuestVehicle(e)
+function this.SetupDeactivateQuestVehicle(vehicleList)
 end
 function this.SetupDeactivateQuestQuestHeli(heliList)
 end
-function this.SetupDeactivateQuestCp(e)
+function this.SetupDeactivateQuestCp(cpList)
 end
---
 function this.SetupDeactivateQuestEnemy(enemyList)
   for i,enemyInfo in pairs(enemyList)do
     if enemyInfo.enemyName then
@@ -5294,17 +5306,17 @@ function this.SetupTerminateQuestEnemy(enemyList)
       SetupEnemy(setupInfo,false)
       TppUiCommand.UnRegisterIconUniqueInformation(GameObject.GetGameObjectId(setupInfo.enemyName))
     elseif setupInfo.setCp then
-      local n=GetGameObjectId(setupInfo.setCp)
-      if n==NULL_ID then
+      local setCp=GetGameObjectId(setupInfo.setCp)
+      if setCp==NULL_ID then
       else
-        local cpId=nil
+        local setCpId=nil
         for _cpId,cpName in pairs(mvars.ene_cpList)do
           if cpName==setupInfo.setCp then
-            cpId=_cpId
+            setCpId=_cpId
           end
         end
-        if cpId then
-          for soldierId,soldierName in pairs(mvars.ene_soldierIDList[cpId])do
+        if setCpId then
+          for soldierId,soldierName in pairs(mvars.ene_soldierIDList[setCpId])do
             local setupInfo={enemyName=soldierId,isZombie=setupInfo.isZombie,isMsf=setupInfo.isMsf,isDisable=setupInfo.isDisable}
             SetupEnemy(setupInfo,true)
           end

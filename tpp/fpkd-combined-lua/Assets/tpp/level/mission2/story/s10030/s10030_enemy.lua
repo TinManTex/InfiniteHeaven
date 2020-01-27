@@ -1059,6 +1059,7 @@ this.SetRatRoute = function ()
 			route="route_rat_0004",             
 	}
 	GameObject.SendCommand( gameObjectId, command )
+	--RETAILBUG: theres no rat 5
 	command = {
 			id="SetRoute",                  
 			name="anml_rat_05",    

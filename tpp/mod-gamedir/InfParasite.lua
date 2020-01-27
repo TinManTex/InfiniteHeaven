@@ -866,7 +866,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
     return
   end
 
-  this.routeBag=InfMain.ShuffleBag:New()
+  this.routeBag=InfUtil.ShuffleBag:New()
   for route,bool in pairs(cpRoutes) do
     this.routeBag:Add(route)
   end

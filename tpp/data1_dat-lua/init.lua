@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- init.lua
+-- tex first script loaded by engine
 
 Script.LoadLibrary("/Assets/tpp/script/lib/InfLog.lua")--tex
 

@@ -28,7 +28,7 @@ this.QUEST_TABLE={
     {
       birdList={
         {
-          name="anml_quest_00",
+          name="ih_raven_0000",
           birdType="TppCritterBird",
           center={-679.108,31.5,534.532},
           radius=0,
@@ -36,7 +36,7 @@ this.QUEST_TABLE={
           ground={-679.108,29.809,534.532},
         },
         {
-          name="anml_quest_01",
+          name="ih_raven_0001",
           birdType="TppCritterBird",
           center={-679.108,31.5,534.532},
           radius=5,
@@ -44,7 +44,7 @@ this.QUEST_TABLE={
           ground={-679.108,29.809,534.532},
         },
         {
-          name="anml_quest_02",
+          name="ih_raven_0002",
           birdType="TppCritterBird",
           center={-679.108,31.5,534.532},
           radius=10,
@@ -52,7 +52,39 @@ this.QUEST_TABLE={
           ground={-679.108,29.809,534.532},
         },
         {
-          name="anml_quest_03",
+          name="ih_raven_0003",
+          birdType="TppCritterBird",
+          center={-679.108,31.5,534.532},
+          radius=17,
+          height=5,
+          ground={-679.108,29.809,534.532},
+        },
+        {
+          name="ih_raven_0004",
+          birdType="TppCritterBird",
+          center={-679.108,31.5,534.532},
+          radius=0,
+          height=5,
+          ground={-679.108,29.809,534.532},
+        },
+        {
+          name="ih_raven_0005",
+          birdType="TppCritterBird",
+          center={-679.108,31.5,534.532},
+          radius=5,
+          height=5,
+          ground={-679.108,29.809,534.532},
+        },
+        {
+          name="ih_raven_0006",
+          birdType="TppCritterBird",
+          center={-679.108,31.5,534.532},
+          radius=10,
+          height=5,
+          ground={-679.108,29.809,534.532},
+        },
+        {
+          name="ih_raven_0007",
           birdType="TppCritterBird",
           center={-679.108,31.5,534.532},
           radius=17,
@@ -69,16 +101,24 @@ this.QUEST_TABLE={
 
   targetAnimalList={
     markerList={
-      "anml_quest_00",
-      "anml_quest_01",
-      "anml_quest_02",
-      "anml_quest_03",
+      "ih_raven_0000",
+      "ih_raven_0001",
+      "ih_raven_0002",
+      "ih_raven_0003",
+      "ih_raven_0004",
+      "ih_raven_0005",
+      "ih_raven_0006",
+      "ih_raven_0007",
     },
     nameList={
-      "anml_quest_00",
-      "anml_quest_01",
-      "anml_quest_02",
-      "anml_quest_03",
+      "ih_raven_0000",
+      "ih_raven_0001",
+      "ih_raven_0002",
+      "ih_raven_0003",
+      "ih_raven_0004",
+      "ih_raven_0005",
+      "ih_raven_0006",
+      "ih_raven_0007",
     },
   },
 }
