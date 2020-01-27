@@ -22,12 +22,18 @@ ivars={}--tex GLOBAL
 evars={}--tex GLOBAL
 
 --EXEC
-InfCore.LoadExternalModule"Ivars"
-IvarProc.LoadEvars()
-
---InfCore.PrintInspect(evars)--DEBUG
-
-InfCore.LoadExternalModule"InfLookup"
+if not InfCore.fatal then
+  InfCore.LoadExternalModule"Ivars"
+  if Ivars==nil then
+    InfCore.Log"Ivars==nil"--DEBUG
+  else
+    IvarProc.LoadEvars()
+  end
+  
+  --InfCore.PrintInspect(evars)--DEBUG
+  
+  InfCore.LoadExternalModule"InfLookup"
+end
 
 InfCore.LogFlow"InfInit.lua done"
 return this

@@ -1,4 +1,3 @@
--- DOBUILD: 0 --DEBUGNOW
 -- gr_init_dx11.lua
 GrTools:EnableTextureStreaming()
 GrTools:SetTexturePackLoadConditioningEnable(true)
@@ -163,7 +162,7 @@ if GrGraphicsSettingManager then
           {name="Medium",DirectionalLightShadowResolution=2048,SpotLightLightShadowResolution=1024,PointLightLightShadowResolution=2048,CascadeShadowRangeScale=1,EnableCascadeShadowBlend=0},
           {name="High",DirectionalLightShadowResolution=4096,SpotLightLightShadowResolution=2048,PointLightLightShadowResolution=4096,CascadeShadowRangeScale=1,EnableCascadeShadowBlend=0},
           {name="ExtraHigh",DirectionalLightShadowResolution=8192,SpotLightLightShadowResolution=4096,PointLightLightShadowResolution=8192,CascadeShadowRangeScale=4,EnableCascadeShadowBlend=1}--tex increased range
-          --DEBUGNOW ORIG {name="ExtraHigh",DirectionalLightShadowResolution=8192,SpotLightLightShadowResolution=4096,PointLightLightShadowResolution=8192,CascadeShadowRangeScale=2,EnableCascadeShadowBlend=1}
+          --tex ORIG {name="ExtraHigh",DirectionalLightShadowResolution=8192,SpotLightLightShadowResolution=4096,PointLightLightShadowResolution=8192,CascadeShadowRangeScale=2,EnableCascadeShadowBlend=1}
         }},
       {settingName="PluginSphericalHarmonics",
         settingTable={

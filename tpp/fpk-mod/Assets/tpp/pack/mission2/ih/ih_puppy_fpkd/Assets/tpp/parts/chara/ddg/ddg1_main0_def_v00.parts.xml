@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jul 15 09:58:53 UTC+12:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:10 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
@@ -10,7 +10,7 @@
     <class name="SimDescription" super="" version="1" />
   </classes>
   <entities>
-    <entity class="DataSet" classVersion="0" addr="0x073C8900" unknown1="232" unknown2="10268">
+    <entity class="DataSet" classVersion="0" addr="0x047277F0" unknown1="232" unknown2="10268">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value></value>
@@ -19,27 +19,27 @@
           <value>0x00000000</value>
         </property>
         <property name="dataList" type="EntityPtr" container="StringMap" arraySize="10">
-          <value key="ModelDescription0000">0x073C8970</value>
-          <value key="EffectDescription0000">0x073C89E0</value>
-          <value key="EffectDescription0001">0x073C8AC0</value>
-          <value key="EffectDescription0002">0x073C8BA0</value>
-          <value key="EffectDescription0003">0x073C8C80</value>
-          <value key="EffectDescription0004">0x073C8D60</value>
-          <value key="EffectDescription0005">0x073C8E40</value>
-          <value key="FoxTargetDescription0000">0x073C8F20</value>
-          <value key="SimDescription0000">0x073C8F90</value>
-          <value key="FoxTargetDescription0001">0x073C9000</value>
+          <value key="ModelDescription0000">0x04727860</value>
+          <value key="EffectDescription0000">0x047278D0</value>
+          <value key="EffectDescription0001">0x047279B0</value>
+          <value key="EffectDescription0002">0x04727A90</value>
+          <value key="EffectDescription0003">0x04727B70</value>
+          <value key="EffectDescription0004">0x04727C50</value>
+          <value key="EffectDescription0005">0x04727D30</value>
+          <value key="FoxTargetDescription0000">0x04727E10</value>
+          <value key="SimDescription0000">0x04727E80</value>
+          <value key="FoxTargetDescription0001">0x04727EF0</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="ModelDescription" classVersion="12" addr="0x073C8970" unknown1="288" unknown2="10270">
+    <entity class="ModelDescription" classVersion="12" addr="0x04727860" unknown1="288" unknown2="10270">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>ModelDescription0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" />
         <property name="partName" type="String" container="StaticArray" arraySize="1">
@@ -85,16 +85,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="EffectDescription" classVersion="6" addr="0x073C89E0" unknown1="232" unknown2="10272">
+    <entity class="EffectDescription" classVersion="6" addr="0x047278D0" unknown1="232" unknown2="10272">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EffectDescription0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>FootSmokeS</value>
@@ -153,16 +153,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="EffectDescription" classVersion="6" addr="0x073C8AC0" unknown1="232" unknown2="10275">
+    <entity class="EffectDescription" classVersion="6" addr="0x047279B0" unknown1="232" unknown2="10275">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EffectDescription0001</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>FootSmokeM</value>
@@ -221,16 +221,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="EffectDescription" classVersion="6" addr="0x073C8BA0" unknown1="232" unknown2="10278">
+    <entity class="EffectDescription" classVersion="6" addr="0x04727A90" unknown1="232" unknown2="10278">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EffectDescription0002</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>FootSmokeL</value>
@@ -289,16 +289,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="EffectDescription" classVersion="6" addr="0x073C8C80" unknown1="232" unknown2="10281">
+    <entity class="EffectDescription" classVersion="6" addr="0x04727B70" unknown1="232" unknown2="10281">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EffectDescription0003</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>FootSplashS</value>
@@ -357,16 +357,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="EffectDescription" classVersion="6" addr="0x073C8D60" unknown1="232" unknown2="10284">
+    <entity class="EffectDescription" classVersion="6" addr="0x04727C50" unknown1="232" unknown2="10284">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EffectDescription0004</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>FootSplashM</value>
@@ -425,16 +425,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="EffectDescription" classVersion="6" addr="0x073C8E40" unknown1="232" unknown2="10287">
+    <entity class="EffectDescription" classVersion="6" addr="0x04727D30" unknown1="232" unknown2="10287">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EffectDescription0005</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>FootSplashL</value>
@@ -493,16 +493,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="FoxTargetDescription" classVersion="1" addr="0x073C8F20" unknown1="112" unknown2="10290">
+    <entity class="FoxTargetDescription" classVersion="1" addr="0x04727E10" unknown1="112" unknown2="10290">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>FoxTargetDescription0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>Target</value>
@@ -516,16 +516,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="SimDescription" classVersion="1" addr="0x073C8F90" unknown1="120" unknown2="10293">
+    <entity class="SimDescription" classVersion="1" addr="0x04727E80" unknown1="120" unknown2="10293">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>SimDescription0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>hair</value>
@@ -542,16 +542,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="FoxTargetDescription" classVersion="1" addr="0x073C9000" unknown1="112" unknown2="10296">
+    <entity class="FoxTargetDescription" classVersion="1" addr="0x04727EF0" unknown1="112" unknown2="10296">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>FoxTargetDescription0001</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x073C8900</value>
+          <value>0x047277F0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x073C8970</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/ddg/ddg1_main0_def_v00.parts" nameInArchive="ModelDescription0000">0x04727860</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>Push</value>

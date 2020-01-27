@@ -1,5 +1,18 @@
 Infinite Heaven changelog
 
+r198 - 2017-01-31
+
+Refactor: File per profile, list all profiles in profiles folder.
+Refactor: Load all external modules load from modules folder/don't have to manually add to InfModules
+Refactor: ih_save.lua now in mod\saves
+
+Fixed: Legendary animal sideops not completing on fulton - thanks iponomama for the report.
+
+Fixed: Afghanistan quests with unique bodies (Armor, Wandering MB soldiers) being invisible, was broken since r155 - thanks everyone for the reports.
+Detail: ih_soldier_loc_free soldier count dropped from 50 to 40. Don't know why the number of soldiers is breaking the fova system here, quest fova for unique bodies (which is set up on quest block load) breaks, but if you allocate the body in pre mission load it's fine. *shrug*
+
+Fixed: Soldiers having no heads on Mission 43 "Shining Lights Even In Death" - thanks AustrianWarMachine for the report.
+
 r197 - 2017-01-11
 Refactor: Rename InfLog to InfCore, .Add to .Log
 

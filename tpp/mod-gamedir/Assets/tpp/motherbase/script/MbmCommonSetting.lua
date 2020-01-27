@@ -1,4 +1,5 @@
--- DOBUILD: 0 --DEBUGNOW personal tweaks
+-- DOBUILD: 0 
+--tex modded with personal tweaks
 InfCore.LogFlow"MbmCommonSetting.lua - personal tweaks"
 --MbmCommonSetting.lua
 --RETAILPATCH 1090

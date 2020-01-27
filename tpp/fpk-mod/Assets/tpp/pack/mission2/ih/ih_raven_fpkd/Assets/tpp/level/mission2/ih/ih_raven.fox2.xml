@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jul 15 07:23:23 UTC+12:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:16 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
@@ -295,7 +295,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-     <entity class="GameObjectLocator" classVersion="2" addr="0x05191E60" unknown1="272" unknown2="284496">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x05191E60" unknown1="272" unknown2="284496">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>ih_raven_0003</value>
@@ -367,7 +367,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-   <entity class="GameObjectLocator" classVersion="2" addr="0x061919E0" unknown1="272" unknown2="71281">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x061919E0" unknown1="272" unknown2="71281">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>ih_raven_0004</value>
@@ -583,7 +583,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-     <entity class="GameObjectLocator" classVersion="2" addr="0x06191E60" unknown1="272" unknown2="284496">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x06191E60" unknown1="272" unknown2="284496">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>ih_raven_0007</value>

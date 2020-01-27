@@ -322,14 +322,21 @@ function this.ObjectNameForGameId(findId)
   return nil
 end
 
+--tex TODO seperate into types
 function this.BuildTppDamageLookup()
-  local tppDamageEnumToName={}
+  local enumToName={}
   for k,v in pairs(TppDamage)do
     if type(v)=="number" then
-      tppDamageEnumToName[v]=k
+         if enumToName[v] then
+          --InfCore.Log("InfLookup.BuildTppDamageLookup WARNING: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
+          enumToName[v]=enumToName[v].."|"..k
+        else
+          enumToName[v]=k
+        end       
+      enumToName[v]=k
     end
   end
-  return tppDamageEnumToName
+  return enumToName
 end
 
 function this.TppDamageEnumToName(enum)
@@ -338,6 +345,30 @@ end
 
 --TABLESETUP
 this.tppDamageEnumToName=this.BuildTppDamageLookup()
+
+function this.BuildTppEquipLookup()
+  local enumToName={}
+  for k,v in pairs(TppEquip)do
+    if type(v)=="number" then
+      if string.find(k,"EQP_")~=nil and string.find(k,"EQP_TYPE_")==nil and string.find(k,"EQP_BLOCK_")==nil then
+        if enumToName[v] then
+          --InfCore.Log("InfLookup.BuildTppEquipLookup WARNING: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
+          enumToName[v]=enumToName[v].."|"..k
+        else
+          enumToName[v]=k
+        end  
+      end
+    end
+  end
+  return enumToName
+end
+
+function this.TppEquipEnumToName(enum)
+  return this.tppEquipEnumToName[enum]
+end
+
+--TABLESETUP
+this.tppEquipEnumToName=this.BuildTppEquipLookup()
 
 --tex returns string or nil
 --isStrCode on guaranteed strcodes to add that code to unknowns (this function is also used in a blanket fashion in PrintOnMessage with potential non-strcodes)
@@ -355,12 +386,18 @@ function this.StrCode32ToString(strCode,isStrCode)
       InfCore.unknownStr32[strCode]=true
     end
     if returnString==nil then
-      return strCode
+      return nil-- strCode
+    end
+    
+    if type(returnString)=="number" then
+      InfCore.Log("InfLookup.StrCode32ToString: WARNING: returnString for strCode:"..strCode.." is a number: "..returnString)
     end
 
     return returnString
+  else
+    InfCore.Log("InfLookup.StrCode32ToString: WARNING: strCode:"..tostring(strCode).." is not a number.")  
+    return strCode
   end
-  return strCode
 end
 
 function this.DumpStrCodeTables()
@@ -445,6 +482,11 @@ function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
     end
   end
   --end,sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
+end
+
+function this.DumpValidStrCode()
+  local ins=InfInspect.Inspect(InfCore.str32ToString)
+  InfCore.Log(ins)--TODO dump to seperate file
 end
 
 

@@ -1337,7 +1337,9 @@ this.modBodyFova={
 this.highestVanillaFaceId=687--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
 --OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
 
+if InfModelProc then--tex WORKAROUND Mock
 InfModelProc.Setup(this.faceDefinition)--tex
+end
 
 --tex shifted from after table definitions
 if TppSoldierFace~=nil then

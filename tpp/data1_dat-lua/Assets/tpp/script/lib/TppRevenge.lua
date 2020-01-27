@@ -456,6 +456,7 @@ end
 function this.IsUsingGunCamera()
   return mvars.revenge_revengeConfig.GUN_CAMERA
 end
+--ORPHAN no references
 function this.GetPatrolRate()
   if mvars.revenge_revengeConfig.STRONG_PATROL then
     return 1

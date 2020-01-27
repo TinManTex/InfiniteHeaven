@@ -128,8 +128,8 @@ function this.ChangeTrapState(trapName,enable)
   end
 end
 function this.ChangeNormalTrapState(trapName,enable)
-  local e=Tpp.GetDataBodyWithIdentifier("VariableTrapIdentifier",trapName,"GeoTrap")
-  if e then
+  local dataBody=Tpp.GetDataBodyWithIdentifier("VariableTrapIdentifier",trapName,"GeoTrap")
+  if dataBody then
     TppDataUtility.SetEnableDataFromIdentifier("VariableTrapIdentifier",trapName,enable)
     return true
   end

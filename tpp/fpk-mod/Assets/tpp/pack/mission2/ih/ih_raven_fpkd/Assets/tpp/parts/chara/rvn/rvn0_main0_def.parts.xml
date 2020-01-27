@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jul 15 07:21:48 UTC+12:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:17 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
@@ -8,7 +8,7 @@
     <class name="FoxTargetDescription" super="" version="1" />
   </classes>
   <entities>
-    <entity class="DataSet" classVersion="0" addr="0x02D74CA0" unknown1="232" unknown2="5283">
+    <entity class="DataSet" classVersion="0" addr="0x12FFE710" unknown1="232" unknown2="5283">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value></value>
@@ -17,19 +17,19 @@
           <value>0x00000000</value>
         </property>
         <property name="dataList" type="EntityPtr" container="StringMap" arraySize="2">
-          <value key="ModelDescription0000">0x02D74D80</value>
-          <value key="FoxTargetDescription0000">0x02D74DF0</value>
+          <value key="ModelDescription0000">0x12FFEC50</value>
+          <value key="FoxTargetDescription0000">0x12FFECC0</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="ModelDescription" classVersion="12" addr="0x02D74D80" unknown1="288" unknown2="5285">
+    <entity class="ModelDescription" classVersion="12" addr="0x12FFEC50" unknown1="288" unknown2="5285">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>ModelDescription0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x02D74CA0</value>
+          <value>0x12FFE710</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" />
         <property name="partName" type="String" container="StaticArray" arraySize="1">
@@ -75,16 +75,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="FoxTargetDescription" classVersion="1" addr="0x02D74DF0" unknown1="112" unknown2="5288">
+    <entity class="FoxTargetDescription" classVersion="1" addr="0x12FFECC0" unknown1="112" unknown2="5288">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>FoxTargetDescription0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x02D74CA0</value>
+          <value>0x12FFE710</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/rvn/rvn0_main0_def.parts" nameInArchive="ModelDescription0000">0x02D74D80</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/rvn/rvn0_main0_def.parts" nameInArchive="ModelDescription0000">0x12FFEC50</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>Target</value>

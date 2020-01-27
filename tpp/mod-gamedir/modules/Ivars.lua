@@ -3558,7 +3558,7 @@ this.selectProfile={
     end
   end,
   OnSelect=function(self)
-    local profileNames=IvarProc.SetupInfProfiles()
+    local profileNames=Ivars.profileNames--DEBUGNOWIvarProc.SetupInfProfiles()
     if profileNames then
       self.range.max=#profileNames-1
       self.settings=profileNames
@@ -3619,29 +3619,22 @@ this.warpToListObject={
   end,
 }
 
---DEBUGNOW
-function this.GetPositionsList()
-  local positionsList={}
-
-  return InfQuest.GetQuestPositions()
-end
-
 this.warpToListPosition={
   range={max=1},--DYNAMIC
   GetSettingText=function(self,setting)
-    local positionsList=this.GetPositionsList()
+    local positionsList=InfQuest.GetQuestPositions()
     local position=positionsList[setting+1]
     return "pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
   OnSelect=function(self)
-    local positionsList=this.GetPositionsList()
+    local positionsList=InfQuest.GetQuestPositions()
     local numObjects=#positionsList
 
     self.range.max=numObjects-1
     self.setting=0
   end,
   OnActivate=function(self,setting)
-    local positionsList=this.GetPositionsList()
+    local positionsList=InfQuest.GetQuestPositions()
     local position=positionsList[setting+1]
 
     if position[1]~=0 or position[2]~=0 or position[3]~=0 then
@@ -3828,6 +3821,7 @@ function this.Enum(enumNames)
 end
 
 function this.SetupIvars()
+  InfCore.LogFlow("Ivars.SetupIvars")
   local ivars=ivars
   local IvarProc=IvarProc
 
@@ -3847,7 +3841,7 @@ function this.SetupIvars()
       ivars[ivar.name]=ivars[ivar.name] or ivar.default
 
       if ivar.settings then
-        ivar.enum=this.Enum(ivar.settings)--DEBUGNOW 
+        ivar.enum=this.Enum(ivar.settings) 
         --      for name,enum in ipairs(ivar.enum) do
         --        ivar[name]=false
         --        if enum==ivar.default then
@@ -3883,6 +3877,7 @@ function this.SetupIvars()
 end
 
 function this.PostAllModulesLoad()
+  InfCore.LogFlow"Ivars.PostAllModulesLoad"
   --tex check to see if theres a settingNames in InfLang
   --has to be postmodules since InfLang is loaded after Ivars
   --GOTCHA this will lock in language till next modules reload (not that there's any actual InfLang translations I'm aware of lol)

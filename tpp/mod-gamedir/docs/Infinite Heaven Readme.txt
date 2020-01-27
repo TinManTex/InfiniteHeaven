@@ -1,5 +1,5 @@
 = Infinite heaven =
-r197 - 2017-01-11
+r198 - 2017-01-31
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -24,58 +24,14 @@ NOTE: Infinite Heaven has been restructured, with some of its files now loading 
 
 NOTE: Infinite Heaven now uses SnakeBite 0.8.4, get it here: http://www.nexusmods.com/metalgearsolidvtpp/mods/106
 
-New for r197
-Fixed: Start offline option preventing dlc items - thanks morbidslinky for the fix.
+New for r198
+NOTE: Infinite Heavens MGS_TPP\mod folder has been restructured, if manually updating back up ih_save.lua, delete MGS_TPP\mod folder, copy the new folder entirely from Infinite Heaven zip, the put ih_save in mod\saves
 
-Fixed: Starting on map floor on mother base start on foot on first visit after building a platform in the command cluster - thanks NasaNhak 
-(InfMain.OnGameStart)
+Fixed: Legendary animal sideops not completing on fulton - thanks iponomama for the report.
 
-New for r196
-Build for SnakeBite 0.8.4
+Fixed: Afghanistan quests with unique bodies (Armor, Wandering MB soldiers) being invisible, was broken since r155 - thanks everyone for the reports.
 
-Added Headgear (cosmetic) to Filter Faces (splits headgear from Unique filter)
-(via Player Settings > Appearance menu)
-
-Fixed: Female Wildcard face range incorrect, resulting in defaulting to smushmanface.
-Fixed: Quests with balaclavas breaking those soldiers - thanks shynbean and PerkPrincess for your report.
-Fixed: mbAdditionalSoldiers,"More soldiers on MB plats" not loading the additonal soldiers, reulting in empty platforms - thanks shynbean for the report.
-Fixed: IH interrogations would not return wildcard soldier locations - thanks rargh for the report.
-Fixed: Soldier headgear on fobs being incorrect.
-
-New for r195
-Wildcard soldiers and hostages have staff parameters regenerated. Should always have a skill assigned now and have high stats (in respect to current mb level/stats draw)
-
-Fixed: Crash on startup with missing InfModelRegistry/mod folder
-Fixed: Phasechange update not working, had found the issue just prior, but thanks GloomMouse for the report anyway.
-Fixed: (partial), setting unlockSideOpNumber via profile will not give OUT OF BOUNDS error, but currently still won't be able to set them > 157 - to new sideops - thanks pk5547 for the report.
-
-Option: "Female staff selection" - added Half setting.
-Option: mbEnableBirds - "Enable Birds" - enables birds flying around mother base.
-(via the Mother base > Show characters menu)
-
-Expanded resource amount scales to scale by type:
-enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
-resourceScaleMaterial="Material case scale"
-resourceScalePlant="Plant scale"
-resourceScalePoster="Poster scale"
-resourceScaleDiamond="Diamond scale"
-resourceScaleContainer="Container scale"
-(via Progression menu > Resource scale menu)
-
-New for r194
-New sideops for Mother Base:
-SideOp: "Sheep in the Keep" - "Logistics had a mishap and let a herd of sheep loose on the Command Platform. Fulton them so they can take them to the Conservation Platform." 
-SideOp: "Birds in the Belfry" - "Your staff has been having some issues with birds roosting in the Intel Platform Enclosure. See if you can clear them out." 
-SideOp: "Rats in the Basement" - "The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." 
-[youtube]Xe5VjKC2f9w[/youtube]
-https://youtu.be/Xe5VjKC2f9w
-
-Fixed: Some defaults not applying on fob.
-Fixed: Allow skull types not actually filtering the skulls select - thanks SoullessMadness for the report.
-Fixed: (mostly) Allow heavy armor in free/missions, Custom prep with armor % high would cause soldiers either defaulting to non armored or not rendering body.
-Fixed: Animals camo selectable via the camo option in appearance menu.
-Fixed: TppQuest.UpdateActiveQuest now using level seed for random or side ops selection mode. This fixes mismatch bettween aparent selected sideop (ui cues) and actual sideop pack/script loaded when directly spawning into a quest load area, possibly a rare issue in free roam, but a clear issue on mother base. Should also prevent the change of sideops from ACC to level.
-Fixed: Enable Ocelot in MB causing Sahelenthropus mission to infinite load - thanks CapLagRobin for the report.
+Fixed: Soldiers having no heads on Mission 43 "Shining Lights Even In Death" - thanks AustrianWarMachine for the report.
 
 Disclaimer:
 ------------------------------

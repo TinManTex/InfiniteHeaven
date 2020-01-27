@@ -1,5 +1,5 @@
 -- InfEquip.lua
--- tex implements equipment on trucks, soldier item dropping, 
+-- tex implements equipment on trucks, soldier item dropping,
 
 local this={}
 
@@ -946,7 +946,7 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
---tex packs for putting on trucks pickables
+  --tex packs for putting on trucks pickables
   if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
@@ -1178,32 +1178,39 @@ local ivarNames={
   weaponTableSkull="SKULL",
   weaponTableDD="DD",
 }
+
 --tex see GOTCHA note before LoadEquipTable above
 --Don't know if it's a count or a memory thing (which would depend on the mix of equipment loaded)
 local maxEquipment=35--48
 --CALLER: TppEneFova.PreMissionLoad
 --OUT: TppEnemy.weaponIdTable.DD, TppEnemy.weaponIdTable.CUSTOM
-function this.CreateCustomWeaponTable(missionCode)
+function this.CreateCustomWeaponTable(missionCode,settingsTable)
+  InfCore.LogFlow"InfEquip.CreateCustomWeaponTable"
   --InfCore.PCall(function(missionCode)--DEBUG
   if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
     return nil
   end
 
-  local strengthType=Ivars.weaponTableStrength:GetSettingName()
-
-  local ddEquip=Ivars.weaponTableDD:Is(1)
-  if ddEquip then
-    TppEnemy.weaponIdTable.DD=this.CreateDDWeaponIdTable()
-  end
-
+  local strengthType
+  local activeTypes
   local noneActive=true
-  local activeTypes={}
-  for ivarName,ivarType in pairs(ivarNames)do
-    if Ivars[ivarName]:Is(1) then
-      noneActive=false
-      activeTypes[ivarType]=true
+  if settingsTable then
+    noneActive=false
+    strengthType=settingsTable.strengthType
+    activeTypes=settingsTable.weaponTypes
+  else
+    strengthType=Ivars.weaponTableStrength:GetSettingName()
+    activeTypes={}
+    for ivarName,ivarType in pairs(ivarNames)do
+      if Ivars[ivarName]:Is(1) then
+        noneActive=false
+        activeTypes[ivarType]=true
+      end
     end
   end
+
+  InfCore.Log"activeTypes:"
+  InfCore.PrintInspect(activeTypes)
 
   if noneActive then
     InfCore.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
@@ -1211,6 +1218,10 @@ function this.CreateCustomWeaponTable(missionCode)
     TppEnemy.weaponIdTable.DD=nil
     TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
     return weaponIdTable
+  end
+
+  if activeTypes.DD then
+    TppEnemy.weaponIdTable.DD=this.CreateDDWeaponIdTable()
   end
 
   local allNoDuplicates={}
@@ -1298,7 +1309,7 @@ function this.CreateCustomWeaponTable(missionCode)
 end
 
 --tex adapted from TppEnemy._CreateDDWeaponIdTable
-function this.CreateDDWeaponIdTable()
+function this.CreateDDWeaponIdTable(settingsTable)
   local minGrade=Ivars.soldierEquipGrade_MIN:Get()
   local maxGrade=Ivars.soldierEquipGrade_MAX:Get()
   local nonLethal=Ivars.mbDDEquipNonLethal:Is(1)

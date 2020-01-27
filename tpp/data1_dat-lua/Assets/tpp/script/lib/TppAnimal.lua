@@ -230,7 +230,7 @@ function this.OnActivateQuest(questTable)
       if targetAnimalList.dataBaseIdList then
         for i,animalId in pairs(targetAnimalList.dataBaseIdList)do
           --ORIG mvars.ani_questTargetList[animalId]=databaseIdEntry--RETAILBUG: as above
-          mvars.ani_questTargetList[animalId]={messageId="None",idType="dataBaseIdList"}--tex fix for above
+          mvars.ani_questTargetList[animalId]={messageId="None",idType="databaseId"}--tex fix for above
           addedAnimal=true
         end
       end
@@ -278,13 +278,16 @@ function this.CheckQuestAllTarget(questType,messageId,checkGameId,checkAnimalId)
   if not Tpp.IsAnimal(checkGameId)then
     return
   end
-  --InfCore.Log("TppAnimal.CheckQuestAllTarget messageId:"..tostring(messageId).." checkAnimalId:"..tostring(checkAnimalId) )--tex DEBUG
   local questClearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local databaseId=this.GetDataBaseIdFromAnimalId(checkAnimalId)
   local currentQuestName=TppQuest.GetCurrentQuestName()
+  
+ 
   if TppQuest.IsEnd(currentQuestName)then
     return questClearType
   end
+  
+  InfCore.Log("TppAnimal.CheckQuestAllTarget "..currentQuestName.." messageId:"..tostring(messageId).." checkGameId:"..tostring(checkGameId).." checkAnimalId:"..tostring(checkAnimalId).." databaseId:"..tostring(databaseId) )--tex DEBUG 
   for animalId,targetInfo in pairs(mvars.ani_questTargetList)do
     if targetInfo.idType=="animalId"then
       if animalId==checkAnimalId then
@@ -307,7 +310,7 @@ function this.CheckQuestAllTarget(questType,messageId,checkGameId,checkAnimalId)
 --  InfCore.Log("TppAnimal.CheckQuestAllTarget:")--tex DEBUG
 --  InfCore.PrintInspect(stateCounts)
 --  InfCore.PrintInspect(mvars.ani_questTargetList)
---  --<
+  --<
   if questType==TppDefine.QUEST_TYPE.ANIMAL_RECOVERED then
     if stateCounts.total==1 then
       if stateCounts.Fulton>=stateCounts.total then

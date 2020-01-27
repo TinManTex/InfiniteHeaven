@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Wed Feb 10 11:32:04 UTC+13:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:54:23 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
@@ -29,7 +29,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x04639BD0</value>
         </property>
-        <property name="loadBanks" type="String" container="DynamicArray" arraySize="4">
+        <property name="loadBanks" type="String" container="DynamicArray" arraySize="7">
           <value>vox_ene_common</value>
           <value>vox_free</value>
           <value>vox_generic_00</value>

@@ -4577,6 +4577,8 @@ function this.OnAllocateQuest(body,face,setHostage)
 end
 --CALLER: quest script OnAllocate
 function this.OnAllocateQuestFova(questTable)
+  InfCore.LogFlow"TppEnemy.OnAllocateQuestFova"--tex DEBUG
+  InfCore.PCallDebug(function(questTable)--tex DEBUG
   local faces={}
   local bodies={}
   local setBody=false
@@ -4725,6 +4727,7 @@ function this.OnAllocateQuestFova(questTable)
   if(heliList and Tpp.IsTypeTable(heliList))and next(heliList)then
     this.LoadQuestHeli(heliList[1].coloringType)
   end
+  end,questTable)--tex DEBUG
 end
 function this.OnActivateQuest(questTable)
   if questTable==nil then

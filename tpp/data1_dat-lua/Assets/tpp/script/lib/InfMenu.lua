@@ -8,7 +8,6 @@ local InfMain=InfMain
 --local InfLang=InfLang
 --local Ivars=Ivars
 local IvarProc=IvarProc
-local InfCore=InfCore
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum

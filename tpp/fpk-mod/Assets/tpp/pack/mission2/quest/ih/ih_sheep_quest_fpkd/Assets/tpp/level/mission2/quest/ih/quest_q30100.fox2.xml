@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jul 15 09:33:49 UTC+12:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:31 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
@@ -94,7 +94,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x03000000" unknown1="272" unknown2="1379121">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -143,7 +142,7 @@
           <value x="0" y="0" z="0" w="1" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1126.249" y="0.800" z="-627.872" w="1" />
+          <value x="1126.249" y="0.8" z="-627.872" w="1" />
         </property>
       </staticProperties>
       <dynamicProperties />
@@ -162,7 +161,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x03000010" unknown1="272" unknown2="1379121">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -211,7 +209,7 @@
           <value x="0" y="0" z="0" w="1" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1116.652" y="4.850" z="-610.908" w="1" />
+          <value x="1116.652" y="4.85" z="-610.908" w="1" />
         </property>
       </staticProperties>
       <dynamicProperties />
@@ -230,8 +228,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-      <entity class="GameObjectLocator" classVersion="2" addr="0x03000020" unknown1="272" unknown2="1379121">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x03000020" unknown1="272" unknown2="1379121">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>anml_quest_02</value>
@@ -279,7 +276,7 @@
           <value x="0" y="0" z="0" w="1" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1147.280" y="8.800" z="-592.456" w="1" />
+          <value x="1147.28" y="8.8" z="-592.456" w="1" />
         </property>
       </staticProperties>
       <dynamicProperties />
@@ -298,8 +295,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-      <entity class="GameObjectLocator" classVersion="2" addr="0x03000030" unknown1="272" unknown2="1379121">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x03000030" unknown1="272" unknown2="1379121">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>anml_quest_03</value>
@@ -347,7 +343,7 @@
           <value x="0" y="0" z="0" w="1" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1120.161" y="24.800" z="-595.912" w="1" />
+          <value x="1120.161" y="24.8" z="-595.912" w="1" />
         </property>
       </staticProperties>
       <dynamicProperties />
@@ -366,8 +362,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x06460EF0" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

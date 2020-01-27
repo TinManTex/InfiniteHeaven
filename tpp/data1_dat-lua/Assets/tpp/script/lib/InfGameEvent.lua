@@ -25,6 +25,7 @@ function this.OnMissionCanStart()
 
   if not svars.ply_isUsedPlayerInitialAction then
     if this.inf_enabledEvents.CRASHLAND then
+      InfCore.Log"OnMissionCanStart event CRASHLAND"
       TppHero.SetAndAnnounceHeroicOgrePoint({heroicPoint=-1,ogrePoint=-1},"destroyed_support_heli")
       local stances={
         PlayerStance.STAND,
@@ -177,6 +178,7 @@ function this.GenerateRoamEvent(missionCode)
     mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
     --InfCore.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
   end
+  InfCore.PrintInspect(this.inf_enabledEvents)
   --end,missionCode)
 end
 

@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Wed Feb 03 15:10:25 UTC+13:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:20 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
     <class name="DataSet" super="" version="0" />
     <class name="GameObject" super="" version="2" />
-    <class name="GameObjectLocator" super="" version="2" />
-    <class name="TransformEntity" super="" version="0" />    
     <class name="TppWalkerGear2Parameter" super="" version="0" />
+    <class name="GameObjectLocator" super="" version="2" />
+    <class name="TransformEntity" super="" version="0" />
     <class name="TppWalkerGear2LocatorParameter" super="" version="0" />
     <class name="TexturePackLoadConditioner" super="" version="0" />
   </classes>
@@ -20,7 +20,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="6">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="18">
           <value key="WalkerGearGameObject">0x13000000</value>
           <value key="wkr_WalkerGear_0000">0x14000000</value>
           <value key="wkr_WalkerGear_0001">0x14000010</value>
@@ -43,7 +43,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-  
     <entity class="GameObject" classVersion="2" addr="0x13000000" unknown1="88" unknown2="69415">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -103,7 +102,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x14000000" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -168,8 +166,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000010" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000010" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0001</value>
@@ -233,8 +230,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000020" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000020" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0002</value>
@@ -298,8 +294,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000030" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000030" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0003</value>
@@ -363,8 +358,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000040" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000040" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0004</value>
@@ -428,8 +422,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000050" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000050" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0005</value>
@@ -493,8 +486,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000060" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000060" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0006</value>
@@ -558,8 +550,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000070" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000070" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0007</value>
@@ -623,8 +614,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000080" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000080" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0008</value>
@@ -688,8 +678,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000090" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000090" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0009</value>
@@ -753,9 +742,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-     
- <entity class="GameObjectLocator" classVersion="2" addr="0x14000100" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000100" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0010</value>
@@ -819,8 +806,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000110" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000110" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0011</value>
@@ -884,8 +870,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000120" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000120" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0012</value>
@@ -949,8 +934,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000130" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000130" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0013</value>
@@ -1014,8 +998,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000140" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000140" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0014</value>
@@ -1079,8 +1062,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000150" unknown1="272" unknown2="9079604">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000150" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0015</value>
@@ -1144,7 +1126,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x2463D4B0" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

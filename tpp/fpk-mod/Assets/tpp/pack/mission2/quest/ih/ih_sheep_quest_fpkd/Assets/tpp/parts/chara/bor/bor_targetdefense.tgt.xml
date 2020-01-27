@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jul 15 09:33:50 UTC+12:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:31 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
@@ -7,7 +7,7 @@
     <class name="GeoxTargetDesc" super="" version="0" />
   </classes>
   <entities>
-    <entity class="DataSet" classVersion="0" addr="0x02D7AB20" unknown1="232" unknown2="2408">
+    <entity class="DataSet" classVersion="0" addr="0x07300160" unknown1="232" unknown2="2408">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value></value>
@@ -16,18 +16,18 @@
           <value>0x00000000</value>
         </property>
         <property name="dataList" type="EntityPtr" container="StringMap" arraySize="1">
-          <value key="GeoxTargetDesc0000">0x064612E0</value>
+          <value key="GeoxTargetDesc0000">0x07304680</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="GeoxTargetDesc" classVersion="0" addr="0x064612E0" unknown1="264" unknown2="0">
+    <entity class="GeoxTargetDesc" classVersion="0" addr="0x07304680" unknown1="264" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>GeoxTargetDesc0000</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x02D7AB20</value>
+          <value>0x07300160</value>
         </property>
         <property name="posArray" type="Vector3" container="DynamicArray" arraySize="10">
           <value x="0.010159" y="-0.072829" z="-0.016135" w="0" />

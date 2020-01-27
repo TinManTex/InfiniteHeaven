@@ -13,13 +13,14 @@ local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 
 local InfCore=this
 
-this.modVersion="197"
+this.modVersion="198"
 this.modName="Infinite Heaven"
 this.saveName="ih_save.lua"
 
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
 this.doneStartup=false
+this.fatal=false
 this.ihSaveFirstLoad=false
 this.gameSaveFirstLoad=false
 
@@ -108,14 +109,14 @@ function this.FileExists(filePath)
   return false
 end
 
-function this.CopyFileToPrev(fileName,ext)
-  local filePath=this.modPath..fileName..ext
+function this.CopyFileToPrev(path,fileName,ext)
+  local filePath=path..fileName..ext
   local file,error=open(filePath,"r")
   if file and not error then
     local fileText=file:read("*all")
     file:close()
 
-    local filePathPrev=this.modPath..fileName..this.prev..ext
+    local filePathPrev=path..fileName..this.prev..ext
     local filePrev,error=open(filePathPrev,"w")
     if not filePrev or error then
       return
@@ -126,12 +127,14 @@ function this.CopyFileToPrev(fileName,ext)
   end
 end
 
-function this.ClearFile(fileName,ext)
-  local filePath=this.modPath..fileName..ext
+function this.ClearFile(path,fileName,ext)
+  local filePath=path..fileName..ext
   local logFile,error=open(filePath,"w")
   if logFile then
     logFile:write""
     logFile:close()
+  else
+    return error
   end
 end
 --
@@ -235,6 +238,16 @@ function this.LogFlow(message)
   this.Log(message)
 end
 
+function this.Validate(format,profile,name)
+  for keyName,valueType in pairs(profile) do
+    if format[keyName] and type(profile[keyName])~=format[keyName] then
+      InfCore.Log("InfCore.Validate "..tostring(name)..": Failed - "..tostring(keyName).." =="..type(keyName).." expected "..tostring(format[keyName]))
+      return false
+    end
+  end
+  return true
+end
+
 --tex would rather have this in InfLookup, but needs to be loaded before libModules
 --tex registers string for InfLookup.StrCode32ToString
 local StrCode32=Fox.StrCode32
@@ -244,14 +257,15 @@ function this.StrCode32(encodeString)
     if type(encodeString)=="number"then
       InfCore.Log("InfCore.StrCode32: WARNING: Attempting to encode a number: "..encodeString)
       InfCore.Log("caller: "..this.DEBUG_Where(2))
+    else
+      this.str32ToString[strCode]=encodeString
     end
-    this.str32ToString[strCode]=encodeString
   end
   return strCode
 end
 
 --tex NMC from lua wiki
-local function Split(str,delim,maxNb)
+function this.Split(str,delim,maxNb)
   -- Eliminate bad cases...
   if string.find(str,delim)==nil then
     return{str}
@@ -277,7 +291,7 @@ local function Split(str,delim,maxNb)
 end
 
 function this.GetModuleName(scriptPath)
-  local split=Split(scriptPath,"/")
+  local split=this.Split(scriptPath,"/")
   local moduleName=split[#split]
   return string.sub(moduleName,1,-string.len(".lua")-1)
 end
@@ -313,8 +327,8 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
   return module
 end
 
-function this.LoadBoxed(fileName)
-  local filePath=InfCore.modPath..fileName
+function this.LoadBoxed(path,fileName)
+  local filePath=path..fileName
 
   local moduleChunk,error=loadfile(filePath)
   if error then
@@ -338,7 +352,7 @@ end
 
 --tex with external alternate
 function this.DoFile(path)
-  local scriptPath=InfCore.modPath..path
+  local scriptPath=InfCore.paths.mod..path
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
@@ -357,7 +371,7 @@ end
 
 --tex with alternate external loading
 function this.LoadLibrary(path)
-  local scriptPath=InfCore.modPath..path
+  local scriptPath=InfCore.paths.mod..path
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
@@ -390,9 +404,68 @@ function this.OnLoadEvars()
   end
 end
 
+function this.RefreshFileList()
+  InfCore.LogFlow"InfCore.RefreshFileList"
+  
+  local filesTable={}
+
+  local cmd=""
+  for dir,path in pairs(this.paths)do
+    cmd=cmd..[[dir /b "]]..path..[[*.lua" > "]]..path..[[ih_files.txt" & ]]
+  end
+  this.Log(cmd)
+  os.execute(cmd)
+
+  for dir,path in pairs(this.paths)do
+    local fileName=path.."ih_files.txt"
+    local fileNames=InfCore.PCall(function()
+      local lines
+      local file,error=io.open(fileName,"r")
+      if file and not error then
+        --tex lines crashes with no error, dont know what kjp did to io
+        --      for line in file:lines() do
+        --        if line then
+        --          table.insert(lines,line)
+        --        end
+        --      end
+
+        lines=file:read("*all")
+        file:close()
+
+        lines=InfCore.Split(lines,"\r\n")
+        if lines[#lines]=="" then
+          lines[#lines]=nil
+        end
+      end
+      return lines
+    end)
+    if fileNames==nil then
+      InfCore.Log("InfCore.RefreshFileList ERROR: could not read "..fileName)
+    else
+      filesTable[dir]=fileNames
+    end
+  end
+  return filesTable
+end
+
+function this.GetFileList(files,filter,stripFilter)
+  local fileNames={}
+  for i,fileName in ipairs(files) do
+    local index=string.find(fileName,filter)
+    if index then
+      if stripFilter then
+        fileNames[#fileNames+1]=string.sub(fileName,1,index-1)
+      else
+        fileNames[#fileNames+1]=fileName
+      end
+    end
+  end
+  return fileNames
+end
+
 local function GetGamePath()
   local gamePath=nil
-  local paths=Split(package.path,";")
+  local paths=this.Split(package.path,";")
   for i,path in ipairs(paths) do
     if string.find(path,"MGS_TPP") then
       gamePath=path
@@ -409,10 +482,8 @@ local function GetGamePath()
   return gamePath
 end
 
-this.modSubPath=[[mod\]]
 this.logFileName="ih_log"
 this.prev="_prev"
-this.ext=".txt"
 
 --hook
 --tex no dice
@@ -430,25 +501,37 @@ this.ext=".txt"
 
 --EXEC
 --package.path=""--DEBUG kill path for fallback testing
-this.gamePath=GetGamePath()
-this.modPath=this.gamePath..this.modSubPath
-this.logFilePath=this.modPath..this.logFileName..this.ext
-this.logFilePathPrev=this.modPath..this.logFileName..this.prev..this.ext
+local gamePath=GetGamePath()
+local modPath=gamePath..[[mod\]]
+this.paths={
+  mod=modPath,
+  saves=modPath..[[saves\]],
+  profiles=modPath..[[profiles\]],
+  modules=modPath..[[modules\]],
+}
+this.files={}
 
-local addPaths=";"..this.modPath.."?.lua"
-addPaths=addPaths";"..this.modPath.."lib\lua\?.lua"--DEBUGNOW
+this.logFilePath=this.paths.mod..this.logFileName..".txt"
+this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"
+
+local addPaths=";"..this.paths.mod.."?.lua"
+addPaths=addPaths..";"..this.paths.profiles.."?.lua"
+addPaths=addPaths..";"..this.paths.modules.."?.lua"
 package.path=package.path..addPaths
 
---DEBUGNOW
-local addPaths=";"..this.modPath.."?.lua"
-addPaths=addPaths";"..this.modPath.."lib\lua\?.lua"--DEBUGNOW
-package.cpath=package.cpath..addPaths
-
-this.CopyFileToPrev(this.logFileName,this.ext)
-this.ClearFile(this.logFileName,this.ext)
-
-local time=os.date("%x %X")
-this.Log("InfCore start "..time)
-this.Log("package.path:"..package.path)
+this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
+local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
+if error then
+  this.fatal=true
+else
+  local time=os.date("%x %X")
+  this.Log("InfCore start "..time)
+  this.Log("package.path:"..package.path)
+  
+  this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")
+  
+  this.files=this.PCall(this.RefreshFileList)
+--InfCore.PrintInspect(this.files)--DEBUG
+end
 
 return this

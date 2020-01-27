@@ -6,7 +6,7 @@ this.infModelRegistry={}
 
 InfCore.LogFlow"Load InfModelRegistry.lua"
 function this.LoadLibraries()
-  this.infModelRegistry=InfCore.LoadBoxed"InfModelRegistry.lua"
+  this.infModelRegistry=InfCore.LoadBoxed(InfCore.paths.mod,"InfModelRegistry.lua")
   if this.infModelRegistry then
     local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
     for i,moduleName in ipairs(this.infModelRegistry.headFovaModNames)do
@@ -108,6 +108,6 @@ function this.Setup(faceDefinition)
 end
 
 --EXEC
-this.LoadLibraries()
+InfCore.PCall(this.LoadLibraries)
 
 return this

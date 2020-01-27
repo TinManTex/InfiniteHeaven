@@ -585,7 +585,7 @@ if Script.LoadLibrary then
     filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
   end
   --tex>
-  local scriptPath=InfCore.modPath..filePath
+  local scriptPath=InfCore.paths.mod..filePath
   if InfCore.FileExists(scriptPath) then
     LoadLibrary(filePath)
   else
@@ -654,7 +654,6 @@ if Script.LoadLibrary then
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"
   end
-  --DEBUGNOW
   Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
   while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
     yield()

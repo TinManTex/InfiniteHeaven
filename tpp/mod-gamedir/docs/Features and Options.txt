@@ -217,7 +217,7 @@ Appearance menu
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
-6: Face : faceId:0
+6: Face : nil
 7: Print face info : (Command)
 8: Print appearance info : (Command)
 9: Form Variation menu
@@ -771,7 +771,7 @@ Appearance menu
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
-6: Face : faceId:0
+6: Face : nil
 7: Print face info : (Command)
 8: Print appearance info : (Command)
 9: Form Variation menu
@@ -848,7 +848,8 @@ Logs some script execution flow, requires Debug IH mode to be on.
 15: appearanceDebugMenu
 16: printPressedButtons : Off, On
 17: printOnBlockChange : Off, On
-18: Show position : (Command)
+18: setAllFriendly : (Command)
+19: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

@@ -104,7 +104,8 @@ this.showPosition={
   OnChange=function()
     if InfUtil.GetLocationName()=="afgh" or InfUtil.GetLocationName()=="mafr" then
       local blockNameStr32=Tpp.GetLoadedLargeBlock()
-      InfCore.Log("Current large block:"..InfLookup.StrCode32ToString(blockNameStr32),false,true)
+      local blockName=InfLookup.StrCode32ToString(blockNameStr32) or blockNameStr32
+      InfCore.Log("Current large block:"..blockName,false,true)
       local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
       InfCore.Log("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
     end
@@ -546,7 +547,7 @@ this.requestHeliLzToLastMarker={
       if not TppLandingZone.assaultLzs[locationName] then
         InfCore.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
       end
-      local aprRoute=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+      local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
       --InfCore.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
 
       local heliId=GetGameObjectId("TppHeli2","SupportHeli")
@@ -554,7 +555,7 @@ this.requestHeliLzToLastMarker={
         --InfCore.DebugPrint"heliId==NULL_ID"--DEBUG
         return
       end
-      SendCommand(heliId,{id="CallToLandingZoneAtName",name=aprRoute})
+      SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
     end
 
     InfMenu.MenuOff()
@@ -631,34 +632,7 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
-    
-    local socket=require"socket"
-    --    local lasterUserMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-    --    local gameId=vars.userMarkerGameObjId[lasterUserMarkerIndex]
-    --    if gameId==NULL_ID then
-    --      InfCore.DebugPrint"gameId==NULL_ID"
-    --      return
-    --    end
-    --
-    --    --    local command={id="ChangeFova",faceId=index2}
-    --    --    GameObject.SendCommand(gameId,command)
-    --
-    --    local objectName=InfLookup.ObjectNameForGameId(gameId)
-    --    if objectName==nil then
-    --      InfCore.DebugPrint"objectName==nil"
-    --      return
-    --    end
-    --    InfCore.DebugPrint(objectName)
-    --
-    --    InfCore.Log(objectName,true)
-    --
-    --    local wildCardInfo=InfNPC.ene_wildCardInfo[objectName]
-    --    if wildCardInfo==nil then
-    --      InfCore.DebugPrint"wildCardInfo==nil"
-    --      return
-    --    end
-    --
-    --    InfCore.PrintInspect(wildCardInfo)
+
 
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -676,9 +650,6 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
 
-
-
-
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -692,32 +663,7 @@ local index3Max=10
 local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
-
-    local positionsList={
-      {pos={845.075,297.156,2379.230},rot=79.401},
-      {pos={793.784,292.014,2472.851},rot=22.450},
-      {pos={724.948,290.399,2482.498},rot=46.496},
-      {pos={694.904,293.442,2460.756},rot=-49.662},
-      {pos={693.468,291.960,2447.803},rot=-102.257},
-      {pos={779.257,291.816,2577.759},rot=-134.101},
-      {pos={771.967,286.862,2562.339},rot=98.388},
-      {pos={864.529,302.099,2510.342},rot=-85.682},
-      {pos={851.171,297.145,2481.231},rot=-129.925},
-    }
-
-    local TARGET_HOSTAGE_NAME="hos_quest_0000"
-    index3Max=#positionsList
-
-
-    local coords=positionsList[index3]--InfUtil.GetRandomInList(positionsList)
-
-    local hostageId=GetGameObjectId(TARGET_HOSTAGE_NAME)
-    if hostageId==GameObject.NULL_ID then
-    else
-      local command={id="Warp",position=Vector3(coords.pos[1],coords.pos[2],coords.pos[3]),degRotationY=coords.rot}
-      GameObject.SendCommand(hostageId,command)
-    end
-
+    InfCore.Log("---DEBUG_SomeShiz3---")
 
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -1511,6 +1457,12 @@ this.DEBUG_PrintSaveVarCount={
   end,
 }
 
+this.DEBUG_DumpValidStrCode={
+  OnChange=function()
+    InfLookup.DumpValidStrCode()
+  end
+}
+
 
 this.HeliMenuOnTest={--CULL: UI system overrides it :(
   OnChange=function()
@@ -1544,9 +1496,8 @@ this.loadExternalModules={
 this.copyLogToPrev={
   OnChange=function()
     local fileName=InfCore.logFileName
-    local ext=InfCore.ext
-    InfCore.CopyFileToPrev(fileName,ext)
-    InfCore.ClearFile(fileName,ext)
+    InfCore.CopyFileToPrev(InfCore.paths.mod,fileName,".txt")
+    InfCore.ClearFile(InfCore.paths.mod,fileName,".txt")
   end
 }
 

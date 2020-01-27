@@ -321,9 +321,9 @@ function this.OnIconFultonShown(E,T,n)
     end
   end
 end
-function this.OnVehicleDrive(n,T)
-  local T=GameObject.SendCommand(T,{id="GetVehicleType"})
-  if this.AttackVehicleTable[T]then
+function this.OnVehicleDrive(n,vehicleId)
+  local vehicleType=GameObject.SendCommand(vehicleId,{id="GetVehicleType"})
+  if this.AttackVehicleTable[vehicleType]then
     this.DispGuide("ATTACK_VEHICLE_SHOOT",this.DISPLAY_OPTION.CONTROL)
     this.DispGuide("ATTACK_VEHICLE_CAMERA",this.DISPLAY_OPTION.CONTROL)
   end
@@ -381,14 +381,14 @@ end
 function this.OnPlayerUseBoosterScope()
   this.DispGuide("BOOSTER_SCOPE",this.DISPLAY_OPTION.CONTROL)
 end
-function this.OnEquipItem(e,e)
+function this.OnEquipItem(playerId,equpId)
 end
-function this.OnEquipHudClosed(n,weapons,T)
-  if T==TppEquip.EQP_TYPE_Throwing then
+function this.OnEquipHudClosed(unk1,weaponId,equipType)
+  if equipType==TppEquip.EQP_TYPE_Throwing then
     this.DispGuide("THROW_EQUIP",this.DISPLAY_OPTION.TIPS)
-  elseif T==TppEquip.EQP_TYPE_Placed then
-    local T=TppEquip.GetSupportWeaponTypeId(weapons)
-    if T==TppEquip.SWP_TYPE_CaptureCage then
+  elseif equipType==TppEquip.EQP_TYPE_Placed then
+    local supportId=TppEquip.GetSupportWeaponTypeId(weaponId)
+    if supportId==TppEquip.SWP_TYPE_CaptureCage then
       this.DispGuide("ANIMAL_CAGE",this.DISPLAY_OPTION.TIPS)
     end
   else
@@ -398,7 +398,7 @@ function this.OnEquipHudClosed(n,weapons,T)
     local altAmmoId
     local altAmmoInWeapon
     local altDefaultAmmo
-    ammoId,ammoInWeapon,defaultAmmo,altAmmoId,altAmmoInWeapon,altDefaultAmmo=TppEquip.GetAmmoInfo(weapons)
+    ammoId,ammoInWeapon,defaultAmmo,altAmmoId,altAmmoInWeapon,altDefaultAmmo=TppEquip.GetAmmoInfo(weaponId)
     if ammoId~=0 and altAmmoId~=0 then
       this.DispGuide("UNDER_BARREL",this.DISPLAY_OPTION.TIPS_CONTROL)
     end

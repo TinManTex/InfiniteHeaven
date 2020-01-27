@@ -58,7 +58,12 @@ local function GetSettingText(option)
       --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
     end
   elseif IsFunc(option.GetSettingText) then
-    settingText=tostring(option:GetSettingText(0))
+    if option:GetSettingText(0)==nil then
+      print("option:GetSettingText(0)==nil for "..option.name)--DEBUG
+      settingText="nil"
+    else
+      settingText=tostring(option:GetSettingText(0))
+    end
   elseif option.isPercent then
     if option.range then
       settingText=option.range.min.."-"..option.range.max.."%"
@@ -303,22 +308,33 @@ function this.AutoDoc()
     table.insert(htmlTable,"<br/>")
   end
 
-  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
-  local headerFile=io.open(headerFilePath)
-  local header=headerFile:read("*all")
-  headerFile:close()
+--  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
+--  local headerFile=io.open(headerFilePath)
+--  local header=headerFile:read("*all")
+--  headerFile:close()
+  local header=
+  [[
+  
+-- Profiles are lists of settings for IH options. 
+-- IH only reads this file/does not write to it. 
+-- In-game the settings are saved to your save file when the IH menu closes, or the mission saves (usually during mission load).
 
+-- See Features and Options.html for longer descriptions of some settings.
+
+-- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
+  ]]
+
+  table.insert(profileTable,"-- Example_Defaults.lua")
+  table.insert(profileTable,"-- Defaults / example of all profile options for IH r"..InfCore.modVersion)
   table.insert(profileTable,header)
-  table.insert(profileTable,"local profiles={}")
-  table.insert(profileTable,"-- Defaults/example of all profile options for IH r"..InfCore.modVersion)
-  table.insert(profileTable,"profiles.defaults={")
+  table.insert(profileTable,"local this={")
   table.insert(profileTable,"\tdescription=\"Defaults/All disabled\",")
   table.insert(profileTable,"\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.")
-  table.insert(profileTable,"\tloadOnACCStart=false,")--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)
+  table.insert(profileTable,"\tloadOnACCStart=false,--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)")
 
   table.insert(profileTable,"\tprofile={")
 
-  --patchup DEBUGNOW remove any dependancies in Ivars, check these
+  --patchup TODO remove any dependancies in Ivars, check these
   --tex TODO provide more descriptive lists?
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
@@ -370,15 +386,15 @@ function this.AutoDoc()
   table.insert(profileTable,"}")
   table.insert(profileTable,"")
 
-  local heavenProfilesPath=projectFolder.."!modlua\\InfProfiles\\InfHeavenProfiles.lua"
-  local heavenProfilesFile=io.open(heavenProfilesPath)
-  local heavenProfiles=heavenProfilesFile:read("*all")
-  heavenProfilesFile:close()
-
-  table.insert(profileTable,heavenProfiles)
+--  local heavenProfilesPath=projectFolder.."!modlua\\InfProfiles\\InfHeavenProfiles.lua"
+--  local heavenProfilesFile=io.open(heavenProfilesPath)
+--  local heavenProfiles=heavenProfilesFile:read("*all")
+--  heavenProfilesFile:close()
+--
+--  table.insert(profileTable,heavenProfiles)
 
   table.insert(profileTable,"")
-  table.insert(profileTable,"return profiles")
+  table.insert(profileTable,"return this")
   
   local textFilePath=projectFolder..featuresOutputName..".txt"
   local textFile=io.open(textFilePath,"w")
@@ -386,7 +402,7 @@ function this.AutoDoc()
   local htmlFilePath=projectFolder..featuresOutputName..".html"
   local htmlFile=io.open(htmlFilePath,"w")
 
-  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\InfProfiles.lua"
+  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\profiles\\Example_Defaults.lua"
   local profileFile=io.open(profileFilePath,"w")
   
   textFile:write(table.concat(textTable,nl))

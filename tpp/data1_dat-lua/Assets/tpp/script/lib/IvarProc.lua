@@ -671,56 +671,50 @@ function this.PrintSaveVarCount()
   --    InfCore.PrintInspect(TppMain.allSvars)
 end
 
---IN: FILE: InfProfiles.lua
---OUT: profileNames
+local profileFormat={
+  description="string",
+  profile="table",
+}
+
+--OUT: profileNames,infProfiles
 --SIDE: Ivars.profiles
+--IN-SIDE: InfCore.files
 function this.SetupInfProfiles()
   InfCore.LogFlow"IvarProc.SetupInfProfiles"
-  --tex TODO: just can't seem to assign a loaded module to Global for some reason, works fine in external VM, and works fine at end of InfMain
-  --InfProfiles=require"InfProfiles"--
-  --  local infProfiles=require"InfProfiles"
-  --    if infProfiles then
-  --      --_G["InfProfiles"]=infProfiles
-  --      InfProfiles=infProfiles
-  --      InfCore.PrintInspect(InfProfiles)
-  --    end
-  --  InfCore.PrintInspect(InfProfiles)
 
-  local fileName="InfProfiles.lua"
-  local infProfiles=InfCore.LoadBoxed(fileName)
-  if infProfiles==nil then
-    Ivars.profiles=nil
-    return nil
-  end
+  local fileNames=InfCore.GetFileList(InfCore.files.profiles,".lua")
 
+  --InfCore.PrintInspect(fileNames)--DEBUG
+
+  local profiles={}
   local profileNames={}
-  for profileName,profileInfo in pairs(infProfiles)do
-    if type(profileName)=="string" then
-      if type(profileInfo)=="table" then
-        if not profileInfo.profile then
-          InfCore.DebugPrint("WARNING: profile on "..tostring(profileName).." is nil",true)
-        else
-          if type(profileInfo)=="table" then
-            --tex ok
-            table.insert(profileNames,profileName)
-            profileInfo.name=profileName
-          else
-            InfCore.Log("WARNING: profile on "..tostring(profileName).." is not a table",true)
-          end
-        end
-      else
-        InfCore.Log("WARNING: profileInfo for "..tostring(profileName).." is not a table",true)
+  for i,fileName in ipairs(fileNames)do
+    local profile=InfCore.LoadBoxed(InfCore.paths.profiles,fileName)
+    if profile and profile.profile then
+      local profileOk=InfCore.Validate(profileFormat,profile,fileName)
+      if profileOk then
+        table.insert(profileNames,fileName)
+        profiles[fileName]=profile
       end
-    else
-      InfCore.Log("WARNING: profileName is not a string:"..tostring(profileName),true)
     end
   end
+
+  --  InfCore.PrintInspect(profileNames)--DEBUG
+  --  InfCore.PrintInspect(infProfiles)--DEBUG
+
+  --CULL old single file
+  --  local fileName="InfProfiles.lua"
+  --  local infProfiles=InfCore.LoadBoxed(fileName)
+  --  if infProfiles==nil then
+  --    Ivars.profiles=nil
+  --    return nil
+  --  end
 
   table.sort(profileNames)
 
   local firstProfileCount=0
   for i,profileName in ipairs(profileNames)do
-    if infProfiles[profileName].firstProfile then
+    if profiles[profileName].firstProfile then
       local currentFirst=profileNames[1]
       profileNames[1]=profileName
       profileNames[i]=currentFirst
@@ -731,8 +725,7 @@ function this.SetupInfProfiles()
     InfCore.DebugPrint("WARNING: multiple profiles with firstProfile set")
   end
 
-  Ivars.profiles=infProfiles
-  return profileNames
+  return {profileNames,profiles}--WORKAROUND PCall
 end
 
 function this.ApplyInfProfiles(profileNames)
@@ -794,7 +787,7 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   Ivars.savedProfiles[profileName]=profile
 
   local profilesFileName="InfSavedProfiles.lua"
-  InfPersistence.Store(InfCore.modPath..profilesFileName,Ivars.savedProfiles)
+  InfPersistence.Store(InfCore.paths.mod..profilesFileName,Ivars.savedProfiles)
 end
 
 
@@ -805,7 +798,7 @@ function this.BuildSaveText(ihVer,inMission,onlyNonDefault,newSave)
   local saveTextList={
     "-- "..InfCore.saveName,
     "-- Save file for IH options",
-    "-- While this file is editable, editing an inMission save is likely to cause issues.",
+    "-- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.",
     "-- See Readme for more info",
     "local this={}",
     "this.ihVer="..ihVer,
@@ -851,7 +844,7 @@ function this.BuildTableText(tableName,sourceTable,saveTextList)
 end
 
 function this.WriteSave(saveTextLines,saveName)
-  local filePath=InfCore.modPath..saveName
+  local filePath=InfCore.paths.saves..saveName
 
   local saveFile,error=io.open(filePath,"w")
   if not saveFile or error then
@@ -919,7 +912,7 @@ end
 function this.LoadSave()
   InfCore.LogFlow"IvarProc.LoadSave"
   local saveName=InfCore.saveName
-  local filePath=InfCore.modPath..saveName
+  local filePath=InfCore.paths.saves..saveName
   local ih_save_chunk,error=loadfile(filePath)
   if ih_save_chunk==nil then
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)

@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Wed Feb 03 15:10:25 UTC+13:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:19 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
     <class name="DataSet" super="" version="0" />
-    <class name="GameObject" super="" version="2" />
-    <class name="TppSoldier2Parameter" super="" version="3" />
     <class name="GameObjectLocator" super="" version="2" />
     <class name="TransformEntity" super="" version="0" />
     <class name="TppSoldier2LocatorParameter" super="" version="0" />
@@ -166,7 +164,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-  
     <entity class="GameObjectLocator" classVersion="2" addr="0x16000000" unknown1="272" unknown2="46851778">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -231,7 +228,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000010" unknown1="272" unknown2="46851800">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000010" unknown1="272" unknown2="46851800">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0001</value>
@@ -284,7 +281,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000012" unknown1="32" unknown2="46851809">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000012" unknown1="32" unknown2="46851809">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000010</value>
@@ -295,7 +292,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000020" unknown1="272" unknown2="46851695">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000020" unknown1="272" unknown2="46851695">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0002</value>
@@ -348,7 +345,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000022" unknown1="32" unknown2="46851704">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000022" unknown1="32" unknown2="46851704">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000020</value>
@@ -359,7 +356,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000030" unknown1="272" unknown2="46851734">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000030" unknown1="272" unknown2="46851734">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0003</value>
@@ -412,7 +409,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000032" unknown1="32" unknown2="46851743">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000032" unknown1="32" unknown2="46851743">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000030</value>
@@ -423,7 +420,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000040" unknown1="272" unknown2="46851756">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000040" unknown1="272" unknown2="46851756">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0004</value>
@@ -476,7 +473,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000042" unknown1="32" unknown2="46851765">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000042" unknown1="32" unknown2="46851765">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000040</value>
@@ -487,7 +484,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000050" unknown1="272" unknown2="46851822">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000050" unknown1="272" unknown2="46851822">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0005</value>
@@ -540,7 +537,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000052" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000052" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000050</value>
@@ -551,7 +548,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000060" unknown1="272" unknown2="46851831">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000060" unknown1="272" unknown2="46851831">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0006</value>
@@ -604,7 +601,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000062" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000062" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000060</value>
@@ -615,7 +612,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000070" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000070" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0007</value>
@@ -668,7 +665,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000072" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000072" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000070</value>
@@ -679,7 +676,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000080" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000080" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0008</value>
@@ -732,7 +729,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000082" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000082" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000080</value>
@@ -743,7 +740,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000090" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000090" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0009</value>
@@ -796,7 +793,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000092" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000092" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000090</value>
@@ -807,8 +804,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-     <entity class="GameObjectLocator" classVersion="2" addr="0x16000100" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000100" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0010</value>
@@ -861,7 +857,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000102" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000102" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000100</value>
@@ -872,7 +868,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000110" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000110" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0011</value>
@@ -925,7 +921,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000112" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000112" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000110</value>
@@ -936,7 +932,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000120" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000120" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0012</value>
@@ -989,7 +985,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000122" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000122" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000120</value>
@@ -1000,7 +996,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000130" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000130" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0013</value>
@@ -1053,7 +1049,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000132" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000132" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000130</value>
@@ -1064,7 +1060,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000140" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000140" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0014</value>
@@ -1117,7 +1113,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000142" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000142" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000140</value>
@@ -1128,7 +1124,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000150" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000150" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0015</value>
@@ -1181,7 +1177,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000152" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000152" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000150</value>
@@ -1192,7 +1188,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000160" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000160" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0016</value>
@@ -1245,7 +1241,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000162" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000162" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000160</value>
@@ -1256,7 +1252,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000170" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000170" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0017</value>
@@ -1309,7 +1305,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000172" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000172" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000170</value>
@@ -1320,7 +1316,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000180" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000180" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0018</value>
@@ -1373,7 +1369,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000182" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000182" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000180</value>
@@ -1384,7 +1380,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000190" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000190" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0019</value>
@@ -1437,7 +1433,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000192" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000192" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000190</value>
@@ -1448,7 +1444,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-       <entity class="GameObjectLocator" classVersion="2" addr="0x16000200" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000200" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0020</value>
@@ -1501,7 +1497,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000202" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000202" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000200</value>
@@ -1512,7 +1508,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000210" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000210" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0021</value>
@@ -1565,7 +1561,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000212" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000212" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000210</value>
@@ -1576,7 +1572,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000220" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000220" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0022</value>
@@ -1629,7 +1625,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000222" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000222" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000220</value>
@@ -1640,7 +1636,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000230" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000230" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0023</value>
@@ -1693,7 +1689,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000232" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000232" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000230</value>
@@ -1704,7 +1700,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000240" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000240" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0024</value>
@@ -1757,7 +1753,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000242" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000242" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000240</value>
@@ -1768,7 +1764,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000250" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000250" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0025</value>
@@ -1821,7 +1817,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000252" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000252" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000250</value>
@@ -1832,7 +1828,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000260" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000260" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0026</value>
@@ -1885,7 +1881,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000262" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000262" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000260</value>
@@ -1896,7 +1892,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000270" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000270" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0027</value>
@@ -1949,7 +1945,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000272" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000272" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000270</value>
@@ -1960,7 +1956,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000280" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000280" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0028</value>
@@ -2013,7 +2009,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000282" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000282" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000280</value>
@@ -2024,7 +2020,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000290" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000290" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0029</value>
@@ -2077,7 +2073,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000292" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000292" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000290</value>
@@ -2088,7 +2084,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000300" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000300" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0030</value>
@@ -2141,7 +2137,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000302" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000302" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000300</value>
@@ -2152,7 +2148,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000310" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000310" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0031</value>
@@ -2205,7 +2201,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000312" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000312" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000310</value>
@@ -2216,7 +2212,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000320" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000320" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0032</value>
@@ -2269,7 +2265,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000322" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000322" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000320</value>
@@ -2280,7 +2276,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000330" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000330" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0033</value>
@@ -2333,7 +2329,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000332" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000332" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000330</value>
@@ -2344,7 +2340,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000340" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000340" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0034</value>
@@ -2397,7 +2393,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000342" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000342" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000340</value>
@@ -2408,7 +2404,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000350" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000350" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0035</value>
@@ -2461,7 +2457,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000352" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000352" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000350</value>
@@ -2472,7 +2468,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000360" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000360" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0036</value>
@@ -2525,7 +2521,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000362" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000362" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000360</value>
@@ -2536,7 +2532,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000370" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000370" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0037</value>
@@ -2589,7 +2585,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000372" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000372" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000370</value>
@@ -2600,7 +2596,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000380" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000380" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0038</value>
@@ -2653,7 +2649,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000382" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000382" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000380</value>
@@ -2664,7 +2660,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000390" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000390" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0039</value>
@@ -2717,7 +2713,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000392" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000392" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000390</value>
@@ -2727,8 +2723,7 @@
         </property>
       </staticProperties>
       <dynamicProperties />
-    </entity> 
-
+    </entity>
     <entity class="GameObjectLocator" classVersion="2" addr="0x16000400" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -2782,7 +2777,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000402" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000402" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000400</value>
@@ -2793,7 +2788,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000410" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000410" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0041</value>
@@ -2846,7 +2841,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000412" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000412" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000410</value>
@@ -2857,7 +2852,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000420" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000420" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0042</value>
@@ -2910,7 +2905,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000422" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000422" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000420</value>
@@ -2921,7 +2916,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000430" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000430" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0043</value>
@@ -2974,7 +2969,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000432" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000432" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000430</value>
@@ -2985,7 +2980,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000440" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000440" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0044</value>
@@ -3038,7 +3033,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000442" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000442" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000440</value>
@@ -3049,7 +3044,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000450" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000450" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0045</value>
@@ -3102,7 +3097,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000452" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000452" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000450</value>
@@ -3113,7 +3108,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000460" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000460" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0046</value>
@@ -3166,7 +3161,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000462" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000462" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000460</value>
@@ -3177,7 +3172,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000470" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000470" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0047</value>
@@ -3230,7 +3225,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000472" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000472" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000470</value>
@@ -3241,7 +3236,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000480" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000480" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0048</value>
@@ -3294,7 +3289,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000482" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000482" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000480</value>
@@ -3305,7 +3300,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000490" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000490" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0049</value>
@@ -3358,7 +3353,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000492" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000492" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000490</value>
@@ -3368,8 +3363,7 @@
         </property>
       </staticProperties>
       <dynamicProperties />
-    </entity>   
-
+    </entity>
     <entity class="GameObjectLocator" classVersion="2" addr="0x16000500" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -3423,7 +3417,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000502" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000502" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000500</value>
@@ -3434,7 +3428,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000510" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000510" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0051</value>
@@ -3487,7 +3481,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000512" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000512" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000510</value>
@@ -3498,7 +3492,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000520" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000520" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0052</value>
@@ -3551,7 +3545,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000522" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000522" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000520</value>
@@ -3562,7 +3556,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000530" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000530" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0053</value>
@@ -3615,7 +3609,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000532" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000532" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000530</value>
@@ -3626,7 +3620,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000540" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000540" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0054</value>
@@ -3679,7 +3673,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000542" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000542" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000540</value>
@@ -3690,7 +3684,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000550" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000550" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0055</value>
@@ -3743,7 +3737,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000552" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000552" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000550</value>
@@ -3754,7 +3748,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000560" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000560" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0056</value>
@@ -3807,7 +3801,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000562" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000562" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000560</value>
@@ -3818,7 +3812,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000570" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000570" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0057</value>
@@ -3871,7 +3865,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000572" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000572" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000570</value>
@@ -3882,7 +3876,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000580" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000580" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0058</value>
@@ -3935,7 +3929,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000582" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000582" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000580</value>
@@ -3946,8 +3940,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000590" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000590" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0059</value>
@@ -4000,7 +3993,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000592" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000592" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000590</value>
@@ -4011,7 +4004,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x16000600" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -4065,7 +4057,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000602" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000602" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000600</value>
@@ -4076,7 +4068,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000610" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000610" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0061</value>
@@ -4129,7 +4121,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000612" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000612" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000610</value>
@@ -4140,7 +4132,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000620" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000620" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0062</value>
@@ -4193,7 +4185,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000622" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000622" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000620</value>
@@ -4204,7 +4196,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000630" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000630" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0063</value>
@@ -4257,7 +4249,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000632" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000632" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000630</value>
@@ -4268,7 +4260,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000640" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000640" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0064</value>
@@ -4321,7 +4313,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000642" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000642" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000640</value>
@@ -4332,7 +4324,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000650" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000650" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0065</value>
@@ -4385,7 +4377,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000652" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000652" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000650</value>
@@ -4396,7 +4388,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000660" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000660" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0066</value>
@@ -4449,7 +4441,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000662" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000662" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000660</value>
@@ -4460,7 +4452,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000670" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000670" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0067</value>
@@ -4513,7 +4505,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000672" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000672" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000670</value>
@@ -4524,7 +4516,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000680" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000680" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0068</value>
@@ -4577,7 +4569,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000682" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000682" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000680</value>
@@ -4588,7 +4580,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000690" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000690" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0069</value>
@@ -4641,7 +4633,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000692" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000692" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000690</value>
@@ -4652,8 +4644,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-        <entity class="GameObjectLocator" classVersion="2" addr="0x16000700" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000700" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0070</value>
@@ -4706,7 +4697,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000702" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000702" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000700</value>
@@ -4717,7 +4708,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000710" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000710" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0071</value>
@@ -4770,7 +4761,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000712" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000712" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000710</value>
@@ -4781,7 +4772,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000720" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000720" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0072</value>
@@ -4834,7 +4825,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000722" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000722" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000720</value>
@@ -4845,7 +4836,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000730" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000730" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0073</value>
@@ -4898,7 +4889,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000732" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000732" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000730</value>
@@ -4909,7 +4900,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000740" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000740" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0074</value>
@@ -4962,7 +4953,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000742" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000742" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000740</value>
@@ -4973,7 +4964,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000750" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000750" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0075</value>
@@ -5026,7 +5017,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000752" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000752" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000750</value>
@@ -5037,7 +5028,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000760" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000760" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0076</value>
@@ -5090,7 +5081,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000762" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000762" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000760</value>
@@ -5101,7 +5092,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000770" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000770" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0077</value>
@@ -5154,7 +5145,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000772" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000772" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000770</value>
@@ -5165,7 +5156,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000780" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000780" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0078</value>
@@ -5218,7 +5209,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000782" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000782" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000780</value>
@@ -5229,7 +5220,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000790" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000790" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0079</value>
@@ -5282,7 +5273,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000792" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000792" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000790</value>
@@ -5293,8 +5284,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-        <entity class="GameObjectLocator" classVersion="2" addr="0x16000800" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000800" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0080</value>
@@ -5347,7 +5337,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000802" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000802" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000800</value>
@@ -5358,7 +5348,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000810" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000810" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0081</value>
@@ -5411,7 +5401,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000812" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000812" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000810</value>
@@ -5422,7 +5412,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000820" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000820" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0082</value>
@@ -5475,7 +5465,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000822" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000822" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000820</value>
@@ -5486,7 +5476,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000830" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000830" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0083</value>
@@ -5539,7 +5529,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000832" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000832" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000830</value>
@@ -5550,7 +5540,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000840" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000840" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0084</value>
@@ -5603,7 +5593,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000842" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000842" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000840</value>
@@ -5614,7 +5604,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000850" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000850" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0085</value>
@@ -5667,7 +5657,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000852" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000852" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000850</value>
@@ -5678,7 +5668,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000860" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000860" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0086</value>
@@ -5731,7 +5721,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000862" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000862" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000860</value>
@@ -5742,7 +5732,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000870" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000870" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0087</value>
@@ -5795,7 +5785,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000872" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000872" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000870</value>
@@ -5806,7 +5796,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000880" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000880" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0088</value>
@@ -5859,7 +5849,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000882" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000882" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000880</value>
@@ -5870,7 +5860,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000890" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000890" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0089</value>
@@ -5923,7 +5913,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000892" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000892" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000890</value>
@@ -5934,8 +5924,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-        <entity class="GameObjectLocator" classVersion="2" addr="0x16000900" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000900" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0090</value>
@@ -5988,7 +5977,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000902" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000902" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000900</value>
@@ -5999,7 +5988,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16000910" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000910" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0091</value>
@@ -6052,7 +6041,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000912" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000912" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000910</value>
@@ -6063,7 +6052,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000920" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000920" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0092</value>
@@ -6116,7 +6105,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000922" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000922" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000920</value>
@@ -6127,7 +6116,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000930" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000930" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0093</value>
@@ -6180,7 +6169,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000932" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000932" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000930</value>
@@ -6191,7 +6180,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000940" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000940" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0094</value>
@@ -6244,7 +6233,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000942" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000942" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000940</value>
@@ -6255,7 +6244,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000950" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000950" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0095</value>
@@ -6308,7 +6297,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000952" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000952" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000950</value>
@@ -6319,7 +6308,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000960" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000960" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0096</value>
@@ -6372,7 +6361,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000962" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000962" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000960</value>
@@ -6383,7 +6372,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000970" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000970" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0097</value>
@@ -6436,7 +6425,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000972" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000972" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000970</value>
@@ -6447,7 +6436,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000980" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000980" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0098</value>
@@ -6500,7 +6489,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000982" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000982" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000980</value>
@@ -6511,7 +6500,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16000990" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16000990" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0099</value>
@@ -6564,7 +6553,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000992" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16000992" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16000990</value>
@@ -6575,8 +6564,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16001000" unknown1="272" unknown2="46851778">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001000" unknown1="272" unknown2="46851778">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0100</value>
@@ -6640,7 +6628,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16001010" unknown1="272" unknown2="46851800">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001010" unknown1="272" unknown2="46851800">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0101</value>
@@ -6693,7 +6681,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001012" unknown1="32" unknown2="46851809">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001012" unknown1="32" unknown2="46851809">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001010</value>
@@ -6704,7 +6692,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001020" unknown1="272" unknown2="46851695">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001020" unknown1="272" unknown2="46851695">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0102</value>
@@ -6757,7 +6745,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001022" unknown1="32" unknown2="46851704">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001022" unknown1="32" unknown2="46851704">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001020</value>
@@ -6768,7 +6756,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001030" unknown1="272" unknown2="46851734">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001030" unknown1="272" unknown2="46851734">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0103</value>
@@ -6821,7 +6809,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001032" unknown1="32" unknown2="46851743">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001032" unknown1="32" unknown2="46851743">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001030</value>
@@ -6832,7 +6820,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001040" unknown1="272" unknown2="46851756">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001040" unknown1="272" unknown2="46851756">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0104</value>
@@ -6885,7 +6873,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001042" unknown1="32" unknown2="46851765">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001042" unknown1="32" unknown2="46851765">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001040</value>
@@ -6896,7 +6884,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001050" unknown1="272" unknown2="46851822">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001050" unknown1="272" unknown2="46851822">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0105</value>
@@ -6949,7 +6937,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001052" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001052" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001050</value>
@@ -6960,7 +6948,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001060" unknown1="272" unknown2="46851831">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001060" unknown1="272" unknown2="46851831">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0106</value>
@@ -7013,7 +7001,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001062" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001062" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001060</value>
@@ -7024,7 +7012,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001070" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001070" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0107</value>
@@ -7077,7 +7065,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001072" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001072" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001070</value>
@@ -7088,7 +7076,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001080" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001080" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0108</value>
@@ -7141,7 +7129,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001082" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001082" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001080</value>
@@ -7152,7 +7140,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001090" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001090" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0109</value>
@@ -7205,7 +7193,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001092" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001092" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001090</value>
@@ -7216,8 +7204,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-     <entity class="GameObjectLocator" classVersion="2" addr="0x16001100" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001100" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0110</value>
@@ -7270,7 +7257,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001102" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001102" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001100</value>
@@ -7281,7 +7268,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16001110" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001110" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0111</value>
@@ -7334,7 +7321,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001112" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001112" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001110</value>
@@ -7345,7 +7332,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001120" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001120" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0112</value>
@@ -7398,7 +7385,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001122" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001122" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001120</value>
@@ -7409,7 +7396,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001130" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001130" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0113</value>
@@ -7462,7 +7449,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001132" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001132" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001130</value>
@@ -7473,7 +7460,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001140" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001140" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0114</value>
@@ -7526,7 +7513,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001142" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001142" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001140</value>
@@ -7537,7 +7524,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001150" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001150" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0115</value>
@@ -7590,7 +7577,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001152" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001152" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001150</value>
@@ -7601,7 +7588,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001160" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001160" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0116</value>
@@ -7654,7 +7641,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001162" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001162" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001160</value>
@@ -7665,7 +7652,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001170" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001170" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0117</value>
@@ -7718,7 +7705,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001172" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001172" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001170</value>
@@ -7729,7 +7716,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001180" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001180" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0118</value>
@@ -7782,7 +7769,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001182" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001182" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001180</value>
@@ -7793,7 +7780,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001190" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001190" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0119</value>
@@ -7846,7 +7833,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001192" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001192" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001190</value>
@@ -7857,7 +7844,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-       <entity class="GameObjectLocator" classVersion="2" addr="0x16001200" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001200" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0120</value>
@@ -7910,7 +7897,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001202" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001202" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001200</value>
@@ -7921,7 +7908,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16001210" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001210" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0121</value>
@@ -7974,7 +7961,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001212" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001212" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001210</value>
@@ -7985,7 +7972,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001220" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001220" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0122</value>
@@ -8038,7 +8025,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001222" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001222" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001220</value>
@@ -8049,7 +8036,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001230" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001230" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0123</value>
@@ -8102,7 +8089,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001232" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001232" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001230</value>
@@ -8113,7 +8100,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001240" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001240" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0124</value>
@@ -8166,7 +8153,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001242" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001242" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001240</value>
@@ -8177,7 +8164,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001250" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001250" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0125</value>
@@ -8230,7 +8217,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001252" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001252" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001250</value>
@@ -8241,7 +8228,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001260" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001260" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0126</value>
@@ -8294,7 +8281,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001262" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001262" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001260</value>
@@ -8305,7 +8292,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001270" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001270" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0127</value>
@@ -8358,7 +8345,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001272" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001272" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001270</value>
@@ -8369,7 +8356,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001280" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001280" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0128</value>
@@ -8422,7 +8409,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001282" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001282" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001280</value>
@@ -8433,7 +8420,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001290" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001290" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0129</value>
@@ -8486,7 +8473,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001292" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001292" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001290</value>
@@ -8497,7 +8484,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16001300" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001300" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0130</value>
@@ -8550,7 +8537,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001302" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001302" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001300</value>
@@ -8561,7 +8548,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-      <entity class="GameObjectLocator" classVersion="2" addr="0x16001310" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001310" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0131</value>
@@ -8614,7 +8601,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001312" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001312" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001310</value>
@@ -8625,7 +8612,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001320" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001320" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0132</value>
@@ -8678,7 +8665,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001322" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001322" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001320</value>
@@ -8689,7 +8676,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001330" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001330" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0133</value>
@@ -8742,7 +8729,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001332" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001332" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001330</value>
@@ -8753,7 +8740,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001340" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001340" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0134</value>
@@ -8806,7 +8793,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001342" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001342" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001340</value>
@@ -8817,7 +8804,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001350" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001350" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0135</value>
@@ -8870,7 +8857,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001352" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001352" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001350</value>
@@ -8881,7 +8868,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001360" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001360" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0136</value>
@@ -8934,7 +8921,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001362" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001362" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001360</value>
@@ -8945,7 +8932,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001370" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001370" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0137</value>
@@ -8998,7 +8985,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001372" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001372" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001370</value>
@@ -9009,7 +8996,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001380" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001380" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0138</value>
@@ -9062,7 +9049,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001382" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001382" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001380</value>
@@ -9073,7 +9060,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-         <entity class="GameObjectLocator" classVersion="2" addr="0x16001390" unknown1="272" unknown2="46850491">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x16001390" unknown1="272" unknown2="46850491">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>sol_ih_0139</value>
@@ -9126,7 +9113,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-        <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001392" unknown1="32" unknown2="46849805">
+    <entity class="TppSoldier2LocatorParameter" classVersion="0" addr="0x16001392" unknown1="32" unknown2="46849805">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x16001390</value>
@@ -9136,8 +9123,7 @@
         </property>
       </staticProperties>
       <dynamicProperties />
-    </entity> 
-    
+    </entity>
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x2463D4B0" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

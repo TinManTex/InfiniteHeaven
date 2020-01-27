@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Feb 12 11:25:05 UTC+13:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:54:31 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
     <class name="DataSet" super="" version="0" />
-    <class name="TransformEntity" super="" version="0" />
-    <class name="GameObject" super="" version="2" />
     <class name="GameObjectLocator" super="" version="2" />
+    <class name="TransformEntity" super="" version="0" />
     <class name="TppHeli2LocatorParameter" super="" version="0" />
     <class name="TexturePackLoadConditioner" super="" version="0" />
   </classes>
@@ -29,7 +28,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-   
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000000" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -91,7 +89,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000010" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -153,7 +150,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000020" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -215,7 +211,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000030" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -277,7 +272,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0463EDA0" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

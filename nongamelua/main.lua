@@ -15,6 +15,7 @@ package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
 
 package.path=package.path..";./ExternalLua/?.lua"
+package.path=package.path..";./ExternalLua/modules/?.lua"
 
 package.path=package.path..";./nonmgscelua/?.lua"
 
@@ -55,7 +56,7 @@ end
 
 dofile("MockFox/MockFoxEngine.lua")
 
-print"parse: MockFoxEngine done"
+print"parse main.lua: MockFoxEngine done"
 
 --local init,err=loadfile("./Data1Lua/init.lua")
 --if not err then
@@ -122,11 +123,17 @@ TppUiCommand.AnnounceLogView=function(string)
   print(string)
 end
 
---end mock stuff
-
 InfCore=require"InfCore"
 InfPersistence=require"InfPersistence"
 
+--InfModelProc=require"InfModelProc"--TODO get working
+
+
+ivars={}--tex GLOBAL
+evars={}--tex GLOBAL
+
+
+--end mock stuff
 --start.lua
 local tppOrMgoPath
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
@@ -140,6 +147,7 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
 else
   filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
 end
+
 Script.LoadLibraryAsync(filePath)
 while Script.IsLoadingLibrary(filePath)do
   yield()
@@ -155,6 +163,7 @@ local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipMoti
 if TppEquip.IsExistFile(filePath)then
   Script.LoadLibrary(filePath)
 end
+
 Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"
 Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
@@ -305,6 +314,11 @@ local function IsMenu(item)
     end
   end
 end
+
+print("parse main.lua: Inf Mock done")
+
+--local ins=InfInspect.Inspect(ivars)--DEBUGNOW
+--print(ins)
 
 -- end autodoc
 -- equipid string out for strcode32 (TODO should add an implementation/library to this project).

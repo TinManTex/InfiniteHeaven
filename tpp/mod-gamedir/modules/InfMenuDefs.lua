@@ -565,10 +565,10 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    InfMenuCommands.DEBUG_DumpValidStrCode,
     --TODO: debugmodeall command/profile
     --Ivars.enableWildCardHostageFREE,--WIP
-    Ivars.enableSecurityCamFREE,
-
+    --Ivars.enableSecurityCamFREE,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
@@ -666,6 +666,7 @@ this.devInMissionMenu={
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
     InfMenuCommands.DEBUG_ToggleParasiteEvent,
+    InfMenuCommands.DEBUG_DumpValidStrCode,
     Ivars.debugMode,
     Ivars.debugMessages,
     Ivars.debugFlow,

@@ -700,11 +700,11 @@ function this.SetHeroicAndOrgPoint(gimmickId,e)
   if e==NULL_ID then
     return
   end
-  local e=mvars.gim_identifierParamTable[gimmickId].gimmickType
-  if not e then
+  local gimmickType=mvars.gim_identifierParamTable[gimmickId].gimmickType
+  if not gimmickType then
     return
   end
-  TppHero.AnnounceBreakGimmickByGimmickType(e)
+  TppHero.AnnounceBreakGimmickByGimmickType(gimmickType)
 end
 function this.EnableCollectionTable(collectionNames,enable,force)
   local showFlag=0

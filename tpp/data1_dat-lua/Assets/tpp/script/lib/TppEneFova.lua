@@ -457,8 +457,8 @@ fovaSetupFuncs[10120]=function(locationName,missionId)
 end
 fovaSetupFuncs[10040]=function(locationName,missionId)
   --tex ORIG:>
-  local fovaSetupFuncs=Select(fovaSetupFuncs)
-  fovaSetupFuncs:case("Afghan",missionId)
+--  local fovaSetupFuncs=Select(fovaSetupFuncs)
+--  fovaSetupFuncs:case("Afghan",missionId)
   --<
   fovaSetupFuncs[locationName](locationName,missionId)--tex REWORKED
   TppSoldierFace.SetUseZombieFova{enabled=true}
@@ -668,6 +668,8 @@ function fovaSetupFuncs.afgh(locationName,missionId)
     {31,MAX_REALIZED_COUNT},
     {TppEnemyBodyId.prs2_main0_v00,MAX_REALIZED_COUNT}
   }
+  
+  local isNotRequiredArmorSoldier=this.IsNotRequiredArmorSoldier(missionId)
   if not this.IsNotRequiredArmorSoldier(missionId)then
     local body={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
     table.insert(bodies,body)
@@ -998,6 +1000,10 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
+  
+  if missionId==10240 then--tex WORKAROUND>
+    fovaSetupFuncs.mbqf(locationName,missionId)
+  end--<
 
   --face setup
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
@@ -1171,7 +1177,8 @@ function this.PreMissionLoad(missionId,currentMissionId)
   elseif fovaSetupFuncs[locationName] then
     fovaFuncName=locationName
   end
-
+  
+  InfCore.LogFlow("TppEneFova.PreMissionLoad locationName:"..tostring(locationName).." missionId:"..tostring(missionId))--DEBUG
   --tex 1st parameter wasn't actually used in vanilla, only for the switch/case, might as well repurpose it
   fovaSetupFuncs[fovaFuncName](locationName,missionId)
 

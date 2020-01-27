@@ -1,159 +1,793 @@
-|0|InfCore start 01/11/17 20:54:26
-|0|package.path:.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua;C:\GamesSD\MGS_TPP\mod\?.lua
+|0|InfCore start 01/31/17 13:05:12
+|0|package.path:.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua;C:\GamesSD\MGS_TPP\mod\?.lua;C:\GamesSD\MGS_TPP\mod\profiles\?.lua;C:\GamesSD\MGS_TPP\mod\modules\?.lua
+|0|InfCore.RefreshFileList
+|0|dir /b "C:\GamesSD\MGS_TPP\mod\modules\*.lua" > "C:\GamesSD\MGS_TPP\mod\modules\ih_files.txt" & dir /b "C:\GamesSD\MGS_TPP\mod\*.lua" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt" & dir /b "C:\GamesSD\MGS_TPP\mod\profiles\*.lua" > "C:\GamesSD\MGS_TPP\mod\profiles\ih_files.txt" & dir /b "C:\GamesSD\MGS_TPP\mod\saves\*.lua" > "C:\GamesSD\MGS_TPP\mod\saves\ih_files.txt" & 
 |0|Load InfInit.lua
+|0|Ivars.SetupIvars
 |0|IvarProc.LoadEvars
 |0|IvarProc.LoadSave
 |0|InfInit.lua done
 |0|Found external for C:\GamesSD\MGS_TPP\mod\Fox/Scripts/Gr/gr_init_dx11.lua
 |0|init.lua done
 |0|start.lua
-|0.25025188862249|Loading parameter tables
-|0.40040276665431|Load InfModelRegistry.lua
-|0.42542782794572|InfModelRegistry setup
-|0.50050301181995|Load Tpp.lua
-|0.50050301181995|Tpp.lua done
-|0.55055415496948|InfRequiresStart - start of TppDefine requires-list
-|0.60060453269398|Load TppDefine.lua
-|0.60060453269398|InfCore.StrCode32: WARNING: Attempting to encode a number: 982961015
-|0.60060453269398|caller: /Assets/tpp/script/lib/TppDefine.lua:469 - 
-|0.60060453269398|InfCore.StrCode32: WARNING: Attempting to encode a number: 2770109797
-|0.60060453269398|caller: /Assets/tpp/script/lib/TppDefine.lua:469 - 
-|0.60060453269398|TppDefine.lua done
-|0.75075566586748|mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
-|3.3867422260244|Load InfMain.lua
-|3.3867422260244|InfMain LoadExternalModules
-|3.3867422260244|InfMain.LoadExternalModules
-|3.3867422260244|InfMain.lua done
-|4.4878505359634|InfHook done, requires-list done
-|4.7047355061029|Loading mother base settings
-|4.7047355061029|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|4.7047355061029|MbmCommonSetting.lua - personal tweaks
-|4.7464440266358|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
-|4.7881525471687|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
-|4.8465445269431|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
-|4.8965949046676|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
-|4.9466452823921|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
-|4.9800122008751|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
-|5.021720721408|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
-|5.0801127011824|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
-|5.1134796196654|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
-|5.1551881401983|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
-|5.1968966607312|InfMain.LoadLibraries
-|5.1968966607312|LoadQuestDefs
-|5.1968966607312|Loaded questDef ih_quest_q30100
-|5.1968966607312|Loaded questDef ih_quest_q30101
-|5.1968966607312|Loaded questDef ih_quest_q30102
-|5.1968966607312|start2nd.lua done
-|5.4638320085952|TppVarInit.StartInitMission 10010
-|5.4638320085952|TppMission.Load nextMissionCode:1 currentMissionCode:nil
-|5.4638320085952|TppEneFova.InitializeUniqueSetting
-|5.4638320085952|InfMain.PreMissionLoad
-|5.4638320085952|start.lua done
-|5.4638320085952|TppMissionList.GetMissionPackagePath 1
-|5.4638320085952|InfMain.AddMissionPacks 1
-|5.4638320085952|{ "/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk", "/Assets/tpp/pack/mission2/init/init.fpk" }
-|5.4638320085952|OnAllocate Top 1
-|5.4638320085952|inf_levelSeed 4934224
-|5.4638320085952|InfHook TppSave.VarRestoreOnMissionStart
-|5.4638320085952|IvarProc.LoadEvars
-|5.4638320085952|IvarProc.LoadSave
-|5.4638320085952|DebugModeEnable:true
-|5.4638320085952|AddDevMenus
-|5.4638320085952|TppRevenge._CreateRevengeConfig
-|5.4638320085952|{
+|0.23356793586765|Loading parameter tables
+|0.38371866066064|Load InfModelRegistry.lua
+|0.38371866066064|Error loading InfModelRegistry.lua:C:\GamesSD\MGS_TPP\mod\InfModelRegistry.lua
+|0.40874369641233|InfModelRegistry setup
+|0.4838188036674|Load Tpp.lua
+|0.4838188036674|Tpp.lua done
+|0.55055359309281|InfRequiresStart - start of TppDefine requires-list
+|0.60060391973761|Load TppDefine.lua
+|0.60060391973761|InfCore.StrCode32: WARNING: Attempting to encode a number: 982961015
+|0.60060391973761|caller: /Assets/tpp/script/lib/TppDefine.lua:469 - 
+|0.60060391973761|InfCore.StrCode32: WARNING: Attempting to encode a number: 2770109797
+|0.60060391973761|caller: /Assets/tpp/script/lib/TppDefine.lua:469 - 
+|0.60060391973761|TppDefine.lua done
+|0.81748866853175|mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
+|3.4367890962763|Load InfMain.lua
+|3.4367890962763|InfMain Exec
+|3.4367890962763|InfMain.LoadExternalModules
+|3.4367890962763|{ "Ivars", "InfMenuCommands", "InfQuickMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "InfAnimal", "InfBuddy", "InfCamera", "InfEnemyPhase", "InfEquip", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBVisit", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfResources", "InfStrCode", "InfTeardown", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp" }
+|3.4367890962763|Ivars.SetupIvars
+|3.4367890962763|PostAllModulesLoad
+|3.4367890962763|DebugModeEnable:true
+|3.4367890962763|Ivars.PostAllModulesLoad
+|3.4367890962763|IvarProc.SetupInfProfiles
+|3.4367890962763|InfMain.lua done
+|4.1541771115185|InfHook done, requires-list done
+|4.3543784180977|Loading mother base settings
+|4.3543784180977|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|4.3543784180977|MbmCommonSetting.lua - personal tweaks
+|4.3710618603126|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
+|4.3960868960643|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
+|4.421111931816|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
+|4.4377956291724|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
+|4.4544790713873|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
+|4.479504107139|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
+|4.5045291428907|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
+|4.5295541786424|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
+|4.5545792143941|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
+|4.5796042501457|Found external for C:\GamesSD\MGS_TPP\mod\/Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
+|4.6046292858974|InfMain.LoadLibraries
+|4.6046292858974|LoadQuestDefs
+|4.6046292858974|Loaded questDef ih_quest_q30100
+|4.6046292858974|Loaded questDef ih_quest_q30101
+|4.6046292858974|Loaded questDef ih_quest_q30102
+|4.6046292858974|start2nd.lua done
+|4.8715643613364|TppVarInit.StartInitMission 10010
+|4.8715643613364|TppMission.Load nextMissionCode:1 currentMissionCode:nil
+|4.8715643613364|TppEneFova.InitializeUniqueSetting
+|4.8715643613364|TppEneFova.PreMissionLoad locationName:nil missionId:1
+|4.8715643613364|InfMain.PreMissionLoad
+|4.8715643613364|InfEquip.CreateCustomWeaponTable
+|4.8715643613364|start.lua done
+|4.8715643613364|TppMissionList.GetMissionPackagePath 1
+|4.8715643613364|InfMain.AddMissionPacks 1
+|4.8715643613364|{ "/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk", "/Assets/tpp/pack/mission2/init/init.fpk" }
+|4.8715643613364|OnAllocate Top 1
+|4.8715643613364|inf_levelSeed 4934224
+|4.8715643613364|InfHook TppSave.VarRestoreOnMissionStart
+|4.8715643613364|IvarProc.LoadEvars
+|4.8715643613364|IvarProc.LoadSave
+|4.8715643613364|DebugModeEnable:true
+|4.8715643613364|AddDevMenus
+|4.8715643613364|TppRevenge._CreateRevengeConfig
+|4.8715643613364|{
   COMBAT_LOW = true,
   HOLDUP_LOW = true,
   STEALTH_LOW = true
 }
-|5.4638320085952|OnAllocate Bottom 1
-|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|5.4638320085952|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|5.4638320085952|OnInitialize Top 1
-|5.4638320085952|InfQuest.RegisterQuests
-|5.4638320085952|RegisterQuests quest_q30100 168
-|5.4638320085952|RegisterQuests quest_q30101 169
-|5.4638320085952|RegisterQuests quest_q30102 170
-|5.4638320085952|numUiQuests:160
-|5.4638320085952|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
-|5.4638320085952|TppQuest.UpdateActiveQuest 1
-|5.4638320085952|OnInitialize Bottom 1
-|5.7808177341837|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|5.7808177341837|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|6.4731816754185|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|6.4731816754185|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|6.48986513466|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
-|6.48986513466|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
-|7.4741892299084|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
-|8.3083621919834|OnMessage|sender: UI, messageId: PopupClose, arg0=1200||str32:1200, arg1=0, 
-|8.3083621919834|OnMessage|sender: UI, messageId: PopupClose, arg0=1200||str32:1200, arg1=0, 
-|9.2259524502659|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
-|9.9266577384089|OnMessage|sender: Network, messageId: 2282751356, arg0=0, 
-|9.9266577384089|OnMessage|sender: Network, messageId: 2282751356, arg0=0, 
-|11.544953284834|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
-|11.544953284834|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
-|14.898328592376|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
-|14.898328592376|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398||str32:1799460398, arg1=0, 
-|18.101552766744|OnMessage|sender: UI, messageId: PopupClose, arg0=3404051590||str32:3404051590, arg1=0, 
-|18.101552766744|OnMessage|sender: UI, messageId: PopupClose, arg0=3404051590||str32:3404051590, arg1=0, 
-|19.536330261513|OnMessage|sender: Network, messageId: EndLogin
-|19.536330261513|OnMessage|sender: Network, messageId: EndLogin
-|20.186985171931|OnMessage|sender: UI, messageId: EndDlcAnnounce, arg0=0, arg1=0, 
-|20.186985171931|OnMessage|sender: UI, messageId: EndDlcAnnounce, arg0=0, arg1=0, 
-|23.823979286578|TppVarInit.StartTitle 1
-|23.823979286578|InfHook TppSave.VarRestoreOnMissionStart
-|23.823979286578|IvarProc.LoadEvars
-|23.823979286578|IvarProc.LoadSave
-|23.823979286578|DebugModeEnable:true
-|23.823979286578|AddDevMenus
-|23.823979286578|TppMission.RequestLoad next:40050 current:1
-|23.823979286578|InfMain.OnStartTitle
-|23.823979286578|InfQuest.SetupInstalledQuestsState
-|23.823979286578|InfQuest.ReadInstalledQuests
-|23.823979286578|IvarProc.LoadSave
-|23.823979286578|167
-|23.823979286578|168
-|23.823979286578|169
-|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|23.823979286578|TppMission.LoadWithChunkCheck 40050
-|23.823979286578|TppMission.Load nextMissionCode:40050 currentMissionCode:1
-|23.823979286578|TppEneFova.InitializeUniqueSetting
-|23.823979286578|InfMain.PreMissionLoad
-|23.823979286578|TppMissionList.GetMissionPackagePath 40050
-|23.823979286578|InfMain.AddMissionPacks 40050
-|23.823979286578|{ "/Assets/tpp/pack/mission2/heli/heli_common_script.fpk", "/Assets/tpp/pack/mission2/common/title_sequence.fpk", "/Assets/tpp/pack/mission2/heli/heli_ui.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/location/mtbs/pack_common/mtbs_script.fpk", "/Assets/tpp/pack/mission2/heli/h40050/h40050_area.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk" }
-|23.823979286578|OnAllocate Top 40050
-|23.823979286578|inf_levelSeed 3176823476
-|23.823979286578|TppRevenge._CreateRevengeConfig
-|23.823979286578|{}
-|23.823979286578|OnAllocate Bottom 40050
-|23.823979286578|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterLoadStart, arg0=0, 
-|23.823979286578|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterLoadStart, arg0=0, 
-|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|23.823979286578|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
-|23.823979286578|OnInitialize Top 40050
-|23.823979286578|InfQuest.RegisterQuests
-|23.823979286578|Quests already registered
-|23.823979286578|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
-|23.823979286578|TppQuest.UpdateActiveQuest 40050
-|23.823979286578|OnInitialize Bottom 40050
-|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
-|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
-|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
-|24.641468789411|OnMessage|sender: GameObject, messageId: SwitchGimmick, arg0=40497||str32:40497, arg1=3774347891||str32:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002, arg2=3805637820||str32:3805637820, arg3=1, 
-|25.242073832389|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterActivated, arg0=0, 
-|25.242073832389|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterActivated, arg0=0, 
-|25.659160313426|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterDeactivated, arg0=0, 
-|25.659160313426|OnMessage|sender: 4193802543, messageId: MotherBaseCurrentClusterDeactivated, arg0=0, 
-|31.331536455536|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
-|31.331536455536|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
-|33.567119993897|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|33.567119993897|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|34.551444089145|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|34.551444089145|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
-|45.712678321709|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
-|45.712678321709|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
-|47.714693430689|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
-|47.714693430689|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|4.8715643613364|OnAllocate Bottom 1
+|4.8715643613364|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|4.8715643613364|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|4.8715643613364|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|4.8715643613364|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|4.8715643613364|OnInitialize Top 1
+|4.8715643613364|InfQuest.RegisterQuests
+|4.8715643613364|RegisterQuests quest_q30100 168
+|4.8715643613364|RegisterQuests quest_q30101 169
+|4.8715643613364|RegisterQuests quest_q30102 170
+|4.8715643613364|numUiQuests:160
+|4.8715643613364|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
+|4.8715643613364|TppQuest.UpdateActiveQuest 1
+|4.8715643613364|OnInitialize Bottom 1
+|5.1051325523455|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|5.1051325523455|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|5.8725711493738|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|5.8725711493738|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|5.8892545915888|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|5.8892545915888|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|6.8568942400549|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|7.6410160241568|OnMessage|sender: UI, messageId: PopupClose, arg0=1200, arg1=0, 
+|7.6410160241568|OnMessage|sender: UI, messageId: PopupClose, arg0=1200, arg1=0, 
+|8.5419219037632|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|9.2759933612203|OnMessage|sender: Network, messageId: 2282751356, arg0=0, 
+|9.2759933612203|OnMessage|sender: Network, messageId: 2282751356, arg0=0, 
+|11.361423638087|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398, arg1=0, 
+|11.361423638087|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398, arg1=0, 
+|13.997407508047|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398, arg1=0, 
+|13.997407508047|OnMessage|sender: UI, messageId: PopupClose, arg0=1799460398, arg1=0, 
+|17.200628413314|OnMessage|sender: UI, messageId: PopupClose, arg0=3404051590, arg1=0, 
+|17.200628413314|OnMessage|sender: UI, messageId: PopupClose, arg0=3404051590, arg1=0, 
+|18.969073288097|OnMessage|sender: Network, messageId: EndLogin
+|18.969073288097|OnMessage|sender: Network, messageId: EndLogin
+|19.619727534479|OnMessage|sender: UI, messageId: EndDlcAnnounce, arg0=0, arg1=0, 
+|19.619727534479|OnMessage|sender: UI, messageId: EndDlcAnnounce, arg0=0, arg1=0, 
+|23.256717937335|TppVarInit.StartTitle 1
+|23.256717937335|InfHook TppSave.VarRestoreOnMissionStart
+|23.256717937335|IvarProc.LoadEvars
+|23.256717937335|IvarProc.LoadSave
+|23.256717937335|DebugModeEnable:true
+|23.256717937335|AddDevMenus
+|23.256717937335|TppMission.RequestLoad next:40010 current:1
+|23.256717937335|InfMain.OnStartTitle
+|23.256717937335|InfQuest.SetupInstalledQuestsState
+|23.256717937335|InfQuest.ReadInstalledQuests
+|23.256717937335|IvarProc.LoadSave
+|23.256717937335|167
+|23.256717937335|168
+|23.256717937335|169
+|23.256717937335|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.256717937335|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.256717937335|TppMission.LoadWithChunkCheck 40010
+|23.256717937335|TppMission.Load nextMissionCode:40010 currentMissionCode:1
+|23.256717937335|TppEneFova.InitializeUniqueSetting
+|23.256717937335|TppEneFova.PreMissionLoad locationName:afgh missionId:40010
+|23.256717937335|----------fovaSetupFuncs.afgh missionId:40010 isNotRequiredArmorSoldier:false
+|23.256717937335|InfMain.PreMissionLoad
+|23.256717937335|InfEquip.CreateCustomWeaponTable
+|23.256717937335|TppMissionList.GetMissionPackagePath 40010
+|23.256717937335|InfMain.AddMissionPacks 40010
+|23.256717937335|{ "/Assets/tpp/pack/mission2/heli/heli_common_script.fpk", "/Assets/tpp/pack/mission2/common/title_sequence.fpk", "/Assets/tpp/pack/mission2/heli/heli_ui.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/location/afgh/pack_common/afgh_script.fpk", "/Assets/tpp/pack/mission2/heli/h40010/h40010_area.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk" }
+|23.256717937335|OnAllocate Top 40010
+|23.256717937335|inf_levelSeed 2372934368
+|23.256717937335|TppRevenge._CreateRevengeConfig
+|23.256717937335|{}
+|23.256717937335|OnAllocate Bottom 40010
+|23.256717937335|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, arg0=7945, arg1=7945, 
+|23.256717937335|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, arg0=57857, arg1=57857, 
+|23.256717937335|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, arg0=7945, arg1=7945, 
+|23.256717937335|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, arg0=57857, arg1=57857, 
+|23.256717937335|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.256717937335|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=590, arg1=1034, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=644, arg1=3008, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=688, arg1=3073, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=691, arg1=3080, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=697, arg1=3082, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=729, arg1=4032, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=828, arg1=7016, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=832, arg1=7023, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=590, arg1=1034, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=644, arg1=3008, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=688, arg1=3073, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=691, arg1=3080, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=697, arg1=3082, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=729, arg1=4032, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=828, arg1=7016, 
+|23.256717937335|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=832, arg1=7023, 
+|23.256717937335|OnInitialize Top 40010
+|23.256717937335|InfQuest.RegisterQuests
+|23.256717937335|Quests already registered
+|23.256717937335|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
+|23.256717937335|TppQuest.UpdateActiveQuest 40010
+|23.256717937335|OnInitialize Bottom 40010
+|25.759234269575|OnMessage|sender: GameObject, messageId: BuddyAppear, arg0=9728, 
+|25.759234269575|OnMessage|sender: GameObject, messageId: BuddyAppear, arg0=9728, 
+|29.613109421224|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|29.613109421224|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|32.282460175614|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|32.282460175614|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|33.266783266295|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|33.266783266295|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|43.443683017404|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|43.443683017404|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|45.445696083197|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|45.445696083197|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|70.937995787615|OnMessage|sender: UI, messageId: TitleMenu, arg0=3261117285||str32:PressStart, 
+|70.937995787615|OnMessage|sender: UI, messageId: TitleMenu, arg0=3261117285||str32:PressStart, 
+|70.971362672045|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|70.971362672045|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|71.471865938493|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|71.471865938493|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|73.307044582136|OnMessage|sender: UI, messageId: TitleMenu, arg0=1439467306||str32:Continue, 
+|73.307044582136|OnMessage|sender: UI, messageId: TitleMenu, arg0=1439467306||str32:Continue, 
+|76.360114507469|OnMessage|sender: UI, messageId: EndAnnounceLog
+|76.360114507469|OnMessage|sender: UI, messageId: EndAnnounceLog
+|80.864643905501|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|80.864643905501|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|80.864643905501|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|80.864643905501|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|80.864643905501|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|80.864643905501|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|80.889668941252|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|80.889668941252|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|83.350476795526|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|83.350476795526|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|90.791292023386|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|90.791292023386|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|90.807975465601|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|90.807975465601|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|90.807975465601|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|90.807975465601|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|91.592097249703|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|91.592097249703|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|91.592097249703|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|91.592097249703|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|91.592097249703|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|91.592097249703|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|91.617122285455|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|91.617122285455|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|93.126973933477|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|93.126973933477|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|93.160340817907|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|93.160340817907|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|93.377225566701|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|93.377225566701|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|95.429288959138|OnMessage|sender: MotherBaseManagement, messageId: RequestSaveMbManagement
+|95.429288959138|OnMessage|sender: MotherBaseManagement, messageId: RequestSaveMbManagement
+|95.429288959138|InfHook TppSave.DoSave
+|95.429288959138|SaveEvars
+|99.500048859582|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|99.500048859582|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|102.92015451364|OnMessage|sender: UI, messageId: StartAnnounceLog
+|102.92015451364|OnMessage|sender: UI, messageId: StartAnnounceLog
+|105.20578609709|OnMessage|sender: UI, messageId: EndAnnounceLog
+|105.20578609709|OnMessage|sender: UI, messageId: EndAnnounceLog
+|106.65724556979|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|106.65724556979|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|106.69061245422|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|106.69061245422|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|109.54348107297|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|109.54348107297|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|115.18248454162|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|115.18248454162|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|115.21585142605|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|115.21585142605|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|119.57022984415|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|119.57022984415|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|120.8548548947|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|120.8548548947|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMap
+|121.12178997014|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|121.12178997014|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|121.15515685457|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|121.15515685457|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|129.59697861532|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|129.59697861532|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|139.6237273865|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|139.6237273865|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|149.65047615767|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|149.65047615767|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|159.67722492885|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|159.67722492885|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|167.48507588544|OnMessage|sender: MotherBaseManagement, messageId: RequestSaveMbManagement
+|167.48507588544|OnMessage|sender: MotherBaseManagement, messageId: RequestSaveMbManagement
+|167.48507588544|InfHook TppSave.DoSave
+|167.48507588544|SaveEvars
+|167.56849284137|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|167.56849284137|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|167.61854291287|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|167.61854291287|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|168.63623339827|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|168.63623339827|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|168.63623339827|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|168.63623339827|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|168.65291684048|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|168.65291684048|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|168.65291684048|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|168.65291684048|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|168.67794187623|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|168.67794187623|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|169.70397370002|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|169.70397370002|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|177.47845777218|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|177.47845777218|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|187.50520654336|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|187.50520654336|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|197.53195531453|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|197.53195531453|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|207.55870408571|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|207.55870408571|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|217.58545285688|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|217.58545285688|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|227.61220162806|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|227.61220162806|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|237.63895039923|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|237.63895039923|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|247.66569917041|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|247.66569917041|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|257.69244794158|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|257.69244794158|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|267.71919671276|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|267.71919671276|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|277.74594548393|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|277.74594548393|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|286.92183870215|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|286.92183870215|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|293.04466199503|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|293.04466199503|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|303.0714107662|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|303.0714107662|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|313.09815953738|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|313.09815953738|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|323.12490830855|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|323.12490830855|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|333.15165707973|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|333.15165707973|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|340.92614115189|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|340.92614115189|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|348.23348884203|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|348.23348884203|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|348.23348884203|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|348.23348884203|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|348.23348884203|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|348.23348884203|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|348.25851387778|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|348.25851387778|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|348.33358949532|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|348.33358949532|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|348.35027293753|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|348.35027293753|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|350.95288992306|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|350.95288992306|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|354.68998097921|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|354.68998097921|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|354.72334786364|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|354.72334786364|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|354.94023261243|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|354.94023261243|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|354.95691605465|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|354.95691605465|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|354.95691605465|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|354.95691605465|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|356.19149077855|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|356.19149077855|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|356.19149077855|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|356.19149077855|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|356.19149077855|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|356.19149077855|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|356.2165158143|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|356.2165158143|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|356.27490798963|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|356.27490798963|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|356.30827487406|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|356.30827487406|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|360.12878314128|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|360.12878314128|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|369.30467635949|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|369.30467635949|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|379.33142513066|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|379.33142513066|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|389.35817390184|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|389.35817390184|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|399.38492267301|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|399.38492267301|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|409.41167144419|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|409.41167144419|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|419.43842021536|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|419.43842021536|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|429.46516898654|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|429.46516898654|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|439.49191775772|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|439.49191775772|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|449.51866652889|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|449.51866652889|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|454.32349788679|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|454.32349788679|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|464.35024665797|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|464.35024665797|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|474.37699542914|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|474.37699542914|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|484.40374420032|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|484.40374420032|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|494.43049297149|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|494.43049297149|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|500.55331626437|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|500.55331626437|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|510.58006503555|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|510.58006503555|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|519.75595825376|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|519.75595825376|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|529.78270702494|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|529.78270702494|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|539.80945579611|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|539.80945579611|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|540.20985840927|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=1, 
+|540.20985840927|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=1, 
+|540.20985840927|OnMessage|sender: UI, messageId: StartAnnounceLog
+|540.20985840927|OnMessage|sender: UI, messageId: StartAnnounceLog
+|542.4788065505|OnMessage|sender: UI, messageId: EndAnnounceLog
+|542.4788065505|OnMessage|sender: UI, messageId: EndAnnounceLog
+|549.83620456729|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|549.83620456729|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|559.86295333846|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|559.86295333846|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|569.88970210964|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|569.88970210964|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|579.91645088081|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|579.91645088081|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|589.94319965199|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|589.94319965199|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|596.2161739248|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=1, 
+|596.2161739248|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=1, 
+|599.96994842316|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|599.96994842316|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|609.14584164138|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|609.14584164138|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|615.21861460761|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|615.21861460761|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|615.25198149204|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|615.25198149204|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|615.26866493426|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|615.26866493426|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|615.75248475849|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|615.75248475849|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|615.7691682007|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|615.7691682007|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|615.7691682007|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|615.7691682007|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|616.63670719588|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|616.63670719588|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|616.63670719588|OnMessage|sender: UI, messageId: StartAnnounceLog
+|616.63670719588|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|616.63670719588|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|616.63670719588|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|616.63670719588|OnMessage|sender: UI, messageId: StartAnnounceLog
+|616.63670719588|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|616.67007408031|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|616.67007408031|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|617.05379325125|OnMessage|sender: UI, messageId: EndAnnounceLog
+|617.05379325125|OnMessage|sender: UI, messageId: EndAnnounceLog
+|617.75449782428|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|617.75449782428|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|617.78786470871|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|617.78786470871|OnMessage|sender: Terminal, messageId: MbDvcActOpenMenu
+|625.29541370543|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|625.29541370543|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|635.32216247661|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|635.32216247661|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|645.34891124778|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|645.34891124778|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|654.524804466|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|654.524804466|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|664.55155323717|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|664.55155323717|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|674.57830200835|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|674.57830200835|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|684.60505077952|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|684.60505077952|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|690.7278740724|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|690.7278740724|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|700.75462284358|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|700.75462284358|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|708.52910691574|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|708.52910691574|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|718.55585568691|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|718.55585568691|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|723.36068704481|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|723.36068704481|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|733.38743581599|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|733.38743581599|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|743.41418458716|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|743.41418458716|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|753.44093335834|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|753.44093335834|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|758.24576471624|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|758.24576471624|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|768.27251348741|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|768.27251348741|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|778.29926225859|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|778.29926225859|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|783.10409361649|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|783.10409361649|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|793.13084238766|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|793.13084238766|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|803.15759115884|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|803.15759115884|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|813.18433993001|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|813.18433993001|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|823.21108870119|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|823.21108870119|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|829.33391199407|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|829.33391199407|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|839.36066076525|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|839.36066076525|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|849.38740953642|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|849.38740953642|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|859.4141583076|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|859.4141583076|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|860.46521516714|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|860.46521516714|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|860.48189860935|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|860.48189860935|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|860.48189860935|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|860.48189860935|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|861.3160707201|OnMessage|sender: UI, messageId: PopupClose, arg0=2677209373, arg1=0, 
+|861.3160707201|OnMessage|sender: UI, messageId: PauseMenuReturnToTitle
+|861.3160707201|OnMessage|sender: UI, messageId: PopupClose, arg0=2677209373, arg1=0, 
+|861.3160707201|OnMessage|sender: UI, messageId: PauseMenuReturnToTitle
+|861.3160707201|InfMain.RegenSeed new seed 2476156718
+|861.3160707201|InfHook TppSave.DoSave
+|861.3160707201|SaveEvars
+|861.3160707201|OnMessage|sender: UI, messageId: EndFadeOut, arg0=485293675||str32:AbortMissionFadeOutFinish, arg1=0, 
+|861.3160707201|OnMessage|sender: UI, messageId: EndFadeOut, arg0=485293675||str32:AbortMissionFadeOutFinish, arg1=0, 
+|861.3160707201|InfHook TppSave.VarRestoreOnMissionStart
+|861.3160707201|IvarProc.LoadEvars
+|861.3160707201|IvarProc.LoadSave
+|861.3160707201|DebugModeEnable:true
+|861.3160707201|AddDevMenus
+|861.3160707201|TppMission.LoadForMissionAbort
+|861.3160707201|TppMission.RequestLoad next:40010 current:40010
+|861.3160707201|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|861.3160707201|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|861.3160707201|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|861.3160707201|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|861.3160707201|TppMission.LoadWithChunkCheck 40010
+|861.3160707201|TppMission.Load nextMissionCode:40010 currentMissionCode:40010
+|861.3160707201|OnAllocate Top 40010
+|861.3160707201|inf_levelSeed 2372934368
+|861.3160707201|TppRevenge._CreateRevengeConfig
+|861.3160707201|{}
+|861.3160707201|OnAllocate Bottom 40010
+|861.3160707201|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|861.3160707201|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|861.3160707201|OnInitialize Top 40010
+|861.3160707201|InfQuest.RegisterQuests
+|861.3160707201|Quests already registered
+|861.3160707201|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
+|861.3160707201|TppQuest.UpdateActiveQuest 40010
+|861.3160707201|OnInitialize Bottom 40010
+|861.3160707201|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|861.3160707201|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|861.34943760453|OnMessage|sender: GameObject, messageId: BuddyAppear, arg0=9728, 
+|861.34943760453|OnMessage|sender: GameObject, messageId: BuddyAppear, arg0=9728, 
+|861.4328548156|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=0, 
+|861.4328548156|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=0, 
+|861.45787985135|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|861.45787985135|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|862.63406265508|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|862.63406265508|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|863.6267273393|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|863.6267273393|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|864.47758289226|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=1070, arg1=1103, 
+|864.47758289226|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=1070, arg1=1103, 
+|866.47959595805|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|866.47959595805|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|866.49627940026|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|866.49627940026|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|866.99678266671|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|866.99678266671|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|1970.6899023957|OnMessage|sender: UI, messageId: TitleMenu, arg0=1439467306||str32:Continue, 
+|1970.6899023957|OnMessage|sender: UI, messageId: TitleMenu, arg0=1439467306||str32:Continue, 
+|1970.7065858379|InfHook TppSave.DoSave
+|1970.7065858379|SaveEvars
+|1972.6752320192|OnMessage|sender: UI, messageId: StartAnnounceLog
+|1972.6752320192|OnMessage|sender: UI, messageId: StartAnnounceLog
+|1980.733334609|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|1980.733334609|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|1984.9375620472|OnMessage|sender: UI, messageId: EndAnnounceLog
+|1984.9375620472|OnMessage|sender: UI, messageId: EndAnnounceLog
+|1985.5047990825|OnMessage|sender: UI, messageId: StartAnnounceLog
+|1985.5047990825|OnMessage|sender: UI, messageId: StartAnnounceLog
+|1990.7600833802|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|1990.7600833802|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2000.7868321514|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2000.7868321514|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2003.6897510968|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2003.6897510968|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2003.9566861722|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2003.9566861722|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2010.8135809226|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2010.8135809226|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2015.6184122805|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2015.6184122805|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2025.6451610516|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2025.6451610516|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2026.445966278|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2026.445966278|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2026.8630523333|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2026.8630523333|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2028.8483819569|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2028.8483819569|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2029.2654680123|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2029.2654680123|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2030.6501937161|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|2030.6501937161|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|2030.6501937161|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|2030.6501937161|OnMessage|sender: Player, messageId: 2990447840, arg0=0, 
+|2030.6501937161|OnMessage|sender: Terminal, messageId: MbDvcActOpenTop
+|2030.6501937161|OnMessage|sender: Terminal, messageId: MbDvcActTopModeMenu
+|2030.6501937161|SaveEvars
+|2030.6835606006|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|2030.6835606006|OnMessage|sender: Player, messageId: 2990447840, arg0=1, 
+|2032.4686889175|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|2032.4686889175|OnMessage|sender: Terminal, messageId: MbDvcActCloseTop
+|2032.4853723598|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|2032.4853723598|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|2032.4853723598|OnMessage|sender: Player, messageId: 2307345963, arg0=1, 
+|2032.4853723598|OnMessage|sender: Player, messageId: 2307345963, arg0=0, 
+|2034.3038675612|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2034.3038675612|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2035.6719098228|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2035.6719098228|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2045.698658594|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2045.698658594|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2055.7254073652|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2055.7254073652|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2065.7521561363|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2065.7521561363|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2075.7789049075|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2075.7789049075|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2085.8056536787|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2085.8056536787|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2095.8324024499|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2095.8324024499|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2105.859151221|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2105.859151221|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2115.8858999922|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2115.8858999922|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2125.9126487634|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2125.9126487634|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2135.9393975346|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2135.9393975346|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2145.9661463057|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2145.9661463057|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2155.9928950769|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2155.9928950769|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2166.0196438481|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2166.0196438481|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2176.0463926193|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2176.0463926193|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2183.8208766914|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2183.8208766914|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2193.8476254626|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2193.8476254626|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2203.8743742338|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2203.8743742338|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2213.901123005|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2213.901123005|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2220.0239462978|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2220.0239462978|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2230.050695069|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2230.050695069|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2240.0774438402|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2240.0774438402|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2250.1041926114|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2250.1041926114|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2260.1309413825|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2260.1309413825|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2270.1576901537|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2270.1576901537|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2280.1844389249|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2280.1844389249|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2287.958922997|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2287.958922997|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2295.7334070692|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2295.7334070692|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2305.7601558404|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2305.7601558404|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2315.7869046116|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2315.7869046116|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2325.8136533827|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2325.8136533827|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2330.6184847406|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2330.6184847406|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2340.6452335118|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2340.6452335118|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2346.7680568047|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2346.7680568047|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2356.7948055759|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2356.7948055759|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2366.821554347|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2366.821554347|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2376.8483031182|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2376.8483031182|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2386.8750518894|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2386.8750518894|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2392.9978751823|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2392.9978751823|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2403.0246239534|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2403.0246239534|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2413.0513727246|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2413.0513727246|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2423.0781214958|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2423.0781214958|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2433.104870267|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2433.104870267|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2443.1316190381|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2443.1316190381|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2446.9020769787|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=1, 
+|2446.9020769787|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=1, 
+|2446.9020769787|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2446.9020769787|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2449.1710251199|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2449.1710251199|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2453.1583678093|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2453.1583678093|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2462.3342610275|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2462.3342610275|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2472.3610097987|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2472.3610097987|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2482.3877585699|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2482.3877585699|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2492.4145073411|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2492.4145073411|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2501.5904005593|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2501.5904005593|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2502.9083924942|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=1, 
+|2502.9083924942|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=1, 
+|2511.6171493304|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2511.6171493304|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2521.6438981016|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2521.6438981016|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2531.6706468728|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2531.6706468728|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2541.697395644|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2541.697395644|OnMessage|sender: GameObject, messageId: SpecialActionEnd, arg0=1536, arg1=3211984985||str32:PlayMotion, arg2=3746978607||str32:CommandA, 
+|2542.5649346391|OnMessage|sender: UI, messageId: PopupClose, arg0=2677209373, arg1=0, 
+|2542.5649346391|OnMessage|sender: UI, messageId: PauseMenuReturnToTitle
+|2542.5649346391|OnMessage|sender: UI, messageId: PopupClose, arg0=2677209373, arg1=0, 
+|2542.5649346391|OnMessage|sender: UI, messageId: PauseMenuReturnToTitle
+|2542.5649346391|InfMain.RegenSeed new seed 2619684938
+|2542.5649346391|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2542.5649346391|OnMessage|sender: UI, messageId: StartAnnounceLog
+|2542.5649346391|InfHook TppSave.DoSave
+|2542.5649346391|SaveEvars
+|2542.5649346391|OnMessage|sender: UI, messageId: EndFadeOut, arg0=485293675||str32:AbortMissionFadeOutFinish, arg1=0, 
+|2542.5649346391|OnMessage|sender: UI, messageId: EndFadeOut, arg0=485293675||str32:AbortMissionFadeOutFinish, arg1=0, 
+|2542.5649346391|InfHook TppSave.VarRestoreOnMissionStart
+|2542.5649346391|IvarProc.LoadEvars
+|2542.5649346391|IvarProc.LoadSave
+|2542.5649346391|DebugModeEnable:true
+|2542.5649346391|AddDevMenus
+|2542.5649346391|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|2542.5649346391|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|2542.5649346391|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|2542.5649346391|OnMessage|sender: Weather, messageId: WeatherForecast, arg0=0, 
+|2542.5816180814|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=0, 
+|2542.5816180814|OnMessage|sender: Weather, messageId: ChangeWeather, arg0=0, 
+|2543.6827252675|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=786, arg1=6014, 
+|2543.6827252675|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=795, arg1=6023, 
+|2543.6827252675|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=842, arg1=8016, 
+|2543.6827252675|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=786, arg1=6014, 
+|2543.6827252675|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=795, arg1=6023, 
+|2543.6827252675|OnMessage|sender: MotherBaseManagement, messageId: 1625350245, arg0=842, arg1=8016, 
+|2545.6180045645|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2545.6180045645|OnMessage|sender: UI, messageId: EndAnnounceLog
+|2545.6180045645|TppMission.LoadForMissionAbort
+|2545.6180045645|TppMission.RequestLoad next:40010 current:40010
+|2545.6180045645|TppMission.LoadWithChunkCheck 40010
+|2545.6180045645|TppMission.Load nextMissionCode:40010 currentMissionCode:40010
+|2545.6180045645|OnAllocate Top 40010
+|2545.6180045645|inf_levelSeed 2372934368
+|2545.6180045645|TppRevenge._CreateRevengeConfig
+|2545.6180045645|{}
+|2545.6180045645|OnAllocate Bottom 40010
+|2545.6180045645|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|2545.6180045645|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|2545.6180045645|OnInitialize Top 40010
+|2545.6180045645|InfQuest.RegisterQuests
+|2545.6180045645|Quests already registered
+|2545.6180045645|InfHook DebugPreWrap TppQuest.UpdateActiveQuest
+|2545.6180045645|TppQuest.UpdateActiveQuest 40010
+|2545.6180045645|OnInitialize Bottom 40010
+|2545.8682561977|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|2545.8682561977|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|2546.1518747154|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|2546.1518747154|OnMessage|sender: Player, messageId: OnEquipItem, arg0=0, arg1=0, 
+|2546.8358958462|OnMessage|sender: GameObject, messageId: BuddyAppear, arg0=9728, 
+|2546.8358958462|OnMessage|sender: GameObject, messageId: BuddyAppear, arg0=9728, 
+|2546.9693633839|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|2546.9693633839|OnMessage|sender: Timer, messageId: Start, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|2547.9536864746|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|2547.9536864746|OnMessage|sender: Timer, messageId: Finish, arg0=4175515318||str32:Timer_WaitStartingGame, 
+|2550.7898716511|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|2550.7898716511|OnMessage|sender: UI, messageId: EndFadeIn, arg0=965318480||str32:FadeInOnStartTitle, arg1=0, 
+|2550.8065550933|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|2550.8065550933|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|2551.3070583598|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|2551.3070583598|OnMessage|sender: UI, messageId: TitleMenuReady, arg0=0, 
+|2553.108870119|OnMessage|sender: UI, messageId: PopupClose, arg0=3373330915, arg1=0, 
+|2553.108870119|OnMessage|sender: UI, messageId: PopupClose, arg0=3373330915, arg1=0, 
+|2553.6093733854|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 
+|2553.6093733854|OnMessage|sender: UI, messageId: EndFadeOut, arg0=0, arg1=0, 

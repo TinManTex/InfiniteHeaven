@@ -1,10 +1,10 @@
 -- ih_save.lua
 -- Save file for IH options
--- While this file is editable, editing an inMission save is likely to cause issues.
+-- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.
 -- See Readme for more info
 local this={}
-this.ihVer=197
-this.saveTime=1484085315
+this.ihVer=198
+this.saveTime=1485763021
 this.inMission=false
 this.evars={
 	enableWildCardFreeRoam=1,
@@ -24,7 +24,7 @@ this.evars={
 	enableWalkerGearsFREE=1,
 	mbEnableBuddies=1,
 	enableSoldiersWithVehicleReinforce=1,
-	sideOpsSelectionMode=10,
+	sideOpsSelectionMode=7,
 	mbMoraleBoosts=1,
 	allowHeadGearCombo=1,
 	weaponTableStrength=1,
@@ -43,6 +43,7 @@ this.evars={
 	mbDDSuitFemale=5,
 	randomizeMineTypes=1,
 	enableResourceScale=1,
+	ARMOR_MIN=100,
 	enableMgVsShotgunVariation=1,
 	debugMessages=1,
 	setInvincibleHeli=1,
@@ -57,7 +58,6 @@ this.evars={
 	gameEventChanceMB=5,
 	mbShowCodeTalker=1,
 	disableConvertArmorToShield=1,
-	allowHeavyArmorFREE=1,
 	vehiclePatrolTankEnable=0,
 	mbDDSuit=18,
 	mbEnemyHeliColor=4,

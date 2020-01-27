@@ -374,7 +374,7 @@ function this.ExecuteMissionFinalizeTop()
 
   this.RegenSeed(vars.missionCode,gvars.mis_nextMissionCodeForMissionClear)
   InfGameEvent.DisableEvent()
-  InfGameEvent.GenerateEvent(gvars.mis_nextMissionCodeForMissionClear)
+  InfCore.PCall(InfGameEvent.GenerateEvent,gvars.mis_nextMissionCodeForMissionClear)
 end
 
 --missionFinalize={
@@ -551,6 +551,7 @@ local vehicleAttacks={
   [TppDamage.ATK_HeliChainGun]=true,
 }
 function this.OnDamage(gameId,attackId,attackerId)
+  local typeIndex=GetTypeIndex(gameId)
   if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
   end
@@ -694,8 +695,7 @@ function this.OnEnterACC()
     --tex only want this on enter ACC because changing vars on a mission is not a good idea
     if not this.appliedProfiles then
       this.appliedProfiles=true
-      local profileNames=IvarProc.SetupInfProfiles()
-      IvarProc.ApplyInfProfiles(profileNames)
+      IvarProc.ApplyInfProfiles(Ivars.profileNames)
     end
   end
 end
@@ -1578,8 +1578,8 @@ this.baseNames={
 --reserve soldierpool
 --tex number of soldier locators in fox2s
 this.reserveSoldierCounts={
-  [30010]=50,
-  [30020]=50,
+  [30010]=40,
+  [30020]=40,
   [30050]=140,
 }
 
@@ -1876,19 +1876,50 @@ function this.DebugModeEnable(enable)
     if InfMenu then
       InfMenu.AddDevMenus()
     end
+  else
+    InfCore.Log("Further logging disabled")
   end
   InfCore.debugMode=enable
 end
 
 --modules
 --SIDE: modules,this.modulesOK
+--SIDE: InfCore.files
+--SIDE: this.moduleNames
 --isReload = user initiated
 function this.LoadExternalModules(isReload)
+  InfCore.LogFlow"InfMain.LoadExternalModules"
+
   this.modulesOK=true
+
+  if isReload then
+    InfCore.files=InfCore.PCallDebug(InfCore.RefreshFileList)
+  end
+
+  --tex clear InfModules
+  InfModules.moduleNames={}
+  for i,moduleName in ipairs(InfModules)do
+    InfModules[i]=nil
+  end
+ 
+  for i,moduleName in ipairs(InfModules.coreModules)do
+    table.insert(InfModules.moduleNames,moduleName)
+  end
+  
+  --tex get other external modules
+  local moduleFiles=InfCore.GetFileList(InfCore.files.modules,".lua",true)
+  for i,moduleName in ipairs(moduleFiles)do
+    if not InfModules.isCoreModule[moduleName] then
+      table.insert(InfModules.moduleNames,moduleName)
+    end
+  end
+  InfCore.PrintInspect(InfModules.moduleNames)--DEBUG
+
   for i,moduleName in ipairs(InfModules.moduleNames) do
     InfCore.LoadExternalModule(moduleName,isReload)
     local module=_G[moduleName]
     if module then
+      --InfCore.Log("Loaded "..moduleName)--DEBUG
       module.name=moduleName
       table.insert(InfModules,module)
     else
@@ -1896,8 +1927,8 @@ function this.LoadExternalModules(isReload)
     end
   end
 
+  InfCore.LogFlow("PostAllModulesLoad")--DEBUG
   InfCore.PCallDebug(this.PostAllModulesLoad)
-
   --NOTE: On first load only InfMain has been loaded at this point, so can't reference other IH lib modules.
   for i,moduleName in ipairs(InfModules.moduleNames) do
     local module=_G[moduleName]
@@ -1907,6 +1938,18 @@ function this.LoadExternalModules(isReload)
       end
     end
   end
+
+  --tex profiles
+  local ret=InfCore.PCall(IvarProc.SetupInfProfiles)
+  --WORKAROUND PCall
+  if ret then
+  Ivars.profileNames=ret[1]
+  Ivars.profiles=ret[2]
+  end
+  --DEBUG
+  --  InfCore.Log"--------------"
+  --  InfCore.PrintInspect(Ivars.profileNames)
+  --  InfCore.PrintInspect(Ivars.profiles)
 end
 
 function this.ModuleErrorMessage()
@@ -1916,7 +1959,8 @@ function this.ModuleErrorMessage()
 end
 
 function this.PostAllModulesLoad()
-
+  local enable=Ivars.debugMode:Is(1)
+  this.DebugModeEnable(enable)
 end
 
 --CALLER end of start2nd.lua
@@ -1972,19 +2016,12 @@ end
 _G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
 
 if Mock==nil then
-  InfCore.LogFlow"InfMain LoadExternalModules"
-  InfCore.LoadExternalModule"InfModules"
-  if not InfModules then
+  InfCore.LogFlow"InfMain Exec"
+  this.LoadExternalModules()
+  if not this.modulesOK then
     this.ModuleErrorMessage()
-  else
-    InfCore.LogFlow"InfMain.LoadExternalModules"
-    this.LoadExternalModules()
-    if not this.modulesOK then
-      this.ModuleErrorMessage()
-    end
-
-    InfCore.doneStartup=true
   end
+  InfCore.doneStartup=true
 end
 
 InfCore.LogFlow"InfMain.lua done"

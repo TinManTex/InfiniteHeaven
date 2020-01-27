@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<fox formatVersion="2" fileVersion="0" originalVersion="Fri Apr 08 23:48:07 UTC+12:00 2016">
+<fox formatVersion="2" fileVersion="0" originalVersion="Fri Jan 20 12:55:05 UTC+13:00 2017">
   <classes>
     <class name="Entity" super="" version="2" />
     <class name="Data" super="Entity" version="2" />
     <class name="DataSet" super="" version="0" />
     <class name="GameObjectLocator" super="" version="2" />
     <class name="TransformEntity" super="" version="0" />
-    <class name="GameObject" super="" version="2" />
     <class name="TppPickableLocatorParameter" super="" version="0" />
     <class name="TexturePackLoadConditioner" super="" version="0" />
   </classes>
@@ -37,8 +36,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-   
-     <entity class="GameObjectLocator" classVersion="2" addr="0x10000000" unknown1="272" unknown2="17661752">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x10000000" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>pickable_ih_0000</value>
@@ -114,7 +112,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000010" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -191,7 +188,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000020" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -268,7 +264,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000030" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -345,7 +340,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000040" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -422,7 +416,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000050" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -499,7 +492,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000060" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -576,7 +568,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000070" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -625,7 +616,7 @@
           <value x="0" y="0" z="0" w="1" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-         <value x="102" y="-314" z="244" w="0" />
+          <value x="102" y="-314" z="244" w="0" />
         </property>
       </staticProperties>
       <dynamicProperties />
@@ -653,7 +644,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000080" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -730,7 +720,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000090" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -807,8 +796,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
-      <entity class="GameObjectLocator" classVersion="2" addr="0x10000100" unknown1="272" unknown2="17661752">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x10000100" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>pickable_ih_0010</value>
@@ -884,7 +872,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="GameObjectLocator" classVersion="2" addr="0x10000110" unknown1="272" unknown2="17661752">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
@@ -961,7 +948,6 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0930E240" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

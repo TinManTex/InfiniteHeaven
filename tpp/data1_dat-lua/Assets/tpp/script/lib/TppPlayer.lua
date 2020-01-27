@@ -728,8 +728,8 @@ function this.SetMaxPlacedLocatorCount()
     TppPlaced.OnAllocate{locators=mvars.ply_maxPlacedLocatorCount,svarsName="ply_placedLocatorDisabled"}
   end
 end
-function this.IsDecoy(e)
-  local supportWeaponTypeId=TppEquip.GetSupportWeaponTypeId(e)
+function this.IsDecoy(equipId)
+  local supportWeaponTypeId=TppEquip.GetSupportWeaponTypeId(equipId)
   local decoyTypes={[TppEquip.SWP_TYPE_Decoy]=true,[TppEquip.SWP_TYPE_ActiveDecoy]=true,[TppEquip.SWP_TYPE_ShockDecoy]=true}
   if decoyTypes[supportWeaponTypeId]then
     return true
@@ -737,8 +737,8 @@ function this.IsDecoy(e)
     return false
   end
 end
-function this.IsMine(e)
-  local supportWeaponTypeId=TppEquip.GetSupportWeaponTypeId(e)
+function this.IsMine(equipId)
+  local supportWeaponTypeId=TppEquip.GetSupportWeaponTypeId(equipId)
   local mineTypes={[TppEquip.SWP_TYPE_DMine]=true,[TppEquip.SWP_TYPE_SleepingGusMine]=true,[TppEquip.SWP_TYPE_AntitankMine]=true,[TppEquip.SWP_TYPE_ElectromagneticNetMine]=true}
   if mineTypes[supportWeaponTypeId]then
     return true
