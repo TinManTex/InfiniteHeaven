@@ -2,6 +2,8 @@
 -- InfHooks.lua
 local this={}
 
+local InfLog=InfLog
+
 --tex you should post-hook unless totally nessesary so any errors in function wont stop the call to the original function (though functions that rely on return values will still reak)
 --tex GOTCHA cant have multiple functions of same name (if it becomes issue just divert to this.<moduleName>.<hooked func name>
 this.hookFuncs={

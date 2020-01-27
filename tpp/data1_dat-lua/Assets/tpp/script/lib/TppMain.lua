@@ -429,6 +429,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     if missionTable.enemy.SetUpEnemy and IsTypeFunc(missionTable.enemy.SetUpEnemy)then
       missionTable.enemy.SetUpEnemy()
     end
+    InfMain.SetUpEnemy(missionTable)--tex
     if TppMission.IsMissionStart()then
       TppEnemy.RestoreOnMissionStart2()
     else

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r191 - 2016-11-07
+r192 - 2016-11-09
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -22,8 +22,11 @@ NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
 
+New for r192
+Fixed: Hang on game startup with no ih_save.lua - thanks everyone for the report.
+
 New for r191
-Fixed: Container resource scaling, Tpp.MergeTable isn't a good idea when sub keys are tables/you want to modify the merged - thanks garroth, coolguy3090 for the reports.
+Fixed: Container resource scaling - thanks garroth, coolguy3090 for the reports.
 Fixed: Mother base Invasion events not applying correctly.
 Fixed: mbEnablePuppy - MB puppy DDog not enabling - thanks pk5547 for the report.
 Fixed: Debug function PrintInspect now only runs with debugmode, should fix some slowdowns on load.
@@ -63,17 +66,7 @@ Feature: Mist parasites/Sniper Skulls added to Skulls attack feature.
 Option: parasiteWeather - Weather on Skull attack - None, Parasite fog, Random
 (via World menu)
 
-New for r188
-Fixed: Infinite load with Enemy heli patrols set to Enemy prep - thanks  Wanlorn for the report and save file to test with.
-
 New for r187
-Fixed: Install IH batch file - thanks CantStoptheBipBop for the changes.
-Fixed: Infinite load on mission Episode 43 with Custom equip table with DD equip - thanks YoshimitsuYamada for the report and save file to test.
-Fixed: Don't Drop equip and Warp to user marker when in vehicle - ta NasaNhak 
-Fixed: Some non wildcard soldier faces showing as female.
-Fixed: Case where IH give could not load from MGSV_TPP\mod error even with the files clearly in the folder (may have only been issue with a seperate lua install) - thanks CantStoptheBipBop for running the tests.
-Fixed: Hard crash in some situations with attack heli patrols (possibly with More Animals mod?), had to reduce number heli from 7 to 3 though :/
-
 Option: Enable QuickMenu, quickmenu is now disabled by default.
 (via IH system menu)
 Menu: IH system menu - shifted various options related to IH itself here.
@@ -95,12 +88,6 @@ QuickMenu:
 Now customizable by editing QuickMenuDefs in MGSV_TPP\mod 
 TSM returned to instant activation.
 Added Drop current equip on <LIGHT_SWITCH> (X key/Dpad right)
-
-Option: loadExternalModules - reloads the lua files in MGSV_TPP\mod
-(via debug menu)
-Feature: LoadExternalModules combo <Stance>,<Action>,<Ready weapon>,<Binoculars>
-
-Profiles: Added 'Subsistence - Game' to be closer to actual Game subsistence, leaving Pure as a kind of Subsistence+
 
 Disclaimer:
 ------------------------------

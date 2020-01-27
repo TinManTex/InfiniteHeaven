@@ -3,9 +3,9 @@
 -- While this file is editable, editing an inMission save is likely to cause issues.
 -- See Readme for more info
 local this={}
-this.ihVer=191
-this.saveTime=1478469257
-this.inMission=false
+this.ihVer=192
+this.saveTime=1478618370
+this.inMission=true
 this.evars={
 	enableWildCardFreeRoam=1,
 	mbUnlockGoalDoors=1,
@@ -23,7 +23,7 @@ this.evars={
 	disableMissionsWeaponRestriction=1,
 	customWeaponTableFREE=1,
 	mbEnableOcelot=1,
-	soldierNightSightDistScale=105,
+	soldierNightSightDistScale=0,
 	mbEnableBuddies=1,
 	enableSoldiersWithVehicleReinforce=1,
 	soldierParamsProfile=1,
@@ -42,7 +42,7 @@ this.evars={
 	disableConvertArmorToShield=1,
 	playerHealthScale=140,
 	mbShowSahelan=1,
-	soldierSightDistScale=115,
+	soldierSightDistScale=0,
 	customWeaponTableMB_ALL=1,
 	mbDDSuit=18,
 	mbEnemyHeliColor=4,

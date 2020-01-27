@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 local this={}
 --LOCALOPT:
+local InfLog=InfLog
 local InfButton=InfButton
 local InfMain=InfMain
 --tex TODO cant reference modules that reload (unless you build a system to update this reference)

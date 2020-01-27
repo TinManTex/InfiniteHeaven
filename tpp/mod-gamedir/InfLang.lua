@@ -554,7 +554,7 @@ this.help.eng={
   unlockSideOps="Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.",
   sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category",
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
-  debugMode="Switches on some error messages and enables the announce-log during loading.",
+  debugMode="Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.",
   gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')",
   gameEventChanceFREE="Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')",
   missionPrepRestrictionsMenu="Only affects the mission-prep screen, not the in-mission equivalents.",
@@ -655,6 +655,9 @@ this.help.eng={
   enableQuickMenu="Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.",
   revengeModeFREE="Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all the settings in the Custom prep menu, Prep levels + Custom overrides - overrides the Enemy prep levels config with any Custom prep settings that aren't set to their default setting.",
   enableWalkerGearsFREE="Adds a Walker gear to each main base.",
+  mbEnablePuppy="Note: The training side-op on the command platform will be disabled while this is active.",
+  debugFlow="Logs some script execution flow, requires Debug IH mode to be on.",
+  debugMessages="Logs game message system, requires Debug IH mode to be on.",
 }
 
 this.cpNames={

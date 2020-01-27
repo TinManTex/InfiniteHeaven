@@ -2,6 +2,7 @@
 --tex implements enableInfInterrogation
 local this={}
 
+local InfMain=InfMain
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local IsTable=Tpp.IsTypeTable
@@ -117,7 +118,7 @@ end
 
 function this.WildCardLocation()
   --InfLog.DebugPrint"WildCardLocation"--DEBUG
-  local cpName=InfMain.ene_wildCardCps[math.random(#InfMain.ene_wildCardCps)]
+  local cpName=mvars.ene_wildCardCps[math.random(#mvars.ene_wildCardCps)]
   local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end

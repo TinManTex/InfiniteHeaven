@@ -2,6 +2,7 @@
 local this={}
 
 --LOCALOPT
+local InfLog=InfLog
 local InfMain=InfMain
 local StrCode32=Fox.StrCode32
 local NULL_ID=GameObject.NULL_ID

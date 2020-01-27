@@ -2,6 +2,9 @@
 -- tex implements equipment on trucks, soldier item dropping, 
 
 local this={}
+
+local InfLog=InfLog
+local InfMain=InfMain
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 

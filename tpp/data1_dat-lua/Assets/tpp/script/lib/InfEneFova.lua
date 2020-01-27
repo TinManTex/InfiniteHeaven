@@ -1582,13 +1582,13 @@ function this.WildCardFova(bodies)
   InfEneFova.inf_wildCardFemaleFaceList={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
-  for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
+  for i=1,InfNPC.MAX_WILDCARD_FACES-InfNPC.numWildCardFemales do--SYNC numwildcards
     local faceId=this.RandomFaceId(faceBags,"MALE",categoryBag)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
   end
   local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
-  for i=1,InfMain.numWildCardFemales+1 do
+  for i=1,InfNPC.numWildCardFemales+1 do
     local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
     table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)

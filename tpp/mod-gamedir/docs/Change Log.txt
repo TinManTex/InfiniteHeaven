@@ -1,5 +1,12 @@
 Infinite Heaven changelog
 
+r192 - 2016-11-06
+Fixed: Hang on game startup with no ih_save.lua - thanks everyone for the report.
+
+Refactor: InfMain. .ModifyVehiclePatrolSoldiers .AddLrrps .AddWildCards shifted to InfNPC, external arguments either now passed in directly or documented.
+
+Fixed: Some functions that modify soldiierDefine providing different setup on checkpoint restart.
+
 r191 - 2016-11-07
 Fixed: Container resource scaling, Tpp.MergeTable isn't a good idea when sub keys are tables/you want to modify the merged - thanks garroth, coolguy3090 for the reports.
 Fixed: Mother base Invasion events not applying correctly.

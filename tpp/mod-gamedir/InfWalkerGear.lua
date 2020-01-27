@@ -1,6 +1,8 @@
 -- InfWalkerGear.lua
 local this={}
 
+local InfLog=InfLog
+local InfMain=InfMain
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
@@ -430,6 +432,74 @@ function this.GetNumDDWalkers()
     totalGears=totalGears+gearCount
   end
   InfLog.DebugPrint("totalGears:"..totalGears)
+end
+
+--WIP
+function this.SetUpEnemy(missionTable)--DEBUGNOW
+InfLog.PCallDebug(function(missionTable)
+    --DEBUGNOW
+    if not missionTable then
+      return
+    end
+    --walkers for lrrp
+    if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
+      return
+    end
+
+    if not Ivars.enableWalkerGearsFREE:EnabledForMission()  then
+      return
+    end
+    
+    InfLog.Add"Walker gear lrrp--------"--DEBUGNOW
+
+    local walkerIndex=1
+    local numWalkers=#InfWalkerGear.walkerList
+
+    local enemyTable=missionTable.enemy--DEBUGNOW whats the normal way to get soldierdine lol
+    if not enemyTable then--DEBUGNOW 
+      return
+    end
+    local soldierDefine=enemyTable.soldierDefine
+    if not soldierDefine then--DEBUGNOW 
+      return
+    end
+    for cpName,cpDefine in pairs(soldierDefine)do
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==NULL_ID then
+        InfLog.Add"cpId==NULL_ID"--DEBUGNOW
+      else
+        if cpDefine.lrrpTravelPlan and not cpDefine.lrrpVehicle then
+          for i,soldierName in ipairs(cpDefine)do
+            local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+            if soldierId==NULL_ID then
+             InfLog.Add"soldierId==NULL_ID"--DEBUGNOW
+            else
+                InfLog.Add("soldier "..soldierName)--DEBUGNOW
+              if walkerIndex==numWalkers then
+                InfLog.Add"walkerIndex==numWalkers"--DEBUGNOW
+              else
+                local walkerName=InfWalkerGear.walkerList[walkerIndex]
+                local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
+                InfLog.Add("walker gear "..walkerName)--DEBUGNOW
+                if walkerId==NULL_ID then
+                  InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
+                else
+                  local soldierPos=SendCommand(soldierId,{id="GetPosition"})
+                  local rotY=0
+                  local setPos={id="SetPosition",pos={soldierPos:GetX(),soldierPos:GetY(),soldierPos:GetZ()},rotY=rotY}
+                  SendCommand(walkerId,setPos)
+                  local setVehicle={id="SetRelativeVehicle",targetId=walkerId,rideFromBeginning=true}
+                  SendCommand(soldierId,setVehicle)
+                end
+                walkerIndex=walkerIndex+1
+              end
+            end
+          end
+        end
+      end
+    end
+
+  end,missionTable)--
 end
 
 

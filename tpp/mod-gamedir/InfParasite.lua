@@ -2,6 +2,8 @@
 -- tex implements parasite/skulls unit event
 local this={}
 
+local InfLog=InfLog
+local InfMain=InfMain
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local NULL_ID=GameObject.NULL_ID

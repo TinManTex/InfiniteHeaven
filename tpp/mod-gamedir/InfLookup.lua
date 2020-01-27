@@ -6,6 +6,7 @@
 local this={}
 
 --LOCAOPT
+local InfLog=InfLog
 local TppGameObject=TppGameObject
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex

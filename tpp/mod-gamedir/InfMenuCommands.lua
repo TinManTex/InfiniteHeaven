@@ -2,7 +2,9 @@
 local this={}
 --tex lines kinda blurry between Commands and Ivars, currently commands arent saved/have no gvar associated
 --NOTE: tablesetup at end sets up every table in this with an OnChange as a menu command
---localopt
+--LOCALOPT:
+local InfLog=InfLog
+local InfMain=InfMain
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local SendCommand=GameObject.SendCommand
@@ -604,6 +606,7 @@ this.DEBUG_SomeShiz={
   OnChange=function()
 
     InfLog.Add"DEBUG_SomeShiz---------------------"
+    
 
     --    InfLog.Add(tostring(InfMain.prelog))
     --    InfLog.Add(tostring(InfLog.logErr))
@@ -1046,7 +1049,7 @@ this.DEBUG_ShowRevengeConfig={
 
 this.DEBUG_PrintSoldierDefine={
   OnChange=function()
-    InfLog.DebugPrint("SoldierDefine:")
+    InfLog.Add("SoldierDefine:",true)
     InfLog.PrintInspect(mvars.ene_soldierDefine)
   end,
 }
@@ -1298,9 +1301,9 @@ this.DEBUG_WarpToObject={
     --local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
     --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
-    --local objectList=InfMain.ene_wildCardSoldiers
+    local objectList=mvars.ih_wildCardSoldiers
     --local objectList=InfParasite.parasiteNames.CAMO
-    local objectList=InfLookup.truckNames
+    --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}
     --local objectList=InfLookup.jeepNames
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}

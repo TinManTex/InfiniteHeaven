@@ -2,6 +2,8 @@
 --InfFova.lua
 local this={}
 
+local InfLog=InfLog
+
 --tex vars.playerType categorises plparts pack
 --corresponding to PlayerType enum
 this.playerTypes={

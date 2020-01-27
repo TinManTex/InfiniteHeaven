@@ -4,6 +4,7 @@
 local this={}
 
 --LOCALOPT
+local InfLog=InfLog
 local IsString=Tpp.IsTypeString
 local IsNumber=Tpp.IsTypeNumber
 local IsFunc=Tpp.IsTypeFunc
@@ -491,12 +492,18 @@ function this.OnCreateOrLoadSaveData()
   local ih_save,error=loadfile(filePath)
   if ih_save==nil then
     --tex create
+    InfLog.Add("No ih_save.lua found, creating new",false,true)
     local evarsTextList=this.BuildEvarsText(evars,InfMain.modVersion,false,true)
     --InfLog.PrintInspect(evarsTextList)
     this.WriteEvars(evarsTextList,saveName)
   else
     InfLog.PCallDebug(this.LoadEvars)
   end
+
+  if evars.debugMode==nil or evars.debugMode==0 then
+    InfLog.Add("debugMode=0, logging is disabled",false,true)
+  end
+
   InfLog.doneFirstLoad=true
 end
 
@@ -867,34 +874,31 @@ function this.ReadEvars(saveName)
   local filePath=InfLog.modPath..saveName
   local ih_save,error=loadfile(filePath)
   if ih_save==nil then
-    local errorText="ReadEvars: Read save error: "..tostring(error)
-    InfLog.DebugPrint(errorText)
-    InfLog.Add(errorText)
+    local errorText="ReadEvars: loadfile error: "..tostring(error)
+    InfLog.Add(errorText,true,true)
     return
   end
   if type(ih_save)~=typeFunction then
     local errorText="ReadEvars: LoadEvars~=typeFunction"
-    InfLog.DebugPrint(errorText)
-    InfLog.Add(errorText)
+    InfLog.Add(errorText,true,true)
     return
   end
   ih_save=ih_save()
   if type(ih_save.evars)~=typeTable then
     local errorText="ReadEvars: LoadEvars.evars~=typeTable"
-    InfLog.DebugPrint(errorText)
-    InfLog.Add(errorText)
+    InfLog.Add(errorText,true,true)
     return
   end
 
   local loadedEvars={}
   for name,value in pairs(ih_save.evars) do
     if type(name)~=typeString then
-      InfLog.Add("ReadEvars: name~=string:"..tostring(name))
+      InfLog.Add("ReadEvars: name~=string:"..tostring(name),true,true)
     else
       if type(value)~=typeNumber then
-        InfLog.Add("ReadEvars: value~=string: "..name.."="..tostring(value))
+        InfLog.Add("ReadEvars: value~=string: "..name.."="..tostring(value),true,true)
       elseif ivars and ivars[name]==nil then
-        InfLog.Add("ReadEvars: ivars["..name.."]==nil")
+        InfLog.Add("ReadEvars: ivars["..name.."]==nil",true,true)
       else
         loadedEvars[name]=value
       end
@@ -904,6 +908,7 @@ function this.ReadEvars(saveName)
 end
 
 function this.SaveEvars()
+  InfLog.AddFlow"SaveEvars"
   local saveName=InfMain.saveName
   local onlyNonDefault=true
 
@@ -920,16 +925,12 @@ function this.SaveEvars()
 end
 
 function this.LoadEvars()
+  InfLog.AddFlow"LoadEvars"
   local saveName=InfMain.saveName
 
   local evars=evars
 
   local loadedEvars=this.ReadEvars(saveName)
-  if not InfLog.doneFirstLoad then
-    if loadedEvars.debugMode==nil or loadedEvars.debugMode==0 then
-      InfLog.Add"debugMode=0, logging disabled"
-    end
-  end
   if loadedEvars then
     for name,value in pairs(loadedEvars) do
       evars[name]=value

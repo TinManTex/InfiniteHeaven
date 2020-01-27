@@ -19,12 +19,12 @@ local nl="\r\n"
 local stringType="string"
 local functionType="function"
 
-function this.Add(message,announceLog)
+function this.Add(message,announceLog,force)
   --tex GOTCHA, true setting wont kick in till gvars is initiallized, would be solved if shifting away from gvars to direct file save/load
   if evars and evars.debugMode then
     this.debugMode=evars.debugMode>0
   end
-  if this.debugMode==false then
+  if not this.debugMode and not force then
     return
   end
 
@@ -149,7 +149,7 @@ function this.PCall(func,...)
 
   local sucess,result=pcall(func,...)
   if not sucess then
-    this.Add(result)
+    this.Add("ERROR:"..result)
     this.Add("caller:"..this.DEBUG_Where(2))
     return
   else
@@ -178,8 +178,8 @@ function this.PCallDebug(func,...)
 
   local sucess, result=pcall(func,...)
   if not sucess then
-    InfLog.Add(result)
-    InfLog.Add(this.DEBUG_Where(2))
+    InfLog.Add("ERROR:"..result)
+    InfLog.Add("caller:"..this.DEBUG_Where(2))
     return
   else
     return result
@@ -211,8 +211,8 @@ function this.DEBUG_Where(stackLevel)
 end
 
 function this.AddFlow(message)
-  if Ivars.debugFlow:Is(0) then
-    return
+  if not this.debugMode then
+    return false
   end
   --  local stackLevel=2
   --  local stackInfo=debug.getinfo(stackLevel,"n")

@@ -1,9 +1,10 @@
 -- InfNPC.lua
--- tex implements soldier route changes on MB, and extra soldier loading
--- Ivars - mbAdditionalSoldiers, mbNpcRouteChange
+-- tex implements soldier additions/modificationa and route changes on MB
+-- Ivars: vehiclePatrolProfile, enableLrrpFreeRoam, enableWildCardFreeRoam, mbAdditionalSoldiers, mbNpcRouteChange
 local this={}
 
 --LOCALOPT
+local InfLog=InfLog
 local InfMain=InfMain
 local StrCode32=Fox.StrCode32
 local NULL_ID=GameObject.NULL_ID
@@ -11,6 +12,11 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Random=math.random
+
+local GetCurrentCluster=MotherBaseStage.GetCurrentCluster
+local GetMbStageClusterGrade=TppLocation.GetMbStageClusterGrade
+
+this.debugModule=false
 
 --updateState
 this.active=Ivars.mbNpcRouteChange
@@ -52,10 +58,16 @@ local mbDemoWasPlayed=false
 
 --TUNE
 local maxSoldiersOnSameRoute=2
-
 local maxSoldiersPerPlat=12--SYNC with plat counts, and keep in mind max instace count
 
 local plntPrefix="plnt"
+
+--
+--STATE
+--DEBUGNOW
+--mvars.ene_wildCardSoldiers={}
+--mvars.ene_femaleWildCardSoldiers={}
+--mvars.ene_wildCardCps={}
 
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
@@ -92,8 +104,8 @@ end
 function this.Messages()
   return Tpp.StrCode32Table{
     MotherBaseStage={
-      --{msg = "MotherBaseCurrentClusterLoadStart",func=this.MotherBaseCurrentClusterLoadStart},
-      {msg = "MotherBaseCurrentClusterActivated",func=this.MotherBaseCurrentClusterActivated},
+      --{msg="MotherBaseCurrentClusterLoadStart",func=this.MotherBaseCurrentClusterLoadStart},
+      {msg="MotherBaseCurrentClusterActivated",func=this.MotherBaseCurrentClusterActivated},
     },
   }
 end
@@ -116,7 +128,7 @@ function this.InitCluster(clusterId)
   end
 
   mbDemoWasPlayed=false
-  
+
   npcList={}
   npcPlats={}
   npcRoutes={}
@@ -129,7 +141,7 @@ function this.InitCluster(clusterId)
 
   local isRouteChange=Ivars.mbNpcRouteChange:Is(1)
 
-  local clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
+  local clusterId=clusterId or GetCurrentCluster()
   clusterId=clusterId+1
 
   --local clusterName=TppDefine.CLUSTER_NAME[clusterId]
@@ -138,7 +150,7 @@ function this.InitCluster(clusterId)
   if GetMBEnemyAssetTable==nil then
     return
   end
-  local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+  local grade=GetMbStageClusterGrade(clusterId)
 
   --tex loading an unbuilt cluster probbably doesnt happen anyway lol
   if grade==0 then
@@ -219,9 +231,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     --InfLog.DebugPrint"Update #npcList==0 aborting"--DEBUG
     return
   end
-  
-  local clusterId=MotherBaseStage.GetCurrentCluster()+1
-  local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+
+  local clusterId=GetCurrentCluster()+1
+  local grade=GetMbStageClusterGrade(clusterId)
   if grade==1 then
     return
   end
@@ -304,12 +316,12 @@ end
 local maxSoldiersOnPlat=9
 this.numReserveSoldiers=140
 
---STATE
-this.reserveSoldierNames=nil
+
 this.soldierPool=nil
 
 --caller: mtbs_enemy.OnLoad
 --IN/OUT: mb layout lua (ex ly003) .enemyAssetTable (via TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable)
+--tex adds extra soldiers,route names to mb cps
 function this.ModifyEnemyAssetTable()
   --InfLog.PCall(function()--DEBUG
   if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
@@ -380,6 +392,422 @@ function this.ModifyEnemyAssetTable()
   end
   --InfLog.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
   --end)--
+end
+
+--IN/OUT soldierPool,soldierDefine
+--IN-SIDE: mvars.inf_patrolVehicleInfo
+--tex adjusts soldiers assigned to lrrp vehicles
+--DEBUGNOW TODO TEST, soldierDefine looks ok, but verify soldier counts on vehicles correct, also that vehicles are changing and convoys work
+function this.ModifyVehiclePatrolSoldiers(soldierPool,soldierDefine,soldiersAssigned)
+  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
+    return
+  end
+
+  if InfMain.IsContinue() then
+    return
+  end
+
+  InfMain.RandomSetToLevelSeed()
+
+  local seatChanges={}--DEBUG
+
+  local initPoolSize=#soldierPool
+  for cpName,cpDefine in pairs(soldierDefine)do
+
+    local numCpSoldiers=0
+    for n=1,#cpDefine do
+      if cpDefine[n] then
+        numCpSoldiers=numCpSoldiers+1
+      end
+    end
+
+    if cpDefine.lrrpVehicle then
+      --tex figure out how many soldiers for the vehicle
+      local numSeats=2
+      if mvars.inf_patrolVehicleInfo then
+        local vehicleInfo=mvars.inf_patrolVehicleInfo[cpDefine.lrrpVehicle]
+        if vehicleInfo then
+          local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
+          if baseTypeInfo then
+            numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
+            --InfLog.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
+          end
+        end
+      end
+      --
+      local seatDelta=numSeats-numCpSoldiers
+      seatChanges[cpDefine.lrrpVehicle]=seatDelta--DEBUGNOW
+      --DEBUG
+      --      local isConvoy=false
+      --      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
+      --        for i,vehicleName in ipairs(convoyVehicles)do
+      --          if cpDefine.lrrpVehicle==vehicleName then
+      --            InfLog.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#soldierPool)
+      --            isConvoy=true
+      --            break
+      --          end
+      --        end
+      --      end
+      --<DEBUG
+      if seatDelta<0 then--tex over filled
+        --tex back into soldierPool
+        InfMain.FillList(-seatDelta,cpDefine,soldierPool)
+      elseif seatDelta>0 then--tex under filled
+        --tex add soldiers
+        local soldiersAdded=InfMain.FillList(seatDelta,soldierPool,cpDefine)
+        for i,soldierName in ipairs(soldiersAdded)do
+          soldiersAssigned[soldierName]=true
+        end
+        --        if isConvoy then--DEBUG
+        --          InfLog.PrintInspect(soldiersAdded)
+        --        end--
+      end
+      --if lrrpVehicle<
+    end
+    --for soldierdefine<
+  end
+
+  InfMain.RandomResetToOsTime()
+
+  if this.debugModule then
+    local poolChange=initPoolSize-#soldierPool--DEBUG
+    InfLog.Add("ModifyVehiclePatrolSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
+    InfLog.PrintInspect(soldierPool)
+    InfLog.Add"seatChanges"
+    InfLog.PrintInspect(seatChanges)
+  end
+end
+
+--IN/OUT soldierPool,soldierDefine,travelPlans
+--OUT: lrrpDefines
+--tex sets up lrrp foot patrols between bases
+function this.AddLrrps(soldierPool,soldierDefine,travelPlans,lrrpDefines)
+  if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
+    return
+  end
+
+  InfMain.RandomSetToLevelSeed()
+
+  --tex TODO clear instead of new
+  lrrpDefines={}
+
+  --tex find empty cps to use for lrrps
+  local cpPool=InfMain.BuildLrrpVehicleCpPool(soldierDefine)
+
+  local planStr="travelIH_"
+
+  local reserved=0--6
+  --tex OFF
+  --  local minSize=Ivars.lrrpSizeFreeRoam_MIN:Get()
+  --  local maxSize=Ivars.lrrpSizeFreeRoam_MAX:Get()
+  --  if maxSize>#soldierPool then
+  --    maxSize=#soldierPool
+  --  end
+  local numLrrps=0--DEBUG
+
+  local baseNameBag=InfMain.ShuffleBag:New()
+  local locationName=InfMain.GetLocationName()
+  local baseNames=InfMain.baseNames[locationName]
+  for n,cpName in pairs(baseNames)do
+    local cpDefine=soldierDefine[cpName]
+    if cpDefine==nil then
+    --InfLog.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    else
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==NULL_ID then
+        InfLog.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+      else
+        baseNameBag:Add(cpName)
+      end
+    end
+  end
+
+  --InfLog.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
+
+  --tex one lrrp per two bases (start at one, head to next) is a nice target for num of lrrps, but lrrp cps or soldiercount may run out first
+  while #soldierPool-reserved>0 do
+    --tex the main limiter, available empty cps to use for lrrps
+    if #cpPool==0 then
+      --InfLog.DebugPrint"#cpPool==0"--DEBUG
+      break
+    end
+    if #soldierPool==0 then
+      --InfLog.DebugPrint"#soldierPool==0"--DEBUG
+      break
+    end
+
+    local lrrpSize=2 --TUNE WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
+    --tex TODO: stop it from eating reserved
+    --InfLog.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
+
+    local cpName=cpPool[#cpPool]
+    cpPool[#cpPool]=nil
+
+    --InfLog.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+
+    local cpDefine={}
+    soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are modding existing
+
+    InfMain.FillList(lrrpSize,soldierPool,cpDefine)
+
+    local planName=planStr..cpName
+    cpDefine.lrrpTravelPlan=planName
+    local base1=baseNameBag:Next()
+    local base2=baseNameBag:Next()
+    travelPlans[planName]={
+      {base=base1},
+      {base=base2},
+    }
+    --tex info for interrog
+    local lrrpDefine={
+      cpDefine=cpDefine,
+      base1=base1,
+      base2=base2,
+    }
+    lrrpDefines[#lrrpDefines+1]=lrrpDefine
+
+    numLrrps=numLrrps+1
+  end
+  --  InfLog.DebugPrint("num lrrps"..numLrrps)--DEBUG
+  --  InfLog.DebugPrint("#soldierPool:"..#soldierPool)--DEBUG
+  --  InfLog.DebugPrint("#cpPool:"..#cpPool)--DEBUG
+
+  --Fill rest. can just do straight cpDefine order since they're build randomly anyway
+  if #soldierPool>0 then
+    for cpName,cpDefine in pairs(soldierDefine)do
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==NULL_ID then
+      else
+        if cpDefine.lrrpTravelPlan and not cpDefine.lrrpVehicle then
+          InfMain.FillList(1,soldierPool,cpDefine)
+        end
+      end
+    end
+  end
+
+  InfMain.RandomResetToOsTime()
+
+  if this.debugModule then
+  InfLog.Add"InfMain.lrrpDefines"
+  InfLog.PrintInspect(lrrpDefines)
+  end
+end
+
+local function FaceIsFemale(faceId)
+  local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
+  return isFemale and isFemale[1]==1
+end
+
+this.MAX_WILDCARD_FACES=16
+--TUNE:
+--afgh has ~39 cps, mafr ~33
+this.numWildCards=10--tex limit TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
+this.numWildCardFemales=5
+
+local wildCardSubTypes={
+  afgh="SOVIET_WILDCARD",
+  mafr="PF_WILDCARD",
+}
+
+local gearPowers={
+  "HELMET",
+  "SOFT_ARMOR",
+  "GUN_LIGHT",
+  "NVG",
+--"GAS_MASK",
+}
+local weaponPowers={
+  "ASSAULT",
+  "SMG",
+  "SHOTGUN",
+  "MG",
+  "SNIPER",
+--"MISSILE",
+}
+
+--ASSUMPTION, ordered after vehicle cpdefines have been modified
+--IN/OUT: soldierPool,soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings
+--IN-SIDE: InfEneFova.inf_wildCardFemaleFaceList,InfEneFova.inf_wildCardMaleFaceList
+--IN-SIDE: this.numWildCards,this.numWildCardFemales
+--OUT-SIDE: mvars.ene_wildCardSoldiers, mvars.ene_femaleWildCardSoldiers, mvars.ene_wildCardCps
+--tex sets up some soldiers of existing cps as wildcard soldiers
+function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
+  if not Ivars.enableWildCardFreeRoam:EnabledForMission() then
+    return
+  end
+
+  local InfEneFova=InfEneFova
+  if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
+    InfLog.Add("AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting",true)
+    return
+  end
+  if not InfEneFova.inf_wildCardMaleFaceList or #InfEneFova.inf_wildCardMaleFaceList==0  then
+    InfLog.Add("AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting",true)
+    return
+  end
+
+  InfMain.RandomSetToLevelSeed()
+
+  local reserved=0
+  local numLrrps=0
+
+  local baseNamePool=InfMain.BuildCpPoolWildCard(soldierDefine)
+
+  local locationName=InfMain.GetLocationName()
+
+
+  local wildCardSubType=wildCardSubTypes[locationName]or "SOVIET_WILDCARD"
+
+  local weaponPowersBag=InfMain.ShuffleBag:New(weaponPowers)
+
+  local abilityLevel="sp"
+  local personalAbilitySettings={
+    notice=abilityLevel,
+    cure=abilityLevel,
+    reflex=abilityLevel,
+    shot=abilityLevel,
+    grenade=abilityLevel,
+    reload=abilityLevel,
+    hp=abilityLevel,
+    speed=abilityLevel,
+    fulton=abilityLevel,
+    holdup=abilityLevel
+  }
+
+  --TUNE:
+  --tex GOTCHA LIMIT TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
+  --InfLog.DebugPrint("#baseNamePool:"..#baseNamePool)--DEBUG
+  --this.numWildCards=math.max(1,math.ceil(#baseNamePool/4))--SYNC: MAX_WILDCARD_FACES
+  --this.numWildCards=math.min(TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT,this.numWildCards)
+  --tex shifted outside of function-- this.numWildCardFemales=math.max(1,math.ceil(numWildCards/2))--SYNC: MAX_WILDCARD_FACES
+  --InfLog.Add("numwildcards: "..this.numWildCards .. " numFemale:"..this.numWildCardFemales)--DEBUG
+
+  --  InfLog.DebugPrint"ene_wildCardFaceList"--DEBUG >
+  --  InfLog.PrintInspect(InfEneFova.inf_wildCardFaceList)--<
+
+  --tex TODO clear not new
+  mvars.ene_wildCardSoldiers={}
+  mvars.ene_femaleWildCardSoldiers={}
+  mvars.ene_wildCardCps={}
+
+  local numFemales=0
+  local maleFaceIdPool=InfMain.ResetPool(InfEneFova.inf_wildCardMaleFaceList)
+  local femaleFaceIdPool=InfMain.ResetPool(InfEneFova.inf_wildCardFemaleFaceList)
+  --InfLog.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
+
+  for i=1,this.numWildCards do
+    if #baseNamePool==0 then
+      InfLog.DebugPrint"#baseNamePool==0"--DEBUG
+      break
+    end
+
+    local cpName=InfMain.GetRandomPool(baseNamePool)
+    local cpDefine=soldierDefine[cpName]
+    mvars.ene_wildCardCps[#mvars.ene_wildCardCps+1]=cpName
+
+    local soldierName=cpDefine[math.random(#cpDefine)]
+    mvars.ene_wildCardSoldiers[#mvars.ene_wildCardSoldiers+1]=soldierName
+
+    local isFemale=false
+    if numFemales<this.numWildCardFemales then
+      isFemale=true
+      numFemales=numFemales+1
+      mvars.ene_wildCardSoldiers[#mvars.ene_femaleWildCardSoldiers+1]=soldierName
+    end
+
+    --tex choose face
+    local faceIdPool
+    if isFemale then
+      faceIdPool=femaleFaceIdPool
+    else
+      faceIdPool=maleFaceIdPool
+    end
+    if #faceIdPool==0 then
+      InfLog.Add("#faceIdPool too small, aborting",true)--DEBUG
+      break
+    end
+    local faceId=InfMain.GetRandomPool(faceIdPool)
+
+    --tex choose body
+    local bodyId=EnemyFova.INVALID_FOVA_VALUE
+    if isFemale then
+      local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
+      if not bodyInfo or not bodyInfo.bodyId then
+        InfLog.Add("WARNING no bodyinfo for wildcard",true)--DEBUG
+      else
+        bodyId=bodyInfo.bodyId
+        if bodyId and type(bodyId)=="table"then
+          bodyId=bodyId[math.random(#bodyId)]
+        end
+      end
+    else
+      local bodyTable=InfEneFova.wildCardBodyTable[locationName]
+      bodyId=bodyTable[math.random(1,#bodyTable)]
+    end
+
+    --tex RegisterUniqueSetting face,body
+    --tex GOTCHA LIMIT TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT
+    local hasSetting=false
+    local uniqueSettings=TppEneFova.GetUniqueSettings()
+    for i=1,#uniqueSettings do
+      if uniqueSettings[i].name==soldierName then
+        hasSetting=true
+        if isFemale and not FaceIsFemale(uniqueSettings[i].faceId) then
+          InfLog.Add("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female",true)--DEBUG
+        end
+      end
+    end
+    if not hasSetting then
+      TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
+    end
+
+    local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
+    if gameObjectId==NULL_ID then
+      InfLog.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
+    else
+      local command={id="UseExtendParts",enabled=isFemale}
+      SendCommand(gameObjectId,command)
+    end
+
+    --
+    soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
+    table.insert(soldierSubTypes[wildCardSubType],soldierName)
+
+    local soldierPowers={}
+    for n,power in pairs(gearPowers) do
+      soldierPowers[#soldierPowers+1]=power
+    end
+    soldierPowers[#soldierPowers+1]=weaponPowersBag:Next()
+
+    soldierPowerSettings[soldierName]=soldierPowers
+
+    soldierPersonalAbilitySettings[soldierName]=personalAbilitySettings
+
+    numLrrps=numLrrps+1
+  end
+
+
+  --DEBUG
+  InfLog.Add"ene_wildCardSoldiers"
+  InfLog.PrintInspect(mvars.ene_wildCardSoldiers)
+  InfLog.Add"ene_femaleWildCardSoldiers"
+  InfLog.PrintInspect(mvars.ene_femaleWildCardSoldiers)
+  InfLog.Add"ene_wildCardCps"
+  InfLog.PrintInspect(mvars.ene_wildCardCps)
+  --  local uniqueSettings=TppEneFova.GetUniqueSettings()
+  --  InfLog.Add"TppEneFova uniqueSettings"
+  --  InfLog.PrintInspect(uniqueSettings)
+
+  --InfLog.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
+
+  --  --DEBUG
+  --  for n,soldierName in pairs(mvars.ene_wildCardSoldiers)do
+  --    InfLog.Add(soldierName)
+  --    InfLog.PrintInspect(soldierPowerSettings[soldierName])
+  -- end
+
+  --InfLog.Add("num wildCards"..numLrrps)--DEBUG
+  InfMain.RandomResetToOsTime()
 end
 
 return this

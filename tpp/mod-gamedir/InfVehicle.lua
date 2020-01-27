@@ -1,10 +1,17 @@
 -- InfVehicle.lua
 local this={}
+local InfLog=InfLog
 local InfMain=InfMain
 local Vehicle=Vehicle
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local SendCommand=GameObject.SendCommand
+
+this.debugModule=false
+
+--STATE
+--mvars.inf_patrolVehicleInfo={}
+--mvars.inf_patrolVehicleConvoyInfo={}
 
 this.vehicleBaseTypes={
   LIGHT_VEHICLE={--jeep
@@ -208,11 +215,15 @@ function this.BuildEnabledList(patrolVehicleEnabledList)
   return patrolVehicleEnabledList
 end
 
---IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
+--IN: vehicleSpawnList=missionTable.enemy.VEHICLE_SPAWN_LIST
+--IN/OUT: soldierDefine
+--OUT-SIDE: mvars.inf_patrolVehicleInfo,mvars.inf_patrolVehicleConvoyInfo
+--IN-SIDE: this.convoys
+--tex adds convoys, and sets up vehicles, InfNPC.ModifyVehiclePatrolSoldiers fills them.
 function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
   --InfLog.PCall(function(vehicleSpawnList,soldierDefine)--DEBUG
-    if not Ivars.vehiclePatrolProfile:EnabledForMission() then
-      return
+  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
+    return
   end
 
   local patrolVehicleEnabledList=this.BuildEnabledList()
@@ -237,70 +248,75 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
     end
   end
 
-  local cpPool=InfMain.BuildCpPool(soldierDefine)
-
+  --tex convoy setup
   --tex GOTCHA additional count/not counting existing/lead vehicle
   local convoySizeMin=2--TUNE
   local convoySizeMax=5--TUNE
   if convoySizeMax>0 then
-    local convoys=this.convoys[locationName]
-    if convoys then
-      local numConvoys=0
-      for travelPlan,convoyInfo in pairs(convoys) do
-        numConvoys=numConvoys+1
-      end
 
-      --convoySizeMax=math.min(math.floor(#freeLvs/numConvoys),convoySizeMax)
+    if not InfMain.IsContinue() then
 
-      if convoySizeMax>0 then
+      local convoys=this.convoys[locationName]
+      if convoys then
+
+        local numConvoys=0
         for travelPlan,convoyInfo in pairs(convoys) do
-          local currentMax=math.min(#convoyInfo,convoySizeMax)
-          --InfLog.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
-          if currentMax>0 then
-            --currentMax=math.random(1,currentMax)--OFF TODO
-            local convoyVehicles={}
-            mvars.inf_patrolVehicleConvoyInfo[travelPlan]=convoyVehicles
+          numConvoys=numConvoys+1
+        end
 
-            convoyVehicles[#convoyVehicles+1]=convoyInfo.leadVehicle
+        --convoySizeMax=math.min(math.floor(#freeLvs/numConvoys),convoySizeMax)
+        if convoySizeMax>0 then
+          local cpPool=InfMain.BuildLrrpVehicleCpPool(soldierDefine)
+          for travelPlan,convoyInfo in pairs(convoys) do
+            local currentMax=math.min(#convoyInfo,convoySizeMax)
+            --InfLog.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
+            if currentMax>0 then
+              --currentMax=math.random(1,currentMax)--OFF TODO
+              local convoyVehicles={}
+              mvars.inf_patrolVehicleConvoyInfo[travelPlan]=convoyVehicles
 
-            for i=1,currentMax do
-              if #cpPool==0 then
-                break
+              convoyVehicles[#convoyVehicles+1]=convoyInfo.leadVehicle
+
+              for i=1,currentMax do
+                if #cpPool==0 then
+                  break
+                end
+                local cpName=cpPool[#cpPool]
+                cpPool[#cpPool]=nil
+
+                local vehicleName=InfMain.GetRandomPool(freeLvs)
+
+                local cpDefine=soldierDefine[cpName]
+                --TODO cpDefine.convoyIndex=i
+                cpDefine.lrrpTravelPlan=travelPlan
+                cpDefine.lrrpVehicle=vehicleName
+
+                convoyVehicles[#convoyVehicles+1]=vehicleName
               end
-              local cpName=cpPool[#cpPool]
-              cpPool[#cpPool]=nil
-
-              local vehicleName=InfMain.GetRandomPool(freeLvs)
-
-              local cpDefine=soldierDefine[cpName]
-              --TODO cpDefine.convoyIndex=i
-              cpDefine.lrrpTravelPlan=travelPlan
-              cpDefine.lrrpVehicle=vehicleName
-
-              convoyVehicles[#convoyVehicles+1]=vehicleName
             end
           end
-        end
 
-        --tex soldiers getting out messes up timing/spacing of convoy, and may cause the 'cant find vehicle' for following vehicles (as the vehicle stops further away)
-        --so just remove them
-        local lrrpHoldStr="lrrpHold"
-        for travelPlan,convoyInfo in pairs(convoys) do
-          local moddedPlan={}
-          for i,planStep in ipairs(travelPlans[travelPlan]) do
-            if planStep.routeGroup and planStep.routeGroup[2]~=lrrpHoldStr then
-              moddedPlan[#moddedPlan+1]=planStep 
-            end 
+          --tex soldiers getting out messes up timing/spacing of convoy, and may cause the 'cant find vehicle' for following vehicles (as the vehicle stops further away)
+          --so just remove them
+          local lrrpHoldStr="lrrpHold"
+          for travelPlan,convoyInfo in pairs(convoys) do
+            local moddedPlan={}
+            for i,planStep in ipairs(travelPlans[travelPlan]) do
+              if planStep.routeGroup and planStep.routeGroup[2]~=lrrpHoldStr then
+                moddedPlan[#moddedPlan+1]=planStep
+              end
+            end
+            travelPlans[travelPlan]=moddedPlan
           end
-          travelPlans[travelPlan]=moddedPlan
         end
+        --< end if convoys
       end
-      --< end if convoys
+
     end
   end
   --< end convoy setup
 
-  --
+  --tex vehicle setup
   local patrolVehicles={}
   for cpName,cpDefine in pairs(soldierDefine)do
     if cpDefine.lrrpVehicle then
@@ -371,6 +387,14 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
   end
 
   InfMain.RandomResetToOsTime()
+
+  if this.debugModule then
+    InfLog.Add"ModifyPatrolVehicles"
+    InfLog.Add"mvars.inf_patrolVehicleInfo:"
+    InfLog.PrintInspect(mvars.inf_patrolVehicleInfo)
+    InfLog.Add"mvars.inf_patrolVehicleConvoyInfo:"
+    InfLog.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)
+  end
   --end,vehicleSpawnList,soldierDefine)--
 end
 
@@ -395,7 +419,7 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 
-function this.AddMissionPacks(missionCode,packPaths)  
+function this.AddMissionPacks(missionCode,packPaths)
   if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
@@ -451,51 +475,52 @@ this.convoys={
       leadCp="afgh_01_13_lrrp",
       {1591.106,322.205,1099.870,81},
       {1599.292,322.354,1089.520,81},
-      --{1601.481,322.686,1078.456,81},
-      
-      
-      --{1612.066,323.194,1066.894,81},
-      --{1620.903,323.664,1054.599,81},
+    --{1601.481,322.686,1078.456,81},
+
+
+    --{1612.066,323.194,1066.894,81},
+    --{1620.903,323.664,1054.599,81},
     },
---    travelArea2_03={--tex Mountain relay/Sakhra Ee loop
---      leadVehicle="veh_trc_0002",
---      leadCp="afgh_05_33_lrrp",
---      {1891.624,336,-313.310,20},
---      {1877.762,334.184,-315.944,20},
---    },
+  --    travelArea2_03={--tex Mountain relay/Sakhra Ee loop
+  --      leadVehicle="veh_trc_0002",
+  --      leadCp="afgh_05_33_lrrp",
+  --      {1891.624,336,-313.310,20},
+  --      {1877.762,334.184,-315.944,20},
+  --    },
   }
 }
 
+--IN-SIDE : mvars.inf_patrolVehicleConvoyInfo
 --tex final setup, initial setup is in ModifyVehiclePatrol
 function this.SetupConvoy()
   --InfLog.PCall(function()--DEBUG
-    if not Ivars.vehiclePatrolProfile:EnabledForMission() then
-      return
+  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
+    return
   end
 
-  if TppMission.IsMissionStart() then
-    if mvars.inf_patrolVehicleConvoyInfo==nil then
-      --InfLog.DebugPrint"SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUG
-      return
-    end
+  if mvars.inf_patrolVehicleConvoyInfo==nil then
+    InfLog.Add"WARNING SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUG
+    return
+  end
 
-    local locationName=InfMain.GetLocationName()
-    local convoys=this.convoys[locationName]
+  local locationName=InfMain.GetLocationName()
+  local convoys=this.convoys[locationName]
 
-    --InfLog.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
-    local registeredConvoy=false--TODO
-    if convoys then
-      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
-        --InfLog.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
-        local convoyInfo=convoys[travelPlan]
+  --DEBUGNOW reworked so TEST
+  --InfLog.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
+  if convoys then
+    for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
+      --InfLog.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
+      local convoyInfo=convoys[travelPlan]
 
-        local convoyIds={}
-        for i,vehicleName in ipairs(convoyVehicles)do
-          convoyIds[#convoyIds+1]=GetGameObjectId("TppVehicle2",vehicleName)
-          local vehicleId=GetGameObjectId("TppVehicle2",vehicleName)
-          if vehicleId==NULL_ID then
-            InfLog.DebugPrint("SetupConvoy: "..vehicleName.." gameId==NULL_ID")--DEBUG
-          else
+      local convoyIds={}
+      for i,vehicleName in ipairs(convoyVehicles)do
+        local vehicleId=GetGameObjectId("TppVehicle2",vehicleName)
+        if vehicleId==NULL_ID then
+          InfLog.Add("WARNING: SetupConvoy: "..vehicleName.." gameId==NULL_ID")--DEBUG
+        else
+          convoyIds[#convoyIds+1]=vehicleId
+          if TppMission.IsMissionStart() then
             if i>1 then--tex patrolVehicleConvoyInfo includes lead vehicle, which already has position
               --InfLog.DebugPrint("SetPosition "..vehicleName)--DEBUG
               local coords=convoyInfo[i-1]
@@ -503,13 +528,10 @@ function this.SetupConvoy()
               SendCommand(vehicleId,command)
             end
           end
-
         end
-        --if not registeredConvoy then--TODO
-        registeredConvoy=true
-        SendCommand({type="TppVehicle2"},{id="RegisterConvoy",convoyId=convoyIds})
-        --end
+
       end
+      SendCommand({type="TppVehicle2"},{id="RegisterConvoy",convoyId=convoyIds})--tex not sure if this state is saved TODO: is RegisterConvoy singular or not? see s10090_sequence
     end
   end
   --end)--

@@ -606,7 +606,8 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+    --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
+    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
 --    InfMenuCommands.showPosition,
 --    InfMenuCommands.DEBUG_ToggleParasiteEvent,
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG

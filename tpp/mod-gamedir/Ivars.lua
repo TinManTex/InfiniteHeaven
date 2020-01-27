@@ -14,6 +14,8 @@ local this={}
 
 --LOCALOPT:
 local Ivars=this
+local InfLog=InfLog
+local InfMain=InfMain
 local IsString=Tpp.IsTypeString
 local IsNumber=Tpp.IsTypeNumber
 local IsFunc=Tpp.IsTypeFunc
@@ -3455,7 +3457,6 @@ this.resourceAmountScale={
   default=100,
   range={max=1000,min=100,increment=100},
   isPercent=true,
-  --DEBUGNOW TEST in Helispace
   OnChange=function()
     InfResources.ScaleResourceTables()
   end,
