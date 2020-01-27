@@ -586,6 +586,79 @@ this.requestHeliLzToLastMarker={
   end
 }
 
+--WIP
+local forceRouteOn=false
+this.requestHeliLzToLastMarkerAlt={
+  isMenuOff=true,
+  OnChange=function()
+    --TODO bail if not in heli
+
+    local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+    if heliId==NULL_ID then
+      InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
+      return
+    end
+
+    local locationName=InfUtil.GetLocationName()
+    if locationName~="afgh" and locationName~="mafr" then
+      InfMenu.PrintLangId"not_for_location"
+      return
+    end
+
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    local closestRoute
+    if lastMarkerIndex==nil then
+      InfMenu.PrintLangId"no_marker_found"
+      return
+    else
+      local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+      markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
+
+      closestRoute=InfMain.GetClosestLz(markerPostion)
+    end
+
+    --if not forceRouteOn then
+    if closestRoute==nil then
+      InfMenu.PrintLangId"no_lz_found"
+      return
+    end
+
+    local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+    if lzName==nil then
+      InfMenu.PrintLangId"no_lz_found"
+      InfCore.Log("lzName==nil")
+      return
+    end
+    
+    InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),true)--DEBUGNOW
+    local lzInfo=InfLZ.lzInfo[lzName]
+    if not lzInfo then
+      InfCore.Log("no lzInfo for "..tostring(lzName))
+    else
+      closestRoute=lzInfo.returnRoute
+      --closestRoute=lzInfo.approachRoute
+      --closestRoute=lzInfo.dropRoute
+    end
+    
+    
+     SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})--tex will only update if player not in heli and heli not forceroute
+
+    --tex if no point (route node index) is supplied it will path to the nearest point
+    --this is an issue if thats past the node at the lz
+    --point 0 is first node, which can be an issue for dropRoute,approachRoute which has a starting point away from lz
+    --but good for returnRoute which starts at lz
+    --can use warp to figure out where the points are
+    SendCommand(heliId,{id="SetForceRoute",route=closestRoute,point=0})--,warp=true})--DEBUG
+
+    --SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
+
+    forceRouteOn=not forceRouteOn
+
+    InfMenu.MenuOff()
+  end
+}
+
+
 this.forceExitHeli={
   isMenuOff=true,
   OnChange=function()
@@ -593,6 +666,35 @@ this.forceExitHeli={
       InfMenu.PrintLangId"not_in_heli"
     else
       Player.HeliSideToFOBStartPos()
+      InfMenu.MenuOff()
+    end
+  end
+}
+
+--WIP
+this.forceExitHeliAlt={
+  isMenuOff=true,
+  OnChange=function()
+    if not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
+      InfMenu.PrintLangId"not_in_heli"
+    else
+      Player.RequestToPlayDirectMotion{
+        "nothing",
+        {
+          "",
+          false,
+          "",
+          "",
+          "",
+          false
+        }
+      }
+      
+      --tex TODO need to wait for RequestToPlayDirectMotion to stop before can warp
+
+      local currentPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+      local closestRoute,closestDist,closestPos=InfMain.GetClosestLz(currentPos)
+      TppPlayer.Warp{pos=closestPos,rotY=vars.playerCameraRotation[1]}
       InfMenu.MenuOff()
     end
   end
@@ -657,497 +759,12 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
- 
-    --
-    --    local nextMissionId = TppDefine.SYS_MISSION_ID.MTBS_FREE
-    --    --if not TppTerminal.IsCleardRetakeThePlatform() then
-    --    nextMissionId = TppDefine.SYS_MISSION_ID.MTBS_HELI
-    --    --end
-    --
-    --    TppMission.ReserveMissionClear{
-    --      nextMissionId = nextMissionId,
-    --      missionClearType = TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,
-    --    }
-
-
-    --
-    --InfCore.PrintInspect(MotherBaseStage.GetCurrentCluster(),"MotherBaseStage.GetCurrentCluster")
-    --InfCore.PrintInspect(mtbs_cluster.GetCurrentClusterId(),"mtbs_cluster.GetCurrentClusterId")
-
-
-    if true then return end
-
-
-    local tppEquipNames={}
-    for k,v in pairs(TppEquip)do
-      if type(v)=="number" then
-        if string.find(k,"EQP_")~=nil and string.find(k,"EQP_TYPE_")==nil and string.find(k,"EQP_BLOCK_")==nil then
-          table.insert(tppEquipNames,k)
-        end
-      end
+    local heliName="SupportHeli"--EnemyHeli0000"
+    local heliId = GetGameObjectId(heliName)
+    if heliId==NULL_ID then
+      return
     end
-
-    local notInInfEquip={}
-    for i,equipId in ipairs(tppEquipNames)do
-      local found=false
-      for i,_equipId in ipairs(InfEquip.tppEquipTable)do
-        if equipId==_equipId then
-          found=true
-          break
-        end
-      end
-      if not found then
-        table.insert(notInInfEquip,equipId)
-      end
-    end
-    table.sort(notInInfEquip)
-    InfCore.PrintInspect(notInInfEquip,"notInInfEquip")
-
-    local notInInfEquip={
-      "EQP_AB_Researve_00",
-      "EQP_AB_Researve_01",
-      "EQP_AM_Volgin_sg_010",
-      "EQP_BX_Researve_00",
-      "EQP_BX_Researve_01",
-      "EQP_BX_Researve_02",
-      "EQP_BX_Researve_03",
-      "EQP_HAND_ACTIVESONAR",
-      "EQP_HAND_MEDICAL",
-      "EQP_HAND_PHYSICAL",
-      "EQP_HAND_PRECISION",
-      "EQP_IT_CBox",
-      "EQP_None",
-      "EQP_SUIT",
-      "EQP_SWP_Claymore",
-      "EQP_SWP_Claymore_G01",
-      "EQP_SWP_Claymore_G02",
-      "EQP_WP_10001",
-      "EQP_WP_10002",
-      "EQP_WP_10003",
-      "EQP_WP_10004",
-      "EQP_WP_10006",
-      "EQP_WP_10015",
-      "EQP_WP_10024",
-      "EQP_WP_10025",
-      "EQP_WP_10035",
-      "EQP_WP_10036",
-      "EQP_WP_1003a",
-      "EQP_WP_1003b",
-      "EQP_WP_10101",
-      "EQP_WP_10102",
-      "EQP_WP_10103",
-      "EQP_WP_10104",
-      "EQP_WP_10105",
-      "EQP_WP_10107",
-      "EQP_WP_10116",
-      "EQP_WP_10125",
-      "EQP_WP_10134",
-      "EQP_WP_10136",
-      "EQP_WP_10201",
-      "EQP_WP_10202",
-      "EQP_WP_10203",
-      "EQP_WP_10205",
-      "EQP_WP_10214",
-      "EQP_WP_10216",
-      "EQP_WP_10302",
-      "EQP_WP_10303",
-      "EQP_WP_10304",
-      "EQP_WP_10305",
-      "EQP_WP_10306",
-      "EQP_WP_10307",
-      "EQP_WP_10403",
-      "EQP_WP_10404",
-      "EQP_WP_10405",
-      "EQP_WP_10407",
-      "EQP_WP_10414",
-      "EQP_WP_10415",
-      "EQP_WP_10417",
-      "EQP_WP_10424",
-      "EQP_WP_10425",
-      "EQP_WP_10427",
-      "EQP_WP_10503",
-      "EQP_WP_10504",
-      "EQP_WP_10515",
-      "EQP_WP_10526",
-      "EQP_WP_10603",
-      "EQP_WP_10604",
-      "EQP_WP_10615",
-      "EQP_WP_10626",
-      "EQP_WP_10637",
-      "EQP_WP_10703",
-      "EQP_WP_10704",
-      "EQP_WP_10705",
-      "EQP_WP_20002",
-      "EQP_WP_20003",
-      "EQP_WP_20004",
-      "EQP_WP_20005",
-      "EQP_WP_20006",
-      "EQP_WP_20015",
-      "EQP_WP_20103",
-      "EQP_WP_20104",
-      "EQP_WP_20105",
-      "EQP_WP_20106",
-      "EQP_WP_20116",
-      "EQP_WP_20119",
-      "EQP_WP_2011a",
-      "EQP_WP_2011b",
-      "EQP_WP_20203",
-      "EQP_WP_20204",
-      "EQP_WP_20205",
-      "EQP_WP_20206",
-      "EQP_WP_20215",
-      "EQP_WP_20216",
-      "EQP_WP_20225",
-      "EQP_WP_20302",
-      "EQP_WP_20303",
-      "EQP_WP_20304",
-      "EQP_WP_20305",
-      "EQP_WP_20307",
-      "EQP_WP_20309",
-      "EQP_WP_2030a",
-      "EQP_WP_2030b",
-      "EQP_WP_30001",
-      "EQP_WP_30002",
-      "EQP_WP_30003",
-      "EQP_WP_30004",
-      "EQP_WP_30005",
-      "EQP_WP_30014",
-      "EQP_WP_30015",
-      "EQP_WP_30016",
-      "EQP_WP_30023",
-      "EQP_WP_30024",
-      "EQP_WP_30025",
-      "EQP_WP_30034",
-      "EQP_WP_30035",
-      "EQP_WP_30036",
-      "EQP_WP_30043",
-      "EQP_WP_30044",
-      "EQP_WP_30045",
-      "EQP_WP_30046",
-      "EQP_WP_30047",
-      "EQP_WP_30054",
-      "EQP_WP_30055",
-      "EQP_WP_30056",
-      "EQP_WP_30057",
-      "EQP_WP_30101",
-      "EQP_WP_30102",
-      "EQP_WP_30103",
-      "EQP_WP_30104",
-      "EQP_WP_30105",
-      "EQP_WP_30113",
-      "EQP_WP_30114",
-      "EQP_WP_30115",
-      "EQP_WP_30117",
-      "EQP_WP_30119",
-      "EQP_WP_3011a",
-      "EQP_WP_3011b",
-      "EQP_WP_30123",
-      "EQP_WP_30124",
-      "EQP_WP_30125",
-      "EQP_WP_30201",
-      "EQP_WP_30202",
-      "EQP_WP_30203",
-      "EQP_WP_30204",
-      "EQP_WP_30205",
-      "EQP_WP_30213",
-      "EQP_WP_30214",
-      "EQP_WP_30223",
-      "EQP_WP_30224",
-      "EQP_WP_30225",
-      "EQP_WP_30232",
-      "EQP_WP_30233",
-      "EQP_WP_30234",
-      "EQP_WP_30235",
-      "EQP_WP_30237",
-      "EQP_WP_30239",
-      "EQP_WP_3023a",
-      "EQP_WP_3023b",
-      "EQP_WP_30303",
-      "EQP_WP_30304",
-      "EQP_WP_30305",
-      "EQP_WP_30306",
-      "EQP_WP_30314",
-      "EQP_WP_30315",
-      "EQP_WP_30316",
-      "EQP_WP_30325",
-      "EQP_WP_30326",
-      "EQP_WP_30327",
-      "EQP_WP_30334",
-      "EQP_WP_30335",
-      "EQP_WP_30336",
-      "EQP_WP_40001",
-      "EQP_WP_40002",
-      "EQP_WP_40003",
-      "EQP_WP_40004",
-      "EQP_WP_40012",
-      "EQP_WP_40013",
-      "EQP_WP_40014",
-      "EQP_WP_40015",
-      "EQP_WP_40023",
-      "EQP_WP_40024",
-      "EQP_WP_40025",
-      "EQP_WP_40032",
-      "EQP_WP_40033",
-      "EQP_WP_40034",
-      "EQP_WP_40035",
-      "EQP_WP_40042",
-      "EQP_WP_40043",
-      "EQP_WP_40044",
-      "EQP_WP_40045",
-      "EQP_WP_40102",
-      "EQP_WP_40103",
-      "EQP_WP_40104",
-      "EQP_WP_40105",
-      "EQP_WP_40106",
-      "EQP_WP_40115",
-      "EQP_WP_40116",
-      "EQP_WP_40123",
-      "EQP_WP_40124",
-      "EQP_WP_40125",
-      "EQP_WP_40126",
-      "EQP_WP_40127",
-      "EQP_WP_40133",
-      "EQP_WP_40134",
-      "EQP_WP_40135",
-      "EQP_WP_40136",
-      "EQP_WP_40143",
-      "EQP_WP_40144",
-      "EQP_WP_40203",
-      "EQP_WP_40204",
-      "EQP_WP_40205",
-      "EQP_WP_40206",
-      "EQP_WP_40207",
-      "EQP_WP_40304",
-      "EQP_WP_40305",
-      "EQP_WP_40306",
-      "EQP_WP_40307",
-      "EQP_WP_50002",
-      "EQP_WP_50003",
-      "EQP_WP_50004",
-      "EQP_WP_50005",
-      "EQP_WP_50015",
-      "EQP_WP_50026",
-      "EQP_WP_50033",
-      "EQP_WP_50034",
-      "EQP_WP_50035",
-      "EQP_WP_50036",
-      "EQP_WP_50047",
-      "EQP_WP_50102",
-      "EQP_WP_50103",
-      "EQP_WP_50104",
-      "EQP_WP_50105",
-      "EQP_WP_50115",
-      "EQP_WP_50126",
-      "EQP_WP_50133",
-      "EQP_WP_50134",
-      "EQP_WP_50135",
-      "EQP_WP_50136",
-      "EQP_WP_50147",
-      "EQP_WP_50202",
-      "EQP_WP_50203",
-      "EQP_WP_50204",
-      "EQP_WP_50215",
-      "EQP_WP_50226",
-      "EQP_WP_50237",
-      "EQP_WP_50303",
-      "EQP_WP_50304",
-      "EQP_WP_50305",
-      "EQP_WP_50306",
-      "EQP_WP_60001",
-      "EQP_WP_60002",
-      "EQP_WP_60003",
-      "EQP_WP_60004",
-      "EQP_WP_60005",
-      "EQP_WP_60012",
-      "EQP_WP_60013",
-      "EQP_WP_60015",
-      "EQP_WP_60016",
-      "EQP_WP_60102",
-      "EQP_WP_60103",
-      "EQP_WP_60104",
-      "EQP_WP_60105",
-      "EQP_WP_60106",
-      "EQP_WP_60107",
-      "EQP_WP_60114",
-      "EQP_WP_60115",
-      "EQP_WP_60116",
-      "EQP_WP_60117",
-      "EQP_WP_60202",
-      "EQP_WP_60203",
-      "EQP_WP_60204",
-      "EQP_WP_60205",
-      "EQP_WP_60206",
-      "EQP_WP_60303",
-      "EQP_WP_60304",
-      "EQP_WP_60305",
-      "EQP_WP_60306",
-      "EQP_WP_60309",
-      "EQP_WP_6030a",
-      "EQP_WP_6030b",
-      "EQP_WP_60315",
-      "EQP_WP_60316",
-      "EQP_WP_60317",
-      "EQP_WP_60325",
-      "EQP_WP_60326",
-      "EQP_WP_60327",
-      "EQP_WP_60329",
-      "EQP_WP_6032a",
-      "EQP_WP_6032b",
-      "EQP_WP_60404",
-      "EQP_WP_60405",
-      "EQP_WP_60406",
-      "EQP_WP_60407",
-      "EQP_WP_6040a",
-      "EQP_WP_60415",
-      "EQP_WP_60416",
-      "EQP_WP_60417",
-      "EQP_WP_70002",
-      "EQP_WP_70003",
-      "EQP_WP_70004",
-      "EQP_WP_70005",
-      "EQP_WP_70006",
-      "EQP_WP_70009",
-      "EQP_WP_7000a",
-      "EQP_WP_7000b",
-      "EQP_WP_70015",
-      "EQP_WP_70024",
-      "EQP_WP_70025",
-      "EQP_WP_70103",
-      "EQP_WP_70104",
-      "EQP_WP_70105",
-      "EQP_WP_70106",
-      "EQP_WP_70114",
-      "EQP_WP_70115",
-      "EQP_WP_70116",
-      "EQP_WP_70125",
-      "EQP_WP_70126",
-      "EQP_WP_70127",
-      "EQP_WP_70203",
-      "EQP_WP_70204",
-      "EQP_WP_70205",
-      "EQP_WP_70206",
-      "EQP_WP_80002",
-      "EQP_WP_80004",
-      "EQP_WP_80006",
-      "EQP_WP_80103",
-      "EQP_WP_80104",
-      "EQP_WP_80105",
-      "EQP_WP_80116",
-      "EQP_WP_80119",
-      "EQP_WP_8011a",
-      "EQP_WP_8011b",
-      "EQP_WP_80124",
-      "EQP_WP_80125",
-      "EQP_WP_80126",
-      "EQP_WP_80135",
-      "EQP_WP_80136",
-      "EQP_WP_80138",
-      "EQP_WP_8013a",
-      "EQP_WP_8013b",
-      "EQP_WP_80203",
-      "EQP_WP_80204",
-      "EQP_WP_80205",
-      "EQP_WP_80206",
-      "EQP_WP_80209",
-      "EQP_WP_8020a",
-      "EQP_WP_8020b",
-      "EQP_WP_80304",
-      "EQP_WP_80305",
-      "EQP_WP_80306",
-      "EQP_WP_80307",
-      "EQP_WP_mgm0_cmn_ammo1",
-      "EQP_WP_no_use_00",
-      "EQP_WP_no_use_01",
-      "EQP_WP_no_use_02",
-      "EQP_WP_no_use_03"
-    }
-
-
-
-    if true then return end
-    --DEBUGNOW
-    local motionTable={
-      --func = s10010_sequence.PushMotionOnSubEvent,
-      locatorName = "ptn_p21_010410_0000",
-      motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ptn0/ptn0/ptn0_guilty_a_idl.gani",
-      specialActionName = "end_of_ptn0_guilty_a_idl",
-      position = Vector3( -101.977997, 102.175000, -1674.468872 ),
-      idle = true,
-      again = true,
-    }
-
-    --    index1Max=#InfNPC.motionTable
-    index1Max=#InfNPC.hostageNames
-    --    motionTable=InfNPC.motionTable[index1]
-    --
-    local locatorName=motionTable.locatorName
-    local motionPath=motionTable.motionPath
-    local specialActionName=motionTable.specialActionName
-    local position=motionTable.position
-    local rotationY=motionTable.rotationY
-    local idle=motionTable.idle
-    local enableGunFire=motionTable.enableGunFire
-    local OnStart=motionTable.OnStart
-    local action=motionTable.action or "PlayMotion"
-    local state=motionTable.state
-    local enableAim=motionTable.enableAim
-    local charaControl=motionTable.charaControl
-    local startPos=motionTable.startPos
-    local startRot=motionTable.startRot
-    local interpFrame=motionTable.interpFrame
-    local enableCollision=motionTable.enableCollisionorfalse
-    local enableSubCollision=motionTable.enableSubCollisionorfalse
-    local enableGravity=motionTable.enableGravityorfalse
-    local enableCurtain=motionTable.enableCurtain
-
-    local autoFinish=false
-
-    local locatorName=InfNPC.hostageNames[index1]
-
-    local motionPath=InfNPC.motionPaths[math.random(#InfNPC.motionPaths)]
-
-    local gameObjectId = GameObject.GetGameObjectId( locatorName )
-    GameObject.SendCommand( gameObjectId, { id = "SetHostage2Flag", flag= "disableMarker", on=true } )
-    InfCore.Log("locatorName:"..locatorName.." gameId:"..tostring(gameObjectId),true)
-    InfCore.Log("motionPath:"..InfUtil.GetFileName(motionPath),true)
-    if gameObjectId ~= GameObject.NULL_ID then
-      TppUiCommand.RegisterIconUniqueInformation{markerId=gameObjectId,langId="marker_friend_mb"}
-      --      local faceId=nil
-      --      local bodyId=TppEnemyBodyId.ddr0_main0_v00
-      --      GameObject.SendCommand( gameObjectId, { id = "ChangeFova", faceId = faceId, bodyId = bodyId, } )
-      local enableMob=true
-      GameObject.SendCommand(gameObjectId,{id="SetEnabled",enabled=enableMob})
-      local command={id="SetHostage2Flag",flag="unlocked",on=true,updateModel=true}
-      GameObject.SendCommand(gameObjectId,command)
-
-      local command={id="SetHostage2Flag",flag="disableFulton",on=true}
-      GameObject.SendCommand(gameObjectId,command)
-
-      --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="commonNpc",on=true,})
-      -- GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableDamageReaction",on=true,})
-      --GameObject.SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
-
-      local specialActionCmd=
-        {
-          id = "SpecialAction",
-          action = action,
-          path = motionPath,
-          state = state,
-          autoFinish = autoFinish,
-          enableMessage = true,
-          enableGravity = motionTable.enableGravity,
-          enableCollision = enableCollision,
-          enableSubCollision = enableSubCollision,
-          enableGunFire = enableGunFire,
-          enableAim = enableAim,
-          startPos = startPos,
-          startRot = startRot,
-          enableCurtain = enableCurtain,
-        }
-      --GameObject.SendCommand(gameObjectId,specialActionCmd)
-      local command={id="Warp",degRotationY=-92.8,position=Vector3(vars.playerPosX+2,vars.playerPosY,vars.playerPosZ+2)}
-      GameObject.SendCommand(gameObjectId,command)
-    end
+    SendCommand(heliId,{id="SetForceRoute",enabled=false})
 
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -1164,7 +781,7 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
-
+    
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -1421,6 +1038,12 @@ this.highSpeedCameraToggle={
     end
   end
 }
+
+this.clearLog={
+  OnChange=function()
+    InfCore.ClearLog()
+  end
+}
 --
 this.DEBUG_PrintRevengePoints={
   OnChange=function()
@@ -1477,14 +1100,14 @@ this.DEBUG_CycleHeliRoutes={
       end
 
       InfNPCHeli.SetRoute(this.heliRoute,heliIndex)
-      --InfCore.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+      --InfCore.DebugPrint(heliName.." setting route: "..tostring(InfLookup.str32LzToLz[this.heliRoute]))--DEBUG
       --GameObject.SendCommand(heliObjectId,{id="SetForceRoute",route=this.heliRoute,point=0,warp=true})
     end
     local groundStartPosition=InfLZ.GetGroundStartPosition(this.heliRoute)
     if groundStartPosition==nil then
       InfCore.DebugPrint" groundStartPosition==nil"
     else
-      InfCore.DebugPrint("warped to "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+      InfCore.DebugPrint("warped to "..tostring(InfLookup.str32LzToLz[this.heliRoute]))--DEBUG
       TppPlayer.Warp{pos={groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3]},rotY=vars.playerCameraRotation[1]}
     end
   end

@@ -1738,6 +1738,7 @@ this.sideOpsSelectionMode={
     "ELIMINATE_TANK_UNIT",
     "ELIMINATE_PUPPETS",
   --"TARGET_PRACTICE",
+    "ADDON_QUEST",
   },
   OnChange=this.UpdateActiveQuest,
 }
@@ -3782,17 +3783,16 @@ IvarProc.MissionModeIvars(
   {"FREE","MB",}
 )
 
---DEBUGNOW
 this.selectEvent={
   save=EXTERNAL,
   range={max=1},--DYNAMIC
   OnSelect=function(self)
     self.settingNames=InfGameEvent.GetEventNames()
-    InfCore.PrintInspect(self.settings)--DEBUGNOW
+    --InfCore.PrintInspect(self.settings)--DEBUG
     self.range.max=#self.settingNames-1
   end,
   OnActivate=function(self,setting)
-    InfMenu.PrintLangId"event_forced"--DEBUGNOW
+    InfMenu.PrintLangId"event_forced"
     InfGameEvent.forceEvent=self.settingNames[setting+1]
   end,
 }
@@ -3937,7 +3937,7 @@ this.warpToListPosition={
   inMission=true,
   range={max=1},--DYNAMIC
   GetSettingText=function(self,setting)
-    local positionsList=InfQuest.GetQuestPositions()
+    local positionsList=InfLookup.GetWarpPositions()
     if #positionsList==0 then
       return "no positions"
     end
@@ -3945,14 +3945,14 @@ this.warpToListPosition={
     return "pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
   OnSelect=function(self)
-    local positionsList=InfQuest.GetQuestPositions()
+    local positionsList=InfLookup.GetWarpPositions()
     local numObjects=#positionsList
 
     self.range.max=numObjects-1
     self.setting=0
   end,
   OnActivate=function(self,setting)
-    local positionsList=InfQuest.GetQuestPositions()
+    local positionsList=InfLookup.GetWarpPositions()
     local position=positionsList[setting+1]
 
     if position[1]~=0 or position[2]~=0 or position[3]~=0 then

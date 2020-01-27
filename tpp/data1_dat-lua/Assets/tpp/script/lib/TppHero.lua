@@ -239,10 +239,24 @@ function this.SetAndAnnounceHeroicOgrePoint(pointTable,downLangId,upLangId)
   if TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  --tex KLUDGE, rather than checking multiple calls to this, >
+  --tex KLUDGE, rather than checking multiple calls to this, TODO better > 
   --ASSUMPTION all calls to SetAndAnnounceHeroicOgrePoint with mbstaff_died wrapped in isDD check >
+  local Ivars=Ivars    --tex TODO: better
   if downLangId=="mbstaff_died" then
     if Ivars.customSoldierTypeFREE:Is()>0 and Ivars.customSoldierTypeFREE:MissionCheck() then
+      return
+    end
+    if Ivars.customSoldierTypeMB_ALL:Is()>0 and Ivars.customSoldierTypeMB_ALL:MissionCheck() then
+      if Ivars.mbHostileSoldiers:Is(0) then
+        return
+      end
+    end
+    if Ivars.customSoldierFemaleTypeMB_ALL:Is()>0 and Ivars.customSoldierFemaleTypeMB_ALL:MissionCheck() then
+      if Ivars.mbHostileSoldiers:Is(0) then
+        return
+      end
+    end
+    if Ivars.enableWildCardFreeRoam:Is()>0 and Ivars.enableWildCardFreeRoam:MissionCheck() then
       return
     end
   end

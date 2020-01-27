@@ -476,11 +476,11 @@ Puts a random piece of equipment on the back of patrol trucks.
 
 Side ops menu
 -------------
-1: Reroll quest selection : (Command)
+1: Reroll sideops selection : (Command)
 2: Open specific sideop # : 0-157
 3: Unlock Sideops mode : Off, Force Replayable, Force Open
 Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.
-4: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
+4: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets, Addon sideop
 Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.
 5: Sideops category filter menu
 6: Force enable enemy heli reinforce (disable heli sideops) : Off, On

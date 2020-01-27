@@ -1320,8 +1320,8 @@ function this.AddTacticalActionPoint(takedownInfo)
     end
   end
 end
-function this.CallCountAnnounce(t,a,s)
-  TppUiCommand.CallCountAnnounce(t,a,s)
+function this.CallCountAnnounce(langId,count,unk3Bool)
+  TppUiCommand.CallCountAnnounce(langId,count,unk3Bool)
 end
 this.PLAYER_CAUSE_TO_SAVE_INDEX={
   [NeutralizeCause.CQC]=1,

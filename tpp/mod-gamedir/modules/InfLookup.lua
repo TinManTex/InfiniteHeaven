@@ -250,7 +250,7 @@ end
 --
 
 function this.Time(time)
-  return tostring(time).."||"..TppClock.FormalizeTime(time,"string")
+  return TppClock.FormalizeTime(time,"string")
 end
 
 --tex not exhaustive, theres still a bunch of loose ids scattered around, and a bunch only defined in EXE
@@ -260,11 +260,17 @@ function this.PopupErrorId(findErrorId)
       return errorName
     end
   end
-  return findErrorId
+  return nil
+end
+
+--tex TODO, wont really cover all anyway, better to just use str32 table, or scrape one targeted at lz objects
+this.str32LzToLz={}
+function this.BuildStr32ToLzLookup()
+
 end
 
 function this.LandingZoneName(lzStr32)
-  return InfLZ.str32LzToLz[lzStr32] or lzStr32
+  return InfLZ.str32LzToLz[lzStr32]
 end
 
 
@@ -294,7 +300,7 @@ function this.SubtitleIdToSubtitleName(subtitleId)
 
   --tex subp.xml files from subptool give subtitleId, unsure if it's str32 or variant TODO test known subtitleId>subtitle matches with str32 (would have to get
 
-  return subtitleId
+  return nil
 end
 
 --tex gives {[gameClass.Enum]=enum name}
@@ -318,6 +324,14 @@ function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
   return enumNameLookup
 end
 
+function this.GetWarpPositions()
+  --return InfQuest.GetQuestPositions()
+  return {
+    {"793.587","477.356","-1012.931"},
+    {"804.803","480.192","-1028.827"},
+  }
+end
+
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
   -- return InfMain.reserveSoldierNames
@@ -325,23 +339,23 @@ function this.GetObjectList()
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
   --return InfParasite.parasiteNames[InfParasite.parasiteType]
-  --return InfLookup.truckNames
-  --return InfLookup.jeepNames
-  --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-  --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
-  --return InfInterrogation.interCpQuestSoldiers
-  --return InfWalkerGear.walkerNames
-  --return InfNPCHeli.heliList
-  --return TppEnemy.armorSoldiers
-  --return InfAnimal.birdNames
-  -- return objectNameLists[4]
-  --return InfSoldier.ene_wildCardNames
-  --return InfNPC.hostageNames
-  -- return this.objectNameLists.sol_quest
-  --return {"hos_quest_0000"}
-  --return InfWalkerGear.walkerNames
-  return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
-  --return {"vehicle_quest_0000"}
+  return this.objectNameLists.veh_trc
+    --return InfLookup.jeepNames
+    --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+    --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+    --return InfInterrogation.interCpQuestSoldiers
+    --return InfWalkerGear.walkerNames
+    --return InfNPCHeli.heliList
+    --return TppEnemy.armorSoldiers
+    --return InfAnimal.birdNames
+    -- return objectNameLists[4]
+    --return InfSoldier.ene_wildCardNames
+    --return InfNPC.hostageNames
+    -- return this.objectNameLists.sol_quest
+    --return {"hos_quest_0000"}
+    --return InfWalkerGear.walkerNames
+    --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
+    --return {"vehicle_quest_0000"}
 end
 
 --tex for Ivars.warpToListObject
@@ -426,6 +440,11 @@ function this.ObjectNameForGameId(findId,objectType)
     return "NULL_ID"
   end
 
+  local lookupName=InfCore.gameIdToName[findId]
+  if lookupName then
+    return lookupName
+  end
+
   if not objectType or objectType=="TppSoldier2" then
     local objectName=this.GameObjectNameFromSoldierIDList(findId)
     if objectName then
@@ -433,29 +452,31 @@ function this.ObjectNameForGameId(findId,objectType)
     end
   end
 
-  for listName,list in pairs(this.objectNameLists) do
-    local objectName
-    if type(list[1])=="table" then--tex {{nameList},"objectType"}
-      if not objectType or objectType==list[2] then
-        objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
-    end
-    else
-      objectName=this.ObjectNameForGameIdList(findId,list)
-    end
-    if objectName then
-      return objectName
-    end
-  end
-
-  if DebugIHStringsGameObjectNames then
-    local module=DebugIHStringsGameObjectNames
-    if module.lookupStrings then
-      local objectName=this.ObjectNameForGameIdList(findId,module.lookupStrings)
+  --tex alread added in BuildGameIdToNames, but quest objects wont have been loaded at that point
+    for listName,list in pairs(this.objectNameLists) do
+      local objectName
+      --tex {{nameList},"objectType"}
+      if type(list[1])=="table" then
+        if not objectType or objectType==list[2] then
+          objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
+        end
+      else
+        objectName=this.ObjectNameForGameIdList(findId,list)
+      end
       if objectName then
         return objectName
       end
     end
-  end
+
+  --  if DebugIHStringsGameObjectNames then
+  --    local module=DebugIHStringsGameObjectNames
+  --    if module.lookupStrings then
+  --      local objectName=this.ObjectNameForGameIdList(findId,module.lookupStrings)
+  --      if objectName then
+  --        return objectName
+  --      end
+  --    end
+  --  end
   --nuclear option, try str32 lists
   --  for i,module in ipairs(InfModules) do
   --    if module.lookupStrings then
@@ -564,7 +585,6 @@ function this.StrCode32ToString(strCode,isStrCode)
     return returnString
   else
     InfCore.Log("InfLookup.StrCode32ToString: WARNING: strCode:"..tostring(strCode).." is not a number.")
-    return strCode
   end
 end
 
@@ -913,7 +933,7 @@ this.lookups={
   time=this.Time,
   weatherType=this.weatherTypeNames,
   popupId=this.PopupErrorId,
-  landingZone=this.LandingZoneName,
+  --landingZone=this.LandingZoneName,--tex not complete, use str32 instead
   subtitleId=this.SubtitleIdToSubtitleName,
   carryState=this.carryState,
 }
@@ -955,6 +975,11 @@ this.messageSignatures={
       {argName="blockName",argType="str32"},
       {argName="blockStatus",argType="stageBlockState"},
     },
+    OnChangeSmallBlockState={
+      {argName="blockIndexX",argType="number"},
+      {argName="blockIndexY",argType="number"},
+      {argName="blockStatus",argType="stageBlockState"},
+    },
     StageBlockCurrentSmallBlockIndexUpdated={
       {argName="blockIndexX",argType="number"},
       {argName="blockIndexY",argType="number"},
@@ -962,6 +987,14 @@ this.messageSignatures={
     },
   },
   GameObject={
+    ArrivedAtLandingZoneSkyNav={--SupportHeli
+      {argName="heliId",argType="gameId"},
+      {argName="landingZone",argType="str32"},
+    },
+    ArrivedAtLandingZoneWaitPoint={--SupportHeli
+      {argName="heliId",argType="gameId"},
+      {argName="landingZone",argType="str32"},
+    },
     BreakGimmick={
       {argName="gameObjectId",argType="gameId"},
       {argName="locatorNameHash",argType="str32"},
@@ -989,6 +1022,15 @@ this.messageSignatures={
       {argName="phase",argType="phase"},
       {argName="priorPhase",argType="phase"},
     },
+    ChangePhaseForAnnounce={
+      {argName="cpId",argType="cpId"},
+      {argName="phase",argType="phase"},
+    },
+    Conscious={
+      {argName="gameId",argType="gameId"},
+      {argName="arg1",argType="number"},--tex UNKNOWN 65535 or ?, 0 or ?
+      {argName="arg2",argType="number"},--tex UNKNOWN
+    },
     ConversationEnd={
       {argName="cpId",argType="cpId"},
       {argName="speechLabel",argType="str32"},
@@ -999,6 +1041,10 @@ this.messageSignatures={
       {argName="attackId",argType="attackId"},
       {argName="attackerId",argType="gameId"},
       {argName="unk3",argType="number"},--tex UNKNOWN: no use cases I can see
+    },
+    DescendToLandingZone={--SupportHeli
+      {argName="heliId",argType="gameId"},
+      {argName="landingZone",argType="str32"},
     },
     Down={
       {argName="downedId",argType="gameId"},--tex when soldier downed
@@ -1015,8 +1061,8 @@ this.messageSignatures={
       {argName="reduceThisContainer",argType="number"},--boolAsNumber
     },
     LandedAtLandingZone={--SupportHeli
-      {argName="gameId",argType="gameId"},
-      {argName="landingZone",argType="landingZone"},
+      {argName="heliId",argType="gameId"},
+      {argName="landingZone",argType="str32"},
     },
     Neutralize={
       {argName="gameId",argType="gameId"},
@@ -1082,9 +1128,12 @@ this.messageSignatures={
       {argName="actionId",argType="str32"},
       {argName="commandId",argType="str32"},
     },
+    StartedCombat={--enemy heli, skulls
+      {argName="unk0",argType="gameId"},--tex assuming gameId from the look of it, but it wasn't picking up enemy heli, is it attacker or attacked?
+    },
     StartedMoveToLandingZone={--SupportHeli
       {argName="gameId",argType="gameId"},
-      {argName="landingZone",argType="landingZone"},--str32
+      {argName="landingZone",argType="str32"},--str32
     },
     StartedPullingOut={--SupportHeli
       {argName="gameId",argType="gameId"},
@@ -1138,21 +1187,27 @@ this.messageSignatures={
       {argName="clusterId",argType="number"},--TODO clusterid to name, but would still want to present the number
     },
   },
+  Placed={
+    OnActivatePlaced={
+      {argName="equipId",argType="equipId"},
+      {argName="index",argType="number"},
+    },
+  },
   Player={
-        CalcFultonPercent={--tex TODO: only first two arg appear? test to see if gimmick args do actually show when next to container or some other gimmick
-          {argName="playerIndex",argType="gameId"},--tex assumed
-          {argName="gameId",argType="gameId"},
---          {argName="gimmickInstanceOrAnimalId",argType="number"},
---          {argName="gimmickDataSet",argType="number"},--TODO:
---          {argName="stafforResourceId",argType="number"},--TODO:
-        },
-        CalcDogFultonPercent={
-          {argName="playerIndex",argType="gameId"},--tex assumed
-          {argName="gameId",argType="gameId"},
---          {argName="gimmickInstanceOrAnimalId",argType="number"},
---          {argName="gimmickDataSet",argType="number"},--TODO:
---          {argName="stafforResourceId",argType="number"},--TODO:
-        },
+    CalcFultonPercent={--tex TODO: only first two arg appear? test to see if gimmick args do actually show when next to container or some other gimmick
+      {argName="playerIndex",argType="gameId"},--tex assumed
+      {argName="gameId",argType="gameId"},
+    --          {argName="gimmickInstanceOrAnimalId",argType="number"},
+    --          {argName="gimmickDataSet",argType="number"},--TODO:
+    --          {argName="stafforResourceId",argType="number"},--TODO:
+    },
+    CalcDogFultonPercent={
+      {argName="playerIndex",argType="gameId"},--tex assumed
+      {argName="gameId",argType="gameId"},
+    --          {argName="gimmickInstanceOrAnimalId",argType="number"},
+    --          {argName="gimmickDataSet",argType="number"},--TODO:
+    --          {argName="stafforResourceId",argType="number"},--TODO:
+    },
     CBoxSlideEnd={
       {argName="gameId",argType="gameId"},--tex player instance I guess
       {argName="distance",argType="number"},--tex distance of slide
@@ -1242,10 +1297,10 @@ this.messageSignatures={
     },
   },
   Radio={
-    --    EspionageRadioCandidate={--tex seems to be when you look at something that has a radio/call message
-    --      {argName="gameId",argType="gameId"},
-    --      {argName="unk1",argType="number"},
-    --    },
+    EspionageRadioCandidate={--tex seems to be when you look at something that has a radio/call message
+      {argName="gameId",argType="gameId"},
+      {argName="unk1",argType="number"},--tex UNKNOWN TODO label argType unknown to run through the same multi lookup as no signature
+    },
     Start={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
       {argName="unk1",argType="number"},--tex UNKNOWN
@@ -1490,7 +1545,7 @@ end
 
 function this.AddObjectNamesToStr32List()
   if InfCore.debugMode then
-    InfCore.Log"Adding object names to strCode32 list"
+    InfCore.Log"InfLookup.AddObjectNamesToStr32List:"
     for listName,list in pairs(this.objectNameLists) do
       if type(list[1])=="table" then
         for i,objectName in ipairs(list[1]) do
@@ -1511,6 +1566,28 @@ function this.BuildSubtitleIdLookup()
     --tex NOTE: subp.xml files from subptool give subtitleId, unsure if it's str32 or variant, TODO attempting to test vs str32 in SubtitleIdToSubtitleName()
     local subtitleId=SubtitlesCommand:ConvertToSubtitlesId(str)
     this.subtitleIdToSubtitleName[subtitleId]=str
+  end
+end
+
+--CALLER: InfMain.OnIntializeTop, since it needs gameobjects to have been loaded
+function this.BuildGameIdToNames()
+  InfCore.gameIdToName={}--tex clear since different gameIds/mapped differently each level
+  for listName,list in pairs(this.objectNameLists) do
+    local objectName
+    --tex {{nameList},"objectType"}
+    if type(list[1])=="table" then
+      list=list[1]
+    end
+    for i,gameObjectName in ipairs(list)do
+      InfCore.GetGameObjectId(gameObjectName)--tex
+    end
+  end
+
+  if DebugIHStringsGameObjectNames and DebugIHStringsGameObjectNames.lookupStrings then
+    InfCore.Log("InfMain.OnAllocateTop: Adding DebugIHStringsGameObjectNames to InfCore.gameIdToName")
+    for i,gameObjectName in ipairs(DebugIHStringsGameObjectNames.lookupStrings)do
+      InfCore.GetGameObjectId(gameObjectName)--tex adds to gameIdToName
+    end
   end
 end
 

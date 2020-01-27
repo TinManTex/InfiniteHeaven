@@ -1,5 +1,17 @@
 Infinite Heaven changelog
 
+r208 - 2017-05-10
+
+Addition: Addon sideop on Sideop selection mode to filter for additional sideops.
+
+InfCore: gameIdToName,GetGameObjectId. For lookups.
+
+Fixed: 'Fatigues All' Custom soldier type/DD suit hanging on load.
+
+InfMain.OnAllocate: bumped equip block size and max pickable count.
+Fixed: Equipment on trucks equipment not appearing with some other settings. Afghanistan range of equipment less than Africa.
+InfQuest: requestEquipIds > RequestLoadToEquipMissionBlock for sideops with pickables.
+
 r206 - 2017-05-02
 
 FreeCam: Speed adjust rate change to be slower.

@@ -436,6 +436,7 @@ this.eng={--english
     "Eliminate tank unit",
     "Eliminate wandering puppets",
   --"TARGET_PRACTICE",
+    "Addon sideop",
   },
   randomizeMineTypes="Randomize minefield mine types",
   additionalMineFields="Enable additional minefields",
@@ -554,7 +555,7 @@ this.eng={--english
   hideAAGatlingsMB="Hide AA gatlings",
   hideTurretMgsMB="Hide turret machineguns",
   hideMortarsMB="Hide mortars",
-  rerollQuestSelection="Reroll quest selection",
+  rerollQuestSelection="Reroll sideops selection",
 }--eng end
 
 this.help={}

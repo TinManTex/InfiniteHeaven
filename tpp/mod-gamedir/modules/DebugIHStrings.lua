@@ -1,4 +1,4 @@
---tex hand added
+--tex manualy guessed
 local this={}
 
 this.lookupStrings={

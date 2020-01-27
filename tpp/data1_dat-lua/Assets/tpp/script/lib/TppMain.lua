@@ -76,7 +76,8 @@ function this.DisableBlackLoading()
   TppGameStatus.Reset("TppMain.lua","S_IS_BLACK_LOADING")
   TppUI.FinishLoadingTips()
 end
-function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
+--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
+function this.OnAllocate(missionTable)
   --InfCore.PCallDebug(function(missionTable)--tex can't use consistantly since it triggers yield across c boundary error
   InfCore.LogFlow("OnAllocate Top "..vars.missionCode)--tex
   InfMain.OnAllocateTop(missionTable)--tex
@@ -147,7 +148,8 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   --    locationOnAllocate()
   if missionTable.sequence then
     if f30050_sequence then--
-      function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.
+      --RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.
+      function f30050_sequence.NeedPlayQuietWishGoMission()
         local isClearedVisitQuietQuest=TppQuest.IsCleard"mtbs_q99011"
         local isNotPlayDemo=not TppDemo.IsPlayedMBEventDemo"QuietWishGoMission"
         local isCanArrival=TppDemo.GetMBDemoName()==nil
@@ -274,42 +276,42 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     end
     TppSequence.SaveMissionStartSequence()
     TppScriptVars.SetSVarsNotificationEnabled(true)
-end
-if missionTable.enemy then
-  if IsTypeTable(missionTable.enemy.soldierPowerSettings)then
-    TppEnemy.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)
   end
-end
-TppRevenge.DecideRevenge(missionTable)
-if TppEquip.CreateEquipMissionBlockGroup then
-  if(vars.missionCode>6e4)then--NMC the e3/tradeshow demos I think
-    TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
-  else
-    --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--tex DEBUG TEST
-    TppPlayer.SetEquipMissionBlockGroupSize()--TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
+  if missionTable.enemy then
+    if IsTypeTable(missionTable.enemy.soldierPowerSettings)then
+      TppEnemy.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)
+    end
   end
-end
-if TppEquip.CreateEquipGhostBlockGroups then
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    TppEquip.CreateEquipGhostBlockGroups{ghostCount=16}
-  elseif TppMission.IsFOBMission(vars.missionCode) then
-    TppEquip.CreateEquipGhostBlockGroups{ghostCount=1}
+  TppRevenge.DecideRevenge(missionTable)
+  if TppEquip.CreateEquipMissionBlockGroup then
+    if(vars.missionCode>6e4)then--NMC the e3/tradeshow demos I think
+      TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
+    else
+      --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--tex DEBUG TEST
+      TppPlayer.SetEquipMissionBlockGroupSize()--TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
+    end
   end
-end
-TppEquip.StartLoadingToEquipMissionBlock()
-TppPlayer.SetMaxPickableLocatorCount()
-TppPlayer.SetMaxPlacedLocatorCount()
-TppEquip.AllocInstances{instance=60,realize=60}
-TppEquip.ActivateEquipSystem()
-if TppEnemy.IsRequiredToLoadDefaultSoldier2CommonPackage()then
-  TppEnemy.LoadSoldier2CommonBlock()
-end
-if missionTable.sequence then
-  mvars.mis_baseList=missionTable.sequence.baseList
-  TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
-end
---end,missionTable)--DEBUG
-InfCore.LogFlow("OnAllocate Bottom "..vars.missionCode)--tex
+  if TppEquip.CreateEquipGhostBlockGroups then
+    if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+      TppEquip.CreateEquipGhostBlockGroups{ghostCount=16}
+    elseif TppMission.IsFOBMission(vars.missionCode) then
+      TppEquip.CreateEquipGhostBlockGroups{ghostCount=1}
+    end
+  end
+  TppEquip.StartLoadingToEquipMissionBlock()
+  TppPlayer.SetMaxPickableLocatorCount()
+  TppPlayer.SetMaxPlacedLocatorCount()
+  TppEquip.AllocInstances{instance=60,realize=60}
+  TppEquip.ActivateEquipSystem()
+  if TppEnemy.IsRequiredToLoadDefaultSoldier2CommonPackage()then
+    TppEnemy.LoadSoldier2CommonBlock()
+  end
+  if missionTable.sequence then
+    mvars.mis_baseList=missionTable.sequence.baseList
+    TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
+  end
+  --end,missionTable)--DEBUG
+  InfCore.LogFlow("OnAllocate Bottom "..vars.missionCode)--tex
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfCore.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
@@ -426,8 +428,8 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     if missionTable.enemy.soldierSubTypes then
       TppEnemy.SetUpSoldierSubTypes(missionTable.enemy.soldierSubTypes)
     end
---    TppEnemy.armorSoldiers={}--tex DEBUG CULL
---    TppEnemy.totalSoldiers=0
+    --    TppEnemy.armorSoldiers={}--tex DEBUG CULL
+    --    TppEnemy.totalSoldiers=0
     TppRevenge.SetUpEnemy()
     TppEnemy.ApplyPowerSettingsOnInitialize()
     TppEnemy.ApplyPersonalAbilitySettingsOnInitialize()

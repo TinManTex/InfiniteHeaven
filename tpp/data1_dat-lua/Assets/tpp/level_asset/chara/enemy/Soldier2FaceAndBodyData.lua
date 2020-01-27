@@ -1326,14 +1326,14 @@ this.bodyDefinition={
 }
 
 --tex> add player camos to fova system
-local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
-local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
+local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]+1
+local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]+1
 for camoId=0,numCamos do
   table.insert(this.bodyDefinition,{bodyIdStart+camoId,bodyFovaStart+camoId})
   TppEnemyBodyId[string.format("dds5_main0_ply_v%02d",camoId)]=bodyIdStart+camoId
 end
-local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
-local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
+local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]+1
+local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]+1
 for camoId=0,numCamos do
   table.insert(this.bodyDefinition,{bodyIdStart+camoId,bodyFovaStart+camoId})
   TppEnemyBodyId[string.format("dds6_main0_ply_v%02d",camoId)]=bodyIdStart+camoId

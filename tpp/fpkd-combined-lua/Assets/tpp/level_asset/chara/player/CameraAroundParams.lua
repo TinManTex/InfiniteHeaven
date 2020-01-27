@@ -1,3 +1,4 @@
+--LEGACY GZ
 CameraAroundParams = {
 Definitions = {
 	ActionList = {		

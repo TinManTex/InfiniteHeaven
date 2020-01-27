@@ -18,6 +18,9 @@ local this={
   disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
     "lz_lab_S0000|lz_lab_S_0000",
   },
+  requestEquipIds={--equipIds of TppPickable weapons in the quest.
+    "EQP_WP_EX_hg_010",
+  },
 }
 
 return this

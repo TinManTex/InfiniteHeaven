@@ -131,49 +131,49 @@ function this.UpdateObjective(objectiveInfo)
   if not IsTypeTable(mvars.mis_objectiveSetting)then
     return
   end
-  local n
+  local updateObjectiveOnHeliStart
   if TppSequence.IsHelicopterStart()then
     if not TppPlayer.IsAlreadyDropped()then
-      n=true
+      updateObjectiveOnHeliStart=true
     end
   end
   if IsTypeTable(options)then
     if options.isForceHelicopterStart then
-      n=true
+      updateObjectiveOnHeliStart=true
     end
   end
-  if n then
+  if updateObjectiveOnHeliStart then
     mvars.mis_updateObjectiveOnHelicopterStart=true
   end
-  local o=false
+  local doUpdate=false
   for n,i in pairs(mvars.mis_objectiveSetting)do
-    local n=not this.IsEnableMissionObjective(i)
-    if n then
-      n=not this.IsEnableAnyParentMissionObjective(i)
+    local isEnableAnyMissionObjective=not this.IsEnableMissionObjective(i)
+    if isEnableAnyMissionObjective then
+      isEnableAnyMissionObjective=not this.IsEnableAnyParentMissionObjective(i)
     end
-    if n then
-      o=true
+    if isEnableAnyMissionObjective then
+      doUpdate=true
       break
     end
   end
   if IsTypeTable(radio)then
-    if o then
-      if not n then
+    if doUpdate then
+      if not updateObjectiveOnHeliStart then
         mvars.mis_updateObjectiveRadioGroupName=TppRadio.GetRadioNameAndRadioIDs(radio.radioGroups)
       end
-      local e=this.GetObjectiveRadioOption(radio)
-      TppRadio.Play(radio.radioGroups,e)
+      local objectiveRadioOption=this.GetObjectiveRadioOption(radio)
+      TppRadio.Play(radio.radioGroups,objectiveRadioOption)
     end
   end
   if IsTypeTable(radioSecond)then
-    if o then
-      local e=this.GetObjectiveRadioOption(radioSecond)
-      if n then
+    if doUpdate then
+      local objectiveRadioOption=this.GetObjectiveRadioOption(radioSecond)
+      if updateObjectiveOnHeliStart then
         mvars.mis_updateObjectiveDoorOpenRadioGroups=radioSecond.radioGroups
-        mvars.mis_updateObjectiveDoorOpenRadioOptions=e
+        mvars.mis_updateObjectiveDoorOpenRadioOptions=objectiveRadioOption
       else
-        e.isEnqueue=true
-        TppRadio.Play(radioSecond.radioGroups,e)
+        objectiveRadioOption.isEnqueue=true
+        TppRadio.Play(radioSecond.radioGroups,objectiveRadioOption)
       end
     end
   end
@@ -3163,6 +3163,7 @@ function this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
       end
     end
   end
+  --NMC uhh, ok, there's no code after these checks so what's the point?
   if mvars.mis_missionObjectiveTree and mvars.mis_missionObjectiveEnum==nil then
     return
   end

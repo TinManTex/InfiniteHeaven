@@ -1467,6 +1467,8 @@ this.soldierDropTable={
 }
 
 --tex GOTCHA there's a limit to how much equip can be loaded before it starts crapping out - players weapons not showing/test equip spawn function crash on ~110th item in list (but weirdly on mg but not sniper in same list position).
+--TppEquip.CreateEquipMissionBlockGroup and/or TppEquip.AllocInstances?
+--tex also only items with p4 set to TppEquip.EQP_BLOCK_MISSION in /Tpp/Scripts/Equip/EquipIdTable.lua need to be loaded (mostly weapons, support items are alread loaded in EQP_BLOCK_COMMON).
 function this.LoadEquipTable()
   local equipLoadTable={}
   --tex TODO: find a better indicator of equipable mission loading
@@ -1477,17 +1479,18 @@ function this.LoadEquipTable()
       equipLoadTable[#equipLoadTable+1]=equipId
     end
   end
-
-  --tex TODO only seems to be for weapons not items (see RequestLoadToEquipMissionBlock)
+  
+  --tex can't skip if itemDropChance 0 because user may enable during mission.
+  --tex TODO: equipid TppEquip.EQP_BLOCK_MISSION lookup, then run whole table:
   --for category,equipNames in pairs(this.soldierDropTable)do
   --for n,equipName in ipairs(equipNames)do
-
-  for n,equipName in ipairs(this.soldierDropTable.HANDGUNS)do
-    local equipId=TppEquip[equipName]
-    if equipId~=nil then
-      equipLoadTable[#equipLoadTable+1]=equipId
+  
+    for n,equipName in ipairs(this.soldierDropTable.HANDGUNS)do
+      local equipId=TppEquip[equipName]
+      if equipId~=nil then
+        equipLoadTable[#equipLoadTable+1]=equipId
+      end
     end
-  end
   --tex TODO add to this.currentEquipLoad table in a once-per-mission way.
   --end
 
@@ -1539,6 +1542,8 @@ function this.Init(missionTable)
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
+
+	--tex cant skip on itemDropChance since its an inmission var
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
@@ -1667,12 +1672,11 @@ local pickables={
     "pickable_ih_0004",--EQP_IT_CBox_WR--3040902098
     "pickable_ih_0005",--EQP_AB_PrimaryMissile--165673314
     "pickable_ih_0006",--EQP_AB_SecondaryTranq--550443242
-  --v- TODO: these don't load in afgh for some reason
-  --  "pickable_ih_0007",--EQP_AB_Suppressor--2248319796
-  --  "pickable_ih_0008",--EQP_AB_Mecha--1087922814
-  --  "pickable_ih_0009",--EQP_WP_West_ms_020--1022605058--fb mr rl nlsp
-  --  "pickable_ih_0010",--EQP_SWP_SupportHeliFlareGrenade--2929309074
-  --  "pickable_ih_0011",--EQP_SWP_SupplyFlareGrenade--160773547
+    "pickable_ih_0007",--EQP_AB_Suppressor--2248319796
+    "pickable_ih_0008",--EQP_AB_Mecha--1087922814
+    "pickable_ih_0009",--EQP_WP_West_ms_020--1022605058--fb mr rl nlsp
+    "pickable_ih_0010",--EQP_SWP_SupportHeliFlareGrenade--2929309074
+    "pickable_ih_0011",--EQP_SWP_SupplyFlareGrenade--160773547
   },
   mafr={
     "pickable_ih_0000",--EQP_WP_East_ms_020--4283898693--cgm 25

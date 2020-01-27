@@ -907,6 +907,7 @@ function this.GetLocationPackagePath(locationId)
   if packPath then
   end
   TppLocation.SetBuddyBlock(locationId)
+  InfCore.PrintInspect(packPath,{varName="locationPackPaths"})--tex DEBUG
   return packPath
 end
 function this.GetMissionPackagePath(missionCode)
@@ -921,7 +922,7 @@ function this.GetMissionPackagePath(missionCode)
     packPaths=missionPackTable[missionCode]
   end
   InfMain.AddMissionPacks(missionCode,packPaths)--tex
-
+  InfCore.PrintInspect(packPaths,{varName="missionPackPaths"})--tex DEBUG
   return packPaths
 end
 if Mission.SetLocationPackagePathFunc then

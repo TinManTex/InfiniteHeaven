@@ -1,5 +1,5 @@
 -- Example_Defaults.lua
--- Defaults / example of all profile options for IH r206
+-- Defaults / example of all profile options for IH r207
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -218,7 +218,7 @@ local this={
 		--Side ops menu
 		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
-		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS } -- Sideop selection mode
+		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS, ADDON_QUEST } -- Sideop selection mode
 		ihSideopsPercentageCount=0,--{ 0-1 } -- Include IH sideops in completion percentage.
 		--Sideops category filter menu
 		sideops_STORY=1,--{ 0-1 } -- Story/unique

@@ -453,7 +453,7 @@ function this.Messages()
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
-        --InfCore.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
+        --InfCore.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLookup.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
         this.heliSelectClusterId=clusterId
       end},
       {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -551,7 +551,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
             if routeInfo.stickDistance and distSqr<routeInfo.stickDistance then
               heliTimes[heliIndex]=0
             elseif routeInfo.arrivedDistance and distSqr<routeInfo.arrivedDistance then
-              --InfCore.DebugPrint(n.." "..heliName.." arrived for route: "..tostring(InfLZ.str32LzToLz[heliRouteIds[n]]))--DEBUG
+              --InfCore.DebugPrint(n.." "..heliName.." arrived for route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
               heliTimes[heliIndex]=elapsedTime+math.random(routeInfo.exitTime[1],routeInfo.exitTime[2])
             end
 
@@ -604,7 +604,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
           --SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute,point=0,warp=true})
           --SendCommand(heliObjectId,{id="SetLandingZnoeDoorFlag",name="heliRoute",leftDoor="Close",rightDoor="Close"})
 
-          --InfCore.DebugPrint(n.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[heliRouteIds[n]]))--DEBUG
+          --InfCore.DebugPrint(n.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
         end
         -- is > heliTime--<
       end
@@ -755,7 +755,7 @@ function this.SetRoute(heliRoute,heliIndex)
 
     if heliRoute then
       SendCommand(heliObjectId,{id="SetSneakRoute",route=heliRoute,point=0,warp=true})--DEBUG
-      InfCore.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[heliRoute]))--DEBUG
+      InfCore.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[heliRoute]))--DEBUG
     end
   end
 end
@@ -799,7 +799,7 @@ function this.PrintHeliPos()
           --InfCore.PrintInspect(routeCenter)
 
           --InfCore.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3])
-          InfCore.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[this.heliRouteIds[heliIndex]]))
+          InfCore.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[this.heliRouteIds[heliIndex]]))
           InfCore.DebugPrint("distsqr:"..distSqr .. " closestdist:"..closestDistance)
         end
       end

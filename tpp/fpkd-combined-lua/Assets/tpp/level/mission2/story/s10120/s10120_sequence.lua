@@ -1,5 +1,5 @@
 local this = {}
-local StrCode32 = Fox.StrCode32l
+local StrCode32 = Fox.StrCode32l--RETAILBUG DEBUGNOW VERIFY theres no Fox.StrCode32l
 local StrCode32Table = Tpp.StrCode32Table
 
 local sequences = {}
@@ -1116,7 +1116,7 @@ sequences.Seq_Game_LiquidFight = {
 				{
 					msg = "RoutePoint2",
 					func = function (gameObjectId, routeId ,routeNode, messageId )
-						if messageId == StrCode32( "ShootAtPlayerOnBoat" ) then
+						if messageId == StrCode32( "ShootAtPlayerOnBoat" ) then--DEBUGNOW RETAILBUG if theres no StrCode32l then this will never run (more specifically should error out. TODO test mission.
 							Fox.Log("Set command ai")
 							local command = { id="SetCommandAi", commandType = CommandAi.LIQUID_ASSIST, }
 							GameObject.SendCommand( gameObjectId, command )							

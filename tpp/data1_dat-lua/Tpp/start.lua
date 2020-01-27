@@ -640,7 +640,7 @@ if Script.LoadLibrary then
     LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
     yield()
     --tex>
-    LoadLibrary"/Assets/tpp/script/lib/InfModelProc.lua"--tex
+    LoadLibrary"/Assets/tpp/script/lib/InfModelProc.lua"--tex IHINTERNAL
     yield()
     --<
     LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"

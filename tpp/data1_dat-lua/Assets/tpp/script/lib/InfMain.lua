@@ -92,7 +92,7 @@ end
 --CALLER: TppEneFova.PreMissionLoad
 function this.PreMissionLoad(missionId,currentMissionId)
   InfCore.LogFlow"InfMain.PreMissionLoad"
-  
+
   this.ClearXRay()
 
   for i,module in ipairs(InfModules) do
@@ -125,6 +125,38 @@ function this.OnAllocate(missionTable)
     InfCore.Log("inf_levelSeed "..tostring(gvars.inf_levelSeed))--DEBUG
   end
 
+  --DEBUGNOW
+  local equipOnTrucks=Ivars.vehiclePatrolProfile:EnabledForMission() and Ivars.vehiclePatrolTruckEnable:Is(1) and Ivars.putEquipOnTrucks:Is(1)
+  --tex not sure how TppPickable.DropItem is implemented, but bunging it in case it creates locators.
+  local increasedWeapons=IvarProc.EnabledForMission("customWeaponTable") or Ivars.itemDropChance:Is()>0 or Ivars.enableWildCardFreeRoam:EnabledForMission() or equipOnTrucks
+
+  --REF TppPlayer.OnAllocate
+  --e3 demos (380*1024)*24}--=9338880 -- nearly 5x the max retail block size
+  --TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721,
+  --sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
+  --  if(missionTable and missionTable.sequence)and missionTable.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE then
+  --    mvars.ply_equipMissionBlockGroupSize=missionTable.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE
+  --  else
+  --    mvars.ply_equipMissionBlockGroupSize=TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE
+  --  end
+  --  if(missionTable and missionTable.sequence)and missionTable.sequence.MAX_PICKABLE_LOCATOR_COUNT then
+  --    mvars.ply_maxPickableLocatorCount=missionTable.sequence.MAX_PICKABLE_LOCATOR_COUNT--free = 100,100,64 (afgh,mafr,mtbs)
+  --  else
+  --    mvars.ply_maxPickableLocatorCount=TppDefine.PICKABLE_MAX--16
+  --  end
+  --  if(missionTable and missionTable.sequence)and missionTable.sequence.MAX_PLACED_LOCATOR_COUNT then
+  --    mvars.ply_maxPlacedLocatorCount=missionTable.sequence.MAX_PLACED_LOCATOR_COUNT--free = 200,220,128
+  --  else
+  --    mvars.ply_maxPlacedLocatorCount=TppDefine.PLACED_MAX--8
+  --  end
+
+  --tex seems to be hitting pickable limit in afgh free even with all IH features off? weird.
+  --if increasedWeapons then
+  mvars.ply_maxPickableLocatorCount=mvars.ply_maxPickableLocatorCount+100
+  mvars.ply_equipMissionBlockGroupSize=mvars.ply_equipMissionBlockGroupSize*2
+  --end
+  --
+
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnAllocate) then
       InfCore.PCallDebug(module.OnAllocate,missionTable)
@@ -145,6 +177,10 @@ function this.OnInitializeTop(missionTable)
   InfCore.PCallDebug(function(missionTable)--DEBUG
     if TppMission.IsFOBMission(vars.missionCode)then
       return
+  end
+  
+  if Ivars.debugMode:Is(1) then
+    InfLookup.BuildGameIdToNames()
   end
 
   this.RandomizeCpSubTypeTable()
@@ -224,6 +260,7 @@ function this.Init(missionTable)
       local strCode32List={}
       for i,module in ipairs(InfModules) do
         if module.lookupStrings then
+          InfCore.Log("Adding "..tostring(module.name).." to strCode32List")
           Tpp.ApendArray(strCode32List,module.lookupStrings)
         end
       end
@@ -285,8 +322,6 @@ function this.AddMissionPacks(missionCode,packPaths)
       InfCore.PCallDebug(module.AddMissionPacks,missionCode,packPaths)
     end
   end
-
-  InfCore.PrintInspect(packPaths,{varName="packPaths"})--DEBUG
 end
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
@@ -528,7 +563,7 @@ function this.Messages()
           InfCore.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
         end
       end},
-    --      {msg="OnChangeSmallBlockState",func=function(blockNameStr32,blockStatus)
+    --      {msg="OnChangeSmallBlockState",func=function(blockIndexX,blockIndexY,blockStatus)
     --
     --        end},
     },
@@ -1424,7 +1459,7 @@ end
 
 function this.ClearXRay()
   if Ivars.disableXrayMarkers:Is(1) then
-    --TppSoldier2.DisableMarkerModelEffect() 
+    --TppSoldier2.DisableMarkerModelEffect()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   end
 end
@@ -1988,9 +2023,6 @@ end
 function this.LoadLibraries()
   InfCore.LogFlow"InfMain.LoadLibraries"
   this.LoadModelInfoModules()
-  if InfQuest then
-   --DEBUGNOW InfQuest.LoadQuestDefs()
-  end
 end
 
 function this.LoadModelInfoModules()

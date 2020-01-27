@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 --InfFova.lua
+--tex mostly describing player model system
 local this={}
 
 local InfCore=InfCore
@@ -14,6 +15,7 @@ this.playerTypes={
 --"LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
 }
 
+--tex indexed by vars.playerType
 this.playerTypesInfo={
   {
     name="SNAKE",
@@ -37,20 +39,10 @@ this.playerTypesInfo={
   },
 }
 
-this.playerTypeGroup={
-  VENOM={
-    [PlayerType.SNAKE]=true,
-    [PlayerType.AVATAR]=true,
-  },
-  DD={
-    [PlayerType.DD_MALE]=true,
-    [PlayerType.DD_FEMALE]=true,
-  },
-}
-
 --tex vars.playerParts drives which plparts fpk is used
 --\chunk0_dat\Assets\tpp\pack\player\parts\plparts*.fpk
 --corresponding to PlayerPartsType enum
+--tex indexed by vars.playerPartsType
 this.playerPartsTypes={
   "NORMAL",--0,
   "NORMAL_SCARF",--1,
@@ -99,20 +91,7 @@ this.PlayerPartsType=InfUtil.EnumFrom0(this.playerPartsTypes)
 --plPartsName doubles for checks to which playertype supports the partstype
 --if no camoTypes then try PlayerCamoType[name]
 
---dlc plparts TODO: which is what?
---plparts_dla0_main0_def_v00
---plparts_dla0_plym0_def_v00
---plparts_dla1_main0_def_v00
---plparts_dla1_plym0_def_v00
---plparts_dlb0_main0_def_v00
---plparts_dlb0_plym0_def_v00
---plparts_dlc0_plyf0_def_v00
---plparts_dlc1_plyf0_def_v00
---plparts_dld0_main0_def_v00
---plparts_dld0_plym0_def_v00
---plparts_dle0_plyf0_def_v00
---plparts_dle1_plyf0_def_v00
-
+--plPartsName: fpk name from \chunk0_dat\Assets\tpp\pack\player\parts\
 this.playerPartsTypesInfo={
   {--0 -- uses set camo type
     name="NORMAL",
@@ -292,9 +271,9 @@ this.playerPartsTypesInfo={
     playerParts=15,
     developId=19080,
     plPartsName={
-      SNAKE="UNKNOWN",--TODO:
-      AVATAR="UNKNOWN",
-      DD_MALE="UNKNOWN",
+      SNAKE="plparts_dla0_main0_def_v00",
+      AVATAR="plparts_dla0_main0_def_v00",
+      DD_MALE="plparts_dla0_plym0_def_v00",
     },
   },
   {--16
@@ -303,9 +282,9 @@ this.playerPartsTypesInfo={
     playerParts=16,
     developId=19080,--tex as above
     plPartsName={
-      SNAKE="UNKNOWN",--TODO:
-      AVATAR="UNKNOWN",
-      DD_MALE="UNKNOWN",
+      SNAKE="plparts_dla1_main0_def_v00",
+      AVATAR="plparts_dla1_main0_def_v00",
+      DD_MALE="plparts_dla1_plym0_def_v00",
     },
   },
   {--17
@@ -314,9 +293,9 @@ this.playerPartsTypesInfo={
     playerParts=17,
     developId=19081,
     plPartsName={
-      SNAKE="UNKNOWN",--TODO:
-      AVATAR="UNKNOWN",
-      DD_MALE="UNKNOWN",
+      SNAKE="plparts_dlb0_main0_def_v00",
+      AVATAR="plparts_dlb0_main0_def_v00",
+      DD_MALE="plparts_dlb0_plym0_def_v00",
     },
   },
   {--18
@@ -325,9 +304,9 @@ this.playerPartsTypesInfo={
     playerParts=18,
     developId=19084,
     plPartsName={
-      SNAKE="UNKNOWN",--TODO:
-      AVATAR="UNKNOWN",
-      DD_MALE="UNKNOWN",
+      SNAKE="plparts_dld0_main0_def_v00",
+      AVATAR="plparts_dld0_main0_def_v00",
+      DD_MALE="plparts_dld0_plym0_def_v00",
     },
   },
   {--19
@@ -336,7 +315,7 @@ this.playerPartsTypesInfo={
     playerParts=19,
     developId=19086,
     plPartsName={
-      DD_FEMALE="UNKNOWN",--TODO:
+      DD_FEMALE="plparts_dle0_plyf0_def_v00",
     },
   },
   {--20
@@ -345,7 +324,7 @@ this.playerPartsTypesInfo={
     playerParts=20,
     developId=19086,--tex as above
     plPartsName={
-      DD_FEMALE="UNKNOWN",--TODO:
+      DD_FEMALE="plparts_dle1_plyf0_def_v00",
     },
   },
   {--21
@@ -354,7 +333,7 @@ this.playerPartsTypesInfo={
     playerParts=21,
     developId=19085,
     plPartsName={
-      DD_FEMALE="UNKNOWN",--TODO:
+      DD_FEMALE="plparts_dle0_plyf0_def_v00",--TODO: ASSUMPTION same model as eva just fova for different texture
     },
   },
   {--22
@@ -363,7 +342,7 @@ this.playerPartsTypesInfo={
     playerParts=22,
     developId=19085,--tex as above
     plPartsName={
-      DD_FEMALE="UNKNOWN",--TODO:
+      DD_FEMALE="plparts_dle1_plyf0_def_v00",--TODO:
     },
   },
   {--23
@@ -654,7 +633,7 @@ this.playerCamoTypesCommon={
   "C60",--78,KHAKI URBAN TWO-TONE
 }
 
---tex ASSUMPTION currently if no playerTypes assume all
+--tex ASSUMPTION currently if no playerTypes, assume ALL
 --see 'Camo fovas' below for explanation of fovaCamoId
 this.playerCamoTypesInfo={
   {
@@ -1711,7 +1690,7 @@ this.playerCamoTypesInfo={
   },
 }
 
---Camo fovas
+--REF Camo fovas
 --<id> == two digit fova common camo id (see playerCamoTypesInfo .fovaCamoId and plPartsInfo .modelId above)
 --swimsuits have their own ids
 --id can be cribbed from p08 in EquipDevelopConstSetting
@@ -1748,7 +1727,6 @@ this.playerCamoTypesInfo={
 --ex-plfova_cmf0_main0_def_v46.fpk
 --fova files \Assets\tpp\fova\chara\dlf\cmf0_main0_def_v<swimsuit camo id>.fv2
 
---still ony hashed/undictionaried in emooses dictionary, are in secaproject fork, and bipbops update
 
 --tex there doesn't seem to be any enum for this
 this.playerFaceEquipId={
@@ -1813,6 +1791,18 @@ this.playerFaceEquipIdInfo={
   },
 }
 
+
+--tex mostly for IH ivars to differentiate some features
+this.playerTypeGroup={
+  VENOM={
+    [PlayerType.SNAKE]=true,
+    [PlayerType.AVATAR]=true,
+  },
+  DD={
+    [PlayerType.DD_MALE]=true,
+    [PlayerType.DD_FEMALE]=true,
+  },
+}
 
 local modelInfoSuffix="_modelInfo"
 function this.PrintPlayerBodyVars()

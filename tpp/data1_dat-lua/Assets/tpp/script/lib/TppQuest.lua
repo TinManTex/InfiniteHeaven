@@ -52,6 +52,7 @@ this.QUEST_CATEGORIES={
   "ELIMINATE_TANK_UNIT",--14
   "ELIMINATE_PUPPETS",--15
   "TARGET_PRACTICE",--7,0,0,7
+  "ADDON_QUEST",--tex meta category
 }
 this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)
 --NMC: see http://wiki.tesnexus.com/index.php/Mission_codes#Side_Op_mission_codes (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
@@ -1302,6 +1303,7 @@ function this.RegisterQuestSystemCallbacks(callbackFunctions)
   end
 end
 function this.SetNextQuestStep(questStep)
+  InfCore.Log("TppQuest.SetNextQuestStep("..tostring(questStep)..")")--tex DEBUG
   if not mvars.qst_questStepTable then
     return
   end
@@ -2008,8 +2010,9 @@ function this.UpdateQuestBlockStateAtActive(blockIndexX,blockIndexY)
   if not this.IsInsideArea("activeArea",questAreaTable,blockIndexX,blockIndexY)then
     if mvars.qst_blockStateRequest~=questBlockStatus.DEACTIVATING then
       mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATING
-      local e=this.ExecuteSystemCallback"OnOutOfAcitveArea"
-      if not e then
+      local remainActive=this.ExecuteSystemCallback"OnOutOfAcitveArea"
+      InfCore.Log("InfQuest.UpdateQuestBlockStateAtActive not in activeArea "..questAreaTable.areaName.." Deactivate:"..tostring(not remainActive))--tex DEBUG
+      if not remainActive then
         mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATE
       end
     end
@@ -2017,6 +2020,8 @@ function this.UpdateQuestBlockStateAtActive(blockIndexX,blockIndexY)
   end
   if not this.IsInvoking()then
     if this.IsInsideArea("invokeArea",questAreaTable,blockIndexX,blockIndexY)then
+      local currentQuestName=this.GetCurrentQuestName()--tex DEBUG>
+      InfCore.Log("InfQuest.UpdateQuestBlockStateAtActive inside invokeArea "..questAreaTable.areaName.." Invoking "..tostring(currentQuestName))--tex DEBUG--<
       this.Invoke()
     end
   end
@@ -2338,10 +2343,14 @@ function this.UpdateActiveQuest(updateFlags)
 
     local enabledCategories={}
     local ivarPrefix="sideops_"
-    for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
+    for i,categoryName in ipairs(this.QUEST_CATEGORIES)do
       local ivarName=ivarPrefix..categoryName
       local categoryEnum=this.QUEST_CATEGORIES_ENUM[categoryName]
-      local enabled=Ivars[ivarName]:Get()==1
+      local enabled=false
+      local ivar=Ivars[ivarName]
+      if ivar then--tex ADDON doesnt have an ivar
+        enabled=Ivars[ivarName]:Get()==1
+      end
 
       --tex selectionmode overrides individual selection categories filter
       if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
@@ -2412,6 +2421,11 @@ function this.UpdateActiveQuest(updateFlags)
               if questInfo.category==selectionCategoryEnum then
                 --InfCore.DebugPrint(questName.." questCategoryEnum:"..tostring(questCategoryEnum).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
                 categoryQuests[#categoryQuests+1]=questName
+              end
+              if selectionCategory=="ADDON_QUEST" then--tex doesnt work by category tag
+                if InfQuest and InfQuest.ihQuestsInfo[questName] then
+                  categoryQuests[#categoryQuests+1]=questName
+                end
               end
             end
           end

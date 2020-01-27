@@ -1,5 +1,5 @@
 = Infinite heaven =
-r206 - 2017-05-02
+r207 - 2017-05-10
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -18,8 +18,13 @@ Recent changes/additions
 ------------------------------
 NOTE: With SnakeBite 0.8.6 you no longer need to manually copy the \mod folder to MGS_TPP\, SnakeBite will install it.
 
+New for r207:
+Fixed: 'Fatigues All' Custom soldier type/DD suit hanging on load.
+
+Addition: Addon sideop on Sideop selection mode to filter for additional sideops.
+
 New for r206:
-Option: rerollQuestSelection - Reroll quest selection
+Option: rerollQuestSelection - Reroll sideops selection
 (via Sideops menu)
 
 Fixed: NPC positions on outer clusters when command cluster is under grad 4/not fully built (currently just disabling NPCs on the outer clusters for that situation).

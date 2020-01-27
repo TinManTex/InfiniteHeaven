@@ -436,8 +436,8 @@ function this.StartInvestigate(n,T,n)
   end
   this.PlayTutorialRadioOnly("f1000_rtrg4450",{delayTime="long"})
 end
-function this.EndInvestigate(n,T,n)
-  if T==0 then
+function this.EndInvestigate(cpId,unk2,unk3)
+  if unk2==0 then
     return
   end
   this.PlayTutorialRadioOnly("f1000_rtrg4460",{delayTime="long"})

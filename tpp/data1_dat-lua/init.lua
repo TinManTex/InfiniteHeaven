@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- init.lua
 -- tex first script loaded by engine
-
+--IHINTERNAL
 Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"--tex

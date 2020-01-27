@@ -41,11 +41,44 @@ function this.PostModuleReload(prevModule)
 end
 
 function this.PostAllModulesLoad()
-  --DEBUGNOW TODO see if these can work as the sole calls to LoadQuestDefs,RegisterQuests.
   this.LoadQuestDefs()
   if this.questsRegistered then
     this.RegisterQuests()
-    --DEBUGNOW
+  end
+end
+
+function this.OnAllocate(missionTable)
+  if missionTable.enemy then
+    this.LoadEquipTable()
+  end
+end
+
+--tex see InfEquip.LoadEquipTable for notes
+function this.LoadEquipTable()
+  if not TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsStoryMission(vars.missionCode) then
+    return
+  end
+
+  local equipLoadTable={}
+
+  for questName,questInfo in pairs(this.ihQuestsInfo)do
+    if TppQuest.IsActive(questName) then
+      if questInfo.requestEquipIds then
+        InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
+        for n,equipName in ipairs(questInfo.requestEquipIds)do
+          local equipId=TppEquip[equipName]
+          if equipId==nil then
+            InfCore.Log("InfQuest.LoadEquipTable: requestEquipIds ERROR: "..questName.."  could not find equipId "..tostring(equipId))
+          else
+            equipLoadTable[#equipLoadTable+1]=equipId
+          end
+        end
+      end
+    end
+  end
+
+  if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
+    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
 end
 
@@ -59,7 +92,6 @@ end
 
 --REF questDef
 -- ih_quest_q30103.lua --file name must have q%05u format as suffix.
--- IH quest definition - example quest, afgh wailo village hostage
 --local this={
 --  questPackList={
 --    "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
@@ -81,6 +113,10 @@ end
 --  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
 --  disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
 --    "lz_lab_S0000|lz_lab_S_0000",
+--  },
+--  requestEquipIds={--equipIds of TppPickable weapons in the quest.
+--    "EQP_WP_EX_hg_010",
+--    "EQP_WP_West_ar_050",
 --  },
 --}
 --return this
@@ -352,7 +388,7 @@ function this.RegisterQuests()
     local questIndex
     for i,_questName in ipairs(QUEST_DEFINE)do
       if _questName==questName then
-        questIndex=i--DEBUGNOW
+        questIndex=i
         break
       end
     end
@@ -418,7 +454,6 @@ function this.DEBUG_PrintQuestClearedFlags()
   end
 end
 
---DEBUGNOW TEST add example quest and rocks quest test one at a time and remove (in different order)
 --CALLER: TppVarInit.StartTitle - since registerquests is run before the first game save/gvar load
 function this.SetupInstalledQuestsState()
   InfCore.LogFlow"InfQuest.SetupInstalledQuestsState"
@@ -549,7 +584,6 @@ function this.GetQuestPositions()
   return positions
 end
 
---DEBUGNOW
 --tex set questCleared gvars from ih_save state
 function this.ReadQuestStates()
   InfCore.LogFlow"InfQuest.ReadQuestStates"

@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="206"
+this.modVersion="207"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -39,6 +39,7 @@ this.logErr=""
 this.str32ToString={}
 this.unknownStr32={}
 this.unknownMessages={}
+this.gameIdToName={}
 --
 local nl="\r\n"
 
@@ -66,6 +67,10 @@ function this.Log(message,announceLog,force)
   end
 
   this.WriteLog(this.logFilePath,this.log)
+end
+
+function this.ClearLog()
+  this.log={}
 end
 
 --tex cant log error to log if log doesnt log lol
@@ -323,6 +328,31 @@ function this.StrCode32(encodeString)
     end
   end
   return strCode
+end
+
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
+--SIDE: gameIdToName
+--tex TODO: split gameIdToName into [objectType]={[name]=gameId]}
+function this.GetGameObjectId(nameOrType,name)
+  local gameId=GetGameObjectId(nameOrType,name)
+  local name=name or nameOrType
+  if this.debugMode then
+    if gameId~=NULL_ID then
+      if type(name)~="string" then
+        InfCore.Log("InfCore.GetGameObjectId: WARNING: Attempting to get gameId of a "..type(name)..": "..tostring(name))
+        InfCore.Log("caller: "..this.DEBUG_Where(2))
+      else
+        local storedName=this.gameIdToName[gameId]
+        if storedName and storedName~=name then
+          InfCore.Log("InfCore.GetGameObjectId: WARNING: gameObjectId collision "..tostring(storedName).." and "..tostring(name))
+        else
+          this.gameIdToName[gameId]=name
+        end
+      end
+    end
+  end
+  return gameId
 end
 
 function this.GetModuleName(scriptPath)

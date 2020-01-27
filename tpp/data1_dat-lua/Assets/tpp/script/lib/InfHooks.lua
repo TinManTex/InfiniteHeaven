@@ -78,6 +78,9 @@ this.debugPCallHooks={
     OnDeactivateQuest=true,
     CheckQuestAllTarget=true,
   },
+  TppLocation={
+    ActivateBlock=true,
+  },
   TppMission={
     ExecuteMissionFinalize=true,
     MissionFinalize=true,
@@ -85,6 +88,7 @@ this.debugPCallHooks={
     OnCanMissionClear=true,
     ReserveMissionClear=true,
     UpdateObjective=true,
+    ShowUpdateObjective=true,
   },
   TppQuest={
     UpdateActiveQuest=true,

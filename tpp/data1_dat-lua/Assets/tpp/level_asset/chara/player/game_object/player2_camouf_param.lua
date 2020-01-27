@@ -30,7 +30,8 @@ local this={}
 --
 --Notes for what parameters are named and named outfits in the camouflage lua file
 --https://mega.nz/#F!KhJRkLRb!Vw_BNsAUrWaAwXg0hOyagw
----
+
+--actual assigment of material to index is in chunk2.dat/Assets/tpp/pack/location/afgh/pack_common/afgh_common.fpkd/Assets/tpp/level/location/afgh/block_common/afgh_common_terrainMaterial.fox / mafr etc, materialIndex key
 --
 --g = greenery
 --s = sand/soil
@@ -130,7 +131,104 @@ this.materialTypeNames={
     "MTR_NONE_A",
 }
 this.materialTypes=Tpp.Enum(this.materialTypeNames)
-this.camoTypes=Tpp.Enum(InfFova.playerCamoTypes)
+
+--tex could just use InfFova.playerCamoTypes, but having here so it doesnt have that dependancy
+this.playerCamoTypes={
+  "OLIVEDRAB",--0
+  "SPLITTER",--1
+  "SQUARE",--2
+  "TIGERSTRIPE",--3
+  "GOLDTIGER",--4
+  "FOXTROT",--5
+  "WOODLAND",--6
+  "WETWORK",--7
+  "ARBANGRAY",--8
+  "ARBANBLUE",--9
+  "SANDSTORM",--10
+  "REALTREE",--11 --does not set
+  "INVISIBLE",--12 --does not set
+  "BLACK",--13
+  "SNEAKING_SUIT_GZ",--14 --avatar
+  "SNEAKING_SUIT_TPP",--15
+  "BATTLEDRESS",--16
+  "PARASITE",--17
+  "NAKED",--18 --shows as last set (SNAKE)
+  "LEATHER",--19 --avatar
+  "SOLIDSNAKE",--20
+  "NINJA",--21
+  "RAIDEN",--22
+  "HOSPITAL",--23
+  "GOLD",--24--avatar
+  "SILVER",--25 --avatar
+  "PANTHER",--26 --shows as last set (SNAKE)
+  "AVATAR_EDIT_MAN",--27 --OFF--just part of upper body that fits the zoomed cam, lel
+  "MGS3",--28
+  "MGS3_NAKED",--29
+  "MGS3_SNEAKING",--30
+  "MGS3_TUXEDO",--31 --not DD_FEMALE
+  "EVA_CLOSE",--32 dd_fem, also works on avatar/snake but they dont have right head lol
+  "EVA_OPEN",--33
+  "BOSS_CLOSE",--34
+  "BOSS_OPEN",--35
+
+  "C23",--36,WOODLAND FLECK
+  "C24",--37,AMBUSH
+  "C27",--38,SOLUM
+  "C29",--39,DEAD LEAF
+  "C30",--40,LICHEN
+  "C35",--41,STONE
+  "C38",--42,PARASITE MIST
+  "C39",--43,OLD ROSE
+  "C42",--44,BRICK RED
+  "C46",--45,IRON BLUE
+  "C49",--46,STEEL GREY
+  "C52",--47,TSELINOYARSK
+  "C16",--48,NIGHT SPLITTER
+  "C17",--49,RAIN
+  "C18",--50,GREEN TIGER STRIPE
+  "C19",--51,BIRCH LEAF
+  "C20",--52,DESERT AMBUSH
+  "C22",--53,DARK LEAF FLECK
+  "C25",--54,NIGHT BUSH
+  "C26",--55,GRASS
+  "C28",--56,RIPPLE
+  "C31",--57,CITRULLUS
+  "C32",--58,DIGITAL BUSH
+  "C33",--59,ZEBRA
+  "C36",--60,DESERT SAND
+  "C37",--61,STEEL KHAKI
+  "C40",--62,DARK RUBBER
+  "C41",--63,GRAY
+  "C43",--64,CAMOFLAGE YELLOW
+  "C44",--65,CAMOFLAGE GREEN
+  "C45",--66,IRON GREEN
+  "C47",--67,LIGHT RUBBER
+  "C48",--68,RED RUST
+  "C50",--69,STEEL GREEN
+  "C51",--70,STEEL ORANGE
+  "C53",--71,MUD
+  "C54",--72,STEEL BLUE
+  "C55",--73,DARK RUST
+  "C56",--74,CITRULLUS TWO-TONE
+  "C57",--75,GOLD TIGER STRIPE TWO-TONE
+  "C58",--76,BIRCH LEAF TWO-TONE
+  "C59",--77,STONE TWO-TONE
+  "C60",--78,KHAKI URBAN TWO-TONE
+
+  "SWIMWEAR_C00",--79,OLIVEDRAB
+  "SWIMWEAR_C01",--80,TIGERSTRIPE
+  "SWIMWEAR_C02",--81,GOLDTIGER
+  "SWIMWEAR_C03",--82,FOXTROT
+  "SWIMWEAR_C05",--83,WETWORK
+  "SWIMWEAR_C06",--84,SPLITTER
+  "SWIMWEAR_C38",--85,PARASITE MIST
+  "SWIMWEAR_C39",--86,OLD ROSE
+  "SWIMWEAR_C44",--87,CAMOFLAGE GREEN
+  "SWIMWEAR_C46",--88,IRON BLUE
+  "SWIMWEAR_C48",--89,RED RUST
+  "SWIMWEAR_C53",--90,MUD
+}
+this.camoTypes=Tpp.Enum(this.playerCamoTypes)
 
 --tex example usage
 --local camoType=this.camoTypes.SWIMWEAR_C00
@@ -240,6 +338,6 @@ this.camoTable={
 }
 
 Player.InitCamoufTable(this.camoTable)
-this.camoTable=nil--tex clear if not runtime analysis
+--this.camoTable=nil--tex clear if not runtime analysis
 
 return this

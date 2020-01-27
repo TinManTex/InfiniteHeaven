@@ -1,3 +1,4 @@
+--TppPlayer2InitializeScript.lua
 local funcNames={
   "StartCameraAnimation",
   "StartCameraAnimationNoRecover",

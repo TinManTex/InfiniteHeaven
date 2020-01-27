@@ -588,9 +588,9 @@ this.devInAccMenu={
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
-    Ivars.selectEvent,--DEBUGNOW
+    Ivars.selectEvent,
     InfMenuDefs.appearanceMenu,
-    Ivars.postExtCommands,--DEBUGNOW
+    Ivars.postExtCommands,
     InfMenuDefs.appearanceDebugMenu,
     Ivars.customSoldierTypeFREE,
     --Ivars.customSoldierTypeMISSION,--TODO:
@@ -693,12 +693,17 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    Ivars.warpToListObject,
-    Ivars.dropLoadedEquip,--DEBUGNOW
-    Ivars.dropTestEquip,
+    InfMenuCommands.requestHeliLzToLastMarkerAlt,
+    InfMenuCommands.requestHeliLzToLastMarker,
+	  InfMenuCommands.forceExitHeliAlt,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
+    InfMenuCommands.clearLog,
+    Ivars.warpToListPosition,
+    Ivars.warpToListObject,
+    Ivars.dropLoadedEquip,
+    Ivars.dropTestEquip,
     Ivars.selectedGameObjectType,
     Ivars.manualMissionCode,
     Ivars.manualSequence,
@@ -707,7 +712,6 @@ this.devInMissionMenu={
     InfMenuCommands.setAllFriendly,
     Ivars.selectedCp,
     InfMenuCommands.setSelectedCpToMarkerObjectCp,
-    Ivars.warpToListPosition,
     InfMenuCommands.printLatestUserMarker,
     Ivars.debugValue,
     InfMenuCommands.DEBUG_PrintSoldierDefine,

@@ -1236,7 +1236,7 @@ function this.IsEqualOrMoreTotalFultonCount(fultonCount)--RETAILPATCH 1070>
     return false
   end
 end--<
-function this.OnFultonSoldier(gameId,a,a,staffId,recoveredByHeli,fultonedPlayer)
+function this.OnFultonSoldier(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffId,recoveredByHeli,fultonedPlayer)
   if recoveredByHeli then
     local command={id="SetToHeliRecoveredComplete"}
     GameObject.SendCommand(gameId,command)
@@ -1270,7 +1270,8 @@ function this.OnFultonVolgin(gameId)
   end
   TppMotherBaseManagement.AddTempCorpse()
 end
-function this.OnFultonHostage(gameId,n,n,staffId,recoveredByHeli,fultonedPlayer)
+--gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex)
+function this.OnFultonHostage(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffId,recoveredByHeli,fultonedPlayer)
   local tempStaffStatus=TppMotherBaseManagement.GetTempStaffStatusFromGameObject{gameObjectId=gameId}
   local staff
   if staffId then
@@ -2410,15 +2411,15 @@ end
 function this.EnableTerminalVoice(enable)
   mvars.trm_voiceDisabled=not enable
 end
-function this.PlayTerminalVoice(voiceName,e,t)
-  if mvars.trm_voiceDisabled and e~=false then
+function this.PlayTerminalVoice(voiceName,unk2Bool,unk3Float)
+  if mvars.trm_voiceDisabled and unk2Bool~=false then
     return
   end
-  TppUiCommand.RequestMbSoundControllerVoice(voiceName,e,t)
+  TppUiCommand.RequestMbSoundControllerVoice(voiceName,unk2Bool,unk3Float)
 end
-function this.OnFultonFailedEnd(e,t,n,a)
+function this.OnFultonFailedEnd(gameId,unk1,unk2,unk3)
   mvars.trm_fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo or{}
-  mvars.trm_fultonFaileEndInfo[e]={e,t,n,a}
+  mvars.trm_fultonFaileEndInfo[gameId]={gameId,unk1,unk2,unk3}
 end
 function this._OnFultonFailedEnd(fultonFailedInfo1,fultonFailedInfo2,fultonFailedInfo3,fultonFailedInfo4,playerIndex)
   if Tpp.IsLocalPlayer(playerIndex)then
