@@ -355,25 +355,26 @@ function this.OnPickUpCollection(playerId,resourceId,resourceType,langId)
     this.DispGuide("MATERIAL",this.DISPLAY_OPTION.TIPS)
   end
 end
-local _=function(T)
-  local e={TppEquip.EQP_WP_10101,TppEquip.EQP_WP_10102,TppEquip.EQP_WP_10103,TppEquip.EQP_WP_10104,TppEquip.EQP_WP_10105,TppEquip.EQP_WP_10107,TppEquip.EQP_WP_10116,TppEquip.EQP_WP_10125,TppEquip.EQP_WP_10134,TppEquip.EQP_WP_10136,TppEquip.EQP_WP_10214,TppEquip.EQP_WP_10216,TppEquip.EQP_WP_60013,TppEquip.EQP_WP_60015,TppEquip.EQP_WP_60016,TppEquip.EQP_WP_60114,TppEquip.EQP_WP_60115,TppEquip.EQP_WP_60116,TppEquip.EQP_WP_60117,TppEquip.EQP_WP_60325,TppEquip.EQP_WP_60326,TppEquip.EQP_WP_60327}
-  for n,e in pairs(e)do
-    if e==T then
+local UnkFunc1IsSomeEquipId=function(findEquipId)
+  local unk1SomeEuipIds={TppEquip.EQP_WP_10101,TppEquip.EQP_WP_10102,TppEquip.EQP_WP_10103,TppEquip.EQP_WP_10104,TppEquip.EQP_WP_10105,TppEquip.EQP_WP_10107,TppEquip.EQP_WP_10116,TppEquip.EQP_WP_10125,TppEquip.EQP_WP_10134,TppEquip.EQP_WP_10136,TppEquip.EQP_WP_10214,TppEquip.EQP_WP_10216,TppEquip.EQP_WP_60013,TppEquip.EQP_WP_60015,TppEquip.EQP_WP_60016,TppEquip.EQP_WP_60114,TppEquip.EQP_WP_60115,TppEquip.EQP_WP_60116,TppEquip.EQP_WP_60117,TppEquip.EQP_WP_60325,TppEquip.EQP_WP_60326,TppEquip.EQP_WP_60327}
+  for i,equipId in pairs(unk1SomeEuipIds)do
+    if equipId==findEquipId then
       return true
     end
   end
 end
-function this.OnPlayerHoldWeapon(i,E,n,T)
-  if T==1 then
+--msg output PlayerHoldWeapon arg0: 687, arg1: 1, arg2: 1, arg3: 0, 
+function this.OnPlayerHoldWeapon(equipId,equipType,unk3HasGunLight,unk4IsSheild)
+  if unk4IsSheild==1 then
     this.DispGuide("SHIELD",this.DISPLAY_OPTION.CONTROL)
   end
-  if E==TppEquip.EQP_TYPE_Sniper then
+  if equipType==TppEquip.EQP_TYPE_Sniper then
     this.DispGuide("SNIPER_RIFLE",this.DISPLAY_OPTION.TIPS_CONTROL)
   end
-  if _(i)then
+  if UnkFunc1IsSomeEquipId(equipId)then
     this.DispGuide("TRANQUILIZER",this.DISPLAY_OPTION.TIPS)
   end
-  if n==1 then
+  if unk3HasGunLight==1 then
     this.DispGuide("GUN_LIGHT",this.DISPLAY_OPTION.TIPS)
   end
 end

@@ -1,7 +1,7 @@
 -- Ivars.lua
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
---lots of shortcuts/ivar setup depending-on defined values is done in various Table setups at end of file.
+--lots of shortcuts/ivar setup depending-on defined values is done in SetupIvars
 --Currently tied to gvars, so keep save setting commented out if editing module at runtime
 local this={}
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
@@ -45,19 +45,11 @@ this.switchRange={max=1,min=0,increment=1}
 this.switchSettings={"OFF","ON"}
 this.simpleProfileSettings={"DEFAULT","CUSTOM"}
 --
-this.externalModules={
-  "Ivars",
-  "InfMenuCommands",
-  "InfQuickMenuCommands",
-  "InfLang",
-  "InfMenuDefs",
-  "InfQuickMenuDefs",
-  "InfParasite"
-}
 
 --ivar definitions
 --tex NOTE: should be mindful of max setting for save vars,
 --currently the ivar setup fits to the nearest save size type and I'm not sure of behaviour when you change ivars max enough to have it shift save size and load a game with an already saved var of different size
+
 this.debugMode={
   nonConfig=true,
   save=GLOBAL,
@@ -65,6 +57,20 @@ this.debugMode={
   settingNames="set_switch",
   -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
+}
+
+this.debugMessages={
+  nonConfig=true,
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.debugFlow={
+  nonConfig=true,
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.printPressedButtons={
@@ -201,7 +207,6 @@ IvarProc.MissionModeIvars(
 this.weaponTableStrength={
   save=MISSION,
   settings={"NORMAL","STRONG","COMBINED"},
-  settingNames="weaponTableStrengthSettings",
 }
 this.weaponTableAfgh={
   save=MISSION,
@@ -246,7 +251,6 @@ this.allowUndevelopedDDEquip={
 this.mbSoldierEquipRange={
   save=MISSION,
   settings={"SHORT","MEDIUM","LONG","RANDOM"},
-  settingNames="set_dd_equip_range",
 }
 
 this.mbDDEquipNonLethal={
@@ -289,7 +293,6 @@ this.mbDDSuit={
   --"KAZ_GZ",
   --"DOCTOR",
   },
-  settingNames="mbDDSuitSettings",
 }
 
 this.mbDDSuitFemale={
@@ -304,20 +307,17 @@ this.mbDDSuitFemale={
   --    "PRISONER_AFGH_FEMALE",
   --    "NURSE_FEMALE",
   },
-  settingNames="mbDDSuitFemaleSettings",
 }
 
 this.mbDDHeadGear={
   save=MISSION,
   range=this.switchRange,
-  settingNames="mbDDHeadGearSettings",
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
 this.mbWarGamesProfile={
   save=MISSION,
   settings={"OFF","TRAINING","INVASION","ZOMBIE_DD","ZOMBIE_OBLITERATION"},
-  settingNames="mbWarGamesProfileSettings",
   settingsTable={
     OFF={
       mbDDEquipNonLethal=0,
@@ -366,7 +366,6 @@ this.mbWarGamesProfile={
     },
   },
   OnChange=IvarProc.OnChangeProfile,
-  OnSubSettingChanged=IvarProc.OnSubSettingChanged,
 }
 
 this.mbWargameFemales={
@@ -434,7 +433,6 @@ this.mbqfEnableSoldiers={
 this.mbEnemyHeliColor={
   save=MISSION,
   settings={"DEFAULT","BLACK","RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
-  settingNames="mbEnemyHeliColorSettings",
 }
 
 this.mbEnableFultonAddStaff={
@@ -453,7 +451,6 @@ this.mbEnableBuddies={
 this.mbPrioritizeFemale={
   save=MISSION,
   settings={"OFF","DISABLE","MAX"},
-  settingNames="mbPrioritizeFemaleSettings",
 }
 --<motherbase
 
@@ -466,7 +463,6 @@ this.useSoldierForDemos={
 this.mbDemoSelection={
   save=MISSION,
   settings={"DEFAULT","PLAY","DISABLED"},
-  settingNames="set_mbDemoSelection",
 }
 this.mbSelectedDemo={
   save=MISSION,
@@ -477,7 +473,6 @@ this.mbSelectedDemo={
 this.mbDemoOverrideTime={
   save=MISSION,
   settings={"DEFAULT","CURRENT","CUSTOM"},
-  settingNames="mbDemoOverrideTimeSettings",
 }
 
 this.mbDemoHour={
@@ -493,14 +488,12 @@ this.mbDemoMinute={
 this.mbDemoOverrideWeather={
   save=MISSION,
   settings={"DEFAULT","CURRENT","SUNNY","CLOUDY","RAINY","SANDSTORM","FOGGY","POURING"},
-  settingNames="mbDemoOverrideWeatherSettings",
 }
 
 --patchup
 this.langOverride={
   save=GLOBAL,
   range=this.switchRange,
-  settingNames="set_lang_override",
   allowFob=true,
 }
 
@@ -531,7 +524,6 @@ this.setFirstFobBuilt={
 this.disableLzs={
   save=MISSION,
   settings={"OFF","ASSAULT","REGULAR"},
-  settingNames="disableLzsSettings",
 }
 
 this.disableHeliAttack={
@@ -877,14 +869,12 @@ this.handLevelMedical={
 this.itemLevelFulton={
   save=MISSION,
   settings={"DEFAULT","GRADE1","GRADE2","GRADE3","GRADE4"},
-  settingNames="itemLevelFultonSettings",
   equipId=TppEquip.EQP_IT_Fulton,
 }
 this.itemLevelWormhole={
   save=MISSION,
   --range=this.switchRange,
   settings={"DEFAULT","DISABLE","ENABLE"},
-  settingNames="itemLevelWormholeSettings",
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
 }
 --<item levels
@@ -1080,8 +1070,8 @@ function this.SetMinMax(baseName,min,max)
     InfLog.DebugPrint("SetMinMax: could not find ivar for "..baseName)
     return
   end
-  ivarMin:Set(min,true)
-  ivarMax:Set(max,true)
+  ivarMin:Set(min)
+  ivarMax:Set(max)
 end
 
 this.revengePowerRange={max=100,min=0,increment=10}
@@ -1292,7 +1282,6 @@ IvarProc.MinMaxIvar(
 this.forceSuperReinforce={
   save=MISSION,
   settings={"OFF","ON_CONFIG","FORCE_CONFIG"},
-  settingNames="forceSuperReinforceSettings",
 }
 
 this.forceReinforceRequest={
@@ -1358,7 +1347,6 @@ this.enableWildCardFreeRoam={
 this.vehiclePatrolProfile={--TODO rename, this is not an IH profile 'vehicle patrol style?'
   save=MISSION,
   settings={"OFF","SINGULAR","EACH_VEHICLE"},
-  settingNames="vehiclePatrolProfileSettings",
   MissionCheck=IvarProc.MissionCheckFree,
 }
 this.vehiclePatrolLvEnable={
@@ -1404,7 +1392,6 @@ this.vehiclePatrolPaintType={
 this.vehiclePatrolClass={
   save=MISSION,
   settings={"DEFAULT","DARK_GRAY","OXIDE_RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
-  settingNames="vehiclePatrolClassSettingNames",
 }
 
 this.vehiclePatrolEmblemType={
@@ -1416,7 +1403,6 @@ this.enemyHeliPatrol={
   save=MISSION,
   --DEBUGNOW r187 TODO cut down to actual max value (3)
   settings={"OFF","1","3","5","7","ENEMY_PREP"},
-  settingNames="enemyHeliPatrolSettingNames",
   MissionCheck=IvarProc.MissionCheckFree,
 }
 
@@ -1466,7 +1452,7 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
     "PF_C",
     "CHILD_A",
   },
-  --settingNames=InfMain.enemySubTypes,
+  --settingNames=InfEneFova.enemySubTypes,
   OnChange=function(self,prevSetting,setting)
     if setting==0 then
       InfMain.ResetCpTableToDefault()
@@ -1503,7 +1489,6 @@ end
 this.unlockSideOps={
   save=MISSION,
   settings={"OFF","REPOP","OPEN"},
-  settingNames="set_unlock_sideops",
   OnChange=this.UpdateActiveQuest,
 }
 
@@ -1541,7 +1526,6 @@ this.sideOpsSelectionMode={
     "ELIMINATE_PUPPETS",
   --"TARGET_PRACTICE",
   },
-  settingNames="sideOpsSelectionModeSettings",
   OnChange=this.UpdateActiveQuest,
 }
 
@@ -1603,7 +1587,6 @@ this.mbEnableOcelot={
 this.mbEnablePuppy={
   save=MISSION,
   settings={"OFF","MISSING_EYE","NORMAL_EYES"},
-  settingNames="mbEnablePuppySettings",
   OnChange=function(self,prevSetting,setting)
     local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
     if setting==0 then
@@ -1784,6 +1767,7 @@ this.playerType={
     ivars[self.name]=self.playerTypeToSetting[vars.playerType]
   end,
   OnChange=function(self,previousSetting,setting)
+
     local currentPlayerType=vars.playerType
     local newSetting=self:GetTableSetting()
     if newSetting==currentPlayerType then
@@ -1839,8 +1823,8 @@ this.playerTypeDirect={
   OnSelect=function(self)
     ivars[self.name]=self.playerTypeToSetting[vars.playerType]
   end,
-  OnActivate=function(self)
-    vars.playerType=self:GetTableSetting()
+  OnActivate=function(self,setting)
+  --self:OnChange(setting,setting)
   end,
 }
 
@@ -2181,7 +2165,6 @@ this.playerFaceId={
 this.playerFaceFilter={
   --save=MISSION,
   settings={"ALL","UNIQUE","FOVAMOD"},
-  settingNames="playerFaceFilterSettings",
   settingsTable={
     ALL=0,
     UNIQUE=550,
@@ -2551,11 +2534,13 @@ this.fovaSelection={
 }
 
 this.fovaPlayerType={
+  nonUser=true,
   save=MISSION,
   range={min=0,max=3},
 }
 
 this.fovaPlayerPartsType={
+  nonUser=true,
   save=MISSION,
   range={min=0,max=127},
 }
@@ -2715,7 +2700,7 @@ this.maxPhase={
     if setting<Ivars.minPhase:Get() then
       Ivars.minPhase:Set(setting)
     end
-    
+
     InfEnemyPhase.execState.nextUpdate=0
   end,
 }
@@ -2779,7 +2764,6 @@ this.cpAlertOnVehicleFulton={
 --this.ogrePointChange={
 --  save=MISSION,
 --  settings={"DEFAULT","NORMAL","DEMON"},
---  settingNames="ogrePointChangeSettings",
 --  settingsTable=99999999,
 --  OnChange=function(self)
 --    if self.setting==3 then
@@ -2868,7 +2852,6 @@ this.adjustCameraUpdate={
 this.cameraMode={
   --save=MISSION,
   settings={"DEFAULT","CAMERA"},--"PLAYER","CAMERA"},
-  settingNames="cameraModeSettings",
   OnChange=function(self,previousSetting)
     if self:Is"DEFAULT" then
       Player.SetAroundCameraManualMode(false)
@@ -3025,19 +3008,6 @@ this.buddyChangeEquipVar={
 }
 
 --quiet
-this.disableQuietHumming={--tex no go
-  --OFF save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-  OnChange=function(self,prevSetting,setting)
-    if setting==1 then
-      InfMain.SetQuietHumming(false)
-    else
-      InfMain.SetQuietHumming(true)
-    end
-  end,
-}
-
 this.quietRadioMode={
   save=MISSION,
   range={min=0,max=31},
@@ -3081,7 +3051,6 @@ this.mbWalkerGearsColor={
     "RANDOM",--all of one type
     "RANDOM_EACH",--each random
   },
-  settingNames="mbWalkerGearsColorSettingNames",
 }
 
 this.mbWalkerGearsWeapon={
@@ -3093,7 +3062,6 @@ this.mbWalkerGearsWeapon={
     "RANDOM",--all of one type
     "RANDOM_EACH",
   },
-  settingNames="mbWalkerGearsWeaponSettingNames",
 }
 --
 
@@ -3118,7 +3086,6 @@ this.npcOcelotUpdate={--tex NONUSER
 this.npcHeliUpdate={
   save=MISSION,
   settings={"OFF","UTH","HP48","UTH_AND_HP48"},
-  settingNames="npcHeliUpdateSettings",
   MissionCheck=IvarProc.MissionCheckMb,
 }
 
@@ -3191,7 +3158,7 @@ this.disablePullOutHeli={
         command="EnablePullOut"
       end
       GameObject.SendCommand(gameObjectId,{id=command})
-      InfMain.HeliOrderRecieved()
+      InfHelicopter.HeliOrderRecieved()
     end
   end,
 }
@@ -3245,7 +3212,7 @@ this.setSearchLightForcedHeli={
       end
       if command then
         GameObject.SendCommand(gameObjectId,command)
-        InfMain.HeliOrderRecieved()
+        InfHelicopter.HeliOrderRecieved()
       end
     end
   end,
@@ -3396,6 +3363,12 @@ this.enableParasiteEvent={
   MissionCheck=IvarProc.MissionCheckFree,
 }
 
+this.parasiteWeather={
+  save=MISSION,
+  default=1,--parasite
+  settings={"NONE","PARASITE_FOG","RANDOM"},
+}
+
 --tex time in minutes
 IvarProc.MinMaxIvar(
   this,
@@ -3494,13 +3467,6 @@ this.inf_event={--NONUSER
   settings={"OFF","WARGAME","ROAM"},
 }
 
-this.inf_parasiteEvent={
-  nonUser=true,
-  save=MISSION,
-  default=0,
-  range={max=4,min=0,increment=1},
-}
-
 this.mis_isGroundStart={--NONUSER WORKAROUND
   nonUser=true,
   save=MISSION,
@@ -3529,17 +3495,6 @@ local function IsIvar(ivar)--TYPEID
 end
 
 --ivar system setup
-function this.Init(missionTable)
-  for name,ivar in pairs(this) do
-    if IsIvar(ivar)then
-      local GetMax=ivar.GetMax--tex cludge to get around that Gvars.lua calls declarevars during it's compile/before any other modules are up, REFACTOR: Init is actually each mission load I think, only really need this to run once per game load, but don't know the good spot currently
-      if GetMax and IsFunc(GetMax) then
-        ivar.range.max=GetMax()
-      end
-    end
-  end
-end
-
 function this.DeclareVars()
   local varTable={}
   --varTable={
@@ -3651,6 +3606,24 @@ function this.SetupIvars()
       ivar.MissionCheck=ivar.MissionCheck or IvarProc.MissionCheckAll
       ivar.EnabledForMission=IvarProc.IvarEnabledForMission
     end--is ivar
+  end
+end
+
+function this.PostModulesReload()
+  --tex check to see if theres a settingNames in InfLang
+  --has to be postmodules since InfLang is loaded after Ivars
+  --GOTCHA this will lock in language till next modules reload (not that there's any actual InfLang translations I'm aware of lol)
+  local settingsStr="Settings"
+  local languageCode=AssetConfiguration.GetDefaultCategory"Language"
+  local langTable=InfLang[languageCode] or InfLang.eng
+  for name,ivar in pairs(this) do
+    if IsIvar(ivar) then
+      local settingNames=name..settingsStr
+      if langTable[settingNames] then
+        ivar.settingNames=settingNames
+      end
+      ivar.settingNames=ivar.settingNames or ivar.settings--tex fall back to settings table
+    end
   end
 end
 

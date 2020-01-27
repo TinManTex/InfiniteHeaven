@@ -1155,7 +1155,7 @@ function this.Messages()
 			{
 				msg = "OnChangeLargeBlockState",
 				func = function( blockName , state)
-					if blockName == Fox.StrCode32( "afgh_remnants" ) and state == StageBlock.ACTIVE	then
+					if blockName == StrCode32( "afgh_remnants" ) and state == StageBlock.ACTIVE	then
 						Fox.Log("### OnChangeLargeBlockState : Remnants ###")
 						if TppSequence.GetCurrentSequenceIndex() == TppSequence.GetSequenceIndex("Seq_Game_MainGame")
 						or TppSequence.GetCurrentSequenceIndex() == TppSequence.GetSequenceIndex("Seq_Demo_EncountQuiet") then

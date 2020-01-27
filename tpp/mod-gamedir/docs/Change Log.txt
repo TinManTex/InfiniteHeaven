@@ -1,5 +1,32 @@
 Infinite Heaven changelog
 
+r189 - 2016-10-24
+Fixed: Skull attack not restarting if continuing from a save.
+Fixed: Crash on first encounter of Quiet in free roam with Skull attacks on - thanks Silverforte for the report and save file.
+
+Refactor: IvarProc/Ivars - ditched remants of profile ivars onsubsetting changed.
+Refactor: InfMain - reorganized functions something closer to execution flow
+
+Fixed: IvarProc.GetTableSetting for ivar settingsTable as array - affected Player type appearance option - thanks SoullessMadness, FullBody86 for the reports.
+
+Debug:
+InfLog.StrCode32 - passes through Fox.StrCode32 to a strcode>string lookup table
+InfLog.StrCode32ToString - uses above lookup table and TppDbgStr32s system to provide run time StrCode32ToString for registered strings.
+Option: debugMessages - prints on message system calls to log.
+Returned forced announcelog clear on SetGameStatus to toggled on debugMode, but also not InfLog.doneStartup so it can still show during startup.
+Module: InfLookup - consolidated various lookup functions.
+InfLog.AddFlow / ivar debugFlow - to mark/log program flow.
+
+Feature: Mist parasites/Sniper Skulls added to Skulls attack feature.
+Refactor: InfParasite - culled mixed appearance mode, need to get things clear between the individual types first. This fixes the missing health gauges though.
+Data: ih_parasite_mist.fpk/d adapted from mission packs
+Option: parasiteWeather - Weather on Skull attack - None, Parasite fog, Random
+(via World menu)
+
+r188 - 2016-10-18
+Fixed: Infinite load with Enemy heli patrols set to Enemy prep - thanks  Wanlorn for the report and save file to test with.
+Refactor: Most InfModule module calls wrapped in PCallDebug
+
 r187 - 2016-10-18
 Fixed: Infinite load on mission Episode 43 with Custom equip table with DD equip - thanks YoshimitsuYamada for the report and save file to test.
 
@@ -19,6 +46,8 @@ Refactor: InfMBVisit messages and calls shifted from InfMain into module
 Refactor: InfEnemyPhase from module based update to timer.
 Refactor: InfEneFova.RandomFaceId
 Feature: Camo parasites/Sniper Skulls added to Skulls attack feature.
+InfParasite reworked.
+Data: ih_parasite_camo.fpk/d adapted from s10130_area
 
 Profile: Updated Subsistence - Game, now should be pretty accurate to the regular subsistence missions settings - thanks TideGear for the prompting.
 

@@ -1,9 +1,10 @@
 -- DOBUILD: 1
+-- TppPlayer.lua
 local this={}
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
-local StrCode32=Fox.StrCode32
+local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
 local TimerStart=GkEventTimerManager.Start
 local TimerStop=GkEventTimerManager.Stop
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -816,9 +817,9 @@ function this.ShowIconForIntel(e,t)
   end
   if not t then
     if Tpp.IsNotAlert()then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=Fox.StrCode32"GetIntel",messageInDisplay=Fox.StrCode32"IntelIconInDisplay",messageArg=e}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=StrCode32"GetIntel",messageInDisplay=Fox.StrCode32"IntelIconInDisplay",messageArg=e}
     elseif trapName then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG,message=Fox.StrCode32"NGIntel",messageInDisplay=Fox.StrCode32"IntelIconInDisplay",messageArg=e}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG,message=StrCode32"NGIntel",messageInDisplay=Fox.StrCode32"IntelIconInDisplay",messageArg=e}
       if not TppRadio.IsPlayed(TppRadio.COMMON_RADIO_LIST[TppDefine.COMMON_RADIO.CANNOT_GET_INTEL_ON_ALERT])then
         TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CANNOT_GET_INTEL_ON_ALERT)
       end
@@ -882,7 +883,7 @@ function this.ShowIconForQuest(e,a)
     a=mvars.ply_questStartFlagInfo[e]
   end
   if not a then
-    Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=Fox.StrCode32"QuestStarted",messageInDisplay=Fox.StrCode32"QuestIconInDisplay",messageArg=e}
+    Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=StrCode32"QuestStarted",messageInDisplay=Fox.StrCode32"QuestIconInDisplay",messageArg=e}
   end
 end
 function this.QuestStarted(a)
@@ -1577,8 +1578,8 @@ this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFal
 function this.Messages()
   local messageTable=Tpp.StrCode32Table{
     Player={
-      {msg="CalcFultonPercent",func=function(t,gameId,o,a,staffOrResourceId)
-        this.MakeFultonRecoverSucceedRatio(t,gameId,o,a,staffOrResourceId,false)
+      {msg="CalcFultonPercent",func=function(unk1,gameId,unk2,unk3,staffOrResourceId)
+        this.MakeFultonRecoverSucceedRatio(unk1,gameId,unk2,unk3,staffOrResourceId,false)
       end},
       {msg="CalcDogFultonPercent",func=function(r,gameId,o,a,staffOrResourceId)
         this.MakeFultonRecoverSucceedRatio(r,gameId,o,a,staffOrResourceId,true)
@@ -1851,7 +1852,7 @@ this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
 }
-function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrResourceId,isDogFultoning)
+function this.MakeFultonRecoverSucceedRatio(unk1,_gameId,RENAMEanimalId,r,staffOrResourceId,isDogFultoning)
   local gameId=_gameId
   local percentage=0
   local baseLine=100

@@ -338,7 +338,7 @@ this.missionStartPosition = {
 
 
     if demoName and this.IsRideOnHeliDemo( demoName )
-      and gvars.heli_missionStartRoute == Fox.StrCode32(DROP_ROUTE_USE_SORTIE_DEMO) then
+      and gvars.heli_missionStartRoute == StrCode32(DROP_ROUTE_USE_SORTIE_DEMO) then
       Fox.Log("Ride On Heli Demo:"..tostring(demoName) ..". :HeliStart")
       return true
     end
@@ -3660,7 +3660,7 @@ function this.HueyLookSnake()
       path="/Assets/tpp/motion/SI_game/fani/bodies/hyui/hyui/hyui_s_sna_look_act1.gani",
       autoFinish=true,
       enableMessage=true,
-      commandId=Fox.StrCode32("FinishLookSnake"),
+      commandId=StrCode32("FinishLookSnake"),
       enableGravity=false,
       enableCollision=false,
     } )

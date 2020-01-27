@@ -31,7 +31,7 @@ local routeTimeMbMin=3*60
 local routeTimeMbMax=6*60
 
 local routeTimeMin=4*60
-local routeTimeMax=5*60    
+local routeTimeMax=5*60
 
 local levelToColor={0,0,0,1,1,2}
 
@@ -53,10 +53,11 @@ this.heliNames={
     "EnemyHeli0000",
     "EnemyHeli0001",
     "EnemyHeli0002",
-    "EnemyHeli0003",
-    "EnemyHeli0004",
-    "EnemyHeli0005",
-    "EnemyHeli0006",
+  --tex reduced due to crash bug/match enemy_heli_<locaction>.fox2
+  --    "EnemyHeli0003",
+  --    "EnemyHeli0004",
+  --    "EnemyHeli0005",
+  --    "EnemyHeli0006",
   },
 }
 
@@ -274,15 +275,26 @@ function this.GetEnemyHeliColor()
     --local level=InfMain.GetAverageRevengeLevel()
     --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
 
-    local level=TppRevenge.GetRevenge
+    local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
     return levelToColor[level+1]
   end
 
   return Ivars.mbEnemyHeliColor:Get()
 end
 
+this.heliColors={
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
+}
+
+this.heliColorNames={
+  "DEFAULT",
+  "BLACK",
+  "RED",
+}
 function this.GetEnemyHeliColorName()
-  return InfMain.heliColorNames[this.GetEnemyHeliColor()+1]
+  return this.heliColorNames[this.GetEnemyHeliColor()+1]
 end
 
 local function ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliClusterId)
@@ -331,6 +343,8 @@ function this.Init(missionTable,currentChecks)
   if not IvarProc.EnabledForMission(this.heliEnableIvars) then
     return
   end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   local isMb=vars.missionCode==30050
   local isOuterPlat=vars.missionCode==30150 or vars.missionCode==30250
@@ -416,12 +430,11 @@ function this.Init(missionTable,currentChecks)
         end
 
         if heliColorType~=nil then
-          SendCommand(heliObjectId,{id="SetColoring",coloringType=heliColorType,fova=InfMain.heliColors[heliColorType].fova})
+          SendCommand(heliObjectId,{id="SetColoring",coloringType=heliColorType,fova=this.heliColors[heliColorType].fova})
         end
       end
     end
   end
-
 end
 
 function this.OnMissionCanStart(currentChecks)
@@ -439,6 +452,45 @@ function this.OnMissionCanStart(currentChecks)
   --InfLog.PrintInspect(this.enabledLzs)--DEBUG
   --this.SetRoutes()
 end
+
+function this.OnReload(missionTable)
+  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+    return
+  end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+function this.Messages()
+  return Tpp.StrCode32Table{
+    GameObject={
+      {msg="StartedPullingOut",func=function()
+        --InfLog.DebugPrint("StartedPullingOut")--DEBUG
+        --this.heliSelectClusterId=nil
+        end}
+    },
+    Terminal={
+      {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
+        --InfLog.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
+        this.heliSelectClusterId=clusterId
+      end},
+      {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
+        --InfLog.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
+        this.heliSelectClusterId=clusterId
+      end},
+    },
+  }
+end
+
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
+    return
+  end
+
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+
+
 
 local searchLightOn={id="SetSearchLightForcedType",type="On"}
 local searchLightOff={id="SetSearchLightForcedType",type="On"}
@@ -562,7 +614,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
         if isMb then
           local prevCluster=heliRouteIds[n]--DEBUG
-          local clusterId=ChooseRandomHeliCluster(heliRouteIds,heliTimes,InfMain.heliSelectClusterId)
+          local clusterId=ChooseRandomHeliCluster(heliRouteIds,heliTimes,this.heliSelectClusterId)
           heliRouteIds[n]=clusterId
 
           --        local clusterTime=heliTimes[n]-elapsedTime--DEBUG

@@ -730,7 +730,7 @@ function this.Messages()
 				msg		= "SwitchGimmick",
 				func = function(gameObjectId, gameObjectName, name, switchFlag)
 					
-					if gameObjectName == Fox.StrCode32("ly003_cl02_item0000|cl02pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001") then
+					if gameObjectName == StrCode32("ly003_cl02_item0000|cl02pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001") then
 						this.PushSwitchOnEnterBattleHanger()
 						return
 					end					

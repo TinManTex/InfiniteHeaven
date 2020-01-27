@@ -585,7 +585,7 @@ this.routeSets = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideEV" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideEV" ) ] = {
 
 	{ 	func = function()
 
@@ -603,7 +603,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideEV" ) ] = {
 		end
 	},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "rideEvPlayer" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideEvPlayer" ) ] = {
 
 	{ 	func = function()
 
@@ -619,7 +619,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideEvPlayer" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideEvSol" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideEvSol" ) ] = {
 
 	{ 	func = function()
 			mvars.RideEvNum = mvars.RideEvNum + 1
@@ -633,7 +633,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideEvSol" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "outEV" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "outEV" ) ] = {
 
 	{ 	func = function()
 			Fox.Log("______________outEV")
@@ -659,7 +659,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "outEV" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "outEV2" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "outEV2" ) ] = {
 
 	{ 	func = function()
 
@@ -675,7 +675,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "outEV2" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "setBring" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "setBring" ) ] = {
 
 	{ 	func = function()
 			
@@ -687,7 +687,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "setBring" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideSkull" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideSkull" ) ] = {
 
 	{ 	func = function()
 			Fox.Log( "rideSkull playerState:" .. mvars.PlayerStateForSkull .. " skullState:" .. mvars.SkullFaceState )
@@ -726,7 +726,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideSkull" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideCar" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideCar" ) ] = {
 
 	{ 	func = function()
 
@@ -748,7 +748,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideCar" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "startVehicle" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "startVehicle" ) ] = {
 
 	{ 	func = function()
 			
@@ -767,19 +767,19 @@ this.routeChangeTableRoot[ Fox.StrCode32( "startVehicle" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "talk_skull01" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "talk_skull01" ) ] = {
 	{ 	func = function()
 			this.TalkSkullFace("SFT_01")
 		end
 	},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "talk_skull02" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "talk_skull02" ) ] = {
 	{ 	func = function()
 			this.TalkSkullFace("SFT_02")
 		end
 	},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "talk_skull03" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "talk_skull03" ) ] = {
 	{ 	func = function()
 			this.TalkSkullFace("SFT_03")
 		end
@@ -788,7 +788,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "talk_skull03" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "wait_player" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "wait_player" ) ] = {
 	{ 	func = function()
 			GkEventTimerManager.Start( "SkullWarnsPlayerTimer" .. tostring( mvars.SkullFaceState ), 30 )
 		end
@@ -814,7 +814,7 @@ function this.Messages()
 					local skullRouteTable = this.skullRouteTable
 					
 					for i, tName in pairs(skullRouteTable) do
-						if sendM == Fox.StrCode32( i ) then
+						if sendM == StrCode32( i ) then
 							this.UpdateProgressSkullFace(id,sendM)
 							return
 						end
@@ -826,16 +826,16 @@ function this.Messages()
 			{	
 				msg = "RoutePoint2",
 				func = function (id,routeId,routeNode,sendM)
-					if sendM == Fox.StrCode32("rideCar") then
+					if sendM == StrCode32("rideCar") then
 						Fox.Log("id : "..tostring(id))
 						this.OnRoutePoint(nil,nil,nil,sendM)
 
-					elseif sendM == Fox.StrCode32("rideEvSol") then
+					elseif sendM == StrCode32("rideEvSol") then
 						this.OnRoutePoint(nil,nil,nil,sendM)
 						
-					elseif sendM == Fox.StrCode32("setBring") then
+					elseif sendM == StrCode32("setBring") then
 						this.OnRoutePoint(nil,nil,nil,sendM)
-					elseif sendM == Fox.StrCode32("startSecondStep") then
+					elseif sendM == StrCode32("startSecondStep") then
 						this.SkullFaceWalkSecondStep()
 					else
 						
@@ -878,8 +878,8 @@ function this.Messages()
 				msg = "EventGimmickFinish",
 				func = function ( GameObjectId, placedId )
 				
-					if placedId == Fox.StrCode32("afgh_elvt001_gim_n0000|srt_afgh_elvt001") then
-						this.OnRoutePoint(nil,nil,nil,Fox.StrCode32( "outEV" ))
+					if placedId == StrCode32("afgh_elvt001_gim_n0000|srt_afgh_elvt001") then
+						this.OnRoutePoint(nil,nil,nil,StrCode32( "outEV" ))
 					end
 				end
 			},
@@ -986,7 +986,7 @@ function this.Messages()
 		},
 		Trap = {
 			
-			{ msg = "Enter", sender = "trap_EvOurPlayer",	func = function() this.OnRoutePoint(nil,nil,nil,Fox.StrCode32( "outEV2" )) end },
+			{ msg = "Enter", sender = "trap_EvOurPlayer",	func = function() this.OnRoutePoint(nil,nil,nil,StrCode32( "outEV2" )) end },
 			{ msg = "Enter", sender = "trap_rideVehiclePlayerCheck",
 				func = function()
 					Fox.Log( "Enter trap_rideVehiclePlayerCheck skullState:" .. mvars.SkullFaceState )
@@ -1076,11 +1076,11 @@ this.OnRoutePoint = function( gameObjectId, routeId, routeNodeIndex, messageId )
 end
 
 this.OnRouteTalkSkull = function( gameObjectId, routeId, routeNodeIndex, messageId )
-	if messageId == Fox.StrCode32( "talk_skull01" )then
+	if messageId == StrCode32( "talk_skull01" )then
 		this.TalkSkullFace("SFT_01")
-	elseif messageId == Fox.StrCode32( "talk_skull02" )then
+	elseif messageId == StrCode32( "talk_skull02" )then
 		this.TalkSkullFace("SFT_02")
-	elseif messageId == Fox.StrCode32( "talk_skull02" )then
+	elseif messageId == StrCode32( "talk_skull02" )then
 		this.TalkSkullFace("SFT_02")
 	end
 end
@@ -1434,7 +1434,7 @@ this.UpdateProgressSkullFace = function(id,sendM)
 
 	
 	for i, tName in pairs(skullRouteTable) do
-		if sendM == Fox.StrCode32( i ) then
+		if sendM == StrCode32( i ) then
 			mvars.SkullFaceState = tName.progress
 			return
 		end
@@ -1723,7 +1723,7 @@ this.UpdateProgress = function(id,sendM)
 	
 	for i, tName in pairs(bringerRouteTable) do
 		
-		if sendM == Fox.StrCode32( i ) then
+		if sendM == StrCode32( i ) then
 			if id == SolAID then
 				mvars.BringerAState = tName.progress
 			elseif id == SolBID then

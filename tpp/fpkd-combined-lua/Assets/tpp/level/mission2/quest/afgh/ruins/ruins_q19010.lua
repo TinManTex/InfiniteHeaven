@@ -220,7 +220,7 @@ quest_step.QStep_Main = {
 					msg = "RoutePoint2",
 					func = function( gameObjectId, routeId, routeNodeIndex, messageId )
 						Fox.Log( "ruins_q19010.Messages(): msg:RoutePoint2")
-						if messageId == Fox.StrCode32("ConversationStart") then
+						if messageId == StrCode32("ConversationStart") then
 							this.RouteCallConversation( { "rt_quest_d_ene02_0001" }, { "rt_quest_d_ene01_0000" }, "CT10043_01", true )
 						end
 					end

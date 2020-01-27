@@ -5,6 +5,15 @@ local this={}
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 
+--STATE
+--soldier item drops
+this.inf_lastNeutralized={}--tex actually next can drop time
+this.inf_dropQueue={}
+
+--TUNE
+local dropTimeOut=7*60
+local dropTimer=0.6
+
 this.tppEquipTableTest={
   -- "EQP_SLD_SV",
   --  "EQP_SLD_PF_00",
@@ -956,13 +965,8 @@ function this.OnReload(missionTable)
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
---TUNE
-local dropTimeOut=7*60
-local dropTimer=0.6
 
-this.inf_lastNeutralized={}
-this.inf_dropQueue={}
-
+--soldier item drops
 function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
   --InfLog.PCall(function(gameId,sourceId,neutralizeType,neutralizeCause)--DEBUG
   local dropChance=Ivars.itemDropChance:Get()/Ivars.perSoldierCount
@@ -973,14 +977,11 @@ function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
   --tex have to manage table since reinforcements re-use gameobjects
   --a timeout after a few minutes should be fine
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
-  for _gameId,dropTimer in pairs(this.inf_lastNeutralized) do
-    if dropTimer<elapsedTime then
-      this.inf_lastNeutralized[_gameId]=nil
-    elseif _gameId==gameId then
-      --InfLog.DebugPrint"Neutralize - timeout not complete"--DEBUG
-      return
-    end
+  local lastNeutralized=this.inf_lastNeutralized[gameId]
+  if lastNeutralized and lastNeutralized>elapsedTime then
+    return
   end
+
   this.inf_lastNeutralized[gameId]=elapsedTime+dropTimeOut
 
   --    local neutralizeTypes={
@@ -1142,8 +1143,8 @@ local ivarNames={
 local maxEquipment=35--48
 function this.CreateCustomWeaponTable(missionCode)
   --InfLog.PCall(function(missionCode)--DEBUG
-    if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
-      return nil
+  if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
+    return nil
   end
 
   local strengthType=Ivars.weaponTableStrength:GetSettingName()

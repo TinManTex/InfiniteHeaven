@@ -610,7 +610,7 @@ function this.Messages()
 			{
 				msg = "ChangeToEnable", sender = TARGET_SENSHA.FRONT,		
 				func = function( instanceName, makerType, s_gameObjectId, identificationCode )
-					if identificationCode == Fox.StrCode32("Player") then
+					if identificationCode == StrCode32("Player") then
 						Fox.Log("****1st Sensha is Marked****")
 					else
 						Fox.Log("###NoPlayersensha###")
@@ -620,7 +620,7 @@ function this.Messages()
 			{
 				msg = "ChangeToEnable", sender = TARGET_SENSHA.BACK,			
 				func = function( instanceName, makerType, s_gameObjectId, identificationCode )
-					if identificationCode == Fox.StrCode32("Player") then
+					if identificationCode == StrCode32("Player") then
 						Fox.Log("****2nd Sensha is Marked****")
 					else
 						Fox.Log("###NoPlayersensha0000###")

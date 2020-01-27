@@ -19,6 +19,10 @@ function this.DisableEvent()
 end
 
 function this.OnMissionCanStart()
+  if Ivars.inf_event:Is"ROAM" then
+    this.DisableLzs()
+  end
+
   if not svars.ply_isUsedPlayerInitialAction then
     if this.inf_enabledEvents.CRASHLAND then
       TppHero.SetAndAnnounceHeroicOgrePoint({heroicPoint=-1,ogrePoint=-1},"destroyed_support_heli")
@@ -338,7 +342,7 @@ function this.GenerateWarGameEvent()
 
     if wargameBaseType=="INVASION" then
       ivar.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
-      Ivars.mbEnablePuppy:Set(0,true,true)--tex TODO will kill the puppy quest (aww) till user toggles the option again
+      Ivars.mbEnablePuppy:Set(0,true)--tex TODO will kill the puppy quest (aww) till user toggles the option again
     end
 
     IvarProc.ApplyProfile(warGamesBase[wargameBaseType],true)
@@ -346,7 +350,7 @@ function this.GenerateWarGameEvent()
 
     --custom config TODO: make generated config a seperate feature?
     --all the rest, for now just use enemy prep levels
-    --Ivars.revengeModeMB:Set("CUSTOM",true,true)
+    --Ivars.revengeModeMB:Set("CUSTOM",true)
     --tex for now just useing enemy prep levels (set via warGames table)
   --end)--
 end

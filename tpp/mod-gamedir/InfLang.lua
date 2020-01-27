@@ -50,16 +50,16 @@ this.eng={--english
   set_menu_off={">","Off"},
   --set_menu_reset={">","Reset"},
   set_goBackItem={">",">"},
-  set_dd_equip_range={"Short","Medium","Long","Random"},
+  mbSoldierEquipRangeSettings={"Short","Medium","Long","Random"},
   mbWarGamesProfileSettings={"Off","DD Training","Enemy Invasion","DD Infection","Zombie Obliteration (non DD)"},
-  set_mbDemoSelection={"Default","Play selected","Cutscenes disabled"},
+  mbDemoSelectionSettings={"Default","Play selected","Cutscenes disabled"},
   subsistenceProfileSettings={"Off","Pure","Bounder","Custom"},--CULL
-  set_unlock_sideops={"Off","Force Replayable","Force Open"},
+  unlockSideOpsSettings={"Off","Force Replayable","Force Open"},
   showLangCode="Show game language code",--r57
   language_code="Language code",--r58
   showPosition="Show position",--r58
   langOverride="Mod Menu translation override",--r60
-  set_lang_override={"Off","Chinese override Japanese"},--r60
+  langOverrideSettings={"Off","Chinese override Japanese"},--r60
   ospWeaponProfile="OSP Weapon Profile",--r68 --CULL
   ospWeaponProfileSettings={"Off","Pure - all cleared","Secondary free","Custom"},--r68 --CULL
   primaryWeaponOsp="Primary weapon OSP",--r68
@@ -358,7 +358,7 @@ this.eng={--english
   startOnFootMB_ALL="Start Mother base on foot",
   onFootSettingsNames={"Off","All but assault LZs","All LZs"},
   enemyHeliPatrol="Heli patrols in free roam",
-  enemyHeliPatrolSettingNames={"None","1","3","5","7","Enemy prep"},
+  enemyHeliPatrolSettings={"None","1","3","5","7","Enemy prep"},
   mbMoraleBoosts="Staff-wide morale boost for good visit",--r146
   mb_morale_visit_noticed="Word has spread of your visit",
   mb_morale_boosted="Staff-wide morale has improved due to your visit",
@@ -380,7 +380,7 @@ this.eng={--english
   restart_required=" will apply on next game restart",
   enableWalkerGearsMB="Walker gears",
   mbWalkerGearsColor="Walker gears type",
-  mbWalkerGearsColorSettingNames={
+  mbWalkerGearsColorSettings={
     "Soviet",
     "Rogue Coyote",
     "CFA",
@@ -391,7 +391,7 @@ this.eng={--english
     "Each gear random type",
   },
   mbWalkerGearsWeapon="Walker gears weapons",
-  mbWalkerGearsWeaponSettingNames={
+  mbWalkerGearsWeaponSettings={
     "Even split of weapons",
     "Minigun",
     "Missiles",
@@ -399,7 +399,7 @@ this.eng={--english
     "Each gear random type",
   },
   vehiclePatrolClass="Vehicle patrol class",
-  vehiclePatrolClassSettingNames={"Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep"},
+  vehiclePatrolClassSettings={"Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep"},
   event_announce="Event: %s",--event name
   event_forced="Event will start on next MB visit or Free Roam",
   forceGameEvent="Trigger random IH event",
@@ -520,19 +520,14 @@ this.eng={--english
   dropCurrentEquip="Drop current equip",
   enableQuickMenu="Enable QuickMenu",
   systemMenu="IH system menu",
+  parasiteWeather="Weather on Skull attack",
+  parasiteWeatherSettings={"None","Parasite fog","Random"},
 }--eng end
 
 this.help={}
 this.help.eng={
   clockTimeScale="Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.",
   playerRestrictionsMenu="Settings to customize the game challenge, including subsistence and OSP.",
-  subsistenceProfile=[[
-
-  Quickly set restrictions similar to Subsistence missions. 
-
-  Pure - similar to the games Subsistence mission settings with additional restrictions, 
-
-  Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.]],--CULL
   disableLzs="Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs",
   disableHeadMarkers="Disables markers above soldiers and objects",
   disableWorldMarkers="Disables objective and placed markers",

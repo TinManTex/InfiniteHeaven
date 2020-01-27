@@ -580,7 +580,7 @@ end
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "spy_escape_end" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "spy_escape_end" ) ] = {
 
 	{ 	func = function()
 			TppEnemy.SetSneakRoute( "hos_spy" , "rts_spy_rideStay")
@@ -588,7 +588,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "spy_escape_end" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideStay" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideStay" ) ] = {
 
 	{ 	func = function()
 			local diamondWestPhase = TppEnemy.GetPhase( "mafr_diamondWest_ob" )
@@ -607,7 +607,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideStay" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "spyFaint" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "spyFaint" ) ] = {
 
 	{ 	func = function()
 			svars.SpyStatus = s10081_sequence.SPY_STATUS.SPY_INJURED
@@ -628,7 +628,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "spyFaint" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "EndSpyHaven" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "EndSpyHaven" ) ] = {
 
 	{ 	func = function()
 			svars.SpyStatus = s10081_sequence.SPY_STATUS.SPY_HAVEN
@@ -643,7 +643,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "EndSpyHaven" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "spyEscapeTruck" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "spyEscapeTruck" ) ] = {
 
 	{ 	func = function()
 			svars.isPreliminaryFlag02 = true
@@ -665,18 +665,18 @@ this.routeChangeTableRoot[ Fox.StrCode32( "spyEscapeTruck" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "lrrpEnd_DW00" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "lrrpEnd_DW00" ) ] = {
 	{ beforeRouteName = "rts_diamondWest_drive_0000", afterRouteName = "rts_hunting_DW_0000_1",},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "lrrpEnd_DW01" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "lrrpEnd_DW01" ) ] = {
 	{ beforeRouteName = "rts_diamondWest_drive_0001", afterRouteName = "rts_hunting_DW_0001_1",},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "lrrpEnd_DOp00" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "lrrpEnd_DOp00" ) ] = {
 	{ beforeRouteName = "rts_dimondOp_drive", afterRouteName = "rts_hunting_DOp_0000_1",},
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "huntingShift" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "huntingShift" ) ] = {
 
 	
 	{ enemyName = "sol_bananaEast_0000", afterRouteName = "rts_hunting_BE_0000_1" },
@@ -700,24 +700,24 @@ this.routeChangeTableRoot[ Fox.StrCode32( "huntingShift" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "End_hunting_DW_0000_1" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "End_hunting_DW_0000_1" ) ] = {
 	{ beforeRouteName = "rts_hunting_DW_0000_1", afterRouteName = {"rts_hunting_DW_0000_2A","rts_hunting_DW_0000_2B"},},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "End_hunting_DW_0001_1" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "End_hunting_DW_0001_1" ) ] = {
 	{ beforeRouteName = "rts_hunting_DW_0001_1", afterRouteName = {"rts_hunting_DW_0001_2A","rts_hunting_DW_0001_2B"},},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "End_hunting_DOp_0000_1" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "End_hunting_DOp_0000_1" ) ] = {
 	{ beforeRouteName = "rts_hunting_DOp_0000_1", afterRouteName = {"rts_hunting_DOp_0000_2A","rts_hunting_DOp_0000_2B"},},
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "End_hunting_BE_0000_1" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "End_hunting_BE_0000_1" ) ] = {
 	{ beforeRouteName = "rts_hunting_BE_0000_1", afterRouteName = {"rts_hunting_BE_0000_2A","rts_hunting_BE_0000_2B"},},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "End_hunting_BE_0001_1" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "End_hunting_BE_0001_1" ) ] = {
 	{ beforeRouteName = "rts_hunting_BE_0001_1", afterRouteName = {"rts_hunting_BE_0001_2A","rts_hunting_BE_0001_2B"},},
 }
-this.routeChangeTableRoot[ Fox.StrCode32( "End_hunting_BE_0002_1" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "End_hunting_BE_0002_1" ) ] = {
 	{ beforeRouteName = "rts_hunting_BE_0002_1", afterRouteName = {"rts_hunting_BE_0002_2A","rts_hunting_BE_0002_2B"},},
 }
 

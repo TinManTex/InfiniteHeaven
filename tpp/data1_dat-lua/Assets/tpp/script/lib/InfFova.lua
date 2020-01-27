@@ -1948,7 +1948,7 @@ function this.CheckModelChange()
     return
   end
 
-  InfFova.SetFovaMod(Ivars.fovaSelection:Get()+1)
+  this.SetFovaMod(Ivars.fovaSelection:Get()+1)
 end
 
 --CALLER: InfMain.OnFadeInDirect

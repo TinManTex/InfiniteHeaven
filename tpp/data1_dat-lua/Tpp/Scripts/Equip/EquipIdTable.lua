@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW search EquipIdTable.equipTable
+-- DOBUILD: 0
 --EquipIdTable.lua
 --RETAILPATCH 1090 various additions
 local this={}--tex made local

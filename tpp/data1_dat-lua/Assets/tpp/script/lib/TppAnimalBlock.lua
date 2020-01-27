@@ -115,10 +115,10 @@ function this._GetAnimalBlockAreaName(areaSettings,maxAreaNum,areaKey,blockIndex
     local areaSetting=areaSettings[i]
     local areaExtents=areaSetting[areaKey]
     if CheckBlockArea(areaExtents,blockIndexX,blockIndexY)then
-      for a,e in ipairs(areaSetting.defines)do
-        if(not Tpp.IsTypeFunc(e.conditionFunc))or(e.conditionFunc())then
+      for i,areaDef in ipairs(areaSetting.defines)do
+        if(not Tpp.IsTypeFunc(areaDef.conditionFunc))or(areaDef.conditionFunc())then
           local time=TppClock.GetTime"number"
-          return e.keyList[time%#e.keyList+1],areaSetting.areaName
+          return areaDef.keyList[time%#areaDef.keyList+1],areaSetting.areaName
         end
       end
     end
@@ -182,12 +182,12 @@ function this._InitializeCommonAnimalSetting(animalType,animalSetting,setupTable
   end
   local timeLagClockTime=TppClock.ParseTimeString(timeLag,"number")
   local currentTime=TppClock.GetTime"number"
-  local n=0
+  local timeLagForAnimal=0
   if setupTable.isDead==false then
     if setupTable.isHerd==false then
       for animalIndex=0,(groupNumber-1)do
-        n=timeLagClockTime*animalIndex
-        if this._IsNight(currentTime,nightStartClockTime+n,nightEndClockTime+n)then
+        timeLagForAnimal=timeLagClockTime*animalIndex
+        if this._IsNight(currentTime,nightStartClockTime+timeLagForAnimal,nightEndClockTime+timeLagForAnimal)then
           this._SetRoute(setupTable.type,setupTable.locatorFormat,setupTable.nightRouteFormat,animalIndex)
         else
           this._SetRoute(setupTable.type,setupTable.locatorFormat,setupTable.routeFormat,animalIndex)
@@ -195,8 +195,8 @@ function this._InitializeCommonAnimalSetting(animalType,animalSetting,setupTable
       end
     else
       for animalIndex=0,(groupNumber-1)do
-        n=timeLagClockTime*animalIndex
-        if this._IsNight(currentTime,nightStartClockTime+n,nightEndClockTime+n)then
+        timeLagForAnimal=timeLagClockTime*animalIndex
+        if this._IsNight(currentTime,nightStartClockTime+timeLagForAnimal,nightEndClockTime+timeLagForAnimal)then
           this._SetHerdRoute(setupTable.type,setupTable.locatorFormat,setupTable.nightRouteFormat,animalIndex)
         else
           this._SetHerdRoute(setupTable.type,setupTable.locatorFormat,setupTable.routeFormat,animalIndex)

@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- Tpp.lua
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
 local type=type
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -387,8 +387,8 @@ function this.SetGameStatus(status)
     return
   end
   if IsTypeTable(except)then
-    for t,n in pairs(except)do
-      target[t]=n
+    for statusName,set in pairs(except)do
+      target[statusName]=set
     end
   end
   if enable then
@@ -422,15 +422,15 @@ function this.SetGameStatus(status)
       end
     end
     for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      local e=target[gameStatusName]
-      if e then
+      local set=target[gameStatusName]
+      if set then
         TppGameStatus.Set(scriptName,gameStatusName)
       end
     end
   end
-  -- CULL if Ivars.debugMode:Is()>0 then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
+  if Ivars.debugMode:Is()>0 or InfLog.doneStartup==false then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
     TppUiStatusManager.ClearStatus("AnnounceLog")
-  --end--<
+  end--<
 end
 function this.GetAllDisableGameStatusTable()
   local statusTable={}

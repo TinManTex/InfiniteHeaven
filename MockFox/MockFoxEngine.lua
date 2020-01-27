@@ -250,6 +250,11 @@ TppScriptVars={
   CATEGORY_ALL=255,
 }
 
+WeatherManager={}
+--VERIFY
+WeatherManager.FOG_TYPE_PARASITE=0
+WeatherManager.FOG_TYPE_NORMAL=1
+
 
 
 --SYNC mgsv 1.09

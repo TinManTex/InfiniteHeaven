@@ -815,7 +815,7 @@ this.Messages = function()
 					Fox.Log("*** makerType " .. tostring(markType) .. " ***")
 
 					
-					if markType == Fox.StrCode32("TYPE_ENEMY") then
+					if markType == StrCode32("TYPE_ENEMY") then
 						
 						if MalkerById == StrCode32("Player")	then
 							

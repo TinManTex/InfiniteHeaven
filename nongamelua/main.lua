@@ -319,11 +319,15 @@ mafr_travelPlans=require"mafr_travelPlans"
 InfInspect=require"InfInspect"
 
 IvarProc=require"IvarProc"
-Ivars=require"Ivars"
-InfLang=require"InfLang"
 InfButton=require"InfButton"
 InfParasite=require"InfParasite"
 InfMain=require"InfMain"
+
+Ivars=require"Ivars"
+Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfLog.PCall
+InfLang=require"InfLang"
+Ivars.PostModulesReload()
+
 InfMenuCommands=require"InfMenuCommands"
 InfMenuDefs=require"InfMenuDefs"
 InfMenu=require"InfMenu"

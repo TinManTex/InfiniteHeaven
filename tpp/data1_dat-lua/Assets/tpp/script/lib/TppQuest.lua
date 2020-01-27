@@ -1,11 +1,12 @@
 -- DOBUILD: 1
+-- TppQuest.lua
 local this={}
 local maxSteps=256
 local defaultStepNumber=0
 local questNameNone=0
 local defaultQuestBlockName="quest_block"
 local questStepClear="QStep_Clear"
-local StrCode32=Fox.StrCode32
+local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
@@ -1211,7 +1212,7 @@ function this.SpecialMissionStartSetting(missionClearType)
     TppMission.ResetIsStartFromHelispace()
     TppMission.SetIsStartFromFreePlay()
   elseif(missionClearType==TppDefine.MISSION_CLEAR_TYPE.QUEST_LOST_QUIET_END)then
-    gvars.heli_missionStartRoute=Fox.StrCode32"drp_s10260"
+    gvars.heli_missionStartRoute=StrCode32"drp_s10260"
     TppPlayer.SetStartStatusRideOnHelicopter()
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
@@ -2116,7 +2117,7 @@ function this.GetCurrentAreaName()
 end
 function this.SetCurrentQuestName(e)
   mvars.qst_currentQuestName=e
-  gvars.qst_currentQuestName=Fox.StrCode32(e)
+  gvars.qst_currentQuestName=StrCode32(e)
 end
 function this.ClearCurrentQuestName()
   mvars.qst_currentQuestName=nil
@@ -2978,7 +2979,7 @@ function this.GetTrapName(e)
   return"trap_preDeactiveQuestArea_"..e
 end
 function this._ChangeToEnable(instanceName,makerType,gameObjectId,identificationCode)
-  if identificationCode==Fox.StrCode32"Player"and this.IsInvoking()then
+  if identificationCode==StrCode32"Player"and this.IsInvoking()then
     local isEnemyQuestTarget=TppEnemy.IsQuestTarget(gameObjectId)
     local isGimmickQuestTarget=TppGimmick.IsQuestTarget(gameObjectId)
     local isAnimalQuestTarget=TppAnimal.IsQuestTarget(gameObjectId)

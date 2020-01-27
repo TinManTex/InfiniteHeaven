@@ -9,7 +9,7 @@
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r187
+-- Defaults/example of all profile options for IH r189
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -24,6 +24,7 @@ profiles.defaults={
 		enableParasiteEvent=0,--{ 0-1 } -- Enable Skull attacks in Free roam
 		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
 		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
+		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
 		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
 		randomizeMineTypes=0,--{ 0-1 } -- Randomize minefield mine types
 		additionalMineFields=0,--{ 0-1 } -- Enable additional minefields
@@ -233,6 +234,7 @@ profiles.defaults={
 		mbNpcRouteChange=0,--{ 0-1 } -- Soldiers move between platforms
 		mbEnableLethalActions=0,--{ 0-1 } -- Allow lethal actions
 		mbWargameFemales=0,--{ 0-100 } -- Women in Enemy Invasion mode (percentage)
+		mbWarGamesProfile=0,--{ OFF, TRAINING, INVASION, ZOMBIE_DD, ZOMBIE_OBLITERATION } -- Mother Base War Games
 		--Show characters menu
 		mbEnableOcelot=0,--{ 0-1 } -- Enable Ocelot
 		mbEnablePuppy=0,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog

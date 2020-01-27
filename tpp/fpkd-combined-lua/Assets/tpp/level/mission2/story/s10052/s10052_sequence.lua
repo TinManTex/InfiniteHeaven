@@ -145,7 +145,7 @@ this.ENABLE_DEFAULT_HELI_MISSION_CLEAR = true
 this.MAX_PLACED_LOCATOR_COUNT = 50
 
 this.NPC_ENTRY_POINT_SETTING = {
-	[Fox.StrCode32("lz_drp_remnants_S0000|rt_drp_remnants_S_0000")] = {
+	[StrCode32("lz_drp_remnants_S0000|rt_drp_remnants_S_0000")] = {
 		[EntryBuddyType.VEHICLE] = { Vector3(-426.173, 282.098, 1997.011), TppMath.DegreeToRadian( -131.9 ) }, 
 		[EntryBuddyType.BUDDY] = { Vector3(-431.167, 282.098, 2005.659), -131.9 }, 
 	},
@@ -903,7 +903,7 @@ function this.Messages()
 				msg		= "Finish",
 				func	= function( radioGroup, eventType )
 					Fox.Log( "#### s10052_sequence.Messages #### Message Radio Finished Received. radioGroup:" .. radioGroup .. ", eventType:" .. eventType )
-					if radioGroup == Fox.StrCode32( "s0052_rtrg6010" ) then
+					if radioGroup == StrCode32( "s0052_rtrg6010" ) then
 						Fox.Log( "#### s10052_sequence.Messages #### Go To Mission Finalize." )
 						TppMission.MissionFinalize()
 					end
@@ -1062,7 +1062,7 @@ this.CheckBlock = function( blockName, blockState )
 
 	Fox.Log( "#### s10052_sequence.CheckBlock #### blockName = " .. tostring(blockName).. ", blockState = " .. tostring(blockState) )
 	
-	if ( blockName == Fox.StrCode32("animal_block") ) then
+	if ( blockName == StrCode32("animal_block") ) then
 		
 		if ( blockState == ScriptBlock.TRANSITION_ACTIVATED ) then
 			
@@ -1482,7 +1482,7 @@ this.StartEventMonologue = function ( gameObjectId, label, flag )
 	local isSuccess = 1	
 	Fox.Log( "#### s10052_sequence.StartEventMonologue #### gameObjectId = " .. gameObjectId ..  ", label = " .. label .. ", flag = " .. flag )
 	
-	if ( label == Fox.StrCode32("speech052_carry010") ) and ( flag == isSuccess ) then
+	if ( label == StrCode32("speech052_carry010") ) and ( flag == isSuccess ) then
 		s10052_enemy.CallMonologue(TARGET_NAME, s10052_enemy.voiceTable.hostage.carry.missionTarget[2])
 	end
 end

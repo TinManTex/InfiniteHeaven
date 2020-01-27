@@ -3966,7 +3966,7 @@ function this.Messages()
 					if svars.isReserveFlag_08 == false then
 						if svars.reserveCount_01 == this.ENUM_EVENT_ESCORT_VEHICLE_SEQUENCE.STOP_ESCORT01 then
 							svars.isReserveFlag_08 = true
-							this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_VS_ESCORT_VEHICLE_01 ) }
+							this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_VS_ESCORT_VEHICLE_01 ) }
 						elseif svars.reserveCount_01 == this.ENUM_EVENT_ESCORT_VEHICLE_SEQUENCE.STOP_ESCORT01 then
 							svars.isReserveFlag_08 = true
 						end
@@ -3980,7 +3980,7 @@ function this.Messages()
 					if svars.isReserveFlag_09 == false then
 						if svars.reserveCount_01 == this.ENUM_EVENT_ESCORT_VEHICLE_SEQUENCE.STOP_SWAMPSOUTH then
 							svars.isReserveFlag_09 = true
-							this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_VW_ESCORT_VEHICLE_01 ) }
+							this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_VW_ESCORT_VEHICLE_01 ) }
 						else
 							svars.isReserveFlag_09 = true
 						end
@@ -3993,7 +3993,7 @@ function this.Messages()
 				sender = this.TIMER_LIST.ESCORT_START.timerName,
 				func = function()
 					if svars.eventSequenceIndex == this.ENUM_EVENT_VEHICLE_SEQUENCE.STOP_PFCAMPEAST then
-						this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_VS_PFCAMPEAST ) }
+						this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_VS_PFCAMPEAST ) }
 					end
 				end,
 			},
@@ -4002,7 +4002,7 @@ function this.Messages()
 				sender = this.TIMER_LIST.ESCORT_WAV_START.timerName,
 				func = function()
 					if svars.eventSequenceIndex == this.ENUM_EVENT_VEHICLE_SEQUENCE.STOP_PFCAMPEAST then
-						this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_VS_PFCAMPEAST ) }
+						this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_VS_PFCAMPEAST ) }
 					end
 				end,
 			},
@@ -4012,7 +4012,7 @@ function this.Messages()
 				func = function()
 					if svars.eventSequenceIndex < this.ENUM_EVENT_VEHICLE_SEQUENCE.STOP_PFCAMP then
 						
-						this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_PFCAMP_ACT_MOVE01 ) }
+						this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_PFCAMP_ACT_MOVE01 ) }
 					end
 				end,
 			},
@@ -4072,12 +4072,12 @@ function this.Messages()
 				func = function()
 					
 					if svars.eventSequenceIndex == this.ENUM_EVENT_VEHICLE_SEQUENCE.STOP_SWAMPSOUTH then
-						this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_SWAMPSOUTH_ACT_MOVE_START ) }
+						this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_SWAMPSOUTH_ACT_MOVE_START ) }
 					elseif DEBUG then
 						
 						if svars.eventSequenceIndex == this.ENUM_EVENT_VEHICLE_SEQUENCE.DEBUG_STOP_SWAMPSOUTH then
 							svars.eventSequenceIndex = this.ENUM_EVENT_VEHICLE_SEQUENCE.STOP_SWAMPSOUTH
-							this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_SWAMPSOUTH_ACT_MOVE_START ) }
+							this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_SWAMPSOUTH_ACT_MOVE_START ) }
 						elseif svars.eventSequenceIndex == this.ENUM_EVENT_VEHICLE_SEQUENCE.DEBUG_PARASITES then
 							svars.eventSequenceIndex = this.ENUM_EVENT_VEHICLE_SEQUENCE.STOP_SWAMPSOUTH
 						end
@@ -4088,7 +4088,7 @@ function this.Messages()
 				msg = "Finish",
 				sender = this.TIMER_LIST.EVENT_SWAMPSOUTH02.timerName,
 				func = function()
-					this.OnCommonFunc{ messageId = Fox.StrCode32( this.COMMON_MESSAGE_LIST.T_SWAMPSOUTH_ACT_MOVE_END ) }
+					this.OnCommonFunc{ messageId = StrCode32( this.COMMON_MESSAGE_LIST.T_SWAMPSOUTH_ACT_MOVE_END ) }
 				end,
 			},
 			
@@ -4926,7 +4926,7 @@ end
 
 this.OnChangeToEnable = function( instanceName, makerType, s_gameObjectId, identificationCode )
 	
-	if identificationCode == Fox.StrCode32("Player") then
+	if identificationCode == StrCode32("Player") then
 		if Tpp.IsSoldier( s_gameObjectId ) then
 			if this.IsAppearanceParasites() == false then
 				

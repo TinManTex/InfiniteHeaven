@@ -97,7 +97,7 @@ end
 
 
 local routeChangeTableRoot = {
-	[ Fox.StrCode32( "end_of_ish0non_q_title_look_idl" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_title_look_idl" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_title_idl.gani",
@@ -107,7 +107,7 @@ local routeChangeTableRoot = {
 		},
 		{ func = function() s10010_sequence.StartIshmaelLookTimer() end, }
 	},
-	[ Fox.StrCode32( "end_of_ish0non_s_lok_wgn" ) ] = {
+	[ StrCode32( "end_of_ish0non_s_lok_wgn" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_s_dr_patidl.gani",
@@ -118,7 +118,7 @@ local routeChangeTableRoot = {
 			rotationY = 0,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_s_lok_cir" ) ] = {
+	[ StrCode32( "end_of_ish0non_s_lok_cir" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_s_dr_patidl_ver2.gani",
@@ -129,7 +129,7 @@ local routeChangeTableRoot = {
 			rotationY = 0,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_s_1st_mov" ) ] = {
+	[ StrCode32( "end_of_ish0non_s_1st_mov" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_idl_l.gani",
@@ -138,7 +138,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_sof_2s_beh" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_sof_2s_beh" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_s_beh_idl.gani",
@@ -147,7 +147,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_s_beh_lok_2rn_new" ) ] = {
+	[ StrCode32( "end_of_ish0non_s_beh_lok_2rn_new" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_lok_l180.gani",
@@ -156,7 +156,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_lok_l180" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_lok_l180" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pep_fr.gani",
@@ -165,7 +165,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pep_fr" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pep_fr" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_idl_come_l_a.gani",
@@ -174,7 +174,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_idl_come_l_a" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_idl_come_l_a" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_lok_l180.gani",
@@ -183,7 +183,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_s_to_vol_demo" ) ] = {
+	[ StrCode32( "end_of_ish0non_s_to_vol_demo" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_idl_come_l_a.gani",
@@ -192,7 +192,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_4f_pnt1_to_pnt2" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_4f_pnt1_to_pnt2" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pep_l_a.gani",
@@ -201,7 +201,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pep_l_a" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pep_l_a" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_lok_r090.gani",
@@ -210,7 +210,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_lok_r090" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_lok_r090" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pep_l_a.gani",
@@ -219,7 +219,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_lok_bom_st" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_lok_bom_st" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_lok_bom_idl.gani",
@@ -228,7 +228,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_lok_bom_ed" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_lok_bom_ed" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pep_fr.gani",
@@ -237,7 +237,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_4f_pnt2_to_pnt3" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_4f_pnt2_to_pnt3" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_lok_l180.gani",
@@ -246,7 +246,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_4f_pnt3_to_pnt4" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_4f_pnt3_to_pnt4" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pep_fr.gani",
@@ -255,7 +255,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_4f_pnt4_to_pnt5" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_4f_pnt4_to_pnt5" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_lok_l180.gani",
@@ -264,19 +264,19 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_after_p21_010310_0000" ) ] = {
+	[ StrCode32( "end_of_rts_skull_after_p21_010310_0000" ) ] = {
 		{ routeId = "rts_skull_after_p21_010310_0003", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_after_p21_010310_0001" ) ] = {
+	[ StrCode32( "end_of_rts_skull_after_p21_010310_0001" ) ] = {
 		{ routeId = "rts_skull_after_p21_010310_0004", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_after_p21_010310_0002" ) ] = {
+	[ StrCode32( "end_of_rts_skull_after_p21_010310_0002" ) ] = {
 		{ routeId = "rts_skull_after_p21_010310_0005", },
 	},
-	[ Fox.StrCode32( "end_of_rts_ishmael_to_ev0000" ) ] = {
+	[ StrCode32( "end_of_rts_ishmael_to_ev0000" ) ] = {
 		{ eventName = "end_of_rts_ishmael_to_ev0000", },
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt1_come" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt1_come" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt1_idl.gani",
@@ -287,7 +287,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt1_to_pnt2" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt1_to_pnt2" ) ] = {
 		{
 			locatorName = "ishmael",
 			action = "PlayState",
@@ -301,7 +301,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt2_come" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt2_come" ) ] = {
 
 		{
 			locatorName = "ishmael",
@@ -313,7 +313,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt4_come" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt4_come" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt4_idl.gani",
@@ -324,7 +324,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt4_to_pnt5" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt4_to_pnt5" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt5_come.gani",
@@ -333,7 +333,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt5_come" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt5_come" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt5_idl.gani",
@@ -342,7 +342,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt5_to_pnt6" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt5_to_pnt6" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt6_idl.gani",
@@ -353,7 +353,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt6_to_pnt8" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt6_to_pnt8" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt8_idl.gani",
@@ -364,7 +364,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt8_to_pnt9" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt8_to_pnt9" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt9_idl.gani",
@@ -374,7 +374,7 @@ local routeChangeTableRoot = {
 			rotationY = 44.0203,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt9_to_pnt10" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt9_to_pnt10" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt10_idl.gani",
@@ -382,7 +382,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt10_to_pnt11" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt10_to_pnt11" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt11_idl.gani",
@@ -392,7 +392,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt11_to_pnt12" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt11_to_pnt12" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt12_idl.gani",
@@ -402,7 +402,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt12_to_pnt13" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt12_to_pnt13" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt13_idl.gani",
@@ -411,7 +411,7 @@ local routeChangeTableRoot = {
 			rotationY = -90,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt13_to_pnt14" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt13_to_pnt14" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt14_hold.gani",
@@ -422,7 +422,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_dct0_guilty_a_come_1" ) ] = {	
+	[ StrCode32( "end_of_dct0_guilty_a_come_1" ) ] = {	
 		{
 			locatorName = "dct_p21_010410_0000",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/dct0/dct0/dct0_guilty_a_idl.gani",
@@ -431,7 +431,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_dct0_guilty_a_come_2" ) ] = {	
+	[ StrCode32( "end_of_dct0_guilty_a_come_2" ) ] = {	
 		{
 			locatorName = "dct_p21_010410_0000",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/dct0/dct0/dct0_guilty_a_idl.gani",
@@ -440,7 +440,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt14_hold" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt14_hold" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt14_idl.gani",
@@ -448,10 +448,10 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt15_to_pnt17" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt15_to_pnt17" ) ] = {	
 
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt19_to_pnt20" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt19_to_pnt20" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt20_idl.gani",
@@ -459,7 +459,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt20_to_pnt21" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt20_to_pnt21" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt21_idl.gani",
@@ -469,7 +469,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt22_cure" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt22_cure" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt22_demo_idl.gani",
@@ -480,7 +480,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt22_d2g_02" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt22_d2g_02" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt23_idl.gani",
@@ -495,7 +495,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt23_to_pnt23" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt23_to_pnt23" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt23_idl.gani",
@@ -503,7 +503,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt23_to_pnt24" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt23_to_pnt24" ) ] = {
 		{
 			locatorName = "ishmael",
 			action = "PlayState",
@@ -516,7 +516,7 @@ local routeChangeTableRoot = {
 			rotationY = 90,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt24_to_pnt25" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt24_to_pnt25" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt25_idl.gani",
@@ -526,7 +526,7 @@ local routeChangeTableRoot = {
 			idle = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt25_to_pnt26" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt25_to_pnt26" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt26_idl.gani",
@@ -536,7 +536,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt26_idl" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt26_idl" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt26_come.gani",
@@ -546,7 +546,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt26_come" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt26_come" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt26_idl.gani",
@@ -556,19 +556,19 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0002" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0002" ) ] = {
 		{ eventName = "curtainKill1", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0004" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0004" ) ] = {
 		{ eventName = "curtainKill2", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0006" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0006" ) ] = {
 		{ eventName = "curtainKill3", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0008_fire" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0008_fire" ) ] = {
 		{ eventName = "curtainKill4", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0008" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0008" ) ] = {
 		{
 			func = function()
 				if TppSequence.GetCurrentSequenceName() == "Seq_Game_CurtainRoom" then
@@ -578,7 +578,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_corridor_0000" ) ] = {
+	[ StrCode32( "end_of_rts_skull_corridor_0000" ) ] = {
 		{
 			func = function()
 				if TppSequence.GetCurrentSequenceName() == "Seq_Game_AfterCurtainRoom" then
@@ -587,7 +587,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0014" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0014" ) ] = {
 		{
 			locatorName = "sol_p21_010420_0000",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/enet/enetsmw/enetsmw_s_cypr_crtn_rom_01.gani",
@@ -598,13 +598,13 @@ local routeChangeTableRoot = {
 			enableCollision = false,
 		},
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0009" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0009" ) ] = {
 		{ routeId = "rts_skull_curtain_0012", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_curtain_0011" ) ] = {
+	[ StrCode32( "end_of_rts_skull_curtain_0011" ) ] = {
 		{ routeId = "rts_skull_curtain_0013", },
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt26_to_pnt27" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt26_to_pnt27" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt27_idl.gani",
@@ -615,7 +615,7 @@ local routeChangeTableRoot = {
 		},
 		{ func = function() s10010_sequence.OnEventFinished( "enter2F" ) end, },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_2F_0003" ) ] = {	
+	[ StrCode32( "end_of_rts_skull_2F_0003" ) ] = {	
 		{
 			func = function()
 				s10010_sequence.OnEventPlayed( "enemy2fAppear" )
@@ -624,7 +624,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt27_fre" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt27_fre" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt27_to_pnt28.gani",
@@ -640,7 +640,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt27_to_pnt28" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt27_to_pnt28" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt28_idl.gani",
@@ -650,7 +650,7 @@ local routeChangeTableRoot = {
 			rotationY = -152.6906,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt28_to_pnt29" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt28_to_pnt29" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt29_to_pnt30.gani",
@@ -659,7 +659,7 @@ local routeChangeTableRoot = {
 			rotationY = 180,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt29_to_pnt30" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt29_to_pnt30" ) ] = {
 
 
 
@@ -675,7 +675,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt30_to_pnt31" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt30_to_pnt31" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt31_sign.gani",
@@ -692,7 +692,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt31_sign" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt31_sign" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt31_idl.gani",
@@ -703,7 +703,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt31_fre" ) ] = {	
+	[ StrCode32( "end_of_ish0non_q_pnt31_fre" ) ] = {	
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt31_idl.gani",
@@ -714,7 +714,7 @@ local routeChangeTableRoot = {
 			again = true,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt31_to_pnt32" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt31_to_pnt32" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt32_idl.gani",
@@ -724,7 +724,7 @@ local routeChangeTableRoot = {
 			rotationY = 90,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt32_to_pnt33" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt32_to_pnt33" ) ] = {
 		{
 			locatorName = "ishmael",
 			motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_q_pnt33_idl.gani",
@@ -740,7 +740,7 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_ish0non_q_pnt33_to_pnt34" ) ] = {
+	[ StrCode32( "end_of_ish0non_q_pnt33_to_pnt34" ) ] = {
 		{
 			func = function()
 				mvars.playerStop2f0003 = false
@@ -748,19 +748,19 @@ local routeChangeTableRoot = {
 			end,
 		},
 	},
-	[ Fox.StrCode32( "end_of_rts_volgin_start" ) ] = {
+	[ StrCode32( "end_of_rts_volgin_start" ) ] = {
 		{ eventName = "volginRideVanish", },
 	},
-	[ Fox.StrCode32( "end_of_rts_volgin_vanish" ) ] = {
+	[ StrCode32( "end_of_rts_volgin_vanish" ) ] = {
 		{ eventName = "volginRideAppear", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_after_p21_010500_d_0000" ) ] = {
+	[ StrCode32( "end_of_rts_skull_after_p21_010500_d_0000" ) ] = {
 		{ routeId = "rts_skull_after_p21_010500_d_0006", },
 	},
-	[ Fox.StrCode32( "end_of_rts_skull_after_p21_010500_d_0007" ) ] = {
+	[ StrCode32( "end_of_rts_skull_after_p21_010500_d_0007" ) ] = {
 		{ routeId = "rts_skull_after_p21_010500_d_0008", },
 	},
-	[ Fox.StrCode32( "trap_Entrance_fall" ) ] = {
+	[ StrCode32( "trap_Entrance_fall" ) ] = {
 		{ routeId = "rts_skull_after_p21_010500_d_0007", },
 	},
 }
@@ -1797,7 +1797,7 @@ s10010_sequence.Messages = function()
 						if mvars.motionList[ locatorName ] and #mvars.motionList[ locatorName ] > 0 then
 							s10010_sequence.PlayMotion{ locatorName = locatorName, }
 						else
-							s10010_sequence.OnRoutePoint( gameObjectId, nil, 0, Fox.StrCode32( mvars.specialActioinName[ locatorName ] ) )
+							s10010_sequence.OnRoutePoint( gameObjectId, nil, 0, StrCode32( mvars.specialActioinName[ locatorName ] ) )
 						end
 					end
 
@@ -5261,7 +5261,7 @@ sequences.Seq_Demo_Opening = {
 
 
 	timerTable = {
-		[ Fox.StrCode32( "opening_before" ) ] = {
+		[ StrCode32( "opening_before" ) ] = {
 			name = "opening_before",
 			time = 0.1,
 			Func = function()
@@ -5272,7 +5272,7 @@ sequences.Seq_Demo_Opening = {
 			end,
 		},
 		
-		[ Fox.StrCode32( "opening_awake" ) ] = {
+		[ StrCode32( "opening_awake" ) ] = {
 			name = "opening_awake",
 			time = 2,
 			Func = function()
@@ -5282,7 +5282,7 @@ sequences.Seq_Demo_Opening = {
 				cypr_player_bed_and_corridor.SetFocusDistanceLimit( 0.33, 1 )
 			end,
 		},
-		[ Fox.StrCode32( "opening_open" ) ] = {
+		[ StrCode32( "opening_open" ) ] = {
 			name = "opening_open",
 			time = 5,
 			Func = function()
@@ -5290,7 +5290,7 @@ sequences.Seq_Demo_Opening = {
 				
 			end,
 		},
-		[ Fox.StrCode32( "opening_eyelid" ) ] = {
+		[ StrCode32( "opening_eyelid" ) ] = {
 			name = "opening_eyelid",
 			time = 8,
 			Func = function()
@@ -5298,7 +5298,7 @@ sequences.Seq_Demo_Opening = {
 				
 			end,
 		},
-		[ Fox.StrCode32( "opening_open2" ) ] = {
+		[ StrCode32( "opening_open2" ) ] = {
 			name = "opening_open2",
 			time = 10,
 			Func = function()
@@ -5656,7 +5656,7 @@ sequences.Seq_Demo_Opening = {
 sequences.Seq_Demo_FewDaysLater0 = {
 
 	timerTable = {
-		[ Fox.StrCode32( "fewDaysLater0_before" ) ] = {
+		[ StrCode32( "fewDaysLater0_before" ) ] = {
 			name = "fewDaysLater0_before",
 			time = 0.1,
 			Func = function()
@@ -5667,7 +5667,7 @@ sequences.Seq_Demo_FewDaysLater0 = {
 				s10010_sequence.SetPadMaskBed( false )
 			end,
 		},
-		[ Fox.StrCode32( "fewDaysLater0_open" ) ] = {
+		[ StrCode32( "fewDaysLater0_open" ) ] = {
 			name = "fewDaysLater0_open",
 			time = 3,
 			Func = function()
@@ -5675,14 +5675,14 @@ sequences.Seq_Demo_FewDaysLater0 = {
 				cypr_player_bed_and_corridor.SetEyelidFilterAverageTime( 10000 )
 			end
 		},
-		[ Fox.StrCode32( "fewDaysLater0_eyelid" ) ] = {
+		[ StrCode32( "fewDaysLater0_eyelid" ) ] = {
 			name = "fewDaysLater0_eyelid",
 			time = 15,
 			Func = function()
 				cypr_player_bed_and_corridor.SetEyelidFilterAverageTime( 1 )
 			end
 		},
-		[ Fox.StrCode32( "fewDaysLater0_eyelid2" ) ] = {
+		[ StrCode32( "fewDaysLater0_eyelid2" ) ] = {
 			name = "fewDaysLater0_eyelid2",
 			time = 20,
 			Func = function()
@@ -5690,7 +5690,7 @@ sequences.Seq_Demo_FewDaysLater0 = {
 				cypr_player_bed_and_corridor.SetFocusDistanceLimit( MAX_FOCUS_DISTANCE_LIMIT / 4, 25 )
 			end
 		},
-		[ Fox.StrCode32( "fewDaysLater0_open2" ) ] = {
+		[ StrCode32( "fewDaysLater0_open2" ) ] = {
 			name = "fewDaysLater0_open2",
 			time = 25,
 			Func = function()
@@ -6695,20 +6695,20 @@ sequences.Seq_Demo_FewDaysLater3 = {
 sequences.Seq_Demo_OneWeekLater = {
 
 	timerTable = {
-		[ Fox.StrCode32( "OneWeekLater_before" ) ] = { name = "OneWeekLater_before", time = 1, Func = function()
+		[ StrCode32( "OneWeekLater_before" ) ] = { name = "OneWeekLater_before", time = 1, Func = function()
 			cypr_player_bed_and_corridor.SetAperture( MAX_APERTURE / 4, 1 )
 			cypr_player_bed_and_corridor.SetFocusDistanceLimit( MAX_FOCUS_DISTANCE_LIMIT / 4, 1 )
 			cypr_player_bed_and_corridor.SetCameraRotationSpeedRate( MAX_CAMERA_RATE / 1.5 )
 			s10010_sequence.SetPadMaskBed( false )
 		end },
-		[ Fox.StrCode32( "OneWeekLater_open" ) ] = { name = "OneWeekLater_open", time = 3, Func = function()
+		[ StrCode32( "OneWeekLater_open" ) ] = { name = "OneWeekLater_open", time = 3, Func = function()
 			
 			
 		end },
-		[ Fox.StrCode32( "OneWeekLater_eyelid" ) ] = { name = "OneWeekLater_eyelid", time = 10, Func = function()
+		[ StrCode32( "OneWeekLater_eyelid" ) ] = { name = "OneWeekLater_eyelid", time = 10, Func = function()
 			
 		end },
-		[ Fox.StrCode32( "OneWeekLater_open2" ) ] = { name = "OneWeekLater_open2", time = 12, Func = function()
+		[ StrCode32( "OneWeekLater_open2" ) ] = { name = "OneWeekLater_open2", time = 12, Func = function()
 			
 			
 			cypr_player_bed_and_corridor.SetAperture( MAX_APERTURE / 2, 1 )
@@ -6846,20 +6846,20 @@ sequences.Seq_Game_PrepareBeforeTwoWeekLater = {
 sequences.Seq_Demo_TwoWeekLater = {
 
 	timerTable = {
-		[ Fox.StrCode32( "TwoWeekLater_before" ) ] = { name = "TwoWeekLater_before", time = 1, Func = function()
+		[ StrCode32( "TwoWeekLater_before" ) ] = { name = "TwoWeekLater_before", time = 1, Func = function()
 			
 			cypr_player_bed_and_corridor.SetFocusDistanceLimit( MAX_FOCUS_DISTANCE_LIMIT / 2, 1 )
 			cypr_player_bed_and_corridor.SetCameraRotationSpeedRate( MAX_CAMERA_RATE / 1.5 )
 			s10010_sequence.SetPadMaskBed( false )
 		end },
-		[ Fox.StrCode32( "TwoWeekLater_open" ) ] = { name = "TwoWeekLater_open", time = 3, Func = function()
+		[ StrCode32( "TwoWeekLater_open" ) ] = { name = "TwoWeekLater_open", time = 3, Func = function()
 			
 			
 		end },
-		[ Fox.StrCode32( "TwoWeekLater_eyelid" ) ] = { name = "TwoWeekLater_eyelid", time = 10, Func = function()
+		[ StrCode32( "TwoWeekLater_eyelid" ) ] = { name = "TwoWeekLater_eyelid", time = 10, Func = function()
 			
 		end },
-		[ Fox.StrCode32( "TwoWeekLater_open2" ) ] = { name = "TwoWeekLater_open2", time = 12, Func = function()
+		[ StrCode32( "TwoWeekLater_open2" ) ] = { name = "TwoWeekLater_open2", time = 12, Func = function()
 			
 			
 			cypr_player_bed_and_corridor.SetAperture( MAX_APERTURE / 2, 1 )
@@ -7510,14 +7510,14 @@ sequences.Seq_Game_EscapeFromAwakeRoom = {
 					func = function( gameObjectId, motionEventName )
 						Fox.Log( "sequences.Seq_Game_EscapeFromAwakeRoom.Messages(): Player: NotifyCyprusMotionEvent: gameObjectId:" ..
 							tostring( gameObjectId ) .. ", motionEventName:" .. tostring( motionEventName ) )
-						if motionEventName == Fox.StrCode32( "MTEV_RAIL_ACTION_KNOCK_THE_CART_OVER" ) then	
+						if motionEventName == StrCode32( "MTEV_RAIL_ACTION_KNOCK_THE_CART_OVER" ) then	
 							Fox.Log( "sequences.Seq_Game_EscapeFromAwakeRoom.Messages(): Player: NotifyCyprusMotionEvent: MTEV_RAIL_ACTION_KNOCK_THE_CART_OVER" )
 							s10010_sequence.PushMotion{
 								locatorName = "ishmael",
 								motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_s_lok_wgn.gani",
 								specialActionName = "end_of_ish0non_s_lok_wgn",
 							}
-						elseif motionEventName == Fox.StrCode32( "MTEV_RAIL_ACTION_KNOCK_THE_CHAIR_OVER" ) then	
+						elseif motionEventName == StrCode32( "MTEV_RAIL_ACTION_KNOCK_THE_CHAIR_OVER" ) then	
 							Fox.Log( "sequences.Seq_Game_EscapeFromAwakeRoom.Messages(): Player: NotifyCyprusMotionEvent: MTEV_RAIL_ACTION_KNOCK_THE_CHAIR_OVER" )
 							s10010_sequence.PushMotion{
 								locatorName = "ishmael",
@@ -7617,7 +7617,7 @@ sequences.Seq_Game_AfterHeliDemo = {
 					func = function( gameObjectId, motionEventName )
 						Fox.Log( "sequences.Seq_Game_AfterHeliDemo.Messages(): Player: NotifyCyprusMotionEvent: gameObjectId:" ..
 							tostring( gameObjectId ) .. ", motionEventName:" .. tostring( motionEventName ) )
-						if motionEventName == Fox.StrCode32( "MTEV_RAIL_ACTION_ASHTRAY_WAS_TOPPLED" ) then	
+						if motionEventName == StrCode32( "MTEV_RAIL_ACTION_ASHTRAY_WAS_TOPPLED" ) then	
 							s10010_sequence.PushMotion{
 								locatorName = "ishmael",
 								motionPath = "/Assets/tpp/motion/SI_game/fani/bodies/ish0/ish0non/ish0non_s_beh_lok_2rn_new.gani",
@@ -7743,14 +7743,14 @@ sequences.Seq_Game_AfterVolginDemo = {
 					func = function( gameObjectId, motionEventName )
 						Fox.Log( "sequences.Seq_Game_AfterVolginDemo.Messages(): Player: NotifyCyprusMotionEvent: gameObjectId:" ..
 							tostring( gameObjectId ) .. ", motionEventName:" .. tostring( motionEventName ) )
-						if motionEventName == Fox.StrCode32( "MTEV_RAIL_ACTION_BENCH_EXPLOSION" ) then	
+						if motionEventName == StrCode32( "MTEV_RAIL_ACTION_BENCH_EXPLOSION" ) then	
 							s10010_sequence.OnEventPlayed( "explosion" )
 							s10010_sequence.OnEventFinished( "explosion" )
 							s10010_sequence.StartTimer( "Timer_IshmaelSpeak", 2 )
 							s10010_sequence.StartTimer( "Timer_IshmaelMove", 4 )
 							s10010_sequence.StartTimer( "Timer_PlayerMove", 6 )
 							s10010_sequence.ProhibitMove( true )
-						elseif motionEventName == Fox.StrCode32( "MTEV_TO_DEMO" ) then	
+						elseif motionEventName == StrCode32( "MTEV_TO_DEMO" ) then	
 							Fox.Log( "sequences.Seq_Game_AfterVolginDemo.Messages(): Player: NotifyCyprusMotionEvent: MTEV_to_DEMO" )
 							TppSequence.SetNextSequence( "Seq_Demo_Cure" )
 						end
@@ -7955,10 +7955,10 @@ sequences.Seq_Game_EnterSmokeRoom = {
 		Fox.Log( "sequences.Seq_Game_EnterSmokeRoom.OnEnter()" )
 
 		for i, enemyName in ipairs( self.enemyList ) do
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_BeforeSmokeRoom_0000" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_BeforeSmokeRoom_0000" ), GameObject.GetGameObjectId ( enemyName ) )
 		end
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_BeforeSmokeRoom_0001" ), GameObject.GetGameObjectId( "Player" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_BeforeSmokeRoom_0006" ), GameObject.GetGameObjectId( "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_BeforeSmokeRoom_0001" ), GameObject.GetGameObjectId( "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_BeforeSmokeRoom_0006" ), GameObject.GetGameObjectId( "Player" ) )
 
 		
 
@@ -8213,8 +8213,8 @@ sequences.Seq_Game_EscapeFromSmokeRoom = {
 		GameObject.SendCommand( GameObject.GetGameObjectId( "ishmael" ), { id = "CallMonologue", label = "ISHM_010", } )
 
 		for i, enemyName in ipairs( self.enemyList ) do
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_SmokeRoom_0000" ), GameObject.GetGameObjectId ( enemyName ) )
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_SmokeRoom_0001" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_SmokeRoom_0000" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_SmokeRoom_0001" ), GameObject.GetGameObjectId ( enemyName ) )
 		end
 
 	end,
@@ -8334,7 +8334,7 @@ sequences.Seq_Game_AfterHeliKillMobDemo = {
 					msg = "RoutePoint2",
 					func = function( gameObjectId, routeId, routeNodeIndex, messageId )
 						Fox.Log( "s10010_sequence.sequences.Seq_Game_AfterHeliKillMobDemo.Messages(): GameObject: RoutePoint2: WestHeli" )
-						if messageId == Fox.StrCode32( "end_of_rts_heli_4F_0000" ) and mvars.searchLightGameStarted then
+						if messageId == StrCode32( "end_of_rts_heli_4F_0000" ) and mvars.searchLightGameStarted then
 							if not mvars.ishmaelVoiceCount then
 								mvars.ishmaelVoiceCount = 0
 							end
@@ -8719,7 +8719,7 @@ sequences.Seq_Game_EscapeFromHeli = {
 	OnEnter = function( self )
 
 		for i, enemyName in ipairs( self.enemyList ) do
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_AfterSmokeRoom_0001" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_AfterSmokeRoom_0001" ), GameObject.GetGameObjectId ( enemyName ) )
 		end
 
 		
@@ -8731,7 +8731,7 @@ sequences.Seq_Game_EscapeFromHeli = {
 
 		Fox.Log( "sequences.Seq_Game_EscapeFromHeli.OnContinue()" )
 
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_AfterSmokeRoom_0010" ), GameObject.GetGameObjectId( "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_AfterSmokeRoom_0010" ), GameObject.GetGameObjectId( "Player" ) )
 
 		TppUI.ShowControlGuide{
 			actionName = "PLAY_DASH",
@@ -9020,10 +9020,10 @@ sequences.Seq_Game_Stairway = {
 			self.SetNextSequence( self )
 		end
 
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0015" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0000" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0015" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0001" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0000" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0002" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0000" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0003" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0015" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0000" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0015" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0001" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0000" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0002" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0000" ), GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010380_0003" ) )
 
 		s10010_sequence.StartTimer( "Timer_IshmaelMonologue0011", 1 )
 
@@ -9038,9 +9038,9 @@ sequences.Seq_Game_Stairway = {
 		Fox.Log( "sequences.Seq_Game_Stairway().OnContinue()" )
 
 		
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0012" ), GameObject.GetGameObjectId( "TppPlayer2", "Player" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0019" ), GameObject.GetGameObjectId( "TppPlayer2", "Player" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0021" ), GameObject.GetGameObjectId( "TppPlayer2", "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0012" ), GameObject.GetGameObjectId( "TppPlayer2", "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0019" ), GameObject.GetGameObjectId( "TppPlayer2", "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0021" ), GameObject.GetGameObjectId( "TppPlayer2", "Player" ) )
 
 		s10010_sequence.PushMotion{
 			locatorName = "ptn_p21_010380_0000",
@@ -9148,7 +9148,7 @@ s10010_sequence.MakeCorridorSequence = function( PlayDemo, sequenceDemoId, demoI
 					sender = sequenceDemoId,
 					func = function( demoId )
 						Fox.Log( "s10010_sequence.MakeCorridorSequence(): Message Received:" .. tostring( demoInterruptionMessage ) )
-						if demoId == Fox.StrCode32( sequenceDemoId ) then
+						if demoId == StrCode32( sequenceDemoId ) then
 							mvars.canSkip = true
 						end
 					end,
@@ -9159,7 +9159,7 @@ s10010_sequence.MakeCorridorSequence = function( PlayDemo, sequenceDemoId, demoI
 					sender = sequenceDemoId,
 					func = function( demoId )
 						Fox.Log( "s10010_sequence.MakeCorridorSequence(): Message Received: FinishMotion" )
-						if demoId == Fox.StrCode32( sequenceDemoId ) then
+						if demoId == StrCode32( sequenceDemoId ) then
 							mvars.canSkip = true
 						end
 					end,
@@ -9488,8 +9488,8 @@ sequences.Seq_Game_CurtainRoom = {
 
 
 		for i, enemyName in ipairs( self.enemyList ) do
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_CurtainRoom_0000" ), GameObject.GetGameObjectId ( enemyName ) )
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_CurtainRoom_0009" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_CurtainRoom_0000" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_CurtainRoom_0009" ), GameObject.GetGameObjectId ( enemyName ) )
 		end
 
 		TppEnemy.SetSneakRoute( "sol_p21_010420_0000", "rts_skull_curtain_0014", 0 )
@@ -9507,8 +9507,8 @@ sequences.Seq_Game_CurtainRoom = {
 
 	OnContinue = function( self )
 		Fox.Log( "sequences.Seq_Game_CurtainRoom.OnContinue()" )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_CurtainRoom_0008" ), GameObject.GetGameObjectId( "Player" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_DemoCurtain_0003" ), GameObject.GetGameObjectId( "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_CurtainRoom_0008" ), GameObject.GetGameObjectId( "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_DemoCurtain_0003" ), GameObject.GetGameObjectId( "Player" ) )
 	end,
 
 	OnUpdate = function( self )
@@ -9547,7 +9547,7 @@ sequences.Seq_Demo_CurtainRoom = {
 
 						local playerGameObjectId = GameObject.GetGameObjectId( "Player" )
 						for trapName, warpPointName in pairs( self.warpPointTable ) do
-							if s10010_sequence.IsGameObjectInTrap( playerGameObjectId, Fox.StrCode32( trapName ) ) then
+							if s10010_sequence.IsGameObjectInTrap( playerGameObjectId, StrCode32( trapName ) ) then
 								mvars.targetWarpPointName = warpPointName
 								break
 							end
@@ -9654,7 +9654,7 @@ sequences.Seq_Demo_CurtainRoom2 = {
 						Fox.Log( "s10010_sequence.sequences.Seq_Demo_CurtainRoom.Messages(): Demo: Play: demoId:" .. tostring( demoId ) )
 
 						local playerGameObjectId = GameObject.GetGameObjectId( "Player" )
-						if s10010_sequence.IsGameObjectInTrap( playerGameObjectId, Fox.StrCode32( "trap_DemoCurtain_0004" ) ) then
+						if s10010_sequence.IsGameObjectInTrap( playerGameObjectId, StrCode32( "trap_DemoCurtain_0004" ) ) then
 							local position, rotationY = Tpp.GetLocator( "CheckPointIdentifier", "warp_CurtainRoomDemo_0004" )
 							local rotationYRadian = TppMath.DegreeToRadian( rotationY )
 							GameObject.SendCommand( GameObject.GetGameObjectId( "TppPlayer2", "Player" ), { id = "Warp", pos = position, rotY = rotationYRadian } )
@@ -9890,13 +9890,13 @@ sequences.Seq_Game_AfterCurtainRoom = {
 			end
 		end
 
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010420_0000" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0001" ), GameObject.GetGameObjectId ( "sol_p21_010420_0000" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0002" ), GameObject.GetGameObjectId ( "sol_p21_010420_0000" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010420_0001" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0001" ), GameObject.GetGameObjectId ( "sol_p21_010420_0001" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010440_0002" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010440_0003" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010420_0000" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0001" ), GameObject.GetGameObjectId ( "sol_p21_010420_0000" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0002" ), GameObject.GetGameObjectId ( "sol_p21_010420_0000" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010420_0001" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0001" ), GameObject.GetGameObjectId ( "sol_p21_010420_0001" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010440_0002" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Corridor_0000" ), GameObject.GetGameObjectId ( "sol_p21_010440_0003" ) )
 
 		
 
@@ -9908,7 +9908,7 @@ sequences.Seq_Game_AfterCurtainRoom = {
 
 		Fox.Log( "sequences.Seq_Game_AfterCurtainRoom.OnContinue()" )
 
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_CurtainRoom_0007" ), GameObject.GetGameObjectId ( "Player" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_CurtainRoom_0007" ), GameObject.GetGameObjectId ( "Player" ) )
 
 	end,
 
@@ -10258,7 +10258,7 @@ sequences.Seq_Game_AfterCorridor = {
 
 						Fox.Log( "s10010_sequence.sequences.Seq_Game_EscapeFromEntrance.Messages(): TppSystem: NotifyCyprusTargetHit" )
 
-						if targetName == Fox.StrCode32( "offenceTarget_3f_0000" ) or targetName == Fox.StrCode32( "offenceTarget_1f_0003" ) then
+						if targetName == StrCode32( "offenceTarget_3f_0000" ) or targetName == StrCode32( "offenceTarget_1f_0003" ) then
 							vars.playerLife = 0
 						end
 
@@ -10284,8 +10284,8 @@ sequences.Seq_Game_AfterCorridor = {
 			self.SetNextSequence( self )
 		end
 
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_2F_0004" ), GameObject.GetGameObjectId ( "sol_p21_010490_0000" ) )
-		s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_Stairway_0012" ), GameObject.GetGameObjectId ( "sol_p21_010490_0003" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_2F_0004" ), GameObject.GetGameObjectId ( "sol_p21_010490_0000" ) )
+		s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_Stairway_0012" ), GameObject.GetGameObjectId ( "sol_p21_010490_0003" ) )
 
 		for i, offenceTargetName in ipairs( self.offenceTargetTable ) do
 			local dataBody = DataIdentifier.GetDataBodyWithIdentifier( "s10010_l01_sequence_DataIdentifier", offenceTargetName )
@@ -10730,7 +10730,7 @@ sequences.Seq_Game_GunTutorial = {
 							tostring( gameObjectId ) .. ", locatorName:" .. tostring( locatorName ) .. ", upperLocatorName:" .. tostring( upperLocatorName ) )
 
 						for i, fireTable in ipairs( self.fireList ) do
-							if fireTable and Fox.StrCode32( fireTable.extinguisherName ) == locatorName then
+							if fireTable and StrCode32( fireTable.extinguisherName ) == locatorName then
 								
 								if Tpp.IsTypeTable( fireTable.fireEffectList ) then
 									for j, fireEffectName in ipairs( fireTable.fireEffectList ) do
@@ -10760,7 +10760,7 @@ sequences.Seq_Game_GunTutorial = {
 						end
 
 						
-						if locatorName == Fox.StrCode32( "cypr_extn001_gim_n0002|srt_cypr_extn001" ) then
+						if locatorName == StrCode32( "cypr_extn001_gim_n0002|srt_cypr_extn001" ) then
 							TppMarker.Disable( "marker_extinguisher" )
 						end
 
@@ -10777,7 +10777,7 @@ sequences.Seq_Game_GunTutorial = {
 						for i, fireTable in ipairs( self.fireList ) do
 							if Tpp.IsTypeTable( fireTable.offenceTargetTable ) then
 								for offenceTargetName, offenceTargetTable in pairs( fireTable.offenceTargetTable ) do
-									if Fox.StrCode32( offenceTargetName ) == targetName and offenceTargetTable.instantDeath then
+									if StrCode32( offenceTargetName ) == targetName and offenceTargetTable.instantDeath then
 										vars.playerLife = 1
 									end
 								end
@@ -10795,7 +10795,7 @@ sequences.Seq_Game_GunTutorial = {
 						Fox.Log( "s10010_sequence.sequences.Seq_Game_GunTutorial.Messages(): Timer: Finish: timerName:" .. tostring( timerName ) )
 
 						for i, fireTable in ipairs( self.fireList )do
-							if Tpp.IsTypeTable( fireTable.timerTable ) and Fox.StrCode32( fireTable.timerTable.timerName ) == timerName then
+							if Tpp.IsTypeTable( fireTable.timerTable ) and StrCode32( fireTable.timerTable.timerName ) == timerName then
 								self.ActivateFire( fireTable, true )
 							end
 						end
@@ -11006,7 +11006,7 @@ sequences.Seq_Game_GunTutorial = {
 		end
 
 		for i, enemyName in ipairs( self.enemyList ) do
-			s10010_sequence.OnGameObjectEnterTrap( Fox.StrCode32( "trap_GameOver_2F_0003" ), GameObject.GetGameObjectId ( enemyName ) )
+			s10010_sequence.OnGameObjectEnterTrap( StrCode32( "trap_GameOver_2F_0003" ), GameObject.GetGameObjectId ( enemyName ) )
 		end
 
 		
@@ -11176,7 +11176,7 @@ sequences.Seq_Game_Entrance = {
 					msg = "Enter",
 					sender = "trap_Entrance_fall",
 					func = function()
-						s10010_sequence.OnRoutePoint( GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010500_0009" ), Fox.StrCode32( "rts_skull_after_p21_010500_d_0003" ), 0, Fox.StrCode32( "trap_Entrance_fall" ) )
+						s10010_sequence.OnRoutePoint( GameObject.GetGameObjectId( "TppSoldier2", "sol_p21_010500_0009" ), StrCode32( "rts_skull_after_p21_010500_d_0003" ), 0, StrCode32( "trap_Entrance_fall" ) )
 					end,
 				},
 				{	
@@ -11493,7 +11493,7 @@ sequences.Seq_Game_EscapeFromEntrance = {
 
 						Fox.Log( "s10010_sequence.sequences.Seq_Game_EscapeFromEntrance.Messages(): TppSystem: NotifyCyprusTargetHit" )
 
-						if targetName == Fox.StrCode32( "offenceTarget_1f_0000" ) or targetName == Fox.StrCode32( "offenceTarget_1f_0004" ) or targetName == Fox.StrCode32( "offenceTarget_1f_0006" ) then
+						if targetName == StrCode32( "offenceTarget_1f_0000" ) or targetName == StrCode32( "offenceTarget_1f_0004" ) or targetName == StrCode32( "offenceTarget_1f_0006" ) then
 							vars.playerLife = 1
 						end
 
@@ -11982,7 +11982,7 @@ sequences.Seq_Game_VolginRide = {
 
 						Fox.Log( "sequences.Seq_Game_VolginRide.Messages(): Trap: Enter: trapName:trap_VolginAttack1, gameObjectId:" .. tostring( gameObjectId ) )
 						if Tpp.IsPlayer( gameObjectId ) then	
-							GameObject.SendCommand( GameObject.GetGameObjectId( "volgin_vr" ), { id = "RequestAttack", attackType = Fox.StrCode32( "ChargeAttack" ), } )
+							GameObject.SendCommand( GameObject.GetGameObjectId( "volgin_vr" ), { id = "RequestAttack", attackType = StrCode32( "ChargeAttack" ), } )
 						end
 
 					end,
@@ -12510,7 +12510,7 @@ sequences.Seq_Game_VolginRide = {
 
 		local volginGameObjectId = GameObject.GetGameObjectId( "volgin_vr" )
 		GameObject.SendCommand( volginGameObjectId, { id = "SetFirewallInfo", firewallInfo= fireWallInfo, } )
-		GameObject.SendCommand( volginGameObjectId, { id = "RequestAttack", attackType = Fox.StrCode32( "FirewallAttack"), } )
+		GameObject.SendCommand( volginGameObjectId, { id = "RequestAttack", attackType = StrCode32( "FirewallAttack"), } )
 
 	end,
 

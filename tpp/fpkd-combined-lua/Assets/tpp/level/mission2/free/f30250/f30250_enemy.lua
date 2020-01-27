@@ -350,7 +350,7 @@ function this.SpecialAction( gameObjectId, enabled, path, enableDelayMotion )
         path			= path,
         autoFinish		= false,
         enableMessage	= true,
-        commandId		= Fox.StrCode32("CommandA"),
+        commandId		= StrCode32("CommandA"),
         enableGravity	= false,
         enableCollision	= false,
         enableGroupRate = enableDelayMotion,

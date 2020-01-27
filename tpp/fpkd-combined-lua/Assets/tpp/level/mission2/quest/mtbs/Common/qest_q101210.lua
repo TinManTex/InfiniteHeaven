@@ -163,7 +163,7 @@ quest_step.QStep_Start = {
 					func = function( cpGameObjectId, speechLabel, isSuccess )
 						Fox.Log( "this.Messages(): ConversationEnd Message Received. gameObjectId:" ..
 							tostring( gameObjectId ) .. ", speechLabel:" .. tostring( speechLabel ) .. ", isSuccess:" .. isSuccess )
-						if speechLabel == Fox.StrCode32("MB_story_18") then
+						if speechLabel == StrCode32("MB_story_18") then
 							this._ResetSoldiers()
 						end
 					end

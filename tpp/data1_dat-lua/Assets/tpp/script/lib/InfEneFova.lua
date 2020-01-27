@@ -1602,13 +1602,13 @@ function this.WildCardFova(bodies)
   local bodyInfo=this.GetFemaleWildCardBodyInfo()
   if bodyInfo then
     if bodyInfo.bodyId then
-      TppEneFova.SetupBodies(bodyInfo.bodyId,bodies)
+      this.SetupBodies(bodyInfo.bodyId,bodies)
     end
     if bodyInfo.soldierSubType then
       local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
       if bodyIdTable then
         for powerType,bodyTable in pairs(bodyIdTable)do
-          TppEneFova.SetupBodies(bodyTable,bodies)
+          this.SetupBodies(bodyTable,bodies)
         end
       end
     end
@@ -1620,7 +1620,7 @@ function this.WildCardFova(bodies)
 
   local maleBodyTable=this.wildCardBodyTable[locationName]
   if maleBodyTable then
-    TppEneFova.SetupBodies(maleBodyTable,bodies)
+    this.SetupBodies(maleBodyTable,bodies)
   end
   InfMain.RandomResetToOsTime()
   --end,bodies)--DEBUG
@@ -1779,6 +1779,111 @@ function this.PrintFaceInfo(faceId)
       end
   end
   end,faceId)--DEBUG
+end
+
+--In: bodyIds
+--In/Out: bodies
+local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
+function this.SetupBodies(bodyIds,bodies)
+  if bodyIds==nil then return end
+
+  if type(bodyIds)=="number"then
+    local bodyEntry={bodyIds,MAX_REALIZED_COUNT}
+    bodies[#bodies+1]=bodyEntry
+  elseif type(bodyIds)=="table"then
+    for n,bodyId in ipairs(bodyIds)do
+      local bodyEntry={bodyId,MAX_REALIZED_COUNT}
+      bodies[#bodies+1]=bodyEntry
+    end
+  end
+end
+
+local allowHeavyArmorStr="allowHeavyArmor"
+function this.ForceArmor(missionCode)
+  if IvarProc.EnabledForMission(allowHeavyArmorStr,missionCode) then
+    return true
+  end
+  --TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though), search in past versions
+  --  if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
+  --    return true
+  --  end
+
+  return false
+end
+
+this.enemySubTypes={
+  "Default",
+  "DD_A",
+  "DD_PW",
+  "DD_FOB",
+  "SKULL_CYPR",
+  "SKULL_AFGH",
+  "SOVIET_A",
+  "SOVIET_B",
+  "PF_A",
+  "PF_B",
+  "PF_C",
+  "CHILD_A",
+}
+
+this.soldierSubTypesForTypeName={
+  TYPE_DD={
+    "DD_A",
+    "DD_PW",
+    "DD_FOB",
+  },
+  TYPE_SKULL={
+    "SKULL_CYPR",
+    "SKULL_AFGH",
+  },
+  TYPE_SOVIET={
+    "SOVIET_A",
+    "SOVIET_B",
+  },
+  TYPE_PF={
+    "PF_A",
+    "PF_B",
+    "PF_C",
+  },
+  TYPE_CHILD={
+    "CHILD_A",
+  },
+}
+
+--tex maybe I'm missing something but not having luck indexing by EnemyType
+function this.SoldierTypeNameForType(soldierType)
+  if soldierType == nil then
+    return nil
+  end
+
+  if soldierType==EnemyType.TYPE_DD then
+    return "TYPE_DD"
+  elseif soldierType==EnemyType.TYPE_SKULL then
+    return "TYPE_SKULL"
+  elseif soldierType==EnemyType.TYPE_SOVIET then
+    return "TYPE_SOVIET"
+  elseif soldierType==EnemyType.TYPE_PF then
+    return "TYPE_PF"
+  elseif soldierType==EnemyType.TYPE_CHILD then
+    return "TYPE_CHILD"
+  end
+  return nil
+end
+
+function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil soldiertype because fsk that
+  local soldierTypeName=this.SoldierTypeNameForType(soldierType)
+  if soldierTypeName ~= nil then
+    local subTypes=this.soldierSubTypesForTypeName[soldierTypeName]
+    if subTypes ~= nil then
+      for n, _subType in pairs()do
+        if subType == _subType then
+          return true
+        end
+      end
+      return false
+    end
+  end
+  return true
 end
 
 return this

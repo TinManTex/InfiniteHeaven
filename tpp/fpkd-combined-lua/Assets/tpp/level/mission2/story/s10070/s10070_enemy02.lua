@@ -1117,7 +1117,7 @@ this.CheckUsingRouteName_EnemyHeli = function( routeName )
 	local gameObjectId = GameObject.GetGameObjectId("EnemyHeli" )
 	local usingRoute = GameObject.SendCommand( gameObjectId, { id="GetUsingRoute" } ) 
 
-	if usingRoute == Fox.StrCode32(routeName) then
+	if usingRoute == StrCode32(routeName) then
 		return true
 	else
 		return false

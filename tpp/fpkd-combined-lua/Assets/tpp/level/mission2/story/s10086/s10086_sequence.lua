@@ -140,7 +140,7 @@ for interrogationId, interrogationTable in pairs( SPEECH_TABLE ) do
 	if not Tpp.IsTypeTable( speechLabelList ) then
 		speechLabelList = { speechLabelList }
 	end
-	SPEECH_MESSAGE_MAP[ Fox.StrCode32( speechLabelList[ #speechLabelList ] ) ] = Fox.StrCode32( interrogationTable.message )
+	SPEECH_MESSAGE_MAP[ StrCode32( speechLabelList[ #speechLabelList ] ) ] = StrCode32( interrogationTable.message )
 end
 local MONOLOGUE_TABLE = {}	
 
@@ -637,33 +637,33 @@ end
 function s10086_sequence.SetUpRouteChange()
 
 	
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "start_of_rts_guard1_to_fake_target1_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "start_of_rts_guard1_to_fake_target1_0000" ) ] = {	
 		{ func = function() s10086_sequence.StartTimer( "Timer_WaitGuard1", 120 ) end, },
 		{ func = function() s10086_enemy.HostageRideVehicle( s10086_enemy.FAKE_TARGET1_NAME, "veh_s10086_0000" ) end, },
 		{ func = function() svars.reservedNumber0000 = 32 end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "ArriveAtFakeTarget1" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "ArriveAtFakeTarget1" ) ] = {	
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interrogator_interrogation1_0000", cautionRouteId = "rts_interrogator_interrogation1_0000", },
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_interrogation1_0000", cautionRouteId = "rts_interpreter_interrogation1_0000", },
 		{ enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_to_fake_target1_0001", cautionRouteId = "rts_guard1_to_fake_target1_0001", },
 		{ func = function() s10086_enemy.ChangeHostageRoute( s10086_enemy.FAKE_TARGET1_NAME, "rts_fake_target1_to_fake_target1_0000", s10086_enemy.GUARD1_NAME ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_guard1_to_fake_target1_0001" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_guard1_to_fake_target1_0001" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_interrogation1_0000", cautionRouteId = "rts_guard1_interrogation1_0000", },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_fake_target1_to_fake_target1_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_fake_target1_to_fake_target1_0000" ) ] = {	
 		{ func = function() s10086_enemy.ChangeHostageRoute( s10086_enemy.FAKE_TARGET1_NAME, "rts_fake_target1_interrogation_0000", s10086_enemy.GUARD1_NAME ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation1Ready" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation1Ready" ) ] = {	
 		{ func = function() s10086_sequence.StartTimer( "Timer_Interrogation1TimeOut", 120 ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation1Start" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation1Start" ) ] = {	
 		
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, func = function() s10086_sequence.CallConversation( s10086_sequence.CONVERSATION_TYPE.SWAMP_WEST_NEAR ) end },
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET1_NAME ), { id = "SetHostage2Flag", flag = "silent", on = true, } ) end, },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation1End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation1End" ) ] = {	
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interpreter_to_fake_target2_0000", cautionRouteId = "rts_interpreter_to_fake_target2_c_0000", },
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_to_fake_target2_0000", cautionRouteId = "rts_interpreter_to_fake_target2_c_0000", },
 		{ enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_to_fake_target3_0000", cautionRouteId = "rts_guard1_to_fake_target3_0000", },
@@ -679,20 +679,20 @@ function s10086_sequence.SetUpRouteChange()
 		{ func = function() s10086_sequence.StopTimer( "Timer_Interrogation1TimeOut" ) end },
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET1_NAME ), { id = "SetHostage2Flag", flag = "silent", on = false, } ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "StartToFakeTarget2" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "StartToFakeTarget2" ) ] = {	
 		{ func = function() svars.reservedNumber0000 = 47 end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "radio0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "radio0000" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, func = function() s10086_radio.WarnHostageKilled() end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "radio0001" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "radio0001" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, func = function() s10086_radio.AboutInterrogation() end, },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "FakeTarget1StartedToMoveToInterrogation" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "FakeTarget1StartedToMoveToInterrogation" ) ] = {	
 		{ func = s10086_radio.OnFakeTarget1TakenAway },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "MoveFakeTarget1End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "MoveFakeTarget1End" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_wait_0000", },
 		{
 			func = function()
@@ -702,23 +702,23 @@ function s10086_sequence.SetUpRouteChange()
 		},
 		{ func = s10086_radio.OnFakeTarget1FinishingMoving }
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "ArriveAtFakeTarget2" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "ArriveAtFakeTarget2" ) ] = {	
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyNameOnTheRoute = s10086_enemy.INTERROGATOR_NAME, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interrogator_interrogation2_0000", cautionRouteId = "rts_interrogator_interrogation2_0000", },
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_interrogation2_0000", cautionRouteId = "rts_interpreter_interrogation2_0000", },
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, enemyName = s10086_enemy.GUARD2_NAME, routeId = "rts_guard2_interrogation2_0000", cautionRouteId = "rts_guard2_interrogation2_0000", },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation2Ready" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation2Ready" ) ] = {	
 		{ func = function() s10086_sequence.StartTimer( "Timer_Interrogation2TimeOut", 120 ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation2Start" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation2Start" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, func = function() s10086_sequence.StopTimer( "Timer_WaitInterpreter" ) end },
 		{ enemyNameOnTheRoute = s10086_enemy.INTERROGATOR_NAME, func = function() s10086_sequence.StopTimer( "Timer_WaitInterrogator" ) end },
 		{ func = function() s10086_sequence.CallConversation( s10086_sequence.CONVERSATION_TYPE.SWAMP_WEST ) end },
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET2_NAME ), { id = "SetHostage2Flag", flag = "silent", on = true, } ) end, },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation2End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation2End" ) ] = {	
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interpreter_to_fake_target3_0000", cautionRouteId = "rts_interpreter_to_fake_target3_c_0000", },
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_to_fake_target3_0000", cautionRouteId = "rts_interpreter_to_fake_target3_c_0000", },
 		{ enemyName = s10086_enemy.GUARD2_NAME, routeId = "rts_guard2_execute2_0000", cautionRouteId = "rts_guard2_execute2_0000", },
@@ -728,15 +728,15 @@ function s10086_sequence.SetUpRouteChange()
 		{ func = function() s10086_sequence.StopTimer( "Timer_Interrogation2TimeOut" ) end },
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET2_NAME ), { id = "SetHostage2Flag", flag = "silent", on = false, } ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "WaitToExecute2End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "WaitToExecute2End" ) ] = {	
 		{ func = function() TppEnemy.UnsetSneakRoute( s10086_enemy.GUARD2_NAME ) end, },
 		{ func = function() TppEnemy.UnsetCautionRoute( s10086_enemy.GUARD2_NAME ) end, },
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD2_NAME, s10086_enemy.FAKE_TARGET2_NAME ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "StartToFakeTarget3" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "StartToFakeTarget3" ) ] = {	
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "VehicleMoveFinished" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "VehicleMoveFinished" ) ] = {	
 		{
 			func = function()
 				svars.reservedNumber0000 = 0
@@ -747,7 +747,7 @@ function s10086_sequence.SetUpRouteChange()
 		}
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "ArriveAtFakeTarget3" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "ArriveAtFakeTarget3" ) ] = {	
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_interrogation3_0000", cautionRouteId = "rts_interpreter_interrogation3_0000", },
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyNameOnTheRoute = s10086_enemy.INTERROGATOR_NAME, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interrogator_interrogation3_0000", cautionRouteId = "rts_interrogator_interrogation3_0000", },
 		{ func = function() s10086_enemy.ChangeHostageRoute( s10086_enemy.FAKE_TARGET1_NAME, "rts_fake_target1_interrogation3_0000" ) end },
@@ -755,30 +755,30 @@ function s10086_sequence.SetUpRouteChange()
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_interrogation3_0000", cautionRouteId = "rts_guard1_interrogation3_0000", },
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, enemyName = s10086_enemy.GUARD3_NAME, routeId = "rts_guard3_before_interrogation3_0000", cautionRouteId = "rts_guard3_before_interrogation3_0000", },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_guard3_before_interrogation3_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_guard3_before_interrogation3_0000" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD3_NAME, routeId = "rts_guard3_interrogation3_0000", cautionRouteId = "rts_guard3_interrogation3_0000", },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "mid_of_rts_fake_target1_interrogation3_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "mid_of_rts_fake_target1_interrogation3_0000" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_interrogation3_0001", cautionRouteId = "rts_guard1_interrogation3_0001", },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_fake_target1_interrogation3_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_fake_target1_interrogation3_0000" ) ] = {	
 		{ func = function() s10086_enemy.ChangeHostageRoute( s10086_enemy.FAKE_TARGET1_NAME, "" ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "mid_of_rts_fake_target3_interrogation3_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "mid_of_rts_fake_target3_interrogation3_0000" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD3_NAME, routeId = "rts_guard3_interrogation3_0001", cautionRouteId = "rts_guard3_interrogation3_0001", },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_guard3_interrogation3_0001" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_guard3_interrogation3_0001" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD3_NAME, routeId = "rts_guard3_interrogation3_0000", cautionRouteId = "rts_guard3_interrogation3_0000", },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_fake_target3_interrogation3_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_fake_target3_interrogation3_0000" ) ] = {	
 		{ func = function() s10086_enemy.ChangeHostageRoute( s10086_enemy.FAKE_TARGET3_NAME, "" ) end },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation3Ready" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation3Ready" ) ] = {	
 		{ func = function() s10086_sequence.StartTimer( "Timer_Interrogation3TimeOut", 180 ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation3Start" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation3Start" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, func = function() s10086_sequence.StopTimer( "Timer_WaitInterpreter" ) end, },
 		{ enemyNameOnTheRoute = s10086_enemy.INTERROGATOR_NAME, func = function() s10086_sequence.StopTimer( "Timer_WaitInterrogator" ) end, },
 		{ func = function() s10086_sequence.OnInterrogation3Ready() end },
@@ -786,7 +786,7 @@ function s10086_sequence.SetUpRouteChange()
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET3_NAME ), { id = "SetHostage2Flag", flag = "silent", on = true, } ) end, },
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation3End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation3End" ) ] = {	
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_wait_0000", cautionRouteId = "rts_interpreter_wait_0000", },
 		{ checkFunc = s10086_sequence.DoesNotBecomeAtNight, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interpreter_wait_0000", cautionRouteId = "rts_interpreter_wait_0000", },
 		{ enemyName = s10086_enemy.GUARD1_NAME, routeId = "rts_guard1_execute3_0000", cautionRouteId = "rts_guard1_execute3_0000", },
@@ -799,7 +799,7 @@ function s10086_sequence.SetUpRouteChange()
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET1_NAME ), { id = "SetHostage2Flag", flag = "silent", on = false, } ) end, },
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.FAKE_TARGET3_NAME ), { id = "SetHostage2Flag", flag = "silent", on = false, } ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "WaitToExecute3End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "WaitToExecute3End" ) ] = {	
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD1_NAME, s10086_enemy.FAKE_TARGET1_NAME ) end },
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD3_NAME, s10086_enemy.FAKE_TARGET3_NAME ) end },
 		{ func = function() TppEnemy.UnsetSneakRoute( s10086_enemy.GUARD1_NAME ) end, },
@@ -807,13 +807,13 @@ function s10086_sequence.SetUpRouteChange()
 		{ func = function() TppEnemy.UnsetSneakRoute( s10086_enemy.GUARD3_NAME ) end, },
 		{ func = function() TppEnemy.UnsetCautionRoute( s10086_enemy.GUARD3_NAME ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "StartToTarget" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "StartToTarget" ) ] = {	
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "ArriveAtTarget" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "ArriveAtTarget" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, enemyName = s10086_enemy.INTERPRETER_NAME, routeId = "rts_interpreter_interrogation4_0000", cautionRouteId = "rts_interpreter_interrogation4_0000", },
 		{ enemyNameOnTheRoute = s10086_enemy.INTERROGATOR_NAME, enemyName = s10086_enemy.INTERROGATOR_NAME, routeId = "rts_interrogator_interrogation4_0000", cautionRouteId = "rts_interrogator_interrogation4_0000", },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "MoveTargetEnd" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "MoveTargetEnd" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.TARGET_NAME, enemyName = s10086_enemy.GUARD4_NAME, routeId = "rts_guard4_interrogation4_0000", cautionRouteId = "rts_guard4_interrogation4_0000", },
 		{
 			enemyNameOnTheRoute = s10086_enemy.TARGET_NAME,
@@ -825,7 +825,7 @@ function s10086_sequence.SetUpRouteChange()
 		},
 		{ enemyNameOnTheRoute = s10086_enemy.TARGET_NAME, func = function() svars.isTargetInRoom = true end, }
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "end_of_rts_target_interrogation_0000" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "end_of_rts_target_interrogation_0000" ) ] = {	
 		{
 			enemyNameOnTheRoute = s10086_enemy.TARGET_NAME,
 			func = function()
@@ -835,10 +835,10 @@ function s10086_sequence.SetUpRouteChange()
 		},
 	}
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation4Ready" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation4Ready" ) ] = {	
 		{ func = function() s10086_sequence.StartTimer( "Timer_Interrogation4TimeOut", 180 ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation4Start" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation4Start" ) ] = {	
 		{ enemyNameOnTheRoute = s10086_enemy.INTERPRETER_NAME, func = function() s10086_sequence.StopTimer( "Timer_WaitInterpreter" ) end },
 		{ enemyNameOnTheRoute = s10086_enemy.INTERROGATOR_NAME, func = function() s10086_sequence.StopTimer( "Timer_WaitInterrogator" ) end },
 		
@@ -851,7 +851,7 @@ function s10086_sequence.SetUpRouteChange()
 		},
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.TARGET_NAME ), { id = "SetHostage2Flag", flag = "silent", on = true, } ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "Interrogation4End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "Interrogation4End" ) ] = {	
 		{ enemyName = s10086_enemy.GUARD4_NAME, routeId = "rts_guard4_execute4_0000", cautionRouteId = "rts_guard4_execute4_0000", },
 		{ func = function() TppEnemy.UnsetSneakRoute( s10086_enemy.INTERPRETER_NAME ) end, },
 		{ func = function() TppEnemy.UnsetCautionRoute( s10086_enemy.INTERPRETER_NAME ) end, },
@@ -860,23 +860,23 @@ function s10086_sequence.SetUpRouteChange()
 		{ func = function() s10086_sequence.StopTimer( "Timer_Interrogation4TimeOut" ) end },
 		{ func = function() GameObject.SendCommand( GameObject.GetGameObjectId( s10086_enemy.TARGET_NAME ), { id = "SetHostage2Flag", flag = "silent", on = false, } ) end, },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "WaitToExecute4End" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "WaitToExecute4End" ) ] = {	
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD4_NAME, s10086_enemy.TARGET_NAME ) end },
 		{ func = function() TppEnemy.UnsetSneakRoute( s10086_enemy.GUARD4_NAME ) end, },
 		{ func = function() TppEnemy.UnsetCautionRoute( s10086_enemy.GUARD4_NAME ) end, },
 	}
 
 
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "guard1ExcecutionReady" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "guard1ExcecutionReady" ) ] = {	
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD1_NAME, s10086_enemy.FAKE_TARGET1_NAME ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "guard2ExcecutionReady" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "guard2ExcecutionReady" ) ] = {	
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD2_NAME, s10086_enemy.FAKE_TARGET2_NAME ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "guard3ExcecutionReady" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "guard3ExcecutionReady" ) ] = {	
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD3_NAME, s10086_enemy.FAKE_TARGET3_NAME ) end },
 	}
-	s10086_sequence.routeChangeTableRoot[ Fox.StrCode32( "guard4ExcecutionReady" ) ] = {	
+	s10086_sequence.routeChangeTableRoot[ StrCode32( "guard4ExcecutionReady" ) ] = {	
 		{ func = function() s10086_enemy.ExecuteHostage( s10086_enemy.GUARD4_NAME, s10086_enemy.TARGET_NAME ) end },
 	}
 
@@ -1474,7 +1474,7 @@ function s10086_sequence.Messages()
 							end
 						end
 					elseif SPEECH_TABLE[ conversationType ] then
-						s10086_sequence.OnRoutePoint( s10086_enemy.INTERPRETER_NAME, nil, nil, Fox.StrCode32( SPEECH_TABLE[ conversationType ].message ) )
+						s10086_sequence.OnRoutePoint( s10086_enemy.INTERPRETER_NAME, nil, nil, StrCode32( SPEECH_TABLE[ conversationType ].message ) )
 					end
 
 				end
@@ -1497,14 +1497,14 @@ function s10086_sequence.Messages()
 
 					if mvars.currentMonologueTable[ gameObjectId ] then
 						local speechLabel = mvars.currentMonologueTable[ gameObjectId ]
-						local conversationType, nextSpeechLabel, currentSpeechLabel, speakerId = s10086_sequence.GetNextSpeechLabel( Fox.StrCode32( speechLabel ) )
+						local conversationType, nextSpeechLabel, currentSpeechLabel, speakerId = s10086_sequence.GetNextSpeechLabel( StrCode32( speechLabel ) )
 						Fox.Log( "s10086_sequence.Messages(): MonologueEnd: speechLabel:" .. tostring( speechLabel ) .. ", conversationType:" .. tostring( conversationType ) ..
 							", nextSpeechLabel:" .. tostring( nextSpeechLabel ) .. ", currentSpeechLabel:" .. tostring( currentSpeechLabel ) .. ", speakerId:" .. tostring( speakerId ) )
 
 						if conversationType and nextSpeechLabel then
 							s10086_sequence.CallConversation( conversationType, nextSpeechLabel )
 						else
-							s10086_sequence.OnRoutePoint( s10086_enemy.INTERPRETER_NAME, nil, nil, Fox.StrCode32( SPEECH_MESSAGE_MAP[ speechLabel ] ) )
+							s10086_sequence.OnRoutePoint( s10086_enemy.INTERPRETER_NAME, nil, nil, StrCode32( SPEECH_MESSAGE_MAP[ speechLabel ] ) )
 						end
 						mvars.currentMonologueTable[ gameObjectId ] = nil
 					end
@@ -1698,7 +1698,7 @@ function s10086_sequence.OnMarked( s_locatorName, markerType, targetGameObjectId
 	Fox.Log( "s10086_sequence.OnMarked(): s_locatorName:" .. tostring( s_locatorName ) .. ", markerType:" .. tostring( markerType ) ..
 		", targetGameObjectId:" .. tostring( targetGameObjectId ) .. ", s_sourceLocatorName:" .. tostring( s_sourceLocatorName ) )
 
-	if s_sourceLocatorName == Fox.StrCode32( "Player" ) and targetGameObjectId == GameObject.GetGameObjectId( s10086_enemy.INTERPRETER_NAME ) then	
+	if s_sourceLocatorName == StrCode32( "Player" ) and targetGameObjectId == GameObject.GetGameObjectId( s10086_enemy.INTERPRETER_NAME ) then	
 		svars.reservedBoolean0008 = true
 		s10086_radio.OnInterpreterMarked()
 	end
@@ -2129,7 +2129,7 @@ s10086_sequence.OnInterrogation3Ready = function()
 		end
 	end
 
-	s10086_sequence.OnRoutePoint( s10086_enemy.GUARD1_NAME, nil, nil, Fox.StrCode32( "Interrogation3End" ) )	
+	s10086_sequence.OnRoutePoint( s10086_enemy.GUARD1_NAME, nil, nil, StrCode32( "Interrogation3End" ) )	
 
 
 end
@@ -2255,7 +2255,7 @@ s10086_sequence.GetNextSpeechLabel = function( s_speechLabel )
 		end
 
 		for i, label in ipairs( speechLabelList ) do
-			if Fox.StrCode32( label ) == s_speechLabel then
+			if StrCode32( label ) == s_speechLabel then
 				local key, value = next( speechLabelList, i )
 				return conversationType, value, label, speakerId
 			end
@@ -2537,7 +2537,7 @@ sequences.Seq_Game_SearchTarget = {
 						if s10086_enemy.IsEnemyNormal( { s10086_enemy.GUARD1_NAME, s10086_enemy.INTERPRETER_NAME, s10086_enemy.INTERROGATOR_NAME, } ) then
 							s10086_sequence.StartTimer( "Timer_WaitGuard1", 60 )
 						else
-							s10086_sequence.OnRoutePoint( s10086_enemy.GUARD1_NAME, nil, nil, Fox.StrCode32( "Interrogation1End" ) )	
+							s10086_sequence.OnRoutePoint( s10086_enemy.GUARD1_NAME, nil, nil, StrCode32( "Interrogation1End" ) )	
 							s10086_enemy.SetCautionPhase()
 						end
 					end,
@@ -2604,21 +2604,21 @@ sequences.Seq_Game_SearchTarget = {
 					sender = "Timer_Interrogation1TimeOut",
 					func = function()
 						Fox.Log( "sequences.Seq_Game_SearchTarget.Messages(): Timer: Finish: Timer_Interrogation1TimeOut" )
-						s10086_sequence.OnRoutePoint( s10086_enemy.GUARD1_NAME, nil, nil, Fox.StrCode32( "Interrogation1End" ) )
+						s10086_sequence.OnRoutePoint( s10086_enemy.GUARD1_NAME, nil, nil, StrCode32( "Interrogation1End" ) )
 					end,
 				},
 				{	
 					msg = "Finish",
 					sender = "Timer_Interrogation2TimeOut",
 					func = function()
-						s10086_sequence.OnRoutePoint( s10086_enemy.INTERROGATOR_NAME, nil, nil, Fox.StrCode32( "Interrogation2End" ) )
+						s10086_sequence.OnRoutePoint( s10086_enemy.INTERROGATOR_NAME, nil, nil, StrCode32( "Interrogation2End" ) )
 					end,
 				},
 				{	
 					msg = "Finish",
 					sender = "Timer_Interrogation3TimeOut",
 					func = function()
-						s10086_sequence.OnRoutePoint( s10086_enemy.INTERROGATOR_NAME, nil, nil, Fox.StrCode32( "Interrogation3End" ) )
+						s10086_sequence.OnRoutePoint( s10086_enemy.INTERROGATOR_NAME, nil, nil, StrCode32( "Interrogation3End" ) )
 					end,
 				},
 				{	
@@ -2657,7 +2657,7 @@ sequences.Seq_Game_SearchTarget = {
 					msg = "Finish",
 					func = function( radioGroupNameHash )
 						Fox.Log( "sequences.Seq_Game_SearchTarget.Messages(): Radio: Finish:" )
-						if radioGroupNameHash == Fox.StrCode32( "s0086_oprg0090" ) then
+						if radioGroupNameHash == StrCode32( "s0086_oprg0090" ) then
 							TppMission.UpdateObjective{ objectives = { "marker_intel", }, }
 						end
 					end,

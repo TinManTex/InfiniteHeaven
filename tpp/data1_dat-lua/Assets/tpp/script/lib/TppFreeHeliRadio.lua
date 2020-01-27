@@ -1,5 +1,5 @@
 local this={}
-local n=Fox.StrCode32
+local StrCode32=Fox.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
 local band=bit.band
 local SendCommand=GameObject.SendCommand
@@ -32,7 +32,7 @@ end
 function this.Messages()
   return StrCode32Table{
     Player={
-      {msg="CalcFultonPercent",func=function(n,gameId,n,n,n)
+      {msg="CalcFultonPercent",func=function(unk1,gameId,unk2,unk3,staffOrResourceId)
         if Tpp.IsSoldier(gameId)then
           local radioName="f2000_rtrg0040"
           if(not TppRadio.IsPlayed(radioName)and TppRadio.IsPlayed"f2000_oprg0210")and(not TppStory.IsMissionCleard(10040))then
@@ -92,7 +92,7 @@ function this.Messages()
       {msg="Clock",sender="ChangeNightToDay",func=function(n,n)
         this.UnregistNvgOptionRadio()
       end},
-      {msg="ChangeWeathre",func=function(i)
+      {msg="ChangeWeathre",func=function(i)--RETAILBUG: typo
         local n="f2000_oprg0185"
         if i==TppDefine.WEATHER.SANDSTORM then
           this._RegisterOptionRadio(n)

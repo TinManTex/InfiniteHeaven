@@ -1,5 +1,5 @@
 = Infinite heaven =
-r187 - 2016-10-18
+r190 - 2016-10-24
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -21,6 +21,18 @@ Recent changes/additions
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+New for r189
+Fixed: Skull attack not restarting if continuing from a save.
+Fixed: Crash on first encounter of Quiet in free roam with Skull attacks on - thanks Silverforte for the report and save file.
+Fixed: Player type appearance option - thanks SoullessMadness, FullBody86 for the reports.
+
+Feature: Mist parasites/Sniper Skulls added to Skulls attack feature.
+Option: parasiteWeather - Weather on Skull attack - None, Parasite fog, Random
+(via World menu)
+
+New for r188
+Fixed: Infinite load with Enemy heli patrols set to Enemy prep - thanks  Wanlorn for the report and save file to test with.
 
 New for r187
 Fixed: Install IH batch file - thanks CantStoptheBipBop for the changes.
@@ -57,44 +69,6 @@ Option: loadExternalModules - reloads the lua files in MGSV_TPP\mod
 Feature: LoadExternalModules combo <Stance>,<Action>,<Ready weapon>,<Binoculars>
 
 Profiles: Added 'Subsistence - Game' to be closer to actual Game subsistence, leaving Pure as a kind of Subsistence+
-
-New for r184
-Fixed: Quick menu should not activate if holding a quick menu command button then holding the quick menu on button(CALL), will only be activated on quick menu on button(CALL) held then pressing a quick menu command button - thanks LucrassKelvac for your report.
-I'm aware some people will still have issue with how quick menu is activated, depending on how they play. Quick menu will be much more configurable in comming version.
-
-New for r183
-Fixed: Infinite load screen on traveling between free<>mission for some missions - thanks RealQi for the save file.
-
-New for r182
-Fixed: Being unable to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
-Option: Force enable Quaranine platform soldiers - in the normal game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
-(via Mother Base menu)
-Added: IH visit morale support for Quarantine plat.
-Added: Suit support for Quarantine plat.
-Added: Custom soldier equip for Quarantine plat - if you have been using the 'MB staff use custom equip' you will have to set it again this version as the update has reset it.
-Added: Skulls attack support for Quarantine plat - no seperate option, uses 'Enable Skull attacks in Free roam'. Alternatively can be triggered by attacking captured Skulls in the cells.
-Exposed: mbEnableLethalActions - Allow lethal actions - Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
-(via Mother Base menu)
-[youtube]dhnUkrCRFhU[/youtube]
-https://youtu.be/dhnUkrCRFhU
-
-New for r180
-Expanded the prior DD Equip options to 'Custom soldier equip menu' for Free,Mission,MB - now can include Soviet,PF and XOF weapons. Soldiers will be given a random weapon for the type they're assigned - thanks NasaNhak and others for the suggestion.
-(via the Enemy prep menu)
-[youtube]oJPEvQbenoE[/youtube]
-https://youtu.be/oJPEvQbenoE
-
-New for r179
-Fixed: Crash on exit from title having visited MB during the game session.
-Fixed: Infinite load on free roam if Attack heli class set to Random - thanks darkshadows97 for the report and save file.
-Option: Keep equipment Free<>Mission - Prevents equipment and weapons being reset when going between free-roam and missions. - thanks NasaNhak (yeah it only took me 5 months to actually look at it lol), and more recently XWolfJackX for the suggestion.
-(via Player restrictions menu)
-
-New for r178
-Feature: Custom profiles - You can now edit/creat custom setting profiles. See InfProfiles folder from the Infinite Heaven .zip
-
-Option: Filter faces - "Show all","Unique","Head fova mods" - filters the list of faces in the appearance menu
-Fixed: A number of player restriction options not applying - thanks Gambchon for the report.
 
 Disclaimer:
 ------------------------------

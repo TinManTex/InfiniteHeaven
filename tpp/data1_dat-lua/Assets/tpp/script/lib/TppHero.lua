@@ -504,7 +504,7 @@ function this.Messages()
           this.SetAndAnnounceHeroicOgrePoint(this.DYING_PARASITE,"destroyed_skull","destroyed_skull")
         elseif Tpp.IsBossQuiet(soldierId)then
           local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
-          if quietType==Fox.StrCode32"Cam"then
+          if quietType==StrCode32"Cam"then
             this.SetAndAnnounceHeroicOgrePoint(this.DYING_PARASITE,"destroyed_skull","destroyed_skull")
           end
         end

@@ -288,10 +288,10 @@ function this.OnRestoreSVars()
 	elseif TppSequence.GetMissionStartSequenceName() == "Seq_Game_SkullFaceToPlant" then
 
 		s10150_enemy02.SkullWalk()
-		s10150_enemy02.OnRoutePoint(nil,nil,nil,Fox.StrCode32( "outEV" ))
-		s10150_enemy02.OnRoutePoint(nil,nil,nil,Fox.StrCode32( "outEV2" ))
+		s10150_enemy02.OnRoutePoint(nil,nil,nil,StrCode32( "outEV" ))
+		s10150_enemy02.OnRoutePoint(nil,nil,nil,StrCode32( "outEV2" ))
 		mvars.PlayerStateForSkull = 110 
-		s10150_enemy02.OnRoutePoint(nil,nil,nil,Fox.StrCode32( "rideSkull" ))
+		s10150_enemy02.OnRoutePoint(nil,nil,nil,StrCode32( "rideSkull" ))
 		mvars.tmpSequenceName = "Seq_Game_SkullFaceToPlant"
 		s10150_enemy02.SetUpSkullSolBringPlayer(false)
 		s10150_enemy02.WarpSetRoute("trap_0100_EV3")
@@ -1046,7 +1046,7 @@ this.ActivatedBlock = function(blockName,blockState)
 	Fox.Log("________s10150_sequence.ActivatedBlock()_________")
 	Fox.Log("blockName is " .. tostring(blockName) .. " / blockState is " .. tostring(blockState))
 	
-	if blockName == Fox.StrCode32( "demo_block" ) then
+	if blockName == StrCode32( "demo_block" ) then
 		if blockState == ScriptBlock.TRANSITION_ACTIVATED then
 			if TppScriptBlock.GetCurrentPackListName( "demo_block" ) == "Demo_dummy_NPC01" then
 				this.ActivatedNPC01()
@@ -1234,7 +1234,7 @@ sequences.Seq_Game_MeetSkullFace = {
 					
 					msg = "ChangeToEnable", 
 					func = function(id,markType, s_gameObjectId, identificationCode)
-						if identificationCode == Fox.StrCode32("Player") then
+						if identificationCode == StrCode32("Player") then
 							if markType == StrCode32("TYPE_ENEMY") then
 								s10150_radio.MarkingXof()
 							end
@@ -1431,7 +1431,7 @@ sequences.Seq_Game_TalkSkullFace = {
 				{	
 					msg = "EventGimmickFinish",
 					func = function ( GameObjectId, placedId )
-						if placedId == Fox.StrCode32("afgh_elvt001_gim_n0000|srt_afgh_elvt001") then
+						if placedId == StrCode32("afgh_elvt001_gim_n0000|srt_afgh_elvt001") then
 							svars.isPlayerInEV = false
 							this.UnsetHoldPlayer()
 							self.SetLineWalkAfterEV()
@@ -1758,7 +1758,7 @@ sequences.Seq_Game_SkullFaceToPlant = {
 		Player.RequestToShowIcon {
 			type = ActionIcon.ACTION,
 			icon = ActionIcon.RIDE_VEHICLE,
-			message = Fox.StrCode32("RideOk"),
+			message = StrCode32("RideOk"),
 			messageArg = "message_arg"		
 		}
 	end,

@@ -1,6 +1,9 @@
 -- DOBUILD: 0 --DEBUGWIP changes to allow saving of gvars into config
 -- TppSave.lua
 local this={}
+
+local StrCode32=Fox.StrCode32
+
 local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
 this.saveQueueDepth=0
 this.saveQueueList={}
@@ -15,9 +18,9 @@ local function SetRequestSaveResult(requestSuccess)
   end
 end
 this.SAVE_RESULT_FUNCTION={
-  [Fox.StrCode32(TppDefine.CONFIG_SAVE_FILE_NAME)]=function(e)
+  [StrCode32(TppDefine.CONFIG_SAVE_FILE_NAME)]=function(e)
   end,
-  [Fox.StrCode32(TppDefine.PERSONAL_DATA_SAVE_FILE_NAME)]=function(e)
+  [StrCode32(TppDefine.PERSONAL_DATA_SAVE_FILE_NAME)]=function(e)
     if e==false then
       return
     end
@@ -25,8 +28,8 @@ this.SAVE_RESULT_FUNCTION={
       vars.isPersonalDirty=0
     end
   end,
-  [Fox.StrCode32(TppDefine.GAME_SAVE_FILE_NAME)]=SetRequestSaveResult,
-  [Fox.StrCode32(TppDefine.GAME_SAVE_FILE_NAME_TMP)]=SetRequestSaveResult
+  [StrCode32(TppDefine.GAME_SAVE_FILE_NAME)]=SetRequestSaveResult,
+  [StrCode32(TppDefine.GAME_SAVE_FILE_NAME_TMP)]=SetRequestSaveResult
 }
 function this.GetSaveFileVersion(category)
   return(TppDefine.SAVE_FILE_INFO[category].version+TppDefine.PROGRAM_SAVE_FILE_VERSION[category]*TppDefine.PROGRAM_SAVE_FILE_VERSION_OFFSET)
@@ -63,7 +66,7 @@ function this.IsSaving()
   return false
 end
 function this.IsSavingWithFileName(fileName)
-  if gvars.sav_SaveResultCheckFileName==Fox.StrCode32(fileName)then
+  if gvars.sav_SaveResultCheckFileName==StrCode32(fileName)then
     return true
   else
     return false
@@ -418,7 +421,7 @@ function this.DoSave(saveParams,n)
   end
   local saveResult=TppScriptVars.WriteSlotToFile(saveParams.savingSlot,fileName,needIcon)
   if r then
-    gvars.sav_SaveResultCheckFileName=Fox.StrCode32(fileName)
+    gvars.sav_SaveResultCheckFileName=StrCode32(fileName)
     if isCheckPoint then
       gvars.sav_isCheckPointSaving=true
     end

@@ -1131,7 +1131,7 @@ function this.Messages()
 						}
 						svars.isFlagForA		=	true		
 
-						if label == Fox.StrCode32("speech091_carry020") then
+						if label == StrCode32("speech091_carry020") then
 							GameObject.SendCommand( abductHostageId01, abductHostage_monologue_25 )
 						else
 								Fox.Log("***###Target01_NoMore_Monologue***")

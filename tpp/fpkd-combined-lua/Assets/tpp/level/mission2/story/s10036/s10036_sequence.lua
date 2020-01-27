@@ -20,11 +20,11 @@ this.ENABLE_DEFAULT_HELI_MISSION_CLEAR = true
 this.MAX_PLACED_LOCATOR_COUNT = 30
 
 this.NPC_ENTRY_POINT_SETTING = {
-	[ Fox.StrCode32("lz_drp_field_N0000|rt_drp_field_N_0000") ] = {
+	[ StrCode32("lz_drp_field_N0000|rt_drp_field_N_0000") ] = {
 		[EntryBuddyType.VEHICLE] = { Vector3(803.316, 335.879, 1655.081), TppMath.DegreeToRadian( 45 ) }, 
 		[EntryBuddyType.BUDDY] = { Vector3(792.560, 338.885, 1636.501), TppMath.DegreeToRadian( 45 ) }, 
 	},
-	[ Fox.StrCode32("lz_drp_field_W0000|rt_drp_field_W_0000") ] = {
+	[ StrCode32("lz_drp_field_W0000|rt_drp_field_W_0000") ] = {
 		[EntryBuddyType.VEHICLE] = { Vector3(-346.607, 276.141, 1716.993), TppMath.DegreeToRadian( 45 ) }, 
 		[EntryBuddyType.BUDDY] = { Vector3(-355.449, 276.317, 1720.251), TppMath.DegreeToRadian( 45 ) }, 
 	},
@@ -602,7 +602,7 @@ sequences.Seq_Game_MainGame = {
 					msg = "RoutePoint2",
 					func = function (gameObjectId, routeId ,routeNode, messageId )
 						Fox.Log("vip lrrp end"..routeId..routeNode..messageId )
-						if messageId == Fox.StrCode32( "endVipLrrp" )then
+						if messageId == StrCode32( "endVipLrrp" )then
 							if svars.isMoveVip == 0 then
 								svars.isMoveVip = 1
 								s10036_enemy.ChangeRouteSetsVIP()
@@ -627,7 +627,7 @@ sequences.Seq_Game_MainGame = {
 							else
 								
 							end
-						elseif messageId == Fox.StrCode32( "TalkStart" ) and svars.isFlag00 == false then
+						elseif messageId == StrCode32( "TalkStart" ) and svars.isFlag00 == false then
 							svars.isFlag00 = true
 							GkEventTimerManager.Start("Timer_StartTalk",9)
 							
@@ -696,7 +696,7 @@ sequences.Seq_Game_MainGame = {
 				{ 
 					msg = "ChangeToEnable", sender = TARGET_ENEMY_NAME, 
 					func = function(instanceName, makerType, s_gameObjectId, identificationCode )
-						if identificationCode == Fox.StrCode32("Player") then		
+						if identificationCode == StrCode32("Player") then		
 							Fox.Log("Fond Target")
 							TppMission.UpdateObjective{
 								objectives = { "marker_VIP_far", nil },

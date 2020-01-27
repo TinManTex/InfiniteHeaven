@@ -1,3 +1,4 @@
+-- TppSequence.lua
 local this={}
 local baseSequences={}
 local requiredSequences={}
@@ -454,7 +455,7 @@ function this.MakeSequenceMessageExecTable()
     end
   end
 end
-function this.OnChangeSVars(name,s)
+function this.OnChangeSVars(name,key)
   if name=="seq_sequence"then
     local s=d(svars.seq_sequence)
     if s==nil then

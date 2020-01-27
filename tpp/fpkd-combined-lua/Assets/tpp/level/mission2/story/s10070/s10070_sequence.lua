@@ -1014,7 +1014,7 @@ function this.Messages()
 				msg = "ChangeToEnable",
 				func = function ( instanceName, makerType, s_gameObjectId, identificationCode )
 					
-					if identificationCode == Fox.StrCode32("Player") then
+					if identificationCode == StrCode32("Player") then
 						Fox.Log("### Marker ChangeToEnable  ###"..instanceName )
 						local strWkr00 = StrCode32("wkr_s10070_0000")
 						local strWkr01 = StrCode32("wkr_s10070_0001")
@@ -1178,7 +1178,7 @@ function this.Messages()
 					Fox.Log("________s10070_sequence.OnScriptBlockStateTransition________")
 					Fox.Log("blockName is " .. tostring(blockName) .. "        / blockState is " .. tostring(blockState))
 					
-					if blockName == Fox.StrCode32( "npc_block" ) and blockState == ScriptBlock.TRANSITION_ACTIVATED then
+					if blockName == StrCode32( "npc_block" ) and blockState == ScriptBlock.TRANSITION_ACTIVATED then
 						if TppScriptBlock.GetCurrentPackListName( "npc_block" ) == "Huey" then
 								Fox.Log("*** npc_block Load::Huey ***")
 						elseif TppScriptBlock.GetCurrentPackListName( "npc_block" ) == "powerPlantHunger" then
@@ -1805,10 +1805,10 @@ end
 function this.CheckHeliStatusOnLZ()
 
 	local aiState = GameObject.SendCommand( { type="TppHeli2", index=0, }, { id="GetAiState" } )
-	if		aiState == Fox.StrCode32("WaitPoint") 			
+	if		aiState == StrCode32("WaitPoint") 			
 
-		or	aiState == Fox.StrCode32("Descent") 			
-		or	aiState == Fox.StrCode32("Landing") then		
+		or	aiState == StrCode32("Descent") 			
+		or	aiState == StrCode32("Landing") then		
 			Fox.Log("*** s10070_sequence:CheckHeliStatusOnLZ::true ***")
 			
 			return true
@@ -1822,8 +1822,8 @@ end
 function this.CheckHeliStatusOnExit()
 
 	local aiState = GameObject.SendCommand( { type="TppHeli2", index=0, }, { id="GetAiState" } )
-	if		aiState == Fox.StrCode32("PullOut") 		
-		or	aiState == Fox.StrCode32("") then			
+	if		aiState == StrCode32("PullOut") 		
+		or	aiState == StrCode32("") then			
 			Fox.Log("*** s10070_sequence:CheckHeliStatusOnExit::true ***")
 			
 			return true
@@ -1838,7 +1838,7 @@ end
 function this.CheckHeliStatusJustOnLZ()
 
 	local aiState = GameObject.SendCommand( { type="TppHeli2", index=0, }, { id="GetAiState" } )
-	if		aiState == Fox.StrCode32("Landing") or aiState == Fox.StrCode32("Descent") then	
+	if		aiState == StrCode32("Landing") or aiState == StrCode32("Descent") then	
 			Fox.Log("*** s10070_sequence:CheckHeliStatusJustOnLZ::true ***")
 			return true
 	else
@@ -1859,7 +1859,7 @@ function this.CheckHeliLanding()
 
 	
 	local aiState = GameObject.SendCommand( { type="TppHeli2", index=0, }, { id="GetAiState" } )
-	if aiState == Fox.StrCode32("Descent") or aiState == Fox.StrCode32("Landing") then
+	if aiState == StrCode32("Descent") or aiState == StrCode32("Landing") then
 		return
 	end
 
@@ -1902,7 +1902,7 @@ function this.CheckHeliLanding()
 			
 			s10070_sequence.Switch_DescentToLandingZone(true)	
 			
-			if aiState == Fox.StrCode32("WaitPoint") and mvars.isHeliLZTry == false then
+			if aiState == StrCode32("WaitPoint") and mvars.isHeliLZTry == false then
 				s10070_radio.RV_Enabled()
 				mvars.isHeliLZTry = true	
 			end
@@ -2175,7 +2175,7 @@ function this.ShowIconForRideMetalDemo( metalName, doneCheckFlag )
 			Player.RequestToShowIcon {
 				type = ActionIcon.ACTION,
 				icon = ActionIcon.RIDE_MGM,
-				message = Fox.StrCode32("Ride_WalkerGear"),
+				message = StrCode32("Ride_WalkerGear"),
 				messageArg = metalName,
 			}
 		elseif trapName then
@@ -2433,7 +2433,7 @@ sequences.Seq_Game_GoToSovietBase = {
 				{
 					msg = "OnChangeLargeBlockState",
 					func = function( blockName , state)
-						if blockName == Fox.StrCode32( "afgh_powerPlant" ) and state == StageBlock.ACTIVE	then
+						if blockName == StrCode32( "afgh_powerPlant" ) and state == StageBlock.ACTIVE	then
 							Fox.Log("*** Seq_Game_GoToSovietBase.OnChangeLargeBlockState afgh_powerPlant ***")
 							
 							local gameObjectId = { type="TppHuey2", index=0 }
@@ -2443,7 +2443,7 @@ sequences.Seq_Game_GoToSovietBase = {
 							if TppScriptBlock.GetCurrentPackListName( "demo_block" ) == "Demo_ContactHuey" then
 								TppScriptBlock.Unload( "demo_block" )
 							end
-						elseif blockName == Fox.StrCode32( "afgh_sovietBase" ) and state == StageBlock.ACTIVE	then
+						elseif blockName == StrCode32( "afgh_sovietBase" ) and state == StageBlock.ACTIVE	then
 							Fox.Log("*** Seq_Game_GoToSovietBase.OnChangeLargeBlockState afgh_sovietBase ***")
 							
 							if TppScriptBlock.GetCurrentPackListName( "demo_block" ) == "Demo_GetIntel" then
@@ -2499,7 +2499,7 @@ sequences.Seq_Game_GoToSovietBase = {
 					func = function ( instanceName, makerType, s_gameObjectId, identificationCode )
 						local gameObjectId = GameObject.GetGameObjectId("TppHuey2", TARGET_HUEY )
 						
-						if s_gameObjectId == gameObjectId and identificationCode == Fox.StrCode32("Player") then
+						if s_gameObjectId == gameObjectId and identificationCode == StrCode32("Player") then
 							Fox.Log("### Marking Huey ###")
 							TppMission.UpdateObjective{
 								objectives = { "target_huey", },
@@ -3128,15 +3128,15 @@ sequences.Seq_Game_EscapeSovietBase = {
 							
 							if( GameObjectId == GameObject.GetGameObjectId(TARGET_HUEY) )then
 								
-								if( speechLabel == Fox.StrCode32("speech070_carry060") )then	
+								if( speechLabel == StrCode32("speech070_carry060") )then	
 									mvars.isPlayedMonologue_Huey01_end = true
 									
 									TppMarker2System.EnableMarker{	gameObjectId = GameObject.GetGameObjectId( "TppCommonWalkerGear2", "wkr_s10070_sp" ),}
 									s10070_radio.MonologueAfterKazuRadio01()
-								elseif( speechLabel == Fox.StrCode32("speech070_carry120") )then	
+								elseif( speechLabel == StrCode32("speech070_carry120") )then	
 									mvars.isPlayedMonologue_Huey05_end = true
 									s10070_radio.MonologueAfterKazuRadio02()
-								elseif( speechLabel == Fox.StrCode32("speech070_carry100") )then	
+								elseif( speechLabel == StrCode32("speech070_carry100") )then	
 									
 									GkEventTimerManager.Start( "HueyRoleTimer", TIMER_HUEY_ROLE )
 								else
@@ -3930,7 +3930,7 @@ sequences.Seq_Game_EscapeSahelan = {
 								mvars.is1stHeliRadio = true
 							else
 								local aiState = GameObject.SendCommand( { type="TppHeli2", index=0, }, { id="GetAiState" } )
-								if aiState ~= Fox.StrCode32("Landing") or aiState ~= Fox.StrCode32("Descent") then
+								if aiState ~= StrCode32("Landing") or aiState ~= StrCode32("Descent") then
 									TppRadio.Play("s0070_rtrg0270", { delayTime = "short", isEnqueue = true } ) 
 								end
 							end

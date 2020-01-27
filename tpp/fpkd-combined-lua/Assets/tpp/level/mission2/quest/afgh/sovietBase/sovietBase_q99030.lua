@@ -461,7 +461,7 @@ function this.ShowIconForAiPodDemo( demoName, doneCheckFlag )
 			Player.RequestToShowIcon {
 				type = ActionIcon.ACTION,
 				icon = ActionIcon.AI_POD,
-				message = Fox.StrCode32("AiPod_Start"),
+				message = StrCode32("AiPod_Start"),
 				messageArg = demoName,
 			}
 		elseif trapName then

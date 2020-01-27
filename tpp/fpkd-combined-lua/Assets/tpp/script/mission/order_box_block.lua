@@ -1,4 +1,5 @@
 local order_box_block = {}
+local StrCode32=Fox.StrCode32
 local GetGameObjectId = GameObject.GetGameObjectId
 local NULL_ID = GameObject.NULL_ID
 
@@ -33,7 +34,7 @@ function order_box_block.ReserveMissionClearOnOrderBoxTrap( orderBoxName )
 	if orderBoxName and svars.acceptMissionId > 0 then
 		Fox.Log("order_box_block.ReserveMissionClearOnOrderBoxTrap. orderBoxName = " .. tostring(orderBoxName) )
 		mvars.mis_orderBoxName = orderBoxName
-		gvars.mis_orderBoxName = Fox.StrCode32( orderBoxName )
+		gvars.mis_orderBoxName = StrCode32( orderBoxName )
 		TppMission.ReserveMissionClear{
 			missionClearType = TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO,
 			nextMissionId = svars.acceptMissionId

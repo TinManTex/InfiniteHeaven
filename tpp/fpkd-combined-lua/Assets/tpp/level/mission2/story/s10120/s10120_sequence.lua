@@ -1116,7 +1116,7 @@ sequences.Seq_Game_LiquidFight = {
 				{
 					msg = "RoutePoint2",
 					func = function (gameObjectId, routeId ,routeNode, messageId )
-						if messageId == Fox.StrCode32( "ShootAtPlayerOnBoat" ) then
+						if messageId == StrCode32( "ShootAtPlayerOnBoat" ) then
 							Fox.Log("Set command ai")
 							local command = { id="SetCommandAi", commandType = CommandAi.LIQUID_ASSIST, }
 							GameObject.SendCommand( gameObjectId, command )							
@@ -1190,7 +1190,7 @@ sequences.Seq_Game_CallHeli = {
 				{
 					msg = "RoutePoint2",
 					func = function (gameObjectId, routeId ,routeNode, messageId)
-						if messageId == Fox.StrCode32( "RemoveMarker" ) then
+						if messageId == StrCode32( "RemoveMarker" ) then
 							local command = { id="SetMarkerEnabledCommand", alwaysDisable=true }
 							GameObject.SendCommand( gameObjectId, command )		
 						else

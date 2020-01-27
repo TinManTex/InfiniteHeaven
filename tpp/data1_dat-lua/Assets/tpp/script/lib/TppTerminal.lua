@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 local this={}
+local StrCode32=Fox.StrCode32
 local IsTypeTable=Tpp.IsTypeTable
 local SendCommand=GameObject.SendCommand
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -10,13 +11,13 @@ local budyIdLimit=4
 this.GMP_POSTER=500
 this.FOB_TUTORIAL_STATE={INIT=0,INTRODUCTION_CONSTRUCT_FOB=1,CONSTRUCT_FOB=2,INTRODUCTION_FOB_MISSIONS=3,FOB_MISSIONS=4,FINISH=127}
 this.unitLvAnnounceLogTable={
-  [Fox.StrCode32"Combat"]={up="unitLvUpCombat",down="unitLvDownCombat"},
-  [Fox.StrCode32"Develop"]={up="unitLvUpRd",down="unitLvDownRd"},
-  [Fox.StrCode32"Support"]={up="unitLvUpSupport",down="unitLvDownSupport"},
-  [Fox.StrCode32"Medical"]={up="unitLvUpMedical",down="unitLvDownMedical"},
-  [Fox.StrCode32"Spy"]={up="unitLvUpIntel",down="unitLvDownIntel"},
-  [Fox.StrCode32"PrantDev"]={up="unitLvUpBaseDev",down="unitLvDownBaseDev"},
-  [Fox.StrCode32"Security"]={up="unitLvUpSecurity",down="unitLvDownSecurity"}
+  [StrCode32"Combat"]={up="unitLvUpCombat",down="unitLvDownCombat"},
+  [StrCode32"Develop"]={up="unitLvUpRd",down="unitLvDownRd"},
+  [StrCode32"Support"]={up="unitLvUpSupport",down="unitLvDownSupport"},
+  [StrCode32"Medical"]={up="unitLvUpMedical",down="unitLvDownMedical"},
+  [StrCode32"Spy"]={up="unitLvUpIntel",down="unitLvDownIntel"},
+  [StrCode32"PrantDev"]={up="unitLvUpBaseDev",down="unitLvDownBaseDev"},
+  [StrCode32"Security"]={up="unitLvUpSecurity",down="unitLvDownSecurity"}
 }
 this.keyItemAnnounceLogTable={
   [TppMotherBaseManagementConst.DESIGN_3011]="key_item_3011",

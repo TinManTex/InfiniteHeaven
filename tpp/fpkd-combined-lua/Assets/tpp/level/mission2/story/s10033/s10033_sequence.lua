@@ -957,10 +957,10 @@ function this.Messages()
 						
 						if( GameObjectId == GameObject.GetGameObjectId(ESCAPE_HOSTAGE_NAME) )then
 							
-							if ( speechLabel ~= Fox.StrCode32("speech033_carry020") ) then
+							if ( speechLabel ~= StrCode32("speech033_carry020") ) then
 								
 								for index, labelName in ipairs( this.longMonologueList ) do
-									if ( speechLabel == Fox.StrCode32(labelName) ) then
+									if ( speechLabel == StrCode32(labelName) ) then
 										svars[labelName] = true
 										Fox.Log("s10033_mission Monologue speechLabel"..labelName)
 										Fox.Log("s10033_mission Monologue speechLabel".. tostring(svars[labelName]))

@@ -367,7 +367,7 @@ this.setSelectedCpToMarkerObjectCp={
       InfLog.DebugPrint"gameId==nil"
       return
     end
-    local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
+    local soldierName,cpName=InfLookup.ObjectNameForGameId(gameId)
     if cpName==nil then
       InfLog.DebugPrint"cpName==nil"
       return
@@ -603,6 +603,9 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
+  --DEBUGNOW
+    InfLog.Add"---------------------"
+
     --WIP
     --    local defaultSlot=true
     --    local onlyNonDefault=false
@@ -624,9 +627,14 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     --WIP
     InfLog.Add("-----")
-    local profilesFileName="InfSavedProfiles.lua"
-    local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)
-    InfLog.PrintInspect(savedProfiles)
+    --DEBUGNOW
+    --    for func, count in pairs(Counters) do
+    --      InfLog.Add(">> "..getname(func).." "..count)
+    --    end
+
+    --    local profilesFileName="InfSavedProfiles.lua"
+    --    local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)
+    --    InfLog.PrintInspect(savedProfiles)
 
 
     InfLog.DebugPrint("index2:"..index2)
@@ -687,7 +695,6 @@ this.DEBUG_RandomizeAllIvars={
       manualMissionCode=true,
       playerHandEquip=true,
       cpAlertOnVehicleFulton=true,
-      disableQuietHumming=true,
       enableGetOutHeli=true,
       selectedChangeWeapon=true,
       forceSoldierSubType=true,
@@ -746,7 +753,7 @@ this.DEBUG_RandomizeAllIvars={
       if i>=start then
 
         local ivar=Ivars[name]
-        ivar:Set(math.random(ivar.range.min,ivar.range.max),true)
+        ivar:Set(math.random(ivar.range.min,ivar.range.max))
 
         --if ivar.setting~=ivar.default then
         log=log..name.."\n"
@@ -797,7 +804,6 @@ this.DEBUG_SetIvarsToNonDefault={
       playerFaceIdApearance=true,
       playerHandEquip=true,
       cpAlertOnVehicleFulton=true,
-      disableQuietHumming=true,
       enableGetOutHeli=true,
       selectedChangeWeapon=true,
       forceSoldierSubType=true,
@@ -826,7 +832,7 @@ this.DEBUG_SetIvarsToNonDefault={
         value=ivar.default-ivar.range.increment
       end
 
-      ivar:Set(value,true)
+      ivar:Set(value)
     end
   end
 }
@@ -834,10 +840,9 @@ this.DEBUG_SetIvarsToNonDefault={
 --SYNC run PrintIvars on main.
 this.DEBUG_SetIvarsToDefault={
   OnChange=function()
-    InfLog.Add("DEBUG_SetIvarsToDefault",true)
+    InfLog.DebugPrint"DEBUG_SetIvarsToDefault"
 
     local ivarNames={
-
       }
 
     for i,ivarName in pairs(ivarNames) do
@@ -850,7 +855,7 @@ this.DEBUG_SetIvarsToDefault={
       --InfLog.DebugPrint(ivarName.." save not set")
       elseif currentSetting~=ivar.default then
         InfLog.Add(ivarName..":"..tostring(currentSetting).." not default:"..tostring(ivar.default)..", resetting")
-        IvarProc.SetSetting(ivar,ivar.default,true)
+        IvarProc.SetSetting(ivar,ivar.default)
       end
     end
   end
@@ -1288,7 +1293,7 @@ this.DEBUG_WarpToObject={
     --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
     local objectList=InfMain.ene_wildCardSoldiers
 
-    --local objectList=InfParasite.parasiteNames.CAMO
+    local objectList=InfParasite.parasiteNames.CAMO
 
     --local objectList=InfMain.truckNames
     --local objectList={"veh_trc_0000"}
@@ -1362,8 +1367,6 @@ this.DEBUG_WarpToObject={
       return
     end
 
-
-
     local count=0
     local warpPos=Vector3(0,0,0)
     local objectName="NULL"
@@ -1378,7 +1381,12 @@ this.DEBUG_WarpToObject={
         warpPos=Vector3(0,0,0)
       else
         warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-        InfLog.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+        if warpPos==nil then
+          InfLog.Add("GetPosition nil for "..objectName,true)
+          return
+        else
+          InfLog.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+        end
       end
       this.currentWarpIndex=this.currentWarpIndex+1
       if this.currentWarpIndex>#objectList then

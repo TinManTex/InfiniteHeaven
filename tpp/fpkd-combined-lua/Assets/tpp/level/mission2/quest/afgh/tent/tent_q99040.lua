@@ -286,7 +286,7 @@ function this.ShowIconForVolginDemo( demoName, doneCheckFlag )
 			Player.RequestToShowIcon {
 				type = ActionIcon.ACTION,
 				icon = ActionIcon.FULTON,
-				message = Fox.StrCode32("Volgin_Start"),
+				message = StrCode32("Volgin_Start"),
 				messageArg = demoName,
 			}
 		elseif trapName then

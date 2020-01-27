@@ -523,7 +523,7 @@ function this.Messages()
 						return
 					end
 
-					if radioGroupNameHash == Fox.StrCode32(mvars.freePlay_ForceGoToMbRadioName) then
+					if radioGroupNameHash == StrCode32(mvars.freePlay_ForceGoToMbRadioName) then
 						SubtitlesCommand.SetIsEnabledUiPrioStrong( false )	
 						TppRadioCommand.SetEnableIgnoreGamePause( false )	
 						TppSound.PostEventOnForceGotMbHelicopter()

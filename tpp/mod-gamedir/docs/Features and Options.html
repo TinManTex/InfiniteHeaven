@@ -153,14 +153,17 @@
 <div>5: Skull attack max (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>6: Repopulate music tape radios : Off, On</div>
+<div>6: Weather on Skull attack : None, Parasite fog, Random</div>
 </div>
 <div id="menuItem">
-<div>7: Randomize minefield mine types : Off, On</div>
+<div>7: Repopulate music tape radios : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: Randomize minefield mine types : Off, On</div>
 <div id="itemHelp">Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.</div>
 </div>
 <div id="menuItem">
-<div>8: Enable additional minefields : Off, On</div>
+<div>9: Enable additional minefields : Off, On</div>
 <div id="itemHelp">In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.</div>
 </div>
 <div id="menuItem">
@@ -434,7 +437,7 @@
 <div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
 </div>
 <div id="menuItem">
-<div>2: Suit type : &ltSuits for player type&gt</div>
+<div>2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER</div>
 </div>
 <div id="menuItem">
 <div>3: Camo type : &ltCamos for player type&gt</div>
@@ -1419,28 +1422,34 @@
 <div id="itemHelp">Switches on some error messages and enables the announce-log during loading.</div>
 </div>
 <div id="menuItem">
-<div>2: loadExternalModules : (Command)</div>
+<div>2: debugMessages : Off, On</div>
 </div>
 <div id="menuItem">
-<div>3: copyLogToPrev : (Command)</div>
+<div>3: debugFlow : Off, On</div>
 </div>
 <div id="menuItem">
-<div>4: printPressedButtons : Off, On</div>
+<div>4: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>5: Show position : (Command)</div>
+<div>5: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>6: Show missionCode : (Command)</div>
+<div>6: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Show game language code : (Command)</div>
+<div>7: Show position : (Command)</div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>8: Show missionCode : (Command)</div>
 </div>
 <div id="menuItem">
-<div>9: Disable mission intro credits : Off, On</div>
+<div>9: Show game language code : (Command)</div>
+</div>
+<div id="menuItem">
+<div>10: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+</div>
+<div id="menuItem">
+<div>11: Disable mission intro credits : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1705,7 +1714,7 @@
 <div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
 </div>
 <div id="menuItem">
-<div>2: Suit type : &ltSuits for player type&gt</div>
+<div>2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER</div>
 </div>
 <div id="menuItem">
 <div>3: Camo type : &ltCamos for player type&gt</div>
@@ -1867,43 +1876,52 @@
 <div id="itemHelp">Switches on some error messages and enables the announce-log during loading.</div>
 </div>
 <div id="menuItem">
-<div>2: loadExternalModules : (Command)</div>
+<div>2: debugMessages : Off, On</div>
 </div>
 <div id="menuItem">
-<div>3: copyLogToPrev : (Command)</div>
+<div>3: debugFlow : Off, On</div>
 </div>
 <div id="menuItem">
-<div>4: selectedCp : no cp for setting</div>
+<div>4: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>5: setSelectedCpToMarkerObjectCp : (Command)</div>
+<div>5: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>6: DEBUG_PrintCpPowerSettings : (Command)</div>
+<div>6: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>7: DEBUG_PrintPowersCount : (Command)</div>
+<div>7: setSelectedCpToMarkerObjectCp : (Command)</div>
 </div>
 <div id="menuItem">
-<div>8: DEBUG_PrintReinforceVars : (Command)</div>
+<div>8: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: DEBUG_PrintSoldierDefine : (Command)</div>
+<div>9: DEBUG_PrintCpPowerSettings : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: DEBUG_ShowRevengeConfig : (Command)</div>
+<div>10: DEBUG_PrintPowersCount : (Command)</div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>11: DEBUG_PrintReinforceVars : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: printPressedButtons : Off, On</div>
+<div>12: DEBUG_PrintSoldierDefine : (Command)</div>
 </div>
 <div id="menuItem">
-<div>13: printOnBlockChange : Off, On</div>
+<div>13: DEBUG_ShowRevengeConfig : (Command)</div>
 </div>
 <div id="menuItem">
-<div>14: Show position : (Command)</div>
+<div>14: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+</div>
+<div id="menuItem">
+<div>15: printPressedButtons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>16: printOnBlockChange : Off, On</div>
+</div>
+<div id="menuItem">
+<div>17: Show position : (Command)</div>
 </div>
 <div id="menuItem">
 </div>

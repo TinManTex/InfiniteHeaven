@@ -137,7 +137,7 @@ this.missionStartPosition = {
 
 
 this.NPC_ENTRY_POINT_SETTING = {
-        [Fox.StrCode32("lz_drp_hill_I0000|rt_drp_hill_I_0000")] = {
+        [StrCode32("lz_drp_hill_I0000|rt_drp_hill_I_0000")] = {
                 [EntryBuddyType.VEHICLE] = { Vector3(2152.182, 55.992, 386.675), TppMath.DegreeToRadian( 80 ) }, 
                 [EntryBuddyType.BUDDY] = { Vector3(2155.664, 55.679, 372.972), TppMath.DegreeToRadian( 60 ) }, 
         },
@@ -356,7 +356,7 @@ function this.Messages()
 						return
 					end
 					
-					if radioGroupNameHash == Fox.StrCode32(mvars.freePlay_ForceGoToMbRadioName) then
+					if radioGroupNameHash == StrCode32(mvars.freePlay_ForceGoToMbRadioName) then
 						SubtitlesCommand.SetIsEnabledUiPrioStrong( false )	
 						TppRadioCommand.SetEnableIgnoreGamePause( false )	
 						TppSound.PostEventOnForceGotMbHelicopter()

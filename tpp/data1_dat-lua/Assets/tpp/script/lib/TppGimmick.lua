@@ -396,44 +396,48 @@ function this.MafrRiverPrimSetting()
   if not TppEffectUtility.UpdatePrimRiver then
     return
   end
+  --Mission 13 - Pitch Dark 
   if vars.missionCode==10080 or vars.missionCode==11080 then
     this.SetMafrRiverPrimVisibility(false)
   else
     this.SetMafrRiverPrimVisibility(true)
   end
 end
-function this.SetMafrRiverPrimVisibility(o)
-  local e={"cleanRiver","dirtyRiver","oilMud_open","dirtyFlow"}
-  local i={true,false,false,false}
-  for n,t in ipairs(e)do
-    local e
-    if o then
-      e=i[n]
+function this.SetMafrRiverPrimVisibility(someBool)
+  local primLayers={"cleanRiver","dirtyRiver","oilMud_open","dirtyFlow"}
+  local primLayerShow={true,false,false,false}
+  for i,layerName in ipairs(primLayers)do
+    local show
+    if someBool then
+      show=primLayerShow[i]
     else
-      e=not i[n]
+      show=not primLayerShow[i]
     end
-    TppEffectUtility.SetPrimRiverVisibility(t,e)
+    TppEffectUtility.SetPrimRiverVisibility(layerName,show)
   end
   TppEffectUtility.UpdatePrimRiver()
 end
-function this.SetUpIdentifierTable(e)
+--<location>_gimmick.gimmickIdentifierParamTable or mvars.mbItem_funcGetGimmickIdentifierTable
+function this.SetUpIdentifierTable(identifierTable)
   mvars.gim_identifierParamTable={}
-  Tpp.MergeTable(mvars.gim_identifierParamTable,e)
+  Tpp.MergeTable(mvars.gim_identifierParamTable,identifierTable)
   mvars.gim_identifierParamStrCode32Table={}
   mvars.gim_gimmackNameStrCode32Table={}
-  for n,t in pairs(e)do
-    local e=StrCode32(n)
-    mvars.gim_identifierParamStrCode32Table[e]=t
-    mvars.gim_gimmackNameStrCode32Table[e]=n
+  for identifier,params in pairs(identifierTable)do
+    local idStr32=StrCode32(identifier)
+    mvars.gim_identifierParamStrCode32Table[idStr32]=params
+    mvars.gim_gimmackNameStrCode32Table[idStr32]=identifier
   end
   mvars.gim_identifierTable={}
-  for o,e in pairs(e)do
-    local typeName=e.type
-    local locatorName=e.locatorName
-    local dataSetName=e.dataSetName
+  for identifier,params in pairs(identifierTable)do
+    local typeName=params.type
+    local locatorName=params.locatorName
+    local dataSetName=params.dataSetName
     mvars.gim_identifierTable[typeName]=mvars.gim_identifierTable[typeName]or{}
-    local e=mvars.gim_identifierTable[typeName]e[StrCode32(locatorName)]=e[StrCode32(locatorName)]or{}
-    local e=e[StrCode32(locatorName)]e[Fox.PathFileNameCode32(dataSetName)]=o
+    local gimmickIdentifierTypes=mvars.gim_identifierTable[typeName]
+    gimmickIdentifierTypes[StrCode32(locatorName)]=gimmickIdentifierTypes[StrCode32(locatorName)]or{}
+    local locatorParams=gimmickIdentifierTypes[StrCode32(locatorName)]
+    locatorParams[Fox.PathFileNameCode32(dataSetName)]=identifier
   end
 end
 function this.SetUpBreakConnectTable(e)

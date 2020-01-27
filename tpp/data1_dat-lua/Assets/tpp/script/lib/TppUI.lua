@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- TppUi.lua
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
 local IsTypeTable=Tpp.IsTypeTable
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
@@ -177,7 +177,7 @@ this.ANNOUNCE_LOG_TYPE={
 }
 this.ANNOUNCE_LOG_PRIORITY={"eliminateTarget","recoveredFilmCase","recoverTarget","destroyTarget","achieveAllObjectives","achieveObjectiveCount","getIntel","updateMissionInfo","updateMissionInfo_AddDocument","updateMap"}
 this.BUDDY_LANG_ID={[BuddyType.HORSE]="name_buddy_dh",[BuddyType.DOG]="name_buddy_dd",[BuddyType.QUIET]="marker_chara_quiet"}
-this.EMBLEM_ANNOUNCE_LOG_TYPE={[Fox.StrCode32"front"]="find_em_front",[Fox.StrCode32"base"]="find_em_back",[Fox.StrCode32"word"]="find_em_string"}
+this.EMBLEM_ANNOUNCE_LOG_TYPE={[StrCode32"front"]="find_em_front",[StrCode32"base"]="find_em_back",[StrCode32"word"]="find_em_string"}
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={
@@ -220,11 +220,11 @@ function this.Messages()
     }
   }
 end
-local function ToStrCode32(e)
-  if type(e)=="string"then
-    return Fox.StrCode32(e)
-  elseif type(e)=="number"then
-    return e
+local function ToStrCode32(value)
+  if type(value)=="string"then
+    return StrCode32(value)
+  elseif type(value)=="number"then
+    return value
   end
   return nil
 end
@@ -1126,10 +1126,10 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.OnChangeSVars(name,RENparam2)
+function this.OnChangeSVars(name,key)
   --ORPHAN local isSneak=TppServerManager.FobIsSneak()
   if FobUI then
-    FobUI.OnChangeSVars(name,RENparam2)--RETAILPATCH 1070 some stuff pushed from here into this function <<
+    FobUI.OnChangeSVars(name,key)--RETAILPATCH 1070 some stuff pushed from here into this function <<
   end
 end
 function this.DisableGameStatusOnFade(n)

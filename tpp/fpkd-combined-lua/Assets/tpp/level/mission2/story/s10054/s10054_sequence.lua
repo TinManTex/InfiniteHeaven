@@ -1162,7 +1162,7 @@ function this.common_movingCourseCheck()
 	
 	if		svars.isTargetVehicle_01 == 1	or	svars.isTargetVehicle_02 == 1	or	svars.isTargetVehicle_03 == 1
 		or	svars.isTargetVehicle_04 == 1	or	svars.isTargetVehicle_05 == 1	or	svars.isTargetVehicle_06 == 1	or	svars.isTargetVehicle_07 == 1	then
-		TppUiCommand.ShowEnemyRoutePoints{ groupIndex=0, width=250.0, langId="marker_target_forecast_path", radioGroupName = Fox.StrCode32("f1000_mprg0240"),
+		TppUiCommand.ShowEnemyRoutePoints{ groupIndex=0, width=250.0, langId="marker_target_forecast_path", radioGroupName = StrCode32("f1000_mprg0240"),
 			points={
 				Vector3( -1797.1,0.0,37.0 ), Vector3( -1917.5,0.0,571.9 ), Vector3( -1760.0,0.0,750.0 ),
 			}
@@ -1172,7 +1172,7 @@ function this.common_movingCourseCheck()
 	end
 	
 	if		svars.isTargetVehicle_01 == 1	or	svars.isTargetVehicle_05 == 1	then
-		TppUiCommand.ShowEnemyRoutePoints{ groupIndex=1, width=250.0, langId="marker_target_forecast_path", radioGroupName = Fox.StrCode32("f1000_mprg0250"),
+		TppUiCommand.ShowEnemyRoutePoints{ groupIndex=1, width=250.0, langId="marker_target_forecast_path", radioGroupName = StrCode32("f1000_mprg0250"),
 			points={
 				Vector3( -1520.0,0.0,880.0 ), Vector3( -888.4,0.0,964.2 ), Vector3( -550.2,0.0,635.0 ),
 			}
@@ -1183,7 +1183,7 @@ function this.common_movingCourseCheck()
 	
 	if		svars.isTargetVehicle_02 == 1	or	svars.isTargetVehicle_04 == 1	or	svars.isTargetVehicle_06 == 1
 		or	svars.isTargetVehicle_07 == 1	then
-		TppUiCommand.ShowEnemyRoutePoints{ groupIndex=2, width=250.0, langId="marker_target_forecast_path", radioGroupName = Fox.StrCode32("f1000_mprg0240"),
+		TppUiCommand.ShowEnemyRoutePoints{ groupIndex=2, width=250.0, langId="marker_target_forecast_path", radioGroupName = StrCode32("f1000_mprg0240"),
 			points={
 				Vector3( -1750.0,0.0,1000.0 ), Vector3( -1570.0,0.0,1170.0 ), Vector3( -1237.9,0.0,1200.0 ), 
 				Vector3( -970.0,0.0,1470.0 ), Vector3( -876.4,0.0,1849.5 ),
@@ -1195,7 +1195,7 @@ function this.common_movingCourseCheck()
 	
 	if		svars.isTargetVehicle_04 == 1	then
 		if svars.isTarget04_D_route == false	then
-			TppUiCommand.ShowEnemyRoutePoints{ groupIndex=3, width=250.0, langId="marker_target_forecast_path", radioGroupName = Fox.StrCode32("f1000_mprg0250"),
+			TppUiCommand.ShowEnemyRoutePoints{ groupIndex=3, width=250.0, langId="marker_target_forecast_path", radioGroupName = StrCode32("f1000_mprg0250"),
 				points={
 					Vector3( -749.5,0.0,1476.4 ), Vector3( -187.2,0.0,1760.3 ),
 				}
@@ -1209,7 +1209,7 @@ function this.common_movingCourseCheck()
 	
 	if		svars.isTargetVehicle_05 == 1	then
 		if svars.isTarget05_E_route == false	then
-			TppUiCommand.ShowEnemyRoutePoints{ groupIndex=4, width=250.0, langId="marker_target_forecast_path", radioGroupName = Fox.StrCode32("f1000_mprg0250"),
+			TppUiCommand.ShowEnemyRoutePoints{ groupIndex=4, width=250.0, langId="marker_target_forecast_path", radioGroupName = StrCode32("f1000_mprg0250"),
 				points={
 					Vector3( -404.1,0.0,856.8 ), Vector3( -105.8,0.0,943.8 ), Vector3( 30.8,0.0,816.1 ),
 				}
@@ -1990,7 +1990,7 @@ function this.Messages()
 				msg = "RoutePoint2" ,
 				func = function ( gameObjectId , routeID , nodeNo , msgID )
 					local sequence = TppSequence.GetCurrentSequenceName()
-					if msgID == Fox.StrCode32( "target_areaOut" ) then
+					if msgID == StrCode32( "target_areaOut" ) then
 						
 						
 						if gameObjectId == GameObject.GetGameObjectId( TARGET_VEHICLE_DRIVER_01 )		then
@@ -2063,13 +2063,13 @@ function this.Messages()
 						else
 							Fox.Log("Not MainGame Sequence ... Nothing Done !!")
 						end
-					elseif msgID == Fox.StrCode32( "target04_D_route_finish" ) then
+					elseif msgID == StrCode32( "target04_D_route_finish" ) then
 						svars.isTarget04_D_route = true
 						TppUiCommand.InitEnemyRoutePoints( 3 )
-					elseif msgID == Fox.StrCode32( "target05_E_route_finish" ) then
+					elseif msgID == StrCode32( "target05_E_route_finish" ) then
 						svars.isTarget05_E_route = true
 						TppUiCommand.InitEnemyRoutePoints( 4 )
-					elseif msgID == Fox.StrCode32( "bulletTruck_areaOut" ) then
+					elseif msgID == StrCode32( "bulletTruck_areaOut" ) then
 						Fox.Log("BULLET_TRUCK_DRIVER_01 & BULLET_TRUCK_01 Disable !!")
 						local checkVehicle = GameObject.GetGameObjectId( "TppVehicle2", BULLET_TRUCK_01 )
 						local riderIdArray = GameObject.SendCommand( checkVehicle , { id= "GetRiderId", } )
@@ -2088,7 +2088,7 @@ function this.Messages()
 						GameObject.SendCommand( { type="TppVehicle2", },{	id = "Despawn",	name = BULLET_TRUCK_01, } )
 						svars.isNonTargetCount_areaOut = svars.isNonTargetCount_areaOut + 1
 						Fox.Log("svars.isNonTargetCount_areaOut is "..svars.isNonTargetCount_areaOut.." !!")
-					elseif msgID == Fox.StrCode32( "vehicle_areaOut" ) then
+					elseif msgID == StrCode32( "vehicle_areaOut" ) then
 						Fox.Log("VEHICLE_DRIVER_01 & 02 ( & Hostage ) ... VEHICLE_01 Disable !!")
 						local checkVehicle = GameObject.GetGameObjectId( "TppVehicle2", VEHICLE_01 )
 						local riderIdArray = GameObject.SendCommand( checkVehicle , { id= "GetRiderId", } )
@@ -2107,7 +2107,7 @@ function this.Messages()
 						GameObject.SendCommand( { type="TppVehicle2", },{	id = "Despawn",	name = VEHICLE_01, } )	
 						svars.isNonTargetCount_areaOut = svars.isNonTargetCount_areaOut + 1
 						Fox.Log("svars.isNonTargetCount_areaOut is "..svars.isNonTargetCount_areaOut.." !!")
-					elseif msgID == Fox.StrCode32( "searchEnemy_RouteMSG" )	then
+					elseif msgID == StrCode32( "searchEnemy_RouteMSG" )	then
 						if svars.isDeadBySearchEnemy == true	then
 							TppEnemy.SetSneakRoute( "sol_search_0000" , "rts_search0000_01" )
 							TppEnemy.SetCautionRoute( "sol_search_0000" , "rts_search0000_00" )
@@ -2127,29 +2127,29 @@ function this.Messages()
 							TppEnemy.SetSneakRoute( "sol_search_0003" , "rts_search0003_00" )
 							TppEnemy.SetCautionRoute( "sol_search_0003" , "rts_search0003_00" )
 						end
-					elseif msgID == Fox.StrCode32( "hosRiver_routeMSG" ) then
+					elseif msgID == StrCode32( "hosRiver_routeMSG" ) then
 						local hosRiverId			= GameObject.GetGameObjectId( "hos_s10054_0000" )
 						local hosRiver_routeClear	= { id = "SetSneakRoute", route = "",}
 						GameObject.SendCommand( hosRiverId, hosRiver_routeClear )
-					elseif msgID == Fox.StrCode32( "hosSand_routeMSG" ) then
+					elseif msgID == StrCode32( "hosSand_routeMSG" ) then
 						local hosSandId			= GameObject.GetGameObjectId( "hos_s10054_0002" )
 						local hosSand_routeClear	= { id = "SetSneakRoute", route = "",}
 						GameObject.SendCommand( hosSandId, hosSand_routeClear )
-					elseif msgID == Fox.StrCode32( "hosCliff_routeMSG" ) then
+					elseif msgID == StrCode32( "hosCliff_routeMSG" ) then
 						local hosCliffId			= GameObject.GetGameObjectId( "hos_s10054_0005" )
 						local hosCliff_routeClear	= { id = "SetSneakRoute", route = "",}
 						GameObject.SendCommand( hosCliffId, hosCliff_routeClear )
-					elseif msgID == Fox.StrCode32( "bonus01_railChange_to01" ) then
+					elseif msgID == StrCode32( "bonus01_railChange_to01" ) then
 						s10054_enemy.bonusTarget01_railChange_to01()
-					elseif msgID == Fox.StrCode32( "bonus01_railChange_to02" ) then
+					elseif msgID == StrCode32( "bonus01_railChange_to02" ) then
 						s10054_enemy.bonusTarget01_railChange_to02()
-					elseif msgID == Fox.StrCode32( "bonus02_railChange_to01" ) then
+					elseif msgID == StrCode32( "bonus02_railChange_to01" ) then
 						s10054_enemy.bonusTarget02_railChange_to01()
-					elseif msgID == Fox.StrCode32( "bonus02_railChange_to02" ) then
+					elseif msgID == StrCode32( "bonus02_railChange_to02" ) then
 						s10054_enemy.bonusTarget02_railChange_to02()
-					elseif msgID == Fox.StrCode32( "bonus03_railChange_to01" ) then
+					elseif msgID == StrCode32( "bonus03_railChange_to01" ) then
 						s10054_enemy.bonusTarget03_railChange_to01()
-					elseif msgID == Fox.StrCode32( "bonus03_railChange_to02" ) then
+					elseif msgID == StrCode32( "bonus03_railChange_to02" ) then
 						s10054_enemy.bonusTarget03_railChange_to02()
 					else
 						Fox.Log("Another Route Message ... ")
@@ -2182,17 +2182,17 @@ function this.Messages()
 						local escapeHostage_monologue_28	= { id="CallMonologue", label = "speech054_carry028", carry = true }
 						
 						if gameObjectId == GameObject.GetGameObjectId( "hos_s10054_0001" )	and state_abductHostage == TppGameObject.NPC_STATE_CARRIED then
-							if		label == Fox.StrCode32("speech054_carry010")	then
+							if		label == StrCode32("speech054_carry010")	then
 								GameObject.SendCommand( abductHostageId, abductHostage_monologue_11 )
-							elseif	label == Fox.StrCode32("speech054_carry011")	then
+							elseif	label == StrCode32("speech054_carry011")	then
 								if svars.isTarget03Discovery == false and svars.isTargetVehicle_03 ~= 2	then
 									GameObject.SendCommand( abductHostageId, abductHostage_monologue_12 )
 								else
 									Fox.Log("isTarget03Discovery == true ... MonologueEnd")
 								end
-							elseif	label == Fox.StrCode32("speech054_carry012")	then
+							elseif	label == StrCode32("speech054_carry012")	then
 								GameObject.SendCommand( abductHostageId, abductHostage_monologue_13 )
-							elseif	label == Fox.StrCode32("speech054_carry013")	then
+							elseif	label == StrCode32("speech054_carry013")	then
 								svars.isTarget03Discovery = true
 								TppMission.UpdateObjective{
 									objectives = { "FIXED_VEHICLE_03",},
@@ -2212,19 +2212,19 @@ function this.Messages()
 							end
 						
 						elseif gameObjectId == GameObject.GetGameObjectId( "hos_s10054_0005" )	and state_escapeHostage == TppGameObject.NPC_STATE_CARRIED then
-							if		label == Fox.StrCode32("speech054_carry021")	then
+							if		label == StrCode32("speech054_carry021")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_22 )
-							elseif	label == Fox.StrCode32("speech054_carry022")	then
+							elseif	label == StrCode32("speech054_carry022")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_23 )
-							elseif	label == Fox.StrCode32("speech054_carry023")	then
+							elseif	label == StrCode32("speech054_carry023")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_24 )
-							elseif	label == Fox.StrCode32("speech054_carry024")	then
+							elseif	label == StrCode32("speech054_carry024")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_25 )
-							elseif	label == Fox.StrCode32("speech054_carry025")	then
+							elseif	label == StrCode32("speech054_carry025")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_26 )
-							elseif	label == Fox.StrCode32("speech054_carry026")	then
+							elseif	label == StrCode32("speech054_carry026")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_27 )
-							elseif	label == Fox.StrCode32("speech054_carry027")	then
+							elseif	label == StrCode32("speech054_carry027")	then
 								GameObject.SendCommand( escapeHostageId, escapeHostage_monologue_28 )
 							else
 							end

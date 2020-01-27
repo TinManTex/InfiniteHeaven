@@ -3015,7 +3015,7 @@ this.SearchLabelFromConversationEndMessage = function(targetLabel)
 	}
 
 	for i, searchLabel in pairs( LABEL_TABLE ) do
-		if ( targetLabel == Fox.StrCode32(searchLabel) ) then
+		if ( targetLabel == StrCode32(searchLabel) ) then
 			Fox.Log("#### s10052_enemy.SearchLabelFromConversationEndMessage #### targetLabel [" ..tostring(targetLabel).. "] is event label!")
 			return true
 		end

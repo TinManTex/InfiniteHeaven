@@ -723,7 +723,7 @@ end
 function this.UpdateIcon()
   if(mvars.paz_isIconEnabled and mvars.paz_currentAction==statePaz_q_sit_idl)and(mvars.paz_doesSnakeHasPicture or mvars.paz_hasDroppedBook)then
     if not mvars.paz_isIconVisible then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=Fox.StrCode32"IconOk",messageArg=""}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=StrCode32"IconOk",messageArg=""}
       mvars.paz_isIconVisible=true
       if((mvars.paz_doesSnakeHasPicture and mvars.paz_isShowMeMonologueEnabled)and not mvars.paz_isSpeeching)and mvars.paz_lastMonologueLabel~=paz_misete02 then
         this.SendCommandCallMonologue(paz_misete02)

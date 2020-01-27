@@ -21,7 +21,7 @@ this.AnimalIdTable={
 function this.Messages()
   return
 end
-function this.OnAllocate(e)
+function this.OnAllocate(missionTable)
 end
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -35,11 +35,11 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.GetDataBaseIdFromAnimalId(n)
-  if n<TppAnimalId.COUNT then
-    return TppAnimalSystem.GetDataBaseIdFromAnimalId(n)
+function this.GetDataBaseIdFromAnimalId(animalId)
+  if animalId<TppAnimalId.COUNT then
+    return TppAnimalSystem.GetDataBaseIdFromAnimalId(animalId)
   else
-    return this.AnimalIdTable[n]
+    return this.AnimalIdTable[animalId]
   end
 end
 function this.SetEnabled(type,name,enabled)
@@ -194,8 +194,8 @@ function this.OnActivateQuest(questTable)
       end
     end
   end
-  local animalId={messageId="None",idType="animalId"}
-  local databaseId={messageId="None",idType="databaseId"}
+  local animalIdEntry={messageId="None",idType="animalId"}
+  local databaseIdEntry={messageId="None",idType="databaseId"}
   if mvars.ani_isQuestSetup==false then
     if(questTable.targetAnimalList and Tpp.IsTypeTable(questTable.targetAnimalList))and next(questTable.targetAnimalList)then
       local targetAnimalList=questTable.targetAnimalList
@@ -208,14 +208,14 @@ function this.OnActivateQuest(questTable)
         end
       end
       if targetAnimalList.animalIdList then
-        for n,animalId in pairs(targetAnimalList.animalIdList)do
-          mvars.ani_questTargetList[animalId]=animalId
+        for i,animalId in pairs(targetAnimalList.animalIdList)do
+          mvars.ani_questTargetList[animalId]=animalIdEntry
           addedAnimal=true
         end
       end
       if targetAnimalList.dataBaseIdList then
-        for n,animalId in pairs(targetAnimalList.dataBaseIdList)do
-          mvars.ani_questTargetList[animalId]=databaseId
+        for i,animalId in pairs(targetAnimalList.dataBaseIdList)do
+          mvars.ani_questTargetList[animalId]=databaseIdEntry
           addedAnimal=true
         end
       end
@@ -225,23 +225,24 @@ function this.OnActivateQuest(questTable)
     mvars.ani_isQuestSetup=true
   end
 end
-function this.OnDeactivateQuest(n)
+--<quest script>.QUEST_TABLE
+function this.OnDeactivateQuest(questTable)
   if mvars.ani_isQuestSetup==true then
-    if(n.animalList and Tpp.IsTypeTable(n.animalList))and next(n.animalList)then
-      for a,n in pairs(n.animalList)do
-        if n.animalName then
-          if n.isNotice then
-            this.SetNotice(n.animalType,n.animalName,true)
+    if(questTable.animalList and Tpp.IsTypeTable(questTable.animalList))and next(questTable.animalList)then
+      for i,animalDef in pairs(questTable.animalList)do
+        if animalDef.animalName then
+          if animalDef.isNotice then
+            this.SetNotice(animalDef.animalType,animalDef.animalName,true)
           end
-          if n.isIgnoreNotice then
-            this.SetIgnoreNotice(n.animalType,n.animalName,false)
+          if animalDef.isIgnoreNotice then
+            this.SetIgnoreNotice(animalDef.animalType,animalDef.animalName,false)
           end
         end
       end
     end
   end
 end
-function this.OnTerminateQuest(e)
+function this.OnTerminateQuest(questTable)
   TppBuddyService.RemoveTargetAnimalId()
   if mvars.ani_isQuestSetup==true then
     mvars.ani_questTargetList={}
@@ -249,67 +250,67 @@ function this.OnTerminateQuest(e)
     mvars.ani_isQuestSetup=false
   end
 end
-function this.CheckQuestAllTarget(d,a,n,animalId)
-  if not Tpp.IsAnimal(n)then
+function this.CheckQuestAllTarget(questType,messageId,gameId,animalId)
+  if not Tpp.IsAnimal(gameId)then
     return
   end
   local questClearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local databaseId=this.GetDataBaseIdFromAnimalId(animalId)
-  local t=animalId
+  local _animalId=animalId
   local currentQuestName=TppQuest.GetCurrentQuestName()
   if TppQuest.IsEnd(currentQuestName)then
     return questClearType
   end
-  for n,targetInfo in pairs(mvars.ani_questTargetList)do
+  for animalId,targetInfo in pairs(mvars.ani_questTargetList)do
     if targetInfo.idType=="animalId"then
-      if n==t then
-        targetInfo.messageId=a or"None"
-        end
+      if animalId==_animalId then
+        targetInfo.messageId=messageId or"None"
+      end
     elseif targetInfo.idType=="databaseId"then
-      if n==databaseId then
-        targetInfo.messageId=a or"None"
-        end
-    end
-  end
-  local i=0
-  local a=0
-  local e=0
-  local t=0
-  for n,targetInfo in pairs(mvars.ani_questTargetList)do
-    if targetInfo.messageId~="None"then
-      if targetInfo.messageId=="Fulton"then
-        i=i+1
-      elseif targetInfo.messageId=="Dead"then
-        t=t+1
-      elseif targetInfo.messageId=="FultonFailed"then
-        a=a+1
+      if animalId==databaseId then
+        targetInfo.messageId=messageId or"None"
       end
     end
   end
-  local e=0
-  for n,n in pairs(mvars.ani_questTargetList)do
-    e=e+1
+  local numFulton=0
+  local numFultonFailed=0
+  --ORPHAN local unk1=0
+  local numDead=0
+  for animalId,targetInfo in pairs(mvars.ani_questTargetList)do
+    if targetInfo.messageId~="None"then
+      if targetInfo.messageId=="Fulton"then
+        numFulton=numFulton+1
+      elseif targetInfo.messageId=="Dead"then
+        numDead=numDead+1
+      elseif targetInfo.messageId=="FultonFailed"then
+        numFultonFailed=numFultonFailed+1
+      end
+    end
   end
-  if e>0 then
-    if d==TppDefine.QUEST_TYPE.ANIMAL_RECOVERED then
-      if i>=e then
+  local numTargets=0
+  for animalId,targetInfo in pairs(mvars.ani_questTargetList)do
+    numTargets=numTargets+1
+  end
+  if numTargets>0 then
+    if questType==TppDefine.QUEST_TYPE.ANIMAL_RECOVERED then
+      if numFulton>=numTargets then
         questClearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
-      elseif a>0 or t>0 then
+      elseif numFultonFailed>0 or numDead>0 then
         questClearType=TppDefine.QUEST_CLEAR_TYPE.FAILURE
       end
     end
   end
   return questClearType
 end
-function this.IsQuestTarget(e)
+function this.IsQuestTarget(gameId)
   if mvars.ani_isQuestSetup==false then
     return false
   end
   if not next(mvars.ani_questGameObjectIdList)then
     return false
   end
-  for a,n in pairs(mvars.ani_questGameObjectIdList)do
-    if e==n then
+  for i,animalGameId in pairs(mvars.ani_questGameObjectIdList)do
+    if gameId==animalGameId then
       return true
     end
   end

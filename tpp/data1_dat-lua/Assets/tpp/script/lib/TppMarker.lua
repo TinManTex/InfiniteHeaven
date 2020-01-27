@@ -1,3 +1,4 @@
+-- TppMarker.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -153,34 +154,34 @@ function this.CompleteSearchTarget(targetName)
     this._OnSearchTarget(gameId,nil,"script")
   end
 end
-function this.EnableSearchTarget(a)
-  if not this._IsCheckSVarsSearchTargetName(a)then
+function this.EnableSearchTarget(targetGameObjectName)
+  if not this._IsCheckSVarsSearchTargetName(targetGameObjectName)then
     return
   end
   for e=0,TppDefine.SEARCH_TARGET_COUNT-1 do
-    if svars.mar_searchTargetName[e]==StrCode32(a)then
+    if svars.mar_searchTargetName[e]==StrCode32(targetGameObjectName)then
       svars.mar_searchTargeEnable[e]=true
       return
     end
   end
 end
-function this.DisableSearchTarget(a)
-  if not this._IsCheckSVarsSearchTargetName(a)then
+function this.DisableSearchTarget(targetGameObjectName)
+  if not this._IsCheckSVarsSearchTargetName(targetGameObjectName)then
     return
   end
   for e=0,TppDefine.SEARCH_TARGET_COUNT-1 do
-    if svars.mar_searchTargetName[e]==StrCode32(a)then
+    if svars.mar_searchTargetName[e]==StrCode32(targetGameObjectName)then
       svars.mar_searchTargeEnable[e]=false
       return
     end
   end
 end
-function this.GetSearchTargetIsFound(a)
-  if not this._IsCheckSVarsSearchTargetName(a)then
+function this.GetSearchTargetIsFound(targetGameObjectName)
+  if not this._IsCheckSVarsSearchTargetName(targetGameObjectName)then
     return
   end
   for e=0,TppDefine.SEARCH_TARGET_COUNT-1 do
-    if svars.mar_searchTargetName[e]==StrCode32(a)then
+    if svars.mar_searchTargetName[e]==StrCode32(targetGameObjectName)then
       return svars.mar_searchTargeIsFound[e]
     end
   end
@@ -355,7 +356,7 @@ function this._IsCheckSVarsSearchTarget(a,svarName)
   return false
 end
 function this._OnMarkerChangeToEnable(instanceName,markerType,gameId,identificationCode)
-  if identificationCode==Fox.StrCode32"Player"then
+  if identificationCode==StrCode32"Player"then
     this._CallMarkerRadio(gameId)
   end
 end

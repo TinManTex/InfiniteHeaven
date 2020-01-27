@@ -677,10 +677,7 @@ missionPackTable[30010]=function(missionCode)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30010.fpk"
   end
 
-  if Ivars.enableParasiteEvent:Is()>0 then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk"
-  end
+  InfParasite.AddMissionPacks(missionCode)--tex
   --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
@@ -701,11 +698,7 @@ missionPackTable[30020]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30020/f30020.fpk"
 
-  if Ivars.enableParasiteEvent:Is()>0 then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk"
-  end
-
+  InfParasite.AddMissionPacks(missionCode)--tex
   --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
@@ -842,10 +835,7 @@ missionPackTable[30250]=function(missionCode)
     TppSoldierFace.SetUseZombieFova{enabled=true}
   end--<
 
-  if Ivars.enableParasiteEvent:Is()>0 or Ivars.mbEnableLethalActions:Is(1) then--tex>
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk"
-  end--<  
+  InfParasite.AddMissionPacks(missionCode)--tex
 end
 missionPackTable[40010]=function(missionCode)
   if gvars.ini_isTitleMode then
@@ -976,6 +966,7 @@ function this.GetLocationPackagePath(locationId)
   return packPath
 end
 function this.GetMissionPackagePath(missionCode)
+  InfLog.AddFlow("TppMissionList.GetMissionPackagePath "..missionCode)--tex
   TppPackList.SetUseDdEmblemFova(missionCode)
   local packPath
   if missionPackTable[missionCode]==nil then

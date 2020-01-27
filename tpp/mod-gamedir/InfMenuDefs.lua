@@ -200,6 +200,8 @@ this.progressionMenu={
 this.debugMenu={
   options={
     Ivars.debugMode,
+    Ivars.debugMessages,
+    Ivars.debugFlow,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     Ivars.printPressedButtons,
@@ -207,8 +209,7 @@ this.debugMenu={
     InfMenuCommands.showMissionCode,
     InfMenuCommands.showLangCode,
     InfMenuDefs.appearanceDebugMenu,
-    --tex odd one out, mission/presentation?
-    Ivars.telopMode,
+    Ivars.telopMode,--tex TODO move, odd one out, mission/presentation?
   }
 }
 
@@ -270,7 +271,7 @@ this.revengeSystemMenu={
     Ivars.enableMgVsShotgunVariation,
     Ivars.randomizeSmallCpPowers,
     Ivars.disableConvertArmorToShield,
-  --Ivars.balanceWeaponPowers,--WIP
+    --Ivars.balanceWeaponPowers,--WIP
   }
 }
 --
@@ -466,6 +467,7 @@ this.worldMenu={
     Ivars.enableParasiteEvent,
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
+    Ivars.parasiteWeather,
     --WIP Ivars.resourceAmountScale,
     Ivars.repopulateRadioTapes,
     Ivars.randomizeMineTypes,
@@ -529,12 +531,10 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --Ivars.debugMode,
-    --Ivars.playerFaceId,--DEBUG
     InfMenuCommands.forceGameEvent,
     InfMenuDefs.systemMenu,
     InfMenuDefs.worldMenu,
@@ -561,6 +561,8 @@ this.debugInMissionMenu={
   nonConfig=true,
   options={
     Ivars.debugMode,
+    Ivars.debugMessages,
+    Ivars.debugFlow,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     --InfMenuCommands.DEBUG_RandomizeCp,
@@ -568,6 +570,7 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_PrintEnemyFova,
     Ivars.selectedCp,
     InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+    Ivars.printPressedButtons,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
     --InfMenuCommands.DEBUG_PrintCpSizes,
@@ -598,18 +601,11 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_ToggleParasiteEvent,
---    Ivars.enableParasiteEvent,
---    Ivars.parasitePeriod_MIN,
---    Ivars.parasitePeriod_MAX,
-    --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
-    --    InfMenuCommands.resetAllSettingsItem,
-    --Ivars.selectedChangeWeapon,--DEBUG
-    --Ivars.debugMode,
-    --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz3,
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    ----
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
     InfMenuCommands.dropCurrentEquip,

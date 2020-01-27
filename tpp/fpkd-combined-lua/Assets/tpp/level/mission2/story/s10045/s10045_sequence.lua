@@ -650,7 +650,7 @@ function this.MissionPrepare()
 	}
 	
 	
-	this.commonFuncTable[ Fox.StrCode32( "Conversation_recovery_route" ) ] = {	
+	this.commonFuncTable[ StrCode32( "Conversation_recovery_route" ) ] = {	
 		{ enemyName = "sol_recovery_0000",	routeId = "rts_RecoveryConversation_route0000", routeId_c = "rts_RecoveryConversation_route0000", },
 		{
 			func = function()
@@ -668,7 +668,7 @@ function this.MissionPrepare()
 	}
 	
 	
-	this.commonFuncTable[ Fox.StrCode32( "Conversation_recovery" ) ] = {	
+	this.commonFuncTable[ StrCode32( "Conversation_recovery" ) ] = {	
 		{
 			func = function( gameObjectId )
 				local routeNameTable = { "rts_sol_WG_0007", "rts_sol_WG_0004", "rts_sol_WG_0005", "rts_sol_WG_0006" }
@@ -686,7 +686,7 @@ function this.MissionPrepare()
 			end
 		},
 	}	
-	this.commonFuncTable[ Fox.StrCode32( "in_vipVehicle" ) ] = {	
+	this.commonFuncTable[ StrCode32( "in_vipVehicle" ) ] = {	
 		{ enemyName = "hos_vip_0000",	routeId = "rts_get_in_route0001", routeId_c = "rts_get_in_route0001", },
 		{ enemyName = "sol_recovery_0000",	routeId = "rts_get_in_route0001", routeId_c = "rts_get_in_route0001", },
 		{
@@ -703,12 +703,12 @@ function this.MissionPrepare()
 	}
 	
 	
-	this.commonFuncTable[ Fox.StrCode32( "sol_in_Vehicle" ) ] = {	
+	this.commonFuncTable[ StrCode32( "sol_in_Vehicle" ) ] = {	
 		{ enemyName = "sol_recovery_0000",	routeId = "rts_vehicle_in", routeId_c = "rts_vehicle_in", routeId_a = "rts_vehicle_in", },
 	}
 	
 	
-	this.commonFuncTable[ Fox.StrCode32( "rts_Vehicle_0000_routeChange" ) ] = {	
+	this.commonFuncTable[ StrCode32( "rts_Vehicle_0000_routeChange" ) ] = {	
 		{ 
 			func = function()
 				if svars.isTargetescape == false then
@@ -724,7 +724,7 @@ function this.MissionPrepare()
 	}
 
 		
-	this.commonFuncTable[ Fox.StrCode32( "rts_Vehicle_0000_routeChange01" ) ] = {	
+	this.commonFuncTable[ StrCode32( "rts_Vehicle_0000_routeChange01" ) ] = {	
 		{ 	func = function()
 				if svars.isTargetescape == true then
 					TppEnemy.SetSneakRoute( "sol_recovery_0000", "rts_vip_escape_0004" )		
@@ -738,7 +738,7 @@ function this.MissionPrepare()
 	}
 
 	
-	this.commonFuncTable[ Fox.StrCode32( "wg_gardroute01" ) ] = {	
+	this.commonFuncTable[ StrCode32( "wg_gardroute01" ) ] = {	
 		
 		{ enemyName = "sol_WG_0000",	routeId = "rts_set_D_route0000", routeId_c = "rts_set_D_route0000"  },
 		{ enemyName = "sol_WG_0001",	routeId = "rts_set_D_route0001", routeId_c = "rts_set_D_route0001"  },
@@ -757,7 +757,7 @@ function this.MissionPrepare()
 	}
 
 	
-	this.commonFuncTable[ Fox.StrCode32( "vip_GetOut" ) ] = {	
+	this.commonFuncTable[ StrCode32( "vip_GetOut" ) ] = {	
 		{ enemyName = "sol_recovery_0000",	routeId = "rts_get_out_route0000", routeId_c = "rts_get_out_route0000", routeId_a = "rts_get_out_route0000", },
 	
 		{ 	func = function()
@@ -769,7 +769,7 @@ function this.MissionPrepare()
 		},
 	}
 	
-	this.commonFuncTable[ Fox.StrCode32( "vip_remnants_route" ) ] = {	
+	this.commonFuncTable[ StrCode32( "vip_remnants_route" ) ] = {	
 		{ enemyName = "hos_vip_0000",	routeId = "rts_vip_0002", },
 		{ enemyName = "sol_recovery_0000",	routeId = "rts_sol_recovery_0003", routeId_c = "rts_sol_recovery_0003", },
 
@@ -790,7 +790,7 @@ function this.MissionPrepare()
 
 	}
 
-	this.commonFuncTable[ Fox.StrCode32( "on_hostage" ) ] = {	
+	this.commonFuncTable[ StrCode32( "on_hostage" ) ] = {	
 		{
 			func = function()
 				svars.isVipHut = true
@@ -800,7 +800,7 @@ function this.MissionPrepare()
 	}
 	
 	
-	this.commonFuncTable[ Fox.StrCode32( "remnants_gard" ) ] = {	
+	this.commonFuncTable[ StrCode32( "remnants_gard" ) ] = {	
 		{ enemyName = "sol_WG_0000",	routeId = "rts_sol_WG_0014",	routeId_c = "rts_sol_WG_0014" },
 		{ enemyName = "sol_WG_0001",	routeId = "rts_sol_WG_0015",	routeId_c = "rts_sol_WG_0015" },
 		{ enemyName = "sol_WG_0002",	routeId = "rts_sol_WG_0016",	routeId_c = "rts_sol_WG_0016" },
@@ -808,7 +808,7 @@ function this.MissionPrepare()
 	}
 
 	
-	this.commonFuncTable[ Fox.StrCode32( "on_executioner_remnants" ) ] = {	
+	this.commonFuncTable[ StrCode32( "on_executioner_remnants" ) ] = {	
 		{ enemyName = "sol_executioner_0000",	routeId = "rts_sol_executioner_0005", routeId_c = "rts_sol_executioner_0006",  routeId_a = "rts_sol_executioner_0006",},
 		{
 			func = function()
@@ -818,7 +818,7 @@ function this.MissionPrepare()
 	}
 
 	
-	this.commonFuncTable[ Fox.StrCode32( "vip_execution" ) ] = {	
+	this.commonFuncTable[ StrCode32( "vip_execution" ) ] = {	
 		{
 			func = function()
 				if svars.isVipHut == true then
@@ -832,43 +832,43 @@ function this.MissionPrepare()
 	
 	
 	this.walkerGearRouteNumTable = {
-		{ messageId = Fox.StrCode32( "D_gard00" ), routeNum = 0 },
-		{ messageId = Fox.StrCode32( "D_gard01" ), routeNum = 1 },
-		{ messageId = Fox.StrCode32( "D_gard02" ), routeNum = 2 },
-		{ messageId = Fox.StrCode32( "D_gard03" ), routeNum = 3 },
-		{ messageId = Fox.StrCode32( "D_gard04" ), routeNum = 4 },
-		{ messageId = Fox.StrCode32( "D_gard05" ), routeNum = 5 },
-		{ messageId = Fox.StrCode32( "D_gard06" ), routeNum = 6 },
-		{ messageId = Fox.StrCode32( "D_gard07" ), routeNum = 7 },
-		{ messageId = Fox.StrCode32( "D_gard08" ), routeNum = 8 },
-		{ messageId = Fox.StrCode32( "D_gard09" ), routeNum = 9 },
-		{ messageId = Fox.StrCode32( "D_gard10" ), routeNum = 10 },
-		{ messageId = Fox.StrCode32( "D_gard11" ), routeNum = 11 },
-		{ messageId = Fox.StrCode32( "D_gard12" ), routeNum = 12 },
-		{ messageId = Fox.StrCode32( "D_gard13" ), routeNum = 13 },
-		{ messageId = Fox.StrCode32( "D_gard14" ), routeNum = 14 },
-		{ messageId = Fox.StrCode32( "D_gard15" ), routeNum = 15 },
-		{ messageId = Fox.StrCode32( "D_gard16" ), routeNum = 16 },
-		{ messageId = Fox.StrCode32( "D_gard17" ), routeNum = 17 },
-		{ messageId = Fox.StrCode32( "D_gard18" ), routeNum = 18 },
-		{ messageId = Fox.StrCode32( "D_gard19" ), routeNum = 19 },
-		{ messageId = Fox.StrCode32( "D_gard20" ), routeNum = 20 },
-		{ messageId = Fox.StrCode32( "D_gard21" ), routeNum = 21 },
-		{ messageId = Fox.StrCode32( "D_gard22" ), routeNum = 22 },
-		{ messageId = Fox.StrCode32( "D_gard23" ), routeNum = 23 },
-		{ messageId = Fox.StrCode32( "D_gard24" ), routeNum = 24 },
-		{ messageId = Fox.StrCode32( "D_gard25" ), routeNum = 25 },
-		{ messageId = Fox.StrCode32( "D_gard26" ), routeNum = 26 },
-		{ messageId = Fox.StrCode32( "D_gard27" ), routeNum = 27 },
-		{ messageId = Fox.StrCode32( "D_gard28" ), routeNum = 28 },
-		{ messageId = Fox.StrCode32( "D_gard29" ), routeNum = 29 },
-		{ messageId = Fox.StrCode32( "D_gard30" ), routeNum = 30 },
-		{ messageId = Fox.StrCode32( "D_gard31" ), routeNum = 31 },
-		{ messageId = Fox.StrCode32( "D_gard32" ), routeNum = 32 },
-		{ messageId = Fox.StrCode32( "D_gard33" ), routeNum = 33 },
-		{ messageId = Fox.StrCode32( "D_gard34" ), routeNum = 34 },
-		{ messageId = Fox.StrCode32( "D_gard35" ), routeNum = 35 },
-		{ messageId = Fox.StrCode32( "D_gard36" ), routeNum = 36 },
+		{ messageId = StrCode32( "D_gard00" ), routeNum = 0 },
+		{ messageId = StrCode32( "D_gard01" ), routeNum = 1 },
+		{ messageId = StrCode32( "D_gard02" ), routeNum = 2 },
+		{ messageId = StrCode32( "D_gard03" ), routeNum = 3 },
+		{ messageId = StrCode32( "D_gard04" ), routeNum = 4 },
+		{ messageId = StrCode32( "D_gard05" ), routeNum = 5 },
+		{ messageId = StrCode32( "D_gard06" ), routeNum = 6 },
+		{ messageId = StrCode32( "D_gard07" ), routeNum = 7 },
+		{ messageId = StrCode32( "D_gard08" ), routeNum = 8 },
+		{ messageId = StrCode32( "D_gard09" ), routeNum = 9 },
+		{ messageId = StrCode32( "D_gard10" ), routeNum = 10 },
+		{ messageId = StrCode32( "D_gard11" ), routeNum = 11 },
+		{ messageId = StrCode32( "D_gard12" ), routeNum = 12 },
+		{ messageId = StrCode32( "D_gard13" ), routeNum = 13 },
+		{ messageId = StrCode32( "D_gard14" ), routeNum = 14 },
+		{ messageId = StrCode32( "D_gard15" ), routeNum = 15 },
+		{ messageId = StrCode32( "D_gard16" ), routeNum = 16 },
+		{ messageId = StrCode32( "D_gard17" ), routeNum = 17 },
+		{ messageId = StrCode32( "D_gard18" ), routeNum = 18 },
+		{ messageId = StrCode32( "D_gard19" ), routeNum = 19 },
+		{ messageId = StrCode32( "D_gard20" ), routeNum = 20 },
+		{ messageId = StrCode32( "D_gard21" ), routeNum = 21 },
+		{ messageId = StrCode32( "D_gard22" ), routeNum = 22 },
+		{ messageId = StrCode32( "D_gard23" ), routeNum = 23 },
+		{ messageId = StrCode32( "D_gard24" ), routeNum = 24 },
+		{ messageId = StrCode32( "D_gard25" ), routeNum = 25 },
+		{ messageId = StrCode32( "D_gard26" ), routeNum = 26 },
+		{ messageId = StrCode32( "D_gard27" ), routeNum = 27 },
+		{ messageId = StrCode32( "D_gard28" ), routeNum = 28 },
+		{ messageId = StrCode32( "D_gard29" ), routeNum = 29 },
+		{ messageId = StrCode32( "D_gard30" ), routeNum = 30 },
+		{ messageId = StrCode32( "D_gard31" ), routeNum = 31 },
+		{ messageId = StrCode32( "D_gard32" ), routeNum = 32 },
+		{ messageId = StrCode32( "D_gard33" ), routeNum = 33 },
+		{ messageId = StrCode32( "D_gard34" ), routeNum = 34 },
+		{ messageId = StrCode32( "D_gard35" ), routeNum = 35 },
+		{ messageId = StrCode32( "D_gard36" ), routeNum = 36 },
 			
 	}
 	

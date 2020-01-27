@@ -1314,16 +1314,16 @@ function this.Messages()
 					Fox.Log( "this.Messages(): ConversationEnd Message Received. gameObjectId:" ..
 						tostring( gameObjectId ) .. ", speechLabel:" .. tostring( speechLabel ) .. ", isSuccess:" .. isSuccess )
 					Fox.Log( "### ConversationEnd ###")
-					if speechLabel == Fox.StrCode32("speech121_EV010") then
+					if speechLabel == StrCode32("speech121_EV010") then
 						this.SetVipRoute( "rts_vip_0000","rts_vip_0000" )
 
-					elseif speechLabel == Fox.StrCode32("speech121_EV020") then
+					elseif speechLabel == StrCode32("speech121_EV020") then
 						this.SetVipRoute( "rts_vip_0001","rts_vip_0001" )
 
-					elseif speechLabel == Fox.StrCode32("speech121_EV030")then
+					elseif speechLabel == StrCode32("speech121_EV030")then
 						this.SetVipRoute( "rts_vip_0002","rts_vip_0002" )
 
-					elseif speechLabel == Fox.StrCode32("speech121_EV040") then
+					elseif speechLabel == StrCode32("speech121_EV040") then
 						
 						if svars.sub_Flag_0006 == false then
 							svars.sub_Flag_0001 = true 

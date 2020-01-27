@@ -834,18 +834,18 @@ this.OnRoutePoint = {
 	ALL = function( gameObjectId, routeId ,routeNode, messageId )
 
 		local messageIdList = { 
-			[ Fox.StrCode32( "rts_lrrp_Unit01_Gather_0002_01_Last" ) ] = { soldierList = { "sol_hillNorth_0006", }, enemyName = "sol_hillNorth_0006", group = "groupE" },
-			[ Fox.StrCode32( "rts_lrrp_Unit01_Gather_0002_03_Last" ) ] = { soldierList = { "sol_hillNorth_0007", }, enemyName = "sol_hillNorth_0007", group = "groupF" },
-			[ Fox.StrCode32( "rts_lrrp_Unit01_Gather_0001_01_Last" ) ] = { soldierList = { "sol_hillNorth_0004", }, enemyName = "sol_hillNorth_0004", group = "groupG" },
-			[ Fox.StrCode32( "rts_lrrp_Unit01_Gather_0001_02_Last" ) ] = { soldierList = { "sol_hillNorth_0005", }, enemyName = "sol_hillNorth_0005", group = "groupH" },
+			[ StrCode32( "rts_lrrp_Unit01_Gather_0002_01_Last" ) ] = { soldierList = { "sol_hillNorth_0006", }, enemyName = "sol_hillNorth_0006", group = "groupE" },
+			[ StrCode32( "rts_lrrp_Unit01_Gather_0002_03_Last" ) ] = { soldierList = { "sol_hillNorth_0007", }, enemyName = "sol_hillNorth_0007", group = "groupF" },
+			[ StrCode32( "rts_lrrp_Unit01_Gather_0001_01_Last" ) ] = { soldierList = { "sol_hillNorth_0004", }, enemyName = "sol_hillNorth_0004", group = "groupG" },
+			[ StrCode32( "rts_lrrp_Unit01_Gather_0001_02_Last" ) ] = { soldierList = { "sol_hillNorth_0005", }, enemyName = "sol_hillNorth_0005", group = "groupH" },
 
-			[ Fox.StrCode32( "rts_lrrp_Unit02_Gather_0001_01_Last" ) ] = { soldierList = { "sol_hillNorth_0008", }, enemyName = "sol_hillNorth_0008", group = "groupI" },
-			[ Fox.StrCode32( "rts_lrrp_Unit02_Gather_0001_02_Last" ) ] = { soldierList = { "sol_hillNorth_0009", }, enemyName = "sol_hillNorth_0009", group = "groupJ" },
-			[ Fox.StrCode32( "rts_lrrp_Unit02_Gather_0002_01_Last" ) ] = { soldierList = { "sol_hillNorth_0010", }, enemyName = "sol_hillNorth_0010", group = "groupK" },
-			[ Fox.StrCode32( "rts_lrrp_Unit02_Gather_0002_02_Last" ) ] = { soldierList = { "sol_hillNorth_0011", }, enemyName = "sol_hillNorth_0011", group = "groupL" },
+			[ StrCode32( "rts_lrrp_Unit02_Gather_0001_01_Last" ) ] = { soldierList = { "sol_hillNorth_0008", }, enemyName = "sol_hillNorth_0008", group = "groupI" },
+			[ StrCode32( "rts_lrrp_Unit02_Gather_0001_02_Last" ) ] = { soldierList = { "sol_hillNorth_0009", }, enemyName = "sol_hillNorth_0009", group = "groupJ" },
+			[ StrCode32( "rts_lrrp_Unit02_Gather_0002_01_Last" ) ] = { soldierList = { "sol_hillNorth_0010", }, enemyName = "sol_hillNorth_0010", group = "groupK" },
+			[ StrCode32( "rts_lrrp_Unit02_Gather_0002_02_Last" ) ] = { soldierList = { "sol_hillNorth_0011", }, enemyName = "sol_hillNorth_0011", group = "groupL" },
 
-			[ Fox.StrCode32( "talk_01_End" ) ] = { soldierList = { "sol_hillNorth_0000", }, enemyName = "sol_hillNorth_0000", group = "groupA" },
-			[ Fox.StrCode32( "talk_02_End" ) ] = { soldierList = { "sol_hillNorth_0000", }, enemyName = "sol_hillNorth_0000", group = "groupA" },
+			[ StrCode32( "talk_01_End" ) ] = { soldierList = { "sol_hillNorth_0000", }, enemyName = "sol_hillNorth_0000", group = "groupA" },
+			[ StrCode32( "talk_02_End" ) ] = { soldierList = { "sol_hillNorth_0000", }, enemyName = "sol_hillNorth_0000", group = "groupA" },
 		}
 
 		local item = messageIdList[ messageId ]
@@ -861,19 +861,19 @@ this.OnRoutePoint = {
 
 
 	
-	[ Fox.StrCode32( "ReadyTalk_01" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "ReadyTalk_01" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( TARGET_VIP_NAME,	"rts_vip_talk_0001", "rts_vip_talk_0001")
 	end,
 
 	
-	[ Fox.StrCode32( "ReadyTalk_02" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "ReadyTalk_02" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( TARGET_VIP_NAME,	"rts_vip_talk_0002", "rts_vip_talk_0002")
 	end,
 
 
 
 	
-	[ Fox.StrCode32( "lrrp_Unit01_0000_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "lrrp_Unit01_0000_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		if( svars.isUnit01Returned == false ) then
 			svars.isUnit01Returned = true
 		end
@@ -885,7 +885,7 @@ this.OnRoutePoint = {
 	end,
 
 	
-	[ Fox.StrCode32( "speech01" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "speech01" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		if mvars.Speech01Count == nil then
 			mvars.Speech01Count = 0
 			s10200_radio.Speech01()
@@ -894,7 +894,7 @@ this.OnRoutePoint = {
 	end,
 
 	
-	[ Fox.StrCode32( "speech02" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "speech02" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		if mvars.Speech02Count == nil then
 			mvars.Speech02Count = 0
 			s10200_radio.Speech02()
@@ -903,20 +903,20 @@ this.OnRoutePoint = {
 	end,
 
 	
-	[ Fox.StrCode32( "rts_lrrp_Unit01_Gather_0001_00_END" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "rts_lrrp_Unit01_Gather_0001_00_END" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( RETURN_UNIT01_MEM_01, "rts_lrrp_Unit01_Gather_0001_01","rts_lrrp_Unit01_Gather_0001_01")
 		this.SetReturnUnitRoute( RETURN_UNIT01_MEM_02, "rts_lrrp_Unit01_Gather_0001_02","rts_lrrp_Unit01_Gather_0001_02")
 	end,
 
 	
-	[ Fox.StrCode32( "rts_lrrp_Unit01_Gather_0002_02_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "rts_lrrp_Unit01_Gather_0002_02_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( RETURN_UNIT01_MEM_04, "rts_lrrp_Unit01_Gather_0002_03","rts_lrrp_Unit01_Gather_0002_03")
 	end,
 
 
 	
 	
-	[ Fox.StrCode32( "rts_lrrp_Unit02_0000_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "rts_lrrp_Unit02_0000_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		if( svars.isUnit02Returned == false ) then
 			svars.isUnit02Returned = true
 			this.HostageMove( "rt_hostage_0000" )
@@ -930,17 +930,17 @@ this.OnRoutePoint = {
 	
 	
 	
-	[ Fox.StrCode32( "to_rts_lrrp_Unit02_Gather_0001_01" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "to_rts_lrrp_Unit02_Gather_0001_01" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( RETURN_UNIT02_MEM_01, "rts_lrrp_Unit02_Gather_0001_01","rts_lrrp_Unit02_Gather_0001_01")
 	end,
 	
 	
-	[ Fox.StrCode32( "to_rts_lrrp_Unit02_Gather_0001_02" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "to_rts_lrrp_Unit02_Gather_0001_02" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( RETURN_UNIT02_MEM_02, "rts_lrrp_Unit02_Gather_0001_02","rts_lrrp_Unit02_Gather_0001_02")
 	end,
 	
 	
-	[ Fox.StrCode32( "rts_lrrp_Unit02_Gather_0002_00_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
+	[ StrCode32( "rts_lrrp_Unit02_Gather_0002_00_End" ) ] = function( gameObjectId, routeId ,routeNode, messageId )
 		this.SetReturnUnitRoute( RETURN_UNIT02_MEM_03, "rts_lrrp_Unit02_Gather_0002_01","rts_lrrp_Unit02_Gather_0002_01")
 		this.SetReturnUnitRoute( RETURN_UNIT02_MEM_04, "rts_lrrp_Unit02_Gather_0002_02","rts_lrrp_Unit02_Gather_0002_02")
 	end,
@@ -1274,11 +1274,11 @@ function this.Messages()
 					Fox.Log( "this.Messages(): ConversationEnd Message Received. gameObjectId:" ..
 						tostring( gameObjectId ) .. ", speechLabel:" .. tostring( speechLabel ) .. ", isSuccess:" .. isSuccess )
 					Fox.Log( "*** ConversationEnd ***")
-					if speechLabel == Fox.StrCode32("CT10200_02") then
+					if speechLabel == StrCode32("CT10200_02") then
 
-					elseif speechLabel == Fox.StrCode32("CT10200_03") then
+					elseif speechLabel == StrCode32("CT10200_03") then
 
-					elseif speechLabel == Fox.StrCode32("CT10200_04") then
+					elseif speechLabel == StrCode32("CT10200_04") then
 						TppEnemy.UnsetSneakRoute("sol_hillNorth_0000")
 						TppEnemy.UnsetSneakRoute("sol_hillNorth_0002")
 					else

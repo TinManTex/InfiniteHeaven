@@ -581,7 +581,7 @@ this.CheckEnemyHeliPoint = function(objectId)
 	local node = GameObject.SendCommand(gameObjectId, { id="GetDoingRouteEventIndex" })
 
 	Fox.Log("route : "..route..". node : "..node )
-	if route == Fox.StrCode32(HELI_ROUTE) and node == HELI_ARRIVAL_NODE then
+	if route == StrCode32(HELI_ROUTE) and node == HELI_ARRIVAL_NODE then
 		Fox.Log("Heli arrival")
 		return true
 	else

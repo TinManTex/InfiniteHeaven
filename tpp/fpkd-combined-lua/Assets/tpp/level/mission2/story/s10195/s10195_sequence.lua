@@ -650,7 +650,7 @@ function this.Messages()
 			{ msg = "ChangeToEnable", sender = TARGET_VIP_NAME,
 				func = function ( instanceName, makerType, s_gameObjectId, identificationCode )
 					
-					if identificationCode == Fox.StrCode32("Player") then
+					if identificationCode == StrCode32("Player") then
 						svars.isVipMarking = true	
 					end
 				end
@@ -723,8 +723,8 @@ function this.Messages()
 
 					svars.isEndMeeting =true
 
-					if speechLabel == Fox.StrCode32("CT10195_01") then
-						s10195_enemy.OnRoutePoint( nil, nil, nil, Fox.StrCode32("endMeeting") )
+					if speechLabel == StrCode32("CT10195_01") then
+						s10195_enemy.OnRoutePoint( nil, nil, nil, StrCode32("endMeeting") )
 
 						if isSuccess then
 							
@@ -1098,7 +1098,7 @@ function this.FuncAbortMeeting()
 			Fox.Log("__________________Dealer(Target) is Anomaly.")
 		else
 			
-			s10195_enemy.OnRoutePoint( nil,nil,nil,Fox.StrCode32("CancelMeetingVIP") )
+			s10195_enemy.OnRoutePoint( nil,nil,nil,StrCode32("CancelMeetingVIP") )
 		end
 
 		
@@ -1271,7 +1271,7 @@ end
 
 
 
-this.routePointHintTableRoot[ Fox.StrCode32( "hint_spyMove" ) ] = {
+this.routePointHintTableRoot[ StrCode32( "hint_spyMove" ) ] = {
 	func = function()
 
 		if not svars.isKnowVIP and not svars.isKnowDealer then
@@ -1290,21 +1290,21 @@ this.routePointHintTableRoot[ Fox.StrCode32( "hint_spyMove" ) ] = {
 
 
 
-this.routePointHintTableRoot[ Fox.StrCode32( "LeaveMA" ) ] = {
+this.routePointHintTableRoot[ StrCode32( "LeaveMA" ) ] = {
 	func = function()
 		svars.isLeaveMA = true
 	end
 }
 
 
-this.routePointHintTableRoot[ Fox.StrCode32( "heliHelp" ) ] = {
+this.routePointHintTableRoot[ StrCode32( "heliHelp" ) ] = {
 	func = function()
 		this.UpdateObjectives("TargetHeli")
 	end
 }
 
 
-this.routePointHintTableRoot[ Fox.StrCode32( "heliOut" ) ] = {
+this.routePointHintTableRoot[ StrCode32( "heliOut" ) ] = {
 
 	func = function()
 		
@@ -1322,7 +1322,7 @@ this.routePointHintTableRoot[ Fox.StrCode32( "heliOut" ) ] = {
 }
 
 
-this.routePointHintTableRoot[ Fox.StrCode32( "toNextCar" ) ] = {
+this.routePointHintTableRoot[ StrCode32( "toNextCar" ) ] = {
 	func = function()
 		s10195_radio.FuncGotOutCar()
 	end

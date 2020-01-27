@@ -181,7 +181,7 @@ local CHECK_ENEMY_POS02		= {2669.865, 173.9299, -2474.738}
 local CHECK_ENEMY_RANGE02		= 25	
 
 this.NPC_ENTRY_POINT_SETTING = {
-	[Fox.StrCode32("rts_drp_lab_S_0000")] = {
+	[StrCode32("rts_drp_lab_S_0000")] = {
 		[EntryBuddyType.VEHICLE] = { Vector3(2456.153, 70.319, -1192.765), TppMath.DegreeToRadian( 151 ) }, 
 		[EntryBuddyType.BUDDY] = { Vector3(2435.610, 71.799, -1193.728), 163 }, 
 	},
@@ -1553,7 +1553,7 @@ function this.Messages()
 
 							
 							for index, labelName in ipairs( this.longMonologueList ) do
-								if ( speechLabel == Fox.StrCode32(labelName) ) then
+								if ( speechLabel == StrCode32(labelName) ) then
 									svars[labelName] = true
 									Fox.Log("s10130_mission Monologue speechLabel"..labelName)
 									Fox.Log("s10130_mission Monologue speechLabel".. tostring(svars[labelName]))
@@ -1563,15 +1563,15 @@ function this.Messages()
 
 							
 							for index, labelName in ipairs( this.longMonologueList ) do
-								if ( speechLabel == Fox.StrCode32("speech130_CTV010_04") ) then
+								if ( speechLabel == StrCode32("speech130_CTV010_04") ) then
 									
 									Fox.Log("s10130_mission Monologue labelName NoPlay!!!".. tostring(labelName))
 									s10130_radio.MonologueAfterKazuRadio01()
 									break
-								elseif ( speechLabel == Fox.StrCode32("speech130_CTV010_08") ) then
+								elseif ( speechLabel == StrCode32("speech130_CTV010_08") ) then
 									Fox.Log("s10130_mission Monologue labelName NoPlay!!!".. tostring(labelName))
 									break
-								elseif ( speechLabel == Fox.StrCode32("speech130_CTV020_03") ) then
+								elseif ( speechLabel == StrCode32("speech130_CTV020_03") ) then
 									
 									Fox.Log("s10130_mission Monologue labelName NoPlay!!!".. tostring(labelName))
 									s10130_radio.MonologueAfterKazuRadio02()
@@ -1810,7 +1810,7 @@ function this.Messages()
 
 
 
-					if( largeBlockName == Fox.StrCode32("mafr_lab") )then
+					if( largeBlockName == StrCode32("mafr_lab") )then
 						if(largeBlock_Stat == StageBlock.ACTIVE)then
 							this.LabShutterOff()
 						else
@@ -2409,9 +2409,9 @@ sequences.Seq_Game_CodeTalkerMeetBefore = {
 						Fox.Log("*** gameObjectId " .. tostring(gameObjectId) .. " ***")
 						Fox.Log("*** makerType " .. tostring(markType) .. " ***")
 						
-						if markType == Fox.StrCode32("TYPE_ENEMY") then
+						if markType == StrCode32("TYPE_ENEMY") then
 							
-							if identificationCode == Fox.StrCode32("Player") then
+							if identificationCode == StrCode32("Player") then
 								Fox.Log( "s10093_sequence Marked Enemy !!!!!" )
 								s10130_radio.ZRSDiscovery()
 							end

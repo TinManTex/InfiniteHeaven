@@ -110,7 +110,6 @@ local function IsForProfile(item,currentMenu,priorMenus,priorItems)
     or item.optionType~="OPTION"
     or item.nonUser
     or item.nonConfig
-    or item.OnSubSettingChanged
   then
     return false
   end
@@ -159,6 +158,10 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     if skipItems and skipItemsList[item.name] then
 
     else
+    --DEBUGNOW
+--      print("name:"..item.name)
+--      print("desc:"..tostring(item.description))
+--      print("langstr:"..tostring(InfMenu.LangString(item.name)))
       local settingDescription=item.description or InfMenu.LangString(item.name)
       local indexDisplayLine=i..": "
 

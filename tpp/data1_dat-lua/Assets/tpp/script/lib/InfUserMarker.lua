@@ -41,8 +41,8 @@ function this.PrintMarkerGameObject(index)
     return
   end
   local typeIndex=GetTypeIndex(gameId)
-  local typeStr=InfMain.gameObjectTypeToString[typeIndex]
-  local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
+  local typeStr=InfLookup.gameObjectTypeToString[typeIndex]
+  local soldierName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
   InfLog.DebugPrint(soldierName)
   InfLog.DebugPrint(gameId.."="..typeStr)
   InfLog.DebugPrint("cpName:"..tostring(cpName))

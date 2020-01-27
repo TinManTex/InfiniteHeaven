@@ -337,7 +337,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly)
   local settingText=""
   local settingSuffix=""
   local optionSeperator=""
-  local settingNames=option.settingNames or option.settings
+
   local currentSetting=ivars[option.name]
 
   if option.isMenuOff then
@@ -349,27 +349,21 @@ function this.GetSettingText(optionIndex,option,optionNameOnly)
   elseif option.optionType=="MENU" then
     optionSeperator=itemIndicators.menu
     settingText=""
-  elseif settingNames then
-    optionSeperator=itemIndicators.equals
-    if currentSetting==nil then
-      settingText=": ERROR: ivar setting==nil"
-      --tex old style direct non localized table
-    elseif IsTable(settingNames) then
-      if currentSetting < 0 or currentSetting > #settingNames-1 then
-        settingText=" WARNING: current setting out of settingNames bounds"
-      elseif IsFunc(option.GetSettingText) then
-        settingText=tostring(option:GetSettingText(currentSetting))
-      else
-        --tex lua indexed from 1, but settings from 0
-        settingText=settingNames[currentSetting+1]
-      end
-    else
-      local langTable
-      settingText,langTable=this.LangTableString(settingNames,currentSetting+1)
-    end
+  elseif currentSetting==nil then
+    settingText=": ERROR: ivar==nil"
   elseif IsFunc(option.GetSettingText) then
     optionSeperator=itemIndicators.equals
     settingText=tostring(option:GetSettingText(currentSetting))
+  elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
+    optionSeperator=itemIndicators.equals
+    if currentSetting < 0 or currentSetting > #option.settingNames-1 then
+      settingText=" WARNING: current setting out of settingNames bounds"
+    else
+      settingText=option.settingNames[currentSetting+1]
+    end
+  elseif option.settingNames then
+    optionSeperator=itemIndicators.equals
+    settingText=this.LangTableString(option.settingNames,currentSetting+1)
   else
     optionSeperator=itemIndicators.equals
     settingText=tostring(currentSetting)
@@ -415,9 +409,6 @@ function this.DisplaySettings()
   for i=1,#this.currentMenuOptions do
     this.DisplaySetting(i)
   end
-end
-function this.DisplayProfileChangedToCustom(profile)
-  TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--TODO: ADDLANG:
 end
 --tex CULL wont achieve much since the issue is with already posted log lines, and cant delay enough to filter without losing responsiveness
 --function this.QueueDisplay(message,messageType)
@@ -483,7 +474,7 @@ function this.ResetSettings()
       if option.save then--tex using identifier for all ivar/resetable settings
         --InfLog.DebugPrint(option.name)--DEBUG
         if ivars[option.name]~=option.default then
-          IvarProc.SetSetting(option,option.default,true)
+          IvarProc.SetSetting(option,option.default)
       end
       end
     end
@@ -494,7 +485,7 @@ function this.ResetSettingsDisplay()
   for i=1,#this.currentMenuOptions do
     local option=this.currentMenuOptions[i]
     if option.save then
-      IvarProc.SetSetting(option,option.default,true)
+      IvarProc.SetSetting(option,option.default)
       this.DisplaySetting(i)
     end
   end
@@ -518,6 +509,9 @@ function this.GetLanguageCode()
       languageCode="cht"
     end
   end
+  if Ivars[languageCode]==nil then
+    languageCode="eng"
+  end
   return languageCode
 end
 
@@ -527,10 +521,6 @@ function this.LangString(langId)
     return ""
   end
   local languageCode=this.GetLanguageCode()
-  if InfLang[languageCode]==nil then
-    --TppUiCommand.AnnounceLogView("no lang in inflang")
-    languageCode="eng"
-  end
   local langString=InfLang[languageCode][langId]
   if (langString==nil or langString=="") and languageCode~="eng" then
     --TppUiCommand.AnnounceLogView("no langstring for " .. languageCode)
@@ -551,10 +541,6 @@ function this.LangTableString(langId,index)
     return ""
   end
   local languageCode=this.GetLanguageCode()
-  if InfLang[languageCode]==nil then
-    --TppUiCommand.AnnounceLogView("no lang in inflang")
-    languageCode="eng"
-  end
   local langTable=InfLang[languageCode][langId]
   if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
     --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
@@ -580,10 +566,6 @@ function this.GetLangTable(langId,index)
     return {}
   end
   local languageCode=InfMenu.GetLanguageCode()
-  if InfLang[languageCode]==nil then
-    --TppUiCommand.AnnounceLogView("no lang in inflang")
-    languageCode="eng"
-  end
   local langTable=InfLang[languageCode][langId]
   if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
     --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)--DEBUG
@@ -599,6 +581,7 @@ function this.GetLangTable(langId,index)
 end
 
 function this.CpNameString(cpName,location)
+  local location=location or InfMain.GetLocationName()
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLang.cpNames[location]
   if locationCps==nil then

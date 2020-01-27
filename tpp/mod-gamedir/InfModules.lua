@@ -3,6 +3,7 @@
 -- see InfMain.LoadExternalModules to see how this is set up
 local this={}
 this.moduleNames={
+  "InfLookup",
   "Ivars",
   "InfMenuCommands",
   "InfQuickMenuCommands",

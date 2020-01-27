@@ -936,7 +936,7 @@ this.TruckExplosion = function()
 
 		
 		
-		s10081_enemy.OnRoutePoint(nil,nil,nil,Fox.StrCode32( "huntingShift" ) )
+		s10081_enemy.OnRoutePoint(nil,nil,nil,StrCode32( "huntingShift" ) )
 
 		
 		s10081_enemy.SetKeepCaution()

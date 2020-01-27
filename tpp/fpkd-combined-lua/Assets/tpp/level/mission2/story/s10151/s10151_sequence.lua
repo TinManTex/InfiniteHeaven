@@ -2036,7 +2036,7 @@ sequences.Seq_movie_Preview = {
 		Fox.Log("________s10151_sequence.ActivatedBlock()_________")
 		Fox.Log("blockName is " .. tostring(blockName) .. " / blockState is " .. tostring(blockState))
 
-		if blockName == Fox.StrCode32( "demo_block" ) then
+		if blockName == StrCode32( "demo_block" ) then
 			if blockState == ScriptBlock.TRANSITION_ACTIVATED then
 				if TppScriptBlock.GetCurrentPackListName( "demo_block" ) == "Demo_Movie" then
 					sequences.Seq_movie_Preview.PlayMoviePreview()
@@ -2111,7 +2111,7 @@ sequences.Seq_Demo_Ending3 = {
 		Fox.Log("________s10151_sequence.ActivatedBlock()_________")
 		Fox.Log("blockName is " .. tostring(blockName) .. " / blockState is " .. tostring(blockState))
 
-		if blockName == Fox.StrCode32( "demo_block" ) then
+		if blockName == StrCode32( "demo_block" ) then
 			if blockState == ScriptBlock.TRANSITION_ACTIVATED then
 				if TppScriptBlock.GetCurrentPackListName( "demo_block" ) == "Demo_Ending3" then
 					sequences.Seq_Demo_Ending3.PlayMovieEnding3()

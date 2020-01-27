@@ -1,8 +1,10 @@
--- DOBUILD: 0 --DEBUGWIP has config file name changes
 -- TppDefine.lua
 local this={}
-local E=bit.bnot
-local E,bor,E=bit.band,bit.bor,bit.bxor
+
+local StrCode32=Fox.StrCode32
+local bnot=bit.bnot
+local band,bor,bxor=bit.band,bit.bor,bit.bxor
+
 function this.Enum(enumNames)
   if type(enumNames)~="table"then
     return
@@ -49,7 +51,7 @@ this.PLAYSTYLE_SAVE_INDEX_MAX=20
 this.PLAYSTYLE_HISTORY_MAX=2
 this.MAX_TIPS_GUIDE_SHOWN_ONCE=256
 this.MAX_CONTROL_GUIDE_SHOWN_ONCE=128
-this.MESSAGE_GENERATION={[Fox.StrCode32"GameObject"]={[Fox.StrCode32"Fulton"]=0,[Fox.StrCode32"VehicleBroken"]=0}}
+this.MESSAGE_GENERATION={[StrCode32"GameObject"]={[StrCode32"Fulton"]=0,[StrCode32"VehicleBroken"]=0}}
 this.DEFAULT_MESSAGE_GENERATION=1
 this.ELAPSED_MISSION_COUNT_MAX=14
 this.ELAPSED_MISSION_COUNT={INIT=-127,DONE_EVENT=-1,NOW_OCCURRING=0}
@@ -159,8 +161,7 @@ this.PROGRAM_SAVE_FILE_VERSION_OFFSET=65535
 this.GAME_SAVE_FILE_NAME="TPP_GAME_DATA"
 this.GAME_SAVE_FILE_NAME_TMP="TPP_GAME_DATA_TMP"
 this.MGO_MAIN_SAVE_FILE_NAME="MGO_MAIN_DATA"
---this.CONFIG_SAVE_FILE_NAME="TPP_CONFIG_DATA_MOD"--tex seperating save file since engine (rightfully) complains about unexpected file size change when reverting to vanilla DEBUGWIP
-this.CONFIG_SAVE_FILE_NAME="TPP_CONFIG_DATA" --ORIG 
+this.CONFIG_SAVE_FILE_NAME="TPP_CONFIG_DATA"
 this.MGO_SAVE_FILE_NAME="MGO_GAME_DATA"
 this.PERSONAL_DATA_SAVE_FILE_NAME="PERSONAL_DATA"
 this.CATEGORY_MISSION_RESTARTABLE=2
@@ -461,10 +462,10 @@ this.SOLIDER2_COMMON_PACK={
   s10151_special="/Assets/tpp/pack/mission2/story/s10151/s10151_special_npc.fpk",
   s10151_ending="/Assets/tpp/pack/mission2/story/s10151/s10151_ending_npc.fpk"
 }
-for T,E in pairs(this.SOLIDER2_COMMON_PACK)do
-  this.SOLIDER2_COMMON_PACK[Fox.StrCode32(T)]=E
+for name,packPath in pairs(this.SOLIDER2_COMMON_PACK)do
+  this.SOLIDER2_COMMON_PACK[StrCode32(name)]=packPath
 end
-this.DEFAULT_SOLIDER2_COMMON_PACKAGE=Fox.StrCode32"default"
+this.DEFAULT_SOLIDER2_COMMON_PACKAGE=StrCode32"default"
 this.SOLIDER2_COMMON_PACK_PREREQUISITES={s10150_special={"mission_block"},s10151_special={"mission_block"},s10151_ending={"mission_block"}}
 this.AFR_ARMOR={TYPE_CFA=1,TYPE_ZRS=2,TYPE_RC=3}
 this.QUEST_DEFINE={

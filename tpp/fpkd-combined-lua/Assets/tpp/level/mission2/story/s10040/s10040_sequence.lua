@@ -361,7 +361,7 @@ this.missionStartPosition = {
 }
 
 this.NPC_ENTRY_POINT_SETTING = {
-	[ Fox.StrCode32("lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000") ] = {
+	[ StrCode32("lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000") ] = {
 		[EntryBuddyType.VEHICLE] = { Vector3(1196.641, 313.488, -10.100), TppMath.DegreeToRadian( 60 ) }, 
 		[EntryBuddyType.BUDDY] = { Vector3(1193.896, 313.871, -6.326), TppMath.DegreeToRadian( 60 ) }, 
 	},
@@ -511,9 +511,9 @@ this.CheckClearDemoPos = function()
 	local gameObjectId =  GameObject.GetGameObjectId("TppHeli2","SupportHeli")
 	local route = GameObject.SendCommand(gameObjectId, { id="GetUsingRoute" })
 
-	local south = Fox.StrCode32("rt_rtn_fort_S_0000")	
-	local west  = Fox.StrCode32("rt_rtn_fort_W_0000")	
-	local east  = Fox.StrCode32("rt_rtn_fort_E_0000")	
+	local south = StrCode32("rt_rtn_fort_S_0000")	
+	local west  = StrCode32("rt_rtn_fort_W_0000")	
+	local east  = StrCode32("rt_rtn_fort_E_0000")	
 
 	if route == west then
 		Fox.Log("match : west")
@@ -1797,7 +1797,7 @@ sequences.Seq_Game_MainGame = {
 
 	FoundHostagePlayRadio = function( instanceName, makerType, s_gameObjectId, identificationCode)
 		Fox.Log("Fond Target")
-		if identificationCode == Fox.StrCode32("Player") then
+		if identificationCode == StrCode32("Player") then
 			svars.isMarkHostage = true
 			TppMission.UpdateObjective{ objectives = { "marker_hostage", nil }, }
 
@@ -1976,7 +1976,7 @@ sequences.Seq_Game_BossBattle = {
 					msg = "ArrivedAtLandingZoneWaitPoint",
 					func = function(gameObjectId, lzName)
 						
-						if lzName == Fox.StrCode32("lzs_fort_S_000") then
+						if lzName == StrCode32("lzs_fort_S_000") then
 							local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
 							GameObject.SendCommand(gameObjectId, { id="CallToLandingZoneAtName", name="lzs_fort_W_0000" })							
 							

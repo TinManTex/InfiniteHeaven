@@ -96,13 +96,13 @@ s10010_demo.GetDemoNameFromDemoId = function( targetDemoId )
 
 	
 	for demoId, demoName in pairs( s10010_demo.truthDemoTable ) do
-		if targetDemoId == Fox.StrCode32( demoId ) then
+		if targetDemoId == StrCode32( demoId ) then
 			return demoName
 		end
 	end
 
 	for demoName, demoId in pairs( s10010_demo.demoList ) do
-		if Fox.StrCode32( demoId ) == targetDemoId then
+		if StrCode32( demoId ) == targetDemoId then
 			return demoName
 		end
 	end

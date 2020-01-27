@@ -4,10 +4,12 @@ local this={}
 
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
-
+this.doneStartup=false
 
 this.modules={}
 
+this.str32ToString={}
+this.unknownStr32={}
 --
 local nl="\r\n"
 
@@ -172,7 +174,27 @@ function this.DEBUG_Where(stackLevel)
   return"(unknown)"
 end
 
---
+function this.AddFlow(message)
+  if Ivars.debugFlow:Is(0) then
+    return
+  end
+--  local stackLevel=2
+--  local stackInfo=debug.getinfo(stackLevel,"n")
+--  this.Add(tostring(stackInfo.name).."| "..message)
+  this.Add(message)
+end
+
+--tex would rather have this in InfLookup, but needs to be loaded before libModules
+--tex registers string for InfLookup.StrCode32ToString
+local StrCode32=Fox.StrCode32
+function this.StrCode32(encodeString)
+  local strCode=StrCode32(encodeString)
+  if this.debugMode then
+    this.str32ToString[strCode]=encodeString
+  end
+  return strCode
+end
+
 --tex NMC from lua wiki
 local function Split(str,delim,maxNb)
   -- Eliminate bad cases...
@@ -258,11 +280,11 @@ this.ext=".txt"
 --  this.FoxLog(message)
 --end
 
-local print=print
-print=function(...)
-  InfLog.Add(...,true)
-  print(...)
-end
+--local print=print
+--print=function(...)
+--  InfLog.Add(...,true)
+--  print(...)
+--end
 
 --EXEC
 this.gamePath=GetGamePath()
@@ -276,4 +298,5 @@ this.CopyLogToPrev()
 
 local time=os.date("%x %X")
 this.Add("InfLog start "..time)
+
 return this

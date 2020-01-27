@@ -3503,7 +3503,7 @@ function this.Messages()
 				msg = "OnChangeLargeBlockState",
 				func = function( blockName , state )
 					local sequence = TppSequence.GetCurrentSequenceName()
-					if blockName == Fox.StrCode32( "mafr_diamond" ) and state == StageBlock.ACTIVE	then
+					if blockName == StrCode32( "mafr_diamond" ) and state == StageBlock.ACTIVE	then
 						if ( sequence == "Seq_Game_BeforeRescueBoy" )	then
 							Fox.Log("Event Door Setting ON")
 							Gimmick.SetEventDoorLock( EVENT_DOOR_BOY , EVENT_DOOR_PATH , true , 0 )	
@@ -3581,7 +3581,7 @@ function this.Messages()
 			{	
 					msg = "RadioEnd",
 					func = function( gameObjectId , cpId , label, succeed)
-						if label == Fox.StrCode32("CPR0230") and svars.isPrisonBreak == false	then
+						if label == StrCode32("CPR0230") and svars.isPrisonBreak == false	then
 							svars.isPrisonBreak = true			
 							this.BGM_Setting()					
 							s10100_radio.escapePerceived()		
@@ -3613,13 +3613,13 @@ function this.Messages()
 					msg = "BreakGimmick",
 					func = function( gameObjectId , gameObjectName , name)
 						
-						if		gameObjectName == Fox.StrCode32("mafr_wtct002_vrtn001_gim_n0000|srt_mafr_wtct002")	then
+						if		gameObjectName == StrCode32("mafr_wtct002_vrtn001_gim_n0000|srt_mafr_wtct002")	then
 							s10100_radio.ChangeIntelRadio_brokenBananaTower()
 						
-						elseif	gameObjectName == Fox.StrCode32("afgh_gnrt002_vrtn001_gim_n0000|srt_afgh_gnrt002_vrtn001")	then
+						elseif	gameObjectName == StrCode32("afgh_gnrt002_vrtn001_gim_n0000|srt_afgh_gnrt002_vrtn001")	then
 							s10100_radio.ChangeIntelRadio_brokenHATSUDENKI()
 						
-						elseif	gameObjectName == Fox.StrCode32("mafr_fenc005_door004_gim_n0000|srt_mafr_fenc005_door004")	then
+						elseif	gameObjectName == StrCode32("mafr_fenc005_door004_gim_n0000|srt_mafr_fenc005_door004")	then
 							s10100_radio.ChangeIntelRadio_brokenFrontGate()
 						else
 							Fox.Log("BreakGimmick MSG ... No Setting GIMMICK !!")
@@ -3783,7 +3783,7 @@ function this.Messages()
 					local Sneak_eneHeli_banana		= { id="SetSneakRoute"		, route="eneHeli_banana",		point=5	}
 					local Caution_eneHeli_banana	= { id="SetCautionRoute"	, route="eneHeli_banana",		point=5	}
 					
-					if	msgID == Fox.StrCode32( "commonArrivedMessage" ) then
+					if	msgID == StrCode32( "commonArrivedMessage" ) then
 						svars.isBoyHostagesCount_arrival = svars.isBoyHostagesCount_arrival + 1
 						svars.isPassPoint_showGuide = false
 						if 		gameObjectId == gameObjectId_A	then
@@ -3797,148 +3797,148 @@ function this.Messages()
 						else
 							Fox.Log("gameObjectId is not boyHostages ...")
 						end
-					elseif	msgID == Fox.StrCode32( "commonWaitMessage" )	then
+					elseif	msgID == StrCode32( "commonWaitMessage" )	then
 						this.boyHostages_RouteChangeCheck()	
-					elseif	msgID == Fox.StrCode32( "passPointWaitMessage" )	then
+					elseif	msgID == StrCode32( "passPointWaitMessage" )	then
 						this.boyHostages_passPointWaitCheck()
-					elseif	msgID == Fox.StrCode32( "lz_arrive_boyA" )	then
+					elseif	msgID == StrCode32( "lz_arrive_boyA" )	then
 						svars.isBoyHostage_A_moveState = 3
 						this.boyHostages_carrySetting()
 						GameObject.SendCommand( gameObjectId_A , this.command_A0024_wait )	
 						GameObject.SendCommand( gameObjectId_A , unlockTrue )
 						s10100_radio.boyOnHeli_advice()
-					elseif	msgID == Fox.StrCode32( "lz_arrive_boyB" )	then
+					elseif	msgID == StrCode32( "lz_arrive_boyB" )	then
 						svars.isBoyHostage_B_moveState = 3
 						this.boyHostages_carrySetting()
 						GameObject.SendCommand( gameObjectId_B , this.command_B0024_wait )
 						GameObject.SendCommand( gameObjectId_B , unlockTrue )
 						s10100_radio.boyOnHeli_advice()
-					elseif	msgID == Fox.StrCode32( "lz_arrive_boyC" )	then
+					elseif	msgID == StrCode32( "lz_arrive_boyC" )	then
 						svars.isBoyHostage_C_moveState = 3
 						this.boyHostages_carrySetting()
 						GameObject.SendCommand( gameObjectId_C , this.command_C0024_wait )
 						GameObject.SendCommand( gameObjectId_C , unlockTrue )
 						s10100_radio.boyOnHeli_advice()	
-					elseif	msgID == Fox.StrCode32( "lz_arrive_boyD" )	then
+					elseif	msgID == StrCode32( "lz_arrive_boyD" )	then
 						svars.isBoyHostage_D_moveState = 3
 						this.boyHostages_carrySetting()
 						GameObject.SendCommand( gameObjectId_D , this.command_D0024_wait )
 						GameObject.SendCommand( gameObjectId_D , unlockTrue )
 						s10100_radio.boyOnHeli_advice()
-					elseif	msgID == Fox.StrCode32( "loadLaugh" )	then
+					elseif	msgID == StrCode32( "loadLaugh" )	then
 					
 					
 					
-					elseif	msgID == Fox.StrCode32( "wav0000_routeChange_01" )	then
+					elseif	msgID == StrCode32( "wav0000_routeChange_01" )	then
 						s10100_enemy.wav0000_GO_02()
-					elseif	msgID == Fox.StrCode32( "wav0000_routeChange_02" )	then
+					elseif	msgID == StrCode32( "wav0000_routeChange_02" )	then
 						s10100_enemy.wav0000_GO_01()
-					elseif	msgID == Fox.StrCode32( "wav0001_routeChange_01" )	then
+					elseif	msgID == StrCode32( "wav0001_routeChange_01" )	then
 						s10100_enemy.wav0001_GO_02()
-					elseif	msgID == Fox.StrCode32( "wav0001_routeChange_02" )	then
+					elseif	msgID == StrCode32( "wav0001_routeChange_02" )	then
 						s10100_enemy.wav0001_GO_01()
-					elseif	msgID == Fox.StrCode32( "wav0002_routeChange_01" )	then
+					elseif	msgID == StrCode32( "wav0002_routeChange_01" )	then
 						s10100_enemy.wav0002_GO_02()
-					elseif	msgID == Fox.StrCode32( "wav0002_routeChange_02" )	then
+					elseif	msgID == StrCode32( "wav0002_routeChange_02" )	then
 						s10100_enemy.wav0002_GO_01()
-					elseif	msgID == Fox.StrCode32( "pursuersRadio_A" )	then
+					elseif	msgID == StrCode32( "pursuersRadio_A" )	then
 						
 						if Tpp.IsHelicopter(vars.playerVehicleGameObjectId) then
 							Fox.Log("PC in SupportHeli ... No Play Radio !!")
 						else
 							s10100_radio.stopPursuer()
 						end
-					elseif	msgID == Fox.StrCode32( "pursuersRadio_B" )	then
+					elseif	msgID == StrCode32( "pursuersRadio_B" )	then
 						
 						if Tpp.IsHelicopter(vars.playerVehicleGameObjectId) then
 							Fox.Log("PC in SupportHeli ... No Play Radio !!")
 						else
 							s10100_radio.reinforcementAppearance()
 						end
-					elseif	msgID == Fox.StrCode32( "hill0000_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0000_routeMSG" )	then
 						this.hill0000_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0001_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0001_routeMSG" )	then
 						this.hill0001_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0002_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0002_routeMSG" )	then
 						this.hill0002_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0003_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0003_routeMSG" )	then
 						this.hill0003_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0005_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0005_routeMSG" )	then
 						this.hill0005_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0006_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0006_routeMSG" )	then
 						this.hill0006_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0008_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0008_routeMSG" )	then
 						this.hill0008_routeChange()
-					elseif	msgID == Fox.StrCode32( "hill0009_routeMSG" )	then
+					elseif	msgID == StrCode32( "hill0009_routeMSG" )	then
 						this.hill0009_routeChange()
 					
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointRoute01" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointRoute01" )	then
 						if svars.isPrisonBreak == true	then
 							GameObject.SendCommand( gameObjectId, Sneak_jointRoute01 )
 							GameObject.SendCommand( gameObjectId, Caution_jointRoute01 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointRoute10" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointRoute10" )	then
 						if svars.isPrisonBreak == true	then
 							GameObject.SendCommand( gameObjectId, Sneak_jointRoute10 )
 							GameObject.SendCommand( gameObjectId, Caution_jointRoute10 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointRoute20" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointRoute20" )	then
 						if svars.isPrisonBreak == true	then
 							GameObject.SendCommand( gameObjectId, Sneak_jointRoute20 )
 							GameObject.SendCommand( gameObjectId, Caution_jointRoute20 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointRoute30" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointRoute30" )	then
 						if svars.isPrisonBreak == true	then
 							GameObject.SendCommand( gameObjectId, Sneak_jointRoute30 )
 							GameObject.SendCommand( gameObjectId, Caution_jointRoute30 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointRoute40" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointRoute40" )	then
 						if svars.isPrisonBreak == true	then
 							GameObject.SendCommand( gameObjectId, Sneak_jointRoute40 )
 							GameObject.SendCommand( gameObjectId, Caution_jointRoute40 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointRoute50" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointRoute50" )	then
 						if svars.isPrisonBreak == true	then
 							GameObject.SendCommand( gameObjectId, Sneak_jointRoute50 )
 							GameObject.SendCommand( gameObjectId, Caution_jointRoute50 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "SearchHostages_routeChange" )	then
+					elseif	msgID == StrCode32( "SearchHostages_routeChange" )	then
 						GameObject.SendCommand( enemyHeliId, Sneak_SearchHostages )
 						GameObject.SendCommand( enemyHeliId, Caution_SearchHostages )
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointBanana01" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointBanana01" )	then
 						if svars.isBoyHostagesProgress >= 20 or svars.isReserveFlag_08 == true	then
 							GameObject.SendCommand( enemyHeliId, Sneak_jointBanana01 )
 							GameObject.SendCommand( enemyHeliId, Caution_jointBanana01 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointBanana02" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointBanana02" )	then
 						if svars.isBoyHostagesProgress >= 20 or svars.isReserveFlag_08 == true	then
 							GameObject.SendCommand( enemyHeliId, Sneak_jointBanana02 )
 							GameObject.SendCommand( enemyHeliId, Caution_jointBanana02 )
 						else
 							Fox.Log("Nothing Done !!")
 						end
-					elseif	msgID == Fox.StrCode32( "eneHeli_jointBanana01_2" )	then
+					elseif	msgID == StrCode32( "eneHeli_jointBanana01_2" )	then
 						GameObject.SendCommand( enemyHeliId, Sneak_jointBanana01 )
 						GameObject.SendCommand( enemyHeliId, Caution_jointBanana01 )
-					elseif	msgID == Fox.StrCode32( "eneHeli_banana" )	then
+					elseif	msgID == StrCode32( "eneHeli_banana" )	then
 						GameObject.SendCommand( enemyHeliId, Sneak_eneHeli_banana )
 						GameObject.SendCommand( enemyHeliId, Caution_eneHeli_banana )
 					
-					elseif	msgID == Fox.StrCode32( "TrackinEnemy_MSG" )	then
+					elseif	msgID == StrCode32( "TrackinEnemy_MSG" )	then
 						TppEnemy.SetSneakRoute( "sol_tracking_A_0000"  , "rts_tracking_A_0001" )
 						TppEnemy.SetCautionRoute( "sol_tracking_A_0000"  , "rts_tracking_A_0001" )
 						TppEnemy.SetSneakRoute( "sol_tracking_A_0001"  , "rts_tracking_A_0002" )
@@ -3947,9 +3947,9 @@ function this.Messages()
 						TppEnemy.SetCautionRoute( "sol_tracking_A_0002"  , "rts_tracking_A_0003" )
 						TppEnemy.SetSneakRoute( "sol_tracking_A_0003"  , "rts_tracking_A_0004" )
 						TppEnemy.SetCautionRoute( "sol_tracking_A_0003"  , "rts_tracking_A_0004" )
-					elseif	msgID == Fox.StrCode32( "fallDown" )	then
+					elseif	msgID == StrCode32( "fallDown" )	then
 						this.boyHostages_fallDown( gameObjectId )
-					elseif	msgID == Fox.StrCode32( "surprise" )	then
+					elseif	msgID == StrCode32( "surprise" )	then
 						this.boyHostages_surprise( gameObjectId )
 					else
 						Fox.Log("No Setting RouteMessage ...")

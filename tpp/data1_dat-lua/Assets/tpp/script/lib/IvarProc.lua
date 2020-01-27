@@ -27,6 +27,7 @@ function this.GetSetting(self)
   return ivars[self.name]
 end
 
+--tex currently not used. GOTCHA currently only supports settingsTable as array, see GetTableSetting
 function this.GetTableSettingDirect(self,setting)
   if not self.settingsTable then
     InfLog.Add("GetTableSettingDirect no settingsTable for "..self.name)
@@ -50,8 +51,13 @@ this.GetTableSetting=function(self)
       currentSetting=ivars[self.name]
     end
 
-    local settingName=self.settings[currentSetting+1]
-    local tableSetting=self.settingsTable[settingName]
+    local tableSetting
+    if #self.settingsTable>0 then
+      tableSetting=self.settingsTable[currentSetting+1]
+    else
+      local settingName=self.settings[currentSetting+1]
+      tableSetting=self.settingsTable[settingName]
+    end
 
     if IsFunc(tableSetting) then
       returnValue=tableSetting()
@@ -90,7 +96,7 @@ function this.SetDirect(self,setting)
   ivars[self.name]=setting
 end
 
-function this.SetSetting(self,setting,noOnChangeSub,noSave)
+function this.SetSetting(self,setting,noSave)
   --InfLog.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   if self==nil then
     InfLog.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
@@ -135,23 +141,14 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     end
   end
   if self.OnChange then
-    --    if noOnChangeSub and self.OnSubSettingChanged then --CULL
-    --    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
-    --    else
     --InfLog.Add("SetSetting OnChange for "..self.name)--DEBUG
     InfLog.PCall(self.OnChange,self,prevSetting,setting)
     -- end
   end
-  if self.profile and not noOnChangeSub then
-    this.OnChangeSubSetting(self)
-  end
 end
 
-function this.ResetSetting(self,noOnChangeSub,noSave)
-  if noOnChangeSub==nil then
-    noOnChangeSub=true
-  end
-  this.SetSetting(self,self.default,noOnChangeSub,noSave)
+function this.ResetSetting(self,noSave)
+  this.SetSetting(self,self.default,noSave)
 end
 
 this.OptionIsDefault=function(self)
@@ -215,44 +212,11 @@ this.OnChangeProfile=function(self,previousSetting,setting)
 
     if IsFunc(settingTable) then
       returnValue=settingTable()
-      --tex ASSUMPTION is profile-v-
-    elseif IsTable(settingTable) and self.OnSubSettingChanged then
+    elseif IsTable(settingTable) then
       this.ApplyProfile(settingTable)
     end
   end
   return returnValue
-end
-
-function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
-  --InfLog.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
-  local profile=self.profile
-  if profile then
-    if profile.OnSubSettingChanged==nil then
-      InfLog.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)
-      return
-    end
-    profile.OnSubSettingChanged(profile,self)
-  end
-end
-
-function this.OnSubSettingChanged(profile, subSetting)
-  --InfLog.DebugPrint("OnSubSettingChanged: "..profile.name.. " subSetting: " .. subSetting.name)
-  --tex any sub setting change will flip this profile to custom since there's no real generalization i can make,
-  --CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
-  if not profile.enum then
-    InfLog.DebugPrint("OnSubSettingChanged: "..profile.name.. " has no enum settings")
-    return
-  end
-
-  if not profile.enum.CUSTOM then
-    InfLog.DebugPrint("OnSubSettingChanged: "..profile.name.. " has no custom setting")
-    return
-  end
-
-  if not profile:Is"CUSTOM" then
-    profile:Set(profile.enum.CUSTOM)
-    InfMenu.DisplayProfileChangedToCustom(profile)
-  end
 end
 
 --paired min/max ivar setup
@@ -262,14 +226,14 @@ function this.PushMax(ivar)
   local maxName=ivar.subName..maxSuffix
   local currentSetting=ivars[ivar.name]
   if currentSetting>ivars[maxName] then
-    Ivars[maxName]:Set(currentSetting,true)
+    Ivars[maxName]:Set(currentSetting)
   end
 end
 function this.PushMin(ivar)
   local minName=ivar.subName..minSuffix
   local currentSetting=ivars[ivar.name]
   if currentSetting<ivars[minName] then
-    Ivars[minName]:Set(currentSetting,true)
+    Ivars[minName]:Set(currentSetting)
   end
 end
 --tex creates someIvarName_MIN,someIvarName_MAX
@@ -463,7 +427,7 @@ function this.ApplyProfile(profile,noSave)
         setting=random(setting[1],setting[2])
       end
     end
-    Ivars[ivarName]:Set(setting,true,noSave)
+    Ivars[ivarName]:Set(setting,noSave)
   end
 end
 function this.ResetProfile(profile)
@@ -481,7 +445,7 @@ this.UpdateSettingFromGvar=function(option)
   if option.save then
     local gvar=gvars[option.name]
     if gvar~=nil then
-      ivars[option.name]=gvars[option.name]
+      ivars[option.name]=gvar
     else
       InfLog.Add("UpdateSettingFromGvar: WARNING option.save but no gvar found for "..tostring(option.name),true)
     end
@@ -764,7 +728,6 @@ local function IsForProfile(item)
   if item.nonConfig
     or item.optionType~="OPTION"
     or item.nonUser
-    or item.OnSubSettingChanged
   then
     return false
   end

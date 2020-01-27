@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 --TppRevenge.lua
 local this={}
+local StrCode32=InfLog.StrCode32 --tex was Fox.StrCode32
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
@@ -501,7 +502,7 @@ function this.RegisterCommonMineList(mineList)
       for i,minefield in ipairs(mineFields)do
         local trapName=minefield.trapName
         local mineTrapTable={areaIndex=i,trapName=trapName,baseName=cpName}
-        mvars.rev_mineTrapTable[Fox.StrCode32(trapName)]=mineTrapTable
+        mvars.rev_mineTrapTable[StrCode32(trapName)]=mineTrapTable
       end
     end
   end
@@ -549,7 +550,7 @@ function this.AddBaseMissionMineList(cpName,mineFields)
     end
   end
   for trapName,mineField in pairs(mineFields)do
-    local mineTrapTable=mvars.rev_mineTrapTable[Fox.StrCode32(trapName)]
+    local mineTrapTable=mvars.rev_mineTrapTable[StrCode32(trapName)]
     if mineTrapTable then
       local areaIndex=mineTrapTable.areaIndex
       local mineList=mineListForAreas[areaIndex]
@@ -616,7 +617,7 @@ function this.UpdateLastVisitedMineArea(cpName,areaIndex,trapName)
   if not lastVisitedMineAreaVarsName then
     return
   end
-  local cpNameStr32=Fox.StrCode32(cpName)
+  local cpNameStr32=StrCode32(cpName)
   if gvars.rev_lastUpdatedBaseName==cpNameStr32 then
     return
   else
@@ -1467,8 +1468,8 @@ function this._AllocateResources(config)
       local weaponStrength=weaponStrengths[weaponName]
       local weaponId=weaponIdTable[weaponStrength][weaponName] or weaponIdTable.NORMAL[weaponName]
       if weaponId==nil then
-        --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
-        --InfLog.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
+      --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
+      --InfLog.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
       elseif Tpp.IsTypeTable(weaponId)then
         for i,weaponId in ipairs(weaponId)do
           loadWeaponIds[weaponId]=true
@@ -1476,7 +1477,7 @@ function this._AllocateResources(config)
       else
         loadWeaponIds[weaponId]=true
       end
-      mvars.revenge_loadedEquip[weaponName]=weaponId 
+      mvars.revenge_loadedEquip[weaponName]=weaponId
     end
   end
 
@@ -1503,7 +1504,7 @@ function this._AllocateResources(config)
     end--<
   end
 end
---ORIG 
+--ORIG
 --function this._AllocateResources(config)
 --  mvars.revenge_loadedEquip={}
 --  local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
@@ -1744,7 +1745,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   local soldierIdForConfigIdTable={}
   local totalSoldierCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-    local r=0
+    local zero=0
     local cpName=mvars.ene_cpList[cpId]
     if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
       local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
@@ -1755,7 +1756,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
           local soldierPlant=tonumber(string.sub(soldierName,-6,-6))
           if soldierPlant~=nil and soldierPlant==plant then
             local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-            soldierIds[soldierId]=r
+            soldierIds[soldierId]=soldierName--tex was zero, see note in TppEnemy.DefineSoldiers
           end
         end
       end
@@ -1784,7 +1785,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   --OFF unused local outerBaseSoldierTable={}
   --OFF unused local lrrpSoldierTable={}--tex added, was combined with above
 
-  for soldierId,E in pairs(soldierIds)do
+  for soldierId,soldierName in pairs(soldierIds)do
     table.insert(soldierIdForConfigIdTable,soldierId)
     totalSoldierCount=totalSoldierCount+1
     if missionPowerSoldiers[soldierId]then

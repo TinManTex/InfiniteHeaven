@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 local this={}
+local StrCode32=Fox.StrCode32
 this.storySequenceTable={}
 this.storySequenceTable_Master={
   {main="s10010"},
@@ -1884,7 +1885,7 @@ function this.CompleteAllHardMissionSRankCleared()
   TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3019,pushReward=true}
 end
 function this.IsCompletedMbMedicalSpecialPlatform(e,n,t)
-  if((e==Fox.StrCode32"MotherBase")and(n==Fox.StrCode32"Medical"))and(t==1)then
+  if((e==StrCode32"MotherBase")and(n==StrCode32"Medical"))and(t==1)then
     return true
   else
     return false

@@ -1012,7 +1012,7 @@ end
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideVehicleInSE" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideVehicleInSE" ) ] = {
 
 	{ 	func = function()
 			this.UnsetRouteGroup()
@@ -1022,7 +1022,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideVehicleInSE" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "arrival_hillWest" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "arrival_hillWest" ) ] = {
 
 	{ 	func = function()
 			svars.VipArea = s10195_sequence.AREA_STATUS.HILL_WEST
@@ -1031,7 +1031,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "arrival_hillWest" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "arrival_hillNorth" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "arrival_hillNorth" ) ] = {
 
 	{ 	func = function()
 			svars.VipArea = s10195_sequence.AREA_STATUS.HILL_NORTH
@@ -1041,7 +1041,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "arrival_hillNorth" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "changeVehicle" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "changeVehicle" ) ] = {
 
 	{ 	func = function()
 			svars.isChangeVehicle = true
@@ -1054,7 +1054,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "changeVehicle" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "arrival_meetingArea" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "arrival_meetingArea" ) ] = {
 
 	{ 	func = function()
 			svars.VipArea = s10195_sequence.AREA_STATUS.MEETING_AREA
@@ -1064,7 +1064,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "arrival_meetingArea" ) ] = {
 	},
 }
 
-this.routeChangeTableRoot[ Fox.StrCode32( "getout_meetingArea" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "getout_meetingArea" ) ] = {
 
 	{ 	func = function()
 			this.Transfer_StopGo()
@@ -1073,7 +1073,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "getout_meetingArea" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "walkEndMeetingArea" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "walkEndMeetingArea" ) ] = {
 
 	{ 	func = function()
 			
@@ -1095,7 +1095,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "walkEndMeetingArea" ) ] = {
 
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "startMeeting" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "startMeeting" ) ] = {
 
 	{ 	func = function()
 			local isVipStatus	 = TppEnemy.GetStatus("sol_vip")
@@ -1117,7 +1117,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "startMeeting" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "endMeeting" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "endMeeting" ) ] = {
 
 	{ 	func = function()
 			this.SetVipRoute( "MA_RIDE_CAR" )
@@ -1128,7 +1128,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "endMeeting" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "rideVehicleInMA" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "rideVehicleInMA" ) ] = {
 
 	{ 	func = function()
 			
@@ -1140,7 +1140,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "rideVehicleInMA" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "CancelMeetingVIP" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "CancelMeetingVIP" ) ] = {
 
 	{ 	func = function()
 
@@ -1168,7 +1168,7 @@ this.routeChangeTableRoot[ Fox.StrCode32( "CancelMeetingVIP" ) ] = {
 }
 
 
-this.routeChangeTableRoot[ Fox.StrCode32( "GuardDiamondSouth" ) ] = {
+this.routeChangeTableRoot[ StrCode32( "GuardDiamondSouth" ) ] = {
 
 	{ 	func = function()
 		

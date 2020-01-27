@@ -1,6 +1,7 @@
 -- DOBUILD: 1
+-- TppMission.lua
 local this={}
-local StrCode32=Fox.StrCode32
+local StrCode32=InfLog.StrCode32--tex was Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
@@ -431,6 +432,7 @@ function this.RestartMission(loadInfo)
   end
 end
 function this.ExecuteRestartMission(isReturnToMission)
+  InfLog.AddFlow("TppMission.ExecuteRestartMission")--tex
   this.SafeStopSettingOnMissionReload()
   TppQuest.OnMissionGameEnd()
   TppPlayer.ResetInitialPosition()
@@ -515,6 +517,7 @@ function this.ReturnToMission(_loadInfo)
   this.RestartMission(loadInfo)
 end
 function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
+  InfLog.AddFlow("TppMission.ExecuteContinueFromCheckPoint")--tex
   TppQuest.OnMissionGameEnd()
   TppWeather.OnEndMissionPrepareFunction()
   this.SafeStopSettingOnMissionReload()
@@ -866,6 +869,7 @@ function this.VarSaveForMissionAbort()
   end
 end
 function this.LoadForMissionAbort()
+  InfLog.AddFlow("TppMission.LoadForMissionAbort")--tex
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
     this.RequestLoad(vars.missionCode,mvars.mis_abortCurrentMissionCode,mvars.mis_missionAbortLoadingOption)
@@ -930,11 +934,11 @@ end
 function this.IsGameOver()
   return svars.mis_isDefiniteGameOver
 end
-function this.CanMissionClear(e)
+function this.CanMissionClear(clearInfo)
   mvars.mis_needSetCanMissionClear=true
-  if IsTypeTable(e)then
-    if e.jingle then
-      mvars.mis_canMissionClearNeedJingle=e.jingle
+  if IsTypeTable(clearInfo)then
+    if clearInfo.jingle then
+      mvars.mis_canMissionClearNeedJingle=clearInfo.jingle
     else
       mvars.mis_canMissionClearNeedJingle=true
     end
@@ -1182,6 +1186,7 @@ function this.OnEndMissionReward()
   end
   this.ResetNeedWaitMissionInitialize()
 end
+--NMC: called from in sequence when decided mission is ended
 function this.MissionFinalize(options)
   local isNoFade,isExecGameOver,showLoadingTips,setMute,isInterruptMissionEnd,ignoreMtbsLoadLocationForce
   if IsTypeTable(options)then
@@ -1217,6 +1222,7 @@ function this.MissionFinalize(options)
   end
 end
 function this.ExecuteMissionFinalize()
+  InfLog.AddFlow("TppMission.ExecuteMissionFinalize "..vars.missionCode)--tex
   InfMain.ExecuteMissionFinalizeTop()--tex
   local nextLocationName=TppPackList.GetLocationNameFormMissionCode(gvars.mis_nextMissionCodeForMissionClear)
   if nextLocationName then
@@ -1329,7 +1335,7 @@ function this.ExecuteMissionFinalize()
   end
   if isFreeMission then
     --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear
-    InfMain.ExecuteMissionFinalize{--tex>
+    InfMain.ExecuteMissionFinalizeFree{--tex>
       currentMissionCode=currentMissionCode,
       currentLocationCode=currentLocationCode,
       isHeliSpace=isHeliSpace,
@@ -1651,8 +1657,8 @@ function this.Messages()
           this.StartHelicopterDoorOpenTimer()
         end
         if TppSequence.IsLandContinue()then
-          local e=this.IsHelicopterSpace(vars.missionCode)
-          if((vars.missionCode~=10010)and(vars.missionCode~=10280))and(not e)then
+          local isHeliSpace=this.IsHelicopterSpace(vars.missionCode)
+          if((vars.missionCode~=10010)and(vars.missionCode~=10280))and(not isHeliSpace)then
             TppTerminal.ShowLocationAndBaseTelopForContinue()
           end
         end
@@ -2407,7 +2413,7 @@ function this.UpdateForMissionLoad()
   end
 end
 function this.CreateMbSaveCoroutine()
-  local function n()
+  local function MBSave()
     while(not TppMotherBaseManagement.IsEndedSyncControl())do
       coroutine.yield()
     end
@@ -2415,7 +2421,7 @@ function this.CreateMbSaveCoroutine()
       TppSave.SaveOnlyMbManagement()
     end
   end
-  this.waitMbSyncAndSaveCoroutine=coroutine.create(n)
+  this.waitMbSyncAndSaveCoroutine=coroutine.create(MBSave)
 end
 function this.ResumeMbSaveCoroutine()
   if this.waitMbSyncAndSaveCoroutine then
@@ -2803,7 +2809,7 @@ function this.GameOverAbortForRideOnHelicopter()
     mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_HELI
   end
 end
-function this.OnChangeSVars(name,i)
+function this.OnChangeSVars(name,key)
   if name=="mis_isDefiniteMissionClear"then
     if(svars.mis_isDefiniteMissionClear)then
       mvars.mis_isReserveMissionClear=true
@@ -3123,8 +3129,8 @@ function this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
     return
   end
 end
-function this.OnFinishUpdateObjectiveRadio(n)
-  if n==StrCode32(mvars.mis_updateObjectiveRadioGroupName)then
+function this.OnFinishUpdateObjectiveRadio(radioGroupNameStr32)
+  if radioGroupNameStr32==StrCode32(mvars.mis_updateObjectiveRadioGroupName)then
     this.ShowUpdateObjective(mvars.mis_objectiveSetting)
   end
 end
@@ -3218,9 +3224,9 @@ function this._ShowObjective(objectiveDefine,RENAMEbool)
   end
   if objectiveDefine.showEnemyRoutePoints then
     if TppUiCommand.ShowEnemyRoutePoints then
-      local n=objectiveDefine.showEnemyRoutePoints.radioGroupName
-      if IsTypeString(n)then
-        objectiveDefine.showEnemyRoutePoints.radioGroupName=StrCode32(n)
+      local radioGroupName=objectiveDefine.showEnemyRoutePoints.radioGroupName
+      if IsTypeString(radioGroupName)then
+        objectiveDefine.showEnemyRoutePoints.radioGroupName=StrCode32(radioGroupName)
       end
       TppUiCommand.ShowEnemyRoutePoints(objectiveDefine.showEnemyRoutePoints)
     end
@@ -3475,6 +3481,7 @@ function this.GoToEmergencyMission()
   this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=emergencyMissionCode,nextHeliRoute=startRoute,nextLayoutCode=mbLayoutCode,nextClusterId=clusterId}
 end
 function this.RequestLoad(nextMission,currentMission,options)
+  InfLog.AddFlow("TppMission.RequestLoad next:"..nextMission.." current:"..tostring(currentMission))--tex
   if not mvars then
     return
   end
@@ -3485,12 +3492,13 @@ function this.RequestLoad(nextMission,currentMission,options)
   mvars.mis_loadRequest={nextMission=nextMission,currentMission=currentMission,options=options}
 end
 function this.LoadWithChunkCheck()
-  local mission,currentMission,loadOptions=mvars.mis_loadRequest.nextMission,mvars.mis_loadRequest.currentMission,mvars.mis_loadRequest.options
+  InfLog.AddFlow("TppMission.LoadWithChunkCheck "..vars.missionCode)--tex
+  local nextMission,currentMission,loadOptions=mvars.mis_loadRequest.nextMission,mvars.mis_loadRequest.currentMission,mvars.mis_loadRequest.options
   local chunkIndex=Tpp.GetChunkIndex(vars.locationCode)
   if this.IsChunkLoading(chunkIndex)then
     return
   end
-  this.Load(mission,currentMission,loadOptions)
+  this.Load(nextMission,currentMission,loadOptions)
   mvars.mis_loadRequest=nil
 end
 function this.IsChunkLoading(chunkIndex)
@@ -3521,7 +3529,9 @@ function this.IsChunkLoading(chunkIndex)
   Tpp.ShowChunkInstallingPopup(chunkIndex,false)
   return true
 end
-function this.Load(missionCode,currentMissionCode,loadSettings)
+function this.Load(nextMissionCode,currentMissionCode,loadSettings)
+  InfLog.AddFlow("TppMission.Load nextMissionCode:"..tostring(nextMissionCode).." currentMissionCode:"..tostring(currentMissionCode))--tex
+  InfMain.OnLoad(nextMissionCode,currentMissionCode)--tex
   local showLoadingTips
   if(loadSettings and loadSettings.showLoadingTips~=nil)then
     showLoadingTips=loadSettings.showLoadingTips
@@ -3538,22 +3548,22 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
   if not TppEnemy.IsLoadedDefaultSoldier2CommonPackage()then
     TppEnemy.UnloadSoldier2CommonBlock()
   end
-  if(currentMissionCode~=missionCode)or(loadSettings and loadSettings.force)then
-    local locationNameForMissionCode=TppPackList.GetLocationNameFormMissionCode(missionCode)
+  if(currentMissionCode~=nextMissionCode)or(loadSettings and loadSettings.force)then
+    local locationNameForMissionCode=TppPackList.GetLocationNameFormMissionCode(nextMissionCode)
     local renameLocationNameForSomeMissionCode=TppPackList.GetLocationNameFormMissionCode(currentMissionCode)
     local locationForce
     if locationNameForMissionCode=="MTBS"and renameLocationNameForSomeMissionCode=="MTBS"then
-      if missionCode~=TppDefine.SYS_MISSION_ID.MTBS_HELI then
+      if nextMissionCode~=TppDefine.SYS_MISSION_ID.MTBS_HELI then
         if not(loadSettings and loadSettings.ignoreMtbsLoadLocationForce)then
           locationForce={force=true}
         end
       end
     end
     if TppLocation.IsMotherBase()then
-      local applyPlatformParamToMbStage=TppLocation.ApplyPlatformParamToMbStage(missionCode,"MotherBase")
-      local missionLayoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode]
+      local applyPlatformParamToMbStage=TppLocation.ApplyPlatformParamToMbStage(nextMissionCode,"MotherBase")
+      local missionLayoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[nextMissionCode]
       if missionLayoutCode then
-        if currentMissionCode==nil and missionCode==30050 then
+        if currentMissionCode==nil and nextMissionCode==30050 then
         else
           vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(missionLayoutCode)
         end
@@ -3565,7 +3575,7 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
     end
     if TppSystemUtility.GetCurrentGameMode()=="TPP"then
       TppEneFova.InitializeUniqueSetting()
-      TppEnemy.PreMissionLoad(missionCode,currentMissionCode)
+      TppEnemy.PreMissionLoad(nextMissionCode,currentMissionCode)
     end
     Mission.LoadLocation(locationForce)
     Mission.LoadMission(loadSettings)
@@ -3575,6 +3585,7 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
   TppUI.ShowAccessIcon()
 end
 function this.ExecuteReload()
+  InfLog.AddFlow("TppMission.ExecuteReload "..vars.missionCode)--tex
   if mvars.mis_nextLocationCode then
     vars.locationCode=mvars.mis_nextLocationCode
   end

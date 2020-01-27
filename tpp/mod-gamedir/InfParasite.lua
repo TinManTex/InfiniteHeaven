@@ -13,11 +13,21 @@ local IsTimerActive=GkEventTimerManager.IsTimerActive
 local GAME_OBJECT_TYPE_PARASITE2=TppGameObject.GAME_OBJECT_TYPE_PARASITE2
 local GAME_OBJECT_TYPE_BOSSQUIET2=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2
 local GAME_OBJECT_TYPE_HOSTAGE2=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2
+local GAME_OBJECT_TYPE_PLAYER2=TppGameObject.GAME_OBJECT_TYPE_PLAYER2
+
+--DATA
+this.packages={
+  ARMOR="/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk",
+  MIST="/Assets/tpp/pack/mission2/ih/ih_parasite_mist.fpk",
+  CAMO="/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk",
+}
 
 --STATE
 local disableFight=false--DEBUG
 
 local eventInitialized=false
+
+this.parasiteType="ARMOR"
 
 local stateTypes={
   READY=0,
@@ -27,29 +37,16 @@ local stateTypes={
 --tex indexed by parasiteNames
 local states={}--tex TODO: going to have to save this, for camo at least, to keep in sync with internal state of downed/fultoned
 local hitCounts={}
+this.lastContactTime=0
 
---tex dependant on defined entities
-local maxParasites={
-  ARMOR=4,
-  CAMO=4,
-}
 --tex for current event
-local numParasites={--tex heh
-  ARMOR=0,
-  CAMO=0,
-  total=0,
-}
+local numParasites=0
 
 this.parasitePos=nil
-this.playerPos=nil
-this.cpPosition=nil
-this.closestCp=nil
-this.closestPos=nil
 
-local routeBag=nil
+this.routeBag=nil
 
 this.hostageParasiteHitCount=0--tex mbqf hostage parasites
-this.forceEvent=false
 
 --TUNE
 --tex since I'm repurposing routes buit for normal cps the camo parasites just seem to shift along a short route, or get stuck leaving and returning to same spot.
@@ -126,20 +123,36 @@ local PARASITE_GRADE={
 --seconds
 local monitorRate=10
 local parasiteAppearTimeMin=5
-local parasiteAppearTimeMax=15
+local parasiteAppearTimeMax=10
 
 local playerRange=175--tex choose player pos as attack pos if closest lz or cp >
-local escapeDistance=300--250--tex player distance from parasite attack pos to call off attack
+--tex player distance from parasite attack pos to call off attack
+local escapeDistances={
+  ARMOR=250,
+  MIST=0,
+  CAMO=250,
+}
 --distsqr
 playerRange=playerRange*playerRange
-escapeDistance=escapeDistance*escapeDistance
+for paraType,escapeDistance in pairs(escapeDistances)do
+  escapeDistances[paraType]=escapeDistance*escapeDistance
+end
 
-local spawnRadius=40
---tex since camos start moving to route when activated, and closest cp may not be that discoverable
---or their positions even that good, spawn at player pos in a close enough radius that they spot player
---they'll then be aiming at player when they reach the cp
---TODO: alternatively try triggering StartCombat on camo spawn
-local camoSpawnRadius=10
+local spawnRadius={
+  ARMOR=40,
+  MIST=20,
+  --tex since camos start moving to route when activated, and closest cp may not be that discoverable
+  --or their positions even that good, spawn at player pos in a close enough radius that they spot player
+  --they'll then be aiming at player when they reach the cp
+  --TODO: alternatively try triggering StartCombat on camo spawn
+  CAMO=10,
+}
+
+local timeOuts={
+  ARMOR=0,
+  MIST=1*60,
+  CAMO=0,
+}
 
 --TUNE zombies
 local disableDamage=false
@@ -149,7 +162,8 @@ local msfRate=10--mb only
 local cpZombieLife=300
 local cpZombieStamina=200
 
---DATA
+--<
+
 this.parasiteNames={
   ARMOR={
     "Parasite0",
@@ -157,25 +171,78 @@ this.parasiteNames={
     "Parasite2",
     "Parasite3",
   },
+  MIST={
+    "wmu_mist_ih_0000",
+    "wmu_mist_ih_0001",
+    "wmu_mist_ih_0002",
+    "wmu_mist_ih_0003",
+  },
   CAMO={
-    "wmu_ih_0000",
-    "wmu_ih_0001",
-    "wmu_ih_0002",
-    "wmu_ih_0003",
+    "wmu_camo_ih_0000",
+    "wmu_camo_ih_0001",
+    "wmu_camo_ih_0002",
+    "wmu_camo_ih_0003",
   },
 }
 
-this.eventTypes={
-  "ARMOR",
-  "CAMO",
-  "MIXED",
+local weatherTypes={
+  {weatherType=TppDefine.WEATHER.FOGGY,fogInfo={fogDensity=0.15,fogType=WeatherManager.FOG_TYPE_PARASITE}},
+  {weatherType=TppDefine.WEATHER.RAINY,fogInfo=nil},
+  --{weatherType=TppDefine.WEATHER.SANDSTORM,fogInfo=nil},--tex too difficult to discover non playerpos appearances
+  {weatherType=TppDefine.WEATHER.FOGGY,fogInfo={fogDensity=0.15,fogType=WeatherManager.FOG_TYPE_NORMAL}},
 }
 
---tex GOTCHA probably cant use this method for mist as I think they share parasite2, but still could be uses as a typeindex is parasite (onfulton)
-this.parasiteTypes={
-  [TppGameObject.GAME_OBJECT_TYPE_PARASITE2]="ARMOR",
-  [TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2]="CAMO",
+local parasiteTypeNames={"ARMOR","MIST","CAMO"}
+
+this.isParasiteObjectType={
+  [TppGameObject.GAME_OBJECT_TYPE_PARASITE2]=true,
+  [TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2]=true,
 }
+
+function this.PreModuleReload()
+  local timers={
+    "Timer_ParasiteEvent",
+    "Timer_ParasiteAppear",
+    "Timer_ParasiteCombat",
+    "Timer_ParasiteMonitor",
+    "Timer_ParasiteUnrealize",
+  }
+  for i,timerName in ipairs(timers)do
+    TimerStop(timerName)
+  end
+end
+
+function this.OnLoad(nextMissionCode,currentMissionCode)
+  if not this.ParasiteEventEnabled(nextMissionCode) then
+    return
+  end
+
+  InfMain.RandomSetToLevelSeed()
+  this.parasiteType=parasiteTypeNames[math.random(#parasiteTypeNames)]--tex KLUDGE not quite happy deciding this here, TODO: find an earlier point in mission load to do
+  --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
+  if this.parasiteType=="CAMO" then
+    if TppQuest.IsActive"waterway_q99010" then
+      InfLog.Add("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
+      this.parasiteType="MIST"
+    end
+  end
+
+  --this.parasiteType="MIST"--DEBUG
+  --this.parasiteType="ARMOR"
+  -- this.parasiteType="CAMO"
+
+  InfLog.Add("OnLoad parasiteType:"..this.parasiteType)
+
+  InfMain.RandomResetToOsTime()
+end
+
+function this.AddMissionPacks(missionCode)
+  if not this.ParasiteEventEnabled(missionCode)then
+    return
+  end
+
+  TppPackList.AddMissionPack(this.packages[this.parasiteType])
+end
 
 function this.Init(missionTable)
   if not this.ParasiteEventEnabled() then
@@ -201,19 +268,13 @@ function this.Messages()
       --tex TODO: "FultonInfo" instead of fulton and fultonfailed
       {msg="Fulton",--tex fulton success i think
         func=function(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
-          local typeIndex=GetTypeIndex(gameId)
-          if this.parasiteTypes[typeIndex] then
-            this.OnFulton(gameId)
-          end
+          this.OnFulton(gameId)
         end
       },
       {msg="FultonFailed",
         func=function(gameId,locatorName,locatorNameUpper,failureType)
           if failureType==TppGameObject.FULTON_FAILED_TYPE_ON_FINISHED_RISE then
-            local typeIndex=GetTypeIndex(gameId)
-            if this.parasiteTypes[typeIndex] then
-              this.OnFulton(gameId)
-            end
+            this.OnFulton(gameId)
           end
         end
       },
@@ -223,6 +284,7 @@ function this.Messages()
       {msg="Finish",sender="Timer_ParasiteAppear",func=this.Timer_ParasiteAppear},
       {msg="Finish",sender="Timer_ParasiteCombat",func=this.Timer_StartCombat},
       {msg="Finish",sender="Timer_ParasiteMonitor",func=this.Timer_MonitorEvent},
+      {msg="Finish",sender="Timer_ParasiteUnrealize",func=this.Timer_ParasiteUnrealize},
     },
     UI={
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=this.FadeInOnGameStart},--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
@@ -242,6 +304,7 @@ function this.DeclareSVars()
     return{}
   end
   local saveVarsList = {
+    inf_parasiteEvent=false,
     --tex engine sets svars.parasiteSquadMarkerFlag when camo parasite marked, will crash if svar not defined
     parasiteSquadMarkerFlag={name="parasiteSquadMarkerFlag",type=TppScriptVars.TYPE_BOOL,arraySize=4,value=false,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_RETRY},
   }
@@ -268,14 +331,15 @@ function this.FadeInOnGameStart()
     return
   end
 
-  if Ivars.inf_parasiteEvent:Is()>0 then
+  if svars.inf_parasiteEvent then
     if TppMission.IsMissionStart() then
       InfLog.Add"InfParasite mission start, clear, StartEventTimer"
-      Ivars.inf_parasiteEvent:Set(0)
+      this.EndEvent()
       this.StartEventTimer()
     else
       InfLog.Add"InfParasite mission start ContinueEvent"
-      this.ContinueEvent()
+      local continueTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
+      this.StartEventTimer(continueTime)
     end
   else
     InfLog.Add"InfParasite mission start StartEventTimer"
@@ -283,8 +347,9 @@ function this.FadeInOnGameStart()
   end
 end
 
-function this.ParasiteEventEnabled()
-  if (Ivars.enableParasiteEvent:Is(1) or this.forceEvent) and (Ivars.enableParasiteEvent:MissionCheck() or vars.missionCode==30250) then
+function this.ParasiteEventEnabled(missionCode)
+  local missionCode=missionCode or vars.missionCode
+  if Ivars.enableParasiteEvent:Is(1) and (Ivars.enableParasiteEvent:MissionCheck(missionCode) or missionCode==30250) then
     return true
   end
   return false
@@ -309,20 +374,54 @@ end
 
 function this.OnDamage(gameId,attackId,attackerId)
   local typeIndex=GetTypeIndex(gameId)
-  if typeIndex==GAME_OBJECT_TYPE_PARASITE2 then
-  --    if not this.ParasiteEventEnabled() then
-  --      return
-  --    end
-  elseif typeIndex==GAME_OBJECT_TYPE_BOSSQUIET2 then
-    if not this.ParasiteEventEnabled() then
-      return
-    end
-    this.OnDamageCamoParasite(gameId,attackId,attackerId)
-  elseif typeIndex==GAME_OBJECT_TYPE_HOSTAGE2 then
+
+  if typeIndex==GAME_OBJECT_TYPE_HOSTAGE2 then
     --tex dont block if parasite events off so player can always manually trigger event
     if vars.missionCode==30250 then
       this.OnDamageMbqfParasite(gameId,attackId,attackerId)
     end
+    return
+  end
+
+  if not this.ParasiteEventEnabled() then
+    return
+  end
+
+  local attackerIndex=GetTypeIndex(attackerId)
+  if typeIndex==GAME_OBJECT_TYPE_PLAYER2 then
+    if this.isParasiteObjectType[attackerIndex] then
+      this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
+      this.parasitePos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+    end
+    return
+  end
+
+  if not this.isParasiteObjectType[typeIndex] then
+    return
+  end
+
+  local parasiteIndex=0
+  for index,parasiteName in ipairs(this.parasiteNames[this.parasiteType]) do
+    local parasiteId=GetGameObjectId(parasiteName)
+    if parasiteId~=nil and parasiteId==gameId then
+      parasiteIndex=index
+      break
+    end
+  end
+  if parasiteIndex==0 then
+    return
+  end
+
+  if attackerIndex==GAME_OBJECT_TYPE_PLAYER2 then
+    this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
+    this.parasitePos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+  end
+
+  if typeIndex==GAME_OBJECT_TYPE_BOSSQUIET2 then
+    if not this.ParasiteEventEnabled() then
+      return
+    end
+    this.OnDamageCamoParasite(parasiteIndex,gameId)
   end
 end
 
@@ -355,21 +454,17 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
     if this.hostageParasiteHitCount>triggerAttackCount then
       this.hostageParasiteHitCount=0
-      this.forceEvent=true
       this.StartEvent()
     end
   end
 end
 
-function this.OnDamageCamoParasite(gameId,attackId,attackerId)
-  local name=this.GetNameForId(gameId)
-  if name then
-    if states[name]==stateTypes.READY then
-      hitCounts[name]=hitCounts[name]+1
-      if hitCounts[name]>=camoShiftRouteAttackCount then
-        hitCounts[name]=0
-        this.SetCamoRoutes(routeBag,gameId)
-      end
+function this.OnDamageCamoParasite(parasiteIndex,gameId)
+  if states[parasiteIndex]==stateTypes.READY then
+    hitCounts[parasiteIndex]=hitCounts[parasiteIndex]+1
+    if hitCounts[parasiteIndex]>=camoShiftRouteAttackCount then
+      hitCounts[parasiteIndex]=0
+      this.SetCamoRoutes(this.routeBag,gameId)
     end
   end
 end
@@ -378,39 +473,32 @@ function this.OnDying(gameId)
   --InfLog.PCall(function(gameId)--DEBUG
   local parasiteType=nil
   local typeIndex=GetTypeIndex(gameId)
-  if typeIndex==GAME_OBJECT_TYPE_PARASITE2 then
-    if not this.ParasiteEventEnabled() then
-      return
-    end
-
-    for k,parasiteName in pairs(this.parasiteNames.ARMOR) do
-      local parasiteId=GetGameObjectId(parasiteName)
-      if parasiteId~=nil and parasiteId==gameId then
-        parasiteType="ARMOR"
-        break
-      end
-    end
-  elseif typeIndex==GAME_OBJECT_TYPE_BOSSQUIET2 then
-    for k,parasiteName in pairs(this.parasiteNames.CAMO) do
-      local parasiteId=GetGameObjectId(parasiteName)
-      if parasiteId~=nil and parasiteId==gameId then
-        parasiteType="CAMO"
-        break
-      end
-    end
+  if not this.isParasiteObjectType[typeIndex] then
+    return
+  end
+  if not this.ParasiteEventEnabled() then
+    return
   end
 
-  if parasiteType==nil then
+  local parasiteIndex=0
+  for index,parasiteName in ipairs(this.parasiteNames[this.parasiteType]) do
+    local parasiteId=GetGameObjectId(parasiteName)
+    if parasiteId~=nil and parasiteId==gameId then
+      parasiteIndex=index
+      break
+    end
+  end
+  if parasiteIndex==0 then
     return
   end
   InfLog.Add("OnDying is para",true)
-  local name=this.GetNameForId(gameId)
-  states[name]=stateTypes.DOWNED
+
+  states[parasiteIndex]=stateTypes.DOWNED
 
   InfLog.PrintInspect(states)--DEBUG
 
   local numCleared=this.GetNumCleared()
-  if numCleared==numParasites.total then
+  if numCleared==numParasites then
     --InfLog.DebugPrint"OnDying all eliminated"--DEBUG
     this.EndEvent()
   end
@@ -419,21 +507,33 @@ end
 
 function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
   --InfLog.PCall(function(gameId)--DEBUG
+  local typeIndex=GetTypeIndex(gameId)
+  if not this.isParasiteObjectType[typeIndex] then
+    return
+  end
   if not this.ParasiteEventEnabled() then
     return
   end
 
-  local typeIndex=GetTypeIndex(gameId)
-  local parasiteType=this.parasiteTypes[typeIndex]
-  if parasiteType then
-    local name=this.GetNameForId(gameId)
-    states[name]=stateTypes.FULTONED
+  local parasiteIndex=0
+  for index,parasiteName in ipairs(this.parasiteNames[this.parasiteType]) do
+    local parasiteId=GetGameObjectId(parasiteName)
+    if parasiteId~=nil and parasiteId==gameId then
+      parasiteIndex=index
+      break
+    end
   end
+  if parasiteIndex==0 then
+    return
+  end
+
+  states[parasiteIndex]=stateTypes.FULTONED
 
   InfLog.PrintInspect(states)
 
   local numCleared=this.GetNumCleared()
-  if numCleared==numParasites.total then
+  if numCleared==numParasites then
+    --InfLog.Add"OnFulton all eliminated"--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
@@ -442,55 +542,34 @@ end
 function this.InitEvent()
   --InfLog.PCall(function()--DEBUG
   InfLog.Add("InfParasite InitEvent")
-  this.forceEvent=false
 
-  if not this.ParasiteEventEnabled() and vars.missionCode~=30250 then
+  if not this.ParasiteEventEnabled() then
     return
   end
 
-  for i,parasiteName in ipairs(this.parasiteNames.CAMO) do
-    this.CamoParasiteOff(parasiteName)
+  if this.parasiteType=="CAMO" then
+    for i,parasiteName in ipairs(this.parasiteNames[this.parasiteType]) do
+      this.CamoParasiteOff(parasiteName)
+    end
+  else
+    for i,parasiteName in ipairs(this.parasiteNames[this.parasiteType]) do
+      this.AssaultParasiteOff(parasiteName)
+    end
   end
 
   this.hostageParasiteHitCount=0
 
   if TppMission.IsMissionStart() then
     --InfLog.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
-    Ivars.inf_parasiteEvent:Set(0)
+    svars.inf_parasiteEvent=false
   end
 
-  for parasiteType,names in pairs(this.parasiteNames)do
-    for i,name in ipairs(names)do
-      states[name]=stateTypes.READY
-      hitCounts[name]=0
-    end
+  for index,state in ipairs(this.parasiteNames[this.parasiteType])do
+    states[index]=stateTypes.READY
+    hitCounts[index]=0
   end
 
-  InfMain.RandomSetToLevelSeed()
-  local eventType=this.eventTypes[math.random(#this.eventTypes)]
-  InfMain.RandomResetToOsTime()
-
-  if eventType=="ARMOR" then
-    numParasites.ARMOR=maxParasites.ARMOR
-  end
-  if eventType=="CAMO" then
-    numParasites.CAMO=maxParasites.CAMO
-  end
-  if eventType=="MIXED" then
-    numParasites.ARMOR=maxParasites.ARMOR--tex armor parasites cant appear individually
-    numParasites.CAMO=maxParasites.CAMO --math.random(1,maxParasites.CAMO)
-  end
-  InfLog.Add("InfParasite.InitEvent "..eventType)
-
-  --DEBUG
---  numParasites={
---    ARMOR=4,
---    CAMO=4,
---    total=8,
---  }
-  numParasites.total=numParasites.ARMOR+numParasites.CAMO
-
-  InfLog.PrintInspect(numParasites)
+  numParasites=#this.parasiteNames[this.parasiteType]
 
   this.SetupParasites()
 
@@ -499,7 +578,7 @@ function this.InitEvent()
 end
 
 local Timer_ParasiteEventStr="Timer_ParasiteEvent"
-function this.StartEventTimer()
+function this.StartEventTimer(time)
   if not this.ParasiteEventEnabled() then
     return
   end
@@ -509,20 +588,18 @@ function this.StartEventTimer()
   end
 
   local numCleared=this.GetNumCleared()
-  if numCleared==numParasites.total then
-    InfLog.Add("StartEventTimer numCleared==numParasites.total aborting")
+  if numCleared==numParasites then
+    InfLog.Add("StartEventTimer numCleared==numParasites aborting")
+    this.EndEvent()
     return
   end
 
-  --InfLog.PCall(function()--DEBUG
-  --InfLog.DebugPrint("Timer_ParasiteEvent start")--DEBUG
   local minute=60
+  local nextEventTime=time or math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
   --local nextEventTime=10--DEBUG
-  local nextEventTime=math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
-  --InfLog.DebugPrint("Timer_ParasiteEvent start in "..nextEventTime)--DEBUG
+  InfLog.Add("Timer_ParasiteEvent start in "..nextEventTime,true)--DEBUG
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
-  --end)--
 end
 
 function this.StartEvent()
@@ -531,12 +608,40 @@ function this.StartEvent()
   end
 
   local numCleared=this.GetNumCleared()
-  if numCleared==numParasites.total then
-    InfLog.Add("StartEvent numCleared==numParasites.total aborting",true)
+  if numCleared==numParasites then
+    InfLog.Add("StartEvent numCleared==numParasites aborting",true)
+    this.EndEvent()
     return
   end
 
-  Ivars.inf_parasiteEvent:Set(1)
+  svars.inf_parasiteEvent=true
+
+  local weatherInfo
+  if Ivars.parasiteWeather:Is"PARASITE_FOG" then
+    weatherInfo=weatherTypes[1]
+  elseif Ivars.parasiteWeather:Is"RANDOM" then
+    weatherInfo=weatherTypes[math.random(#weatherTypes)]
+  end
+
+  if weatherInfo then
+    if weatherInfo.fogInfo then
+      weatherInfo.fogInfo.fogDensity=math.random(0.001,0.9)
+    end
+
+    TppWeather.ForceRequestWeather(weatherInfo.weatherType,4,weatherInfo.fogInfo)
+  end
+
+  local parasiteAppearTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
+  TimerStart("Timer_ParasiteAppear",parasiteAppearTime)
+end
+
+--tex have to indirect/wrap this since the address in the timer doesnt get refreshed on module reload
+function this.Timer_ParasiteAppear()
+  this.ParasiteAppear()
+end
+
+function this.ParasiteAppear()
+  --InfLog.PCall(function()--DEBUG
 
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   local closestPos=playerPos
@@ -572,74 +677,42 @@ function this.StartEvent()
     closestPos=playerPos
   end
 
-  --tex keep em together, else camo will likely go unnoticed
-  if numParasites.CAMO>0 then
-    closestPos=cpPosition
+  InfLog.Add("ParasiteAppear closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),true)
+
+
+  this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
+
+  if this.parasiteType=="CAMO" then
+    this.parasitePos=playerPos
+    this.CamoParasiteAppear(playerPos,closestCp,cpPosition,spawnRadius[this.parasiteType])
+  elseif this.parasiteType=="MIST" then
+    this.parasitePos=closestPos
+    this.ArmorParasiteAppear(playerPos,spawnRadius[this.parasiteType])
+  elseif this.parasiteType=="ARMOR" then
+    this.parasitePos=closestPos
+    this.ArmorParasiteAppear(closestPos,spawnRadius[this.parasiteType])
   end
 
-  this.parasitePos=closestPos
-  this.playerPos=playerPos
-  this.cpPosition=cpPosition
-  this.closestCp=closestCp
-  this.closestPos=closestPos
-
-  local fogDensity=math.random(0.001,0.9)
-  TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,4,{fogDensity=fogDensity})
-
-  local parasiteAppearTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
-  TimerStart("Timer_ParasiteAppear",parasiteAppearTime)
-end
-
-function this.ContinueEvent()
-  --InfLog.Add("ContinueEvent hit",true)
-  local numCleared=this.GetNumCleared()
-  if numCleared==numParasites.total then
-    InfLog.Add("StartEvent numCleared==numParasites.total aborting",true)
-    return
+  if isMb then
+    this.ZombifyMB()
+  else
+    this.ZombifyFree(closestCp,this.parasitePos)
   end
 
-  local parasiteAppearTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
-  TimerStart("Timer_ParasiteAppear",parasiteAppearTime)
-end
-
---tex have to indirect/wrap this since the address in the timer doesnt get refreshed on module reload
-function this.Timer_ParasiteAppear()
-  this.ParasiteAppear()
-end
-
-function this.ParasiteAppear()
-  --InfLog.PCall(function()--DEBUG
-    local locationName=InfMain.GetLocationName()
-    InfLog.Add("ParasiteAppear closestCp:"..this.closestCp.. " "..InfMenu.CpNameString(this.closestCp,locationName),true)
-
-    local isMb=vars.missionCode==30050 or vars.missionCode==30250
-    if isMb then
-      this.ZombifyMB()
-    else
-      this.ZombifyFree(this.closestCp,this.closestPos)
+  --tex once one armor parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
+  --forcing combat bypasses this
+  local armorFultoned=false
+  for index,state in ipairs(this.parasiteNames[this.parasiteType])do
+    if state==stateTypes.FULTONED then
+      armorFultoned=true
     end
+  end
+  if armorFultoned and this.parasiteType=="ARMOR" then
+    --InfLog.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+    TimerStart("Timer_ParasiteCombat",4)
+  end
 
-    if numParasites.ARMOR>0 then
-      this.ArmorParasiteAppear(this.parasitePos,spawnRadius)
-    end
-    if numParasites.CAMO>0 then
-      this.CamoParasiteAppear(this.closestCp,this.cpPosition,this.playerPos,camoSpawnRadius)
-    end
-    --
-    --tex once one armor parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
-    --forcing combat bypasses this
-    local armorFultoned=false
-    for i,name in ipairs(this.parasiteNames.ARMOR)do
-      if states[name]==stateTypes.FULTONED then
-        armorFultoned=true
-      end
-    end
-    if armorFultoned and numParasites.ARMOR>0 then
-      --InfLog.DebugPrint"Timer_ParasiteCombat start"--DEBUG
-      TimerStart("Timer_ParasiteCombat",4)
-    end
-
-    TimerStart("Timer_ParasiteMonitor",monitorRate)
+  TimerStart("Timer_ParasiteMonitor",monitorRate)
   --end)--
 end
 
@@ -659,16 +732,16 @@ function this.ZombifyMB(disableDamage)
   end
 end
 
-local SetZombies=function(soldierNames,cpPosition)
+local SetZombies=function(soldierNames,position,radius)
   for i,soldierName in ipairs(soldierNames) do
     local gameId=GetGameObjectId("TppSoldier2",soldierName)
     if gameId~=NULL_ID then
       local soldierPosition=SendCommand(gameId,{id="GetPosition"})
-      local soldierCpDistance=0
-      if cpPosition then
-        TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},cpPosition)
+      local soldierDistance=0
+      if position then
+        soldierDistance=TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},position)
       end
-      if not cpPosition or soldierCpDistance<escapeDistance then
+      if not position or (radius and soldierDistance<radius) then
         --InfLog.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
         this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina)
       end
@@ -676,7 +749,9 @@ local SetZombies=function(soldierNames,cpPosition)
   end
 end
 
-function this.ZombifyFree(closestCp,cpPosition)
+function this.ZombifyFree(closestCp,position)
+  local radius=escapeDistances[this.parasiteType]
+
   --tex soldiers of closestCp
   if closestCp then
     local cpDefine=mvars.ene_soldierDefine[closestCp]
@@ -692,16 +767,15 @@ function this.ZombifyFree(closestCp,cpPosition)
     for i=1,#InfMain.lrrpDefines do
       local lrrpDefine=InfMain.lrrpDefines[i]
       if lrrpDefine.base1==closestCp or lrrpDefine.base2==closestCp then
-        SetZombies(lrrpDefine.cpDefine,cpPosition)
+        SetZombies(lrrpDefine.cpDefine,position,radius)
       end
     end
   end
 
   --tex TODO doesn't cover vehicle lrrp
 
-  --TODO VERIFY
   if mvars.ene_soldierDefine and mvars.ene_soldierDefine.quest_cp then
-    SetZombies(mvars.ene_soldierDefine.quest_cp,cpPosition)
+    SetZombies(mvars.ene_soldierDefine.quest_cp,position,radius)
   end
 end
 
@@ -733,18 +807,72 @@ local groups={
   "groupC",
 }
 local groupSniper="groupSniper"
-function this.CamoParasiteAppear(closestCp,cpPosition,playerPos,spawnRadius)
-
-  --tex WORKAROUND the delay between player pos on startevent and parasite appear is too high
-  local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
-
+function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
   --InfLog.Add"CamoParasiteAppear"--DEBUG
   --tex camo parasites rely on having route set, otherwise they'll do a constant grenade drop evade on the same spot
+  local routeCount,cpRoutes=this.GetRoutes(closestCp)
+
+  --  InfLog.PrintInspect("CamoParasiteAppear cpRoutes")--DEBUG
+  --  InfLog.PrintInspect(cpRoutes)
+
+  if routeCount<numParasites then
+    InfLog.Add("WARNING: CamoParasiteAppear - routeCount< #camo parasites",true)
+    return
+  end
+
+  this.routeBag=InfMain.ShuffleBag:New()
+  for route,bool in pairs(cpRoutes) do
+    this.routeBag:Add(route)
+  end
+
+  for index,parasiteName in ipairs(this.parasiteNames.CAMO) do
+    if states[index]==stateTypes.READY then
+      local gameId=GetGameObjectId("TppBossQuiet2",parasiteName)
+      if gameId==NULL_ID then
+        InfLog.Add("WARNING: CamoParasiteAppear - "..parasiteName.. " not found",true)
+      else
+        local parasiteRotY=0
+
+        InfLog.Add(parasiteName.." appear",true)
+
+        --ASSUMPTION 4 parasites
+        --half circle with 2 leads
+        --local angle=360/i
+
+        --4 quadrants
+        local angle=90*(index-1)
+        local spawnPos=this.PointOnCircle(parasitePos,spawnRadius,angle)
+
+        this.SetCamoRoutes(this.routeBag,gameId)
+
+        SendCommand(gameId,{id="ResetPosition"})
+        SendCommand(gameId,{id="ResetAI"})
+
+        --tex can put camo parasites to an initial position
+        --but they will move to their set route on activation
+        SendCommand(gameId,{id="WarpRequest",pos=spawnPos,rotY=parasiteRotY})
+
+        if disableFight then
+          this.CamoParasiteOnDisableFight(parasiteName)
+        else
+          this.CamoParasiteOn(parasiteName)
+        end
+
+        this.CamoParasiteCloseCombatMode(parasiteName,true)
+      end
+      --SendCommand({type="TppBossQuiet2"},{id="StartCombat"})
+    end
+  end
+
+  return parasitePos
+end
+
+function this.GetRoutes(cpName)
   local routeSets=nil
   if mvars.loc_locationCommonRouteSets then
-    routeSets=mvars.loc_locationCommonRouteSets[closestCp]
+    routeSets=mvars.loc_locationCommonRouteSets[cpName]
   elseif mvars.ene_routeSetsDefine then
-    routeSets=mvars.ene_routeSetsDefine[closestCp]
+    routeSets=mvars.ene_routeSetsDefine[cpName]
   end
   if not routeSets then
     InfLog.Add"CamoParasiteAppear - no routesets found, aborting"
@@ -754,7 +882,7 @@ function this.CamoParasiteAppear(closestCp,cpPosition,playerPos,spawnRadius)
   local cpRoutes={}
   --tex TODO prioritze picking sniper group first?
   if routeSets==nil then
-    InfLog.DebugPrint("WARNING CamoParasiteAppear no routesets for "..this.closestCp)--DEBUG
+    InfLog.DebugPrint("WARNING CamoParasiteAppear no routesets for "..cpName)--DEBUG
     return
   end
 
@@ -778,61 +906,7 @@ function this.CamoParasiteAppear(closestCp,cpPosition,playerPos,spawnRadius)
       end
     end
   end
-
-  --InfLog.PrintInspect("CamoParasiteAppear pickedroutes")--DEBUG
-  --InfLog.PrintInspect(pickedRoutes)
-
-  if routeCount<numParasites.CAMO then
-    InfLog.Add("WARNING: CamoParasiteAppear - routeCount< #camo parasites",true)
-    return
-  end
-
-  routeBag=InfMain.ShuffleBag:New()
-  for route,bool in pairs(cpRoutes) do
-    routeBag:Add(route)
-  end
-
-  local spawnPos=playerPos
-
-  for i=1,numParasites.CAMO do
-    local parasiteName=this.parasiteNames.CAMO[i]
-    if states[parasiteName]==stateTypes.READY then
-      local gameId=GetGameObjectId("TppBossQuiet2",parasiteName)
-      if gameId==NULL_ID then
-        InfLog.Add("WARNING: CamoParasiteAppear - "..parasiteName.. " not found",true)
-      else
-        local parasiteRotY=0
-
-        InfLog.Add(parasiteName.." appear",true)
-
-        --ASSUMPTION 4 parasites
-        --half circle with 2 leads
-        --local angle=360/i
-
-        --4 quadrants
-        local angle=90*(i-1)
-        local spawnPos=this.PointOnCircle(spawnPos,spawnRadius,angle)
-
-        this.SetCamoRoutes(routeBag,gameId)
-
-        SendCommand(gameId,{id="ResetPosition"})
-        SendCommand(gameId,{id="ResetAI"})
-
-        --tex can put camo parasites to an initial position
-        --but they will move to their set route on activation
-        SendCommand(gameId,{id="WarpRequest",pos=spawnPos,rotY=parasiteRotY})
-
-        if disableFight then
-          this.CamoParasiteOnDisableFight(parasiteName)
-        else
-          this.CamoParasiteOn(parasiteName)
-        end
-
-        this.CamoParasiteCloseCombatMode(parasiteName,true)
-      end
-      --SendCommand({type="TppBossQuiet2"},{id="StartCombat"})
-    end
-  end
+  return routeCount,cpRoutes
 end
 
 function this.Timer_StartCombat()
@@ -842,7 +916,7 @@ end
 function this.Timer_MonitorEvent()
   --  InfLog.PCall(function()--DEBUG
   --InfLog.Add("MonitorEvent",true)
-  if Ivars.inf_parasiteEvent:Is(0) then
+  if svars.inf_parasiteEvent==false then
     return
   end
 
@@ -854,10 +928,12 @@ function this.Timer_MonitorEvent()
   local outOfRange=false
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   local distSqr=TppMath.FindDistance(playerPos,this.parasitePos)
-  if distSqr>escapeDistance then
+  local escapeDistance=escapeDistances[this.parasiteType]
+  if escapeDistance>0 and distSqr>escapeDistance then
     outOfRange=true
   end
 
+  --InfLog.Add("Timer_MonitorEvent "..this.parasiteType.. " escapeDistanceSqr:"..escapeDistance.." distSqr:"..distSqr)--DEBUG
   --InfLog.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
 
   --tex TppParasites aparently dont support GetPosition, frustrating inconsistancy, you'd figure it would be a function of all gameobjects
@@ -867,15 +943,15 @@ function this.Timer_MonitorEvent()
   --      local parasitePos=SendCommand(gameId,{id="GetPosition"})
   --      local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
   --     -- InfLog.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
-  --      if distSqr<escapeDistance then
+  --      if distSqr<escapeDistance[this.parasiteType] then
   --        outOfRange=false
   --        break
   --      end
   --    end
   --  end
-  if numParasites.CAMO>0 then
-    for i,parasiteName in pairs(this.parasiteNames.CAMO) do
-      if states[parasiteName]==stateTypes.READY then
+  if this.parasiteType=="CAMO" then
+    for index,parasiteName in pairs(this.parasiteNames.CAMO) do
+      if states[index]==stateTypes.READY then
         local gameId=GetGameObjectId("TppBossQuiet2",parasiteName)
         if gameId~=NULL_ID then
           local parasitePos=SendCommand(gameId,{id="GetPosition"})
@@ -890,8 +966,21 @@ function this.Timer_MonitorEvent()
     end
   end
 
+  if this.parasiteType=="MIST" then
+    if distSqr>playerRange then
+      InfLog.Add("MonitorEvent: > playerRange",true)
+      InfLog.Add("MonitorEvent: lastcontactTime:"..this.lastContactTime,true)
+      if this.lastContactTime<Time.GetRawElapsedTimeSinceStartUp() then
+        InfLog.Add("MonitorEvent: lastContactTime timeout, starting combat",true)
+        --SendCommand({type="TppParasite2"},{id="StartCombat"})
+        this.parasitePos=playerPos
+        this.ParasiteAppear()
+      end
+    end
+  end
+
   if outOfRange then
-    InfLog.Add("MonitorEvent: out of range, ending event",true)
+    InfLog.Add("MonitorEvent: out of range :"..math.sqrt(distSqr).."> "..math.sqrt(escapeDistance).. ", ending event",true)
     this.EndEvent()
     TimerStop("Timer_ParasiteMonitor")
     this.StartEventTimer()
@@ -903,23 +992,38 @@ end
 
 function this.EndEvent()
   InfLog.Add("EndEvent",true)
-  this.forceEvent=false
 
-  Ivars.inf_parasiteEvent:Set(0)
+  svars.inf_parasiteEvent=false
   TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
+
   SendCommand({type="TppParasite2"},{id="StartWithdrawal"})
 
-  --tex TODO throw them to some far route (or warprequest if it doesn't immediately vanish them) then Off them after a while
-  for i,parasiteName in ipairs(this.parasiteNames.CAMO) do
-    if states[parasiteName]==stateTypes.READY then
-      this.CamoParasiteOff(parasiteName)
+  --tex TODO throw CAMO parasites to some far route (or warprequest if it doesn't immediately vanish them) then Off them after a while
+
+  TimerStart("Timer_ParasiteUnrealize",6)
+end
+
+function this.Timer_ParasiteUnrealize()
+  if this.parasiteType=="CAMO" then
+    for index,parasiteName in ipairs(this.parasiteNames.CAMO) do
+      if states[index]==stateTypes.READY then--tex can leave behind non fultoned
+        this.CamoParasiteOff(parasiteName)
+      end
+    end
+  else
+    --tex possibly not nessesary for ARMOR parasites, but MIST parasites have a bug where they'll
+    --withdraw to wherever the withdraw postion is but keep making the warp noise constantly.
+    for index,parasiteName in ipairs(this.parasiteNames[this.parasiteType]) do
+      if states[index]==stateTypes.READY then
+        this.AssaultParasiteOff(parasiteName)
+      end
     end
   end
 end
 
 function this.GetNumCleared()
   local numCleared=0
-  for parasiteName,state in pairs(states)do
+  for i,state in pairs(states)do
     if state~=stateTypes.READY then
       numCleared=numCleared+1
     end
@@ -957,27 +1061,37 @@ function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina,isMsf)
   end
 end
 
+--
+function this.AssaultParasiteOff(parasiteName)
+  local gameId=GetGameObjectId("TppParasite2",parasiteName)
+  if gameId~=NULL_ID then
+    SendCommand(gameId,{id="Unrealize"})
+  end
+end
+
 --camo zombies/TppBossQuiet2
 function this.CamoParasiteOff(parasiteName)
   local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
 
-  local command01={id="SetSightCheck",flag=false}
-  SendCommand(gameObjectId,command01)
+  if gameId~=NULL_ID then
+    local command01={id="SetSightCheck",flag=false}
+    SendCommand(gameObjectId,command01)
 
-  local command02={id="SetNoiseNotice",flag=false}
-  SendCommand(gameObjectId,command02)
+    local command02={id="SetNoiseNotice",flag=false}
+    SendCommand(gameObjectId,command02)
 
-  local command03={id="SetInvincible",flag=true}
-  SendCommand(gameObjectId,command03)
+    local command03={id="SetInvincible",flag=true}
+    SendCommand(gameObjectId,command03)
 
-  local command04={id="SetStealth",flag=true}
-  SendCommand(gameObjectId,command04)
+    local command04={id="SetStealth",flag=true}
+    SendCommand(gameObjectId,command04)
 
-  local command05={id="SetHumming",flag=false}
-  SendCommand(gameObjectId,command05)
+    local command05={id="SetHumming",flag=false}
+    SendCommand(gameObjectId,command05)
 
-  local command06={id="SetForceUnrealze",flag=true}
-  SendCommand(gameObjectId,command06)
+    local command06={id="SetForceUnrealze",flag=true}
+    SendCommand(gameObjectId,command06)
+  end
 end
 
 function this.CamoParasiteOn(parasiteName)
@@ -1074,7 +1188,7 @@ end
 
 function this.IsCamoParasite()
   local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
-  if quietType==Fox.StrCode32"Cam"then--Camo parasite, not Quiet
+  if quietType==StrCode32"Cam"then--Camo parasite, not Quiet
 
   end
 end

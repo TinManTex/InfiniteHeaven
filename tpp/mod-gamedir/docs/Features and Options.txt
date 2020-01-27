@@ -98,10 +98,11 @@ Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random 
 Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
 4: Skull attack min (minutes) : 0-180
 5: Skull attack max (minutes) : 0-180
-6: Repopulate music tape radios : Off, On
-7: Randomize minefield mine types : Off, On
+6: Weather on Skull attack : None, Parasite fog, Random
+7: Repopulate music tape radios : Off, On
+8: Randomize minefield mine types : Off, On
 Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
-8: Enable additional minefields : Off, On
+9: Enable additional minefields : Off, On
 In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
 
 Player restrictions menu
@@ -205,7 +206,7 @@ Adds 999999 points to demon score
 Appearance menu
 ---------------
 1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-2: Suit type : <Suits for player type>
+2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER
 3: Camo type : <Camos for player type>
 4: Headgear : None
 5: Filter faces : Show all, Unique, Head fova mods
@@ -589,14 +590,16 @@ Debug/system menu
 -----------------
 1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
-2: loadExternalModules : (Command)
-3: copyLogToPrev : (Command)
-4: printPressedButtons : Off, On
-5: Show position : (Command)
-6: Show missionCode : (Command)
-7: Show game language code : (Command)
-8: appearanceDebugMenu
-9: Disable mission intro credits : Off, On
+2: debugMessages : Off, On
+3: debugFlow : Off, On
+4: loadExternalModules : (Command)
+5: copyLogToPrev : (Command)
+6: printPressedButtons : Off, On
+7: Show position : (Command)
+8: Show missionCode : (Command)
+9: Show game language code : (Command)
+10: appearanceDebugMenu
+11: Disable mission intro credits : Off, On
 
 appearanceDebugMenu
 -------------------
@@ -710,7 +713,7 @@ Changes the music track of the radio played in Quiets cell on the medical platfo
 Appearance menu
 ---------------
 1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-2: Suit type : <Suits for player type>
+2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER
 3: Camo type : <Camos for player type>
 4: Headgear : None
 5: Filter faces : Show all, Unique, Head fova mods
@@ -773,19 +776,22 @@ Debug stuff menu
 ----------------
 1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
-2: loadExternalModules : (Command)
-3: copyLogToPrev : (Command)
-4: selectedCp : no cp for setting
-5: setSelectedCpToMarkerObjectCp : (Command)
-6: DEBUG_PrintCpPowerSettings : (Command)
-7: DEBUG_PrintPowersCount : (Command)
-8: DEBUG_PrintReinforceVars : (Command)
-9: DEBUG_PrintSoldierDefine : (Command)
-10: DEBUG_ShowRevengeConfig : (Command)
-11: appearanceDebugMenu
-12: printPressedButtons : Off, On
-13: printOnBlockChange : Off, On
-14: Show position : (Command)
+2: debugMessages : Off, On
+3: debugFlow : Off, On
+4: loadExternalModules : (Command)
+5: copyLogToPrev : (Command)
+6: selectedCp : no cp for setting
+7: setSelectedCpToMarkerObjectCp : (Command)
+8: printPressedButtons : Off, On
+9: DEBUG_PrintCpPowerSettings : (Command)
+10: DEBUG_PrintPowersCount : (Command)
+11: DEBUG_PrintReinforceVars : (Command)
+12: DEBUG_PrintSoldierDefine : (Command)
+13: DEBUG_ShowRevengeConfig : (Command)
+14: appearanceDebugMenu
+15: printPressedButtons : Off, On
+16: printOnBlockChange : Off, On
+17: Show position : (Command)
 
 appearanceDebugMenu
 -------------------
