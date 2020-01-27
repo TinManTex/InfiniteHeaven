@@ -99,16 +99,36 @@ this.enableIHExt={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+  OnSelect=function(self)
+    if not InfCore.IHExtInstalled() then
+      self.settingNames="ihext_not_installed_settings"
+    end
+  end,
   OnChange=function(self,prevSetting,setting)
     if setting==1 then
+      if not InfCore.IHExtInstalled() then
+        --InfCore.Log("WARNING: could not find IHExt.exe")
+        self:Set(0)
+        return
+      end
+
       if InfCore.extSession==0 then
-        InfCore.StartExt()
+        InfCore.StartIHExt()
         InfMenu.MenuOff()--tex stuff is only triggered on menu on
+        InfCore.manualIHExtStart=true
       else
         InfCore.ExtCmd("shutdown")--DEBUGNOW TODO wont actually fire since ExtCmd aborts on enableIHExt off
       end
     end
   end,
+}
+
+--DEBUGNOW
+this.enableHelp={
+  inMission=true,
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.printPressedButtons={
@@ -918,22 +938,12 @@ this.fultonNoMbSupport={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
-  OnSelect=function()
-    local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
-    local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
-    InfMenu.Print(InfMenu.LangString"fulton_mb_support"..":"..mbSectionSuccess)
-  end,
 }
 this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
   inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
-  OnSelect=function()
-    local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
-    local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
-    InfMenu.Print(InfMenu.LangString"fulton_mb_medical"..":"..mbSectionSuccess)
-  end,
 }
 
 this.fultonDyingPenalty={

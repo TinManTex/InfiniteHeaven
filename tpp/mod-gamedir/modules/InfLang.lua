@@ -44,9 +44,6 @@ this.eng={--english
   mbSelectedDemo="Select MB cutscene (REQ: Play selected)",
   set_switch={"Off","On"},
   set_do={">",">"},
-  set_menu_off={">","Off"},
-  --set_menu_reset={">","Reset"},
-  set_goBackItem={">",">"},
   mbSoldierEquipRangeSettings={"Short-range","Medium-range","Long-range","Random range"},
   mbWarGamesProfileSettings={"Off","DD Training","Enemy Invasion","DD Infection","Zombie Obliteration (non DD)"},
   mbDemoSelectionSettings={"Default","Play selected","Cutscenes disabled"},
@@ -176,7 +173,7 @@ this.eng={--english
   setting_only_for_dd="This setting is only for DD soliders",--r93
   menu_keys="Hold <Quick dive> to open menu",
   soldierAlertOnHeavyVehicleDamage="Alert phase on vehicle attack",--r95
-  forceSuperReinforce="Vehicle reinforcements (only heli in free roam, vehicles depend on mission)",--r96
+  forceSuperReinforce="Vehicle reinforcements",--r96
   forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
   forceReinforceRequest="Force reinforce request for heli",
   enableHeliReinforce="Force enable enemy heli reinforce (disable heli sideops)",
@@ -184,7 +181,7 @@ this.eng={--english
   heli_hold_pulling_out="Holding",--r97
   disableReinforceHeliPullOut="Disable reinforce heli pull-out",--r98,
   vehiclePatrolProfile="Vehicle patrols in free roam",
-  vehiclePatrolProfileSettings={"Game default - trucks only","All of one type (random from enabled)","Each vehicle differing type (random from enabled)"},
+  vehiclePatrolProfileSettings={"Game default - trucks only","All of one type","Each vehicle differing type"},
   vehiclePatrolLvEnable="Allow jeeps",
   vehiclePatrolTruckEnable="Allow trucks",
   vehiclePatrolWavEnable="Allow wheeled armored vehicles",
@@ -601,6 +598,9 @@ this.eng={--english
   enableIHExt="Enable IHExt",
   takeFocus="Give IHExt focus",
   attackHeliPatrolsSettings={"No helis","1 heli","2 helis","3 helis","4 helis","Enemy prep"},
+  printFultonSuccessBonus="Print fulton success bonus",
+  ihext_not_installed_settings={"Not installed","Not installed"},
+  enableHelp="Enable help text (IHExt)",
 }--eng end
 
 this.help={}
@@ -670,8 +670,7 @@ this.help.eng={
   quietMoveToLastMarker="Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.",
   revengeDecayOnLongMbVisit="Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat ",
   enableInfInterrogation="Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)",
-  forceGameEvent=[[
-  Events are temporary combinations of IH settings for free roam and mother base. 
+  forceGameEvent=[[Events are temporary combinations of IH settings for free roam and mother base. 
   Free roam events (can stack): 
   Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
   Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
@@ -700,11 +699,11 @@ this.help.eng={
   STEALTH_MIN="Adjusts enemy soldiers notice,cure,reflex and speed ablilities.",
   COMBAT_MIN="Adjusts enemy soldiers shot,grenade,reload,hp and speed abilities.",
   customEquipMenu="Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation",
-  forceSuperReinforce="In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.",
+  forceSuperReinforce="In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more. Only heli will appear in free roam, vehicles depend on mission.",
   enableSoldiersWithVehicleReinforce="Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.",
   enableLrrpFreeRoam="Foot patrols will travel between random CPs and will cross the field to get there.",
   attackHeliPatrolsFREE="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
-  vehiclePatrolProfile="Replaces the patrolling trucks in free roam with other vehicles.",
+  vehiclePatrolProfile="Replaces the patrolling trucks in free roam with other vehicles, picked randomly from enabled types.",
   mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
   warpPlayerUpdate="Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
   mbAdditionalSoldiers="Increases soldiers on platforms from 4 soldiers to 9.",
@@ -772,7 +771,8 @@ this.help.eng={
   clearPriorityStaff="Clears MB staff priority list entirely",
   mbShowHuey="Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.",
   mbForceBattleGearDevelopLevel="Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.",
-  enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
+  enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless. It is currently not installed by default.",
+  enableHelp="Shows help text in IHExt for some options.",
 }
 
 this.cpNames={

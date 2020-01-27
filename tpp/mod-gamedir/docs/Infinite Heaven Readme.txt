@@ -1,5 +1,5 @@
 = Infinite heaven =
-r220 - 2017-09-11
+r221 - 2017-09-17
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,9 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r221:
+Fixed: IHExt setting when IHExt is not installed.
+
 New for r220:
 Addition: Added 'Enemy prep' setting to Attack heli patrols options (return of an old feature) - sets the number of helis to scale with enemy prep level.
 

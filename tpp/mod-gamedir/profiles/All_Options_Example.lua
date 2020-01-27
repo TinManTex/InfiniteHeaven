@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r220
+-- Defaults / example of all profile options for IH r221
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -14,6 +14,7 @@ local this={
 	profile={
 		--IH system menu
 		enableIHExt=0,--{ 0-1 } -- Enable IHExt
+		enableHelp=0,--{ 0-1 } -- Enable help text (IHExt)
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
@@ -204,7 +205,7 @@ local this={
 		allowUndevelopedDDEquip=0,--{ 0-1 } -- Allow undeveloped DD weapons
 		mbDDEquipNonLethal=0,--{ 0-1 } -- DD equipment non-lethal
 		--Enemy reinforcements menu
-		forceSuperReinforce=0,--{ OFF, ON_CONFIG, FORCE_CONFIG } -- Vehicle reinforcements (only heli in free roam, vehicles depend on mission)
+		forceSuperReinforce=0,--{ OFF, ON_CONFIG, FORCE_CONFIG } -- Vehicle reinforcements
 		enableHeliReinforce=0,--{ 0-1 } -- Force enable enemy heli reinforce (disable heli sideops)
 		forceReinforceRequest=0,--{ 0-1 } -- Force reinforce request for heli
 		disableReinforceHeliPullOut=0,--{ 0-1 } -- Disable reinforce heli pull-out

@@ -33,7 +33,7 @@ if not InfCore.modDirFail then
     IvarsPersist.SetupVars()
     IvarProc.LoadEvars()
     if ivars.enableIHExt==1 then
-      InfCore.StartExt()
+      InfCore.StartIHExt()
     end
   end
 

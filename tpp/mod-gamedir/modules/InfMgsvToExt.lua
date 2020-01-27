@@ -17,7 +17,9 @@ end
 
 function this.Init()
   --DEBUGNOW
-  if vars.missionCode~=1 and vars.missionCode~=5 then
+  if vars.missionCode <=5 then
+    InfCore.ExtCmd("UiElementVisible","runningLabel",1)
+  else
     InfCore.ExtCmd("UiElementVisible","runningLabel",0)
   end
 end
@@ -76,10 +78,10 @@ end
 
 --tex set Content on uiElement
 function this.SetContent(name,content)
---  if not this.uiElements[name] then
---    InfCore.Log('WARNING: SetContent: could not find uiElement '..name)
---    return
---  end
+  --  if not this.uiElements[name] then
+  --    InfCore.Log('WARNING: SetContent: could not find uiElement '..name)
+  --    return
+  --  end
 
   if type(content)~='string' then
     InfCore.Log('WARNING: SetContent: content is not string')
@@ -137,22 +139,47 @@ function this.ShowMenu()
   --DEBUGNOW this.CreateUiElement(menuElementName,table.concat(menuLineXaml))
   --DEBUGNOW this.CreateUiElement(inputElementName,table.concat(inputLineXaml))
   InfCore.ExtCmd('UiElementVisible','menuWrap',1)
-  --InfCore.ExtCmd('UiElementVisible',menuElementName,1)
-  --InfCore.ExtCmd('UiElementVisible',inputElementName,1)
-  InfCore.ExtCmd('UiElementVisible','lbMenuItems',1)
+  InfCore.ExtCmd('UiElementVisible','menuItems',1)
+  InfCore.ExtCmd('UiElementVisible','menuTitle',1)
+  if ivars.enableHelp>0 then
+    InfCore.ExtCmd('UiElementVisible','menuHelp',1)
+  end
 end
 
 function this.HideMenu()
   InfCore.ExtCmd('UiElementVisible','menuWrap',0)
-  --InfCore.ExtCmd('UiElementVisible',menuElementName,0)
-  --InfCore.ExtCmd('UiElementVisible',inputElementName,0)
-  InfCore.ExtCmd('UiElementVisible','lbMenuItems',0)
+  InfCore.ExtCmd('UiElementVisible','menuItems',0)
+  InfCore.ExtCmd('UiElementVisible','menuTitle',0)
+  InfCore.ExtCmd('UiElementVisible','menuHelp',0)
 end
 
-function this.SetMenuLine(content)
-  InfCore.ExtCmd('SetContent',menuElementName,content)
-  InfCore.ExtCmd('UpdateTable','menuItems',InfMenu.currentIndex-1,content)--DEBUGNOW
+function this.SetMenuLine(fullText,text)
+  InfCore.ExtCmd('SetContent',menuElementName,text)
+  InfCore.ExtCmd('UpdateTable','menuItems',InfMenu.currentIndex-1,fullText)
   InfCore.ExtCmd('SelectItem','menuItems',InfMenu.currentIndex-1)
+  --DEBUGNOW
+  --DEBUGNOW setting the combo settings only needs to be run on selection of setting, selectcombo still needs to be run though
+  local currentOption=InfMenu.GetCurrentOption()
+  if currentOption and currentOption.optionType=="OPTION" then
+    local currentSetting=ivars[currentOption.name]
+    --      InfCore.Log("currentOption:"..currentOption.name.." ivar="..tostring(currentSetting))
+    --      if currentOption.OnSelect then
+    --        currentOption:OnSelect(ivars[currentOption.name])
+    --      end
+
+    local settingNames=currentOption.settingNames
+    if type(currentOption.GetSettingText)=="function" then
+      InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+    elseif settingNames then
+      InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+    elseif currentOption.settings then
+      InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+    elseif currentSetting then--tex just a straight value
+      InfCore.ExtCmd('ClearCombo','menuSetting')
+      InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
+      InfCore.ExtCmd('SelectCombo','menuSetting',0)
+    end
+  end
 end
 
 function this.TakeFocus()

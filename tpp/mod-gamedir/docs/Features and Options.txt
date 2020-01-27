@@ -79,28 +79,30 @@ ACC Main menu
 IH system menu
 --------------
 1: Enable IHExt : Off, On
-IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
-2: Give IHExt focus : (Command)
-3: Select profile : <Profile name>
+IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless. It is currently not installed by default.
+2: Enable help text (IHExt) : Off, On
+Shows help text in IHExt for some options.
+3: Give IHExt focus : 0-1
+4: Select profile : <Profile name>
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
-4: Set profile options to game defaults : (Command)
+5: Set profile options to game defaults : 0-1
 Sets the options described in the selected profile to their default setting.
-5: Save to UserSaved profile : (Command)
+6: Save to UserSaved profile : 0-1
 Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
-6: Enable Quick Menu : Off, On
+7: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-7: Start offline : Off, On
+8: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-8: Skip startup logos : Off, On
+9: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-9: Load addon mission : 
-10: Include addon missions in completion percentage : Off, On
-11: Reset all IH settings : (Command)
+10: Load addon mission : 
+11: Include addon missions in completion percentage : Off, On
+12: Reset all IH settings : 0-1
 
 Events menu
 -----------
-1: Trigger random IH event : (Command)
-  Events are temporary combinations of IH settings for free roam and mother base. 
+1: Trigger random IH event : 0-1
+Events are temporary combinations of IH settings for free roam and mother base. 
   Free roam events (can stack): 
   Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
   Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
@@ -214,6 +216,7 @@ Disregards the success bonus from mother base medical section, in the base game 
 6: Dont apply MB medical bonus to sleeping/fainted target : Off, On
 Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
 7: Hostage handling : Default, Must extract (0%)
+8: Print fulton success bonus : 0-1
 
 OSP menu
 - Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.
@@ -227,9 +230,9 @@ OSP menu
 Player settings menu
 --------------------
 1: Player life scale : 0-650%
-2: Subtract demon points : (Command)
+2: Subtract demon points : 0-1
 Subtracts 999999 points from demon score
-3: Add demon points : (Command)
+3: Add demon points : 0-1
 Adds 999999 points to demon score
 4: Use selected soldier in all cutscenes and missions : Off, On
 5: Appearance menu
@@ -242,8 +245,8 @@ Appearance menu
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
 6: Face : <Face Id for player type and face filter>
-7: Print face info : (Command)
-8: Print appearance info : (Command)
+7: Print face info : 0-1
+8: Print appearance info : 0-1
 9: Form Variation menu
 
 Form Variation menu
@@ -251,7 +254,7 @@ Form Variation menu
 -------------------
 1: Use selected fova : Off, On
 2: <Character model description> : <Fova selection>
-3: Print current body info : (Command)
+3: Print current body info : 0-1
 
 Soldier parameters menu
 -----------------------
@@ -265,9 +268,9 @@ A rough scale over all the soldier sight distances, except for night sight dista
 5: Soldier hearing distance scale : 0-400%
 6: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-7: Print health param table (look in iDroid Log>All tab) : (Command)
-8: Print sight param table (look in iDroid Log>All tab) : (Command)
-9: Print hearing distance table (look in iDroid Log>All tab) : (Command)
+7: Print health param table (look in iDroid Log>All tab) : 0-1
+8: Print sight param table (look in iDroid Log>All tab) : 0-1
+9: Print hearing distance table (look in iDroid Log>All tab) : 0-1
 
 Enemy phases menu
 - Adjust minimum and maximum alert phase for enemy Command Posts
@@ -299,9 +302,9 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 6: Custom soldier equip menu
 7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
 Override the soldier type of enemy soldiers in Free Roam
-8: Reset enemy preparedness levels : (Command)
+8: Reset enemy preparedness levels : 0-1
 Resets enemy prep levels to 0
-9: Print enemy prep levels : (Command)
+9: Print enemy prep levels : 0-1
 10: Random CP subtype in free roam : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
 11: Random CP subtype in missions : Off, On
@@ -312,7 +315,7 @@ Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wi
 Custom prep menu
 - Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
 ----------------
-1: Print example current config (look in iDroid Log>All tab) : (Command)
+1: Print example current config (look in iDroid Log>All tab) : 0-1
 2: Weapon deployment
 3: Armor deployment
 4: Headgear deployment
@@ -456,8 +459,8 @@ Whether to limit the selection to equipment you have developed or allow all equi
 
 Enemy reinforcements menu
 -------------------------
-1: Vehicle reinforcements (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep
-In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.
+1: Vehicle reinforcements : Off, Enemy Prep, Force Prep
+In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more. Only heli will appear in free roam, vehicles depend on mission.
 2: Force enable enemy heli reinforce (disable heli sideops) : Off, On
 3: Force reinforce request for heli : Off, On
 4: Disable reinforce heli pull-out : Off, On
@@ -478,8 +481,8 @@ Spawns some npc attack helis that roam around mother base.
 6: Walker gears in free roam : Off, On
 Adds a Walker gear to each main base.
 7: Walker gears in MB : Off, On
-8: Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
-Replaces the patrolling trucks in free roam with other vehicles.
+8: Vehicle patrols in free roam : Game default - trucks only, All of one type, Each vehicle differing type
+Replaces the patrolling trucks in free roam with other vehicles, picked randomly from enabled types.
 9: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
 10: Allow jeeps : Off, On
 11: Allow trucks : Off, On
@@ -491,7 +494,7 @@ Puts a random piece of equipment on the back of patrol trucks.
 
 Side ops menu
 -------------
-1: Reroll sideops selection : (Command)
+1: Reroll sideops selection : 0-1
 2: Open specific sideop # : 0-157
 3: Unlock Sideops mode : Off, Force Replayable, Force Open
 Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.
@@ -560,11 +563,11 @@ Enables lethal weapons and actions on Mother Base. You will still get a game ove
 
 Staff menu
 ----------
-1: Add player staff to MB priority : (Command)
+1: Add player staff to MB priority : 0-1
 Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB
-2: Remove player staff to MB priority : (Command)
+2: Remove player staff to MB priority : 0-1
 Removes the last sortie selected DD member to the Mother Base priority staff list
-3: Clear MB staff priority list : (Command)
+3: Clear MB staff priority list : 0-1
 Clears MB staff priority list entirely
 4: Female staff selection : Default, None, All available, Half
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
@@ -584,10 +587,10 @@ Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or aft
 6: Additional NPCs : Off, On
 Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
 7: Enable Birds : Off, On
-8: Reset Paz state to beginning : (Command)
-9: Return Quiet after mission 45 : (Command)
+8: Reset Paz state to beginning : 0-1
+9: Return Quiet after mission 45 : 0-1
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-10: showQuietReunionMissionCount : (Command)
+10: showQuietReunionMissionCount : 0-1
 
 Show assets menu
 ----------------
@@ -637,14 +640,14 @@ Camera menu
   Or hold &ltBinocular&gt and press the above to reset that setting.
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
-3: Warp body to FreeCam position : (Command)
+3: Warp body to FreeCam position : 0-1
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
-6: Show freecam position : (Command)
+6: Show freecam position : 0-1
 
 Time scale menu
 ---------------
-1: Toggle TSM : (Command)
+1: Toggle TSM : 0-1
 Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.
 2: TSM length (seconds) : 0-1000
 The time in seconds of the TSM
@@ -679,14 +682,14 @@ Progression menu
 ----------------
 1: Resource scale menu
 2: Repopulate music tape radios : Off, On
-3: Unlock playable avatar : (Command)
+3: Unlock playable avatar : 0-1
 Unlock avatar before mission 46
-4: Unlock weapon customization : (Command)
+4: Unlock weapon customization : 0-1
 Unlock without having to complete legendary gunsmith missions
-5: Reset Paz state to beginning : (Command)
-6: Return Quiet after mission 45 : (Command)
+5: Reset Paz state to beginning : 0-1
+6: Return Quiet after mission 45 : 0-1
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-7: showQuietReunionMissionCount : (Command)
+7: showQuietReunionMissionCount : 0-1
 
 Resource scale menu
 -------------------
@@ -707,13 +710,13 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: loadExternalModules : (Command)
-6: copyLogToPrev : (Command)
+5: loadExternalModules : 0-1
+6: copyLogToPrev : 0-1
 7: printPressedButtons : Off, On
-8: Show freecam position : (Command)
-9: Show position : (Command)
-10: Show missionCode : (Command)
-11: Show game language code : (Command)
+8: Show freecam position : 0-1
+9: Show position : 0-1
+10: Show missionCode : 0-1
+11: Show game language code : 0-1
 12: appearanceDebugMenu
 13: Disable game over : Off, On
 14: Disable out of bounds checks : Off, On
@@ -731,8 +734,8 @@ appearanceDebugMenu
 7: playerCamoTypeDirect : 0-1000
 8: playerFaceIdDirect : 0-730
 9: playerFaceEquipIdDirect : 0-100
-10: Print face info : (Command)
-11: Print appearance info : (Command)
+10: Print face info : 0-1
+11: Print appearance info : 0-1
 12: faceFova : Only for DD soldiers
 13: faceDecoFova : Only for DD soldiers
 14: hairFova : Only for DD soldiers
@@ -753,14 +756,14 @@ appearanceDebugMenu
 
 In Mission menu
 ---------------
-1: Support heli to latest marker : (Command)
+1: Support heli to latest marker : 0-1
   Requests Support heli to Landing Zone closest to the last placed user marker. 
   Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. 
   This however has an issue where the doors will close on take-off preventing you from shifting between heli sides. 
   The chaingun on the side you start on can still be used.
-2: Force exit helicopter : (Command)
+2: Force exit helicopter : 0-1
 Lets you exit the helicopter while riding it, mind the fall.
-3: Drop current equip : (Command)
+3: Drop current equip : 0-1
 4: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
 5: Camera menu
@@ -794,14 +797,14 @@ Camera menu
   Or hold &ltBinocular&gt and press the above to reset that setting.
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
-3: Warp body to FreeCam position : (Command)
+3: Warp body to FreeCam position : 0-1
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
-6: Show freecam position : (Command)
+6: Show freecam position : 0-1
 
 Time scale menu
 ---------------
-1: Toggle TSM : (Command)
+1: Toggle TSM : 0-1
 Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.
 2: TSM length (seconds) : 0-1000
 The time in seconds of the TSM
@@ -816,17 +819,17 @@ Changes the time scale of the day/night/weather system. Does not change the spee
 
 User marker menu
 ----------------
-1: Warp to latest marker : (Command)
-2: Print latest marker : (Command)
-3: Print all markers : (Command)
-4: Quiet move to last marker : (Command)
+1: Warp to latest marker : 0-1
+2: Print latest marker : 0-1
+3: Print all markers : 0-1
+4: Quiet move to last marker : 0-1
 Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
 
 Buddy menu
 ----------
 1: Buddy Equipment : No buddy set
 Buddy equiment is changed to selected setting when &ltAction&gt is pressed.
-2: Quiet move to last marker : (Command)
+2: Quiet move to last marker : 0-1
 Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
 3: Quiets MB radio track (0=Auto) : 0-31
 Changes the music track of the radio played in Quiets cell on the medical platform in mother base.
@@ -839,8 +842,8 @@ Appearance menu
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
 6: Face : <Face Id for player type and face filter>
-7: Print face info : (Command)
-8: Print appearance info : (Command)
+7: Print face info : 0-1
+8: Print appearance info : 0-1
 9: Form Variation menu
 
 Form Variation menu
@@ -848,19 +851,19 @@ Form Variation menu
 -------------------
 1: Use selected fova : Off, On
 2: <Character model description> : <Fova selection>
-3: Print current body info : (Command)
+3: Print current body info : 0-1
 
 Staff menu
 ----------
-1: Add player staff to MB priority : (Command)
+1: Add player staff to MB priority : 0-1
 Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB
-2: Remove player staff to MB priority : (Command)
+2: Remove player staff to MB priority : 0-1
 Removes the last sortie selected DD member to the Mother Base priority staff list
-3: Add marked staff to MB priority : (Command)
+3: Add marked staff to MB priority : 0-1
 Adds the most recently marked staff member to the MB priority list
-4: Remove marked staff from MB priority : (Command)
+4: Remove marked staff from MB priority : 0-1
 Removes the most recently marked staff member from the MB priority list
-5: Clear MB staff priority list : (Command)
+5: Clear MB staff priority list : 0-1
 Clears MB staff priority list entirely
 
 Markers menu
@@ -930,28 +933,28 @@ Logs game message system, requires Debug IH mode to be on.
 5: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 6: debugOnUpdate : Off, On
-7: loadExternalModules : (Command)
-8: copyLogToPrev : (Command)
-9: setSelectedObjectToMarkerClosest : (Command)
+7: loadExternalModules : 0-1
+8: copyLogToPrev : 0-1
+9: setSelectedObjectToMarkerClosest : 0-1
 10: selectedCp : no cp for setting
-11: setSelectedCpToMarkerObjectCp : (Command)
-12: setSelectedCpToMarkerClosestCp : (Command)
-13: dEBUG_PrintCpPowerSettings : (Command)
-14: dEBUG_PrintPowersCount : (Command)
-15: dEBUG_PrintReinforceVars : (Command)
-16: dEBUG_PrintSoldierDefine : (Command)
-17: dEBUG_ShowRevengeConfig : (Command)
+11: setSelectedCpToMarkerObjectCp : 0-1
+12: setSelectedCpToMarkerClosestCp : 0-1
+13: dEBUG_PrintCpPowerSettings : 0-1
+14: dEBUG_PrintPowersCount : 0-1
+15: dEBUG_PrintReinforceVars : 0-1
+16: dEBUG_PrintSoldierDefine : 0-1
+17: dEBUG_ShowRevengeConfig : 0-1
 18: appearanceDebugMenu
 19: printPressedButtons : Off, On
 20: printOnBlockChange : Off, On
 21: Disable game over : Off, On
 22: Disable out of bounds checks : Off, On
-23: setAllFriendly : (Command)
-24: resetStageBlockPosition : (Command)
-25: setStageBlockPositionToMarkerClosest : (Command)
-26: setStageBlockPositionToFreeCam : (Command)
-27: Show freecam position : (Command)
-28: Show position : (Command)
+23: setAllFriendly : 0-1
+24: resetStageBlockPosition : 0-1
+25: setStageBlockPositionToMarkerClosest : 0-1
+26: setStageBlockPositionToFreeCam : 0-1
+27: Show freecam position : 0-1
+28: Show position : 0-1
 
 appearanceDebugMenu
 -------------------
@@ -964,8 +967,8 @@ appearanceDebugMenu
 7: playerCamoTypeDirect : 0-1000
 8: playerFaceIdDirect : 0-730
 9: playerFaceEquipIdDirect : 0-100
-10: Print face info : (Command)
-11: Print appearance info : (Command)
+10: Print face info : 0-1
+11: Print appearance info : 0-1
 12: faceFova : Only for DD soldiers
 13: faceDecoFova : Only for DD soldiers
 14: hairFova : Only for DD soldiers

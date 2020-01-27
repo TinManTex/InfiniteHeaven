@@ -1,5 +1,10 @@
 Infinite Heaven changelog
 
+r221 - 2017-09-17
+Fixed: IHExt setting when IHExt is not installed.
+
+IHExt: added helptext, menutitle, combobox for settings.
+
 r220 - 2017-09-11
 Addition: Added 'Enemy prep' setting to Attack heli patrols options - sets the number of helis to scale with enemy prep level.
 

@@ -329,6 +329,7 @@ this.fultonSuccessMenu={
     "Ivars.fultonHoldupPenalty",
     "Ivars.fultonDontApplyMbMedicalToSleep",
     "Ivars.fultonHostageHandling",
+    "InfMenuCommands.PrintFultonSuccessBonus",
   },
 }
 
@@ -608,8 +609,11 @@ this.buddyMenu={
 
 this.systemMenu={
   options={
+    --DEBUGNOW split into it's own menu
     "Ivars.enableIHExt",
+    "Ivars.enableHelp",
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
+    --
     "Ivars.selectProfile",
     --"InfMenuCommands.ApplySelectedProfile",
     "InfMenuCommands.ResetSelectedProfile",
@@ -746,10 +750,7 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
-    "InfCore.StartExt",--DEBUGNOW
-    "InfMenuCommands.ResetStageBlockPosition",--DEBUGNOW
-    "InfMenuCommands.SetStageBlockPositionToMarkerClosest",
-    "InfMenuCommands.SetStageBlockPositionToFreeCam",
+    "InfCore.StartIHExt",--DEBUGNOW
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
     "InfMenuCommands.DEBUG_SomeShiz3",
@@ -840,7 +841,6 @@ function this.BuildMenuItem(name,item)
   end
 end
 
---WIP DEBUGNOW
 this.menuForContext={
   HELISPACE=this.heliSpaceMenu,
   MISSION=this.inMissionMenu,
@@ -848,12 +848,12 @@ this.menuForContext={
 
 function this.PostAllModulesLoad()
   InfCore.LogFlow("Adding module menuDefs")
-  
+
   --tex DEBUGNOW monkeying around with inserting menu items currently breaks AutoDoc
   if isMockFox then
     return
   end
-  
+
   for i,module in ipairs(InfModules) do
     if IsTable(module.menuDefs) then
       for name,menuDef in pairs(module.menuDefs)do
@@ -866,7 +866,7 @@ function this.PostAllModulesLoad()
         end
         if menuDef.noDoc~=false then
           menuDef.noDoc=true
-        end        
+        end
         if menuDef.context then
           local menuForContext=this.menuForContext[menuDef.context]
           if menuForContext then
@@ -891,10 +891,21 @@ function this.PostAllModulesLoad()
   end
 
   if ivars.enableIHExt>0 then--DEBUGNOW TODO another ivar, also change 'Turn off menu' to only add if ivar
+    --local alreadyAdded=false
+    --tex shouldnt be needed, assuming that it's not tranfering anything on modulereload
+    --    for i,optionRef in ipairs(this.heliSpaceMenu.options)do
+    --      if optionRef=="InfMgsvToExt.TakeFocus" then
+    --        alreadyAdded=true
+    --        break
+    --      end
+    --    end
+    --if not alreadyAdded then
     local insertPos=#this.heliSpaceMenu.options-this.heliSpaceMenu.insertEndOffset
-    this.heliSpaceMenu.options[insertPos]="InfMgsvToExt.TakeFocus"
+    table.insert(this.heliSpaceMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
+
     local insertPos=#this.inMissionMenu.options-this.inMissionMenu.insertEndOffset
-    this.inMissionMenu.options[insertPos]="InfMgsvToExt.TakeFocus"
+    table.insert(this.inMissionMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
+    -- end
   end
 end
 
@@ -917,15 +928,13 @@ for n,item in pairs(this) do
   end
 end
 
---DEBUGNOW
+--VALIDATE
 for n,item in pairs(this) do
-  if IsTable(item) then
-    if item.options then--tex is menu
-      for i,optionRef in ipairs(item.options)do
-        if type(optionRef)~="string"then
-          InfCore.Log("InfMenuDefs: WARNING option "..i.." on menu "..n.."~=string")
-        end
-    end
+  if IsTable(item) and item.options then
+    for i,optionRef in ipairs(item.options)do
+      if type(optionRef)~="string"then
+        InfCore.Log("InfMenuDefs: WARNING option "..i.." on menu "..n.."~=string")
+      end
     end
   end
 end

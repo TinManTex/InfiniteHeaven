@@ -71,6 +71,16 @@ function this.GetOptionFromRef(optionRef)
   return nil
 end
 
+function this.GetCurrentOption()
+  local optionRef=this.currentMenuOptions[this.currentIndex]
+  local option=this.GetOptionFromRef(optionRef)
+  if option==nil then
+    InfCore.Log("WARNING: option == nil! currentIndex="..tostring(this.currentIndex),true)--DEBUG
+    return
+  end
+  return option
+end
+
 --tex mod settings menu manipulation
 function this.NextOption(incrementMult)
   local oldIndex=this.currentIndex
@@ -136,6 +146,63 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   end
   if IsFunc(option.OnSelect) then
     InfCore.PCallDebug(option.OnSelect,option,ivars[option.name])
+  end
+
+  if InfCore.IHExtRunning() then
+    InfCore.ExtCmd('ClearCombo','menuSetting')
+    if option.optionType=="OPTION" then
+      local currentSetting=ivars[option.name]
+
+      local settings={}
+
+      if type(option.GetSettingText)=="function" then
+        local max
+        if option.settings then
+          max=#option.settings
+        elseif option.range then
+          max=option.range.max
+        end
+        for i=0,max-1 do
+          table.insert(settings,tostring(option:GetSettingText(i)))
+        end
+      elseif option.settingNames then
+        if type(option.settingNames)=="table" then
+          settings=option.settingNames
+        else
+          settings=InfMenu.GetLangTable(option.settingNames)
+        end
+      elseif option.settings then
+        settings=option.settings
+      end
+
+      if this.debugModule then
+        InfCore.PrintInspect(settings,"menuSettings")
+      end
+
+      if #settings>0 then
+        for i,settingText in ipairs(settings)do
+          InfCore.ExtCmd('AddToCombo','menuSetting',settingText)
+        end
+      elseif currentSetting then
+        InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
+      end
+     
+      if #settings>0 then
+        InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
+      elseif currentSetting then
+        InfCore.ExtCmd('SelectCombo','menuSetting',0)
+      end
+    end--if option
+    
+    if ivars.enableHelp>0 then
+      local helpString=this.LangStringHelp(option.name)
+      if helpString then
+        InfCore.ExtCmd('UiElementVisible','menuHelp',1)
+        InfCore.ExtCmd('SetText','menuHelp',helpString)
+       else
+        InfCore.ExtCmd('UiElementVisible','menuHelp',0)
+       end
+    end
   end
 end
 
@@ -326,20 +393,10 @@ function this.GoMenu(menu,goBack)
   this.currentMenuOptions=menu.options
 
   if InfCore.IHExtRunning() then
+    local menuName=this.LangString(this.currentMenu.name)
+    InfCore.ExtCmd('SetContent','menuTitle',menuName)
+
     InfCore.ExtCmd('ClearTable','menuItems')
-    if menu==this.topMenu then
-    --InfCore.ExtCmd("print","Top menu")
-    end
-    if menu.parent then
-      local optionIndex=menu.parentOption
-      local optionRef=menu.parent.options[optionIndex]
-      local option=this.GetOptionFromRef(optionRef)
-      if option then
-        local settingText=this.GetSettingText(optionIndex,option,false,true)
-        --InfCore.ExtCmd('SetContent','menuName',settingText)
-      end
-    end
-    --InfCore.ExtCmd("print","----------")
     for optionIndex=1,#menu.options do
       local optionRef=this.currentMenuOptions[optionIndex]
       local option=this.GetOptionFromRef(optionRef)
@@ -351,14 +408,6 @@ function this.GoMenu(menu,goBack)
         InfCore.ExtCmd('AddToTable','menuItems',settingText)
       end
     end
-    --CULL handled by displaycurrent
---    local optionIndex=this.currentIndex
---    local optionRef=this.currentMenuOptions[optionIndex]
---    local option=this.GetOptionFromRef(optionRef)
---    if option~=nil then
---      local settingText=this.GetSettingText(optionIndex,option,false)
---      InfMgsvToExt.SetMenuLine(settingText)
---    end
   end
 
   this.GetSetting(previousIndex,previousMenuOptions)
@@ -373,7 +422,9 @@ function this.GoBackCurrent()
   end
   this.GoMenu(this.currentMenu.parent,true)
   if this.currentMenu.name and this.menuOn then
-    this.PrintLangId(this.currentMenu.name)
+    if not InfCore.IHExtRunning() then
+      this.PrintLangId(this.currentMenu.name)
+    end
   end
 end
 
@@ -394,12 +445,28 @@ local itemIndicators={
   activate=" <Action>",
 }
 
-function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
+function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
+  local currentSetting=ivars[option.name]
+
+  --REF
+  --1:SomeOption: 102
+  --1:SomeOption: 102%
+  --1:SomeOption: 1:SomeSetting
+  --1:Command >>
+  --1:Menu >
+  --1:Go back >>
+  --1:Do and close >
+  --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+
+  local itemIndex=""
+  local optionText=""
+  local optionSeperator=""
+  local settingIndex=""
   local settingText=""
   local settingSuffix=""
-  local optionSeperator=""
 
-  local currentSetting=ivars[option.name]
+  itemIndex=optionIndex..":"
+  optionText = option.description or this.LangString(option.name)
 
   if option.isMenuOff then
     if not noItemIndicator then
@@ -435,7 +502,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
     optionSeperator=itemIndicators.equals
     settingText=tostring(currentSetting)
   end
-  
+
   if option.OnActivate then
     if not option.noActivateText then
       optionSeperator=itemIndicators.activate..optionSeperator
@@ -447,19 +514,22 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
   end
 
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
-    settingText=currentSetting..":"..settingText
+    settingIndex=currentSetting..":"
+
   end
 
-  local settingName = option.description or this.LangString(option.name)
+  if settingNumberOnly then
+    settingText=""
+  end
 
   local fullSettingText=""
   if optionNameOnly then
     if optionSeperator==itemIndicators.equals then
       optionSeperator=itemIndicators.colon
     end
-    fullSettingText=optionIndex..":"..settingName..optionSeperator
+    fullSettingText=itemIndex..optionText..optionSeperator
   else
-    fullSettingText=optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix
+    fullSettingText=itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
   end
 
   return fullSettingText
@@ -472,13 +542,12 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
     InfCore.Log("InfMenu.DisplaySetting: WARNING option==nil")
     return
   else
-    local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
-    --OFF this.QueueDisplay(message)
-
     if InfCore.IHExtRunning() then
-      --InfCore.ExtCmd("printbottom",settingText)
-      InfMgsvToExt.SetMenuLine(settingText)
+      local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
+      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,false,true)
+      InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     else
+      local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
       TppUiCommand.AnnounceLogDelayTime(0)
       TppUiCommand.AnnounceLogView(settingText)
     end
@@ -515,7 +584,7 @@ function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
     if GetElapsedTime()-this.lastDisplay>this.autoDisplayRate then
       if not InfCore.IHExtRunning() then
-        this.DisplayCurrentSetting(true)
+        this.DisplayCurrentSetting()
       end
     end
   end
@@ -647,9 +716,9 @@ function this.LangTableString(langId,index)
   return langTable[index],langTable
 end
 
-function this.GetLangTable(langId,index)
+function this.GetLangTable(langId)
   if langId==nil or langId=="" then
-    TppUiCommand.AnnounceLogView"GetLangTable langId empty"
+    InfCore.Log("ERROR: GetLangTable langId empty",false,true)
     return {}
   end
   local languageCode=InfMenu.GetLanguageCode()
@@ -660,7 +729,7 @@ function this.GetLangTable(langId,index)
   end
 
   if langTable==nil or langTable=="" or not IsTable(langTable) then
-    TppUiCommand.AnnounceLogView"LangTableString langTable empty"--DEBUG
+    InfCore.Log("ERROR: LangTableString langTable empty",false,true)--DEBUG
     return {langId .. ":" .. "n"}
   end
 
@@ -675,7 +744,7 @@ function this.LangStringHelp(langId)
   end
   local languageCode=this.GetLanguageCode()
   local langTable=InfLang.help[languageCode] or InfLang.help.eng
-  local langString=langTable[langId] or InfLang.help.eng[langId] or langId
+  local langString=langTable[langId] or InfLang.help.eng[langId] -- or langId
   return langString
 end
 
@@ -731,24 +800,7 @@ function this.OnActivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.ShowMenu()
-
-    --InfCore.ExtCmd'clear'
-    --InfCore.ExtCmd('print',message)
-    for optionIndex=1,#this.currentMenuOptions do
-      local optionRef=this.currentMenuOptions[optionIndex]
-      local option=this.GetOptionFromRef(optionRef)
-      if option then
-        local settingText=this.GetSettingText(optionIndex,option,false,true)
-        --InfCore.ExtCmd('print',settingText)
-      end
-    end
-    local optionIndex=this.currentIndex
-    local optionRef=this.currentMenuOptions[optionIndex]
-    local option=this.GetOptionFromRef(optionRef)
-    if option then
-      local settingText=this.GetSettingText(optionIndex,option,false)
-      InfMgsvToExt.SetMenuLine(settingText)
-    end
+    this.DisplayCurrentSetting()
   end
 
   InfMain.OnMenuOpen()

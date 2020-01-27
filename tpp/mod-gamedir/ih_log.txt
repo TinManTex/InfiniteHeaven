@@ -1,272 +1,271 @@
-|0.089|InfCore start 09/11/17 11:40:52
-|0.094|Infinite Heaven r220
-|0.098|InfCore.RefreshFileList
-|0.102|dir /b /s "C:\GamesSD\MGS_TPP\mod\*.*" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt"
-|0.182|package.path:./?.lua;C:/GamesSD/MGS_TPP/lua/?.lua;C:/GamesSD/MGS_TPP/lua/?/init.lua;C:/GamesSD/MGS_TPP/?.lua;C:/GamesSD/MGS_TPP/?/init.lua;C:/GamesSD/MGS_TPP/mod/?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua;;D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFoxLua//?.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua
-|0.194|Load InfInit.lua
-|0.199|LoadExternalModule Ivars
-|0.211|LoadExternalModule IvarsPersist
-|0.216|IvarsPersist.SetupVars
-|0.22|IvarProc.LoadEvars
-|0.224|IvarProc.LoadSave
-|0.228|WARNING: ReadEvars ih_save: cannot find ivar for evar ivarTest
-|0.233|start "" "D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe" C:/GamesSD/MGS_TPP/
-|0.298|InfInit.lua done
-|0.305|InfModelProc.LoadFovaInfo
-|0.309|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
-|0.315|init.lua done
-|0.321|start.lua
-|0.328|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
-|0.332|Found external for C:/GamesSD/MGS_TPP/mod/Tpp/Scripts/Equip/EquipIdTable.lua
-|0.339|---------- EquipIdTable personal
-|0.346|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
-|0.36|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
-|0.367|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
-|0.373|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
-|0.378|Loading parameter tables
-|0.383|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
-|0.391|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
-|0.396|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
-|0.406|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
-|0.411|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
-|0.416|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
-|0.421|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
-|0.426|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
-|0.436|InfModelRegistry.Setup:
-|0.441|#faceDefinitions:513 start faceId:690
-|0.446|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
-|0.452|Load Tpp.lua
-|0.457|Tpp.lua done
-|0.462|InfRequiresStart - start of TppDefine requires-list
-|0.469|Load TppDefine.lua
-|0.474|TppDefine.lua done
-|0.583|Load InfMain.lua
-|0.589|InfMain Exec
-|0.593|InfMain.LoadExternalModules
-|0.598|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "cbpCamoIndex", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDebugRoutes", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPlayAnim", "InfPuppy", "InfQuest", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "NoVolunteers" }
-|0.603|LoadExternalModule Ivars
-|0.613|Ivars.SetupIvars
-|0.621|LoadExternalModule IvarsPersist
-|0.627|LoadExternalModule InfMenuCommands
-|0.636|LoadExternalModule InfLang
-|0.645|LoadExternalModule InfMenuDefs
-|0.653|LoadExternalModule InfQuickMenuDefs
-|0.658|LoadExternalModule cbpCamoIndex
-|0.668|LoadExternalModule DebugIHQuest
-|0.673|LoadExternalModule IHDebugVars
-|0.678|LoadExternalModule IHGenKnownModuleNames
-|0.684|LoadExternalModule IHGenMockModules
-|0.697|LoadExternalModule IHGenModuleReferences
-|0.711|LoadExternalModule IHGenUnknownHashes
-|0.716|LoadExternalModule IHStringsExtensions
-|0.721|LoadExternalModule IHTearDown
-|0.727|LoadExternalModule InfAnimal
-|0.733|LoadExternalModule InfBodyInfo
-|0.739|LoadExternalModule InfBuddy
-|0.745|LoadExternalModule InfCamera
-|0.752|LoadExternalModule InfDebugRoutes
-|0.758|LoadExternalModule InfDemo
-|0.763|LoadExternalModule InfEnemyPhase
-|0.769|LoadExternalModule InfEquip
-|0.777|LoadExternalModule InfExtToMgsv
-|0.782|LoadExternalModule InfGameEvent
-|0.788|LoadExternalModule InfHelicopter
-|0.793|LoadExternalModule InfInterrogation
-|0.799|LoadExternalModule InfLookup
-|0.806|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GIMMICK
-|0.811|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROCKET_ARM
-|0.816|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BOSS
-|0.82|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum HELI_MINI_GUN
-|0.824|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_LOADED
-|0.829|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum TRANSITION_EMPTIED
-|0.836|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_NONE
-|0.841|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum ROUTE_EVENT_FAILED_TYPE_WALKER_GEAR_GET_IN
-|0.846|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_NONE
-|0.851|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_CAUTION
-|0.855|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_EVASION
-|0.86|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_BATTLE
-|0.864|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_CP
-|0.868|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_REINFORCE
-|0.873|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum BGM_PHASE_ALERT_LOST
-|0.878|LoadExternalModule InfMBAssets
-|0.883|LoadExternalModule InfMBGimmick
-|0.888|LoadExternalModule InfMBStaff
-|0.894|LoadExternalModule InfMBVisit
-|0.9|LoadExternalModule InfMgsvToExt
-|0.905|LoadExternalModule InfMission
-|0.911|LoadExternalModule InfNPC
-|0.919|LoadExternalModule InfNPCHeli
-|0.926|LoadExternalModule InfNPCOcelot
-|0.931|LoadExternalModule InfParasite
-|0.939|LoadExternalModule InfPlayAnim
-|0.944|LoadExternalModule InfPuppy
-|0.949|LoadExternalModule InfQuest
-|0.955|LoadExternalModule InfResources
-|0.961|LoadExternalModule InfSoldier
-|0.968|LoadExternalModule InfSoldierParams
-|0.974|LoadExternalModule InfUserMarker
-|0.98|LoadExternalModule InfVehicle
-|0.986|LoadExternalModule InfWalkerGear
-|0.992|LoadExternalModule InfWarp
-|0.998|LoadExternalModule NoVolunteers
-|1.003|PostAllModulesLoad
-|1.008|DebugModeEnable:true
-|1.012|Ivars.PostAllModulesLoad:
-|1.017|Ivars.PostAllModulesLoad: Adding Ivar setRouteName from InfDebugRoutes
-|1.022|Ivars.PostAllModulesLoad: Adding Ivar debugEnableRouteTest from InfDebugRoutes
-|1.026|Ivars.PostAllModulesLoad: Adding Ivar setRoutePoint from InfDebugRoutes
-|1.031|Ivars.PostAllModulesLoad: Adding Ivar ivarTest from InfPlayAnim
-|1.036|InfMenuCommands.PostAllModulesLoad:
-|1.041|InfMenuCommands.BuildCommandItems
-|1.049|InfMenuDefs.PostAllModulesLoad:
-|1.053|Adding module menuDefs
-|1.059|IHDebugVars.PostAllModulesLoad:
-|1.063|IHDebugVars.PostAllModulesLoad: setting debug vars
-|1.068|mission_block blockId=nil
-|1.073|quest_block blockId=nil
-|1.078|demo_block blockId=nil
-|1.083|reinforce_block blockId=nil
-|1.087|npc_block blockId=nil
-|1.092|animal_block blockId=nil
-|1.097|TppResidentBlockGroup blockId=nil
-|1.101|CommonStageBlockGroup blockId=nil
-|1.109|DebugModeEnable:true
-|1.114|IHGenKnownModuleNames.PostAllModulesLoad:
-|1.12|ihExternal names={ "MbmCommonSetting", "AFC0", "AFC1", "AFDA", "AFN0", "CUBA", "MBA0", "MBA1", "MBA2", "RMA0", "SVA0", "12000_ombs", "12020_cypr", "EquipIdTable", "12000_ombs", "12020_afc0", "12030_afn0", "12040_afda", "12050_afc1", "12060_cuba", "12070_mba0", "12080_sva0", "12090_rma0", "cbpCamoIndex", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDebugRoutes", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLang", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommands", "InfMenuDefs", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPlayAnim", "InfPuppy", "InfQuest", "InfQuickMenuDefs", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "Ivars", "IvarsPersist", "NoVolunteers", "mgoHeadgear_fovaInfo", "ih_priority_staff", "ih_priority_staff", "ih_priority_staff", "ih_save - Copy (10)", "ih_save - Copy (11)", "ih_save - Copy (12)", "ih_save - Copy (13)", "ih_save - Copy (14)", "ih_save - Copy (15)", "ih_save - Copy (16)", "ih_save - Copy (17)", "ih_save - Copy (18)", "ih_save - Copy (19)", "ih_save - Copy (2)", "ih_save - Copy (20)", "ih_save - Copy (21)", "ih_save - Copy (22)", "ih_save - Copy (23)", "ih_save - Copy (24)", "ih_save - Copy (25)", "ih_save - Copy (26)", "ih_save - Copy (27)", "ih_save - Copy (28)", "ih_save - Copy (29)", "ih_save - Copy (3)", "ih_save - Copy (30)", "ih_save - Copy (31)", "ih_save - Copy (32)", "ih_save - Copy (4)", "ih_save - Copy (5)", "ih_save - Copy (6)", "ih_save - Copy (7)", "ih_save - Copy (8)", "ih_save - Copy (9)", "ih_save - Copy", "ih_save - debug", "ih_save", "ih_save", "ih_save_prev - Copy", "ih_save_prev", "All_Options_Example", "CustomPrep_Max", "CustomPrep_Min", "CustomPrep_Wide", "Fulton_Heaven", "MotherBase_Heaven", "Revenge_Heaven", "Subsistence_Bounder", "Subsistence_Game", "Subsistence_Pure", "ih_quest_q30100", "ih_quest_q30101", "ih_quest_q30102", "ih_quest_q30155" }
-|1.125|IHTearDown.PostAllModulesLoad:
-|1.13|IHTearDown.PostAllModulesLoad
-|1.141|BuildMockModulesFromReferences
-|1.147|TppPickable could not find key DEBUG_DropWeapon
-|1.152|TppGameSequence could not find key GetInstance
-|1.158|TppGameSequence could not find key RequestGameSetup
-|1.164|Could not find module 'name' from moduleReferences in modules
-|1.17|MotherBaseConstructConnector could not find key SetContainerGimmickList
-|1.176|TppMbDev could not find key EQP_DEV_WP_sg01_v00
-|1.181|TppMbDev could not find key EQP_DEV_SWP_Grenade
-|1.186|TppMbDev could not find key EQP_DEV_WP_hg08
-|1.191|TppMbDev could not find key EQP_DEV_WP_ar00_v08
-|1.197|TppMbDev could not find key EQP_DEV_WP_hg01_v00
-|1.202|TppMbDev could not find key EQP_DEV_WP_hg00_v01
-|1.207|TppMbDev could not find key EQP_DEV_SWP_SmokeGrenade
-|1.212|TppMbDev could not find key EQP_DEV_WP_ar01_v00
-|1.216|TppMbDev could not find key EQP_DEV_WP_sr01_v00
-|1.222|TppMbDev could not find key EQP_DEV_WP_ms00
-|1.227|TppMbDev could not find key EQP_DEV_WP_mg03_v00
-|1.232|TppMbDev could not find key EQP_DEV_WP_ar00_v07
-|1.237|TppMbDev could not find key EQP_DEV_WP_ar00_v06
-|1.242|TppMbDev could not find key EQP_DEV_SWP_Magazine
-|1.247|TppMbDev could not find key EQP_DEV_SWP_C4
-|1.252|TppMbDev could not find key EQP_DEV_WP_sm00_v00
-|1.257|PlayerCamoType could not find key NONE
-|1.262|TppNetworkUtil could not find key DEBUG_DumpServerParameter
-|1.267|TppScriptVars could not find key CATEGORY_MGO
-|1.272|TppMotherBaseManagement could not find key DEBUG_DirectAddRandomStaffs
-|1.277|TppMotherBaseManagement could not find key DEBUG_DumpMbsParam
-|1.282|Demo could not find key playerPartsType
-|1.287|TppEquip could not find key EQP_MB_500216
-|1.292|TppEquip could not find key EQP_MB_500203
-|1.297|TppEquip could not find key EQP_HL_300504
-|1.302|TppEquip could not find key EQP_HL_300101
-|1.308|TppEquip could not find key EQP_DW_220525
-|1.313|TppEquip could not find key EQP_DW_220301
-|1.318|TppEquip could not find key EQP_HL_300605
-|1.323|TppEquip could not find key EQP_HL_300001
-|1.327|TppEquip could not find key EQP_DW_220102
-|1.333|TppEquip could not find key EQP_DW_220103
-|1.339|TppEquip could not find key EQP_HL_300606
-|1.344|TppEquip could not find key EQP_DH_210801
-|1.349|TppEquip could not find key BLA_ms01
-|1.354|TppEquip could not find key EQP_HL_300502
-|1.359|TppEquip could not find key BL_SWP_Magazine
-|1.364|TppEquip could not find key EQP_DH_210500
-|1.37|TppEquip could not find key EQP_DW_220104
-|1.375|TppEquip could not find key EQP_DW_220202
-|1.38|TppEquip could not find key EQP_MB_500215
-|1.385|TppEquip could not find key EQP_DW_221404
-|1.39|TppEquip could not find key BL_IT_TimeCigarette
-|1.395|TppEquip could not find key EQP_MB_500227
-|1.401|TppEquip could not find key EQP_DW_221004
-|1.406|TppEquip could not find key EQP_DW_221305
-|1.412|TppEquip could not find key EQP_DW_220602
-|1.417|TppEquip could not find key EQP_DW_221103
-|1.422|TppEquip could not find key EQP_WP_East_sr_010
-|1.427|TppEquip could not find key EQP_HL_300002
-|1.431|TppEquip could not find key EQP_MB_500204
-|1.436|TppEquip could not find key EQP_DH_210704
-|1.441|TppEquip could not find key EQP_DW_221306
-|1.446|TppEquip could not find key BL_SWP_Grenade
-|1.451|TppEquip could not find key EQP_DW_221104
-|1.455|TppEquip could not find key EQP_DD_210301
-|1.46|TppEquip could not find key EQP_HL_300304
-|1.465|TppEquip could not find key EQP_MB_500103
-|1.47|TppEquip could not find key EQP_MB_500214
-|1.475|TppEquip could not find key EQP_HL_300303
-|1.48|TppEquip could not find key EQP_DW_220603
-|1.484|TppEquip could not find key EQP_MB_500114
-|1.489|TppEquip could not find key EQP_HL_300003
-|1.494|TppEquip could not find key EQP_DD_210102
-|1.498|TppEquip could not find key EQP_HL_300414
-|1.503|TppEquip could not find key EQP_MB_500226
-|1.508|TppEquip could not find key EQP_DW_220204
-|1.513|TppEquip could not find key EQP_MB_500115
-|1.518|TppEquip could not find key EQP_HL_300604
-|1.524|TppEquip could not find key EQP_MB_500225
-|1.529|TppEquip could not find key EQP_MB_500105
-|1.534|TppEquip could not find key EQP_MB_500104
-|1.54|TppEquip could not find key EQP_MB_500205
-|1.545|TppEquip could not find key EQP_HL_300005
-|1.549|TppEquip could not find key EQP_DH_210603
-|1.554|TppEquip could not find key EQP_DW_220303
-|1.559|TppEquip could not find key EQP_DD_210123
-|1.564|TppEquip could not find key EQP_DW_221507
-|1.569|TppEquip could not find key EQP_MB_500116
-|1.575|TppEquip could not find key EQP_DW_220002
-|1.579|TppEquip could not find key EQP_DW_220414
-|1.584|TppEquip could not find key EQP_HL_300415
-|1.589|TppEquip could not find key EQP_DW_221505
-|1.594|TppEquip could not find key EQP_WP_Quiet_st_050
-|1.599|TppEquip could not find key EQP_DW_221406
-|1.604|TppEquip could not find key UD_None
-|1.608|TppEquip could not find key EQP_WP_Quiet_st_030
-|1.613|TppEquip could not find key EQP_HL_300302
-|1.618|TppEquip could not find key EQP_HL_300413
-|1.623|TppEquip could not find key EQP_DW_220604
-|1.629|TppEquip could not find key EQP_DW_221002
-|1.634|TppEquip could not find key EQP_WP_Quiet_st_040
-|1.639|TppEquip could not find key EQP_DW_221304
-|1.645|TppEquip could not find key EQP_DW_220003
-|1.649|TppEquip could not find key EQP_WP_Quiet_st_060
-|1.654|TppEquip could not find key EQP_DW_221405
-|1.659|TppEquip could not find key EQP_HL_300004
-|1.665|TppEquip could not find key EQP_DW_221003
-|1.67|TppEquip could not find key EQP_DH_210602
-|1.675|TppEquip could not find key EQP_WP_Quiet_st_010
-|1.68|TppEquip could not find key EQP_DW_221105
-|1.685|TppEquip could not find key EQP_DH_210604
-|1.69|TppEquip could not find key EQP_DD_210000
-|1.695|TppEquip could not find key EQP_DD_210113
-|1.7|TppEquip could not find key EQP_DW_221506
-|1.704|TppEquip could not find key EPQ_None
-|1.709|TppEquip could not find key EQP_DW_220605
-|1.713|TppEquip could not find key EQP_WP_Quiet_st_020
-|1.718|TppEquip could not find key EQP_HL_300503
-|1.723|TppEquip could not find key EQP_HL_300202
-|1.728|TppEquip could not find key EQP_DW_220203
-|1.733|TppEquip could not find key EQP_DW_220004
-|1.739|TppEquip could not find key EQP_DH_210901
-|1.744|TppEquip could not find key EQP_DD_210214
-|1.749|TppEquip could not find key BLA_mgs0_miss2
-|1.754|TppEquip could not find key EQP_DD_210401
-|1.759|Game could not find key DEBUG_AddScript
-|1.764|GameObject could not find key NULL_IDdem
-|1.769|GameObject could not find key SpecialActionEnd
-|1.774|Fox could not find key StrCode32l
-|1.779|Fox could not find key HungUp
-|1.784|Player could not find key DEBUG_PlaceAround
-|1.789|Player could not find key NotifyChangedPlayerRailAction
-|1.794|Player could not find key UnSetPause
-|1.799|PlayerType could not find key MGO_MALE
-|1.805|notFound={
+|0|InfCore start 09/17/17 17:44:35
+|0|Infinite Heaven r221
+|0|InfCore.RefreshFileList
+|0|dir /b /s "C:\GamesSD\MGS_TPP\mod\*.*" > "C:\GamesSD\MGS_TPP\mod\ih_files.txt"
+|0|package.path:./?.lua;C:/GamesSD/MGS_TPP/lua/?.lua;C:/GamesSD/MGS_TPP/lua/?/init.lua;C:/GamesSD/MGS_TPP/?.lua;C:/GamesSD/MGS_TPP/?/init.lua;C:/GamesSD/MGS_TPP/mod/modules/?.lua
+|0|Load InfInit.lua
+|0|LoadExternalModule Ivars
+|0|LoadExternalModule IvarsPersist
+|0|IvarsPersist.SetupVars
+|0|IvarProc.LoadEvars
+|0|IvarProc.LoadSave
+|0|WARNING: ReadEvars ih_save: cannot find ivar for evar ivarTest
+|0|start "" C:/GamesSD/MGS_TPP/mod/IHExt.exe C:/GamesSD/MGS_TPP/
+|0|InfInit.lua done
+|0|InfModelProc.LoadFovaInfo
+|0|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
+|0|init.lua done
+|0|start.lua
+|0.050050262795326|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
+|0.050050262795326|Found external for C:/GamesSD/MGS_TPP/mod/Tpp/Scripts/Equip/EquipIdTable.lua
+|0.050050262795326|---------- EquipIdTable personal
+|0.050050262795326|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
+|0.18351763024953|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
+|0.18351763024953|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
+|0.18351763024953|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
+|0.18351763024953|Loading parameter tables
+|0.21688447211308|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
+|0.25859289687197|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
+|0.29195973873552|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
+|0.31698474256264|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
+|0.31698474256264|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
+|0.31698474256264|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
+|0.31698474256264|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
+|0.35869316732153|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
+|0.35869316732153|InfModelRegistry.Setup:
+|0.35869316732153|#faceDefinitions:513 start faceId:690
+|0.40040159208042|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
+|0.46713502066643|Load Tpp.lua
+|0.46713502066643|Tpp.lua done
+|0.55055187018421|InfRequiresStart - start of TppDefine requires-list
+|0.60060315354391|Load TppDefine.lua
+|0.60060315354391|TppDefine.lua done
+|0.81748762565699|mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
+|0.81748762565699|mbdvc_map_location_parameter.GetLocationParameter 65534
+|3.4367847119457|Load InfMain.lua
+|3.4367847119457|InfMain Exec
+|3.4367847119457|InfMain.LoadExternalModules
+|3.4367847119457|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfMenuCommands", "InfLang", "InfMenuDefs", "InfQuickMenuDefs", "cbpCamoIndex", "DebugIHQuest", "IHDebugRoutes", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHPlayAnim", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "NoVolunteers", "script_loader" }
+|3.4367847119457|LoadExternalModule Ivars
+|3.4367847119457|Ivars.SetupIvars
+|3.4367847119457|LoadExternalModule IvarsPersist
+|3.4367847119457|LoadExternalModule InfMenuCommands
+|3.4367847119457|LoadExternalModule InfLang
+|3.4367847119457|LoadExternalModule InfMenuDefs
+|3.4367847119457|LoadExternalModule InfQuickMenuDefs
+|3.4367847119457|LoadExternalModule cbpCamoIndex
+|3.4367847119457|LoadExternalModule DebugIHQuest
+|3.4367847119457|LoadExternalModule IHDebugRoutes
+|3.4367847119457|LoadExternalModule IHDebugVars
+|3.4367847119457|LoadExternalModule IHGenKnownModuleNames
+|3.4367847119457|LoadExternalModule IHGenMockModules
+|3.4367847119457|LoadExternalModule IHGenModuleReferences
+|3.4367847119457|LoadExternalModule IHGenUnknownHashes
+|3.4367847119457|LoadExternalModule IHPlayAnim
+|3.4367847119457|LoadExternalModule IHStringsExtensions
+|3.4367847119457|LoadExternalModule IHTearDown
+|3.4367847119457|LoadExternalModule InfAnimal
+|3.4367847119457|LoadExternalModule InfBodyInfo
+|3.4367847119457|LoadExternalModule InfBuddy
+|3.4367847119457|LoadExternalModule InfCamera
+|3.4367847119457|LoadExternalModule InfDemo
+|3.4367847119457|LoadExternalModule InfEnemyPhase
+|3.4367847119457|LoadExternalModule InfEquip
+|3.4367847119457|LoadExternalModule InfExtToMgsv
+|3.4367847119457|LoadExternalModule InfGameEvent
+|3.4367847119457|LoadExternalModule InfHelicopter
+|3.4367847119457|LoadExternalModule InfInterrogation
+|3.4367847119457|LoadExternalModule InfLookup
+|3.4367847119457|LoadExternalModule InfMBAssets
+|3.4367847119457|LoadExternalModule InfMBGimmick
+|3.4367847119457|LoadExternalModule InfMBStaff
+|3.4367847119457|LoadExternalModule InfMBVisit
+|3.4367847119457|LoadExternalModule InfMgsvToExt
+|3.4367847119457|LoadExternalModule InfMission
+|3.4367847119457|LoadExternalModule InfNPC
+|3.4367847119457|LoadExternalModule InfNPCHeli
+|3.4367847119457|LoadExternalModule InfNPCOcelot
+|3.4367847119457|LoadExternalModule InfParasite
+|3.4367847119457|LoadExternalModule InfPuppy
+|3.4367847119457|LoadExternalModule InfQuest
+|3.4367847119457|LoadExternalModule InfResources
+|3.4367847119457|LoadExternalModule InfSoldier
+|3.4367847119457|LoadExternalModule InfSoldierParams
+|3.4367847119457|LoadExternalModule InfUserMarker
+|3.4367847119457|LoadExternalModule InfVehicle
+|3.4367847119457|LoadExternalModule InfWalkerGear
+|3.4367847119457|LoadExternalModule InfWarp
+|3.4367847119457|LoadExternalModule NoVolunteers
+|3.4367847119457|LoadExternalModule script_loader
+|3.4367847119457|PostAllModulesLoad
+|3.4367847119457|DebugModeEnable:true
+|3.4367847119457|Ivars.PostAllModulesLoad:
+|3.4367847119457|Ivars.PostAllModulesLoad: Adding Ivar setRouteName from IHDebugRoutes
+|3.4367847119457|Ivars.PostAllModulesLoad: Adding Ivar debugEnableRouteTest from IHDebugRoutes
+|3.4367847119457|Ivars.PostAllModulesLoad: Adding Ivar setRoutePoint from IHDebugRoutes
+|3.4367847119457|Ivars.PostAllModulesLoad: Adding Ivar ivarTest from IHPlayAnim
+|3.4367847119457|InfMenuCommands.PostAllModulesLoad:
+|3.4367847119457|InfMenuCommands.BuildCommandItems
+|3.4367847119457|InfMenuDefs.PostAllModulesLoad:
+|3.4367847119457|Adding module menuDefs
+|3.4367847119457|IHDebugRoutes.routeTestMissionMenu
+|3.4367847119457|Adding IHDebugRoutes.routeTestMissionMenu to menu at pos 17 of 19
+|3.4367847119457|IHDebugRoutes.routeTestHeliMenu
+|3.4367847119457|Adding IHDebugRoutes.routeTestHeliMenu to menu at pos 17 of 18
+|3.4367847119457|IHPlayAnim.playAnimMenu
+|3.4367847119457|Adding IHPlayAnim.playAnimMenu to menu at pos 18 of 19
+|3.4367847119457|IHDebugVars.PostAllModulesLoad:
+|3.4367847119457|IHDebugVars.PostAllModulesLoad: setting debug vars
+|3.4367847119457|mission_block blockId=4294967295
+|3.4367847119457|quest_block blockId=4294967295
+|3.4367847119457|demo_block blockId=4294967295
+|3.4367847119457|reinforce_block blockId=4294967295
+|3.4367847119457|npc_block blockId=4294967295
+|3.4367847119457|animal_block blockId=4294967295
+|3.4367847119457|TppResidentBlockGroup blockId=4294967295
+|3.4367847119457|CommonStageBlockGroup blockId=4294967295
+|3.4367847119457|DebugModeEnable:true
+|3.4367847119457|IHGenKnownModuleNames.PostAllModulesLoad:
+|3.4367847119457|ihExternal names={ "MbmCommonSetting", "AFC0", "AFC1", "AFDA", "AFN0", "CUBA", "MBA0", "MBA1", "MBA2", "RMA0", "SVA0", "12000_ombs", "12020_cypr", "EquipIdTable", "12000_ombs", "12020_afc0", "12030_afn0", "12040_afda", "12050_afc1", "12060_cuba", "12070_mba0", "12080_sva0", "12090_rma0", "cbpCamoIndex", "DebugIHQuest", "IHDebugRoutes", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHPlayAnim", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLang", "InfLookup", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommands", "InfMenuDefs", "InfMgsvToExt", "InfMission", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPuppy", "InfQuest", "InfQuickMenuDefs", "InfResources", "InfSoldier", "InfSoldierParams", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "Ivars", "IvarsPersist", "NoVolunteers", "script_loader", "mgoHeadgear_fovaInfo", "ih_priority_staff", "ih_priority_staff", "ih_priority_staff", "ih_save - Copy (10)", "ih_save - Copy (11)", "ih_save - Copy (12)", "ih_save - Copy (13)", "ih_save - Copy (14)", "ih_save - Copy (15)", "ih_save - Copy (16)", "ih_save - Copy (17)", "ih_save - Copy (18)", "ih_save - Copy (19)", "ih_save - Copy (2)", "ih_save - Copy (20)", "ih_save - Copy (21)", "ih_save - Copy (22)", "ih_save - Copy (23)", "ih_save - Copy (24)", "ih_save - Copy (25)", "ih_save - Copy (26)", "ih_save - Copy (27)", "ih_save - Copy (28)", "ih_save - Copy (29)", "ih_save - Copy (3)", "ih_save - Copy (30)", "ih_save - Copy (31)", "ih_save - Copy (32)", "ih_save - Copy (4)", "ih_save - Copy (5)", "ih_save - Copy (6)", "ih_save - Copy (7)", "ih_save - Copy (8)", "ih_save - Copy (9)", "ih_save - Copy", "ih_save - debug", "ih_save", "ih_save", "ih_save_prev - Copy", "ih_save_prev", "All_Options_Example", "CustomPrep_Max", "CustomPrep_Min", "CustomPrep_Wide", "Fulton_Heaven", "MotherBase_Heaven", "Revenge_Heaven", "Subsistence_Bounder", "Subsistence_Game", "Subsistence_Pure", "ih_quest_q30100", "ih_quest_q30101", "ih_quest_q30102", "ih_quest_q30155" }
+|3.4367847119457|IHTearDown.PostAllModulesLoad:
+|3.4367847119457|IHTearDown.PostAllModulesLoad
+|3.4367847119457|BuildMockModulesFromReferences
+|3.4367847119457|TppPickable could not find key DEBUG_DropWeapon
+|3.4367847119457|TppGameSequence could not find key GetInstance
+|3.4367847119457|TppGameSequence could not find key RequestGameSetup
+|3.4367847119457|Could not find module 'name' from moduleReferences in modules
+|3.4367847119457|Could not find module 'TppPlaced' from moduleReferences in modules
+|3.4367847119457|TppBullet could not find key ClearBulletMark
+|3.4367847119457|MotherBaseConstructConnector could not find key SetContainerGimmickList
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_sg01_v00
+|3.4367847119457|TppMbDev could not find key EQP_DEV_SWP_Grenade
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_hg08
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_ar00_v08
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_hg01_v00
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_hg00_v01
+|3.4367847119457|TppMbDev could not find key EQP_DEV_SWP_SmokeGrenade
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_ar01_v00
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_sr01_v00
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_ms00
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_mg03_v00
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_ar00_v07
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_ar00_v06
+|3.4367847119457|TppMbDev could not find key EQP_DEV_SWP_Magazine
+|3.4367847119457|TppMbDev could not find key EQP_DEV_SWP_C4
+|3.4367847119457|TppMbDev could not find key EQP_DEV_WP_sm00_v00
+|3.4367847119457|PlayerCamoType could not find key NONE
+|3.4367847119457|TppNetworkUtil could not find key DEBUG_DumpServerParameter
+|3.4367847119457|TppScriptVars could not find key CATEGORY_MGO
+|3.4367847119457|Could not find module 'HighSpeedCamera' from moduleReferences in modules
+|3.4367847119457|TppMotherBaseManagement could not find key DEBUG_DirectAddRandomStaffs
+|3.4367847119457|TppMotherBaseManagement could not find key DEBUG_DumpMbsParam
+|3.4367847119457|Demo could not find key playerPartsType
+|3.4367847119457|TppEquip could not find key EQP_MB_500216
+|3.4367847119457|TppEquip could not find key EQP_MB_500203
+|3.4367847119457|TppEquip could not find key EQP_HL_300504
+|3.4367847119457|TppEquip could not find key EQP_HL_300101
+|3.4367847119457|TppEquip could not find key EQP_DW_220525
+|3.4367847119457|TppEquip could not find key EQP_DW_220301
+|3.4367847119457|TppEquip could not find key EQP_HL_300605
+|3.4367847119457|TppEquip could not find key EQP_HL_300001
+|3.4367847119457|TppEquip could not find key EQP_DW_220102
+|3.4367847119457|TppEquip could not find key EQP_DW_220103
+|3.4367847119457|TppEquip could not find key EQP_HL_300606
+|3.4367847119457|TppEquip could not find key EQP_DH_210801
+|3.4367847119457|TppEquip could not find key BLA_ms01
+|3.4367847119457|TppEquip could not find key EQP_HL_300502
+|3.4367847119457|TppEquip could not find key BL_SWP_Magazine
+|3.4367847119457|TppEquip could not find key EQP_DH_210500
+|3.4367847119457|TppEquip could not find key EQP_DW_220104
+|3.4367847119457|TppEquip could not find key EQP_DW_220202
+|3.4367847119457|TppEquip could not find key EQP_MB_500215
+|3.4367847119457|TppEquip could not find key EQP_DW_221404
+|3.4367847119457|TppEquip could not find key BL_IT_TimeCigarette
+|3.4367847119457|TppEquip could not find key EQP_MB_500227
+|3.4367847119457|TppEquip could not find key EQP_DW_221004
+|3.4367847119457|TppEquip could not find key EQP_DW_221305
+|3.4367847119457|TppEquip could not find key EQP_DW_220602
+|3.4367847119457|TppEquip could not find key EQP_DW_221103
+|3.4367847119457|TppEquip could not find key EQP_WP_East_sr_010
+|3.4367847119457|TppEquip could not find key EQP_HL_300002
+|3.4367847119457|TppEquip could not find key EQP_MB_500204
+|3.4367847119457|TppEquip could not find key EQP_DH_210704
+|3.4367847119457|TppEquip could not find key EQP_DW_221306
+|3.4367847119457|TppEquip could not find key BL_SWP_Grenade
+|3.4367847119457|TppEquip could not find key EQP_DW_221104
+|3.4367847119457|TppEquip could not find key EQP_DD_210301
+|3.4367847119457|TppEquip could not find key EQP_HL_300304
+|3.4367847119457|TppEquip could not find key EQP_MB_500103
+|3.4367847119457|TppEquip could not find key EQP_MB_500214
+|3.4367847119457|TppEquip could not find key EQP_HL_300303
+|3.4367847119457|TppEquip could not find key EQP_DW_220603
+|3.4367847119457|TppEquip could not find key EQP_MB_500114
+|3.4367847119457|TppEquip could not find key EQP_HL_300003
+|3.4367847119457|TppEquip could not find key EQP_DD_210102
+|3.4367847119457|TppEquip could not find key EQP_HL_300414
+|3.4367847119457|TppEquip could not find key EQP_MB_500226
+|3.4367847119457|TppEquip could not find key EQP_DW_220204
+|3.4367847119457|TppEquip could not find key EQP_MB_500115
+|3.4367847119457|TppEquip could not find key EQP_HL_300604
+|3.4367847119457|TppEquip could not find key EQP_MB_500225
+|3.4367847119457|TppEquip could not find key EQP_MB_500105
+|3.4367847119457|TppEquip could not find key EQP_MB_500104
+|3.4367847119457|TppEquip could not find key EQP_MB_500205
+|3.4367847119457|TppEquip could not find key EQP_HL_300005
+|3.4367847119457|TppEquip could not find key EQP_DH_210603
+|3.4367847119457|TppEquip could not find key EQP_DW_220303
+|3.4367847119457|TppEquip could not find key EQP_DD_210123
+|3.4367847119457|TppEquip could not find key EQP_DW_221507
+|3.4367847119457|TppEquip could not find key EQP_MB_500116
+|3.4367847119457|TppEquip could not find key EQP_DW_220002
+|3.4367847119457|TppEquip could not find key EQP_DW_220414
+|3.4367847119457|TppEquip could not find key EQP_HL_300415
+|3.4367847119457|TppEquip could not find key EQP_DW_221505
+|3.4367847119457|TppEquip could not find key EQP_WP_Quiet_st_050
+|3.4367847119457|TppEquip could not find key EQP_DW_221406
+|3.4367847119457|TppEquip could not find key UD_None
+|3.4367847119457|TppEquip could not find key EQP_WP_Quiet_st_030
+|3.4367847119457|TppEquip could not find key EQP_HL_300302
+|3.4367847119457|TppEquip could not find key EQP_HL_300413
+|3.4367847119457|TppEquip could not find key EQP_DW_220604
+|3.4367847119457|TppEquip could not find key EQP_DW_221002
+|3.4367847119457|TppEquip could not find key EQP_WP_Quiet_st_040
+|3.4367847119457|TppEquip could not find key EQP_DW_221304
+|3.4367847119457|TppEquip could not find key EQP_DW_220003
+|3.4367847119457|TppEquip could not find key EQP_WP_Quiet_st_060
+|3.4367847119457|TppEquip could not find key EQP_DW_221405
+|3.4367847119457|TppEquip could not find key EQP_HL_300004
+|3.4367847119457|TppEquip could not find key EQP_DW_221003
+|3.4367847119457|TppEquip could not find key EQP_DH_210602
+|3.4367847119457|TppEquip could not find key EQP_WP_Quiet_st_010
+|3.4367847119457|TppEquip could not find key EQP_DW_221105
+|3.4367847119457|TppEquip could not find key EQP_DH_210604
+|3.4367847119457|TppEquip could not find key EQP_DD_210000
+|3.4367847119457|TppEquip could not find key EQP_DD_210113
+|3.4367847119457|TppEquip could not find key EQP_DW_221506
+|3.4367847119457|TppEquip could not find key EPQ_None
+|3.4367847119457|TppEquip could not find key EQP_DW_220605
+|3.4367847119457|TppEquip could not find key EQP_WP_Quiet_st_020
+|3.4367847119457|TppEquip could not find key EQP_HL_300503
+|3.4367847119457|TppEquip could not find key EQP_HL_300202
+|3.4367847119457|TppEquip could not find key EQP_DW_220203
+|3.4367847119457|TppEquip could not find key EQP_DW_220004
+|3.4367847119457|TppEquip could not find key EQP_DH_210901
+|3.4367847119457|TppEquip could not find key EQP_DD_210214
+|3.4367847119457|TppEquip could not find key BLA_mgs0_miss2
+|3.4367847119457|TppEquip could not find key EQP_DD_210401
+|3.4367847119457|Game could not find key DEBUG_AddScript
+|3.4367847119457|GameObject could not find key NULL_IDdem
+|3.4367847119457|GameObject could not find key SpecialActionEnd
+|3.4367847119457|Fox could not find key StrCode32l
+|3.4367847119457|Fox could not find key HungUp
+|3.4367847119457|Could not find module 'CaptureCage' from moduleReferences in modules
+|3.4367847119457|Player could not find key DEBUG_PlaceAround
+|3.4367847119457|Player could not find key NotifyChangedPlayerRailAction
+|3.4367847119457|Player could not find key UnSetPause
+|3.4367847119457|PlayerType could not find key MGO_MALE
+|3.4367847119457|notFound={
+  CaptureCage = true,
   Demo = {
     playerPartsType = true
   },
@@ -281,6 +280,7 @@
     NULL_IDdem = true,
     SpecialActionEnd = true
   },
+  HighSpeedCamera = true,
   MotherBaseConstructConnector = {
     SetContainerGimmickList = true
   },
@@ -294,6 +294,9 @@
   },
   PlayerType = {
     MGO_MALE = true
+  },
+  TppBullet = {
+    ClearBulletMark = true
   },
   TppEquip = {
     BLA_mgs0_miss2 = true,
@@ -423,103 +426,1745 @@
   TppPickable = {
     DEBUG_DropWeapon = true
   },
+  TppPlaced = true,
   TppScriptVars = {
     CATEGORY_MGO = true
   },
   name = true
-}
-|1.81|combine mockModulesFromRefs to mockModules
-|1.817|isMockFox, will not output dump files
-|1.822|InfLookup.PostAllModulesLoad:
-|1.827|LoadStrings
-|1.831|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/fmdlStrings_unique.txt
-|1.845|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/fmdl_dictionary.txt
-|1.857|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExe.txt
-|2.129|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
-|2.154|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExtensions.txt
-|2.16|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
-|2.257|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
-|2.292|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
-|4.738|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
-|4.744|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
-|4.754|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
-|4.822|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
-|5.353|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
-|5.36|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
-|9.1|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsLua.txt
-|9.247|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsManual.txt
-|9.253|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/lang_dictionary.txt
-|9.268|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/mtar_dictionary.txt
-|9.275|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/qar_dictionary.txt
-|9.466|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppbnd.txt
-|9.474|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppclo.txt
-|9.479|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppdes.txt
-|9.485|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppevf.txt
-|9.491|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppfsd.txt
-|9.497|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppparts-noinvalidchars.txt
-|9.524|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppph.txt
-|9.531|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppphsd.txt
-|9.536|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppsdf.txt
-|9.542|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppsim.txt
-|9.547|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetpptgt.txt
-|9.552|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppveh.txt
-|9.558|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/subp_dictionary.txt
-|9.563|InfLookup.AddObjectNamesToStr32List:
-|9.569|InfLookup.BuildPath32ToDataSetName:
-|10.938|InfLookup.LoadGameObjectNames
-|14.643|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
-|16.011|InfNPC.PostAllModulesLoad:
-|16.016|InfQuest.PostAllModulesLoad:
-|16.021|InfQuest.LoadQuestDefs
-|16.026|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
-|16.031|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
-|16.036|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
-|16.041|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
-|16.046|IvarProc.SetupInfProfiles
-|16.053|InfMain.lua done
-|16.067|InfHook done, requires-list done
-|16.075|Load TppDefine.lua
-|16.08|TppDefine.lua done
-|16.089|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
-|16.096|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
-|16.104|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
-|16.112|start2nd.lua start
-|16.119|Loading mother base settings
-|16.124|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|16.129|Found external for C:/GamesSD/MGS_TPP/mod//Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|16.139|MbmCommonSetting.lua - personal tweaks
-|16.145|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
-|16.153|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
-|16.161|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
-|16.17|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
-|16.182|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
-|16.191|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
-|16.209|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
-|16.227|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
-|16.233|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
-|16.244|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
-|16.255|InfMain.LoadLibraries
-|16.261|InfMain.LoadModelInfoModules
-|16.268|InfMission.SetupMissions
-|16.273|InfMission.LoadMissionDefs: 12000_ombs.lua
-|16.278|InfMission.LoadMissionDefs: 12020_cypr.lua
-|16.283|Adding mission 12000
-|16.288|Adding mission 12020
-|16.293|RegistMissionEpisodeNo(12000,51)
-|16.298|RegistMissionEpisodeNo(12020,52)
-|16.303|start2nd.lua done
-|16.308|InfMain.OnFadeOutDirect:nil
-|16.313|TppVarInit.InitializeOnStartTitle
-|16.318|TppVarInit.StartInitMission 10010
-|16.323|TppMission.Load nextMissionCode:1 currentMissionCode:nil
-|16.328|loadSettings={
+}
+|3.4367847119457|combine mockModulesFromRefs to mockModules
+|3.4367847119457|DumpSaveVars inputVars==nil
+|3.4367847119457|DumpSaveVars inputVars==nil
+|3.4367847119457|DumpToFiles D:\Projects\MGS\dump\modulesDump\
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\ModulesDump.lua
+|3.4367847119457|DumpToFiles D:\Projects\MGS\dump\mockModules\
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\MockModules.lua
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\IHGenUnfoundReferences.lua
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\IHMissedModules.lua
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\\varsDump\vars.lua
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\\varsDump\mvars.lua
+|3.4367847119457|WriteTable D:\Projects\MGS\dump\IHGenEntityClassDictionary.lua
+|3.4367847119457|InfLookup.PostAllModulesLoad:
+|3.4367847119457|LoadStrings
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/fmdlStrings_unique.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/fmdl_dictionary.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExe.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsExtensions.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsLua.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/IHStringsManual.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/lang_dictionary.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/mtar_dictionary.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/qar_dictionary.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppbnd.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppclo.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppdes.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppevf.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppfsd.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppparts-noinvalidchars.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppph.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppphsd.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppsdf.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppsim.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetpptgt.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/scrapetppveh.txt
+|3.4367847119457|LoadStrings C:/GamesSD/MGS_TPP/mod/strings/subp_dictionary.txt
+|3.4367847119457|InfLookup.AddObjectNamesToStr32List:
+|3.4367847119457|InfLookup.BuildPath32ToDataSetName:
+|3.4367847119457|InfLookup.LoadGameObjectNames
+|3.4367847119457|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
+|3.4367847119457|InfNPC.PostAllModulesLoad:
+|3.4367847119457|InfQuest.PostAllModulesLoad:
+|3.4367847119457|InfQuest.LoadQuestDefs
+|3.4367847119457|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
+|3.4367847119457|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
+|3.4367847119457|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
+|3.4367847119457|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
+|3.4367847119457|IvarProc.SetupInfProfiles
+|3.4367847119457|InfMain.lua done
+|8.8588965147727|InfHook done, requires-list done
+|8.8922633566362|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
+|8.8922633566362|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
+|8.9506552023269|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
+|9.0257307240904|start2nd.lua start
+|9.0757809868857|Loading mother base settings
+|9.0757809868857|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|9.0757809868857|Found external for C:/GamesSD/MGS_TPP/mod//Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|9.0757809868857|MbmCommonSetting.lua - personal tweaks
+|9.1091478287493|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
+|9.1341728325764|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
+|9.1591978364035|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
+|9.1842228402306|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
+|9.2092478440578|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
+|9.2426146859213|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
+|9.2759815277849|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
+|9.3176899525438|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
+|9.3427149563709|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
+|9.3760817982344|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
+|9.4011068020615|InfMain.LoadLibraries
+|9.4011068020615|InfMain.LoadModelInfoModules
+|9.4011068020615|InfMission.SetupMissions
+|9.4011068020615|InfMission.LoadMissionDefs: 12000_ombs.lua
+|9.4011068020615|InfMission.LoadMissionDefs: 12020_cypr.lua
+|9.4011068020615|Adding mission 12000
+|9.4011068020615|Adding mission 12020
+|9.4011068020615|RegistMissionEpisodeNo(12000,51)
+|9.4011068020615|RegistMissionEpisodeNo(12020,52)
+|9.4011068020615|start2nd.lua done
+|9.517890748584|InfMain.OnFadeOutDirect:nil
+|9.517890748584|TppVarInit.InitializeOnStartTitle
+|9.517890748584|TppVarInit.StartInitMission 10010
+|9.517890748584|TppMission.Load nextMissionCode:1 currentMissionCode:nil
+|9.517890748584|loadSettings={
   force = true,
   showLoadingTips = false
-}
-|16.333|InfParasite.OnLoad:
-|16.339|TppEneFova.InitializeUniqueSetting
-|16.344|TppEneFova.PreMissionLoad locationName:nil missionId:1
-|16.348|InfMain.PreMissionLoad
-|16.354|InfEquip.PreMissionLoad:
-|16.359|InfSoldier.PreMissionLoad:
-|16.363|start.lua done
+}
+|9.517890748584|InfParasite.OnLoad:
+|9.517890748584|TppEneFova.InitializeUniqueSetting
+|9.517890748584|TppEneFova.PreMissionLoad locationName:nil missionId:1
+|9.517890748584|InfMain.PreMissionLoad
+|9.517890748584|InfEquip.PreMissionLoad:
+|9.517890748584|InfSoldier.PreMissionLoad:
+|9.517890748584|start.lua done
+|9.517890748584|TppMissionList.GetLocationPackagePath 1
+|9.517890748584|locationPackPaths={ "/Assets/tpptest/pack/location/empty/empty.fpk" }
+|9.517890748584|TppMissionList.GetMissionPackagePath 1
+|9.517890748584|InfMain.AddMissionPacks 1
+|9.517890748584|IHPlayAnim.AddMissionPacks:
+|9.517890748584|InfAnimal.AddMissionPacks:
+|9.517890748584|InfEquip.AddMissionPacks:
+|9.517890748584|InfMBAssets.AddMissionPacks:
+|9.517890748584|InfNPC.AddMissionPacks:
+|9.517890748584|InfNPCHeli.AddMissionPacks:
+|9.517890748584|InfNPCOcelot.AddMissionPacks:
+|9.517890748584|InfParasite.AddMissionPacks:
+|9.517890748584|InfPuppy.AddMissionPacks:
+|9.517890748584|InfSoldier.AddMissionPacks:
+|9.517890748584|InfVehicle.AddMissionPacks:
+|9.517890748584|InfWalkerGear.AddMissionPacks:
+|9.517890748584|missionPackPaths={ "/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk", "/Assets/tpp/pack/mission2/init/init.fpk" }
+|9.517890748584|OnAllocate Top 1
+|9.517890748584|DebugModeEnable:true
+|9.517890748584|AddDevMenus
+|9.517890748584|HookPre TppUI.FadeOut(0)
+|9.517890748584|InfMain.OnFadeOutDirect:nil
+|9.517890748584|inf_levelSeed -1742720960
+|9.517890748584|InfEquip.OnAllocate:
+|9.517890748584|InfQuest.OnAllocate:
+|9.517890748584|InfResources.OnAllocate:
+|9.517890748584|ScaleResourceTables
+|9.517890748584|InfSoldierParams.OnAllocate:
+|9.517890748584|script_loader.OnAllocate:
+|9.517890748584|InfParasite.MissionPrepare:
+|9.517890748584|TppSequence.DeclareSVars
+|9.517890748584|TppResult.DeclareSVars
+|9.517890748584|TppSound.DeclareSVars
+|9.517890748584|TppTerminal.DeclareSVars
+|9.517890748584|TppMarker.DeclareSVars
+|9.517890748584|TppRadio.DeclareSVars
+|9.517890748584|TppPlayer.DeclareSVars
+|9.517890748584|TppScriptBlock.DeclareSVars
+|9.517890748584|TppMission.DeclareSVars
+|9.517890748584|TppEnemy.DeclareSVars
+|9.517890748584|TppInterrogation.DeclareSVars
+|9.517890748584|TppCheckPoint.DeclareSVars
+|9.517890748584|TppTrap.DeclareSVars
+|9.517890748584|TppFreeHeliRadio.DeclareSVars
+|9.517890748584|TppHero.DeclareSVars
+|9.517890748584|TppRanking.DeclareSVars
+|9.517890748584|InfParasite.DeclareSVars:
+|9.517890748584|InfMission.OpenMissions
+|9.517890748584|Clearing 40
+|9.517890748584|Clearing 42
+|9.517890748584|Clearing 44
+|9.517890748584|Clearing 47
+|9.517890748584|Clearing 50
+|9.517890748584|Clearing 51
+|9.517890748584|Clearing 52
+|9.517890748584|Clearing 54
+|9.517890748584|Clearing 56
+|9.517890748584|Clearing 58
+|9.517890748584|Clearing 61
+|9.517890748584|Clearing 63
+|9.517890748584|Clearing 64
+|9.517890748584|Opening 12000
+|9.517890748584|Opening 12020
+|9.517890748584|TppRevenge._SetUiParameters 
+|9.517890748584|TppRevenge._CreateRevengeConfig
+|9.517890748584|revengeConfig={
+  COMBAT_LOW = true,
+  HOLDUP_LOW = true,
+  STEALTH_LOW = true
+}
+|9.517890748584|OnAllocate Bottom 1
+|9.517890748584|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.517890748584|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.517890748584|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.517890748584|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|9.517890748584|OnInitialize Top 1
+|9.517890748584|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|9.517890748584|Adding IHStringsExe strings to strCode32List
+|9.517890748584|Adding scrapetppparts-noinvalidchars strings to strCode32List
+|9.517890748584|Adding scrapetppveh strings to strCode32List
+|9.517890748584|Adding scrapetppfsd strings to strCode32List
+|9.517890748584|Adding scrapetpptgt strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapeTrap strings to strCode32List
+|9.517890748584|Adding scrapetppsim strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapePaths strings to strCode32List
+|9.517890748584|Adding scrapetppclo strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapeAfgh strings to strCode32List
+|9.517890748584|Adding scrapetppphsd strings to strCode32List
+|9.517890748584|Adding lang_dictionary strings to strCode32List
+|9.517890748584|Adding subp_dictionary strings to strCode32List
+|9.517890748584|Adding IHStringsGameObjectNames strings to strCode32List
+|9.517890748584|Adding scrapetppbnd strings to strCode32List
+|9.517890748584|Adding fmdl_dictionary strings to strCode32List
+|9.517890748584|Adding mtar_dictionary strings to strCode32List
+|9.517890748584|Adding IHStringsExeMgsGroundZeroes strings to strCode32List
+|9.517890748584|Adding scrapetppevf strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapeMtbs strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapeLy strings to strCode32List
+|9.517890748584|Adding scrapetppdes strings to strCode32List
+|9.517890748584|Adding scrapetppsdf strings to strCode32List
+|9.517890748584|Adding qar_dictionary strings to strCode32List
+|9.517890748584|Adding IHStringsManual strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapeLz strings to strCode32List
+|9.517890748584|Adding scrapetppph strings to strCode32List
+|9.517890748584|Adding IHStringsFox2Scrape strings to strCode32List
+|9.517890748584|Adding fmdlStrings_unique strings to strCode32List
+|9.517890748584|Adding IHStringsExtensions strings to strCode32List
+|9.517890748584|Adding IHStringsLua strings to strCode32List
+|9.517890748584|Adding IHStringsFox2ScrapeMafr strings to strCode32List
+|9.517890748584|InfQuest.RegisterQuests
+|9.517890748584|RegisterQuests ih_quest_q30100 168
+|9.517890748584|RegisterQuests ih_quest_q30101 169
+|9.517890748584|RegisterQuests ih_quest_q30102 170
+|9.517890748584|RegisterQuests ih_quest_q30155 171
+|9.517890748584|numUiQuests:161
+|9.517890748584|TppSave.Init
+|9.517890748584|TppLocation.Init
+|9.517890748584|TppSequence.Init
+|9.517890748584|TppWeather.Init
+|9.517890748584|TppUI.Init
+|9.517890748584|TppResult.Init
+|9.517890748584|TppSound.Init
+|9.517890748584|TppTerminal.Init
+|9.517890748584|TppMarker.Init
+|9.517890748584|TppRadio.Init
+|9.517890748584|TppPlayer.Init
+|9.517890748584|TppHelicopter.Init
+|9.517890748584|TppMission.Init
+|9.517890748584|TppStory.Init
+|9.517890748584|InfMission.OpenMissions
+|9.517890748584|Clearing 40
+|9.517890748584|Clearing 42
+|9.517890748584|Clearing 44
+|9.517890748584|Clearing 47
+|9.517890748584|Clearing 50
+|9.517890748584|Clearing 51
+|9.517890748584|Clearing 52
+|9.517890748584|Clearing 54
+|9.517890748584|Clearing 56
+|9.517890748584|Clearing 58
+|9.517890748584|Clearing 61
+|9.517890748584|Clearing 63
+|9.517890748584|Clearing 64
+|9.517890748584|Opening 12000
+|9.517890748584|Opening 12020
+|9.517890748584|TppDemo.Init
+|9.517890748584|TppEnemy.Init
+|9.517890748584|TppInterrogation.Init
+|9.517890748584|TppGimmick.Init
+|9.517890748584|TppCheckPoint.Init
+|9.517890748584|TppQuest.Init
+|9.517890748584|TppRevenge.Init
+|9.517890748584|TppReinforceBlock.Init
+|9.517890748584|TppFreeHeliRadio.Init
+|9.517890748584|TppHero.Init
+|9.517890748584|TppTelop.Init
+|9.517890748584|TppRatBird.Init
+|9.517890748584|TppAnimal.Init
+|9.517890748584|TppTutorial.Init
+|9.517890748584|TppPaz.Init
+|9.517890748584|TppRanking.Init
+|9.517890748584|InfMain.Init
+|9.517890748584|IHDebugRoutes.Init:
+|9.517890748584|InfAnimal.Init:
+|9.517890748584|InfBuddy.Init:
+|9.517890748584|InfEnemyPhase.Init:
+|9.517890748584|InfEquip.Init:
+|9.517890748584|InfHelicopter.Init:
+|9.517890748584|InfInterrogation.Init:
+|9.517890748584|InfLookup.Init:
+|9.517890748584|Dumping unknownStr32
+|9.517890748584|Dumping unknownMessages
+|9.517890748584|InfMBGimmick.Init:
+|9.517890748584|InfMBVisit.Init:
+|9.517890748584|InfMgsvToExt.Init:
+|9.517890748584|InfMission.Init:
+|9.517890748584|InfNPC.Init:
+|9.517890748584|InfNPCHeli.Init:
+|9.517890748584|InfNPCOcelot.Init:
+|9.517890748584|InfParasite.Init:
+|9.517890748584|InfPuppy.Init:
+|9.517890748584|InfSoldier.Init:
+|9.517890748584|InfWalkerGear.Init:
+|9.517890748584|InfMenu.Init
+|9.517890748584|SetMessageFunction:IHDebugRoutes
+|9.517890748584|SetMessageFunction:InfAnimal
+|9.517890748584|SetMessageFunction:InfBuddy
+|9.517890748584|SetMessageFunction:InfEquip
+|9.517890748584|SetMessageFunction:InfMBGimmick
+|9.517890748584|SetMessageFunction:InfMBVisit
+|9.517890748584|SetMessageFunction:InfNPC
+|9.517890748584|SetMessageFunction:InfNPCHeli
+|9.517890748584|SetMessageFunction:InfNPCOcelot
+|9.517890748584|SetMessageFunction:InfParasite
+|9.517890748584|SetMessageFunction:InfSoldier
+|9.517890748584|HookPre TppQuest.UpdateActiveQuest()
+|9.517890748584|OnInitialize Bottom 1
+|9.517890748584|TppSequence.OnChangeSVars
+|9.517890748584|HookPre TppScriptBlock.PreloadSettingOnMissionStart()
+|9.517890748584|HookPre TppScriptBlock.ReloadScriptBlock()
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|9.517890748584|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|9.517890748584|TppUI.OnChangeSVars
+|9.517890748584|TppMission.OnChangeSVars
+|9.517890748584|HookPre TppLocation.ActivateBlock()
+|9.517890748584|InfMain.OnMissionCanStartBottom
+|9.517890748584|InfEquip.OnMissionCanStart:
+|9.517890748584|InfGameEvent.OnMissionCanStart:
+|9.517890748584|InfMBVisit.OnMissionCanStart:
+|9.517890748584|InfNPCHeli.OnMissionCanStart:
+|9.517890748584|InfParasite.OnMissionCanStart:
+|9.517890748584|DoExtToMgsvCommands IHExt session changed
+|9.517890748584|ExtCmd message="1|SessionChange"
+|12.804524672144|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.804524672144|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.804524672144|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.804524672144|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|12.804524672144|TppSequence.OnChangeSVars
+|12.804524672144|TppSequence.SetNextSequence from Seq_Demo_Start to Seq_Demo_WaitCopyRightLogo
+|12.804524672144|TppUI.OnChangeSVars
+|12.804524672144|TppMission.OnChangeSVars
+|12.804524672144|TppSequence.OnChangeSVars
+|12.804524672144|TppUI.OnChangeSVars
+|12.804524672144|TppMission.OnChangeSVars
+|12.804524672144|TppSequence.SetNextSequence from Seq_Demo_WaitCopyRightLogo to Seq_Demo_SetInitialLanguage
+|12.804524672144|DoToMgsvCommand 1={ "1", "sessionchange" }
+|12.904625197734|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|12.904625197734|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|12.904625197734|TppSequence.OnChangeSVars
+|12.904625197734|TppSequence.SetNextSequence from Seq_Demo_SetInitialLanguage to Seq_Demo_SetSavedLanguage
+|12.904625197734|TppUI.OnChangeSVars
+|12.904625197734|TppMission.OnChangeSVars
+|12.904625197734|TppSequence.OnChangeSVars
+|12.904625197734|TppUI.OnChangeSVars
+|12.904625197734|TppMission.OnChangeSVars
+|14.022414400163|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|14.022414400163|mbdvc_map_location_parameter.GetLocationParameter 1
+|15.006736235138|TppSequence.SetNextSequence from Seq_Demo_SetSavedLanguage to Seq_Demo_StartCheckNecessaryStorageSpace
+|15.02341965607|TppSequence.OnChangeSVars
+|15.02341965607|TppSequence.SetNextSequence from Seq_Demo_StartCheckNecessaryStorageSpace to Seq_Demo_CheckInstalled
+|15.02341965607|TppUI.OnChangeSVars
+|15.02341965607|TppMission.OnChangeSVars
+|15.02341965607|TppSequence.OnChangeSVars
+|15.02341965607|TppSequence.SetNextSequence from Seq_Demo_CheckInstalled to Seq_Demo_StartInstall
+|15.02341965607|TppUI.OnChangeSVars
+|15.02341965607|TppMission.OnChangeSVars
+|15.02341965607|TppSequence.OnChangeSVars
+|15.02341965607|TppSequence.SetNextSequence from Seq_Demo_StartInstall to Seq_Demo_ConfirmAutoSave
+|15.02341965607|TppUI.OnChangeSVars
+|15.02341965607|TppMission.OnChangeSVars
+|15.02341965607|TppSequence.OnChangeSVars
+|15.02341965607|TppSequence.SetNextSequence from Seq_Demo_ConfirmAutoSave to Seq_Demo_StartSignIn
+|15.02341965607|TppUI.OnChangeSVars
+|15.02341965607|TppMission.OnChangeSVars
+|15.02341965607|TppSequence.OnChangeSVars
+|15.02341965607|TppSequence.SetNextSequence from Seq_Demo_StartSignIn to Seq_Demo_CreateOrLoadSaveData
+|15.02341965607|TppUI.OnChangeSVars
+|15.02341965607|TppMission.OnChangeSVars
+|15.02341965607|TppSequence.OnChangeSVars
+|15.02341965607|TppUI.OnChangeSVars
+|15.02341965607|TppMission.OnChangeSVars
+|15.49055544216|OnMessage|sender: UI, messageId: PopupClose, popupId=1200:LOADING_SAVE_DATA, unk1=0 (number), 
+|15.49055544216|OnMessage|sender: UI, messageId: PopupClose, popupId=1200:LOADING_SAVE_DATA, unk1=0 (number), 
+|16.34140990968|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|17.192264377201|TppSequence.SetNextSequence from Seq_Demo_CreateOrLoadSaveData to Seq_Demo_LogInKonamiServer
+|17.208947798132|TppSequence.OnChangeSVars
+|17.208947798132|TppUI.OnChangeSVars
+|17.208947798132|TppMission.OnChangeSVars
+|17.225631219064|OnMessage|sender: Network, messageId: StartLogin, (no signature): arg0=0, 
+|17.225631219064|OnMessage|sender: Network, messageId: StartLogin, (no signature): arg0=0, 
+|22.581009338164|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|22.581009338164|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|69.494788998316|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|69.494788998316|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|75.91790605705|OnMessage|sender: UI, messageId: PopupClose, popupId=0 (popupId), unk1=0 (number), 
+|75.91790605705|OnMessage|sender: Network, messageId: EndLogin
+|75.91790605705|OnMessage|sender: UI, messageId: PopupClose, popupId=0 (popupId), unk1=0 (number), 
+|75.91790605705|OnMessage|sender: Network, messageId: EndLogin
+|75.91790605705|TppSequence.SetNextSequence from Seq_Demo_LogInKonamiServer to Seq_Demo_CheckPatchDlcForInvitation
+|75.91790605705|TppSequence.OnChangeSVars
+|75.91790605705|TppSequence.SetNextSequence from Seq_Demo_CheckPatchDlcForInvitation to Seq_Demo_CheckMgoInvitation
+|75.91790605705|TppUI.OnChangeSVars
+|75.91790605705|TppMission.OnChangeSVars
+|75.91790605705|TppSequence.OnChangeSVars
+|75.91790605705|TppSequence.SetNextSequence from Seq_Demo_CheckMgoInvitation to Seq_Demo_CheckDlc
+|75.91790605705|TppUI.OnChangeSVars
+|75.91790605705|TppMission.OnChangeSVars
+|75.91790605705|TppSequence.OnChangeSVars
+|75.91790605705|TppUI.OnChangeSVars
+|75.91790605705|TppMission.OnChangeSVars
+|76.051373424504|TppSequence.SetNextSequence from Seq_Demo_CheckDlc to Seq_Demo_ShowDlcAnnouncePopup
+|76.068056845436|TppSequence.OnChangeSVars
+|76.068056845436|TppUI.OnChangeSVars
+|76.068056845436|TppMission.OnChangeSVars
+|76.668659998979|OnMessage|sender: UI, messageId: EndDlcAnnounce, (no signature): arg0=0, arg1=0, 
+|76.668659998979|OnMessage|sender: UI, messageId: EndDlcAnnounce, (no signature): arg0=0, arg1=0, 
+|76.668659998979|TppSequence.SetNextSequence from Seq_Demo_ShowDlcAnnouncePopup to Seq_Demo_CheckPatchDlc
+|76.668659998979|TppSequence.OnChangeSVars
+|76.668659998979|TppUI.OnChangeSVars
+|76.668659998979|TppMission.OnChangeSVars
+|76.668659998979|TppSequence.SetNextSequence from Seq_Demo_CheckPatchDlc to Seq_Demo_CheckCompatibilityPatchDlc
+|76.702026840843|TppSequence.OnChangeSVars
+|76.702026840843|TppUI.OnChangeSVars
+|76.702026840843|TppMission.OnChangeSVars
+|76.702026840843|TppSequence.SetNextSequence from Seq_Demo_CheckCompatibilityPatchDlc to Seq_Demo_CheckBootTypeMgo
+|76.735393682707|TppSequence.OnChangeSVars
+|76.735393682707|TppSequence.SetNextSequence from Seq_Demo_CheckBootTypeMgo to Seq_Demo_Init
+|76.735393682707|TppUI.OnChangeSVars
+|76.735393682707|TppMission.OnChangeSVars
+|76.735393682707|TppSequence.OnChangeSVars
+|76.735393682707|TppUI.OnChangeSVars
+|76.735393682707|TppMission.OnChangeSVars
+|80.322329183038|TppSequence.SetNextSequence from Seq_Demo_Init to Seq_Demo_StartTitle
+|80.33901260397|TppSequence.OnChangeSVars
+|80.33901260397|TppSequence.SetNextSequence from Seq_Demo_StartTitle to Seq_Demo_ShowKonamiAndFoxLogo
+|80.33901260397|TppUI.OnChangeSVars
+|80.33901260397|TppMission.OnChangeSVars
+|80.33901260397|TppSequence.OnChangeSVars
+|80.33901260397|TppUI.OnChangeSVars
+|80.33901260397|TppMission.OnChangeSVars
+|80.422429453488|TppVarInit.StartTitle 1
+|80.422429453488|TppMission.RequestLoad next:40050 current:1
+|80.422429453488|InfMain.OnStartTitle
+|80.422429453488|InfQuest.SetupInstalledQuestsState
+|80.422429453488|InfQuest.ReadQuestStates
+|80.422429453488|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|80.422429453488|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|80.422429453488|TppMission.LoadWithChunkCheck 40050
+|80.422429453488|TppMission.Load nextMissionCode:40050 currentMissionCode:1
+|80.422429453488|loadSettings={
+  showLoadingTips = false
+}
+|80.422429453488|InfParasite.OnLoad:
+|80.422429453488|TppEneFova.InitializeUniqueSetting
+|80.422429453488|HookPre TppEnemy.PrepareDDParameter(1,false)
+|80.422429453488|HookPre TppEnemy.ClearDDParameter()
+|80.422429453488|TppEneFova.PreMissionLoad locationName:mtbs missionId:40050
+|80.422429453488|InfMain.PreMissionLoad
+|80.422429453488|InfEquip.PreMissionLoad:
+|80.422429453488|InfSoldier.PreMissionLoad:
+|80.422429453488|TppMissionList.GetLocationPackagePath 50
+|80.422429453488|locationPackPaths={ "/Assets/tpp/pack/location/mtbs/mtbs.fpk" }
+|80.422429453488|TppMissionList.GetMissionPackagePath 40050
+|80.422429453488|InfMain.AddMissionPacks 40050
+|80.422429453488|IHPlayAnim.AddMissionPacks:
+|80.422429453488|InfAnimal.AddMissionPacks:
+|80.422429453488|InfEquip.AddMissionPacks:
+|80.422429453488|InfMBAssets.AddMissionPacks:
+|80.422429453488|InfNPC.AddMissionPacks:
+|80.422429453488|InfNPCHeli.AddMissionPacks:
+|80.422429453488|InfNPCOcelot.AddMissionPacks:
+|80.422429453488|InfParasite.AddMissionPacks:
+|80.422429453488|InfPuppy.AddMissionPacks:
+|80.422429453488|InfSoldier.AddMissionPacks:
+|80.422429453488|InfVehicle.AddMissionPacks:
+|80.422429453488|InfWalkerGear.AddMissionPacks:
+|80.422429453488|missionPackPaths={ "/Assets/tpp/pack/mission2/heli/heli_common_script.fpk", "/Assets/tpp/pack/mission2/common/title_sequence.fpk", "/Assets/tpp/pack/mission2/heli/heli_ui.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/location/mtbs/pack_common/mtbs_script.fpk", "/Assets/tpp/pack/mission2/heli/h40050/h40050_area.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk" }
+|80.422429453488|OnAllocate Top 40050
+|80.422429453488|DebugModeEnable:true
+|80.422429453488|AddDevMenus
+|80.422429453488|HookPre TppUI.FadeOut(0)
+|80.422429453488|InfMain.OnFadeOutDirect:nil
+|80.422429453488|inf_levelSeed -1742720960
+|80.422429453488|InfEquip.OnAllocate:
+|80.422429453488|InfQuest.OnAllocate:
+|80.422429453488|InfResources.OnAllocate:
+|80.422429453488|ScaleResourceTables
+|80.422429453488|InfSoldierParams.OnAllocate:
+|80.422429453488|script_loader.OnAllocate:
+|80.422429453488|InfParasite.MissionPrepare:
+|80.422429453488|TppSequence.DeclareSVars
+|80.422429453488|TppResult.DeclareSVars
+|80.422429453488|TppSound.DeclareSVars
+|80.422429453488|TppTerminal.DeclareSVars
+|80.422429453488|TppMarker.DeclareSVars
+|80.422429453488|TppRadio.DeclareSVars
+|80.422429453488|TppPlayer.DeclareSVars
+|80.422429453488|TppScriptBlock.DeclareSVars
+|80.422429453488|TppMission.DeclareSVars
+|80.422429453488|TppEnemy.DeclareSVars
+|80.422429453488|TppInterrogation.DeclareSVars
+|80.422429453488|TppCheckPoint.DeclareSVars
+|80.422429453488|TppTrap.DeclareSVars
+|80.422429453488|TppFreeHeliRadio.DeclareSVars
+|80.422429453488|TppHero.DeclareSVars
+|80.422429453488|TppRanking.DeclareSVars
+|80.422429453488|InfParasite.DeclareSVars:
+|80.422429453488|InfMission.OpenMissions
+|80.422429453488|Clearing 40
+|80.422429453488|Clearing 42
+|80.422429453488|Clearing 44
+|80.422429453488|Clearing 47
+|80.422429453488|Clearing 50
+|80.422429453488|Clearing 51
+|80.422429453488|Clearing 52
+|80.422429453488|Clearing 54
+|80.422429453488|Clearing 56
+|80.422429453488|Clearing 58
+|80.422429453488|Clearing 61
+|80.422429453488|Clearing 63
+|80.422429453488|Clearing 64
+|80.422429453488|Opening 12000
+|80.422429453488|Opening 12020
+|80.422429453488|TppRevenge._SetUiParameters 
+|80.422429453488|TppRevenge._CreateRevengeConfig
+|80.422429453488|revengeConfig={}
+|80.422429453488|OnAllocate Bottom 40050
+|80.422429453488|OnMessage|sender: MotherBaseStage, messageId: MotherBaseCurrentClusterLoadStart, clusterId=0 (number), 
+|80.422429453488|OnMessage|sender: MotherBaseStage, messageId: MotherBaseCurrentClusterLoadStart, clusterId=0 (number), 
+|80.422429453488|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|80.422429453488|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|80.422429453488|OnInitialize Top 40050
+|80.422429453488|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|80.422429453488|Adding IHStringsExe strings to strCode32List
+|80.422429453488|Adding scrapetppparts-noinvalidchars strings to strCode32List
+|80.422429453488|Adding scrapetppveh strings to strCode32List
+|80.422429453488|Adding scrapetppfsd strings to strCode32List
+|80.422429453488|Adding scrapetpptgt strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapeTrap strings to strCode32List
+|80.422429453488|Adding scrapetppsim strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapePaths strings to strCode32List
+|80.422429453488|Adding scrapetppclo strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapeAfgh strings to strCode32List
+|80.422429453488|Adding scrapetppphsd strings to strCode32List
+|80.422429453488|Adding lang_dictionary strings to strCode32List
+|80.422429453488|Adding subp_dictionary strings to strCode32List
+|80.422429453488|Adding IHStringsGameObjectNames strings to strCode32List
+|80.422429453488|Adding scrapetppbnd strings to strCode32List
+|80.422429453488|Adding fmdl_dictionary strings to strCode32List
+|80.422429453488|Adding mtar_dictionary strings to strCode32List
+|80.422429453488|Adding IHStringsExeMgsGroundZeroes strings to strCode32List
+|80.422429453488|Adding scrapetppevf strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapeMtbs strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapeLy strings to strCode32List
+|80.422429453488|Adding scrapetppdes strings to strCode32List
+|80.422429453488|Adding scrapetppsdf strings to strCode32List
+|80.422429453488|Adding qar_dictionary strings to strCode32List
+|80.422429453488|Adding IHStringsManual strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapeLz strings to strCode32List
+|80.422429453488|Adding scrapetppph strings to strCode32List
+|80.422429453488|Adding IHStringsFox2Scrape strings to strCode32List
+|80.422429453488|Adding fmdlStrings_unique strings to strCode32List
+|80.422429453488|Adding IHStringsExtensions strings to strCode32List
+|80.422429453488|Adding IHStringsLua strings to strCode32List
+|80.422429453488|Adding IHStringsFox2ScrapeMafr strings to strCode32List
+|80.422429453488|Adding sequence.DEBUG_strCode32List to strCode32List
+|80.422429453488|InfQuest.RegisterQuests
+|80.422429453488|RegisterQuests ih_quest_q30100 168
+|80.422429453488|RegisterQuests ih_quest_q30101 169
+|80.422429453488|RegisterQuests ih_quest_q30102 170
+|80.422429453488|RegisterQuests ih_quest_q30155 171
+|80.422429453488|numUiQuests:161
+|80.422429453488|TppSave.Init
+|80.422429453488|TppLocation.Init
+|80.422429453488|TppSequence.Init
+|80.422429453488|TppWeather.Init
+|80.422429453488|TppUI.Init
+|80.422429453488|TppResult.Init
+|80.422429453488|TppSound.Init
+|80.422429453488|TppTerminal.Init
+|80.422429453488|TppMarker.Init
+|80.422429453488|TppRadio.Init
+|80.422429453488|TppPlayer.Init
+|80.422429453488|TppHelicopter.Init
+|80.422429453488|TppMission.Init
+|80.422429453488|TppStory.Init
+|80.422429453488|InfMission.OpenMissions
+|80.422429453488|Clearing 40
+|80.422429453488|Clearing 42
+|80.422429453488|Clearing 44
+|80.422429453488|Clearing 47
+|80.422429453488|Clearing 50
+|80.422429453488|Clearing 51
+|80.422429453488|Clearing 52
+|80.422429453488|Clearing 54
+|80.422429453488|Clearing 56
+|80.422429453488|Clearing 58
+|80.422429453488|Clearing 61
+|80.422429453488|Clearing 63
+|80.422429453488|Clearing 64
+|80.422429453488|Opening 12000
+|80.422429453488|Opening 12020
+|80.422429453488|TppDemo.Init
+|80.422429453488|TppEnemy.Init
+|80.422429453488|TppInterrogation.Init
+|80.422429453488|TppGimmick.Init
+|80.422429453488|TppCheckPoint.Init
+|80.422429453488|TppQuest.Init
+|80.422429453488|TppRevenge.Init
+|80.422429453488|TppReinforceBlock.Init
+|80.422429453488|TppFreeHeliRadio.Init
+|80.422429453488|TppHero.Init
+|80.422429453488|TppTelop.Init
+|80.422429453488|TppRatBird.Init
+|80.422429453488|TppAnimal.Init
+|80.422429453488|TppTutorial.Init
+|80.422429453488|TppPaz.Init
+|80.422429453488|TppRanking.Init
+|80.422429453488|InfMain.Init
+|80.422429453488|IHDebugRoutes.Init:
+|80.422429453488|InfAnimal.Init:
+|80.422429453488|InfBuddy.Init:
+|80.422429453488|InfEnemyPhase.Init:
+|80.422429453488|InfEquip.Init:
+|80.422429453488|InfHelicopter.Init:
+|80.422429453488|InfInterrogation.Init:
+|80.422429453488|InfLookup.Init:
+|80.422429453488|Dumping unknownStr32
+|80.422429453488|Dumping unknownMessages
+|80.422429453488|InfMBGimmick.Init:
+|80.422429453488|InfMBVisit.Init:
+|80.422429453488|InfMgsvToExt.Init:
+|80.422429453488|ExtCmd message="2|UiElementVisible|runningLabel|0"
+|80.422429453488|InfMission.Init:
+|80.422429453488|InfNPC.Init:
+|80.422429453488|InfNPCHeli.Init:
+|80.422429453488|InfNPCOcelot.Init:
+|80.422429453488|InfParasite.Init:
+|80.422429453488|InfPuppy.Init:
+|80.422429453488|InfSoldier.Init:
+|80.422429453488|InfWalkerGear.Init:
+|80.422429453488|InfMenu.Init
+|80.422429453488|SetMessageFunction:IHDebugRoutes
+|80.422429453488|SetMessageFunction:InfAnimal
+|80.422429453488|SetMessageFunction:InfBuddy
+|80.422429453488|SetMessageFunction:InfEquip
+|80.422429453488|SetMessageFunction:InfMBGimmick
+|80.422429453488|SetMessageFunction:InfMBVisit
+|80.422429453488|SetMessageFunction:InfNPC
+|80.422429453488|SetMessageFunction:InfNPCHeli
+|80.422429453488|SetMessageFunction:InfNPCOcelot
+|80.422429453488|SetMessageFunction:InfParasite
+|80.422429453488|SetMessageFunction:InfSoldier
+|80.422429453488|HookPre TppQuest.UpdateActiveQuest()
+|80.422429453488|OnInitialize Bottom 40050
+|80.422429453488|TppSequence.OnChangeSVars
+|80.422429453488|HookPre TppScriptBlock.PreloadSettingOnMissionStart()
+|80.422429453488|HookPre TppScriptBlock.ReloadScriptBlock()
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|80.422429453488|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|80.422429453488|TppUI.OnChangeSVars
+|80.422429453488|TppMission.OnChangeSVars
+|80.422429453488|InfQuest.GetSideOpsListTable
+|80.422429453488|overCount:-31
+|80.422429453488|#sideOpsListTable:161
+|84.643334438945|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40497 (gameId), locatorName=3774347891:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002 (str32), dataSetName=3805637820:/Assets/tpp/level/location/mtbs/block_area/ly003/cl00/mtbs_ly003_cl00_item.fox2 (dataSetPath32), switchFlag=1 (number), 
+|84.643334438945|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40497 (gameId), locatorName=3774347891:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002 (str32), dataSetName=3805637820:/Assets/tpp/level/location/mtbs/block_area/ly003/cl00/mtbs_ly003_cl00_item.fox2 (dataSetPath32), switchFlag=1 (number), 
+|84.643334438945|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40497 (gameId), locatorName=3774347891:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002 (str32), dataSetName=3805637820:/Assets/tpp/level/location/mtbs/block_area/ly003/cl00/mtbs_ly003_cl00_item.fox2 (dataSetPath32), switchFlag=1 (number), 
+|84.643334438945|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40497 (gameId), locatorName=3774347891:ly003_cl00_item0000|cl00pl0_uq_0000_gimmick2|afgh_gnrt002_vrtn002_gim_n0000|srt_afgh_gnrt002_vrtn002 (str32), dataSetName=3805637820:/Assets/tpp/level/location/mtbs/block_area/ly003/cl00/mtbs_ly003_cl00_item.fox2 (dataSetPath32), switchFlag=1 (number), 
+|85.193888350258|OnMessage|sender: MotherBaseStage, messageId: MotherBaseCurrentClusterActivated, clusterId=0 (number), 
+|85.193888350258|OnMessage|sender: MotherBaseStage, messageId: MotherBaseCurrentClusterActivated, clusterId=0 (number), 
+|85.627657294484|OnMessage|sender: MotherBaseStage, messageId: MotherBaseCurrentClusterDeactivated, clusterId=0 (number), 
+|85.627657294484|OnMessage|sender: MotherBaseStage, messageId: MotherBaseCurrentClusterDeactivated, clusterId=0 (number), 
+|91.141527784865|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|91.141527784865|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|93.552282237077|HookPre TppLocation.ActivateBlock()
+|93.552282237077|InfQuest.DisableLandingZones:
+|93.552282237077|DisableLandingZones IsActive:ih_quest_q30155
+|93.552282237077|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|93.552282237077|InfMain.OnMissionCanStartBottom
+|93.552282237077|InfEquip.OnMissionCanStart:
+|93.552282237077|InfGameEvent.OnMissionCanStart:
+|93.552282237077|InfMBVisit.OnMissionCanStart:
+|93.552282237077|InfNPCHeli.OnMissionCanStart:
+|93.552282237077|InfParasite.OnMissionCanStart:
+|93.593990661836|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|93.593990661836|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|94.553287492984|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|94.553287492984|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|94.553287492984|TppSequence.OnChangeSVars
+|94.553287492984|TppUI.OnChangeSVars
+|94.553287492984|TppMission.OnChangeSVars
+|98.440524314946|HookPre TppUI.FadeIn(2,FadeInOnStartTitle)
+|98.440524314946|InfMain.OnFadeInDirect:FadeInOnStartTitle
+|98.457207991019|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|98.457207991019|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|98.457207991019|HookPre TppUI.FadeIn(2,FadeInOnStartTitle)
+|98.457207991019|InfMain.OnFadeInDirect:FadeInOnStartTitle
+|100.45921850283|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=965318480:FadeInOnStartTitle (str32), unk1=0 (number), 
+|100.45921850283|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=965318480:FadeInOnStartTitle (str32), unk1=0 (number), 
+|106.64876766852|Could not read ih_toMgsvCmds
+|114.97379471348|OnMessage|sender: UI, messageId: TitleMenu, action=3261117285:PressStart (str32), 
+|114.97379471348|OnMessage|sender: UI, messageId: TitleMenu, action=3261117285:PressStart (str32), 
+|114.97379471348|TppSequence.SetNextSequence from Seq_Demo_StartHasTitleMission to Seq_Game_PushStart
+|114.97379471348|TppSequence.OnChangeSVars
+|114.97379471348|TppUI.OnChangeSVars
+|114.97379471348|TppMission.OnChangeSVars
+|114.97379471348|TppSequence.SetNextSequence from Seq_Game_PushStart to Seq_Game_TitleMenu
+|115.00716155534|TppSequence.OnChangeSVars
+|115.00716155534|TppUI.OnChangeSVars
+|115.00716155534|TppMission.OnChangeSVars
+|115.0405283972|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|115.0405283972|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|115.54103102516|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|115.54103102516|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|115.79128233913|OnMessage|sender: UI, messageId: TitleMenu, action=1439467306:Continue (str32), 
+|115.79128233913|OnMessage|sender: UI, messageId: TitleMenu, action=1439467306:Continue (str32), 
+|115.79128233913|TppSequence.SetNextSequence from Seq_Game_TitleMenu to Seq_Demo_CheckDlc
+|115.79128233913|TppSequence.OnChangeSVars
+|115.79128233913|TppSequence.SetNextSequence from Seq_Demo_CheckDlc to Seq_Game_ChunkLoading
+|115.79128233913|TppUI.OnChangeSVars
+|115.79128233913|TppMission.OnChangeSVars
+|115.79128233913|TppSequence.OnChangeSVars
+|115.79128233913|TppUI.OnChangeSVars
+|115.79128233913|TppMission.OnChangeSVars
+|115.79128233913|TppSequence.SetNextSequence from Seq_Game_ChunkLoading to Seq_Game_ChunkInstalled
+|115.84133260193|TppSequence.OnChangeSVars
+|115.84133260193|TppSequence.SetNextSequence from Seq_Game_ChunkInstalled to Seq_Game_MainGame
+|115.84133260193|TppUI.OnChangeSVars
+|115.84133260193|TppMission.OnChangeSVars
+|115.84133260193|TppSequence.OnChangeSVars
+|115.84133260193|TppUI.OnChangeSVars
+|115.84133260193|TppMission.OnChangeSVars
+|115.84133260193|TppSequence.OnChangeSVars
+|115.84133260193|TppUI.OnChangeSVars
+|115.84133260193|TppMission.OnChangeSVars
+|115.84133260193|InfMenu.GoMenu:heliSpaceMenu
+|115.84133260193|ExtCmd message="3|SetContent|menuTitle|ACC Main menu"
+|115.84133260193|ExtCmd message="4|ClearTable|menuItems"
+|115.84133260193|ExtCmd message="5|AddToTable|menuItems|1:devInAccMenu >"
+|115.84133260193|ExtCmd message="6|AddToTable|menuItems|2:IH system menu >"
+|115.84133260193|ExtCmd message="7|AddToTable|menuItems|3:Events menu >"
+|115.84133260193|ExtCmd message="8|AddToTable|menuItems|4:Player restrictions menu >"
+|115.84133260193|ExtCmd message="9|AddToTable|menuItems|5:Player settings menu >"
+|115.84133260193|ExtCmd message="10|AddToTable|menuItems|6:Soldier parameters menu >"
+|115.84133260193|ExtCmd message="11|AddToTable|menuItems|7:Enemy phases menu >"
+|115.84133260193|ExtCmd message="12|AddToTable|menuItems|8:Enemy Prep menu >"
+|115.84133260193|ExtCmd message="13|AddToTable|menuItems|9:Enemy reinforcements menu >"
+|115.84133260193|ExtCmd message="14|AddToTable|menuItems|10:Patrols and deployments menu >"
+|115.84133260193|ExtCmd message="15|AddToTable|menuItems|11:Side ops menu >"
+|115.84133260193|ExtCmd message="16|AddToTable|menuItems|12:Mother Base menu >"
+|115.84133260193|ExtCmd message="17|AddToTable|menuItems|13:Cutscenes menu >"
+|115.84133260193|ExtCmd message="18|AddToTable|menuItems|14:Camera menu >"
+|115.84133260193|ExtCmd message="19|AddToTable|menuItems|15:Time scale menu >"
+|115.84133260193|ExtCmd message="20|AddToTable|menuItems|16:Support heli menu >"
+|115.84133260193|ExtCmd message="21|AddToTable|menuItems|17:Progression menu >"
+|115.84133260193|ExtCmd message="22|AddToTable|menuItems|18:Route test menu >"
+|115.84133260193|ExtCmd message="23|AddToTable|menuItems|19:Play anim menu >"
+|115.84133260193|ExtCmd message="24|AddToTable|menuItems|20:Give IHExt focus >>"
+|115.84133260193|ExtCmd message="25|AddToTable|menuItems|21:Debug menu >"
+|115.84133260193|ExtCmd message="26|AddToTable|menuItems|22:Turn off menu >]"
+|115.84133260193|ExtCmd message="27|ClearCombo|menuSetting"
+|115.84133260193|ExtCmd message="28|UiElementVisible|menuHelp|0"
+|117.96012706026|InfMenu.OnActivate
+|117.96012706026|ExtCmd message="29|ClearCombo|menuSetting"
+|117.96012706026|ExtCmd message="30|UiElementVisible|menuHelp|0"
+|117.96012706026|ExtCmd message="31|UiElementVisible|menuWrap|1"
+|117.96012706026|ExtCmd message="32|UiElementVisible|menuItems|1"
+|117.96012706026|ExtCmd message="33|UiElementVisible|menuTitle|1"
+|117.96012706026|ExtCmd message="34|UiElementVisible|menuHelp|1"
+|117.96012706026|ExtCmd message="35|SetContent|menuLine|1:devInAccMenu >"
+|117.96012706026|ExtCmd message="36|UpdateTable|menuItems|0|1:devInAccMenu >"
+|117.96012706026|ExtCmd message="37|SelectItem|menuItems|0"
+|119.31148415574|ExtCmd message="38|ClearCombo|menuSetting"
+|119.31148415574|ExtCmd message="39|UiElementVisible|menuHelp|0"
+|119.31148415574|ExtCmd message="40|SetContent|menuLine|2:IH system menu >"
+|119.31148415574|ExtCmd message="41|UpdateTable|menuItems|1|2:IH system menu >"
+|119.31148415574|ExtCmd message="42|SelectItem|menuItems|1"
+|120.31248941164|ExtCmd message="43|ClearCombo|menuSetting"
+|120.31248941164|ExtCmd message="44|UiElementVisible|menuHelp|0"
+|120.31248941164|ExtCmd message="45|SetContent|menuLine|3:Events menu >"
+|120.31248941164|ExtCmd message="46|UpdateTable|menuItems|2|3:Events menu >"
+|120.31248941164|ExtCmd message="47|SelectItem|menuItems|2"
+|120.62947440935|ExtCmd message="48|ClearCombo|menuSetting"
+|120.62947440935|ExtCmd message="49|UiElementVisible|menuHelp|1"
+|120.62947440935|ExtCmd message="50|SetText|menuHelp|Settings to customize the game challenge, including subsistence and OSP."
+|120.62947440935|ExtCmd message="51|SetContent|menuLine|4:Player restrictions menu >"
+|120.62947440935|ExtCmd message="52|UpdateTable|menuItems|3|4:Player restrictions menu >"
+|120.62947440935|ExtCmd message="53|SelectItem|menuItems|3"
+|120.82967546053|OnMessage|sender: UI, messageId: EndAnnounceLog
+|120.82967546053|OnMessage|sender: UI, messageId: EndAnnounceLog
+|120.84635888146|ExtCmd message="54|ClearCombo|menuSetting"
+|120.84635888146|ExtCmd message="55|UiElementVisible|menuHelp|0"
+|120.84635888146|ExtCmd message="56|SetContent|menuLine|5:Player settings menu >"
+|120.84635888146|ExtCmd message="57|UpdateTable|menuItems|4|5:Player settings menu >"
+|120.84635888146|ExtCmd message="58|SelectItem|menuItems|4"
+|120.84635888146|Could not read ih_toMgsvCmds
+|121.11329361637|ExtCmd message="59|ClearCombo|menuSetting"
+|121.11329361637|ExtCmd message="60|UiElementVisible|menuHelp|0"
+|121.11329361637|ExtCmd message="61|SetContent|menuLine|6:Soldier parameters menu >"
+|121.11329361637|ExtCmd message="62|UpdateTable|menuItems|5|6:Soldier parameters menu >"
+|121.11329361637|ExtCmd message="63|SelectItem|menuItems|5"
+|121.36354493035|ExtCmd message="64|ClearCombo|menuSetting"
+|121.36354493035|ExtCmd message="65|UiElementVisible|menuHelp|1"
+|121.36354493035|ExtCmd message="66|SetText|menuHelp|Adjust minimum and maximum alert phase for enemy Command Posts"
+|121.36354493035|ExtCmd message="67|SetContent|menuLine|7:Enemy phases menu >"
+|121.36354493035|ExtCmd message="68|UpdateTable|menuItems|6|7:Enemy phases menu >"
+|121.36354493035|ExtCmd message="69|SelectItem|menuItems|6"
+|121.64716308619|ExtCmd message="70|ClearCombo|menuSetting"
+|121.64716308619|ExtCmd message="71|UiElementVisible|menuHelp|1"
+|121.64716308619|ExtCmd message="72|SetText|menuHelp|Ways to modify the Enemy preparedness system that equips the enemy in response to your actions."
+|121.64716308619|ExtCmd message="73|SetContent|menuLine|8:Enemy Prep menu >"
+|121.64716308619|ExtCmd message="74|UpdateTable|menuItems|7|8:Enemy Prep menu >"
+|121.64716308619|ExtCmd message="75|SelectItem|menuItems|7"
+|121.64716308619|Could not read ih_toMgsvCmds
+|121.8139972955|ExtCmd message="76|ClearCombo|menuSetting"
+|121.8139972955|ExtCmd message="77|UiElementVisible|menuHelp|0"
+|121.8139972955|ExtCmd message="78|SetContent|menuLine|9:Enemy reinforcements menu >"
+|121.8139972955|ExtCmd message="79|UpdateTable|menuItems|8|9:Enemy reinforcements menu >"
+|121.8139972955|ExtCmd message="80|SelectItem|menuItems|8"
+|122.04756518855|ExtCmd message="81|ClearCombo|menuSetting"
+|122.04756518855|ExtCmd message="82|UiElementVisible|menuHelp|0"
+|122.04756518855|ExtCmd message="83|SetContent|menuLine|10:Patrols and deployments menu >"
+|122.04756518855|ExtCmd message="84|UpdateTable|menuItems|9|10:Patrols and deployments menu >"
+|122.04756518855|ExtCmd message="85|SelectItem|menuItems|9"
+|122.28113308159|ExtCmd message="86|ClearCombo|menuSetting"
+|122.28113308159|ExtCmd message="87|UiElementVisible|menuHelp|0"
+|122.28113308159|ExtCmd message="88|SetContent|menuLine|11:Side ops menu >"
+|122.28113308159|ExtCmd message="89|UpdateTable|menuItems|10|11:Side ops menu >"
+|122.28113308159|ExtCmd message="90|SelectItem|menuItems|10"
+|122.49801755371|ExtCmd message="91|ClearCombo|menuSetting"
+|122.49801755371|ExtCmd message="92|UiElementVisible|menuHelp|0"
+|122.49801755371|ExtCmd message="93|SetContent|menuLine|12:Mother Base menu >"
+|122.49801755371|ExtCmd message="94|UpdateTable|menuItems|11|12:Mother Base menu >"
+|122.49801755371|ExtCmd message="95|SelectItem|menuItems|11"
+|122.71490202582|ExtCmd message="96|ClearCombo|menuSetting"
+|122.71490202582|ExtCmd message="97|UiElementVisible|menuHelp|0"
+|122.71490202582|ExtCmd message="98|SetContent|menuLine|13:Cutscenes menu >"
+|122.71490202582|ExtCmd message="99|UpdateTable|menuItems|12|13:Cutscenes menu >"
+|122.71490202582|ExtCmd message="100|SelectItem|menuItems|12"
+|123.41560570495|Could not read ih_toMgsvCmds
+|124.36656069807|ExtCmd message="101|ClearCombo|menuSetting"
+|124.36656069807|ExtCmd message="102|UiElementVisible|menuHelp|0"
+|124.36656069807|ExtCmd message="103|SetContent|menuLine|12:Mother Base menu >"
+|124.36656069807|ExtCmd message="104|UpdateTable|menuItems|11|12:Mother Base menu >"
+|124.36656069807|ExtCmd message="105|SelectItem|menuItems|11"
+|124.63349543297|ExtCmd message="106|ClearCombo|menuSetting"
+|124.63349543297|ExtCmd message="107|UiElementVisible|menuHelp|0"
+|124.63349543297|ExtCmd message="108|SetContent|menuLine|11:Side ops menu >"
+|124.63349543297|ExtCmd message="109|UpdateTable|menuItems|10|11:Side ops menu >"
+|124.63349543297|ExtCmd message="110|SelectItem|menuItems|10"
+|124.88374674695|ExtCmd message="111|ClearCombo|menuSetting"
+|124.88374674695|ExtCmd message="112|UiElementVisible|menuHelp|0"
+|124.88374674695|ExtCmd message="113|SetContent|menuLine|10:Patrols and deployments menu >"
+|124.88374674695|ExtCmd message="114|UpdateTable|menuItems|9|10:Patrols and deployments menu >"
+|124.88374674695|ExtCmd message="115|SelectItem|menuItems|9"
+|125.11731464|ExtCmd message="116|ClearCombo|menuSetting"
+|125.11731464|ExtCmd message="117|UiElementVisible|menuHelp|0"
+|125.11731464|ExtCmd message="118|SetContent|menuLine|9:Enemy reinforcements menu >"
+|125.11731464|ExtCmd message="119|UpdateTable|menuItems|8|9:Enemy reinforcements menu >"
+|125.11731464|ExtCmd message="120|SelectItem|menuItems|8"
+|125.35088253304|ExtCmd message="121|ClearCombo|menuSetting"
+|125.35088253304|ExtCmd message="122|UiElementVisible|menuHelp|1"
+|125.35088253304|ExtCmd message="123|SetText|menuHelp|Ways to modify the Enemy preparedness system that equips the enemy in response to your actions."
+|125.35088253304|ExtCmd message="124|SetContent|menuLine|8:Enemy Prep menu >"
+|125.35088253304|ExtCmd message="125|UpdateTable|menuItems|7|8:Enemy Prep menu >"
+|125.35088253304|ExtCmd message="126|SelectItem|menuItems|7"
+|125.58445042609|ExtCmd message="127|ClearCombo|menuSetting"
+|125.58445042609|ExtCmd message="128|UiElementVisible|menuHelp|1"
+|125.58445042609|ExtCmd message="129|SetText|menuHelp|Adjust minimum and maximum alert phase for enemy Command Posts"
+|125.58445042609|ExtCmd message="130|SetContent|menuLine|7:Enemy phases menu >"
+|125.58445042609|ExtCmd message="131|UpdateTable|menuItems|6|7:Enemy phases menu >"
+|125.58445042609|ExtCmd message="132|SelectItem|menuItems|6"
+|125.8013348982|ExtCmd message="133|ClearCombo|menuSetting"
+|125.8013348982|ExtCmd message="134|UiElementVisible|menuHelp|0"
+|125.8013348982|ExtCmd message="135|SetContent|menuLine|6:Soldier parameters menu >"
+|125.8013348982|ExtCmd message="136|UpdateTable|menuItems|5|6:Soldier parameters menu >"
+|125.8013348982|ExtCmd message="137|SelectItem|menuItems|5"
+|125.86806832678|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|125.86806832678|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|128.58746619381|ExtCmd message="138|ClearCombo|menuSetting"
+|128.58746619381|ExtCmd message="139|UiElementVisible|menuHelp|0"
+|128.58746619381|ExtCmd message="140|SetContent|menuLine|5:Player settings menu >"
+|128.58746619381|ExtCmd message="141|UpdateTable|menuItems|4|5:Player settings menu >"
+|128.58746619381|ExtCmd message="142|SelectItem|menuItems|4"
+|128.83771750778|ExtCmd message="143|ClearCombo|menuSetting"
+|128.83771750778|ExtCmd message="144|UiElementVisible|menuHelp|1"
+|128.83771750778|ExtCmd message="145|SetText|menuHelp|Settings to customize the game challenge, including subsistence and OSP."
+|128.83771750778|ExtCmd message="146|SetContent|menuLine|4:Player restrictions menu >"
+|128.83771750778|ExtCmd message="147|UpdateTable|menuItems|3|4:Player restrictions menu >"
+|128.83771750778|ExtCmd message="148|SelectItem|menuItems|3"
+|129.72193881717|ExtCmd message="149|ClearCombo|menuSetting"
+|129.72193881717|ExtCmd message="150|UiElementVisible|menuHelp|0"
+|129.72193881717|ExtCmd message="151|SetContent|menuLine|5:Player settings menu >"
+|129.72193881717|ExtCmd message="152|UpdateTable|menuItems|4|5:Player settings menu >"
+|129.72193881717|ExtCmd message="153|SelectItem|menuItems|4"
+|129.72193881717|Could not read ih_toMgsvCmds
+|130.08897407766|ExtCmd message="154|ClearCombo|menuSetting"
+|130.08897407766|ExtCmd message="155|UiElementVisible|menuHelp|0"
+|130.08897407766|ExtCmd message="156|SetContent|menuLine|6:Soldier parameters menu >"
+|130.08897407766|ExtCmd message="157|UpdateTable|menuItems|5|6:Soldier parameters menu >"
+|130.08897407766|ExtCmd message="158|SelectItem|menuItems|5"
+|130.35590881257|ExtCmd message="159|ClearCombo|menuSetting"
+|130.35590881257|ExtCmd message="160|UiElementVisible|menuHelp|1"
+|130.35590881257|ExtCmd message="161|SetText|menuHelp|Adjust minimum and maximum alert phase for enemy Command Posts"
+|130.35590881257|ExtCmd message="162|SetContent|menuLine|7:Enemy phases menu >"
+|130.35590881257|ExtCmd message="163|UpdateTable|menuItems|6|7:Enemy phases menu >"
+|130.35590881257|ExtCmd message="164|SelectItem|menuItems|6"
+|130.50605960096|ExtCmd message="165|ClearCombo|menuSetting"
+|130.50605960096|ExtCmd message="166|UiElementVisible|menuHelp|1"
+|130.50605960096|ExtCmd message="167|SetText|menuHelp|Ways to modify the Enemy preparedness system that equips the enemy in response to your actions."
+|130.50605960096|ExtCmd message="168|SetContent|menuLine|8:Enemy Prep menu >"
+|130.50605960096|ExtCmd message="169|UpdateTable|menuItems|7|8:Enemy Prep menu >"
+|130.50605960096|ExtCmd message="170|SelectItem|menuItems|7"
+|130.739627494|ExtCmd message="171|ClearCombo|menuSetting"
+|130.739627494|ExtCmd message="172|UiElementVisible|menuHelp|0"
+|130.739627494|ExtCmd message="173|SetContent|menuLine|9:Enemy reinforcements menu >"
+|130.739627494|ExtCmd message="174|UpdateTable|menuItems|8|9:Enemy reinforcements menu >"
+|130.739627494|ExtCmd message="175|SelectItem|menuItems|8"
+|130.95651196612|ExtCmd message="176|ClearCombo|menuSetting"
+|130.95651196612|ExtCmd message="177|UiElementVisible|menuHelp|0"
+|130.95651196612|ExtCmd message="178|SetContent|menuLine|10:Patrols and deployments menu >"
+|130.95651196612|ExtCmd message="179|UpdateTable|menuItems|9|10:Patrols and deployments menu >"
+|130.95651196612|ExtCmd message="180|SelectItem|menuItems|9"
+|131.1567130173|ExtCmd message="181|ClearCombo|menuSetting"
+|131.1567130173|ExtCmd message="182|UiElementVisible|menuHelp|0"
+|131.1567130173|ExtCmd message="183|SetContent|menuLine|11:Side ops menu >"
+|131.1567130173|ExtCmd message="184|UpdateTable|menuItems|10|11:Side ops menu >"
+|131.1567130173|ExtCmd message="185|SelectItem|menuItems|10"
+|131.64053222432|InfMenu.GoMenu:sideOpsMenu
+|131.64053222432|ExtCmd message="186|SetContent|menuTitle|Side ops menu"
+|131.64053222432|ExtCmd message="187|ClearTable|menuItems"
+|131.64053222432|ExtCmd message="188|AddToTable|menuItems|1:Reroll sideops selection >>"
+|131.64053222432|ExtCmd message="189|AddToTable|menuItems|2:Open specific sideop # = 0"
+|131.64053222432|ExtCmd message="190|AddToTable|menuItems|3:Unlock Sideops mode = 1:Force Replayable"
+|131.64053222432|ExtCmd message="191|AddToTable|menuItems|4:Sideop selection mode = 1:Random"
+|131.64053222432|ExtCmd message="192|AddToTable|menuItems|5:Sideops category filter menu >"
+|131.64053222432|ExtCmd message="193|AddToTable|menuItems|6:Show all open sideops = 0:Off"
+|131.64053222432|ExtCmd message="194|AddToTable|menuItems|7:Force enable enemy heli reinforce (disable heli sideops) = 0:Off"
+|131.64053222432|ExtCmd message="195|AddToTable|menuItems|8:Include add-on sideops in completion percentage = 0:Off"
+|131.64053222432|ExtCmd message="196|AddToTable|menuItems|9:Reset current menu >]"
+|131.64053222432|ExtCmd message="197|AddToTable|menuItems|10:Menu Back >>"
+|131.64053222432|ExtCmd message="198|ClearCombo|menuSetting"
+|131.64053222432|ExtCmd message="199|UiElementVisible|menuHelp|0"
+|131.64053222432|ExtCmd message="200|SetContent|menuLine|1:Reroll sideops selection >>"
+|131.64053222432|ExtCmd message="201|UpdateTable|menuItems|0|1:Reroll sideops selection >>"
+|131.64053222432|ExtCmd message="202|SelectItem|menuItems|0"
+|132.30786906159|ExtCmd message="203|ClearCombo|menuSetting"
+|132.30786906159|settings={}
+|132.30786906159|ExtCmd message="204|AddToCombo|menuSetting|0"
+|132.30786906159|ExtCmd message="205|SelectCombo|menuSetting|0"
+|132.30786906159|ExtCmd message="206|UiElementVisible|menuHelp|0"
+|132.30786906159|ExtCmd message="207|SetContent|menuLine|2:Open specific sideop # = "
+|132.30786906159|ExtCmd message="208|UpdateTable|menuItems|1|2:Open specific sideop # = 0"
+|132.30786906159|ExtCmd message="209|SelectItem|menuItems|1"
+|132.30786906159|ExtCmd message="210|ClearCombo|menuSetting"
+|132.30786906159|ExtCmd message="211|AddToCombo|menuSetting|0"
+|132.30786906159|ExtCmd message="212|SelectCombo|menuSetting|0"
+|132.30786906159|Could not read ih_toMgsvCmds
+|132.62485405929|ExtCmd message="213|ClearCombo|menuSetting"
+|132.62485405929|settings={ "Off", "Force Replayable", "Force Open" }
+|132.62485405929|ExtCmd message="214|AddToCombo|menuSetting|Off"
+|132.62485405929|ExtCmd message="215|AddToCombo|menuSetting|Force Replayable"
+|132.62485405929|ExtCmd message="216|AddToCombo|menuSetting|Force Open"
+|132.62485405929|ExtCmd message="217|SelectCombo|menuSetting|1"
+|132.62485405929|ExtCmd message="218|UiElementVisible|menuHelp|1"
+|132.62485405929|ExtCmd message="219|SetText|menuHelp|Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression."
+|132.62485405929|ExtCmd message="220|SetContent|menuLine|3:Unlock Sideops mode = 1:"
+|132.62485405929|ExtCmd message="221|UpdateTable|menuItems|2|3:Unlock Sideops mode = 1:Force Replayable"
+|132.62485405929|ExtCmd message="222|SelectItem|menuItems|2"
+|132.62485405929|ExtCmd message="223|SelectCombo|menuSetting|1"
+|133.52575878961|ExtCmd message="224|ClearCombo|menuSetting"
+|133.52575878961|settings={ "Default (first found)", "Random", "Story/unique", "Extract interpreter", "Secure blueprint", "Extract highly-skilled soldier", "Prisoner extraction", "Capture animals", "Extract wandering Mother Base soldier", "Unlucky Dog", "Eliminate heavy infantry", "Mine clearing", "Eliminate armored vehicle unit", "Extract legendary gunsmith", "Eliminate tank unit", "Eliminate wandering puppets", "Addon sideop" }
+|133.52575878961|ExtCmd message="225|AddToCombo|menuSetting|Default (first found)"
+|133.52575878961|ExtCmd message="226|AddToCombo|menuSetting|Random"
+|133.52575878961|ExtCmd message="227|AddToCombo|menuSetting|Story/unique"
+|133.52575878961|ExtCmd message="228|AddToCombo|menuSetting|Extract interpreter"
+|133.52575878961|ExtCmd message="229|AddToCombo|menuSetting|Secure blueprint"
+|133.52575878961|ExtCmd message="230|AddToCombo|menuSetting|Extract highly-skilled soldier"
+|133.52575878961|ExtCmd message="231|AddToCombo|menuSetting|Prisoner extraction"
+|133.52575878961|ExtCmd message="232|AddToCombo|menuSetting|Capture animals"
+|133.52575878961|ExtCmd message="233|AddToCombo|menuSetting|Extract wandering Mother Base soldier"
+|133.52575878961|ExtCmd message="234|AddToCombo|menuSetting|Unlucky Dog"
+|133.52575878961|ExtCmd message="235|AddToCombo|menuSetting|Eliminate heavy infantry"
+|133.52575878961|ExtCmd message="236|AddToCombo|menuSetting|Mine clearing"
+|133.52575878961|ExtCmd message="237|AddToCombo|menuSetting|Eliminate armored vehicle unit"
+|133.52575878961|ExtCmd message="238|AddToCombo|menuSetting|Extract legendary gunsmith"
+|133.52575878961|ExtCmd message="239|AddToCombo|menuSetting|Eliminate tank unit"
+|133.52575878961|ExtCmd message="240|AddToCombo|menuSetting|Eliminate wandering puppets"
+|133.52575878961|ExtCmd message="241|AddToCombo|menuSetting|Addon sideop"
+|133.52575878961|ExtCmd message="242|SelectCombo|menuSetting|1"
+|133.52575878961|ExtCmd message="243|UiElementVisible|menuHelp|1"
+|133.52575878961|ExtCmd message="244|SetText|menuHelp|Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu."
+|133.52575878961|ExtCmd message="245|SetContent|menuLine|4:Sideop selection mode = 1:"
+|133.52575878961|ExtCmd message="246|UpdateTable|menuItems|3|4:Sideop selection mode = 1:Random"
+|133.52575878961|ExtCmd message="247|SelectItem|menuItems|3"
+|133.52575878961|ExtCmd message="248|SelectCombo|menuSetting|1"
+|135.24415114558|ExtCmd message="249|ClearCombo|menuSetting"
+|135.24415114558|settings={ "Off", "Force Replayable", "Force Open" }
+|135.24415114558|ExtCmd message="250|AddToCombo|menuSetting|Off"
+|135.24415114558|ExtCmd message="251|AddToCombo|menuSetting|Force Replayable"
+|135.24415114558|ExtCmd message="252|AddToCombo|menuSetting|Force Open"
+|135.24415114558|ExtCmd message="253|SelectCombo|menuSetting|1"
+|135.24415114558|ExtCmd message="254|UiElementVisible|menuHelp|1"
+|135.24415114558|ExtCmd message="255|SetText|menuHelp|Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression."
+|135.24415114558|ExtCmd message="256|SetContent|menuLine|3:Unlock Sideops mode = 1:"
+|135.24415114558|ExtCmd message="257|UpdateTable|menuItems|2|3:Unlock Sideops mode = 1:Force Replayable"
+|135.24415114558|ExtCmd message="258|SelectItem|menuItems|2"
+|135.24415114558|ExtCmd message="259|SelectCombo|menuSetting|1"
+|135.61118640608|ExtCmd message="260|ClearCombo|menuSetting"
+|135.61118640608|settings={}
+|135.61118640608|ExtCmd message="261|AddToCombo|menuSetting|0"
+|135.61118640608|ExtCmd message="262|SelectCombo|menuSetting|0"
+|135.61118640608|ExtCmd message="263|UiElementVisible|menuHelp|0"
+|135.61118640608|ExtCmd message="264|SetContent|menuLine|2:Open specific sideop # = "
+|135.61118640608|ExtCmd message="265|UpdateTable|menuItems|1|2:Open specific sideop # = 0"
+|135.61118640608|ExtCmd message="266|SelectItem|menuItems|1"
+|135.61118640608|ExtCmd message="267|ClearCombo|menuSetting"
+|135.61118640608|ExtCmd message="268|AddToCombo|menuSetting|0"
+|135.61118640608|ExtCmd message="269|SelectCombo|menuSetting|0"
+|135.89480456192|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|135.89480456192|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|141.31691636475|DoToMgsvCommand 2={ "2", "input", "menuSetting", "100" }
+|141.31691636475|HookPre TppQuest.UpdateActiveQuest()
+|141.31691636475|unlockSideOpNumber:100 quest_q52080 cliffTown
+|141.31691636475|InfQuest.DisableLandingZones:
+|141.31691636475|DisableLandingZones IsActive:ih_quest_q30155
+|141.31691636475|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|141.31691636475|ExtCmd message="270|SetContent|menuLine|2:Open specific sideop # = "
+|141.31691636475|ExtCmd message="271|UpdateTable|menuItems|1|2:Open specific sideop # = 100"
+|141.31691636475|ExtCmd message="272|SelectItem|menuItems|1"
+|141.31691636475|ExtCmd message="273|ClearCombo|menuSetting"
+|141.31691636475|ExtCmd message="274|AddToCombo|menuSetting|100"
+|141.31691636475|ExtCmd message="275|SelectCombo|menuSetting|0"
+|141.31691636475|InfQuest.GetSideOpsListTable
+|141.31691636475|overCount:-31
+|141.31691636475|#sideOpsListTable:161
+|145.92154054192|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|145.92154054192|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|149.15812420268|DoToMgsvCommand 3={ "3", "input", "menuSetting", "0" }
+|149.15812420268|HookPre TppQuest.UpdateActiveQuest()
+|149.15812420268|InfQuest.DisableLandingZones:
+|149.15812420268|DisableLandingZones IsActive:ih_quest_q30155
+|149.15812420268|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|149.15812420268|ExtCmd message="276|SetContent|menuLine|2:Open specific sideop # = "
+|149.15812420268|ExtCmd message="277|UpdateTable|menuItems|1|2:Open specific sideop # = 0"
+|149.15812420268|ExtCmd message="278|SelectItem|menuItems|1"
+|149.15812420268|ExtCmd message="279|ClearCombo|menuSetting"
+|149.15812420268|ExtCmd message="280|AddToCombo|menuSetting|0"
+|149.15812420268|ExtCmd message="281|SelectCombo|menuSetting|0"
+|149.15812420268|InfQuest.GetSideOpsListTable
+|149.15812420268|overCount:-31
+|149.15812420268|#sideOpsListTable:161
+|150.87651655866|DoToMgsvCommand 4={ "4", "selected", "menuItems", "2" }
+|150.87651655866|ExtCmd message="282|ClearCombo|menuSetting"
+|150.87651655866|settings={ "Off", "Force Replayable", "Force Open" }
+|150.87651655866|ExtCmd message="283|AddToCombo|menuSetting|Off"
+|150.87651655866|ExtCmd message="284|AddToCombo|menuSetting|Force Replayable"
+|150.87651655866|ExtCmd message="285|AddToCombo|menuSetting|Force Open"
+|150.87651655866|ExtCmd message="286|SelectCombo|menuSetting|1"
+|150.87651655866|ExtCmd message="287|UiElementVisible|menuHelp|1"
+|150.87651655866|ExtCmd message="288|SetText|menuHelp|Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression."
+|150.87651655866|ExtCmd message="289|SetContent|menuLine|3:Unlock Sideops mode = 1:"
+|150.87651655866|ExtCmd message="290|UpdateTable|menuItems|2|3:Unlock Sideops mode = 1:Force Replayable"
+|150.87651655866|ExtCmd message="291|SelectItem|menuItems|2"
+|150.87651655866|ExtCmd message="292|SelectCombo|menuSetting|1"
+|153.74606495892|Could not read ih_toMgsvCmds
+|153.76274837985|DoToMgsvCommand 5={ "5", "selectedcombo", "menuSetting", "2" }
+|153.76274837985|currentoption:unlockSideOps setting:2
+|153.76274837985|HookPre TppQuest.UpdateActiveQuest()
+|153.76274837985|InfQuest.DisableLandingZones:
+|153.76274837985|DisableLandingZones IsActive:ih_quest_q30155
+|153.76274837985|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|153.76274837985|ExtCmd message="293|ClearCombo|menuSetting"
+|153.76274837985|settings={ "Off", "Force Replayable", "Force Open" }
+|153.76274837985|ExtCmd message="294|AddToCombo|menuSetting|Off"
+|153.76274837985|ExtCmd message="295|AddToCombo|menuSetting|Force Replayable"
+|153.76274837985|ExtCmd message="296|AddToCombo|menuSetting|Force Open"
+|153.76274837985|ExtCmd message="297|SelectCombo|menuSetting|2"
+|153.76274837985|ExtCmd message="298|UiElementVisible|menuHelp|1"
+|153.76274837985|ExtCmd message="299|SetText|menuHelp|Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression."
+|153.76274837985|ExtCmd message="300|SetContent|menuLine|3:Unlock Sideops mode = 2:"
+|153.76274837985|ExtCmd message="301|UpdateTable|menuItems|2|3:Unlock Sideops mode = 2:Force Open"
+|153.76274837985|ExtCmd message="302|SelectItem|menuItems|2"
+|153.76274837985|ExtCmd message="303|SelectCombo|menuSetting|2"
+|153.76274837985|InfQuest.GetSideOpsListTable
+|153.76274837985|overCount:-31
+|153.76274837985|#sideOpsListTable:161
+|155.94827652192|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|155.94827652192|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|156.41541230801|DoToMgsvCommand 6={ "6", "selectedcombo", "menuSetting", "1" }
+|156.41541230801|currentoption:unlockSideOps setting:1
+|156.41541230801|HookPre TppQuest.UpdateActiveQuest()
+|156.41541230801|InfQuest.DisableLandingZones:
+|156.41541230801|DisableLandingZones IsActive:ih_quest_q30155
+|156.41541230801|otherRoute lz_drp_lab_S0000|rt_drp_lab_S_0000
+|156.41541230801|ExtCmd message="304|ClearCombo|menuSetting"
+|156.41541230801|settings={ "Off", "Force Replayable", "Force Open" }
+|156.41541230801|ExtCmd message="305|AddToCombo|menuSetting|Off"
+|156.41541230801|ExtCmd message="306|AddToCombo|menuSetting|Force Replayable"
+|156.41541230801|ExtCmd message="307|AddToCombo|menuSetting|Force Open"
+|156.41541230801|ExtCmd message="308|SelectCombo|menuSetting|1"
+|156.41541230801|ExtCmd message="309|UiElementVisible|menuHelp|1"
+|156.41541230801|ExtCmd message="310|SetText|menuHelp|Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression."
+|156.41541230801|ExtCmd message="311|SetContent|menuLine|3:Unlock Sideops mode = 1:"
+|156.41541230801|ExtCmd message="312|UpdateTable|menuItems|2|3:Unlock Sideops mode = 1:Force Replayable"
+|156.41541230801|ExtCmd message="313|SelectItem|menuItems|2"
+|156.41541230801|ExtCmd message="314|SelectCombo|menuSetting|1"
+|156.41541230801|InfQuest.GetSideOpsListTable
+|156.41541230801|overCount:-31
+|156.41541230801|#sideOpsListTable:161
+|158.76777465939|Could not read ih_toMgsvCmds
+|158.78445808032|DoToMgsvCommand 7={ "7", "selected", "menuItems", "3" }
+|158.78445808032|ExtCmd message="315|ClearCombo|menuSetting"
+|158.78445808032|settings={ "Default (first found)", "Random", "Story/unique", "Extract interpreter", "Secure blueprint", "Extract highly-skilled soldier", "Prisoner extraction", "Capture animals", "Extract wandering Mother Base soldier", "Unlucky Dog", "Eliminate heavy infantry", "Mine clearing", "Eliminate armored vehicle unit", "Extract legendary gunsmith", "Eliminate tank unit", "Eliminate wandering puppets", "Addon sideop" }
+|158.78445808032|ExtCmd message="316|AddToCombo|menuSetting|Default (first found)"
+|158.78445808032|ExtCmd message="317|AddToCombo|menuSetting|Random"
+|158.78445808032|ExtCmd message="318|AddToCombo|menuSetting|Story/unique"
+|158.78445808032|ExtCmd message="319|AddToCombo|menuSetting|Extract interpreter"
+|158.78445808032|ExtCmd message="320|AddToCombo|menuSetting|Secure blueprint"
+|158.78445808032|ExtCmd message="321|AddToCombo|menuSetting|Extract highly-skilled soldier"
+|158.78445808032|ExtCmd message="322|AddToCombo|menuSetting|Prisoner extraction"
+|158.78445808032|ExtCmd message="323|AddToCombo|menuSetting|Capture animals"
+|158.78445808032|ExtCmd message="324|AddToCombo|menuSetting|Extract wandering Mother Base soldier"
+|158.78445808032|ExtCmd message="325|AddToCombo|menuSetting|Unlucky Dog"
+|158.78445808032|ExtCmd message="326|AddToCombo|menuSetting|Eliminate heavy infantry"
+|158.78445808032|ExtCmd message="327|AddToCombo|menuSetting|Mine clearing"
+|158.78445808032|ExtCmd message="328|AddToCombo|menuSetting|Eliminate armored vehicle unit"
+|158.78445808032|ExtCmd message="329|AddToCombo|menuSetting|Extract legendary gunsmith"
+|158.78445808032|ExtCmd message="330|AddToCombo|menuSetting|Eliminate tank unit"
+|158.78445808032|ExtCmd message="331|AddToCombo|menuSetting|Eliminate wandering puppets"
+|158.78445808032|ExtCmd message="332|AddToCombo|menuSetting|Addon sideop"
+|158.78445808032|ExtCmd message="333|SelectCombo|menuSetting|1"
+|158.78445808032|ExtCmd message="334|UiElementVisible|menuHelp|1"
+|158.78445808032|ExtCmd message="335|SetText|menuHelp|Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu."
+|158.78445808032|ExtCmd message="336|SetContent|menuLine|4:Sideop selection mode = 1:"
+|158.78445808032|ExtCmd message="337|UpdateTable|menuItems|3|4:Sideop selection mode = 1:Random"
+|158.78445808032|ExtCmd message="338|SelectItem|menuItems|3"
+|158.78445808032|ExtCmd message="339|SelectCombo|menuSetting|1"
+|159.06807623616|Could not read ih_toMgsvCmds
+|161.73742358524|Could not read ih_toMgsvCmds
+|163.72275067612|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|163.72275067612|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|166.54224881359|DoToMgsvCommand 8={ "8", "selected", "menuItems", "9" }
+|166.54224881359|ExtCmd message="340|ClearCombo|menuSetting"
+|166.54224881359|ExtCmd message="341|UiElementVisible|menuHelp|0"
+|166.54224881359|ExtCmd message="342|SetContent|menuLine|10:Menu Back >>"
+|166.54224881359|ExtCmd message="343|UpdateTable|menuItems|9|10:Menu Back >>"
+|166.54224881359|ExtCmd message="344|SelectItem|menuItems|9"
+|166.59229907639|Could not read ih_toMgsvCmds
+|166.72576644384|DoToMgsvCommand 9={ "9", "activate", "menuItems", "9" }
+|166.72576644384|InfMenu.GoMenu:heliSpaceMenu
+|166.72576644384|ExtCmd message="345|SetContent|menuTitle|ACC Main menu"
+|166.72576644384|ExtCmd message="346|ClearTable|menuItems"
+|166.72576644384|ExtCmd message="347|AddToTable|menuItems|1:devInAccMenu >"
+|166.72576644384|ExtCmd message="348|AddToTable|menuItems|2:IH system menu >"
+|166.72576644384|ExtCmd message="349|AddToTable|menuItems|3:Events menu >"
+|166.72576644384|ExtCmd message="350|AddToTable|menuItems|4:Player restrictions menu >"
+|166.72576644384|ExtCmd message="351|AddToTable|menuItems|5:Player settings menu >"
+|166.72576644384|ExtCmd message="352|AddToTable|menuItems|6:Soldier parameters menu >"
+|166.72576644384|ExtCmd message="353|AddToTable|menuItems|7:Enemy phases menu >"
+|166.72576644384|ExtCmd message="354|AddToTable|menuItems|8:Enemy Prep menu >"
+|166.72576644384|ExtCmd message="355|AddToTable|menuItems|9:Enemy reinforcements menu >"
+|166.72576644384|ExtCmd message="356|AddToTable|menuItems|10:Patrols and deployments menu >"
+|166.72576644384|ExtCmd message="357|AddToTable|menuItems|11:Side ops menu >"
+|166.72576644384|ExtCmd message="358|AddToTable|menuItems|12:Mother Base menu >"
+|166.72576644384|ExtCmd message="359|AddToTable|menuItems|13:Cutscenes menu >"
+|166.72576644384|ExtCmd message="360|AddToTable|menuItems|14:Camera menu >"
+|166.72576644384|ExtCmd message="361|AddToTable|menuItems|15:Time scale menu >"
+|166.72576644384|ExtCmd message="362|AddToTable|menuItems|16:Support heli menu >"
+|166.72576644384|ExtCmd message="363|AddToTable|menuItems|17:Progression menu >"
+|166.72576644384|ExtCmd message="364|AddToTable|menuItems|18:Route test menu >"
+|166.72576644384|ExtCmd message="365|AddToTable|menuItems|19:Play anim menu >"
+|166.72576644384|ExtCmd message="366|AddToTable|menuItems|20:Give IHExt focus >>"
+|166.72576644384|ExtCmd message="367|AddToTable|menuItems|21:Debug menu >"
+|166.72576644384|ExtCmd message="368|AddToTable|menuItems|22:Turn off menu >]"
+|166.72576644384|ExtCmd message="369|ClearCombo|menuSetting"
+|166.72576644384|ExtCmd message="370|UiElementVisible|menuHelp|0"
+|171.71410930244|DoToMgsvCommand 10={ "10", "selected", "menuItems", "14" }
+|171.71410930244|ExtCmd message="371|ClearCombo|menuSetting"
+|171.71410930244|ExtCmd message="372|UiElementVisible|menuHelp|0"
+|171.71410930244|ExtCmd message="373|SetContent|menuLine|15:Time scale menu >"
+|171.71410930244|ExtCmd message="374|UpdateTable|menuItems|14|15:Time scale menu >"
+|171.71410930244|ExtCmd message="375|SelectItem|menuItems|14"
+|172.71511455835|DoToMgsvCommand 11={ "11", "selected", "menuItems", "13" }
+|172.71511455835|ExtCmd message="376|ClearCombo|menuSetting"
+|172.71511455835|ExtCmd message="377|UiElementVisible|menuHelp|1"
+|172.71511455835|ExtCmd message="378|SetText|menuHelp|Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance."
+|172.71511455835|ExtCmd message="379|SetContent|menuLine|14:Camera menu >"
+|172.71511455835|ExtCmd message="380|UpdateTable|menuItems|13|14:Camera menu >"
+|172.71511455835|ExtCmd message="381|SelectItem|menuItems|13"
+|172.76516482115|Could not read ih_toMgsvCmds
+|173.2156171863|DoToMgsvCommand 12={ "12", "selected", "menuItems", "12" }
+|173.2156171863|ExtCmd message="382|ClearCombo|menuSetting"
+|173.2156171863|ExtCmd message="383|UiElementVisible|menuHelp|0"
+|173.2156171863|ExtCmd message="384|SetContent|menuLine|13:Cutscenes menu >"
+|173.2156171863|ExtCmd message="385|UpdateTable|menuItems|12|13:Cutscenes menu >"
+|173.2156171863|ExtCmd message="386|SelectItem|menuItems|12"
+|173.25732561106|Could not read ih_toMgsvCmds
+|173.72446139715|DoToMgsvCommand 13={ "13", "selected", "menuItems", "10" }
+|173.72446139715|ExtCmd message="387|ClearCombo|menuSetting"
+|173.72446139715|ExtCmd message="388|UiElementVisible|menuHelp|0"
+|173.72446139715|ExtCmd message="389|SetContent|menuLine|11:Side ops menu >"
+|173.72446139715|ExtCmd message="390|UpdateTable|menuItems|10|11:Side ops menu >"
+|173.72446139715|ExtCmd message="391|SelectItem|menuItems|10"
+|173.77451165995|Could not read ih_toMgsvCmds
+|173.80787850181|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|173.80787850181|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|173.93300428637|Could not read ih_toMgsvCmds
+|178.00375899372|Could not read ih_toMgsvCmds
+|178.02044241466|DoToMgsvCommand 14={ "14", "selected", "menuItems", "13" }
+|178.02044241466|ExtCmd message="392|ClearCombo|menuSetting"
+|178.02044241466|ExtCmd message="393|UiElementVisible|menuHelp|1"
+|178.02044241466|ExtCmd message="394|SetText|menuHelp|Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance."
+|178.02044241466|ExtCmd message="395|SetContent|menuLine|14:Camera menu >"
+|178.02044241466|ExtCmd message="396|UpdateTable|menuItems|13|14:Camera menu >"
+|178.02044241466|ExtCmd message="397|SelectItem|menuItems|13"
+|178.2039600449|Could not read ih_toMgsvCmds
+|178.22064346584|DoToMgsvCommand 15={ "15", "activate", "menuItems", "13" }
+|178.22064346584|InfMenu.GoMenu:cameraMenu
+|178.22064346584|ExtCmd message="398|SetContent|menuTitle|Camera menu"
+|178.22064346584|ExtCmd message="399|ClearTable|menuItems"
+|178.22064346584|ExtCmd message="400|AddToTable|menuItems|1:Adjust-cam [Mode] = 0:Off"
+|178.22064346584|ExtCmd message="401|AddToTable|menuItems|2:Camera mode = 0:Default"
+|178.22064346584|ExtCmd message="402|AddToTable|menuItems|3:Warp body to FreeCam position >>"
+|178.22064346584|ExtCmd message="403|AddToTable|menuItems|4:Cam speed scale = 0.5"
+|178.22064346584|ExtCmd message="404|AddToTable|menuItems|5:Disable mode text feedback = 0:Off"
+|178.22064346584|ExtCmd message="405|AddToTable|menuItems|6:Show freecam position >>"
+|178.22064346584|ExtCmd message="406|AddToTable|menuItems|7:Reset current menu >]"
+|178.22064346584|ExtCmd message="407|AddToTable|menuItems|8:Menu Back >>"
+|178.22064346584|ExtCmd message="408|ClearCombo|menuSetting"
+|178.22064346584|settings={ "Off", "On" }
+|178.22064346584|ExtCmd message="409|AddToCombo|menuSetting|Off"
+|178.22064346584|ExtCmd message="410|AddToCombo|menuSetting|On"
+|178.22064346584|ExtCmd message="411|SelectCombo|menuSetting|0"
+|178.22064346584|ExtCmd message="412|UiElementVisible|menuHelp|1"
+|178.22064346584|ExtCmd message="413|SetText|menuHelp|  Move cam with normal move keys \n  <Dash>(Shift or Left stick click) to move up\n  <Switch zoom>(Middle mouse or Right stick click) to move down\n  Hold the following and move left stick up/down to increase/decrease the settings:\n  <Fire> - Zoom/focal length\n  <Reload> - Aperture (DOF)\n  <Stance> - Focus distance (DOF) \n  <Action> - Cam move speed\n  <Ready weapon> - Camera orbit distance\n  Or hold <Binocular> and press the above to reset that setting.\n  Hold <Binocular> and press <Dash> to move free cam position to the player position"
+|179.37179951013|Could not read ih_toMgsvCmds
+|179.38848293106|DoToMgsvCommand 16={ "16", "selected", "menuItems", "7" }
+|179.38848293106|ExtCmd message="414|ClearCombo|menuSetting"
+|179.38848293106|ExtCmd message="415|UiElementVisible|menuHelp|0"
+|179.38848293106|ExtCmd message="416|SetContent|menuLine|8:Menu Back >>"
+|179.38848293106|ExtCmd message="417|UpdateTable|menuItems|7|8:Menu Back >>"
+|179.38848293106|ExtCmd message="418|SelectItem|menuItems|7"
+|179.43853319386|Could not read ih_toMgsvCmds
+|179.57200056131|Could not read ih_toMgsvCmds
+|179.58868398224|DoToMgsvCommand 17={ "17", "activate", "menuItems", "7" }
+|179.58868398224|InfMenu.GoMenu:heliSpaceMenu
+|179.58868398224|ExtCmd message="419|SetContent|menuTitle|ACC Main menu"
+|179.58868398224|ExtCmd message="420|ClearTable|menuItems"
+|179.58868398224|ExtCmd message="421|AddToTable|menuItems|1:devInAccMenu >"
+|179.58868398224|ExtCmd message="422|AddToTable|menuItems|2:IH system menu >"
+|179.58868398224|ExtCmd message="423|AddToTable|menuItems|3:Events menu >"
+|179.58868398224|ExtCmd message="424|AddToTable|menuItems|4:Player restrictions menu >"
+|179.58868398224|ExtCmd message="425|AddToTable|menuItems|5:Player settings menu >"
+|179.58868398224|ExtCmd message="426|AddToTable|menuItems|6:Soldier parameters menu >"
+|179.58868398224|ExtCmd message="427|AddToTable|menuItems|7:Enemy phases menu >"
+|179.58868398224|ExtCmd message="428|AddToTable|menuItems|8:Enemy Prep menu >"
+|179.58868398224|ExtCmd message="429|AddToTable|menuItems|9:Enemy reinforcements menu >"
+|179.58868398224|ExtCmd message="430|AddToTable|menuItems|10:Patrols and deployments menu >"
+|179.58868398224|ExtCmd message="431|AddToTable|menuItems|11:Side ops menu >"
+|179.58868398224|ExtCmd message="432|AddToTable|menuItems|12:Mother Base menu >"
+|179.58868398224|ExtCmd message="433|AddToTable|menuItems|13:Cutscenes menu >"
+|179.58868398224|ExtCmd message="434|AddToTable|menuItems|14:Camera menu >"
+|179.58868398224|ExtCmd message="435|AddToTable|menuItems|15:Time scale menu >"
+|179.58868398224|ExtCmd message="436|AddToTable|menuItems|16:Support heli menu >"
+|179.58868398224|ExtCmd message="437|AddToTable|menuItems|17:Progression menu >"
+|179.58868398224|ExtCmd message="438|AddToTable|menuItems|18:Route test menu >"
+|179.58868398224|ExtCmd message="439|AddToTable|menuItems|19:Play anim menu >"
+|179.58868398224|ExtCmd message="440|AddToTable|menuItems|20:Give IHExt focus >>"
+|179.58868398224|ExtCmd message="441|AddToTable|menuItems|21:Debug menu >"
+|179.58868398224|ExtCmd message="442|AddToTable|menuItems|22:Turn off menu >]"
+|179.58868398224|ExtCmd message="443|ClearCombo|menuSetting"
+|179.58868398224|ExtCmd message="444|UiElementVisible|menuHelp|1"
+|179.58868398224|ExtCmd message="445|SetText|menuHelp|Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance."
+|183.82627289891|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|183.82627289891|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|184.293408685|DoToMgsvCommand 18={ "18", "selected", "menuItems", "11" }
+|184.293408685|ExtCmd message="446|ClearCombo|menuSetting"
+|184.293408685|ExtCmd message="447|UiElementVisible|menuHelp|0"
+|184.293408685|ExtCmd message="448|SetContent|menuLine|12:Mother Base menu >"
+|184.293408685|ExtCmd message="449|UpdateTable|menuItems|11|12:Mother Base menu >"
+|184.293408685|ExtCmd message="450|SelectItem|menuItems|11"
+|184.42687605246|Could not read ih_toMgsvCmds
+|184.47692631525|DoToMgsvCommand 19={ "19", "activate", "menuItems", "11" }
+|184.47692631525|InfMenu.GoMenu:motherBaseMenu
+|184.47692631525|ExtCmd message="451|SetContent|menuTitle|Mother Base menu"
+|184.47692631525|ExtCmd message="452|ClearTable|menuItems"
+|184.47692631525|ExtCmd message="453|AddToTable|menuItems|1:Mother base prep mode = 4:Prep levels + Custom overrides"
+|184.47692631525|ExtCmd message="454|AddToTable|menuItems|2:Custom soldier equip menu >"
+|184.47692631525|ExtCmd message="455|AddToTable|menuItems|3:MB Equip Range Type (MB Prep mode FOB only) = 2:Long-range"
+|184.47692631525|ExtCmd message="456|AddToTable|menuItems|4:DD Suit = 25:Fatigues All"
+|184.47692631525|ExtCmd message="457|AddToTable|menuItems|5:DD Suit female = 1:Drab"
+|184.47692631525|ExtCmd message="458|AddToTable|menuItems|6:DD Head gear = 0:Off"
+|184.47692631525|ExtCmd message="459|AddToTable|menuItems|7:NPC support heli patrols in MB = 3"
+|184.47692631525|ExtCmd message="460|AddToTable|menuItems|8:Attack heli patrols in MB = 2:2 helis"
+|184.47692631525|ExtCmd message="461|AddToTable|menuItems|9:Attack heli class = 4:Each heli random type"
+|184.47692631525|ExtCmd message="462|AddToTable|menuItems|10:Walker gears in MB = 1:On"
+|184.47692631525|ExtCmd message="463|AddToTable|menuItems|11:Walker gears type = 7:Each gear random type"
+|184.47692631525|ExtCmd message="464|AddToTable|menuItems|12:Walker gears weapons = 0:Even split of weapons"
+|184.47692631525|ExtCmd message="465|AddToTable|menuItems|13:Repopulate plants and diamonds = 1:On"
+|184.47692631525|ExtCmd message="466|AddToTable|menuItems|14:Enemy prep decrease on long MB visit = 1:On"
+|184.47692631525|ExtCmd message="467|AddToTable|menuItems|15:Enable all buddies = 1:On"
+|184.47692631525|ExtCmd message="468|AddToTable|menuItems|16:More soldiers on MB plats = 1:On"
+|184.47692631525|ExtCmd message="469|AddToTable|menuItems|17:Force enable Quaranine platform soldiers = 1:On"
+|184.47692631525|ExtCmd message="470|AddToTable|menuItems|18:Soldiers move between platforms = 1:On"
+|184.47692631525|ExtCmd message="471|AddToTable|menuItems|19:Staff menu >"
+|184.47692631525|ExtCmd message="472|AddToTable|menuItems|20:Show characters menu >"
+|184.47692631525|ExtCmd message="473|AddToTable|menuItems|21:Show assets menu >"
+|184.47692631525|ExtCmd message="474|AddToTable|menuItems|22:Allow lethal actions = 1:On"
+|184.47692631525|ExtCmd message="475|AddToTable|menuItems|23:Women in Enemy Invasion mode = 40%"
+|184.47692631525|ExtCmd message="476|AddToTable|menuItems|24:Mother Base War Games = 0:Off"
+|184.47692631525|ExtCmd message="477|AddToTable|menuItems|25:Reset current menu >]"
+|184.47692631525|ExtCmd message="478|AddToTable|menuItems|26:Menu Back >>"
+|184.47692631525|ExtCmd message="479|ClearCombo|menuSetting"
+|184.47692631525|settings={ "Off", "FOB style", "Enemy prep levels", "Custom prep", "Prep levels + Custom overrides" }
+|184.47692631525|ExtCmd message="480|AddToCombo|menuSetting|Off"
+|184.47692631525|ExtCmd message="481|AddToCombo|menuSetting|FOB style"
+|184.47692631525|ExtCmd message="482|AddToCombo|menuSetting|Enemy prep levels"
+|184.47692631525|ExtCmd message="483|AddToCombo|menuSetting|Custom prep"
+|184.47692631525|ExtCmd message="484|AddToCombo|menuSetting|Prep levels + Custom overrides"
+|184.47692631525|ExtCmd message="485|SelectCombo|menuSetting|4"
+|184.47692631525|ExtCmd message="486|UiElementVisible|menuHelp|0"
+|188.63109812726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|188.63109812726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|191.76758126244|Could not read ih_toMgsvCmds
+|191.78426468337|DoToMgsvCommand 20={ "20", "selected", "menuItems", "19" }
+|191.78426468337|ExtCmd message="487|ClearCombo|menuSetting"
+|191.78426468337|ExtCmd message="488|UiElementVisible|menuHelp|0"
+|191.78426468337|ExtCmd message="489|SetContent|menuLine|20:Show characters menu >"
+|191.78426468337|ExtCmd message="490|UpdateTable|menuItems|19|20:Show characters menu >"
+|191.78426468337|ExtCmd message="491|SelectItem|menuItems|19"
+|192.71853625555|DoToMgsvCommand 21={ "21", "selected", "menuItems", "20" }
+|192.71853625555|ExtCmd message="492|ClearCombo|menuSetting"
+|192.71853625555|ExtCmd message="493|UiElementVisible|menuHelp|0"
+|192.71853625555|ExtCmd message="494|SetContent|menuLine|21:Show assets menu >"
+|192.71853625555|ExtCmd message="495|UpdateTable|menuItems|20|21:Show assets menu >"
+|192.71853625555|ExtCmd message="496|SelectItem|menuItems|20"
+|192.76858651834|Could not read ih_toMgsvCmds
+|193.01883783232|Could not read ih_toMgsvCmds
+|193.66949124866|DoToMgsvCommand 22={ "22", "selected", "menuItems", "18" }
+|193.66949124866|ExtCmd message="497|ClearCombo|menuSetting"
+|193.66949124866|ExtCmd message="498|UiElementVisible|menuHelp|0"
+|193.66949124866|ExtCmd message="499|SetContent|menuLine|19:Staff menu >"
+|193.66949124866|ExtCmd message="500|UpdateTable|menuItems|18|19:Staff menu >"
+|193.66949124866|ExtCmd message="501|SelectItem|menuItems|18"
+|193.71119967342|Could not read ih_toMgsvCmds
+|197.27311016992|Could not read ih_toMgsvCmds
+|197.28979359086|DoToMgsvCommand 23={ "23", "selected", "menuItems", "23" }
+|197.28979359086|ExtCmd message="502|ClearCombo|menuSetting"
+|197.28979359086|settings={ "Off", "DD Training", "Enemy Invasion", "DD Infection", "Zombie Obliteration (non DD)" }
+|197.28979359086|ExtCmd message="503|AddToCombo|menuSetting|Off"
+|197.28979359086|ExtCmd message="504|AddToCombo|menuSetting|DD Training"
+|197.28979359086|ExtCmd message="505|AddToCombo|menuSetting|Enemy Invasion"
+|197.28979359086|ExtCmd message="506|AddToCombo|menuSetting|DD Infection"
+|197.28979359086|ExtCmd message="507|AddToCombo|menuSetting|Zombie Obliteration (non DD)"
+|197.28979359086|ExtCmd message="508|SelectCombo|menuSetting|0"
+|197.28979359086|ExtCmd message="509|UiElementVisible|menuHelp|0"
+|197.28979359086|ExtCmd message="510|SetContent|menuLine|24:Mother Base War Games = 0:"
+|197.28979359086|ExtCmd message="511|UpdateTable|menuItems|23|24:Mother Base War Games = 0:Off"
+|197.28979359086|ExtCmd message="512|SelectItem|menuItems|23"
+|197.28979359086|ExtCmd message="513|SelectCombo|menuSetting|0"
+|198.37421595142|DoToMgsvCommand 24={ "24", "selected", "menuItems", "22" }
+|198.37421595142|ExtCmd message="514|ClearCombo|menuSetting"
+|198.37421595142|settings={}
+|198.37421595142|ExtCmd message="515|AddToCombo|menuSetting|40"
+|198.37421595142|ExtCmd message="516|SelectCombo|menuSetting|0"
+|198.37421595142|ExtCmd message="517|UiElementVisible|menuHelp|0"
+|198.37421595142|ExtCmd message="518|SetContent|menuLine|23:Women in Enemy Invasion mode = %"
+|198.37421595142|ExtCmd message="519|UpdateTable|menuItems|22|23:Women in Enemy Invasion mode = 40%"
+|198.37421595142|ExtCmd message="520|SelectItem|menuItems|22"
+|198.37421595142|ExtCmd message="521|ClearCombo|menuSetting"
+|198.37421595142|ExtCmd message="522|AddToCombo|menuSetting|40"
+|198.37421595142|ExtCmd message="523|SelectCombo|menuSetting|0"
+|198.65783410726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|198.65783410726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|199.02486936776|DoToMgsvCommand 25={ "25", "selected", "menuItems", "21" }
+|199.02486936776|ExtCmd message="524|ClearCombo|menuSetting"
+|199.02486936776|settings={ "Off", "On" }
+|199.02486936776|ExtCmd message="525|AddToCombo|menuSetting|Off"
+|199.02486936776|ExtCmd message="526|AddToCombo|menuSetting|On"
+|199.02486936776|ExtCmd message="527|SelectCombo|menuSetting|1"
+|199.02486936776|ExtCmd message="528|UiElementVisible|menuHelp|1"
+|199.02486936776|ExtCmd message="529|SetText|menuHelp|Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff."
+|199.02486936776|ExtCmd message="530|SetContent|menuLine|22:Allow lethal actions = 1:"
+|199.02486936776|ExtCmd message="531|UpdateTable|menuItems|21|22:Allow lethal actions = 1:On"
+|199.02486936776|ExtCmd message="532|SelectItem|menuItems|21"
+|199.02486936776|ExtCmd message="533|SelectCombo|menuSetting|1"
+|199.55873883758|Could not read ih_toMgsvCmds
+|199.57542225851|DoToMgsvCommand 26={ "26", "selected", "menuItems", "20" }
+|199.57542225851|ExtCmd message="534|ClearCombo|menuSetting"
+|199.57542225851|ExtCmd message="535|UiElementVisible|menuHelp|0"
+|199.57542225851|ExtCmd message="536|SetContent|menuLine|21:Show assets menu >"
+|199.57542225851|ExtCmd message="537|UpdateTable|menuItems|20|21:Show assets menu >"
+|199.57542225851|ExtCmd message="538|SelectItem|menuItems|20"
+|200.44296014696|DoToMgsvCommand 27={ "27", "selected", "menuItems", "23" }
+|200.44296014696|ExtCmd message="539|ClearCombo|menuSetting"
+|200.44296014696|settings={ "Off", "DD Training", "Enemy Invasion", "DD Infection", "Zombie Obliteration (non DD)" }
+|200.44296014696|ExtCmd message="540|AddToCombo|menuSetting|Off"
+|200.44296014696|ExtCmd message="541|AddToCombo|menuSetting|DD Training"
+|200.44296014696|ExtCmd message="542|AddToCombo|menuSetting|Enemy Invasion"
+|200.44296014696|ExtCmd message="543|AddToCombo|menuSetting|DD Infection"
+|200.44296014696|ExtCmd message="544|AddToCombo|menuSetting|Zombie Obliteration (non DD)"
+|200.44296014696|ExtCmd message="545|SelectCombo|menuSetting|0"
+|200.44296014696|ExtCmd message="546|UiElementVisible|menuHelp|0"
+|200.44296014696|ExtCmd message="547|SetContent|menuLine|24:Mother Base War Games = 0:"
+|200.44296014696|ExtCmd message="548|UpdateTable|menuItems|23|24:Mother Base War Games = 0:Off"
+|200.44296014696|ExtCmd message="549|SelectItem|menuItems|23"
+|200.44296014696|ExtCmd message="550|SelectCombo|menuSetting|0"
+|202.94547328673|DoToMgsvCommand 28={ "28", "selected", "menuItems", "18" }
+|202.94547328673|ExtCmd message="551|ClearCombo|menuSetting"
+|202.94547328673|ExtCmd message="552|UiElementVisible|menuHelp|0"
+|202.94547328673|ExtCmd message="553|SetContent|menuLine|19:Staff menu >"
+|202.94547328673|ExtCmd message="554|UpdateTable|menuItems|18|19:Staff menu >"
+|202.94547328673|ExtCmd message="555|SelectItem|menuItems|18"
+|203.14567433791|DoToMgsvCommand 29={ "29", "activate", "menuItems", "18" }
+|203.14567433791|InfMenu.GoMenu:mbStaffMenu
+|203.14567433791|ExtCmd message="556|SetContent|menuTitle|Staff menu"
+|203.14567433791|ExtCmd message="557|ClearTable|menuItems"
+|203.14567433791|ExtCmd message="558|AddToTable|menuItems|1:Add player staff to MB priority >>"
+|203.14567433791|ExtCmd message="559|AddToTable|menuItems|2:Remove player staff to MB priority >>"
+|203.14567433791|ExtCmd message="560|AddToTable|menuItems|3:Clear MB staff priority list >>"
+|203.14567433791|ExtCmd message="561|AddToTable|menuItems|4:Female staff selection = 3:Half"
+|203.14567433791|ExtCmd message="562|AddToTable|menuItems|5:Staff-wide morale boost for good visit = 1:On"
+|203.14567433791|ExtCmd message="563|AddToTable|menuItems|6:Reset current menu >]"
+|203.14567433791|ExtCmd message="564|AddToTable|menuItems|7:Menu Back >>"
+|203.14567433791|ExtCmd message="565|ClearCombo|menuSetting"
+|203.14567433791|ExtCmd message="566|UiElementVisible|menuHelp|1"
+|203.14567433791|ExtCmd message="567|SetText|menuHelp|Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB"
+|205.24778537531|DoToMgsvCommand 30={ "30", "selected", "menuItems", "6" }
+|205.24778537531|ExtCmd message="568|ClearCombo|menuSetting"
+|205.24778537531|ExtCmd message="569|UiElementVisible|menuHelp|0"
+|205.24778537531|ExtCmd message="570|SetContent|menuLine|7:Menu Back >>"
+|205.24778537531|ExtCmd message="571|UpdateTable|menuItems|6|7:Menu Back >>"
+|205.24778537531|ExtCmd message="572|SelectItem|menuItems|6"
+|205.51472011022|DoToMgsvCommand 31={ "31", "activate", "menuItems", "6" }
+|205.51472011022|InfMenu.GoMenu:motherBaseMenu
+|205.51472011022|ExtCmd message="573|SetContent|menuTitle|Mother Base menu"
+|205.51472011022|ExtCmd message="574|ClearTable|menuItems"
+|205.51472011022|ExtCmd message="575|AddToTable|menuItems|1:Mother base prep mode = 4:Prep levels + Custom overrides"
+|205.51472011022|ExtCmd message="576|AddToTable|menuItems|2:Custom soldier equip menu >"
+|205.51472011022|ExtCmd message="577|AddToTable|menuItems|3:MB Equip Range Type (MB Prep mode FOB only) = 2:Long-range"
+|205.51472011022|ExtCmd message="578|AddToTable|menuItems|4:DD Suit = 25:Fatigues All"
+|205.51472011022|ExtCmd message="579|AddToTable|menuItems|5:DD Suit female = 1:Drab"
+|205.51472011022|ExtCmd message="580|AddToTable|menuItems|6:DD Head gear = 0:Off"
+|205.51472011022|ExtCmd message="581|AddToTable|menuItems|7:NPC support heli patrols in MB = 3"
+|205.51472011022|ExtCmd message="582|AddToTable|menuItems|8:Attack heli patrols in MB = 2:2 helis"
+|205.51472011022|ExtCmd message="583|AddToTable|menuItems|9:Attack heli class = 4:Each heli random type"
+|205.51472011022|ExtCmd message="584|AddToTable|menuItems|10:Walker gears in MB = 1:On"
+|205.51472011022|ExtCmd message="585|AddToTable|menuItems|11:Walker gears type = 7:Each gear random type"
+|205.51472011022|ExtCmd message="586|AddToTable|menuItems|12:Walker gears weapons = 0:Even split of weapons"
+|205.51472011022|ExtCmd message="587|AddToTable|menuItems|13:Repopulate plants and diamonds = 1:On"
+|205.51472011022|ExtCmd message="588|AddToTable|menuItems|14:Enemy prep decrease on long MB visit = 1:On"
+|205.51472011022|ExtCmd message="589|AddToTable|menuItems|15:Enable all buddies = 1:On"
+|205.51472011022|ExtCmd message="590|AddToTable|menuItems|16:More soldiers on MB plats = 1:On"
+|205.51472011022|ExtCmd message="591|AddToTable|menuItems|17:Force enable Quaranine platform soldiers = 1:On"
+|205.51472011022|ExtCmd message="592|AddToTable|menuItems|18:Soldiers move between platforms = 1:On"
+|205.51472011022|ExtCmd message="593|AddToTable|menuItems|19:Staff menu >"
+|205.51472011022|ExtCmd message="594|AddToTable|menuItems|20:Show characters menu >"
+|205.51472011022|ExtCmd message="595|AddToTable|menuItems|21:Show assets menu >"
+|205.51472011022|ExtCmd message="596|AddToTable|menuItems|22:Allow lethal actions = 1:On"
+|205.51472011022|ExtCmd message="597|AddToTable|menuItems|23:Women in Enemy Invasion mode = 40%"
+|205.51472011022|ExtCmd message="598|AddToTable|menuItems|24:Mother Base War Games = 0:Off"
+|205.51472011022|ExtCmd message="599|AddToTable|menuItems|25:Reset current menu >]"
+|205.51472011022|ExtCmd message="600|AddToTable|menuItems|26:Menu Back >>"
+|205.51472011022|ExtCmd message="601|ClearCombo|menuSetting"
+|205.51472011022|ExtCmd message="602|UiElementVisible|menuHelp|0"
+|208.06728351278|DoToMgsvCommand 32={ "32", "selected", "menuItems", "25" }
+|208.06728351278|ExtCmd message="603|ClearCombo|menuSetting"
+|208.06728351278|ExtCmd message="604|UiElementVisible|menuHelp|0"
+|208.06728351278|ExtCmd message="605|SetContent|menuLine|26:Menu Back >>"
+|208.06728351278|ExtCmd message="606|UpdateTable|menuItems|25|26:Menu Back >>"
+|208.06728351278|ExtCmd message="607|SelectItem|menuItems|25"
+|208.11733377558|Could not read ih_toMgsvCmds
+|208.26748456396|DoToMgsvCommand 33={ "33", "activate", "menuItems", "25" }
+|208.26748456396|InfMenu.GoMenu:heliSpaceMenu
+|208.26748456396|ExtCmd message="608|SetContent|menuTitle|ACC Main menu"
+|208.26748456396|ExtCmd message="609|ClearTable|menuItems"
+|208.26748456396|ExtCmd message="610|AddToTable|menuItems|1:devInAccMenu >"
+|208.26748456396|ExtCmd message="611|AddToTable|menuItems|2:IH system menu >"
+|208.26748456396|ExtCmd message="612|AddToTable|menuItems|3:Events menu >"
+|208.26748456396|ExtCmd message="613|AddToTable|menuItems|4:Player restrictions menu >"
+|208.26748456396|ExtCmd message="614|AddToTable|menuItems|5:Player settings menu >"
+|208.26748456396|ExtCmd message="615|AddToTable|menuItems|6:Soldier parameters menu >"
+|208.26748456396|ExtCmd message="616|AddToTable|menuItems|7:Enemy phases menu >"
+|208.26748456396|ExtCmd message="617|AddToTable|menuItems|8:Enemy Prep menu >"
+|208.26748456396|ExtCmd message="618|AddToTable|menuItems|9:Enemy reinforcements menu >"
+|208.26748456396|ExtCmd message="619|AddToTable|menuItems|10:Patrols and deployments menu >"
+|208.26748456396|ExtCmd message="620|AddToTable|menuItems|11:Side ops menu >"
+|208.26748456396|ExtCmd message="621|AddToTable|menuItems|12:Mother Base menu >"
+|208.26748456396|ExtCmd message="622|AddToTable|menuItems|13:Cutscenes menu >"
+|208.26748456396|ExtCmd message="623|AddToTable|menuItems|14:Camera menu >"
+|208.26748456396|ExtCmd message="624|AddToTable|menuItems|15:Time scale menu >"
+|208.26748456396|ExtCmd message="625|AddToTable|menuItems|16:Support heli menu >"
+|208.26748456396|ExtCmd message="626|AddToTable|menuItems|17:Progression menu >"
+|208.26748456396|ExtCmd message="627|AddToTable|menuItems|18:Route test menu >"
+|208.26748456396|ExtCmd message="628|AddToTable|menuItems|19:Play anim menu >"
+|208.26748456396|ExtCmd message="629|AddToTable|menuItems|20:Give IHExt focus >>"
+|208.26748456396|ExtCmd message="630|AddToTable|menuItems|21:Debug menu >"
+|208.26748456396|ExtCmd message="631|AddToTable|menuItems|22:Turn off menu >]"
+|208.26748456396|ExtCmd message="632|ClearCombo|menuSetting"
+|208.26748456396|ExtCmd message="633|UiElementVisible|menuHelp|0"
+|208.68457008726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|208.68457008726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|218.71130606726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|218.71130606726|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|228.73804204725|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|228.73804204725|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|229.07171046589|Could not read ih_toMgsvCmds
+|236.51251620146|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|236.51251620146|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|246.53925218146|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|246.53925218146|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|247.56528244119|DoToMgsvCommand 34={ "34", "comboboxtocurrent", "menuSetting" }
+|247.61533244884|Could not read ih_toMgsvCmds
+|250.29302189111|OnMessage|sender: Weather, messageId: WeatherForecast, weatherType=1:CLOUDY, 
+|250.29302189111|OnMessage|sender: Weather, messageId: WeatherForecast, weatherType=1:CLOUDY, 
+|250.29302189111|InfLookup.OnShowAnnounceLog: langId=announce_weather_cloudy, param1=nil, param2=nil
+|250.29302189111|OnMessage|sender: UI, messageId: StartAnnounceLog
+|250.29302189111|OnMessage|sender: UI, messageId: StartAnnounceLog
+|252.57865055876|OnMessage|sender: UI, messageId: EndAnnounceLog
+|252.57865055876|OnMessage|sender: UI, messageId: EndAnnounceLog
+|252.71211792621|Could not read ih_toMgsvCmds
+|252.72880134714|DoToMgsvCommand 35={ "35", "comboboxtocurrent", "menuSetting" }
+|252.72880134714|DoToMgsvCommand 36={ "36", "selected", "menuItems", "20" }
+|252.72880134714|ExtCmd message="634|ClearCombo|menuSetting"
+|252.72880134714|ExtCmd message="635|UiElementVisible|menuHelp|0"
+|252.72880134714|ExtCmd message="636|SetContent|menuLine|21:Debug menu >"
+|252.72880134714|ExtCmd message="637|UpdateTable|menuItems|20|21:Debug menu >"
+|252.72880134714|ExtCmd message="638|SelectItem|menuItems|20"
+|252.91231897739|DoToMgsvCommand 37={ "37", "activate", "menuItems", "20" }
+|252.91231897739|InfMenu.GoMenu:debugMenu
+|252.91231897739|ExtCmd message="639|SetContent|menuTitle|Debug menu"
+|252.91231897739|ExtCmd message="640|ClearTable|menuItems"
+|252.91231897739|ExtCmd message="641|AddToTable|menuItems|1:Debug IH mode = 1:On"
+|252.91231897739|ExtCmd message="642|AddToTable|menuItems|2:debugMessages = 1:On"
+|252.91231897739|ExtCmd message="643|AddToTable|menuItems|3:debugFlow = 1:On"
+|252.91231897739|ExtCmd message="644|AddToTable|menuItems|4:debugOnUpdate = 1:On"
+|252.91231897739|ExtCmd message="645|AddToTable|menuItems|5:loadExternalModules >>"
+|252.91231897739|ExtCmd message="646|AddToTable|menuItems|6:copyLogToPrev >>"
+|252.91231897739|ExtCmd message="647|AddToTable|menuItems|7:printPressedButtons = 0:Off"
+|252.91231897739|ExtCmd message="648|AddToTable|menuItems|8:Show freecam position >>"
+|252.91231897739|ExtCmd message="649|AddToTable|menuItems|9:Show position >>"
+|252.91231897739|ExtCmd message="650|AddToTable|menuItems|10:Show missionCode >>"
+|252.91231897739|ExtCmd message="651|AddToTable|menuItems|11:Show game language code >>"
+|252.91231897739|ExtCmd message="652|AddToTable|menuItems|12:appearanceDebugMenu >"
+|252.91231897739|ExtCmd message="653|AddToTable|menuItems|13:Disable game over = 0:Off"
+|252.91231897739|ExtCmd message="654|AddToTable|menuItems|14:Disable out of bounds checks = 1:On"
+|252.91231897739|ExtCmd message="655|AddToTable|menuItems|15:Disable mission intro credits = 0:Off"
+|252.91231897739|ExtCmd message="656|AddToTable|menuItems|16:manualMissionCode <Action> = 0:10010"
+|252.91231897739|ExtCmd message="657|AddToTable|menuItems|17:Reset current menu >]"
+|252.91231897739|ExtCmd message="658|AddToTable|menuItems|18:Menu Back >>"
+|252.91231897739|ExtCmd message="659|ClearCombo|menuSetting"
+|252.91231897739|settings={ "Off", "On" }
+|252.91231897739|ExtCmd message="660|AddToCombo|menuSetting|Off"
+|252.91231897739|ExtCmd message="661|AddToCombo|menuSetting|On"
+|252.91231897739|ExtCmd message="662|SelectCombo|menuSetting|1"
+|252.91231897739|ExtCmd message="663|UiElementVisible|menuHelp|1"
+|252.91231897739|ExtCmd message="664|SetText|menuHelp|Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading."
+|256.56598816145|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|256.56598816145|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|256.58267158239|Could not read ih_toMgsvCmds
+|256.59935500332|DoToMgsvCommand 38={ "38", "selected", "menuItems", "15" }
+|256.59935500332|ExtCmd message="665|ClearCombo|menuSetting"
+|256.59935500332|settings={ "10010", "10020", "10030", "10036", "10043", "10033", "10040", "10041", "10044", "10052", "10054", "10050", "10070", "10080", "10086", "10082", "10090", "10195", "10091", "10100", "10110", "10121", "10115", "10120", "10085", "10200", "10211", "10081", "10130", "10140", "10150", "10151", "10045", "10156", "10093", "10171", "10240", "10260", "10280", "11043", "11041", "11054", "11085", "11082", "11090", "11036", "11033", "11050", "11091", "11195", "11211", "11140", "11200", "11080", "11171", "11121", "11115", "11130", "11044", "11052", "11151", "30010", "30020", "30050", "30150", "30250", "40010", "40020", "40050" }
+|256.59935500332|ExtCmd message="666|AddToCombo|menuSetting|10010"
+|256.59935500332|ExtCmd message="667|AddToCombo|menuSetting|10020"
+|256.59935500332|ExtCmd message="668|AddToCombo|menuSetting|10030"
+|256.59935500332|ExtCmd message="669|AddToCombo|menuSetting|10036"
+|256.59935500332|ExtCmd message="670|AddToCombo|menuSetting|10043"
+|256.59935500332|ExtCmd message="671|AddToCombo|menuSetting|10033"
+|256.59935500332|ExtCmd message="672|AddToCombo|menuSetting|10040"
+|256.59935500332|ExtCmd message="673|AddToCombo|menuSetting|10041"
+|256.59935500332|ExtCmd message="674|AddToCombo|menuSetting|10044"
+|256.59935500332|ExtCmd message="675|AddToCombo|menuSetting|10052"
+|256.59935500332|ExtCmd message="676|AddToCombo|menuSetting|10054"
+|256.59935500332|ExtCmd message="677|AddToCombo|menuSetting|10050"
+|256.59935500332|ExtCmd message="678|AddToCombo|menuSetting|10070"
+|256.59935500332|ExtCmd message="679|AddToCombo|menuSetting|10080"
+|256.59935500332|ExtCmd message="680|AddToCombo|menuSetting|10086"
+|256.59935500332|ExtCmd message="681|AddToCombo|menuSetting|10082"
+|256.59935500332|ExtCmd message="682|AddToCombo|menuSetting|10090"
+|256.59935500332|ExtCmd message="683|AddToCombo|menuSetting|10195"
+|256.59935500332|ExtCmd message="684|AddToCombo|menuSetting|10091"
+|256.59935500332|ExtCmd message="685|AddToCombo|menuSetting|10100"
+|256.59935500332|ExtCmd message="686|AddToCombo|menuSetting|10110"
+|256.59935500332|ExtCmd message="687|AddToCombo|menuSetting|10121"
+|256.59935500332|ExtCmd message="688|AddToCombo|menuSetting|10115"
+|256.59935500332|ExtCmd message="689|AddToCombo|menuSetting|10120"
+|256.59935500332|ExtCmd message="690|AddToCombo|menuSetting|10085"
+|256.59935500332|ExtCmd message="691|AddToCombo|menuSetting|10200"
+|256.59935500332|ExtCmd message="692|AddToCombo|menuSetting|10211"
+|256.59935500332|ExtCmd message="693|AddToCombo|menuSetting|10081"
+|256.59935500332|ExtCmd message="694|AddToCombo|menuSetting|10130"
+|256.59935500332|ExtCmd message="695|AddToCombo|menuSetting|10140"
+|256.59935500332|ExtCmd message="696|AddToCombo|menuSetting|10150"
+|256.59935500332|ExtCmd message="697|AddToCombo|menuSetting|10151"
+|256.59935500332|ExtCmd message="698|AddToCombo|menuSetting|10045"
+|256.59935500332|ExtCmd message="699|AddToCombo|menuSetting|10156"
+|256.59935500332|ExtCmd message="700|AddToCombo|menuSetting|10093"
+|256.59935500332|ExtCmd message="701|AddToCombo|menuSetting|10171"
+|256.59935500332|ExtCmd message="702|AddToCombo|menuSetting|10240"
+|256.59935500332|ExtCmd message="703|AddToCombo|menuSetting|10260"
+|256.59935500332|ExtCmd message="704|AddToCombo|menuSetting|10280"
+|256.59935500332|ExtCmd message="705|AddToCombo|menuSetting|11043"
+|256.59935500332|ExtCmd message="706|AddToCombo|menuSetting|11041"
+|256.59935500332|ExtCmd message="707|AddToCombo|menuSetting|11054"
+|256.59935500332|ExtCmd message="708|AddToCombo|menuSetting|11085"
+|256.59935500332|ExtCmd message="709|AddToCombo|menuSetting|11082"
+|256.59935500332|ExtCmd message="710|AddToCombo|menuSetting|11090"
+|256.59935500332|ExtCmd message="711|AddToCombo|menuSetting|11036"
+|256.59935500332|ExtCmd message="712|AddToCombo|menuSetting|11033"
+|256.59935500332|ExtCmd message="713|AddToCombo|menuSetting|11050"
+|256.59935500332|ExtCmd message="714|AddToCombo|menuSetting|11091"
+|256.59935500332|ExtCmd message="715|AddToCombo|menuSetting|11195"
+|256.59935500332|ExtCmd message="716|AddToCombo|menuSetting|11211"
+|256.59935500332|ExtCmd message="717|AddToCombo|menuSetting|11140"
+|256.59935500332|ExtCmd message="718|AddToCombo|menuSetting|11200"
+|256.59935500332|ExtCmd message="719|AddToCombo|menuSetting|11080"
+|256.59935500332|ExtCmd message="720|AddToCombo|menuSetting|11171"
+|256.59935500332|ExtCmd message="721|AddToCombo|menuSetting|11121"
+|256.59935500332|ExtCmd message="722|AddToCombo|menuSetting|11115"
+|256.59935500332|ExtCmd message="723|AddToCombo|menuSetting|11130"
+|256.59935500332|ExtCmd message="724|AddToCombo|menuSetting|11044"
+|256.59935500332|ExtCmd message="725|AddToCombo|menuSetting|11052"
+|256.59935500332|ExtCmd message="726|AddToCombo|menuSetting|11151"
+|256.59935500332|ExtCmd message="727|AddToCombo|menuSetting|30010"
+|256.59935500332|ExtCmd message="728|AddToCombo|menuSetting|30020"
+|256.59935500332|ExtCmd message="729|AddToCombo|menuSetting|30050"
+|256.59935500332|ExtCmd message="730|AddToCombo|menuSetting|30150"
+|256.59935500332|ExtCmd message="731|AddToCombo|menuSetting|30250"
+|256.59935500332|ExtCmd message="732|AddToCombo|menuSetting|40010"
+|256.59935500332|ExtCmd message="733|AddToCombo|menuSetting|40020"
+|256.59935500332|ExtCmd message="734|AddToCombo|menuSetting|40050"
+|256.59935500332|ExtCmd message="735|SelectCombo|menuSetting|0"
+|256.59935500332|ExtCmd message="736|UiElementVisible|menuHelp|0"
+|256.59935500332|ExtCmd message="737|SetContent|menuLine|16:manualMissionCode <Action> = 0:"
+|256.59935500332|ExtCmd message="738|UpdateTable|menuItems|15|16:manualMissionCode <Action> = 0:10010"
+|256.59935500332|ExtCmd message="739|SelectItem|menuItems|15"
+|256.59935500332|ExtCmd message="740|SelectCombo|menuSetting|0"
+|259.73583813849|DoToMgsvCommand 39={ "39", "selected", "menuItems", "17" }
+|259.73583813849|ExtCmd message="741|ClearCombo|menuSetting"
+|259.73583813849|ExtCmd message="742|UiElementVisible|menuHelp|0"
+|259.73583813849|ExtCmd message="743|SetContent|menuLine|18:Menu Back >>"
+|259.73583813849|ExtCmd message="744|UpdateTable|menuItems|17|18:Menu Back >>"
+|259.73583813849|ExtCmd message="745|SelectItem|menuItems|17"
+|259.91935576874|Could not read ih_toMgsvCmds
+|259.93603918967|DoToMgsvCommand 40={ "40", "activate", "menuItems", "17" }
+|259.93603918967|InfMenu.GoMenu:heliSpaceMenu
+|259.93603918967|ExtCmd message="746|SetContent|menuTitle|ACC Main menu"
+|259.93603918967|ExtCmd message="747|ClearTable|menuItems"
+|259.93603918967|ExtCmd message="748|AddToTable|menuItems|1:devInAccMenu >"
+|259.93603918967|ExtCmd message="749|AddToTable|menuItems|2:IH system menu >"
+|259.93603918967|ExtCmd message="750|AddToTable|menuItems|3:Events menu >"
+|259.93603918967|ExtCmd message="751|AddToTable|menuItems|4:Player restrictions menu >"
+|259.93603918967|ExtCmd message="752|AddToTable|menuItems|5:Player settings menu >"
+|259.93603918967|ExtCmd message="753|AddToTable|menuItems|6:Soldier parameters menu >"
+|259.93603918967|ExtCmd message="754|AddToTable|menuItems|7:Enemy phases menu >"
+|259.93603918967|ExtCmd message="755|AddToTable|menuItems|8:Enemy Prep menu >"
+|259.93603918967|ExtCmd message="756|AddToTable|menuItems|9:Enemy reinforcements menu >"
+|259.93603918967|ExtCmd message="757|AddToTable|menuItems|10:Patrols and deployments menu >"
+|259.93603918967|ExtCmd message="758|AddToTable|menuItems|11:Side ops menu >"
+|259.93603918967|ExtCmd message="759|AddToTable|menuItems|12:Mother Base menu >"
+|259.93603918967|ExtCmd message="760|AddToTable|menuItems|13:Cutscenes menu >"
+|259.93603918967|ExtCmd message="761|AddToTable|menuItems|14:Camera menu >"
+|259.93603918967|ExtCmd message="762|AddToTable|menuItems|15:Time scale menu >"
+|259.93603918967|ExtCmd message="763|AddToTable|menuItems|16:Support heli menu >"
+|259.93603918967|ExtCmd message="764|AddToTable|menuItems|17:Progression menu >"
+|259.93603918967|ExtCmd message="765|AddToTable|menuItems|18:Route test menu >"
+|259.93603918967|ExtCmd message="766|AddToTable|menuItems|19:Play anim menu >"
+|259.93603918967|ExtCmd message="767|AddToTable|menuItems|20:Give IHExt focus >>"
+|259.93603918967|ExtCmd message="768|AddToTable|menuItems|21:Debug menu >"
+|259.93603918967|ExtCmd message="769|AddToTable|menuItems|22:Turn off menu >]"
+|259.93603918967|ExtCmd message="770|ClearCombo|menuSetting"
+|259.93603918967|ExtCmd message="771|UiElementVisible|menuHelp|0"
+|263.37282390162|DoToMgsvCommand 41={ "41", "selected", "menuItems", "13" }
+|263.37282390162|ExtCmd message="772|ClearCombo|menuSetting"
+|263.37282390162|ExtCmd message="773|UiElementVisible|menuHelp|1"
+|263.37282390162|ExtCmd message="774|SetText|menuHelp|Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance."
+|263.37282390162|ExtCmd message="775|SetContent|menuLine|14:Camera menu >"
+|263.37282390162|ExtCmd message="776|UpdateTable|menuItems|13|14:Camera menu >"
+|263.37282390162|ExtCmd message="777|SelectItem|menuItems|13"
+|263.5730249528|DoToMgsvCommand 42={ "42", "activate", "menuItems", "13" }
+|263.5730249528|InfMenu.GoMenu:cameraMenu
+|263.5730249528|ExtCmd message="778|SetContent|menuTitle|Camera menu"
+|263.5730249528|ExtCmd message="779|ClearTable|menuItems"
+|263.5730249528|ExtCmd message="780|AddToTable|menuItems|1:Adjust-cam [Mode] = 0:Off"
+|263.5730249528|ExtCmd message="781|AddToTable|menuItems|2:Camera mode = 0:Default"
+|263.5730249528|ExtCmd message="782|AddToTable|menuItems|3:Warp body to FreeCam position >>"
+|263.5730249528|ExtCmd message="783|AddToTable|menuItems|4:Cam speed scale = 0.5"
+|263.5730249528|ExtCmd message="784|AddToTable|menuItems|5:Disable mode text feedback = 0:Off"
+|263.5730249528|ExtCmd message="785|AddToTable|menuItems|6:Show freecam position >>"
+|263.5730249528|ExtCmd message="786|AddToTable|menuItems|7:Reset current menu >]"
+|263.5730249528|ExtCmd message="787|AddToTable|menuItems|8:Menu Back >>"
+|263.5730249528|ExtCmd message="788|ClearCombo|menuSetting"
+|263.5730249528|settings={ "Off", "On" }
+|263.5730249528|ExtCmd message="789|AddToCombo|menuSetting|Off"
+|263.5730249528|ExtCmd message="790|AddToCombo|menuSetting|On"
+|263.5730249528|ExtCmd message="791|SelectCombo|menuSetting|0"
+|263.5730249528|ExtCmd message="792|UiElementVisible|menuHelp|1"
+|263.5730249528|ExtCmd message="793|SetText|menuHelp|  Move cam with normal move keys \n  <Dash>(Shift or Left stick click) to move up\n  <Switch zoom>(Middle mouse or Right stick click) to move down\n  Hold the following and move left stick up/down to increase/decrease the settings:\n  <Fire> - Zoom/focal length\n  <Reload> - Aperture (DOF)\n  <Stance> - Focus distance (DOF) \n  <Action> - Cam move speed\n  <Ready weapon> - Camera orbit distance\n  Or hold <Binocular> and press the above to reset that setting.\n  Hold <Binocular> and press <Dash> to move free cam position to the player position"
+|264.34046231566|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|264.34046231566|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|264.57403020871|Could not read ih_toMgsvCmds
+|264.59071362964|DoToMgsvCommand 43={ "43", "selected", "menuItems", "7" }
+|264.59071362964|ExtCmd message="794|ClearCombo|menuSetting"
+|264.59071362964|ExtCmd message="795|UiElementVisible|menuHelp|0"
+|264.59071362964|ExtCmd message="796|SetContent|menuLine|8:Menu Back >>"
+|264.59071362964|ExtCmd message="797|UpdateTable|menuItems|7|8:Menu Back >>"
+|264.59071362964|ExtCmd message="798|SelectItem|menuItems|7"
+|264.80759810175|DoToMgsvCommand 44={ "44", "activate", "menuItems", "7" }
+|264.80759810175|InfMenu.GoMenu:heliSpaceMenu
+|264.80759810175|ExtCmd message="799|SetContent|menuTitle|ACC Main menu"
+|264.80759810175|ExtCmd message="800|ClearTable|menuItems"
+|264.80759810175|ExtCmd message="801|AddToTable|menuItems|1:devInAccMenu >"
+|264.80759810175|ExtCmd message="802|AddToTable|menuItems|2:IH system menu >"
+|264.80759810175|ExtCmd message="803|AddToTable|menuItems|3:Events menu >"
+|264.80759810175|ExtCmd message="804|AddToTable|menuItems|4:Player restrictions menu >"
+|264.80759810175|ExtCmd message="805|AddToTable|menuItems|5:Player settings menu >"
+|264.80759810175|ExtCmd message="806|AddToTable|menuItems|6:Soldier parameters menu >"
+|264.80759810175|ExtCmd message="807|AddToTable|menuItems|7:Enemy phases menu >"
+|264.80759810175|ExtCmd message="808|AddToTable|menuItems|8:Enemy Prep menu >"
+|264.80759810175|ExtCmd message="809|AddToTable|menuItems|9:Enemy reinforcements menu >"
+|264.80759810175|ExtCmd message="810|AddToTable|menuItems|10:Patrols and deployments menu >"
+|264.80759810175|ExtCmd message="811|AddToTable|menuItems|11:Side ops menu >"
+|264.80759810175|ExtCmd message="812|AddToTable|menuItems|12:Mother Base menu >"
+|264.80759810175|ExtCmd message="813|AddToTable|menuItems|13:Cutscenes menu >"
+|264.80759810175|ExtCmd message="814|AddToTable|menuItems|14:Camera menu >"
+|264.80759810175|ExtCmd message="815|AddToTable|menuItems|15:Time scale menu >"
+|264.80759810175|ExtCmd message="816|AddToTable|menuItems|16:Support heli menu >"
+|264.80759810175|ExtCmd message="817|AddToTable|menuItems|17:Progression menu >"
+|264.80759810175|ExtCmd message="818|AddToTable|menuItems|18:Route test menu >"
+|264.80759810175|ExtCmd message="819|AddToTable|menuItems|19:Play anim menu >"
+|264.80759810175|ExtCmd message="820|AddToTable|menuItems|20:Give IHExt focus >>"
+|264.80759810175|ExtCmd message="821|AddToTable|menuItems|21:Debug menu >"
+|264.80759810175|ExtCmd message="822|AddToTable|menuItems|22:Turn off menu >]"
+|264.80759810175|ExtCmd message="823|ClearCombo|menuSetting"
+|264.80759810175|ExtCmd message="824|UiElementVisible|menuHelp|1"
+|264.80759810175|ExtCmd message="825|SetText|menuHelp|Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance."
+|269.14528754401|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 
+|269.14528754401|OnMessage|sender: GameObject, messageId: SpecialActionEnd, gameId=1536:hos_pilot_0000, actionId=3211984985:PlayMotion (str32), commandId=3746978607:CommandA (str32), 

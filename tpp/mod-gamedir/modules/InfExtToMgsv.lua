@@ -40,7 +40,7 @@ function this.ProcessCommands()
               InfCore.extSession=messageId
               --tex reset
               --InfCore.extToMgsvComplete=0
-              InfCore.ExtCmd('sessionChange')--tex a bit of nothing to get the mgsvTpExtComplete to update from the message, ext does likewise
+              InfCore.ExtCmd('SessionChange')--tex a bit of nothing to get the mgsvTpExtComplete to update from the message, ext does likewise
             end
             InfCore.mgsvToExtComplete=args[3]
           elseif messageId>InfCore.extToMgsvComplete then
@@ -66,42 +66,48 @@ end
 
 --commands
 
+function this.Ready(args)
+  if InfCore.manualIHExtStart then
+    InfMenu.GoMenu(InfMenu.topMenu)
+  end
+end
+
 --<messageId>|input|<elementName>|<input string>
 function this.Input(args)
-  if args[2]=="input" and args[3]=="inputLine" and args[4] then
+  if args[2]=="input" and (args[3]=="inputLine" or args[3]=="menuSetting") and args[4] then
     local currentOption
-    if InfMenu.currentMenuOptions then--DEBUGNOW KLUDGE
+    if InfMenu.currentMenuOptions then
       currentOption=InfMenu.GetCurrentOption()
+    end
+
+    if currentOption==nil then
+      return
     end
 
     local commandArgs=InfUtil.Split(args[4],' ')
     if #commandArgs>0 then
       if commandArgs[1]=='>' then
-        if currentOption then
+        if currentOption.optionType=="OPTION" then
           InfMenu.NextSetting()
           InfMenu.DisplayCurrentSetting()
         end
       elseif commandArgs[1]=='<' then
-        if currentOption then
+        if currentOption.optionType=="OPTION" then
           InfMenu.PreviousSetting()
           InfMenu.DisplayCurrentSetting()
         end
       elseif commandArgs[1]=='<<' then
-        if currentOption then
-          InfMenu.GoBackCurrent()
-          InfMenu.DisplayCurrentSetting()
-        end
+        InfMenu.GoBackCurrent()
+        InfMenu.DisplayCurrentSetting()
       elseif commandArgs[1]=='>>' then
-        if currentOption then
-          if not commandArgs[2] then
+        if not commandArgs[2] then
 
-          else
-            local menuIndex=tonumber(commandArgs[2])
-            if menuIndex and menuIndex>0 and menuIndex<=#InfMenu.currentMenuOptions then
-              InfMenu.currentIndex=menuIndex
-              InfMenu.GetSetting()
-              InfMenu.DisplayCurrentSetting()
-            end
+        else
+          local menuIndex=tonumber(commandArgs[2])
+          if menuIndex and menuIndex>0 and menuIndex<=#InfMenu.currentMenuOptions then
+            InfMenu.currentIndex=menuIndex
+            InfMenu.GetSetting()
+            InfMenu.DisplayCurrentSetting()
           end
         end
         --      elseif commandArgs[1]=='?' then
@@ -111,7 +117,7 @@ function this.Input(args)
         --          InfMenu.DisplayCurrentSetting()
         --        end
       else
-        if currentOption then
+        if currentOption.optionType=="OPTION" then
           local setting=tonumber(args[4]) or args[4]
           IvarProc.SetSetting(currentOption,setting)
           InfMenu.DisplayCurrentSetting()
@@ -125,7 +131,7 @@ end
 function this.Selected(args)
   --DEBUGNOW TODO some kind of list registry and subscription to event i guess
   --just hardcoded to menu for now
-  if args[3]=="lbMenuItems" then
+  if args[3]=="menuItems" then
     local menuIndex=tonumber(args[4])+1
     if menuIndex and menuIndex>0 and menuIndex<=#InfMenu.currentMenuOptions then
       InfMenu.currentIndex=menuIndex
@@ -135,10 +141,30 @@ function this.Selected(args)
   end
 end
 
+--messageId|selected|comboName|selectedIndex
+function this.SelectedCombo(args)
+  --DEBUGNOW TODO some kind of list registry and subscription to event i guess
+  --just hardcoded to menu for now
+  if args[3]=="menuSetting" then
+    local currentOption=InfMenu.GetCurrentOption()
+    if currentOption then
+      local setting=tonumber(args[4])
+      if this.debugModule then
+        InfCore.Log("currentoption:"..currentOption.name.." setting:"..setting)--DEBUG
+      end
+      if currentOption.optionType=="OPTION" then
+        currentOption:Set(setting)
+        InfMenu.GetSetting()
+        InfMenu.DisplayCurrentSetting()
+      end
+    end
+  end
+end
+
 --messageId|activate|listName|selectedIndex
 function this.Activate(args)
   --TODO, see Selected -^-
-  if args[3]=="lbMenuItems" then
+  if args[3]=="menuItems" then
     local menuIndex=tonumber(args[4])+1--tex shift to 1 indexed
     if menuIndex and menuIndex>0 and menuIndex<=#InfMenu.currentMenuOptions then
       local optionRef=InfMenu.currentMenuOptions[menuIndex]
@@ -162,8 +188,10 @@ function this.ToggleMenu(args)
 end
 
 this.commands={
+  ready=this.Ready,
   input=this.Input,
   selected=this.Selected,
+  selectedcombo=this.SelectedCombo,
   activate=this.Activate,
   togglemenu=this.ToggleMenu,
 }

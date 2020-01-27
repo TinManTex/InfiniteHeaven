@@ -254,11 +254,6 @@ this.playerCamoTypes={
   "SWIMWEAR_H_C53",--114,MUD
 }
 this.camoTypes=Tpp.Enum(this.playerCamoTypes)
-
---tex example usage
---local camoType=this.camoTypes.SWIMWEAR_C00
---local materialType=this.materialTypes.MTR_WOOD_A
---local camoMaterialValue=this.cammoTable[camoType][materialType]
 --<
 
 --https://forums.nexusmods.com/index.php?/topic/4789390-any-way-to-check-player-ground-collisions-and-illumination/
@@ -393,5 +388,12 @@ this.camoTable={
 
 Player.InitCamoufTable(this.camoTable)
 --this.camoTable=nil--tex clear if not runtime analysis
+
+--tex example usage
+--local camoType=this.camoTypes.SWIMWEAR_C00
+--local materialType=this.materialTypes.MTR_WOOD_A
+--local camoMaterialValue=this.cammoTable[camoType][materialType] --get value
+--this.camoTable[camoType][materialType]=50 --set value
+
 
 return this

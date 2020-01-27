@@ -272,6 +272,15 @@ this.PrintCurrentAppearance=function()
   InfMenu.Print("playerFaceId: " .. tostring(vars.playerFaceId))
   InfMenu.Print("playerHandType: " .. tostring(vars.playerHandType))
 end
+
+this.PrintFultonSuccessBonus=function()
+  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
+  local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
+  InfMenu.Print(InfMenu.LangString"fulton_mb_support"..":"..mbSectionSuccess)
+  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
+  local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
+  InfMenu.Print(InfMenu.LangString"fulton_mb_medical"..":"..mbSectionSuccess)
+end
 --
 this.WarpToCamPos=function()
   local warpPos=InfCamera.ReadPosition"FreeCam"
@@ -665,11 +674,11 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-  
+
   --DEBUGNOW
-  InfCore.PrintInspect(Ivars,"Ivars")
-  InfCore.PrintInspect(ivars,"ivars")
-  InfCore.PrintInspect(evars,"evars")
+  --  InfCore.PrintInspect(Ivars,"Ivars")
+  --  InfCore.PrintInspect(ivars,"ivars")
+  --  InfCore.PrintInspect(evars,"evars")
 
   InfCore.DebugPrint("index1:"..index1)
   index1=index1+increment
@@ -684,7 +693,7 @@ local index2Max=334
 local index2=index2Min
 this.DEBUG_SomeShiz2=function()
   InfCore.Log("---DEBUG_SomeShiz2---")
-
+  
   InfCore.DebugPrint("index2:"..index2)
   index2=index2+1
   if index2>index2Max then
@@ -1563,7 +1572,6 @@ function this.BuildCommandItem(Command,name)
     menuItem.default=0
     ivars[itemName]=menuItem.default--tex DEBUGNOW TODO remove command dependancy on ivar/switching
     menuItem.range=switchRange
-    menuItem.settingNames="set_do"
     menuItem.OnChange=Command
   end
   return menuItem,itemName

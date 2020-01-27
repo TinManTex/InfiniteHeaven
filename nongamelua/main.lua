@@ -1365,46 +1365,167 @@ local function ReconstructGZPaths()
     table.insert(complete,path)
   end
   table.sort(complete)
-  
+
 
   local nl="\r"
   local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
   local file=io.open(fileName,"w")
   file:write(table.concat(complete,nl))
   file:close()
-  
-  
-    for i,path in ipairs(complete)do
+
+
+  for i,path in ipairs(complete)do
     complete[i]=InfUtil.StripExt(path)
   end
   table.sort(complete)
-  
+
   local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePathsNoExt.txt]]
   local file=io.open(fileName,"w")
   file:write(table.concat(complete,nl))
   file:close()
-  
+end
 
-  --for each *.fmdl_strings.txt
-  --
-  --for each line
-  --  find '/'
-  --   add to paths
-  --
-  --for each line
-  --  find '.tga','.dds','.psd' ?
-  --    add to files
-  --
-  --
-  --
-  --for each paths
-  --  for each files
-  --    add path..filename to complete
-  --
-  --
-  --for each complete
-  --  strip extension?
+local filterChars={
+'~',
+'!',
+'@',
+'#',
+'%$',
+'%',
+'%^',
+'&',
+'*',
+'%(',
+'%)',
+'%+',
+'=',
+'{',
+'}',
+'%?',
+'<',
+'>',
+'%[',
+']',
+'%*',
 
+[[']],
+[["]],
+
+
+-- /
+-- \
+--
+-- %.
+--
+--
+--
+-- %-
+-- _
+}
+
+local function GetPathsFromStrings()
+
+  local stringsPath=[[D:\GitHub\mgsv-lookup-strings\Strings\]]
+  local outFile=[[D:\Projects\MGS\!ToolOutput\]].."dir.txt"
+  local cmd=[[dir /b /s "]]..stringsPath..[[*.txt" > "]]..outFile
+  print(cmd)
+  os.execute(cmd)
+
+  local dirs=GetLines(outFile)
+  --InfCore.PrintInspect(dirs)--DEBUG
+
+  local completeUnique={}
+
+  for i,dir in ipairs(dirs)do
+    print(dir)
+    local lines=GetLines(dir)
+    local fileNames={}
+    for i,line in ipairs(lines)do
+      if string.find(line,'[^a-z^A-Z^0-9^_^%.^/]') then
+      elseif string.find(line,'/')==1 then--tex leaves out some gz paths like Z:/  and ./Tpp/
+        if string.find(line,'%.') then--DEBUGNOW should actually fix stripext instead
+          line=InfUtil.StripExt(line)
+        end
+        completeUnique[line]=true
+      end
+    end
+  end
+
+  print("sorting and writing")
+  local complete={}
+  for path,bool in pairs(completeUnique)do
+    table.insert(complete,path)
+  end
+  table.sort(complete)
+
+
+  local nl="\r"
+--  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
+--  local file=io.open(fileName,"w")
+--  file:write(table.concat(complete,nl))
+--  file:close()
+
+
+--  for i,path in ipairs(complete)do
+--    complete[i]=InfUtil.StripExt(path)
+--  end
+--  table.sort(complete)
+
+  local fileName=[[D:\Projects\MGS\!ToolOutput\stringsPaths.txt]]
+  local file=io.open(fileName,"w")
+  file:write(table.concat(complete,nl))
+  file:close()
+end
+
+local function GetCombinedObjectNamesFromStrings()
+
+  local stringsPath=[[D:\GitHub\mgsv-lookup-strings\Strings\]]
+  local outFile=[[D:\Projects\MGS\!ToolOutput\]].."dir.txt"
+  local cmd=[[dir /b /s "]]..stringsPath..[[*.txt" > "]]..outFile
+  print(cmd)
+  os.execute(cmd)
+
+  local dirs=GetLines(outFile)
+  --InfCore.PrintInspect(dirs)--DEBUG
+
+  local completeUnique={}
+
+  for i,dir in ipairs(dirs)do
+    print(dir)
+    local lines=GetLines(dir)
+    local fileNames={}
+    for i,line in ipairs(lines)do
+      if string.find(line,'[^a-z^A-Z^0-9^_^|]') then
+      elseif string.find(line,'[|]')then
+        completeUnique[line]=true
+      end
+    end
+  end
+
+  print("sorting and writing")
+  local complete={}
+  for path,bool in pairs(completeUnique)do
+    table.insert(complete,path)
+  end
+  table.sort(complete)
+
+
+  local nl="\r"
+--  local fileName=[[D:\Projects\MGS\!ToolOutput\gzFmdlTexturePaths.txt]]
+--  local file=io.open(fileName,"w")
+--  file:write(table.concat(complete,nl))
+--  file:close()
+
+
+--  for i,path in ipairs(complete)do
+--    complete[i]=InfUtil.StripExt(path)
+--  end
+--  table.sort(complete)
+
+  local fileName=[[D:\Projects\MGS\!ToolOutput\multiObjectNames.txt]]
+  local file=io.open(fileName,"w")
+  file:write(table.concat(complete,nl))
+  file:close()
 end
 
 local function main()
@@ -1412,7 +1533,10 @@ local function main()
   --tex figure out unnacounted hashes
   --FindUnacountedHashes()
 
-  ReconstructGZPaths()
+  --ReconstructGZPaths()
+
+  GetPathsFromStrings()
+  GetCombinedObjectNamesFromStrings()
 
   local bep=(true and 'blurg') or false
   print("bep:"..tostring(bep))

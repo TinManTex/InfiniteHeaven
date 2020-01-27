@@ -15,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="220"
+this.modVersion="221"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -60,7 +60,8 @@ function this.Log(message,announceLog,force)
     return
   end
 
-  if announceLog then
+  --tex: trying to call to announcelog before its initialized will cause a hard crash. It's probably up during/before the init missions (1,5), just checking vars.missioncode suits purposes for now
+  if announceLog and vars.missionCode then
     this.DebugPrint(message)
   end
 
@@ -255,7 +256,7 @@ function this.PrintInspect(var,options)
   this.Log(ins,options.announceLog)
 end
 
-function this.StartExt()
+function this.StartIHExt()
   local programPath
 
   for i,filePath in ipairs(this.filesFull.mod)do
@@ -264,16 +265,16 @@ function this.StartExt()
       break
     end
   end
-  
-  programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUGNOW
+
+  --programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUG
 
   if not programPath then
-    InfCore.Log("WARNING: StartExt: Could not find IHExt.ext in MGS_TPP\mod\ ",true,true)
+    InfCore.Log([[WARNING: StartIHExt: Could not find IHExt.ext in MGS_TPP\mod\]],false,true)
     return
   end
 
   local strCmd = 'start "" '..programPath..' '..this.gamePath
-  InfCore.Log(strCmd)
+  InfCore.Log(strCmd,false,true)
   os.execute(strCmd)
 end
 
@@ -281,8 +282,21 @@ function this.IHExtRunning()
   return ivars and ivars.enableIHExt>0 and this.extSession~=0
 end
 
+function this.IHExtInstalled()
+  local foundIHExt=false
+  for i,filePath in ipairs(this.filesFull.mod)do
+    if string.find(filePath,"IHExt.exe") then
+      foundIHExt=true
+      break
+    end
+  end
+  return foundIHExt
+end
+
 function this.ExtCmd(cmd,...)
-  InfMgsvToExt.ExtCmd(cmd,...)--DEBUGNOW external so can reload it while working on it
+  if InfMgsvToExt then
+    InfMgsvToExt.ExtCmd(cmd,...)--tex external so can reload it while working on it
+  end
 end
 
 --tex LEGACY, InfProcessExt was deleted r218 but the file may linger if the user didnt uninstall correctly using snakebite (or if snakebite messed up)

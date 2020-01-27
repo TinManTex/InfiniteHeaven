@@ -111,43 +111,47 @@
 </div>
 <div id="menuItem">
 <div>1: Enable IHExt : Off, On</div>
-<div id="itemHelp">IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.</div>
+<div id="itemHelp">IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless. It is currently not installed by default.</div>
 </div>
 <div id="menuItem">
-<div>2: Give IHExt focus : (Command)</div>
+<div>2: Enable help text (IHExt) : Off, On</div>
+<div id="itemHelp">Shows help text in IHExt for some options.</div>
 </div>
 <div id="menuItem">
-<div>3: Select profile : &ltProfile name&gt</div>
+<div>3: Give IHExt focus : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Select profile : &ltProfile name&gt</div>
 <div id="itemHelp">Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
 </div>
 <div id="menuItem">
-<div>4: Set profile options to game defaults : (Command)</div>
+<div>5: Set profile options to game defaults : 0-1</div>
 <div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>5: Save to UserSaved profile : (Command)</div>
+<div>6: Save to UserSaved profile : 0-1</div>
 <div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.</div>
 </div>
 <div id="menuItem">
-<div>6: Enable Quick Menu : Off, On</div>
+<div>7: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>7: Start offline : Off, On</div>
+<div>8: Start offline : Off, On</div>
 <div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>8: Skip startup logos : Off, On</div>
+<div>9: Skip startup logos : Off, On</div>
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>9: Load addon mission : </div>
+<div>10: Load addon mission : </div>
 </div>
 <div id="menuItem">
-<div>10: Include addon missions in completion percentage : Off, On</div>
+<div>11: Include addon missions in completion percentage : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Reset all IH settings : (Command)</div>
+<div>12: Reset all IH settings : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -160,8 +164,8 @@
 <div id="eventsMenu">Events menu</div>
 </div>
 <div id="menuItem">
-<div>1: Trigger random IH event : (Command)</div>
-<div id="itemHelp">  Events are temporary combinations of IH settings for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
+<div>1: Trigger random IH event : 0-1</div>
+<div id="itemHelp">Events are temporary combinations of IH settings for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
 </div>
 <div id="menuItem">
 <div>2: Free roam event random trigger chance : 0-100%</div>
@@ -430,6 +434,9 @@
 <div>7: Hostage handling : Default, Must extract (0%)</div>
 </div>
 <div id="menuItem">
+<div>8: Print fulton success bonus : 0-1</div>
+</div>
+<div id="menuItem">
 </div>
 <div id="menuItem">
 </div>
@@ -467,11 +474,11 @@
 <div>1: Player life scale : 0-650%</div>
 </div>
 <div id="menuItem">
-<div>2: Subtract demon points : (Command)</div>
+<div>2: Subtract demon points : 0-1</div>
 <div id="itemHelp">Subtracts 999999 points from demon score</div>
 </div>
 <div id="menuItem">
-<div>3: Add demon points : (Command)</div>
+<div>3: Add demon points : 0-1</div>
 <div id="itemHelp">Adds 999999 points to demon score</div>
 </div>
 <div id="menuItem">
@@ -509,10 +516,10 @@
 <div>6: Face : &ltFace Id for player type and face filter&gt</div>
 </div>
 <div id="menuItem">
-<div>7: Print face info : (Command)</div>
+<div>7: Print face info : 0-1</div>
 </div>
 <div id="menuItem">
-<div>8: Print appearance info : (Command)</div>
+<div>8: Print appearance info : 0-1</div>
 </div>
 <div id="menuItem">
 <div>9: <a href="#fovaModMenu">Form Variation menu</a></div>
@@ -535,7 +542,7 @@
 <div>2: &ltCharacter model description&gt : &ltFova selection&gt</div>
 </div>
 <div id="menuItem">
-<div>3: Print current body info : (Command)</div>
+<div>3: Print current body info : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -570,13 +577,13 @@
 <div id="itemHelp">Chance soldier will drop an item when eliminated.</div>
 </div>
 <div id="menuItem">
-<div>7: Print health param table (look in iDroid Log&gtAll tab) : (Command)</div>
+<div>7: Print health param table (look in iDroid Log&gtAll tab) : 0-1</div>
 </div>
 <div id="menuItem">
-<div>8: Print sight param table (look in iDroid Log&gtAll tab) : (Command)</div>
+<div>8: Print sight param table (look in iDroid Log&gtAll tab) : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: Print hearing distance table (look in iDroid Log&gtAll tab) : (Command)</div>
+<div>9: Print hearing distance table (look in iDroid Log&gtAll tab) : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -654,11 +661,11 @@
 <div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam</div>
 </div>
 <div id="menuItem">
-<div>8: Reset enemy preparedness levels : (Command)</div>
+<div>8: Reset enemy preparedness levels : 0-1</div>
 <div id="itemHelp">Resets enemy prep levels to 0</div>
 </div>
 <div id="menuItem">
-<div>9: Print enemy prep levels : (Command)</div>
+<div>9: Print enemy prep levels : 0-1</div>
 </div>
 <div id="menuItem">
 <div>10: Random CP subtype in free roam : Off, On</div>
@@ -684,7 +691,7 @@
 <div id="menuHelp">Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.</div>
 </div>
 <div id="menuItem">
-<div>1: Print example current config (look in iDroid Log&gtAll tab) : (Command)</div>
+<div>1: Print example current config (look in iDroid Log&gtAll tab) : 0-1</div>
 </div>
 <div id="menuItem">
 <div>2: <a href="#weaponPowersMenu">Weapon deployment</a></div>
@@ -1082,8 +1089,8 @@
 <div id="enemyReinforceMenu">Enemy reinforcements menu</div>
 </div>
 <div id="menuItem">
-<div>1: Vehicle reinforcements (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep</div>
-<div id="itemHelp">In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.</div>
+<div>1: Vehicle reinforcements : Off, Enemy Prep, Force Prep</div>
+<div id="itemHelp">In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more. Only heli will appear in free roam, vehicles depend on mission.</div>
 </div>
 <div id="menuItem">
 <div>2: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
@@ -1135,8 +1142,8 @@
 <div>7: Walker gears in MB : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)</div>
-<div id="itemHelp">Replaces the patrolling trucks in free roam with other vehicles.</div>
+<div>8: Vehicle patrols in free roam : Game default - trucks only, All of one type, Each vehicle differing type</div>
+<div id="itemHelp">Replaces the patrolling trucks in free roam with other vehicles, picked randomly from enabled types.</div>
 </div>
 <div id="menuItem">
 <div>9: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep</div>
@@ -1171,7 +1178,7 @@
 <div id="sideOpsMenu">Side ops menu</div>
 </div>
 <div id="menuItem">
-<div>1: Reroll sideops selection : (Command)</div>
+<div>1: Reroll sideops selection : 0-1</div>
 </div>
 <div id="menuItem">
 <div>2: Open specific sideop # : 0-157</div>
@@ -1355,15 +1362,15 @@
 <div id="mbStaffMenu">Staff menu</div>
 </div>
 <div id="menuItem">
-<div>1: Add player staff to MB priority : (Command)</div>
+<div>1: Add player staff to MB priority : 0-1</div>
 <div id="itemHelp">Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB</div>
 </div>
 <div id="menuItem">
-<div>2: Remove player staff to MB priority : (Command)</div>
+<div>2: Remove player staff to MB priority : 0-1</div>
 <div id="itemHelp">Removes the last sortie selected DD member to the Mother Base priority staff list</div>
 </div>
 <div id="menuItem">
-<div>3: Clear MB staff priority list : (Command)</div>
+<div>3: Clear MB staff priority list : 0-1</div>
 <div id="itemHelp">Clears MB staff priority list entirely</div>
 </div>
 <div id="menuItem">
@@ -1410,14 +1417,14 @@
 <div>7: Enable Birds : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Reset Paz state to beginning : (Command)</div>
+<div>8: Reset Paz state to beginning : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: Return Quiet after mission 45 : (Command)</div>
+<div>9: Return Quiet after mission 45 : 0-1</div>
 <div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
 </div>
 <div id="menuItem">
-<div>10: showQuietReunionMissionCount : (Command)</div>
+<div>10: showQuietReunionMissionCount : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1526,7 +1533,7 @@
 <div>2: Camera mode : Default, Free cam</div>
 </div>
 <div id="menuItem">
-<div>3: Warp body to FreeCam position : (Command)</div>
+<div>3: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
 <div>4: Cam speed scale : 0.01-10</div>
@@ -1535,7 +1542,7 @@
 <div>5: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: Show freecam position : (Command)</div>
+<div>6: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1548,7 +1555,7 @@
 <div id="timeScaleMenu">Time scale menu</div>
 </div>
 <div id="menuItem">
-<div>1: Toggle TSM : (Command)</div>
+<div>1: Toggle TSM : 0-1</div>
 <div id="itemHelp">Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.</div>
 </div>
 <div id="menuItem">
@@ -1633,22 +1640,22 @@
 <div>2: Repopulate music tape radios : Off, On</div>
 </div>
 <div id="menuItem">
-<div>3: Unlock playable avatar : (Command)</div>
+<div>3: Unlock playable avatar : 0-1</div>
 <div id="itemHelp">Unlock avatar before mission 46</div>
 </div>
 <div id="menuItem">
-<div>4: Unlock weapon customization : (Command)</div>
+<div>4: Unlock weapon customization : 0-1</div>
 <div id="itemHelp">Unlock without having to complete legendary gunsmith missions</div>
 </div>
 <div id="menuItem">
-<div>5: Reset Paz state to beginning : (Command)</div>
+<div>5: Reset Paz state to beginning : 0-1</div>
 </div>
 <div id="menuItem">
-<div>6: Return Quiet after mission 45 : (Command)</div>
+<div>6: Return Quiet after mission 45 : 0-1</div>
 <div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
 </div>
 <div id="menuItem">
-<div>7: showQuietReunionMissionCount : (Command)</div>
+<div>7: showQuietReunionMissionCount : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1705,25 +1712,25 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: loadExternalModules : (Command)</div>
+<div>5: loadExternalModules : 0-1</div>
 </div>
 <div id="menuItem">
-<div>6: copyLogToPrev : (Command)</div>
+<div>6: copyLogToPrev : 0-1</div>
 </div>
 <div id="menuItem">
 <div>7: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Show freecam position : (Command)</div>
+<div>8: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: Show position : (Command)</div>
+<div>9: Show position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>10: Show missionCode : (Command)</div>
+<div>10: Show missionCode : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: Show game language code : (Command)</div>
+<div>11: Show game language code : 0-1</div>
 </div>
 <div id="menuItem">
 <div>12: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
@@ -1778,10 +1785,10 @@
 <div>9: playerFaceEquipIdDirect : 0-100</div>
 </div>
 <div id="menuItem">
-<div>10: Print face info : (Command)</div>
+<div>10: Print face info : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: Print appearance info : (Command)</div>
+<div>11: Print appearance info : 0-1</div>
 </div>
 <div id="menuItem">
 <div>12: faceFova : Only for DD soldiers</div>
@@ -1839,15 +1846,15 @@
 <div id="inMissionMenu">In Mission menu</div>
 </div>
 <div id="menuItem">
-<div>1: Support heli to latest marker : (Command)</div>
+<div>1: Support heli to latest marker : 0-1</div>
 <div id="itemHelp">  Requests Support heli to Landing Zone closest to the last placed user marker. <br/>  Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. <br/>  This however has an issue where the doors will close on take-off preventing you from shifting between heli sides. <br/>  The chaingun on the side you start on can still be used.</div>
 </div>
 <div id="menuItem">
-<div>2: Force exit helicopter : (Command)</div>
+<div>2: Force exit helicopter : 0-1</div>
 <div id="itemHelp">Lets you exit the helicopter while riding it, mind the fall.</div>
 </div>
 <div id="menuItem">
-<div>3: Drop current equip : (Command)</div>
+<div>3: Drop current equip : 0-1</div>
 </div>
 <div id="menuItem">
 <div>4: Warp [Mode] : Off, On</div>
@@ -1912,7 +1919,7 @@
 <div>2: Camera mode : Default, Free cam</div>
 </div>
 <div id="menuItem">
-<div>3: Warp body to FreeCam position : (Command)</div>
+<div>3: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
 <div>4: Cam speed scale : 0.01-10</div>
@@ -1921,7 +1928,7 @@
 <div>5: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: Show freecam position : (Command)</div>
+<div>6: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1934,7 +1941,7 @@
 <div id="timeScaleMenu">Time scale menu</div>
 </div>
 <div id="menuItem">
-<div>1: Toggle TSM : (Command)</div>
+<div>1: Toggle TSM : 0-1</div>
 <div id="itemHelp">Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.</div>
 </div>
 <div id="menuItem">
@@ -1968,16 +1975,16 @@
 <div id="userMarkerMenu">User marker menu</div>
 </div>
 <div id="menuItem">
-<div>1: Warp to latest marker : (Command)</div>
+<div>1: Warp to latest marker : 0-1</div>
 </div>
 <div id="menuItem">
-<div>2: Print latest marker : (Command)</div>
+<div>2: Print latest marker : 0-1</div>
 </div>
 <div id="menuItem">
-<div>3: Print all markers : (Command)</div>
+<div>3: Print all markers : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Quiet move to last marker : (Command)</div>
+<div>4: Quiet move to last marker : 0-1</div>
 <div id="itemHelp">Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.</div>
 </div>
 <div id="menuItem">
@@ -1995,7 +2002,7 @@
 <div id="itemHelp">Buddy equiment is changed to selected setting when &ltAction&gt is pressed.</div>
 </div>
 <div id="menuItem">
-<div>2: Quiet move to last marker : (Command)</div>
+<div>2: Quiet move to last marker : 0-1</div>
 <div id="itemHelp">Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.</div>
 </div>
 <div id="menuItem">
@@ -2031,10 +2038,10 @@
 <div>6: Face : &ltFace Id for player type and face filter&gt</div>
 </div>
 <div id="menuItem">
-<div>7: Print face info : (Command)</div>
+<div>7: Print face info : 0-1</div>
 </div>
 <div id="menuItem">
-<div>8: Print appearance info : (Command)</div>
+<div>8: Print appearance info : 0-1</div>
 </div>
 <div id="menuItem">
 <div>9: <a href="#fovaModMenu">Form Variation menu</a></div>
@@ -2057,7 +2064,7 @@
 <div>2: &ltCharacter model description&gt : &ltFova selection&gt</div>
 </div>
 <div id="menuItem">
-<div>3: Print current body info : (Command)</div>
+<div>3: Print current body info : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2070,23 +2077,23 @@
 <div id="mbStaffInMissionMenu">Staff menu</div>
 </div>
 <div id="menuItem">
-<div>1: Add player staff to MB priority : (Command)</div>
+<div>1: Add player staff to MB priority : 0-1</div>
 <div id="itemHelp">Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB</div>
 </div>
 <div id="menuItem">
-<div>2: Remove player staff to MB priority : (Command)</div>
+<div>2: Remove player staff to MB priority : 0-1</div>
 <div id="itemHelp">Removes the last sortie selected DD member to the Mother Base priority staff list</div>
 </div>
 <div id="menuItem">
-<div>3: Add marked staff to MB priority : (Command)</div>
+<div>3: Add marked staff to MB priority : 0-1</div>
 <div id="itemHelp">Adds the most recently marked staff member to the MB priority list</div>
 </div>
 <div id="menuItem">
-<div>4: Remove marked staff from MB priority : (Command)</div>
+<div>4: Remove marked staff from MB priority : 0-1</div>
 <div id="itemHelp">Removes the most recently marked staff member from the MB priority list</div>
 </div>
 <div id="menuItem">
-<div>5: Clear MB staff priority list : (Command)</div>
+<div>5: Clear MB staff priority list : 0-1</div>
 <div id="itemHelp">Clears MB staff priority list entirely</div>
 </div>
 <div id="menuItem">
@@ -2265,37 +2272,37 @@
 <div>6: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: loadExternalModules : (Command)</div>
+<div>7: loadExternalModules : 0-1</div>
 </div>
 <div id="menuItem">
-<div>8: copyLogToPrev : (Command)</div>
+<div>8: copyLogToPrev : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: setSelectedObjectToMarkerClosest : (Command)</div>
+<div>9: setSelectedObjectToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
 <div>10: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>11: setSelectedCpToMarkerObjectCp : (Command)</div>
+<div>11: setSelectedCpToMarkerObjectCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>12: setSelectedCpToMarkerClosestCp : (Command)</div>
+<div>12: setSelectedCpToMarkerClosestCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>13: dEBUG_PrintCpPowerSettings : (Command)</div>
+<div>13: dEBUG_PrintCpPowerSettings : 0-1</div>
 </div>
 <div id="menuItem">
-<div>14: dEBUG_PrintPowersCount : (Command)</div>
+<div>14: dEBUG_PrintPowersCount : 0-1</div>
 </div>
 <div id="menuItem">
-<div>15: dEBUG_PrintReinforceVars : (Command)</div>
+<div>15: dEBUG_PrintReinforceVars : 0-1</div>
 </div>
 <div id="menuItem">
-<div>16: dEBUG_PrintSoldierDefine : (Command)</div>
+<div>16: dEBUG_PrintSoldierDefine : 0-1</div>
 </div>
 <div id="menuItem">
-<div>17: dEBUG_ShowRevengeConfig : (Command)</div>
+<div>17: dEBUG_ShowRevengeConfig : 0-1</div>
 </div>
 <div id="menuItem">
 <div>18: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
@@ -2313,22 +2320,22 @@
 <div>22: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>23: setAllFriendly : (Command)</div>
+<div>23: setAllFriendly : 0-1</div>
 </div>
 <div id="menuItem">
-<div>24: resetStageBlockPosition : (Command)</div>
+<div>24: resetStageBlockPosition : 0-1</div>
 </div>
 <div id="menuItem">
-<div>25: setStageBlockPositionToMarkerClosest : (Command)</div>
+<div>25: setStageBlockPositionToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
-<div>26: setStageBlockPositionToFreeCam : (Command)</div>
+<div>26: setStageBlockPositionToFreeCam : 0-1</div>
 </div>
 <div id="menuItem">
-<div>27: Show freecam position : (Command)</div>
+<div>27: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>28: Show position : (Command)</div>
+<div>28: Show position : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2368,10 +2375,10 @@
 <div>9: playerFaceEquipIdDirect : 0-100</div>
 </div>
 <div id="menuItem">
-<div>10: Print face info : (Command)</div>
+<div>10: Print face info : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: Print appearance info : (Command)</div>
+<div>11: Print appearance info : 0-1</div>
 </div>
 <div id="menuItem">
 <div>12: faceFova : Only for DD soldiers</div>
