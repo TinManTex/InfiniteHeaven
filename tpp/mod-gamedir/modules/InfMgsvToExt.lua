@@ -1,9 +1,11 @@
 -- InfMgsvToExt.lua
 local this={}
 
+local InfCore=InfCore
 local concat=table.concat
+local type=type
 
-this.debugModule=false--DEBUGNOW
+this.debugModule=false
 
 --FORMAT
 --uiElements={

@@ -1,3 +1,4 @@
+-- EquipDevelopSettingMgo.lua
 this={}
 TppMotherBaseManagement.RegistEquipDevelopInfo{equipDevelopID=39e3,equipID=TppEquip.EQP_WP_pvp_ar00_v00,langEquipName="name_wp_3030",langEquipInfo="info_wp_3030",ftexPath="/Assets/mgo/ui/texture/EquipIcon/weapon/ui_wp_ar00_00_10_alp"}
 TppMotherBaseManagement.RegistEquipDevelopInfo{equipDevelopID=39001,equipID=TppEquip.EQP_WP_pvp_ar01_v00,langEquipName="name_wp_3000",langEquipInfo="info_wp_3000",ftexPath="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_ar01_00_20_alp"}

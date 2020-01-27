@@ -1,5 +1,7 @@
-local e=TppUI.Init
-function TppUI.Init()e()
+-- PostTppOverrides.lua
+local TppUiInit=TppUI.Init
+function TppUI.Init()
+  TppUiInit()
   if TppUiCommand.IsTppUiReady()then
     if vars.rulesetId==4 then
       TppUiCommand.RegisterPauseMenuPage{GamePauseMenu.OPEN_OPTION_MENU,GamePauseMenu.GOTO_TPP}
@@ -14,13 +16,14 @@ function TppUI.Init()e()
     end
   end
 end
-function TppPlayer.MakeFultonRecoverSucceedRatio(n,e,n,n,n,n)Player.SetFultonIconPercentage{percentage=100,targetId=e}
+function TppPlayer.MakeFultonRecoverSucceedRatio(unk1,targetId,unk3,unk4,unk5,unk6)
+  Player.SetFultonIconPercentage{percentage=100,targetId=targetId}
 end
 function TppMission.OnPlayerFultoned()
 end
 function TppMission.OnPlayerDead(e,e)
 end
-function TppVarInit.StartTitle(unknown1)
+function TppVarInit.StartTitle(unk1)
   vars.rulesetId=4
   vars.locationCode=101
   vars.missionCode=6
@@ -35,12 +38,12 @@ function TppVarInit.StartTitle(unknown1)
   TppMission.ResetIsStartFromHelispace()
   TppMission.ResetIsStartFromFreePlay()
   TppMission.VarResetOnNewMission()
-  if clock then
+  if clock then--RETAILBUG ORPHAN? VERIFY
     TppClock.SetTime(clock)
     TppClock.SaveMissionStartClock()
   end
   TppSimpleGameSequenceSystem.Start()
-  TppMission.Load(vars.missionCode,currentMissionCode)
+  TppMission.Load(vars.missionCode,currentMissionCode)--RETAILBUG ORPHAN? VERIFY
   local actMode=Fox.GetActMode()
   if(actMode=="EDIT")then
     Fox.SetActMode"GAME"
@@ -48,14 +51,15 @@ function TppVarInit.StartTitle(unknown1)
 end
 function TppTerminal.AddStaffsFromTempBuffer(e)
 end
-local e=TppMission.Init
-function TppMission.Init()e()
+local TppMissionInit=TppMission.Init
+function TppMission.Init()
+  TppMissionInit()
   mvars.mis_isAlertOutOfMissionArea=false
 end
 function TppMission.MgoCheckAlertArea()
-  local e=MpRulesetManager.GetActiveRuleset()
-  local e=e.currentState
-  if not((e=="RULESET_STATE_ROUND_REGULAR_PLAY"or e=="RULESET_STATE_ROUND_OVERTIME")or e=="RULESET_STATE_ROUND_SUDDEN_DEATH")then
+  local GetActiveRuleset=MpRulesetManager.GetActiveRuleset()
+  local currentState=GetActiveRuleset.currentState
+  if not((currentState=="RULESET_STATE_ROUND_REGULAR_PLAY"or currentState=="RULESET_STATE_ROUND_OVERTIME")or currentState=="RULESET_STATE_ROUND_SUDDEN_DEATH")then
     TppMission.DisableAlertOutOfMissionArea()
     return false
   end
@@ -73,12 +77,12 @@ function TppMission.EnableAlertOutOfMissionArea()
   if TppMission.MgoCheckAlertArea()then
   end
 end
-local n=TppSave.CheckSlotVersion
-function TppSave.CheckSlotVersion(e,s,i)
-  if e==TppDefine.CATEGORY_MISSION_RESTARTABLE and TppDefine.CATEGORY_MISSION_RESTARTABLE==TppScriptVars.CATEGORY_MGO then
+local TppSaveCheckSlotVersion=TppSave.CheckSlotVersion
+function TppSave.CheckSlotVersion(category,slotId,useMissionStartSlot)
+  if category==TppDefine.CATEGORY_MISSION_RESTARTABLE and TppDefine.CATEGORY_MISSION_RESTARTABLE==TppScriptVars.CATEGORY_MGO then
     return TppDefine.SAVE_FILE_LOAD_RESULT.OK
   else
-    return n(e,s,i)
+    return TppSaveCheckSlotVersion(category,slotId,useMissionStartSlot)
   end
 end
 function TppPlayer._SetWeapons(e,e)

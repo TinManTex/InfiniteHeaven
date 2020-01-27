@@ -1,611 +1,59 @@
 -- InfMenuDefs.lua
+--
 local this={}
 --LOCALOPT
 --tex NOTE its ok to reference modules that are reloaded before this is reloaded
 local Ivars=Ivars
-local InfMenuCommands=InfMenuCommands
 local InfMenuDefs=this
 
---menus
-this.fovaModMenu={
+this.debugModule=false
+
+this.heliSpaceMenu={
   options={
-    "Ivars.enableFovaMod",
-    "Ivars.fovaSelection",
-    "InfMenuCommands.PrintBodyInfo",
+    "InfMenuDefs.systemMenu",--DEBUGNOW
+    "InfGameEvent.eventsMenu",
+    "InfMainTppIvars.playerRestrictionsMenu",
+    "InfMainTppIvars.playerSettingsMenu",
+    "InfSoldierParams.soldierParamsMenu",
+    "InfEnemyPhase.phaseMenu",
+    "InfRevengeIvars.revengeMenu",
+    "InfReinforce.enemyReinforceMenu",
+    "InfMainTppIvars.enemyPatrolMenu",
+    "InfQuestIvars.sideOpsMenu",
+    "InfMainTppIvars.motherBaseMenu",
+    "InfDemo.demosMenu",
+    "InfCamera.cameraMenu",
+    "InfTimeScale.timeScaleMenu",
+    "InfHelicopter.supportHeliMenu",
+    "InfMainTppIvars.progressionMenu",
+    "InfMenuDefs.debugMenu",--DEBUGNOW
   }
 }
 
-this.appearanceMenu={
-  nonConfig=true,
+this.inMissionMenu={
   options={
-    "Ivars.playerType",
-    "Ivars.playerPartsType",
-    "Ivars.playerCamoType",
-    "Ivars.playerFaceEquipId",
-    "Ivars.playerFaceFilter",
-    "Ivars.playerFaceId",
-    "InfMenuCommands.PrintFaceInfo",
-    --OFF "Ivars.playerHeadgear",
-    "InfMenuCommands.PrintCurrentAppearance",
-    "InfMenuDefs.fovaModMenu",
-  }
-}
-
-this.appearanceDebugMenu={
-  nonConfig=true,
-  options={
-    "Ivars.faceFovaDirect",
-    "Ivars.faceDecoFovaDirect",
-    "Ivars.hairFovaDirect",
-    "Ivars.hairDecoFovaDirect",
-    "Ivars.playerTypeDirect",
-    "Ivars.playerPartsTypeDirect",
-    "Ivars.playerCamoTypeDirect",
-    "Ivars.playerFaceIdDirect",
-    "Ivars.playerFaceEquipIdDirect",
-
-    "InfMenuCommands.PrintFaceInfo",
-    --OFF "Ivars.playerHeadgear",
-    "InfMenuCommands.PrintCurrentAppearance",
-
-    "Ivars.faceFova",
-    "Ivars.faceDecoFova",
-    "Ivars.hairFova",
-    "Ivars.hairDecoFova",
-
-    "Ivars.faceFovaUnknown1",
-    "Ivars.faceFovaUnknown2",
-    "Ivars.faceFovaUnknown3",
-    "Ivars.faceFovaUnknown4",
-    "Ivars.faceFovaUnknown5",
-    "Ivars.faceFovaUnknown6",
-    "Ivars.faceFovaUnknown7",
-    "Ivars.faceFovaUnknown8",
-    "Ivars.faceFovaUnknown9",
-    "Ivars.faceFovaUnknown10",
-    "InfMenuDefs.fovaModMenu",
-  }
-}
-
-this.playerSettingsMenu={
-  options={
-    "Ivars.playerHealthScale",
-    "InfMenuCommands.RemoveDemon",
-    "InfMenuCommands.SetDemon",
-    "Ivars.useSoldierForDemos",
-    --"Ivars.playerHeadgear",
-    "InfMenuDefs.appearanceMenu",
-  }
-}
-this.soldierParamsMenu={
-  options={
-    "Ivars.soldierParamsProfile",
-    "Ivars.soldierHealthScale",
-    "Ivars.soldierSightDistScale",
-    "Ivars.soldierNightSightDistScale",
-    "Ivars.soldierHearingDistScale",
+    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
+    "InfHelicopter.ForceExitHeliAlt",
+    "InfMenuCommandsTpp.DropCurrentEquip",
+    "Ivars.warpPlayerUpdate",
+    "InfCamera.cameraMenu",
+    "InfTimeScale.timeScaleMenu",
+    "InfPositions.positionsMenu",
+    "InfMotion.motionsMenu",
+    "InfUserMarker.userMarkerMenu",
+    "InfMainTppIvars.buddyMenu",
+    "InfFovaIvars.appearanceMenu",
+    "InfMBStaff.mbStaffInMissionMenu",
+    "InfMainTppIvars.playerRestrictionsInMissionMenu",
+    "InfEnemyPhase.phaseMenu",
+    "InfHelicopter.supportHeliMenu",
+    "InfMBAssets.mbOceanMenu",
+    "InfMenuDefs.debugInMissionMenu",
     "Ivars.itemDropChance",
-    "InfMenuCommands.PrintHealthTableParameter",
-    "InfMenuCommands.PrintSightFormParameter",
-    "InfMenuCommands.PrintHearingTable",
+    "Ivars.playerHealthScale",
   }
 }
 
---tex Generated
-this.sideOpsCategoryMenu={
-  options={
-  }
-}
-
-local ivarPrefix="sideops_"
-for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
-  if categoryName~="ADDON_QUEST" then--tex only for selection ivar currently
-    local ivarName=ivarPrefix..categoryName
-    table.insert(this.sideOpsCategoryMenu.options,"Ivars."..ivarName)
-  end
-end
-
-this.sideOpsMenu={
-  options={
-    "InfQuest.RerollQuestSelection",
-    "Ivars.unlockSideOpNumber",
-    "Ivars.unlockSideOps",
-    "Ivars.sideOpsSelectionMode",
-    "InfMenuDefs.sideOpsCategoryMenu",
-    "Ivars.showAllOpenSideopsOnUi",
-    "Ivars.enableHeliReinforce",
-    "Ivars.ihSideopsPercentageCount",
-  }
-}
-
-this.motherBaseShowCharactersMenu={
-  options={
-    "Ivars.mbEnableOcelot",
-    "Ivars.mbEnablePuppy",
-    "Ivars.mbShowCodeTalker",
-    "Ivars.mbShowEli",
-    "Ivars.mbShowHuey",
-    "Ivars.mbAdditionalNpcs",
-    "Ivars.mbEnableBirds",
-    "InfMenuCommands.ResetPaz",
-    "InfMenuCommands.ReturnQuiet",
-    "InfMenuCommands.ShowQuietReunionMissionCount",
-  }
-}
-
-this.motherBaseShowAssetsMenu={
-  options={
-    "Ivars.mbShowBigBossPosters",
-    --"Ivars.mbShowQuietCellSigns",--tex not that interesting
-    "Ivars.mbShowMbEliminationMonument",
-    "Ivars.mbShowSahelan",
-    "Ivars.mbShowShips",
-    "Ivars.enableFultonAlarmsMB",
-    "Ivars.enableIRSensorsMB",
-    "Ivars.hideContainersMB",
-    "Ivars.hideAACannonsMB",
-    "Ivars.hideAAGatlingsMB",
-    "Ivars.hideTurretMgsMB",
-    "Ivars.hideMortarsMB",
-    "Ivars.mbUnlockGoalDoors",
-    "Ivars.mbForceBattleGearDevelopLevel",
-  }
-}
-
-this.customEquipMenu={
-  options={
-    --CULL
-    --    "Ivars.enableDDEquipMB",
-    --    "Ivars.enableDDEquipFREE",
-    --    "Ivars.enableDDEquipMISSION",
-    "Ivars.customWeaponTableFREE",
-    "Ivars.customWeaponTableMISSION",
-    "Ivars.customWeaponTableMB_ALL",
-    "Ivars.weaponTableStrength",
-    "Ivars.weaponTableAfgh",
-    "Ivars.weaponTableMafr",
-    "Ivars.weaponTableSkull",
-    "Ivars.weaponTableDD",
-    "Ivars.soldierEquipGrade_MIN",
-    "Ivars.soldierEquipGrade_MAX",
-    "Ivars.allowUndevelopedDDEquip",
-    "Ivars.mbDDEquipNonLethal",
-  }
-}
-
-this.mbStaffMenu={
-  options={
-    "InfMBStaff.AddPlayerStaff",
-    "InfMBStaff.RemovePlayerStaff",
-    "InfMBStaff.ClearPriorityStaff",
-    "Ivars.mbPrioritizeFemale",
-    "Ivars.mbMoraleBoosts",
-  }
-}
-
-this.mbStaffInMissionMenu={
-  options={
-    "InfMBStaff.AddPlayerStaff",
-    "InfMBStaff.RemovePlayerStaff",
-    "InfMBStaff.AddMarkerStaff",
-    "InfMBStaff.RemoveMarkerStaff",
-    "InfMBStaff.ClearPriorityStaff",
-  }
-}
-
---tex SYNC motherbaseProfile
-this.motherBaseMenu={
-  options={
-    "Ivars.revengeModeMB_ALL",
-    "InfMenuDefs.customEquipMenu",
-    "Ivars.mbSoldierEquipRange",
-    "Ivars.customSoldierTypeMB_ALL",
-    "Ivars.customSoldierTypeFemaleMB_ALL",
-    "Ivars.mbDDHeadGear",
-    --"Ivars.disableMotherbaseWeaponRestriction",--WIP
-    "Ivars.supportHeliPatrolsMB",
-    "Ivars.attackHeliPatrolsMB",
-    "Ivars.mbEnemyHeliColor",
-    "Ivars.enableWalkerGearsMB",
-    "Ivars.mbWalkerGearsColor",
-    "Ivars.mbWalkerGearsWeapon",
-    "Ivars.mbCollectionRepop",
-    "Ivars.revengeDecayOnLongMbVisit",
-    "Ivars.mbEnableBuddies",
-    "Ivars.mbAdditionalSoldiers",
-    "Ivars.mbqfEnableSoldiers",
-    "Ivars.mbNpcRouteChange",
-    "InfMenuDefs.mbStaffMenu",
-    "InfMenuDefs.motherBaseShowCharactersMenu",
-    "InfMenuDefs.motherBaseShowAssetsMenu",
-    "Ivars.mbEnableLethalActions",
-    "Ivars.mbWargameFemales",
-    "Ivars.mbWarGamesProfile",
-  }
-}
-
-this.demosMenu={
-  options={
-    "Ivars.useSoldierForDemos",
-    "Ivars.mbDemoSelection",
-    "Ivars.mbSelectedDemo",
-    "Ivars.forceDemoAllowAction",
-    "Ivars.mbDemoOverrideTime",
-    "Ivars.mbDemoHour",
-    "Ivars.mbDemoMinute",
-    "Ivars.mbDemoOverrideWeather",
-  --"Ivars.mbDontDemoDisableBuddy",--WIP
-  }
-}
-
-this.resourceScaleMenu={
-  options={
-    "Ivars.enableResourceScale",
-    "Ivars.resourceScaleMaterial",
-    "Ivars.resourceScalePlant",
-    "Ivars.resourceScalePoster",
-    "Ivars.resourceScaleDiamond",
-    "Ivars.resourceScaleContainer",
-  }
-}
-
-this.progressionMenu={
-  options={
-    "InfMenuDefs.resourceScaleMenu",
-    "Ivars.repopulateRadioTapes",
-    "InfMenuCommands.UnlockPlayableAvatar",
-    "InfMenuCommands.UnlockWeaponCustomization",
-    "InfMenuCommands.ResetPaz",
-    "InfMenuCommands.ReturnQuiet",
-    "InfMenuCommands.ShowQuietReunionMissionCount",
-  --"InfQuest.ForceAllQuestOpenFlagFalse",
-  }
-}
-
-this.debugMenu={
-  options={
-    "Ivars.debugMode",
-    "Ivars.debugMessages",
-    "Ivars.debugFlow",
-    "Ivars.debugOnUpdate",
-    "InfMenuCommands.LoadExternalModules",
-    "InfMenuCommands.CopyLogToPrev",
-    "Ivars.printPressedButtons",
-    "InfMenuCommands.ShowFreeCamPosition",
-    "InfMenuCommands.ShowPosition",
-    "InfMenuCommands.ShowMissionCode",
-    "InfMenuCommands.ShowLangCode",
-    "InfMenuDefs.appearanceDebugMenu",
-    "Ivars.disableGameOver",
-    "Ivars.disableOutOfBoundsChecks",
-    "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
-    "Ivars.manualMissionCode",
-  }
-}
-
-this.ospMenu={
-  noResetItem=true,
-  options={
-    "Ivars.primaryWeaponOsp",
-    "Ivars.secondaryWeaponOsp",
-    "Ivars.tertiaryWeaponOsp",--tex user can set in UI, but still have it for setting the profile changes", and also if they want to set it while they"re doing the other settings
-    "Ivars.clearItems",
-    "Ivars.clearSupportItems",
-  }
-}
-
-this.itemLevelMenu={
-  noResetItem=true,
-  options={
-    "Ivars.itemLevelIntScope",
-    "Ivars.itemLevelIDroid",
-  }
-}
-
-this.handLevelMenu={
-  noResetItem=true,
-  options={
-    "Ivars.handLevelSonar",
-    "Ivars.handLevelPhysical",
-    "Ivars.handLevelPrecision",
-    "Ivars.handLevelMedical",
-  }
-}
-
-this.fultonLevelMenu={
-  noResetItem=true,
-  options={
-    "Ivars.itemLevelFulton",
-    "Ivars.itemLevelWormhole",
-  }
-}
-
-this.fultonSuccessMenu={
-  options={
-    "Ivars.fultonNoMbSupport",
-    "Ivars.fultonNoMbMedical",
-    "Ivars.fultonDyingPenalty",
-    "Ivars.fultonSleepPenalty",
-    "Ivars.fultonHoldupPenalty",
-    "Ivars.fultonDontApplyMbMedicalToSleep",
-    "Ivars.fultonHostageHandling",
-    "InfMenuCommands.PrintFultonSuccessBonus",
-  },
-}
-
-this.revengeSystemMenu={
-  options={
-    "Ivars.revengeBlockForMissionCount",
-    "Ivars.applyPowersToOuterBase",
-    "Ivars.applyPowersToLrrp",
-    "Ivars.allowHeavyArmorFREE",
-    "Ivars.allowHeavyArmorMISSION",
-    "Ivars.disableMissionsWeaponRestriction",
-    "Ivars.disableNoStealthCombatRevengeMission",
-    "Ivars.revengeDecayOnLongMbVisit",
-    --"Ivars.disableMotherbaseWeaponRestriction",--WIP TODO
-    "Ivars.allowHeadGearCombo",
-    "Ivars.balanceHeadGear",
-    "Ivars.allowMissileWeaponsCombo",
-    "Ivars.enableMgVsShotgunVariation",
-    "Ivars.randomizeSmallCpPowers",
-    "Ivars.disableConvertArmorToShield",
-    --"Ivars.balanceWeaponPowers",--WIP
-    "Ivars.randomizeMineTypes",
-    "Ivars.additionalMineFields",
-  }
-}
---
-local minSuffix="_MIN"
-local maxSuffix="_MAX"
-local menuSuffix="Menu"
-local function AddMinMaxIvarsListMenu(menuName,ivarList)
-  local newMenu={
-    options={
-    }
-  }
-
-  local menuOptions=newMenu.options
-  for i,ivarName in ipairs(ivarList)do
-    menuOptions[#menuOptions+1]="Ivars."..ivarName..minSuffix
-    menuOptions[#menuOptions+1]="Ivars."..ivarName..maxSuffix
-  end
-
-  this[menuName..menuSuffix]=newMenu--tex add to InfMenuDefs
-end
-
-for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
-  AddMinMaxIvarsListMenu(powerTableName,Ivars[powerTableName])
-end
-
-AddMinMaxIvarsListMenu("abilityCustom",Ivars.abilitiesWithLevels)
-AddMinMaxIvarsListMenu("weaponStrengthCustom",Ivars.weaponStrengthPowers)
-AddMinMaxIvarsListMenu("cpEquipBoolPowers",Ivars.cpEquipBoolPowers)
-
-this.revengeCustomMenu={
-  options={
-    "InfMenuCommands.PrintCustomRevengeConfig",
-  }
-}
-local revengeMenu=this.revengeCustomMenu.options
-for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
-  revengeMenu[#revengeMenu+1]="InfMenuDefs."..powerTableName..menuSuffix
-end
-table.insert(revengeMenu,"InfMenuDefs.abilityCustomMenu")
-table.insert(revengeMenu,"InfMenuDefs.weaponStrengthCustomMenu")
-table.insert(revengeMenu,"InfMenuDefs.cpEquipBoolPowersMenu")
-local revengeMinMaxIvarList={
-  "reinforceCount",
-  "reinforceLevel",
-  "revengeIgnoreBlocked",
-}
-local menuOptions=revengeMenu
-for i,ivarName in ipairs(revengeMinMaxIvarList)do
-  menuOptions[#menuOptions+1]="Ivars."..ivarName..minSuffix
-  menuOptions[#menuOptions+1]="Ivars."..ivarName..maxSuffix
-end
-
-this.revengeMenu={
-  options={
-    "Ivars.revengeModeFREE",
-    "Ivars.revengeModeMISSION",
-    "Ivars.revengeModeMB_ALL",
-    "InfMenuDefs.revengeCustomMenu",
-    "InfMenuDefs.revengeSystemMenu",
-    "InfMenuDefs.customEquipMenu",
-    "Ivars.customSoldierTypeFREE",
-    "InfMenuCommands.ResetRevenge",
-    "InfMenuCommands.DEBUG_PrintRevengePoints",
-    "Ivars.changeCpSubTypeFREE",
-    "Ivars.changeCpSubTypeMISSION",
-    "Ivars.enableInfInterrogation",
-  }
-}
---
-this.playerRestrictionsInMissionMenu={
-  options={
-    "Ivars.disableHeadMarkers",
-    --"Ivars.disableXrayMarkers",--tex doesn"t seem to work realtime
-    "Ivars.disableWorldMarkers",
-  },
-}
-
-this.phaseMenu={
-  options={
-    --this.printPlayerPhase",--DEBUG
-    "Ivars.phaseUpdate",
-    "Ivars.minPhase",
-    "Ivars.maxPhase",
-    "Ivars.keepPhase",
-    "Ivars.phaseUpdateRate",
-    "Ivars.phaseUpdateRange",
-    "Ivars.soldierAlertOnHeavyVehicleDamage",--tex these>
-    --"Ivars.cpAlertOnVehicleFulton",--WIP", NOTE: ivar save is disabled
-    "Ivars.printPhaseChanges",--<don"t rely on phaseUpdate
-  },
-}
-
-this.supportHeliMenu={
-  options={
-    --"Ivars.setTakeOffWaitTime",
-    --"InfHelicopter.PullOutHeli",
-    --"InfMenuCommands.ChangeToIdleStateHeli",
-    "Ivars.disableHeliAttack",
-    "Ivars.setInvincibleHeli",
-    "Ivars.setSearchLightForcedHeli",
-    "Ivars.disablePullOutHeli",
-    "Ivars.setLandingZoneWaitHeightTop",
-    "Ivars.defaultHeliDoorOpenTime",
-    "Ivars.disableLzs",
-    "Ivars.startOnFootFREE",
-    "Ivars.startOnFootMISSION",
-    "Ivars.startOnFootMB_ALL",
-  --"Ivars.disableDescentToLandingZone",
-  --"Ivars.enableGetOutHeli",--WIP
-  },
-}
-
-this.enemyReinforceMenu={
-  options={
-    "Ivars.forceSuperReinforce",
-    "Ivars.enableHeliReinforce",
-    "Ivars.forceReinforceRequest",
-    "Ivars.disableReinforceHeliPullOut",
-    "Ivars.enableSoldiersWithVehicleReinforce",
-  },
-}
-
-this.enemyPatrolMenu={
-  options={
-    "Ivars.enableLrrpFreeRoam",
-    "Ivars.enableWildCardFreeRoam",
-    "Ivars.attackHeliPatrolsFREE",
-    "Ivars.attackHeliPatrolsMB",
-    "Ivars.mbEnemyHeliColor",
-    "Ivars.enableWalkerGearsFREE",
-    "Ivars.enableWalkerGearsMB",
-    "Ivars.vehiclePatrolProfile",
-    "Ivars.vehiclePatrolClass",
-    "Ivars.vehiclePatrolLvEnable",
-    "Ivars.vehiclePatrolTruckEnable",
-    "Ivars.vehiclePatrolWavEnable",
-    "Ivars.vehiclePatrolWavHeavyEnable",
-    "Ivars.vehiclePatrolTankEnable",
-    "Ivars.putEquipOnTrucks",
-  }
-}
-
-this.cameraMenu={
-  options={
-    "Ivars.adjustCameraUpdate",
-    "Ivars.cameraMode",
-    "InfMenuCommands.WarpToCamPos",
-    "Ivars.moveScale",
-    "Ivars.disableCamText",
-    "InfMenuCommands.ShowFreeCamPosition",
-  --    "Ivars.focalLength",--CULL
-  --    "Ivars.focusDistance",
-  --    "Ivars.aperture",
-  --    "InfMenuCommands.ResetCameraSettings",--tex just reset cam pos at the moment
-  }
-}
-
-this.userMarkerMenu={
-  options={
-    "InfMenuCommands.WarpToUserMarker",
-    "InfUserMarker.PrintLatestUserMarker",
-    "InfUserMarker.PrintUserMarkers",
-    --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
-    --    "Ivars.selectedCp",--DEBUG
-    "InfMenuCommands.QuietMoveToLastMarker",
-  }
-}
-
-this.markersMenu={
-  options={
-    "Ivars.disableHeadMarkers",
-    "Ivars.disableXrayMarkers",
-    "Ivars.disableWorldMarkers",
-  }
-}
-
-this.missionPrepRestrictionsMenu={
-  options={
-    "Ivars.disableSelectTime",
-    "Ivars.disableSelectBuddy",
-    "Ivars.disableSelectVehicle",
-    "Ivars.mbEnableMissionPrep",
-  }
-}
-
-this.disableSupportMenuMenu={
-  options={
-    "Ivars.disableMenuDrop",
-    "Ivars.disableMenuBuddy",
-    "Ivars.disableMenuAttack",
-    "Ivars.disableMenuHeliAttack",
-    "Ivars.disableSupportMenu",
-  }
-}
-
-this.eventsMenu={
-  options={
-    "InfGameEvent.ForceGameEvent",
-    "Ivars.gameEventChanceFREE",
-    "Ivars.gameEventChanceMB",
-    "Ivars.enableEventHUNTED",
-    "Ivars.enableEventCRASHLAND",
-    "Ivars.enableEventLOST_COMS",
-    "Ivars.enableParasiteEvent",
-    "Ivars.armorParasiteEnabled",
-    "Ivars.mistParasiteEnabled",
-    "Ivars.camoParasiteEnabled",
-    "Ivars.parasitePeriod_MIN",
-    "Ivars.parasitePeriod_MAX",
-    "Ivars.parasiteWeather",
-  }
-}
-this.playerRestrictionsMenu={
-  options={
-    "Ivars.disableHeliAttack",
-    "Ivars.disableFulton",
-    "Ivars.setSubsistenceSuit",
-    "Ivars.setDefaultHand",
-    "Ivars.abortMenuItemControl",
-    "Ivars.disableRetry",
-    "Ivars.gameOverOnDiscovery",
-    "Ivars.disableSpySearch",
-    "Ivars.disableHerbSearch",
-    "Ivars.dontOverrideFreeLoadout",
-    "InfMenuDefs.markersMenu",
-    "InfMenuDefs.missionPrepRestrictionsMenu",
-    "InfMenuDefs.disableSupportMenuMenu",
-    "InfMenuDefs.itemLevelMenu",
-    "InfMenuDefs.handLevelMenu",
-    "InfMenuDefs.fultonLevelMenu",
-    "InfMenuDefs.fultonSuccessMenu",
-    "InfMenuDefs.ospMenu",
-  }
-}
-
-this.timeScaleMenu={
-  options={
-    "InfMenuCommands.HighSpeedCameraToggle",
-    "Ivars.speedCamContinueTime",
-    "Ivars.speedCamWorldTimeScale",
-    "Ivars.speedCamPlayerTimeScale",
-    "Ivars.speedCamNoDustEffect",
-    "Ivars.clockTimeScale",
-  }
-}
-
-this.buddyMenu={
-  options={
-    "Ivars.buddyChangeEquipVar",
-    "InfMenuCommands.QuietMoveToLastMarker",
-    "Ivars.quietRadioMode",
-  }
-}
 
 this.systemMenu={
   options={
@@ -626,21 +74,6 @@ this.systemMenu={
     "Ivars.loadAddonMission",
     "Ivars.ihMissionsPercentageCount",
     "InfMenuCommands.ResetAllSettingsItem",
-  },
-}
-
-this.mbOceanMenu={
-  options={
-    "Ivars.mbEnableOceanSettings",
-    "Ivars.mbSetOceanBaseHeight",
-    "Ivars.mbSetOceanProjectionScale",
-    "Ivars.mbSetOceanBlendEnd",
-    "Ivars.mbSetOceanFarProjectionAmplitude",
-    "Ivars.mbSetOceanSpecularIntensity",
-    "Ivars.mbSetOceanDisplacementStrength",
-    "Ivars.mbSetOceanWaveAmplitude",
-    "Ivars.mbSetOceanWindDirectionP1",
-    "Ivars.mbSetOceanWindDirectionP2",
   },
 }
 
@@ -670,78 +103,75 @@ this.devInAccMenu={
   }
 }
 
-this.heliSpaceMenu={
-  noResetItem=true,
-  noGoBackItem=true,
-  insertEndOffset=1,--tex MenuOffItem
+this.debugMenu={
   options={
-    "InfMenuDefs.systemMenu",
-    "InfMenuDefs.eventsMenu",
-    "InfMenuDefs.playerRestrictionsMenu",
-    "InfMenuDefs.playerSettingsMenu",
-    "InfMenuDefs.soldierParamsMenu",
-    "InfMenuDefs.phaseMenu",
-    "InfMenuDefs.revengeMenu",
-    "InfMenuDefs.enemyReinforceMenu",
-    "InfMenuDefs.enemyPatrolMenu",
-    "InfMenuDefs.sideOpsMenu",
-    "InfMenuDefs.motherBaseMenu",
-    "InfMenuDefs.demosMenu",
-    "InfMenuDefs.cameraMenu",
-    "InfMenuDefs.timeScaleMenu",
-    "InfMenuDefs.supportHeliMenu",
-    "InfMenuDefs.progressionMenu",
-    "InfMenuDefs.debugMenu",
-    "InfMenuCommands.MenuOffItem",
-  }
-}
-
-this.debugInMissionMenu={
-  options={
-    "InfMenuDefs.appearanceMenu",
-    "InfMenuDefs.appearanceDebugMenu",
     "Ivars.debugMode",
     "Ivars.debugMessages",
     "Ivars.debugFlow",
     "Ivars.debugOnUpdate",
     "InfMenuCommands.LoadExternalModules",
     "InfMenuCommands.CopyLogToPrev",
-    --"InfMenuCommands.DEBUG_RandomizeCp",
-    --"InfMenuCommands.DEBUG_PrintRealizedCount",
-    --"InfMenuCommands.DEBUG_PrintEnemyFova",
+    "Ivars.printPressedButtons",
+    "InfCamera.ShowFreeCamPosition",
+    "InfMenuCommands.ShowPosition",
+    "InfMenuCommands.ShowMissionCode",
+    "InfMenuCommands.ShowLangCode",
+    "InfFovaIvars.appearanceDebugMenu",
+    "Ivars.disableGameOver",
+    "Ivars.disableOutOfBoundsChecks",
+    "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
+    "Ivars.manualMissionCode",
+  }
+}
+
+this.debugInMissionMenu={
+  options={
+    "InfFovaIvars.appearanceMenu",
+    "InfFovaIvars.appearanceDebugMenu",
+    "Ivars.debugMode",
+    "Ivars.debugMessages",
+    "Ivars.debugFlow",
+    "Ivars.debugOnUpdate",
+    "InfMenuCommands.LoadExternalModules",
+    "InfMenuCommands.CopyLogToPrev",
+    --"InfMenuCommandsTpp.DEBUG_PrintRealizedCount",
+    --"InfMenuCommandsTpp.DEBUG_PrintEnemyFova",
     "InfMenuCommands.SetSelectedObjectToMarkerClosest",
     "Ivars.selectedCp",
     "InfMenuCommands.SetSelectedCpToMarkerObjectCp",
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
-    "InfMenuCommands.DEBUG_PrintCpPowerSettings",
-    "InfMenuCommands.DEBUG_PrintPowersCount",
-    --"InfMenuCommands.DEBUG_PrintCpSizes",
-    "InfMenuCommands.DEBUG_PrintReinforceVars",
-    --"InfMenuCommands.DEBUG_PrintVehicleTypes",
-    --"InfMenuCommands.DEBUG_PrintVehiclePaint",
-    "InfMenuCommands.DEBUG_PrintSoldierDefine",
-    --"InfMenuCommands.DEBUG_PrintSoldierIDList",
-    "InfMenuCommands.DEBUG_ShowRevengeConfig",
-    "InfMenuDefs.appearanceDebugMenu",
-    --"InfMenuCommands.DEBUG_ShowPhaseEnums",--CULL
-    --"InfMenuCommands.DEBUG_ChangePhase",
-    --"InfMenuCommands.DEBUG_KeepPhaseOn",
-    --"InfMenuCommands.DEBUG_KeepPhaseOff",
-    --"InfMenuCommands.printPlayerPhase",
-    --"InfMenuCommands.DEBUG_SetPlayerPhaseToIvar",
-    --"InfMenuCommands.DEBUG_PrintVarsClock",
+    "InfMenuCommandsTpp.DEBUG_PrintCpPowerSettings",
+    "InfMenuCommandsTpp.DEBUG_PrintPowersCount",
+    --"InfMenuCommandsTpp.DEBUG_PrintCpSizes",
+    "InfMenuCommandsTpp.DEBUG_PrintReinforceVars",
+    --"InfMenuCommandsTpp.DEBUG_PrintVehicleTypes",
+    --"InfMenuCommandsTpp.DEBUG_PrintVehiclePaint",
+    "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
+    --"InfMenuCommandsTpp.DEBUG_PrintSoldierIDList",
+    "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig",
+    "InfFovaIvars.appearanceDebugMenu",
+    --"InfMenuCommandsTpp.DEBUG_ShowPhaseEnums",--CULL
+    --"InfMenuCommandsTpp.DEBUG_ChangePhase",
+    --"InfMenuCommandsTpp.DEBUG_KeepPhaseOn",
+    --"InfMenuCommandsTpp.DEBUG_KeepPhaseOff",
+    --"InfMenuCommandsTpp.printPlayerPhase",
+    --"InfMenuCommandsTpp.DEBUG_SetPlayerPhaseToIvar",
+    --"InfMenuCommandsTpp.DEBUG_PrintVarsClock",
     --"InfMenuCommands.ShowMissionCode",
-    --"InfMenuCommands.ShowMbEquipGrade",
+    --"InfMenuCommandsTpp.ShowMbEquipGrade",
     "Ivars.printPressedButtons",
     "Ivars.printOnBlockChange",
     "Ivars.disableGameOver",
     "Ivars.disableOutOfBoundsChecks",
     "InfMenuCommands.SetAllFriendly",
+    "InfMenuCommands.SetAllZombie",
+    "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
     "InfMenuCommands.ResetStageBlockPosition",
     "InfMenuCommands.SetStageBlockPositionToMarkerClosest",
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
-    "InfMenuCommands.ShowFreeCamPosition",
+    "InfCamera.ShowFreeCamPosition",
     "InfMenuCommands.ShowPosition",
+    "InfMenuCommands.CheckPointSave",
   --"InfMenuCommands.DEBUG_ClearAnnounceLog",
   }
 }
@@ -750,6 +180,13 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "InfHelicopter.RequestHeliLzToLastMarker",--DEBUGNOW
+    "InfHelicopter.RequestHeliLzToLastMarkerAlt",--DEBUGNOW
+    "InfHelicopter.ForceExitHeli",
+    "InfHelicopter.ForceExitHeliAlt",
+    "InfHelicopter.PullOutHeli",
+    "InfHelicopter.ChangeToIdleStateHeli",
+    "Ivars.disablePullOutHeli",
     "InfCore.StartIHExt",--DEBUGNOW
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
@@ -765,9 +202,6 @@ this.devInMissionMenu={
     "InfMenuCommands.CheckPointSave",
     "Ivars.manualMissionCode",
     "InfCore.ClearLog",
-    "InfMenuCommands.RequestHeliLzToLastMarkerAlt",
-    "InfMenuCommands.RequestHeliLzToLastMarker",
-    "InfMenuCommands.ForceExitHeliAlt",
     "Ivars.warpToListPosition",
     "Ivars.warpToListObject",
     "Ivars.setCamToListObject",
@@ -779,118 +213,171 @@ this.devInMissionMenu={
     "Ivars.allowUndevelopedDDEquip",
     "Ivars.skipDevelopChecks",
     "Ivars.debugValue",
-    "InfMenuCommands.DEBUG_PrintSoldierDefine",
-    "Ivars.parasitePeriod_MIN",
-    "Ivars.parasitePeriod_MAX",
-    "InfMenuCommands.DEBUG_ToggleParasiteEvent",
+    "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
+    --"Ivars.parasitePeriod_MIN",
+    --"Ivars.parasitePeriod_MAX",
+    --"InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
     "InfLookup.DumpValidStrCode",
     "InfMenuCommands.SetAllFriendly",
-    "InfMenuCommands.ShowFreeCamPosition",
+    "InfCamera.ShowFreeCamPosition",
     "InfMenuCommands.ShowPosition",
   }
 }
-
-this.inMissionMenu={
-  noResetItem=true,--tex KLUDGE, to keep menuoffitem order
-  noGoBackItem=true,--tex is root
-  insertEndOffset=2,--tex ResetSettingsItem,MenuOffItem
-  options={
-    "InfMenuCommands.RequestHeliLzToLastMarker",
-    "InfMenuCommands.ForceExitHeli",
-    "InfMenuCommands.DropCurrentEquip",
-    "Ivars.warpPlayerUpdate",
-    "InfMenuDefs.cameraMenu",
-    "InfMenuDefs.timeScaleMenu",
-    "InfMenuDefs.userMarkerMenu",
-    "InfMenuDefs.buddyMenu",
-    "InfMenuDefs.appearanceMenu",
-    "InfMenuDefs.mbStaffInMissionMenu",
-    "InfMenuDefs.playerRestrictionsInMissionMenu",
-    "InfMenuDefs.phaseMenu",
-    "InfMenuDefs.supportHeliMenu",
-    "InfMenuDefs.mbOceanMenu",
-    "InfMenuDefs.debugInMissionMenu",
-    "Ivars.itemDropChance",
-    "Ivars.playerHealthScale",
-    "InfMenuCommands.ResetSettingsItem",
-    "InfMenuCommands.MenuOffItem",
-  }
+--<
+this.rootMenus={
+  heliSpaceMenu=true,
+  inMissionMenu=true,
 }
 
-
-
-local optionType="MENU"
+local OPTIONTYPE_MENU="MENU"
 local IsTable=Tpp.IsTypeTable
 local IsFunc=Tpp.IsTypeFunc
 
---tex build up full item object from partial definition
-function this.BuildMenuItem(name,item)
+function this.IsMenu(item)
   if IsTable(item) then
     if item.options then
-      item.optionType=optionType
-      item.name=name
-      item.disabled=false
-      item.parent=nil
-      if item.noResetItem~=true then
-        item.options[#item.options+1]="InfMenuCommands.ResetSettingsItem"
-      end
-      if item.noGoBackItem~=true then
-        item.options[#item.options+1]="InfMenuCommands.GoBackItem"
-      end
+      return true
     end
+  end
+
+  return false
+end
+
+--tex build up full item object from partial definition
+function this.BuildMenuItem(name,item)
+  if this.IsMenu(item) then
+    item.optionType=OPTIONTYPE_MENU
+    item.name=name
+    item.parent=nil
   end
 end
 
-this.menuForContext={
-  HELISPACE=this.heliSpaceMenu,
-  MISSION=this.inMissionMenu,
-}
-
-function this.PostAllModulesLoad()
+--tex IHs menu system works through Options, of which Ivars,Menus and Commands are effectively subclasses of
+--the runtime operation of the menu is in InfMenu, initial setup of the menu is through InfMenuDefs.SetupMenu --DEBUGNOW
+--Menu definitions, or MenuDefs list the options as StringRefs which are just a string representation of <module name>.<option name>
+--InfMenuDefs has a few basic menudefs, the rest are in respective IH modules which may also contain the Ivar and Commands they are referencing.
+function this.SetupMenuDefs()
   InfCore.LogFlow("Adding module menuDefs")
 
-  --tex DEBUGNOW monkeying around with inserting menu items currently breaks AutoDoc
-  if isMockFox then
-    return
+  for i,module in ipairs(InfModules) do
+    if module.GenerateMenus then
+      InfCore.Log(module.name..".GenerateMenus")
+      module.GenerateMenus()
+    end
   end
 
+  --tex add menus in this module to be picked up by registermodules
+  --TODO: possibly replace registermodules completely with this, change .options to .menuOptions to give it a more explicit identifier
+  this.registerMenus={}
+  for name,item in pairs(this) do
+    if this.IsMenu(item) then
+      table.insert(this.registerMenus,name)
+    end
+  end
+
+
+  local parentRefs={}
   for i,module in ipairs(InfModules) do
-    if IsTable(module.menuDefs) then
-      for name,menuDef in pairs(module.menuDefs)do
-        local newRef=module.name.."."..name
-        InfCore.Log(newRef)
-        this.BuildMenuItem(name,menuDef)
-        --tex set them to nonconfig by default so to not trip up AutoDoc
-        if menuDef.nonConfig~=false then--tex unless we specficially want it to be for config
-          menuDef.nonConfig=true
-        end
-        if menuDef.noDoc~=false then
-          menuDef.noDoc=true
-        end
-        if menuDef.context then
-          local menuForContext=this.menuForContext[menuDef.context]
-          if menuForContext then
-            --tex check to see it isn"t already in menu
-            local alreadyAdded=false
-            for i,optionRef in ipairs(menuForContext.options)do
-              if optionRef==newRef then
-                InfCore(optionRef.." was already added")
-                alreadyAdded=true
-                break
+    if module.registerMenus then
+      if this.debugModule then
+        InfCore.PrintInspect(module.registerMenus,module.name..".registerMenus")
+      end
+      for j,name in ipairs(module.registerMenus)do
+        local menuDef=module[name]
+        if not menuDef then
+          InfCore.Log("InfMenuDefs.PostAllModulesLoad: WARNING: could not find "..name.." in "..module.name)
+          --TODO: elseif not IsMenu(menuDef) or something
+        elseif this.IsMenu(menuDef) then
+          local newRef=module.name.."."..name
+          if this.debugModule then
+            InfCore.Log(newRef)
+          end
+
+          --tex build up full menu item object from partial definition
+          this.BuildMenuItem(name,menuDef)--tex NOTE: unlike Ivars module menudefs arent built in-to InfMenuDefs
+
+          --tex add to menus in parentRef
+          if menuDef.parentRefs then
+            for k,parentRef in ipairs(menuDef.parentRefs)do
+              local parentMenu,name,moduleName=InfCore.GetStringRef(parentRef)
+              if not parentMenu then
+
+              else
+                local childrenForMenu=parentRefs[parentRef] or {}
+                parentRefs[parentRef]=childrenForMenu
+
+                table.insert(childrenForMenu,newRef)
               end
             end
-            if not alreadyAdded then
-              local insertPos = menuForContext.insertEndOffset and (#menuForContext.options-menuForContext.insertEndOffset) or #menuForContext.options
-              InfCore.Log("Adding "..newRef.." to menu at pos "..insertPos.." of "..#menuForContext.options)
-              table.insert(menuForContext.options,insertPos,newRef)
-            end
-          end
-        end
+          end--if parentRefs
+
+
+        end--if menudef
+      end--for registermenu
+    end--if registermenu
+  end--for infmodules
+
+  if this.debugModule then
+    InfCore.PrintInspect(parentRefs,"parentRefs")
+  end
+
+  --tex add the gathered children menus to the parents
+  for parentRef,childrenRefs in pairs(parentRefs)do
+    local parentMenu,name=InfCore.GetStringRef(parentRef)
+    if not parentMenu then
+      InfCore.Log("WARNING: InfMenuDefs.SetupMenus: could not find parentMenu:"..parentRef)
+    else
+      --tex TODO: would want to sort by inflang menu name
+      for i,childRef in ipairs(childrenRefs)do
+        table.insert(parentMenu.options,childRef)
       end
     end
   end
 
-  if ivars.enableIHExt>0 then--DEBUGNOW TODO another ivar, also change 'Turn off menu' to only add if ivar
+  for i,module in ipairs(InfModules) do
+    if module.registerMenus then
+      if this.debugModule then
+      --InfCore.PrintInspect(module.registerMenus,module.name..".registerMenus")
+      end
+      for j,name in ipairs(module.registerMenus)do
+        local menuDef=module[name]
+        if not menuDef then
+          InfCore.Log("InfMenuDefs.PostAllModulesLoad: WARNING: could not find "..name.." in "..module.name)
+          --TODO: elseif not IsMenu(menuDef) or something
+        elseif this.IsMenu(menuDef) then
+
+
+          --tex add bottom commands
+          --TODO: add option to skip
+          --tex see if it actually needs resetitem
+          for k,optionRef in ipairs(menuDef.options)do
+            local option,name=InfCore.GetStringRef(optionRef)
+            if option and type(option)~="function" then
+              if IvarProc.IsIvar(option) then
+                menuDef.addResetItem=true
+              end
+              break
+            end
+          end
+
+          if menuDef.addResetItem then
+            table.insert(menuDef.options,"InfMenuCommands.ResetSettingsItem")
+          end
+
+          if this.rootMenus[menuDef.name] then
+            table.insert(menuDef.options,"InfMenuCommands.MenuOffItem")
+          else
+            table.insert(menuDef.options,"InfMenuCommands.GoBackItem")
+          end
+          --
+        end--if menudef
+      end--for registermenu
+    end--if registermenu
+  end--for infmodules
+
+  --DEBUGNOW doesnt insert correctly for autodoc
+  if not isMockFox then
+    if ivars.enableIHExt>0 then-- TODO another ivar, also change 'Turn off menu' to only add if ivar
     --local alreadyAdded=false
     --tex shouldnt be needed, assuming that it's not tranfering anything on modulereload
     --    for i,optionRef in ipairs(this.heliSpaceMenu.options)do
@@ -900,43 +387,56 @@ function this.PostAllModulesLoad()
     --      end
     --    end
     --if not alreadyAdded then
-    local insertPos=#this.heliSpaceMenu.options-this.heliSpaceMenu.insertEndOffset
-    table.insert(this.heliSpaceMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
-
-    local insertPos=#this.inMissionMenu.options-this.inMissionMenu.insertEndOffset
-    table.insert(this.inMissionMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
+    --      local insertPos=#this.heliSpaceMenu.options-this.heliSpaceMenu.insertEndOffset
+    --      table.insert(this.heliSpaceMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
+    --
+    --      local insertPos=#this.inMissionMenu.options-this.inMissionMenu.insertEndOffset
+    --      table.insert(this.inMissionMenu.options,insertPos,"InfMgsvToExt.TakeFocus")
     -- end
+    end
   end
-end
 
---EXEC
---TABLESETUP: MenuDefs
-for name,item in pairs(this) do
-  this.BuildMenuItem(name,item)
-end
+  --VALIDATE
+  for n,item in pairs(this) do
+    if this.IsMenu(item) then
+      for i,optionRef in ipairs(item.options)do
+        if type(optionRef)~="string"then
+          InfCore.Log("InfMenuDefs: WARNING option "..i.." on menu "..n.."~=string")
+        end
+      end
+    end
+  end
 
---tex TODO RETHINK
-this.allMenus={}
---TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
-local i=1
-for n,item in pairs(this) do
-  if IsTable(item) then
-    if item.options then--tex is menu
+  --tex TODO RETHINK
+  --TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
+  this.allMenus={}
+  local i=1
+  for n,item in pairs(this) do
+    if this.IsMenu(item) then
       this.allMenus[i]=item
       i=i+1
     end
   end
-end
 
---VALIDATE
-for n,item in pairs(this) do
-  if IsTable(item) and item.options then
-    for i,optionRef in ipairs(item.options)do
-      if type(optionRef)~="string"then
-        InfCore.Log("InfMenuDefs: WARNING option "..i.." on menu "..n.."~=string")
+  --tex for search
+  this.allItems={}
+  for n,item in pairs(this) do
+    if this.IsMenu(item) then
+      for i,optionRef in ipairs(item.options)do
+        if type(optionRef)=="string"then
+          this.allItems[#this.allItems+1]=optionRef
+        end
       end
     end
   end
+
+  if this.debugModule then
+    InfCore.PrintInspect(this,"InfMenuDefs")
+  end
+end
+
+function this.PostAllModulesLoad()
+  this.SetupMenuDefs()
 end
 
 return this

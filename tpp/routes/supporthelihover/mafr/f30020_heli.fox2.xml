@@ -1,0 +1,519 @@
+﻿    <entity class="TppLandingZoneData" classVersion="1" addr="0x12B6BCA0" unknown1="272" unknown2="5648">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamond_N0000|lz_diamond_N_0000</value>
+          <value>0x12B6BD10</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamond_N0000|rt_apr_diamond_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamond_N0000|rt_rtn_diamond_N_0000</value>
+          <value>0x12B6BCA0</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.312079817,"Z": 0" w="0.9500559" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1096.401, "Y": 143.864,"Z": -1685.391},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0F24DBB0" unknown1="272" unknown2="1374821">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondSouth_S0000|lz_diamondSouth_S_0000</value>
+          <value>0x0F24DC20</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondSouth_S0000|rt_apr_diamondSouth_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondSouth_S0000|rt_rtn_diamondSouth_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x0F24DC20" unknown1="80" unknown2="1374824">
+          <value>0x0F24DBB0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.9999996, "Y": 1,"Z": 0.9999996" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.9659261,"Z": 0" w="0.25881806" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1644.30835, "Y": 80.11134,"Z": -555.2634},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0E7CEC50" unknown1="272" unknown2="50941">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondSouth_W0000|lz_diamondSouth_W_0000</value>
+          <value>0x0E7CECC0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondSouth_W0000|rt_apr_diamondSouth_W_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondSouth_W0000|rt_rtn_diamondSouth_W_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x0E7CECC0" unknown1="80" unknown2="50944">
+          <value>0x0E7CEC50</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.00000143, "Y": 1,"Z": 1.00000143" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.9238807,"Z": 0" w="-0.382680565" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1203.793, "Y": 100.7411,"Z": -792.1604},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0E7CF0B0" unknown1="272" unknown2="31127828">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondWest_S0000|lz_diamondWest_S_0000</value>
+          <value>0x0E7CF120</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondWest_S0000|rt_apr_diamondWest_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamondWest_S0000|rt_rtn_diamondWest_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x0E7CF120" unknown1="80" unknown2="31127831">
+          <value>0x0E7CF0B0</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.258817941,"Z": 0" w="0.9659261" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 924.7173, "Y": 37.00735,"Z": -931.2805},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0FFEFCF0" unknown1="272" unknown2="5040154">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_N0000|lz_hill_N_0000</value>
+          <value>0x0FFEFD60</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_N0000|rt_apr_hill_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_N0000|rt_rtn__hill_N_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x0FFEFD60" unknown1="80" unknown2="5040157">
+          <value>0x0FFEFCF0</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 1,"Z": 0" w="0" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1951.462, "Y": 42.82,"Z": 88.576},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0F9D0FD0" unknown1="272" unknown2="17501618">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hillWest_S0000|lz_hillWest_S_0000</value>
+          <value>0x0F9D1040</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hillWest_S0000|rt_apr_hillWest_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hillWest_S0000|rt_rtn_hillWest_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x0F9D1040" unknown1="80" unknown2="17501621">
+          <value>0x0F9D0FD0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.9999992, "Y": 1,"Z": 0.9999992" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.945511,"Z": 0" w="0.3255902" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1769.458, "Y": 21.604,"Z": 560.59},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0F9D5BF0" unknown1="272" unknown2="3108">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_N0000|lz_pfCamp_N_0000</value>
+          <value>0x0F9D5C60</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_N0000|rt_apr_pfCamp_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_N0000|rt_rtn_pfCamp_N_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x0F9D5C60" unknown1="80" unknown2="3111">
+          <value>0x0F9D5BF0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.00000048, "Y": 1,"Z": 1.00000048" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.5646682,"Z": 0" w="0.825318038" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1061.885, "Y": -2.098785,"Z": 731.158},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x10790B70" unknown1="272" unknown2="3703">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_S0000|lz_pfCamp_S_0000</value>
+          <value>0x10790BE0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_S0000|rt_apr_pfCamp_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_S0000|rt_rtn_pfCamp_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x10790BE0" unknown1="80" unknown2="3706">
+          <value>0x10790B70</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.9999997, "Y": 1,"Z": 0.9999997" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.7933521,"Z": 0" w="0.6087631" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1007.023, "Y": -11.45914,"Z": 1557.611},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12DB8120" unknown1="272" unknown2="305743851">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahEast_N0000|lz_savannahEast_N_0000</value>
+          <value>0x12DB8190</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahEast_N0000|rt_apr_savannahEast_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahEast_N0000|rt_rtn_savannahEast_N_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12DB8190" unknown1="80" unknown2="305743854">
+          <value>0x12DB8120</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.00000155, "Y": 1,"Z": 1.00000155" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.7933548,"Z": 0" w="0.6087596" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1232.836, "Y": 19.905,"Z": -127.083},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12E64FB0" unknown1="272" unknown2="239756062">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahEast_S0000|lz_savannahEast_S_0000</value>
+          <value>0x12E65020</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahEast_S0000|rt_apr_savannahEast_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahEast_S0000|rt_rtn_savannahEast_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12E65020" unknown1="80" unknown2="239756063">
+          <value>0x12E64FB0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.999999762, "Y": 1,"Z": 0.999999762" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.9914445,"Z": 0" w="-0.1305287" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1119.971, "Y": 3.72,"Z": 317.628},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12EC0CC0" unknown1="272" unknown2="256219684">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahWest_N0000|lz_savannahWest_N_0000</value>
+          <value>0x12EC0D30</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahWest_N0000|rt_apr_savannahWest_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannahWest_N0000|rt_rtn_savannahWest_N_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12EC0D30" unknown1="80" unknown2="256219685">
+          <value>0x12EC0CC0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.999999762, "Y": 1,"Z": 0.999999762" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.382684946,"Z": 0" w="0.9238789" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 510.1033, "Y": 13.42573,"Z": -732.548},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12ECBCA0" unknown1="272" unknown2="3989">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_N0000|lz_swamp_N_0000</value>
+          <value>0x12ECBD10</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_N0000|rt_apr_swamp_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_N0000|rt_rtn_swamp_N_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12ECBD10" unknown1="80" unknown2="3992">
+          <value>0x12ECBCA0</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 2E-06,"Z": 0},
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -145.5236, "Y": 9.147,"Z": -379.1961},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12F36130" unknown1="272" unknown2="79054042">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_S0000|lz_swamp_S_0000</value>
+          <value>0x12F361A0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_S0000|rt_apr_swamp_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_S0000|rt_rtn_swamp_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12F361A0" unknown1="80" unknown2="79054043">
+          <value>0x12F36130</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.0000025, "Y": 1,"Z": 1.0000025" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.965925455,"Z": 0" w="0.2588205" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -163.594, "Y": 0.96,"Z": 385.578},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12FB0550" unknown1="272" unknown2="63549299">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_W0000|lz_swamp_W_0000</value>
+          <value>0x12FB05C0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_W0000|rt_apr_swamp_W_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_W0000|rt_rtn_swamp_W_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12FB05C0" unknown1="80" unknown2="63549302">
+          <value>0x12FB0550</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.0000025, "Y": 1,"Z": 1.0000025" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.965925455,"Z": 0" w="0.2588205" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -618.0907, "Y": -0.516281,"Z": 232.7935},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12FB0860" unknown1="272" unknown2="59263982">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swampEast_N0000|lz_swampEast_N_0000</value>
+          <value>0x12FB08D0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swampEast_N0000|rt_apr_swampEast_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swampEast_N0000|rt_rtn_swampEast_N_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12FB08D0" unknown1="80" unknown2="59263985">
+          <value>0x12FB0860</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.2588161,"Z": 0" w="0.965926647" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 266.529, "Y": -5.64,"Z": -234.247},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12FD2CB0" unknown1="272" unknown2="112376357">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_lab_S0000|lz_lab_S_0000</value>
+          <value>0x12FD2D20</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_lab_S0000|rt_apr_lab_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_lab_S0000|rt_rtn_lab_S_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12FD2D20" unknown1="80" unknown2="112376360">
+          <value>0x12FD2CB0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.9999992, "Y": 1,"Z": 0.9999992" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.707103968,"Z": 0" w="0.7071096" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2521.903, "Y": 104.824,"Z": -1833.816},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12F029A0" unknown1="272" unknown2="94405554">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_lab_W0000|lz_lab_W_0000</value>
+          <value>0x12F02A10</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_lab_W0000|rt_apr_lab_W_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_lab_W0000|rt_rtn_lab_W_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12F02A10" unknown1="80" unknown2="94405557">
+          <value>0x12F029A0</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.0000006, "Y": 1,"Z": 1.0000006" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.707107961,"Z": 0" w="0.7071056" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2331.108, "Y": 201.007,"Z": -2486.999},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12F09770" unknown1="272" unknown2="3513">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_banana_I0000|lz_banana_I_0000</value>
+          <value>0x12F097E0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_banana_I0000|rt_apr_banana_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_banana_I0000|rt_rtn_banana_I_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12F097E0" unknown1="80" unknown2="3516">
+          <value>0x12F09770</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.258817941,"Z": 0" w="0.9659261" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 300.6102, "Y": 43.05861,"Z": -1237.656},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12F0E080" unknown1="272" unknown2="16315101">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamond_I0000|lz_diamond_I_0000</value>
+          <value>0x12F0E0F0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamond_I0000|rt_apr_diamond_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_diamond_I0000|rt_rtn_diamond_I_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x12F0E0F0" unknown1="80" unknown2="16315104">
+          <value>0x12F0E080</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.0000006, "Y": 1,"Z": 1.0000006" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.694669068,"Z": 0" w="0.719329536" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1378.242, "Y": 130.07,"Z": -1515.881},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11CF2930" unknown1="272" unknown2="226043">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_flowStation_E0000|lz_flowStation_E_0000</value>
+          <value>0x11CF29A0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_flowStation_E0000|rt_apr_flowStation_E_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_flowStation_E0000|rt_rtn_flowStation_E_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x11CF29A0" unknown1="80" unknown2="226046">
+          <value>0x11CF2930</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.9999991, "Y": 1,"Z": 0.9999991" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.6087569,"Z": 0" w="0.793356836" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -610.263, "Y": 6.103,"Z": -398.196},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11CF2C40" unknown1="272" unknown2="65533471">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_flowStation_I0000|lz_flowStation_I_0000</value>
+          <value>0x11CF2CB0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_flowStation_I0000|rt_apr_flowStation_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_flowStation_I0000|rt_rtn_flowStation_I_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x11CF2CB0" unknown1="80" unknown2="65533474">
+          <value>0x11CF2C40</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.00000048, "Y": 1,"Z": 1.00000048" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.9914449,"Z": 0" w="-0.130525962" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1001.38, "Y": -14.198,"Z": -199.156},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11E83DC0" unknown1="272" unknown2="71910533">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_I0000|lz_hill_I_0000</value>
+          <value>0x11E83E30</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_I0000|rt_apr_hill_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_I0000|rt_rtn__hill_I_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x11E83E30" unknown1="80" unknown2="71910536">
+          <value>0x11E83DC0</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 1,"Z": 0" w="1E-06" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2154.846, "Y": 56.104557,"Z": 365.6},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11E8C100" unknown1="272" unknown2="62905184">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_I0000|lz_pfCamp_I_0000</value>
+          <value>0x11E8C170</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_I0000|rt_apr_pfCamp_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCamp_I0000|rt_rtn_pfCamp_I_0000</value>
+    <entity class="TransformEntity" classVersion="0" addr="0x11E8C170" unknown1="80" unknown2="62905187">
+          <value>0x11E8C100</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.0000006, "Y": 1,"Z": 1.0000006" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.6087601,"Z": 0" w="0.7933544" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 847, "Y": -11.993,"Z": 1148},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11E42EE0" unknown1="272" unknown2="53158">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannah_I0000|lz_savannah_I_0000</value>
+          <value>0x11E42F50</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannah_I0000|rt_apr_savannah_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_savannah_I0000|rt_rtn_savannah_I_0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.0000006, "Y": 1,"Z": 1.0000006" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.707106948,"Z": 0" w="0.7071066" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1011.195, "Y": 51.032,"Z": -222.272},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11E4C3A0" unknown1="272" unknown2="184276477">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_I0000|lz_swamp_I_0000</value>
+          <value>0x11E4C410</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_I0000|rt_apr_swamp_I_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_swamp_I0000|rt_rtn_swamp_I_0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.9999992, "Y": 1,"Z": 0.9999992" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.707103968,"Z": 0" w="0.7071096" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -19.631, "Y": 4.172,"Z": 140.915},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12EF54F0" unknown1="272" unknown2="118827">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_factoryWest_S0000|lz_factoryWest_S_0000</value>
+          <value>0x12EF5560</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_factoryWest_S0000|rt_apr_factoryWest_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_factoryWest_S0000|rt_rtn_factoryWest_S_0000</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 1,"Z": 0" w="5E-06" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2271.819, "Y": 77.448,"Z": -418.586},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1109CDB0" unknown1="272" unknown2="2017691">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_bananaSouth_N0000|lz_bananaSouth_N_0000</value>
+          <value>0x1109CE20</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_bananaSouth_N0000|rt_apr_bananaSouth_N0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_bananaSouth_N0000|rt_rtn_bananaSouth_N0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.00000012, "Y": 1,"Z": 1.00000012" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.258819848,"Z": 0" w="0.965925634" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 74.69757, "Y": 11.20394,"Z": -689.4091},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x115C4680" unknown1="272" unknown2="4135">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_outland_S0000|lz_outland_S_0000</value>
+          <value>0x115C46F0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_outland_S0000|rt_apr_outland_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_outland_S0000|rt_rtn_outland_S_0000</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -3E-06,"Z": 0},
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -440.57, "Y": -21.394,"Z": 1339.173},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1176E5C0" unknown1="272" unknown2="95927">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCampNorth_S0000|lz_pfCampNorth_S_0000</value>
+          <value>0x1176E630</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCampNorth_S0000|rt_apr_pfCampNorth_S_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_pfCampNorth_S0000|rt_rtn_pfCampNorth_S_0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.999999344, "Y": 1,"Z": 0.999999344" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.7071035,"Z": 0" w="0.707110047" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 582.537, "Y": -10.141,"Z": 418.169},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x116AE2B0" unknown1="272" unknown2="121042565">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_labWest_W0000|lz_labWest_W_0000</value>
+          <value>0x116AE320</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_labWest_W0000|rt_apr_labWest_W_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_labWest_W0000|rt_rtn_labWest_W_0000</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.258819044,"Z": 0" w="0.9659258" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1786.925, "Y": 163.734,"Z": -2130.55},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x117A9B60" unknown1="272" unknown2="4327">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_factory_N0000|lz_factory_N_0000</value>
+          <value>0x117A9BD0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_factory_N0000|rt_apr_factory_N_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_factory_N0000|rt_rtn_factory_N_0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.999999642, "Y": 1,"Z": 0.999999642" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.129841775,"Z": 0" w="0.9915347" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2442.583, "Y": 71.165,"Z": -1192.776},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x118C8660" unknown1="272" unknown2="4356">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_E0000|lz_hill_E_0000</value>
+          <value>0x118C86D0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_E0000|rt_apr_hill_E_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hill_E0000|rt_rtn_hill_E_0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1.00000143, "Y": 1,"Z": 1.00000143" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.991444647,"Z": 0" w="0.130527869" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2465.211, "Y": 64.474,"Z": 230.489},
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11946D70" unknown1="272" unknown2="37125413">
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hillSouth_W0000|lz_hillSouth_W_0000</value>
+          <value>0x11946DE0</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hillSouth_W0000|rt_apr_hillSouth_W_0000</value>
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          <value>lz_hillSouth_W0000|rt_rtn_hillSouth_W_0000</value>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 0.999999642, "Y": 1,"Z": 0.999999642" w="1.121039E-44" />
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.129841775,"Z": 0" w="0.9915347" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1688.901, "Y": -10.645,"Z": 1520.548},

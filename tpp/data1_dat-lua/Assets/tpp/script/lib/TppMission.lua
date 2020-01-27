@@ -6,9 +6,9 @@ local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
 local IsTypeNumber=Tpp.IsTypeNumber
-local n=GkEventTimerManager.Start
-local n=GameObject.GetGameObjectId
-local n=GameObject.NULL_ID
+local TimerStart2=GkEventTimerManager.Start--CULL
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
 local SVarsIsSynchronized=TppScriptVars.SVarsIsSynchronized
 local RegistPlayRecord=PlayRecord.RegistPlayRecord
 local bnot=bit.bnot
@@ -19,18 +19,18 @@ local IsTimerActive=GkEventTimerManager.IsTimerActive
 local IsHelicopter=Tpp.IsHelicopter
 local IsNotAlert=Tpp.IsNotAlert
 local IsPlayerStatusNormal=Tpp.IsPlayerStatusNormal
-local r=DemoDaemon.IsDemoPlaying
-local r=10
-local r=3
+local IsDemoPlaying=DemoDaemon.IsDemoPlaying
+local unkM11=10
+local unkM10=3
 local outSideOfHotZoneCount=5
 local outSideOfInnerZoneTime=2.5
-local Timer_outsideOfInnerZone="Timer_outsideOfInnerZone"
+local Timer_outsideOfInnerZoneStr="Timer_outsideOfInnerZone"
 local missionClearCodeNone=0
 local maxObjective=64
 local deathLimitToStealthAssistPopup=1--RETAILPATCH 1060 was 2 --deaths till chicken hat popup
 local deathLimitToPerfectStealthPopup=0--RETAILPATCH 1060 was 4 --RETAILPATCH 1070 to 0 from 3 --deaths to super chicken hat popup
 local dayInSeconds=(24*60)*60
-local RENsomenumber=2
+local unkM1=2
 local MAX_32BIT_UINT=TppDefine.MAX_32BIT_UINT
 local function RegistMissionTimerPlayRecord()
   RegistPlayRecord"MISSION_TIMER_UPDATE"
@@ -1347,7 +1347,7 @@ function this.ExecuteMissionFinalize()
   end
   if isFreeMission then
     --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear
-    InfMain.ExecuteMissionFinalizeFree{--tex>
+    InfMainTpp.ExecuteMissionFinalizeFree{--tex>
       currentMissionCode=currentMissionCode,
       currentLocationCode=currentLocationCode,
       isHeliSpace=isHeliSpace,
@@ -1641,7 +1641,6 @@ function this.Messages()
         if this.IsFreeMission(vars.missionCode)or(this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_VISIT))then
           TppUiStatusManager.ClearStatus"AnnounceLog"
         end
-        InfMain.ClearMarkers()--tex
         if mvars.mis_updateObjectiveOnHelicopterStart then
           this.ShowUpdateObjective(mvars.mis_objectiveSetting)
           if mvars.mis_updateObjectiveDoorOpenRadioGroups then
@@ -1769,7 +1768,7 @@ function this.Messages()
           TppUiCommand.RemovedAllUserMarker()
         end
       end},
-      {msg="Finish",sender=Timer_outsideOfInnerZone,func=function()
+      {msg="Finish",sender=Timer_outsideOfInnerZoneStr,func=function()
         if(mvars.mis_isAlertOutOfMissionArea==false)then
           return
         end
@@ -2220,14 +2219,14 @@ function this.CheckMissionState(checkMissionClear,checkGameOver,checkDemoPlaying
   if svars==nil then
     return
   end
-  local isMissionclear=mvars.mis_isReserveMissionClear or svars.mis_isDefiniteMissionClear
+  local idMissionClear=mvars.mis_isReserveMissionClear or svars.mis_isDefiniteMissionClear
   local isGameOver=mvars.mis_isReserveGameOver or svars.mis_isDefiniteGameOver
   local demoIsNotPlayable=TppDemo.IsNotPlayable()
   local startSequence=false
   if svars.seq_sequence<=1 then
     startSequence=true
   end
-  if isMissionclear and not checkMissionClear then
+  if idMissionClear and not checkMissionClear then
     return false
   elseif isGameOver and not checkGameOver then
     return false
@@ -2423,12 +2422,12 @@ function this.Update()
       end
     end
     if isAlertOutOfMissionArea then
-      if not IsTimerActive(Timer_outsideOfInnerZone)then
-        TimerStart(Timer_outsideOfInnerZone,outSideOfInnerZoneTime)
+      if not IsTimerActive(Timer_outsideOfInnerZoneStr)then
+        TimerStart(Timer_outsideOfInnerZoneStr,outSideOfInnerZoneTime)
       end
     else
-      if IsTimerActive(Timer_outsideOfInnerZone)then
-        TimerStop(Timer_outsideOfInnerZone)
+      if IsTimerActive(Timer_outsideOfInnerZoneStr)then
+        TimerStop(Timer_outsideOfInnerZoneStr)
       end
     end
   end
@@ -2535,8 +2534,8 @@ function this.SeizeReliefVehicleOnClear()
   end
   if vehicleId~=vars.playerVehicleGameObjectId then
     local options={"Fulton","CheckFultonType"}
-    local missionClearTyoe=this.GetMissionClearType()
-    if not this.EvaluateReliefVehicleSeizable(missionClearTyoe)then
+    local missionClearType=this.GetMissionClearType()
+    if not this.EvaluateReliefVehicleSeizable(missionClearType)then
       table.insert(options,"CheckFarFromPlayer")
     end
     GameObject.SendCommand(vehicleId,{id="Seize",options=options})
@@ -2694,7 +2693,7 @@ function this.UpdateAtCanMissionClear(isOutsideOfHotZone,isOutsideOfMissionArea)
   else
     if(isNotAlert and isPlayerStatusNormal)and notHelicopter then
       if not IsTimerActive"Timer_OutsideOfHotZoneCount"then
-        TimerStart("Timer_OutsideOfHotZoneCount",RENsomenumber)
+        TimerStart("Timer_OutsideOfHotZoneCount",unkM1)
       end
     else
       if not isNotAlert then

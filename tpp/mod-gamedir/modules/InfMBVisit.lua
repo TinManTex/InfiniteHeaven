@@ -23,6 +23,40 @@ local clusterRewards={}
 local longVisitRewards=0
 local revengeDecayCount=0
 
+this.registerIvars={
+  'mbMoraleBoosts',
+  'revengeDecayOnLongMbVisit',
+}
+
+this.mbMoraleBoosts={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.revengeDecayOnLongMbVisit={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+--<
+this.langStrings={
+  eng={
+    mbMoraleBoosts="Staff-wide morale boost for good visit",
+    mb_morale_visit_noticed="Word has spread of your visit",
+    mb_morale_boosted="Staff-wide morale has improved due to your visit",
+    revengeDecayOnLongMbVisit="Enemy prep decrease on long MB visit",
+    mb_visit_revenge_decay="Enemy prep has decreased during your absence from the field",
+  },
+  help={
+    eng={
+      revengeDecayOnLongMbVisit="Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat ",
+      mbMoraleBoosts="Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.",
+    },
+  }
+}
+
 function this.Init(missionTable)
   this.messageExecTable=nil
 

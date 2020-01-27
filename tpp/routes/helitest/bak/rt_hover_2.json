@@ -1,0 +1,34 @@
+{
+	"Name" : "rt_hover_2",
+	"Nodes" : [{
+		"Position": {"X": -1756.610,"Y": 363.914,"Z": -312.599},
+		"EdgeEvent" : {
+			"EventType" : "RelaxedWalk",
+            "Param1": 0,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 0,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+		},
+		"Events" : [
+			{
+				"EventType" : "Hovering",
+	            "Param1": 3630432256,
+	            "Param2": 0,
+	            "Param3": 0,
+	            "Param4": 0,
+	            "Param5": 0,
+	            "Param6": 0,
+	            "Param7": 0,
+	            "Param8": 0,
+	            "Param9": 0,
+	            "Param10": 0,
+			},
+		]
+	}]
+}

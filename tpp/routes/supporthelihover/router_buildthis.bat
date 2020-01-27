@@ -1,0 +1,2 @@
+"D:\GitHub\FoxLibRouter\bin\Debug\FoxLibRouter.exe" "D:\Projects\MGS\!InfiniteHeaven\!modfpk\Assets\tpp\pack\mission2\ih\ih_support_heli_hover_routes_afgh_fpk\Assets\tpp\mission2\ih\routes\ih_support_heli_hover_routes_afgh.frt" "D:\Projects\MGS\!InfiniteHeaven\routes\supporthelihover\afgh"
+"D:\GitHub\FoxLibRouter\bin\Debug\FoxLibRouter.exe" "D:\Projects\MGS\!InfiniteHeaven\!modfpk\Assets\tpp\pack\mission2\ih\ih_support_heli_hover_routes_mafr_fpk\Assets\tpp\mission2\ih\routes\ih_support_heli_hover_routes_mafr.frt" "D:\Projects\MGS\!InfiniteHeaven\routes\supporthelihover\mafr"

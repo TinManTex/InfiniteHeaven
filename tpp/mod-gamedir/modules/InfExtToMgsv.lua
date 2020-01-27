@@ -1,7 +1,11 @@
 --InfExtToMgsv.lua
 local this={}
 
+local InfCore=InfCore
+local Split=InfCore.Split
 local concat=table.concat
+local tonumber=tonumber
+local ipairs=ipairs
 
 this.debugModule=false
 
@@ -13,7 +17,6 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   this.ProcessCommands()
 end
 
-local tonumber=tonumber
 function this.ProcessCommands()
   local extToMgsvPrev=InfCore.extToMgsvComplete
   local extPrevSession=InfCore.extSession
@@ -30,7 +33,7 @@ function this.ProcessCommands()
   if lines then
     for i,line in ipairs(lines)do
       if line:len()>0 then
-        local args=InfUtil.Split(line,'|')
+        local args=Split(line,'|')
         local messageId=tonumber(args[1])
         if #args>0 then
           --tex 1st line messageId is IHExt sessionId
@@ -174,6 +177,9 @@ function this.Activate(args)
           InfMenu.GoMenu(option)
         elseif type(option.OnActivate)=="function" then
           InfCore.PCallDebug(option.OnActivate,option,ivars[option.name])
+        elseif option.optionType=="OPTION" then
+          InfMenu.NextSetting()
+          InfMenu.DisplayCurrentSetting()
         else
           InfMenu.SetCurrent()
         end

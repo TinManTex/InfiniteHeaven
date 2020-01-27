@@ -15,6 +15,19 @@ this.hostageNames={}
 
 this.hostageTypes={}--DEBUGNOW
 
+-->
+this.registerIvars={
+'enableWildCardHostageFREE',
+}
+
+this.enableWildCardHostageFREE={--WIP
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+--<
+
 function this.PostAllModulesLoad()
   this.hostageNames=InfLookup.GenerateNameList("ih_hostage_%04d",this.numHostages)
 end

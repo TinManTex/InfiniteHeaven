@@ -68,6 +68,96 @@ this.walkerGearChangeMainWeaponVar={
   nameLangId="buddy_walkergear",
 }
 
+-->
+this.registerIvars={
+  'buddyChangeEquipVar',
+}
+
+--buddies
+local buddyTypeToCommandInfo={
+  [BuddyType.QUIET]="quietChangeWeaponVar",
+  [BuddyType.DOG]="dogChangeEquipVar",
+  [BuddyType.HORSE]="horseChangeTypeVar",
+  [BuddyType.WALKER_GEAR]=nil,--WIP "walkerGearChangeMainWeaponVar",
+}
+
+local function GetCommandInfo(name)
+  local commandInfo=InfBuddy[name] or InfBuddy[buddyTypeToCommandInfo[vars.buddyType]]
+  return commandInfo
+end
+
+local BuddyVarGetSettingText=function(self,setting)
+  if vars.buddyType==BuddyType.NONE then
+    return InfMenu.LangString"no_buddy_set"
+  end
+
+  local commandInfo=GetCommandInfo(self.name)
+  if not commandInfo then
+    return InfMenu.LangString"none_defined"
+  end
+
+  local varTypeTable=commandInfo.varTypeTable
+  return varTypeTable[setting].name
+end
+local BuddyVarOnSelect=function(self)
+  if vars.buddyType==BuddyType.NONE then
+    return InfMenu.LangString"no_buddy_set"
+  end
+
+  local commandInfo=GetCommandInfo(self.name)
+  if not commandInfo then
+    return
+  end
+  local var=vars[commandInfo.varName]
+  local varTypeTable=commandInfo.varTypeTable
+  self.range.max=#varTypeTable
+  local index=InfBuddy.GetTableIndexForBuddyVar(var,varTypeTable)
+  self:SetDirect(index)
+end
+local BuddyVarOnActivate=function(self,setting)
+  if vars.buddyType==BuddyType.NONE then
+    return
+  end
+
+  local commandInfo=GetCommandInfo(self.name)
+  if not commandInfo then
+    return
+  end
+  InfBuddy.ChangeBuddyVar(commandInfo,setting)
+end
+
+this.buddyChangeEquipVar={
+  inMission=true,
+  nonConfig=true,
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  range={max=5,min=1},
+  GetSettingText=BuddyVarGetSettingText,
+  OnSelect=BuddyVarOnSelect,
+  OnActivate=BuddyVarOnActivate,
+}
+--< ivar defs
+this.langStrings={
+  eng={
+    no_buddy_set="No buddy set",
+    current_buddy_not="Current buddy is not ",
+    not_developed=" has not been developed",
+    allready_set=" is allready set",
+    changing_to="Changing to ",
+    buddy_quiet="Quiet",
+    buddy_horse="D-Horse",
+    buddy_dog="D-Dog",
+    buddy_walkergear="D-Walker",
+    buddyChangeEquipVar="Buddy Equipment",
+    buddyMenu="Buddy menu",
+    none_defined="None defined",
+  },
+  help={
+    eng={
+      buddyChangeEquipVar="Buddy equiment is changed to selected setting when <Action> is pressed.",
+    },
+  },
+}
+
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
@@ -129,7 +219,7 @@ function this.ChangeBuddyVar(commandInfo,setting)
   TppBuddy2BlockController.CallBuddy(BuddyType.NONE,Vector3(0,0,0),0)
 
   vars[commandInfo.varName]=varInfo.varType
-  
+
   --tex can't change buddy vars on the same frame, so set and have them return
   GkEventTimerManager.Start("Timer_CycleBuddyReturn",0.3)
 end

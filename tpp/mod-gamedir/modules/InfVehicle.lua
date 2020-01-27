@@ -215,6 +215,94 @@ local skipClassSet={
   [Vehicle.type.WESTERN_TRUCK]=true,
 }
 
+this.registerIvars={
+  'vehiclePatrolProfile',
+  'vehiclePatrolLvEnable',
+  'vehiclePatrolTruckEnable',
+  'vehiclePatrolWavEnable',
+  'vehiclePatrolWavHeavyEnable',
+  'vehiclePatrolTankEnable',
+  'vehiclePatrolPaintType',
+  'vehiclePatrolClass',
+  'vehiclePatrolEmblemType',
+}
+
+--patrol vehicle stuff>
+this.vehiclePatrolProfile={--TODO rename, this is not an IH profile 'vehicle patrol style?'
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"OFF","SINGULAR","EACH_VEHICLE"},
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+this.vehiclePatrolLvEnable={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.vehiclePatrolTruckEnable={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.vehiclePatrolWavEnable={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.vehiclePatrolWavHeavyEnable={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.vehiclePatrolTankEnable={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.vehiclePatrolPaintType={
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  range={max=10},
+}
+
+this.vehiclePatrolClass={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"DEFAULT","DARK_GRAY","OXIDE_RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
+}
+
+this.vehiclePatrolEmblemType={
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  range={max=10},
+}
+--< ivar defs
+this.langStrings={
+  eng={
+    vehiclePatrolProfile="Vehicle patrols in free roam",
+    vehiclePatrolProfileSettings={"Game default - trucks only","All of one type","Each vehicle differing type"},
+    vehiclePatrolLvEnable="Allow jeeps",
+    vehiclePatrolTruckEnable="Allow trucks",
+    vehiclePatrolWavEnable="Allow wheeled armored vehicles",
+    vehiclePatrolWavHeavyEnable="Allow heavy wheeled armored vehicles",
+    vehiclePatrolTankEnable="Allow tanks",
+    vehiclePatrolClass="Vehicle patrol class",
+    vehiclePatrolClassSettings={"Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep"},
+  },
+  help={
+    eng={
+      vehiclePatrolProfile="Replaces the patrolling trucks in free roam with other vehicles, picked randomly from enabled types.",
+    },
+  }
+}
+--< lang strings
+
 function this.PostModuleReload(prevModule)
   this.inf_patrolVehicleInfo=prevModule.inf_patrolVehicleInfo
   this.inf_patrolVehicleConvoyInfo=prevModule.inf_patrolVehicleConvoyInfo
@@ -416,7 +504,7 @@ function this.GetVehicleColor()
   if Ivars.vehiclePatrolClass:Is"ENEMY_PREP" then
     --tex alt tuning for combined stealth/combat average, but I think I like heli color tied to combat better thematically,
     --sure have them put more helis out if stealth level is high (see numAttackHelis), but only put beefier helis if your actually causing a ruckus
-    --local level=InfMain.GetAverageRevengeLevel()
+    --local level=InfMainTpp.GetAverageRevengeLevel()
     --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
 
     local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)

@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 --InfLZ.lua
--- NODEPS
+-- Callers: TppMain . player start positions, for startonfoot
 local this = {}
 local StrCode32=InfCore.StrCode32
 
@@ -699,6 +699,48 @@ function this.GetGroundStartPosition(missionStartRoute,missionCode)
   end
   return this.groundStartPositions[layout+1][missionStartRoute]
 end
+
+--IN/SIDE: locationName
+function this.GetClosestLz(position)
+  local closestRoute=nil
+  local closestDist=9999999999999999
+  local closestPosition=nil
+
+  local locationName=InfUtil.GetLocationName()
+
+  if not TppLandingZone.assaultLzs[locationName] then
+    InfCore.Log("WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil",true,true)--DEBUG
+  end
+  local lzTables={
+    TppLandingZone.assaultLzs[locationName],
+    TppLandingZone.missionLzs[locationName]
+  }
+  for i,lzTable in ipairs(lzTables)do
+    for dropLzName,aprLzName in pairs(lzTable)do
+      local coords=this.GetGroundStartPosition(StrCode32(dropLzName))
+      if coords then
+        local cpPos=coords.pos
+        if cpPos==nil then
+          InfCore.Log("coords.pos==nil for "..dropLzName,true,true)
+          return
+        elseif #cpPos~=3 then
+          InfCore.Log("#coords.pos~=3 for "..dropLzName,true,true)
+          return
+        end
+
+        local distSqr=TppMath.FindDistance(position,cpPos)
+        if distSqr<closestDist then
+          closestDist=distSqr
+          closestRoute=dropLzName
+          closestPosition=cpPos
+        end
+      end
+    end
+  end
+
+  return closestRoute,closestDist,closestPosition
+end
+
 function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
   if lzTable==nil then
     return

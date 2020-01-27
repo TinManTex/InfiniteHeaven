@@ -37,7 +37,7 @@ function this.IsFOBMission(missionCode)
 end
 
 function this.IsIvar(ivar)--TYPEID
-  return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
+  return type(ivar)=="table" and (ivar.range or ivar.settings) --DEBUGNOWor (ivar.name and ivars[ivar.name])
 end
 
 function this.GetSetting(self)
@@ -178,8 +178,14 @@ function this.SetSetting(self,setting,noSave)
       return
     end
   end
+
   --InfCore.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   local prevSetting=currentSetting
+  if self.PreChange then
+    --InfCore.Log("SetSetting OnChange for "..self.name)--DEBUG
+    InfCore.PCallDebug(self.PreChange,self,prevSetting,setting)
+  end
+
   ivars[self.name]=setting
   if self.save and not noSave then
     local gvar=this.GetSaved(self)
@@ -290,9 +296,8 @@ end
 --    range={min=1,max=15}
 --  },
 --)
---OUT: Ivars
---tex
-function this.MinMaxIvar(Ivars,name,minSettings,maxSettings,ivarSettings,dontSetIvars)
+--OUT: module[ivarName...], module.registerIvars
+function this.MinMaxIvar(module,name,minSettings,maxSettings,ivarSettings,dontSetIvars)
   local ivarMin={
     subName=name,
     save=this.CATEGORY_EXTERNAL,
@@ -317,9 +322,13 @@ function this.MinMaxIvar(Ivars,name,minSettings,maxSettings,ivarSettings,dontSet
     ivarMax[k]=v
   end
 
+  module.registerIvars=module.registerIvars or {}
+  module.registerIvars[#module.registerIvars+1]=name..minSuffix
+  module.registerIvars[#module.registerIvars+1]=name..maxSuffix
+
   if not dontSetIvars then
-    Ivars[name..minSuffix]=ivarMin
-    Ivars[name..maxSuffix]=ivarMax
+    module[name..minSuffix]=ivarMin
+    module[name..maxSuffix]=ivarMax
   end
   return {
     [name..minSuffix]=ivarMin,
@@ -380,8 +389,8 @@ local missionModeChecks={
 --  },
 --  {"FREE","MISSION",},
 --)
---OUT: Ivars
-function this.MissionModeIvars(Ivars,name,ivarDefine,missionModes)
+--OUT: module[name..], module.missionModeIvars, module.registerIvars
+function this.MissionModeIvars(module,name,ivarDefine,missionModes)
   if not missionModes then
     InfCore.Log("IvarProc.MissionModeIvars: ERROR: cannot missionModes for "..tostring(name))
     return
@@ -395,11 +404,15 @@ function this.MissionModeIvars(Ivars,name,ivarDefine,missionModes)
 
     ivar.MissionCheck=missionModeChecks[missionMode]
     local fullName=name..missionMode
-    Ivars[fullName]=ivar
+    module[fullName]=ivar
 
-    --tex used by IsForMission/EnabledForMission
-    Ivars.missionModeIvars[name]=Ivars.missionModeIvars[name] or {}
-    Ivars.missionModeIvars[name][#Ivars.missionModeIvars[name]+1]=ivar--insert
+    --tex used by IsForMission/EnabledForMission --TODO: implementation need a rethink
+    module.missionModeIvarsNames=module.missionModeIvarsNames or {}
+    module.missionModeIvarsNames[name]=module.missionModeIvarsNames[name] or {}
+    module.missionModeIvarsNames[name][#module.missionModeIvarsNames[name]+1]=fullName--insert
+
+    module.registerIvars=module.registerIvars or {}
+    module.registerIvars[#module.registerIvars+1]=fullName
   end
 end
 
@@ -989,11 +1002,11 @@ function this.ReadEvars(ih_save)
       if type(value)~=typeNumber then
         InfCore.Log("WARNING: ReadEvars ih_save: value~=number: "..name.."="..tostring(value),false,true)
       else
-        --tex used to use this to clear out unknown ivars, 
+        --tex used to use this to clear out unknown ivars,
         --but now that ivars can be defined in modules, and ReadEvars is run once before modules are loaded
         --they're now cleared in Ivars.PostAllModulesLoad / after the module ivars are added
         if ivars and ivars[name]==nil then
-          InfCore.Log("WARNING: ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
+        --InfCore.Log("WARNING: ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
         end
         loadedEvars[name]=value
       end
@@ -1093,7 +1106,7 @@ function this.LoadEvars()
   if ih_save then
     local loadedEvars=this.ReadEvars(ih_save)
     if this.debugModule then
-      InfCore.PrintInspect(loadedEvars,{varName="loadedEvars"})
+      InfCore.PrintInspect(loadedEvars,"loadedEvars")
     end
     if loadedEvars then
       for name,value in pairs(loadedEvars) do
@@ -1107,21 +1120,23 @@ function this.LoadEvars()
 
       for name,value in pairs(ih_save.igvars) do
         if type(name)=="string" then
-          if igvars[name]~=nil and value~=nil then
-            if type(value)~=type(igvars[name]) then
-              InfCore.Log("WARNING: ih_save igvar "..name.." type does not match")
-            else
-              igvars[name]=value
-            end
-          else
-            InfCore.Log("LoadEvars could not find igvar "..name)
-          end
+          igvars[name]=value
+        --CULL DEBUGNOW
+--          if igvars[name]~=nil and value~=nil then
+--            if type(value)~=type(igvars[name]) then
+--              InfCore.Log("WARNING: ih_save igvar "..name.." type does not match")
+--            else
+--              igvars[name]=value
+--            end
+--          else
+--            InfCore.Log("LoadEvars could not find igvar "..name)
+--          end
         end
       end
       --InfCore.PrintInspect(igvars,"igvars, loaded")--DEBUG
     end
 
-    if InfCore.doneStartup and igvars.inf_event==true then
+    if InfCore.doneStartup and igvars.inf_event and igvars.inf_event==true then
       InfCore.Log("IvarProc.LoadEvars: is mis event, skiping UpdateSettingFromGvar."..vars.missionCode)--DEBUG
     else
       for name,ivar in pairs(Ivars) do

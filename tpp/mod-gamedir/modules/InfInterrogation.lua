@@ -50,9 +50,38 @@ local parasiteResourceNames={
   "ParasiteCuring",--armor
 }
 
-function this.Init(missionTable)
-  this.messageExecTable=nil
+-->
+this.registerIvars={
+  'enableInfInterrogation',
+}
 
+this.enableInfInterrogation={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+--<
+this.langStrings={
+  eng={
+    enableInfInterrogation="IH interrogation in free roam",
+    interrogate_lrrp="[Intel] the soldier indicates a LRRP is traveling between %s and %s",--cp name 1, cp name 2
+    interrogate_lrrp_walker="[Intel] the soldier indicates a Walker Gear was traveling between %s and %s",--cp name 1, cp name 2
+    interrogate_walker="[Intel] the soldier indicates there was a Walker Gear assigned to %s",--cp name
+    interrogate_wildcard="[Intel] the soldier indicates there was a mercenary assigned to %s",--cp name
+    interrogate_heli="[Intel] the soldier indicates an attack heli is travelling to %s",--cp name
+    intercp_comrade_location="[Intel] the soldier indicates their comrade assigned to %s has stashed some things",--cp name
+    intercp_complete="[Intel] the soldier has given us the location of their stash",
+    intercp_repeat="[Intel] the soldier is just repeating himself",
+  },
+  help={
+    eng={
+      enableInfInterrogation="Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)",
+    },
+  },
+}
+
+function this.Init(missionTable)
   if not missionTable.enemy then
     return
   end
@@ -127,10 +156,10 @@ function this.LrrpLocation()
   --InfCore.PCall(function()--DEBUG
   --InfCore.DebugPrint"LrrpLocation"--DEBUG
   --tex TODO: eliminated check
-  local lrrpName=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
-  local lrrpDefine=InfMain.lrrpDefines[lrrpName]
-  local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfUtil.GetLocationName())
-  local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfUtil.GetLocationName())
+  local lrrpName=InfMain.lrrpDefines[math.random(#InfMainTpp.lrrpDefines)]
+  local lrrpDefine=InfMainTpp.lrrpDefines[lrrpName]
+  local base1Name=InfLangProc.CpNameString(lrrpDefine.base1,InfUtil.GetLocationName())
+  local base2Name=InfLangProc.CpNameString(lrrpDefine.base2,InfUtil.GetLocationName())
 
   if base1Name==nil then
     InfCore.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
@@ -157,7 +186,7 @@ function this.WalkerStaticLocation()
   local infoName=walkerInfos[math.random(#walkerInfos)]
   local walkerInfo=walkerInfos[infoName]
   local cpName=walkerInfo.cpName
-  local cpNameString=InfMenu.CpNameString(cpName,InfUtil.GetLocationName())
+  local cpNameString=InfLangProc.CpNameString(cpName,InfUtil.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_walker",cpNameString)
   --end)--
 end
@@ -166,7 +195,7 @@ function this.WildCardLocation()
   --InfCore.DebugPrint"WildCardLocation"--DEBUG
   local soldierName=InfUtil.GetRandomInList(InfSoldier.ene_wildCardNames)
   local cpName=InfSoldier.ene_wildCardInfo[soldierName].cpName
-  local cpNameString=InfMenu.CpNameString(cpName,InfUtil.GetLocationName())
+  local cpNameString=InfLangProc.CpNameString(cpName,InfUtil.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end
 
@@ -192,7 +221,7 @@ function this.HeliLocation()
 
   local cpName=InfNPCHeli.heliRouteToCp[locationName][route]
   if cpName then
-    local cpNameString=InfMenu.CpNameString(cpName,locationName)
+    local cpNameString=InfLangProc.CpNameString(cpName,locationName)
     InfMenu.PrintFormatLangId("interrogate_heli",cpNameString)
   end
 end
@@ -360,7 +389,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
   if not gvars.inf_interCpQuestStatus[partnerICPQId] then
     local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
     local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
-    local cpNameLang=InfMenu.CpNameString(partnerCpName,InfUtil.GetLocationName())
+    local cpNameLang=InfLangProc.CpNameString(partnerCpName,InfUtil.GetLocationName())
     --InfCore.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
     InfMenu.PrintFormatLangId("intercp_comrade_location",cpNameLang)
     --tex TODO:

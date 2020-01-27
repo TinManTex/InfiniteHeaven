@@ -8,6 +8,99 @@ this.missionInfo={}
 
 this.missionListSlotIndices={}--tex need it for OpenMissions
 
+-->
+this.registerIvars={
+  'manualMissionCode',
+  'manualSequence',
+  'loadAddonMission',
+  'ihMissionsPercentageCount',
+}
+
+this.manualMissionCode={
+  inMission=true,
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  settings={},--DYNAMIC
+  OnSelect=function(self)
+    self.settings=this.GetMissionCodes()
+    self.range.max=#self.settings-1
+    self.settingNames=self.settings
+  end,
+  OnActivate=function(self,setting)
+    local settingStr=self.settings[setting+1]
+    local missionCode=tonumber(settingStr)
+    InfCore.Log("manualMissionCode "..settingStr)
+
+    this.LoadMissionManual(missionCode)
+  end,
+}
+
+this.manualSequence={
+  inMission=true,
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  range={max=1},--DYNAMIC
+  OnSelect=function(self)
+    self.settingNames={}
+    --tex also mvars.seq_demoSequneceList (a subset)
+    for sequenceName,enum in pairs(mvars.seq_sequenceNames)do
+      self.settingNames[enum]=sequenceName
+    end
+    --InfCore.PrintInspect(self.settingNames)--DEBUG
+    self.range.max=#self.settingNames-1
+  end,
+  OnActivate=function(self,setting)
+    local settingStr=self.settingNames[setting+1]
+    --InfCore.DebugPrint(tostring(settingStr))--DEBUG
+    TppSequence.SetNextSequence(settingStr)
+  end,
+}
+
+this.loadAddonMission={
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  settings={},
+  OnSelect=function(self)
+    self.settings={}
+    for i,missionCode in pairs(InfMission.missionIds)do
+      self.settings[#self.settings+1]=tostring(missionCode)
+    end
+    self.range.max=#self.settings-1
+    self.settingNames=self.settings
+  end,
+  GetSettingText=function(self,setting)
+    if #self.settings==0 then
+      return "No addon missions installed"--DEBUGNOW TODO langid
+    end
+
+    local settingStr=self.settings[setting+1]
+    local missionCode=tonumber(settingStr)
+    local missionInfo=InfMission.missionInfo[missionCode]
+    if missionInfo then
+      return missionInfo.description or settingStr--DEBUGNOW
+    else
+      return "No missionInfo for "..settingStr --DEBUGNOW TODO langid
+    end
+  end,
+  OnActivate=function(self,setting)
+    if #self.settings==0 then
+      return
+    end
+
+    local settingStr=self.settings[setting+1]
+    local missionCode=tonumber(settingStr)
+    InfCore.Log("manualMissionCode "..settingStr)
+
+    this.LoadMissionManual(missionCode)
+  end,
+}
+
+this.ihMissionsPercentageCount={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function()
+    TppMission.SetPlayRecordClearInfo()
+  end,
+}
+--<
 
 function this.PostModuleReload(prevModule)
   this.locationInfo=prevModule.locationInfo
@@ -21,7 +114,7 @@ end
 this.femaleFaceIdList={394,351,373,456,463,455,511,502}
 this.maleFaceIdList={195,144,214,6,217,83,273,60,87,71,256,201,290,178,102,255,293,165,85,18,228,12,65,134,31,132,161,342,107,274,184,226,153,247,344,242,56,183,54,126,223}
 
-local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
+local MAX_REALIZED_COUNT=255--EnemyFova.MAX_REALIZED_COUNT
 local fovaSetupFuncs={}
 function fovaSetupFuncs.basic(locationName,missionId)
   local faces={}
@@ -64,7 +157,8 @@ fovaSetupFuncs[12050]=fovaSetupFuncs.basic
 
 --this.locationInfo[45].locationMapParams=this.locationMapParams.MBA0--
 
---REF from RegisterMissionCodeList
+--REF tpp
+--REF from TppDefine RegisterMissionCodeList
 --this.missionUiNumbers={
 --  [10010]=0,
 --  [10020]=1,
@@ -185,6 +279,12 @@ fovaSetupFuncs[12050]=fovaSetupFuncs.basic
 --  "11151",--62
 --#62
 
+--AFGH={10020,10033,10034,10036,10040,10041,10043,10044,10045,10050,10052,10054,10060,10070,10150,10151,10153,10156,10164,10199,10260,,,
+--11036,11043,11041,11033,11050,11054,11044,11052,11151},
+--MAFR={10080,10081,10082,10085,10086,10090,10091,10093,10100,10110,10120,10121,10130,10140,10154,10160,10162,10171,10200,10195,10211,,,
+--11085,11082,11090,11091,11195,11211,11140,11200,11080,11171,11121,11130},
+--MTBS={10030,10115,11115,10240},
+
 this.highestUiMission=50--tex vanilla
 
 function this.LoadLocationDefs()
@@ -227,8 +327,12 @@ function this.LoadMissionDefs()
   end
 end
 
-function this.SetupMissions()
-  InfCore.LogFlow("InfMission.SetupMissions")
+function this.LoadLibraries()
+  if InfCore.gameId~="TPP" then--DEBUGNOW WIP
+    return
+  end
+
+  InfCore.LogFlow("InfMission SetupMissions")
 
   this.LoadLocationDefs()
   this.LoadMissionDefs()
@@ -257,6 +361,8 @@ function this.SetupMissions()
   for locationName,locationId in pairs(InfUtil.locationIdForName)do
     InfUtil.locationNames[locationId]=locationName
   end
+
+  --TppDefine.LOCATION_CHUNK_INDEX_TABLE[location]=Chunkbleh --tex DEBUGNOW see what requires LOCATION_CHUNK_INDEX_TABLE for addon missions, fallback to some default instead of nil?
 
   TppLocation.GetLocationName=InfUtil.GetLocationName--tex replace the vanilla function with IHs
 
@@ -411,7 +517,7 @@ end
 --CALLER: TppStory.UpdateStorySequence
 function this.OpenMissions()
   InfCore.LogFlow("InfMission.OpenMissions")
-  
+
   --tex close all missing number missions and > vanilla missions first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
     InfCore.Log("Clearing "..missionListIndex)
@@ -420,7 +526,7 @@ function this.OpenMissions()
     gvars.str_missionNewOpenFlag[missionListIndex-1]=false
     gvars.str_missionClearedFlag[missionListIndex-1]=false
   end
-  
+
   --tex TODO: save/restore mission flags
 
   for i,missionCode in ipairs(this.missionIds)do
@@ -477,11 +583,139 @@ function this.Init(missionTable)
   if this.missionInfo[vars.missionCode] then
     --tex in tppmission.init
     mvars.mis_isAlertOutOfMissionArea=false
-    
+
     --tex in tppui init
-    TppUiCommand.HideInnerZone() 
+    TppUiCommand.HideInnerZone()
     TppUiCommand.HideOuterZone()
   end
+end
+
+function this.LoadMissionManual(missionCode)
+  local loadDirect=true--DEBUGNOW
+
+  --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
+  --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+  --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+  if loadDirect then
+    gvars.mis_nextMissionCodeForMissionClear=missionCode
+    mvars.mis_showLoadingTipsOnMissionFinalize=false
+    --mvars.heli_missionStartRoute
+    --mvars.mis_nextLayoutCode
+    --mvars.mis_nextClusterId
+    --mvars.mis_ignoreMtbsLoadLocationForce
+
+    TppMission.ExecuteMissionFinalize()
+  else
+    TppMission.ReserveMissionClear{
+      missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,
+      nextMissionId=missionCode,
+    }
+  end
+end
+
+function this.GetMissionCodes()
+  return {
+    --LOC,TYPE,Notes
+    --    "1",--INIT
+    --    "5",--TITLE
+    --storyMissions
+    "10010",--CYPR
+    "10020",
+    "10030",
+    "10036",
+    "10043",
+    "10033",
+    "10040",
+    "10041",
+    "10044",
+    "10052",
+    "10054",
+    "10050",
+    "10070",
+    "10080",
+    "10086",
+    "10082",
+    "10090",
+    "10195",
+    "10091",
+    "10100",
+    "10110",
+    "10121",
+    "10115",
+    "10120",
+    "10085",
+    "10200",
+    "10211",
+    "10081",
+    "10130",
+    "10140",
+    "10150",
+    "10151",
+    "10045",
+    "10156",
+    "10093",
+    "10171",
+    "10240",
+    "10260",
+    "10280",--CYPR
+    --hard missions
+    "11043",
+    "11041",--missingno
+    "11054",
+    "11085",--missingno
+    "11082",
+    "11090",
+    "11036",--missingno
+    "11033",
+    "11050",
+    "11091",--missingno
+    "11195",--missingno
+    "11211",--missingno
+    "11140",
+    "11200",--missingno
+    "11080",
+    "11171",--missingno
+    "11121",
+    "11115",--missingno
+    "11130",
+    "11044",
+    "11052",--missingno
+    "11151",
+    --
+    --"10230",--FLYK,missing completely, chap 3, no load
+    --in PLAY_DEMO_END_MISSION, no other refs
+    --    "11070",
+    --    "11100",
+    --    "11110",
+    --    "11150",
+    --    "11240",
+    --    "11260",
+    --    "11280",
+    --    "11230",
+    --free mission
+    "30010",--AFGH,FREE
+    "30020",--MAFR,FREE
+    "30050",--MTBS,FREE
+    "30150",--MTBS,MTBS_ZOO,FREE
+    "30250",--MBQF,MBTS_WARD,FREE
+    --heli space
+    "40010",--AFGH,AFGH_HELI,HLSP
+    "40020",--MAFR,MAFR_HELI,HLSP
+    "40050",--MTBS
+  --"40060",--HLSP,HELI_SPACE,--no load
+  --online
+  --"50050",--MTBS,FOB
+  --select??
+  --"60000",--SELECT --6e4
+  --show demonstrations (not demos lol)
+  --    "65020",--AFGH,e3_2014
+  --    "65030",--MTBS,e3_2014
+  --    "65050",--MAFR??,e3_2014
+  --    "65060",--MAFR,tgs_2014
+  --    "65414",--gc_2014
+  --    "65415",--tgs_2014
+  --    "65416",--tgs_2014
+  }
 end
 
 return this

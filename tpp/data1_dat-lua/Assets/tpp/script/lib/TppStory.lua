@@ -1948,13 +1948,13 @@ function this.RequestLoseQuiet()
   end
 end
 function this.CanArrivalLiquidInMB()
-  if Ivars.mbShowEli:Is(1) and not InfMain.IsMbEvent() then return true end--tex added mbshow
+  if Ivars.mbShowEli:Is(1) and not InfMainTpp.IsMbEvent() then return true end--tex added mbshow
   local e=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
   local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
   return e and n
 end
 function this.CanArrivalHueyInMB()
-  if Ivars.mbShowHuey:Is(1) and not InfMain.IsMbEvent() then return true end--tex added mbshow
+  if Ivars.mbShowHuey:Is(1) and not InfMainTpp.IsMbEvent() then return true end--tex added mbshow
   local n=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
   local e=not TppDemo.IsPlayedMBEventDemo"DecisionHuey"
   return n and e
@@ -1963,7 +1963,7 @@ function this.HueyHasKantokuGrass()
   return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA
 end
 function this.CanArrivalCodeTalkerInMB()
-  return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER or (Ivars.mbShowCodeTalker:Is(1)and not InfMain.IsMbEvent())--tex added mbshow
+  return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER or (Ivars.mbShowCodeTalker:Is(1)and not InfMainTpp.IsMbEvent())--tex added mbshow
 end
 function this.CanArrivalDDogInMB()
   local e=TppBuddyService.CanSortieBuddyType(BuddyType.DOG)

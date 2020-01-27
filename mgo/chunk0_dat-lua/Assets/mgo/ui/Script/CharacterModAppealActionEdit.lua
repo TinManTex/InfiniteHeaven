@@ -1,15 +1,106 @@
 function GetEntryAppealAction(t)
-local e=""..t
-local _=""..(t+1)
-local t="id_customize_itmLst_record000"..(e..".UI_ID_C_ItmList_record.")
-local t={type="MgoUiMenuEntry",name="menu_entry_appeal_action_list_".._,states={{type="MgoUiAnimationStateSwitch",name="stateInit",mode="enter",control="play",layout=t.."UI_ID_C_ItmLst_Focus_Out"},{type="MgoUiAnimationStateSwitch",name="stateInit",mode="enter",control="play",layout=t.."UI_ID_C_ItmLst_Edge_Off"},{type="MgoUiAnimationStateSwitch",name="stateInit",mode="enter",control="play",layout=t.."UI_ID_C_ItmLst_New_Off"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",layout=t.."UI_ID_C_ItmLst_Focus"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="stop",layout=t.."UI_ID_C_ItmLst_Focus_Out"},{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="play",layout=t.."UI_ID_C_ItmLst_Focus_Out"},{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="stop",layout=t.."UI_ID_C_ItmLst_Focus"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",loop="true",layout=t.."UI_ID_C_ItmLst_Cursor_Noise"}},widgets={{type="MgoUiLabel",name="label_appeal_action_list_name_".._,source="mgo_idroid_appeal_action_edit_list_name",index=e,layout=t.."UI_ID_C_ItmLst_ItmName_txt",default="D.Name"},{type="MgoUiImage",name="image_appeal_action_list_".._,source="mgo_idroid_appeal_action_edit_list_texture",index=e,layout=t.."UI_ID_C_ItmLst_ItmIcon",default="Icon"},{type="MgoUiLabel",name="label_appeal_action_list_eqp_".._,source="mgo_idroid_appeal_action_edit_list_eqp",index=e,layout=t.."UI_mark_eqp_txt",default=""},{type="MgoUiAnimation",name="anim_appeal_action_list_"..(_.."_ctrl"),source="mgo_idroid_appeal_action_edit_list_anim_ctrl",index=e,layout="",options={{key="_on_",layout=t.."UI_ID_C_ItmLst_On"},{key="_off_",layout=t.."UI_ID_C_ItmLst_Off"}}},{type="MgoUiAnimation",name="anim_appeal_action_list_"..(_.."_eqp"),source="mgo_idroid_appeal_action_edit_list_anim_eqp",index=e,layout="",options={{key="_on_",layout=t.."UI_ID_C_ItmLst_EQ_On"},{key="_off_",layout=t.."UI_ID_C_ItmLst_EQ_Off"}}},{type="MgoUiAnimation",name="anim_appeal_action_list_"..(_.."_lock"),source="mgo_idroid_appeal_action_edit_list_anim_lock",index=e,layout="",options={{key="_on_",layout=t.."UI_ID_C_ItmLst_Full"},{key="_off_",layout=t.."UI_ID_C_ItmLst_Dim"},{key="_lock_",layout=t.."UI_ID_C_ItmLst_Lock_def_on"}}}}}
-return t
+  local e=""..t
+  local _=""..(t+1)
+  local t="id_customize_itmLst_record000"..(e..".UI_ID_C_ItmList_record.")
+  local t={
+    type="MgoUiMenuEntry",
+    name="menu_entry_appeal_action_list_".._,
+    states={
+      {type="MgoUiAnimationStateSwitch",
+        name="stateInit",
+        mode="enter",
+        control="play",
+        layout=t.."UI_ID_C_ItmLst_Focus_Out"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateInit",
+        mode="enter",
+        control="play",
+        layout=t.."UI_ID_C_ItmLst_Edge_Off"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateInit",
+        mode="enter",
+        control="play",
+        layout=t.."UI_ID_C_ItmLst_New_Off"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateHot",
+        mode="enter",
+        control="play",
+        layout=t.."UI_ID_C_ItmLst_Focus"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateHot",
+        mode="enter",
+        control="stop",
+        layout=t.."UI_ID_C_ItmLst_Focus_Out"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateIdle",
+        mode="enter",
+        control="play",
+        layout=t.."UI_ID_C_ItmLst_Focus_Out"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateIdle",
+        mode="enter",
+        control="stop",
+        layout=t.."UI_ID_C_ItmLst_Focus"},
+      {type="MgoUiAnimationStateSwitch",
+        name="stateHot",
+        mode="enter",
+        control="play",
+        loop="true",
+        layout=t.."UI_ID_C_ItmLst_Cursor_Noise"}},
+    widgets={{type="MgoUiLabel",
+      name="label_appeal_action_list_name_".._,
+      source="mgo_idroid_appeal_action_edit_list_name",
+      index=e,
+      layout=t.."UI_ID_C_ItmLst_ItmName_txt",
+      default="D.Name"},
+    {type="MgoUiImage",
+      name="image_appeal_action_list_".._,
+      source="mgo_idroid_appeal_action_edit_list_texture",
+      index=e,
+      layout=t.."UI_ID_C_ItmLst_ItmIcon",
+      default="Icon"},
+    {type="MgoUiLabel",
+      name="label_appeal_action_list_eqp_".._,
+      source="mgo_idroid_appeal_action_edit_list_eqp",
+      index=e,
+      layout=t.."UI_mark_eqp_txt",
+      default=""},
+    {type="MgoUiAnimation",
+      name="anim_appeal_action_list_"..(_.."_ctrl"),
+      source="mgo_idroid_appeal_action_edit_list_anim_ctrl",
+      index=e,
+      layout="",
+      options={{key="_on_",
+        layout=t.."UI_ID_C_ItmLst_On"},
+      {key="_off_",
+        layout=t.."UI_ID_C_ItmLst_Off"}}},
+    {type="MgoUiAnimation",
+      name="anim_appeal_action_list_"..(_.."_eqp"),
+      source="mgo_idroid_appeal_action_edit_list_anim_eqp",
+      index=e,
+      layout="",
+      options={{key="_on_",
+        layout=t.."UI_ID_C_ItmLst_EQ_On"},
+      {key="_off_",
+        layout=t.."UI_ID_C_ItmLst_EQ_Off"}}},
+    {type="MgoUiAnimation",
+      name="anim_appeal_action_list_"..(_.."_lock"),
+      source="mgo_idroid_appeal_action_edit_list_anim_lock",
+      index=e,
+      layout="",
+      options={{key="_on_",
+        layout=t.."UI_ID_C_ItmLst_Full"},
+      {key="_off_",
+        layout=t.."UI_ID_C_ItmLst_Dim"},
+      {key="_lock_",
+        layout=t.."UI_ID_C_ItmLst_Lock_def_on"}}}}}
+  return t
 end
 function GetEntryAppealActionSub(t)
-local e=""..t
-local _=""..(t+1)
-local t="UI_ID_Customize_SUB_record000"..(_..".UI_ID_Customize_SUB_record.")
-local t={type="MgoUiMenuEntry",name="sub_menu_entry_appeal_action_list_".._,states={{type="MgoUiAnimationStateSwitch",name="stateInit",mode="enter",control="play",layout=t.."UI_ID_C_SUB_rc_focus_off"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",layout=t.."UI_ID_C_SUB_rc_focus_on"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="stop",layout=t.."UI_ID_C_SUB_rc_focus_off"},{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="play",layout=t.."UI_ID_C_SUB_rc_focus_off"},{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="stop",layout=t.."UI_ID_C_SUB_rc_focus_on"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",loop="true",layout=t.."UI_ID_C_SUB_rc_lp"}},widgets={{type="MgoUiLabel",name="label_appeal_action_sub_list_name_".._,source="mgo_idroid_appeal_action_edit_sub_list_name",index=e,layout=t.."UI_sub_txt",default="D.Name"},{type="MgoUiAnimation",name="anim_appeal_action_list_"..(_.."_ctrl"),source="mgo_idroid_appeal_action_edit_sub_list_anim_ctrl",index=e,layout="",options={{key="_on_",layout=t.."UI_ID_C_SUB_rc_focus_on"},{key="_off_",layout=t.."UI_ID_C_SUB_rc_focus_off"}}}}}
-return t
+  local e=""..t
+  local _=""..(t+1)
+  local t="UI_ID_Customize_SUB_record000"..(_..".UI_ID_Customize_SUB_record.")
+  local t={type="MgoUiMenuEntry",name="sub_menu_entry_appeal_action_list_".._,states={{type="MgoUiAnimationStateSwitch",name="stateInit",mode="enter",control="play",layout=t.."UI_ID_C_SUB_rc_focus_off"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",layout=t.."UI_ID_C_SUB_rc_focus_on"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="stop",layout=t.."UI_ID_C_SUB_rc_focus_off"},{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="play",layout=t.."UI_ID_C_SUB_rc_focus_off"},{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="stop",layout=t.."UI_ID_C_SUB_rc_focus_on"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",loop="true",layout=t.."UI_ID_C_SUB_rc_lp"}},widgets={{type="MgoUiLabel",name="label_appeal_action_sub_list_name_".._,source="mgo_idroid_appeal_action_edit_sub_list_name",index=e,layout=t.."UI_sub_txt",default="D.Name"},{type="MgoUiAnimation",name="anim_appeal_action_list_"..(_.."_ctrl"),source="mgo_idroid_appeal_action_edit_sub_list_anim_ctrl",index=e,layout="",options={{key="_on_",layout=t.."UI_ID_C_SUB_rc_focus_on"},{key="_off_",layout=t.."UI_ID_C_SUB_rc_focus_off"}}}}}
+  return t
 end
 CharacterModAppealActionEdit={widgets={{type="MgoUiLabel",name="label_appeal_action_edit_list_num",source="mgo_idroid_edit_list_num",layout="UI_ID_Customize_PT2_layout.UI_ID_C_ItmLst_Num_txt",default="[0]"},{type="MgoUiLabel",name="label_list_description",source="mgo_idroid_appeal_action_edit_list_help",layout="UI_ID_Customize_PT2_layout.UI_ID_C_ItmLst_Help_txt",default="[0]",textUnitCount=12},{type="MgoUiLabel",name="label_list_description_sdw",source="mgo_idroid_appeal_action_edit_list_help",layout="UI_ID_Customize_PT2_layout.UI_ID_C_ItmLst_Help_sdw_txt",default="[0]",textUnitCount=12},{type="MgoUiLabel",name="label_appeal_action_slot_list_name_1",source="mgo_idroid_appeal_action_slot_list_name",index=0,layout="UI_ID_Customize_PT2_layout.UI_appeal_key_txt_0",default="D.Name"},{type="MgoUiLabel",name="label_appeal_action_slot_list_name_2",source="mgo_idroid_appeal_action_slot_list_name",index=1,layout="UI_ID_Customize_PT2_layout.UI_appeal_key_txt_1",default="D.Name"},{type="MgoUiLabel",name="label_appeal_action_slot_list_name_3",source="mgo_idroid_appeal_action_slot_list_name",index=2,layout="UI_ID_Customize_PT2_layout.UI_appeal_key_txt_2",default="D.Name"},{type="MgoUiLabel",name="label_appeal_action_slot_list_name_4",source="mgo_idroid_appeal_action_slot_list_name",index=3,layout="UI_ID_Customize_PT2_layout.UI_appeal_key_txt_3",default="D.Name"},{type="MgoUiLabel",name="label_appeal_action_slot_list_name_5",source="mgo_idroid_appeal_action_slot_list_name",index=4,layout="UI_ID_Customize_PT2_layout.UI_appeal_key_txt_4",default="D.Name"},{type="MgoUiImage",name="image_appeal_action_slot_list_icon_1",source="mgo_idroid_appeal_action_slot_list_texture",index=0,layout="UI_ID_Customize_PT2_layout.UI_PROG_appeal_icon_0",default="Icon"},{type="MgoUiImage",name="image_appeal_action_slot_list_icon_2",source="mgo_idroid_appeal_action_slot_list_texture",index=1,layout="UI_ID_Customize_PT2_layout.UI_PROG_appeal_icon_1",default="Icon"},{type="MgoUiImage",name="image_appeal_action_slot_list_icon_3",source="mgo_idroid_appeal_action_slot_list_texture",index=2,layout="UI_ID_Customize_PT2_layout.UI_PROG_appeal_icon_2",default="Icon"},{type="MgoUiImage",name="image_appeal_action_slot_list_icon_4",source="mgo_idroid_appeal_action_slot_list_texture",index=3,layout="UI_ID_Customize_PT2_layout.UI_PROG_appeal_icon_3",default="Icon"},{type="MgoUiImage",name="image_appeal_action_slot_list_icon_5",source="mgo_idroid_appeal_action_slot_list_texture",index=4,layout="UI_ID_Customize_PT2_layout.UI_PROG_appeal_icon_4",default="Icon"},{type="MgoUiMenu",name="menu_appeal_action_list",sizeSource="mgo_idroid_menu_appeal_action_edit_list",hideEmpty="true",states={{type="MgoUiAnimationStateSwitch",name="stateShow",mode="enter",control="play",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_On"},{type="MgoUiAnimationStateSwitch",name="stateShow",mode="enter",control="play",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_ItmLst_Show"},{type="MgoUiAnimationStateSwitch",name="stateShow",mode="enter",control="stop",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_ItmLst_Hide"},{type="MgoUiAnimationStateSwitch",name="stateHide",mode="enter",control="play",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_ItmLst_Hide"},{type="MgoUiAnimationStateSwitch",name="stateHide",mode="enter",control="stop",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_ItmLst_Show"}},widgets={GetEntryAppealAction(0),GetEntryAppealAction(1),GetEntryAppealAction(2),GetEntryAppealAction(3),GetEntryAppealAction(4),GetEntryAppealAction(5),GetEntryAppealAction(6)}},{type="MgoUiMenu",name="menu_appeal_action_sub_list",states={{type="MgoUiAnimationStateSwitch",name="stateIdle",mode="enter",control="play",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_sublist_off"},{type="MgoUiAnimationStateSwitch",name="stateHot",mode="enter",control="play",layout="UI_ID_Customize_PT2_layout.UI_ID_C_PT2_sublist_on"}},widgets={GetEntryAppealActionSub(0),GetEntryAppealActionSub(1),GetEntryAppealActionSub(2),GetEntryAppealActionSub(3),GetEntryAppealActionSub(4)}}}}

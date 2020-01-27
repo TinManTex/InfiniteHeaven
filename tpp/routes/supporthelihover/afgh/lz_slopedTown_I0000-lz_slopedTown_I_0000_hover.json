@@ -1,0 +1,34 @@
+{
+	"Name" : "lz_slopedTown_I0000|lz_slopedTown_I_0000_hover",
+	"Nodes" : [{
+		"Position": {"X": 512.112, "Y": 314.602,"Z": 167.444},
+		"EdgeEvent" : {
+			"EventType" : "VehicleMoveFast",
+            "Param1": 0,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 0,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+		},
+		"Events" : [
+			{
+				"EventType" : "Hovering",
+	            "Param1": 1,
+	            "Param2": 3630432256,
+	            "Param3": 0,
+	            "Param4": 0,
+	            "Param5": 0,
+	            "Param6": 0,
+	            "Param7": 0,
+	            "Param8": 0,
+	            "Param9": 0,
+	            "Param10": 0,
+			},
+		]
+	}]
+}

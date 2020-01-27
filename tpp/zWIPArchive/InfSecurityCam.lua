@@ -3,6 +3,19 @@
 
 local this={}
 
+-->
+this.registerIvars={
+  'enableSecurityCamFREE',
+}
+
+this.enableSecurityCamFREE={--WIP
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+--<
+
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_security_camera.fpk",
   "/Assets/tpp/pack/mission2/ih/ih_cam_defloc_pfCamp.fpk",

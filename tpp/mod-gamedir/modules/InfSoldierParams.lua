@@ -4,6 +4,156 @@ local this={}
 
 local IsTable=Tpp.IsTypeTable
 
+-->
+this.registerIvars={
+  'soldierParamsProfile',
+  'soldierSightDistScale',
+  'soldierNightSightDistScale',
+  'soldierHearingDistScale',
+  'soldierHealthScale',
+}
+
+local EXTERNAL=IvarProc.CATEGORY_EXTERNAL
+--parameters
+--tex TODO: change over name to something more accurate next time you do a change that would require the user to update their settings anyway
+this.soldierParamsProfile={
+  save=EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+--enemy parameters sight
+this.sightScaleRange={max=400,min=0,increment=5}
+local function OnChangeEnemyParam(self,currentSetting,setting)
+  if Ivars.soldierParamsProfile:Is(0) then
+    Ivars.soldierParamsProfile:Set(1)
+  end
+end
+
+this.soldierSightDistScale={
+  save=EXTERNAL,
+  default=100,
+  range=this.sightScaleRange,
+  isPercent=true,
+--OnChange=OnChangeEnemyParam,
+}
+
+this.soldierNightSightDistScale={
+  save=EXTERNAL,
+  default=100,
+  range=this.sightScaleRange,
+  isPercent=true,
+--OnChange=OnChangeEnemyParam,
+}
+
+this.soldierHearingDistScale={
+  save=EXTERNAL,
+  default=100,
+  range={max=400,min=0,increment=5},
+  isPercent=true,
+--OnChange=OnChangeEnemyParam,
+}
+
+
+--this.sightForms={
+--  "contactSightForm",
+--  "normalSightForm",
+--  "farSightForm",
+--  "searchLightSightForm",
+--  "observeSightForm",
+--}
+--
+--this.sightTypeNames={
+--  "baseSight",
+--  "nightSight",
+--  "combatSight",
+--  "walkerGearSight",
+--  "observeSight",
+--  "snipingSight",
+--  "searchLightSight",
+--  "armoredVehicleSight",
+--  "zombieSight",
+--  "msfSight",
+--  "vehicleSight",
+--}
+--
+--this.sightFormNames={
+--  "discovery",
+--  "indis",
+--  "dim",
+--  "far",
+--  "observe",
+--}
+--
+--this.sightIvarLists={
+--  "sightForms",
+--  "sightTypeNames",
+--  "sightFormNames",
+--}
+--
+--this.sightDistScaleName="DistScaleSightParam"
+--for n,listName in ipairs(this.sightIvarLists) do
+--  for i,name in ipairs(this[listName]) do
+--    local ivarName=name..this.sightDistScaleName
+--    local ivar={
+--      save=EXTERNAL,
+--      default=1,
+--      range=this.sightScaleRange,
+--    }
+--    this[ivarName]=ivar
+--  end
+--end
+--
+this.soldierHealthScale={
+  save=EXTERNAL,
+  default=100,
+  range={max=900,min=0,increment=20},
+  isPercent=true,
+}
+--< ivar defs
+
+-->
+this.registerMenus={
+  'soldierParamsMenu',
+}
+
+this.soldierParamsMenu={
+  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  options={
+    "Ivars.soldierParamsProfile",
+    "Ivars.soldierHealthScale",
+    "Ivars.soldierSightDistScale",
+    "Ivars.soldierNightSightDistScale",
+    "Ivars.soldierHearingDistScale",
+    "Ivars.itemDropChance",
+    "InfMenuCommandsTpp.PrintHealthTableParameter",
+    "InfMenuCommandsTpp.PrintSightFormParameter",
+    "InfMenuCommandsTpp.PrintHearingTable",
+  }
+}
+--< menu defs
+this.langStrings={
+  eng={
+    soldierParamsMenu="Soldier parameters menu",
+    soldierParamsProfile="Enable soldier parameter settings",
+    soldierHealthScale="Soldier life scale",
+    soldierSightDistScale="Soldier sight scale",
+    soldierNightSightDistScale="Soldier night sight scale",
+    printSightFormParameter="Print sight param table (look in iDroid Log>All tab)",
+    printHealthTableParameter="Print health param table (look in iDroid Log>All tab)",
+    soldierHearingDistScale="Soldier hearing distance scale",
+    printHearingTable="Print hearing distance table (look in iDroid Log>All tab)",
+  },
+  help={
+    eng={
+      soldierParamsProfile="Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).",
+      soldierHealthScale="0% will kill off all enemies",
+      soldierSightDistScale="A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.",
+    },
+  }
+}
+--< langstrings
+
 --tex so rather than tweak parameters manually my enemy param options scale,
 --this.soldierParameters is the table actually manipulated, pulling soldierParametersDefaults when it does the change\scale operation
 --at some point a modded table needs to be reloaded via TppSoldier2.ReloadSoldier2ParameterTables

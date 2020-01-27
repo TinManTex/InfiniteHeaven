@@ -6,8 +6,8 @@ YouTube playlist demonstrating many features
 
 All options in Infinite Heaven start set to game defaults and can be adjusted in the Infinite Heaven menus.
 
-Non menu activated features
-===========================
+Discrete features
+=================
 
 Disables self on FOB
 FOB mode automatically uses defaults/unmodified, this does not affect saved settings on return.
@@ -50,6 +50,11 @@ Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExterna
 New sideops for Mother Base.
 Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
 
+IHExt overlay
+IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.
+The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.
+Source can be found at https://github.com/TinManTex/IHExt/
+
 Menu, Options and Settings
 ==========================
 
@@ -79,7 +84,7 @@ ACC Main menu
 IH system menu
 --------------
 1: Enable IHExt : Off, On
-IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless. It is currently not installed by default.
+IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
 2: Enable help text (IHExt) : Off, On
 Shows help text in IHExt for some options.
 3: Give IHExt focus : 0-1
@@ -102,18 +107,18 @@ Stops the konami/kjp/fox/nvidia logos from showing.
 Events menu
 -----------
 1: Trigger random IH event : 0-1
-Events are temporary combinations of IH settings for free roam and mother base. 
-  Free roam events (can stack): 
-  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
-  Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
-  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
-  MB events (only one active): 
-  DD Training wargame, 
-  Soviet attack, 
-  Rogue Coyote attack, 
-  XOF attack, 
-  DD Infection outbreak, 
-  Zombie Obliteration (non DD)
+Events are temporary combinations of IH settings for free roam and mother base.
+Free roam events (can stack): 
+Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
+Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
+Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
+MB events (only one active): 
+DD Training wargame, 
+Soviet attack, 
+Rogue Coyote attack, 
+XOF attack, 
+DD Infection outbreak, 
+Zombie Obliteration (non DD)
 2: Free roam event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')
 3: MB event random trigger chance : 0-100%
@@ -326,7 +331,7 @@ Custom prep menu
 9: Reinforce calls min : 1-99
 Number of reinforcement calls a CP has.
 10: Reinforce calls max : 1-99
-The number of times reinforcements can be called
+Number of reinforcement calls a CP has.
 11: Vehicle reinforcement level min : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
 12: Vehicle reinforcement level max : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
 13: Ignore combat-deploy supply blocks min : Off, On
@@ -629,21 +634,32 @@ Camera menu
 -----------
 1: Adjust-cam [Mode] : Off, On
   Move cam with normal move keys 
+
   &ltDash&gt(Shift or Left stick click) to move up
+
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
+
   Hold the following and move left stick up/down to increase/decrease the settings:
+
   &ltFire&gt - Zoom/focal length
+
   &ltReload&gt - Aperture (DOF)
+
   &ltStance&gt - Focus distance (DOF) 
+
   &ltAction&gt - Cam move speed
+
   &ltReady weapon&gt - Camera orbit distance
+
   Or hold &ltBinocular&gt and press the above to reset that setting.
+
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
 3: Warp body to FreeCam position : 0-1
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
-6: Show freecam position : 0-1
+6: setStageBlockPositionToFreeCam : 0-1
+7: Show freecam position : 0-1
 
 Time scale menu
 ---------------
@@ -721,7 +737,7 @@ Logs some script execution flow, requires Debug IH mode to be on.
 13: Disable game over : Off, On
 14: Disable out of bounds checks : Off, On
 15: Disable mission intro credits : Off, On
-16: manualMissionCode : 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050
+16: manualMissionCode : 
 
 appearanceDebugMenu
 -------------------
@@ -756,11 +772,8 @@ appearanceDebugMenu
 
 In Mission menu
 ---------------
-1: Support heli to latest marker : 0-1
-  Requests Support heli to Landing Zone closest to the last placed user marker. 
-  Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. 
-  This however has an issue where the doors will close on take-off preventing you from shifting between heli sides. 
-  The chaingun on the side you start on can still be used.
+1: Support heli to marker : 0-1
+Sends Support heli to Landing Zone closest to the last placed user marker while riding it.
 2: Force exit helicopter : 0-1
 Lets you exit the helicopter while riding it, mind the fall.
 3: Drop current equip : 0-1
@@ -768,39 +781,52 @@ Lets you exit the helicopter while riding it, mind the fall.
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
 5: Camera menu
 6: Time scale menu
-7: User marker menu
-8: Buddy menu
-9: Appearance menu
-10: Staff menu
-11: Markers menu
-12: Enemy phases menu
-13: Support heli menu
-14: MB Ocean menu
-15: Debug stuff menu
-16: Soldier item drop chance : 0-100%
+7: Positions menu
+8: Motions menu
+9: User marker menu
+10: Buddy menu
+11: Appearance menu
+12: Staff menu
+13: Markers menu
+14: Enemy phases menu
+15: Support heli menu
+16: MB Ocean menu
+17: Debug stuff menu
+18: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-17: Player life scale : 0-650%
+19: Player life scale : 0-650%
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
 -----------
 1: Adjust-cam [Mode] : Off, On
   Move cam with normal move keys 
+
   &ltDash&gt(Shift or Left stick click) to move up
+
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
+
   Hold the following and move left stick up/down to increase/decrease the settings:
+
   &ltFire&gt - Zoom/focal length
+
   &ltReload&gt - Aperture (DOF)
+
   &ltStance&gt - Focus distance (DOF) 
+
   &ltAction&gt - Cam move speed
+
   &ltReady weapon&gt - Camera orbit distance
+
   Or hold &ltBinocular&gt and press the above to reset that setting.
+
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
 3: Warp body to FreeCam position : 0-1
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
-6: Show freecam position : 0-1
+6: setStageBlockPositionToFreeCam : 0-1
+7: Show freecam position : 0-1
 
 Time scale menu
 ---------------
@@ -817,13 +843,45 @@ Does not apply the dust and blur effect while TSM is active.
 6: Clock time scale : 1-10000
 Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
 
+Positions menu
+- For adding positions in the game to a Positions List, and writing them to files.
+--------------
+1: Add current position to Positions List : 0-1
+Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.
+2: Add markers to Positions List : 0-1
+Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+3: Write Positions List : 0-1
+Writes Positions List to files in MGS_TPP\mod\
+4: Clear Positions List : 0-1
+Clears Positions List
+
+Motions menu
+- Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
+------------
+1: Motion group : nil
+Press &ltAction&gt to play the selected animation.
+2: Motion number : BatsuSign anim:0
+Press &ltAction&gt to play the selected animation.
+3: Hold motion : Off, On
+Holds motion, requires stop motion to stop.
+4: Repeat motion : Off, On
+Repeat motion at end, some animations don't support this.
+5: Stop motion : 0-1
+Use to stop motions with motion hold or motion repeat.
+6: Play motion : 0-1
+Closes menu and plays current selected motion.
+
 User marker menu
 ----------------
 1: Warp to latest marker : 0-1
 2: Print latest marker : 0-1
 3: Print all markers : 0-1
-4: Quiet move to last marker : 0-1
-Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
+4: Add markers to Positions List : 0-1
+Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+5: Write Positions List : 0-1
+Writes Positions List to files in MGS_TPP\mod\
+6: Clear Positions List : 0-1
+Clears Positions List
 
 Buddy menu
 ----------
@@ -950,11 +1008,14 @@ Logs some script execution flow, requires Debug IH mode to be on.
 21: Disable game over : Off, On
 22: Disable out of bounds checks : Off, On
 23: setAllFriendly : 0-1
-24: resetStageBlockPosition : 0-1
-25: setStageBlockPositionToMarkerClosest : 0-1
-26: setStageBlockPositionToFreeCam : 0-1
-27: Show freecam position : 0-1
-28: Show position : 0-1
+24: setAllZombie : 0-1
+25: dEBUG_ToggleParasiteEvent : 0-1
+26: resetStageBlockPosition : 0-1
+27: setStageBlockPositionToMarkerClosest : 0-1
+28: setStageBlockPositionToFreeCam : 0-1
+29: Show freecam position : 0-1
+30: Show position : 0-1
+31: checkPointSave : 0-1
 
 appearanceDebugMenu
 -------------------

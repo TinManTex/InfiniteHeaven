@@ -1,0 +1,580 @@
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x149A89E0" unknown1="272" unknown2="4585">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_N0000|lz_cliffTown_N_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_N0000|rt_apr_cliffTown_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_N0000|rt_rtn_cliffTown_N_0000_hover",
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x149A89E0</value>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.7693083,"Z": 0" w="0.6388777" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 831.2817, "Y": 443.8953,"Z": -1418.949},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0E582150" unknown1="272" unknown2="303891">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_S0000|lz_cliffTown_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_S0000|rt_apr_cliffTown_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_S0000|rt_rtn_cliffTown_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.3386142,"Z": 0" w="0.9409253" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 491.464, "Y": 411.469,"Z": -693.187},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0E582380" unknown1="272" unknown2="5347883">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTownWest_S0000|lz_clifftownWest_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTownWest_S0000|rt_apr_cliffTownWest_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTownWest_S0000|rt_rtn_cliffTownWest_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.84144,"Z": 0" w="0.5403505" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 64.766, "Y": 427.324,"Z": -842.648},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0FD6AD50" unknown1="272" unknown2="136060283">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_S0000|lz_commFacility_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_S0000|rt_apr_commFacility_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_S0000|rt_rtn_commFacility_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.977590144,"Z": 0" w="0.210517108" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1651.165, "Y": 346.3806,"Z": 587.9771},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x10873D50" unknown1="272" unknown2="72491650">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_W0000|lz_commFacility_W_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_W0000|rt_apr_commFacility_W_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_W0000|rt_rtn_commFacility_W_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.461852878,"Z": 0" w="0.8869565" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1060.06, "Y": 355.0465,"Z": 467.8995},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1087F580" unknown1="272" unknown2="948412">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_I0000|lz_enemyBase_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_I0000|rt_apr_enemyBase_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_I0000|rt_rtn_enemyBase_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 1,"Z": 0" w="5E-06" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -596.887, "Y": 346.19574,"Z": 497.3986},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0E868BA0" unknown1="272" unknown2="21471015">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_N0000|lz_enemyBase_N_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_N0000|rt_apr_enemyBase_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_N0000|rt_rtn_enemyBase_N_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0,"Z": 0},
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -289.7982, "Y": 339.6911,"Z": 269.6816},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0E86E780" unknown1="272" unknown2="40335978">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_S0000|lz_enemyBase_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_S0000|rt_apr_enemyBase_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_enemyBase_S0000|rt_rtn_enemyBase_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.499998778,"Z": 0" w="0.8660261" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -351.612, "Y": 315.219055,"Z": 768.338},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0EFBBDF0" unknown1="272" unknown2="129211069">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_field_N0000|lz_field_N_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_field_N0000|rt_apr_field_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_field_N0000|rt_rtn_field_N_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0,"Z": 0},
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 802.556, "Y": 338.367,"Z": 1637.746},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x0EFBC100" unknown1="272" unknown2="140151778">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_field_W0000|lz_field_W_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_field_W0000|rt_apr_field_W_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_field_W0000|rt_rtn_field_W_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.608757,"Z": 0" w="0.7933567" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -359.6207, "Y": 276.4228,"Z": 1714.79},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x10B1BB50" unknown1="272" unknown2="172563675">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_E0000|lz_fort_E_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_E0000|rt_apr_fort_E_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_E0000|rt_rtn_fort_E_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.9914452,"Z": 0" w="-0.13052395" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2305.288, "Y": 386.564,"Z": -923.723},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x10BB4DF0" unknown1="272" unknown2="251690099">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_W0000|lz_fort_W_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_W0000|rt_apr_fort_W_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_W0000|rt_rtn_fort_W_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.5000012,"Z": 0" w="0.866024733" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1649.10864, "Y": 484.207336,"Z": -1340.58289},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x10BBEC50" unknown1="272" unknown2="1169703">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_remnants_I0000|lz_remnants_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnants_I0000|rt_apr_remnants_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnants_I0000|rt_rtn_remnants_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.707106,"Z": 0" w="0.707107544" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -805.545, "Y": 284.875,"Z": 1820.651},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x108C7E10" unknown1="272" unknown2="159213091">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_remnants_S0000|lz_remnants_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnants_S0000|rt_apr_remnants_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnants_S0000|rt_rtn_remnants_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": -0.005068784, "Y": 0.8880845,"Z": 0.02301627" w="-0.459075749" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -424.838, "Y": 282.2335,"Z": 2005.013},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14DB72B0" unknown1="272" unknown2="37825370">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_remnantsNorth_N0000|lz_remnantsNorth_N_0000_hover",
+          <value>0x14DB7320</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnantsNorth_N0000|rt_apr_remnantsNorth_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnantsNorth_N0000|rt_rtn_remnantsNorth_N_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.382678121,"Z": 0" w="0.9238817" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -836.857, "Y": 281.8926,"Z": 1574.066},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14E51DD0" unknown1="272" unknown2="16606411">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_remnantsNorth_S0000|lz_remnantsNorth_S_0000_hover",
+          <value>0x14E51E40</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnantsNorth_S0000|rt_apr_remnantsNorth_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_remnantsNorth_S0000|rt_rtn_remnantsNorth_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.8660244,"Z": 0" w="0.5000019" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1272.779, "Y": 298.4684,"Z": 1343.028},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14E52000" unknown1="272" unknown2="33673">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_ruins_S0000|lz_ruins_S_0000_hover",
+          <value>0x14E52070</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_ruins_S0000|rt_apr_ruins_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_ruins_S0000|rt_rtn_ruins_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.258819044,"Z": 0" w="0.9659258" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1272.205, "Y": 322.629059,"Z": 1853.511},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14E5A180" unknown1="272" unknown2="3944">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_E0000|lz_slopedTown_E_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_E0000|rt_apr_slopedTown_E_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_E0000|rt_rtn_slopedTown_E_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.707106948,"Z": 0" w="0.7071066" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 822.3687, "Y": 353.44046,"Z": 292.439636},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14EBD3D0" unknown1="272" unknown2="4833">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_W0000|lz_slopedTown_W_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_W0000|rt_apr_slopedTown_W_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_W0000|rt_rtn_slopedTown_W_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.382683933,"Z": 0" w="0.9238793" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 95.30704, "Y": 313.370636,"Z": 243.913025},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14EBD8A0" unknown1="272" unknown2="115624">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_E0000|lz_tent_E_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_E0000|rt_apr_tent_E_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_E0000|rt_rtn_tent_E_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.608762145,"Z": 0" w="0.7933528" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1372.17981, "Y": 311.330536,"Z": 934.6754},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14DE69F0" unknown1="272" unknown2="386862">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_I0000|lz_tent_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_I0000|rt_apr_tent_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_I0000|rt_rtn_tent_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 1,"Z": 0" w="-8.344657E-07" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1761.735, "Y": 310.6947,"Z": 806.5125},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14FB9F50" unknown1="272" unknown2="41991331">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_N0000|lz_tent_N_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_N0000|rt_apr_tent_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_tent_N0000|rt_rtn_tent_N_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.79335016,"Z": 0" w="0.608765662" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1868.779, "Y": 331.483,"Z": 538.7849},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14FBA420" unknown1="272" unknown2="105031">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_village_N0000|lz_village_N_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_village_N0000|rt_apr_village_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_village_N0000|rt_rtn_village_N_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.707106948,"Z": 0" w="0.7071066" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 612.735046, "Y": 348.483826,"Z": 911.221},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x14DD1E40" unknown1="272" unknown2="3946">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_village_W0000|lz_village_W_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_village_W0000|rt_apr_village_W_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_village_W0000|rt_rtn_village_W_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.7933531,"Z": 0" w="0.608761847" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 20.7028828, "Y": 322.629059,"Z": 888.030457},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1312DD70" unknown1="272" unknown2="22432534">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_N0000|lz_sovietBase_N_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_N0000|rt_apr_sovietBase_N_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_N0000|rt_rtn_sovietBase_N_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.608762145,"Z": 0" w="0.793352842" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1718.064, "Y": 467.383,"Z": -1713.622},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x130BC410" unknown1="272" unknown2="49036248">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietSouth_S0000|lz_sovietSouth_S_0000_hover",
+          <value>0x130BC480</value>
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietSouth_S0000|rt_apr_sovietSouth_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietSouth_S0000|rt_rtn_sovietSouth_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.1305259,"Z": 0" w="0.9914449" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1218.734, "Y": 409.109,"Z": -886.163},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x131F19E0" unknown1="272" unknown2="92284465">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_E0000|lz_sovietBase_E_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_E0000|rt_apr_sovietBase_E_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_E0000|rt_rtn_sovietBase_E_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.258817941,"Z": 0" w="0.9659261" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -2355.797, "Y": 438.515,"Z": -1431.606},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x132E12E0" unknown1="272" unknown2="91592932">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_powerPlant_E0000|lz_powerPlant_E_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_powerPlant_E0000|rt_apr_powerPlant_E_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_powerPlant_E0000|rt_rtn_powerPlant_E_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.130526021,"Z": 0" w="0.9914449" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -662.2, "Y": 549.881,"Z": -1489.065},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x119576A0" unknown1="272" unknown2="30628039">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_field_I0000|lz_field_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_field_I0000|rt_apr_field_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_field_I0000|rt_rtn_field_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.731375,"Z": 0" w="0.681975543" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 418.3253, "Y": 271.4044,"Z": 2261.374},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1195E6A0" unknown1="272" unknown2="23599562">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_I0000|lz_slopedTown_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_I0000|rt_apr_slopedTown_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTown_I0000|rt_rtn_slopedTown_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.499997884,"Z": 0" w="0.86602664" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 512.112, "Y": 309.602,"Z": 167.444},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1195E9B0" unknown1="272" unknown2="75221">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_citadelSouth_S0000|lz_citadelSouth_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_citadelSouth_S0000|rt_apr_citadelSouth_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_citadelSouth_S0000|rt_rtn_citadelSouth_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.425897539,"Z": 0" w="0.9047714" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1663.714, "Y": 529.634,"Z": -2201.782},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x13298F90" unknown1="272" unknown2="62634790">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_I0000|lz_cliffTown_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_I0000|rt_apr_cliffTown_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_cliffTown_I0000|rt_rtn_cliffTown_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0,"Z": 0},
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 761.348, "Y": 445.554,"Z": -1114.162},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11EC66E0" unknown1="272" unknown2="124597182">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_I0000|lz_fort_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_I0000|rt_apr_fort_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fort_I0000|rt_rtn_fort_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.9238798,"Z": 0" w="0.3826827" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 2106.16, "Y": 456.643,"Z": -1747.214},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x11F384A0" unknown1="272" unknown2="4637">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_ruinsNorth_S0000|lz_ruinsNorth_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_ruinsNorth_S0000|rt_apr_ruinsNorth_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_ruinsNorth_S0000|rt_rtn_ruinsNorth_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.7933491,"Z": 0" w="0.608767033" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1275.222, "Y": 330.4173,"Z": 1313.334},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12165410" unknown1="272" unknown2="50059">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTownEast_E0000|lz_slopedTownEast_E_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTownEast_E0000|rt_apr_slopedTownEast_E_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_slopedTownEast_E0000|rt_rtn_slopedTownEast_E_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.500001,"Z": 0" w="0.8660248" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1187.72864, "Y": 313.984924,"Z": -10.3976154},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x1214DB40" unknown1="272" unknown2="17368432">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_fieldWest_S0000|lz_fieldWest_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fieldWest_S0000|rt_apr_fieldWest_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_fieldWest_S0000|rt_rtn_fieldWest_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 1,"Z": 0" w="1E-06" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 139.3558, "Y": 268.580231,"Z": 2357.0603},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x12391900" unknown1="272" unknown2="5867">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_bridge_S0000|lz_bridge_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_bridge_S0000|rt_apr_bridge_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_bridge_S0000|rt_rtn_bridge_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.707107961,"Z": 0" w="0.7071056" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1904.323, "Y": 361.361,"Z": 81.327},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x123DEA90" unknown1="272" unknown2="39278442">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_powerPlant_S0000|lz_powerPlant_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_powerPlant_S0000|rt_apr_powerPlant_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_powerPlant_S0000|rt_rtn_powerPlant_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.258817941,"Z": 0" w="0.9659261" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -630.25, "Y": 437.687,"Z": -910.73},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x124A5FE0" unknown1="272" unknown2="5449">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_S0000|lz_sovietBase_S_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_S0000|rt_apr_sovietBase_S_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_sovietBase_S0000|rt_rtn_sovietBase_S_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.991444647,"Z": 0" w="-0.130527869" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1949.665, "Y": 433.0952,"Z": -1170.193},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x124AB3E0" unknown1="272" unknown2="42336599">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_waterway_I0000|lz_waterway_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_waterway_I0000|rt_apr_waterway_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_waterway_I0000|rt_rtn_waterway_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": -0.762888134,"Z": 0" w="0.646530569" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": -1677.594, "Y": 353.884,"Z": -321.823},
+    </entity>
+
+    <entity class="TppLandingZoneData" classVersion="1" addr="0x125BF9E0" unknown1="272" unknown2="40003200">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_I0000|lz_commFacility_I_0000_hover",
+        <property name="approachRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_I0000|rt_apr_commFacility_I_0000_hover",
+        <property name="returnRoute" type="String" container="StaticArray" arraySize="1">
+          "lz_commFacility_I0000|rt_rtn_commFacility_I_0000_hover",
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          {"X": 0, "Y": 0.60875994,"Z": 0" w="0.7933545" />
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          {"X": 1444.404, "Y": 357.466736,"Z": 390.777},
+    </entity>

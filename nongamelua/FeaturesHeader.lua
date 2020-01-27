@@ -5,7 +5,7 @@ local this={
     "All options in Infinite Heaven start set to game defaults and can be adjusted in the Infinite Heaven menus.",
   },
   {
-    title="Non menu activated features",
+    title="Discrete features",
     {
       featureDescription="Disables self on FOB",
       featureHelp="FOB mode automatically uses defaults/unmodified, this does not affect saved settings on return.",
@@ -42,7 +42,7 @@ local this={
       featureDescription="Quick menu commands.",
       featureHelp="(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)\r\nShortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder."
     },
-        {
+    {
       featureDescription="Settings save file.",
       featureHelp="IH writes its settings to ih_save.lua in the MGS_TPP\mod\saves folder.\r\nWhile the file is editable, editing an inMission save is likely to cause issues."
     },
@@ -57,6 +57,10 @@ local this={
     {
       featureDescription="New sideops for Mother Base.",
       featureHelp="Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show."
+    },
+    {
+      featureDescription="IHExt overlay",
+      featureHelp="IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.\r\nThe normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.\r\nSource can be found at https://github.com/TinManTex/IHExt/"
     },
   },
   {

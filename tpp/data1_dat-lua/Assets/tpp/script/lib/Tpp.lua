@@ -92,7 +92,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
   "/Assets/tpp/script/lib/InfRevenge.lua",
-  "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfPersistence.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
@@ -137,34 +136,34 @@ end
 function this.IsQARelease()
   return(Fox.GetDebugLevel()==Fox.DEBUG_LEVEL_QA_RELEASE)
 end
-function this.SplitString(string,deliminator)
-  local spltStringTable={}
-  local n
+function this.SplitString(string,delim)
+  local splitStringTable={}
+  local splitIndex
   local splitString=string
   while true do
-    n=string.find(splitString,deliminator)
-    if(n==nil)then
-      table.insert(spltStringTable,splitString)
+    splitIndex=string.find(splitString,delim)
+    if(splitIndex==nil)then
+      table.insert(splitStringTable,splitString)
       break
     else
-      local l=string.sub(splitString,0,n-1)
-      table.insert(spltStringTable,l)
-      splitString=string.sub(splitString,n+1)
+      local subString=string.sub(splitString,0,splitIndex-1)
+      table.insert(splitStringTable,subString)
+      splitString=string.sub(splitString,splitIndex+1)
     end
   end
-  return spltStringTable
+  return splitStringTable
 end
 function this.StrCode32Table(table)
   local strCode32Table={}
   for k,v in pairs(table)do
-    local n=k
-    if type(n)=="string"then
-      n=StrCode32(n)
+    local key=k
+    if type(key)=="string"then
+      key=StrCode32(key)
     end
     if type(v)=="table"then
-      strCode32Table[n]=this.StrCode32Table(v)
+      strCode32Table[key]=this.StrCode32Table(v)
     else
-      strCode32Table[n]=v
+      strCode32Table[key]=v
     end
   end
   return strCode32Table
@@ -174,9 +173,10 @@ function this.ApendArray(destTable,sourceTable)
     destTable[#destTable+1]=v
   end
 end
-function this.MergeTable(table1,table2,n)
+function this.MergeTable(table1,table2,unk3)
   local mergedTable=table1
   for k,v in pairs(table2)do
+    --NMC uhhh, both the same?
     if table1[k]==nil then
       mergedTable[k]=v
     else
@@ -233,7 +233,7 @@ function this.MakeMessageExecTable(messagesS32)
   local s32_option=StrCode32"option"
   for messageClassS32,classMessages in pairs(messagesS32)do
     messageExecTable[messageClassS32]=messageExecTable[messageClassS32]or{}
-    for i,messageInfo in pairs(classMessages)do
+    for i,messageInfo in pairs(classMessages)do--tex TODO: re analyse
       local messageNameS32,senderIds,classMessageFunc,options=i,nil,nil,nil
       if IsTypeFunc(messageInfo)then
         classMessageFunc=messageInfo
@@ -254,9 +254,9 @@ function this.MakeMessageExecTable(messagesS32)
               --RETAILBUG msgSndr not defined, moot, no executing code, commented out anyway
               --              if msgSndr==NULL_ID then
               --              end
-          else
-            senderIds[k]=StrCode32(senderId)
-          end
+            else
+              senderIds[k]=StrCode32(senderId)
+            end
           elseif type(senderId)=="number"then
             senderIds[k]=senderId
           end
@@ -303,21 +303,21 @@ function this.DoMessage(messageExecTable,CheckMessageOption,messageClass,message
   if not messageIdRecievers then
     return
   end
-  local RENsomebool=true
-  this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,RENsomebool)
+  local unkBool=true
+  this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,unkBool)
 end
 function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
-    if messageIdRecievers.func then
-      if CheckMessageOption(messageIdRecievers.option)then
-        messageIdRecievers.func(arg0,arg1,arg2,arg3)
-      end
+  if messageIdRecievers.func then
+    if CheckMessageOption(messageIdRecievers.option)then
+      messageIdRecievers.func(arg0,arg1,arg2,arg3)
     end
-    local senders=messageIdRecievers.sender--tex NMC actually recievers at this point
-    if senders and senders[arg0]then
-      if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
-        senders[arg0](arg0,arg1,arg2,arg3)
-      end
+  end
+  local senders=messageIdRecievers.sender--tex NMC actually recievers at this point
+  if senders and senders[arg0]then
+    if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
+      senders[arg0](arg0,arg1,arg2,arg3)
     end
+  end
 end
 function this.GetRotationY(rotQuat)
   if not rotQuat then
@@ -663,12 +663,12 @@ function this.GetLoadedLargeBlock()
   end
   return nil
 end
-function this.GetChunkIndex(locationId,isMGO)
+function this.GetChunkIndex(locationId,isMGO)--tex VERIFY, ssd param2 is missioncode 
   local chunkIndex
   if isMGO then
     chunkIndex=Chunk.INDEX_MGO
   else
-    chunkIndex=TppDefine.LOCATION_CHUNK_INDEX_TABLE[locationId]
+    chunkIndex=TppDefine.LOCATION_CHUNK_INDEX_TABLE[locationId]--tex TODO: ssd has hang call on nil locationchunkindex
     if chunkIndex==nil then
     end
     return chunkIndex
@@ -681,28 +681,28 @@ function this.StartWaitChunkInstallation(chunkIndex)
   this.ClearChunkInstallPopupUpdateTime()
 end
 local r=1
-local n=0
+local chunkInstallPopupUpdateTime=0
 function this.ShowChunkInstallingPopup(t,l)
   local frameTime=Time.GetFrameTime()
-  n=n-frameTime
-  if n>0 then
+  chunkInstallPopupUpdateTime=chunkInstallPopupUpdateTime-frameTime
+  if chunkInstallPopupUpdateTime>0 then
     return
   end
-  n=n+r
-  if n<0 then
-    n=0
+  chunkInstallPopupUpdateTime=chunkInstallPopupUpdateTime+r
+  if chunkInstallPopupUpdateTime<0 then
+    chunkInstallPopupUpdateTime=0
   end
   local platform=Fox.GetPlatformName()
-  local e=Chunk.GetChunkInstallationEta(t)
-  if e and platform=="PS4"then
-    if e>86400 then
-      e=86400
+  local installEta=Chunk.GetChunkInstallationEta(t)
+  if installEta and platform=="PS4"then
+    if installEta>86400 then
+      installEta=86400
     end
-    TppUiCommand.SetErrorPopupParam(e)
+    TppUiCommand.SetErrorPopupParam(installEta)
   end
-  local e=Chunk.GetChunkInstallationRate(t)
-  if e and platform=="XboxOne"then
-    TppUiCommand.SetErrorPopupParam(e*1e4,"None",2)
+  local installRate=Chunk.GetChunkInstallationRate(t)
+  if installRate and platform=="XboxOne"then
+    TppUiCommand.SetErrorPopupParam(installRate*1e4,"None",2)
   end
   local e
   if l then
@@ -713,13 +713,13 @@ function this.ShowChunkInstallingPopup(t,l)
   TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,e)
 end
 function this.ClearChunkInstallPopupUpdateTime()
-  n=0
+  chunkInstallPopupUpdateTime=0
 end
-function this.GetFormatedStorageSizePopupParam(t)
+function this.GetFormatedStorageSizePopupParam(unkp1)
   local n=1024
   local e=1024*n
   local l=1024*e
-  local l,r,i=t/l,t/e,t/n
+  local l,r,i=unkp1/l,unkp1/e,unkp1/n
   local n=0
   local e=""
   if l>=1 then
@@ -732,7 +732,7 @@ function this.GetFormatedStorageSizePopupParam(t)
     n=i*100
     e="K"
   else
-    return t,"",0
+    return unkp1,"",0
   end
   local n=math.ceil(n)
   return n,e,2
@@ -889,6 +889,8 @@ function this.DEBUG_SetPreference(entityName,property,value)
   end
   Command.SetProperty{entity=entity,property=property,value=value}
 end
+--NMC _requirelist adds a number of calls from TppMain on the libs
+--DeclareSVars, Init, OnReload, OnChangeSVars, OnMessage
 this._requireList={}
 do
   for t,libPath in ipairs(this.requires)do

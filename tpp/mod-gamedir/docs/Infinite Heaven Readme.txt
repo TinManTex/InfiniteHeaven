@@ -1,5 +1,5 @@
 = Infinite heaven =
-r221 - 2017-09-17
+r224 - 2018-03-06
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,83 +16,47 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
-New for r221:
-Fixed: IHExt setting when IHExt is not installed.
+New for r224:
+Motions menu - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
+Option: Motion group - Press <Action> to play the selected animation.
+Option: Motion number - Press <Action> to play the selected animation.
+Option: Hold motion - Holds motion, requires stop motion to stop.
+Option: Repeat motion - Repeat motion at end, some animations don't support this.
+Option: Stop motion - Use to stop motions with motion hold or motion repeat.
+Option: Play motion - Closes menu and plays current selected motion.
+(via in-mission menu)
+[youtube]k51-8vHI2mU[/youtube]
+https://youtu.be/k51-8vHI2mU
 
-New for r220:
-Addition: Added 'Enemy prep' setting to Attack heli patrols options (return of an old feature) - sets the number of helis to scale with enemy prep level.
+InfPosition:
+Positions list from ShowPosition migrated to it's own command, commands for adding user markers, clearing, and writing them to \mgsv_tpp\mod\ added
+Positions menu - for writing in game postitions to files, useful for getting positions when creating sideops.
+Commands:
+Add current position to Positions List - Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.
+Add markers to Positions List - Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+Write Positions List - Writes Positions List to files in MGS_TPP\mod\
+Clear Positions List - Clears Positions List
+(via in-mission menu)
 
-Fixed: Hang on load when ih_save contains an unknown variable (most recently caused by my rename of heliPatrols ivars) - thanks ashy8000 for the save files and others for the reports.
+Command: Support heli to marker - Sends Support heli to Landing Zone closest to the last placed user marker while riding it. This replaces the existing 'Support heli to latest marker' and now can only be used while riding the support heli. This removes a lot of the issues of riding the support heli across the map that the prior method had.
+Implmentation wise this works by forcing the heli to a specific route, the WIP version prior to this had too many issues since it used LZ routes, now it uses custom routes thanks to sais FoxLib. So special thanks for his work on the library.
+(via in-mission menu)
+[youtube]FnPdGm1gXWY[/youtube]
+https://youtu.be/FnPdGm1gXWY
 
-Fixed: Re-added <Action> tag to options that have OnActivate, was a bit too zealous in removing it. 
+New for r222:
+IHExt: IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.
+The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings.
+Option: Enable IHExt - Starts IHExt, from that point on will start while game is starting up.
+Option: Enable help text (IHExt) - Shows longer description help text in IHExt for some options.
+(via IH system menu)
+[youtube]lqYmBCeIbEA[/youtube]
+https://youtu.be/lqYmBCeIbEA
 
-New for r219:
-(Actually added in r218, but not in easily accessable menu)
-Options: setStageBlockPositionToMarkerClosest, setStageBlockPositionToFreeCam, resetStageBlockPosition - sets stageblock loading position. You have to put player in a safe spot/bump player health to 650% so they dont die when their current position unloads and they (may) fall through terrain till they hit level floor.
-(via in mission debug menu)
-[youtube]A_XJeQk0kvI[/youtube]
-https://youtu.be/A_XJeQk0kvI
+If you have concerns about IH running the IHExt executable the (terribly rough) source is here for viewing/compiling yourself:
+https://github.com/TinManTex/IHExt 
 
-Fixed: Lag or load hangs due to a file that was removed for r218 that may have been left in MGS_TPP\mod\modules if mod user didn't uninstall r217 or earlier correctly using snakebite.
-
-New for r218:
-Change: heliPatrolsMB, heliPatrolsFREE renamed attackHeliPatrolsFREE, attackHeliPatrolsFREE "Attack heli patrols in free roam",
-  "Attack heli patrols in MB", value is now number of attack helis.
-Option: supportHeliPatrolsMB - split from heliPatrolsMB, is number of support npc helis, count will take priority over attack helis to fit to number of mother base clusters built.
-Beyond giving some more control over amount of helis you face, it also lets things be a bit quieter in mother base while still having helis fly around. 
-Because of this change you will have to set the options again, sorry for the inconvenience.
-
-Fixed: ApplyProfile failing on random table of setting strings. 
-Fixed: ApplyProfile failing on missing ivar.
-
-New for r216:
-Fixed: Random roam event selection failing.
-
-Options: mbShowHuey - Show Huey - Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.
-(via Mother Base > Show characters menu)
-
-Option: mbForceBattleGearDevelopLevel - Force BattleGear built level - Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.
-(via Mother Base > Show assets menu)
-
-Options: MB Ocean options - adjust various parameters of ocean movement.
-(via MB Ocean menu while in mother base)
-[youtube]uh0iZfVDUUc[/youtube]
-https://youtu.be/uh0iZfVDUUc
-
-New for r215:
-Fixed: Hang on load, due to a ghost of an old file or something. Sorry.
-
-New for r214:
-Fixed: ih_priority_staff sometimes clearing saved data
-
-All_Options_Example profile up to date, had been forgetting to copy it during my release packaging, now automated that copy - - thanks pk5547 for the report.
-
-New for r213:
-Fixed: playerPartsType/'Suit type' syntax error causing it to be missing from menu - thanks SoullessMadness for the report
-Fixed: Heavy Armor in free roam option being missing from menu, and the knock on effect of the rest of the menu options being missing from Features and Options document and All options profile. Thanks Nano-Ocelot, pk5547 for the reports.
-
-Option: enableEventHUNTED - "Allow Hunted event"
-Option: enableEventCRASHLAND - "Allow Crashland event"
-Option: enableEventLOST_COMS - "Allow Lost Coms event"
-Will allow you to filter the free roam events from being chosen.
-(via Events menu)
-
-Feature: Priority MB staff list
-Using these commands you can either add the current chosen staff member, or a staff member that you've marked to the priority list. Upon visiting mother base these members will be chosen to be on base (assuming they are not on deploy mission).
-
-Command: "Add player staff to MB priority"
-Command: "Remove player staff to MB priority"
-Command: "Add marked staff id MB priority"
-Command: "Remove marked staff to MB priority"
-Command: "Clear MB staff priority list"
-(via Mother base > Staff menu)
-[youtube]VjZuqp8KGA0[/youtube]
-https://youtu.be/VjZuqp8KGA0
-
-Menu: Staff menu, apart from the above, mbPrioritizeFemale,mbMoraleBoosts have been moved here.
-
-Option: mbEnableMissionPrep - "Enable mission prep to MB" - may require an exit/return from ACC to take effect.
-(via Mission-prep restrictions menu)
+Fixed: Custom sideops with helis not allocating a heli (if no normal heli sidops also active) - Adding hasEnemyHeli to quest definition will add it to the heli quest list - which means force heli reinforce will also block those quests - thanks MorbidSlinky for the report.
 
 Disclaimer:
 ------------------------------

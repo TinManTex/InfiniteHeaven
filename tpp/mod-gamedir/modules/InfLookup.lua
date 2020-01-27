@@ -1,7 +1,7 @@
 -- InfLookup.lua
 -- tex various script analysis, lookup-tables, printing functions
--- still some other stuff scttered around:
--- InfMenu.CpNameString
+-- still some other stuff scattered around:
+-- InfLangProc.CpNameString
 
 local this={}
 
@@ -11,15 +11,21 @@ local TppGameObject=TppGameObject
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local NULL_ID=GameObject.NULL_ID
+local StrCode32=Fox.StrCode32
 
 this.debugModule=false
 
-this.DEBUG_strCode32List={}
+this.positions={}--tex used to write positions to file
+
+this.str32ToString={}--tex what the <module>.DEBUG_StrCode32ToString tables are loaded into as well as mod\strings\*.txt, migrates into InfCore.str32ToString if this.StrCode32ToString gets any hits.
+
 this.subtitleId32ToString={}--tex NOTE: interrogation name is also subtitleId (TODO also note in wiki for subp?)
 this.path32ToDataSetName={}
 
 this.strings={}
 this.gameObjectNames={}
+
+this.soldierSvarIndexes={}
 
 this.dictionaries={
   subtitleId={
@@ -31,8 +37,14 @@ this.dictionaries={
 function this.PostModuleReload(prevModule)
   this.subtitleId32ToString=prevModule.subtitleId32ToString
   this.path32ToDataSetName=prevModule.path32ToDataSetName
+  --GOTCHA: generated lookups need to be restored too else they'll point to the empty ones from the newly loaded module
+  this.lookups.subtitleId=this.subtitleId32ToString
+  this.lookups.dataSetPath32=this.path32ToDataSetName
+
   this.strings=prevModule.strings
   this.gameObjectNames=prevModule.gameObjectNames
+
+  this.soldierSvarIndexes=prevModule.soldierSvarIndexes
 end
 
 function this.PostAllModulesLoad()
@@ -47,9 +59,12 @@ function this.PostAllModulesLoad()
 
   this.LoadStrings()
 
+  this.BuildStr32ToString()
+  this.BuildPath32ToDataSetName()
+
   this.AddObjectNamesToStr32List()
   this.BuildDictionaryLookup("subtitleId",this.subtitleId32ToString)
-  this.BuildPath32ToDataSetName()
+
 
   this.LoadGameObjectNames()
 
@@ -58,9 +73,24 @@ function this.PostAllModulesLoad()
   end
 end
 
-function this.Init(missionTable)
-  this.messageExecTable=nil
+function this.OnInitializeTop(missionTable)
+  if Ivars.debugMode:Is(0) then
+    return
+  end
+  --tex want this as early as possible (gameobjects are init sometime between allocate and oninit)
+  --GOTCHA: InfLookup isn't guaranteed to be before any other modules (but currently there aren't really any other modules that do InfLookups in OnInitTop)
+  this.BuildGameIdToNames()
+  this.BuildSoldierSvarIndexes()--DEBUGNOW don't know at what point soldier svars are valid, TODO: find down those svar save commands (TppEnemy.StoreSVars/RestoreOn?) and log the call
 
+  for name,module in pairs(missionTable)do
+    if module.DEBUG_strCode32List then
+      InfCore.Log("Adding "..tostring(name)..".DEBUG_strCode32List to strCode32List")
+      this.AddToStr32StringLookup(module.DEBUG_strCode32List)
+    end
+  end
+end
+
+function this.Init(missionTable)
   if Ivars.debugMode:Is(0) then
     return
   end
@@ -68,8 +98,14 @@ function this.Init(missionTable)
   this.InitObjectLists(missionTable)
 
   InfCore.Log"Dumping unknownStr32"
-  local unknownStr32={InfInspect.Inspect(InfCore.unknownStr32)}
-  InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownStr32.txt",unknownStr32)
+  --DEBUGNOW TODO also load ih_unknownStr32 into InfCore.unknownStr32 so I don't have to babysit the file over sessions and just let it accumulate
+  local unknownStr={}
+  for strCode,isUnknown in pairs(InfCore.unknownStr32)do
+    unknownStr[#unknownStr+1]=strCode
+  end
+  table.sort(unknownStr)
+
+  InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownStr32.txt",unknownStr)
 
   InfCore.Log"Dumping unknownMessages"
   local unknownMessages={InfInspect.Inspect(InfCore.unknownMessages)}
@@ -80,19 +116,19 @@ function this.Save()
   if Ivars.debugMode:Is(0) then
     return
   end
-  
-  --DEBUGNOW WIP
-  if IHGenUnknownHashes then
-    InfCore.Log("Saving IHGenUnknownHashes")
-    local saveTextList={}
-    saveTextList[#saveTextList+1]="--IHGenUnknownHashes.lua"
-    saveTextList[#saveTextList+1]="--GENERATED at runtime from hashes that have no match"
-    saveTextList[#saveTextList+1]="this={}"
-    IvarProc.BuildTableText("unknownStr32",IHGenUnknownHashes.unknownStr32,saveTextList)
-    IvarProc.BuildTableText("unknownMessages",IHGenUnknownHashes.unknownMessages,saveTextList)
-    saveTextList[#saveTextList+1]="return this"
-    InfCore.WriteStringTable(InfCore.paths.modules.."IHGenUnknownHashes.lua",saveTextList)
-  end
+
+  --DEBUGNOW WIP - See this.Init
+  --  if IHGenUnknownHashes then
+  --    InfCore.Log("Saving IHGenUnknownHashes")
+  --    local saveTextList={}
+  --    saveTextList[#saveTextList+1]="--IHGenUnknownHashes.lua"
+  --    saveTextList[#saveTextList+1]="--GENERATED at runtime from hashes that have no match"
+  --    saveTextList[#saveTextList+1]="this={}"
+  --    IvarProc.BuildTableText("unknownStr32",IHGenUnknownHashes.unknownStr32,saveTextList)
+  --    IvarProc.BuildTableText("unknownMessages",IHGenUnknownHashes.unknownMessages,saveTextList)
+  --    saveTextList[#saveTextList+1]="return this"
+  --    InfCore.WriteStringTable(InfCore.paths.modules.."IHGenUnknownHashes.lua",saveTextList)
+  --  end
 end
 
 function this.LoadStrings()
@@ -271,10 +307,16 @@ end
 function this.InitObjectLists(missionTable)
   this.objectNameLists.reinforceNames={TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"}
   this.objectNameLists.reinforceDriver={"reinforce_soldier_driver"}
+  if InfNPCHeli then
   this.objectNameLists.heliUTH=InfNPCHeli.heliNames.UTH
   this.objectNameLists.heliUTH=InfNPCHeli.heliNames.HP48
+  end
+  if InfAnimal then
   this.objectNameLists.ihBirdNames=InfAnimal.birdNames
-  this.objectNameLists.reserveSoldierNames=InfMain.reserveSoldierNames
+  end
+  if InfMainTpp then
+  this.objectNameLists.reserveSoldierNames=InfMainTpp.reserveSoldierNames
+  end
 end
 --
 
@@ -302,6 +344,26 @@ function this.LandingZoneName(lzStr32)
   return InfLZ.str32LzToLz[lzStr32]
 end
 
+function this.BuildStr32ToString()
+  for name,strings in pairs(this.strings) do
+    InfCore.Log("Adding "..name.." strings to strCode32List")
+    this.AddToStr32StringLookup(strings)
+  end
+  for i,libName in ipairs(Tpp._requireList)do
+    local module=_G[libName]
+    if module and module.DEBUG_strCode32List then
+      InfCore.Log("Adding "..tostring(libName)..".DEBUG_strCode32List to strCode32List")
+      this.AddToStr32StringLookup(module.DEBUG_strCode32List)
+    end
+  end
+  for i,module in ipairs(InfModules)do
+    if module.DEBUG_strCode32List then
+      InfCore.Log("Adding "..tostring(module.name)..".DEBUG_strCode32List to strCode32List")
+      this.AddToStr32StringLookup(module.DEBUG_strCode32List)
+    end
+  end
+end
+
 --tex TODO: more targeted?
 --SIDE: this.path32ToDataSetName
 function this.BuildPath32ToDataSetName()
@@ -321,6 +383,11 @@ end
 
 --tex gives {[gameClass.Enum]=enum name}
 function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
+  if gameClass==nil then
+    InfCore.Log("InfLookup.BuildGameClassEnumNameLookup: WARNING: gameclass == nil")
+    return
+  end
+
   local enumNameLookup={}
   for i,name in ipairs(enumNames) do
     local enum=gameClass[name]
@@ -343,8 +410,22 @@ end
 function this.GetWarpPositions()
   --return InfQuest.GetQuestPositions()
   return {
-    {"-1632.896","354.2058","-262.6951"},
-    {"-1587.207","355.2009","-255.2439"},--
+    {779.312,463.273,-989.820},
+    {-1763.372,311.495,784.801},
+    {-676.716,533.915,-1474.162},
+    {-2335.55,439.315,-1482.474},
+    {-906.802,288.846,1923.874},
+    {415.052,270.933,2207.31},
+    {-1232.651,600.599,-3098.633},
+    {2144.533,455.413,-1752.163},
+    {506.986,320.590,1154.721},
+    {1941.284,322.766,-528.093},
+    {1491.027,357.429,469.534},
+    {541.161,328.605,58.012},
+    {-599.556,344.370,440.566},
+
+  --{"-1632.896","354.2058","-262.6951"},
+  --{"-1587.207","355.2009","-255.2439"},--
   --{"","",""},--
   }
 end
@@ -360,26 +441,26 @@ function this.GetObjectList()
   --    "sol_mtbs_0005",
   --    }
   --
-  -- return InfMain.reserveSoldierNames
+  --  return InfMainTpp.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
-  return InfParasite.parasiteNames[InfParasite.parasiteType]
-    -- return this.objectNameLists.veh_trc
-    --return InfLookup.jeepNames
-    --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-    --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
-    --return InfInterrogation.interCpQuestSoldiers
-    --return InfWalkerGear.walkerNames
-    --return InfNPCHeli.heliList
-    --return TppEnemy.armorSoldiers
-    --return InfAnimal.birdNames
-    -- return objectNameLists[4]
-    --return InfSoldier.ene_wildCardNames
-    --return InfNPC.hostageNames
-    -- return this.objectNameLists.sol_quest
-    --return {"hos_quest_0000"}
-    --return InfWalkerGear.walkerNames
+  --return InfParasite.parasiteNames[InfParasite.parasiteType]
+  -- return this.objectNameLists.veh_trc
+  --return InfLookup.jeepNames
+  --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+  --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+  --return InfInterrogation.interCpQuestSoldiers
+  --   return InfWalkerGear.walkerNames
+  --return InfNPCHeli.heliList
+  --return TppEnemy.armorSoldiers
+  --return InfAnimal.birdNames
+  -- return objectNameLists[4]
+  --return InfSoldier.ene_wildCardNames
+  --return InfNPC.hostageNames
+  --return this.objectNameLists.sol_quest
+  --return {"hos_quest_0000"}
+  return InfWalkerGear.walkerNames
     --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
     --return {"vehicle_quest_0000"}
 end
@@ -545,6 +626,24 @@ function this.CpNameForCpId(cpId)
   return cpName
 end
 
+function this.SoldierSvarIndexForName(soldierName)
+  local s32Name=StrCode32(soldierName)
+  local svarIndex=this.soldierSvarIndexes[s32Name]
+  --DEBUGNOW TODO check out of bounds?
+  if svars.solName[svarIndex]~=s32Name then
+    InfCore.Log("InfLookup.SoldierSvarIndexForName: WARNING: soldierSvarIndexes index for "..soldierName.."/"..s32Name.." does not match svars index")--DEBUGNOW
+    --DEBUGNOW TODO: not picking up quest soldiers for some reason, either: I'm doing something wrong, or they're flagged no to save?
+    for i=0,mvars.ene_maxSoldierStateCount-1 do
+      if svars.solName[i]==s32Name then
+        return i
+      end
+    end
+
+    return nil
+  end
+  return svarIndex
+end
+
 --tex assumes gameclass has lua readable enum names like TppDamage, and not whatever index fancyness gameclasses like ScritBlock do
 function this.BuildDirectGameClassEnumLookup(gameClass,filter)
   --tex WORKAROUND autodoc/mock
@@ -590,6 +689,11 @@ function this.BuildTppEquipLookup()
   return enumToName
 end
 
+function this.AddToStr32StringLookup(strCode32List)
+  for i,someString in ipairs(strCode32List)do
+    this.str32ToString[StrCode32(someString)]=someString
+  end
+end
 
 --tex returns string or nil
 --isStrCode on guaranteed strcodes to add that code to unknowns (this function is also used in a blanket fashion in PrintOnMessage with potential non-strcodes)
@@ -598,7 +702,7 @@ function this.StrCode32ToString(strCode,isStrCode)
     --tex using InfCore since this is built up using Fox.StrCode32 replacement InfCore.StrCode32, since InfCore is loaded before lib modules
     local returnString=InfCore.str32ToString[strCode]
     if returnString==nil then
-      returnString=TppDbgStr32.DEBUG_StrCode32ToString(strCode)
+      returnString=this.str32ToString[strCode]
       if returnString then
         InfCore.str32ToString[strCode]=returnString--tex push back into InfCore str32ToString so I can dump that as a verified in-use dictionary
       end
@@ -981,10 +1085,10 @@ this.lookups={
   weatherType=this.weatherTypeNames,
   popupId=this.PopupErrorId,
   --landingZone=this.LandingZoneName,--tex not complete, use str32 instead
-  subtitleId=this.subtitleId32ToString,
   carryState=this.carryState,
-  dataSetPath32=this.path32ToDataSetName,
   gimmickId=this.GameObjectNameForGimmickId,
+  subtitleId=this.subtitleId32ToString,
+  dataSetPath32=this.path32ToDataSetName,
 }
 --tex crushes down this[gameclass][lookup] to lookups[lookup] - ex this.lookups.phase=TppGameObject.phase
 for i,gameClass in ipairs(gameClasses)do
@@ -1177,10 +1281,10 @@ this.messageSignatures={
       {argName="routeId",argType="str32"},--tex TODO gather route names
       {argName="failureType",argType="routeEventFailedType"},
     },
-    RoutePoint2={
-      {argName="gameId",argType="gameId"},
+    RoutePoint2={--tex fire by Route Event 'SendMessage', and some other unknown Route Events
+      {argName="gameId",argType="gameId"},--tex gameId of agent on route VERIFY because SendEvent param3 is a str32 game object name.
       {argName="routeId",argType="str32"},--tex TODO gather route names
-      {argName="routeNodeIndex",argType="number"},
+      {argName="param",argType="str32"},
       {argName="messageId",argType="str32"},
     },
     SaluteRaiseMorale={
@@ -1693,6 +1797,42 @@ function this.BuildGameIdToNames()
   end
   if this.debugModule then
     InfCore.PrintInspect(InfCore.gameIdToName,"InfCore.gameIdToName")
+  end
+end
+
+function this.BuildSoldierSvarIndexes()
+  InfCore.LogFlow("InfLookup.BuildSoldierSvarIndexes:")
+  InfUtil.ClearTable(this.soldierSvarIndexes)
+  local soldierNames={}
+
+  local soldierNames={}
+  if mvars.ene_soldierIDList then
+    for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
+      for soldierId,soldierName in pairs(soldierIds)do
+        soldierNames[Fox.StrCode32(soldierName)]=soldierName
+      end
+    end
+  end
+
+  local fmt="sol_quest_%04d"
+  local num=8
+  for i=0,num-1 do
+    local soldierName=string.format(fmt,i)
+    soldierNames[Fox.StrCode32(soldierName)]=soldierName
+  end
+
+  --TODO: + reserve?
+
+  --InfCore.PrintInspect(soldierNames,"soldierNames")--DEBUG
+
+  for i=0,mvars.ene_maxSoldierStateCount-1 do
+    local soldierNameStr32=svars.solName[i]
+    if soldierNameStr32>0 then
+      this.soldierSvarIndexes[soldierNameStr32]=i
+    end
+  end
+  if this.debugModule then
+    InfCore.PrintInspect(this.soldierSvarIndexes,"soldierSaveIndexes")
   end
 end
 

@@ -22,15 +22,15 @@ this.debugModule=false
 this.packages={
   ARMOR={
     "/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk",
-    --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
+  --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
   },
   MIST={
     "/Assets/tpp/pack/mission2/ih/ih_parasite_mist.fpk",
-    --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
+  --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
   },
   CAMO={
     "/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk",
-    --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
+  --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
   },
 }
 
@@ -229,6 +229,73 @@ this.bgmList={
   },
 }
 
+-->
+this.registerIvars={
+  'enableParasiteEvent',
+  'armorParasiteEnabled',
+  'mistParasiteEnabled',
+  'camoParasiteEnabled',
+  'parasiteWeather',
+}
+
+this.enableParasiteEvent={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+
+this.armorParasiteEnabled={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.mistParasiteEnabled={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.camoParasiteEnabled={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.parasiteWeather={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,--parasite
+  settings={"NONE","PARASITE_FOG","RANDOM"},
+}
+
+--tex time in minutes
+IvarProc.MinMaxIvar(
+  this,
+  "parasitePeriod",
+  {
+    default=10,
+    OnChange=function(self)
+      IvarProc.PushMax(self)
+      InfParasite.StartEventTimer()
+    end,
+  },
+  {
+    default=30,
+    OnChange=function(self)
+      IvarProc.PushMin(self)
+      InfParasite.StartEventTimer()
+    end,
+  },
+  {
+    inMission=true,
+    range={min=0,max=180,increment=1},
+  }
+)
+--< ivar defs
 
 function this.PreModuleReload()
   local timers={
@@ -666,14 +733,14 @@ function this.StartEventTimer(time)
   --local nextEventTime=10--DEBUG
   InfCore.Log("Timer_ParasiteEvent start in "..nextEventTime,this.debugModule)--DEBUG
 
---OFF script block WIP 
---tex fails due to invalid blockId. I can't figure out how fox assigns blockIds. 
---ScriptBlocks that aren't used for the current mission return invalid, 
---but as the scriptblock definitions are in the scriptblock fpk itself there's a chicken and egg problem if they're what is used to define the script block name.
---  local success=TppScriptBlock.Load("parasite_block",this.parasiteType,true,true)--DEBUGNOW TODO only start once block loaded and active
---  if not success then
---    InfCore.Log("WARNING: TppScriptBlock.Load returned false")--DEBUG
---  end
+  --OFF script block WIP
+  --tex fails due to invalid blockId. I can't figure out how fox assigns blockIds.
+  --ScriptBlocks that aren't used for the current mission return invalid,
+  --but as the scriptblock definitions are in the scriptblock fpk itself there's a chicken and egg problem if they're what is used to define the script block name.
+  --  local success=TppScriptBlock.Load("parasite_block",this.parasiteType,true,true)--DEBUGNOW TODO only start once block loaded and active
+  --  if not success then
+  --    InfCore.Log("WARNING: TppScriptBlock.Load returned false")--DEBUG
+  --  end
 
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
@@ -744,7 +811,7 @@ function this.ParasiteAppear()
       closestDist=cpDistance
 
       if not isMb then--tex TODO: implement for mb
-        local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPos)
+        local closestLz,lzDistance,lzPosition=InfLZ.GetClosestLz(playerPos)
         if closestLz==nil or lzPosition==nil then
           InfCore.Log("WARNING: ParasiteAppear closestLz==nil",true)--DEBUG
           return
@@ -849,8 +916,8 @@ function this.ZombifyFree(closestCp,position)
   end
 
   --tex IH free roam foot lrrps
-  if InfMain.lrrpDefines then
-    for cpName,lrrpDefine in pairs(InfMain.lrrpDefines) do
+  if InfMainTpp.lrrpDefines then
+    for cpName,lrrpDefine in pairs(InfMainTpp.lrrpDefines) do
       if lrrpDefine.base1==closestCp or lrrpDefine.base2==closestCp then
         SetZombies(lrrpDefine.cpDefine,position,radius)
       end
@@ -1381,5 +1448,23 @@ function this.PointOnCircle(origin,radius,angle)
   local y=origin[3]+radius*math.sin(math.rad(angle))
   return {x,origin[2],y}
 end
+
+this.langStrings={
+  eng={
+    enableParasiteEvent="Enable Skull attacks in Free roam",
+    parasitePeriod_MIN="Skull attack min (minutes)",
+    parasitePeriod_MAX="Skull attack max (minutes)",
+    parasiteWeather="Weather on Skull attack",
+    parasiteWeatherSettings={"None","Parasite fog","Random"},
+    armorParasiteEnabled="Allow armor skulls",
+    mistParasiteEnabled="Allow mist skulls",
+    camoParasiteEnabled="Allow sniper skulls",
+  },
+  help={
+    eng={
+      enableParasiteEvent="Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.",
+    },
+  }
+}
 
 return this

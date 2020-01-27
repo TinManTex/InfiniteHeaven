@@ -1,0 +1,5 @@
+Bastion - sideop at Shifap ruins across river, a normally unused spot, rescue hostages from top of cliff.
+Remix of 52130
+
+WAV - when in closeish distance to, or on caution, deploy 2 soldiers from back.
+Assign to random quest route. 

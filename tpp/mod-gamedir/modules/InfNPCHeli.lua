@@ -288,6 +288,56 @@ for location,routeCpInfo in pairs(this.heliRouteToCp)do
   end
 end
 
+-->
+this.registerIvars={
+  'mbEnemyHeliColor',
+  'supportHeliPatrolsMB',
+}
+
+IvarProc.MissionModeIvars(
+  this,
+  "attackHeliPatrols",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    --CULL range={max=4,min=0,increment=1},
+    settings={"0","1","2","3","4","ENEMY_PREP"},--SYNC #InfNPCHeli.heliNames.HP48
+    settingNames="attackHeliPatrolsSettings",
+  },
+  {"FREE","MB",}
+)
+
+this.mbEnemyHeliColor={--TODO RENAME, split into missionmode
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"DEFAULT","BLACK","RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
+}
+
+this.supportHeliPatrolsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range={max=3,min=0,increment=1},
+  MissionCheck=IvarProc.MissionCheckMb,
+}
+--<
+this.langStrings={
+  eng={
+    mbEnemyHeliColor="Attack heli class",
+    mbEnemyHeliColorSettings={"Default","Black","Red","All one random type","Each heli random type","Enemy prep"},
+    attackHeliPatrolsFREE="Attack heli patrols in free roam",
+    attackHeliPatrolsMB="Attack heli patrols in MB",
+    supportHeliPatrolsMB="NPC support heli patrols in MB",
+    attackHeliPatrolsSettings={"No helis","1 heli","2 helis","3 helis","4 helis","Enemy prep"},
+  },
+  help={
+    eng={
+      attackHeliPatrolsMB="Spawns some npc attack helis that roam around mother base.",
+      supportHeliPatrolsMB="Spawns some npc support helis that roam around mother base.",
+      enemyHeliColor="Shared between free roam and MB attack helis.",
+      attackHeliPatrolsFREE="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
+
+    },
+  }
+}
+--<
+
 function this.AddMissionPacks(missionCode,packPaths)
   local locationName=InfUtil.GetLocationName()
   if IvarProc.EnabledForMission(attackHeliPatrolsStr,missionCode) then
@@ -325,7 +375,7 @@ function this.Init(missionTable,currentChecks)
 
   local numAttackHelis=IvarProc.GetForMission(attackHeliPatrolsStr)
 
-  local level=InfMain.GetAverageRevengeLevel()
+  local level=InfMainTpp.GetAverageRevengeLevel()
   if numAttackHelis>#this.heliNames.HP48 then--tex ENEMY_PREP
     local levelToHeli={0,1,2,3,4,4}--tex SYNC #this.heliNames.HP48
     numAttackHelis=levelToHeli[level+1]
@@ -698,7 +748,7 @@ function this.GetEnemyHeliColor()
   if Ivars.mbEnemyHeliColor:Is"ENEMY_PREP" then
     --tex alt tuning for combined stealth/combat average, but I think I like heli color tied to combat better thematically,
     --sure have them put more helis out if stealth level is high (see numAttackHelis), but only put beefier helis if your actually causing a ruckus
-    --local level=InfMain.GetAverageRevengeLevel()
+    --local level=InfMainTpp.GetAverageRevengeLevel()
     --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
 
     local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="init_mission.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/ui/GraphAsset/entry_datas/texture_logo.fox2" />
+    <Entry FilePath="/Assets/tpp/ui/GraphAsset/entry_datas/lang_popup.fox2" />
+    <Entry FilePath="/Assets/mgo/level/mission/init_mission.fox2" />
+    <Entry FilePath="/Assets/mgo/script/mission/ruleset_sequence.lua" />
+    <Entry FilePath="/Assets/mgo/script/mission/mission_handler.lua" />
+    <Entry FilePath="/Assets/mgo/script/mission/init_sequence.lua" />
+  </Entries>
+  <References />
+</ArchiveFile>

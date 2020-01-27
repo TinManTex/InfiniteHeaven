@@ -208,8 +208,9 @@ this.wildCardFemaleSuits={
   "BATTLE_DRESS_FEMALE",
   "TIGER_FEMALE",
   "DRAB_FEMALE",
-  "SWIMWEAR_FEMALE",
---"SWIMWEAR2_FEMALE",--DEBUGNOW
+  --tex TODO: make an option, too many were complaining it came up too many times
+  --"SWIMWEAR_FEMALE",
+--"SWIMWEAR2_FEMALE",
 --"SWIMWEAR3_FEMALE",
 }
 
@@ -1317,8 +1318,8 @@ function this.WildCardFovaBodies(bodies)
 end
 
 function this.GetHeadGearForPowers(powerSettings,isFemale,bodyInfo)
-  if powerSettings==nil then--DEBUGNOW
-    InfCore.Log("GetHeadGearForPowers powerSettings==nil" )
+  if powerSettings==nil then
+    InfCore.Log("WARNING: InfEneFova.GetHeadGearForPowers powerSettings==nil" )
     return {}
   end
 

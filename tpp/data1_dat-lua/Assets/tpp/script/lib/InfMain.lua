@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 --InfMain.lua
+--Mostly interface between TppMain / other game modules and IH modules.
 InfCore.LogFlow"Load InfMain.lua"
 local this={}
 
@@ -8,7 +9,7 @@ local InfMain=this
 local InfCore=InfCore
 local IvarProc=IvarProc
 local InfButton=InfButton
-local TppMission=TppMission
+local InfModules=InfModules
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
@@ -16,11 +17,19 @@ local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
-local Enum=TppDefine.Enum
 local StrCode32=InfCore.StrCode32
 local GetPlayingDemoId=DemoDaemon.GetPlayingDemoId
 local IsDemoPaused=DemoDaemon.IsDemoPaused
 local IsDemoPlaying=DemoDaemon.IsDemoPlaying
+local DoMessage=Tpp.DoMessage
+local pairs=pairs
+local ipairs=ipairs
+local IsMbDvcTerminalOpened=TppUiCommand.IsMbDvcTerminalOpened
+local IsVarsCurrentItemCBox=Player.IsVarsCurrentItemCBox
+local GAME_OBJECT_TYPE_HELI2=TppGameObject.GAME_OBJECT_TYPE_HELI2
+local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
+local GAME_OBJECT_TYPE_HORSE2=TppGameObject.GAME_OBJECT_TYPE_HORSE2
+local GAME_OBJECT_TYPE_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2
 
 local reloadModulesCombo={
   InfButton.HOLD,
@@ -29,30 +38,14 @@ local reloadModulesCombo={
   InfButton.SUBJECT,
 }
 
-this.appliedProfiles=false
-
 --STATE
 --tex gvars.isContinueFromTitle is cleared in OnAllocate while it could have still been useful,
 --this is valid from OnAllocateTop to OnInitializeBottom, till not helispace
 this.isContinueFromTitle=false
 
-this.soldierPool={}
-this.emptyCpPool={}
+this.debugModule=false
 
-this.lrrpDefines={}--tex from AddLrrps
-
-this.reserveSoldierNames={}
-
-this.MAX_STAFF_NUM_ON_CLUSTER=18--DYNAMIC onallocate
-
-this.packages={
-  [30010]={
-    "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk"--DEPENDANCY mission fox2 Soldier2GameObject totalCount
-  },
-  [30020]={
-    "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk"--DEPENDANCY mission fox2 Soldier2GameObject totalCount
-  },
-}
+this.appliedProfiles=false
 
 function this.OnLoadEvars()
 
@@ -64,7 +57,7 @@ function this.OnStartTitle()
   InfCore.LogFlow"InfMain.OnStartTitle"
   InfCore.gameSaveFirstLoad=true
 
-  InfQuest.SetupInstalledQuestsState()
+  this.CallOnModules("OnStartTitle")
 end
 
 --tex from InfHooks hook on TppSave.DoSave
@@ -76,30 +69,22 @@ end
 
 --tex from TppMission.Load
 function this.OnLoad(nextMissionCode,currentMissionCode)
-  if TppMission.IsFOBMission(nextMissionCode)then
+  if this.IsOnlineMission(nextMissionCode)then
     return
   end
 
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.OnLoad) then
-      InfCore.LogFlow(module.name..".OnLoad:")
-      InfCore.PCallDebug(module.OnLoad,nextMissionCode,currentMissionCode)
-    end
-  end
+  this.CallOnModules("OnLoad",nextMissionCode,currentMissionCode)
 end
 
 --CALLER: TppEneFova.PreMissionLoad
 function this.PreMissionLoad(missionId,currentMissionId)
   InfCore.LogFlow"InfMain.PreMissionLoad"
 
-  this.ClearXRay()
-
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.PreMissionLoad) then
-      InfCore.LogFlow(module.name..".PreMissionLoad:")
-      InfCore.PCallDebug(module.PreMissionLoad,missionId,currentMissionId)
-    end
+  if this.IsOnlineMission(missionId)then
+    return
   end
+
+  this.CallOnModules("PreMissionLoad",missionId,currentMissionId)
 end
 
 function this.OnAllocateTop(missionTable)
@@ -110,17 +95,17 @@ function this.OnAllocateTop(missionTable)
     this.isContinueFromTitle=true
   end
 
-  this.MAX_STAFF_NUM_ON_CLUSTER=18--SYNC f30050_sequence
-  if Ivars.mbAdditionalSoldiers:Is()>0 then
-    this.MAX_STAFF_NUM_ON_CLUSTER=36
-  end
+  this.CallOnModules("OnAllocateTop",missionTable)
 end
 function this.OnAllocate(missionTable)
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
+    --DEBUGNOW TPP
     if InfSoldierParams then
       TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParametersDefaults)
     end
-    InfResources.DefaultResourceTables()
+    if InfResources then
+      InfResources.DefaultResourceTables()
+    end
     return
   end
 
@@ -128,212 +113,73 @@ function this.OnAllocate(missionTable)
     InfCore.Log("inf_levelSeed "..tostring(igvars.inf_levelSeed))--DEBUG
   end
 
-  local equipOnTrucks=Ivars.vehiclePatrolProfile:EnabledForMission() and Ivars.vehiclePatrolTruckEnable:Is(1) and Ivars.putEquipOnTrucks:Is(1)
-  --tex not sure how TppPickable.DropItem is implemented, but bunging it in case it creates locators.
-  local increasedWeapons=IvarProc.EnabledForMission("customWeaponTable") or Ivars.itemDropChance:Is()>0 or Ivars.enableWildCardFreeRoam:EnabledForMission() or equipOnTrucks
-
-  --REF TppPlayer.OnAllocate
-  --e3 demos (380*1024)*24}--=9338880 -- nearly 5x the max retail block size
-  --TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721,
-  --sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
-  --  if(missionTable and missionTable.sequence)and missionTable.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE then
-  --    mvars.ply_equipMissionBlockGroupSize=missionTable.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE
-  --  else
-  --    mvars.ply_equipMissionBlockGroupSize=TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE
-  --  end
-  --  if(missionTable and missionTable.sequence)and missionTable.sequence.MAX_PICKABLE_LOCATOR_COUNT then
-  --    mvars.ply_maxPickableLocatorCount=missionTable.sequence.MAX_PICKABLE_LOCATOR_COUNT--free = 100,100,64 (afgh,mafr,mtbs)
-  --  else
-  --    mvars.ply_maxPickableLocatorCount=TppDefine.PICKABLE_MAX--16
-  --  end
-  --  if(missionTable and missionTable.sequence)and missionTable.sequence.MAX_PLACED_LOCATOR_COUNT then
-  --    mvars.ply_maxPlacedLocatorCount=missionTable.sequence.MAX_PLACED_LOCATOR_COUNT--free = 200,220,128
-  --  else
-  --    mvars.ply_maxPlacedLocatorCount=TppDefine.PLACED_MAX--8
-  --  end
-
-  --tex seems to be hitting pickable limit in afgh free even with all IH features off? weird.
-  --if increasedWeapons then
-  mvars.ply_maxPickableLocatorCount=mvars.ply_maxPickableLocatorCount+100
-  mvars.ply_equipMissionBlockGroupSize=mvars.ply_equipMissionBlockGroupSize*2
-  --end
-  --
-
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.OnAllocate) then
-      InfCore.LogFlow(module.name..".OnAllocate:")
-      InfCore.PCallDebug(module.OnAllocate,missionTable)
-    end
-  end
+  this.CallOnModules("OnAllocate",missionTable)
 end
 --tex in OnAllocate, just after sequence.MissionPrepare
 function this.MissionPrepare()
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
     return
   end
 
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.MissionPrepare) then
-      InfCore.LogFlow(module.name..".MissionPrepare:")
-      InfCore.PCallDebug(module.MissionPrepare)
-    end
-  end
-
-  if TppMission.IsStoryMission(vars.missionCode) then
-    if Ivars.gameOverOnDiscovery:Is(1) then
-      TppMission.RegistDiscoveryGameOver()
-    end
-  end
+  this.CallOnModules("MissionPrepare")
 end
 
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
-  InfCore.PCallDebug(function(missionTable)--DEBUG
-    if TppMission.IsFOBMission(vars.missionCode)then
-      return
+  if this.IsOnlineMission(vars.missionCode)then
+    return
   end
 
-  if Ivars.debugMode:Is(1) then
-    InfLookup.BuildGameIdToNames()--tex want this as early as possible (gameobjects are init sometime between allocate and oninit), but don't have module.OnInitializeTop yet
-
-    --tex initializing TppDbgStr32s strcode32 to string tables (cribbed from TppDebug.DEBUG_OnReload)
-    --TODO: split out more static ones to DebugModeEnable (InfLookup,TppDbgStr32), would require DEBUG_RegisterStrcode32invert to append to strCode32ToString instead of overwrite
-    local strCode32List={}
-    for name,strings in pairs(InfLookup.strings) do
-      InfCore.Log("Adding "..name.." strings to strCode32List")
-      Tpp.ApendArray(strCode32List,strings)
-    end
-
-    Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
-    for name,module in pairs(missionTable)do
-      if module.DEBUG_strCode32List then
-        InfCore.Log("Adding "..tostring(name)..".DEBUG_strCode32List to strCode32List")
-        Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
-      end
-    end
-    --InfCore.PrintInspect(strCode32List,"strCode32List")--DEBUG
-    TppDbgStr32.DEBUG_RegisterStrcode32invert(strCode32List)
-  end
-
-  this.RandomizeCpSubTypeTable()
-
-  --tex modify missionTable before it's acted on
-  if missionTable.enemy then
-    local enemyTable=missionTable.enemy
-    if IsTable(enemyTable.soldierDefine) then
-      if not this.IsContinue() then
-        local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
-        this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
-        this.soldierPool=InfTppUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
-
-        this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
-        this.lrrpDefines={}
-
-        InfWalkerGear.walkerPool=InfTppUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
-        InfWalkerGear.mvar_walkerInfo={}
-
-        --        InfCore.Log("numReserveSoldiers:"..numReserveSoldiers)--tex DEBUG
-        --        InfCore.PrintInspect(this.reserveSoldierNames,"reserveSoldierNames")--tex DEBUG
-        --        InfCore.PrintInspect(this.soldierPool,"soldierPool")--tex DEBUG
-      end
-      InfCore.PCallDebug(InfSoldier.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
-
-      InfCore.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans,this.emptyCpPool)
-
-      enemyTable.soldierTypes=enemyTable.soldierTypes or {}
-      enemyTable.soldierSubTypes=enemyTable.soldierSubTypes or {}
-      enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
-      enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
-
-      InfCore.PCallDebug(InfSoldier.AddLrrps,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines,this.emptyCpPool)
-      InfCore.PCallDebug(InfWalkerGear.AddLrrpWalkers,this.lrrpDefines,InfWalkerGear.walkerPool)
-      InfCore.PCallDebug(InfSoldier.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
-
-      InfCore.PCallDebug(InfSoldier.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
-
-      InfCore.PCallDebug(InfSoldier.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
-
-      --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
-      local ejectVehiclesSoldiers=false
-      if ejectVehiclesSoldiers then
-        for cpName,cpDefine in pairs(enemyTable.soldierDefine)do
-          cpDefine.lrrpVehicle=nil
-        end
-      end
-    end
-  end
-  end,missionTable)--DEBUG
+  this.CallOnModules("OnInitializeTop",missionTable)
 end
 
 --tex called about halfway through TppMain.OnInitialize (on all require libs)
 function this.Init(missionTable)
-  InfCore.PCallDebug(function(missionTable)--DEBUG
-    this.abortToAcc=false
+  this.abortToAcc=false
 
-    if TppMission.IsFOBMission(vars.missionCode) then
-      return
-    end
+  if this.IsOnlineMission(vars.missionCode) then
+    return
+  end
 
-    this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
-    InfMain.ModifyMinesAndDecoys()
-    InfMain.ModifyOcean()
-
-    if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
-      mvars.trm_isAlwaysDirectAddStaff=false
-    end
-
-    --tex TODO: pull this out of surrounding PCall if it intereferes with module pcall info
-    local currentChecks=this.UpdateExecChecks(this.execChecks)
-    for i,module in ipairs(InfModules)do
-      if module.Init then
-        InfCore.LogFlow(module.name..".Init:")
-        InfCore.PCallDebug(module.Init,missionTable,currentChecks)
-      end
-    end
-  end,missionTable)--
+  this.UpdateExecChecks(this.execChecks)
+  this.CallOnModules("Init",missionTable,this.execChecks)
 end
 
 --tex just after mission script_enemy.SetUpEnemy
 function this.SetUpEnemy(missionTable)
   InfCore.LogFlow("InfMain.SetUpEnemy "..vars.missionCode)
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
     return
   end
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.SetUpEnemy) then
-      InfCore.LogFlow(module.name..".SetUpEnemy:")
-      InfCore.PCallDebug(module.SetUpEnemy,missionTable)
-    end
-  end
+  this.CallOnModules("SetUpEnemy",missionTable)
 end
 
 function this.OnInitializeBottom(missionTable)
-  ---InfCore.PCall(function(missionTable)--DEBUG
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
     return
   end
 
-  if vars.missionCode>TppDefine.SYS_MISSION_ID.TITLE and not TppMission.IsHelicopterSpace(vars.missionCode) then
+  if vars.missionCode>TppDefine.SYS_MISSION_ID.TITLE and not this.IsHelicopterSpace(vars.missionCode) then
     this.isContinueFromTitle=false
   end
-  --end,missionTable)--DEBUG
 end
 
 --CALLER: TppMissionList.GetMissionPackagePath
 --IN/OUT packPath
 function this.AddMissionPacks(missionCode,packPaths)
   InfCore.LogFlow("InfMain.AddMissionPacks "..missionCode)
-  if TppMission.IsFOBMission(missionCode)then
+  if this.IsOnlineMission(missionCode)then
     return
   end
 
-  local packages=this.packages[missionCode]
-  if packages then
-    for i,packPath in ipairs(packages) do
-      packPaths[#packPaths+1]=packPath
-    end
-  end
+  --  local packages=this.packages[missionCode]
+  --  if packages then
+  --    for i,packPath in ipairs(packages) do
+  --      packPaths[#packPaths+1]=packPath
+  --    end
+  --  end
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.AddMissionPacks) then
@@ -346,241 +192,73 @@ end
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
 function this.OnMissionCanStartBottom()
   InfCore.LogFlow"InfMain.OnMissionCanStartBottom"
-  --InfCore.PCall(function()--DEBUG
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
     return
   end
 
-  local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.OnMissionCanStart) then
-      InfCore.LogFlow(module.name..".OnMissionCanStart:")
-      InfCore.PCallDebug(module.OnMissionCanStart,currentChecks)
-    end
-  end
-
-  --tex WORKAROUND invasion mode extract from mb weirdness, just disable for now
-  --  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then
-  --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
-  --  end
-
-  local locationName=InfUtil.GetLocationName()
-  if Ivars.disableLzs:Is"ASSAULT" then
-    InfLZ.DisableLzs(TppLandingZone.assaultLzs[locationName])
-  elseif Ivars.disableLzs:Is"REGULAR" then
-    InfLZ.DisableLzs(TppLandingZone.missionLzs[locationName])
-  end
-
-  if Ivars.repopulateRadioTapes:Is(1) then
-    Gimmick.ForceResetOfRadioCassetteWithCassette()
-  end
-
-  if Ivars.disableOutOfBoundsChecks:Is(1) then
-    mvars.mis_ignoreAlertOfMissionArea=true
-    local trapName="trap_mission_failed_area"
-    local enable=false
-    TppTrap.ChangeNormalTrapState(trapName,enable)
-    TppTrap.ChangeTriggerTrapState(trapName,enable)
-  end
-
-  --end)--DEBUG
+  this.UpdateExecChecks(this.execChecks)
+  this.CallOnModules("OnMissionCanStart",this.execChecks)
 end
 
 --tex called from TppMain.OnReload (TODO: caller of that?) on all require libs
 function this.OnReload(missionTable)
-  if TppMission.IsFOBMission(vars.missionCode) then
+  if this.IsOnlineMission(vars.missionCode) then
     return
   end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
-  for i,module in ipairs(InfModules)do
-    if module.OnReload then
-      InfCore.LogFlow(module.name..".OnReload:")
-      InfCore.PCallDebug(module.OnReload,missionTable)
-    end
-  end
+  this.CallOnModules("OnReload",missionTable)
 end
-
 
 --tex called from TppMission.OnMissionGameEndFadeOutFinish2nd
 function this.OnMissionGameEndTop()
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
     return
   end
 
-  for i,module in ipairs(InfModules) do
-    if IsFunc(module.OnMissionGameEnd) then
-      InfCore.LogFlow(module.name..".OnMissionGameEnd:")
-      InfCore.PCallDebug(module.OnMissionGameEnd)
-    end
-  end
+  this.CallOnModules("OnMissionGameEnd")
 end
+
 --tex called from TppMission.AbortMission (TODO: caller of that?)
 function this.AbortMissionTop(abortInfo)
-  if TppMission.IsFOBMission(abortInfo.nextMissionId)then
+  if this.IsOnlineMission(abortInfo.nextMissionId)then
     return
   end
 
   --InfCore.Log("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
 
-  InfGameEvent.DisableEvent()
+  if InfGameEvent then
+    InfGameEvent.DisableEvent()--DEBUGNOW: InfMainTpp
+  end
 end
 
 --CALLERS TppMission.MissionFinalize/OnEndMissionReward < called from in sequence when decided mission is ended
 function this.ExecuteMissionFinalizeTop()
-  if TppMission.IsFOBMission(gvars.mis_nextMissionCodeForMissionClear)then
+  if this.IsOnlineMission(gvars.mis_nextMissionCodeForMissionClear)then
     return
   end
 
   this.RegenSeed(vars.missionCode,gvars.mis_nextMissionCodeForMissionClear)
-  InfGameEvent.DisableEvent()
-  InfCore.PCall(InfGameEvent.GenerateEvent,gvars.mis_nextMissionCodeForMissionClear)
+  if InfGameEvent then
+    InfGameEvent.DisableEvent()--DEBUGNOW: InfMainTpp
+    InfCore.PCall(InfGameEvent.GenerateEvent,gvars.mis_nextMissionCodeForMissionClear)--DEBUGNOW: InfMainTpp
+  end
 end
 
---missionFinalize={
---  currentMissionCode,
---  currentLocationCode,
---  isHeliSpace,
---  nextIsHeliSpace,
---  isFreeMission,
---  nextIsFreeMission,
---  isMotherBase,
---  isZoo,
---}
---GOTCHA only currently on freemission in a specfic spot in TppMission.MissionFinalize
-function this.ExecuteMissionFinalizeFree(missionFinalize)
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
-  end
-
-  --tex repop count decrement for plants
-  if Ivars.mbCollectionRepop:Is(1) then
-
-    if missionFinalize.isZoo then
-      TppGimmick.DecrementCollectionRepopCount()
-    elseif missionFinalize.isMotherBase then
-
-      --tex dont want it too OP
-      local defaultValue=IvarsPersist.mbRepopDiamondCountdown
-      local value=igvars.mbRepopDiamondCountdown
-      value=value-1
-      if value<=0 then
-        value=defaultValue
-        --InfCore.Log("mbCollectionRepop decrement/reset")--DEBUG
-        TppGimmick.DecrementCollectionRepopCount()
-      end
-      --InfCore.Log("mbRepopDiamondCountdown decrement from "..igvars.mbRepopDiamondCountdown.." to "..value)--DEBUG
-      igvars.mbRepopDiamondCountdown=value
-    end
-  end
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  local CheckMessageOption=TppMission.CheckMessageOption
+  DoMessage(this.messageExecTable,CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
 function this.Messages()
   return Tpp.StrCode32Table{
-    GameObject={
-      {msg="Damage",func=this.OnDamage},
-      --{msg="Dead",func=this.OnDead},
-      {msg="ChangePhase",func=this.OnPhaseChange},
-    --WIP OFF, lua off
-    --      {msg="RequestLoadReinforce",func=InfReinforce.OnRequestLoadReinforce},
-    --      {msg="RequestAppearReinforce",func=InfReinforce.OnRequestAppearReinforce},
-    --      {msg="CancelReinforce",func=InfReinforce.OnCancelReinforce},
-    --      {msg="LostControl",func=InfReinforce.OnHeliLostControlReinforce},--DOC: Helicopter shiz.txt
-    --      {msg="VehicleBroken",func=InfReinforce.OnVehicleBrokenReinforce},
-    --      {msg="Returned", --[[sender = "EnemyHeli",--]]
-    --        func = function(gameObjectId)
-    --        --InfCore.DebugPrint("GameObject msg: Returned")--DEBUG
-    --        end
-    --      },
-    --      {msg="RequestedHeliTaxi",func=function(gameObjectId,currentLandingZoneName,nextLandingZoneName)
-    --        --InfCore.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
-    --        end},
-    --      {msg="StartedPullingOut",func=function()
-    --        --InfCore.DebugPrint("StartedPullingOut")--DEBUG
-    --      end},
-    --      {
-    --        msg = "RoutePoint2",--DEBUG
-    --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
-    --          InfCore.PCall(function()
-    --            InfCore.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
-    --          end)
-    --        end
-    --      },
-    },
-    --MotherBaseStage = {
-    --      {
-    --        msg="MotherBaseCurrentClusterLoadStart",
-    --        func=function(clusterId)
-    --          InfCore.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
-    --        end,
-    --      },
-    --OFF CULL unused{msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
-    --},
-    Player={
-      {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
-    --      {
-    --        msg="OnPickUpWeapon",
-    --        func=function(playerGameObjectId,equipId,number)
-    --          InfCore.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
-    --        end
-    --      },
-    --      {msg="RideHelicopter",func=function()
-    --        InfCore.DebugPrint"RideHelicopter"
-    --      end},
-    },
     UI={
-      --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
-      {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
-        --InfCore.Log("FadeInOnGameStart",true)--DEBUG
-        this.FadeInOnGameStart()
-      end},
-      --this.FadeInOnGameStart},
-      {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()--fires on: returning to heli from mission
-        --  TppUiStatusManager.ClearStatus"AnnounceLog"
-        --InfMenu.ModWelcome()
-        --InfCore.DebugPrint"FadeInOnStartMissionGame"--DEBUG
-        --this.FadeInOnGameStart()
-        end},
-      {msg="EndFadeIn",sender="OnEndGameStartFadeIn",func=function()--fires on: on-foot mother base, both initial and continue
-        --InfCore.DebugPrint"OnEndGameStartFadeIn"--DEBUG
-        this.FadeInOnGameStart()
-      end},
-      --tex Heli mission-prep ui
-      {msg="MissionPrep_EndSlotSelect",func=function()
-        --InfCore.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
-        InfFova.CheckModelChange()
-      end},
-    --      {msg="MissionPrep_ExitWeaponChangeMenu",func=function()
-    --        InfCore.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
-    --      end},
-    --      {msg="MissionPrep_EndItemSelect",func=function()
-    --        InfCore.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
-    --      end},
-    --      {msg="MissionPrep_EndEdit",func=function()
-    --        InfCore.DebugPrint"MissionPrep_EndEdit"--DEBUG
-    --      end},
-    --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
+      {msg="EndFadeIn",sender="FadeInOnGameStart",func=this.FadeInOnGameStart},--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
+      {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=this.FadeInOnGameStart},--fires on: returning to heli from mission
+      {msg="EndFadeIn",sender="OnEndGameStartFadeIn",func=this.FadeInOnGameStart},--fires on: on-foot mother base, both initial and continue
     },
-    Timer={
-      {msg="Finish",sender="Timer_WaitStartingGame",func=this.OnGameStart},
-    --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
-    },
-    --    Terminal={
-    --      {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
-    --        --InfCore.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
-    --      end},
-    --      {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
-    --        --InfCore.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
-    --      end},
-    --      {msg="MbDvcActHeliLandStartPos",func=function(set,x,y,z)
-    --        --InfCore.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
-    --        end},
-    --      {msg="MbDvcActCallRescueHeli",func=function(param1,param2)
-    --        --InfCore.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
-    --        end},
-    --    },
     Block={
       {msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(blockIndexX,blockIndexY,clusterIndex)
         if Ivars.printOnBlockChange:Is(1) then
@@ -592,159 +270,38 @@ function this.Messages()
           InfCore.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
         end
       end},
-    --      {msg="OnChangeSmallBlockState",func=function(blockIndexX,blockIndexY,blockStatus)
-    --
-    --        end},
     },
   }
-end
-function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-end
-
---TODO: VERIFY, add vehicle machineguns
-local vehicleAttacks={
-  [TppDamage.ATK_VehicleHit]=true,
-  [TppDamage.ATK_Tankgun_20mmAutoCannon]=true,
-  [TppDamage.ATK_Tankgun_30mmAutoCannon]=true,
-  [TppDamage.ATK_Tankgun_105mmRifledBoreGun]=true,
-  [TppDamage.ATK_Tankgun_120mmSmoothBoreGun]=true,
-  [TppDamage.ATK_Tankgun_125mmSmoothBoreGun]=true,
-  [TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile]=true,
-  [TppDamage.ATK_Tankgun_30mmAutoCannon]=true,
-  [TppDamage.ATK_Wav1]=true,
-  [TppDamage.ATK_WavCannon]=true,
-  [TppDamage.ATK_TankCannon]=true,
-  [TppDamage.ATK_WavRocket]=true,
-  [TppDamage.ATK_HeliMiniGun]=true,
-  [TppDamage.ATK_HeliChainGun]=true,
-}
-function this.OnDamage(gameId,attackId,attackerId)
-  local typeIndex=GetTypeIndex(gameId)
-  if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
-    return
-  end
-
-  if Tpp.IsPlayer(attackerId) then
-    --InfCore.DebugPrint"OnDamage attacked by player"
-    local soldierAlertOnHeavyVehicleDamage=Ivars.soldierAlertOnHeavyVehicleDamage:Get()
-    if soldierAlertOnHeavyVehicleDamage>0 then
-      if vehicleAttacks[attackId] then
-        --InfCore.DebugPrint"OnDamage AttackIsVehicle"
-        for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup
-          if soldierIds[gameId]~=nil then
-            if TppEnemy.GetPhaseByCPID(cpId)<soldierAlertOnHeavyVehicleDamage then
-              --InfCore.DebugPrint"OnDamage found soldier in idlist"
-              local command={id="SetPhase",phase=soldierAlertOnHeavyVehicleDamage}
-              SendCommand(cpId,command)
-              break
-            end
-        end--if cp not phase
-        end--for soldieridlist
-      end--attackisvehicle
-    end--gvar
-  end--player is attacker
-end
-
-function this.OnFultonVehicle(vehicleId)
---WIP
---tex not actually that useful, need to alert nearby cps instead
---  local cpAlertOnVehicleFulton=Ivars.cpAlertOnVehicleFulton:Get()
---  if cpAlertOnVehicleFulton>0 then--tex
---    InfCore.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUG
---    local riderIdArray=SendCommand(vehicleId,{id="GetRiderId"})
---    for seatIndex,riderId in ipairs(riderIdArray) do
---      if seatIndex==1 then
---        if riderId~=NULL_ID then
---          InfCore.DebugPrint"vehicle has driver"--DEBUG
---          for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
---            if soldierIds[riderId]~=nil then
---              InfCore.DebugPrint"found rider cp"--DEBUG
---              if TppEnemy.GetPhaseByCPID(cpId)<cpAlertOnVehicleFulton then
---                local command={id="SetPhase",phase=cpAlertOnVehicleFulton}
---                SendCommand(cpId,command)
---                break
---              end
---            end
---          end
---        end
---      end
---    end
---  end--<
-end
-
-local function PhaseName(index)
-  return Ivars.phaseSettings[index+1]
-end
-function this.OnPhaseChange(gameObjectId,phase,oldPhase)
-  if Ivars.printPhaseChanges:Is(1) and Ivars.phaseUpdate:Is(0) then
-    InfMenu.Print("cpId:"..gameObjectId.." cpName:"..tostring(InfLookup.CpNameForCpId(gameObjectId)).."Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
-  end
-end
-
-function this.OnGameStart()
-  --tex WORKAROUND, vars.mbLayout (also TppMotherBaseManagement.GetMbsClusterGrade) isn't updated on a command cluster plat built till after TppMain.ReservePlayerLoadingPosition
-  if vars.missionCode==30050 then
-    if gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.ON_FOOT then
-      --InfCore.Log("playerposfailsafe ON_FOOT playerY="..vars.playerPosY)--DEBUG
-      if vars.playerPosY<-9 then
-        InfCore.Log("PlayerPos Failsafe")
-        --tex TODO could store vars.mbLayout during load and compare to see if it's changed?
-        if gvars.heli_missionStartRoute then
-          local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
-          --InfCore.PrintInspect(groundStartPosition)--DEBUG
-          TppPlayer.Warp{pos=groundStartPosition.pos,rotY=vars.playerRotY}
-        end
-      end
-    end
-  end
 end
 
 --CALLER: TppUI.FadeIn
 function this.OnFadeInDirect(msgName)
   InfCore.LogFlow("InfMain.OnFadeInDirect:"..tostring(msgName))
-  if vars.missionCode > 5 and TppMission.IsFOBMission(vars.missionCode)then
+  if vars.missionCode > 5 and this.IsOnlineMission(vars.missionCode)then
     return
   end
-  --tex calling from function rather than msg since it triggers on start, possibly splash or loading screen, which fova naturally doesnt like because it doesn't exist then
-  InfFova.OnFadeInDirect()
 
-  for i,module in ipairs(InfModules) do
-    if module.OnFadeInDirect then
-      module.OnFadeInDirect(msgName)
-    end
-  end
+  this.CallOnModules("OnFadeInDirect",msgName)
 end
 
 --CALLER: TppUI.FadeOut
 function this.OnFadeOutDirect(msgName)
   InfCore.LogFlow("InfMain.OnFadeOutDirect:"..tostring(msgName))
-  if vars.missionCode > 5 and TppMission.IsFOBMission(vars.missionCode)then
+  if vars.missionCode > 5 and this.IsOnlineMission(vars.missionCode)then
     return
   end
 
-  for i,module in ipairs(InfModules) do
-    if module.OnFadeOutDirect then
-      module.OnFadeOutDirect(msgName)
-    end
-  end
+  this.CallOnModules("OnFadeOutDirect",msgName)
 end
-
-
-
 
 --msg called fadeins
 function this.FadeInOnGameStart()
   InfCore.LogFlow"InfMain.FadeInOnGameStart"
-  this.WeaponVarsSanityCheck()
+  this.WeaponVarsSanityCheck()--DEBUGNOW TODO this wont actually be called since messages are off in FOB?, but it was working when I wrote it, so did I only block messages in fob after?
 
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if this.IsOnlineMission(vars.missionCode)then
     return
   end
-
-  this.ClearMarkers()
-
-  this.ChangeMaxLife()
 
   --TppUiStatusManager.ClearStatus"AnnounceLog"
   --InfMenu.ModWelcome()
@@ -806,22 +363,24 @@ this.execChecks={
   onBuddy=false,--tex sexy
   inBox=false,
   inMenu=false,
+  inIdroid=false,
 }
 
 this.currentTime=0
 
 this.abortToAcc=false--tex
 
---tex NOTE: doesn't actually return a new table/reuses input
+--IN/OUT SIDE: currentchecks
 function this.UpdateExecChecks(currentChecks)
-  for k,v in pairs(this.execChecks) do
-    this.execChecks[k]=false
+  for k,v in pairs(currentChecks) do--DEBUGNOW
+    currentChecks[k]=false
   end
 
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
-  currentChecks.inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
+  currentChecks.inHeliSpace=vars.missionCode and this.IsHelicopterSpace(vars.missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inHeliSpace
   currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
+  currentChecks.inIdroid=IsMbDvcTerminalOpened()
 
   if currentChecks.inGame then
     local playerVehicleId=vars.playerVehicleGameObjectId
@@ -830,28 +389,37 @@ function this.UpdateExecChecks(currentChecks)
       --if not initialAction then--DEBUG
       --InfCore.DebugPrint"not initialAction"
       --end
-      currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
-      currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId)-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
-      currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
-      currentChecks.inBox=Player.IsVarsCurrentItemCBox()
+      if playerVehicleId~=NULL_ID then
+        local playerVehicleType=GetTypeIndex(playerVehicleId)
+        currentChecks.inSupportHeli=playerVehicleType==GAME_OBJECT_TYPE_HELI2
+        currentChecks.inGroundVehicle=playerVehicleType==GAME_OBJECT_TYPE_VEHICLE --or GAME_OBJECT_TYPE_COMMON_WALKERGEAR2 ??
+        currentChecks.onBuddy=playerVehicleType==GAME_OBJECT_TYPE_HORSE2 or playerVehicleType==GAME_OBJECT_TYPE_WALKERGEAR2
+      end
+      currentChecks.inBox=IsVarsCurrentItemCBox()
     end
   end
 
   return currentChecks
 end
-
+this.startTime=0
+this.updateTimes={}--DEBUG
 function this.Update()
   InfCore.PCallDebug(function()--DEBUG
     local InfMenu=InfMenu
-    if TppMission.IsFOBMission(vars.missionCode) then
+    if this.IsOnlineMission(vars.missionCode) then
       return
     end
 
-    local currentChecks=this.UpdateExecChecks(this.execChecks)
+    if this.debugModule then
+      this.startTime=os.clock()--DEBUG
+    end
+    local currentChecks=this.execChecks
+    this.UpdateExecChecks(currentChecks)
     this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
 
     InfButton.UpdateHeld()
     InfButton.UpdateRepeatReset()
+
 
     this.DoControlSet(currentChecks)
 
@@ -866,17 +434,30 @@ function this.Update()
 
       for i,module in ipairs(InfModules) do
         if module.Update then
+          if this.debugModule then
+            this.updateTimes[module.name]=this.updateTimes[module.name] or {}
+            this.startTime=os.clock()--DEBUG
+          end
+
           --tex <module>.active is either number or ivar
           local active=this.ValueOrIvarValue(module.active)
           if module.active==nil or active>0 then
             local updateRate=this.ValueOrIvarValue(module.updateRate)
             this.ExecUpdate(currentChecks,this.currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
           end
+
+          if this.debugModule then
+            table.insert(this.updateTimes[module.name],os.clock()-this.startTime)
+          end
         end
       end
     end
     ---
     InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+
+    if this.debugModule then
+    --    this.updateTimes[#this.updateTimes+1]=os.clock()-this.startTime
+    end
   end)--DEBUG
 end
 
@@ -937,30 +518,10 @@ function this.DoControlSet(currentChecks)
   end
 end
 
---warp mode,camadjust
---config
-this.moveRightButton=InfButton.RIGHT
-this.moveLeftButton=InfButton.LEFT
-this.moveForwardButton=InfButton.UP
-this.moveBackButton=InfButton.DOWN
-this.moveUpButton=InfButton.DASH
-this.moveDownButton=InfButton.ZOOM_CHANGE
---cam buttons
-this.resetModeButton=InfButton.SUBJECT
-this.verticalModeButton=InfButton.ACTION
-this.zoomModeButton=InfButton.FIRE
-this.apertureModeButton=InfButton.RELOAD
-this.focusDistanceModeButton=InfButton.STANCE
-this.distanceModeButton=InfButton.HOLD
-this.speedModeButton=InfButton.ACTION
-
-this.nextEditCamButton=InfButton.RIGHT
-this.prevEditCamButton=InfButton.LEFT
-
 function this.RegenSeed(currentMission,nextMission)
   --tex hard to find a line to draw in the sand between one mission and the next, so i'm just going for if you've gone to acc then that you're new levelseed set
   -- this does mean that free roam<>mission wont get a change though, but that may be useful in some circumstances
-  if TppMission.IsHelicopterSpace(nextMission) and currentMission>5 then
+  if this.IsHelicopterSpace(nextMission) and currentMission>5 then
     this.RandomResetToOsTime()
     igvars.inf_levelSeed=math.random(0,2147483647)
     InfCore.Log("InfMain.RegenSeed new seed "..tostring(igvars.inf_levelSeed))--DEBUG
@@ -985,148 +546,12 @@ function this.RandomResetToOsTime()
   math.random()
 end
 
-this.soldierTypeForSubtypes={
-  DD_A=EnemyType.TYPE_DD,
-  DD_PW=EnemyType.TYPE_DD,
-  DD_FOB=EnemyType.TYPE_DD,
-  SKULL_CYPR=EnemyType.TYPE_SKULL,
-  SKULL_AFGH=EnemyType.TYPE_SKULL,
-  SOVIET_A=EnemyType.TYPE_SOVIET,
-  SOVIET_B=EnemyType.TYPE_SOVIET,
-  PF_A=EnemyType.TYPE_PF,
-  PF_B=EnemyType.TYPE_PF,
-  PF_C=EnemyType.TYPE_PF,
-  CHILD_A=EnemyType.TYPE_CHILD,
-}
 
--- mb dd equip
---tex TODO: don't like how this is still tied up both with weapon table and .GetMbs ranks
-local enableDDEquipStr="enableDDEquip"
-function this.IsDDEquip(missionId)
-  local missionCode=missionId or vars.missionCode
-  if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
-    return IvarProc.EnabledForMission(enableDDEquipStr)
-  end
-  return false
-end
 
 function this.MinMaxIvarRandom(ivarName)
   local ivarMin=Ivars[ivarName.."_MIN"]
   local ivarMax=Ivars[ivarName.."_MAX"]
   return math.random(ivarMin:Get(),ivarMax:Get())
-end
-
-function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: soldierEquipGrade
-  local missionCode=missionId or vars.missionCode
-  local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-  if this.IsDDEquip(missionCode) then
-    InfMain.RandomSetToLevelSeed()
-    grade=this.MinMaxIvarRandom"soldierEquipGrade"
-    InfMain.RandomResetToOsTime()
-  end
-  --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.soldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
-  --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUG
-  return grade
-end
-
-function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
-  local missionCode=missionId or vars.missionCode
-  if this.IsDDEquip(missionCode) then
-    if Ivars.mbSoldierEquipRange:Is"RANDOM" then
-      return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
-    else
-      return Ivars.mbSoldierEquipRange:Get()
-    end
-  end
-  return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-end
-
-function this.GetMbsClusterSecurityIsNoKillMode(missionId)
-  local missionCode=missionId or vars.missionCode
-  if this.IsDDEquip(missionCode) then
-    return Ivars.mbDDEquipNonLethal:Is(1)
-  end
-  return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-end
-
-function this.ResetCpTableToDefault()
-  local subTypeOfCp=TppEnemy.subTypeOfCp
-  local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
-  for cp, subType in pairs(subTypeOfCp)do
-    subTypeOfCp[cp]=subTypeOfCpDefault[cp]
-  end
-end
-
-local cpSubTypes={
-  afgh={
-    "SOVIET_A",
-    "SOVIET_B",
-  },
-  mafr={
-    "PF_A",
-    "PF_B",
-    "PF_C",
-  },
-}
-
-local changeCpSubTypeStr="changeCpSubType"
-function this.RandomizeCpSubTypeTable()
-  if not IvarProc.EnabledForMission(changeCpSubTypeStr) then
-    this.ResetCpTableToDefault()
-    return
-  end
-
-  local locationName=InfUtil.locationNames[vars.locationCode]
-  local locationSubTypes=cpSubTypes[locationName]
-  if locationSubTypes==nil then
-    InfCore.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
-    return
-  end
-
-  InfMain.RandomSetToLevelSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
-  local subTypeOfCp=TppEnemy.subTypeOfCp
-  for cp, subType in pairs(subTypeOfCp)do
-    local subType=subTypeOfCp[cp]
-
-    local rnd=math.random(1,#locationSubTypes)
-    subTypeOfCp[cp]=locationSubTypes[rnd]
-  end
-  this.RandomResetToOsTime()
-end
-
---TUNE
-function this.SetZombie(gameObjectId)
-  local command= {
-    id="SetZombie",
-    enabled=true,
-    isMsf=math.random()>0.7,
-    isZombieSkin=false,--math.random()>0.5,
-    isHagure=math.random()>0.7,--tex donn't even know
-    isHalf=math.random()>0.7,--tex donn't even know
-  }
-  if not command.isMsf then
-    command.isZombieSkin=true
-  end
-  SendCommand(gameObjectId,command )
-  if command.isMsf then
-    local command={id="SetMsfCombatLevel",level=math.random(9)}
-    SendCommand(gameObjectId,command)
-  end
-
-  if math.random()>0.8 then
-    SendCommand(gameObjectId,{id="SetEnableHotThroat",enabled=true})
-  end
-end
-
-function this.SetUpMBZombie()
-  for cpName,soldierNameList in pairs(mvars.ene_soldierDefine) do
-    for i,soldierName in pairs(soldierNameList) do
-      local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
-      if gameObjectId~=NULL_ID then
-        this.SetZombie(gameObjectId)
-      end
-    end
-  end
 end
 
 this.SetFriendlyCp = function()
@@ -1273,7 +698,7 @@ function this.GetClosestCp(position)
       closestPosition=cpPosition
     end
   end
-  --InfCore.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
+  --InfCore.DebugPrint("Closest cp "..InfLangProc.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
   local cpId=GetGameObjectId(closestCp)
   if cpId and cpId~=NULL_ID then
     return closestCp,closestDist,closestPosition
@@ -1281,194 +706,7 @@ function this.GetClosestCp(position)
     return
   end
 end
-
-function this.GetClosestLz(position)
-  local closestRoute=nil
-  local closestDist=9999999999999999
-  local closestPosition=nil
-
-  local locationName=InfUtil.GetLocationName()
-
-  if not TppLandingZone.assaultLzs[locationName] then
-    InfCore.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
-  end
-  local lzTables={
-    TppLandingZone.assaultLzs[locationName],
-    TppLandingZone.missionLzs[locationName]
-  }
-  for i,lzTable in ipairs(lzTables)do
-    for dropLzName,aprLzName in pairs(lzTable)do
-      local coords=InfLZ.GetGroundStartPosition(StrCode32(dropLzName))
-      if coords then
-        local cpPos=coords.pos
-        if cpPos==nil then
-          InfCore.DebugPrint("coords.pos==nil for "..dropLzName)
-          return
-        elseif #cpPos~=3 then
-          InfCore.DebugPrint("#coords.pos~=3 for "..dropLzName)
-          return
-        end
-
-        local distSqr=TppMath.FindDistance(position,cpPos)
-        if distSqr<closestDist then
-          closestDist=distSqr
-          closestRoute=dropLzName
-          closestPosition=cpPos
-        end
-      end
-    end
-  end
-
-  return closestRoute,closestDist,closestPosition
-end
 --<cp stuff
-
---tex a few demo files force their own snake heads which naturally goes badly if DD female and use current soldier in cutscenes
-this.noSkipIsSnakeOnly={--tex>
-  Demo_Funeral=true,--PATCHUP: shining lights end cinematic forces snake head with ash
-  --volgin recovery quest, demo forces snake head with bandages
-  Demo_RecoverVolgin=true,
-  p31_080100_000_final=true,
-}
-
-function this.SetSubsistenceSettings()
-  --tex no go, see OnMissionCanStartBottom for alt solution
-  --  if TppMission.IsFOBMission(vars.missionCode) then
-  --    if vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None then
-  --      --InfCore.Log("TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None")--DEBUG
-  --      TppPlayer.SetInitWeapons({{primaryHip="EQP_WP_30001"}},true)
-  --    end
-  --    if vars.weapons[TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None then
-  --      --InfCore.Log("TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None")--DEBUG
-  --      TppPlayer.SetInitWeapons({{secondary="EQP_WP_10101"}},true)
-  --    end
-  --    return
-  --  end
-
-
-  --TppPlayer.SetInitWeapons(initSetting,true)
-
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return
-  end
-
-  if TppMission.IsHelicopterSpace(vars.missionCode) then
-    return
-  end
-
-  if vars.missionCode<=TppDefine.SYS_MISSION_ID.TITLE then
-    return
-  end
-
-  local Ivars=Ivars
-
-  if Ivars.disableFulton:Is(1) then
-    vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
-  end
-
-  --tex: DEF: Player.SetItemLevel(equipId,itemGrade)
-  --itemGrade is grade as shown in idroid item development
-  --it's kind of a case by case to how the items deal with the levels and if they disable
-
-  --tex hands have no grade 1 entry shown in dev, will disable at grade 1
-  local handLevelIvars={
-    Ivars.handLevelSonar,
-    Ivars.handLevelPhysical,
-    Ivars.handLevelPrecision,
-    Ivars.handLevelMedical,
-  }
-  for i,itemIvar in ipairs(handLevelIvars) do
-    if itemIvar:Is()>0 then
-      --TODO: check against developed
-      --local currentLevel=Player.GetItemLevel(equip)
-      --InfCore.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
-      --tex levels = grades in dev menu, so 1=off since there's no grade 1 for these
-      Player.SetItemLevel(itemIvar.equipId,itemIvar:Get())
-    end
-  end
-
-  --tex fulton does not disable at grade 0, will be overridden if wormhole grade > 0.
-  if Ivars.itemLevelFulton:Is()>0 then
-    --TODO: check against developed
-    --REF local currentLevel=Player.GetItemLevel(equip)
-    Player.SetItemLevel(Ivars.itemLevelFulton.equipId,Ivars.itemLevelFulton:Get())
-  end
-  --tex wormhole grade 0 = disabled/use fulton grade, > 0 = enabled
-  if Ivars.itemLevelWormhole:Is()>0 then
-    --TODO: check against developed
-    --REF local currentLevel=Player.GetItemLevel(equip)
-    --tex levels = 0 off, 1 on, but since ivar uses 0 as default, shift by 1.
-    Player.SetItemLevel(Ivars.itemLevelWormhole.equipId,Ivars.itemLevelWormhole:Get()-1)
-  end
-
-  --tex pretty normal grade wise (code could be merged with hands), grade 0 does not disable.
-  local itemLevelIvars={
-    Ivars.itemLevelIntScope,
-    Ivars.itemLevelIDroid,
-  }
-  for i,itemIvar in ipairs(itemLevelIvars) do
-    if itemIvar:Is()>0 then
-      --TODO: check against developed
-      --local currentLevel=Player.GetItemLevel(equip)
-      --InfCore.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
-      --tex levels = grades in dev menu, so itemlevel 0=off, but shifting since ivar 0 = dont set.
-      Player.SetItemLevel(itemIvar.equipId,itemIvar:Get())
-    end
-  end
-
-  if TppMission.IsSubsistenceMission()then
-    return
-  end
-
-  if Ivars.setSubsistenceSuit:Is(1) then
-    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
-    TppPlayer.RegisterTemporaryPlayerType(playerSettings)
-  end
-  if Ivars.setDefaultHand:Is(1) then
-    mvars.ply_isExistTempPlayerType=true
-    mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
-  end
-
-  --tex bail on free<>mission to preserver your equip
-  --tex not MB
-  local free={
-    [30010]=true,
-    [30020]=true,
-  }
-  if not Ivars.prevMissionCode then
-    return
-  end
-
-  if Ivars.dontOverrideFreeLoadout:Is(1) then
-    if (free[Ivars.prevMissionCode] and TppMission.IsStoryMission(vars.missionCode))
-      or (free[vars.missionCode] and TppMission.IsStoryMission(Ivars.prevMissionCode)) then
-      return
-    end
-  end
-
-  local ospIvars={
-    Ivars.primaryWeaponOsp,
-    Ivars.secondaryWeaponOsp,
-    Ivars.tertiaryWeaponOsp,
-    Ivars.clearSupportItems,
-    Ivars.clearItems,
-  }
-
-  for i,ivar in ipairs(ospIvars) do
-    if igvars.inf_event==false then
-      IvarProc.UpdateSettingFromGvar(ivar)
-    end
-
-    local initSetting=ivar:GetTableSetting()
-    if initSetting then
-      if ivar==Ivars.clearItems then
-        TppPlayer.SetInitItems(initSetting,true)
-      else
-        TppPlayer.SetInitWeapons(initSetting,true)
-      end
-    end
-  end
-end
 
 --actionflags
 this.menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU--+PlayerDisableAction.OPEN_CALL_MENU
@@ -1520,50 +758,6 @@ this.allButCamPadMask={
 --  triggers=PlayerPad.TRIGGER_L+PlayerPad.TRIGGER_R,
 --}
 
-
-function this.ClearMarkers()
-  if Ivars.disableHeadMarkers:Is(1) then
-    TppUiStatusManager.SetStatus("HeadMarker","INVALID")
-  end
-  if Ivars.disableWorldMarkers:Is(1) then
-    TppUiStatusManager.SetStatus("WorldMarker","INVALID")
-  end
-end
-
-function this.ClearXRay()
-  if Ivars.disableXrayMarkers:Is(1) then
-    --TppSoldier2.DisableMarkerModelEffect()
-    TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
-  end
-end
-
-function this.ChangeMaxLife(setOn1)
-  --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
-  --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
-  --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
-
-  --default player life is defined as 6000 in *player(s)_game_obj.fox2/TppPlayer2Parameter/lifeMax
-  --however this is only the value during the early game
-  --after mission 2 it bumps up to 6600 (6000*1.1?)
-  --with medical hand grade 2 or higher (as snake or avatar), or with a DD soldier with the tough guy skill this increases to
-  --7801, which is a bit over 6000*1.3, which is strange.
-
-  --vars.playerLifeMax is uint16 (ta NasaNhak) so just capping max at 50k (*1.3=65k) to avoid the overflow
-  --Ivar max (6.5 scale) is actually a bit over 50k, but I'll cap here for sanity
-
-  -- see wiki for more info http://wiki.tesnexus.com/index.php/Life
-  local healthScale=Ivars.playerHealthScale:Get()/100
-  if healthScale~=1 or setOn1 then
-    Player.ResetLifeMaxValue()
-    local newMax=vars.playerLifeMax
-    newMax=newMax*healthScale
-    newMax=math.max(10,newMax)
-    --newMax=math.min(2^16-1,newMax)--unint16 max
-    newMax=math.min(50000,newMax)
-    Player.ChangeLifeMaxValue(newMax)
-  end
-end
-
 function this.GetActiveControlMode()
   local controlModes={
     Ivars.warpPlayerUpdate,
@@ -1585,7 +779,6 @@ this.CLUSTER_NAME={"Command","Combat","Develop","Support","Medical","Spy","BaseD
 this.CLUSTER_DEFINE=InfUtil.EnumFrom0(this.CLUSTER_NAME)
 --this.PLNT_NAME={"Special","Common1","Common2","Common3"}--or plat0-plat3
 --this.PLNT_DEFINE=this.Enum(this.PLNT_NAME)
---
 
 --lrrp plus
 this.baseNames={
@@ -1686,16 +879,6 @@ this.baseNames={
     "ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp",
   },
 }
-
---reserve soldierpool
---tex number of soldier locators in fox2s
-this.reserveSoldierCounts={
-  [30010]=40,
-  [30020]=40,
-  [30050]=140,
-}
-
-
 
 --tex in the mission soldierDefine tables there's a bunch of empty _lrrp cps that I'm repurposing
 local lrrpInd="_lrrp"
@@ -1810,84 +993,6 @@ function this.IsStartOnFoot(missionCode,isAssaultLz)
   end
 end
 
-function this.IsMbEvent(missionCode)
-  missionCode=missionCode or vars.missionCode
-  return missionCode==30050 and (Ivars.mbWarGamesProfile:Is()>0 or igvars.inf_event~=false)
-end
-
-function this.GetAverageRevengeLevel()
-  local stealthLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)
-  local combatLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
-
-  return math.floor((stealthLevel+combatLevel)/2)
-end
-
---tex doesn't seem to work, either I'm doing something wrong or the buddy system doesnt use it for mb
-function this.OverwriteBuddyPosForMb()
-  if TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1)then
-    if gvars.heli_missionStartRoute~=0 then
-      local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
-      if groundStartPosition then
-        local mbBuddyEntrySettings={}
-        local pos=Vector3(groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3])
-        local entryEntry={}
-        entryEntry[EntryBuddyType.BUDDY]={pos,0}
-        --entryEntry[EntryBuddyType.VEHICLE]={pos,0}
-        mbBuddyEntrySettings[gvars.heli_missionStartRoute]=entryEntry
-        TppEnemy.NPCEntryPointSetting(mbBuddyEntrySettings)
-      end
-    end
-  end
-end
-
-
-
-local mineFieldMineTypes={
-  {TppEquip.EQP_SWP_DMine,3},--tex bias toward original minefield intentsion/anti personal mines
-  TppEquip.EQP_SWP_SleepingGusMine,
-  TppEquip.EQP_SWP_AntitankMine,
-  TppEquip.EQP_SWP_ElectromagneticNetMine,
-}
-
---CALLER: TppMain.OnInitialize, just after loc_locationCommonTable.OnInitialize()
-function this.ModifyMinesAndDecoys()
-  if Ivars.randomizeMineTypes:Is(0) then
-    return
-  end
-
-  local mineTypeBag=InfUtil.ShuffleBag:New(mineFieldMineTypes)
-  if mvars.rev_revengeMineList then
-    InfMain.RandomSetToLevelSeed()
-    for cpName,mineFields in pairs(mvars.rev_revengeMineList)do
-      for i,mineField in ipairs(mineFields)do
-        if mineField.mineLocatorList then
-          for i,locatorName in ipairs(mineField.mineLocatorList)do
-            TppPlaced.ChangeEquipIdByLocatorName(locatorName,mineTypeBag:Next())
-          end
-        end
-        --tex WIP no go
-        --          if mineField.decoyLocatorList then
-        --            for i,locatorName in ipairs(mineField.decoyLocatorList)do
-        --              TppPlaced.ChangeEquipIdByLocatorName(locatorName,TppEquip.EQP_SWP_SleepingGusMine)
-        --            end
-        --          end
-      end
-    end
-    InfMain.RandomResetToOsTime()
-  end
-end
-
-function this.ModifyOcean()
-  if not Ivars.mbEnableOceanSettings:EnabledForMission() then
-    return
-  end
-
-  for i,ivarName in ipairs(Ivars.oceanIvars)do
-    local current=Ivars[ivarName]:Get()
-    Ivars[ivarName]:Set(current)
-  end
-end
-
 --ORPHAN
 function this.ReadSaveVar(name,category)
   local category=category or TppScriptVars.CATEGORY_GAME_GLOBAL
@@ -1899,37 +1004,11 @@ function this.IsContinue()
   return gvars.sav_varRestoreForContinue and not this.isContinueFromTitle
 end
 
-function this.IsMBDemoStage()
-  if vars.missionCode~=30050 then
-    return false
-  end
-
-  return (not TppPackList.IsMissionPackLabel"default") or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())
-end
-
-
-function this.PlayerVarsSanityCheck()
-  local faceEquipInfo=InfFova.playerFaceEquipIdInfo[vars.playerFaceEquipId+1]
-  if faceEquipInfo and faceEquipInfo.playerTypes and not faceEquipInfo.playerTypes[vars.playerType] then
-    vars.playerFaceEquipId=0
-  end
-
-  if TppMission.IsFOBMission(vars.missionCode)then
-    if vars.playerFaceId > Soldier2FaceAndBodyData.highestVanillaFaceId then
-      if vars.playerType==PlayerType.DD_MALE then
-        vars.playerFaceId=0
-      elseif vars.playerType==PlayerType.DD_FEMALE then
-        vars.playerFaceId=InfEneFova.DEFAULT_FACEID_FEMALE
-      end
-    end
-  end
-end
-
 function this.WeaponVarsSanityCheck()
   --tex throw on some default weapons if using dummy/equip none so to not run afoul of CheckPlayerEquipmentServerItemCorrect
   --see SetSubsistenceSettings for alt attempt that doesn't seem to work.
   --TODO: currently the weapons arent added via RequestLoadToEquipMissionBlock so weapons wont be usable, but since the user would have had decided to go into fob with equip_none instead of changing to a proper loadout whatev
-  if TppMission.IsFOBMission(vars.missionCode) then
+  if this.IsOnlineMission(vars.missionCode) then
     local changedWeapon=vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None or vars.weapons[TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None
     if changedWeapon then
       InfMenu.PrintLangId"fob_weapon_change"
@@ -1960,6 +1039,51 @@ function this.WeaponVarsSanityCheck()
       }
     end
   end
+end
+
+function this.IsOnlineMission(missionCode)
+  if InfCore.gameId=="TPP" then
+    return this.IsFOBMission(missionCode)
+  else--SSD
+    return this.IsMultiPlayMission(missionCode)
+  end
+end
+
+--tpp
+function this.IsFOBMission(missionCode)
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==5 then
+    return true
+  else
+    return false
+  end
+end
+function this.IsHelicopterSpace(missionCode)
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==4 then
+    return true
+  else
+    return false
+  end
+end
+--ssd
+function this.IsMultiPlayMission(missionCode)
+  if missionCode==TppDefine.SYS_MISSION_ID.TITLE then
+    return true
+  end
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==2 then
+    return true
+  else
+    return false
+  end
+end
+function this.IsMatchingRoom(missionCode)
+  if missionCode==TppDefine.SYS_MISSION_ID.TITLE then
+    return true
+  end
+  local first2Digits=math.floor(missionCode/1e3)
+  return first2Digits==21
 end
 
 function this.ValueOrIvarValue(value)
@@ -2024,7 +1148,7 @@ function this.LoadExternalModules(isReload)
       table.insert(InfModules.moduleNames,moduleName)
     end
   end
-  InfCore.PrintInspect(InfModules.moduleNames,{varName="InfModules.moduleNames"})--DEBUG
+  InfCore.PrintInspect(InfModules.moduleNames,"InfModules.moduleNames")--DEBUG
 
   for i,moduleName in ipairs(InfModules.moduleNames) do
     InfCore.LoadExternalModule(moduleName,isReload)
@@ -2049,15 +1173,7 @@ function this.LoadExternalModules(isReload)
   InfCore.LogFlow("PostAllModulesLoad")--DEBUG
   InfCore.PCallDebug(this.PostAllModulesLoad)
   --NOTE: On first load only InfMain has been loaded at this point, so can't reference other IH lib modules.
-  for i,moduleName in ipairs(InfModules.moduleNames) do
-    local module=_G[moduleName]
-    if module then
-      if IsFunc(module.PostAllModulesLoad) then
-        InfCore.LogFlow(module.name..".PostAllModulesLoad:")
-        InfCore.PCallDebug(module.PostAllModulesLoad)
-      end
-    end
-  end
+  this.CallOnModules("PostAllModulesLoad")
 
   --tex profiles
   local ret=InfCore.PCall(IvarProc.SetupInfProfiles)
@@ -2072,6 +1188,15 @@ function this.LoadExternalModules(isReload)
   --  InfCore.PrintInspect(Ivars.profiles)
 end
 
+--tex runs a function on all IH modules, used as the main message/event propogation to ih modules
+function this.CallOnModules(functionName,...)
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module[functionName]) then
+      InfCore.LogFlow(module.name.."."..functionName..":")
+      InfCore.PCallDebug(module[functionName],...)
+    end
+  end
+end
 
 function this.ModDirErrorMessage()
   --tex TODO: if InfLang then printlangid else -v-
@@ -2086,6 +1211,13 @@ function this.ModuleErrorMessage()
   InfCore.Log("Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See FAQ Known issues.txt",false,true)
 end
 
+function this.PostModuleReloadMain(module,prevModule)
+  --tex rather than have to deal with it in each module
+  if prevModule.messageExecTable then
+    module.messageExecTable=Tpp.MakeMessageExecTable(module.Messages())
+  end
+end
+
 function this.PostAllModulesLoad()
   local enable=Ivars.debugMode:Is(1)
   this.DebugModeEnable(enable)
@@ -2094,49 +1226,13 @@ end
 --CALLER end of start2nd.lua
 function this.LoadLibraries()
   InfCore.LogFlow"InfMain.LoadLibraries"
-  this.LoadModelInfoModules()
-  InfMission.SetupMissions()
-end
 
-function this.LoadModelInfoModules()
-  InfCore.LogFlow("InfMain.LoadModelInfoModules")
-  local plpartsPacks={--tex SYNC: InfFova
-    "plparts_avatar_man",
-    "plparts_battledress",
-    "plparts_ddf_battledress",
-    "plparts_ddf_parasite",
-    "plparts_ddf_venom",
-    "plparts_ddm_battledress",
-    "plparts_ddm_parasite",
-    "plparts_ddm_venom",
-    "plparts_dd_female",
-    "plparts_dd_male",
-    "plparts_gold",
-    "plparts_gz_suit",
-    "plparts_hospital",
-    "plparts_leather",
-    "plparts_mgs1",
-    "plparts_naked",
-    "plparts_ninja",
-    "plparts_normal",
-    "plparts_normal_scarf",
-    "plparts_parasite",
-    "plparts_raiden",
-    "plparts_silver",
-    "plparts_sneaking_suit",
-    "plparts_venom",
-    "plparts_ddm_swimwear",
-    "plparts_ddf_swimwear",
-  }
-
-  local path="/Assets/tpp/pack/player/parts/"
-  local suffix="_modelInfo"
-  local extension=".lua"
-  local sucess, err = pcall(function()
-    for n,packName in ipairs(plpartsPacks) do
-      Script.LoadLibrary(path..packName..suffix..extension)
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.LoadLibraries) then
+      InfCore.LogFlow(module.name..".LoadLibraries:")
+      InfCore.PCallDebug(module.LoadLibraries)
     end
-  end)
+  end
 end
 
 --EXEC

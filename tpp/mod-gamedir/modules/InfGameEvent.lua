@@ -4,10 +4,239 @@ local this={}
 
 local InfCore=InfCore
 local InfMain=InfMain
+local SendCommand=GameObject.SendCommand
 
 this.forceEvent=false
 this.inf_enabledEvents={}
 this.doInjury=false
+
+-->
+this.registerIvars={
+  'mbWarGamesProfile',
+  'mbWargameFemales',
+  'mbHostileSoldiers',
+  'mbNonStaff',
+  'mbZombies',
+  'mbEnemyHeli',
+  'mbEnableFultonAddStaff',
+  'selectEvent',
+  'enableEventHUNTED',
+  'enableEventCRASHLAND',
+  'enableEventLOST_COMS',
+}
+
+this.mbWarGamesProfile={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"OFF","TRAINING","INVASION","ZOMBIE_DD","ZOMBIE_OBLITERATION"},
+  settingsTable={
+    OFF={
+      mbDDEquipNonLethal=0,
+      mbHostileSoldiers=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=0,
+      mbEnemyHeli=0,
+    },
+    TRAINING={
+      --mbDDEquipNonLethal=0,--tex allow user setting
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=0,
+      mbEnemyHeli=0,
+    },
+    INVASION={
+      mbDDEquipNonLethal=0,
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=1,
+      mbNonStaff=1,
+      mbEnableFultonAddStaff=1,
+      mbZombies=0,
+      attackHeliPatrolsMB=4,
+      mbEnemyHeli=1,
+    },
+    ZOMBIE_DD={
+      mbDDEquipNonLethal=0,--tex n/a
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=1,
+      mbEnemyHeli=0,
+    },
+    ZOMBIE_OBLITERATION={
+      mbDDEquipNonLethal=0,
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=1,
+      mbNonStaff=1,
+      mbEnableFultonAddStaff=0,
+      mbZombies=1,
+      mbEnemyHeli=0,
+    },
+  },
+  OnChange=IvarProc.OnChangeProfile,
+}
+
+this.mbWargameFemales={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=100,increment=10},
+  isPercent=true,
+}
+
+--NONUSER/ handled by profile>
+this.mbHostileSoldiers={
+  nonUser=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbNonStaff={--tex also disables negative ogre on kill
+  nonUser=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbZombies={
+  nonUser=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+--tex attackHelis on mb hostile or not --InfNPCHeli
+this.mbEnemyHeli={
+  nonUser=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
+}
+
+this.mbEnableFultonAddStaff={
+  nonUser=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+--<NONUSER
+
+IvarProc.MissionModeIvars(
+  this,
+  "gameEventChance",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range={min=0,max=100,increment=5},
+    isPercent=true,
+  },
+  {"FREE","MB",}
+)
+
+this.selectEvent={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range={max=1},--DYNAMIC
+  OnSelect=function(self)
+    self.settingNames=InfGameEvent.GetEventNames()
+    --InfCore.PrintInspect(self.settings)--DEBUG
+    self.range.max=#self.settingNames-1
+  end,
+  OnActivate=function(self,setting)
+    InfMenu.PrintLangId"event_forced"
+    InfGameEvent.forceEvent=self.settingNames[setting+1]
+  end,
+}
+
+--
+this.enableEventHUNTED={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableEventCRASHLAND={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableEventLOST_COMS={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+--< ivar defs
+-->
+this.registerMenus={
+  'eventsMenu',
+}
+this.eventsMenu={
+  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu"},
+  options={
+    "InfGameEvent.ForceGameEvent",
+    "Ivars.gameEventChanceFREE",
+    "Ivars.gameEventChanceMB",
+    "Ivars.enableEventHUNTED",
+    "Ivars.enableEventCRASHLAND",
+    "Ivars.enableEventLOST_COMS",
+    "Ivars.enableParasiteEvent",
+    "Ivars.armorParasiteEnabled",
+    "Ivars.mistParasiteEnabled",
+    "Ivars.camoParasiteEnabled",
+    "Ivars.parasitePeriod_MIN",
+    "Ivars.parasitePeriod_MAX",
+    "Ivars.parasiteWeather",
+  }
+}
+--< menu defs
+this.langStrings={
+  eng={
+    eventsMenu="Events menu",
+    enableEventHUNTED="Allow Hunted event",
+    enableEventCRASHLAND="Allow Crashland event",
+    enableEventLOST_COMS="Allow Lost Coms event",
+    event_announce="Event: %s",--event name
+    event_forced="Event will start on next MB visit or Free Roam",
+    forceGameEvent="Trigger random IH event",
+    gameEventChanceMB="MB event random trigger chance",
+    gameEventChanceFREE="Free roam event random trigger chance",
+    events_mb={
+      "DD Training wargame",
+      "Soviet attack",
+      "Rogue Coyote attack",
+      "XOF attack",
+      "Femme Fatales attack",
+      "DD Infection outbreak",
+      "Zombie Obliteration (non DD)",
+    },
+    mbWargameFemales="Women in Enemy Invasion mode",
+    mbWarGamesProfile="Mother Base War Games",
+    mbWarGamesProfileSettings={"Off","DD Training","Enemy Invasion","DD Infection","Zombie Obliteration (non DD)"},   
+  },
+  help={
+    eng={
+      gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')",
+      gameEventChanceFREE="Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')",
+       forceGameEvent=[[Events are temporary combinations of IH settings for free roam and mother base.
+Free roam events (can stack): 
+Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
+Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
+Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
+MB events (only one active): 
+DD Training wargame, 
+Soviet attack, 
+Rogue Coyote attack, 
+XOF attack, 
+DD Infection outbreak, 
+Zombie Obliteration (non DD)]],
+    },
+  }
+}
+--<
 
 function this.PostModuleReload(prevModule)
   this.forceEvent=prevModule.forceEvent
@@ -445,6 +674,41 @@ end
 function this.ForceGameEvent()
   InfMenu.PrintLangId"event_forced"
   this.forceEvent=true
+end
+
+--TUNE
+function this.SetZombie(gameObjectId)
+  local command= {
+    id="SetZombie",
+    enabled=true,
+    isMsf=math.random()>0.7,
+    isZombieSkin=false,--math.random()>0.5,
+    isHagure=math.random()>0.7,--tex donn't even know
+    isHalf=math.random()>0.7,--tex donn't even know
+  }
+  if not command.isMsf then
+    command.isZombieSkin=true
+  end
+  SendCommand(gameObjectId,command )
+  if command.isMsf then
+    local command={id="SetMsfCombatLevel",level=math.random(9)}
+    SendCommand(gameObjectId,command)
+  end
+
+  if math.random()>0.8 then
+    SendCommand(gameObjectId,{id="SetEnableHotThroat",enabled=true})
+  end
+end
+
+function this.SetUpMBZombie()
+  for cpName,soldierNameList in pairs(mvars.ene_soldierDefine) do
+    for i,soldierName in pairs(soldierNameList) do
+      local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
+      if gameObjectId~=NULL_ID then
+        this.SetZombie(gameObjectId)
+      end
+    end
+  end
 end
 
 return this

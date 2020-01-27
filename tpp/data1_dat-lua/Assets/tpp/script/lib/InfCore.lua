@@ -10,13 +10,16 @@ local concat=table.concat
 local string=string
 local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 
-local InfUtil=InfUtil
 local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="221"
+this.modVersion="224"
 this.modName="Infinite Heaven"
+
+this.gameId="TPP"
+this.gameDirectory="MGS_TPP"
+this.gameProcessName="mgsvtpp"
 
 this.debugModule=false
 
@@ -256,6 +259,25 @@ function this.PrintInspect(var,options)
   this.Log(ins,options.announceLog)
 end
 
+--tex NMC from lua wiki
+function this.Split(self,sep)
+  local sep = sep or " "
+  local fields = {}
+  local pattern = string.format("([^%s]+)", sep)
+  self:gsub(pattern, function(c) fields[#fields+1] = c end)
+  return fields
+end
+
+function this.FindLast(searchString,findString)
+  --Set the third arg to false to allow pattern matching
+  local found=searchString:reverse():find(findString:reverse(),nil,true)
+  if found then
+    return searchString:len()-findString:len()-found+2
+  else
+    return found
+  end
+end
+
 function this.StartIHExt()
   local programPath
 
@@ -269,11 +291,11 @@ function this.StartIHExt()
   --programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUG
 
   if not programPath then
-    InfCore.Log([[WARNING: StartIHExt: Could not find IHExt.ext in MGS_TPP\mod\]],false,true)
+    InfCore.Log("WARNING: StartIHExt: Could not find IHExt.exe in "..this.gameDirectory.."\\mod\\",false,true)
     return
   end
 
-  local strCmd = 'start "" '..programPath..' '..this.gamePath
+  local strCmd = 'start "" "'..programPath..'" "'..this.gamePath..'" '..this.gameProcessName
   InfCore.Log(strCmd,false,true)
   os.execute(strCmd)
 end
@@ -305,7 +327,6 @@ end
 
 local concat=table.concat
 local nl="\r\n"
-local open=io.open
 function this.WriteToExtTxt()
   local filePath=this.toExtCmdsFilePath
   local file,openError=open(filePath,"w")
@@ -424,32 +445,34 @@ end
 --tex parses a string reference (SomeModule.someVar) and returns var
 function this.GetStringRef(strReference)
   if type(strReference)~="string" then
-    InfCore.Log("WARNING GetStringRef: strReference~=string")
-    return nil
+    InfCore.Log("WARNING GetStringRef: strReference~=string",false,true)
+    return nil,nil
   end
-  local split=InfUtil.Split(strReference,".")
+  local split=this.Split(strReference,".")
   if #split<2 then--tex <module>.<name>
-    InfCore.Log("WARNING GetStringRef: #split<2 for "..tostring(strReference),true,true)
-    return nil
+    InfCore.Log("WARNING GetStringRef: #split<2 for "..tostring(strReference),false,true)
+    return nil,nil
   end
-  local module=_G[split[1]]
+  local moduleName=split[1]
+  local module=_G[moduleName]
   if module==nil then
-    InfCore.Log("WARNING GetStringRef: could not find module "..tostring(split[1]),true,true)
-    return nil
+    InfCore.Log("WARNING GetStringRef: could not find module "..tostring(moduleName),false,true)
+    return nil,nil
   end
 
-  local reference=module[split[2]]
+  local referenceName=split[2]
+  local reference=module[referenceName]
   if reference==nil then
-    InfCore.Log("WARNING GetStringRef: could not find reference "..strReference,true,true)
-    return nil
+    InfCore.Log("WARNING GetStringRef: could not find reference "..strReference,false,true)
+    return nil,nil
   end
   --tex TODO: could probably keep recursing down split for nested references
 
-  return reference,split[2]
+  return reference,referenceName,moduleName
 end
 
 function this.GetModuleName(scriptPath)
-  local split=InfUtil.Split(scriptPath,"/")
+  local split=this.Split(scriptPath,"/")
   local moduleName=split[#split]
   return string.sub(moduleName,1,-string.len(".lua")-1)
 end
@@ -480,6 +503,9 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
   end
 
   if isReload then
+    if InfMain then
+      InfMain.PostModuleReloadMain(module,prevModule)
+    end
     if module.PostModuleReload then
       InfCore.PCallDebug(module.PostModuleReload,prevModule)
     end
@@ -582,7 +608,7 @@ end
 function this.GetLines(fileName)
   return InfCore.PCall(function(fileName)
     local lines
-    local file,openError=io.open(fileName,"r")
+    local file,openError=open(fileName,"r")
     if file then
       if not openError then
         --tex lines crashes with no error, dont know what kjp did to io
@@ -597,9 +623,9 @@ function this.GetLines(fileName)
       file:close()
       if lines then
         if luaHostType=="LDT" then--DEBUGNOW KLUDGE differences in line end between implementations
-          lines=InfUtil.Split(lines,"\n")
+          lines=this.Split(lines,"\n")
         else
-          lines=InfUtil.Split(lines,"\r\n")
+          lines=this.Split(lines,"\r\n")
         end
         if lines[#lines]=="" then
           lines[#lines]=nil
@@ -642,8 +668,8 @@ function this.RefreshFileList()
     end
     for i,line in ipairs(this.ihFiles)do
       local subPath=string.sub(line,stripLen+1)
-      local isFile=InfUtil.FindLast(subPath,".")~=nil
-      local split=InfUtil.Split(subPath,"/")
+      local isFile=this.FindLast(subPath,".")~=nil
+      local split=this.Split(subPath,"/")
       local isRoot=#split==1
       local subFolder=split[1]
       --InfCore.Log(subFolder)--tex DEBUG
@@ -703,9 +729,9 @@ end
 
 local function GetGamePath()
   local gamePath=nil
-  local paths=InfUtil.Split(package.path,";")
+  local paths=this.Split(package.path,";")
   for i,path in ipairs(paths) do
-    if string.find(path,"MGS_TPP") then
+    if string.find(path,this.gameDirectory) then
       gamePath=path
       gamePath=string.gsub(gamePath,"\\","/")
       break
@@ -778,6 +804,7 @@ else
   this.Log(this.modName.." r"..this.modVersion)
 
   this.PCall(this.RefreshFileList)
+  --tex TODO: critical halt on stuff that should exist, \mod, saves
 
   local packagePaths={
     "modules",
@@ -805,7 +832,7 @@ else
     LoadFile=loadfile
   end
 
-  this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")
+  this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")--tex TODO rethink, shift to initial load maybe
   local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
 end
 

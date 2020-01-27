@@ -12,7 +12,7 @@ local Random=math.random
 local GetCurrentCluster=MotherBaseStage.GetCurrentCluster
 
 --updateState
-this.active=Ivars.mbEnableOcelot
+this.active='mbEnableOcelot'
 this.execCheckTable={inGame=true,inHeliSpace=false}
 this.execState={
   nextUpdate=0,
@@ -84,7 +84,31 @@ local routeTimeMax=6*60
 this.mbDemoWasPlay=false
 this.setupNpc=false
 
-function this.PostModuleReload()
+-->
+this.registerIvars={
+  'mbEnableOcelot',
+}
+
+this.mbEnableOcelot={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
+}
+--<
+this.langStrings={
+  eng={
+    mbEnableOcelot="Enable Ocelot",
+  },
+  help={
+    eng={
+      mbEnableOcelot="Enables Ocelot to roam the command platform.",
+    },
+  }
+}
+--<
+
+function this.PostAllModulesLoad()
   this.Init()
 end
 
@@ -93,7 +117,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  if InfMain.IsMbEvent(missionCode) then
+  if InfMainTpp.IsMbEvent(missionCode) then
     return
   end
 
@@ -169,7 +193,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if InfMain.IsMbEvent() then
+  if InfMainTpp.IsMbEvent() then
     return
   end
 

@@ -16,6 +16,30 @@ this.hostageNames={}
 
 this.npcInfo={}
 
+this.registerIvars={
+  'mbAdditionalNpcs',
+}
+
+--tex tripping up on my naming here, mbAdditionalNpcs=hostage mobs as standins, mbNpcRouteChange=soldier route change
+--TODO: rename when you have a batch of other save vars to break
+this.mbAdditionalNpcs={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+--< ivar defs
+this.langStrings={
+  eng={
+    mbAdditionalNpcs="Additional NPCs",
+  },
+  help={
+    eng={
+      mbAdditionalNpcs="Adds different NPCs standing around mother base, including ground crew, researchers and Miller.",
+    },
+  }
+}
+
 function this.PostModuleReload(prevModule)
   this.npcInfo=prevModule.npcInfo
 end
@@ -33,7 +57,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  if InfMain.IsMbEvent(missionCode) then
+  if InfMainTpp.IsMbEvent(missionCode) then
     return
   end
 
@@ -152,7 +176,7 @@ function this.Init(missionTable)
     return
   end
 
-  if InfMain.IsMbEvent() then
+  if InfMainTpp.IsMbEvent() then
     return
   end
 
@@ -175,7 +199,7 @@ function this.OnReload(missionTable)
     return
   end
 
-  if InfMain.IsMbEvent() then
+  if InfMainTpp.IsMbEvent() then
     return
   end
 

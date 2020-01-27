@@ -3,7 +3,7 @@
 --tex MockFox host stuff
 luaHostType="LDT"
 
-foxGamePath="C:/GamesSD/MGS_TPP/"--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
+foxGamePath="c:/Steam/SteamApps/common/MGS_TPP/"--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
 --foxGamePath=[[D:\Projects\MGS\MockFox\MockFox\Assets\MGS_TPP\]]
 
 foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"--tex path of tpps scripts (qar luas) -- IH
@@ -17,7 +17,7 @@ package.cpath=mockFoxPath.."?.dll"--tex for bit.dll TODO: build equivalent cpath
 dofile(mockFoxPath.."/loadMockFox.lua")
 --GOTCHA dofile,loadfile redirected to DoFile,LoadFile, see loadMockFox WORKAROUND
 
-
+print("dofile init.lua")
 DoFile(foxLuaPath.."/init.lua")
 print("loadLDT: init.lua done")
 

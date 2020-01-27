@@ -13,13 +13,14 @@ local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Random=math.random
 
+local GetMBDemoName=TppDemo.GetMBDemoName
 local GetCurrentCluster=MotherBaseStage.GetCurrentCluster
 local GetMbStageClusterGrade=TppLocation.GetMbStageClusterGrade
 
 this.debugModule=false
 
 --updateState
-this.active=Ivars.mbNpcRouteChange
+this.active='mbNpcRouteChange'
 this.execCheckTable={inGame=true,inHeliSpace=false}
 this.execState={
   nextUpdate=0,
@@ -29,8 +30,8 @@ local updateMin=30
 local updateMax=80
 
 this.enableIvars={
-  Ivars.mbNpcRouteChange,
-  Ivars.mbAdditionalSoldiers,
+  'mbNpcRouteChange',
+  'mbAdditionalSoldiers',
 }
 
 -- command plat salutation routes
@@ -77,6 +78,73 @@ this.ene_wildCardInfo={}
 
 this.packages={
   mbAdditionalSoldiers="/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
+}
+
+-->
+this.registerIvars={
+  'mbAdditionalSoldiers',
+  'mbNpcRouteChange',
+  'enableLrrpFreeRoam',
+  'enableWildCardFreeRoam',
+}
+
+this.mbAdditionalSoldiers={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
+}
+
+this.mbNpcRouteChange={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
+}
+
+this.enableLrrpFreeRoam={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+
+this.enableWildCardFreeRoam={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckFree,
+}
+
+--tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
+--IvarProc.MinMaxIvar(
+--  this,
+--  "lrrpSizeFreeRoam",
+--  {default=2},
+--  {default=2},
+--  {
+--    range={min=1,max=10}
+--  }
+--)
+--< ivar defs
+this.langStrings={
+  eng={
+    enableLrrpFreeRoam="Foot patrols in free roam",
+    lrrpSizeFreeRoam_MIN="Patrol size min",
+    lrrpSizeFreeRoam_MAX="Patrol size max",
+    enableWildCardFreeRoam="Wildcard soldiers Free roam",
+    mbAdditionalSoldiers="More soldiers on MB plats",
+    mbNpcRouteChange="Soldiers move between platforms",
+  },
+  help={
+    eng={
+      enableWildCardFreeRoam="Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.",
+      enableLrrpFreeRoam="Foot patrols will travel between random CPs and will cross the field to get there.",
+      mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
+      mbAdditionalSoldiers="Increases soldiers on platforms from 4 soldiers to 9.",
+
+    },
+  },
 }
 
 function this.PostModuleReload(prevModule)
@@ -267,7 +335,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  local demoName=TppDemo.GetMBDemoName()
+  local demoName=GetMBDemoName()
   if demoName then
     mbDemoWasPlayed=true
     return
@@ -382,7 +450,7 @@ function this.ModifyEnemyAssetTable()
   end
 
   --tex this is before ModMissionTable so have to set up itself
-  local numReserveSoldiers=InfMain.reserveSoldierCounts[vars.missionCode] or 0
+  local numReserveSoldiers=InfMainTpp.reserveSoldierCounts[vars.missionCode] or 0
   this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
   this.soldierPool=InfUtil.CopyList(this.reserveSoldierNames)
 
@@ -539,7 +607,7 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
 
   if this.debugModule then
     InfCore.Log("AddLrrps: addedLrrpCount:"..addedLrrpCount)
-    InfCore.PrintInspect(lrrpDefines,{varName="InfMain.lrrpDefines"})
+    InfCore.PrintInspect(lrrpDefines,"InfMain.lrrpDefines")
   end
 end
 
@@ -586,8 +654,8 @@ function this.ModifyLrrpSoldiers(soldierDefine,soldierPool)
   if this.debugModule then
     local poolChange=#soldierPool-initPoolSize
     InfCore.Log("ModifyLrrpSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
-    InfCore.PrintInspect(soldierPool,{varName="soldierPool"})
-    InfCore.PrintInspect(seatChanges,{varName="seatChanges"})
+    InfCore.PrintInspect(soldierPool,"soldierPool")
+    InfCore.PrintInspect(seatChanges,"seatChanges")
   end
 
   InfMain.RandomResetToOsTime()
@@ -955,8 +1023,8 @@ end
 function this.ModMissionTableTop(missionTable,emptyCpPool)
   if this.debugModule then
     InfCore.LogFlow("InfSoldier.ModMissionTableTop")
-    InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
-    InfCore.PrintInspect(InfMain.soldierPool,{varName="InfMain.soldierPool"})
+    InfCore.Log("#soldierPool:"..#InfMainTpp.soldierPool)
+    InfCore.PrintInspect(InfMainTpp.soldierPool,"InfMainTpp.soldierPool")
 
     InfCore.Log("#emptyCpPool:"..#emptyCpPool)
     InfCore.PrintInspect(emptyCpPool,{varName="emptyCpPool"})
@@ -970,8 +1038,8 @@ end
 function this.ModMissionTableBottom(missionTable,emptyCpPool)
   if this.debugModule then
     InfCore.LogFlow("InfSoldier.ModMissionTableBottom")
-    InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
-    InfCore.PrintInspect(InfMain.soldierPool,{varName="InfMain.soldierPool"})
+    InfCore.Log("#soldierPool:"..#InfMainTpp.soldierPool)
+    InfCore.PrintInspect(InfMainTpp.soldierPool,"InfMainTpp.soldierPool")
 
     InfCore.Log("#emptyCpPool:"..#emptyCpPool)
     InfCore.PrintInspect(emptyCpPool,{varName="emptyCpPool"})

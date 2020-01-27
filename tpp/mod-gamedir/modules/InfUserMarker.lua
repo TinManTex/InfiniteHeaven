@@ -1,36 +1,99 @@
 --InfUserMarker.lua
+--tex GOTCHA user marker has been changed a fair deal in SSD, only rough support here for the moment
+--currently only seems to be 1 saved marker per location (and only mafr and ??)
+--unless I want to use the stamps instead/aswell.
+--Other GOTCHA user marker vars only seems to update on save instead of instant like TPP
 local this={}
 --localopt
 local NULL_ID=GameObject.NULL_ID
 local GetTypeIndex=GameObject.GetTypeIndex
 
+this.MAXMARKERS=5
+if InfCore.gameId=="SSD" then
+  this.MAXMARKERS=1
+end
+
+--REF TPP
+--  userMarkerLocationId
+--  userMarkerSaveCount
+--  local x=vars.userMarkerPosX[index]
+--  local y=vars.userMarkerPosY[index]
+--  local z=vars.userMarkerPosZ[index]
+--  local addFlag=vars.userMarkerAddFlag[index]
+--  local gameId=vars.userMarkerGameObjId[index]
+
+--REF ssd
+-- ssdMarker_User_flag = {[0] = 0},... all same count, MAXMARKERS 1?
+--  ssdMarker_User_flag_mafr --?
+--  ssdMarker_User_markerType --?
+--  ssdMarker_User_markerType_mafr
+--  ssdMarker_User_posX
+--  ssdMarker_User_posX_mafr
+--  ssdMarker_User_posY
+--  ssdMarker_User_posY_mafr
+--  ssdMarker_User_posZ
+--  ssdMarker_User_posZ_mafr
+
+--stamps are above with Stamp instead of user, MAXMARKERS 64
+
+this.registerMenus={
+  'userMarkerMenu',
+}
 this.userMarkerMenu={
-  context="MISSION",
   options={
-    "InfMenuCommands.WarpToUserMarker",
+    "InfUserMarker.WarpToLastUserMarker",
     "InfUserMarker.PrintLatestUserMarker",
     "InfUserMarker.PrintUserMarkers",
+    "InfPositions.AddMarkerPositions",
+    "InfPositions.WritePositions",
+    "InfPositions.ClearPositions",
     --    "InfMenuCommands.SetSelectedCpToMarkerObjectCp",--DEBUG
     --    "Ivars.selectedCp",--DEBUG
-    "InfMenuCommands.QuietMoveToLastMarker",
   }
 }
---WIP
---this.menuDefs={
---  userMarkerMenu=this.userMarkerMenu,
---}
+--< menu defs
+this.langStrings={
+  eng={
+    userMarkerMenu="User marker menu",
+    warpToLastUserMarker="Warp to latest marker",
+    printLatestUserMarker="Print latest marker",
+    printUserMarkers="Print all markers",
+    warped_to_marker="Warped to marker",
+  },
+}
+--<
 
 --Commands
+this.WarpToLastUserMarker=function()
+  if vars.playerVehicleGameObjectId~=NULL_ID then
+    return
+  end
+
+  -- InfCore.DebugPrint"Warping to newest marker"
+  local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
+  if lastMarkerIndex==nil then
+    --InfCore.DebugPrint("lastMarkerIndex==nil")
+    InfMenu.PrintLangId"no_marker_found"
+  else
+    this.PrintUserMarker(lastMarkerIndex)
+    this.WarpToUserMarker(lastMarkerIndex)
+  end
+end
+
+
 function this.PrintUserMarkers()
   --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
   --userMarkerAddFlag maps to alphabet from 1 and is reused/wraps
-  local maxMarkers=5--tex TODO VERIFY
-  for index=0,maxMarkers-1 do
+  for index=0,this.MAXMARKERS-1 do
     this.PrintUserMarker(index)
   end
 
-  InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
-  InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
+  if vars.userMarkerLocationId then
+    InfCore.Log("userMarkerLocationId:"..vars.userMarkerLocationId,true)
+  end
+  if vars.userMarkerSaveCount then
+    InfCore.Log("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
+  end
 end
 this.PrintLatestUserMarker=function()
   local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
@@ -48,12 +111,20 @@ function this.PrintUserMarker(index)
   --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
   --userMarkerAddFlag maps to alphabet from 1 and is reused/wraps
 
-  local x=vars.userMarkerPosX[index]
-  local y=vars.userMarkerPosY[index]
-  local z=vars.userMarkerPosZ[index]
-  local addFlag=vars.userMarkerAddFlag[index]
-  local letter=alphaTable[addFlag]
-  local gameId=vars.userMarkerGameObjId[index]
+  local markerPos=this.GetMarkerPosition(index)
+  local x=markerPos:GetX()
+  local y=markerPos:GetY()
+  local z=markerPos:GetZ()
+  local letter="A"
+  local addFlag=nil
+  if vars.userMarkerAddFlag then
+    addFlag=vars.userMarkerAddFlag[index]
+    letter=alphaTable[addFlag]
+  end
+  local gameId=nil
+  if vars.userMarkerGameObjId then
+    gameId=vars.userMarkerGameObjId[index]
+  end
   local closestCp=InfMain.GetClosestCp{x,y,z}
   local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
   local message="userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId).." closestCp:"..tostring(closestCp)
@@ -62,6 +133,10 @@ function this.PrintUserMarker(index)
   --InfCore.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
 end
 function this.PrintMarkerGameObject(index)
+  if vars.userMarkerGameObjId==nil then
+    return "vars.userMarkerGameObjId==nil"
+  end
+
   local gameId=vars.userMarkerGameObjId[index]
   if gameId==NULL_ID then
     InfCore.DebugPrint"gameId==NULL_ID"
@@ -69,14 +144,31 @@ function this.PrintMarkerGameObject(index)
   end
   local typeIndex=GetTypeIndex(gameId)
   local typeStr=InfLookup.TppGameObject.typeIndex[typeIndex]
-  local soldierName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
-  InfCore.Log(soldierName,true)
+  local objectName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
+  InfCore.Log(objectName,true)
   InfCore.Log(gameId.."="..typeStr,true)
-  InfCore.Log("cpName:"..tostring(cpName),true)
+  if typeIndex==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+    InfCore.Log("cpName:"..tostring(cpName),true)--DEBUGNOW TODO
+    if objectName~=nil then
+      local svarIndex=InfLookup.SoldierSvarIndexForName(objectName)
+      if svarIndex==nil then
+        InfCore.Log("Could not find svarIndex")
+      else
+        InfCore.Log("Soldier svar index:"..tostring(svarIndex))
+        InfCore.Log("Soldier svars:"..svarIndex)
+        InfCore.Log("cpRoute:"..svars[svarIndex].solCpRoute)
+        InfCore.Log("solScriptSneakRoute:"..svars[svarIndex].solScriptSneakRoute)
+        InfCore.Log("solScriptCautionRoute:"..svars[svarIndex].solScriptCautionRoute)
+        InfCore.Log("solScriptAlertRoute:"..svars[svarIndex].solScriptAlertRoute)
+        InfCore.Log("solRouteNodeIndex:"..svars[svarIndex].solRouteNodeIndex)
+        InfCore.Log("solRouteEventIndex:"..svars[svarIndex].solRouteEventIndex)
+      end
+    end
+  end
 end
 function this.GetLastAddedUserMarkerIndex()
-  if vars.userMarkerSaveCount==0 then
-    return
+  if vars.userMarkerSaveCount==nil or vars.userMarkerSaveCount==0 then
+    return 0
   end
 
   --tex find 'last added' in repect to how userMarker works described in above notes
@@ -126,18 +218,33 @@ function this.GetLastAddedUserMarkerIndex()
 end
 
 function this.GetMarkerPosition(index)
-  if vars.userMarkerSaveCount==0 then
+  if vars.userMarkerSaveCount==nil then
+    index=0
+  elseif vars.userMarkerSaveCount==0 then
     return
   end
 
   local markerPos=Vector3(0,0,0)
-  local gameId=vars.userMarkerGameObjId[index]
 
+  if vars.userMarkerGameObjId then
+    local gameId=vars.userMarkerGameObjId[index]
+    if gameId==NULL_ID then
+      markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
+    else
+      markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+    end
+  elseif InfCore.gameId=="SSD" then
+    local locationSuffix=""
 
-  if gameId==NULL_ID then
-    markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
-  else
-    markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+    local locationName=TppLocation.GetLocationName()--TODO: update InfUtil.GetLocationName()
+    if locationName=="mafr" then
+      locationSuffix="_mafr"
+    end
+
+    local x=vars["ssdMarker_User_posX"..locationSuffix][index]
+    local y=vars["ssdMarker_User_posY"..locationSuffix][index]
+    local z=vars["ssdMarker_User_posZ"..locationSuffix][index]
+    markerPos=Vector3(x,y,z)
   end
 
   return markerPos
@@ -149,30 +256,27 @@ function this.WarpToUserMarker(index)
     return
   end
 
-  local offSetUp=1
+  local offSetUp=1.5
 
-  local markerPos=nil
-  local gameId=vars.userMarkerGameObjId[index]
-  if gameId~=NULL_ID then
-    --InfCore.DebugPrint("gameId~=NULL_ID")--DEBUG
-
-    local typeIndex=GameObject.GetTypeIndex(gameId)
-    if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
-      offSetUp=3
-    end
-
-    markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-  end
-
+  local markerPos=this.GetMarkerPosition(index)
   if markerPos==nil then
-    --InfCore.DebugPrint("markerPos==nil")--DEBUG
-    offSetUp=1.5
-    markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index],vars.userMarkerPosZ[index])
+    InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: could not find marker")--DEBUGNOW
+    return
+  end
+  if vars.userMarkerGameObjId~=nil then
+    local gameId=vars.userMarkerGameObjId[index]
+    if gameId~=NULL_ID then
+      --InfCore.DebugPrint("gameId~=NULL_ID")--DEBUG
+
+      local typeIndex=GameObject.GetTypeIndex(gameId)
+      if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
+        offSetUp=3
+      end
+    end
   end
 
   InfCore.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
-
 
 return this

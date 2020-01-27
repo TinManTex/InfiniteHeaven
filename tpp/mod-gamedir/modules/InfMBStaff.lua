@@ -207,4 +207,59 @@ function this.IsPriorityStaff(staffId)
   return ih_priority_staff.staffIds[staffId]
 end
 
+-->
+this.registerMenus={
+  'mbStaffMenu',
+  'mbStaffInMissionMenu',
+}
+
+this.mbStaffMenu={
+  options={
+    "InfMBStaff.AddPlayerStaff",
+    "InfMBStaff.RemovePlayerStaff",
+    "InfMBStaff.ClearPriorityStaff",
+    "Ivars.mbPrioritizeFemale",
+    "Ivars.mbMoraleBoosts",
+  }
+}
+
+this.mbStaffInMissionMenu={
+  options={
+    "InfMBStaff.AddPlayerStaff",
+    "InfMBStaff.RemovePlayerStaff",
+    "InfMBStaff.AddMarkerStaff",
+    "InfMBStaff.RemoveMarkerStaff",
+    "InfMBStaff.ClearPriorityStaff",
+  }
+}
+--<
+this.langStrings={
+  eng={
+    mbStaffMenu="Staff menu",
+    mbStaffInMissionMenu="Staff menu",
+    addPlayerStaff="Add player staff to MB priority",
+    removePlayerStaff="Remove player staff to MB priority",
+    addMarkerStaff="Add marked staff to MB priority",
+    removeMarkerStaff="Remove marked staff from MB priority",
+    clearPriorityStaff="Clear MB staff priority list",
+    please_select_dd="Player staff id is 0, please select a DD character from sortie character selection",
+    staff_id_not_exist="Staff id %s was not in priority staff list",
+    staff_id_exists="Staff id %s was already in priority staff list",
+    add_staff_id="Adding staff id %s to priority on MB",
+    removing_staff_id="Removing staff id %s from priority on MB",
+    staff_clear="Priority staff cleared",
+    only_on_mb="This command can only be used on MB",
+    soldier_not_marked="No marked soldier found",
+  },
+  help={
+    eng={
+      addPlayerStaff="Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB",
+      removePlayerStaff="Removes the last sortie selected DD member to the Mother Base priority staff list",
+      addMarkerStaff="Adds the most recently marked staff member to the MB priority list",
+      removeMarkerStaff="Removes the most recently marked staff member from the MB priority list",
+      clearPriorityStaff="Clears MB staff priority list entirely",
+    },
+  },
+}
+
 return this

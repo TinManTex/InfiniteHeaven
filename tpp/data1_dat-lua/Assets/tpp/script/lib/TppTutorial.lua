@@ -181,8 +181,8 @@ function this.DispGuide(tipName,displayOption,_)
     this.DispTipsGuide(tipName,storySequence,isNotAlert,_,false,false,true)
   end
 end
-function this.DispTipsGuide(n,i,S,O,T,_,p)
-  local T=TppDefine.TIPS[n]
+function this.DispTipsGuide(contentName,i,S,O,T,ignoreRadio,ignoreDisplay)
+  local T=TppDefine.TIPS[contentName]
   if not T then
     return
   end
@@ -193,7 +193,7 @@ function this.DispTipsGuide(n,i,S,O,T,_,p)
     end
   end
   if TppMission.IsHelicopterSpace(vars.missionCode)then
-    if not this.TipsAvailableInHeli[n]then
+    if not this.TipsAvailableInHeli[contentName]then
       return
     end
   else
@@ -231,22 +231,22 @@ function this.DispTipsGuide(n,i,S,O,T,_,p)
         return
       end
     end
-    if this.IsRideHelicopter()and not this.TipsAvailableInHeli[n]then
+    if this.IsRideHelicopter()and not this.TipsAvailableInHeli[contentName]then
       return
     end
   end
-  local i=true
-  local E=false
+  local isOnce=true
+  local isOnceThisGame=false
   local e=this.TipsExceptTime[T]
   if e then
-    i=e.isOnce
-    E=e.isOnceThisGame
+    isOnce=e.isOnce
+    isOnceThisGame=e.isOnceThisGame
   end
-  local e=O
-  TppUI.ShowTipsGuide{contentName=n,isOnce=i,isOnceThisGame=E,time=e,ignoreRadio=_,ignoreDisplay=p}
+  local time=O
+  TppUI.ShowTipsGuide{contentName=contentName,isOnce=isOnce,isOnceThisGame=isOnceThisGame,time=time,ignoreRadio=ignoreRadio,ignoreDisplay=ignoreDisplay}
 end
-function this.DispControlGuide(n,_,i,p,O,S)
-  local T=TppDefine.CONTROL_GUIDE[n]
+function this.DispControlGuide(actionName,_,i,p,pauseControl,ignoreRadio)
+  local T=TppDefine.CONTROL_GUIDE[actionName]
   if not T then
     return
   end
@@ -257,7 +257,7 @@ function this.DispControlGuide(n,_,i,p,O,S)
     end
   end
   if TppMission.IsHelicopterSpace(vars.missionCode)then
-    if not this.ControlGuideAvailableInHeli[n]then
+    if not this.ControlGuideAvailableInHeli[actionName]then
       return
     end
   else
@@ -289,19 +289,19 @@ function this.DispControlGuide(n,_,i,p,O,S)
         return
       end
     end
-    if this.IsRideHelicopter()and not this.ControlGuideAvailableInHeli[n]then
+    if this.IsRideHelicopter()and not this.ControlGuideAvailableInHeli[actionName]then
       return
     end
   end
-  local i=true
-  local E=false
+  local isOnce=true
+  local isOnceThisGame=false
   local e=this.ControlExceptTime[T]
   if e then
-    i=e.isOnce
-    E=e.isOnceThisGame
+    isOnce=e.isOnce
+    isOnceThisGame=e.isOnceThisGame
   end
-  local e=p
-  TppUI.ShowControlGuide{actionName=n,isOnce=i,isOnceThisGame=E,time=e,pauseControl=O,ignoreRadio=S}
+  local time=p
+  TppUI.ShowControlGuide{actionName=actionName,isOnce=isOnce,isOnceThisGame=isOnceThisGame,time=time,pauseControl=pauseControl,ignoreRadio=ignoreRadio}
 end
 function this.IsRideHelicopter()
   if Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
@@ -507,9 +507,9 @@ function this.OnPlayerIsWithinRange(T,n)
   TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.PLAYER_NEAR_ENEMY_HELI,true)
 end
 function this.SetEnemyHeliMessageWithinRange()
-  local e=GameObject.GetGameObjectId(ENEMY_HELI_NAME)
-  if e~=GameObject.NULL_ID then
-    GameObject.SendCommand(e,{id="SetMessagePlayerIsWithinRange",name="CheckRange400",enabled=true,range=400})
+  local enemyHeli=GameObject.GetGameObjectId(ENEMY_HELI_NAME)
+  if enemyHeli~=GameObject.NULL_ID then
+    GameObject.SendCommand(enemyHeli,{id="SetMessagePlayerIsWithinRange",name="CheckRange400",enabled=true,range=400})
   end
 end
 function this.OnIconSwitchShown(i,gimickGameId,locatorNameHash,dataSetNameHash)

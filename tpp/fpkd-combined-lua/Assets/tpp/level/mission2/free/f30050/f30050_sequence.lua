@@ -12,7 +12,7 @@ local NULL_ID = GameObject.NULL_ID
 local SCRIPT_BLOCK_NAME = "demo_block"
 
 local MAX_STAFF_NUM_ON_CLUSTER = 18
---tex SYNC InfMain
+--tex SYNC InfMainTpp
 if Ivars.mbAdditionalSoldiers:Is()>0 then--tex>
   MAX_STAFF_NUM_ON_CLUSTER = 36
 end--<
@@ -2195,7 +2195,7 @@ sequences.Seq_Game_MainGame = {
             func = function( trapName, gameObjectId )
               if Tpp.IsSoldier( gameObjectId ) then
                 Fox.Log(" ForceFulton: " ..tostring(gameObjectId) )
-                if InfMain.IsMbEvent() then--tex added bypass
+                if InfMainTpp.IsMbEvent() then--tex added bypass
                   GameObject.SendCommand( gameObjectId, { id = "RequestForceFulton" } )
                 end
               end
@@ -2797,13 +2797,13 @@ end
 function this.SetUniqueCharaVisibility( enable )
   if mvars.f30050_isSetLiquid == true or Ivars.mbShowEli:Is(1) then--tex added mbshow
     if Ivars.mbShowEli:Is(1) then enable = true end--tex
-    if InfMain.IsMbEvent() then enable = false end--tex
+    if InfMainTpp.IsMbEvent() then enable = false end--tex
 
     TppDataUtility.SetVisibleDataFromIdentifier( "f30050_liquid_DataIdentifier",		 "Liquid",		enable, false )
   end
   if mvars.f30050_isSetCodeTalker == true or Ivars.mbShowCodeTalker:Is(1) then--tex added mbshow
     if Ivars.mbShowCodeTalker:Is(1) then enable = true end--tex
-    if InfMain.IsMbEvent() then enable = false end--tex
+    if InfMainTpp.IsMbEvent() then enable = false end--tex
     TppDataUtility.SetVisibleDataFromIdentifier( "f30050_codeTolker_DataIdentifier",	"CodeTalker",	enable, false )
   end
 end

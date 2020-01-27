@@ -12,9 +12,10 @@ this.moduleNames={}
 this.coreModules={
   "Ivars",
   "IvarsPersist",
-  "InfMenuCommands",
+  "InfLangProc",
   "InfLang",
   "InfMenuDefs",
+  "InfMenuCommands",
   "InfQuickMenuDefs",
 }
 

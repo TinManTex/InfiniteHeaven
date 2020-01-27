@@ -18,6 +18,77 @@ local TIME_ALRM_LV03=10
 this.burgularAlarmRange=RANGE_ALRM_LV01
 this.burgularAlarmTime=TIME_ALRM_LV01
 
+this.registerIvars={
+  'enableIRSensorsMB',
+  'enableFultonAlarmsMB',
+  'hideContainersMB',
+  'hideAACannonsMB',
+  'hideAAGatlingsMB',
+  'hideTurretMgsMB',
+  'hideMortarsMB',
+}
+
+--mb assets
+this.enableIRSensorsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableFultonAlarmsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideContainersMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideAACannonsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideAAGatlingsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideTurretMgsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.hideMortarsMB={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+--< ivar defs
+this.langStrings={
+  eng={
+    enableFultonAlarmsMB="Enable asset alarms",
+    enableIRSensorsMB="Enable IR sensors",
+    hideContainersMB="Hide containers",
+    hideAACannonsMB="Hide AA cannons",
+    hideAAGatlingsMB="Hide AA gatlings",
+    hideTurretMgsMB="Hide turret machineguns",
+    hideMortarsMB="Hide mortars",
+  },
+  help={
+    eng={
+      enableFultonAlarmsMB="Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.",
+      enableIRSensorsMB="Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.",
+    },
+  },
+}
+
 function this.Init(missionTable)
   this.messageExecTable=nil
 
@@ -111,8 +182,8 @@ function this.Messages()
           local gimmickId=TppGimmick.GetGimmickID(gameId,locatorS32,dataSetP32)
           local connectPowerCutAreaTable=mvars.gim_connectPowerCutAreaTable[gimmickId]
           if connectPowerCutAreaTable then--tex is power gen
-          local sourceGameId=0 
-          this.RequestNoticeGimmick(gimmickId,sourceGameId)--tex no effect
+            local sourceGameId=0
+            this.RequestNoticeGimmick(gimmickId,sourceGameId)--tex no effect
           end
         end
       },

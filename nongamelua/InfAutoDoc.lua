@@ -341,7 +341,7 @@ function this.AutoDoc()
 
   --patchup TODO remove any dependancies in Ivars, check these
   --tex TODO provide more descriptive lists?
-  Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
+  --Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
   Ivars.fovaSelection.settingNames={"<Fova selection>"}
   Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}

@@ -16,16 +16,25 @@ this.walkerPool={}--tex free walkers
 
 this.walkerNames={}
 
-this.numLrrpWalkers=5
+this.numLrrpWalkers=5--tex FREE pulled from total
 this.walkersPerLrrp=1--tex soldiers done respect each others personal space lol, which is more of an issue with walkers. unless I can set up command SetForceFormationLine
-
-this.numWalkerGears=16--tex dependant on the entity defs
+this.numWalkerGears=10--DEBUGNOW--tex dependant on the entity defs
 
 this.walkerNames=InfLookup.GenerateNameList("wkr_WalkerGear_%04d",this.numWalkerGears)
 
 this.packages={
   "/Assets/tpp/pack/mission2/common/mis_com_walkergear.fpk",--TppDefine.MISSION_COMMON_PACK.WALKERGEAR
-  "/Assets/tpp/pack/mission2/ih/ih_walker_gear_defloc.fpk"
+  --DEBUGNOW "/Assets/tpp/pack/mission2/ih/ih_walker_gear_defloc.fpk"
+  "/Assets/tpp/pack/mission2/ih/ih_walker_gear_def.fpk",
+  afgh={
+    "/Assets/tpp/pack/mission2/ih/ih_walker_gear_loc_afgh.fpk",
+  },
+  mafr={
+    "/Assets/tpp/pack/mission2/ih/ih_walker_gear_loc_mafr.fpk",
+  },
+  mtbs={
+    "/Assets/tpp/pack/mission2/ih/ih_walker_gear_loc_mtbs.fpk",
+  },
 }
 
 local walkerGearEquip={
@@ -129,13 +138,13 @@ walkerStartPositions.afgh={
     {pos={-2335.55,439.315,-1482.474},rot=-58.77},
   },
   afgh_remnants_cp={
-    {pos={-906.802,288.846,1923.874},rot=100.7},
+    {pos={-906.802,288.846,1923.874},rot=100.7},--skip
   },
   afgh_field_cp={
-    {pos={415.052,270.933,2207.31},rot=-178.46},
+    {pos={415.052,270.933,2207.31},rot=-178.46},--skip
   },
   afgh_citadel_cp={
-    {pos={-1232.651,600.599,-3098.633},rot=90.475},
+    {pos={-1232.651,600.599,-3098.633},rot=90.475},--skip
   },
   afgh_fort_cp={
     {pos={2144.533,455.413,-1752.163},rot=-31},
@@ -185,11 +194,85 @@ walkerStartPositions.mafr={
   mafr_hill_cp={
     {pos={2172.074,56.796,407.998},rot=-29.473},
   },
+--{pos={225.789,1.643,-624.561},rotY=71.320,},
+}
+
+-->
+this.registerIvars={
+  'enableWalkerGearsFREE',
+  'enableWalkerGearsMB',
+  'mbWalkerGearsColor',
+  'mbWalkerGearsWeapon',
+}
+
+IvarProc.MissionModeIvars(
+  this,
+  "enableWalkerGears",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.switchRange,
+    settingNames="set_switch",
+  },
+  {"FREE","MB"}
+)
+
+this.mbWalkerGearsColor={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={
+    "SOVIET",--green, default
+    "ROGUE_COYOTE",--Blue grey
+    "CFA",--tan
+    "ZRS",
+    "DDOGS",--light grey
+    "HUEY_PROTO",--yellow/grey - texure error on side shields
+    "RANDOM",--all of one type
+    "RANDOM_EACH",--each random
+  },
+}
+
+this.mbWalkerGearsWeapon={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={
+    "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles
+    "MINIGUN",
+    "MISSILE",
+    "RANDOM",--all of one type
+    "RANDOM_EACH",
+  },
+}
+--<
+this.langStrings={
+  eng={
+    enableWalkerGearsMB="Walker gears in MB",
+    enableWalkerGearsFREE="Walker gears in free roam",
+    mbWalkerGearsColor="Walker gears type",
+    mbWalkerGearsColorSettings={
+      "Soviet",
+      "Rogue Coyote",
+      "CFA",
+      "ZRS",
+      "Diamond Dogs",
+      "Hueys Prototype (texture issues)",
+      "All one random type",
+      "Each gear random type",
+    },
+    mbWalkerGearsWeapon="Walker gears weapons",
+    mbWalkerGearsWeaponSettings={
+      "Even split of weapons",
+      "Minigun",
+      "Missiles",
+      "All one random type",
+      "Each gear random type",
+    },
+  },
+  help={
+    eng={
+      enableWalkerGearsFREE="Adds a Walker gear to each main base.",
+    },
+  },
 }
 
 function this.Init()
-  this.messageExecTable=nil
-  
   if not IvarProc.EnabledForMission("enableWalkerGears") then
     return
   end
@@ -202,7 +285,7 @@ function this.Init()
 end
 
 function this.SetUpEnemy(missionTable)
-  this.SetUpEnemyGear(missionTable,InfMain.lrrpDefines)
+  this.SetUpEnemyGear(missionTable,InfMainTpp.lrrpDefines)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
@@ -212,6 +295,13 @@ function this.AddMissionPacks(missionCode,packPaths)
 
   for i,packPath in ipairs(this.packages) do
     packPaths[#packPaths+1]=packPath
+  end
+
+  local locationName=InfUtil.GetLocationName()
+  if this.packages[locationName] then
+    for i,packPath in ipairs(this.packages[locationName]) do
+      packPaths[#packPaths+1]=packPath
+    end
   end
 end
 
@@ -229,7 +319,8 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
       else
         local storePos=walkerStorePositions[locationName]
         local command={id="SetPosition",pos={storePos[1]+i,storePos[2],storePos[3]},rotY=0}
-        SendCommand(walkerId,command)
+        --OFF DEBUGNOW SendCommand(walkerId,command)
+        --TODO: breaks when other locators loaded (quest for example), possible solution is to run this at a later stage (do so for mtbs too).
       end
     end
   end
@@ -250,7 +341,7 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
 
   local numSetup=0
   local numWalkers=#this.walkerPool
-  InfCore.Log("SetupGearsFREE #walkerPool="..numWalkers)
+  InfCore.Log("SetupGearsFREE #walkerNames="..#this.walkerNames.."#walkerPool="..numWalkers)--tex may be -numLrrpWalkers
   for i=1,numWalkers do
     if #walkerPool==0 then
       InfCore.Log("SetupGearsFREE: #walkerPool==0")
@@ -550,7 +641,7 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
 
           InfCore.Log("IsMissionStart: "..cpName..", base1:"..lrrpDefine.base1..", base2:"..lrrpDefine.base2)--DEBUG
           --InfCore.PrintInspect(cpPos)--DEBUG
-          
+
           local rotY=0
           --tex the start soldier positions are more often than not no good for walker and it pushes the walker to nav mesh safe position instead
           --local soldierPos=SendCommand(soldierId,{id="GetPosition"})

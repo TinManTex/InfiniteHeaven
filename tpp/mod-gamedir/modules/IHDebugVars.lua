@@ -5,7 +5,84 @@ local this={}
 
 function this.PostAllModulesLoad()
   InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
+  
+  
+  Ivars.debugMode:Set(1)
+  Ivars.debugMessages:Set(1)
+  Ivars.debugFlow:Set(1)
+  Ivars.debugOnUpdate:Set(1)
 
+  Ivars.enableQuickMenu:Set(1)
+
+  local debugModules={
+  'InfMain',
+  'InfMenuDefs',
+    --  'InfNPC',
+    --  'InfModelProc',
+    --  'InfQuest',
+    --  'TppQuest',
+    --  'InfInterrogation',
+    --  'InfMBGimmick',
+    --  'InfLookup',
+    --  'InfMission',
+    --  'InfEquip',
+    --'InfWalkerGear',
+    --'InfSoldier',
+    --'InfEneFova',
+    --'InfExtToMgsv',
+    --'InfMgsvToExt',
+  }
+  for i,moduleName in ipairs(debugModules)do
+    _G[moduleName].debugModule=true
+  end
+  
+  
+  
+
+  --DEBUGNOW
+
+  --DEBUGNOW
+
+  local startTime=os.clock()
+  local file,openError=io.open(InfCore.toMgsvCmdsFilePath,"r")
+  local openTime=os.clock()-startTime
+  local startTime=os.clock()
+  local lines=file:read("*all")
+  local readTime=os.clock()-startTime
+  file:close()
+  local startTime=os.clock()
+  lines=InfUtil.Split(lines,"\n")
+  local splitTime=os.clock()-startTime
+  InfCore.Log("openTime:"..openTime)
+  InfCore.Log("readTime:"..readTime)
+  InfCore.Log("splitTime:"..splitTime)
+  InfCore.Log("totalTime:"..openTime+readTime+splitTime)
+
+  --DEBUGNOW
+
+
+  --
+
+
+    InfMain.debugModule=true
+    InfCore.PrintInspect(InfMain.updateTimes,"updateTimes")
+    local averageTimes={}
+    for k,v in pairs(InfMain.updateTimes)do
+      averageTimes[k]=0
+    end
+    for k,times in pairs(InfMain.updateTimes)do
+      for i,timer in ipairs(times)do
+        averageTimes[k]=averageTimes[k]+timer
+      end
+    end
+  
+    for k,times in pairs(InfMain.updateTimes)do
+      averageTimes[k]=string.format("%.12f",averageTimes[k]/#times)
+    end
+  --DEBUGNOW
+
+  InfCore.PrintInspect(averageTimes,"averageTimes")
+  InfMain.updateTimes={}
 
   local blockNames={
     "mission_block",
@@ -41,33 +118,6 @@ function this.PostAllModulesLoad()
   --InfCore.PrintInspect(staffVarsHex,"staffVarsHex")
 
   --DEBUGNOW
-
-  Ivars.debugMode:Set(1)
-  Ivars.debugMessages:Set(1)
-  Ivars.debugFlow:Set(1)
-  Ivars.debugOnUpdate:Set(1)
-
-  Ivars.enableQuickMenu:Set(1)
-
-  local debugModules={
-    --  'InfNPC',
-    --  'InfModelProc',
-    --  'InfQuest',
-    --  'TppQuest',
-    --  'InfInterrogation',
-    --  'InfMBGimmick',
-    --  'InfLookup',
-    --  'InfMission',
-    --  'InfEquip',
-    --  'InfWalkerGear',
-    --'InfSoldier',
-    --'InfEneFova',
-      'InfExtToMgsv',
-      'InfMgsvToExt',
-    }
-  for i,moduleName in ipairs(debugModules)do
-    _G[moduleName].debugModule=true
-  end
 
   --this.PrintStrCodes()
 

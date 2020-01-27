@@ -421,7 +421,7 @@ this.SetUpEnemy = function()
   end
 
   if Ivars.mbZombies:Is(1) then--tex>
-    InfMain.SetUpMBZombie()
+    InfGameEvent.SetUpMBZombie()
   end--<
 
 

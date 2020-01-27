@@ -99,7 +99,7 @@ this.PLAY_REQUEST_START_FUNC={
     mvars.dem_tempPlayerSuitLevel=Player.GetItemLevel(TppEquip.EQP_SUIT)--RETAILPATCH 1.10
     local forceSnake=true--tex>
     if Ivars.useSoldierForDemos:Is(1) then
-      if vars.playerType~=PlayerType.DD_FEMALE or not InfMain.noSkipIsSnakeOnly[demoId] then
+      if vars.playerType~=PlayerType.DD_FEMALE or not InfMainTpp.noSkipIsSnakeOnly[demoId] then
         forceSnake=false
       end
     end
@@ -322,7 +322,7 @@ function this.Play(demoName,demoFuncs,demoFlags)
   end
   --tex> force snake off for demo
   if Ivars.useSoldierForDemos:Is(1) then
-    if vars.playerType~=PlayerType.DD_FEMALE or not InfMain.noSkipIsSnakeOnly[demoName] then
+    if vars.playerType~=PlayerType.DD_FEMALE or not InfMainTpp.noSkipIsSnakeOnly[demoName] then
       demoFlags.isSnakeOnly=false
     end
   end--<
@@ -1013,11 +1013,11 @@ this.mtbsPriorityFuncList={
     if not gvars.f30050_isInitNuclearAbolitionCount then
       return false
     end
-    local n=TppStory.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
-    local e=TppServerManager.GetNuclearAbolitionCount()
-    local a=e>=0
-    local e=gvars.f30050_NuclearAbolitionCount<e
-    if(a and n)and e then
+    local clearedOKB0=TppStory.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
+    local serverAbolitionCount=TppServerManager.GetNuclearAbolitionCount()
+    local abolitionCountNot0=serverAbolitionCount>=0
+    local savedAbolitionCount=gvars.f30050_NuclearAbolitionCount<serverAbolitionCount
+    if(abolitionCountNot0 and clearedOKB0)and savedAbolitionCount then
       if vars.mbmIsNuclearDeveloping==0 and TppMotherBaseManagement.GetResourceUsableCount{resource="NuclearWeapon"}==0 then
         return true
       else

@@ -87,8 +87,8 @@ function this.OnAllocate(missionTable)
   TppClock.Stop()
   moduleUpdateFuncs={}
   numModuleUpdateFuncs=0
-  --ORPHAN: RENAMEsomeupdatetable2={}
-  --ORPHAN: RENAMEsomeupdate2=0
+  --ORPHAN: debugUpdateFuncs={}
+  --ORPHAN: numDebugUpdateFuncs=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
@@ -100,26 +100,70 @@ function this.OnAllocate(missionTable)
   Mission.Start()
   TppMission.WaitFinishMissionEndPresentation()
   TppMission.DisableInGameFlag()
-  TppException.OnAllocate(missionTable)
-  TppClock.OnAllocate(missionTable)
-  TppTrap.OnAllocate(missionTable)
-  TppCheckPoint.OnAllocate(missionTable)
-  TppUI.OnAllocate(missionTable)
-  TppDemo.OnAllocate(missionTable)
-  TppScriptBlock.OnAllocate(missionTable)
-  TppSound.OnAllocate(missionTable)
-  TppPlayer.OnAllocate(missionTable)
-  TppMission.OnAllocate(missionTable)
-  TppTerminal.OnAllocate(missionTable)
-  TppEnemy.OnAllocate(missionTable)
-  TppRadio.OnAllocate(missionTable)
-  TppGimmick.OnAllocate(missionTable)
-  TppMarker.OnAllocate(missionTable)
-  TppRevenge.OnAllocate(missionTable)
-  this.ClearStageBlockMessage()
-  TppQuest.OnAllocate(missionTable)
-  TppAnimal.OnAllocate(missionTable)
-  InfMain.OnAllocate(missionTable)--tex
+
+  --tex REWORKED to allow pcall TODO: should probably lua-hang on error rather than let it continue 
+  local libAllocateOrder={
+    "TppException",
+    "TppClock",
+    "TppTrap",
+    "TppCheckPoint",
+    "TppUI",
+    "TppDemo",
+    "TppScriptBlock",
+    "TppSound",
+    "TppPlayer",
+    "TppMission",
+    "TppTerminal",
+    "TppEnemy",
+    "TppRadio",
+    "TppGimmick",
+    "TppMarker",
+    "TppRevenge",
+  }
+  for i,libName in ipairs(libAllocateOrder)do
+    InfCore.LogFlow(libName..".OnAllocate")
+    if not _G[libName].OnAllocate then
+      InfCore.Log("ERROR: TppMain.OnAllocate: could not find "..libName..".OnAllocate")
+    else
+      InfCore.PCallDebug(_G[libName].OnAllocate,missionTable)
+    end
+  end
+  this.ClearStageBlockMessage()--tex VERIFY that TppQuest, TppAnimal .onallocate needs ClearStageBlockMessage (see ORIG)
+  local libAllocateOrderPostBlockMessageClear={
+    "TppQuest",
+    "TppAnimal",
+    "InfMain",--tex
+  }
+  for i,libName in ipairs(libAllocateOrderPostBlockMessageClear)do
+    InfCore.LogFlow(libName..".OnAllocate")
+    if not _G[libName].OnAllocate then
+      InfCore.Log("ERROR: TppMain.OnAllocate: could not find "..libName..".OnAllocate")
+    else
+      InfCore.PCallDebug(_G[libName].OnAllocate,missionTable)
+    end
+  end
+
+  --ORIG
+  --  TppException.OnAllocate(missionTable)
+  --  TppClock.OnAllocate(missionTable)
+  --  TppTrap.OnAllocate(missionTable)
+  --  TppCheckPoint.OnAllocate(missionTable)
+  --  TppUI.OnAllocate(missionTable)
+  --  TppDemo.OnAllocate(missionTable)
+  --  TppScriptBlock.OnAllocate(missionTable)
+  --  TppSound.OnAllocate(missionTable)
+  --  TppPlayer.OnAllocate(missionTable)
+  --  TppMission.OnAllocate(missionTable)
+  --  TppTerminal.OnAllocate(missionTable)
+  --  TppEnemy.OnAllocate(missionTable)
+  --  TppRadio.OnAllocate(missionTable)
+  --  TppGimmick.OnAllocate(missionTable)
+  --  TppMarker.OnAllocate(missionTable)
+  --  TppRevenge.OnAllocate(missionTable)
+  --  this.ClearStageBlockMessage()
+  --  TppQuest.OnAllocate(missionTable)
+  --  TppAnimal.OnAllocate(missionTable)
+  --  InfMain.OnAllocate(missionTable)--tex
   --tex reworked
   local locationModule=_G[InfUtil.GetLocationName()]
   if locationModule then
@@ -248,18 +292,18 @@ function this.OnAllocate(missionTable)
     end
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if missionTable.sequence then
-      local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
+      local disableBuddyType=missionTable.sequence.DISABLE_BUDDY_TYPE
       if TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1) then--tex no DISABLE_BUDDY_TYPE
-        dbt=nil
+        disableBuddyType=nil
       end--
-      if dbt ~= nil then
-        local disableBuddyType
-        if IsTypeTable(dbt)then
-          disableBuddyType=dbt
+      if disableBuddyType ~= nil then
+        local disableBuddyTypes
+        if IsTypeTable(disableBuddyType)then
+          disableBuddyTypes=disableBuddyType
         else
-          disableBuddyType={dbt}
+          disableBuddyTypes={disableBuddyType}
         end
-        for n,buddyType in ipairs(disableBuddyType)do
+        for n,buddyType in ipairs(disableBuddyTypes)do
           TppBuddyService.SetDisableBuddyType(buddyType)
         end
       end
@@ -354,7 +398,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     end
   end
   TppLandingZone.OverwriteBuddyVehiclePosForALZ()
-  --InfMain.OverwriteBuddyPosForMb()--tex no go
+  --InfMainTpp.OverwriteBuddyPosForMb()--tex no go CULL
   if missionTable.enemy then
     if IsTypeTable(missionTable.enemy.vehicleSettings)then
       TppEnemy.SetUpVehicles()
@@ -513,8 +557,8 @@ function this.SetUpdateFunction(missionTable)
   numModuleUpdateFuncs=0
   missionScriptOnUpdateFuncs={}
   numOnUpdate=0
-  --ORPHAN: RENAMEsomeupdatetable2={}
-  --ORPHAN: RENAMEsomeupdate2=0
+  --ORPHAN: debugUpdateFuncs={}
+  --ORPHAN: numDebugUpdateFuncs=0
   moduleUpdateFuncs={
     TppMission.Update,
     TppSequence.Update,
@@ -875,10 +919,10 @@ function this.OnReload(missionTable)
   this.SetMessageFunction(missionTable)
 end
 function this.OnUpdate(missionTable)
-  --NMC OFF local e
+  --ORPHAN: local e
   local moduleUpdateFuncs=moduleUpdateFuncs--NMC set in SetUpdateFunction
   local missionScriptOnUpdateFuncs=missionScriptOnUpdateFuncs
-  --NMC OFF local t=RENAMEsomeupdatetable2
+  --ORPHAN: local debugUpdateFuncs=debugUpdateFuncs
   --tex
   if InfCore.debugOnUpdate then
     for i=1,numModuleUpdateFuncs do

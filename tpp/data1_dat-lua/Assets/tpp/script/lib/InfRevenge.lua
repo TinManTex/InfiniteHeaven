@@ -19,10 +19,12 @@ local function GetNonDefaultRandom(ivarMin,ivarMax,nonDefaultOnly)
 end
 --tex onlyNonDefault will only add powerTypes to revengeConfig if their repsective Ivar isn't its default.
 function this.CreateCustomRevengeConfig(onlyNonDefault)
+  local InfRevengeIvars=InfRevengeIvars
+
   local revengeConfig={}
   InfMain.RandomSetToLevelSeed()
-  for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
-    local powerTable=Ivars[powerTableName]
+  for n,powerTableName in ipairs(InfRevengeIvars.percentagePowerTables)do
+    local powerTable=InfRevengeIvars[powerTableName]
     for m,powerType in ipairs(powerTable)do
       local ivarMin,ivarMax=GetMinMaxIvars(powerType)
       local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
@@ -36,7 +38,7 @@ function this.CreateCustomRevengeConfig(onlyNonDefault)
     end
   end
 
-  for n,powerType in ipairs(Ivars.abilitiesWithLevels)do
+  for n,powerType in ipairs(InfRevengeIvars.abilitiesWithLevels)do
     local ivarMin,ivarMax=GetMinMaxIvars(powerType)
     local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
     if random~=nil and random>0 then
@@ -45,7 +47,7 @@ function this.CreateCustomRevengeConfig(onlyNonDefault)
     end
   end
 
-  for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
+  for n,powerType in ipairs(InfRevengeIvars.weaponStrengthPowers)do
     local ivarMin,ivarMax=GetMinMaxIvars(powerType)
     local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
     if random~=nil and random==1 then
@@ -53,7 +55,7 @@ function this.CreateCustomRevengeConfig(onlyNonDefault)
     end
   end
 
-  for n,powerType in ipairs(Ivars.cpEquipBoolPowers)do
+  for n,powerType in ipairs(InfRevengeIvars.cpEquipBoolPowers)do
     local ivarMin,ivarMax=GetMinMaxIvars(powerType)
     local random=GetNonDefaultRandom(ivarMin,ivarMax,onlyNonDefault)
     if random~=nil and random==1 then

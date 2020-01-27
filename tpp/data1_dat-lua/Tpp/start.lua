@@ -12,8 +12,8 @@ FoxFadeIo.FadeOut(0)
 TppUiStatusManager.SetStatus("PauseMenu","INVALID")
 TppUiCommand.SetLoadIndicatorVisible(true)
 if(TppSystemUtility.GetCurrentGameMode()~="MGO"and TppGameSequence.GetTargetArea()=="Japan")and not SignIn.PresetUserIdExists()then
-  local e=SplashScreen.Create("cesa","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_cesa_logo_clp_nmp.ftex",1280,640)
-  SplashScreen.Show(e,.5,4,.5)
+  local splash=SplashScreen.Create("cesa","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_cesa_logo_clp_nmp.ftex",1280,640)
+  SplashScreen.Show(splash,.5,4,.5)
 end
 if TppPlayLog and TppSystemUtility.GetCurrentGameMode()=="MGO"then
   TppPlayLog.SetPlayLogEnabled(true)

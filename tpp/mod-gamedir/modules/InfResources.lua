@@ -118,9 +118,9 @@ function this.ScaleResourceTables()
 
   TppMotherBaseManagement.SetSmallDiamondGmp{gmp=TppDefine.SMALL_DIAMOND_GMP}
   TppMotherBaseManagement.SetLargeDiamondGmp{gmp=TppDefine.LARGE_DIAMOND_GMP}
-  
+
   local posterScale=Ivars.resourceScalePoster:Get()/100
-  TppTerminal.GMP_POSTER=this.GMP_POSTER--*posterScale--DEBUGNOW TODO figure out where gmp is actually given, OnPickUpCollection suggests its different from RESOURCE_INFORMATION_TABLE? 
+  TppTerminal.GMP_POSTER=this.GMP_POSTER--*posterScale--DEBUGNOW TODO figure out where gmp is actually given, OnPickUpCollection suggests its different from RESOURCE_INFORMATION_TABLE?
 
   local containerScale=Ivars.resourceScaleContainer:Get()/100
   for k,resourceCounts in pairs(this.scaledContainerParams) do
@@ -162,7 +162,7 @@ function this.DefaultResourceTables()
     local defaultInfo=this.RESOURCE_INFORMATION_TABLE[collectionType]
     collectionInfo.count=this.RESOURCE_INFORMATION_TABLE[collectionType].count
   end
-  
+
   TppDefine.SMALL_DIAMOND_GMP=this.SMALL_DIAMOND_GMP
   TppDefine.LARGE_DIAMOND_GMP=this.LARGE_DIAMOND_GMP
 
@@ -180,4 +180,80 @@ function this.OnAllocate(missionTable)
   end
 end
 
+--Ivars
+this.enableResourceScale={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,previousSetting,setting)
+    if setting==1 then
+      InfResources.ScaleResourceTables()
+    else
+
+    end
+  end,
+}
+
+this.resourceScaleTypes={
+  "Material",
+  "Plant",
+  "Poster",
+  "Diamond",
+  "Container",
+}
+
+for i,resourceScaleType in ipairs(this.resourceScaleTypes)do
+  local ivar={
+    save=IvarProc.CATEGORY_EXTERNAL,
+    default=100,
+    range={max=1000,min=10,increment=10},
+    isPercent=true,
+  }
+
+  this["resourceScale"..resourceScaleType]=ivar
+end
+
+this.registerIvars={
+  'enableResourceScale',
+  'resourceScaleMaterial',
+  'resourceScalePlant',
+  'resourceScalePoster',
+  'resourceScaleDiamond',
+  'resourceScaleContainer',
+}
+--<
+
+-->
+this.registerMenus={
+  'resourceScaleMenu',
+}
+
+this.resourceScaleMenu={
+  options={
+    "Ivars.enableResourceScale",
+    "Ivars.resourceScaleMaterial",
+    "Ivars.resourceScalePlant",
+    "Ivars.resourceScalePoster",
+    "Ivars.resourceScaleDiamond",
+    "Ivars.resourceScaleContainer",
+  }
+}
+--<
+this.langStrings={
+  eng={
+    resourceScaleMenu="Resource scale menu",
+    enableResourceScale="Enable resource amount scales",
+    resourceScaleMaterial="Material case scale",
+    resourceScalePlant="Plant scale",
+    resourceScalePoster="Poster scale",
+    resourceScaleDiamond="Diamond scale",
+    resourceScaleContainer="Container scale",
+  },
+  help={
+    eng={
+      enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
+    },
+  }
+}
+--<
 return this

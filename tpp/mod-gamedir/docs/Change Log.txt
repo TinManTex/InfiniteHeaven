@@ -1,5 +1,54 @@
 Infinite Heaven changelog
 
+r224 - 2018-03-06
+Refactor: InfMain.LoadLibraries > module.LoadLibrzaries
+Refactor: Ivars split into modules that have the main use/implmentation of the Ivar (or even <module>Ivars when that gets too hefty).
+Refactor: InfMenuDefs split into modules.
+Refactor: InfLang split into modules.
+Refactor: IvarProc missionModeIvars split to missionModeIvarsNames (string) so ih modules can support. fixup of string table to ivar table done at postmodulesload
+Refactor: InfFova moved from libs to external.
+Refactor: InfMain split to InfMainTpp, InfTimeScale, external. Probably needs more splitting.
+Refactor: TppDbgStr32 methods/lookup table migrated into InfLookup. mod/strings/ > Str32 lookup now on InfLookup.PostAllModulesLoad instead of OnInitializeTop which should help mission loading time with debug mode on a bit.
+TppDbgStr32 reverted to vanilla/no longer included in build.
+
+InfMotion:
+Motions menu - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
+Option: Motion group - Press <Action> to play the selected animation.
+Option: Motion number - Press <Action> to play the selected animation.
+Option: Hold motion - Holds motion, requires stop motion to stop.
+Option: Repeat motion - Repeat motion at end, some animations don't support this.
+Option: Stop motion - Use to stop motions with motion hold or motion repeat.
+Option: Play motion - Closes menu and plays current selected motion.
+(via in-mission menu)
+
+InfPosition:
+Positions list from ShowPosition migrated to it's own command, commands for adding user markers, clearing, and writing them to \mgsv_tpp\mod\ added
+Positions menu - for writing in game postitions to files, useful for getting positions when creating sideops.
+Commands:
+Add current position to Positions List - Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.
+Add markers to Positions List - Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+Write Positions List - Writes Positions List to files in MGS_TPP\mod\
+Clear Positions List - Clears Positions List
+(via in-mission menu)
+
+Data: Walker instance count dropped from 16 to 14 - 10x for IH and 4x for quest. Should ease the gameobject limit/issue a little bit too.
+Workaround: Walker positions in free roam now static / using locator positions. Setposition breaks when other locators are loaded in sideop. This workaround doesnt really work for motherbase since it has the further requirements of only having walkers on platforms that are actually built (and I'm not about to make 7x10 variations).
+
+Command: Support heli to marker - Sends Support heli to Landing Zone closest to the last placed user marker while riding it. This replaces the existing 'Support heli to latest marker' and now can only be used while riding the support heli. This removes a lot of the issues of riding the support heli across the map that the prior method had.
+Implmentation wise this works by forcing the heli to a specific route, the WIP version prior to this had too many issues since it used LZ routes, now it uses custom routes thanks to sais FoxLib. So special thanks for his work on the library.
+(via in-mission menu)
+
+r223 - 2017-10-02
+Fixed: IHExt help box appearing on map change - thanks vollmerej1 for the report.
+Fixed: ih_tomgsvcmds being read every frame, causing stutter on some systems. Lua io has a bigger overhead than I thought - thanks BurkusCat for his data, others for their reports. 
+
+r222 - 2017-09-19
+IHExt: Included in build - thanks MorbidSlinky for the SnakeBite update.
+
+Fixed: Custom sideops with helis not allocating a heli (if no normal heli sidops also active) - Adding hasEnemyHeli to quest definition will add it to the heli quest list - which means force heli reinforce will also block those quests - thanks MorbidSlinky for the report.
+
+Fixed: StartIHExt with paths with spaces in them - thanks GambChon for the report.
+
 r221 - 2017-09-17
 Fixed: IHExt setting when IHExt is not installed.
 

@@ -9,16 +9,271 @@ local SendCommand=GameObject.SendCommand
 local IsTimerActive=GkEventTimerManager.IsTimerActive
 local InfButton=InfButton
 
+this.debugModule=false
+
 --updateState
-this.active=1--Ivars.heliUpdate
+this.active=1--'heliUpdate'
 this.execCheckTable={inGame=true,inHeliSpace=false}
 this.execState={
   nextUpdate=0,
 }
 
-function this.Init()
-  this.messageExecTable=nil
+this.trackForceRoute=0
 
+local TRACK_FORCEROUTE_NONE=0
+local TRACK_FORCEROUTE_WAITFOREXIT=1
+local TRACK_FORCEROUTE_EXITED=2
+
+-->
+this.registerIvars={
+  'disableHeliAttack',
+  'defaultHeliDoorOpenTime',
+  'enableGetOutHeli',
+  'setInvincibleHeli',
+  'setTakeOffWaitTime',
+  'disablePullOutHeli',
+  'setLandingZoneWaitHeightTop',
+  'disableDescentToLandingZone',
+  'setSearchLightForcedHeli',
+}
+
+this.disableHeliAttack={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local enable=self:Is(0)
+    local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
+      SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable})
+    end
+  end,
+}
+
+--support heli
+--this.heliUpdate={--tex NONUSER, InfHeli always active to pick up pull out
+--  --save=MISSION,
+--  nonUser=true,
+--  default=1,
+--  range=Ivars.switchRange,
+--  settingNames="set_switch",
+--}
+
+--Dependants: TppMission
+this.defaultHeliDoorOpenTime={--seconds
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=15,
+  range={min=0,max=120},
+}
+
+local HeliEnabledGameCommand=function(self,previousSetting,setting)
+  if TppMission.IsFOBMission(vars.missionCode) then return end
+  local enable=setting==1
+  local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
+  if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
+    SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
+  end
+end
+
+this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
+  inMission=true,
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  gameEnabledCommand="SetGettingOutEnabled",
+  OnChange=HeliEnabledGameCommand,
+}
+
+this.setInvincibleHeli={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  gameEnabledCommand="SetInvincible",
+  OnChange=HeliEnabledGameCommand,
+}
+
+this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
+  inMission=true,
+  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
+  range={min=0,max=15},
+  OnChange=function(self,previousSetting,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
+      SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=setting})
+    end
+  end,
+}
+
+this.disablePullOutHeli={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,previousSetting,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local set=setting==1
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
+      if set then
+        SendCommand(gameObjectId,{id="DisablePullOut"})
+      else
+        --SendCommand(gameObjectId,{id="SetForceRoute",enabled=false})
+        SendCommand(gameObjectId,{id="EnablePullOut"})
+      end
+      InfHelicopter.HeliOrderRecieved()
+    end
+  end,
+}
+
+this.setLandingZoneWaitHeightTop={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
+  range={min=5,max=50,increment=5},
+  OnChange=function(self,previousSetting,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
+      SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=setting})
+    end
+  end,
+}
+
+this.disableDescentToLandingZone={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,previousSetting,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local set=setting==1
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
+      local command
+      if set then
+        command="DisableDescentToLandingZone"
+      else
+        command="EnableDescentToLandingZone"
+      end
+      SendCommand(gameObjectId,{id=command})
+    end
+  end,
+}
+
+this.setSearchLightForcedHeli={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"DEFAULT","OFF","ON"},
+  settingNames="set_default_off_on",
+  OnChange=function(self,previousSetting,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
+      local command
+      if setting==1 then
+        command={id="SetSearchLightForcedType",type="On"}
+      elseif setting==2 then
+        command={id="SetSearchLightForcedType",type="Off"}
+      end
+      if command then
+        SendCommand(gameObjectId,command)
+        InfHelicopter.HeliOrderRecieved()
+      end
+    end
+  end,
+}
+--< ivar defs
+-->
+this.registerMenus={
+  'supportHeliMenu',
+}
+
+this.supportHeliMenu={
+  --WIP parentRefs={"InfMenuDefs.heliSpaceMenu","InfMenuDefs.inMissionMenu"},
+  options={
+    --"Ivars.setTakeOffWaitTime",
+    --"InfHelicopter.PullOutHeli",
+    --"InfHelicopter.ChangeToIdleStateHeli",
+    "Ivars.disableHeliAttack",
+    "Ivars.setInvincibleHeli",
+    "Ivars.setSearchLightForcedHeli",
+    "Ivars.disablePullOutHeli",
+    "Ivars.setLandingZoneWaitHeightTop",
+    "Ivars.defaultHeliDoorOpenTime",
+    "Ivars.disableLzs",
+    "Ivars.startOnFootFREE",
+    "Ivars.startOnFootMISSION",
+    "Ivars.startOnFootMB_ALL",
+  --"Ivars.disableDescentToLandingZone",
+  --"Ivars.enableGetOutHeli",--WIP
+  },
+}
+--< menu defs
+this.langStrings={
+  eng={
+    supportHeliMenu="Support heli menu",
+    setInvincibleHeli="Set heli invincible",
+    disablePullOutHeli="Disable pull-out",
+    setLandingZoneWaitHeightTop="Set LZ wait height",
+    defaultHeliDoorOpenTime="Mission start time till open door",
+    setSearchLightForcedHeli="Force searchlight",
+    set_disable={"On","Off"},
+    heli_pulling_out="Pulling out in 5",
+    heli_hold_pulling_out="Holding",
+    order_recieved="Order recieved",
+    must_be_in_helicopter="Must be in helicopter",
+    cannot_use_at_mission_start="Cannot use during mission start",
+    requestHeliLzToLastMarker="Support heli to latest marker",
+    requestHeliLzToLastMarkerAlt="Support heli to marker",
+    no_lz_found="No landing zone found",
+    forceExitHeli="Force exit helicopter",
+    forceExitHeliAlt="Force exit helicopter",
+    not_in_heli="You are not in the helicopter",
+    not_for_location="This command is not enabled for this location",
+    disableHeliAttack="Disable support heli attack",
+  },
+  help={
+    eng={
+      setLandingZoneWaitHeightTop="Set the height at which the heli hovers in wait mode (not landing mode).",
+      defaultHeliDoorOpenTime="Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person. Press <STANCE> to manually open the door.",
+      disablePullOutHeli="Prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again. Press <STANCE> while in the heli to get it to pull-out again (or use menu). NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.",
+      requestHeliLzToLastMarkerAlt="Sends Support heli to Landing Zone closest to the last placed user marker while riding it.",
+      forceExitHeliAlt="Lets you exit the helicopter while riding it, mind the fall.",
+      disableHeliAttack="Stops support heli from engaging targets.",
+    },
+  },
+}
+
+this.packages={
+  afgh={
+    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_afgh.fpk",
+  },
+  mafr={
+    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_mafr.fpk",
+  },
+}
+
+function this.AddMissionPacks(missionCode,packPaths)
+  --DEBUGNOW some kind of limiter to free / missions
+
+  for i,packPath in ipairs(this.packages) do
+    packPaths[#packPaths+1]=packPath
+  end
+
+  local locationName=InfUtil.GetLocationName()
+  if this.packages[locationName] then
+    for i,packPath in ipairs(this.packages[locationName]) do
+      packPaths[#packPaths+1]=packPath
+    end
+  end
+end
+
+function this.Init()
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
@@ -62,9 +317,9 @@ function this.Init()
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-  local Ivars=Ivars
+  --local Ivars=Ivars
 
-  if TppUiCommand.IsMbDvcTerminalOpened()then
+  if currentChecks.inIdroid then
     return
   end
 
@@ -72,6 +327,57 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if heliId==nil or heliId==NULL_ID then
     return
   end
+
+  --tex for RequestHeliLzToLastMarkerAlt
+  --CallToLandingZoneAtName will only update if player not in heli and heli not forceroute
+  if this.trackForceRoute==TRACK_FORCEROUTE_WAITFOREXIT then
+    if not currentChecks.inSupportHeli then
+      --tex cant CallToLandingZoneAtName on the same frame as cancelling forceroute
+      this.trackForceRoute=TRACK_FORCEROUTE_EXITED
+
+      InfCore.Log("InfHeliCopter trackForceRoute not inSupportHeli, disabling forceroute")
+
+      SendCommand(heliId,{id="SetForceRoute",enabled=false})
+    end
+  elseif this.trackForceRoute==TRACK_FORCEROUTE_EXITED then
+    this.trackForceRoute=TRACK_FORCEROUTE_NONE
+
+    InfCore.Log("InfHeliCopter trackForceRoute EXITING")--DEBUG
+
+    --    if Ivars.disablePullOutHeli:Get()==0 then
+
+    SendCommand(heliId,{id="EnablePullOut"})
+    SendCommand(heliId,{id="PullOut",forced=true})
+    --    else
+    --tex TODO OFF till VERIFY CallToLandingZoneAtName pretty much locks the heli into the lz till dismissed?
+    --      local locationName=InfUtil.GetLocationName()
+    --      if this.packages[locationName]==nil then
+    --        InfCore.Log("InfHeliCopter .trackForceRoute - not for location")
+    --      else
+    --        local currentPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+    --        local closestRoute=InfLZ.GetClosestLz(currentPos)
+    --        if closestRoute==nil then
+    --          InfCore.Log("InfHeliCopter .trackForceRoute - no lz found")
+    --        else
+    --          local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+    --          if lzName==nil then
+    --            InfCore.Log("lzName==nil")
+    --          else
+    --            local lzInfo=InfLZ.lzInfo[lzName]
+    --            if not lzInfo then
+    --              InfCore.Log("InfHeliCopter .trackForceRoute - no lzInfo for "..tostring(lzName))
+    --            else
+    --              closestRoute=lzInfo.returnRoute
+    --              --closestRoute=lzInfo.approachRoute
+    --              --closestRoute=lzInfo.dropRoute
+    --            end
+    --
+    --            SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
+    --          end
+    --        end
+    --      end--pullout or calltolz
+    --    end
+  end--trackForceRoute
 
   --if Ivars.enableGetOutHeli:Is(1) then--TEST not that useful
   -- SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
@@ -112,6 +418,199 @@ this.PullOutHeli=function()
   if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
     SendCommand(gameObjectId,{id="PullOut",forced=true})
   end
+end
+
+this.ChangeToIdleStateHeli=function()--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
+  local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+  if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    GameObject.SendCommand(gameObjectId,{id="ChangeToIdleState"})
+  end
+end
+
+--MenuCommands
+InfMenuCommands.forceExitHeli={
+  isMenuOff=true,
+}
+this.ForceExitHeli=function()
+  if not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
+    InfMenu.PrintLangId"not_in_heli"
+  else
+    Player.HeliSideToFOBStartPos()
+    InfMenu.MenuOff()
+  end
+end
+
+InfMenuCommands.forceExitHeliAlt={
+  isMenuOff=true,
+}
+this.ForceExitHeliAlt=function()
+  if not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
+    InfMenu.PrintLangId"not_in_heli"
+  else
+    Player.RequestToPlayDirectMotion{
+      "nothing",
+      {
+        "",
+        false,
+        "",
+        "",
+        "",
+        false
+      }
+    }
+
+    --tex TODO need to wait for RequestToPlayDirectMotion to stop before can warp
+
+    local currentPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+    local closestRoute,closestDist,closestPos=InfLZ.GetClosestLz(currentPos)
+    TppPlayer.Warp{pos=closestPos,rotY=vars.playerCameraRotation[1]}
+    InfMenu.MenuOff()
+  end
+end
+
+InfMenuCommands.requestHeliLzToLastMarker={
+  isMenuOff=true,
+}
+this.RequestHeliLzToLastMarker=function()
+  local locationName=InfUtil.GetLocationName()
+  if locationName~="afgh" and locationName~="mafr" then
+    InfMenu.PrintLangId"not_for_location"
+    return
+  end
+
+  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+  if lastMarkerIndex==nil then
+    InfMenu.PrintLangId"no_marker_found"
+  else
+    local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
+
+    local closestRoute=InfLZ.GetClosestLz(markerPostion)
+    if closestRoute==nil then
+      InfMenu.PrintLangId"no_lz_found"
+      return
+    end
+
+    --closestRoute=InfLZ.str32LzToLz[closestRoute]--CULL
+    if not TppLandingZone.assaultLzs[locationName] then
+      InfCore.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+    end
+    local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+    --InfCore.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
+
+    local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+    if heliId==NULL_ID then
+      --InfCore.DebugPrint"heliId==NULL_ID"--DEBUG
+      return
+    end
+    SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
+  end
+
+  InfMenu.MenuOff()
+end
+
+--tex SetForceRoute on support to IH hover route, which is simple one node route
+--TODO: either support heli ignores the route speed an uses it's own (likely since heli speed can be upgraded),
+--or just an edge isnt enough for speed (tried with MoveFast, VehicleMoveFast, CautionDash all listed on heli routes)
+InfMenuCommands.requestHeliLzToLastMarkerAlt={
+  isMenuOff=true,
+}
+this.RequestHeliLzToLastMarkerAlt=function()
+  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+  if heliId==NULL_ID then
+    InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
+    return
+  end
+
+  --tex a number of issues with usablility when doing force route outside of helicopter.
+  if not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
+    InfMenu.PrintLangId"must_be_in_helicopter"
+    InfMenu.MenuOff()
+    return
+  end
+
+  --tex heli is expecting something during mission start
+  --exit heli action will not appear
+  --if force player exit from heli, forceroute enable false will not work
+  --force pull-out will not work
+  --WORKAROUND: just prevent player from using this while mission start
+  if gvars.heli_missionStartRoute~=0 then
+    if not svars.ply_isUsedPlayerInitialAction then
+      InfMenu.PrintLangId"cannot_use_at_mission_start"
+      InfMenu.MenuOff()
+      return
+    end
+  end
+
+  --DEBUGNOW if supportheli getusingroute == mis_startroute ?
+  --
+
+  local locationName=InfUtil.GetLocationName()
+  if locationName~="afgh" and locationName~="mafr" then
+    InfMenu.PrintLangId"not_for_location"
+    return
+  end
+
+  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+  local closestRoute
+  if lastMarkerIndex==nil then
+    InfMenu.PrintLangId"no_marker_found"
+    return
+  else
+    local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
+
+    closestRoute=InfLZ.GetClosestLz(markerPostion)
+  end
+
+  if closestRoute==nil then
+    InfMenu.PrintLangId"no_lz_found"
+    return
+  end
+
+  local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+  if lzName==nil then
+    InfMenu.PrintLangId"no_lz_found"
+    InfCore.Log("lzName==nil")
+    return
+  end
+
+    InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),this.debugModule)--DEBUG
+  --  local lzInfo=InfLZ.lzInfo[lzName]
+  --  if not lzInfo then
+  --    InfCore.Log("no lzInfo for "..tostring(lzName))
+  --  else
+  --    closestRoute=lzInfo.returnRoute
+  --    --closestRoute=lzInfo.approachRoute
+  --    --closestRoute=lzInfo.dropRoute
+  --  end
+
+  --tex ih hover route name is lz name with _hover suffix
+  closestRoute=lzName.."_hover"
+
+  --tex see Update(
+  this.trackForceRoute=TRACK_FORCEROUTE_WAITFOREXIT
+
+  --tex if called to landing before it being in map it will warp to point and realize
+  --but if manually realize first it just kind of doesnt turn up
+  --SendCommand(heliId,{id="Realize"})
+
+  --SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
+
+  --tex if no point (route node index) is supplied it will path to the nearest point
+  --this is an issue if thats past the node at the lz
+  --point 0 is first node, which can be an issue for dropRoute,approachRoute which has a starting point away from lz
+  --but good for returnRoute which starts at lz
+  --can use warp to figure out where the points are
+
+  SendCommand(heliId,{id="DisablePullOut"})--tex sometimes pullout triggers while player inside and heli waiting at forced route
+
+  SendCommand(heliId,{id="SetForceRoute",route=closestRoute})--,point=0})--,warp=true})--DEBUG
+
+  --SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
+  --SendCommand(heliId,{id="SetRequestedLandingZoneToCurrent"})
+
+  InfMenu.MenuOff()
 end
 
 return this

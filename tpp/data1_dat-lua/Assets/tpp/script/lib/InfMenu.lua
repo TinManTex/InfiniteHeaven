@@ -10,7 +10,6 @@ local InfMain=InfMain
 local IvarProc=IvarProc
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
-local Enum=TppDefine.Enum
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 local TppUiCommand=TppUiCommand
 local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
@@ -33,9 +32,11 @@ this.menuOn=false
 this.quickMenuOn=false
 this.toggleMenuHoldTime=1.25
 this.quickMenuHoldTime=0.8
+
 this.menuAltButton=InfButton.ZOOM_CHANGE
-this.menuAltActive=InfButton.SUBJECT
+this.menuAltActive=InfButton.RELOAD
 this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
+this.toggleMenuButtonAlt=InfButton.DASH
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
 this.menuUpButton=InfButton.UP
@@ -63,7 +64,11 @@ function this.GetOptionFromRef(optionRef)
   if option then
     if type(option)=="function" then
       local itemName=InfMenuCommands.ItemNameForFunctionName(name)
-      return InfMenuCommands.commandItems[itemName]
+      local commandItem=InfMenuCommands.commandItems[itemName]
+      if commandItem==nil then
+        InfCore.Log("InfMenu.GetOptionFromRef: WARNING could not find "..tostring(optionRef).." in InfMenuCommands.commandItems")
+      end
+      return commandItem
     else
       return option
     end
@@ -186,22 +191,24 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       elseif currentSetting then
         InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
       end
-     
+
       if #settings>0 then
         InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
       elseif currentSetting then
         InfCore.ExtCmd('SelectCombo','menuSetting',0)
       end
     end--if option
-    
+
     if ivars.enableHelp>0 then
       local helpString=this.LangStringHelp(option.name)
       if helpString then
-        InfCore.ExtCmd('UiElementVisible','menuHelp',1)
+        if this.menuOn then
+          InfCore.ExtCmd('UiElementVisible','menuHelp',1)
+        end
         InfCore.ExtCmd('SetText','menuHelp',helpString)
-       else
+      else
         InfCore.ExtCmd('UiElementVisible','menuHelp',0)
-       end
+      end
     end
   end
 end
@@ -319,14 +326,6 @@ function this.NextSetting(incrementMult)
   local option=this.GetOptionFromRef(optionRef)
   if option==nil then
     InfCore.Log("InfMenu.NextSetting: WARNING option==nil")
-    return
-  end
-  if option.disabled then
-    if option.disabledReason then
-      this.PrintLangId(option.disabledReason)
-    else
-      this.PrintLangId"item_disabled"
-    end
     return
   end
 
@@ -748,18 +747,6 @@ function this.LangStringHelp(langId)
   return langString
 end
 
-function this.CpNameString(cpName,location)
-  local location=location or InfUtil.GetLocationName()
-  local languageCode=this.GetLanguageCode()
-  local locationCps=InfLang.cpNames[location]
-  if locationCps==nil then
-    InfCore.Log("InfMenu.CpNameString: WARNING No name for "..tostring(cpName).." in "..tostring(location))
-    return nil
-  end
-  local cps=locationCps[languageCode] or locationCps["eng"]
-  return cps[cpName]
-end
-
 function this.PrintLangId(langId)
   TppUiCommand.AnnounceLogView(this.LangString(langId))
 end
@@ -828,7 +815,7 @@ end
 --  local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
 --  return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
 --end
-
+--tex called directly from InfMain.Update
 function this.Update(execCheck)
   local InfMenuDefs=InfMenuDefs
   --InfCore.PCallDebug(function(execCheck)--DEBUG
@@ -875,10 +862,17 @@ function this.Update(execCheck)
     end
 
     if InfButton.ButtonHeld(this.menuAltButton) then
+      if InfButton.OnButtonDown(this.toggleMenuButtonAlt) then
+        this.ToggleMenu(execCheck)
+        return
+      end
+
       if InfButton.OnButtonDown(this.menuAltActive) then
         InfCore.ExtCmd('TakeFocus')
+        return
       end
     end
+
 
     if this.menuOn then
       this.DoControlSet()
@@ -888,7 +882,7 @@ function this.Update(execCheck)
   end
 
   --quickmenu>
-  local InfQuickMenuDefs=InfQuickMenuDefsUser or InfQuickMenuDefs
+  local InfQuickMenuDefs=InfQuickMenuDefs_User or InfQuickMenuDefs
   if InfQuickMenuDefs and not this.menuOn then
     if InfQuickMenuDefs.forceEnable or Ivars.enableQuickMenu:Is(1) then
       local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton
@@ -903,12 +897,13 @@ function this.Update(execCheck)
         end
 
         for button,commandInfo in pairs(quickMenu) do
-          InfButton.buttonStates[button].holdTime=commandInfo.immediate and 0.05 or 0.9
+          InfButton.buttonStates[button].holdTime=0.9--DEBUGNOW --commandInfo.immediate and 0.05 or 0.9
           if commandInfo.immediate then
             this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
           end
 
-          if InfButton.OnButtonHoldTime(button) then
+          if (commandInfo.immediate and InfButton.OnButtonDown(button)) or
+            InfButton.OnButtonHoldTime(button) then
             --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
             if this.quickMenuOn then
               local Command,name=InfCore.GetStringRef(commandInfo.Command)
@@ -1087,6 +1082,29 @@ function this.AddDevMenus()
     table.insert(heliSpaceMenu,1,'InfMenuDefs.devInAccMenu')
     table.insert(inMissionMenu,1,'InfMenuDefs.devInMissionMenu')
   end
+end
+
+function this.BuildMenuDefForSearch(searchString)
+  local newMenuDef={
+    options={}
+  }
+  for i,optionRef in ipairs(InfMenuDefs.allItems)do
+    if string.find(optionRef,searchString,1,true) then
+      table.insert(newMenuDef.options,optionRef)
+    end
+  end
+  table.sort(newMenuDef.options)
+  table.insert(newMenuDef.options,"InfMenu.BackToTop")--TODO ADDLANG
+end
+
+--MenuCommand
+function this.BackToTop()
+  if TppMission.IsHelicopterSpace(vars.missionCode) then
+    this.topMenu=InfMenuDefs.heliSpaceMenu
+  else
+    this.topMenu=InfMenuDefs.inMissionMenu
+  end
+  this.GoMenu(this.topMenu)
 end
 
 return this

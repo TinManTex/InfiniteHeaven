@@ -9,7 +9,7 @@ function animal_block.OnAllocate()
 end
 
 function animal_block.OnInitialize()
-	TppAnimalBlock.OnInitializeAnimalBlock( animalTypeSetting )
+	TppAnimalBlock.OnInitializeAnimalBlock( animalTypeSetting )--ORPHAN?
 end
 
 function animal_block.OnTerminate()

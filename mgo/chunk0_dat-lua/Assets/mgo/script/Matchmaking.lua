@@ -1,11 +1,12 @@
+-- Matchmaking.lua
 local this={}
 function this.OnMatchmakeSuccess()
   MGOSoundtrack2.Stop()
 end
 function this.OnMatchmakeError()
 end
-function this.OnMatchStart(isHost,rulesetId,locationCode,isNight)
-  if isHost then
+function this.OnMatchStart(isGameplayHost,rulesetId,locationCode,isNight)
+  if isGameplayHost then
     vars.isGameplayHost=1
   else
     vars.isGameplayHost=0
@@ -16,7 +17,7 @@ function this.OnMatchStart(isHost,rulesetId,locationCode,isNight)
   vars.isNight=isNight
   Mission.LoadMission{force=true}
   Mission.LoadLocation()
-  if isHost then
+  if isGameplayHost then
   else
     DemoDaemon.StopAll()
   end
@@ -45,6 +46,5 @@ function this.OnUnloadMission()
   Mission.LoadLocation{force=true}
 end
 function this.OnGotoTpp()
-  Mission.SwitchApplication"tpp"
-end
+  Mission.SwitchApplication"tpp"end
 return this

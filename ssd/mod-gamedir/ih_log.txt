@@ -1,0 +1,303 @@
+|6.7328053951142|InfCore start 03/05/18 15:11:40
+|6.7328053951142|Infinite Heaven r224
+|6.7328053951142|InfCore.RefreshFileList
+|6.7328053951142|dir /b /s "D:\Games\Steam\steamapps\common\METAL GEAR SURVIVE\mod\*.*" > "D:\Games\Steam\steamapps\common\METAL GEAR SURVIVE\mod\ih_files.txt"
+|6.7328053951142|package.path:./?.lua;D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/lua/?.lua;D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/lua/?/init.lua;D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/?.lua;D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/?/init.lua;D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/mod/modules/?.lua
+|6.7328053951142|Load InfInit.lua
+|6.7328053951142|LoadExternalModule Ivars
+|6.7328053951142|LoadExternalModule IvarsPersist
+|6.7328053951142|IvarProc.LoadEvars
+|6.7328053951142|IvarProc.LoadSave
+|6.7328053951142|start "" "D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/mod/IHExt.exe" "D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/" mgv
+|6.7328053951142|InfInit.lua done
+|6.7328053951142|Load InfMain.lua
+|6.7328053951142|InfMain Exec
+|6.7328053951142|InfMain.LoadExternalModules
+|6.7328053951142|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfLangProc", "InfLang", "InfMenuDefs", "InfMenuCommands", "InfQuickMenuDefs", "IHGenKnownModuleNames", "IHGenModuleReferences", "IHTearDown", "InfCamera", "InfExtToMgsv", "InfFova", "InfFovaIvars", "InfLookup", "InfMgsvToExt", "InfMission", "InfPositions", "InfSsdDebugStuff", "InfTimeScale", "InfUserMarker", "InfWarp" }
+|6.7328053951142|LoadExternalModule Ivars
+|6.7328053951142|Ivars.SetupIvars
+|6.7328053951142|LoadExternalModule IvarsPersist
+|6.7328053951142|LoadExternalModule InfLangProc
+|6.7328053951142|LoadExternalModule InfLang
+|6.7328053951142|LoadExternalModule InfMenuDefs
+|6.7328053951142|InfMenuDefs.SetupMenus
+|6.7328053951142|LoadExternalModule InfMenuCommands
+|6.7328053951142|LoadExternalModule InfQuickMenuDefs
+|6.7328053951142|LoadExternalModule IHGenKnownModuleNames
+|6.7328053951142|LoadExternalModule IHGenModuleReferences
+|6.7328053951142|LoadExternalModule IHTearDown
+|6.7328053951142|LoadExternalModule InfCamera
+|6.7328053951142|LoadExternalModule InfExtToMgsv
+|6.7328053951142|LoadExternalModule InfFova
+|6.7328053951142|LoadExternalModule InfFovaIvars
+|6.7328053951142|LoadExternalModule InfLookup
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING: gameclass == nil
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_CODE_TALKER2
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_COMMON_HORSE2
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_DUNG_SYSTEM
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_HORSE2_FOR_VR
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_HOSTAGE_KAZ
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_HUEY2
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_MGO_ACTOR
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_OCELOT2
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_PLAYER_HORSE2_FOR_VR
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_SKULL_FACE2
+|6.7328053951142|InfLookup.BuildGameClassEnumNameLookup: WARNING could not find enum GAME_OBJECT_TYPE_VOLGIN2_FOR_VR
+|6.7328053951142|LoadExternalModule InfMgsvToExt
+|6.7328053951142|LoadExternalModule InfMission
+|6.7328053951142|LoadExternalModule InfPositions
+|6.7328053951142|LoadExternalModule InfSsdDebugStuff
+|6.7328053951142|LoadExternalModule InfTimeScale
+|6.7328053951142|LoadExternalModule InfUserMarker
+|6.7328053951142|LoadExternalModule InfWarp
+|6.7328053951142|PostAllModulesLoad
+|6.7328053951142|DebugModeEnable:true
+|6.7328053951142|Ivars.PostAllModulesLoad:
+|6.7328053951142|Adding module Ivars
+|6.7328053951142|InfCamera.registerIvars={ "adjustCameraUpdate", "cameraMode", "moveScale", "disableCamText", "focalLengthFreeCam", "focusDistanceFreeCam", "apertureFreeCam", "distanceFreeCam", "positionXFreeCam", "positionYFreeCam", "positionZFreeCam" }
+|6.7328053951142|InfFovaIvars.registerIvars={ "playerType", "playerTypeDirect", "playerPartsType", "playerPartsTypeDirect", "playerCamoType", "playerCamoTypeDirect", "playerFaceEquipId", "playerFaceEquipIdDirect", "playerFaceId", "playerFaceFilter", "playerFaceIdDirect", "maleFaceId", "femaleFaceId", "faceFova", "faceDecoFova", "hairFova", "hairDecoFova", "faceFovaDirect", "faceDecoFovaDirect", "hairFovaDirect", "hairDecoFovaDirect", "faceFovaUnknown1", "faceFovaUnknown2", "faceFovaUnknown3", "faceFovaUnknown4", "faceFovaUnknown5", "faceFovaUnknown6", "faceFovaUnknown7", "faceFovaUnknown8", "faceFovaUnknown9", "faceFovaUnknown10", "enableFovaMod", "fovaSelection", "fovaPlayerType", "fovaPlayerPartsType", "skipDevelopChecks" }
+|6.7328053951142|InfMission.registerIvars={ "manualMissionCode", "manualSequence", "loadAddonMission", "ihMissionsPercentageCount" }
+|6.7328053951142|InfTimeScale.registerIvars={ "clockTimeScale", "speedCamContinueTime", "speedCamWorldTimeScale", "speedCamPlayerTimeScale", "speedCamNoDustEffect" }
+|6.7328053951142|InfWarp.registerIvars={ "warpPlayerUpdate" }
+|6.7328053951142|Ivars.missionModeIvarsNames={}
+|6.7328053951142|IvarsPersist.PostAllModulesLoad:
+|6.7328053951142|Adding module persistIvars
+|6.7328053951142|InfLangProc.PostAllModulesLoad:
+|6.7328053951142|Adding module Lang strings
+|6.7328053951142|Adding LangStrings for InfCamera
+|6.7328053951142|Adding LangStrings for InfFovaIvars
+|6.7328053951142|Adding LangStrings for InfPositions
+|6.7328053951142|Adding LangStrings for InfTimeScale
+|6.7328053951142|Adding LangStrings for InfUserMarker
+|6.7328053951142|Adding LangStrings for InfWarp
+|6.7328053951142|InfLang---------------------------={
+  ara = {
+    test = "TestAra"
+  },
+  cht = {
+    test = "TestCht"
+  },
+  eng = {
+    addMarkerPositions = "Add markers to Positions List",
+    addPosition = "Add current position to Positions List",
+    adjustCameraUpdate = "Adjust-cam [Mode]",
+    aperture_mode = "Aperture mode",
+    appearanceMenu = "Appearance menu",
+    applySelectedProfile = "Apply profile",
+    applying_profile = "Applying profile",
+    cam_mode_off = "Adjust-cam mode off",
+    cam_mode_on = "Adjust-cam mode on",
+    cameraMenu = "Camera menu",
+    cameraMode = "Camera mode",
+    cameraModeSettings = { "Default", "Free cam" },
+    cannot_edit_default_cam = "Cannot adjust Camera mode Default",
+    change_model_to_reset_fova = "Model will reset on mission start, or mission prep character change",
+    clearPositions = "Clear Positions List",
+    clockTimeScale = "Clock time scale",
+    debugInMissionMenu = "Debug stuff menu",
+    debugMenu = "Debug menu",
+    debugMode = "Debug IH mode",
+    disableCamText = "Disable mode text feedback",
+    disabled_fova = "Player model changed, disabling Use fova",
+    distance_mode = "Distance mode",
+    done = "Done",
+    enableFovaMod = "Use selected fova",
+    enableHelp = "Enable help text (IHExt)",
+    enableIHExt = "Enable IHExt",
+    enableQuickMenu = "Enable Quick Menu",
+    fob_weapon_change = "Cannot use Equip none on FOB",
+    focal_length_mode = "Focal length mode",
+    focus_distance_mode = "Focus distance mode",
+    fovaModMenu = "Form Variation menu",
+    fova_is_not_set = "Use fova is off, selected fova will not be applied on mission",
+    freecam_non_adjust = "Static cam mode",
+    goBackItem = "Menu Back",
+    heliSpaceMenu = "ACC Main menu",
+    highSpeedCameraToggle = "Toggle TSM",
+    highspeedcam_cancel = "TSM cancel",
+    ihMissionsPercentageCount = "Include addon missions in completion percentage",
+    ihext_not_installed_settings = { "Not installed", "Not installed" },
+    inMissionMenu = "In Mission menu",
+    item_disabled = "Menu item is currently disabled",
+    langOverride = "Mod Menu translation override",
+    langOverrideSettings = { "Off", "Chinese override Japanese" },
+    language_code = "Language code",
+    loadAddonMission = "Load addon mission",
+    max = "max",
+    menuOffItem = "Turn off menu",
+    menu_keys = "Hold <Quick dive> to open menu",
+    menu_off = "Menu Off",
+    menu_open_help = "(Press Up/Down,Left/Right to navigate menu)",
+    min = "min",
+    moveScale = "Cam speed scale",
+    no_developed_camo = "No developed camos found for suit",
+    no_fova_found = "No fova for model",
+    no_head_fovas = "No head fova mods found",
+    no_marker_found = "No marker found",
+    no_profiles_installed = "No profiles installed",
+    only_for_dd_soldier = "Only for DD soldiers",
+    other_control_active = "Another control mode is active",
+    playerCamoType = "Camo type",
+    playerFaceEquipId = "Headgear",
+    playerFaceFilter = "Filter faces",
+    playerFaceFilterSettings = { "Show all", "Headgear (cosmetic)", "Unique", "Head fova mods" },
+    playerFaceId = "Face",
+    playerPartsType = "Suit type",
+    playerType = "Player type",
+    positionsMenu = "Positions menu",
+    printBodyInfo = "Print current body info",
+    printCurrentAppearance = "Print appearance info",
+    printFaceInfo = "Print face info",
+    printLatestUserMarker = "Print latest marker",
+    printUserMarkers = "Print all markers",
+    resetAllSettingsItem = "Reset all IH settings",
+    resetCameraSettings = "Set cam to near player",
+    resetSelectedProfile = "Set profile options to game defaults",
+    resetSettingsItem = "Reset current menu",
+    reset_mode = "Reset mode",
+    revertProfile = "Revert profile and return",
+    saveToProfile = "Save to UserSaved profile",
+    selectProfile = "Select profile",
+    set_default_off_on = { "Default", "Off", "On" },
+    set_do = { ">", ">" },
+    set_switch = { "Off", "On" },
+    setting_all_defaults = "Setting all settings to default...",
+    setting_default = "Setting to default..",
+    setting_defaults = "Setting options for current menu to defaults...",
+    setting_disallowed = "is currently disallowed",
+    setting_minimum = "Setting to minimum..",
+    showFreeCamPosition = "Show freecam position",
+    showLangCode = "Show game language code",
+    showMissionCode = "Show missionCode",
+    showPosition = "Show position",
+    skipLogos = "Skip startup logos",
+    speedCamContinueTime = "TSM length (seconds)",
+    speedCamNoDustEffect = "No screen effect",
+    speedCamPlayerTimeScale = "TSM player time scale",
+    speedCamWorldTimeScale = "TSM world time scale",
+    speed_mode = "Speed mode",
+    startOffline = "Start offline",
+    systemMenu = "IH system menu",
+    takeFocus = "Give IHExt focus",
+    test = "Ativações Советский ФОНАРЬ 你还不错  munición 侵入者をCQCにより無力化 ",
+    timeScaleMenu = "Time scale menu",
+    userMarkerMenu = "User marker menu",
+    vertical_mode = "Vertical mode",
+    viewProfile = "Apply and view profile",
+    warpPlayerUpdate = "Warp [Mode]",
+    warpToCamPos = "Warp body to FreeCam position",
+    warpToLastUserMarker = "Warp to latest marker",
+    warp_mode_off = "Warp mode off",
+    warp_mode_on = "Warp mode on",
+    warped_to_marker = "Warped to marker",
+    writePositions = "Write Positions List"
+  },
+  fre = {
+    test = "TestFre"
+  },
+  ger = {
+    test = "TestGer"
+  },
+  help = {
+    eng = {
+      addMarkerPositions = "Adds current user markers to positions list, positions list can be written to file with Write Positons List command.",
+      addPosition = "Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.",
+      adjustCameraUpdate = "  Move cam with normal move keys \n\n  <Dash>(Shift or Left stick click) to move up\n\n  <Switch zoom>(Middle mouse or Right stick click) to move down\n\n  Hold the following and move left stick up/down to increase/decrease the settings:\n\n  <Fire> - Zoom/focal length\n\n  <Reload> - Aperture (DOF)\n\n  <Stance> - Focus distance (DOF) \n\n  <Action> - Cam move speed\n\n  <Ready weapon> - Camera orbit distance\n\n  Or hold <Binocular> and press the above to reset that setting.\n\n  Hold <Binocular> and press <Dash> to move free cam position to the player position",
+      cameraMenu = "Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
+      clearPositions = "Clears Positions List",
+      clockTimeScale = "Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.",
+      debugFlow = "Logs some script execution flow, requires Debug IH mode to be on.",
+      debugMessages = "Logs game message system, requires Debug IH mode to be on.",
+      debugMode = "Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.",
+      enableHelp = "Shows help text in IHExt for some options.",
+      enableIHExt = "IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
+      enableQuickMenu = "Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.",
+      highSpeedCameraToggle = "Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.",
+      positionsMenu = "For adding positions in the game to a Positions List, and writing them to files.",
+      resetSelectedProfile = "Sets the options described in the selected profile to their default setting.",
+      saveToProfile = "Saves current IH settings to UserSaved profile at MGS_TPP\\profiles\\UserSaved.lua.",
+      selectProfile = "Selects a profile from MGS_TPP\\mod\\profiles folder. Press the <Action> button to apply the settings of the selected profile.",
+      skipLogos = "Stops the konami/kjp/fox/nvidia logos from showing.",
+      speedCamContinueTime = "The time in seconds of the TSM",
+      speedCamNoDustEffect = "Does not apply the dust and blur effect while TSM is active.",
+      speedCamPlayerTimeScale = "Time scale of the player during TSM",
+      speedCamWorldTimeScale = "Time scale of the world, including soldiers/vehicles during TSM",
+      startOffline = "Start the game in offline mode, this also removes the connect option from the pause menu.",
+      warpPlayerUpdate = "Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
+      writePositions = "Writes Positions List to files in MGS_TPP\\mod\\"
+    }
+  },
+  ita = {
+    test = "TestIta"
+  },
+  jpn = {
+    test = "TestJpn"
+  },
+  kor = {
+    test = "TestKor"
+  },
+  name = "InfLang",
+  por = {
+    test = "TestPor"
+  },
+  rus = {
+    test = "TestRus"
+  },
+  spa = {
+    test = "TesSpa"
+  }
+}
+|6.7328053951142|InfMenuDefs.PostAllModulesLoad:
+|6.7328053951142|Adding module menuDefs
+|6.7328053951142|InfMenuCommands.PostAllModulesLoad:
+|6.7328053951142|InfMenuCommands.BuildCommandItems
+|6.7328053951142|WARNING GetStringRef: could not find module InfGameEvent
+|6.7328053951142|WARNING GetStringRef: could not find module InfMainTppIvars
+|6.7328053951142|WARNING GetStringRef: could not find module InfMainTppIvars
+|6.7328053951142|WARNING GetStringRef: could not find module InfSoldierParams
+|6.7328053951142|WARNING GetStringRef: could not find module InfEnemyPhase
+|6.7328053951142|WARNING GetStringRef: could not find module InfRevengeIvars
+|6.7328053951142|WARNING GetStringRef: could not find module InfReinforce
+|6.7328053951142|WARNING GetStringRef: could not find module InfMainTppIvars
+|6.7328053951142|WARNING GetStringRef: could not find module InfQuestIvars
+|6.7328053951142|WARNING GetStringRef: could not find module InfMainTppIvars
+|6.7328053951142|WARNING GetStringRef: could not find module InfDemo
+|6.7328053951142|WARNING GetStringRef: could not find module InfHelicopter
+|6.7328053951142|WARNING GetStringRef: could not find module InfMainTppIvars
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.disableGameOver
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.disableOutOfBoundsChecks
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.telopMode
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.disableGameOver
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.disableOutOfBoundsChecks
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.resetAACRCount
+|6.7328053951142|WARNING GetStringRef: could not find module InfGimmick
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.selectEvent
+|6.7328053951142|WARNING GetStringRef: could not find reference Ivars.allowUndevelopedDDEquip
+|6.7328053951142|WARNING GetStringRef: could not find module InfMenuCommandsTpp
+|6.7328053951142|WARNING GetStringRef: could not find module InfMenuCommandsTpp
+|6.7328053951142|WARNING GetStringRef: could not find module InfMenuCommandsTpp
+|6.7328053951142|WARNING GetStringRef: could not find module InfMenuCommandsTpp
+|6.7328053951142|WARNING GetStringRef: could not find module InfMenuCommandsTpp
+|6.7328053951142|IHGenKnownModuleNames.PostAllModulesLoad:
+|6.7328053951142|ihExternal names={}
+|6.7328053951142|IHTearDown.PostAllModulesLoad:
+|6.7328053951142|IHTearDown.PostAllModulesLoad
+|6.7328053951142|InfLookup.PostAllModulesLoad:
+|6.7328053951142|LoadStrings
+|6.7328053951142|LoadStrings D:/Games/Steam/steamapps/common/METAL GEAR SURVIVE/mod/strings/ssd-cityhook-all-start-toloading-logintimedout_unique.txt
+|6.7328053951142|Adding ssd-cityhook-all-start-toloading-logintimedout_unique strings to strCode32List
+|6.7328053951142|InfLookup.BuildPath32ToDataSetName:
+|6.7328053951142|InfLookup.AddObjectNamesToStr32List:
+|6.7328053951142|BuBuildDictionaryLookup: could not load subp_dictionary.txt
+|6.7328053951142|InfLookup.LoadGameObjectNames
+|6.7328053951142|LoadGameObjectNames: could not load IHStringsGameObjectNames.txt
+|6.7328053951142|IvarProc.SetupInfProfiles
+|6.7328053951142|InfCore.GetFileList: ERROR files==nil
+|6.7328053951142|InfMain.lua done
+|6.7328053951142|WARNING: InfHooks.GetFunction could not find module:TppSave
+|6.7328053951142|WARNING: InfHooks.GetFunction could not find module:TppSave
+|6.7328053951142|WARNING: InfHooks.GetFunction could not find module:TppSequence
+|6.7328053951142|InfHook done, requires-list done
+|6.7328053951142|Tpp.lua done
+|14.607384093169|TppMissionList.GetLocationPackagePath 1
+|14.607384093169|locationPackPaths={ "/Assets/ssd/pack/location/init/init.fpk" }

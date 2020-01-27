@@ -1,3 +1,25 @@
+-- init.lua
+-- tex first script loaded by engine
+--tex >
+--IHINTERNAL
+Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/InfTppUtil.lua"--tex
+Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"--tex
+
+--tex mgstpp is a bit more graceful about the errors and will just sit and spin
+--but want to bail here to let mockfox user know of error/make it showstopper.
+if isMockFox and InfCore.modDirFail then
+  print"ERROR: modDirFail"
+  return
+end
+Script.LoadLibrary"/Assets/tpp/script/lib/IvarProc.lua"--tex
+--tex init seems to be loaded sandboxed, or some other funkery preventing _G from being added to, so loading some external modules to global inside InfInit (LoadLibrary is not boxed).
+Script.LoadLibrary"/Assets/tpp/script/lib/InfInit.lua"--tex
+
+--local dofile=InfCore.DoFile--tex allow external alternate
+--<
+
 local e=Fox.GetPlatformName()
 local o=""if GrTools then
 o=GrTools.GetDeviceName()

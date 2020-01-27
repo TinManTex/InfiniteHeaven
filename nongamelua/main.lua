@@ -21,14 +21,6 @@ package.path=package.path..";./nonmgscelua/?.lua"--for AutoDoc
 --afgh_travelPlans=require"afgh_travelPlans"
 --mafr_travelPlans=require"mafr_travelPlans"
 
-
-
-
-
-
-
-
-
 --LOCALOPT
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
@@ -70,7 +62,7 @@ local function PrintGenericRoutes()
           lrrpNumber="NONE"
         end
 
-        local description=InfLang.cpNames.afgh.eng[cpName] or InfLang.cpNames.mafr.eng[cpName] or ""
+        local description=InfLangProc.CpNameString(cpName,"afgh") or InfLangProc.CpNameString(cpName,"mafr") or ""
 
         if routeSets.travel==nil or routeSets.travel==0 then
           print(lrrpNumber..","..cpName..","..description..",no travel routes found")
@@ -172,7 +164,7 @@ local function PrintGenericRoutes2()
       lrrpCpName=CpNameForLrrpNumber(lrrpNumberDefine,i)
 
       if lrrpCpName~=""then
-        description=InfLang.cpNames.afgh.eng[lrrpCpName] or InfLang.cpNames.mafr.eng[lrrpCpName]
+         description=InfLangProc.CpNameString(lrrpCpName,"afgh") or InfLangProc.CpNameString(lrrpCpName,"mafr") or ""
       end
 
 
@@ -182,7 +174,7 @@ local function PrintGenericRoutes2()
       local numTids=0
       for _lrrpNumber,bool in pairs(tids)do
         local _lrrpCpName=CpNameForLrrpNumber(lrrpNumberDefine,_lrrpNumber)
-        local _description=InfLang.cpNames.afgh.eng[_lrrpCpName] or InfLang.cpNames.mafr.eng[_lrrpCpName]
+        local _description=InfLangProc.CpNameString(_lrrpCpName,"afgh") or InfLangProc.CpNameString(_lrrpCpName,"mafr") or ""
         print(i..","..lrrpCpName..","..description..",".._lrrpNumber..",".._lrrpCpName..",".._description)
         numTids=numTids+1
       end
@@ -1535,17 +1527,10 @@ local function main()
 
   --ReconstructGZPaths()
 
-  GetPathsFromStrings()
-  GetCombinedObjectNamesFromStrings()
-
-  local bep=(true and 'blurg') or false
-  print("bep:"..tostring(bep))
-
-  local bop=(false and 'blorg') or false
-  print("bop:"..tostring(bop))
+  --GetPathsFromStrings()
+  --GetCombinedObjectNamesFromStrings()
 
   print"-///////---------"
-  --DEBUGNOW
 
   print("main()")
 

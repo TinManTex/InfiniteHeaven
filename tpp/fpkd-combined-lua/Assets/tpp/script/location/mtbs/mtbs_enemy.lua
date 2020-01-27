@@ -456,12 +456,12 @@ mtbs_enemy._GetSecurityCameraSetting = function ()
   Fox.Log("######## _GetSecurityCameraSetting ######")
   local numCameraMax = 100
   local numCameraPlaced = 0
-  local eqGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+  local eqGrade = InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   local numDevSecCamLv = TppMotherBaseManagement.GetMbsSecurityCameraLevel{}
   local numDevGunCamLv = TppMotherBaseManagement.GetMbsGunCameraLevel{}
   local numSetSecCamLv = 0
   local numSetGunCamLv = 0
-  local isNoKill = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+  local isNoKill = InfMainTpp.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
   local isDevelopedSecCam = false
   local isSecCameraMode = true
   local numSetLevel = 0
@@ -656,7 +656,7 @@ end
 mtbs_enemy.SetupDecy = function()
   local numPlaced = 0
   local numMax = 999
-  local equipGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+  local equipGrade = InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   local equipId = mtbs_enemy._GetDecyEquipId( equipGrade )
 
   mvars.mbDecoy_placedCountTotal = 0
@@ -681,8 +681,8 @@ end
 mtbs_enemy.SetupMine = function()
   local numPlaced = 0
   local numMax 	= 999
-  local isNoKillMode = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-  local equipGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+  local isNoKillMode = InfMainTpp.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+  local equipGrade = InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   local mineEquipId = mtbs_enemy._GetMineEquipId( isNoKillMode, equipGrade )
 
   mvars.mbMine_placedCountTotal = 0
@@ -1150,8 +1150,8 @@ mtbs_enemy.SetEnemyLocationType = function ()
     if IvarProc.EnabledForMission"customSoldierType" then
       local bodyInfo=InfEneFova.GetMaleBodyInfo()
       local soldierType=EnemyType.TYPE_DD
-      if bodyInfo and bodyInfo.soldierSubType and InfMain.IsMbEvent() then
-        soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
+      if bodyInfo and bodyInfo.soldierSubType and InfMainTpp.IsMbEvent() then
+        soldierType=InfMainTpp.soldierTypeForSubtypes[bodyInfo.soldierSubType]
       end
       local command = { id = "SetSoldier2Type", type = soldierType }
       SendCommand( gameObjectId, command )
@@ -1331,9 +1331,9 @@ mtbs_enemy.OnLoad = function ( clusterId, isNoUseRevenge )
 
   if not isNoUseRevenge then
 
-    local grade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade()
-    local range = InfMain.GetMbsClusterSecuritySoldierEquipRange()--ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-    local isNoKill = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+    local grade = InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade()
+    local range = InfMainTpp.GetMbsClusterSecuritySoldierEquipRange()--ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
+    local isNoKill = InfMainTpp.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
 
     local revengeType = mtbs_enemy._GetEquipTable( grade, range, isNoKill )
     TppRevenge.SetForceRevengeType( revengeType )

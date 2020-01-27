@@ -67,6 +67,24 @@ local birdCenters={
   },
 }
 
+this.registerIvars={
+  'mbEnableBirds',
+}
+
+this.mbEnableBirds={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,--TODO extend to quarantine, and zoo? lol
+}
+--< ivar defs
+this.langStrings={
+  eng={
+    mbEnableBirds="Enable Birds",
+  },
+}
+--< lang strings
+
 function this.AddMissionPacks(missionCode,packPaths)
   if Ivars.mbEnableBirds:EnabledForMission(missionCode) then
     packPaths[#packPaths+1]=this.packages.BIRD

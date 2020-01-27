@@ -1,0 +1,34 @@
+{
+	"Name" : "lz_sovietBase_E0000|lz_sovietBase_E_0000_hover",
+	"Nodes" : [{
+		"Position": {"X": -2355.797, "Y": 443.515,"Z": -1431.606},
+		"EdgeEvent" : {
+			"EventType" : "VehicleMoveFast",
+            "Param1": 0,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0,
+            "Param7": 0,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+		},
+		"Events" : [
+			{
+				"EventType" : "Hovering",
+	            "Param1": 1,
+	            "Param2": 3630432256,
+	            "Param3": 0,
+	            "Param4": 0,
+	            "Param5": 0,
+	            "Param6": 0,
+	            "Param7": 0,
+	            "Param8": 0,
+	            "Param9": 0,
+	            "Param10": 0,
+			},
+		]
+	}]
+}

@@ -1,3 +1,4 @@
+-- Utils.lua
 local this={}
 local p
 if(Fox.GetDebugLevel()==Fox.DEBUG_LEVEL_QA_RELEASE)then
@@ -83,7 +84,8 @@ function this.DisplayLogColor(o,T,p,n,_,i,o)
   end
 end
 function this.StringArrayToCSV(p)
-  local e=""local _=false
+  local e=""
+  local _=false
   for i=1,#p do
     local p=p[i]
     if p~=nil then
@@ -98,7 +100,8 @@ function this.StringArrayToCSV(p)
   return e
 end
 function this.GetTeamTag(p)
-  local e="TEAM_"if p<10 then
+  local e="TEAM_"
+  if p<10 then
     e=e.."0"end
   e=e..tostring(p+1)
   return e
@@ -161,17 +164,17 @@ function this.SetWeatherInterval(o,T,i,a,_,n)
 end
 function this.SyncWeather(e,p)
   local p=p*1e3
-  local _=MpRulesetManager.GetActiveRuleset()
+  local activeRuleset=MpRulesetManager.GetActiveRuleset()
   if e=="clear"then
-    _:RequestWeather(0,p)
+    activeRuleset:RequestWeather(0,p)
   elseif e=="cloudy"then
-    _:RequestWeather(1,p)
+    activeRuleset:RequestWeather(1,p)
   elseif e=="rainy"then
-    _:RequestWeather(2,p)
+    activeRuleset:RequestWeather(2,p)
   elseif e=="sandstorm"then
-    _:RequestWeather(3,p)
+    activeRuleset:RequestWeather(3,p)
   elseif e=="foggy"then
-    _:RequestWeather(4,p)
+    activeRuleset:RequestWeather(4,p)
   end
 end
 function this.TriggerEffect(_,i,e,p)
@@ -231,105 +234,123 @@ function this.WeatherRequest(i,n,o)
   end
   if i==103 then
     if n then
-      this.SyncWeather("rainy",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("rainy",0)
+      WeatherManager.SetCurrentClock("1","00")
     else
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("13","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("13","00")
       if _ then
         this.SetWeatherInterval("clear","rainy",p,30,20,2)
       end
     end
   elseif i==101 then
     if n then
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     else
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("15","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("15","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     end
   elseif i==102 then
     if n then
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","sandstorm",p,30,20,2)
       end
     else
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("06","12")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("06","12")
       if _ then
         this.SetWeatherInterval("clear","sandstorm",p,30,20,2)
       end
     end
   elseif i==104 then
     if n then
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","rainy",p,30,20,2)
       end
     else
-      this.SyncWeather("cloudy",0)WeatherManager.SetCurrentClock("06","30")
+      this.SyncWeather("cloudy",0)
+      WeatherManager.SetCurrentClock("06","30")
       if _ then
         this.SetWeatherInterval("cloudy","rainy",p,30,20,1)
       end
     end
   elseif i==105 then
     if n then
-      this.SyncWeather("cloudy",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("cloudy",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("cloudy","rainy",p,30,20,1)
       end
     else
-      this.SyncWeather("cloudy",0)WeatherManager.SetCurrentClock("17","30")
+      this.SyncWeather("cloudy",0)
+      WeatherManager.SetCurrentClock("17","30")
       if _ then
         this.SetWeatherInterval("cloudy","rainy",p,30,20,1)
       end
     end
   elseif(i==111 or i==114)or i==115 then
     if n then
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     else
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("13","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("13","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     end
   elseif i==112 then
     if n then
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     else
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("13","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("13","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     end
   elseif i==113 then
     if n then
-      this.SyncWeather("cloudy",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("cloudy",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     else
-      this.SyncWeather("cloudy",0)WeatherManager.SetCurrentClock("17","30")
+      this.SyncWeather("cloudy",0)
+      WeatherManager.SetCurrentClock("17","30")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     end
   else
     if n then
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("1","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("1","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
     else
-      this.SyncWeather("clear",0)WeatherManager.SetCurrentClock("15","00")
+      this.SyncWeather("clear",0)
+      WeatherManager.SetCurrentClock("15","00")
       if _ then
         this.SetWeatherInterval("clear","cloudy",p,30,20,1)
       end
@@ -381,19 +402,286 @@ function this.AssignWeaponsLoadout(p,T,a,n,o)
     end
   end
 end
-this.CommonAvailableLoadouts={{DisplayName="mgo_default_loadout_assault",attackerLoadout=false,compatibleClasses={MGOPlayer.CLS_INFILTRATOR},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_ar00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_30304},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_20004,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_MolotovCocktail}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_InterrogationPlus_1"},{id="Skill_WeaponsPlus_1"},{id="Skill_TacticalPlus_1"},{id="Skill_LethalMarksmanPlus_1"}}},{DisplayName="mgo_default_loadout_nonlethal",attackerLoadout=true,compatibleClasses={MGOPlayer.CLS_INFILTRATOR},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_StunGrenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_FultonPlus_2"},{id="Skill_WeaponsPlus_1"},{id="Skill_NonLethalMarksmanPlus_1"}}},{DisplayName="mgo_default_loadout_suppressed",attackerLoadout=nil,compatibleClasses={MGOPlayer.CLS_INFILTRATOR},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_sm02_v00,parts={TppEquip.MO_20204,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_DirtyMag}},itemConfig={{id=TppEquip.EQP_IT_MGO_PersonalCamo},{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_Camo_1"},{id="Skill_FultonPlus_1"},{id="Skill_LethalMarksmanPlus_2"}}},{DisplayName="mgo_default_loadout_cqc",attackerLoadout=nil,compatibleClasses={MGOPlayer.CLS_INFILTRATOR},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_sg00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_30104,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_SmokeGrenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_CQC_StealthPlus_2"},{id="Skill_InterrogationPlus_1"},{id="Skill_TacticalPlus_1"}}},{DisplayName="mgo_default_loadout_assault",attackerLoadout=false,compatibleClasses={MGOPlayer.CLS_RECON},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_ar00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_30114,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg00_v00,parts={TppEquip.MO_10026,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Grenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_AntiMarking_1"},{id="Skill_Intel_1"},{id="Skill_WeaponsPlus_1"},{id="Skill_LethalMarksmanPlus_1"}}},{DisplayName="mgo_default_loadout_nonlethal",attackerLoadout=true,compatibleClasses={MGOPlayer.CLS_RECON},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_TagGrenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_Intel_2"},{id="Skill_WeaponsPlus_1"},{id="Skill_NonLethalMarksmanPlus_1"}}},{DisplayName="mgo_default_loadout_ranged",attackerLoadout=nil,compatibleClasses={MGOPlayer.CLS_RECON},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_WP_pvp_sr00_v00,parts={TppEquip.MO_30205,TppEquip.ST_60303,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_20004,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_DirtyMag}},itemConfig={{id=TppEquip.EQP_IT_Nvg},{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_Sniper_2"},{id="Skill_Optics_1"},{id="Skill_TacticalPlus_1"}}},{DisplayName="mgo_default_loadout_suppressed",attackerLoadout=nil,compatibleClasses={MGOPlayer.CLS_RECON},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_WP_pvp_sr01_v00,parts={TppEquip.MO_30102,TppEquip.ST_60303,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg04_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Decoy}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_Sniper_1"},{id="Skill_AntiMarking_2"},{id="Skill_WeaponsPlus_1"}}},{DisplayName="mgo_default_loadout_assault",attackerLoadout=false,compatibleClasses={MGOPlayer.CLS_TECHNICAL},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_ar01_v00,parts={TppEquip.MO_30205,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_20004,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Grenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_FieldReport_1"},{id="Skill_WeaponsPlus_1"},{id="Skill_LethalMarksmanPlus_1"},{id="Skill_TacticalPlus_1"}}},{DisplayName="mgo_default_loadout_nonlethal",attackerLoadout=true,compatibleClasses={MGOPlayer.CLS_TECHNICAL},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_SleepingGusGrenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_Tank_2"},{id="Skill_TacticalPlus_1"},{id="Skill_NonLethalMarksmanPlus_1"}}},{DisplayName="mgo_default_loadout_splash",attackerLoadout=nil,compatibleClasses={MGOPlayer.CLS_TECHNICAL},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_SLD_SV},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg03_v00,parts={TppEquip.MO_None,TppEquip.ST_30114,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Grenade},{slot=TppDefine.WEAPONSLOT.SUPPORT_1,id=TppEquip.EQP_SWP_C4}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_TacticalPlus_2"},{id="Skill_Demolition_1"},{id="Skill_Shield_1"}}},{DisplayName="mgo_default_loadout_coverfire",attackerLoadout=nil,compatibleClasses={MGOPlayer.CLS_TECHNICAL},weaponsConfig={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_WP_pvp_mg00_v00,parts={TppEquip.MO_30205,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},{slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={{slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_SmokeGrenade}},itemConfig={{id=TppEquip.EQP_IT_CBox}},skillConfig={{id="Skill_FieldReport_1"},{id="Skill_Tank_1"},{id="Skill_LethalMarksmanPlus_2"}}}}
+this.CommonAvailableLoadouts={
+  {DisplayName="mgo_default_loadout_assault",
+    attackerLoadout=false,
+    compatibleClasses={MGOPlayer.CLS_INFILTRATOR},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_ar00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_30304},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_20004,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_MolotovCocktail}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_InterrogationPlus_1"},
+        {id="Skill_WeaponsPlus_1"},
+        {id="Skill_TacticalPlus_1"},
+        {id="Skill_LethalMarksmanPlus_1"}}},
+  {DisplayName="mgo_default_loadout_nonlethal",
+    attackerLoadout=true,
+    compatibleClasses={MGOPlayer.CLS_INFILTRATOR},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_StunGrenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_FultonPlus_2"},
+        {id="Skill_WeaponsPlus_1"},
+        {id="Skill_NonLethalMarksmanPlus_1"}}},
+  {DisplayName="mgo_default_loadout_suppressed",
+    attackerLoadout=nil,
+    compatibleClasses={MGOPlayer.CLS_INFILTRATOR},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_sm02_v00,parts={TppEquip.MO_20204,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_DirtyMag}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_MGO_PersonalCamo},
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_Camo_1"},
+        {id="Skill_FultonPlus_1"},
+        {id="Skill_LethalMarksmanPlus_2"}}},
+  {DisplayName="mgo_default_loadout_cqc",
+    attackerLoadout=nil,
+    compatibleClasses={MGOPlayer.CLS_INFILTRATOR},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_sg00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_30104,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_SmokeGrenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_CQC_StealthPlus_2"},
+        {id="Skill_InterrogationPlus_1"},
+        {id="Skill_TacticalPlus_1"}}},
+  {DisplayName="mgo_default_loadout_assault",
+    attackerLoadout=false,
+    compatibleClasses={MGOPlayer.CLS_RECON},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_ar00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_30114,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg00_v00,parts={TppEquip.MO_10026,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Grenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_AntiMarking_1"},
+        {id="Skill_Intel_1"},
+        {id="Skill_WeaponsPlus_1"},
+        {id="Skill_LethalMarksmanPlus_1"}}},
+  {DisplayName="mgo_default_loadout_nonlethal",
+    attackerLoadout=true,
+    compatibleClasses={MGOPlayer.CLS_RECON},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_TagGrenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_Intel_2"},
+        {id="Skill_WeaponsPlus_1"},
+        {id="Skill_NonLethalMarksmanPlus_1"}}},
+  {DisplayName="mgo_default_loadout_ranged",
+    attackerLoadout=nil,
+    compatibleClasses={MGOPlayer.CLS_RECON},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_WP_pvp_sr00_v00,parts={TppEquip.MO_30205,TppEquip.ST_60303,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_20004,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_DirtyMag}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_Nvg},
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_Sniper_2"},
+        {id="Skill_Optics_1"},
+        {id="Skill_TacticalPlus_1"}}},
+  {DisplayName="mgo_default_loadout_suppressed",
+    attackerLoadout=nil,
+    compatibleClasses={MGOPlayer.CLS_RECON},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_WP_pvp_sr01_v00,parts={TppEquip.MO_30102,TppEquip.ST_60303,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg04_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Decoy}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_Sniper_1"},
+        {id="Skill_AntiMarking_2"},
+        {id="Skill_WeaponsPlus_1"}}},
+  {DisplayName="mgo_default_loadout_assault",
+    attackerLoadout=false,
+    compatibleClasses={MGOPlayer.CLS_TECHNICAL},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_WP_pvp_ar01_v00,parts={TppEquip.MO_30205,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg00_v00,parts={TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LS_20004,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Grenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_FieldReport_1"},
+        {id="Skill_WeaponsPlus_1"},
+        {id="Skill_LethalMarksmanPlus_1"},
+        {id="Skill_TacticalPlus_1"}}},
+  {DisplayName="mgo_default_loadout_nonlethal",
+    attackerLoadout=true,
+    compatibleClasses={MGOPlayer.CLS_TECHNICAL},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_SleepingGusGrenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_Tank_2"},
+        {id="Skill_TacticalPlus_1"},
+        {id="Skill_NonLethalMarksmanPlus_1"}}},
+  {DisplayName="mgo_default_loadout_splash",
+    attackerLoadout=nil,
+    compatibleClasses={MGOPlayer.CLS_TECHNICAL},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_SLD_SV},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg03_v00,parts={TppEquip.MO_None,TppEquip.ST_30114,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_Grenade},
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_1,id=TppEquip.EQP_SWP_C4}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_TacticalPlus_2"},
+        {id="Skill_Demolition_1"},
+        {id="Skill_Shield_1"}}},
+  {DisplayName="mgo_default_loadout_coverfire",
+    attackerLoadout=nil,
+    compatibleClasses={MGOPlayer.CLS_TECHNICAL},
+    weaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,id=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_BACK,id=TppEquip.EQP_WP_pvp_mg00_v00,parts={TppEquip.MO_30205,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,id=TppEquip.EQP_WP_pvp_hg01_v00,parts={TppEquip.MO_10101,TppEquip.ST_None,TppEquip.ST_None,TppEquip.LT_None,TppEquip.LT_None,TppEquip.UB_None},color={TppEquip.WEAPON_PAINT_DEFAULT,0}}},supportWeaponsConfig={
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,id=TppEquip.EQP_SWP_SmokeGrenade}},
+      itemConfig={
+        {id=TppEquip.EQP_IT_CBox}},
+      skillConfig={
+        {id="Skill_FieldReport_1"},
+        {id="Skill_Tank_1"},
+        {id="Skill_LethalMarksmanPlus_2"}}}
+}
 function this.DBEUG_LookupObjectiveMessage(_,p)
   for e,i in pairs(this.ObjectiveMessage)do
     if(p==_:DEBUG_GetStringId(e))then
       return v
     end
   end
-  return""end
+  return""
+end
 this.Team={SOLID=0,LIQUID=1,BOTH=2}
-this.ObjectiveMessage={NONE={name="NONE",debug=""},MP_OBJ={name="MP_OBJ",debug="Objective",langTag="mgo_UI_Briefing_Tips1_DOM"},MP_INFO={name="MP_INFO",debug="Information",langTag="mgo_idt_information"},MP_OBJ_MODE_DM={name="MP_OBJ_MODE_DM",debug="Bounty",langTag="mgo_idt_TDM"},MP_OBJ_MODE_DOM={name="MP_OBJ_MODE_DOM",debug="Domination",langTag="mgo_idt_DOM"},MP_OBJ_MODE_TS={name="MP_OBJ_MODE_TS",debug="Team Sneak",langTag="mgo_idt_TS"},MP_OBJ_MODE_AD={name="MP_OBJ_MODE_AD",debug="Sabotage",langTag="mgo_idt_SAB"},MP_OBJ_MODE_DMBASE={name="MP_OBJ_MODE_DMBASE",debug="Bounty Blitz",langTag="mgo_idt_TDM"},MP_OBJ_MODE_DOMBASE={name="MP_OBJ_MODE_DOMBASE",debug="Domination Blitz",langTag="mgo_idt_DOM"},MP_OBJ_MODE_TSBASE={name="MP_OBJ_MODE_TSBASE",debug="Team Sneak Blitz",langTag="mgo_idt_TS"},MP_OBJ_MODE_ADBASE={name="MP_OBJ_MODE_ADBASE",debug="Sabotage Blitz",langTag="mgo_idt_SAB"},MP_OBJ_NOTIFY={name="MP_OBJ_NOTIFY",debug="Buddy Status",langTag=""},MP_OBJ_OVERTIME={name="MP_OBJ_OVERTIME",debug="Overtime",langTag="mgo_ui_obj_overtime_elim"},MP_OBJ_TS_ATTACK={name="MP_OBJ_TS_ATTACK",debug="Steal an enemy data disc",langTag="mgo_ui_obj_TS_Attack"},MP_OBJ_TS_DEFEND={name="MP_OBJ_TS_DEFEND",debug="Defend the data discs",langTag="mgo_ui_announcer_TS_DiscDf2"},MP_OBJ_TS_RETURN={name="MP_OBJ_TS_RETURN",debug="Deliver disc to evac point",langTag="mgo_ui_announcer_TS_Obj"},MP_OBJ_TS_PROTECT={name="MP_OBJ_TS_PROTECT",debug="Stop the enemy from reaching evac point",langTag="mgo_ui_announcer_TS_Protect"},MP_OBJ_TS_ATTACK_DEAD={name="MP_OBJ_TS_ATTACK_DEAD",debug="Attackers are dead",langTag="mgo_ui_obj_TS_Attack_Dead"},MP_OBJ_TS_DEFEND_DEAD={name="MP_OBJ_TS_DEFEND_DEAD",debug="Defenders are dead",langTag="mgo_ui_obj_TS_Defend_Dead"},MP_OBJ_TS_ATTACK_WIN={name="MP_OBJ_TS_ATTACK_WIN",debug="Attackers escaped with the data disc",langTag="mgo_ui_obj_TS_Attack_Win"},MP_OBJ_TS_ATTACK_LOSE={name="MP_OBJ_TS_ATTACK_LOSE",debug="Time over, Defenders win",langTag="mgo_ui_obj_Attack_Lose"},MP_OBJ_DM={name="MP_OBJ_DM",debug="Eliminate or Fulton the opposing team",langTag="mgo_ui_announcer_DM"},MP_OBJ_DM_WIN_TIX={name="MP_OBJ_DM_WIN_TIX",debug="The enemy team ran out of tickets.",langTag="mgo_ui_obj_bounty_noticket_enemy"},MP_OBJ_DM_LOSS_TIX={name="MP_OBJ_DM_LOSS_TIX",debug="Your team ran out of tickets.",langTag="mgo_ui_obj_bounty_noticket_ally"},MP_OBJ_DM_OT_WIN={name="MP_OBJ_DM_OT_WIN",debug="Enemy player eliminated during overtime.",langTag="mgo_ui_obj_bounty_overtime_enemy"},MP_OBJ_DM_OT_LOSS={name="MP_OBJ_DM_OT_LOSS",debug="Allied player eliminated during overtime.",langTag="mgo_ui_obj_bounty_overtime_ally"},MP_OBJ_DM_WIN_TIME={name="MP_OBJ_DM_WIN_TIME",debug="Time expired. Your team has the highest score.",langTag="mgo_ui_obj_bounty_timeup_winbyscore"},MP_OBJ_DM_LOSS_TIME={name="MP_OBJ_DM_LOSS_TIME",debug="Time expired. The enemy team has the highest score.",langTag="mgo_ui_obj_bounty_timeup_lostbyscore"},MP_OBJ_DM_WIN_TIE={name="MP_OBJ_DM_WIN_TIE",debug="Wins by top player.",langTag="mgo_idt_win_top_player"},MP_OBJ_DM_WIN_TIME_TIX={name="MP_OBJ_DM_WIN_TIME_TIX",debug="Time expired. Your team has the most tickets.",langTag="mgo_ui_obj_bounty_timeup_winbyticket"},MP_OBJ_DM_LOSS_TIME_TIX={name="MP_OBJ_DM_LOSS_TIME_TIX",debug="Time expired. The enemy team has the most tickets.",langTag="mgo_ui_obj_bounty_timeup_lostbyticket"},MP_OBJ_DOM={name="MP_OBJ_DOM",debug="Capture and hold the comm links to defeat the enemy",langTag="mgo_ui_announcer_DOM"},MP_OBJ_DOM_ATK={name="MP_OBJ_DOM_ATK",debug="Capture a comm link to stop the enemy",langTag="mgo_ui_obj_DOM_Attack"},MP_OBJ_DOM_DEF={name="MP_OBJ_DOM_DEF",debug="Defend the comm links to survive",langTag="mgo_ui_obj_DOM_Defend"},MP_OBJ_DOM_ATTACK_WIN={name="MP_OBJ_DOM_ATTACK_WIN",debug="Attackers took down the comm system",langTag="mgo_ui_obj_comm_system"},MP_OBJ_ATK_ATTACK={name="MP_OBJ_ATK_ATTACK",debug="Tag enemy intel or interrogate the enemy",langTag="mgo_ui_announcer_SAB_Attack"},MP_OBJ_ATK_DEFEND={name="MP_OBJ_ATK_DEFEND",debug="Protect the intel and avoid interrogation",langTag="mgo_ui_announcer_SAB_Defend"},MP_OBJ_ATK_INTEL={name="MP_OBJ_ATK_INTEL",debug="Intel piece gathered",langTag="mgo_ui_obj_SAB_intel_piece"},MP_OBJ_ATK_FAKE_INTEL={name="MP_OBJ_ATK_FAKE_INTEL",debug="OH NO ITS A FAKE",langTag="mgo_ui_obj_SAB_counter_intel"},MP_OBJ_ATK_FAKE_INTERROGATE={name="MP_OBJ_ATK_FAKE_INTERROGATE",debug="Interrogated revealed A FAKE",langTag="mgo_ui_obj_SAB_counter_intel_expose"},MP_OBJ_ATK_ATK_P2={name="MP_OBJ_ATK_ATK_P2",debug="Login received. Access enemy terminal",langTag="mgo_ui_obj_SAB_after_login"},MP_OBJ_ATK_ATK_P2DELAY={name="MP_OBJ_ATK_ATK_P2DELAY",debug="Intel gathered. Stand by for terminal login",langTag="mgo_ui_obj_SAB_after_intel"},MP_OBJ_ATK_DEF_P2={name="MP_OBJ_ATK_DEF_P2",debug="Guard the terminals",langTag="mgo_ui_obj_SAB_Defend_P2"},MP_OBJ_ATK_ATK_P3DELAY={name="MP_OBJ_ATK_ATK_P3DELAY",debug="Terminal hacked. Get in position to assault the missile",langTag="mgo_ui_obj_SAB_after_hack"},MP_OBJ_ATK_ATK_P3={name="MP_OBJ_ATK_ATK_P3",debug="Defenses deactivated.  Destroy the missile.",langTag="mgo_ui_announcer_SAB_Fulton"},MP_OBJ_ATK_DEF_P3={name="MP_OBJ_ATK_DEF_P3",debug="Protect the missile",langTag="mgo_ui_obj_SAB_Defend_P3"},MP_OBJ_MFULTON={name="MP_OBJ_MFULTON",debug="Fulton attached to missile",langTag="mgo_ui_obj_SAB_fulton_attach"},MP_OBJ_ATK_ATTACK_WIN={name="MP_OBJ_ATK_ATTACK_WIN",debug="Attackers destroyed the missile!",langTag="mgo_ui_obj_SAB_Attack_Win"},MP_OBJ_ATK_DEFEND_WIN={name="MP_OBJ_ATK_DEFEND_WIN",debug="Missile launched! Defenders win",langTag="mgo_ui_obj_SAB_Defend_Win"},MP_OBJ_ATK_ATK_FULTON={name="MP_OBJ_ATK_ATK_FULTON",debug="Attackers fultoned the missile!",langTag="mgo_ui_obj_fultoned_missile"},MP_OBJ_SAB_ATK_START={name="MP_OBJ_SAB_ATK_START",debug="mgo_ui_obj_SAB_Attack_Destroy_or_fulton",langTag="mgo_ui_obj_SAB_Attack_Destroy_or_Fulton"},MP_OBJ_SAB_DEF_START={name="MP_OBJ_SAB_DEF_START",debug="mgo_ui_obj_SAB_Attack_Destroy_or_fulton",langTag="mgo_ui_obj_SAB_Protect_Missile"},MP_OBJ_SAB_ATK_SHIELD_DEACTIVE={name="MP_OBJ_SAB_ATK_SHIELD_DEACTIVE",debug="mgo_ui_obj_SAB_Attack_Shield_Deactive",langTag="mgo_ui_obj_SAB_Attack_Shield_Deactive"},MP_OBJ_SAB_DEF_SHIELD_DEACTIVE={name="MP_OBJ_SAB_DEF_SHIELD_DEACTIVE",debug="mgo_ui_obj_SAB_Defend_Shield_Deactive",langTag="mgo_ui_obj_SAB_Defend_Shield_Deactive"},MP_OBJ_SAB_ATK_TERMINAL={name="MP_OBJ_SAB_ATK_TERMINAL",debug="mgo_ui_obj_SAB_Attack_Terminal",langTag="mgo_ui_obj_SAB_Attack_Terminal"},MP_OBJ_SAB_DEF_TERMINAL={name="MP_OBJ_SAB_DEF_TERMINAL",debug="mgo_ui_obj_SAB_Defend_Terminal",langTag="mgo_ui_obj_SAB_Defend_Terminal"},MP_OBJ_SAB_ATK_SHIELD_ACTIVE={name="MP_OBJ_SAB_ATK_SHIELD_ACTIVE",debug="mgo_ui_obj_SAB_Attack_Shield_Active",langTag="mgo_ui_obj_SAB_Attack_Shield_Active"},MP_OBJ_SAB_DEF_SHIELD_ACTIVE={name="MP_OBJ_SAB_DEF_SHIELD_ACTIVE",debug="mgo_ui_obj_SAB_Defend_Shield_Active",langTag="mgo_ui_obj_SAB_Defend_Shield_Active"},MP_OBJ_NOTIFY_NEAREND={name="MP_OBJ_NOTIFY_NEAREND",debug="Round Ending Soon",langTag="mgo_ui_obj_roundend_soon"},MP_OBJ_NOTIFY_WON={name="MP_OBJ_NOTIFY_WON",debug="Your team won!",langTag="mgo_ui_obj_teamwon"},MP_OBJ_NOTIFY_LOST={name="MP_OBJ_NOTIFY_LOST",debug="Your team lost.",langTag="mgo_ui_obj_teamlost"},MP_OBJ_NOTIFY_WON_ENEMY_ABANDONED={name="MP_OBJ_NOTIFY_WON_ENEMY_ABANDONED",debug="The enemy team has abandoned the match.",langTag="mgo_log_enemy_team_abandon"}}
-this.ObjectiveSounds={NONE="",MP_SFX_TDM_INITIAL="sfx_s_mission_qualify",MP_SFX_TDM_OVERTIME="sfx_s_sideops_sted",MP_SFX_DOM_INITIAL="sfx_s_mission_qualify",MP_SFX_DOM_ENE_CAP="sfx_enemy_captured_point",MP_SFX_DOM_ENE_CAP_ALL="sfx_enemy_captured_all_points",MP_SFX_DOM_ALY_CAP="sfx_friendly_captured_point",MP_SFX_DOM_ALY_CAP_ALL="sfx_friendly_captured_all_points",MP_SFX_DOM_NEUTRALIZE="sfx_point_neutralized",MP_SFX_TSNE_INITIAL="sfx_s_mission_qualify",MP_SFX_TSNE_GOOD="sfx_friendly_captured_point",MP_SFX_TSNE_BAD="sfx_enemy_captured_point",MP_SFX_TSNE_GOOD_END="",MP_SFX_TSNE_BAD_END="",MP_SFX_TSNE_PICKUP="sfx_s_fob_emergency",MP_SFX_TSNE_DROPPED="sfx_UI_Disc_Dropped",MP_SFX_TSNE_CAPTURE="sfx_UI_Uploading_Complete_Sting",MP_SFX_SAB_PHASE2="sfx_UI_Phase_Doc_2_Terminal",MP_SFX_SAB_PHASE3="sfx_UI_Phase_Term_2_Missile",MP_SFX_SAB_SCAN="sfx_UI_Document_Scan_Complete",MP_SFX_SAB_BUZZER="sfx_s_terminal_buzzer"}
-this.NotificationSounds={NONE="",MP_SFX_NOTIFY="sfx_s_title_slct_mission",MP_SFX_CONTRACT_GIVEN="sfx_s_title_slct_mission",MP_SFX_CONTRACT_PROGRESS="sfx_s_title_slct_mission",MP_SFX_CONTRACT_COMPLETE="sfx_stinger_subobjective"}
-function this.DBEUG_LookupObjectiveMessage(_,i)
+this.ObjectiveMessage={NONE={name="NONE",debug=""},
+  MP_OBJ={name="MP_OBJ",debug="Objective",langTag="mgo_UI_Briefing_Tips1_DOM"},
+  MP_INFO={name="MP_INFO",debug="Information",langTag="mgo_idt_information"},
+  MP_OBJ_MODE_DM={name="MP_OBJ_MODE_DM",debug="Bounty",langTag="mgo_idt_TDM"},
+  MP_OBJ_MODE_DOM={name="MP_OBJ_MODE_DOM",debug="Domination",langTag="mgo_idt_DOM"},
+  MP_OBJ_MODE_TS={name="MP_OBJ_MODE_TS",debug="Team Sneak",langTag="mgo_idt_TS"},
+  MP_OBJ_MODE_AD={name="MP_OBJ_MODE_AD",debug="Sabotage",langTag="mgo_idt_SAB"},
+  MP_OBJ_MODE_DMBASE={name="MP_OBJ_MODE_DMBASE",debug="Bounty Blitz",langTag="mgo_idt_TDM"},
+  MP_OBJ_MODE_DOMBASE={name="MP_OBJ_MODE_DOMBASE",debug="Domination Blitz",langTag="mgo_idt_DOM"},
+  MP_OBJ_MODE_TSBASE={name="MP_OBJ_MODE_TSBASE",debug="Team Sneak Blitz",langTag="mgo_idt_TS"},
+  MP_OBJ_MODE_ADBASE={name="MP_OBJ_MODE_ADBASE",debug="Sabotage Blitz",langTag="mgo_idt_SAB"},
+  MP_OBJ_NOTIFY={name="MP_OBJ_NOTIFY",debug="Buddy Status",langTag=""},
+  MP_OBJ_OVERTIME={name="MP_OBJ_OVERTIME",debug="Overtime",langTag="mgo_ui_obj_overtime_elim"},
+  MP_OBJ_TS_ATTACK={name="MP_OBJ_TS_ATTACK",debug="Steal an enemy data disc",langTag="mgo_ui_obj_TS_Attack"},
+  MP_OBJ_TS_DEFEND={name="MP_OBJ_TS_DEFEND",debug="Defend the data discs",langTag="mgo_ui_announcer_TS_DiscDf2"},
+  MP_OBJ_TS_RETURN={name="MP_OBJ_TS_RETURN",debug="Deliver disc to evac point",langTag="mgo_ui_announcer_TS_Obj"},
+  MP_OBJ_TS_PROTECT={name="MP_OBJ_TS_PROTECT",debug="Stop the enemy from reaching evac point",langTag="mgo_ui_announcer_TS_Protect"},
+  MP_OBJ_TS_ATTACK_DEAD={name="MP_OBJ_TS_ATTACK_DEAD",debug="Attackers are dead",langTag="mgo_ui_obj_TS_Attack_Dead"},
+  MP_OBJ_TS_DEFEND_DEAD={name="MP_OBJ_TS_DEFEND_DEAD",debug="Defenders are dead",langTag="mgo_ui_obj_TS_Defend_Dead"},
+  MP_OBJ_TS_ATTACK_WIN={name="MP_OBJ_TS_ATTACK_WIN",debug="Attackers escaped with the data disc",langTag="mgo_ui_obj_TS_Attack_Win"},
+  MP_OBJ_TS_ATTACK_LOSE={name="MP_OBJ_TS_ATTACK_LOSE",debug="Time over, Defenders win",langTag="mgo_ui_obj_Attack_Lose"},
+  MP_OBJ_DM={name="MP_OBJ_DM",debug="Eliminate or Fulton the opposing team",langTag="mgo_ui_announcer_DM"},
+  MP_OBJ_DM_WIN_TIX={name="MP_OBJ_DM_WIN_TIX",debug="The enemy team ran out of tickets.",langTag="mgo_ui_obj_bounty_noticket_enemy"},
+  MP_OBJ_DM_LOSS_TIX={name="MP_OBJ_DM_LOSS_TIX",debug="Your team ran out of tickets.",langTag="mgo_ui_obj_bounty_noticket_ally"},
+  MP_OBJ_DM_OT_WIN={name="MP_OBJ_DM_OT_WIN",debug="Enemy player eliminated during overtime.",langTag="mgo_ui_obj_bounty_overtime_enemy"},
+  MP_OBJ_DM_OT_LOSS={name="MP_OBJ_DM_OT_LOSS",debug="Allied player eliminated during overtime.",langTag="mgo_ui_obj_bounty_overtime_ally"},
+  MP_OBJ_DM_WIN_TIME={name="MP_OBJ_DM_WIN_TIME",debug="Time expired. Your team has the highest score.",langTag="mgo_ui_obj_bounty_timeup_winbyscore"},
+  MP_OBJ_DM_LOSS_TIME={name="MP_OBJ_DM_LOSS_TIME",debug="Time expired. The enemy team has the highest score.",langTag="mgo_ui_obj_bounty_timeup_lostbyscore"},
+  MP_OBJ_DM_WIN_TIE={name="MP_OBJ_DM_WIN_TIE",debug="Wins by top player.",langTag="mgo_idt_win_top_player"},
+  MP_OBJ_DM_WIN_TIME_TIX={name="MP_OBJ_DM_WIN_TIME_TIX",debug="Time expired. Your team has the most tickets.",langTag="mgo_ui_obj_bounty_timeup_winbyticket"},
+  MP_OBJ_DM_LOSS_TIME_TIX={name="MP_OBJ_DM_LOSS_TIME_TIX",debug="Time expired. The enemy team has the most tickets.",langTag="mgo_ui_obj_bounty_timeup_lostbyticket"},
+  MP_OBJ_DOM={name="MP_OBJ_DOM",debug="Capture and hold the comm links to defeat the enemy",langTag="mgo_ui_announcer_DOM"},
+  MP_OBJ_DOM_ATK={name="MP_OBJ_DOM_ATK",debug="Capture a comm link to stop the enemy",langTag="mgo_ui_obj_DOM_Attack"},
+  MP_OBJ_DOM_DEF={name="MP_OBJ_DOM_DEF",debug="Defend the comm links to survive",langTag="mgo_ui_obj_DOM_Defend"},
+  MP_OBJ_DOM_ATTACK_WIN={name="MP_OBJ_DOM_ATTACK_WIN",debug="Attackers took down the comm system",langTag="mgo_ui_obj_comm_system"},
+  MP_OBJ_ATK_ATTACK={name="MP_OBJ_ATK_ATTACK",debug="Tag enemy intel or interrogate the enemy",langTag="mgo_ui_announcer_SAB_Attack"},
+  MP_OBJ_ATK_DEFEND={name="MP_OBJ_ATK_DEFEND",debug="Protect the intel and avoid interrogation",langTag="mgo_ui_announcer_SAB_Defend"},
+  MP_OBJ_ATK_INTEL={name="MP_OBJ_ATK_INTEL",debug="Intel piece gathered",langTag="mgo_ui_obj_SAB_intel_piece"},
+  MP_OBJ_ATK_FAKE_INTEL={name="MP_OBJ_ATK_FAKE_INTEL",debug="OH NO ITS A FAKE",langTag="mgo_ui_obj_SAB_counter_intel"},
+  MP_OBJ_ATK_FAKE_INTERROGATE={name="MP_OBJ_ATK_FAKE_INTERROGATE",debug="Interrogated revealed A FAKE",langTag="mgo_ui_obj_SAB_counter_intel_expose"},
+  MP_OBJ_ATK_ATK_P2={name="MP_OBJ_ATK_ATK_P2",debug="Login received. Access enemy terminal",langTag="mgo_ui_obj_SAB_after_login"},
+  MP_OBJ_ATK_ATK_P2DELAY={name="MP_OBJ_ATK_ATK_P2DELAY",debug="Intel gathered. Stand by for terminal login",langTag="mgo_ui_obj_SAB_after_intel"},
+  MP_OBJ_ATK_DEF_P2={name="MP_OBJ_ATK_DEF_P2",debug="Guard the terminals",langTag="mgo_ui_obj_SAB_Defend_P2"},
+  MP_OBJ_ATK_ATK_P3DELAY={name="MP_OBJ_ATK_ATK_P3DELAY",debug="Terminal hacked. Get in position to assault the missile",langTag="mgo_ui_obj_SAB_after_hack"},
+  MP_OBJ_ATK_ATK_P3={name="MP_OBJ_ATK_ATK_P3",debug="Defenses deactivated.  Destroy the missile.",langTag="mgo_ui_announcer_SAB_Fulton"},
+  MP_OBJ_ATK_DEF_P3={name="MP_OBJ_ATK_DEF_P3",debug="Protect the missile",langTag="mgo_ui_obj_SAB_Defend_P3"},
+  MP_OBJ_MFULTON={name="MP_OBJ_MFULTON",debug="Fulton attached to missile",langTag="mgo_ui_obj_SAB_fulton_attach"},
+  MP_OBJ_ATK_ATTACK_WIN={name="MP_OBJ_ATK_ATTACK_WIN",debug="Attackers destroyed the missile!",langTag="mgo_ui_obj_SAB_Attack_Win"},
+  MP_OBJ_ATK_DEFEND_WIN={name="MP_OBJ_ATK_DEFEND_WIN",debug="Missile launched! Defenders win",langTag="mgo_ui_obj_SAB_Defend_Win"},
+  MP_OBJ_ATK_ATK_FULTON={name="MP_OBJ_ATK_ATK_FULTON",debug="Attackers fultoned the missile!",langTag="mgo_ui_obj_fultoned_missile"},
+  MP_OBJ_SAB_ATK_START={name="MP_OBJ_SAB_ATK_START",debug="mgo_ui_obj_SAB_Attack_Destroy_or_fulton",langTag="mgo_ui_obj_SAB_Attack_Destroy_or_Fulton"},
+  MP_OBJ_SAB_DEF_START={name="MP_OBJ_SAB_DEF_START",debug="mgo_ui_obj_SAB_Attack_Destroy_or_fulton",langTag="mgo_ui_obj_SAB_Protect_Missile"},
+  MP_OBJ_SAB_ATK_SHIELD_DEACTIVE={name="MP_OBJ_SAB_ATK_SHIELD_DEACTIVE",debug="mgo_ui_obj_SAB_Attack_Shield_Deactive",langTag="mgo_ui_obj_SAB_Attack_Shield_Deactive"},
+  MP_OBJ_SAB_DEF_SHIELD_DEACTIVE={name="MP_OBJ_SAB_DEF_SHIELD_DEACTIVE",debug="mgo_ui_obj_SAB_Defend_Shield_Deactive",langTag="mgo_ui_obj_SAB_Defend_Shield_Deactive"},
+  MP_OBJ_SAB_ATK_TERMINAL={name="MP_OBJ_SAB_ATK_TERMINAL",debug="mgo_ui_obj_SAB_Attack_Terminal",langTag="mgo_ui_obj_SAB_Attack_Terminal"},
+  MP_OBJ_SAB_DEF_TERMINAL={name="MP_OBJ_SAB_DEF_TERMINAL",debug="mgo_ui_obj_SAB_Defend_Terminal",langTag="mgo_ui_obj_SAB_Defend_Terminal"},
+  MP_OBJ_SAB_ATK_SHIELD_ACTIVE={name="MP_OBJ_SAB_ATK_SHIELD_ACTIVE",debug="mgo_ui_obj_SAB_Attack_Shield_Active",langTag="mgo_ui_obj_SAB_Attack_Shield_Active"},
+  MP_OBJ_SAB_DEF_SHIELD_ACTIVE={name="MP_OBJ_SAB_DEF_SHIELD_ACTIVE",debug="mgo_ui_obj_SAB_Defend_Shield_Active",langTag="mgo_ui_obj_SAB_Defend_Shield_Active"},
+  MP_OBJ_NOTIFY_NEAREND={name="MP_OBJ_NOTIFY_NEAREND",debug="Round Ending Soon",langTag="mgo_ui_obj_roundend_soon"},
+  MP_OBJ_NOTIFY_WON={name="MP_OBJ_NOTIFY_WON",debug="Your team won!",langTag="mgo_ui_obj_teamwon"},
+  MP_OBJ_NOTIFY_LOST={name="MP_OBJ_NOTIFY_LOST",debug="Your team lost.",langTag="mgo_ui_obj_teamlost"},
+  MP_OBJ_NOTIFY_WON_ENEMY_ABANDONED={name="MP_OBJ_NOTIFY_WON_ENEMY_ABANDONED",debug="The enemy team has abandoned the match.",langTag="mgo_log_enemy_team_abandon"}
+}
+this.ObjectiveSounds={
+  NONE="",
+  MP_SFX_TDM_INITIAL="sfx_s_mission_qualify",
+  MP_SFX_TDM_OVERTIME="sfx_s_sideops_sted",
+  MP_SFX_DOM_INITIAL="sfx_s_mission_qualify",
+  MP_SFX_DOM_ENE_CAP="sfx_enemy_captured_point",
+  MP_SFX_DOM_ENE_CAP_ALL="sfx_enemy_captured_all_points",
+  MP_SFX_DOM_ALY_CAP="sfx_friendly_captured_point",
+  MP_SFX_DOM_ALY_CAP_ALL="sfx_friendly_captured_all_points",
+  MP_SFX_DOM_NEUTRALIZE="sfx_point_neutralized",
+  MP_SFX_TSNE_INITIAL="sfx_s_mission_qualify",
+  MP_SFX_TSNE_GOOD="sfx_friendly_captured_point",
+  MP_SFX_TSNE_BAD="sfx_enemy_captured_point",
+  MP_SFX_TSNE_GOOD_END="",
+  MP_SFX_TSNE_BAD_END="",
+  MP_SFX_TSNE_PICKUP="sfx_s_fob_emergency",
+  MP_SFX_TSNE_DROPPED="sfx_UI_Disc_Dropped",
+  MP_SFX_TSNE_CAPTURE="sfx_UI_Uploading_Complete_Sting",
+  MP_SFX_SAB_PHASE2="sfx_UI_Phase_Doc_2_Terminal",
+  MP_SFX_SAB_PHASE3="sfx_UI_Phase_Term_2_Missile",
+  MP_SFX_SAB_SCAN="sfx_UI_Document_Scan_Complete",
+  MP_SFX_SAB_BUZZER="sfx_s_terminal_buzzer"
+}
+this.NotificationSounds={
+  NONE="",
+  MP_SFX_NOTIFY="sfx_s_title_slct_mission",
+  MP_SFX_CONTRACT_GIVEN="sfx_s_title_slct_mission",
+  MP_SFX_CONTRACT_PROGRESS="sfx_s_title_slct_mission",
+  MP_SFX_CONTRACT_COMPLETE="sfx_stinger_subobjective"
+}
+function this.DBEUG_LookupObjectiveMessage(_,
+  i)
   for e,p in pairs(this.ObjectiveMessage)do
     local e=_:DEBUG_GetStringId(e)
     if(i==e)then

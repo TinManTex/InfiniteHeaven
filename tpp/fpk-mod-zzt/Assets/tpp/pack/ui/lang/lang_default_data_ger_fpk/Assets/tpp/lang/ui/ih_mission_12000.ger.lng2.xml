@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  <Entries>
+    <Entry LangId="sub_location_45" Color="1" Value="MSF Mother Base (Destroyed)" />       
+    <Entry LangId="name_mission_45_1200" Color="1" Value="MSF Mother Base (Destroyed)" />
+    <Entry LangId="sub_mission_45_12000" Color="1" Value="MSF Mother Base (Destroyed)" />
+    <Entry LangId="info_mission_45_12000_00" Color="1" Value="MSF Mother Base (Destroyed)" />
+  </Entries>
+</LangFile>
