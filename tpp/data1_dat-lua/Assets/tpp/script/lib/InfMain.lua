@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r170"
+this.modVersion="r172"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -678,9 +678,6 @@ function this.Messages()
         --this.heliSelectClusterId=nil
         end
       end},
-      {msg="RequestLoadReinforce",func=function()
-        --InfMenu.DebugPrint"RequestLoadReinforce"--DEBUG
-        end},
       --      {
       --        msg = "RoutePoint2",--DEBUG
       --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
@@ -999,7 +996,7 @@ function this.OnInitializeTop(missionTable)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
       this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
 
-      --DEBUGNOW
+      --DEBUG
       --      for cpName,cpDefine in pairs(enemyTable.soldierDefine)do
       --        cpDefine.lrrpVehicle=nil
       --      end
@@ -1060,8 +1057,8 @@ end
 --via TppMain
 function this.OnMissionCanStartBottom()
   --InfInspect.TryFunc(function()--DEBUG
-    if TppMission.IsFOBMission(vars.missionCode)then
-      return
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
   end
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
@@ -1760,9 +1757,10 @@ function this.GetRandomPool(pool)
   return name
 end
 
+local lrrpInd="_lrrp"
 function this.BuildCpPool(soldierDefine)
   local cpPool={}
-  local lrrpInd="_lrrp"
+
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
@@ -1812,24 +1810,24 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
       --
       local seatDelta=numSeats-numCpSoldiers
       --DEBUG
---      local isConvoy=false
---      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
---        for i,vehicleName in ipairs(convoyVehicles)do
---          if cpDefine.lrrpVehicle==vehicleName then
---            InfMenu.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#this.soldierPool)
---            isConvoy=true
---            break
---          end
---        end
---      end
+      --      local isConvoy=false
+      --      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
+      --        for i,vehicleName in ipairs(convoyVehicles)do
+      --          if cpDefine.lrrpVehicle==vehicleName then
+      --            InfMenu.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#this.soldierPool)
+      --            isConvoy=true
+      --            break
+      --          end
+      --        end
+      --      end
       --<DEBUG
       if seatDelta<0 then--tex over filled
         FillList(-seatDelta,cpDefine,this.soldierPool)
       elseif seatDelta>0 then
         local soldiersAdded=FillList(seatDelta,this.soldierPool,cpDefine)
---        if isConvoy then--DEBUG
---          InfInspect.PrintInspect(soldiersAdded)
---        end--
+        --        if isConvoy then--DEBUG
+        --          InfInspect.PrintInspect(soldiersAdded)
+        --        end--
       end
       --if lrrpVehicle<
     end
@@ -1928,8 +1926,23 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     numLrrps=numLrrps+1
   end
-  --  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
-  --  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
+--  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
+--  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
+--  InfMenu.DebugPrint("#cpPool:"..#cpPool)--DEBUG
+
+  --Fill rest. can just do straight cpDefine order since they're build randomly anyway
+  --GOTACHA: doesn't honor reserve, not that I'm using it anyway
+  if #this.soldierPool>0 then
+    for cpName,cpDefine in pairs(soldierDefine)do
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==NULL_ID then
+      else
+        if cpDefine.lrrpTravelPlan and not cpDefine.lrrpVehicle then
+          FillList(1,this.soldierPool,cpDefine)
+        end
+      end
+    end
+  end
 
   InfMain.RandomResetToOsTime()
 end

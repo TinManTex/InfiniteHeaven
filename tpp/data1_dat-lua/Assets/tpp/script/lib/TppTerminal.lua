@@ -648,6 +648,11 @@ function this.AcquireGzPrivilegeKeyItem()
   for t,a in pairs(t)do
     this.AcquireGzPrivilege(t,n)
   end
+  --RETAILPATCH 1.10>
+  if TppMotherBaseManagement.IsGotDataBase{dataBaseId=MBMConst.EXTRA_4011}then
+    TppMotherBaseManagement.DirectAddDataBase{dataBaseId=MBMConst.EXTRA_6000,isNew=false}
+  end
+  --<
 end
 function this.AcquireDlcItemKeyItem()
   local dlcList={
@@ -672,7 +677,8 @@ function this.AcquireDlcItemKeyItem()
     SUIT_THE_BOSS=MBMConst.EXTRA_4026,
     SUIT_EVA=MBMConst.EXTRA_4027,
     HORSE_WESTERN=MBMConst.EXTRA_4028,
-    HORSE_PARADE=MBMConst.EXTRA_4009
+    HORSE_PARADE=MBMConst.EXTRA_4009,
+    ARM_GOLD=MBMConst.EXTRA_6000,--RETAILPATCH 1.10 added
   }
   local function funcAdd(n,e)
     local dataBaseId=dlcList[e]

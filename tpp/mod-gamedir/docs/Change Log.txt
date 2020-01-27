@@ -1,5 +1,17 @@
 Infinite Heaven changelog
 
+r172 - 2016-08-03 - public release
+Extra unassigend soldiers in Africa added to lrrps.
+Freecam defaults to player position on first activate
+Fixed: Aparently I accidentally pasted over skeletonnames for TargetTruckCamera sometime back in r124, oops. Would only affect a specic situation in s10090
+Updated to 1.10
+Added swimsuit to mb DD male,female.
+Added swimsuit to female wildcard soldiers suit list.
+
+r171 - 2016-07-28 - public release
+Change: Patrol helis now assigned to the closest CP
+Fixed: Removed some debug messages from convoy setup, oops, had a file regression.
+
 r170 - 2016-07-28 - public release
 Fixed: Foot patrols and quest soldiers now zombified during skulls attack.
 Fixed: Zombieifed soldiers during skulls attack now have zombie skin - thanks  AGANEK for the report.

@@ -212,7 +212,7 @@ end
 
 --IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
 function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
-  InfInspect.TryFunc(function(vehicleSpawnList,soldierDefine)--DEBUGNOW
+  --InfInspect.TryFunc(function(vehicleSpawnList,soldierDefine)--DEBUG
     if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
       return
   end
@@ -257,9 +257,9 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
       if convoySizeMax>0 then
         for travelPlan,convoyInfo in pairs(convoys) do
           local currentMax=math.min(#convoyInfo,convoySizeMax)
-          InfMenu.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUGNOW
+          --InfMenu.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
           if currentMax>0 then
-            --currentMax=math.random(1,currentMax)--DEBUGNOW
+            --currentMax=math.random(1,currentMax)--OFF TODO
             local convoyVehicles={}
             mvars.inf_patrolVehicleConvoyInfo[travelPlan]=convoyVehicles
 
@@ -275,7 +275,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
               local vehicleName=InfMain.GetRandomPool(freeLvs)
 
               local cpDefine=soldierDefine[cpName]
-              --DEBUGNOW cpDefine.convoyIndex=i
+              --TODO cpDefine.convoyIndex=i
               cpDefine.lrrpTravelPlan=travelPlan
               cpDefine.lrrpVehicle=vehicleName
 
@@ -373,7 +373,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
   end
 
   InfMain.RandomResetToOsTime()
-  end,vehicleSpawnList,soldierDefine)--
+  --end,vehicleSpawnList,soldierDefine)--
 end
 
 --OUT: missionPackPath
@@ -469,25 +469,25 @@ this.convoys={
 
 --tex final setup, initial setup is in ModifyVehiclePatrol
 function this.SetupConvoy()
-  InfInspect.TryFunc(function()--DEBUGNOW
+  --InfInspect.TryFunc(function()--DEBUG
     if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
       return
   end
 
   if TppMission.IsMissionStart() then
     if mvars.inf_patrolVehicleConvoyInfo==nil then
-      InfMenu.DebugPrint"SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUGNOW
+      --InfMenu.DebugPrint"SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUG
       return
     end
 
     local locationName=InfMain.GetLocationName()
     local convoys=this.convoys[locationName]
 
-    InfInspect.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUGNOW
+    --InfInspect.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
     local registeredConvoy=false--DEBUGNOW
     if convoys then
       for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
-        InfMenu.DebugPrint("SetupConvoy "..travelPlan)
+        --InfMenu.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
         local convoyInfo=convoys[travelPlan]
 
         local convoyIds={}
@@ -498,7 +498,7 @@ function this.SetupConvoy()
             InfMenu.DebugPrint(vehicleName.." gameId==NULL_ID")--DEBUGNOW
           else
             if i>1 then--tex patrolVehicleConvoyInfo includes lead vehicle, which already has position
-              InfMenu.DebugPrint("SetPosition "..vehicleName)--DEBUGNOW
+              --InfMenu.DebugPrint("SetPosition "..vehicleName)--DEBUG
               local coords=convoyInfo[i-1]
               local command={id="SetPosition",position=Vector3(coords[1],coords[2],coords[3]),rotY=coords[4]}
               SendCommand(vehicleId,command)
@@ -513,7 +513,7 @@ function this.SetupConvoy()
       end
     end
   end
-  end)--
+  --end)--
 end
 
 return this

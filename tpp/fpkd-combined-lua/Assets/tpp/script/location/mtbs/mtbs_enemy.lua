@@ -433,7 +433,6 @@ mtbs_enemy.SetupUAV = function ( clstID )
     mvars.mbUav_placedCountTotal = mvars.mbUav_placedCountTotal + numUavInPlnt
 
     for i, uavName in ipairs( plntAssetsTable.uavList ) do
-      InfMenu.DebugPrint(tostring(uavName))--DEBUGNOW
       local gameObjectId = GetGameObjectId( uavName )
       if isDevelopedUav == true then
         isEnabled = i<=numUavInPlnt
@@ -2146,24 +2145,6 @@ mtbs_enemy.OnTerminateDemoBlock = function()
   Fox.Log("OnTerminate")
 end
 
---tex DEBUGNOW>
---this.GAME_STATUS_TYPE_ALL={S_DISABLE_PLAYER_PAD=true,S_DISABLE_NPC=true,S_DISABLE_TARGET=true,S_DISABLE_NPC_NOTICE=true,S_DISABLE_PLAYER_DAMAGE=true,S_DISABLE_THROWING=true,S_DISABLE_PLACEMENT=true}
-function this.ClearGameStatusOnStartVersus()
-  Fox.Log("### ClearGameStatusOnStartVersus ####")
-
-  local target = {}
-  for key, value in pairs(TppDefine.GAME_STATUS_TYPE_ALL) do
-    target[key] = value
-  end
-
-  Tpp.SetGameStatus{
-    target = target,
-    enable = true,
-    scriptName = "o50050_sequence.lua",
-  }
-end
---<
-
 mtbs_enemy.SetFriendly = function( )
   for cpName, soldierNameList in pairs( mtbs_enemy.soldierDefine ) do
     do
@@ -2182,16 +2163,16 @@ mtbs_enemy.SetFriendly = function( )
     end
   end
   --DEBUGNOW TODO ivar, if uavs
-  for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
-    
-    local plntTable = mtbs_enemy.plntParamTable[plntName]
-    local plntAssetsTable = plntTable.assets
-    
-    for i, uavName in ipairs( plntAssetsTable.uavList ) do
-      local gameObjectId = GameObject.GetGameObjectId( uavName )
-      SendCommand( gameObjectId, {id = "SetFriendly"} )
-    end
-  end
+--  for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
+--    
+--    local plntTable = mtbs_enemy.plntParamTable[plntName]
+--    local plntAssetsTable = plntTable.assets
+--    
+--    for i, uavName in ipairs( plntAssetsTable.uavList ) do
+--      local gameObjectId = GameObject.GetGameObjectId( uavName )
+--      SendCommand( gameObjectId, {id = "SetFriendly"} )
+--    end
+--  end
   --DEBUGNOW
 end
 

@@ -371,7 +371,7 @@ this.quietMoveToLastMarker={
 this.requestHeliLzToLastMarker={
   isMenuOff=true,
   OnChange=function()
-    InfInspect.TryFunc(function()--DEBUGNOW
+    --InfInspect.TryFunc(function()--DEBUG
       local locationName=InfMain.GetLocationName()
       if locationName~="afgh" and locationName~="mafr" then
         InfMenu.PrintLangId"not_for_location"
@@ -407,7 +407,7 @@ this.requestHeliLzToLastMarker={
       end
 
       InfMenu.MenuOff()
-    end)--
+    --end)--
   end
 }
 
@@ -432,12 +432,6 @@ this.forceGameEvent={
 this.printBodyInfo={
   OnChange=function()
     InfFova.GetCurrentFovaTable(true)
-  end
-}
-
-this.DEBUG_PrintMenu={
-  OnChange=function()
-    InfMenu.PrintMenu()
   end
 }
 
@@ -484,9 +478,12 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+
+
+
       local objectName="ih_uav_0000"
       local gameId=GameObject.GetGameObjectId(objectName)
-    
+
       if gameId==GameObject.NULL_ID then
         InfMenu.DebugPrint"gameId==GameObject.NULL_ID"
       else
@@ -499,13 +496,13 @@ this.DEBUG_SomeShiz={
         --SendCommand( gameId, {id = "WarpToNearestPatrolRouteNode"} )
         SendCommand( gameId, {id = "SetDevelopLevel", developLevel = 1 } )
       end
-      
+
       if true then return end
 
       --DEBUGNOW
       --TppUiCommand.AnnounceLogView("anlogdoop")
-    
-    
+
+
       local parasiteAppearTime=math.random(8,10)
       GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
 
@@ -606,54 +603,42 @@ local index2Max=4
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-      InfParasite.EndEvent()
 
-      if true then return end
-
-      local position={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
-
-      local closestLz,lzDistance=InfMain.ClosestLz(position)
-
-      if closestLz==nil then
-        InfMenu.PrintLangId"no_lz_found"
-      end
-
-      InfMenu.DebugPrint(InfLZ.str32LzToLz[closestLz]..":"..math.sqrt(lzDistance))
-
-      local closestCp,cpDistance=InfMain.GetClosestCp(position)
+        InfParasite.EndEvent()
 
 
-      if true then return end--DEBUGNOW
-      local route="lz_drp_field_I0000|rt_drp_field_I_0000"
+        if true then return end
+        
+        local route="lz_drp_field_I0000|rt_drp_field_I_0000"
 
-      local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
-      --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
-      GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
-      GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
+        local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
+        --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
+        GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
+        GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
 
-      -- InfMain.GetClosestCp()
+        -- InfMain.GetClosestCp()
 
-      --        --InfMenu.DebugPrint(this.stringTest)
-      --
-      --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      --        if lastMarkerIndex==nil then
-      --          InfMenu.DebugPrint("lastMarkerIndex==nil")
-      --        else
-      --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-      --
-      --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
-      --          if buddyHorseId==GameObject.NULL_ID then
-      --          else
-      --
-      --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
-      --
-      --            local command={id="SetCallHorse",
-      --              startPosition=horsePos,
-      --              goalPosition=moveToPosition
-      --            }
-      --            GameObject.SendCommand(buddyHorseId,command)
-      --          end
-      --        end
+        --        --InfMenu.DebugPrint(this.stringTest)
+        --
+        --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+        --        if lastMarkerIndex==nil then
+        --          InfMenu.DebugPrint("lastMarkerIndex==nil")
+        --        else
+        --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+        --
+        --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
+        --          if buddyHorseId==GameObject.NULL_ID then
+        --          else
+        --
+        --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
+        --
+        --            local command={id="SetCallHorse",
+        --              startPosition=horsePos,
+        --              goalPosition=moveToPosition
+        --            }
+        --            GameObject.SendCommand(buddyHorseId,command)
+        --          end
+        --        end
 
 
 
@@ -672,8 +657,11 @@ local index3Max=1000
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-
-      end)
+      local position={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+      local closestCp,cpDistance=InfMain.GetClosestCp(position)
+      local cpId=GetGameObjectId("TppCommandPost2",closestCp)
+      TppReinforceBlock.StartReinforce(cpId)
+    end)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
@@ -1277,9 +1265,9 @@ this.DEBUG_WarpToObject={
     InfInspect.TryFunc(function()
 
         local objectList=InfMain.reserveSoldierNames
-        
---        local travelPlan="travelArea2_01"
---         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
+
+        --        local travelPlan="travelArea2_01"
+        --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
         --local objectList=InfMain.ene_wildCardSoldiers
 
         --local objectList=InfMain.truckNames
@@ -1370,7 +1358,7 @@ this.DEBUG_WarpToObject={
             warpPos=Vector3(0,0,0)
           else
             warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-            --InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+            InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
           end
           this.currentWarpIndex=this.currentWarpIndex+1
           if this.currentWarpIndex>#objectList then
@@ -1396,16 +1384,19 @@ this.DEBUG_WarpToObject={
 
 this.DEBUG_WarpToReinforceVehicle={
   OnChange=function()
-    local vehicleId=GameObject.GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
-    local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
+    InfInspect.TryFunc(function()
+      local vehicleId=GameObject.GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
+      local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
 
-    if vehicleId==GameObject.NULL_ID then
-      InfMenu.DebugPrint"vehicleId==NULL_ID"
-      return
-    end
-    local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
-    InfMenu.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+      if vehicleId==GameObject.NULL_ID then
+        InfMenu.DebugPrint"vehicleId==NULL_ID"
+        return
+      end
+      local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
+      InfMenu.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+
+    end)
   end,
 }
 

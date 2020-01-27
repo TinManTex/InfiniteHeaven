@@ -222,6 +222,40 @@ this.ddBodyInfo={
     noDDHeadgear=true,
   --soldierSubType="PF_C",
   },
+  SWIMSUIT={
+    maleBodyId={
+      TppEnemyBodyId.dlf_enem0_def,
+      TppEnemyBodyId.dlf_enem1_def,
+      TppEnemyBodyId.dlf_enem2_def,
+      TppEnemyBodyId.dlf_enem3_def,
+      TppEnemyBodyId.dlf_enem4_def,
+      TppEnemyBodyId.dlf_enem5_def,
+      TppEnemyBodyId.dlf_enem6_def,
+      TppEnemyBodyId.dlf_enem7_def,
+      TppEnemyBodyId.dlf_enem8_def,
+      TppEnemyBodyId.dlf_enem9_def,
+      TppEnemyBodyId.dlf_enem10_def,
+      TppEnemyBodyId.dlf_enem11_def,
+    },
+    femaleBodyId={
+      TppEnemyBodyId.dlf_enef0_def,
+      TppEnemyBodyId.dlf_enef1_def,
+      TppEnemyBodyId.dlf_enef2_def,
+      TppEnemyBodyId.dlf_enef3_def,
+      TppEnemyBodyId.dlf_enef4_def,
+      TppEnemyBodyId.dlf_enef5_def,
+      TppEnemyBodyId.dlf_enef6_def,
+      TppEnemyBodyId.dlf_enef7_def,
+      TppEnemyBodyId.dlf_enef8_def,
+      TppEnemyBodyId.dlf_enef9_def,
+      TppEnemyBodyId.dlf_enef10_def,
+      TppEnemyBodyId.dlf_enef11_def,
+    },
+    partsPath="/Assets/tpp/parts/chara/dlf/dlf1_enem0_def_v00.parts",
+    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts"},
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk"
+    soldierSubType="DD_FOB",
+  },
 }
 
 ---
@@ -388,6 +422,7 @@ this.femaleSuits={
   "BATTLE_DRESS",
   "TIGER",
   "DRAB",
+  "SWIMSUIT",
 }
 
 this.wildCardSuitName="SNEAKING_SUIT"

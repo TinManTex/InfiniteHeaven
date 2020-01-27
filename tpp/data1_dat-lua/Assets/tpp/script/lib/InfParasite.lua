@@ -129,7 +129,7 @@ end
 
 function this.OnDamage(gameId,attackId,attackerId)
   local typeIndex=GameObject.GetTypeIndex(gameId)
-  --DEBUGNOW TODO
+  --TODO
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
     if not this.ParasiteEvent() then
       return

@@ -530,6 +530,14 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
             --InfInspect.PrintInspect(routeCenter)
 
             --InfMenu.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3].." distsqr:"..distSqr.. " closestdist:"..closestDistance)--DEBUG
+
+            --DEBUGNOW DEBUGNOW
+--            local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(heliPos)
+--            if closestCp==nil then
+--            else
+--              SendCommand(heliObjectId,{id="SetCommandPost",cp=closestCp})
+--            end
+
           end
         end
       end

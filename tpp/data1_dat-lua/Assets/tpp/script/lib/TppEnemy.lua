@@ -3699,15 +3699,15 @@ function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName
   if not Tpp.IsTypeTable(n)then
     return
   end
-  local a=cpLinkDefine[toCp]
-  if a==nil then
+  local cpLink=cpLinkDefine[toCp]
+  if cpLink==nil then
     return
   end
   mvars.ene_travelPlans=mvars.ene_travelPlans or{}
   local r=0
   for r,fromCp in pairs(n)do
     if mvars.ene_soldierDefine[fromCp]then
-      if a[fromCp]then
+      if cpLink[fromCp]then
         local lrrpNumToCp=lrrpNumberDefine[toCp]
         local lrrpNumFromCp=lrrpNumberDefine[fromCp]
         local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
@@ -5429,7 +5429,7 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,param4,param5)
   return clearType
 end
 function this.ReserveQuestHeli()
-  local e=GetGameObjectId("TppCommandPost2",questCp)
+  --ORPHAN local cpId=GetGameObjectId("TppCommandPost2",questCp)
   TppRevenge.SetEnabledSuperReinforce(false)
   mvars.ene_isQuestHeli=true
 end

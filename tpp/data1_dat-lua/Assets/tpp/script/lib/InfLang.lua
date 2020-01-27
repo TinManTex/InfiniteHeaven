@@ -255,6 +255,7 @@ this.eng={--english
     "Tiger",
     "Sneaking",
     "Battle Dress",
+    "Swimsuit",
     "PF Riot Suit",
     "XOF",
     "Soviet",
@@ -331,7 +332,7 @@ this.eng={--english
   disableCamText="Disable mode text feedback",--r128
   mbDDEquipNonLethal="MB DD Equip non-lethal",
   mbDDSuitFemale="DD Suit female",--r130
-  mbDDSuitFemaleSettings={"Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress"},
+  mbDDSuitFemaleSettings={"Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress","Swimsuit"},
   mbPrioritizeFemale="Female staff selection",
   mbPrioritizeFemaleSettings={"Default","None","All available"},
   footPatrolMenu="Foot patrols menu",--r131
@@ -607,16 +608,18 @@ this.help.eng={
   speedCamWorldTimeScale="Time scale of the world, including soldiers/vehicles during TSM",
   speedCamPlayerTimeScale="Time scale of the player during TSM",
   adjustCameraUpdate=[[
-  Move cam with normal move keys and <Dash> move up, <Switch zoom>(Middle mouse or Right stick click) move down
+  Move cam with normal move keys 
+  <Dash>(Shift or Left stick click) to move up
+  <Switch zoom>(Middle mouse or Right stick click) to move down
   
-  Adjust various settings by holding the following and moving left stick up/down
-  Or hold <Binocular> and press the following to reset that setting
-  
+  Hold the following and move left stick up/down to increase/decrease the settings:
   <Fire> - Zoom/focal length
   <Reload> - Aperture (DOF)
   <Stance> - Focus distance (DOF) 
   <Action> - Cam move speed
   <Ready weapon> - Camera orbit distance
+  
+  Or hold <Binocular> and press the above to reset that setting.
   
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
   mbSoldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",

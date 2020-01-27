@@ -719,7 +719,7 @@ function this.Update(execCheck)
     if execCheck.inHeliSpace then
       quickMenu=InfQuickMenuDefs.inHeliSpace
     end
-    --InfMenu.DebugPrint"quickMenuOn"--DEBUGNOW
+    --InfMenu.DebugPrint"quickMenuOn"--DEBUG
     for button,Func in pairs(quickMenu) do
       if InfButton.OnButtonDown(button) then
         Func(execCheck)
@@ -835,59 +835,6 @@ function this.ModWelcome()
 end
 function this.ModMissionMessage()
   TppUiCommand.AnnounceLogView("ModMissionMessage test")--ADDLANG
-end
-
-this.menuString="MENUSTRINGCLEAR"
-function this.PrintMenu()
-  --DEBUG InfInspect.TryFunc(function()
-  local menuString="MENUSTRING".."START".."\n"
-  for n,item in pairs(InfMenuDefs) do
-    if IsTable(item) then
-      if item.options then--tex is menu
-        local displayString=this.GetSettingString(item)
-        menuString=menuString.."MENUDEF\n"..displayString.."\n"
-        for i,option in ipairs(item.options) do
-          local displayString=this.GetSettingString(option)
-          menuString=menuString..displayString.."\n"
-        end
-      end
-    end
-  end
-  menuString=menuString.."MENUSTRING".."END"
-  --InfMenu.DebugPrint(menuString)--DEBUG
-  this.menuString=menuString
-  this.menustringLength=string.len(menuString)
-  InfMenu.DebugPrint("menuString length ="..this.menustringLength)
-  --DEBUG end)
-end
-function this.GetSettingString(option)
-  local settingText=""
-  local optionSeperator=itemIndicators.equals
-  local settingNames=option.settingNames or option.settings
-  if settingNames then
-    --tex old style direct non localized table
-    if IsTable(settingNames) then
-      if option.setting < 0 or option.setting > #settingNames-1 then
-        settingText="current setting out of settingNames bounds"
-      else
-        --tex lua indexed from 1, but settings from 0
-        settingText=option.setting..":"..settingNames[option.setting+1]
-      end
-    else
-      settingText=this.LangTableString(settingNames,option.setting+1)
-    end
-  elseif IsFunc(option.GetSettingText) then
-    settingText="GetSettingText"--DEBUGNOWtostring(option:GetSettingText())
-  elseif option.isPercent then
-    settingText=option.setting .. "%"
-  elseif option.options~=nil then--tex menu
-    settingText=""
-    optionSeperator=itemIndicators.menu
-  else
-    settingText=tostring(option.setting)
-  end
-  local settingName = option.description or this.LangString(option.name)
-  return settingName--DEBUGNOW..optionSeperator..settingText
 end
 
 return this

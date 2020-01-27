@@ -431,6 +431,7 @@ this.mbDDSuit={
     "TIGER",
     "SNEAKING_SUIT",
     "BATTLE_DRESS",
+    "SWIMSUIT",
     "PFA_ARMOR",
     "XOF",
     "SOVIET_A",
@@ -457,6 +458,7 @@ this.mbDDSuitFemale={
     "TIGER",
     "SNEAKING_SUIT",
     "BATTLE_DRESS",
+    "SWIMSUIT",
   },
   settingNames="mbDDSuitFemaleSettings",
 }
@@ -3118,7 +3120,7 @@ for i,camName in ipairs(this.camNames) do
   }
   this["positionY"..camName]={
     --OFF save=MISSION,
-    default=0.75,
+    default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }

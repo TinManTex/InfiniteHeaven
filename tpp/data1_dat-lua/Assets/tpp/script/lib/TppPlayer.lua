@@ -993,24 +993,24 @@ function this._SetTargetHeliCamera()
   this.PrepareStartGameOverCamera()
   Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0}},skeletonNames={"SKL_011_RLWDOOR"},skeletonCenterOffsets={Vector3(0,0,0)},skeletonBoundings={Vector3(0,.45,0)},offsetPos=Vector3(.3,.2,-4.6),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
 end
-function this.SetTargetTruckCamera(r)
-  local l
-  local a
-  local o
-  if IsTypeTable(r)then
-    l=r.gameObjectName or""
-    a=r.gameObjectId
-    o=r.announceLog or"target_extract_failed"
+function this.SetTargetTruckCamera(params)
+  local gameObjectName
+  local gameObjectId
+  local announceLog
+  if IsTypeTable(params)then
+    gameObjectName=params.gameObjectName or""
+    gameObjectId=params.gameObjectId
+    announceLog=params.announceLog or"target_extract_failed"
   end
-  a=a or GetGameObjectId(l)
-  if a==NULL_ID then
+  gameObjectId=gameObjectId or GetGameObjectId(gameObjectName)
+  if gameObjectId==NULL_ID then
     return
   end
-  this.StartGameOverCamera(a,"EndFadeOut_StartTargetTruckCamera",o)
+  this.StartGameOverCamera(gameObjectId,"EndFadeOut_StartTargetTruckCamera",announceLog)
 end
 function this._SetTargetTruckCamera(a)
   this.PrepareStartGameOverCamera()
-  Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},StartCameraAnimation={"SKL_005_WIPERC"},skeletonCenterOffsets={Vector3(0,-.75,-2)},skeletonBoundings={Vector3(1.5,2,4)},offsetPos=Vector3(2.5,3,7.5),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
+  Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},skeletonNames={"SKL_005_WIPERC"},skeletonCenterOffsets={Vector3(0,-.75,-2)},skeletonBoundings={Vector3(1.5,2,4)},offsetPos=Vector3(2.5,3,7.5),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
 end
 function this.SetPlayerKilledChildCamera()
   if mvars.mis_childGameObjectIdKilledPlayer then
@@ -1192,27 +1192,27 @@ function this.PlayMissionClearCameraOnRideHorse(e,c,p)
   local skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0)}
   local skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
   local offsetPos=Vector3(0,0,-3.2)
-  local t=.2
+  local interpTimeAtStart=.2
   local o
-  local i=false
-  local l=20
-  local s=false
+  local callSeOfCameraInterp=false
+  local timeToSleep=20
+  local useLastSelectedIndex=false
   if p then
-    l=4
+    timeToSleep=4
   end
   if c==1 then
     skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
     skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0)}
     skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
-    offsetPos=Vector3(0,0,-3.2)t=.2
+    offsetPos=Vector3(0,0,-3.2)interpTimeAtStart=.2
     o=1
-    i=true
+    callSeOfCameraInterp=true
   else
     skeletonNames={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
     skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)}
     skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
-    offsetPos=Vector3(0,0,-4.5)t=3
-    s=true
+    offsetPos=Vector3(0,0,-4.5)interpTimeAtStart=3
+    useLastSelectedIndex=true
   end
   Player.RequestToPlayCameraNonAnimation{
     characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),
@@ -1237,14 +1237,14 @@ function this.PlayMissionClearCameraOnRideHorse(e,c,p)
     offsetPos=offsetPos,
     focalLength=28,
     aperture=1.875,
-    timeToSleep=l,
-    interpTimeAtStart=t,
+    timeToSleep=timeToSleep,
+    interpTimeAtStart=interpTimeAtStart,
     fitOnCamera=false,
     timeToStartToFitCamera=1,
     fitCameraInterpTime=.3,
     diffFocalLengthToReFitCamera=16,
-    callSeOfCameraInterp=i,
-    useLastSelectedIndex=s
+    callSeOfCameraInterp=callSeOfCameraInterp,
+    useLastSelectedIndex=useLastSelectedIndex
   }
   return o
 end

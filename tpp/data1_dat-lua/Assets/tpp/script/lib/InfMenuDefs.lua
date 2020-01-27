@@ -484,7 +484,6 @@ this.heliSpaceMenu={
     --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
     --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
-    --    InfMenuCommands.DEBUG_PrintMenu,
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG

@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- TppMissionList.lua
 local this={}
 local locationPackTable={}
 locationPackTable[TppDefine.LOCATION_ID.INIT]={"/Assets/tpptest/pack/location/empty/empty.fpk"}
@@ -723,7 +724,7 @@ missionPackTable[30050]=function(missionCode)
 
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--tex DEBUGNOW
-  
+
   if Ivars.mbEnemyHeli:Is(1) or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
@@ -901,7 +902,11 @@ missionPackTable[65415]={"/Assets/tpp/pack/show/tgs_2014/s65415/s65415_area.fpk"
 missionPackTable[65416]={"/Assets/tpp/pack/show/tgs_2014/s65416/s65416_area.fpk"}
 missionPackTable[50050]=function(missionCode)
   local ddSuit=TppEnemy.GetDDSuit()
-  if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
+  --RETAILPATCH 1.10>
+  if TppMotherBaseManagement.GetMbsClusterSecurityIsEquipSwimSuit()then
+    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT)
+    --<
+  elseif ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING)
   elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS)

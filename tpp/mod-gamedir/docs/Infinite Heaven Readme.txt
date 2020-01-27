@@ -1,7 +1,7 @@
 = Infinite heaven =
-r170 - 2016-07-28
+r172 - 2016-08-03
 by tin man tex
-For MGSV version 1.09 (in title screen) 1.0.7.1 in exe
+For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -19,6 +19,15 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r172
+Updated to TPP 1.10
+Extra unassigend soldiers in Africa added to lrrps.
+Freecam defaults to player position on first activate
+Added swimsuit to mb DD male,female.
+[youtube]Z_skYFSL[/youtube]
+https://youtu.be/Z_skYFSL-EI
+Added swimsuit to female wildcard soldiers suit list.
 
 New for r170
 Fixed: Foot patrols and quest soldiers now zombified during skulls attack - there still may be some issues with larger or spread-out bases.

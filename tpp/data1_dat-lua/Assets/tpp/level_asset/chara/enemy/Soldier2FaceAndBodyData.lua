@@ -395,7 +395,31 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/hyu/hyu0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/hyu/hyu0_main0_v01.fpk"},
   {"/Assets/tpp/fova/chara/hyu/hyu0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/hyu/hyu0_main0_v02.fpk"},
   {"/Assets/tpp/fova/chara/ish/ish0_v00.fv2","/Assets/tpp/pack/fova/chara/ish/ish0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/ish/ish0_v01.fv2","/Assets/tpp/pack/fova/chara/ish/ish0_main0_v00.fpk"}--227
+  {"/Assets/tpp/fova/chara/ish/ish0_v01.fv2","/Assets/tpp/pack/fova/chara/ish/ish0_main0_v00.fpk"},--227
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v00.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v00.fpk"},--RETAIL: 1.10>
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v00.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v01.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v01.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v01.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v01.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v02.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v02.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v02.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v02.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v03.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v03.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v03.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v03.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v04.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v04.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v04.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v04.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v05.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v05.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v05.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v05.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v06.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v06.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v06.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v06.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v07.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v07.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v07.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v07.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v08.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v08.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v08.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v08.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v09.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v09.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v09.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v09.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v10.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v10.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v10.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v10.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"},
+  {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"},--<
 }
 if TppSoldierFace~=nil then
   TppSoldierFace.SetFovaFileTable{
@@ -403,19 +427,19 @@ if TppSoldierFace~=nil then
     faceDecoFova={table=faceDecoFile,maxCount=200},
     hairFova={table=hairFile,maxCount=20},
     hairDecoFova={table=hairDecoFile,maxCount=40},
-    bodyFova={table=bodyFile,maxCount=250}
+    bodyFova={table=bodyFile,maxCount=256}--RETAIL 1.10 increased from 250
   }
 end
 local no=EnemyFova.INVALID_FOVA_VALUE
 local faceFova={
---see TppMissionList and MbmCommonSetting (search 'faceId=') for uses
---tex notes (NMC) (see legend line just before data below -v-)
---ui textures in \texture1_dat\Assets\tpp\ui\texture\StaffImage
---?6 has range {0,1,3}, 3 seems common face, 1 unique, 0?
---?6->?10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
---{n,50,1,1,58,60,13,24,4,4,1,N/A,3,303,303,303,3}--maximums
---faceFileIdx,faceDecoFile,hairFile,hairDecoFile guessed from max + order of the tables in this file
---{faceId,?1,male/female(0/1),?2,faceFileIdx,faceDecoFile,hairFile,hairDecoFile,?3,?4,?5,ui texture name,?6,?7,?8,?9,?10}--legend
+  --see TppMissionList and MbmCommonSetting (search 'faceId=') for uses
+  --tex notes (NMC) (see legend line just before data below -v-)
+  --ui textures in \texture1_dat\Assets\tpp\ui\texture\StaffImage
+  --?6 has range {0,1,3}, 3 seems common face, 1 unique, 0?
+  --?6->?10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
+  --{n,50,1,1,58,60,13,24,4,4,1,N/A,3,303,303,303,3}--maximums
+  --faceFileIdx,faceDecoFile,hairFile,hairDecoFile guessed from max + order of the tables in this file
+  --{faceId,?1,male/female(0/1),?2,faceFileIdx,faceDecoFile,hairFile,hairDecoFile,?3,?4,?5,ui texture name,?6,?7,?8,?9,?10}--legend
   {  0,0,0,0,3,0,no,no,0,0,0,"ui_face_000",3,4,2,6,3},--male>
   {  1,0,0,0,1,0,no,no,3,0,0,"ui_face_001",3,4,1,0,2},
   {  2,0,0,0,2,0,no,no,1,0,0,"ui_face_002",3,4,9,10,3},
@@ -880,7 +904,7 @@ local faceFova={
   {609,16,0,1,12,0,no,no,0,0,1,"ui_face_609",1,0,0,0,0},--Q19011--outland_q19011, enemy 10086
   {610,48,0,1,11,6,0,0,0,0,0,"ui_face_610",1,0,0,0,0},--hostage 10086
   {611,16,0,1,8,7,no,no,0,0,0,"ui_face_611",1,0,0,0,0},--hostage 10086
-  {612,48,0,1,9,12,0,2,1,0,1,"ui_face_612",1,0,0,0,0},--hostage 10086 --< male 
+  {612,48,0,1,9,12,0,2,1,0,1,"ui_face_612",1,0,0,0,0},--hostage 10086 --< male
   {613,48,1,1,49,36,7,10,0,0,0,"ui_face_613",1,0,0,0,0},--female
   {614,16,0,1,14,11,2,6,1,0,1,"ui_face_614",1,0,0,0,0},--male mission dudes> enemy, 10195
   {615,18,0,1,18,25,no,no,1,3,0,"ui_face_615",1,0,0,0,0},--enemy, 10195
@@ -1184,6 +1208,30 @@ local bodyFova={
   {379,225,0},--hyu0_main0_v02
   {380,226,0},--ish0_v00
   {381,227,0},--ish0_v01
+  {382,228,0},--RETAIL 1.10>
+  {383,229,0},
+  {384,230,0},
+  {385,231,0},
+  {386,232,0},
+  {387,233,0},
+  {388,234,0},
+  {389,235,0},
+  {390,236,0},
+  {391,237,0},
+  {392,238,0},
+  {393,239,0},
+  {394,240,0},
+  {395,241,0},
+  {396,242,0},
+  {397,243,0},
+  {398,244,0},
+  {399,245,0},
+  {400,246,0},
+  {401,247,0},
+  {402,248,0},
+  {403,249,0},
+  {404,250,0},
+  {405,251,0},--<
 }
 if TppSoldierFace~=nil then
   TppSoldierFace.SetBodyFovaDefinitionTable{table=bodyFova}

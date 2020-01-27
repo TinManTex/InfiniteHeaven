@@ -1,4 +1,4 @@
--- DOBUILD: 0 -- OFF WIP
+-- DOBUILD: 0 -- OFF WIP DEBUGNOW
 --InfReinforce.lua
 local this={}
 --localopt
@@ -6,6 +6,8 @@ local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
+local StrCode32=Fox.StrCode32
+local StartTimer=GkEventTimerManager.Start
 
 --reinforce stuff
 this.reinforceInfo={
@@ -15,7 +17,7 @@ this.reinforceInfo={
 }
 
 function this.OnRequestLoadReinforce(cpId)
-  --InfMenu.DebugPrint"_OnRequestLoadReinforce"--DEBUG
+  InfMenu.DebugPrint"OnRequestLoadReinforce"--DEBUGNOW
   if this.reinforceInfo.cpId~=cpId then
     this.reinforceInfo.cpId=cpId
     this.reinforceInfo.count=0
@@ -24,17 +26,17 @@ function this.OnRequestLoadReinforce(cpId)
   this.reinforceInfo.request=this.reinforceInfo.request+1
 end
 function this.OnRequestAppearReinforce(cpId)
-  --InfMenu.DebugPrint"_OnRequestAppearReinforce"--DEBUG
+  InfMenu.DebugPrint"OnRequestAppearReinforce"--DEBUGNOW
   this.reinforceInfo.count=this.reinforceInfo.count+1
 end
 function this.OnCancelReinforce(cpId)
---InfMenu.DebugPrint"_OnCancelReinforce"--DEBUG
+  InfMenu.DebugPrint"OnCancelReinforce"--DEBUGNOW
 end
 
 function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopter shiz.txt
-  --InfMenu.DebugPrint"OnHeliLostControlReinforce"--DEBUG
+  InfMenu.DebugPrint"InfReinforce.OnHeliLostControlReinforce"--DEBUGNOW
 
-  if true then return end--DEBUG
+  if true then return end--DEBUGNOW
 
   local gameObjectType=GameObject.GetTypeIndex(gameId)
   if gameObjectType~=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI then
@@ -60,14 +62,13 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
       --InfMenu.DebugPrint"start timer FinishReinforce"
       local cpId=mvars.reinforce_reinforceCpId
       --TppReinforceBlock.FinishReinforce(cpId)
-      local StartTimer=GkEventTimerManager.Start
       StartTimer("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
     end
   end
 end
 
 function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after TppEnemy._OnVehicleBroken
-  --InfMenu.DebugPrint"OnVehicleBroken"--DEBUG
+  InfMenu.DebugPrint"InfReinforce.OnVehicleBroken"--DEBUGNOW
 
   if true then return end--DEBUG
 
@@ -90,14 +91,18 @@ function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after T
       --InfMenu.DebugPrint"Do timer FinishReinforce"
       local cpId=mvars.reinforce_reinforceCpId
       --TppReinforceBlock.FinishReinforce(cpId)
-      local StartTimer=GkEventTimerManager.Start
       StartTimer("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
     end
   end
 end
 
+function this.OnFulton(vehicleId)
+  InfMenu.DebugPrint"InfReinforce.OnFulton"--DEBUGNOW
+
+end
+
 function this.OnTimer_FinishReinforce()
-  --InfMenu.DebugPrint"Do FinishReinforce"
+  InfMenu.DebugPrint"InfReinforce.OnTimer_FinishReinforce FinishReinforce"--DEBUGNOW
   local cpId=mvars.reinforce_reinforceCpId
   TppReinforceBlock.FinishReinforce(cpId)
   TppReinforceBlock.UnloadReinforceBlock(cpId)
@@ -106,12 +111,12 @@ end
 function this.CheckAndFinishReinforce()
   if not mvars.reinforce_activated then
     return false
-end
-if this.CheckReinforceDeactivate() then
-  --InfMenu.DebugPrint"Do FinishReinforce"
-  local cpId=mvars.reinforce_reinforceCpId
-  TppReinforceBlock.FinishReinforce(cpId)
-end
+  end
+  if this.CheckReinforceDeactivate() then
+    --InfMenu.DebugPrint"Do FinishReinforce"
+    local cpId=mvars.reinforce_reinforceCpId
+    TppReinforceBlock.FinishReinforce(cpId)
+  end
 end
 --WIP/UNUSED
 function this.CheckReinforceDeactivate()

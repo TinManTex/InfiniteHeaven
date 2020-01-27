@@ -2,6 +2,8 @@
 --InfEquip.lua
 
 local this={}
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
 
 this.tppEquipTableTest={
   "EQP_AB_PrimaryCommon",
@@ -983,9 +985,6 @@ function this.PutEquipOnTrucks()
   if Ivars.putEquipOnTrucks:Is(0) then
     return
   end
-
-  local GetGameObjectId=GameObject.GetGameObjectId
-  local NULL_ID=GameObject.NULL_ID
 
   InfMain.RandomSetToLevelSeed()
   local locationName=InfMain.GetLocationName()

@@ -483,7 +483,7 @@ local function ErrorCallBack(err)
   --return debug.traceback(err)
   InfMenu.DebugPrint(err)
 end
---DEBUGNOW
+--TODO
 --function this.TryFuncDebug(Func,...)
 --  if Ivars.debugMode.setting==0 then
 --    return Func(...)
