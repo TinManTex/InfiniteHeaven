@@ -1,5 +1,5 @@
 = Infinite heaven =
-r183 - 2016-09-24
+r184 - 2016-09-26
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,10 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r184
+Fixed: Quick menu should not activate if holding a quick menu command button then holding the quick menu on button(CALL), will only be activated on quick menu on button(CALL) held then pressing a quick menu command button - thanks LucrassKelvac for your report.
+I'm aware some people will still have issue with how quick menu is activated, depending on how they play. Quick menu will be much more configurable in comming version.
 
 New for r183
 Fixed: Infinite load screen on traveling between free<>mission for some missions - thanks RealQi for the save file.

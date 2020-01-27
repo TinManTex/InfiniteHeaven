@@ -22,7 +22,6 @@ this.inHeliSpace={
 this.inMission={
   [InfButton.SUBJECT]=function(execCheck)--RB/F(H-mouse4)
     --InfLog.DebugPrint"quickmenu SUBJECT"--DEBUG
-    InfMenu.ToggleMenu(execCheck)
   end,
   [InfButton.HOLD]=function(execCheck)--LT/RMouse
     --InfLog.DebugPrint"quickmenu HOLD"  --DEBUG

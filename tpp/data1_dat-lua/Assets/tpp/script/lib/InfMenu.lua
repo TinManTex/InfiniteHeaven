@@ -712,20 +712,18 @@ function this.Update(execCheck)
   end--!menuOn
 
   --quickmenu>
-  if InfButton.ButtonHeld(this.quickMenuHoldButton) then
-    this.quickMenuOn=true
-    local quickMenu=InfQuickMenuDefs.inMission
-    if execCheck.inHeliSpace then
-      quickMenu=InfQuickMenuDefs.inHeliSpace
-    end
-    --InfLog.DebugPrint"quickMenuOn"--DEBUG
-    for button,Func in pairs(quickMenu) do
-      if InfButton.OnButtonHoldTime(button) then
+  this.quickMenuOn=InfButton.ButtonHeld(this.quickMenuHoldButton)
+  local quickMenu=InfQuickMenuDefs.inMission
+  if execCheck.inHeliSpace then
+    quickMenu=InfQuickMenuDefs.inHeliSpace
+  end
+  for button,Func in pairs(quickMenu) do
+    if InfButton.OnButtonHoldTime(button) then
+      --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
+      if this.quickMenuOn then
         Func(execCheck)
       end
     end
-  else
-    this.quickMenuOn=false
   end
   --<
 

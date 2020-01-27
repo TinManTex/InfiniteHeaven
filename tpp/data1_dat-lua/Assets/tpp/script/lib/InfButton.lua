@@ -101,31 +101,34 @@ function this.DEBUG_PrintPressed()
     end
   end
 end
-function this.UpdatePressed()
-  --this.DEBUG_PrintPressed()--DEBUG
-  for name,buttonMask in pairs(this.buttonMasks) do
-    this.buttonStates[buttonMask].isPressed=this.ButtonDown(buttonMask)
-  end
-end
 function this.UpdateHeld()
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+  local scannedButtonsDirect=PlayerVars.scannedButtonsDirect
+  local band=bit.band
   for name,buttonMask in pairs(this.buttonMasks) do
     local buttonState=this.buttonStates[buttonMask]
     if buttonState.holdTime~=0 then
-      if not buttonState.isPressed and (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--OnButtonDown
+      if not buttonState.isPressed and (band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--OnButtonDown
         buttonState.repeatStart=elapsedTime
         buttonState.heldStart=elapsedTime
         buttonState.onHoldStart=elapsedTime
       end
-      if not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--ButtonDown
-        buttonState.repeatStart=0
-        buttonState.heldStart=0
-        buttonState.onHoldStart=0
-      end
+    end
+    if not (band(scannedButtonsDirect,buttonMask)==buttonMask) then
+      buttonState.repeatStart=0
+      buttonState.heldStart=0
+      buttonState.onHoldStart=0
     end
   end
 end
-
+function this.UpdatePressed()
+  --this.DEBUG_PrintPressed()--DEBUG
+  local scannedButtonsDirect=PlayerVars.scannedButtonsDirect
+  local band=bit.band
+  for name,buttonMask in pairs(this.buttonMasks) do
+    this.buttonStates[buttonMask].isPressed=band(scannedButtonsDirect,buttonMask)==buttonMask--this.ButtonDown(buttonMask)
+  end
+end
 function this.UpdateRepeatReset()
   for name,buttonMask in pairs(this.buttonMasks) do
     if this.buttonStates[buttonMask].decrement~=0 then
@@ -147,21 +150,27 @@ end
 function this.OnButtonUp(buttonMask)
   return this.buttonStates[buttonMask].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask)
 end
+--tex button has been down for holdTime
 function this.ButtonHeld(buttonMask)
   local buttonState=this.buttonStates[buttonMask]
   if buttonState.holdTime~=0 and buttonState.heldStart~=0 then
-    if Time.GetRawElapsedTimeSinceStartUp()>buttonState.heldStart+buttonState.holdTime then
-      return true
+    if buttonState.isPressed then
+      if Time.GetRawElapsedTimeSinceStartUp()>buttonState.heldStart+buttonState.holdTime then
+        return true
+      end
     end
   end
   return false
 end
+--tex button has been down for holdTime, only true once per hold
 function this.OnButtonHoldTime(buttonMask)
   local buttonState=this.buttonStates[buttonMask]
   if buttonState.holdTime~=0 and buttonState.onHoldStart~=0 then
-    if Time.GetRawElapsedTimeSinceStartUp()>buttonState.onHoldStart+buttonState.holdTime then
-      buttonState.onHoldStart=0
-      return true
+    if buttonState.isPressed then
+      if Time.GetRawElapsedTimeSinceStartUp()>buttonState.onHoldStart+buttonState.holdTime then
+        buttonState.onHoldStart=0
+        return true
+      end
     end
   end
   return false
