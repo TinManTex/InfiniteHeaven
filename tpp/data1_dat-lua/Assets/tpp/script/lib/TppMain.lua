@@ -318,6 +318,7 @@ function this.OnAllocate(missionTable)
   --end,missionTable)--DEBUG
   InfCore.LogFlow("OnAllocate Bottom "..vars.missionCode)--tex
 end
+--NOTE: GameObjects loaded after OnAllocate and are gettable by OnInitialize
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfCore.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
   InfCore.LogFlow("OnInitialize Top "..vars.missionCode)--tex

@@ -12,6 +12,40 @@ bit.bnot=function()end
 bit.band=function()end
 bit.bor=function()end
 bit.bxor=function()end
+--
+bit.tohex=function()end
+--tex This should really be if _VERSION > 5.2 (except _VERSION is a string like "Lua 5.2" and cant be bothered parsing right now
+--NOTE haven't really looked to see if theres any implmentation differences
+if luaHostType=="MoonSharp" then
+  bit.bnot=bit32.bnot
+  bit.band=bit32.band
+  bit.bor=bit32.bor
+  bit.bxor=bit32.bxor
+  bit.lshift=bit32.lshift
+  bit.rshift=bit32.rshift
+  --tex the rest havent been used in TPP as far as I can see>  
+  bit.arshift=bit32.arshift
+  bit.rol=bit32.lrotate
+  bit.ror=bit32.rrotate
+  --  DEBUGNOW
+--  bit.bswap=
+--  bit.tobit=
+  bit.tohex=function(x,n)
+    n=n or 8--tex seems to be bitops default, max n, positive number for lowercase
+    if (n < -8 or n == 0 or n > 8 ) then
+      print("tohex: n out of range")
+      return
+    end    
+    
+    local nums=math.abs(n)
+    local fmt="%0"..nums.."x"
+    local hexString=string.format(fmt,x)
+    if n <0 then
+      hexString=string.upper(hexString)
+    end
+    return hexString
+  end
+end 
 --end
 
 --userdata
@@ -40,7 +74,7 @@ ScriptFile={}
 --tex mock module definitions to fill out stuff missed by Dump
 --or to add actual functionality instead of empty functions
 
---DEBUGNOW
+--DEBUGNOW CULL
 --local mainApplication={}
 --mainApplication.AddGame=function(self,game)end
 --mainApplication.SetMainGame=function(self,game)end
@@ -49,50 +83,49 @@ ScriptFile={}
 --  return mainApplication
 --end
 
-AssetConfiguration={}
-AssetConfiguration.GetDefaultCategory=function()
-  return "eng"
-end
-AssetConfiguration.SetDefaultCategory=function(category,value)
-  print("SetDefaultCategory "..category.." "..value)
-end
-AssetConfiguration.IsDiscOrHddImage=function()
-  return false
-end
-AssetConfiguration.GetConfigurationFromAssetManager=function(configName)
-  local hasConfig={
-    EnableWindowsDX11Texture=true,
-  }
-  return hasConfig[configName] or false
-end
-
-
-AssetConfiguration.defaultTargetDirectory=""
-AssetConfiguration.SetDefaultTargetDirectory=function(tag)
-  AssetConfiguration.defaultTargetDirectory=tag
-end
-
-AssetConfiguration.targetDirectories={}
-AssetConfiguration.SetTargetDirectory=function(fileType,tag)
-  AssetConfiguration.targetDirectories[fileType]=tag
-end
-
-AssetConfiguration.RegisterExtensionInfo=function(extensionInfo)
-  print(extensionInfo)
-end
+--AssetConfiguration={}
+--AssetConfiguration.GetDefaultCategory=function()
+--  return "eng"
+--end
+--AssetConfiguration.SetDefaultCategory=function(category,value)
+--  print("SetDefaultCategory "..category.." "..value)
+--end
+--AssetConfiguration.IsDiscOrHddImage=function()
+--  return false
+--end
+--AssetConfiguration.GetConfigurationFromAssetManager=function(configName)
+--  local hasConfig={
+--    EnableWindowsDX11Texture=true,
+--  }
+--  return hasConfig[configName] or false
+--end
+--
+--AssetConfiguration.defaultTargetDirectory=""
+--AssetConfiguration.SetDefaultTargetDirectory=function(tag)
+--  AssetConfiguration.defaultTargetDirectory=tag
+--end
+--
+--AssetConfiguration.targetDirectories={}
+--AssetConfiguration.SetTargetDirectory=function(fileType,tag)
+--  AssetConfiguration.targetDirectories[fileType]=tag
+--end
+--
+--AssetConfiguration.RegisterExtensionInfo=function(extensionInfo)
+--  print(extensionInfo)
+--end
 
 --mock
-local mainGame={}
-mainGame.CreateScene=function(self,sceneName)return{}end
-mainGame.CreateBucket=function(self,bucketName,scene)return{}end
-mainGame.SetMainBucket=function(self,bucket)end
+--local mainGame={}
+--mainGame.CreateScene=function(self,sceneName)return{}end
+--mainGame.CreateBucket=function(self,bucketName,scene)return{}end
+--mainGame.SetMainBucket=function(self,bucket)end
 --
 --DEBUGNOW
 --Editor=function(initTable)
 --  return mainGame
 --end
-EditorBase=Editor
-Game=Editor
+--EditorBase=Editor
+--Game=Editor
 
 local IHGenEntityClassDictionary=require"IHGenEntityClassDictionary"--tex dumped by IHTearDown.DumpEntityClassDictionary
 EntityClassDictionary={}
@@ -212,10 +245,12 @@ Script.fileListTable={}
 Script.referenceCounts={}
 --DEBUGNOW
 Script.LoadLibrary=function(scriptPath)
+  local _G=_G
+  local Script=Script
   local split=MockUtil.Split(scriptPath,"/")
   local moduleName=split[#split]
   moduleName=string.sub(moduleName,1,-string.len(".lua")-1)
-  print("ScriptLoad:"..scriptPath)
+  print("Script.LoadLibrary:"..scriptPath)
 
   local function FileExists(filePath)
     local file,openError=io.open(filePath,"r")
@@ -232,7 +267,7 @@ Script.LoadLibrary=function(scriptPath)
   end
 
   local ret=dofile(scriptPath)
-
+  
   local module=ret--DEBUGNOWmoduleChunk()
   if not module then
     print("module "..moduleName.."==nil")
@@ -246,20 +281,32 @@ Script.LoadLibrary=function(scriptPath)
     module._scriptPath=moduleName
   
     if _G[moduleName] then
+      print("Merging "..moduleName.." with existing")
       _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides --DEBUGNOW
     else
       _G[moduleName]=module
     end
+    
+    --tex stop it from complaining if not called from inside coroutine
+    --DEBUGNOW
+--    if coroutine.running()~=nil then
+--      coroutine.yield()
+--    end
 
     if module.requires then
+      print("Loading "..moduleName..".requires modules")
       for i,modulePath in ipairs(module.requires)do
         if not Script.fileListTable[modulePath] then--tex guard against module recursion
           Script.LoadLibrary(modulePath)
+          coroutine.yield()
+        else
+          print(modulePath.." is already in fileListTable")
         end
       end
     end
   end
 end
+
 Script.LoadLibraryAsync=Script.LoadLibrary
 --tex used in conjunction with above
 Script.IsLoadingLibrary=function()
@@ -719,7 +766,49 @@ Vehicle.SetIgnoreDisableNpc=function(ignoreDisableNpc)--bool
 end
 
 --
-
+--tex for TppGameStatus.Set etc, don't know why these aren't enums like most other things, there's clearly an enum for them in exe, just that it's not exposed and the TppGameStatus functions use strings instead
+--because of that this is only here for documentations sake
+TppGameStatuses={
+  "S_DISABLE_TARGET",
+  "S_DISABLE_TRAP",
+  "S_DISABLE_PLAYER_PAD",
+  "S_DISABLE_SYSTEM_UI_PAD",
+  "S_DISABLE_PLAYER_DAMAGE",
+  "S_DISABLE_THROWING",
+  "S_DISABLE_PLACEMENT",
+  "S_DISABLE_FILTER_EFFECTS",
+  "S_DISABLE_NPC",
+  "S_DISABLE_NPC_NOTICE",
+  "S_DISABLE_HUD",
+  "S_DISABLE_TERMINAL",
+  "S_DISABLE_SUPPORT_HELICOPTER",
+  "S_DISABLE_GAME",
+  "S_DISABLE_GAME_PAUSE",
+  "S_DISABLE_DEMO_PAUSE",
+  "S_IS_NO_TIME_ELAPSE_MISSION",
+  "S_ENABLE_FOB_PLAYER_HIDE",
+  "S_ENABLE_TUTORIAL_PAUSE",
+  "S_ENABLE_HIGH_LOADING",
+  "S_IS_ONLINE",
+  "S_IS_TIME_CIGARETTE",
+  "S_IS_STEALTH_ASSIST_MODE",
+  "S_IS_CLAIRVOYANCE",
+  "S_IS_BLACK_LOADING",
+  "S_IS_STAGE_LOAD_LATE",
+  "S_INVISIBLE_UNRELATED_DEMO",
+  "S_IS_SORTIE_PREPARATION",
+  "S_IS_RESULT",
+  "S_IS_TITLE_SCREEN",
+  "S_IS_DEMO_CAMERA",
+  "S_IS_RUST_FOG",
+  "S_STOP_FOR_DEMO",
+  "S_DISABLE_ESC_PAUSE",
+  "S_DISABLE_MOUSE_CAMERA",
+  "S_DISABLE_MOUSE_TRAP",
+  "S_DISABLE_MOUSE_TRAP_FOR_END",
+  "S_DISABLE_KEYBOARD",
+}
+--
 vars={}
 mvars={}
 svars={}
@@ -732,56 +821,58 @@ local metafunctions={
   __newindex=true,
 }
 
+print"Loading mock modules"
 local mockModules=require"MockModules"
-if mockModules then
-  for moduleName,mockModule in pairs(mockModules)do
-    print("Adding mock module "..moduleName)
+if not mockModules then
+	print"ERROR: mockModules==nil"--DEBUGNOW
+  return
+end
+print"Adding mock modules"
+for moduleName,mockModule in pairs(mockModules)do
+  --print("Adding mock module "..moduleName)--DEBUG
 
-    local module=_G[moduleName] or {}
-    _G[moduleName]=module
+  local module=_G[moduleName] or {}
+  _G[moduleName]=module
 
-    local metaTable=nil
+  local metaTable=nil
 
-    for k,v in pairs(mockModule)do
-      --DEBUGNOW
-      if type(module)=="function" then--TODO: fix above modules that I've made functions (Application etc
-        print("warning module "..moduleName.." is function")
-      elseif type(module)=="userdata" and metafunctions[k] then--DEBUGNOW KLUDGE workaround moonsharp userdata TODO can you add keys to userdata from lua in other vms?
-        
-      elseif module[k]==nil then
-        if v=="<function>" then
-          if metafunctions[k] then
-            metaTable=metaTable or {}
+  for k,v in pairs(mockModule)do
+    --DEBUGNOW
+    if type(module)=="function" then--TODO: fix above modules that I've made functions (Application etc
+      print("warning module "..moduleName.." is function")
+    elseif type(module)=="userdata" and metafunctions[k] then--DEBUGNOW KLUDGE workaround moonsharp userdata TODO can you add keys to userdata from lua in other vms?
+      
+    elseif module[k]==nil then
+      if v=="<function>" then
+        if metafunctions[k] then
+          metaTable=metaTable or {}
 
-            if k=="__call" then
-              metaTable[k]=function(self,...)
-                return self--tex since this seems mostly used for instance creation this works ok
-              end
-            elseif k=="__index" then
-              metaTable[k]=function(self,k)
-                return rawget(self,k)--tex just do what would be done anyway
-              end
-            elseif k=="__newindex" then
-              metaTable[k]=function(self,k,v)
-                rawset(self,k,v)--tex just do what would be done anyway
-              end
+          if k=="__call" then
+            metaTable[k]=function(self,...)
+              return self--tex since this seems mostly used for instance creation this works ok
             end
-
-          else
-            module[k]=function(...)end
+          elseif k=="__index" then
+            metaTable[k]=function(self,k)
+              return rawget(self,k)--tex just do what would be done anyway
+            end
+          elseif k=="__newindex" then
+            metaTable[k]=function(self,k,v)
+              rawset(self,k,v)--tex just do what would be done anyway
+            end
           end
-        elseif v=="<table>" then
-          print("warning key "..k.." is table")
-        else
-          module[k]=v
-        end
-      end
-    end
 
-    if metaTable~=nil then
-      setmetatable(module,metaTable)
+        else
+          module[k]=function(...)end
+        end
+      elseif v=="<table>" then
+        print("warning key "..k.." is table")
+      else
+        module[k]=v
+      end
     end
   end
 
-  
+  if metaTable~=nil then
+    setmetatable(module,metaTable)
+  end
 end

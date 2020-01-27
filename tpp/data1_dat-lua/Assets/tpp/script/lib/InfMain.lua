@@ -190,22 +190,20 @@ function this.OnInitializeTop(missionTable)
   end
 
   if Ivars.debugMode:Is(1) then
-    InfLookup.BuildGameIdToNames()
+    InfLookup.BuildGameIdToNames()--tex want this as early as possible (gameobjects are init sometime between allocate and oninit), but don't have module.OnInitializeTop yet
 
     --tex initializing TppDbgStr32s strcode32 to string tables (cribbed from TppDebug.DEBUG_OnReload)
     --TODO: split out more static ones to DebugModeEnable (InfLookup,TppDbgStr32), would require DEBUG_RegisterStrcode32invert to append to strCode32ToString instead of overwrite
     local strCode32List={}
-    for i,module in ipairs(InfModules) do
-      if module.lookupStrings then
-        InfCore.Log("Adding "..tostring(module.name).." to strCode32List")
-        Tpp.ApendArray(strCode32List,module.lookupStrings)
-      end
+    for name,strings in pairs(InfLookup.strings) do
+      InfCore.Log("Adding "..name.." strings to strCode32List")
+      Tpp.ApendArray(strCode32List,strings)
     end
 
     Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
     for name,module in pairs(missionTable)do
       if module.DEBUG_strCode32List then
-        InfCore.Log("Adding "..tostring(module.name).." to strCode32List")
+        InfCore.Log("Adding "..tostring(name)..".DEBUG_strCode32List to strCode32List")
         Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
       end
     end
@@ -275,6 +273,7 @@ function this.Init(missionTable)
     this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
     InfMain.ModifyMinesAndDecoys()
+    InfMain.ModifyOcean()
 
     if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
       mvars.trm_isAlwaysDirectAddStaff=false
@@ -357,7 +356,7 @@ function this.OnMissionCanStartBottom()
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end
 
-  local locationName=InfTppUtil.GetLocationName()
+  local locationName=InfUtil.GetLocationName()
   if Ivars.disableLzs:Is"ASSAULT" then
     InfLZ.DisableLzs(TppLandingZone.assaultLzs[locationName])
   elseif Ivars.disableLzs:Is"REGULAR" then
@@ -1845,6 +1844,17 @@ function this.ModifyMinesAndDecoys()
   end
 end
 
+function this.ModifyOcean()
+  if not Ivars.mbEnableOceanSettings:EnabledForMission() then
+    return
+  end
+
+  for i,ivarName in ipairs(Ivars.oceanIvars)do
+    local current=Ivars[ivarName]:Get()
+    Ivars[ivarName]:Set(current)
+  end
+end
+
 --ORPHAN
 function this.ReadSaveVar(name,category)
   local category=category or TppScriptVars.CATEGORY_GAME_GLOBAL
@@ -1996,6 +2006,10 @@ function this.LoadExternalModules(isReload)
       else
         InfCore.otherModulesOK=false
       end
+    end
+    --tex give some reponsiveness back, other hosts not set up as coroutine, or to resume
+    if luaHostType=="MoonSharp" then
+      coroutine.yield()
     end
   end
 

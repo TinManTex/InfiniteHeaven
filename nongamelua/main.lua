@@ -1273,6 +1273,9 @@ local function main()
   print"Running AutoDoc"
   local InfAutoDoc=require"InfAutoDoc"
   InfAutoDoc.AutoDoc()
+  
+  print"BLEHHHHHHHHHHHHHHH"
+  print(InfUtil.GetLocationName())
 
 
 

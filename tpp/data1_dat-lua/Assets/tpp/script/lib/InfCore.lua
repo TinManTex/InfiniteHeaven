@@ -2,7 +2,7 @@
 -- InfCore.lua
 local this={}
 --LOCALOPT
-local pcall=pcall                                                       
+local pcall=pcall
 local type=type
 local open=io.open
 local tostring=tostring
@@ -15,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="214"
+this.modVersion="216"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -301,7 +301,7 @@ function this.DEBUG_Where(stackLevel)
   if debug==nil or debug.getinfo==nil then
     return"(getinfo not supported)"
   end
-  
+
   --defining second param of getinfo can help peformance a bit
   --`n´ selects fields name and namewhat
   --`f´ selects field func
@@ -364,7 +364,12 @@ local NULL_ID=GameObject.NULL_ID
 --SIDE: gameIdToName
 --tex TODO: split gameIdToName into [objectType]={[name]=gameId]}
 function this.GetGameObjectId(nameOrType,name)
-  local gameId=GetGameObjectId(nameOrType,name)
+  local gameId=NULL_ID
+  if name then
+    gameId=GetGameObjectId(nameOrType,name)--tex aparently doesnt work if param2 is null even if param1 is valis
+  else
+    gameId=GetGameObjectId(nameOrType)
+  end
   local name=name or nameOrType
   if this.debugMode then
     if gameId~=NULL_ID then
@@ -549,10 +554,15 @@ function this.RefreshFileList()
   InfCore.LogFlow"InfCore.RefreshFileList"
   local path=this.paths.mod
   local ihFilesName=path..[[ih_files.txt]]
-  local cmd=[[dir /b /s "]]..path..[[*.*" > "]]..ihFilesName..[["]]
+  --tex GOTACHA dir doesnt like alternate path seperators
+  local cmd=[[dir /b /s "]]..string.gsub(path,"/","\\")..[[*.*" > "]]..string.gsub(ihFilesName,"/","\\")..[["]]
   InfCore.Log(cmd)
-  os.execute(cmd)
-  this.ihFiles=this.GetLines(ihFilesName)  
+  if luaHostType=="MoonSharp" then
+    this.ihFiles=io.GetFiles(path, "*.*")
+  else
+    os.execute(cmd)
+    this.ihFiles=this.GetLines(ihFilesName)
+  end
   --InfCore.PrintInspect(this.ihFiles,"ihFiles")--DEBUG
   if this.ihFiles then
     this.paths={
@@ -567,28 +577,37 @@ function this.RefreshFileList()
 
     local stripLen=string.len(path)
     for i,line in ipairs(this.ihFiles)do
-      if line then
-        local subPath=string.sub(line,stripLen+1)
-        local isFile=InfUtil.FindLast(subPath,".")~=nil
-        local split=InfUtil.Split(subPath,[[\]])
-        local isRoot=#split==1
-        local subFolder=split[1]
-        --InfCore.Log(subFolder)--tex DEBUG
-        --InfCore.PrintInspect(split)--tex DEBUG
-        if isRoot then
-          subFolder="mod"
-        end
+      this.ihFiles[i]=string.gsub(line,"\\","/")
+    end
+    for i,line in ipairs(this.ihFiles)do
+      local subPath=string.sub(line,stripLen+1)
+      local isFile=InfUtil.FindLast(subPath,".")~=nil
+      local split=InfUtil.Split(subPath,"/")
+      local isRoot=#split==1
+      local subFolder=split[1]
+      --InfCore.Log(subFolder)--tex DEBUG
+      --InfCore.PrintInspect(split)--tex DEBUG
+      if isRoot then
+        subFolder="mod"
+      end
 
-        this.files[subFolder]=this.files[subFolder] or {}
-        this.filesFull[subFolder]=this.filesFull[subFolder] or {}
-        if not this.paths[subFolder] then
-          this.paths[subFolder]=this.paths.mod..subFolder.."\\"
-        end
+      this.files[subFolder]=this.files[subFolder] or {}
+      this.filesFull[subFolder]=this.filesFull[subFolder] or {}
+      if not this.paths[subFolder] then
+        local path=this.paths.mod..subFolder.."\\"
+        path=string.gsub(path,"\\","/")
+        this.paths[subFolder]=path
+      end
 
-        if isFile then
-          table.insert(this.files[subFolder],split[#split])
-          table.insert(this.filesFull[subFolder],line)
-        end
+      --tex MOCK, unity I think the real issue may be multiple periods
+      if string.find(line,".meta") then
+        isFile=false
+      end
+
+      if isFile then
+        table.insert(this.files[subFolder],split[#split])
+        line=string.gsub(line,"\\","/")
+        table.insert(this.filesFull[subFolder],line)
       end
     end
   end
@@ -627,12 +646,13 @@ local function GetGamePath()
   for i,path in ipairs(paths) do
     if string.find(path,"MGS_TPP") then
       gamePath=path
+      gamePath=string.gsub(gamePath,"\\","/")
       break
     end
   end
-  --tex fallback if MGS_TPP\ couldnt be found in packages.path
+  --tex fallback if MGS_TPP\ couldnt be found in package.path
   if gamePath==nil then
-    return[[C:\]]
+    return[[C:/]]
   end
 
   local stripLength=10--tex length "\lua\?.lua"
@@ -663,7 +683,7 @@ this.prev="_prev"
 --EXEC
 --package.path=""--DEBUG kill path for fallback testing
 this.gamePath=GetGamePath()
-this.modPath=this.gamePath..[[mod\]]
+this.modPath=this.gamePath..[[mod/]]
 this.paths={
   mod=this.modPath,
 }
@@ -699,7 +719,6 @@ else
   this.PCall(this.RefreshFileList)
 
   local packagePaths={
-    "mod",
     "modules",
   }
   local modulePaths={}
@@ -713,13 +732,14 @@ else
     end
   end
   package.path=package.path..addPaths
+  package.path=string.gsub(package.path,"\\","/")
   this.Log("package.path:"..package.path)
-  
+
   --tex isMockFox
   if luaHostType=="MoonSharp" then
     SetModulePaths(modulePaths)
   end
---tex WORKAROUND Mock
+  --tex WORKAROUND Mock
   if not LoadFile then
     LoadFile=loadfile
   end

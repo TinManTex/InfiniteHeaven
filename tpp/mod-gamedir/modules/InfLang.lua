@@ -596,6 +596,9 @@ this.eng={--english
   mbStaffMenu="Staff menu",
   mbStaffInMissionMenu="Staff menu",
   mbEnableMissionPrep="Enable mission prep to MB",
+  mbShowHuey="Show Huey",
+  mbForceBattleGearDevelopLevel="Force BattleGear built level",
+  mbOceanMenu="MB Ocean menu",
 }--eng end
 
 this.help={}
@@ -759,11 +762,13 @@ this.help.eng={
   enableIRSensorsMB="Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.",
   speedCamNoDustEffect="Does not apply the dust and blur effect while TSM is active.",
   showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",
-  addPlayerStaff="Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB",--DEBUGNOW
+  addPlayerStaff="Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB",
   removePlayerStaff="Removes the last sortie selected DD member to the Mother Base priority staff list",
   addMarkerStaff="Adds the most recently marked staff member to the MB priority list",
   removeMarkerStaff="Removes the most recently marked staff member from the MB priority list",
   clearPriorityStaff="Clears MB staff priority list entirely",
+  mbShowHuey="Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.",
+  mbForceBattleGearDevelopLevel="Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.",
 }
 
 this.cpNames={

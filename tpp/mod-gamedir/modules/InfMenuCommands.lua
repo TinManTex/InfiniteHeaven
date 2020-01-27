@@ -805,11 +805,12 @@ this.DEBUG_PrintInterrogationInfo={
   end
 }
 
-local toggle1=false
-local index1Min=1
-local index1Max=4
+local toggle1=true
+local index1Min=-50
+local index1Max=50
 local index1=index1Min
 local count=0
+local increment=10
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
@@ -818,7 +819,7 @@ this.DEBUG_SomeShiz={
 
 
     InfCore.DebugPrint("index1:"..index1)
-    index1=index1+1
+    index1=index1+increment
     if index1>index1Max then
       index1=index1Min
     end
@@ -832,8 +833,6 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
-
-
 
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1

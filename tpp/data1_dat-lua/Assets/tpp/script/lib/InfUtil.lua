@@ -5,6 +5,11 @@
 local this={}
 
 function this.ClearTable(_table)
+  for k,v in pairs(_table)do
+    table[k]=nil
+  end
+end
+function this.ClearArray(_table)
   for i=0, #_table do
     _table[i]=nil
   end
@@ -124,11 +129,11 @@ this.ShuffleBag={
 --string
 --tex NMC from lua wiki
 function this.Split(self,sep)
-   local sep = sep or ":"
-   local fields = {}
-   local pattern = string.format("([^%s]+)", sep)
-   self:gsub(pattern, function(c) fields[#fields+1] = c end)
-   return fields
+  local sep = sep or ":"
+  local fields = {}
+  local pattern = string.format("([^%s]+)", sep)
+  self:gsub(pattern, function(c) fields[#fields+1] = c end)
+  return fields
 end
 
 --tex NMC from lua wiki
@@ -178,6 +183,15 @@ function this.GetFileName(path,stripExt)
     fileName=string.sub(fileName,1,lastPos-1)
   end
   return fileName
+end
+
+function this.GetFileExtension(path)
+  local lastPos=this.FindLast(path,[[.]])
+  if lastPos then
+    return string.sub(path,lastPos,string.len(path))
+  else
+    return ""
+  end
 end
 
 function this.StripExt(fileName)

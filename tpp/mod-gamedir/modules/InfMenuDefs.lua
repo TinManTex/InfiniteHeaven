@@ -122,6 +122,7 @@ this.motherBaseShowCharactersMenu={
     Ivars.mbEnablePuppy,
     Ivars.mbShowCodeTalker,
     Ivars.mbShowEli,
+    Ivars.mbShowHuey,
     Ivars.mbAdditionalNpcs,
     Ivars.mbEnableBirds,
     InfMenuCommands.resetPaz,
@@ -145,6 +146,7 @@ this.motherBaseShowAssetsMenu={
     Ivars.hideTurretMgsMB,
     Ivars.hideMortarsMB,
     Ivars.mbUnlockGoalDoors,
+    Ivars.mbForceBattleGearDevelopLevel,
   }
 }
 
@@ -619,19 +621,33 @@ this.systemMenu={
   },
 }
 
+this.mbOceanMenu={
+  options={
+    Ivars.mbEnableOceanSettings,
+    Ivars.mbSetOceanBaseHeight,
+    Ivars.mbSetOceanProjectionScale,
+    Ivars.mbSetOceanBlendEnd,
+    Ivars.mbSetOceanFarProjectionAmplitude,
+    Ivars.mbSetOceanSpecularIntensity,
+    Ivars.mbSetOceanDisplacementStrength,
+    Ivars.mbSetOceanWaveAmplitude,
+    Ivars.mbSetOceanWindDirectionP1,
+    Ivars.mbSetOceanWindDirectionP2,
+  },
+}
+
 this.devInAccMenu={
   nonConfig=true,
   options={
-    Ivars.customSoldierTypeMB_ALL,
+    InfMenuCommands.DEBUG_SomeShiz,
+    InfMenuCommands.DEBUG_SomeShiz2,
+    InfMenuCommands.DEBUG_SomeShiz3,
     --Ivars.customBodyTypeMB_ALL,--DEBUGNOW
     InfMenuDefs.appearanceMenu,
     Ivars.skipDevelopChecks,
     Ivars.loadAddonMission,--DEBUGNOW TEST DEBUGNOW add lang, shift to some user menu
     Ivars.ihMissionsPercentageCount,--DEBUGNOW
     Ivars.manualMissionCode,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz,
-    InfMenuCommands.DEBUG_SomeShiz2,
-    InfMenuCommands.DEBUG_SomeShiz3,
     Ivars.selectEvent,
     InfMenuDefs.appearanceMenu,
     Ivars.postExtCommands,
@@ -739,6 +755,7 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
+    Ivars.mbForceBattleGearDevelopLevel,--DEBUGNOW
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
@@ -795,6 +812,7 @@ this.inMissionMenu={
     InfMenuDefs.playerRestrictionsInMissionMenu,
     InfMenuDefs.phaseMenu,
     InfMenuDefs.supportHeliMenu,
+    InfMenuDefs.mbOceanMenu,
     InfMenuDefs.debugInMissionMenu,
     Ivars.itemDropChance,
     Ivars.playerHealthScale,

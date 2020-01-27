@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r214
+-- Defaults / example of all profile options for IH r216
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -269,6 +269,7 @@ local this={
 		mbEnablePuppy=0,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
 		mbShowCodeTalker=0,--{ 0-1 } -- Show Code Talker
 		mbShowEli=0,--{ 0-1 } -- Show Eli
+		mbShowHuey=0,--{ 0-1 } -- Show Huey
 		mbAdditionalNpcs=0,--{ 0-1 } -- Additional NPCs
 		mbEnableBirds=0,--{ 0-1 } -- Enable Birds
 		--Show assets menu
@@ -284,6 +285,7 @@ local this={
 		hideTurretMgsMB=0,--{ 0-1 } -- Hide turret machineguns
 		hideMortarsMB=0,--{ 0-1 } -- Hide mortars
 		mbUnlockGoalDoors=0,--{ 0-1 } -- Unlock goal doors
+		mbForceBattleGearDevelopLevel=0,--{ 0-5 } -- Force BattleGear built level
 		--Cutscenes menu
 		mbDemoSelection=0,--{ DEFAULT, PLAY, DISABLED } -- MB cutscene play mode
 		mbSelectedDemo=0,--{ 0-1 } -- Select MB cutscene (REQ: Play selected)
@@ -325,6 +327,17 @@ local this={
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
+		--MB Ocean menu
+		mbEnableOceanSettings=0,--{ 0-1 } -- 
+		mbSetOceanBaseHeight=-23,--{ -100-100 } -- 
+		mbSetOceanProjectionScale=60,--{ 0-2000 } -- 
+		mbSetOceanBlendEnd=380,--{ 0-2000 } -- 
+		mbSetOceanFarProjectionAmplitude=0,--{ -100-100 } -- 
+		mbSetOceanSpecularIntensity=1,--{ -30-30 } -- 
+		mbSetOceanDisplacementStrength=0.01,--{ 0-10 } -- 
+		mbSetOceanWaveAmplitude=0.5,--{ 0-10 } -- 
+		mbSetOceanWindDirectionP1=0.1,--{ -10-10 } -- 
+		mbSetOceanWindDirectionP2=0.1,--{ -10-10 } -- 
 	}
 }
 

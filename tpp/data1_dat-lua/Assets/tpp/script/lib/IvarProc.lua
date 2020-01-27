@@ -9,6 +9,8 @@ local this={}
 local InfCore=InfCore
 local vars=vars
 local type=type
+local numberType="number"
+local functionType="function"
 local loadfile=loadfile
 local tostring=tostring
 
@@ -202,8 +204,6 @@ this.OptionIsDefault=function(self)
   return currentSetting==self.default
 end
 
-local type=type
-local numberType="number"
 --tex NOTE: returns currentsetting if no setting given
 this.OptionIsSetting=function(self,setting)
   if self==nil then
@@ -985,10 +985,10 @@ end
 
 function this.SaveAll()
   this.SaveEvars()
-  if InfMBStaff then
-    --tex TODO: only really need to save (or mark to be saved?) on InfMBStaff commands
-    --TODO: expand to be a module feature
-    InfMBStaff.Save()
+  for i,module in ipairs(InfModules) do
+    if type(module.Save)=="function" then
+      InfCore.PCallDebug(module.Save)
+    end
   end
 end
 
@@ -1009,21 +1009,32 @@ function this.SaveEvars()
   this.WriteSave(saveTextList,saveName)
 end
 
+function this.CreateNewSave(filePath,saveName)
+  InfCore.Log("LoadSave: No ih_save.lua found or error, creating new",false,true)
+  local saveTextList=this.BuildSaveText(InfCore.modVersion,false,true,true)
+  --InfCore.PrintInspect(evarsTextList)
+  this.WriteSave(saveTextList,saveName)
+  ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
+end
+
 function this.LoadSave()
   InfCore.LogFlow"IvarProc.LoadSave"
   local saveName=InfCore.saveName
   local filePath=InfCore.paths.saves..saveName
+  
+  --tex GOTCHA MoonSharp raises exception on loadfile instead of converting it to loadError return like normal lua interpreters
+  if not InfCore.FileExists(filePath) then
+     if not InfCore.ihSaveFirstLoad then
+      this.CreateNewSave(filePath,saveName)
+    end   
+  end
+  
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
-  if ih_save_chunk==nil then
+  if ih_save_chunk==nil or loadError then
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
     --TODO back up exising save in this case
     if not InfCore.ihSaveFirstLoad then
-      --tex create
-      InfCore.Log("LoadSave: No ih_save.lua found or error, creating new",false,true)
-      local saveTextList=this.BuildSaveText(InfCore.modVersion,false,true,true)
-      --InfCore.PrintInspect(evarsTextList)
-      this.WriteSave(saveTextList,saveName)
-      ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
+      this.CreateNewSave(filePath,saveName)
     end
   end
 

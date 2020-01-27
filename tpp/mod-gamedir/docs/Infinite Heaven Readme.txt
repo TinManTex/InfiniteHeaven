@@ -1,5 +1,5 @@
 = Infinite heaven =
-r214 - 2017-08-13
+r216 - 2017-08-13
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.11.0 in exe
 
@@ -16,6 +16,21 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r216:
+Fixed: Random roam event selection failing.
+
+Options: mbShowHuey - Show Huey - Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.
+(via Mother Base > Show characters menu)
+
+Option: mbForceBattleGearDevelopLevel - Force BattleGear built level - Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.
+(via Mother Base > Show assets menu)
+
+Options: MB Ocean options - adjust various parameters of ocean movement.
+(via MB Ocean menu while in mother base)
+
+New for r215:
+Fixed: Hang on load, due to a ghost of an old file or something. Sorry.
+
 New for r214:
 Fixed: ih_priority_staff sometimes clearing saved data
 

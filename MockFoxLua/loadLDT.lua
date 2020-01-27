@@ -1,9 +1,14 @@
 ----loadLDT.lua
 
+--DEBUGNOW DEBUGNOW
+--local yield=coroutine.yield
+--coroutine.yield=function(...)print("YIELDING")return yield(...)end
+
 --tex MockFox host stuff
 luaHostType="LDT"
 
 foxGamePath="C:/GamesSD/MGS_TPP/"--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
+--foxGamePath=[[D:\Projects\MGS\MockFox\MockFox\Assets\MGS_TPP\]]--DEBUGNOW
 
 foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"--tex path of tpps scripts (qar luas) -- IH
 --foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified DEBUGNOW
@@ -18,13 +23,14 @@ dofile(mockFoxPath.."/loadMockFox.lua")
 
 
 DoFile(foxLuaPath.."/init.lua")
-print("init.lua done")
+print("loadLDT: init.lua done")
 
 --tex IH from trying to continue if it has this showstopper
 if InfCore and InfCore.modDirFail then
   return
 end
 
+local returnCount=0
 do
   local chunk,err=LoadFile(foxLuaPath.."/Tpp/start.lua")
   if err then
@@ -36,6 +42,8 @@ do
       if not ok then
         error(ret)
       end
+      returnCount=returnCount+1
+      print("loadLDT: start.lua coroutine return #"..returnCount)
     until coroutine.status(co)=="dead"
   end
 end
@@ -55,5 +63,4 @@ if InfCore and not InfCore.allLoaded then
   print"ERROR: MockFox did not complete loading"
   return
 end
-
 

@@ -1,5 +1,28 @@
 Infinite Heaven changelog
 
+r216 - 2017-08-22
+GameEvent: Other swimsuits added to Femme Fatales event.
+Fixed: Random roam event selection failing.
+InfCore: path serperators changed to forwardslash.
+InfLookup: Strings moved out of individual modules to strings folder with .txt files. Bit longer loading, but more managable to add to.
+InfLookup: GameIdToName fixed.
+InfLookup: subtitleId32ToString now uses supb_dictionary
+Mock: More yeilding to host during load. 
+
+Options: mbShowHuey - Show Huey - Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.
+(via Mother Base > Show characters menu)
+Option: mbForceBattleGearDevelopLevel - Force BattleGear built level - Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.
+(via Mother Base > Show assets menu)
+
+Options: MB Ocean options - adjust various parameters of ocean movement.
+(via MB Ocean menu while in mother base)
+
+Fixed: removed \mod from package.path which caused users who had old IH pre-mod folder restructure installs to fail on load (and one cause of 'Could not load modules from MGS_TPP\').
+Should have done this when I did the restucture.
+
+r215 - 2017-08-13
+Fixed: Hang on load, due to a ghost of an old file or something. Sorry.
+
 r214 - 2017-08-13
 Fixed: ih_priority_staff sometimes clearing saved data
 

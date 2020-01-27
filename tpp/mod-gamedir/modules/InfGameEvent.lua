@@ -183,7 +183,7 @@ function this.GenerateRoamEvent(missionCode)
   else
     local enabledTypes={}
     for i,eventType in ipairs(roamEventNames)do
-      enabledTypes[eventType]=Ivars[enableEvent..eventType]:Is(1)
+      enabledTypes[eventType]=Ivars["enableEvent"..eventType]:Is(1)
     end
 
     for i,eventName in ipairs(roamEventNames) do
@@ -354,7 +354,7 @@ local warGameSettings={
   FEMME_FATALE={
     mbDDHeadGear=0,
     customSoldierTypeMB_ALL="DRAB",--tex even though this is female only theres still a bunch of code predicated on customSoldierType
-    customSoldierTypeFemaleMB_ALL="SWIMWEAR_FEMALE",--DEBUGNOW
+    customSoldierTypeFemaleMB_ALL={"SWIMWEAR_FEMALE","SWIMWEAR2_FEMALE","SWIMWEAR3_FEMALE"},--DEBUGNOW DEBUGNOW TEST
     customWeaponTableMB_ALL=1,
     weaponTableAfgh=0,
     weaponTableMafr=0,

@@ -15,45 +15,24 @@ local NULL_ID=GameObject.NULL_ID
 this.debugModule=false
 
 this.DEBUG_strCode32List={}
-this.subtitleIdToSubtitleName={}
+this.subtitleId32ToString={}--tex NOTE: interrogation name is also subtitleId (TODO also note in wiki for subp?)
 this.path32ToDataSetName={}
---tex manually scraped from ConvertToSubtitlesId uses
-this.subtitleNames={
-  "grug5000_241010_0_enec_ru",
 
-  "sand1000_099049_0_ened_ru",
-  "sand1000_099053_0_ened_ru",
-  "sand1000_099062_0_hqc_ru",
+this.strings={}
+this.gameObjectNames={}
 
-  "qtrc1000_100263_0_miller",
-  "qtrc1000_100326_0_miller",
-
-  "shks8000_111010_0_enea_ru",
-  "shks8000_121010_0_ened_ru",
-  "shks8000_151010_0_ened_ru",
-  "shks8000_391010_0_ened_ru",
-
-  "stpf2000_151010_0_enec_af",
-  "stpf2000_1x1010_0_eneb_af",
-  "stpf2000_2o1010_0_eneb_af",
-  "stpf2000_3g1010_0_eneb_af",
-  "stpf2000_1u1010_0_enea_af",
-
-  "stpf1000_094079_0_enec_af",
-  "stpf1000_094105_0_enec_af",
-  "stpf1000_095211_0_cpa_af",
-
-  "stpf1000_099246_0_ened_af",
-
-  "wrec6000_1e1010_0_ened_af",
-  "wrec6000_1m1010_0_ened_af",
-  "wrec6000_2q1010_0_ened_af",
-  "wrec6000_3b1010_0_ened_af",
-
-  "stpf1000_1m1010_0_enea_af",
+this.dictionaries={
+  subtitleId={
+    fileName="subp_dictionary.txt",
+    HashFunction=Fox.StrCode32,--seems SubtitlesCommand:ConvertToSubtitlesId(subtitleId) is just StrCode32
+  },
 }
 
 function this.PostModuleReload(prevModule)
+  this.subtitleId32ToString=prevModule.subtitleId32ToString
+  this.path32ToDataSetName=prevModule.path32ToDataSetName
+  this.strings=prevModule.strings
+  this.gameObjectNames=prevModule.gameObjectNames
 end
 
 function this.PostAllModulesLoad()
@@ -61,9 +40,18 @@ function this.PostAllModulesLoad()
     return
   end
 
-  InfCore.PCallDebug(this.AddObjectNamesToStr32List)
-  InfCore.PCallDebug(this.BuildSubtitleIdLookup)
-  InfCore.PCallDebug(this.BuildPath32ToDataSetName)
+  --tex not really going to do too much runtime edit/reload, so bail out so I dont have to wait
+  if InfCore.doneStartup then
+    return
+  end
+
+  this.LoadStrings()
+
+  this.AddObjectNamesToStr32List()
+  this.BuildDictionaryLookup("subtitleId",this.subtitleId32ToString)
+  this.BuildPath32ToDataSetName()
+
+  this.LoadGameObjectNames()
 
   if this.debugModule then
     InfCore.PrintInspect(this.lookups,"InfLookup.lookups")
@@ -86,6 +74,45 @@ function this.Init(missionTable)
   InfCore.Log"Dumping unknownMessages"
   local unknownMessages={InfInspect.Inspect(InfCore.unknownMessages)}
   InfCore.WriteStringTable(InfCore.paths.mod.."ih_unknownMessages.txt",unknownMessages)
+end
+
+function this.Save()
+  if Ivars.debugMode:Is(0) then
+    return
+  end
+  
+  --DEBUGNOW WIP
+  if IHGenUnknownHashes then
+    InfCore.Log("Saving IHGenUnknownHashes")
+    local saveTextList={}
+    saveTextList[#saveTextList+1]="--IHGenUnknownHashes.lua"
+    saveTextList[#saveTextList+1]="--GENERATED at runtime from hashes that have no match"
+    saveTextList[#saveTextList+1]="this={}"
+    IvarProc.BuildTableText("unknownStr32",IHGenUnknownHashes.unknownStr32,saveTextList)
+    IvarProc.BuildTableText("unknownMessages",IHGenUnknownHashes.unknownMessages,saveTextList)
+    saveTextList[#saveTextList+1]="return this"
+    InfCore.WriteStringTable(InfCore.paths.modules.."IHGenUnknownHashes.lua",saveTextList)
+  end
+end
+
+function this.LoadStrings()
+  if InfCore.filesFull.strings then
+    InfCore.LogFlow("LoadStrings")
+    for i,filePath in ipairs(InfCore.filesFull.strings)do
+      InfCore.Log("LoadStrings "..filePath)
+      local name=InfUtil.GetFileName(filePath,true)
+      local extension=InfUtil.GetFileExtension(filePath)
+      if extension==".txt" then
+        local lines=InfCore.GetLines(filePath)
+        if lines==nil then
+          InfCore.Log("InfLookup LoadStrings: could not load "..name)
+        else
+          --InfCore.Log("Adding "..name.." to strings")
+          this.strings[name]=lines
+        end
+      end
+    end
+  end
 end
 
 --lookup-tables>
@@ -275,51 +302,21 @@ function this.LandingZoneName(lzStr32)
   return InfLZ.str32LzToLz[lzStr32]
 end
 
+--tex TODO: more targeted?
 --SIDE: this.path32ToDataSetName
 function this.BuildPath32ToDataSetName()
   InfCore.Log("InfLookup.BuildPath32ToDataSetName:")
-  for i,module in ipairs(InfModules) do
-    if module.lookupStrings then
-      for i,path in ipairs(module.lookupStrings)do
-        local ext=string.sub(path,string.len(path)-4)
-        --InfCore.Log(ext)--DEBUG
-        if ext==".fox2" then
-          local path32=Fox.PathFileNameCode32(path)
-          this.path32ToDataSetName[path32]=path
-        end
+  for name,strings in pairs(this.strings) do
+    for i,line in ipairs(strings)do
+      local ext=InfUtil.GetFileExtension(line)
+      --InfCore.Log(ext)--DEBUG
+      if ext==".fox2" then
+        local path32=Fox.PathFileNameCode32(line)
+        this.path32ToDataSetName[path32]=line
       end
     end
   end
   --InfCore.PrintInspect(this.path32ToDataSetName,"path32ToDataSetName")--DEBUG
-end
-
-function this.SubtitleIdToSubtitleName(subtitleId)
-  local SubtitlesCommand=SubtitlesCommand
-  local subtitleName=this.subtitleIdToSubtitleName[subtitleId]
-  if subtitleName then
-    --tex> TODO: actually check log when this fires with valid (see note in BuildSubtitleIdLookup), see uses of ConvertToSubtitlesId for missions/cases to test
-    --    local str32=Fox.StrCode32[subtitleName]
-    --    if str32==subtitleId then
-    --      InfCore.Log("InfLookup.SubtitleIdToSubtitleName str32==subtitleId")
-    --    end
-    --<
-    return subtitleName
-  end
-  --ASSUMPTION: only using this on actual subtitleids (not like try-to-match-anything-to-str32 like I'm using the str32 to string function)
-  --tex using DEBUG_strCode32List since it's mostly a string scrape/not specifically str32 strings
-  --  if InfStrCode then
-  --    for i,str in ipairs(InfStrCode.DEBUG_strCode32List) do
-  --      local testSubtitleId=SubtitlesCommand:ConvertToSubtitlesId(str)
-  --      if subtitleId==testSubtitleId then
-  --        this.subtitleIdToSubtitleName[subtitleId]=str
-  --        return str
-  --      end
-  --    end
-  --  end
-
-  --tex subp.xml files from subptool give subtitleId, unsure if it's str32 or variant TODO test known subtitleId>subtitle matches with str32 (would have to get
-
-  return nil
 end
 
 --tex gives {[gameClass.Enum]=enum name}
@@ -348,27 +345,27 @@ function this.GetWarpPositions()
   return {
     {"-1632.896","354.2058","-262.6951"},
     {"-1587.207","355.2009","-255.2439"},--
-    --{"","",""},--
+  --{"","",""},--
   }
 end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
   --return {InfMenuCommands.selectedObject}
---   return{ "sol_mtbs_0000",
---    "sol_mtbs_0001",
---    "sol_mtbs_0002",
---    "sol_mtbs_0003",
---    "sol_mtbs_0004",
---    "sol_mtbs_0005",
---    }
---  
+  --   return{ "sol_mtbs_0000",
+  --    "sol_mtbs_0001",
+  --    "sol_mtbs_0002",
+  --    "sol_mtbs_0003",
+  --    "sol_mtbs_0004",
+  --    "sol_mtbs_0005",
+  --    }
+  --
   -- return InfMain.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
   return InfParasite.parasiteNames[InfParasite.parasiteType]
- -- return this.objectNameLists.veh_trc
+    -- return this.objectNameLists.veh_trc
     --return InfLookup.jeepNames
     --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
     --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
@@ -482,22 +479,22 @@ function this.ObjectNameForGameId(findId,objectType)
   end
 
   --tex alread added in BuildGameIdToNames, but quest objects wont have been loaded at that point
-    for listName,list in pairs(this.objectNameLists) do
-      local objectName
-      --tex {{nameList},"objectType"}
-      if type(list[1])=="table" then
-        if not objectType or objectType==list[2] then
-          objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
-        end
-      else
-        objectName=this.ObjectNameForGameIdList(findId,list)
+  for listName,list in pairs(this.objectNameLists) do
+    local objectName
+    --tex {{nameList},"objectType"}
+    if type(list[1])=="table" then
+      if not objectType or objectType==list[2] then
+        objectName=this.ObjectNameForGameIdList(findId,list[1],list[2])
       end
-      if objectName then
-        return objectName
-      end
+    else
+      objectName=this.ObjectNameForGameIdList(findId,list)
     end
+    if objectName then
+      return objectName
+    end
+  end
 
-  --too killer on performance to do frequencly, TODO enable on a switch 
+  --too killer on performance to do frequencly, TODO enable on a switch
   --  if IHStringsGameObjectNames then
   --    local module=IHStringsGameObjectNames
   --    if module.lookupStrings then
@@ -984,7 +981,7 @@ this.lookups={
   weatherType=this.weatherTypeNames,
   popupId=this.PopupErrorId,
   --landingZone=this.LandingZoneName,--tex not complete, use str32 instead
-  subtitleId=this.SubtitleIdToSubtitleName,
+  subtitleId=this.subtitleId32ToString,
   carryState=this.carryState,
   dataSetPath32=this.path32ToDataSetName,
   gimmickId=this.GameObjectNameForGimmickId,
@@ -1095,8 +1092,8 @@ this.messageSignatures={
       {argName="unk3",argType="number"},--tex UNKNOWN: no use cases I can see
     },
     Dead={
-    --tex still unsure if some calls to messages have more args than others, while most Dead msg reesponse functions only care about thr first two args, and the only msg calls ive seen logged only have 
-    --but then you have TppResult Dead - function(gameId,attackerId,playerPhase,deadMessageFlag)
+      --tex still unsure if some calls to messages have more args than others, while most Dead msg reesponse functions only care about thr first two args, and the only msg calls ive seen logged only have
+      --but then you have TppResult Dead - function(gameId,attackerId,playerPhase,deadMessageFlag)
       {argName="gameId",argType="gameId"},
       {argName="attackerId",argType="gameId"},
       {argName="phase",argType="phase"},
@@ -1402,7 +1399,7 @@ this.messageSignatures={
       {argName="status",argType="number"},--tex TODO
     },
     SubtitlesEndEventMessage={
-      {argName="speechLabel",argType="str32"},--TODO argType="subtitleId"-- TEST
+      {argName="speechLabel",argType="subtitleId"},--TODO argType="subtitleId"-- TEST
       {argName="status",argType="number"},--tex TODO
     },
   },
@@ -1641,18 +1638,44 @@ function this.AddObjectNamesToStr32List()
   end
 end
 
-function this.BuildSubtitleIdLookup()
-  local SubtitlesCommand=SubtitlesCommand
-  for i,str in ipairs(this.subtitleNames) do
-    --tex NOTE: subp.xml files from subptool give subtitleId, unsure if it's str32 or variant, TODO attempting to test vs str32 in SubtitleIdToSubtitleName()
-    local subtitleId=SubtitlesCommand:ConvertToSubtitlesId(str)
-    this.subtitleIdToSubtitleName[subtitleId]=str
+--IN/SIDE: this.dictionaries
+function this.BuildDictionaryLookup(name,lookupTable)
+  InfUtil.ClearTable(lookupTable)
+
+  local dictionaryPath=InfCore.modPath..[[\strings\]]..this.dictionaries[name].fileName
+  local lines=InfCore.GetLines(dictionaryPath)
+  if lines==nil then
+    InfCore.Log("BuBuildDictionaryLookup: could not load "..this.dictionaries[name].fileName)
+    return
+  end
+  local HashFunction=this.dictionaries[name].HashFunction
+  for i,str in ipairs(lines) do
+    local hash=HashFunction(str)--tex is just StrCode32, but whatevs
+    if (lookupTable[hash]) then
+      InfCore.Log("InfLookup.BuildDictionaryLookup("..name.."): WARNING: collision for hash:"..hash.." between "..str.." and "..lookupTable[hash])
+    end
+    lookupTable[hash]=str
   end
 end
+--CALLER: PostAllModulesLoad
+function this.LoadGameObjectNames()
+  InfCore.LogFlow("InfLookup.LoadGameObjectNames")
 
+  local dictionaryPath=InfCore.modPath..[[\strings\]].."IHStringsGameObjectNames.txt"
+  local lines=InfCore.GetLines(dictionaryPath)
+  if lines==nil then
+    InfCore.Log("LoadGameObjectNames: could not load IHStringsGameObjectNames.txt")
+  else
+    InfCore.Log("LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames")
+    for i,gameObjectName in ipairs(lines)do
+      this.gameObjectNames[gameObjectName]=true
+    end
+  end
+end
 --CALLER: InfMain.OnIntializeTop, since it needs gameobjects to have been loaded
+--Actual names (re)loaded in PostAllModulesLoad
 function this.BuildGameIdToNames()
-  InfCore.gameIdToName={}--tex clear since different gameIds/mapped differently each level
+  InfUtil.ClearTable(InfCore.gameIdToName)--tex clear since different gameIds/mapped differently each level
   for listName,list in pairs(this.objectNameLists) do
     local objectName
     --tex {{nameList},"objectType"}
@@ -1664,11 +1687,12 @@ function this.BuildGameIdToNames()
     end
   end
 
-  if IHStringsGameObjectNames and IHStringsGameObjectNames.lookupStrings then
-    InfCore.Log("InfMain.OnAllocateTop: Adding IHStringsGameObjectNames to InfCore.gameIdToName")
-    for i,gameObjectName in ipairs(IHStringsGameObjectNames.lookupStrings)do
-      InfCore.GetGameObjectId(gameObjectName)--tex adds to gameIdToName
-    end
+  InfCore.Log("BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName")
+  for gameObjectName,bool in pairs(this.gameObjectNames)do
+    InfCore.GetGameObjectId(gameObjectName)--tex adds to InfCore.gameIdToName
+  end
+  if this.debugModule then
+    InfCore.PrintInspect(InfCore.gameIdToName,"InfCore.gameIdToName")
   end
 end
 

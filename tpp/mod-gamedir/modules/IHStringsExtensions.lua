@@ -1,5 +1,6 @@
 --tex http://metalgearmodding.wikia.com/wiki/File_Formats_Used_in_MGSV_%28List%29
 --updated 2017-07-10
+--DEBUGNOW
 local this={}
 
 this.lookupStrings={

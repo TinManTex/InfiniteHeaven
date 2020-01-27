@@ -30,8 +30,7 @@ local this={}
 --make sure this doesn't conflict with any of the menu command buttons below
 this.quickMenuHoldButton=InfButton.CALL
 
-this.inHeliSpace={
-}
+this.inHeliSpace={}
 this.inMission={
   --tex just comment out to disable
   --[InfButton.SUBJECT]={Command=InfQuickMenuCommands.Doop},

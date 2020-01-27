@@ -574,13 +574,15 @@ Enables Ocelot to roam the command platform.
 Note: The training side-op on the command platform will be disabled while this is active.
 3: Show Code Talker : Off, On
 4: Show Eli : Off, On
-5: Additional NPCs : Off, On
+5: Show Huey : Off, On
+Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.
+6: Additional NPCs : Off, On
 Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
-6: Enable Birds : Off, On
-7: Reset Paz state to beginning : (Command)
-8: Return Quiet after mission 45 : (Command)
+7: Enable Birds : Off, On
+8: Reset Paz state to beginning : (Command)
+9: Return Quiet after mission 45 : (Command)
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-9: showQuietReunionMissionCount : (Command)
+10: showQuietReunionMissionCount : (Command)
 
 Show assets menu
 ----------------
@@ -598,6 +600,8 @@ Enable IR sensor gates. Only partially working, will only trigger alarm once, an
 10: Hide turret machineguns : Off, On
 11: Hide mortars : Off, On
 12: Unlock goal doors : Off, On
+13: Force BattleGear built level : 0-5
+Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.
 
 Cutscenes menu
 --------------
@@ -764,10 +768,11 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 11: Markers menu
 12: Enemy phases menu
 13: Support heli menu
-14: Debug stuff menu
-15: Soldier item drop chance : 0-100%
+14: MB Ocean menu
+15: Debug stuff menu
+16: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-16: Player life scale : 0-650%
+17: Player life scale : 0-650%
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -896,6 +901,19 @@ Disables Assault Landing Zones (those usually in the center of a base that the s
 8: Start free roam on foot : Off, All but assault LZs, All LZs
 9: Start missions on foot : Off, All but assault LZs, All LZs
 10: Start Mother base on foot : Off, All but assault LZs, All LZs
+
+MB Ocean menu
+-------------
+1: mbEnableOceanSettings : Off, On
+2: mbSetOceanBaseHeight : -100-100
+3: mbSetOceanProjectionScale : 0-2000
+4: mbSetOceanBlendEnd : 0-2000
+5: mbSetOceanFarProjectionAmplitude : -100-100
+6: mbSetOceanSpecularIntensity : -30-30
+7: mbSetOceanDisplacementStrength : 0-10
+8: mbSetOceanWaveAmplitude : 0-10
+9: mbSetOceanWindDirectionP1 : -10-10
+10: mbSetOceanWindDirectionP2 : -10-10
 
 Debug stuff menu
 ----------------

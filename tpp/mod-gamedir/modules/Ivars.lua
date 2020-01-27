@@ -1813,6 +1813,176 @@ this.ihMissionsPercentageCount={
   end,
 }
 
+--mb ocean
+this.oceanIvars={
+  "mbSetOceanBaseHeight",
+  "mbSetOceanProjectionScale",
+  "mbSetOceanBlendEnd",
+  "mbSetOceanFarProjectionAmplitude",
+  "mbSetOceanSpecularIntensity",
+  "mbSetOceanDisplacementStrength",
+  "mbSetOceanWaveAmplitude",
+  "mbSetOceanWindDirectionP1",
+  "mbSetOceanWindDirectionP2",
+}
+
+this.mbEnableOceanSettings={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if setting==0 then
+      TppEffectUtility.RestoreOceanParameters()
+    else
+      for i,ivarName in ipairs(this.oceanIvars)do
+        local current=Ivars[ivarName]:Get()
+        Ivars[ivarName]:Set(current)
+      end
+    end
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanBaseHeight={
+  save=EXTERNAL,
+  range={min=-100,max=100,increment=5},
+  default=-23,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanBaseHeight(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanProjectionScale={
+  save=EXTERNAL,
+  range={min=0,max=2000,increment=10},
+  default=60,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanProjectionScale(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanBlendEnd={-- Distance high frequency wave mesh ends
+  save=EXTERNAL,
+  range={min=0,max=2000,increment=10},
+  default=380,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanBlendEnd(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanFarProjectionAmplitude={
+  save=EXTERNAL,
+  range={min=-100,max=100,increment=1},
+  default=0,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanFarProjectionAmplitude(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanSpecularIntensity={
+  save=EXTERNAL,
+  range={min=-30,max=30,increment=1},
+  default=1,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanSpecularIntensity(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanDisplacementStrength={
+  save=EXTERNAL,
+  range={min=0,max=10,increment=0.005},
+  default=0.01,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanDisplacementStrength(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanWaveAmplitude={
+  save=EXTERNAL,
+  range={min=0,max=10,increment=0.100},
+  default=0.500,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    TppEffectUtility.SetOceanWaveAmplitude(setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanWindDirectionP1={
+  save=EXTERNAL,
+  range={min=-10,max=10,increment=0.1},
+  default=0.1,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    local p2=Ivars.mbSetOceanWindDirectionP2:Get()
+    TppEffectUtility.SetOceanWindDirection(setting,p2)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+this.mbSetOceanWindDirectionP2={
+  save=EXTERNAL,
+  range={min=-10,max=10,increment=0.1},
+  default=0.1,
+  OnChange=function(self,previousSetting,setting)
+    if not self:MissionCheck(vars.missionCode) then
+      return
+    end
+    if not Ivars.mbEnableOceanSettings:Is(1) then
+      return
+    end
+    local p1=Ivars.mbSetOceanWindDirectionP1:Get()
+    TppEffectUtility.SetOceanWindDirection(p1,setting)
+  end,
+  MissionCheck=IvarProc.MissionCheckMbAll,
+}
+
 
 --mbshowstuff
 this.mbShowBigBossPosters={
@@ -1864,6 +2034,12 @@ this.mbShowCodeTalker={
   settingNames="set_switch",
 }
 
+this.mbShowHuey={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.mbUnlockGoalDoors={
   save=EXTERNAL,
   range=this.switchRange,
@@ -1875,6 +2051,11 @@ this.mbEnableOcelot={
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMb,
+}
+
+this.mbForceBattleGearDevelopLevel={
+  save=EXTERNAL,
+  range={max=5,min=0,increment=1},
 }
 
 this.mbEnablePuppy={
@@ -2301,9 +2482,9 @@ this.playerPartsType={
   OnChange=function(self,previousSetting,setting)
     local partsTypeName=self.settings[setting+1]
     local partsType=InfFova.PlayerPartsType[partsTypeName]
-    
+
     vars.playerPartsType=partsType
-    
+
     Ivars.playerCamoType:OnSelect()--tex sort out camo type too
   end,
 }

@@ -3,7 +3,6 @@ local this={}
 function this.DoTests()
   print("MockFoxTests.DoTests")
 
-  --DEBUGNOW split into MockFoxTest
   --TEST
   local file,error=io.open('c:/doesnotexist.txt','r')
   print(error)
