@@ -34,6 +34,12 @@ this.hookFuncs={
       return saveResult
     end,
   },
+--  TppSequence={--DEBUGNOW
+--    SetNextSequence=function(sequenceName,params)
+--      InfCore.Log("TppMission.SetNextSequence:"..tostring(sequenceName))
+--      this.TppSequence.SetNextSequence(sequenceName,params)
+--    end
+--  },
 --tex no go for some reason.
 --  LoadGameDataFromSaveFile=function(area)
 --    return InfCore.PCall(function(area)--DEBUG

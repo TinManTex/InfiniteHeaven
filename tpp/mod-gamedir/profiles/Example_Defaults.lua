@@ -1,22 +1,10 @@
 -- Example_Defaults.lua
--- Defaults / example of all profile options for IH r202
-
-  
-
+-- Defaults / example of all profile options for IH r203
 -- Profiles are lists of settings for IH options. 
-
 -- IH only reads this file/does not write to it.
-
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
-
-
-
 -- See Features and Options.html for longer descriptions of some settings.
-
-
-
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
-
   
 local this={
 	description="Defaults/All disabled",

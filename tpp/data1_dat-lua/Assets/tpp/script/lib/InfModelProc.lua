@@ -34,7 +34,7 @@ function this.LoadFovaInfo()
   local fovaInfoFiles=InfCore.GetFileList(InfCore.files.fovaInfo,".lua")
   for i,fileName in ipairs(fovaInfoFiles)do
     InfCore.Log("InfModelProc.LoadFovaInfo: "..fileName)
-    this.fovaInfos[fileName]=InfCore.LoadBoxed(InfCore.paths.fovaInfo,fileName)
+    this.fovaInfos[fileName]=InfCore.LoadSimpleModule(InfCore.paths.fovaInfo,fileName,true)
   end
   if this.debugModule then
     InfCore.PrintInspect(fovaInfoFiles,"fovaInfoFiles")--DEBUG
@@ -42,7 +42,7 @@ function this.LoadFovaInfo()
   end
 
   --CULL
-  --    this.infModelRegistry=InfCore.LoadBoxed(InfCore.paths.mod,"InfModelRegistry.lua")
+  --    this.infModelRegistry=InfCore.LoadSimpleModule(InfCore.paths.mod,"InfModelRegistry.lua",true)
   --    if this.infModelRegistry then
   --      local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
   --      for i,moduleName in ipairs(this.infModelRegistry.headFovaModNames)do

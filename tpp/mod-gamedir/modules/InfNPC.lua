@@ -14,6 +14,10 @@ this.numHostages=30--4--SYNC num locators--DEBUGWIP
 
 this.hostageNames={}
 
+function this.PostModuleReload(prevModule)
+  this.npcInfo=prevModule.npcInfo
+end
+
 function this.PostAllModulesLoad()
   this.hostageNames=InfLookup.GenerateNameList("ih_hostage_%04d",this.numHostages)
 end
@@ -41,60 +45,41 @@ function this.AddMissionPacks(missionCode,packPaths)
     --changelog says I fixed similar issue in r179, but I don't remeber how lol
     --but comparing r179 r178 it seems I did remove hostage entitie defs from f30050_npc.fox2
 
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk"
 
-    this.hostageTypes={
-      --        "PRISONER_AFGH",
-      --        "PRISONER_MAFR",
-      --        "PRISONER_AFGH_FEMALE",
-      --        "PRISONER_MAFR_FEMALE",
-      --        "PATIENT",
-      --        "DDS_RESEARCHER",
-      --        "DDS_RESEARCHER_FEMALE",
-      "DDS_GROUNDCREW",
-      --"WSS1_MAIN0",
-      --"DDS_PILOT1",
-      "DDS_PILOT2",
-    }
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/prs2_main0_mdl.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/dds4_main0_mdl.fpk"
 
-  for i,hostageType in ipairs(this.hostageTypes)do
-    local bodyInfo=InfBodyInfo.bodyInfo[hostageType]
-    if bodyInfo and bodyInfo.partsPathHostage then
-    -- InfEneFova.AddBodyPackPaths(bodyInfo,"HOSTAGE")
+    if hostageMob then
+      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob.fpk"
+      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob_def12.fpk"
+      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
+    else
+      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
+      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
     end
-  end
 
-  --packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk"
-  --packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/prs2_main0_mdl.fpk"
-  --packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/dds4_main0_mdl.fpk"
-  packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"
+    --packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"
 
+    local uniquePartsPath={
+      --ih_hostage_0000="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts",
+      ih_hostage_0000="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_hos.parts",
+    }
+    for locatorName,parts in pairs(uniquePartsPath)do
+    -- TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
+    end
 
-  --      if hostageMob then
-  --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob.fpk"
-  --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob_def10.fpk"
-  --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc12.fpk"
-  --      else
-  packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
-  packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc4.fpk"
-  -- end
-
-
-  local uniquePartsPath={
-    --ih_hostage_0000="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts",
-    ih_hostage_0000="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_hos.parts",
-  }
-  for locatorName,parts in pairs(uniquePartsPath)do
-  -- TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
-  end
-
-  local settings={
-    {type="hostage",name="ih_hostage_0000",bodyId=300,faceId="male"},
-    {type="hostage",name="ih_hostage_0001",bodyId=301,faceId="female"},
-    {type="hostage",name="ih_hostage_0002",bodyId=302},
-    {type="hostage",name="ih_hostage_0003",bodyId=303},
-  }
-  -- TppEneFova.AddUniqueSettingPackage(settings)
+    local settings={
+      {type="hostage",name="ih_hostage_0000",bodyId=300,faceId="male"},
+      {type="hostage",name="ih_hostage_0001",bodyId=301,faceId="female"},
+      {type="hostage",name="ih_hostage_0002",bodyId=302},
+      {type="hostage",name="ih_hostage_0003",bodyId=303},
+    }
+    -- TppEneFova.AddUniqueSettingPackage(settings)
   else
+    --tex TODO: a bit janky putting this here DEBUGNOW
+    this.npcInfo=this.BuildNPCInfo()
+
     local bodyTypes={}
     for hostageName,npcInfo in pairs(this.npcInfo)do
       bodyTypes[npcInfo.bodyType]=true
@@ -115,7 +100,7 @@ function this.AddMissionPacks(missionCode,packPaths)
       packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
     else
       packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc4.fpk"
+      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
     end
 
     if TppHostage2.SetUniquePartsPath then
@@ -246,6 +231,7 @@ this.moreMotionPaths={
   "/Assets/tpp/motion/SI_game/fani/bodies/nrs0/nrs0/nrs0_tuto_idl.gani",
 }
 
+--REF cluster order TppDefine.CLUSTER_DEFINE, from 0
 --tex TODO these positions are only for layout 3
 --TODO more positions - lower decks, next to walker gears, inner positions on non main plats
 --[clusterId][platId]
@@ -902,36 +888,147 @@ this.uniqueChars={
 }
 
 this.npcCounts={
-  DDS_GROUNDCREW=8,
+  --PRISONER_MAFR=4,
+  NURSE_3_FEMALE=3,
+  DOCTOR_0=2,
+  --DOCTOR_1=4,
+  --DOCTOR_2=2,
   DDS_RESEARCHER=3,
   DDS_RESEARCHER_FEMALE=3,
+  DDS_GROUNDCREW=8,
+  CHILD_0=3,
   KAZ=1,
 }
 
+--clusters --default to all
+--plats default to main
 this.npcTemplates={
+  NURSE_3_FEMALE={
+    bodyType="NURSE_3_FEMALE",
+    bodyId={
+      TppEnemyBodyId.nrs0_v00,--brunette,bun
+      TppEnemyBodyId.nrs0_v01,--black straight hair
+      TppEnemyBodyId.nrs0_v02,--blond, glasses
+      TppEnemyBodyId.nrs0_v03,--brunnete bun again? different face?
+      TppEnemyBodyId.nrs0_v04,--brown straight, glasses
+      TppEnemyBodyId.nrs0_v05,--blond and brunette
+      TppEnemyBodyId.nrs0_v06,--brown, bun, glasses
+      TppEnemyBodyId.nrs0_v07,--brown, bun
+    },
+    clusters={
+      Medical=true,
+    },
+  },
+  PRISONER_MAFR={
+    bodyType="PRISONER_MAFR",
+    faceId=0,
+  },
+  --DEBUGNOW
+  CHILD_0={
+    bodyType="CHILD_0",
+    bodyId={
+      TppEnemyBodyId.chd0_v00,
+      TppEnemyBodyId.chd0_v01,
+      TppEnemyBodyId.chd0_v02,
+      TppEnemyBodyId.chd0_v03,
+      TppEnemyBodyId.chd0_v04,
+      TppEnemyBodyId.chd0_v05,
+      TppEnemyBodyId.chd0_v06,
+      TppEnemyBodyId.chd0_v07,
+      TppEnemyBodyId.chd0_v08,
+      TppEnemyBodyId.chd0_v09,
+      TppEnemyBodyId.chd0_v10,
+      TppEnemyBodyId.chd0_v11,
+    },
+    offsetY=-0.22,
+    plats={1,2,3,4},
+  },
+  DOCTOR_0={
+    bodyType="DOCTOR_0",
+    bodyId={
+      TppEnemyBodyId.dct0_v00,
+      TppEnemyBodyId.dct0_v01,
+    },
+    clusters={
+      Medical=true,
+    },
+  },
+  DOCTOR_1={
+    bodyType="DOCTOR_1",
+    clusters={
+      Medical=true,
+    },
+  },
+  DOCTOR_2={
+    bodyType="DOCTOR_2",
+  },
   DDS_GROUNDCREW={
     bodyType="DDS_GROUNDCREW",
+    plats={2,3,4},
   },
   DDS_RESEARCHER={
     bodyType="DDS_RESEARCHER",
     faceId="male",
+    clusters={
+      Command=true,
+      --Combat=false,
+      Develop=true,
+      Support=true,
+      Spy=true,
+    --BaseDev=false,
+    },
   },
   DDS_RESEARCHER_FEMALE={
     bodyType="DDS_RESEARCHER_FEMALE",
     faceId="female",
+    clusters={
+      Command=true,
+      --Combat=false,
+      Develop=true,
+      Support=true,
+      Spy=true,
+    --BaseDev=false,
+    },
   },
   KAZ={
     bodyType="KAZ",
   },
 }
-
-this.npcInfo={}
-local npcIndex=0
-for npcType,count in pairs(this.npcCounts)do
-  for i=1,count do
-    this.npcInfo[string.format("ih_hostage_%04d",npcIndex)]=this.npcTemplates[npcType]
-    npcIndex=npcIndex+1
+for npcType,npcInfo in pairs(this.npcTemplates)do
+  if type(npcInfo.bodyId)=="table" then
+    npcInfo.bodyBag=InfUtil.ShuffleBag:New()--tex heheh bodyBag
+    npcInfo.bodyBag:Fill(npcInfo.bodyId)
   end
+  if type(npcInfo.faceId)=="table" then
+    npcInfo.faceBag=InfUtil.ShuffleBag:New()
+    npcInfo.faceBag:Fill(npcInfo.faceId)
+  end
+end
+
+function this.BuildNPCInfo()
+  local npcInfos={}
+  local npcIndex=0
+  for npcType,count in pairs(this.npcCounts)do
+    for i=1,count do
+      local template=this.npcTemplates[npcType]
+      if template then
+        local npcInfo={}
+        for k,v in pairs(template) do
+          npcInfo[k]=v
+        end
+        if template.faceBag then
+          npcInfo.faceId=template.faceBag:Next()
+        end
+        if template.bodyBag then
+          npcInfo.bodyId=template.bodyBag:Next()
+        end
+
+        npcInfos[string.format("ih_hostage_%04d",npcIndex)]=npcInfo
+        npcIndex=npcIndex+1
+      end
+    end
+  end
+  return npcInfos
 end
 
 function this.MotherBaseCurrentClusterActivated(clusterId)
@@ -946,7 +1043,7 @@ function this.InitCluster(clusterId)
 
   clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
   if this.debugModule then
-    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId))
+    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(TppDefine.CLUSTER_NAME[clusterId+1]))
   end
 
   local grade=TppLocation.GetMbStageClusterGrade(clusterId)
@@ -970,28 +1067,19 @@ function this.InitCluster(clusterId)
   --DEBUGNOW TODO per plat bags and distribute npcs evenly across all plats
   --the current combined ext plats bag will create crowding on clusters with few platforms
 
-  local positionBagMain=InfUtil.ShuffleBag:New()
-  local positionBagExt=InfUtil.ShuffleBag:New()
-
-  local clusterPositions={}
+  local positionBags={}
   for platIndex=1,grade do
+    positionBags[platIndex]=InfUtil.ShuffleBag:New()
     local positions=this.npcPositions[clusterId+1][platIndex]--tex positions for plat
     if positions then
       for i,position in ipairs(positions)do
-        if platIndex==1 then
-          positionBagMain:Add(position)
-        else
-          positionBagExt:Add(position)
-        end
+        positionBags[platIndex]:Add(position)
       end
     end
   end
-  --InfCore.PrintInspect(clusterPositions,"clusterPositions")--DEBUG
   --DEBUGNOW TODO if positionBag empty then warn, abort
 
-  --DEBUGNOW
   local motionTable={}
-
   --    motionTable=InfNPC.motionTable[index1]
 
   local locatorName=motionTable.locatorName
@@ -1025,7 +1113,6 @@ function this.InitCluster(clusterId)
       InfCore.Log("locatorName:"..locatorName.." gameId:"..tostring(gameObjectId).." "..npcInfo.bodyType)--DEBUG
     end
     if gameObjectId~=GameObject.NULL_ID then
-
       local onClusterId=this.npcOnClusters[npcInfo.bodyType]
       if onClusterId and onClusterId~=clusterId then
         skipNpc=true
@@ -1035,10 +1122,26 @@ function this.InitCluster(clusterId)
         skipNpc=true
       end
 
-      if not skipNpc then
+      --tex TODO TppDefine.CLUSTER_DEFINE doesnt contain zoo,quarantine
+      if npcInfo.clusters then
+        skipNpc=true
+        for clusterName,allow in pairs(npcInfo.clusters)do
+          if allow then
+            if TppDefine.CLUSTER_DEFINE[clusterName]==clusterId then
+              skipNpc=false
+              break
+            end
+          end
+        end
+      end
 
+      if skipNpc then
+        if this.debugModule then
+          InfCore.Log("skipping npc")
+        end
+      else
         --tex TODO: need to bias selection toward target
-        local position
+        --local position
         --        local positionOK=false
         --        for i=1,10 do
         --          position=positionBag:Next()
@@ -1055,18 +1158,20 @@ function this.InitCluster(clusterId)
         --          end
         --        end
 
-        local platIndex=1--tex only main
-        if npcInfo.bodyType=="DDS_GROUNDCREW" then
-          if grade>1 then
-            platIndex=math.random(2,grade)--anything but main
+        local plats={1}
+        if npcInfo.plats then
+          plats={}
+          for i,plat in ipairs(npcInfo.plats)do
+            if plat<=grade then
+              plats[#plats+1]=plat
+            end
           end
         end
+        local platIndex=InfUtil.GetRandomInList(plats)
+        InfCore.PrintInspect(plats,"---plats")--DEBUGNOW
+        InfCore.Log("platindex:"..platIndex)
 
-        if platIndex==1 then
-          position=positionBagMain:Next()
-        else
-          position=positionBagExt:Next()
-        end
+        local position=positionBags[platIndex]:Next()
 
         local motionPath=this.motionPaths[math.random(#this.motionPaths)]
 
@@ -1083,7 +1188,7 @@ function this.InitCluster(clusterId)
         --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableDamageReaction",on=true,})
         SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
 
-        SendCommand(gameObjectId,{
+        local specialActionCmd={
           id="SpecialAction",
           action=action,
           path=motionPath,
@@ -1098,15 +1203,16 @@ function this.InitCluster(clusterId)
           startPos=startPos,
           startRot=startRot,
           enableCurtain=enableCurtain,
-        })
-
+        }
+        SendCommand(gameObjectId,specialActionCmd)
 
         local rotY=position.rotY
         rotY=math.random(360)--tex TODO bias towards given rotation
         local randomOffset=0.2
         local offsetX=math.random(-randomOffset,randomOffset)
         local offsetZ=math.random(-randomOffset,randomOffset)
-        local command={id="Warp",degRotationY=rotY,position=Vector3(position.pos[1]+offsetX,position.pos[2],position.pos[3]+offsetZ)}
+        local offsetY=npcInfo.offsetY or 0
+        local command={id="Warp",degRotationY=rotY,position=Vector3(position.pos[1]+offsetX,position.pos[2]+offsetY,position.pos[3]+offsetZ)}
         SendCommand(gameObjectId,command)
 
         if this.debugModule then

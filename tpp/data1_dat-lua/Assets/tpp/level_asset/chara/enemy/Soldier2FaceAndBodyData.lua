@@ -565,7 +565,8 @@ this.faceDefinition={
   --gender:male/female(0/1)
   --ui textures in \texture1_dat\Assets\tpp\ui\texture\StaffImage
 
-  --unknown1: ranges male: 0,1,2,3,16,17,18,19,48,50, female: 32,34,35,48,50, -- dd headgears (both gender) 16
+  --unknown unk1: ranges male: 0,1,2,3,16,17,18,19,48,50, female: 32,34,35,48,50, -- dd headgears (both gender) 16
+  --for males initially appears to be race (see InfEneFova .RACE) when in the range 0-3, but then what is above that? 
 
   --unk6 range {0,1,3}, 3 seems common face, 1 unique, 0?
   --unk6->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely

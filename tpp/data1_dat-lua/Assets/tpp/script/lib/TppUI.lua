@@ -175,7 +175,6 @@ this.ANNOUNCE_LOG_TYPE={
   get_hero="announce_get_hero",
   lost_hero="announce_lost_hero",
   challenge_task="announce_challenge_task_d90",--RETAILPATCH 1090
-  quest_extract_animal="announce_quest_extract_animal",--tex
 }
 this.ANNOUNCE_LOG_PRIORITY={"eliminateTarget","recoveredFilmCase","recoverTarget","destroyTarget","achieveAllObjectives","achieveObjectiveCount","getIntel","updateMissionInfo","updateMissionInfo_AddDocument","updateMap"}
 this.BUDDY_LANG_ID={[BuddyType.HORSE]="name_buddy_dh",[BuddyType.DOG]="name_buddy_dd",[BuddyType.QUIET]="marker_chara_quiet"}

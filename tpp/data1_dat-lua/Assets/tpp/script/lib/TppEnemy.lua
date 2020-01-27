@@ -5175,6 +5175,12 @@ function this.SetupActivateQuestHostage(hostageList)
           local bodyId=hostageInfo.bodyId or false
           if hostageInfo.isFaceRandom then
             faceId=TppQuest.GetRandomFaceId(mvars.qst_currentQuestName,index)--tex added index
+            --tex> don't know exactly what it does, but it does fix male voices issue
+            if InfEneFova.IsFaceFemale(faceId) then
+              local command={id="SetHostage2Flag",flag="female",on=true}
+              GameObject.SendCommand(hostageId,command)
+            end
+            --<
           end
           if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
             GameObject.SendCommand(hostageId,{id="ChangeFova",bodyId=bodyId,faceId=faceId})

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  <Entries>
+    <Entry LangId="name_q30155" Color="5" Value="Blackfoot Down" />
+    <Entry LangId="info_q30155" Color="5" Value="One of our helis has gone down to enemy fire. Find any surviving crew." /> 
+  </Entries>
+</LangFile>

@@ -1,5 +1,50 @@
 Infinite Heaven changelog
 
+r204 - 2017-04-23
+(version skip because of 202a/203 snakebite 0.8.5 .6 ver confusion)
+
+EquipIdTable: Assigned world models to EQP_IT_Stealth,EQP_IT_InstantStealth (reusing idroid model), EQP_IT_ParasiteMist, EQP_IT_ParasiteCamouf, EQP_IT_ParasiteHard, EQP_IT_Pentazemin, EQP_IT_Clairvoyance, EQP_IT_ReflexMedicine (reusing bait model)
+
+Improved: itemDropChance - Soldier item drop - now has chance to drop Pentezemin, Noctocyanin, Acceleramin. 
+
+Sideop: Blackfoot down, was mostly built for testing out sideop features.
+
+InfButton: OnComboActive
+InfCore: LoadBoxed to LoadSimpleModule with box flag
+
+Doc: Documentation installed to \MGS_TPP\mod\docs
+
+Command: Save to UserSaved profile. - "Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua."
+(via IH system menu)
+
+Ivars: Tagged with inMission (with default assumption being false/only load time setting).
+
+Fixed: Setting Custom soldier type to a DD body showing the Staff member has died message/points - thanks coolguy3090 for the report.
+
+Data: ih hostage parts for MSF_GZ,DOCTOR_0,DOCTOR_1,NURSE_3_FEMALE,CHILD_0
+InfNPC: better per cluser,per plat filtering of npc types.
+mbAdditionalNpcs - Doctors and Nurses added to Medical, children added to all.
+
+Option: postExtCommands - enables output for IHExt
+
+InfLookup: More message signatures, gameobject names.
+
+Change: <STANCE> heli-pull out toggle changed from press to hold 0.85.
+
+Fixed: Multiple female hostage sideops only applying female voice to one hostage. (in TppEnemy.SetupActivateQuestHostage)
+
+InfQuest: Shift questInfo luas to load from external quests folder. 
+InfQuest: qst_questClearedFlag now saved directly instead of just the index of.
+
+Data: Shifted soundbank loading files (.sdf,fox2s) from ih_hostage_def.fpkd to ih_hostage_base.
+Data: Created 'other' sound bank loader for non english hostage soundbanks.
+
+Sideop Dev feature: IH quest definition disableLzs, lets sideops authors disable landing zones while the sideop is active.
+Sideop Dev feature: questCompleteLangId will act as langId if announceLogId doesnt exist.
+Sideop Dev feature: pass through to DebugIHQuest external module to allow more rapid testing of quest block scripts.
+Updated IH quest example
+Thanks Morbidslinky for driving many of these features.
+
 r202 - 2017-04-09
 Fixed: Number of helis on < 7 clusters, including mass bunching when only command is built.
 

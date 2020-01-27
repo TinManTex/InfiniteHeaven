@@ -13,6 +13,8 @@ local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
 local TppDefine=TppDefine--tex
 
+this.debugModule=false--tex
+
 local questBlockStatus=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local missionTypes=TppDefine.Enum{"MISSION","FREE","HELI"}
 local QUEST_STATUS_TYPES=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
@@ -2263,6 +2265,7 @@ end
 function this.IsShowSideOpsList(t)
   return this.GetSideOpsInfo()~=nil
 end
+--NMC takes last parts of questName to get questId ex tent_q10010 to q10010
 function this.GetQuestNameLangId(questName)
   local sideOpInfo=this.GetSideOpsInfo(questName)
   if sideOpInfo then
@@ -2271,7 +2274,6 @@ function this.GetQuestNameLangId(questName)
   end
   return false
 end
---ex tent_q10010 to q10010
 function this.GetQuestNameId(questName)
   local sideOpInfo=this.GetSideOpsInfo(questName)
   if sideOpInfo then
@@ -2450,7 +2452,7 @@ function this.UpdateActiveQuest(updateFlags)
           --InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..selectedQuest)--tex DEBUG
           gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[selectedQuest]]=true
         else
-          InfCore.Log("WARNING: UpdateActiveQuest did not select a quest for area"..areaQuests.areaName)
+          InfCore.Log("WARNING: UpdateActiveQuest did not select a quest for area "..areaQuests.areaName)
         end
       end--forcedquests switch
     end-- for questlist

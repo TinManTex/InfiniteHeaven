@@ -424,7 +424,7 @@ function this.GetForMission(ivarList,missionCode)
     if ivar.MissionCheck==nil then
       InfCore.Log("WARNING: GetForMission on "..ivar.name.." which has no MissionCheck func")
     elseif ivar:MissionCheck(missionId) then
-      return ivar:Get() 
+      return ivar:Get()
     end
   end
   return 0
@@ -697,7 +697,7 @@ function this.SetupInfProfiles()
   local profiles={}
   local profileNames={}
   for i,fileName in ipairs(fileNames)do
-    local profile=InfCore.LoadBoxed(InfCore.paths.profiles,fileName)
+    local profile=InfCore.LoadSimpleModule(InfCore.paths.profiles,fileName,true)
     if profile and profile.profile then
       local profileOk=InfCore.Validate(profileFormat,profile,fileName)
       if profileOk then
@@ -712,7 +712,7 @@ function this.SetupInfProfiles()
 
   --CULL old single file
   --  local fileName="InfProfiles.lua"
-  --  local infProfiles=InfCore.LoadBoxed(fileName)
+  --  local infProfiles=InfCore.LoadSimpleModule(fileName,nil,true)
   --  if infProfiles==nil then
   --    Ivars.profiles=nil
   --    return nil
@@ -771,7 +771,11 @@ function this.BuildProfile(onlyNonDefault)
       if IsForProfile(ivar) then
         local currentSetting=ivars[ivar.name]
         if not onlyNonDefault or currentSetting~=ivar.default then
-          profile[ivar.name]=currentSetting
+          if ivar.settings then
+            profile[ivar.name]=ivar.settings[currentSetting+1]
+          else
+            profile[ivar.name]=currentSetting
+          end
         end
       end
     end
@@ -779,27 +783,89 @@ function this.BuildProfile(onlyNonDefault)
   return profile
 end
 
+
+--tex settings range on one line between braces
+function this.GetSettingsLine(ivar)
+  local settingsLine={}
+  if ivar.settings then--tex DEBUGNOW TODO filter dynamic
+    table.insert(settingsLine,"{ ")
+    for i,setting in ipairs(ivar.settings)do
+      table.insert(settingsLine,setting)
+      if i~=#ivar.settings then
+        table.insert(settingsLine,", ")
+      end
+    end
+    table.insert(settingsLine," }")
+  else
+    table.insert(settingsLine,"{ ")
+    table.insert(settingsLine,ivar.range.min.."-"..ivar.range.max)
+    table.insert(settingsLine," }")
+  end
+  return table.concat(settingsLine)
+end
+
 function this.WriteProfile(defaultSlot,onlyNonDefault)
   local dateTime=os.date("%x %X")
   local profile={
-    description="Saved profile "..dateTime,
-    modVersion=InfCore.modVersion,
+    description="User-saved "..dateTime,
+    --modVersion=InfCore.modVersion,
     profile=this.BuildProfile(onlyNonDefault),
   }
-  --InfCore.PrintInspect(profile)--DEBUGN
+  --InfCore.PrintInspect(profile)--DEBUG
 
-  local profileName="savedProfile"
+  local profileName="User_Saved"
   if not defaultSlot then
-    profileName="savedProfile"..os.time()
+    profileName=profileName..os.time()
   end
-  Ivars.savedProfiles[profileName]=profile
 
-  local profilesFileName="InfSavedProfiles.lua"
-  InfPersistence.Store(InfCore.paths.mod..profilesFileName,Ivars.savedProfiles)
+  local ivarNames={}
+  for k,v in pairs(profile.profile) do
+    ivarNames[#ivarNames+1]=k
+  end
+  table.sort(ivarNames)
+
+  local lang=InfLang.eng
+  local helpLang=InfLang.help.eng
+
+  local saveLineFormatStr="\t\t%s=%s,--%s -- %s -- %s"
+  local saveText={}
+  saveText[#saveText+1]="local this={"
+  saveText[#saveText+1]="\tdescription=\""..profile.description.."\","
+  saveText[#saveText+1]="\tprofile={"
+  for i,name in ipairs(ivarNames)do
+    local ivar=Ivars[name]
+
+    local value=profile.profile[name]
+    if value then
+      if type(value)=="string"then
+        value="\""..value.."\""
+      end
+
+      local settingsString=this.GetSettingsLine(ivar)
+      local nameLangString=lang[name] or ""
+      local helpLangString=helpLang[name] or ""
+      local line=string.format(saveLineFormatStr,name,value,settingsString,nameLangString,helpLangString)
+
+      saveText[#saveText+1]=line
+    end
+  end
+  saveText[#saveText+1]="\t}"
+  saveText[#saveText+1]="}"
+  saveText[#saveText+1]="return this"
+
+  --InfCore.PrintInspect(table.concat(saveText))--DEBUG
+  profileName=profileName..".lua"
+  if not Ivars.profiles[profileName] then
+    table.insert(Ivars.profileNames,1,profileName)
+  end
+  Ivars.profiles[profileName]=profile
+  local profilesFileName=InfCore.paths.profiles..profileName
+  --CULL  InfPersistence.Store(InfCore.paths.mod..profilesFileName,Ivars.savedProfiles)
+  InfCore.WriteStringTable(profilesFileName,saveText)
 end
 
 
---IN-Side evars,InfQuest.installedQuests
+--IN-Side evars
 function this.BuildSaveText(ihVer,inMission,onlyNonDefault,newSave)
   local inMission=inMission or false
 
@@ -818,7 +884,8 @@ function this.BuildSaveText(ihVer,inMission,onlyNonDefault,newSave)
   --tex also skips depenancy on InfQuest
   if not newSave then
     if InfQuest then
-      this.BuildTableText("installedQuests",InfQuest.installedQuests,saveTextList)
+      local questStates=InfQuest.GetCurrentStates()
+      this.BuildTableText("questStates",questStates,saveTextList)
     end
   end
 
@@ -854,9 +921,9 @@ end
 function this.WriteSave(saveTextLines,saveName)
   local filePath=InfCore.paths.saves..saveName
 
-  local saveFile,error=io.open(filePath,"w")
-  if not saveFile or error then
-    local errorText="WriteEvars: Create save error: "..tostring(error)
+  local saveFile,openError=io.open(filePath,"w")
+  if not saveFile or openError then
+    local errorText="WriteEvars: Create save error: "..tostring(openError)
     InfCore.DebugPrint(errorText)
     InfCore.Log(errorText)
     return
@@ -909,7 +976,7 @@ function this.SaveEvars()
   --tex TODO: figure out some last-know good method and write a backup
 
   local inGame=not mvars.mis_missionStateIsNotInGame
-  
+
   local inHeliSpace=vars.missionCode and math.floor(vars.missionCode/1e4)==4--tex heli missions are in 40k range
   local inMission=inGame and not inHeliSpace
 
@@ -922,7 +989,7 @@ function this.LoadSave()
   InfCore.LogFlow"IvarProc.LoadSave"
   local saveName=InfCore.saveName
   local filePath=InfCore.paths.saves..saveName
-  local ih_save_chunk,error=loadfile(filePath)
+  local ih_save_chunk,loadError=loadfile(filePath)
   if ih_save_chunk==nil then
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
     --TODO back up exising save in this case
@@ -932,12 +999,12 @@ function this.LoadSave()
       local saveTextList=this.BuildSaveText(InfCore.modVersion,false,true,true)
       --InfCore.PrintInspect(evarsTextList)
       this.WriteSave(saveTextList,saveName)
-      ih_save_chunk,error=loadfile(filePath)
+      ih_save_chunk,loadError=loadfile(filePath)
     end
   end
 
   if ih_save_chunk==nil then
-    local errorText="LoadSave Error: loadfile error: "..tostring(error)
+    local errorText="LoadSave Error: loadfile error: "..tostring(loadError)
     InfCore.Log(errorText,true,true)
     return nil
   end

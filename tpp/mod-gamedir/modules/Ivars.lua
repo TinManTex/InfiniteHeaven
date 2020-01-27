@@ -34,7 +34,6 @@ local EXTERNAL=IvarProc.CATEGORY_EXTERNAL
 this.missionModeIvars={}
 
 this.profiles={}
-this.savedProfiles={}
 --
 local int8=256
 local int16=2^16
@@ -53,6 +52,7 @@ this.simpleProfileSettings={"DEFAULT","CUSTOM"}
 --currently the ivar setup fits to the nearest save size type and I'm not sure of behaviour when you change ivars max enough to have it shift save size and load a game with an already saved var of different size
 
 this.debugMode={
+  inMission=true,
   nonConfig=true,
   save=EXTERNAL,
   range=this.switchRange,
@@ -65,6 +65,7 @@ this.debugMode={
 }
 
 this.debugMessages={
+  inMission=true,
   nonConfig=true,
   save=EXTERNAL,
   range=this.switchRange,
@@ -72,6 +73,7 @@ this.debugMessages={
 }
 
 this.debugFlow={
+  inMission=true,
   nonConfig=true,
   save=EXTERNAL,
   range=this.switchRange,
@@ -79,6 +81,7 @@ this.debugFlow={
 }
 
 this.debugOnUpdate={
+  inMission=true,
   nonConfig=true,
   save=EXTERNAL,
   range=this.switchRange,
@@ -88,12 +91,22 @@ this.debugOnUpdate={
   end,
 }
 
+this.postExtCommands={
+  inMission=true,
+  nonConfig=true,
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.printPressedButtons={
+  inMission=true,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.printOnBlockChange={
+  inMission=true,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -197,6 +210,7 @@ this.soldierHealthScale={
 }
 ---end soldier params
 this.playerHealthScale={
+  inMission=true,
   save=EXTERNAL,
   default=100,
   range={max=650,min=0,increment=20},--tex GOTCHA see InfMain.ChangeMaxLife,http://wiki.tesnexus.com/index.php/Life
@@ -261,6 +275,7 @@ IvarProc.MinMaxIvar(
 )
 
 this.allowUndevelopedDDEquip={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -328,6 +343,7 @@ IvarProc.MissionModeIvars(
       "GENOME_SOLDIER",
     --      "PRISONER_AFGH",
     --      "PRISONER_MAFR",
+    --"CHILD_0",
     },
     settingNames="customSoldierTypeSettings",
   },
@@ -520,6 +536,7 @@ this.mbPrioritizeFemale={
 
 --demos
 this.useSoldierForDemos={
+  --inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -567,6 +584,7 @@ this.mbDemoOverrideWeather={
 
 --patchup
 this.langOverride={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   allowFob=true,
@@ -585,19 +603,8 @@ this.skipLogos={
 }
 
 this.enableQuickMenu={
+  inMission=true,
   save=EXTERNAL,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
-
-this.blockFobTutorial={
-  --OFF save=GLOBAL,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
-
-this.setFirstFobBuilt={
-  --OFF save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -608,6 +615,7 @@ this.disableLzs={
 }
 
 this.disableHeliAttack={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -664,6 +672,7 @@ this.disableSelectVehicle={
 }
 
 this.disableHeadMarkers={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -677,6 +686,7 @@ this.disableHeadMarkers={
 }
 
 this.disableWorldMarkers={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -792,19 +802,24 @@ this.abortMenuItemControl={
 }
 
 this.disableRetry={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.gameOverOnDiscovery={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+  OnChange=function(self,prevSetting,setting)
+    mvars.mis_isExecuteGameOverOnDiscoveryNotice=setting==1
+  end,
 }
 
-
 this.disableOutOfBoundsChecks={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -818,6 +833,7 @@ this.disableOutOfBoundsChecks={
 }
 
 this.disableGameOver={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -873,6 +889,7 @@ this.disableTranslators={
 --}
 
 this.fultonNoMbSupport={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -883,6 +900,7 @@ this.fultonNoMbSupport={
   end,
 }
 this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -894,42 +912,49 @@ this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
 }
 
 this.fultonDyingPenalty={
+  inMission=true,
   save=EXTERNAL,
   default=70,
   range={max=100,min=0,increment=5},
 }
 
 this.fultonSleepPenalty={
+  inMission=true,
   save=EXTERNAL,
   default=0,
   range={max=100,min=0,increment=5},
 }
 
 this.fultonHoldupPenalty={
+  inMission=true,
   save=EXTERNAL,
   default=10,
   range={max=100,min=0,increment=5},
 }
 
 this.fultonDontApplyMbMedicalToSleep={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.fultonHostageHandling={
+  inMission=true,
   save=EXTERNAL,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
 }
 
 this.fultonWildCardHandling={--WIP
+  inMission=true,
   save=EXTERNAL,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
 }
 
 this.fultonMotherBaseHandling={ --WIP
+  inMission=true,
   save=EXTERNAL,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
@@ -937,46 +962,62 @@ this.fultonMotherBaseHandling={ --WIP
 --<fulton success
 
 --item levels>
+local function OnChangeItemLevel(self)
+  Player.SetItemLevel(self.equipId,self:Get())
+end
+
 --CULL this.handLevelRange={max=4,min=0,increment=1}
 local handLevelSettings={"DEFAULT","DISABLE","GRADE2","GRADE3","GRADE4"}
 this.handLevelSonar={
+  inMission=true,
   save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_ACTIVESONAR,
+  OnChange=OnChangeItemLevel,
 }
 
 this.handLevelPhysical={--tex called Mobility in UI
+  inMission=true,
   save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PHYSICAL,
+  OnChange=OnChangeItemLevel,
 }
 
 this.handLevelPrecision={
+  inMission=true,
   save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PRECISION,
+  OnChange=OnChangeItemLevel,
 }
 
 this.handLevelMedical={
+  inMission=true,
   save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_MEDICAL,
+  OnChange=OnChangeItemLevel,
 }
 
 this.itemLevelFulton={
+  inMission=true,
   save=EXTERNAL,
   settings={"DEFAULT","GRADE1","GRADE2","GRADE3","GRADE4"},
   equipId=TppEquip.EQP_IT_Fulton,
+  OnChange=OnChangeItemLevel,
 }
 this.itemLevelWormhole={
+  inMission=true,
   save=EXTERNAL,
   --range=this.switchRange,
   settings={"DEFAULT","DISABLE","ENABLE"},
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
+  OnChange=OnChangeItemLevel,
 }
 --<item levels
 this.primaryWeaponOsp={
@@ -1559,6 +1600,7 @@ IvarProc.MissionModeIvars(
 )
 
 this.clockTimeScale={
+  inMission=true,
   save=EXTERNAL,
   default=20,
   range={max=10000,min=1,increment=1},
@@ -1621,6 +1663,8 @@ function this.UpdateActiveQuest()
     TppQuest.UpdateRepopFlagImpl(areaQuests)
   end
   TppQuest.UpdateActiveQuest()
+
+  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
 end
 
 this.unlockSideOps={
@@ -1712,8 +1756,8 @@ this.ihSideopsPercentageCount={
   OnChange=function()
     TppMission.SetPlayRecordClearInfo()
     --DEBIGNOW
---    local clearCount,allCount=TppQuest.CalcQuestClearedCount()
---    TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
+    --    local clearCount,allCount=TppQuest.CalcQuestClearedCount()
+    --    TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
   end,
 }
 
@@ -1818,6 +1862,7 @@ this.mbMoraleBoosts={
 }
 --
 this.manualMissionCode={
+  inMission=true,
   --OFF save=EXTERNAL,
   settings={
     --LOC,TYPE,Notes
@@ -1946,6 +1991,7 @@ this.manualMissionCode={
 --MTBS={10030,10115,11115,10240},
 
 this.manualSequence={
+  inMission=true,
   --save=EXTERNAL,
   range={max=1},--DYNAMIC
   OnSelect=function(self)
@@ -1966,6 +2012,7 @@ this.manualSequence={
 
 --appearance
 this.playerType={
+  inMission=true,
   --OFF save=EXTERNAL,
   settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
@@ -2028,6 +2075,7 @@ this.playerType={
 }
 
 this.playerTypeDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
@@ -2083,6 +2131,7 @@ local playerPartsTypeSettings={
 }
 
 this.playerPartsType={
+  inMission=true,
   --OFF save=EXTERNAL,
   settings=playerPartsTypeSettings,--DYNAMIC
   GetSettingText=function(self,setting)
@@ -2146,6 +2195,7 @@ this.playerPartsType={
 }
 
 this.playerPartsTypeDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=100},
   OnSelect=function(self)
@@ -2158,6 +2208,7 @@ this.playerPartsTypeDirect={
 
 --tex GOTCHA: setting var.playerCamoType to a unique type (non-common/only one camo type for it) seems to lock it in/prevent vars.playerPartsType from applying until set back to a common camo type
 this.playerCamoType={
+  inMission=true,
   --OFF save=EXTERNAL,
   --settings=playerCamoTypes,--DYNAMIC
   range={min=0,max=1000},--DYNAMIC
@@ -2199,6 +2250,7 @@ this.playerCamoType={
 
 --tex for DEBUG, just exploring direct value
 this.playerCamoTypeDirect={
+  inMission=true,
   range={min=0,max=1000},
   OnSelect=function(self)
     self:SetDirect(vars.playerCamoType)
@@ -2211,6 +2263,7 @@ this.playerCamoTypeDirect={
 }
 
 this.playerFaceEquipId={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=100},--DYNAMIC
   settingsTable={0},--DYNAMIC
@@ -2241,6 +2294,7 @@ this.playerFaceEquipId={
 }
 
 this.playerFaceEquipIdDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=100},--TODO
   OnSelect=function(self)
@@ -2252,6 +2306,7 @@ this.playerFaceEquipIdDirect={
 }
 
 this.playerFaceId={
+  inMission=true,
   --save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   currentGender=0,--STATE
@@ -2359,6 +2414,7 @@ this.playerFaceId={
 }
 
 this.playerFaceFilter={
+  inMission=true,
   --save=EXTERNAL,
   settings={"ALL","HEADGEAR","UNIQUE","FOVAMOD"},
   settingsTable={
@@ -2406,6 +2462,7 @@ this.playerFaceFilter={
 }
 
 this.playerFaceIdDirect={
+  inMission=true,
   save=EXTERNAL,
   range={min=0,max=730},
   OnSelect=function(self)
@@ -2418,12 +2475,14 @@ this.playerFaceIdDirect={
 
 --tex saving prefered faceId per gender
 this.maleFaceId={
+  nonUser=true,
   save=EXTERNAL,
   default=0,
   range={min=0,max=5000},--TODO sync max?, Soldier2FaceAndBodyData.MAX_FACEID, but since since ivar gvar size is based on range.max, make sure ivars that change their max during run have a specified fixed size, because I don't  know if the save system is robust enough to handle size changes.
 }
 
 this.femaleFaceId={
+  nonUser=true,
   save=EXTERNAL,
   default=350,
   range={min=0,max=5000},--TODO see above
@@ -2446,6 +2505,7 @@ this.GetSettingTextFova=function(self,setting)
 end
 
 this.faceFova={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
@@ -2481,6 +2541,7 @@ this.faceFova={
 }
 
 this.faceDecoFova={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
@@ -2520,6 +2581,7 @@ this.faceDecoFova={
   end,
 }
 this.hairFova={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
@@ -2555,6 +2617,7 @@ this.hairFova={
   end,
 }
 this.hairDecoFova={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   settingsTable={0},--DYNAMIC
@@ -2573,6 +2636,7 @@ this.hairDecoFova={
 --<
 
 this.faceFovaDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
@@ -2588,6 +2652,7 @@ this.faceFovaDirect={
   end,
 }
 this.faceDecoFovaDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
@@ -2603,6 +2668,7 @@ this.faceDecoFovaDirect={
   end,
 }
 this.hairFovaDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
@@ -2618,6 +2684,7 @@ this.hairFovaDirect={
   end,
 }
 this.hairDecoFovaDirect={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
@@ -2634,6 +2701,7 @@ this.hairDecoFovaDirect={
 }
 
 this.faceFovaUnknown1={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=50},
   OnActivate=function(self)
@@ -2641,6 +2709,7 @@ this.faceFovaUnknown1={
   end,
 }
 this.faceFovaUnknown2={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
@@ -2648,6 +2717,7 @@ this.faceFovaUnknown2={
   end,
 }
 this.faceFovaUnknown3={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=4},
   OnActivate=function(self)
@@ -2655,6 +2725,7 @@ this.faceFovaUnknown3={
   end,
 }
 this.faceFovaUnknown4={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=4},
   OnActivate=function(self)
@@ -2662,6 +2733,7 @@ this.faceFovaUnknown4={
   end,
 }
 this.faceFovaUnknown5={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
@@ -2669,6 +2741,7 @@ this.faceFovaUnknown5={
   end,
 }
 this.faceFovaUnknown6={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
@@ -2676,6 +2749,7 @@ this.faceFovaUnknown6={
   end,
 }
 this.faceFovaUnknown7={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
@@ -2683,6 +2757,7 @@ this.faceFovaUnknown7={
   end,
 }
 this.faceFovaUnknown8={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
@@ -2690,6 +2765,7 @@ this.faceFovaUnknown8={
   end,
 }
 this.faceFovaUnknown9={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
@@ -2697,6 +2773,7 @@ this.faceFovaUnknown9={
   end,
 }
 this.faceFovaUnknown10={
+  inMission=true,
   --OFF save=EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
@@ -2706,6 +2783,7 @@ this.faceFovaUnknown10={
 --
 --fovaInfo
 this.enableFovaMod={
+  inMission=true,
   nonConfig=true,--tex too dependant on installed mods/dynamic settings
   save=EXTERNAL,
   range=this.switchRange,
@@ -2730,6 +2808,7 @@ this.enableFovaMod={
 
 --tex: index into fovaInfor for current playerType,playerPartsType
 this.fovaSelection={
+  inMission=true,
   nonConfig=true,--tex too dependant on installed mods/dynamic settings
   save=EXTERNAL,
   range={min=0,max=255},--DYNAMIC limits max fovas TODO consider
@@ -2927,6 +3006,7 @@ this.phaseSettings={
 --}
 
 this.minPhase={
+  inMission=true,
   save=EXTERNAL,
   settings=this.phaseSettings,
   --settingsTable=this.phaseTable,
@@ -2940,6 +3020,7 @@ this.minPhase={
 }
 
 this.maxPhase={
+  inMission=true,
   save=EXTERNAL,
   settings=this.phaseSettings,
   default=#this.phaseSettings-1,
@@ -2954,6 +3035,7 @@ this.maxPhase={
 }
 
 this.keepPhase={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -2968,16 +3050,19 @@ this.keepPhase={
 }
 
 this.phaseUpdateRate={--seconds
+  inMission=true,
   save=EXTERNAL,
   default=3,
   range={min=1,max=255},
 }
 this.phaseUpdateRange={--seconds
+  inMission=true,
   save=EXTERNAL,
   range={min=0,max=255},
 }
 
 this.phaseUpdate={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -2987,6 +3072,7 @@ this.phaseUpdate={
 }
 
 this.printPhaseChanges={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -2994,11 +3080,13 @@ this.printPhaseChanges={
 
 --
 this.soldierAlertOnHeavyVehicleDamage={
+  inMission=true,
   save=EXTERNAL,
   settings=this.phaseSettings,
 }
 
 this.cpAlertOnVehicleFulton={
+  inMission=true,
   --OFF WIP save=EXTERNAL,
   settings=this.phaseSettings,
 }
@@ -3030,6 +3118,7 @@ this.telopMode={
 }
 
 this.warpPlayerUpdate={
+  inMission=true,
   nonConfig=true,
   --save=EXTERNAL,
   range=this.switchRange,
@@ -3059,6 +3148,7 @@ this.warpPlayerUpdate={
 }
 
 this.adjustCameraUpdate={
+  inMission=true,
   nonConfig=true,
   --save=EXTERNAL,
   range=this.switchRange,
@@ -3098,6 +3188,7 @@ this.adjustCameraUpdate={
 }
 
 this.cameraMode={
+  inMission=true,
   --save=EXTERNAL,
   settings={"DEFAULT","CAMERA"},--"PLAYER","CAMERA"},
   OnChange=function(self,previousSetting)
@@ -3111,12 +3202,14 @@ this.cameraMode={
 }
 
 this.moveScale={--Set
+  inMission=true,
   save=EXTERNAL,
   default=0.5,
   range={max=10,min=0.01,increment=0.1},
 }
 
 this.disableCamText={
+  inMission=true,
   --OFF save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -3132,42 +3225,49 @@ this.camNames={
 
 for i,camName in ipairs(this.camNames) do
   this["focalLength"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=21,
     range={max=10000,min=0.1,increment=1},
   }
 
   this["focusDistance"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=8.175,
     range={max=1000,min=0.01,increment=0.1},
   }
 
   this["aperture"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=1.875,
     range={max=100,min=0.001,increment=0.1},
   }
 
   this["distance"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
   }
 
   this["positionX"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }
   this["positionY"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }
   this["positionZ"..camName]={
+    inMission=true,
     --OFF save=EXTERNAL,
     default=0,
     range={max=1000,min=0,increment=0.1},
@@ -3177,16 +3277,19 @@ end
 
 --highspeedcamera/slowmo
 this.speedCamContinueTime={
+  inMission=true,
   save=EXTERNAL,
   default=10,
   range={max=1000,min=0,increment=1},
 }
 this.speedCamWorldTimeScale={
+  inMission=true,
   save=EXTERNAL,
   default=0.3,
   range={max=100,min=0,increment=0.1},
 }
 this.speedCamPlayerTimeScale={
+  inMission=true,
   save=EXTERNAL,
   default=1,
   range={max=100,min=0,increment=0.1},
@@ -3247,6 +3350,7 @@ local BuddyVarOnActivate=function(self,setting)
 end
 
 this.buddyChangeEquipVar={
+  inMission=true,
   nonConfig=true,
   --OFF save=EXTERNAL,
   range={max=5,min=1},
@@ -3365,6 +3469,7 @@ local HeliEnabledGameCommand=function(self,previousSetting,setting)
 end
 
 this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
+  inMission=true,
   --OFF save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -3373,6 +3478,7 @@ this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actu
 }
 
 this.setInvincibleHeli={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -3381,6 +3487,7 @@ this.setInvincibleHeli={
 }
 
 this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
+  inMission=true,
   --OFF save=EXTERNAL,
   default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
   range={min=0,max=15},
@@ -3394,6 +3501,7 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
 }
 
 this.disablePullOutHeli={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -3415,6 +3523,7 @@ this.disablePullOutHeli={
 }
 
 this.setLandingZoneWaitHeightTop={
+  inMission=true,
   save=EXTERNAL,
   default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
   range={min=5,max=50,increment=5},
@@ -3428,6 +3537,7 @@ this.setLandingZoneWaitHeightTop={
 }
 
 this.disableDescentToLandingZone={
+  inMission=true,
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -3448,6 +3558,7 @@ this.disableDescentToLandingZone={
 }
 
 this.setSearchLightForcedHeli={
+  inMission=true,
   save=EXTERNAL,
   settings={"DEFAULT","OFF","ON"},
   settingNames="set_default_off_on",
@@ -3470,6 +3581,7 @@ this.setSearchLightForcedHeli={
 }
 
 this.selectedCp={
+  inMission=true,
   nonConfig=true,
   --save=EXTERNAL,
   range={max=9999},--DYNAMIC (not currently, TODO)
@@ -3517,8 +3629,13 @@ this.selectedCp={
 --
 local currentCategory=0
 this.selectedChangeWeapon={--WIP
+  inMission=true,
+  nonConfig=true,
   --OFF save=EXTERNAL,
-  range={max=490,min=1},--tex SYNC: tppEquipTable
+  range={max=490,min=1},--tex DYNAMIC
+  OnSelect=function(self)
+    self.range.max=#InfEquip.tppEquipTableTest
+  end,
   GetSettingText=function(self,setting)
     return InfEquip.tppEquipTableTest[setting]
   end,
@@ -3579,6 +3696,7 @@ this.selectedChangeWeapon={--WIP
 }
 
 this.selectedGameObjectType={
+  inMission=true,
   nonConfig=true,
   --save=EXTERNAL,
   range={max=1},--DYNAMIC (not currently, TODO)
@@ -3600,6 +3718,7 @@ this.enableInfInterrogation={
 --item drops
 this.perSoldierCount=10
 this.itemDropChance={
+  inMission=true,
   save=EXTERNAL,
   --range={min=0,max=this.perSoldierCount,increment=1},
   range={min=0,max=100,increment=10},
@@ -3672,6 +3791,7 @@ IvarProc.MinMaxIvar(
     end,
   },
   {
+    inMission=true,
     range={min=0,max=180,increment=1},
   }
 )
@@ -3722,6 +3842,7 @@ this.selectProfile={
 }
 
 this.warpToListObject={
+  inMission=true,
   range={max=1},--DYNAMIC
   GetSettingText=function(self,setting)
     local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
@@ -3753,6 +3874,7 @@ this.warpToListObject={
 }
 
 this.warpToListPosition={
+  inMission=true,
   range={max=1},--DYNAMIC
   GetSettingText=function(self,setting)
     local positionsList=InfQuest.GetQuestPositions()
@@ -3824,6 +3946,8 @@ for i,resourceScaleType in ipairs(this.resourceScaleTypes)do
 end
 
 this.debugValue={
+  inMission=true,
+  nonConfig=true,
   save=EXTERNAL,
   default=400,
   range={max=400,min=0,increment=10},
@@ -3834,6 +3958,7 @@ this.debugValue={
 
 --tex NOTE: not currently exposed
 this.skipDevelopChecks={
+  inMission=true,
   nonConfig=true,
   save=EXTERNAL,
   range=this.switchRange,

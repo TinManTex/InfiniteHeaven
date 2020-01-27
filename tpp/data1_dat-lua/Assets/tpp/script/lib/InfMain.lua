@@ -22,6 +22,13 @@ local GetPlayingDemoId=DemoDaemon.GetPlayingDemoId
 local IsDemoPaused=DemoDaemon.IsDemoPaused
 local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 
+local reloadModulesCombo={
+  InfButton.HOLD,
+  InfButton.DASH,
+  InfButton.ACTION,
+  InfButton.SUBJECT,
+}
+
 this.appliedProfiles=false
 
 --STATE
@@ -741,7 +748,7 @@ function this.UpdateExecChecks(currentChecks)
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
   currentChecks.inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inHeliSpace
-  currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId()) 
+  currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
 
   if currentChecks.inGame then
     local playerVehicleId=vars.playerVehicleGameObjectId
@@ -846,25 +853,8 @@ function this.DoControlSet(currentChecks)
     end
   end
 
-  if currentChecks.inGame then
-    local combo={
-      InfButton.HOLD,
-      InfButton.DASH,
-      InfButton.ACTION,
-      InfButton.SUBJECT,
-    }
-    local comboActive=true
-    for i,button in ipairs(combo)do
-      if not InfButton.ButtonHeld(button) then
-        comboActive=false
-        break
-      end
-    end
-
-    if comboActive then
-      for i,button in ipairs(combo)do
-        InfButton.buttonStates[button].heldStart=0
-      end
+  if currentChecks.inGame then    
+    if InfButton.OnComboActive(reloadModulesCombo) then
       InfCore.DebugPrint("LoadExternalModules")
       this.LoadExternalModules(true)
       if not InfCore.mainModulesOK then
@@ -2048,14 +2038,14 @@ end
 --EXEC
 _G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
 
-if Mock==nil then
+--DEBUGNOW if Mock==nil then
   InfCore.LogFlow"InfMain Exec"
   this.LoadExternalModules()
   if not InfCore.mainModulesOK then
     this.ModuleErrorMessage()
   end
   InfCore.doneStartup=true
-end
+--end
 
 InfCore.LogFlow"InfMain.lua done"
 

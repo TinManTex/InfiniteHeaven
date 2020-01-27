@@ -12,8 +12,15 @@ this.debugModule=false
 --see TppQuest GetQuestNameId, GetQuestName
 --it uses the q name as the lookup for the lang string name_<qname> and info_<qname>
 --I'm not sure if anything before that has any signifincance, many have quest_ as the prefix, others have the quest area name.
-this.numIHQuests=100
-this.questNameFmt="quest_q301%02d"
+--Because of this restriction any mod authors that want to build a sideop will have to notify me so to not collide with others
+-- CULL this.numIHQuests=100
+this.questNameFmt="quest_q3%04d"--tex currently straddling between 30010 : Little Lost Sheep and 39010 : Legendary Brown Bear
+
+--tex current additional sideops
+--q30100 - q30102--IH mb quests
+--q30103--IH quest exameple
+--q30104 - q30154--morbidslinky
+--q30155--IH pilot rescue test
 
 this.questsRegistered=false
 
@@ -23,14 +30,10 @@ this.ihQuestNames={}
 --k=questName,v=questDef module
 this.ihQuestsInfo={}
 
---k=questName,v=quest status gvar index
-this.installedQuests={}
-
 function this.PostModuleReload(prevModule)
   this.questsRegistered=prevModule.questsRegistered
   this.ihQuestNames=prevModule.ihQuestNames
   this.ihQuestsInfo=prevModule.ihQuestsInfo
-  this.installedQuests=prevModule.installedQuests
 end
 
 function this.CanOpenClusterGrade0(questName)
@@ -42,18 +45,20 @@ function this.AllwaysOpenQuest()
 end
 
 --REF questDef
--- ih_quest_q30103.lua
+-- ih_quest_q30103.lua --file name must have q%05u format as suffix.
 -- IH quest definition - example quest, afgh wailo village hostage
 --local this={
 --  questPackList={
+--    "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
+--    "/Assets/tpp/pack/mission2/ih/ddr1_main0_mdl.fpk",--model pack, edit the partsType in the TppHostage2Parameter in the quest .fox2 to match, see InfBodyInfo.lua for different body types.
 --    "/Assets/tpp/pack/mission2/quest/ih/ih_example_quest.fpk",--quest fpk
---    randomFaceList={--for hostage isFaceRandom, see TppQuestList
---      race={TppDefine.QUEST_RACE_TYPE.ASIA},
---      gender=TppDefine.QUEST_GENDER_TYPE.WOMAN
+--    randomFaceListIH={--for hostage isFaceRandom, see TppQuestList
+--      gender="FEMALE",
+--      count=1,
 --    }
 --  },
 --  locationId=TppDefine.LOCATION_ID.AFGH,
---  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList. 
+--  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.
 --  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
 --  iconPos=Vector3(489.741,321.901,1187.506),--position of the quest area circle in idroid
 --  radius=4,--radius of the quest area circle
@@ -61,6 +66,9 @@ end
 --  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
 --  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest is open or not
 --  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
+--  disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
+--    "lz_lab_S0000|lz_lab_S_0000",
+--  },
 --}
 --return this
 
@@ -74,6 +82,8 @@ end
 --"quest_target_eliminate","Target Destroyed [%d/%d]"
 --"mine_quest_log",--"Mine Cleared [%d/%d]"
 --"quest_extract_animal",--"Animal Extracted [%d/%d]"--tex added by IH
+--tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
+--if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
 
 
 local blockQuests={
@@ -164,26 +174,61 @@ function this.GetForced()
   end
 end
 
-local questDefPath="/Assets/tpp/script/ih/quest/"
-local extension=".lua"
+--SIDE: this.ihQuestNames,this.ihQuestsInfo
 function this.LoadQuestDefs()
-  InfCore.LogFlow"LoadQuestDefs"
-  for i=0,this.numIHQuests-1 do
-    local questId=string.format(this.questNameFmt,i)
-    local moduleName="ih_"..questId
-    local path=questDefPath..moduleName..extension
-    --InfCore.Log("Attempting to load module "..path)--DEBUG
-    Script.LoadLibrary(path)
-    local module=_G[moduleName]
-    if module then
-      InfCore.Log("Loaded questDef "..moduleName)
+  InfCore.LogFlow("InfQuest.LoadQuestDefs")
+  local ihQuestNames={}
+  local ihQuestsInfo={}
+  local questIdToQuestName={}
+  local questIds={}
 
-      --tex TODO validate questDef
+  local questFiles=InfCore.GetFileList(InfCore.files.quests,".lua")
+  for i,fileName in ipairs(questFiles)do
+    InfCore.Log("InfQuest.LoadQuestDefs: "..fileName)
 
-      this.ihQuestNames[#this.ihQuestNames+1]=questId
-      this.ihQuestsInfo[questId]=module
+    local questName=InfUtil.StripExt(fileName)
+    ihQuestsInfo[questName]=InfCore.LoadSimpleModule(InfCore.paths.quests,fileName)
+    ihQuestNames[#ihQuestNames+1]=questName
+  end
+
+  --TODO validate questDef
+  --TODO collision quest nubmer with existing quests
+
+  --tex bit of futzing to put ihQuestNames in questId order
+  for i,questName in ipairs(ihQuestNames) do
+    local questNumber=this.GetQuestNumber(questName)
+    if not questNumber then
+      InfCore.Log("InfQuest.LoadQuestDefs: Could not find questNumber on "..questName)
+    else
+      if questIdToQuestName[questNumber] then
+        InfCore.Log("InfQuest.LoadQuestDefs: WARNING: questNumber "..questNumber.." collision with "..questIdToQuestName[questNumber].." and "..questName)
+      end
+      questIdToQuestName[questNumber]=questName
     end
   end
+
+  for questId,questName in pairs(questIdToQuestName)do
+    questIds[#questIds+1]=questId
+  end
+  table.sort(questIds)
+
+  ihQuestNames={}--tex clear, finally putting in order
+  for i,questId in ipairs(questIds)do
+    ihQuestNames[#ihQuestNames+1]=questIdToQuestName[questId]
+  end
+  --
+
+  if this.debugModule then
+    InfCore.PrintInspect(questFiles,"questFiles")
+    InfCore.PrintInspect(questIds,"questIds")
+
+    InfCore.PrintInspect(ihQuestNames,"LoadQuestDefs ihQuestNames")
+    InfCore.PrintInspect(ihQuestsInfo,"LoadQuestDefs ihQuestsInfo")
+  end
+
+  --DEBUGNOW
+  this.ihQuestNames=ihQuestNames
+  this.ihQuestsInfo=ihQuestsInfo
 end
 
 --REF TppQuestList.questList={
@@ -222,6 +267,9 @@ local gvarFlagNames={
   "qst_questClearedFlag",
   "qst_questActiveFlag",
 }
+local gvarFlagTypes=Tpp.Enum(gvarFlagNames)
+
+--CULL
 function this.GetGvarFlags()
   local gvarFlags={}
   for questGvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES,TppDefine.QUEST_MAX-1 do
@@ -334,7 +382,13 @@ function this.RegisterQuests()
     end
     this.AddToQuestInfoTable(questInfoTable,TppQuest.QUESTTABLE_INDEX,questName,questInfo)
     openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest
+
     TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
+    --tex -^- this goes through TppQuest.ShowAnnounceLog > TppUI.ShowAnnounceLog so hits the imho silly TppUI.ANNOUNCE_LOG_TYPE indirect
+    --so I'll just patch it in if it doesnt exist
+    if not TppUI.ANNOUNCE_LOG_TYPE[questInfo.questCompleteLangId] then
+      TppUI.ANNOUNCE_LOG_TYPE[questInfo.questCompleteLangId]=questInfo.questCompleteLangId
+    end
 
     this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaTable,questName,questInfo)
     TppQuestList.questPackList[questName]=questInfo.questPackList
@@ -364,75 +418,59 @@ function this.DEBUG_PrintQuestClearedFlags()
 end
 
 --DEBUGNOW TEST add example quest and rocks quest test one at a time and remove (in different order)
---CALLER: TppVarInit.StartTitle - since registerquests is  run before the first game save/gvar load
+--CALLER: TppVarInit.StartTitle - since registerquests is run before the first game save/gvar load
 function this.SetupInstalledQuestsState()
   InfCore.LogFlow"InfQuest.SetupInstalledQuestsState"
   --  InfCore.Log"pre"
-  --this.DEBUG_PrintQuestClearedFlags()
-
-  this.installedQuests=this.ReadInstalledQuests()
-  if this.debugModule then
-  InfCore.Log("ReadInstalledQuests:")
-  InfCore.PrintInspect(this.installedQuests,{varName="InfQuest.installedQuests"})
-  end
-
-  --tex back up existing flag states
-  local gvarFlags=this.GetGvarFlags()
-  if this.debugModule then
-    --InfCore.PrintInspect(gvarFlags)
-  end
-
+  --this.DEBUG_PrintQuestClearedFlags()      f
+  --tex clear quest gvars as matter of course
   for i,questName in ipairs(this.ihQuestNames)do
     local questIndex=TppDefine.QUEST_INDEX[questName]
-    if questIndex==nil then
-      InfCore.Log("InfQuest.SetupInstalledQuestsStates: Error: questIndex==nil for "..questName)
-    else
-
-      if not this.installedQuests[questName] then
-        InfCore.Log(questName.." was not previously installed, clearing")
-        for i,gvarName in ipairs(gvarFlagNames)do
-          gvars[gvarName][questIndex]=false
-        end
-      else
-        local previousIndex=this.installedQuests[questName]
-        --InfCore.Log("previousIndex:"..previousIndex)
-
-        if previousIndex~=questIndex then
-          InfCore.Log(questName.." shifting from previous index of "..previousIndex)
-        end
-
-        for i,gvarName in ipairs(gvarFlagNames)do
-          local previousValue=gvarFlags[previousIndex][gvarName]
-          gvars[gvarName][questIndex]=previousValue
-        end
-      end
-
-      this.installedQuests[questName]=questIndex
-      --tex will be saved on next ih_save
+    for i,gvarName in ipairs(gvarFlagNames)do
+      gvars[gvarName][questIndex]=false
     end
   end
+
+  --tex restore any saved quest gvars from ih_save state
+  this.questStates=this.ReadQuestStates()
 
   --  InfCore.Log"post"
   --this.DEBUG_PrintQuestClearedFlags()
 end
 
+function this.GetQuestNumber(questName)
+  return tonumber(string.sub(questName,-5))
+end
+
 --tex called from equivalent TppQuest funcs
 --QuestBlockOnAllocate only called in added ih quests, not vanilla quests, the rest of the functions called by vannila quest scripts
-function this.QuestBlockOnAllocate(questScript)--tex 
+function this.QuestBlockOnAllocate(questScript)--tex
+  local questName=TppQuest.GetCurrentQuestName()
 
+  if DebugIHQuest then
+    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
+  end
 end
 --tex called during questScript .OnAllocate
 function this.RegisterQuestSystemCallbacks(callbackFunctions)
-
+  if DebugIHQuest then
+    InfCore.PCall(DebugIHQuest.RegisterQuestSystemCallbacks,callbackFunctions)
+  end
 end
 function this.QuestBlockOnInitialize(questScript)
-
+  if DebugIHQuest then
+    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
+  end
 end
 function this.QuestBlockOnUpdate(questScript)
-
+  if DebugIHQuest then
+    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
+  end
 end
 function this.QuestBlockOnTerminate(questScript)
-
+  if DebugIHQuest then
+    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
+  end
 end
 --
 
@@ -508,97 +546,110 @@ function this.ResetQuestState(gvarIndex,value)
   gvars.qst_questActiveFlag[gvarIndex]=value
 end
 
-local typeString="string"
-local typeNumber="number"
-local typeFunction="function"
-local typeTable="table"
-function this.ReadInstalledQuests()
-  InfCore.LogFlow"InfQuest.ReadInstalledQuests"
+--DEBUGNOW
+--tex set questCleared gvars from ih_save state
+function this.ReadQuestStates()
+  InfCore.LogFlow"InfQuest.ReadQuestStates"
 
   local ih_save=IvarProc.LoadSave()
   if ih_save==nil then
-    local errorText="ReadInstalledQuests Error: ih_save==nil"
+    local errorText="ReadQuestStates Error: ih_save==nil"
     InfCore.Log(errorText,true,true)
     return
   end
 
-  if ih_save.installedQuests==nil then
-    InfCore.Log"ReadInstalledQuests: ih_save.installedQuests==nil"
+  if ih_save.questStates==nil then
+    InfCore.Log"ReadQuestStates: ih_save.questStates==nil"
     return {}
   end
 
-  if type(ih_save.installedQuests)~=typeTable then
-    local errorText="ReadInstalledQuests Error: ih_save.evars~=typeTable"
+  if type(ih_save.questStates)~="table" then
+    local errorText="ReadQuestStates Error: ih_save.questStates~=typeTable"
     InfCore.Log(errorText,true,true)
     return
   end
 
-  local installedQuests={}
-  for name,gvarIndex in pairs(ih_save.installedQuests) do
-    if type(name)~=typeString then
-      InfCore.Log("ReadInstalledQuests ih_save: name~=string:"..tostring(name),false,true)
+  for questName,questState in pairs(ih_save.questStates) do
+    if type(questName)~="string" then
+      InfCore.Log("ReadQuestStates ih_save: name~=string:"..tostring(questName),false,true)
     else
-      if type(gvarIndex)~=typeNumber then
-        InfCore.Log("ReadInstalledQuests ih_save: value~=number: "..name.."="..tostring(gvarIndex),false,true)
-      elseif gvarIndex<0 or gvarIndex>TppDefine.QUEST_MAX-1 then
-        InfCore.Log("ReadInstalledQuests ih_save: gvarIndex out of bounds: "..name.."="..tostring(gvarIndex),false,true)
+      if type(questState)~="number" then
+        InfCore.Log("ReadQuestStates ih_save: value~=number: "..questName.."="..tostring(questState),false,true)
       else
-        --tex will clear removed entries
-        if this.ihQuestsInfo[name]==nil then
-          InfCore.Log("ReadInstalledQuests ih_save: "..name.." not found in ihQuestsInfo")
+        local questIndex=TppDefine.QUEST_INDEX[questName]
+        if not questIndex then
+          InfCore.Log("InfQuest.ReadQuestStates: Could not find questIndex for "..questName)
         else
-          installedQuests[name]=gvarIndex
+          for i=1,#gvarFlagNames do
+            local value=bit.band(questState,i^2)==i^2
+            gvars[gvarFlagNames[i]][questIndex]=value
+          end
         end
       end
     end
   end
-  return installedQuests
+
+  return ih_save.questStates
 end
 
-function this.Test_SetRatPosition()
-  local ratList={
-    "anml_rat_00",
-    "anml_rat_01",
-    "anml_rat_02",
-    "anml_rat_03",
-    "anml_rat_04",
-    "anml_rat_05",
-  }
+function this.GetCurrentStates()
+  local questClearStates={}
+  for i,questName in ipairs(this.ihQuestNames)do
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if not questIndex then
+      InfCore.Log("InfQuest.GetQuestStates: ERROR: Could not find questIndex for "..questName)
+    else
+      local bitState=0
+      for i=1,#gvarFlagNames do
+        local gvarValue=gvars[gvarFlagNames[i]][questIndex]
+        if gvarValue==true then
+          bitState=bit.bor(bitState,i^2)
+        end
+      end
 
-  local positionsList={
-    {359.466,-4.013,850.132},
-    {356.234,-4.013,856.585},
-    {360.531,-4.013,865.436},
-    {355.715,-4.013,871.195},
-    {359.369,-4.013,877.347},
-    {368.626,-4.013,866.201},
-    {368.027,-4.013,876.324},
-    {376.112,-4.013,875.328},
-    {374.444,-4.013,866.858},
-    {383.520,-4.013,870.073},
-    {384.246,-4.013,860.197},
-    {386.223,-4.013,847.923},
-    {375.588,-4.013,852.175},
-    {374.930,-4.013,858.982},
-    {366.645,-4.013,849.100},
-  }
-
-  local positionBag=InfUtil.ShuffleBag:New()
-  for i,coords in ipairs(positionsList)do
-    positionBag:Add(coords)
+      questClearStates[questName]=bitState
+    end
   end
 
-  function this.WarpRats()
-    local tppRat={type="TppRat",index=0}
-    for i,name in ipairs(ratList)do
-      local pos=positionBag:Next()
-      local rotY=math.random(360)
-      local route=""
+  return questClearStates
+end
 
-      local command={id="Warp",name=name,ratIndex=0,position=pos,degreeRotationY=rotY,route=route,nodeIndex=0}
-      GameObject.SendCommand(tppRat,command)
+--CALLER: TppLandingZone.OnMissionCanStart
+function this.DisableLandingZones()
+  InfCore.Log("---------DisableLandingZones")--DEBUGNOW
+  --DEBUGNOW
+  local function FindMatchLZ(lz)
+    for location,lzs in pairs(TppLandingZone.assaultLzs)do
+      for drpRoute,aprRoute in pairs(lzs) do
+        if aprRoute==lz then
+          return drpRoute
+        end
+      end
+    end
+    for location,lzs in pairs(TppLandingZone.missionLzs)do
+      for aprRoute,drpRoute in pairs(lzs) do
+        if drpRoute==lz then
+          return aprRoute
+        end
+      end
+    end
+    return lz
+  end
+
+  for questName,questInfo in pairs(this.ihQuestsInfo)do
+    if TppQuest.IsActive(questName) then
+      if questInfo.disableLzs then
+        InfCore.Log("DisableLandingZones IsActive:"..questName)
+        for i,lz in ipairs(questInfo.disableLzs) do
+          local otherRoute=FindMatchLZ(lz)
+          InfCore.Log("otherRoute"..tostring(otherRoute))
+          TppUiCommand.AddDisabledLandPoint(otherRoute)
+          TppLandingZone.GroundDisableLandingZone(lz)
+        end
+      end
     end
   end
 end
+
 
 return this

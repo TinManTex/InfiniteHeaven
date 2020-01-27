@@ -218,4 +218,24 @@ function this.GetRepeatMult()
   return currentIncrementMult
 end
 
+--tex all buttons in combo must be held TODO: some weirdness with trying to check multiple combos
+function this.OnComboActive(combo)
+  local comboActive=true
+  for i,button in ipairs(combo)do
+    if not this.ButtonHeld(button) then
+      comboActive=false
+      break
+    end
+  end
+
+  if comboActive then
+    for i,button in ipairs(combo)do
+      this.buttonStates[button].heldStart=0
+    end
+    return true
+  end
+  
+  return false
+end
+
 return this

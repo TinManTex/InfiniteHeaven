@@ -20,13 +20,14 @@ package.path=package.path..";./ExternalLua/modules/?.lua"
 package.path=package.path..";./nonmgscelua/?.lua"
 
 --
+Mock=[[C:\]]--DEBUGNOW[[C:\GamesSD\MGS_TPP\]]--tex indicator to stop InfMain from running loadexternalmodules on its load
 
-bit=require"bit"
+
 
 --UTIL
-Util={}
+MockUtil={}
 
-function Util.Split(s, delimiter)
+function MockUtil.Split(s, delimiter)
   local result = {};
   for match in (s..delimiter):gmatch("(.-)"..delimiter) do
     table.insert(result, match);
@@ -34,7 +35,7 @@ function Util.Split(s, delimiter)
   return result;
 end
 
-function Util.MergeTable(table1,table2,n)
+function MockUtil.MergeTable(table1,table2,n)
   local mergedTable=table1
   for k,v in pairs(table2)do
     if table1[k]==nil then
@@ -58,35 +59,14 @@ dofile("MockFox/MockFoxEngine.lua")
 
 print"parse main.lua: MockFoxEngine done"
 
---local init,err=loadfile("./Data1Lua/init.lua")
+--local init,err=loadfile("./Data1Lua/init.lua")--tex TODO DEBUG loadfile hangs in LDT?
 --if not err then
 --init()
 --else
 --print(tostring(err))
 --end
 
---Mock modules - would be able to include these too if I mocked every non module variable lol
-TppDefine={}
-TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST={}
-local numMbDemos=47--SYNC #MB_FREEPLAY_DEMO_PRIORITY_LIST
-for i=1,numMbDemos do
-  TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST[i]=tostring(i).." TODO IMPLEMENT MB_FREEPLAY_DEMO_PRIORITY_LIST"
-end
-TppDefine.ENEMY_HELI_COLORING_TYPE={}
-TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT=0
-TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK=1
-TppDefine.ENEMY_HELI_COLORING_TYPE.RED=2
-function TppDefine.Enum(enumNames)
-  if type(enumNames)~="table"then
-    return
-  end
-  local enumTable={}
-  for i,enumName in pairs(enumNames)do
-    enumTable[enumName]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
-  end
-  return enumTable
-end
-
+--PATCHUP - would be able to include these too if I mocked every non module variable lol
 TppMission={}--TODO IMPLEMENT
 TppMission.IsFOBMission=function(missionCode)--TODO IMPLEMENT
   return false
@@ -116,131 +96,190 @@ TppQuest.QUEST_CATEGORIES={
 
 TppTerminal={}
 TppTerminal.MBDVCMENU={}
-TppUiCommand={}--TODO IMPLEMENT
-TppUiCommand.AnnounceLogDelayTime=function()
-end
-TppUiCommand.AnnounceLogView=function(string)
-  print(string)
-end
+--end mock stuff
 
-
---init.lua
-
+--init.lua>
 Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/IvarProc.lua"--tex
 --tex init seems to be loaded sandboxed, or some other funkery preventing _G from being added to, so loading some external modules to global inside InfInit (LoadLibrary is not boxed).
 Script.LoadLibrary"/Assets/tpp/script/lib/InfInit.lua"--tex
+--init.lua<
 
+--start.lua>
+if Script.LoadLibrary then
+  local tppOrMgoPath
+  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+    tppOrMgoPath="/Assets/mgo/"
+  else
+    tppOrMgoPath="/Assets/tpp/"
+  end
+  local filePath
+  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+    filePath="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
+  else
+    filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
+  end
 
-InfPersistence=require"InfPersistence"
-
---InfModelProc=require"InfModelProc"--TODO get working
-
-
-ivars={}--tex GLOBAL
-evars={}--tex GLOBAL
-
-
---end mock stuff
---start.lua
-local tppOrMgoPath
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  tppOrMgoPath="/Assets/mgo/"
-else
-  tppOrMgoPath="/Assets/tpp/"
-end
-local filePath
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  filePath="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
-else
-  filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
-end
-
-Script.LoadLibraryAsync(filePath)
-while Script.IsLoadingLibrary(filePath)do
+  Script.LoadLibraryAsync(filePath)
+  while Script.IsLoadingLibrary(filePath)do
+    yield()
+  end
+  local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
+  if TppEquip.IsExistFile(filePath)then
+    Script.LoadLibrary(filePath)
+  else
+    Script.LoadLibrary"Tpp/Scripts/Equip/EquipParameters.lua"
+  end
   yield()
-end
-local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
-if TppEquip.IsExistFile(filePath)then
-  Script.LoadLibrary(filePath)
-else
-  Script.LoadLibrary"Tpp/Scripts/Equip/EquipParameters.lua"
-end
-yield()
-local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
-if TppEquip.IsExistFile(filePath)then
-  Script.LoadLibrary(filePath)
-end
+  local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
+  if TppEquip.IsExistFile(filePath)then
+    Script.LoadLibrary(filePath)
+  end
 
-Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"
-Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerTables.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerProgression.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/ChimeraPartsPackageTable.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/EquipConfig.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/WeaponParameterTables.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/RulesetConfig.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/SafeSpawnConfig.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/SoundtrackConfig.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/PresetRadioConfig.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/player/Stats/StatTables.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/PointOfInterestConfig.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/damage/ParameterTables/DamageParameterTables.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipMotionData.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"
-  Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
-else
-  yield()
-  Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
-  yield()
-  Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
-  yield()
-  Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
-  yield()
-  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"
-  Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"
-  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
-  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
-  yield()
-  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"
-  yield()
+  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"
+  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"
+  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+    Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerTables.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerProgression.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/ChimeraPartsPackageTable.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/EquipConfig.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/WeaponParameterTables.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/RulesetConfig.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/SafeSpawnConfig.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/SoundtrackConfig.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/PresetRadioConfig.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/player/Stats/StatTables.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/PointOfInterestConfig.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/damage/ParameterTables/DamageParameterTables.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipMotionData.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
+  else
+    yield()
+    Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
+    yield()
+    Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
+    yield()
+    Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
+    yield()
+    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"
+    Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"
+    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
+    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
+    yield()
+    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"
+    yield()
+  end
+  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
+  else
+    Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
+  end
+  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+    Script.LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"
+  end
+  Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
+  while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
+    yield()
+  end
+
+  --tex TODO: to LoadLibraryAsync - if module.requires then load each requires
+  local requires=Tpp.requires
+
+  local requires={
+    "/Assets/tpp/script/lib/InfRequiresStart.lua",--tex
+    "/Assets/tpp/script/lib/TppDefine.lua",
+    "/Assets/tpp/script/lib/TppMath.lua",
+    --"/Assets/tpp/script/lib/TppSave.lua",
+    "/Assets/tpp/script/lib/TppLocation.lua",
+    "/Assets/tpp/script/lib/TppSequence.lua",
+    "/Assets/tpp/script/lib/TppWeather.lua",
+    "/Assets/tpp/script/lib/TppDbgStr32.lua",
+    "/Assets/tpp/script/lib/TppDebug.lua",
+    "/Assets/tpp/script/lib/TppClock.lua",
+    --"/Assets/tpp/script/lib/TppUI.lua",
+    --"/Assets/tpp/script/lib/TppResult.lua",
+    "/Assets/tpp/script/lib/TppSound.lua",
+    --"/Assets/tpp/script/lib/TppTerminal.lua",
+    "/Assets/tpp/script/lib/TppMarker.lua",
+    "/Assets/tpp/script/lib/TppRadio.lua",
+    --"/Assets/tpp/script/lib/TppPlayer.lua",
+    "/Assets/tpp/script/lib/TppHelicopter.lua",
+    "/Assets/tpp/script/lib/TppScriptBlock.lua",
+    --"/Assets/tpp/script/lib/TppMission.lua",
+    "/Assets/tpp/script/lib/TppStory.lua",
+    "/Assets/tpp/script/lib/TppDemo.lua",
+    --"/Assets/tpp/script/lib/TppEnemy.lua",
+    "/Assets/tpp/script/lib/TppGeneInter.lua",
+    "/Assets/tpp/script/lib/TppInterrogation.lua",
+    --"/Assets/tpp/script/lib/TppGimmick.lua",
+    "/Assets/tpp/script/lib/TppMain.lua",
+    "/Assets/tpp/script/lib/TppDemoBlock.lua",
+    "/Assets/tpp/script/lib/TppAnimalBlock.lua",
+    "/Assets/tpp/script/lib/TppCheckPoint.lua",
+    "/Assets/tpp/script/lib/TppPackList.lua",
+    --"/Assets/tpp/script/lib/TppQuest.lua",
+    "/Assets/tpp/script/lib/TppTrap.lua",
+    "/Assets/tpp/script/lib/TppReward.lua",
+    --"/Assets/tpp/script/lib/TppRevenge.lua",
+    "/Assets/tpp/script/lib/TppReinforceBlock.lua",
+    "/Assets/tpp/script/lib/TppEneFova.lua",
+    "/Assets/tpp/script/lib/TppFreeHeliRadio.lua",
+    --"/Assets/tpp/script/lib/TppHero.lua",
+    "/Assets/tpp/script/lib/TppTelop.lua",
+    "/Assets/tpp/script/lib/TppRatBird.lua",
+    "/Assets/tpp/script/lib/TppMovie.lua",
+    --"/Assets/tpp/script/lib/TppAnimal.lua",
+    --"/Assets/tpp/script/lib/TppException.lua",
+    --"/Assets/tpp/script/lib/TppTutorial.lua",
+    "/Assets/tpp/script/lib/TppLandingZone.lua",
+    "/Assets/tpp/script/lib/TppCassette.lua",
+    "/Assets/tpp/script/lib/TppEmblem.lua",
+    "/Assets/tpp/script/lib/TppDevelopFile.lua",
+    "/Assets/tpp/script/lib/TppPaz.lua",
+    --"/Assets/tpp/script/lib/TppRanking.lua",
+    --"/Assets/tpp/script/lib/TppTrophy.lua",
+    "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
+    "/Assets/tpp/script/lib/InfButton.lua",--tex>
+    "/Assets/tpp/script/lib/InfModules.lua",
+    "/Assets/tpp/script/lib/InfMain.lua",
+    "/Assets/tpp/script/lib/InfMenu.lua",
+    "/Assets/tpp/script/lib/InfEneFova.lua",
+    "/Assets/tpp/script/lib/InfRevenge.lua",
+    "/Assets/tpp/script/lib/InfSoldierParams.lua",
+    "/Assets/tpp/script/lib/InfFova.lua",
+    "/Assets/tpp/script/lib/InfLZ.lua",
+    "/Assets/tpp/script/lib/InfPersistence.lua",
+    "/Assets/tpp/script/lib/InfHooks.lua",--<
+  }
+
+  for i,modulePath in ipairs(requires)do
+    Script.LoadLibrary(modulePath)
+  end
+
+  Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
+  Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
+  --Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
+  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+    Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"
+    Script.LoadLibrary"/Assets/mgo/script/lib/PostTppOverrides.lua"
+    Script.LoadLibrary"/Assets/mgo/script/lib/MgoMain.lua"
+    Script.LoadLibrary"Tpp/Scripts/System/Block/Overflow.lua"
+    Script.LoadLibrary"/Assets/mgo/level_asset/config/TppMissionList.lua"
+    Script.LoadLibrary"/Assets/mgo/script/utils/Utils.lua"
+    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterGear.lua"
+    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterConnectPointFiles.lua"
+    Script.LoadLibrary"/Assets/mgo/script/player/PlayerResources.lua"
+    Script.LoadLibrary"/Assets/mgo/script/player/PlayerDefaults.lua"
+    Script.LoadLibrary"/Assets/mgo/script/Matchmaking.lua"
+  else
+    Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"
+    Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"
+  end
 end
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
-else
-  Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
-end
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  Script.LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"
-end
-Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
---  while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
---    yield()
---  end
-Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
-Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
---Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
---  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
---    Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"
---    Script.LoadLibrary"/Assets/mgo/script/lib/PostTppOverrides.lua"
---    Script.LoadLibrary"/Assets/mgo/script/lib/MgoMain.lua"
---    Script.LoadLibrary"Tpp/Scripts/System/Block/Overflow.lua"
---    Script.LoadLibrary"/Assets/mgo/level_asset/config/TppMissionList.lua"
---    Script.LoadLibrary"/Assets/mgo/script/utils/Utils.lua"
---    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterGear.lua"
---    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterConnectPointFiles.lua"
---    Script.LoadLibrary"/Assets/mgo/script/player/PlayerResources.lua"
---    Script.LoadLibrary"/Assets/mgo/script/player/PlayerDefaults.lua"
---    Script.LoadLibrary"/Assets/mgo/script/Matchmaking.lua"
---  else
---Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"
---Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"
---  end
---end
 yield()
 pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
 
@@ -248,7 +287,7 @@ Script.LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camo
 
 yield()
 
---loadfile"Tpp/Scripts/System/start2nd.lua"
+--loadfile"Tpp/Scripts/System/start2nd.lua"--tex TODO DEBUG loadfile hangs in LDT?
 --do
 --  local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
 --  repeat
@@ -279,7 +318,6 @@ InfInspect=require"InfInspect"
 IvarProc=require"IvarProc"
 InfButton=require"InfButton"
 
-Mock=true--tex indicator to stop InfMain from running loadexternalmodules on its load
 InfMain=require"InfMain"
 InfLookup=require"InfLookup"
 
@@ -349,8 +387,6 @@ local function PrintGenericRoutes()
     "afgh_routeSets",
     "mafr_routeSets",
   }
-
-
 
   for i,moduleName in ipairs(modules)do
     local lrrpNumberDefine=afgh_travelPlans.lrrpNumberDefine
@@ -713,7 +749,7 @@ local function BuildFovaTypesList()
     print("this."..tableName.."Info={")
     local list={}
     for i,entry in ipairs(fovaTable)do
-      local split=Util.Split(entry[1],"/")
+      local split=MockUtil.Split(entry[1],"/")
       local id=split[#split]
       table.insert(list,id)
       print("{")
@@ -1059,15 +1095,15 @@ local function CullExeStrings()
   --    [[:]],
   }
   for line in file:lines() do
---print(line)
+    --print(line)
     local ok=true
---    --for i,char in ipairs(skipList) do
-      if string.find(line,"%W")  or
-string.find(line,"%A") or
- string.find(line," ")then
-        ok=false
-      end
---    --end
+    --    --for i,char in ipairs(skipList) do
+    if string.find(line,"%W")  or
+      string.find(line,"%A") or
+      string.find(line," ")then
+      ok=false
+    end
+    --    --end
     if ok then
       print(line)
       table.insert(strings,line)
@@ -1080,12 +1116,166 @@ string.find(line,"%A") or
 
   local file=io.open(outFile,"w")
   for i,line in ipairs(strings)do
-  file:write([["]]..line..[[",]]..nl)
+    file:write([["]]..line..[[",]]..nl)
   end
   file:close()
 
 
 
+end
+
+local function BitmapShit()
+  TppDefine=TppDefine or {}
+  TppDefine.LOCATION_ID=TppDefine.LOCATION_ID or {}
+  TppDefine.LOCATION_ID.AFGH=1
+  TppDefine.LOCATION_ID.MAFR=2
+
+  local questAreas={
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="tent",         loadArea={116,134,131,152},activeArea={117,135,130,151},invokeArea={117,135,130,151}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="field",        loadArea={132,138,139,155},activeArea={133,139,138,154},invokeArea={133,139,138,154}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="ruins",        loadArea={140,138,148,154},activeArea={141,139,147,153},invokeArea={141,139,147,153}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="waterway",     loadArea={117,125,131,133},activeArea={118,126,130,132},invokeArea={118,126,130,132}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="cliffTown",    loadArea={132,120,141,137},activeArea={133,121,140,136},invokeArea={133,121,140,136}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="commFacility", loadArea={142,128,153,137},activeArea={143,129,152,136},invokeArea={143,129,152,136}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="sovietBase",   loadArea={112,114,131,124},activeArea={113,115,130,123},invokeArea={113,115,130,123}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="fort",         loadArea={142,116,153,127},activeArea={143,117,152,126},invokeArea={143,117,152,126}},
+    {locationId=TppDefine.LOCATION_ID.AFGH,areaName="citadel",      loadArea={118,105,125,113},activeArea={119,106,124,112},invokeArea={119,106,124,112}},
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="outland",      loadArea={121,124,132,150},activeArea={122,125,131,149},invokeArea={122,125,131,149}},
+
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="pfCamp",       loadArea={133,139,148,150},activeArea={134,140,147,149},invokeArea={134,140,147,149}},
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="savannah",     loadArea={133,129,145,138},activeArea={134,130,144,137},invokeArea={134,130,144,137}},
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="hill",         loadArea={146,129,159,138},activeArea={147,130,158,137},invokeArea={147,130,158,137}},
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="banana",       loadArea={133,110,141,128},activeArea={134,111,140,127},invokeArea={134,111,140,127}},
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="diamond",      loadArea={142,110,149,128},activeArea={143,111,148,127},invokeArea={143,111,148,127}},
+    {locationId=TppDefine.LOCATION_ID.MAFR,areaName="lab",          loadArea={150,110,159,128},activeArea={151,111,158,127},invokeArea={151,111,158,127}},
+  }
+
+  local colors={
+    {r=1,   g=0,    b=0},--tent
+    {r=0.5, g=0,    b=0},--field
+    {r=0,   g=1,    b=0},--ruins
+    {r=0,   g=0.5,  b=0},--waterway
+    {r=0,   g=0,    b=1},--cliffTown
+    {r=0,   g=0,    b=0.5},--commFacility
+    {r=1,   g=1,    b=0},--sovietBase
+    {r=0.5, g=0.5,  b=0},--fort
+    {r=0,   g=0.5,  b=0.5},--citadel
+  }
+
+  local BitMapWriter=require"BitMapWriter"
+  local pic=BitMapWriter(200,200)
+  for i,questArea in ipairs(questAreas)do
+    if questArea.locationId==1 then
+      local color=colors[i]
+
+      local minX=questArea.loadArea[1]
+      local minY=questArea.loadArea[2]
+      local maxX=questArea.loadArea[3]
+      local maxY=questArea.loadArea[4]
+
+      local minPixel=pic[minX+1][minY+1]
+      local maxPixel=pic[maxX+1][maxY+1]
+      for c,v in pairs(color)do
+        minPixel[c]=v
+        maxPixel[c]=v
+      end
+
+
+    end
+  end
+
+
+
+  pic:save([[D:\Projects\MGS\plotted.bmp]])
+end
+
+--tex gets all file extensions and counts
+--requires a dir /b /s > somefile.txt of all files
+local function ExtensionShit()
+  --extensionshit
+  local basePath=[[J:\GameData\MGS\]]
+  local inFile=basePath.."AllFileList.txt"
+  local outFile=basePath.."allextensions.txt"
+
+  local file=io.open(inFile,"r")
+  if file==nil then
+    print("cant find "..inFile)
+    return
+  end
+  local extensions={}
+  -- read the lines in table 'lines'
+
+  for line in file:lines() do
+    local last=InfUtil.FindLast(line,".")
+    local ext=""
+    if last then
+      ext=string.sub(line,last,#line)
+    end
+
+    print(ext)
+    if not extensions[ext] then
+      extensions[ext]=0
+    end
+    extensions[ext]=extensions[ext]+1
+  end
+  file:close()
+
+  local extensionsList={}
+  for ext,count in pairs(extensions)do
+    table.insert(extensionsList,ext)
+  end
+
+  table.sort(extensionsList)
+
+  local nl='\n'
+
+  local file=io.open(outFile,"w")
+  for i,ext in ipairs(extensionsList)do
+    file:write(ext..":"..extensions[ext]..nl)
+  end
+  file:close()
+end
+
+--tex unique merge of files
+local function MergeFiles()
+
+  local basePath=[[D:\Projects\MGS\MGSVTOOLS\GzsTool\]]
+  local fileOne=basePath.."qar_dictionary.txt"
+  local fileTwo=basePath.."qar_dictionary_pauls.txt"
+  local outFile=basePath.."qar_dictionary_merged.txt"
+
+  local uniqueLines={}
+
+  local function AddToUnique(filePath)
+    local file=io.open(filePath,"r")
+    if file==nil then
+      print("cant find "..filePath)
+      return
+    end
+    for line in file:lines() do
+      uniqueLines[line]=true
+    end
+    file:close()
+  end
+
+  AddToUnique(fileOne)
+  AddToUnique(fileTwo)
+
+
+  local linesList={}
+  for line,bool in pairs(uniqueLines)do
+    table.insert(linesList,line)
+  end
+
+  table.sort(linesList)
+
+  local nl='\n'
+
+  local file=io.open(outFile,"w")
+  for i,line in ipairs(linesList)do
+    file:write(line..nl)
+  end
+  file:close()
 end
 
 local function main()
@@ -1144,7 +1334,7 @@ local function main()
   local allTxt=readAll(strcodetxt)
   local outTxt={
     }
-  local file,error=io.open(strcodetxt,"r")
+  local file,openError=io.open(strcodetxt,"r")
   if file then
     while true do
       local line=file:read()
@@ -1173,6 +1363,15 @@ local function main()
   -- GenerateLzs()
 
   --CullExeStrings()
+
+  --
+
+  --BitmapShit()
+
+  --ExtensionShit()
+
+  --MergeFiles()
+
 
   print"main done"
 end

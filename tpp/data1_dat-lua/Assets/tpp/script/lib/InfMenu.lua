@@ -13,6 +13,7 @@ local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 local TppUiCommand=TppUiCommand
+local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
 
 --tex REFACTOR: most of these can be local
 this.currentMenu=nil
@@ -282,6 +283,24 @@ function this.GoMenu(menu,goBack)
 
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
+
+  InfCore.ExtCmd'clear'
+  if menu==this.topMenu then
+    InfCore.ExtCmd("print","Top menu")
+  end
+  if menu.parent then
+    local optionIndex=menu.parentOption
+    local option=menu.parent.options[optionIndex]
+    local settingText=this.GetSettingText(optionIndex,option,false,true)
+    InfCore.ExtCmd("print",settingText)
+  end
+  InfCore.ExtCmd("print","----------")
+  for optionIndex=1,#menu.options do
+    local option=this.currentMenuOptions[optionIndex]
+    local settingText=this.GetSettingText(optionIndex,option,false,true)
+    InfCore.ExtCmd('print',settingText)
+  end
+
   this.GetSetting(previousIndex,previousMenuOptions)
 end
 
@@ -299,9 +318,9 @@ function this.GoBackCurrent()
 end
 
 --tex display settings
-function this.DisplayCurrentSetting(optionNameOnly)
+function this.DisplayCurrentSetting(dontLog)
   if this.menuOn then
-    this.DisplaySetting(this.currentIndex,optionNameOnly)
+    this.DisplaySetting(this.currentIndex,false,dontLog)
   end
 end
 
@@ -315,7 +334,7 @@ local itemIndicators={
   activate=" <Action>",
 }
 
-function this.GetSettingText(optionIndex,option,optionNameOnly)
+function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator)
   local settingText=""
   local settingSuffix=""
   local optionSeperator=""
@@ -323,13 +342,19 @@ function this.GetSettingText(optionIndex,option,optionNameOnly)
   local currentSetting=ivars[option.name]
 
   if option.isMenuOff then
-    optionSeperator=itemIndicators.command_menu_off
+    if not noItemIndicator then
+      optionSeperator=itemIndicators.command_menu_off
+    end
     settingText=""
   elseif option.optionType=="COMMAND" then
-    optionSeperator=itemIndicators.command
+    if not noItemIndicator then
+      optionSeperator=itemIndicators.command
+    end
     settingText=""
   elseif option.optionType=="MENU" then
-    optionSeperator=itemIndicators.menu
+    if not noItemIndicator then
+      optionSeperator=itemIndicators.menu
+    end
     settingText=""
   elseif currentSetting==nil then
     settingText=": ERROR: ivar==nil"
@@ -352,7 +377,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly)
   end
 
   if option.OnActivate then
-    optionSeperator=itemIndicators.activate..optionSeperator
+    if not noCommandType then
+      optionSeperator=itemIndicators.activate..optionSeperator
+    end
   end
 
   if option.isPercent then
@@ -378,13 +405,16 @@ function this.GetSettingText(optionIndex,option,optionNameOnly)
   return fullSettingText
 end
 
-function this.DisplaySetting(optionIndex,optionNameOnly)
+function this.DisplaySetting(optionIndex,optionNameOnly,dontLog)
   local option=this.currentMenuOptions[optionIndex]
   local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
   --OFF this.QueueDisplay(message)
   TppUiCommand.AnnounceLogDelayTime(0)
   TppUiCommand.AnnounceLogView(settingText)
-  this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
+  if not dontLog then
+    InfCore.ExtCmd("printbottom",settingText)
+  end
+  this.lastDisplay=GetElapsedTime()
 end
 --tex display all
 function this.DisplaySettings()
@@ -414,21 +444,21 @@ end
 --end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
-    if Time.GetRawElapsedTimeSinceStartUp()-this.lastDisplay>this.autoDisplayRate then
+    if GetElapsedTime()-this.lastDisplay>this.autoDisplayRate then
       --if #InfMessageLog.display==0 then
-      this.DisplayCurrentSetting()
+      this.DisplayCurrentSetting(true)
       --end
     end
   end
   --OFF
-  --  if Time.GetRawElapsedTimeSinceStartUp()-this.lastDisplay>this.autoRatePressed then
+  --  if GetElapsedTime()-this.lastDisplay>this.autoRatePressed then
   --    this.DisplayQueue()
   --  end
 end
 function this.DisplayHelpText()
   local option=this.currentMenuOptions[this.currentIndex]
   if option.helpText~=nil then
-    --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
+    --this.lastDisplay=GetElapsedTime()
     TppUiCommand.AnnounceLogView(option.helpText)--ADDLANG:
   end
 end
@@ -608,7 +638,21 @@ function this.OnActivate()
 
   this.GetSetting()
   TppUiStatusManager.ClearStatus"AnnounceLog"
-  TppUiCommand.AnnounceLogView(InfCore.modName.." r"..InfCore.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
+
+  local message=InfCore.modName.." r"..InfCore.modVersion.." ".. this.LangString"menu_open_help"--(Press Up/Down,Left/Right to navigate menu)
+  TppUiCommand.AnnounceLogView(message)
+
+  InfCore.ExtCmd'clear'
+  InfCore.ExtCmd('print',message)
+  for optionIndex=1,#this.currentMenuOptions do
+    local option=this.currentMenuOptions[optionIndex]
+    local settingText=this.GetSettingText(optionIndex,option,false,true)
+    InfCore.ExtCmd('print',settingText)
+  end
+  local optionIndex=this.currentIndex
+  local option=this.currentMenuOptions[optionIndex]
+  local settingText=this.GetSettingText(optionIndex,option,false)
+  InfCore.ExtCmd("printbottom",settingText)
 
   InfMain.OnMenuOpen()
 end
@@ -619,6 +663,9 @@ function this.OnDeactivate()
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()
   InfMain.OnMenuClose()
+
+  InfCore.ExtCmd("clear")
+  InfCore.ExtCmd("printbottom",this.LangString"menu_off")
 end
 
 function this.CheckActivate(execCheck)
@@ -690,7 +737,7 @@ function this.Update(execCheck)
         if execCheck.inDemo then
           quickMenu=InfQuickMenuDefs.inDemo
         end
-        
+
         for button,commandInfo in pairs(quickMenu) do
           InfButton.buttonStates[button].holdTime=commandInfo.immediate and 0.05 or 0.9
           if commandInfo.immediate then

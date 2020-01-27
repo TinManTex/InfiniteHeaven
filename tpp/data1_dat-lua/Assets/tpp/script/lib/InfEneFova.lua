@@ -1639,4 +1639,11 @@ function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil 
   return true
 end
 
+function this.IsFaceFemale(faceId)
+--tex NOTE CheckFemale is a misnomer, it actually returns some kind of face type (in list form since it seems it can take a list of faces as seen in mtbs_enemy)
+--seems to be 0=male,1=female,2=child? this would match with SetExtendPartsInfo{type= 
+  local faceTypeList=TppSoldierFace.CheckFemale{face={faceId}}
+  return faceTypeList and faceTypeList[1]==1
+end
+
 return this

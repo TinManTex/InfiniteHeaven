@@ -22,7 +22,7 @@ function this.Init()
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
-  
+
   --update heli vars
   --texcalled from TppMain.Onitiialize, so should only be 'enable/change from default', VERIFY it's in the right spot to override each setting
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")
@@ -58,12 +58,12 @@ function this.Init()
 
   --if TppMission.IsMbFreeMissions(vars.missionCode) then--TEST no aparent result on initial testing, in-engine pullout check must be overriding
   --  TppUiStatusManager.UnsetStatus( "MbMap", "BLOCK_TAXI_CHANGE_LOCATION" )
-  --end  
+  --end
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local Ivars=Ivars
-  
+
   if TppUiCommand.IsMbDvcTerminalOpened()then
     return
   end
@@ -80,22 +80,23 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --tex TODO some kind of periodic print if player in heli and pullout disabled (in any way, by temporary button press or actual ivar set)
 
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
-    if InfButton.OnButtonDown(InfButton.STANCE) then
+    InfButton.buttonStates[InfButton.STANCE].holdTime=0.85--DEBUGNOW why isnt this firing if set to 0.9 or above
+    if InfButton.OnButtonHoldTime(InfButton.STANCE) then--DEBUGNOW TEST also make so disablepullout ivar doesnt apply in mother base, or do seperate ivar
       --InfCore.DebugPrint"STANCE"--DEBUG
       --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
       if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
         --InfCore.DebugPrint"IsTimerActive"--DEBUG
         GameObject.SendCommand(heliId,{id="RequestSnedDoorOpen"})
+    else
+      if Ivars.disablePullOutHeli:Is(1) then
+        --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
+        Ivars.disablePullOutHeli:Set(0,true)--tex overrules all, but we can tell it to not save so that's ok
+        InfMenu.PrintLangId"heli_pulling_out"
       else
-        if Ivars.disablePullOutHeli:Is(1) then
-          --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
-          Ivars.disablePullOutHeli:Set(0,true)--tex overrules all, but we can tell it to not save so that's ok
-          InfMenu.PrintLangId"heli_pulling_out"
-        else
-          Ivars.disablePullOutHeli:Set(1,true)
-          InfMenu.PrintLangId"heli_hold_pulling_out"
-        end
+        Ivars.disablePullOutHeli:Set(1,true)
+        InfMenu.PrintLangId"heli_hold_pulling_out"
       end
+    end
     end--button down
   end--not menu, insupportheli
 end

@@ -48,10 +48,10 @@
           <value></value>
         </property>
         <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value>/Assets/tpp/chara/prs/Scenes/prs2_main0_def.fmdl</value>
+          <value>/Assets/tpp/chara/dds/Scenes/dds1_main0_def.fmdl</value>
         </property>
         <property name="connectPointFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value>/Assets/tpp/chara/prs/Scenes/prs2_main0_def.fcnp</value>
+          <value>/Assets/tpp/chara/dds/Scenes/dds1_main0_def.fcnp</value>
         </property>
         <property name="gameRigFile" type="FilePtr" container="StaticArray" arraySize="1">
           <value>/Assets/tpp/rig/frig/human_finger.frig</value>
@@ -93,7 +93,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>Target</value>
@@ -116,7 +116,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value></value>
@@ -139,7 +139,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value></value>
@@ -162,7 +162,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="PhysicsDescription0000">0x072D2A10</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="PhysicsDescription0000">0x072D2A10</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value></value>
@@ -185,7 +185,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>StunLightning</value>
@@ -244,7 +244,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>BurnUpper</value>
@@ -312,7 +312,7 @@
           <value>0x072D2EE0</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts" nameInArchive="ModelDescription0000">0x072D2C40</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value>BurnLower</value>

@@ -1,5 +1,8 @@
 -- MockFoxEngine.lua
 
+--library modules
+bit=require"bit"
+
 --engine side
 
 --mock
@@ -74,6 +77,35 @@ Fox.GetPlatformName=function()
   return "Windows"
 end
 
+foxmath={}
+--tex TODO don't know if params match
+foxmath.Absf=math.abs
+foxmath.Acos=math.acos
+foxmath.Asin=math.asin
+foxmath.Atan=math.atan
+foxmath.Atan2=math.atan--
+foxmath.Ceil=math.ceil
+--foxmath.Clamp=
+foxmath.Cos=math.cos
+foxmath.DegreeToRadian=math.rad
+foxmath.Exp=math.exp
+--foxmath.FRnd=
+foxmath.Floor=math.floot
+foxmath.Log=math.log
+foxmath.Max=math.max
+foxmath.Min=math.min
+foxmath.Mod=math.modf
+--foxmath.NormalizeRadian=
+foxmath.PI=3.1415927410126
+foxmath.Pow=math.pow
+foxmath.RadianToDegree=math.deg
+foxmath.Round=math.round
+--foxmath.Rsqrt=
+--foxmath.Saturate=math.acos
+foxmath.Sin=math.sin
+foxmath.Sqrt=math.sqrt
+foxmath.Tan=math.tan
+
 GameObject={}
 
 GkEventTimerManager={}
@@ -84,6 +116,12 @@ GkEventTimerManager.IsTimerActive=function()end
 HeadshotMessageFlag={}
 
 Mission={}
+
+MotherBaseStage={}
+--REF {0,10,20,30,40,70,80,90,980}
+MotherBaseStage.RegisterModifyLayoutCodes=function(layoutCodes)
+  MotherBaseStage._layoutCodes=layoutCodes
+end
 
 NeutralizeCause={}
 NeutralizeFobCause={}
@@ -102,21 +140,38 @@ PlayerType.DD_MALE=1
 PlayerType.DD_FEMALE=2
 PlayerType.AVATAR=3
 
+Popup={}
+Popup.TYPE_ONE_BUTTON=1
+Popup.TYPE_TWO_BUTTON=2
+Popup.TYPE_ONE_CANCEL_BUTTON=3
+Popup.SELECT_OK=1
+
 Script={}
 Script.LoadLibrary=function(scriptPath)
-  local split=Util.Split(scriptPath,"/")
+  local split=MockUtil.Split(scriptPath,"/")
   local moduleName=split[#split]
   moduleName=string.sub(moduleName,1,-string.len(".lua")-1)
+  print("ScriptLoad:"..scriptPath)
 
-  local module=dofile(projectDataPath..scriptPath)
-  if _G[moduleName] then
-    _G[moduleName]=Util.MergeTable(_G[moduleName],module)
+  local moduleChunk=dofile(projectDataPath..scriptPath)
+  --DEBUGNOW
+  if loadError then
+    print(loadError)
   else
-    _G[moduleName]=module
+    local module=moduleChunk--DEBUGNOWmoduleChunk()
+    if not module then
+      print(moduleName.."==nil")
+    else
+      if _G[moduleName] then
+        _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides
+      else
+        _G[moduleName]=module
+      end
+    end
   end
-  print("ScriptLoad:"..moduleName)
 end
 Script.LoadLibraryAsync=Script.LoadLibrary
+--tex used in conjunction with above
 Script.IsLoadingLibrary=function()
   return false
 end
@@ -263,10 +318,19 @@ TppScriptVars={
 
 TppSystem={}
 
+TppUiCommand={}
+TppUiCommand.AnnounceLogDelayTime=function()
+end
+TppUiCommand.AnnounceLogView=function(string)
+  print(string)
+end
+
 WeatherManager={}
 --VERIFY
 WeatherManager.FOG_TYPE_PARASITE=0
 WeatherManager.FOG_TYPE_NORMAL=1
+WeatherManager.NIGHT_START_CLOCK=65653
+WeatherManager.NIGHT_END_CLOCK=21873
 
 
 
@@ -331,6 +395,33 @@ TppSoldier2={}
 TppSoldier2.ReloadSoldier2ParameterTables=function(paramTable)
 end
 
+--UserData
+--DEBUGNOW KLUDGE
+--Vector3=function(x,y,z)
+--
+--end
+--Vector3={
+--  x=0,
+--  y=0,
+--  z=0,
+--}
+--Vector3.GetX=function(self)
+--  return self.x
+--end
+--Vector3.GetY=function(self)
+--  return self.x
+--end
+--Vector3.GetZ=function(self)
+--  return self.x
+--end
+-- Add = <function 1>,
+--  Cross = <function 2>,
+--  Dot = <function 3>,
+--  Normalize = <function 4>,
+--  Scale = <function 5>,
+--  Sub = <function 6>,
+--  ToString = <function 7>,
+
 --enums and values, TODO: possibly IMPLEMENT
 EnemyType={}
 
@@ -382,9 +473,27 @@ TppSoldierFace.SetBodyFovaDefinitionTable=function(fovaFileTable)
 end
 
 vars={}
+--DEBUGNOW vars.missionCode=1
+
 mvars={}
 svars={}
 gvars={}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -92,6 +92,12 @@ this.revertProfile={
   end,
 }
 
+this.saveToProfile={
+  OnChange=function()
+    IvarProc.WriteProfile(true,false)
+  end
+}
+
 this.printFaceInfo={
   OnChange=function()
     InfEneFova.PrintFaceInfo(vars.playerFaceId)
@@ -607,6 +613,114 @@ this.DEBUG_PrintInterrogationInfo={
   end
 }
 
+--DEBUGNOW
+local function IsIvar(ivar)--TYPEID
+  return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
+end
+
+local function IsForProfile(item)
+  if item.nonConfig
+    or item.optionType~="OPTION"
+    or item.nonUser
+    or not item.save
+  then
+    return false
+  end
+  return true
+end
+
+function this.BuildProfile(onlyNonDefault)
+  local profile={}
+  for ivarName,ivar in pairs(Ivars)do
+    if IsIvar(ivar) then
+      if IsForProfile(ivar) then
+        local currentSetting=ivars[ivar.name]
+        if not onlyNonDefault or currentSetting~=ivar.default then
+          profile[ivar.name]=currentSetting--tex DEBUGNOW get .setting enum name
+        end
+      end
+    end
+  end
+  return profile
+end
+
+
+--tex settings range on one line between braces
+function this.GetSettingsLine(ivar)
+  local settingsLine={}
+  if ivar.settings then--tex DEBUGNOW TODO filter dynamic
+    table.insert(settingsLine,"{ ")
+    for i,setting in ipairs(ivar.settings)do
+      table.insert(settingsLine,setting)
+      if i~=#ivar.settings then
+        table.insert(settingsLine,", ")
+      end
+    end
+    table.insert(settingsLine," }")
+  else
+    table.insert(settingsLine,"{ ")
+    table.insert(settingsLine,ivar.range.min.."-"..ivar.range.max)
+    table.insert(settingsLine," }")
+  end
+  return table.concat(settingsLine)
+end
+
+
+function this.WriteProfile(defaultSlot,onlyNonDefault)
+  local dateTime=os.date("%x %X")
+  local profile={
+    description="Saved profile "..dateTime,
+    modVersion=InfCore.modVersion,
+    profile=this.BuildProfile(onlyNonDefault),
+  }
+  --InfCore.PrintInspect(profile)--DEBUGN
+
+  local ivars={}
+  for k,v in pairs(profile.profile) do
+    ivars[#ivars+1]=k
+  end
+  table.sort(ivars)
+
+  local profileName="savedProfile"
+  if not defaultSlot then
+    profileName="savedProfile"..os.time()
+  end
+
+  local lang=InfLang.eng
+  local helpLang=InfLang.help.eng
+
+  local saveLineFormatStr="\t\t%s=%s,--%s -- %s -- %s"
+  local saveText={}
+  saveText[#saveText+1]="local this={"
+  saveText[#saveText+1]="\tdescription=\""..profile.description.."\","
+  saveText[#saveText+1]="\tprofile={"
+  for i,name in ipairs(ivars)do
+    local ivar=Ivars[name]
+
+    local value=profile.profile[name]
+    if value then
+      local settingsString=this.GetSettingsLine(ivar)
+      local nameLangString=lang[name] or ""
+      local helpLangString=helpLang[name] or ""
+      local line=string.format(saveLineFormatStr,name,value,settingsString,nameLangString,helpLangString)
+
+      saveText[#saveText+1]=line
+    end
+  end
+  saveText[#saveText+1]="\t}"
+  saveText[#saveText+1]="}"
+  saveText[#saveText+1]="return this"
+
+  InfCore.PrintInspect(table.concat(saveText))--DEBUGNOW
+
+  --DEBUGNOW Ivars.profiles[profileName]=profile
+  local profilesFileName=InfCore.paths.profiles..profileName..".lua"--DEBUGNOW
+  --  InfPersistence.Store(InfCore.paths.mod..profilesFileName,Ivars.savedProfiles)
+  InfCore.WriteStringTable(profilesFileName,saveText)
+end
+
+---
+
 local toggle1=false
 local index1Min=1
 local index1Max=4
@@ -616,6 +730,12 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
+
+    local equipStr="EQP_WP_EX_hg_013"
+    local str32=Fox.StrCode32(equipStr)
+    InfCore.Log(str32)
+
+if true then return end
     --DEBUGNOW
     local motionTable={
       --func = s10010_sequence.PushMotionOnSubEvent,
@@ -674,28 +794,29 @@ this.DEBUG_SomeShiz={
       local command={id="SetHostage2Flag",flag="disableFulton",on=true}
       GameObject.SendCommand(gameObjectId,command)
 
-      GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="commonNpc",on=true,})
+      --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="commonNpc",on=true,})
       -- GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableDamageReaction",on=true,})
-      GameObject.SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
+      --GameObject.SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
 
-      GameObject.SendCommand(gameObjectId,{
-        id = "SpecialAction",
-        action = action,
-        path = motionPath,
-        state = state,
-        autoFinish = autoFinish,
-        enableMessage = true,
-        enableGravity = motionTable.enableGravity,
-        enableCollision = enableCollision,
-        enableSubCollision = enableSubCollision,
-        enableGunFire = enableGunFire,
-        enableAim = enableAim,
-        startPos = startPos,
-        startRot = startRot,
-        enableCurtain = enableCurtain,
-      })
-
-      local command={id="Warp",degRotationY=-92.8,position=Vector3(vars.playerPosX+1,vars.playerPosY,vars.playerPosZ)}
+      local specialActionCmd=
+        {
+          id = "SpecialAction",
+          action = action,
+          path = motionPath,
+          state = state,
+          autoFinish = autoFinish,
+          enableMessage = true,
+          enableGravity = motionTable.enableGravity,
+          enableCollision = enableCollision,
+          enableSubCollision = enableSubCollision,
+          enableGunFire = enableGunFire,
+          enableAim = enableAim,
+          startPos = startPos,
+          startRot = startRot,
+          enableCurtain = enableCurtain,
+        }
+      --GameObject.SendCommand(gameObjectId,specialActionCmd)
+      local command={id="Warp",degRotationY=-92.8,position=Vector3(vars.playerPosX+2,vars.playerPosY,vars.playerPosZ+2)}
       GameObject.SendCommand(gameObjectId,command)
     end
 
@@ -714,15 +835,6 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
-
-    InfCore.Log("missionCode: "..tostring(vars.missionCode),true)
-    InfCore.Log("mbLayoutCode: "..tostring(vars.mbLayoutCode),true)
-    local firstCluster=MotherBaseStage.GetFirstCluster()
-    InfCore.Log("firstCluster: "..tostring(firstCluster),true)
-    local currentCluster=MotherBaseStage.GetCurrentCluster()
-    InfCore.Log("currentCluster: "..tostring(currentCluster),true)
-    local grade=TppLocation.GetMbStageClusterGrade(currentCluster)
-    InfCore.Log("grade: "..tostring(grade),true)
 
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -775,8 +887,6 @@ this.DEBUG_RandomizeAllIvars={
       heliUpdate=true,
 
       --WIP/OFF
-      blockFobTutorial=true,
-      setFirstFobBuilt=true,
       disableTranslators=true,
       vehiclePatrolPaintType=true,
       vehiclePatrolEmblemType=true,
@@ -879,8 +989,6 @@ this.DEBUG_SetIvarsToNonDefault={
       heliUpdate=true,
 
       --WIP/OFF
-      blockFobTutorial=true,
-      setFirstFobBuilt=true,
       disableTranslators=true,
       vehiclePatrolPaintType=true,
       vehiclePatrolEmblemType=true,

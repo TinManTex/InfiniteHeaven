@@ -189,6 +189,7 @@ function this.OnMissionCanStart()
       this.DisableLandingZone(afghanistanLZTable.ConnectLandingZoneTable.sovietBase_aacr001,"heli")
       this.DisableLandingZone(afghanistanLZTable.ConnectLandingZoneTable.powerPlant_aacr001,"heli")
     end
+    InfQuest.DisableLandingZones()--tex
   end
 end
 function this.DisableLandingZoneForMission(missionLZTable,missionTypeCodeName)

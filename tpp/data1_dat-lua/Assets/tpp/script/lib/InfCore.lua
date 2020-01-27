@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="202"
+this.modVersion="204"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -30,6 +30,10 @@ this.mainModulesOK=false
 this.otherModulesOK=false
 
 this.log={}
+--DEBUGNOW
+this.currentCmdIndex=0
+this.output={}
+this.extCmdIndex={}--tex map [cmd index]=output index
 
 this.logErr=""
 this.str32ToString={}
@@ -57,15 +61,20 @@ function this.Log(message,announceLog,force)
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
 
+  --DEBUGNOW
+  if Mock then
+    print(line)
+  end
+
   this.WriteLog(this.logFilePath,this.log)
 end
 
 --tex cant log error to log if log doesnt log lol
 function this.WriteLog(filePath,log)
-  local logFile,error=open(filePath,"w")
-  if not logFile or error then
+  local logFile,openError=open(filePath,"w")
+  if not logFile or openError then
     --this.DebugPrint("Create log error: "..tostring(error))
-    this.logErr=tostring(error)
+    this.logErr=tostring(openError)
     return
   end
 
@@ -74,9 +83,9 @@ function this.WriteLog(filePath,log)
 end
 
 function this.WriteStringTable(filePath,stringTable)
-  local logFile,error=open(filePath,"w")
-  if not logFile or error then
-    this.Log(error)
+  local logFile,openError=open(filePath,"w")
+  if not logFile or openError then
+    this.Log(openError)
     return
   end
 
@@ -91,15 +100,15 @@ function this.WriteLogLine(message)
   --TODO think which would be better, just appending to string then writing that
   --or (doing currently) reading exising and string append/write that
   --either way performance will decrease as log size increases
-  local logFile,error=open(filePath,"r")
+  local logFile,openError=open(filePath,"r")
   local logText=""
   if logFile then
     logText=logFile:read("*all")
     logFile:close()
   end
 
-  local logFile,error=open(filePath,"w")
-  if not logFile or error then
+  local logFile,openError=open(filePath,"w")
+  if not logFile or openError then
     --this.DebugPrint("Create log error: "..tostring(error))
     return
   end
@@ -118,8 +127,8 @@ function this.WriteLogLine(message)
 end
 
 function this.FileExists(filePath)
-  local file,error=open(filePath,"r")
-  if file and not error then
+  local file,openError=open(filePath,"r")
+  if file and not openError then
     file:close()
     return true
   end
@@ -128,14 +137,14 @@ end
 
 function this.CopyFileToPrev(path,fileName,ext)
   local filePath=path..fileName..ext
-  local file,error=open(filePath,"r")
-  if file and not error then
+  local file,openError=open(filePath,"r")
+  if file and not openError then
     local fileText=file:read("*all")
     file:close()
 
     local filePathPrev=path..fileName..this.prev..ext
-    local filePrev,error=open(filePathPrev,"w")
-    if not filePrev or error then
+    local filePrev,openError=open(filePathPrev,"w")
+    if not filePrev or openError then
       return
     end
 
@@ -146,12 +155,12 @@ end
 
 function this.ClearFile(path,fileName,ext)
   local filePath=path..fileName..ext
-  local logFile,error=open(filePath,"w")
+  local logFile,openError=open(filePath,"w")
   if logFile then
     logFile:write""
     logFile:close()
   else
-    return error
+    return openError
   end
 end
 --
@@ -232,6 +241,30 @@ function this.PrintInspect(var,options)
     ins=varName.."="..ins
   end
   this.Log(ins,options.announceLog)
+end
+
+function this.ExtCmd(cmd,args)
+  if not ivars.postExtCommands then
+    return
+  end
+
+  this.currentCmdIndex=this.currentCmdIndex+1
+
+  args=args or {}
+  if type(args)=="string" then
+    args={args}
+  end
+
+  local message=this.currentCmdIndex.."|"..cmd
+  if #args>0 then
+    message=message.."|"..table.concat(args,"|")
+  end
+  this.extCmdIndex[this.currentCmdIndex]=message
+  this.output[this.currentCmdIndex]=message
+
+  --InfCore.PrintInspect(this.output)--DEBUG
+
+  this.WriteLog(this.toExtCmdsFilePath,this.output)
 end
 
 --tex altered from Tpp.DEBUG_Where
@@ -330,18 +363,21 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
   return module
 end
 
-function this.LoadBoxed(path,fileName)
+--tex for simple data modules without all the 'IH module' stuff
+function this.LoadSimpleModule(path,fileName,box)
   local filePath=fileName and path..fileName or path
 
-  local moduleChunk,error=loadfile(filePath)
-  if error then
+  local moduleChunk,loadError=loadfile(filePath)
+  if loadError then
     local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
-    InfCore.Log("Error loading "..filePath..":"..error,doDebugPrint,true)
+    InfCore.Log("Error loading "..filePath..":"..loadError,doDebugPrint,true)
     return
   end
 
-  local sandboxEnv={}
-  setfenv(moduleChunk,sandboxEnv)
+  if box then
+    local sandboxEnv={}
+    setfenv(moduleChunk,sandboxEnv)
+  end
 
   local module=moduleChunk()
 
@@ -359,9 +395,9 @@ function this.DoFile(path)
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
-    local ModuleChunk,error=loadfile(scriptPath)
-    if error then
-      InfCore.Log("Error loading "..scriptPath..":"..error)
+    local ModuleChunk,loadError=loadfile(scriptPath)
+    if loadError then
+      InfCore.Log("Error loading "..scriptPath..":"..loadError)
     else
       local Module=ModuleChunk()
       externLoaded=true
@@ -378,9 +414,9 @@ function this.LoadLibrary(path)
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
-    local ModuleChunk,error=loadfile(scriptPath)
-    if error then
-      InfCore.Log("Error loading "..scriptPath..":"..error)
+    local ModuleChunk,loadError=loadfile(scriptPath)
+    if loadError then
+      InfCore.Log("Error loading "..scriptPath..":"..loadError)
     else
       local Module=ModuleChunk()
       if Module then
@@ -409,7 +445,7 @@ end
 
 function this.RefreshFileList()
   InfCore.LogFlow"InfCore.RefreshFileList"
-  
+
   local filesTable={}
 
   local cmd=""
@@ -423,8 +459,8 @@ function this.RefreshFileList()
     local fileName=path.."ih_files.txt"
     local fileNames=InfCore.PCall(function()
       local lines
-      local file,error=io.open(fileName,"r")
-      if file and not error then
+      local file,openError=io.open(fileName,"r")
+      if file and not openError then
         --tex lines crashes with no error, dont know what kjp did to io
         --      for line in file:lines() do
         --        if line then
@@ -458,7 +494,7 @@ function this.GetFileList(files,filter,stripFilter)
     InfCore.Log"InfCore.GetFileList: ERROR files==nil"
     return fileNames
   end
-  
+
   for i,fileName in ipairs(files) do
     local index=string.find(fileName,filter)
     if index then
@@ -483,7 +519,12 @@ local function GetGamePath()
   end
   --tex fallback if MGS_TPP\ couldnt be found in packages.path
   if gamePath==nil then
-    return[[C:\]]
+    if Mock then
+      print("InfCore.GetGamePath: Mock fallback path "..tostring(Mock))
+      return Mock
+    else
+      return[[C:\]]
+    end
   end
 
   local stripLength=10--tex length "\lua\?.lua"
@@ -493,6 +534,7 @@ end
 
 this.saveName="ih_save.lua"
 this.logFileName="ih_log"
+this.toExtCmdsFileName="ih_toextcmds"
 this.prev="_prev"
 
 --hook
@@ -519,6 +561,7 @@ this.paths={
   profiles=modPath..[[profiles\]],
   modules=modPath..[[modules\]],
   fovaInfo=modPath..[[fovaInfo\]],
+  quests=modPath..[[quests\]],
 }
 this.files={
   mod={},
@@ -526,10 +569,13 @@ this.files={
   profiles={},
   modules={},
   fovaInfo={},
+  quests={},
 }
 
 this.logFilePath=this.paths.mod..this.logFileName..".txt"
 this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"
+
+this.toExtCmdsFilePath=this.paths.mod..this.toExtCmdsFileName..".txt"
 
 local addPaths=";"..this.paths.mod.."?.lua"
 addPaths=addPaths..";"..this.paths.profiles.."?.lua"
@@ -538,18 +584,24 @@ package.path=package.path..addPaths
 
 this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
 local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
+
 if error then
+  if Mock then
+    print(error)
+  end
   this.modDirFail=true
 else
   local time=os.date("%x %X")
   this.Log("InfCore start "..time)
   this.Log("package.path:"..package.path)
-  
+
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")
-  
+
   this.files=this.PCall(this.RefreshFileList)
---InfCore.PrintInspect(this.paths)--DEBUG
---InfCore.PrintInspect(this.files)--DEBUG
+  --InfCore.PrintInspect(this.paths)--DEBUG
+  --InfCore.PrintInspect(this.files)--DEBUG
+
+  local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
 end
 
 return this

@@ -294,9 +294,8 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
   InfMain.RandomResetToOsTime()
 
   if this.debugModule then
-    InfCore.Log("SetupGearsFREE: "..numSetup.." of "..#this.walkerNames.." walker gears set")
-    InfCore.Log"walkerPool"
-    InfCore.PrintInspect(walkerPool)
+    InfCore.Log("SetupGearsFREE: "..numSetup.." of "..tostring(#this.walkerNames).." walker gears set")
+    InfCore.PrintInspect(walkerPool,"walkerPool")
   end
 end
 

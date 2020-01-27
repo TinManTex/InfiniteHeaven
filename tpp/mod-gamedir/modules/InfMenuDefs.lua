@@ -234,6 +234,7 @@ this.debugMenu={
     Ivars.debugMessages,
     Ivars.debugFlow,
     Ivars.debugOnUpdate,
+    Ivars.postExtCommands,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     Ivars.printPressedButtons,
@@ -560,6 +561,7 @@ this.systemMenu={
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
     InfMenuCommands.resetSelectedProfile,
+    InfMenuCommands.saveToProfile,--DEBUGNOW
     --InfMenuCommands.viewProfile,--DEBUG
     Ivars.enableQuickMenu,
     Ivars.startOffline,
@@ -572,6 +574,11 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    Ivars.customSoldierTypeFREE,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,
+    InfMenuCommands.DEBUG_SomeShiz2,
+    InfMenuCommands.DEBUG_SomeShiz3,
+    Ivars.postExtCommands,--DEBUGNOW
     InfMenuDefs.appearanceMenu,
     InfMenuDefs.appearanceDebugMenu,
     Ivars.customSoldierTypeFREE,
@@ -589,9 +596,6 @@ this.devInAccMenu={
     --TODO: debugmodeall command/profile
     --Ivars.enableWildCardHostageFREE,--WIP
     --Ivars.enableSecurityCamFREE,
-    InfMenuCommands.DEBUG_SomeShiz,
-    InfMenuCommands.DEBUG_SomeShiz2,
-    InfMenuCommands.DEBUG_SomeShiz3,
     InfMenuDefs.sideOpsMenu,
     InfMenuDefs.sideOpsCategoryMenu,
     InfMenuCommands.forceRegenSeed,
@@ -637,6 +641,7 @@ this.debugInMissionMenu={
     Ivars.debugMessages,
     Ivars.debugFlow,
     Ivars.debugOnUpdate,
+    Ivars.postExtCommands,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     --InfMenuCommands.DEBUG_RandomizeCp,
@@ -676,6 +681,7 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
+    Ivars.selectedChangeWeapon,--DEBUGNOW
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,

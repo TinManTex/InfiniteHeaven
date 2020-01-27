@@ -544,6 +544,7 @@ this.eng={--english
   customSoldierTypeFREE="Custom soldier type in Free roam",
   mbAdditionalNpcs="Additional NPCs",
   ihSideopsPercentageCount="Include IH sideops in completion percentage.",
+  saveToProfile="Save to UserSaved profile",
 }--eng end
 
 this.help={}
@@ -705,6 +706,7 @@ this.help.eng={
   forceDemoAllowAction="Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.",
   customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam",
   mbAdditionalNpcs="Adds different NPCs standing around mother base, including ground crew, researchers and Miller.",
+  saveToProfile="Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.",
 }
 
 this.cpNames={

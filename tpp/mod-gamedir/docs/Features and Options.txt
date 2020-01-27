@@ -37,8 +37,12 @@ Quick menu commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 
+Settings save file.
+IH writes its settings to ih_save.lua in the MGS_TPPmodsaves folder.
+While the file is editable, editing an inMission save is likely to cause issues.
+
 Profiles.
-Editable lists of options, see MGS_TPPmodprofiles folder.
+Editable lists of options as an alternative to using the in game IH menu, see the \mod\profiles folder in your MGS_TPP game folder.
 
 Reload lua scripts in MGS_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
@@ -78,13 +82,15 @@ IH system menu
 Selects a profile from MGS_TPPmodprofiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
 2: Set profile options to game defaults : (Command)
 Sets the options described in the selected profile to their default setting.
-3: Enable Quick Menu : Off, On
+3: Save to UserSaved profile : (Command)
+Saves current IH settings to UserSaved profile at MGS_TPPprofilesUserSaved.lua.
+4: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-4: Start offline : Off, On
+5: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-5: Skip startup logos : Off, On
+6: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-6: Reset all IH settings : (Command)
+7: Reset all IH settings : (Command)
 
 Events menu
 -----------
@@ -657,16 +663,17 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: loadExternalModules : (Command)
-6: copyLogToPrev : (Command)
-7: printPressedButtons : Off, On
-8: Show position : (Command)
-9: Show missionCode : (Command)
-10: Show game language code : (Command)
-11: appearanceDebugMenu
-12: Disable game over : Off, On
-13: Disable out of bounds checks : Off, On
-14: Disable mission intro credits : Off, On
+5: postExtCommands : Off, On
+6: loadExternalModules : (Command)
+7: copyLogToPrev : (Command)
+8: printPressedButtons : Off, On
+9: Show position : (Command)
+10: Show missionCode : (Command)
+11: Show game language code : (Command)
+12: appearanceDebugMenu
+13: Disable game over : Off, On
+14: Disable out of bounds checks : Off, On
+15: Disable mission intro credits : Off, On
 
 appearanceDebugMenu
 -------------------
@@ -850,22 +857,23 @@ Logs game message system, requires Debug IH mode to be on.
 5: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 6: debugOnUpdate : Off, On
-7: loadExternalModules : (Command)
-8: copyLogToPrev : (Command)
-9: selectedCp : no cp for setting
-10: setSelectedCpToMarkerObjectCp : (Command)
-11: DEBUG_PrintCpPowerSettings : (Command)
-12: DEBUG_PrintPowersCount : (Command)
-13: DEBUG_PrintReinforceVars : (Command)
-14: DEBUG_PrintSoldierDefine : (Command)
-15: DEBUG_ShowRevengeConfig : (Command)
-16: appearanceDebugMenu
-17: printPressedButtons : Off, On
-18: printOnBlockChange : Off, On
-19: Disable game over : Off, On
-20: Disable out of bounds checks : Off, On
-21: setAllFriendly : (Command)
-22: Show position : (Command)
+7: postExtCommands : Off, On
+8: loadExternalModules : (Command)
+9: copyLogToPrev : (Command)
+10: selectedCp : no cp for setting
+11: setSelectedCpToMarkerObjectCp : (Command)
+12: DEBUG_PrintCpPowerSettings : (Command)
+13: DEBUG_PrintPowersCount : (Command)
+14: DEBUG_PrintReinforceVars : (Command)
+15: DEBUG_PrintSoldierDefine : (Command)
+16: DEBUG_ShowRevengeConfig : (Command)
+17: appearanceDebugMenu
+18: printPressedButtons : Off, On
+19: printOnBlockChange : Off, On
+20: Disable game over : Off, On
+21: Disable out of bounds checks : Off, On
+22: setAllFriendly : (Command)
+23: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

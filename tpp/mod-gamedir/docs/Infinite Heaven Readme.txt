@@ -1,5 +1,5 @@
 = Infinite heaven =
-r202 - 2017-04-09
+r204 - 2017-04-23
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -16,9 +16,21 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
-r202 - 2017-04-09
 NOTE: With SnakeBite 0.8.6 you no longer need to manually copy the \mod folder to MGS_TPP\, SnakeBite will install it.
 
+New for 204:
+Improved: Soldier item drop now has chance to drop Pentezemin, Noctocyanin, Acceleramin. 
+
+Sideop: Blackfoot down, was mostly built for testing out sideop features.
+
+Command: Save to UserSaved profile. - "Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua."
+(via IH system menu)
+
+Fixed: Setting Custom soldier type to a DD body showing the Staff member has died message/points - thanks coolguy3090 for the report.
+
+Change: <STANCE> heli-pull out toggle changed from press to hold 0.85.
+
+New for r202:
 Fixed: Number of helis on < 7 clusters, including mass bunching when only command is built.
 
 Option: ihSideopsPercentageCount - "Include IH sideops in completion percentage." - Additional IH sideops count towards game completion percent - defaults to off.
@@ -26,6 +38,13 @@ Option: ihSideopsPercentageCount - "Include IH sideops in completion percentage.
 
 Option: mbAdditionalNpcs - "Additional NPCs" - Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
 (via mother base > Show characters menu)
+[youtube]Z3oZfrW1Ads[/youtube]
+https://youtu.be/Z3oZfrW1Ads
+
+MGO headgear fova mod
+[youtube]QJpDwlRCybg[/youtube]
+https://youtu.be/QJpDwlRCybg
+(must download from IH nexus files page under optional files)
 
 New for r201:
 Fixed: Mother base soldier getting set to hostile - thanks captainking91, others for the reports
@@ -115,13 +134,8 @@ Profiles are lists of settings for IH options, can be used as an alternative, or
 See InfProfiles Readme and InfProfiles.lua for further info.
 
 Settings save file:
-IH writes ih_save.lua in the MGS_TPP\mod folder.
-Save file for IH options, other IH state variables are still saved to the normal game save.
-Saved on IH menu close, and also when the game saves normally.
-Only saves settings changed from their default
-Read on game load
+IH writes its settings to ih_save.lua in the MGS_TPP\mod\saves folder.
 While the file is editable, editing an inMission save is likely to cause issues.
-Theres is also no current read/write retry on locked file so editing while game is running is not advised.
 
 Known Issues
 ------------------------------

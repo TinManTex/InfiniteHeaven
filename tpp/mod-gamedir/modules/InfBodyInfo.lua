@@ -5,18 +5,24 @@ local this={}
 --tex GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 -- ex
 --  SOME_BODY={
---    bodyId={--tex if bodyId nil then will fall back to normal GetBodyId, if bodyId is a table (like this example) bodyId is chosen randomly
+--    bodyId={--tex if bodyId nil then will fall back to normal GetBodyId, if bodyId is a table (like this example) bodyId is chosen randomly (TODO example bodyId doesnt match body)
 --      TppEnemyBodyId.dlf_enef0_def,
 --      TppEnemyBodyId.dlf_enef1_def,
 --    },
---    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
---    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR--tex this pack is essentially just the mis_com_mafr soldier pack
+--    partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00_ih_sol.parts",--tex parts for soldier base, usually matches a vanilla .parts (minus the _ih_sol suffix)
+--    partsPathHostage="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00_ih_hos.parts",--tex parts for hostage base
+--    missionPackPath={
+--      "BASE_PACK",--tex indicator for certain get body info functions to use base pack,
+--      -- uses "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk" for soldier
+--      -- and  "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk" for hostage
+--      "/Assets/tpp/pack/mission2/ih/prs6_main0_mdl.fpk",
+--    },
 --    hasFace=true,--tex model includes it's own face so don't use fova face
 --    hasArmor=true,--tex switches off armor at the config level (if false), for bodies that are mixed
 --    isArmor=true,--tex switches armor on at the soldier config level, for bodies that are only armor
 --    helmetOnly=true,--tex no gas mask or nvg.
 --    hasHelmet=true,--tex indicator for DD headgear to not select gear markes as HELMET
---    soldierSubType="DD_FOB",
+--    soldierSubType="DD_FOB",--tex defaults to DD_FOB if not defined.
 --    useDDHeadgear=true,--tex use DD headgear as balaclava/GetHeadGearForPowers system
 --    noSkinTones=true,--tex body doesn't have different textures for skintones (a lot of models just sidestep this by not showing skin/having gloves), currently only as a note, no system acting on the value
 --  },
@@ -353,6 +359,7 @@ this.bodyInfo={
     --TODO: GZ has dds0_v00.fova > dds0_v13.fova
     bodyId=1,
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_hos.parts",--DEBUGNOW
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8010_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8040_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8041_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
@@ -363,12 +370,14 @@ this.bodyInfo={
     hasFace=true,
   },
   --msf from s10115 retake plat
+  --TODO no eyes for hostage? check sol again too (if thats ok then maybe need to apply bodyid to hostage?)
   MSF_TPP={--DDS0_MAIN1
     bodyId={
       TppEnemyBodyId.dds0_main1_v00,--140, TppEnemy.bodyIdTable.DD_PW
     --TppEnemyBodyId.dds0_main1_v01,--141, Mosquito
     },
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main1_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dds/dds0_main1_def_v00_ih_hos.parts",
     --\chunk3_dat\Assets\tpp\pack\mission2\story\s10115\s10115_area_fpkd
     missionPackPath={
       "BASE_PACK",
@@ -630,7 +639,7 @@ this.bodyInfo={
     soldierSubType="DD_FOB",
   },
   PRISONER_AFGH_FEMALE={
-    --TODO partsPathHostage="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00_ih_sol.parts",
+    --TODO partsPath="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00_ih_hos.parts",
     missionPackPath={
       "BASE_PACK",
@@ -655,7 +664,7 @@ this.bodyInfo={
     --REF "/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk",
     soldierSubType="DD_FOB",
   },
-  PRISONER_MAFR_FEMALE={--tex still male body, don't know what's up
+  PRISONER_MAFR_FEMALE={
     gender="FEMALE",
     bodyId=TppEnemyBodyId.prs6_main0_v00,--113
     --TODO partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts",
@@ -679,33 +688,50 @@ this.bodyInfo={
   --\chunk4_dat\Assets\tpp\pack\mission2\story\s10091\s10091_area_fpkd
 
   --Doctors
-  --TODO fv2s
-  --dct1_v00
-  --dct1_v01
-  --dct2_v00
-  --dct2_v01
-  --dct2_v02
+  --also dct0_face0_cov.fmdl, dct0_face1_cov.fmdl
+  --also bunch of invisibleMeshNames in original .parts
   DOCTOR_0={
     bodyId={
       -- fv2s are different faces,
       -- even if head mesh was hidden with custom fv2 the normal soldier faces neck stick through this bodies collar.
-      348,--dct0_v00
-      349,--dct0_v01
+      TppEnemyBodyId.dct0_v00,--default face
+      TppEnemyBodyId.dct0_v01,
     },
-    partsPath="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/ih/ih_doctor.fpk",
+    partsPath="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/dct0_main0_mdl.fpk",
+    },
     hasFace=true,
-    noSkinTones=true,--tex no skin tone support/only white
   },
+  --main prologue doctor
+  noSkinTones=true,--tex no skin tone support/only white
+  --TODO fv2s, not in SoldierFaceAndData system
+  --dct1_v00
+  --dct1_v01
+  --CRASH on non mob2
   DOCTOR_1={
-    partsPath="/Assets/tpp/parts/chara/dct/dct1_main0_def_v00.parts",
+    partsPath="/Assets/tpp/parts/chara/dct/dct1_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dct/dct1_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/dct1_main0_mdl.fpk",
+    },
     noSkinTones=true,--tex no skin tone support/only white
   },
-  --tex crash, the file packs are very incomplete from a character standpoint
+  --TODO fv2s, not in SoldierFaceAndData system
+  --dct2_v00
+  --dct2_v01
+  --dct2_v02
   DOCTOR_2={
-    bodyId=1,
-    partsPath="/Assets/tpp/parts/chara/dct/dct2_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_doctor.fpk",
+    partsPath="/Assets/tpp/parts/chara/dct/dct2_main0_def_v00_ih_sol.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/dct/dct2_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/dct2_main0_mdl.fpk",
+    },
+    --REF "/Assets/tpp/pack/mission2/common/mis_com_doctor.fpk",
     hasFace=true,
     soldierSubType="DD_FOB",
   },
@@ -716,21 +742,30 @@ this.bodyInfo={
   --\chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s02_fpkd
   --nrs2_main0_def_v00
   --\chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s02_fpkd
-  --tex crash
+  --blinking issues
   NURSE_3_FEMALE={
     bodyId={
-      TppEnemyBodyId.nrs0_v00,--340,
-      TppEnemyBodyId.nrs0_v01,--341,
-      TppEnemyBodyId.nrs0_v02,--342,
-      TppEnemyBodyId.nrs0_v03,--343,
-      TppEnemyBodyId.nrs0_v04,--344,
-      TppEnemyBodyId.nrs0_v05,--345,
-      TppEnemyBodyId.nrs0_v06,--346,
-      TppEnemyBodyId.nrs0_v07,--347,
+      --tex TODO: not in soldierfaceandbody sys
+      --nrs3_v00,
+      --nrs3_v01,
+      --nrs3_v02,
+      --nrs0 fovas seem to work on nrs3 too.
+      TppEnemyBodyId.nrs0_v00,--brunette,bun
+      TppEnemyBodyId.nrs0_v01,--black straight hair
+      TppEnemyBodyId.nrs0_v02,--blond, glasses
+      TppEnemyBodyId.nrs0_v03,--brunnete bun again? different face?
+      TppEnemyBodyId.nrs0_v04,--brown straight, glasses
+      TppEnemyBodyId.nrs0_v05,--blond and brunette
+      TppEnemyBodyId.nrs0_v06,--brown, bun, glasses
+      TppEnemyBodyId.nrs0_v07,--brown, bun
     },
-    partsPath="/Assets/tpp/parts/chara/nrs/nrs3_main0_def_v00.parts",
-    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_nurse.fpk",
-    soldierSubType="DD_FOB",
+    --partsPath="/Assets/tpp/parts/chara/nrs/nrs3_main0_def_v00.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/nrs/nrs3_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/nrs3_main0_mdl.fpk",
+    },
+  --REF "/Assets/tpp/pack/mission2/common/mis_com_nurse.fpk",
   },
   --prologue hospital patients
   PATIENT={
@@ -900,10 +935,62 @@ this.bodyInfo={
     hasFace=true,
   },
   -- kids
-  --  chd0_main0_def_v00.parts
-  --missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_child_soldier.fpk",--chd0 only
-  --  chd1_main0_def_v00.parts
-  --  chd2_main0_def_v00.parts
+  --crash
+  CHILD_0={
+    bodyId={
+      TppEnemyBodyId.chd0_v00,
+      TppEnemyBodyId.chd0_v01,
+      TppEnemyBodyId.chd0_v02,
+      TppEnemyBodyId.chd0_v03,
+      TppEnemyBodyId.chd0_v04,
+      TppEnemyBodyId.chd0_v05,
+      TppEnemyBodyId.chd0_v06,
+      TppEnemyBodyId.chd0_v07,
+      TppEnemyBodyId.chd0_v08,
+      TppEnemyBodyId.chd0_v09,
+      TppEnemyBodyId.chd0_v10,
+      TppEnemyBodyId.chd0_v11,
+    },
+    --partsPath="/Assets/tpp/parts/chara/chd/chd0_main0_def_v00.parts",
+    partsPathHostage="/Assets/tpp/parts/chara/chd/chd0_main0_def_v00_ih_hos.parts",
+    missionPackPath={
+      "BASE_PACK",
+      "/Assets/tpp/pack/mission2/ih/chd0_main0_mdl.fpk",
+      --"/Assets/tpp/pack/mission2/common/mis_com_child_soldier.fpk",
+    },
+    hasFace=true,
+    soldierSubType="CHILD_A",
+  },
+  CHILD_1={--TODO
+    bodyId={
+      TppEnemyBodyId.chd1_v00,
+      TppEnemyBodyId.chd1_v01,
+      TppEnemyBodyId.chd1_v02,
+      TppEnemyBodyId.chd1_v03,
+      TppEnemyBodyId.chd1_v04,
+      TppEnemyBodyId.chd1_v05,
+    },
+    partsPath="/Assets/tpp/parts/chara/chd/chd1_main0_def_v00.parts",--DEBUGNOW
+    missionPackPath={
+    },
+    hasFace=true,
+    soldierSubType="CHILD_A",
+  },
+  CHILD_2={--TODO
+    bodyId={
+      TppEnemyBodyId.chd2_v00,
+      TppEnemyBodyId.chd2_v01,
+      TppEnemyBodyId.chd2_v02,
+      TppEnemyBodyId.chd2_v03,
+      TppEnemyBodyId.chd2_v04,
+    },
+    partsPath="/Assets/tpp/parts/chara/chd/chd2_main0_def_v00.parts",--DEBUGNOW
+    missionPackPath={
+    },
+    hasFace=true,
+    soldierSubType="CHILD_A",
+  },
+
   --voices mission infected prisoners i think
   --plh0_main0_def_v00.parts
   --plh2_main0_def_v00.parts
@@ -915,7 +1002,6 @@ this.bodyInfo={
       "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/gns0_main0_mdl.fpk",
     },
-    soldierSubType="DD_FOB",
     hasFace=true,
     config={
       HELMET=false,

@@ -31,8 +31,10 @@
 <div id="itemHelp">Pressing &ltQuick dive&gt when a cutscene is playing will toggle pause/resume. Pressing &ltReload&gt will restart the cutscene.</div>
 <div id="menuItem">Quick menu commands.</div>
 <div id="itemHelp">(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)<br/>Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
+<div id="menuItem">Settings save file.</div>
+<div id="itemHelp">IH writes its settings to ih_save.lua in the MGS_TPPmodsaves folder.<br/>While the file is editable, editing an inMission save is likely to cause issues.</div>
 <div id="menuItem">Profiles.</div>
-<div id="itemHelp">Editable lists of options, see MGS_TPPmodprofiles folder.</div>
+<div id="itemHelp">Editable lists of options as an alternative to using the in game IH menu, see the \mod\profiles folder in your MGS_TPP game folder.</div>
 <div id="menuItem">Reload lua scripts in MGS_TPP without exiting game.</div>
 <div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
 <div id="menuItem">New sideops for Mother Base.</div>
@@ -116,19 +118,23 @@
 <div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>3: Enable Quick Menu : Off, On</div>
+<div>3: Save to UserSaved profile : (Command)</div>
+<div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPPprofilesUserSaved.lua.</div>
+</div>
+<div id="menuItem">
+<div>4: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>4: Start offline : Off, On</div>
+<div>5: Start offline : Off, On</div>
 <div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>5: Skip startup logos : Off, On</div>
+<div>6: Skip startup logos : Off, On</div>
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>6: Reset all IH settings : (Command)</div>
+<div>7: Reset all IH settings : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1580,34 +1586,37 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: loadExternalModules : (Command)</div>
+<div>5: postExtCommands : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: copyLogToPrev : (Command)</div>
+<div>6: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>7: printPressedButtons : Off, On</div>
+<div>7: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>8: Show position : (Command)</div>
+<div>8: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: Show missionCode : (Command)</div>
+<div>9: Show position : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: Show game language code : (Command)</div>
+<div>10: Show missionCode : (Command)</div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>11: Show game language code : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: Disable game over : Off, On</div>
+<div>12: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>13: Disable out of bounds checks : Off, On</div>
+<div>13: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>14: Disable mission intro credits : Off, On</div>
+<div>14: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+<div>15: Disable mission intro credits : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2051,52 +2060,55 @@
 <div>6: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: loadExternalModules : (Command)</div>
+<div>7: postExtCommands : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: copyLogToPrev : (Command)</div>
+<div>8: loadExternalModules : (Command)</div>
 </div>
 <div id="menuItem">
-<div>9: selectedCp : no cp for setting</div>
+<div>9: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: setSelectedCpToMarkerObjectCp : (Command)</div>
+<div>10: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>11: DEBUG_PrintCpPowerSettings : (Command)</div>
+<div>11: setSelectedCpToMarkerObjectCp : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: DEBUG_PrintPowersCount : (Command)</div>
+<div>12: DEBUG_PrintCpPowerSettings : (Command)</div>
 </div>
 <div id="menuItem">
-<div>13: DEBUG_PrintReinforceVars : (Command)</div>
+<div>13: DEBUG_PrintPowersCount : (Command)</div>
 </div>
 <div id="menuItem">
-<div>14: DEBUG_PrintSoldierDefine : (Command)</div>
+<div>14: DEBUG_PrintReinforceVars : (Command)</div>
 </div>
 <div id="menuItem">
-<div>15: DEBUG_ShowRevengeConfig : (Command)</div>
+<div>15: DEBUG_PrintSoldierDefine : (Command)</div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>16: DEBUG_ShowRevengeConfig : (Command)</div>
 </div>
 <div id="menuItem">
-<div>17: printPressedButtons : Off, On</div>
+<div>17: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>18: printOnBlockChange : Off, On</div>
+<div>18: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>19: Disable game over : Off, On</div>
+<div>19: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>20: Disable out of bounds checks : Off, On</div>
+<div>20: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>21: setAllFriendly : (Command)</div>
+<div>21: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>22: Show position : (Command)</div>
+<div>22: setAllFriendly : (Command)</div>
+</div>
+<div id="menuItem">
+<div>23: Show position : (Command)</div>
 </div>
 <div id="menuItem">
 </div>

@@ -226,4 +226,9 @@ function this.GetFileName(path,stripExt)
   return fileName
 end
 
+function this.StripExt(fileName)
+  local lastPos=this.FindLast(fileName,[[.]])
+  return string.sub(fileName,1,lastPos-1)
+end
+
 return this

@@ -578,11 +578,6 @@ function this.ModifyLrrpSoldiers(soldierDefine,soldierPool)
   InfMain.RandomResetToOsTime()
 end
 
-local function FaceIsFemale(faceId)
-  local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
-  return isFemale and isFemale[1]==1
-end
-
 --TUNE:
 --afgh has ~39 cps, mafr ~33
 
@@ -751,7 +746,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       for i=1,#uniqueSettings do
         if uniqueSettings[i].name==soldierName then
           hasSetting=true
-          if isFemale and not FaceIsFemale(uniqueSettings[i].faceId) then
+          if isFemale and not InfEneFova.IsFaceFemale(uniqueSettings[i].faceId) then
             InfCore.Log("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female",true)--DEBUG
           end
         end

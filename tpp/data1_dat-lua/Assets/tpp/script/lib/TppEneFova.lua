@@ -1678,8 +1678,8 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   local balaclavaFaceId=EnemyFova.INVALID_FOVA_VALUE
   local ddSuit=TppEnemy.GetDDSuit()
   local function IsFemale(faceId)
-    local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
-    return isFemale and isFemale[1]==1
+    local faceTypeList=TppSoldierFace.CheckFemale{face={faceId}}
+    return faceTypeList and faceTypeList[1]==1
   end
   --tex set bodyid >
   if IvarProc.EnabledForMission("customSoldierType") then
@@ -1743,9 +1743,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       if wantHeadgear and bodyInfo and bodyInfo.useDDHeadgear then
         powerSettings=powerSettings or {}
 
-        local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
-        isFemale=isFemale[1]==1
-
+        local isFemale=InfEneFova.IsFaceFemale(faceId)
         local validHeadGearIds=InfEneFova.GetHeadGearForPowers(powerSettings,isFemale,bodyInfo)
         if #validHeadGearIds>0 then
           local rnd=math.random(#validHeadGearIds)--tex random seed management outside the function since it's called in a loop

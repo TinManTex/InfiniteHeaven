@@ -124,12 +124,16 @@ this.objectNameLists={
   wkr_WalkerGear=this.GenerateNameList("wkr_WalkerGear_%04d",10),
   anml_quest=this.GenerateNameList("anml_quest_%02d",10),
   sol_quest=this.GenerateNameList("sol_quest_%04d",10),
-  ih_hostage=this.GenerateNameList("ih_hostage_%04d",10),
+  hos_quest=this.GenerateNameList("hos_quest_%04d",10),
+  vehicle_quest=this.GenerateNameList("vehicle_quest_%04d",10),
+  ih_hostage=this.GenerateNameList("ih_hostage_%04d",30),
   itm_Mine_quest=this.GenerateNameList("itm_Mine_quest_%04d",10),
   itm_revDecoy=this.GenerateNameList("itm_revDecoy_%04d",10),
   itm_revMine=this.GenerateNameList("itm_revMine_%04d",10),
   OtherHeli=this.GenerateNameList("OtherHeli%04d",10),
   TppCorpseGameObjectLocator=this.GenerateNameList("TppCorpseGameObjectLocator%04d",12),--TODO VERIFY max
+  pickable_ih=this.GenerateNameList("pickable_ih_%04d",20),
+  pickable_quest=this.GenerateNameList("pickable_quest_%04d",20),
 }
 
 --tex from TppAnimalBlock animalsTable
@@ -193,6 +197,20 @@ function this.Time(time)
   return tostring(time).."||"..TppClock.FormalizeTime(time,"string")
 end
 
+--tex not exhaustive, theres still a bunch of loose ids scattered around, and a bunch only defined in EXE
+function this.PopupErrorId(findErrorId)
+  for errorName,errorId in pairs(TppDefine.ERROR_ID) do
+    if findErrorId==errorId then
+      return errorName
+    end
+  end
+  return findErrorId
+end
+
+function this.LandingZoneName(lzStr32)
+  return InfLZ.str32LzToLz[lzStr32] or lzStr32
+end
+
 --tex gives {[gameClass.Enum]=enum name}
 function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
   local enumNameLookup={}
@@ -216,7 +234,7 @@ end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
- -- return InfMain.reserveSoldierNames
+  -- return InfMain.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
@@ -232,10 +250,11 @@ function this.GetObjectList()
   --return InfAnimal.birdNames
   -- return objectNameLists[4]
   --return InfSoldier.ene_wildCardNames
-  return InfNPC.hostageNames
+  --return InfNPC.hostageNames
     --return this.objectNameLists.sol_quest
     --return {"hos_quest_0000"}
     --return InfWalkerGear.walkerNames
+   return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",} --DEBUGNOW
 end
 
 --tex for Ivars.warpToListObject
@@ -757,6 +776,8 @@ this.lookups={
   cpId=this.CpNameForCpId,
   time=this.Time,
   weatherType=this.weatherTypeNames,
+  popupId=this.PopupErrorId,
+  landingZone=this.LandingZoneName,
 }
 for i,gameClass in ipairs(gameClasses)do
   for lookupType,lookup in pairs(this[gameClass])do
@@ -800,6 +821,9 @@ this.messageSignatures={
     },
   },
   GameObject={
+    CalledFromStandby={--SupportHeli
+      {argName="gameId",argType="gameId"},
+    },
     ChangePhase={
       {argName="cpId",argType="cpId"},
       {argName="phase",argType="phase"},
@@ -809,7 +833,7 @@ this.messageSignatures={
       {argName="damagedId",argType="gameId"},--object that took damage
       {argName="attackId",argType="attackId"},
       {argName="attackerId",argType="gameId"},
-      {argName="unk3",argType="number"},--tex UNKOWN: no use cases I can see
+      {argName="unk3",argType="number"},--tex UNKNOWN: no use cases I can see
     },
     --    Fulton={
     --      {argName="gameId",argType="gameId"},
@@ -821,6 +845,10 @@ this.messageSignatures={
       {argName="gameId",argType="gameId"},
       {argName="fultonedPlayerIndex",argType="number"},
       {argName="reduceThisContainer",argType="number"},--boolAsNumber
+    },
+    LandedAtLandingZone={--SupportHeli
+      {argName="gameId",argType="gameId"},
+      {argName="landingZone",argType="landingZone"},
     },
     Neutralize={
       {argName="gameId",argType="gameId"},
@@ -872,6 +900,13 @@ this.messageSignatures={
       {argName="actionId",argType="str32"},
       {argName="commandId",argType="str32"},
     },
+    StartedMoveToLandingZone={--SupportHeli
+      {argName="gameId",argType="gameId"},
+      {argName="landingZone",argType="landingZone"},--str32
+    },
+    StartedPullingOut={--SupportHeli
+      {argName="gameId",argType="gameId"},
+    },
     SwitchGimmick={
       {argName="gameId",argType="gameId"},
       {argName="locatorName",argType="str32"},--tex TODO: gameIdName?
@@ -890,7 +925,7 @@ this.messageSignatures={
     },
     VehicleDisappeared={
       {argName="gameId",argType="gameId"},--vehicle gameid
-    --{argName="unk1",argType="str32"}, --tex UNKOWN s10052 == "CanNotMove", otherwise doesn't seem to be set in most calls TODO test that mission to see if it actually does
+    --{argName="unk1",argType="str32"}, --tex UNKNOWN s10052 == "CanNotMove", otherwise doesn't seem to be set in most calls TODO test that mission to see if it actually does
     },
   },
   Marker={
@@ -974,16 +1009,33 @@ this.messageSignatures={
   Radio={
     Start={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
-      {argName="unk1",argType="number"},--tex UNKOWN
+      {argName="unk1",argType="number"},--tex UNKNOWN
     },
     Finish={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
-      {argName="unk1",argType="number"},--tex UNKOWN
+      {argName="unk1",argType="number"},--tex UNKNOWN
     },
   },
   Sound={
     ChangeBgmPhase={
       {argName="bgmPhase",argType="bgmPhase"},
+    },
+  },
+  Terminal={
+    MbDvcActFocusMapIcon={
+      {argName="focusedGameId",argType="gameId"},
+    },
+    MbDvcActSelectLandPoint={
+      {argName="nextMissionId",argType="number"},
+      {argName="routeName",argType="str32"},--landingZone??
+      {argName="layoutCode",argType="number"},
+      {argName="clusterId",argType="number"},
+    },
+    MbDvcActSelectLandPoint={
+      {argName="set",argType="number"},--boolAsNumber
+      {argName="x",argType="number"},
+      {argName="y",argType="number"},
+      {argName="z",argType="number"},
     },
   },
   Timer={
@@ -1007,11 +1059,21 @@ this.messageSignatures={
   UI={
     EndFadeOut={
       {argName="fadeInName",argType="str32"},
-      {argName="unk1",argType="number"},--tex UNKOWN
+      {argName="unk1",argType="number"},--tex UNKNOWN
     },
     EndFadeIn={
       {argName="fadeInName",argType="str32"},
-      {argName="unk1",argType="number"},--tex UNKOWN
+      {argName="unk1",argType="number"},--tex UNKNOWN
+    },
+    PopupClose={
+      {argName="popupId",argType="popupId"},
+      {argName="unk1",argType="number"},--tex UNKNOWN, haven't seen any value but 0 yet
+    },
+    QuestAreaAnnounceLog={
+      {argName="questId",argType="number"},--tex TODO questId to name lookup
+    },
+    QuestAreaAnnounceText={
+      {argName="questId",argType="number"},--tex TODO questId to name lookup
     },
   },
   Weather={

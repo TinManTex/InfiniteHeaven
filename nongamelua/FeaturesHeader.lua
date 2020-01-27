@@ -42,9 +42,13 @@ local this={
       featureDescription="Quick menu commands.",
       featureHelp="(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)\r\nShortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder."
     },
+        {
+      featureDescription="Settings save file.",
+      featureHelp="IH writes its settings to ih_save.lua in the MGS_TPP\mod\saves folder.\r\nWhile the file is editable, editing an inMission save is likely to cause issues."
+    },
     {
       featureDescription="Profiles.",
-      featureHelp="Editable lists of options, see MGS_TPP\mod\profiles folder."
+      featureHelp="Editable lists of options as an alternative to using the in game IH menu, see the \\mod\\profiles folder in your MGS_TPP game folder."
     },
     {
       featureDescription="Reload lua scripts in MGS_TPP without exiting game.",

@@ -1,4 +1,4 @@
--- InfSecurityCam.lua --DEBUGWIP
+-- InfSecurityCam.lua --DEBUGWIP DEBUGNOW
 
 local this={}
 
@@ -63,10 +63,10 @@ this.SetUpSecurityCamera = function()
   for index,cameraName in pairs(camNames) do
     local gameObjectId=GameObject.GetGameObjectId(cameraName)
     if gameObjectId==GameObject.NULL_ID then
-      InfCore.Log("cam is nullid")
+      InfCore.Log("cam is nullid")--DEBUGNOW
     else
       GameObject.SendCommand(gameObjectId,{id="SetCommandPost",cp="mafr_pfCamp_cp"})
-      InfCore.Log("setcam")
+      InfCore.Log("setcam")--DEBUGNOW
     end
   end
 end

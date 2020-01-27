@@ -253,7 +253,7 @@ local function GetFilesOfType(basePath,outputPath,extension)
   local fileNameCounts={}
   local fileNamesAndPaths={}
   for i,filePath in ipairs(fileDirs)do
-    local split=Util.Split(filePath,"\\")
+    local split=MockUtil.Split(filePath,"\\")
     local fileName=split[#split]
     fileNameCounts[fileName]=fileNameCounts[fileName] or 0
     fileNameCounts[fileName]=fileNameCounts[fileName]+1

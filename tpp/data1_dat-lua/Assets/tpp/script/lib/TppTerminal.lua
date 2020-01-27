@@ -2236,9 +2236,6 @@ function this.CanConstructFirstFob()
   return false
 end
 function this.IsConstructedFirstFob()
-  if Ivars.setFirstFobBuilt:Is(1) then--tex
-    return true
-  end--
   if TppMotherBaseManagement.IsBuiltFirstFob then
     return TppMotherBaseManagement.IsBuiltFirstFob()
   else

@@ -975,10 +975,6 @@ function this.OnEndFadeOutSelectLandingPoint()
 end
 
 function this.GetFobTutorialSequenceName()
-  if Ivars.blockFobTutorial:Is(1) then--tex
-    return
-  end--
-
 	if gvars.str_storySequence < TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY then
 		return
 	end
