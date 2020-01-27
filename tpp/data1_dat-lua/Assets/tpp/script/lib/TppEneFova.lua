@@ -1,10 +1,10 @@
 -- DOBUILD: 1
 -- TppEneFova.lua
 local this={}
-local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
+local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
 local RENlang0=0
 local RENlang1=1
-local RENland2=2
+local RENlang2=2
 local RENlang3=3
 local RENlang4=4
 local RENlang5=5
@@ -93,18 +93,18 @@ local missionArmorType={
 local missionHostageInfos={
   [10020]={count=0},
   [10030]={count=0},
-  [10033]={count=1,lang=RENland2},
-  [11033]={count=1,lang=RENland2},
+  [10033]={count=1,lang=RENlang2},
+  [11033]={count=1,lang=RENlang2},
   [10036]={count=0},
   [11036]={count=0},
   [10040]={count=1,lang=RENlang4},
-  [10041]={count=2,lang=RENland2},
-  [11041]={count=2,lang=RENland2},
+  [10041]={count=2,lang=RENlang2},
+  [11041]={count=2,lang=RENlang2},
   [10043]={count=2,lang=RENlang4},
   [11043]={count=2,lang=RENlang4},
-  [10044]={count=1,lang=RENland2,overlap=true},
-  [11044]={count=1,lang=RENland2,overlap=true},
-  [10045]={count=2,lang=RENland2},
+  [10044]={count=1,lang=RENlang2,overlap=true},
+  [11044]={count=1,lang=RENlang2,overlap=true},
+  [10045]={count=2,lang=RENlang2},
   [10050]={count=0},
   [11050]={count=0},
   [10052]={count=6,lang=RENlang6,overlap=true,ignoreList={40,41,42,43,44,45,46,47,48,49},modelNum=5},
@@ -142,7 +142,7 @@ local missionHostageInfos={
   [11151]={count=0},
   [10171]={count=0},
   [11171]={count=0},
-  [10156]={count=1,lang=RENland2,overlap=true},
+  [10156]={count=1,lang=RENlang2,overlap=true},
   [10195]={count=1,lang=RENlang5},
   [11195]={count=1,lang=RENlang5},
   [10200]={count=1,lang=RENlang5},
@@ -334,7 +334,7 @@ function this.SetHostageFaceTable(missionId)
       if e<40 then
         table.insert(race,0)
       end
-    elseif hostageLang==RENland2 then
+    elseif hostageLang==RENlang2 then
       table.insert(race,0)
     elseif hostageLang==RENlang5 then
       table.insert(race,2)
@@ -369,7 +369,7 @@ function this.SetHostageFaceTable(missionId)
     local faceTable=TppSoldierFace.CreateFaceTable{race=race,needCount=hostageCount,maxUsedFovaCount=hostageFaceModelCount,faceModelOverlap=hostageIsFaceModelOverlap,ignoreFaceList=hostageIgnoreFaceList,raceHalfMode=raceHalfMode}
     if faceTable~=nil then
       local face={}
-      local t={}
+      local hostageFace={}
       local numTableFaces=#faceTable
       local facePosition=MAX_REALIZED_COUNT
       if hostageCount<=numTableFaces then
@@ -383,12 +383,12 @@ function this.SetHostageFaceTable(missionId)
       end
       for n,value in ipairs(faceTable)do
         table.insert(face,{value,0,0,facePosition})
-        table.insert(t,value)
+        table.insert(hostageFace,value)
       end
-      local e=#t
+      local e=#hostageFace
       if e>0 then
         local hosface_groupNumber=gvars.hosface_groupNumber
-        TppSoldierFace.SetPoolTable{hostageFace=t,randomSeed=hosface_groupNumber}
+        TppSoldierFace.SetPoolTable{hostageFace=hostageFace,randomSeed=hosface_groupNumber}
       end
       TppSoldierFace.OverwriteMissionFovaData{face=face}
     else
@@ -396,7 +396,7 @@ function this.SetHostageFaceTable(missionId)
       local n=gvars.hosface_groupNumber%9
       if hostageLang==RENlang1 then
         table.insert(face,{25+n,0,0,MAX_REALIZED_COUNT})
-      elseif hostageLang==RENland2 then
+      elseif hostageLang==RENlang2 then
         table.insert(face,{100+n,0,0,MAX_REALIZED_COUNT})
       elseif hostageLang==RENlang5 then
         table.insert(face,{210+n,0,0,MAX_REALIZED_COUNT})
@@ -445,7 +445,8 @@ fovaSetupFuncs[10200]=function(d,missionId)
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 fovaSetupFuncs[11200]=fovaSetupFuncs[10200]
-fovaSetupFuncs[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
+fovaSetupFuncs[10120]=function(d,missionId)
+  this.SetHostageFaceTable(missionId)
   local bodies={
     {TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},
     {TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},
@@ -781,45 +782,45 @@ function fovaSetupFuncs.Mbqf(n,n)
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   local faces={}
-  local n={}
+  local faceCounts={}
   if TppStory.GetCurrentStorySequence()<TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then
-    local e,a=TppMotherBaseManagement.GetStaffsS10240()
-    for a,staffId in pairs(e)do
-      local e=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
-      if n[e]==nil then
-        n[e]=2
+    local staffIds,staffIds2=TppMotherBaseManagement.GetStaffsS10240()
+    for n,staffId in pairs(staffIds)do
+      local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
+      if faceCounts[faceId]==nil then
+        faceCounts[faceId]=2
       else
-        n[e]=n[e]+1
+        faceCounts[faceId]=faceCounts[faceId]+1
       end
     end
-    for a,e in pairs(a)do
-      local e=TppMotherBaseManagement.StaffIdToFaceId{staffId=e}
-      if n[e]==nil then
-        n[e]=2
+    for n,staffId in pairs(staffIds2)do
+      local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
+      if faceCounts[faceId]==nil then
+        faceCounts[faceId]=2
       else
-        n[e]=n[e]+1
+        faceCounts[faceId]=faceCounts[faceId]+1
       end
     end
   else
-    for e,t in ipairs(this.S10240_MaleFaceIdList)do
-      local faceId=this.S10240_MaleFaceIdList[e]
-      if n[faceId]==nil then
-        n[faceId]=2
+    for i,faceId in ipairs(this.S10240_MaleFaceIdList)do
+      local faceId=this.S10240_MaleFaceIdList[i]--NMC: wut, why the doublework?
+      if faceCounts[faceId]==nil then
+        faceCounts[faceId]=2
       else
-        n[faceId]=n[faceId]+1
+        faceCounts[faceId]=faceCounts[faceId]+1
       end
     end
-    for e,t in ipairs(this.S10240_FemaleFaceIdList)do
-      local faceId=this.S10240_FemaleFaceIdList[e]
-      if n[faceId]==nil then
-        n[faceId]=2
+    for i,faceId in ipairs(this.S10240_FemaleFaceIdList)do
+      local faceId=this.S10240_FemaleFaceIdList[i]--NMC: wut, why the doublework?
+      if faceCounts[faceId]==nil then
+        faceCounts[faceId]=2
       else
-        n[faceId]=n[faceId]+1
+        faceCounts[faceId]=faceCounts[faceId]+1
       end
     end
   end
-  for a,e in pairs(n)do
-    table.insert(faces,{a,e,e,0})
+  for faceId,faceCount in pairs(faceCounts)do
+    table.insert(faces,{faceId,faceCount,faceCount,0})
   end
   table.insert(faces,{623,1,1,0})
   table.insert(faces,{TppEnemyFaceId.dds_balaclava2,10,10,0})
@@ -863,6 +864,28 @@ function fovaSetupFuncs.Mb(n,missionId)
 
     for faceId, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
       table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    end
+
+    --tex NMC normal mb faces are set up by f30050_sequence SetupStaffList / RegisterFovaFpk
+    if missionId==30250 then
+      local securityStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}
+      --local e=#securityStaff
+      local numSoldiers=7--tex number of soldiers on ward (see f30250_enemy.lua)
+      local faceCounts={}
+      for n,staffId in pairs(securityStaff)do
+        local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
+        if faceCounts[faceId]==nil then
+          faceCounts[faceId]=1
+        else
+          faceCounts[faceId]=faceCounts[faceId]+1
+        end
+        if n==numSoldiers then
+          break
+        end
+      end
+      for faceId,faceCount in pairs(faceCounts)do
+        table.insert(faces,{faceId,faceCount,faceCount,0})
+      end
     end
     --<
   elseif TppMission.IsFOBMission(missionId) then
@@ -970,7 +993,7 @@ function fovaSetupFuncs.Mb(n,missionId)
     elseif missionId==30250 then--NMC: ward
       local securityStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}
       --local e=#securityStaff
-      local RENmaxStaffFaces=7--tex shifted constant from below, not 100% sure on name/purpose
+      local numSoldiers=7--tex shifted constant from below, number of soldiers on ward (see f30250_enemy.lua)
       local faceCounts={}
       for n,staffId in pairs(securityStaff)do
         local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
@@ -979,14 +1002,14 @@ function fovaSetupFuncs.Mb(n,missionId)
         else
           faceCounts[faceId]=faceCounts[faceId]+1
         end
-        if n==RENmaxStaffFaces then
+        if n==numSoldiers then
           break
         end
       end
       for faceId,faceCount in pairs(faceCounts)do
         table.insert(faces,{faceId,faceCount,faceCount,0})
       end
-      table.insert(faces,{TppEnemyFaceId.dds_balaclava6,RENmaxStaffFaces,RENmaxStaffFaces,0})
+      table.insert(faces,{TppEnemyFaceId.dds_balaclava6,numSoldiers,numSoldiers,0})
     elseif missionId==10240 then
       faces={
         {1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
@@ -1327,13 +1350,13 @@ function this.RegisterUniqueSetting(uniqueType,name,faceId,bodyId)
   end
   table.insert(l_uniqueSettings,{name=name,faceId=faceId,bodyId=bodyId,flag=flag})
   do
-    local faceFaceIdIdx1=1
-    local faceIdx2=2
-    local faceIdx3=3
-    local faceIdx4=4
+    local entryIdxFaceId=1
+    local entryIdxCount1=2
+    local entryIdxCount2=3
+    local entryIdxCount3=4
     local faceFova=nil
     for i,_faceFova in ipairs(l_uniqueFaceFovas)do
-      if _faceFova[faceFaceIdIdx1]==faceId then
+      if _faceFova[entryIdxFaceId]==faceId then
         faceFova=_faceFova
       end
     end
@@ -1342,10 +1365,10 @@ function this.RegisterUniqueSetting(uniqueType,name,faceId,bodyId)
       table.insert(l_uniqueFaceFovas,faceFova)
     end
     if uniqueType=="enemy"then
-      faceFova[faceIdx2]=faceFova[faceIdx2]+1
-      faceFova[faceIdx3]=faceFova[faceIdx3]+1
+      faceFova[entryIdxCount1]=faceFova[entryIdxCount1]+1
+      faceFova[entryIdxCount2]=faceFova[entryIdxCount2]+1
     elseif uniqueType=="hostage"then
-      faceFova[faceIdx4]=faceFova[faceIdx4]+1
+      faceFova[entryIdxCount3]=faceFova[entryIdxCount3]+1
     end
   end
   do
@@ -1469,7 +1492,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     end
     if bodyInfo then
       GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
-      
+
       bodyId=bodyInfo.bodyId
       if bodyId and type(bodyId)=="table"then
         --tex WORKAROUND don't know what's going on here,math.random(#bodyId) is returning same number each time
@@ -1479,7 +1502,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         math.random()
         math.random()
         math.random()
-        
+
         bodyId=bodyId[math.random(#bodyId)]
       end
 
@@ -1727,8 +1750,8 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
 end
 function this.IsUseGasMaskInMBFree(e)
   local isPandemic=TppMotherBaseManagement.IsPandemicEventMode()
-  local isCommand=mvars.f30050_currentFovaClusterId~=TppDefine.CLUSTER_DEFINE.Command
-  return isPandemic and isCommand
+  local isNotCommand=mvars.f30050_currentFovaClusterId~=TppDefine.CLUSTER_DEFINE.Command
+  return isPandemic and isNotCommand
 end
 function this.IsUseGasMaskInFOB()
   local setUav,uavType,isNLUav=this.GetUavSetting()

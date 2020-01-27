@@ -136,7 +136,7 @@ this.customEquipMenu={
 --    Ivars.enableDDEquipMISSION,
     Ivars.customWeaponTableFREE,
     Ivars.customWeaponTableMISSION,
-    Ivars.customWeaponTableMB,
+    Ivars.customWeaponTableMB_ALL,
     Ivars.weaponTableStrength,
     Ivars.weaponTableAfgh,
     Ivars.weaponTableMafr,
@@ -170,9 +170,11 @@ this.motherBaseMenu={
     Ivars.mbMoraleBoosts,
     Ivars.mbEnableBuddies,
     Ivars.mbAdditionalSoldiers,
+    Ivars.mbqfEnableSoldiers,
     Ivars.mbNpcRouteChange,
     this.motherBaseShowCharactersMenu,
     this.motherBaseShowAssetsMenu,
+    Ivars.mbEnableLethalActions,
     Ivars.mbWargameFemales,
     Ivars.mbWarGamesProfile,
   }
@@ -530,7 +532,7 @@ this.heliSpaceMenu={
   options={
    -- this.customEquipMenu,--DEBUG
     --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+   -- InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --Ivars.playerFaceId,--DEBUG
@@ -599,9 +601,10 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
+   -- InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
     --Ivars.selectedChangeWeapon,--DEBUG
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
- --   InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+   -- InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     InfMenuCommands.requestHeliLzToLastMarker,

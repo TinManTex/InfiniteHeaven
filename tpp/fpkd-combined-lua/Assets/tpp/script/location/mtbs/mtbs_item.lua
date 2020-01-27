@@ -101,25 +101,47 @@ mtbs_item.RegisterGimmick = function( clusterId )
   if mvars.mbItem_funcGetAssetTable then
     local dataSet = string.format( "/Assets/tpp/level/location/mtbs/block_area/ly%03d/cl%02d/mtbs_ly%03d_cl%02d_item.fox2", layoutCode, clusterId, layoutCode, clusterId )
     local assetTable = mvars.mbItem_funcGetAssetTable( clusterId + 1 )
-    if assetTable then     
-       --tex>DEBUGWIP
+    if assetTable then
+      --tex>DEBUGWIP
       for k,v in ipairs(assetTable.containers)do
         if (k % 4) == 0 then
           if type(v)=="string" then
-          --InfMenu.DebugPrint(tostring(v))
-          --Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
+            --InfMenu.DebugPrint(tostring(v))
+           -- Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
           end
         end
       end--<
       --tex>DEBUGWIP
-      for k,v in ipairs(assetTable.westAAGs)do
-        if (k % 4) == 0 then
+      for k,v in ipairs(assetTable.eastAAGs)do
+        --if (k % 4) == 0 then
           if type(v)=="string" then
             --InfMenu.DebugPrint(tostring(v))
-            Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
+          --  Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
           end
-        end
+        --end
       end--<
+      for k,v in ipairs(assetTable.westAAGs)do
+        --if (k % 4) == 0 then
+          if type(v)=="string" then
+            --InfMenu.DebugPrint(tostring(v))
+           -- Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
+          end
+        --end
+      end--<
+      
+      for k,v in ipairs(assetTable.irsensors)do
+        --if (k % 4) == 0 then
+          if type(v)=="string" then
+            --InfMenu.DebugPrint(tostring(v))
+            --Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IR_SENSOR,v,dataSet,false)
+          end
+        --end
+      end--<
+      --      assetTable.containers=nil
+      --      assetTable.eastAAGs=nil
+      --      assetTable.westAAGs=nil
+      
+      
 
 
       if MotherBaseConstructConnector.SetVariableGimmickList then
@@ -128,7 +150,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
           Fox.Log( "SetVariableGimmickList( Container "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.irsensors then
-          MotherBaseConstructConnector.SetVariableGimmickList( "IrSensor", assetTable.irsensors, dataSet )
+        --DEBUGWIP   MotherBaseConstructConnector.SetVariableGimmickList( "IrSensor", assetTable.irsensors, dataSet )
           Fox.Log( "SetVariableGimmickList( IrSensor "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.mortars then
@@ -156,7 +178,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
           Fox.Log( "SetVariableGimmickList( NuclearContainer "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.stolenAlarms then
-          MotherBaseConstructConnector.SetVariableGimmickList( "StolenAlarm", assetTable.stolenAlarms, dataSet )
+         --DEBUGWIP MotherBaseConstructConnector.SetVariableGimmickList( "StolenAlarm", assetTable.stolenAlarms, dataSet )
           Fox.Log( "SetVariableGimmickList( StolenAlarm "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.slideDoors then
@@ -164,7 +186,7 @@ mtbs_item.RegisterGimmick = function( clusterId )
           Fox.Log( "SetVariableGimmickList( SlideDoor "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.nuclearContainers then
-          MotherBaseConstructConnector.SetVariableGimmickList( "NuclearContainer", assetTable.nuclearContainers, dataSet )
+        --DEBUGWIP   MotherBaseConstructConnector.SetVariableGimmickList( "NuclearContainer", assetTable.nuclearContainers, dataSet )
           Fox.Log( "SetVariableGimmickList( NuclearContainer "..tostring(layoutCode)..", "..dataSet.." )" )
         end
       else

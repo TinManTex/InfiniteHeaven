@@ -9,7 +9,7 @@
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r180
+-- Defaults/example of all profile options for IH r181
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -181,7 +181,7 @@ profiles.defaults={
 		--Custom soldier equip menu
 		customWeaponTableFREE=0,--{ 0-1 } -- Enemy use custom equip table in free roam
 		customWeaponTableMISSION=0,--{ 0-1 } -- Enemy use custom equip table in missions
-		customWeaponTableMB=0,--{ 0-1 } -- MB staff use custom equip table
+		customWeaponTableMB_ALL=0,--{ 0-1 } -- MB staff use custom equip table
 		weaponTableStrength="NORMAL",--{ NORMAL, STRONG, COMBINED } -- Weapon stengths
 		weaponTableAfgh=0,--{ 0-1 } -- Include Soviet weapons
 		weaponTableMafr=0,--{ 0-1 } -- Include PF weapons
@@ -227,7 +227,9 @@ profiles.defaults={
 		mbMoraleBoosts=0,--{ 0-1 } -- Staff-wide morale boost for good visit
 		mbEnableBuddies=0,--{ 0-1 } -- Enable all buddies
 		mbAdditionalSoldiers=0,--{ 0-1 } -- More soldiers on MB plats
+		mbqfEnableSoldiers=0,--{ 0-1 } -- Force enable Quaranine platform soldiers
 		mbNpcRouteChange=0,--{ 0-1 } -- Soldiers move between platforms
+		mbEnableLethalActions=0,--{ 0-1 } -- Allow lethal actions
 		mbWargameFemales=0,--{ 0-100 } -- Women in Enemy Invasion mode (percentage)
 		--Show characters menu
 		mbEnableOcelot=0,--{ 0-1 } -- Enable Ocelot
@@ -297,6 +299,7 @@ profiles.motherBaseHeaven={
     mbMoraleBoosts=1,--{ 0-1 } -- Staff-wide morale boost for good visit
     mbEnableBuddies=1,--{ 0-1 } -- Enable all buddies
     mbAdditionalSoldiers=1,--{ 0-1 } -- More soldiers on MB plats
+    mbqfEnableSoldiers=1,--{ 0-1 } -- Force enable Quaranine platform soldiers
     mbNpcRouteChange=1,--{ 0-1 } -- Soldiers move between platforms
     mbWargameFemales=15,--{ 0-100 } -- Women in Enemy Invasion mode (percentage)
     --Show characters menu

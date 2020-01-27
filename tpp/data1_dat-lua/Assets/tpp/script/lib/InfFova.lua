@@ -1711,7 +1711,7 @@ function this.GetCamoTypes(partsTypeName)
   end
 
   if plPartsName and not plPartsName.ALL and not plPartsName[playerTypeName] then
-    InfMenu.DebugPrint"not supported for player type"--DEBUGNOW
+    InfMenu.DebugPrint("WARNING: "..tostring(plPartsName).." not supported for player type "..tostring(playerTypeName))--DEBUG
     return
   end
 

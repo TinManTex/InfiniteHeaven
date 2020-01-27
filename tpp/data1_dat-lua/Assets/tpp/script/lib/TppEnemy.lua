@@ -948,13 +948,14 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON=wormholeLevel
 end
 function this.SetUpDDParameter()
+--InfInspect.TryFunc(function()--DEBUG
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
   local typeCp={type="TppCommandPost2"}
   local command={id="SetFultonLevel",fultonLevel=this.weaponIdTable.DD.NORMAL.FULTON_LV,isWormHole=this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON}
   GameObject.SendCommand(typeCp,command)
-  if vars.missionCode~=30050 then--tex added check to stop this from interfering with player settings, also below check doesnt handle new tabled equipids
+  if (vars.missionCode~=30050 and vars.missionCode~=30250) then--tex added check to stop this from interfering with player settings, also below check doesnt handle new tabled equipids
     if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
       or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
     TppRevenge.SetHelmetAll()
@@ -975,6 +976,7 @@ function this.SetUpDDParameter()
   end
   --<
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
+  --end)--DEBUG
 end
 function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
@@ -1383,7 +1385,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   --tex>mbDDHeadGear clear headgear
   if subTypeName=="DD_FOB"then
-    if vars.missionCode==30050 and Ivars.mbDDHeadGear:Is(0) then
+    if Ivars.mbDDHeadGear:Is(0) and Ivars.mbDDHeadGear:MissionCheck() then
       powerLoadout.HELMET=nil
       powerLoadout.GAS_MASK=nil
       powerLoadout.NVG=nil

@@ -1,43 +1,50 @@
-local n={}
-function n.OnMatchmakeSuccess()MGOSoundtrack2.Stop()
+local this={}
+function this.OnMatchmakeSuccess()
+  MGOSoundtrack2.Stop()
 end
-function n.OnMatchmakeError()
+function this.OnMatchmakeError()
 end
-function n.OnMatchStart(n,i,o,s)
-if n then
-vars.isGameplayHost=1
-else
-vars.isGameplayHost=0
+function this.OnMatchStart(isHost,rulesetId,locationCode,isNight)
+  if isHost then
+    vars.isGameplayHost=1
+  else
+    vars.isGameplayHost=0
+  end
+  vars.locationCode=locationCode
+  vars.missionCode=6
+  vars.rulesetId=rulesetId
+  vars.isNight=isNight
+  Mission.LoadMission{force=true}
+  Mission.LoadLocation()
+  if isHost then
+  else
+    DemoDaemon.StopAll()
+  end
+  TppNetworkUtil.StartNetSynchronizer()
 end
-vars.locationCode=o
-vars.missionCode=6
-vars.rulesetId=i
-vars.isNight=s
-Mission.LoadMission{force=true}Mission.LoadLocation()
-if n then
-else
-DemoDaemon.StopAll()
+function this.OnExit()
 end
-TppNetworkUtil.StartNetSynchronizer()
+function this.OnReturnToFreeplay()
+  vars.isGameplayHost=1
+  vars.locationCode=101
+  vars.missionCode=6
+  vars.rulesetId=4
+  Mission.LoadMission{force=true}
+  Mission.LoadLocation()
 end
-function n.OnExit()
+function this.OnStartTransition()
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,nil,nil,{setMute=true})
 end
-function n.OnReturnToFreeplay()
-vars.isGameplayHost=1
-vars.locationCode=101
-vars.missionCode=6
-vars.rulesetId=4
-Mission.LoadMission{force=true}Mission.LoadLocation()
+function this.OnUnloadMission()
+  Util.ClearIntervalAll()
+  TppMain.EnableBlackLoading(true)
+  vars.isGameplayHost=0
+  vars.missionCode=65535
+  vars.locationCode=65535
+  Mission.LoadMission()
+  Mission.LoadLocation{force=true}
 end
-function n.OnStartTransition()
-TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,nil,nil,{setMute=true})
+function this.OnGotoTpp()
+  Mission.SwitchApplication"tpp"
 end
-function n.OnUnloadMission()Util.ClearIntervalAll()
-TppMain.EnableBlackLoading(true)
-vars.isGameplayHost=0
-vars.missionCode=65535
-vars.locationCode=65535
-Mission.LoadMission()Mission.LoadLocation{force=true}
-end
-function n.OnGotoTpp()Mission.SwitchApplication"tpp"end
-return n
+return this

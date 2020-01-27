@@ -8,8 +8,20 @@ local SendCommand=GameObject.SendCommand
 local lastAppearTime=0
 local TimerStart=GkEventTimerManager.Start
 local TimerStop=GkEventTimerManager.Stop
+local IsTimerActive=GkEventTimerManager.IsTimerActive
+
+--STATE
+local numFultonedThisMap=0
+local numDownedThisEvent=0
+local clearLimit=4
+this.parasitePos=nil
+
+this.parasiteAttackedCount=0--tex mbqf hostage parasites
+this.forceEvent=false
 
 --TUNE
+local triggerAttackCount=45--tex mbqf hostage parasites
+
 local PARASITE_PARAMETERS={
   NORMAL={--10020
     sightDistance = 20,
@@ -99,13 +111,8 @@ this.parasiteNames={
   "Parasite3",
 }
 
-local numFultonedThisMap=0
-local numDownedThisEvent=0
-local clearLimit=4
-this.parasitePos=nil
-
 function this.ParasiteEventEnabled()
-  if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
+  if (Ivars.enableParasiteEvent:Is(1) or this.forceEvent) and (Ivars.enableParasiteEvent:MissionCheck() or vars.missionCode==30250) then
     return true
   end
   return false
@@ -140,6 +147,41 @@ function this.OnDamage(gameId,attackId,attackerId)
     --  if harden and not hardened then
     --    GameObject.SendCommand( { type="TppParasite2" }, { id="StartCombat",harden=true } )
     --  end
+  end
+end
+
+local hostageParasites={
+  "hos_wmu00_0000",
+  "hos_wmu00_0001",
+  "hos_wmu01_0000",
+  "hos_wmu01_0001",
+  "hos_wmu03_0000",
+  "hos_wmu03_0001",
+}
+function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
+  if vars.missionCode~=30250 then
+    return
+  end
+  --InfMenu.DebugPrint"OnDamage"--DEBUG
+
+  local isHostage=false
+  for i,parasiteName in pairs(hostageParasites) do
+    local gameId=GetGameObjectId(parasiteName)
+    if gameId==gameId then
+      isHostage=true
+      break
+    end
+  end
+
+  if isHostage then
+    this.parasiteAttackedCount=this.parasiteAttackedCount+1
+    --InfMenu.DebugPrint(this.parasiteAttackedCount)--DEBUG
+
+    if this.parasiteAttackedCount>triggerAttackCount then
+      this.parasiteAttackedCount=0
+      this.forceEvent=true
+      this.StartEvent()
+    end
   end
 end
 
@@ -186,6 +228,10 @@ function this.FadeInOnGameStart()
     return
   end
 
+  if Ivars.enableParasiteEvent:Is(0) then
+    return
+  end
+
   if Ivars.inf_parasiteEvent:Is()>0 then
     if TppMission.IsMissionStart() then
       --InfMenu.DebugPrint"mission start clear, StartEventTimer"--DEBUG
@@ -202,9 +248,8 @@ function this.FadeInOnGameStart()
 end
 
 function this.InitEvent()
-  if not this.ParasiteEventEnabled() then
-    return
-  end
+  this.forceEvent=false
+  this.parasiteAttackedCount=0
 
   if TppMission.IsMissionStart() then
     --InfMenu.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
@@ -215,11 +260,20 @@ function this.InitEvent()
   numFultonedThisMap=0
   numDownedThisEvent=0
 
+  if not this.ParasiteEventEnabled() and vars.missionCode~=30250 then
+    return
+  end
+
   this.SetupParasites()
 end
 
+local Timer_ParasiteEventStr="Timer_ParasiteEvent"
 function this.StartEventTimer()
   if not this.ParasiteEventEnabled() then
+    return
+  end
+
+  if Ivars.enableParasiteEvent:Is(0) then
     return
   end
 
@@ -229,12 +283,15 @@ function this.StartEventTimer()
   --local nextEventTime=10--DEBUG
   local nextEventTime=math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
   --InfMenu.DebugPrint("Timer_ParasiteEvent start in "..nextEventTime)--DEBUG
-  TimerStop("Timer_ParasiteEvent")
-  TimerStart("Timer_ParasiteEvent",nextEventTime)
+  TimerStop(Timer_ParasiteEventStr)
+  TimerStart(Timer_ParasiteEventStr,nextEventTime)
   --end)--
 end
 
 function this.StartEvent()
+  if IsTimerActive(Timer_ParasiteEventStr)then
+    TimerStop(Timer_ParasiteEventStr)
+  end
   --InfMenu.DebugPrint"Timer_ParasiteEvent hit"--DEBUG
   if numFultonedThisMap==#this.parasiteNames then
     --InfMenu.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
@@ -285,7 +342,7 @@ function this.ParasiteAppear()
   local msfRate=10--mb only
 
 
-  local isMb=vars.missionCode==30050
+  local isMb=vars.missionCode==30050 or vars.missionCode==30250
   if isMb then
     for cpName,cpDefine in pairs(mvars.ene_soldierDefine)do
       for i,soldierName in ipairs(cpDefine)do
@@ -293,6 +350,11 @@ function this.ParasiteAppear()
         if soldierId~=NULL_ID then
           local isMsf=math.random(100)<msfRate
           this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina,isMsf)
+
+          --tex GOTCHA setfriendlycp seems to be one-way only
+
+          local command={id="SetFriendly",enabled=false}
+          SendCommand(soldierId,command)
         end
       end
     end
@@ -317,8 +379,8 @@ function this.ParasiteAppear()
       return
     end
 
---    InfMenu.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
---    InfMenu.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
+    --    InfMenu.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
+    --    InfMenu.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
 
     local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
     local closestDist=cpDistance
@@ -458,6 +520,9 @@ end
 
 function this.EndEvent()
   --InfMenu.DebugPrint"EndEvent"--DEBUG
+  this.forceEvent=false
+  this.parasiteAttackedCount=0
+  
   Ivars.inf_parasiteEvent:Set(0)
   TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
   SendCommand({type="TppParasite2"},{id="StartWithdrawal"})

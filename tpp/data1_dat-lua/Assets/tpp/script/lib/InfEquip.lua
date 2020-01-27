@@ -1139,7 +1139,7 @@ local ivarNames={
 }
 --tex see GOTCHA note before LoadEquipTable above
 --Don't know if it's a count or a memory thing (which would depend on the mix of equipment loaded)
-local maxEquipment=48
+local maxEquipment=35--48
 function this.CreateCustomWeaponTable(missionCode)
   if not Ivars.EnabledForMission("customWeaponTable",missionCode) then
     return nil
@@ -1163,7 +1163,7 @@ function this.CreateCustomWeaponTable(missionCode)
   end
 
   if noneActive then
-    InfMenu.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUGNOW
+    InfMenu.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
     local weaponIdTable={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
     TppEnemy.weaponIdTable.DD=nil
     TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
@@ -1300,7 +1300,7 @@ function this.CreateDDWeaponIdTable()
           addWeapon=true
         end
       end
-      if addWeapon then
+      if addWeapon then        
         ddWeaponIdTableNormal[powerType]=ddWeaponIdTableNormal[powerType] or {}
         table.insert(ddWeaponIdTableNormal[powerType],ddWeaponInfo.equipId)
 

@@ -2,7 +2,7 @@ Infinite Heaven features
 ========================
 
 YouTube playlist demonstrating many features
-https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF
+[url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
 All settings in Infinite Heaven start at game defaults and can be adjusted in the Infinite Heaven menus.
 

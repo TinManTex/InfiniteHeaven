@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r180"
+this.modVersion="r181"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -176,7 +176,7 @@ end
 
 function this.IsDDBodyEquip(missionId)
   local missionCode=missionId or vars.missionCode
-  if missionCode==30050 then
+  if missionCode==30050 or missionCode==30250 then
     return Ivars.mbDDSuit:Is()>0
   end
   return false
@@ -291,43 +291,39 @@ function this.SetKeepAlert(cpName,enable)
   GameObject.SendCommand(gameId,command)
 end
 
---
-function this.SetUpMBZombie()
-  --  for idx = 1, table.getn(this.soldierDefine[mtbs_enemy.cpNameDefine]) do
-  --    local gameObjectId = GameObject.GetGameObjectId("TppSoldier2", this.soldierDefine[mtbs_enemy.cpNameDefine][idx])
-  --    if gameObjectId ~= NULL_ID then
-  --      InfMenu.DebugPrint("idx:".. idx .. "soldiername: ".. tostring(this.soldierDefine[mtbs_enemy.cpNameDefine][idx]) )--DEBUG
-  --      GameObject.SendCommand( gameObjectId, { id = "SetZombie", enabled = true, isMsf = false, isZombieSkin = true, isHagure = false } )
-  --    end
-  --  end
-  for cpName, soldierNameList in pairs( mtbs_enemy.soldierDefine ) do
-    for _, soldierName in pairs( soldierNameList ) do
-      local gameObjectId = GetGameObjectId("TppSoldier2", soldierName)
-      if gameObjectId ~= NULL_ID then
-        local command =  {
-          id = "SetZombie",
-          enabled = true,
-          isMsf = math.random()>0.7,
-          isZombieSkin = false,--math.random()>0.5,
-          isHagure = math.random()>0.7,--tex donn't even know
-          isHalf=math.random()>0.7,--tex donn't even know
-        }
-        if not command.isMsf then
-          command.isZombieSkin=true
-        end
-        GameObject.SendCommand( gameObjectId, command )
-        if command.isMsf then
-          local command = { id = "SetMsfCombatLevel", level = math.random(9) }
-          GameObject.SendCommand( gameObjectId, command )
-        end
+--TUNE
+function this.SetZombie(gameObjectId)
+  local command= {
+    id="SetZombie",
+    enabled=true,
+    isMsf=math.random()>0.7,
+    isZombieSkin=false,--math.random()>0.5,
+    isHagure=math.random()>0.7,--tex donn't even know
+    isHalf=math.random()>0.7,--tex donn't even know
+  }
+  if not command.isMsf then
+    command.isZombieSkin=true
+  end
+  SendCommand(gameObjectId,command )
+  if command.isMsf then
+    local command={id="SetMsfCombatLevel",level=math.random(9)}
+    SendCommand(gameObjectId,command)
+  end
 
-        if math.random()>0.8 then
-          GameObject.SendCommand( gameObjectId, { id = "SetEnableHotThroat", enabled = true } )
-        end
+  if math.random()>0.8 then
+    SendCommand(gameObjectId,{id="SetEnableHotThroat",enabled=true})
+  end
+end
+
+function this.SetUpMBZombie()
+  for cpName,soldierNameList in pairs(mvars.ene_soldierDefine) do
+    for i,soldierName in pairs(soldierNameList) do
+      local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
+      if gameObjectId~=NULL_ID then
+        this.SetZombie(gameObjectId)
       end
     end
   end
-
 end
 
 this.SetFriendlyCp = function()
@@ -623,7 +619,7 @@ function this.SetSubsistenceSettings()
   if not Ivars.prevMissionCode then
     return
   end
-  
+
   if Ivars.dontOverrideFreeLoadout:Is(1) then
     if (free[Ivars.prevMissionCode] and TppMission.IsStoryMission(vars.missionCode))
       or (free[vars.missionCode] and TppMission.IsStoryMission(Ivars.prevMissionCode)) then
@@ -946,6 +942,10 @@ function this.OnDamage(gameId,attackId,attackerId)
   local typeIndex=GameObject.GetTypeIndex(gameId)
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
     InfParasite.OnDamage(gameId,attackId,attackerId)
+  elseif typeIndex==TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2 then
+    if vars.missionCode==30250 then
+      InfParasite.OnDamageMbqfParasite(gameId,attackId,attackerId)  
+    end
   elseif typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
   end
@@ -1254,7 +1254,7 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
     end
   end
 
-  if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
+  if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
     mvars.trm_isAlwaysDirectAddStaff=false
   end
 
@@ -1277,7 +1277,7 @@ function this.OnMissionGameEndTop()
     return
   end
 
-  if vars.missionCode==30050 then
+  if vars.missionCode==30050 or vars.missionCode==30250 then
     this.CheckMoraleReward()
   end
 end
@@ -2589,11 +2589,11 @@ local longVisitRewards=0
 local revengeDecayCount=0
 
 function this.ClearMoraleInfo()
-  if vars.missionCode~=30050 then
+  if vars.missionCode~=30050 and vars.missionCode~=30250 then
     return
   end
 
-  for i=1,#TppDefine.CLUSTER_NAME do
+  for i=1,#TppDefine.CLUSTER_NAME+1 do
     saluteClusterCounts[i]=0
     visitedClusterCounts[i]=false
   end
@@ -2616,7 +2616,7 @@ end
 
 function this.GetTotalSalutes()
   local total=0
-  for i=1,#TppDefine.CLUSTER_NAME do
+  for i=1,#TppDefine.CLUSTER_NAME+1 do
     total=total+saluteClusterCounts[i]
   end
   return total
@@ -2624,7 +2624,12 @@ end
 
 function this.CheckSalutes()
   --InfInspect.TryFunc(function()--DEBUG
-  if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
+  InfMenu.DebugPrint"salute!"--DEBUGNOW
+  if (vars.missionCode==30050 or vars.missionCode==30250) and Ivars.mbMoraleBoosts:Is(1) then
+    if vars.missionCode==30250 then--PATCHUP
+      rewardOnSalutesCount=6--tex not so many out there, plus they get lonely
+    end
+InfMenu.DebugPrint"salute2"--DEBUGNOW
     local currentCluster=mtbs_cluster.GetCurrentClusterId()
 
     saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
@@ -2713,7 +2718,7 @@ end
 --lvl 2 is 8 cigars of 24hr so 8 days, ~28 seconds realtime
 --lvl 3 is 10 cigars of 36hr so 15 days ~40 seconds
 function this.StartLongMbVisitClock()
-  if vars.missionCode~=30050 then
+  if vars.missionCode~=30050 and vars.missionCode~=30250 then
     return
   end
 
@@ -2723,7 +2728,7 @@ function this.StartLongMbVisitClock()
   TppClock.RegisterClockMessage("MbVisitDay",currentTime)
 end
 function this.OnMbVisitDay(sender,time)
-  if vars.missionCode==30050 then
+  if vars.missionCode==30050 or vars.missionCode==30250 then
     --InfMenu.DebugPrint"OnMbVisitDay"--DEBUG
     visitDaysCount=visitDaysCount+1
     if visitDaysCount>0 then

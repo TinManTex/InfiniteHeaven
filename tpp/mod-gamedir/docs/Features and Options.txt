@@ -2,7 +2,7 @@ Infinite Heaven features
 ========================
 
 YouTube playlist demonstrating many features
-https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF
+[url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
 All settings in Infinite Heaven start at game defaults and can be adjusted in the Infinite Heaven menus.
 
@@ -451,12 +451,16 @@ Gives a staff-wide morale boost on having a number of soldiers salute (most of a
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 16: More soldiers on MB plats : Off, On
 Increases soldiers on platforms from 4 soldiers to 9.
-17: Soldiers move between platforms : Off, On
+17: Force enable Quaranine platform soldiers : Off, On
+Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
+18: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
-18: Show characters menu
-19: Show assets menu
-20: Women in Enemy Invasion mode : 0-100%
-21: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+19: Show characters menu
+20: Show assets menu
+21: Allow lethal actions : Off, On
+Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
+22: Women in Enemy Invasion mode : 0-100%
+23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
 
 Show characters menu
 --------------------

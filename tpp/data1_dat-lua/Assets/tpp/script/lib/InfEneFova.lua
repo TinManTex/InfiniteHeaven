@@ -1519,14 +1519,15 @@ function this.WildCardFova(bodies)
   local faces={}
   InfEneFova.inf_wildCardMaleFaceList={}
   InfEneFova.inf_wildCardFemaleFaceList={}
+  local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
     local faceId=this.RandomFaceId(this.maleFaceIdsUncommon)
-    table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
+    table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
   end
   for i=1,InfMain.numWildCardFemales+1 do
     local faceId=this.RandomFaceId(this.femaleFaceIds)
-    table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO -^-
+    table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
   TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}

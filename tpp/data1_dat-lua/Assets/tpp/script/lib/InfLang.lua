@@ -522,13 +522,15 @@ this.eng={--english
   dontOverrideFreeLoadout="Keep equipment Free<>Mission",
   customWeaponTableFREE="Enemy use custom equip table in free roam",
   customWeaponTableMISSION="Enemy use custom equip table in missions",
-  customWeaponTableMB="MB staff use custom equip table",
+  customWeaponTableMB_ALL="MB staff use custom equip table",
   weaponTableStrength="Weapon stengths",
   weaponTableStrengthSettings={"NORMAL","STRONG","Combined"},
   weaponTableAfgh="Include Soviet weapons",
   weaponTableMafr="Include PF weapons",
   weaponTableSkull="Include XOF weapons",
   weaponTableDD="Include DD weapons",
+  mbqfEnableSoldiers="Force enable Quaranine platform soldiers",
+  mbEnableLethalActions="Allow lethal actions",
 }--eng end
 
 this.help={}
@@ -683,6 +685,8 @@ this.help.eng={
   dontOverrideFreeLoadout="Prevents equipment and weapons being reset when going between free-roam and missions.",
   weaponTableStrength="The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.",
   weaponTableDD="Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built",
+  mbqfEnableSoldiers="Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.",
+  mbEnableLethalActions="Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.",
 }
 
 this.cpNames={

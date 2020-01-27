@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 0 --DEBUGWIP
 -- ORIGINALQAR: chunk4
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30020\f30020.fpkd
 local this = {}
@@ -237,7 +237,7 @@ this.soldierDefine = {
 		"sol_pfCamp_0009",
 		"sol_pfCamp_0010",
 		"sol_pfCamp_0011",
-		--DEBUGNOW
+		--DEBUGWIP
 --		"sol_ih_0000",
 --    "sol_ih_0001",
 --    "sol_15_23_0001",
@@ -616,7 +616,7 @@ this.soldierDefine = {
 	
 
 	mafr_01_20_lrrp = {
-	 --DEBUGNOW
+	 --DEBUGWIP
 --    "sol_ih_0000",
 --    "sol_ih_0001",
 --    lrrpTravelPlan  = "travel_ih_01",
@@ -643,7 +643,7 @@ this.soldierDefine = {
 	},
 
 	mafr_04_09_lrrp = {
-		--DEBUGNOWnil,
+		--DEBUGWIP nil,
 		    "sol_ih_0001",
     "sol_ih_0002",
     lrrpTravelPlan  = "travel_ih_01",
@@ -689,7 +689,7 @@ this.soldierDefine = {
 		"sol_08_25_0000",
 		"sol_08_25_0001",
 		lrrpTravelPlan	= "travelArea3_01",
-		--DEBUGNOW OFF lrrpVehicle		= "veh_trc_0005",
+		--DEBUGWIP OFF lrrpVehicle		= "veh_trc_0005",
 	},
 
 	mafr_09_25_lrrp = {
@@ -728,24 +728,24 @@ this.soldierDefine = {
 		"sol_14_27_0000",
 		"sol_14_27_0001",
 		lrrpTravelPlan	= "travelArea3_02",
-		--DEBUGNOW OFF lrrpVehicle		= "veh_trc_0004",
+		--DEBUGWIP OFF lrrpVehicle		= "veh_trc_0004",
 	},
 
 	mafr_15_16_lrrp = {
-	 --DEBUGNOW made this shit up
-		--DEBUGNOWnil,
+	 --DEBUGWIP made this shit up
+		--DEBUGWIP nil,
 	  "sol_ih_0000",
     "sol_ih_0001",
     "sol_15_23_0001",
     lrrpTravelPlan  = "travel_ih_00",
     --lrrpVehicle   = "veh_lv_0004",
-    --DEBUGNOW
+    --DEBUGWIP
 	},
 
 	mafr_15_23_lrrp = {
 		"sol_15_23_0000",
 --		"sol_15_23_0001",
---		    --DEBUGNOW
+--		    --DEBUGWIP
 --		    "sol_ih_0000",
 --    "sol_ih_0001",
 		lrrpTravelPlan	= "travelArea2_01",
@@ -774,7 +774,7 @@ this.soldierDefine = {
 
 	mafr_19_29_lrrp = {
 		"sol_19_29_0000",
-		--DEBUGNOW "sol_19_29_0001",
+		--DEBUGWIP "sol_19_29_0001",
 		lrrpTravelPlan	= "travelArea5_01",
 		lrrpVehicle		= "veh_trc_0006",
 	},
@@ -1140,7 +1140,7 @@ this.travelPlans = {
 
   
   
-  --DEBUGNOW
+  --DEBUGWIP
   travel_ih_00 = {
       { cp = "mafr_pfCamp_cp", routeGroup={ "travel", "lrrpHold" } },
   },

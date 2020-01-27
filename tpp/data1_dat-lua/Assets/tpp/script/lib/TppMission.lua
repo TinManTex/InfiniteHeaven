@@ -192,18 +192,18 @@ end
 function this.UpdateCheckPointAtCurrentPosition()
   TppCheckPoint.UpdateAtCurrentPosition()
 end
-function this.IsMatchStartLocation(e)
-  local e=TppPackList.GetLocationNameFormMissionCode(e)
+function this.IsMatchStartLocation(missionCode)
+  local locationId=TppPackList.GetLocationNameFormMissionCode(missionCode)
   if TppLocation.IsAfghan()then
-    if TppDefine.LOCATION_ID[e]~=TppDefine.LOCATION_ID.AFGH then
+    if TppDefine.LOCATION_ID[locationId]~=TppDefine.LOCATION_ID.AFGH then
       return false
     end
   elseif TppLocation.IsMiddleAfrica()then
-    if TppDefine.LOCATION_ID[e]~=TppDefine.LOCATION_ID.MAFR then
+    if TppDefine.LOCATION_ID[locationId]~=TppDefine.LOCATION_ID.MAFR then
       return false
     end
   elseif TppLocation.IsMotherBase()then
-    if TppDefine.LOCATION_ID[e]~=TppDefine.LOCATION_ID.MTBS then
+    if TppDefine.LOCATION_ID[locationId]~=TppDefine.LOCATION_ID.MTBS then
       return false
     end
   else

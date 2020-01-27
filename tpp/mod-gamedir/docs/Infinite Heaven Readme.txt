@@ -1,5 +1,5 @@
 = Infinite heaven =
-r180 - 2016-09-17
+r181 - 2016-09-17
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -94,7 +94,8 @@ In mission Quick Menu:
 <Change Stance>(C key or A button) to have Quiet move to last usermarker
 
 Profiles:
-See InfProfiles Readme
+Profiles are lists of settings for IH options, can be used as an alternative, or in conjunction with IHs in-game menu.
+See InfProfiles Readme and InfProfiles.lua for further info.
 
 Known Issues
 ------------------------------
@@ -120,6 +121,7 @@ Shigu for your specific testing and discussions
 Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 Various people for their donations, including:
+WolfJack
 Oliver
 Daniel
 Domenico

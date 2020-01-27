@@ -1,3 +1,4 @@
+-- init.lua
 local platform=Fox.GetPlatformName()
 local deviceName=""
 if GrTools then
@@ -287,9 +288,9 @@ if CameraPriority then
   CameraPriority.RegisterPriorities{"Debug","Editor","Demo","Game","GameWeakest"}
 end
 if CameraSelector then
-  local e=CameraSelector{name="MainCameraSelector",scene="MainScene",viewport="MainViewport",priorities={"Debug","Editor","Demo","Game","GameWeakest"},listener="MainListener",rumble={0,1,2,3}}
-  e:SetMainListener()
-  CameraSelector.SetMainInstance(e)
+  local cameraSelector=CameraSelector{name="MainCameraSelector",scene="MainScene",viewport="MainViewport",priorities={"Debug","Editor","Demo","Game","GameWeakest"},listener="MainListener",rumble={0,1,2,3}}
+  cameraSelector:SetMainListener()
+  CameraSelector.SetMainInstance(cameraSelector)
 end
 if editor then
   editor:Setup()

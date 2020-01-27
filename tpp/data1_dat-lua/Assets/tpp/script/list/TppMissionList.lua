@@ -789,7 +789,7 @@ missionPackTable[30050]=function(missionCode)
     end
   end
   TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Paz"}
-  
+
   if Ivars.mbEnemyHeli:Is(1) or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
@@ -823,6 +823,24 @@ missionPackTable[30250]=function(missionCode)
       TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
     end
   end
+
+  --tex IsDDBodyEquip add mission packs>
+  if InfMain.IsDDBodyEquip(missionCode) then
+    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
+    if bodyInfo and bodyInfo.missionPackPath then
+      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+    end
+    local bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
+    if bodyInfo and bodyInfo.missionPackPath then
+      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+    end
+  end--<
+  if Ivars.mbZombies:Is(1)then--tex>
+    TppSoldierFace.SetUseZombieFova{enabled=true}
+  end--<
+  if Ivars.enableParasiteEvent:Is()>0 or Ivars.mbEnableLethalActions:Is(1) then--tex>
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
+  end--<
 end
 missionPackTable[40010]=function(missionCode)
   if gvars.ini_isTitleMode then

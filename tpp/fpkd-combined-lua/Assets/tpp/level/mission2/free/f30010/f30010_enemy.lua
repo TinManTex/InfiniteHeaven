@@ -580,7 +580,7 @@ this.soldierDefine = {
 
     afgh_01_13_lrrp = {
       "sol_01_13_0000",
-      --DEBUGNOW "sol_01_13_0001",
+      --DEBUGWIP "sol_01_13_0001",
       lrrpTravelPlan	= "travelArea2_01",
       lrrpVehicle		= "veh_trc_0000",
     },
@@ -626,7 +626,7 @@ this.soldierDefine = {
 
     afgh_05_33_lrrp = {
       "sol_05_33_0000",
-      --DEBUGNOW "sol_05_33_0001",
+      --DEBUGWIP "sol_05_33_0001",
       lrrpTravelPlan	= "travelArea2_03",
       lrrpVehicle		= "veh_trc_0002",
     },
@@ -680,7 +680,7 @@ this.soldierDefine = {
     },
 
     afgh_15_36_lrrp = {
-      --DEBUGNOW
+      --DEBUGWIP
 --         "sol_ih_0000",
 --      "sol_ih_0001",
 --      lrrpTravelPlan  = "travel_ih_0001",
@@ -691,7 +691,7 @@ this.soldierDefine = {
       "sol_01_13_0001",
       lrrpTravelPlan  = "travelArea2_01",--trc0000--"travelArea2_03",--trc0002
       lrrpVehicle   = "veh_lv_0003",   
-      --DEBUGNOW OFFnil
+      --DEBUGWIP OFFnil
     },
 
     afgh_16_29_lrrp = {
@@ -993,7 +993,7 @@ this.DisableRouteExcludeChatTable = {
 this.lrrpHoldTime = 15
 
 this.travelPlans = {
-  --DEBUGNOW
+  --DEBUGWIP
      travel_ih_0001 = {
       { cp="afgh_16_29_lrrp",     routeGroup={ "travel", "lrrp_18to39" }, }, 
       },  
@@ -1049,7 +1049,7 @@ this.travelPlans = {
       { cp="afgh_villageEast_ob", 	routeGroup={ "travel", 					"out_lrrpHold_W" }, },
       { cp="afgh_01_32_lrrp", 		routeGroup={ "travel", "lrrp_01to32" }, },
       { cp="afgh_village_cp", 		routeGroup={ "travel", 					"in_lrrpHold_E" }, },
-      --DEBUGNOW{ cp="afgh_village_cp", 		routeGroup={ "travel", "lrrpHold" }, },
+      --DEBUGWIP{ cp="afgh_village_cp", 		routeGroup={ "travel", "lrrpHold" }, },
       { cp="afgh_village_cp", 		routeGroup={ "travel", 					"out_lrrpHold_W" }, },
       { cp="afgh_14_32_lrrp", 		routeGroup={ "travel", "lrrp_32to14" }, },
       { cp="afgh_villageNorth_ob",	routeGroup={ "travel", 					"in_lrrpHold_S_E" }, },
@@ -1059,7 +1059,7 @@ this.travelPlans = {
       { cp="afgh_commWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_E" }, },
       { cp="afgh_02_34_lrrp",			routeGroup={ "travel", "lrrp_02to34" }, },
       { cp="afgh_commFacility_cp",	routeGroup={ "travel", 					"in_lrrpHold_W" }, },
-      --DEBUGNOW{ cp="afgh_commFacility_cp",	routeGroup={ "travel", "lrrpHold" }, },
+      --DEBUGWIP{ cp="afgh_commFacility_cp",	routeGroup={ "travel", "lrrpHold" }, },
       { cp="afgh_commFacility_cp",	routeGroup={ "travel", 					"out_lrrpHold_E" }, },
       { cp="afgh_13_34_lrrp",			routeGroup={ "travel", "lrrp_34to13" }, },
       { cp="afgh_ruinsNorth_ob",		routeGroup={ "travel", 					"in_lrrpHold_N" }, },
@@ -1160,7 +1160,7 @@ this.travelPlans = {
       { cp="afgh_powerPlant_cp",		routeGroup={ "travel", 					"out_lrrpHold_B03" }, },
     },
 
-    --tex generic(common route set or whatev) travelplans from missions> DEBUGNOW
+    --tex generic(common route set or whatev) travelplans from missions> DEBUGWIP
     --10020
     --  travelCommFacility01 = {
     --    { cp="afgh_02_34_lrrp",     routeGroup={ "travel", "lrrp_02to34" } },
@@ -1616,7 +1616,7 @@ this.interrogation = {
     nil
 }
 
---DEBUGNOW
+--DEBUGWIP
 --for cpName,interrTable in pairs(this.interrogation)do
 --  this.interrogation[cpName]={
 --    normal = {

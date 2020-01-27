@@ -8,11 +8,6 @@ local InfMain=InfMain
 
 this.inf_enabledEvents={}
 
-local eventMissions={
-  [30010]=true,
-  [30020]=true,
-  [30050]=true,
-}
 function this.DisableEvent()
   if vars.missionCode==30050 and Ivars.inf_event:Is"WARGAME" then
     Ivars.inf_event:Set(0)
@@ -49,9 +44,9 @@ end
 
 this.forceEvent=false
 function this.GenerateEvent(missionCode)
+  --InfInspect.TryFunc(function(misisonCode)--DEBUG
   --InfMenu.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
   if not this.forceEvent and not Ivars.EnabledForMission("gameEventChance",missionCode) then
-  --CULL if not eventMissions[missionCode] then
     return
   end
 
@@ -73,6 +68,7 @@ function this.GenerateEvent(missionCode)
     end
   end
   InfMain.RandomResetToOsTime()
+  --end,missionCode)--DEBUG
 end
 
 --TUNE
@@ -186,7 +182,7 @@ local warGamesBase={
   TRAINING={
     mbDDEquipNonLethal=1,
     mbHostileSoldiers=1,
-    mbEnableLethalActions=0,
+    --mbEnableLethalActions=0,
     mbNonStaff=0,
     mbEnableFultonAddStaff=0,
     mbZombies=0,
@@ -204,7 +200,7 @@ local warGamesBase={
   ZOMBIE_DD={
     mbDDEquipNonLethal=0,
     mbHostileSoldiers=1,
-    mbEnableLethalActions=0,
+    --mbEnableLethalActions=0,
     mbNonStaff=0,
     mbEnableFultonAddStaff=0,
     mbZombies=1,
@@ -250,7 +246,7 @@ local warGameSettings={
   SOVIET_INVASION={
     mbDDHeadGear=0,
     mbDDSuit="SOVIET_B",
-    customWeaponTableMB=0,
+    customWeaponTableMB_ALL=0,
     mbWargameFemales=0,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
@@ -262,7 +258,7 @@ local warGameSettings={
     mbDDHeadGear=0,
     mbDDSuit="PF_C",
     mbDDSuitFemale="BATTLE_DRESS_FEMALE",
-    customWeaponTableMB=1,
+    customWeaponTableMB_ALL=1,
     weaponTableStrength="STRONG",
     weaponTableAfgh=1,
     weaponTableMafr=1,
@@ -278,7 +274,7 @@ local warGameSettings={
   XOF_INVASION={
     mbDDHeadGear=1,
     mbDDSuit="XOF",
-    customWeaponTableMB=1,
+    customWeaponTableMB_ALL=1,
     weaponTableAfgh=0,
     weaponTableMafr=0,
     weaponTableSkull=0,
@@ -297,7 +293,7 @@ local warGameSettings={
   FEMME_FATALE={
     mbDDHeadGear=0,
     mbDDSuitFemale="SWIMWEAR_FEMALE",
-    customWeaponTableMB=1,
+    customWeaponTableMB_ALL=1,
     weaponTableAfgh=0,
     weaponTableMafr=0,
     weaponTableSkull=0,

@@ -76,7 +76,7 @@ this.viewProfile={
       InfMenu.PrintLangId"no_profiles_installed"
       return
     end
-        
+
     local profileMenu=InfMenu.BuildProfileMenu(profileInfo.profile)
     Ivars.ApplyProfile(profileInfo.profile)
     InfMenu.GoMenu(profileMenu)
@@ -625,14 +625,6 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-        --DEBUGNOW
-        --InfInspect.PrintInspect(TppEnemy.allNoDups)
-        --      InfInspect.PrintInspect(TppEnemy.weaponIdTable.ALL)
-        --InfInspect.PrintInspect(mvars.revenge_loadedEquip)
---
---    local weaponIdTableDD=InfEquip.CreateDDWeaponIdTable()
---    InfInspect.PrintInspect(weaponIdTableDD)
-InfInspect.PrintInspect(InfEquip.equipped)
 
     end)
     InfMenu.DebugPrint("index1:"..index1)
@@ -655,8 +647,7 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
       --InfInspect.PrintInspect(InfProfiles)
-      --DEBUGNOW
-      InfInspect.PrintInspect(mvars.revenge_revengeConfig)
+    
     end)
     InfMenu.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -673,12 +664,10 @@ this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
 
---DEBUGNOW
- 
-        --InfInspect.PrintInspect(InfModelRegistry)
-        --InfInspect.PrintInspect(InfMessageLog.debug)
-        
-    end)
+      --InfInspect.PrintInspect(InfModelRegistry)
+      --InfInspect.PrintInspect(InfMessageLog.debug)
+
+      end)
     InfMenu.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then

@@ -265,6 +265,11 @@ local function MissionCheckMb(self,missionCode)
   return missionCode==30050
 end
 
+local function MissionCheckMbqf(self,missionCode)
+  local missionCode=missionCode or vars.missionCode
+  return missionCode==30250
+end
+
 local function MissionCheckMbAll(self,missionCode)
   local missionCode=missionCode or vars.missionCode
   if TppMission.IsMbFreeMissions(missionCode) then
@@ -340,7 +345,7 @@ end
 function this.EnabledForMission(ivarList,missionCode)
   local missionId=missionCode or vars.missionCode
   if type(ivarList)=="string" then
-    ivarList=Ivars.missionModeIvars[ivarList]
+    ivarList=this.missionModeIvars[ivarList]
   end
 
   local passedCheck=false
@@ -499,14 +504,14 @@ this.playerHealthScale={
   end,
 }
 --custom weapon table
-MissionModeIvars(--DEBUGNOW
+MissionModeIvars(
   "customWeaponTable",
   {
     save=MISSION,
     range=this.switchRange,
     settingNames="set_switch",
   },
-  missionModesAll
+  {"FREE","MISSION","MB_ALL",}
 )
 this.weaponTableStrength={
   save=MISSION,
@@ -562,7 +567,7 @@ this.mbDDEquipNonLethal={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  MissionCheck=MissionCheckMb,
+  MissionCheck=MissionCheckMbAll,
 }
 
 this.mbDDSuit={
@@ -620,6 +625,7 @@ this.mbDDHeadGear={
   save=MISSION,
   range=this.switchRange,
   settingNames="mbDDHeadGearSettings",
+  MissionCheck=MissionCheckMbAll,
 }
 
 this.mbWarGamesProfile={
@@ -630,7 +636,7 @@ this.mbWarGamesProfile={
     OFF=function()
       Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(0,true)
-      Ivars.mbEnableLethalActions:Set(0,true)
+      --CULL Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(0,true)
@@ -639,7 +645,7 @@ this.mbWarGamesProfile={
     TRAINING=function()
       --Ivars.mbDDEquipNonLethal:Set(0,true)--tex allow user setting
       Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(0,true)
+      --CULL Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(0,true)
@@ -657,7 +663,7 @@ this.mbWarGamesProfile={
     ZOMBIE_DD=function()
       Ivars.mbDDEquipNonLethal:Set(0,true)--tex n/a
       Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(0,true)
+      --CULL Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(1,true)
@@ -696,6 +702,12 @@ this.mbNpcRouteChange={
   settingNames="set_switch",
 }
 
+this.mbEnableLethalActions={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --NONUSER/ handled by profile>
 this.mbHostileSoldiers={
   nonUser=true,
@@ -704,14 +716,7 @@ this.mbHostileSoldiers={
   settingNames="set_switch",
 }
 
-this.mbEnableLethalActions={--tex also disables negative ogre on kill
-  nonUser=true,
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
-
-this.mbNonStaff={
+this.mbNonStaff={--tex also disables negative ogre on kill
   nonUser=true,
   save=MISSION,
   range=this.switchRange,
@@ -733,6 +738,12 @@ this.mbEnemyHeli={
   MissionCheck=MissionCheckMb,
 }
 --< NONUSER
+
+this.mbqfEnableSoldiers={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
 
 this.mbEnemyHeliColor={
   save=MISSION,

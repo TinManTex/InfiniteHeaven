@@ -1,11 +1,23 @@
 Infinite Heaven changelog
 
+r181
+Fixed: Being unabler to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
+Option: mbqfEnableSoldiers - Force enable Quaranine platform soldiers - in the normal game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
+
+(via Mother Base menu)
+Added: IH visit morale support for Quarantine plat.
+Added: Suit support for Quarantine plat.
+Added: Custom soldier equip for Quarantine plat - if you have been using the 'MB staff use custom equip' you will have to set it again this version as the update has reset it.
+Added: Skulls attack support for Quarantine plat - no seperate option, uses 'Enable Skull attacks in Free roam'.
+Exposed: mbEnableLethalActions - Allow lethal actions - Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
+(via Mother Base menu)
+
 r180 - 2016-09-17
 Refactor: Completeted weapontable support for tables of weaponids per weapon.
 Refactor: _CreateDDWeaponIdTable reverted to vanilla, InfEquip.CreateDDWeaponIdTable take's it's place for dd equip.
 Change: DD Equip is now Custom soldier equip
 Ivars: customWeaponTable*,weaponTable.
-- Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation.
+- Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation - thanks NasaNhak and others for the suggestion.
 
 r179 - 2016-09-14
 Refactor: Decoupled most ivars dependancy on another (such as profile)

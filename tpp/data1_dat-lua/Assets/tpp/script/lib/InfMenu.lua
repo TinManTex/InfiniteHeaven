@@ -866,7 +866,7 @@ function this.BuildProfileMenu(profile)
   for ivarName,setting in pairs(profile)do
     local ivar=Ivars[ivarName]
     if ivar==nil then
-      InfMenu.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUGNOW
+      InfMenu.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUG
     else
       revertProfile[ivarName]=ivar.setting
       options[#options+1]=ivar
