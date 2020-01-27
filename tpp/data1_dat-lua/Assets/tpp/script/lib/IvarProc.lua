@@ -347,18 +347,14 @@ end
 
 function this.MissionCheckMbAll(self,missionCode)
   local missionCode=missionCode or vars.missionCode
-  if TppMission.IsMbFreeMissions(missionCode) then--DEBUGNOW dependancy
-    return true
-  end
-  return false
+  local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
+  return mbFreeMissions[missionCode] or false
 end
 
 function this.MissionCheckMission(self,missionCode)
   local missionCode=missionCode or vars.missionCode
-  if TppMission.IsStoryMission(missionCode) then--tex DEBUGNOW DEPENDANCY TppMission, TODO: check if missioncheck (ivar .MissionCheck :MissionCheck) are used in normal use of ivars (ie so cant be used when IvarProc shifter to init.lua/before TppDefine.requires modules)
-    return true
-  end
-  return false
+  local firstDigit=math.floor(missionCode/1e4)
+  return firstDigit==1
 end
 
 this.missionModesAll={
@@ -901,7 +897,8 @@ function this.SaveEvars()
   --tex TODO: figure out some last-know good method and write a backup
 
   local inGame=not mvars.mis_missionStateIsNotInGame
-  local inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)--DEBUGNOW dependance
+  
+  local inHeliSpace=vars.missionCode and math.floor(vars.missionCode/1e4)==4--tex heli missions are in 40k range
   local inMission=inGame and not inHeliSpace
 
   local saveTextList=this.BuildSaveText(InfCore.modVersion,inMission,onlyNonDefault)

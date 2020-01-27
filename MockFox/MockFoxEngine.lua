@@ -79,7 +79,13 @@ GkEventTimerManager.Start=function()end
 GkEventTimerManager.Stop=function()end
 GkEventTimerManager.IsTimerActive=function()end
 
+HeadshotMessageFlag={}
+
 Mission={}
+
+NeutralizeCause={}
+NeutralizeFobCause={}
+NeutralizeType={}
 
 PathMapper={}
 --PathMapper.Add=function(name,path)end
@@ -112,6 +118,9 @@ Script.LoadLibraryAsync=Script.LoadLibrary
 Script.IsLoadingLibrary=function()
   return false
 end
+
+ScriptBlock={}
+StageBlock={}
 
 Time={}
 Time.GetRawElapsedTimeSinceStartUp=function()--TODO IMPLEMENT
@@ -249,6 +258,8 @@ TppScriptVars={
   CATEGORY_PERSONAL=128,
   CATEGORY_ALL=255,
 }
+
+TppSystem={}
 
 WeatherManager={}
 --VERIFY

@@ -50,13 +50,13 @@ function this.Messages()
       end}
     },
     Weather={
-      {msg="Clock",sender="ShiftChangeAtNight",func=function(n,n)
+      {msg="Clock",sender="ShiftChangeAtNight",func=function(sender,time)
         this.ShiftChangeByTime"shiftAtNight"
       end},
-      {msg="Clock",sender="ShiftChangeAtMorning",func=function(n,n)
+      {msg="Clock",sender="ShiftChangeAtMorning",func=function(sender,time)
         this.ShiftChangeByTime"shiftAtMorning"
       end},
-      {msg="Clock",sender="ShiftChangeAtMidNight",func=function(n,n)
+      {msg="Clock",sender="ShiftChangeAtMidNight",func=function(sender,time)
         this.ShiftChangeByTime"shiftAtMidNight"
       end}
     }
@@ -3795,27 +3795,27 @@ function this.MakeCpLinkDefineTable(lrrpNumberDefine,cpLinkMatrix)
   end
   return cpLinkDefineTable
 end
-function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,fromCp,n)
-  if not Tpp.IsTypeTable(n)then
+function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,toCp,fromCps)
+  if not Tpp.IsTypeTable(fromCps)then
     return
   end
-  local cpLink=cpLinkDefine[fromCp]
+  local cpLink=cpLinkDefine[toCp]
   if cpLink==nil then
     return
   end
   mvars.ene_travelPlans=mvars.ene_travelPlans or{}
   --ORPHAN: local r=0
-  for r,toCp in pairs(n)do
-    if mvars.ene_soldierDefine[toCp]then
-      if cpLink[toCp]then
-        local lrrpNumFromCp=lrrpNumberDefine[fromCp]
-        local lrrpNumToCp=lrrpNumberDefine[toCp]
-        local reinforcePlan="rp_"..(fromCp..("_From_"..toCp))
+  for i,fromCp in pairs(fromCps)do
+    if mvars.ene_soldierDefine[fromCp]then
+      if cpLink[fromCp]then
+        local lrrpNumFromCp=lrrpNumberDefine[toCp]
+        local lrrpNumToCp=lrrpNumberDefine[fromCp]
+        local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
         mvars.ene_travelPlans[reinforcePlan]=mvars.ene_travelPlans[reinforcePlan]or{}
-        local  lrrpRoute=string.format("rp_%02dto%02d",lrrpNumToCp,lrrpNumFromCp)
+        local lrrpRoute=string.format("rp_%02dto%02d",lrrpNumToCp,lrrpNumFromCp)
         local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumFromCp,lrrpNumToCp,locationName,lrrpNumberDefine)
-        mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=fromCp,finishTravel=true}}
-        mvars.ene_reinforcePlans[reinforcePlan]={{toCp=fromCp,fromCp=toCp,type="respawn"}}
+        mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=toCp,finishTravel=true}}
+        mvars.ene_reinforcePlans[reinforcePlan]={{toCp=toCp,fromCp=fromCp,type="respawn"}}
       end
     end
   end
@@ -3943,9 +3943,9 @@ function this.SetTravelPlans(travelPlans)--missionTable.enemy.travelPlans
       end
       local reinforceTravelPlan=mvars.loc_locationCommonTravelPlans.reinforceTravelPlan
       if mvars.ene_useCommonReinforcePlan and reinforceTravelPlan then
-        for cpName,i in pairs(reinforceTravelPlan)do
+        for cpName,fromCps in pairs(reinforceTravelPlan)do
           if mvars.ene_soldierDefine[cpName]then
-            this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,cpName,i)
+            this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,cpName,fromCps)
           end
         end
       end
@@ -4579,154 +4579,158 @@ end
 function this.OnAllocateQuestFova(questTable)
   InfCore.LogFlow"TppEnemy.OnAllocateQuestFova"--tex DEBUG
   InfCore.PCallDebug(function(questTable)--tex DEBUG
-  local faces={}
-  local bodies={}
-  local setBody=false
-  local setFace=false
-  local setHostageBody=false
-  local setHostageFace=false
-  mvars.ene_questArmorId=0
-  mvars.ene_questBalaclavaId=0
-  if questTable.isQuestBalaclava==true then
-    local balaclava={}
-    if TppLocation.IsAfghan()then
-      mvars.ene_questBalaclavaId=TppDefine.QUEST_FACE_ID_LIST.AFGH_BALACLAVA
-    elseif TppLocation.IsMiddleAfrica()then
-      mvars.ene_questBalaclavaId=TppDefine.QUEST_FACE_ID_LIST.MAFR_BALACLAVA
-    end
-    mvars.ene_questGetLoadedFaceTable=TppSoldierFace.GetLoadedFaceTable{}
-    if mvars.ene_questGetLoadedFaceTable~=nil then
-      local loadedFaceCount=#mvars.ene_questGetLoadedFaceTable
-      if mvars.ene_questBalaclavaId~=0 and loadedFaceCount>0 then
-        balaclava={mvars.ene_questBalaclavaId,TppDefine.QUEST_ENEMY_MAX,0}
-        table.insert(faces,balaclava)
-        setFace=true
+    local faces={}
+    local bodies={}
+    local setBody=false
+    local setFace=false
+    local setHostageBody=false
+    local setHostageFace=false
+    mvars.ene_questArmorId=0
+    mvars.ene_questBalaclavaId=0
+    if questTable.isQuestBalaclava==true then
+      local balaclava={}
+      if TppLocation.IsAfghan()then
+        mvars.ene_questBalaclavaId=TppDefine.QUEST_FACE_ID_LIST.AFGH_BALACLAVA
+      elseif TppLocation.IsMiddleAfrica()then
+        mvars.ene_questBalaclavaId=TppDefine.QUEST_FACE_ID_LIST.MAFR_BALACLAVA
       end
-    end
-  end
-  if questTable.isQuestArmor==true then
-    local armor={}
-    if TppLocation.IsAfghan()then
-      mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.AFGH_ARMOR
-    elseif TppLocation.IsMiddleAfrica()then
-      if questTable.soldierSubType=="PF_A"then
-        mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_CFA
-      elseif questTable.soldierSubType=="PF_B"then
-        mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_ZRS
-      elseif questTable.soldierSubType=="PF_C"then
-        mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_RC
-      end
-    end
-    if mvars.ene_questArmorId~=0 then
-      armor={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}
-      table.insert(bodies,armor)
-      setBody=true
-    end
-  end
-  if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
-    for index,enemyDef in pairs(questTable.enemyList)do
-      if enemyDef.enemyName then
-        if enemyDef.bodyId then
-          local n=1
-          local body={enemyDef.bodyId,n,0}
-          table.insert(bodies,body)
-          setBody=true
-        end
-        if enemyDef.faceId then
-          local n=1
-          local face={enemyDef.faceId,n,0}
-          table.insert(faces,face)
+      mvars.ene_questGetLoadedFaceTable=TppSoldierFace.GetLoadedFaceTable{}
+      if mvars.ene_questGetLoadedFaceTable~=nil then
+        local loadedFaceCount=#mvars.ene_questGetLoadedFaceTable
+        if mvars.ene_questBalaclavaId~=0 and loadedFaceCount>0 then
+          balaclava={mvars.ene_questBalaclavaId,TppDefine.QUEST_ENEMY_MAX,0}
+          table.insert(faces,balaclava)
           setFace=true
         end
       end
     end
-  end
-  if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
-    for index,hostageDef in pairs(questTable.hostageList)do
-      if hostageDef.hostageName then
-        if hostageDef.bodyId then
-          local n=1
-          local body={hostageDef.bodyId,0,n}
-          table.insert(bodies,body)
-          setHostageBody=true
+    if questTable.isQuestArmor==true then
+      local armor={}
+      if TppLocation.IsAfghan()then
+        mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.AFGH_ARMOR
+      elseif TppLocation.IsMiddleAfrica()then
+        if questTable.soldierSubType=="PF_A"then
+          mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_CFA
+        elseif questTable.soldierSubType=="PF_B"then
+          mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_ZRS
+        elseif questTable.soldierSubType=="PF_C"then
+          mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_RC
         end
-        if hostageDef.faceId then
-          local n=1
-          local face={hostageDef.faceId,0,n}
-          table.insert(faces,face)
-          setHostageFace=true
+      end
+      if mvars.ene_questArmorId~=0 then
+        if IvarProc.EnabledForMission("allowHeavyArmor") then--tex>
+          armor={mvars.ene_questArmorId,EnemyFova.MAX_REALIZED_COUNT,0}
+        else--<
+          armor={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}--tex NMC don't know what thr 3rd param is for, normal body fova only used two? (VERIFY), but then this is using SetAndConvertExtendFova (but then there's no useage of anything but 0 for param3)
         end
-        --NMC: relies on randomFaceList in TppQuestList
-        if hostageDef.isFaceRandom then
-          local faceId=TppQuest.GetRandomFaceId()
-          if faceId then
+        table.insert(bodies,armor)
+        setBody=true
+      end
+    end
+    if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
+      for index,enemyDef in pairs(questTable.enemyList)do
+        if enemyDef.enemyName then
+          if enemyDef.bodyId then
             local n=1
-            local face={faceId,0,n}
+            local body={enemyDef.bodyId,n,0}
+            table.insert(bodies,body)
+            setBody=true
+          end
+          if enemyDef.faceId then
+            local n=1
+            local face={enemyDef.faceId,n,0}
             table.insert(faces,face)
-            setHostageFace=true
+            setFace=true
           end
         end
       end
     end
-  end
-  if setHostageBody==true then
-    local hostageBodyTable={}
-    local setBodyTable=false
-    for i,bodyDef in ipairs(bodies)do
-      if bodyDef[3]>=1 then
-        local bodyId=bodyDef[1]
-        if IsTypeNumber(bodyId)then
-          table.insert(hostageBodyTable,bodyId)
-          setBodyTable=true
+    if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
+      for index,hostageDef in pairs(questTable.hostageList)do
+        if hostageDef.hostageName then
+          if hostageDef.bodyId then
+            local n=1
+            local body={hostageDef.bodyId,0,n}
+            table.insert(bodies,body)
+            setHostageBody=true
+          end
+          if hostageDef.faceId then
+            local n=1
+            local face={hostageDef.faceId,0,n}
+            table.insert(faces,face)
+            setHostageFace=true
+          end
+          --NMC: relies on randomFaceList in TppQuestList
+          if hostageDef.isFaceRandom then
+            local faceId=TppQuest.GetRandomFaceId()
+            if faceId then
+              local n=1
+              local face={faceId,0,n}
+              table.insert(faces,face)
+              setHostageFace=true
+            end
+          end
         end
       end
     end
-    if setBodyTable==true then
-      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: same as in OnAllocateQuest, probably supposed to be table t
+    if setHostageBody==true then
+      local hostageBodyTable={}
+      local setBodyTable=false
+      for i,bodyDef in ipairs(bodies)do
+        if bodyDef[3]>=1 then
+          local bodyId=bodyDef[1]
+          if IsTypeNumber(bodyId)then
+            table.insert(hostageBodyTable,bodyId)
+            setBodyTable=true
+          end
+        end
+      end
+      if setBodyTable==true then
+        TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: same as in OnAllocateQuest, probably supposed to be table t
+      end
     end
-  end
-  local setFovaType="SetNone"
-  if((setBody==true or setFace==true)or setHostageBody==true)or setHostageFace==true then
-    local wantSetBody=setBody or setHostageBody
-    local wantSetFace=setFace or setHostageFace
-    if wantSetBody==true and wantSetFace==true then
-      TppSoldierFace.SetAndConvertExtendFova{face=faces,body=bodies}
-      setFovaType="SetFaceAndBody"
-    elseif wantSetFace==true then
-      TppSoldierFace.SetAndConvertExtendFova{face=faces}
-      setFovaType="SetFace"
-    elseif wantSetBody==true then
-      TppSoldierFace.SetAndConvertExtendFova{body=bodies}
-      setFovaType="SetBody"
+    local setFovaType="SetNone"
+    if((setBody==true or setFace==true)or setHostageBody==true)or setHostageFace==true then
+      local wantSetBody=setBody or setHostageBody
+      local wantSetFace=setFace or setHostageFace
+      if wantSetBody==true and wantSetFace==true then
+        TppSoldierFace.SetAndConvertExtendFova{face=faces,body=bodies}
+        setFovaType="SetFaceAndBody"
+      elseif wantSetFace==true then
+        TppSoldierFace.SetAndConvertExtendFova{face=faces}
+        setFovaType="SetFace"
+      elseif wantSetBody==true then
+        TppSoldierFace.SetAndConvertExtendFova{body=bodies}
+        setFovaType="SetBody"
+      end
     end
-  end
-  local command
-  if setBody==true or setFace==true then
-    if setFovaType=="SetFaceAndBody"then
-      command={id="InitializeAndAllocateExtendFova",face=faces,body=bodies}
-    elseif setFovaType=="SetFace"then
-      command={id="InitializeAndAllocateExtendFova",face=faces}
-    elseif setFovaType=="SetBody"then
-      command={id="InitializeAndAllocateExtendFova",body=bodies}
+    local command
+    if setBody==true or setFace==true then
+      if setFovaType=="SetFaceAndBody"then
+        command={id="InitializeAndAllocateExtendFova",face=faces,body=bodies}
+      elseif setFovaType=="SetFace"then
+        command={id="InitializeAndAllocateExtendFova",face=faces}
+      elseif setFovaType=="SetBody"then
+        command={id="InitializeAndAllocateExtendFova",body=bodies}
+      end
+      if command then
+        GameObject.SendCommand({type="TppSoldier2"},command)
+        GameObject.SendCommand({type="TppCorpse"},command)
+      end
     end
-    if command then
-      GameObject.SendCommand({type="TppSoldier2"},command)
-      GameObject.SendCommand({type="TppCorpse"},command)
+    if setHostageBody==true or setHostageFace==true then
+      if setFovaType=="SetFaceAndBody"then
+        TppSoldierFace.ReserveExtendFovaForHostage{face=faces,body=bodies}
+      elseif setFovaType=="SetFace"then
+        TppSoldierFace.ReserveExtendFovaForHostage{face=faces}
+      elseif setFovaType=="SetBody"then
+        TppSoldierFace.ReserveExtendFovaForHostage{body=bodies}
+      end
     end
-  end
-  if setHostageBody==true or setHostageFace==true then
-    if setFovaType=="SetFaceAndBody"then
-      TppSoldierFace.ReserveExtendFovaForHostage{face=faces,body=bodies}
-    elseif setFovaType=="SetFace"then
-      TppSoldierFace.ReserveExtendFovaForHostage{face=faces}
-    elseif setFovaType=="SetBody"then
-      TppSoldierFace.ReserveExtendFovaForHostage{body=bodies}
+    local heliList=questTable.heliList
+    if(heliList and Tpp.IsTypeTable(heliList))and next(heliList)then
+      this.LoadQuestHeli(heliList[1].coloringType)
     end
-  end
-  local heliList=questTable.heliList
-  if(heliList and Tpp.IsTypeTable(heliList))and next(heliList)then
-    this.LoadQuestHeli(heliList[1].coloringType)
-  end
   end,questTable)--tex DEBUG
 end
 function this.OnActivateQuest(questTable)

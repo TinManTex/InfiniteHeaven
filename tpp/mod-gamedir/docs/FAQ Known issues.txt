@@ -6,12 +6,14 @@ There is a common issue when upgrading IH to a new version due to some bug with 
 It may manifest as:
 Various idroid ui icons appearing blank.
 Infinite loads.
+
 Try using snakebite to uninstall IH, if the issue still arises then it's the snakebite issue, you will need to reset it by:
 
-Pressing the 'Restore original game files' button in snakebites settings page.
-verifying game cache through steam.
-Running snakebite again and going through it's setup.
-Installing IH again.
+1: Pressing the 'Restore original game files' button in snakebites settings page.
+2: Verifying game cache through steam.
+3: Running the game un-modded and causing it to do a save (going to mother base and returning for example)
+4: Running snakebite again and going through it's setup.
+5: Installing IH again.
 
 If this does not fix the problem then uploading your save files for me to test with would be appreciated.
 If you could provide the following information:

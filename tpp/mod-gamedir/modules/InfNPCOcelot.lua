@@ -90,7 +90,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  if InfGameEvent.IsMbEvent() then
+  if InfMain.IsMbEvent() then
     return
   end
 
@@ -166,7 +166,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if InfGameEvent.IsMbEvent() then
+  if InfMain.IsMbEvent() then
     return
   end
 

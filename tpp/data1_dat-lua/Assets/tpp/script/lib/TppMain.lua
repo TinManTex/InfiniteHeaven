@@ -916,10 +916,14 @@ function this.SetMessageFunction(missionTable)--RENAME:
     end
   end
 end
---called via mission_main.OnMessage TODO: caller of that? probably engine
+--tex called via mission_main.OnMessage TODO: caller of that? probably engine
+--sender and messageClass are actually str32 of the original messageexec creation definitions
+--GOTCHA: sender is actuall the message class (Player,MotherBaseManagement,UI etc), not to be confused with the sender defined in the messageexec definitions.
+--args are lua type number, but may represent enum,int,float, StrCode32, whatever.
+--arg0 may match sender (not messageClass) in messageexec definition (see Tpp.DoMessage)
 function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
   if Ivars.debugMessages:Is(1)then--tex>
-    InfLookup.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
+    InfCore.PCall(InfLookup.PrintOnMessage,sender,messageId,arg0,arg1,arg2,arg3)
   end--<
   local mvars=mvars--LOCALOPT
   local strLogTextEmpty=""
@@ -941,6 +945,7 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
     local strLogText=strLogTextEmpty
     onMessageTable[i](sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   end
+  --missionTable modules _messageExecTable s
   for i=1,messageExecTableSize do
     local strLogText=strLogTextEmpty
     DoMessage(messageExecTable[i],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)

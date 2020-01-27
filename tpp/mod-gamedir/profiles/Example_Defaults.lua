@@ -1,5 +1,5 @@
 -- Example_Defaults.lua
--- Defaults / example of all profile options for IH r198
+-- Defaults / example of all profile options for IH r199
   
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it. 
@@ -302,6 +302,8 @@ local this={
 		resourceScaleContainer=100,--{ 100-1000 } -- Container scale (percentage)
 		--Debug menu
 		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
+		disableGameOver=0,--{ 0-1 } -- Disable game over
+		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)

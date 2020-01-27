@@ -633,7 +633,6 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
-
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
@@ -643,12 +642,13 @@ this.DEBUG_SomeShiz={
   end
 }
 
-local index2Min=0--0
+local index2Min=1--0
 local index2Max=600--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
+    
 
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -664,6 +664,7 @@ local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz3---")
+  
 
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -924,13 +925,15 @@ this.DEBUG_PrintRevengePoints={
     --      end
     --      InfCore.DebugPrint(revengeLevelsStr)
 
-    InfCore.DebugPrint"Revenge points"
+    InfCore.DebugPrint"Revenge points:"
+    InfCore.Log("Revenge points:",false,true)
     local revengeLevelsStr=""
     for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
       revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE[revengeTypeName]))
       revengeLevelsStr=revengeLevelsStr.." "
     end
     InfCore.DebugPrint(revengeLevelsStr)
+    InfCore.Log(revengeLevelsStr,false,true)
   end
 }
 

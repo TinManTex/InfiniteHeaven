@@ -1150,7 +1150,7 @@ mtbs_enemy.SetEnemyLocationType = function ()
     if InfMain.IsDDBodyEquip() then
       local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
       local soldierType=EnemyType.TYPE_DD
-      if bodyInfo and bodyInfo.soldierSubType and InfGameEvent.IsMbEvent() then
+      if bodyInfo and bodyInfo.soldierSubType and InfMain.IsMbEvent() then
         soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
       end
       local command = { id = "SetSoldier2Type", type = soldierType }

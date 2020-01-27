@@ -861,17 +861,17 @@ function this.AddRevengePointByTriggerType(revengeTriggerType)
   if this.IsNoRevengeMission(missionCode)then
     return
   end
-  --NMC ORPHAN local debugText="###REVENGE### "..(tostring(missionCode)..(" / AddRevengePointBy ["..(this.GetRevengeTriggerName(revengeTriggerType).."] : ")))
+  local debugText="###REVENGE### "..(tostring(missionCode)..(" / AddRevengePointBy ["..(this.GetRevengeTriggerName(revengeTriggerType).."] : ")))
   local revTypePoint=this.REVENGE_POINT_TABLE[revengeTriggerType]
   for revType,revPoint in pairs(revTypePoint)do
     revType=revType+0
     revPoint=revPoint+0
-    --NMC ORPHAN local currentRevengePoints=gvars.rev_revengePoint[revType]
+    local currentRevengePoints=gvars.rev_revengePoint[revType]
     this.SetRevengePoint(revType,gvars.rev_revengePoint[revType]+revPoint)
     local newPoints=gvars.rev_revengePoint[revType]
-    --NMC ORPHAN debugText=debugText..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(currentRevengePoints)..("->"..(tostring(newPoints).." ")))))
+    debugText=debugText..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(currentRevengePoints)..("->"..(tostring(newPoints).." ")))))
   end
-  --InfCore.DebugPrint(debugText)--tex might as well use their helpfully created string
+  InfCore.Log(debugText)--tex DEBUG might as well use their helpfully created string
 end
 function this.SetRevengePoint(revengeType,points)
   local maxLevel=this.GetRevengeLvMax(revengeType)
@@ -882,6 +882,7 @@ function this.SetRevengePoint(revengeType,points)
   if points>nextLevel then
     points=nextLevel
   end
+  InfCore.Log("TppRevenge.SetRevengePoint: revengeType:"..this.REVENGE_TYPE_NAME[revengeType+1].." from:"..gvars.rev_revengePoint[revengeType].." to:"..points)--tex DEBUG
   gvars.rev_revengePoint[revengeType]=points
 end
 function this.ResetRevenge()
@@ -923,6 +924,7 @@ function this._SetUiParameters()
     InfRevenge.SetCustomRevengeUiParameters()
     return
   end--<
+  InfCore.LogFlow"TppRevenge._SetUiParameters "--tex DEBUG
 
   local fulton=this._GetUiParameterValue(this.REVENGE_TYPE.FULTON)
   local headShot=this._GetUiParameterValue(this.REVENGE_TYPE.HEAD_SHOT)
@@ -1090,6 +1092,7 @@ function this.ReduceRevengePointOnMissionClear(missionId)
   if bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)==PlayerPlayFlag.USE_CHICKEN_CAP then
     return
   end
+  InfCore.LogFlow"TppRevenge.ReduceRevengePointOnMissionClear"--tex DEBUG
   this._ReduceRevengePointOther()
 end
 function this._ReduceRevengePointByChickenCap(missionId)
@@ -2535,7 +2538,7 @@ function this._OnDead(gameId,attackerId,phase,damageFlag)
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI)
   end
 end
-function this._OnUnconscious(gameId,t,playerPhase)
+function this._OnUnconscious(gameId,attackerId,playerPhase)
   if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end

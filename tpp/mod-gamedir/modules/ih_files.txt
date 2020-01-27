@@ -1,8 +1,10 @@
 InfAnimal.lua
 InfBuddy.lua
 InfCamera.lua
+InfDemo.lua
 InfEnemyPhase.lua
 InfEquip.lua
+InfGameEvent.lua
 InfHelicopter.lua
 InfInterrogation.lua
 InfLang.lua
@@ -20,7 +22,6 @@ InfQuickMenuCommands.lua
 InfQuickMenuDefs.lua
 InfResources.lua
 InfStrCode.lua
-InfTeardown.lua
 InfUserMarker.lua
 InfVehicle.lua
 InfWalkerGear.lua

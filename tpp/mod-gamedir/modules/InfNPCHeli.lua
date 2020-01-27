@@ -609,7 +609,7 @@ function this.UpdateHeliMB(heliObjectId,heliIndex,heliRouteIds)
     local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
     local cpId=GetGameObjectId("TppCommandPost2",clusterParam.CP_NAME)
     if cpId==NULL_ID then
-      InfCore.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
+      InfCore.Log("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
     else
       SendCommand(heliObjectId,{id="SetCommandPost",cp=clusterParam.CP_NAME})
     end

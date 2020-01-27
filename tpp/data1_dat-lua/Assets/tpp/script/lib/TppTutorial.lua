@@ -309,14 +309,14 @@ function this.IsRideHelicopter()
   end
   return false
 end
-function this.OnIconFultonShown(E,T,n)
-  local T=GameObject.GetTypeIndex(T)
-  if this.FultonTipsGuideMatchTable[T]then
-    if T~=TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER then
-      this.DispGuide(this.FultonTipsGuideMatchTable[T],this.DISPLAY_OPTION.TIPS)
+function this.OnIconFultonShown(gameId,targetObjectId,isContainer,isNuclear)
+  local typeIndex=GameObject.GetTypeIndex(targetObjectId)
+  if this.FultonTipsGuideMatchTable[typeIndex]then
+    if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER then
+      this.DispGuide(this.FultonTipsGuideMatchTable[typeIndex],this.DISPLAY_OPTION.TIPS)
     else
-      if n==1 then
-        this.DispGuide(this.FultonTipsGuideMatchTable[T],this.DISPLAY_OPTION.TIPS)
+      if isContainer==1 then
+        this.DispGuide(this.FultonTipsGuideMatchTable[typeIndex],this.DISPLAY_OPTION.TIPS)
       end
     end
   end
@@ -364,8 +364,8 @@ local UnkFunc1IsSomeEquipId=function(findEquipId)
   end
 end
 --msg output PlayerHoldWeapon arg0: 687, arg1: 1, arg2: 1, arg3: 0, 
-function this.OnPlayerHoldWeapon(equipId,equipType,unk3HasGunLight,unk4IsSheild)
-  if unk4IsSheild==1 then
+function this.OnPlayerHoldWeapon(equipId,equipType,hasGunLight,isSheild)
+  if isSheild==1 then
     this.DispGuide("SHIELD",this.DISPLAY_OPTION.CONTROL)
   end
   if equipType==TppEquip.EQP_TYPE_Sniper then
@@ -374,7 +374,7 @@ function this.OnPlayerHoldWeapon(equipId,equipType,unk3HasGunLight,unk4IsSheild)
   if UnkFunc1IsSomeEquipId(equipId)then
     this.DispGuide("TRANQUILIZER",this.DISPLAY_OPTION.TIPS)
   end
-  if unk3HasGunLight==1 then
+  if hasGunLight==1 then
     this.DispGuide("GUN_LIGHT",this.DISPLAY_OPTION.TIPS)
   end
 end
@@ -465,9 +465,9 @@ function this.DispGuide_PhatomCigar(T)
     this.DispGuide(T,this.DISPLAY_OPTION.TIPS)
   end
 end
-function this.DispGuide_Weather(T)
-  if this.WeatherTipsGuideMatchTable[T]then
-    this.DispGuide(this.WeatherTipsGuideMatchTable[T],this.DISPLAY_OPTION.TIPS)
+function this.DispGuide_Weather(weatherType)
+  if this.WeatherTipsGuideMatchTable[weatherType]then
+    this.DispGuide(this.WeatherTipsGuideMatchTable[weatherType],this.DISPLAY_OPTION.TIPS)
   end
 end
 function this.DispGuide_Comufrage()

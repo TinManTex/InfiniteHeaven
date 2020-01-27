@@ -31,8 +31,6 @@ if not InfCore.fatal then
   end
   
   --InfCore.PrintInspect(evars)--DEBUG
-  
-  InfCore.LoadExternalModule"InfLookup"
 end
 
 InfCore.LogFlow"InfInit.lua done"

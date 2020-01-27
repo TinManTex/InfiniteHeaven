@@ -295,6 +295,7 @@ end
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
 function this.OnMissionCanStartBottom()
+  InfCore.LogFlow"InfMain.OnMissionCanStartBottom"
   --InfCore.PCall(function()--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
@@ -321,6 +322,14 @@ function this.OnMissionCanStartBottom()
 
   if Ivars.repopulateRadioTapes:Is(1) then
     Gimmick.ForceResetOfRadioCassetteWithCassette()
+  end
+  
+  if Ivars.disableOutOfBoundsChecks:Is(1) then
+    mvars.mis_ignoreAlertOfMissionArea=true
+    local trapName="trap_mission_failed_area"
+    local enable=false
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)   
   end
 
   --end)--DEBUG
@@ -609,8 +618,7 @@ local function PhaseName(index)
 end
 function this.OnPhaseChange(gameObjectId,phase,oldPhase)
   if Ivars.printPhaseChanges:Is(1) and Ivars.phaseUpdate:Is(0) then
-    --tex TODO: cpId>cpName
-    InfMenu.Print("cpId:"..gameObjectId.." Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
+    InfMenu.Print("cpId:"..gameObjectId.." cpName:"..tostring(InfLookup.CpNameForCpId(gameObjectId)).."Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
   end
 end
 
@@ -775,7 +783,7 @@ function this.Update()
         if module.Update then
           --tex <module>.active is either number or ivar
           local active=this.ValueOrIvarValue(module.active)
-          if active>0 then
+          if module.active==nil or active>0 then
             local updateRate=this.ValueOrIvarValue(module.updateRate)
             this.ExecUpdate(currentChecks,this.currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
           end
@@ -789,17 +797,15 @@ end
 
 function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,ExecUpdateFunc)
   --tex modules may set their own update rate
-  if execState.nextUpdate>currentTime then
+  if execState and execState.nextUpdate>currentTime then
     return
   end
 
-  if execChecks==nil then
-    InfCore.DebugPrint"update module has no execChecks var, aborting"
-    return
-  end
-  for check,ivarCheck in pairs(execChecks) do
-    if currentChecks[check]~=ivarCheck then
-      return
+  if execChecks then
+    for check,ivarCheck in pairs(execChecks) do
+      if currentChecks[check]~=ivarCheck then
+        return
+      end
     end
   end
 
@@ -1573,6 +1579,19 @@ this.baseNames={
   --"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers  NOTE in interrog
   --"mafr_chicoVil_cp",--??
   },--#34
+  mbqf={
+    "mbqf_mtbs_cp",
+  },
+  mtbs={
+    "mbqf_mtbs_cp",--tex WORKAROUND mbqf free (f30250) (loc 55) actually comes up as location 50/mtbs
+    "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp",
+    "ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp",
+    "ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|mtbs_develop_cp",
+    "ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|mtbs_support_cp",
+    "ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|mtbs_medic_cp",
+    "ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|mtbs_intel_cp",
+    "ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp",
+  },
 }
 
 --reserve soldierpool
@@ -1696,6 +1715,10 @@ function this.IsStartOnFoot(missionCode,isAssaultLz)
   else
     return enabled
   end
+end
+
+function this.IsMbEvent()
+  return Ivars.mbWarGamesProfile:Is()>0 or Ivars.inf_event:Is"WARGAME"
 end
 
 function this.GetAverageRevengeLevel()
@@ -1901,11 +1924,11 @@ function this.LoadExternalModules(isReload)
   for i,moduleName in ipairs(InfModules)do
     InfModules[i]=nil
   end
- 
+
   for i,moduleName in ipairs(InfModules.coreModules)do
     table.insert(InfModules.moduleNames,moduleName)
   end
-  
+
   --tex get other external modules
   local moduleFiles=InfCore.GetFileList(InfCore.files.modules,".lua",true)
   for i,moduleName in ipairs(moduleFiles)do
@@ -1942,9 +1965,9 @@ function this.LoadExternalModules(isReload)
   --tex profiles
   local ret=InfCore.PCall(IvarProc.SetupInfProfiles)
   --WORKAROUND PCall
-  if ret then
-  Ivars.profileNames=ret[1]
-  Ivars.profiles=ret[2]
+  if ret and Ivars then
+    Ivars.profileNames=ret[1]
+    Ivars.profiles=ret[2]
   end
   --DEBUG
   --  InfCore.Log"--------------"

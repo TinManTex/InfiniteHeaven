@@ -2173,7 +2173,7 @@ sequences.Seq_Game_MainGame = {
             func = function( trapName, gameObjectId )
               if Tpp.IsSoldier( gameObjectId ) then
                 Fox.Log(" ForceFulton: " ..tostring(gameObjectId) )
-                if InfGameEvent.IsMbEvent() then--tex added bypass
+                if InfMain.IsMbEvent() then--tex added bypass
                   GameObject.SendCommand( gameObjectId, { id = "RequestForceFulton" } )
                 end
               end
@@ -2775,13 +2775,13 @@ end
 function this.SetUniqueCharaVisibility( enable )
   if mvars.f30050_isSetLiquid == true or Ivars.mbShowEli:Is(1) then--tex added mbshow
     if Ivars.mbShowEli:Is(1) then enable = true end--tex
-    if InfGameEvent.IsMbEvent() then enable = false end--tex
+    if InfMain.IsMbEvent() then enable = false end--tex
 
     TppDataUtility.SetVisibleDataFromIdentifier( "f30050_liquid_DataIdentifier",		 "Liquid",		enable, false )
   end
   if mvars.f30050_isSetCodeTalker == true or Ivars.mbShowCodeTalker:Is(1) then--tex added mbshow
     if Ivars.mbShowCodeTalker:Is(1) then enable = true end--tex
-    if InfGameEvent.IsMbEvent() then enable = false end--tex
+    if InfMain.IsMbEvent() then enable = false end--tex
     TppDataUtility.SetVisibleDataFromIdentifier( "f30050_codeTolker_DataIdentifier",	"CodeTalker",	enable, false )
   end
 end

@@ -393,7 +393,7 @@ this.enemyAssetTable = {
 					},
 				},
 			},
-			--tex was empty> DEBUGNOW
+			--tex was empty> DEBUGWIP
       uavList = {
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0000",
         "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0001",
@@ -417,7 +417,7 @@ this.enemyAssetTable = {
 			},
 			decyList = {
 			},
-			--DEBUGNOW
+			--DEBUGWIP
       securityCameraList = {
          { camera = "ly013_cl00_camera0000|cl00pl0_mb_fndt_plnt_camera|scm_cp00",target = nil },
          { camera = "ly013_cl00_camera0000|cl00pl0_mb_fndt_plnt_camera|scm_cp01",target = nil },

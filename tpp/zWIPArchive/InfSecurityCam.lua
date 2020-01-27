@@ -1,20 +1,20 @@
--- InfSecurityCam.lua
---DEBUGNOW
+-- InfSecurityCam.lua --DEBUGWIP
+
 local this={}
 
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_security_camera.fpk",
  -- "/Assets/tpp/pack/mission2/ih/ih_cam_defloc_pfCamp.fpk",
-  "/Assets/tpp/pack/mission2/ih/ih_cam_ly013_cl00.fpk",--DEBUGNOW
+  "/Assets/tpp/pack/mission2/ih/ih_cam_ly013_cl00.fpk",--DEBUGWIP
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
---DEBUGNOW
+--DEBUGWIP
 --  if not Ivars.enableSecurityCamFREE:EnabledForMission() then
 --    return
 --  end
 
-  --DEBUGNOW
+  --DEBUGWIP
   if missionCode~=30050 then
     return
   end
@@ -24,12 +24,12 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 end
 
---DEBUGNOW
+--DEBUGWIP
 --function this.SetUpEnemy(missionTable)
 --  if not Ivars.enableSecurityCamFREE:EnabledForMission() then
 --    return
 --  end
---  --DEBUGNOW
+--  --DEBUGWIP
 --  if vars.missionCode~=30020 then
 --    return
 --  end
@@ -54,7 +54,7 @@ this.SetUpSecurityCamera = function()
   ----  else
   --    GameObject.SendCommand({type="TppSecurityCamera2"},{id="SetNormalCamera"})
   -- -- end
-  -- --DEBUGNOW
+  -- --DEBUGWIP
   --
 --    local developLevel=3
 --    local securityCameras={type="TppSecurityCamera2"}

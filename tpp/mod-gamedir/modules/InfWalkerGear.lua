@@ -247,7 +247,8 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
   end
 
   local numSetup=0
-  local numWalkers=#this.walkerNames
+  local numWalkers=#this.walkerPool
+  InfCore.Log("SetupGearsFREE #walkerPool="..numWalkers)
   for i=1,numWalkers do
     if #walkerPool==0 then
       InfCore.Log("SetupGearsFREE: #walkerPool==0")
@@ -291,7 +292,7 @@ function this.SetupGearsFREE(walkerInfos,walkerPool)
   InfMain.RandomResetToOsTime()
 
   if this.debugModule then
-    InfCore.Log("SetupGearsFREE: "..numSetup.." of "..numWalkers.." walker gears set")
+    InfCore.Log("SetupGearsFREE: "..numSetup.." of "..#this.walkerNames.." walker gears set")
     InfCore.Log"walkerPool"
     InfCore.PrintInspect(walkerPool)
   end

@@ -35,6 +35,10 @@ local this={
       featureHelp="Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start."
     },
     {
+      featureDescription="Pause and restart cutscenes.",
+      featureHelp="Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the custscene."
+    },
+    {
       featureDescription="Quick menu commands.",
       featureHelp="(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)\r\nShortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder."
     },

@@ -1,11 +1,17 @@
--- DOBUILD: 1
 -- InfGameEvent.lua
 -- system relies on preventing saved ivar values from restoring (search inf_event) and using it's own profile settings with level seed to ensure randomisation is the same
 local this={}
 
 local InfMain=InfMain
 
+this.forceEvent=false
 this.inf_enabledEvents={}
+this.doInjury=false
+
+function this.PostModuleReload(prevModule)
+  this.forceEvent=prevModule.forceEvent
+  this.inf_enabledEvents=prevModule.inf_enabledEvents
+end
 
 function this.DisableEvent()
   if vars.missionCode==30050 and Ivars.inf_event:Is"WARGAME" then
@@ -19,21 +25,19 @@ function this.DisableEvent()
 end
 
 function this.OnMissionCanStart()
+  if Ivars.inf_event:Is(0) then
+    return
+  end
+
   if Ivars.inf_event:Is"ROAM" then
     this.DisableLzs()
   end
 
-  if not svars.ply_isUsedPlayerInitialAction then
-    if this.inf_enabledEvents.CRASHLAND then
-      InfCore.Log"OnMissionCanStart event CRASHLAND"
+  this.doInjury=false
+  if this.inf_enabledEvents.CRASHLAND then
+    InfCore.Log"InfGameEvent.OnMissionCanStart event CRASHLAND"
+    if TppMission.IsMissionStart() then
       TppHero.SetAndAnnounceHeroicOgrePoint({heroicPoint=-1,ogrePoint=-1},"destroyed_support_heli")
-      local stances={
-        PlayerStance.STAND,
-        PlayerStance.SQUAT,
-        PlayerStance.CRAWL,
-      }
-      Player.RequestToSetTargetStance(stances[math.random(#stances)])
-      Player.SetForceInjury{type=math.random(1,3)}
 
       local rndHours=math.random(0,23)
       local rndMinutes=math.random(0,60)
@@ -42,11 +46,18 @@ function this.OnMissionCanStart()
       --InfCore.DebugPrint("crashland startTime="..startTime)--DEBUG
       gvars.missionStartClock=TppClock.ParseTimeString(startTime,"number")
       vars.clock=gvars.missionStartClock
+
+      local stances={
+        PlayerStance.STAND,
+        PlayerStance.SQUAT,
+        PlayerStance.CRAWL,
+      }
+      Player.RequestToSetTargetStance(stances[math.random(#stances)])
+      Player.SetForceInjury{type=math.random(1,3)}
     end
   end
 end
 
-this.forceEvent=false
 function this.GenerateEvent(missionCode)
   --InfCore.PCallDebug(function(misisonCode)--DEBUGOW
   InfCore.LogFlow("GenerateEvent missionCode:"..missionCode)--DEBUG
@@ -144,12 +155,12 @@ function this.GenerateRoamEvent(missionCode)
   end
 
   --DEBUG
-  --  this.inf_enabledEvents={
-  --    HUNTED=true,
-  --  --CRASHLAND=true,
-  --  --LOST_COMS=true,
-  --  }
-  --
+--  this.inf_enabledEvents={}
+--  this.inf_enabledEvents={
+--    --HUNTED=true,
+--    CRASHLAND=true,
+--  --LOST_COMS=true,
+--  }
 
   for eventId,enabled in pairs(this.inf_enabledEvents)do
     InfMenu.PrintFormatLangId("event_announce",eventId)-- TODO ADDLANG to event ids
@@ -178,6 +189,8 @@ function this.GenerateRoamEvent(missionCode)
     mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
     --InfCore.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
   end
+
+  InfCore.Log("InfGameEvent.GenerateRoamEvent inf_enabledEvents:")
   InfCore.PrintInspect(this.inf_enabledEvents)
   --end,missionCode)
 end
@@ -283,7 +296,7 @@ local warGameSettings={
     weaponTableAfgh=0,
     weaponTableMafr=0,
     weaponTableSkull=0,
-    weaponTableDD=1,    
+    weaponTableDD=1,
     soldierEquipGrade_MIN=15,
     soldierEquipGrade_MAX=15,
     allowUndevelopedDDEquip=1,
@@ -302,7 +315,7 @@ local warGameSettings={
     weaponTableAfgh=0,
     weaponTableMafr=0,
     weaponTableSkull=0,
-    weaponTableDD=1,    
+    weaponTableDD=1,
     soldierEquipGrade_MIN=3,
     soldierEquipGrade_MAX=15,
     allowUndevelopedDDEquip=1,
@@ -324,46 +337,42 @@ local warGameSettings={
 
 function this.GenerateWarGameEvent()
   --InfCore.PCallDebug(function()--DEBUG
-    --tex user is doing wargames anyway
-    if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
-      return
-    end
-  
-    local Ivars=Ivars
-    Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
+  --tex user is doing wargames anyway
+  if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
+    return
+  end
 
-    local warGame=warGames[math.random(#warGames)]
-    --local warGame="TRAINING"--DEBUG
-    local wargameBaseType=warGamesBaseTypes[warGame]
+  local Ivars=Ivars
+  Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
 
-    local warGameNames=InfMenu.GetLangTable"events_mb"
-    --tex ugh, TODO better
-    local warGameIndex=warGamesEnum[warGame]
-    local warGameName=warGameNames[warGameIndex]
-    InfMenu.PrintFormatLangId("event_announce",warGameName)--tex TODO ADDLANG to event ids
+  local warGame=warGames[math.random(#warGames)]
+  --local warGame="TRAINING"--DEBUG
+  local wargameBaseType=warGamesBaseTypes[warGame]
 
-    if wargameBaseType=="INVASION" then
-      ivars.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
-      Ivars.mbEnablePuppy:Set(0,true)--tex TODO should be handled by infpuppy
-    end
+  local warGameNames=InfMenu.GetLangTable"events_mb"
+  --tex ugh, TODO better
+  local warGameIndex=warGamesEnum[warGame]
+  local warGameName=warGameNames[warGameIndex]
+  InfMenu.PrintFormatLangId("event_announce",warGameName)--tex TODO ADDLANG to event ids
 
-    IvarProc.ApplyProfile(warGamesBase[wargameBaseType],true)
-    IvarProc.ApplyProfile(warGameSettings[warGame],true)
+  if wargameBaseType=="INVASION" then
+    ivars.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
+    Ivars.mbEnablePuppy:Set(0,true)--tex TODO should be handled by infpuppy
+  end
 
-    --custom config TODO: make generated config a seperate feature?
-    --all the rest, for now just use enemy prep levels
-    --Ivars.revengeModeMB:Set("CUSTOM",true)
-    --tex for now just useing enemy prep levels (set via warGames table)
+  IvarProc.ApplyProfile(warGamesBase[wargameBaseType],true)
+  IvarProc.ApplyProfile(warGameSettings[warGame],true)
+
+  --custom config TODO: make generated config a seperate feature?
+  --all the rest, for now just use enemy prep levels
+  --Ivars.revengeModeMB:Set("CUSTOM",true)
+  --tex for now just useing enemy prep levels (set via warGames table)
   --end)--
 end
 
 function this.ForceEvent()
   InfMenu.PrintLangId"event_forced"
   this.forceEvent=true
-end
-
-function this.IsMbEvent()
-  return Ivars.mbWarGamesProfile:Is()>0 or Ivars.inf_event:Is"WARGAME"
 end
 
 return this

@@ -238,6 +238,8 @@ this.debugMenu={
     InfMenuCommands.showMissionCode,
     InfMenuCommands.showLangCode,
     InfMenuDefs.appearanceDebugMenu,
+    Ivars.disableGameOver,
+    Ivars.disableOutOfBoundsChecks,
     Ivars.telopMode,--tex TODO move, odd one out, mission/presentation?
   }
 }
@@ -364,6 +366,7 @@ this.revengeMenu={
     InfMenuDefs.revengeSystemMenu,
     InfMenuDefs.customEquipMenu,
     InfMenuCommands.resetRevenge,
+    InfMenuCommands.DEBUG_PrintRevengePoints,
     Ivars.changeCpSubTypeFREE,
     Ivars.changeCpSubTypeMISSION,
     Ivars.enableInfInterrogation,
@@ -565,6 +568,8 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    Ivars.disableOutOfBoundsChecks,--DEBUGNOW
+    Ivars.disableGameOver,--DEBUGNOW
     InfMenuCommands.DEBUG_DumpValidStrCode,
     --TODO: debugmodeall command/profile
     --Ivars.enableWildCardHostageFREE,--WIP
@@ -574,7 +579,7 @@ this.devInAccMenu={
     InfMenuCommands.DEBUG_SomeShiz3,
     InfMenuDefs.sideOpsMenu,
     InfMenuDefs.sideOpsCategoryMenu,
-    InfMenuCommands.forceRegenSeed,    
+    InfMenuCommands.forceRegenSeed,
     Ivars.debugValue,
     Ivars.debugMode,
     Ivars.debugMessages,
@@ -644,6 +649,8 @@ this.debugInMissionMenu={
     --InfMenuCommands.showMbEquipGrade,
     Ivars.printPressedButtons,
     Ivars.printOnBlockChange,
+    Ivars.disableGameOver,
+    Ivars.disableOutOfBoundsChecks,
     InfMenuCommands.setAllFriendly,
     InfMenuCommands.showPosition,
   --InfMenuCommands.DEBUG_ClearAnnounceLog,
@@ -653,11 +660,14 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    InfMenuCommands.setAllFriendly,
-    InfMenuCommands.showPosition,
+    Ivars.disableGameOver,--DEBUGNOW
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
+    InfMenuCommands.setAllFriendly,
+    InfMenuCommands.showPosition,
+    Ivars.selectedCp,--DEBUGNOW
+    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
     Ivars.warpToListObject,
     Ivars.warpToListPosition,
     InfMenuCommands.printLatestUserMarker,

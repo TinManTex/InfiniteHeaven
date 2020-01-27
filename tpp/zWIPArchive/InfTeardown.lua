@@ -1,7 +1,7 @@
---DEBUGNOW
+--DEBUGWIP
 local this={}
 
-local nl=[[\n\r]]--DEBUGNOW "\n\r"
+local nl=[[\n\r]]--DEBUGWIP "\n\r"
 function this.WriteString(filePath,someString)
   local file,error=open(filePath,"w")
   if not file or error then

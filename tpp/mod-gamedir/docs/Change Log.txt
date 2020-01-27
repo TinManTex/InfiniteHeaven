@@ -1,7 +1,26 @@
 Infinite Heaven changelog
 
-r198 - 2017-01-31
+r199 - 2017-02-11
+Fixed: Lack of error message when MGS_TPP\mod or subfolders missing.
 
+Refactor: Allow external modules to run Update without execchecks, execstate guff.
+
+Refactor: InfLookup - expanded different lookup types, message signature to lookup types.
+
+Refactor: InfGameEvent shifted to external.
+Fixed: Crashland event not triggering injury.
+
+Module: InfDemo
+Feature: Pause/resume playing cutscenes by pressing Quickdive
+Feature: Restart cutscene by pressing Reload
+
+Option: disableOutOfBoundsChecks - Disable out of bounds checks - Disables the out of mission area visual noise and game over checks.
+(via Debug menu)
+
+Option: disableGameOver - Disable game over - disables various game over screens, haven't tested much so use with caution.
+(via Debug menu)
+
+r198 - 2017-01-31
 Refactor: File per profile, list all profiles in profiles folder.
 Refactor: Load all external modules load from modules folder/don't have to manually add to InfModules
 Refactor: ih_save.lua now in mod\saves

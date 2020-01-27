@@ -96,7 +96,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfSoldierParams.lua",
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
-  "/Assets/tpp/script/lib/InfGameEvent.lua",
   "/Assets/tpp/script/lib/InfPersistence.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
@@ -117,6 +116,7 @@ function this.IsTypeNumber(e)
 end
 local IsTypeNumber=this.IsTypeNumber
 
+--NMC GOTCHA TppDefine.Enum indexed from 0, Tpp.Enum indexed from one. silly.
 function this.Enum(nameTable)
   if nameTable==nil then
     return
@@ -217,6 +217,9 @@ end
 this._DEBUG_svars={}
 this._DEBUG_gvars={}
 --IN: messages (str32)table from various module .Messages() func
+--OUT: messageExecTable[messageClassS32][messageNameS32].func=objectMessageFunc
+--or messageExecTable[messageClassS32][messageNameS32].sender[senderId]=objectMessageFunc --tex NMC senderId is either str32 of original sender or gameId
+--In most cases table is output to some <module>.messageExecTable
 function this.MakeMessageExecTable(messagesS32)
   if messagesS32==nil then
     return
@@ -229,12 +232,12 @@ function this.MakeMessageExecTable(messagesS32)
   local s32_func=StrCode32"func"
   local s32_sender=StrCode32"sender"
   local s32_option=StrCode32"option"
-  for objectName,objectMessages in pairs(messagesS32)do
-    messageExecTable[objectName]=messageExecTable[objectName]or{}
-    for i,messageInfo in pairs(objectMessages)do
-      local messageNameS32,senderIds,objectMessageGenFunc,options=i,nil,nil,nil
+  for messageClassS32,classMessages in pairs(messagesS32)do
+    messageExecTable[messageClassS32]=messageExecTable[messageClassS32]or{}
+    for i,messageInfo in pairs(classMessages)do
+      local messageNameS32,senderIds,classMessageFunc,options=i,nil,nil,nil
       if IsTypeFunc(messageInfo)then
-        objectMessageGenFunc=messageInfo
+        classMessageFunc=messageInfo
       elseif IsTypeTable(messageInfo)and IsTypeFunc(messageInfo[s32_func])then
         messageNameS32=StrCode32(messageInfo[s32_msg])
         local messageSenders={}
@@ -244,41 +247,43 @@ function this.MakeMessageExecTable(messagesS32)
           messageSenders=messageInfo[s32_sender]
         end
         senderIds={}
-        for k,senderId in pairs(messageSenders)do--NMC could probably be changed to ipairs
+        --NMC could probably be changed to ipairs
+        for k,senderId in pairs(messageSenders)do
           if type(senderId)=="string"then
-            if objectName==StrCode32"GameObject"then
+            if messageClassS32==StrCode32"GameObject"then
               senderIds[k]=GetGameObjectId(senderId)
-              if msgSndr==NULL_ID then--RETAILBUG not defined, moot, no executing code
-              end
-            else
-              senderIds[k]=StrCode32(senderId)
-            end
-        elseif type(senderId)=="number"then
-          senderIds[k]=senderId
+              --RETAILBUG msgSndr not defined, moot, no executing code, commented out anyway
+              --              if msgSndr==NULL_ID then
+              --              end
+          else
+            senderIds[k]=StrCode32(senderId)
+          end
+          elseif type(senderId)=="number"then
+            senderIds[k]=senderId
+          end
         end
-        end
-        objectMessageGenFunc=messageInfo[s32_func]
+        classMessageFunc=messageInfo[s32_func]
         options=messageInfo[s32_option]
       end
-      if objectMessageGenFunc then
-        messageExecTable[objectName][messageNameS32]=messageExecTable[objectName][messageNameS32]or{}
+      if classMessageFunc then
+        messageExecTable[messageClassS32][messageNameS32]=messageExecTable[messageClassS32][messageNameS32]or{}
         if next(senderIds)~=nil then
           for k,senderId in pairs(senderIds)do
-            messageExecTable[objectName][messageNameS32].sender=messageExecTable[objectName][messageNameS32].sender or{}
-            messageExecTable[objectName][messageNameS32].senderOption=messageExecTable[objectName][messageNameS32].senderOption or{}
-            if messageExecTable[objectName][messageNameS32].sender[senderId]then
+            messageExecTable[messageClassS32][messageNameS32].sender=messageExecTable[messageClassS32][messageNameS32].sender or{}
+            messageExecTable[messageClassS32][messageNameS32].senderOption=messageExecTable[messageClassS32][messageNameS32].senderOption or{}
+            if messageExecTable[messageClassS32][messageNameS32].sender[senderId]then
             end
-            messageExecTable[objectName][messageNameS32].sender[senderId]=objectMessageGenFunc
+            messageExecTable[messageClassS32][messageNameS32].sender[senderId]=classMessageFunc
             if options and IsTypeTable(options)then
-              messageExecTable[objectName][messageNameS32].senderOption[senderId]=options
+              messageExecTable[messageClassS32][messageNameS32].senderOption[senderId]=options
             end
           end
         else
-          if messageExecTable[objectName][messageNameS32].func then
+          if messageExecTable[messageClassS32][messageNameS32].func then
           end
-          messageExecTable[objectName][messageNameS32].func=objectMessageGenFunc
+          messageExecTable[messageClassS32][messageNameS32].func=classMessageFunc
           if options and IsTypeTable(options)then
-            messageExecTable[objectName][messageNameS32].option=options
+            messageExecTable[messageClassS32][messageNameS32].option=options
           end
         end
       end
@@ -286,15 +291,16 @@ function this.MakeMessageExecTable(messagesS32)
   end
   return messageExecTable
 end
-function this.DoMessage(messageExecTable,CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+--tex NMC CheckMessageOption seems to always be TppMission.CheckMessageOption
+function this.DoMessage(messageExecTable,CheckMessageOption,messageClass,messageId,arg0,arg1,arg2,arg3,strLogText)
   if not messageExecTable then
     return
   end
-  local senderRecievers=messageExecTable[sender]
-  if not senderRecievers then
+  local classMessages=messageExecTable[messageClass]
+  if not classMessages then
     return
   end
-  local messageIdRecievers=senderRecievers[messageId]
+  local messageIdRecievers=classMessages[messageId]
   if not messageIdRecievers then
     return
   end
@@ -302,7 +308,7 @@ function this.DoMessage(messageExecTable,CheckMessageOption,sender,messageId,arg
   this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,RENsomebool)
 end
 function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
-  --tex>
+  --tex> PCall to catch any errors, could just wrap them direct without the debugmessages check, but dont want to add the extra function call that entails
   if ivars.debugMode>0 and ivars.debugMessages>0 then
     if messageIdRecievers.func then
       if CheckMessageOption(messageIdRecievers.option)then
@@ -315,18 +321,19 @@ function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,
         InfCore.PCallDebug(sender[arg0],arg0,arg1,arg2,arg3)
       end
     end
-  else--<
+    --<
+  else
     if messageIdRecievers.func then
       if CheckMessageOption(messageIdRecievers.option)then
         messageIdRecievers.func(arg0,arg1,arg2,arg3)
       end
-  end
-  local sender=messageIdRecievers.sender
-  if sender and sender[arg0]then
-    if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
-      sender[arg0](arg0,arg1,arg2,arg3)
     end
-  end
+    local senders=messageIdRecievers.sender--tex NMC actually recievers at this point
+    if senders and senders[arg0]then
+      if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
+        senders[arg0](arg0,arg1,arg2,arg3)
+      end
+    end
   end
 end
 function this.GetRotationY(rotQuat)

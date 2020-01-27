@@ -17,7 +17,6 @@ local function GetNonDefaultRandom(ivarMin,ivarMax,nonDefaultOnly)
   end
   return math.random(ivarMin:Get(),ivarMax:Get())
 end
-
 --tex onlyNonDefault will only add powerTypes to revengeConfig if their repsective Ivar isn't its default.
 function this.CreateCustomRevengeConfig(onlyNonDefault)
   local revengeConfig={}
@@ -101,7 +100,7 @@ end
 
 local function AvePowerSetting(powerType)
   if Ivars[powerType.."_MIN"]==nil or Ivars[powerType.."_MAX"]==nil then
-    InfCore.DebugPrint("AvePowerSetting cannot find powertype:"..powerType)--DEBUG
+    InfCore.Log("AvePowerSetting WARNING: cannot find powertype:"..powerType)--DEBUG
     return 0
   end
 
@@ -187,7 +186,7 @@ function this.SetCustomRevengeUiParameters()
   end
   local longRange=this.round(uiRange*ave)
 
-  --InfCore.DebugPrint("fulton="..fulton.." headShot="..headShot.." stealth="..stealth.." combat="..combat.." night="..night.." longRange="..longRange)--DEBUG
+  InfCore.Log("InfRevenge.SetCustomRevengeUiParameters "..tostring(vars.missionCode)..": fulton="..fulton.." headShot="..headShot.." stealth="..stealth.." combat="..combat.." night="..night.." longRange="..longRange)--DEBUG
   TppUiCommand.RegisterEnemyRevengeParameters{fulton=fulton,headShot=headShot,stealth=stealth,combat=combat,night=night,longRange=longRange}
 end
 

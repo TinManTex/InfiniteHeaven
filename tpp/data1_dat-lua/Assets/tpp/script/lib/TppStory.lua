@@ -1943,7 +1943,7 @@ function this.RequestLoseQuiet()
   end
 end
 function this.CanArrivalLiquidInMB()
-  if Ivars.mbShowEli:Is(1) and not InfGameEvent.IsMbEvent() then return true end--tex added mbshow
+  if Ivars.mbShowEli:Is(1) and not InfMain.IsMbEvent() then return true end--tex added mbshow
   local e=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
   local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
   return e and n

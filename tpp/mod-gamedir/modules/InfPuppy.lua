@@ -16,7 +16,7 @@ function this.Init()
     return
   end
 
-  if InfGameEvent.IsMbEvent() then
+  if InfMain.IsMbEvent() then
     return
   end
 
@@ -34,7 +34,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  if InfGameEvent.IsMbEvent() then
+  if InfMain.IsMbEvent() then
     return
   end
 

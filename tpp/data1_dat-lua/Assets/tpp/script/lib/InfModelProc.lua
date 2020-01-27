@@ -37,10 +37,9 @@ function this.Setup(faceDefinition)
   }
 
   --local InfModelRegistry=InfModelRegistry
-  InfCore.LogFlow"InfModelRegistry setup"
   local InfModelRegistry=this.infModelRegistry
   if InfModelRegistry then
-    --InfCore.Log("InfModelRegistry Setup")
+    InfCore.LogFlow"InfModelRegistry setup"
     for i,fovaTypeName in ipairs(fovaTypes) do
       InfModelRegistry[fovaTypeName]={}
     end

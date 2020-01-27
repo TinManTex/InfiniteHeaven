@@ -1,4 +1,5 @@
 -- gr_init_dx11.lua
+InfCore.Log"gr_init_dx11.lua - personal tweaks"--tex
 GrTools:EnableTextureStreaming()
 GrTools:SetTexturePackLoadConditioningEnable(true)
 GrTools.SetDefaultTextureLoadPath"tmp/"

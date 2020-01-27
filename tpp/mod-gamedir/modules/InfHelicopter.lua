@@ -71,6 +71,8 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   -- SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
   --end
 
+  --tex TODO some kind of periodic print if player in heli and pullout disabled (in any way, by temporary button press or actual ivar set)
+
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
     if InfButton.OnButtonDown(InfButton.STANCE) then
       --InfCore.DebugPrint"STANCE"--DEBUG

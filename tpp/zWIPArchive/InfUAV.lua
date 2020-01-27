@@ -1,10 +1,10 @@
 -- InfUAV.lua
---DEBUGNOW
+--DEBUGWIP
 local this={}
 
 this.packages={
-  "/Assets/tpp/pack/mission2/ih/ih_uav.fpk",
-  "/Assets/tpp/pack/mission2/ih/ih_uav_ly013_set.fpk",--DEBUGNOW
+  "/Assets/tpp/pack/mission2/ih/ih_uav.fpk",--DEBUGWIP
+  "/Assets/tpp/pack/mission2/ih/ih_uav_ly013_set.fpk",--DEBUGWIP
 }
 
 function this.AddMissionPacks(missionCode,packPaths)

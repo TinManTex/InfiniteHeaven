@@ -567,7 +567,8 @@ function this.CpNameString(cpName,location)
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLang.cpNames[location]
   if locationCps==nil then
-    return "No name for "..tostring(cpName)
+    InfCore.Log("InfMenu.CpNameString: WARNING No name for "..tostring(cpName).." in "..tostring(location))
+    return nil
   end
   local cps=locationCps[languageCode] or locationCps["eng"]
   return cps[cpName]
@@ -602,6 +603,7 @@ function this.MenuOff()
 end
 
 function this.OnActivate()
+  InfCore.LogFlow"InfMenu.OnActivate"
   this.ActivateControlSet()
 
   this.GetSetting()
@@ -612,6 +614,7 @@ function this.OnActivate()
 end
 
 function this.OnDeactivate()
+  InfCore.LogFlow"InfMenu.OnDeactivate"
   this.PrintLangId"menu_off"--"Menu Off"
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()

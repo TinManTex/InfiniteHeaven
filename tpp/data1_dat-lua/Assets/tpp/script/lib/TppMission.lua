@@ -907,6 +907,18 @@ function this.GameOverReturnToTitle()
   this.ExecuteMissionAbort()
 end
 function this.ReserveGameOver(gameOverType,gameOverRadio,isAborting)
+  --tex>
+  if gameOverType==TppDefine.GAME_OVER_TYPE.OUTSIDE_OF_MISSION_AREA then
+    if Ivars.disableOutOfBoundsChecks:Is(1) then
+      return false
+    end
+  end
+  if gameOverType~=TppDefine.GAME_OVER_TYPE.ABORT then
+    if Ivars.disableGameOver:Is(1) then
+      return false
+    end
+  end
+  --<
   if svars.mis_isDefiniteMissionClear then
     return false
   end
@@ -2175,16 +2187,16 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,this.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.CheckMessageOption(messages)
+function this.CheckMessageOption(messageOptions)
   local isExecMissionClear=false
   local isExecGameOver=false
   local isExecDemoPlaying=false
   local isExecMissionPrepare=false
-  if messages and IsTypeTable(messages)then
-    isExecMissionClear=messages[StrCode32"isExecMissionClear"]
-    isExecGameOver=messages[StrCode32"isExecGameOver"]
-    isExecDemoPlaying=messages[StrCode32"isExecDemoPlaying"]
-    isExecMissionPrepare=messages[StrCode32"isExecMissionPrepare"]
+  if messageOptions and IsTypeTable(messageOptions)then
+    isExecMissionClear=messageOptions[StrCode32"isExecMissionClear"]
+    isExecGameOver=messageOptions[StrCode32"isExecGameOver"]
+    isExecDemoPlaying=messageOptions[StrCode32"isExecDemoPlaying"]
+    isExecMissionPrepare=messageOptions[StrCode32"isExecMissionPrepare"]
   end
   return this.CheckMissionState(isExecMissionClear,isExecGameOver,isExecDemoPlaying,isExecMissionPrepare)
 end
@@ -2225,8 +2237,8 @@ function this.EnableAlertOutOfMissionAreaIfAlertAreaStart()
     this.EnableAlertOutOfMissionArea()
   end
 end
-function this.IgnoreAlertOutOfMissionAreaForBossQuiet(e)
-  if e==true then
+function this.IgnoreAlertOutOfMissionAreaForBossQuiet(enable)
+  if enable==true then
     mvars.mis_ignoreAlertOfMissionArea=true
   else
     mvars.mis_ignoreAlertOfMissionArea=false
@@ -2508,12 +2520,12 @@ function this.SeizeReliefVehicleOnClear()
     return
   end
   if vehicleId~=vars.playerVehicleGameObjectId then
-    local i={"Fulton","CheckFultonType"}
-    local s=this.GetMissionClearType()
-    if not this.EvaluateReliefVehicleSeizable(s)then
-      table.insert(i,"CheckFarFromPlayer")
+    local options={"Fulton","CheckFultonType"}
+    local missionClearTyoe=this.GetMissionClearType()
+    if not this.EvaluateReliefVehicleSeizable(missionClearTyoe)then
+      table.insert(options,"CheckFarFromPlayer")
     end
-    GameObject.SendCommand(vehicleId,{id="Seize",options=i})
+    GameObject.SendCommand(vehicleId,{id="Seize",options=options})
   end
 end
 function this.SeizeReliefVehicleOnForceGoToMb()
@@ -2651,8 +2663,8 @@ function this.EstablishedGameOver()
     end
   end
 end
-function this.UpdateAtCanMissionClear(n,o)
-  if not n then
+function this.UpdateAtCanMissionClear(isOutsideOfHotZone,isOutsideOfMissionArea)
+  if not isOutsideOfHotZone then
     mvars.mis_lastOutSideOfHotZoneButAlert=nil
     StopOutsideHotzoneTimer()
     return
@@ -2660,7 +2672,7 @@ function this.UpdateAtCanMissionClear(n,o)
   local isNotAlert=IsNotAlert()
   local isPlayerStatusNormal=IsPlayerStatusNormal()
   local notHelicopter=not IsHelicopter(vars.playerVehicleGameObjectId)
-  if o then
+  if isOutsideOfMissionArea then
     if isPlayerStatusNormal and notHelicopter then
       StopOutsideHotzoneTimer()
       this.ReserveMissionClearOnOutOfHotZone()
@@ -3145,8 +3157,10 @@ function this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
   end
 end
 function this.OnFinishUpdateObjectiveRadio(radioGroupNameStr32)
-  if radioGroupNameStr32==StrCode32(mvars.mis_updateObjectiveRadioGroupName)then
-    this.ShowUpdateObjective(mvars.mis_objectiveSetting)
+  if mvars.mis_updateObjectiveRadioGroupName then--tex checking against mis_updateObjectiveRadioGroupName==nil so my redirected StrCode32 doesnt complain
+    if radioGroupNameStr32==StrCode32(mvars.mis_updateObjectiveRadioGroupName)then
+      this.ShowUpdateObjective(mvars.mis_objectiveSetting)
+  end
   end
 end
 --mvars.mis_objectiveSetting

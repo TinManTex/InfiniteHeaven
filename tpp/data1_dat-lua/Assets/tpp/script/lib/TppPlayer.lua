@@ -1607,51 +1607,61 @@ function this.Messages()
       {msg="QuestIconInDisplay",func=this.OnQuestIconDisplayContinue},
       {msg="PlayerShowerEnd",func=function()
         TppUI.ShowAnnounceLog"refresh"
-      end}},
-    GameObject={{msg="RideHeli",func=this.QuietRideHeli}},
+      end}
+    },
+    GameObject={
+      {msg="RideHeli",func=this.QuietRideHeli}
+    },
     UI={
       {msg="EndFadeOut",sender="OnSelectCboxDelivery",func=this.WarpByCboxDelivery},
       {msg="EndFadeIn",sender="OnEndWarpByCboxDelivery",func=this.OnEndFadeInWarpByCboxDelivery},
       {msg="EndFadeOut",sender="EndFadeOut_StartTargetDeadCamera",func=this._SetTargetDeadCamera,option={isExecGameOver=true}},
       {msg="EndFadeOut",sender="EndFadeOut_StartTargetHeliCamera",func=this._SetTargetHeliCamera,option={isExecGameOver=true}},
       {msg="EndFadeOut",sender="EndFadeOut_StartTargetTruckCamera",func=this._SetTargetTruckCamera,option={isExecGameOver=true}}},
-    Terminal={{msg="MbDvcActSelectCboxDelivery",func=this.OnSelectCboxDelivery}},
-    Timer={{msg="Finish",sender="Timer_StartPlayMissionClearCameraStep1",func=function()
-      this._PlayMissionClearCamera(1)
-    end,
-    option={isExecMissionClear=true}},
-    {msg="Finish",sender="Timer_StartPlayMissionClearCameraStep2",func=function()
-      this._PlayMissionClearCamera(2)
-    end,
-    option={isExecMissionClear=true}},
-    {msg="Finish",sender="Timer_FOBStartPlayMissionClearCameraStep1",func=function()
-      this._FOBPlayMissionClearCamera(1)
-    end,
-    option={isExecMissionClear=true}},
-    {msg="Finish",sender="Timer_FOBStartPlayMissionClearCameraStep2",func=function()
-      this._FOBPlayMissionClearCamera(2)
-    end,
-    option={isExecMissionClear=true}},
-    {msg="Finish",sender="Timer_StartPlayMissionAbortCamera",func=this._PlayMissionAbortCamera,option={isExecGameOver=true}},
-    {msg="Finish",sender="Timer_DeliveryWarpSoundCannotCancel",func=this.OnDeliveryWarpSoundCannotCancel},
-    {msg="Finish",sender="Timer_StartGameOverCamera",func=this._StartGameOverCamera,option={isExecGameOver=true}},
-    {msg="Finish",sender="Timer_FOBWaitStandStance",func=function()
-      this.FOBRequestMissionClearMotion()
-    end,
-    option={isExecMissionClear=true}}},
-    Trap={{msg="Enter",sender="trap_TppSandWind0000",func=function()
-      TppEffectUtility.SetSandWindEnable(true)
-    end,
-    option={isExecMissionPrepare=true}},
-    {msg="Exit",sender="trap_TppSandWind0000",func=function()
-      TppEffectUtility.SetSandWindEnable(false)
-    end,
-    option={isExecMissionPrepare=true}},
-    {msg="Enter",sender="fallDeath_camera",func=function()
-      this.SetLimitFallDeadCameraOffsetPosY(-18)
-    end,
-    option={isExecMissionPrepare=true}},
-    {msg="Exit",sender="fallDeath_camera",func=this.ResetLimitFallDeadCameraOffsetPosY,option={isExecMissionPrepare=true}}}}
+    Terminal={
+      {msg="MbDvcActSelectCboxDelivery",func=this.OnSelectCboxDelivery}
+    },
+    Timer={
+      {msg="Finish",sender="Timer_StartPlayMissionClearCameraStep1",func=function()
+        this._PlayMissionClearCamera(1)
+      end,
+      option={isExecMissionClear=true}},
+      {msg="Finish",sender="Timer_StartPlayMissionClearCameraStep2",func=function()
+        this._PlayMissionClearCamera(2)
+      end,
+      option={isExecMissionClear=true}},
+      {msg="Finish",sender="Timer_FOBStartPlayMissionClearCameraStep1",func=function()
+        this._FOBPlayMissionClearCamera(1)
+      end,
+      option={isExecMissionClear=true}},
+      {msg="Finish",sender="Timer_FOBStartPlayMissionClearCameraStep2",func=function()
+        this._FOBPlayMissionClearCamera(2)
+      end,
+      option={isExecMissionClear=true}},
+      {msg="Finish",sender="Timer_StartPlayMissionAbortCamera",func=this._PlayMissionAbortCamera,option={isExecGameOver=true}},
+      {msg="Finish",sender="Timer_DeliveryWarpSoundCannotCancel",func=this.OnDeliveryWarpSoundCannotCancel},
+      {msg="Finish",sender="Timer_StartGameOverCamera",func=this._StartGameOverCamera,option={isExecGameOver=true}},
+      {msg="Finish",sender="Timer_FOBWaitStandStance",func=function()
+        this.FOBRequestMissionClearMotion()
+      end,
+      option={isExecMissionClear=true}}
+    },
+    Trap={
+      {msg="Enter",sender="trap_TppSandWind0000",func=function()
+        TppEffectUtility.SetSandWindEnable(true)
+      end,
+      option={isExecMissionPrepare=true}},
+      {msg="Exit",sender="trap_TppSandWind0000",func=function()
+        TppEffectUtility.SetSandWindEnable(false)
+      end,
+      option={isExecMissionPrepare=true}},
+      {msg="Enter",sender="fallDeath_camera",func=function()
+        this.SetLimitFallDeadCameraOffsetPosY(-18)
+      end,
+      option={isExecMissionPrepare=true}},
+      {msg="Exit",sender="fallDeath_camera",func=this.ResetLimitFallDeadCameraOffsetPosY,option={isExecMissionPrepare=true}}
+    }
+  }
   if IsTypeTable(mvars.ply_intelMarkerTrapList)and next(mvars.ply_intelMarkerTrapList)then
     messageTable[StrCode32"Trap"]=messageTable[StrCode32"Trap"]or{}
     table.insert(messageTable[StrCode32"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelMarkerTrapList,func=this.OnEnterIntelMarkerTrap,option={isExecMissionPrepare=true}})

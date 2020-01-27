@@ -65,6 +65,9 @@ this.debugPCallHooks={
     OnDeactivateQuest=true,
     CheckQuestAllTarget=true,
   },
+  TppMission={
+    UpdateObjective=true,
+  },
 }
 
 function this.GetFunction(moduleName,functionName)

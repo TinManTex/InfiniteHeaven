@@ -13,9 +13,8 @@ local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 
 local InfCore=this
 
-this.modVersion="198"
+this.modVersion="199"
 this.modName="Infinite Heaven"
-this.saveName="ih_save.lua"
 
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
@@ -26,8 +25,10 @@ this.gameSaveFirstLoad=false
 
 this.log={}
 
+this.logErr=""
 this.str32ToString={}
 this.unknownStr32={}
+this.unknownMessages={}
 --
 local nl="\r\n"
 
@@ -50,12 +51,11 @@ function this.Log(message,announceLog,force)
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
 
-  this.WriteLog(this.log)
+  this.WriteLog(this.logFilePath,this.log)
 end
 
-function this.WriteLog(log)
-  local filePath=this.logFilePath
-
+--tex cant log error to log if log doesnt log lol
+function this.WriteLog(filePath,log)
   local logFile,error=open(filePath,"w")
   if not logFile or error then
     --this.DebugPrint("Create log error: "..tostring(error))
@@ -64,6 +64,17 @@ function this.WriteLog(log)
   end
 
   logFile:write(concat(log,nl))
+  logFile:close()
+end
+
+function this.WriteStringTable(filePath,stringTable)
+  local logFile,error=open(filePath,"w")
+  if not logFile or error then
+    this.Log(error)
+    return
+  end
+
+  logFile:write(concat(stringTable,nl))
   logFile:close()
 end
 
@@ -248,17 +259,22 @@ function this.Validate(format,profile,name)
   return true
 end
 
---tex would rather have this in InfLookup, but needs to be loaded before libModules
+--tex TODO: could be in InfLookup, but fine here for now to keep as depenancies on InfLookup low
 --tex registers string for InfLookup.StrCode32ToString
 local StrCode32=Fox.StrCode32
 function this.StrCode32(encodeString)
   local strCode=StrCode32(encodeString)
   if this.debugMode then
-    if type(encodeString)=="number"then
-      InfCore.Log("InfCore.StrCode32: WARNING: Attempting to encode a number: "..encodeString)
+    if type(encodeString)~="string" then
+      InfCore.Log("InfCore.StrCode32: WARNING: Attempting to encode a "..type(encodeString)..": "..tostring(encodeString))
       InfCore.Log("caller: "..this.DEBUG_Where(2))
     else
-      this.str32ToString[strCode]=encodeString
+      local storedString=this.str32ToString[strCode]
+      if storedString and storedString~=encodeString then
+        InfCore.Log("InfCore.StrCode32: WARNING: Collision "..tostring(storedString).." and "..tostring(encodeString).." both hash to "..tostring(strCode))
+      else
+        this.str32ToString[strCode]=encodeString
+      end
     end
   end
   return strCode
@@ -297,6 +313,7 @@ function this.GetModuleName(scriptPath)
 end
 
 function this.LoadExternalModule(moduleName,isReload,skipPrint)
+  this.Log("LoadExternalModule "..tostring(moduleName))
   local prevModule=_G[moduleName]
   if isReload then
     if prevModule and prevModule.PreModuleReload then
@@ -314,8 +331,10 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
       InfCore.DebugPrint("Could not load module "..moduleName)
     end
     return nil
-  else
+  elseif type(module)=="table" then
     _G[moduleName]=module
+  else
+    InfCore.Log("InfCoreLoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module))
   end
 
   if isReload then
@@ -441,6 +460,7 @@ function this.RefreshFileList()
     end)
     if fileNames==nil then
       InfCore.Log("InfCore.RefreshFileList ERROR: could not read "..fileName)
+      filesTable[dir]={}
     else
       filesTable[dir]=fileNames
     end
@@ -450,6 +470,11 @@ end
 
 function this.GetFileList(files,filter,stripFilter)
   local fileNames={}
+  if files==nil then
+    InfCore.Log"InfCore.GetFileList: ERROR files==nil"
+    return fileNames
+  end
+  
   for i,fileName in ipairs(files) do
     local index=string.find(fileName,filter)
     if index then
@@ -482,6 +507,7 @@ local function GetGamePath()
   return gamePath
 end
 
+this.saveName="ih_save.lua"
 this.logFileName="ih_log"
 this.prev="_prev"
 
@@ -509,7 +535,12 @@ this.paths={
   profiles=modPath..[[profiles\]],
   modules=modPath..[[modules\]],
 }
-this.files={}
+this.files={
+  mod={},
+  saves={},
+  profiles={},
+  modules={},
+}
 
 this.logFilePath=this.paths.mod..this.logFileName..".txt"
 this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"

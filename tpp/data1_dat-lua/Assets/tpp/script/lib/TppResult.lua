@@ -1345,34 +1345,35 @@ this.NPC_CAUSE_TO_SAVE_INDEX={
   [NeutralizeCause.SUPPORT_HELI]=18,
   [NeutralizeCause.ASSIST]=19}
 this.NEUTRALIZE_PLAY_STYLE_ID={7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27,28}
-function this.GetPlayStyleSaveIndex(n,r,a,t)
-  if a==NeutralizeType.INVALID then
+--gameId,sourceId,neutralizeType,neutralizeCause)
+function this.GetPlayStyleSaveIndex(gameId,attackerId,neutralizeType,neutralizeCause)
+  if neutralizeType==NeutralizeType.INVALID then
     return
   end
-  local n=this.NPC_CAUSE_TO_SAVE_INDEX[t]
-  if n then
-    return n
+  local saveUndex=this.NPC_CAUSE_TO_SAVE_INDEX[neutralizeCause]
+  if saveUndex then
+    return saveUndex
   end
-  if a==NeutralizeType.HOLDUP then
+  if neutralizeType==NeutralizeType.HOLDUP then
     return 0
   end
-  if Tpp.IsPlayer(r)then
-    local a={[NeutralizeCause.NO_KILL_BULLET]=true,[NeutralizeCause.HANDGUN]=true,[NeutralizeCause.SUBMACHINE_GUN]=true,[NeutralizeCause.SHOTGUN]=true,[NeutralizeCause.ASSAULT_RIFLE]=true,[NeutralizeCause.MACHINE_GUN]=true,[NeutralizeCause.SNIPER_RIFLE]=true,[NeutralizeCause.MISSILE]=true}
-    if a[t]then
+  if Tpp.IsPlayer(attackerId)then
+    local shootCauses={[NeutralizeCause.NO_KILL_BULLET]=true,[NeutralizeCause.HANDGUN]=true,[NeutralizeCause.SUBMACHINE_GUN]=true,[NeutralizeCause.SHOTGUN]=true,[NeutralizeCause.ASSAULT_RIFLE]=true,[NeutralizeCause.MACHINE_GUN]=true,[NeutralizeCause.SNIPER_RIFLE]=true,[NeutralizeCause.MISSILE]=true}
+    if shootCauses[neutralizeCause]then
       if svars.shootNeutralizeCount<MAX_32BIT_UINT then
         svars.shootNeutralizeCount=svars.shootNeutralizeCount+1
       end
     end
-    local e=this.PLAYER_CAUSE_TO_SAVE_INDEX[t]
-    if e then
-      return e
+    local saveIndex=this.PLAYER_CAUSE_TO_SAVE_INDEX[neutralizeCause]
+    if saveIndex then
+      return saveIndex
     else
       return
     end
   end
 end
-function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
-  local playStyleSaveIndex=this.GetPlayStyleSaveIndex(gameId,sourceId,neutralizeType,neutralizeCause)
+function this.OnNeutralize(gameId,attackerId,neutralizeType,neutralizeCause)
+  local playStyleSaveIndex=this.GetPlayStyleSaveIndex(gameId,attackerId,neutralizeType,neutralizeCause)
   if not playStyleSaveIndex then
     return
   end
@@ -1418,13 +1419,13 @@ function this.OnHeadShot(gameObjectId,attackId,attackerObjectId,flag)
     end
   end
 end
-function this.IsCountUpHeadShot(t)
+function this.IsCountUpHeadShot(headshotMessageFlag)
   local countUpHeadshot=false
-  if bit.band(t,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==HeadshotMessageFlag.IS_JUST_UNCONSCIOUS then
+  if bit.band(headshotMessageFlag,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==HeadshotMessageFlag.IS_JUST_UNCONSCIOUS then
     if HeadshotMessageFlag.NEUTRALIZE_DONE==nil then
       countUpHeadshot=true
     else
-      if bit.band(t,HeadshotMessageFlag.NEUTRALIZE_DONE)~=HeadshotMessageFlag.NEUTRALIZE_DONE then
+      if bit.band(headshotMessageFlag,HeadshotMessageFlag.NEUTRALIZE_DONE)~=HeadshotMessageFlag.NEUTRALIZE_DONE then
         countUpHeadshot=true
       end
     end

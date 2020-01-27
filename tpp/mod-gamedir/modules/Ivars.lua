@@ -753,6 +753,26 @@ this.gameOverOnDiscovery={
   settingNames="set_switch",
 }
 
+
+this.disableOutOfBoundsChecks={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,prevSetting,setting)
+    local enable=setting==0
+    mvars.mis_ignoreAlertOfMissionArea=not enable
+    local trapName="trap_mission_failed_area"
+    TppTrap.ChangeNormalTrapState(trapName,enable)
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
+  end
+}
+
+this.disableGameOver={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --tex no go
 this.disableTranslators={
   --OFF save=EXTERNAL,
@@ -3558,7 +3578,7 @@ this.selectProfile={
     end
   end,
   OnSelect=function(self)
-    local profileNames=Ivars.profileNames--DEBUGNOWIvarProc.SetupInfProfiles()
+    local profileNames=Ivars.profileNames
     if profileNames then
       self.range.max=#profileNames-1
       self.settings=profileNames
@@ -3841,7 +3861,7 @@ function this.SetupIvars()
       ivars[ivar.name]=ivars[ivar.name] or ivar.default
 
       if ivar.settings then
-        ivar.enum=this.Enum(ivar.settings) 
+        ivar.enum=this.Enum(ivar.settings)
         --      for name,enum in ipairs(ivar.enum) do
         --        ivar[name]=false
         --        if enum==ivar.default then

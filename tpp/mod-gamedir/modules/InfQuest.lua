@@ -83,7 +83,7 @@ local blockQuests={
 --block quests>
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
-  if vars.missionCode==30050 and InfGameEvent.IsMbEvent() then
+  if vars.missionCode==30050 and InfMain.IsMbEvent() then
     --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
     return true
   end
@@ -121,7 +121,7 @@ local forcedQuests={}
 local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
   --tex TODO: need to get intended mission code
-  if vars.missionCode==30050 and InfGameEvent.IsMbEvent() then
+  if vars.missionCode==30050 and InfMain.IsMbEvent() then
     --InfCore.Log("GetForced on event "..tostring(vars.missionCode))--DEBUG
     return nil
   end

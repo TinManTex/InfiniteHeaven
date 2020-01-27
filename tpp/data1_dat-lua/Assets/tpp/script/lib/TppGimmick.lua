@@ -675,13 +675,13 @@ function this._ShowCommCutOffAnnounceLog(e)
   end
   GameObject.SendCommand(cpId,{id="SetCommunicateAnnounce"})
 end
-function this.SwitchGimmick(gameId,locatorNameHash,dataSetNameHash,o)
+function this.SwitchGimmick(gameId,locatorNameHash,dataSetNameHash,switchFlag)
   local gimmickId=this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   if not gimmickId then
     return
   end
   local powerCutOn=false
-  if(o==0)then
+  if(switchFlag==0)then
     powerCutOn=true
   end
   this.PowerCut(gimmickId,powerCutOn,false)

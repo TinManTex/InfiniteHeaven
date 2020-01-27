@@ -278,6 +278,9 @@ function this.FadeOut(fadeSpeed,msgName,p,setupInfo)
   CallFadeOut(fadeSpeed,strCodeMsgName,p)
 end
 function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)
+  if InfLookup and InfCore.debugMode then --tex >logging
+    InfLookup.OnShowAnnounceLog(announceId,param1,param2) 
+  end--<
   if gvars.ini_isTitleMode then
     return
   end

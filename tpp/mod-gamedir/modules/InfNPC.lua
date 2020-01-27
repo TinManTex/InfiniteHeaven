@@ -930,7 +930,6 @@ function this.GetNumSeats(lrrpVehicle)
   return numSeats
 end
 
---DEBUGNOW
 function this.ModMissionTableTop(missionTable,emptyCpPool)
   if this.debugModule then
     InfCore.Log("----ModMissionTableTop----")

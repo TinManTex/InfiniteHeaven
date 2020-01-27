@@ -886,9 +886,10 @@ function this.DeclareSVars()
 end
 function this.Messages()
   local cpIntelTrapTable=TppEnemy.GetCpIntelTrapTable()
-  local messages
+  local trapMessages
   if cpIntelTrapTable and next(cpIntelTrapTable)then
-    messages={}
+    trapMessages={}
+    
     for cpName,sender in pairs(cpIntelTrapTable)do
       local msg={
         msg="Enter",
@@ -901,7 +902,7 @@ function this.Messages()
         end,
         option={isExecMissionPrepare=true}
       }
-      table.insert(messages,msg)
+      table.insert(trapMessages,msg)
       local msg={
         msg="Exit",
         sender=sender,
@@ -910,9 +911,10 @@ function this.Messages()
         end,
         option={isExecMissionPrepare=true}
       }
-      table.insert(messages,msg)
+      table.insert(trapMessages,msg)
     end
-    table.insert(messages,
+    
+    table.insert(trapMessages,
       {msg="Enter",
         sender="trap_intel_afgh_waterway_cp",
         func=function(t,t)
@@ -921,15 +923,17 @@ function this.Messages()
             this.ShowLocationAndBaseTelop()
           end
         end,
-        option={isExecMissionPrepare=true}})
-    table.insert(messages,
+        option={isExecMissionPrepare=true}
+        })
+    table.insert(trapMessages,
       {msg="Exit",
         sender="trap_intel_afgh_waterway_cp",
         func=function(t,t)
           this.ClearBaseTelopName()
         end,
-        option={isExecMissionPrepare=true}})
-    table.insert(messages,
+        option={isExecMissionPrepare=true}
+        })
+    table.insert(trapMessages,
       {msg="Enter",
         sender="trap_intel_afgh_ruins_cp",
         func=function(t,t)
@@ -938,15 +942,18 @@ function this.Messages()
             this.ShowLocationAndBaseTelop()
           end
         end,
-        option={isExecMissionPrepare=true}})
-    table.insert(messages,
+        option={isExecMissionPrepare=true}
+        })
+    table.insert(trapMessages,
       {msg="Exit",
         sender="trap_intel_afgh_ruins_cp",
         func=function(t,t)
           this.ClearBaseTelopName()
         end,
-        option={isExecMissionPrepare=true}})
+        option={isExecMissionPrepare=true}
+        })
   end
+  
   return Tpp.StrCode32Table{
     GameObject={
       {msg="Fulton",
@@ -998,7 +1005,7 @@ function this.Messages()
         TppUI.ShowCallSupportBuddyAnnounceLog()
       end}
     },
-    Trap=messages,
+    Trap=trapMessages,
     Network={
       {msg="NoticeSneakMotherBase",func=this.OnNoticeFobSneaked},
       {msg="NoticeSneakSupportedMotherBase",func=this.OnNoticeSupporterFobSneaked}
@@ -2372,36 +2379,36 @@ function this.RemoveStaffsAfterS10240()
     TppMotherBaseManagement.RemoveStaffsS10240()
   end
 end
-function this.PickUpBluePrint(a,n)
-  local t=nil
-  if n then
-    t=n
+function this.PickUpBluePrint(reourceId,blueprintNumber)
+  local blueprintId=nil
+  if blueprintNumber then
+    blueprintId=blueprintNumber
   else
-    t=mvars.trm_bluePrintLocatorIdTable[a]
+    blueprintId=mvars.trm_bluePrintLocatorIdTable[reourceId]
   end
-  if not t then
+  if not blueprintId then
     return
   end
-  this.AddTempDataBase(t)
-  local e=this.BLUE_PRINT_LANG_ID[t]
-  TppUI.ShowAnnounceLog("get_blueprint",e)
+  this.AddTempDataBase(blueprintId)
+  local langId=this.BLUE_PRINT_LANG_ID[blueprintId]
+  TppUI.ShowAnnounceLog("get_blueprint",langId)
 end
 function this.InitializeBluePrintLocatorIdTable()
   mvars.trm_bluePrintLocatorIdTable={}
-  for e,t in pairs(this.BLUE_PRINT_LOCATOR_TABLE)do
-    local e=TppCollection.GetUniqueIdByLocatorName(e)
-    mvars.trm_bluePrintLocatorIdTable[e]=t
+  for locatorName,blueprintNumber in pairs(this.BLUE_PRINT_LOCATOR_TABLE)do
+    local uniqueId=TppCollection.GetUniqueIdByLocatorName(locatorName)
+    mvars.trm_bluePrintLocatorIdTable[uniqueId]=blueprintNumber
   end
 end
-function this.GetBluePrintKeyItemId(e)
-  return mvars.trm_bluePrintLocatorIdTable[e]
+function this.GetBluePrintKeyItemId(uniqueId)
+  return mvars.trm_bluePrintLocatorIdTable[uniqueId]
 end
-function this.PickUpEmblem(e)
-  local e=mvars.trm_EmblemLocatorIdTable[e]
-  if not e then
+function this.PickUpEmblem(emblemId)
+  local emblemName=mvars.trm_EmblemLocatorIdTable[emblemId]
+  if not emblemName then
     return
   end
-  TppEmblem.Add(e,false,true)
+  TppEmblem.Add(emblemName,false,true)
 end
 function this.EnableTerminalVoice(enable)
   mvars.trm_voiceDisabled=not enable

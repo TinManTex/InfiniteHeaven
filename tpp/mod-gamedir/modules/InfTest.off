@@ -1,0 +1,200 @@
+local this={}
+
+this.pauseDemoButton=InfButton.EVADE
+this.resetDemoButton=InfButton.DASH
+
+function this.Update(currentChecks,currentTime,execChecks,execState)
+
+  --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
+  --  if not currentChecks.inGame then
+  --    return
+  --  end
+  
+  if not DemoDaemon.IsDemoPlaying() then
+    return
+  end
+
+
+  --InfCore.Log"InfTest Update"
+
+
+  if InfButton.OnButtonDown(this.pauseDemoButton) then
+    DemoDaemon.PauseAll()
+  end
+  
+  if InfButton.OnButtonDown(this.resetDemoButton) then
+    DemoDaemon.RestartAll()
+  end
+--   if InfButton.OnButtonDown(this.pauseDemoButton) then
+--    InfCore.Log"OnButtonDown DASH"
+--    --InfCore.Log(tostring(DemoPlayback.GetCurrentFrame()))
+--    this.demoPause=not this.demoPause
+--    if this.demoPause then
+--      InfCore.Log"toggle on"
+--      --DemoPlayback.Pause()
+--      --DemoPlayback.SetTransform(1,0,1)--nope
+--      --DemoDaemon.PauseAll()
+--      --DemoDaemon.RestartAll()
+--      --      local demoBodies=DemoDaemon.GetDemoBodies()
+--      --      InfCore.PrintInspect(demoBodies)
+--      --      InfCore.PrintInspect(getmetatable(demoBodies))
+--      local demoId=DemoDaemon.GetPlayingDemoId()
+--      InfCore.PrintInspect(demoId)
+--      local demoBody=DemoDaemon.FindDemoBody(demoId[1])
+--      InfCore.PrintInspect(demoBody)
+--      InfCore.PrintInspect(getmetatable(demoBody))
+--
+--
+--      --demoBody.data.transform.translation = demoPos
+--      --demoBody.data.transform.rotQuat = demoRot
+--
+--      local data = demoBody.data
+--      InfCore.PrintInspect(data)
+--      InfCore.PrintInspect(getmetatable(data))
+--
+--      local controlCharacters = data.controlCharacters
+--      InfCore.PrintInspect(controlCharacters)
+--      InfCore.PrintInspect(getmetatable(controlCharacters))
+--      for k, controlCharacter in pairs(controlCharacters) do
+--        local characterId = controlCharacter.characterId
+--        InfCore.Log(tostring(characterId))
+--      end
+--
+--      --      local trans=DemoDaemon.GetDemoTransform()
+--      --      InfCore.PrintInspect(trans)
+--
+--    else
+--      InfCore.Log"toggle off"
+--      --DemoDaemon.PauseAll()
+--      --DemoPlayback.Pause()
+--      --DemoPlayback.SetTransform(100,00,0)--nope
+--      --DemoDaemon.SetCameraInitFromUser()
+--    end
+--  end
+
+
+end
+
+
+ --  if not currentChecks.inGame then
+  --    return
+  --  end
+
+  local demoId=GetPlayingDemoId()
+  if demoId==nil then
+    return
+  end
+  --InfCore.PrintInspect(demoId)--
+
+  if InfButton.OnButtonDown(this.pauseDemoButton) then
+    -- DemoDaemon.PauseAll()
+    
+          local demoId=DemoDaemon.GetPlayingDemoId()
+
+      local demoBody=DemoDaemon.FindDemoBody(demoId[1])
+
+      
+  InfCore.Log"----------"
+      InfCore.Log(tostring(demoBody.data.worldTransform.translation))
+    
+    DemoDaemon.RestartAll()
+    InfCore.Log(tostring(demoBody.data.worldTransform.translation))
+  end
+
+  if InfButton.OnButtonDown(this.resetDemoButton) then
+    if DemoDaemon.IsDemoPlaying() then
+      -- DemoDaemon.RestartAll()
+      --
+      local demoId=DemoDaemon.GetPlayingDemoId()
+      InfCore.PrintInspect(demoId)
+      local demoBody=DemoDaemon.FindDemoBody(demoId[1])
+      InfCore.PrintInspect(demoBody)
+      InfCore.PrintInspect(getmetatable(demoBody))
+      InfCore.PrintInspect(demoBody.data)
+      InfCore.PrintInspect(getmetatable(demoBody.data))
+      InfCore.PrintInspect(demoBody.data.demoId)
+      
+      local properties=demoBody.data:GetPropertyList()
+      InfCore.PrintInspect(properties)
+      InfCore.PrintInspect(demoBody.data.name)
+--      demoBody.data.name="bleh"
+--      InfCore.PrintInspect(demoBody.data.name)
+      
+      local trans=demoBody.data.worldTransform.translation
+      InfCore.PrintInspect(trans)
+      InfCore.PrintInspect(getmetatable(trans))
+      InfCore.PrintInspect(tostring(trans))
+      demoBody.data.worldTransform.translation=Vector3(19,11,1)
+      InfCore.Log(tostring(demoBody.data.worldTransform.translation))
+      
+      local demoBody=DemoDaemon.FindDemoBody(demoId[1])
+      InfCore.Log(tostring(demoBody.data.worldTransform.translation))
+
+      local data=demoBody.data
+--      --data.transform.translation=Vector3(19,10,9)
+--      data.transform.transform_translation=Vector3(19,10,9)
+--
+--      
+--      for k, controlCharacter in pairs(data.controlCharacters) do
+--        local characterId=controlCharacter.characterId
+--        InfCore.Log(tostring(characterId))
+--        if characterId=="Player"then
+--          local translation={trans[1]+1,trans[2]+1,trans[3]+1,}
+--          controlCharacter.transform.translation=Vector3(trans[1],trans[2],trans[3])
+--        end
+--      end
+    end
+  end
+
+
+  --
+  --   if InfButton.OnButtonDown(this.pauseDemoButton) then
+  --    InfCore.Log"OnButtonDown DASH"
+  --    --InfCore.Log(tostring(DemoPlayback.GetCurrentFrame()))
+  --    this.demoPause=not this.demoPause
+  --    if this.demoPause then
+  --      InfCore.Log"toggle on"
+  --      --DemoPlayback.Pause()
+  --      --DemoPlayback.SetTransform(1,0,1)--nope
+  --      --DemoDaemon.PauseAll()
+  --      --DemoDaemon.RestartAll()
+  --      --      local demoBodies=DemoDaemon.GetDemoBodies()
+  --      --      InfCore.PrintInspect(demoBodies)
+  --      --      InfCore.PrintInspect(getmetatable(demoBodies))
+  --      local demoId=DemoDaemon.GetPlayingDemoId()
+  --      InfCore.PrintInspect(demoId)
+  --      local demoBody=DemoDaemon.FindDemoBody(demoId[1])
+  --      InfCore.PrintInspect(demoBody)
+  --      InfCore.PrintInspect(getmetatable(demoBody))
+  --
+  --
+  --      --demoBody.data.transform.translation = demoPos
+  --      --demoBody.data.transform.rotQuat = demoRot
+  --
+  --      local data = demoBody.data
+  --      InfCore.PrintInspect(data)
+  --      InfCore.PrintInspect(getmetatable(data))
+  --
+  --      local controlCharacters = data.controlCharacters
+  --      InfCore.PrintInspect(controlCharacters)
+  --      InfCore.PrintInspect(getmetatable(controlCharacters))
+  --      for k, controlCharacter in pairs(controlCharacters) do
+  --        local characterId = controlCharacter.characterId
+  --        InfCore.Log(tostring(characterId))
+  --      end
+  --
+  --      --      local trans=DemoDaemon.GetDemoTransform()
+  --      --      InfCore.PrintInspect(trans)
+  --
+  --    else
+  --      InfCore.Log"toggle off"
+  --      --DemoDaemon.PauseAll()
+  --      --DemoPlayback.Pause()
+  --      --DemoPlayback.SetTransform(100,00,0)--nope
+  --      --DemoDaemon.SetCameraInitFromUser()
+  --    end
+  --  end
+
+
+
+return this

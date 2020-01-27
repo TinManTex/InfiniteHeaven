@@ -1,5 +1,5 @@
 = Infinite heaven =
-r198 - 2017-01-31
+r199 - 2017-02-11
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -24,7 +24,18 @@ NOTE: Infinite Heaven has been restructured, with some of its files now loading 
 
 NOTE: Infinite Heaven now uses SnakeBite 0.8.4, get it here: http://www.nexusmods.com/metalgearsolidvtpp/mods/106
 
-New for r198
+New for 199:
+Fixed: Crashland event not triggering injury.
+Feature: Pause/resume playing cutscenes by pressing Quickdive
+Feature: Restart cutscene by pressing Reload
+
+Option: disableOutOfBoundsChecks - Disable out of bounds checks - Disables the out of mission area visual noise and game over checks.
+(via Debug menu)
+Option: disableGameOver - Disable game over - disables various game over screens.
+(via Debug menu)
+Fun for testing things out, but likely breaking things.
+
+New for r198:
 NOTE: Infinite Heavens MGS_TPP\mod folder has been restructured, if manually updating back up ih_save.lua, delete MGS_TPP\mod folder, copy the new folder entirely from Infinite Heaven zip, the put ih_save in mod\saves
 
 Fixed: Legendary animal sideops not completing on fulton - thanks iponomama for the report.

@@ -534,6 +534,9 @@ this.eng={--english
   resourceScalePoster="Poster scale",
   resourceScaleDiamond="Diamond scale",
   resourceScaleContainer="Container scale",
+  DEBUG_PrintRevengePoints="Print enemy prep levels",
+  disableOutOfBoundsChecks="Disable out of bounds checks",
+  disableGameOver="Disable game over",
 }--eng end
 
 this.help={}
