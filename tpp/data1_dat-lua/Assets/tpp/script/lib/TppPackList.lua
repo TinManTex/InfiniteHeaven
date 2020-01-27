@@ -170,6 +170,8 @@ function this.GetMissionTypeAndMissionName(missionCode)
   end
   return missionTypeName,missionCodeName
 end
+--NMC tex this is pretty jank, but works with custom locations since IH patches LOCATION_HAVE_MISSION_LIST
+--however his lumps mbqf missions as MTBS
 function this.GetLocationNameFormMissionCode(missionCode)
   local locationName
   for location,missions in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST)do

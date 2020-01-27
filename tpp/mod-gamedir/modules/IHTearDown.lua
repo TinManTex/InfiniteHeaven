@@ -9,7 +9,7 @@ local this={}
 
 this.doDumpModules=true
 
-this.dumpDir=[[D:\Projects\MGS\dump\tpp\]]--tex output folder
+this.dumpDir=[[C:\Projects\MGS\dump\tpp\]]--tex output folder
 this.buildFromScratch=false
 local luaFolder=[[J:\GameData\mgs\filetype-crush\lua\]]--tex unmodded lua, all in same folder
 
@@ -63,7 +63,7 @@ function this.DumpModules(options)
   InfCore.PrintInspect(noLiveFound,"noLiveFound")
   InfCore.PrintInspect(noReferenceFound,"noReferenceFound")
   
-    local classesPath=[[D:\Projects\MGS\!InfiniteHeaven\MockFoxLua\LuaClasses[sais ida dump].txt]]
+    local classesPath=[[C:\Projects\MGS\!InfiniteHeaven\MockFoxLua\LuaClasses[sais ida dump].txt]]
   local nonLiveClasses=this.FindNonLiveClasses(classesPath)
   InfCore.PrintInspect(nonLiveClasses,"nonLiveClasses")
 

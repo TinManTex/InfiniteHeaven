@@ -1777,7 +1777,7 @@ function this._UpdateStorySequence()
     return
   end
   local nextStorySequence,storySequenceTable
-  local r
+  local done
   repeat
     storySequenceTable=this.GetStorySequenceTable(currentSequence)
     if storySequenceTable==nil then
@@ -1790,46 +1790,46 @@ function this._UpdateStorySequence()
     nextStorySequence=this.ProceedStorySequence()
     currentSequence=this.GetCurrentStorySequence()
     if currentSequence<TppDefine.STORY_SEQUENCE.STORY_FINISH then
-      r=false
+      done=false
     else
-      r=true
+      done=true
     end
-  until(r or next(nextStorySequence))
+  until(done or next(nextStorySequence))
   return nextStorySequence
 end
 function this.CheckNeedProceedStorySequence(storySequenceTable)
-  local t={}
+  local missionsCleared={}
   local function AddMissionCleared(missionCodeName)
     local missionCode=TppMission.ParseMissionName(missionCodeName)
     local isMissionCleared=this.IsMissionCleard(missionCode)
-    table.insert(t,isMissionCleared)
+    table.insert(missionsCleared,isMissionCleared)
   end
   if storySequenceTable.main then
     AddMissionCleared(storySequenceTable.main)
   end
   if storySequenceTable.flag then
-    for n,e in pairs(storySequenceTable.flag)do
-      AddMissionCleared(e)
+    for n,missionCodeName in pairs(storySequenceTable.flag)do
+      AddMissionCleared(missionCodeName)
     end
   end
-  local e=true
-  local i=0
-  for e=1,#t do
-    if t[e]then
-      i=i+1
+  local proceed=true
+  local numCleared=0
+  for i=1,#missionsCleared do
+    if missionsCleared[i]then
+      numCleared=numCleared+1
     end
   end
-  local t=#t
+  local proceedCount=#missionsCleared
   if storySequenceTable.proceedCount then
-    t=storySequenceTable.proceedCount
+    proceedCount=storySequenceTable.proceedCount
   end
-  if i<t then
-    e=false
+  if numCleared<proceedCount then
+    proceed=false
   end
-  if e and storySequenceTable.condition then
-    e=storySequenceTable.condition()
+  if proceed and storySequenceTable.condition then
+    proceed=storySequenceTable.condition()
   end
-  return e
+  return proceed
 end
 function this.ProceedStorySequence()
   this.IncrementStorySequence()
@@ -1839,26 +1839,26 @@ function this.ProceedStorySequence()
     return
   end
   local nextStorySequence={}
-  local function t(missionCodeName,t)
-    local r=t or{}
+  local function DoOpen(missionCodeName,defaultClose)
+    local _defaultClose=defaultClose or{}
     local missionCode=TppMission.ParseMissionName(missionCodeName)
     this.PermitMissionOpen(missionCode)
-    if not r[missionCodeName]then
+    if not _defaultClose[missionCodeName]then
       table.insert(nextStorySequence,missionCodeName)
       this.MissionOpen(missionCode)
     end
   end
   if storySequenceTable.main then
-    t(storySequenceTable.main,storySequenceTable.defaultClose)
+    DoOpen(storySequenceTable.main,storySequenceTable.defaultClose)
   end
   if storySequenceTable.flag then
-    for i,e in pairs(storySequenceTable.flag)do
-      t(e,storySequenceTable.defaultClose)
+    for i,missionCodeName in pairs(storySequenceTable.flag)do
+      DoOpen(missionCodeName,storySequenceTable.defaultClose)
     end
   end
   if storySequenceTable.sub then
-    for i,e in pairs(storySequenceTable.sub)do
-      t(e,storySequenceTable.defaultClose)
+    for i,missionCodeName in pairs(storySequenceTable.sub)do
+      DoOpen(missionCodeName,storySequenceTable.defaultClose)
     end
   end
   for e,e in pairs(nextStorySequence)do
@@ -2121,10 +2121,10 @@ function this.DEBUG_TestStorySequence()
   this.DEBUG_InitQuestFlagsForTest()
   local t
   repeat
-    local i=""
-    for t,n in ipairs(TppDefine.MISSION_LIST)do
-      if this.IsMissionCleard(n)then
-        i=i..(","..tostring(n))
+    local isClearedListStr=""
+    for t,missionCodeStr in ipairs(TppDefine.MISSION_LIST)do
+      if this.IsMissionCleard(missionCodeStr)then
+        isClearedListStr=isClearedListStr..(","..tostring(missionCodeStr))
       end
     end
     coroutine.yield()
@@ -2233,19 +2233,19 @@ function this.DEBUG_SetNeedStoryTest(n)
   vars.personalBirthdayMonth=3
   vars.personalBirthdayDay=10
 end
-function this.DEBUG_SetStorySequence(n,o)
+function this.DEBUG_SetStorySequence(testStorySequence,o)
   do
     return
   end
-  if(n<TppDefine.STORY_SEQUENCE.STORY_START)and(n>TppDefine.STORY_SEQUENCE.STORY_FINISH)then
+  if(testStorySequence<TppDefine.STORY_SEQUENCE.STORY_START)and(testStorySequence>TppDefine.STORY_SEQUENCE.STORY_FINISH)then
     return
   end
-  gvars.str_storySequence=n
-  for e=0,TppDefine.MISSION_COUNT_MAX do
-    gvars.str_missionOpenPermission[e]=false
-    gvars.str_missionOpenFlag[e]=false
-    gvars.str_missionClearedFlag[e]=false
-    gvars.str_missionNewOpenFlag[e]=false
+  gvars.str_storySequence=testStorySequence
+  for missionIndex=0,TppDefine.MISSION_COUNT_MAX do
+    gvars.str_missionOpenPermission[missionIndex]=false
+    gvars.str_missionOpenFlag[missionIndex]=false
+    gvars.str_missionClearedFlag[missionIndex]=false
+    gvars.str_missionNewOpenFlag[missionIndex]=false
   end
   if TppDebugMbDevelop then
     local DebugStorySequenceFunc
@@ -2278,24 +2278,24 @@ function this.DEBUG_SetStorySequence(n,o)
     return t
   end
   local t
-  for storySequenceIndex=0,n do
+  for storySequenceIndex=0,testStorySequence do
     local e=this.GetStorySequenceTable(storySequenceIndex)
     if e==nil then
       break
     end
     if e.main then
-      local e=r(e.main,storySequenceIndex,n,o,e.defaultClose)
+      local e=r(e.main,storySequenceIndex,testStorySequence,o,e.defaultClose)
       t=t or e
     end
     if e.flag then
       for s,a in pairs(e.flag)do
-        local e=r(a,storySequenceIndex,n,o,e.defaultClose)
+        local e=r(a,storySequenceIndex,testStorySequence,o,e.defaultClose)
         t=t or e
       end
     end
     if e.sub then
       for s,a in pairs(e.sub)do
-        local e=r(a,storySequenceIndex,n,o,e.defaultClose)
+        local e=r(a,storySequenceIndex,testStorySequence,o,e.defaultClose)
         t=t or e
       end
     end

@@ -200,69 +200,70 @@ this.LOCATION_CHUNK_INDEX_TABLE={
   [this.LOCATION_ID.MBQF]=Chunk.INDEX_MTBS
 }
 this.WEATHER={SUNNY=0,CLOUDY=1,RAINY=2,SANDSTORM=3,FOGGY=4,POURING=5}
+--NMC includes MISSING_NUMBER_MISSIONs
 this.MISSION_LIST={
-  "10010",
-  "10020",
-  "10030",
-  "10036",
-  "10043",
-  "10033",
-  "10040",
-  "10041",
-  "10044",
-  "10052",
-  "10054",
-  "10050",
-  "10070",
-  "10080",
-  "10086",
-  "10082",
-  "10090",
-  "10195",
-  "10091",
-  "10100",
-  "10110",
-  "10121",
-  "10115",
-  "10120",
-  "10085",
-  "10200",
-  "10211",
-  "10081",
-  "10130",
-  "10140",
-  "10150",
-  "10151",
-  "10045",
-  "10156",
-  "10093",
-  "10171",
-  "10240",
-  "10260",
-  "10280",
-  "10230",
-  "11043",
-  "11041",
-  "11054",
-  "11085",
-  "11082",
-  "11090",
-  "11036",
-  "11033",
-  "11050",
-  "11091",
-  "11195",
-  "11211",
-  "11140",
-  "11200",
-  "11080",
-  "11171",
-  "11121",
-  "11115",
-  "11130",
-  "11044",
-  "11052",
-  "11151",
+  "10010",--1
+  "10020",--
+  "10030",--
+  "10036",--
+  "10043",--
+  "10033",--
+  "10040",--
+  "10041",--
+  "10044",--
+  "10052",--10
+  "10054",--
+  "10050",--
+  "10070",--
+  "10080",--
+  "10086",--
+  "10082",--
+  "10090",--
+  "10195",--
+  "10091",--
+  "10100",--20
+  "10110",--
+  "10121",--
+  "10115",--
+  "10120",--
+  "10085",--
+  "10200",--
+  "10211",--
+  "10081",--
+  "10130",--
+  "10140",--30
+  "10150",--
+  "10151",--
+  "10045",--
+  "10156",--
+  "10093",--
+  "10171",--
+  "10240",--
+  "10260",--
+  "10280",--
+  "10230",--no number mission40
+  "11043",--
+  "11041",--no number mission
+  "11054",--
+  "11085",--no number mission
+  "11082",--
+  "11090",--
+  "11036",--no number mission
+  "11033",--
+  "11050",--
+  "11091",--no number mission 50
+  "11195",--no number mission
+  "11211",--no number mission
+  "11140",--
+  "11200",--no number mission
+  "11080",--
+  "11171",--no number mission
+  "11121",--
+  "11115",--no number mission
+  "11130",--
+  "11044",--60
+  "11052",--no number mission
+  "11151",--62
   nil
 }
 this.MISSION_ENUM=this.Enum(this.MISSION_LIST)
@@ -312,6 +313,10 @@ this.NO_BOX_MISSION_START_POSITION[11151]=this.NO_BOX_MISSION_START_POSITION[101
 --<
 this.EMERGENCY_MISSION_LIST={10115,50050}
 this.EMERGENCY_MISSION_ENUM=this.Enum(this.EMERGENCY_MISSION_LIST)
+--NMC probably would have been better to have it as [missioncode]=location
+--It also lumps in mbqf (locationCode 55) mission into MTBS
+--Used in TppPackList.GetLocationNameFormMissionCode
+--Also see and TppLocation.GetLocationName
 this.LOCATION_HAVE_MISSION_LIST={
   INIT={5},
   AFGH={10020,10033,10034,10036,10040,10041,10043,10044,10045,10050,10052,10054,10060,10070,10150,10151,10153,10156,10164,10199,10260,30010,40010,65020,11036,11043,11041,11033,11050,11054,11044,11052,11151},

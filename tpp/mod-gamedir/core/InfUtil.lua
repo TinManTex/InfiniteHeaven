@@ -18,7 +18,7 @@ end
 function this.MergeArray(array1,array2)
   for i=0,#array2 do
     array1[#array1+1]=array2[i]
-  end 
+  end
 end
 
 function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
@@ -78,6 +78,19 @@ function this.FindInList(list,findValue)
     end
   end
   return false
+end
+
+function this.InsertUniqueInList(list,insertValue)
+  local hasValue=false
+  for i,value in ipairs(list)do
+    if value==insertValue then
+      hasValue=true
+      break
+    end
+  end
+  if not hasValue then
+    table.insert(list,insertValue)
+  end
 end
 
 function this.WriteLuaList(fileName,lineFormat,list)

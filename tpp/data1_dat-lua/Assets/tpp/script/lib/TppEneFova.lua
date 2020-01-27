@@ -97,7 +97,8 @@ local prs5_main0_def_v00PartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_
 local prs3_main0_def_v00PartsAfghanFree="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts"
 local prs6_main0_def_v00PartsAfricaFree="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts"
 local dds5_main0_def_v00Parts="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts"
-this.noArmorForMission={--tex made module local
+--tex following tables exposed as module members below-v-
+local noArmorForMission={
   [10010]=1,
   [10020]=1,
   [10030]=1,
@@ -210,7 +211,12 @@ this.S10240_FemaleFaceIdList={394,351,373,456,463,455,511,502}
 this.S10240_MaleFaceIdList={195,144,214,6,217,83,273,60,87,71,256,201,290,178,102,255,293,165,85,18,228,12,65,134,31,132,161,342,107,274,184,226,153,247,344,242,56,183,54,126,223}
 
 local fovaSetupFuncs={}
-this.fovaSetupFuncs=fovaSetupFuncs--tex expose to other modules
+--tex expose to other modules>
+this.fovaSetupFuncs=fovaSetupFuncs
+this.noArmorForMission=noArmorForMission
+this.missionArmorType=missionArmorType
+this.missionHostageInfos=missionHostageInfos
+--<
 
 --NMC an addaption of switch / case from Case method on http://lua-users.org/wiki/SwitchStatement
 --mostly used for PreMissionLoad, but also in some of the fovaSetupFuncs[missionId] funcs to run the area fova func
@@ -230,7 +236,7 @@ function this.IsNotRequiredArmorSoldier(missionCode)
   if InfEneFova.ForceArmor(missionCode) then--tex >
     return false
   end--<
-  if this.noArmorForMission[missionCode]~=nil then
+  if noArmorForMission[missionCode]~=nil then
     return true
   end
   return false
@@ -779,7 +785,7 @@ function fovaSetupFuncs.mafr(locationName,missionId)
   local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if isMoreVariationMode>0 then
-    for e=1,2 do
+    for i=1,2 do
       solface_groupNumber=solface_groupNumber+2
       local faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2
       local faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_B+(faceGroup)
@@ -794,7 +800,7 @@ function fovaSetupFuncs.mafr(locationName,missionId)
   local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if isMoreVariationMode>0 then
-    for e=1,2 do
+    for i=1,2 do
       solface_groupNumber=solface_groupNumber+2
       local faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2
       local faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_W+(faceGroup)
@@ -848,7 +854,7 @@ function fovaSetupFuncs.mafr(locationName,missionId)
     if armorTypeTable~=nil then
       local numArmorTypes=#armorTypeTable
       if numArmorTypes>0 then
-        for t,armorType in ipairs(armorTypeTable)do
+        for i,armorType in ipairs(armorTypeTable)do
           if armorType==TppDefine.AFR_ARMOR.TYPE_ZRS then
             table.insert(bodies,{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT})
           elseif armorType==TppDefine.AFR_ARMOR.TYPE_CFA then
@@ -1331,6 +1337,11 @@ function fovaSetupFuncs.default(locationName,missionId)
     TppSoldierFace.OverwriteMissionFovaData{face=face}
   end
 end
+--tex>
+function this.SetupFovaForLocation(locationName,missionId)
+  fovaSetupFuncs[locationName](locationName,missionId)
+end
+--<
 function this.AddTakingOverHostagePack()
   local settings={}
   for n,name in ipairs(TppEnemy.TAKING_OVER_HOSTAGE_LIST)do

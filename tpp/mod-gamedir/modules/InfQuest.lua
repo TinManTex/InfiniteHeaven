@@ -476,7 +476,7 @@ function this.SetupInstalledQuestsState()
   end
 
   --tex restore any saved quest gvars from ih_save state
-  this.questStates=this.ReadQuestStates()
+  this.questStates=this.ReadSaveStates()
 
   --  InfCore.Log"post"
   --this.DEBUG_PrintQuestClearedFlags()
@@ -596,36 +596,42 @@ end
 
 --tex set questCleared gvars from ih_save state
 --IN/SIDE: ih_save
-function this.ReadQuestStates()
-  InfCore.LogFlow"InfQuest.ReadQuestStates"
+--REF ih_save
+--this.questStates={
+--  ih_quest_q30100=17,
+--  <quest name>=<bitfield of quest cleared gvar states>,
+--}
+
+function this.ReadSaveStates()
+  InfCore.LogFlow"InfQuest.ReadSaveStates"
 
   if ih_save==nil then
-    local errorText="ReadQuestStates Error: ih_save==nil"
+    local errorText="ReadSaveStates Error: ih_save==nil"
     InfCore.Log(errorText,true,true)
     return
   end
-
+  
   if ih_save.questStates==nil then
-    InfCore.Log"ReadQuestStates: ih_save.questStates==nil"
+    InfCore.Log"ReadSaveStates: ih_save.questStates==nil"
     return {}
   end
 
   if type(ih_save.questStates)~="table" then
-    local errorText="ReadQuestStates Error: ih_save.questStates~=typeTable"
+    local errorText="ReadSaveStates Error: ih_save.questStates~=typeTable"
     InfCore.Log(errorText,true,true)
     return
   end
 
   for questName,questState in pairs(ih_save.questStates) do
     if type(questName)~="string" then
-      InfCore.Log("ReadQuestStates ih_save: name~=string:"..tostring(questName),false,true)
+      InfCore.Log("ReadSaveStates ih_save: name~=string:"..tostring(questName),false,true)
     else
       if type(questState)~="number" then
-        InfCore.Log("ReadQuestStates ih_save: value~=number: "..questName.."="..tostring(questState),false,true)
+        InfCore.Log("ReadSaveStates ih_save: value~=number: "..questName.."="..tostring(questState),false,true)
       else
         local questIndex=TppDefine.QUEST_INDEX[questName]
         if not questIndex then
-          InfCore.Log("InfQuest.ReadQuestStates: Could not find questIndex for "..questName)
+          InfCore.Log("InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
         else
           for i=1,#gvarFlagNames do
             local value=bit.band(questState,i^2)==i^2
@@ -640,6 +646,7 @@ function this.ReadQuestStates()
 end
 
 local questClearStates={}--tex cache of last to compare against for isdirty
+--CALLER: IvarProc.BuildSaveText
 function this.GetCurrentStates()
   local QUEST_INDEX=TppDefine.QUEST_INDEX
   local gvars=gvars
@@ -684,11 +691,11 @@ function this.GetCurrentStates()
     end
   end
 
- if isSaveDirty then--DEBUGNOW  
+  if isSaveDirty then--DEBUGNOW
     return questClearStates
- end
+  end
 
-return nil
+  return nil
 end
 
 --CALLER: TppLandingZone.OnMissionCanStart

@@ -1,5 +1,21 @@
 Infinite Heaven changelog
 
+r233 - 2019-11-27
+Version bump for MGSV version 1.0.15.1
+There was no actual script changes in the last MGSV update (nor this one) that made this necesary, but it slipped by when I got busy.
+
+Fix: Running prologue with debug mode on would cause weirdness. (10010 OnRestoreSVars has a yeild so PCalling it would error-skip the function).
+InfCore.Validate: Clarified error message, does not bail on first fail so all failures can be logged.
+InfUtil.InsertUniqueInList: Because sometimes you just gotta.
+InfMission: small refactor
+InfMission: fleshed out a lot more missing missionInfo/mission addon stuff: 
+TppEneFova.fovaSetupFuncs, TppResult.MISSION_GUARANTEE_GMP, TppResult.MISSION_TASK_LIST, TppEneFova.noArmorForMission, 
+TppEneFova.missionArmorType, TppEneFova.missionHostageInfos, NO_ORDER_BOX_MISSION,
+<free roam mission>_sequence.missionStartPosition.orderBoxList, <free roam mission>_orderBoxList
+InfMission: missionInfo module support enabling hot zones (which is really just to bypass my disable OOB hack).
+Thanks caplag for pointing to some of these with his addon mission.
+See InfMission for example of the mission addon module.
+
 r232 - 2018-08-01
 Fixed: 'DD Suit female' settings showing as 'table'
 

@@ -1,21 +1,46 @@
 --IHDebugVars.lua
 --tex turnin on debug crud and running some quick test code on allmodulesload
 
+--tex some modules have some debug logging gated behind a if this.debugModule condition.
+--PostAllModulesLoad below will set debugModule to true for the modules named in this list.
+--TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
+local debugModules={
+  'InfMain',
+  'InfMenuDefs',
+  'IvarProc',
+  --  'InfNPC',
+  --  'InfModelProc',
+  --  'InfQuest',
+  --  'TppQuest',
+  --  'InfInterrogation',
+  --  'InfMBGimmick',
+  'InfLookup',
+  --  'InfMission',
+  --  'InfEquip',
+  'InfWalkerGear',
+  'InfSoldier',
+  --'InfEneFova',
+  'InfExtToMgsv',
+  'InfMgsvToExt',
+  'InfMission',
+  'Ivars',
+}
+
 local this={}
 
 --DEBUGNOW
 this.packages={
---[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
--- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
-}
+  --[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
+  -- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
+  }
 --DEBUGNOW
 function this.AddMissionPacks(missionCode,packPaths)
   if missionCode < 5 then
-      return
+    return
   end
-  
+
   if this.packages[missionCode] then
-      packPaths[#packPaths+1]=this.packages[missionCode]
+    packPaths[#packPaths+1]=this.packages[missionCode]
   end
 end
 
@@ -33,25 +58,6 @@ function this.PostAllModulesLoad()
 
   Ivars.enableQuickMenu:Set(1)
 
-  local debugModules={
-    'InfMain',
-    'InfMenuDefs',
-    'IvarProc',
-    --  'InfNPC',
-    --  'InfModelProc',
-    --  'InfQuest',
-    --  'TppQuest',
-    --  'InfInterrogation',
-    --  'InfMBGimmick',
-      'InfLookup',
-    --  'InfMission',
-    --  'InfEquip',
-    'InfWalkerGear',
-    'InfSoldier',
-    --'InfEneFova',
-    'InfExtToMgsv',
-    'InfMgsvToExt',
-  }
   for i,moduleName in ipairs(debugModules)do
     _G[moduleName].debugModule=true
   end
@@ -118,7 +124,7 @@ end
 
 function this.PrintUpdateTimes()
   InfCore.PrintInspect(InfMain.updateTimes,"updateTimes")
-  
+
   local averageTimes={}
   for k,v in pairs(InfMain.updateTimes)do
     averageTimes[k]=0
@@ -134,8 +140,8 @@ function this.PrintUpdateTimes()
   end
 
   InfCore.PrintInspect(averageTimes,"averageTimes")
-  
-  
+
+
   local maxTimes={}
   for k,v in pairs(InfMain.updateTimes)do
     maxTimes[k]=0
@@ -143,13 +149,13 @@ function this.PrintUpdateTimes()
   for k,times in pairs(InfMain.updateTimes)do
     for i,timer in ipairs(times)do
       if timer>maxTimes[k] then
-      maxTimes[k]=timer
+        maxTimes[k]=timer
       end
     end
   end
-  
-   InfCore.PrintInspect(maxTimes,"maxTimes")
-  
+
+  InfCore.PrintInspect(maxTimes,"maxTimes")
+
   InfMain.updateTimes={}
 end
 

@@ -1,7 +1,7 @@
 = Infinite heaven =
-r232 - 2018-08-01
+r233 - 2019-11-27
 by tin man tex
-For MGSV version 1.14 (in title screen) 1.0.13.0 in exe
+For MGSV version 1.15 (in title screen), 1.0.15.1 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -17,108 +17,9 @@ YouTube playlist of demonstrations for many features:
 Recent changes/additions
 ------------------------------
 New for r232
-Fixed: 'DD Suit female' settings showing as 'table'
-
-Soldier body addon support:
-Allows addon mods that adds new soldier types to Mother base 'DD Suit' option and Enemy prep Custom soldier type options.
-Example: GZ US Soldier (get from optional files on IH nexus files page)
-
-New for r231
-Removed Setting: staff 'DD Suit' - 'Fatigues - All' setting to relieve additional fv2 limit for future addons. Won't return till/if full FoxKit gets full fv2 support.
-Added Settings: Ocelot and Quiet added to Appearance > Player Type - WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
-
-New for r230
-Fixed: IHExtToMgsv.ProcessCommands calling WriteToExtTxt every frame, seems like this bug may have been in there since wpf IHExts creation.
-Fixed: IHExtToMgsv.ProcessCommands Not converting mgsvToExtComplete arg to number. Though the WriteToExtTxt concat seemed to interpret ok anyway?
-Fixed: IHExtToMgsv.ProcessCommands no longer polls ih_tomgsvcmds.txt unless menu is open.
-This should hopefully reduce the cases of lag on systems that are sensitive to how IH handles i/o - thanks to darkallnight for the reports and files to test with.
-Fixed: Shifted various list based Ivars to index from 0 so IHExt combobox is not off-by-one.
-IvarProc: Vector3Ivar and other supporting functions to manage vector4 as ivar.
-ih_save: IvarProc.BuildSaveText now only writes if there's been a change. Should likewise help the i/o sensitive systems.
-
-InfObjects: Counterpart to InfPositions but for game object names, prior InfLookup.GetObjectList commands now use this.
-Objects menu
-Counterpart to Positions menu, for adding to, saving/loading a game object name list. The list is used for other commands/features like warp, PlayCam target.
-
-PlayCam: Alternative camera to Free cam - thanks choc for prompting me to look at it.
-(via Camera menu > PlayCam menu)
-[youtube]CQKOO-jnkBI[/youtube]
-https://youtu.be/CQKOO-jnkBI
-
-New for r229
-Fixed: ShowFreeCamPosition not working.
-Fixed: Add position to position list not adding free cam position when in free cam.
-Fixed: Menu could be activated during loadscreen.
-Fixed: InfMenuCommands.ToggleFreeCam > InfCamera.ToggleFreeCam for SOC quickmenu.
-Fixed: Warp mode not working and also breaking IH menu - thanks everyone for the reports.
-
-New for r228
-Fixed: IH buttons/menu responsiveness when using HighSpeedCam/TimeScaleMode - InfButtons/InfMenu using os.clock instead of Time.GetRawElapsed (which is synced to game timescale) - thanks VenomHSCV for the prod.
-InfWeather:
-Option: weather_forceType - Force weather
-Option: weather_fogDensity - Fog density
-Option: weather_fogType - Fog type
-(via In-mission > Weather menu)
-
-Option: clock_setTime - Set clock time
-(via In-Mission > Time scale menu)
-
-QuickMenu: Reverted button back to <Call>
-
-New for r227
-Fixed: Prior style QuickMenus breaking in various ways (SOC quickmenu for example).
-Refactor: No longer calling WriteToExtTxt() every ExtCmd, should smooth IHExt performance a bit.
-IHExt: Better handling of selecting menuLine text when giving focus via mouse click.
-
-New for r226
-A bunch of background code changes like last version so if you hit any issues please report them please.
-
-Changes to buttons/keys:
-InfMenu: While menu open hold <Switch Zoom> (V key or RStick click) + player move (WSAD or left stick) to navigate menu
-Quick menu: No longer uses <Call>, now activated with <Switch Zoom> (V key or RStick click) + command key (see MGS_TPP\mod\modules\InfQuickMenuDefs.lua)
-
-Fixed: IHExt InfMenu.GetSetting GetSettingText out of bounds. Affected buddyChangeEquipVar, possibly a couple other menu items - thanks WyteKnight for the report.
-Fixed: QuietMoveToLastMarker not working, hadn't transfered a localopt of SendCommand  - thanks WyteKnight for the report.
-Fixed: DropCurrentEquip not working, issue as above - thanks Saladin1251 for the report.
-Fixed: Changing 'Player life scale' in-mission not working - thanks Ronix0 for the report.
-Fixed: Zombie Obliteration hang on load, hadn't added localopts when moving SetUpMBZombie from InfMain - thanks magicc4ke for the report.
-Fixed: IHExt - not displaying current setting upon activating an option from IHExt.
-
-IHExt: MenuLine changed from Label to TextBox, GotKeyboardFocus, EnterText commands.
-IHExt: Search (EnterText > InfMenu.BuildMenuDefForSearch). Alt-tab to IHExt, click or tab the text of the menu line below the menu list. Type something and press Enter.
-[youtube]EdReKIafMps[/youtube]
-https://youtu.be/EdReKIafMps
-
-New for r225:
-Fixed: Hang on load with no ih_save, wasn't initializing igvars oops - thanks серёжа for the report and the save files to test.
-
-New for r224:
-Motions menu - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
-Option: Motion group - Press <Action> to play the selected animation.
-Option: Motion number - Press <Action> to play the selected animation.
-Option: Hold motion - Holds motion, requires stop motion to stop.
-Option: Repeat motion - Repeat motion at end, some animations don't support this.
-Option: Stop motion - Use to stop motions with motion hold or motion repeat.
-Option: Play motion - Closes menu and plays current selected motion.
-(via in-mission menu)
-[youtube]k51-8vHI2mU[/youtube]
-https://youtu.be/k51-8vHI2mU
-
-InfPosition:
-Positions list from ShowPosition migrated to it's own command, commands for adding user markers, clearing, and writing them to \mgsv_tpp\mod\ added
-Positions menu - for writing in game postitions to files, useful for getting positions when creating sideops.
-Commands:
-Add current position to Positions List - Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.
-Add markers to Positions List - Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
-Write Positions List - Writes Positions List to files in MGS_TPP\mod\
-Clear Positions List - Clears Positions List
-(via in-mission menu)
-
-Command: Support heli to marker - Sends Support heli to Landing Zone closest to the last placed user marker while riding it. This replaces the existing 'Support heli to latest marker' and now can only be used while riding the support heli. This removes a lot of the issues of riding the support heli across the map that the prior method had.
-Implmentation wise this works by forcing the heli to a specific route, the WIP version prior to this had too many issues since it used LZ routes, now it uses custom routes thanks to sais FoxLib. So special thanks for his work on the library.
-(via in-mission menu)
-[youtube]FnPdGm1gXWY[/youtube]
-https://youtu.be/FnPdGm1gXWY
+More support for various data needed by addon missions.
+Thanks to cap for working out some more of the needed data.
+Check out his addon mission https://www.nexusmods.com/metalgearsolidvtpp/mods/918/
 
 Disclaimer:
 ------------------------------

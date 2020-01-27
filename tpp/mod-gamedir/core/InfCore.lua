@@ -15,7 +15,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=232
+this.modVersion=233
 this.modName="Infinite Heaven"
 
 this.gameId="TPP"
@@ -352,9 +352,9 @@ local nl="\r\n"
 function this.WriteToExtTxt()
   if this.debugModule then
     InfCore.Log("InfCore.WriteToExtTxt")
-      --InfCore.PrintInspect(this.mgsvToExtCommands)--DEBUG
+    --InfCore.PrintInspect(this.mgsvToExtCommands)--DEBUG
   end
-  
+
   local filePath=this.toExtCmdsFilePath
   local file,openError=open(filePath,"w")
   if not file or openError then
@@ -408,14 +408,24 @@ function this.LogFlow(message)
   this.Log(message)
 end
 
-function this.Validate(format,profile,name)
-  for keyName,valueType in pairs(profile) do
-    if format[keyName] and type(profile[keyName])~=format[keyName] then
-      InfCore.Log("InfCore.Validate "..tostring(name)..": Failed - "..tostring(keyName).." =="..type(keyName).." expected "..tostring(format[keyName]))
-      return false
+--tex simple type validation, format is just {key name in data=(string)expected data type,...}
+--TODO: expand to specify multi data types
+--TODO: expand to specify required keys
+function this.Validate(format,data,name)
+  if format==nil or type(format)~="table" then
+    InfCore.Log("InfCore.Validate "..tostring(name)..": Failed, is not a table" )
+    return false
+  end
+
+  local valid=true
+  for keyName,valueType in pairs(data)do
+    local expectedType=format[keyName]
+    if expectedType and type(data[keyName])~=expectedType then
+      InfCore.Log("InfCore.Validate "..tostring(name)..": ERROR: Key \'"..tostring(keyName).."\' is a "..type(data[keyName]).." expected a "..tostring(expectedType))
+      valid=false
     end
   end
-  return true
+  return valid
 end
 
 --tex TODO: could be in InfLookup, but fine here for now to keep as depenancies on InfLookup low
@@ -642,7 +652,7 @@ function this.GetLines(fileName,ignoreError)
     if not file or openError then
       if ignoreError then
       else
-        --DEBUGNOW this.Log("ERROR: InfCore.GetLines: "..openError)
+      --DEBUGNOW this.Log("ERROR: InfCore.GetLines: "..openError)
       end
       return
     end
