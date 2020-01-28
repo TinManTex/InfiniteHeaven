@@ -1,5 +1,6 @@
 -- InfModelProc.lua --TODO bad name, rename
 -- Loads addons in \mod\fovaInfo which add face or body fova entries to Solder2FaceAndBodyData
+--tex: these functions are kinda verbose in debugMode so developers can debug their fova addons
 
 --GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
 --dont know if its for bodyDefinition or bodyFova count though.
@@ -13,6 +14,21 @@ this.debugModule=false
 
 --tex TODO: not really proc if holding this state
 this.fovaInfos={}
+--tex: headFova (these lua files, in mod\fovaInfo) notes:
+--headDefinitions: IH uses each entry to either modifiy or add a new faceDefinition in Solder2FaceAndBodyData .faceDefinition
+--(https://github.com/TinManTex/mgsv-deminified-lua/blob/master/data1/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua)
+--headDefinition > faceDefinition support is not complete as there's a bunch of unknown vars
+
+--overwriteFaceId will only overwrite supplied vars, the rest of the var will default to the values of the face you are overwriting.
+--Due to that, if you need to set faceFova, faceDecoFova, hairFova or hairDecoFova to empty/off set them to EnemyFova.INVALID_FOVA_VALUE
+--New face (non overwriteFaceId) entries will default to INVALID_FOVA_VALUE for any of the above mention *Fova vars you omit.
+
+--Using the faceId in code: New faces are given an incremental faceId depending on the order the headFovas are loaded,
+--which means you can't really guarantee on a static, persistant faceId since you don't know what headFovas your user might have installed.
+--You can however get the faceId assigned for the game session using TppEnemyFaceId.<head definition entry name>
+
+--See mod\core\InfModelProc.lua when IH is installed for the implementation of the system and the newest version of these notes.
+
 --REF mod\fovaInfo\example_head_fovaInfo
 --local this={
 --  faceFova={
@@ -30,13 +46,15 @@ this.fovaInfos={}
 --  },
 --
 --  headDefinitions={
---    example_head1={
+--    example_head1={--TppEnemyFaceId name, ex example_head1=<faceId>
+--      overwriteFaceId=686,--Will overwrite the faceId entry in Soldier2FaceAndBodyData .faceDefinition, instead of adding a new face.
 --      description="Example 1",
 --      gender="FEMALE",-- "MALE", "FEMALE" - must be allcaps
 --      faceFova="example_face1.fv2",--Indexes into faceFova by .fv2 name, can be existing Soldier2FaceAndBodyData entry
 --      faceDecoFova="example_faceDeco1.fv2",
 --      hairFova="example_hair1.fv2",
 --      hairDecoFova="example_hairDeco1.fv2",
+--      uiTextureName="ui_face_686",--idroid staff texture name, only nessesary if you want to
 --    },
 --  },
 --}
@@ -82,13 +100,23 @@ this.bodyFova={}
 --tex fova index lookups by fv2 - this[fovaTypeName][fovaName]=fovaIndex, TABLESETUP in Setup()
 --TODO put lookups in InfEneFova instead, merge or shift the current tables there
 --TODO also integrate fv2 info from external fovainfo modules
-this.faceFova={}
-this.faceDecoFova={}
-this.hairFova={}
-this.hairDecoFova={}
+--tex cleared in .Setup
+--EnemyFova.INVALID_FOVA_VALUE=32767
+this.faceFova={
+  [32767]=32767,
+}
+this.faceDecoFova={
+  [32767]=32767,
+}
+this.hairFova={
+  [32767]=32767,
+}
+this.hairDecoFova={
+  [32767]=32767,
+}
 
-this.headDefinitions={}
-this.faceDefinitions={}
+this.headDefinitions={}--headInfo headDefinitions entries
+this.faceDefinitions={}--Entries for Solder2FaceAndBodyData.faceDefinition
 
 this.hasFaceFova=false
 --
@@ -110,6 +138,29 @@ this.faceFovaTypes={
 this.bodyFovaTypes={
   "bodyFova",
 }
+
+local faceDefEnum={
+  "currentFaceId",
+  "unk1",
+  "gender",
+  "unk2",
+  "faceFova",
+  "faceDecoFova",
+  "hairFova",
+  "hairDecoFova",
+  "unk3",
+  "unk4",
+  "unk5",
+  "uiTextureName",
+  "unk6",
+  "unk7",
+  "unk8",
+  "unk9",
+  "unk10"
+}
+for i, name in ipairs(faceDefEnum)do
+  faceDefEnum[name]=i
+end
 
 function this.LoadFovaInfo()
   InfCore.Log("InfModelProc.LoadFovaInfo")
@@ -141,24 +192,30 @@ function this.CheckDefinition(definition,fovaTypes,definitionName)
   for i,fovaTypeName in ipairs(fovaTypes) do
     local fovaName=definition[fovaTypeName]
     --TODO type check fovaName
-    if fovaName and not this[fovaTypeName][fovaName] then
-      InfCore.Log("WARNING: InfModelProc.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
-      definitionOK=false
-      break
-    end
-  end
+    if fovaName then
+      if fovaName==EnemyFova.INVALID_FOVA_VALUE then
+
+      elseif not this[fovaTypeName][fovaName] then
+        InfCore.Log("WARNING: InfModelProc.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
+        definitionOK=false
+        break
+      end
+    end--if fovaName
+  end--for fovaTypes
 
   return definitionOK
 end
 
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
---IN/OUT Solder2FaceAndBodyData.lua
+--IN/OUT Solder2FaceAndBodyData
 function this.Setup(faceAndBodyData)
   InfCore.LogFlow"InfModelProc.SetupFova:"
 
   --tex clear this state
   for i,fovaTypeName in ipairs(this.fovaTypes) do
-    this[fovaTypeName]={}
+    this[fovaTypeName]={
+      [EnemyFova.INVALID_FOVA_VALUE]=EnemyFova.INVALID_FOVA_VALUE,
+    }
   end
 
   --tex add fova entries from fovaInfos
@@ -192,11 +249,11 @@ function this.Setup(faceAndBodyData)
 
   this.SetupFaceFova(faceAndBodyData)
   this.SetupBodyFova(faceAndBodyData)
-  
-    if this.debugModule then
-      InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData")
-      InfCore.Log("#faceAndBodyData.bodyFova:"..#faceAndBodyData.bodyFova)--DEBUGNOW
-    end
+
+  if this.debugModule then
+    InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData")
+    InfCore.Log("#faceAndBodyData.bodyFova:"..#faceAndBodyData.bodyFova)
+  end
 end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
 --IN/OUT Solder2FaceAndBodyData.lua
@@ -216,60 +273,70 @@ function this.SetupFaceFova(faceAndBodyData)
     local headDefinitions=module.headDefinitions
     if headDefinitions then
       this.hasFaceFova=true
-      local definitionIndex=#faceAndBodyData.faceDefinition
-      local currentFaceId=faceAndBodyData.faceDefinition[definitionIndex][1]
-      InfCore.Log("#faceDefinitions:"..definitionIndex.." start faceId:"..currentFaceId)--DEBUG
+      local defTableCount=#faceAndBodyData.faceDefinition
+      local topFaceId=faceAndBodyData.faceDefinition[defTableCount][1]
+      InfCore.Log("#faceDefinitions:"..defTableCount.." start faceId:"..topFaceId)--DEBUG
+      local defCount=0
       for definitionName,headDefinition in pairs(headDefinitions)do
         if this.CheckDefinition(headDefinition,this.faceFovaTypes,definitionName) then
-          currentFaceId=currentFaceId+1
-          definitionIndex=definitionIndex+1
-          local newFace={
-            currentFaceId,
-            0,--unk1
-            genders[headDefinition.gender],
-            0,--unk2
-            this.faceFova[headDefinition.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
-            this.faceDecoFova[headDefinition.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-            this.hairFova[headDefinition.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
-            this.hairDecoFova[headDefinition.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-            0,--unk3
-            0,--unk4
-            0,--unk5
-            "",--uiTextureName
-            1,--unk6
-            0,--unk7
-            0,--unk8
-            0,--unk9
-            0,--unk10
-          }
+          if InfCore.debugMode then
+            InfCore.Log("headDefinition: "..definitionName)
+            InfCore.PrintInspect(headDefinition)
+          end
+          local definitionIndex=-1
+          local currentFaceId
+          local oldFace={}
+          if headDefinition.overwriteFaceId then
+            currentFaceId=headDefinition.overwriteFaceId
+            definitionIndex=this.FindFaceDefForFaceId(faceAndBodyData,currentFaceId)
+            if InfCore.debugModule then
+              InfCore.Log("FindFaceDefForFaceId("..currentFaceId.."):"..definitionIndex)
+            end
+            if definitionIndex==-1 then
+              InfCore.Log("WARNING: could not find face defintion for overwriteFaceId: "..tostring(currentFaceId),false,true)
+            else
+              oldFace=faceAndBodyData.faceDefinition[definitionIndex]
+            end
+          else--tex add new
+            defCount=defCount+1
+            currentFaceId=topFaceId+defCount
+            definitionIndex=defTableCount+defCount
+          end
+          if definitionIndex~=-1 then
+            local newFace={
+              currentFaceId,
+              oldFace[faceDefEnum.unk1] or 0,
+              genders[headDefinition.gender] or oldFace[faceDefEnum.gender] or 0,
+              oldFace[faceDefEnum.unk2] or 0,
+              this.faceFova[headDefinition.faceFova] or oldFace[faceDefEnum.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
+              this.faceDecoFova[headDefinition.faceDecoFova] or oldFace[faceDefEnum.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+              this.hairFova[headDefinition.hairFova] or oldFace[faceDefEnum.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
+              this.hairDecoFova[headDefinition.hairDecoFova] or oldFace[faceDefEnum.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+              oldFace[faceDefEnum.unk3] or 0,
+              oldFace[faceDefEnum.unk4] or 0,
+              oldFace[faceDefEnum.unk5] or 0,
+              headDefinition.uiTextureName or oldFace[faceDefEnum.uiTextureName] or "",
+              oldFace[faceDefEnum.unk6] or 1,
+              oldFace[faceDefEnum.unk7] or 0,
+              oldFace[faceDefEnum.unk8] or 0,
+              oldFace[faceDefEnum.unk9] or 0,
+              oldFace[faceDefEnum.unk10] or 0,
+            }--newFace
+            if InfCore.debugMode then
+              InfCore.PrintInspect(oldFace,"oldFace")
+              InfCore.PrintInspect(newFace,"newFace")
+            end
 
-          --DEBUGEXP balaclava experiment
-          --         local newFace={
-          --            currentFaceId,
-          --            16,--unk1
-          --            genders[headDefinition.gender],
-          --            0,--unk2
-          --            this.faceFova[headDefinition.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
-          --            this.faceDecoFova[headDefinition.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-          --            this.hairFova[headDefinition.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
-          --            this.hairDecoFova[headDefinition.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-          --            EnemyFova.INVALID_FOVA_VALUE,--unk3
-          --            EnemyFova.INVALID_FOVA_VALUE,--unk4
-          --            0,--unk5
-          --            "",--uiTextureName
-          --            0,--unk6
-          --          }
+            faceAndBodyData.faceDefinition[definitionIndex]=newFace
+            TppEnemyFaceId[definitionName]=currentFaceId
 
+            headDefinition.faceId=currentFaceId
+            headDefinition.faceDefinitionIndex=definitionIndex
 
-          faceAndBodyData.faceDefinition[definitionIndex]=newFace
-          TppEnemyFaceId[definitionName]=currentFaceId
-
-          headDefinition.faceId=currentFaceId
-          headDefinition.faceDefinitionIndex=definitionIndex
-
-          this.faceDefinitions[definitionName]=newFace
-          this.headDefinitions[definitionName]=headDefinition
-          this.headDefinitions[currentFaceId]=definitionName
+            this.faceDefinitions[definitionName]=newFace
+            this.headDefinitions[definitionName]=headDefinition
+            this.headDefinitions[currentFaceId]=definitionName
+          end--if definitionIndex
         end--if checkDefintion
       end--for module.headDefinitions
     end--if module.headDefinitions
@@ -296,26 +363,25 @@ end
 -- bodies
 
 --DEBUGNOW CULL
-  --  {--MSF_MEDIC
-  --    name="DDS0_MAIN2",
-  --    chara="dds",
-  --    fpkChara="dds",
-  --    idFmt="uss0_main0_v%02d",
-  --    fpkFmt="/Assets/tpp/pack/fova/chara/dds/dds0_main2_v%02d_ih",
-  --    fovas={
-  --      1,
-  --      2,
-  --      4,
-  --      5,
-  --    },
-  --  },
+--  {--MSF_MEDIC
+--    name="DDS0_MAIN2",
+--    chara="dds",
+--    fpkChara="dds",
+--    idFmt="uss0_main0_v%02d",
+--    fpkFmt="/Assets/tpp/pack/fova/chara/dds/dds0_main2_v%02d_ih",
+--    fovas={
+--      1,
+--      2,
+--      4,
+--      5,
+--    },
+--  },
 
-  --TODO look at the incomplete wss4_main0 entries in soldier2faceandbodydata
-  --  {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--256,410,,
-  --  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--257,411,,
-  --  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--258,412,,
-  --<
-
+--TODO look at the incomplete wss4_main0 entries in soldier2faceandbodydata
+--  {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--256,410,,
+--  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--257,411,,
+--  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00_ih.fpk"},--258,412,,
+--<
 
 --tex Adds body fova info to Solder2FaceAndBodyData
 --IN/OUT Solder2FaceAndBodyData.lua
@@ -360,7 +426,7 @@ function this.SetupBodyFova(faceAndBodyData)
     local defaultCount=fileTableInfo.maxCount
     fileTableInfo.maxCount=math.max(defaultCount,#faceAndBodyData[fovaTypeName]+1)
   end
-  
+
   if #faceAndBodyData.bodyFova>=bodyFovaLimit then
     InfCore.Log("WARNING: SetupBodyFova: hit bodyFova limit, too many additional body fovaInfos installed",false,true)
   end
@@ -371,6 +437,17 @@ function this.SetupBodyFova(faceAndBodyData)
     InfCore.PrintInspect(TppEnemyBodyId,"TppEnemyBodyId")
     InfCore.Log("#bodyDefinition:"..#faceAndBodyData.bodyDefinition..", #bodyFova:"..#faceAndBodyData.bodyFova)
   end
+end
+
+--tex return Soldier2FaceAndBodyData .faceDefinition index for a given faceId , or -1 if not found
+function this.FindFaceDefForFaceId(faceAndBodyData,faceId)
+  for index,faceDef in ipairs(faceAndBodyData.faceDefinition) do
+    if faceDef[1]==faceId then
+      return index
+    end
+  end
+
+  return -1
 end
 
 return this

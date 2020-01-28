@@ -49,6 +49,48 @@ function this.PostAllModulesLoad()
     return
   end
 
+  if IHH then
+    IHH.SetLogFlushLevel(InfCore.level_trace)
+  end
+ -- InfCore.Log("IHDebugVars.PostAllModulesLoad:")
+ -- print("testerino");
+  
+  --DEBUGNOW
+  --https://www.lua.org/tests/
+  local testPath="C:/Games/Steam/steamapps/common/MGS_TPP/mod/lua-test"
+  _U=true--tex simple mode
+  InfCore.PCallDebug(function()LoadFile(testPath.."/all.lua")end)
+  
+ -- winapi.shell_exec('open','C:/Games/Steam/steamapps/common/MGS_TPP/mod/')
+  
+  --= "currdirtest.lua"
+    --  local f = loadfile(filename)
+    -- return f(filename)
+    --dofile()--DEBUGNOW
+    
+ --DEBUGNOW   
+    local opentest = function(filename)
+      local f,err = io.open(filename,"w")
+      if f==nil then
+        InfCore.Log("ERROR: "..err)
+      else
+        local t = f:write("blurgg")
+        f:close()
+      end 
+    end
+    
+    
+    InfCore.PCallDebug(opentest,"c:/temp/curredirtext1.txt")
+    InfCore.PCallDebug(opentest,"/temp/curredirtext2.txt")
+    InfCore.PCallDebug(opentest,"temp/curredirtext3.txt")
+    InfCore.PCallDebug(opentest,"curredirtext4.txt")
+    InfCore.PCallDebug(opentest,"./curredirtext5.txt")
+    InfCore.PCallDebug(opentest,".curredirtext6.txt")
+    InfCore.PCallDebug(opentest,"./temp/curredirtext7.txt")
+   
+
+
+
   InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
 
   Ivars.debugMode:Set(1)
@@ -62,15 +104,40 @@ function this.PostAllModulesLoad()
     _G[moduleName].debugModule=true
   end
 
+  InfCore.PrintInspect(InfCore.ihFiles,"ihFiles")
+  InfCore.PrintInspect(InfCore.paths,"paths")
+  InfCore.PrintInspect(InfCore.files,"files")
+  InfCore.PrintInspect(InfCore.filesFull,"filesFull")
+
 
   this.PrintUpdateTimes()
 
   --this.FileBenchMark()
 
   --DEBUGNOW
-
+  --DEBUGNOW InfCore.PrintInspect(_IHHook, "_IHHook")
+   --DEBUGNOW InfCore.PrintInspect(_GameDir, "_GameDir")
+   --DEBUGNOW InfCore.PrintInspect(_IHHook_TestTable,"_IHHook_TestTable");
 
   --
+
+  InfCore.Log("TppEquip.IsExistFile test:")
+  local fileNamesTest={
+    "/Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua",
+    "/Assets/tpp/script/lib/Tpp.lua",
+    "/Assets/tpp/script/lib/InfInit.lua",
+    "/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk",
+    "/Assets/tpp/pack/mission2/init/init.fpk",
+    "/Assets/tpp/pack/blurgespurgen.fpk",
+    "/Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters",
+    "hurrrg",
+  }
+  for i,fileName in ipairs(fileNamesTest)do
+    local fileExists = TppEquip.IsExistFile(fileName)
+    InfCore.Log(fileName.." : "..tostring(fileExists))
+  end
+
+
 
 
   local blockNames={

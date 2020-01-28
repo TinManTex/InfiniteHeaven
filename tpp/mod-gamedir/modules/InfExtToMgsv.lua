@@ -2,6 +2,7 @@
 local this={}
 
 local InfCore=InfCore
+local IHH=IHH
 local ivars=ivars
 local Split=InfCore.Split
 local concat=table.concat
@@ -22,11 +23,11 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --tex no commands from IHExt will be processed unless menu is open
   if currentChecks.inMenu==false and InfCore.extSession~=0 then
     --tex dont return if IHExt still hasnt acked the commands
-    if InfCore.mgsvToExtComplete>=#InfCore.mgsvToExtCommands then
+    if InfCore.mgsvToExtComplete>=InfCore.mgsvToExtCount then
+      if this.debugModule then
+        --InfCore.Log("commands not done",false,true)--DEBUGNOW
+      end
       return
-    end
-    if this.debugModule then
-      InfCore.Log("commands not done",false,true)--DEBUG
     end
   end
 
@@ -37,38 +38,42 @@ function this.ProcessCommands()
   local extToMgsvPrev=InfCore.extToMgsvComplete
   local extPrevSession=InfCore.extSession
   local ignoreError=true--tex will get 'Domain error' due to file locking between ihext
-  local lines=InfCore.GetLines(InfCore.toMgsvCmdsFilePath,ignoreError)
+  local messages
 
-  if not lines then
-    if this.debugModule then
-      InfCore.Log('Could not read ih_toMgsvCmds')
+  if IHH then
+    messages=IHH.GetPipeInMessages()
+    --messages={}--DEBUGNOW 
+    if not messages then
+      return
     end
-    return
-  elseif #lines==0 then--tex file read ok, but is blank because ihext hasnt started
-    --InfCore.Log('#lines==0-------------')
-    return
-  end
+    
+    --tex WORKAROUND, IHH doesn't need this at all, but there's still a bunch of checks using it
+    --DEBUGNOW InfCore.mgsvToExtComplete=InfCore.mgsvToExtCount
+  else
+    messages=InfCore.GetLines(InfCore.toMgsvCmdsFilePath,ignoreError)
+    if not messages then
+      if this.debugModule then
+        InfCore.Log('Could not read ih_toMgsvCmds')
+      end
+      return
+    elseif #messages==0 then--tex file read ok, but is blank because ihext hasnt started
+      --InfCore.Log('#lines==0-------------')
+      return
+    end
+  end--Get messages
 
-  for i,line in ipairs(lines)do
-    if line:len()>0 then
-      local args=Split(line,'|')
+  for i,message in ipairs(messages)do
+    if message:len()>0 then
+      local args=Split(message,'|')
       local messageId=tonumber(args[1])
-      if #args>0 then
-        --tex 1st line messageId is IHExt sessionId
-        if i==1 then
-          if messageId~=InfCore.extSession then
-            InfCore.Log('DoExtToMgsvCommands IHExt session changed')
-            InfCore.extSession=messageId
-            --tex reset
-            --InfCore.extToMgsvComplete=0
-            InfCore.ExtCmd('SessionChange')--tex a bit of nothing to get the mgsvTpExtComplete to update from the message, ext does likewise
-            --InfCore.Log("SessionChange",false,true)--DEBUG
-            InfCore.WriteToExtTxt()
-          end
+      if #args>0 then--DEBUGNOW
+        --tex 1st line command arg3 is extToMgsvComplete
+        --can't just stick it in a command as that would just create a loop of further commands to update it
+        if i==1 and not IHH then
           InfCore.mgsvToExtComplete=tonumber(args[3])
-        elseif messageId>InfCore.extToMgsvComplete then
+        elseif IHH or messageId>InfCore.extToMgsvComplete then--tex IH hasn't done this command yet yet 
           if this.debugModule then
-            InfCore.PrintInspect(args,'DoToMgsvCommand '..args[1])--DEBUG
+            InfCore.PrintInspect(args,'ToMgsv command '..args[1])--DEBUG
           end
           if this.commands[args[2]] then
             this.commands[args[2]](args)
@@ -78,31 +83,50 @@ function this.ProcessCommands()
         end
       end--end if args>0
     end--end for lines
-  end
+  end--for messages
 
-  if InfCore.extSession~=0 then
-    if InfCore.extSession~=extPrevSession then
-      --InfCore.Log("SessionChange",false,true)--DEBUG
-      InfCore.WriteToExtTxt()--tex to ack session change, possibly already handled by below, and above, but there may have been an edge case? should have commented it then lol
-    elseif InfCore.extToMgsvComplete~=extToMgsvPrev then
-      --InfCore.Log("extToMgsvComplete change",false,true)--DEBUG
+  if not IHH then
+    if InfCore.extSession~=0 then  
+      if InfCore.extSession~=extPrevSession then
+        --InfCore.Log("SessionChange",false,true)--DEBUG
+        InfCore.WriteToExtTxt()--tex to ack session change, possibly already handled by below, and above, but there may have been an edge case? should have commented it then lol
+      elseif InfCore.extToMgsvComplete~=extToMgsvPrev then
+        --InfCore.Log("extToMgsvComplete change",false,true)--DEBUG
+        InfCore.WriteToExtTxt()
+      end
+    end
+  end--not IHH
+end--ProcessCommands
+
+--commands
+--tex all commands take in single param and array of args
+--args[1] = messageId (not really useful for a command)
+--args[2] = command name (ditto)
+--args[3+] = args as string 
+
+--tex First message sent by IHExt when it starts
+--args int extSession
+function this.ExtSession(args)
+  local extSession = args[3]
+  if extSession~=InfCore.extSession then
+    InfCore.Log('IHExt session changed')
+    InfCore.extSession=extSession
+    
+    if not IHH then
+      InfCore.ExtCmd('SessionChange')--tex a bit of nothing to get the mgsvTpExtComplete to update from the message, ext does likewise
       InfCore.WriteToExtTxt()
     end
   end
-end
-
---commands
-
-function this.Ready(args)
+  
   if InfCore.manualIHExtStart then
     InfMenu.GoMenu(InfMenu.topMenu)
   end
 end
 
---<messageId>|input|<elementName>|<input string>
+--args string elementName, string input
 function this.Input(args)
   local InfMenu=InfMenu
-  if args[2]=="input" and (args[3]=="inputLine" or args[3]=="menuSetting") and args[4] then
+  if (args[3]=="inputLine" or args[3]=="menuSetting") and args[4] then
     local currentOption
     if InfMenu.currentMenuOptions then
       currentOption=InfMenu.GetCurrentOption()
@@ -156,7 +180,7 @@ function this.Input(args)
   end
 end
 
---messageId|selected|listName|selectedIndex
+--args string listName, int selectedIndex
 function this.Selected(args)
   local InfMenu=InfMenu
   --DEBUGNOW TODO some kind of list registry and subscription to event i guess
@@ -171,7 +195,7 @@ function this.Selected(args)
   end
 end
 
---messageId|selected|comboName|selectedIndex
+--args string comboName, int selectedIndex
 function this.SelectedCombo(args)
   --DEBUGNOW TODO some kind of list registry and subscription to event i guess
   --just hardcoded to menu for now
@@ -191,7 +215,7 @@ function this.SelectedCombo(args)
   end
 end
 
---messageId|activate|listName|selectedIndex
+--args string listName, int selectedIndex
 function this.Activate(args)
   --TODO, see Selected -^-
   if args[3]==menuItems then
@@ -220,7 +244,7 @@ function this.ToggleMenu(args)
   InfMenu.ToggleMenu(currentChecks)
 end
 
---messageId|GotKeyboardFocus|textBlockName
+--args string textBlockName
 function this.GotKeyboardFocus(args)
   if args[3]==menuLine then
     if InfMenu.currentMenu~=InfMenuDefs.searchMenu then
@@ -244,7 +268,7 @@ function this.GotKeyboardFocus(args)
   end
 end
 
---messageId|EnterText|textBlockName|text
+--args string textBlockName, string searchText
 function this.EnterText(args)
   if args[3]==menuLine then
     local searchText=args[4]
@@ -259,7 +283,7 @@ function this.EnterText(args)
 end
 
 this.commands={
-  ready=this.Ready,
+  extSession=this.ExtSession,
   input=this.Input,
   selected=this.Selected,
   selectedcombo=this.SelectedCombo,

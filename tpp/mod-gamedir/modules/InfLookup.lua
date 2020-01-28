@@ -1716,7 +1716,7 @@ end
 function this.BuildDictionaryLookup(name,lookupTable)
   InfUtil.ClearTable(lookupTable)
 
-  local dictionaryPath=InfCore.modPath..[[\strings\]]..this.dictionaries[name].fileName
+  local dictionaryPath=InfCore.paths.mod..[[\strings\]]..this.dictionaries[name].fileName
   local lines=InfCore.GetLines(dictionaryPath)
   if lines==nil then
     InfCore.Log("WARNING: InfLookup.BuildDictionaryLookup: could not load "..this.dictionaries[name].fileName)
@@ -1735,7 +1735,7 @@ end
 function this.LoadGameObjectNames()
   InfCore.LogFlow("InfLookup.LoadGameObjectNames")
 
-  local dictionaryPath=InfCore.modPath..[[\strings\]].."IHStringsGameObjectNames.txt"
+  local dictionaryPath=InfCore.paths.mod..[[\strings\]].."IHStringsGameObjectNames.txt"
   local lines=InfCore.GetLines(dictionaryPath)
   if lines==nil then
     InfCore.Log("LoadGameObjectNames: could not load IHStringsGameObjectNames.txt")

@@ -575,6 +575,7 @@ function this.SetUpdateFunction(missionTable)
   --ORPHAN: debugUpdateFuncs={}
   --ORPHAN: numDebugUpdateFuncs=0
   moduleUpdateFuncs={
+    InfMain.UpdateBegin,--tex
     TppMission.Update,
     TppSequence.Update,
     TppSave.Update,
@@ -942,7 +943,7 @@ function this.OnUpdate(missionTable)
   --tex
   if InfCore.debugOnUpdate then
     for i=1,numModuleUpdateFuncs do
-      InfCore.PCallDebug(moduleUpdateFuncs[i])
+      InfCore.PCallDebug(moduleUpdateFuncs[i],missionTable)--tex added missionTable param
     end
     for i=1,numOnUpdate do
       InfCore.PCallDebug(missionScriptOnUpdateFuncs[i])
@@ -950,7 +951,7 @@ function this.OnUpdate(missionTable)
     --ORIG>
   else
     for i=1,numModuleUpdateFuncs do
-      moduleUpdateFuncs[i]()
+      moduleUpdateFuncs[i](missionTable)--tex added missionTable param
     end
     for i=1,numOnUpdate do
       missionScriptOnUpdateFuncs[i]()

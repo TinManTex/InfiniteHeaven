@@ -1,7 +1,7 @@
 --BuildLookupStrings.lua
 
 --DEBUGNOW assumption, not running from an already modded package.path
-local nonmgsvluaPath=[[D:\Projects\MGS\!InfiniteHeaven\!modlua\nonmgscelua]]
+local nonmgsvluaPath=[[C:\Projects\MGS\InfiniteHeaven\nonmgscelua]]
 package.path=package.path..";"..nonmgsvluaPath..[[\?.lua]]
 
 local InfUtil=require"InfUtil"
@@ -15,7 +15,7 @@ local nl="\n"--tex LDT uses unix line ending. else "\r\n"
 function this.BuildLookupTablesFromText()
   print"BuildDictionaryTables"
 
-  local outputPath=[[D:\Projects\MGS\!InfiniteHeaven\!modlua\ExternalLua\modules\]]--tex straight into IH dev dir
+  local outputPath=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\modules\]]--tex straight into IH dev dir
 
   local files={
     lang_dictionary={

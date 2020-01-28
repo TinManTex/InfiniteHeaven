@@ -13,7 +13,7 @@ this.misc_loadCyprStep={
   OnActivate=function(self,setting)
   --DEBUGNOW TODO: location not cypr, missioncode not cypr free?
     local step=setting
-    InfCore.DebugPrint("step:"..step)
+    InfCore.Log("step:"..step,true)
     TppCyprusBlockControl.SetCyprusStep(step)
     if cypr_mission_block then
     cypr_mission_block.SetLoadStep(step)

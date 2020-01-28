@@ -279,6 +279,8 @@ this.wildCardFemaleSuits={
 }
 
 this.wildCardFemaleSuitName="SNEAKING_SUIT"--tex set in WildCardFovaSetup
+--IN/SIDE: this.wildCardFemaleSuitName
+--DEBUGNOW document why I implemented it this way
 function this.GetFemaleWildCardBodyInfo()
   return InfBodyInfo.bodyInfo[this.wildCardFemaleSuitName]
 end
@@ -1306,6 +1308,7 @@ this.wildCardBodyTable={
 
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/OUT faces
+--IN/SIDE this.faceIds
 function this.WildCardFovaFaces(faces)
   InfMain.RandomSetToLevelSeed()
   local faceBags=this.BuildFaceBags(this.faceIds)

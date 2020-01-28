@@ -23,10 +23,12 @@ this.debugModule=false
 --q30200-q30299--ih reserved
 --q30300-q30349--caplag
 --q30350-q30360--morbidslinky example sideops
+--q30400-q30499--MgSolidus (via nexus message)
 --q30500-q30504--hsronacse (via nexus posts page)
 --q30600-q30699--amars464 (via discord) (currently made 12)
 --q31069-q31099--jackwall (via nexus message)
---q36660-q367600-ventos
+--q31100-q31199--Adam_Online (discord) - Tales from Mother Base sidop collection on nexus.
+--q36660-q36760--ventos
 
 --GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla quests.
 --this is governing the qst_* gvars that hold the quest states (see TppGvars).

@@ -1342,6 +1342,7 @@ function this.SetupFovaForLocation(locationName,missionId)
   fovaSetupFuncs[locationName](locationName,missionId)
 end
 --<
+--NMC: cant see any references to this
 function this.AddTakingOverHostagePack()
   local settings={}
   for n,name in ipairs(TppEnemy.TAKING_OVER_HOSTAGE_LIST)do

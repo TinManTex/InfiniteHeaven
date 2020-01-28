@@ -459,8 +459,10 @@ end
 function this.ResetCpTableToDefault()
   local subTypeOfCp=TppEnemy.subTypeOfCp
   local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
-  for cp, subType in pairs(subTypeOfCp)do
-    subTypeOfCp[cp]=subTypeOfCpDefault[cp]
+  if subTypeOfCpDefault then
+    for cp, subType in pairs(subTypeOfCp)do
+      subTypeOfCp[cp]=subTypeOfCpDefault[cp]
+    end
   end
 end
 

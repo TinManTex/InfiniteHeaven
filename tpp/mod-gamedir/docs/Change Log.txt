@@ -1,5 +1,38 @@
 Infinite Heaven changelog
 
+r234 - 2020-
+Implementation of IHHook features (if installed):
+Call to IHH.Init from init.lua
+Call to IHH.OnUpdate from TppMain (actually from InfMain.UpdateBegin)
+
+Communication between IH and IHExt using named pipe for better performance when using the IHExt menu.
+
+Logging (mostly used for debugging) through IHH instead for better performance.
+
+IH Core:
+InfMain.UpdateBegin for a Update before any other modules (base game Updates are after, and InfMain.Update was last).
+module .Update functions now get the missionTable param.
+
+Fix: Wildcard Soldiers causing some sideops to have missing enemies or soldiers and a resulting infinite load on reload or exit free roam.
+This seems to be a very long standing bug that I wasn't able to reproduce till recently.
+Unfortunately the fix comes at a cost of removing female soldiers from the wildcard feature as the bug is due to some fundamental problem with using the extend part system they use for their models in combination with sideops which was never used in the base game. 
+Thanks TheIronIris for providing save files and information so I could reproduce the issue.
+
+Fix: MB staff died message should appear in Mission 43 - thanks GrimreaperIII3 for the report.
+Was being overzealous in TppHero.SetAndAnnounceHeroicOgrePoint, still may need attention.
+Also a longstanding errant character I added (the curse of binding an easily pressed mouse button to a keyboard character) in s10240_sequence Damage message may have been causing an issue.
+
+Shifted the IH sideops (mother base animals and Blackfoot down) out of IH installation to their own addon mod. This stays truer to IH's 'default by default' policy and helps the sideops count now that the community has made many sideops.
+
+headInfo addons (fovaInfo):
+Added overwriteFaceId
+Added uiTextureName
+Allows addon creators to overwrite the games existing head definitions for MB Staff.
+See the notes in mod\core\InfModelProc.lua for more info.
+
+Thanks Cuba for his mod pushing in this direction to prompt me to add the feature.
+
+
 r233 - 2019-11-27
 Version bump for MGSV version 1.0.15.1
 There was no actual script changes in the last MGSV update (nor this one) that made this necesary, but it slipped by when I got busy.

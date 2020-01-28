@@ -1669,8 +1669,8 @@ function this.LoadEquipTable()
 
   --8 guns
   if Ivars.enableWildCardFreeRoam:EnabledForMission() then
-    for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
-      equipLoadTable[equipId]=true
+      for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
+        equipLoadTable[equipId]=true
     end
   end
 

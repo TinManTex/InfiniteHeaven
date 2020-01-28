@@ -2,6 +2,10 @@
 -- InfInit.lua
 local this={}
 
+if IHH then
+  IHH.Init()
+end
+
 InfCore=require"mod/core/InfCore"--GOTCHA modPath
 if InfCore and not InfCore.modDirFail then
   InfCore.LoadLibrary"core/InfInspect.lua"

@@ -10,17 +10,17 @@ LoadLDT.Load{
 
   foxGamePath="c:/Steam/SteamApps/common/MGS_TPP/",--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
 
-  foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
+  foxLuaPath="C:/Projects/MGS/InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
   --foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified
 
-  mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
+  mockFoxPath="C:/Projects/MGS/InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
 }
 
 --package.path=package.path..";./nonmgscelua/?.lua"--for AutoDoc
 
 print"Running AutoDoc"
-local projectFolder=[[D:\Projects\MGS\!InfiniteHeaven\tpp\]]
-local outputFolder=[[D:\Projects\MGS\!InfiniteHeaven\tpp\external\docs\]]
+local projectFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\]]
+local outputFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\external\docs\]]
 local featuresOutputName="Features and Options"
 
 local FeaturesHeader=require"FeaturesHeader"

@@ -1230,7 +1230,7 @@ this.bodyIdToCamoType={
 --Loads \mod\bodyInfo\*.lua into this.bodyInfo
 function this.LoadBodyInfos()
   InfCore.LogFlow("InfBodyInfo.LoadBodyInfos")
-
+  
   local files=InfCore.GetFileList(InfCore.files.bodyInfo,".lua")
   for i,fileName in ipairs(files)do
     InfCore.Log("InfBodyInfo.LoadBodyInfos: "..fileName)

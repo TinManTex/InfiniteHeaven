@@ -2106,7 +2106,7 @@ function this.QuestBlockOnInitialize(questScript)
 end
 function this.QuestBlockOnTerminate(questScript)
   InfCore.LogFlow("TppQuest.QuestBlockOnTerminate")--tex
-  InfQuest.QuestBlockOnTerminate(questScript)--tex--tex
+  InfQuest.QuestBlockOnTerminate(questScript)--tex
   this.ExecuteSystemCallback"OnTerminate"
   mvars.qst_systemCallbacks=nil
   mvars.qst_lastQuestBlockState=nil

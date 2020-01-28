@@ -1,4 +1,7 @@
 local objectNames={
 "Player",
-"sol_slopedWest_0001",
+"sol_quest_0000",
+"sol_quest_0001",
+"sol_quest_0002",
+"sol_quest_0003",
 } return objectNames

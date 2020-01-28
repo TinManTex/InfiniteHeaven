@@ -10,10 +10,10 @@ LoadLDT.Load{
 
   foxGamePath="c:/Steam/SteamApps/common/MGS_TPP/",--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
 
-  foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
+  foxLuaPath="C:/Projects/MGS/InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
   --foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified
 
-  mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
+  mockFoxPath="C:/Projects/MGS/InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
 }
 
 --
@@ -468,7 +468,7 @@ end
 
 --print ivars
 local function PrintIvars()
-  local outPutFile="D:\\Projects\\MGS\\!InfiniteHeaven\\ivars.lua"
+  local outPutFile="C:\\Projects\\MGS\\InfiniteHeaven\\ivars.lua"
   local f=io.open(outPutFile,"w")
 
   local function WriteLine(text)
@@ -508,7 +508,7 @@ end
 
 
 local function WriteDefaultIvarProfile()
-  local outPutFile="D:\\Projects\\MGS\\!InfiniteHeaven\\default profile raw.lua"
+  local outPutFile="C:\\Projects\\MGS\\InfiniteHeaven\\default profile raw.lua"
   local f=io.open(outPutFile,"w")
 
   local function WriteLine(text)
@@ -866,6 +866,7 @@ local function GenerateLzs()
   print(insp)
 end
 
+--tex processes demo .fox2s for the free camera cutscene mods, removes entries within property name="cameraTypes"
 local function PatchDemos()
   print"PatchDemos"
   --TODO doesnt cover more than one demodata in a file
@@ -1864,8 +1865,8 @@ local function main()
 
 
   print"Running AutoDoc"
-  local projectFolder=[[D:\Projects\MGS\!InfiniteHeaven\tpp\]]
-  local outputFolder=[[D:\Projects\MGS\!InfiniteHeaven\tpp\external\docs\]]
+  local projectFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\]]
+  local outputFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\external\docs\]]
   local featuresOutputName="Features and Options"
 
   local FeaturesHeader=require"FeaturesHeader"

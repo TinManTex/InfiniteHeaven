@@ -239,27 +239,44 @@ function this.SetAndAnnounceHeroicOgrePoint(pointTable,downLangId,upLangId)
   if TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  --tex KLUDGE, rather than checking multiple calls to this, TODO better > 
-  --ASSUMPTION all calls to SetAndAnnounceHeroicOgrePoint with mbstaff_died wrapped in isDD check >
-  local Ivars=Ivars    --tex TODO: better
+  --tex KLUDGE, rather than checking multiple calls to this, TODO better >
+  --ASSUMPTION all calls to SetAndAnnounceHeroicOgrePoint with mbstaff_died wrapped in SendCommand isDD check >
+  --TODO: Really need to nail down exactly what soldiers/hostages IsDD returns true on, the below code suggests its based on bodyId (this comment written long since I wrote that code, cant recall lol)
+  --Problem: mbstaff_died (search for it to see uses) on mother base invasions and with customSoldierTypes and wildcard soldiers
+  --Anything else? I should have documented better what I was trying to solve when I initially wrote this code
+  --guessing: Theres a few sideops with DD hostages? And DD wandering soldiers.
+  --10115 : Mission 22 - Retake the Platform  hostages , shouldnt trigger this since below only checks Free roam missions
+  --but may be an issue if customSoldier support is extended to missions
+  local Ivars=Ivars
   if downLangId=="mbstaff_died" then
+    if this.debugModule then
+      InfCore.Log("mbstaff_died",true)
+    end
+    if vars.missionCode ~= 10240 then--tex shining lights always?
+      if vars.missionCode==30050 and Ivars.mbNonStaff:Is(1) then--tex MB Invasion arent dd
+        return
+    end
+
     if Ivars.customSoldierTypeFREE:Is()>0 and Ivars.customSoldierTypeFREE:MissionCheck() then
       return
     end
-    if Ivars.customSoldierTypeMB_ALL:Is()>0 and Ivars.customSoldierTypeMB_ALL:MissionCheck() then
-      if Ivars.mbHostileSoldiers:Is(0) then
-        return
-      end
-    end
-    if Ivars.customSoldierFemaleTypeMB_ALL:Is()>0 and Ivars.customSoldierFemaleTypeMB_ALL:MissionCheck() then
-      if Ivars.mbHostileSoldiers:Is(0) then
-        return
-      end
-    end
+    --DEBUGNOW CULL I don't think this is right, but I didn't document why I wrote it.
+    --      if Ivars.customSoldierTypeMB_ALL:Is()>0 and Ivars.customSoldierTypeMB_ALL:MissionCheck() then
+    --        if Ivars.mbHostileSoldiers:Is(0) then
+    --          return
+    --        end
+    --      end
+    --      if Ivars.customSoldierFemaleTypeMB_ALL:Is()>0 and Ivars.customSoldierFemaleTypeMB_ALL:MissionCheck() then
+    --        if Ivars.mbHostileSoldiers:Is(0) then
+    --          return
+    --        end
+    --      end
+
     if Ivars.enableWildCardFreeRoam:Is()>0 and Ivars.enableWildCardFreeRoam:MissionCheck() then
       return
     end
-  end
+    end--missionCode~=10240
+  end--mbstaff_died
   --<
 
   this.SetHeroicPoint(pointTable.heroicPoint)
@@ -451,12 +468,12 @@ function this.Messages()
             end--<
 
             local soldierType=TppEnemy.GetSoldierType(gameId)
-            if(SendCommand(gameId,{id="IsDD"})) and not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
+            if(SendCommand(gameId,{id="IsDD"}))then
               if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
                 this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_DD_SOLDIER,"mbstaff_died")
-            else
-              this.SetAndAnnounceHeroicOgrePoint(this.KILL_DD_SOLDIER,"mbstaff_died")
-            end
+              else
+                this.SetAndAnnounceHeroicOgrePoint(this.KILL_DD_SOLDIER,"mbstaff_died")
+              end
             else
               if(soldierType~=EnemyType.TYPE_CHILD)then
                 local checkDeadFlag=DeadMessageFlag.FIRE
@@ -511,7 +528,7 @@ function this.Messages()
             end--<
             if TppMission.IsFOBMission(vars.missionCode)then
             else
-              if(SendCommand(gameId,{id="IsDD"}))and not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
+              if(SendCommand(gameId,{id="IsDD"}))then
                 this.SetAndAnnounceHeroicOgrePoint(this.DEAD_DD_SOLDIER,"mbstaff_died")
               end
             end

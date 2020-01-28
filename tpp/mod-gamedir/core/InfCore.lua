@@ -10,6 +10,9 @@ local concat=table.concat
 local string=string
 --CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
 local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
+--tex not gonna change at runtime so can cache
+local _IHHook=_IHHook
+local IHH=IHH
 local isMockFox=isMockFox
 local luaHostType=luaHostType
 
@@ -17,6 +20,7 @@ local InfCore=this
 
 this.modVersion=233
 this.modName="Infinite Heaven"
+this.hookVersion=4--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
@@ -29,7 +33,7 @@ this.debugModule=false
 this.session=os.time()--tex using os.time as session id
 this.extSession=0
 
-this.debugMode=true--tex (See GOTCHA below -v-)
+this.debugMode=true
 --tex TODO combine into loadState
 this.doneStartup=false
 this.modDirFail=false
@@ -38,12 +42,11 @@ this.gameSaveFirstLoad=false
 this.mainModulesOK=false
 this.otherModulesOK=false
 
-this.log={}
-
+this.log={}--tex non IHH logging
+--tex old, non IHH, IPC via text
 this.mgsvToExtCommands={}
-
+this.mgsvToExtCount=0
 this.mgsvToExtComplete=0--tex min/confirmed executed by ext, only commands above this should be written out
-
 this.extToMgsvComplete=0--tex min/confirmed executed by mgsv
 
 this.logErr=""
@@ -57,21 +60,52 @@ local nl="\r\n"
 local stringType="string"
 local functionType="function"
 
---GOTCHA since io open append doesnt appear to work ('Domain error') I'm writing the whole log to file on every Add
---which is naturally bad performance for a lot of frequent Adds.
-function this.Log(message,announceLog,force)
-  if not this.debugMode and not force then
+--tex logging
+this.logLevel=nil
+
+this.logLevels = {
+  [0]="trace",
+  [1]="debug",
+  [2]="info",
+  [3]="warn",
+  [4]="error",
+  [5]="critical",
+  [6]="off",
+}
+for level,name in ipairs(this.logLevels)do
+  this["level_"..name]=level
+end
+
+function this.Log(message,announceLog,level)
+  local levelType = type(level)--KLUDGE LEGACY
+  if level and levelType=="number" then
+    if level>this.logLevel then
+      return
+    end
+  elseif not this.debugMode and not level then--LEGACY level == force
     return
   end
 
-  --tex: trying to call to announcelog before its initialized will cause a hard crash. It's probably up during/before the init missions (1,5), just checking vars.missioncode suits purposes for now
   if announceLog and vars.missionCode then
     this.DebugPrint(message)
   end
 
-  local elapsedTime=GetElapsedTime()
+  if IHH then
+    if levelType~="number"then
+      level=this.level_info
+    end
+    IHH.Log(level,message)
+    return
+  end
 
-  local line="|"..elapsedTime.."|"..message
+  --tex lua side log
+  local elapsedTime=GetElapsedTime()
+  local levelStr = ""
+  if levelType=="number" then
+    levelStr = this.logLevel[level]
+  end
+
+  local line="|"..elapsedTime.."|"..levelStr..message
   this.log[#this.log+1]=line
 
   if isMockFox and luaPrintIHLog then
@@ -81,12 +115,51 @@ function this.Log(message,announceLog,force)
   this.WriteLog(this.logFilePath,this.log)
 end
 
+function this.LogFlow(message)
+  if not this.debugMode then
+    return false
+  end
+  if ivars and not ivars.debugFlow then
+    return
+  end
+  --  local stackLevel=2
+  --  local stackInfo=debug.getinfo(stackLevel,"n")
+  --  this.Log(tostring(stackInfo.name).."| "..message)
+  this.Log(message)
+end
+
+function this.LogTrace(message,announceLog)
+  this.Log(message,announceLog,this.level_trace)
+end
+
+function this.LogDebug(message,announceLog)
+  this.Log(message,announceLog,this.level_debug)
+end
+
+function this.LogInfo(message,announceLog)
+  this.Log(message,announceLog,this.level_info)
+end
+
+function this.LogWarn(message,announceLog)
+  this.Log(message,announceLog,this.level_warn)
+end
+
+function this.LogError(message,announceLog)
+  this.Log(message,announceLog,this.level_error)
+end
+
+function this.LogCritical(message,announceLog)
+  this.Log(message,announceLog,this.level_critical)
+end
+
 function this.ClearLog()
   this.log={}
 end
 
---tex cant log error to log if log doesnt log lol
+--GOTCHA since io open append doesnt appear to work ('Domain error') I'm writing the whole log to file on every Add
+--which is naturally bad performance for a lot of frequent Adds.
 function this.WriteLog(filePath,log)
+  --tex cant log error to log if log doesnt log lol
   local logFile,openError=open(filePath,"w")
   if not logFile or openError then
     --this.DebugPrint("Create log error: "..tostring(openError))
@@ -109,6 +182,7 @@ function this.WriteStringTable(filePath,stringTable)
   logFile:close()
 end
 
+--tex CULL unused
 function this.WriteLogLine(message)
   local filePath=this.logFilePath
 
@@ -184,6 +258,11 @@ end
 
 local MAX_ANNOUNCE_STRING=255 --288--tex sting length announce log can handle before crashing the game, a bit worried that it's actually kind of a random value at 288 (and yeah I manually worked this value out by adjusting a string and reloading and crashing the game till I got it exact lol).
 function this.DebugPrint(message,...)
+  --tex: trying to call to announcelog before its initialized will cause a hard crash. It's probably up during/before the init missions (1,5), just checking vars.missioncode suits purposes for now
+  if not vars.missionCode then
+    return
+  end
+
   if message==nil then
     TppUiCommand.AnnounceLogView("nil")
     return
@@ -281,18 +360,18 @@ function this.FindLast(searchString,findString)
 end
 
 function this.StartIHExt()
-  local programPath
+  this.extSession=1--tex WORKAROUND: will get updated when IHExt has started, but must be non 0 for IH to actually run ProcessCommands. Wasn't nessesary when I was pulling line 1 messageId as the sessionId, but that has been shifted to a extSession command from IHExt
 
-  for i,filePath in ipairs(this.filesFull.mod)do
-    if string.find(filePath,"IHExt.exe") then
-      programPath=filePath
-      break
-    end
+  if IHH then
+    IHH.StartIHExt();
+    return
   end
 
+  local programPath = this.paths.mod.."IHExt.exe"
   --programPath = [["D:\GitHub\IHExt\IHExt\bin\Debug\IHExt.exe"]]--DEBUG
 
   if not programPath then
+    this.extSession=0
     InfCore.Log("WARNING: StartIHExt: Could not find IHExt.exe in "..this.gameDirectory.."\\"..this.modSubPath.."\\",false,true)
     return
   end
@@ -328,7 +407,7 @@ function this.ExtCmd(cmd,...)
     return
   end
 
-  local mgsvToExtCurrent=#this.mgsvToExtCommands+1
+  local mgsvToExtCurrent=this.mgsvToExtCount+1
 
   local args={...}--tex GOTOCHA doesnt catch intermediary params that are nil
   local message=mgsvToExtCurrent..'|'..cmd
@@ -340,7 +419,12 @@ function this.ExtCmd(cmd,...)
     InfCore.PrintInspect(message,"ExtCmd message")
   end
 
-  this.mgsvToExtCommands[mgsvToExtCurrent]=message
+  if IHH then
+    IHH.QueuePipeOutMessage(message)
+  else
+    this.mgsvToExtCount=mgsvToExtCurrent
+    this.mgsvToExtCommands[mgsvToExtCurrent]=message
+  end
 end
 
 --tex LEGACY, InfProcessExt was deleted r218 but the file may linger if the user didnt uninstall correctly using snakebite (or if snakebite messed up)
@@ -350,6 +434,11 @@ end
 local concat=table.concat
 local nl="\r\n"
 function this.WriteToExtTxt()
+  --tex uses pipe
+  if IHH then
+  	return
+  end
+
   if this.debugModule then
     InfCore.Log("InfCore.WriteToExtTxt")
     --InfCore.PrintInspect(this.mgsvToExtCommands)--DEBUG
@@ -393,19 +482,6 @@ function this.DEBUG_Where(stackLevel)
     return stackInfo.short_src..(":"..stackInfo.currentline.." - "..(stackInfo and stackInfo.name or ""))
   end
   return"(unknown)"
-end
-
-function this.LogFlow(message)
-  if not this.debugMode then
-    return false
-  end
-  if ivars and not ivars.debugFlow then
-    return
-  end
-  --  local stackLevel=2
-  --  local stackInfo=debug.getinfo(stackLevel,"n")
-  --  this.Log(tostring(stackInfo.name).."| "..message)
-  this.Log(message)
 end
 
 --tex simple type validation, format is just {key name in data=(string)expected data type,...}
@@ -587,27 +663,27 @@ function this.RequireSimpleModule(moduleName)
   return module
 end
 
---tex with external alternate
+--tex with external alternate, only used by init,start(2nd) and other mgsv bootup scripts
 function this.DoFile(path)
-  local scriptPath=InfCore.paths.mod..path
-
-  local externLoaded=false
+  local scriptPath=InfCore.gamePath..InfCore.modSubPath.."/"..path
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
-    local ModuleChunk,loadError=LoadFile(scriptPath)--tex WORKAROUND Mock
-    if loadError then
-      InfCore.Log("Error loading "..scriptPath..":"..loadError)
-    else
-      local Module=ModuleChunk()
-      externLoaded=true
-    end
+  else
+    scriptPath=path--tex just load what we were asked to
   end
-  if not externLoaded then
-    dofile(path)
+
+  --tex original just uses dofile, but might as well push everything through loadfile and log the errors
+  local ModuleChunk,loadError=LoadFile(scriptPath)--tex WORKAROUND Mock
+  if loadError then
+    InfCore.Log("Error loading "..scriptPath..":"..loadError,false,true)
+  else
+    local Module=ModuleChunk()
   end
 end
 
---tex with alternate external loading
+--tex with alternate external loading, fox engine does a bunch more management of scripts via LoadLibrary,
+--so this probably should only be used for developing edits to the existing libraries externally, then moving them back internally when done.
+--(though I'm currently using it to load IH Core to break start luas boxing or something?)
 function this.LoadLibrary(path)
   this.Log("InfCore.LoadLibrary "..tostring(path),false,true)
   local scriptPath=InfCore.paths.mod..path
@@ -638,7 +714,7 @@ function this.OnLoadEvars()
   if not this.ihSaveFirstLoad then
     this.ihSaveFirstLoad=true
     if not this.debugMode then
-      InfCore.Log("Further logging disabled while debugMode is off",false,true)
+      InfCore.Log("Further non critical logging disabled while debugMode is off",false,true)
     end
   end
 end
@@ -687,14 +763,30 @@ end
 --SIDE: this.paths, this.files, this.filesFull, this.ihFiles
 function this.RefreshFileList()
   InfCore.LogFlow"InfCore.RefreshFileList"
-  local path=this.paths.mod
-  local ihFilesName=path..[[ih_files.txt]]
-  --tex GOTACHA dir doesnt like alternate path seperators
-  local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(path,"/","\\")..[[*.*" > "]]..string.gsub(ihFilesName,"/","\\")..[["]]
-  InfCore.Log(cmd)
-  if luaHostType=="MoonSharp" then
-    this.ihFiles=io.GetFiles(path, "*.*")
+  local modPath=this.paths.mod
+
+  if IHH then
+    this.ihFiles=IHH.GetModFilesList();
+  --DEBUG
+  --    InfCore.Log("getmodfiles")
+  --    InfCore.Log("ihFiles:"..tostring(this.ihFiles))
+  --    InfCore.Log("ipairs")
+  --    for i,fileName in ipairs(this.ihFiles)do
+  --      InfCore.Log(fileName)
+  --    end
+  --    InfCore.Log("pairs")
+  --    for i,fileName in pairs(this.ihFiles)do
+  --      InfCore.Log(i)
+  --      InfCore.Log(fileName)
+  --    end
+  elseif luaHostType=="MoonSharp" then
+    this.ihFiles=io.GetFiles(modPath, "*.*")
   else
+    local ihFilesName=modPath..[[ih_files.txt]]
+    --tex GOTACHA dir doesnt like alternate path seperators
+    local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath,"/","\\")..[[*.*" > "]]..string.gsub(ihFilesName,"/","\\")..[["]]
+    InfCore.Log(cmd)
+
     this.PCall(function()os.execute(cmd)end)
     this.ihFiles=this.GetLines(ihFilesName)
   end
@@ -709,7 +801,7 @@ function this.RefreshFileList()
   end
 
   this.paths={
-    mod=this.modPath,
+    mod=this.gamePath..this.modSubPath.."/",
   }
   this.files={
     mod={},
@@ -718,7 +810,8 @@ function this.RefreshFileList()
     mod={},
   }
 
-  local stripLen=string.len(path)
+
+  local stripLen=string.len(modPath)
   for i,line in ipairs(this.ihFiles)do
     this.ihFiles[i]=string.gsub(line,"\\","/")
   end
@@ -823,30 +916,41 @@ this.prev="_prev"
 --end
 
 --EXEC
+this.logLevel=this.logLevels.info
+
 --package.path=""--DEBUG kill path for fallback testing
 this.gamePath=GetGamePath()
-this.modPath=this.gamePath..this.modSubPath.."/"
+--tex full paths of each subfolder of mod
 this.paths={
-  mod=this.modPath,
+  mod=this.gamePath..this.modSubPath.."/",
 }
+--tex filenames by subfolder name
 this.files={
   mod={},
 }
+--tex pathfilenames by subfolder name
 this.filesFull={
   mod={},
 }
-this.ihFiles=nil
+this.ihFiles=nil--tex pure list of pathfilenames, only created and used in RefreshFileList, only module member so it can be debug logged
 
-this.logFilePath=this.paths.mod..this.logFileName..".txt"
-this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"
+--tex would only keep last error, but they'd all be the same anyway
+local error=false
+if not _IHHook then
+  this.logFilePath=this.paths.mod..this.logFileName..".txt"
+  this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"
+
+  this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
+  error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
+end
 
 this.toExtCmdsFilePath=this.paths.mod..this.toExtCmdsFileName..".txt"
 this.toMgsvCmdsFilePath=this.paths.mod..this.toMgsvCmdsFileName..".txt"
-local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
-local error=this.ClearFile(this.paths.mod,this.toMgsvCmdsFileName,".txt")
 
-this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
-local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
+if not IHH then
+  error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
+  error=this.ClearFile(this.paths.mod,this.toMgsvCmdsFileName,".txt")
+end
 
 if error then
   if isMockFox then
@@ -855,33 +959,40 @@ if error then
   this.modDirFail=true
 else
   local time=os.date("%x %X")
-  this.Log("InfCore start "..time)
+  this.Log("InfCore Started: "..time)
   this.Log(this.modName.." r"..this.modVersion)
 
+  --tex currently no hard depedancy on IHHook
+  if _IHHook and  _IHHook ~= this.hookVersion then
+    InfCore.Log("IHHook version ".._IHHook..". Required version "..this.hookVersion,false,true);
+  end
+
   this.PCall(this.RefreshFileList)
+  --tex TODO: critical halt on stuff that should exist, \mod, saves
   if this.ihFiles==nil then
   --while(true)do
   --coroutine.yield()--tex init isnt a coroutine
   --end
   end
-  --tex TODO: critical halt on stuff that should exist, \mod, saves
 
+  --tex a bit overkill since we're just adding mod/modules to paths
   local packagePaths={
     "modules",
   }
-  local modulePaths={}
+  local modulePaths={}--tex for moonsharp
   local addPaths=""
   for i,packagePath in ipairs(packagePaths)do
     if not this.paths[packagePath]then
       this.Log("ERROR: could not find paths["..packagePath.."]",false,true)
     else
       addPaths=addPaths..";"..this.paths[packagePath].."?.lua"
-      modulePaths[#modulePaths+1]=this.paths[packagePath].."?.lua"
+      modulePaths[#modulePaths+1]=this.paths[packagePath].."?.lua"--tex for moonsharp
     end
   end
+  this.Log("package.path:"..package.path)
   package.path=package.path..addPaths
   package.path=string.gsub(package.path,"\\","/")
-  this.Log("package.path:"..package.path)
+  this.Log("package.path modified:"..package.path)
 
   --tex isMockFox
   if luaHostType=="MoonSharp" then
@@ -893,7 +1004,9 @@ else
   end
 
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")--tex TODO rethink, shift to initial load maybe
-  local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
+  if not IHH then
+    local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")--tex DEBUGNOW why am I clearing this again?
+  end
 end
 
 return this

@@ -1,2 +1,2 @@
-637104475958997114|cmdToExtCompletedIndex|51
-1|sessionchange
+637153062840742014|cmdToExtCompletedIndex|61
+2|activate|menuItems|0

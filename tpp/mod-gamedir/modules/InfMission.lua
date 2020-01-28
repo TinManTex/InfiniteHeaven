@@ -432,10 +432,9 @@ function this.AddInMissions()
 
       TppEneFova.fovaSetupFuncs[missionCode]=missionInfo.fovaSetupFunc
 
-      --tex TODO:
-      --if missionInfo.noArmorForMission then
-      TppEneFova.noArmorForMission[missionCode]=missionInfo.noArmorForMission==true and 1--DEBUGNOW
-      --end
+      if missionInfo.noArmorForMission then
+        TppEneFova.noArmorForMission[missionCode]=1
+      end
       TppEneFova.missionArmorType[missionCode]=missionInfo.missionArmorType
       TppEneFova.missionHostageInfos[missionCode]=missionInfo.missionHostageInfos
 

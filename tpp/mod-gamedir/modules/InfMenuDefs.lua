@@ -152,14 +152,15 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
-    "Ivars.cam_disableCameraAnimations",--DEBUGNOW
+    "Ivars.cam_disableCameraAnimations",
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
     "InfMenuCommands.DEBUG_SomeShiz3",
+    "InfMenuCommands.DEBUG_WarpToObject",
     "Ivars.warpToListPosition",
     "Ivars.warpToListObject",
-    "InfHelicopter.RequestHeliLzToLastMarker",--DEBUGNOW
-    "InfHelicopter.RequestHeliLzToLastMarkerAlt",--DEBUGNOW
+    "InfHelicopter.RequestHeliLzToLastMarker",
+    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
     "InfHelicopter.ForceExitHeli",
     "InfHelicopter.ForceExitHeliAlt",
     "InfHelicopter.PullOutHeli",

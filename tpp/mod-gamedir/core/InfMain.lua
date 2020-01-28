@@ -6,6 +6,7 @@ local this={}
 
 --LOCALOPT:
 local InfMain=this
+local IHH=IHH
 local InfCore=InfCore
 local IvarProc=IvarProc
 local InfButton=InfButton
@@ -399,9 +400,16 @@ function this.UpdateExecChecks(currentChecks)
 
   return currentChecks
 end
+
+function this.UpdateBegin(missionTable)
+  if IHH then
+    IHH.OnUpdate(missionTable)
+  end
+end
+
 this.startTime=0
 this.updateTimes={}--DEBUG
-function this.Update()
+function this.Update(missionTable)
   local InfButton=InfButton
   local InfMenu=InfMenu
   if this.IsOnlineMission(vars.missionCode) then

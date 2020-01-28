@@ -666,7 +666,7 @@ end
 --tex total limit TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
 this.numWildCards={
   MALE=5,
-  FEMALE=5,
+  FEMALE=0,--was 5 tex: addmiting deafeat for now, see BUG note for UseExtendParts
 }
 
 this.numWildCards.total=this.numWildCards.MALE+this.numWildCards.FEMALE
@@ -703,6 +703,8 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
     return
   end
 
+  InfCore.LogFlow"InfSoldier.AddWildCards"
+
   local InfEneFova=InfEneFova
   --CULL
   --  if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
@@ -718,19 +720,6 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
   --  InfCore.Log"TppEneFova uniqueSettings pre:"
   --  InfCore.PrintInspect(uniqueSettings)
   --
-
-  if InfMain.IsContinue() then
-    for soldierName,wildCardInfo in pairs(this.ene_wildCardInfo)do
-      local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
-      if gameObjectId==NULL_ID then
-        InfCore.Log("WARNING: AddWildCards continue "..soldierName.."==NULL_ID")--DEBUG
-      else
-        local command={id="UseExtendParts",enabled=wildCardInfo.isFemale}
-        SendCommand(gameObjectId,command)
-      end
-    end
-    return
-  end
 
   InfMain.RandomSetToLevelSeed()
 
@@ -767,7 +756,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
   for i=1,this.numWildCards.total do
     if #baseNamePool==0 then
-      InfCore.DebugPrint"#baseNamePool==0"--DEBUG
+      InfCore.Log("#baseNamePool==0",true)--DEBUG
       break
     end
 
@@ -838,11 +827,6 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       end
 
 
-      local command={id="UseExtendParts",enabled=isFemale}
-      SendCommand(soldierId,command)
-
-
-      --
       soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
       table.insert(soldierSubTypes[wildCardSubType],soldierName)
 
@@ -875,7 +859,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
   --DEBUG
   if this.debugModule then
-    InfCore.PrintInspect(this.ene_wildCardInfo,{varName="ene_wildCardInfo"})
+    InfCore.PrintInspect(this.ene_wildCardInfo,"ene_wildCardInfo")
     local uniqueSettings=TppEneFova.GetUniqueSettings()
     InfCore.PrintInspect(uniqueSettings,{varName="TppEneFova uniqueSettings"})
 
@@ -902,8 +886,35 @@ function this.SetUpEnemy(missionTable)
     if gameId==NULL_ID then
       InfCore.Log("WARNING: InfSoldier.SetUpEnemy - "..soldierName.."==NULL_ID")--DEBUG
     else
-      local staffInfo=this.RegenerateStaffParams(gameId)
-      wildCardInfo.staffInfo=staffInfo
+      if not TppMission.IsMissionStart() then
+        local staffInfo=this.RegenerateStaffParams(gameId)
+        wildCardInfo.staffInfo=staffInfo
+      end
+      --tex BUG: Wildcard feature sometimes causing some sideops enemies or hostages to dissapear, and a resulting infinite load screen on reloading or reloading.
+      --more specifically it's this line for wild card soldier UseExtendParts = true (female wildcard soldiers).
+      --but given that that's an exe function and a single point of failure and the activation of the whole system hinges on it, it doesn't leave me with much to work with.
+
+      --After a bunch of fiddling around I built a stripped down version based on vanilla files/independant from IH, double checking I was using it the same way the game uses it. The bug still occured. 
+      --Though my use of it is outside the scope of the base game given that the only two uses of it there are for one mission (13 - Pitch Dark, where it's used for the kid soldiers), and for mtbs female soldiers, neither of which have sideops with soldiers.       --
+      
+      --It's the randomness of all the factors that leave me stumped.
+      --Like said the bug occurs on sideops but the wildcard soldiers appear perfectly fine.
+      --It's only some sideops, some of the time that have issues.
+      --The wildcard system doesn't touch anything to do with sideops.
+      --
+      --Even then disabling all IH modifications to the quest system (litterally having it load the vanilla game version of TppQuest, and even TppEnemy for good measure) doesn't affect the issue.
+      --
+      --One sideop has a hostage disapear but the rest of the soldiers are fine.
+      --
+      --One sideop has all of the soliders and a APC disapear.
+      --
+      --Sideops do have a unique system for loading body and face fovas which might have been a line of inquiry if not for the fact that the mentioned sideop uses default bodies and faces.
+      --
+      --It doesn't seem to be some kind of limit thing because the issue happens the same with 1 extendparts soldier or the default 5.
+      
+      --given up for now and set numWildCards.FEMALE to 0.
+      local command={id="UseExtendParts",enabled=wildCardInfo.isFemale}
+      SendCommand(gameId,command)
     end
   end
 

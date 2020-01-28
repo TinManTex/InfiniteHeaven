@@ -187,6 +187,7 @@ this.WarpToCamPos=function()
 end
 
 this.positions={}
+this.positionsXML={}
 this.ShowFreeCamPosition=function()
   local currentCamName=this.GetCurrentCamName()
   local movePosition=this.ReadPosition(currentCamName)

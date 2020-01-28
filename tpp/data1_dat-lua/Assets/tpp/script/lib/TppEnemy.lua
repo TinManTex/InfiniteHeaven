@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- TppEnemy.lua
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc

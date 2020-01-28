@@ -1,0 +1,10 @@
+#Infinite Heaven .gitignore
+#gamedir\mod\strings is a bunch of txt strings from https://github.com/TinManTex/mgsv-lookup-strings that IH uses sor it's StrCodeToString function for debugging
+/tpp/mod-gamedir/strings/*
+/mgo/mod-gamedir/strings/*
+/ssd/mod-gamedir/strings/*
+
+#release mod gamedir folder
+/tpp/mod-gamedir-release/*
+/mgo/mod-gamedir-release/*
+/ssd/mod-gamedir-release/*
