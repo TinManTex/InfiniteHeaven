@@ -18,7 +18,7 @@
 --dont let the lure of nice straight setting>game value lure you, just -1 it
 local this={}
 
-this.debugModule=true--DEBUGNOW
+this.debugModule=false
 
 --LOCALOPT:
 local Ivars=this

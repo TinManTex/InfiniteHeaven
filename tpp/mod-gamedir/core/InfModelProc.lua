@@ -362,7 +362,7 @@ end
 
 -- bodies
 
---DEBUGNOW CULL
+--REF CULL
 --  {--MSF_MEDIC
 --    name="DDS0_MAIN2",
 --    chara="dds",

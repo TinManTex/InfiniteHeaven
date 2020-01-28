@@ -22,6 +22,8 @@ Fix: MB staff died message should appear in Mission 43 - thanks GrimreaperIII3 f
 Was being overzealous in TppHero.SetAndAnnounceHeroicOgrePoint, still may need attention.
 Also a longstanding errant character I added (the curse of binding an easily pressed mouse button to a keyboard character) in s10240_sequence Damage message may have been causing an issue.
 
+Fix: Completion percentage dropping to 99% and completed tasks counting higher than max - thanks AsiaSkyly and badbard99 for the reports.
+
 Shifted the IH sideops (mother base animals and Blackfoot down) out of IH installation to their own addon mod. This stays truer to IH's 'default by default' policy and helps the sideops count now that the community has made many sideops.
 
 headInfo addons (fovaInfo):

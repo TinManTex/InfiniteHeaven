@@ -266,10 +266,14 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
 
+ InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
+    for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
+    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
+  end
 
   if IHH then
     if count==1 then
-    --DEBUGNOW
+
 --      InfCore.DebugPrint"Starting named pipe server"
 --      InfCore.Log("Starting named pipe server:")
 --      local OnClientConnect=function(file)
@@ -287,8 +291,8 @@ this.DEBUG_SomeShiz=function()
 --
 --      this.pipeServerThread=winapi.make_pipe_server(OnClientConnect,InfCore.pipeName)
 --
---      winapi.sleep(100)--DEBUGNOW
-        IHH.StartIHExt()
+--      winapi.sleep(100)
+   --     IHH.StartIHExt()
     end
   end
 
@@ -330,7 +334,7 @@ this.DEBUG_SomeShiz=function()
 
   if true then return end
 
-  --DEBUGNOW
+
 
   local camName=InfCamera.GetCurrentCamName()
   InfCamera.WritePosition(camName,Vector3(824.9653,5.504622,-138.0344))
@@ -383,7 +387,7 @@ this.DEBUG_SomeShiz=function()
 
   if true then return end
 
-  --DEBUGNOW
+
 
   local routes={
     "rt_hover_1",

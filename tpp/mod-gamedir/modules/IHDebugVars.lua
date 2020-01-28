@@ -28,12 +28,11 @@ local debugModules={
 
 local this={}
 
---DEBUGNOW
 this.packages={
   --[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
   -- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
-  }
---DEBUGNOW
+}
+
 function this.AddMissionPacks(missionCode,packPaths)
   if missionCode < 5 then
     return
@@ -48,7 +47,7 @@ function this.PostAllModulesLoad()
   if isMockFox then
     return
   end
-
+  
   if IHH then
     IHH.SetLogFlushLevel(InfCore.level_trace)
   end
@@ -66,7 +65,7 @@ function this.PostAllModulesLoad()
   --= "currdirtest.lua"
     --  local f = loadfile(filename)
     -- return f(filename)
-    --dofile()--DEBUGNOW
+    --dofile()
     
  --DEBUGNOW   
     local opentest = function(filename)
@@ -114,10 +113,10 @@ function this.PostAllModulesLoad()
 
   --this.FileBenchMark()
 
-  --DEBUGNOW
-  --DEBUGNOW InfCore.PrintInspect(_IHHook, "_IHHook")
-   --DEBUGNOW InfCore.PrintInspect(_GameDir, "_GameDir")
-   --DEBUGNOW InfCore.PrintInspect(_IHHook_TestTable,"_IHHook_TestTable");
+  --
+  -- InfCore.PrintInspect(_IHHook, "_IHHook")
+   -- InfCore.PrintInspect(_GameDir, "_GameDir")
+   -- InfCore.PrintInspect(_IHHook_TestTable,"_IHHook_TestTable");
 
   --
 
@@ -173,7 +172,7 @@ function this.PostAllModulesLoad()
   end
   --InfCore.PrintInspect(staffVarsHex,"staffVarsHex")
 
-  --DEBUGNOW
+  --
 
   --this.PrintStrCodes()
 
@@ -187,6 +186,20 @@ function this.PostAllModulesLoad()
 
   --Ivars.customSoldierTypeFREE:Set"OFF"
   --Ivars.disableXrayMarkers:Set(1)
+end
+
+function this.Init()
+  
+--  InfCore.Log("IHDebugVars")
+--    InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
+--  for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
+--  --  gvars.rev_revengeLv[i] = 3
+--  end
+--  
+--    for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
+--    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
+--  end
+  
 end
 
 function this.PrintUpdateTimes()

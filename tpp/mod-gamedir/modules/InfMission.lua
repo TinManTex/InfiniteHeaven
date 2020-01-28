@@ -463,6 +463,7 @@ function this.RegisterMissions()
     local missionIndex=TppDefine.MISSION_ENUM[missionCodeStr]+1
     table.insert(this.missionListSlotIndices,missionIndex)
   end
+  --DEBUGNOW verify MISSION_LIST is vanilla at this point and RegisterMissions isnt run more than one
   for i=#TppDefine.MISSION_LIST+1,TppDefine.MISSION_COUNT_MAX do
     table.insert(this.missionListSlotIndices,i)
   end
@@ -565,16 +566,8 @@ local gvarFlagNames={
   "str_missionClearedFlag",
 }
 
---tex DEBUGNOW
--- {name="ui_isTaskLastComleted",arraySize=#TppDefine.MISSION_LIST*TppDefine.MAX_MISSION_TASK_COUNT,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},--tex DEBUGNOW will shift size depenting on mission list
---index iterate:
---local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
---for i=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
---  local missionTaskNo=missionEnum*TppDefine.MAX_MISSION_TASK_COUNT+i
--- gvars.ui_isTaskLastComleted[missionTaskNo] --
---end
-
 --CALLER: TppStory.UpdateStorySequence
+--IN/SIDE: this.missionListSlotIndices
 function this.OpenMissions()
   InfCore.LogFlow("InfMission.OpenMissions")
 
@@ -586,10 +579,11 @@ function this.OpenMissions()
     gvars.str_missionNewOpenFlag[missionListIndex-1]=false
     gvars.str_missionClearedFlag[missionListIndex-1]=false
 
-    --DEBUGNOW
+    --tex see _GetLastCompletedFlagIndex how to index ui_isTaskLastComleted
     for i=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
       local missionTaskNo=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+i
-      gvars.ui_isTaskLastComleted[missionListIndex-1]=0
+      gvars.ui_isTaskLastComleted[missionTaskNo]=0
+      -- <r233 BUG was: gvars.ui_isTaskLastComleted[missionListIndex-1]=0
     end
   end
 

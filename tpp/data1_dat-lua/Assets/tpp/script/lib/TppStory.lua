@@ -1451,8 +1451,8 @@ function this.CalcAllMissionClearedCount()
   local totalCount=0
   for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
     local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
-    local isIHMission=InfMission.missionInfo[tonumber(missionCodeStr)] and Ivars.ihMissionsPercentageCount:Is(0)--tex skip IH missions depending on ivar
-    if not missingNumberEnum and not isIHMission then--tex added isIHMission
+    local skipIHMission=InfMission.missionInfo[tonumber(missionCodeStr)] and Ivars.ihMissionsPercentageCount:Is(0)--tex skip IH missions depending on ivar
+    if not missingNumberEnum and not skipIHMission then--tex added isIHMission
       local missionCode=tonumber(missionCodeStr)
       if(gvars.str_missionClearedFlag[enum])then
         completedCount=completedCount+1
@@ -1462,19 +1462,23 @@ function this.CalcAllMissionClearedCount()
   end
   return completedCount,totalCount
 end
+--GOTCHA: This is called a bunch of times during startup but it seems completedCount returns 0 till some time into execution
 function this.CalcAllMissionTaskCompletedCount()
   local completedCount=0
   local totalCount=0
   for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
     local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
-    local isIHMission=InfMission.missionInfo[tonumber(missionCodeStr)] and Ivars.ihMissionsPercentageCount:Is(0)--tex skip IH missions depending on ivar
-    if not missingNumberEnum and not isIHMission then--tex added isIHMission
+    local skipIHMission=InfMission.missionInfo[tonumber(missionCodeStr)] and Ivars.ihMissionsPercentageCount:Is(0)--tex skip IH missions depending on ivar
+    if not missingNumberEnum and not skipIHMission then--tex added isIHMission
       local missionCode=tonumber(missionCodeStr)
-      completedCount=completedCount+TppUI.GetTaskCompletedNumber(missionCode)
+      local taskCompletedCount=TppUI.GetTaskCompletedNumber(missionCode) or 0--tex return 0 instead of nil
+      completedCount=completedCount+taskCompletedCount
       local maxMissionTask=TppUI.GetMaxMissionTask(missionCode) or 0--tex return 0 instead of nil
       totalCount=totalCount+maxMissionTask
+      InfCore.Log("CalcAllMissionTaskCompletedCount "..missionCode..": taskcompletedCount:"..taskCompletedCount..", maxMissionTask:"..maxMissionTask)--tex DEBUG
     end
   end
+  InfCore.Log("CalcAllMissionTaskCompletedCount sum total: taskcompletedCount:"..completedCount..", totalCount:"..totalCount)--DEBUG
   return completedCount,totalCount
 end
 function this.UpdateMissionCleardFlag(missionCode)
