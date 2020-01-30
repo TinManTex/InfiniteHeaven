@@ -46,9 +46,12 @@ this.inMission={
   [InfButton.STANCE]={Command='InfMenuCommandsTpp.QuietMoveToLastMarker'},
 }
 --tex cutscenes
+--In addition to this IH has commands for pause and reset without using the quickmenu
+--see mod\modules\InfDemo.lua to see those binds
 this.inDemo={ 
   [InfButton.RELOAD]={Command='InfCamera.ToggleFreeCam'},
   [InfButton.DASH]={Command='InfCamera.ToggleCamMode'},
+  [InfButton.ACTION]={immediate=true,Command='InfTimeScale.HighSpeedCameraToggle'},
 }
 
 return this

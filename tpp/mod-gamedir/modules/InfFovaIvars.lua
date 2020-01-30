@@ -941,7 +941,7 @@ this.fovaModMenu={
 
 this.appearanceMenu={
   nonConfig=true,
-  parentRefs={"InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "Ivars.playerType",
     "Ivars.playerPartsType",

@@ -207,10 +207,6 @@ function this.InitCluster(clusterId)
     return
   end
 
-  --  if not Ivars.mbAdditionalNpcs:EnabledForMission() then
-  --    return
-  --  end
-
   clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
   if this.debugModule then
     InfCore.Log("InfMBGimmick.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]))

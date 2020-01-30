@@ -266,10 +266,14 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
 
- InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
-    for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
-    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
-  end
+
+local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton or InfMenu.menuAltButton
+InfCore.PrintInspect(quickMenuHoldButton,"quickMenuHoldButton")
+
+  --InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
+  --for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
+    --InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
+  --end
 
   if IHH then
     if count==1 then

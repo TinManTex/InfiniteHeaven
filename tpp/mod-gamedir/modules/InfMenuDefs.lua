@@ -9,12 +9,16 @@ local InfMenuDefs=this
 
 this.debugModule=false
 
+--tex root menus are mostly built out from menu def entries in other modules, search for parentRefs with InfMenuDefs.inSafeSpaceMenu etc
+
+--tex root menu, in ACC
 this.safeSpaceMenu={
   options={
     "InfMenuDefs.systemMenu",--tex forced order (first) rather than just by context
   }
 }
 
+--tex root menu, in mission
 this.inMissionMenu={
   options={
     "InfHelicopter.RequestHeliLzToLastMarkerAlt",
@@ -24,6 +28,13 @@ this.inMissionMenu={
   }
 }
 
+--tex root menu, in demo
+this.inDemoMenu={
+  options={
+    "InfDemo.RestartDemo",
+    "InfDemo.PauseDemo",
+  },
+}
 
 this.systemMenu={
   options={
@@ -207,6 +218,7 @@ this.searchMenu={
 this.rootMenus={
   safeSpaceMenu=true,
   inMissionMenu=true,
+  inDemoMenu=true,
 }
 
 local OPTIONTYPE_MENU="MENU"
@@ -417,6 +429,7 @@ function this.SetupMenuDefs()
   this.allItems={
     safeSpaceMenu={},
     inMissionMenu={},
+    inDemoMenu={},
   }
 
   local function GetOptionRefsFromMenu(source,dest)
@@ -429,34 +442,36 @@ function this.SetupMenuDefs()
       end
     end
   end
-  
+
   GetOptionRefsFromMenu(this.safeSpaceMenu,this.allItems.safeSpaceMenu)
+  GetOptionRefsFromMenu(this.inDemoMenu,this.allItems.inDemoMenu)
   GetOptionRefsFromMenu(this.inMissionMenu,this.allItems.inMissionMenu)
-  
 
-    InfCore.PrintInspect(this.allItems,"InfMenuDefs.allItems------------")--DEBUGNOW
+  if this.debugModule then
+    InfCore.PrintInspect(this.allItems,"InfMenuDefs.allItems")
+  end
 
 
---CULL
---  for i,module in ipairs(InfModules) do
---    if module.registerMenus then
---      for j,name in ipairs(module.registerMenus)do
---        local menuDef=module[name]
---        if not menuDef then
---        elseif this.IsMenu(menuDef) then
---          for k,optionRef in ipairs(menuDef.options)do
---            local option,name=InfCore.GetStringRef(optionRef)
---            this.allItems[#this.allItems+1]=optionRef
---          end
---        end
---      end
---    end
---  end
+  --CULL
+  --  for i,module in ipairs(InfModules) do
+  --    if module.registerMenus then
+  --      for j,name in ipairs(module.registerMenus)do
+  --        local menuDef=module[name]
+  --        if not menuDef then
+  --        elseif this.IsMenu(menuDef) then
+  --          for k,optionRef in ipairs(menuDef.options)do
+  --            local option,name=InfCore.GetStringRef(optionRef)
+  --            this.allItems[#this.allItems+1]=optionRef
+  --          end
+  --        end
+  --      end
+  --    end
+  --  end
 
   if this.debugModule then
     InfCore.PrintInspect(this,"InfMenuDefs")
   end
-end
+end--SetupMenuDefs
 
 function this.PostAllModulesLoad()
   this.SetupMenuDefs()

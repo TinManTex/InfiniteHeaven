@@ -231,7 +231,7 @@ this.registerMenus={
 }
 
 this.cameraMenu={
-  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "Ivars.adjustCameraUpdate",
     "Ivars.cameraMode",

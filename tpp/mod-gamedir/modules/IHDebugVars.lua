@@ -17,12 +17,13 @@ local debugModules={
   'InfLookup',
   --  'InfMission',
   --  'InfEquip',
-  'InfWalkerGear',
-  'InfSoldier',
+  --'InfWalkerGear',
+  --'InfSoldier',
   --'InfEneFova',
-  'InfExtToMgsv',
-  'InfMgsvToExt',
-  'InfMission',
+  --'InfExtToMgsv',
+  --'InfMgsvToExt',
+  --'InfMission',
+  'InfNPC',
   'Ivars',
 }
 

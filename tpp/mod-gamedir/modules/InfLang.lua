@@ -70,6 +70,8 @@ this.eng={--english
   list_empty="list is empty",
   exited_sideop_area="Exited sideop area",
   type_to_search="<Type and Enter to search>",
+  inDemoMenu="In-cutscene menu",
+  demo_cannot_restart_while_paused="Cannot restart cutscene while it is paused",
 }--eng end
 
 this.help={}

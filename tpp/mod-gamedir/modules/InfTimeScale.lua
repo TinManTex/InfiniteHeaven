@@ -126,7 +126,7 @@ this.registerMenus={
 }
 
 this.timeScaleMenu={
-  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "InfTimeScale.HighSpeedCameraToggle",
     "Ivars.speedCamContinueTime",

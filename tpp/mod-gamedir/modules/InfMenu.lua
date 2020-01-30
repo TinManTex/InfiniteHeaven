@@ -583,7 +583,7 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
       local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
-	--InfCore.Log("DisplaySetting",false,true)--DEBUG
+    --InfCore.Log("DisplaySetting",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   else
 
@@ -686,14 +686,14 @@ end
 
 function this.ToggleMenu(currentChecks)
   --DEBUGNOW if this.CheckActivate(currentChecks) then
-    this.menuOn = not this.menuOn
-    if this.menuOn then
-      this.OnActivate()
-    else
-      this.OnDeactivate()
-      return
-    end
- -- end
+  this.menuOn = not this.menuOn
+  if this.menuOn then
+    this.OnActivate()
+  else
+    this.OnDeactivate()
+    return
+  end
+  -- end
 end
 
 function this.MenuOff()
@@ -713,7 +713,7 @@ function this.OnActivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.ShowMenu()
-    --InfCore.WriteToExtTxt()--tex handled below
+    --InfCore.WriteToExtTxt()--tex handled in DisplaySetting
     this.DisplayCurrentSetting()
   end
 
@@ -750,14 +750,15 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   --DEBUGNOW this blocks SSD title, and potenially other stuff like a loading screen recovery/debug menu
-    if not currentChecks.inGame then
-      if this.menuOn then
-        this.MenuOff()
-      end
-      return
+  --DEBUGNOW test not indemo
+  if not currentChecks.inGame and not currentChecks.inDemo then
+    if this.menuOn then
+      this.MenuOff()
     end
-
-  if not currentChecks.inSafeSpace and not currentChecks.inMission then
+    return
+  end
+  --DEBUGNOW don't bail when inDemo
+  if not currentChecks.inSafeSpace and (not currentChecks.inMission and not currentChecks.inDemo) then
     if this.menuOn then
       this.MenuOff()
     end
@@ -778,43 +779,39 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       this.MenuOff()
       return
     end
-  end
-
-  if this.menuOn then
     --tex while pause is bound to escape key by default it is not actually the ESCAPE button mask
     --so if pause is bound to something else this wont catch it.
     if InfButton.OnButtonDown(InfButton.ESCAPE) then
       this.MenuOff()
       return
     end
-  end
+  end--menuOn
 
+  local rootMenu=InfMenuDefs.inMissionMenu
   if currentChecks.inSafeSpace then
-    if this.topMenu~=InfMenuDefs.safeSpaceMenu then
-      IvarProc.PrintGvarSettingMismatch()
-      this.topMenu=InfMenuDefs.safeSpaceMenu
-      this.GoMenu(this.topMenu)
-    end
-  else
-    if this.topMenu~=InfMenuDefs.inMissionMenu then
-      --IvarProc.PrintGvarSettingMismatch()--DEBUG
-      this.topMenu=InfMenuDefs.inMissionMenu
-      this.GoMenu(this.topMenu)
-    end
+    rootMenu=InfMenuDefs.safeSpaceMenu
+  elseif currentChecks.inDemo then
+    rootMenu=InfMenuDefs.inDemoMenu
   end
+  if this.topMenu~=rootMenu then
+    if rootMenu==InfMenuDefs.safeSpaceMenu then
+      IvarProc.PrintGvarSettingMismatch()--DEBUG
+    end
+    this.topMenu=rootMenu
+    this.GoMenu(rootMenu)
+  end--if ~=rootMenu
 
-  if this.toggleMenuButton then
-    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-      --DEBUGNOW
-      --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
-      if this.CheckActivate(currentChecks) then
+
+  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+    --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
+    if this.CheckActivate(currentChecks) then
       this.ToggleMenu(currentChecks)
-      end
     end
   end
 
   if InfButton.ButtonHeld(this.menuAltButton) then
     if InfButton.OnButtonDown(this.toggleMenuButtonAlt) then
+      --DEBUGNOW not doing CheckActivate?
       this.ToggleMenu(currentChecks)
       return
     end
@@ -823,16 +820,14 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if this.menuOn then
     if InfButton.ButtonHeld(this.menuAltButton) then
       if InfButton.OnButtonDown(this.menuAltActive) then
-        if this.menuOn then
-          if InfCore.IHExtRunning() then
-            InfCore.ExtCmd('TakeFocus')
-            InfCore.WriteToExtTxt()
-          end
-          return
+        if InfCore.IHExtRunning() then
+          InfCore.ExtCmd('TakeFocus')
+          InfCore.WriteToExtTxt()
         end
+        return
       end
     end
-  end
+  end--menuOn
 
   if this.menuOn then
     this.DoControlSet()
@@ -840,7 +835,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     if not InfCore.IHExtRunning() then
       this.AutoDisplay()
     end
-  end--!menuOn
+  end--menuOn
 
   --quickmenu>
   if InfQuickMenuDefs and not this.menuOn then
@@ -857,42 +852,17 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       if quickMenu==nil then
 
       else
-        for button,commandInfo in pairs(quickMenu) do
-          if button==this.menuAltButton then
-
-          else
-            InfButton.buttonStates[button].holdTime=0.9--DEBUGNOW --commandInfo.immediate and 0.05 or 0.9
-            if commandInfo.immediate then
-              this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
-            end
-
-            if (commandInfo.immediate and InfButton.OnButtonDown(button)) or
-              InfButton.OnButtonHoldTime(button) then
-              --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
-              if this.quickMenuOn then
-                local Command,name=InfCore.GetStringRef(commandInfo.Command)
-                if Command==nil then
-                  InfCore.Log("WARNING: Could not find function for QuickMenu command:"..tostring(commandInfo.Command))
-                elseif type(Command)~="function"then
-                  InfCore.Log("WARNING: QuickMenu command "..tostring(commandInfo.Command).." is not a function")
-                else
-                  Command()
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
+        this.DoQuickMenu(quickMenu,quickMenuHoldButton)
+      end--quickMenu
+    end--forceEnable or enableQuickMenu
+  end--menuOn
   --<
-end
+end--Update
 
 function this.ActivateControlSet()
   --tex set up hold buttons
-  if this.toggleMenuButton then
-    InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
-  end
+  InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
+
   if InfQuickMenuDefs and InfQuickMenuDefs.quickMenuHoldButton then
     InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
   end
@@ -914,7 +884,7 @@ function this.ActivateControlSet()
   InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
 
   InfMain.DisableAction(InfMain.menuDisableActions)
-end
+end--ActivateControlSet
 
 function this.DeactivateControlSet()
   Player.ResetPadMask(this.stickLPadMask)
@@ -977,7 +947,7 @@ function this.DoControlSet()
       this.DisplayCurrentSetting()
       InfButton.buttonStates[this.menuRightButton].repeatRate=this.repeatRateIHExt--tex quicker repeat
     end
-  end
+  end--menuRightButton
 
   if InfButton.OnButtonDown(this.menuLeftButton) then
     this.PreviousSetting(incrementMod)
@@ -990,8 +960,9 @@ function this.DoControlSet()
     if ihextIsRunning then
       this.DisplayCurrentSetting()
     end
-  end
+  end--menuLeftButton
 
+  --tex left stick to advance menu setting
   if InfButton.ButtonHeld(this.menuAltButton) then
     Player.SetPadMask(this.stickLPadMask)
 
@@ -1030,14 +1001,42 @@ function this.DoControlSet()
         this.NextSetting(incrementMod)
         this.DisplayCurrentSetting()
       end
-    end
-  end
+    end--stick repeat
+  end--menuAltButton held
 
   if InfButton.OnButtonUp(this.menuAltButton) then
     Player.ResetPadMask(this.stickLPadMask)
   end
 
-end
+end--DoControlSet
+
+function this.DoQuickMenu(quickMenu,quickMenuHoldButton)
+  for button,commandInfo in pairs(quickMenu) do
+    if button==this.menuAltButton then
+
+    else
+      InfButton.buttonStates[button].holdTime=0.9--DEBUGNOW --commandInfo.immediate and 0.05 or 0.9
+      if commandInfo.immediate then
+        this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)--WORKAROUND: TODO why?
+      end
+
+      if (commandInfo.immediate and InfButton.OnButtonDown(button)) or
+        InfButton.OnButtonHoldTime(button) then
+        --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
+        if this.quickMenuOn then
+          local Command,name=InfCore.GetStringRef(commandInfo.Command)
+          if Command==nil then
+            InfCore.Log("WARNING: Could not find function for QuickMenu command:"..tostring(commandInfo.Command))
+          elseif type(Command)~="function"then
+            InfCore.Log("WARNING: QuickMenu command "..tostring(commandInfo.Command).." is not a function")
+          else
+            Command()
+          end
+        end--quickMenuOn
+      end--immediate or command button
+    end--!|menuAltButton
+  end--for quickMenu
+end--DoQuickmenu
 
 local didWelcome=false
 function this.ModWelcome()

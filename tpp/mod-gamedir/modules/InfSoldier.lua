@@ -137,7 +137,7 @@ this.langStrings={
   },
   help={
     eng={
-      enableWildCardFreeRoam="Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.",
+      enableWildCardFreeRoam="Changes a few soldiers throughout the CPs to have unique models and high end weapons.",--was , also includes women soldiers.",
       enableLrrpFreeRoam="Foot patrols will travel between random CPs and will cross the field to get there.",
       mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
       mbAdditionalSoldiers="Increases soldiers on platforms from 4 soldiers to 9.",
@@ -665,8 +665,8 @@ end
 
 --tex total limit TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
 this.numWildCards={
-  MALE=5,
-  FEMALE=0,--was 5 tex: addmiting deafeat for now, see BUG note for UseExtendParts
+  MALE=10,--was 5
+  FEMALE=0,--was 5 tex: admitting deafeat for now, see BUG note for UseExtendParts
 }
 
 this.numWildCards.total=this.numWildCards.MALE+this.numWildCards.FEMALE

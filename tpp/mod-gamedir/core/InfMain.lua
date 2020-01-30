@@ -377,7 +377,8 @@ function this.UpdateExecChecks(currentChecks)
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
   currentChecks.inSafeSpace=vars.missionCode and this.IsSafeSpace(vars.missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inSafeSpace
-  currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
+  --DEBUGNOW was currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
+  currentChecks.inDemo=not currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
   currentChecks.inIdroid=IsMbDvcTerminalOpened()
   currentChecks.missionCanStart=this.missionCanStart
 

@@ -19,18 +19,75 @@ this.registerIvars={
   "mbAdditionalNpcs",
 }
 
---tex tripping up on my naming here, mbAdditionalNpcs=hostage mobs as standins, mbNpcRouteChange=soldier route change
---TODO: rename when you have a batch of other save vars to break
+this.registerMenus={
+  "mbAdditionalNpcsMenu",
+}
+
+--tex filled out below
+this.mbAdditionalNpcsMenu={
+  options={
+  }
+}
+
+-- CULL
 this.mbAdditionalNpcs={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
+
+this.mbNpcTypes={
+  "NURSE_3_FEMALE",
+  "DOCTOR_0",
+  "DDS_RESEARCHER",
+  "DDS_RESEARCHER_FEMALE",
+  "DDS_GROUNDCREW",
+  "CHILD_0",
+  "KAZ",
+}
+
+local ivarPrefix = "mbNpc_"
+
+for i,npcType in ipairs(this.mbNpcTypes)do
+  local ivarName = ivarPrefix..npcType
+  local ivar={
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.switchRange,
+    settingNames="set_switch",
+    MissionCheck=IvarProc.MissionCheckMbAll,
+  }
+  this[ivarName]=ivar
+  this.registerIvars[#this.registerIvars+1]=ivarName
+  local menuOptions=this.mbAdditionalNpcsMenu.options
+  menuOptions[#menuOptions+1]="InfNPC."..ivarName
+end
+
+--IN/SIDE:this.mbNpcTypes
+function this.IsMbAdditionalNpcsEnabled(missionCode)
+  local isEnabled=false
+  for i,npcType in ipairs(this.mbNpcTypes)do
+    local ivarName = ivarPrefix..npcType
+    if Ivars[ivarName]:EnabledForMission() then
+      isEnabled=true
+      break
+    end
+  end
+  return isEnabled
+end
+
 --< ivar defs
 this.langStrings={
   eng={
-    mbAdditionalNpcs="Additional NPCs",
+    mbAdditionalNpcs="Additional NPCs",--CULL
+    mbAdditionalNpcsMenu="Additional NPCs menu",
+    mbNpc_NURSE_3_FEMALE="Female nurse",
+    mbNpc_DOCTOR_0="Male doctor",
+    mbNpc_DDS_RESEARCHER="Male researcher",
+    mbNpc_DDS_RESEARCHER_FEMALE="Female researcher",
+    mbNpc_DDS_GROUNDCREW="Male groundcrew",
+    mbNpc_CHILD_0="Chilren",
+    mbNpc_KAZ="Kaz Miller",
   },
   help={
     eng={
@@ -44,7 +101,7 @@ function this.PostModuleReload(prevModule)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if not Ivars.mbAdditionalNpcs:EnabledForMission(missionCode) then
+  if not this.IsMbAdditionalNpcsEnabled(missionCode) then
     return
   end
 
@@ -60,101 +117,108 @@ function this.AddMissionPacks(missionCode,packPaths)
     InfCore.Log("InfNPC.AddMissionPacks:")
   end
 
-  local experiment=false
-  local hostageMob=true
-  if experiment then--experiment/manual testing
-    --TODO: running into the crash from quit from title after exiting from load with just
-    --          packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"
-    --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
-    --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc4.fpk"
-    --changelog says I fixed similar issue in r179, but I don't remeber how lol
-    --but comparing r179 r178 it seems I did remove hostage entitie defs from f30050_npc.fox2
+  --tex TODO: a bit janky putting this here DEBUGNOW likely asking for trouble if user continues with an ih_save with different options than the mission was initially loaded with
+  this.npcInfo=this.BuildNPCInfo(missionCode)
+  if this.debugModule then
+    InfCore.PrintInspect(this.npcInfo,"npcInfo")
+  end
 
-    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk"
-
-    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/prs2_main0_mdl.fpk"
-    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/dds4_main0_mdl.fpk"
-
-    if hostageMob then
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob_def12.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
-    else
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
-    end
-
-    --packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"
-
-    local uniquePartsPath={
-      --ih_hostage_0000="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts",
-      ih_hostage_0000="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_hos.parts",
-    }
-    for locatorName,parts in pairs(uniquePartsPath)do
-    -- TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
-    end
-
-    local settings={
-      {type="hostage",name="ih_hostage_0000",bodyId=300,faceId="male"},
-      {type="hostage",name="ih_hostage_0001",bodyId=301,faceId="female"},
-      {type="hostage",name="ih_hostage_0002",bodyId=302},
-      {type="hostage",name="ih_hostage_0003",bodyId=303},
-    }
-    -- TppEneFova.AddUniqueSettingPackage(settings)
-  else
-    --tex TODO: a bit janky putting this here DEBUGNOW
-    this.npcInfo=this.BuildNPCInfo()
-
-    local bodyTypes={}
-    for hostageName,npcInfo in pairs(this.npcInfo)do
-      bodyTypes[npcInfo.bodyType]=true
-    end
-    for bodyType,bool in pairs(bodyTypes)do
-      local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
-      if bodyInfo and bodyInfo.partsPathHostage then
-        InfEneFova.AddBodyPackPaths(bodyInfo,"HOSTAGE")
-      end
-    end
-    if this.debugModule then
-      InfCore.PrintInspect(bodyTypes,"bodyTypes")
-    end
-
-    if hostageMob then
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob_def12.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
-    else
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
-      packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
-    end
-
-    if TppHostage2.SetUniquePartsPath then
-      local uniquePartsPath={}
-      for hostageName,npcInfo in pairs(this.npcInfo)do
-        local bodyInfo=InfBodyInfo.bodyInfo[npcInfo.bodyType]
-        if bodyInfo and bodyInfo.partsPathHostage then
-          uniquePartsPath[hostageName]=bodyInfo.partsPathHostage
-        end
-      end
-
-      for locatorName,parts in pairs(uniquePartsPath)do
-        TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
-      end
-      if this.debugModule then
-        InfCore.PrintInspect(uniquePartsPath,"uniquePartsPath")
-      end
-
-      local settings={}
-      for hostageName,npcInfo in pairs(this.npcInfo)do
-        if npcInfo.bodyId or npcInfo.faceId then
-          settings[#settings+1]={type="hostage",name=hostageName,bodyId=npcInfo.bodyId,faceId=npcInfo.faceId}
-        end
-      end
-      if #settings>0 then
-        TppEneFova.AddUniqueSettingPackage(settings)
-      end
+  local bodyTypes={}
+  for hostageName,npcInfo in pairs(this.npcInfo)do
+    bodyTypes[npcInfo.bodyType]=true
+  end
+  for bodyType,bool in pairs(bodyTypes)do
+    local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+    if bodyInfo and bodyInfo.partsPathHostage then
+      InfEneFova.AddBodyPackPaths(bodyInfo,"HOSTAGE")
     end
   end
+  if this.debugModule then
+    InfCore.PrintInspect(bodyTypes,"bodyTypes")
+  end
+
+  --DEBUGNOW document why
+  local hostageMob=true
+  if hostageMob then
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob_def12.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
+  else
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
+  end
+
+  if TppHostage2.SetUniquePartsPath then
+    local uniquePartsPath={}
+    for hostageName,npcInfo in pairs(this.npcInfo)do
+      local bodyInfo=InfBodyInfo.bodyInfo[npcInfo.bodyType]
+      if bodyInfo and bodyInfo.partsPathHostage then
+        uniquePartsPath[hostageName]=bodyInfo.partsPathHostage
+      end
+    end
+
+    for locatorName,parts in pairs(uniquePartsPath)do
+      TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
+    end
+    if this.debugModule then
+      InfCore.PrintInspect(uniquePartsPath,"uniquePartsPath")
+    end
+
+    local settings={}
+    for hostageName,npcInfo in pairs(this.npcInfo)do
+      if npcInfo.bodyId or npcInfo.faceId then
+        settings[#settings+1]={type="hostage",name=hostageName,bodyId=npcInfo.bodyId,faceId=npcInfo.faceId}
+      end
+    end
+    if #settings>0 then
+      TppEneFova.AddUniqueSettingPackage(settings)
+    end
+  end--TppHostage2.SetUniquePartsPath
+
+
+end--AddMissionPacks
+
+--CULL
+function this.AddMissionPacksEx(missionCode,packPaths)
+  --TODO: running into the crash from quit from title after exiting from load with just
+  --          packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"
+  --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
+  --        packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc4.fpk"
+  --changelog says I fixed similar issue in r179, but I don't remeber how lol
+  --but comparing r179 r178 it seems I did remove hostage entitie defs from f30050_npc.fox2
+
+  packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk"
+
+  packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/prs2_main0_mdl.fpk"
+  packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/dds4_main0_mdl.fpk"
+
+  if hostageMob then
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage2mob_def12.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
+  else
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_def.fpk"
+    packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/ih_hostage_loc30.fpk"
+  end
+
+  --packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"
+
+  local uniquePartsPath={
+    --ih_hostage_0000="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00_ih_hos.parts",
+    ih_hostage_0000="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_hos.parts",
+  }
+  for locatorName,parts in pairs(uniquePartsPath)do
+  -- TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=locatorName,parts=parts}
+  end
+
+  local settings={
+    {type="hostage",name="ih_hostage_0000",bodyId=300,faceId="male"},
+    {type="hostage",name="ih_hostage_0001",bodyId=301,faceId="female"},
+    {type="hostage",name="ih_hostage_0002",bodyId=302},
+    {type="hostage",name="ih_hostage_0003",bodyId=303},
+  }
+  -- TppEneFova.AddUniqueSettingPackage(settings)
+
 
   if TppHostage2.SetHostageType then
   --    TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Volgin"}
@@ -162,12 +226,12 @@ function this.AddMissionPacks(missionCode,packPaths)
   --TppHostage2.SetHostageType{gameObjectType="TppHostage2",hostageType="NoStand"}
   --TppHostage2.SetHostageType{gameObjectType="TppHostage2",hostageType="Mob"}
   end
-end
+end--AddMissionPacksEx
 
 function this.Init(missionTable)
   this.messageExecTable=nil
 
-  if not Ivars.mbAdditionalNpcs:EnabledForMission() then
+  if not this.IsMbAdditionalNpcsEnabled() then
     return
   end
 
@@ -180,17 +244,20 @@ function this.Init(missionTable)
   --tex TODO don't know if I want uniques on a random cluster or the first the player loads on
   --probably better to be random, but have uniques in a few prominant positions
   for npcType,bool in pairs(this.uniqueChars)do
-    this.npcOnClusters[npcType]=MotherBaseStage.GetFirstCluster()--ALT math.random(0,6)
+    local ivarName = ivarPrefix..npcType
+    if Ivars[ivarName]:EnabledForMission() then
+      this.npcOnClusters[npcType]=MotherBaseStage.GetFirstCluster()--ALT math.random(0,6)
+    end
   end
   InfCore.PrintInspect(this.npcOnClusters,"InfNPC.npcOnClusters")
 
   this.InitCluster()
-end
+end--Init
 
 function this.OnReload(missionTable)
   this.messageExecTable=nil
 
-  if not Ivars.mbAdditionalNpcs:EnabledForMission() then
+  if not this.IsMbAdditionalNpcsEnabled() then
     return
   end
 
@@ -1041,32 +1108,35 @@ for npcType,npcInfo in pairs(this.npcTemplates)do
   end
 end
 
-function this.BuildNPCInfo()
+function this.BuildNPCInfo(missionCode)
   InfCore.LogFlow("InfNPC.BuildNPCInfo")
   local npcInfos={}
   local npcIndex=0
   for npcType,count in pairs(this.npcCounts)do
-    for i=1,count do
-      local template=this.npcTemplates[npcType]
-      if template then
-        local npcInfo={}
-        for k,v in pairs(template) do
-          npcInfo[k]=v
-        end
-        if template.faceBag then
-          npcInfo.faceId=template.faceBag:Next()
-        end
-        if template.bodyBag then
-          npcInfo.bodyId=template.bodyBag:Next()
-        end
+    local ivarName = ivarPrefix..npcType
+    if Ivars[ivarName]:EnabledForMission() then
+      for i=1,count do
+        local template=this.npcTemplates[npcType]
+        if template then
+          local npcInfo={}
+          for k,v in pairs(template) do
+            npcInfo[k]=v
+          end
+          if template.faceBag then
+            npcInfo.faceId=template.faceBag:Next()
+          end
+          if template.bodyBag then
+            npcInfo.bodyId=template.bodyBag:Next()
+          end
 
-        npcInfos[string.format("ih_hostage_%04d",npcIndex)]=npcInfo
-        npcIndex=npcIndex+1
-      end
-    end
-  end
+          npcInfos[string.format("ih_hostage_%04d",npcIndex)]=npcInfo
+          npcIndex=npcIndex+1
+        end--npcTemplate
+      end--for npc count
+    end--Ivar enabled
+  end--for npcCounts
   return npcInfos
-end
+end--BuildNPCInfo
 
 function this.MotherBaseCurrentClusterActivated(clusterId)
   this.InitCluster(clusterId)
@@ -1074,7 +1144,7 @@ end
 
 --tex since hostage parts can only be set at loadtime the same total group of npcs are reused/repositioned on cluster change.
 function this.InitCluster(clusterId)
-  if not Ivars.mbAdditionalNpcs:EnabledForMission() then
+  if not this.IsMbAdditionalNpcsEnabled()  then
     return
   end
 
@@ -1132,7 +1202,7 @@ function this.InitCluster(clusterId)
         positionBags[platIndex]:Add(position)
       end
     end
-  end
+  end--for platindex
   if this.debugModule then
   --InfCore.PrintInspect(positionBags,"positionBags")
   end
@@ -1189,9 +1259,9 @@ function this.InitCluster(clusterId)
               skipNpc=false
               break
             end
-          end
-        end
-      end
+          end--allow
+        end--for clusters
+      end--clusters
 
       if skipNpc then
         if this.debugModule then
@@ -1285,10 +1355,10 @@ function this.InitCluster(clusterId)
             InfCore.Log("platIndex"..platIndex)--DEBUG
             InfCore.Log("motionPath:"..InfUtil.GetFileName(motionPath))--DEBUG
           end
-        end
-      end
-    end
-  end
-end
+        end--plats>0
+      end--not skipNpc
+    end--gameObjectId ~= NULL
+  end--for npcInfo
+end--InitCluster
 
 return this

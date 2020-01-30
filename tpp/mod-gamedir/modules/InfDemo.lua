@@ -1,13 +1,15 @@
 local this={}
 
 local InfButton=InfButton
+local InfMenu=InfMenu
+local Ivars=Ivars
 local DemoDaemon=DemoDaemon
 local GetPlayingDemoId=DemoDaemon.GetPlayingDemoId
 local IsDemoPaused=DemoDaemon.IsDemoPaused
 local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 
-this.pauseDemoButton=InfButton.EVADE
-this.resetDemoButton=InfButton.RELOAD
+this.pauseDemoButton=InfButton.STANCE--was InfButton.EVADE
+this.restartDemoButton=InfButton.RELOAD
 
 -->
 this.registerIvars={
@@ -110,6 +112,8 @@ this.langStrings={
     useSoldierForDemos="Use selected soldier in all cutscenes and missions",
     forceDemoAllowAction="Force allow actions",
     mbDontDemoDisableBuddy="Don't disable buddy after mb cutscene",
+    restartDemo="Restart cutscene",
+    pauseDemo="Pause cutscene",
   },
   help={
     eng={
@@ -135,16 +139,32 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
+  if InfMenu.menuOn or InfMenu.quickMenuOn or Ivars.cameraMode:Is()>0 then
+    return
+  end
+
   if InfButton.OnButtonDown(this.pauseDemoButton) then
     DemoDaemon.PauseAll()
   end
 
-  if InfButton.OnButtonDown(this.resetDemoButton) then
-    if IsDemoPlaying() and InfMenu.quickMenuOn==false then
+  if InfButton.OnButtonDown(this.restartDemoButton) then
+    if IsDemoPlaying() then--tex breaks demo playback if restarted while paused (goes into gameplay, but entering the escape pause/skip menu will hang the game in black screen)
       InfCore.Log("InfDemo: Restarting "..InfInspect.Inspect(demoId))
       DemoDaemon.RestartAll()
     end
   end
+end--Update
+
+function this.RestartDemo()
+  --tex breaks demo playback if restarted while paused (goes into gameplay, but entering the escape pause/skip menu will hang the game in black screen)
+  --DEBUGNOW can't notify user using announcelog since its disabled while in demo, more reason to add notifcations to ihext
+  if IsDemoPlaying() then
+    DemoDaemon.RestartAll()
+  end
+end
+
+function this.PauseDemo()
+  DemoDaemon.PauseAll()
 end
 
 return this
