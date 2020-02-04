@@ -83,6 +83,7 @@ this.devInAccMenu={
     "Ivars.debugMessages",
     "Ivars.debugFlow",
     "Ivars.debugOnUpdate",
+    "Ivars.log_SetFlushLevel",
   }
 }
 
@@ -93,6 +94,7 @@ this.debugMenu={
     "Ivars.debugMessages",
     "Ivars.debugFlow",
     "Ivars.debugOnUpdate",
+    "Ivars.log_SetFlushLevel",
     "InfMenuCommands.LoadExternalModules",
     "InfMenuCommands.CopyLogToPrev",
     "Ivars.printPressedButtons",
@@ -115,6 +117,7 @@ this.debugInMissionMenu={
     "Ivars.debugMessages",
     "Ivars.debugFlow",
     "Ivars.debugOnUpdate",
+    "Ivars.log_SetFlushLevel",
     "InfMenuCommands.LoadExternalModules",
     "InfMenuCommands.CopyLogToPrev",
     --"InfMenuCommandsTpp.DEBUG_PrintRealizedCount",

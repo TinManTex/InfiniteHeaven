@@ -104,6 +104,22 @@ this.debugOnUpdate={
   end,
 }
 
+this.log_SetFlushLevel={
+  inMission=true,
+  nonConfig=true,
+  usesIHH=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"trace","debug","info","warn","error","critical","off"},
+  default=InfCore.level_warn,
+  --settingNames="set_switch",
+  OnChange=function(self,setting)
+    local level=InfCore.logLevels[setting]
+    if IHH then
+      IHH.Log_SetFlushLevel(setting)
+    end
+  end,
+}
+
 this.enableIHExt={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,

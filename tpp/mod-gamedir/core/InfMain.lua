@@ -70,6 +70,9 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   end
 
   this.CallOnModules("OnLoad",nextMissionCode,currentMissionCode)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --CALLER: TppEneFova.PreMissionLoad
@@ -81,9 +84,13 @@ function this.PreMissionLoad(missionId,currentMissionId)
   end
 
   this.CallOnModules("PreMissionLoad",missionId,currentMissionId)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 function this.OnAllocateTop(missionTable)
+  --tex enable/disable debug mode depending on ivar, up until this point (from start) InfCore.debugMode==true (see note there)
   local enable=Ivars.debugMode:Is(1)
   this.DebugModeEnable(enable)
 
@@ -92,6 +99,9 @@ function this.OnAllocateTop(missionTable)
   end
 
   this.CallOnModules("OnAllocateTop",missionTable)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 function this.OnAllocate(missionTable)
   if this.IsOnlineMission(vars.missionCode)then
@@ -110,6 +120,9 @@ function this.OnAllocate(missionTable)
   end
 
   this.CallOnModules("OnAllocate",missionTable)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 --tex in OnAllocate, just after sequence.MissionPrepare
 function this.MissionPrepare()
@@ -118,6 +131,9 @@ function this.MissionPrepare()
   end
 
   this.CallOnModules("MissionPrepare")
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
@@ -127,6 +143,9 @@ function this.OnInitializeTop(missionTable)
   end
 
   this.CallOnModules("OnInitializeTop",missionTable)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex called about halfway through TppMain.OnInitialize (on all require libs)
@@ -141,6 +160,9 @@ function this.Init(missionTable)
 
   this.UpdateExecChecks(this.execChecks)
   this.CallOnModules("Init",missionTable,this.execChecks)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex just after mission script_enemy.SetUpEnemy
@@ -150,6 +172,9 @@ function this.SetUpEnemy(missionTable)
     return
   end
   this.CallOnModules("SetUpEnemy",missionTable)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 function this.OnInitializeBottom(missionTable)
@@ -159,6 +184,9 @@ function this.OnInitializeBottom(missionTable)
 
   if vars.missionCode>TppDefine.SYS_MISSION_ID.INIT and not this.IsSafeSpace(vars.missionCode) then
     this.isContinueFromTitle=false
+  end
+  if IHH then
+    IHH.Log_Flush()
   end
 end
 
@@ -183,6 +211,9 @@ function this.AddMissionPacks(missionCode,packPaths)
       InfCore.PCallDebug(module.AddMissionPacks,missionCode,packPaths)
     end
   end
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
@@ -197,6 +228,9 @@ function this.OnMissionCanStartBottom()
 
   this.UpdateExecChecks(this.execChecks)
   this.CallOnModules("OnMissionCanStart",this.execChecks)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex called from TppMain.OnReload (TODO: caller of that?) on all require libs
@@ -208,6 +242,9 @@ function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   this.CallOnModules("OnReload",missionTable)
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex called from TppMission.OnMissionGameEndFadeOutFinish2nd
@@ -217,6 +254,9 @@ function this.OnMissionGameEndTop()
   end
 
   this.CallOnModules("OnMissionGameEnd")
+  if IHH then
+    IHH.Log_Flush()
+  end
 end
 
 --tex called from TppMission.AbortMission (TODO: caller of that?)
@@ -318,6 +358,11 @@ function this.OnMenuClose()
   end
 
   InfCore.PCallDebug(IvarProc.SaveAll)
+  if InfCore.debugMode then
+    if IHH then
+      IHH.Log_Flush()
+    end
+  end
 end
 
 --Caller heli_common_sequence.Seq_Game_MainGame.OnEnter
@@ -454,7 +499,7 @@ function this.Update(missionTable)
 
         if this.debugModule then
           if this.updateTimes[module.name] then
-          table.insert(this.updateTimes[module.name],os.clock()-this.startTime)
+            table.insert(this.updateTimes[module.name],os.clock()-this.startTime)
           end
         end
       end
@@ -1133,6 +1178,9 @@ function this.DebugModeEnable(enable)
     end
   else
     InfCore.Log("Further logging disabled while debugMode is off")
+  end
+  if IHH then
+    IHH.Log_Flush()
   end
   InfCore.debugMode=enable
 end
