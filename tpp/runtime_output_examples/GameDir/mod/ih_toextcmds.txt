@@ -1,0 +1,27 @@
+1580772756|extToMgsvComplete|1
+727|SetContent|menuTitle|In-mission menu
+728|ClearTable|menuItems
+729|AddToTable|menuItems|1:devInMissionMenu >
+730|AddToTable|menuItems|2:Support heli to marker >]
+731|AddToTable|menuItems|3:Force exit helicopter >]
+732|AddToTable|menuItems|4:Drop current equip >>
+733|AddToTable|menuItems|5:Warp [Mode] = 0:Off
+734|AddToTable|menuItems|6:Appearance menu >
+735|AddToTable|menuItems|7:Buddy menu >
+736|AddToTable|menuItems|8:Camera menu >
+737|AddToTable|menuItems|9:Debug stuff menu >
+738|AddToTable|menuItems|10:Enemy phases menu >
+739|AddToTable|menuItems|11:MB Ocean menu >
+740|AddToTable|menuItems|12:Markers menu >
+741|AddToTable|menuItems|13:Misc menu >
+742|AddToTable|menuItems|14:Motions menu >
+743|AddToTable|menuItems|15:Objects menu >
+744|AddToTable|menuItems|16:Positions menu >
+745|AddToTable|menuItems|17:Routes menu >
+746|AddToTable|menuItems|18:Staff menu >
+747|AddToTable|menuItems|19:Support heli menu >
+748|AddToTable|menuItems|20:Time scale menu >
+749|AddToTable|menuItems|21:User marker menu >
+750|AddToTable|menuItems|22:Weather menu >
+751|AddToTable|menuItems|23:Turn off menu >]
+752|ClearCombo|menuSetting
