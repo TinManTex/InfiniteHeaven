@@ -33,7 +33,7 @@ this.debugModule=false
 this.session=os.time()--tex using os.time as session id
 this.extSession=0
 
-this.debugMode=true
+this.debugMode=true--tex starts on so some debug logging can be done at startup, and before Ivars is actually running, set via InfMain.DebugModeEnable, and later set by the Ivar value in InfMain.OnAllocateTop
 --tex TODO combine into loadState
 this.doneStartup=false
 this.modDirFail=false

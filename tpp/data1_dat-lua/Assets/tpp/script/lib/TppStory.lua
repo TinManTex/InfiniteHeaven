@@ -1475,10 +1475,10 @@ function this.CalcAllMissionTaskCompletedCount()
       completedCount=completedCount+taskCompletedCount
       local maxMissionTask=TppUI.GetMaxMissionTask(missionCode) or 0--tex return 0 instead of nil
       totalCount=totalCount+maxMissionTask
-      InfCore.Log("CalcAllMissionTaskCompletedCount "..missionCode..": taskcompletedCount:"..taskCompletedCount..", maxMissionTask:"..maxMissionTask)--tex DEBUG
+      --InfCore.Log("CalcAllMissionTaskCompletedCount "..missionCode..": taskcompletedCount:"..taskCompletedCount..", maxMissionTask:"..maxMissionTask)--tex DEBUG
     end
   end
-  InfCore.Log("CalcAllMissionTaskCompletedCount sum total: taskcompletedCount:"..completedCount..", totalCount:"..totalCount)--DEBUG
+  --InfCore.Log("CalcAllMissionTaskCompletedCount sum total: taskcompletedCount:"..completedCount..", totalCount:"..totalCount)--DEBUG
   return completedCount,totalCount
 end
 function this.UpdateMissionCleardFlag(missionCode)

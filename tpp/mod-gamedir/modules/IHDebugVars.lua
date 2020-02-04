@@ -32,7 +32,7 @@ local this={}
 this.packages={
   --[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
   -- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
-}
+  }
 
 function this.AddMissionPacks(missionCode,packPaths)
   if missionCode < 5 then
@@ -48,46 +48,48 @@ function this.PostAllModulesLoad()
   if isMockFox then
     return
   end
-  
+
   if IHH then
-    IHH.SetLogFlushLevel(InfCore.level_trace)
+    IHH.Log_SetFlushLevel(InfCore.level_trace)
   end
- -- InfCore.Log("IHDebugVars.PostAllModulesLoad:")
- -- print("testerino");
-  
+  -- InfCore.Log("IHDebugVars.PostAllModulesLoad:")
+  -- print("testerino");
+
   --DEBUGNOW
   --https://www.lua.org/tests/
   local testPath="C:/Games/Steam/steamapps/common/MGS_TPP/mod/lua-test"
   _U=true--tex simple mode
   InfCore.PCallDebug(function()LoadFile(testPath.."/all.lua")end)
-  
- -- winapi.shell_exec('open','C:/Games/Steam/steamapps/common/MGS_TPP/mod/')
-  
+
+  -- winapi.shell_exec('open','C:/Games/Steam/steamapps/common/MGS_TPP/mod/')
+
   --= "currdirtest.lua"
-    --  local f = loadfile(filename)
-    -- return f(filename)
-    --dofile()
-    
- --DEBUGNOW   
-    local opentest = function(filename)
-      local f,err = io.open(filename,"w")
-      if f==nil then
-        InfCore.Log("ERROR: "..err)
-      else
-        local t = f:write("blurgg")
-        f:close()
-      end 
+  --  local f = loadfile(filename)
+  -- return f(filename)
+  --dofile()
+
+  --DEBUGNOW
+  local opentest = function(filename)
+    local f,err = io.open(filename,"w")
+    if f==nil then
+      InfCore.Log("ERROR: "..err)
+    else
+      local t = f:write("blurgg")
+      f:close()
     end
-    
-    
-    InfCore.PCallDebug(opentest,"c:/temp/curredirtext1.txt")
-    InfCore.PCallDebug(opentest,"/temp/curredirtext2.txt")
-    InfCore.PCallDebug(opentest,"temp/curredirtext3.txt")
-    InfCore.PCallDebug(opentest,"curredirtext4.txt")
-    InfCore.PCallDebug(opentest,"./curredirtext5.txt")
-    InfCore.PCallDebug(opentest,".curredirtext6.txt")
-    InfCore.PCallDebug(opentest,"./temp/curredirtext7.txt")
-   
+  end
+
+
+--tex relative paths cause an error 'Result too large', 
+--I guess kjp has some kind of relative path==internal path? thing going on?
+--  InfCore.PCallDebug(opentest,"c:/temp/curredirtext1.txt")
+--  InfCore.PCallDebug(opentest,"/temp/curredirtext2.txt")
+--  InfCore.PCallDebug(opentest,"temp/curredirtext3.txt")
+--  InfCore.PCallDebug(opentest,"curredirtext4.txt")
+--  InfCore.PCallDebug(opentest,"./curredirtext5.txt")
+--  InfCore.PCallDebug(opentest,".curredirtext6.txt")
+--  InfCore.PCallDebug(opentest,"./temp/curredirtext7.txt")
+
 
 
 
@@ -116,8 +118,8 @@ function this.PostAllModulesLoad()
 
   --
   -- InfCore.PrintInspect(_IHHook, "_IHHook")
-   -- InfCore.PrintInspect(_GameDir, "_GameDir")
-   -- InfCore.PrintInspect(_IHHook_TestTable,"_IHHook_TestTable");
+  -- InfCore.PrintInspect(_GameDir, "_GameDir")
+  -- InfCore.PrintInspect(_IHHook_TestTable,"_IHHook_TestTable");
 
   --
 
@@ -190,17 +192,17 @@ function this.PostAllModulesLoad()
 end
 
 function this.Init()
-  
+
 --  InfCore.Log("IHDebugVars")
 --    InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
 --  for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
 --  --  gvars.rev_revengeLv[i] = 3
 --  end
---  
+--
 --    for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
 --    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
 --  end
-  
+
 end
 
 function this.PrintUpdateTimes()
@@ -534,6 +536,88 @@ function this.AnalizeShiz()
     local foundKey=tableInfo.numberKeys[str32]
     InfCore.Log(knownKeyName.." "..str32.." key in module:"..tostring(foundKey))
   end
+end
+
+--tex from IHTearDown
+function this.DumpVars()
+  local vars=vars
+
+  local rootArrayIdent=-285212671
+
+  local arrayIdent=-285212665
+  local arrayCountIdent=-285212666
+
+  local varsTable={}
+
+  for k,v in pairs(vars[rootArrayIdent])do
+    varsTable[k]=vars[k]
+  end
+
+  local skipKeys={
+    __index=true,
+    __newindex=true,
+  }
+
+  for k,foxTable in pairs(vars)do
+    --tex is actually a foxTable
+    if type(foxTable)=="table" then
+      if foxTable[arrayCountIdent] then
+        --InfCore.Log("found foxTable "..k)--DEBUGNOW
+        if type(k)=="string" then
+          if not skipKeys[k] then
+            local foxTableArray=foxTable[arrayIdent]
+            if foxTableArray then
+              varsTable[k]={}
+              local arrayCount=foxTable[arrayCountIdent]
+              --InfCore.Log("arrayCount="..arrayCount)--DEBUGNOW
+              for i=0,arrayCount-1 do
+                varsTable[k][i]=vars[k][i]
+              end
+            end--if foxTableArray
+          end--not skipKeys
+        end--k==type string
+      end--if foxTable[arrayCountIndex]
+    end--foxTable==type table
+  end--for vars
+
+  return varsTable
+end--DumpVars
+
+--tex dumped vars (via DumpVars()) are key, var, with var either being int or float, or indexed from 0 list of int or float
+local nl="\n"
+function this.PrintVars(dumpedVars)
+  local outputPath=[[C:\Projects\MGS\!ToolOutput\dump-vars.txt]]
+
+  local printLines={}
+
+  local namesSorted={}
+
+  for varName, var in pairs(dumpedVars)do
+    namesSorted[#namesSorted+1]=varName
+  end
+
+  table.sort(namesSorted)
+
+  local file,error=io.open(outputPath,"w")
+  file:write("--Dumped vars via IHDebugVars.DumpVars,PrintVars",nl)
+  file:write("--Note: arrays are indexed from 0",nl)
+  for i, varName in ipairs(namesSorted)do
+    local line=varName.." = "
+    local var = dumpedVars[varName]
+    if type(var)=="table"then
+      line=line.."{ "
+      for j=0, #var do
+        local currentVar=var[j]
+        line=line..tostring(currentVar)..", "
+      end
+      line=line.."},"
+    else
+      line=line..tostring(var)..","
+    end
+    file:write(line,nl)
+  end
+
+  file:close()
 end
 
 

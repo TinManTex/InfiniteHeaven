@@ -589,15 +589,15 @@ function this.DumpVars()
               for i=0,arrayCount-1 do
                 varsTable[k][i]=vars[k][i]
               end
-            end
-          end
-        end
-      end
-    end
-  end
+            end--if foxTableArray
+          end--not skipKeys
+        end--k==type string
+      end--if foxTable[arrayCountIndex]
+    end--foxTable==type table
+  end--for vars
 
   return varsTable
-end
+end--DumpVars
 
 function this.FindNonLiveClasses(classesPath)
   local nonLiveClasses={}
