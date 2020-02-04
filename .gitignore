@@ -8,3 +8,13 @@
 /tpp/mod-gamedir-release/*
 /mgo/mod-gamedir-release/*
 /ssd/mod-gamedir-release/*
+
+/tpp/mod-gamedir/ih_log.txt
+/tpp/mod-gamedir/ih_log_prev.txt
+/tpp/mod-gamedir/ih_toextcmds.txt
+/tpp/mod-gamedir/ih_tomgsvcmds.txt
+/tpp/mod-gamedir/ih_files.txt
+/tpp/mod-gamedir/ih_unknownMessages.txt
+/tpp/mod-gamedir/ih_unknownStr32.txt
+/tpp/mod-gamedir/saves/ih_save.lua
+/tpp/mod-gamedir/saves/ih_save_prev.lua
