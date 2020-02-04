@@ -36,7 +36,7 @@ local this={
     },
     {
       featureDescription="Pause and restart cutscenes.",
-      featureHelp="Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene."
+      featureHelp="Pressing <Change Stance> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene."
     },
     {
       featureDescription="Quick menu commands.",
@@ -56,7 +56,7 @@ local this={
     },
     {
       featureDescription="New sideops for Mother Base.",
-      featureHelp="Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show."
+      featureHelp="(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show."
     },
     {
       featureDescription="IHExt overlay",
