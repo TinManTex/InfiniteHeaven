@@ -266,51 +266,12 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
 
-
-local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton or InfMenu.menuAltButton
-InfCore.PrintInspect(quickMenuHoldButton,"quickMenuHoldButton")
-
-  --InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
-  --for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
-    --InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
-  --end
-
-  if IHH then
-    if count==1 then
-
---      InfCore.DebugPrint"Starting named pipe server"
---      InfCore.Log("Starting named pipe server:")
---      local OnClientConnect=function(file)
---        InfCore.Log("OnClientConnect")
---        InfCore.PrintInspect(file,"file")
---    --    file:write("Server Ack pipe connection")
-----        file:read_async(function(s)
-----          if s == '' then
-----            InfCore.Log("Pipe Client disconnected")
-----          else
-----            InfCore.Log('Pipe Client message: '..s)
-----          end
-----        end)
---      end
---
---      this.pipeServerThread=winapi.make_pipe_server(OnClientConnect,InfCore.pipeName)
---
---      winapi.sleep(100)
-   --     IHH.StartIHExt()
-    end
-  end
+  local dumpedVars=IHDebugVars.DumpVars()
+  IHDebugVars.PrintVars(dumpedVars)
 
 
   if true then return end
-
-  InfCore.PrintInspect(vars.playerPartsType,"playerPartsType")
-  InfCore.PrintInspect(vars.playerCamoType,"playerCamoType")
-
-  if true then return end
-
-  IHDebugUAV.SetupUAV()
-
-
+  
   local scriptBlockNames={
     "animal_block",
     "demo_block",
@@ -328,21 +289,7 @@ InfCore.PrintInspect(quickMenuHoldButton,"quickMenuHoldButton")
     InfCore.PrintInspect(ScriptBlock.GetScriptBlockId(blockName),blockName)
   end
 
-
-
   if true then return end
-
-
-
-  --InfCore.PrintInspect(InfCore,"InfCore")
-
-  if true then return end
-
-
-
-  local camName=InfCamera.GetCurrentCamName()
-  InfCamera.WritePosition(camName,Vector3(824.9653,5.504622,-138.0344))
-  --InfCamera.WritePosition(camName,Vector3(2629.15747,181.129547,-2462.71436))
 
 
   InfCore.PrintInspect(Time,"Time")
@@ -358,10 +305,8 @@ InfCore.PrintInspect(quickMenuHoldButton,"quickMenuHoldButton")
     InfCore.Log(name..":"..tostring(result))
   end
 
-
-
   if true then return end
-  --DEBUGNOW
+
   InfUAV.SetupUAV()
   if true then return end
   local fileList=File.GetFileListTable("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
@@ -391,25 +336,6 @@ InfCore.PrintInspect(quickMenuHoldButton,"quickMenuHoldButton")
 
   if true then return end
 
-
-
-  local routes={
-    "rt_hover_1",
-    "rt_hover_2",
-  }
-
-  index1Max=#routes
-
-  local route=routes[index1]
-
-  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
-  if heliId==NULL_ID then
-    InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
-    return
-  end
-
-  SendCommand(heliId,{id="SetForceRoute",route=route,point=0})--,warp=true})--DEBUG
-
   InfCore.DebugPrint("index1:"..index1)
   index1=index1+increment
   if index1>index1Max then
@@ -424,15 +350,7 @@ local index2=index2Min
 this.DEBUG_SomeShiz2=function()
   InfCore.Log("---DEBUG_SomeShiz2---")
 
-  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
-  if heliId==NULL_ID then
-    InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
-    return
-  end
-
-  local route=""
-
-  SendCommand(heliId,{id="SetForceRoute",enabled=false})--,warp=true})--DEBUG
+  vars.missionCode=12345--DEBUGNOW
 
 
   InfCore.DebugPrint("index2:"..index2)
