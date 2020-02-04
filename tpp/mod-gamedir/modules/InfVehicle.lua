@@ -85,6 +85,14 @@ this.vehicleBaseTypes={
 --end
 --this.VEHICLE_BASETYPE=Enum(vehicleBaseTypeNames)
 
+--tex the fpks are based off the player (relief / _rl_ ) vehicle packs since they were nice complete examples
+--In the past IH modified the player / veh_rl vehicle packs for it's free roam vehicle patrol option.
+--1. Because the packs were nice complete packs for vehicles, 
+--which was important in the early days when I didn't have the knowledge or tooling to create my own fpks.
+--2. To bump up the instance count for TppVehicle2BodyData and TppVehicle2AttachmentData because I hit the issue of them using up the instances resulting in sideops vehicles appearing invisible.
+--Though I still don't understand the logic on that since I can have more vehicles than instances in the patrols and they'll still show, 
+--but the sideops, which aren't even using the patrol vehicle packs will be affected.
+--In some ways it's similar to the useextendfova problem wildcards have with sideops.
 local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
   EASTERN_LIGHT_VEHICLE={
     baseType="LIGHT_VEHICLE",
@@ -157,14 +165,14 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.NONE,
-    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav_ih.fpk",
   },
 
   EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY={
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY,
-    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav_rocket.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav_rocket_ih.fpk",
   },
 
   WESTERN_WHEELED_ARMORED_VEHICLE={--Nope, vehicle seems almost complete, just no turret and no use cases in game
@@ -177,28 +185,28 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
-    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_machinegun.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_machinegun_ih.fpk",
   },
 
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON={
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
-    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_cannon.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_cannon_ih.fpk",
   },
 
   EASTERN_TRACKED_TANK={
     baseType="TRACKED_TANK",
     type=Vehicle.type.EASTERN_TRACKED_TANK,
     subType=Vehicle.subType.NONE,
-    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_tnk.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_tnk_ih.fpk",
   },
 
   WESTERN_TRACKED_TANK={
     baseType="TRACKED_TANK",
     type=Vehicle.type.WESTERN_TRACKED_TANK,
     subType=Vehicle.subType.NONE,
-    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_tnk.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_tnk_ih.fpk",
   },
 }
 
@@ -328,7 +336,6 @@ end
 --IN-SIDE: this.convoys
 --tex adds convoys, and sets up vehicles, InfSoldier.ModifyLrrpSoldiers fills them.
 function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpPool)
-  --InfCore.PCall(function(vehicleSpawnList,soldierDefine)--DEBUG
   if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
@@ -390,7 +397,6 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
     if vehicleId==NULL_ID then
       InfCore.Log("InfVehicle.ModifyVehiclePatrol "..spawnInfo.locator.."==NULL_ID")
     else
-
       --tex only changing type on patrol vehicles
       if patrolVehicles[spawnInfo.locator] then
         if not Ivars.vehiclePatrolProfile:Is"SINGULAR" then
@@ -422,10 +428,9 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
           --tex overwrite spawn info
           spawnInfo.type=vehicle.type
           spawnInfo.subType=vehicle.subType
-        end
-      end
-      --<if isPatrolVehicle
-    end
+        end--baseInfo~=nil
+      end--vehicleId
+    end--isPatrolVehicle
 
     if Ivars.vehiclePatrolClass:Is"RANDOM_EACH" then
       class=math.random(0,2)--default>oxide
@@ -441,8 +446,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
       spawnInfo.paintType=nil
       spawnInfo.class=class
     end
-    --<for vehicleSpawnList
-  end
+  end--for vehicleSpawnList
 
   InfMain.RandomResetToOsTime()
 
@@ -453,8 +457,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
     InfCore.Log"this.inf_patrolVehicleConvoyInfo:"
     InfCore.PrintInspect(this.inf_patrolVehicleConvoyInfo)
   end
-  --end,vehicleSpawnList,soldierDefine)--
-end
+end--ModifyVehiclePatrol
 
 --OUT: missionPackPath
 --IN/OUT: packPaths
