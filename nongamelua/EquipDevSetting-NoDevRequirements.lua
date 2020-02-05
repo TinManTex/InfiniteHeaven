@@ -1,4 +1,4 @@
---ModifyEquipDevelopmentSetting.lua
+--EquipDevSetting-NoDevRequirements.lua
 --tex adaption of BobDoleOwnedUs' EquipDevelopConstSettingTool which builds for his No Development Requirements mod.
 
 --Comments tagged BobDoleOwnedU were from discord.
