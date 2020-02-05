@@ -89,7 +89,7 @@ local descriptiveParamToParamName={
   unk34="p34",
   isSecurityStaffEquip="p35",
   unk36="p36",
-}
+}--descriptiveParamToParamName
 
 this.equipDevTable={
   {p00=1000,p01=TppEquip.EQP_WP_10101,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=0,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0300",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
@@ -1022,7 +1022,7 @@ this.equipDevTable={
   {p00=6064,p01=TppEquip.EQP_WP_60616,p02=TppMbDev.EQP_DEV_TYPE_Sniper,p03=6063,p04=0,p05=65535,p06="name_wp_6064",p07="info_wp_6060",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/fob_snpr_alp",p09=TppMbDev.EQP_DEV_GROUP_None,p10="ability_0105",p30="real_wp_6060",p31=0,p32=0,p33=0,p34=0,p35=0,p36=0},
   {p00=6065,p01=TppEquip.EQP_WP_60617,p02=TppMbDev.EQP_DEV_TYPE_Sniper,p03=6064,p04=0,p05=65535,p06="name_wp_6064",p07="info_wp_6060",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/fob_snpr_alp",p09=TppMbDev.EQP_DEV_GROUP_None,p10="ability_0105",p30="real_wp_6060",p31=0,p32=0,p33=0,p34=0,p35=0,p36=0},
 --<
-}
+}--equipDevTable
 
 --tex incomplete unlocker example>
 --this stuff could also be pulled into it's own external lua and run via MockFox
@@ -1058,6 +1058,6 @@ end
 for i,developSetting in ipairs(this.equipDevTable)do
   TppMotherBaseManagement.RegCstDev(developSetting)
 end
-this.equipDevTable=nil--tex clear if not doing any run-time analysis
+--this.equipDevTable=nil--tex clear if not doing any run-time analysis and if you want to free up some memory
 
 return this
