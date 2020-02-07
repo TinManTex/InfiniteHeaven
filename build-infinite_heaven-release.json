@@ -17,7 +17,7 @@
   "gameArchiveSubpath": "\\master",
   "targetGamePatchFolder0Subpath": "\\0",
   "ihExtPath": "D:\\GitHub\\IHExt\\IHExt\\bin\\Release\\IHExt.exe",
-  "ihHookPath": "D:\\GitHub\\IHHook\\x64\\Debug\\IHHook.dll",
+  "ihHookPath": "D:\\GitHub\\IHHook\\x64\\Release\\IHHook.dll",
   "ihHookProxyName": "dinput8.dll",
   "modVersionDefault": "rXXX",
   "modFileName": "Infinite Heaven",
