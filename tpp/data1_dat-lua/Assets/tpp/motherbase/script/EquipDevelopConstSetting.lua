@@ -57,7 +57,7 @@ local this={}
 
 --name,description,long name are in: \Assets\tpp\lang\ui\tpp_weapon.eng.lng2
 
-local descriptiveParamToParamName={
+this.descriptiveParamToParamName={
   equipDevelopID="p00",
   equipID="p01",
   equipDevelopTypeID="p02",
@@ -1033,7 +1033,7 @@ local iDontEvenKnow=false--tex modded file had this true
 local removeWhatIsThisItWasAddedDuringAPatchP36=false--tex modded file had this true
 
 
-local dParam=descriptiveParamToParamName
+local dParam=this.descriptiveParamToParamName
 for n,developSetting in ipairs(this.equipDevTable)do
   if removeItemRequirements then
     developSetting[dParam.baseEquipDevelopId]=0
@@ -1058,6 +1058,6 @@ end
 for i,developSetting in ipairs(this.equipDevTable)do
   TppMotherBaseManagement.RegCstDev(developSetting)
 end
---this.equipDevTable=nil--tex clear if not doing any run-time analysis and if you want to free up some memory
+--this={}--tex clear if not doing any run-time analysis and if you want to free up some memory
 
 return this

@@ -4,11 +4,10 @@
 --Comments tagged BobDoleOwnedU were from discord.
 --Also see the deminified version of EquipDevelopmentConstSetting for many more comments about different parameters.
 
---tex: Also as BobDoleOwnedUs' No Development Requirements mod includes an EquipDevelopFlowSetting, 
---Though as EquipDevelopConstSettingTool doesn't have any code to modify it I'd be reluctant on attempting to use this implementation.
-
 --Currently has to run through mockfox, or include MockModulesGenerated,
 --as TppMotherBaseManagementConst is a foxtable and MockModulesGenerated has the converted plain text, number - key, values representation.
+
+--TODO: Should probably go over the logic one more time, and compare output to No Development Requirements mod.
 
 local this={}
 

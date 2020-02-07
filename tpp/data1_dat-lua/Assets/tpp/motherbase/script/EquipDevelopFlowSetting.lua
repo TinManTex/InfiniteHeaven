@@ -82,7 +82,7 @@ local this={}
 --"Medical"
 --}
 
-local descriptiveParamToParamName={
+this.descriptiveParamToParamName={
   index="p50",
   sideGrade="p51",
   grade="p52",
@@ -1043,6 +1043,6 @@ for i,entry in ipairs(this.equipDevTable)do
   TppMotherBaseManagement.RegFlwDev(entry)
 end
 
---this.equipDevTable=nil--tex clear if not doing any run-time analysis and if you want to free up some memory
+--this={}--tex clear if not doing any run-time analysis and if you want to free up some memory
 
 return this
