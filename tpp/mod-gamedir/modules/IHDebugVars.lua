@@ -3,6 +3,8 @@
 
 --tex some modules have some debug logging gated behind a if this.debugModule condition.
 --PostAllModulesLoad below will set debugModule to true for the modules named in this list.
+--this however won't catch modules that use this.debugModule while loading, 
+--or stuff that the module has run before PostAllModulesLoad
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
   'InfMain',
@@ -48,10 +50,9 @@ function this.PostAllModulesLoad()
   if isMockFox then
     return
   end
+  
+  this.SetDebugVars()
 
-  if IHH then
-    IHH.Log_SetFlushLevel(InfCore.level_trace)
-  end
   -- InfCore.Log("IHDebugVars.PostAllModulesLoad:")
   -- print("testerino");
 
@@ -93,18 +94,7 @@ function this.PostAllModulesLoad()
 
 
 
-  InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
 
-  Ivars.debugMode:Set(1)
-  Ivars.debugMessages:Set(1)
-  Ivars.debugFlow:Set(1)
-  Ivars.debugOnUpdate:Set(1)
-
-  Ivars.enableQuickMenu:Set(1)
-
-  for i,moduleName in ipairs(debugModules)do
-    _G[moduleName].debugModule=true
-  end
 
   InfCore.PrintInspect(InfCore.ihFiles,"ihFiles")
   InfCore.PrintInspect(InfCore.paths,"paths")
@@ -203,6 +193,24 @@ function this.Init()
 --    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
 --  end
 
+end
+
+function this.SetDebugVars()
+  InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
+
+  Ivars.debugMode:Set(1)
+  Ivars.debugMessages:Set(1)
+  Ivars.debugFlow:Set(1)
+  Ivars.debugOnUpdate:Set(1)
+
+  Ivars.enableQuickMenu:Set(1)
+
+  for i,moduleName in ipairs(debugModules)do
+    _G[moduleName].debugModule=true
+  end
+  if IHH then
+    IHH.Log_SetFlushLevel(InfCore.level_trace)
+  end
 end
 
 function this.PrintUpdateTimes()
