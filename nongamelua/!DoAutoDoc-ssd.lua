@@ -20,7 +20,7 @@ LoadLDT.Load{
 
 print"Running AutoDoc"
 local projectFolder=[[C:\Projects\MGS\InfiniteHeaven\ssd\]]
-local outputFolder=[[C:\Projects\MGS\InfiniteHeaven\ssd\external\docs\]]
+local outputFolder=[[C:\Projects\MGS\InfiniteHeaven\ssd\mod-gamedir\docs\]]
 local featuresOutputName="Features and Options"
 
 local FeaturesHeader=require"FeaturesHeader-ssd"

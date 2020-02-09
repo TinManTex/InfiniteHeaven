@@ -423,15 +423,19 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
 
   print("Writing output:")
   local textFilePath=outputFolder..featuresOutputName..".txt"
+  print("io.open: "..textFilePath)
   local textFile=io.open(textFilePath,"w")
 
   local htmlFilePath=outputFolder..featuresOutputName..".html"
+  print("io.open: "..htmlFilePath)
   local htmlFile=io.open(htmlFilePath,"w")
 
-  local profileFilePath=projectFolder.."external\\profiles\\All_Options_Example.lua"
+  local profileFilePath=projectFolder.."mod-gamedir\\profiles\\All_Options_Example.lua"
+  print("io.open: "..profileFilePath)
   local profileFile=io.open(profileFilePath,"w")
 
-  local profileFilePath=projectFolder.."external-release\\profiles\\All_Options_Example.lua"
+  local profileFilePath=projectFolder.."mod-gamedir-release\\profiles\\All_Options_Example.lua"
+  print("io.open: "..profileFilePath)
   local profileFileRelease=io.open(profileFilePath,"w")
 
   textFile:write(table.concat(textTable,nl))

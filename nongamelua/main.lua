@@ -1534,7 +1534,7 @@ local function GetCombinedObjectNamesFromStrings()
 end
 
 local function AnalyseTapes()
-  --files in J:\GameData\MGS\!master\chunk1_dat\Assets\tpp\sound\external\tape\
+  --files in J:\GameData\MGS\!master\chunk1_dat\Assets\tpp\sound\mod-gamedir\tape\
   local tapeFiles={
     "tp_bgm_01_01",
     "tp_bgm_02_01",
@@ -1866,7 +1866,7 @@ local function main()
 
   print"Running AutoDoc"
   local projectFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\]]
-  local outputFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\external\docs\]]
+  local outputFolder=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\docs\]]
   local featuresOutputName="Features and Options"
 
   local FeaturesHeader=require"FeaturesHeader"
