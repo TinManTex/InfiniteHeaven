@@ -226,6 +226,7 @@ function this.StartPreTitleSequence()
 end
 
 function this._StartPreTitleSequence()
+  InfCore.LogFlow("init_sequence._StartPreTitleSequence")--tex
   --OFF InfSplash.DeleteOneOffSplashes()--tex
   gvars.canExceptionHandling = false
   TppUiCommand.ErasePopup()

@@ -1,7 +1,7 @@
 local this={}
 
 function this.PostAllModulesLoad()
-  --this.RuntimeAnalyzeClasses()
+--this.RuntimeAnalyzeClasses()
 end
 
 local function PrintInfo(object,objectName)
@@ -148,7 +148,7 @@ function this.RuntimeAnalyzeClasses()
 
   InfCore.Log"---"
 
-   -- InfCore.PrintInspect(mainGame.ExportDataRelationGraph())--expects entity
+  -- InfCore.PrintInspect(mainGame.ExportDataRelationGraph())--expects entity
 
   InfCore.PrintInspect(mainScene:GetActorList(),"mainScene:GetActorList")
 
@@ -172,6 +172,8 @@ function this.RuntimeAnalyzeClasses()
   local identifier="HelispaceLocatorIdentifier"
   --  local locatorName="BuddyQuietLocator"
   local key="BuddyDDogLocator"
+  InfCore.Log("identifier: "..identifier)
+  InfCore.Log("key: "..key)
   local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
   PrintInfo(data,"data")
   --OUTPUT
