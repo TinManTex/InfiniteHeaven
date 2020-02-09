@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r232
+-- Defaults / example of all profile options for IH r234
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -214,8 +214,15 @@ local this={
 		mbShowCodeTalker=0,--{ 0-1 } -- Show Code Talker
 		mbShowEli=0,--{ 0-1 } -- Show Eli
 		mbShowHuey=0,--{ 0-1 } -- Show Huey
-		mbAdditionalNpcs=0,--{ 0-1 } -- Additional NPCs
 		mbEnableBirds=0,--{ 0-1 } -- Enable Birds
+		--Additional NPCs menu
+		mbNpc_NURSE_3_FEMALE=0,--{ 0-1 } -- Female nurse
+		mbNpc_DOCTOR_0=0,--{ 0-1 } -- Male doctor
+		mbNpc_DDS_RESEARCHER=0,--{ 0-1 } -- Male researcher
+		mbNpc_DDS_RESEARCHER_FEMALE=0,--{ 0-1 } -- Female researcher
+		mbNpc_DDS_GROUNDCREW=0,--{ 0-1 } -- Male groundcrew
+		mbNpc_CHILD_0=0,--{ 0-1 } -- Chilren
+		mbNpc_KAZ=0,--{ 0-1 } -- Kaz Miller
 		--Show assets menu
 		mbShowBigBossPosters=0,--{ 0-1 } -- Show Big Boss posters
 		mbShowMbEliminationMonument=0,--{ 0-1 } -- Show nuke elimination monument

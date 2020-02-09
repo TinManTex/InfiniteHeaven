@@ -31,7 +31,7 @@ Manually trigger open heli door at mission start.
 Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.
 
 Pause and restart cutscenes.
-Pressing <Quick dive> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene.
+Pressing <Change Stance> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene.
 
 Quick menu commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
@@ -48,7 +48,7 @@ Reload lua scripts in MGS_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
 
 New sideops for Mother Base.
-Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
+(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
 
 IHExt overlay
 IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.
@@ -62,8 +62,8 @@ Menu, Options and Settings
 Basic terms used in the Infinite Heaven menu:
 [Option] : [Setting(s)] 
 
-Safe-space menu
----------------
+In-ACC menu
+-----------
 1: IH system menu
 2: Camera menu
 3: Cutscenes menu
@@ -210,18 +210,19 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: Reload IH modules : 0-1
-6: copyLogToPrev : 0-1
-7: printPressedButtons : Off, On
-8: Show freecam position : 0-1
-9: Show position : 0-1
-10: Show missionCode : 0-1
-11: Show game language code : 0-1
-12: appearanceDebugMenu
-13: Disable game over : Off, On
-14: Disable out of bounds checks : Off, On
-15: Disable mission intro credits : Off, On
-16: manualMissionCode : 
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
+6: Reload IH modules : 0-1
+7: copyLogToPrev : 0-1
+8: printPressedButtons : Off, On
+9: Show freecam position : 0-1
+10: Show position : 0-1
+11: Show missionCode : 0-1
+12: Show game language code : 0-1
+13: appearanceDebugMenu
+14: Disable game over : Off, On
+15: Disable out of bounds checks : Off, On
+16: Disable mission intro credits : Off, On
+17: manualMissionCode : 
 
 appearanceDebugMenu
 -------------------
@@ -544,13 +545,22 @@ Note: The training side-op on the command platform will be disabled while this i
 4: Show Eli : Off, On
 5: Show Huey : Off, On
 Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.
-6: Additional NPCs : Off, On
-Adds different NPCs standing around mother base, including ground crew, researchers and Miller.
-7: Enable Birds : Off, On
+6: Enable Birds : Off, On
+7: Additional NPCs menu
 8: Reset Paz state to beginning : 0-1
 9: Return Quiet after mission 45 : 0-1
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
 10: showQuietReunionMissionCount : 0-1
+
+Additional NPCs menu
+--------------------
+1: Female nurse : Off, On
+2: Male doctor : Off, On
+3: Male researcher : Off, On
+4: Female researcher : Off, On
+5: Male groundcrew : Off, On
+6: Chilren : Off, On
+7: Kaz Miller : Off, On
 
 Show assets menu
 ----------------
@@ -576,7 +586,7 @@ Patrols and deployments menu
 1: Foot patrols in free roam : Off, On
 Foot patrols will travel between random CPs and will cross the field to get there.
 2: Wildcard soldiers Free roam : Off, On
-Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
+Changes a few soldiers throughout the CPs to have unique models and high end weapons.
 3: Attack heli patrols in free roam : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
 4: Attack heli patrols in MB : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
@@ -972,31 +982,32 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: Reload IH modules : 0-1
-6: copyLogToPrev : 0-1
-7: selectedCp : no cp for setting
-8: setSelectedCpToMarkerObjectCp : 0-1
-9: setSelectedCpToMarkerClosestCp : 0-1
-10: dEBUG_PrintCpPowerSettings : 0-1
-11: dEBUG_PrintPowersCount : 0-1
-12: dEBUG_PrintReinforceVars : 0-1
-13: dEBUG_PrintSoldierDefine : 0-1
-14: dEBUG_ShowRevengeConfig : 0-1
-15: appearanceDebugMenu
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
+6: Reload IH modules : 0-1
+7: copyLogToPrev : 0-1
+8: selectedCp : no cp for setting
+9: setSelectedCpToMarkerObjectCp : 0-1
+10: setSelectedCpToMarkerClosestCp : 0-1
+11: dEBUG_PrintCpPowerSettings : 0-1
+12: dEBUG_PrintPowersCount : 0-1
+13: dEBUG_PrintReinforceVars : 0-1
+14: dEBUG_PrintSoldierDefine : 0-1
+15: dEBUG_ShowRevengeConfig : 0-1
 16: appearanceDebugMenu
-17: printPressedButtons : Off, On
-18: printOnBlockChange : Off, On
-19: Disable game over : Off, On
-20: Disable out of bounds checks : Off, On
-21: setAllFriendly : 0-1
-22: setAllZombie : 0-1
-23: dEBUG_ToggleParasiteEvent : 0-1
-24: resetStageBlockPosition : 0-1
-25: setStageBlockPositionToMarkerClosest : 0-1
-26: Set stage position to camera : 0-1
-27: Show freecam position : 0-1
-28: Show position : 0-1
-29: checkPointSave : 0-1
+17: appearanceDebugMenu
+18: printPressedButtons : Off, On
+19: printOnBlockChange : Off, On
+20: Disable game over : Off, On
+21: Disable out of bounds checks : Off, On
+22: setAllFriendly : 0-1
+23: setAllZombie : 0-1
+24: dEBUG_ToggleParasiteEvent : 0-1
+25: resetStageBlockPosition : 0-1
+26: setStageBlockPositionToMarkerClosest : 0-1
+27: Set stage position to camera : 0-1
+28: Show freecam position : 0-1
+29: Show position : 0-1
+30: checkPointSave : 0-1
 
 appearanceDebugMenu
 -------------------

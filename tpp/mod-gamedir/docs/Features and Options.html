@@ -28,7 +28,7 @@
 <div id="menuItem">Manually trigger open heli door at mission start.</div>
 <div id="itemHelp">Pressing &ltChange Stance&gt while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.</div>
 <div id="menuItem">Pause and restart cutscenes.</div>
-<div id="itemHelp">Pressing &ltQuick dive&gt when a cutscene is playing will toggle pause/resume. Pressing &ltReload&gt will restart the cutscene.</div>
+<div id="itemHelp">Pressing &ltChange Stance&gt when a cutscene is playing will toggle pause/resume. Pressing &ltReload&gt will restart the cutscene.</div>
 <div id="menuItem">Quick menu commands.</div>
 <div id="itemHelp">(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)<br/>Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 <div id="menuItem">Settings save file.</div>
@@ -38,7 +38,7 @@
 <div id="menuItem">Reload lua scripts in MGS_TPP without exiting game.</div>
 <div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
 <div id="menuItem">New sideops for Mother Base.</div>
-<div id="itemHelp">Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.</div>
+<div id="itemHelp">(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.</div>
 <div id="menuItem">IHExt overlay</div>
 <div id="itemHelp">IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.<br/>The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings. It can also display more descriptive help text for the current option. Can also search by selecting the menu line below the menu list, typing something and pressing enter.<br/>Enable via the IH System menu.<br/>Source can be found at https://github.com/TinManTex/IHExt/</div>
 </div>
@@ -50,7 +50,7 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="safeSpaceMenu">Safe-space menu</div>
+<div id="safeSpaceMenu">In-ACC menu</div>
 </div>
 <div id="menuItem">
 <div>1: <a href="#systemMenu">IH system menu</a></div>
@@ -359,40 +359,43 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: Reload IH modules : 0-1</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
 </div>
 <div id="menuItem">
-<div>6: copyLogToPrev : 0-1</div>
+<div>6: Reload IH modules : 0-1</div>
 </div>
 <div id="menuItem">
-<div>7: printPressedButtons : Off, On</div>
+<div>7: copyLogToPrev : 0-1</div>
 </div>
 <div id="menuItem">
-<div>8: Show freecam position : 0-1</div>
+<div>8: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: Show position : 0-1</div>
+<div>9: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>10: Show missionCode : 0-1</div>
+<div>10: Show position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: Show game language code : 0-1</div>
+<div>11: Show missionCode : 0-1</div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>12: Show game language code : 0-1</div>
 </div>
 <div id="menuItem">
-<div>13: Disable game over : Off, On</div>
+<div>13: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>14: Disable out of bounds checks : Off, On</div>
+<div>14: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>15: Disable mission intro credits : Off, On</div>
+<div>15: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>16: manualMissionCode : </div>
+<div>16: Disable mission intro credits : Off, On</div>
+</div>
+<div id="menuItem">
+<div>17: manualMissionCode : </div>
 </div>
 <div id="menuItem">
 </div>
@@ -1223,11 +1226,10 @@
 <div id="itemHelp">Shows Huey in BattleGear hangar and in cutscenes even before he's arrived or after he's left story-wise.</div>
 </div>
 <div id="menuItem">
-<div>6: Additional NPCs : Off, On</div>
-<div id="itemHelp">Adds different NPCs standing around mother base, including ground crew, researchers and Miller.</div>
+<div>6: Enable Birds : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Enable Birds : Off, On</div>
+<div>7: <a href="#mbAdditionalNpcsMenu">Additional NPCs menu</a></div>
 </div>
 <div id="menuItem">
 <div>8: Reset Paz state to beginning : 0-1</div>
@@ -1238,6 +1240,37 @@
 </div>
 <div id="menuItem">
 <div>10: showQuietReunionMissionCount : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="mbAdditionalNpcsMenu">Additional NPCs menu</div>
+</div>
+<div id="menuItem">
+<div>1: Female nurse : Off, On</div>
+</div>
+<div id="menuItem">
+<div>2: Male doctor : Off, On</div>
+</div>
+<div id="menuItem">
+<div>3: Male researcher : Off, On</div>
+</div>
+<div id="menuItem">
+<div>4: Female researcher : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Male groundcrew : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Chilren : Off, On</div>
+</div>
+<div id="menuItem">
+<div>7: Kaz Miller : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1307,7 +1340,7 @@
 </div>
 <div id="menuItem">
 <div>2: Wildcard soldiers Free roam : Off, On</div>
-<div id="itemHelp">Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.</div>
+<div id="itemHelp">Changes a few soldiers throughout the CPs to have unique models and high end weapons.</div>
 </div>
 <div id="menuItem">
 <div>3: Attack heli patrols in free roam : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep</div>
@@ -2281,79 +2314,82 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: Reload IH modules : 0-1</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
 </div>
 <div id="menuItem">
-<div>6: copyLogToPrev : 0-1</div>
+<div>6: Reload IH modules : 0-1</div>
 </div>
 <div id="menuItem">
-<div>7: selectedCp : no cp for setting</div>
+<div>7: copyLogToPrev : 0-1</div>
 </div>
 <div id="menuItem">
-<div>8: setSelectedCpToMarkerObjectCp : 0-1</div>
+<div>8: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>9: setSelectedCpToMarkerClosestCp : 0-1</div>
+<div>9: setSelectedCpToMarkerObjectCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>10: dEBUG_PrintCpPowerSettings : 0-1</div>
+<div>10: setSelectedCpToMarkerClosestCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: dEBUG_PrintPowersCount : 0-1</div>
+<div>11: dEBUG_PrintCpPowerSettings : 0-1</div>
 </div>
 <div id="menuItem">
-<div>12: dEBUG_PrintReinforceVars : 0-1</div>
+<div>12: dEBUG_PrintPowersCount : 0-1</div>
 </div>
 <div id="menuItem">
-<div>13: dEBUG_PrintSoldierDefine : 0-1</div>
+<div>13: dEBUG_PrintReinforceVars : 0-1</div>
 </div>
 <div id="menuItem">
-<div>14: dEBUG_ShowRevengeConfig : 0-1</div>
+<div>14: dEBUG_PrintSoldierDefine : 0-1</div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>15: dEBUG_ShowRevengeConfig : 0-1</div>
 </div>
 <div id="menuItem">
 <div>16: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>17: printPressedButtons : Off, On</div>
+<div>17: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>18: printOnBlockChange : Off, On</div>
+<div>18: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>19: Disable game over : Off, On</div>
+<div>19: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>20: Disable out of bounds checks : Off, On</div>
+<div>20: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>21: setAllFriendly : 0-1</div>
+<div>21: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>22: setAllZombie : 0-1</div>
+<div>22: setAllFriendly : 0-1</div>
 </div>
 <div id="menuItem">
-<div>23: dEBUG_ToggleParasiteEvent : 0-1</div>
+<div>23: setAllZombie : 0-1</div>
 </div>
 <div id="menuItem">
-<div>24: resetStageBlockPosition : 0-1</div>
+<div>24: dEBUG_ToggleParasiteEvent : 0-1</div>
 </div>
 <div id="menuItem">
-<div>25: setStageBlockPositionToMarkerClosest : 0-1</div>
+<div>25: resetStageBlockPosition : 0-1</div>
 </div>
 <div id="menuItem">
-<div>26: Set stage position to camera : 0-1</div>
+<div>26: setStageBlockPositionToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
-<div>27: Show freecam position : 0-1</div>
+<div>27: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
-<div>28: Show position : 0-1</div>
+<div>28: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>29: checkPointSave : 0-1</div>
+<div>29: Show position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>30: checkPointSave : 0-1</div>
 </div>
 <div id="menuItem">
 </div>

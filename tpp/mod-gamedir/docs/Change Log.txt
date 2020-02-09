@@ -1,6 +1,6 @@
 Infinite Heaven changelog
 
-r234 - 2020-
+r234 - 2020-02-10
 Refactor: Data: Build veh_rl_*_ih packs based on the veh_rl_ packs, removed modded veh_rl fox2s, which suould free up mods for the player vehicles without conflicting with that.
 IH modified the player / veh_rl vehicle packs for it's free roam vehicle patrol option.
 
@@ -11,6 +11,8 @@ IH modified the player / veh_rl vehicle packs for it's free roam vehicle patrol 
 Though I still don't understand the logic on that since I can have more vehicles than instances in the patrols and they'll still show, but the sideops, which aren't even using the patrol vehicle packs will be affected.
 
 In some ways it's similar to the useextendfova problem wildcards have with sideops.
+
+Thanks placeholderthesteam for the prompt.
 
 InfDemo,InfMenu,InfMenuDefs,InfQuickMenuDefs:
 Added: In-Cutscene IH menu can be opened while cutscene playing.
