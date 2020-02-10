@@ -679,12 +679,49 @@ function this.WarpRat(gameObjectName,pos,rotY)
   GameObject.SendCommand(gameObjectId,command)
 end
 
+--tex used to counteract sendcommand IsDD
+--(ie should be used in conjunction with, unless you want to throw a IsDD or maybe EnemyType.TYPE_DD in)
+--currently only used in TppHero to manage mb_staff_died
+--currently soldiers only
+--REF base game DD soldiers
+--MB Free soldiers
+--Fob soldiers, but only on defense
+--Fob Hostages, but only on event?
+--10115 : Mission 22 - Retake the Platform  hostages
+--10240 : shining lights
+--some sideops hostages (which ones exactly?)
+--sideops wandering mb soldiers
+
+--sendcommand IsDD seems to return true when soldierType==EnemyType.TYPE_DD -- VERIFY
+--seems to have an exception (return false) for 10115 soldiers
+function this.IsDDEnemy(gameId)
+  --if Tpp.IsHostage(gameId)then
+  --elseif Tpp.IsSoldier(gameId)then--tex current usage already has this check
+  --tex mb invasion TODO can't remember if I mbqf can have invasion lol
+  if (vars.missionCode==30050 or vars.missionCode==30250) and Ivars.mbNonStaff:Is(1) then
+    return true
+  end
+
+  if Ivars.customSoldierTypeFREE:Is()>0 and Ivars.customSoldierTypeFREE:MissionCheck() then
+    return true
+  end
+  
+  --DEBUGNOW TODO some way of indicating quest soldier is enemy
+
+  --tex revisit this if you ever fix wildcard females
+  --if Ivars.enableWildCardFreeRoam:Is()>0 and Ivars.enableWildCardFreeRoam:MissionCheck() then
+  --(would need an is female check)
+  --  return
+  --end
+  --end--hostage or soldier
+end
+
 -- mb dd equip
 --tex TODO: don't like how this is still tied up both with weapon table and .GetMbs ranks
 local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
-  if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
+  if not InfMain.IsFOBMission(missionId) and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
     return IvarProc.EnabledForMission(enableDDEquipStr)
   end
   return false
