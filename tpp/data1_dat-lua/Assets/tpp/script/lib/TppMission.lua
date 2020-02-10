@@ -1740,10 +1740,11 @@ function this.Messages()
         end
       end,option={isExecMissionClear=true,isExecGameOver=true,isExecMissionPrepare=true}},
       {msg="EndResultBlockLoad",func=this.OnEndResultBlockLoad,option={isExecMissionClear=true,isExecGameOver=true,isExecDemoPlaying=true}},
-      {msg="EndReloginSync",func=function()--RETAILPATCH 1090>
+      --RETAILPATCH 1090>
+      {msg="EndReloginSync",func=function()
         if this.IsHelicopterSpace(vars.missionCode)then
           TppVarInit.InitializeOnlineChallengeTaskVarsForNewMission()
-      end
+        end
       end},--<
     },
     Radio={{msg="Finish",func=this.OnFinishUpdateObjectiveRadio}},

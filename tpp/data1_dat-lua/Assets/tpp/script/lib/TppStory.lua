@@ -1478,7 +1478,7 @@ function this.CalcAllMissionTaskCompletedCount()
       --InfCore.Log("CalcAllMissionTaskCompletedCount "..missionCode..": taskcompletedCount:"..taskCompletedCount..", maxMissionTask:"..maxMissionTask)--tex DEBUG
     end
   end
-  --InfCore.Log("CalcAllMissionTaskCompletedCount sum total: taskcompletedCount:"..completedCount..", totalCount:"..totalCount)--DEBUG
+  --InfCore.Log("CalcAllMissionTaskCompletedCount sum total: taskcompletedCount:"..completedCount..", totalCount:"..totalCount)--tex DEBUG
   return completedCount,totalCount
 end
 function this.UpdateMissionCleardFlag(missionCode)

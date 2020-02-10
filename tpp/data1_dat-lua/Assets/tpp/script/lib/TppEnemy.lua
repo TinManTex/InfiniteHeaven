@@ -754,7 +754,7 @@ function this._GetSoldierType(soldierId)--tex was GetSoldierType
     if missionCode==10080 or missionCode==11080 then
       return EnemyType.TYPE_PF
     end
-    --NMC: used for quest enemies and a few story missions
+    --NMC: just return the first found
     for n,soldierType in pairs(mvars.ene_soldierTypes)do
       if soldierType then
         return soldierType--NMC: no soliderid so just default to first type
