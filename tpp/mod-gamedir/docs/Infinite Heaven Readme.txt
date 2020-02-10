@@ -1,5 +1,5 @@
 = Infinite heaven =
-r234 - 2020-02-10
+r235 - 2020-02-10
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.1 in exe
 
