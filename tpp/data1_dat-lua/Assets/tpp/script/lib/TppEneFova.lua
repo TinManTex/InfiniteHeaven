@@ -2021,7 +2021,7 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
       else
         lethalUavType=TppUav.DEVELOP_LEVEL_LMG_0
       end
-    elseif uavLevel==3 then
+    elseif uavLevel>=3 then--RETAILPATCH 1090 was ==3 , tex did not notice I hadn't applied this during the merge until Feb2020, patch 1090 was released in April 2016 oops
       if soldierEquipGrade>=lmgLv2EquipGrade then
         lethalUavType=TppUav.DEVELOP_LEVEL_LMG_2
       elseif soldierEquipGrade>=lmgLv1EquipGrade then
@@ -2059,7 +2059,7 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   if soldierEquipGrade<sleepEquipGrade then
     sleepUavType=defaultUavType
   else
-    if uavSleepingLevel==1 then
+    if uavSleepingLevel>=1 then--RETAILPATCH 1090 was ==1 , tex did not notice I hadn't applied this during the merge until Feb2020, patch 1090 was released in April 2016 oops
       sleepUavType=TppUav.DEVELOP_LEVEL_SLEEP_0
     end
   end
@@ -2094,42 +2094,43 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
 end
 --<
 --RETAILPATCH 1090>
+--NMC: cant see any references to this
 function this.GetUavCombatGradeAndEmpLevel(p1,p2,p3,p4)
   if p1<9 then
     return nil,0
   end
-  local d={
+  local unkTable1={
     [9]={4,2},
     [10]={5,3},
     [11]={6,4}
   }
-  local n,e
+  local unkN1,unkN2
   if p2 then
-    e=2
-    n=p4
+    unkN2=2
+    unkN1=p4
   else
-    e=1
-    n=p3
+    unkN2=1
+    unkN1=p3
   end
-  local a
-  for t,d in pairs(d)do
-    if d[e]==n then
-      a=t
+  local unkN3
+  for unkK,unkV in pairs(unkTable1)do
+    if unkV[unkN2]==unkN1 then
+      unkN3=unkK
     end
   end
-  if not a then
-    if n>d[11][e]then
+  if not unkN3 then
+    if unkN1>unkTable1[11][unkN2]then
     end
     return nil,0
   end
-  local e,n
-  if p1<=a then
-    e=p1
+  local ret1,ret2
+  if p1<=unkN3 then
+    ret1=p1
   else
-    e=a
+    ret1=unkN3
   end
-  n=e-8
-  return e,n
+  ret2=ret1-8
+  return ret1,ret2
 end
 --<
 function this.GetUniqueSettings()--tex>
