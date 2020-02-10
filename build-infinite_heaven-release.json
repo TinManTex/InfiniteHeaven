@@ -28,6 +28,7 @@
   "buildFox2s": true,
   "copyModPackFolders": true,
   "copyExternalLua": true,
+  "copyProxyDll": false,
   "makeMod": true,
   "installMod": false,
   "installOtherMods": false,
