@@ -3,7 +3,7 @@ Infinite Heaven changelog
 r235
 Fix: UAVs on FOB should show their correct grade.
 Bug was due from me missing a subltle change while merging the mgsv 1.09 patch in April 2016, ouch.
-It got lost in the noise of variable name changes due to the minified lua files.
+It got lost in the noise of variable name changes due to the minified lua files. Thanks elquinto for the belated report.
 
 r234 - 2020-02-10
 Refactor: Data: Build veh_rl_*_ih packs based on the veh_rl_ packs, removed modded veh_rl fox2s, which suould free up mods for the player vehicles without conflicting with that.
