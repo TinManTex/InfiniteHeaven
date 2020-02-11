@@ -48,6 +48,7 @@ end
 
 function this.PostAllModulesLoad()
   if isMockFox then
+    InfCore.Log("isMockFox, returning:")
     return
   end
   

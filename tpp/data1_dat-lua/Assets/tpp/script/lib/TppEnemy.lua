@@ -806,6 +806,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
     if bodyInfo.soldierSubType then
       return bodyInfo.soldierSubType
     else
+      --tex TODO: DOCUMENT, why am I defaulting to DD_FOB?
       return "DD_FOB"
     end
   end

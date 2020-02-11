@@ -226,9 +226,9 @@ this.SetAllEnabled = function()
     end
   end
 end
-
+--NMC: cant find any reference
 this.IsDD = function( gameObjectId )
-  if IsTypeString( enemyName ) then
+  if IsTypeString( enemyName ) then--RETAILBUG: undefined name
     gameObjectId = GetGameObjectId( gameObjectId )
   end
   local type = GameObject.SendCommand( gameObjectId, { id = "GetSoldier2Type" } )
