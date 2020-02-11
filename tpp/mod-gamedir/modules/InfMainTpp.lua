@@ -706,7 +706,25 @@ function this.IsDDEnemy(gameId)
     return true
   end
   
-  --DEBUGNOW TODO some way of indicating quest soldier is enemy
+  --tex problem: some community sideops (caplags for ex) set the soldier type to TYPE_DD to have the soldiers talk english (VERIFY some languae setting in exe keying off soldierType?)
+  --and to workaround some soldierType>weaponIdTable issues.
+  --TODO some way of indicating quest soldier is enemy
+  --would take a bit of effort to get working as:
+  --(unless I've missed something) currently there's no way of knowing if soldier is part of a quest using just their gameId 
+  --(the assumption that they are only sol_quest* soldiers isn't always true for some sideops that use existing soldiers)
+  --the best spot to flag them as ddenemy would be the quest script, but that also has no easy way to reference
+  --KLUDGE, as above TODO is not implemented
+  if TppMission.IsFreeMission(vars.missionCode)and(vars.missionCode~=30050 and vars.missionCode~=30250)then
+    local soldierType=mvars.ene_soldierTypes[gameId]
+    if soldierType==EnemyType.TYPE_DD then
+      local subType=mvars.ene_soldierSubType[gameId]
+      --ASSUMPTION: vanilla game TYPE_DD at this point (which should only be quest dd wandering soldiers) have correct sub type (looks like they don't have explicitly set subtype but default to DD_A)
+      --so incorrect subtype would be from a community sideop
+      if not InfEneFova.IsSubTypeCorrectForType(soldierType)then
+        return true
+      end
+    end
+  end--isFreeMission
 
   --tex revisit this if you ever fix wildcard females
   --if Ivars.enableWildCardFreeRoam:Is()>0 and Ivars.enableWildCardFreeRoam:MissionCheck() then
