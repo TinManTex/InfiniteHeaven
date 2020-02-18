@@ -110,11 +110,11 @@ function this.OnAllocate(missionTable)
 end
 
 function this.MissionPrepare()
-  if TppMission.IsStoryMission(vars.missionCode) then
+  --tex OFF if TppMission.IsStoryMission(vars.missionCode) then
     if Ivars.gameOverOnDiscovery:Is(1) then
       TppMission.RegistDiscoveryGameOver()
     end
-  end
+  --end
 end
 
 function this.OnInitializeTop(missionTable)

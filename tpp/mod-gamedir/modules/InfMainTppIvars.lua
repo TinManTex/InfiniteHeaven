@@ -752,6 +752,7 @@ this.registerMenus={
   "miscInMissionMenu",
   "playerRestrictionsMenu",
   "playerRestrictionsInMissionMenu",
+  "markersInMissionMenu",
   "disableSupportMenuMenu",
   "missionPrepRestrictionsMenu",
   "markersMenu",
@@ -799,6 +800,17 @@ this.playerRestrictionsMenu={
 }
 
 this.playerRestrictionsInMissionMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
+  options={
+    "Ivars.disableHeadMarkers",
+    --"Ivars.disableXrayMarkers",--tex doesn"t seem to work realtime
+    "Ivars.disableWorldMarkers",
+    "Ivars.gameOverOnDiscovery",
+  },
+}
+
+
+this.markersInMissionMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.disableHeadMarkers",
@@ -1037,7 +1049,7 @@ this.langStrings={
     mbPrioritizeFemaleSettings={"Default","None","All available","Half"},
     enemyPatrolMenu="Patrols and deployments menu",
     disableWorldMarkers="Disable world markers",
-    playerRestrictionsInMissionMenu="Markers menu",
+    playerRestrictionsInMissionMenu="Player restrictions menu",
     mbCollectionRepop="Repopulate plants and diamonds",
     missionPrepRestrictionsMenu="Mission-prep restrictions menu",
     markersMenu="Marking display menu",
@@ -1071,6 +1083,7 @@ this.langStrings={
     mbForceBattleGearDevelopLevel="Force BattleGear built level",
     printFultonSuccessBonus="Print fulton success bonus",
     dropCurrentEquip="Drop current equip",
+    markersInMissionMenu="Markers menu",
   },
   help={
     eng={
