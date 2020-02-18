@@ -595,7 +595,8 @@ end--DumpVars
 --tex dumped vars (via DumpVars()) are key, var, with var either being int or float, or indexed from 0 list of int or float
 local nl="\n"
 function this.PrintVars(dumpedVars)
-  local outputPath=[[C:\Projects\MGS\!ToolOutput\dump-vars.txt]]
+  InfCore.Log("PrintVars:")
+  local outputPath=[[C:\Projects\MGS\ToolOutput\dump-vars.txt]]
 
   local printLines={}
 
@@ -608,20 +609,25 @@ function this.PrintVars(dumpedVars)
   table.sort(namesSorted)
 
   local file,error=io.open(outputPath,"w")
+  if not file then
+    InfCore.Log(error)
+    return
+  end
   file:write("--Dumped vars via IHDebugVars.DumpVars,PrintVars",nl)
   file:write("--Note: arrays are indexed from 0",nl)
   for i, varName in ipairs(namesSorted)do
-    local line=varName.." = "
+    local line=varName
     local var = dumpedVars[varName]
     if type(var)=="table"then
-      line=line.."{ "
+      line=line.."["..#var.."]"
+      line=line.."= { "
       for j=0, #var do
         local currentVar=var[j]
         line=line..tostring(currentVar)..", "
       end
       line=line.."},"
     else
-      line=line..tostring(var)..","
+      line=line.." = "..tostring(var)..","
     end
     file:write(line,nl)
   end

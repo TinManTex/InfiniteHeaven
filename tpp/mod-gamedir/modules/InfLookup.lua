@@ -22,7 +22,8 @@ this.path32ToDataSetName={}
 
 this.strings={}
 this.gameObjectNames={}
-
+--tex build using this.BuildSoldierSvarIndexes()
+--entries: [soldierNameStr32]=<svars.sol* index>
 this.soldierSvarIndexes={}
 
 this.dictionaries={
