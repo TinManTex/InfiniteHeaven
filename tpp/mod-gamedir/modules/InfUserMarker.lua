@@ -149,6 +149,15 @@ function this.PrintMarkerGameObject(index)
   local objectName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
   InfCore.Log(objectName,true)
   InfCore.Log(gameId.."="..typeStr,true)
+
+  local objectPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+  if objectPos==nil then
+    InfCore.Log("GetPosition nil for "..objectName,true)
+  else
+    InfCore.Log(objectName.." pos:".. objectPos:GetX()..",".. objectPos:GetY().. ","..objectPos:GetZ(),true)
+  end
+
+
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     InfCore.Log("cpName:"..tostring(cpName),true)--DEBUGNOW TODO
     if objectName~=nil then
@@ -157,13 +166,12 @@ function this.PrintMarkerGameObject(index)
         InfCore.Log("Could not find svarIndex")
       else
         InfCore.Log("Soldier svar index:"..tostring(svarIndex))
-        InfCore.Log("Soldier svars:"..svarIndex)
-        InfCore.Log("cpRoute:"..svars[svarIndex].solCpRoute)
-        InfCore.Log("solScriptSneakRoute:"..svars[svarIndex].solScriptSneakRoute)
-        InfCore.Log("solScriptCautionRoute:"..svars[svarIndex].solScriptCautionRoute)
-        InfCore.Log("solScriptAlertRoute:"..svars[svarIndex].solScriptAlertRoute)
-        InfCore.Log("solRouteNodeIndex:"..svars[svarIndex].solRouteNodeIndex)
-        InfCore.Log("solRouteEventIndex:"..svars[svarIndex].solRouteEventIndex)
+        InfCore.Log("cpRoute:"..svars.solCpRoute[svarIndex])
+        InfCore.Log("solScriptSneakRoute:"..svars.solScriptSneakRoute[svarIndex])
+        InfCore.Log("solScriptCautionRoute:"..svars.solScriptCautionRoute[svarIndex])
+        InfCore.Log("solScriptAlertRoute:"..svars.solScriptAlertRoute[svarIndex])
+        InfCore.Log("solRouteNodeIndex:"..svars.solRouteNodeIndex[svarIndex])
+        InfCore.Log("solRouteEventIndex:"..svars.solRouteEventIndex[svarIndex])
       end
     end
   end
@@ -235,8 +243,8 @@ function this.GetMarkerPosition(index)
     end
 
     if markerPos==nil then
-       if gameId~=NULL_ID then
-      InfCore.Log("InfUserMarker.GetMarkerPosition: GetPosition==nil for gameObject "..gameId)
+      if gameId~=NULL_ID then
+        InfCore.Log("InfUserMarker.GetMarkerPosition: GetPosition==nil for gameObject "..gameId)
       end
       markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
     end
@@ -272,9 +280,9 @@ function this.WarpToUserMarker(index)
   end
   if markerPos:GetX()==0 and markerPos:GetY()==0 and markerPos:GetZ()==0 then
     InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: markerPos=0,0,0",true)--DEBUGNOW
-    return 
+    return
   end
-  
+
   if vars.userMarkerGameObjId~=nil then
     local gameId=vars.userMarkerGameObjId[index]
     if gameId~=NULL_ID then
