@@ -1092,9 +1092,12 @@ function this.AddDevMenus()
   InfCore.Log"AddDevMenus"
   local safeSpaceMenu=InfMenuDefs.safeSpaceMenu.options
   local inMissionMenu=InfMenuDefs.inMissionMenu.options
+  --KLUDGE
   if safeSpaceMenu[1]~="InfMenuDefs.devInAccMenu" then
-    table.insert(safeSpaceMenu,1,'InfMenuDefs.devInAccMenu')
-    table.insert(inMissionMenu,1,'InfMenuDefs.devInMissionMenu')
+    if not isMockFox then
+      table.insert(safeSpaceMenu,1,'InfMenuDefs.devInAccMenu')
+      table.insert(inMissionMenu,1,'InfMenuDefs.devInMissionMenu')
+    end
   end
 end
 
