@@ -382,7 +382,13 @@ function this.StartIHExt()
 end
 
 function this.IHExtRunning()
-  return ivars and ivars.enableIHExt>0 and this.extSession~=0
+  --KLUDGE
+  if IHH then
+    --DEBUGNOW
+    return this.extSession~=0
+  else
+    return ivars and ivars.enableIHExt>0 and this.extSession~=0
+  end
 end
 
 function this.IHExtInstalled()
@@ -398,7 +404,7 @@ end
 
 --tex queues up cmd, use WriteToExtTxt to actually write/sends
 function this.ExtCmd(cmd,...)
-  if not this.IHExtRunning() then
+  if not IHH and not this.IHExtRunning() then--DEBUGNOW
     return
   end
 
@@ -416,7 +422,9 @@ function this.ExtCmd(cmd,...)
   end
 
   if this.debugModule then
-    InfCore.PrintInspect(message,"ExtCmd message")
+    if InfInspect then
+      InfCore.PrintInspect(message,"ExtCmd message")
+    end
   end
 
   if IHH then
@@ -436,7 +444,7 @@ local nl="\r\n"
 function this.WriteToExtTxt()
   --tex uses pipe
   if IHH then
-  	return
+    return
   end
 
   if this.debugModule then
@@ -848,10 +856,13 @@ function this.RefreshFileList()
   end
 
   if this.debugModule then
-    InfCore.PrintInspect(this.ihFiles,"ihFiles")
-    InfCore.PrintInspect(this.paths,"paths")
-    InfCore.PrintInspect(this.files,"files")
-    InfCore.PrintInspect(this.filesFull,"filesFull")
+    --DEBUGNOW Inspect wont be up when this is first run
+    if InfInspect then
+      InfCore.PrintInspect(this.ihFiles,"ihFiles")
+      InfCore.PrintInspect(this.paths,"paths")
+      InfCore.PrintInspect(this.files,"files")
+      InfCore.PrintInspect(this.filesFull,"filesFull")
+    end
   end
 end
 
