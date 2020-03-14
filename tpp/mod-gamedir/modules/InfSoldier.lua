@@ -894,9 +894,9 @@ function this.SetUpEnemy(missionTable)
       --more specifically it's this line for wild card soldier UseExtendParts = true (female wildcard soldiers).
       --but given that that's an exe function and a single point of failure and the activation of the whole system hinges on it, it doesn't leave me with much to work with.
 
-      --After a bunch of fiddling around I built a stripped down version based on vanilla files/independant from IH, double checking I was using it the same way the game uses it. The bug still occured. 
+      --After a bunch of fiddling around I built a stripped down version based on vanilla files/independant from IH, double checking I was using it the same way the game uses it. The bug still occured.
       --Though my use of it is outside the scope of the base game given that the only two uses of it there are for one mission (13 - Pitch Dark, where it's used for the kid soldiers), and for mtbs female soldiers, neither of which have sideops with soldiers.       --
-      
+
       --It's the randomness of all the factors that leave me stumped.
       --Like said the bug occurs on sideops but the wildcard soldiers appear perfectly fine.
       --It's only some sideops, some of the time that have issues.
@@ -911,7 +911,7 @@ function this.SetUpEnemy(missionTable)
       --Sideops do have a unique system for loading body and face fovas which might have been a line of inquiry if not for the fact that the mentioned sideop uses default bodies and faces.
       --
       --It doesn't seem to be some kind of limit thing because the issue happens the same with 1 extendparts soldier or the default 5.
-      
+
       --given up for now and set numWildCards.FEMALE to 0.
       local command={id="UseExtendParts",enabled=wildCardInfo.isFemale}
       SendCommand(gameId,command)
@@ -1054,6 +1054,21 @@ function this.ModMissionTableBottom(missionTable,emptyCpPool)
     InfCore.Log("#emptyCpPool:"..#emptyCpPool)
     InfCore.PrintInspect(emptyCpPool,{varName="emptyCpPool"})
   end
+end
+
+function this.WarpSetRoute(soldierName,routeName,point,isRelaxed)
+  local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
+  if gameObjectId==NULL_ID then
+    InfCore.Log("WARNING: InfSoldier.WarpSetRoute: Could not find soldier "..soldierName)
+    return
+  end
+
+  point=point or 0
+  isRelaxed=isRelaxed or nil
+
+  SendCommand(gameObjectId,{id="SetEnabled",enabled=false,noAssignRoute=true})
+  SendCommand(gameObjectId,{id="SetSneakRoute",route=routeName,point=point,isRelaxed=isRelaxed})
+  SendCommand(gameObjectId,{id="SetEnabled",enabled=true,noAssignRoute=true})
 end
 
 return this
