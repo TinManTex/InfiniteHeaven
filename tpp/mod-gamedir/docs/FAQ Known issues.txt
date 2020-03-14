@@ -1,6 +1,12 @@
 FAQ Known issues:
 (See Troubleshooting.txt to work through other issues).
 
+Crash on start:
+Try disabling any overlay programs (ex nvidia overlay).
+
+Crash on start:
+Check you virus software isn't quaranting MGSV, some are a bit too paranoid of IH running a command prompt on startup (which it does to get a list of files in the IH directory and start IHExt).
+
 Hang on exiting free roam: This may occur if you previously had an additional sideops mod installed but reset 00.dat or snakebite without uninstalling the mod first.
 Solution: Either reinstall the sideops mod or delete all files in MGS_TPP\mod\quests except: ih_quest_q30100.lua, ih_quest_q30101.lua, ih_quest_q30102.lua, ih_quest_q30103.lua, ih_quest_q30155.lua
 

@@ -853,13 +853,14 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 12: Misc menu
 13: Motions menu
 14: Objects menu
-15: Positions menu
-16: Routes menu
-17: Staff menu
-18: Support heli menu
-19: Time scale menu
-20: User marker menu
-21: Weather menu
+15: Player restrictions menu
+16: Positions menu
+17: Routes menu
+18: Staff menu
+19: Support heli menu
+20: Time scale menu
+21: User marker menu
+22: Weather menu
 
 Appearance menu
 ---------------
@@ -1112,6 +1113,14 @@ Writes Objects List to file in MGS_TPP\mod\
 5: Load Objects List : 0-1
 Loads objects list from file in MGS_TPP\mod\
 6: Browse object list : Player
+
+Player restrictions menu
+------------------------
+1: Disable head markers : Off, On
+Disables markers above soldiers and objects
+2: Disable world markers : Off, On
+Disables objective and placed markers
+3: Game over on combat alert : Off, On
 
 Positions menu
 - For adding positions in the game to a Positions List, and writing/loading them to files.

@@ -1,5 +1,7 @@
 Troubleshooting:
 
+Check the FAQ Known Issues document first.
+
 If you have issues with Snakebite try the suggestions on the stickied post on the snakebite nexus posts.
 
 For other issues can you please provide the following files to help me test:

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r235 - 2020-02-10
+r235 - 2020-03-15
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.1 in exe
 
@@ -16,6 +16,15 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r235:
+Player restrictions menu added to in-mission menu.
+'Game over on combat alert' / gameOverOnDiscovery, now works in free roam (previously only worked in missions) (via Player restrictions menu)
+Thanks Steve Harvery for the prompt.
+
+Fix: UAVs on FOB should show their correct grade.
+Bug was due from me missing a subltle change while merging the mgsv 1.09 patch in April 2016, ouch.
+It got lost in the noise of variable name changes due to the minified lua files. Thanks elquinto for the belated report.
+
 New for r234
 Added: In-Cutscene IH menu can be opened while cutscene playing.
 Fixed: Quick menu not working while in cutscenes.
