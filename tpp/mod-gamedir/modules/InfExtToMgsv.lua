@@ -77,6 +77,9 @@ function this.ProcessCommands()
         --tex 1st line command arg3 is extToMgsvComplete
         --can't just stick it in a command as that would just create a loop of further commands to update it
         if i==1 and not IHH then
+          --tex <sessionId>|cmdToExtCompletedIndex|<mgsvToExtCompleted>
+          --sessionid not really needed as thats set via its own command
+          InfCore.mgsvToExtComplete=tonumber(args[3])
         elseif IHH or messageId>InfCore.extToMgsvComplete then
           if this.debugModule then
             InfCore.PrintInspect(args,'ToMgsv command '..args[1])--DEBUG
