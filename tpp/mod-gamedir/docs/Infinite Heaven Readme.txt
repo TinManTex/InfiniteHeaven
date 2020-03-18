@@ -1,5 +1,5 @@
 = Infinite heaven =
-r235 - 2020-03-15
+r236 - 2010-03-18
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.1 in exe
 
@@ -16,6 +16,9 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r236:
+Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with - thanks OldBoss for the report.
+
 r235:
 Player restrictions menu added to in-mission menu.
 'Game over on combat alert' / gameOverOnDiscovery, now works in free roam (previously only worked in missions) (via Player restrictions menu)

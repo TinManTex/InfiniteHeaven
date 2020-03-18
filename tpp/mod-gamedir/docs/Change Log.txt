@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r236 - 2010-03-18
+Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with. Was somehow lost in some refactoring. Thanks OldBoss for the report.
+
 r235 - 2020-03-15
 gameOverOnDiscovery/ now works in free roam.
 gameOverOnDiscovery added to playerRestrictionsInMissionMenu
