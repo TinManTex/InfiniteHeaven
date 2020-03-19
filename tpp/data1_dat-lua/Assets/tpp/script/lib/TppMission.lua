@@ -3792,10 +3792,13 @@ function this.OnMissionStart()
 end
 function this.SetPlayRecordClearInfo()
   local clearCount,allCount=TppStory.CalcAllMissionClearedCount()
+  --InfCore.Log("MissionClearedCount ["..clearCount.."/"..allCount.."]")--tex DEBUG
   TppUiCommand.SetPlayRecordClearInfo{recordId="MissionClear",clearCount=clearCount,allCount=allCount}
   local clearCount,allCount=TppStory.CalcAllMissionTaskCompletedCount()
+  --InfCore.Log("MissionTaskCompletedCount ["..clearCount.."/"..allCount.."]")--tex DEBUG
   TppUiCommand.SetPlayRecordClearInfo{recordId="MissionTaskClear",clearCount=clearCount,allCount=allCount}
   local clearCount,allCount=TppQuest.CalcQuestClearedCount()
+  --InfCore.Log("QuestClearedCount ["..clearCount.."/"..allCount.."]")--tex DEBUG
   TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
 end
 function this.IsBossBattle()

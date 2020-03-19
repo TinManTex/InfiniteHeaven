@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppGVars.lua
+-- GOTCHA: setting a TYPE_BOOL scriptvar to 0 will set it to true
 local this={}
 this.DeclareGVarsTable={
   {name="ini_isReturnToTitle",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
