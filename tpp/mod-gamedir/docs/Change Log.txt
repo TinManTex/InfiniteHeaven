@@ -1,11 +1,15 @@
 Infinite Heaven changelog
 
-r237 -
+r237 - 2020-03-31
 Fix: Game % completion was lower than it should have been, and task completion in ui was showing a higher value than max.
 See: PATCHUP: BADDATA in InfMission, gvars.ui_isTaskLastComleted
 This was due to me messing up the indexing when clearing some of the empty mission slots to use in the IH mission addon system, and a fox engine quirk where setting the save var (TppScriptVar) of TYPE_BOOL to 0 would set it to true.
 Caveat: Some users games that were saved prior to r234 might have some tasks marked as completed even if they hadn't done them yet.
 Thanks nishi980 for the report.
+
+Fix: My build process was including some files from a snakebite install run, hard to say what if any issues this caused beyond a bigger install size - thanks caplag for the report.
+
+Debug: InfCore.RefreshFileList outputs to cmd_stderr.txt
 
 r236 - 2010-03-18
 Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with. Was somehow lost in some refactoring. Thanks OldBoss for the report.
