@@ -471,7 +471,11 @@ local itemIndicators={
   command=" >>",
   command_menu_off=" >]",
   mode=" >[]",
+}
+
+local activationTags={
   activate=" <Action>",
+  on_change="<OnChange>",
 }
 
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
@@ -482,15 +486,17 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   --4:SomeOption = 102%
   --5:SomeOption = 3:SomeSetting
   --2:SomeOption <Action> = 3:SomeActivateSetting
+  --3:SomeOption <OnChange> = 2:SomeSettingWithOnChange
   --8:Command >>
   --2:Menu >
   --9:Go back >>
   --3:Do and close >]
-  --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+  --itemIndex..optionText..activationTag..optionSeperator..settingIndex..settingText..settingSuffix
 
   local itemIndex=""
   local optionText=""
   local optionSeperator=""
+  local activationTag=""
   local settingIndex=""
   local settingText=""
   local settingSuffix=""
@@ -537,8 +543,10 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
 
   if option.OnActivate then
     if not option.noActivateText then
-      optionSeperator=itemIndicators.activate..optionSeperator
+      activationTag=activationTags.activate
     end
+  elseif option.OnChange then
+    activationTag=activationTags.on_change
   end
 
   if option.isPercent then
@@ -559,9 +567,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     if optionSeperator==itemIndicators.equals then
       optionSeperator=itemIndicators.colon
     end
-    fullSettingText=itemIndex..optionText..optionSeperator
+    fullSettingText=itemIndex..optionText..activationTag..optionSeperator
   else
-    fullSettingText=itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+    fullSettingText=itemIndex..optionText..activationTag..optionSeperator..settingIndex..settingText..settingSuffix
   end
 
   return fullSettingText
