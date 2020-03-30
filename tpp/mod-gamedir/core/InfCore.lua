@@ -18,7 +18,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=236
+this.modVersion=237
 this.modName="Infinite Heaven"
 this.hookVersion=4--tex for version check
 
@@ -791,8 +791,9 @@ function this.RefreshFileList()
     this.ihFiles=io.GetFiles(modPath, "*.*")
   else
     local ihFilesName=modPath..[[ih_files.txt]]
+    local stdErrNane=modPath..[[cmd_stderr.txt]]
     --tex GOTACHA dir doesnt like alternate path seperators
-    local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath,"/","\\")..[[*.*" > "]]..string.gsub(ihFilesName,"/","\\")..[["]]
+    local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath..[[*.*" > "]]..ihFilesName..[[" 2> ]]..stdErrNane..[["]],"/","\\")
     InfCore.Log(cmd)
 
     this.PCall(function()os.execute(cmd)end)
