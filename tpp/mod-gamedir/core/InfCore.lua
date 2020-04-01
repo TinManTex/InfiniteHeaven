@@ -791,9 +791,14 @@ function this.RefreshFileList()
     this.ihFiles=io.GetFiles(modPath, "*.*")
   else
     local ihFilesName=modPath..[[ih_files.txt]]
-    local stdErrNane=modPath..[[cmd_stderr.txt]]
+    local stdErrName=modPath..[[cmd_stderr.txt]]
     --tex GOTACHA dir doesnt like alternate path seperators
-    local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath..[[*.*" > "]]..ihFilesName..[[" 2> ]]..stdErrNane..[["]],"/","\\")
+    --DEBUGNOW CULL local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath,"/","\\")..[[*.*" > "]]..string.gsub(ihFilesName,"/","\\")..[["]]
+    --tex DEBUGNOW for some people cmd is failing for some reason (actually running the command at a command prompt has no issue (for AtlasPhantom that tested)
+    --piping out stderr (2>) shows: 
+    --'cmd.exe' is not recognized as an internal or external command, operable program or batch file.
+    --(again AtlasPhantom), he was running with admin rights
+    local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath..[[*.*" > "]]..ihFilesName..[[" 2> "]]..stdErrName..[["]],"/","\\")
     InfCore.Log(cmd)
 
     this.PCall(function()os.execute(cmd)end)

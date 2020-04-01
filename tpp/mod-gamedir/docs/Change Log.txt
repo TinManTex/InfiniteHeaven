@@ -11,6 +11,8 @@ Fix: My build process was including some files from a snakebite install run, har
 
 Debug: InfCore.RefreshFileList outputs to cmd_stderr.txt
 
+Fix: r237b - missed " before stderr filename, causing refreshfilelist to fail - thanks morbidslinky for the fix
+
 r236 - 2010-03-18
 Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with. Was somehow lost in some refactoring. Thanks OldBoss for the report.
 
