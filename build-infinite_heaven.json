@@ -9,7 +9,7 @@
   "modPackPaths": [
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod",
   ],
-  "otherMgsvsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mgsv-mods",
+  "otherMgsvsPath": "C:\\Projects\\MGS\\IHBuild-install-mods",
   "docsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir\\docs",
   "makebiteBuildPath": "C:\\Projects\\MGS\\build\\infiniteheaven\\makebite",
   "buildFolder": "C:\\Projects\\MGS\\build\\infiniteheaven",
