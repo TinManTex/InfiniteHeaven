@@ -1,4 +1,3 @@
--- DOBUILD: 1
 --InfTppUtil.lua
 -- utility function dumping ground
 -- stuff that doesnt have any dependancies to tpp can go in InfUtil

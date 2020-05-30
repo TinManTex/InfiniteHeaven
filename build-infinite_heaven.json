@@ -5,6 +5,7 @@
   "luaPackFilesSubPath": "\\fpkd-combined-lua",
   "luaDataFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\data1_dat-lua",
   "luaPackFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpkd-combined-lua",
+  "internalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir",
   "externalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir",
   "modPackPaths": [
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod",
@@ -25,6 +26,7 @@
   "buildSubps": false,
   "buildFox2s": true,
   "copyModPackFolders": true,
+  "copyInternalLua": true,
   "copyExternalLua": false,
   "makeMod": true,
   "installMod": true,

@@ -1,4 +1,3 @@
--- DOBUILD: 1
 -- InfCore.lua
 local this={}
 --LOCALOPT

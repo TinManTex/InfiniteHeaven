@@ -1,4 +1,3 @@
--- DOBUILD: 1
 -- FILE: InfInspect.lua
 -- NMC
 -- DESC: Debug functions for inspecting lua.

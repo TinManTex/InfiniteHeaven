@@ -1,4 +1,3 @@
--- DOBUILD: 1
 --InfMain.lua
 --Mostly interface between TppMain / other game modules and IH modules.
 InfCore.LogFlow"Load InfMain.lua"

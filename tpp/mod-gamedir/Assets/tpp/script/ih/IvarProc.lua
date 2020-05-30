@@ -1,4 +1,3 @@
--- DOBUILD: 1
 -- IvarProc.lua
 -- tex functions for working on Ivars and their associated ivars,evars,gvars
 -- STATELESS (except for debugModule) and saveTextList

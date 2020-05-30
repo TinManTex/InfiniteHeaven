@@ -1,4 +1,3 @@
--- DOBUILD: 1
 -- InfUtil.lua
 -- utility function dumping ground
 -- should not have any dependancies to Tpp, put that in InfTppUtil

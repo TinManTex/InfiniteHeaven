@@ -1,4 +1,3 @@
--- DOBUILD: 1
 --tex GOTCHA: the games elapsed time (via GetRawElapsedTimeSinceStartUp) actually runs to the game time update rate, which means it decreases/slows down during highspeedcam/slowmo
 -- which means InfButtons (and other Inf stuff using GetElapsed) wont really respond during slowmo
 -- unfortunately os.time only resturns in seconds which isn't enough granularity
