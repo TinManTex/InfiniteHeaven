@@ -3,7 +3,7 @@
 
 --tex some modules have some debug logging gated behind a if this.debugModule condition.
 --PostAllModulesLoad below will set debugModule to true for the modules named in this list.
---this however won't catch modules that use this.debugModule while loading, 
+--this however won't catch modules that use this.debugModule while loading,
 --or stuff that the module has run before PostAllModulesLoad
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
@@ -51,7 +51,7 @@ function this.PostAllModulesLoad()
     InfCore.Log("isMockFox, returning:")
     return
   end
-  
+
   this.SetDebugVars()
 
   -- InfCore.Log("IHDebugVars.PostAllModulesLoad:")
@@ -82,15 +82,15 @@ function this.PostAllModulesLoad()
   end
 
 
---tex relative paths cause an error 'Result too large', 
---I guess kjp has some kind of relative path==internal path? thing going on?
---  InfCore.PCallDebug(opentest,"c:/temp/curredirtext1.txt")
---  InfCore.PCallDebug(opentest,"/temp/curredirtext2.txt")
---  InfCore.PCallDebug(opentest,"temp/curredirtext3.txt")
---  InfCore.PCallDebug(opentest,"curredirtext4.txt")
---  InfCore.PCallDebug(opentest,"./curredirtext5.txt")
---  InfCore.PCallDebug(opentest,".curredirtext6.txt")
---  InfCore.PCallDebug(opentest,"./temp/curredirtext7.txt")
+  --tex relative paths cause an error 'Result too large',
+  --I guess kjp has some kind of relative path==internal path? thing going on?
+  --  InfCore.PCallDebug(opentest,"c:/temp/curredirtext1.txt")
+  --  InfCore.PCallDebug(opentest,"/temp/curredirtext2.txt")
+  --  InfCore.PCallDebug(opentest,"temp/curredirtext3.txt")
+  --  InfCore.PCallDebug(opentest,"curredirtext4.txt")
+  --  InfCore.PCallDebug(opentest,"./curredirtext5.txt")
+  --  InfCore.PCallDebug(opentest,".curredirtext6.txt")
+  --  InfCore.PCallDebug(opentest,"./temp/curredirtext7.txt")
 
 
 
@@ -633,6 +633,101 @@ function this.PrintVars(dumpedVars)
   end
 
   file:close()
+end
+
+function this.Dump_ui_isTaskLastCompleted()
+  local taskCompletedInfo={}
+  local maxMissionTasks={}
+  for missionCodeStr,missionEnum in pairs(TppDefine.MISSION_ENUM)do
+    local missionCode=tonumber(missionCodeStr)
+    local maxMissionTask=TppUI.GetMaxMissionTask(missionCode) or 0
+    local info={}
+    taskCompletedInfo[missionCode]=info
+    maxMissionTasks[missionCode]=maxMissionTask
+    InfCore.Log(missionCode..": maxMissionTask: "..maxMissionTask..", isTaskCompleted:")
+    local ui_isTaskLastComletedStr="["
+    for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+      local missionTaskIndex=missionEnum*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+
+      local isTaskLastCompleted=0
+      if gvars.ui_isTaskLastComleted[missionTaskIndex] then
+        isTaskLastCompleted=1
+      end
+      info[taskIndex+1]=isTaskLastCompleted
+      ui_isTaskLastComletedStr=ui_isTaskLastComletedStr..tostring(isTaskLastCompleted)..","
+    end
+    ui_isTaskLastComletedStr=ui_isTaskLastComletedStr.."]"
+    InfCore.Log(ui_isTaskLastComletedStr)
+  end
+  InfCore.PrintInspect(taskCompletedInfo,"taskCompletedInfo")--DEBUG
+  InfCore.PrintInspect(maxMissionTasks,"maxMissionTasks")--DEBUG
+
+  --tex dumped from a 100% completed using above
+  --alternatively could hand compile from <mission>_sequence .missionObjectiveDefine s
+  --    local vanillaTasks={
+  --      [10010] = { 1, 1, 0, 0, 0, 0, 0, 0 },
+  --      [10020] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10030] = { 1, 1, 1, 1, 1, 0, 0, 0 },
+  --      [10033] = { 1, 1, 1, 1, 1, 0, 0, 0 },
+  --      [10036] = { 1, 1, 1, 1, 1, 0, 0, 0 },
+  --      [10040] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10041] = { 1, 1, 1, 1, 1, 1, 1, 0 },
+  --      [10043] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10044] = { 1, 0, 1, 1, 1, 1, 1, 1 },
+  --      [10045] = { 0, 1, 1, 1, 1, 1, 1, 0 },
+  --      [10050] = { 1, 1, 1, 0, 0, 1, 0, 0 },
+  --      [10052] = { 0, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10054] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [10070] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10080] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10081] = { 0, 1, 1, 1, 0, 0, 0, 0 },
+  --      [10082] = { 0, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10085] = { 1, 1, 1, 1, 1, 1, 1, 0 },
+  --      [10086] = { 1, 1, 1, 1, 1, 1, 1, 0 },
+  --      [10090] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [10091] = { 0, 1, 0, 1, 1, 1, 1, 1 },
+  --      [10093] = { 1, 0, 1, 1, 1, 1, 1, 0 },
+  --      [10100] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [10110] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10115] = { 1, 0, 0, 0, 0, 0, 0, 0 },
+  --      [10120] = { 0, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10121] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [10130] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10140] = { 1, 1, 1, 1, 0, 0, 0, 0 },
+  --      [10150] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [10151] = { 1, 1, 1, 0, 0, 0, 0, 0 },
+  --      [10156] = { 1, 1, 1, 1, 1, 0, 0, 0 },
+  --      [10171] = { 1, 1, 0, 1, 1, 1, 1, 1 },
+  --      [10195] = { 1, 1, 1, 1, 1, 1, 1, 0 },
+  --      [10200] = { 0, 0, 1, 1, 1, 1, 1, 1 },
+  --      [10211] = { 1, 0, 1, 1, 1, 1, 1, 0 },
+  --      [10230] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [10240] = { 1, 1, 0, 0, 0, 0, 0, 0 },
+  --      [10260] = { 1, 1, 1, 1, 1, 0, 0, 0 },
+  --      [10280] = { 1, 1, 0, 0, 0, 0, 0, 0 },
+  --      [11033] = { 1, 1, 1, 1, 1, 0, 0, 0 },
+  --      [11036] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11041] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11043] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [11044] = { 1, 0, 1, 1, 1, 1, 1, 1 },
+  --      [11050] = { 1, 1, 1, 0, 0, 1, 0, 0 },
+  --      [11052] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11054] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [11080] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [11082] = { 0, 1, 1, 1, 1, 1, 0, 0 },
+  --      [11085] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11090] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [11091] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11115] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11121] = { 1, 1, 1, 1, 1, 1, 1, 1 },
+  --      [11130] = { 1, 1, 1, 1, 1, 1, 0, 0 },
+  --      [11140] = { 1, 1, 1, 1, 0, 0, 0, 0 },
+  --      [11151] = { 1, 1, 1, 0, 0, 0, 0, 0 },
+  --      [11171] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11195] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11200] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+  --      [11211] = { 0, 0, 0, 0, 0, 0, 0, 0 }
+  --    }
 end
 
 

@@ -86,7 +86,7 @@ this.locationInfo={}
 this.missionInfo={}
 this.missionNames={}--tex see LoadMissionDefs
 this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions()
-this.missionListSlotIndices={}--tex need it for OpenMissions
+this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
 
 this.registerIvars={
   "manualMissionCode",
@@ -463,7 +463,7 @@ function this.RegisterMissions()
     local missionIndex=TppDefine.MISSION_ENUM[missionCodeStr]+1
     table.insert(this.missionListSlotIndices,missionIndex)
   end
-  --DEBUGNOW verify MISSION_LIST is vanilla at this point and RegisterMissions isnt run more than one
+
   for i=#TppDefine.MISSION_LIST+1,TppDefine.MISSION_COUNT_MAX do
     table.insert(this.missionListSlotIndices,i)
   end
@@ -506,6 +506,7 @@ function this.RegisterMissions()
   Mission.RegisterMissionCodeList{codeList=TppDefine.MISSION_LIST}--TODO see if this is happy with being called more than once for a mission code (ie via reloadmodules), it's already been called once anyway in vanilla in TppDefine
 end
 
+--CALLER: start2nd>InfMain.LoadLibraries
 function this.LoadLibraries()
   if InfCore.gameId~="TPP" then
     return
@@ -571,6 +572,59 @@ local gvarFlagNames={
 function this.OpenMissions()
   InfCore.LogFlow("InfMission.OpenMissions")
 
+  --DEBUGNOW limit to only run once
+
+
+
+  -- PATCHUP: BADDATA:
+  --<r233 BUG:
+  --for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+  --local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+  --tex this resulted in trashing some of the users ui_isTaskLastComleted data (the indices listed in badIndexes)
+  --with the GOTCHA of TppScriptVars of TYPE_BOOL being set to 0 setting them to true
+  --gvars.ui_isTaskLastComleted[missionListIndex-1]=0
+  --end
+
+  --tex fix is checking if missionTaskIndexes that aren't ever set in vanilla game have been set and clearing those
+  --will still potentially leave some users with some valid tasks that they hadn't actually completed set as completed
+  --but there's no heuristic I'm happy with to figure that out
+
+  --tex from missionListSlotIndices (shifted-1 to gvar indices) at the time of the below bug
+  --which was built from missing_number_missions, and #mission_list > max_mission (62,63)
+  local badIndexes={
+    39,--invalid task
+    41,
+    43,
+    46,--invalid task
+    49,
+    50,
+    51,
+    53,
+    55,--invalid task
+    57,
+    60,
+    62,
+    63,--invalid task
+  }
+  --tex Dump values at badIndexes
+  for i,badIndex in ipairs(badIndexes)do
+    local value=gvars.ui_isTaskLastComleted[badIndex]
+    InfCore.Log("badIndex: "..badIndex..": "..tostring(value))
+  end
+
+  --tex actual fix, may need to be reconsidered if we start repurposing vanilla mission slots
+  --notes on what is actual bad data (ie missionTaskIndexes set to true that aren't actually valid tasks for that mission in vanilla game)
+  --figured out by diffing a normal 100% save with a corrupted 100% save
+  local badTasksIndexes={
+    39,
+    46,
+    55,
+    63,
+  }
+  for i,badIndex in ipairs(badTasksIndexes)do
+    gvars.ui_isTaskLastComleted[badIndex]=false
+  end
+
   --tex close all missing number missions and > vanilla missions first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
     InfCore.Log("Clearing "..missionListIndex)
@@ -580,10 +634,9 @@ function this.OpenMissions()
     gvars.str_missionClearedFlag[missionListIndex-1]=false
 
     --tex see _GetLastCompletedFlagIndex how to index ui_isTaskLastComleted
-    for i=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
-      local missionTaskNo=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+i
-      gvars.ui_isTaskLastComleted[missionTaskNo]=0
-      -- <r233 BUG was: gvars.ui_isTaskLastComleted[missionListIndex-1]=0
+    for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+      local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+      gvars.ui_isTaskLastComleted[missionTaskIndex]=false
     end
   end
 

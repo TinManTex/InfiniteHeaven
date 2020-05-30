@@ -17,11 +17,7 @@ Some files from the MGS_TPP game folder (usually in Steam\SteamApps\common):
 
 snakebite.xml from the MGS_TPP folder.
 
-The entire MGS_TPP\mod folder.
-Or if that's an issue, just the: 
-ih_save.lua from your MGS_TPP\mod\saves folder.
-ih_log.txt from the MGS_TPP\mod folder.
-ih_files.txt from the MGS_TPP\mod folder.
+The entire MGS_TPP\mod folder (as this contains the ih_save as well as debug logs).
 
 If you need a place to upload mega.co.nz works well, as does dropbox.
 You can message me the link if you wish.

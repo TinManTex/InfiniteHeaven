@@ -1503,6 +1503,21 @@ this.weaponTableStrength={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"NORMAL","STRONG","COMBINED"},
 }
+----
+--  "weaponTableAfgh",
+--  "weaponTableMafr",
+--  "weaponTableSkull",
+--  "weaponTableDD",
+
+this.OnChangeWeaponTable=function(self,setting)
+  --TODO:
+  --for weaponTableIvars
+  --if all set to 0
+  --for all customWeaponTable
+  --if any set to 1
+  --then give a debugprint warning
+end
+
 this.weaponTableAfgh={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
@@ -2003,6 +2018,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
   local activeTypes
   local noneActive=true
   if settingsTable then
+    InfCore.Log"settingsTable"--DEBUGNOW
     noneActive=false
     strengthType=settingsTable.strengthType
     activeTypes=settingsTable.weaponTypes
@@ -2011,6 +2027,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
     activeTypes={}
     for ivarName,ivarType in pairs(ivarNameToWeaponTableType)do
       if Ivars[ivarName]:Is(1) then
+        InfCore.Log("Ivar "..ivarName.." ActiveType "..ivarType)--DEBUGNOW
         noneActive=false
         activeTypes[ivarType]=true
       end
@@ -2020,9 +2037,9 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
   InfCore.PrintInspect(activeTypes,"activeTypes")
 
   if noneActive then
-    InfCore.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG
+    InfCore.Log("WARNING: CreateCustomWeaponTable - no weapon types set.",true,true)--DEBUG
     local weaponIdTable={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
-    TppEnemy.weaponIdTable.DD=nil--DEBUGNOW TppEnemy.ClearDDParameter
+    TppEnemy.weaponIdTable.DD=weaponIdTable--tex MB needs DD set to something
     TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
     return weaponIdTable
   end

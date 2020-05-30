@@ -1464,21 +1464,22 @@ function this.CalcAllMissionClearedCount()
 end
 --GOTCHA: This is called a bunch of times during startup but it seems completedCount returns 0 till some time into execution
 function this.CalcAllMissionTaskCompletedCount()
+  --InfCore.LogFlow("CalcAllMissionTaskCompletedCount")--tex DEBUG
   local completedCount=0
   local totalCount=0
   for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
     local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
     local skipIHMission=InfMission.missionInfo[tonumber(missionCodeStr)] and Ivars.ihMissionsPercentageCount:Is(0)--tex skip IH missions depending on ivar
-    if not missingNumberEnum and not skipIHMission then--tex added isIHMission
+    if not missingNumberEnum and not skipIHMission then--tex added isIHMission --tex DEBUGNOW think this through again to make sure missingNumberEnum isn't skipped when it's an ih mission in that slot
       local missionCode=tonumber(missionCodeStr)
       local taskCompletedCount=TppUI.GetTaskCompletedNumber(missionCode) or 0--tex return 0 instead of nil
       completedCount=completedCount+taskCompletedCount
       local maxMissionTask=TppUI.GetMaxMissionTask(missionCode) or 0--tex return 0 instead of nil
       totalCount=totalCount+maxMissionTask
-      --InfCore.Log("CalcAllMissionTaskCompletedCount "..missionCode..": taskcompletedCount:"..taskCompletedCount..", maxMissionTask:"..maxMissionTask)--tex DEBUG
+      --InfCore.Log(missionCode..": taskcompletedCount/maxMissionTask:["..taskCompletedCount.."/"..maxMissionTask.."]")--tex DEBUG
     end
   end
-  --InfCore.Log("CalcAllMissionTaskCompletedCount sum total: taskcompletedCount:"..completedCount..", totalCount:"..totalCount)--tex DEBUG
+  --InfCore.Log("sum total: taskcompletedCount/totalCount:["..completedCount.."/"..totalCount.."]")--tex DEBUG
   return completedCount,totalCount
 end
 function this.UpdateMissionCleardFlag(missionCode)

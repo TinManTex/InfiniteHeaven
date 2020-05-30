@@ -1177,7 +1177,7 @@ function this.DebugModeEnable(enable)
       InfMenu.AddDevMenus()
     end
   else
-    InfCore.Log("Further logging disabled while debugMode is off")
+    InfCore.Log("Further non critical logging disabled while debugMode is off")
   end
   if IHH then
     IHH.Log_Flush()

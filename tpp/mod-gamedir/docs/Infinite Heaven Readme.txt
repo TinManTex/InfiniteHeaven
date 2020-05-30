@@ -1,5 +1,5 @@
 = Infinite heaven =
-r236 - 2010-03-18
+r237 - 2010-03-31
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.1 in exe
 
@@ -16,6 +16,13 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r237:
+Fix: Game % completion was lower than it should have been, and task completion in ui was showing a higher value than max.
+Caveat: Some users games that were saved prior to r234 might have some tasks marked as completed even if they hadn't done them yet.
+Thanks nishi980 for the report.
+
+Fix: My build process was including some files from a snakebite install run, hard to say what if any issues this caused beyond a bigger install size - thanks caplag for the report.
+
 r236:
 Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with - thanks OldBoss for the report.
 
@@ -88,7 +95,8 @@ Sub-menu >
 Command >>
 Command that closes menu when done >]
 [Option Name] <Action> : [Setting]
-Selected setting is applied by pressing <Action> 
+Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
+Commands '>>' are applied by pressing <Action> 
 
 While menu is open:
 Use Arrow keys or Dpad to navigate the menu
