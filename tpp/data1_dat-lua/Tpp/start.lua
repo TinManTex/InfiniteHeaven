@@ -673,7 +673,7 @@ if Script.LoadLibrary then
   while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
     yield()
   end
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfInitMain.lua"--tex
+  Script.LoadLibrary"/Assets/tpp/script/ih/InfInitMain.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
   Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
   Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
@@ -704,7 +704,7 @@ if TppSystemUtility.GetCurrentGameMode()=="TPP"then
   LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
 end
 InfCore.LogFlow("Most LoadLibrary libs done")--tex a good place to do stuff on the libs before much is run in them (you'd have to do it from within a library though since start is sandboxed)
-LoadLibrary"/Assets/tpp/script/lib/InfHooks.lua"--tex InfCore.LoadLibrary external from /core/ doesn't overcome sandbox but from init > InfInit does?
+LoadLibrary"/Assets/tpp/script/ih/InfHooks.lua"--tex InfCore.LoadLibrary external from /core/ doesn't overcome sandbox but from init > InfInit does?
 yield()
 if Editor then
   TppGeoMaterial.EDIT_CheckWastedMaterialNames()

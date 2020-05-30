@@ -33,7 +33,7 @@ local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local InfCore=InfCore--tex
 this.requires={
-  "/Assets/tpp/script/lib/InfRequiresStart.lua",--tex
+  "/Assets/tpp/script/ih/InfRequiresStart.lua",--tex
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
   "/Assets/tpp/script/lib/TppSave.lua",
