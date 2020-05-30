@@ -6,9 +6,9 @@ local this={}
 
 InfCore.Log("InfInitMain:")
 
-InfCore.LoadLibrary"core/InfButton.lua"
-InfCore.LoadLibrary"core/InfModules.lua"
-InfCore.LoadLibrary"core/InfMain.lua"
+InfCore.LoadLibrary"/Assets/tpp/script/ih/InfButton.lua"
+InfCore.LoadLibrary"/Assets/tpp/script/ih/InfModules.lua"
+InfCore.LoadLibrary"/Assets/tpp/script/ih/InfMain.lua"
 
 InfMain.LoadExternalModules()
 if not InfCore.mainModulesOK then

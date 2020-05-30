@@ -6,11 +6,16 @@ if IHH then
   IHH.Init()
 end
 
-InfCore=require"mod/core/InfCore"--GOTCHA modPath
+--tex try external first
+InfCore=require"mod/Assets/tpp/script/ih/InfCore"--GOTCHA modPath. relying on default package.paths having game dir
+if InfCore==nil then
+  Script.LoadLibrary"/Assets/tpp/script/ih/InfCore.lua"
+end
+
 if InfCore and not InfCore.modDirFail then
-  InfCore.LoadLibrary"core/InfInspect.lua"
-  InfCore.LoadLibrary"core/InfUtil.lua"
-  InfCore.LoadLibrary"core/InfTppUtil.lua"
+  InfCore.LoadLibrary"/Assets/tpp/script/ih/InfInspect.lua"
+  InfCore.LoadLibrary"/Assets/tpp/script/ih/InfUtil.lua"
+  InfCore.LoadLibrary"/Assets/tpp/script/ih/InfTppUtil.lua"
 
   --STATE GLOBAL
   ivars={}
@@ -18,7 +23,7 @@ if InfCore and not InfCore.modDirFail then
   igvars={}
   ih_save={}
 
-  InfCore.LoadLibrary"core/IvarProc.lua"
+  InfCore.LoadLibrary"/Assets/tpp/script/ih/IvarProc.lua"
 
   InfCore.LoadExternalModule"Ivars"
   InfCore.LoadExternalModule"IvarsPersist"
@@ -34,7 +39,7 @@ if InfCore and not InfCore.modDirFail then
 
   --InfCore.PrintInspect(evars)--DEBUG
   --tex needs to be up for Soldier2FaceAndBodyData
-  InfCore.LoadLibrary"core/InfModelProc.lua"
+  InfCore.LoadLibrary"/Assets/tpp/script/ih/InfModelProc.lua"
 
   InfCore.PCall(InfModelProc.LoadFovaInfo)
 
