@@ -2,6 +2,7 @@
 -- InfInitMain.lua
 -- tex loaded in start.lua, as an alternative to Tpp.requires
 -- is module since it's Script.LoadLibraryed to break start.luas boxing
+-- this does lead to an unknown since (in release build) it will be Script.LoadLibrarying more modules below while the module itself hasn't finished it's loading via Script.LoadLibrary
 local this={}
 
 InfCore.Log("InfInitMain:")
