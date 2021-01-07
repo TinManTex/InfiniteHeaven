@@ -1199,10 +1199,6 @@ function this.LoadExternalModules(isReload)
   InfCore.mainModulesOK=true
   InfCore.otherModulesOK=true
 
-  if isReload then
-    InfCore.PCallDebug(InfCore.RefreshFileList)
-  end
-
   --tex clear InfModules
   InfModules.moduleNames={}
   for i,moduleName in ipairs(InfModules)do
@@ -1213,15 +1209,27 @@ function this.LoadExternalModules(isReload)
     table.insert(InfModules.moduleNames,moduleName)
   end
 
-  --tex get other external modules
+  --tex get other external modules  
+  if isReload then
+    InfCore.PCallDebug(InfCore.RefreshFileList)
+  end
+  InfModules.externalModules={}
   local moduleFiles=InfCore.GetFileList(InfCore.files.modules,".lua",true)
   for i,moduleName in ipairs(moduleFiles)do
+    InfModules.externalModules[moduleName]=true
     if not InfModules.isCoreModule[moduleName] then
-      table.insert(InfModules.moduleNames,moduleName)
+      table.insert(InfModules.moduleNames,moduleName)   
     end
   end
   InfCore.PrintInspect(InfModules.moduleNames,"InfModules.moduleNames")--DEBUG
-
+  
+  --tex add basemodules internal (if they don't exist external)
+  for moduleName,bool in pairs(InfModules.baseModules)do
+    if not InfModules.externalModules[moduleName]then
+      table.insert(InfModules.moduleNames,moduleName)
+    end
+  end
+  
   for i,moduleName in ipairs(InfModules.moduleNames) do
     InfCore.LoadExternalModule(moduleName,isReload)
     local module=_G[moduleName]
