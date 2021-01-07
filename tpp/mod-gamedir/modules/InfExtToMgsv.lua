@@ -130,7 +130,7 @@ function this.ExtSession(args)
   end
 
   --DEBUGNOW if InfCore.manualIHExtStart then
-  InfMenu.GoMenu(InfMenu.topMenu)
+  InfMenu.GoBackTop()
   InfMenu.DisplayCurrentSetting()
   --end
 end
