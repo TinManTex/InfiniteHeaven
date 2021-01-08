@@ -598,7 +598,7 @@ function this.GetModuleName(scriptPath)
   return string.sub(moduleName,1,-string.len(".lua")-1)
 end
 
---tex load non core module, in mod/modules, or internal /Assets/script/ih/ for release version (on the theory that loading it 'properly' using fox engines Script.LoadLibrary is better). 
+--tex load non core module, in mod/modules, or internal /Assets/script/ih/ for release version (on the theory that loading it 'properly' using fox engines Script.LoadLibrary is better).
 --tex TODO bit of a misnomer now that they can be loaded internally
 --IN/SIDE: InfModules.externalModules
 function this.LoadExternalModule(moduleName,isReload,skipPrint)
@@ -609,18 +609,12 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
       InfCore.PCallDebug(prevModule.PreModuleReload)
     end
   end
-    
+
   local module=nil
-  --DEBUGNOW not quite happy about this, LoadExternalModule is used a couple of times before InfModules is up (in InfInit, the main usage of LoadExternalModule is via InfInitMain>InfMain.LoadExternalModules()) 
-  if InfModules and not InfModules.externalModules[moduleName]then
-    Script.LoadLibrary("/Assets/tpp/script/ih/"..moduleName..".lua")
-    module=_G[moduleName]
-    if not module then
-      InfCore.Log("InfCore.LoadExternalModule: ERROR: module"..moduleName.."not in globals",false,true)
-      return nil
-    end
-  else--tex load external (gamedir/mod/modules)
+  local scriptPath=InfCore.gamePath..InfCore.modSubPath.."/modules/"..moduleName..".lua"
+  if InfCore.FileExists(scriptPath)then--tex load external
     --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
+    --DEBUGNOW I'm building the path anyway now for FileExists check, so maybe change to a loadfile
     package.loaded[moduleName]=nil
     local sucess,module=pcall(require,moduleName)
     if not sucess then
@@ -634,6 +628,13 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
       _G[moduleName]=module
     else
       InfCore.Log("InfCore.LoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module),false,true)
+      return nil
+    end
+  else--tex load internal
+    Script.LoadLibrary("/Assets/tpp/script/ih/"..moduleName..".lua")
+    module=_G[moduleName]
+    if not module then
+      InfCore.Log("InfCore.LoadExternalModule: ERROR: module"..moduleName.."not in globals",false,true)
       return nil
     end
   end
@@ -815,7 +816,7 @@ function this.RefreshFileList()
     --tex GOTACHA dir doesnt like alternate path seperators
     --DEBUGNOW CULL local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath,"/","\\")..[[*.*" > "]]..string.gsub(ihFilesName,"/","\\")..[["]]
     --tex DEBUGNOW for some people cmd is failing for some reason (actually running the command at a command prompt has no issue (for AtlasPhantom that tested)
-    --piping out stderr (2>) shows: 
+    --piping out stderr (2>) shows:
     --'cmd.exe' is not recognized as an internal or external command, operable program or batch file.
     --(again AtlasPhantom), he was running with admin rights
     local cmd=[[cmd.exe /c dir /b /s "]]..string.gsub(modPath..[[*.*" > "]]..ihFilesName..[[" 2> "]]..stdErrName..[["]],"/","\\")
