@@ -438,8 +438,19 @@ function this.AddInMissions()
       TppEneFova.missionArmorType[missionCode]=missionInfo.missionArmorType
       TppEneFova.missionHostageInfos[missionCode]=missionInfo.missionHostageInfos
 
+      --tex add IH start-on-foot support
+      --missionInfo.missionMapParams is mbdvc_map_mission_parameter entry
+      if missionInfo.missionMapParams and missionInfo.missionMapParams.heliLandPoint then
+        for n,heliLandPoint in ipairs(missionInfo.missionMapParams.heliLandPoint)do
+          local routeIdStr32=InfCore.StrCode32(heliLandPoint.routeId)
+          if InfLZ.groundStartPositions[1][routeIdStr32] then
+             InfCore.Log("WARNING: entry for "..heliLandPoint.routeId.." already in InfLZ.groundStartPositions")
+          end
+          InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.point:GetX(), heliLandPoint.point:GetY(),heliLandPoint.point:GetZ()}}--or however Vector3s are indexed
+        end
+      end
     end--if validate
-  end
+  end--for missionInfo
 
 
   if this.debugModule then
