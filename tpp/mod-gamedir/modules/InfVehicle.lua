@@ -239,7 +239,7 @@ this.registerIvars={
 this.vehiclePatrolProfile={--TODO rename, this is not an IH profile 'vehicle patrol style?'
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"OFF","SINGULAR","EACH_VEHICLE"},
-  MissionCheck=IvarProc.MissionCheckFree,
+  MissionCheck=IvarProc.MissionCheckFreeVanilla,
 }
 this.vehiclePatrolLvEnable={
   save=IvarProc.CATEGORY_EXTERNAL,

@@ -482,15 +482,32 @@ function this.SetVector3(ivar,vec3)
   return {ivar.vec3Ivars.X:Set(vec3[0]),ivar.vec3Ivars.Y:Set(vec3[0]),ivar.vec3Ivars.Z:Set(vec3[0])}
 end
 
+local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
+
 function this.MissionCheckAll()
   return true
 end
 
-function this.MissionCheckFree(self,missionCode)
+--tex just the vanilla games free missions
+function this.MissionCheckFreeVanilla(self,missionCode)
   local missionCode=missionCode or vars.missionCode
   if missionCode==30010 or missionCode==30020 then
     return true
   end
+  
+  return false
+end
+
+--free roam missions, excluding mb
+--IN/SIDE: mbFreeMissions
+function this.MissionCheckFree(self,missionCode)
+  local missionCode=missionCode or vars.missionCode
+
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==3 then
+    return not mbFreeMissions[missionCode]
+  end
+  
   return false
 end
 
@@ -504,7 +521,7 @@ function this.MissionCheckMbqf(self,missionCode)
   return missionCode==30250
 end
 
-local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
+--IN/SIDE: mbFreeMissions
 function this.MissionCheckMbAll(self,missionCode)
   local missionCode=missionCode or vars.missionCode
   return mbFreeMissions[missionCode] or false
@@ -518,6 +535,7 @@ end
 
 local missionModeChecks={
   FREE=this.MissionCheckFree,
+  FREE_VANILLA=this.MissionCheckFreeVanilla,
   MISSION=this.MissionCheckMission,
   MB=this.MissionCheckMb,
   MB_ALL=this.MissionCheckMbAll,

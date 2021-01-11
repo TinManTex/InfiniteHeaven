@@ -105,14 +105,14 @@ this.enableLrrpFreeRoam={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  MissionCheck=IvarProc.MissionCheckFree,
+  MissionCheck=IvarProc.MissionCheckFreeVanilla,
 }
 
 this.enableWildCardFreeRoam={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  MissionCheck=IvarProc.MissionCheckFree,
+  MissionCheck=IvarProc.MissionCheckFreeVanilla,
 }
 
 --tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
