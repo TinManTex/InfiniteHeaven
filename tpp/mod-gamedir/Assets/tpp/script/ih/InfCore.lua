@@ -17,7 +17,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=237
+this.modVersion=238
 this.modName="Infinite Heaven"
 this.hookVersion=4--tex for version check
 
@@ -25,6 +25,7 @@ this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
 this.gameProcessName="mgsvtpp"
 this.modSubPath="mod"
+this.defaultGamePath="C:\\Program Files (x86)\\Steam\\steamapps\\common\\MGS_TPP\\"--tex only covers english windows installs, but it's better than nothing
 
 --STATE
 this.debugModule=false
@@ -914,6 +915,10 @@ function this.GetFileList(files,filter,stripFilter)
 end
 
 local function GetGamePath()
+  if IHH then
+    IHH.GetGamePath()
+  end
+
   local gamePath=nil
   local paths=this.Split(package.path,";")
   for i,path in ipairs(paths) do
@@ -925,6 +930,13 @@ local function GetGamePath()
   end
   --tex fallback if MGS_TPP\ couldnt be found in package.path
   if gamePath==nil then
+    local fallbackTest=this.defaultGamePath..this.modSubPath.."\\modules\\ih_files.txt"
+    if this.FileExists(fallbackTest) then
+      gamePath=this.defaultGamePath
+      gamePath=string.gsub(gamePath,"\\","/")
+      return gamePath
+    end
+    
     return[[C:/]]
   end
 
@@ -1004,6 +1016,8 @@ else
   if _IHHook and  _IHHook ~= this.hookVersion then
     InfCore.Log("IHHook version ".._IHHook..". Required version "..this.hookVersion,false,true);
   end
+  
+  this.Log("gamePath: "..this.gamePath)
 
   this.PCall(this.RefreshFileList)
   --tex TODO: critical halt on stuff that should exist, \mod, saves
