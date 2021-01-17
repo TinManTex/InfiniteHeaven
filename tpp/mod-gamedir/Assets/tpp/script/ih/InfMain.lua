@@ -1231,7 +1231,9 @@ function this.LoadExternalModules(isReload)
   end
   
   for i,moduleName in ipairs(InfModules.moduleNames) do
-    InfCore.LoadExternalModule(moduleName,isReload)
+    if not isReload or InfModules.externalModules[moduleName] then--tex don't try and reload internal
+      InfCore.LoadExternalModule(moduleName,isReload)
+    end
     local module=_G[moduleName]
     if module then
       --InfCore.Log("Loaded "..moduleName)--DEBUG
