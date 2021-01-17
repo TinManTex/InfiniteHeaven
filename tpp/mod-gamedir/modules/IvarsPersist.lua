@@ -31,7 +31,11 @@ function this.PostAllModulesLoad()
 
   --tex populate igvars if the var isn't already there
   for name,value in pairs(this)do
-    if type(value)~="function" then
+    local valueType=type(value)
+    if valueType=="function"then
+    elseif valueType=="userdata"then
+      --WORKAROUND: internal/LoadLibrary adds _scriptInstanceId userdata
+    else
       if igvars[name]==nil then
         igvars[name]=value
       end
