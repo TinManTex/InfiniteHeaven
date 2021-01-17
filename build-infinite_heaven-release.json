@@ -1,12 +1,12 @@
 {
   "projectPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp",
-  "externalInstallSubPath": "mod",
   "luaDataFilesSubpath": "\\dat1_dat-lua",
   "luaPackFilesSubPath": "\\fpkd-combined-lua",
   "luaDataFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\data1_dat-lua",
   "luaPackFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpkd-combined-lua",
-  "internalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir",
+  "internalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir\\Assets",
   "externalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir-release",
+  "modulesLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir-release\\modules",
   "modPackPaths": [
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod",
   ],
@@ -30,6 +30,7 @@
   "copyModPackFolders": true,
   "copyInternalLua": true,
   "copyExternalLua": true,
+  "copyModulesToInternal": true,
   "copyProxyDll": false,
   "makeMod": true,
   "installMod": false,
