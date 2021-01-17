@@ -446,7 +446,9 @@ function this.AddInMissions()
           if InfLZ.groundStartPositions[1][routeIdStr32] then
              InfCore.Log("WARNING: entry for "..heliLandPoint.routeId.." already in InfLZ.groundStartPositions")
           end
-          InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.point:GetX(), heliLandPoint.point:GetY(),heliLandPoint.point:GetZ()}}--or however Vector3s are indexed
+          --tex heliLandPoint.point is ui point and .startPoint is the start of the route (according to caplag eyeballing a mission), as he's used it in gntn as the ground point without any issues I guess the game either doesn't use it, or it warps to route start which would make it moot anyhoo
+          --using startPoint for custom missions to allow the author some more control over the startOnFoot point.
+          InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(), heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
         end
       end
     end--if validate
