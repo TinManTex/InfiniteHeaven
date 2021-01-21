@@ -19,7 +19,7 @@ local InfCore=this
 
 this.modVersion=238
 this.modName="Infinite Heaven"
-this.hookVersion=4--tex for version check
+this.hookVersion=5--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
@@ -381,6 +381,7 @@ function this.StartIHExt()
   this.PCall(function()os.execute(strCmd)end)
 end
 
+--DEBUGNOW seperate when we actually need to see if IHExt running and if we just want to know whether to let ExtCmd work
 function this.IHExtRunning()
   --KLUDGE
   if IHH then
@@ -402,14 +403,40 @@ function this.IHExtInstalled()
   return foundIHExt
 end
 
+--KLUDGE DEBUGNOW
+local menuCommands={
+  --Shutdown
+  --TakeFocus
+  --CanvasVisible
+  --CreateUiElement
+  --RemoveUiElement
+  SetContent=true,
+  SetText=true,
+  SetTextBox=true,
+  UiElementVisible=true,
+  ClearTable=true,
+  AddToTable=true,
+  UpdateTable=true,
+  SelectItem=true,
+  ClearCombo=true,
+  AddToCombo=true,
+  SelectCombo=true,
+  SelectAllText=true,
+}
+
 --tex queues up cmd, use WriteToExtTxt to actually write/sends
 function this.ExtCmd(cmd,...)
   if not IHH and not this.IHExtRunning() then--DEBUGNOW
     return
   end
+  
+  --DEBUGNOW
+  local useIHHMenu = IHH and ivars and ivars.enableIHExt==0
+  InfCore.Log("ExtCmd: "..tostring(cmd))--DEBUGNOW
+  InfCore.Log("useIHHMenu: "..tostring(useIHHMenu))--DEBUGNOW
 
   --tex ihExt hasnt started
-  if this.extSession==0 then
+  if this.extSession==0 and not useIHHMenu then--DEBUGNOW added useIHHMenu
     return
   end
 
@@ -426,9 +453,17 @@ function this.ExtCmd(cmd,...)
       InfCore.PrintInspect(message,"ExtCmd message")
     end
   end
+  
+  InfCore.Log("ExtCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))--DEBUGNOW
 
   if IHH then
-    IHH.QueuePipeOutMessage(message)
+    --DEBUGNOW
+    if ivars and ivars.enableIHExt==0 and menuCommands[cmd] then
+      InfCore.Log("ExtCmd call IHH.MenuMessage")--DEBUGNOW
+      IHH.MenuMessage(cmd,message)
+    else
+      IHH.QueuePipeOutMessage(message)
+    end
   else
     this.mgsvToExtCount=mgsvToExtCurrent
     this.mgsvToExtCommands[mgsvToExtCurrent]=message
@@ -915,7 +950,7 @@ function this.GetFileList(files,filter,stripFilter)
 end
 
 local function GetGamePath()
-  if IHH then
+  if IHH and IHH.GetGamePath then--DEBUGNOW remove function check once IHH is committed
     IHH.GetGamePath()
   end
 
