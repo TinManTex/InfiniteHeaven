@@ -1,5 +1,15 @@
 Infinite Heaven changelog
 
+r238 - 
+startOnFoot support for custom free missions.
+MissionCheckFree expanded to custom missions.
+
+Refactor: core scripts to Assets//ih, using LoadLibrary external fallback loading.
+LoadExternalModule internal loading support.
+
+Fix: error on session change when IHH starts IHext
+Fix: All customWeaponTable vars off would error.
+
 r237 - 2020-03-31
 Fix: Game % completion was lower than it should have been, and task completion in ui was showing a higher value than max.
 See: PATCHUP: BADDATA in InfMission, gvars.ui_isTaskLastComleted
