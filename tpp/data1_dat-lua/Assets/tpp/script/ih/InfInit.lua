@@ -10,7 +10,7 @@ if IHH then
   IHH.Init()
 end
 
---tex try loading external first. messy, but it's chicken and egg, once InfCore is up and running it has tidier functions to use
+--tex try loading external first. messy, but it's chicken and egg, once InfCore is up and running it has tidier functions that could do this
 local sucess,ret=pcall(require,"mod/Assets/tpp/script/ih/InfCore")--GOTCHA modPath. relying on default package.paths having game dir DEBUGNOW if IHH then could use gamepath
 if sucess then
   InfCore=ret
@@ -36,9 +36,10 @@ if InfCore and not InfCore.modDirFail then
   ih_save={}
 
   InfCore.LoadLibrary"/Assets/tpp/script/ih/IvarProc.lua"
-
+  --DEBUGNOW Ivars/Persist needs to booted up pretty much as early as it can, yet they're still a Module/using that system so they can be reloaded
   InfCore.LoadExternalModule"Ivars"
   InfCore.LoadExternalModule"IvarsPersist"
+  
   if Ivars==nil then
     InfCore.Log"Ivars==nil"--DEBUG
   else
@@ -46,6 +47,10 @@ if InfCore and not InfCore.modDirFail then
     IvarProc.LoadEvars()
     if ivars.enableIHExt==1 then
       InfCore.StartIHExt()
+    else
+      if IHH then--DEBUGNOW WORKAROUND use IHHMenu
+        InfCore.extSession=1
+      end
     end
   end
 

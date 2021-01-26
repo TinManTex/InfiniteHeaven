@@ -37,6 +37,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end--if not IHH
 
   this.ProcessCommands()
+  this.ProcessMenuCommands()
 end
 
 function this.ProcessCommands()
@@ -108,6 +109,33 @@ function this.ProcessCommands()
     end
   end--not IHH
 end--ProcessCommands
+
+--IHH IHMenu
+function this.ProcessMenuCommands()
+  --InfCore.Log("ProcessMenuCommands")--DEBUGNOW
+  if not IHH then 
+    return
+  end
+
+  local messages=IHH.GetMenuMessages()
+  if not messages then
+    return
+  end
+  
+  for i,message in ipairs(messages)do
+    InfCore.Log("Process menuMessage: "..message)--DEBUGNOW
+    if message:len()>0 then
+      message="1|"..message--WORKAROUND: commands still expect my IPC accounting with messageID at the start
+      local args=Split(message,'|')
+      --local messageId=tonumber(args[1])
+      if #args>0 then
+        if this.commands[args[2]] then
+          this.commands[args[2]](args)
+        end
+      end
+    end
+  end
+end--ProcessMenuCommands
 
 --commands
 --tex all commands take in single param and array of args
@@ -256,6 +284,12 @@ function this.Activate(args)
 end
 
 function this.ToggleMenu(args)
+  if #args>2 and args[3]=="1" then
+    InfCore.Log("ToggleMenu 1")--DEBUGNOW
+    InfMenu.MenuOff()
+    return
+  end
+
   local currentChecks=InfMain.UpdateExecChecks(InfMain.execChecks)
   InfMenu.ToggleMenu(currentChecks)
 end
