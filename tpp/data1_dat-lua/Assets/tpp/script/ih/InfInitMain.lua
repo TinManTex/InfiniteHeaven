@@ -6,6 +6,9 @@
 local this={}
 
 InfCore.Log("InfInitMain:")
+if IHH then
+  IHH.InitMain()
+end
 
 InfCore.LoadLibrary"/Assets/tpp/script/ih/InfButton.lua"
 InfCore.LoadLibrary"/Assets/tpp/script/ih/InfModules.lua"
