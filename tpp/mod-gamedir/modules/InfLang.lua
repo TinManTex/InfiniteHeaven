@@ -76,6 +76,21 @@ this.eng={--english
 
 this.help={}
 this.help.eng={
+  general_help=[[General Help:
+Press F2 to toggle mouse cursor.
+Navigate menu: Arrow keys or Dpad.
+Activate or advance setting: Press Right key or Dpad or double-click option in menu.
+Search for settings: Click on the setting text below the menu list, type what you want and press Enter.
+Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.
+Menu item type symbols:
+> Sub-menu 
+>> Command 
+>] Command that closes menu when done 
+<> Option that applies change when setting selectected/cycled to 
+>! Option that has an action activated by pressing <Action>
+Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
+See ReadMe or Features and Options for more info.
+]],
   debugMode="Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.",
   startOffline="Start the game in offline mode, this also removes the connect option from the pause menu.",
   enableQuickMenu="Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.",

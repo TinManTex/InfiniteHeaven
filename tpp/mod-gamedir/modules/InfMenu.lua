@@ -17,6 +17,7 @@ local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 local insert=table.insert
 local abs=math.abs
 local pairs=pairs
+local tostring=tostring
 
 local ivars=ivars
 local InfQuickMenuDefs--PostModuleLoad
@@ -211,7 +212,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
 
       if #settings>0 then
         for i,settingText in ipairs(settings)do
-          InfCore.ExtCmd('AddToCombo','menuSetting',settingText)
+          InfCore.ExtCmd('AddToCombo','menuSetting',tostring(i-1)..":"..settingText)
         end
       elseif currentSetting then
         InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
@@ -225,7 +226,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     end--if option
 
     if ivars.enableHelp>0 then
-      local helpString=InfLangProc.LangStringHelp(option.name)
+      local helpString=InfLangProc.LangStringHelp(option.name) or InfLangProc.LangStringHelp("general_help")
       if helpString then
         if this.menuOn then
           InfCore.ExtCmd('UiElementVisible','menuHelp',1)
@@ -467,36 +468,32 @@ end
 local itemIndicators={
   equals=" = ",
   colon=" :",
-  menu=" >",
-  command=" >>",
-  command_menu_off=" >]",
-  mode=" >[]",
+  menu=" > ",
+  command=" >> ",
+  command_menu_off=" >] ",
+  mode=" >[] ",
+  activate=" >! ",
+  on_change=" <> ",
 }
 
-local activationTags={
-  activate=" <Action>",
-  on_change="<OnChange>",
-}
-
-function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
+function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   local currentSetting=ivars[option.name]
 
   --REF
   --1:SomeOption = 102
   --4:SomeOption = 102%
   --5:SomeOption = 3:SomeSetting
-  --2:SomeOption <Action> = 3:SomeActivateSetting
-  --3:SomeOption <OnChange> = 2:SomeSettingWithOnChange
+  --2:SomeOption >! 3:SomeActivateSetting
+  --3:SomeOption <> 2:SomeSettingWithOnChange
   --8:Command >>
   --2:Menu >
   --9:Go back >>
   --3:Do and close >]
-  --itemIndex..optionText..activationTag..optionSeperator..settingIndex..settingText..settingSuffix
+  --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 
   local itemIndex=""
   local optionText=""
   local optionSeperator=""
-  local activationTag=""
   local settingIndex=""
   local settingText=""
   local settingSuffix=""
@@ -541,12 +538,18 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     settingText=tostring(currentSetting)
   end
 
-  if option.OnActivate then
-    if not option.noActivateText then
-      activationTag=activationTags.activate
+  if optionSeperator==itemIndicators.equals then--KLUDGE
+    --if option.isMode then
+    --  optionSeperator=itemIndicators.mode
+    
+  --DEBUGNOW see if there's any ivars with both
+    if option.OnActivate then
+      if not option.noActivateText then
+        optionSeperator=itemIndicators.activate
+      end
+    elseif option.OnChange then
+      optionSeperator=itemIndicators.on_change
     end
-  elseif option.OnChange then
-    activationTag=activationTags.on_change
   end
 
   if option.isPercent then
@@ -555,10 +558,10 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
 
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
     settingIndex=currentSetting..":"
-
   end
 
-  if settingNumberOnly then
+  if settingTextOnly then
+    settingIndex=""
     settingText=""
   end
 
@@ -567,9 +570,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     if optionSeperator==itemIndicators.equals then
       optionSeperator=itemIndicators.colon
     end
-    fullSettingText=itemIndex..optionText..activationTag..optionSeperator
+    fullSettingText=itemIndex..optionText..optionSeperator
   else
-    fullSettingText=itemIndex..optionText..activationTag..optionSeperator..settingIndex..settingText..settingSuffix
+    fullSettingText=itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
   end
 
   return fullSettingText
@@ -587,8 +590,8 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
     else
       local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
       local noItemIndicator=false
-      local settingNumberOnly=true
-      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
+      local settingTextOnly=true
+      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
     --InfCore.Log("DisplaySetting",false,true)--DEBUG
@@ -754,7 +757,7 @@ end
 --tex called directly from InfMain.Update
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local InfMenuDefs=InfMenuDefs
-
+  
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   --DEBUGNOW this blocks SSD title, and potenially other stuff like a loading screen recovery/debug menu
@@ -1141,7 +1144,9 @@ function this.BuildMenuDefForSearch(searchString)
     insert(newMenuDef.options,optionRef)
   end
   table.sort(newMenuDef.options)
-  insert(newMenuDef.options,1,"Ivars.searchItem")
+  if #newMenuDef.options == 0 then--DEBUGNOW tex not sure why I had this -v- item in the first place, but I've now added a check to make it a 'search found nothing' indicator
+    insert(newMenuDef.options,1,"Ivars.searchItem")
+  end
   insert(newMenuDef.options,"InfMenuCommands.GoBackTopItem")
   return newMenuDef
 end
