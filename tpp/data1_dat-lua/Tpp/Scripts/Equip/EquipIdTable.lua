@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0 -- OFF till I can figure out a better approach
 --EquipIdTable.lua
 --RETAILPATCH 1090 various additions
 local this={}--tex made local

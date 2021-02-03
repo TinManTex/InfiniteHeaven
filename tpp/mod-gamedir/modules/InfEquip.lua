@@ -1408,6 +1408,11 @@ this.tppEquipTable={
 
 --tex DEBUG, requires EquipIdTable.lua in build
 function this.CheckTppEquipTable()
+  if not EquipIdTable.equipIdTable then
+    InfCore.DebugPrint"InfEquip.tppEquipTable: TppEquip.lua not set up for this function."
+    return
+  end
+
   InfCore.DebugPrint"Checking InfEquip.tppEquipTable>TppEquip id"
   local equipIdToString={}
   for i,equipIdStr in ipairs(this.tppEquipTable)do
@@ -1434,7 +1439,7 @@ this.itemDropInfo={
   SUPPORT_ITEMS=10,--nades mags and bait
   ITEMS_MISC=6,
   HANDGUNS=2,
-  DRUGS=1,
+  --OFF DRUGS=1,
 --SUPPORT_FLARE=1,--not if support disabled
 }
 
@@ -1467,12 +1472,13 @@ this.soldierDropTable={
     --"EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
     "EQP_WP_EX_hg_010",--tornado 6 grade 3
   },
-  DRUGS={
-    --tex will drop as lowest grade (with that grades item count), if already have item it will replace with lowest grade
-    "EQP_IT_Pentazemin",
-    "EQP_IT_Clairvoyance",
-    "EQP_IT_ReflexMedicine",
-  },
+-- OFF till I can figure out a better approach to midding EquipIdTable
+--  DRUGS={
+--    --tex will drop as lowest grade (with that grades item count), if already have item it will replace with lowest grade
+--    "EQP_IT_Pentazemin",
+--    "EQP_IT_Clairvoyance",
+--    "EQP_IT_ReflexMedicine",
+--  },
 }
 
 this.registerIvars={
