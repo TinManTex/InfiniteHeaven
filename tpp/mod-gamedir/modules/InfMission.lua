@@ -26,7 +26,7 @@
 --return this
 --<
 
---REF mission addon module, <GameDir>\mod\missions\ >
+--REF mission addon module aka missionInfo, <GameDir>\mod\missions\ >
 --reference of all entries rather than a sane example
 --local this={
 --  description="Jade Forest",-- Description for IH menu.
@@ -56,6 +56,18 @@
 --    "box_s13000_01",
 --  },
 --  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
+--  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable
+--    NORMAL={
+--      HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--      SMG=TppEquip.EQP_WP_East_sm_010,
+--      ASSAULT=TppEquip.EQP_WP_East_ar_010,
+--      SNIPER=TppEquip.EQP_WP_East_sr_011,
+--      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
+--      MG=TppEquip.EQP_WP_East_mg_010,
+--      MISSILE=TppEquip.EQP_WP_East_ms_010,
+--      SHIELD=TppEquip.EQP_SLD_SV
+--    },
+--  },
 --}
 --
 --return this
@@ -755,6 +767,69 @@ function this.GetMbMissionListParameterTable()
 
   return missionListParameterTable
 end
+
+--REF
+--  weaponIdTable={
+--    NORMAL={
+--      HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--      SMG=TppEquip.EQP_WP_East_sm_010,
+--      ASSAULT=TppEquip.EQP_WP_East_ar_010,
+--      SNIPER=TppEquip.EQP_WP_East_sr_011,
+--      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
+--      MG=TppEquip.EQP_WP_East_mg_010,
+--      MISSILE=TppEquip.EQP_WP_East_ms_010,
+--      SHIELD=TppEquip.EQP_SLD_SV
+--    },
+--    STRONG={
+--      HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--      SMG=TppEquip.EQP_WP_East_sm_020,
+--      ASSAULT=TppEquip.EQP_WP_East_ar_030,
+--      SNIPER=TppEquip.EQP_WP_East_sr_020,
+--      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
+--      MG=TppEquip.EQP_WP_East_mg_010,
+--      MISSILE=TppEquip.EQP_WP_Com_ms_010,
+--      SHIELD=TppEquip.EQP_SLD_SV
+--    }
+--  }
+function this.ValidateWeaponIdTable(weaponIdTable)
+  local valid=true
+  for strength,weaponTable in pairs(weaponIdTable)do
+    for weaponType,equipId in pairs(weaponTable)do
+      if equipId==nil then
+        InfCore.Log("WARNING: InfMission.ValidateWeaponIdTable: equipId nil for weaponTable category "..strength.." "..weaponType)
+        return false
+      else
+        --local equipName=InfLookup.TppEquip.equipId[equipId]--DEBUG
+        --InfCore.Log("ValidateWeaponIdTable "..strength.." "..weaponType.." "..equipName.." "..equipId)--DEBUG
+      end
+    end
+  end
+  return valid
+end
+
+--CALLER: TppEnemy.GetWeaponIdTable
+--IN/SIDE vars.missionCode
+--GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
+function this.GetWeaponIdTable(soldierType,soldierSubType) 
+  local weaponIdTable
+  local missionInfo=this.missionInfo[vars.missionCode]
+  if missionInfo then
+    weaponIdTable=missionInfo.weaponIdTable
+    if type(weaponIdTable)=="string" then
+      weaponIdTable=TppEnemy.weaponIdTable[weaponIdTable]
+      if weaponIdTable==nil then
+        InfCore.Log("WARNING: InfMission.GetWeaponIdTable: could not find weaponIdTable["..missionInfo.weaponIdTable.."]")
+      end
+    elseif type(weaponIdTable)=="table" then
+      this.ValidateWeaponIdTable(weaponIdTable)--DEBUGNOW just do it on load instead, maybe set a valid flag to check so we can return nil, or just nil the entry on fail
+      --tex pass through, it will return at the end
+    else
+      weaponIdTable=nil
+    end
+  end--if missionInfo
+  --InfCore.PrintInspect(weaponIdTable,"InfMission weaponIdTable")--DEBUG
+  return weaponIdTable
+end--GetWeaponIdTable
 
 --
 --tex need to patch in some orderbox data into the free roam mission scripts.

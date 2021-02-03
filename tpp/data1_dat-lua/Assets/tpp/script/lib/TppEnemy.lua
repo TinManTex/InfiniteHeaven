@@ -978,7 +978,13 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD"then--tex>
     return this.weaponIdTable.WILDCARD
   end--<
-
+  if InfMission then--tex> allow custom missions prefered weaponIdTable --DEBUGNOW
+    weaponIdTable=InfMission.GetWeaponIdTable(soldierType,soldierSubType)
+    if weaponIdTable then
+      return weaponIdTable
+    end
+  end--<
+  
   if soldierType==EnemyType.TYPE_SOVIET then
     weaponIdTable=this.weaponIdTable.SOVIET_A
   elseif soldierType==EnemyType.TYPE_PF then
@@ -1050,7 +1056,7 @@ function this.GetWeaponId(soldierId,config)
     end
   end
 
-  --tex> table/bag support
+  --tex> tables with multiple equipIds per weapon category have a id randomly picked
   for slotName,weaponId in pairs(weapons)do
     if Tpp.IsTypeTable(weaponId) then
       if weaponId.bag then
