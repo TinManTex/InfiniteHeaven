@@ -1752,7 +1752,9 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       bodyInfo=InfEneFova.GetMaleBodyInfo()
     end
     if bodyInfo then
-      GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
+      if isFemale then--DEBUGNOW
+        GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
+      end
 
       if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId
         local soldierType=TppEnemy.GetSoldierType(soldierId)

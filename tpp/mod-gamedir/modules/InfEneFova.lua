@@ -1323,12 +1323,14 @@ function this.WildCardFovaFaces(faces)
       table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
     end
   end
-  local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
-  for i=1,InfSoldier.numWildCards.FEMALE do
-    local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
-    --ASSUMPTION faces not picked more than once by wildcard  -v- -^-
-    table.insert(faces,{faceId,1,1,0})--DEBUGNOW TODO see if i still run into issues with male soldier being assigned female heads when this is >1
-    table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
+  if InfSoldier.numWildCards.FEMALE~=0 then--DEBUGNWO
+    local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
+    for i=1,InfSoldier.numWildCards.FEMALE do
+      local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
+      --ASSUMPTION faces not picked more than once by wildcard  -v- -^-
+      table.insert(faces,{faceId,1,1,0})--DEBUGNOW TODO see if i still run into issues with male soldier being assigned female heads when this is >1
+      table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
+    end
   end
 
   InfCore.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList,{varName="inf_wildCardFemaleFaceList"})--DEBUG
@@ -1361,12 +1363,14 @@ function this.WildCardFovaBodies(bodies)
 
   local locationName=InfUtil.GetLocationName()
 
-  this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
-  local bodyInfo=this.GetFemaleWildCardBodyInfo()
-  if bodyInfo then
-    this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
-    if bodyInfo.partsPath then
-      TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
+  if InfSolder.numWildCards.FEMALE~=0 then--DEBUGNOW
+    this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
+    local bodyInfo=this.GetFemaleWildCardBodyInfo()
+    if bodyInfo then
+      this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
+      if bodyInfo.partsPath then
+        TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
+      end
     end
   end
 

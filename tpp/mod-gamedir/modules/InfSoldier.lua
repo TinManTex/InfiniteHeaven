@@ -166,8 +166,10 @@ function this.AddMissionPacks(missionCode,packPaths)
   --<
 
   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then
-    local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
-    InfEneFova.AddBodyPackPaths(bodyInfo)
+    if InfSolder.numWildCards.FEMALE~=0 then--DEBUGNOW
+      local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
+      InfEneFova.AddBodyPackPaths(bodyInfo)
+    end
   end
 end
 
