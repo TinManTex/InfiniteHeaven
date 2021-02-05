@@ -3080,11 +3080,13 @@ function this.GetRandomFaceId(questName,index)
   if index then
     local questPackList=TppQuestList.questPackList[questName]
     if questPackList and questPackList.randomFaceListIH then
-      if questPackList.faceIdList then
+      if questPackList.faceIdList and #questPackList.faceIdList then
         if this.debugModule then--tex>
           InfCore.Log("TppQuest.GetRandomFaceId: randomFaceListIH faceId for index "..index.." :"..tostring(questPackList.faceIdList[index]))--DEBUG
         end--<
         return questPackList.faceIdList[index]
+      else
+        InfCore.Log("WARNING: TppQuest.GetRandomFaceId: randomFaceListIH on questPackList but no faceIdList")
       end
     end
   end
