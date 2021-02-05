@@ -792,7 +792,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     end
     --tex while pause is bound to escape key by default it is not actually the ESCAPE button mask
     --so if pause is bound to something else this wont catch it.
-    if InfButton.OnButtonDown(InfButton.ESCAPE) then
+    if not IHH and InfButton.OnButtonDown(InfButton.ESCAPE) then--DEBUGNOW not IHH test
       this.MenuOff()
       return
     end
