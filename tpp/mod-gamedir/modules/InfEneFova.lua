@@ -1363,7 +1363,7 @@ function this.WildCardFovaBodies(bodies)
 
   local locationName=InfUtil.GetLocationName()
 
-  if InfSolder.numWildCards.FEMALE~=0 then--DEBUGNOW
+  if InfSoldier.numWildCards.FEMALE~=0 then--DEBUGNOW
     this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
     local bodyInfo=this.GetFemaleWildCardBodyInfo()
     if bodyInfo then
