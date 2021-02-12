@@ -68,6 +68,12 @@
 --      SHIELD=TppEquip.EQP_SLD_SV
 --    },
 --  },
+--  heliSpaceFlags={-- Sortie/mission prep screen feature flags
+--    SkipMissionPreparetion=false,                        -- No sortie prep, like vanilla Mother Base.
+--    NoBuddyMenuFromMissionPreparetion=true,              -- No buddy select in the sortie
+--    NoVehicleMenuFromMissionPreparetion=true,            -- No vehicle select in the sortie
+--    DisableSelectSortieTimeFromMissionPreparetion=true,  -- Only ASAP as deployment time option
+--  },
 --}
 --
 --return this
@@ -88,6 +94,15 @@ local missionInfoFormat={
   missionHostageInfos="table",
   orderBoxList="table",
   orderBoxBlockList="table",
+  --weaponIdTable={"string","table"}
+  heliSpaceFlags="table",
+}
+
+local heliSpaceFlagNames={
+  "SkipMissionPreparetion",
+  "NoBuddyMenuFromMissionPreparetion",
+  "NoVehicleMenuFromMissionPreparetion",
+  "DisableSelectSortieTimeFromMissionPreparetion",
 }
 
 local this={}
@@ -363,6 +378,11 @@ end
 --tex Patch in locations to relevant TPP tables.
 --OUT/SIDE: a whole bunch
 function this.AddInLocations()
+  if next(this.locationInfo)==nil then
+    return
+  end
+
+  InfCore.Log("InfMission.AddInLocations: Adding locationInfos")
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationName=locationInfo.locationName
     if not locationName then
@@ -399,10 +419,25 @@ end
 --tex Patch in misssions to relevant TPP tables.TppMissionList.missionPackTable
 --OUT/SIDE: a whole bunch
 function this.AddInMissions()
+  if next(this.missionInfo)==nil then
+    return
+  end
+  
+  InfCore.Log("InfMission.AddInMissions: Adding missionInfos")
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    InfCore.Log("Adding mission "..missionCode)
+    InfCore.Log("Adding mission: "..missionCode)
 
     if InfCore.Validate(missionInfoFormat,missionInfo,"mission addon for "..missionCode) then
+      --tex TODO: expand Validate to validate sub tables
+      if missionInfo.heliSpaceFlags then
+        for flagName,set in pairs(missionInfo.heliSpaceFlags)do
+          if type(set)~="boolean" then
+            InfCore.Log("InfMission.AddInMissions: WARNING: missionInfo.heliSpaceFlags."..flagName.." should be boolean")
+            missionInfo.heliSpaceFlags[flagName]=nil--tex could do fixup, convert 0,1 whatever, either way I like to validate up front rather than slathering code with type guards
+          end
+        end
+      end
+    
       --tex TODO: check it has a valid location
 
       TppMissionList.missionPackTable[missionCode]=missionInfo.packs
@@ -917,6 +952,18 @@ function this.Init(missionTable)
       TppUiCommand.HideOuterZone()
     end
   end
+end--Init
+
+function this.OnRestoreSvars()
+  --tex sortie mvars per mission - see heli_common_sequence OnRestoreSvars
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    if missionInfo.heliSpaceFlags then--tex alway a question when choosing a name whether to make it friendly for user (sortiePrepFlags or somthin), or to use naming from existing code, missionInfo in general uses code derived naming
+      mvars.heliSpace_SkipMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.SkipMissionPreparetion
+      mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.NoBuddyMenuFromMissionPreparetion
+      mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.NoVehicleMenuFromMissionPreparetion
+      mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.DisableSelectSortieTimeFromMissionPreparetion
+    end--if heliSpaceFlags
+  end--for missionInfo
 end
 
 function this.LoadMissionManual(missionCode)

@@ -536,6 +536,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       end
     end
   end
+  InfMain.OnRestoreSvars()--tex
   TppMission.RestoreShowMissionObjective()
   TppRevenge.SetUpRevengeMine()
   if TppPickable.StartToCreateFromLocators then

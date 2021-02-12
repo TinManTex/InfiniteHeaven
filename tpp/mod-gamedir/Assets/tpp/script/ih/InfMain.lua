@@ -164,6 +164,24 @@ function this.Init(missionTable)
   end
 end
 
+--CALLER: 2/4 way through TppMain.OnInitialize
+--after missionTable.<modules>.OnRestoreSvars calls
+function this.OnRestoreSvars()
+  this.CallOnModules("OnRestoreSvars")
+  
+  local mbMissions={
+   30050,30150,30250,
+  }
+  if Ivars.mbEnableMissionPrep:Is(1)then
+    for i,missionCode in ipairs(mbMissions)do
+      mvars.heliSpace_SkipMissionPreparetion[missionCode]=false
+      mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[missionCode]=false
+    end
+  end
+  
+  --tex could also try Ivars.disableSelectTime et al, but those are set in heli _sequence Seq_Game_MissionPreparationTop with heliSequence_nextMissionCode (ie on each sortie mission select)
+end
+
 --tex just after mission script_enemy.SetUpEnemy
 function this.SetUpEnemy(missionTable)
   InfCore.LogFlow("InfMain.SetUpEnemy "..vars.missionCode)
