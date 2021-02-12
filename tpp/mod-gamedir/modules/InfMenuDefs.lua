@@ -40,7 +40,7 @@ this.systemMenu={
   options={
     --DEBUGNOW split into it's own menu
     "Ivars.enableIHExt",
-    "Ivars.enableHelp",
+    "Ivars.menu_enableHelp",
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
     --
     "Ivars.selectProfile",
