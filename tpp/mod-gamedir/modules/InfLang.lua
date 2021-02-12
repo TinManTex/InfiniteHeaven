@@ -61,7 +61,7 @@ this.eng={--english
   enableIHExt="Enable IHExt",
   takeFocus="Give IHExt focus",
   ihext_not_installed_settings={"Not installed","Not installed"},
-  enableHelp="Enable help text (IHExt)",
+  menu_enableHelp="Enable help text.",
   loadExternalModules="Reload IH modules",
   sys_increaseMemoryAlloc="Increase memory allocation",
   searchMenu="Search menu",
@@ -101,7 +101,7 @@ See ReadMe or Features and Options for more info.
   resetSelectedProfile="Sets the options described in the selected profile to their default setting.",
   saveToProfile=[[Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.]],
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
-  enableHelp="Shows help text in IHExt for some options.",
+  menu_enableHelp="Shows help text for some options.",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
 }
 

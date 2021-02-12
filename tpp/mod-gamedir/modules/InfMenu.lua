@@ -225,7 +225,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       end
     end--if option
 
-    if ivars.enableHelp>0 then
+    if ivars.menu_enableHelp>0 then
       local helpString=InfLangProc.LangStringHelp(option.name) or InfLangProc.LangStringHelp("general_help")
       if helpString then
         if this.menuOn then

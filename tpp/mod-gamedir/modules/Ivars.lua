@@ -122,7 +122,7 @@ this.log_SetFlushLevel={
 
 this.enableIHExt={
   inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
+  --DEBUGNOW save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnSelect=function(self)
@@ -160,9 +160,10 @@ this.enableIHExt={
   end,
 }
 
-this.enableHelp={
+this.menu_enableHelp={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
