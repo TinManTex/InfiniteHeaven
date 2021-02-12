@@ -1,5 +1,7 @@
 -- InfHelicopter.lua
 -- tex support heli stuff
+-- CONTROLSET: (not really, should probably be formalized)
+--  <STANCE> hol: open door (mission start) or toggle pull out
 local this={}
 
 --LOCALOPT
@@ -23,6 +25,8 @@ this.trackForceRoute=0
 local TRACK_FORCEROUTE_NONE=0
 local TRACK_FORCEROUTE_WAITFOREXIT=1
 local TRACK_FORCEROUTE_EXITED=2
+
+this.requestedRoute=nil
 
 this.registerIvars={
   "disableHeliAttack",
@@ -67,22 +71,19 @@ this.defaultHeliDoorOpenTime={--seconds
   range={min=0,max=120},
 }
 
-local HeliEnabledGameCommand=function(self,setting)
-  if TppMission.IsFOBMission(vars.missionCode) then return end
-  local enable=setting==1
-  local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
-  if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
-    SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
-  end
-end
-
-this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
+this.enableGetOutHeli={--WIP UNUSED TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  gameEnabledCommand="SetGettingOutEnabled",
-  OnChange=HeliEnabledGameCommand,
+  OnChange=function(self,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local enable=setting==1
+    local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
+      SendCommand(gameObjectId,{id="SetGettingOutEnabled",enabled=enable})
+    end
+  end,
 }
 
 this.setInvincibleHeli={
@@ -90,8 +91,14 @@ this.setInvincibleHeli={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  gameEnabledCommand="SetInvincible",
-  OnChange=HeliEnabledGameCommand,
+  OnChange=function(self,setting)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local enable=setting==1
+    local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
+    if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
+      SendCommand(gameObjectId,{id="SetInvincible",enabled=enable})
+    end
+  end,
 }
 
 this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
@@ -233,6 +240,8 @@ this.langStrings={
     forceExitHeliAlt="Force exit helicopter",
     not_in_heli="You are not in the helicopter",
     not_for_location="This command is not enabled for this location",
+    already_heading_to_lz="Already heading to that lz";
+    heading_to_lz="Heading to lz";
     disableHeliAttack="Disable support heli attack",
   },
   help={
@@ -258,11 +267,11 @@ this.packages={
 
 function this.AddMissionPacks(missionCode,packPaths)
   if missionCode < 5 then
-      return
+    return
   end
-  
+
   if InfMain.IsSafeSpace(missionCode) then
-     return
+    return
   end
   --DEBUGNOW some kind of limiter to free / missions
 
@@ -333,9 +342,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  --tex for RequestHeliLzToLastMarkerAlt
-  --CallToLandingZoneAtName will only update if player not in heli and heli not forceroute
+  --tex for RequestHeliLzToLastMarkerAlt to turn off SetForceRoute when done (exited heli)
   if this.trackForceRoute==TRACK_FORCEROUTE_WAITFOREXIT then
+    --tex waits till -v-
     if not currentChecks.inSupportHeli then
       --tex cant CallToLandingZoneAtName on the same frame as cancelling forceroute
       this.trackForceRoute=TRACK_FORCEROUTE_EXITED
@@ -345,43 +354,51 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       SendCommand(heliId,{id="SetForceRoute",enabled=false})
     end
   elseif this.trackForceRoute==TRACK_FORCEROUTE_EXITED then
+    --tex likewise SetForceRoute doesn't seem to actually (game)update unless pullout is forced.
     this.trackForceRoute=TRACK_FORCEROUTE_NONE
 
     InfCore.Log("InfHeliCopter trackForceRoute EXITING")--DEBUG
 
-    --    if Ivars.disablePullOutHeli:Get()==0 then
-
-    SendCommand(heliId,{id="EnablePullOut"})
+    --GOTCHA: once heli is released from setforceroute it will return to its actually set LZ.
+    --WORKAROUND: just dismiss it DEBUGNOW see if you need both
+    --SendCommand(heliId,{id="EnablePullOut"})
     SendCommand(heliId,{id="PullOut",forced=true})
-    --    else
-    --tex TODO OFF till VERIFY CallToLandingZoneAtName pretty much locks the heli into the lz till dismissed?
-    --      local locationName=InfUtil.GetLocationName()
-    --      if this.packages[locationName]==nil then
-    --        InfCore.Log("InfHeliCopter .trackForceRoute - not for location")
-    --      else
-    --        local currentPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
-    --        local closestRoute=InfLZ.GetClosestLz(currentPos)
-    --        if closestRoute==nil then
-    --          InfCore.Log("InfHeliCopter .trackForceRoute - no lz found")
-    --        else
-    --          local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
-    --          if lzName==nil then
-    --            InfCore.Log("lzName==nil")
-    --          else
-    --            local lzInfo=InfLZ.lzInfo[lzName]
-    --            if not lzInfo then
-    --              InfCore.Log("InfHeliCopter .trackForceRoute - no lzInfo for "..tostring(lzName))
-    --            else
-    --              closestRoute=lzInfo.returnRoute
-    --              --closestRoute=lzInfo.approachRoute
-    --              --closestRoute=lzInfo.dropRoute
-    --            end
-    --
-    --            SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
-    --          end
-    --        end
-    --      end--pullout or calltolz
-    --    end
+
+    --CallToLandingZoneAtName will only update if player not in heli and heli not forceroute, which is why it wasn't via RequestHeliLzToLastMarkerAlt
+    --tex DEBUGNOW TODO OFF till VERIFY CallToLandingZoneAtName pretty much locks the heli into the lz till dismissed?
+    --and make it an option between this-v- and just pulling out -^-
+    --DEBUGNOW surely I have a simpler way of getting (simply sending to closestroute doesnt work, figure it out and document what CallToLandingZoneAtName actually wants)
+--    local locationName=InfUtil.GetLocationName()
+--    if this.packages[locationName]==nil then
+--      InfCore.Log("InfHeliCopter .trackForceRoute - not for location")
+--    else
+--      local currentPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+--      local closestRoute=InfLZ.GetClosestLz(currentPos)  
+--      if closestRoute==nil then
+--        InfCore.Log("InfHeliCopter .trackForceRoute - no lz found")
+--      else
+--        if not TppLandingZone.assaultLzs[locationName] and not TppLandingZone.missionLzs[locationName] then
+--          InfCore.Log("InfHeliCopter .trackForceRoute - no lzs for location")
+--        else
+--          local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+--          if lzName==nil then
+--            InfCore.Log("lzName==nil")
+--          else
+--            local lzInfo=InfLZ.lzInfo[lzName]
+--            if not lzInfo then
+--              InfCore.Log("InfHeliCopter .trackForceRoute - no lzInfo for "..tostring(lzName))
+--            else
+--              closestRoute=lzInfo.returnRoute
+--              --closestRoute=lzInfo.approachRoute
+--              --closestRoute=lzInfo.dropRoute
+--            end
+--
+--            SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
+--          end--if lzName
+--        end--lzs for location
+--      end--if closestroute
+--    end--if location
+
   end--trackForceRoute
 
   --if Ivars.enableGetOutHeli:Is(1) then--TEST not that useful
@@ -391,26 +408,28 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --tex TODO some kind of periodic print if player in heli and pullout disabled (in any way, by temporary button press or actual ivar set)
 
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
-    InfButton.buttonStates[InfButton.STANCE].holdTime=0.85--tex TODO why isnt this firing if set to 0.9 or above
-    if InfButton.OnButtonHoldTime(InfButton.STANCE) then--tex TODO also make so disablepullout ivar doesnt apply in mother base, or do seperate ivar
+    --tex WORKAROUND TODO why isnt this firing if set to 0.9 or above
+    InfButton.buttonStates[InfButton.STANCE].holdTime=0.85
+    --tex TODO also make so disablepullout ivar doesnt apply in mother base, or do seperate ivar
+    if InfButton.OnButtonHoldTime(InfButton.STANCE) then
       --InfCore.DebugPrint"STANCE"--DEBUG
       --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
       if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
         --InfCore.DebugPrint"IsTimerActive"--DEBUG
         SendCommand(heliId,{id="RequestSnedDoorOpen"})
-    else
-      if Ivars.disablePullOutHeli:Is(1) then
-        --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
-        Ivars.disablePullOutHeli:Set(0,true)--tex overrules all, but we can tell it to not save so that's ok
-        InfMenu.PrintLangId"heli_pulling_out"
       else
-        Ivars.disablePullOutHeli:Set(1,true)
-        InfMenu.PrintLangId"heli_hold_pulling_out"
+        if Ivars.disablePullOutHeli:Is(1) then
+          --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
+          Ivars.disablePullOutHeli:Set(0,true)--tex overrules all, but we can tell it to not save so that's ok
+          InfMenu.PrintLangId"heli_pulling_out"
+        else
+          Ivars.disablePullOutHeli:Set(1,true)
+          InfMenu.PrintLangId"heli_hold_pulling_out"
+        end
       end
-    end
     end--button down
   end--not menu, insupportheli
-end
+end--Update
 
 function this.HeliOrderRecieved()
   if InfMain.execChecks.inGame and not InfMain.execChecks.inSafeSpace then
@@ -428,11 +447,12 @@ end
 this.ChangeToIdleStateHeli=function()--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
   local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
   if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
-    GameObject.SendCommand(gameObjectId,{id="ChangeToIdleState"})
+    SendCommand(gameObjectId,{id="ChangeToIdleState"})
   end
 end
 
 --MenuCommands
+--WORKAROUND: Commands are mutated into normal options with undercase first letter, setting a menu system setting here for the following menu command
 InfMenuCommands.forceExitHeli={
   isMenuOff=true,
 }
@@ -473,6 +493,7 @@ this.ForceExitHeliAlt=function()
   end
 end
 
+--WIP UNUSED (requestHeliLzToLastMarkerAlt is the current one being used in release)
 InfMenuCommands.requestHeliLzToLastMarker={
   isMenuOff=true,
 }
@@ -557,6 +578,7 @@ this.RequestHeliLzToLastMarkerAlt=function()
   end
 
   local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+  InfCore.Log("RequestHeliLzToLastMarkerAlt: lastMarkerIndex:"..lastMarkerIndex)--DEBUGNOW
   local closestRoute
   if lastMarkerIndex==nil then
     InfMenu.PrintLangId"no_marker_found"
@@ -580,7 +602,7 @@ this.RequestHeliLzToLastMarkerAlt=function()
     return
   end
 
-    InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),this.debugModule)--DEBUG
+  InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),this.debugModule)--DEBUG
   --  local lzInfo=InfLZ.lzInfo[lzName]
   --  if not lzInfo then
   --    InfCore.Log("no lzInfo for "..tostring(lzName))
@@ -592,6 +614,23 @@ this.RequestHeliLzToLastMarkerAlt=function()
 
   --tex ih hover route name is lz name with _hover suffix
   closestRoute=lzName.."_hover"
+
+  --DEBUGNOW
+  --  local heliRouteS32=SendCommand(heliId,{id="GetUsingRoute"})--DEBUGNOW find out precisely what this is returning
+  --  if InfCore.StrCode32(closestRoute)==heliRouteS32 then
+  --    InfMenu.PrintLangId"already_heading_to_lz"
+  --    InfCore.Log("allready heading to lz")
+  --  else
+  --    InfMenu.PrintLangId"heading_to_lz"
+  --  end
+
+  --DEBUGNOW
+  if closestRoute==this.requestedRoute then
+    InfMenu.PrintLangId"already_heading_to_lz"
+  else
+    InfMenu.PrintLangId"heading_to_lz"
+  end
+  this.requestedRoute=closestRoute
 
   --tex see Update(
   this.trackForceRoute=TRACK_FORCEROUTE_WAITFOREXIT
@@ -608,12 +647,9 @@ this.RequestHeliLzToLastMarkerAlt=function()
   --but good for returnRoute which starts at lz
   --can use warp to figure out where the points are
 
-  SendCommand(heliId,{id="DisablePullOut"})--tex sometimes pullout triggers while player inside and heli waiting at forced route
+  --DEBUGNOW SendCommand(heliId,{id="DisablePullOut"})--tex sometimes pullout triggers while player inside and heli waiting at forced route DEBUGNOW this means disablepullout ivar will need to be reaplied, see Update DEBUGNOW note
 
   SendCommand(heliId,{id="SetForceRoute",route=closestRoute})--,point=0})--,warp=true})--DEBUG
-
-  --SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})
-  --SendCommand(heliId,{id="SetRequestedLandingZoneToCurrent"})
 
   InfMenu.MenuOff()
 end
