@@ -360,6 +360,12 @@ function this.FindLast(searchString,findString)
 end
 
 function this.StartIHExt()
+  --DEBUGNOW
+--  if true then
+--    InfCore.Log("Use IHHook menu instead",true)
+--    return
+--  end
+
   this.extSession=1--tex WORKAROUND: will get updated when IHExt has started, but must be non 0 for IH to actually run ProcessCommands. Wasn't nessesary when I was pulling line 1 messageId as the sessionId, but that has been shifted to a extSession command from IHExt
 
   if IHH then
@@ -381,12 +387,19 @@ function this.StartIHExt()
   this.PCall(function()os.execute(strCmd)end)
 end
 
---DEBUGNOW seperate when we actually need to see if IHExt running and if we just want to know whether to let ExtCmd work
+function this.UseAdvancedMenu()
+  if IHH and IHH.menuInitialized then
+    return true
+  else--tex IHExt DEBUGNOW KILL once IHHook takes over
+    return ivars and ivars.enableIHExt>0 and this.extSession~=0
+  end
+end
+
+--DEBUGNOW replace with above and have a seperate usepipe function just running of extSession check
 function this.IHExtRunning()
   --KLUDGE
-  if IHH then
-    --DEBUGNOW
-    return this.extSession~=0
+  if IHH and IHH.menuInitialized then
+    return true
   else
     return ivars and ivars.enableIHExt>0 and this.extSession~=0
   end
@@ -403,7 +416,28 @@ function this.IHExtInstalled()
   return foundIHExt
 end
 
---KLUDGE DEBUGNOW
+
+
+function this.IHHMenuCommand(cmd,...)
+  if not IHH and IHH.menuInitialized then
+    return
+  end
+  
+  local args={...}--tex GOTOCHA doesnt catch intermediary params that are nil
+  local mgsvToExtCurrent=1--DEBUGNOW cull once you've shifted all menuCommands away from parsing first arg as mgsvToExtCurrent, or add a replacement so you're not trampling pipes
+  local message=mgsvToExtCurrent..'|'..cmd
+  if #args>0 then
+    message=message..'|'..concat(args,'|')
+  end
+
+  if this.debugModule then
+    InfCore.Log("ExtCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))
+  end
+  
+  IHH.MenuMessage(cmd,message)
+end--IHHMenuCommand
+
+--KLUDGE DEBUGNOW cull once shifted to using .IHHMenuCommand()
 local menuCommands={
   --Shutdown
   --TakeFocus
@@ -430,13 +464,9 @@ function this.ExtCmd(cmd,...)
     return
   end
   
-  --DEBUGNOW
-  local useIHHMenu = IHH and ivars and ivars.enableIHExt==0
-  InfCore.Log("ExtCmd: "..tostring(cmd))--DEBUGNOW
-  InfCore.Log("useIHHMenu: "..tostring(useIHHMenu))--DEBUGNOW
-
+  local useIHHMenu = IHH and IHH.menuInitialized
   --tex ihExt hasnt started
-  if this.extSession==0 and not useIHHMenu then--DEBUGNOW added useIHHMenu
+  if this.extSession==0 and not useIHHMenu then
     return
   end
 
@@ -449,17 +479,13 @@ function this.ExtCmd(cmd,...)
   end
 
   if this.debugModule then
-    if InfInspect then
-      InfCore.PrintInspect(message,"ExtCmd message")
-    end
+    InfCore.Log("ExtCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))
   end
   
-  InfCore.Log("ExtCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))--DEBUGNOW
+
 
   if IHH then
-    --DEBUGNOW
-    if ivars and ivars.enableIHExt==0 and menuCommands[cmd] then
-      InfCore.Log("ExtCmd call IHH.MenuMessage")--DEBUGNOW
+    if useIHHMenu and menuCommands[cmd] then
       IHH.MenuMessage(cmd,message)
     else
       IHH.QueuePipeOutMessage(message)
@@ -950,7 +976,7 @@ function this.GetFileList(files,filter,stripFilter)
 end
 
 local function GetGamePath()
-  if IHH and IHH.GetGamePath then--DEBUGNOW remove function check once IHH is committed
+  if IHH then
     IHH.GetGamePath()
   end
 
@@ -1092,7 +1118,7 @@ else
 
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")--tex TODO rethink, shift to initial load maybe
   if not IHH then
-    local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")--tex DEBUGNOW why am I clearing this again?
+    local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
   end
 end
 
