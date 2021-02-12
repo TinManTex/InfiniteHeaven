@@ -30,7 +30,7 @@ this.debugModule=false
 --q31100-q31199--Adam_Online (discord) - Tales from Mother Base sidop collection on nexus.
 --q36660-q36760--ventos
 
---GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla quests.
+--GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 157 vanilla quests.
 --this is governing the qst_* gvars that hold the quest states (see TppGvars).
 
 this.questsRegistered=false
