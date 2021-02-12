@@ -156,21 +156,21 @@ for i,camName in ipairs(this.camNames) do
     inMission=true,
     --OFF save=IvarProc.CATEGORY_EXTERNAL,
     default=0,
-    range={max=1000,min=0,increment=0.1},
+    range={max=100000,min=0,increment=1},
     noBounds=true,
   }
   this["positionY"..camName]={
     inMission=true,
     --OFF save=IvarProc.CATEGORY_EXTERNAL,
     default=0,
-    range={max=1000,min=0,increment=0.1},
+    range={max=100000,min=0,increment=1},
     noBounds=true,
   }
   this["positionZ"..camName]={
     inMission=true,
     --OFF save=IvarProc.CATEGORY_EXTERNAL,
     default=0,
-    range={max=1000,min=0,increment=0.1},
+    range={max=100000,min=0,increment=1},
     noBounds=true,
   }
 
@@ -180,6 +180,12 @@ for i,camName in ipairs(this.camNames) do
 end
 --< ivar defs
 --menuCommands
+this.ResetCameraToPlayerPos=function()
+  local currentCamName=this.GetCurrentCamName()
+  local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+  this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)    
+end
+
 this.WarpToCamPos=function()
   local warpPos=this.ReadPosition"FreeCam"
   InfCore.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
@@ -235,7 +241,11 @@ this.cameraMenu={
   options={
     "Ivars.adjustCameraUpdate",
     "Ivars.cameraMode",
+    "InfCamera.ResetCameraToPlayerPos",
     "InfCamera.WarpToCamPos",
+    "Ivars.positionXFreeCam",--DEBUGNOW
+    "Ivars.positionYFreeCam",--DEBUGNOW
+    "Ivars.positionZFreeCam",--DEBUGNOW
     "Ivars.moveScale",
     "Ivars.disableCamText",
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
@@ -267,6 +277,7 @@ this.langStrings={
     cannot_edit_default_cam="Cannot adjust Camera mode Default",
     distance_mode="Distance mode",
     disableCamText="Disable mode text feedback",
+    resetCameraToPlayerPos="Reset camera position to player",
     warpToCamPos="Warp body to FreeCam position",
     showFreeCamPosition="Show freecam position",
     freecam_non_adjust="Static cam mode",
