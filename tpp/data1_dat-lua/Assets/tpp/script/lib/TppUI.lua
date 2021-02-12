@@ -1103,6 +1103,7 @@ function this.RegisterHeliSpacePauseMenuPage(addStore)
     GamePauseMenu.ONLINE_NEWS,
     GamePauseMenu.RECORDS_ITEM,
     GamePauseMenu.CONTROLS_AND_TIPS_ITEM,
+    GamePauseMenu.TERMS_OF_USE_MENU_ITEM,--RETAILPATCH 1.0.15.2
     GamePauseMenu.OPEN_OPTION_MENU,
     GamePauseMenu.GOTO_MGO
   }

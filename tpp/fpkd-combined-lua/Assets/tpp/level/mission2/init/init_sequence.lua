@@ -6,8 +6,6 @@ local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
 local TimerStart = GkEventTimerManager.Start
 
-
-
 local IS_QA_RELEASE
 if ( Fox.GetDebugLevel() == Fox.DEBUG_LEVEL_QA_RELEASE ) then
   IS_QA_RELEASE = true
@@ -97,10 +95,10 @@ local function IsPlaystationFamily()
   return false
 end
 
-local function GetSavingSlotStorySequence()--RETAILPATCH: 1070>
+local function GetSavingSlotStorySequence()
   local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }
   return TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "str_storySequence", 0 )
-end--<
+end
 
 local sequenceTime = 0
 
@@ -113,6 +111,7 @@ local sequenceTime = 0
 
 function this.OnLoad()
   Fox.Log("#### OnLoad ####")
+
   TppSequence.RegisterSequences{
 
     "Seq_Demo_Start",
@@ -144,6 +143,7 @@ function this.OnLoad()
     "Seq_Demo_InstallDiscInsertCheck",
     "Seq_Demo_Install",
     "Seq_Demo_InstallFailed",
+
     "Seq_Demo_DownloadInstall",
     "Seq_Demo_DownloadInstall_SignIn",
     "Seq_Demo_DownloadInstall_Installing",
@@ -162,10 +162,13 @@ function this.OnLoad()
     "Seq_Demo_NotSignIn",
     "Seq_Demo_SelectStorage",
     "Seq_Demo_NoStorageSelected",
+
     "Seq_Demo_CreateOrLoadSaveData",
     "Seq_Demo_SaveDataError",
     "Seq_Demo_RetryCreateOrLoadSaveData",
+
     "Seq_Demo_UseBackUpLoadGameSaveData",
+
     "Seq_Error_WriteSaveDataResultNoSpacePS4",
     "Seq_Error_WriteSaveDataResultNoSpace",
     "Seq_Error_WriteSaveDataResultNoSpaceShowPopUp",
@@ -184,14 +187,23 @@ function this.OnLoad()
     "Seq_Demo_CheckMgoInvitation",
     "Seq_Demo_CheckMgoChunkInstallation",
     "Seq_Demo_GoToMgo",
-    "Seq_Demo_CheckCompatibilityPatchDlc",--RETAILPATCH: 1070
-    "Seq_Demo_CheckBootTypeMgo",--RETAILPATCH: 1070
+    "Seq_Demo_CheckCompatibilityPatchDlc",
+    "Seq_Demo_CheckBootTypeMgo",
+	"Seq_Demo_GoToGz",
+	"Seq_Demo_CheckBootGz",
     "Seq_Demo_Init",
     "Seq_Demo_StartTitle",
     "Seq_Demo_ShowKonamiAndFoxLogo",
   }
   TppSequence.RegisterSequenceTable(sequences)
 end
+
+
+
+
+
+
+
 
 function this.MissionPrepare()
   local missionName = TppMission.GetMissionName()
@@ -297,6 +309,13 @@ function this.ShowMakingSaveDataPopUp()
   TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.MAKE_NEW_SAVE_DATA )
 end
 
+
+
+
+
+
+
+
 sequences.Seq_Demo_Start = {
   OnEnter = function(self)
     TppClock.Stop()
@@ -332,6 +351,14 @@ sequences.Seq_Demo_Start = {
 
   ignoreSignInUserChanged = true,
 }
+
+
+
+
+
+
+
+
 
 sequences.Seq_Demo_SelectLanguage = {
   OnEnter = function( self )
@@ -395,6 +422,9 @@ sequences.Seq_Demo_BrightnessSetting = {
   end,
 }
 
+
+
+
 sequences.Seq_Demo_WaitCopyRightLogo = {
   OnUpdate = function(self)
     local screen = SplashScreen.GetSplashScreenWithName("cesa")
@@ -406,6 +436,7 @@ sequences.Seq_Demo_WaitCopyRightLogo = {
       local kjpLogoScreenId = SplashScreen.Create("kjpLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex", 640, 640)
 
       local foxLogoScreenId = SplashScreen.Create("foxLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex", 640, 640);
+
       TppSequence.SetNextSequence("Seq_Demo_SetInitialLanguage")
     else
       if DebugText then
@@ -511,6 +542,11 @@ sequences.Seq_Demo_SetConsoleLanguage = {
 
   ignoreSignInUserChanged = true,
 }
+
+
+
+
+
 
 sequences.Seq_Demo_StartCheckNecessaryStorageSpace = {
   OnEnter = function( self )
@@ -707,6 +743,7 @@ sequences.Seq_Demo_CheckNecessaryTrophyInstallationSize = {
   ignoreSignInUserChanged = true,
 }
 
+
 sequences.Seq_Error_ShowNecessaryStorageSpaceSize = {
   OnEnter = function( self )
     TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
@@ -741,6 +778,9 @@ sequences.Seq_Error_CannotGetSaveDataNecessaryStorageSpaceSize = {
   ignoreSignInUserChanged = true,
 }
 
+
+
+
 sequences.Seq_Demo_CheckInstalled = {
   OnEnter = function( self )
     if not this.IsNeedGameInstallation() then
@@ -768,7 +808,7 @@ sequences.Seq_Demo_CheckInstalled = {
 
     if Installer.IsCheckingInstallation() then
 
-      TppUI.ShowAccessIconContinue()--RETAILPATCH: 1070
+      TppUI.ShowAccessIconContinue()
       return
     end
 
@@ -1265,16 +1305,22 @@ sequences.Seq_Error_TrophyInstallFailed = {
   end,
 }
 
+
+
+
+
 sequences.Seq_Demo_ConfirmAutoSave = {
   OnEnter = function( self )
 
     TppSoundDaemon.LoadRegidentStreamData()
 
-    if SignIn.PresetUserIdExists and SignIn.PresetUserIdExists() then--NMC: does this even apply to steam?
+		
+	if SignIn.PresetUserIdExists and SignIn.PresetUserIdExists() then--NMC: does this even apply to steam?
       TppSequence.SetNextSequence("Seq_Demo_StartSignIn")
       return
     end
 
+    
     --[[if IsPlaystationFamily() then --tex NMC: why is PS so fancy that it doesn't have to be blocked?
       sequenceTime = 0
       TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
@@ -1312,6 +1358,10 @@ sequences.Seq_Demo_ConfirmAutoSave = {
 
   ignoreSignInUserChanged = true,
 }
+
+
+
+
 
 sequences.Seq_Demo_StartSignIn = {
   OnEnter = function(self)
@@ -1489,7 +1539,7 @@ local function SearchSaveDataExistAreaList()
   local foundAreas = {}
   for i, area in ipairs(areas) do
 
-    if area ~= currentArea then
+		
       Fox.Log("SearchSaveDataExistAreaList : area = " .. tostring(area) )
       TppScriptVars.RequestAreaFileExistence(area, fileName)
       while TppScriptVars.IsSavingOrLoading() do
@@ -1511,7 +1561,6 @@ local function SearchSaveDataExistAreaList()
         Fox.Log("SearchSaveDataExistAreaList : TppScriptVars.GetLastResult is not TppScriptVars.RESULT_OK. result = " .. tostring(result))
       end
     end
-  end
   return foundAreas
 end
 
@@ -2292,6 +2341,7 @@ sequences.Seq_Error_WriteSaveDataResultNoSpaceShowPopUp = {
   end,
 }
 
+
 sequences.Seq_Error_WriteSaveDataResultInvalidStorage = {
   OnEnter = function( self )
     TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_CANNOT_FIND_STORAGE, Popup.TYPE_ONE_BUTTON )
@@ -2321,6 +2371,7 @@ sequences.Seq_Error_WriteSaveDataResultInvalidStorage = {
     }
   end,
 }
+
 
 sequences.Seq_Error_WriteSaveDataResultUnknown = {
   OnEnter = function( self )
@@ -2369,6 +2420,7 @@ sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
     }
   end,
 }
+
 
 sequences.Seq_Error_LoadSaveDataVersionError = {
   OnEnter = function( self )
@@ -2900,12 +2952,12 @@ sequences.Seq_Demo_CheckBootTypeMgo = {
 
     if ( not TppUiCommand.IsBootTypeMGO() )
       or Mission.IsBootedFromMgo() then
-      self.GoInitSequence()
+		self.GoCheckBootGz()
       return
     else
 
       if ( not Tpp.IsMaster() ) and this.IsWindowsEditor() then
-        self.GoInitSequence()
+		self.GoCheckBootGz()
         return
       end
     end
@@ -2940,7 +2992,56 @@ sequences.Seq_Demo_CheckBootTypeMgo = {
     end
 
 
+		self.GoCheckBootGz()
+	end,
+
+	GoCheckBootGz = function( self )
+		TppSequence.SetNextSequence("Seq_Demo_CheckBootGz")
+	end,
+
+	OnLeave = function(self, nextSequenceName)
+	end,
+	
+}
+
+
+sequences.Seq_Demo_CheckBootGz = {
+	OnEnter = function( self )
+		
+		if ( not Tpp.IsMaster() ) and this.IsWindowsEditor() then
     self.GoInitSequence()
+			return
+		end
+
+		local storySequence = GetSavingSlotStorySequence()
+		
+		if IsPlaystationFamily()
+		and ( not Mission.IsBootedFromGz() )
+		and ( not TppStory.CanPlayMgo( storySequence ) ) then
+			
+
+
+
+			TppUiCommand.ShowErrorPopup( 9030, Popup.TYPE_TWO_BUTTON )
+			return
+		end
+
+		
+		self.GoInitSequence()
+	end,
+
+	OnUpdate = function( self )		
+		if TppUiCommand.IsShowPopup() then
+			return
+		end
+
+		local popUpSelect = TppUiCommand.GetPopupSelect()
+		if popUpSelect == Popup.SELECT_OK then
+			
+			TppSequence.SetNextSequence("Seq_Demo_GoToGz")
+		else
+			self.GoInitSequence()
+		end
   end,
 
   GoInitSequence = function( self )
@@ -2952,6 +3053,34 @@ sequences.Seq_Demo_CheckBootTypeMgo = {
 
 }
 
+
+sequences.Seq_Demo_GoToGz = {
+	OnEnter = function( self )
+		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+		TppUiCommand.ShowErrorPopup( 9031 ) 
+		mvars.init_goingToGzDialogShowTime = 2.0
+	end,
+	OnUpdate = function( self )
+		
+		
+		if mvars.init_goingToGzDialogShowTime then
+			mvars.init_goingToGzDialogShowTime = mvars.init_goingToGzDialogShowTime - Time.GetFrameTime()
+			if mvars.init_goingToGzDialogShowTime <= 0 then
+				TppUiCommand.ErasePopup()
+			end
+		end
+
+		if TppUiCommand.IsShowPopup() then
+			return
+		end
+
+		
+		if mvars.init_goingToGzDialogShowTime then
+			Mission.SwitchApplication("gz")
+			return
+		end
+	end,
+}
 
 sequences.Seq_Demo_Init = {
   OnEnter = function( self )
@@ -3027,8 +3156,6 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
 
 
-
-
     local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
@@ -3054,6 +3181,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
 
     this._StartPreTitleSequence()
   end,
+
 }
 
 
