@@ -12,6 +12,8 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local NULL_ID=GameObject.NULL_ID
 local StrCode32=Fox.StrCode32
+local type=type
+local tostring=tostring
 
 this.debugModule=false
 
@@ -599,6 +601,14 @@ function this.GameObjectNameForGimmickId(gimmickId)
 end
 
 function this.CpNameForCpId(cpId)
+  if cpId==nil then
+    return 'nil'
+  end
+  
+  if cpId==NULL_ID then
+    return 'NULL_ID'
+  end
+
   local cpName
   if mvars.ene_cpList then
     cpName=mvars.ene_cpList[cpId]
@@ -616,11 +626,10 @@ function this.CpNameForCpId(cpId)
   end
   if cpName==nil then
     InfCore.Log("WARNING: InfLookup.CpNameForCpId: could not find cpName in lists")
-    this.ObjectNameForGameId(cpId)
+    return this.ObjectNameForGameId(cpId)
   end
   return cpName
-end
-
+end--CpNameForCpId
 function this.SoldierSvarIndexForName(soldierName)
   local s32Name=StrCode32(soldierName)
   local svarIndex=this.soldierSvarIndexes[s32Name]
@@ -665,9 +674,13 @@ function this.AddToStr32StringLookup(strCode32List)
   end
 end
 
---tex returns string or nil
+--tex returns string or strCode
 --isStrCode on guaranteed strcodes to add that code to unknowns (this function is also used in a blanket fashion in PrintOnMessage with potential non-strcodes)
 function this.StrCode32ToString(strCode,isStrCode)
+  if strCode==nil then
+    return 'nil'
+  end
+
   if type(strCode)=="number" then
     --tex using InfCore since this is built up using Fox.StrCode32 replacement InfCore.StrCode32, since InfCore is loaded before lib modules
     local returnString=InfCore.str32ToString[strCode]
@@ -681,7 +694,7 @@ function this.StrCode32ToString(strCode,isStrCode)
       InfCore.unknownStr32[strCode]=true
     end
     if returnString==nil then
-      return nil-- strCode
+      return strCode
     end
 
     if type(returnString)=="number" then
@@ -692,8 +705,8 @@ function this.StrCode32ToString(strCode,isStrCode)
   else
     InfCore.Log("WARNING: InfLookup.StrCode32ToString: strCode:"..tostring(strCode).." is not a number.")
   end
-end
-
+  return tostring(strCode)
+end--StrCode32ToString
 function this.DumpStrCodeTables()
   InfCore.Log("InfCore.str32ToString")
   --InfCore.PrintInspect(InfCore.str32ToString)
@@ -1553,8 +1566,8 @@ this.messageSignatures={
 function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
   --InfCore.PCall(function(sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
 
-  local senderStr=this.StrCode32ToString(sender,true) or sender
-  local messageIdStr=this.StrCode32ToString(messageId,true) or messageId
+  local senderStr=this.StrCode32ToString(sender,true)
+  local messageIdStr=this.StrCode32ToString(messageId,true)
 
   if type(senderStr)=="number" then
     --InfCore.Log("InfLookup.PrintOnMessage: Unknown sender: "..senderStr)
