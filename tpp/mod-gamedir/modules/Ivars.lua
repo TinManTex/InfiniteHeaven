@@ -173,6 +173,13 @@ this.menu_enableHelp={
   end,
 }
 
+--tex DEBUGNOW set by ivar, used to disable the hold <evade> to toggle menu (the two button combo, and the IHHook toggle will still work)
+this.menu_disableToggleMenuHold={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
 this.sys_increaseMemoryAlloc={--DEBUGNOW
   nonConfig=true,
   save=IvarProc.CATEGORY_EXTERNAL,

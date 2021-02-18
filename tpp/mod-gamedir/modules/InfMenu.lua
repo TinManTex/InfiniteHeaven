@@ -29,7 +29,7 @@ this.repeatRateDefault=0.85
 this.repeatRateIHExt=0.25
 this.toggleMenuHoldTime=1.25
 this.quickMenuHoldTime=0.8
-this.menuAltButtonHoldTime=0.4
+this.menuAltButtonHoldTime=0.2
 this.stickInputRate=0.25
 
 this.menuAltButton=InfButton.ZOOM_CHANGE
@@ -71,6 +71,11 @@ end
 
 function this.PostAllModulesLoad()
   InfQuickMenuDefs=InfQuickMenuDefs_User or _G.InfQuickMenuDefs
+  
+  --DEBUGNOW
+    --tex set up hold buttons
+  --InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
+  InfButton.buttonStates[this.menuAltButton].holdTime=this.menuAltButtonHoldTime
 end
 
 --IN/SIDE: InfMenuCommands.commandItems
@@ -400,7 +405,7 @@ function this.GoMenu(menu,goBack)
   end
   InfCore.LogFlow("InfMenu.GoMenu:"..menu.name)--DEBUG
 
-  if not goBack and menu~=this.topMenu then
+  if not goBack and menu~=this.topMenu and menu~=this.currentMenu then
     menu.parent=this.currentMenu
     menu.parentOption=this.currentIndex
   end
@@ -677,6 +682,9 @@ function this.ResetSettingsDisplay()
     end
   end
   this.GetSetting()
+  if InfCore.IHExtRunning() then
+    this.GoMenu(this.currentMenu)--tex update IHMenu the easy way.
+  end
 end
 --
 function this.Print(message,...)
@@ -813,7 +821,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end--if ~=rootMenu
 
 
-  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+  if ivars.menu_disableToggleMenuHold==0 and InfButton.OnButtonHoldTime(this.toggleMenuButton) then
     --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
     if this.CheckActivate(currentChecks) then
       this.ToggleMenu(currentChecks)
@@ -873,6 +881,7 @@ end--Update
 function this.ActivateControlSet()
   --tex set up hold buttons
   InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
+  InfButton.buttonStates[this.menuAltButton].holdTime=this.menuAltButtonHoldTime
 
   if InfQuickMenuDefs and InfQuickMenuDefs.quickMenuHoldButton then
     InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
