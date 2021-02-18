@@ -321,8 +321,9 @@ function this.OnAllocate(missionTable)
         end
       end
     end
+
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsSubsistenceMission() or Ivars.disableSelectBuddy:Is(1) then--tex added disableSelectBuddy
+    if TppMission.IsSubsistenceMission() or IvarProc.GetForMission"heliSpace_NoBuddyMenuFromMissionPreparetion"==2 then--tex added NoBuddyMenu check DEBUGNOW rethink
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then

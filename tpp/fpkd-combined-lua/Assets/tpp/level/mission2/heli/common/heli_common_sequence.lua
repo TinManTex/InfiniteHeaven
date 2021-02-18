@@ -955,6 +955,26 @@ end
 function this.OnEndFadeOutSelectLandingPoint()
 	TppMission.SelectNextMissionHeliStartRoute( mvars.heliSequence_nextMissionCode, mvars.heliSequence_heliRoute, mvars.heliSequence_startFobSneaking )
 	
+  --tex> apply heliSpace_ flag ivars, WORKAROUND: even though this functions only handling SkipMissionPreparetion, it's called before OnEnter so covers so it's set for that.
+  local nextMissionCode=mvars.heliSequence_nextMissionCode
+  local heliSpaceFlagNames={
+    "SkipMissionPreparetion",
+    "NoBuddyMenuFromMissionPreparetion",
+    "NoVehicleMenuFromMissionPreparetion",
+    "DisableSelectSortieTimeFromMissionPreparetion",
+  }
+  local heliSpaceFlags={}
+  for i,flagName in ipairs(heliSpaceFlagNames)do
+    heliSpaceFlags[flagName]=InfTppUtil.GetHeliSpaceFlag(flagName,nextMissionCode)
+  end
+  if next(heliSpaceFlags)then
+    if this.debugModule then
+      InfCore.PrintInspect(heliSpaceFlags,"heliSpaceFlags for "..tostring(nextMissionCode))--DEBUG
+    end
+    InfTppUtil.SetHeliSpaceFlags(heliSpaceFlags,nextMissionCode)
+  end
+  --<
+	
 	local needSkipMissionPraparetion = mvars.heliSpace_SkipMissionPreparetion[mvars.heliSequence_nextMissionCode]
 	
 	if mvars.heliSequence_nextMissionCode == 50050 then
@@ -1381,14 +1401,15 @@ sequences.Seq_Game_MissionPreparationTop = {
 		if not gvars.usingNormalMissionSlot then
 			nextMissionCode = TppMission.GetNextMissionCodeForEmergency()	
 		end
-
-		if mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[nextMissionCode] or Ivars.disableSelectTime:Is(1) then--tex added issub
+		
+		
+		if mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[nextMissionCode] then
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_SORTIE_TIME" )
 		end
 		
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
-		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or Ivars.disableSelectBuddy:Is(1) then--tex buddy subsistence mode
+		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] then
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		
@@ -1402,7 +1423,7 @@ sequences.Seq_Game_MissionPreparationTop = {
 		
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
-		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] or Ivars.disableSelectVehicle:Is(1) then--tex added issub
+		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] then
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
 		end
 

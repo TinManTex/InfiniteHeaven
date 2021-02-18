@@ -36,7 +36,7 @@ this.eng={--english
   showMissionCode="Show missionCode",
   startOffline="Start offline",
   debugInMissionMenu="Debug stuff menu",
-  menu_keys="Hold <Quick dive> to open menu",
+  menu_keys="Hold <Switch Zoom> and press <Dash> to open menu",
   done="Done",
   min="min",
   max="max",
@@ -62,6 +62,7 @@ this.eng={--english
   takeFocus="Give IHExt focus",
   ihext_not_installed_settings={"Not installed","Not installed"},
   menu_enableHelp="Enable help text.",
+  menu_disableToggleMenuHold="Disable hold menu toggle",
   loadExternalModules="Reload IH modules",
   sys_increaseMemoryAlloc="Increase memory allocation",
   searchMenu="Search menu",
@@ -72,6 +73,12 @@ this.eng={--english
   type_to_search="<Type and Enter to search>",
   inDemoMenu="In-cutscene menu",
   demo_cannot_restart_while_paused="Cannot restart cutscene while it is paused",
+  missionModes={
+    FREE="Free Roam",
+    MISSION="Story Mission",
+    MB="MB",
+    MB_ALL="MB",
+  },
 }--eng end
 
 this.help={}
@@ -102,6 +109,7 @@ See ReadMe or Features and Options for more info.
   saveToProfile=[[Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.]],
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
   menu_enableHelp="Shows help text for some options.",
+  menu_disableToggleMenuHold="Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
 }
 

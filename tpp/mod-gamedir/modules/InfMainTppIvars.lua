@@ -11,13 +11,9 @@ this.registerIvars={
   "mbqfEnableSoldiers",
   "mbEnableBuddies",
   "mbPrioritizeFemale",
-  "mbEnableMissionPrep",
   "disableLzs",
   "disableSpySearch",
   "disableHerbSearch",
-  "disableSelectBuddy",
-  "disableSelectTime",
-  "disableSelectVehicle",
   "disableHeadMarkers",
   "disableWorldMarkers",
   "disableXrayMarkers",
@@ -110,13 +106,6 @@ this.mbPrioritizeFemale={
   settings={"OFF","DISABLE","MAX","HALF"},
 }
 
-this.mbEnableMissionPrep={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
---<mb
-
 this.disableLzs={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"OFF","ASSAULT","REGULAR"},
@@ -144,26 +133,6 @@ this.disableHerbSearch={
 }
 
 --mission prep
---tex also TppBuddyService.SetDisableAllBuddy
-this.disableSelectBuddy={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-
-this.disableSelectTime={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-
-this.disableSelectVehicle={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
---
-
 this.disableHeadMarkers={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -754,7 +723,7 @@ this.registerMenus={
   "playerRestrictionsInMissionMenu",
   "markersInMissionMenu",
   "disableSupportMenuMenu",
-  "missionPrepRestrictionsMenu",
+  "heliSpaceFlagsMenu",
   "markersMenu",
   "enemyPatrolMenu",
   "progressionMenu",
@@ -789,7 +758,7 @@ this.playerRestrictionsMenu={
     "Ivars.disableHerbSearch",
     "Ivars.dontOverrideFreeLoadout",
     "InfMainTppIvars.markersMenu",
-    "InfMainTppIvars.missionPrepRestrictionsMenu",
+    "InfMainTppIvars.heliSpaceFlagsMenu",
     "InfMainTppIvars.disableSupportMenuMenu",
     "InfMainTppIvars.itemLevelMenu",
     "InfMainTppIvars.handLevelMenu",
@@ -829,16 +798,39 @@ this.disableSupportMenuMenu={
   }
 }
 
-this.missionPrepRestrictionsMenu={
-  options={
-    "Ivars.disableSelectTime",
-    "Ivars.disableSelectBuddy",
-    "Ivars.disableSelectVehicle",
-    "Ivars.mbEnableMissionPrep",
-  }
+--tex seems complicated, but it all boils down to overriding mvars.heliSpace_<-^- those flag names> used in heli_common_sequence, see InfMain.OnRestoreSvars
+local heliSpaceFlagNames={
+  "SkipMissionPreparetion",
+  "NoBuddyMenuFromMissionPreparetion",--GOTCHA: also used for TppBuddyService.SetDisableAllBuddy in TppMain
+  "NoVehicleMenuFromMissionPreparetion",
+  "DisableSelectSortieTimeFromMissionPreparetion",
+}--heliSpaceFlagNames
+
+local heliSpaceIvarPrefix="heliSpace_"
+local heliSpaceIvarNames={}
+local missionModes={"FREE","MISSION","MB_ALL",}
+for i,flagName in ipairs(heliSpaceFlagNames)do
+  local ivarName=heliSpaceIvarPrefix..flagName
+  for i,missionMode in ipairs(missionModes)do
+    heliSpaceIvarNames[#heliSpaceIvarNames+1]="Ivars."..ivarName..missionMode
+  end
+
+  IvarProc.MissionModeIvars(
+    this,
+    ivarName,
+    {save=IvarProc.CATEGORY_EXTERNAL,
+      settings={"DEFAULT","FALSE","TRUE"},
+      flagName=flagName,
+    },
+    missionModes
+  )--MissionModeIvars
+end--for heliSpaceFlagNames
+
+this.heliSpaceFlagsMenu={
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.playerRestrictionsMenu"},
+  options=heliSpaceIvarNames
 }
-
-
+--InfCore.PrintInspect(heliSpaceIvarNames,"heliSpaceIvarNames")--DEBUG
 
 this.markersMenu={
   options={
@@ -970,6 +962,7 @@ this.fultonSuccessMenu={
     "InfMenuCommandsTpp.PrintFultonSuccessBonus",
   },
 }
+
 --< menu defs
 this.langStrings={
   eng={
@@ -987,9 +980,6 @@ this.langStrings={
     weaponOspSettings={"Use selected weapon","Clear weapon"},
     playerRestrictionsMenu="Player restrictions menu",
     disableHeadMarkers="Disable head markers",
-    disableSelectBuddy="Disable select-buddy",
-    disableSelectTime="Disable select-sortie time",
-    disableSelectVehicle="Disable select vehicle",
     disableFulton="Disable fulton action",
     clearItems="Items OSP",
     clearSupportItems="Support items OSP",
@@ -1051,7 +1041,7 @@ this.langStrings={
     disableWorldMarkers="Disable world markers",
     playerRestrictionsInMissionMenu="Player restrictions menu",
     mbCollectionRepop="Repopulate plants and diamonds",
-    missionPrepRestrictionsMenu="Mission-prep restrictions menu",
+    heliSpaceFlagsMenu="Mission-prep features menu",
     markersMenu="Marking display menu",
     startOnFootFREE="Start free roam on foot",
     startOnFootMISSION="Start missions on foot",
@@ -1079,12 +1069,15 @@ this.langStrings={
     itemLevelMenu="Item level menu",
     itemLevelIntScope="Int-Scope level",
     itemLevelIDroid="IDroid level",
-    mbEnableMissionPrep="Enable mission prep to MB",
     mbForceBattleGearDevelopLevel="Force BattleGear built level",
     printFultonSuccessBonus="Print fulton success bonus",
     dropCurrentEquip="Drop current equip",
     markersInMissionMenu="Markers menu",
-  },
+    heliSpace_SkipMissionPreparetion="Skip mission prep",
+    heliSpace_NoBuddyMenuFromMissionPreparetion="Disable select-buddy",
+    heliSpace_NoVehicleMenuFromMissionPreparetion="Disable select-vehicle",
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetion="Disable select-sortie time",
+  },--eng
   help={
     eng={
       playerRestrictionsMenu="Settings to customize the game challenge, including subsistence and OSP.",
@@ -1105,10 +1098,7 @@ this.langStrings={
       changeCpSubTypeMISSION="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
       mbPrioritizeFemale="By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base",
       markersMenu="Toggles for marking in main view. Does not effect marking on iDroid map",
-      missionPrepRestrictionsMenu="Only affects the mission-prep screen, not the in-mission equivalents.",
-      disableSelectBuddy="Prevents use of buddies during mission prep.",
-      disableSelectTime="Only allows ASAP at mission prep",
-      disableSelectVehicle="Disallows at mission prep.",
+      heliSpaceFlagsMenu="Only affects the mission-prep screen, not the in-mission equivalents.",
       unlockPlayableAvatar="Unlock avatar before mission 46",
       unlockWeaponCustomization="Unlock without having to complete legendary gunsmith missions",
       returnQuiet="Instantly return Quiet, runs same code as the Reunion mission 11 replay.",
@@ -1124,9 +1114,26 @@ this.langStrings={
       mbqfEnableSoldiers="Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.",
       mbEnableLethalActions="Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.",
       mbForceBattleGearDevelopLevel="Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.",
-    },
-  }
-}
+      heliSpace_SkipMissionPreparetion="Go straight to mission, skipping the mission prep screen.",
+      heliSpace_NoBuddyMenuFromMissionPreparetion="Prevents selection of buddies during mission prep.",
+      heliSpace_NoVehicleMenuFromMissionPreparetion="WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).",
+      heliSpace_DisableSelectSortieTimeFromMissionPreparetion="Only allows ASAP at mission prep",
+    },--eng
+  }--help
+}--langStrings
+
+--KLUDGE: TODO: have get ivars name/help function do this append mission mode string instead
+function this.PostAllModulesLoad()
+  local missionModeStrings=InfLangProc.LangString("missionModes")--tex table indexed by missionMode
+  for i,flagName in ipairs(heliSpaceFlagNames)do
+    local ivarName=heliSpaceIvarPrefix..flagName
+    for i,missionMode in ipairs(missionModes)do
+      local ivarNameFull=ivarName..missionMode
+      InfLang.eng[ivarNameFull]=InfLang.eng[ivarName].." for "..missionModeStrings[missionMode]
+      InfLang.help.eng[ivarNameFull]=InfLang.help.eng[ivarName]
+    end
+  end
+end
 --< lang strings
 
 return this

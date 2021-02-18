@@ -548,7 +548,7 @@ function this.RegisterMissions()
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
     end
   end
-  TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)
+  TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess 
 
   if this.debugModule then
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist modded")
@@ -958,10 +958,7 @@ function this.OnRestoreSvars()
   --tex sortie mvars per mission - see heli_common_sequence OnRestoreSvars
   for missionCode,missionInfo in pairs(this.missionInfo)do
     if missionInfo.heliSpaceFlags then--tex alway a question when choosing a name whether to make it friendly for user (sortiePrepFlags or somthin), or to use naming from existing code, missionInfo in general uses code derived naming
-      mvars.heliSpace_SkipMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.SkipMissionPreparetion
-      mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.NoBuddyMenuFromMissionPreparetion
-      mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.NoVehicleMenuFromMissionPreparetion
-      mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[missionCode]=missionInfo.heliSpaceFlags.DisableSelectSortieTimeFromMissionPreparetion
+      InfTppUtil.SetHeliSpaceFlags(missionInfo.heliSpaceFlags,missionCode)
     end--if heliSpaceFlags
   end--for missionInfo
 end

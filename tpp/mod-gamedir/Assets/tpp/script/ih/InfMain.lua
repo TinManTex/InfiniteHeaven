@@ -168,18 +168,6 @@ end
 --after missionTable.<modules>.OnRestoreSvars calls
 function this.OnRestoreSvars()
   this.CallOnModules("OnRestoreSvars")
-  
-  local mbMissions={
-   30050,30150,30250,
-  }
-  if Ivars.mbEnableMissionPrep:Is(1)then
-    for i,missionCode in ipairs(mbMissions)do
-      mvars.heliSpace_SkipMissionPreparetion[missionCode]=false
-      mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[missionCode]=false
-    end
-  end
-  
-  --tex could also try Ivars.disableSelectTime et al, but those are set in heli _sequence Seq_Game_MissionPreparationTop with heliSequence_nextMissionCode (ie on each sortie mission select)
 end
 
 --tex just after mission script_enemy.SetUpEnemy
@@ -1227,7 +1215,7 @@ function this.LoadExternalModules(isReload)
     table.insert(InfModules.moduleNames,moduleName)
   end
 
-  --tex get other external modules  
+  --tex get other external modules
   if isReload then
     InfCore.PCallDebug(InfCore.RefreshFileList)
   end
@@ -1236,18 +1224,18 @@ function this.LoadExternalModules(isReload)
   for i,moduleName in ipairs(moduleFiles)do
     InfModules.externalModules[moduleName]=true
     if not InfModules.isCoreModule[moduleName] then
-      table.insert(InfModules.moduleNames,moduleName)   
+      table.insert(InfModules.moduleNames,moduleName)
     end
   end
   InfCore.PrintInspect(InfModules.moduleNames,"InfModules.moduleNames")--DEBUG
-  
+
   --tex add basemodules internal (if they don't exist external)
   for moduleName,bool in pairs(InfModules.baseModules)do
     if not InfModules.externalModules[moduleName]then
       table.insert(InfModules.moduleNames,moduleName)
     end
   end
-  
+
   for i,moduleName in ipairs(InfModules.moduleNames) do
     if not isReload or InfModules.externalModules[moduleName] then--tex don't try and reload internal
       InfCore.LoadExternalModule(moduleName,isReload)
