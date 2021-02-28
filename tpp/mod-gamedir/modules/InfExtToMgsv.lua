@@ -16,7 +16,6 @@ local menuItems="menuItems"
 local OPTION="OPTION"
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-
   if IHH then
   --tex always run if IHH DEBUGNOW
   else
@@ -113,7 +112,7 @@ end--ProcessCommands
 --IHH IHMenu
 function this.ProcessMenuCommands()
   --InfCore.Log("ProcessMenuCommands")--DEBUGNOW
-  if not IHH then 
+  if not IHH or not IHH.menuInitialized then 
     return
   end
 
@@ -336,21 +335,44 @@ end
 --FoxKitToMgsv
 function this.GetPlayerPos(args)
   --InfCore.Log("GetPlayerPos")--DEBUG
-  local offsetY=0
-  if Ivars.adjustCameraUpdate:Is(0) then--tex freecam not on
-    offsetY=-0.783
-    if PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL} then
-      offsetY = offsetY + 0.45
-    end
-  end
-
+  --DEBUGNOW
+--  local offsetY=0
+--  if Ivars.adjustCameraUpdate:Is(0) then--tex freecam not on
+--    offsetY=-0.783
+--    if PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL} then
+--      offsetY = offsetY + 0.45
+--    end
+--  end
+  --InfCore.Log("GetPlayerPos "..tostring(vars.playerPosX)..","..tostring(vars.playerPosY))--DEBUGNOW
   InfCore.ExtCmd('GamePlayerPos',vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY)
+end
+
+--SetPlayerPos|{x}|{y}|{z}|{yaw}
+function this.SetPlayerPos(args)
+  local x,y,z,yaw=args[3],args[4],args[5],args[6]
+  TppPlayer.Warp{pos={x,y,z},rotY=yaw}
 end
 
 function this.GetCameraPos(args)
   InfCore.ExtCmd('GameCameraPos',
     vars.playerCameraPosition[0],vars.playerCameraPosition[1],vars.playerCameraPosition[2],
     vars.playerCameraRotation[0],vars.playerCameraRotation[1],vars.playerCameraRotation[2])
+end
+
+--SetCameraPos|{x}|{y}|{z}|{pitch}|{yaw}
+function this.SetCameraPos(args)
+  local x,y,z,pitch,yaw=args[3],args[4],args[5],args[6],args[7]
+  local currentCamName=this.GetCurrentCamName()
+  local currentPos=Vector3(x,y,z)
+  InfCamera.WritePosition(currentCamName,currentPos)   
+end
+
+function this.GetUserMarkerPos(args)
+  local markerIndex=tonumber(args[3])
+  local markerPos=InfUserMarker.GetMarkerPosition(markerIndex)
+  if markerPos then
+    InfCore.ExtCmd('UserMarkerPos',markerIndex,markerPos:GetX(),markerPos:GetY(),markerPos:GetZ())
+  end
 end
 
 this.commands={
@@ -365,7 +387,9 @@ this.commands={
   --DEBUGNOW
   --FoxKitToMgsv
   GetPlayerPos=this.GetPlayerPos,
+  SetPlayerPos=this.SetPlayerPos,
   GetCameraPos=this.GetCameraPos,
+  GetUserMarkerPos=this.GetUserMarkerPos,
 }
 
 return this
