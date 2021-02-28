@@ -1,4 +1,4 @@
-﻿namespace FoxKit.IH.Utils
+﻿namespace FoxKit.IH
 {
     using System.Collections.Generic;
     using UnityEditor;

@@ -10,6 +10,8 @@ using UnityEngine;
 
 namespace FoxKit.IH {
     public sealed class IPC {
+         //
+
         string serverInName = "mgsv_in";
         string serverOutName = "mgsv_out";
         public string ServerInName {
@@ -42,11 +44,11 @@ namespace FoxKit.IH {
 
         volatile bool isPipeConnected = false;
         public bool IsPipeConnected() {
-            return serverInWorker != null && serverOutWorker != null && isPipeConnected;
+            return serverInWorker != null && serverOutWorker != null && isPipeConnected;         
         }
 
         //tex control whether command is executed on pipe read or added to a queue so some other thread can call ProcessCommandQueue to process
-        bool useMgsvToExtCmdQueue = true;
+        bool useMgsvToExtCmdQueue = false;
         public bool UseMgsvToExtCmdQueue {
             set {
                 useMgsvToExtCmdQueue = value;
@@ -105,13 +107,9 @@ namespace FoxKit.IH {
             isPipeConnected = false;
         }//ShutdownPipeThreads
 
-        public bool CheckPipeThreadEnded() {
-            return !serverOutWorker.IsBusy;//tex only care about serverOutWorker because that's the only one that closes down nicely lol
-        }//CheckPipeThreadEnded
-
         //tex mgsv_in pipe (IHExt out) process thread
         //IN/SIDE: serverInName
-        void serverIn_DoWork(object sender, DoWorkEventArgs eventArgs) {
+        void serverIn_DoWork(object sender, DoWorkEventArgs e) {
             BackgroundWorker worker = (BackgroundWorker)sender;
 
             using (var serverIn = new NamedPipeClientStream(".", serverInName, PipeDirection.Out)) {//tex: piped named from mgsv standpoint, so we pipe out to mgsv in, and visa versa
@@ -122,27 +120,14 @@ namespace FoxKit.IH {
                 isPipeConnected = true;
 
                 Debug.Log($"Connected to {serverInName}.");
-                //DEBUG Debug.Log($"There are currently {serverIn.NumberOfServerInstances} pipeIn server instances open.");
+                //DEBUGNOW Debug.Log($"There are currently {serverIn.NumberOfServerInstances} pipeIn server instances open.");
 
                 serverIn.ReadMode = PipeTransmissionMode.Message;
 
                 //ToMgsvCmd("0|IHExtStarted");//DEBUG
                 StreamWriter sw = new StreamWriter(serverIn, Encoding.UTF8);
-                while (true) {
+                while (!worker.CancellationPending) {
                     //Debug.Log("serverIn_DoWork");//DEBUG
-                    if (worker.CancellationPending) {
-                        Debug.Log("serverIn: worker.CancellationPending");
-                        break;
-                    }
-                    //tex doesnt seem to work
-                    //other alternative is to fail on write 
-                    //catch pipe broken exception, which I should be doing anywya
-                    //but that's assuming I am writing
-                    //or (actually doing this -^-) to have serverOut RunWorkerCompleted cancel this (since it does hit !IsConnected) 
-                    if (!serverIn.IsConnected) {
-                        Debug.Log("!serverIn.IsConnected");
-                        break;
-                    }
                     //sw.Write("Sent from client.");//DEBUG
                     if (extToMgsvCmdQueue.Count() > 0) {
                         string command;
@@ -150,19 +135,13 @@ namespace FoxKit.IH {
                             if (worker.CancellationPending) {
                                 break;
                             }
-                            //DEBUGNOW this eats the command -^-
-                            try {
-                                //Debug.Log("Client write: " + command);//DEBUGNOW
-                                sw.Write(command);
-                                sw.Flush();
-                            } catch (IOException exception) {
-                                Debug.Log(exception.Message);
-                                break;
-                                //DEBUGNOW need to break out one loop further, or just let extToMgsvCmdQueue run down?
-                            }
-                        }//while extToMgsvCmdQueue
+
+                            //Debug.Log("Client write: " + command);//DEBUG
+                            sw.Write(command);
+                        }
+                        sw.Flush();
                     }//if extToMgsvCmdQueue
-                }//while true
+                }//while !worker.CancellationPending
             }//using pipeIn
             Debug.Log("serverIn_DoWork exit");
         }//serverIn_DoWork
@@ -176,16 +155,16 @@ namespace FoxKit.IH {
             //tex there's an issue with client/in pipes not working in message mode
             //https://stackoverflow.com/questions/32739224/c-sharp-unauthorizedaccessexception-when-enabling-messagemode-for-read-only-name
             //The solution below lets you keep the server as out only (OUTBOUND in c++), but this constructor for NamedPipeClientStream isn't available in .net standard (thus not unity)
-            //using (var serverOut = new NamedPipeClientStream(
-            //        ".",
-            //        serverOutName,
-            //        PipeAccessRights.ReadData | PipeAccessRights.WriteAttributes,
-            //        PipeOptions.None,
-            //        System.Security.Principal.TokenImpersonationLevel.None,
-            //        System.IO.HandleInheritability.None)) {
+            using (var serverOut = new NamedPipeClientStream(
+                    ".",
+                    serverOutName,
+                    PipeAccessRights.ReadData | PipeAccessRights.WriteAttributes,
+                    PipeOptions.None,
+                    System.Security.Principal.TokenImpersonationLevel.None,
+                    System.IO.HandleInheritability.None)) {
                 //tex so using this instead of above, where pipedirection is InOut instead of In, the gotcha is server must be InOut/DUPLEX as well
                 //GOTCHA: which also theoretically means a client could stall the pipe if it writes to it as IHHook only treats is as out only.
-             using (var serverOut = new NamedPipeClientStream(".", serverOutName, PipeDirection.InOut)) {
+                // DEBUGNOW using (var serverOut = new NamedPipeClientStream(".", serverOutName, PipeDirection.InOut)) {
                 // Connect to the pipe or wait until the pipe is available.
                 Debug.Log("Attempting to connect to serverOut...");
                 serverOut.Connect();
@@ -196,65 +175,38 @@ namespace FoxKit.IH {
                 serverOut.ReadMode = PipeTransmissionMode.Message;
 
                 //ToMgsvCmd("IHExtStarted");//DEBUG
-                while (true) {
+                while (!worker.CancellationPending) {
                     //Debug.Log("serverOut_DoWork");//DEBUG
-                    if (worker.CancellationPending) {
-                        Debug.Log("serverOut: worker.CancellationPending");
-                        break;
-                    }
-                    //tex works on standalone/console project but not via Unity, no idea whats up there
-                    if (!serverOut.IsConnected) {
-                        Debug.Log("!serverOut.IsConnected");
-                        break;
-                    }
+                    StreamReader sr = new StreamReader(serverOut, Encoding.UTF8);//tex DEBUGNOW: will hang if ouside the loop
+                    string message;
+                    int count = 0;
+                    //tex message mode doesn't seem to be working for mgsv_out
+                    //despite checking everything on both sides and despite it working for mgsv_in
+                    //was: while ((line = sr.ReadLine()) != null) {
+                    var peek = sr.Peek();//DEBUG
+                    while (sr.Peek() > 0) {
+                        if (worker.CancellationPending) {
+                            break;
+                        }
 
-                    //DEBUGNOW WORKAROUND: due to above not working GOTCHA: only works because serverOut is DUPLEX (due to another workaround lol)
-                    StreamWriter sw = new StreamWriter(serverOut, Encoding.UTF8);
-                    try {
-                        sw.Write("");
-                        sw.Flush();
-                    } catch (IOException exception) {
-                        Debug.Log(exception.Message);
-                        break;
-                    }
+                        //OFF see above
+                        //message = sr.ReadLine();
+                        //message = sr.ReadToEnd();
+                        message = ReadByChar(sr);
 
-                    //DEBUGNOW using (
-                    StreamReader sr = new StreamReader(serverOut, Encoding.UTF8);//DEBUGNOW ) {//tex DEBUGNOW: will hang if ouside the loop
-                        string message;
-                        int count = 0;
-                        //tex message mode doesn't seem to be working for mgsv_out
-                        //despite checking everything on both sides and despite it working for mgsv_in
-                        //was: while ((message = sr.ReadLine()) != null) {
-                        var peek = sr.Peek();//GOTCHA: will block exec here till theres something in the pipe
-                        while (sr.Peek() > 0) {
-                            if (worker.CancellationPending) {
-                                break;
-                            }
+                        //Debug.Log("Received from server: {message}");//DEBUG
+                        if (String.IsNullOrEmpty(message)) {
+                            continue;
+                        }
 
-                            if (!serverOut.IsConnected) {
-                                Debug.Log("!serverOut.IsConnected");
-                                break;
-                            }
-
-                            //OFF see above
-                            //message = sr.ReadLine();
-                            //message = sr.ReadToEnd();
-                            message = ReadByChar(sr);
-
-                            //Debug.Log($"Received from server: {message}");//DEBUGNOW
-                            if (String.IsNullOrEmpty(message)) {
-                                continue;
-                            }
-
-                            if (useMgsvToExtCmdQueue) {
-                                mgsvToExtCmdQueue.Enqueue(message);
-                            } else {
-                                ProcessCommand(message, count);
-                            }
-                            count++;
-                        }//while Read
-                    //DEBUGNOW}//using streamreader
-                }//while true
+                        if (useMgsvToExtCmdQueue) {
+                            mgsvToExtCmdQueue.Enqueue(message);
+                        } else {
+                            ProcessCommand(message, count);
+                        }
+                        count++;
+                    }//while Read
+                }//while !worker.CancellationPending
             }//using pipeOut
             Debug.Log("serverOut_DoWork exit");
         }//serverOut_DoWork
@@ -262,12 +214,11 @@ namespace FoxKit.IH {
         private static string ReadByChar(StreamReader sr) {
             StringBuilder stringBuilder = new StringBuilder();
             char c;
-            do {
+            while (true) {
                 c = (char)sr.Read();
                 if (c == -1) {//tex end of stream
                     break;
                 } else if (c == '\0') {
-                    stringBuilder.Append(c);
                     break;
                 } else {
                     // if (c == '|') {
@@ -276,7 +227,7 @@ namespace FoxKit.IH {
                     stringBuilder.Append(c);
                     // }
                 }
-            } while (!sr.EndOfStream) ;
+            }//while true
             return stringBuilder.ToString();
         }//ReadByChar
 
@@ -316,10 +267,11 @@ namespace FoxKit.IH {
             }
         }//ProcessCommandQueue
 
-        public void ToGameCmd(string cmd) {
+        //to mgsv commands
+        public void ToMgsvCmd(string cmd) {
             if (!IsPipeConnected()) {
-                Debug.Log($"WARNING: ToGameCmd when !isPipeConnected: {cmd}");
-                return;
+                Debug.Log("WARNING: ToMgsvCmd when !isPipeConnected");
+                //return;//DEBUGNOW
             }
 
             string message = extToMgsvCurrent.ToString() + "|" + cmd;
@@ -327,7 +279,7 @@ namespace FoxKit.IH {
             extToMgsvCurrent++;
 
             //Debug.Log(message);
-        }//ToGameCmd
+        }//ToMgsvCmd
 
         public void AddCommand(string name, Action<string[]> command) {
             if (commands.ContainsKey(name)) {
