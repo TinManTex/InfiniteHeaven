@@ -33,17 +33,17 @@ namespace FoxKit.IH {
         //Set up any game objects we manage
         override public void SetupGameObjects() {
             userMarkers.Clear();
-            string name = "UserMarkers";
-            GameObject userMarkerGroup = GameObject.Find(name);
+            string groupName = "UserMarkers";
+            GameObject userMarkerGroup = GameObject.Find(groupName);
             if (userMarkerGroup == null) {
-                userMarkerGroup = new GameObject(name);
+                userMarkerGroup = new GameObject(groupName);
             }//if !userMarkerGroup
             for (int i = 0; i < MAX_MARKERS; i++) {
-                name = $"UserMarker{i}";
-                GameObject userMarker = GameObject.Find(name);
+                string markerName = $"UserMarker{i}";
+                GameObject userMarker = GameObject.Find(markerName);
                 if (userMarker == null) {
                     userMarker = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    userMarker.name = name;
+                    userMarker.name = markerName;
                     userMarker.transform.parent = userMarkerGroup.transform;
                 }
                 userMarkers.Add(userMarker);

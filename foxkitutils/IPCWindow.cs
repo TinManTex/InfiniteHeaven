@@ -73,7 +73,6 @@ namespace FoxKit.IH {
                 if (!ipcRunning) {
                     Debug.Log("ipc.StartPipeThreads");
                     ipc.StartPipeThreads();
-                    ipc.ToGameCmd($"extSession|{extSession}");
                     ipcRunning = true;
                 }
             } else {
@@ -82,10 +81,18 @@ namespace FoxKit.IH {
                     ipc.ShutdownPipeThreads();
                     ipcRunning = false;
                 }
-            }
+            }//Start/ShutdownPipeThreads
 
             if (ipc.IsPipeConnected()) {
+                if (extSession == 0) {
+                    System.DateTime currentDate = System.DateTime.Now;
+                    extSession = currentDate.Ticks;
+                    ipc.ExtSession = extSession;
+                    ipc.ToGameCmd($"extSession|{extSession}");
+                }
                 ipc.ProcessToExtCommandQueue();
+            } else {
+                extSession = 0;
             }//if IsPipeConnected
         }//OnEditorUpdate
 

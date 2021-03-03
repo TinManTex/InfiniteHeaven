@@ -19,10 +19,13 @@ namespace FoxKit.IH {
         public bool continuousUpdate = false;
         public bool singleUpdate = false;
         protected bool doRepaint = false;
+        private bool hasRegisteredToGameCmds = false;
 
         void OnEnable() {
             //Debug.Log("PlayerSync.OnEnable");//DEBUG
             EditorApplication.update += OnEditorUpdate;
+
+            hasRegisteredToGameCmds = false;
 
             RegisterFromGameCommands();
 
@@ -45,6 +48,14 @@ namespace FoxKit.IH {
 
             if (continuousUpdate || singleUpdate) {
                 singleUpdate = false;
+
+                //GOTCHA this would break on IH reloadmodules, but resetting component (or entity component is on, would reinit it)
+                if (!hasRegisteredToGameCmds) {
+                    hasRegisteredToGameCmds = true;
+
+                    RegisterToGameCommands();
+                }
+
                 OnIPCUpdate();
                 if (wantsRepaint) {
                     doRepaint = true;
@@ -62,8 +73,9 @@ namespace FoxKit.IH {
             }//if doRepaint
         }//OnEditorUpdate
 
-        public abstract void RegisterFromGameCommands();
+        public virtual void RegisterFromGameCommands() { }
+        public virtual void RegisterToGameCommands() { }
         public abstract void OnIPCUpdate();
-        public abstract void SetupGameObjects();
+        public virtual void SetupGameObjects() { }
     }//class IPCFeature
 }//namespace FoxKit.IH

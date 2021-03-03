@@ -112,6 +112,7 @@ namespace FoxKit.IH {
         //tex mgsv_in pipe (IHExt out) process thread
         //IN/SIDE: serverInName
         void serverIn_DoWork(object sender, DoWorkEventArgs eventArgs) {
+            Debug.Log("serverIn_DoWork start");
             BackgroundWorker worker = (BackgroundWorker)sender;
 
             using (var serverIn = new NamedPipeClientStream(".", serverInName, PipeDirection.Out)) {//tex: piped named from mgsv standpoint, so we pipe out to mgsv in, and visa versa
@@ -126,7 +127,6 @@ namespace FoxKit.IH {
 
                 serverIn.ReadMode = PipeTransmissionMode.Message;
 
-                //ToMgsvCmd("0|IHExtStarted");//DEBUG
                 StreamWriter sw = new StreamWriter(serverIn, Encoding.UTF8);
                 while (true) {
                     //Debug.Log("serverIn_DoWork");//DEBUG
@@ -170,7 +170,8 @@ namespace FoxKit.IH {
         //tex mgsv_out pipe (IHExt in) process thread
         //IN/SIDE: serverOutName
         //IN-OUT/SIDE: mgsvToExtComplete
-        void serverOut_DoWork(object sender, DoWorkEventArgs e) {
+        void serverOut_DoWork(object sender, DoWorkEventArgs eventArgs) {
+            Debug.Log("serverOut_DoWork start");
             BackgroundWorker worker = (BackgroundWorker)sender;
 
             //tex there's an issue with client/in pipes not working in message mode
@@ -195,7 +196,6 @@ namespace FoxKit.IH {
 
                 serverOut.ReadMode = PipeTransmissionMode.Message;
 
-                //ToMgsvCmd("IHExtStarted");//DEBUG
                 while (true) {
                     //Debug.Log("serverOut_DoWork");//DEBUG
                     if (worker.CancellationPending) {
@@ -267,14 +267,9 @@ namespace FoxKit.IH {
                 if (c == -1) {//tex end of stream
                     break;
                 } else if (c == '\0') {
-                    stringBuilder.Append(c);
                     break;
                 } else {
-                    // if (c == '|') {
-                    //tex Could start splitting string here I guess
-                    // } else {
                     stringBuilder.Append(c);
-                    // }
                 }
             } while (!sr.EndOfStream) ;
             return stringBuilder.ToString();
@@ -316,14 +311,17 @@ namespace FoxKit.IH {
             }
         }//ProcessCommandQueue
 
-        public void ToGameCmd(string cmd) {
+        public void ToGameCmd(string cmd, params object[] args) {
             if (!IsPipeConnected()) {
                 Debug.Log($"WARNING: ToGameCmd when !isPipeConnected: {cmd}");
                 return;
             }
 
-            string message = extToMgsvCurrent.ToString() + "|" + cmd;
-            extToMgsvCmdQueue.Enqueue(message);
+            StringBuilder message = new StringBuilder($"{extToMgsvCurrent}|{cmd}");
+            foreach (string arg in args) {
+                message.Append($"|{arg}");
+            }
+            extToMgsvCmdQueue.Enqueue(message.ToString());
             extToMgsvCurrent++;
 
             //Debug.Log(message);

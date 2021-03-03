@@ -7,7 +7,6 @@ If the script cannot find existing one it will create a gameobject 'Player'.
 Once IPC is running (click 'Toggle IPC' in Window->FoxKit->MGSV IPC after game is running) 
 Click Single Update or Continious Object on this component to update the gameobjects to the games position.
  */
-using System.Collections.Generic;
 using UnityEngine;
 namespace FoxKit.IH {
     [ExecuteInEditMode]
@@ -23,13 +22,17 @@ namespace FoxKit.IH {
 
         override public void OnIPCUpdate() {
             if (syncDirection == SyncDirection.EDITOR_TO_GAME) {
-                float x = -proxyGameObject.transform.position.x;
+                float x = proxyGameObject.transform.position.x;
                 float y = proxyGameObject.transform.position.y;
                 float z = proxyGameObject.transform.position.z;
                 float yaw = proxyGameObject.transform.rotation.eulerAngles.y;
+				//unity to fox
+				x=-x;
+				yaw=-yaw;
+				
                 IPC.Instance.ToGameCmd($"SetPlayerPos|{x}|{y}|{z}|{yaw}");
             } else {
-                //gameToEditor
+                //GAME_TO_EDITOR
                 IPC.Instance.ToGameCmd("GetPlayerPos");
             }
         }//OnIPCUpdate
@@ -48,11 +51,15 @@ namespace FoxKit.IH {
         //args[1] = command name(ditto)
         //args[2 +] = arg as string
 
+		//n|GamePlayerPos|{x}|{y}|{z}|{yaw}
         private void GamePlayerPos(string[] args) {
-            float x = -float.Parse(args[2]);//tex fox to unity conversion
+            float x = float.Parse(args[2]);
             float y = float.Parse(args[3]);
             float z = float.Parse(args[4]);
             float yaw = float.Parse(args[5]);
+            //fox to unity
+            x=-x;
+            yaw=-yaw;
 
             proxyGameObject.transform.position = new Vector3(x, y, z);
             Quaternion yawQuat = Quaternion.Euler(0.0f, yaw, 0.0f);
