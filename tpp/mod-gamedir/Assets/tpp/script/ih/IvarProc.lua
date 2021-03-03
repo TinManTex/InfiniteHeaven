@@ -274,6 +274,10 @@ this.OptionIsDefault=function(self)
 end
 
 --tex NOTE: returns currentsetting if no setting given
+--currentSetting is ivars current value
+--setting is setting we want to check against current setting
+--can be called with setting=nil to just get the value
+--so is used for both ivar:Is and ivar:Get
 this.OptionIsSetting=function(self,setting)
   if self==nil then
     InfCore.DebugPrint("WARNING: OptionIsSetting self==nil, Is or Get called with . instead of :")
@@ -297,7 +301,7 @@ this.OptionIsSetting=function(self,setting)
   elseif type(setting)==numberType then
     return setting==currentSetting
   end
-
+  --tex setting to test not a number, so must be string to test against ivars enum
   if self.enum==nil then
     InfCore.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
     return false
@@ -598,7 +602,6 @@ function this.IsForMission(ivarList,setting,missionCode)
   end
   return passedCheck
 end
-
 function this.GetForMission(ivarList,missionCode)
   local missionId=missionCode or vars.missionCode
   if type(ivarList)=="string" then

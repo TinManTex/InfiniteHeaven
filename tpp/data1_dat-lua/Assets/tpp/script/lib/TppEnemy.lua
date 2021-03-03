@@ -2932,7 +2932,7 @@ function this.RestoreOnContinueFromCheckPoint2()
   --a manual unrealize will fix that, but may just send it into an actual lostcontrol
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
-  --if InfNPCHeli==nil or not IvarProc.EnabledForMission("attackHeliPatrols") then--DEBUGNOW
+  --if InfNPCHeli==nil or not IvarProc.EnabledForMission("attackHeliPatrols") then--DEBUGNOW I disabled this, am I no longer having the problem or what?
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       local typeHeli={type="TppEnemyHeli"}
       SendCommand(typeHeli,{id="RestoreFromSVars"})

@@ -2401,6 +2401,9 @@ function this.UpdateActiveQuest(updateFlags)
     local selectionMode=Ivars.sideOpsSelectionMode:Get()
     local selectionCategory=Ivars.sideOpsSelectionMode.settings[selectionMode+1]
     local selectionCategoryEnum=this.QUEST_CATEGORIES_ENUM[selectionCategory]
+    InfCore.Log("UpdateActiveQuest: selectionMode:"..tostring(selectionMode))--tex DEBUG
+    InfCore.Log("UpdateActiveQuest: selectionCategory:"..tostring(selectionCategory))--tex DEBUG
+    InfCore.Log("UpdateActiveQuest: selectionCategoryEnum:"..tostring(selectionCategoryEnum))--tex DEBUG
 
     local enabledCategories={}
     local ivarPrefix="sideops_"
@@ -2529,7 +2532,7 @@ function this.UpdateActiveQuest(updateFlags)
           --InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..selectedQuest)--tex DEBUG
           gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[selectedQuest]]=true
         else
-          InfCore.Log("WARNING: UpdateActiveQuest did not select a quest for area "..areaQuests.areaName)
+          InfCore.Log("WARNING: UpdateActiveQuest "..vars.missionCode.." did not select a quest for area "..areaQuests.areaName)
         end
       end--forcedquests switch
     end-- for questlist

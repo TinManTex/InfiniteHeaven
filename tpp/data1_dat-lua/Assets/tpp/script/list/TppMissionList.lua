@@ -914,6 +914,7 @@ this.missionPackTable[50050]=function(missionCode)
   end
   TppPackList.AddFOBLayoutPack(missionCode)
 end
+--CALLER: engine during Mission.LoadMission, set via SetLocationPackagePathFunc -v-
 function this.GetLocationPackagePath(locationId)
   InfCore.LogFlow("TppMissionList.GetLocationPackagePath "..locationId)--tex
   local packPath=this.locationPackTable[locationId]
@@ -923,6 +924,7 @@ function this.GetLocationPackagePath(locationId)
   InfCore.PrintInspect(packPath,"locationPackPaths")--tex DEBUG
   return packPath
 end
+--CALLER: engine during Mission.LoadMission, set via SetMissionPackagePathFunc -v-
 function this.GetMissionPackagePath(missionCode)
   InfCore.LogFlow("TppMissionList.GetMissionPackagePath "..missionCode)--tex
   TppPackList.SetUseDdEmblemFova(missionCode)
@@ -938,6 +940,7 @@ function this.GetMissionPackagePath(missionCode)
   InfCore.PrintInspect(packPaths,"missionPackPaths")--tex DEBUG
   return packPaths
 end
+--EXEC
 if Mission.SetLocationPackagePathFunc then
   Mission.SetLocationPackagePathFunc(this.GetLocationPackagePath)
 end

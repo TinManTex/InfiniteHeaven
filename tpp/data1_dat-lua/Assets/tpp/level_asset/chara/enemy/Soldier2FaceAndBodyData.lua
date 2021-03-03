@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- Soldier2FaceAndBodyData.lua
 -- The soldier face system is used by ai soldiers and hostages and player as DD soldier, soldier body system is used by ai soldiers and hostages.
+-- Infinite Heaven includes an addon system for adding to these entries, so editing it yourself should be unnessesary (and if the system doesn't cover the feature you want contack me)
 -- FLOW: The actual loading/initialization of the fpks seems to be in-engine between GetMissionPackagePath and OnAllocate 
 -- (which can be tested by referening a non existant fpk, game loading will halt like it does for non existing mission pack fpks).
 --GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying

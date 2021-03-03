@@ -373,7 +373,20 @@ function this._StartEmergencyMissionTimer(timerName,timeFromHeli,timeFromLand)
     return timeFromLand
   end
 end
+--CALLER: some mission _sequence s
+--Used to load into/out of variations of the same mission?
+--REF
+--TppMission.Reload{
+--  isNoFade = false,                         
+--  showLoadingTips = false, 
+--  missionPackLabelName = "AfterVolginDemo",         
+--  OnEndFadeOut = function()                     
+--    TppSequence.ReserveNextSequence( "Seq_Demo_Volgin" )
+--    TppMission.UpdateCheckPointAtCurrentPosition()
+--  end,
+--}
 function this.Reload(loadInfo)
+  InfCore.LogFlow("TppMission.Reload")--tex
   local isNoFade,missionPackLabelName,locationCode,OnEndFadeOut,showLoadingTips,ignoreMtbsLoadLocationForce
   if loadInfo then
     isNoFade=loadInfo.isNoFade
@@ -410,7 +423,9 @@ function this.Reload(loadInfo)
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"ReloadFadeOutFinish",nil,{setMute=true})
   end
 end
+--CALLERS: ReturnToMission, exe>esc menu msg PauseMenuRestart, msg Timer_OnEndReturnToTile
 function this.RestartMission(loadInfo)
+  InfCore.LogFlow("TppMission.RestartMission")--tex
   local isNoFade
   local isReturnToMission
   if loadInfo then
@@ -479,7 +494,9 @@ function this.ExecuteRestartMission(isReturnToMission)
     DoLoad()
   end
 end
+--CALLER: exe>esc menu - msg PauseMenuCheckpoint
 function this.ContinueFromCheckPoint(loadInfo)
+  InfCore.LogFlow("TppMission.ContinueFromCheckPoint")--tex
   local isNoFade
   local isReturnToMission
   if loadInfo then
@@ -496,7 +513,10 @@ function this.ContinueFromCheckPoint(loadInfo)
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"ContinueFromCheckPointFadeOutFinish",nil,{setMute=true,exceptGameStatus={AnnounceLog="INVALID_LOG"}})
   end
 end
+--returning from fob/emergency mission?
+--GameOverReturnToMission, PauseMenuReturnToMission, helli_common - if GetNextMissionCodeForEmergency() == 50050, o50050_sequence - isSyncDefMissionClear 
 function this.ReturnToMission(_loadInfo)
+  InfCore.LogFlow("TppMission.ReturnToMission")--tex
   local loadInfo=_loadInfo or{}
   loadInfo.isReturnToMission=true
   this.DisableInGameFlag()
@@ -611,7 +631,9 @@ function this.ExecuteOnReturnToMissionCallback()
   end
   return OnReturnToMission
 end
+--AbortForRideOnHelicopter, AbortForOutOfMissionArea, heli_common_seq, o50050_seq
 function this.AbortMission(abortInfo)
+  InfCore.LogFlow("TppMission.AbortMission")--tex
   InfMain.AbortMissionTop(abortInfo)--tex
   local isNoFade
   local isNoSave
@@ -877,6 +899,7 @@ function this.LoadForMissionAbort()
     this.Load(vars.missionCode,mvars.mis_abortCurrentMissionCode,mvars.mis_missionAbortLoadingOption)
   end
 end
+--CALLERS: PauseMenuReturnToTitle
 function this.ReturnToTitle()
   if TppException.isNowGoingToMgo then--RETAILPATCH 1070>
     return
@@ -895,6 +918,7 @@ function this.ReturnToTitle()
   end
 end
 function this.GameOverReturnToTitle()
+  InfCore.LogFlow("TppMission.GameOverReturnToTitle")--tex
   gvars.title_nextMissionCode=vars.missionCode
   gvars.title_nextLocationCode=vars.locationCode
   gvars.ini_isTitleMode=true
@@ -907,6 +931,7 @@ function this.GameOverReturnToTitle()
   this.ExecuteMissionAbort()
 end
 function this.ReserveGameOver(gameOverType,gameOverRadio,isAborting)
+  InfCore.LogFlow("TppMission.ReserveGameOver")--tex
   --tex>
   if gameOverType==TppDefine.GAME_OVER_TYPE.OUTSIDE_OF_MISSION_AREA then
     if Ivars.disableOutOfBoundsChecks:Is(1) then
@@ -1035,6 +1060,7 @@ function this.ReserveMissionClear(missionClearInfo)
   return true
 end
 function this.MissionGameEnd(sequence)
+  InfCore.LogFlow("TppMission.MissionGameEnd")--tex
   local delayTime=0
   local fadeDelayTime=0
   local fadeSpeed=TppUI.FADE_SPEED.FADE_NORMALSPEED
@@ -1163,6 +1189,7 @@ function this.DisablePauseForShowResult()
   end
 end
 function this.ShowMissionResult()
+  InfCore.LogFlow("TppMission.ShowMissionResult")--tex
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   TppRadio.Stop()
   TppSoundDaemon.SetMute"Loading"
@@ -1200,6 +1227,7 @@ function this.OnEndMissionReward()
 end
 --NMC: called from in sequence when decided mission is ended
 function this.MissionFinalize(options)
+  InfCore.LogFlow("TppMission.MissionFinalize")--tex
   local isNoFade,isExecGameOver,showLoadingTips,setMute,isInterruptMissionEnd,ignoreMtbsLoadLocationForce
   if IsTypeTable(options)then
     isNoFade=options.isNoFade
@@ -1960,6 +1988,7 @@ function this.OnPlayerDead(playerId,deathTypeStr32)
   end
 end
 function this.OnEndMissionPreparation(deployTime,clusterId)
+  InfCore.LogFlow("TppMission.OnEndMissionPreparation")--tex
   mvars.mis_selectedDeployTime=deployTime
   if gvars.mis_nextMissionCodeForEmergency==0 then
     local missionStartRoute
@@ -1980,6 +2009,7 @@ function this.GetNextMissionCodeForEmergency()
   return(mvars.mis_emergencyMissionCode or gvars.mis_nextMissionCodeForEmergency)
 end
 function this.OnAbortMissionPreparation()
+  InfCore.LogFlow("TppMission.OnAbortMissionPreparation")--tex
   TppPlayer.ForceChangePlayerFromOcelot()--RETAILPATCH 1.0.11
   this.SetNextMissionCodeForMissionClear(missionClearCodeNone)
   gvars.heli_missionStartRoute=0
@@ -2132,6 +2162,7 @@ function this.Init(missionTable)
   end
 end
 function this.OnReload(missionTable)
+  InfCore.LogFlow("TppMission.OnReload")--tex
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   this.messageExecTableWhileLoading=Tpp.MakeMessageExecTable(this.MessagesWhileLoading())
   if missionTable.sequence then
@@ -3574,6 +3605,7 @@ function this.IsChunkLoading(chunkIndex)
   Tpp.ShowChunkInstallingPopup(chunkIndex,false)
   return true
 end
+--CALLERS: StartInitMission, ExecuteRestartMission, ExecuteContinueFromCheckPoint, LoadForMissionAbort, LoadWithChunkCheck
 function this.Load(nextMissionCode,currentMissionCode,loadSettings)
   InfCore.LogFlow("TppMission.Load nextMissionCode:"..tostring(nextMissionCode).." currentMissionCode:"..tostring(currentMissionCode))--tex
   InfCore.PrintInspect(loadSettings,"loadSettings")--tex DEBUG
