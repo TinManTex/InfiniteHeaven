@@ -16,6 +16,10 @@
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
 --in general this means all stuff should have a 0 that at least does nothing,
 --dont let the lure of nice straight setting>game value lure you, just -1 it
+
+--REF TODO: ref of ivar with all vars and methods
+
+
 local this={}
 
 this.debugModule=false
@@ -625,6 +629,7 @@ local OPTIONTYPE_OPTION="OPTION"
 --build out full definition
 function this.BuildIvar(name,ivar)
   local ivars=ivars
+  local evars=evars
   local IvarProc=IvarProc
   if this.IsIvar(ivar) then
     ivar.optionType=OPTIONTYPE_OPTION
@@ -635,10 +640,8 @@ function this.BuildIvar(name,ivar)
     ivar.range.max=ivar.range.max or 1
     ivar.range.min=ivar.range.min or 0
     ivar.range.increment=ivar.range.increment or 1
-
     ivar.default=ivar.default or ivar.range.min
-    ivars[ivar.name]=ivars[ivar.name] or ivar.default
-
+    
     if ivar.settings then
       ivar.enum=this.Enum(ivar.settings)
       --      for name,enum in ipairs(ivar.enum) do
@@ -668,6 +671,7 @@ function this.BuildIvar(name,ivar)
     ivar.MissionCheck=ivar.MissionCheck--tex OFF or IvarProc.MissionCheckAll--rather have the functions on it bring up warnings than have it cause issues by going through
     ivar.EnabledForMission=IvarProc.IvarEnabledForMission
 
+    ivars[ivar.name]=ivars[ivar.name] or ivar.default
     if ivar.save and ivar.save==EXTERNAL then
       evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
       ivars[ivar.name]=evars[ivar.name]--tex for late-defined/module ivars a previously saved value will already be loaded
@@ -785,13 +789,14 @@ function this.PostAllModulesLoad()
   --  end
 
   --tex kill orphaned save values
+  local evars=evars
+  local ivars=ivars
   for name,value in pairs(evars)do
     if not ivars[name] then
       InfCore.Log("WARNING: Ivars.PostAllModulesLoad: Could not find ivar for evar "..name)
       evars[name]=nil
     end
   end
-
 end
 --<
 
