@@ -231,7 +231,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     end--if option
 
     if ivars.menu_enableHelp>0 then
-      local helpString=InfLangProc.LangStringHelp(option.name) or InfLangProc.LangStringHelp("general_help")
+      local helpString=InfLangProc.LangStringHelp(option.name) or InfLangProc.LangStringHelp("simple_help")
       if helpString then
         if this.menuOn then
           InfCore.ExtCmd('UiElementVisible','menuHelp',1)
