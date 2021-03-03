@@ -84,8 +84,12 @@ function this.ProcessCommands()
           if this.debugModule then
             InfCore.PrintInspect(args,'ToMgsv command '..args[1])--DEBUG
           end
-          if this.commands[args[2]] then
-            this.commands[args[2]](args)
+          local cmd=args[2]
+          local Command=this.commands[args[2]]
+          if Command==nil then
+            InfCore.Log("WARNING: InfExtToMgsv.ProcessCommands: could not find command "..tostring(args[2]))
+          else
+            Command(args)
           end
 
           InfCore.extToMgsvComplete=messageId
@@ -162,6 +166,7 @@ function this.ExtSession(args)
   --end
 end
 
+--menu commands>
 --args string elementName, string input
 --tex handles input from inputLine or menuSetting
 --TODO document what the actual commands are
@@ -330,8 +335,36 @@ function this.EnterText(args)
     --InfCore.WriteToExtTxt()
   end
 end
+--< menu commands
+--SIDE: whatever the script does lol
+function this.DoScript(args)
+  local luaString=args[3]
+  InfCore.Log("DoString:"..luaString)--DEBUGNOW TODO: limit to level:trace
+  local chunk,err=loadstring(luaString)
+  if not chunk then
+    InfCore.Log(tostring(err))
+    InfCore.ExtCmd("DoScriptError",tostring(err))--DEBUGNOW IMPLEMENT
+  else
+    chunk();
+  end
+end--DoScript
+--tex called via IH IPC to register more commands for IH IPC to be able to call (which in themselves may send callback commands)
+--IN/SIDE: InfExtToMgsv.commands
+function this.RegisterToGameCmd(args)
+  local cmdName=args[3]
+  local cmdString=args[4]
+  InfCore.Log("RegisterToGameCmd: "..cmdName..":"..cmdString)--DEBUGNOW TODO: limit to level:trace
+  local resisterString="InfExtToMgsv.commands["..cmdName.."]=function()"..cmdString.."end"
+  local chunk,err=loadstring(cmdString)
+  if not chunk then
+    InfCore.Log(tostring(err))
+    InfCore.ExtCmd("DoScriptError",tostring(err))--DEBUGNOW IMPLEMENT
+  else
+    chunk();
+  end
+end--RegisterToGameCmd
 
---DEBUGNOW
+--DEBUGNOW CULL
 --FoxKitToMgsv
 function this.GetPlayerPos(args)
   --InfCore.Log("GetPlayerPos")--DEBUG
@@ -377,6 +410,7 @@ end
 
 this.commands={
   extSession=this.ExtSession,
+  --menu commands>
   input=this.Input,
   selected=this.Selected,
   selectedcombo=this.SelectedCombo,
@@ -384,7 +418,10 @@ this.commands={
   togglemenu=this.ToggleMenu,
   GotKeyboardFocus=this.GotKeyboardFocus,
   EnterText=this.EnterText,
-  --DEBUGNOW
+  --<
+  DoScript=this.DoScript,
+  RegisterToGameCmd=this.RegisterToGameCmd,
+  --DEBUGNOW CULL
   --FoxKitToMgsv
   GetPlayerPos=this.GetPlayerPos,
   SetPlayerPos=this.SetPlayerPos,
