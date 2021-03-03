@@ -827,7 +827,7 @@ for i,flagName in ipairs(heliSpaceFlagNames)do
 end--for heliSpaceFlagNames
 
 this.heliSpaceFlagsMenu={
-  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.playerRestrictionsMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMainTppIvars.playerRestrictionsMenu"},
   options=heliSpaceIvarNames
 }
 --InfCore.PrintInspect(heliSpaceIvarNames,"heliSpaceIvarNames")--DEBUG
