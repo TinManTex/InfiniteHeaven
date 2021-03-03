@@ -158,7 +158,7 @@ local bodyTypeVars={
 }
 --CALLER: TppEneFova.PreMissionLoad, just before fovaSetupFuncs
 function this.PreMissionLoad(missionId,currentMissionId)
-  InfCore.LogFlow("isFemaleSoldierId clear")--DEBUGNOW
+  InfCore.LogFlow("isFemaleSoldierId clear")--tex DEBUGNOW
   this.isFemaleSoldierId={}
 
   --DEBUGNOW CULL this.SetBodyTypeIgvars(missionId)
@@ -204,7 +204,7 @@ function this.GetBodyType(missionCode)
   if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
     return ""
   end
-  local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  local customSoldierType=IvarProc.GetForMission("customSoldierType",missionCode)
   local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
   if bodyInfo==nil then
@@ -220,7 +220,7 @@ function this.GetBodyTypeExtend(missionCode)
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
     return ""
   end
-  local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  local customSoldierType=IvarProc.GetForMission("customSoldierTypeFemale",missionCode)
   local bodyType=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
   if bodyInfo==nil then
@@ -249,7 +249,7 @@ function this.GetMaleBodyInfoWORKAROUND(missionCode)--DEBUGNOW CULL
   end
 
   --DEBUGNOW CULL
-  --local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  --local customSoldierType=IvarProc.GetForMission("customSoldierType",missionCode)
   --local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
   --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(bodyType))--DEBUG
   return bodyInfo
@@ -276,13 +276,17 @@ function this.GetFemaleBodyInfoWORKAROUND(missionCode)--DEBUGNOW CULL
     return nil
   end
   
-  --CULL local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  --CULL local customSoldierType=IvarProc.GetForMission("customSoldierTypeFemale",missionCode)
   --local bodyInfo=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
   return bodyInfo
 end
-function this.GetMaleBodyInfo(missionCode)--DEBUGNOW
-  local customSoldierType=IvarProc.GetForMission"customSoldierType"
-  if not customSoldierType then
+function this.GetMaleBodyInfo(missionCode)
+  if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
+    return nil
+  end
+--DEBUGNOW don't know why below is returning a non zero value
+  local customSoldierType=IvarProc.GetForMission("customSoldierType",missionCode)
+  if customSoldierType==0 then--tex is 'OFF'
     return nil
   end
   local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
@@ -299,8 +303,13 @@ function this.GetMaleBodyInfo(missionCode)--DEBUGNOW
   return bodyInfo
 end--GetMaleBodyInfo
 function this.GetFemaleBodyInfo(missionCode)--DEBUGNOW
-  local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
-  if not customSoldierType then
+--DEBUGNOW
+  if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    return nil
+  end
+
+  local customSoldierType=IvarProc.GetForMission("customSoldierTypeFemale",missionCode)
+  if customSoldierType==0 then--tex is 'OFF'
     return nil
   end
   local bodyType=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
