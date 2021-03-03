@@ -116,7 +116,7 @@ end--ProcessCommands
 --IHH IHMenu
 function this.ProcessMenuCommands()
   --InfCore.Log("ProcessMenuCommands")--DEBUGNOW
-  if not IHH or not IHH.menuInitialized then 
+  if not IHH or not IHH.menuInitialized then
     return
   end
 
@@ -124,7 +124,7 @@ function this.ProcessMenuCommands()
   if not messages then
     return
   end
-  
+
   for i,message in ipairs(messages)do
     InfCore.Log("Process menuMessage: "..message)--DEBUGNOW
     if message:len()>0 then
@@ -238,7 +238,7 @@ function this.Selected(args)
     if menuIndex and menuIndex>0 and menuIndex<=#InfMenu.currentMenuOptions then
       InfMenu.currentIndex=menuIndex
       InfMenu.GetSetting()
-      InfMenu.DisplayCurrentSetting()
+      InfMenu.DisplaySetting(menuIndex)
     end
   end
 end
@@ -285,19 +285,39 @@ function this.Activate(args)
       end
     end
   end
-end
+end--Activate
+
+--DEBUGNOW CULL
+--function this.ToggleMenu(args)
+--  if #args>2 and args[3]=="1" then--tex KLUDGE DEBUGNOW
+--    InfCore.Log("ToggleMenu 1")
+--    if InfMenu.menuOn then
+--      InfMenu.MenuOff()
+--    else
+--      InfMgsvToExt.HideMenu()--tex KLUDGE DEBUGNOW
+--    end
+--    return
+--  end
+--
+--  local currentChecks=InfMain.UpdateExecChecks(InfMain.execChecks)
+--  InfMenu.ToggleMenu(currentChecks)
+--end
 
 function this.ToggleMenu(args)
-  if #args>2 and args[3]=="1" then
-    InfCore.Log("ToggleMenu 1")--DEBUGNOW
-    InfMenu.MenuOff()
+  if InfMenu.currentMenuOptions==nil then--tex WORKAROUND menu not inited yet
     return
   end
-
+  
   local currentChecks=InfMain.UpdateExecChecks(InfMain.execChecks)
   InfMenu.ToggleMenu(currentChecks)
 end
-
+function this.MenuOff(args)
+  if InfMenu.menuOn then
+    InfMenu.MenuOff()
+  else
+    InfMgsvToExt.HideMenu()--tex KLUDGE DEBUGNOW
+  end
+end
 --args string textBlockName
 function this.GotKeyboardFocus(args)
   if args[3]==menuLine then
@@ -354,8 +374,8 @@ function this.RegisterToGameCmd(args)
   local cmdName=args[3]
   local cmdString=args[4]
   InfCore.Log("RegisterToGameCmd: "..cmdName..":"..cmdString)--DEBUGNOW TODO: limit to level:trace
-  local resisterString="InfExtToMgsv.commands["..cmdName.."]=function()"..cmdString.."end"
-  local chunk,err=loadstring(cmdString)
+  local registerString="InfExtToMgsv.commands['"..cmdName.."']=function(args)"..cmdString.."end"
+  local chunk,err=loadstring(registerString)
   if not chunk then
     InfCore.Log(tostring(err))
     InfCore.ExtCmd("DoScriptError",tostring(err))--DEBUGNOW IMPLEMENT
@@ -363,43 +383,37 @@ function this.RegisterToGameCmd(args)
     chunk();
   end
 end--RegisterToGameCmd
-
---DEBUGNOW CULL
 --FoxKitToMgsv
 function this.GetPlayerPos(args)
   --InfCore.Log("GetPlayerPos")--DEBUG
   --DEBUGNOW
---  local offsetY=0
---  if Ivars.adjustCameraUpdate:Is(0) then--tex freecam not on
---    offsetY=-0.783
---    if PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL} then
---      offsetY = offsetY + 0.45
---    end
---  end
+  --  local offsetY=0
+  --  if Ivars.adjustCameraUpdate:Is(0) then--tex freecam not on
+  --    offsetY=-0.783
+  --    if PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL} then
+  --      offsetY = offsetY + 0.45
+  --    end
+  --  end
   --InfCore.Log("GetPlayerPos "..tostring(vars.playerPosX)..","..tostring(vars.playerPosY))--DEBUGNOW
   InfCore.ExtCmd('GamePlayerPos',vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY)
 end
-
 --SetPlayerPos|{x}|{y}|{z}|{yaw}
 function this.SetPlayerPos(args)
   local x,y,z,yaw=args[3],args[4],args[5],args[6]
   TppPlayer.Warp{pos={x,y,z},rotY=yaw}
 end
-
 function this.GetCameraPos(args)
   InfCore.ExtCmd('GameCameraPos',
     vars.playerCameraPosition[0],vars.playerCameraPosition[1],vars.playerCameraPosition[2],
     vars.playerCameraRotation[0],vars.playerCameraRotation[1],vars.playerCameraRotation[2])
 end
-
 --SetCameraPos|{x}|{y}|{z}|{pitch}|{yaw}
 function this.SetCameraPos(args)
   local x,y,z,pitch,yaw=args[3],args[4],args[5],args[6],args[7]
   local currentCamName=this.GetCurrentCamName()
   local currentPos=Vector3(x,y,z)
-  InfCamera.WritePosition(currentCamName,currentPos)   
+  InfCamera.WritePosition(currentCamName,currentPos)
 end
-
 function this.GetUserMarkerPos(args)
   local markerIndex=tonumber(args[3])
   local markerPos=InfUserMarker.GetMarkerPosition(markerIndex)
@@ -416,16 +430,17 @@ this.commands={
   selectedcombo=this.SelectedCombo,
   activate=this.Activate,
   togglemenu=this.ToggleMenu,
+  menuoff=this.MenuOff,
   GotKeyboardFocus=this.GotKeyboardFocus,
   EnterText=this.EnterText,
   --<
   DoScript=this.DoScript,
   RegisterToGameCmd=this.RegisterToGameCmd,
-  --DEBUGNOW CULL
   --FoxKitToMgsv
   GetPlayerPos=this.GetPlayerPos,
   SetPlayerPos=this.SetPlayerPos,
   GetCameraPos=this.GetCameraPos,
+  SetCameraPos=this.SetCameraPos,
   GetUserMarkerPos=this.GetUserMarkerPos,
 }
 
