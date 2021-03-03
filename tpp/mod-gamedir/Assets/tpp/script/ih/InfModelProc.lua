@@ -1,10 +1,15 @@
 -- InfModelProc.lua --TODO bad name, rename
+-- SYNC: DEBUGNOW to some external document explaining fova addons (collate this, Solder2FaceAndBodyData, InfBodyInfo comments, and the mgo head, us ih body addon stuff)
 -- Loads addons in \mod\fovaInfo which add face or body fova entries to Solder2FaceAndBodyData
+-- See: Mgo headgear fova mod r1
+-- and: US Soldier - IH body addon (or caplags version)
+-- on the IH nexus page for working examples
+-- Soldier entities enemies and staff on mb (but not when playing that staff) use body addon, which can also used for customSoldierType ((see the IH body addon example and modules/InfBodyInfo.lua)
 --tex: these functions are kinda verbose in debugMode so developers can debug their fova addons
-
 --GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
 --dont know if its for bodyDefinition or bodyFova count though.
 --seems to be vanilla count + 64 = 366
+--TODO: figure out what limits to the other entries are
 --TODO: when fv2 random variation is figured out could crush down the FATIGUES_CAMO_MIX from ~60 to just 1, or a few similar sets
 
 local this={}
@@ -54,7 +59,7 @@ this.fovaInfos={}
 --      faceDecoFova="example_faceDeco1.fv2",
 --      hairFova="example_hair1.fv2",
 --      hairDecoFova="example_hairDeco1.fv2",
---      uiTextureName="ui_face_686",--idroid staff texture name, only nessesary if you want to
+--      uiTextureName="ui_face_686",--idroid staff texture name, only nessesary if you want it to show for staff using the faceId
 --    },
 --  },
 --}
@@ -256,8 +261,10 @@ function this.Setup(faceAndBodyData)
   end
 end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
+--CALLER: Solder2FaceAndBodyData
 --IN/OUT Solder2FaceAndBodyData.lua
 function this.SetupFaceFova(faceAndBodyData)
+  InfCore.LogFlow"InfModelProc.SetupFaceFova"
   local genders={
     MALE=0,
     FEMALE=1,
@@ -267,6 +274,8 @@ function this.SetupFaceFova(faceAndBodyData)
   this.faceDefinitions={}
 
   this.hasFaceFova=false
+  
+  local overwrittenFaceIds={}
 
   --tex build faceAndBodyData faceDefinition from fovaInfo head definitions
   for moduleName,module in pairs(this.fovaInfos)do
@@ -288,6 +297,10 @@ function this.SetupFaceFova(faceAndBodyData)
           local oldFace={}
           if headDefinition.overwriteFaceId then
             currentFaceId=headDefinition.overwriteFaceId
+            if overwrittenFaceIds[currentFaceId] then
+              InfCore.Log("WARNING: SetupFaceFova: overwriteFaceId for face "..currentFaceId.." already has a fovaInfo addon");--DEBUGNOW this needs to be user facing.
+            end
+            overwrittenFaceIds[currentFaceId]=true
             definitionIndex=this.FindFaceDefForFaceId(faceAndBodyData,currentFaceId)
             if InfCore.debugModule then
               InfCore.Log("FindFaceDefForFaceId("..currentFaceId.."):"..definitionIndex)
