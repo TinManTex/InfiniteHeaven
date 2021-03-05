@@ -15,6 +15,7 @@ this.debugModule=false
 this.safeSpaceMenu={
   options={
     "InfMenuDefs.systemMenu",--tex forced order (first) rather than just by context
+    "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
   }
 }
 
@@ -25,6 +26,7 @@ this.inMissionMenu={
     "InfHelicopter.ForceExitHeliAlt",
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
+    "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
   }
 }
 
@@ -63,6 +65,7 @@ this.devInAccMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "InfMenuCommands.RefreshPlayer",--DEBUGNOW
     "Ivars.quest_useAltForceFulton",--DEBUGNOW
     "Ivars.sys_increaseMemoryAlloc",--DEBUGNOW
     "InfMenuCommands.DEBUG_SomeShiz",

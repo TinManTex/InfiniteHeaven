@@ -79,6 +79,8 @@ this.eng={--english
     MB="MB",
     MB_ALL="MB",
   },
+  generalHelpItem="General Help",
+  general_help_cmd="See MGS_TPP/mod/docs/ for documentation",
 }--eng end
 
 this.help={}
@@ -86,7 +88,7 @@ this.help.eng={
   simple_help=[[Navigate menu: Arrow keys or Dpad.
 Activate or advance setting: Press Right key or Dpad or double-click option.
   ]],--tex default help text for option with none. should be short so that imgui doesn't scroll with default window size
-  general_help=[[General Help:
+  generalHelpItem=[[General Help:
 Press F2 to toggle mouse cursor.
 Navigate menu: Arrow keys or Dpad.
 Activate or advance setting: Press Right key or Dpad or double-click option in menu.
