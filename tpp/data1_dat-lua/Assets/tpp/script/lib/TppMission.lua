@@ -1261,8 +1261,16 @@ function this.MissionFinalize(options)
     end
   end
 end
+--CALLERS: 
+--msg EndFadeOut MissionFinalizeFadeOutFinish
+--msg EndFadeOut MissionFinalizeAtGameOverFadeOutFinish
+--TppMission.MissionFinalize
+--TppMission.OnEndMissionReward
+--does final mission switch over before loadrequesting next
+--including changing vars.missionCode over (if mis_nextMissionCodeForMissionClear)
+--IN/SIDE: gvars.mis_nextMissionCodeForMissionClear
 function this.ExecuteMissionFinalize()
-  InfCore.LogFlow("TppMission.ExecuteMissionFinalize "..vars.missionCode)--tex
+  InfCore.LogFlow("TppMission.ExecuteMissionFinalize missionCode:"..vars.missionCode.." nextMissionCode:"..tostring(gvars.mis_nextMissionCodeForMissionClear))--tex
   InfMain.ExecuteMissionFinalizeTop()--tex
   local nextLocationName=TppPackList.GetLocationNameFormMissionCode(gvars.mis_nextMissionCodeForMissionClear)
   if nextLocationName then
@@ -1323,6 +1331,7 @@ function this.ExecuteMissionFinalize()
     Ivars.prevMissionCode=vars.missionCode--tex added
     vars.locationCode=mvars.mis_nextLocationCode
     vars.missionCode=gvars.mis_nextMissionCodeForMissionClear
+    InfCore.Log("Updated locationCode:"..tostring(vars.locationCode).." missionCode:"..tostring(vars.missionCode).." prevMissionCode:"..tostring(Ivars.prevMissionCode))--tex
   else
     if not mvars.mis_isInterruptMissionEnd then
       Tpp.DEBUG_Fatal"Not defined next missionId!!"
@@ -1374,17 +1383,8 @@ function this.ExecuteMissionFinalize()
     Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
   end
   if isFreeMission then
-    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear
-    InfMainTpp.ExecuteMissionFinalizeFree{--tex>
-      currentMissionCode=currentMissionCode,
-      currentLocationCode=currentLocationCode,
-      isHeliSpace=isHeliSpace,
-      nextIsHeliSpace=nextIsHeliSpace,
-      isFreeMission=isFreeMission,
-      nextIsFreeMission=nextIsFreeMission,
-      isMotherBase=isMotherBase,
-      isZoo=isZoo,
-    }--<
+    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear, thus the isBleh vars
+    InfMainTpp.MbCollectionRepop(isMotherBase,isZoo)--tex isFreeVersion IH repop since -^-
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
   local lockStaffForMission={
