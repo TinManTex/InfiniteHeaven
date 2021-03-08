@@ -396,7 +396,7 @@ this.dropTestEquip={--WIP --DEBUGNOW
 this.selectProfile={
   nonConfig=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
     if Ivars.profileNames==nil or #Ivars.profileNames==0 or self.settings==nil then
       return InfLangProc.LangString"no_profiles_installed"
@@ -407,17 +407,10 @@ this.selectProfile={
     end
   end,
   OnSelect=function(self)
-    local profileNames=Ivars.profileNames
-    if profileNames then
-      self.range.max=#profileNames-1
-      self.settings=profileNames
-    else
-      self.range.max=0
-      ivars[self.name]=0
-    end
+    IvarProc.SetSettings(self,Ivars.profileNames)
   end,
   OnActivate=function(self,setting)
-    if self.settings==nil then
+    if self.settings==nil or #self.settings==0 then
       InfMenu.PrintLangId"no_profiles_installed"
     end
 

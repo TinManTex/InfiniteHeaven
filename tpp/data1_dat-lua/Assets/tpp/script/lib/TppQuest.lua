@@ -2399,7 +2399,7 @@ function this.UpdateActiveQuest(updateFlags)
 
     --tex get enabled sideops categories>
     local selectionMode=Ivars.sideOpsSelectionMode:Get()
-    local selectionCategory=Ivars.sideOpsSelectionMode.settings[selectionMode+1]
+    local selectionCategory=Ivars.sideOpsSelectionMode:GetSettingName(selectionMode)
     local selectionCategoryEnum=this.QUEST_CATEGORIES_ENUM[selectionCategory]
     InfCore.Log("UpdateActiveQuest: selectionMode:"..tostring(selectionMode))--tex DEBUG
     InfCore.Log("UpdateActiveQuest: selectionCategory:"..tostring(selectionCategory))--tex DEBUG

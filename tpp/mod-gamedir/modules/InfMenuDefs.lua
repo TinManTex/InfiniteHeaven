@@ -76,7 +76,6 @@ this.devInAccMenu={
     --"Ivars.customSoldierTypeMISSION",--TODO:
     "Ivars.manualSequence",
     "Ivars.allowUndevelopedDDEquip",
-    "Ivars.skipDevelopChecks",
     "InfLookup.DumpValidStrCode",
     --TODO: debugmodeall command/profile
     --"Ivars.enableWildCardHostageFREE",--WIP
@@ -198,7 +197,6 @@ this.devInMissionMenu={
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
     "Ivars.allowUndevelopedDDEquip",
-    "Ivars.skipDevelopChecks",
     "Ivars.debugValue",
     "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
     --"Ivars.parasitePeriod_MIN",
