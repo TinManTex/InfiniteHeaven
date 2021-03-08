@@ -17,6 +17,8 @@
 --figure out why Internal doors are visually dark on the outside
 --/Assets/tpp/pack/fova/mecha/uth/uth_v00_fv2_ih.fpk
 --build pftxs for all the uth fova
+--TODO: if have more than 3 fova types then split fova from heliclass
+--(that is if cmd SetColoring coloringType actually controls it independantly/doesnt have other side effects)
 local this={}
 
 --LOCALOPT
@@ -382,7 +384,6 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={},--DYNAMIC
-    --DEBUGNOW settingNames="attackHeliTypeSettings",--DEBUGNOW TODO
     OnSelect=function(self)
       local attackHeliTypeName=this["attackHeliType"..self.missionMode]:GetSettingName()
       local currentSettings=this.settingsHeliType[attackHeliTypeName]
@@ -425,8 +426,8 @@ this.langStrings={
 }
 --<
 function this.AddMissionPacks(missionCode,packPaths)
---tex DEBUGNOW might be better to shift TppEnemyHeli stuff back to TppReinforceBlock .GetFpk
---but this way makes it independent of reinforce_block being loaded
+  --tex DEBUGNOW might be better to shift TppEnemyHeli stuff back to TppReinforceBlock .GetFpk
+  --but this way makes it independent of reinforce_block being loaded
   --tex GOTCHA: this overrides TppReinforceBlock.LoadReinforceBlock GetFpk / TppReinforceBlock.REINFORCE_FPK
   --since the fox2 (which is derived from the normal reinforce fpk) is already loaded by the time TppReinforceBlock spins up.
   local locationName=InfUtil.GetLocationName()
@@ -494,7 +495,7 @@ function this.Init(missionTable,currentChecks)
     local levelToHeli={0,1,2,3,4,4}--tex SYNC #this.heliNames.EnemyHeli
     numAttackHelis=levelToHeli[level+1]
   end
-  InfCore.Log("InfNPCHeli.Init: AverageRevengeLevel:"..level.." numAttackHelis:"..numAttackHelis)--DEBUGNOW
+  InfCore.Log("InfNPCHeli.Init: AverageRevengeLevel:"..level.." numAttackHelis:"..numAttackHelis)--DEBUG
 
   if isOuterPlat then
     return
@@ -547,11 +548,10 @@ function this.Init(missionTable,currentChecks)
   --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
 
   InfMain.RandomSetToLevelSeed()
-  
-  --DEBUGNOW
+
   local attackHeliType=IvarProc.GetSettingNameForMission("attackHeliType",vars.missionCode)
   local attackHeliFova=IvarProc.GetSettingNameForMission("attackHeliFova",vars.missionCode)
-  
+
   local fovaId
   if attackHeliFova=="RANDOM" then
     fovaId=math.random(0,2)
@@ -564,12 +564,12 @@ function this.Init(missionTable,currentChecks)
     local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
     fovaId=levelToColor[level+1]
   elseif attackHeliFova=="RANDOM_EACH" then
-    --tex set per heli below
+  --tex set per heli below
   else
     fovaId=IvarProc.GetForMission("attackHeliFova",vars.missionCode)
   end
-  InfCore.Log("InfNPCHeli.Init: attackHeliType:"..attackHeliType.." attackHeliFova:"..attackHeliFova.." fovaId:"..tostring(fovaId))--DEBUGNOW
-  
+  InfCore.Log("InfNPCHeli.Init: attackHeliType:"..attackHeliType.." attackHeliFova:"..attackHeliFova.." fovaId:"..tostring(fovaId))--DEBUG
+
   for n=1,#this.heliList do
     local heliName=this.heliList[n]
     local heliObjectId = GetGameObjectId(heliName)
@@ -606,14 +606,14 @@ function this.OnMissionCanStart(currentChecks)
   end
   local isMb=vars.missionCode==30050
   if isMb then
-  --tex done in mtbs_cluster.SetUpLandingZone
+    --tex done in mtbs_cluster.SetUpLandingZone
     return
   end
 
   --tex set up lz info
-    local locationName=InfUtil.GetLocationName()
-    this.enabledLzs=this.heliRoutes[locationName]
-    routesBag=InfUtil.ShuffleBag:New(this.enabledLzs)
+  local locationName=InfUtil.GetLocationName()
+  this.enabledLzs=this.heliRoutes[locationName]
+  routesBag=InfUtil.ShuffleBag:New(this.enabledLzs)
 
   if not gvars.sav_varRestoreForContinue then
     for heliIndex=1,#this.heliList do
@@ -626,7 +626,7 @@ function this.OnMissionCanStart(currentChecks)
         InfCore.Log("InfNPCHeli.OnMissionCanStart: "..heliObjectId.." set to:"..heliRoute)--DEBUGNOW
         SendCommand(heliObjectId,{id="SetSneakRoute",route=heliRoute,point=1,warp=true})--DEBUGNOW
       end
-  end
+    end
   end--if contine
 end
 
@@ -642,7 +642,7 @@ function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   if vars.missionCode==30050 then
-  this.active=1
+    this.active=1
   end
 end
 
@@ -699,7 +699,6 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
   local isMb=vars.missionCode==30050
 
-  --DEBUGNOW
   if not isMb then
     this.active=0
     return
@@ -714,14 +713,14 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     else
       --tex choose new route
       if heliTimes[heliIndex]<currentTime then
-          heliTimes[heliIndex]=currentTime+math.random(routeTimeMbMin,routeTimeMbMax)
+        heliTimes[heliIndex]=currentTime+math.random(routeTimeMbMin,routeTimeMbMax)
 
         local heliRoute=this.UpdateHeliMB(heliObjectId,heliIndex,this.heliClusters)
-          SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute})
-          --SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute,point=0,warp=true})
-          --SendCommand(heliObjectId,{id="SetLandingZnoeDoorFlag",name="heliRoute",leftDoor="Close",rightDoor="Close"})
+        SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute})
+        --SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute,point=0,warp=true})
+        --SendCommand(heliObjectId,{id="SetLandingZnoeDoorFlag",name="heliRoute",leftDoor="Close",rightDoor="Close"})
 
-          --InfCore.DebugPrint(n.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
+        --InfCore.DebugPrint(n.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
         -- is > heliTime--<
       end
 
