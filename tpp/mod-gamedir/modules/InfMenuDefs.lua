@@ -61,35 +61,6 @@ this.systemMenu={
   },
 }
 
-this.devInAccMenu={
-  noDoc=true,
-  nonConfig=true,
-  options={
-    "InfMenuCommands.RefreshPlayer",--DEBUGNOW
-    "Ivars.quest_useAltForceFulton",--DEBUGNOW
-    "Ivars.sys_increaseMemoryAlloc",--DEBUGNOW
-    "InfMenuCommands.DEBUG_SomeShiz",
-    "InfMenuCommands.DEBUG_SomeShiz2",
-    "InfMenuCommands.DEBUG_SomeShiz3",
-    --"Ivars.customBodyTypeMB_ALL",--DEBUGNOW
-    "Ivars.selectEvent",
-    --"Ivars.customSoldierTypeMISSION",--TODO:
-    "Ivars.manualSequence",
-    "Ivars.allowUndevelopedDDEquip",
-    "InfLookup.DumpValidStrCode",
-    --TODO: debugmodeall command/profile
-    --"Ivars.enableWildCardHostageFREE",--WIP
-    --"Ivars.enableSecurityCamFREE",
-    "InfMenuCommands.ForceRegenSeed",
-    "Ivars.debugValue",
-    "Ivars.debugMode",
-    "Ivars.debugMessages",
-    "Ivars.debugFlow",
-    "Ivars.debugOnUpdate",
-    "Ivars.log_SetFlushLevel",
-  }
-}
-
 this.debugMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
@@ -162,51 +133,6 @@ this.debugInMissionMenu={
     "InfMenuCommands.ShowPosition",
     "InfMenuCommands.CheckPointSave",
   --"InfMenuCommands.DEBUG_ClearAnnounceLog",
-  }
-}
-
-this.devInMissionMenu={
-  noDoc=true,
-  nonConfig=true,
-  options={
-    "Ivars.cam_disableCameraAnimations",
-    "InfMenuCommands.DEBUG_SomeShiz",
-    "InfMenuCommands.DEBUG_SomeShiz2",
-    "InfMenuCommands.DEBUG_SomeShiz3",
-    "InfMenuCommands.DEBUG_WarpToObject",
-    "Ivars.warpToListPosition",
-    "Ivars.warpToListObject",
-    "InfHelicopter.RequestHeliLzToLastMarker",
-    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
-    "InfHelicopter.ForceExitHeli",
-    "InfHelicopter.ForceExitHeliAlt",
-    "InfHelicopter.PullOutHeli",
-    "InfHelicopter.ChangeToIdleStateHeli",
-    "Ivars.disablePullOutHeli",
-    --"Ivars.selectedCp",
-    --"InfMenuCommands.SetSelectedCpToMarkerObjectCp",
-    "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
-    "Ivars.selectedCp",
-    "InfUserMarker.PrintLatestUserMarker",
-    "InfMenuCommands.SetAllZombie",
-    "InfMenuCommands.CheckPointSave",
-    "Ivars.manualMissionCode",
-    "Ivars.setCamToListObject",
-    "Ivars.dropLoadedEquip",
-    "Ivars.dropTestEquip",
-    "Ivars.manualMissionCode",
-    "Ivars.manualSequence",
-    "Ivars.allowUndevelopedDDEquip",
-    "Ivars.debugValue",
-    "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
-    --"Ivars.parasitePeriod_MIN",
-    --"Ivars.parasitePeriod_MAX",
-    --"InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
-    "InfLookup.DumpValidStrCode",
-    "InfMenuCommands.SetAllFriendly",
-    "InfCamera.ShowFreeCamPosition",
-    "InfMenuCommands.ShowPosition",
-    "InfCore.ClearLog",
   }
 }
 
