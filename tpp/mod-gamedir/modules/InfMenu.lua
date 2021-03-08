@@ -20,7 +20,7 @@ local pairs=pairs
 local tostring=tostring
 
 local ivars=ivars
-local InfQuickMenuDefs--PostModuleLoad
+local InfQuickMenuDefs--PostModuleReload
 
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85

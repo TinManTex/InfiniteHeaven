@@ -283,7 +283,7 @@ function this.InitializeForContinue(missionTable)
   end
 end
 function this.ClearIsContinueFromTitle()
-  InfCore.LogFlow("ClearIsContinueFromTitle")--DEBUGNOW
+  InfCore.LogFlow("ClearIsContinueFromTitle")--tex DEBUGNOW
   gvars.isContinueFromTitle=false
 end
 function this.StartInitMission()
