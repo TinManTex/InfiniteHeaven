@@ -39,7 +39,6 @@ namespace FoxKit.IH {
             ipc.ServerInName = "mgsv_in";
             ipc.ServerOutName = "mgsv_out";
 
-            //playersync
             EditorApplication.update += OnEditorUpdate;//tex: dont know if this is the same frequency as EditorWindow.Update, it seems more frequent (looking at scene repaint) but that might be placebo
         }//OnEnable
         
