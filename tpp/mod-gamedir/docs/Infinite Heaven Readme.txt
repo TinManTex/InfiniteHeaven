@@ -86,17 +86,20 @@ Press and hold <Switch Zoom> (V key or RStick click) then press <Dash> (shift ke
 
 
 The menu system will display the current
-[#]: [Option name] : [Setting value or description] [menu item type symbol]
+[#]: [Option name] [Effect/ item type symbol] [Setting value or description] 
 Example:
-4: Mobility level : Grade 2
+4: Mobility level = 2:Grade 2
+
+Effect symbols:
+<> Applies change or command when setting is selected/cycled to
+>> Applies change or command when pressing <Action>
 
 Menu item type symbols:
-Sub-menu >
-Command >>
-Command that closes menu when done >]
-[Option Name] <Action> : [Setting]
+> Sub-menu
+>> Command
+>] Command that closes menu when done
+
 Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
-Commands '>>' are applied by pressing <Action> 
 
 While menu is open:
 Use Arrow keys or Dpad to navigate the menu
