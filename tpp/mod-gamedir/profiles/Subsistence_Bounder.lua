@@ -3,10 +3,13 @@ local this={
   description="Subsistence - Bounder",
   profile={
     --disableLzs="REGULAR",
-    disableSelectBuddy=0,
+    heliSpace_NoBuddyMenuFromMissionPreparetionFREE=0,
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetionFREE=1,
+    heliSpace_NoVehicleMenuFromMissionPreparetionFREE=1,
+    heliSpace_NoBuddyMenuFromMissionPreparetionMISSION=0,
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetionMISSION=1,
+    heliSpace_NoVehicleMenuFromMissionPreparetionMISSION=1,    
     disableHeliAttack=1,
-    disableSelectTime=1,
-    disableSelectVehicle=1,
     
     disableHeadMarkers=0,
     disableXrayMarkers=0,

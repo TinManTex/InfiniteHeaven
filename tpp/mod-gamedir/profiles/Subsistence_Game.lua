@@ -2,10 +2,13 @@
 local this={
   description="Subsistence - Game",
   profile={
-    disableSelectBuddy=1,
+    heliSpace_NoBuddyMenuFromMissionPreparetionFREE=1,
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetionFREE=1,
+    heliSpace_NoVehicleMenuFromMissionPreparetionFREE=1,
+    heliSpace_NoBuddyMenuFromMissionPreparetionMISSION=1,
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetionMISSION=1,
+    heliSpace_NoVehicleMenuFromMissionPreparetionMISSION=1,  
     disableHeliAttack=1,
-    disableSelectTime=1,
-    disableSelectVehicle=1,
 
     disableXrayMarkers=0,
     disableHeadMarkers=0,

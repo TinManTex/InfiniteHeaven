@@ -3,10 +3,13 @@ local this={
   description="Subsistence - Pure",
   profile={
     disableLzs="REGULAR",--tex this setting can be troublesome when trying to start a mission from ACC since it only allows Assault Landing zones, can be a fun restriction when entering from free roam, forces you to either exit on foot, or risk the heli by calling it to the assault LZ
-    disableSelectBuddy=1,
+    heliSpace_NoBuddyMenuFromMissionPreparetionFREE=1,
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetionFREE=1,
+    heliSpace_NoVehicleMenuFromMissionPreparetionFREE=1,
+    heliSpace_NoBuddyMenuFromMissionPreparetionMISSION=1,
+    heliSpace_DisableSelectSortieTimeFromMissionPreparetionMISSION=1,
+    heliSpace_NoVehicleMenuFromMissionPreparetionMISSION=1,  
     disableHeliAttack=1,
-    disableSelectTime=1,
-    disableSelectVehicle=1,
 
     disableXrayMarkers=1,
     disableHeadMarkers=1,
