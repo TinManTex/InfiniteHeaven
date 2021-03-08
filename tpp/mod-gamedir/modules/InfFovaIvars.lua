@@ -949,6 +949,7 @@ this.appearanceMenu={
     "Ivars.playerFaceEquipId",
     "Ivars.playerFaceFilter",
     "Ivars.playerFaceId",
+    "Ivars.skipDevelopChecks",
     "InfMenuCommandsTpp.PrintFaceInfo",
     "InfMenuCommandsTpp.PrintCurrentAppearance",
     "InfFovaIvars.fovaModMenu",
@@ -1004,6 +1005,7 @@ this.langStrings={
     playerCamoType="Camo type",
     playerFaceEquipId="Headgear",
     playerFaceId="Face",
+    skipDevelopChecks="Skip developed checks",
     printFaceInfo="Print face info",
     printCurrentAppearance="Print appearance info",
     appearanceMenu="Appearance menu",
@@ -1017,6 +1019,7 @@ this.langStrings={
   help={
     eng={
       playerType="Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.",
+      skipDevelopChecks="Allows items that haven't been developed to be selected.",
     },
   },
 }
