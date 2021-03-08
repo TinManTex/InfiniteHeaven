@@ -16,9 +16,15 @@
     {
         public Color LoadBoundsColor = new Color(0.0f, 1.0f, 0.0f, 1.0f);
         public Color ActiveBoundsColor = new Color(0.0f, 0.9f, 0.2f, 1.0f);
+        public Color BlockColor = Color.red;
         public bool DrawOver = true;//tex draw over the rest of the rendering (else terrain/models will hide it).
         public bool DrawName = true;
-        public bool DrawCenterIndex = true;
+        
+        public bool DrawAllBlocks = false;
+        public bool DrawAllQuestAreas = false;
+        public bool DrawBlockCenterIndex = false;
+        public bool DrawAreaCenterIndex = true;
+        public float yLevel = 0.0f;
 
         public enum Locations
         {
@@ -236,8 +242,56 @@
 
         private void OnDrawGizmos()
         {
-            DrawQuestAreas();
-        }
+            if (DrawAllBlocks) {
+                DrawBlocks(yLevel);
+            }
+            if (DrawAllQuestAreas) {
+                DrawQuestAreas();
+            }
+        }//OnDrawGizmos
+
+        private void DrawBlocks(float yLevel = 0.0f) {
+            Handles.zTest = UnityEngine.Rendering.CompareFunction.Less;
+            if (DrawOver) {
+                Handles.zTest = UnityEngine.Rendering.CompareFunction.Always;
+            }
+            Handles.color = BlockColor;
+
+            for (int x = mapStart; x <= mapSize / 2; x += blockSizeX) {
+                var startPos = new Vector3(x, yLevel, mapStart + 0);
+                var endPos = new Vector3(x, yLevel, mapStart + mapSize);
+                startPos.x = -startPos.x;//fox to unity ala FoxUtils
+                endPos.x = -endPos.x;//fox to unity ala FoxUtils
+
+                Handles.DrawLine(startPos, endPos);
+            }
+
+            for (int y = mapStart; y <= mapSize / 2; y += blockSizeX) {
+                var startPos = new Vector3(mapStart + 0, yLevel, y);
+                var endPos = new Vector3(mapStart + mapSize, yLevel, y);
+                startPos.x = -startPos.x;//fox to unity ala FoxUtils
+                endPos.x = -endPos.x;//fox to unity ala FoxUtils
+
+                Handles.DrawLine(startPos, endPos);
+            }
+
+            //DEBUGNOW urg
+            if (DrawBlockCenterIndex) {
+                for (int blockX = 0; blockX <= mapSize; blockX = blockX + blockSizeX) {
+                    for (int blockY = 0; blockY <= mapSize; blockY = blockY + blockSizeY) {
+                        var centerX = mapStart+blockX;
+                        var centerY = mapStart+blockY;
+
+                        var centerPos = new Vector3(centerX, yLevel, centerY);
+                        centerPos.x = -centerPos.x;//fox to unity ala FoxUtils
+                        Handles.color = Color.white;
+                        Handles.zTest = UnityEngine.Rendering.CompareFunction.Greater;
+                        string centerIndexText = "[" + blockX + ", " + blockY + "]";
+                        Handles.Label(centerPos, centerIndexText);    
+                    }                    
+                }
+            }//DrawBlockCenterIndex
+        }//DrawBlocks
 
         private void DrawQuestAreas()
         {
@@ -259,14 +313,14 @@
                 if (DrawName)
                 {
                     string centerIndexText = "";
-                    if (DrawCenterIndex)
+                    if (DrawAreaCenterIndex)
                     {
                         centerIndexText = "[" + centerX + ", " + centerY + "]";
                     }
 
                     centerX = centerX - blockStartIndex;
                     centerY = centerY - blockStartIndex;
-                    var centerPos = new Vector3(mapStart + (blockSizeX * centerX), 0, mapStart + (blockSizeY * centerY));
+                    var centerPos = new Vector3(mapStart + (blockSizeX * centerX), yLevel, mapStart + (blockSizeY * centerY));
                     centerPos.x = -centerPos.x;//fox to unity ala FoxUtils
                     Handles.color = Color.white;
                     Handles.zTest = UnityEngine.Rendering.CompareFunction.Greater;
@@ -279,13 +333,13 @@
                     Handles.zTest = UnityEngine.Rendering.CompareFunction.Always;
                 }
                 Handles.color = LoadBoundsColor;
-                DrawBlockBox(questArea.loadExtents);
+                DrawBlockBox(questArea.loadExtents, yLevel);
                 Handles.color = ActiveBoundsColor;
-                DrawBlockBox(questArea.activeExtents);
+                DrawBlockBox(questArea.activeExtents, yLevel);
             }
         }//DrawQuestAreas
 
-        private static void DrawBlockBox(Bounds extents)
+        private static void DrawBlockBox(Bounds extents, float yLevel = 0.0f)
         {
             var minsX = extents.mins.x;
             var minsY = extents.mins.y;
@@ -298,27 +352,27 @@
             maxsX = maxsX - blockStartIndex;
             maxsY = maxsY - blockStartIndex;
 
-            var startPos = new Vector3(mapStart + (minsX * blockSizeX), 0, mapStart + (minsY * blockSizeY));
-            var endPos   = new Vector3(mapStart + (minsX * blockSizeX), 0, mapStart + (maxsY * blockSizeY));
+            var startPos = new Vector3(mapStart + (minsX * blockSizeX), yLevel, mapStart + (minsY * blockSizeY));
+            var endPos   = new Vector3(mapStart + (minsX * blockSizeX), yLevel, mapStart + (maxsY * blockSizeY));
             startPos.x = -startPos.x;//fox to unity ala FoxUtils
             endPos.x = -endPos.x;//fox to unity ala FoxUtils
 
             Handles.DrawLine(startPos, endPos);
 
             startPos = endPos;
-            endPos   = new Vector3(mapStart + (maxsX * blockSizeX), 0, mapStart + (maxsY * blockSizeY));
+            endPos   = new Vector3(mapStart + (maxsX * blockSizeX), yLevel, mapStart + (maxsY * blockSizeY));
             endPos.x = -endPos.x;
 
             Handles.DrawLine(startPos, endPos);
 
             startPos = endPos;
-            endPos   = new Vector3(mapStart + (maxsX * blockSizeX), 0, mapStart + (minsY * blockSizeY));
+            endPos   = new Vector3(mapStart + (maxsX * blockSizeX), yLevel, mapStart + (minsY * blockSizeY));
             endPos.x = -endPos.x;//fox to unity ala FoxUtils
 
             Handles.DrawLine(startPos, endPos);
 
             startPos = endPos;
-            endPos   = new Vector3(mapStart + (minsX * blockSizeX), 0, mapStart + (minsY * blockSizeY));
+            endPos   = new Vector3(mapStart + (minsX * blockSizeX), yLevel, mapStart + (minsY * blockSizeY));
             endPos.x = -endPos.x;//fox to unity ala FoxUtils
 
             Handles.DrawLine(startPos, endPos);
