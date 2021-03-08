@@ -144,7 +144,7 @@ function this.GetSettingNameDirect(self,setting)
   end
   return self.settings[setting+1]
 end
-
+--tex ivar .settings are strings
 function this.GetSettingName(self,setting)
   if not self.settings then
     InfCore.Log("GetSettingName no settings for "..self.name)
@@ -155,7 +155,7 @@ function this.GetSettingName(self,setting)
     setting=self:Get()
   end
   return self.settings[setting+1]
-end
+end--GetSettingName
 
 function this.SetDirect(self,setting)
   ivars[self.name]=setting
@@ -256,10 +256,6 @@ function this.SetSettings(self,list)
   if self:Get()>self.range.max then
     self:Set(self.range.min)
   end
-end
-
-function this.GetListSetting(self,setting)
-  return self.settings[setting+1]
 end
 
 this.OptionIsDefault=function(self)
@@ -537,7 +533,7 @@ function this.MissionCheckMission(self,missionCode)
   return firstDigit==1
 end
 
-local missionModeChecks={
+this.missionModeChecks={
   FREE=this.MissionCheckFree,
   FREE_VANILLA=this.MissionCheckFreeVanilla,
   MISSION=this.MissionCheckMission,
@@ -548,16 +544,18 @@ local missionModeChecks={
 --and adds them to Ivars, as well as Ivars.missionModeIvars for IsForMission,EnabledForMission support
 --USAGE
 --IvarProc.MissionModeIvars(
---  Ivars,
---  "someIvarName",
---  {
+--  Ivars,--module
+--  "someIvarName",--name
+--  {--ivarDefine
 --    save=EXTERNAL,
 --    range=this.switchRange,
 --    settingNames="set_switch",
 --  },
---  {"FREE","MISSION",},
+--  {"FREE","MISSION",},--missionModes
 --)
 --OUT: module[name..], module.missionModeIvars, module.registerIvars
+--GOTCHA: you should only supply missionModes that will uniquely identify as one missionMode for a given missionCode
+--ie dont set { "MB","MB_ALL"}
 function this.MissionModeIvars(module,name,ivarDefine,missionModes)
   if not missionModes then
     InfCore.Log("ERROR IvarProc.MissionModeIvars: cannot missionModes for "..tostring(name))
@@ -570,19 +568,20 @@ function this.MissionModeIvars(module,name,ivarDefine,missionModes)
       ivar[k]=v
     end
 
-    ivar.MissionCheck=missionModeChecks[missionMode]
+    ivar.missionMode=missionMode
+    ivar.MissionCheck=this.missionModeChecks[missionMode]
     local fullName=name..missionMode
     module[fullName]=ivar
 
     --tex used by IsForMission/EnabledForMission --TODO: implementation need a rethink
     module.missionModeIvarsNames=module.missionModeIvarsNames or {}
     module.missionModeIvarsNames[name]=module.missionModeIvarsNames[name] or {}
-    module.missionModeIvarsNames[name][#module.missionModeIvarsNames[name]+1]=fullName--insert
+    table.insert(module.missionModeIvarsNames[name],fullName)
 
     module.registerIvars=module.registerIvars or {}
     module.registerIvars[#module.registerIvars+1]=fullName
   end
-end
+end--MissionModeIvars
 
 --tex ivarList can be missionModeIvar name or ivar list
 function this.IsForMission(ivarList,setting,missionCode)
@@ -618,6 +617,22 @@ function this.GetForMission(ivarList,missionCode)
   end
   return 0
 end
+function this.GetSettingNameForMission(ivarList,missionCode)
+  local missionId=missionCode or vars.missionCode
+  if type(ivarList)=="string" then
+    ivarList=Ivars.missionModeIvars[ivarList]
+  end
+  local passedCheck=false
+  for i=1,#ivarList do
+    local ivar=ivarList[i]
+    if ivar.MissionCheck==nil then
+      InfCore.Log("WARNING: GetForMission on "..ivar.name.." which has no MissionCheck func")
+    elseif ivar:MissionCheck(missionId) then
+      return ivar:GetSettingName()
+    end
+  end
+  return 0
+end--GetSettingNameForMission
 
 --tex as above but with ivar>0 check
 --ivarList can be missionModeIvar name or ivar list
