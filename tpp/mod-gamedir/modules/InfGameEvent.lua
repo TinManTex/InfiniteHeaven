@@ -541,7 +541,8 @@ local warGameSettings={
     mbWargameFemales=0,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
-    mbEnemyHeliColor="DEFAULT",
+    attackHeliTypeMB="SBH",
+    attackHeliFovaMB="DEFAULT",
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=0,
   },
@@ -558,7 +559,8 @@ local warGameSettings={
     mbWargameFemales=15,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="ROGUE_COYOTE",
-    mbEnemyHeliColor="RANDOM_EACH",
+    attackHeliTypeMB="UTH",
+    attackHeliFovaMB="RANDOM_EACH",
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange={0,1},
   },
@@ -577,7 +579,8 @@ local warGameSettings={
     mbWargameFemales=0,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="DDOGS",--tex or soviet?
-    mbEnemyHeliColor="RED",
+    attackHeliTypeMB="UTH",
+    attackHeliTypeMB="uth_v02",--DEBUGNOW which one is XOF
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },
@@ -597,7 +600,8 @@ local warGameSettings={
     mbWargameFemales=100,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="DDOGS",--tex or soviet?
-    mbEnemyHeliColor="BLACK",
+    attackHeliTypeMB="SBH",--DEBUGNOW UTH?
+    attackHeliFova="BLACK",
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },

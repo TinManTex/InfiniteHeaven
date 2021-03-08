@@ -1,8 +1,22 @@
 --InfNPCHeli.lua
+--handles heli variations and patrols
+--thanks caplag for discovering that TppHeli2Parameter works across heli types (great find!), which allows the attackHeliType UTH option
+--TODO: test TppEnemyHeli west_heli to see what issues it has
+--one obvious issue is it not firing its missiles
+--caplag also noticed it was missing sounds? (what ones?)
 --TODO: better patrol routes
---loop around abse with (if possible) gun looking at spots inside, but than would have to start tracking state again to give it a number of loops (or just manually build a few loops into route)
+--loop around base with (if possible) gun looking at spots inside, but than would have to start tracking state again to give it a number of loops (or just manually build a few loops into route)
 --TODO: shift to custom routes and sendmessage, then can kill update and shift route changes to timers.
 --DEBUGNOW msg_heli_patrol_route_end etc
+--TODO: rebuild reinforce_west_heli_<location>_ih packs to be based off combo of vanilla reinforce_heli_<location>
+--to be a standalone reinforce_heli_<location> replacement
+--currently is just reinforce_heli_<location> with modded enemy_heli_afgh
+--and is just relying on mis_com_heli being loaded to support UTH
+--TODO: heli packs:
+--/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk
+--figure out why Internal doors are visually dark on the outside
+--/Assets/tpp/pack/fova/mecha/uth/uth_v00_fv2_ih.fpk
+--build pftxs for all the uth fova
 local this={}
 
 --LOCALOPT
@@ -53,25 +67,55 @@ local attackHeliPatrolsStr="attackHeliPatrols"
 
 this.totalAttackHelis=5--tex for svars, must match max instance count/fox2 totalcount (so includes reinforce/quest heli)
 
+--tex see note where this is actually read (in AddMissionPacks)
+--GOTCH: if you expand fova you will need to convert attackHeliFova to cmd SetColoring coloringType, which I think sets the health of the heli
 this.packages={
-  afgh={
-    "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
-    "/Assets/tpp/pack/mission2/ih/heli_patrol_routes_afgh.fpk",
+  SBH={
+    --tex modded versions of vanilla reinforce_heli_<location>.fpks
+    --increases totalCount and realisedCount, adds Internal / interior
+    --TODO figure out why Internal doors are visually dark on the outside
+    afgh="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
+    mafr="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
+    mtbs="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",--TODO
+    fova={
+      --DEFAULT=,
+      BLACK="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",
+      RED="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",
+    },
   },
-  mafr={
-    "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
-    "/Assets/tpp/pack/mission2/ih/heli_patrol_routes_mafr.fpk",
+  UTH={
+    afgh="/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk",
+    mafr="/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk",--TODO
+    mtbs="/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk",--TODO
+    fova={
+      uth_v00="/Assets/tpp/pack/fova/mecha/uth/uth_v00_fv2_ih.fpk",
+      uth_v02="/Assets/tpp/pack/fova/mecha/uth/uth_v02_fv2_ih.fpk",
+      uth_v03="/Assets/tpp/pack/fova/mecha/uth/uth_v03_fv2_ih.fpk",
+    },
   },
-  mtbs={
-    "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
-  },
+  afgh={"/Assets/tpp/pack/mission2/ih/heli_patrol_routes_afgh.fpk",},
+  mafr={"/Assets/tpp/pack/mission2/ih/heli_patrol_routes_mafr.fpk",},
+  mtbs={},
   mbqf={},
+  --tex currently only mtbs
   westheli={
     "/Assets/tpp/pack/mission2/ih/ih_westheli_defloc.fpk",
   },
-  "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",
-  "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",
-  "/Assets/tpp/pack/mission2/ih/ih_enemyheli_loc.fpk",
+  "/Assets/tpp/pack/mission2/ih/ih_enemyheli_loc.fpk",--tex 4 TppEnemyHeli locators
+}--packages
+
+--tex indexed by fovaId
+this.heliFova={
+  SBH={
+    "",--DEFAULT,
+    "/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2",
+    "/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2",
+  },
+  UTH={
+    "/Assets/tpp/fova/mecha/uth/uth_v00_fv2.fv2",
+    "/Assets/tpp/fova/mecha/uth/uth_v02_fv2.fv2",
+    "/Assets/tpp/fova/mecha/uth/uth_v03_fv2.fv2",
+  },
 }
 
 --tex defined by the entity/data definitions
@@ -81,7 +125,8 @@ this.heliNames={
     "WestHeli0001",
     "WestHeli0002",
   },
-  HP48={
+  --GOTCHA: UTH/west_heli as TppEnemyHeli uses the EnemyHeli locators
+  EnemyHeli={--tex was HP48
     --tex don't know if I want to use "EnemyHeli" since there's a lot of other stuff tied to its name via quest heli and reinforce heli
     --"EnemyHeli",
     "EnemyHeli0000",
@@ -93,12 +138,12 @@ this.heliNames={
   --      "EnemyHeli0005",
   --    "EnemyHeli0006",
   },
-}
+}--heliNames
 
 --SYNC number of locators
 this.maxHelis={
   UTH=3,
-  HP48=4,
+  EnemyHeli=4,
 }
 
 --tex TODO: pre convert to str32
@@ -299,8 +344,8 @@ for location,routeCpInfo in pairs(this.heliRouteToCp)do
   end
 end
 
+--ivar defs>
 this.registerIvars={
-  "mbEnemyHeliColor",
   "supportHeliPatrolsMB",
 }
 
@@ -310,17 +355,43 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     --CULL range={max=4,min=0,increment=1},
-    settings={"0","1","2","3","4","ENEMY_PREP"},--SYNC #InfNPCHeli.heliNames.HP48
+    settings={"0","1","2","3","4","ENEMY_PREP"},--SYNC #InfNPCHeli.heliNames.EnemyHeli
     settingNames="attackHeliPatrolsSettings",
   },
   {"FREE","MB",}
 )
 this.attackHeliPatrolsFREE.MissionCheck=IvarProc.MissionCheckFreeVanilla--tex WORKAROUND: want to change the mission mode check but don't want to trample users exising saves with a name change
 
-this.mbEnemyHeliColor={--TODO RENAME, split into missionmode
-  save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"DEFAULT","BLACK","RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
+IvarProc.MissionModeIvars(
+  this,
+  "attackHeliType",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={"SBH","UTH"},
+    settingNames="attackHeliTypeSettings",
+  },
+  {"FREE","MB",}--tex MB also has supportHeliPatrolsMB, but those are TppOtherHeli, want TppEnemyHeli for WARGAMES/MB attack
+)
+this.settingsHeliType={
+  SBH={"DEFAULT","BLACK","RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
+  UTH={"uth_v00","uth_v02","uth_v03","RANDOM","RANDOM_EACH","ENEMY_PREP"},
 }
+IvarProc.MissionModeIvars(
+  this,
+  "attackHeliFova",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={},--DYNAMIC
+    --DEBUGNOW settingNames="attackHeliTypeSettings",--DEBUGNOW TODO
+    OnSelect=function(self)
+      local attackHeliTypeName=this["attackHeliType"..self.missionMode]:GetSettingName()
+      local currentSettings=this.settingsHeliType[attackHeliTypeName]
+      IvarProc.SetSettings(self,currentSettings)
+      self.settingNames="attackHeliFovaSettings"..attackHeliTypeName
+    end,
+  },
+  {"FREE","MB",}
+)
 
 this.supportHeliPatrolsMB={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -330,8 +401,13 @@ this.supportHeliPatrolsMB={
 --<
 this.langStrings={
   eng={
-    mbEnemyHeliColor="Attack heli class",
-    mbEnemyHeliColorSettings={"Default","Black","Red","All one random type","Each heli random type","Enemy prep"},
+    attackHeliTypeFREE="Attack heli type in FreeRoam",
+    attackHeliTypeMB="Attack heli type in MB",
+    attackHeliTypeSettings={"HP-48 Krokodil","UTH-66 Blackfoot"},
+    attackHeliFovaFREE="Attack heli class in FreeRoam",
+    attackHeliFovaMB="Attack heli class in MB",
+    attackHeliFovaSettingsSBH={"Default","Black","Red","All one random type","Each heli random type","Enemy prep"},
+    attackHeliFovaSettingsUTH={"uth_v00","uth_v02","uth_v03","All one random type","Each heli random type","Enemy prep"},
     attackHeliPatrolsFREE="Attack heli patrols in free roam",
     attackHeliPatrolsMB="Attack heli patrols in MB",
     supportHeliPatrolsMB="NPC support heli patrols in MB",
@@ -341,22 +417,47 @@ this.langStrings={
     eng={
       attackHeliPatrolsMB="Spawns some npc attack helis that roam around mother base.",
       supportHeliPatrolsMB="Spawns some npc support helis that roam around mother base.",
-      enemyHeliColor="Shared between free roam and MB attack helis.",
       attackHeliPatrolsFREE="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
-
+      attackHeliFovaFREE="Combined appearance and health",
+      attackHeliFovaFREE="Combined appearance and health",
     },
   }
 }
 --<
-
 function this.AddMissionPacks(missionCode,packPaths)
+--tex DEBUGNOW might be better to shift TppEnemyHeli stuff back to TppReinforceBlock .GetFpk
+--but this way makes it independent of reinforce_block being loaded
+  --tex GOTCHA: this overrides TppReinforceBlock.LoadReinforceBlock GetFpk / TppReinforceBlock.REINFORCE_FPK
+  --since the fox2 (which is derived from the normal reinforce fpk) is already loaded by the time TppReinforceBlock spins up.
   local locationName=InfUtil.GetLocationName()
   if IvarProc.EnabledForMission(attackHeliPatrolsStr,missionCode) then
-    for i,packPath in ipairs(this.packages[locationName]) do
-      packPaths[#packPaths+1]=packPath
+
+    --tex add packs by heliType
+    local attackHeliTypeName=IvarProc.GetSettingNameForMission("attackHeliType",missionCode)
+    InfCore.Log("InfNPCHeli.AddMissionPacks: attackHeliTypeName:"..tostring(attackHeliTypeName))--tex DEBUG
+    local heliPackages=this.packages[attackHeliTypeName]
+    local heliTypeLocationPack=heliPackages[locationName]
+    if type(heliTypeLocationPack)~="string"then
+      InfCore.Log("WARNING: InfNPCHeli.AddMissionPacks: heliPackageForLocation is not a string")
+    else
+      table.insert(packPaths,heliTypeLocationPack)
     end
+    --tex fova packs / sbh reinforce block 'coloring'
+    --DEBUGNOW I should only add color packs requested by ivar, but since the RANDOM is only resolved in Init thats not a quick implement
+    --so just adding all
+    for fovaType,fpkPath in pairs(heliPackages.fova)do
+      table.insert(packPaths,fpkPath)
+    end
+    --tex add all for location
+    --ASSUMPTION: table, ASSUMPTION: has locationName
+    for i,packPath in ipairs(this.packages[locationName])do
+      table.insert(packPaths,packPath)
+    end
+    --tex currently just ih_enemyheli_loc DEBUGNOW rethink
     for i,packPath in ipairs(this.packages) do
-      packPaths[#packPaths+1]=packPath
+      if type(packPath)=="string"then
+        packPaths[#packPaths+1]=packPath
+      end
     end
   end
   if Ivars.supportHeliPatrolsMB:EnabledForMission(missionCode) then
@@ -364,7 +465,7 @@ function this.AddMissionPacks(missionCode,packPaths)
       packPaths[#packPaths+1]=packPath
     end
   end
-end
+end--AddMissionPacks
 
 function this.Init(missionTable,currentChecks)
   this.messageExecTable=nil
@@ -389,8 +490,8 @@ function this.Init(missionTable,currentChecks)
   local numAttackHelis=IvarProc.GetForMission(attackHeliPatrolsStr)
 
   local level=InfMainTpp.GetAverageRevengeLevel()
-  if numAttackHelis>#this.heliNames.HP48 then--tex ENEMY_PREP
-    local levelToHeli={0,1,2,3,4,4}--tex SYNC #this.heliNames.HP48
+  if numAttackHelis>#this.heliNames.EnemyHeli then--tex ENEMY_PREP
+    local levelToHeli={0,1,2,3,4,4}--tex SYNC #this.heliNames.EnemyHeli
     numAttackHelis=levelToHeli[level+1]
   end
   InfCore.Log("InfNPCHeli.Init: AverageRevengeLevel:"..level.." numAttackHelis:"..numAttackHelis)--DEBUGNOW
@@ -418,17 +519,17 @@ function this.Init(missionTable,currentChecks)
     local numHelisAvailable=numClusters-#this.heliList
     numHelisAvailable=math.min(numAttackHelis,numHelisAvailable)
     if numHelisAvailable>0 then
-      this.heliNames.HP48=InfUtil.GenerateNameList("EnemyHeli%04d",numHelisAvailable)
+      this.heliNames.EnemyHeli=InfUtil.GenerateNameList("EnemyHeli%04d",numHelisAvailable)
 
       for i=1,numHelisAvailable do
-        this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
+        this.heliList[#this.heliList+1]=this.heliNames.EnemyHeli[i]
       end
     end
   elseif numAttackHelis>0 then
-    this.heliNames.HP48=InfUtil.GenerateNameList("EnemyHeli%04d",numAttackHelis)
+    this.heliNames.EnemyHeli=InfUtil.GenerateNameList("EnemyHeli%04d",numAttackHelis)
 
     for i=1,numAttackHelis do
-      this.heliList[#this.heliList+1]=this.heliNames.HP48[i]
+      this.heliList[#this.heliList+1]=this.heliNames.EnemyHeli[i]
     end
   end
 
@@ -446,14 +547,29 @@ function this.Init(missionTable,currentChecks)
   --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
 
   InfMain.RandomSetToLevelSeed()
-  local heliColorType
-  if Ivars.mbEnemyHeliColor:Is"RANDOM" then
-    heliColorType=math.random(0,2)
-  elseif Ivars.mbEnemyHeliColor:Is()>0 then
-    heliColorType=this.GetEnemyHeliColor()
+  
+  --DEBUGNOW
+  local attackHeliType=IvarProc.GetSettingNameForMission("attackHeliType",vars.missionCode)
+  local attackHeliFova=IvarProc.GetSettingNameForMission("attackHeliFova",vars.missionCode)
+  
+  local fovaId
+  if attackHeliFova=="RANDOM" then
+    fovaId=math.random(0,2)
+  elseif attackHeliFova=="ENEMY_PREP" then
+    --tex: cant use BLACK_SUPER_REINFORCE/SUPER_REINFORCE since it's not inited when I need it.
+    --tex alt tuning for combined stealth/combat average, but I think I like heli color tied to combat better thematically,
+    --sure have them put more helis out if stealth level is high (see numAttackHelis), but only put beefier helis if your actually causing a ruckus
+    --local level=InfMainTpp.GetAverageRevengeLevel()
+    --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
+    local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
+    fovaId=levelToColor[level+1]
+  elseif attackHeliFova=="RANDOM_EACH" then
+    --tex set per heli below
+  else
+    fovaId=IvarProc.GetForMission("attackHeliFova",vars.missionCode)
   end
-  InfMain.RandomResetToOsTime()
-
+  InfCore.Log("InfNPCHeli.Init: attackHeliType:"..attackHeliType.." attackHeliFova:"..attackHeliFova.." fovaId:"..tostring(fovaId))--DEBUGNOW
+  
   for n=1,#this.heliList do
     local heliName=this.heliList[n]
     local heliObjectId = GetGameObjectId(heliName)
@@ -469,16 +585,17 @@ function this.Init(missionTable,currentChecks)
           --TppMarker2System.DisableMarker{gameObjectId=heliObjectId}
         end
 
-        if Ivars.mbEnemyHeliColor:Is"RANDOM_EACH" then
-          heliColorType=math.random(0,2)
+        if attackHeliFova=="RANDOM_EACH" then
+          fovaId=math.random(0,2)
         end
 
-        if heliColorType~=nil then
-          SendCommand(heliObjectId,{id="SetColoring",coloringType=heliColorType,fova=this.heliColors[heliColorType].fova})
+        if fovaId~=nil then
+          SendCommand(heliObjectId,{id="SetColoring",coloringType=fovaId,fova=this.heliFova[attackHeliType][fovaId]})--GOTCHA: I think coloringType may set the health of the heli
         end
-      end
-    end
-  end
+      end--if GAME_OBJECT_TYPE_ENEMY_HELI
+    end--if heliObject
+  end--for heliList
+  InfMain.RandomResetToOsTime()
 
   InfCore.PrintInspect(this.heliList,"InfNPCHeli.heliList")--DEBUG
 end
@@ -681,36 +798,6 @@ function this.ClearHeliState()
     heliTimes[n]=0
     --heliClusters[n]=0
   end
-end
-
-function this.GetEnemyHeliColor()
-  --tex: cant use BLACK_SUPER_REINFORCE/SUPER_REINFORCE since it's not inited when I need it.
-  if Ivars.mbEnemyHeliColor:Is"ENEMY_PREP" then
-    --tex alt tuning for combined stealth/combat average, but I think I like heli color tied to combat better thematically,
-    --sure have them put more helis out if stealth level is high (see numAttackHelis), but only put beefier helis if your actually causing a ruckus
-    --local level=InfMainTpp.GetAverageRevengeLevel()
-    --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
-
-    local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
-    return levelToColor[level+1]
-  end
-
-  return Ivars.mbEnemyHeliColor:Get()
-end
-
-this.heliColors={--DEBUGNOW
-  [TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},
-  [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
-  [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
-}
-
-this.heliColorNames={
-  "DEFAULT",
-  "BLACK",
-  "RED",
-}
-function this.GetEnemyHeliColorName()
-  return this.heliColorNames[this.GetEnemyHeliColor()+1]
 end
 
 function this.ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliClusterId)

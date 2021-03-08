@@ -312,7 +312,7 @@ function this.InitObjectLists(missionTable)
   this.objectNameLists.reinforceDriver={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
   if InfNPCHeli then
     this.objectNameLists.ihHeliUTH=InfNPCHeli.heliNames.UTH
-    this.objectNameLists.ihHeliHP48=InfNPCHeli.heliNames.HP48
+    this.objectNameLists.ihHeliEnemyHeli=InfNPCHeli.heliNames.EnemyHeli
   end
   if InfAnimal then
     this.objectNameLists.ihBirdNames=InfAnimal.birdNames
