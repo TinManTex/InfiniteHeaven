@@ -1178,8 +1178,8 @@ function this.DebugModeEnable(enable)
     if InfHooks then
       InfCore.PCall(InfHooks.SetupDebugHooks)
     end
-    if InfMenu then
-      InfMenu.AddDevMenus()
+    if IHDebugVars then
+      IHDebugVars.AddDevMenus()
     end
   else
     InfCore.Log("Further non critical logging disabled while debugMode is off")
