@@ -1161,10 +1161,11 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
   local bodies={}
   --tex> ddsuit bodies
-  if IvarProc.EnabledForMission("customSoldierType",missionId) then
-    local bodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
-    if bodyInfo and bodyInfo.partsPath then
-      TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
+  local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
+  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)
+  if maleBodyInfo or femaleBodyInfo then
+    if maleBodyInfo and maleBodyInfo.partsPath then
+      TppSoldier2.SetDefaultPartsPath(maleBodyInfo.partsPath)
     end
 
     --tex manage body limit (see InfBodyInfo GOTCHA)
@@ -1172,8 +1173,6 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
     local halfMax=maxBodies/2
     local maleBodyCount=0
     local femaleBodyCount=0
-    local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
-    local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)
     if maleBodyInfo and maleBodyInfo.bodyIds then
       maleBodyCount=#maleBodyInfo.bodyIds
     end
@@ -1233,11 +1232,11 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
 
   --tex> dd suit SetExtendPartsInfo
-  if IvarProc.EnabledForMission("customSoldierType",missionId) then
+  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo()
+  if femaleBodyInfo then
     --tex only female uses extendparts
-    local bodyInfo=InfEneFova.GetFemaleBodyInfo()
-    if bodyInfo and bodyInfo.partsPath then
-      TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
+    if femaleBodyInfo.partsPath then
+      TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
     end
     --<
     --not ddogs, shining lights
@@ -1273,7 +1272,7 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
   TppSoldierFace.SetSoldierUseHairFova(true)
 end
 
---tex >ASSUMPTION customSoldierType true WIP
+--tex >ASSUMPTION customSoldierType true WIP UNUSED
 function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   if TppMission.IsHelicopterSpace(missionId)then
     return
@@ -1301,20 +1300,20 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
 
   --tex bodies
   local bodies={}
-  local bodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
-  if bodyInfo then
-    InfEneFova.SetupBodies(bodyInfo,bodies,InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER)
-    if bodyInfo.partsPath then
-      TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
+  local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
+  if maleBodyInfo then
+    InfEneFova.SetupBodies(maleBodyInfo,bodies,InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER)
+    if maleBodyInfo.partsPath then
+      TppSoldier2.SetDefaultPartsPath(maleBodyInfo.partsPath)
     end
   end
 
-  local bodyInfo=InfEneFova.GetFemaleBodyInfo()
-  if bodyInfo then
-    InfEneFova.SetupBodies(bodyInfo,bodies,InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER)
+  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo()
+  if femaleBodyInfo then
+    InfEneFova.SetupBodies(femaleBodyInfo,bodies,InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER)
     --tex only female uses extendparts
-    if bodyInfo.partsPath then
-      TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
+    if femaleBodyInfo.partsPath then
+      TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
     end
   end
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
@@ -1752,7 +1751,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       bodyInfo=InfEneFova.GetMaleBodyInfo()
     end
     if bodyInfo then
-      if isFemale then--DEBUGNOW
+      if isFemale then
         GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
       end
 
