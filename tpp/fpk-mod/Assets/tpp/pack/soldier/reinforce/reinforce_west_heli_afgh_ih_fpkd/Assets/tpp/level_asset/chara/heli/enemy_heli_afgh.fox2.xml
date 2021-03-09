@@ -59,12 +59,11 @@
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x04BD74E0</value>
         </property>
-        <property name="partsFiles" type="FilePtr" container="StringMap" arraySize="3">
+        <property name="partsFiles" type="FilePtr" container="StringMap" arraySize="2">
           <value key="Main">/Assets/tpp/parts/mecha/uth/uth0_main0_def.parts</value>
-          <value key="Missile">/Assets/tpp/parts/mecha/uth/uth0_ammo0_def.parts</value>
           <value key="Rocket">/Assets/tpp/parts/mecha/uth/uth0_ammo1_def.parts</value>
         </property>
-        <property name="fmdlFiles" type="FilePtr" container="StringMap" arraySize="21">
+        <property name="fmdlFiles" type="FilePtr" container="StringMap" arraySize="17">
           <value key="PilotL">/Assets/tpp/chara/dds/Scenes/dds9_main0_v00_sta.fmdl</value>
           <value key="PilotR">/Assets/tpp/chara/dds/Scenes/dds9_main0_v00_sta.fmdl</value>
           <value key="GunArmL">/Assets/tpp/mecha/uth/Scenes/uth0_arms0_def.fmdl</value>
@@ -72,10 +71,6 @@
           <value key="GunL">/Assets/tpp/mecha/uth/Scenes/uth0_mgun0_def.fmdl</value>
           <value key="GunR">/Assets/tpp/mecha/uth/Scenes/uth0_mgun0_def.fmdl</value>
           <value key="ExtraWeapon">/Assets/tpp/mecha/uth/Scenes/uth0_wepn0_def.fmdl</value>
-          <value key="MissileLauncherLL">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.fmdl</value>
-          <value key="MissileLauncherLR">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.fmdl</value>
-          <value key="MissileLauncherRL">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.fmdl</value>
-          <value key="MissileLauncherRR">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.fmdl</value>
           <value key="RocketLauncherLL">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.fmdl</value>
           <value key="RocketLauncherLR">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.fmdl</value>
           <value key="RocketLauncherRL">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.fmdl</value>
@@ -87,25 +82,20 @@
           <value key="Glass4">/Assets/tpp/mecha/uth/Scenes/uth0_glas4_def.fmdl</value>
           <value key="Glass5">/Assets/tpp/mecha/uth/Scenes/uth0_glas5_def.fmdl</value>
         </property>
-        <property name="fcnpFiles" type="FilePtr" container="StringMap" arraySize="7">
+        <property name="fcnpFiles" type="FilePtr" container="StringMap" arraySize="6">
           <value key="Main">/Assets/tpp/mecha/uth/Scenes/uth0_main0_def.fcnp</value>
           <value key="GunArmL">/Assets/tpp/mecha/uth/Scenes/uth0_arms0_def.fcnp</value>
           <value key="GunArmR">/Assets/tpp/mecha/uth/Scenes/uth0_arms1_def.fcnp</value>
           <value key="ExtraWeapon">/Assets/tpp/mecha/uth/Scenes/uth0_wepn0_def.fcnp</value>
           <value key="Gun">/Assets/tpp/mecha/uth/Scenes/uth0_mgun0_def.fcnp</value>
-          <value key="MissileLauncher">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.fcnp</value>
           <value key="RocketLauncher">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.fcnp</value>
         </property>
-        <property name="gsklFiles" type="FilePtr" container="StringMap" arraySize="13">
+        <property name="gsklFiles" type="FilePtr" container="StringMap" arraySize="9">
           <value key="GunArmL">/Assets/tpp/mecha/uth/Scenes/uth0_arms0_def.gskl</value>
           <value key="GunArmR">/Assets/tpp/mecha/uth/Scenes/uth0_arms1_def.gskl</value>
           <value key="GunL">/Assets/tpp/mecha/uth/Scenes/uth0_mgun0_def.gskl</value>
           <value key="GunR">/Assets/tpp/mecha/uth/Scenes/uth0_mgun0_def.gskl</value>
           <value key="ExtraWeapon">/Assets/tpp/mecha/uth/Scenes/uth0_wepn0_def.gskl</value>
-          <value key="MissileLauncherLL">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.gskl</value>
-          <value key="MissileLauncherLR">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.gskl</value>
-          <value key="MissileLauncherRL">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.gskl</value>
-          <value key="MissileLauncherRR">/Assets/tpp/mecha/uth/Scenes/uth0_miss0_def.gskl</value>
           <value key="RocketLauncherLL">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.gskl</value>
           <value key="RocketLauncherLR">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.gskl</value>
           <value key="RocketLauncherRL">/Assets/tpp/mecha/uth/Scenes/uth0_rckt0_def.gskl</value>
@@ -124,9 +114,7 @@
           <value key="BarrelHeatSmoke">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchnadblhsmk00_s1.vfx</value>
           <value key="LensFlare">/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrmchsrclgt01flr_m5.vfx</value>
         </property>
-        <property name="fovaFiles" type="FilePtr" container="StringMap" arraySize="1">
-          <value key="Main">/Assets/tpp/fova/mecha/uth/uth_v03_fv2.fv2</value>
-        </property>
+        <property name="fovaFiles" type="FilePtr" container="StringMap" />
         <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
           <value>/Assets/tpp/motion/mtar/heli/west/TppHeliWest_layers.mtar</value>
         </property>
