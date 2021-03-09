@@ -184,7 +184,7 @@ this.tppEquipTableTest={
 --  "EQP_WP_Com_ms_026",
 --  "EQP_WP_West_ms_020",--fb mr rl nlsp
 --  "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
-}
+}--tppEquipTableTest
 --SYNC: Tpp\Scripts\Equip\EquipIdTable
 --tex NOTE since this is pulled from EquipIdTable does not contain a lot of player only weapons, see EquipDevelopConstSetting
 this.tppEquipTable={
@@ -1678,6 +1678,7 @@ this.langStrings={
 --tex GOTCHA there's a limit to how much equip can be loaded before it starts crapping out - players weapons not showing/test equip spawn function crash on ~110th item in list (but weirdly on mg but not sniper in same list position).
 --TppEquip.CreateEquipMissionBlockGroup and/or TppEquip.AllocInstances?
 --tex also only items with p4 set to TppEquip.EQP_BLOCK_MISSION in /Tpp/Scripts/Equip/EquipIdTable.lua need to be loaded (mostly weapons, support items are alread loaded in EQP_BLOCK_COMMON).
+--CALLER: this.OnAllocate
 --OUT/SIDE: this.currentLoadTable
 function this.LoadEquipTable()
   local equipLoadTable={}
@@ -1710,7 +1711,7 @@ function this.LoadEquipTable()
 
   --8 guns
   if Ivars.enableWildCardFreeRoam:EnabledForMission() then
-      for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
+    for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
         equipLoadTable[equipId]=true
     end
   end
