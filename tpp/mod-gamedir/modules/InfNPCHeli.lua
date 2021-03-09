@@ -1,24 +1,75 @@
 --InfNPCHeli.lua
 --handles heli variations and patrols
 --thanks caplag for discovering that TppHeli2Parameter works across heli types (great find!), which allows the attackHeliType UTH option
---TODO: test TppEnemyHeli west_heli to see what issues it has
---one obvious issue is it not firing its missiles
---caplag also noticed it was missing sounds? (what ones?)
+
+--TODO: module currently breaks on reloadscripts, PostModuleReloadify it, probably need to re-call Init and SetupEnemy
+
 --TODO: better patrol routes
 --loop around base with (if possible) gun looking at spots inside, but than would have to start tracking state again to give it a number of loops (or just manually build a few loops into route)
 --TODO: shift to custom routes and sendmessage, then can kill update and shift route changes to timers.
---DEBUGNOW msg_heli_patrol_route_end etc
---TODO: rebuild reinforce_west_heli_<location>_ih packs to be based off combo of vanilla reinforce_heli_<location>
---to be a standalone reinforce_heli_<location> replacement
---currently is just reinforce_heli_<location> with modded enemy_heli_afgh
---and is just relying on mis_com_heli being loaded to support UTH
+--msg_heli_patrol_route_end etc
+
+--TODO: test TppEnemyHeli west_heli to see what issues it has
+--one obvious issue is it not firing its missiles
+--caplag also noticed it was missing sounds? (what ones?)
+
+--TODO: if have more than 3 fova types then split fova from heliclass, maybe do that anyway since UTH doesn't have fovas that make it clear what class
+--that is if cmd SetColoring coloringType actually just controls heli class/health independantly and doesnt have other side effects. Don't know if looking at the exe function will shed much light.
+
+
 --TODO: heli packs:
+--SBH:
 --/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk
 --figure out why Internal doors are visually dark on the outside
---/Assets/tpp/pack/fova/mecha/uth/uth_v00_fv2_ih.fpk
---build pftxs for all the uth fova
---TODO: if have more than 3 fova types then split fova from heliclass
---(that is if cmd SetColoring coloringType actually controls it independantly/doesnt have other side effects)
+--Create reinforce_heli_mtbs (just copy afgh and change Downwash, see designbuildnotes\Heli.txt
+--pftxs for all reinforce_heli packs?
+
+--UTH:
+--pretty much build all the packs properly, fpk,fpkd,pftx
+--as it currently stands (2021-03-09) the  reinforce_west_heli_<location>_ih are just dupes of reinforce_heli_afgh with modded enemy_heli_afgh and is relying on mis_com_heli being loaded for the actual UTH files
+--the proper way would be to trace the files referenced from TppHeliParameters, and then the files those files reference (and so on if nessesarty), 
+--this would include textures referenced by fmdl and fv2 for the pftxs
+--the parts
+--the vfx (and the textures they reference)
+--ideally there should be tools to do this, and I guess that's what ultimately foxkit is supposed to do.
+
+--a quick and dirty for testing the fova issues (further below) would be to grab the mission and demo packs that use the heli variations, 
+--then either cull obviously non-heli stuff, or do a folder-compare reduce
+
+--also see 'other fpks in play' below
+
+--TODO: the current fova situation
+--a bunch of things in play
+--fv2 file
+--TppHeliParams fovaFiles entry
+--proper (or just good enough for testing) fpks with the required heli files
+--pftxs?
+
+--SetMesh cmd (used on the tppotherheli uths):not sure how this works as you only give it "uth_v00" even though the filepath is "/Assets/tpp/fova/mecha/uth/uth_v00_fv2.fv2"
+--(remeber fox mostly works with hashes, and for filepath hashes while it can test filepath seperately from extension, it can't just test filename)
+--so it could be looking up an internal table, or it could be doing string magic to find the fv2 (but that would be dumb)
+
+--SetColoring cmd (used on tppenemyheli) - which you give the fv2 filepath, but it also has a coloring param, now that may be (and hopefully just be) the heli health class and not related to setting fova.
+
+--need to figure out:
+--the fovafiles line in TppHeliParam nessesary? 
+--  testing with a goodish fpk-with-everything for v03 and having the fovafiles entry has it show v03 fine 
+--  (as far as I can eyeball, need to direct compare to the actual v03 in whatever mssion its in to confirm)
+--  setmesh or setcolor not needed
+
+--need to test: 
+--  no fovafiles entry but:
+--    SetMesh alone
+--    SetColoring alone
+--    or a combo it either dont work.
+
+--on top of this, theres other fpks in play, need to think about what is loaded when and how it contributes or possibly conflicts
+--the mis_common_heli.fpk
+--and the reinforce_heli fpk which is loaded by TppReinforceBlock (which is also used for quest heli) - which loads a different fpk per location 
+--loading out fpks with module. AddMissionPacks loads before so will override this (assuming you load equivalent file ie as you see enemy_heli_afgh.fox2 is loc specific).
+
+--ugh
+
 local this={}
 
 --LOCALOPT
@@ -75,7 +126,6 @@ this.packages={
   SBH={
     --tex modded versions of vanilla reinforce_heli_<location>.fpks
     --increases totalCount and realisedCount, adds Internal / interior
-    --TODO figure out why Internal doors are visually dark on the outside
     afgh="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
     mafr="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
     mtbs="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",--TODO
@@ -86,13 +136,17 @@ this.packages={
     },
   },
   UTH={
-    afgh="/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk",
+      afgh={
+      --"/Assets/tpp/pack/soldier/reinforce/uth_v00_test.fpk",--DEBUG
+      --"/Assets/tpp/pack/soldier/reinforce/uth_v03_test.fpk",--DEBUG
+      "/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk"
+    },
     mafr="/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk",--TODO
     mtbs="/Assets/tpp/pack/soldier/reinforce/reinforce_west_heli_afgh_ih.fpk",--TODO
     fova={
-      uth_v00="/Assets/tpp/pack/fova/mecha/uth/uth_v00_fv2_ih.fpk",
-      uth_v02="/Assets/tpp/pack/fova/mecha/uth/uth_v02_fv2_ih.fpk",
-      uth_v03="/Assets/tpp/pack/fova/mecha/uth/uth_v03_fv2_ih.fpk",
+      uth_v00="/Assets/tpp/pack/fova/mecha/uth/uth_v00_fv2_ih.fpk",--west_heli_cypr - grey
+      uth_v02="/Assets/tpp/pack/fova/mecha/uth/uth_v02_fv2_ih.fpk",--support heli / default olive?
+      uth_v03="/Assets/tpp/pack/fova/mecha/uth/uth_v03_fv2_ih.fpk",--west_heli_xof cammo + xof
     },
   },
   afgh={"/Assets/tpp/pack/mission2/ih/heli_patrol_routes_afgh.fpk",},
@@ -426,8 +480,6 @@ this.langStrings={
 }
 --<
 function this.AddMissionPacks(missionCode,packPaths)
-  --tex DEBUGNOW might be better to shift TppEnemyHeli stuff back to TppReinforceBlock .GetFpk
-  --but this way makes it independent of reinforce_block being loaded
   --tex GOTCHA: this overrides TppReinforceBlock.LoadReinforceBlock GetFpk / TppReinforceBlock.REINFORCE_FPK
   --since the fox2 (which is derived from the normal reinforce fpk) is already loaded by the time TppReinforceBlock spins up.
   local locationName=InfUtil.GetLocationName()
@@ -438,10 +490,14 @@ function this.AddMissionPacks(missionCode,packPaths)
     InfCore.Log("InfNPCHeli.AddMissionPacks: attackHeliTypeName:"..tostring(attackHeliTypeName))--tex DEBUG
     local heliPackages=this.packages[attackHeliTypeName]
     local heliTypeLocationPack=heliPackages[locationName]
-    if type(heliTypeLocationPack)~="string"then
-      InfCore.Log("WARNING: InfNPCHeli.AddMissionPacks: heliPackageForLocation is not a string")
-    else
+    if type(heliTypeLocationPack)=="table"then
+      for i,pack in ipairs(heliTypeLocationPack)do
+        table.insert(packPaths,pack)
+      end
+    elseif type(heliTypeLocationPack)=="string"then
       table.insert(packPaths,heliTypeLocationPack)
+    else
+       InfCore.Log("WARNING: InfNPCHeli.AddMissionPacks: heliPackageForLocation unexpected type")
     end
     --tex fova packs / sbh reinforce block 'coloring'
     --DEBUGNOW I should only add color packs requested by ivar, but since the RANDOM is only resolved in Init thats not a quick implement
@@ -478,7 +534,7 @@ function this.Init(missionTable,currentChecks)
   end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-
+  
   local isMb=vars.missionCode==30050
   local isOuterPlat=vars.missionCode==30150 or vars.missionCode==30250
 
@@ -538,23 +594,24 @@ function this.Init(missionTable,currentChecks)
     heliTimes[n]=0
     this.heliClusters[n]=0
   end
+end
 
-  --      local heliMeshTypes={
-  --        "uth_v00",
-  --        "uth_v01",
-  --        "uth_v02",
-  --      }
-  --      local meshType=heliMeshTypes[math.random(#heliMeshTypes)]
-  --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
+function this.SetUpEnemy(missionTable)
+  if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
+    return
+  end
+
+  local isMb=vars.missionCode==30050
 
   InfMain.RandomSetToLevelSeed()
 
   local attackHeliType=IvarProc.GetSettingNameForMission("attackHeliType",vars.missionCode)
-  local attackHeliFova=IvarProc.GetSettingNameForMission("attackHeliFova",vars.missionCode)
+  local attackHeliFovaIndex=IvarProc.GetForMission("attackHeliFova",vars.missionCode)+1--tex GOTCHA: shifting from 0 indexed to (lua) from 1
+  local attackHeliFova=this.settingsHeliType[attackHeliType][attackHeliFovaIndex]
 
   local fovaId
   if attackHeliFova=="RANDOM" then
-    fovaId=math.random(0,2)
+    fovaId=math.random(1,3)
   elseif attackHeliFova=="ENEMY_PREP" then
     --tex: cant use BLACK_SUPER_REINFORCE/SUPER_REINFORCE since it's not inited when I need it.
     --tex alt tuning for combined stealth/combat average, but I think I like heli color tied to combat better thematically,
@@ -562,11 +619,11 @@ function this.Init(missionTable,currentChecks)
     --local level=InfMainTpp.GetAverageRevengeLevel()
     --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
     local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
-    fovaId=levelToColor[level+1]
+    fovaId=levelToColor[level+1]+1
   elseif attackHeliFova=="RANDOM_EACH" then
   --tex set per heli below
   else
-    fovaId=IvarProc.GetForMission("attackHeliFova",vars.missionCode)
+    fovaId=attackHeliFovaIndex
   end
   InfCore.Log("InfNPCHeli.Init: attackHeliType:"..attackHeliType.." attackHeliFova:"..attackHeliFova.." fovaId:"..tostring(fovaId))--DEBUG
 
@@ -584,13 +641,24 @@ function this.Init(missionTable,currentChecks)
           SendCommand(heliObjectId,{id="SetCombatEnabled",enabled=false})
           --TppMarker2System.DisableMarker{gameObjectId=heliObjectId}
         end
+                  
+        --DEBUG
+--        local heliMeshTypes={
+--          "uth_v00",
+--          "uth_v02",
+--          "uth_v03",
+--        }
+--        local meshType=heliMeshTypes[math.random(#heliMeshTypes)]    
+--        meshType="uth_v03"--DEBUG
+--        GameObject.SendCommand(heliObjectId,{id="SetMeshType",typeName=meshType})
 
         if attackHeliFova=="RANDOM_EACH" then
-          fovaId=math.random(0,2)
+          fovaId=math.random(1,3)
         end
 
         if fovaId~=nil then
-          SendCommand(heliObjectId,{id="SetColoring",coloringType=fovaId,fova=this.heliFova[attackHeliType][fovaId]})--GOTCHA: I think coloringType may set the health of the heli
+          local coloringType=fovaId-1 --GOTCHA: I think coloringType may set the health of the heli
+          SendCommand(heliObjectId,{id="SetColoring",coloringType=coloringType,fova=this.heliFova[attackHeliType][fovaId]})
         end
       end--if GAME_OBJECT_TYPE_ENEMY_HELI
     end--if heliObject
@@ -598,7 +666,7 @@ function this.Init(missionTable,currentChecks)
   InfMain.RandomResetToOsTime()
 
   InfCore.PrintInspect(this.heliList,"InfNPCHeli.heliList")--DEBUG
-end
+end--SetupEnemy
 
 function this.OnMissionCanStart(currentChecks)
   if not IvarProc.EnabledForMission(attackHeliPatrolsStr) and not Ivars.supportHeliPatrolsMB:EnabledForMission() then
