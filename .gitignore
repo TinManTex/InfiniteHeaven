@@ -24,3 +24,4 @@
 #LDT lua development tools metadata
 /.metadata/*
 *.meta
+tpp/mod-gamedir/IHExt.exe
