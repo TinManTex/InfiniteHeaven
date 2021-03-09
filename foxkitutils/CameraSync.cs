@@ -7,6 +7,9 @@ If the script cannot find existing one it will create a gameobject 'Main Camera'
 Once IPC is running (click 'Toggle IPC' in Window->FoxKit->MGSV IPC after game is running) 
 Click Single Update or Continious Object on this component to update the gameobjects to the games position.
 
+Will try and use the unity Main Camera for the scene, if it can't find it for some reason will create a cube gameobject as a proxy.
+You can also manually set the proxy gameobject it uses in the component inspector if you need to.
+
 EDITOR_TO_GAME will only update the IH freecam position, since there's currently no runtime option to set game camera pos or rotation.
  */
 using UnityEngine;
@@ -14,7 +17,7 @@ namespace FoxKit.IH {
     [ExecuteInEditMode]
     public class CameraSync : IPCFeature {
         string gameObjectName = "Main Camera";
-        GameObject proxyGameObject;
+        public GameObject proxyGameObject;
 
         public SyncDirection syncDirection = SyncDirection.GAME_TO_EDITOR;
 
@@ -51,7 +54,7 @@ namespace FoxKit.IH {
                 yaw=-yaw;
                 
                 IPC.Instance.ToGameCmd($"SetCameraPos|{x}|{y}|{z}|{pitch}|{yaw}");
-            } else {
+            } else { 
                 //GAME_TO_EDITOR
                 IPC.Instance.ToGameCmd("GetCameraPos");
             }
@@ -59,11 +62,18 @@ namespace FoxKit.IH {
 
         //Set up any game objects we manage
         override public void SetupGameObjects() {
-            //Debug.Log("SetupGameObjects");//DEBUGNOW
-            proxyGameObject = GameObject.Find(gameObjectName);
-            if (proxyGameObject == null) {
-                proxyGameObject = new GameObject(gameObjectName);
-            }//if !gameObject
+            Debug.Log("CameraSync.SetupGameObjects");
+            if (proxyGameObject == null) {//tex user can set proxyGameObject to what they want so dont trample that
+                Camera mainCamera = Camera.main;
+                if (mainCamera != null && mainCamera.gameObject != null) {
+                    proxyGameObject = mainCamera.gameObject;
+                } else {
+                    Debug.Log("WARNING: Could not find gameobject 'Main Camera'");
+                    //tex since this isnt a unity camera name it a bit different
+                    proxyGameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    proxyGameObject.name = "Main Camera proxy";
+                }
+            }
         }//SetupGameObjects
 
         //tex commands from game
@@ -74,21 +84,22 @@ namespace FoxKit.IH {
 
         //GameCameraPos|x|y|z|pitch|yaw|roll
         private void GameCameraPos(string[] args) {
-            float x = float.Parse(args[2]);
-            float y = float.Parse(args[3]);
-            float z = float.Parse(args[4]);
+            float x = float.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture);
+            float y = float.Parse(args[3], System.Globalization.CultureInfo.InvariantCulture);
+            float z = float.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture);
 
-            float pitch = float.Parse(args[5]);
-            float yaw = float.Parse(args[6]);
+            float pitch = float.Parse(args[5], System.Globalization.CultureInfo.InvariantCulture);
+            float yaw = float.Parse(args[6], System.Globalization.CultureInfo.InvariantCulture);
             
             //tex fox to unity conversion
 			x=-x;
 			yaw=-yaw;
 
-            proxyGameObject.transform.position = new Vector3(x, y, z);
-            Quaternion yawQuat = Quaternion.Euler(pitch, yaw, 0.0f);
-            proxyGameObject.transform.rotation = yawQuat;
-
+            if (proxyGameObject != null) {
+                proxyGameObject.transform.position = new Vector3(x, y, z);
+                Quaternion yawQuat = Quaternion.Euler(pitch, yaw, 0.0f);
+                proxyGameObject.transform.rotation = yawQuat;
+            }
             //Debug.Log($"GameCameraPos: {x},{y},{z},{pitch},{yaw}");//DEBUG
         }//GameCameraPos
     }//class CameraSync

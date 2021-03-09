@@ -3,7 +3,7 @@ PlayerSync.cs
 Component that uses IPCControl to sync the position and rotation of player from the game.
 
 Add this component to a gameobject.
-If the script cannot find existing one it will create a gameobject 'Player'.
+If the script cannot find existing one it will create a gameobject 'Player', you can also manually choose the proxy gameobject in the component inspector.
 Once IPC is running (click 'Toggle IPC' in Window->FoxKit->MGSV IPC after game is running) 
 Click Single Update or Continious Object on this component to update the gameobjects to the games position.
  */
@@ -12,7 +12,7 @@ namespace FoxKit.IH {
     [ExecuteInEditMode]
     public class PlayerSync : IPCFeature {
         string gameObjectName = "Player";
-        GameObject proxyGameObject;
+        public GameObject proxyGameObject;
 
         public SyncDirection syncDirection = SyncDirection.GAME_TO_EDITOR;
 
@@ -39,9 +39,13 @@ namespace FoxKit.IH {
 
         //Set up any game objects we manage
         override public void SetupGameObjects() {
-            proxyGameObject = GameObject.Find(gameObjectName);
-            if (proxyGameObject == null) {
-                proxyGameObject = new GameObject(gameObjectName);
+            Debug.Log("PlayerSync.SetupGameObjects");
+            if (proxyGameObject == null) {//tex user can set proxyGameObject to what they want so dont trample that
+                proxyGameObject = GameObject.Find(gameObjectName);
+                if (proxyGameObject == null) {
+                    proxyGameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    proxyGameObject.name = "Player";
+                }//if !gameObject
             }//if !gameObject
         }//SetupGameObjects
 
@@ -53,18 +57,19 @@ namespace FoxKit.IH {
 
 		//n|GamePlayerPos|{x}|{y}|{z}|{yaw}
         private void GamePlayerPos(string[] args) {
-            float x = float.Parse(args[2]);
-            float y = float.Parse(args[3]);
-            float z = float.Parse(args[4]);
-            float yaw = float.Parse(args[5]);
+            float x = float.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture);
+            float y = float.Parse(args[3], System.Globalization.CultureInfo.InvariantCulture);
+            float z = float.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture);
+            float yaw = float.Parse(args[5], System.Globalization.CultureInfo.InvariantCulture);
             //fox to unity
             x=-x;
             yaw=-yaw;
 
-            proxyGameObject.transform.position = new Vector3(x, y, z);
-            Quaternion yawQuat = Quaternion.Euler(0.0f, yaw, 0.0f);
-            proxyGameObject.transform.rotation = yawQuat;            
-            
+            if (proxyGameObject != null) {
+                proxyGameObject.transform.position = new Vector3(x, y, z);
+                Quaternion yawQuat = Quaternion.Euler(0.0f, yaw, 0.0f);
+                proxyGameObject.transform.rotation = yawQuat;
+            }
             //Debug.Log($"GamePlayerPos: {x},{y},{z},{yaw}");//DEBUG
         }//GamePlayerPos
     }//class PlayerSync

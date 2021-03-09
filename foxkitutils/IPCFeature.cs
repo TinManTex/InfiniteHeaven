@@ -20,9 +20,13 @@ namespace FoxKit.IH {
         public bool singleUpdate = false;
         protected bool doRepaint = false;
         private bool hasRegisteredToGameCmds = false;
-
+        
         void OnEnable() {
-            //Debug.Log("PlayerSync.OnEnable");//DEBUG
+            Start();
+        }//OnEnable
+        
+        void Start() {
+            //Debug.Log("IPCFeature.Start");//DEBUG
             EditorApplication.update += OnEditorUpdate;
 
             hasRegisteredToGameCmds = false;
@@ -33,7 +37,7 @@ namespace FoxKit.IH {
             continuousUpdate = false;
 
             SetupGameObjects();
-        }//OnEnable
+        }//Start
 
         void OnDisable() {
             EditorApplication.update -= OnEditorUpdate;

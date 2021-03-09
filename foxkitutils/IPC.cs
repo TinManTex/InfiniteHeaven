@@ -241,7 +241,7 @@ namespace FoxKit.IH {
                             //message = sr.ReadToEnd();
                             message = ReadByChar(sr);
 
-                            //Debug.Log($"Received from server: {message}");//DEBUGNOW
+                            //Debug.Log($"Received from server: {message}");//DEBUG
                             if (String.IsNullOrEmpty(message)) {
                                 continue;
                             }
@@ -279,6 +279,13 @@ namespace FoxKit.IH {
         private void ProcessCommand(string message, int count) {
             char[] delimiters = { '|' };
             string[] args = message.Split(delimiters);
+            //DEBUG
+            //Debug.Log($"ProcessCommands: {message}");
+            //int i = 0;//DEBUGNOW
+            //foreach (string arg in args) {
+            //    Debug.Log($"arg[{i}]: {arg}");
+            //    i++;
+            //}
             int messageId;
 
             if (Int32.TryParse(args[0], out messageId)) {

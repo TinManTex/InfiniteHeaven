@@ -32,6 +32,7 @@ namespace FoxKit.IH {
 
         //Set up any game objects we manage
         override public void SetupGameObjects() {
+            Debug.Log("UsetMarkerSync.SetupGameObjects");
             userMarkers.Clear();
             string groupName = "UserMarkers";
             GameObject userMarkerGroup = GameObject.Find(groupName);
@@ -58,10 +59,12 @@ namespace FoxKit.IH {
 
         private void UserMarkerPos(string[] args)
         {
-            int index = int.Parse(args[2]);
-            float x = -float.Parse(args[3]);//tex fox to unity conversion
-            float y = float.Parse(args[4]);
-            float z = float.Parse(args[5]);
+            int index = int.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture);
+            float x = float.Parse(args[3], System.Globalization.CultureInfo.InvariantCulture);
+            float y = float.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture);
+            float z = float.Parse(args[5], System.Globalization.CultureInfo.InvariantCulture);
+            //tex fox to unity conversion
+            x = -x;
 
             //Debug.Log($"UserMarkerPos[{index}]: {x},{y},{z}");//DEBUG
             if (userMarkers[index] != null) {
