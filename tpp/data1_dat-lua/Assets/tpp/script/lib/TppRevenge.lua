@@ -2496,6 +2496,7 @@ function this._OnReinforceRespawn(soldierId)
   else
     --    InfCore.DebugPrint"_OnReinforceRespawn"--tex DEBUG>
     --    InfCore.PrintInspect(soldierIds)--<
+    InfCore.LogFlow("TppRevenge._OnReinforceRespawn")--tex DEBUG
     this.ApplyPowerSettingsForReinforce{soldierId}
   end
 end

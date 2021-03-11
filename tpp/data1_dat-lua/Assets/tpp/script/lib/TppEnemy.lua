@@ -435,7 +435,7 @@ this.weaponIdTable={
       HANDGUN=TppEquip.EQP_WP_East_hg_010,
       ASSAULT=TppEquip.EQP_WP_East_ar_020}
   }
-}
+}--weaponIdTable
 this.gunLightWeaponIds={
   [TppEquip.EQP_WP_Com_sg_011]=TppEquip.EQP_WP_Com_sg_011_FL,
   [TppEquip.EQP_WP_Com_sg_020]=TppEquip.EQP_WP_Com_sg_020_FL,
