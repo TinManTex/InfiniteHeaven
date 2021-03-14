@@ -51,7 +51,9 @@ this.extToMgsvComplete=0--tex min/confirmed executed by mgsv
 
 this.logErr=""
 this.str32ToString={}
+this.path32ToString={}
 this.unknownStr32={}
+this.unknownPath32={}
 this.unknownMessages={}
 this.gameIdToName={}
 --
@@ -360,16 +362,10 @@ function this.FindLast(searchString,findString)
 end
 
 function this.StartIHExt()
-  --DEBUGNOW
---  if true then
---    InfCore.Log("Use IHHook menu instead",true)
---    return
---  end
-
   this.extSession=1--tex WORKAROUND: will get updated when IHExt has started, but must be non 0 for IH to actually run ProcessCommands. Wasn't nessesary when I was pulling line 1 messageId as the sessionId, but that has been shifted to a extSession command from IHExt
 
   if IHH then
-    IHH.StartIHExt();
+    InfCore.Log("Use IHHook menu instead",true)
     return
   end
 
@@ -385,7 +381,7 @@ function this.StartIHExt()
   local strCmd = 'start "" "'..programPath..'" "'..this.gamePath..'" '..this.modSubPath..' '..this.gameProcessName
   InfCore.Log(strCmd,false,true)
   this.PCall(function()os.execute(strCmd)end)
-end
+end--StartIHExt
 
 function this.UseAdvancedMenu()
   if IHH and IHH.menuInitialized then
@@ -431,7 +427,7 @@ function this.IHHMenuCommand(cmd,...)
   end
 
   if this.debugModule then
-    InfCore.Log("ExtCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))
+    InfCore.Log("IHHMenuCommand: cmd:"..tostring(cmd).."<> message:"..tostring(message))
   end
   
   IHH.MenuMessage(cmd,message)
@@ -593,7 +589,26 @@ function this.StrCode32(encodeString)
     end
   end
   return strCode
-end
+end--StrCode32
+
+local PathFileNameCode32=Fox.PathFileNameCode32
+function this.PathFileNameCode32(encodeString)
+  local pathCode=PathFileNameCode32(encodeString)
+  if this.debugMode then
+   if type(encodeString)~="string" then
+      InfCore.Log("WARNING: InfCore.PathFileNameCode32: Attempting to encode a "..type(encodeString)..": "..tostring(encodeString))
+      InfCore.Log("caller: "..this.DEBUG_Where(2))
+    else
+      local storedString=this.path32ToString[pathCode]
+      if storedString and storedString~=encodeString then
+        InfCore.Log("WARNING: InfCore.PathFileNameCode32: Collision "..tostring(storedString).." and "..tostring(encodeString).." both hash to "..tostring(pathCode))
+      else
+        this.path32ToString[pathCode]=encodeString
+      end
+    end    
+  end
+  return pathCode
+end--PathFileNameCode32
 
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
