@@ -3,15 +3,30 @@
 -- additional player animations can be loaded by seperate fpk with mtar and an TppPlayer2AdditionalMtarData Entity to point to the mtar.
 -- (see /Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk)
 -- TODO: build an addon system for it if there's interest
-local this={}
+-- fpkdef:
+-- /Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk
+--TODO: document what this .mtar is, I think it's just a renamed mgoplayer_resident.mtar? DEBUGNOW
+--  /Assets/tpp/motion/mtar/player2/player2_ih_additional_motion.mtar
+-- /Assets/tpp/pack/mission2/ih/ih_additional_motion.fpkd
+--  /Assets/tpp/level_asset/chara/player/game_object/player2_ih_additional_motion.fox2
+--    Entity TppPlayer2AdditionalMtarData > /Assets/tpp/motion/mtar/player2/player2_ih_additional_motion.mtar
 
---REF DEBUGNOW TppPaz has more info on anim system
+--see also: 
+--bobs gani notes
+--https://discord.com/channels/364177293133873153/364177950805065732/549317300256243720
+--unknowns motion mod (of which this is a similar implmentatio) (see issues notes toward bottom of page)
+--https://unknown321.github.io/mgsv_research/motions.html
+
+--TODO: see if I can pull more info from TppPaz for reference
+
+local this={}
 
 this.registerIvars={
   "motionGroupIndex",
   "motionGaniIndex",
   "motionHold",
   "motionRepeat",
+  "motionCloseMenuOnPlay",
 }
 
 this.motionGroupIndex={
@@ -28,7 +43,11 @@ this.motionGroupIndex={
     Ivars.motionGaniIndex:OnSelect()
   end,
   OnActivate=function(self,setting)
-    this.PlayCurrentMotion(true)
+    local closeMenuOnPlay=Ivars.motionCloseMenuOnPlay:Get()==1
+    this.PlayCurrentMotion()
+    if closeMenuOnPlay then
+      InfMenu.MenuOff()
+    end
   end,
 }
 
@@ -48,7 +67,11 @@ this.motionGaniIndex={
     IvarProc.SetMaxToList(self,motionsForGroup)
   end,
   OnActivate=function(self,setting)
-    this.PlayCurrentMotion(true)
+    local closeMenuOnPlay=Ivars.motionCloseMenuOnPlay:Get()==1
+    this.PlayCurrentMotion()
+    if closeMenuOnPlay then
+      InfMenu.MenuOff()
+    end
   end,
 }
 
@@ -58,6 +81,11 @@ this.motionHold={
 }
 
 this.motionRepeat={
+  range=Ivars.switchRange,
+  settingNames="set_switch"
+}
+
+this.motionCloseMenuOnPlay={
   range=Ivars.switchRange,
   settingNames="set_switch"
 }
@@ -78,6 +106,7 @@ this.motionsMenu={
     "Ivars.motionGaniIndex",
     "Ivars.motionHold",
     "Ivars.motionRepeat",
+    "Ivars.motionCloseMenuOnPlay",
     "InfMotion.StopMotion",
     "InfMotion.PlayCurrentMotion",
   }
@@ -91,6 +120,7 @@ this.langStrings={
     motionGaniIndex="Motion number",
     motionHold="Hold motion",
     motionRepeat="Repeat motion",
+    motionCloseMenuOnPlay="Close menu on Playing motion",
     stopMotion="Stop motion",
     playCurrentMotion="Play motion",
   },
@@ -315,10 +345,17 @@ for name,ganis in pairs(this.motions)do
 end
 table.sort(this.motionGroups)
 
+function this.Init()
+  --WORKAROUND: for using QuickMenu without using motions menu, the ivars need to be settomax of motiongroups -^-
+  --should also catch IHDev_Addmotions since that adds on PostAllModulesLoad
+  Ivars.motionGroupIndex:OnSelect()
+  Ivars.motionGaniIndex:OnSelect()
+end
+
 InfMenuCommands.playCurrentMotion={
-  isMenuOff=true,
+  isMenuOff=true,--DEBUGNOW this depends on motionCloseMenuOnPlay
 }
-function this.PlayCurrentMotion(dontCloseMenu)
+function this.PlayCurrentMotion()
   --tex causes RequestToPlayDirectMotion to not fire, todo: yield/wait a frame?
   --Player.RequestToStopDirectMotion()
 
@@ -350,12 +387,6 @@ function this.PlayCurrentMotion(dontCloseMenu)
   local param3Table=nil
 
   Player.RequestToPlayDirectMotion{motionName,param2Table,param3Table}
-
-  --KLUDGE
-  if dontCloseMenu ~= true then
-    InfMenu.MenuOff()
-  end
-
   --REF
   --  Player.RequestToPlayDirectMotion {
   --    "rideVehicleRear",
@@ -393,6 +424,28 @@ end
 
 function this.StopMotion()
   Player.RequestToStopDirectMotion()
+end
+
+--Commands for quick menu
+function this.NextGroup()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,1)
+end
+function this.PrevGroup()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,-1)
+end
+function this.NextMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,1)
+end
+function this.PrevMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,-1)
+end
+function this.PlayNextMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,1)
+  this.PlayCurrentMotion()
+end
+function this.PlayNextGroupMotion()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,1)
+  this.PlayCurrentMotion()
 end
 
 this.packages={
