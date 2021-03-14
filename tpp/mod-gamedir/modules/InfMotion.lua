@@ -29,6 +29,19 @@ this.registerIvars={
   "motionCloseMenuOnPlay",
 }
 
+--menu command
+function this.PlayCurrentMotionCommand()
+  local closeMenuOnPlay=Ivars.motionCloseMenuOnPlay:Get()==1
+  this.PlayCurrentMotion()
+  if closeMenuOnPlay then
+    InfMenu.MenuOff()
+  end
+end
+InfMenuCommands.playCurrentMotionCommand={
+  isMenuOff=false,--DYNAMIC
+}
+
+--ivars
 this.motionGroupIndex={
   inMission=true,
   range={max=0},--DYNAMIC
@@ -42,14 +55,8 @@ this.motionGroupIndex={
     --tex make sure it's in bounds
     Ivars.motionGaniIndex:OnSelect()
   end,
-  OnActivate=function(self,setting)
-    local closeMenuOnPlay=Ivars.motionCloseMenuOnPlay:Get()==1
-    this.PlayCurrentMotion()
-    if closeMenuOnPlay then
-      InfMenu.MenuOff()
-    end
-  end,
-}
+  OnActivate=this.PlayCurrentMotionCommand,
+}--motionGroupIndex
 
 this.motionGaniIndex={
   inMission=true,
@@ -66,14 +73,8 @@ this.motionGaniIndex={
     
     IvarProc.SetMaxToList(self,motionsForGroup)
   end,
-  OnActivate=function(self,setting)
-    local closeMenuOnPlay=Ivars.motionCloseMenuOnPlay:Get()==1
-    this.PlayCurrentMotion()
-    if closeMenuOnPlay then
-      InfMenu.MenuOff()
-    end
-  end,
-}
+  OnActivate=this.PlayCurrentMotionCommand,
+}--motionGaniIndex
 
 this.motionHold={
   range=Ivars.switchRange,
@@ -87,13 +88,17 @@ this.motionRepeat={
 
 this.motionCloseMenuOnPlay={
   range=Ivars.switchRange,
-  settingNames="set_switch"
+  settingNames="set_switch",    
+  OnChange=function(self,setting)
+    --KLUDGE
+    local isMenuOff=setting==1
+    InfMenuCommands.playCurrentMotionCommand.isMenuOff=isMenuOff
+    --DEBUGNOW isMenuOff not geared for ivars, cuts off settings text
+    --Ivars.motionGroupIndex.isMenuOff=isMenuOff
+    --Ivars.motionGaniIndex.isMenuOff=isMenuOff
+  end,
 }
 
---menu command
-InfMenuCommands.playCurrentMotion={
-  isMenuOff=true,
-}
 --<
 this.registerMenus={
   "motionsMenu",
@@ -108,7 +113,7 @@ this.motionsMenu={
     "Ivars.motionRepeat",
     "Ivars.motionCloseMenuOnPlay",
     "InfMotion.StopMotion",
-    "InfMotion.PlayCurrentMotion",
+    "InfMotion.PlayCurrentMotionCommand",
   }
 }
 --< menu defs
@@ -122,7 +127,7 @@ this.langStrings={
     motionRepeat="Repeat motion",
     motionCloseMenuOnPlay="Close menu on Playing motion",
     stopMotion="Stop motion",
-    playCurrentMotion="Play motion",
+    playCurrentMotionCommand="Play motion",
   },
   help={
     eng={
@@ -132,10 +137,10 @@ this.langStrings={
       motionHold="Holds motion, requires stop motion to stop.",
       motionRepeat="Repeat motion at end, some animations don't support this.",
       stopMotion="Use to stop motions with motion hold or motion repeat.",
-      playCurrentMotion="Closes menu and plays current selected motion.",
+      playCurrentMotionCommand="Closes menu and plays current selected motion.",
     },
   },
-}
+}--langStrings
 --<
 
 this.motions={
@@ -352,9 +357,6 @@ function this.Init()
   Ivars.motionGaniIndex:OnSelect()
 end
 
-InfMenuCommands.playCurrentMotion={
-  isMenuOff=true,--DEBUGNOW this depends on motionCloseMenuOnPlay
-}
 function this.PlayCurrentMotion()
   --tex causes RequestToPlayDirectMotion to not fire, todo: yield/wait a frame?
   --Player.RequestToStopDirectMotion()
