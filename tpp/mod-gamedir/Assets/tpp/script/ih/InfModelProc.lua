@@ -215,6 +215,9 @@ end
 --IN/OUT Solder2FaceAndBodyData
 function this.Setup(faceAndBodyData)
   InfCore.LogFlow"InfModelProc.SetupFova:"
+  if this.debugModule then
+    InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData pre setup")
+  end
 
   --tex clear this state
   for i,fovaTypeName in ipairs(this.fovaTypes) do
@@ -256,7 +259,7 @@ function this.Setup(faceAndBodyData)
   this.SetupBodyFova(faceAndBodyData)
 
   if this.debugModule then
-    InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData")
+    InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData post setup")
     InfCore.Log("#faceAndBodyData.bodyFova:"..#faceAndBodyData.bodyFova)
   end
 end
@@ -318,22 +321,22 @@ function this.SetupFaceFova(faceAndBodyData)
           if definitionIndex~=-1 then
             local newFace={
               currentFaceId,
-              oldFace[faceDefEnum.unk1] or 0,
+              headDefinition.unk1 or oldFace[faceDefEnum.unk1] or 0,
               genders[headDefinition.gender] or oldFace[faceDefEnum.gender] or 0,
-              oldFace[faceDefEnum.unk2] or 0,
+              headDefinition.unk2 or oldFace[faceDefEnum.unk2] or 0,
               this.faceFova[headDefinition.faceFova] or oldFace[faceDefEnum.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
               this.faceDecoFova[headDefinition.faceDecoFova] or oldFace[faceDefEnum.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
               this.hairFova[headDefinition.hairFova] or oldFace[faceDefEnum.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
               this.hairDecoFova[headDefinition.hairDecoFova] or oldFace[faceDefEnum.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-              oldFace[faceDefEnum.unk3] or 0,
-              oldFace[faceDefEnum.unk4] or 0,
-              oldFace[faceDefEnum.unk5] or 0,
+              headDefinition.unk3 or oldFace[faceDefEnum.unk3] or 0,
+              headDefinition.unk4 or oldFace[faceDefEnum.unk4] or 0,
+              headDefinition.unk5 or oldFace[faceDefEnum.unk5] or 0,
               headDefinition.uiTextureName or oldFace[faceDefEnum.uiTextureName] or "",
-              oldFace[faceDefEnum.unk6] or 1,
-              oldFace[faceDefEnum.unk7] or 0,
-              oldFace[faceDefEnum.unk8] or 0,
-              oldFace[faceDefEnum.unk9] or 0,
-              oldFace[faceDefEnum.unk10] or 0,
+              headDefinition.unk6 or oldFace[faceDefEnum.unk6] or 1,
+              headDefinition.unk7 or oldFace[faceDefEnum.unk7] or 0,
+              headDefinition.unk8 or oldFace[faceDefEnum.unk8] or 0,
+              headDefinition.unk9 or oldFace[faceDefEnum.unk9] or 0,
+              headDefinition.unk10 or oldFace[faceDefEnum.unk10] or 0,
             }--newFace
             if InfCore.debugMode then
               InfCore.PrintInspect(oldFace,"oldFace")
