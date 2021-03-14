@@ -71,6 +71,9 @@ end
 
 function this.PostAllModulesLoad()
   InfQuickMenuDefs=InfQuickMenuDefs_User or _G.InfQuickMenuDefs
+  if InfQuickMenuDefs_User then
+    InfCore.Log("InfMenu: Using InfQuickMenuDefs_User")
+  end
   
   --DEBUGNOW
     --tex set up hold buttons
