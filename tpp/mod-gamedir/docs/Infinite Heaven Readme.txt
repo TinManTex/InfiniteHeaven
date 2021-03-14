@@ -1,7 +1,7 @@
 = Infinite heaven =
-r237 - 2010-03-31
+r238 - 2021-03-12
 by tin man tex
-For MGSV version 1.15 (in title screen), 1.0.15.1 in exe
+For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -16,52 +16,40 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
-r237:
-Fix: Game % completion was lower than it should have been, and task completion in ui was showing a higher value than max.
-Caveat: Some users games that were saved prior to r234 might have some tasks marked as completed even if they hadn't done them yet.
-Thanks nishi980 for the report.
+r238:
+Update to MGSV version 1.0.15.2
 
-Fix: My build process was including some files from a snakebite install run, hard to say what if any issues this caused beyond a bigger install size - thanks caplag for the report.
-
-r236:
-Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with - thanks OldBoss for the report.
-
-r235:
-Player restrictions menu added to in-mission menu.
-'Game over on combat alert' / gameOverOnDiscovery, now works in free roam (previously only worked in missions) (via Player restrictions menu)
-Thanks Steve Harvery for the prompt.
-
-Fix: UAVs on FOB should show their correct grade.
-Bug was due from me missing a subltle change while merging the mgsv 1.09 patch in April 2016, ouch.
-It got lost in the noise of variable name changes due to the minified lua files. Thanks elquinto for the belated report.
-
-New for r234
-Added: In-Cutscene IH menu can be opened while cutscene playing.
-Fixed: Quick menu not working while in cutscenes.
-Change: Pause cutscene bind changed from EVADE (dive button) to STANCE (crouch button)
-
-Change: Mother Base - Additional NPCs changed to a sub menu where you can individually set which additional npcs you want to appear - thanks Muffins for the suggestion.
-
-Fix: Completion percentage dropping to 99% and completed tasks counting higher than max - thanks AsiaSkyly and badbard99 for the reports.
-
-Fix: MB staff died message should appear in Mission 43 - thanks GrimreaperIII3 for the report.
-Was being overzealous in TppHero.SetAndAnnounceHeroicOgrePoint, still may need attention.
-Also a longstanding errant character I added (the curse of binding an easily pressed mouse button to a keyboard character) in s10240_sequence Damage message may have been causing an issue.
-
-Fix: Wildcard Soldiers causing some sideops to have missing enemies or soldiers and a resulting infinite load on reload or exit free roam.
-This seems to be a very long standing bug that I wasn't able to reproduce till recently.
-Unfortunately the fix comes at a cost of removing female soldiers from the wildcard feature as the bug is due to some fundamental problem with using the extend part system they use for their models in combination with sideops which was never used in the base game. 
-Thanks TheIronIris for providing save files and information so I could reproduce the issue.
-
-Shifted the IH sideops (mother base animals and Blackfoot down) out of IH installation to their own addon mod. This stays truer to IH's 'default by default' policy and helps the sideops count now that the community has made many sideops.
-
-Various features to help community mods, thanks Cuba, placeholderthesteam for the prompts.
+Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
+See docs\IHHook-Changelog.txt or github.com/TinManTex/IHHook
 
 
-New for r233
-More support for various data needed by addon missions.
-Thanks to cap for working out some more of the needed data.
-Check out his addon mission https://www.nexusmods.com/metalgearsolidvtpp/mods/918/
+Added: Appearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
+Added: attackHeliType - UTH Blackfoot - thanks caplag for discovering uth TppHeliParameters applied to TppEnemyHeli 
+Known Issues: UTH wont attack with missiles. UTH attack heli classes not actually visually different.
+
+Added: GeneralHelpItem - mostly for seeing the extensive help text when show help is on.
+
+Added: menu_disableToggleMenuHold - Disable hold menu toggle - Disables the legacy one-button <dive> hold-to-toggle menu, the two button menu combo <zoom_change> + <dash> will still work.
+
+Camera menu:
+Added: 'Reset camera position to player' (still can be accessed by pressing the ih camera reset button (binoc) and <dash>) - thanks Muffins for the suggestion (of an obvious oversight).
+Added: positionXFreeCam (and Y,Z) - more useful since you can enter the value directly with IHH menu, useful if you have some position from somewhere but you don't know where it is in game.
+
+Mission prep features override:
+Replaces the "Mission-prep restrictions menu"
+
+heliSpace_SkipMissionPreparetion - Skip mission prep
+heliSpace_NoBuddyMenuFromMissionPreparetion - Disable select-buddy
+heliSpace_NoVehicleMenuFromMissionPreparetion - Disable select-vehicle
+heliSpace_DisableSelectSortieTimeFromMissionPreparetion - Disable select-sortie time
+
+Lets you force on or off the various mission prep features, though some may not make sense or have stuff overidden by the mission, such as enabling mission prep for the prologue.
+
+Fix: getBodyInfo reverted to directly reading ivar, should fix some issues related to enemy customBodyType - thank Solidus Snake for the report
+Fix: GetGroundStartPosition - guard against unexpected mbLayoutCode (still no idea of the situation that would cause the value) - thank Solidus Snake for the files (and caplag for getting him to enable logging)
+Fix: All customWeaponTable vars off would error.
+Fix: (of a previous fix) of wildcard soldiers causing the game to hang with some sideops,  thanks worthless person for the report.
+Fix: GetLastUserMarkerIndex - sometimes would not return correct marker, affected IH features using user markers.
 
 See Change Log.txt for more detail.
 
