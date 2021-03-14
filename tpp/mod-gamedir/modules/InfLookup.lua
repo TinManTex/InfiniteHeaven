@@ -18,6 +18,7 @@ local tostring=tostring
 this.debugModule=false
 
 this.str32ToString={}--tex what the <module>.DEBUG_StrCode32ToString tables are loaded into as well as mod\strings\*.txt, migrates into InfCore.str32ToString if this.StrCode32ToString gets any hits.
+this.path32ToString={}
 
 this.subtitleId32ToString={}--tex NOTE: interrogation name is also subtitleId (TODO also note in wiki for subp?)
 this.path32ToDataSetName={}
@@ -706,6 +707,39 @@ function this.StrCode32ToString(strCode,isStrCode)
     InfCore.Log("WARNING: InfLookup.StrCode32ToString: strCode:"..tostring(strCode).." is not a number.")
   end
   return tostring(strCode)
+end--StrCode32ToString
+--tex returns string or pathCode32
+--isPathCode on guaranteed strcodes to add that code to unknowns (this function is also used in a blanket fashion in PrintOnMessage with potential non-strcodes)
+function this.PathCode32ToString(pathCode,isPathCode)
+  if pathCode==nil then
+    return 'nil'
+  end
+
+  if type(pathCode)=="number" then
+    --tex using InfCore since this is built up using Fox.StrCode32 replacement InfCore.StrCode32, since InfCore is loaded before lib modules
+    local returnString=InfCore.path32ToString[pathCode]
+    if returnString==nil then
+      returnString=this.path32ToString[pathCode]
+      if returnString then
+        InfCore.path32ToString[pathCode]=returnString--tex push back into InfCore str32ToString so I can dump that as a verified in-use dictionary
+      end
+    end
+    if isPathCode and returnString==nil then
+      InfCore.unknownPath32[pathCode]=true
+    end
+    if returnString==nil then
+      return pathCode
+    end
+
+    if type(returnString)=="number" then
+      InfCore.Log("WARNING: InfLookup.PathCode32ToString: returnString for strCode:"..pathCode.." is a number: "..returnString)
+    end
+
+    return returnString
+  else
+    InfCore.Log("WARNING: InfLookup.PathCode32ToString: strCode:"..tostring(pathCode).." is not a number.")
+  end
+  return tostring(pathCode)
 end--StrCode32ToString
 function this.DumpStrCodeTables()
   InfCore.Log("InfCore.str32ToString")
