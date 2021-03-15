@@ -363,6 +363,11 @@ this.playerFaceId={
 
     local faceDefId=self.settingsTable[setting+1]
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
+    if faceDef==nil then
+      local err="ERROR: could not find faceDefinition["..tostring(faceDefId).."]"
+      InfCore.Log("Ivars.playerFaceId - "..err)
+      return err
+    end
     local faceId=faceDef[1]
 
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
