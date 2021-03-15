@@ -60,6 +60,7 @@ this.fovaInfos={}
 --      hairFova="example_hair1.fv2",
 --      hairDecoFova="example_hairDeco1.fv2",
 --      uiTextureName="ui_face_686",--idroid staff texture name, only nessesary if you want it to show for staff using the faceId
+--      --actual texture is /Assets/tpp/ui/texture/StaffImage/<uiTextureName>_<n = 0-2>.ftex (.<1-3>.ftexs etc)
 --    },
 --  },
 --}
