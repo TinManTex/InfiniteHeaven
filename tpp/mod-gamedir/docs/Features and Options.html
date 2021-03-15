@@ -56,52 +56,59 @@
 <div>1: <a href="#systemMenu">IH system menu</a></div>
 </div>
 <div id="menuItem">
-<div>2: <a href="#cameraMenu">Camera menu</a></div>
+<div>2: General Help : 0-1</div>
+<div id="itemHelp">General Help:<br/>Press F2 to toggle mouse cursor.<br/>Navigate menu: Arrow keys or Dpad.<br/>Activate or advance setting: Press Right key or Dpad or double-click option in menu.<br/>Search for settings: Click on the setting text below the menu list, type what you want and press Enter.<br/>Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.<br/>Menu item type symbols:<br/>&gt Sub-menu <br/>&gt&gt Command <br/>&gt] Command that closes menu when done <br/>&lt&gt Option that applies change when setting selectected/cycled to <br/>&gt! Option that has an action activated by pressing &ltAction&gt<br/>Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.<br/>See ReadMe or Features and Options for more info.<br/></div>
 </div>
 <div id="menuItem">
-<div>3: <a href="#demosMenu">Cutscenes menu</a></div>
+<div>3: <a href="#cameraMenu">Camera menu</a></div>
 </div>
 <div id="menuItem">
-<div>4: <a href="#debugMenu">Debug menu</a></div>
+<div>4: <a href="#demosMenu">Cutscenes menu</a></div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#revengeMenu">Enemy Prep menu</a></div>
+<div>5: <a href="#debugMenu">Debug menu</a></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>6: <a href="#revengeMenu">Enemy Prep menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
+<div>7: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#eventsMenu">Events menu</a></div>
+<div>8: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#motherBaseMenu">Mother Base menu</a></div>
+<div>9: <a href="#eventsMenu">Events menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
+<div>10: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+<div>11: <a href="#motherBaseMenu">Mother Base menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#playerSettingsMenu">Player settings menu</a></div>
+<div>12: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#progressionMenu">Progression menu</a></div>
+<div>13: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#sideOpsMenu">Side ops menu</a></div>
+<div>14: <a href="#playerSettingsMenu">Player settings menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+<div>15: <a href="#progressionMenu">Progression menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>16: <a href="#sideOpsMenu">Side ops menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>17: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+</div>
+<div id="menuItem">
+<div>18: <a href="#supportHeliMenu">Support heli menu</a></div>
+</div>
+<div id="menuItem">
+<div>19: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -116,44 +123,48 @@
 <div id="itemHelp">IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.</div>
 </div>
 <div id="menuItem">
-<div>2: Enable help text (IHExt) : Off, On</div>
-<div id="itemHelp">Shows help text in IHExt for some options.</div>
+<div>2: Enable help text. : Off, On</div>
+<div id="itemHelp">Shows help text for some options.</div>
 </div>
 <div id="menuItem">
 <div>3: Give IHExt focus : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Select profile : &ltProfile name&gt</div>
+<div>4: Disable hold menu toggle : Off, On</div>
+<div id="itemHelp">Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.</div>
+</div>
+<div id="menuItem">
+<div>5: Select profile : &ltProfile name&gt</div>
 <div id="itemHelp">Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
 </div>
 <div id="menuItem">
-<div>5: Set profile options to game defaults : 0-1</div>
+<div>6: Set profile options to game defaults : 0-1</div>
 <div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>6: Save to UserSaved profile : 0-1</div>
+<div>7: Save to UserSaved profile : 0-1</div>
 <div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.</div>
 </div>
 <div id="menuItem">
-<div>7: Enable Quick Menu : Off, On</div>
+<div>8: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>8: Start offline : Off, On</div>
+<div>9: Start offline : Off, On</div>
 <div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>9: Skip startup logos : Off, On</div>
+<div>10: Skip startup logos : Off, On</div>
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>10: Load addon mission : </div>
+<div>11: Load addon mission : </div>
 </div>
 <div id="menuItem">
-<div>11: Include addon missions in completion percentage : Off, On</div>
+<div>12: Include addon missions in completion percentage : Off, On</div>
 </div>
 <div id="menuItem">
-<div>12: Reset all IH settings : 0-1</div>
+<div>13: Reset all IH settings : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -174,22 +185,34 @@
 <div>2: Camera mode : Default, Free cam</div>
 </div>
 <div id="menuItem">
-<div>3: Warp body to FreeCam position : 0-1</div>
+<div>3: Reset camera position to player : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Cam speed scale : 0.01-10</div>
+<div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: Disable mode text feedback : Off, On</div>
+<div>5: positionXFreeCam : 0-100000</div>
 </div>
 <div id="menuItem">
-<div>6: Set stage position to camera : 0-1</div>
+<div>6: positionYFreeCam : 0-100000</div>
 </div>
 <div id="menuItem">
-<div>7: Show freecam position : 0-1</div>
+<div>7: positionZFreeCam : 0-100000</div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#playCamMenu">PlayCam menu</a></div>
+<div>8: Cam speed scale : 0.01-10</div>
+</div>
+<div id="menuItem">
+<div>9: Disable mode text feedback : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Set stage position to camera : 0-1</div>
+</div>
+<div id="menuItem">
+<div>11: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>12: <a href="#playCamMenu">PlayCam menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -1084,6 +1107,65 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="heliSpaceFlagsMenu">Mission-prep features menu</div>
+<div id="menuHelp">Only affects the mission-prep screen, not the in-mission equivalents.</div>
+</div>
+<div id="menuItem">
+<div>1: Skip mission prep for Free Roam : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Go straight to mission, skipping the mission prep screen.</div>
+</div>
+<div id="menuItem">
+<div>2: Skip mission prep for Story Mission : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Go straight to mission, skipping the mission prep screen.</div>
+</div>
+<div id="menuItem">
+<div>3: Skip mission prep for MB : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Go straight to mission, skipping the mission prep screen.</div>
+</div>
+<div id="menuItem">
+<div>4: Disable select-buddy for Free Roam : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Prevents selection of buddies during mission prep.</div>
+</div>
+<div id="menuItem">
+<div>5: Disable select-buddy for Story Mission : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Prevents selection of buddies during mission prep.</div>
+</div>
+<div id="menuItem">
+<div>6: Disable select-buddy for MB : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Prevents selection of buddies during mission prep.</div>
+</div>
+<div id="menuItem">
+<div>7: Disable select-vehicle for Free Roam : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).</div>
+</div>
+<div id="menuItem">
+<div>8: Disable select-vehicle for Story Mission : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).</div>
+</div>
+<div id="menuItem">
+<div>9: Disable select-vehicle for MB : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).</div>
+</div>
+<div id="menuItem">
+<div>10: Disable select-sortie time for Free Roam : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Only allows ASAP at mission prep</div>
+</div>
+<div id="menuItem">
+<div>11: Disable select-sortie time for Story Mission : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Only allows ASAP at mission prep</div>
+</div>
+<div id="menuItem">
+<div>12: Disable select-sortie time for MB : DEFAULT, FALSE, TRUE</div>
+<div id="itemHelp">Only allows ASAP at mission prep</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="motherBaseMenu">Mother Base menu</div>
 </div>
 <div id="menuItem">
@@ -1113,59 +1195,62 @@
 <div id="itemHelp">Spawns some npc attack helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
+<div>9: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot</div>
 </div>
 <div id="menuItem">
-<div>10: Walker gears in MB : Off, On</div>
+<div>10: Attack heli class in MB : </div>
 </div>
 <div id="menuItem">
-<div>11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
+<div>11: Walker gears in MB : Off, On</div>
 </div>
 <div id="menuItem">
-<div>12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
+<div>12: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
 </div>
 <div id="menuItem">
-<div>13: Repopulate plants and diamonds : Off, On</div>
+<div>13: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
+</div>
+<div id="menuItem">
+<div>14: Repopulate plants and diamonds : Off, On</div>
 <div id="itemHelp">Regenerates plants on Zoo platform and diamonds on Mother base over time.</div>
 </div>
 <div id="menuItem">
-<div>14: Enemy prep decrease on long MB visit : Off, On</div>
+<div>15: Enemy prep decrease on long MB visit : Off, On</div>
 <div id="itemHelp">Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat </div>
 </div>
 <div id="menuItem">
-<div>15: Enable all buddies : Off, On</div>
+<div>16: Enable all buddies : Off, On</div>
 <div id="itemHelp">Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.</div>
 </div>
 <div id="menuItem">
-<div>16: More soldiers on MB plats : Off, On</div>
+<div>17: More soldiers on MB plats : Off, On</div>
 <div id="itemHelp">Increases soldiers on platforms from 4 soldiers to 9.</div>
 </div>
 <div id="menuItem">
-<div>17: Force enable Quaranine platform soldiers : Off, On</div>
+<div>18: Force enable Quaranine platform soldiers : Off, On</div>
 <div id="itemHelp">Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.</div>
 </div>
 <div id="menuItem">
-<div>18: Soldiers move between platforms : Off, On</div>
+<div>19: Soldiers move between platforms : Off, On</div>
 <div id="itemHelp">Soldiers will periodically move between platforms (only within the same cluster).</div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#mbStaffMenu">Staff menu</a></div>
+<div>20: <a href="#mbStaffMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
+<div>21: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
+<div>22: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
 </div>
 <div id="menuItem">
-<div>22: Allow lethal actions : Off, On</div>
+<div>23: Allow lethal actions : Off, On</div>
 <div id="itemHelp">Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.</div>
 </div>
 <div id="menuItem">
-<div>23: Women in Enemy Invasion mode : 0-100%</div>
+<div>24: Women in Enemy Invasion mode : 0-100%</div>
 </div>
 <div id="menuItem">
-<div>24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+<div>25: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1351,39 +1436,49 @@
 <div id="itemHelp">Spawns some npc attack helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
+<div>5: Attack heli type in FreeRoam : HP-48 Krokodil, UTH-66 Blackfoot</div>
 </div>
 <div id="menuItem">
-<div>6: Walker gears in free roam : Off, On</div>
+<div>6: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot</div>
+</div>
+<div id="menuItem">
+<div>7: Attack heli class in FreeRoam : </div>
+<div id="itemHelp">Combined appearance and health</div>
+</div>
+<div id="menuItem">
+<div>8: Attack heli class in MB : </div>
+</div>
+<div id="menuItem">
+<div>9: Walker gears in free roam : Off, On</div>
 <div id="itemHelp">Adds a Walker gear to each main base.</div>
 </div>
 <div id="menuItem">
-<div>7: Walker gears in MB : Off, On</div>
+<div>10: Walker gears in MB : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Vehicle patrols in free roam : Game default - trucks only, All of one type, Each vehicle differing type</div>
+<div>11: Vehicle patrols in free roam : Game default - trucks only, All of one type, Each vehicle differing type</div>
 <div id="itemHelp">Replaces the patrolling trucks in free roam with other vehicles, picked randomly from enabled types.</div>
 </div>
 <div id="menuItem">
-<div>9: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep</div>
+<div>12: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep</div>
 </div>
 <div id="menuItem">
-<div>10: Allow jeeps : Off, On</div>
+<div>13: Allow jeeps : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Allow trucks : Off, On</div>
+<div>14: Allow trucks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>12: Allow wheeled armored vehicles : Off, On</div>
+<div>15: Allow wheeled armored vehicles : Off, On</div>
 </div>
 <div id="menuItem">
-<div>13: Allow heavy wheeled armored vehicles : Off, On</div>
+<div>16: Allow heavy wheeled armored vehicles : Off, On</div>
 </div>
 <div id="menuItem">
-<div>14: Allow tanks : Off, On</div>
+<div>17: Allow tanks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>15: Equipment on trucks : Off, On</div>
+<div>18: Equipment on trucks : Off, On</div>
 <div id="itemHelp">Puts a random piece of equipment on the back of patrol trucks.</div>
 </div>
 <div id="menuItem">
@@ -1435,7 +1530,7 @@
 <div>11: <a href="#markersMenu">Marking display menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#missionPrepRestrictionsMenu">Mission-prep restrictions menu</a></div>
+<div>12: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
 <div>13: <a href="#disableSupportMenuMenu">Disable mission support-menus menu</a></div>
@@ -1454,6 +1549,9 @@
 </div>
 <div id="menuItem">
 <div>18: <a href="#ospMenu">OSP menu</a></div>
+</div>
+<div id="menuItem">
+<div>19: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -1477,32 +1575,6 @@
 <div id="menuItem">
 <div>3: Disable world markers : Off, On</div>
 <div id="itemHelp">Disables objective and placed markers</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="missionPrepRestrictionsMenu">Mission-prep restrictions menu</div>
-<div id="menuHelp">Only affects the mission-prep screen, not the in-mission equivalents.</div>
-</div>
-<div id="menuItem">
-<div>1: Disable select-sortie time : Off, On</div>
-<div id="itemHelp">Only allows ASAP at mission prep</div>
-</div>
-<div id="menuItem">
-<div>2: Disable select-buddy : Off, On</div>
-<div id="itemHelp">Prevents use of buddies during mission prep.</div>
-</div>
-<div id="menuItem">
-<div>3: Disable select vehicle : Off, On</div>
-<div id="itemHelp">Disallows at mission prep.</div>
-</div>
-<div id="menuItem">
-<div>4: Enable mission prep to MB : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1705,13 +1777,17 @@
 <div>6: Face : &ltFace Id for player type and face filter&gt</div>
 </div>
 <div id="menuItem">
-<div>7: Print face info : 0-1</div>
+<div>7: Skip developed checks : Off, On</div>
+<div id="itemHelp">Allows items that haven't been developed to be selected.</div>
 </div>
 <div id="menuItem">
-<div>8: Print appearance info : 0-1</div>
+<div>8: Print face info : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#fovaModMenu">Form Variation menu</a></div>
+<div>9: Print appearance info : 0-1</div>
+</div>
+<div id="menuItem">
+<div>10: <a href="#fovaModMenu">Form Variation menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2001,73 +2077,80 @@
 <div id="inMissionMenu">In-mission menu</div>
 </div>
 <div id="menuItem">
-<div>1: Support heli to marker : 0-1</div>
+<div>1: dropTestEquip : EQP_WP_West_thg_010</div>
+</div>
+<div id="menuItem">
+<div>2: Support heli to marker : 0-1</div>
 <div id="itemHelp">Sends Support heli to Landing Zone closest to the last placed user marker while riding it.</div>
 </div>
 <div id="menuItem">
-<div>2: Force exit helicopter : 0-1</div>
+<div>3: Force exit helicopter : 0-1</div>
 <div id="itemHelp">Lets you exit the helicopter while riding it, mind the fall.</div>
 </div>
 <div id="menuItem">
-<div>3: Drop current equip : 0-1</div>
+<div>4: Drop current equip : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Warp [Mode] : Off, On</div>
+<div>5: Warp [Mode] : Off, On</div>
 <div id="itemHelp">Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.</div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#appearanceMenu">Appearance menu</a></div>
+<div>6: General Help : 0-1</div>
+<div id="itemHelp">General Help:<br/>Press F2 to toggle mouse cursor.<br/>Navigate menu: Arrow keys or Dpad.<br/>Activate or advance setting: Press Right key or Dpad or double-click option in menu.<br/>Search for settings: Click on the setting text below the menu list, type what you want and press Enter.<br/>Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.<br/>Menu item type symbols:<br/>&gt Sub-menu <br/>&gt&gt Command <br/>&gt] Command that closes menu when done <br/>&lt&gt Option that applies change when setting selectected/cycled to <br/>&gt! Option that has an action activated by pressing &ltAction&gt<br/>Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.<br/>See ReadMe or Features and Options for more info.<br/></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#buddyMenu">Buddy menu</a></div>
+<div>7: <a href="#appearanceMenu">Appearance menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#cameraMenu">Camera menu</a></div>
+<div>8: <a href="#buddyMenu">Buddy menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
+<div>9: <a href="#cameraMenu">Camera menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>10: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#mbOceanMenu">MB Ocean menu</a></div>
+<div>11: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#markersInMissionMenu">Markers menu</a></div>
+<div>12: <a href="#mbOceanMenu">MB Ocean menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#miscInMissionMenu">Misc menu</a></div>
+<div>13: <a href="#markersInMissionMenu">Markers menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#motionsMenu">Motions menu</a></div>
+<div>14: <a href="#miscInMissionMenu">Misc menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#objectsMenu">Objects menu</a></div>
+<div>15: <a href="#motionsMenu">Motions menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#playerRestrictionsInMissionMenu">Player restrictions menu</a></div>
+<div>16: <a href="#objectsMenu">Objects menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#positionsMenu">Positions menu</a></div>
+<div>17: <a href="#playerRestrictionsInMissionMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#routesMenu">Routes menu</a></div>
+<div>18: <a href="#positionsMenu">Positions menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
+<div>19: <a href="#routesMenu">Routes menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>20: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>21: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: <a href="#userMarkerMenu">User marker menu</a></div>
+<div>22: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
-<div>22: <a href="#weatherMenu">Weather menu</a></div>
+<div>23: <a href="#userMarkerMenu">User marker menu</a></div>
+</div>
+<div id="menuItem">
+<div>24: <a href="#weatherMenu">Weather menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2099,13 +2182,17 @@
 <div>6: Face : &ltFace Id for player type and face filter&gt</div>
 </div>
 <div id="menuItem">
-<div>7: Print face info : 0-1</div>
+<div>7: Skip developed checks : Off, On</div>
+<div id="itemHelp">Allows items that haven't been developed to be selected.</div>
 </div>
 <div id="menuItem">
-<div>8: Print appearance info : 0-1</div>
+<div>8: Print face info : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#fovaModMenu">Form Variation menu</a></div>
+<div>9: Print appearance info : 0-1</div>
+</div>
+<div id="menuItem">
+<div>10: <a href="#fovaModMenu">Form Variation menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2168,22 +2255,34 @@
 <div>2: Camera mode : Default, Free cam</div>
 </div>
 <div id="menuItem">
-<div>3: Warp body to FreeCam position : 0-1</div>
+<div>3: Reset camera position to player : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Cam speed scale : 0.01-10</div>
+<div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: Disable mode text feedback : Off, On</div>
+<div>5: positionXFreeCam : 0-100000</div>
 </div>
 <div id="menuItem">
-<div>6: Set stage position to camera : 0-1</div>
+<div>6: positionYFreeCam : 0-100000</div>
 </div>
 <div id="menuItem">
-<div>7: Show freecam position : 0-1</div>
+<div>7: positionZFreeCam : 0-100000</div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#playCamMenu">PlayCam menu</a></div>
+<div>8: Cam speed scale : 0.01-10</div>
+</div>
+<div id="menuItem">
+<div>9: Disable mode text feedback : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Set stage position to camera : 0-1</div>
+</div>
+<div id="menuItem">
+<div>11: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>12: <a href="#playCamMenu">PlayCam menu</a></div>
 </div>
 <div id="menuItem">
 </div>
