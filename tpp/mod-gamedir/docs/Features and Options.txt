@@ -65,45 +65,64 @@ Basic terms used in the Infinite Heaven menu:
 In-ACC menu
 -----------
 1: IH system menu
-2: Camera menu
-3: Cutscenes menu
-4: Debug menu
-5: Enemy Prep menu
-6: Enemy phases menu
-7: Enemy reinforcements menu
-8: Events menu
-9: Mother Base menu
-10: Patrols and deployments menu
-11: Player restrictions menu
-12: Player settings menu
-13: Progression menu
-14: Side ops menu
-15: Soldier parameters menu
-16: Support heli menu
-17: Time scale menu
+2: General Help : 0-1
+General Help:
+Press F2 to toggle mouse cursor.
+Navigate menu: Arrow keys or Dpad.
+Activate or advance setting: Press Right key or Dpad or double-click option in menu.
+Search for settings: Click on the setting text below the menu list, type what you want and press Enter.
+Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.
+Menu item type symbols:
+&gt Sub-menu 
+&gt&gt Command 
+&gt] Command that closes menu when done 
+&lt&gt Option that applies change when setting selectected/cycled to 
+&gt! Option that has an action activated by pressing &ltAction&gt
+Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
+See ReadMe or Features and Options for more info.
+
+3: Camera menu
+4: Cutscenes menu
+5: Debug menu
+6: Enemy Prep menu
+7: Enemy phases menu
+8: Enemy reinforcements menu
+9: Events menu
+10: Mission-prep features menu
+11: Mother Base menu
+12: Patrols and deployments menu
+13: Player restrictions menu
+14: Player settings menu
+15: Progression menu
+16: Side ops menu
+17: Soldier parameters menu
+18: Support heli menu
+19: Time scale menu
 
 IH system menu
 --------------
 1: Enable IHExt : Off, On
 IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
-2: Enable help text (IHExt) : Off, On
-Shows help text in IHExt for some options.
+2: Enable help text. : Off, On
+Shows help text for some options.
 3: Give IHExt focus : 0-1
-4: Select profile : <Profile name>
+4: Disable hold menu toggle : Off, On
+Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.
+5: Select profile : <Profile name>
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
-5: Set profile options to game defaults : 0-1
+6: Set profile options to game defaults : 0-1
 Sets the options described in the selected profile to their default setting.
-6: Save to UserSaved profile : 0-1
+7: Save to UserSaved profile : 0-1
 Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
-7: Enable Quick Menu : Off, On
+8: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-8: Start offline : Off, On
+9: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-9: Skip startup logos : Off, On
+10: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-10: Load addon mission : 
-11: Include addon missions in completion percentage : Off, On
-12: Reset all IH settings : 0-1
+11: Load addon mission : 
+12: Include addon missions in completion percentage : Off, On
+13: Reset all IH settings : 0-1
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -130,12 +149,16 @@ Camera menu
 
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
-3: Warp body to FreeCam position : 0-1
-4: Cam speed scale : 0.01-10
-5: Disable mode text feedback : Off, On
-6: Set stage position to camera : 0-1
-7: Show freecam position : 0-1
-8: PlayCam menu
+3: Reset camera position to player : 0-1
+4: Warp body to FreeCam position : 0-1
+5: positionXFreeCam : 0-100000
+6: positionYFreeCam : 0-100000
+7: positionZFreeCam : 0-100000
+8: Cam speed scale : 0.01-10
+9: Disable mode text feedback : Off, On
+10: Set stage position to camera : 0-1
+11: Show freecam position : 0-1
+12: PlayCam menu
 
 PlayCam menu
 - An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.
@@ -486,6 +509,34 @@ Skulls attack at a random time (in minutes) between Skull attack min and Skull a
 12: Skull attack max (minutes) : 0-180
 13: Weather on Skull attack : None, Parasite fog, Random
 
+Mission-prep features menu
+- Only affects the mission-prep screen, not the in-mission equivalents.
+--------------------------
+1: Skip mission prep for Free Roam : DEFAULT, FALSE, TRUE
+Go straight to mission, skipping the mission prep screen.
+2: Skip mission prep for Story Mission : DEFAULT, FALSE, TRUE
+Go straight to mission, skipping the mission prep screen.
+3: Skip mission prep for MB : DEFAULT, FALSE, TRUE
+Go straight to mission, skipping the mission prep screen.
+4: Disable select-buddy for Free Roam : DEFAULT, FALSE, TRUE
+Prevents selection of buddies during mission prep.
+5: Disable select-buddy for Story Mission : DEFAULT, FALSE, TRUE
+Prevents selection of buddies during mission prep.
+6: Disable select-buddy for MB : DEFAULT, FALSE, TRUE
+Prevents selection of buddies during mission prep.
+7: Disable select-vehicle for Free Roam : DEFAULT, FALSE, TRUE
+WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).
+8: Disable select-vehicle for Story Mission : DEFAULT, FALSE, TRUE
+WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).
+9: Disable select-vehicle for MB : DEFAULT, FALSE, TRUE
+WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).
+10: Disable select-sortie time for Free Roam : DEFAULT, FALSE, TRUE
+Only allows ASAP at mission prep
+11: Disable select-sortie time for Story Mission : DEFAULT, FALSE, TRUE
+Only allows ASAP at mission prep
+12: Disable select-sortie time for MB : DEFAULT, FALSE, TRUE
+Only allows ASAP at mission prep
+
 Mother Base menu
 ----------------
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
@@ -498,29 +549,30 @@ Mother Base menu
 Spawns some npc support helis that roam around mother base.
 8: Attack heli patrols in MB : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Spawns some npc attack helis that roam around mother base.
-9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-10: Walker gears in MB : Off, On
-11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
-12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
-13: Repopulate plants and diamonds : Off, On
+9: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot
+10: Attack heli class in MB : 
+11: Walker gears in MB : Off, On
+12: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
+13: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
+14: Repopulate plants and diamonds : Off, On
 Regenerates plants on Zoo platform and diamonds on Mother base over time.
-14: Enemy prep decrease on long MB visit : Off, On
+15: Enemy prep decrease on long MB visit : Off, On
 Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
-15: Enable all buddies : Off, On
+16: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-16: More soldiers on MB plats : Off, On
+17: More soldiers on MB plats : Off, On
 Increases soldiers on platforms from 4 soldiers to 9.
-17: Force enable Quaranine platform soldiers : Off, On
+18: Force enable Quaranine platform soldiers : Off, On
 Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
-18: Soldiers move between platforms : Off, On
+19: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
-19: Staff menu
-20: Show characters menu
-21: Show assets menu
-22: Allow lethal actions : Off, On
+20: Staff menu
+21: Show characters menu
+22: Show assets menu
+23: Allow lethal actions : Off, On
 Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
-23: Women in Enemy Invasion mode : 0-100%
-24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+24: Women in Enemy Invasion mode : 0-100%
+25: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
 
 Staff menu
 ----------
@@ -591,19 +643,23 @@ Changes a few soldiers throughout the CPs to have unique models and high end wea
 Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
 4: Attack heli patrols in MB : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Spawns some npc attack helis that roam around mother base.
-5: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-6: Walker gears in free roam : Off, On
+5: Attack heli type in FreeRoam : HP-48 Krokodil, UTH-66 Blackfoot
+6: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot
+7: Attack heli class in FreeRoam : 
+Combined appearance and health
+8: Attack heli class in MB : 
+9: Walker gears in free roam : Off, On
 Adds a Walker gear to each main base.
-7: Walker gears in MB : Off, On
-8: Vehicle patrols in free roam : Game default - trucks only, All of one type, Each vehicle differing type
+10: Walker gears in MB : Off, On
+11: Vehicle patrols in free roam : Game default - trucks only, All of one type, Each vehicle differing type
 Replaces the patrolling trucks in free roam with other vehicles, picked randomly from enabled types.
-9: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
-10: Allow jeeps : Off, On
-11: Allow trucks : Off, On
-12: Allow wheeled armored vehicles : Off, On
-13: Allow heavy wheeled armored vehicles : Off, On
-14: Allow tanks : Off, On
-15: Equipment on trucks : Off, On
+12: Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
+13: Allow jeeps : Off, On
+14: Allow trucks : Off, On
+15: Allow wheeled armored vehicles : Off, On
+16: Allow heavy wheeled armored vehicles : Off, On
+17: Allow tanks : Off, On
+18: Equipment on trucks : Off, On
 Puts a random piece of equipment on the back of patrol trucks.
 
 Player restrictions menu
@@ -624,13 +680,14 @@ Stops the Intel teams plant spotting audio notification and indication on the id
 10: Keep equipment Free<>Mission : Off, On
 Prevents equipment and weapons being reset when going between free-roam and missions.
 11: Marking display menu
-12: Mission-prep restrictions menu
+12: Mission-prep features menu
 13: Disable mission support-menus menu
 14: Item level menu
 15: Hand abilities levels menu
 16: Fulton levels menu
 17: Fulton success menu
 18: OSP menu
+19: Mission-prep features menu
 
 Marking display menu
 - Toggles for marking in main view. Does not effect marking on iDroid map
@@ -641,17 +698,6 @@ Disables markers above soldiers and objects
 Disables the 'X-ray' effect of marked soldiers. Note: Buddies that mark still cause the effect.
 3: Disable world markers : Off, On
 Disables objective and placed markers
-
-Mission-prep restrictions menu
-- Only affects the mission-prep screen, not the in-mission equivalents.
-------------------------------
-1: Disable select-sortie time : Off, On
-Only allows ASAP at mission prep
-2: Disable select-buddy : Off, On
-Prevents use of buddies during mission prep.
-3: Disable select vehicle : Off, On
-Disallows at mission prep.
-4: Enable mission prep to MB : Off, On
 
 Disable mission support-menus menu
 - Disables mission support menus in iDroid
@@ -722,9 +768,11 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
 6: Face : <Face Id for player type and face filter>
-7: Print face info : 0-1
-8: Print appearance info : 0-1
-9: Form Variation menu
+7: Skip developed checks : Off, On
+Allows items that haven't been developed to be selected.
+8: Print face info : 0-1
+9: Print appearance info : 0-1
+10: Form Variation menu
 
 Progression menu
 ----------------
@@ -836,31 +884,48 @@ Changes the time scale of the day/night/weather system. Does not change the spee
 
 In-mission menu
 ---------------
-1: Support heli to marker : 0-1
+1: dropTestEquip : EQP_WP_West_thg_010
+2: Support heli to marker : 0-1
 Sends Support heli to Landing Zone closest to the last placed user marker while riding it.
-2: Force exit helicopter : 0-1
+3: Force exit helicopter : 0-1
 Lets you exit the helicopter while riding it, mind the fall.
-3: Drop current equip : 0-1
-4: Warp [Mode] : Off, On
+4: Drop current equip : 0-1
+5: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-5: Appearance menu
-6: Buddy menu
-7: Camera menu
-8: Debug stuff menu
-9: Enemy phases menu
-10: MB Ocean menu
-11: Markers menu
-12: Misc menu
-13: Motions menu
-14: Objects menu
-15: Player restrictions menu
-16: Positions menu
-17: Routes menu
-18: Staff menu
-19: Support heli menu
-20: Time scale menu
-21: User marker menu
-22: Weather menu
+6: General Help : 0-1
+General Help:
+Press F2 to toggle mouse cursor.
+Navigate menu: Arrow keys or Dpad.
+Activate or advance setting: Press Right key or Dpad or double-click option in menu.
+Search for settings: Click on the setting text below the menu list, type what you want and press Enter.
+Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.
+Menu item type symbols:
+&gt Sub-menu 
+&gt&gt Command 
+&gt] Command that closes menu when done 
+&lt&gt Option that applies change when setting selectected/cycled to 
+&gt! Option that has an action activated by pressing &ltAction&gt
+Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
+See ReadMe or Features and Options for more info.
+
+7: Appearance menu
+8: Buddy menu
+9: Camera menu
+10: Debug stuff menu
+11: Enemy phases menu
+12: MB Ocean menu
+13: Markers menu
+14: Misc menu
+15: Motions menu
+16: Objects menu
+17: Player restrictions menu
+18: Positions menu
+19: Routes menu
+20: Staff menu
+21: Support heli menu
+22: Time scale menu
+23: User marker menu
+24: Weather menu
 
 Appearance menu
 ---------------
@@ -871,9 +936,11 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
 6: Face : <Face Id for player type and face filter>
-7: Print face info : 0-1
-8: Print appearance info : 0-1
-9: Form Variation menu
+7: Skip developed checks : Off, On
+Allows items that haven't been developed to be selected.
+8: Print face info : 0-1
+9: Print appearance info : 0-1
+10: Form Variation menu
 
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
@@ -916,12 +983,16 @@ Camera menu
 
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
 2: Camera mode : Default, Free cam
-3: Warp body to FreeCam position : 0-1
-4: Cam speed scale : 0.01-10
-5: Disable mode text feedback : Off, On
-6: Set stage position to camera : 0-1
-7: Show freecam position : 0-1
-8: PlayCam menu
+3: Reset camera position to player : 0-1
+4: Warp body to FreeCam position : 0-1
+5: positionXFreeCam : 0-100000
+6: positionYFreeCam : 0-100000
+7: positionZFreeCam : 0-100000
+8: Cam speed scale : 0.01-10
+9: Disable mode text feedback : Off, On
+10: Set stage position to camera : 0-1
+11: Show freecam position : 0-1
+12: PlayCam menu
 
 PlayCam menu
 - An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.
