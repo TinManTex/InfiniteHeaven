@@ -1,25 +1,25 @@
 Infinite Heaven changelog
 
-r238 - 
+r238 - 2021-03-12
 Update to MGSV version 1.0.15.2
 
-Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing dear Imgui version of IH menu.
+Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
 See IHHook-Changelog.txt or github.com/TinManTex/IHHook
 
 
-Added: Apearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
+Added: Appearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
 Added: attackHeliType - UTH Blackfoot - thanks caplag for discovering uth TppHeliParameters applied to TppEnemyHeli 
 Known Issues: UTH wont attack with missiles. UTH attack heli classes not actually visually different.
 
-Added: GeneralHelpItem - mostly for seeing the etensive help text when show help is on.
+Added: GeneralHelpItem - mostly for seeing the extensive help text when show help is on.
 
-Added: menu_disableToggleMenuHold - Disable hold menu toggle - Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.
+Added: menu_disableToggleMenuHold - Disable hold menu toggle - Disables the legacy one-button <dive> hold-to-toggle menu, the two button menu combo <zoom_change> + <dash> will still work.
 
 Camera menu:
 Added: 'Reset camera position to player' (still can be accessed by pressing the ih camera reset button (binoc) and <dash>) - thanks Muffins for the suggestion (of an obvious oversight).
-Added: positionXFreeCam (and Y,Z) - more useful since you can enter the value directly with IHExt/IHH menu, useful if you have some position from somewhere but you don't know where it is in game.
+Added: positionXFreeCam (and Y,Z) - more useful since you can enter the value directly with IHH menu, useful if you have some position from somewhere but you don't know where it is in game.
 
-Ivars: 
+Ivars / options:
 enableHelp renamed menu_enableHelp - to get the new default of on to stick.
 disableSelectVehicle, disableSelectTime, disableSelectBuddy changed to per mission type heliSpace_ flags:
 
@@ -33,6 +33,11 @@ heliSpace_DisableSelectSortieTimeFromMissionPreparetion="Disable select-sortie t
 
 Lets you force on or off the various mission prep features, though some may not make sense or have stuff overidden by the mission, such as enabling mission prep for the prologue.
 
+InfMotion / Motions menu: motionCloseMenuOnPlay - Close menu on Playing motion, defaults to off - thanks choc for bringing it up.
+
+mod\devmodules - a collection of IH dev modules created to help with specific aspects of modding.
+
+docs\Development.txt - a couple of modding links, also mentioning the above.
 
 Internal and api changes:
 startOnFoot support for custom free missions.
@@ -57,6 +62,7 @@ Fix: error on session change when IHH starts IHext
 Fix: All customWeaponTable vars off would error.
 Fix: (of a previous fix) of wildcard soldiers causing the game to hang with some sideops,  thanks worthless person for the report.
 Fix: GetLastUserMarkerIndex - sometimes would not return correct marker, affected IH features using user markers.
+Fix: IHExt shouldn't start with IHHook - thanks Zacc for the report.
 
 r237 - 2020-03-31
 Fix: Game % completion was lower than it should have been, and task completion in ui was showing a higher value than max.
