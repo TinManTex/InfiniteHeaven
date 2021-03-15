@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r234
+-- Defaults / example of all profile options for IH r238
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -13,8 +13,8 @@ local this={
 	loadOnACCStart=false,--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)
 	profile={
 		--IH system menu
-		enableIHExt=0,--{ 0-1 } -- Enable IHExt
-		enableHelp=0,--{ 0-1 } -- Enable help text (IHExt)
+		menu_enableHelp=1,--{ 0-1 } -- Enable help text.
+		menu_disableToggleMenuHold=0,--{ 0-1 } -- Disable hold menu toggle
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
@@ -186,6 +186,19 @@ local this={
 		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
 		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
 		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		--Mission-prep features menu
+		heliSpace_SkipMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Free Roam
+		heliSpace_SkipMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Story Mission
+		heliSpace_SkipMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for MB
+		heliSpace_NoBuddyMenuFromMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-buddy for Free Roam
+		heliSpace_NoBuddyMenuFromMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-buddy for Story Mission
+		heliSpace_NoBuddyMenuFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-buddy for MB
+		heliSpace_NoVehicleMenuFromMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-vehicle for Free Roam
+		heliSpace_NoVehicleMenuFromMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-vehicle for Story Mission
+		heliSpace_NoVehicleMenuFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-vehicle for MB
+		heliSpace_DisableSelectSortieTimeFromMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for Free Roam
+		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for Story Mission
+		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for MB
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
 		customSoldierTypeMB_ALL="NONE",--{ NONE } -- DD Suit
@@ -193,7 +206,8 @@ local this={
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		supportHeliPatrolsMB=0,--{ 0-3 } -- NPC support heli patrols in MB
 		attackHeliPatrolsMB="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in MB
-		mbEnemyHeliColor=0,--{ DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Attack heli class
+		attackHeliTypeMB="SBH",--{ SBH, UTH } -- Attack heli type in MB
+		attackHeliFovaMB=0,--{  } -- Attack heli class in MB
 		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears in MB
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
@@ -241,6 +255,8 @@ local this={
 		enableLrrpFreeRoam=0,--{ 0-1 } -- Foot patrols in free roam
 		enableWildCardFreeRoam=0,--{ 0-1 } -- Wildcard soldiers Free roam
 		attackHeliPatrolsFREE="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in free roam
+		attackHeliTypeFREE="SBH",--{ SBH, UTH } -- Attack heli type in FreeRoam
+		attackHeliFovaFREE=0,--{  } -- Attack heli class in FreeRoam
 		enableWalkerGearsFREE=0,--{ 0-1 } -- Walker gears in free roam
 		vehiclePatrolProfile=0,--{ OFF, SINGULAR, EACH_VEHICLE } -- Vehicle patrols in free roam
 		vehiclePatrolClass=0,--{ DEFAULT, DARK_GRAY, OXIDE_RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Vehicle patrol class
@@ -265,11 +281,6 @@ local this={
 		disableHeadMarkers=0,--{ 0-1 } -- Disable head markers
 		disableXrayMarkers=0,--{ 0-1 } -- Disable Xray marking
 		disableWorldMarkers=0,--{ 0-1 } -- Disable world markers
-		--Mission-prep restrictions menu
-		disableSelectTime=0,--{ 0-1 } -- Disable select-sortie time
-		disableSelectBuddy=0,--{ 0-1 } -- Disable select-buddy
-		disableSelectVehicle=0,--{ 0-1 } -- Disable select vehicle
-		mbEnableMissionPrep=0,--{ 0-1 } -- Enable mission prep to MB
 		--Disable mission support-menus menu
 		disableMenuDrop=0,--{ 0-1 } -- Disable Supply drop support-menu
 		disableMenuBuddy=0,--{ 0-1 } -- Disable Buddies support-menu
