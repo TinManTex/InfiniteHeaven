@@ -1,11 +1,8 @@
--- DOBUILD: 0 --DEBUGNOW
-InfCore.Log("!!!!!!!!!!!!!!TppPlayer2InitializeScripttest") -- 
-
---InfCore.PrintInspect(Ivars,"Ivars")
-InfCore.PrintInspect(Ivars.cam_disableCameraAnimations:Get(),"Ivars.cam_disableCameraAnimations")
-InfCore.PrintInspect(ivars.cam_disableCameraAnimations,"ivars.cam_disableCameraAnimations")
 --TppPlayer2InitializeScript.lua
-local funcNames={
+--LOADER: start2nd via dofile
+--so this file doesn't have global env / regular lua game scope? 
+--InfCore.Log("TppPlayer2InitializeScript")-- no scope so no call
+local callbackFuncNames={
   "StartCameraAnimation",
   "StartCameraAnimationNoRecover",
   "StartCameraAnimationNoRecoverNoCollsion",
@@ -32,9 +29,8 @@ local funcNames={
   "SetHighSpeeCameraOnCQCDirectThrow",
   "SetHighSpeeCameraOnCQCComboFinish",
   "SetHighSpeeCameraAtCQCSnatchWeapon"
-}
-Player.RegisterScriptFunc("/Assets/tpp/level_asset/chara/player/game_object/TppPlayer2CallbackScript.lua",{})--DEBUGnow
---Player.RegisterScriptFunc("/Assets/tpp/level_asset/chara/player/game_object/TppPlayer2CallbackScript.lua",funcNames)--NMC: this seems a strange setup, TppPlayer2CallbackScript is loaded via dofile in start2nd, so it likely doesnt have game scope and it's not kept as a module, RegisterScriptFunc fives the filename to the engine, so I suppose the engine could rerun/reload it or something?
+}--callbackFuncNames
+Player.RegisterScriptFunc("/Assets/tpp/level_asset/chara/player/game_object/TppPlayer2CallbackScript.lua",callbackFuncNames)
 local cameraAnimationFilePaths={
   {name="CqcStandThrowFront",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_f_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_f_02.cani"},recoverPreOrientation=false},
   {name="CqcStandThrowBack",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_b_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_b_02.cani"},recoverPreOrientation=false},
@@ -141,11 +137,5 @@ local cameraAnimationFilePaths={
   {name="WolfAttackCrawlBack",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_wlf/gcam_wlf_c_atk_st_bl_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_wlf/gcam_wlf_c_atk_st_bl_02.cani"},recoverPreOrientation=false,isEnableAtAnyCameras=true,keepPosition=false},
   {name="PazPhantomPainPassPhotos",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_paz/gcam_paz_give_pic_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_paz/gcam_paz_give_pic_02.cani"},recoverPreOrientation=false,isEnableAtAnyCameras=true,ignoreCollisionCheckOnStart=true,ignoreCollisionCheckOnPlaying=true,keepPosition=true},
   {name="PazPhantomPainPickUpBook",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_paz/gcam_paz_give_book_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_paz/gcam_paz_give_book_02.cani"},recoverPreOrientation=false,isEnableAtAnyCameras=true,ignoreCollisionCheckOnStart=true,ignoreCollisionCheckOnPlaying=true,keepPosition=true}
-}
---tex>--DEBUGNOW
---if Ivars.cam_disableCameraAnimations:Get()==1 then
---Player.RegisterCameraAnimationFilePaths({})
---return
---end
-
-Player.RegisterCameraAnimationFilePaths({})--DEBUGNOW cameraAnimationFilePaths)
+}--cameraAnimationFilePaths
+Player.RegisterCameraAnimationFilePaths(cameraAnimationFilePaths)
