@@ -22,6 +22,8 @@ local tostring=tostring
 local ivars=ivars
 local InfQuickMenuDefs--PostModuleReload
 
+this.updateOutsideGame=true
+
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
 this.autoRatePressed=0.1

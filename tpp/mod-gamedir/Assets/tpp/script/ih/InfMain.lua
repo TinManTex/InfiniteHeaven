@@ -2,6 +2,7 @@
 --Mostly interface between TppMain / other game modules and IH modules.
 InfCore.LogFlow"Load InfMain.lua"
 local this={}
+this.debugModule=false
 
 --LOCALOPT:
 local InfMain=this
@@ -31,6 +32,10 @@ local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
 local GAME_OBJECT_TYPE_HORSE2=TppGameObject.GAME_OBJECT_TYPE_HORSE2
 local GAME_OBJECT_TYPE_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2
 local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
+local floor=math.floor
+--local vars=vars
+--local mvars=mvars--GOTCHA: cant cache as engine kills older table entirely on mission change?
+--ditto svars, but thats more obviously changed with onchangesvars
 
 local reloadModulesCombo={
   InfButton.HOLD,
@@ -44,8 +49,6 @@ this.missionCanStart=false--tex false from TppMission.Load, true from OnMissionC
 --tex gvars.isContinueFromTitle is cleared in OnAllocate while it could have still been useful,
 --this is valid from OnAllocateTop to OnInitializeBottom, till not safeSpace
 this.isContinueFromTitle=false
-
-this.debugModule=false
 
 this.appliedProfiles=false
 
@@ -420,17 +423,18 @@ this.abortToAcc=false--tex
 
 --IN/OUT SIDE: currentchecks
 function this.UpdateExecChecks(currentChecks)
-  for k,v in pairs(currentChecks) do
-    currentChecks[k]=false
-  end
-
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
   currentChecks.inSafeSpace=vars.missionCode and this.IsSafeSpace(vars.missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inSafeSpace
-  --DEBUGNOW was currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
-  currentChecks.inDemo=not currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())
-  currentChecks.inIdroid=IsMbDvcTerminalOpened()
+  currentChecks.inDemo=not currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())--DEBUGNOW inDemo is mis_missionStateIsNotInGame?
   currentChecks.missionCanStart=this.missionCanStart
+  currentChecks.initialAction=false
+  currentChecks.inGroundVehicle=false
+  currentChecks.inSupportHeli=false
+  currentChecks.onBuddy=false
+  currentChecks.inBox=false
+  currentChecks.inMenu=false
+  currentChecks.inIdroid=IsMbDvcTerminalOpened()
 
   if currentChecks.inGame then
     local playerVehicleId=vars.playerVehicleGameObjectId
@@ -461,7 +465,6 @@ end
 this.startTime=0
 this.updateTimes={}--DEBUG
 function this.Update(missionTable)
-  local InfButton=InfButton
   local InfMenu=InfMenu
   if this.IsOnlineMission(vars.missionCode) then
     return
@@ -480,7 +483,7 @@ function this.Update(missionTable)
 
   this.DoControlSet(currentChecks)
 
-  ---Update shiz
+  --Update modules
   if not InfCore.mainModulesOK then
     if InfButton.OnButtonHoldTime(InfMenu.toggleMenuButton) then
       this.ModuleErrorMessage()
@@ -496,27 +499,32 @@ function this.Update(missionTable)
         --tex <module>.active is either number or ivar
         local active=this.ValueOrIvarValue(module.active)
         if module.active==nil or active>0 then
-          local updateRate=this.ValueOrIvarValue(module.updateRate)
-          this.ExecUpdate(currentChecks,currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
+          --tex only update outside of game/safespace if module asks
+          --this is to cut down on non IH modules that have just been using Update without any checks
+          if currentChecks.inGame or currentChecks.inSafeSpace or module.updateOutsideGame or module.execState then--DEBUGNOW
+            --InfCore.Log("ExecUpdate for "..tostring(module.name))--DEBUG
+            local updateRate=this.ValueOrIvarValue(module.updateRate)
+            this.ExecUpdate(currentChecks,currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
+          end
         end
 
-        currentChecks.inMenu=InfMenu.menuOn
+        currentChecks.inMenu=InfMenu.menuOn--KLUDGE InfMenu is set at start of Modules, so update inMenu for following modules this frame
 
         if this.debugModule then
           if this.updateTimes[module.name] then
             table.insert(this.updateTimes[module.name],os.clock()-this.startTime)
           end
         end
-      end
-    end
-  end
+      end--if module.Update
+    end--for InfModules
+  end--if mainModulesOK
   ---
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 
   if this.debugModule then
   --    this.updateTimes[#this.updateTimes+1]=os.clock()-this.startTime
   end
-end
+end--Update
 
 function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,ExecUpdateFunc)
   --tex modules may set their own update rate
@@ -532,10 +540,10 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     end
   end
 
-  if not IsFunc(ExecUpdateFunc) then
-    InfCore.DebugPrint"ExecUpdateFunc is not a function"
-    return
-  end
+--  if not IsFunc(ExecUpdateFunc) then
+--    InfCore.DebugPrint"ExecUpdateFunc is not a function"
+--    return
+--  end
 
   InfCore.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
 
@@ -1106,10 +1114,18 @@ function this.WeaponVarsSanityCheck()
 end
 
 function this.IsOnlineMission(missionCode)
-  if InfCore.gameId=="TPP" then
-    return this.IsFOBMission(missionCode)
-  else--SSD
-    return this.IsMultiPlayMission(missionCode)
+--tex TODO: revisit if ever return to SSD
+--  if InfCore.gameId=="TPP" then
+--    return this.IsFOBMission(missionCode)
+--  else--SSD
+--    return this.IsMultiPlayMission(missionCode)
+--  end
+--tex just do isfobmission for tpp
+  local firstDigit=floor(missionCode/1e4)--DEBUGNOW *0.0001)
+  if firstDigit==5 then
+    return true
+  else
+    return false
   end
 end
 
@@ -1159,7 +1175,7 @@ end
 
 function this.ValueOrIvarValue(value)
   local value=value or 0
-  if IsTable(value) then--IsIvar
+  if value and IsTable(value) then--IsIvar--DEBUGNOW
     value=value:Get()
   end
   return value

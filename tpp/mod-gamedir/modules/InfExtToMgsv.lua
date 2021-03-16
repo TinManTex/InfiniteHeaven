@@ -11,6 +11,8 @@ local ipairs=ipairs
 
 this.debugModule=false
 
+this.updateOutsideGame=true
+
 local menuLine="menuLine"
 local menuItems="menuItems"
 local OPTION="OPTION"

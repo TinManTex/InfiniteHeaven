@@ -11,6 +11,8 @@ local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 this.pauseDemoButton=InfButton.STANCE--was InfButton.EVADE
 this.restartDemoButton=InfButton.RELOAD
 
+this.updateOutsideGame=true
+
 -->
 this.registerIvars={
   "useSoldierForDemos",
