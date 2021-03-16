@@ -345,17 +345,19 @@ this.motions={
 }
 
 this.motionGroups={}
-for name,ganis in pairs(this.motions)do
-  this.motionGroups[#this.motionGroups+1]=name
-end
-table.sort(this.motionGroups)
 
 function this.Init()
+  this.motionGroups={}
+  for name,ganis in pairs(this.motions)do
+    this.motionGroups[#this.motionGroups+1]=name
+  end
+  table.sort(this.motionGroups)
+
   --WORKAROUND: for using QuickMenu without using motions menu, the ivars need to be settomax of motiongroups -^-
   --should also catch IHDev_Addmotions since that adds on PostAllModulesLoad
   Ivars.motionGroupIndex:OnSelect()
   Ivars.motionGaniIndex:OnSelect()
-end
+end--Init
 
 function this.PlayCurrentMotion()
   --tex causes RequestToPlayDirectMotion to not fire, todo: yield/wait a frame?
@@ -422,7 +424,7 @@ function this.PlayCurrentMotion()
   --      false
   --    }
   --  }
-end
+end--PlayCurrentMotion
 
 function this.StopMotion()
   Player.RequestToStopDirectMotion()
