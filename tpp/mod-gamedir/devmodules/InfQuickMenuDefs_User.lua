@@ -9,7 +9,8 @@
 --so it doesn't get overwritten on new IH versions, 
 --but you'll have to check any new InfQuickMenuDefs.lua to see if I've done any changes to the system.
 
---Quick (incomplete) Buttons/Keys reference.
+--Quick Buttons/Keys reference.
+--(see /Assets/tpp/script/ih/InfButton for full list)
 --Some buttons are combined, and in different ways on keyboard vs gamepad
 
 --InfButton name - <description> - (default key / button)
@@ -40,8 +41,8 @@ this.inSafeSpace={
   [InfButton.RELOAD]={Command='InfCamera.ToggleFreeCam'},
 }
 this.inMission={
-  --tex just comment out to disable
-  --[InfButton.SUBJECT]={Command='InfMenuCommands.Doop'},
+  --tex just comment if you want to disable a command
+  --[InfButton.SUBJECT]={Command='InfQuickMenuDefs_User.ExampleCommand'},--Example of command using own function in this module (see function below)
   [InfButton.LIGHT_SWITCH]={Command='InfMenuCommandsTpp.DropCurrentEquip'},
   [InfButton.HOLD]={Command='InfUserMarker.WarpToLastUserMarker'},
   [InfButton.ACTION]={immediate=true,Command='InfTimeScale.HighSpeedCameraToggle'},--tex TSM, immediate because: It's on a key that is less likely to be accidentally triggered. Need the responsiveness. TSM actually affects timing of deactivation lol (same issue with phantom cigar and menu activation) 
@@ -52,6 +53,9 @@ this.inMission={
   [InfButton.DOWN]={immediate=true,Command='InfMotion.PlayNextGroupMotion'},
   [InfButton.LEFT]={immediate=true,Command='InfMotion.StopMotion'},
   [InfButton.RIGHT]={immediate=true,Command='InfMotion.PlayNextMotion'},
+  --Other commands
+  --'InfMotion.PlayPrevMotion'
+  --'InfMotion.PlayPrevGroupMotion' 
 }
 --tex cutscenes
 --In addition to this IH has commands for pause and reset without using the quickmenu
@@ -61,5 +65,9 @@ this.inDemo={
   [InfButton.DASH]={Command='InfCamera.ToggleCamMode'},
   [InfButton.ACTION]={immediate=true,Command='InfTimeScale.HighSpeedCameraToggle'},
 }
+
+function this.ExampleCommand()
+  TppUiCommand.AnnounceLogView("Activated ExampleCommand")
+end
 
 return this

@@ -344,20 +344,13 @@ this.motions={
     "/Assets/mgo/motion/SI_game/fani/bodies/snam/snamidl/snamidl_s_ed.gani"},
 }
 
+--tex lua tables with keys aren't iterated in the order they are defined
+--and just sort by alpha, IHDev_AddMotions can override the order with it's own motionGroups
 this.motionGroups={}
-
-function this.Init()
-  this.motionGroups={}
-  for name,ganis in pairs(this.motions)do
-    this.motionGroups[#this.motionGroups+1]=name
-  end
-  table.sort(this.motionGroups)
-
-  --WORKAROUND: for using QuickMenu without using motions menu, the ivars need to be settomax of motiongroups -^-
-  --should also catch IHDev_Addmotions since that adds on PostAllModulesLoad
-  Ivars.motionGroupIndex:OnSelect()
-  Ivars.motionGaniIndex:OnSelect()
-end--Init
+for name,ganis in pairs(this.motions)do
+  this.motionGroups[#this.motionGroups+1]=name
+end
+table.sort(this.motionGroups)
 
 function this.PlayCurrentMotion()
   --tex causes RequestToPlayDirectMotion to not fire, todo: yield/wait a frame?
@@ -447,13 +440,17 @@ function this.PlayNextMotion()
   InfMenu.ChangeSetting(Ivars.motionGaniIndex,1)
   this.PlayCurrentMotion()
 end
-function this.PlayNextGroupMotion()
-  InfMenu.ChangeSetting(Ivars.motionGroupIndex,1)
+function this.PlayPrevMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,-1)
+  this.PlayCurrentMotion()
+end
+function this.PlayPrevGroupMotion()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,-1)
   this.PlayCurrentMotion()
 end
 
 this.packages={
-  "/Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk",
+  "/Assets/tpp/pack/player/motion/ih/ih_additional_motion.fpk",
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
