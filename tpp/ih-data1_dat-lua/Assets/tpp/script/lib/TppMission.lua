@@ -2103,7 +2103,8 @@ function this.OnAllocate(missionTable)
   }
   GameMessage.SetMessageHandler(this.MessageHandler,{"UI","Radio","Video","Network","Nt"})
 end
-function this.DisableInGameFlag()
+function this.DisableInGameFlag()  
+  InfCore.LogFlow"DisableInGameFlag"--tex DEBUG
   mvars.mis_missionStateIsNotInGame=true
 end
 function this.EnableInGameFlag(resetMute)
@@ -2111,11 +2112,13 @@ function this.EnableInGameFlag(resetMute)
     resetMute=true
   end
   if gvars.mis_missionClearState<=TppDefine.MISSION_CLEAR_STATE.NOT_CLEARED_YET then
+    InfCore.LogFlow"EnableInGameFlag"--tex DEBUG
     mvars.mis_missionStateIsNotInGame=false
     if not resetMute then
       TppSoundDaemon.ResetMute"Loading"
     end
   else
+    InfCore.LogFlow"EnableInGameFlag mis_missionStateIsNotInGame = true"--tex DEBUG
     mvars.mis_missionStateIsNotInGame=true
   end
 end
