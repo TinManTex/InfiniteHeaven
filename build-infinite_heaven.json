@@ -1,13 +1,14 @@
 {
   "projectPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp",
-  "luaDataFilesSubpath": "\\dat1_dat-lua",
   "luaPackFilesSubPath": "\\fpkd-combined-lua",
-  "luaDataFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\data1_dat-lua",
   "luaPackFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpkd-combined-lua",
   "internalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir\\Assets",
   "externalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir",
+  "modulesLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir\\modules",
   "modPackPaths": [
+    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\ih-data1_dat-lua",
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod",
+    "C:\\Projects\\MGS\\Submods\\fpk-mod-minimal-mtbs-interior",
   ],
   "otherMgsvsPath": "C:\\Projects\\MGS\\IHBuild-install-mods",
   "docsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\mod-gamedir\\docs",
@@ -24,12 +25,14 @@
   "buildLng2s": true,
   "buildSubps": false,
   "buildFox2s": true,
+  "buildLbas": true,
   "copyModPackFolders": true,
   "copyInternalLua": true,
   "copyExternalLua": false,
+  "copyModulesToInternal": false,
   "makeMod": true,
   "installMod": true,
-  "installOtherMods": true,
+  "installOtherMods": false,
   "release": false,
   "waitEnd": true
 }
