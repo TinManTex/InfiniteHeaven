@@ -1,171 +1,16 @@
 --IHDev_WeaponTest.lua
---r2
---tex: for developers to test enemies with specific equipment or use a command to drop specific equipment
---don't include this or use the methods used in this module in any release mod as it will likely break IHs weaponIdTable features.
---likewise don't edit TppEnemy as you'll likely break more IH features.
+--r3
+--tex: for developers to test CS weapons via a command to drop specific equipment
 
 --Usage: copy this lua to mgs_tpp\mod\modules
---edit the tables you want then either go beat up some soldiers of that type, or use the dropTestEquip option which should have been added to the top of IH in-mission menu (cycle option with left/right and press <activate> to drop).
+--edit the table and use the dropTestEquip option which should have been added to the top of IH in-mission menu (cycle option with left/right and press <activate> to drop).
 
 --If it doesn't seem to be working check the mgs_tpp\mod\ih_log.txt and search for ERROR to see any error caught when IH attempted to load the lua (turn on debugMode in the IH debug menu to catch errors past the initial IH startup)
 
---SIDENOTE: IH has a feature for loading many of the games interrnal (in-dat) lua files
---simply copy the lua file to mgs_tpp\mod\ while keeping the internal path the same:
---ex <extracted dat>\Assets\tpp\motherbase\script\EquipDevelopFlowSetting.lua to
---mgs_tpp\mod\Assets\tpp\motherbase\script\EquipDevelopFlowSetting.lua
-
---you can then just quit the game, edit the file and restart.
---if debugMode is on it will also log any load errors for that file.
---this is another method that should only be used while developing and not used in a release, copy back your modded file to it's normal place before you build a .mgsv for release.
-
 local this={}
 
---tex: see TppEnemy.weaponIdTable
---https://github.com/TinManTex/mgsv-deminified-lua/blob/5ff23d93ebe2fbef8510bd60ea001fd796ce695c/data1/Assets/tpp/script/lib/TppEnemy.lua#L316
---for the existing weaponIdTable
---GOTCHA: the IH custom enemy equip feature may mean what's equiped is not what you expect, (that is if this module doesn't outright break it) so either set it specifically or turn it off 
---GOTCHA: can't add DD weapon table as the game builds that dynamically
-this.weaponIdTable={
-  SOVIET_A={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_East_hg_010,
-      SMG=TppEquip.EQP_WP_East_sm_010,
-      ASSAULT=TppEquip.EQP_WP_East_ar_010,
-      SNIPER=TppEquip.EQP_WP_East_sr_011,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
-      MG=TppEquip.EQP_WP_East_mg_010,
-      MISSILE=TppEquip.EQP_WP_East_ms_010,
-      SHIELD=TppEquip.EQP_SLD_SV
-    },
-    STRONG={
-      HANDGUN=TppEquip.EQP_WP_East_hg_010,
-      SMG=TppEquip.EQP_WP_East_sm_020,
-      ASSAULT=TppEquip.EQP_WP_East_ar_030,
-      SNIPER=TppEquip.EQP_WP_East_sr_020,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
-      MG=TppEquip.EQP_WP_East_mg_010,
-      MISSILE=TppEquip.EQP_WP_Com_ms_010,
-      SHIELD=TppEquip.EQP_SLD_SV
-    }
-  },
-  PF_A={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_010,
-      SMG=TppEquip.EQP_WP_West_sm_010,
-      ASSAULT=TppEquip.EQP_WP_West_ar_010,
-      SNIPER=TppEquip.EQP_WP_West_sr_011,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
-      MG=TppEquip.EQP_WP_West_mg_010,
-      MISSILE=TppEquip.EQP_WP_West_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_01
-    },
-    STRONG={
-      HANDGUN=TppEquip.EQP_WP_West_hg_010,
-      SMG=TppEquip.EQP_WP_West_sm_020,
-      ASSAULT=TppEquip.EQP_WP_West_ar_020,
-      SNIPER=TppEquip.EQP_WP_West_sr_020,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
-      MG=TppEquip.EQP_WP_West_mg_010,
-      MISSILE=TppEquip.EQP_WP_Com_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_01
-    }
-  },
-  PF_B={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_010,
-      SMG=TppEquip.EQP_WP_West_sm_010,
-      ASSAULT=TppEquip.EQP_WP_West_ar_010,
-      SNIPER=TppEquip.EQP_WP_West_sr_011,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
-      MG=TppEquip.EQP_WP_West_mg_010,
-      MISSILE=TppEquip.EQP_WP_West_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_00
-    },
-    STRONG={
-      HANDGUN=TppEquip.EQP_WP_West_hg_010,
-      SMG=TppEquip.EQP_WP_West_sm_020,
-      ASSAULT=TppEquip.EQP_WP_West_ar_020,
-      SNIPER=TppEquip.EQP_WP_West_sr_020,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
-      MG=TppEquip.EQP_WP_West_mg_010,
-      MISSILE=TppEquip.EQP_WP_Com_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_00
-    }
-  },
-  PF_C={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_010,
-      SMG=TppEquip.EQP_WP_West_sm_010,
-      ASSAULT=TppEquip.EQP_WP_West_ar_010,
-      SNIPER=TppEquip.EQP_WP_West_sr_011,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
-      MG=TppEquip.EQP_WP_West_mg_010,
-      MISSILE=TppEquip.EQP_WP_West_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_02
-    },
-    STRONG={
-      HANDGUN=TppEquip.EQP_WP_West_hg_010,
-      SMG=TppEquip.EQP_WP_West_sm_020,
-      ASSAULT=TppEquip.EQP_WP_West_ar_020,
-      SNIPER=TppEquip.EQP_WP_West_sr_020,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
-      MG=TppEquip.EQP_WP_West_mg_010,
-      MISSILE=TppEquip.EQP_WP_Com_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_02
-    }
-  },
-  DD=nil,
-  SKULL_CYPR={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_020,
-      SMG=TppEquip.EQP_WP_East_sm_030
-    }
-  },
-  SKULL={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_020,
-      SMG=TppEquip.EQP_WP_West_sm_020,
-      ASSAULT=TppEquip.EQP_WP_West_ar_030,
-      SNIPER=TppEquip.EQP_WP_West_sr_020,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
-      MG=TppEquip.EQP_WP_West_mg_020,
-      MISSILE=TppEquip.EQP_WP_West_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_02
-    },
-    STRONG={
-      HANDGUN=TppEquip.EQP_WP_West_hg_020,
-      SMG=TppEquip.EQP_WP_West_sm_020,
-      ASSAULT=TppEquip.EQP_WP_West_ar_030,
-      SNIPER=TppEquip.EQP_WP_West_sr_020,
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
-      MG=TppEquip.EQP_WP_West_mg_020,
-      MISSILE=TppEquip.EQP_WP_Com_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_02
-    }
-  },
-  CHILD={
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_East_hg_010,
-      ASSAULT=TppEquip.EQP_WP_East_ar_020
-    }
-  },
-  --tex for IHs feature, to stop IH from complaining
-  WILDCARD={--tex dd max grades except for noted
-    NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_030,--geist p3 machine pistol grade 4 - shows shotgun icon but clearly isnt,
-      SMG=TppEquip.EQP_WP_West_sm_01b,
-      ASSAULT=TppEquip.EQP_WP_West_ar_05b,
-      SNIPER=TppEquip.EQP_WP_EX_sr_000,--molotok-68 grade 9
-      SHOTGUN=TppEquip.EQP_WP_Com_sg_018,
-      MG=TppEquip.EQP_WP_West_mg_03b,--alm48 flashlight grade 4 --TppEquip.EQP_WP_West_mg_037,
-      MISSILE=TppEquip.EQP_WP_Com_ms_02b,
-      SHIELD=TppEquip.EQP_SLD_DD_01,
-    },
-  },
-}--weaponIdTable
-
 --tex for the DropTestItem command
---GOTCHA: there's a limit to how much equipment the game can load, to turn off the IH custom equip feature, and don't add too many items to this at a time.
+--GOTCHA: there's a limit to how much equipment the game can load, so turn off the IH custom equip feature which may add many due to combining weaponIdTables, and don't add too many items to this at a time.
 this.tppEquipTableTest={
     "EQP_WP_West_thg_010",--wu s.pistol grade 1
     "EQP_WP_West_thg_020",--grade 2
@@ -331,7 +176,6 @@ function this.PostAllModulesLoad()
     table.insert(inMissionMenu,1,command)  
   end
 
-  TppEnemy.weaponIdTable=this.weaponIdTable
   InfEquip.tppEquipTableTest=this.tppEquipTableTest
 end
 
