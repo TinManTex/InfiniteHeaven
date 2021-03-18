@@ -429,7 +429,9 @@ this.weaponIdTable={
       SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
       MG=TppEquip.EQP_WP_West_mg_020,
       MISSILE=TppEquip.EQP_WP_Com_ms_010,
-      SHIELD=TppEquip.EQP_SLD_PF_02}},
+      SHIELD=TppEquip.EQP_SLD_PF_02
+    }
+  },
   CHILD={
     NORMAL={
       HANDGUN=TppEquip.EQP_WP_East_hg_010,
@@ -957,9 +959,11 @@ function this.SetUpDDParameter()
   local stunId=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
 end
+--CALLERS: TppRevenge._AllocateResources, TppEnemy.GetWeaponId
+--REWORKED
 function this.GetWeaponIdTable(soldierType,soldierSubType)
-  --ORPHAN local n={}
-  local weaponIdTable={}
+  local weaponIdTable=this.weaponIdTable
+  local soldierWeaponIdTable={}
 
   if IvarProc.EnabledForMission("customWeaponTable") then--tex>
     return this.weaponIdTable.CUSTOM
@@ -967,37 +971,69 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD"then--tex>
     return this.weaponIdTable.WILDCARD
   end--<
-  if InfMission then--tex> allow custom missions prefered weaponIdTable --DEBUGNOW
-    weaponIdTable=InfMission.GetWeaponIdTable(soldierType,soldierSubType)
-    if weaponIdTable then
-      return weaponIdTable
+  if InfMission then--tex> allow custom missions prefered weaponIdTable
+    soldierWeaponIdTable=InfMission.GetSoldierWeaponIdTable(soldierType,soldierSubType)--GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table
+    if soldierWeaponIdTable then
+      return soldierWeaponIdTable
     end
   end--<
   
+  weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex will return this.weaponIdTable if default
+
   if soldierType==EnemyType.TYPE_SOVIET then
-    weaponIdTable=this.weaponIdTable.SOVIET_A
+    soldierWeaponIdTable=weaponIdTable.SOVIET_A
   elseif soldierType==EnemyType.TYPE_PF then
-    weaponIdTable=this.weaponIdTable.PF_A
+    soldierWeaponIdTable=weaponIdTable.PF_A
     if soldierSubType=="PF_B"then
-      weaponIdTable=this.weaponIdTable.PF_B
+      soldierWeaponIdTable=weaponIdTable.PF_B
     elseif soldierSubType=="PF_C"then
-      weaponIdTable=this.weaponIdTable.PF_C
+      soldierWeaponIdTable=weaponIdTable.PF_C
     end
   elseif soldierType==EnemyType.TYPE_DD then
-    weaponIdTable=this.weaponIdTable.DD
+    soldierWeaponIdTable=weaponIdTable.DD
   elseif soldierType==EnemyType.TYPE_SKULL then
     if soldierSubType=="SKULL_CYPR"then
-      weaponIdTable=this.weaponIdTable.SKULL_CYPR
+      soldierWeaponIdTable=weaponIdTable.SKULL_CYPR
     else
-      weaponIdTable=this.weaponIdTable.SKULL
+      soldierWeaponIdTable=weaponIdTable.SKULL
     end
   elseif soldierType==EnemyType.TYPE_CHILD then
-    weaponIdTable=this.weaponIdTable.CHILD
+    soldierWeaponIdTable=weaponIdTable.CHILD
   else
-    weaponIdTable=this.weaponIdTable.SOVIET_A
+    soldierWeaponIdTable=weaponIdTable.SOVIET_A
   end
-  return weaponIdTable
+  
+  return soldierWeaponIdTable
 end
+--ORIG:
+--function this.GetWeaponIdTable(soldierType,soldierSubType)
+--  --ORPHAN local n={}
+--  local weaponIdTable={}
+--  if soldierType==EnemyType.TYPE_SOVIET then
+--    weaponIdTable=this.weaponIdTable.SOVIET_A
+--  elseif soldierType==EnemyType.TYPE_PF then
+--    weaponIdTable=this.weaponIdTable.PF_A
+--    if soldierSubType=="PF_B"then
+--      weaponIdTable=this.weaponIdTable.PF_B
+--    elseif soldierSubType=="PF_C"then
+--      weaponIdTable=this.weaponIdTable.PF_C
+--    end
+--  elseif soldierType==EnemyType.TYPE_DD then
+--    weaponIdTable=this.weaponIdTable.DD
+--  elseif soldierType==EnemyType.TYPE_SKULL then
+--    if soldierSubType=="SKULL_CYPR"then
+--      weaponIdTable=this.weaponIdTable.SKULL_CYPR
+--    else
+--      weaponIdTable=this.weaponIdTable.SKULL
+--    end
+--  elseif soldierType==EnemyType.TYPE_CHILD then
+--    weaponIdTable=this.weaponIdTable.CHILD
+--  else
+--    weaponIdTable=this.weaponIdTable.SOVIET_A
+--  end
+--  
+--  return weaponIdTable
+--end
 --tex REWORKED
 local weaponTypes={
   primary={
@@ -2921,10 +2957,10 @@ function this.RestoreOnContinueFromCheckPoint2()
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
   --if InfNPCHeli==nil or not IvarProc.EnabledForMission("attackHeliPatrols") then--DEBUGNOW I disabled this, am I no longer having the problem or what?
-    if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
-      local typeHeli={type="TppEnemyHeli"}
-      SendCommand(typeHeli,{id="RestoreFromSVars"})
-    end
+  if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
+    local typeHeli={type="TppEnemyHeli"}
+    SendCommand(typeHeli,{id="RestoreFromSVars"})
+  end
   --end
   if GameObject.GetGameObjectIdByIndex("TppVehicle2",0)~=NULL_ID then
     SendCommand({type="TppVehicle2"},{id="RestoreFromSVars"})
@@ -2964,10 +3000,10 @@ function this.StoreSVars(_markerOnly)
   this._StoreSVars_Hostage(markerOnly)
   --tex WORKAROUND added bypass, see restore
   --DEBUGNOW if InfNPCHeli==nil or not IvarProc.EnabledForMission("attackHeliPatrols") then
-    if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
-      SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
-    end
---  end
+  if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
+    SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
+  end
+  --  end
   if GameObject.GetGameObjectIdByIndex("TppVehicle2",0)~=NULL_ID then
     SendCommand({type="TppVehicle2"},{id="StoreToSVars"})
   end
@@ -3454,7 +3490,7 @@ function this.GetPrioritizedRouteTable(cpId,routesForGroup,routeSetsPriority,rou
         end
       end
     end
-    
+
     --NMC GOTCHA, subtle difference from following not IsTable(route). thanks NasaNhak.
     --this leads to routes in a table (sniper routes, since they are bundled with some other info) being added first
     local routeNum=1
@@ -3548,10 +3584,10 @@ function this.RouteSelectorNEW(cpId,routeTypeTagStr32,routeSetTagStr32)
   if routeSetForCp==nil then
     return{"dummyRoute"}
   end
-  
+
   local routeType=nil
   local routeSetTagS32L=nil
-  
+
   local phase=this.GetPhaseByCPID(cpId)
   if routeSetTagStr32==StrCode32"SYS_Sneak"then
     phase=this.PHASE.SNEAK
@@ -3560,24 +3596,24 @@ function this.RouteSelectorNEW(cpId,routeTypeTagStr32,routeSetTagStr32)
     phase=this.PHASE.CAUTION
     routeSetTagS32L=routeSetTagStr32
   end
-  
+
 
   local routeSetForCp=mvars.ene_routeSets[cpId]
   local routeSetsPriority=mvars.ene_routeSetsPriority
-  
+
   if routeSetTagStr32==StrCode32"immediately"then
     if routeTypeTagStr32==StrCode32"old"then
       routeSetForCp=mvars.ene_routeSetsTemporary[cpId]
       routeSetsPriority=mvars.ene_routeSetsPriorityTemporary
     end
   end
-  
+
   local currentRouteSetType=this.GetCurrentRouteSetType(nil,phase,cpId)--returns string hold,sleep,travel,caution,sneak_night etc
   local selectRouteTable=this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],routeSetsPriority,routeSetTagS32L)
   if routeSetTagStr32==StrCode32"immediately" or routeSetTagStr32==StrCode32"SYS_Sneak" or routeSetTagStr32==StrCode32"SYS_Caution" then
     return selectRouteTable
   end
-  
+
   local currentRouteSetTypeForTag=this.GetCurrentRouteSetType(routeTypeTagStr32,phase,cpId)
   local routesForTag=routeSetForCp[currentRouteSetTypeForTag][routeSetTagStr32]
   if routesForTag then
@@ -3598,7 +3634,7 @@ function this.SetUpSwitchRouteFunc()
   SendCommand({type="TppSoldier2"},{id="SetSwitchRouteFunc",func=this.SwitchRouteFunc})
 end--SetUpSwitchRouteFunc
 --NMC called from engine (when?) (set up in SetUpSwitchRouteFunc, right there -^-)
---unk4 
+--unk4
 function this.SwitchRouteFunc(soldierId,gimmickStateS32,gimmickName,routeS32,unk5)
   --InfCore.PCallDebug(function(unk1,RENAMEgimmickState,gimmickName,unk4,unk5)--tex
   if this.debugModule then--tex>
@@ -3643,7 +3679,7 @@ function this.SwitchRouteFunc(soldierId,gimmickStateS32,gimmickName,routeS32,unk
     end
   end
   return true
-  --end,unk1,RENAMEgimmickState,gimmickName,unk4,unk5)--tex
+    --end,unk1,RENAMEgimmickState,gimmickName,unk4,unk5)--tex
 end--SwitchRouteFunc
 function this.SetUpCommandPost()
   if not IsTypeTable(mvars.ene_soldierIDList)then
@@ -5456,7 +5492,7 @@ function this.SetupDeactivateQuestUav(uavList)
         SendCommand(gameId,{id="SetCombatRoute",route=""})
 
         SendCommand(gameId,{id="SetCommandPost",cp=""})
-        
+
         SendCommand(gameId,{id="SetEnabled",enabled=false})
       end
     end
