@@ -1454,7 +1454,7 @@ local weaponTypes={
   "SHIELD",
   "MISSILE",
 }
-
+--CALLER: OnAllocate > DecideRevenge
 function this._AllocateResources(config)
   mvars.revenge_loadedEquip={}
   local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
