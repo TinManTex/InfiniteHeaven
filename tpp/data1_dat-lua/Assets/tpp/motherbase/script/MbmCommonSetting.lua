@@ -1,158 +1,181 @@
 --MbmCommonSetting.lua
 local this={}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=1,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=2,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=3,combatRate=0,developRate=100,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=4,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=5,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=6,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=7,combatRate=0,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=8,combatRate=100,developRate=90,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=9,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=90,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=10,combatRate=100,developRate=0,medicalRate=90,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=11,combatRate=0,developRate=100,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=90}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=12,combatRate=0,developRate=100,medicalRate=0,supportRate=90,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=13,combatRate=0,developRate=100,medicalRate=90,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=14,combatRate=90,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=15,combatRate=0,developRate=90,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=16,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=90}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=17,combatRate=0,developRate=0,medicalRate=0,supportRate=90,spyRate=0,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=18,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=90,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=19,combatRate=0,developRate=0,medicalRate=90,supportRate=0,spyRate=0,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=20,combatRate=90,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=21,combatRate=0,developRate=90,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=22,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=90,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=23,combatRate=90,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=24,combatRate=0,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=90}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=25,combatRate=0,developRate=0,medicalRate=100,supportRate=90,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=30,combatRate=0,developRate=100,medicalRate=80,supportRate=80,spyRate=80,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=31,combatRate=100,developRate=0,medicalRate=80,supportRate=80,spyRate=80,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=32,combatRate=0,developRate=0,medicalRate=80,supportRate=80,spyRate=80,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=33,combatRate=0,developRate=85,medicalRate=80,supportRate=95,spyRate=80,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=34,combatRate=85,developRate=0,medicalRate=80,supportRate=80,spyRate=95,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=35,combatRate=0,developRate=0,medicalRate=95,supportRate=80,spyRate=80,baseDevRate=85}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=38,combatRate=0,developRate=0,medicalRate=120,supportRate=100,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=39,combatRate=120,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=40,combatRate=120,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=41,combatRate=120,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=42,combatRate=100,developRate=120,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=43,combatRate=0,developRate=120,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=44,combatRate=0,developRate=120,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=45,combatRate=0,developRate=120,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=46,combatRate=0,developRate=100,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=120}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=47,combatRate=120,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=48,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=120}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=49,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=120}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=50,combatRate=0,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=120}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=51,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=120}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=52,combatRate=100,developRate=0,medicalRate=0,supportRate=120,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=53,combatRate=0,developRate=0,medicalRate=0,supportRate=120,spyRate=100,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=54,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=120,baseDevRate=100}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=55,combatRate=0,developRate=0,medicalRate=120,supportRate=0,spyRate=100,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=56,combatRate=0,developRate=0,medicalRate=110,supportRate=0,spyRate=120,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=57,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=120,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=58,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=120,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=59,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=60,combatRate=100,developRate=0,medicalRate=120,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=61,combatRate=0,developRate=100,medicalRate=120,supportRate=0,spyRate=0,baseDevRate=0}
-TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=62,combatRate=0,developRate=0,medicalRate=120,supportRate=0,spyRate=0,baseDevRate=100}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=0,minRate=20,maxRate=40}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=1,minRate=10,maxRate=35}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=2,minRate=40,maxRate=60}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=3,minRate=50,maxRate=95}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=4,minRate=30,maxRate=80}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=5,minRate=35,maxRate=80}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=6,minRate=75,maxRate=95}
-TppMotherBaseManagement.RegisterRandomRange{randomRangeId=7,minRate=10,maxRate=35}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=0,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=1,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=2,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=3,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=4,g=10,f=80,e=10,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=5,g=10,f=75,e=15,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=6,g=10,f=75,e=15,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=7,g=10,f=70,e=15,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=8,g=10,f=65,e=20,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=10,g=5,f=65,e=25,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=12,g=5,f=60,e=30,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=14,g=5,f=55,e=30,d=10,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=21,g=5,f=55,e=30,d=10,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=28,g=5,f=45,e=35,d=15,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=35,g=5,f=45,e=35,d=15,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=42,g=5,f=45,e=35,d=15,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=49,g=0,f=40,e=40,d=20,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=56,g=0,f=35,e=45,d=20,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=63,g=0,f=30,e=50,d=20,c=0,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=70,g=0,f=25,e=50,d=20,c=5,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=77,g=0,f=20,e=50,d=25,c=5,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=84,g=0,f=15,e=45,d=30,c=10,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=91,g=0,f=15,e=45,d=30,c=10,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=98,g=0,f=10,e=40,d=35,c=15,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=105,g=0,f=10,e=35,d=40,c=15,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=112,g=0,f=10,e=30,d=45,c=15,b=0,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=119,g=0,f=0,e=25,d=50,c=20,b=5,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=126,g=0,f=0,e=20,d=50,c=25,b=5,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=133,g=0,f=0,e=15,d=45,c=35,b=5,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=140,g=0,f=0,e=15,d=45,c=35,b=5,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=147,g=0,f=0,e=15,d=40,c=40,b=5,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=154,g=0,f=0,e=11,d=35,c=40,b=14,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=161,g=0,f=0,e=11,d=35,c=40,b=14,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=168,g=0,f=0,e=11,d=30,c=43,b=16,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=175,g=0,f=0,e=8,d=25,c=48,b=19,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=182,g=0,f=0,e=5,d=25,c=50,b=20,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=189,g=0,f=0,e=7,d=20,c=50,b=23,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=196,g=0,f=0,e=4,d=20,c=50,b=26,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=203,g=0,f=0,e=6,d=15,c=50,b=29,a=0,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=210,g=0,f=0,e=4,d=14,c=45,b=32,a=5,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=217,g=0,f=0,e=3,d=12,c=45,b=35,a=5,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=224,g=0,f=0,e=3,d=14,c=40,b=38,a=5,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=231,g=0,f=0,e=5,d=10,c=40,b=40,a=5,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=238,g=0,f=0,e=5,d=10,c=40,b=40,a=5,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=245,g=0,f=0,e=5,d=10,c=35,b=40,a=10,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=252,g=0,f=0,e=5,d=10,c=35,b=40,a=10,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=259,g=0,f=0,e=5,d=10,c=30,b=40,a=15,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=266,g=0,f=0,e=5,d=10,c=30,b=40,a=15,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=273,g=0,f=0,e=5,d=10,c=30,b=40,a=15,s=0,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=280,g=0,f=0,e=5,d=10,c=20,b=40,a=20,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=287,g=0,f=0,e=5,d=10,c=20,b=40,a=20,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=294,g=0,f=0,e=3,d=10,c=20,b=37,a=25,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=301,g=0,f=0,e=3,d=10,c=20,b=37,a=25,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=308,g=0,f=0,e=3,d=10,c=15,b=37,a=30,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=315,g=0,f=0,e=3,d=10,c=15,b=37,a=30,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=322,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=329,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=336,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=343,g=0,f=0,e=3,d=5,c=10,b=37,a=35,s=10,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=350,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=357,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=364,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=371,g=0,f=0,e=3,d=6,c=11,b=35,a=35,s=10,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=378,g=0,f=0,e=3,d=6,c=11,b=35,a=35,s=10,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=385,g=0,f=0,e=3,d=5,c=11,b=31,a=35,s=15,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=392,g=0,f=0,e=3,d=5,c=11,b=31,a=35,s=15,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=399,g=0,f=0,e=3,d=6,c=11,b=30,a=35,s=15,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=406,g=0,f=0,e=3,d=6,c=11,b=30,a=35,s=15,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=413,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=420,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=427,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=434,g=0,f=0,e=3,d=6,c=11,b=20,a=35,s=25,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=441,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=448,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=455,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=518,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=574,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=630,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=686,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=728,g=0,f=0,e=0,d=2,c=5,b=13,a=40,s=40,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=756,g=0,f=0,e=0,d=0,c=3,b=13,a=39,s=45,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=784,g=0,f=0,e=0,d=0,c=3,b=13,a=34,s=50,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=812,g=0,f=0,e=0,d=0,c=3,b=13,a=29,s=55,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=840,g=0,f=0,e=0,d=0,c=3,b=10,a=27,s=60,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=868,g=0,f=0,e=0,d=0,c=3,b=10,a=22,s=65,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=882,g=0,f=0,e=0,d=0,c=3,b=10,a=17,s=70,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=910,g=0,f=0,e=0,d=0,c=3,b=6,a=16,s=75,sp=0,spp=0}
-TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=1050,g=0,f=0,e=0,d=0,c=0,b=3,a=17,s=80,sp=0,spp=0}
+--LOCALOPT:
+local TppMotherBaseManagement=TppMotherBaseManagement
+local staffTypePeaks={
+  {staffTypeId=1,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=2,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=3,combatRate=0,developRate=100,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=4,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=100},
+  {staffTypeId=5,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0},
+  {staffTypeId=6,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0},
+  {staffTypeId=7,combatRate=0,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=8,combatRate=100,developRate=90,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=9,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=90,baseDevRate=0},
+  {staffTypeId=10,combatRate=100,developRate=0,medicalRate=90,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=11,combatRate=0,developRate=100,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=90},
+  {staffTypeId=12,combatRate=0,developRate=100,medicalRate=0,supportRate=90,spyRate=0,baseDevRate=0},
+  {staffTypeId=13,combatRate=0,developRate=100,medicalRate=90,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=14,combatRate=90,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0},
+  {staffTypeId=15,combatRate=0,developRate=90,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0},
+  {staffTypeId=16,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=90},
+  {staffTypeId=17,combatRate=0,developRate=0,medicalRate=0,supportRate=90,spyRate=0,baseDevRate=100},
+  {staffTypeId=18,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=90,baseDevRate=100},
+  {staffTypeId=19,combatRate=0,developRate=0,medicalRate=90,supportRate=0,spyRate=0,baseDevRate=100},
+  {staffTypeId=20,combatRate=90,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0},
+  {staffTypeId=21,combatRate=0,developRate=90,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0},
+  {staffTypeId=22,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=90,baseDevRate=0},
+  {staffTypeId=23,combatRate=90,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=24,combatRate=0,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=90},
+  {staffTypeId=25,combatRate=0,developRate=0,medicalRate=100,supportRate=90,spyRate=0,baseDevRate=0},
+  {staffTypeId=30,combatRate=0,developRate=100,medicalRate=80,supportRate=80,spyRate=80,baseDevRate=0},
+  {staffTypeId=31,combatRate=100,developRate=0,medicalRate=80,supportRate=80,spyRate=80,baseDevRate=0},
+  {staffTypeId=32,combatRate=0,developRate=0,medicalRate=80,supportRate=80,spyRate=80,baseDevRate=100},
+  {staffTypeId=33,combatRate=0,developRate=85,medicalRate=80,supportRate=95,spyRate=80,baseDevRate=0},
+  {staffTypeId=34,combatRate=85,developRate=0,medicalRate=80,supportRate=80,spyRate=95,baseDevRate=0},
+  {staffTypeId=35,combatRate=0,developRate=0,medicalRate=95,supportRate=80,spyRate=80,baseDevRate=85},
+  {staffTypeId=38,combatRate=0,developRate=0,medicalRate=120,supportRate=100,spyRate=0,baseDevRate=0},
+  {staffTypeId=39,combatRate=120,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=40,combatRate=120,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0},
+  {staffTypeId=41,combatRate=120,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=0},
+  {staffTypeId=42,combatRate=100,developRate=120,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=43,combatRate=0,developRate=120,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=100},
+  {staffTypeId=44,combatRate=0,developRate=120,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=0},
+  {staffTypeId=45,combatRate=0,developRate=120,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=46,combatRate=0,developRate=100,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=120},
+  {staffTypeId=47,combatRate=120,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=100},
+  {staffTypeId=48,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=0,baseDevRate=120},
+  {staffTypeId=49,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=100,baseDevRate=120},
+  {staffTypeId=50,combatRate=0,developRate=0,medicalRate=100,supportRate=0,spyRate=0,baseDevRate=120},
+  {staffTypeId=51,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=120},
+  {staffTypeId=52,combatRate=100,developRate=0,medicalRate=0,supportRate=120,spyRate=0,baseDevRate=0},
+  {staffTypeId=53,combatRate=0,developRate=0,medicalRate=0,supportRate=120,spyRate=100,baseDevRate=0},
+  {staffTypeId=54,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=120,baseDevRate=100},
+  {staffTypeId=55,combatRate=0,developRate=0,medicalRate=120,supportRate=0,spyRate=100,baseDevRate=0},
+  {staffTypeId=56,combatRate=0,developRate=0,medicalRate=110,supportRate=0,spyRate=120,baseDevRate=0},
+  {staffTypeId=57,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=120,baseDevRate=0},
+  {staffTypeId=58,combatRate=0,developRate=0,medicalRate=0,supportRate=100,spyRate=120,baseDevRate=0},
+  {staffTypeId=59,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=60,combatRate=100,developRate=0,medicalRate=120,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=61,combatRate=0,developRate=100,medicalRate=120,supportRate=0,spyRate=0,baseDevRate=0},
+  {staffTypeId=62,combatRate=0,developRate=0,medicalRate=120,supportRate=0,spyRate=0,baseDevRate=100},
+}--staffTypePeaks
+
+for i,staffTypePeak in ipairs(staffTypePeaks)do
+  TppMotherBaseManagement.RegisterStaffTypePeaks(staffTypePeak)
+end
+
+local randomRanges={
+  {randomRangeId=0,minRate=20,maxRate=40},
+  {randomRangeId=1,minRate=10,maxRate=35},
+  {randomRangeId=2,minRate=40,maxRate=60},
+  {randomRangeId=3,minRate=50,maxRate=95},
+  {randomRangeId=4,minRate=30,maxRate=80},
+  {randomRangeId=5,minRate=35,maxRate=80},
+  {randomRangeId=6,minRate=75,maxRate=95},
+  {randomRangeId=7,minRate=10,maxRate=35},
+}--randomRanges
+
+for i,randomRange in ipairs(randomRanges)do
+  TppMotherBaseManagement.RegisterRandomRange(randomRange)
+end
+
+local staffBaseRankRanges={
+  {totalSectionLv=0,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=1,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=2,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=3,g=10,f=90,e=0,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=4,g=10,f=80,e=10,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=5,g=10,f=75,e=15,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=6,g=10,f=75,e=15,d=0,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=7,g=10,f=70,e=15,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=8,g=10,f=65,e=20,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=10,g=5,f=65,e=25,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=12,g=5,f=60,e=30,d=5,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=14,g=5,f=55,e=30,d=10,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=21,g=5,f=55,e=30,d=10,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=28,g=5,f=45,e=35,d=15,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=35,g=5,f=45,e=35,d=15,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=42,g=5,f=45,e=35,d=15,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=49,g=0,f=40,e=40,d=20,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=56,g=0,f=35,e=45,d=20,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=63,g=0,f=30,e=50,d=20,c=0,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=70,g=0,f=25,e=50,d=20,c=5,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=77,g=0,f=20,e=50,d=25,c=5,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=84,g=0,f=15,e=45,d=30,c=10,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=91,g=0,f=15,e=45,d=30,c=10,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=98,g=0,f=10,e=40,d=35,c=15,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=105,g=0,f=10,e=35,d=40,c=15,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=112,g=0,f=10,e=30,d=45,c=15,b=0,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=119,g=0,f=0,e=25,d=50,c=20,b=5,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=126,g=0,f=0,e=20,d=50,c=25,b=5,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=133,g=0,f=0,e=15,d=45,c=35,b=5,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=140,g=0,f=0,e=15,d=45,c=35,b=5,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=147,g=0,f=0,e=15,d=40,c=40,b=5,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=154,g=0,f=0,e=11,d=35,c=40,b=14,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=161,g=0,f=0,e=11,d=35,c=40,b=14,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=168,g=0,f=0,e=11,d=30,c=43,b=16,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=175,g=0,f=0,e=8,d=25,c=48,b=19,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=182,g=0,f=0,e=5,d=25,c=50,b=20,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=189,g=0,f=0,e=7,d=20,c=50,b=23,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=196,g=0,f=0,e=4,d=20,c=50,b=26,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=203,g=0,f=0,e=6,d=15,c=50,b=29,a=0,s=0,sp=0,spp=0},
+  {totalSectionLv=210,g=0,f=0,e=4,d=14,c=45,b=32,a=5,s=0,sp=0,spp=0},
+  {totalSectionLv=217,g=0,f=0,e=3,d=12,c=45,b=35,a=5,s=0,sp=0,spp=0},
+  {totalSectionLv=224,g=0,f=0,e=3,d=14,c=40,b=38,a=5,s=0,sp=0,spp=0},
+  {totalSectionLv=231,g=0,f=0,e=5,d=10,c=40,b=40,a=5,s=0,sp=0,spp=0},
+  {totalSectionLv=238,g=0,f=0,e=5,d=10,c=40,b=40,a=5,s=0,sp=0,spp=0},
+  {totalSectionLv=245,g=0,f=0,e=5,d=10,c=35,b=40,a=10,s=0,sp=0,spp=0},
+  {totalSectionLv=252,g=0,f=0,e=5,d=10,c=35,b=40,a=10,s=0,sp=0,spp=0},
+  {totalSectionLv=259,g=0,f=0,e=5,d=10,c=30,b=40,a=15,s=0,sp=0,spp=0},
+  {totalSectionLv=266,g=0,f=0,e=5,d=10,c=30,b=40,a=15,s=0,sp=0,spp=0},
+  {totalSectionLv=273,g=0,f=0,e=5,d=10,c=30,b=40,a=15,s=0,sp=0,spp=0},
+  {totalSectionLv=280,g=0,f=0,e=5,d=10,c=20,b=40,a=20,s=5,sp=0,spp=0},
+  {totalSectionLv=287,g=0,f=0,e=5,d=10,c=20,b=40,a=20,s=5,sp=0,spp=0},
+  {totalSectionLv=294,g=0,f=0,e=3,d=10,c=20,b=37,a=25,s=5,sp=0,spp=0},
+  {totalSectionLv=301,g=0,f=0,e=3,d=10,c=20,b=37,a=25,s=5,sp=0,spp=0},
+  {totalSectionLv=308,g=0,f=0,e=3,d=10,c=15,b=37,a=30,s=5,sp=0,spp=0},
+  {totalSectionLv=315,g=0,f=0,e=3,d=10,c=15,b=37,a=30,s=5,sp=0,spp=0},
+  {totalSectionLv=322,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0},
+  {totalSectionLv=329,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0},
+  {totalSectionLv=336,g=0,f=0,e=3,d=5,c=15,b=37,a=35,s=5,sp=0,spp=0},
+  {totalSectionLv=343,g=0,f=0,e=3,d=5,c=10,b=37,a=35,s=10,sp=0,spp=0},
+  {totalSectionLv=350,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0},
+  {totalSectionLv=357,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0},
+  {totalSectionLv=364,g=0,f=0,e=3,d=5,c=11,b=36,a=35,s=10,sp=0,spp=0},
+  {totalSectionLv=371,g=0,f=0,e=3,d=6,c=11,b=35,a=35,s=10,sp=0,spp=0},
+  {totalSectionLv=378,g=0,f=0,e=3,d=6,c=11,b=35,a=35,s=10,sp=0,spp=0},
+  {totalSectionLv=385,g=0,f=0,e=3,d=5,c=11,b=31,a=35,s=15,sp=0,spp=0},
+  {totalSectionLv=392,g=0,f=0,e=3,d=5,c=11,b=31,a=35,s=15,sp=0,spp=0},
+  {totalSectionLv=399,g=0,f=0,e=3,d=6,c=11,b=30,a=35,s=15,sp=0,spp=0},
+  {totalSectionLv=406,g=0,f=0,e=3,d=6,c=11,b=30,a=35,s=15,sp=0,spp=0},
+  {totalSectionLv=413,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=0,spp=0},
+  {totalSectionLv=420,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=0,spp=0},
+  {totalSectionLv=427,g=0,f=0,e=3,d=6,c=11,b=25,a=35,s=20,sp=0,spp=0},
+  {totalSectionLv=434,g=0,f=0,e=3,d=6,c=11,b=20,a=35,s=25,sp=0,spp=0},
+  {totalSectionLv=441,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=448,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=455,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=518,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=574,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=630,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=686,g=0,f=0,e=3,d=6,c=11,b=15,a=35,s=30,sp=0,spp=0},
+  {totalSectionLv=728,g=0,f=0,e=0,d=2,c=5,b=13,a=40,s=40,sp=0,spp=0},
+  {totalSectionLv=756,g=0,f=0,e=0,d=0,c=3,b=13,a=39,s=45,sp=0,spp=0},
+  {totalSectionLv=784,g=0,f=0,e=0,d=0,c=3,b=13,a=34,s=50,sp=0,spp=0},
+  {totalSectionLv=812,g=0,f=0,e=0,d=0,c=3,b=13,a=29,s=55,sp=0,spp=0},
+  {totalSectionLv=840,g=0,f=0,e=0,d=0,c=3,b=10,a=27,s=60,sp=0,spp=0},
+  {totalSectionLv=868,g=0,f=0,e=0,d=0,c=3,b=10,a=22,s=65,sp=0,spp=0},
+  {totalSectionLv=882,g=0,f=0,e=0,d=0,c=3,b=10,a=17,s=70,sp=0,spp=0},
+  {totalSectionLv=910,g=0,f=0,e=0,d=0,c=3,b=6,a=16,s=75,sp=0,spp=0},
+  {totalSectionLv=1050,g=0,f=0,e=0,d=0,c=0,b=3,a=17,s=80,sp=0,spp=0},
+}--staffBaseRankRanges
+
+for i,staffBaseRankRange in ipairs(staffBaseRankRanges)do
+  TppMotherBaseManagement.RegisterStaffBaseRankRange(staffBaseRankRange)
+end
 TppMotherBaseManagement.RegisterStaffMinBaseRank{minBaseRank="G"}
+
 local sectionLvLines={
   {lv=1,lineSectionPoint=43},
   {lv=2,lineSectionPoint=84},
@@ -320,99 +343,113 @@ local sectionLvLines={
 for n,sectionLvLine in pairs(sectionLvLines)do
   TppMotherBaseManagement.RegisterSectionLvLine(sectionLvLine)
 end
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Reflex",section="Combat",rank="C",priority=98,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Ninja",section="Combat",rank="B",priority=70,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Athlete",section="Combat",rank="A",priority=82,rate=5,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="FultonExpert",section="Combat",rank="C",priority=60,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="QuickReload",section="Combat",rank="B",priority=70,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Study",section="Combat",rank="C",priority=60,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Lucky",section="Combat",rank="B",priority=60,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Grappler",section="Combat",rank="B",priority=83,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="BigMouth",section="All",rank="C",priority=80,rate=5,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Botanist",section="Combat",rank="A",priority=75,rate=5,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="QuickDraw",section="Combat",rank="B",priority=85,rate=5,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithHandGun",section="Develop",rank="C",priority=70,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithSubmachineGun",section="Develop",rank="B",priority=80,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithAssultRifle",section="Develop",rank="E",priority=60,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithShotGun",section="Develop",rank="F",priority=50,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithGrenadeLauncher",section="Develop",rank="D",priority=71,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithSniperRifle",section="Develop",rank="B",priority=82,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithMachineGun",section="Develop",rank="C",priority=72,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="GunsmithMissile",section="Develop",rank="C",priority=73,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Surgeon",section="Medical",rank="F",priority=74,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Physician",section="Medical",rank="F",priority=73,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Counselor",section="Medical",rank="F",priority=72,rate=5,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="TroublemakerViolence",section="All",rank="G",priority=30,rate=1,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="TroublemakerIntemperately",section="All",rank="G",priority=20,rate=1,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="TroublemakerHarassment",section="All",rank="G",priority=10,rate=1,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Moodmaker",section="All",rank="G",priority=5,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="None",section="All",rank="G",priority=255,rate=80,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="None",section="All",rank="C",priority=254,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="None",section="All",rank="B",priority=253,rate=10,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="None",section="All",rank="A",priority=252,rate=20,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Defender1",section="All",rank="B",priority=165,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Defender2",section="All",rank="S",priority=185,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Defender3",section="All",rank="S++",priority=205,rate=4,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Sentry1",section="All",rank="B",priority=164,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Sentry2",section="All",rank="S",priority=184,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Sentry3",section="All",rank="S++",priority=204,rate=4,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Ranger1",section="All",rank="B",priority=163,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Ranger2",section="All",rank="S",priority=183,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Ranger3",section="All",rank="S++",priority=203,rate=4,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Medic1",section="All",rank="B",priority=162,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Medic2",section="All",rank="S",priority=182,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Medic3",section="All",rank="S++",priority=202,rate=4,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="LiquidCarbonMissileEngineer1",section="All",rank="B",priority=161,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="LiquidCarbonMissileEngineer2",section="All",rank="S",priority=181,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="LiquidCarbonMissileEngineer3",section="All",rank="S++",priority=201,rate=4,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="InterceptorMissileEngineer1",section="All",rank="B",priority=160,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="InterceptorMissileEngineer2",section="All",rank="S",priority=180,rate=3,isLocked="false"}
-TppMotherBaseManagement.RegisterSkillDrawingParam{skill="InterceptorMissileEngineer3",section="All",rank="S++",priority=200,rate=4,isLocked="false"}
+
+local skillDrawingParams={
+  {skill="Reflex",section="Combat",rank="C",priority=98,rate=20,isLocked="false"},
+  {skill="Ninja",section="Combat",rank="B",priority=70,rate=10,isLocked="false"},
+  {skill="Athlete",section="Combat",rank="A",priority=82,rate=5,isLocked="false"},
+  {skill="FultonExpert",section="Combat",rank="C",priority=60,rate=20,isLocked="false"},
+  {skill="QuickReload",section="Combat",rank="B",priority=70,rate=10,isLocked="false"},
+  {skill="Study",section="Combat",rank="C",priority=60,rate=20,isLocked="false"},
+  {skill="Lucky",section="Combat",rank="B",priority=60,rate=10,isLocked="false"},
+  {skill="Grappler",section="Combat",rank="B",priority=83,rate=10,isLocked="false"},
+  {skill="BigMouth",section="All",rank="C",priority=80,rate=5,isLocked="false"},
+  {skill="Botanist",section="Combat",rank="A",priority=75,rate=5,isLocked="false"},
+  {skill="QuickDraw",section="Combat",rank="B",priority=85,rate=5,isLocked="false"},
+  {skill="GunsmithHandGun",section="Develop",rank="C",priority=70,rate=20,isLocked="false"},
+  {skill="GunsmithSubmachineGun",section="Develop",rank="B",priority=80,rate=10,isLocked="false"},
+  {skill="GunsmithAssultRifle",section="Develop",rank="E",priority=60,rate=20,isLocked="false"},
+  {skill="GunsmithShotGun",section="Develop",rank="F",priority=50,rate=20,isLocked="false"},
+  {skill="GunsmithGrenadeLauncher",section="Develop",rank="D",priority=71,rate=10,isLocked="false"},
+  {skill="GunsmithSniperRifle",section="Develop",rank="B",priority=82,rate=10,isLocked="false"},
+  {skill="GunsmithMachineGun",section="Develop",rank="C",priority=72,rate=20,isLocked="false"},
+  {skill="GunsmithMissile",section="Develop",rank="C",priority=73,rate=10,isLocked="false"},
+  {skill="Surgeon",section="Medical",rank="F",priority=74,rate=20,isLocked="false"},
+  {skill="Physician",section="Medical",rank="F",priority=73,rate=10,isLocked="false"},
+  {skill="Counselor",section="Medical",rank="F",priority=72,rate=5,isLocked="false"},
+  {skill="TroublemakerViolence",section="All",rank="G",priority=30,rate=1,isLocked="false"},
+  {skill="TroublemakerIntemperately",section="All",rank="G",priority=20,rate=1,isLocked="false"},
+  {skill="TroublemakerHarassment",section="All",rank="G",priority=10,rate=1,isLocked="false"},
+  {skill="Moodmaker",section="All",rank="G",priority=5,rate=10,isLocked="false"},
+  {skill="None",section="All",rank="G",priority=255,rate=80,isLocked="false"},
+  {skill="None",section="All",rank="C",priority=254,rate=10,isLocked="false"},
+  {skill="None",section="All",rank="B",priority=253,rate=10,isLocked="false"},
+  {skill="None",section="All",rank="A",priority=252,rate=20,isLocked="false"},
+  {skill="Defender1",section="All",rank="B",priority=165,rate=3,isLocked="false"},
+  {skill="Defender2",section="All",rank="S",priority=185,rate=3,isLocked="false"},
+  {skill="Defender3",section="All",rank="S++",priority=205,rate=4,isLocked="false"},
+  {skill="Sentry1",section="All",rank="B",priority=164,rate=3,isLocked="false"},
+  {skill="Sentry2",section="All",rank="S",priority=184,rate=3,isLocked="false"},
+  {skill="Sentry3",section="All",rank="S++",priority=204,rate=4,isLocked="false"},
+  {skill="Ranger1",section="All",rank="B",priority=163,rate=3,isLocked="false"},
+  {skill="Ranger2",section="All",rank="S",priority=183,rate=3,isLocked="false"},
+  {skill="Ranger3",section="All",rank="S++",priority=203,rate=4,isLocked="false"},
+  {skill="Medic1",section="All",rank="B",priority=162,rate=3,isLocked="false"},
+  {skill="Medic2",section="All",rank="S",priority=182,rate=3,isLocked="false"},
+  {skill="Medic3",section="All",rank="S++",priority=202,rate=4,isLocked="false"},
+  {skill="LiquidCarbonMissileEngineer1",section="All",rank="B",priority=161,rate=3,isLocked="false"},
+  {skill="LiquidCarbonMissileEngineer2",section="All",rank="S",priority=181,rate=3,isLocked="false"},
+  {skill="LiquidCarbonMissileEngineer3",section="All",rank="S++",priority=201,rate=4,isLocked="false"},
+  {skill="InterceptorMissileEngineer1",section="All",rank="B",priority=160,rate=3,isLocked="false"},
+  {skill="InterceptorMissileEngineer2",section="All",rank="S",priority=180,rate=3,isLocked="false"},
+  {skill="InterceptorMissileEngineer3",section="All",rank="S++",priority=200,rate=4,isLocked="false"},
+}--skillDrawingParams
+
+for i,skillDrawingParam in pairs(skillDrawingParams)do
+  TppMotherBaseManagement.RegisterSkillDrawingParam(skillDrawingParam)
+end
 TppMotherBaseManagement.SortSkillDrawingParamTable()
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Reflex",section="Combat",rank="C",priority=98,rate=20,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Ninja",section="Combat",rank="B",priority=70,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Athlete",section="Combat",rank="A",priority=82,rate=5,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="FultonExpert",section="Combat",rank="C",priority=60,rate=20,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="QuickReload",section="Combat",rank="B",priority=70,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Study",section="Combat",rank="C",priority=60,rate=20,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Lucky",section="Combat",rank="B",priority=60,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Grappler",section="Combat",rank="B",priority=83,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="BigMouth",section="All",rank="C",priority=80,rate=5,staffTypes={2,3,4,5,6,7},randomRangeIds={3,1}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Botanist",section="Combat",rank="A",priority=75,rate=5,staffTypes={2,39,40,41,47},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithHandGun",section="Develop",rank="C",priority=70,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithSubmachineGun",section="Develop",rank="B",priority=80,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithAssultRifle",section="Develop",rank="E",priority=60,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithShotGun",section="Develop",rank="F",priority=50,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithGrenadeLauncher",section="Develop",rank="D",priority=71,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithSniperRifle",section="Develop",rank="B",priority=82,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithMachineGun",section="Develop",rank="C",priority=72,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="GunsmithMissile",section="Develop",rank="C",priority=73,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="TranqEngineer",section="Develop",rank="E",priority=74,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="SuppressorEngineer",section="Develop",rank="B",priority=84,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="MissileHomingEngineer",section="Develop",rank="D",priority=75,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Zoologist",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="SleepingGasEngineer",section="Develop",rank="C",priority=76,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="ElectricEngineer",section="Develop",rank="D",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="ElectromagneticNetEngineer",section="Develop",rank="C",priority=77,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="RadarEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="MetamaterialEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="DrugEngineer",section="Medical",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="MechatronicsEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="CyberneticsEngineer",section="Develop",rank="E",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="RocketControlEngineer",section="Develop",rank="D",priority=88,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="ElectricSpinningEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="MaterialEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="HaulageEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="MonitorEngineer",section="Develop",rank="D",priority=78,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="TranslateRussian",section="Support",rank="F",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="TranslateAfrikaans",section="Support",rank="F",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="TranslateKikongo",section="Support",rank="E",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Surgeon",section="Medical",rank="F",priority=74,rate=20,staffTypes={7,38,55,60,61,62},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Physician",section="Medical",rank="F",priority=73,rate=10,staffTypes={7,38,55,60,61,62},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Counselor",section="Medical",rank="F",priority=72,rate=5,staffTypes={7,38,55,60,61,62},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="TranslatePashto",section="Support",rank="E",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="Moodmaker",section="All",rank="G",priority=5,rate=10,staffTypes={2,3,4,5,6,7},randomRangeIds={2,3}}
-TppMotherBaseManagement.RegisterQuestSkillDrawingParam{skill="None",section="All",rank="G",priority=255,rate=0,staffTypes={2,3,4,5,6,7},randomRangeIds={2,3}}
+
+local questSkillDrawingParams={
+  {skill="Reflex",section="Combat",rank="C",priority=98,rate=20,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="Ninja",section="Combat",rank="B",priority=70,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="Athlete",section="Combat",rank="A",priority=82,rate=5,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="FultonExpert",section="Combat",rank="C",priority=60,rate=20,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="QuickReload",section="Combat",rank="B",priority=70,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="Study",section="Combat",rank="C",priority=60,rate=20,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="Lucky",section="Combat",rank="B",priority=60,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="Grappler",section="Combat",rank="B",priority=83,rate=10,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="BigMouth",section="All",rank="C",priority=80,rate=5,staffTypes={2,3,4,5,6,7},randomRangeIds={3,1}},
+  {skill="Botanist",section="Combat",rank="A",priority=75,rate=5,staffTypes={2,39,40,41,47},randomRangeIds={2,3}},
+  {skill="GunsmithHandGun",section="Develop",rank="C",priority=70,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithSubmachineGun",section="Develop",rank="B",priority=80,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithAssultRifle",section="Develop",rank="E",priority=60,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithShotGun",section="Develop",rank="F",priority=50,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithGrenadeLauncher",section="Develop",rank="D",priority=71,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithSniperRifle",section="Develop",rank="B",priority=82,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithMachineGun",section="Develop",rank="C",priority=72,rate=20,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="GunsmithMissile",section="Develop",rank="C",priority=73,rate=10,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="TranqEngineer",section="Develop",rank="E",priority=74,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="SuppressorEngineer",section="Develop",rank="B",priority=84,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="MissileHomingEngineer",section="Develop",rank="D",priority=75,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="Zoologist",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="SleepingGasEngineer",section="Develop",rank="C",priority=76,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="ElectricEngineer",section="Develop",rank="D",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="ElectromagneticNetEngineer",section="Develop",rank="C",priority=77,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="RadarEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="MetamaterialEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="DrugEngineer",section="Medical",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="MechatronicsEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="CyberneticsEngineer",section="Develop",rank="E",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="RocketControlEngineer",section="Develop",rank="D",priority=88,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="ElectricSpinningEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="MaterialEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="HaulageEngineer",section="Develop",rank="F",priority=60,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="MonitorEngineer",section="Develop",rank="D",priority=78,rate=0,staffTypes={3,42,43,44,45},randomRangeIds={2,3}},
+  {skill="TranslateRussian",section="Support",rank="F",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}},
+  {skill="TranslateAfrikaans",section="Support",rank="F",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}},
+  {skill="TranslateKikongo",section="Support",rank="E",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}},
+  {skill="Surgeon",section="Medical",rank="F",priority=74,rate=20,staffTypes={7,38,55,60,61,62},randomRangeIds={2,3}},
+  {skill="Physician",section="Medical",rank="F",priority=73,rate=10,staffTypes={7,38,55,60,61,62},randomRangeIds={2,3}},
+  {skill="Counselor",section="Medical",rank="F",priority=72,rate=5,staffTypes={7,38,55,60,61,62},randomRangeIds={2,3}},
+  {skill="TranslatePashto",section="Support",rank="E",priority=60,rate=0,staffTypes={44,52,53},randomRangeIds={2,3}},
+  {skill="Moodmaker",section="All",rank="G",priority=5,rate=10,staffTypes={2,3,4,5,6,7},randomRangeIds={2,3}},
+  {skill="None",section="All",rank="G",priority=255,rate=0,staffTypes={2,3,4,5,6,7},randomRangeIds={2,3}},
+}--questSkillDrawingParams
+
+for i,questSkillDrawingParam in pairs(questSkillDrawingParams)do
+  TppMotherBaseManagement.RegisterQuestSkillDrawingParam(questSkillDrawingParam)
+end
 TppMotherBaseManagement.SortQuestSkillDrawingParamTable()
 --tex REWORKED from individual RegisterUniqueStaff calls
 --GOTCHA: uniqueTypeEntries aren't fully consequtive there's breaks from 112 on
@@ -681,61 +718,69 @@ for i,uniqueStaffEntry in ipairs(uniqueStaff)do
     TppMotherBaseManagement.RegisterUniqueStaff(uniqueStaffEntry)
   end
 end
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=30010,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=30020,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10010,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10020,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10030,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10036,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10043,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10033,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10040,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10041,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10044,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10050,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10052,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10054,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10070,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10080,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10086,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10082,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10090,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10195,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10091,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10100,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10110,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10121,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10115,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10120,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10085,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10200,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10211,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10081,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10130,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10140,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10150,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10151,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10045,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10156,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10093,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10171,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10240,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10260,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=10280,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=65020,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=65030,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11043,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11054,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11082,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11090,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11033,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11050,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11140,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11080,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11121,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11130,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11044,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
-TppMotherBaseManagement.RegisterMissionBaseStaffTypes{missionId=11151,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}}
+
+local missionBaseStaffTypes={
+  {missionId=30010,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=30020,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10010,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10020,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10030,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10036,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10043,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10033,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10040,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10041,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10044,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10050,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10052,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10054,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10070,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10080,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10086,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10082,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10090,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10195,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10091,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10100,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10110,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10121,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10115,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10120,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10085,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10200,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10211,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10081,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10130,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10140,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10150,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10151,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10045,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10156,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10093,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10171,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10240,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10260,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=10280,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=65020,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=65030,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11043,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11054,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11082,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11090,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11033,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11050,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11140,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11080,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11121,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11130,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11044,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+  {missionId=11151,staffTypes={2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}},
+}--missionBaseStaffTypes
+
+for i,missionBaseStaffType in pairs(missionBaseStaffTypes)do
+  TppMotherBaseManagement.RegisterMissionBaseStaffTypes(missionBaseStaffType)
+end
+
 TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,giveRate=0,minEnmity=0,maxEnmity=0}
 TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,giveRate=5,minEnmity=1,maxEnmity=2}
 TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,giveRate=10,minEnmity=1,maxEnmity=2}
@@ -747,7 +792,9 @@ TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseMa
 TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,giveRate=95,minEnmity=8,maxEnmity=12}
 TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,giveRate=100,minEnmity=9,maxEnmity=13}
 TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100,giveRate=100,minEnmity=10,maxEnmity=14}
+
 TppMotherBaseManagement.RegisterInitEnmityOffset{dying=5,holdup=-3}
+
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=0,heroicPoint=0,timeMinutePer1Enmity=10}
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=1,heroicPoint=1e3,timeMinutePer1Enmity=10}
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=2,heroicPoint=2e3,timeMinutePer1Enmity=10}
@@ -759,11 +806,13 @@ TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=7,heroicPoint=7e3,tim
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=8,heroicPoint=8e3,timeMinutePer1Enmity=10}
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=9,heroicPoint=9e3,timeMinutePer1Enmity=10}
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=10,heroicPoint=1e4,timeMinutePer1Enmity=10}
+
 TppMotherBaseManagement.RegisterMoraleParam{moraleTimeMinute=36,defectionRates={morale0=4,morale1=2,morale2=1},defectionCountLimit=2,defectionLineStaffCount=16,powerUpPoints={morale8=2,morale9=4,morale10=6,morale11=8,morale12=10,morale13=15,morale14=20,morale15=31},baseMoveRate=50,redMoveRate=100,redMoveValue=-1,heroicPointsForInitMorale={add1=1e4,add2=2e4,add3=3e4}}
 TppMotherBaseManagement.RegisterMedalParam{meritMedalLinePoint=9,powerUpPoint=30}
 TppMotherBaseManagement.RegisterLanguageParam{spreadTimeMinute=12,spreadRates={count1=20,count2=10,count3=4,count4=0},kikongoBoostWhiteLang1Rate=4,kikongoBoostWhiteLang2Rate=25,kikongoBoostWhiteLang3Rate=12,kikongoBoostBlackLang1Rate=50,kikongoBoostBlackLang2Rate=40,kikongoBoostBlackLang3Rate=20,kikongoBoostSpreadCount=20}
 TppMotherBaseManagement.RegisterPandemicParam{startAttackStaffCount=8,startPositiveStaffCount=30,pandemicTimeMinute=12,pandemicRates={none=0,learning=70,master=90,native=100},pandemicCheckStaffCount=43,deadRate=30,deadCheckStaffCount=10,spreadAttackLimitRate=40,spreadAttackLimitCountMin=50,spreadAttackLimitCountMax=400}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffParam{addRateWithKillCount=80,roughRate=10}
+
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10020,limitCount=15,staffTypes={30,31,32,33,34,35}}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10033,limitCount=15,staffTypes={30,31,32,33,34,35}}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10036,limitCount=10,staffTypes={30,31,32,33,34,35}}
@@ -798,6 +847,7 @@ TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10211,limi
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10260,limitCount=25,staffTypes={30,31,32,33,34,35}}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=30010,limitCount=35,staffTypes={30,31,32,33,34,35}}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=30020,limitCount=35,staffTypes={30,31,32,33,34,35}}
+
 TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=0,heroicPoint=1e4,count=1}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=1,heroicPoint=2e4,count=2}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=2,heroicPoint=3e4,count=3}
@@ -808,6 +858,7 @@ TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=6,heroicPo
 TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=7,heroicPoint=8e4,count=8}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=8,heroicPoint=9e4,count=9}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=9,heroicPoint=1e5,count=10}
+
 TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=0,ogrePoint=5e3,count=1}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=1,ogrePoint=1e4,count=2}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=2,ogrePoint=15e3,count=3}
@@ -828,13 +879,36 @@ TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=16,ogrePoint
 TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=17,ogrePoint=9e4,count=18}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=18,ogrePoint=95e3,count=19}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=19,ogrePoint=1e5,count=20}
+
 TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=0,clearTimeMinute=30,countRate=100}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=1,clearTimeMinute=25,countRate=85}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=2,clearTimeMinute=20,countRate=70}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=3,clearTimeMinute=15,countRate=50}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=4,clearTimeMinute=10,countRate=40}
 TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=5,clearTimeMinute=5,countRate=20}
+
 return this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
