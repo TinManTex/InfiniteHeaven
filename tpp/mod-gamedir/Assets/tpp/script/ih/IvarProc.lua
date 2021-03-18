@@ -621,6 +621,10 @@ function this.GetSettingNameForMission(ivarList,missionCode)
   local missionId=missionCode or vars.missionCode
   if type(ivarList)=="string" then
     ivarList=Ivars.missionModeIvars[ivarList]
+    if ivarList==nil then
+      InfCore.Log("ERROR: no missionModIvars for "..ivarList)
+      return nil
+    end
   end
   local passedCheck=false
   for i=1,#ivarList do
@@ -631,7 +635,7 @@ function this.GetSettingNameForMission(ivarList,missionCode)
       return ivar:GetSettingName()
     end
   end
-  return 0
+  return 0--DEBUGNOW think this through, return default setting name or nil?
 end--GetSettingNameForMission
 
 --tex as above but with ivar>0 check
