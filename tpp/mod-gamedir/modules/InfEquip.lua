@@ -1514,6 +1514,24 @@ this.registerIvars={
   "itemDropChance",
 }
 
+IvarProc.MissionModeIvars(
+  this,
+  "weaponTableGlobal",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={"DEFAULT"},--DYNAMIC via addon
+    OnSelect=function(self)
+      self.settings=InfWeaponIdTable.addonsNames
+      IvarProc.SetMaxToList(self,self.settings)
+    end,
+    GetSettingText=function(self,setting)
+      local addonName=InfWeaponIdTable.addonsNames[setting+1]
+      return InfWeaponIdTable.addons[addonName].description or addonName
+    end,
+  },
+  {"FREE","MISSION","MB_ALL",}
+)
+
 --custom weapon table
 IvarProc.MissionModeIvars(
   this,
@@ -1620,10 +1638,14 @@ this.registerMenus={
 
 this.customEquipMenu={
   options={
-    --CULL
+    --CULL DEBUGNOW are these still being read?
     --    "Ivars.enableDDEquipMB",
     --    "Ivars.enableDDEquipFREE",
     --    "Ivars.enableDDEquipMISSION",
+    "Ivars.weaponTableGlobalFREE",
+    "Ivars.weaponTableGlobalMISSION",
+    "Ivars.weaponTableGlobalMB_ALL",--DEBUGNOW
+    
     "Ivars.customWeaponTableFREE",
     "Ivars.customWeaponTableMISSION",
     "Ivars.customWeaponTableMB_ALL",
@@ -1650,7 +1672,7 @@ this.langStrings={
     mbDDEquipNonLethal="DD equipment non-lethal",
     itemDropChance="Soldier item drop chance",
     putEquipOnTrucks="Equipment on trucks",
-    customWeaponTableFREE="Enemy use custom equip table in free roam",
+    customWeaponTableFREE="Enemy use custom weapon table in free roam",
     customWeaponTableMISSION="Enemy use custom equip table in missions",
     customWeaponTableMB_ALL="MB staff use custom equip table",
     weaponTableStrength="Weapon stengths",
@@ -1659,6 +1681,9 @@ this.langStrings={
     weaponTableMafr="Include PF weapons",
     weaponTableSkull="Include XOF weapons",
     weaponTableDD="Include DD weapons",
+    weaponTableGlobalFREE="Global soldier weapon table in FreeRoam",
+    weaponTableGlobalMISSION="Global soldier weapon table in Missions",
+    weaponTableGlobalMB_ALL="Global soldier weapon table in MB",
   },
   help={
     eng={
@@ -1669,7 +1694,9 @@ this.langStrings={
       allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.",
       weaponTableStrength="The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.",
       weaponTableDD="Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built",
-
+      weaponTableGlobalFREE="Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.",
+      weaponTableGlobalMISSION="Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.",
+      weaponTableGlobalMB_ALL="Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.",
     },
   }
 }
@@ -2075,13 +2102,16 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
     --tex usually built with TppEneFova.PreMissionLoad > TppEnemy.PrepareDDParameter > _CreateDDWeaponIdTable
     TppEnemy.weaponIdTable.DD=this.CreateDDWeaponIdTable()
   end
+  
+  local weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex returns TppEnemy.WeaponIdTable if default
+  weaponIdTable.DD=TppEnemy.weaponIdTable.DD--WORKAROUND: rest of the code should use TppEnemy.weaponIdTable.DD, but below combines DD so it needs to be in selected weaponIdTable
 
   --tex combine all active weapon tables
   local allTotal=0
   local allNoDuplicates={}
   for weaponTableType,ivarType in pairs(weaponTableTypes) do
     if activeTypes[ivarType] then
-      local weaponTable=TppEnemy.weaponIdTable[weaponTableType]
+      local weaponTable=weaponIdTable[weaponTableType]
       for strength,weapons in pairs(weaponTable)do
         if strengthType=="COMBINED" or strengthType==strength then
           for weaponType,weaponId in pairs(weapons)do
@@ -2094,11 +2124,11 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
               allNoDuplicates[weaponType][weaponId]=true
             end
             allTotal=allTotal+1
-          end
-        end
-      end
-    end
-  end
+          end--for weapons
+        end--if strenghtType
+      end--for weaponTable
+    end--if activeTypes
+  end--for weaponTableTypes
 
   --tex transform back to TppEnemy.weaponIdTable format
   local weaponIdTableAll={}
@@ -2213,7 +2243,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
   end
 
   TppEnemy.weaponIdTable.CUSTOM=weaponIdTableFinal
-end
+end--CreateCustomWeaponTable
 
 --tex adapted from TppEnemy._CreateDDWeaponIdTable
 function this.CreateDDWeaponIdTable(settingsTable)
@@ -2282,6 +2312,6 @@ function this.CreateDDWeaponIdTable(settingsTable)
   end
 
   return ddWeaponIdTable
-end
+end--CreateDDWeaponIdTable
 
 return this
