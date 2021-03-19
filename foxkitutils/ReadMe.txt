@@ -1,8 +1,19 @@
+foxkitutils
+A collection of helpful(?) scripts for Unity to be used along side FoxKit.
+Look in the scripts headers for more comments about the specific script.
+
 Inter Process Communication between Unity and MGSV via IHHook.
 
 Requires an IH build that includes IHHook.
 
 Copy the IH folder to your Unity Assets folder (into FoxKit folder if you want).
+
+IPC
+IPCWindow
+IPCFeature
+PlayerSync
+CameraSync
+UserMarkerSync
 
 Add CameraSync, PlayerSync, UserMarkerSync components (any that derive from IPCFeature) onto any game object (I usually just create an empty one and put them all on it).
 The components will create some proxy gameobjects.
