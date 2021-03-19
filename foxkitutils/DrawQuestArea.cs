@@ -22,7 +22,6 @@
         
         public bool DrawAllBlocks = false;
         public bool DrawAllQuestAreas = false;
-        public bool DrawBlockCenterIndex = false;
         public bool DrawAreaCenterIndex = true;
         public float yLevel = 0.0f;
 
@@ -274,23 +273,6 @@
 
                 Handles.DrawLine(startPos, endPos);
             }
-
-            //DEBUGNOW urg
-            if (DrawBlockCenterIndex) {
-                for (int blockX = 0; blockX <= mapSize; blockX = blockX + blockSizeX) {
-                    for (int blockY = 0; blockY <= mapSize; blockY = blockY + blockSizeY) {
-                        var centerX = mapStart+blockX;
-                        var centerY = mapStart+blockY;
-
-                        var centerPos = new Vector3(centerX, yLevel, centerY);
-                        centerPos.x = -centerPos.x;//fox to unity ala FoxUtils
-                        Handles.color = Color.white;
-                        Handles.zTest = UnityEngine.Rendering.CompareFunction.Greater;
-                        string centerIndexText = "[" + blockX + ", " + blockY + "]";
-                        Handles.Label(centerPos, centerIndexText);    
-                    }                    
-                }
-            }//DrawBlockCenterIndex
         }//DrawBlocks
 
         private void DrawQuestAreas()
