@@ -35,9 +35,18 @@ Lets you force on or off the various mission prep features, though some may not 
 
 InfMotion / Motions menu: motionCloseMenuOnPlay - Close menu on Playing motion, defaults to off - thanks choc for bringing it up.
 
+Filestructure: ih_additional_motion.fpk moved from pack/mission2 to the more appropriate pack/player/motion.
+
 mod\devmodules - a collection of IH dev modules created to help with specific aspects of modding.
 
 docs\Development.txt - a couple of modding links, also mentioning the above.
+
+InfWeaponIdTable
+Addon system to add weaponIdTable that enemy soldiers equip from.
+Selected via weaponTableGlobal<MissionMode> - Global soldier weapon table in FreeRoam/Missions/MB 
+via the Custom soldier equip menu.
+Example addon in mod\devmodules\weaponIdTables
+The existing 'Enemy use custom weapon table' feature uses the selected table to combine from.
 
 Internal and api changes:
 startOnFoot support for custom free missions.
@@ -74,6 +83,8 @@ Thanks nishi980 for the report.
 Fix: My build process was including some files from a snakebite install run, hard to say what if any issues this caused beyond a bigger install size - thanks caplag for the report.
 
 Debug: InfCore.RefreshFileList outputs to cmd_stderr.txt
+
+Fix: The automatic menu close on IH reloadscripts was called at a bad time casing it to  ihsave after Ivars had been reloaded but before it had been stood up in postallmodules (more specficially the ivars in modules loaded after InfMenu). Then if user reloadscript again without ihsaving the save file would effectively been cleared for those it could not find definitions for. 
 
 Fix: r237b - missed " before stderr filename, causing refreshfilelist to fail - thanks morbidslinky for the fix
 
