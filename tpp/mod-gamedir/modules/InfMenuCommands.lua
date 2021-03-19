@@ -628,7 +628,11 @@ this.DEBUG_PrintObjectListPosition=function()
   end
 end
 
+InfMenuCommands.loadExternalModules={
+  isMenuOff=true,
+}
 this.LoadExternalModules=function()
+  InfMenu.MenuOff()
   InfMain.LoadExternalModules(true)
 end
 

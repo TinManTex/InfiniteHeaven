@@ -67,8 +67,6 @@ this.autoDisplayRate=this.autoDisplayDefault
 this.lastStickInput=0
 
 function this.PreModuleReload()
-  --GOTCHA: if the menu is open this will trigger an IH save as part of the normal menuoff
-  this.MenuOff()
 end
 
 function this.PostAllModulesLoad()
@@ -709,6 +707,7 @@ function this.PrintFormatLangId(langId,...)
 end
 
 function this.ToggleMenu(currentChecks)
+  InfCore.LogFlow"InfMenu.ToggleMenu"
   --DEBUGNOW if this.CheckActivate(currentChecks) then
   this.menuOn = not this.menuOn
   if this.menuOn then
@@ -720,9 +719,10 @@ function this.ToggleMenu(currentChecks)
   -- end
 end
 
-function this.MenuOff()
+function this.MenuOff(skipSave)
+  InfCore.LogFlow"InfMenu.MenuOff"
   this.menuOn=false
-  this.OnDeactivate()
+  this.OnDeactivate(skipSave)
 end
 
 function this.OnActivate()
@@ -744,12 +744,12 @@ function this.OnActivate()
   InfMain.OnMenuOpen()
 end
 
-function this.OnDeactivate()
+function this.OnDeactivate(skipSave)
   InfCore.LogFlow"InfMenu.OnDeactivate"
   this.PrintLangId"menu_off"--"Menu Off"
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()
-  InfMain.OnMenuClose()
+  InfMain.OnMenuClose(skipSave)
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.HideMenu()

@@ -357,15 +357,16 @@ end
 function this.OnMenuOpen()
 
 end
-function this.OnMenuClose()
+function this.OnMenuClose(skipSave)
   local activeControlMode=this.GetActiveControlMode()
   if activeControlMode then
     if IsFunc(activeControlMode.OnActivate) then
       activeControlMode.OnActivate()
     end
   end
-
-  InfCore.PCallDebug(IvarProc.SaveAll)
+  if not skipSave then
+    InfCore.PCallDebug(IvarProc.SaveAll)
+  end
   if InfCore.debugMode then
     if IHH then
       IHH.Log_Flush()
@@ -406,7 +407,7 @@ end
 
 this.execChecks={
   inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
-  inSafeSpace=false,
+  inSafeSpace=false,--aka heliSpace in tpp
   inMission=false,
   inDemo=false,
   missionCanStart=false,
@@ -581,6 +582,7 @@ function this.DoControlSet(currentChecks)
   if currentChecks.inGame then
     if InfButton.OnComboActive(reloadModulesCombo) then
       InfCore.DebugPrint("LoadExternalModules")
+      InfMenu.MenuOff()
       this.LoadExternalModules(true)
       if not InfCore.mainModulesOK then
         this.ModuleErrorMessage()
