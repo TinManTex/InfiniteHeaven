@@ -845,7 +845,8 @@ end
 --CALLER: TppEnemy.GetWeaponIdTable
 --IN/SIDE vars.missionCode
 --GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
-function this.GetWeaponIdTable(soldierType,soldierSubType) 
+--GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table, not a full table like TppEnemy.weaponIdTable
+function this.GetSoldierWeaponIdTable(soldierType,soldierSubType) 
   local weaponIdTable
   local missionInfo=this.missionInfo[vars.missionCode]
   if missionInfo then
@@ -864,7 +865,7 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   end--if missionInfo
   --InfCore.PrintInspect(weaponIdTable,"InfMission weaponIdTable")--DEBUG
   return weaponIdTable
-end--GetWeaponIdTable
+end--GetSoldierWeaponIdTable
 
 --
 --tex need to patch in some orderbox data into the free roam mission scripts.
