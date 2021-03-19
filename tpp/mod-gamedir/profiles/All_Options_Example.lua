@@ -46,7 +46,7 @@ local this={
 		--Cutscenes menu
 		useSoldierForDemos=0,--{ 0-1 } -- Use selected soldier in all cutscenes and missions
 		mbDemoSelection=0,--{ DEFAULT, PLAY, DISABLED } -- MB cutscene play mode
-		mbSelectedDemo=0,--{ 0-1 } -- Select MB cutscene (REQ: Play selected)
+		mbSelectedDemo="GoToMotherBaseAfterQuietBattle",--{ GoToMotherBaseAfterQuietBattle, ArrivedMotherBaseAfterQuietBattle, ArrivedMotherBaseFromDeathFactory, ArrivedMotherBaseLiquid, QuietReceivesPersecution, TheGreatEscapeLiquid, ParasiticWormCarrierKill, AnableDevBattleGear, DevelopedBattleGear1, QuietHasFriendshipWithChild, QuietOnHeliInRain, InterrogateQuiet, DecisionHuey, EntrustDdog, DdogComeToGet, DdogGoWithMe, HappyBirthDayWithQuiet, HappyBirthDay, AttackedFromOtherPlayer_KnowWhereFrom, AttackedFromOtherPlayer_UnknowWhereFrom, QuietWishGoMission, NuclearEliminationCeremony, ForKeepNuclearElimination, SacrificeOfNuclearElimination, MoraleOfMBIsLow, EliLookSnake, LiquidAndChildSoldier, OcelotIsPupilOfSnake, CodeTalkerSunBath, LongTimeNoSee_DdogSuperHighLikability, LongTimeNoSee_DdogHighLikability, LongTimeNoSee_DdogLowLikability, LongTimeNoSee_DdogPup, LongTimeNoSee_DDSoldier, SnakeHasBadSmell_000, SnakeHasBadSmell_001, SnakeHasBadSmell_WithoutQuiet, PazPhantomPain1, PazPhantomPain2, PazPhantomPain4, PazPhantomPain4_jp, DetailsNuclearDevelop, EndingSacrificeOfNuclear, DevelopedBattleGear2, DevelopedBattleGear4, DevelopedBattleGear5, ArrivedMotherBaseChildren } -- Select MB cutscene (REQ: Play selected)
 		forceDemoAllowAction=0,--{ 0-1 } -- Force allow actions
 		mbDemoOverrideTime=0,--{ DEFAULT, CURRENT, CUSTOM } -- Override time
 		mbDemoHour=0,--{ 0-23 } -- Hour
@@ -146,7 +146,10 @@ local this={
 		randomizeMineTypes=0,--{ 0-1 } -- Randomize minefield mine types
 		additionalMineFields=0,--{ 0-1 } -- Enable additional minefields
 		--Custom soldier equip menu
-		customWeaponTableFREE=0,--{ 0-1 } -- Enemy use custom equip table in free roam
+		weaponTableGlobalFREE=0,--{ DEFAULT } -- Global soldier weapon table in FreeRoam
+		weaponTableGlobalMISSION=0,--{ DEFAULT } -- Global soldier weapon table in Missions
+		weaponTableGlobalMB_ALL=0,--{ DEFAULT } -- Global soldier weapon table in MB
+		customWeaponTableFREE=0,--{ 0-1 } -- Enemy use custom weapon table in free roam
 		customWeaponTableMISSION=0,--{ 0-1 } -- Enemy use custom equip table in missions
 		customWeaponTableMB_ALL=0,--{ 0-1 } -- MB staff use custom equip table
 		weaponTableStrength="NORMAL",--{ NORMAL, STRONG, COMBINED } -- Weapon stengths
@@ -381,6 +384,13 @@ local this={
 		mbSetOceanWaveAmplitude=0.5,--{ 0-10 } -- 
 		mbSetOceanWindDirectionP1=0.1,--{ -10-10 } -- 
 		mbSetOceanWindDirectionP2=0.1,--{ -10-10 } -- 
+		--Motions menu
+		motionGroupIndex=0,--{ 0-1 } -- Motion group
+		motionGaniIndex=0,--{ 0-2 } -- Motion number
+		motionHold=0,--{ 0-1 } -- Hold motion
+		motionRepeat=0,--{ 0-1 } -- Repeat motion
+		motionCloseMenuOnPlay=0,--{ 0-1 } -- Close menu on Playing motion
+		motionPrintOnPlay=0,--{ 0-1 } -- Print motion name on play
 		--Weather menu
 		weather_fogDensity=0.1,--{ 0-1 } -- Fog density
 		weather_fogType="NORMAL",--{ NORMAL, PARASITE } -- Fog type
