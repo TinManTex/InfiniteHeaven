@@ -110,7 +110,8 @@ function this.AddMarkerPositions()
 end
 
 function this.ClearPositions()
-  this.positions={}
+  --tex clear rather than new since othe ivars operate on this and dont want to break their references
+  InfUtil.ClearArray(this.positions)
 end
 
 function this.WritePositions()
