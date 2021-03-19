@@ -49,7 +49,7 @@ end
 
 function this.PostAllModulesLoad()
   this.LoadQuestDefs()
-  if this.questsRegistered then
+  if this.questsRegistered then--DEBUGNOW DOCUMENT what is this guarding?
     this.RegisterQuests()
   end
 end
