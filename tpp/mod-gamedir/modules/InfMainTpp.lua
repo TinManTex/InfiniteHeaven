@@ -700,6 +700,7 @@ end
 
 -- mb dd equip
 --tex TODO: don't like how this is still tied up both with weapon table and .GetMbs ranks
+--CULL and all uses off
 local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
