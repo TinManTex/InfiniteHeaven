@@ -36,7 +36,7 @@ this.eng={--english
   showMissionCode="Show missionCode",
   startOffline="Start offline",
   debugInMissionMenu="Debug stuff menu",
-  menu_keys="Hold <Quick dive> to open menu",
+  menu_keys="Hold <Switch Zoom> and press <Dash> to open menu",
   done="Done",
   min="min",
   max="max",
@@ -61,7 +61,8 @@ this.eng={--english
   enableIHExt="Enable IHExt",
   takeFocus="Give IHExt focus",
   ihext_not_installed_settings={"Not installed","Not installed"},
-  enableHelp="Enable help text (IHExt)",
+  menu_enableHelp="Enable help text.",
+  menu_disableToggleMenuHold="Disable hold menu toggle",
   loadExternalModules="Reload IH modules",
   sys_increaseMemoryAlloc="Increase memory allocation",
   searchMenu="Search menu",
@@ -72,10 +73,36 @@ this.eng={--english
   type_to_search="<Type and Enter to search>",
   inDemoMenu="In-cutscene menu",
   demo_cannot_restart_while_paused="Cannot restart cutscene while it is paused",
+  missionModes={
+    FREE="Free Roam",
+    MISSION="Story Mission",
+    MB="MB",
+    MB_ALL="MB",
+  },
+  generalHelpItem="General Help",
+  general_help_cmd="See MGS_TPP/mod/docs/ for documentation",
 }--eng end
 
 this.help={}
 this.help.eng={
+  simple_help=[[Navigate menu: Arrow keys or Dpad.
+Activate or advance setting: Press Right key or Dpad or double-click option.
+  ]],--tex default help text for option with none. should be short so that imgui doesn't scroll with default window size
+  generalHelpItem=[[General Help:
+Press F2 to toggle mouse cursor.
+Navigate menu: Arrow keys or Dpad.
+Activate or advance setting: Press Right key or Dpad or double-click option in menu.
+Search for settings: Click on the setting text below the menu list, type what you want and press Enter.
+Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.
+Menu item type symbols:
+> Sub-menu 
+>> Command 
+>] Command that closes menu when done 
+<> Option that applies change when setting selectected/cycled to 
+>! Option that has an action activated by pressing <Action>
+Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
+See ReadMe or Features and Options for more info.
+]],
   debugMode="Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.",
   startOffline="Start the game in offline mode, this also removes the connect option from the pause menu.",
   enableQuickMenu="Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.",
@@ -86,7 +113,8 @@ this.help.eng={
   resetSelectedProfile="Sets the options described in the selected profile to their default setting.",
   saveToProfile=[[Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.]],
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
-  enableHelp="Shows help text in IHExt for some options.",
+  menu_enableHelp="Shows help text for some options.",
+  menu_disableToggleMenuHold="Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
 }
 

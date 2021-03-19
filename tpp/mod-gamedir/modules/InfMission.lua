@@ -26,7 +26,7 @@
 --return this
 --<
 
---REF mission addon module, <GameDir>\mod\missions\ >
+--REF mission addon module aka missionInfo, <GameDir>\mod\missions\ >
 --reference of all entries rather than a sane example
 --local this={
 --  description="Jade Forest",-- Description for IH menu.
@@ -56,6 +56,24 @@
 --    "box_s13000_01",
 --  },
 --  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
+--  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable
+--    NORMAL={
+--      HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--      SMG=TppEquip.EQP_WP_East_sm_010,
+--      ASSAULT=TppEquip.EQP_WP_East_ar_010,
+--      SNIPER=TppEquip.EQP_WP_East_sr_011,
+--      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
+--      MG=TppEquip.EQP_WP_East_mg_010,
+--      MISSILE=TppEquip.EQP_WP_East_ms_010,
+--      SHIELD=TppEquip.EQP_SLD_SV
+--    },
+--  },
+--  heliSpaceFlags={-- Sortie/mission prep screen feature flags
+--    SkipMissionPreparetion=false,                        -- No sortie prep, like vanilla Mother Base.
+--    NoBuddyMenuFromMissionPreparetion=true,              -- No buddy select in the sortie
+--    NoVehicleMenuFromMissionPreparetion=true,            -- No vehicle select in the sortie
+--    DisableSelectSortieTimeFromMissionPreparetion=true,  -- Only ASAP as deployment time option
+--  },
 --}
 --
 --return this
@@ -76,6 +94,15 @@ local missionInfoFormat={
   missionHostageInfos="table",
   orderBoxList="table",
   orderBoxBlockList="table",
+  --weaponIdTable={"string","table"}
+  heliSpaceFlags="table",
+}
+
+local heliSpaceFlagNames={
+  "SkipMissionPreparetion",
+  "NoBuddyMenuFromMissionPreparetion",
+  "NoVehicleMenuFromMissionPreparetion",
+  "DisableSelectSortieTimeFromMissionPreparetion",
 }
 
 local this={}
@@ -100,9 +127,8 @@ this.manualMissionCode={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   settings={},--DYNAMIC
   OnSelect=function(self)
-    self.settings=this.GetMissionCodes()
-    self.range.max=#self.settings-1
-    self.settingNames=self.settings
+    self.settingNames=self.settings--DEBUGNOW settingnames?
+    IvarProc.SetSettings(self,this.GetMissionCodes())
   end,
   OnActivate=function(self,setting)
     local settingStr=self.settings[setting+1]
@@ -142,8 +168,7 @@ this.loadAddonMission={
       self.settings[#self.settings+1]=tostring(missionCode)
     end
     table.sort(self.settings)
-    self.range.max=#self.settings-1
-    self.settingNames=self.settings
+    IvarProc.SetMaxToList(self,self.settings)
   end,
   GetSettingText=function(self,setting)
     if #self.settings==0 then
@@ -351,6 +376,11 @@ end
 --tex Patch in locations to relevant TPP tables.
 --OUT/SIDE: a whole bunch
 function this.AddInLocations()
+  if next(this.locationInfo)==nil then
+    return
+  end
+
+  InfCore.Log("InfMission.AddInLocations: Adding locationInfos")
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationName=locationInfo.locationName
     if not locationName then
@@ -387,10 +417,25 @@ end
 --tex Patch in misssions to relevant TPP tables.TppMissionList.missionPackTable
 --OUT/SIDE: a whole bunch
 function this.AddInMissions()
+  if next(this.missionInfo)==nil then
+    return
+  end
+  
+  InfCore.Log("InfMission.AddInMissions: Adding missionInfos")
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    InfCore.Log("Adding mission "..missionCode)
+    InfCore.Log("Adding mission: "..missionCode)
 
     if InfCore.Validate(missionInfoFormat,missionInfo,"mission addon for "..missionCode) then
+      --tex TODO: expand Validate to validate sub tables
+      if missionInfo.heliSpaceFlags then
+        for flagName,set in pairs(missionInfo.heliSpaceFlags)do
+          if type(set)~="boolean" then
+            InfCore.Log("InfMission.AddInMissions: WARNING: missionInfo.heliSpaceFlags."..flagName.." should be boolean")
+            missionInfo.heliSpaceFlags[flagName]=nil--tex could do fixup, convert 0,1 whatever, either way I like to validate up front rather than slathering code with type guards
+          end
+        end
+      end
+    
       --tex TODO: check it has a valid location
 
       TppMissionList.missionPackTable[missionCode]=missionInfo.packs
@@ -438,8 +483,21 @@ function this.AddInMissions()
       TppEneFova.missionArmorType[missionCode]=missionInfo.missionArmorType
       TppEneFova.missionHostageInfos[missionCode]=missionInfo.missionHostageInfos
 
+      --tex add IH start-on-foot support
+      --missionInfo.missionMapParams is mbdvc_map_mission_parameter entry
+      if missionInfo.missionMapParams and missionInfo.missionMapParams.heliLandPoint then
+        for n,heliLandPoint in ipairs(missionInfo.missionMapParams.heliLandPoint)do
+          local routeIdStr32=InfCore.StrCode32(heliLandPoint.routeId)
+          if InfLZ.groundStartPositions[1][routeIdStr32] then
+             InfCore.Log("WARNING: entry for "..heliLandPoint.routeId.." already in InfLZ.groundStartPositions")
+          end
+          --tex heliLandPoint.point is ui point and .startPoint is the start of the route (according to caplag eyeballing a mission), as he's used it in gntn as the ground point without any issues I guess the game either doesn't use it, or it warps to route start which would make it moot anyhoo
+          --using startPoint for custom missions to allow the author some more control over the startOnFoot point.
+          InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(), heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
+        end
+      end
     end--if validate
-  end
+  end--for missionInfo
 
 
   if this.debugModule then
@@ -488,7 +546,7 @@ function this.RegisterMissions()
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
     end
   end
-  TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)
+  TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess 
 
   if this.debugModule then
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist modded")
@@ -743,6 +801,70 @@ function this.GetMbMissionListParameterTable()
   return missionListParameterTable
 end
 
+--REF
+--  weaponIdTable={
+--    NORMAL={
+--      HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--      SMG=TppEquip.EQP_WP_East_sm_010,
+--      ASSAULT=TppEquip.EQP_WP_East_ar_010,
+--      SNIPER=TppEquip.EQP_WP_East_sr_011,
+--      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
+--      MG=TppEquip.EQP_WP_East_mg_010,
+--      MISSILE=TppEquip.EQP_WP_East_ms_010,
+--      SHIELD=TppEquip.EQP_SLD_SV
+--    },
+--    STRONG={
+--      HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--      SMG=TppEquip.EQP_WP_East_sm_020,
+--      ASSAULT=TppEquip.EQP_WP_East_ar_030,
+--      SNIPER=TppEquip.EQP_WP_East_sr_020,
+--      SHOTGUN=TppEquip.EQP_WP_Com_sg_020,
+--      MG=TppEquip.EQP_WP_East_mg_010,
+--      MISSILE=TppEquip.EQP_WP_Com_ms_010,
+--      SHIELD=TppEquip.EQP_SLD_SV
+--    }
+--  }
+function this.ValidateWeaponIdTable(weaponIdTable)
+  local valid=true
+  for strength,weaponTable in pairs(weaponIdTable)do
+    for weaponType,equipId in pairs(weaponTable)do
+      if equipId==nil then
+        InfCore.Log("WARNING: InfMission.ValidateWeaponIdTable: equipId nil for weaponTable category "..strength.." "..weaponType)
+        return false
+      else
+        --local equipName=InfLookup.TppEquip.equipId[equipId]--DEBUG
+        --InfCore.Log("ValidateWeaponIdTable "..strength.." "..weaponType.." "..equipName.." "..equipId)--DEBUG
+      end
+    end
+  end
+  return valid
+end
+
+--CALLER: TppEnemy.GetWeaponIdTable
+--IN/SIDE vars.missionCode
+--GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
+--GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table, not a full table like TppEnemy.weaponIdTable
+function this.GetSoldierWeaponIdTable(soldierType,soldierSubType) 
+  local weaponIdTable
+  local missionInfo=this.missionInfo[vars.missionCode]
+  if missionInfo then
+    weaponIdTable=missionInfo.weaponIdTable
+    if type(weaponIdTable)=="string" then
+      weaponIdTable=TppEnemy.weaponIdTable[weaponIdTable]
+      if weaponIdTable==nil then
+        InfCore.Log("WARNING: InfMission.GetWeaponIdTable: could not find weaponIdTable["..missionInfo.weaponIdTable.."]")
+      end
+    elseif type(weaponIdTable)=="table" then
+      this.ValidateWeaponIdTable(weaponIdTable)--DEBUGNOW just do it on load instead, maybe set a valid flag to check so we can return nil, or just nil the entry on fail
+      --tex pass through, it will return at the end
+    else
+      weaponIdTable=nil
+    end
+  end--if missionInfo
+  --InfCore.PrintInspect(weaponIdTable,"InfMission weaponIdTable")--DEBUG
+  return weaponIdTable
+end--GetSoldierWeaponIdTable
+
 --
 --tex need to patch in some orderbox data into the free roam mission scripts.
 --TppMission.OnAllocate (which is run before this?) sets mvars.mis_orderBoxList to .missionStartPosition.orderBoxList, but doesn't seem to be used till later in execution
@@ -829,6 +951,15 @@ function this.Init(missionTable)
       TppUiCommand.HideOuterZone()
     end
   end
+end--Init
+
+function this.OnRestoreSvars()
+  --tex sortie mvars per mission - see heli_common_sequence OnRestoreSvars
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    if missionInfo.heliSpaceFlags then--tex alway a question when choosing a name whether to make it friendly for user (sortiePrepFlags or somthin), or to use naming from existing code, missionInfo in general uses code derived naming
+      InfTppUtil.SetHeliSpaceFlags(missionInfo.heliSpaceFlags,missionCode)
+    end--if heliSpaceFlags
+  end--for missionInfo
 end
 
 function this.LoadMissionManual(missionCode)

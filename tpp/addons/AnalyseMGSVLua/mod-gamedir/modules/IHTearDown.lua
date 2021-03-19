@@ -11,7 +11,7 @@ this.doDumpModules=true
 
 this.dumpDir=[[C:\Projects\MGS\dump\tpp\]]--tex output folder
 this.buildFromScratch=false
-local luaFolder=[[J:\GameData\mgs\filetype-crush\lua\]]--tex unmodded lua, all in same folder
+local luaFolder=[[E:\GameData\mgs\filetype-crush\lua\]]--tex unmodded lua, all in same folder
 
 function this.PostAllModulesLoad()
   InfCore.Log("IHTearDown.PostAllModulesLoad")
@@ -63,7 +63,7 @@ function this.DumpModules(options)
   InfCore.PrintInspect(noLiveFound,"noLiveFound")
   InfCore.PrintInspect(noReferenceFound,"noReferenceFound")
   
-    local classesPath=[[C:\Projects\MGS\InfiniteHeaven\MockFoxLua\LuaClasses[sais ida dump].txt]]
+  local classesPath=[[C:\Projects\MGS\InfiniteHeaven\MockFoxLua\LuaClasses[sais ida dump].txt]]
   local nonLiveClasses=this.FindNonLiveClasses(classesPath)
   InfCore.PrintInspect(nonLiveClasses,"nonLiveClasses")
 
@@ -182,7 +182,7 @@ function this.DumpModules(options)
     [[--Note: indexed from 0 like actual vars]],
     [[--dump of vars during missionCode:]]..vars.missionCode,
   }
-  this.WriteTable(this.dumpDir.."\\varsDump\\".."gvars.lua",table.concat(header,"\r\n"),svarsTable)
+  this.WriteTable(this.dumpDir.."\\varsDump\\".."gvars.lua",table.concat(header,"\r\n"),gvarsTable)
 
   local header={
     [[--mvars.lua]],

@@ -1,12 +1,16 @@
 --IHDebugVars.lua
 --tex turnin on debug crud and running some quick test code on allmodulesload
+--as well as supplying my dev menu
 
---tex some modules have some debug logging gated behind a if this.debugModule condition.
+--tex GOTCHA: some modules have some debug logging gated behind a if this.debugModule condition.
 --PostAllModulesLoad below will set debugModule to true for the modules named in this list.
 --this however won't catch modules that use this.debugModule while loading,
 --or stuff that the module has run before PostAllModulesLoad
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
+  'InfCore',
+  'InfExtToMgsv',
+  'InfMgsvToExt',
   'InfMain',
   'InfMenuDefs',
   'IvarProc',
@@ -18,15 +22,14 @@ local debugModules={
   --  'InfMBGimmick',
   'InfLookup',
   --  'InfMission',
-  --  'InfEquip',
+    'InfEquip',
   --'InfWalkerGear',
   --'InfSoldier',
-  --'InfEneFova',
-  --'InfExtToMgsv',
-  --'InfMgsvToExt',
+  'InfEneFova',
   --'InfMission',
   'InfNPC',
   'Ivars',
+  'TppEnemy',
 }
 
 local this={}
@@ -51,6 +54,21 @@ function this.PostAllModulesLoad()
     InfCore.Log("isMockFox, returning:")
     return
   end
+  
+--  TppEnemy.GetWeaponId=this.GetWeaponId
+--  TppEnemy.weaponIdTable.PF_A=weaponIdTable
+--  TppEnemy.weaponIdTable.PF_B=weaponIdTable
+--  TppEnemy.weaponIdTable.PF_C=weaponIdTable
+--  TppEnemy.weaponIdTable.DD=weaponIdTable
+--  TppEnemy.weaponIdTable.SOVIET_A=weaponIdTable
+--  TppEnemy.weaponIdTable.SOVIET_B=weaponIdTable
+--  TppEnemy.weaponIdTable.SKULL=weaponIdTable
+--  TppEnemy.weaponIdTable.MARINES_A=weaponIdTable
+--  TppEnemy.weaponIdTable.MARINES_B=weaponIdTable
+--  TppEnemy.weaponIdTable.MARINES_MIXED=weaponIdTable
+  
+  InfCore.PrintInspect("IHH")
+  InfCore.PrintInspect(imgui,"imgui")
 
   this.SetDebugVars()
 
@@ -193,7 +211,17 @@ function this.Init()
 --    for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
 --    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
 --  end
+  local gimMax=1025
+  for i=1,gimMax do
+    --InfCore.PrintInspect(gvars.gim_missionStartBreakableObjects[i],"Init gim_missionStartBreakableObjects["..i.."]:")
+  end
+end
 
+function this.OnAllocate(missionTable)
+  local gimMax=1025
+  for i=1,gimMax do
+    --InfCore.PrintInspect(gvars.gim_missionStartBreakableObjects[i],"Init gim_missionStartBreakableObjects["..i.."]:")
+  end
 end
 
 function this.SetDebugVars()
@@ -296,7 +324,7 @@ function this.PrintStrCodes()
 
   for i,str32 in ipairs(str32s)do
     local str=InfLookup.StrCode32ToString(str32)
-    InfCore.Log(str32.."="..tostring(str))
+    InfCore.Log(str32.."="..str)
   end
 
   local strings={
@@ -730,5 +758,407 @@ function this.Dump_ui_isTaskLastCompleted()
   --    }
 end
 
+--menus
+this.devInAccMenu={
+  noDoc=true,
+  nonConfig=true,
+  options={
+    "InfMenuCommands.RefreshPlayer",--DEBUGNOW
+    "Ivars.quest_useAltForceFulton",--DEBUGNOW
+    "Ivars.sys_increaseMemoryAlloc",--DEBUGNOW
+    "InfMenuCommands.DEBUG_SomeShiz",
+    "InfMenuCommands.DEBUG_SomeShiz2",
+    "InfMenuCommands.DEBUG_SomeShiz3",
+    --"Ivars.customBodyTypeMB_ALL",--DEBUGNOW
+    "Ivars.selectEvent",
+    --"Ivars.customSoldierTypeMISSION",--TODO:
+    "Ivars.manualSequence",
+    "Ivars.allowUndevelopedDDEquip",
+    "InfLookup.DumpValidStrCode",
+    --TODO: debugmodeall command/profile
+    --"Ivars.enableWildCardHostageFREE",--WIP
+    --"Ivars.enableSecurityCamFREE",
+    "InfMenuCommands.ForceRegenSeed",
+    "Ivars.debugValue",
+    "Ivars.debugMode",
+    "Ivars.debugMessages",
+    "Ivars.debugFlow",
+    "Ivars.debugOnUpdate",
+    "Ivars.log_SetFlushLevel",
+  }
+}--devInAccMenu
+
+this.devInMissionMenu={
+  noDoc=true,
+  nonConfig=true,
+  options={
+    "Ivars.cam_disableCameraAnimations",
+    "InfMenuCommands.DEBUG_SomeShiz",
+    "InfMenuCommands.DEBUG_SomeShiz2",
+    "InfMenuCommands.DEBUG_SomeShiz3",
+    "InfMenuCommands.DEBUG_WarpToObject",
+    "Ivars.warpToListPosition",
+    "Ivars.warpToListObject",
+    "InfHelicopter.RequestHeliLzToLastMarker",
+    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
+    "InfHelicopter.ForceExitHeli",
+    "InfHelicopter.ForceExitHeliAlt",
+    "InfHelicopter.PullOutHeli",
+    "InfHelicopter.ChangeToIdleStateHeli",
+    "Ivars.disablePullOutHeli",
+    --"Ivars.selectedCp",
+    --"InfMenuCommands.SetSelectedCpToMarkerObjectCp",
+    "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
+    "Ivars.selectedCp",
+    "InfUserMarker.PrintLatestUserMarker",
+    "InfMenuCommands.SetAllZombie",
+    "InfMenuCommands.CheckPointSave",
+    "Ivars.manualMissionCode",
+    "Ivars.setCamToListObject",
+    "Ivars.dropLoadedEquip",
+    "Ivars.dropTestEquip",
+    "Ivars.manualMissionCode",
+    "Ivars.manualSequence",
+    "Ivars.allowUndevelopedDDEquip",
+    "Ivars.debugValue",
+    "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
+    --"Ivars.parasitePeriod_MIN",
+    --"Ivars.parasitePeriod_MAX",
+    --"InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
+    "InfLookup.DumpValidStrCode",
+    "InfMenuCommands.SetAllFriendly",
+    "InfCamera.ShowFreeCamPosition",
+    "InfMenuCommands.ShowPosition",
+    "InfCore.ClearLog",
+  }
+}--devInMissionMenu
+
+function this.AddDevMenus()
+  InfCore.Log"AddDevMenus"
+  local safeSpaceMenu=InfMenuDefs.safeSpaceMenu.options
+  local inMissionMenu=InfMenuDefs.inMissionMenu.options
+  --KLUDGE
+  if safeSpaceMenu[1]~="InfMenuDefs.devInAccMenu" then
+    if not isMockFox then
+      table.insert(safeSpaceMenu,1,'InfMenuDefs.devInAccMenu')
+      table.insert(inMissionMenu,1,'InfMenuDefs.devInMissionMenu')
+    end
+  end
+end--AddDevMenus
+--< menus
+
+--menuCommands
+local toggle1=true
+local index1Min=1
+local index1Max=2
+local index1=index1Min
+local count=0
+local increment=5
+this.log=""
+this.DEBUG_SomeShiz=function()
+  count=count+1
+  InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
+  
+    local customSoldierType=IvarProc.GetForMission("customSoldierType",vars.missionCode)
+    InfCore.Log("customSoldierType:"..tostring(customSoldierType))
+  
+  --for i=1,100 do
+  --InfCore.Log(i)
+  ---InfExtToMgsv.GetPlayerPos()
+  --end
+  
+  if true then return end
+  
+  local markerPos=InfUserMarker.GetMarkerPosition(0)
+  InfCore.PrintInspect(markerPos,"markerPos")
+  local markerPos=InfUserMarker.GetMarkerPosition(nil)
+  InfCore.PrintInspect(markerPos,"markerPos 2nd")
+  
+  local markerIndex=0
+  vars.userMarkerPosX[markerIndex]=0+index1
+  vars.userMarkerPosY[markerIndex]=0+index1
+  vars.userMarkerPosZ[markerIndex]=0+index1
+  
+  InfCore.PrintInspect(vars.userMarkerGameObjId[markerIndex],"userMarkerGameObjId")
+
+  --local dumpedVars=IHDebugVars.DumpVars()
+  --IHDebugVars.PrintVars(dumpedVars)
+
+
+  if true then return end
+
+  local scriptBlockNames={
+    "animal_block",
+    "demo_block",
+    "quest_block",
+    "mission_block",
+    "npc_block",
+    "reinforce_block",
+    "cypr_small_mission_block_1",
+    "cypr_small_mission_block_2",
+    "cypr_small_mission_block_3",
+    "cypr_demo_block",
+  }
+
+  for i,blockName in ipairs(scriptBlockNames)do
+    InfCore.PrintInspect(ScriptBlock.GetScriptBlockId(blockName),blockName)
+  end
+
+  if true then return end
+
+
+  InfCore.PrintInspect(Time,"Time")
+  local timeResult={
+    deltaGameTime=Time.GetDeltaGameTime(),
+    gameTimeRate=Time.GetGameTimeRate(),
+    frameTime=Time.GetFrameTime(),
+    rawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp(),
+    frameIndex=Time.GetFrameIndex(),
+  }
+
+  for name,result in pairs(timeResult)do
+    InfCore.Log(name..":"..tostring(result))
+  end
+
+  if true then return end
+
+  InfUAV.SetupUAV()
+  if true then return end
+  local fileList=File.GetFileListTable("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
+  InfCore.PrintInspect(fileList,"fileList")
+
+
+  --    GetBlockPackagePath = "<function>",
+  --    GetFileListTable = "<function>",
+  --    GetReferenceCount = "<function>",
+
+  local identifier="HelispaceLocatorIdentifier"
+  --  local locatorName="BuddyQuietLocator"
+  local key="BuddyDDogLocator"
+  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
+  local dataSet=Data.GetDataSet(data)
+  local dataSetFile=DataSet.GetDataSetFile(dataSet)
+  local  blockPackagePath=File.GetBlockPackagePath(dataSetFile)
+
+  -- local  blockPackagePath=File.GetBlockPackagePath("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
+
+  -- local  blockPackagePath=File.GetBlockPackagePath(data)
+  InfCore.PrintInspect(blockPackagePath,"blockPackagePath")
+
+  --local  referenceCount=File.GetReferenceCount("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
+  local  referenceCount=File.GetReferenceCount("Tpp/Scripts/Equip/EquipMotionData.lua")
+  InfCore.PrintInspect(referenceCount,"referenceCount")
+
+  if true then return end
+
+  InfCore.DebugPrint("index1:"..index1)
+  index1=index1+increment
+  if index1>index1Max then
+    index1=index1Min
+  end
+  toggle1=not toggle1
+end
+
+local index2Min=300
+local index2Max=334
+local index2=index2Min
+this.DEBUG_SomeShiz2=function()
+  InfCore.Log("---DEBUG_SomeShiz2---")
+
+  -- vars.missionCode=12345--
+
+  local function PrintInfo(object,objectName)
+    InfCore.Log("PrintInfo "..objectName..":")
+    InfCore.PrintInspect(object,objectName.." Inspect")
+    InfCore.PrintInspect(getmetatable(object),objectName.." Inspect metatable")
+    InfCore.Log(objectName.." tostring:"..tostring(object))
+  end
+
+  --  --tex in helispace \chunk3_dat\Assets\tpp\pack\mission2\heli\h40050\h40050_area_fpkd\Assets\tpp\level\mission2\heli\h40050\h40050_sequence.fox2 (or equivalent h40010,h40020 fox2) is loaded
+  --  --it has a DataIdentifier named HelispaceLocatorIdentifier
+  --  --DataIdentifier have key / nameInfArchive paths to other Data / Entities, this is what DataIdentifier.GetDataWithIdentifier used to return a Data entity.
+  --  local identifier="HelispaceLocatorIdentifier"
+  --  --  local locatorName="BuddyQuietLocator"
+  --  local key="BuddyDDogLocator"
+  --  InfCore.Log("identifier: "..identifier)
+  --  InfCore.Log("key: "..key)
+  --  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
+  --  PrintInfo(data,"data")
+  --  --OUTPUT
+  --  --PrintInfo data:
+  --  --data Inspect=<userdata 1>
+  --  --data Inspect metatable={
+  --  --  __index = <function 1>,
+  --  --  __newindex = <function 2>,
+  --  --  __tostring = <function 3>
+  --  --}
+  --  --data tostring:Locator: 0x000000011624FF40
+  --
+  --  InfCore.PrintInspect(data:GetClassName(),"data:GetClassName()")
+  --  --data:GetClassName()="Locator"
+  --  InfCore.PrintInspect(data:GetPropertyList(),"data:GetPropertyList()")
+  --  --data:GetPropertyList()={ "name", "referencePath", "parent", "transform", "shearTransform", "pivotTransform", "inheritTransform", "visibility", "selection", "worldMatrix", "worldTransform", "size" }
+  --  InfCore.PrintInspect(data:GetPropertyInfo("name"),"data:GetPropertyInfo('name')")
+  --  --data:GetPropertyInfo('name')={
+  --  --  arraySize = 1,
+  --  --  container = "StaticArray",
+  --  --  dynamic = false,
+  --  --  export = "RW",
+  --  --  name = "name",
+  --  --  storage = "Instance",
+  --  --  type = "String"
+  --  --}
+  --  --tex as you can see the properties of entites can be accessed with dot notation
+  --  InfCore.PrintInspect(data.name,"data.name")
+  --  --data.name="BuddyDDogLocator"
+  --  InfCore.PrintInspect(data.referencePath,"data.referencePath")
+  --  --data.referencePath="BuddyDDogLocator"
+
+  ---
+  InfCore.Log("---------")
+  local identifier="PlayerDataIdentifier"
+  --  local locatorName="BuddyQuietLocator"
+  local key="PlayerGameObject"
+  InfCore.Log("identifier: "..identifier)
+  InfCore.Log("key: "..key)
+
+  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
+  PrintInfo(data,"data")
+  --OUTPUT
+  --PrintInfo data:
+  --data Inspect=<userdata 1>
+  --data Inspect metatable={
+  --  __index = <function 1>,
+  --  __newindex = <function 2>,
+  --  __tostring = <function 3>
+  --}
+  --data tostring:Locator: 0x000000011624FF40
+
+  InfCore.PrintInspect(data:GetClassName(),"data:GetClassName()")
+  --data:GetClassName()="GameObject"
+  InfCore.PrintInspect(data:GetPropertyList(),"data:GetPropertyList()")
+  --data:GetPropertyList()={ "name", "referencePath", "typeName", "groupId", "totalCount", "realizedCount", "parameters" }
+  InfCore.PrintInspect(data:GetPropertyInfo("name"),"data:GetPropertyInfo('name')")
+  --data:GetPropertyInfo('name')={
+  --  arraySize = 1,
+  --  container = "StaticArray",
+  --  dynamic = false,
+  --  export = "RW",
+  --  name = "name",
+  --  storage = "Instance",
+  --  type = "String"
+  --}
+  --tex as you can see the properties of entites can be accessed with dot notation
+  InfCore.PrintInspect(data.name,"data.name")
+  --data.name="PlayerGameObject"
+  InfCore.PrintInspect(data.referencePath,"data.referencePath")
+  --data.referencePath="PlayerGameObject"
+
+  ---
+  InfCore.PrintInspect(data:GetPropertyInfo("parameters"),"data:GetPropertyInfo('parameters')")
+  --data:GetPropertyInfo('parameters')={
+  --  arraySize = 1,
+  --  container = "StaticArray",
+  --  dynamic = false,
+  --  export = "RW",
+  --  name = "name",
+  --  storage = "Instance",
+  --  type = "String"
+  --}
+  --tex as you can see the properties of entites can be accessed with dot notation
+  InfCore.PrintInspect(data.parameters,"data.parameters")
+  --data.parameters=
+  local parameters=data.parameters
+  InfCore.PrintInspect(tostring(parameters),"tostring(parameters)")
+
+
+  -- InfCore.PrintInspect(parameters:GetPropertyList(),"parameters:GetPropertyList()")
+  IHH.TestCallToIHHook(data)
+  --DEBUGNOW
+
+  InfCore.DebugPrint("index2:"..index2)
+  index2=index2+1
+  if index2>index2Max then
+    index2=index2Min
+  end
+end
+
+local index3Min=1
+local index3Max=10
+local index3=index3Min
+local toggle3=false
+this.DEBUG_SomeShiz3=function()
+  InfCore.Log("---DEBUG_SomeShiz3---")
+
+
+
+  local routes={
+    --      "rt_slopedWest_d_0000_sub",
+    --        "rt_slopedWest_d_0004",
+    --        "rt_slopedWest_d_0003",
+    "rt_slopedWest_d_0002",
+    --        "rt_slopedWest_d_0001",
+    "rt_slopedWest_d_0005",
+
+    --        "rt_slopedWest_n_0000",
+    "rt_slopedWest_n_0004",
+    --        "rt_slopedWest_n_0003",
+    --        "rt_slopedWest_n_0002",
+    --        "rt_slopedWest_n_0001",
+    --        "rt_slopedWest_n_0005",
+
+    --        "rt_slopedWest_c_0000",
+    --        "rt_slopedWest_c_0003",
+    --        "rt_slopedWest_c_0001",
+    --        "rt_slopedWest_c_0004",
+    --        "rt_slopedWest_c_0002",
+    "rt_slopedWest_c_0004",
+
+    "rt_slopedWest_s_0000",
+  --"rt_slopedWest_s_0001",
+  }
+  index3Max=#routes
+  
+  local soldierName="sol_slopedWest_0000"
+  local routeName=routes[index3]
+  InfCore.DebugPrint(routeName)
+  InfSoldier.WarpSetRoute(soldierName,routeName)
+
+  --  local objectName = "sol_slopedWest_0000"
+  --  local gameId=GetGameObjectId(objectName)
+  --  local objectPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+  --  if objectPos==nil then
+  --    InfCore.Log("GetPosition nil for "..objectName,true)
+  --  else
+  --    InfCore.Log(objectName.." pos:".. objectPos:GetX()..",".. objectPos:GetY().. ","..objectPos:GetZ(),true)
+  --  end
+  --
+  --  if true then return end
+  --
+  --  InfCore.PrintInspect(TppLandingZone.assaultLzs,"assaultLzs")
+  --  InfCore.PrintInspect(TppLandingZone.missionLzs,"missionLzs")
+  --
+  --  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+  --  local closestRoute
+  --  if lastMarkerIndex==nil then
+  --    InfMenu.PrintLangId"no_marker_found"
+  --    return
+  --  else
+  --    local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+  --    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
+  --
+  --    closestRoute=InfLZ.GetClosestLz(markerPostion)
+  --  end
+  --
+  --  InfCore.PrintInspect(closestRoute,"closestRoute")
+
+  InfCore.DebugPrint("index3:"..index3)
+  index3=index3+1
+  if index3>index3Max then
+    index3=index3Min
+  end
+  toggle3=not toggle3
+end
+--< menuCommands
 
 return this

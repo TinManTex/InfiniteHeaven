@@ -11,12 +11,13 @@ local ipairs=ipairs
 
 this.debugModule=false
 
+this.updateOutsideGame=true
+
 local menuLine="menuLine"
 local menuItems="menuItems"
 local OPTION="OPTION"
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-
   if IHH then
   --tex always run if IHH DEBUGNOW
   else
@@ -37,6 +38,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end--if not IHH
 
   this.ProcessCommands()
+  this.ProcessMenuCommands()
 end
 
 function this.ProcessCommands()
@@ -84,8 +86,12 @@ function this.ProcessCommands()
           if this.debugModule then
             InfCore.PrintInspect(args,'ToMgsv command '..args[1])--DEBUG
           end
-          if this.commands[args[2]] then
-            this.commands[args[2]](args)
+          local cmd=args[2]
+          local Command=this.commands[args[2]]
+          if Command==nil then
+            InfCore.Log("WARNING: InfExtToMgsv.ProcessCommands: could not find command "..tostring(args[2]))
+          else
+            Command(args)
           end
 
           InfCore.extToMgsvComplete=messageId
@@ -109,6 +115,33 @@ function this.ProcessCommands()
   end--not IHH
 end--ProcessCommands
 
+--IHH IHMenu
+function this.ProcessMenuCommands()
+  --InfCore.Log("ProcessMenuCommands")--DEBUGNOW
+  if not IHH or not IHH.menuInitialized then
+    return
+  end
+
+  local messages=IHH.GetMenuMessages()
+  if not messages then
+    return
+  end
+
+  for i,message in ipairs(messages)do
+    InfCore.Log("Process menuMessage: "..message)--DEBUGNOW
+    if message:len()>0 then
+      message="1|"..message--WORKAROUND: commands still expect my IPC accounting with messageID at the start
+      local args=Split(message,'|')
+      --local messageId=tonumber(args[1])
+      if #args>0 then
+        if this.commands[args[2]] then
+          this.commands[args[2]](args)
+        end
+      end
+    end
+  end
+end--ProcessMenuCommands
+
 --commands
 --tex all commands take in single param and array of args
 --args[1] = messageId (not really useful for a command)
@@ -130,11 +163,12 @@ function this.ExtSession(args)
   end
 
   --DEBUGNOW if InfCore.manualIHExtStart then
-  InfMenu.GoMenu(InfMenu.topMenu)
+  InfMenu.GoBackTop()
   InfMenu.DisplayCurrentSetting()
   --end
 end
 
+--menu commands>
 --args string elementName, string input
 --tex handles input from inputLine or menuSetting
 --TODO document what the actual commands are
@@ -206,7 +240,7 @@ function this.Selected(args)
     if menuIndex and menuIndex>0 and menuIndex<=#InfMenu.currentMenuOptions then
       InfMenu.currentIndex=menuIndex
       InfMenu.GetSetting()
-      InfMenu.DisplayCurrentSetting()
+      InfMenu.DisplaySetting(menuIndex)
     end
   end
 end
@@ -253,13 +287,39 @@ function this.Activate(args)
       end
     end
   end
-end
+end--Activate
+
+--DEBUGNOW CULL
+--function this.ToggleMenu(args)
+--  if #args>2 and args[3]=="1" then--tex KLUDGE DEBUGNOW
+--    InfCore.Log("ToggleMenu 1")
+--    if InfMenu.menuOn then
+--      InfMenu.MenuOff()
+--    else
+--      InfMgsvToExt.HideMenu()--tex KLUDGE DEBUGNOW
+--    end
+--    return
+--  end
+--
+--  local currentChecks=InfMain.UpdateExecChecks(InfMain.execChecks)
+--  InfMenu.ToggleMenu(currentChecks)
+--end
 
 function this.ToggleMenu(args)
+  if InfMenu.currentMenuOptions==nil then--tex WORKAROUND menu not inited yet
+    return
+  end
+  
   local currentChecks=InfMain.UpdateExecChecks(InfMain.execChecks)
   InfMenu.ToggleMenu(currentChecks)
 end
-
+function this.MenuOff(args)
+  if InfMenu.menuOn then
+    InfMenu.MenuOff()
+  else
+    InfMgsvToExt.HideMenu()--tex KLUDGE DEBUGNOW
+  end
+end
 --args string textBlockName
 function this.GotKeyboardFocus(args)
   if args[3]==menuLine then
@@ -297,41 +357,93 @@ function this.EnterText(args)
     --InfCore.WriteToExtTxt()
   end
 end
-
---DEBUGNOW
+--< menu commands
+--SIDE: whatever the script does lol
+function this.DoScript(args)
+  local luaString=args[3]
+  InfCore.Log("DoString:"..luaString)--DEBUGNOW TODO: limit to level:trace
+  local chunk,err=loadstring(luaString)
+  if not chunk then
+    InfCore.Log(tostring(err))
+    InfCore.ExtCmd("DoScriptError",tostring(err))--DEBUGNOW IMPLEMENT
+  else
+    chunk();
+  end
+end--DoScript
+--tex called via IH IPC to register more commands for IH IPC to be able to call (which in themselves may send callback commands)
+--IN/SIDE: InfExtToMgsv.commands
+function this.RegisterToGameCmd(args)
+  local cmdName=args[3]
+  local cmdString=args[4]
+  InfCore.Log("RegisterToGameCmd: "..cmdName..":"..cmdString)--DEBUGNOW TODO: limit to level:trace
+  local registerString="InfExtToMgsv.commands['"..cmdName.."']=function(args)"..cmdString.."end"
+  local chunk,err=loadstring(registerString)
+  if not chunk then
+    InfCore.Log(tostring(err))
+    InfCore.ExtCmd("DoScriptError",tostring(err))--DEBUGNOW IMPLEMENT
+  else
+    chunk();
+  end
+end--RegisterToGameCmd
 --FoxKitToMgsv
 function this.GetPlayerPos(args)
   --InfCore.Log("GetPlayerPos")--DEBUG
-  local offsetY=0
-  if Ivars.adjustCameraUpdate:Is(0) then--tex freecam not on
-    offsetY=-0.783
-    if PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL} then
-      offsetY = offsetY + 0.45
-    end
-  end
-
+  --DEBUGNOW
+  --  local offsetY=0
+  --  if Ivars.adjustCameraUpdate:Is(0) then--tex freecam not on
+  --    offsetY=-0.783
+  --    if PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL} then
+  --      offsetY = offsetY + 0.45
+  --    end
+  --  end
+  --InfCore.Log("GetPlayerPos "..tostring(vars.playerPosX)..","..tostring(vars.playerPosY))--DEBUGNOW
   InfCore.ExtCmd('GamePlayerPos',vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY)
 end
-
+--SetPlayerPos|{x}|{y}|{z}|{yaw}
+function this.SetPlayerPos(args)
+  local x,y,z,yaw=args[3],args[4],args[5],args[6]
+  TppPlayer.Warp{pos={x,y,z},rotY=yaw}
+end
 function this.GetCameraPos(args)
   InfCore.ExtCmd('GameCameraPos',
     vars.playerCameraPosition[0],vars.playerCameraPosition[1],vars.playerCameraPosition[2],
     vars.playerCameraRotation[0],vars.playerCameraRotation[1],vars.playerCameraRotation[2])
 end
+--SetCameraPos|{x}|{y}|{z}|{pitch}|{yaw}
+function this.SetCameraPos(args)
+  local x,y,z,pitch,yaw=args[3],args[4],args[5],args[6],args[7]
+  local currentCamName=this.GetCurrentCamName()
+  local currentPos=Vector3(x,y,z)
+  InfCamera.WritePosition(currentCamName,currentPos)
+end
+function this.GetUserMarkerPos(args)
+  local markerIndex=tonumber(args[3])
+  local markerPos=InfUserMarker.GetMarkerPosition(markerIndex)
+  if markerPos then
+    InfCore.ExtCmd('UserMarkerPos',markerIndex,markerPos:GetX(),markerPos:GetY(),markerPos:GetZ())
+  end
+end
 
 this.commands={
   extSession=this.ExtSession,
+  --menu commands>
   input=this.Input,
   selected=this.Selected,
   selectedcombo=this.SelectedCombo,
   activate=this.Activate,
   togglemenu=this.ToggleMenu,
+  menuoff=this.MenuOff,
   GotKeyboardFocus=this.GotKeyboardFocus,
   EnterText=this.EnterText,
-  --DEBUGNOW
+  --<
+  DoScript=this.DoScript,
+  RegisterToGameCmd=this.RegisterToGameCmd,
   --FoxKitToMgsv
   GetPlayerPos=this.GetPlayerPos,
+  SetPlayerPos=this.SetPlayerPos,
   GetCameraPos=this.GetCameraPos,
+  SetCameraPos=this.SetCameraPos,
+  GetUserMarkerPos=this.GetUserMarkerPos,
 }
 
 return this

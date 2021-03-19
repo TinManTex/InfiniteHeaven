@@ -119,37 +119,39 @@ this.addObjectLookupList={
 
 --Commands
 function this.AddMarkerObjects()
+  if vars.userMarkerSaveCount==0 then
+    InfMenu.PrintLangId"no_marker_found"
+    return
+  end
+
   local addedCount=0
-  for index=0,InfUserMarker.MAXMARKERS-1 do
-    local addFlag=vars.userMarkerAddFlag and vars.userMarkerAddFlag[index] or nil
-    if addFlag==nil or addFlag~=0 then
-      local gameId=vars.userMarkerGameObjId[index]
-      if gameId==GameObject.NULL_ID then
+  for index=0,vars.userMarkerSaveCount-1 do
+    local gameId=vars.userMarkerGameObjId[index]
+    if gameId==GameObject.NULL_ID then
+      --DEBUGNOW InfMenu.PrintLangId"soldier_not_marked"
+      InfCore.Log("gameId==NULL_ID  "..gameId)--DEBUGNOW
+    else
+
+      local gameObjectName=InfLookup.ObjectNameForGameId(gameId)
+      if gameObjectName==nil then
         --DEBUGNOW InfMenu.PrintLangId"soldier_not_marked"
-        InfCore.Log("gameId==NULL_ID  "..gameId)--DEBUGNOW
+        InfCore.Log("No name found for gameobject "..gameId,true)--DEBUGNOW
       else
-
-        local gameObjectName=InfLookup.ObjectNameForGameId(gameId)
-        if gameObjectName==nil then
-          --DEBUGNOW InfMenu.PrintLangId"soldier_not_marked"
-          InfCore.Log("No name found for gameobject "..gameId,true)--DEBUGNOW
-        else
-          --TODO: better
-          local add=true
-          for i,objectName in ipairs(this.objectNames) do
-            if gameObjectName==objectName then
-              add=false
-              break
-            end
+        --TODO: better
+        local add=true
+        for i,objectName in ipairs(this.objectNames) do
+          if gameObjectName==objectName then
+            add=false
+            break
           end
+        end
 
-          if add then
-            addedCount=addedCount+1
-            this.objectNames[#this.objectNames+1]=gameObjectName
-          end
-        end--if name not nil
-      end--if not NULL_ID
-    end--if addflag
+        if add then
+          addedCount=addedCount+1
+          this.objectNames[#this.objectNames+1]=gameObjectName
+        end
+      end--if name not nil
+    end--if not NULL_ID
   end--for markers
 
   local addedString = addedCount.." objects added to list"

@@ -160,14 +160,20 @@ function this.PostAllModulesLoad()
         if langTable[settingNames] then
           ivar.settingNames=settingNames
         end
-        ivar.settingNames=ivar.settingNames or ivar.settings--tex fall back to settings table
-      end
-    end
-  end
+        --tex fall back to settings table
+        --GOTCHA: ivars with dynamic settings will also need to update settingNames
+        if not ivar.settingNames then
+          if ivar.settings and #ivar.settings>0 then
+            ivar.settingNames=ivar.settings
+          end
+        end
+      end--if Ivar
+    end--for Ivars
+  end--for InfModules
 
   if this.debugModule then
   --InfCore.PrintInspect(InfLang,"InfLang")
   end
-end
+end--PostAllModulesLoad
 
 return this

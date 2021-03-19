@@ -17,9 +17,12 @@ local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 local insert=table.insert
 local abs=math.abs
 local pairs=pairs
+local tostring=tostring
 
 local ivars=ivars
-local InfQuickMenuDefs--PostModuleLoad
+local InfQuickMenuDefs--PostModuleReload
+
+this.updateOutsideGame=true
 
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
@@ -28,7 +31,7 @@ this.repeatRateDefault=0.85
 this.repeatRateIHExt=0.25
 this.toggleMenuHoldTime=1.25
 this.quickMenuHoldTime=0.8
-this.menuAltButtonHoldTime=0.4
+this.menuAltButtonHoldTime=0.2
 this.stickInputRate=0.25
 
 this.menuAltButton=InfButton.ZOOM_CHANGE
@@ -64,12 +67,18 @@ this.autoDisplayRate=this.autoDisplayDefault
 this.lastStickInput=0
 
 function this.PreModuleReload()
-  --GOTCHA: if the menu is open this will trigger an IH save as part of the normal menuoff
-  this.MenuOff()
 end
 
 function this.PostAllModulesLoad()
   InfQuickMenuDefs=InfQuickMenuDefs_User or _G.InfQuickMenuDefs
+  if InfQuickMenuDefs_User then
+    InfCore.Log("InfMenu: Using InfQuickMenuDefs_User")
+  end
+
+  --DEBUGNOW
+  --tex set up hold buttons
+  --InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
+  InfButton.buttonStates[this.menuAltButton].holdTime=this.menuAltButtonHoldTime
 end
 
 --IN/SIDE: InfMenuCommands.commandItems
@@ -180,18 +189,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       local settings={}
 
       if type(option.GetSettingText)=="function" then
-        local min=0
-        if option.settings then
-          min=0
-        elseif option.range then
-          min=option.range.min
-        end
-        local max=0
-        if option.settings then
-          max=#option.settings-1
-        elseif option.range then
-          max=option.range.max
-        end
+        local min,max=IvarProc.GetRange(option)
         for i=min,max do
           table.insert(settings,tostring(option:GetSettingText(i)))
         end
@@ -211,7 +209,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
 
       if #settings>0 then
         for i,settingText in ipairs(settings)do
-          InfCore.ExtCmd('AddToCombo','menuSetting',settingText)
+          InfCore.ExtCmd('AddToCombo','menuSetting',tostring(i-1)..":"..settingText)
         end
       elseif currentSetting then
         InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
@@ -224,8 +222,8 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       end
     end--if option
 
-    if ivars.enableHelp>0 then
-      local helpString=InfLangProc.LangStringHelp(option.name)
+    if ivars.menu_enableHelp>0 then
+      local helpString=InfLangProc.LangStringHelp(option.name) or InfLangProc.LangStringHelp("simple_help")
       if helpString then
         if this.menuOn then
           InfCore.ExtCmd('UiElementVisible','menuHelp',1)
@@ -313,10 +311,11 @@ end
 
 function this.ChangeSetting(option,value)
   local currentSetting=ivars[option.name]
-  local newSetting=this.IncrementWrap(currentSetting,value,option.range.min,option.range.max)
+  local min,max=IvarProc.GetRange(option)
+  local newSetting=this.IncrementWrap(currentSetting,value,min,max)
   if option.SkipValues and IsFunc(option.SkipValues) then
     while option:SkipValues(newSetting) do
-      newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
+      newSetting=this.IncrementWrap(newSetting,value,min,max)
     end
   end
 
@@ -360,7 +359,7 @@ function this.NextSetting(incrementMult)
     local newSetting=option:GetNext(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
   else
-    local increment=option.range.increment
+    local increment=option.range and option.range.increment or 1
     if incrementMult then
       increment=increment*incrementMult
       if not option.isFloat then
@@ -381,7 +380,8 @@ function this.PreviousSetting(incrementMult)
     local newSetting=option:GetPrev(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
   else
-    local increment=-option.range.increment
+    local increment=option.range and option.range.increment or 1
+    increment=-increment
     if incrementMult then
       increment=increment*incrementMult
       if not option.isFloat then
@@ -399,7 +399,7 @@ function this.GoMenu(menu,goBack)
   end
   InfCore.LogFlow("InfMenu.GoMenu:"..menu.name)--DEBUG
 
-  if not goBack and menu~=this.topMenu then
+  if not goBack and menu~=this.topMenu and menu~=this.currentMenu then
     menu.parent=this.currentMenu
     menu.parentOption=this.currentIndex
   end
@@ -467,36 +467,32 @@ end
 local itemIndicators={
   equals=" = ",
   colon=" :",
-  menu=" >",
-  command=" >>",
-  command_menu_off=" >]",
-  mode=" >[]",
+  menu=" > ",
+  command=" >> ",
+  command_menu_off=" >] ",
+  mode=" >[] ",
+  activate=" >! ",
+  on_change=" <> ",
 }
 
-local activationTags={
-  activate=" <Action>",
-  on_change="<OnChange>",
-}
-
-function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
+function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   local currentSetting=ivars[option.name]
 
   --REF
   --1:SomeOption = 102
   --4:SomeOption = 102%
   --5:SomeOption = 3:SomeSetting
-  --2:SomeOption <Action> = 3:SomeActivateSetting
-  --3:SomeOption <OnChange> = 2:SomeSettingWithOnChange
+  --2:SomeOption >! 3:SomeActivateSetting
+  --3:SomeOption <> 2:SomeSettingWithOnChange
   --8:Command >>
   --2:Menu >
   --9:Go back >>
   --3:Do and close >]
-  --itemIndex..optionText..activationTag..optionSeperator..settingIndex..settingText..settingSuffix
+  --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 
   local itemIndex=""
   local optionText=""
   local optionSeperator=""
-  local activationTag=""
   local settingIndex=""
   local settingText=""
   local settingSuffix=""
@@ -541,12 +537,18 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     settingText=tostring(currentSetting)
   end
 
-  if option.OnActivate then
-    if not option.noActivateText then
-      activationTag=activationTags.activate
-    end
+  if optionSeperator==itemIndicators.equals then--KLUDGE
+    --if option.isMode then
+    --  optionSeperator=itemIndicators.mode
+
+    --DEBUGNOW see if there's any ivars with both
+    if option.OnActivate then
+      if not option.noActivateText then
+        optionSeperator=itemIndicators.activate
+      end
   elseif option.OnChange then
-    activationTag=activationTags.on_change
+    optionSeperator=itemIndicators.on_change
+  end
   end
 
   if option.isPercent then
@@ -555,10 +557,10 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
 
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
     settingIndex=currentSetting..":"
-
   end
 
-  if settingNumberOnly then
+  if settingTextOnly then
+    settingIndex=""
     settingText=""
   end
 
@@ -567,9 +569,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     if optionSeperator==itemIndicators.equals then
       optionSeperator=itemIndicators.colon
     end
-    fullSettingText=itemIndex..optionText..activationTag..optionSeperator
+    fullSettingText=itemIndex..optionText..optionSeperator
   else
-    fullSettingText=itemIndex..optionText..activationTag..optionSeperator..settingIndex..settingText..settingSuffix
+    fullSettingText=itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
   end
 
   return fullSettingText
@@ -587,8 +589,8 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
     else
       local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
       local noItemIndicator=false
-      local settingNumberOnly=true
-      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
+      local settingTextOnly=true
+      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
     --InfCore.Log("DisplaySetting",false,true)--DEBUG
@@ -643,7 +645,8 @@ function this.MinSetting()
   local optionRef=this.currentMenuOptions[this.currentIndex]
   local option=this.GetOptionFromRef(optionRef)
   if option and option.optionType=="OPTION" then
-    IvarProc.SetSetting(option,option.range.min)
+    local min,max=IvarProc.GetRange(option)
+    IvarProc.SetSetting(option,min)
     this.PrintLangId"setting_minimum"--"Setting to minimum.."
     this.DisplayCurrentSetting()
   end
@@ -674,6 +677,9 @@ function this.ResetSettingsDisplay()
     end
   end
   this.GetSetting()
+  if InfCore.IHExtRunning() then
+    this.GoMenu(this.currentMenu)--tex update IHMenu the easy way.
+  end
 end
 --
 function this.Print(message,...)
@@ -693,6 +699,7 @@ function this.PrintFormatLangId(langId,...)
 end
 
 function this.ToggleMenu(currentChecks)
+  InfCore.LogFlow"InfMenu.ToggleMenu"
   --DEBUGNOW if this.CheckActivate(currentChecks) then
   this.menuOn = not this.menuOn
   if this.menuOn then
@@ -704,9 +711,10 @@ function this.ToggleMenu(currentChecks)
   -- end
 end
 
-function this.MenuOff()
+function this.MenuOff(skipSave)
+  InfCore.LogFlow"InfMenu.MenuOff"
   this.menuOn=false
-  this.OnDeactivate()
+  this.OnDeactivate(skipSave)
 end
 
 function this.OnActivate()
@@ -728,12 +736,12 @@ function this.OnActivate()
   InfMain.OnMenuOpen()
 end
 
-function this.OnDeactivate()
+function this.OnDeactivate(skipSave)
   InfCore.LogFlow"InfMenu.OnDeactivate"
   this.PrintLangId"menu_off"--"Menu Off"
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()
-  InfMain.OnMenuClose()
+  InfMain.OnMenuClose(skipSave)
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.HideMenu()
@@ -789,7 +797,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     end
     --tex while pause is bound to escape key by default it is not actually the ESCAPE button mask
     --so if pause is bound to something else this wont catch it.
-    if InfButton.OnButtonDown(InfButton.ESCAPE) then
+    if not IHH and InfButton.OnButtonDown(InfButton.ESCAPE) then--DEBUGNOW not IHH test
       this.MenuOff()
       return
     end
@@ -810,7 +818,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end--if ~=rootMenu
 
 
-  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+  if ivars.menu_disableToggleMenuHold==0 and InfButton.OnButtonHoldTime(this.toggleMenuButton) then
     --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
     if this.CheckActivate(currentChecks) then
       this.ToggleMenu(currentChecks)
@@ -870,6 +878,7 @@ end--Update
 function this.ActivateControlSet()
   --tex set up hold buttons
   InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
+  InfButton.buttonStates[this.menuAltButton].holdTime=this.menuAltButtonHoldTime
 
   if InfQuickMenuDefs and InfQuickMenuDefs.quickMenuHoldButton then
     InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
@@ -1096,19 +1105,6 @@ function this.RevertProfileMenu()
   end
 end
 
-function this.AddDevMenus()
-  InfCore.Log"AddDevMenus"
-  local safeSpaceMenu=InfMenuDefs.safeSpaceMenu.options
-  local inMissionMenu=InfMenuDefs.inMissionMenu.options
-  --KLUDGE
-  if safeSpaceMenu[1]~="InfMenuDefs.devInAccMenu" then
-    if not isMockFox then
-      table.insert(safeSpaceMenu,1,'InfMenuDefs.devInAccMenu')
-      table.insert(inMissionMenu,1,'InfMenuDefs.devInMissionMenu')
-    end
-  end
-end
-
 local nonSearchItems={
   menuOffItem=true,
   searchItem=true,
@@ -1141,7 +1137,9 @@ function this.BuildMenuDefForSearch(searchString)
     insert(newMenuDef.options,optionRef)
   end
   table.sort(newMenuDef.options)
-  insert(newMenuDef.options,1,"Ivars.searchItem")
+  if #newMenuDef.options == 0 then--DEBUGNOW tex not sure why I had this -v- item in the first place, but I've now added a check to make it a 'search found nothing' indicator
+    insert(newMenuDef.options,1,"Ivars.searchItem")
+  end
   insert(newMenuDef.options,"InfMenuCommands.GoBackTopItem")
   return newMenuDef
 end

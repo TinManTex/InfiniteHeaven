@@ -16,6 +16,10 @@
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
 --in general this means all stuff should have a 0 that at least does nothing,
 --dont let the lure of nice straight setting>game value lure you, just -1 it
+
+--REF TODO: ref of ivar with all vars and methods
+
+
 local this={}
 
 this.debugModule=false
@@ -122,7 +126,7 @@ this.log_SetFlushLevel={
 
 this.enableIHExt={
   inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
+  --DEBUGNOW save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnSelect=function(self)
@@ -160,9 +164,10 @@ this.enableIHExt={
   end,
 }
 
-this.enableHelp={
+this.menu_enableHelp={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
@@ -170,6 +175,13 @@ this.enableHelp={
     InfCore.WriteToExtTxt()
     InfMenu.DisplayCurrentSetting()
   end,
+}
+
+--tex DEBUGNOW set by ivar, used to disable the hold <evade> to toggle menu (the two button combo, and the IHHook toggle will still work)
+this.menu_disableToggleMenuHold={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
 }
 
 this.sys_increaseMemoryAlloc={--DEBUGNOW
@@ -384,7 +396,7 @@ this.dropTestEquip={--WIP --DEBUGNOW
 this.selectProfile={
   nonConfig=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
     if Ivars.profileNames==nil or #Ivars.profileNames==0 or self.settings==nil then
       return InfLangProc.LangString"no_profiles_installed"
@@ -395,17 +407,10 @@ this.selectProfile={
     end
   end,
   OnSelect=function(self)
-    local profileNames=Ivars.profileNames
-    if profileNames then
-      self.range.max=#profileNames-1
-      self.settings=profileNames
-    else
-      self.range.max=0
-      ivars[self.name]=0
-    end
+    IvarProc.SetSettings(self,Ivars.profileNames)
   end,
   OnActivate=function(self,setting)
-    if self.settings==nil then
+    if self.settings==nil or #self.settings==0 then
       InfMenu.PrintLangId"no_profiles_installed"
     end
 
@@ -562,8 +567,7 @@ function this.DeclareVars()
       if ivar.save and ivar.save~=EXTERNAL then
         local ok=true
         local svarType=0
-        local max=ivar.range.max or 0
-        local min=ivar.range.min
+        local min,max=IvarProc.GetRange(ivar)
         if ivar.svarType then
           svarType=ivar.svarType
         elseif ivar.isFloat then
@@ -617,20 +621,19 @@ local OPTIONTYPE_OPTION="OPTION"
 --build out full definition
 function this.BuildIvar(name,ivar)
   local ivars=ivars
+  local evars=evars
   local IvarProc=IvarProc
   if this.IsIvar(ivar) then
     ivar.optionType=OPTIONTYPE_OPTION
     --ivar.name=ivar.name or name
     ivar.name=name
-
+--DEBUGNOW settings-no-range
     ivar.range=ivar.range or {}
     ivar.range.max=ivar.range.max or 1
     ivar.range.min=ivar.range.min or 0
     ivar.range.increment=ivar.range.increment or 1
-
     ivar.default=ivar.default or ivar.range.min
-    ivars[ivar.name]=ivars[ivar.name] or ivar.default
-
+    
     if ivar.settings then
       ivar.enum=this.Enum(ivar.settings)
       --      for name,enum in ipairs(ivar.enum) do
@@ -660,6 +663,7 @@ function this.BuildIvar(name,ivar)
     ivar.MissionCheck=ivar.MissionCheck--tex OFF or IvarProc.MissionCheckAll--rather have the functions on it bring up warnings than have it cause issues by going through
     ivar.EnabledForMission=IvarProc.IvarEnabledForMission
 
+    ivars[ivar.name]=ivars[ivar.name] or ivar.default
     if ivar.save and ivar.save==EXTERNAL then
       evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
       ivars[ivar.name]=evars[ivar.name]--tex for late-defined/module ivars a previously saved value will already be loaded
@@ -777,13 +781,14 @@ function this.PostAllModulesLoad()
   --  end
 
   --tex kill orphaned save values
+  local evars=evars
+  local ivars=ivars
   for name,value in pairs(evars)do
     if not ivars[name] then
       InfCore.Log("WARNING: Ivars.PostAllModulesLoad: Could not find ivar for evar "..name)
       evars[name]=nil
     end
   end
-
 end
 --<
 

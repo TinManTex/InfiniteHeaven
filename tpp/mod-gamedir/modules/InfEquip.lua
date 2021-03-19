@@ -184,7 +184,7 @@ this.tppEquipTableTest={
 --  "EQP_WP_Com_ms_026",
 --  "EQP_WP_West_ms_020",--fb mr rl nlsp
 --  "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
-}
+}--tppEquipTableTest
 --SYNC: Tpp\Scripts\Equip\EquipIdTable
 --tex NOTE since this is pulled from EquipIdTable does not contain a lot of player only weapons, see EquipDevelopConstSetting
 this.tppEquipTable={
@@ -1406,8 +1406,33 @@ this.tppEquipTable={
 --end
 --InfCore.PrintInspect(equipStr32,"equipStr32")
 
+--tex inserted into TppEnemy.weaponIdTable
+this.weaponIdTable={
+  WILDCARD={--tex dd max grades except for noted
+    NORMAL={
+      HANDGUN=TppEquip.EQP_WP_West_hg_030,--geist p3 machine pistol grade 4 - shows shotgun icon but clearly isnt,
+      SMG=TppEquip.EQP_WP_West_sm_01b,
+      ASSAULT=TppEquip.EQP_WP_West_ar_05b,
+      SNIPER=TppEquip.EQP_WP_EX_sr_000,--molotok-68 grade 9
+      SHOTGUN=TppEquip.EQP_WP_Com_sg_018,
+      MG=TppEquip.EQP_WP_West_mg_03b,--alm48 flashlight grade 4 --TppEquip.EQP_WP_West_mg_037,
+      MISSILE=TppEquip.EQP_WP_Com_ms_02b,
+      SHIELD=TppEquip.EQP_SLD_DD_01,
+    },
+  },
+}
+--EXEC SIDE
+for id,idTable in pairs(this.weaponIdTable)do
+  TppEnemy.weaponIdTable[id]=idTable
+end
+
 --tex DEBUG, requires EquipIdTable.lua in build
 function this.CheckTppEquipTable()
+  if not EquipIdTable.equipIdTable then
+    InfCore.DebugPrint"InfEquip.tppEquipTable: TppEquip.lua not set up for this function."
+    return
+  end
+
   InfCore.DebugPrint"Checking InfEquip.tppEquipTable>TppEquip id"
   local equipIdToString={}
   for i,equipIdStr in ipairs(this.tppEquipTable)do
@@ -1434,7 +1459,7 @@ this.itemDropInfo={
   SUPPORT_ITEMS=10,--nades mags and bait
   ITEMS_MISC=6,
   HANDGUNS=2,
-  DRUGS=1,
+  --OFF DRUGS=1,
 --SUPPORT_FLARE=1,--not if support disabled
 }
 
@@ -1467,12 +1492,13 @@ this.soldierDropTable={
     --"EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
     "EQP_WP_EX_hg_010",--tornado 6 grade 3
   },
-  DRUGS={
-    --tex will drop as lowest grade (with that grades item count), if already have item it will replace with lowest grade
-    "EQP_IT_Pentazemin",
-    "EQP_IT_Clairvoyance",
-    "EQP_IT_ReflexMedicine",
-  },
+-- OFF till I can figure out a better approach to midding EquipIdTable
+--  DRUGS={
+--    --tex will drop as lowest grade (with that grades item count), if already have item it will replace with lowest grade
+--    "EQP_IT_Pentazemin",
+--    "EQP_IT_Clairvoyance",
+--    "EQP_IT_ReflexMedicine",
+--  },
 }
 
 this.registerIvars={
@@ -1487,6 +1513,24 @@ this.registerIvars={
   "putEquipOnTrucks",
   "itemDropChance",
 }
+
+IvarProc.MissionModeIvars(
+  this,
+  "weaponTableGlobal",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={"DEFAULT"},--DYNAMIC via addon
+    OnSelect=function(self)
+      self.settings=InfWeaponIdTable.addonsNames
+      IvarProc.SetMaxToList(self,self.settings)
+    end,
+    GetSettingText=function(self,setting)
+      local addonName=InfWeaponIdTable.addonsNames[setting+1]
+      return InfWeaponIdTable.addons[addonName].description or addonName
+    end,
+  },
+  {"FREE","MISSION","MB_ALL",}
+)
 
 --custom weapon table
 IvarProc.MissionModeIvars(
@@ -1594,10 +1638,14 @@ this.registerMenus={
 
 this.customEquipMenu={
   options={
-    --CULL
+    --CULL DEBUGNOW are these still being read?
     --    "Ivars.enableDDEquipMB",
     --    "Ivars.enableDDEquipFREE",
     --    "Ivars.enableDDEquipMISSION",
+    "Ivars.weaponTableGlobalFREE",
+    "Ivars.weaponTableGlobalMISSION",
+    "Ivars.weaponTableGlobalMB_ALL",--DEBUGNOW
+    
     "Ivars.customWeaponTableFREE",
     "Ivars.customWeaponTableMISSION",
     "Ivars.customWeaponTableMB_ALL",
@@ -1624,7 +1672,7 @@ this.langStrings={
     mbDDEquipNonLethal="DD equipment non-lethal",
     itemDropChance="Soldier item drop chance",
     putEquipOnTrucks="Equipment on trucks",
-    customWeaponTableFREE="Enemy use custom equip table in free roam",
+    customWeaponTableFREE="Enemy use custom weapon table in free roam",
     customWeaponTableMISSION="Enemy use custom equip table in missions",
     customWeaponTableMB_ALL="MB staff use custom equip table",
     weaponTableStrength="Weapon stengths",
@@ -1633,6 +1681,9 @@ this.langStrings={
     weaponTableMafr="Include PF weapons",
     weaponTableSkull="Include XOF weapons",
     weaponTableDD="Include DD weapons",
+    weaponTableGlobalFREE="Global soldier weapon table in FreeRoam",
+    weaponTableGlobalMISSION="Global soldier weapon table in Missions",
+    weaponTableGlobalMB_ALL="Global soldier weapon table in MB",
   },
   help={
     eng={
@@ -1643,7 +1694,9 @@ this.langStrings={
       allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.",
       weaponTableStrength="The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.",
       weaponTableDD="Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built",
-
+      weaponTableGlobalFREE="Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.",
+      weaponTableGlobalMISSION="Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.",
+      weaponTableGlobalMB_ALL="Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.",
     },
   }
 }
@@ -1652,6 +1705,7 @@ this.langStrings={
 --tex GOTCHA there's a limit to how much equip can be loaded before it starts crapping out - players weapons not showing/test equip spawn function crash on ~110th item in list (but weirdly on mg but not sniper in same list position).
 --TppEquip.CreateEquipMissionBlockGroup and/or TppEquip.AllocInstances?
 --tex also only items with p4 set to TppEquip.EQP_BLOCK_MISSION in /Tpp/Scripts/Equip/EquipIdTable.lua need to be loaded (mostly weapons, support items are alread loaded in EQP_BLOCK_COMMON).
+--CALLER: this.OnAllocate
 --OUT/SIDE: this.currentLoadTable
 function this.LoadEquipTable()
   local equipLoadTable={}
@@ -1684,7 +1738,7 @@ function this.LoadEquipTable()
 
   --8 guns
   if Ivars.enableWildCardFreeRoam:EnabledForMission() then
-      for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
+    for weaponType,equipId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
         equipLoadTable[equipId]=true
     end
   end
@@ -2048,13 +2102,16 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
     --tex usually built with TppEneFova.PreMissionLoad > TppEnemy.PrepareDDParameter > _CreateDDWeaponIdTable
     TppEnemy.weaponIdTable.DD=this.CreateDDWeaponIdTable()
   end
+  
+  local weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex returns TppEnemy.WeaponIdTable if default
+  weaponIdTable.DD=TppEnemy.weaponIdTable.DD--WORKAROUND: rest of the code should use TppEnemy.weaponIdTable.DD, but below combines DD so it needs to be in selected weaponIdTable
 
   --tex combine all active weapon tables
   local allTotal=0
   local allNoDuplicates={}
   for weaponTableType,ivarType in pairs(weaponTableTypes) do
     if activeTypes[ivarType] then
-      local weaponTable=TppEnemy.weaponIdTable[weaponTableType]
+      local weaponTable=weaponIdTable[weaponTableType]
       for strength,weapons in pairs(weaponTable)do
         if strengthType=="COMBINED" or strengthType==strength then
           for weaponType,weaponId in pairs(weapons)do
@@ -2067,11 +2124,11 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
               allNoDuplicates[weaponType][weaponId]=true
             end
             allTotal=allTotal+1
-          end
-        end
-      end
-    end
-  end
+          end--for weapons
+        end--if strenghtType
+      end--for weaponTable
+    end--if activeTypes
+  end--for weaponTableTypes
 
   --tex transform back to TppEnemy.weaponIdTable format
   local weaponIdTableAll={}
@@ -2186,7 +2243,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
   end
 
   TppEnemy.weaponIdTable.CUSTOM=weaponIdTableFinal
-end
+end--CreateCustomWeaponTable
 
 --tex adapted from TppEnemy._CreateDDWeaponIdTable
 function this.CreateDDWeaponIdTable(settingsTable)
@@ -2255,6 +2312,6 @@ function this.CreateDDWeaponIdTable(settingsTable)
   end
 
   return ddWeaponIdTable
-end
+end--CreateDDWeaponIdTable
 
 return this

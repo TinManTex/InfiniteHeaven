@@ -1,5 +1,7 @@
 -- DOBUILD: 0
 -- InfAutoDoc.lua
+-- Builds the features documentation by iterating Infinite Heavens menu modules
+-- See the main function AutoDoc, the last function
 local this={}
 
 --LOCALOPT
@@ -450,6 +452,6 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
   profileFileRelease:close()
 
   print"--autodoc done--"
-end
+end--AutoDoc
 
 return this

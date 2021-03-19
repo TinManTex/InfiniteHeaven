@@ -1,0 +1,5 @@
+
+Changes with lua-resty-tsort 1.0                                  6 Apr 2016
+
+    *) First Release Version
+

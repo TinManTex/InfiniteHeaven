@@ -15,6 +15,7 @@ this.debugModule=false
 this.safeSpaceMenu={
   options={
     "InfMenuDefs.systemMenu",--tex forced order (first) rather than just by context
+    "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
   }
 }
 
@@ -25,6 +26,7 @@ this.inMissionMenu={
     "InfHelicopter.ForceExitHeliAlt",
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
+    "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
   }
 }
 
@@ -40,8 +42,9 @@ this.systemMenu={
   options={
     --DEBUGNOW split into it's own menu
     "Ivars.enableIHExt",
-    "Ivars.enableHelp",
+    "Ivars.menu_enableHelp",
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
+    "Ivars.menu_disableToggleMenuHold",
     --
     "Ivars.selectProfile",
     --WIP "InfMenuCommands.ApplySelectedProfile",
@@ -56,35 +59,6 @@ this.systemMenu={
     "Ivars.ihMissionsPercentageCount",
     "InfMenuCommands.ResetAllSettingsItem",
   },
-}
-
-this.devInAccMenu={
-  noDoc=true,
-  nonConfig=true,
-  options={
-    "Ivars.quest_useAltForceFulton",--DEBUGNOW
-    "Ivars.sys_increaseMemoryAlloc",--DEBUGNOW
-    "InfMenuCommands.DEBUG_SomeShiz",
-    "InfMenuCommands.DEBUG_SomeShiz2",
-    "InfMenuCommands.DEBUG_SomeShiz3",
-    --"Ivars.customBodyTypeMB_ALL",--DEBUGNOW
-    "Ivars.selectEvent",
-    --"Ivars.customSoldierTypeMISSION",--TODO:
-    "Ivars.manualSequence",
-    "Ivars.allowUndevelopedDDEquip",
-    "Ivars.skipDevelopChecks",
-    "InfLookup.DumpValidStrCode",
-    --TODO: debugmodeall command/profile
-    --"Ivars.enableWildCardHostageFREE",--WIP
-    --"Ivars.enableSecurityCamFREE",
-    "InfMenuCommands.ForceRegenSeed",
-    "Ivars.debugValue",
-    "Ivars.debugMode",
-    "Ivars.debugMessages",
-    "Ivars.debugFlow",
-    "Ivars.debugOnUpdate",
-    "Ivars.log_SetFlushLevel",
-  }
 }
 
 this.debugMenu={
@@ -159,52 +133,6 @@ this.debugInMissionMenu={
     "InfMenuCommands.ShowPosition",
     "InfMenuCommands.CheckPointSave",
   --"InfMenuCommands.DEBUG_ClearAnnounceLog",
-  }
-}
-
-this.devInMissionMenu={
-  noDoc=true,
-  nonConfig=true,
-  options={
-    "Ivars.cam_disableCameraAnimations",
-    "InfMenuCommands.DEBUG_SomeShiz",
-    "InfMenuCommands.DEBUG_SomeShiz2",
-    "InfMenuCommands.DEBUG_SomeShiz3",
-    "InfMenuCommands.DEBUG_WarpToObject",
-    "Ivars.warpToListPosition",
-    "Ivars.warpToListObject",
-    "InfHelicopter.RequestHeliLzToLastMarker",
-    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
-    "InfHelicopter.ForceExitHeli",
-    "InfHelicopter.ForceExitHeliAlt",
-    "InfHelicopter.PullOutHeli",
-    "InfHelicopter.ChangeToIdleStateHeli",
-    "Ivars.disablePullOutHeli",
-    --"Ivars.selectedCp",
-    --"InfMenuCommands.SetSelectedCpToMarkerObjectCp",
-    "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
-    "Ivars.selectedCp",
-    "InfUserMarker.PrintLatestUserMarker",
-    "InfMenuCommands.SetAllZombie",
-    "InfMenuCommands.CheckPointSave",
-    "Ivars.manualMissionCode",
-    "Ivars.setCamToListObject",
-    "Ivars.dropLoadedEquip",
-    "Ivars.dropTestEquip",
-    "Ivars.manualMissionCode",
-    "Ivars.manualSequence",
-    "Ivars.allowUndevelopedDDEquip",
-    "Ivars.skipDevelopChecks",
-    "Ivars.debugValue",
-    "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
-    --"Ivars.parasitePeriod_MIN",
-    --"Ivars.parasitePeriod_MAX",
-    --"InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
-    "InfLookup.DumpValidStrCode",
-    "InfMenuCommands.SetAllFriendly",
-    "InfCamera.ShowFreeCamPosition",
-    "InfMenuCommands.ShowPosition",
-    "InfCore.ClearLog",
   }
 }
 

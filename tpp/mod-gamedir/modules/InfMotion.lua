@@ -1,20 +1,51 @@
 -- InfMotion.lua
 -- tex handles playing .ganis on player via Player.RequestToPlayDirectMotion
 -- additional player animations can be loaded by seperate fpk with mtar and an TppPlayer2AdditionalMtarData Entity to point to the mtar.
--- (see /Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk)
+-- (see /Assets/tpp/pack/player/motion/ih/ih_additional_motion.fpk)
 -- TODO: build an addon system for it if there's interest
-local this={}
+-- fpkdef:
+-- /Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk
+--    TODO: document what this .mtar is, I think it's just a renamed mgoplayer_resident.mtar? DEBUGNOW
+--    /Assets/tpp/motion/mtar/player2/player2_ih_additional_motion.mtar
+--
+-- /Assets/tpp/pack/mission2/ih/ih_additional_motion.fpkd
+--    /Assets/tpp/level_asset/chara/player/game_object/player2_ih_additional_motion.fox2
+--      Entity TppPlayer2AdditionalMtarData > /Assets/tpp/motion/mtar/player2/player2_ih_additional_motion.mtar
 
---REF DEBUGNOW TppPaz has more info on anim system
+--see also: 
+--bobs gani notes
+--https://discord.com/channels/364177293133873153/364177950805065732/549317300256243720
+--unknowns motion mod (of which this is a similar implmentatio) (see issues notes toward bottom of page)
+--https://unknown321.github.io/mgsv_research/motions.html
+
+--TODO: see if I can pull more info from TppPaz for reference
+
+local this={}
 
 this.registerIvars={
   "motionGroupIndex",
   "motionGaniIndex",
   "motionHold",
   "motionRepeat",
+  "motionCloseMenuOnPlay",
+  "motionPrintOnPlay",
 }
 
+--menu command
+function this.PlayCurrentMotionCommand()
+  local closeMenuOnPlay=Ivars.motionCloseMenuOnPlay:Get()==1
+  this.PlayCurrentMotion()
+  if closeMenuOnPlay then
+    InfMenu.MenuOff()
+  end
+end
+InfMenuCommands.playCurrentMotionCommand={
+  isMenuOff=false,--DYNAMIC
+}
+
+--ivars
 this.motionGroupIndex={
+  save=IvarProc.CATEGORY_EXTERNAL,
   inMission=true,
   range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -27,12 +58,11 @@ this.motionGroupIndex={
     --tex make sure it's in bounds
     Ivars.motionGaniIndex:OnSelect()
   end,
-  OnActivate=function(self,setting)
-    this.PlayCurrentMotion(true)
-  end,
-}
+  OnActivate=this.PlayCurrentMotionCommand,
+}--motionGroupIndex
 
 this.motionGaniIndex={
+  save=IvarProc.CATEGORY_EXTERNAL,
   inMission=true,
   range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
@@ -47,25 +77,41 @@ this.motionGaniIndex={
     
     IvarProc.SetMaxToList(self,motionsForGroup)
   end,
-  OnActivate=function(self,setting)
-    this.PlayCurrentMotion(true)
-  end,
-}
+  OnActivate=this.PlayCurrentMotionCommand,
+}--motionGaniIndex
 
 this.motionHold={
+  save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch"
 }
 
 this.motionRepeat={
+  save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch"
 }
 
---menu command
-InfMenuCommands.playCurrentMotion={
-  isMenuOff=true,
+this.motionCloseMenuOnPlay={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",    
+  OnChange=function(self,setting)
+    --KLUDGE
+    local isMenuOff=setting==1
+    InfMenuCommands.playCurrentMotionCommand.isMenuOff=isMenuOff
+    --DEBUGNOW isMenuOff not geared for ivars, cuts off settings text
+    --Ivars.motionGroupIndex.isMenuOff=isMenuOff
+    --Ivars.motionGaniIndex.isMenuOff=isMenuOff
+  end,
 }
+
+this.motionPrintOnPlay={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch"
+}
+
 --<
 this.registerMenus={
   "motionsMenu",
@@ -78,8 +124,10 @@ this.motionsMenu={
     "Ivars.motionGaniIndex",
     "Ivars.motionHold",
     "Ivars.motionRepeat",
+    "Ivars.motionCloseMenuOnPlay",
+    "Ivars.motionPrintOnPlay",
     "InfMotion.StopMotion",
-    "InfMotion.PlayCurrentMotion",
+    "InfMotion.PlayCurrentMotionCommand",
   }
 }
 --< menu defs
@@ -91,8 +139,10 @@ this.langStrings={
     motionGaniIndex="Motion number",
     motionHold="Hold motion",
     motionRepeat="Repeat motion",
+    motionCloseMenuOnPlay="Close menu on Playing motion",
+    motionPrintOnPlay="Print motion name on play",
     stopMotion="Stop motion",
-    playCurrentMotion="Play motion",
+    playCurrentMotionCommand="Play motion",
   },
   help={
     eng={
@@ -102,10 +152,10 @@ this.langStrings={
       motionHold="Holds motion, requires stop motion to stop.",
       motionRepeat="Repeat motion at end, some animations don't support this.",
       stopMotion="Use to stop motions with motion hold or motion repeat.",
-      playCurrentMotion="Closes menu and plays current selected motion.",
+      playCurrentMotionCommand="Closes menu and plays current selected motion.",
     },
   },
-}
+}--langStrings
 --<
 
 this.motions={
@@ -309,23 +359,35 @@ this.motions={
     "/Assets/mgo/motion/SI_game/fani/bodies/snam/snamidl/snamidl_s_ed.gani"},
 }
 
+--tex lua tables with keys aren't iterated in the order they are defined
+--and just sort by alpha, IHDev_AddMotions can override the order with it's own motionGroups
 this.motionGroups={}
 for name,ganis in pairs(this.motions)do
   this.motionGroups[#this.motionGroups+1]=name
 end
 table.sort(this.motionGroups)
 
-InfMenuCommands.playCurrentMotion={
-  isMenuOff=true,
-}
-function this.PlayCurrentMotion(dontCloseMenu)
-  --tex causes RequestToPlayDirectMotion to not fire, todo: yield/wait a frame?
+function this.PlayCurrentMotion()
+  --tex: kinda needed when hold is on otherwise new anim will not play
+  --but causes RequestToPlayDirectMotion to not fire, TODO:: yield/wait a frame?
   --Player.RequestToStopDirectMotion()
-
-  local motionName=this.motionGroups[Ivars.motionGroupIndex:Get()+1]
+  
+  local motionGroupIndex=Ivars.motionGroupIndex:Get()
+  local motionGaniIndex=Ivars.motionGaniIndex:Get()
+  
+  local motionName=this.motionGroups[motionGroupIndex+1]
 
   --param2Table
-  local ganiPath=this.motions[motionName][Ivars.motionGaniIndex:Get()+1]
+  local ganiPath=this.motions[motionName][motionGaniIndex+1]
+  
+  if Ivars.motionPrintOnPlay:Is(1)then
+    --truncated motionName: groupName: ganiIndex
+    --DEBUGNOW
+    local slashIndex = string.find(ganiPath, "/[^/]*$")
+    local ganiFileName = ganiPath:sub(slashIndex+1)
+    TppUiCommand.AnnounceLogView(motionName.." "..motionGaniIndex..": "..ganiFileName)
+  end
+  
   local holdMotion=Ivars.motionHold:Get()==1
   local unk3GameObjectTargetName=""
   local unk4CNPTargetName=""--tex attachment stuff
@@ -350,12 +412,6 @@ function this.PlayCurrentMotion(dontCloseMenu)
   local param3Table=nil
 
   Player.RequestToPlayDirectMotion{motionName,param2Table,param3Table}
-
-  --KLUDGE
-  if dontCloseMenu ~= true then
-    InfMenu.MenuOff()
-  end
-
   --REF
   --  Player.RequestToPlayDirectMotion {
   --    "rideVehicleRear",
@@ -389,14 +445,47 @@ function this.PlayCurrentMotion(dontCloseMenu)
   --      false
   --    }
   --  }
-end
+end--PlayCurrentMotion
 
 function this.StopMotion()
   Player.RequestToStopDirectMotion()
 end
 
+--Commands for quick menu
+function this.NextGroup()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,1)
+end
+function this.PrevGroup()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,-1)
+end
+
+function this.NextMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,1)
+end
+function this.PrevMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,-1)
+end
+
+function this.PlayNextGroupMotion()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,1)
+  this.PlayCurrentMotion()
+end
+function this.PlayPrevGroupMotion()
+  InfMenu.ChangeSetting(Ivars.motionGroupIndex,-1)
+  this.PlayCurrentMotion()
+end
+
+function this.PlayNextMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,1)
+  this.PlayCurrentMotion()
+end
+function this.PlayPrevMotion()
+  InfMenu.ChangeSetting(Ivars.motionGaniIndex,-1)
+  this.PlayCurrentMotion()
+end
+
 this.packages={
-  "/Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk",
+  "/Assets/tpp/pack/player/motion/ih/ih_additional_motion.fpk",
 }
 
 function this.AddMissionPacks(missionCode,packPaths)

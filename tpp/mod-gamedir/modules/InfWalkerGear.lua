@@ -212,6 +212,7 @@ IvarProc.MissionModeIvars(
   },
   {"FREE","MB"}
 )
+this.enableWalkerGearsFREE.MissionCheck=IvarProc.MissionCheckFreeVanilla--tex WORKAROUND: want to change the mission mode check but don't want to trample users exising saves with a name change
 
 this.mbWalkerGearsColor={
   save=IvarProc.CATEGORY_EXTERNAL,

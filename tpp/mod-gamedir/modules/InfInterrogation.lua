@@ -58,7 +58,7 @@ this.enableInfInterrogation={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  MissionCheck=IvarProc.MissionCheckFree,
+  MissionCheck=IvarProc.MissionCheckFreeVanilla,
 }
 --<
 this.langStrings={

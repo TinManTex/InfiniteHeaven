@@ -67,7 +67,9 @@ this.langStrings={
   },
   help={
     eng={
-      customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam",
+      customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam.\nNew soldier types can be added via the bodyInfo addon system.",
+      customSoldierTypeMB_ALL="New body types can be added via the bodyInfo addon system.",
+      customSoldierTypeFemaleMB_ALL="New body types can be added via the bodyInfo addon system.",
     },
   }
 }

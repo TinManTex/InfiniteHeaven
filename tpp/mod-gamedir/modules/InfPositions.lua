@@ -86,18 +86,19 @@ end
 
 --tex adds current user marker positions to InfPositions.positions
 function this.AddMarkerPositions()
+  if vars.userMarkerSaveCount==0 then
+    InfMenu.PrintLangId"no_marker_found"
+    return
+  end
+
   local addedCount=0
-  for index=0,InfUserMarker.MAXMARKERS-1 do
+  for index=0,vars.userMarkerSaveCount-1 do
     local markerPos=InfUserMarker.GetMarkerPosition(index)
     local x=markerPos:GetX()
     local y=markerPos:GetY()
     local z=markerPos:GetZ()
-    local addFlag=vars.userMarkerAddFlag and vars.userMarkerAddFlag[index] or nil
-    if addFlag==nil or addFlag~=0 then
-      addedCount=addedCount+1
-      --local letter=alphaTable[addFlag]
-      table.insert(this.positions,{x,y,z})
-    end
+    addedCount=addedCount+1
+    table.insert(this.positions,{x,y,z})
   end
 
   local addedString = addedCount.." positions added to list"
@@ -109,7 +110,8 @@ function this.AddMarkerPositions()
 end
 
 function this.ClearPositions()
-  this.positions={}
+  --tex clear rather than new since othe ivars operate on this and dont want to break their references
+  InfUtil.ClearArray(this.positions)
 end
 
 function this.WritePositions()

@@ -59,9 +59,13 @@ local this={
       featureHelp="(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show."
     },
     {
-      featureDescription="IHExt overlay",
-      featureHelp="IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.\r\nThe normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings. It can also display more descriptive help text for the current option. Can also search by selecting the menu line below the menu list, typing something and pressing enter.\r\nEnable via the IH System menu.\r\nSource can be found at https://github.com/TinManTex/IHExt/"
+      featureDescription="IHHook proxy dll",
+      featureHelp="For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).\r\nSee docs\IHHook-Changelog.txt or github.com/TinManTex/IHHook"
     },
+--    {
+--      featureDescription="IHExt overlay",
+--      featureHelp="IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.\r\nThe normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings. It can also display more descriptive help text for the current option. Can also search by selecting the menu line below the menu list, typing something and pressing enter.\r\nEnable via the IH System menu.\r\nSource can be found at https://github.com/TinManTex/IHExt/"
+--    },
   },
   {
     title="Menu, Options and Settings",

@@ -684,7 +684,8 @@ for layoutIndex=1,#groundStartPositionsInitial do
 end
 --tex clear initial table
 groundStartPositionsInitial=nil
-
+--GOTCHA: requires missioncode for mb in order to pull mblayout, 
+--at some points of exec vars.missionCode doesnt cut it because it's near transition to next mission and hasn't been updated
 function this.GetGroundStartPosition(missionStartRoute,missionCode)
   local missionCode=missionCode or vars.missionCode
   local layout=0
@@ -695,6 +696,10 @@ function this.GetGroundStartPosition(missionStartRoute,missionCode)
     --local grade=TppMotherBaseManagement.GetMbsClusterGrade{category="Command"}--tex
     --InfCore.Log("GetGroundStartPosition:: mbLayoutCode:"..vars.mbLayoutCode.." GetMbsClusterGrade:"..grade)
     layout=vars.mbLayoutCode
+    if layout <0 or layout >3 then
+      InfCore.Log("WARNING: GetGroundStartPosition: unexpected mbLayoutCode:"..tostring(layout).." missionCode:"..tostring(vars.missionCode).." prevMissionCode:"..tostring(Ivars.prevMissionCode))
+      return nil--tex don't know what trouble the code is in, so dont return a ground position
+    end
   end
   if type(missionStartRoute)=="string" then--DEBUGNOW
     missionStartRoute=StrCode32(missionStartRoute)

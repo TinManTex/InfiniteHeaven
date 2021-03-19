@@ -8,7 +8,14 @@ this.debugModule=false
 this.inf_wildCardMaleFaceList={}
 this.inf_wildCardFemaleFaceList={}
 this.bodiesForMap={}
-this.isFemaleSoldierId={}
+this.isFemaleSoldierId={}--DEBUGNOW tex better of as a svar?
+
+function this.PostModuleReload(prevModule)
+  this.inf_wildCardMaleFaceList=this.inf_wildCardMaleFaceList
+  this.inf_wildCardFemaleFaceList=this.inf_wildCardFemaleFaceList
+  this.bodiesForMap=this.bodiesForMap
+  this.isFemaleSoldierId=this.isFemaleSoldierId
+end
 
 this.bodyTypes={
   SOLDIER=1,
@@ -149,14 +156,21 @@ local bodyTypeVars={
   "bodyType",
   "bodyTypeExtend"
 }
-
+--CALLER: TppEneFova.PreMissionLoad, just before fovaSetupFuncs
 function this.PreMissionLoad(missionId,currentMissionId)
+  InfCore.LogFlow("isFemaleSoldierId clear")--tex DEBUGNOW
   this.isFemaleSoldierId={}
 
+  --DEBUGNOW CULL this.SetBodyTypeIgvars(missionId)
+end
+--DEBUGNOW CULL (and make sure igvars.bodyType,bodyTypeExtend are cleared from users save if nor longer using it).
+--just see if it really is an issue.
+function this.SetBodyTypeIgvars(missionId,ignoreContinue)
+  InfCore.LogFlow("InfEneFova.SetBodyTypeIgvars")
   --tex set bodyType
   local igvars=igvars
   --tex dont set on continue (so it uses prior/saved bodyType)
-  --to protect against bodyType list change over sessions (ie installing/uninstalling addon would change list)
+  --to protect against bodyType list change over sessions (ie installing/uninstalling addon would change InfBodyInfo.bodies list)
   --don't need to worry about checkpoint reload since PreMissionLoad isn't called on that
   --mission restart does call this but since you'd have to have continued from title to get to it?
   local isContinue=igvars.bodyType and igvars.bodyType~="" and gvars.isContinueFromTitle
@@ -184,13 +198,13 @@ function this.PreMissionLoad(missionId,currentMissionId)
       InfCore.Log("ERROR: InfEneFova.PreMissionLoad bodyInfo extend "..bodyType.." not found",false,true)
     end
   end
-end
---DEBUGNOW
+end--SetBodyTypeIgvars
+--CULL only used in SetBodyTypeIgvars
 function this.GetBodyType(missionCode)
   if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
     return ""
   end
-  local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  local customSoldierType=IvarProc.GetForMission("customSoldierType",missionCode)
   local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
   if bodyInfo==nil then
@@ -198,14 +212,15 @@ function this.GetBodyType(missionCode)
     return ""
   end
 
-  InfCore.Log("InfEneFova.GetBodyType: bodyType from customSoldierType ivar "..tostring(bodyType))--DEBUGNOW
+  InfCore.Log("InfEneFova.GetBodyType: bodyType from customSoldierType ivar "..tostring(bodyType))
   return bodyType
 end
+--CULL only used in SetBodyTypeIgvars
 function this.GetBodyTypeExtend(missionCode)
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
     return ""
   end
-  local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  local customSoldierType=IvarProc.GetForMission("customSoldierTypeFemale",missionCode)
   local bodyType=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
   if bodyInfo==nil then
@@ -216,8 +231,7 @@ function this.GetBodyTypeExtend(missionCode)
   InfCore.Log("InfEneFova.GetBodyTypeExtend: bodyType from customSoldierTypeFemale ivar "..tostring(bodyType))--DEBUGNOW
   return bodyType
 end
-
-function this.GetMaleBodyInfo(missionCode)
+function this.GetMaleBodyInfoWORKAROUND(missionCode)--DEBUGNOW CULL
   --DEBUGNOW RETHINK
   if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
     return nil
@@ -225,7 +239,7 @@ function this.GetMaleBodyInfo(missionCode)
 
   local bodyType=igvars.bodyType
   if bodyType==nil or bodyType=="" then
-    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo bodyType not set")--DEBUGNOW--DEBUGNOW
+    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo bodyType not set")
     return nil
   end
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
@@ -235,19 +249,20 @@ function this.GetMaleBodyInfo(missionCode)
   end
 
   --DEBUGNOW CULL
-  --local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  --local customSoldierType=IvarProc.GetForMission("customSoldierType",missionCode)
   --local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
   --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(bodyType))--DEBUG
   return bodyInfo
 end
-function this.GetFemaleBodyInfo(missionCode)
+function this.GetFemaleBodyInfoWORKAROUND(missionCode)--DEBUGNOW CULL
   --InfCore.Log("GetFemaleBodyInfo")--DEBUG
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
-    if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
-      return nil
-    end
-    return InfBodyInfo.bodyInfo.DRAB_FEMALE --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
-      --OFF return nil
+  --DEBUGNOW
+--    if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
+--      return nil
+--    end
+    --DEBUGNOW return InfBodyInfo.bodyInfo.DRAB_FEMALE --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
+    return nil
   end
   
   local bodyType=igvars.bodyTypeExtend
@@ -261,10 +276,55 @@ function this.GetFemaleBodyInfo(missionCode)
     return nil
   end
   
-  --CULL local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  --CULL local customSoldierType=IvarProc.GetForMission("customSoldierTypeFemale",missionCode)
   --local bodyInfo=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
   return bodyInfo
 end
+function this.GetMaleBodyInfo(missionCode)
+  if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
+    return nil
+  end
+--DEBUGNOW don't know why below is returning a non zero value
+  local customSoldierType=IvarProc.GetForMission("customSoldierType",missionCode)
+  if customSoldierType==0 then--tex is 'OFF'
+    return nil
+  end
+  local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
+  if not bodyType then
+    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo no bodyType for customSoldierType ")
+    return nil
+  end
+  --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(bodyType))--DEBUG
+  local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+  if bodyInfo==nil then
+    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo bodyInfo "..bodyType.." not found")
+    return nil
+  end  
+  return bodyInfo
+end--GetMaleBodyInfo
+function this.GetFemaleBodyInfo(missionCode)--DEBUGNOW
+--DEBUGNOW
+  if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    return nil
+  end
+
+  local customSoldierType=IvarProc.GetForMission("customSoldierTypeFemale",missionCode)
+  if customSoldierType==0 then--tex is 'OFF'
+    return nil
+  end
+  local bodyType=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
+  if not bodyType then
+    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo no bodyType for customSoldierType ")
+    return nil
+  end
+  --InfCore.Log("InfEneFova.GetFemaleBodyInfo "..tostring(bodyType))--DEBU
+  local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+  if bodyInfo==nil then
+    InfCore.Log("WARNING: InfEneFova.GetFemaleBodyInfo bodyInfo "..bodyType.." not found")
+    return nil
+  end  
+  return bodyInfo
+end--GetFemaleBodyInfo
 
 --
 this.wildCardFemaleSuits={
@@ -1323,12 +1383,14 @@ function this.WildCardFovaFaces(faces)
       table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
     end
   end
-  local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
-  for i=1,InfSoldier.numWildCards.FEMALE do
-    local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
-    --ASSUMPTION faces not picked more than once by wildcard  -v- -^-
-    table.insert(faces,{faceId,1,1,0})--DEBUGNOW TODO see if i still run into issues with male soldier being assigned female heads when this is >1
-    table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
+  if InfSoldier.numWildCards.FEMALE~=0 then--DEBUGNWO
+    local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
+    for i=1,InfSoldier.numWildCards.FEMALE do
+      local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
+      --ASSUMPTION faces not picked more than once by wildcard  -v- -^-
+      table.insert(faces,{faceId,1,1,0})--DEBUGNOW TODO see if i still run into issues with male soldier being assigned female heads when this is >1
+      table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
+    end
   end
 
   InfCore.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList,{varName="inf_wildCardFemaleFaceList"})--DEBUG
@@ -1361,12 +1423,14 @@ function this.WildCardFovaBodies(bodies)
 
   local locationName=InfUtil.GetLocationName()
 
-  this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
-  local bodyInfo=this.GetFemaleWildCardBodyInfo()
-  if bodyInfo then
-    this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
-    if bodyInfo.partsPath then
-      TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
+  if InfSoldier.numWildCards.FEMALE~=0 then--DEBUGNOW
+    this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
+    local bodyInfo=this.GetFemaleWildCardBodyInfo()
+    if bodyInfo then
+      this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
+      if bodyInfo.partsPath then
+        TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
+      end
     end
   end
 
@@ -1793,6 +1857,7 @@ end
 --still running into issue where stuff that needs isfemale before the face is chosen.
 --mostly bodyinfo stuff, in which case it will fall back to the male bodyinfo
 --is cleared in premissionload
+--see InfEneFova IsFemaleSoldier - Execution flow.txt
 function this.IsFemaleSoldier(soldierId)
   return this.isFemaleSoldierId[soldierId]
 end

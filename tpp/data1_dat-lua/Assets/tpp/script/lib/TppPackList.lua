@@ -140,6 +140,7 @@ function this.SetUseDdEmblemFova(missionCode)
   end
 end
 function this.SetMissionPackLabelName(labelName)
+  InfCore.Log("TppPackList.SetMissionPackLabelName: "..tostring(labelName))--tex DEBUG
   if Tpp.IsTypeString(labelName)then
     gvars.pck_missionPackLabelName=StrCode32(labelName)
   end

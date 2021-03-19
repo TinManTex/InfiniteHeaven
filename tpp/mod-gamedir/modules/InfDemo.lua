@@ -11,6 +11,8 @@ local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 this.pauseDemoButton=InfButton.STANCE--was InfButton.EVADE
 this.restartDemoButton=InfButton.RELOAD
 
+this.updateOutsideGame=true
+
 -->
 this.registerIvars={
   "useSoldierForDemos",
@@ -37,12 +39,7 @@ this.mbDemoSelection={
 
 this.mbSelectedDemo={
   save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC
-  settingNames={"NONE"},
-  OnSelect=function(self)
-    self.range.max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1
-    self.settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST
-  end,
+  settings=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
 }
 
 this.forceDemoAllowAction={

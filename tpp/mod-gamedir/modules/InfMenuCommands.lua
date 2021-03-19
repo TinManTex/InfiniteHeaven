@@ -23,7 +23,10 @@ this.resetSettingsItem={
 }
 this.ResetSettingsItem=function()
   InfMenu.ResetSettingsDisplay()
-  InfMenu.MenuOff()
+  --tex to stop announcelog spam I guess
+  if not InfCore.IHExtRunning() then
+    InfMenu.MenuOff()
+  end
 end
 
 this.resetAllSettingsItem={
@@ -45,6 +48,9 @@ this.GoBackTopItem=function()
   InfMenu.GoBackTop()
 end
 
+this.GeneralHelpItem=function()
+  InfMenu.PrintLangId("general_help_cmd")
+end
 --commands
 
 --profiles
@@ -229,7 +235,13 @@ this.SetStageBlockPositionToFreeCam=function()
   InfCore.Log("StageBlockCurrentPositionSetter.SetPosition("..x..","..z..")",true,true)
 end
 
-
+--DEBUGNOW jam somewhere
+this.RefreshPlayer=function()
+  InfCore.DebugPrint("RefreshPlayer")
+  Player.SetWetEffect()
+  Player.ResetDirtyEffect()
+  vars.passageSecondsSinceOutMB=0
+end
 
 local buddyIndex=1
 this.DEBUG_buddyCycle=function()
@@ -253,143 +265,6 @@ end
 
 this.ForceRegenSeed=function()
   InfMain.RegenSeed(40010)
-end
-
-local toggle1=true
-local index1Min=1
-local index1Max=2
-local index1=index1Min
-local count=0
-local increment=1
-this.log=""
-this.DEBUG_SomeShiz=function()
-  count=count+1
-  InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-
-  local dumpedVars=IHDebugVars.DumpVars()
-  IHDebugVars.PrintVars(dumpedVars)
-
-
-  if true then return end
-  
-  local scriptBlockNames={
-    "animal_block",
-    "demo_block",
-    "quest_block",
-    "mission_block",
-    "npc_block",
-    "reinforce_block",
-    "cypr_small_mission_block_1",
-    "cypr_small_mission_block_2",
-    "cypr_small_mission_block_3",
-    "cypr_demo_block",
-  }
-
-  for i,blockName in ipairs(scriptBlockNames)do
-    InfCore.PrintInspect(ScriptBlock.GetScriptBlockId(blockName),blockName)
-  end
-
-  if true then return end
-
-
-  InfCore.PrintInspect(Time,"Time")
-  local timeResult={
-    deltaGameTime=Time.GetDeltaGameTime(),
-    gameTimeRate=Time.GetGameTimeRate(),
-    frameTime=Time.GetFrameTime(),
-    rawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp(),
-    frameIndex=Time.GetFrameIndex(),
-  }
-
-  for name,result in pairs(timeResult)do
-    InfCore.Log(name..":"..tostring(result))
-  end
-
-  if true then return end
-
-  InfUAV.SetupUAV()
-  if true then return end
-  local fileList=File.GetFileListTable("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
-  InfCore.PrintInspect(fileList,"fileList")
-
-
-  --    GetBlockPackagePath = "<function>",
-  --    GetFileListTable = "<function>",
-  --    GetReferenceCount = "<function>",
-
-  local identifier="HelispaceLocatorIdentifier"
-  --  local locatorName="BuddyQuietLocator"
-  local key="BuddyDDogLocator"
-  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
-  local dataSet=Data.GetDataSet(data)
-  local dataSetFile=DataSet.GetDataSetFile(dataSet)
-  local  blockPackagePath=File.GetBlockPackagePath(dataSetFile)
-
-  -- local  blockPackagePath=File.GetBlockPackagePath("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
-
-  -- local  blockPackagePath=File.GetBlockPackagePath(data)
-  InfCore.PrintInspect(blockPackagePath,"blockPackagePath")
-
-  --local  referenceCount=File.GetReferenceCount("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")
-  local  referenceCount=File.GetReferenceCount("Tpp/Scripts/Equip/EquipMotionData.lua")
-  InfCore.PrintInspect(referenceCount,"referenceCount")
-
-  if true then return end
-
-  InfCore.DebugPrint("index1:"..index1)
-  index1=index1+increment
-  if index1>index1Max then
-    index1=index1Min
-  end
-  toggle1=not toggle1
-end
-
-local index2Min=300
-local index2Max=334
-local index2=index2Min
-this.DEBUG_SomeShiz2=function()
-  InfCore.Log("---DEBUG_SomeShiz2---")
-
-  vars.missionCode=12345--DEBUGNOW
-
-
-  InfCore.DebugPrint("index2:"..index2)
-  index2=index2+1
-  if index2>index2Max then
-    index2=index2Min
-  end
-end
-
-local index3Min=1
-local index3Max=10
-local index3=index3Min
-local toggle3=false
-this.DEBUG_SomeShiz3=function()
-  InfCore.Log("---DEBUG_SomeShiz3---")
-
-  InfCore.PrintInspect(TppLandingZone.assaultLzs,"assaultLzs")
-  InfCore.PrintInspect(TppLandingZone.missionLzs,"missionLzs")
-
-  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-  local closestRoute
-  if lastMarkerIndex==nil then
-    InfMenu.PrintLangId"no_marker_found"
-    return
-  else
-    local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
-
-    closestRoute=InfLZ.GetClosestLz(markerPostion)
-  end
-
-  InfCore.PrintInspect(closestRoute,"closestRoute")
-
-  InfCore.DebugPrint("index3:"..index3)
-  index3=index3+1
-  if index3>index3Max then
-    index3=index3Min
-  end
-  toggle3=not toggle3
 end
 
 this.log=""
@@ -435,7 +310,7 @@ this.DEBUG_RandomizeAllIvars=function()
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.range.max then
+      if not ivar.range or not ivar.settings then
         InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
       elseif not skipIvars[name] and ivar.save then
         table.insert(ivarNames,name)
@@ -478,7 +353,8 @@ this.DEBUG_RandomizeAllIvars=function()
     if i>=start then
 
       local ivar=Ivars[name]
-      ivar:Set(math.random(ivar.range.min,ivar.range.max))
+      local min,max=IvarProc.GetRange(ivar)
+      ivar:Set(math.random(min,max))
 
       --if ivar.setting~=ivar.default then
       log=log..name.."\n"
@@ -534,7 +410,7 @@ this.DEBUG_SetIvarsToNonDefault=function()
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.range.max then
+      if not ivar.range or not ivar.settings then
         InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
       elseif not skipIvars[name] and ivar.save then
         table.insert(ivarNames,name)
@@ -753,7 +629,11 @@ this.DEBUG_PrintObjectListPosition=function()
   end
 end
 
+this.loadExternalModules={
+  isMenuOff=true,
+}
 this.LoadExternalModules=function()
+  InfMenu.MenuOff()
   InfMain.LoadExternalModules(true)
 end
 
@@ -868,7 +748,7 @@ function this.BuildCommandItem(Command,name)
     menuItem.name=itemName
     menuItem.default=0
     ivars[itemName]=menuItem.default--tex DEBUGNOW TODO remove command dependancy on ivar/switching
-    menuItem.range=switchRange
+    menuItem.range=switchRange--DEBUGNOW settings-no-range
     menuItem.OnChange=Command
   end
   return menuItem,itemName

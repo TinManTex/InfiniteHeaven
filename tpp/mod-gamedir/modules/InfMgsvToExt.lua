@@ -107,7 +107,7 @@ function this.ShowMenu()
   ExtCmd(UiElementVisible,'menuWrap',1)
   ExtCmd(UiElementVisible,'menuItems',1)
   ExtCmd(UiElementVisible,'menuTitle',1)
-  ExtCmd(UiElementVisible,'menuHelp',ivars.enableHelp)
+  ExtCmd(UiElementVisible,'menuHelp',ivars.menu_enableHelp)
 end
 
 function this.HideMenu()

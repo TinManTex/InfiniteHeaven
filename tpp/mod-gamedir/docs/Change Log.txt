@@ -1,5 +1,78 @@
 Infinite Heaven changelog
 
+r238 - 2021-03-12
+Update to MGSV version 1.0.15.2
+
+Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
+See IHHook-Changelog.txt or github.com/TinManTex/IHHook
+
+
+Added: Appearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
+Added: attackHeliType - UTH Blackfoot - thanks caplag for discovering uth TppHeliParameters applied to TppEnemyHeli 
+Known Issues: UTH wont attack with missiles. UTH attack heli classes not actually visually different.
+
+Added: GeneralHelpItem - mostly for seeing the extensive help text when show help is on.
+
+Added: menu_disableToggleMenuHold - Disable hold menu toggle - Disables the legacy one-button <dive> hold-to-toggle menu, the two button menu combo <zoom_change> + <dash> will still work.
+
+Camera menu:
+Added: 'Reset camera position to player' (still can be accessed by pressing the ih camera reset button (binoc) and <dash>) - thanks Muffins for the suggestion (of an obvious oversight).
+Added: positionXFreeCam (and Y,Z) - more useful since you can enter the value directly with IHH menu, useful if you have some position from somewhere but you don't know where it is in game.
+
+Ivars / options:
+enableHelp renamed menu_enableHelp - to get the new default of on to stick.
+disableSelectVehicle, disableSelectTime, disableSelectBuddy changed to per mission type heliSpace_ flags:
+
+Mission prep features override:
+Replaces the "Mission-prep restrictions menu"
+
+heliSpace_SkipMissionPreparetion="Skip mission prep"
+heliSpace_NoBuddyMenuFromMissionPreparetion="Disable select-buddy"
+heliSpace_NoVehicleMenuFromMissionPreparetion="Disable select-vehicle"
+heliSpace_DisableSelectSortieTimeFromMissionPreparetion="Disable select-sortie time"
+
+Lets you force on or off the various mission prep features, though some may not make sense or have stuff overidden by the mission, such as enabling mission prep for the prologue.
+
+InfMotion / Motions menu: motionCloseMenuOnPlay - Close menu on Playing motion, defaults to off - thanks choc for bringing it up.
+
+Filestructure: ih_additional_motion.fpk moved from pack/mission2 to the more appropriate pack/player/motion.
+
+mod\devmodules - a collection of IH dev modules created to help with specific aspects of modding.
+
+docs\Development.txt - a couple of modding links, also mentioning the above.
+
+InfWeaponIdTable
+Addon system to add weaponIdTable that enemy soldiers equip from.
+Selected via weaponTableGlobal<MissionMode> - Global soldier weapon table in FreeRoam/Missions/MB 
+via the Custom soldier equip menu.
+Example addon in mod\devmodules\weaponIdTables
+The existing 'Enemy use custom weapon table' feature uses the selected table to combine from.
+
+Internal and api changes:
+startOnFoot support for custom free missions.
+MissionCheckFree expanded to custom missions.
+weaponIdTable support for custom missions via missionInfo
+heliSpaceFlags support for custom missions via missionInfo - thanks caplag for suggestion
+
+OnRestoreSvars called on IH Modules.
+
+Refactor: core scripts to Assets//ih, using LoadLibrary external fallback loading.
+LoadExternalModule internal loading support.
+
+InfCore.GetGamePath: 
+Use IHHook GetGamePath if available.
+Fall back to default steam path if package.path fails.
+
+Refactor: My messy dev stuff - debugshiz and devmenu pushed into IHDebugVars module
+
+Fix: getBodyInfo reverted to directly reading ivar, should fix some issues related to enemy customBodyType - thank Solidus Snake for the report
+Fix: GetGroundStartPosition - guard against unexpected mbLayoutCode (still no idea of the situation that would cause the value) - thank Solidus Snake for the files (and caplag for getting him to enable logging)
+Fix: error on session change when IHH starts IHext
+Fix: All customWeaponTable vars off would error.
+Fix: (of a previous fix) of wildcard soldiers causing the game to hang with some sideops,  thanks worthless person for the report.
+Fix: GetLastUserMarkerIndex - sometimes would not return correct marker, affected IH features using user markers.
+Fix: IHExt shouldn't start with IHHook - thanks Zacc for the report.
+
 r237 - 2020-03-31
 Fix: Game % completion was lower than it should have been, and task completion in ui was showing a higher value than max.
 See: PATCHUP: BADDATA in InfMission, gvars.ui_isTaskLastComleted
@@ -10,6 +83,8 @@ Thanks nishi980 for the report.
 Fix: My build process was including some files from a snakebite install run, hard to say what if any issues this caused beyond a bigger install size - thanks caplag for the report.
 
 Debug: InfCore.RefreshFileList outputs to cmd_stderr.txt
+
+Fix: The automatic menu close on IH reloadscripts was called at a bad time casing it to  ihsave after Ivars had been reloaded but before it had been stood up in postallmodules (more specficially the ivars in modules loaded after InfMenu). Then if user reloadscript again without ihsaving the save file would effectively been cleared for those it could not find definitions for. 
 
 Fix: r237b - missed " before stderr filename, causing refreshfilelist to fail - thanks morbidslinky for the fix
 
