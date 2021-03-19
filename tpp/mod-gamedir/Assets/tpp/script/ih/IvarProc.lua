@@ -41,12 +41,19 @@ this.debugModule=false
 this.CATEGORY_EXTERNAL=1024--tex SYNC Ivars
 
 function this.IsOnlineMission(missionCode)
-  if InfCore.gameId=="TPP" then
-    return this.IsFOBMission(missionCode)
-  else--SSD
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==5 then
+    return true
+  else
     return false
-      --DEBUGNOW return this.IsMultiPlayMission(missionCode)
   end
+--tex revisit if ever ssd
+--  if InfCore.gameId=="TPP" then
+--    return this.IsFOBMission(missionCode)
+--  else--SSD
+--    return false
+--      --DEBUGNOW return this.IsMultiPlayMission(missionCode)
+--  end
 end
 
 function this.IsFOBMission(missionCode)
@@ -196,8 +203,12 @@ function this.SetSetting(self,setting,noSave)
   end
 
   if self.noBounds~=true then
-    if setting < self.range.min or setting > self.range.max then
-      InfCore.Log("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS",true)
+    if self.settings and (setting < 0 or setting > #self.settings-1) then
+      InfCore.Log("WARNING: SetSetting "..setting.." for "..self.name.." OUT OF BOUNDS",true)
+      InfCore.PrintInspect(self.settings,self.name..".settings")
+      return    
+    elseif self.range and (setting < self.range.min or setting > self.range.max) then
+      InfCore.Log("WARNING: SetSetting "..setting.." for "..self.name.." OUT OF BOUNDS",true)
       InfCore.PrintInspect(self.range,self.name..".range")
       return
     end
@@ -228,7 +239,23 @@ function this.ResetSetting(self,noSave)
   this.SetSetting(self,self.default,noSave)
 end
 
-function this.SetMaxToList(self,list)
+function this.GetRange(option)
+  local min=0
+  if option.settings then
+    min=0
+  elseif option.range then
+    min=option.range.min
+  end
+  local max=0
+  if option.settings then
+    max=#option.settings-1
+  elseif option.range then
+    max=option.range.max
+  end
+  return min,max
+end--GetRange
+
+function this.SetMaxToList(self,list)--DEBUGNOW trying to shift to range being optional if settings existst
   if list==nil then
     InfCore.Log("ERROR: IvarProc.SetMaxToList("..self.name.."): list==nil")
   end
@@ -244,7 +271,7 @@ function this.SetMaxToList(self,list)
   end
 end
 
-function this.SetSettings(self,list)
+function this.SetSettings(self,list)--DEBUGNOW trying to shift to range being optional if settings existst
   self.settings=list
 
   local newMax=#list-1

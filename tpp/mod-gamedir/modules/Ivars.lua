@@ -567,8 +567,7 @@ function this.DeclareVars()
       if ivar.save and ivar.save~=EXTERNAL then
         local ok=true
         local svarType=0
-        local max=ivar.range.max or 0
-        local min=ivar.range.min
+        local min,max=IvarProc.GetRange(ivar)
         if ivar.svarType then
           svarType=ivar.svarType
         elseif ivar.isFloat then
@@ -628,7 +627,7 @@ function this.BuildIvar(name,ivar)
     ivar.optionType=OPTIONTYPE_OPTION
     --ivar.name=ivar.name or name
     ivar.name=name
-
+--DEBUGNOW settings-no-range
     ivar.range=ivar.range or {}
     ivar.range.max=ivar.range.max or 1
     ivar.range.min=ivar.range.min or 0

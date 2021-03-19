@@ -310,7 +310,7 @@ this.DEBUG_RandomizeAllIvars=function()
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.range.max then
+      if not ivar.range or not ivar.settings then
         InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
       elseif not skipIvars[name] and ivar.save then
         table.insert(ivarNames,name)
@@ -353,7 +353,8 @@ this.DEBUG_RandomizeAllIvars=function()
     if i>=start then
 
       local ivar=Ivars[name]
-      ivar:Set(math.random(ivar.range.min,ivar.range.max))
+      local min,max=IvarProc.GetRange(ivar)
+      ivar:Set(math.random(min,max))
 
       --if ivar.setting~=ivar.default then
       log=log..name.."\n"
@@ -409,7 +410,7 @@ this.DEBUG_SetIvarsToNonDefault=function()
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.range.max then
+      if not ivar.range or not ivar.settings then
         InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
       elseif not skipIvars[name] and ivar.save then
         table.insert(ivarNames,name)
@@ -628,7 +629,7 @@ this.DEBUG_PrintObjectListPosition=function()
   end
 end
 
-InfMenuCommands.loadExternalModules={
+this.loadExternalModules={
   isMenuOff=true,
 }
 this.LoadExternalModules=function()
@@ -747,7 +748,7 @@ function this.BuildCommandItem(Command,name)
     menuItem.name=itemName
     menuItem.default=0
     ivars[itemName]=menuItem.default--tex DEBUGNOW TODO remove command dependancy on ivar/switching
-    menuItem.range=switchRange
+    menuItem.range=switchRange--DEBUGNOW settings-no-range
     menuItem.OnChange=Command
   end
   return menuItem,itemName

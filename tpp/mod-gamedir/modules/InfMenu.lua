@@ -74,9 +74,9 @@ function this.PostAllModulesLoad()
   if InfQuickMenuDefs_User then
     InfCore.Log("InfMenu: Using InfQuickMenuDefs_User")
   end
-  
+
   --DEBUGNOW
-    --tex set up hold buttons
+  --tex set up hold buttons
   --InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
   InfButton.buttonStates[this.menuAltButton].holdTime=this.menuAltButtonHoldTime
 end
@@ -189,18 +189,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       local settings={}
 
       if type(option.GetSettingText)=="function" then
-        local min=0
-        if option.settings then
-          min=0
-        elseif option.range then
-          min=option.range.min
-        end
-        local max=0
-        if option.settings then
-          max=#option.settings-1
-        elseif option.range then
-          max=option.range.max
-        end
+        local min,max=IvarProc.GetRange(option)
         for i=min,max do
           table.insert(settings,tostring(option:GetSettingText(i)))
         end
@@ -322,10 +311,11 @@ end
 
 function this.ChangeSetting(option,value)
   local currentSetting=ivars[option.name]
-  local newSetting=this.IncrementWrap(currentSetting,value,option.range.min,option.range.max)
+  local min,max=IvarProc.GetRange(option)
+  local newSetting=this.IncrementWrap(currentSetting,value,min,max)
   if option.SkipValues and IsFunc(option.SkipValues) then
     while option:SkipValues(newSetting) do
-      newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
+      newSetting=this.IncrementWrap(newSetting,value,min,max)
     end
   end
 
@@ -369,7 +359,7 @@ function this.NextSetting(incrementMult)
     local newSetting=option:GetNext(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
   else
-    local increment=option.range.increment
+    local increment=option.range and option.range.increment or 1
     if incrementMult then
       increment=increment*incrementMult
       if not option.isFloat then
@@ -390,7 +380,8 @@ function this.PreviousSetting(incrementMult)
     local newSetting=option:GetPrev(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
   else
-    local increment=-option.range.increment
+    local increment=option.range and option.range.increment or 1
+    increment=-increment
     if incrementMult then
       increment=increment*incrementMult
       if not option.isFloat then
@@ -549,15 +540,15 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   if optionSeperator==itemIndicators.equals then--KLUDGE
     --if option.isMode then
     --  optionSeperator=itemIndicators.mode
-    
-  --DEBUGNOW see if there's any ivars with both
+
+    --DEBUGNOW see if there's any ivars with both
     if option.OnActivate then
       if not option.noActivateText then
         optionSeperator=itemIndicators.activate
       end
-    elseif option.OnChange then
-      optionSeperator=itemIndicators.on_change
-    end
+  elseif option.OnChange then
+    optionSeperator=itemIndicators.on_change
+  end
   end
 
   if option.isPercent then
@@ -654,7 +645,8 @@ function this.MinSetting()
   local optionRef=this.currentMenuOptions[this.currentIndex]
   local option=this.GetOptionFromRef(optionRef)
   if option and option.optionType=="OPTION" then
-    IvarProc.SetSetting(option,option.range.min)
+    local min,max=IvarProc.GetRange(option)
+    IvarProc.SetSetting(option,min)
     this.PrintLangId"setting_minimum"--"Setting to minimum.."
     this.DisplayCurrentSetting()
   end
@@ -770,7 +762,7 @@ end
 --tex called directly from InfMain.Update
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local InfMenuDefs=InfMenuDefs
-  
+
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   --DEBUGNOW this blocks SSD title, and potenially other stuff like a loading screen recovery/debug menu
