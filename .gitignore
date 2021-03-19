@@ -25,3 +25,4 @@
 /.metadata/*
 *.meta
 tpp/mod-gamedir/IHExt.exe
+tpp/mod-gamedir/cmd_stderr.txt
