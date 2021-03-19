@@ -127,9 +127,8 @@ this.manualMissionCode={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   settings={},--DYNAMIC
   OnSelect=function(self)
-    self.settings=this.GetMissionCodes()
-    self.range.max=#self.settings-1
-    self.settingNames=self.settings
+    self.settingNames=self.settings--DEBUGNOW settingnames?
+    IvarProc.SetSettings(self,this.GetMissionCodes())
   end,
   OnActivate=function(self,setting)
     local settingStr=self.settings[setting+1]
@@ -169,8 +168,7 @@ this.loadAddonMission={
       self.settings[#self.settings+1]=tostring(missionCode)
     end
     table.sort(self.settings)
-    self.range.max=#self.settings-1
-    self.settingNames=self.settings
+    IvarProc.SetMaxToList(self,self.settings)
   end,
   GetSettingText=function(self,setting)
     if #self.settings==0 then

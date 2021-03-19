@@ -139,9 +139,9 @@ this.selectEvent={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=1},--DYNAMIC
   OnSelect=function(self)
-    self.settingNames=InfGameEvent.GetEventNames()
+    self.settingNames=InfGameEvent.GetEventNames()--DEBUGNOW settingNames?
     --InfCore.PrintInspect(self.settings)--DEBUG
-    self.range.max=#self.settingNames-1
+    IvarProc.SetMaxToList(self,self.settingNames)
   end,
   OnActivate=function(self,setting)
     InfMenu.PrintLangId"event_forced"
