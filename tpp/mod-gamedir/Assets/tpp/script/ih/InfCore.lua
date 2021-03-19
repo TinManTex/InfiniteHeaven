@@ -1046,6 +1046,9 @@ this.logLevel=this.logLevels.info
 
 --package.path=""--DEBUG kill path for fallback testing
 this.gamePath=GetGamePath()
+if isMockFox then
+  print("InfCore.gamePath:"..tostring(this.gamePath))
+end
 --tex full paths of each subfolder of mod
 this.paths={
   mod=this.gamePath..this.modSubPath.."/",
