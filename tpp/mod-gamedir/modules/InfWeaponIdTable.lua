@@ -1,12 +1,13 @@
 -- InfWeaponIdTable.lua
 --Implements weaponIdTable addon loading
+--see \mod\devmodules\weaponIdTables\example.lua
 --REF IH Feature custom weapon table.txt
---DEBUGNOW validate addon on load
+--TODO validate addon on load
 --validate it has all the base soldiertypes
 
 local this={}
 
-this.debugModule=true--DEBUGNOW
+this.debugModule=false
 
 this.addons={}
 this.addonsNames={}
@@ -19,15 +20,17 @@ function this.PostAllModulesLoad()
     description="Default",
     weaponIdTable=TppEnemy.weaponIdTable,
   }
-  table.insert(this.addonsNames,"DEFAULT")
 
   this.LoadWeaponIdTables()
+  
+  table.insert(this.addonsNames, 1, "DEFAULT")
 end--PostAllModulesLoad
 --Loads \mod\weaponIdTables\*.lua into this.weaponIdTables
 function this.LoadWeaponIdTables()
   InfCore.LogFlow("InfWeaponIdTable.LoadWeaponIdTables")
   
   local addonType="weaponIdTables"
+  local loadedAddons={}
   
   local files=InfCore.GetFileList(InfCore.files[addonType],".lua")
   for i,fileName in ipairs(files)do
@@ -38,6 +41,15 @@ function this.LoadWeaponIdTables()
       InfCore.Log("ERROR: no addon returned for "..fileName)
     else
       addon.name=fileName
+      loadedAddons[addonName]=addon
+    end
+  end
+  
+  for addonName,addon in pairs(loadedAddons)do
+    --TODO: validate
+    if addon.weaponIdTable==nil then
+      InfCore.Log("ERROR: InfWeaponIdTable.LoadWeaponIdTables: addon "..addonName.." has no weaponIdTable")
+    else
       this.addons[addonName]=addon
     end
   end
@@ -48,6 +60,7 @@ function this.LoadWeaponIdTables()
       table.insert(this.addonsNames,addonName)
     end
   end
+  table.sort(this.addonsNames)
 end--LoadWeaponIdTables
 --GOTCHA: called a lot so logging will spam
 --CALLERS: TppEnemy.GetWeaponIdTable, InfEquip.CreateCustomWeaponTable
