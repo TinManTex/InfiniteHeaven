@@ -17,9 +17,9 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=238
+this.modVersion=239
 this.modName="Infinite Heaven"
-this.hookVersion=6--tex for version check
+this.hookVersion=7--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
@@ -478,8 +478,6 @@ function this.ExtCmd(cmd,...)
     InfCore.Log("ExtCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))
   end
   
-
-
   if IHH then
     if useIHHMenu and menuCommands[cmd] then
       IHH.MenuMessage(cmd,message)
@@ -490,6 +488,26 @@ function this.ExtCmd(cmd,...)
     this.mgsvToExtCount=mgsvToExtCurrent
     this.mgsvToExtCommands[mgsvToExtCurrent]=message
   end
+end
+
+function this.MenuCmd(cmd,...)
+  if not IHH and not IHH.menuInitialized then
+    return
+  end
+  
+  local mgsvToExtCurrent=this.mgsvToExtCount+1--DEBUGNOW
+
+  local args={...}--tex GOTOCHA doesnt catch intermediary params that are nil
+  local message=mgsvToExtCurrent..'|'..cmd
+  if #args>0 then
+    message=message..'|'..concat(args,'|')
+  end
+
+  if this.debugModule then
+    InfCore.Log("MenuCmd: cmd:"..tostring(cmd).."<> message:"..tostring(message))
+  end
+  
+  IHH.MenuMessage(cmd,message)
 end
 
 --tex LEGACY, InfProcessExt was deleted r218 but the file may linger if the user didnt uninstall correctly using snakebite (or if snakebite messed up)
