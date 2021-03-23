@@ -1,9 +1,11 @@
 = Infinite heaven =
-r238 - 2021-03-12
+r239 - 2021-03-24
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
-A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
+A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features, as well as providing addon systems to support other mods.
+
+Addon systems include allowing custom sidops, missions, enemy soldier types.
 
 Has several hundred toggleable options ranging from Subsistence mode for all missions, replay side-ops, Mother base invasions with multiple attack helicopters, Skull attacks in Free roam, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
@@ -16,16 +18,24 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r239
+Update to MGSV version 1.0.15.3
+IHHook: IMGUI style editor with save/load. Via IH System Menu > UI Style Editor
+[youtube]_AbPHXTgfLg[/youtube]
+https://youtu.be/_AbPHXTgfLg
+
 r238:
 Update to MGSV version 1.0.15.2
 
 Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
 See docs\IHHook-Changelog.txt or github.com/TinManTex/IHHook
-
+[youtube]4V7lPJ2t_rw[/youtube]
+https://youtu.be/4V7lPJ2t_rw
 
 Added: Appearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
 Added: attackHeliType - UTH Blackfoot - thanks caplag for discovering uth TppHeliParameters applied to TppEnemyHeli 
-Known Issues: UTH wont attack with missiles. UTH attack heli classes not actually visually different.
+Known Issues: UTH wont attack with missiles despite doing the long on sound and behaviour. UTH attack heli classes not actually visually different.
+[youtube]ERL7okZVcW4[/youtube]
 
 Added: GeneralHelpItem - mostly for seeing the extensive help text when show help is on.
 

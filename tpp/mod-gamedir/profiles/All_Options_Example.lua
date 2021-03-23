@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r238
+-- Defaults / example of all profile options for IH r239
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -13,6 +13,7 @@ local this={
 	loadOnACCStart=false,--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first)
 	profile={
 		--IH system menu
+		enableIHExt=0,--{ 0-1 } -- Enable IHExt
 		menu_enableHelp=1,--{ 0-1 } -- Enable help text.
 		menu_disableToggleMenuHold=0,--{ 0-1 } -- Disable hold menu toggle
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
@@ -385,8 +386,8 @@ local this={
 		mbSetOceanWindDirectionP1=0.1,--{ -10-10 } -- 
 		mbSetOceanWindDirectionP2=0.1,--{ -10-10 } -- 
 		--Motions menu
-		motionGroupIndex=0,--{ 0-1 } -- Motion group
-		motionGaniIndex=0,--{ 0-2 } -- Motion number
+		motionGroupIndex=0,--{ 0-0 } -- Motion group
+		motionGaniIndex=0,--{ 0-0 } -- Motion number
 		motionHold=0,--{ 0-1 } -- Hold motion
 		motionRepeat=0,--{ 0-1 } -- Repeat motion
 		motionCloseMenuOnPlay=0,--{ 0-1 } -- Close menu on Playing motion

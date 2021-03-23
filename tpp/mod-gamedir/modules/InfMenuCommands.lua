@@ -53,6 +53,15 @@ this.GeneralHelpItem=function()
 end
 --commands
 
+--IHMenu
+this.ShowStyleEditor=function()
+  InfCore.MenuCmd'ToggleStyleEditor'
+end
+
+this.ShowImguiDemo=function()
+  InfCore.MenuCmd'ToggleImguiDemo'
+end
+
 --profiles
 this.ApplySelectedProfile=function()
   local profileInfo=Ivars.selectProfile:GetProfileInfo()
