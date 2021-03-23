@@ -39,8 +39,8 @@
 <div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
 <div id="menuItem">New sideops for Mother Base.</div>
 <div id="itemHelp">(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.</div>
-<div id="menuItem">IHExt overlay</div>
-<div id="itemHelp">IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.<br/>The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings. It can also display more descriptive help text for the current option. Can also search by selecting the menu line below the menu list, typing something and pressing enter.<br/>Enable via the IH System menu.<br/>Source can be found at https://github.com/TinManTex/IHExt/</div>
+<div id="menuItem">IHHook proxy dll</div>
+<div id="itemHelp">For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).<br/>See docsIHHook-Changelog.txt or github.com/TinManTex/IHHook</div>
 </div>
 <br/>
 <div id="menu">
@@ -134,37 +134,41 @@
 <div id="itemHelp">Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.</div>
 </div>
 <div id="menuItem">
-<div>5: Select profile : &ltProfile name&gt</div>
+<div>5: UI Style Editor : 0-1</div>
+<div id="itemHelp">Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.</div>
+</div>
+<div id="menuItem">
+<div>6: Select profile : &ltProfile name&gt</div>
 <div id="itemHelp">Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
 </div>
 <div id="menuItem">
-<div>6: Set profile options to game defaults : 0-1</div>
+<div>7: Set profile options to game defaults : 0-1</div>
 <div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>7: Save to UserSaved profile : 0-1</div>
+<div>8: Save to UserSaved profile : 0-1</div>
 <div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.</div>
 </div>
 <div id="menuItem">
-<div>8: Enable Quick Menu : Off, On</div>
+<div>9: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>9: Start offline : Off, On</div>
+<div>10: Start offline : Off, On</div>
 <div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>10: Skip startup logos : Off, On</div>
+<div>11: Skip startup logos : Off, On</div>
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>11: Load addon mission : </div>
+<div>12: Load addon mission : </div>
 </div>
 <div id="menuItem">
-<div>12: Include addon missions in completion percentage : Off, On</div>
+<div>13: Include addon missions in completion percentage : Off, On</div>
 </div>
 <div id="menuItem">
-<div>13: Reset all IH settings : 0-1</div>
+<div>14: Reset all IH settings : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -560,7 +564,7 @@
 </div>
 <div id="menuItem">
 <div>7: Custom soldier type in Free roam : NONE</div>
-<div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam</div>
+<div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam.<br/>New soldier types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
 <div>8: Reset enemy preparedness levels : 0-1</div>
@@ -939,44 +943,56 @@
 <div id="menuHelp">Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation</div>
 </div>
 <div id="menuItem">
-<div>1: Enemy use custom equip table in free roam : Off, On</div>
+<div>1: Global soldier weapon table in FreeRoam : DEFAULT</div>
+<div id="itemHelp">Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.</div>
 </div>
 <div id="menuItem">
-<div>2: Enemy use custom equip table in missions : Off, On</div>
+<div>2: Global soldier weapon table in Missions : DEFAULT</div>
+<div id="itemHelp">Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.</div>
 </div>
 <div id="menuItem">
-<div>3: MB staff use custom equip table : Off, On</div>
+<div>3: Global soldier weapon table in MB : DEFAULT</div>
+<div id="itemHelp">Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.</div>
 </div>
 <div id="menuItem">
-<div>4: Weapon stengths : NORMAL, STRONG, Combined</div>
+<div>4: Enemy use custom weapon table in free roam : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Enemy use custom equip table in missions : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: MB staff use custom equip table : Off, On</div>
+</div>
+<div id="menuItem">
+<div>7: Weapon stengths : NORMAL, STRONG, Combined</div>
 <div id="itemHelp">The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.</div>
 </div>
 <div id="menuItem">
-<div>5: Include Soviet weapons : Off, On</div>
+<div>8: Include Soviet weapons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: Include PF weapons : Off, On</div>
+<div>9: Include PF weapons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Include XOF weapons : Off, On</div>
+<div>10: Include XOF weapons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Include DD weapons : Off, On</div>
+<div>11: Include DD weapons : Off, On</div>
 <div id="itemHelp">Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built</div>
 </div>
 <div id="menuItem">
-<div>9: DD weapons grade MIN : 1-15</div>
+<div>12: DD weapons grade MIN : 1-15</div>
 <div id="itemHelp">A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.</div>
 </div>
 <div id="menuItem">
-<div>10: DD weapons grade MAX : 1-15</div>
+<div>13: DD weapons grade MAX : 1-15</div>
 </div>
 <div id="menuItem">
-<div>11: Allow undeveloped DD weapons : Off, On</div>
+<div>14: Allow undeveloped DD weapons : Off, On</div>
 <div id="itemHelp">Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.</div>
 </div>
 <div id="menuItem">
-<div>12: DD equipment non-lethal : Off, On</div>
+<div>15: DD equipment non-lethal : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1179,9 +1195,11 @@
 </div>
 <div id="menuItem">
 <div>4: DD Suit : NONE</div>
+<div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
 <div>5: DD Suit female : NONE</div>
+<div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
 <div>6: DD Head gear : Off, Current prep</div>
@@ -2077,26 +2095,26 @@
 <div id="inMissionMenu">In-mission menu</div>
 </div>
 <div id="menuItem">
-<div>1: dropTestEquip : EQP_WP_West_thg_010</div>
-</div>
-<div id="menuItem">
-<div>2: Support heli to marker : 0-1</div>
+<div>1: Support heli to marker : 0-1</div>
 <div id="itemHelp">Sends Support heli to Landing Zone closest to the last placed user marker while riding it.</div>
 </div>
 <div id="menuItem">
-<div>3: Force exit helicopter : 0-1</div>
+<div>2: Force exit helicopter : 0-1</div>
 <div id="itemHelp">Lets you exit the helicopter while riding it, mind the fall.</div>
 </div>
 <div id="menuItem">
-<div>4: Drop current equip : 0-1</div>
+<div>3: Drop current equip : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: Warp [Mode] : Off, On</div>
+<div>4: Warp [Mode] : Off, On</div>
 <div id="itemHelp">Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.</div>
 </div>
 <div id="menuItem">
-<div>6: General Help : 0-1</div>
+<div>5: General Help : 0-1</div>
 <div id="itemHelp">General Help:<br/>Press F2 to toggle mouse cursor.<br/>Navigate menu: Arrow keys or Dpad.<br/>Activate or advance setting: Press Right key or Dpad or double-click option in menu.<br/>Search for settings: Click on the setting text below the menu list, type what you want and press Enter.<br/>Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.<br/>Menu item type symbols:<br/>&gt Sub-menu <br/>&gt&gt Command <br/>&gt] Command that closes menu when done <br/>&lt&gt Option that applies change when setting selectected/cycled to <br/>&gt! Option that has an action activated by pressing &ltAction&gt<br/>Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.<br/>See ReadMe or Features and Options for more info.<br/></div>
+</div>
+<div id="menuItem">
+<div>6: <a href="#systemMenuMission">IH system menu</a></div>
 </div>
 <div id="menuItem">
 <div>7: <a href="#appearanceMenu">Appearance menu</a></div>
@@ -2151,6 +2169,40 @@
 </div>
 <div id="menuItem">
 <div>24: <a href="#weatherMenu">Weather menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="systemMenuMission">IH system menu</div>
+<div id="menuHelp">See IH system menu while in ACC for full options.</div>
+</div>
+<div id="menuItem">
+<div>1: Enable IHExt : Off, On</div>
+<div id="itemHelp">IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.</div>
+</div>
+<div id="menuItem">
+<div>2: Enable help text. : Off, On</div>
+<div id="itemHelp">Shows help text for some options.</div>
+</div>
+<div id="menuItem">
+<div>3: Give IHExt focus : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Disable hold menu toggle : Off, On</div>
+<div id="itemHelp">Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.</div>
+</div>
+<div id="menuItem">
+<div>5: UI Style Editor : 0-1</div>
+<div id="itemHelp">Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.</div>
+</div>
+<div id="menuItem">
+<div>6: Enable Quick Menu : Off, On</div>
+<div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2725,11 +2777,17 @@
 <div id="itemHelp">Repeat motion at end, some animations don't support this.</div>
 </div>
 <div id="menuItem">
-<div>5: Stop motion : 0-1</div>
+<div>5: Close menu on Playing motion : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Print motion name on play : Off, On</div>
+</div>
+<div id="menuItem">
+<div>7: Stop motion : 0-1</div>
 <div id="itemHelp">Use to stop motions with motion hold or motion repeat.</div>
 </div>
 <div id="menuItem">
-<div>6: Play motion : 0-1</div>
+<div>8: Play motion : 0-1</div>
 <div id="itemHelp">Closes menu and plays current selected motion.</div>
 </div>
 <div id="menuItem">

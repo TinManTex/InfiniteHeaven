@@ -50,11 +50,9 @@ Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExterna
 New sideops for Mother Base.
 (Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
 
-IHExt overlay
-IHExt is an overlay app that Infinite Heaven can launch to act as the menu when MGSV is in Borderless Fullscreen mode.
-The normal IH activation and navigation of the menu remains the same, but if you alt-tab to the overlay you can use mouse and keyboard to more quickly navigate and change settings. It can also display more descriptive help text for the current option. Can also search by selecting the menu line below the menu list, typing something and pressing enter.
-Enable via the IH System menu.
-Source can be found at https://github.com/TinManTex/IHExt/
+IHHook proxy dll
+For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
+See docsIHHook-Changelog.txt or github.com/TinManTex/IHHook
 
 Menu, Options and Settings
 ==========================
@@ -108,21 +106,23 @@ Shows help text for some options.
 3: Give IHExt focus : 0-1
 4: Disable hold menu toggle : Off, On
 Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.
-5: Select profile : <Profile name>
+5: UI Style Editor : 0-1
+Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
+6: Select profile : <Profile name>
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
-6: Set profile options to game defaults : 0-1
+7: Set profile options to game defaults : 0-1
 Sets the options described in the selected profile to their default setting.
-7: Save to UserSaved profile : 0-1
+8: Save to UserSaved profile : 0-1
 Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
-8: Enable Quick Menu : Off, On
+9: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-9: Start offline : Off, On
+10: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-10: Skip startup logos : Off, On
+11: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-11: Load addon mission : 
-12: Include addon missions in completion percentage : Off, On
-13: Reset all IH settings : 0-1
+12: Load addon mission : 
+13: Include addon missions in completion percentage : Off, On
+14: Reset all IH settings : 0-1
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -294,7 +294,8 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 5: Prep system menu
 6: Custom soldier equip menu
 7: Custom soldier type in Free roam : NONE
-Override the soldier type of enemy soldiers in Free Roam
+Override the soldier type of enemy soldiers in Free Roam.
+New soldier types can be added via the bodyInfo addon system.
 8: Reset enemy preparedness levels : 0-1
 Resets enemy prep levels to 0
 9: Print enemy prep levels : 0-1
@@ -433,22 +434,28 @@ In the game many bases have several mine fields but by default only one is enabl
 Custom soldier equip menu
 - Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation
 -------------------------
-1: Enemy use custom equip table in free roam : Off, On
-2: Enemy use custom equip table in missions : Off, On
-3: MB staff use custom equip table : Off, On
-4: Weapon stengths : NORMAL, STRONG, Combined
+1: Global soldier weapon table in FreeRoam : DEFAULT
+Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.
+2: Global soldier weapon table in Missions : DEFAULT
+Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.
+3: Global soldier weapon table in MB : DEFAULT
+Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.
+4: Enemy use custom weapon table in free roam : Off, On
+5: Enemy use custom equip table in missions : Off, On
+6: MB staff use custom equip table : Off, On
+7: Weapon stengths : NORMAL, STRONG, Combined
 The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.
-5: Include Soviet weapons : Off, On
-6: Include PF weapons : Off, On
-7: Include XOF weapons : Off, On
-8: Include DD weapons : Off, On
+8: Include Soviet weapons : Off, On
+9: Include PF weapons : Off, On
+10: Include XOF weapons : Off, On
+11: Include DD weapons : Off, On
 Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built
-9: DD weapons grade MIN : 1-15
+12: DD weapons grade MIN : 1-15
 A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.
-10: DD weapons grade MAX : 1-15
-11: Allow undeveloped DD weapons : Off, On
+13: DD weapons grade MAX : 1-15
+14: Allow undeveloped DD weapons : Off, On
 Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.
-12: DD equipment non-lethal : Off, On
+15: DD equipment non-lethal : Off, On
 
 Enemy phases menu
 - Adjust minimum and maximum alert phase for enemy Command Posts
@@ -543,7 +550,9 @@ Mother Base menu
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
 4: DD Suit : NONE
+New body types can be added via the bodyInfo addon system.
 5: DD Suit female : NONE
+New body types can be added via the bodyInfo addon system.
 6: DD Head gear : Off, Current prep
 7: NPC support heli patrols in MB : 0-3
 Spawns some npc support helis that roam around mother base.
@@ -884,15 +893,14 @@ Changes the time scale of the day/night/weather system. Does not change the spee
 
 In-mission menu
 ---------------
-1: dropTestEquip : EQP_WP_West_thg_010
-2: Support heli to marker : 0-1
+1: Support heli to marker : 0-1
 Sends Support heli to Landing Zone closest to the last placed user marker while riding it.
-3: Force exit helicopter : 0-1
+2: Force exit helicopter : 0-1
 Lets you exit the helicopter while riding it, mind the fall.
-4: Drop current equip : 0-1
-5: Warp [Mode] : Off, On
+3: Drop current equip : 0-1
+4: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-6: General Help : 0-1
+5: General Help : 0-1
 General Help:
 Press F2 to toggle mouse cursor.
 Navigate menu: Arrow keys or Dpad.
@@ -908,6 +916,7 @@ Menu item type symbols:
 Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
 See ReadMe or Features and Options for more info.
 
+6: IH system menu
 7: Appearance menu
 8: Buddy menu
 9: Camera menu
@@ -926,6 +935,21 @@ See ReadMe or Features and Options for more info.
 22: Time scale menu
 23: User marker menu
 24: Weather menu
+
+IH system menu
+- See IH system menu while in ACC for full options.
+--------------
+1: Enable IHExt : Off, On
+IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.
+2: Enable help text. : Off, On
+Shows help text for some options.
+3: Give IHExt focus : 0-1
+4: Disable hold menu toggle : Off, On
+Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.
+5: UI Style Editor : 0-1
+Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
+6: Enable Quick Menu : Off, On
+Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 
 Appearance menu
 ---------------
@@ -1165,9 +1189,11 @@ Press &ltAction&gt to play the selected animation.
 Holds motion, requires stop motion to stop.
 4: Repeat motion : Off, On
 Repeat motion at end, some animations don't support this.
-5: Stop motion : 0-1
+5: Close menu on Playing motion : Off, On
+6: Print motion name on play : Off, On
+7: Stop motion : 0-1
 Use to stop motions with motion hold or motion repeat.
-6: Play motion : 0-1
+8: Play motion : 0-1
 Closes menu and plays current selected motion.
 
 Objects menu
