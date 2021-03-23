@@ -81,6 +81,8 @@ this.eng={--english
   },
   generalHelpItem="General Help",
   general_help_cmd="See MGS_TPP/mod/docs/ for documentation",
+  showStyleEditor="UI Style Editor",
+  systemMenuMission="IH system menu",
 }--eng end
 
 this.help={}
@@ -116,6 +118,8 @@ See ReadMe or Features and Options for more info.
   menu_enableHelp="Shows help text for some options.",
   menu_disableToggleMenuHold="Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
+  showStyleEditor="Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.",
+  systemMenuMission="See IH system menu while in ACC for full options.",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

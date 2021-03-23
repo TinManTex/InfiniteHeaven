@@ -27,6 +27,7 @@ this.inMissionMenu={
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
     "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
+    "InfMenuDefs.systemMenuMission",
   }
 }
 
@@ -45,6 +46,7 @@ this.systemMenu={
     "Ivars.menu_enableHelp",
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
     "Ivars.menu_disableToggleMenuHold",
+    "InfMenuCommands.ShowStyleEditor",
     --
     "Ivars.selectProfile",
     --WIP "InfMenuCommands.ApplySelectedProfile",
@@ -58,6 +60,18 @@ this.systemMenu={
     "Ivars.loadAddonMission",
     "Ivars.ihMissionsPercentageCount",
     "InfMenuCommands.ResetAllSettingsItem",
+  },
+}
+
+this.systemMenuMission={
+  options={
+    --DEBUGNOW split into it's own menu
+    "Ivars.enableIHExt",
+    "Ivars.menu_enableHelp",
+    "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
+    "Ivars.menu_disableToggleMenuHold",
+    "InfMenuCommands.ShowStyleEditor",
+    "Ivars.enableQuickMenu",
   },
 }
 
