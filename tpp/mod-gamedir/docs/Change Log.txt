@@ -1,15 +1,22 @@
 Infinite Heaven changelog
 
-r238 - 2021-03-12
+r239 - 2021-03-24
+Update to MGSV version 1.0.15.3
+
+r238 - 2021-03-20
 Update to MGSV version 1.0.15.2
 
 Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
 See IHHook-Changelog.txt or github.com/TinManTex/IHHook
+[youtube]ERL7okZVcW4[/youtube]
+https://youtu.be/ERL7okZVcW4
 
 
 Added: Appearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
 Added: attackHeliType - UTH Blackfoot - thanks caplag for discovering uth TppHeliParameters applied to TppEnemyHeli 
-Known Issues: UTH wont attack with missiles. UTH attack heli classes not actually visually different.
+Known Issues: UTH wont attack with missiles despite doing the long on sound and behaviour. UTH attack heli classes not actually visually different.
+[youtube]4V7lPJ2t_rw[/youtube]
+https://youtu.be/4V7lPJ2t_rw
 
 Added: GeneralHelpItem - mostly for seeing the extensive help text when show help is on.
 
