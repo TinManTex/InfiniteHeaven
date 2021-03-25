@@ -98,7 +98,7 @@ function this.SetBuddyBlock(locationId)
     InfCore.LogFlow("TppMission.SetBuddyBlock "..tostring(locationId))--tex DEBUGNOW
     local locationInfo=InfMission.locationInfo[locationId]--tex added locationInfo check -v-
     if locationId==10 or locationId==20 or (locationInfo and locationInfo.requestTppBuddy2BlockController) then
-      InfCore.LogFlow("TppMission.SetBuddyBlock "..tostring(locationId).." CreateBlock")--tex DEBUGNOW
+      InfCore.LogFlow("TppMission.SetBuddyBlock "..tostring(locationId).." TppBuddy2BlockController.CreateBlock")--tex DEBUG
       if TppBuddy2BlockController.CreateBlock then
         TppBuddy2BlockController.CreateBlock()
     end
