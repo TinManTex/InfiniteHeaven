@@ -591,11 +591,11 @@ function this.LoadLibraries()
   
   
   this.freeMissionForLocation={
-    AFGH=30010,
-    MAFR=30020,
+    [TppDefine.LOCATION_ID.AFGH]=30010,
+    [TppDefine.LOCATION_ID.MAFR]=30020,
     --DEBUGNOW the function where this could be generically used TppMission._ReserveMissionClearOnOutOfHotZone
     --doesn't have it for MTBS
-     --OFF MTBS=30050,
+     --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
   }
   for missionCode,missionInfo in pairs(this.missionInfo)do
     if TppMission.IsFreeMission(missionCode) then
@@ -796,8 +796,22 @@ function this.GetFreeMissionForLocation(locationCode)
 end
 
 --CALLER: TppTerminal.ReleaseFreePlay
+--Enables the free roam entry
+--but the issue is that name doesnt show
+--despite there being a map_location_parameter - locationNameLangId = "tpp_loc_<whatever> (that matches tpp_common lng for vanilla free)
+--however the above map does show
+--given that there's a location icon I guess that's set up in engine
+--TODO: find the names of the icons
 function this.EnableLocationChangeMissions()
---  TppUiCommand.EnableChangeLocationMenu{locationId=45,missionId=12000}
+  local skipLocations={
+     [TppDefine.LOCATION_ID.AFGH]=true,
+     [TppDefine.LOCATION_ID.MAFR]=true,
+     [TppDefine.LOCATION_ID.MTBS]=true,
+  }
+  for locationCode,freeMissionCode in pairs(this.freeMissionForLocation)do
+    InfCore.Log("EnableChangeLocationMenu{locationId="..locationCode..",missionId="..freeMissionCode.."}")
+    TppUiCommand.EnableChangeLocationMenu{locationId=locationCode,missionId=freeMissionCode}
+  end
 end
 
 --orig in TppResult.GetMbMissionListParameterTable
