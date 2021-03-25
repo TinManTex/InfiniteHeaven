@@ -1,6 +1,6 @@
 Troubleshooting:
 
-Check the FAQ Known Issues document first.
+Check the FAQ Known Issues document.
 
 If you have issues with Snakebite try the suggestions on the stickied post on the snakebite nexus posts.
 
@@ -15,7 +15,9 @@ Usually TPP_GAME_DATA alone is sufficient.
 
 Some files from the MGS_TPP game folder (usually in Steam\SteamApps\common):
 
-snakebite.xml from the MGS_TPP folder.
+MGS_TPP\snakebite.xml
+
+MGS_TPP\ihhook_log.txt
 
 The entire MGS_TPP\mod folder (as this contains the ih_save as well as debug logs).
 
