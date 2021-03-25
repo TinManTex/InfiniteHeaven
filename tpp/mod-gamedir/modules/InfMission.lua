@@ -21,6 +21,7 @@
 --    heightMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_iDroid_clp.ftex",
 --    photoRealMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_jungle_sat_clp.ftex"
 --  },
+--  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
 --}
 --
 --return this

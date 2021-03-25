@@ -51,7 +51,10 @@ function this.IsMBQF()
 end
 function this.SetBuddyBlock(locationId)
   if TppGameSequence.GetGameTitleName()=="TPP"then
-    if locationId==10 or locationId==20 then--afgh,mafr
+    InfCore.LogFlow("TppMission.SetBuddyBlock "..tostring(locationId))--tex DEBUGNOW
+    local locationInfo=InfMission.locationInfo[locationId]--tex added locationInfo check -v-
+    if locationId==10 or locationId==20 or (locationInfo and locationInfo.requestTppBuddy2BlockController) then
+      InfCore.LogFlow("TppMission.SetBuddyBlock "..tostring(locationId).." CreateBlock")--tex DEBUGNOW
       if TppBuddy2BlockController.CreateBlock then
         TppBuddy2BlockController.CreateBlock()
     end
