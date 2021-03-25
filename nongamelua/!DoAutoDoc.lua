@@ -9,8 +9,11 @@ LoadLDT.Load{
   luaHostType="LDT",
 
   foxGamePath="C:/Games/Steam/SteamApps/common/MGS_TPP/",--tex used to reconstruct package.path to what it looks like in mgstpp, IH uses this to get the game path so it can load files in game folder\mod
+  --foxGamePath=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir-release\]],
+  --foxGamePath=[[C:\Projects\MGS\build\infiniteheaven\autodoc\]],
 
-  foxLuaPath="C:/Projects/MGS/InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
+  foxLuaPath=[[C:\Projects\MGS\build\infiniteheaven\autodoc\]],
+  --foxLuaPath="C:/Projects/MGS/InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
   --foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified
 
   mockFoxPath="C:/Projects/MGS/InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
