@@ -713,7 +713,7 @@ function this.GetClosestLz(position)
   local closestDist=9999999999999999
   local closestPosition=nil
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
 
   if not TppLandingZone.assaultLzs[locationName] then
     InfCore.Log("WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil",true,true)--DEBUG

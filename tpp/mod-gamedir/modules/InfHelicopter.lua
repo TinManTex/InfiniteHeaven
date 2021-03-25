@@ -279,7 +279,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     packPaths[#packPaths+1]=packPath
   end
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   if this.packages[locationName] then
     for i,packPath in ipairs(this.packages[locationName]) do
       packPaths[#packPaths+1]=packPath
@@ -368,7 +368,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     --tex DEBUGNOW TODO OFF till VERIFY CallToLandingZoneAtName pretty much locks the heli into the lz till dismissed?
     --and make it an option between this-v- and just pulling out -^-
     --DEBUGNOW surely I have a simpler way of getting (simply sending to closestroute doesnt work, figure it out and document what CallToLandingZoneAtName actually wants)
---    local locationName=InfUtil.GetLocationName()
+--    local locationName=TppLocation.GetLocationName()
 --    if this.packages[locationName]==nil then
 --      InfCore.Log("InfHeliCopter .trackForceRoute - not for location")
 --    else
@@ -498,7 +498,7 @@ InfMenuCommands.requestHeliLzToLastMarker={
   isMenuOff=true,
 }
 this.RequestHeliLzToLastMarker=function()
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   if locationName~="afgh" and locationName~="mafr" then
     InfMenu.PrintLangId"not_for_location"
     return
@@ -571,7 +571,7 @@ this.RequestHeliLzToLastMarkerAlt=function()
   --DEBUGNOW if supportheli getusingroute == mis_startroute ?
   --
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   if locationName~="afgh" and locationName~="mafr" then
     InfMenu.PrintLangId"not_for_location"
     return

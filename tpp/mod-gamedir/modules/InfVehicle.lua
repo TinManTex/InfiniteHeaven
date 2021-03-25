@@ -356,7 +356,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
 
   InfMain.RandomSetToLevelSeed()
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
 
   this.inf_patrolVehicleInfo={}
   this.inf_patrolVehicleConvoyInfo={}
@@ -479,7 +479,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
 
   for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
     if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
@@ -621,7 +621,7 @@ function this.SetupConvoy()
     return
   end
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local convoys=this.convoys[locationName]
 
   --InfCore.PrintInspect(this.inf_patrolVehicleConvoyInfo)--DEBUG

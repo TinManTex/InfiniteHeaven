@@ -2012,7 +2012,7 @@ function this.PutEquipOnTrucks()
   end
 
   InfMain.RandomSetToLevelSeed()
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local pickableBag=InfUtil.ShuffleBag:New(pickables[locationName])
   local pickableCount=pickableBag:Count()
 

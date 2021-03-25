@@ -482,7 +482,7 @@ this.langStrings={
 function this.AddMissionPacks(missionCode,packPaths)
   --tex GOTCHA: this overrides TppReinforceBlock.LoadReinforceBlock GetFpk / TppReinforceBlock.REINFORCE_FPK
   --since the fox2 (which is derived from the normal reinforce fpk) is already loaded by the time TppReinforceBlock spins up.
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   if IvarProc.EnabledForMission(attackHeliPatrolsStr,missionCode) then
 
     --tex add packs by heliType
@@ -679,7 +679,7 @@ function this.OnMissionCanStart(currentChecks)
   end
 
   --tex set up lz info
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   this.enabledLzs=this.heliRoutes[locationName]
   routesBag=InfUtil.ShuffleBag:New(this.enabledLzs)
 

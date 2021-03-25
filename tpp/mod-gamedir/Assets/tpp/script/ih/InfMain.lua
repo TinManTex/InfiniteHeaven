@@ -745,7 +745,7 @@ function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   position=position or playerPos
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   if cpPositions==nil then
     InfCore.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)

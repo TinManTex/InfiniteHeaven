@@ -65,7 +65,7 @@ function this.GetFpk(reinforceType,pfcType,coloringType)--NMC: basically parses 
   InfCore.Log("TppReinforceBlock.GetFpk: reinforceType:"..tostring(reinforceType).." pfcType:"..tostring(pfcType).." coloringType:"..tostring(coloringType))--tex DEBUG
   local fpkTableForReinforceType=this.REINFORCE_FPK[reinforceType]
   if Tpp.IsTypeTable(fpkTableForReinforceType)then
-    local locationString=InfUtil.GetLocationName()--tex REWORKED>
+    local locationString=TppLocation.GetLocationName()--tex REWORKED>
     locationString=locationString or ""
     locationString=string.upper(locationString)--<
     --ORIG

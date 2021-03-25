@@ -177,7 +177,7 @@ function this.OnAllocate(missionTable)
   --  TppAnimal.OnAllocate(missionTable)
   --  InfMain.OnAllocate(missionTable)--tex
   --tex reworked
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local locationModule=_G[locationName]
   if locationModule then
     locationModule.OnAllocate()

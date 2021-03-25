@@ -111,7 +111,7 @@ end
 this.positions={}
 this.positionsXML={}
 this.ShowPosition=function()
-  if InfUtil.GetLocationName()=="afgh" or InfUtil.GetLocationName()=="mafr" then
+  if TppLocation.GetLocationName()=="afgh" or TppLocation.GetLocationName()=="mafr" then
     local blockNameStr32=Tpp.GetLoadedLargeBlock()
     local blockName=InfLookup.StrCode32ToString(blockNameStr32) or blockNameStr32 or "nil"
     InfCore.Log("Current large block:"..blockName,false,true)

@@ -99,7 +99,7 @@ end
 
 --TODO split out to its own module?
 function this.CpNameString(cpName,location)
-  local location=location or InfUtil.GetLocationName()
+  local location=location or TppLocation.GetLocationName()
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLangCpNames.cpNames[location]
   if locationCps==nil then
