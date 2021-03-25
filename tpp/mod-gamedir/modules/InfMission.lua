@@ -544,7 +544,7 @@ function this.RegisterMissions()
     if freeSlot==#this.missionListSlotIndices then
       InfCore.Log("WARNING: No free MISSION_LIST slots")
       break
-    else
+    elseif not TppMission.IsFreeMission(missionCode) then
       local missionIndex=this.missionListSlotIndices[freeSlot+1]
       freeSlot=freeSlot+1
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
