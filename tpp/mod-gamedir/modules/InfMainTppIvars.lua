@@ -758,7 +758,6 @@ this.playerRestrictionsMenu={
     "Ivars.disableHerbSearch",
     "Ivars.dontOverrideFreeLoadout",
     "InfMainTppIvars.markersMenu",
-    "InfMainTppIvars.heliSpaceFlagsMenu",
     "InfMainTppIvars.disableSupportMenuMenu",
     "InfMainTppIvars.itemLevelMenu",
     "InfMainTppIvars.handLevelMenu",
