@@ -1201,7 +1201,7 @@ function this.SelectReinforceType()
       MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}
     }
     --REWORKED
-    local locationName=TppLocation.GetLocationName(vars.locationId)
+    local locationName=TppLocation.GetLocationName(vars.locationCode)
     local reinforceVehicleTypes=reinforceVehiclesForLocation[string.upper(locationName)]
     --ORIG
 --    if TppLocation.IsAfghan()then

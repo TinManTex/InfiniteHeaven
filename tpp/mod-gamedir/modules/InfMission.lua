@@ -785,14 +785,14 @@ function this.GetCurrentSaveStates()
   return nil
 end
 
-function this.GetLocationInfo(locationId)
-  --locationId=locationId or vars.locationId
-  return this.locationInfo[locationId]
+function this.GetLocationInfo(locationCode)
+  --locationCode=locationCode or vars.locationCode
+  return this.locationInfo[locationCode]
 end
 
-function this.GetFreeMissionForLocation(locationId)
-  --locationId=locationId or vars.locationId
-  return this.freeMissionForLocation[locationId]
+function this.GetFreeMissionForLocation(locationCode)
+  --locationCode=locationCode or vars.locationCode
+  return this.freeMissionForLocation[locationCode]
 end
 
 --CALLER: TppTerminal.ReleaseFreePlay

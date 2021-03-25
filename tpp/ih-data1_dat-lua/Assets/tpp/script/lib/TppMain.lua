@@ -330,7 +330,7 @@ function this.OnAllocate(missionTable)
       if missionTable.sequence and missionTable.sequence.OnBuddyBlockLoad then
         missionTable.sequence.OnBuddyBlockLoad()
       end
-      local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex added locationInfo check -v-
+      local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex added locationInfo check -v-
       if TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica() or (locationInfo and locationInfo.requestTppBuddy2BlockController)then
         InfCore.LogFlow"TppBuddy2BlockController.Load"--tex DEBUG
         TppBuddy2BlockController.Load()

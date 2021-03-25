@@ -210,8 +210,8 @@ function this.IsMatchStartLocation(missionCode)
   else
     local locationId=TppDefine.LOCATION_ID[locationName]--tex>
     local locationInfo=InfMission.GetLocationInfo(locationId)
-    --tex locationId for the given missionCode param == current locationId (the TppLocation.Is<loc> is using vars.locationId)
-    if locationInfo and locationId==vars.locationId then
+    --tex locationId for the given missionCode param == current locationId (the TppLocation.Is<loc> is using vars.locationCode)
+    if locationInfo and locationId==vars.locationCode then
       return true
     end--< 
     
@@ -2761,8 +2761,8 @@ function this._ReserveMissionClearOnOutOfHotZone()
   elseif TppLocation.IsMiddleAfrica()then
     this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE}
   else
-    local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex>
-    local freeMissionForLocation= InfMission.GetFreeMissionForLocation(vars.locationId)
+    local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex>
+    local freeMissionForLocation= InfMission.GetFreeMissionForLocation(vars.locationCode)
     if locationInfo and freeMissionForLocation then
       this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=freeMissionForLocation}
     else--<tex this isn't quite the right fallback for custom missions, but is it the right fallback for anything lol
@@ -2824,8 +2824,8 @@ function this.AbortForOutOfMissionArea(abortInfo)
   elseif TppLocation.IsMiddleAfrica()then
     this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
   else
-    local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex>
-    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationId)
+    local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex>
+    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationCode)
     if locationInfo and freeMissionForLocation then
       this.AbortMission{nextMissionId=freeMissionForLocation,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
     else--<
@@ -2881,8 +2881,8 @@ function this.GameOverAbortForOutOfMissionArea()
     mvars.mis_abortWithSave=false
     mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.MAFR_FREE
   else
-      local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex>
-    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationId)
+      local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex>
+    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationCode)
     if locationInfo and freeMissionForLocation then
       mvars.mis_abortWithSave=false
       mvars.mis_nextMissionCodeForAbort=freeMissionForLocation
@@ -3656,10 +3656,10 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
     TppEnemy.UnloadSoldier2CommonBlock()
   end
   if(currentMissionCode~=nextMissionCode)or(loadSettings and loadSettings.force)then
-    local locationNameForMissionCode=TppPackList.GetLocationNameFormMissionCode(nextMissionCode)
-    local renameLocationNameForSomeMissionCode=TppPackList.GetLocationNameFormMissionCode(currentMissionCode)
+    local locationNameForNextMissionCode=TppPackList.GetLocationNameFormMissionCode(nextMissionCode)
+    local locationNameForCurrentMissionCode=TppPackList.GetLocationNameFormMissionCode(currentMissionCode)
     local locationSettings
-    if locationNameForMissionCode=="MTBS"and renameLocationNameForSomeMissionCode=="MTBS"then
+    if locationNameForNextMissionCode=="MTBS"and locationNameForCurrentMissionCode=="MTBS"then
       if nextMissionCode~=TppDefine.SYS_MISSION_ID.MTBS_HELI then
         if not(loadSettings and loadSettings.ignoreMtbsLoadLocationForce)then
           locationSettings={force=true}
