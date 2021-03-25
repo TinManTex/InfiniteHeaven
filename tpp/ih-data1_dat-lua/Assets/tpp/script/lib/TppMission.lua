@@ -208,6 +208,13 @@ function this.IsMatchStartLocation(missionCode)
       return false
     end
   else
+    local locationId=TppDefine.LOCATION_ID[locationName]--tex>
+    local locationInfo=InfMission.GetLocationInfo(locationId)
+    --tex locationId for the given missionCode param == current locationId (the TppLocation.Is<loc> is using vars.locationId)
+    if locationInfo and locationId==vars.locationId then
+      return true
+    end--< 
+    
     return false
   end
   return true
