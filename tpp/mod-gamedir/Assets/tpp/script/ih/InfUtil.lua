@@ -286,40 +286,4 @@ function this.GenerateNameList(fmt,num,list)
   return list
 end
 
---TODO: shift to InfTppUtil?
---DEBUGNOW TODO: patch in TppLocation.GetLocationName to this.GetLocationName, change all references from this to TppLocation.GetLocationName
---tex is added to by InfMission for addon missions
-this.locationIdForName={
-  init=1,
-  afgh=10,
-  mafr=20,
-  cypr=30,
-  gntn=40,
-  mtbs=50,
-  mbqf=55,
-  ombs=45,
-  hlsp=60,
-  flyk=70,
-  sand_afgh=91,
-  sand_mafr=92,
-  sand_mtbs=95,
-  --ssd
-  ssd_afgh=15,
-  ssd_ombs=47,--tex ssds TppLocation actually returns ombs for 47
-  aftr=16,
-  ssd_afgh2=17,
-  sbri=18,
-  spfc=19,
-  ssav=25,
-}
-
-this.locationNames={}
-for k,v in pairs(this.locationIdForName)do
-  this.locationNames[v]=k
-end
-
-function this.GetLocationName()
-  return this.locationNames[vars.locationCode]
-end
-
 return this

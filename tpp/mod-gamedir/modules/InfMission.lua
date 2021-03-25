@@ -395,20 +395,20 @@ function this.AddInLocations()
       TppMissionList.locationPackTable[locationId]=locationInfo.packs
     end
   end
-
+  InfCore.LogFlow"Adding to TppLocation.locationIdForName for TppLocation.GetLocationName"
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationName=locationInfo.locationName
     if locationName then
-      InfUtil.locationIdForName[string.lower(locationName)]=locationId
+      TppLocation.locationIdForName[string.lower(locationName)]=locationId
     end
   end
   for locationName,locationId in pairs(InfUtil.locationIdForName)do
-    InfUtil.locationNames[locationId]=locationName
+    TppLocation.locationNames[locationId]=locationName
   end
-
+  
   --TppDefine.LOCATION_CHUNK_INDEX_TABLE[location]=Chunkbleh --tex TODO see what requires LOCATION_CHUNK_INDEX_TABLE for addon missions, fallback to some default instead of nil?
 
-  TppLocation.GetLocationName=InfUtil.GetLocationName--tex replace the vanilla function with IHs
+  InfUtil.GetLocationName=TppLocation.GetLocationName--tex LEGACY
 
   if this.debugModule then
     InfCore.PrintInspect(this.locationInfo,"locationInfo")
