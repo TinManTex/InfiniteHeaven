@@ -108,14 +108,16 @@ local heliSpaceFlagNames={
 
 local this={}
 
-this.debugModule=false
+this.debugModule=true--DEBUGNOW
 
-this.locationInfo={}
-this.missionInfo={}
+this.locationInfo={}--locationInfo[locationId]=locationInfo
+this.missionInfo={}--missionInfo[missionCode]=missionInfo
 this.missionNames={}--tex see LoadMissionDefs
 this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions()
 this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
 
+this.freeMissionForLocation={}--freeMissionForLocation[locationId]=missionCode
+--this.heliMissionForLocation={} --unimplmented, see ReserveMissionClearOnRideOnHelicopter,AbortForRideOnHelicopter, anyting that wants AFGH_HELI etc really . not really needed I think
 this.registerIvars={
   "manualMissionCode",
   "manualSequence",
@@ -402,7 +404,7 @@ function this.AddInLocations()
       TppLocation.locationIdForName[string.lower(locationName)]=locationId
     end
   end
-  for locationName,locationId in pairs(InfUtil.locationIdForName)do
+  for locationName,locationId in pairs(TppLocation.locationIdForName)do
     TppLocation.locationNames[locationId]=locationName
   end
   
@@ -444,6 +446,7 @@ function this.AddInMissions()
       --tex LOCATION_HAVE_MISSION_LIST is in a pretty bad layout of
       --{<location>={<missioncode>,<missioncode>,...}
       --Given how it's used it should have just been {[missioncode]=<location>,...} or {<location>={[missioncode]=true,...},}
+      --Used by TppPackList.GetLocationNameFormMissionCode
       local locationMissions=TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location] or {}
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
@@ -585,6 +588,25 @@ function this.LoadLibraries()
     table.insert(this.missionIds,missionCode)
   end
   table.sort(this.missionIds)
+  
+  
+  this.freeMissionForLocation={
+    AFGH=30010,
+    MAFR=30020,
+    --DEBUGNOW the function where this could be generically used TppMission._ReserveMissionClearOnOutOfHotZone
+    --doesn't have it for MTBS
+     --OFF MTBS=30050,
+  }
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    if TppMission.IsFreeMission(missionCode) then
+      local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
+      if this.freeMissionForLocation[locationId] then
+        InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has free mission defined")
+      else
+        this.freeMissionForLocation[locationId]=missionCode
+      end
+    end
+  end--for missionInfo
 
   this.RegisterMissions()
 
@@ -598,6 +620,7 @@ function this.LoadLibraries()
     InfCore.PrintInspect(TppDefine.LOCATION_HAVE_MISSION_LIST,"TppDefine.LOCATION_HAVE_MISSION_LIST")
     InfCore.PrintInspect(TppDefine.NO_HELICOPTER_MISSION_START_POSITION,"TppDefine.NO_HELICOPTER_MISSION_START_POSITION")
     --InfCore.PrintInspect(mbdvc_map_location_parameter,"mbdvc_map_location_parameter")
+    InfCore.PrintInspect(this.freeMissionForLocation,"freeMissionForLocation")
   end
 end
 
@@ -762,6 +785,15 @@ function this.GetCurrentSaveStates()
   return nil
 end
 
+function this.GetLocationInfo(locationId)
+  --locationId=locationId or vars.locationId
+  return this.locationInfo[locationId]
+end
+
+function this.GetFreeMissionForLocation(locationId)
+  --locationId=locationId or vars.locationId
+  return this.freeMissionForLocation[locationId]
+end
 
 --CALLER: TppTerminal.ReleaseFreePlay
 function this.EnableLocationChangeMissions()

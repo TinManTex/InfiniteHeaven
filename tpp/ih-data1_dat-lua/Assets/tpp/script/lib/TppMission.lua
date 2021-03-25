@@ -2761,7 +2761,13 @@ function this._ReserveMissionClearOnOutOfHotZone()
   elseif TppLocation.IsMiddleAfrica()then
     this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE}
   else
+    local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex>
+    local freeMissionForLocation= InfMission.GetFreeMissionForLocation(vars.locationId)
+    if locationInfo and freeMissionForLocation then
+      this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=freeMissionForLocation}
+    else--<tex this isn't quite the right fallback for custom missions, but is it the right fallback for anything lol
     this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE}
+    end
   end
 end
 function this.ReserveMissionClearOnRideOnHelicopter()
@@ -2818,7 +2824,13 @@ function this.AbortForOutOfMissionArea(abortInfo)
   elseif TppLocation.IsMiddleAfrica()then
     this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
   else
+    local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex>
+    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationId)
+    if locationInfo and freeMissionForLocation then
+      this.AbortMission{nextMissionId=freeMissionForLocation,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
+    else--<
     this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
+    end
   end
 end
 function this.AbortForRideOnHelicopter(abortInfo)
@@ -2869,8 +2881,15 @@ function this.GameOverAbortForOutOfMissionArea()
     mvars.mis_abortWithSave=false
     mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.MAFR_FREE
   else
+      local locationInfo=InfMission.GetLocationInfo(vars.locationId)--tex>
+    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationId)
+    if locationInfo and freeMissionForLocation then
+      mvars.mis_abortWithSave=false
+      mvars.mis_nextMissionCodeForAbort=freeMissionForLocation
+    else--< 
     mvars.mis_abortWithSave=false
     mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_FREE
+    end
   end
 end
 function this.GameOverAbortForRideOnHelicopter()
