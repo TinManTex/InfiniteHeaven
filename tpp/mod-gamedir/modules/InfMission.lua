@@ -609,6 +609,8 @@ function this.LoadLibraries()
   end--for missionInfo
 
   this.RegisterMissions()
+  
+  this.UpdateChangeLocationMenu()
 
   if this.debugModule then
     InfCore.PrintInspect(this.missionIds,"missionIds")
@@ -802,6 +804,8 @@ end
 --however the above map does show
 --given that there's a location icon I guess that's set up in engine
 --TODO: find the names of the icons
+--see IHHook GetFreeRoamLangIdHook
+--CALLER: TppTerminal.Init > TppTerminal.ReleaseFreePlay
 function this.EnableLocationChangeMissions()
   local skipLocations={
      [TppDefine.LOCATION_ID.AFGH]=true,
@@ -812,6 +816,25 @@ function this.EnableLocationChangeMissions()
     InfCore.Log("EnableChangeLocationMenu{locationId="..locationCode..",missionId="..freeMissionCode.."}")
     TppUiCommand.EnableChangeLocationMenu{locationId=locationCode,missionId=freeMissionCode}
   end
+end
+
+--
+function this.UpdateChangeLocationMenu()
+  local locationLangIds={
+    [10]="tpp_loc_afghan",
+    [20]="tpp_loc_africa",
+    [50]="tpp_loc_mb",
+  }--locationLangIds
+  for locationCode,locationInfo in pairs(this.locationInfo)do
+    local langId
+    if locationInfo.locationMapParams then
+      langId=locationInfo.locationMapParams.locationNameLangId
+    end
+    langId=langId or "tpp_loc_"..string.lower(locationInfo.locationName)
+    
+    locationLangIds[locationCode]=langId--tex handle hashing on ihhook side since I'm unsure of lua number size Fox.StrCode(langId)--strcode64
+  end
+  IHH.UpdateChangeLocationMenu(locationLangIds)
 end
 
 --orig in TppResult.GetMbMissionListParameterTable
