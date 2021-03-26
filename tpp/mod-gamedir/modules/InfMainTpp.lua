@@ -450,7 +450,7 @@ function this.RandomizeCpSubTypeTable()
     return
   end
 
-  local locationName=InfUtil.locationNames[vars.locationCode]
+  local locationName=TppLocation.GetLocationName(vars.locationCode)
   local locationSubTypes=cpSubTypes[locationName]
   if locationSubTypes==nil then
     InfCore.Log("WARNING: RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))

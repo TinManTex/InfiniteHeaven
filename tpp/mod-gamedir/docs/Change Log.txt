@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r243 - 2021-03-27
+Fix: changeCpSubType - Random CP subtype erroring.
+
 r241 - 2021-03-27
 Fix: Addon missions breaking when IHHook not initialized - thanks Yooungi for the report
 

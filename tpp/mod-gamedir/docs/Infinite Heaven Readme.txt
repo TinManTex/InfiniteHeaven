@@ -18,6 +18,9 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r242
+Fix: changeCpSubType - Random CP subtype erroring.
+
 r241
 Fix: Addon missions breaking when IHHook not initialized - thanks Yooungi for the report
 
