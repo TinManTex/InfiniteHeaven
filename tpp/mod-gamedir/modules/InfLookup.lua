@@ -615,7 +615,7 @@ function this.CpNameForCpId(cpId)
     cpName=mvars.ene_cpList[cpId]
   end
   if cpName==nil then
-    if InfUtil.GetLocationName()=="mtbs" then
+    if TppLocation.GetLocationName()=="mtbs" then
       local clusterId=MotherBaseStage.GetCurrentCluster()
       local cpName=this.mbCps[clusterId]
       local gameId=GetGameObjectId("TppCommandPost2",cpName)

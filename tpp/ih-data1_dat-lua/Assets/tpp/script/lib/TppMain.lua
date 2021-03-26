@@ -177,7 +177,7 @@ function this.OnAllocate(missionTable)
   --  TppAnimal.OnAllocate(missionTable)
   --  InfMain.OnAllocate(missionTable)--tex
   --tex reworked
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local locationModule=_G[locationName]
   if locationModule then
     locationModule.OnAllocate()
@@ -330,7 +330,9 @@ function this.OnAllocate(missionTable)
       if missionTable.sequence and missionTable.sequence.OnBuddyBlockLoad then
         missionTable.sequence.OnBuddyBlockLoad()
       end
-      if TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica()then
+      local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex added locationInfo check -v-
+      if TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica() or (locationInfo and locationInfo.requestTppBuddy2BlockController)then
+        InfCore.LogFlow"TppBuddy2BlockController.Load"--tex DEBUG
         TppBuddy2BlockController.Load()
       end
     end

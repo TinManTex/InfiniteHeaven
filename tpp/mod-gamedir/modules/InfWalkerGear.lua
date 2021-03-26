@@ -295,7 +295,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     packPaths[#packPaths+1]=packPath
   end
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   if this.packages[locationName] then
     for i,packPath in ipairs(this.packages[locationName]) do
       packPaths[#packPaths+1]=packPath
@@ -306,7 +306,7 @@ end
 --IN/OUT: walkerPool,walkerInfos
 --IN-SIDE: this.walkerNames
 function this.SetupGearsFREE(walkerInfos,walkerPool)
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   --tex shift too 'off' position
 
   if TppMission.IsMissionStart() then
@@ -630,7 +630,7 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
         local soldierId=GetGameObjectId("TppSoldier2",soldierName)
         InfCore.Log("Setup walker gear: "..walkerName..", soldier:"..soldierName)
         if TppMission.IsMissionStart() then
-          local locationName=InfUtil.GetLocationName()
+          local locationName=TppLocation.GetLocationName()
           --OFF local cpPositions=walkerStartPositions[locationName]
           local cpPositions=InfMain.cpPositions[locationName]
           local lrrpDefine=lrrpDefines[cpName]

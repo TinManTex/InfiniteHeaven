@@ -1,5 +1,5 @@
 = Infinite heaven =
-r239 - 2021-03-24
+r240 - 2021-03-26
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -18,6 +18,19 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r240
+Fix: Game crashing on startup with enableIHExt.
+Was trying to log with announcelog via debugprint, which should have been ok because it had a guard against the announcelog not stood-up crash by checking vars.missionCode not nil. Except it should have been checking missionCode wasnt MAX - 65535 - thanks everyone for the report and Venom Raven for the ih_save and testing.
+Fix: Mission-prep features menu repeated entry in player restrictions menu removed (is being auto added via parent tag) - thanks OldBoss for the report.
+
+IMGUI: Default style tweaked.
+
+Mission Addon system: 
+Free roam missions now get registered to the free roam tab and not the mission tab.
+In theory should support moving from an addon free roam to a mission set in that location and visaversa (via mission leave out of bounds).
+
+Free roam missions get proper langId for entry thanks to IHHook, uses locationMapParams.locationNameLangId or defaults to tpp_loc_<lowercase locationName>
+
 r239
 Update to MGSV version 1.0.15.3
 IHHook: IMGUI style editor with save/load. Via IH System Menu > UI Style Editor

@@ -21,6 +21,7 @@
 --    heightMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_iDroid_clp.ftex",
 --    photoRealMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_jungle_sat_clp.ftex"
 --  },
+--  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
 --}
 --
 --return this
@@ -107,14 +108,16 @@ local heliSpaceFlagNames={
 
 local this={}
 
-this.debugModule=false
+this.debugModule=true--DEBUGNOW
 
-this.locationInfo={}
-this.missionInfo={}
+this.locationInfo={}--locationInfo[locationId]=locationInfo
+this.missionInfo={}--missionInfo[missionCode]=missionInfo
 this.missionNames={}--tex see LoadMissionDefs
 this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions()
 this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
 
+this.freeMissionForLocation={}--freeMissionForLocation[locationId]=missionCode
+--this.heliMissionForLocation={} --unimplmented, see ReserveMissionClearOnRideOnHelicopter,AbortForRideOnHelicopter, anyting that wants AFGH_HELI etc really . not really needed I think
 this.registerIvars={
   "manualMissionCode",
   "manualSequence",
@@ -394,20 +397,20 @@ function this.AddInLocations()
       TppMissionList.locationPackTable[locationId]=locationInfo.packs
     end
   end
-
+  InfCore.LogFlow"Adding to TppLocation.locationIdForName for TppLocation.GetLocationName"
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationName=locationInfo.locationName
     if locationName then
-      InfUtil.locationIdForName[string.lower(locationName)]=locationId
+      TppLocation.locationIdForName[string.lower(locationName)]=locationId
     end
   end
-  for locationName,locationId in pairs(InfUtil.locationIdForName)do
-    InfUtil.locationNames[locationId]=locationName
+  for locationName,locationId in pairs(TppLocation.locationIdForName)do
+    TppLocation.locationNames[locationId]=locationName
   end
-
+  
   --TppDefine.LOCATION_CHUNK_INDEX_TABLE[location]=Chunkbleh --tex TODO see what requires LOCATION_CHUNK_INDEX_TABLE for addon missions, fallback to some default instead of nil?
 
-  TppLocation.GetLocationName=InfUtil.GetLocationName--tex replace the vanilla function with IHs
+  InfUtil.GetLocationName=TppLocation.GetLocationName--tex LEGACY
 
   if this.debugModule then
     InfCore.PrintInspect(this.locationInfo,"locationInfo")
@@ -443,6 +446,7 @@ function this.AddInMissions()
       --tex LOCATION_HAVE_MISSION_LIST is in a pretty bad layout of
       --{<location>={<missioncode>,<missioncode>,...}
       --Given how it's used it should have just been {[missioncode]=<location>,...} or {<location>={[missioncode]=true,...},}
+      --Used by TppPackList.GetLocationNameFormMissionCode
       local locationMissions=TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location] or {}
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
@@ -540,7 +544,7 @@ function this.RegisterMissions()
     if freeSlot==#this.missionListSlotIndices then
       InfCore.Log("WARNING: No free MISSION_LIST slots")
       break
-    else
+    elseif not TppMission.IsFreeMission(missionCode) then
       local missionIndex=this.missionListSlotIndices[freeSlot+1]
       freeSlot=freeSlot+1
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
@@ -584,8 +588,29 @@ function this.LoadLibraries()
     table.insert(this.missionIds,missionCode)
   end
   table.sort(this.missionIds)
+  
+  
+  this.freeMissionForLocation={
+    [TppDefine.LOCATION_ID.AFGH]=30010,
+    [TppDefine.LOCATION_ID.MAFR]=30020,
+    --DEBUGNOW the function where this could be generically used TppMission._ReserveMissionClearOnOutOfHotZone
+    --doesn't have it for MTBS
+     --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
+  }
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    if TppMission.IsFreeMission(missionCode) then
+      local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
+      if this.freeMissionForLocation[locationId] then
+        InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has free mission defined")
+      else
+        this.freeMissionForLocation[locationId]=missionCode
+      end
+    end
+  end--for missionInfo
 
   this.RegisterMissions()
+  
+  this.UpdateChangeLocationMenu()
 
   if this.debugModule then
     InfCore.PrintInspect(this.missionIds,"missionIds")
@@ -597,6 +622,7 @@ function this.LoadLibraries()
     InfCore.PrintInspect(TppDefine.LOCATION_HAVE_MISSION_LIST,"TppDefine.LOCATION_HAVE_MISSION_LIST")
     InfCore.PrintInspect(TppDefine.NO_HELICOPTER_MISSION_START_POSITION,"TppDefine.NO_HELICOPTER_MISSION_START_POSITION")
     --InfCore.PrintInspect(mbdvc_map_location_parameter,"mbdvc_map_location_parameter")
+    InfCore.PrintInspect(this.freeMissionForLocation,"freeMissionForLocation")
   end
 end
 
@@ -761,10 +787,54 @@ function this.GetCurrentSaveStates()
   return nil
 end
 
+function this.GetLocationInfo(locationCode)
+  --locationCode=locationCode or vars.locationCode
+  return this.locationInfo[locationCode]
+end
+
+function this.GetFreeMissionForLocation(locationCode)
+  --locationCode=locationCode or vars.locationCode
+  return this.freeMissionForLocation[locationCode]
+end
 
 --CALLER: TppTerminal.ReleaseFreePlay
+--Enables the free roam entry
+--but the issue is that name doesnt show
+--despite there being a map_location_parameter - locationNameLangId = "tpp_loc_<whatever> (that matches tpp_common lng for vanilla free)
+--however the above map does show
+--given that there's a location icon I guess that's set up in engine
+--TODO: find the names of the icons
+--see IHHook GetFreeRoamLangIdHook
+--CALLER: TppTerminal.Init > TppTerminal.ReleaseFreePlay
 function this.EnableLocationChangeMissions()
---  TppUiCommand.EnableChangeLocationMenu{locationId=45,missionId=12000}
+  local skipLocations={
+     [TppDefine.LOCATION_ID.AFGH]=true,
+     [TppDefine.LOCATION_ID.MAFR]=true,
+     [TppDefine.LOCATION_ID.MTBS]=true,
+  }
+  for locationCode,freeMissionCode in pairs(this.freeMissionForLocation)do
+    InfCore.Log("EnableChangeLocationMenu{locationId="..locationCode..",missionId="..freeMissionCode.."}")
+    TppUiCommand.EnableChangeLocationMenu{locationId=locationCode,missionId=freeMissionCode}
+  end
+end
+
+--
+function this.UpdateChangeLocationMenu()
+  local locationLangIds={
+    [10]="tpp_loc_afghan",
+    [20]="tpp_loc_africa",
+    [50]="tpp_loc_mb",
+  }--locationLangIds
+  for locationCode,locationInfo in pairs(this.locationInfo)do
+    local langId
+    if locationInfo.locationMapParams then
+      langId=locationInfo.locationMapParams.locationNameLangId
+    end
+    langId=langId or "tpp_loc_"..string.lower(locationInfo.locationName)
+    
+    locationLangIds[locationCode]=langId--tex handle hashing on ihhook side since I'm unsure of lua number size Fox.StrCode(langId)--strcode64
+  end
+  IHH.UpdateChangeLocationMenu(locationLangIds)
 end
 
 --orig in TppResult.GetMbMissionListParameterTable

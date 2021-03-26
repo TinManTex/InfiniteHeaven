@@ -535,7 +535,7 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
   local baseNameBag1=InfUtil.ShuffleBag:New()
   local baseNameBag2=InfUtil.ShuffleBag:New()
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local baseNames=InfMain.baseNames[locationName]
   local halfBases=math.ceil(#baseNames/2)
 
@@ -727,7 +727,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
   local baseNamePool=InfMain.BuildCpPoolWildCard(soldierDefine)
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   local wildCardSubType=wildCardSubTypes[locationName]or "SOVIET_WILDCARD"
 
   local weaponPowersBag=InfUtil.ShuffleBag:New(weaponPowers)

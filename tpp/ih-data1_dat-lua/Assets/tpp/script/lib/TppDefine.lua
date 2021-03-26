@@ -316,6 +316,7 @@ this.EMERGENCY_MISSION_ENUM=this.Enum(this.EMERGENCY_MISSION_LIST)
 --NMC probably would have been better to have it as [missioncode]=location
 --It also lumps in mbqf (locationCode 55) mission into MTBS
 --Used in TppPackList.GetLocationNameFormMissionCode
+--and added to by IH in InfMission.AddInMissions
 --Also see and TppLocation.GetLocationName
 this.LOCATION_HAVE_MISSION_LIST={
   INIT={5},

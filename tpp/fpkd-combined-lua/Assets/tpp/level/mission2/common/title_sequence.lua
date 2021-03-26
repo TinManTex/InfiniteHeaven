@@ -1050,7 +1050,7 @@ sequences.Seq_Game_ChunkInstalled = {
 	end,
 
 	OnEndFadeOutSelectContinue = function()
-	 InfCore.LogFlow("title_sequence.OnEndFadeOutSelectContinue "..tostring(vars.missionCode))--tex
+    InfCore.LogFlow("title_sequence.OnEndFadeOutSelectContinue "..tostring(vars.missionCode))--tex
 		local titleMissionCode = vars.missionCode
 		this.DoEnableGameStatusFunction()
 		TppMission.SafeStopSettingOnMissionReload()	
@@ -1065,7 +1065,7 @@ sequences.Seq_Game_ChunkInstalled = {
 		TppTerminal.AcquirePrivilegeInTitleScreen()
 
 			
-			if	( vars.missionCode == 10240 )
+    if	( vars.missionCode == 10240 )
 			and ( not TppPackList.IsMissionPackLabel( "InQuarantineFacility" ) )
 			and ( vars.locationCode == TppDefine.LOCATION_ID.MBQF ) then
 				

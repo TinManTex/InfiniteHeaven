@@ -1421,7 +1421,7 @@ end
 function this.WildCardFovaBodies(bodies)
   InfMain.RandomSetToLevelSeed()
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
 
   if InfSoldier.numWildCards.FEMALE~=0 then--DEBUGNOW
     this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)

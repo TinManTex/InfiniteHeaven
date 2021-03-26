@@ -689,14 +689,13 @@ Stops the Intel teams plant spotting audio notification and indication on the id
 10: Keep equipment Free<>Mission : Off, On
 Prevents equipment and weapons being reset when going between free-roam and missions.
 11: Marking display menu
-12: Mission-prep features menu
-13: Disable mission support-menus menu
-14: Item level menu
-15: Hand abilities levels menu
-16: Fulton levels menu
-17: Fulton success menu
-18: OSP menu
-19: Mission-prep features menu
+12: Disable mission support-menus menu
+13: Item level menu
+14: Hand abilities levels menu
+15: Fulton levels menu
+16: Fulton success menu
+17: OSP menu
+18: Mission-prep features menu
 
 Marking display menu
 - Toggles for marking in main view. Does not effect marking on iDroid map

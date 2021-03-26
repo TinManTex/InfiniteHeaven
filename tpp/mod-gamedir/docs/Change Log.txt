@@ -1,5 +1,24 @@
 Infinite Heaven changelog
 
+r240 - 2021-03-26
+Fix: Game crashing on startup with enableIHExt.
+Was trying to log with announcelog via debugprint, which should have been ok because it had a guard against the announcelog not stood-up crash by checking vars.missionCode not nil. Except it should have been checking missionCode wasnt MAX - 65535 - thanks everyone for the report and Venom Raven for the ih_save and testing.
+Fix: Mission-prep features menu repeated entry in player restrictions menu removed (is being auto added via parent tag) - thanks OldBoss for the report.
+
+IMGUI: Default style tweaked.
+
+Mission Addon system: 
+Free roam missions now get registered to the free roam tab and not the mission tab.
+In theory should support moving from an addon free roam to a mission set in that location and visaversa (via mission leave out of bounds).
+
+requestTppBuddy2BlockController var for missionInfo to have TppBuddy2BlockController.CreateBlock and Load called like they would for afgh/mafr. Though inial testing with gntn it doesn't seem to fix selected buddy from mission start not actually enabled issue like I thought it might.
+
+Free roam missions get proper langId for entry thanks to IHHook, uses locationMapParams.locationNameLangId or defaults to tpp_loc_<lowercase locationName>
+
+TppLocation included in IH (can't think of any mods that would mod this so should be a save move).
+
+Refactor: Move InfUtil.GetLocationName into TppLocation to replace.
+
 r239 - 2021-03-24
 Update to MGSV version 1.0.15.3
 

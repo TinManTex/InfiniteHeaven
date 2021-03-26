@@ -17,7 +17,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=239
+this.modVersion=240
 this.modName="Infinite Heaven"
 this.hookVersion=7--tex for version check
 
@@ -88,7 +88,7 @@ function this.Log(message,announceLog,level)
     return
   end
 
-  if announceLog and vars.missionCode then
+  if announceLog then
     this.DebugPrint(message)
   end
 
@@ -261,7 +261,7 @@ end
 local MAX_ANNOUNCE_STRING=255 --288--tex sting length announce log can handle before crashing the game, a bit worried that it's actually kind of a random value at 288 (and yeah I manually worked this value out by adjusting a string and reloading and crashing the game till I got it exact lol).
 function this.DebugPrint(message,...)
   --tex: trying to call to announcelog before its initialized will cause a hard crash. It's probably up during/before the init missions (1,5), just checking vars.missioncode suits purposes for now
-  if not vars.missionCode then
+  if vars.missionCode==nil or vars.missionCode==65535 then
     return
   end
 
@@ -365,7 +365,8 @@ function this.StartIHExt()
   this.extSession=1--tex WORKAROUND: will get updated when IHExt has started, but must be non 0 for IH to actually run ProcessCommands. Wasn't nessesary when I was pulling line 1 messageId as the sessionId, but that has been shifted to a extSession command from IHExt
 
   if IHH then
-    InfCore.Log("Use IHHook menu instead",true)
+    local announceLogPrint=true
+    InfCore.Log("Use IHHook menu instead",announceLogPrint)
     return
   end
 
@@ -394,11 +395,14 @@ end
 --DEBUGNOW replace with above and have a seperate usepipe function just running of extSession check
 function this.IHExtRunning()
   --KLUDGE
-  if IHH and IHH.menuInitialized then
-    return true
+  if IHH then
+    if IHH.menuInitialized then
+      return true
+    end
   else
     return ivars and ivars.enableIHExt>0 and this.extSession~=0
   end
+  return false
 end
 
 function this.IHExtInstalled()

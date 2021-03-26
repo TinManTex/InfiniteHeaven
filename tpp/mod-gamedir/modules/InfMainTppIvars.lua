@@ -70,7 +70,7 @@ this.playerHealthScale={
   inMission=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   default=100,
-  range={max=650,min=0,increment=20},--tex GOTCHA see InfMain.ChangeMaxLife,http://wiki.tesnexus.com/index.php/Life
+  range={max=650,min=0,increment=10},--tex GOTCHA see InfMain.ChangeMaxLife,http://wiki.tesnexus.com/index.php/Life
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
@@ -758,7 +758,6 @@ this.playerRestrictionsMenu={
     "Ivars.disableHerbSearch",
     "Ivars.dontOverrideFreeLoadout",
     "InfMainTppIvars.markersMenu",
-    "InfMainTppIvars.heliSpaceFlagsMenu",
     "InfMainTppIvars.disableSupportMenuMenu",
     "InfMainTppIvars.itemLevelMenu",
     "InfMainTppIvars.handLevelMenu",

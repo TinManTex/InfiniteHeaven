@@ -196,7 +196,7 @@ function this.OnMissionCanStart(currentChecks)
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end
 
-  local locationName=InfUtil.GetLocationName()
+  local locationName=TppLocation.GetLocationName()
   if Ivars.disableLzs:Is"ASSAULT" then
     InfLZ.DisableLzs(TppLandingZone.assaultLzs[locationName])
   elseif Ivars.disableLzs:Is"REGULAR" then
@@ -430,6 +430,7 @@ function this.ResetCpTableToDefault()
   end
 end
 
+--tex TODO: think about extending this to custom locations
 local cpSubTypes={
   afgh={
     "SOVIET_A",
@@ -452,7 +453,7 @@ function this.RandomizeCpSubTypeTable()
   local locationName=InfUtil.locationNames[vars.locationCode]
   local locationSubTypes=cpSubTypes[locationName]
   if locationSubTypes==nil then
-    InfCore.Log("WARNING: RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName),true)
+    InfCore.Log("WARNING: RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
     return
   end
 
