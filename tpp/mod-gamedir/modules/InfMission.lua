@@ -804,7 +804,7 @@ end
 --however the above map does show
 --given that there's a location icon I guess that's set up in engine
 --TODO: find the names of the icons
---see IHHook GetFreeRoamLangIdHook
+--see IHHook GetFreeRoamLangIdHook and UpdateChangeLocationMenu below for fix
 --CALLER: TppTerminal.Init > TppTerminal.ReleaseFreePlay
 function this.EnableLocationChangeMissions()
   local skipLocations={
@@ -818,7 +818,7 @@ function this.EnableLocationChangeMissions()
   end
 end
 
---
+--see above comment
 function this.UpdateChangeLocationMenu()
   local locationLangIds={
     [10]="tpp_loc_afghan",
@@ -834,8 +834,10 @@ function this.UpdateChangeLocationMenu()
     
     locationLangIds[locationCode]=langId--tex handle hashing on ihhook side since I'm unsure of lua number size Fox.StrCode(langId)--strcode64
   end
-  IHH.UpdateChangeLocationMenu(locationLangIds)
-end
+  if IHH then
+    IHH.UpdateChangeLocationMenu(locationLangIds)
+  end
+end--UpdateChangeLocationMenu
 
 --orig in TppResult.GetMbMissionListParameterTable
 -- currently conflict with Anyones Improvements
