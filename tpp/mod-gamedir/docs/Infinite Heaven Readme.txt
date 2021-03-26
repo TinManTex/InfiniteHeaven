@@ -1,5 +1,5 @@
 = Infinite heaven =
-r240 - 2021-03-26
+r241 - 2021-03-27
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -18,6 +18,9 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+r241
+Fix: Addon missions breaking when IHHook not initialized - thanks Yooungi for the report
+
 r240
 Fix: Game crashing on startup with enableIHExt.
 Was trying to log with announcelog via debugprint, which should have been ok because it had a guard against the announcelog not stood-up crash by checking vars.missionCode not nil. Except it should have been checking missionCode wasnt MAX - 65535 - thanks everyone for the report and Venom Raven for the ih_save and testing.

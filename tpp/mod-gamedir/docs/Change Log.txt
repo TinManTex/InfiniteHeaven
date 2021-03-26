@@ -1,5 +1,11 @@
 Infinite Heaven changelog
 
+r241 - 2021-03-27
+Fix: Addon missions breaking when IHHook not initialized - thanks Yooungi for the report
+
+Log IHHook ver, or warn.
+Write IHHook ver to ih_save .ihhookVer
+
 r240 - 2021-03-26
 Fix: Game crashing on startup with enableIHExt.
 Was trying to log with announcelog via debugprint, which should have been ok because it had a guard against the announcelog not stood-up crash by checking vars.missionCode not nil. Except it should have been checking missionCode wasnt MAX - 65535 - thanks everyone for the report and Venom Raven for the ih_save and testing.
