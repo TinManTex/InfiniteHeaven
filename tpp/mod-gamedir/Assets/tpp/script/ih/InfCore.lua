@@ -17,7 +17,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=240
+this.modVersion=241
 this.modName="Infinite Heaven"
 this.hookVersion=7--tex for version check
 
@@ -1114,8 +1114,14 @@ else
   this.Log(this.modName.." r"..this.modVersion)
 
   --tex currently no hard depedancy on IHHook
-  if _IHHook and  _IHHook ~= this.hookVersion then
-    InfCore.Log("IHHook version ".._IHHook..". Required version "..this.hookVersion,false,true);
+  if _IHHook then 
+    if _IHHook ~= this.hookVersion then
+      this.Log("ERROR: IHHook version mismatch. IHHook version: "..tostring(_IHHook)..". Required version "..this.hookVersion,false,true);
+    else
+      this.Log("IHHook version "..tostring(_IHHook))
+    end
+  else
+    this.Log("WARNING: IHHook not initialized")
   end
   
   this.Log("gamePath: "..this.gamePath)
