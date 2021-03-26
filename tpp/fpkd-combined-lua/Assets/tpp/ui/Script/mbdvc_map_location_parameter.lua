@@ -250,6 +250,7 @@ mbdvc_map_location_parameter = {
 	
 	
 	GetLocationOfMissions = function()
+	    InfCore.LogFlow("mbdvc_map_location_parameter.GetLocationOfMissions "..tostring(vars.missionCode))--tex
 			local locationOfMissions = {}
 			for locationName, missionList in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST) do
 				for index, missionId in pairs(missionList) do
