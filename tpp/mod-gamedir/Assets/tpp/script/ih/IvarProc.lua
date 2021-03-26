@@ -1108,6 +1108,7 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   InfCore.WriteStringTable(profilesFileName,saveText)
 end
 
+--local gameVer=IHH and IHH.gameVer 
 local saveHeader={
   "-- "..InfCore.saveName,
   "-- Save file for IH options",
@@ -1116,6 +1117,8 @@ local saveHeader={
   "local this={}",
   "this.loadToACC=false",
   "this.ihVer="..InfCore.modVersion,
+  "this.ihhookVer="..tostring(_IHHook),
+  --TODO: bit of a mess at the moment on IHHook side --"this.gameVer="..tostring(gameVer),
 }
 
 --tex muddies the point of this being named Proc, but it's more of a cache than state

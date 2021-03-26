@@ -239,7 +239,10 @@ function ReadCSV(csvPath)
     local functionSignature=csvValues[3]
 
     local isThunk=functionSignature:find("thunk")
-    csvEntries[functionName]={address=address,isThunk=isThunk}
+    --DEBUGNOW thunks will have dupe name, so just leave them out completely for now
+    if not isThunk then
+      csvEntries[functionName]={address=address}--,isThunk=isThunk}
+    end
   end--for csvLines
 
   return csvEntries
