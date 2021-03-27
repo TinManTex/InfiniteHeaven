@@ -449,12 +449,12 @@ function this.RegisterQuests()
   InfCore.Log("numUiQuests:"..#questInfoTable)
 
   if this.debugModule then
-    InfCore.PrintInspect(TppDefine.QUEST_INDEX,{varName="QUEST_INDEX"})
-    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE,{varName="QUEST_RANK_TABLE"})
+    InfCore.PrintInspect(TppDefine.QUEST_INDEX,"QUEST_INDEX")
+    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE,"QUEST_RANK_TABLE")
     InfCore.PrintInspect(TppQuestList.questAreaNameTable,"questAreaNameTable")
-    InfCore.PrintInspect(TppQuestList.questList,{varName="questList"})
-    InfCore.PrintInspect(openQuestCheckTable,{varName="openQuestCheckTable"})
-    InfCore.PrintInspect(TppQuestList.questPackList,{varName="questPackList"})
+    InfCore.PrintInspect(TppQuestList.questList,"questList")
+    InfCore.PrintInspect(openQuestCheckTable,"openQuestCheckTable")
+    InfCore.PrintInspect(TppQuestList.questPackList,"questPackList")
   end
 end
 
