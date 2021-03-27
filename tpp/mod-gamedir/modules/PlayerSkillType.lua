@@ -132,4 +132,14 @@ local this={
   ANTI_BALLISTIC_MISSILE_ENGINEER_3=86, --
 }--this
 
+--tex build reverse lookup (but cant add to table your iterating without trouble, so put in temp)
+local arr={}
+for name,enum in pairs(this)do
+  arr[enum]=name
+end
+--then fold back in
+for enum,name in ipairs(arr)do
+  this[enum]=name
+end
+
 return this
