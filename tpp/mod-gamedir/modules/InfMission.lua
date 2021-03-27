@@ -217,6 +217,7 @@ function this.PostModuleReload(prevModule)
   this.missionIds=prevModule.missionIds
   this.missionInfo=prevModule.missionInfo
   this.missionListSlotIndices=prevModule.missionListSlotIndices
+  this.freeMissionForLocation=prevModule.freeMissionForLocation
 end
 
 
@@ -823,6 +824,7 @@ function this.UpdateChangeLocationMenu()
   local locationLangIds={
     [10]="tpp_loc_afghan",
     [20]="tpp_loc_africa",
+    [30]="tpp_loc_cyprus",--tex has langid, but wasn't referenced in the original function I found.
     [50]="tpp_loc_mb",
   }--locationLangIds
   for locationCode,locationInfo in pairs(this.locationInfo)do
