@@ -254,13 +254,17 @@ function this.GetRange(option)
   end
   return min,max
 end--GetRange
-
-function this.SetMaxToList(self,list)--DEBUGNOW trying to shift to range being optional if settings existst
+--GOTCHA: doesnt set min, but min shouldnt be dynamic anyhoo
+function this.SetMaxToList(self,list,indexFrom1)--DEBUGNOW trying to shift to range being optional if settings existst
   if list==nil then
     InfCore.Log("ERROR: IvarProc.SetMaxToList("..self.name.."): list==nil")
   end
 
-  local newMax=#list-1
+  local indexShift=1--tex default to index from 0 since the majority of ivars are.
+  if indexFrom1 then
+    indexShift=0
+  end
+  local newMax=#list-indexShift
   if newMax<0 then
     newMax=0
   end
@@ -271,10 +275,14 @@ function this.SetMaxToList(self,list)--DEBUGNOW trying to shift to range being o
   end
 end
 
-function this.SetSettings(self,list)--DEBUGNOW trying to shift to range being optional if settings existst
+function this.SetSettings(self,list,indexFrom1)--DEBUGNOW trying to shift to range being optional if settings existst
   self.settings=list
 
-  local newMax=#list-1
+  local indexShift=1--tex default to index from 0 since the majority of ivars are.
+  if indexFrom1 then
+    indexShift=0
+  end
+  local newMax=#list-indexShift
   if newMax<0 then
     newMax=0
   end
