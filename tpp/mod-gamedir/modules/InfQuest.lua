@@ -207,7 +207,7 @@ function this.GetForced()
     local unlockedName=questTable[unlockSideOpNumber].questName
     local unlockedArea=nil
     if unlockedName~=nil then
-      unlockedArea=TppQuestList.questAreaTable[unlockedName]
+      unlockedArea=TppQuestList.questAreaNameTable[unlockedName]
       forcedQuests[unlockedArea]=unlockedName
       forcedCount=forcedCount+1
       InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
@@ -313,9 +313,9 @@ end
 --    infoList={
 --    {name="mtbs_q42070",invokeStepName="QStep_Start"},
 --    {name="quest_q30100",invokeStepName="QStep_Start"},
---TppQuestList.questAreaTable
+--TppQuestList.questAreaNameTable
 --tex just grinding through arrays since too many lookup tables are a pain to manage and this is a once-on-load, or on user command function.
-function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
+function this.AddToQuestList(questList,questAreaNameTable,questName,questInfo)
   for i,areaQuests in ipairs(questList)do
     if areaQuests.locationId==questInfo.locationId
       and areaQuests.areaName==questInfo.areaName then
@@ -335,7 +335,7 @@ function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
         infoListIndex=#infoList+1
       end
 
-      questAreaTable[questName]=questInfo.areaName
+      questAreaNameTable[questName]=questInfo.areaName
       infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}
 
       break
@@ -432,7 +432,7 @@ function this.RegisterQuests()
       TppUI.ANNOUNCE_LOG_TYPE[questInfo.questCompleteLangId]=questInfo.questCompleteLangId
     end
 
-    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaTable,questName,questInfo)
+    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaNameTable,questName,questInfo)
     TppQuestList.questPackList[questName]=questInfo.questPackList
 
     if questInfo.hasEnemyHeli then
@@ -451,7 +451,7 @@ function this.RegisterQuests()
   if this.debugModule then
     InfCore.PrintInspect(TppDefine.QUEST_INDEX,{varName="QUEST_INDEX"})
     InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE,{varName="QUEST_RANK_TABLE"})
-    InfCore.PrintInspect(TppQuestList.questAreaTable,{varName="questAreaTable"})
+    InfCore.PrintInspect(TppQuestList.questAreaNameTable,"questAreaNameTable")
     InfCore.PrintInspect(TppQuestList.questList,{varName="questList"})
     InfCore.PrintInspect(openQuestCheckTable,{varName="openQuestCheckTable"})
     InfCore.PrintInspect(TppQuestList.questPackList,{varName="questPackList"})
