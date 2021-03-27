@@ -19,7 +19,6 @@ this.unlockSideOps={
   settings={"OFF","REPOP","OPEN"},
   OnChange=UpdateActiveQuest,
 }
-
 this.unlockSideOpNumber={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=157},--DYNAMIC, DEBUGNOW: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
@@ -29,10 +28,12 @@ this.unlockSideOpNumber={
     return InfQuest.BlockQuest(questName)
   end,
   OnSelect=function(self,setting)
-    IvarProc.SetMaxToList(self,TppQuest.GetQuestInfoTable())
+    --range 0==OFF - #questInfoTable
+    local indexFrom1=true
+    IvarProc.SetMaxToList(self,TppQuest.GetQuestInfoTable(),indexFrom1)
   end,
   OnChange=UpdateActiveQuest,
-}
+}--unlockSideOpNumber
 
 local ivarPrefix="sideops_"
 --SYNC TppQuest. TODO: don't like this
