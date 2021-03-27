@@ -226,7 +226,9 @@ this.NUM_VANILLA_UI_QUESTS=157--tex indexed/user facing quests only for unmodifi
 this.QUESTTABLE_INDEX={}
 for index,questInfo in ipairs(questInfoTable) do
   this.QUESTTABLE_INDEX[questInfo.questName]=index
+  this.QUESTTABLE_INDEX[index]=questInfo.questName--is its own enum
 end
+--tex DEBUGNOW UNUSED, if you want to use it then make sure it's rebuilt after addon quests are added>
 --tex TppQuestList.questList is indexed in this order
 local areaLists={afgAreaList,mafrAreaList,mtbsAreaList}
 
@@ -238,11 +240,7 @@ for i,areaList in ipairs(areaLists)do
     this.questAreaToQuestListIndex[areaName]=index
   end
 end
-
-this.questNameForUiIndex={}
-for index,questInfo in ipairs(questInfoTable) do
-  this.questNameForUiIndex[index]=questInfo.questName
-end
+--<
 
 function this.GetQuestInfoTable()
   return questInfoTable

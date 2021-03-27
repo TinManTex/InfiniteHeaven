@@ -362,6 +362,7 @@ function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,ques
   --tex get existing index (if user manually reloading scripts in-game), or add new (on first call/startup).
   local questInfoIndex=questInfoIndexes[questName] or #questInfoTable+1
   questInfoIndexes[questName]=questInfoIndex
+  questInfoIndexes[questInfoIndex]=questName
   questInfoTable[questInfoIndex]=addQuestInfo
 end
 

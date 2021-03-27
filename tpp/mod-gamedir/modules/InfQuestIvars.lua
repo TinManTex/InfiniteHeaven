@@ -23,7 +23,7 @@ this.unlockSideOpNumber={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=157},--DYNAMIC, DEBUGNOW: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
   SkipValues=function(self,newSetting)
-    local questName=TppQuest.questNameForUiIndex[newSetting]
+    local questName=TppQuest.QUESTTABLE_INDEX[newSetting]
     --InfCore.DebugPrint(questName)--DEBUG
     return InfQuest.BlockQuest(questName)
   end,
