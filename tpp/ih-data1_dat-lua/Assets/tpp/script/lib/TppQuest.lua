@@ -228,19 +228,19 @@ for index,questInfo in ipairs(questInfoTable) do
   this.QUESTTABLE_INDEX[questInfo.questName]=index
   this.QUESTTABLE_INDEX[index]=questInfo.questName--is its own enum
 end
---tex DEBUGNOW UNUSED, if you want to use it then make sure it's rebuilt after addon quests are added>
+--tex DEBUGNOW UNUSED, if you want to use it then make sure it's rebuilt after addon quests are added
+--even if you dont use it keep it as a ref because of this note -v-
 --tex TppQuestList.questList is indexed in this order
-local areaLists={afgAreaList,mafrAreaList,mtbsAreaList}
-
-this.questAreaToQuestListIndex={}
-local index=0
-for i,areaList in ipairs(areaLists)do
-  for i,areaName in ipairs(areaList)do
-    index=index+1
-    this.questAreaToQuestListIndex[areaName]=index
-  end
-end
---<
+--local areaLists={afgAreaList,mafrAreaList,mtbsAreaList}
+--
+--this.questAreaToQuestListIndex={}
+--local index=0
+--for i,areaList in ipairs(areaLists)do
+--  for i,areaName in ipairs(areaList)do
+--    index=index+1
+--    this.questAreaToQuestListIndex[areaName]=index
+--  end
+--end
 
 function this.GetQuestInfoTable()
   return questInfoTable
