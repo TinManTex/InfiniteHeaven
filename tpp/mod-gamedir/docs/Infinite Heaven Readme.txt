@@ -1,5 +1,5 @@
 = Infinite heaven =
-r241 - 2021-03-27
+r243 - 2021-03-29
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -18,6 +18,30 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+
+The introduction of IHHook has had plenty of teething troubles, so thanks to all those who haveworked wth me to try and nail down the problems.
+
+r243
+Fix: A grame crash soon after starting - issue likely was user not having vs redist for what IHHook was built against - thanks fintip for the report and working through test builds with me.
+
+Fix: unlockSideopNumber - 'Unlock specific sideop' not allowing the top most sideop. Had recently cleaned up how some settings ranges were set but forgot that sideops was outside of the normal indexedfrom0 case - thanks psavi for the report (and some others I might have passed by in the past sorry).
+unlockSideopNumber now shows the questName.
+
+weather_requestTag - Weather Menu > RequestTag
+A collection of sky, lighting settings bundled under a 'tag' name in the locations weatherParameters file.
+[youtube]dgz7vyh_3rQ[/youtube]
+https://youtu.be/dgz7vyh_3rQ
+
+SetSkyParameters - Weather Menu > various settings:
+weather_skyParameterSetSkyScale="Scale of main clouds overhead",
+weather_skyParameterAddOffsetY="Height of horizon clouds",
+weather_skyParameterSetScrollSpeedRate="Scrolling speed of horizon clouds",
+
+Mission Addon system:
+Initial implementation of sideop support.
+[youtube]rBSvPVxLSbc[/youtube]
+https://youtu.be/rBSvPVxLSbc
+
 r242
 Fix: changeCpSubType - Random CP subtype erroring.
 

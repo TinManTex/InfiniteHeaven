@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r240
+-- Defaults / example of all profile options for IH r243
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -372,8 +372,15 @@ local this={
 		speedCamPlayerTimeScale=1,--{ 0-100 } -- TSM player time scale
 		speedCamNoDustEffect=0,--{ 0-1 } -- No screen effect
 		clockTimeScale=20,--{ 1-10000 } -- Clock time scale
+		--Weather menu
+		weather_fogDensity=0.1,--{ 0-1 } -- Fog density
+		weather_fogType="NORMAL",--{ NORMAL, PARASITE, EERIE } -- Fog type
+		weather_requestTagInterpTime=0,--{ 0-100 } -- RequestTag interp time
+		weather_skyParameterSetSkyScale=0,--{ 0-100 } -- Upper clouds scale
+		weather_skyParameterAddOffsetY=-1000,--{ -1000-1000 } -- Horizon clouds height
+		weather_skyParameterSetScrollSpeedRate=-100000,--{ -100000-100000 } -- Horizon clouds speed
 		--Buddy menu
-		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
+		quietRadioMode="[Autoplay]",--{ [Autoplay], Heavens Divide, Koi no Yokushiryoku, Gloria, Kids In America, Rebel Yell, The Final Countdown, Nitrogen, Take On Me, Ride A White Horse, Maneater, A Phantom Pain, Only Time Will Tell, Behind the Drapery, Love Will Tear Us Apart, All the Sun Touches, TRUE, Take The DW, Friday Im In Love, Midnight Mirage, Dancing With Tears In My Eyes, The Tangerine, Planet Scape, How 'bout them zombies ey, Snake Eater, 204863, You Spin Me Round, Quiet Life, She Blinded Me With Science, Dormant Stream, Too Shy, Peace Walker } -- Quiets MB radio track
 		--MB Ocean menu
 		mbEnableOceanSettings=0,--{ 0-1 } -- 
 		mbSetOceanBaseHeight=-23,--{ -100-100 } -- 
@@ -392,9 +399,6 @@ local this={
 		motionRepeat=0,--{ 0-1 } -- Repeat motion
 		motionCloseMenuOnPlay=0,--{ 0-1 } -- Close menu on Playing motion
 		motionPrintOnPlay=0,--{ 0-1 } -- Print motion name on play
-		--Weather menu
-		weather_fogDensity=0.1,--{ 0-1 } -- Fog density
-		weather_fogType="NORMAL",--{ NORMAL, PARASITE } -- Fog type
 	}
 }
 
