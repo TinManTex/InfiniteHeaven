@@ -49,7 +49,7 @@ end
 
 function this.PostAllModulesLoad()
   this.LoadQuestDefs()
-  if this.questsRegistered then--DEBUGNOW DOCUMENT what is this guarding?
+  if this.questsRegistered then--DEBUGNOW what is this guarding? maybe was trying to stop a second call unless manually reloaded, but since the first call is before this in TppMain.OnInitialize that's not going to work
     this.RegisterQuests()
   end
 end
@@ -366,7 +366,7 @@ function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,ques
   questInfoTable[questInfoIndex]=addQuestInfo
 end
 
---CALLER: InfMain OnInitialize, before TppQuest.RegisterQuestList
+--CALLER: InfMain OnInitialize, before TppQuest.RegisterQuestList, and PostModulesReload
 --tex basically just pulls together a lot of scattered data for easier setup of new quests
 function this.RegisterQuests()
   InfCore.LogFlow("InfQuest.RegisterQuests")
@@ -456,7 +456,74 @@ function this.RegisterQuests()
     InfCore.PrintInspect(openQuestCheckTable,"openQuestCheckTable")
     InfCore.PrintInspect(TppQuestList.questPackList,"questPackList")
   end
+end--RegisterQuests
+
+--REF
+--  <locationInfo>.questAreas={
+--    {
+--      areaName="tent",
+--      --xMin,yMin,xMax,yMax, in smallblock coords. see Tpp.CheckBlockArea. debug menu ShowPosition will log GetCurrentStageSmallBlockIndex, or you can use whatever block visualisation in unity you have
+--      loadArea={116,134,131,152},--load is the larger area, so -1 minx, -1miny, +1maxx,+1maxy vs active
+--      activeArea={117,135,130,151},
+--      invokeArea={117,135,130,151},--same size as active, but keeping here to stay same implementation as vanilla
+--    },
+--    ...
+--  },
+
+--locationInfo questAreas to TppQuestList.questList
+--CALLER: InfMission.AddInLocations
+--GOTCHA: must be run before InfQuest.RegisterQuests, 
+--and it is because InfMission.LoadLibraries > AddInLocations > InfQuest.AddLocationQuestAreas . And InfQuest.PostAllModulesLoad > RegisterQuests
+--but watch out if you split InfMission to InfLocation
+--DEBUGNOW also see what happens RE: reloadmodules
+--OUT/SIDE: TppQuestList.questList
+function this.AddLocationQuestAreas(locationId,locationQuestAreas)
+  if locationQuestAreas==nil then
+    return
 end
+  
+  InfCore.Log("InfQuest.AddLocationQuestAreas locationId:"..locationId)
+
+  --TODO: VALIDATE locationQuestAreas (or should that be done on load?)
+  
+  --TODO: if this is useful move somewhere (I might have some lookup tables to make this easier, but since we're adding they wont be accurate)
+  --IN: TppQuestList.questList
+  local function GetLocationQuestArea(locationId,areaName)
+    local locationHasArea=false
+    for i,questArea in ipairs(TppQuestList.questList)do
+      if locationId==questArea.locationId then
+        if areaName==questArea.areaName then
+          return questArea
+        end
+      end
+    end--for questList
+
+    return nil
+  end--GetLocationQuestArea
+
+  for i,questArea in ipairs(locationQuestAreas)do
+    local currentQuestArea=GetLocationQuestArea(locationId,questArea.areaName)
+    
+    if currentQuestArea then
+      InfCore.Log("WARNING: InfQuest.AddLocationQuestAreas locationId already has questArea "..questArea.areaName)
+    else
+      local newQuestArea={
+        locationId=locationId,--tex could probably add this on load then just copy table in
+        areaName=questArea.areaName,
+        loadArea=questArea.loadArea,
+        activeArea=questArea.activeArea,
+        invokeArea=questArea.invokeArea,
+        clusterName=questArea.clusterName,
+        infoList={
+        },
+      }
+      table.insert(TppQuestList.questList,newQuestArea)
+      if this.debugModule then
+        InfCore.PrintInspect(newQuestArea,"newQuestArea")
+      end
+    end
+  end--for locationQuestAreas
+end--AddLocationQuestAreas
 
 --DEBUG
 function this.DEBUG_PrintQuestClearedFlags()
@@ -613,7 +680,7 @@ function this.ReadSaveStates()
     InfCore.Log(errorText,true,true)
     return
   end
-  
+
   if ih_save.questStates==nil then
     InfCore.Log"ReadSaveStates: ih_save.questStates==nil"
     return {}
