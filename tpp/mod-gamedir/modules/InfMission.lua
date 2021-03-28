@@ -396,6 +396,8 @@ function this.AddInLocations()
       end
       TppDefine.LOCATION_ID[locationName]=locationId
       TppMissionList.locationPackTable[locationId]=locationInfo.packs
+
+      InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)
     end
   end
   InfCore.LogFlow"Adding to TppLocation.locationIdForName for TppLocation.GetLocationName"
