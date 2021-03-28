@@ -1,5 +1,12 @@
 -- DOBUILD: 1
 -- TppQuest.lua
+
+if false then
+  local fileName="TppQuest_dev.lua"
+  return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.dev,fileName)end)
+end
+InfCore.Log"TppQuest_dev.lua internal"--DEBUGNOW
+
 local this={}
 local maxSteps=256
 local defaultStepNumber=0
@@ -13,7 +20,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
 local TppDefine=TppDefine--tex
 
-this.debugModule=false--tex
+this.debugModule=true--tex DEBUGNOW
 
 local questBlockStatus=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local missionTypes=TppDefine.Enum{"MISSION","FREE","HELI"}
@@ -1570,6 +1577,7 @@ end
 function this.SetQuestBlockName(blockName)
   mvars.qst_blockName=blockName
 end
+--NMC: UNUSED: just search/use mvars.qst_blockName directly
 function this.GetQuestBlockName(e)
   return mvars.qst_blockName
 end
@@ -1657,20 +1665,25 @@ function this.OnDeactivate(questTable)
 end
 --NMC TppQuestList.questList
 function this.RegisterQuestList(questList)
+  InfCore.LogFlow("TppQuest.RegisterQuestList")--tex
   if not IsTypeTable(questList)then
+    InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList)")--tex DEBUGNOW
     return
   end
   local numAreas=#questList
   if numAreas==0 then
+    InfCore.LogFlow("TppQuest.RegisterQuestList return: numAreas==0")--tex DEBUGNOW
     return
   end
   for areaIndex=1,numAreas do
     if not IsTypeTable(questList[areaIndex])then
+      InfCore.LogFlow("TppQuest.RegisterQuestList return:  not IsTypeTable(questList[areaIndex]")--tex DEBUGNOW
       return
     end
     local infoList=questList[areaIndex].infoList
     if not IsTypeTable(infoList)then
       Tpp.DEBUG_DumpTable(questList,2)
+        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(infoList)")--tex DEBUGNOW
       return
     end
     if#infoList==0 then
@@ -1678,24 +1691,30 @@ function this.RegisterQuestList(questList)
     end
     for infoIndex,questInfo in ipairs(infoList)do
       if not IsTypeString(questInfo.name)then
+        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeString(questInfo.name)")--tex DEBUGNOW
         return
       end
       if not IsTypeString(questInfo.invokeStepName)then
+        InfCore.LogFlow("TppQuest.RegisterQuestList return:  not IsTypeString(questInfo.invokeStepName)")--tex DEBUGNOW
         return
       end
     end
     if not questList[areaIndex].clusterName then
       if not IsTypeTable(questList[areaIndex].loadArea)then
+      	InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].loadArea)")--tex DEBUGNOW
         return
       end
       if not IsTypeTable(questList[areaIndex].activeArea)then
+        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].activeArea)")--tex DEBUGNOW
         return
       end
       if not IsTypeTable(questList[areaIndex].invokeArea)then
+        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].invokeArea)")--tex DEBUGNOW
         return
       end
     end
   end
+  InfCore.LogFlow("TppQuest.RegisterQuestList set mvars.qst_questList")--tex
   mvars.qst_questList=questList
   for areaIndex=1,numAreas do
     for infoIndex,questInfo in ipairs(questList[areaIndex].infoList)do
@@ -1980,6 +1999,7 @@ end
 function this.OnUpdateSmallBlockIndex(blockIndexX,blockIndexY,clusterIndex)
   local blockState=this.GetQuestBlockState()
   if blockState==nil then
+    InfCore.Log"TppQuest.OnUpdateSmallBlockIndex return: blockState==nil"--tex DEBUGNOW
     return
   end
   local STATE_EMPTY=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
@@ -2020,8 +2040,10 @@ function this.OnUpdateClusterIndex(clusterIndex)
 end
 function this.UpdateQuestBlockStateAtNotLoaded(blockIndexX,blockIndexY,clusterIndex)
   if not mvars.qst_questList then
+    InfCore.LogFlow("TppQuest.UpdateQuestBlockStateAtNotLoaded return: not mvars.qst_questList")--tex DEBUGNOW
     return
   end
+  InfCore.LogFlow("TppQuest.UpdateQuestBlockStateAtNotLoaded")--tex DEBUGNOW
   local currentQuestName=this.GetCurrentQuestName()
   local questForArea=this.SearchQuestFromAllSpecifiedArea("loadArea",blockIndexX,blockIndexY,clusterIndex)
   if questForArea==nil then
@@ -2048,6 +2070,7 @@ function this.UpdateQuestBlockStateAtNotLoaded(blockIndexX,blockIndexY,clusterIn
   return questForArea
 end
 function this.UpdateQuestBlockStateAtInactive(blockIndexX,blockIndexY)
+  InfCore.LogFlow("TppQuest.UpdateQuestBlockStateAtInactive ")--tex DEBUGNOW
   local questAreaTable=this.GetCurrentQuestTable()
   if not this.IsInsideArea("loadArea",questAreaTable,blockIndexX,blockIndexY)then
     this.UnloadCurrentQuestBlock()
@@ -2289,7 +2312,14 @@ function this.IsInsideArea(areaType,locationAreaQuestTable,blockIndexX,blockInde
     if areaExtents==nil then
       return
     end
-    return Tpp.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
+    InfCore.LogFlow("TppQuest. testing IsInsideArea in location: "..areaType.." blockIndexX:"..tostring(blockIndexX)..", blockIndexY:"..tostring(blockIndexY)..", clusterId:"..tostring(clusterId))--DEBUGNOW
+    
+    local inBlockArea=Tpp.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
+    if this.debugModule then--tex>
+      InfCore.LogFlow("TppQuest.IsInsideArea:"..tostring(inBlockArea))
+    end--tex
+    return inBlockArea
+    --tex DEBUGNOW was just: return Tpp.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
   end
 end
 function this.GetCurrentQuestTable()
@@ -2387,12 +2417,15 @@ function this.UpdateOpenQuest()
   end
 end
 --tex heavily REWORKED --PCall InfHooked
+--CALLER: TppMain.OnInitialize
 function this.UpdateActiveQuest(updateFlags)
   if not mvars.qst_questList then
+    InfCore.LogFlow("TppMain.UpdateActiveQuest return: not mvars.qst_questList")--tex DEBUGNOW
     return
   end
-
+  InfCore.LogFlow("TppMain.UpdateActiveQuest")--tex DEBUGNOW
   if this.NeedUpdateActiveQuest(updateFlags)then
+    InfCore.LogFlow("NeedUpdateActiveQuest")--tex DEBUGNOW
     this.UpdateOpenQuest()
 
     --tex get enabled sideops categories>
@@ -2527,13 +2560,16 @@ function this.UpdateActiveQuest(updateFlags)
         end
 
         if selectedQuest then
-          --InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..selectedQuest)--tex DEBUG
+          if this.debugModule then
+            InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..selectedQuest)--tex DEBUG
+          end
           gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[selectedQuest]]=true
         else
           InfCore.Log("WARNING: UpdateActiveQuest "..vars.missionCode.." did not select a quest for area "..areaQuests.areaName)
         end
       end--forcedquests switch
     end-- for questlist
+  --< if NeedUpdateActiveQuest
   elseif TppMission.IsStoryMission(vars.missionCode)then
     for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
       if not this.CanActiveQuestInMission(vars.missionCode,questName) then
@@ -2559,7 +2595,7 @@ function this.UpdateActiveQuest(updateFlags)
       return
     end
   end
-end
+end--UpdateActiveQuest
 --tex ORIG:
 --function this.UpdateActiveQuest(updateFlags)
 --  if not mvars.qst_questList then
@@ -2790,6 +2826,7 @@ end
 function this.GetQuestBlockState()
   local blockId=ScriptBlock.GetScriptBlockId(mvars.qst_blockName)
   if blockId==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
+    InfCore.Log("GetQuestBlockState: return: mvars.qst_blockName ==ScriptBlock.SCRIPT_BLOCK_ID_INVALID")--DEBUGNOW
     return
   end
   return ScriptBlock.GetScriptBlockState(blockId)
@@ -2909,10 +2946,12 @@ function this.NeedUpdateActiveQuest(updateFlags)
     return false
   end
   if not TppMission.IsMissionStart()then
+    InfCore.Log"TppQuest.NeedUpdateActiveQuest false: not IsMissionStart"--DEBUGNOW
     return false
   end
 
   if TppMission.IsStoryMission(vars.missionCode) then
+    InfCore.Log"TppQuest.NeedUpdateActiveQuest false: IsStoryMission"--DEBUGNOW
     return false
   end
 
