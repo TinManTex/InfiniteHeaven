@@ -21,6 +21,26 @@
 --    heightMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_iDroid_clp.ftex",
 --    photoRealMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_jungle_sat_clp.ftex"
 --  },
+--  globalLocationMapParams={ --  see \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd \ mbdvc_map_location_parameter.lua GetGlobalLocationParameter
+--    sectionFuncRankForDustBox = 4, 
+--    sectionFuncRankForToilet  = 4, 
+--    sectionFuncRankForCrack   = 6, 
+--    isSpySearchEnable = true,
+--    isHerbSearchEnable = true,
+--    
+--    spySearchRadiusMeter = {  40.0, 40.0, 35.0, 30.0, 25.0, 20.0, 15.0, 10.0, },
+--    spySearchIntervalSec = {  420.0,  420.0,  360.0,  300.0,  240.0,  180.0,  120.0,  60.0, },
+--    herbSearchRadiusMeter = { 0.0,  0.0,  10.0, 15.0, 20.0, 25.0, 30.0, 35.0, },
+--  },
+--  questAreas={--tex defines quest areas for location, see TppQuestList.questList .
+--    {
+--      areaName="tent",
+--      --xMin,yMin,xMax,yMax, in smallblock coords. see Tpp.CheckBlockArea. debug menu ShowPosition will log GetCurrentStageSmallBlockIndex, or you can use whatever block visualisation in unity you have
+--      loadArea={116,134,131,152},--load is the larger area, so -1 minx, -1miny, +1maxx,+1maxy vs active
+--      activeArea={117,135,130,151},
+--      invokeArea={117,135,130,151},--same size as active, but keeping here to stay same implementation as vanilla
+--    },
+--  },
 --  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
 --}
 --
@@ -636,6 +656,26 @@ function this.GetMapLocationParameter(locationId)
     return locationInfo.locationMapParams
   end
 end
+--CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
+--DEBUGNOW TEST PCallDebug these functions?-^--v-
+function this.AddGlobalLocationParameters(globalLocationParameters)
+  local enableSpySearch=true--tex
+  local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
+
+  for locationId,locationInfo in pairs(this.locationInfo)do
+    local locationParams=locationInfo.globalLocationMapParams
+    if locationParams then
+      locationParams.locationId=locationId
+      if locationParams.isSpySearchEnable ~=nil then
+        locationParams.isSpySearchEnable=enableSpySearch
+      end
+      if locationParams.isHerbSearchEnable ~=nil then
+        locationParams.isHerbSearchEnable=enableSpySearch
+      end
+      table.insert(globalLocationParameters,locationParams)
+    end
+  end
+end--AddGlobalLocationParameters
 
 --CALLER: mbdvc_map_mission_parameter.GetMissionParameter
 function this.GetMapMissionParameter(missionCode)
