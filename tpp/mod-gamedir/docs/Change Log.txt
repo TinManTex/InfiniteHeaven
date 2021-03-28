@@ -1,6 +1,38 @@
 Infinite Heaven changelog
 
-r243 - 2021-03-27
+r243 - 2021-03-29
+Fix: unlockSideopNumber - 'Unlock specific sideop' not allowing the top most sideop. Had recently cleaned up how some settings ranges were set but forgot that sideops was outside of the normal indexedfrom0 case - thanks psavi for the report (and some others I might have passed by in the past sorry).
+
+unlockSideopNumber now shows the questName.
+
+quietRadioMode - 'Quiets MB radio track' now lists the track names.
+
+weather_requestTag - Weather Menu > RequestTag
+A collection of sky, lighting settings bundled under a 'tag' name in the locations weatherParameters file.
+[youtube]dgz7vyh_3rQ[/youtube]
+https://youtu.be/dgz7vyh_3rQ
+
+SetSkyParameters - Weather Menu > various settings:
+weather_skyParameterSetSkyScale="Scale of main clouds overhead",
+weather_skyParameterAddOffsetY="Height of horizon clouds",
+weather_skyParameterSetScrollSpeedRate="Scrolling speed of horizon clouds",
+
+Mission Addon system:
+Initial implementation of sideop support.
+[youtube]rBSvPVxLSbc[/youtube]
+https://youtu.be/rBSvPVxLSbc
+
+locationInfo .questAreas via InfQuest.AddLocationQuestAreas
+
+missionInfo .globalLocationMapParams (untested) via 
+ \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd \ mbdvc_map_location_parameter.lua GetGlobalLocationParameter
+
+General api:
+PlayerStatusEx - Extended version of PlayerStatus enum 
+https://metalgearmodding.fandom.com/wiki/PlayerStatus
+- thanks to the herculean research by BigBootyBoss
+
+r242 - 2021-03-27
 Fix: changeCpSubType - Random CP subtype erroring.
 
 r241 - 2021-03-27

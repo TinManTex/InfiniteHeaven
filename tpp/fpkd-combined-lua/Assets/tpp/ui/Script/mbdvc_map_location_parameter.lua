@@ -211,7 +211,7 @@ mbdvc_map_location_parameter = {
 	 InfCore.LogFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
 	 local enableSpySearch=true--tex
 	 local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
-		return {
+	 local globalLocationParameters={--tex was just return the table
 			{	
 				locationId = 10,
 				sectionFuncRankForDustBox	= 2, 
@@ -243,7 +243,13 @@ mbdvc_map_location_parameter = {
 				spySearchRadiusMeter = {	84.0,	84.0,	75.0,	65.0,	56.0,	47.0,	38.0,	29.0 },
 				spySearchIntervalSec = {	700.0,	700.0,	600.0,	500.0,	400.0,	300.0,	200.0,	100.0, },
 			},
-		}
+		}--globalLocationParameters
+		
+		if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter is torn down/reloaded
+      globalLocationParameters=InfMission.AddGlobalLocationParameters(globalLocationParameters)
+    end--<
+
+		return globalLocationParameters
 	end,
 
 	

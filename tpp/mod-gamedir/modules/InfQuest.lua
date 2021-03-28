@@ -49,7 +49,7 @@ end
 
 function this.PostAllModulesLoad()
   this.LoadQuestDefs()
-  if this.questsRegistered then--DEBUGNOW DOCUMENT what is this guarding?
+  if this.questsRegistered then--DEBUGNOW what is this guarding? maybe was trying to stop a second call unless manually reloaded, but since the first call is before this in TppMain.OnInitialize that's not going to work
     this.RegisterQuests()
   end
 end
@@ -207,7 +207,7 @@ function this.GetForced()
     local unlockedName=questTable[unlockSideOpNumber].questName
     local unlockedArea=nil
     if unlockedName~=nil then
-      unlockedArea=TppQuestList.questAreaTable[unlockedName]
+      unlockedArea=TppQuestList.questAreaNameTable[unlockedName]
       forcedQuests[unlockedArea]=unlockedName
       forcedCount=forcedCount+1
       InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
@@ -313,9 +313,9 @@ end
 --    infoList={
 --    {name="mtbs_q42070",invokeStepName="QStep_Start"},
 --    {name="quest_q30100",invokeStepName="QStep_Start"},
---TppQuestList.questAreaTable
+--TppQuestList.questAreaNameTable
 --tex just grinding through arrays since too many lookup tables are a pain to manage and this is a once-on-load, or on user command function.
-function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
+function this.AddToQuestList(questList,questAreaNameTable,questName,questInfo)
   for i,areaQuests in ipairs(questList)do
     if areaQuests.locationId==questInfo.locationId
       and areaQuests.areaName==questInfo.areaName then
@@ -335,7 +335,7 @@ function this.AddToQuestList(questList,questAreaTable,questName,questInfo)
         infoListIndex=#infoList+1
       end
 
-      questAreaTable[questName]=questInfo.areaName
+      questAreaNameTable[questName]=questInfo.areaName
       infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}
 
       break
@@ -362,10 +362,11 @@ function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,ques
   --tex get existing index (if user manually reloading scripts in-game), or add new (on first call/startup).
   local questInfoIndex=questInfoIndexes[questName] or #questInfoTable+1
   questInfoIndexes[questName]=questInfoIndex
+  questInfoIndexes[questInfoIndex]=questName
   questInfoTable[questInfoIndex]=addQuestInfo
 end
 
---CALLER: InfMain OnInitialize, before TppQuest.RegisterQuestList
+--CALLER: InfMain OnInitialize, before TppQuest.RegisterQuestList, and PostModulesReload
 --tex basically just pulls together a lot of scattered data for easier setup of new quests
 function this.RegisterQuests()
   InfCore.LogFlow("InfQuest.RegisterQuests")
@@ -431,7 +432,7 @@ function this.RegisterQuests()
       TppUI.ANNOUNCE_LOG_TYPE[questInfo.questCompleteLangId]=questInfo.questCompleteLangId
     end
 
-    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaTable,questName,questInfo)
+    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaNameTable,questName,questInfo)
     TppQuestList.questPackList[questName]=questInfo.questPackList
 
     if questInfo.hasEnemyHeli then
@@ -448,14 +449,81 @@ function this.RegisterQuests()
   InfCore.Log("numUiQuests:"..#questInfoTable)
 
   if this.debugModule then
-    InfCore.PrintInspect(TppDefine.QUEST_INDEX,{varName="QUEST_INDEX"})
-    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE,{varName="QUEST_RANK_TABLE"})
-    InfCore.PrintInspect(TppQuestList.questAreaTable,{varName="questAreaTable"})
-    InfCore.PrintInspect(TppQuestList.questList,{varName="questList"})
-    InfCore.PrintInspect(openQuestCheckTable,{varName="openQuestCheckTable"})
-    InfCore.PrintInspect(TppQuestList.questPackList,{varName="questPackList"})
+    InfCore.PrintInspect(TppDefine.QUEST_INDEX,"QUEST_INDEX")
+    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE,"QUEST_RANK_TABLE")
+    InfCore.PrintInspect(TppQuestList.questAreaNameTable,"questAreaNameTable")
+    InfCore.PrintInspect(TppQuestList.questList,"questList")
+    InfCore.PrintInspect(openQuestCheckTable,"openQuestCheckTable")
+    InfCore.PrintInspect(TppQuestList.questPackList,"questPackList")
   end
+end--RegisterQuests
+
+--REF
+--  <locationInfo>.questAreas={
+--    {
+--      areaName="tent",
+--      --xMin,yMin,xMax,yMax, in smallblock coords. see Tpp.CheckBlockArea. debug menu ShowPosition will log GetCurrentStageSmallBlockIndex, or you can use whatever block visualisation in unity you have
+--      loadArea={116,134,131,152},--load is the larger area, so -1 minx, -1miny, +1maxx,+1maxy vs active
+--      activeArea={117,135,130,151},
+--      invokeArea={117,135,130,151},--same size as active, but keeping here to stay same implementation as vanilla
+--    },
+--    ...
+--  },
+
+--locationInfo questAreas to TppQuestList.questList
+--CALLER: InfMission.AddInLocations
+--GOTCHA: must be run before InfQuest.RegisterQuests, 
+--and it is because InfMission.LoadLibraries > AddInLocations > InfQuest.AddLocationQuestAreas . And InfQuest.PostAllModulesLoad > RegisterQuests
+--but watch out if you split InfMission to InfLocation
+--DEBUGNOW also see what happens RE: reloadmodules
+--OUT/SIDE: TppQuestList.questList
+function this.AddLocationQuestAreas(locationId,locationQuestAreas)
+  if locationQuestAreas==nil then
+    return
 end
+  
+  InfCore.Log("InfQuest.AddLocationQuestAreas locationId:"..locationId)
+
+  --TODO: VALIDATE locationQuestAreas (or should that be done on load?)
+  
+  --TODO: if this is useful move somewhere (I might have some lookup tables to make this easier, but since we're adding they wont be accurate)
+  --IN: TppQuestList.questList
+  local function GetLocationQuestArea(locationId,areaName)
+    local locationHasArea=false
+    for i,questArea in ipairs(TppQuestList.questList)do
+      if locationId==questArea.locationId then
+        if areaName==questArea.areaName then
+          return questArea
+        end
+      end
+    end--for questList
+
+    return nil
+  end--GetLocationQuestArea
+
+  for i,questArea in ipairs(locationQuestAreas)do
+    local currentQuestArea=GetLocationQuestArea(locationId,questArea.areaName)
+    
+    if currentQuestArea then
+      InfCore.Log("WARNING: InfQuest.AddLocationQuestAreas locationId already has questArea "..questArea.areaName)
+    else
+      local newQuestArea={
+        locationId=locationId,--tex could probably add this on load then just copy table in
+        areaName=questArea.areaName,
+        loadArea=questArea.loadArea,
+        activeArea=questArea.activeArea,
+        invokeArea=questArea.invokeArea,
+        clusterName=questArea.clusterName,
+        infoList={
+        },
+      }
+      table.insert(TppQuestList.questList,newQuestArea)
+      if this.debugModule then
+        InfCore.PrintInspect(newQuestArea,"newQuestArea")
+      end
+    end
+  end--for locationQuestAreas
+end--AddLocationQuestAreas
 
 --DEBUG
 function this.DEBUG_PrintQuestClearedFlags()
@@ -612,7 +680,7 @@ function this.ReadSaveStates()
     InfCore.Log(errorText,true,true)
     return
   end
-  
+
   if ih_save.questStates==nil then
     InfCore.Log"ReadSaveStates: ih_save.questStates==nil"
     return {}

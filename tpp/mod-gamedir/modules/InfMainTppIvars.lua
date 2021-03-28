@@ -546,17 +546,55 @@ this.additionalMineFields={
 }
 
 --mb
+--see PlayMusicFromQuietRoom, QUIET_RADIO_TELOP_LANG_LIST
+local quietRadioNames={
+  "[Autoplay]",
+  "Heavens Divide",
+  "Koi no Yokushiryoku",
+  "Gloria",
+  "Kids In America",
+  "Rebel Yell",
+  "The Final Countdown",
+  "Nitrogen",
+  "Take On Me",
+  "Ride A White Horse",
+  "Maneater",
+  "A Phantom Pain",
+  "Only Time Will Tell",
+  "Behind the Drapery",
+  "Love Will Tear Us Apart",
+  "All the Sun Touches",
+  "TRUE",
+  "Take The DW",
+  "Friday Im In Love",
+  "Midnight Mirage",
+  "Dancing With Tears In My Eyes",
+  "The Tangerine",
+  "Planet Scape",
+  "How 'bout them zombies ey",
+  "Snake Eater",
+  "204863",
+  "You Spin Me Round",
+  "Quiet Life",
+  "She Blinded Me With Science",
+  "Dormant Stream",
+  "Too Shy",
+  "Peace Walker",--sfx_m_prison_radio_31? not in QUIET_RADIO_TELOP_LANG_LIST, so I guess it's just an easter-egg
+}--quietRadioNames
+
 this.quietRadioMode={
   save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=31},
+  --range={min=0,max=31},
+  --range = 0=OFF,#list
+  settings=quietRadioNames,
   OnChange=function(self,setting,previousSetting)
-    if setting>0 or previousSetting~=0 then
+    --if setting>0 or previousSetting~=0 then
       if f30050_sequence and mvars.f30050_quietRadioName then
         f30050_sequence.PlayMusicFromQuietRoom()
       end
-    end
+    --end
   end,
-}
+}--quietRadioMode
 
 this.repopulateRadioTapes={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -1015,7 +1053,7 @@ this.langStrings={
     unlockWeaponCustomization="Unlock weapon customization",
     allready_unlocked="Allready unlocked",
     disableXrayMarkers="Disable Xray marking",
-    quietRadioMode="Quiets MB radio track (0=Auto)",
+    quietRadioMode="Quiets MB radio track",
     playerSettingsMenu="Player settings menu",
     ogrePointChange="Set demon snake",
     ogrePointChangeSettings={"Default","Normal","Demon"},

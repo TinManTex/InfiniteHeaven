@@ -12,7 +12,7 @@ local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
 --ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
-local questCp="quest_cp"
+local quest_cpStr="quest_cp"
 local EnemySubType=EnemySubType or{}
 local tostring=tostring--tex
 
@@ -5847,29 +5847,29 @@ function this.ReserveQuestHeli()
   mvars.ene_isQuestHeli=true
 end
 function this.UnreserveQuestHeli()
-  local cpId=GetGameObjectId("TppCommandPost2",questCp)
+  local cpId=GetGameObjectId("TppCommandPost2",quest_cpStr)
   TppReinforceBlock.FinishReinforce(cpId)
   TppReinforceBlock.UnloadReinforceBlock(cpId)
   TppRevenge.SetEnabledSuperReinforce(true)
   mvars.ene_isQuestHeli=false
 end
 function this.LoadQuestHeli(colorType)
-  local cpId=GetGameObjectId("TppCommandPost2",questCp)
+  local cpId=GetGameObjectId("TppCommandPost2",quest_cpStr)
   TppReinforceBlock.LoadReinforceBlock(TppReinforceBlock.REINFORCE_TYPE.HELI,cpId,colorType)
 end
 function this.UnloadQuestHeli()
-  local cpId=GetGameObjectId("TppCommandPost2",questCp)
+  local cpId=GetGameObjectId("TppCommandPost2",quest_cpStr)
   TppReinforceBlock.UnloadReinforceBlock(cpId)
 end
 function this.ActivateQuestHeli(colorType)
-  local cpId=GetGameObjectId("TppCommandPost2",questCp)
+  local cpId=GetGameObjectId("TppCommandPost2",quest_cpStr)
   if not TppReinforceBlock.IsLoaded()then
     TppReinforceBlock.LoadReinforceBlock(TppReinforceBlock.REINFORCE_TYPE.HELI,cpId,colorType)
   end
   TppReinforceBlock.StartReinforce(cpId)
 end
 function this.DeactivateQuestHeli()
-  local cpId=GetGameObjectId("TppCommandPost2",questCp)
+  local cpId=GetGameObjectId("TppCommandPost2",quest_cpStr)
   TppReinforceBlock.FinishReinforce(cpId)
 end
 function this.IsQuestHeli()

@@ -21,6 +21,26 @@
 --    heightMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_iDroid_clp.ftex",
 --    photoRealMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_jungle_sat_clp.ftex"
 --  },
+--  globalLocationMapParams={ --  see \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd \ mbdvc_map_location_parameter.lua GetGlobalLocationParameter
+--    sectionFuncRankForDustBox = 4, 
+--    sectionFuncRankForToilet  = 4, 
+--    sectionFuncRankForCrack   = 6, 
+--    isSpySearchEnable = true,
+--    isHerbSearchEnable = true,
+--    
+--    spySearchRadiusMeter = {  40.0, 40.0, 35.0, 30.0, 25.0, 20.0, 15.0, 10.0, },
+--    spySearchIntervalSec = {  420.0,  420.0,  360.0,  300.0,  240.0,  180.0,  120.0,  60.0, },
+--    herbSearchRadiusMeter = { 0.0,  0.0,  10.0, 15.0, 20.0, 25.0, 30.0, 35.0, },
+--  },
+--  questAreas={--tex defines quest areas for location, see TppQuestList.questList .
+--    {
+--      areaName="tent",
+--      --xMin,yMin,xMax,yMax, in smallblock coords. see Tpp.CheckBlockArea. debug menu ShowPosition will log GetCurrentStageSmallBlockIndex, or you can use whatever block visualisation in unity you have
+--      loadArea={116,134,131,152},--load is the larger area, so -1 minx, -1miny, +1maxx,+1maxy vs active
+--      activeArea={117,135,130,151},
+--      invokeArea={117,135,130,151},--same size as active, but keeping here to stay same implementation as vanilla
+--    },
+--  },
 --  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
 --}
 --
@@ -217,6 +237,7 @@ function this.PostModuleReload(prevModule)
   this.missionIds=prevModule.missionIds
   this.missionInfo=prevModule.missionInfo
   this.missionListSlotIndices=prevModule.missionListSlotIndices
+  this.freeMissionForLocation=prevModule.freeMissionForLocation
 end
 
 
@@ -395,6 +416,8 @@ function this.AddInLocations()
       end
       TppDefine.LOCATION_ID[locationName]=locationId
       TppMissionList.locationPackTable[locationId]=locationInfo.packs
+
+      InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)
     end
   end
   InfCore.LogFlow"Adding to TppLocation.locationIdForName for TppLocation.GetLocationName"
@@ -407,7 +430,7 @@ function this.AddInLocations()
   for locationName,locationId in pairs(TppLocation.locationIdForName)do
     TppLocation.locationNames[locationId]=locationName
   end
-  
+
   --TppDefine.LOCATION_CHUNK_INDEX_TABLE[location]=Chunkbleh --tex TODO see what requires LOCATION_CHUNK_INDEX_TABLE for addon missions, fallback to some default instead of nil?
 
   InfUtil.GetLocationName=TppLocation.GetLocationName--tex LEGACY
@@ -423,7 +446,7 @@ function this.AddInMissions()
   if next(this.missionInfo)==nil then
     return
   end
-  
+
   InfCore.Log("InfMission.AddInMissions: Adding missionInfos")
   for missionCode,missionInfo in pairs(this.missionInfo)do
     InfCore.Log("Adding mission: "..missionCode)
@@ -438,7 +461,7 @@ function this.AddInMissions()
           end
         end
       end
-    
+
       --tex TODO: check it has a valid location
 
       TppMissionList.missionPackTable[missionCode]=missionInfo.packs
@@ -493,7 +516,7 @@ function this.AddInMissions()
         for n,heliLandPoint in ipairs(missionInfo.missionMapParams.heliLandPoint)do
           local routeIdStr32=InfCore.StrCode32(heliLandPoint.routeId)
           if InfLZ.groundStartPositions[1][routeIdStr32] then
-             InfCore.Log("WARNING: entry for "..heliLandPoint.routeId.." already in InfLZ.groundStartPositions")
+            InfCore.Log("WARNING: entry for "..heliLandPoint.routeId.." already in InfLZ.groundStartPositions")
           end
           --tex heliLandPoint.point is ui point and .startPoint is the start of the route (according to caplag eyeballing a mission), as he's used it in gntn as the ground point without any issues I guess the game either doesn't use it, or it warps to route start which would make it moot anyhoo
           --using startPoint for custom missions to allow the author some more control over the startOnFoot point.
@@ -550,7 +573,7 @@ function this.RegisterMissions()
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
     end
   end
-  TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess 
+  TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess
 
   if this.debugModule then
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist modded")
@@ -588,14 +611,14 @@ function this.LoadLibraries()
     table.insert(this.missionIds,missionCode)
   end
   table.sort(this.missionIds)
-  
-  
+
+
   this.freeMissionForLocation={
     [TppDefine.LOCATION_ID.AFGH]=30010,
     [TppDefine.LOCATION_ID.MAFR]=30020,
-    --DEBUGNOW the function where this could be generically used TppMission._ReserveMissionClearOnOutOfHotZone
-    --doesn't have it for MTBS
-     --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
+  --DEBUGNOW the function where this could be generically used TppMission._ReserveMissionClearOnOutOfHotZone
+  --doesn't have it for MTBS
+  --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
   }
   for missionCode,missionInfo in pairs(this.missionInfo)do
     if TppMission.IsFreeMission(missionCode) then
@@ -609,7 +632,7 @@ function this.LoadLibraries()
   end--for missionInfo
 
   this.RegisterMissions()
-  
+
   this.UpdateChangeLocationMenu()
 
   if this.debugModule then
@@ -633,6 +656,26 @@ function this.GetMapLocationParameter(locationId)
     return locationInfo.locationMapParams
   end
 end
+--CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
+--DEBUGNOW TEST PCallDebug these functions?-^--v-
+function this.AddGlobalLocationParameters(globalLocationParameters)
+  local enableSpySearch=true--tex
+  local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
+
+  for locationId,locationInfo in pairs(this.locationInfo)do
+    local locationParams=locationInfo.globalLocationMapParams
+    if locationParams then
+      locationParams.locationId=locationId
+      if locationParams.isSpySearchEnable ~=nil then
+        locationParams.isSpySearchEnable=enableSpySearch
+      end
+      if locationParams.isHerbSearchEnable ~=nil then
+        locationParams.isHerbSearchEnable=enableSpySearch
+      end
+      table.insert(globalLocationParameters,locationParams)
+    end
+  end
+end--AddGlobalLocationParameters
 
 --CALLER: mbdvc_map_mission_parameter.GetMissionParameter
 function this.GetMapMissionParameter(missionCode)
@@ -808,9 +851,9 @@ end
 --CALLER: TppTerminal.Init > TppTerminal.ReleaseFreePlay
 function this.EnableLocationChangeMissions()
   local skipLocations={
-     [TppDefine.LOCATION_ID.AFGH]=true,
-     [TppDefine.LOCATION_ID.MAFR]=true,
-     [TppDefine.LOCATION_ID.MTBS]=true,
+    [TppDefine.LOCATION_ID.AFGH]=true,
+    [TppDefine.LOCATION_ID.MAFR]=true,
+    [TppDefine.LOCATION_ID.MTBS]=true,
   }
   for locationCode,freeMissionCode in pairs(this.freeMissionForLocation)do
     InfCore.Log("EnableChangeLocationMenu{locationId="..locationCode..",missionId="..freeMissionCode.."}")
@@ -823,6 +866,7 @@ function this.UpdateChangeLocationMenu()
   local locationLangIds={
     [10]="tpp_loc_afghan",
     [20]="tpp_loc_africa",
+    [30]="tpp_loc_cyprus",--tex has langid, but wasn't referenced in the original function I found.
     [50]="tpp_loc_mb",
   }--locationLangIds
   for locationCode,locationInfo in pairs(this.locationInfo)do
@@ -831,7 +875,7 @@ function this.UpdateChangeLocationMenu()
       langId=locationInfo.locationMapParams.locationNameLangId
     end
     langId=langId or "tpp_loc_"..string.lower(locationInfo.locationName)
-    
+
     locationLangIds[locationCode]=langId--tex handle hashing on ihhook side since I'm unsure of lua number size Fox.StrCode(langId)--strcode64
   end
   if IHH then
@@ -904,8 +948,8 @@ function this.ValidateWeaponIdTable(weaponIdTable)
         InfCore.Log("WARNING: InfMission.ValidateWeaponIdTable: equipId nil for weaponTable category "..strength.." "..weaponType)
         return false
       else
-        --local equipName=InfLookup.TppEquip.equipId[equipId]--DEBUG
-        --InfCore.Log("ValidateWeaponIdTable "..strength.." "..weaponType.." "..equipName.." "..equipId)--DEBUG
+      --local equipName=InfLookup.TppEquip.equipId[equipId]--DEBUG
+      --InfCore.Log("ValidateWeaponIdTable "..strength.." "..weaponType.." "..equipName.." "..equipId)--DEBUG
       end
     end
   end
@@ -916,7 +960,7 @@ end
 --IN/SIDE vars.missionCode
 --GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
 --GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table, not a full table like TppEnemy.weaponIdTable
-function this.GetSoldierWeaponIdTable(soldierType,soldierSubType) 
+function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
   local weaponIdTable
   local missionInfo=this.missionInfo[vars.missionCode]
   if missionInfo then

@@ -4,7 +4,7 @@ local this={}
 this.questList={
   {locationId=TppDefine.LOCATION_ID.AFGH,
     areaName="tent",
-    loadArea={116,134,131,152},
+    loadArea={116,134,131,152},--xMin,yMin,xMax,yMax, see Tpp.CheckBlockArea
     activeArea={117,135,130,151},
     invokeArea={117,135,130,151},
     infoList={
@@ -210,7 +210,7 @@ this.questList={
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsSpy",clusterName="Spy",infoList={{name="mtbs_q42060",invokeStepName="QStep_Start"}}},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsBaseDev",clusterName="BaseDev",infoList={{name="mtbs_q42040",invokeStepName="QStep_Start"}}},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsPaz",clusterName="MedicalPaz",infoList={{name="mtbs_q99060",invokeStepName="QStep_Start",isStory=true,isOnce=true}}}
-}
+}--questList
 
 this.questPackList={
   waterway_q99010={"/Assets/tpp/pack/mission2/quest/battle/bossQuiet/qest_bossQuiet_00.fpk"},
@@ -439,19 +439,19 @@ this.questPackList={
   mtbs_q42050={"/Assets/tpp/pack/mission2/quest/mtbs/Medical/quest_q42050.fpk"},
   mtbs_q42060={"/Assets/tpp/pack/mission2/quest/mtbs/Spy/quest_q42060.fpk"},
   mtbs_q42070={"/Assets/tpp/pack/mission2/quest/mtbs/Combat/quest_q42070.fpk"},
-}
+}--questPackList
 
 --tex lookup table>
-function this.BuildQuestAreaTable(questAreaTable)
+function this.BuildQuestAreaTable(questAreaNameTable)
   for n,areaQuests in ipairs(this.questList)do
     for i,info in ipairs(areaQuests.infoList)do
       local questName=info.name
-      questAreaTable[questName]=areaQuests.areaName
+      questAreaNameTable[questName]=areaQuests.areaName
     end
   end
 end
-this.questAreaTable={}--tex TABLESETUP
-this.BuildQuestAreaTable(this.questAreaTable)
+this.questAreaNameTable={}--tex TABLESETUP
+this.BuildQuestAreaTable(this.questAreaNameTable)
 --<
 
 return this

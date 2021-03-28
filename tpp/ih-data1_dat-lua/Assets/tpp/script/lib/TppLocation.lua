@@ -37,7 +37,7 @@ end
 --<
 
 --tex REWORKED:
---GOTCHA: InfUtil.GetLocationName wont return addon locations before it's setup during InfMisison.AddInLocations
+--GOTCHA: this wont return addon locations before it's setup during InfMisison.AddInLocations
 function this.GetLocationName(locationCode)
   InfCore.LogFlow"TppLocation.GetLocationName"--tex DEBUGNOW
   local locationCode=locationCode or vars.locationCode

@@ -111,6 +111,9 @@
 <div>19: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
+<div>20: <a href="#weatherMenu">Weather menu</a></div>
+</div>
+<div id="menuItem">
 </div>
 </div>
 <br/>
@@ -1879,7 +1882,7 @@
 <div>1: Reroll sideops selection : 0-1</div>
 </div>
 <div id="menuItem">
-<div>2: Open specific sideop # : 0-157</div>
+<div>2: Open specific sideop # : OFF</div>
 </div>
 <div id="menuItem">
 <div>3: Unlock Sideops mode : Off, Force Replayable, Force Open</div>
@@ -2089,6 +2092,52 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="weatherMenu">Weather menu</div>
+</div>
+<div id="menuItem">
+<div>1: Force weather : NONE, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY</div>
+</div>
+<div id="menuItem">
+<div>2: Fog density : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: Fog type : NORMAL, PARASITE, EERIE</div>
+</div>
+<div id="menuItem">
+<div>4: RequestTag : default, indoor, indoor_noSkySpe, indoor_noSkySpe_RLR, indoor_RLR, indoor_RLR_paz, fort_shadow_inside, foggy_20, qntnFacility, pitchDark, avatar_space, sortie_space, sortie_space_ShadowShort, sortie_space_heli, citadel_indoor, soviet_hanger, soviet_hanger2, Sahelan_fog, Sahelan_RedFog, factory_fog, factory_fog_indoor, VolginRide, mafr_forest, uq0040_p31_030020, heli_space, tunnel, diamond_tunnel, fort_shadow_outside, ruins_shadow, slopedTown_shadow, shadow_middle, shadow_long, citadel_color_shadowMiddle, citadel_color_shadowLong, temp_CaptureLongShadow, citadel_redDoor, factory_Volgin_shadow_middle, factory_Volgin_shadow_long, bridge_shadow, cypr_day, cypr_title, kypr_indoor, group_photo, edit, probe_check, exposureAdd_1, citadel_color, exposureSub_1, bloomAdd_1, cypr_Night_RLR, cypr_Night_RLR2, edit_1, citadel_color2, edit_2, kypr_drizzle</div>
+<div id="itemHelp">A collection of sky, lighting settings bundled under a 'tag' name in the locations weatherParameters file. Only applies when you press activate (not persitant over sessions). Game may reset or change it at different points.</div>
+</div>
+<div id="menuItem">
+<div>5: RequestTag interp time : 0-100</div>
+<div id="itemHelp">Interpolation time between the prior tag and the one requested.</div>
+</div>
+<div id="menuItem">
+<div>6: Apply Sky Parameters : 0-1</div>
+</div>
+<div id="menuItem">
+<div>7: Unapply Sky Parameters : 0-1</div>
+<div id="itemHelp">Stops the IH sky parameters from being applied.</div>
+</div>
+<div id="menuItem">
+<div>8: Upper clouds scale : 0-100</div>
+<div id="itemHelp">Scale of main clouds overhead</div>
+</div>
+<div id="menuItem">
+<div>9: Horizon clouds height : -1000-1000</div>
+<div id="itemHelp">Height of horizon clouds</div>
+</div>
+<div id="menuItem">
+<div>10: Horizon clouds speed : -100000-100000</div>
+<div id="itemHelp">Scrolling speed of horizon clouds</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="inMissionMenu">In-mission menu</div>
 </div>
 <div id="menuItem">
@@ -2282,7 +2331,7 @@
 <div id="itemHelp">Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.</div>
 </div>
 <div id="menuItem">
-<div>3: Quiets MB radio track (0=Auto) : 0-31</div>
+<div>3: Quiets MB radio track : [Autoplay], Heavens Divide, Koi no Yokushiryoku, Gloria, Kids In America, Rebel Yell, The Final Countdown, Nitrogen, Take On Me, Ride A White Horse, Maneater, A Phantom Pain, Only Time Will Tell, Behind the Drapery, Love Will Tear Us Apart, All the Sun Touches, TRUE, Take The DW, Friday Im In Love, Midnight Mirage, Dancing With Tears In My Eyes, The Tangerine, Planet Scape, How 'bout them zombies ey, Snake Eater, 204863, You Spin Me Round, Quiet Life, She Blinded Me With Science, Dormant Stream, Too Shy, Peace Walker</div>
 <div id="itemHelp">Changes the music track of the radio played in Quiets cell on the medical platform in mother base.</div>
 </div>
 <div id="menuItem">
@@ -3059,7 +3108,34 @@
 <div>2: Fog density : 0-1</div>
 </div>
 <div id="menuItem">
-<div>3: Fog type : NORMAL, PARASITE</div>
+<div>3: Fog type : NORMAL, PARASITE, EERIE</div>
+</div>
+<div id="menuItem">
+<div>4: RequestTag : default, indoor, indoor_noSkySpe, indoor_noSkySpe_RLR, indoor_RLR, indoor_RLR_paz, fort_shadow_inside, foggy_20, qntnFacility, pitchDark, avatar_space, sortie_space, sortie_space_ShadowShort, sortie_space_heli, citadel_indoor, soviet_hanger, soviet_hanger2, Sahelan_fog, Sahelan_RedFog, factory_fog, factory_fog_indoor, VolginRide, mafr_forest, uq0040_p31_030020, heli_space, tunnel, diamond_tunnel, fort_shadow_outside, ruins_shadow, slopedTown_shadow, shadow_middle, shadow_long, citadel_color_shadowMiddle, citadel_color_shadowLong, temp_CaptureLongShadow, citadel_redDoor, factory_Volgin_shadow_middle, factory_Volgin_shadow_long, bridge_shadow, cypr_day, cypr_title, kypr_indoor, group_photo, edit, probe_check, exposureAdd_1, citadel_color, exposureSub_1, bloomAdd_1, cypr_Night_RLR, cypr_Night_RLR2, edit_1, citadel_color2, edit_2, kypr_drizzle</div>
+<div id="itemHelp">A collection of sky, lighting settings bundled under a 'tag' name in the locations weatherParameters file. Only applies when you press activate (not persitant over sessions). Game may reset or change it at different points.</div>
+</div>
+<div id="menuItem">
+<div>5: RequestTag interp time : 0-100</div>
+<div id="itemHelp">Interpolation time between the prior tag and the one requested.</div>
+</div>
+<div id="menuItem">
+<div>6: Apply Sky Parameters : 0-1</div>
+</div>
+<div id="menuItem">
+<div>7: Unapply Sky Parameters : 0-1</div>
+<div id="itemHelp">Stops the IH sky parameters from being applied.</div>
+</div>
+<div id="menuItem">
+<div>8: Upper clouds scale : 0-100</div>
+<div id="itemHelp">Scale of main clouds overhead</div>
+</div>
+<div id="menuItem">
+<div>9: Horizon clouds height : -1000-1000</div>
+<div id="itemHelp">Height of horizon clouds</div>
+</div>
+<div id="menuItem">
+<div>10: Horizon clouds speed : -100000-100000</div>
+<div id="itemHelp">Scrolling speed of horizon clouds</div>
 </div>
 <div id="menuItem">
 </div>

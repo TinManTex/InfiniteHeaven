@@ -111,13 +111,14 @@ end
 this.positions={}
 this.positionsXML={}
 this.ShowPosition=function()
-  if TppLocation.GetLocationName()=="afgh" or TppLocation.GetLocationName()=="mafr" then
+  InfCore.Log"ShowPosition"
+  --if TppLocation.GetLocationName()=="afgh" or TppLocation.GetLocationName()=="mafr" then--DEBUGNOW
     local blockNameStr32=Tpp.GetLoadedLargeBlock()
     local blockName=InfLookup.StrCode32ToString(blockNameStr32) or blockNameStr32 or "nil"
     InfCore.Log("Current large block:"..blockName,false,true)
     local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
     InfCore.Log("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
-  end
+  --end
   InfQuest.PrintQuestArea()
 
   --tex TODO: dump to seperate file
