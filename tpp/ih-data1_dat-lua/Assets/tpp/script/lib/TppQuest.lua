@@ -20,7 +20,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
 local TppDefine=TppDefine--tex
 
-this.debugModule=true--tex DEBUGNOW
+this.debugModule=false--tex
 
 local questBlockStatus=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local missionTypes=TppDefine.Enum{"MISSION","FREE","HELI"}
@@ -1663,6 +1663,7 @@ function this.OnDeactivate(questTable)
     this.ClearShootingPracticeMvars()
   end
 end
+--CALLER: TppMain.OnInitialize, near top
 --NMC TppQuestList.questList
 function this.RegisterQuestList(questList)
   InfCore.LogFlow("TppQuest.RegisterQuestList")--tex
@@ -2039,7 +2040,7 @@ function this.OnUpdateClusterIndex(clusterIndex)
   return questForArea
 end
 function this.UpdateQuestBlockStateAtNotLoaded(blockIndexX,blockIndexY,clusterIndex)
-  if not mvars.qst_questList then
+  if not mvars.qst_questList then--See RegisterQuestList
     InfCore.LogFlow("TppQuest.UpdateQuestBlockStateAtNotLoaded return: not mvars.qst_questList")--tex DEBUGNOW
     return
   end
@@ -2595,6 +2596,7 @@ function this.UpdateActiveQuest(updateFlags)
       return
     end
   end
+  --tex TODO if debugModule log all qst_questActiveFlag[] 
 end--UpdateActiveQuest
 --tex ORIG:
 --function this.UpdateActiveQuest(updateFlags)
