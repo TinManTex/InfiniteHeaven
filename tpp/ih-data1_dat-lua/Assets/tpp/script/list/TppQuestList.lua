@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- TppQuestList.lua
 local this={}
-this.questList={
+this.questList={--see lso mvars.qst_questList
   {locationId=TppDefine.LOCATION_ID.AFGH,
     areaName="tent",
     loadArea={116,134,131,152},--xMin,yMin,xMax,yMax, see Tpp.CheckBlockArea
