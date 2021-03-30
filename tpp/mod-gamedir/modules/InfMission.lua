@@ -136,7 +136,13 @@ this.missionNames={}--tex see LoadMissionDefs
 this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions()
 this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
 
-this.freeMissionForLocation={}--freeMissionForLocation[locationId]=missionCode
+--tex addon mission added in LoadLibraries,
+this.freeMissionForLocation={
+  [TppDefine.LOCATION_ID.AFGH]=30010,
+  [TppDefine.LOCATION_ID.MAFR]=30020,
+--DEBUGNOW the mission<>freemisson functions where it was originally used for don't have MTBS
+--OFF [TppDefine.LOCATION_ID.MTBS]=30050,
+}
 --this.heliMissionForLocation={} --unimplmented, see ReserveMissionClearOnRideOnHelicopter,AbortForRideOnHelicopter, anyting that wants AFGH_HELI etc really . not really needed I think
 this.registerIvars={
   "manualMissionCode",
@@ -453,6 +459,8 @@ function this.AddInMissions()
 
     if InfCore.Validate(missionInfoFormat,missionInfo,"mission addon for "..missionCode) then
       --tex TODO: expand Validate to validate sub tables
+
+      local missionLocation=TppDefine.LOCATION_ID[missionInfo.location]
       if missionInfo.heliSpaceFlags then
         for flagName,set in pairs(missionInfo.heliSpaceFlags)do
           if type(set)~="boolean" then
@@ -478,14 +486,15 @@ function this.AddInMissions()
 
       --tex TODO: add to format
       --tex indicates that theres no free roam mission box start (there are 7 of these in vanilla)
+      --see also AddOrderBoxInfoToFreeRoam
       if missionInfo.isNoOrderBoxMission then--tex these are awkwardly worded, it's alway a struggle to decide whether to chose a nicer new name or keep it closer to what it's called in the vanilla data.
         InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
         TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
       end
       TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
+
       --tex TODO
       --  TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE--tex only used for two missions (of the 7 no box mission starts)
-
 
       --tex pretty much just clears gvars.heli_missionStartRoute, TODO: how does this interact with NO_HELICOPTER_MISSION_START_POSITION?
       --tex TODO: add to (but allow via a param)
@@ -522,7 +531,7 @@ function this.AddInMissions()
           --using startPoint for custom missions to allow the author some more control over the startOnFoot point.
           InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(), heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
         end
-      end
+      end--if missionInfo heliLandPoint
     end--if validate
   end--for missionInfo
 
@@ -616,15 +625,16 @@ function this.LoadLibraries()
   this.freeMissionForLocation={
     [TppDefine.LOCATION_ID.AFGH]=30010,
     [TppDefine.LOCATION_ID.MAFR]=30020,
-  --DEBUGNOW the function where this could be generically used TppMission._ReserveMissionClearOnOutOfHotZone
-  --doesn't have it for MTBS
+  --DEBUGNOW the mission<>freemisson functions where it was originally used for don't have MTBS
   --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
   }
   for missionCode,missionInfo in pairs(this.missionInfo)do
     if TppMission.IsFreeMission(missionCode) then
       local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
       if this.freeMissionForLocation[locationId] then
-        InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has free mission defined")
+        if this.freeMissionForLocation[locationId]~=missionCode then
+          InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has a different free mission defined")
+        end
       else
         this.freeMissionForLocation[locationId]=missionCode
       end
@@ -647,10 +657,11 @@ function this.LoadLibraries()
     --InfCore.PrintInspect(mbdvc_map_location_parameter,"mbdvc_map_location_parameter")
     InfCore.PrintInspect(this.freeMissionForLocation,"freeMissionForLocation")
   end
-end
+end--LoadLibraries
 
 --CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
 function this.GetMapLocationParameter(locationId)
+  InfCore.LogFlow("InfMission.GetMapLocationParameter "..tostring(locationId))
   local locationInfo=this.locationInfo[locationId]
   if locationInfo then
     return locationInfo.locationMapParams
@@ -659,14 +670,14 @@ end
 --CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
 --DEBUGNOW TEST PCallDebug these functions?-^--v-
 function this.AddGlobalLocationParameters(globalLocationParameters)
-  local enableSpySearch=true--tex
+  InfCore.LogFlow"InfMission.AddGlobalLocationParameters"
+  local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
   local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
-
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationParams=locationInfo.globalLocationMapParams
     if locationParams then
       locationParams.locationId=locationId
-      if locationParams.isSpySearchEnable ~=nil then
+      if locationParams.isSpySearchEnable~=nil then
         locationParams.isSpySearchEnable=enableSpySearch
       end
       if locationParams.isHerbSearchEnable ~=nil then
@@ -674,11 +685,12 @@ function this.AddGlobalLocationParameters(globalLocationParameters)
       end
       table.insert(globalLocationParameters,locationParams)
     end
-  end
+  end--for locationInfo
 end--AddGlobalLocationParameters
 
 --CALLER: mbdvc_map_mission_parameter.GetMissionParameter
 function this.GetMapMissionParameter(missionCode)
+  InfCore.LogFlow("InfMission.GetMapMissionParameter "..tostring(missionCode))
   --TODO mgo style map param for location
   --TODO see if mgo map params are useful
   local missionInfo=this.missionInfo[missionCode]
@@ -834,8 +846,9 @@ function this.GetLocationInfo(locationCode)
   --locationCode=locationCode or vars.locationCode
   return this.locationInfo[locationCode]
 end
-
-function this.GetFreeMissionForLocation(locationCode)
+--tex missionCode only needed for debug
+function this.GetFreeMissionForLocation(locationCode,missionCode)
+  InfCore.Log("InfMission.GetFreeMissionForLocation "..tostring(locationCode)..", "..tostring(missionCode))
   --locationCode=locationCode or vars.locationCode
   return this.freeMissionForLocation[locationCode]
 end
@@ -856,10 +869,12 @@ function this.EnableLocationChangeMissions()
     [TppDefine.LOCATION_ID.MTBS]=true,
   }
   for locationCode,freeMissionCode in pairs(this.freeMissionForLocation)do
-    InfCore.Log("EnableChangeLocationMenu{locationId="..locationCode..",missionId="..freeMissionCode.."}")
-    TppUiCommand.EnableChangeLocationMenu{locationId=locationCode,missionId=freeMissionCode}
+    if skipLocations[locationCode]~=true then
+      InfCore.Log("EnableChangeLocationMenu{locationId="..locationCode..",missionId="..freeMissionCode.."}")
+      TppUiCommand.EnableChangeLocationMenu{locationId=locationCode,missionId=freeMissionCode}
+    end
   end
-end
+end--EnableLocationChangeMissions
 
 --see above comment
 function this.UpdateChangeLocationMenu()
@@ -980,7 +995,6 @@ function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
   --InfCore.PrintInspect(weaponIdTable,"InfMission weaponIdTable")--DEBUG
   return weaponIdTable
 end--GetSoldierWeaponIdTable
-
 --
 --tex need to patch in some orderbox data into the free roam mission scripts.
 --TppMission.OnAllocate (which is run before this?) sets mvars.mis_orderBoxList to .missionStartPosition.orderBoxList, but doesn't seem to be used till later in execution
@@ -994,21 +1008,22 @@ end--GetSoldierWeaponIdTable
 --      ...
 --REF
 --<free roam>_orderBoxList.orderBoxBlockList[10081] = { "/Assets/tpp/pack/mission2/story/s10081/s10081_order_box.fpk" }
-function this.OnAllocate(missionTable)
-  local missionCode=vars.missionCode
-  if TppMission.IsFreeMission(missionCode)then
-    local missionStartPosition=missionTable.sequence.missionStartPosition--tex such a strange name for what the table is used for. ASSUMPTION always exists (it should if the sequence script has been cribbed from a vanilla script)
+--CALLER: this.OnAllocate
+function this.AddOrderBoxInfoToFreeRoam(missionTable)
+  InfCore.Log("InfMission.AddOrderBoxInfoToFreeRoam")--
+  local currentMissionCode=vars.missionCode
+  local currentLocationCode=var.locationCode
+  local missionStartPosition=missionTable.sequence.missionStartPosition--tex such a strange name for what the table is used for. ASSUMPTION always exists (it should if the sequence script has been cribbed from a vanilla script)
+  if not missionStartPosition then
+    InfCore.Log("WARNING: InfMission.AddOrderBoxInfoToFreeRoam: missionTable.sequence.missionStartPositio==nil ")
+  else
     --  local sequenceModule = _G["f"..missionCode.."_sequence] -- is just missionTable.sequence
-    local orderBoxListModule=_G["f"..missionCode.."_orderBoxList"]
-
-    --tex TODO: since this uses TppDefine.LOCATION_HAVE_MISSION_LIST
-    -- this may be an issue for custom locations that don't have a free roam
-    -- (outside of the fact that locations without a free roam wouldn't have order boxes)
-    local freeRoamLocation=TppPackList.GetLocationNameFormMissionCode(missionCode)
-    if not freeRoamLocation then
-
-    else
-      for missionCode,missionInfo in pairs(this.missionInfo)do
+    local orderBoxListModule=_G["f"..currentMissionCode.."_orderBoxList"]
+    for missionCode,missionInfo in pairs(this.missionInfo)do
+      local missionLocationCode=TppDefine.LOCATION_ID[missionInfo.location]
+      if not missionLocationCode then
+        InfCore.Log("ERROR: TppDefine.LOCATION_ID[missionInfo.location]==nil")
+      elseif missionLocationCode==currentLocationCode then
         if missionInfo.orderBoxList then
           if not missionStartPosition.orderBoxList then
             InfCore.Log("WARNING: missionTable.sequence.missionStartPosition.orderBoxList==nil")
@@ -1023,23 +1038,23 @@ function this.OnAllocate(missionTable)
           if not orderBoxListModule then
             InfCore.Log("WARNING: no _orderBoxList module for "..missionCode)
           else
-            local missionLocation=TppPackList.GetLocationNameFormMissionCode(missionInfo.missionCode)--TODO this function is slow
-            if missionLocation==freeRoamLocation then
-              orderBoxListModule.orderBoxBlockList[missionInfo.missionCode]=missionInfo.orderBoxBlockList
-            end
+            orderBoxListModule.orderBoxBlockList[missionInfo.missionCode]=missionInfo.orderBoxBlockList
           end
         end--missionInfo.orderBoxBlockList
       end--for this.missionInfo
-    end--if freeRoamLocation
+    end--if missionLocation
 
     if this.debugModule then
       InfCore.PrintInspect(missionStartPosition.orderBoxList,"missionStartPosition.orderBoxList")
       InfCore.PrintInspect(orderBoxListModule,"orderBoxListModule")
     end
-
+  end--if missionStartPosition
+end--AddOrderBoxInfoToFreeRoam
+function this.OnAllocate(missionTable)
+  if TppMission.IsFreeMission(vars.missionCode)then
+    this.AddOrderBoxInfoToFreeRoam(missionTable)
   end--if IsFreeMission
-
-end
+end--OnAllocate
 
 function this.Init(missionTable)
   -- OFF
