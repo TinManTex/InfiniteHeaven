@@ -472,7 +472,7 @@ end--RegisterQuests
 
 --locationInfo questAreas to TppQuestList.questList
 --CALLER: InfMission.AddInLocations
---GOTCHA: must be run before InfQuest.RegisterQuests, 
+--GOTCHA: must be run before InfQuest.RegisterQuests,
 --and it is because InfMission.LoadLibraries > AddInLocations > InfQuest.AddLocationQuestAreas . And InfQuest.PostAllModulesLoad > RegisterQuests
 --but watch out if you split InfMission to InfLocation
 --DEBUGNOW also see what happens RE: reloadmodules
@@ -480,12 +480,12 @@ end--RegisterQuests
 function this.AddLocationQuestAreas(locationId,locationQuestAreas)
   if locationQuestAreas==nil then
     return
-end
-  
+  end
+
   InfCore.Log("InfQuest.AddLocationQuestAreas locationId:"..locationId)
 
   --TODO: VALIDATE locationQuestAreas (or should that be done on load?)
-  
+
   --TODO: if this is useful move somewhere (I might have some lookup tables to make this easier, but since we're adding they wont be accurate)
   --IN: TppQuestList.questList
   local function GetLocationQuestArea(locationId,areaName)
@@ -503,7 +503,7 @@ end
 
   for i,questArea in ipairs(locationQuestAreas)do
     local currentQuestArea=GetLocationQuestArea(locationId,questArea.areaName)
-    
+
     if currentQuestArea then
       InfCore.Log("WARNING: InfQuest.AddLocationQuestAreas locationId already has questArea "..questArea.areaName)
     else
@@ -830,6 +830,7 @@ function this.GetScript(scriptName)
 end
 
 --Commands
+--DEBUG, UNUSED
 this.ForceAllQuestOpenFlagFalse=function()
   for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
     gvars.qst_questOpenFlag[questIndex]=false
