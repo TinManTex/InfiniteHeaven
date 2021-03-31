@@ -1,5 +1,5 @@
 = Infinite heaven =
-r244 - 2021-03-31
+r245 - 2021-04-1
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -20,6 +20,9 @@ Recent changes/additions
 ------------------------------
 
 The introduction of IHHook has had plenty of teething troubles, so thanks to all those who haveworked wth me to try and nail down the problems.
+
+r245
+Fix: Location addon that adds new questarea while not having any sideops installed set in the area would cause the sideops system to break - thanks Delta 6, Yooungi, caplag for the reports
 
 r244
 IHHook:
