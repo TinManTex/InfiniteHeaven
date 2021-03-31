@@ -2756,19 +2756,18 @@ function this._ReserveMissionClearOnOutOfHotZone()
   if mvars.mis_lastOutSideOfHotZoneButAlert then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.OUTSIDE_HOTZONE_CHANGE_SNEAK)
   end
-  if TppLocation.IsAfghan()then
-    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE}
-  elseif TppLocation.IsMiddleAfrica()then
-    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE}
-  else
-    local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex>
-    local freeMissionForLocation= InfMission.GetFreeMissionForLocation(vars.locationCode)
-    if locationInfo and freeMissionForLocation then
-      this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=freeMissionForLocation}
-    else--<tex this isn't quite the right fallback for custom missions, but is it the right fallback for anything lol
-    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE}
-    end
-  end
+  --tex REWORKED>
+  local freeMission=InfMission.GetFreeMissionForLocation(vars.locationCode,vars.missionCode) or TppDefine.SYS_MISSION_ID.AFGH_FREE
+  this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=freeMission}
+  --<
+  --ORIG
+--  if TppLocation.IsAfghan()then
+--    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE}
+--  elseif TppLocation.IsMiddleAfrica()then
+--    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE}
+--  else
+--    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.ON_FOOT,nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE}
+--  end
 end
 function this.ReserveMissionClearOnRideOnHelicopter()
   if TppLocation.IsAfghan()then
@@ -2818,20 +2817,19 @@ function this.AbortForOutOfMissionArea(abortInfo)
       presentationFunction=TppPlayer.PlayMissionAbortCamera
       playRadio=true
     end
-  end
-  if TppLocation.IsAfghan()then
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
-  elseif TppLocation.IsMiddleAfrica()then
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
-  else
-    local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex>
-    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationCode)
-    if locationInfo and freeMissionForLocation then
-      this.AbortMission{nextMissionId=freeMissionForLocation,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
-    else--<
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
-    end
-  end
+  end 
+  --tex REWORKED>
+  local freeMission=InfMission.GetFreeMissionForLocation(vars.locationCode,vars.missionCode) or TppDefine.SYS_MISSION_ID.AFGH_FREE
+  this.AbortMission{nextMissionId=freeMission,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
+  --<
+  --ORIG
+--  if TppLocation.IsAfghan()then
+--    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
+--  elseif TppLocation.IsMiddleAfrica()then
+--    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
+--  else
+--    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
+--  end
 end
 function this.AbortForRideOnHelicopter(abortInfo)
   local isNoSave=true
@@ -2874,23 +2872,21 @@ function this.GameOverAbortMission()
   this.ExecuteMissionAbort()
 end
 function this.GameOverAbortForOutOfMissionArea()
-  if TppLocation.IsAfghan()then
-    mvars.mis_abortWithSave=false
-    mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_FREE
-  elseif TppLocation.IsMiddleAfrica()then
-    mvars.mis_abortWithSave=false
-    mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.MAFR_FREE
-  else
-      local locationInfo=InfMission.GetLocationInfo(vars.locationCode)--tex>
-    local freeMissionForLocation=InfMission.GetFreeMissionForLocation(vars.locationCode)
-    if locationInfo and freeMissionForLocation then
-      mvars.mis_abortWithSave=false
-      mvars.mis_nextMissionCodeForAbort=freeMissionForLocation
-    else--< 
-    mvars.mis_abortWithSave=false
-    mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_FREE
-    end
-  end
+  --tex REWORKED>
+  local freeMission=InfMission.GetFreeMissionForLocation(vars.locationCode,vars.missionCode) or TppDefine.SYS_MISSION_ID.AFGH_FREE
+  mvars.mis_abortWithSave=false
+  mvars.mis_nextMissionCodeForAbort=freeMission
+  --ORIG
+--  if TppLocation.IsAfghan()then
+--    mvars.mis_abortWithSave=false
+--    mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_FREE
+--  elseif TppLocation.IsMiddleAfrica()then
+--    mvars.mis_abortWithSave=false
+--    mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.MAFR_FREE
+--  else
+--    mvars.mis_abortWithSave=false
+--    mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_FREE
+--  end
 end
 function this.GameOverAbortForRideOnHelicopter()
   if TppLocation.IsAfghan()then
