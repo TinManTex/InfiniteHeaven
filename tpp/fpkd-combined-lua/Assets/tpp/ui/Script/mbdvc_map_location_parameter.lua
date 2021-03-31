@@ -201,7 +201,7 @@ mbdvc_map_location_parameter = {
     InfCore.LogFlow("mbdvc_map_location_parameter.GetLocationParameter "..tostring(locationId))--tex
     local mapParams
     if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter is torn down/reloaded
-      mapParams=InfMission.GetMapLocationParameter(locationId)
+      mapParams=InfCore.PCallDebug(InfMission.GetMapLocationParameter,locationId)
     end--<
     return mapParams or mbdvc_map_location_parameter.locationParameters[locationId] or mbdvc_map_location_parameter.locationParameters.default
 	end,
@@ -209,7 +209,7 @@ mbdvc_map_location_parameter = {
 	--NMC: called on idroid map tab open?
 	GetGlobalLocationParameter = function()
 	 InfCore.LogFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
-	 local enableSpySearch=true--tex
+	 local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
 	 local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
 	 local globalLocationParameters={--tex was just return the table
 			{	
@@ -246,7 +246,7 @@ mbdvc_map_location_parameter = {
 		}--globalLocationParameters
 		
 		if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter is torn down/reloaded
-      globalLocationParameters=InfMission.AddGlobalLocationParameters(globalLocationParameters)
+      InfCore.PCallDebug(InfMission.AddGlobalLocationParameters,globalLocationParameters)
     end--<
 
 		return globalLocationParameters
