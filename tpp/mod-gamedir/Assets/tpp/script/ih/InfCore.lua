@@ -19,7 +19,7 @@ local InfCore=this
 
 this.modVersion=244
 this.modName="Infinite Heaven"
-this.hookVersion=7--tex for version check
+this.hookVersion=10--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
@@ -417,7 +417,7 @@ function this.IHExtInstalled()
 end
 
 
-
+-- WIP UNUSED
 function this.IHHMenuCommand(cmd,...)
   if not IHH and IHH.menuInitialized then
     return
