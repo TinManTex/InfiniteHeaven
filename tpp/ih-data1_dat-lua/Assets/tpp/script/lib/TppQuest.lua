@@ -1666,51 +1666,56 @@ end
 --CALLER: TppMain.OnInitialize, near top
 --NMC TppQuestList.questList
 function this.RegisterQuestList(questList)
+return InfCore.PCallDebug(function(questList)--DEBUGNOW
   InfCore.LogFlow("TppQuest.RegisterQuestList")--tex
   if not IsTypeTable(questList)then
-    InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList)")--tex DEBUGNOW
+    InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeTable(questList)")--tex 
     return
   end
   local numAreas=#questList
   if numAreas==0 then
-    InfCore.LogFlow("TppQuest.RegisterQuestList return: numAreas==0")--tex DEBUGNOW
+    InfCore.Log("ERROR: TppQuest.RegisterQuestList return: numAreas==0")--tex 
     return
   end
   for areaIndex=1,numAreas do
     if not IsTypeTable(questList[areaIndex])then
-      InfCore.LogFlow("TppQuest.RegisterQuestList return:  not IsTypeTable(questList[areaIndex]")--tex DEBUGNOW
+      InfCore.Log("ERROR: TppQuest.RegisterQuestList return: areaIndex "..areaIndex..": not IsTypeTable(questList[areaIndex]")--tex 
       return
     end
     local infoList=questList[areaIndex].infoList
     if not IsTypeTable(infoList)then
       Tpp.DEBUG_DumpTable(questList,2)
-        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(infoList)")--tex DEBUGNOW
+      InfCore.Log("ERROR: TppQuest.RegisterQuestList return: area "..tostring(questList[areaIndex].areaName)..":  not IsTypeTable(infoList)")--tex 
       return
     end
     if#infoList==0 then
-      return
+      InfCore.Log("TppQuest.RegisterQuestList: area "..tostring(questList[areaIndex].areaName)..": #infoList==0")--tex 
+      --tex GOTCHA: with IH location addons ability to add new areas it will hit this if there is no addon sideops installed for the new area
+      --just logging it and continuing is fine as long as the rest of the code just ipairs the infolist (thus just skiping empty)
+      --IH adds an empty infolist to a new area so dot have to worry about it being nil
+      --tex was: return
     end
     for infoIndex,questInfo in ipairs(infoList)do
       if not IsTypeString(questInfo.name)then
-        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeString(questInfo.name)")--tex DEBUGNOW
+        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeString(questInfo.name)")--tex 
         return
       end
       if not IsTypeString(questInfo.invokeStepName)then
-        InfCore.LogFlow("TppQuest.RegisterQuestList return:  not IsTypeString(questInfo.invokeStepName)")--tex DEBUGNOW
+        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeString(questInfo.invokeStepName)")--tex 
         return
       end
     end
     if not questList[areaIndex].clusterName then
       if not IsTypeTable(questList[areaIndex].loadArea)then
-      	InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].loadArea)")--tex DEBUGNOW
+      	InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].loadArea)")--tex 
         return
       end
       if not IsTypeTable(questList[areaIndex].activeArea)then
-        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].activeArea)")--tex DEBUGNOW
+        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].activeArea)")--tex 
         return
       end
       if not IsTypeTable(questList[areaIndex].invokeArea)then
-        InfCore.LogFlow("TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].invokeArea)")--tex DEBUGNOW
+        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeTable(questList[areaIndex].invokeArea)")--tex 
         return
       end
     end
@@ -1726,7 +1731,8 @@ function this.RegisterQuestList(questList)
     end
   end
   return mvars.qst_questList
-end
+  end,questList)--tex PCall DEBUGNOW
+end--RegisterQuestList
 function this.RegisterQuestPackList(questPackList,blockName)
   if not IsTypeTable(questPackList)then
     return

@@ -17,7 +17,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=244
+this.modVersion=245
 this.modName="Infinite Heaven" 
 this.hookVersion=10--tex for version check
 

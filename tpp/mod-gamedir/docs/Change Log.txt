@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r245 - 2021-04-01
+Fix: Location addon that adds new questarea while not having any sideops installed set in the area would cause the sideops system to break - thanks Delta 6, Yooungi, caplag for the reports
+
 r244 - 2021-03-31 
 Fix: Intel team not marking anything on idroid map - AddGlobalLocationParameters modifies by param not by return.
 
