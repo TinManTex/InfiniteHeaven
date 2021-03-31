@@ -620,7 +620,7 @@ mbdvc_map_mission_parameter = {
       --InfCore.LogFlow("mbdvc_map_mission_parameter.GetMissionParameter "..tostring(missionId))--tex
       local mapParams
       if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter is torn down/reloaded
-        mapParams=InfMission.GetMapMissionParameter(missionId)
+        mapParams=InfCore.PCallDebug(InfMission.GetMapMissionParameter,missionId)
       end--<
       return mapParams or mbdvc_map_mission_parameter.missionParameters[missionId] or mbdvc_map_mission_parameter.locationParameters.default
     end,

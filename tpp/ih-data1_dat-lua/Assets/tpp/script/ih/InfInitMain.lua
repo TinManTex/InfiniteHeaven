@@ -7,7 +7,7 @@ local this={}
 
 InfCore.Log("InfInitMain:")
 if IHH then
-  IHH.InitMain()
+  IHH.InitMain()--DEBUGNOW InfCore.modVersion)
 end
 
 InfCore.LoadLibrary"/Assets/tpp/script/ih/InfButton.lua"

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r243 - 2021-03-29
+r244 - 2021-03-31
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -20,6 +20,14 @@ Recent changes/additions
 ------------------------------
 
 The introduction of IHHook has had plenty of teething troubles, so thanks to all those who haveworked wth me to try and nail down the problems.
+
+r244
+IHHook:
+Fix: Check to see if it's the jp language version. Currently it only warns that IHHook doesn't currently support the version, but that's better than crashing.
+Fix: menu close button working from start, doesn't require the IH callback so it can function when it's there as the startup error window.
+
+Infinite Heaven:
+Fix: Intel team not marking anything on idroid map - AddGlobalLocationParameters modifies by param not by return.
 
 r243
 Fix: A grame crash soon after starting - issue likely was user not having vs redist for what IHHook was built against - thanks fintip for the report and working through test builds with me.

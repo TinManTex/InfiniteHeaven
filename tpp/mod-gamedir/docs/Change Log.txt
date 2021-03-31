@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r244 - 2021-03-31 
+Fix: Intel team not marking anything on idroid map - AddGlobalLocationParameters modifies by param not by return.
+
 r243 - 2021-03-29
 Fix: unlockSideopNumber - 'Unlock specific sideop' not allowing the top most sideop. Had recently cleaned up how some settings ranges were set but forgot that sideops was outside of the normal indexedfrom0 case - thanks psavi for the report (and some others I might have passed by in the past sorry).
 
