@@ -70,6 +70,10 @@ function this.PreModuleReload()
 end
 
 function this.PostAllModulesLoad()
+  if IHH then--tex DEBUGNOW close menu from start
+    this.MenuOff(true)
+  end
+
   InfQuickMenuDefs=InfQuickMenuDefs_User or _G.InfQuickMenuDefs
   if InfQuickMenuDefs_User then
     InfCore.Log("InfMenu: Using InfQuickMenuDefs_User")
