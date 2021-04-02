@@ -420,9 +420,7 @@ this.DEBUG_SetIvarsToNonDefault=function()
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.settings then
-        InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
-      elseif not skipIvars[name] and ivar.save then
+      if not skipIvars[name] and ivar.save then
         table.insert(ivarNames,name)
       end
     end
@@ -430,9 +428,11 @@ this.DEBUG_SetIvarsToNonDefault=function()
 
   for i,name in ipairs(ivarNames) do
     local ivar=Ivars[name]
-    local value=ivar.default+ivar.range.increment
-    if value>ivar.range.max then
-      value=ivar.default-ivar.range.increment
+    local increment=ivar.range and ivar.range.increment or 1--DEBUGNOW GetIncrement?
+    local value=ivar.default+increment
+    local min,max=IvarProc.GetRange(ivar)
+    if value>max then
+      value=ivar.default-increment
     end
 
     ivar:Set(value)
