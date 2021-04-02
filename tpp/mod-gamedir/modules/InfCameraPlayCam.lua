@@ -166,13 +166,13 @@ IvarProc.Vector3Ivar(this,"cam_offsetPos",{
 
 this.cam_selectListObject={
   inMission=true,
-  range={max=0},--DYNAMIC
+  settings={"NONE"},
   GetSettingText=function(self,setting)
-    local objectName=InfObjects.objectNames[setting+1]
-    if objectName==nil then
+    if #self.settings==0 then
       return InfLangProc.LangString"list_empty"
     end
-
+    
+    local objectName=InfObjects.objectNames[setting+1]
     local gameObjectId=GameObject.GetGameObjectId(objectName)
     if gameObjectId==GameObject.NULL_ID then
       return objectName.."==NULL_ID"
@@ -180,8 +180,8 @@ this.cam_selectListObject={
 
     return objectName
   end,
-  OnSelect=function(self)
-    IvarProc.SetMaxToList(self,InfObjects.objectNames)
+  Init=function(self)
+    IvarProc.SetSettings(self,InfObjects.objectNames)
   end,
   OnChange=this.OnChangeCamVars,
 }
