@@ -70,7 +70,7 @@ function this.PreModuleReload()
 end
 
 function this.PostAllModulesLoad()
-  if IHH then--tex DEBUGNOW close menu from start
+  if IHH then--tex close ihmenu from start
     this.MenuOff(true)
   end
 
@@ -190,36 +190,36 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     if option.optionType=="OPTION" then
       local currentSetting=ivars[option.name]
 
-      local settings={}
+      local menuSettings={}
 
       if type(option.GetSettingText)=="function" then
         local min,max=IvarProc.GetRange(option)
         for i=min,max do
-          table.insert(settings,tostring(option:GetSettingText(i)))
+          table.insert(menuSettings,tostring(option:GetSettingText(i)))
         end
       elseif option.settingNames then
         if type(option.settingNames)=="table" then
-          settings=option.settingNames
+          menuSettings=option.settingNames
         else
-          settings=InfLangProc.LangTable(option.settingNames)
+          menuSettings=InfLangProc.LangTable(option.settingNames)
         end
       elseif option.settings then
-        settings=option.settings
+        menuSettings=option.settings
       end
 
       if this.debugModule then
-        InfCore.PrintInspect(settings,"menuSettings")
+        InfCore.PrintInspect(menuSettings,"menuSettings")
       end
 
-      if #settings>0 then
-        for i,settingText in ipairs(settings)do
+      if #menuSettings>0 then
+        for i,settingText in ipairs(menuSettings)do
           InfCore.ExtCmd('AddToCombo','menuSetting',tostring(i-1)..":"..settingText)
         end
       elseif currentSetting then
         InfCore.ExtCmd('AddToCombo','menuSetting',currentSetting)
       end
 
-      if #settings>0 then
+      if #menuSettings>0 then
         InfCore.ExtCmd('SelectCombo','menuSetting',currentSetting)
       elseif currentSetting then
         InfCore.ExtCmd('SelectCombo','menuSetting',0)
