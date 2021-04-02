@@ -606,17 +606,6 @@ function this.DeclareVars()
 end
 
 --TABLESETUP: Ivars
-function this.Enum(enumNames)
-  if type(enumNames)~="table"then
-    return
-  end
-  local enumTable={}
-  for i,enumName in pairs(enumNames)do
-    enumTable[enumName]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
-  end
-  return enumTable
-end
-
 local OPTIONTYPE_OPTION="OPTION"
 --build out full definition
 function this.BuildIvar(name,ivar)
@@ -627,15 +616,26 @@ function this.BuildIvar(name,ivar)
     ivar.optionType=OPTIONTYPE_OPTION
     --ivar.name=ivar.name or name
     ivar.name=name
---DEBUGNOW settings-no-range
-    ivar.range=ivar.range or {}
-    ivar.range.max=ivar.range.max or 1
-    ivar.range.min=ivar.range.min or 0
-    ivar.range.increment=ivar.range.increment or 1
-    ivar.default=ivar.default or ivar.range.min
-    
-    if ivar.settings then
-      ivar.enum=this.Enum(ivar.settings)
+    --DEBUGNOW settings-no-range
+    if not ivar.settings then
+      ivar.range=ivar.range or {}
+      ivar.range.max=ivar.range.max or 1
+      ivar.range.min=ivar.range.min or 0
+      ivar.range.increment=ivar.range.increment or 1--DEBUGNOW roll increment into root?
+      ivar.default=ivar.default or ivar.range.min
+
+      --KLUDGE, try and surmise if it's a float
+      if not ivar.isFloat then--tex already said it is
+        local i,f = math.modf(ivar.range.increment)--tex get fractional part
+        f=math.abs(f)
+        ivar.isFloat=false
+        if f<1 and f~=0 then
+          ivar.isFloat=true
+        end
+      end
+    else
+      ivar.default=ivar.default or 0
+      ivar.enum=IvarProc.Enum(ivar.enum,ivar.settings)
       --      for name,enum in ipairs(ivar.enum) do
       --        ivar[name]=false
       --        if enum==ivar.default then
@@ -643,13 +643,7 @@ function this.BuildIvar(name,ivar)
       --        end
       --      end
       --      ivar[ivar.settings[ivar.default] ]=true
-      ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
-    end
-    local i,f = math.modf(ivar.range.increment)--tex get fractional part
-    f=math.abs(f)
-    ivar.isFloat=false
-    if f<1 and f~=0 then
-      ivar.isFloat=true
+      --DEBUGNOW ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1--DEBUGNOW settings-no-range
     end
 
     ivar.IsDefault=IvarProc.OptionIsDefault
@@ -705,10 +699,13 @@ function this.PostAllModulesLoad()
           --            ivarDef.noDoc=true
           --          end
           this[name]=this.BuildIvar(name,ivarDef)
-        end
-      end
-    end
-  end
+          if type(ivarDef.Init)=="function"then
+            ivarDef:Init()
+          end
+        end--if ivar
+      end--for module.registerIvars
+    end--if module.registerIvars
+  end--for InfModules
 
   --tex fill actual references in missionModeIvars now that the ivars are actually here
   for i,module in ipairs(InfModules) do
@@ -725,10 +722,10 @@ function this.PostAllModulesLoad()
           else
             table.insert(this.missionModeIvars[name],ivar)
           end
-        end
-      end
-    end
-  end
+        end--for ivarNames
+      end--for module.missionModeIvarsNames
+    end--if module.missionModeIvarsNames
+  end--for InfModules
 
   --tex likewise update vars
   local convertIvars={
@@ -757,7 +754,7 @@ function this.PostAllModulesLoad()
         end
       end--if string or table
     end--for convertIvars
-  end
+  end--for InfModules
 
   if this.debugModule then
   --InfCore.PrintInspect(this.missionModeIvars,"missionModeIvars")
