@@ -25,7 +25,8 @@ this.registerIvars={
   "enableEventCRASHLAND",
   "enableEventLOST_COMS",
 }
-
+--tex profile that sets many of the wargames event settings, but just the underlying categories
+--see gameEventChance, GenerateEvent, igvars.inf_event for the randomly triggered event that sets the actually themed/flavorful ones
 this.mbWarGamesProfile={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"OFF","TRAINING","INVASION","ZOMBIE_DD","ZOMBIE_OBLITERATION"},
@@ -233,6 +234,7 @@ Rogue Coyote attack,
 XOF attack, 
 DD Infection outbreak, 
 Zombie Obliteration (non DD)]],
+      mbWarGamesProfile="Profiles that sets many of the wargames event settings, but just the underlying categories, see 'MB event random trigger chance' actually themed/flavorful versions",
     },
   }
 }
@@ -296,7 +298,7 @@ function this.OnMissionCanStart()
     end
   end
 end
-
+--CALLERS: InfMain.ExecuteMissionFinalizeTop, title_sequence OnEndFadeOutSelectContinue (to re-apply event following session since they are implmented as non saved profiles)
 function this.GenerateEvent(missionCode)
   --InfCore.PCallDebug(function(misisonCode)--DEBUGOW
   if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) then
@@ -614,7 +616,7 @@ local warGameSettings={
 
 function this.GenerateWarGameEvent()
   --InfCore.PCallDebug(function()--DEBUG
-  --tex user is doing wargames anyway
+  --tex user is doing wargames anyway (see mbWarGamesProfile vs gameEventChance)
   if Ivars.mbWarGamesProfile:Is()>0 and not igvars.inf_event then
     return
   end
@@ -637,6 +639,7 @@ function this.GenerateWarGameEvent()
       end
     end
   end
+  InfCore.Log("InfGameEvent.GenerateWarGameEvent: "..tostring(warGame))
   --local warGame="TRAINING"--DEBUG
   this.inf_enabledEvents[warGame]=true
   local wargameBaseType=warGamesBaseTypes[warGame]
