@@ -171,33 +171,26 @@ this.manualMissionCode={
 this.manualSequence={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC
+  settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
-    self.settingNames={}
-    --tex also mvars.seq_demoSequneceList (a subset)
-    for sequenceName,enum in pairs(mvars.seq_sequenceNames)do
-      self.settingNames[enum]=sequenceName
-    end
-    --InfCore.PrintInspect(self.settingNames)--DEBUG
-    self.range.max=#self.settingNames-1
+    IvarProc.SetSettings(self,mvars.seq_sequenceNames)--tex GOTCHA, combines string array and Tpp.Enum
   end,
   OnActivate=function(self,setting)
-    local settingStr=self.settingNames[setting+1]
-    --InfCore.DebugPrint(tostring(settingStr))--DEBUG
+    local settingStr=self.settings[setting+1]
     TppSequence.SetNextSequence(settingStr)
   end,
 }
 
 this.loadAddonMission={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={},
+  settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
     for i,missionCode in pairs(InfMission.missionIds)do
       self.settings[#self.settings+1]=tostring(missionCode)
     end
     table.sort(self.settings)
-    IvarProc.SetMaxToList(self,self.settings)
+    IvarProc.SetSettings(self,self.settings)
   end,
   GetSettingText=function(self,setting)
     if #self.settings==0 then
