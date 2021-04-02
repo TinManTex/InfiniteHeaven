@@ -137,15 +137,14 @@ IvarProc.MissionModeIvars(
 
 this.selectEvent={
   save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC
+  settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
-    self.settingNames=InfGameEvent.GetEventNames()--DEBUGNOW settingNames?
-    --InfCore.PrintInspect(self.settings)--DEBUG
-    IvarProc.SetMaxToList(self,self.settingNames)
+    local settings=InfGameEvent.GetEventNames()
+    IvarProc.SetSettings(self,settings)
   end,
   OnActivate=function(self,setting)
     InfMenu.PrintLangId"event_forced"
-    InfGameEvent.forceEvent=self.settingNames[setting+1]
+    InfGameEvent.forceEvent=self.settings[setting+1]
   end,
 }
 
