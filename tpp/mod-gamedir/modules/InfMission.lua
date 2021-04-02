@@ -1012,7 +1012,7 @@ end--GetSoldierWeaponIdTable
 function this.AddOrderBoxInfoToFreeRoam(missionTable)
   InfCore.Log("InfMission.AddOrderBoxInfoToFreeRoam")--
   local currentMissionCode=vars.missionCode
-  local currentLocationCode=var.locationCode
+  local currentLocationCode=vars.locationCode
   local missionStartPosition=missionTable.sequence.missionStartPosition--tex such a strange name for what the table is used for. ASSUMPTION always exists (it should if the sequence script has been cribbed from a vanilla script)
   if not missionStartPosition then
     InfCore.Log("WARNING: InfMission.AddOrderBoxInfoToFreeRoam: missionTable.sequence.missionStartPositio==nil ")
