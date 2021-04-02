@@ -543,7 +543,7 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
     attackHeliTypeMB="SBH",
-    attackHeliFovaMB="DEFAULT",
+    attackHeliFovaMB=0,--DEBUGNOW "DEFAULT",--tex enum doesnt change when profile changes helitype
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=0,
   },
