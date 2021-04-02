@@ -131,28 +131,28 @@ this.camIvarPrefixes={
 for i,camName in ipairs(this.camNames) do
   this["focalLength"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=21,
     range={max=10000,min=0.1,increment=1},
   }
 
   this["focusDistance"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=8.175,
     range={max=1000,min=0.01,increment=0.1},
   }
 
   this["aperture"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=1.875,
     range={max=100,min=0.001,increment=0.1},
   }
 
   this["distance"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
   }
@@ -181,25 +181,25 @@ for i,camName in ipairs(this.camNames) do
 
   this["targetInterpTime"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
   }
   this["rotationLimitMinX"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=-90,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=0,min=-90,increment=1},
   }
   this["rotationLimitMaxX"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=90,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=90,min=0,increment=1},
   }
   this["alphaDistance"..camName]={
     inMission=true,
-    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    save=IvarProc.CATEGORY_EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=10,min=0,increment=0.1},--0--.1,--3--.5,1,3
   }
