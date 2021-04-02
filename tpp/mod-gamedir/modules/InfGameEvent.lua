@@ -301,7 +301,7 @@ end
 --CALLERS: InfMain.ExecuteMissionFinalizeTop, title_sequence OnEndFadeOutSelectContinue (to re-apply event following session since they are implmented as non saved profiles)
 function this.GenerateEvent(missionCode)
   --InfCore.PCallDebug(function(misisonCode)--DEBUGOW
-  if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) then
+  if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) and not igvars.inf_event then
     return
   end
 
