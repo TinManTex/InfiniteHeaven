@@ -121,6 +121,11 @@ this.camIvarPrefixes={
   "positionX",
   "positionY",
   "positionZ",
+  "targetInterpTime",
+  --"ignoreCollisionGameObjectName",
+  "rotationLimitMinX",
+  "rotationLimitMaxX",
+  "alphaDistance",
 }
 
 for i,camName in ipairs(this.camNames) do
@@ -174,6 +179,33 @@ for i,camName in ipairs(this.camNames) do
     noBounds=true,
   }
 
+  this["targetInterpTime"..camName]={
+    inMission=true,
+    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
+    range={max=100,min=0,increment=0.1},
+  }
+  this["rotationLimitMinX"..camName]={
+    inMission=true,
+    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    default=-90,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
+    range={max=0,min=-90,increment=1},
+  }
+  this["rotationLimitMaxX"..camName]={
+    inMission=true,
+    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    default=90,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
+    range={max=90,min=0,increment=1},
+  }
+  this["alphaDistance"..camName]={
+    inMission=true,
+    --OFF save=IvarProc.CATEGORY_EXTERNAL,
+    default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
+    range={max=10,min=0,increment=0.1},--0--.1,--3--.5,1,3
+  }
+
+  --DEBUGNOW ignoreCollisionGameObjectName="Player",
+
   for i,prefix in ipairs(this.camIvarPrefixes)do
     this.registerIvars[#this.registerIvars+1]=prefix..camName
   end
@@ -183,7 +215,7 @@ end
 this.ResetCameraToPlayerPos=function()
   local currentCamName=this.GetCurrentCamName()
   local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-  this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)    
+  this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)
 end
 
 this.WarpToCamPos=function()
@@ -243,16 +275,22 @@ this.cameraMenu={
     "Ivars.cameraMode",
     "InfCamera.ResetCameraToPlayerPos",
     "InfCamera.WarpToCamPos",
-    "Ivars.positionXFreeCam",--DEBUGNOW
-    "Ivars.positionYFreeCam",--DEBUGNOW
-    "Ivars.positionZFreeCam",--DEBUGNOW
+    "Ivars.positionXFreeCam",
+    "Ivars.positionYFreeCam",
+    "Ivars.positionZFreeCam",
     "Ivars.moveScale",
+    "Ivars.focalLengthFreeCam",
+    "Ivars.focusDistanceFreeCam",
+    "Ivars.apertureFreeCam",
+    "Ivars.distanceFreeCam",
+    "Ivars.targetInterpTimeFreeCam",
+    --ignoreCollisionGameObjectNameFreeCam",
+    "Ivars.rotationLimitMinXFreeCam",
+    "Ivars.rotationLimitMaxXFreeCam",
+    "Ivars.alphaDistanceFreeCam",
     "Ivars.disableCamText",
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
     "InfCamera.ShowFreeCamPosition",
-  --    "Ivars.focalLength",--CULL
-  --    "Ivars.focusDistance",
-  --    "Ivars.aperture",
   --    "InfMenuCommands.ResetCameraSettings",--tex just reset cam pos at the moment
   }
 }
@@ -288,6 +326,7 @@ this.langStrings={
       cameraMenu="Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
       adjustCameraUpdate=[[
   Move cam with normal move keys 
+
   <Dash>(Shift or Left stick click) to move up
 
   <Switch zoom>(Middle mouse or Right stick click) to move down
@@ -387,6 +426,13 @@ function this.UpdateCameraManualMode()
   local aperture=Ivars["aperture"..currentCamName]
   local focusDistance=Ivars["focusDistance"..currentCamName]
   local cameraDistance=Ivars["distance"..currentCamName]
+  local targetInterpTime=Ivars["targetInterpTime"..currentCamName]
+  local rotationLimitMinX=Ivars["rotationLimitMinX"..currentCamName]
+  local rotationLimitMaxX=Ivars["rotationLimitMaxX"..currentCamName]
+  local alphaDistance=Ivars["alphaDistance"..currentCamName]
+
+  --DEBUGNOW    ignoreCollisionGameObjectName="Player",
+
   local movePosition=this.ReadPosition(currentCamName)
   --WIP
   --  if Ivars.cameraMode:Is"PLAYER" then
@@ -404,7 +450,7 @@ function this.UpdateCameraManualMode()
   --      ignoreCollisionGameObjectName="Player",
   --      --TEST OFF rotationLimitMinX=-60,
   --      --TEST OFF rotationLimitMaxX=80,
-  --      alphaDistance=0--.1,--3--.5,
+  --      alphaDistance=0--.1,--3--.5,1,3
   --    --enableStockChangeSe = false,
   --    --useShakeParam = true
   --    }
@@ -415,15 +461,15 @@ function this.UpdateCameraManualMode()
     focalLength=focalLength:Get(),
     focusDistance=focusDistance:Get(),
     aperture=aperture:Get(),
-    targetInterpTime=.4,
+    targetInterpTime=targetInterpTime:Get(),
     ignoreCollisionGameObjectName="Player",
-    rotationLimitMinX=-90,
-    rotationLimitMaxX=90,
-    alphaDistance=0,
+    rotationLimitMinX=rotationLimitMinX:Get(),
+    rotationLimitMaxX=rotationLimitMaxX:Get(),
+    alphaDistance=alphaDistance:Get(),
   }
   -- end
   UpdateCameraParams()
-end
+end--UpdateCameraManualMode
 
 function this.OnActivateCameraAdjust()
   --KLUDGE
