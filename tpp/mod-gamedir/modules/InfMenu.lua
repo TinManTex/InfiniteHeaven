@@ -420,28 +420,7 @@ function this.GoMenu(menu,goBack)
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
 
-  if InfCore.IHExtRunning() then
-    local menuName=InfLangProc.LangString(this.currentMenu.name)
-    InfCore.ExtCmd('SetContent','menuTitle',menuName)
-
-    InfCore.ExtCmd('ClearTable','menuItems')
-    for optionIndex=1,#menu.options do
-      local optionRef=this.currentMenuOptions[optionIndex]
-      local option=this.GetOptionFromRef(optionRef)
-      local settingText=optionIndex..":"..optionRef.." not found"
-      if option==nil then
-        InfCore.ExtCmd('ClearCombo','menuSetting')
-      else
-        if option.OnSelect then
-          option:OnSelect(ivars[option.name])
-        end
-        settingText=this.GetSettingText(optionIndex,option,false,false)
-      end
-      InfCore.ExtCmd('AddToTable','menuItems',settingText)
-    end
-    --InfCore.Log("Gomenu",false,true)--DEBUG
-    InfCore.WriteToExtTxt()
-  end
+  this.DisplayCurrentMenu()
 
   this.GetSetting(previousIndex,previousMenuOptions)
 end
@@ -467,6 +446,31 @@ function this.DisplayCurrentSetting()
     this.DisplaySetting(this.currentIndex,false)
   end
 end
+
+function this.DisplayCurrentMenu()
+  if InfCore.IHExtRunning() then
+    local menuName=InfLangProc.LangString(this.currentMenu.name)
+    InfCore.ExtCmd('SetContent','menuTitle',menuName)
+
+    InfCore.ExtCmd('ClearTable','menuItems')
+    for optionIndex=1,#this.currentMenuOptions do
+      local optionRef=this.currentMenuOptions[optionIndex]
+      local option=this.GetOptionFromRef(optionRef)
+      local settingText=optionIndex..":"..optionRef.." not found"
+      if option==nil then
+        InfCore.ExtCmd('ClearCombo','menuSetting')
+      else
+        if option.OnSelect then
+          option:OnSelect(ivars[option.name])
+        end
+        settingText=this.GetSettingText(optionIndex,option,false,false)
+      end
+      InfCore.ExtCmd('AddToTable','menuItems',settingText)
+    end
+    --InfCore.Log("Gomenu",false,true)--DEBUG
+    InfCore.WriteToExtTxt()
+  end  
+end--DisplayCurrentMenu
 
 local itemIndicators={
   equals=" = ",
@@ -540,8 +544,8 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     optionSeperator=itemIndicators.equals
     settingText=tostring(currentSetting)
   end
-
-  if optionSeperator==itemIndicators.equals then--KLUDGE
+  --KLUDGE
+  if optionSeperator==itemIndicators.equals then
     --if option.isMode then
     --  optionSeperator=itemIndicators.mode
 
@@ -550,9 +554,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
       if not option.noActivateText then
         optionSeperator=itemIndicators.activate
       end
-  elseif option.OnChange then
-    optionSeperator=itemIndicators.on_change
-  end
+    elseif option.OnChange then
+      optionSeperator=itemIndicators.on_change
+    end
   end
 
   if option.isPercent then
@@ -924,10 +928,10 @@ function this.DoControlSet()
     --this.DisplayCurrentSetting()
   end
 
-  if InfButton.OnButtonDown(this.resetSettingButton) and not this.quickMenuOn then
+  if not this.quickMenuOn and InfButton.ButtonHeld(this.resetSettingButton)then
     this.ResetSetting()
   end
-  if InfButton.OnButtonDown(this.menuBackButton) then
+  if not this.quickMenuOn and InfButton.ButtonHeld(this.menuBackButton) then
     this.GoBackCurrent()
   end
 
