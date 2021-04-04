@@ -1,4 +1,5 @@
 --InfCamera.lua
+--tex really just SetAroundCameraManualModeParams, drivein in freecam mode by updating the target position in relation to previous diven by pressed direction
 local this={}
 --LOCALOPT
 local InfMain=InfMain
@@ -70,6 +71,8 @@ this.adjustCameraUpdate={
       InfCamera.OnDectivateCameraAdjust()
       Ivars.cameraMode:Set(0)
     end
+    
+    InfMain.usingAltCamera=setting==1
 
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()--TODO only restore those that menu disables that this doesnt
@@ -122,7 +125,6 @@ this.camIvarPrefixes={
   "positionY",
   "positionZ",
   "targetInterpTime",
-  --"ignoreCollisionGameObjectName",
   "rotationLimitMinX",
   "rotationLimitMaxX",
   "alphaDistance",
@@ -204,7 +206,6 @@ for i,camName in ipairs(this.camNames) do
     range={max=10,min=0,increment=0.1},--0--.1,--3--.5,1,3
   }
 
-  --DEBUGNOW ignoreCollisionGameObjectName="Player",
 
   for i,prefix in ipairs(this.camIvarPrefixes)do
     this.registerIvars[#this.registerIvars+1]=prefix..camName
@@ -265,10 +266,10 @@ end
 --< menu commands
 -->
 this.registerMenus={
-  "cameraMenu",
+  "cam_aroundcamMenu",
 }
 
-this.cameraMenu={
+this.cam_aroundcamMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "Ivars.adjustCameraUpdate",
@@ -284,16 +285,14 @@ this.cameraMenu={
     "Ivars.apertureFreeCam",
     "Ivars.distanceFreeCam",
     "Ivars.targetInterpTimeFreeCam",
-    --ignoreCollisionGameObjectNameFreeCam",
     "Ivars.rotationLimitMinXFreeCam",
     "Ivars.rotationLimitMaxXFreeCam",
     "Ivars.alphaDistanceFreeCam",
     "Ivars.disableCamText",
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
     "InfCamera.ShowFreeCamPosition",
-  --    "InfMenuCommands.ResetCameraSettings",--tex just reset cam pos at the moment
   }
-}
+}--cam_aroundcamMenu
 --< menu defs
 this.langStrings={
   eng={
@@ -303,7 +302,7 @@ this.langStrings={
     moveScale="Cam speed scale",
     cameraMode="Camera mode",
     cameraModeSettings={"Default","Free cam"},--"Player","Free cam"},
-    cameraMenu="Camera menu",
+    cam_aroundcamMenu="Cam - AroundCam menu",
     focal_length_mode="Focal length mode",
     aperture_mode="Aperture mode",
     focus_distance_mode="Focus distance mode",
@@ -323,7 +322,7 @@ this.langStrings={
   },
   help={
     eng={
-      cameraMenu="Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
+      cam_aroundMenu="Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
       adjustCameraUpdate=[[
   Move cam with normal move keys 
 
@@ -349,7 +348,7 @@ this.langStrings={
     },
     setStageBlockPositionToFreeCam="Sets the map loading position to the free cam position.",
   }
-}
+}--langStrings
 
 --function this.ResetCamDefaults()--CULL
 --  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
@@ -395,29 +394,31 @@ function this.WritePosition(camName,position)
   ivars[positionZStr..camName]=position:GetZ()
 end
 
---REF
---    Player.SetAroundCameraManualModeParams{
---      --offset=this.cameraOffset,
---      distance=0,--1.2,
---      focalLength=focalLength:Get(),
---      focusDistance=focusDistance:Get(),
---      aperture=aperture:Get(),
---      --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),
---      target=movePosition,
---      targetInterpTime=.2,
---      --targetIsPlayer=true,
---      --targetOffsetFromPlayer=Vector3(0,0,0.5),
---      --rotationBasedOnPlayer = true,
---      ignoreCollisionGameObjectName="Player",
---      --ignoreCollisionGameObjectId
---      rotationLimitMinX=-90,
---      rotationLimitMaxX=90,
---      alphaDistance=.5,
---    --interpImmediately = immediately,
---    --enableStockChangeSe = true,
---    --rotationBasedOnPlayer = true,
---    --useShakeParam = true
---    }
+--REF params from all vanilla uses compiled
+--Player.SetAroundCameraManualModeParams{
+--  offset=,--Vector3 --(-.2,.7,0), (-0.25,0.35,0), (0.5,0.7,0), (0,0.75,0)
+--  distance=0,--1.2,1.5,3.0,4.0,4.5,8.175,
+--  focalLength=,--19,21,
+--  focusDistance=,--1.5,2,8.175,
+--  aperture=,--1.6,100,
+--  target=,Vector3,--DEBUGNOW only if not targetIsPlayer? (but paz visit has targetIsPlayer and target)--Vector3(0,1000,0),--Vector3(2,10,10),
+--  targetInterpTime=,--0.2,0.6,1.5,
+--  targetIsPlayer=,--bool true,false
+--  targetOffsetFromPlayer=Vector3,--only if targetIsPlayer? (0,0.05,0),
+--  targetInstanceIndex=,int player Index, SSD
+--  rotationBasedOnPlayer=true,--tex only 1 use
+--  ignoreCollisionGameObjectName="Player",
+--  ignoreCollisionGameObjectId=,--
+--  rotationLimitMinX=,---6,-50,-90,
+--  rotationLimitMaxX=,--30,50,90
+--  rotationLimitMinY=,--180 ? no uses, but try anyway
+--  rotationLimitMaxY=,--180 ? no uses, but try anyway
+--  alphaDistance=,--.5,1.0
+--  interpImmediately=,--bool true,false
+--  enableStockChangeSe=,--bool true,false
+--  rotationBasedOnPlayer=,--bool true,false--only used once skullface drive
+--  useShakeParam=,--bool true,false--only used once skullface drive
+--}--SetAroundCameraManualModeParams
 
 function this.UpdateCameraManualMode()
   local Ivars=Ivars
@@ -431,28 +432,32 @@ function this.UpdateCameraManualMode()
   local rotationLimitMaxX=Ivars["rotationLimitMaxX"..currentCamName]
   local alphaDistance=Ivars["alphaDistance"..currentCamName]
 
-  --DEBUGNOW    ignoreCollisionGameObjectName="Player",
-
   local movePosition=this.ReadPosition(currentCamName)
   --WIP
   --  if Ivars.cameraMode:Is"PLAYER" then
-  --    Player.SetAroundCameraManualModeParams{
-  --      offset=movePosition,--this.cameraOffset,--Vector3(0.0,0.75,0),--this.cameraOffset,
-  --      distance=cameraDistance:Get(),
-  --      focalLength=focalLength:Get(),
-  --      focusDistance=focusDistance:Get(),
-  --      aperture=aperture:Get(),
-  --      --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),--this.cameraPosition,
-  --      targetInterpTime=.2,
-  --      targetIsPlayer=true,
-  --      --targetOffsetFromPlayer=Vector3(0,0,0.5),
-  --      --rotationBasedOnPlayer = true,
-  --      ignoreCollisionGameObjectName="Player",
-  --      --TEST OFF rotationLimitMinX=-60,
-  --      --TEST OFF rotationLimitMaxX=80,
-  --      alphaDistance=0--.1,--3--.5,1,3
-  --    --enableStockChangeSe = false,
-  --    --useShakeParam = true
+  --    SetCameraParams{
+  --  offset=,--Vector3 --(-.2,.7,0), (-0.25,0.35,0), (0.5,0.7,0), (0,0.75,0)
+  --  distance=0,--1.2,1.5,3.0,4.0,4.5,8.175,
+  --  focalLength=,--19,21,
+  --  focusDistance=,--1.5,2,8.175,
+  --  aperture=,--1.6,100,
+  --  target=,Vector3,--DEBUGNOW only if not targetIsPlayer? (but paz visit has targetIsPlayer and target)--Vector3(0,1000,0),--Vector3(2,10,10),
+  --  targetInterpTime=,--0.2,0.6,1.5,
+  --  targetIsPlayer=,--bool true,false
+  --  targetOffsetFromPlayer=Vector3,--only if targetIsPlayer? (0,0.05,0),
+  --  targetInstanceIndex=,int player Index, SSD
+  --  rotationBasedOnPlayer=true,--tex only 1 use
+  --  ignoreCollisionGameObjectName="Player",
+  --  ignoreCollisionGameObjectId=,--
+  --  rotationLimitMinX=,---6,-50,-90,
+  --  rotationLimitMaxX=,--30,50,90
+  --  rotationLimitMinY=,--180 ? no uses, but try anyway
+  --  rotationLimitMaxY=,--180 ? no uses, but try anyway
+  --  alphaDistance=,--.5,1.0
+  --  interpImmediately=,--bool true,false
+  --  enableStockChangeSe=,--bool true,false
+  --  rotationBasedOnPlayer=,--bool true,false--only used once skullface drive
+  --  useShakeParam=,--bool true,false--only used once skullface drive
   --    }
   --  else
   SetCameraParams{
@@ -521,7 +526,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   this.UpdateCameraManualMode()
   --end,currentChecks,currentTime,execChecks,execState)--DEBUG
-end
+end--Update
 
 function this.DoControlSet(currentChecks)
   --InfCore.PCall(function(currentChecks)--DEBUG
@@ -702,6 +707,6 @@ function this.DoControlSet(currentChecks)
 
   this.WritePosition(currentCamName,movePosition)
   --end,currentChecks)--DEBUG
-end
+end--DoControlSet
 
 return this
