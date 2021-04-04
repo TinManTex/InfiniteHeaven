@@ -1,5 +1,7 @@
 --InfCamHook.lua
 --tex manages IHHook FOV hook
+-- which is an implementation of the same change-focal length target on update camera lerp as
+-- https://github.com/mon/MGSV-TPP-FoV
 --TODO: may eventually be expanded to other player camera settings, but InfCamera was taken by FreeCam
 --the various params of
 --SetAroundCameraManualModeParams
