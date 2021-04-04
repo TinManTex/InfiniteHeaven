@@ -1,4 +1,9 @@
 -- InfCameraPlayCam.lua
+-- Implements Player.RequestToPlayCameraNonAnimation
+-- DEBUGNOW TODO: an enable/disable ivar that runs with a nil (or can it be 0) cam_timeToSleep
+-- A started timer on this.PlayCameraNonAnimation that disables the ivar when timed out
+-- InfMain.RegisterCameraIvar(ivar)
+
 local this={}
 
 this.registerIvars={
@@ -191,7 +196,7 @@ this.registerMenus={
 }
 
 this.playCamMenu={
-  parentRefs={"InfCamera.cameraMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "InfCameraPlayCam.PlayCameraNonAnimation",
     "InfCameraPlayCam.StopPlayCamera",
@@ -222,7 +227,7 @@ this.playCamMenu={
 
 this.langStrings={
   eng={
-    playCamMenu="PlayCam menu",
+    playCamMenu="Cam - PlayCam menu",
     playCameraNonAnimation="Start PlayCam",
     stopPlayCamera="Stop PlayCam",
     cam_selectListObject="Camera target",
