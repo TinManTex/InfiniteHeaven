@@ -437,7 +437,7 @@ IvarProc.MissionModeIvars(
   "attackHeliFova",
   {
     save=IvarProc.CATEGORY_EXTERNAL,
-    settings={"DEFAULT"},--DYNAMIC
+    settings=this.settingsHeliType.SBH,--DYNAMIC
     OnSelect=function(self)--DEBUGNOW cant Init because its a missionmode ivar
       local attackHeliTypeName=this["attackHeliType"..self.missionMode]:GetSettingName()
       local currentSettings=this.settingsHeliType[attackHeliTypeName]
