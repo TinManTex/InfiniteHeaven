@@ -543,7 +543,7 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
     attackHeliTypeMB="SBH",
-    attackHeliFovaMB=0,--DEBUGNOW "DEFAULT",--tex enum doesnt change when profile changes helitype
+    attackHeliFovaMB="DEFAULT",
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=0,
   },
@@ -601,8 +601,8 @@ local warGameSettings={
     mbWargameFemales=100,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="DDOGS",--tex or soviet?
-    attackHeliTypeMB="SBH",--DEBUGNOW UTH?
-    attackHeliFova="BLACK",
+    attackHeliTypeMB="SBH",--DEBUGNOW UTH?, except attackHeliFova doesnt get inited to UTH till onselect, but could still do RANDOM,RANDOM_EACH
+    attackHeliFovaMB="BLACK",
     revengeModeMB_ALL="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },
