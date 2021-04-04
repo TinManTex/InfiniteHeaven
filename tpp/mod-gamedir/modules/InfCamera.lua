@@ -37,6 +37,7 @@ this.registerIvars={
   "cameraMode",
   "moveScale",
   "disableCamText",
+  --tex ivars in camIvarPrefixes registered below
 }
 
 this.adjustCameraUpdate={
@@ -276,21 +277,21 @@ this.cam_aroundcamMenu={
     "Ivars.cameraMode",
     "InfCamera.ResetCameraToPlayerPos",
     "InfCamera.WarpToCamPos",
-    "Ivars.positionXFreeCam",
+    "Ivars.positionXFreeCam",--DEBUGNOW ADDLANG
     "Ivars.positionYFreeCam",
     "Ivars.positionZFreeCam",
-    "Ivars.moveScale",
-    "Ivars.focalLengthFreeCam",
-    "Ivars.focusDistanceFreeCam",
-    "Ivars.apertureFreeCam",
-    "Ivars.distanceFreeCam",
-    "Ivars.targetInterpTimeFreeCam",
-    "Ivars.rotationLimitMinXFreeCam",
-    "Ivars.rotationLimitMaxXFreeCam",
-    "Ivars.alphaDistanceFreeCam",
-    "Ivars.disableCamText",
+    "Ivars.moveScale",--DEBUGNOW ADDLANG
+    "Ivars.focalLengthFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.focusDistanceFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.apertureFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.distanceFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.targetInterpTimeFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.rotationLimitMinXFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.rotationLimitMaxXFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.alphaDistanceFreeCam",--DEBUGNOW ADDLANG
+    "Ivars.disableCamText",--DEBUGNOW ADDLANG
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
-    "InfCamera.ShowFreeCamPosition",
+    "InfCamera.ShowFreeCamPosition",--DEBUGNOW ADDLANG help
   }
 }--cam_aroundcamMenu
 --< menu defs
