@@ -36,7 +36,7 @@ this.eng={--english
   showMissionCode="Show missionCode",
   startOffline="Start offline",
   debugInMissionMenu="Debug stuff menu",
-  menu_keys="Hold <Switch Zoom> and press <Dash> to open menu",
+  menu_keys="Hold <Switch Zoom> then press <Dash> to open menu",
   done="Done",
   min="min",
   max="max",
@@ -83,6 +83,7 @@ this.eng={--english
   general_help_cmd="See MGS_TPP/mod/docs/ for documentation",
   showStyleEditor="UI Style Editor",
   systemMenuMission="IH system menu",
+  requires_ihhook="Requires IHHook to function",
 }--eng end
 
 this.help={}
