@@ -2430,7 +2430,7 @@ function this.UpdateActiveQuest(updateFlags)
     InfCore.LogFlow("TppMain.UpdateActiveQuest return: not mvars.qst_questList")--tex DEBUGNOW
     return
   end
-  InfCore.LogFlow("TppMain.UpdateActiveQuest")--tex DEBUGNOW
+  InfCore.LogFlow("TppMain.UpdateActiveQuest "..vars.missionCode)--tex DEBUGNOW
   if this.NeedUpdateActiveQuest(updateFlags)then
     InfCore.LogFlow("NeedUpdateActiveQuest")--tex DEBUGNOW
     this.UpdateOpenQuest()
@@ -2438,7 +2438,7 @@ function this.UpdateActiveQuest(updateFlags)
     --tex get enabled sideops categories>
     local selectionMode=Ivars.sideOpsSelectionMode:Get()
     local selectionCategory=Ivars.sideOpsSelectionMode:GetSettingName(selectionMode)
-    local selectionCategoryEnum=this.QUEST_CATEGORIES_ENUM[selectionCategory]
+    local selectionCategoryEnum=this.QUEST_CATEGORIES_ENUM[selectionCategory]--tex GOTCHA: selectionCategoryEnum can be nil (see selectionCategory)
     InfCore.Log("UpdateActiveQuest: selectionMode:"..tostring(selectionMode))--tex DEBUG
     InfCore.Log("UpdateActiveQuest: selectionCategory:"..tostring(selectionCategory))--tex DEBUG
     InfCore.Log("UpdateActiveQuest: selectionCategoryEnum:"..tostring(selectionCategoryEnum))--tex DEBUG
@@ -2450,8 +2450,10 @@ function this.UpdateActiveQuest(updateFlags)
       local categoryEnum=this.QUEST_CATEGORIES_ENUM[categoryName]
       local enabled=false
       local ivar=Ivars[ivarName]
+      --tex the per-category ivars default to 1/enabled
       if ivar then--tex ADDON doesnt have an ivar
         enabled=Ivars[ivarName]:Get()==1
+        InfCore.Log(ivarName.."="..tostring(enabled))
       end
 
       --tex selectionmode overrides individual selection categories filter
@@ -2461,8 +2463,12 @@ function this.UpdateActiveQuest(updateFlags)
 
       enabledCategories[categoryEnum]=enabled
     end
+    if this.debugModule then
+      InfCore.PrintInspect(enabledCategories,"enabledCategories")
+    end
     --<
-
+    
+    local selectedQuestCount=0
     local forcedQuests=InfQuest.GetForced()--tex
     for i,areaQuests in ipairs(mvars.qst_questList)do
       --ORPHAN local RENsomeTable={}
@@ -2510,7 +2516,13 @@ function this.UpdateActiveQuest(updateFlags)
             end --<quest open
           end --<questindex
         end --<for infolist
-
+        InfCore.Log("UpdateActiveQuest selected "..#questList.." quest candidates for area "..areaQuests.areaName)--tex
+        if this.debugModule then--tex>
+          InfCore.PrintInspect(questList,"questList")
+          InfCore.PrintInspect(storyQuests,"storyQuests")
+          InfCore.PrintInspect(nonStoryQuests,"nonStoryQuests")
+          InfCore.PrintInspect(repopQuests,"repopQuests")
+        end--<
         local selectedQuest=nil
         --tex filter quests for area to specific category
         if selectionCategoryEnum~=nil then--tex get past RANDOM
@@ -2567,15 +2579,16 @@ function this.UpdateActiveQuest(updateFlags)
         end
 
         if selectedQuest then
-          if this.debugModule then
-            InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..selectedQuest)--tex DEBUG
-          end
+          InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..selectedQuest)--tex DEBUG
           gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[selectedQuest]]=true
+          selectedQuestCount=selectedQuestCount+1--tex 
         else
-          InfCore.Log("WARNING: UpdateActiveQuest "..vars.missionCode.." did not select a quest for area "..areaQuests.areaName)
+          InfCore.Log("UpdateActiveQuest "..vars.missionCode.." did not select a quest for area "..areaQuests.areaName)--tex
         end
       end--forcedquests switch
     end-- for questlist
+    
+    InfCore.Log(selectedQuestCount.." quests selected")--tex
   --< if NeedUpdateActiveQuest
   elseif TppMission.IsStoryMission(vars.missionCode)then
     for n,questName in ipairs(TppDefine.QUEST_DEFINE)do

@@ -171,33 +171,26 @@ this.manualMissionCode={
 this.manualSequence={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC
+  settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
-    self.settingNames={}
-    --tex also mvars.seq_demoSequneceList (a subset)
-    for sequenceName,enum in pairs(mvars.seq_sequenceNames)do
-      self.settingNames[enum]=sequenceName
-    end
-    --InfCore.PrintInspect(self.settingNames)--DEBUG
-    self.range.max=#self.settingNames-1
+    IvarProc.SetSettings(self,mvars.seq_sequenceNames)--tex GOTCHA, combines string array and Tpp.Enum
   end,
   OnActivate=function(self,setting)
-    local settingStr=self.settingNames[setting+1]
-    --InfCore.DebugPrint(tostring(settingStr))--DEBUG
+    local settingStr=self.settings[setting+1]
     TppSequence.SetNextSequence(settingStr)
   end,
 }
 
 this.loadAddonMission={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={},
+  settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
     for i,missionCode in pairs(InfMission.missionIds)do
       self.settings[#self.settings+1]=tostring(missionCode)
     end
     table.sort(self.settings)
-    IvarProc.SetMaxToList(self,self.settings)
+    IvarProc.SetSettings(self,self.settings)
   end,
   GetSettingText=function(self,setting)
     if #self.settings==0 then
@@ -1012,7 +1005,7 @@ end--GetSoldierWeaponIdTable
 function this.AddOrderBoxInfoToFreeRoam(missionTable)
   InfCore.Log("InfMission.AddOrderBoxInfoToFreeRoam")--
   local currentMissionCode=vars.missionCode
-  local currentLocationCode=var.locationCode
+  local currentLocationCode=vars.locationCode
   local missionStartPosition=missionTable.sequence.missionStartPosition--tex such a strange name for what the table is used for. ASSUMPTION always exists (it should if the sequence script has been cribbed from a vanilla script)
   if not missionStartPosition then
     InfCore.Log("WARNING: InfMission.AddOrderBoxInfoToFreeRoam: missionTable.sequence.missionStartPositio==nil ")

@@ -55,12 +55,12 @@ this.registerIvars={
 }
 
 this.selectListObject={
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
-    local objectName=this.objectNames[setting+1]
-    if objectName==nil then
+    if #self.settings==0 then
       return InfLangProc.LangString"list_empty"
     end
+    local objectName=this.objectNames[setting+1]
 
     local gameObjectId=GameObject.GetGameObjectId(objectName)
     if gameObjectId==GameObject.NULL_ID then
@@ -70,7 +70,7 @@ this.selectListObject={
     return objectName
   end,
   OnSelect=function(self)
-    IvarProc.SetMaxToList(self,this.objectNames)
+    IvarProc.SetSettings(self,this.objectNames)
   end,
 }
 
@@ -163,7 +163,8 @@ function this.AddMarkerObjects()
 end
 
 function this.ClearObjects()
-  this.objectNames={"Player"}
+  InfUtil.ClearTable(this.objectNames)--tex used on ivars settings so dont new a table
+  table.insert(this.objectNames,"Player")--TODO why always having player?
 end
 
 function this.WriteObjects()

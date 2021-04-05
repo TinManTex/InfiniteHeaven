@@ -47,12 +47,9 @@ InfMenuCommands.playCurrentMotionCommand={
 this.motionGroupIndex={
   save=IvarProc.CATEGORY_EXTERNAL,
   inMission=true,
-  range={max=0},--DYNAMIC
-  GetSettingText=function(self,setting)
-    return this.motionGroups[setting+1]
-  end,
+  settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
-    IvarProc.SetMaxToList(self,this.motionGroups)
+    IvarProc.SetSettings(self,this.motionGroups)
   end,
   OnChange=function(self,setting)
     --tex make sure it's in bounds
@@ -64,7 +61,7 @@ this.motionGroupIndex={
 this.motionGaniIndex={
   save=IvarProc.CATEGORY_EXTERNAL,
   inMission=true,
-  range={max=0},--DYNAMIC
+  settings={"NONE"},--DYNAMIC
   GetSettingText=function(self,setting)
     local groupIndex=Ivars.motionGroupIndex:Get()+1
     local motionName=this.motionGroups[groupIndex]
@@ -75,7 +72,7 @@ this.motionGaniIndex={
     local motionName=this.motionGroups[groupIndex]
     local motionsForGroup=this.motions[motionName]
     
-    IvarProc.SetMaxToList(self,motionsForGroup)
+    IvarProc.SetSettings(self,motionsForGroup)
   end,
   OnActivate=this.PlayCurrentMotionCommand,
 }--motionGaniIndex

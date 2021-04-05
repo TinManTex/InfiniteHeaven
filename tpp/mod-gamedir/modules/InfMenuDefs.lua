@@ -95,8 +95,10 @@ this.debugMenu={
     "Ivars.disableOutOfBoundsChecks",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
+    "Ivars.manualSequence",
+    "InfMenuCommands.DEBUG_RandomizeAllIvars",
   }
-}
+}--debugMenu
 
 this.debugInMissionMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
@@ -147,8 +149,10 @@ this.debugInMissionMenu={
     "InfMenuCommands.ShowPosition",
     "InfMenuCommands.CheckPointSave",
   --"InfMenuCommands.DEBUG_ClearAnnounceLog",
+    "Ivars.manualMissionCode",
+    "Ivars.manualSequence",
   }
-}
+}--debugInMissionMenu
 
 this.searchMenu={
   noDoc=true,

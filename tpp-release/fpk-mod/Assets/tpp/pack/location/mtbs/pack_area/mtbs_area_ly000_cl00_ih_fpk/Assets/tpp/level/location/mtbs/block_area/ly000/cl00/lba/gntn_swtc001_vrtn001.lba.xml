@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<lba type="2">
+  <locator name="ly000_cl00_item0000|cl00pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001_ih" dataSet="/Assets/tpp/level/location/mtbs/block_area/ly000/cl00/mtbs_ly000_cl00_item_ih.fox2">
+    <translation x="0" y="0" z="0" w="3.508432E+33" />
+    <rotation x="0" y="-0.923879" z="0" w="-0.382683" />
+  </locator>
+</lba>

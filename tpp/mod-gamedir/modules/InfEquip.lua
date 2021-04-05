@@ -1521,11 +1521,10 @@ IvarProc.MissionModeIvars(
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"DEFAULT"},--DYNAMIC via addon
     OnSelect=function(self)
-      self.settings=InfWeaponIdTable.addonsNames
-      IvarProc.SetMaxToList(self,self.settings)
+      IvarProc.SetSettings(self,InfWeaponIdTable.addonsNames)
     end,
     GetSettingText=function(self,setting)
-      local addonName=InfWeaponIdTable.addonsNames[setting+1]
+      local addonName=self.settings[setting+1]
       return InfWeaponIdTable.addons[addonName].description or addonName
     end,
   },
@@ -1705,10 +1704,12 @@ this.langStrings={
 --tex GOTCHA there's a limit to how much equip can be loaded before it starts crapping out - players weapons not showing/test equip spawn function crash on ~110th item in list (but weirdly on mg but not sniper in same list position).
 --TppEquip.CreateEquipMissionBlockGroup and/or TppEquip.AllocInstances?
 --tex also only items with p4 set to TppEquip.EQP_BLOCK_MISSION in /Tpp/Scripts/Equip/EquipIdTable.lua need to be loaded (mostly weapons, support items are alread loaded in EQP_BLOCK_COMMON).
+--tex see also AddToCurrentLoadTable which is called after this (TppMain.OnAllocate > TppRevenge.DecideRevenge > _AllocateResources vs TppMain.OnAllocate > module.OnAllocate)
 --CALLER: this.OnAllocate
 --OUT/SIDE: this.currentLoadTable
 function this.LoadEquipTable()
-  local equipLoadTable={}
+  InfUtil.ClearTable(this.currentLoadTable)
+  local equipLoadTable=this.currentLoadTable
 
   local equipCount=0
   for n,equipName in ipairs(this.tppEquipTableTest)do
@@ -1759,13 +1760,13 @@ function this.LoadEquipTable()
                 equipLoadTable[equipId]=true
                 equipCount=equipCount+1
               end
-            end
-          end
-        end
-      end
+            end--for requestEquipIds
+          end--if requestEquipIds
+        end--if IsActive
+      end--for ihQuestsInfo
       InfCore.Log("InfEquip.LoadEquipTable - #questEquipCount="..equipCount)--DEBUG
-    end
-  end
+    end--if freemission or mission
+  end--if InfQuest
 
   local loadEquipTable={}
   for equipId,bool in pairs(equipLoadTable)do
@@ -1773,8 +1774,6 @@ function this.LoadEquipTable()
   end
 
   InfCore.Log("InfEquip.LoadEquipTable - #loadEquipTable="..#loadEquipTable)--DEBUG
-
-  this.currentLoadTable=equipLoadTable--tex also acts as init/clear. also see AddToCurrentLoadTable which is called after this (TppMain.OnAllocate > TppRevenge.DecideRevenge > _AllocateResources vs TppMain.OnAllocate > module.OnAllocate)
 
   if #loadEquipTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
     TppEquip.RequestLoadToEquipMissionBlock(loadEquipTable)

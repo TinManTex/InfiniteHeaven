@@ -50,40 +50,37 @@ this.registerIvars={
 }
 
 this.selectListRoute={
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
-    local routeName=this.routeNames[setting+1]
-    if routeName==nil then
+    if self.settings==0 then
       return InfLangProc.LangString"list_empty"
     end
-
+    local routeName=self.settings[setting+1]
     return routeName
   end,
   OnSelect=function(self)
-    IvarProc.SetMaxToList(self,this.routeNames)
+    IvarProc.SetSettings(self,this.routeNames)
   end,
 }
 
 this.setMarkerSneakRoute={
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
-    local routeName=this.routeNames[setting+1]
-    if routeName==nil then
+    if self.settings==0 then
       return InfLangProc.LangString"list_empty"
     end
-
+    local routeName=self.settings[setting+1]
     return routeName
   end,
   OnSelect=function(self)
-    IvarProc.SetMaxToList(self,this.routeNames)
+    IvarProc.SetSettings(self,this.routeNames)
   end,
   OnActivate=function(self,setting)
-    local routeName=this.routeNames[setting+1]
-    if routeName==nil then
+    if self.settings==0 then 
       InfMenu.PrintLangId"list_empty"
       return
     end
-
+    local routeName=self.settings[setting+1]
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
     local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
     if lastMarkerIndex==nil then
@@ -104,7 +101,7 @@ this.setMarkerSneakRoute={
 }
 
 function this.ClearRoutes()
-  this.routeNames={}
+  InfUtil.ClearArray(this.routeNames)
 end
 
 function this.WriteRoutes()

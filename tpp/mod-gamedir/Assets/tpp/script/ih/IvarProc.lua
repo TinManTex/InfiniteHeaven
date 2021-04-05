@@ -195,9 +195,10 @@ function this.SetSetting(self,setting,noSave)
       InfCore.Log("WARNING: SetSetting: no enum settings on "..self.name,true)--DEBUG
       return
     end
+    local settingParam=setting--KLUDGE so it can be logged since its overwritten below
     setting=self.enum[setting]
     if setting==nil then
-      InfCore.Log("WARNING: SetSetting: no setting "..setting.." on "..self.name,true)--DEBUG
+      InfCore.Log("WARNING: SetSetting: no setting "..settingParam.." on "..self.name,true)--DEBUG
       return
     end
   end
@@ -258,6 +259,11 @@ end--GetRange
 function this.SetMaxToList(self,list,indexFrom1)--DEBUGNOW trying to shift to range being optional if settings existst
   if list==nil then
     InfCore.Log("ERROR: IvarProc.SetMaxToList("..self.name.."): list==nil")
+    return
+  end
+  if self.range==nil then
+    InfCore.Log("ERROR: IvarProc.SetMaxToList "..self.name..": self.range==nil")
+    return
   end
 
   local indexShift=1--tex default to index from 0 since the majority of ivars are.
@@ -268,29 +274,39 @@ function this.SetMaxToList(self,list,indexFrom1)--DEBUGNOW trying to shift to ra
   if newMax<0 then
     newMax=0
   end
-
+  
   self.range.max=newMax
   if self:Get()>self.range.max then
     self:Set(self.range.min)
   end
 end
 
-function this.SetSettings(self,list,indexFrom1)--DEBUGNOW trying to shift to range being optional if settings existst
+function this.SetSettings(self,list,indexFrom1)
   self.settings=list
+--DEBUGNOW trying to change to range being optional if settings existst  
+--  local indexShift=1--tex default to index from 0 since the majority of ivars are.
+--  if indexFrom1 then
+--    indexShift=0
+--  end
+--  local newMax=#list-indexShift
+--  if newMax<0 then
+--    newMax=0
+--  end
 
-  local indexShift=1--tex default to index from 0 since the majority of ivars are.
-  if indexFrom1 then
-    indexShift=0
-  end
-  local newMax=#list-indexShift
-  if newMax<0 then
-    newMax=0
-  end
-
-  self.range.max=newMax
-  if self:Get()>self.range.max then
-    self:Set(self.range.min)
-  end
+--  self.range.max=newMax
+--  if self:Get()>self.range.max then
+--    self:Set(self.range.min)
+--  end
+  
+--  if self.settingsCount~=#list then
+--    InfCore.Log("IvarProc.SetSettings settings count changed")
+    if self:Get()>#list then
+      self:Set(0)
+    end
+    self.enum=this.Enum(self.enum,list,indexFrom1)
+    self.settingNames=list--DEBUGNOW rethink
+--    self.settingsCount=#list
+--  end
 end
 
 this.OptionIsDefault=function(self)
@@ -497,6 +513,28 @@ function this.Vector3Ivar(module,name,ivarSettings,dontSetIvars)
     [YName]=Y,
     [ZName]=Z,
   }
+end
+
+--tex yes, yet another Enum function, not Tpp.Enum or TppDefine.Enum
+--this lets you choose the index base, and also the table to add to, 
+--so you can pass in the same table to save performance from it creating a new each time
+function this.Enum(enumTable,enumNames,indexFrom1)
+  enumTable=enumTable or {}
+  if type(enumNames)~="table"then
+    return
+  end
+  local indexShift=1--tex default to index from 0 since the majority of ivars are.
+  if indexFrom1 then
+    indexShift=0
+  end
+
+  for i,enumName in ipairs(enumNames)do
+    enumTable[enumName]=i-indexShift--tex lua tables indexed from 1
+  end
+  --  if indexFrom1 then--DEBUGNOW think this through
+  --    enumTable[0]="OFF"
+  --  end
+  return enumTable
 end
 
 function this.GetVector3(ivar)
@@ -718,6 +756,7 @@ function this.ApplyProfile(profile,noSave)
   InfCore.LogFlow"IvarProc.ApplyProfile"
 
   for ivarName,setting in pairs(profile)do
+    InfCore.Log("ApplyProfile: "..ivarName.." : "..tostring(setting))
     if type(setting)==tableType then
       if type(setting[1])==stringType then
         --tex setting=={"SOMESETTINGNAME",...}
