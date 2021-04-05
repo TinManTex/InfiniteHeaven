@@ -96,8 +96,9 @@ this.debugMenu={
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
+    "InfMenuCommands.DEBUG_RandomizeAllIvars",
   }
-}
+}--debugMenu
 
 this.debugInMissionMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
@@ -151,7 +152,7 @@ this.debugInMissionMenu={
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
   }
-}
+}--debugInMissionMenu
 
 this.searchMenu={
   noDoc=true,
