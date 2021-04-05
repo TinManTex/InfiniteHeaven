@@ -113,11 +113,11 @@ this.positionsXML={}
 this.ShowPosition=function()
   InfCore.Log"ShowPosition"
   --if TppLocation.GetLocationName()=="afgh" or TppLocation.GetLocationName()=="mafr" then--DEBUGNOW
-    local blockNameStr32=Tpp.GetLoadedLargeBlock()
-    local blockName=InfLookup.StrCode32ToString(blockNameStr32) or blockNameStr32 or "nil"
-    InfCore.Log("Current large block:"..blockName,false,true)
-    local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
-    InfCore.Log("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
+  local blockNameStr32=Tpp.GetLoadedLargeBlock()
+  local blockName=InfLookup.StrCode32ToString(blockNameStr32) or blockNameStr32 or "nil"
+  InfCore.Log("Current large block:"..blockName,false,true)
+  local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
+  InfCore.Log("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
   --end
   InfQuest.PrintQuestArea()
 
@@ -277,42 +277,20 @@ this.ForceRegenSeed=function()
   InfMain.RegenSeed(40010)
 end
 
-this.log=""
+
+local skipIvars={
+  debugMode=true,
+  debugMessages=true,
+  debugFlow=true,
+  debugOnUpdate=true,
+  
+  adjustCameraUpdate=true,
+  warpPlayerUpdate=true,
+}--skipIvars
+
+--tex randomize (most)all ivars
 this.DEBUG_RandomizeAllIvars=function()
-  --tex randomize (most)all ivars
-  local skipIvars={
-    debugMode=true,
-
-    abortMenuItemControl=true,
-
-    mbDemoSelection=true,
-
-    warpPlayerUpdate=true,
-    adjustCameraUpdate=true,
-    --non user
-    mbHostileSoldiers=true,
-    mbEnableLethalActions=true,
-    mbNonStaff=true,
-    mbZombies=true,
-    mbEnemyHeli=true,
-    npcUpdate=true,
-    heliUpdate=true,
-
-    --WIP/OFF
-    disableTranslators=true,
-    vehiclePatrolPaintType=true,
-    vehiclePatrolEmblemType=true,
-    mbShowQuietCellSigns=true,
-    manualMissionCode=true,
-    playerHandEquip=true,
-    cpAlertOnVehicleFulton=true,
-    enableGetOutHeli=true,
-    forceSoldierSubType=true,
-    setTakeOffWaitTime=true,
-    disableNoRevengeMissions=true,
-  }
-
-  local log=""
+  InfCore.Log("DEBUG_RandomizeAllIvars")
 
   local ivarNames={}
   local function IsIvar(ivar)--TYPEID
@@ -320,109 +298,50 @@ this.DEBUG_RandomizeAllIvars=function()
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.settings then
-        InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
-      elseif not skipIvars[name] and ivar.save then
+      if (not skipIvars[name]) and ivar.save and ivar.optionType=="OPTION" then--DEBUGNOW ivar.save ?
+        if not string.find(name,"cam_")then
         table.insert(ivarNames,name)
+        end
       end
     end
   end
-
-  --divide and conquor
-  local fraction=math.ceil(#ivarNames/4)
-
-  local start=0
-  local finish=#ivarNames--110
-
-  --      local start=fraction--55
-  --      local finish=fraction*2--110
-  --      local start=80--55
-  --      local finish=110--110
-  --
-  --      local start=80
-  --      local finish=100
-  --
-  --      local start=80
-  --      local finish=90
-  --
-  --      local start=80
-  --      local finish=85
-
-  --      local start=80
-  --      local finish=83
-
-  --        local start=84
-  --        local finish=85
-
-  InfCore.DebugPrint("start: "..start.." finish: "..finish)
-
-  for i,name in ipairs(ivarNames) do
-    if i>finish then
-      break
-    end
-    if i>=start then
-
-      local ivar=Ivars[name]
+  InfCore.PrintInspect(ivarNames,"randomize ivarNames")
+  InfCore.Log("#ivarNames="..#ivarNames)
+  
+  local startPos=1
+  local endPos=#ivarNames
+  for i=startPos,endPos do
+    local name=ivarNames[i]
+    InfCore.Log("RandomizeAllIvars "..i..": "..name)
+    local ivar=Ivars[name]
+    if not ivar.range and not ivar.settings then
+      InfCore.Log("WARNING: DEBUG_RandomizeAllIvars ivar "..tostring(name).. " not ivar.range and not ivar.settings")
+    else
+      local value
       local min,max=IvarProc.GetRange(ivar)
-      ivar:Set(math.random(min,max))
-
-      --if ivar.setting~=ivar.default then
-      log=log..name.."\n"
-
-      --end
+      if max<min then
+        InfCore.Log("WARNING: DEBUG_RandomizeAllIvars ivar "..tostring(name).. " max<min: "..tostring(max).."<"..tostring(min))
+      elseif min==max then
+        InfCore.Log("WARNING: DEBUG_RandomizeAllIvars ivar "..tostring(name).. " max==min: "..tostring(min))
+      else
+        value=math.random(min,max)
+        InfCore.Log("Setting ivar "..name.." to random value: "..tostring(value))
+        ivar:Set(value)
+      end
     end
   end
-  InfCore.DebugPrint(tostring(log))
-end
-
+end--DEBUG_RandomizeAllIvars
+--tex Increment all ivars from default.
+--DEBUGNOW update to parity with above
 this.DEBUG_SetIvarsToNonDefault=function()
-  --tex randomize (most)all ivars
-  local skipIvars={
-    debugMode=true,
-
-    abortMenuItemControl=true,
-
-    mbDemoSelection=true,
-
-    warpPlayerUpdate=true,
-    adjustCameraUpdate=true,
-    --non user
-    mbHostileSoldiers=true,
-    mbEnableLethalActions=true,
-    mbNonStaff=true,
-    mbZombies=true,
-    mbEnemyHeli=true,
-    npcUpdate=true,
-    heliUpdate=true,
-
-    --WIP/OFF
-    disableTranslators=true,
-    vehiclePatrolPaintType=true,
-    vehiclePatrolEmblemType=true,
-    mbShowQuietCellSigns=true,
-    manualMissionCode=true,
-    playerType=true,
-    playerCamoType=true,
-    playerPartsType=true,
-    playerFaceEquipIdApearance=true,
-    playerFaceIdApearance=true,
-    playerHandEquip=true,
-    cpAlertOnVehicleFulton=true,
-    enableGetOutHeli=true,
-    forceSoldierSubType=true,
-    setTakeOffWaitTime=true,
-    disableNoRevengeMissions=true,
-  }
-
+  InfCore.Log("DEBUG_SetIvarsToNonDefault")
   local ivarNames={}
   local function IsIvar(ivar)--TYPEID
     return type(ivar)=="table" and (ivar.range or ivar.settings)
   end
   for name,ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if not ivar.range or not ivar.settings then
-        InfCore.DebugPrint("WARNING: ivar "..name.." hase no range set")
-      elseif not skipIvars[name] and ivar.save then
+      if not skipIvars[name] then
         table.insert(ivarNames,name)
       end
     end
@@ -430,14 +349,16 @@ this.DEBUG_SetIvarsToNonDefault=function()
 
   for i,name in ipairs(ivarNames) do
     local ivar=Ivars[name]
-    local value=ivar.default+ivar.range.increment
-    if value>ivar.range.max then
-      value=ivar.default-ivar.range.increment
+    local increment=ivar.range and ivar.range.increment or 1
+    local value=ivar.default+increment
+    local min,max=IvarProc.GetRange(ivar)
+    if value>max then
+      value=ivar.default-increment
     end
-
+    InfCore.Log("Setting ivar "..name.." to incremented from default value: "..tostring(value))
     ivar:Set(value)
   end
-end
+end--DEBUG_SetIvarsToNonDefault
 
 --SYNC run PrintIvars on main.
 this.DEBUG_SetIvarsToDefault=function()

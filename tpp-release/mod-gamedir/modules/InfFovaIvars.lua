@@ -192,9 +192,7 @@ this.playerPartsType={
       return
     end
 
-    self.settings=playerPartsTypes
-    self.range.max=#playerPartsTypes-1
-    self.enum=TppDefine.Enum(self.settings)
+    IvarProc.SetSettings(self,playerPartsTypes)
     if #self.settings==0 then
       InfCore.DebugPrint("WARNING: #self.settings==0 for playerType")
       return
@@ -235,8 +233,7 @@ this.playerPartsTypeDirect={
 this.playerCamoType={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  --settings=playerCamoTypes,--DYNAMIC
-  range={min=0,max=1000},--DYNAMIC
+  settings={},--playerCamoTypes,--DYNAMIC
   GetSettingText=function(self,setting)
     local camoName=self.settings[setting+1]
     if camoName==nil then
@@ -255,33 +252,24 @@ this.playerCamoType={
     if playerCamoTypes==nil then
       InfCore.Log("WARNING GetCamoTypes == nil")--DEBUG
       return
-    end
-
+    end    
+    
+    IvarProc.SetSettings(self,playerCamoTypes)
     if #playerCamoTypes==0 then
       InfCore.Log("WARNING #playerCamoTypes==0")--DEBUG
-
       ivars[self.name]=0
-
-      self.settings=playerCamoTypes
-      self.enum={}
-      self.range.max=0
       return
     end
 
     --InfCore.PrintInspect(playerCamoTypes,"playerCamoTypes")--DEBUG
-    local enum=TppDefine.Enum(playerCamoTypes)
-    --InfCore.PrintInspect(enum,"enum")--DEBUG
+
     local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
     --InfCore.PrintInspect(camoName,"camoName")--DEBUG
 
-    local camoSetting=enum[camoName]
+    local camoSetting=self.enum[camoName]
     if camoSetting==nil then
       camoSetting=0
     end
-
-    self.settings=playerCamoTypes
-    self.enum=enum
-    self.range.max=#self.settings-1
 
     self:Set(camoSetting)
   end,
@@ -351,7 +339,7 @@ this.playerFaceEquipIdDirect={
 this.playerFaceId={
   inMission=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=1000},--DYNAMIC
+  range={min=0,max=0},--DYNAMIC
   currentGender=0,--STATE
   settingsTable={1},--DYNAMIC
   --noSettingCounter=true,
@@ -386,6 +374,7 @@ this.playerFaceId={
     end,self,setting)--DEBUG
   end,
   OnSelect=function(self)
+    --DEBUGNOW what am I doing here?
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self:SetDirect(0)
       self.settingsTable={0}
@@ -456,6 +445,10 @@ this.playerFaceId={
   end,
   OnChange=function(self,setting)
     local faceDefId=self.settingsTable[setting+1]
+    if faceDefId==nil then
+      InfCore.Log("ivar playerFaceId faceDefId==nil for setting "..tostring(setting))
+      return
+    end
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     vars.playerFaceId=faceDef[1]
   end,

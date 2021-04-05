@@ -17,9 +17,9 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=246
-this.modName="Infinite Heaven" 
-this.hookVersion=10--tex for version check
+this.modVersion=247
+this.modName="Infinite Heaven"
+this.hookVersion=11--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"

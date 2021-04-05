@@ -2453,7 +2453,7 @@ function this.UpdateActiveQuest(updateFlags)
       --tex the per-category ivars default to 1/enabled
       if ivar then--tex ADDON doesnt have an ivar
         enabled=Ivars[ivarName]:Get()==1
-        InfCore.Log("ivarName="..tostring(enabled))
+        InfCore.Log(ivarName.."="..tostring(enabled))
       end
 
       --tex selectionmode overrides individual selection categories filter
