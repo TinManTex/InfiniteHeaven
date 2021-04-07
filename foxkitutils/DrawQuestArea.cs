@@ -29,18 +29,25 @@
         {
             afgh,
             mafr,
+            gntn,
         };
         public Locations location;
 
-
+        //tex GOTCHA based on afgh/mafr
         static int blockStartIndex = 101; //tex from lowest small block / pack_small pack name, small_lod starts at 100 though
         //tex from StageBlockControllerData
         static int blockSizeX = 128;
-        static int blockSizeY = 128;
+        static int blockSizeY = 128;        
+        static int centerIndexX = 133;
+        static int centerIndexY = 133;
 
-        //tex GOTCHA based on afgh/mafr
-        static int mapSize = 8192;
-        static int mapStart = -mapSize / 2; //tex map is centered at 0,0,0
+        static int stageSize = 4096 * 2;//mbdvc_map_location_parameter .stageSize
+        
+        static int mapStart = -stageSize / 2; //tex map is centered at 0,0,0
+
+
+    
+        //gntn
 
         //tex in block index x,y
         struct Bounds
@@ -239,6 +246,20 @@
             },
         };//questAreasMafr
 
+        QuestArea[] questAreasGNTN = new QuestArea[] {
+            new QuestArea {
+                name = "prison",
+                loadExtents = new Bounds {
+                    mins = new Vector2(106, 104),
+                    maxs = new Vector2(110, 107),
+                },
+                activeExtents = new Bounds {
+                    mins = new Vector2(107, 105),
+                    maxs = new Vector2(109, 106),
+                },
+            },
+        };//questAreasGNTN
+
         private void OnDrawGizmos()
         {
             if (DrawAllBlocks) {
@@ -256,18 +277,18 @@
             }
             Handles.color = BlockColor;
 
-            for (int x = mapStart; x <= mapSize / 2; x += blockSizeX) {
+            for (int x = mapStart; x <= stageSize / 2; x += blockSizeX) {
                 var startPos = new Vector3(x, yLevel, mapStart + 0);
-                var endPos = new Vector3(x, yLevel, mapStart + mapSize);
+                var endPos = new Vector3(x, yLevel, mapStart + stageSize);
                 startPos.x = -startPos.x;//fox to unity ala FoxUtils
                 endPos.x = -endPos.x;//fox to unity ala FoxUtils
 
                 Handles.DrawLine(startPos, endPos);
             }
 
-            for (int y = mapStart; y <= mapSize / 2; y += blockSizeX) {
+            for (int y = mapStart; y <= stageSize / 2; y += blockSizeX) {
                 var startPos = new Vector3(mapStart + 0, yLevel, y);
-                var endPos = new Vector3(mapStart + mapSize, yLevel, y);
+                var endPos = new Vector3(mapStart + stageSize, yLevel, y);
                 startPos.x = -startPos.x;//fox to unity ala FoxUtils
                 endPos.x = -endPos.x;//fox to unity ala FoxUtils
 
@@ -283,6 +304,9 @@
                 case Locations.mafr:
                     questAreas = questAreasMafr;
                 break;
+                case Locations.gntn: 
+                    questAreas = questAreasGNTN;
+                    break;
                 default:
                     break;
             }
