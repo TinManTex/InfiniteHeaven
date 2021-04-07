@@ -1,5 +1,5 @@
 = Infinite heaven =
-r247 - 2021-04-5
+r248 - 2021-04-08
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -20,6 +20,11 @@ Recent changes/additions
 ------------------------------
 
 The introduction of IHHook has had plenty of teething troubles, so thanks to all those who have worked wth me to try and nail down the problems.
+
+r248
+IHHook - Support for mgsvtpp JP audio version.
+[youtube]608ad3UA_EM[/youtube]
+https://youtu.be/608ad3UA_EM
 
 r247
 Menu: Go back menu and Reset current to default hotkeys must now be held breifly.
