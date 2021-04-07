@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r248 - 2021-04-08
+Version bump and IHHook ver
+
 r247 - 2021-04-05
 Cam - Player Cam hook menu
 Uses IHHook to adjust the player camera focal length.
