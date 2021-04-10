@@ -1,0 +1,26 @@
+-- TppUiBootInit.luaへ統合
+
+-----------------------------------------------------------------------------
+-- [[
+-- 	TppUI 初期化処理
+-- ]]
+------------------------------------------------------------------------------
+-- Fox.Log("********** Start - TppUiInit.lua ********** ")
+-- 
+------------------
+--- Fade初期化
+-- FadeFunction.InitFadeSetting()
+-- 
+------------------
+-- // UiTexture Prefetch
+-- Fox.Log("Call - TppUiPrefetchTexture")
+-- UiDaemon.SetExecLuaFile("Tpp/Scripts/Ui/TppUiPrefetchTexture.lua")
+-- 
+-- 
+------------------
+-- UiPauseTag
+---- UiDaemon.SetUiPauseTag( "UiDebug", 1 ) -- // Uiデバッグポーズタグ
+---- UiDaemon.SetUiPauseTag( "UiHigh", 2 ) --  // Ui高レベルポーズタグ
+-- 
+-- 
+-- Fox.Log("********** End - TppUiInit.lua ********** ")

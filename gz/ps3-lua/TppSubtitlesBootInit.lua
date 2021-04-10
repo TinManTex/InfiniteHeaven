@@ -1,0 +1,27 @@
+-- TppUiBootInit.luaへ統合
+
+-----------------------------------------------------------------------------
+-- [[
+-- 	Tpp字幕 エディタ起動時の初期化処理
+-- ]]
+------------------------------------------------------------------------------
+-- Fox.Log("********** Start - TppSubtitlesBootInit.lua ********** ")
+-- 
+-- 
+------------------
+-- 字幕用システムの初期化
+-- local subtitlesDaemon = SubtitlesDaemon.GetInstance()
+-- if SubtitlesCommand then
+-- 	SubtitlesCommand:SetSubFilePath( "/Assets/tpp/ui/Subtitles/sub_old/" )
+-- 	SubtitlesCommand:SetSubpFilePath( "/Assets/tpp/ui/Subtitles/subp/" )
+-- 	SubtitlesCommand:SetDefaultGeneratorName( "Default" )
+-- 	SubtitlesCommand:SetSubFpkFilePath( "/Assets/tpp/pack/ui/subtitles" )
+-- 
+-- 	dofile( "/Assets/tpp/ui/Subtitles/script/priorityTable.lua")
+-- 	dofile( "/Assets/tpp/ui/Subtitles/script/chapterNameTable.lua")
+-- 	dofile( "/Assets/tpp/ui/Subtitles/script/sdTextRelationalTableNotEd.lua")
+-- end
+-- Fox.Log("----- Create - SubtitlesDaemon")
+-- 
+-- 
+-- Fox.Log("********** End - TppSubtitlesBootInit.lua ********** ")
