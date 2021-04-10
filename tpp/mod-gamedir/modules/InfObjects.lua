@@ -4,7 +4,9 @@
 local this={}
 
 --STATE
-this.objectNames={}
+this.objectNames={
+  "Player",
+}
 local list=this.objectNames
 
 local fileName="objects_list.txt"
@@ -236,7 +238,7 @@ function this.GetObjectInfoOrPos(index)--DEBUGNOW
 end
 
 function this.PostAllModulesLoad(prevModule)
-  this.ClearObjects()
+  --this.ClearObjects()
 end
 
 return this
