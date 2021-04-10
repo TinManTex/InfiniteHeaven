@@ -119,7 +119,7 @@ this.langStrings={
   },
 }
 
-function this.OnMissionCanStart(currenChecks)
+function this.OnMissionCanStart(currentChecks)
   if Ivars.disableOutOfBoundsChecks:Is(1) then
     --DEBUGNOW
     Ivars.disableOutOfBoundsChecks:OnChange(Ivars.disableOutOfBoundsChecks:Get())--DEBUGNOW
