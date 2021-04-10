@@ -298,7 +298,7 @@ function this.SetSaluteVoiceList()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
-  InfCore.LogFlow("InfSoldier.SetSaluteVoiceList")--tex DEBUG  
+  InfCore.LogFlow("InfSoldier.SetSaluteVoiceList")--tex DEBUG
   --LOCALOPT:
   local TppMotherBaseManagement=TppMotherBaseManagement
   local TppMotherBaseManagementConst=TppMotherBaseManagementConst
@@ -329,12 +329,33 @@ function this.SetSaluteVoiceList()
     "EVN080",--"you there!|hey!",}, -- From nearby: Spotted something suspicious
 
     --"EVN100",--"soft sigh",}, -- From nearby: Nothing spotted --OFF too soft
-    --"EVN110",--"soft huh?!",}, -- Heard a knock, footsteps, or other unusual noise-- OFF too soft
+    "EVN110",--"soft huh?!",}, -- Heard a knock, footsteps, or other unusual noise-- OFF too soft
     "EVN120",--"The hell?!|Wha-?!|What was that?!",},-- Reacting to an explosion or other loud noise
     "EVN130",--"soft Hm? Huh...",}, -- Checking last known position
     --"EVN140",--"He's here!",}, -- Spotting a suspicious person while searching/on guard, and engaging him
     --"EVN150",--"Contact!|Hostile!",}, --The suspicious person spotted has been identified as an enemy (the player) and is engaged.
     "EVN170",--"Hey - look over there.",},--Spotting something suspicious, and attracting a comrade's attention.
+    "EVN180",--"Hey, that guy over there - who is it?",},--Spotted an intruder, getting a comrade to check it out.
+    "EVN190",--"Fine, I'll check it out.",},--Responses to EV170, EV180.
+    "EVN200",--"Fine, I'll check it out.",},--Responses to EV170, EV180.
+    "EVN210",--"There's nothing there..",},--Responses to EV170, EV180.
+    "EVN220",--"You see somebody there?",},--Nearby comrade suddenly checks something out.
+    -- "EVN230",--"Gotta check it. Let's go.",},--Going in a pair to check it out.
+    "EVN240",--"Got it.",},--Responses to EVN230.
+    "EVN250",--"I'll go check it out.",},--Spotter goes to check it out himself.
+    "EVN260",--"Go for it, I'll wait here.",},--Responses to EV250.
+    "EVN270",--"My imagination, it's nothing.",},--
+    --"EVN280",--"I'm relieving you.",},--not working, need condition? Relieving a sentry
+    --"EVN290",--"Heeey, I'm relieving you!",},--not working, need condition? Relieving a sentry (shouted from a distance).
+    "EVN300",--"What's the matter, boy? (talking to dog)",},--Asking a barking dog what's up.
+    "EVN301",--"Calming the dog.",},--
+    "EVN310",--"Shut up, you stupid mutt.",},--Telling a barking dog to shut up.
+    --"EVN320",--"S-Somebody get over here!",},--interrogate: "Call out"
+    --"EVN330",--"Can I get a hand over here? One guy's fine!",},--not working, need condition? interrogation: 'Call one guy',--
+    "EVN331",--"Be right there.",},--Responding to being called.
+    "EVN340",--"Come here a second.",},--Calling comrades (close range)
+    "EVN341",--"Need a hand here!",},--Calling comrades (long range)
+
 
     "EVN311",--"Shoo, shoo! (to animal)",},--chasing away an animal
     "EVN312",--"Get Lost! (to animal angry)",},--
@@ -345,9 +366,17 @@ function this.SetSaluteVoiceList()
     "EVR011",--"(shock,extreme) Huh!",}, --
     "EVR012",--"(shock,little) Ah!",}, --
     --"EVR020",--"Shit! Enemy fire!",}, --Taking gunfire
+    --"EVR050",--"(Surprised at the bullet impact) Ah",}, --not working--Takes fire and looks around to spot the player, but is unable to find him and is tense/shaken.
+    --"EVR061",--"Aaaahh (player gun on enemy)",}, --Player has their gun on the enemy,
+    --"EVR062",--"Huh? Interrogated, no english",},--
+    --"EVR063",--"Wh-what does that mean? (Ru/Af)",},--doesnt work Interrogated, but unable to understand English
 
     "EVR070",--"hahh! (Short outbursts to steel himself.)",}, --Taking gunfirePlayer has their gun on the enemy, threatening him. Bold reactions.
+    "EVR110",--"(see sleeping comrade) You lazy son of a...",--
+    --"EVR130",--"Ew, Ughh etc (bad smell)"},--
+
     "EVR180",--"The hell you doing? (spotted hold-up)",}, --Spotting a comrade in hold-up status
+    "EVR190",--"Fucking kidding me!"},--Enemy responses when CP rejects their requests for reinforcement.
     "EVR220",--"(chuckles)",},--spotted Snake while he's wearing the chicken hat
     "EVR230",--"(chuckles)",},--spotted Snake while he's wearing the chicken hat
 
@@ -360,12 +389,33 @@ function this.SetSaluteVoiceList()
     --"EVB040",--"Mammoth psych-up shouts.",},--doesnt seem to trigger, needs condition?
 
     --Enemy Voices Comrades (Battle,Teamwork)
+    "EVC200",--"Watch out!",},--Warning calls.
     --"EVC250",--"Go! (to comrades)",},
     "EVC260",--"Go go go! (to comrades)",},
+    "EVC320",--"Check your ammo! (to comrades)",},
     "EVC330",--"I'm OK (to comrades)",},
     "EVC340",--"You OK? (to comrades)",},
-
+    "EVC400",--"(In battle, tense) Copy!",},
     --Enemy Voices E? Post-combat voices - Caution
+    "EVE030",--"Roger that!",},--Checking last known point of contact (response)
+    "EVE040",--" Hold it.",},--Clearing. Halt orders.
+    "EVE050",--"Clear.",},--Clearing. Announcing clear
+    "EVE110",--"Find 'em?!"},--
+    "EVE120",--"Not here."},-- post-combat_caution dialog answer to 110
+    "EVE130",--"I'll look over here."},
+    --"EVE140",--"You try over that way."},--
+    --"EVE150",--"Search complete! Search complete!"},--
+    --"EVE160",--"Returning to post. Stay on the lookout."},--
+    "EVE170",--"All clear, all clear!"},
+    "EVE180",--"Get back to your post."},
+
+    --Enemy soldier lines: EVSP
+    "EVSP100",--"Spill it!",}, --interrogation spill it
+    --"EVSP110",--"Don't lie to me!",}, --110 looks like its listed twice but its combined?
+    --"EVSP110",--"State your mission!",}, --
+    --"EVSP120",--"Do you WANT to die",}, --
+    "EVSP130",--"Found it!",}, --found something they were looking for
+
 
     --Enemy Voices Fight?
     "EVF010",--"Boss!",},--default saluting boss. --TODO: in theory could filter this if playerType isnt snake/avatar (though some of the other lines that dont meet conditions seem to default to this line)
@@ -462,7 +512,7 @@ function this.SetSaluteVoiceList()
   if TppMotherBaseManagement.GetDevelopableEquipCount()>8 then
     table.insert(lowList,"salute0160")--'we're ready to develop new equipment'
   end
-  if(TppMotherBaseManagement.GetResourceUsableCount{resource="CommonMetal"}<500 
+  if(TppMotherBaseManagement.GetResourceUsableCount{resource="CommonMetal"}<500
     or TppMotherBaseManagement.GetResourceUsableCount{resource="FuelResource"}<200)
     or TppMotherBaseManagement.GetResourceUsableCount{resource="BioticResource"}<200 then
     table.insert(lowList,"salute0170")--'do you think you can bring in more materials?'
@@ -508,11 +558,11 @@ function this.SetSaluteVoiceList()
   end
   if storySequence==TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then--tex the emotion in salute0360 means it sounds out of place further from the even having occured, so keep it here
     table.insert(midList,"salute0350")--'boss, now our guys can rest in peace. thank you for what you did with the diamonds
-    table.insert(midList,"salute0360")--'thank you for stopping the infection boss', with more emotion 
+    table.insert(midList,"salute0360")--'thank you for stopping the infection boss', with more emotion
   end
   if storySequence>TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then--tex but in contrast to the above salute0350 sounds ok, but drop it to lowlist
     table.insert(lowList,"salute0350")--'boss, now our guys can rest in peace. thank you for what you did with the diamonds
-  end 
+  end
   if storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
     table.insert(lowList,"salute0370")--'boss, whoever you are, youre still my CO'
   end
@@ -527,7 +577,7 @@ function this.SetSaluteVoiceList()
   end
 
   --tex just assume player be expanding from arriving at mb onward
-  if TppStory.IsMissionCleard(10030) then--Episode 2 - DIAMOND DOGS 
+  if TppStory.IsMissionCleard(10030) then--Episode 2 - DIAMOND DOGS
     table.insert(lowList,"salute0130")--"thanks for upgrading the base|for expanding",},--no ref,
   end
 
