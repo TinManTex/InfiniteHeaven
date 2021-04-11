@@ -121,8 +121,8 @@ See ReadMe or Features and Options for more info.
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
   showStyleEditor="Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.",
   systemMenuMission="See IH system menu while in ACC for full options.",
-  DEBUG_RandomizeAllIvars="WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
-  DEBUG_SetIvarsToNonDefault="WARNING: Sets all settings across all of IH to a non default value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
+  dEBUG_RandomizeAllIvars="WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
+  dEBUG_SetIvarsToNonDefault="WARNING: Sets all settings across all of IH to a non default value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
 }--help.eng
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on
