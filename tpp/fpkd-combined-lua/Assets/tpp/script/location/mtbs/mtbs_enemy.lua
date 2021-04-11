@@ -764,6 +764,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
   end
 
   local staffIdList = mtbs_enemy.GetSecurityStaffIdList( clusterId )
+  InfCore.PrintInspect(staffIdList,"SetupSortieSoldiers staffIdList")--tex DEBUGNOW
   if not staffIdList then
     return 0
   end
