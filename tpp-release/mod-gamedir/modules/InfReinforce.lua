@@ -69,7 +69,7 @@ this.langStrings={
     forceSuperReinforce="Vehicle reinforcements",
     forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
     forceReinforceRequest="Force reinforce request for heli",
-    enableHeliReinforce="Force enable enemy heli reinforce (disable heli sideops)",
+    enableHeliReinforce="Force enable enemy heli reinforce (disables heli sideops)",
     disableReinforceHeliPullOut="Disable reinforce heli pull-out",
     enableSoldiersWithVehicleReinforce="Soldier reinforce with all vehicle reinforce types",
   },
@@ -77,7 +77,7 @@ this.langStrings={
     eng={
       forceSuperReinforce="In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more. Only heli will appear in free roam, vehicles depend on mission.",
       enableSoldiersWithVehicleReinforce="Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.",
-
+      enableHeliReinforce="Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.",
     },
   }
 }

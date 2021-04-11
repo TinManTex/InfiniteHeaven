@@ -188,12 +188,12 @@ function this.PostAllModulesLoad()
       IHH.UpdateCamHook(camMode,focalLength)
     end
   end
-
-  if Ivars.camhook_enable:Get()~=0 then
-    InfCore.Log("InfCamHook Enabling CamHook")
-    hookEnabled=true
-    IHH.SetCamHook(1)
-  end
+--DEBUGNOW
+--  if Ivars.camhook_enable:Get()~=0 then
+--    InfCore.Log("InfCamHook Enabling CamHook")
+--    hookEnabled=true
+--    IHH.SetCamHook(1)
+--  end
 end--PostAllModulesLoad
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
@@ -201,7 +201,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if currentChecks.inDemo or currentChecks.inHeliSpace or currentChecks.usingAltCamera then
+  if currentChecks.pastTitle==false or currentChecks.inDemo or currentChecks.inSafeSpace or currentChecks.usingAltCamera then
     if hookEnabled and ivars.camhook_enable==1 then
       hookEnabled=false
       IHH.SetCamHook(0)

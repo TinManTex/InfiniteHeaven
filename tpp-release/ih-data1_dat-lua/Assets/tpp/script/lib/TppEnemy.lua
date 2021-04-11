@@ -1833,10 +1833,16 @@ function this.SetOccasionalChatList()
   local typeSoldier={type="TppSoldier2"}
   GameObject.SendCommand(typeSoldier,{id="SetConversationList",list=conversationList})
 end
-function this.SetSaluteVoiceList()
+function this.SetSaluteVoiceList()  
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
+  
+  if Ivars.mbIncreaseStaffSaluteReactions:Is(1) then--tex>
+    InfMBVisit.SetSaluteVoiceList()
+    return
+  end--<
+  
   local highList={}
   local highOnceList={}
   local midList={}

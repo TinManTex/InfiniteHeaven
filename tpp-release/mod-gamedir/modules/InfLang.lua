@@ -117,12 +117,12 @@ See ReadMe or Features and Options for more info.
   saveToProfile=[[Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.]],
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
   menu_enableHelp="Shows help text for some options.",
-  menu_disableToggleMenuHold="Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.",
+  menu_disableToggleMenuHold="Disables the legacy hold <EVADE> to open menu, the two button menu combo <ZOOM_CHANGE> + <DASH> will still work.",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
   showStyleEditor="Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.",
   systemMenuMission="See IH system menu while in ACC for full options.",
-  DEBUG_RandomizeAllIvars="WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
-  DEBUG_SetIvarsToNonDefault="WARNING: Sets all settings across all of IH to a non default value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
+  dEBUG_RandomizeAllIvars="WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
+  dEBUG_SetIvarsToNonDefault="WARNING: Sets all settings across all of IH to a non default value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
 }--help.eng
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

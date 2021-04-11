@@ -402,6 +402,56 @@ function this.OnEnterACC()
     end
   end
 end
+
+
+local function IsSysMission(missionCode)
+  local isSysMission=false
+  for missionId,sysMissionCode in pairs(TppDefine.SYS_MISSION_ID)do
+    if missionCode==sysMissionCode then
+      isSysMission=true
+    end
+  end
+
+  return isSysMission
+end
+--CALLER: title_sequence OnSelectContinue
+function this.ShouldAbortToACC(locationCode,missionCode)
+  local shouldAbort=InfMain.abortToAcc or (ih_save and ih_save.loadToACC)
+  if not shouldAbort then
+    --tex valid location?
+    if InfMission then
+      local vanillaLocations={
+        [1]=true,
+        [10]=true,
+        [20]=true,
+        [30]=true,
+        [50]=true,
+        [55]=true,
+        [60]=true,
+      }
+      if not vanillaLocations[locationCode] and InfMission.locationInfo[locationCode]==nil then
+        InfCore.Log("WARNING: ShouldAbortToACC: locationCode not recognised as vanilla or addon")
+        shouldAbort=true
+      end
+    end--if InfMission 
+    --tex valis mission?
+    if InfMission then
+      --tex if not in vanilla mission list and not an addon mission then wtf
+      if TppDefine.MISSION_ENUM[tostring(missionCode)]==nil and not IsSysMission(missionCode) then
+        if InfMission.missionInfo[missionCode]==nil then
+          InfCore.Log("WARNING: ShouldAbortToACC: missionCode not recognised as vanilla or addon")
+          shouldAbort=true
+        end
+      end
+    end--if InfMission
+  end--if not shouldAbort
+  if shouldAbort then
+    InfCore.Log("InfMain.ShouldAbortToACC location:"..tostring(locationCode).." mission:"..tostring(missionCode)..": "..tostring(shouldAbort))
+    InfCore.DebugPrint("IH: Aborting to ACC")
+  end
+  return shouldAbort
+end
+
 --tex on holding esc at title
 function this.ClearOnAbortToACC()
   igvars.inf_event=false
@@ -412,6 +462,7 @@ this.execChecks={
   inSafeSpace=false,--aka heliSpace in tpp
   inMission=false,
   inDemo=false,
+  pastTitle=false,
   missionCanStart=false,
   initialAction=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
   inGroundVehicle=false,
@@ -425,12 +476,19 @@ this.execChecks={
 
 this.abortToAcc=false--tex
 
+--DEBUGNOW
+function this.IsPastTitle(missionCode)
+  return missionCode>5 and missionCode<65535
+end
+
 --IN/OUT SIDE: currentchecks
 function this.UpdateExecChecks(currentChecks)
+  local missionCode=vars.missionCode
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
-  currentChecks.inSafeSpace=vars.missionCode and this.IsSafeSpace(vars.missionCode)
+  currentChecks.inSafeSpace=missionCode and this.IsSafeSpace(missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inSafeSpace
   currentChecks.inDemo=not currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())--DEBUGNOW inDemo is mis_missionStateIsNotInGame?
+  currentChecks.pastTitle=missionCode>5 and missionCode~=65535
   currentChecks.missionCanStart=this.missionCanStart
   currentChecks.initialAction=false
   currentChecks.inGroundVehicle=false
@@ -545,10 +603,10 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     end
   end
 
---  if not IsFunc(ExecUpdateFunc) then
---    InfCore.DebugPrint"ExecUpdateFunc is not a function"
---    return
---  end
+  --  if not IsFunc(ExecUpdateFunc) then
+  --    InfCore.DebugPrint"ExecUpdateFunc is not a function"
+  --    return
+  --  end
 
   InfCore.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
 
@@ -1120,13 +1178,13 @@ function this.WeaponVarsSanityCheck()
 end
 
 function this.IsOnlineMission(missionCode)
---tex TODO: revisit if ever return to SSD
---  if InfCore.gameId=="TPP" then
---    return this.IsFOBMission(missionCode)
---  else--SSD
---    return this.IsMultiPlayMission(missionCode)
---  end
---tex just do isfobmission for tpp
+  --tex TODO: revisit if ever return to SSD
+  --  if InfCore.gameId=="TPP" then
+  --    return this.IsFOBMission(missionCode)
+  --  else--SSD
+  --    return this.IsMultiPlayMission(missionCode)
+  --  end
+  --tex just do isfobmission for tpp
   local firstDigit=floor(missionCode/1e4)--DEBUGNOW *0.0001)
   if firstDigit==5 then
     return true

@@ -1,5 +1,21 @@
 Infinite Heaven changelog
 
+r249 - 2021-04-12
+mbIncreaseStaffSaluteReactions - "Add more salute reactions" - "Adds additional reactions from MB staff when 
+via ACC > Mother Base menu > Staff menu 
+Thanks caplag for lending your notes and your discussion.
+[youtube]svLN4LFAh8w[/youtube]
+https://youtu.be/svLN4LFAh8w
+
+Auto Abort-to-ACC when vars.locationCode or vars.missionCode not a valid vanilla or addon code - could be caused by uninstalling an addon mission while save was in mission.
+Fix: Reset setting and go back menu hotkeys repeat spamming due to being OnHeld instead of OnHoldTime.
+
+debugStuffMenu (via debugInMissionMenu)
+	selectSpeechSoldier
+	selectSpeechSoldier2
+	debug_CallVoice
+	debug_CallConversation
+
 r248 - 2021-04-08
 Version bump and IHHook ver
 
