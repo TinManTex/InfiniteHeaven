@@ -12,9 +12,8 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"NONE"},--DYNAMIC via addon
-    OnSelect=function(self)
-      self.settings=InfBodyInfo.bodies.MALE
-      IvarProc.SetMaxToList(self,self.settings)
+    Init=function(self)
+      IvarProc.SetSettings(self,InfBodyInfo.bodies.MALE)
     end,
     GetSettingText=function(self,setting)
       local bodyType=self.settings[setting+1]
@@ -34,9 +33,8 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"NONE"},--DYNAMIC via addon
-    OnSelect=function(self)
-      self.settings=InfBodyInfo.bodies.FEMALE
-      IvarProc.SetMaxToList(self,self.settings)
+    Init=function(self)
+      IvarProc.SetSettings(self,InfBodyInfo.bodies.FEMALE)
     end,
     GetSettingText=function(self,setting)
       local bodyType=self.settings[setting+1]

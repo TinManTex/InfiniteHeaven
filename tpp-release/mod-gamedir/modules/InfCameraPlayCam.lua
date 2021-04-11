@@ -1,4 +1,9 @@
 -- InfCameraPlayCam.lua
+-- Implements Player.RequestToPlayCameraNonAnimation
+-- DEBUGNOW TODO: an enable/disable ivar that runs with a nil (or can it be 0) cam_timeToSleep
+-- A started timer on this.PlayCameraNonAnimation that disables the ivar when timed out
+-- InfMain.RegisterCameraIvar(ivar)
+
 local this={}
 
 this.registerIvars={
@@ -166,13 +171,13 @@ IvarProc.Vector3Ivar(this,"cam_offsetPos",{
 
 this.cam_selectListObject={
   inMission=true,
-  range={max=0},--DYNAMIC
+  settings={"NONE"},
   GetSettingText=function(self,setting)
-    local objectName=InfObjects.objectNames[setting+1]
-    if objectName==nil then
+    if #self.settings==0 then
       return InfLangProc.LangString"list_empty"
     end
-
+    
+    local objectName=InfObjects.objectNames[setting+1]
     local gameObjectId=GameObject.GetGameObjectId(objectName)
     if gameObjectId==GameObject.NULL_ID then
       return objectName.."==NULL_ID"
@@ -180,8 +185,8 @@ this.cam_selectListObject={
 
     return objectName
   end,
-  OnSelect=function(self)
-    IvarProc.SetMaxToList(self,InfObjects.objectNames)
+  Init=function(self)
+    IvarProc.SetSettings(self,InfObjects.objectNames)
   end,
   OnChange=this.OnChangeCamVars,
 }
@@ -191,7 +196,7 @@ this.registerMenus={
 }
 
 this.playCamMenu={
-  parentRefs={"InfCamera.cameraMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "InfCameraPlayCam.PlayCameraNonAnimation",
     "InfCameraPlayCam.StopPlayCamera",
@@ -222,7 +227,7 @@ this.playCamMenu={
 
 this.langStrings={
   eng={
-    playCamMenu="PlayCam menu",
+    playCamMenu="Cam - PlayCam menu",
     playCameraNonAnimation="Start PlayCam",
     stopPlayCamera="Stop PlayCam",
     cam_selectListObject="Camera target",

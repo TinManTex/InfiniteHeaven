@@ -117,7 +117,7 @@ See ReadMe or Features and Options for more info.
   saveToProfile=[[Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.]],
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
   menu_enableHelp="Shows help text for some options.",
-  menu_disableToggleMenuHold="Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.",
+  menu_disableToggleMenuHold="Disables the legacy hold <EVADE> to open menu, the two button menu combo <ZOOM_CHANGE> + <DASH> will still work.",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
   showStyleEditor="Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.",
   systemMenuMission="See IH system menu while in ACC for full options.",

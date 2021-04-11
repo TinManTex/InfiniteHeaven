@@ -86,7 +86,7 @@ this.langStrings={
     mbNpc_DDS_RESEARCHER="Male researcher",
     mbNpc_DDS_RESEARCHER_FEMALE="Female researcher",
     mbNpc_DDS_GROUNDCREW="Male groundcrew",
-    mbNpc_CHILD_0="Chilren",
+    mbNpc_CHILD_0="Children",
     mbNpc_KAZ="Kaz Miller",
   },
   help={

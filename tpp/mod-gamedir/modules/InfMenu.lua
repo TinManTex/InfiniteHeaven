@@ -928,10 +928,10 @@ function this.DoControlSet()
     --this.DisplayCurrentSetting()
   end
 
-  if not this.quickMenuOn and InfButton.ButtonHeld(this.resetSettingButton)then
+  if not this.quickMenuOn and InfButton.OnButtonHoldTime(this.resetSettingButton)then
     this.ResetSetting()
   end
-  if not this.quickMenuOn and InfButton.ButtonHeld(this.menuBackButton) then
+  if not this.quickMenuOn and InfButton.OnButtonHoldTime(this.menuBackButton) then
     this.GoBackCurrent()
   end
 

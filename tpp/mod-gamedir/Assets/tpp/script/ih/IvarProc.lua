@@ -283,21 +283,7 @@ end
 
 function this.SetSettings(self,list,indexFrom1)
   self.settings=list
---DEBUGNOW trying to change to range being optional if settings existst  
---  local indexShift=1--tex default to index from 0 since the majority of ivars are.
---  if indexFrom1 then
---    indexShift=0
---  end
---  local newMax=#list-indexShift
---  if newMax<0 then
---    newMax=0
---  end
 
---  self.range.max=newMax
---  if self:Get()>self.range.max then
---    self:Set(self.range.min)
---  end
-  
 --  if self.settingsCount~=#list then
 --    InfCore.Log("IvarProc.SetSettings settings count changed")
     if self:Get()>#list then
@@ -513,8 +499,7 @@ function this.Vector3Ivar(module,name,ivarSettings,dontSetIvars)
     [YName]=Y,
     [ZName]=Z,
   }
-end
-
+end--Vector3Ivar
 --tex yes, yet another Enum function, not Tpp.Enum or TppDefine.Enum
 --this lets you choose the index base, and also the table to add to, 
 --so you can pass in the same table to save performance from it creating a new each time
@@ -535,8 +520,7 @@ function this.Enum(enumTable,enumNames,indexFrom1)
   --    enumTable[0]="OFF"
   --  end
   return enumTable
-end
-
+end--Enum
 function this.GetVector3(ivar)
   if ivar.vec3Ivars==nil then
     InfCore.Log("ERROR: IvarProc.GetVector3: "..ivar.name..".vec3Ivars==nil")

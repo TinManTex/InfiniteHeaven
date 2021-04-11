@@ -136,7 +136,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if InfMenu.menuOn or InfMenu.quickMenuOn or Ivars.cameraMode:Is()>0 then
+  if InfMenu.menuOn or InfMenu.quickMenuOn or currentChecks.usingAltCamera then
     return
   end
 

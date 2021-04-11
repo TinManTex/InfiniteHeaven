@@ -54,17 +54,17 @@ this.registerIvars={
 
 this.selectListPosition={
   inMission=true,
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
-    local position=this.positions[setting+1]
-    if position==nil then
+    if #self.settings==0 then
       return InfLangProc.LangString"list_empty"
     end
+    local position=self.settings[setting+1]
 
     return string.format("x=%.3f,y=%.3f,z=%.3f",position[1],position[2],position[3])
   end,
   OnSelect=function(self)
-    IvarProc.SetMaxToList(self,this.positions)
+    IvarProc.SetSettings(self,this.positions)
   end,
 }
 

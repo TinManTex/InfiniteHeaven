@@ -1,5 +1,5 @@
 = Infinite heaven =
-r245 - 2021-04-1
+r248 - 2021-04-08
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -19,7 +19,54 @@ YouTube playlist of demonstrations for many features:
 Recent changes/additions
 ------------------------------
 
-The introduction of IHHook has had plenty of teething troubles, so thanks to all those who haveworked wth me to try and nail down the problems.
+The introduction of IHHook has had plenty of teething troubles, so thanks to all those who have worked wth me to try and nail down the problems.
+
+r248
+IHHook - Support for mgsvtpp JP audio version.
+[youtube]608ad3UA_EM[/youtube]
+https://youtu.be/608ad3UA_EM
+
+r247
+Menu: Go back menu and Reset current to default hotkeys must now be held breifly.
+
+Cam - Player Cam hook menu
+Uses IHHook to adjust the player camera focal length.
+Same method as the 'FOV Modifier' (on nexus)
+https://github.com/mon/MGSV-TPP-FoV
+This IH feature now superscedes that mod, so if IHHook is working (currently requires 1.0.15.3 eng exe) you should remove that mods d3d11.dll
+
+camhook_enable -Enable Player Cam hook,
+Only updates after changing cam mode.
+	Focal lengths between modes not equivalent (some other factor being applied)
+	Lower focal length = wider FOV,
+	Higher focal length = lower FOV
+camhook_focalLength_NORMAL="FocalLength Normal",
+camhook_focalLength_AIMING="FocalLength Aiming",
+camhook_focalLength_HIDING="FocalLength Hiding",
+camhook_focalLength_CQC="FocalLength CQC",
+camhook_ApplyFOV - "Apply FOV" - "Applies FOV(degrees) proportionally to the different cam mode focal lengths."
+[youtube]QRhBMK1S5YA[/youtube]
+https://youtu.be/QRhBMK1S5YA
+
+Camera menu (FreeCam)
+Renamed "Cam - AroundCam menu"
+Added the other AroundCam settings that could only be changed via the button shortcuts while cam was active.
+Added some more of the AroundCam settings
+targetInterpTime
+rotationLimitMinX
+rotationLimitMaxX
+alphaDistance
+All aroundcam settings now save.
+
+PlayCam menu 
+Renamed "Cam - PlayCam menu"
+moved to root menu.
+
+Fix: fix GenerateEvent event not being reapplied on new session when using forceEvent/Trigger IH Event
+Fix: MB wargames events not applying soldier body type (would stay as whatever dd suit setting you had) - thanks KLOC for the report and troubleshooting files to test.
+
+r246
+Fix: Hang on mission load - just a dumb typo I forgot to error check. 
 
 r245
 Fix: Location addon that adds new questarea while not having any sideops installed set in the area would cause the sideops system to break - thanks Delta 6, Yooungi, caplag for the reports

@@ -1,5 +1,54 @@
 Infinite Heaven changelog
 
+r248 - 2021-04-08
+Version bump and IHHook ver
+
+r247 - 2021-04-05
+Cam - Player Cam hook menu
+Uses IHHook to adjust the player camera focal length.
+Same method as the 'FOV Modifier' (on nexus)
+https://github.com/mon/MGSV-TPP-FoV
+This IH feature now superscedes that mod, so if IHHook is working (currently requires 1.0.15.3 eng exe) you should remove that mods d3d11.dll
+
+camhook_enable -Enable Player Cam hook,
+Only updates after changing cam mode.
+	Focal lengths between modes not equivalent (some other factor being applied)
+	Lower focal length = wider FOV,
+	Higher focal length = lower FOV
+camhook_focalLength_NORMAL="FocalLength Normal",
+camhook_focalLength_AIMING="FocalLength Aiming",
+camhook_focalLength_HIDING="FocalLength Hiding",
+camhook_focalLength_CQC="FocalLength CQC",
+camhook_ApplyFOV - "Apply FOV" - "Applies FOV(degrees) proportionally to the different cam mode focal lengths."
+[youtube]QRhBMK1S5YA[/youtube]
+https://youtu.be/QRhBMK1S5YA
+
+Camera menu (FreeCam)
+Renamed "Cam - AroundCam menu"
+Added the other AroundCam settings that could only be changed via the button shortcuts while cam was active.
+Added some more of the AroundCam settings
+targetInterpTime
+rotationLimitMinX
+rotationLimitMaxX
+alphaDistance
+All aroundcam settings now save.
+
+PlayCam menu 
+Renamed "Cam - PlayCam menu"
+moved to root menu.
+
+Debug Menu: Added manualsequence from devinacc menu.
+
+InfMenu: Break out DisplayCurrentMenu so Ivar commands that change ivars in their menu can refresh it.
+
+Ivars refactor: completed more of the shift of using .settings directly instead of .range to guard the bounds. 
+As well as IvarProc.SetSettings to rebuild the .enum, 
+and ivar. Init called on all ivars during postallmodulesload to set those ivars that use tables in other modules as settings.
+
+Fix: fix GenerateEvent event not being reapplied on new session when using forceEvent/Trigger IH Event
+Fix: MB wargames events not applying soldier body type (would stay as whatever dd suit setting you had) - thanks KLOC for the report and troubleshooting files to test.
+
+
 r246 - 2021-04-01
 Fix: Hang on mission load - just a dumb typo I forgot to error check. 
 

@@ -238,6 +238,7 @@ this.mbStaffMenu={
     "InfMBStaff.ClearPriorityStaff",
     "Ivars.mbPrioritizeFemale",
     "Ivars.mbMoraleBoosts",
+    "Ivars.mbIncreaseStaffConversation",
   }
 }
 
@@ -249,6 +250,7 @@ this.mbStaffInMissionMenu={
     "InfMBStaff.AddMarkerStaff",
     "InfMBStaff.RemoveMarkerStaff",
     "InfMBStaff.ClearPriorityStaff",
+    --"Ivars.mbIncreaseStaffConversation",--tex TODO if in mission then apply IfMBVisit.SetSaluteVoiceList, only if convos can be added in-mission too, and any are worth adding
   }
 }
 --<
@@ -269,6 +271,7 @@ this.langStrings={
     staff_clear="Priority staff cleared",
     only_on_mb="This command can only be used on MB",
     soldier_not_marked="No marked soldier found",
+    mbIncreaseStaffConversation="Add more salute reactions",
   },
   help={
     eng={
@@ -277,6 +280,7 @@ this.langStrings={
       addMarkerStaff="Adds the most recently marked staff member to the MB priority list",
       removeMarkerStaff="Removes the most recently marked staff member from the MB priority list",
       clearPriorityStaff="Clears MB staff priority list entirely",
+      mbIncreaseStaffConversation="Adds additional reactions from MB staff when they salute you.",
     },
   },
 }

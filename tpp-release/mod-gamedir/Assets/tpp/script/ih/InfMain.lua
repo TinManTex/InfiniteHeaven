@@ -52,6 +52,8 @@ this.isContinueFromTitle=false
 
 this.appliedProfiles=false
 
+this.usingAltCamera=false--tex IH camera modules flip this on enabled, then it's pulled into checkexec
+
 --CALLER: TppVarInit.StartTitle, game save actually first loaded
 --not super accurate execution timing wise
 function this.OnStartTitle()
@@ -418,6 +420,7 @@ this.execChecks={
   inBox=false,
   inMenu=false,
   inIdroid=false,
+  usingAltCamera=false,
 }
 
 this.abortToAcc=false--tex
@@ -436,6 +439,7 @@ function this.UpdateExecChecks(currentChecks)
   currentChecks.inBox=false
   currentChecks.inMenu=false
   currentChecks.inIdroid=IsMbDvcTerminalOpened()
+  currentChecks.usingAltCamera=this.usingAltCamera
 
   if currentChecks.inGame then
     local playerVehicleId=vars.playerVehicleGameObjectId

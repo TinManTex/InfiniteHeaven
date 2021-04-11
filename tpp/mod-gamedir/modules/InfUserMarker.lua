@@ -269,9 +269,10 @@ end
 --end
 
 function this.GetMarkerPosition(index)
-  if vars.userMarkerSaveCount==nil then
-    index=0
-  elseif vars.userMarkerSaveCount==0 then
+  if vars.userMarkerSaveCount==0 then
+    return
+  end
+  if index>=vars.userMarkerSaveCount then
     return
   end
 
@@ -292,7 +293,7 @@ function this.GetMarkerPosition(index)
   elseif InfCore.gameId=="SSD" then
     local locationSuffix=""
 
-    local locationName=TppLocation.GetLocationName()--TODO: update InfUtil.GetLocationName()
+    local locationName=TppLocation.GetLocationName()
     if locationName=="mafr" then
       locationSuffix="_mafr"
     end
