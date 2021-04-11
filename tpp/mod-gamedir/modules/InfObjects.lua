@@ -57,7 +57,7 @@ this.registerIvars={
 }
 
 this.selectListObject={
-  settings={},--DYNAMIC
+  settings=this.objectNames,--DYNAMIC
   GetSettingText=function(self,setting)
     if #self.settings==0 then
       return InfLangProc.LangString"list_empty"
@@ -77,7 +77,7 @@ this.selectListObject={
 }
 
 this.addObjectLookupList={
-  range={max=0},--DYNAMIC
+  settings={},--DYNAMIC
   GetSettingText=function(self,setting)
     local listName=InfLookup.objectNameListsEnum[setting+1]
     if listName==nil then
@@ -86,8 +86,11 @@ this.addObjectLookupList={
 
     return listName
   end,
+  Init=function(self)
+    IvarProc.SetSettings(self,InfLookup.objectNameListsEnum)
+  end,
   OnSelect=function(self)
-    IvarProc.SetMaxToList(self,InfLookup.objectNameListsEnum)
+    IvarProc.SetSettings(self,InfLookup.objectNameListsEnum)
   end,
   OnActivate=function(self,setting)
     local listName=InfLookup.objectNameListsEnum[setting+1]
