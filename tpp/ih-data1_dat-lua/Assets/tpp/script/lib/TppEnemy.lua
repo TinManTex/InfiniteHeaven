@@ -1838,7 +1838,7 @@ function this.SetSaluteVoiceList()
     return
   end
   
-  if Ivars.mbIncreaseStaffConversation:Is(1) then--tex>
+  if Ivars.mbIncreaseStaffSaluteReactions:Is(1) then--tex>
     InfMBVisit.SetSaluteVoiceList()
     return
   end--<
