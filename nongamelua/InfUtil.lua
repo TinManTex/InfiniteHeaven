@@ -4,7 +4,7 @@
 -- should not have any dependancies to Tpp, put that in InfTppUtil
 local this={}
 
-function this.ClearTable(_table)
+function this.ClearTable(_table)--tex really this is cleararray or clearlist
   for i=0, #_table do
     _table[i]=nil
   end

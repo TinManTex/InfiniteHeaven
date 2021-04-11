@@ -78,8 +78,9 @@ local function GetSettingText(option)
     --    settingText=""
     --    optionSeperator=optionSeperators.menu
   else
-    if option.range then
-      settingText=option.range.min.."-"..option.range.max
+    if option.range or option.settings then
+      local min,max=IvarProc.GetRange(option)
+      settingText=min.."-"..max
     else
       settingText="DEBUGNOW GetSettingsText no decent output found"--DEBUG TODO
     end
