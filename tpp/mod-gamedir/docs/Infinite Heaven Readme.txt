@@ -1,5 +1,5 @@
 = Infinite heaven =
-r248 - 2021-04-08
+r249 - 2021-04-12
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -21,8 +21,29 @@ Recent changes/additions
 
 The introduction of IHHook has had plenty of teething troubles, so thanks to all those who have worked wth me to try and nail down the problems.
 
+r249
+IHHook:
+Style Editor: Font/size selection, copy fonts to MGS_TPP\mod\fonts to add more - thanks IroquoisPliskin, others for the request.
+[youtube]pZRcPNlZmng[/youtube]
+https://youtu.be/pZRcPNlZmng
+
+IHMenu improved: Menu items list now descreases in size with window meaning the bottom of the list and setting line wont dissapear when making smaller window.
+Window itself no longer adds a scrollbar but help text now has it's own scroll bar. So you don't have to scroll the menu away just to scroll the help text.
+
+Fix: Alt-tabbing or doing anything else that would reset the d3d device would apply the menu InitialText again, which would only fix once you went into a menu to reset the menu list - thanks Yooungi for the report.
+
+IH:
+mbIncreaseStaffSaluteReactions - "Add more salute reactions" - "Adds additional reactions from MB staff when 
+via ACC > Mother Base menu > Staff menu 
+Thanks caplag for lending your notes and your discussion.
+[youtube]svLN4LFAh8w[/youtube]
+https://youtu.be/svLN4LFAh8w
+
+Auto Abort-to-ACC when vars.locationCode or vars.missionCode not a valid vanilla or addon code - could be caused by uninstalling an addon mission while save was in mission.
+Fix: Reset setting and go back menu hotkeys repeat spamming due to being OnHeld instead of OnHoldTime.
+
 r248
-IHHook - Support for mgsvtpp JP audio version.
+IHHook - Support for mgsvtpp JP audio version - thanks everyone for the reports.
 [youtube]608ad3UA_EM[/youtube]
 https://youtu.be/608ad3UA_EM
 
