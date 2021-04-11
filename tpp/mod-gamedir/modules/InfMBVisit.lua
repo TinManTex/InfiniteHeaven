@@ -316,20 +316,20 @@ function this.SetSaluteVoiceList()
     --other voice labels that have nothing to do with salute but might be cool to include:
     --Enemy Voices Sneak (NORMAL/player not spotted status)
     --"EVS040",--"very soft Phew/Ahh",},-- Relaxing --OFF too soft
-    "EVS060",--"(exersion) Hmph/Hup",},--Light exertion lines
-    "EVS090",--"Rrrgh",},--Soldier gets something in his eye.
+    --"EVS060",--"(exersion) Hmph/Hup",},--Light exertion lines
+    --"EVS090",--"Rrrgh",},--Soldier gets something in his eye.
     "EVS100",--"(tired) sigh",},--
     "EVS110",--"(frustrated) Dammit",},--Irritated
     "EVS120",--"He's taking so long...",},--Waiting for comrade - General purpose
     "EVS130",--"(to self) I'm going.",},--Can't bear waiting any longer, goes alone
 
     --Enemy Voiced Notice
-    "EVN060",--"soft huh?",},-- From nearby: Enemy spots something
+    --"EVN060",--"soft huh?",},-- From nearby: Enemy spots something
     --"EVN070",--"real soft hmm",}, -- From nearby: Checking it out --OFF too soft
     "EVN080",--"you there!|hey!",}, -- From nearby: Spotted something suspicious
 
     --"EVN100",--"soft sigh",}, -- From nearby: Nothing spotted --OFF too soft
-    "EVN110",--"soft huh?!",}, -- Heard a knock, footsteps, or other unusual noise-- OFF too soft
+    --"EVN110",--"soft huh?!",}, -- Heard a knock, footsteps, or other unusual noise-- OFF too soft
     "EVN120",--"The hell?!|Wha-?!|What was that?!",},-- Reacting to an explosion or other loud noise
     "EVN130",--"soft Hm? Huh...",}, -- Checking last known position
     --"EVN140",--"He's here!",}, -- Spotting a suspicious person while searching/on guard, and engaging him
@@ -357,7 +357,7 @@ function this.SetSaluteVoiceList()
     "EVN341",--"Need a hand here!",},--Calling comrades (long range)
 
 
-    "EVN311",--"Shoo, shoo! (to animal)",},--chasing away an animal
+    --"EVN311",--"Shoo, shoo! (to animal)",},--chasing away an animal
     "EVN312",--"Get Lost! (to animal angry)",},--
     "EVN350",--"cursing something (multi-purpose)",},--
 
@@ -371,7 +371,7 @@ function this.SetSaluteVoiceList()
     --"EVR062",--"Huh? Interrogated, no english",},--
     --"EVR063",--"Wh-what does that mean? (Ru/Af)",},--doesnt work Interrogated, but unable to understand English
 
-    "EVR070",--"hahh! (Short outbursts to steel himself.)",}, --Taking gunfirePlayer has their gun on the enemy, threatening him. Bold reactions.
+    --"EVR070",--"hahh! (Short outbursts to steel himself.)",}, --Taking gunfirePlayer has their gun on the enemy, threatening him. Bold reactions.
     "EVR110",--"(see sleeping comrade) You lazy son of a...",--
     --"EVR130",--"Ew, Ughh etc (bad smell)"},--
 
@@ -588,6 +588,17 @@ function this.SetSaluteVoiceList()
   --!  "salute0400",--"congratulations",}, -- --no ref ・General-purpose congratulatory greeting
   --! "salute0430",--"boss! I new you were alive!|its.. its you boss",},--no ref, amazed -- ●NPC lines: when reuniting with soldiers who were at the old Mother Base (survivors of 9 years ago)
   --<
+  
+  InfCore.Log("#lowList:"..#lowList)--tex DEBUG
+  --DEBUGNOW think there might be a limit?
+  local max=63
+  local actualLowList={}
+  for i=1,max do
+    local index=math.random(1,#lowList)
+    table.insert(actualLowList,lowList[index])
+    table.remove(lowList,index)
+  end
+  lowList=actualLowList
 
   local saluteVoiceList={high={normal=highList,once=highOnceList},mid={normal=midList,once=midOnceList},low={normal=lowList,once=lowOnceList}}
   local typeSoldier={type="TppSoldier2"}
