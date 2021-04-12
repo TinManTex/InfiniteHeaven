@@ -1,0 +1,7 @@
+TppGameMode={
+  GetUserMode = "<function>",
+  U_KONAMI_LOGIN = 4,
+  U_SIGN_OUT = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

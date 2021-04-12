@@ -1,0 +1,5 @@
+SubtitlesDaemon={
+  GetDefaultVoiceLanguage = true,
+  GetInstance = true,
+  SetDefaultVoiceLanguage = true
+}

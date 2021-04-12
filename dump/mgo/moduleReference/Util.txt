@@ -1,0 +1,6 @@
+Util={
+  ClearInterval = true,
+  ClearIntervalAll = true,
+  LuaNumberToUInt32 = true,
+  SetInterval = true
+}

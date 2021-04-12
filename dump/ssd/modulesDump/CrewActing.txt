@@ -1,0 +1,11 @@
+CrewActing=<1>{
+  [-285212672] = 4,
+  [6387808] = <function 1>,
+  [54770068] = <function 2>,
+  [61471727] = <function 3>,
+  [188257721] = <function 4>,
+  [195785567] = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

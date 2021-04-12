@@ -1,0 +1,10 @@
+TppSoldier2CommonBlockController={
+  CreateCommonMotionBlockGroup = <function 1>,
+  IsBlockActive = <function 2>,
+  IsBlockEmpty = <function 3>,
+  IsReady = <function 4>,
+  RegisterCommonMotionPackagePath = <function 5>,
+  RequestToLoadCommonMotionBlock = <function 6>,
+  RequestToUnloadCommonMotionBlock = <function 7>,
+  SetPackagePathWithPrerequisites = <function 8>
+}

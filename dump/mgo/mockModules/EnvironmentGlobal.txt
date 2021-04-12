@@ -1,0 +1,5 @@
+EnvironmentGlobal={
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "EnvironmentGlobal"
+}

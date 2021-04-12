@@ -1,0 +1,10 @@
+TppSimpleGameSequenceSystem={
+  CheckHostConnection = "<function>",
+  IsShowLoadScreen = "<function>",
+  SetEventualMissionCode = "<function>",
+  SetShowLoadScreen = "<function>",
+  Start = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppSimpleGameSequenceSystem"
+}

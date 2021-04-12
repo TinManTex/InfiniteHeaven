@@ -1,0 +1,8 @@
+NavWorldDaemon={
+  AddScene = "<function>",
+  AddWorld = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "NavWorldDaemon"
+}

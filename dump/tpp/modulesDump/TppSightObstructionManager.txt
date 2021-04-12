@@ -1,0 +1,3 @@
+TppSightObstructionManager={
+  CheckSight = <function 1>
+}

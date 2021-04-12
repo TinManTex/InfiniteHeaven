@@ -1,0 +1,7 @@
+Geo={
+  DumpFilePath = <function 1>,
+  GeoLuaEnableTriggerTrap = <function 2>,
+  RegisterMaterial = <function 3>,
+  RegisterTexture = <function 4>,
+  UnregisterMaterial = <function 5>
+}

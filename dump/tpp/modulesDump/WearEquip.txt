@@ -1,0 +1,13 @@
+WearEquip=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [165023] = <function 1>,
+    [6387808] = <function 2>,
+    [19042352] = <function 3>,
+    [248070324] = <function 4>,
+    [267767018] = <function 5>
+  },
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

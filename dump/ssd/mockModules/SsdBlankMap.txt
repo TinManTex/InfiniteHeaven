@@ -1,0 +1,9 @@
+SsdBlankMap={
+  Init = "<function>",
+  InitBlankMapVarsAndMapParam = "<function>",
+  SetReachedArea = "<function>",
+  StartExploration = "<function>",
+  UpdateReachInfo = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

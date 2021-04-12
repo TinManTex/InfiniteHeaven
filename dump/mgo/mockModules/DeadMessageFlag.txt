@@ -1,0 +1,4 @@
+DeadMessageFlag={
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,4 @@
+TppRouteAnimationCollector={
+  ClearGaniPath = <function 1>,
+  RegisterGaniPath = <function 2>
+}

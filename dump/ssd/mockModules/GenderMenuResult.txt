@@ -1,0 +1,7 @@
+GenderMenuResult={
+  Cancel = 2,
+  Female = 1,
+  Male = 0,
+  __index = "<function>",
+  __newindex = "<function>"
+}

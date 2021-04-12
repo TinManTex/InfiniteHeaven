@@ -1,0 +1,10 @@
+TppSoldier2={
+  DisableMarkerModelEffect = true,
+  ReloadSoldier2ParameterTables = true,
+  SetDefaultPartsPath = true,
+  SetDefaultSoldierWeapon = true,
+  SetDisableMarkerModelEffect = true,
+  SetEnglishVoiceIdTable = true,
+  SetExtendPartsInfo = true,
+  SetSVarsKeyNames = true
+}

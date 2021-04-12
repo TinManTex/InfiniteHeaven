@@ -1,0 +1,4 @@
+TppOutOfMissionRangeEffect={
+  Disable = true,
+  Enable = true
+}

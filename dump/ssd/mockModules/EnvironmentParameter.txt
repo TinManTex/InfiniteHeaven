@@ -1,0 +1,5 @@
+EnvironmentParameter={
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "EnvironmentParameter"
+}

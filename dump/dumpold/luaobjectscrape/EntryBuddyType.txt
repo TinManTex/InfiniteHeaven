@@ -1,0 +1,4 @@
+EntryBuddyType={
+  BUDDY = true,
+  VEHICLE = true
+}

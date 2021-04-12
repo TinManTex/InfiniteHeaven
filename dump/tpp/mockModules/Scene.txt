@@ -1,0 +1,13 @@
+Scene={
+  AddActor = "<function>",
+  FindActor = "<function>",
+  GetActorList = "<function>",
+  GetActorsByClassName = "<function>",
+  GetApplication = "<function>",
+  RemoveActor = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "Scene",
+  _scriptInstanceId = "<userdata: userdata: 0000000009C3C2A8>",
+  _scriptPath = "Scene"
+}

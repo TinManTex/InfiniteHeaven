@@ -1,0 +1,3 @@
+GkTacticalService={
+  GetTacticalActionEdge = <function 1>
+}

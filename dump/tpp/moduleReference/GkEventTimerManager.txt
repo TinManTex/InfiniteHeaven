@@ -1,0 +1,8 @@
+GkEventTimerManager={
+  IsTimerActive = true,
+  SetPaused = true,
+  Start = true,
+  StartRaw = true,
+  Stop = true,
+  StopAll = true
+}

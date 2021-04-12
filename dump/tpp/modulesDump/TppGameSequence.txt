@@ -1,0 +1,20 @@
+TppGameSequence=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [21435422] = <function 1>,
+  [22751114] = <function 2>,
+  [38958376] = <function 3>,
+  [49728620] = <function 4>,
+  [50155913] = <function 5>,
+  [71394650] = <function 6>,
+  [102187880] = <function 7>,
+  [109029624] = <function 8>,
+  [124524634] = <function 9>,
+  [140793931] = <function 10>,
+  [157998890] = <function 11>,
+  [161660626] = <function 12>,
+  [225744333] = <function 13>,
+  __index = <function 14>,
+  __newindex = <function 15>,
+  <metatable> = <table 1>
+}

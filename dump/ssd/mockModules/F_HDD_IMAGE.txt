@@ -1,0 +1,4 @@
+F_HDD_IMAGE={
+  __index = "<function>",
+  __newindex = "<function>"
+}

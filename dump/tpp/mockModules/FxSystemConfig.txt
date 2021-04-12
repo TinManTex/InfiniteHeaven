@@ -1,0 +1,7 @@
+FxSystemConfig={
+  ResetLimitInstanceMemorySize = "<function>",
+  SetExecutionPrioritySetting = "<function>",
+  SetLimitGlobalTimeRate = "<function>",
+  SetLimitInstanceMemoryDefaultSize = "<function>",
+  SetLimitInstanceMemorySize = "<function>"
+}

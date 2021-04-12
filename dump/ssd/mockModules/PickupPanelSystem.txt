@@ -1,0 +1,4 @@
+PickupPanelSystem={
+  __index = "<function>",
+  __newindex = "<function>"
+}

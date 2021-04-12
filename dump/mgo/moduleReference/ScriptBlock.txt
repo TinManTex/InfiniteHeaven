@@ -1,0 +1,13 @@
+ScriptBlock={
+  Activate = true,
+  GetScriptBlockId = true,
+  GetScriptBlockState = true,
+  IsProcessing = true,
+  Load = true,
+  SCRIPT_BLOCK_ID_INVALID = true,
+  SCRIPT_BLOCK_STATE_ACTIVE = true,
+  SCRIPT_BLOCK_STATE_EMPTY = true,
+  SCRIPT_BLOCK_STATE_INACTIVE = true,
+  SCRIPT_BLOCK_STATE_PROCESSING = true,
+  UpdateScriptsInScriptBlocks = true
+}

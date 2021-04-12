@@ -1,0 +1,43 @@
+InfWarp={
+  ActivateControlSet = <function 1>,
+  DoControlSet = <function 2>,
+  OnActivate = <function 3>,
+  OnDeactivate = <function 4>,
+  Update = <function 5>,
+  active = <1>{
+    EnabledForMission = <function 6>,
+    Get = <function 7>,
+    GetSettingName = <function 8>,
+    GetTableSetting = <function 9>,
+    Is = <function 7>,
+    IsDefault = <function 10>,
+    OnChange = <function 11>,
+    OnModeActivate = <function 12>,
+    Reset = <function 13>,
+    Set = <function 14>,
+    SetDirect = <function 15>,
+    default = 0,
+    inMission = true,
+    isFloat = false,
+    isMode = true,
+    name = "warpPlayerUpdate",
+    nonConfig = true,
+    optionType = "OPTION",
+    range = {
+      increment = 1,
+      max = 1,
+      min = 0
+    },
+    settingNames = "set_switch"
+  },
+  execCheckTable = {
+    inGame = true,
+    inHeliSpace = false
+  },
+  execState = {
+    nextUpdate = 0
+  },
+  name = "InfWarp",
+  registerIvars = { "warpPlayerUpdate" },
+  warpPlayerUpdate = <table 1>
+}

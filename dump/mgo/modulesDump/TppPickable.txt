@@ -1,0 +1,17 @@
+TppPickable=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [5297166] = <function 1>,
+  [10212828] = <function 2>,
+  [82999141] = <function 3>,
+  [97441230] = <function 4>,
+  [113660761] = <function 5>,
+  [121576604] = <function 6>,
+  [131365552] = <function 7>,
+  [133539438] = <function 8>,
+  [190678779] = <function 9>,
+  [266755273] = <function 10>,
+  __index = <function 11>,
+  __newindex = <function 12>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,6 @@
+AttributeController={
+  Apply = <function 1>,
+  PEER_ALL = 1,
+  PEER_LOCAL = 0,
+  Remove = <function 2>
+}

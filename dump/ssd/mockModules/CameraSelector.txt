@@ -1,0 +1,12 @@
+CameraSelector={
+  DumpActiveCamera = "<function>",
+  GetMainInstance = "<function>",
+  GetRenderName = "<function>",
+  GetViewportName = "<function>",
+  SetMainInstance = "<function>",
+  SetMainListener = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "CameraSelector"
+}

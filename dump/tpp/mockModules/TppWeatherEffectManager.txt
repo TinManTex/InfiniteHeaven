@@ -1,0 +1,6 @@
+TppWeatherEffectManager={
+  SetCloudShadowVisibility = "<function>",
+  SetSunMoonDecorationDistance = "<function>",
+  SetSunMoonDecorationVisible = "<function>",
+  SetWeatherThunderAutoGeneration = "<function>"
+}

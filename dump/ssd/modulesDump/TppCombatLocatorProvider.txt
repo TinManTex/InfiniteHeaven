@@ -1,0 +1,3 @@
+TppCombatLocatorProvider={
+  RegisterCombatLocatorSetToCpforLua = <function 1>
+}

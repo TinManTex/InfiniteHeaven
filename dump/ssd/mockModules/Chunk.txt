@@ -1,0 +1,14 @@
+Chunk={
+  GetChunkInstallationEta = "<function>",
+  GetChunkInstallationRate = "<function>",
+  GetChunkState = "<function>",
+  INDEX_AFGH = 0,
+  INDEX_MAFR = 1,
+  INSTALL_SPEED_FAST = 1,
+  INSTALL_SPEED_NORMAL = 0,
+  PrefetchChunk = "<function>",
+  STATE_INSTALLED = 2,
+  SetChunkInstallSpeed = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

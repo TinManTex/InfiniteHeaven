@@ -1,0 +1,18 @@
+PadMapping={
+  Dump = "<function>",
+  GetInstance = "<function>",
+  GetPad0LogicalNum = "<function>",
+  GetPad1LogicalNum = "<function>",
+  GetPad2LogicalNum = "<function>",
+  GetPad3LogicalNum = "<function>",
+  GetPhysicalPadNum = "<function>",
+  ResetPadMapping = "<function>",
+  SetPad0LogicalNum = "<function>",
+  SetPad1LogicalNum = "<function>",
+  SetPad2LogicalNum = "<function>",
+  SetPad3LogicalNum = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "PadMapping"
+}

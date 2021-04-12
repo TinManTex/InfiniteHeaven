@@ -1,0 +1,8 @@
+PlayerMissionPrepareAction=<1>{
+  [-285212672] = 4,
+  [8908449] = <function 1>,
+  [19376657] = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,9 @@
+GrGraphicsSettingManager={
+  GetError = "<function>",
+  GetStatus = "<function>",
+  SetEasySetting = "<function>",
+  SetPluginSettingSelection = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GrGraphicsSettingManager"
+}

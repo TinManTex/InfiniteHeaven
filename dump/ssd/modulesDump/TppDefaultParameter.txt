@@ -1,0 +1,11 @@
+TppDefaultParameter=<1>{
+  AddParam = <function 1>,
+  GetDataFromGroupName = <function 2>,
+  GetParam = <function 3>,
+  IsExistingData = <function 4>,
+  SetGroupName = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  _className = "TppDefaultParameter",
+  <metatable> = <table 1>
+}

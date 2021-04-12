@@ -1,0 +1,3 @@
+LipSyncDaemon={
+  Create = <function 1>
+}

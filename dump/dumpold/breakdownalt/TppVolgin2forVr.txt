@@ -1,0 +1,19 @@
+TppVolgin2forVr=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [32816193] = <function 1>,
+    [38145570] = <function 2>,
+    [41761935] = <function 3>,
+    [50017878] = <function 4>,
+    [93844242] = <function 5>,
+    [94648225] = <function 6>,
+    [133600446] = <function 7>,
+    [161994280] = <function 8>,
+    [174662326] = <function 9>,
+    [175928915] = <function 10>,
+    [213366342] = <function 11>
+  },
+  __index = <function 12>,
+  __newindex = <function 13>,
+  <metatable> = <table 1>
+}

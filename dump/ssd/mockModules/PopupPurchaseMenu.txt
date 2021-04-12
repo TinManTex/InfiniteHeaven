@@ -1,0 +1,4 @@
+PopupPurchaseMenu={
+  __index = "<function>",
+  __newindex = "<function>"
+}

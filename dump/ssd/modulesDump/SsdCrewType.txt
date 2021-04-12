@@ -1,0 +1,13 @@
+SsdCrewType=<1>{
+  [-285212672] = 4,
+  [25310526] = <function 1>,
+  [27351618] = <function 2>,
+  [27490405] = <function 3>,
+  [116169545] = <function 4>,
+  [126562116] = <function 5>,
+  [150446880] = <function 6>,
+  [248104087] = <function 7>,
+  __index = <function 8>,
+  __newindex = <function 9>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,7 @@
+TppEffectUtility={
+  InitThermalReactionObjectUnionMaterial = true,
+  RemoveColorCorrectionLut = true,
+  RemoveColorCorrectionParameter = true,
+  SetEnableWindowsDirectX11Textures = true,
+  SetSandWindEnable = true
+}

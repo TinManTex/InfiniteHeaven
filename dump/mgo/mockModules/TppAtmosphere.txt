@@ -1,0 +1,6 @@
+TppAtmosphere={
+  StartSkyCapture = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppAtmosphere"
+}

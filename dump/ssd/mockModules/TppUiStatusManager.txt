@@ -1,0 +1,7 @@
+TppUiStatusManager={
+  CheckStatus = "<function>",
+  ClearAllStatus = "<function>",
+  ClearStatus = "<function>",
+  SetStatus = "<function>",
+  UnsetStatus = "<function>"
+}

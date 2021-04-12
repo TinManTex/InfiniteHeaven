@@ -1,0 +1,5 @@
+TppAnimalId={
+  COUNT = 72,
+  __index = "<function>",
+  __newindex = "<function>"
+}

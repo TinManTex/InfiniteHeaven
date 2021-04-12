@@ -1,0 +1,4 @@
+SsdFarmingAnimal={
+  Appear = <function 1>,
+  Disappear = <function 2>
+}

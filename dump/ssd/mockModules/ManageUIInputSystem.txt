@@ -1,0 +1,4 @@
+ManageUIInputSystem={
+  __index = "<function>",
+  __newindex = "<function>"
+}

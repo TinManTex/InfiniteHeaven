@@ -1,0 +1,9 @@
+EnemyVarDef=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [206756814] = <function 1>
+  },
+  __index = <function 2>,
+  __newindex = <function 3>,
+  <metatable> = <table 1>
+}

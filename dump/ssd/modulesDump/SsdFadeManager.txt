@@ -1,0 +1,17 @@
+SsdFadeManager=<1>{
+  [-285212672] = 4,
+  [59317806] = <function 1>,
+  [63792925] = <function 2>,
+  [95862242] = <function 3>,
+  [99175278] = <function 4>,
+  [121912980] = <function 5>,
+  [126919496] = <function 6>,
+  [129492469] = <function 7>,
+  [185038284] = <function 8>,
+  [191836824] = <function 9>,
+  [236868143] = <function 10>,
+  [256745340] = <function 11>,
+  __index = <function 12>,
+  __newindex = <function 13>,
+  <metatable> = <table 1>
+}

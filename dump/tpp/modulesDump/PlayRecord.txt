@@ -1,0 +1,3 @@
+PlayRecord={
+  RegistPlayRecord = <function 1>
+}

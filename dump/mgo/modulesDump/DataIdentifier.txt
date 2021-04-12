@@ -1,0 +1,8 @@
+DataIdentifier=<1>{
+  GetDataBodyWithIdentifier = <function 1>,
+  GetDataWithIdentifier = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "DataIdentifier",
+  <metatable> = <table 1>
+}

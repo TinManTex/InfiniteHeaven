@@ -1,0 +1,12 @@
+GameObject={
+  CreateGameObjectId = true,
+  DoesGameObjectExistWithTypeName = true,
+  GetGameObjectId = true,
+  GetGameObjectIdByIndex = true,
+  GetTypeIndex = true,
+  GetTypeIndexWithTypeName = true,
+  NULL_ID = true,
+  NULL_IDdem = true,
+  SendCommand = true,
+  SpecialActionEnd = true
+}

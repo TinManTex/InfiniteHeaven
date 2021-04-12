@@ -1,0 +1,2789 @@
+vars=<1>{
+  [-285212672] = 0,
+  [-285212671] = {
+    aliveTime = <function 1>,
+    armRocketXIsReverse = <function 2>,
+    armRocketYIsReverse = <function 3>,
+    avatarAcceFlag = <function 4>,
+    avatarAccessoryPresetID = <function 5>,
+    avatarAllPartsPresetID = <function 6>,
+    avatarBeardPresetID = <function 7>,
+    avatarBerdLength = <function 8>,
+    avatarBerdStyle = <function 9>,
+    avatarCheekPresetID = <function 10>,
+    avatarChinPresetID = <function 11>,
+    avatarEbrwStyle = <function 12>,
+    avatarEbrwWide = <function 13>,
+    avatarEyePresetID = <function 14>,
+    avatarEyebrowPresetID = <function 15>,
+    avatarFaceColorIndex = <function 16>,
+    avatarFaceRaceIndex = <function 17>,
+    avatarFaceTypeIndex = <function 18>,
+    avatarFaceVariationIndex = <function 19>,
+    avatarGashOrTatoVariationIndex = <function 20>,
+    avatarHairColor = <function 21>,
+    avatarHairColorPresetID = <function 22>,
+    avatarHairPresetID = <function 23>,
+    avatarHairStyleIndex = <function 24>,
+    avatarHeadPresetID = <function 25>,
+    avatarLeftEyeBrightnessIndex = <function 26>,
+    avatarLeftEyeColorIndex = <function 27>,
+    avatarMouthPresetID = <function 28>,
+    avatarNosePresetID = <function 29>,
+    avatarReserve0 = <function 30>,
+    avatarReserve1 = <function 31>,
+    avatarReserve2 = <function 32>,
+    avatarRightEyeBrightnessIndex = <function 33>,
+    avatarRightEyeColorIndex = <function 34>,
+    avatarSaveIsValid = <function 35>,
+    avatarSkinColorPresetID = <function 36>,
+    avatarTatoColorIndex = <function 37>,
+    avatarVoiceIndex = <function 38>,
+    avatarVoicePitch = <function 39>,
+    baseThreatFlag = <function 40>,
+    baseThreatRate = <function 41>,
+    bgmMyListSetting = <function 42>,
+    bgmVolume = <function 43>,
+    cancelAvatarEdit = <function 44>,
+    captureAnimalIndex = <function 45>,
+    clock = <function 46>,
+    clockTimeScale = <function 47>,
+    collectionMovedIndexEnd = <function 48>,
+    craftBoardIsNeedToSave = <function 49>,
+    currentForRentLoadoutSlotIndex = <function 50>,
+    currentInventorySlot = <function 51>,
+    currentItemIndex = <function 52>,
+    currentL1Slot = <function 53>,
+    currentLoadoutSlot = <function 54>,
+    currentMainWeaponSlot = <function 55>,
+    currentR1Slot = <function 56>,
+    currentReturnHeliLoadoutSlot = <function 57>,
+    currentSortieLoadoutSlot = <function 58>,
+    currentSortieLoadoutSlotNonRental = <function 59>,
+    currentSupportWeaponIndex = <function 60>,
+    didCancelFobPatchDlcDownloadRequest = <function 61>,
+    didCancelPatchDlcDownloadRequest = <function 62>,
+    emblemSyncFailed = <function 63>,
+    emblemSyncFailed2 = <function 64>,
+    emblemVersion = <function 65>,
+    energy = <function 66>,
+    eulaVersion = <function 67>,
+    extraWeatherInterval = <function 68>,
+    facilityNewFlag = <function 69>,
+    fatigueLevel = <function 70>,
+    fpsAttackMode = <function 71>,
+    handEquip = <function 72>,
+    heliMusicTrackID = <function 73>,
+    heliMusicType = <function 74>,
+    hungerIgnoreTimeOnMaxRate = <function 75>,
+    hungerVal = <function 76>,
+    infoId = <function 77>,
+    initHandEquip = <function 78>,
+    initLoadoutInfo = <function 79>,
+    initialPlayerAction = <function 80>,
+    initialPlayerFlag = <function 81>,
+    initialPlayerPairGameObjectId = <function 82>,
+    initialPlayerPosX = <function 83>,
+    initialPlayerPosY = <function 84>,
+    initialPlayerPosZ = <function 85>,
+    initialPlayerRotY = <function 86>,
+    initialPlayerVehicleGameObjectId = <function 87>,
+    inquiryId = <function 88>,
+    invitationDisableRecieveFlag = <function 89>,
+    isAbandonFromUser = <function 90>,
+    isAvatarEditMode = <function 91>,
+    isDefaultDisconnected = <function 92>,
+    isNeedToSaveBgmMyList = <function 93>,
+    isNeedToSaveInventoryPlayer = <function 94>,
+    isNeedToSaveInventoryUser = <function 95>,
+    isPersonalDirty = <function 96>,
+    isServerDataCleared = <function 97>,
+    lastFailureConnect = <function 98>,
+    loadoutInfoSaveFormVersion = <function 99>,
+    localEnergy = <function 100>,
+    locationCode = <function 101>,
+    locationCodeOfCollectionMoved = <function 102>,
+    loginPlayerIndex = <function 103>,
+    maxPhase = <function 104>,
+    mbDvcTopMenuFlag = <function 105>,
+    mbDvcTutorialFlag = <function 106>,
+    missionCode = <function 107>,
+    namePlateId = <function 108>,
+    nextResourceUpdateTime = <function 109>,
+    onlinenewsLatesInfoId = <function 110>,
+    oxygenConvertCount = <function 111>,
+    oxygenVal = <function 112>,
+    padType = <function 113>,
+    passageSecondsSinceOutMB = <function 114>,
+    playerBodyInjuryCount = <function 115>,
+    playerCamoType = <function 116>,
+    playerDisableActionFlag = <function 117>,
+    playerFaceEquipId = <function 118>,
+    playerFaceId = <function 119>,
+    playerHandType = <function 120>,
+    playerInjuryCount = <function 121>,
+    playerLife = <function 122>,
+    playerLifeMax = <function 123>,
+    playerMarkingCountInMission = <function 124>,
+    playerPartsType = <function 125>,
+    playerPhase = <function 126>,
+    playerPlayFlag = <function 127>,
+    playerPosX = <function 128>,
+    playerPosY = <function 129>,
+    playerPosZ = <function 130>,
+    playerRetryFlag = <function 131>,
+    playerRotY = <function 132>,
+    playerShootCountInMission = <function 133>,
+    playerSkillId = <function 134>,
+    playerStaffHeader = <function 135>,
+    playerStaffSeed = <function 136>,
+    playerStamina = <function 137>,
+    playerType = <function 138>,
+    playerVehicleGameObjectId = <function 139>,
+    rentalLoadoutPlayerId = <function 140>,
+    requestFlagsAboutEquip = <function 141>,
+    returnHeliLoadoutInfoSaveFormVersion = <function 142>,
+    returnStaffHeader = <function 143>,
+    returnStaffSeeds = <function 144>,
+    rulesetDynamicPackIndices = <function 145>,
+    rulesetId = <function 146>,
+    sbmOperationSystemSaveDataVersion = <function 147>,
+    seVolume = <function 148>,
+    shootHitCountEliminatedInMission = <function 149>,
+    shootHitCountInMission = <function 150>,
+    sortieLoadoutInfoSaveFormVersion = <function 151>,
+    sortiePrepPlayerDDCamoType = <function 152>,
+    sortiePrepPlayerDDFaceEquipId = <function 153>,
+    sortiePrepPlayerDDPartsType = <function 154>,
+    sortiePrepPlayerDDSuitLevel = <function 155>,
+    sortiePrepPlayerSnakeCamoType = <function 156>,
+    sortiePrepPlayerSnakeFaceEquipId = <function 157>,
+    sortiePrepPlayerSnakePartsType = <function 158>,
+    sortiePrepPlayerSnakeSuitLevel = <function 159>,
+    ssdBaseAttackTimer = <function 160>,
+    ssdBaseAttackUpdateOn = <function 161>,
+    ssdBuildingLevel = <function 162>,
+    ssdBuildingMiningLife = <function 163>,
+    staminaVal = <function 164>,
+    stealthAssistLeftCount = <function 165>,
+    supCboxAdvancedRate = <function 166>,
+    supCboxDropType = <function 167>,
+    supCboxEquipId = <function 168>,
+    supCboxFallHeight = <function 169>,
+    supCboxFlags = <function 170>,
+    supCboxLevelWait = <function 171>,
+    supCboxLocationOnSave = <function 172>,
+    supCboxPartsType = <function 173>,
+    supCboxPhaseForSave = <function 174>,
+    supCboxSaveFormVersion = <function 175>,
+    tempCrewBodyId = <function 176>,
+    tempCrewFaceId = <function 177>,
+    tempCrewFirstNameIndex = <function 178>,
+    tempCrewLastNameIndex = <function 179>,
+    tempCrewRaceId = <function 180>,
+    tempCrewSexId = <function 181>,
+    tempCrewTypeCode = <function 182>,
+    tempCrewUniqueCode = <function 183>,
+    tempCrewVoiceId = <function 184>,
+    thirstIgnoreTimeOnMaxRate = <function 185>,
+    thirstVal = <function 186>,
+    timeUntilNextHorde = <function 187>,
+    totalAlertCount = <function 188>,
+    totalBatteryPowerAsGmp = <function 189>,
+    totalDiscoveredCount = <function 190>,
+    totalMarkingCount = <function 191>,
+    totalMovingDistanceAtCrawl = <function 192>,
+    totalMovingDistanceAtSquat = <function 193>,
+    totalMovingDistanceAtStand = <function 194>,
+    totalReflexCount = <function 195>,
+    totalTakeHitCount = <function 196>,
+    tppTransferAcquiredFlag = <function 197>,
+    tppTransferFlag = <function 198>,
+    uiCommonFlags = <function 199>,
+    useBlackDiamondEmblem = <function 200>,
+    vehicleGameObjectIdOnPlayerOnCargo = <function 201>,
+    voiceVolume = <function 202>,
+    weather = <function 203>,
+    weatherAddDensity = <function 204>,
+    weatherNextTime = <function 205>
+  },
+  __index = <function 206>,
+  __newindex = <function 207>,
+  ["afghGimmickSaveLocation.m_instantLife"] = <2>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 1>,
+    __index = <function 208>,
+    __newindex = <function 209>,
+    <metatable> = <table 2>
+  },
+  ["afghGimmickSaveLocation.m_instantName"] = <3>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 2>,
+    __index = <function 210>,
+    __newindex = <function 211>,
+    <metatable> = <table 3>
+  },
+  ["afghGimmickSaveLocation.m_instantPos"] = <4>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 3>,
+    __index = <function 212>,
+    __newindex = <function 213>,
+    <metatable> = <table 4>
+  },
+  ["afghGimmickSaveLocation.m_instantProduction"] = <5>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 4>,
+    __index = <function 214>,
+    __newindex = <function 215>,
+    <metatable> = <table 5>
+  },
+  ["afghGimmickSaveLocation.m_instantRot"] = <6>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 5>,
+    __index = <function 216>,
+    __newindex = <function 217>,
+    <metatable> = <table 6>
+  },
+  ["afghGimmickSaveLocation.m_instantState"] = <7>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 6>,
+    __index = <function 218>,
+    __newindex = <function 219>,
+    <metatable> = <table 7>
+  },
+  ["afghGimmickSaveLocation.m_permanentName"] = <8>{
+    [-285212666] = 1536,
+    [-285212665] = <userdata 7>,
+    __index = <function 220>,
+    __newindex = <function 221>,
+    <metatable> = <table 8>
+  },
+  ["afghGimmickSaveLocation.m_permanentState"] = <9>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 8>,
+    __index = <function 222>,
+    __newindex = <function 223>,
+    <metatable> = <table 9>
+  },
+  ["afghGimmickSaveLocation.m_resourceEventCount"] = <10>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 9>,
+    __index = <function 224>,
+    __newindex = <function 225>,
+    <metatable> = <table 10>
+  },
+  ["afghGimmickSaveLocation.m_resourceEventDataName"] = <11>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 10>,
+    __index = <function 226>,
+    __newindex = <function 227>,
+    <metatable> = <table 11>
+  },
+  ["afghGimmickSaveLocation.m_resourceEventFlag"] = <12>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 11>,
+    __index = <function 228>,
+    __newindex = <function 229>,
+    <metatable> = <table 12>
+  },
+  ["afghGimmickSaveLocation.m_resourceEventName"] = <13>{
+    [-285212666] = 1536,
+    [-285212665] = <userdata 12>,
+    __index = <function 230>,
+    __newindex = <function 231>,
+    <metatable> = <table 13>
+  },
+  ["afghGimmickSaveLocation.m_resourceEventPickIndex"] = <14>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 13>,
+    __index = <function 232>,
+    __newindex = <function 233>,
+    <metatable> = <table 14>
+  },
+  ["afghGimmickSaveLocation.m_resourceEventTail"] = <15>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 14>,
+    __index = <function 234>,
+    __newindex = <function 235>,
+    <metatable> = <table 15>
+  },
+  ["afghGimmickSaveLocation.m_resourceNormalCount"] = <16>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 15>,
+    __index = <function 236>,
+    __newindex = <function 237>,
+    <metatable> = <table 16>
+  },
+  ["afghGimmickSaveLocation.m_resourceNormalDataName"] = <17>{
+    [-285212666] = 1152,
+    [-285212665] = <userdata 16>,
+    __index = <function 238>,
+    __newindex = <function 239>,
+    <metatable> = <table 17>
+  },
+  ["afghGimmickSaveLocation.m_resourceNormalFlag"] = <18>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 17>,
+    __index = <function 240>,
+    __newindex = <function 241>,
+    <metatable> = <table 18>
+  },
+  ["afghGimmickSaveLocation.m_resourceNormalName"] = <19>{
+    [-285212666] = 2304,
+    [-285212665] = <userdata 18>,
+    __index = <function 242>,
+    __newindex = <function 243>,
+    <metatable> = <table 19>
+  },
+  ["afghGimmickSaveLocation.m_resourceNormalPickIndex"] = <20>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 19>,
+    __index = <function 244>,
+    __newindex = <function 245>,
+    <metatable> = <table 20>
+  },
+  ["afghGimmickSaveLocation.m_resourceNormalTail"] = <21>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 20>,
+    __index = <function 246>,
+    __newindex = <function 247>,
+    <metatable> = <table 21>
+  },
+  ["afghGimmickSaveLocation.m_resourceRareCount"] = <22>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 21>,
+    __index = <function 248>,
+    __newindex = <function 249>,
+    <metatable> = <table 22>
+  },
+  ["afghGimmickSaveLocation.m_resourceRareDataName"] = <23>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 22>,
+    __index = <function 250>,
+    __newindex = <function 251>,
+    <metatable> = <table 23>
+  },
+  ["afghGimmickSaveLocation.m_resourceRareFlag"] = <24>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 23>,
+    __index = <function 252>,
+    __newindex = <function 253>,
+    <metatable> = <table 24>
+  },
+  ["afghGimmickSaveLocation.m_resourceRareName"] = <25>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 24>,
+    __index = <function 254>,
+    __newindex = <function 255>,
+    <metatable> = <table 25>
+  },
+  ["afghGimmickSaveLocation.m_resourceRarePickIndex"] = <26>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 25>,
+    __index = <function 256>,
+    __newindex = <function 257>,
+    <metatable> = <table 26>
+  },
+  ["afghGimmickSaveLocation.m_resourceRareTail"] = <27>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 26>,
+    __index = <function 258>,
+    __newindex = <function 259>,
+    <metatable> = <table 27>
+  },
+  ["afghGimmickSaveLocation.m_resourceSharedCount"] = <28>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 27>,
+    __index = <function 260>,
+    __newindex = <function 261>,
+    <metatable> = <table 28>
+  },
+  ["afghGimmickSaveLocation.m_resourceSharedDataName"] = <29>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 28>,
+    __index = <function 262>,
+    __newindex = <function 263>,
+    <metatable> = <table 29>
+  },
+  ["afghGimmickSaveLocation.m_resourceSharedFlag"] = <30>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 29>,
+    __index = <function 264>,
+    __newindex = <function 265>,
+    <metatable> = <table 30>
+  },
+  ["afghGimmickSaveLocation.m_resourceSharedName"] = <31>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 30>,
+    __index = <function 266>,
+    __newindex = <function 267>,
+    <metatable> = <table 31>
+  },
+  ["afghGimmickSaveLocation.m_resourceSharedPickIndex"] = <32>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 31>,
+    __index = <function 268>,
+    __newindex = <function 269>,
+    <metatable> = <table 32>
+  },
+  ["afghGimmickSaveLocation.m_resourceSharedTail"] = <33>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 32>,
+    __index = <function 270>,
+    __newindex = <function 271>,
+    <metatable> = <table 33>
+  },
+  ["afghGimmickSaveResourceTimer.m_global"] = <34>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 33>,
+    __index = <function 272>,
+    __newindex = <function 273>,
+    <metatable> = <table 34>
+  },
+  ["afghGimmickSaveResourceTimer.m_stock"] = <35>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 34>,
+    __index = <function 274>,
+    __newindex = <function 275>,
+    <metatable> = <table 35>
+  },
+  ammoInWeapons = <36>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 35>,
+    __index = <function 276>,
+    __newindex = <function 277>,
+    <metatable> = <table 36>
+  },
+  ammoStockCounts = <37>{
+    [-285212666] = 92,
+    [-285212665] = <userdata 36>,
+    __index = <function 278>,
+    __newindex = <function 279>,
+    <metatable> = <table 37>
+  },
+  ammoStockIds = <38>{
+    [-285212666] = 92,
+    [-285212665] = <userdata 37>,
+    __index = <function 280>,
+    __newindex = <function 281>,
+    <metatable> = <table 38>
+  },
+  ammoSubInWeapons = <39>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 38>,
+    __index = <function 282>,
+    __newindex = <function 283>,
+    <metatable> = <table 39>
+  },
+  avatarMotionFrame = <40>{
+    [-285212666] = 60,
+    [-285212665] = <userdata 39>,
+    __index = <function 284>,
+    __newindex = <function 285>,
+    <metatable> = <table 40>
+  },
+  baseManagementResourceGeneratorCount = <41>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 40>,
+    __index = <function 286>,
+    __newindex = <function 287>,
+    <metatable> = <table 41>
+  },
+  baseManagementResourcePoint = <42>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 41>,
+    __index = <function 288>,
+    __newindex = <function 289>,
+    <metatable> = <table 42>
+  },
+  bgmMyListCassetteIds = <43>{
+    [-285212666] = 160,
+    [-285212665] = <userdata 42>,
+    __index = <function 290>,
+    __newindex = <function 291>,
+    <metatable> = <table 43>
+  },
+  bgmMyListName = <44>{
+    [-285212666] = 320,
+    [-285212665] = <userdata 43>,
+    __index = <function 292>,
+    __newindex = <function 293>,
+    <metatable> = <table 44>
+  },
+  buttonNo = <45>{
+    [-285212666] = 120,
+    [-285212665] = <userdata 44>,
+    __index = <function 294>,
+    __newindex = <function 295>,
+    <metatable> = <table 45>
+  },
+  captureAreaName = <46>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 45>,
+    __index = <function 296>,
+    __newindex = <function 297>,
+    <metatable> = <table 46>
+  },
+  caputreAnimalId = <47>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 46>,
+    __index = <function 298>,
+    __newindex = <function 299>,
+    <metatable> = <table 47>
+  },
+  cboxEquipId = <48>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 47>,
+    __index = <function 300>,
+    __newindex = <function 301>,
+    <metatable> = <table 48>
+  },
+  cboxFlag = <49>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 48>,
+    __index = <function 302>,
+    __newindex = <function 303>,
+    <metatable> = <table 49>
+  },
+  cboxIsValid = <50>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 49>,
+    __index = <function 304>,
+    __newindex = <function 305>,
+    <metatable> = <table 50>
+  },
+  cboxLife = <51>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 50>,
+    __index = <function 306>,
+    __newindex = <function 307>,
+    <metatable> = <table 51>
+  },
+  cboxLocation = <52>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 51>,
+    __index = <function 308>,
+    __newindex = <function 309>,
+    <metatable> = <table 52>
+  },
+  cboxPosterIndices = <53>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 52>,
+    __index = <function 310>,
+    __newindex = <function 311>,
+    <metatable> = <table 53>
+  },
+  cboxPosterType = <54>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 53>,
+    __index = <function 312>,
+    __newindex = <function 313>,
+    <metatable> = <table 54>
+  },
+  chimeraColorIndex = <55>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 54>,
+    __index = <function 314>,
+    __newindex = <function 315>,
+    <metatable> = <table 55>
+  },
+  chimeraPaintType = <56>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 55>,
+    __index = <function 316>,
+    __newindex = <function 317>,
+    <metatable> = <table 56>
+  },
+  chimeraParts = <57>{
+    [-285212666] = 72,
+    [-285212665] = <userdata 56>,
+    __index = <function 318>,
+    __newindex = <function 319>,
+    <metatable> = <table 57>
+  },
+  collectionLocatorIndicesMoved = <58>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 57>,
+    __index = <function 320>,
+    __newindex = <function 321>,
+    <metatable> = <table 58>
+  },
+  collectionPositionsMoved = <59>{
+    [-285212666] = 96,
+    [-285212665] = <userdata 58>,
+    __index = <function 322>,
+    __newindex = <function 323>,
+    <metatable> = <table 59>
+  },
+  collectionRotationsMoved = <60>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 59>,
+    __index = <function 324>,
+    __newindex = <function 325>,
+    <metatable> = <table 60>
+  },
+  communicationItem = <61>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 60>,
+    __index = <function 326>,
+    __newindex = <function 327>,
+    <metatable> = <table 61>
+  },
+  communicationItemMySet = <62>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 61>,
+    __index = <function 328>,
+    __newindex = <function 329>,
+    <metatable> = <table 62>
+  },
+  communicationType = <63>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 62>,
+    __index = <function 330>,
+    __newindex = <function 331>,
+    <metatable> = <table 63>
+  },
+  communicationTypeMySet = <64>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 63>,
+    __index = <function 332>,
+    __newindex = <function 333>,
+    <metatable> = <table 64>
+  },
+  craftBoardRecipeIdCode = <65>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 64>,
+    __index = <function 334>,
+    __newindex = <function 335>,
+    <metatable> = <table 65>
+  },
+  currentZoomStep = <66>{
+    [-285212666] = 7,
+    [-285212665] = <userdata 65>,
+    __index = <function 336>,
+    __newindex = <function 337>,
+    <metatable> = <table 66>
+  },
+  customizedWeapon = <67>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 66>,
+    __index = <function 338>,
+    __newindex = <function 339>,
+    <metatable> = <table 67>
+  },
+  customizedWeaponSlotIndex = <68>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 67>,
+    __index = <function 340>,
+    __newindex = <function 341>,
+    <metatable> = <table 68>
+  },
+  dirtyEffectBoneIndex = <69>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 68>,
+    __index = <function 342>,
+    __newindex = <function 343>,
+    <metatable> = <table 69>
+  },
+  dirtyEffectCount = <70>{
+    [-285212666] = 2,
+    [-285212665] = <userdata 69>,
+    __index = <function 344>,
+    __newindex = <function 345>,
+    <metatable> = <table 70>
+  },
+  dirtyEffectPosition = <71>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 70>,
+    __index = <function 346>,
+    __newindex = <function 347>,
+    <metatable> = <table 71>
+  },
+  dirtyEffectRadius = <72>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 71>,
+    __index = <function 348>,
+    __newindex = <function 349>,
+    <metatable> = <table 72>
+  },
+  dlcAcquiredFlag = <73>{
+    [-285212666] = 2,
+    [-285212665] = <userdata 72>,
+    __index = <function 350>,
+    __newindex = <function 351>,
+    <metatable> = <table 73>
+  },
+  dlcPermittedFlag = <74>{
+    [-285212666] = 2,
+    [-285212665] = <userdata 73>,
+    __index = <function 352>,
+    __newindex = <function 353>,
+    <metatable> = <table 74>
+  },
+  droppedAmmo = <75>{
+    [-285212666] = 12,
+    [-285212665] = <userdata 74>,
+    __index = <function 354>,
+    __newindex = <function 355>,
+    <metatable> = <table 75>
+  },
+  droppedCarrier = <76>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 75>,
+    __index = <function 356>,
+    __newindex = <function 357>,
+    <metatable> = <table 76>
+  },
+  droppedCarrierPlaceNo = <77>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 76>,
+    __index = <function 358>,
+    __newindex = <function 359>,
+    <metatable> = <table 77>
+  },
+  droppedCount = <78>{
+    [-285212666] = 12,
+    [-285212665] = <userdata 77>,
+    __index = <function 360>,
+    __newindex = <function 361>,
+    <metatable> = <table 78>
+  },
+  droppedSuppressorLife = <79>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 78>,
+    __index = <function 362>,
+    __newindex = <function 363>,
+    <metatable> = <table 79>
+  },
+  droppedWeaponPos = <80>{
+    [-285212666] = 18,
+    [-285212665] = <userdata 79>,
+    __index = <function 364>,
+    __newindex = <function 365>,
+    <metatable> = <table 80>
+  },
+  droppedWeaponRot = <81>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 80>,
+    __index = <function 366>,
+    __newindex = <function 367>,
+    <metatable> = <table 81>
+  },
+  droppedWeaponStatus = <82>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 81>,
+    __index = <function 368>,
+    __newindex = <function 369>,
+    <metatable> = <table 82>
+  },
+  droppedWeapons = <83>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 82>,
+    __index = <function 370>,
+    __newindex = <function 371>,
+    <metatable> = <table 83>
+  },
+  emblemColorH = <84>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 83>,
+    __index = <function 372>,
+    __newindex = <function 373>,
+    <metatable> = <table 84>
+  },
+  emblemColorL = <85>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 84>,
+    __index = <function 374>,
+    __newindex = <function 375>,
+    <metatable> = <table 85>
+  },
+  emblemFlag = <86>{
+    [-285212666] = 680,
+    [-285212665] = <userdata 85>,
+    __index = <function 376>,
+    __newindex = <function 377>,
+    <metatable> = <table 86>
+  },
+  emblemRotate = <87>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 86>,
+    __index = <function 378>,
+    __newindex = <function 379>,
+    <metatable> = <table 87>
+  },
+  emblemScale = <88>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 87>,
+    __index = <function 380>,
+    __newindex = <function 381>,
+    <metatable> = <table 88>
+  },
+  emblemTextureTag = <89>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 88>,
+    __index = <function 382>,
+    __newindex = <function 383>,
+    <metatable> = <table 89>
+  },
+  emblemX = <90>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 89>,
+    __index = <function 384>,
+    __newindex = <function 385>,
+    <metatable> = <table 90>
+  },
+  emblemY = <91>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 90>,
+    __index = <function 386>,
+    __newindex = <function 387>,
+    <metatable> = <table 91>
+  },
+  emotionMySet = <92>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 91>,
+    __index = <function 388>,
+    __newindex = <function 389>,
+    <metatable> = <table 92>
+  },
+  energyInvested = <93>{
+    [-285212666] = 5,
+    [-285212665] = <userdata 92>,
+    __index = <function 390>,
+    __newindex = <function 391>,
+    <metatable> = <table 93>
+  },
+  fastTravelPointStatus = <94>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 93>,
+    __index = <function 392>,
+    __newindex = <function 393>,
+    <metatable> = <table 94>
+  },
+  gearState = <95>{
+    [-285212666] = 225,
+    [-285212665] = <userdata 94>,
+    __index = <function 394>,
+    __newindex = <function 395>,
+    <metatable> = <table 95>
+  },
+  gestureMySet = <96>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 95>,
+    __index = <function 396>,
+    __newindex = <function 397>,
+    <metatable> = <table 96>
+  },
+  importantItemNumber = <97>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 96>,
+    __index = <function 398>,
+    __newindex = <function 399>,
+    <metatable> = <table 97>
+  },
+  importantItemPos = <98>{
+    [-285212666] = 96,
+    [-285212665] = <userdata 97>,
+    __index = <function 400>,
+    __newindex = <function 401>,
+    <metatable> = <table 98>
+  },
+  importantItemRot = <99>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 98>,
+    __index = <function 402>,
+    __newindex = <function 403>,
+    <metatable> = <table 99>
+  },
+  importantItemStatus = <100>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 99>,
+    __index = <function 404>,
+    __newindex = <function 405>,
+    <metatable> = <table 100>
+  },
+  importantItems = <101>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 100>,
+    __index = <function 406>,
+    __newindex = <function 407>,
+    <metatable> = <table 101>
+  },
+  inGameTime = <102>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 101>,
+    __index = <function 408>,
+    __newindex = <function 409>,
+    <metatable> = <table 102>
+  },
+  initChimeraColorIndex = <103>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 102>,
+    __index = <function 410>,
+    __newindex = <function 411>,
+    <metatable> = <table 103>
+  },
+  initChimeraPaintType = <104>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 103>,
+    __index = <function 412>,
+    __newindex = <function 413>,
+    <metatable> = <table 104>
+  },
+  initChimeraParts = <105>{
+    [-285212666] = 72,
+    [-285212665] = <userdata 104>,
+    __index = <function 414>,
+    __newindex = <function 415>,
+    <metatable> = <table 105>
+  },
+  initCustomizedWeapon = <106>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 105>,
+    __index = <function 416>,
+    __newindex = <function 417>,
+    <metatable> = <table 106>
+  },
+  initItems = <107>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 106>,
+    __index = <function 418>,
+    __newindex = <function 419>,
+    <metatable> = <table 107>
+  },
+  initSupportWeapons = <108>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 107>,
+    __index = <function 420>,
+    __newindex = <function 421>,
+    <metatable> = <table 108>
+  },
+  initWeapons = <109>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 108>,
+    __index = <function 422>,
+    __newindex = <function 423>,
+    <metatable> = <table 109>
+  },
+  injuryStates = <110>{
+    [-285212666] = 12,
+    [-285212665] = <userdata 109>,
+    __index = <function 424>,
+    __newindex = <function 425>,
+    <metatable> = <table 110>
+  },
+  injuryTimes = <111>{
+    [-285212666] = 23,
+    [-285212665] = <userdata 110>,
+    __index = <function 426>,
+    __newindex = <function 427>,
+    <metatable> = <table 111>
+  },
+  inventoryBaseBattlePackStatusCount = <112>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 111>,
+    __index = <function 428>,
+    __newindex = <function 429>,
+    <metatable> = <table 112>
+  },
+  inventoryBaseBattlePackStatusFlags = <113>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 112>,
+    __index = <function 430>,
+    __newindex = <function 431>,
+    <metatable> = <table 113>
+  },
+  inventoryBaseBattlePackStatusIdCode = <114>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 113>,
+    __index = <function 432>,
+    __newindex = <function 433>,
+    <metatable> = <table 114>
+  },
+  inventoryBaseBattlePackStatusObtainOrder = <115>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 114>,
+    __index = <function 434>,
+    __newindex = <function 435>,
+    <metatable> = <table 115>
+  },
+  inventoryBaseCountableProductionStatusCount = <116>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 115>,
+    __index = <function 436>,
+    __newindex = <function 437>,
+    <metatable> = <table 116>
+  },
+  inventoryBaseCountableProductionStatusDamagedInCount = <117>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 116>,
+    __index = <function 438>,
+    __newindex = <function 439>,
+    <metatable> = <table 117>
+  },
+  inventoryBaseCountableProductionStatusFlags = <118>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 117>,
+    __index = <function 440>,
+    __newindex = <function 441>,
+    <metatable> = <table 118>
+  },
+  inventoryBaseCountableProductionStatusIdCode = <119>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 118>,
+    __index = <function 442>,
+    __newindex = <function 443>,
+    <metatable> = <table 119>
+  },
+  inventoryBaseCountableProductionStatusObtainOrder = <120>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 119>,
+    __index = <function 444>,
+    __newindex = <function 445>,
+    <metatable> = <table 120>
+  },
+  inventoryBaseIndividualProductionStatusColor = <121>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 120>,
+    __index = <function 446>,
+    __newindex = <function 447>,
+    <metatable> = <table 121>
+  },
+  inventoryBaseIndividualProductionStatusColor2 = <122>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 121>,
+    __index = <function 448>,
+    __newindex = <function 449>,
+    <metatable> = <table 122>
+  },
+  inventoryBaseIndividualProductionStatusFlags = <123>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 122>,
+    __index = <function 450>,
+    __newindex = <function 451>,
+    <metatable> = <table 123>
+  },
+  inventoryBaseIndividualProductionStatusGrade = <124>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 123>,
+    __index = <function 452>,
+    __newindex = <function 453>,
+    <metatable> = <table 124>
+  },
+  inventoryBaseIndividualProductionStatusIdCode = <125>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 124>,
+    __index = <function 454>,
+    __newindex = <function 455>,
+    <metatable> = <table 125>
+  },
+  inventoryBaseIndividualProductionStatusLife = <126>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 125>,
+    __index = <function 456>,
+    __newindex = <function 457>,
+    <metatable> = <table 126>
+  },
+  inventoryBaseIndividualProductionStatusLifeMax = <127>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 126>,
+    __index = <function 458>,
+    __newindex = <function 459>,
+    <metatable> = <table 127>
+  },
+  inventoryBaseIndividualProductionStatusObtainOrder = <128>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 127>,
+    __index = <function 460>,
+    __newindex = <function 461>,
+    <metatable> = <table 128>
+  },
+  inventoryBaseIndividualProductionStatusObtainedOption = <129>{
+    [-285212666] = 8192,
+    [-285212665] = <userdata 128>,
+    __index = <function 462>,
+    __newindex = <function 463>,
+    <metatable> = <table 129>
+  },
+  inventoryBaseIndividualProductionStatusOptionIdCodes = <130>{
+    [-285212666] = 8192,
+    [-285212665] = <userdata 129>,
+    __index = <function 464>,
+    __newindex = <function 465>,
+    <metatable> = <table 130>
+  },
+  inventoryBaseIndividualProductionStatusOptionSlots = <131>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 130>,
+    __index = <function 466>,
+    __newindex = <function 467>,
+    <metatable> = <table 131>
+  },
+  inventoryBaseIndividualProductionStatusPerkIdCodes = <132>{
+    [-285212666] = 5120,
+    [-285212665] = <userdata 131>,
+    __index = <function 468>,
+    __newindex = <function 469>,
+    <metatable> = <table 132>
+  },
+  inventoryBaseIndividualProductionStatusPerkLevels = <133>{
+    [-285212666] = 5120,
+    [-285212665] = <userdata 132>,
+    __index = <function 470>,
+    __newindex = <function 471>,
+    <metatable> = <table 133>
+  },
+  inventoryBaseIndividualProductionStatusSpecRate = <134>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 133>,
+    __index = <function 472>,
+    __newindex = <function 473>,
+    <metatable> = <table 134>
+  },
+  inventoryBaseRecipeStatusCount = <135>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 134>,
+    __index = <function 474>,
+    __newindex = <function 475>,
+    <metatable> = <table 135>
+  },
+  inventoryBaseRecipeStatusFlags = <136>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 135>,
+    __index = <function 476>,
+    __newindex = <function 477>,
+    <metatable> = <table 136>
+  },
+  inventoryBaseRecipeStatusIdCode = <137>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 136>,
+    __index = <function 478>,
+    __newindex = <function 479>,
+    <metatable> = <table 137>
+  },
+  inventoryBaseRecipeStatusObtainOrder = <138>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 137>,
+    __index = <function 480>,
+    __newindex = <function 481>,
+    <metatable> = <table 138>
+  },
+  inventoryBaseResourceStatusCount = <139>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 138>,
+    __index = <function 482>,
+    __newindex = <function 483>,
+    <metatable> = <table 139>
+  },
+  inventoryBaseResourceStatusDamagedInCount = <140>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 139>,
+    __index = <function 484>,
+    __newindex = <function 485>,
+    <metatable> = <table 140>
+  },
+  inventoryBaseResourceStatusFlags = <141>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 140>,
+    __index = <function 486>,
+    __newindex = <function 487>,
+    <metatable> = <table 141>
+  },
+  inventoryBaseResourceStatusIdCode = <142>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 141>,
+    __index = <function 488>,
+    __newindex = <function 489>,
+    <metatable> = <table 142>
+  },
+  inventoryBaseResourceStatusObtainOrder = <143>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 142>,
+    __index = <function 490>,
+    __newindex = <function 491>,
+    <metatable> = <table 143>
+  },
+  inventoryCboxBattlePackStatusCount = <144>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 143>,
+    __index = <function 492>,
+    __newindex = <function 493>,
+    <metatable> = <table 144>
+  },
+  inventoryCboxBattlePackStatusFlags = <145>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 144>,
+    __index = <function 494>,
+    __newindex = <function 495>,
+    <metatable> = <table 145>
+  },
+  inventoryCboxBattlePackStatusIdCode = <146>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 145>,
+    __index = <function 496>,
+    __newindex = <function 497>,
+    <metatable> = <table 146>
+  },
+  inventoryCboxCountableProductionStatusCount = <147>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 146>,
+    __index = <function 498>,
+    __newindex = <function 499>,
+    <metatable> = <table 147>
+  },
+  inventoryCboxCountableProductionStatusDamagedInCount = <148>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 147>,
+    __index = <function 500>,
+    __newindex = <function 501>,
+    <metatable> = <table 148>
+  },
+  inventoryCboxCountableProductionStatusFlags = <149>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 148>,
+    __index = <function 502>,
+    __newindex = <function 503>,
+    <metatable> = <table 149>
+  },
+  inventoryCboxCountableProductionStatusIdCode = <150>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 149>,
+    __index = <function 504>,
+    __newindex = <function 505>,
+    <metatable> = <table 150>
+  },
+  inventoryCboxRecipeStatusCount = <151>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 150>,
+    __index = <function 506>,
+    __newindex = <function 507>,
+    <metatable> = <table 151>
+  },
+  inventoryCboxRecipeStatusFlags = <152>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 151>,
+    __index = <function 508>,
+    __newindex = <function 509>,
+    <metatable> = <table 152>
+  },
+  inventoryCboxRecipeStatusIdCode = <153>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 152>,
+    __index = <function 510>,
+    __newindex = <function 511>,
+    <metatable> = <table 153>
+  },
+  inventoryCboxResourceStatusCount = <154>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 153>,
+    __index = <function 512>,
+    __newindex = <function 513>,
+    <metatable> = <table 154>
+  },
+  inventoryCboxResourceStatusDamagedInCount = <155>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 154>,
+    __index = <function 514>,
+    __newindex = <function 515>,
+    <metatable> = <table 155>
+  },
+  inventoryCboxResourceStatusFlags = <156>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 155>,
+    __index = <function 516>,
+    __newindex = <function 517>,
+    <metatable> = <table 156>
+  },
+  inventoryCboxResourceStatusIdCode = <157>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 156>,
+    __index = <function 518>,
+    __newindex = <function 519>,
+    <metatable> = <table 157>
+  },
+  inventoryPlayerBattlePackStatusCount = <158>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 157>,
+    __index = <function 520>,
+    __newindex = <function 521>,
+    <metatable> = <table 158>
+  },
+  inventoryPlayerBattlePackStatusFlags = <159>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 158>,
+    __index = <function 522>,
+    __newindex = <function 523>,
+    <metatable> = <table 159>
+  },
+  inventoryPlayerBattlePackStatusIdCode = <160>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 159>,
+    __index = <function 524>,
+    __newindex = <function 525>,
+    <metatable> = <table 160>
+  },
+  inventoryPlayerBattlePackStatusObtainOrder = <161>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 160>,
+    __index = <function 526>,
+    __newindex = <function 527>,
+    <metatable> = <table 161>
+  },
+  inventoryPlayerCountableProductionStatusCount = <162>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 161>,
+    __index = <function 528>,
+    __newindex = <function 529>,
+    <metatable> = <table 162>
+  },
+  inventoryPlayerCountableProductionStatusDamagedInCount = <163>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 162>,
+    __index = <function 530>,
+    __newindex = <function 531>,
+    <metatable> = <table 163>
+  },
+  inventoryPlayerCountableProductionStatusFlags = <164>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 163>,
+    __index = <function 532>,
+    __newindex = <function 533>,
+    <metatable> = <table 164>
+  },
+  inventoryPlayerCountableProductionStatusIdCode = <165>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 164>,
+    __index = <function 534>,
+    __newindex = <function 535>,
+    <metatable> = <table 165>
+  },
+  inventoryPlayerCountableProductionStatusObtainOrder = <166>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 165>,
+    __index = <function 536>,
+    __newindex = <function 537>,
+    <metatable> = <table 166>
+  },
+  inventoryPlayerIndividualProductionStatusColor = <167>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 166>,
+    __index = <function 538>,
+    __newindex = <function 539>,
+    <metatable> = <table 167>
+  },
+  inventoryPlayerIndividualProductionStatusColor2 = <168>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 167>,
+    __index = <function 540>,
+    __newindex = <function 541>,
+    <metatable> = <table 168>
+  },
+  inventoryPlayerIndividualProductionStatusFlags = <169>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 168>,
+    __index = <function 542>,
+    __newindex = <function 543>,
+    <metatable> = <table 169>
+  },
+  inventoryPlayerIndividualProductionStatusGrade = <170>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 169>,
+    __index = <function 544>,
+    __newindex = <function 545>,
+    <metatable> = <table 170>
+  },
+  inventoryPlayerIndividualProductionStatusIdCode = <171>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 170>,
+    __index = <function 546>,
+    __newindex = <function 547>,
+    <metatable> = <table 171>
+  },
+  inventoryPlayerIndividualProductionStatusLife = <172>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 171>,
+    __index = <function 548>,
+    __newindex = <function 549>,
+    <metatable> = <table 172>
+  },
+  inventoryPlayerIndividualProductionStatusLifeMax = <173>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 172>,
+    __index = <function 550>,
+    __newindex = <function 551>,
+    <metatable> = <table 173>
+  },
+  inventoryPlayerIndividualProductionStatusObtainOrder = <174>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 173>,
+    __index = <function 552>,
+    __newindex = <function 553>,
+    <metatable> = <table 174>
+  },
+  inventoryPlayerIndividualProductionStatusObtainedOption = <175>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 174>,
+    __index = <function 554>,
+    __newindex = <function 555>,
+    <metatable> = <table 175>
+  },
+  inventoryPlayerIndividualProductionStatusOptionIdCodes = <176>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 175>,
+    __index = <function 556>,
+    __newindex = <function 557>,
+    <metatable> = <table 176>
+  },
+  inventoryPlayerIndividualProductionStatusOptionSlots = <177>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 176>,
+    __index = <function 558>,
+    __newindex = <function 559>,
+    <metatable> = <table 177>
+  },
+  inventoryPlayerIndividualProductionStatusPerkIdCodes = <178>{
+    [-285212666] = 5,
+    [-285212665] = <userdata 177>,
+    __index = <function 560>,
+    __newindex = <function 561>,
+    <metatable> = <table 178>
+  },
+  inventoryPlayerIndividualProductionStatusPerkLevels = <179>{
+    [-285212666] = 5,
+    [-285212665] = <userdata 178>,
+    __index = <function 562>,
+    __newindex = <function 563>,
+    <metatable> = <table 179>
+  },
+  inventoryPlayerIndividualProductionStatusSpecRate = <180>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 179>,
+    __index = <function 564>,
+    __newindex = <function 565>,
+    <metatable> = <table 180>
+  },
+  inventoryPlayerRecipeStatusCount = <181>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 180>,
+    __index = <function 566>,
+    __newindex = <function 567>,
+    <metatable> = <table 181>
+  },
+  inventoryPlayerRecipeStatusFlags = <182>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 181>,
+    __index = <function 568>,
+    __newindex = <function 569>,
+    <metatable> = <table 182>
+  },
+  inventoryPlayerRecipeStatusIdCode = <183>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 182>,
+    __index = <function 570>,
+    __newindex = <function 571>,
+    <metatable> = <table 183>
+  },
+  inventoryPlayerRecipeStatusObtainOrder = <184>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 183>,
+    __index = <function 572>,
+    __newindex = <function 573>,
+    <metatable> = <table 184>
+  },
+  inventoryPlayerResourceStatusCount = <185>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 184>,
+    __index = <function 574>,
+    __newindex = <function 575>,
+    <metatable> = <table 185>
+  },
+  inventoryPlayerResourceStatusDamagedInCount = <186>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 185>,
+    __index = <function 576>,
+    __newindex = <function 577>,
+    <metatable> = <table 186>
+  },
+  inventoryPlayerResourceStatusFlags = <187>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 186>,
+    __index = <function 578>,
+    __newindex = <function 579>,
+    <metatable> = <table 187>
+  },
+  inventoryPlayerResourceStatusIdCode = <188>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 187>,
+    __index = <function 580>,
+    __newindex = <function 581>,
+    <metatable> = <table 188>
+  },
+  inventoryPlayerResourceStatusObtainOrder = <189>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 188>,
+    __index = <function 582>,
+    __newindex = <function 583>,
+    <metatable> = <table 189>
+  },
+  isArchiveNew = <190>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 189>,
+    __index = <function 584>,
+    __newindex = <function 585>,
+    <metatable> = <table 190>
+  },
+  isArchiveObtained = <191>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 190>,
+    __index = <function 586>,
+    __newindex = <function 587>,
+    <metatable> = <table 191>
+  },
+  isBattlePackOpened = <192>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 191>,
+    __index = <function 588>,
+    __newindex = <function 589>,
+    <metatable> = <table 192>
+  },
+  isCassetteNew = <193>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 192>,
+    __index = <function 590>,
+    __newindex = <function 591>,
+    <metatable> = <table 193>
+  },
+  isCassetteObtained = <194>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 193>,
+    __index = <function 592>,
+    __newindex = <function 593>,
+    <metatable> = <table 194>
+  },
+  isCommandMarkerNew = <195>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 194>,
+    __index = <function 594>,
+    __newindex = <function 595>,
+    <metatable> = <table 195>
+  },
+  isCommandMarkerObtained = <196>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 195>,
+    __index = <function 596>,
+    __newindex = <function 597>,
+    <metatable> = <table 196>
+  },
+  isEventItemObtained = <197>{
+    [-285212666] = 2,
+    [-285212665] = <userdata 196>,
+    __index = <function 598>,
+    __newindex = <function 599>,
+    <metatable> = <table 197>
+  },
+  isFacePaintNew = <198>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 197>,
+    __index = <function 600>,
+    __newindex = <function 601>,
+    <metatable> = <table 198>
+  },
+  isFacePaintObtained = <199>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 198>,
+    __index = <function 602>,
+    __newindex = <function 603>,
+    <metatable> = <table 199>
+  },
+  isFoodUsed = <200>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 199>,
+    __index = <function 604>,
+    __newindex = <function 605>,
+    <metatable> = <table 200>
+  },
+  isGestureNew = <201>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 200>,
+    __index = <function 606>,
+    __newindex = <function 607>,
+    <metatable> = <table 201>
+  },
+  isGestureObtained = <202>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 201>,
+    __index = <function 608>,
+    __newindex = <function 609>,
+    <metatable> = <table 202>
+  },
+  isInitialWeapon = <203>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 202>,
+    __index = <function 610>,
+    __newindex = <function 611>,
+    <metatable> = <table 203>
+  },
+  isNamePlateNew = <204>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 203>,
+    __index = <function 612>,
+    __newindex = <function 613>,
+    <metatable> = <table 204>
+  },
+  isNamePlateObtained = <205>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 204>,
+    __index = <function 614>,
+    __newindex = <function 615>,
+    <metatable> = <table 205>
+  },
+  isPresetRadioNew = <206>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 205>,
+    __index = <function 616>,
+    __newindex = <function 617>,
+    <metatable> = <table 206>
+  },
+  isPresetRadioObtained = <207>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 206>,
+    __index = <function 618>,
+    __newindex = <function 619>,
+    <metatable> = <table 207>
+  },
+  isProductionOpened = <208>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 207>,
+    __index = <function 620>,
+    __newindex = <function 621>,
+    <metatable> = <table 208>
+  },
+  isRecipeNew = <209>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 208>,
+    __index = <function 622>,
+    __newindex = <function 623>,
+    <metatable> = <table 209>
+  },
+  isRecipeNewForDb = <210>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 209>,
+    __index = <function 624>,
+    __newindex = <function 625>,
+    <metatable> = <table 210>
+  },
+  isRecipeOpened = <211>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 210>,
+    __index = <function 626>,
+    __newindex = <function 627>,
+    <metatable> = <table 211>
+  },
+  isRecipeUsed = <212>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 211>,
+    __index = <function 628>,
+    __newindex = <function 629>,
+    <metatable> = <table 212>
+  },
+  isResourceOpened = <213>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 212>,
+    __index = <function 630>,
+    __newindex = <function 631>,
+    <metatable> = <table 213>
+  },
+  isSurvivalNew = <214>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 213>,
+    __index = <function 632>,
+    __newindex = <function 633>,
+    <metatable> = <table 214>
+  },
+  isSurvivalObtained = <215>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 214>,
+    __index = <function 634>,
+    __newindex = <function 635>,
+    <metatable> = <table 215>
+  },
+  isSurvivalSlotNew = <216>{
+    [-285212666] = 2,
+    [-285212665] = <userdata 215>,
+    __index = <function 636>,
+    __newindex = <function 637>,
+    <metatable> = <table 216>
+  },
+  isUseCustomizedWeapon = <217>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 216>,
+    __index = <function 638>,
+    __newindex = <function 639>,
+    <metatable> = <table 217>
+  },
+  isUseFlashLight = <218>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 217>,
+    __index = <function 640>,
+    __newindex = <function 641>,
+    <metatable> = <table 218>
+  },
+  isUseSuppressor = <219>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 218>,
+    __index = <function 642>,
+    __newindex = <function 643>,
+    <metatable> = <table 219>
+  },
+  itemLevels = <220>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 219>,
+    __index = <function 644>,
+    __newindex = <function 645>,
+    <metatable> = <table 220>
+  },
+  itemLevelsDeveloped = <221>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 220>,
+    __index = <function 646>,
+    __newindex = <function 647>,
+    <metatable> = <table 221>
+  },
+  items = <222>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 221>,
+    __index = <function 648>,
+    __newindex = <function 649>,
+    <metatable> = <table 222>
+  },
+  keyStr = <223>{
+    [-285212666] = 120,
+    [-285212665] = <userdata 222>,
+    __index = <function 650>,
+    __newindex = <function 651>,
+    <metatable> = <table 223>
+  },
+  keybordNo = <224>{
+    [-285212666] = 120,
+    [-285212665] = <userdata 223>,
+    __index = <function 652>,
+    __newindex = <function 653>,
+    <metatable> = <table 224>
+  },
+  loadoutInfoU16buf = <225>{
+    [-285212666] = 144,
+    [-285212665] = <userdata 224>,
+    __index = <function 654>,
+    __newindex = <function 655>,
+    <metatable> = <table 225>
+  },
+  loadoutInfoU32buf = <226>{
+    [-285212666] = 68,
+    [-285212665] = <userdata 225>,
+    __index = <function 656>,
+    __newindex = <function 657>,
+    <metatable> = <table 226>
+  },
+  loadoutInfoU8buf = <227>{
+    [-285212666] = 464,
+    [-285212665] = <userdata 226>,
+    __index = <function 658>,
+    __newindex = <function 659>,
+    <metatable> = <table 227>
+  },
+  ["mafrGimmickSaveLocation.m_instantLife"] = <228>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 227>,
+    __index = <function 660>,
+    __newindex = <function 661>,
+    <metatable> = <table 228>
+  },
+  ["mafrGimmickSaveLocation.m_instantName"] = <229>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 228>,
+    __index = <function 662>,
+    __newindex = <function 663>,
+    <metatable> = <table 229>
+  },
+  ["mafrGimmickSaveLocation.m_instantPos"] = <230>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 229>,
+    __index = <function 664>,
+    __newindex = <function 665>,
+    <metatable> = <table 230>
+  },
+  ["mafrGimmickSaveLocation.m_instantProduction"] = <231>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 230>,
+    __index = <function 666>,
+    __newindex = <function 667>,
+    <metatable> = <table 231>
+  },
+  ["mafrGimmickSaveLocation.m_instantRot"] = <232>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 231>,
+    __index = <function 668>,
+    __newindex = <function 669>,
+    <metatable> = <table 232>
+  },
+  ["mafrGimmickSaveLocation.m_instantState"] = <233>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 232>,
+    __index = <function 670>,
+    __newindex = <function 671>,
+    <metatable> = <table 233>
+  },
+  ["mafrGimmickSaveLocation.m_permanentName"] = <234>{
+    [-285212666] = 1536,
+    [-285212665] = <userdata 233>,
+    __index = <function 672>,
+    __newindex = <function 673>,
+    <metatable> = <table 234>
+  },
+  ["mafrGimmickSaveLocation.m_permanentState"] = <235>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 234>,
+    __index = <function 674>,
+    __newindex = <function 675>,
+    <metatable> = <table 235>
+  },
+  ["mafrGimmickSaveLocation.m_resourceEventCount"] = <236>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 235>,
+    __index = <function 676>,
+    __newindex = <function 677>,
+    <metatable> = <table 236>
+  },
+  ["mafrGimmickSaveLocation.m_resourceEventDataName"] = <237>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 236>,
+    __index = <function 678>,
+    __newindex = <function 679>,
+    <metatable> = <table 237>
+  },
+  ["mafrGimmickSaveLocation.m_resourceEventFlag"] = <238>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 237>,
+    __index = <function 680>,
+    __newindex = <function 681>,
+    <metatable> = <table 238>
+  },
+  ["mafrGimmickSaveLocation.m_resourceEventName"] = <239>{
+    [-285212666] = 1536,
+    [-285212665] = <userdata 238>,
+    __index = <function 682>,
+    __newindex = <function 683>,
+    <metatable> = <table 239>
+  },
+  ["mafrGimmickSaveLocation.m_resourceEventPickIndex"] = <240>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 239>,
+    __index = <function 684>,
+    __newindex = <function 685>,
+    <metatable> = <table 240>
+  },
+  ["mafrGimmickSaveLocation.m_resourceEventTail"] = <241>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 240>,
+    __index = <function 686>,
+    __newindex = <function 687>,
+    <metatable> = <table 241>
+  },
+  ["mafrGimmickSaveLocation.m_resourceNormalCount"] = <242>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 241>,
+    __index = <function 688>,
+    __newindex = <function 689>,
+    <metatable> = <table 242>
+  },
+  ["mafrGimmickSaveLocation.m_resourceNormalDataName"] = <243>{
+    [-285212666] = 1152,
+    [-285212665] = <userdata 242>,
+    __index = <function 690>,
+    __newindex = <function 691>,
+    <metatable> = <table 243>
+  },
+  ["mafrGimmickSaveLocation.m_resourceNormalFlag"] = <244>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 243>,
+    __index = <function 692>,
+    __newindex = <function 693>,
+    <metatable> = <table 244>
+  },
+  ["mafrGimmickSaveLocation.m_resourceNormalName"] = <245>{
+    [-285212666] = 2304,
+    [-285212665] = <userdata 244>,
+    __index = <function 694>,
+    __newindex = <function 695>,
+    <metatable> = <table 245>
+  },
+  ["mafrGimmickSaveLocation.m_resourceNormalPickIndex"] = <246>{
+    [-285212666] = 768,
+    [-285212665] = <userdata 245>,
+    __index = <function 696>,
+    __newindex = <function 697>,
+    <metatable> = <table 246>
+  },
+  ["mafrGimmickSaveLocation.m_resourceNormalTail"] = <247>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 246>,
+    __index = <function 698>,
+    __newindex = <function 699>,
+    <metatable> = <table 247>
+  },
+  ["mafrGimmickSaveLocation.m_resourceRareCount"] = <248>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 247>,
+    __index = <function 700>,
+    __newindex = <function 701>,
+    <metatable> = <table 248>
+  },
+  ["mafrGimmickSaveLocation.m_resourceRareDataName"] = <249>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 248>,
+    __index = <function 702>,
+    __newindex = <function 703>,
+    <metatable> = <table 249>
+  },
+  ["mafrGimmickSaveLocation.m_resourceRareFlag"] = <250>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 249>,
+    __index = <function 704>,
+    __newindex = <function 705>,
+    <metatable> = <table 250>
+  },
+  ["mafrGimmickSaveLocation.m_resourceRareName"] = <251>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 250>,
+    __index = <function 706>,
+    __newindex = <function 707>,
+    <metatable> = <table 251>
+  },
+  ["mafrGimmickSaveLocation.m_resourceRarePickIndex"] = <252>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 251>,
+    __index = <function 708>,
+    __newindex = <function 709>,
+    <metatable> = <table 252>
+  },
+  ["mafrGimmickSaveLocation.m_resourceRareTail"] = <253>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 252>,
+    __index = <function 710>,
+    __newindex = <function 711>,
+    <metatable> = <table 253>
+  },
+  ["mafrGimmickSaveLocation.m_resourceSharedCount"] = <254>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 253>,
+    __index = <function 712>,
+    __newindex = <function 713>,
+    <metatable> = <table 254>
+  },
+  ["mafrGimmickSaveLocation.m_resourceSharedDataName"] = <255>{
+    [-285212666] = 192,
+    [-285212665] = <userdata 254>,
+    __index = <function 714>,
+    __newindex = <function 715>,
+    <metatable> = <table 255>
+  },
+  ["mafrGimmickSaveLocation.m_resourceSharedFlag"] = <256>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 255>,
+    __index = <function 716>,
+    __newindex = <function 717>,
+    <metatable> = <table 256>
+  },
+  ["mafrGimmickSaveLocation.m_resourceSharedName"] = <257>{
+    [-285212666] = 384,
+    [-285212665] = <userdata 256>,
+    __index = <function 718>,
+    __newindex = <function 719>,
+    <metatable> = <table 257>
+  },
+  ["mafrGimmickSaveLocation.m_resourceSharedPickIndex"] = <258>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 257>,
+    __index = <function 720>,
+    __newindex = <function 721>,
+    <metatable> = <table 258>
+  },
+  ["mafrGimmickSaveLocation.m_resourceSharedTail"] = <259>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 258>,
+    __index = <function 722>,
+    __newindex = <function 723>,
+    <metatable> = <table 259>
+  },
+  ["mafrGimmickSaveResourceTimer.m_global"] = <260>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 259>,
+    __index = <function 724>,
+    __newindex = <function 725>,
+    <metatable> = <table 260>
+  },
+  ["mafrGimmickSaveResourceTimer.m_stock"] = <261>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 260>,
+    __index = <function 726>,
+    __newindex = <function 727>,
+    <metatable> = <table 261>
+  },
+  optionSelectedIndices = <262>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 261>,
+    __index = <function 728>,
+    __newindex = <function 729>,
+    <metatable> = <table 262>
+  },
+  personalName = <263>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 262>,
+    __index = <function 730>,
+    __newindex = <function 731>,
+    <metatable> = <table 263>
+  },
+  placedAttachPoints = <264>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 263>,
+    __index = <function 732>,
+    __newindex = <function 733>,
+    <metatable> = <table 264>
+  },
+  placedAttachTargetGameObjectType = <265>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 264>,
+    __index = <function 734>,
+    __newindex = <function 735>,
+    <metatable> = <table 265>
+  },
+  placedAttachTargetIndex = <266>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 265>,
+    __index = <function 736>,
+    __newindex = <function 737>,
+    <metatable> = <table 266>
+  },
+  placedAttachTargetNames = <267>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 266>,
+    __index = <function 738>,
+    __newindex = <function 739>,
+    <metatable> = <table 267>
+  },
+  placedCorrelationId = <268>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 267>,
+    __index = <function 740>,
+    __newindex = <function 741>,
+    <metatable> = <table 268>
+  },
+  placedOwnerIds = <269>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 268>,
+    __index = <function 742>,
+    __newindex = <function 743>,
+    <metatable> = <table 269>
+  },
+  placedPos = <270>{
+    [-285212666] = 96,
+    [-285212665] = <userdata 269>,
+    __index = <function 744>,
+    __newindex = <function 745>,
+    <metatable> = <table 270>
+  },
+  placedRot = <271>{
+    [-285212666] = 128,
+    [-285212665] = <userdata 270>,
+    __index = <function 746>,
+    __newindex = <function 747>,
+    <metatable> = <table 271>
+  },
+  placedStatus = <272>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 271>,
+    __index = <function 748>,
+    __newindex = <function 749>,
+    <metatable> = <table 272>
+  },
+  placedTargetGroupBlast = <273>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 272>,
+    __index = <function 750>,
+    __newindex = <function 751>,
+    <metatable> = <table 273>
+  },
+  placedWeapons = <274>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 273>,
+    __index = <function 752>,
+    __newindex = <function 753>,
+    <metatable> = <table 274>
+  },
+  playerCameraPosition = <275>{
+    [-285212666] = 3,
+    [-285212665] = <userdata 274>,
+    __index = <function 754>,
+    __newindex = <function 755>,
+    <metatable> = <table 275>
+  },
+  playerCameraRotation = <276>{
+    [-285212666] = 2,
+    [-285212665] = <userdata 275>,
+    __index = <function 756>,
+    __newindex = <function 757>,
+    <metatable> = <table 276>
+  },
+  playerDecoyAngleBallon = <277>{
+    [-285212666] = 12,
+    [-285212665] = <userdata 276>,
+    __index = <function 758>,
+    __newindex = <function 759>,
+    <metatable> = <table 277>
+  },
+  playerDecoyInstanceIndicies = <278>{
+    [-285212666] = 12,
+    [-285212665] = <userdata 277>,
+    __index = <function 760>,
+    __newindex = <function 761>,
+    <metatable> = <table 278>
+  },
+  playerLoadoutAmmoStockStatusCount = <279>{
+    [-285212666] = 171,
+    [-285212665] = <userdata 278>,
+    __index = <function 762>,
+    __newindex = <function 763>,
+    <metatable> = <table 279>
+  },
+  playerLoadoutAmmoStockStatusIdCode = <280>{
+    [-285212666] = 171,
+    [-285212665] = <userdata 279>,
+    __index = <function 764>,
+    __newindex = <function 765>,
+    <metatable> = <table 280>
+  },
+  playerLoadoutCurrentClass = <281>{
+    [-285212666] = 9,
+    [-285212665] = <userdata 280>,
+    __index = <function 766>,
+    __newindex = <function 767>,
+    <metatable> = <table 281>
+  },
+  playerLoadoutGadgetStatusCount = <282>{
+    [-285212666] = 144,
+    [-285212665] = <userdata 281>,
+    __index = <function 768>,
+    __newindex = <function 769>,
+    <metatable> = <table 282>
+  },
+  playerLoadoutGadgetStatusIdCode = <283>{
+    [-285212666] = 144,
+    [-285212665] = <userdata 282>,
+    __index = <function 770>,
+    __newindex = <function 771>,
+    <metatable> = <table 283>
+  },
+  playerLoadoutHandlesInAccessorySlot = <284>{
+    [-285212666] = 45,
+    [-285212665] = <userdata 283>,
+    __index = <function 772>,
+    __newindex = <function 773>,
+    <metatable> = <table 284>
+  },
+  playerLoadoutHandlesInSlot = <285>{
+    [-285212666] = 54,
+    [-285212665] = <userdata 284>,
+    __index = <function 774>,
+    __newindex = <function 775>,
+    <metatable> = <table 285>
+  },
+  playerLoadoutIdCodesInSurvivalEquipmentSlot = <286>{
+    [-285212666] = 63,
+    [-285212665] = <userdata 285>,
+    __index = <function 776>,
+    __newindex = <function 777>,
+    <metatable> = <table 286>
+  },
+  playerLoadoutInitialAmmoStockStatusCount = <287>{
+    [-285212666] = 54,
+    [-285212665] = <userdata 286>,
+    __index = <function 778>,
+    __newindex = <function 779>,
+    <metatable> = <table 287>
+  },
+  playerLoadoutInitialAmmoStockStatusIdCode = <288>{
+    [-285212666] = 54,
+    [-285212665] = <userdata 287>,
+    __index = <function 780>,
+    __newindex = <function 781>,
+    <metatable> = <table 288>
+  },
+  playerLoadoutIsNeedToSave = <289>{
+    [-285212666] = 9,
+    [-285212665] = <userdata 288>,
+    __index = <function 782>,
+    __newindex = <function 783>,
+    <metatable> = <table 289>
+  },
+  playerLoadoutLoadedAmmoStatusCount = <290>{
+    [-285212666] = 54,
+    [-285212665] = <userdata 289>,
+    __index = <function 784>,
+    __newindex = <function 785>,
+    <metatable> = <table 290>
+  },
+  playerLoadoutLoadedAmmoStatusIdCode = <291>{
+    [-285212666] = 54,
+    [-285212665] = <userdata 290>,
+    __index = <function 786>,
+    __newindex = <function 787>,
+    <metatable> = <table 291>
+  },
+  playerLoadoutName = <292>{
+    [-285212666] = 576,
+    [-285212665] = <userdata 291>,
+    __index = <function 788>,
+    __newindex = <function 789>,
+    <metatable> = <table 292>
+  },
+  playerLoadoutSkillIdsInSlot = <293>{
+    [-285212666] = 360,
+    [-285212665] = <userdata 292>,
+    __index = <function 790>,
+    __newindex = <function 791>,
+    <metatable> = <table 293>
+  },
+  questTimeCounter = <294>{
+    [-285212666] = 256,
+    [-285212665] = <userdata 293>,
+    __index = <function 792>,
+    __newindex = <function 793>,
+    <metatable> = <table 294>
+  },
+  radioReadFlagGlobalScoped = <295>{
+    [-285212666] = 200,
+    [-285212665] = <userdata 294>,
+    __index = <function 794>,
+    __newindex = <function 795>,
+    <metatable> = <table 295>
+  },
+  rentalLoadoutPlayerName = <296>{
+    [-285212666] = 100,
+    [-285212665] = <userdata 295>,
+    __index = <function 796>,
+    __newindex = <function 797>,
+    <metatable> = <table 296>
+  },
+  requestWeatherInterp = <297>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 296>,
+    __index = <function 798>,
+    __newindex = <function 799>,
+    <metatable> = <table 297>
+  },
+  requestWeatherParam = <298>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 297>,
+    __index = <function 800>,
+    __newindex = <function 801>,
+    <metatable> = <table 298>
+  },
+  requestWeatherType = <299>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 298>,
+    __index = <function 802>,
+    __newindex = <function 803>,
+    <metatable> = <table 299>
+  },
+  requestWeatherUserId = <300>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 299>,
+    __index = <function 804>,
+    __newindex = <function 805>,
+    <metatable> = <table 300>
+  },
+  returnHeliLoadoutInfoU16buf = <301>{
+    [-285212666] = 144,
+    [-285212665] = <userdata 300>,
+    __index = <function 806>,
+    __newindex = <function 807>,
+    <metatable> = <table 301>
+  },
+  returnHeliLoadoutInfoU32buf = <302>{
+    [-285212666] = 68,
+    [-285212665] = <userdata 301>,
+    __index = <function 808>,
+    __newindex = <function 809>,
+    <metatable> = <table 302>
+  },
+  returnHeliLoadoutInfoU8buf = <303>{
+    [-285212666] = 464,
+    [-285212665] = <userdata 302>,
+    __index = <function 810>,
+    __newindex = <function 811>,
+    <metatable> = <table 303>
+  },
+  skillStatusFlags = <304>{
+    [-285212666] = 255,
+    [-285212665] = <userdata 303>,
+    __index = <function 812>,
+    __newindex = <function 813>,
+    <metatable> = <table 304>
+  },
+  sortieLoadoutInfoU16buf = <305>{
+    [-285212666] = 144,
+    [-285212665] = <userdata 304>,
+    __index = <function 814>,
+    __newindex = <function 815>,
+    <metatable> = <table 305>
+  },
+  sortieLoadoutInfoU32buf = <306>{
+    [-285212666] = 68,
+    [-285212665] = <userdata 305>,
+    __index = <function 816>,
+    __newindex = <function 817>,
+    <metatable> = <table 306>
+  },
+  sortieLoadoutInfoU8buf = <307>{
+    [-285212666] = 464,
+    [-285212665] = <userdata 306>,
+    __index = <function 818>,
+    __newindex = <function 819>,
+    <metatable> = <table 307>
+  },
+  ssdBlankMapAfgh = <308>{
+    [-285212666] = 19881,
+    [-285212665] = <userdata 307>,
+    __index = <function 820>,
+    __newindex = <function 821>,
+    <metatable> = <table 308>
+  },
+  ssdBlankMapMafr = <309>{
+    [-285212666] = 21904,
+    [-285212665] = <userdata 308>,
+    __index = <function 822>,
+    __newindex = <function 823>,
+    <metatable> = <table 309>
+  },
+  ssdBuildingMap_CenterItemRot = <310>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 309>,
+    __index = <function 824>,
+    __newindex = <function 825>,
+    <metatable> = <table 310>
+  },
+  ssdBuildingMap_CenterLife = <311>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 310>,
+    __index = <function 826>,
+    __newindex = <function 827>,
+    <metatable> = <table 311>
+  },
+  ssdBuildingMap_CenterMaxLife = <312>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 311>,
+    __index = <function 828>,
+    __newindex = <function 829>,
+    <metatable> = <table 312>
+  },
+  ssdBuildingMap_CenterProductionIdCode = <313>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 312>,
+    __index = <function 830>,
+    __newindex = <function 831>,
+    <metatable> = <table 313>
+  },
+  ssdBuildingMap_FarmingAnimalInfo = <314>{
+    [-285212666] = 8192,
+    [-285212665] = <userdata 313>,
+    __index = <function 832>,
+    __newindex = <function 833>,
+    <metatable> = <table 314>
+  },
+  ssdBuildingMap_FarmingItemInfo = <315>{
+    [-285212666] = 10240,
+    [-285212665] = <userdata 314>,
+    __index = <function 834>,
+    __newindex = <function 835>,
+    <metatable> = <table 315>
+  },
+  ssdBuildingMap_LeftLife = <316>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 315>,
+    __index = <function 836>,
+    __newindex = <function 837>,
+    <metatable> = <table 316>
+  },
+  ssdBuildingMap_LeftMaxLife = <317>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 316>,
+    __index = <function 838>,
+    __newindex = <function 839>,
+    <metatable> = <table 317>
+  },
+  ssdBuildingMap_LeftProductionIdCode = <318>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 317>,
+    __index = <function 840>,
+    __newindex = <function 841>,
+    <metatable> = <table 318>
+  },
+  ssdBuildingMap_UpperLife = <319>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 318>,
+    __index = <function 842>,
+    __newindex = <function 843>,
+    <metatable> = <table 319>
+  },
+  ssdBuildingMap_UpperMaxLife = <320>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 319>,
+    __index = <function 844>,
+    __newindex = <function 845>,
+    <metatable> = <table 320>
+  },
+  ssdBuildingMap_UpperProductionIdCode = <321>{
+    [-285212666] = 1024,
+    [-285212665] = <userdata 320>,
+    __index = <function 846>,
+    __newindex = <function 847>,
+    <metatable> = <table 321>
+  },
+  ssdMarker_Stamp_flag = <322>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 321>,
+    __index = <function 848>,
+    __newindex = <function 849>,
+    <metatable> = <table 322>
+  },
+  ssdMarker_Stamp_flag_mafr = <323>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 322>,
+    __index = <function 850>,
+    __newindex = <function 851>,
+    <metatable> = <table 323>
+  },
+  ssdMarker_Stamp_markerType = <324>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 323>,
+    __index = <function 852>,
+    __newindex = <function 853>,
+    <metatable> = <table 324>
+  },
+  ssdMarker_Stamp_markerType_mafr = <325>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 324>,
+    __index = <function 854>,
+    __newindex = <function 855>,
+    <metatable> = <table 325>
+  },
+  ssdMarker_Stamp_posX = <326>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 325>,
+    __index = <function 856>,
+    __newindex = <function 857>,
+    <metatable> = <table 326>
+  },
+  ssdMarker_Stamp_posX_mafr = <327>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 326>,
+    __index = <function 858>,
+    __newindex = <function 859>,
+    <metatable> = <table 327>
+  },
+  ssdMarker_Stamp_posY = <328>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 327>,
+    __index = <function 860>,
+    __newindex = <function 861>,
+    <metatable> = <table 328>
+  },
+  ssdMarker_Stamp_posY_mafr = <329>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 328>,
+    __index = <function 862>,
+    __newindex = <function 863>,
+    <metatable> = <table 329>
+  },
+  ssdMarker_Stamp_posZ = <330>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 329>,
+    __index = <function 864>,
+    __newindex = <function 865>,
+    <metatable> = <table 330>
+  },
+  ssdMarker_Stamp_posZ_mafr = <331>{
+    [-285212666] = 64,
+    [-285212665] = <userdata 330>,
+    __index = <function 866>,
+    __newindex = <function 867>,
+    <metatable> = <table 331>
+  },
+  ssdMarker_User_flag = <332>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 331>,
+    __index = <function 868>,
+    __newindex = <function 869>,
+    <metatable> = <table 332>
+  },
+  ssdMarker_User_flag_mafr = <333>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 332>,
+    __index = <function 870>,
+    __newindex = <function 871>,
+    <metatable> = <table 333>
+  },
+  ssdMarker_User_markerType = <334>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 333>,
+    __index = <function 872>,
+    __newindex = <function 873>,
+    <metatable> = <table 334>
+  },
+  ssdMarker_User_markerType_mafr = <335>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 334>,
+    __index = <function 874>,
+    __newindex = <function 875>,
+    <metatable> = <table 335>
+  },
+  ssdMarker_User_posX = <336>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 335>,
+    __index = <function 876>,
+    __newindex = <function 877>,
+    <metatable> = <table 336>
+  },
+  ssdMarker_User_posX_mafr = <337>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 336>,
+    __index = <function 878>,
+    __newindex = <function 879>,
+    <metatable> = <table 337>
+  },
+  ssdMarker_User_posY = <338>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 337>,
+    __index = <function 880>,
+    __newindex = <function 881>,
+    <metatable> = <table 338>
+  },
+  ssdMarker_User_posY_mafr = <339>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 338>,
+    __index = <function 882>,
+    __newindex = <function 883>,
+    <metatable> = <table 339>
+  },
+  ssdMarker_User_posZ = <340>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 339>,
+    __index = <function 884>,
+    __newindex = <function 885>,
+    <metatable> = <table 340>
+  },
+  ssdMarker_User_posZ_mafr = <341>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 340>,
+    __index = <function 886>,
+    __newindex = <function 887>,
+    <metatable> = <table 341>
+  },
+  suitDevelopLevel = <342>{
+    [-285212666] = 50,
+    [-285212665] = <userdata 341>,
+    __index = <function 888>,
+    __newindex = <function 889>,
+    <metatable> = <table 342>
+  },
+  sunnyAreaStatus = <343>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 342>,
+    __index = <function 890>,
+    __newindex = <function 891>,
+    <metatable> = <table 343>
+  },
+  supCboxLevels = <344>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 343>,
+    __index = <function 892>,
+    __newindex = <function 893>,
+    <metatable> = <table 344>
+  },
+  supCboxPos = <345>{
+    [-285212666] = 3,
+    [-285212665] = <userdata 344>,
+    __index = <function 894>,
+    __newindex = <function 895>,
+    <metatable> = <table 345>
+  },
+  supCboxRot = <346>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 345>,
+    __index = <function 896>,
+    __newindex = <function 897>,
+    <metatable> = <table 346>
+  },
+  supCboxU16buf = <347>{
+    [-285212666] = 36,
+    [-285212665] = <userdata 346>,
+    __index = <function 898>,
+    __newindex = <function 899>,
+    <metatable> = <table 347>
+  },
+  supCboxU32buf = <348>{
+    [-285212666] = 17,
+    [-285212665] = <userdata 347>,
+    __index = <function 900>,
+    __newindex = <function 901>,
+    <metatable> = <table 348>
+  },
+  supCboxU8buf = <349>{
+    [-285212666] = 116,
+    [-285212665] = <userdata 348>,
+    __index = <function 902>,
+    __newindex = <function 903>,
+    <metatable> = <table 349>
+  },
+  supportWeapons = <350>{
+    [-285212666] = 32,
+    [-285212665] = <userdata 349>,
+    __index = <function 904>,
+    __newindex = <function 905>,
+    <metatable> = <table 350>
+  },
+  suppressorLives = <351>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 350>,
+    __index = <function 906>,
+    __newindex = <function 907>,
+    <metatable> = <table 351>
+  },
+  surviveCboxHistory = <352>{
+    [-285212666] = 3,
+    [-285212665] = <userdata 351>,
+    __index = <function 908>,
+    __newindex = <function 909>,
+    <metatable> = <table 352>
+  },
+  surviveCboxIsUpdated = <353>{
+    [-285212666] = 3,
+    [-285212665] = <userdata 352>,
+    __index = <function 910>,
+    __newindex = <function 911>,
+    <metatable> = <table 353>
+  },
+  surviveCboxLocation = <354>{
+    [-285212666] = 3,
+    [-285212665] = <userdata 353>,
+    __index = <function 912>,
+    __newindex = <function 913>,
+    <metatable> = <table 354>
+  },
+  surviveCboxPosition = <355>{
+    [-285212666] = 12,
+    [-285212665] = <userdata 354>,
+    __index = <function 914>,
+    __newindex = <function 915>,
+    <metatable> = <table 355>
+  },
+  tipsOpenInfoFlag = <356>{
+    [-285212666] = 512,
+    [-285212665] = <userdata 355>,
+    __index = <function 916>,
+    __newindex = <function 917>,
+    <metatable> = <table 356>
+  },
+  totalPlayTime = <357>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 356>,
+    __index = <function 918>,
+    __newindex = <function 919>,
+    <metatable> = <table 357>
+  },
+  upgrades = <358>{
+    [-285212666] = 4,
+    [-285212665] = <userdata 357>,
+    __index = <function 920>,
+    __newindex = <function 921>,
+    <metatable> = <table 358>
+  },
+  userPresetChimeraColorIndex = <359>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 358>,
+    __index = <function 922>,
+    __newindex = <function 923>,
+    <metatable> = <table 359>
+  },
+  userPresetChimeraPaintType = <360>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 359>,
+    __index = <function 924>,
+    __newindex = <function 925>,
+    <metatable> = <table 360>
+  },
+  userPresetChimeraParts = <361>{
+    [-285212666] = 288,
+    [-285212665] = <userdata 360>,
+    __index = <function 926>,
+    __newindex = <function 927>,
+    <metatable> = <table 361>
+  },
+  userPresetCustomizedWeapon = <362>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 361>,
+    __index = <function 928>,
+    __newindex = <function 929>,
+    <metatable> = <table 362>
+  },
+  utcTime = <363>{
+    [-285212666] = 8,
+    [-285212665] = <userdata 362>,
+    __index = <function 930>,
+    __newindex = <function 931>,
+    <metatable> = <table 363>
+  },
+  weaponOriginalOwners = <364>{
+    [-285212666] = 6,
+    [-285212665] = <userdata 363>,
+    __index = <function 932>,
+    __newindex = <function 933>,
+    <metatable> = <table 364>
+  },
+  weapons = <365>{
+    [-285212666] = 24,
+    [-285212665] = <userdata 364>,
+    __index = <function 934>,
+    __newindex = <function 935>,
+    <metatable> = <table 365>
+  },
+  zombieCrewGroupType = <366>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 365>,
+    __index = <function 936>,
+    __newindex = <function 937>,
+    <metatable> = <table 366>
+  },
+  zombieCrewNameIndex = <367>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 366>,
+    __index = <function 938>,
+    __newindex = <function 939>,
+    <metatable> = <table 367>
+  },
+  zombieCrewNickName = <368>{
+    [-285212666] = 16,
+    [-285212665] = <userdata 367>,
+    __index = <function 940>,
+    __newindex = <function 941>,
+    <metatable> = <table 368>
+  },
+  zombieCrewUniqueIndex = <369>{
+    [-285212666] = 1,
+    [-285212665] = <userdata 368>,
+    __index = <function 942>,
+    __newindex = <function 943>,
+    <metatable> = <table 369>
+  },
+  <metatable> = <table 1>
+}

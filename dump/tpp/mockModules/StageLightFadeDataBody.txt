@@ -1,0 +1,9 @@
+StageLightFadeDataBody={
+  FadeIn = "<function>",
+  FadeOut = "<function>",
+  StageLightOff = "<function>",
+  StageLightOn = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "StageLightFadeDataBody"
+}

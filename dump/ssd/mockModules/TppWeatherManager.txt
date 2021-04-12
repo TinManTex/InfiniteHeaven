@@ -1,0 +1,17 @@
+TppWeatherManager={
+  GetCurrentClock = "<function>",
+  GetInstance = "<function>",
+  PauseClock = "<function>",
+  PauseNewWeatherChangeRandom = "<function>",
+  RequestTag = "<function>",
+  RequestWeather = "<function>",
+  SetCurrentClock = "<function>",
+  SetNewNextWeatherChangeTime = "<function>",
+  SetNewWeatherChangeRandomParameters = "<function>",
+  SetNewWeatherDefault = "<function>",
+  SetNewWeatherProbabilities = "<function>",
+  SwitchWeatherDesc = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppWeatherManager"
+}

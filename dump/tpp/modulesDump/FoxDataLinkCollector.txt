@@ -1,0 +1,9 @@
+FoxDataLinkCollector=<1>{
+  GetData = <function 1>,
+  GetDataBody = <function 2>,
+  ShowWarningIfUse = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "FoxDataLinkCollector",
+  <metatable> = <table 1>
+}

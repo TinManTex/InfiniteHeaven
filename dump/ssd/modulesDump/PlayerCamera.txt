@@ -1,0 +1,10 @@
+PlayerCamera=<1>{
+  [-285212672] = 4,
+  [216837] = <function 1>,
+  [8455309] = <function 2>,
+  [85439583] = <function 3>,
+  [89721448] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,8 @@
+Gear={
+  RegisterGear = <function 1>,
+  SetCylinder = <function 2>,
+  SetCylinderAll = <function 3>,
+  SetCylinderLevel = <function 4>,
+  SetGear = <function 5>,
+  SetMaskLevel = <function 6>
+}

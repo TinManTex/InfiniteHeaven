@@ -1,0 +1,14 @@
+HostageVarState=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [661615] = <function 1>,
+    [60858933] = <function 2>,
+    [81775206] = <function 3>,
+    [121327025] = <function 4>,
+    [258277462] = <function 5>,
+    [265609500] = <function 6>
+  },
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

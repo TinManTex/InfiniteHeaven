@@ -1,0 +1,7 @@
+StorySummarySystem={
+  ReadParameterFile = "<function>",
+  RequestClose = "<function>",
+  RequestOpen = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,4 @@
+MgoSerialize=<1>{
+  NewStream = <function 1>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,5 @@
+PlayerFlag={
+  USE_VARS_FOR_INITIAL_POS = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

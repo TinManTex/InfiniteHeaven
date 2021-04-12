@@ -1,0 +1,8 @@
+PlayerTrap={
+  BEHIND = true,
+  CARRY = true,
+  FINE = true,
+  NORMAL = true,
+  SQUAT = true,
+  STAND = true
+}

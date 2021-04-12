@@ -1,0 +1,8 @@
+TppSupportRequest={
+  GetCallBuddyGmpCost = <function 1>,
+  GetCallRescueHeliGmpCost = <function 2>,
+  GetCrashRescueHeliGmpCost = <function 3>,
+  RegisterSupportAttackGmpCostTable = <function 4>,
+  RequestDropBullet = <function 5>,
+  RequestSupportAttack = <function 6>
+}

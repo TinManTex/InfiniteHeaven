@@ -1,0 +1,7 @@
+InfQuickMenuDefs={
+  inDemo = "<table>",
+  inHeliSpace = "<table>",
+  inMission = "<table>",
+  name = "InfQuickMenuDefs",
+  quickMenuHoldButton = 512
+}

@@ -1,0 +1,8 @@
+Camera=<1>{
+  GetTransform = <function 1>,
+  SetTransform = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "Camera",
+  <metatable> = <table 1>
+}

@@ -1,0 +1,4 @@
+SyncRouteManager={
+  __index = "<function>",
+  __newindex = "<function>"
+}

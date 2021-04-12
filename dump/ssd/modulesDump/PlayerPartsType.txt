@@ -1,0 +1,11 @@
+PlayerPartsType=<1>{
+  [-285212672] = 4,
+  [128423724] = <function 1>,
+  [160662503] = <function 2>,
+  [224073371] = <function 3>,
+  [233279043] = <function 4>,
+  [248643058] = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

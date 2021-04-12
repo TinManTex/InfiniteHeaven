@@ -1,0 +1,6 @@
+TppDebug={
+  DEBUG_RestoreSVars = true,
+  DebugUpdate = true,
+  SetPlayLogEnabled = true,
+  lua = true
+}

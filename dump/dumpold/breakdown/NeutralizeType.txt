@@ -1,0 +1,4 @@
+NeutralizeType={
+  numberKeys = { -285212671, -285212672 },
+  stringKeys = { "__newindex", "__index" }
+}

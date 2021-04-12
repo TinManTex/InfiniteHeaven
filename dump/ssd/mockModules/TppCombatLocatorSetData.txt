@@ -1,0 +1,8 @@
+TppCombatLocatorSetData={
+  GetLocatorNum = "<function>",
+  GetLocatorPosition = "<function>",
+  GetLocatorRadius = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppCombatLocatorSetData"
+}

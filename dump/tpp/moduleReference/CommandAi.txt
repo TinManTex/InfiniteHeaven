@@ -1,0 +1,10 @@
+CommandAi={
+  ESCORT = true,
+  FORCE_SHOOT = true,
+  FORCE_WAIT = true,
+  GIVE_WARNING = true,
+  INFANTRY = true,
+  LIQUID_ASSIST = true,
+  SHOOT_PRACTICE = true,
+  SHOOT_ROCKET = true
+}

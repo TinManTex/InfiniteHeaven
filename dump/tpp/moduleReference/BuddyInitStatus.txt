@@ -1,0 +1,4 @@
+BuddyInitStatus={
+  NORMAL = true,
+  RIDE = true
+}

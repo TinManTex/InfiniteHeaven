@@ -1,0 +1,4 @@
+PlayerRetryFlag={
+  RETRY = true,
+  RETRY_WITH_CHICK_CAP = true
+}

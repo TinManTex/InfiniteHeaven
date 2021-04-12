@@ -1,0 +1,5 @@
+MgoGearConfig={
+  Accessories = true,
+  Colors = true,
+  Gears = true
+}

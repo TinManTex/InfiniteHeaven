@@ -1,0 +1,12 @@
+TppPlaced={
+  ChangeEquipIdByLocatorName = "<function>",
+  DeleteAllCaptureCage = "<function>",
+  GetCaptureCageInfo = "<function>",
+  GetLocatorIndex = "<function>",
+  IsLocator = "<function>",
+  IsQuestBlock = "<function>",
+  OnAllocate = "<function>",
+  SetCorrelationValueByLocatorName = "<function>",
+  SetEnableByLocatorName = "<function>",
+  StartToCreateFromLocators = "<function>"
+}

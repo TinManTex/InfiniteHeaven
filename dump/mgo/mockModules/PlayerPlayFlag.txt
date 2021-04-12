@@ -1,0 +1,4 @@
+PlayerPlayFlag={
+  __index = "<function>",
+  __newindex = "<function>"
+}

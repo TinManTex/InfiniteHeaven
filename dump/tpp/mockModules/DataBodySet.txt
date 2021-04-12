@@ -1,0 +1,7 @@
+DataBodySet={
+  GetDataBody = "<function>",
+  GetDataBodyList = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "DataBodySet"
+}

@@ -1,0 +1,4 @@
+MysetMenu={
+  __index = "<function>",
+  __newindex = "<function>"
+}

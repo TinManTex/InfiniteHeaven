@@ -1,0 +1,4 @@
+SsdFadeManager={
+  __index = "<function>",
+  __newindex = "<function>"
+}

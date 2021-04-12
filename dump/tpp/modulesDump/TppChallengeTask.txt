@@ -1,0 +1,8 @@
+TppChallengeTask={
+  IsCompletedOnlineTask = <function 1>,
+  RegisterCheckerFunction = <function 2>,
+  RequestUpdate = <function 3>,
+  RequestUpdateAllChecher = <function 4>,
+  RequestUpdateAllChecker = <function 5>,
+  SetFlagCompletedOnlineTask = <function 6>
+}

@@ -1,0 +1,5 @@
+NamePlateMenu={
+  SetBeginnerNamePlateIfTutorialUnfinied = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

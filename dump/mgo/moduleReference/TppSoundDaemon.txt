@@ -1,0 +1,11 @@
+TppSoundDaemon={
+  CheckCurrentMuteIs = true,
+  CheckCurrentMuteMoreThan = true,
+  IsEventPlaying = true,
+  PostEvent = true,
+  PostEvent3D = true,
+  PostEventAndGetHandle = true,
+  ResetMute = true,
+  SetMute = true,
+  SetMuteInstant = true
+}

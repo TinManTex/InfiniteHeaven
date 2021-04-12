@@ -1,0 +1,6 @@
+ScriptParam={
+  GetDefaultValue = "<function>",
+  GetValue = "<function>",
+  ResetValueToDefault = "<function>",
+  SetValue = "<function>"
+}

@@ -1,0 +1,13 @@
+SubtitlesCommand={
+  DisplayText = true,
+  IsPlayingSubtitles = true,
+  SetDefaultGeneratorName = true,
+  SetDefaultSubPriority = true,
+  SetIsEnabledUiPrioStrong = true,
+  SetLanguage = true,
+  SetSubFilePath = true,
+  SetSubFpkFilePath = true,
+  SetSubpFilePath = true,
+  SetVoiceLanguage = true,
+  StopAll = true
+}

@@ -1,0 +1,6 @@
+TppOutOfMissionRangeEffect={
+  Disable = "<function>",
+  Enable = "<function>",
+  SetControlEnable = "<function>",
+  SetupInterp = "<function>"
+}

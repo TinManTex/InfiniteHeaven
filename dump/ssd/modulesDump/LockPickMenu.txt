@@ -1,0 +1,10 @@
+LockPickMenu=<1>{
+  [-285212672] = 4,
+  [155286440] = <function 1>,
+  [220919501] = <function 2>,
+  [231798491] = <function 3>,
+  [243013379] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,5 @@
+TppEnding={
+  SetEndsFile = <function 1>,
+  Start = <function 2>,
+  Stop = <function 3>
+}

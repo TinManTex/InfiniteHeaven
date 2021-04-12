@@ -1,0 +1,6 @@
+TppMusicPlayer={
+  SetAlbum = <function 1>,
+  SetStructure = <function 2>,
+  SetStructureDlc = <function 3>,
+  SetTrack = <function 4>
+}

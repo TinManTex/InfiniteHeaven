@@ -1,0 +1,5 @@
+MgoVotingManager={
+  Config = <function 1>,
+  Create = <function 2>,
+  Vote = <function 3>
+}

@@ -1,0 +1,7 @@
+MgoParts={
+  CreateEffect = true,
+  Realize = true,
+  SendMessageVector4 = true,
+  SetVisibility = true,
+  StopEffect = true
+}

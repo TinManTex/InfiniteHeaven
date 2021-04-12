@@ -1,0 +1,4 @@
+TppGVars={
+  AllInitialize = true,
+  lua = true
+}

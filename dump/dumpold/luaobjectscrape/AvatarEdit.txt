@@ -1,0 +1,4 @@
+AvatarEdit={
+  AVATAR_IN_DEMO = true,
+  AVATAR_IN_HELI = true
+}

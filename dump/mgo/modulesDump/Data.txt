@@ -1,0 +1,11 @@
+Data=<1>{
+  GetDataBody = <function 1>,
+  GetDataBodyOnEditing = <function 2>,
+  GetDataBodyWithReferrer = <function 3>,
+  GetDataSet = <function 4>,
+  IsReference = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  _className = "Data",
+  <metatable> = <table 1>
+}

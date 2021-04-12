@@ -1,0 +1,5 @@
+WideVector3={
+  ToString = "<function>",
+  Zero = "<function>",
+  __call = "<function>"
+}

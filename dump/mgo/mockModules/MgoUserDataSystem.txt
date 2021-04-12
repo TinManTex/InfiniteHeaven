@@ -1,0 +1,3 @@
+MgoUserDataSystem={
+  GetRankXp = "<function>"
+}

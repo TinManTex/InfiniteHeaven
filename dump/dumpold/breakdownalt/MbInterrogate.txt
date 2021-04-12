@@ -1,0 +1,23 @@
+MbInterrogate=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [194371] = <function 1>,
+    [201987] = <function 2>,
+    [1531693] = <function 3>,
+    [6388646] = <function 4>,
+    [8106200] = <function 5>,
+    [10379039] = <function 6>,
+    [13077355] = <function 7>,
+    [20768055] = <function 8>,
+    [25677651] = <function 9>,
+    [41484490] = <function 10>,
+    [83444778] = <function 11>,
+    [162910555] = <function 12>,
+    [243068351] = <function 13>,
+    [253503320] = <function 14>,
+    [260258010] = <function 15>
+  },
+  __index = <function 16>,
+  __newindex = <function 17>,
+  <metatable> = <table 1>
+}

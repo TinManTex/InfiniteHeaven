@@ -1,0 +1,32 @@
+PlayerPartsType=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [5555853] = <function 1>,
+    [5970983] = <function 2>,
+    [6304187] = <function 3>,
+    [6358118] = <function 4>,
+    [53890677] = <function 5>,
+    [56179964] = <function 6>,
+    [72770680] = <function 7>,
+    [79656460] = <function 8>,
+    [81961578] = <function 9>,
+    [103377497] = <function 10>,
+    [112853840] = <function 11>,
+    [119337170] = <function 12>,
+    [121198977] = <function 13>,
+    [128423724] = <function 14>,
+    [193706027] = <function 15>,
+    [200545575] = <function 16>,
+    [208190310] = <function 17>,
+    [235898602] = <function 18>,
+    [236279067] = <function 19>,
+    [244506436] = <function 20>,
+    [248631360] = <function 21>,
+    [248643058] = <function 22>,
+    [254991296] = <function 23>,
+    [267881239] = <function 24>
+  },
+  __index = <function 25>,
+  __newindex = <function 26>,
+  <metatable> = <table 1>
+}

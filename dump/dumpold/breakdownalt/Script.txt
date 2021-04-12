@@ -1,0 +1,12 @@
+Script=<1>{
+  DebugSetAlwaysLoadingFileEnabled = <function 1>,
+  GetScript = <function 2>,
+  IsLoadingLibrary = <function 3>,
+  LoadLibrary = <function 4>,
+  LoadLibraryAsync = <function 5>,
+  ReloadAll = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  _className = "Script",
+  <metatable> = <table 1>
+}

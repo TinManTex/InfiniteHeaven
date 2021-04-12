@@ -1,0 +1,2 @@
+output of various analysys scripts run in lua while game is running
+some of the files are used as the base of MockFox

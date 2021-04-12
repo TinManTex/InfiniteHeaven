@@ -1,0 +1,14 @@
+SsdSaveSystem={
+  IsIdle = "<function>",
+  IsUseSaveSystem = "<function>",
+  LoadInit = "<function>",
+  Reset = "<function>",
+  RestoreToVars = "<function>",
+  SaveAvatar = "<function>",
+  SaveCheckPoint = "<function>",
+  SaveCoopLobbyEnd = "<function>",
+  SaveForBadEnding = "<function>",
+  SaveMissionEnd = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,16 @@
+MgoCharacterData={
+  CONNECTION_CHECK_IDLE = 3,
+  CONNECTION_CHECK_LOCAL = 0,
+  CONNECTION_CHECK_NET_DONE = 1,
+  CONNECTION_CHECK_NET_SUCCESS = 2,
+  CreateCharacter = <function 1>,
+  DeleteCharacter = <function 2>,
+  GetLastActiveCharacter = <function 3>,
+  GetPurchasedValue = <function 4>,
+  IsLoaded = <function 5>,
+  LoadComplete = <function 6>,
+  SetOffline = <function 7>,
+  StartSave = <function 8>,
+  UpdateAvatarDataBeforeAvatarEdit = <function 9>,
+  UpdateCharacterDataAfterAvatarEdit = <function 10>
+}

@@ -1,0 +1,11 @@
+Dlc=<1>{
+  [-285212672] = 4,
+  [13680092] = <function 1>,
+  [107582795] = <function 2>,
+  [107744946] = <function 3>,
+  [128222030] = <function 4>,
+  [204325740] = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

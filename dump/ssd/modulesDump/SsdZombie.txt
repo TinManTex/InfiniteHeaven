@@ -1,0 +1,8 @@
+SsdZombie={
+  ReloadParameterTables = <function 1>,
+  SetAnimationTableBom = <function 2>,
+  SetAnimationTableNormal = <function 3>,
+  SetExtendedAnimationTableBom = <function 4>,
+  SetVariationCountBom = <function 5>,
+  SetVariationCountNormal = <function 6>
+}

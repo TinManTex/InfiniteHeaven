@@ -1,0 +1,8 @@
+NetworkInfo=<1>{
+  GetInstance = <function 1>,
+  IsNuclearAbolition = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "NetworkInfo",
+  <metatable> = <table 1>
+}

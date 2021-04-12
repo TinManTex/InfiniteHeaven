@@ -1,0 +1,7 @@
+CrewType={
+  MOB_FEMALE = 9,
+  MOB_MALE = 8,
+  UNIQUE_CHARON = 7,
+  __index = "<function>",
+  __newindex = "<function>"
+}

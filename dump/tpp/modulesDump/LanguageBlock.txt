@@ -1,0 +1,25 @@
+LanguageBlock=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [5094028] = <function 1>,
+    [37114431] = <function 2>,
+    [68742551] = <function 3>,
+    [87557145] = <function 4>,
+    [146261564] = <function 5>,
+    [188292620] = <function 6>,
+    [209042513] = <function 7>,
+    [220095584] = <function 8>,
+    [255422233] = <function 9>
+  },
+  [7418238] = <function 10>,
+  [49747080] = <function 11>,
+  [122617117] = <function 12>,
+  [135184022] = <function 13>,
+  [174808304] = <function 14>,
+  [208485569] = <function 15>,
+  [220604777] = <function 16>,
+  [241797381] = <function 17>,
+  __index = <function 18>,
+  __newindex = <function 19>,
+  <metatable> = <table 1>
+}

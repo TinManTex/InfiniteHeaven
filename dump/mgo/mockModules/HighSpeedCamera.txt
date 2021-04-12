@@ -1,0 +1,5 @@
+HighSpeedCamera={
+  RequestEvent = "<function>",
+  RequestToCancel = "<function>",
+  RequestToCancelAll = "<function>"
+}

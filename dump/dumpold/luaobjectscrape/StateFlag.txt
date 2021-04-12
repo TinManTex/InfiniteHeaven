@@ -1,0 +1,4 @@
+StateFlag={
+  DYING_LIFE = true,
+  ZOMBIE = true
+}

@@ -1,0 +1,10 @@
+TppCyprusBlockControl={
+  GetCyprusStep = "<function>",
+  IsCyprusBlockControllerCreated = "<function>",
+  IsCyprusLoading = "<function>",
+  SetCyprusStep = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppCyprusBlockControl"
+}

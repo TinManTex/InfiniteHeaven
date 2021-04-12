@@ -1,0 +1,6 @@
+TppGVars={
+  AllInitialize = "<function>",
+  DeclareGVarsTable = "<table>",
+  _scriptInstanceId = "<userdata: userdata: 000000007FA406C8>",
+  _scriptPath = "TppGVars"
+}

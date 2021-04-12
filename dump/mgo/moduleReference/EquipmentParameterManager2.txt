@@ -1,0 +1,3 @@
+EquipmentParameterManager2={
+  ReloadWeaponParameterTables = true
+}

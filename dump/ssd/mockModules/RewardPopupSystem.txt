@@ -1,0 +1,7 @@
+RewardPopupSystem={
+  OPEN_TYPE_ALL = 5,
+  OPEN_TYPE_CHECK_POINT = 6,
+  RequestOpen = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

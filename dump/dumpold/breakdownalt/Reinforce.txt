@@ -1,0 +1,14 @@
+Reinforce=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [3625341] = <function 1>,
+    [23930296] = <function 2>,
+    [149937104] = <function 3>,
+    [215043774] = <function 4>,
+    [217644911] = <function 5>,
+    [220735987] = <function 6>
+  },
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

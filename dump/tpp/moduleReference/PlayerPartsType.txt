@@ -1,0 +1,7 @@
+PlayerPartsType={
+  AVATAR_EDIT_MAN = true,
+  HOSPITAL = true,
+  NAKED = true,
+  NORMAL = true,
+  NORMAL_SCARF = true
+}

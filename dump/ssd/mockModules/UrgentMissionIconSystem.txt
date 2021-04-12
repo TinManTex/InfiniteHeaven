@@ -1,0 +1,4 @@
+UrgentMissionIconSystem={
+  __index = "<function>",
+  __newindex = "<function>"
+}

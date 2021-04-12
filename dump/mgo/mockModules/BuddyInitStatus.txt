@@ -1,0 +1,4 @@
+BuddyInitStatus={
+  __index = "<function>",
+  __newindex = "<function>"
+}

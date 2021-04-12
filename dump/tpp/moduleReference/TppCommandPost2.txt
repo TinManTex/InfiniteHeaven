@@ -1,0 +1,6 @@
+TppCommandPost2={
+  GetDominatedCpCount = true,
+  SetCpDominated = true,
+  SetDominationTargetCpList = true,
+  SetSVarsKeyNames = true
+}

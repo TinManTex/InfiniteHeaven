@@ -1,0 +1,12 @@
+MissionType=<1>{
+  [-285212672] = 4,
+  [6575372] = <function 1>,
+  [7808435] = <function 2>,
+  [11027831] = <function 3>,
+  [19055485] = <function 4>,
+  [104895281] = <function 5>,
+  [253956015] = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

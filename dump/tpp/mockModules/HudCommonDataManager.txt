@@ -1,0 +1,10 @@
+HudCommonDataManager={
+  CallMessage = "<function>",
+  CombatMessage = "<function>",
+  Create = "<function>",
+  GetInstance = "<function>",
+  RulesetMessage = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "HudCommonDataManager"
+}

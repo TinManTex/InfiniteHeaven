@@ -1,0 +1,10 @@
+PathMapper={
+  Add = "<function>",
+  Dump = "<function>",
+  Register = "<function>",
+  RegisterRealPath = "<function>",
+  Replace = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "PathMapper"
+}

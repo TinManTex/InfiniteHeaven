@@ -1,0 +1,7 @@
+EnemyFova={
+  INVALID_FOVA_VALUE = 32767,
+  MAX_REALIZED_COUNT = 255,
+  NOT_USED_FOVA_VALUE = 32766,
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,4 @@
+InvitationManager={
+  numberKeys = { 240198104, -285212672, -285212671, 256279986, 110835341, 103651003 },
+  stringKeys = { "__index", "__newindex" }
+}

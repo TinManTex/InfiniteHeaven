@@ -1,0 +1,6 @@
+Pad2={
+  Init = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "Pad2"
+}

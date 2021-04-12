@@ -1,0 +1,13 @@
+PlayerPad={
+  CALL = 512,
+  FIRE = 16,
+  HOLD = 8,
+  RELOAD = 64,
+  SKILL = 262144,
+  STANCE = 2,
+  STICK_L = 1,
+  STICK_R = 2,
+  SUBJECT = 1024,
+  __index = "<function>",
+  __newindex = "<function>"
+}

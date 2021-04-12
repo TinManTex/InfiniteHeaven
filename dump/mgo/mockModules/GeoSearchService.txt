@@ -1,0 +1,13 @@
+GeoSearchService={
+  SearchObject = "<function>",
+  SearchObjectInSpecificScene = "<function>",
+  SearchObjectLine = "<function>",
+  SearchObjectLineInSpecificScene = "<function>",
+  SearchObjectSphere = "<function>",
+  SearchObjectSphereInSpecificScene = "<function>",
+  SearchObjectSquarePyramid = "<function>",
+  SearchObjectSquarePyramidInSpecificScene = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GeoSearchService"
+}

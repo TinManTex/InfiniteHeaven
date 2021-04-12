@@ -1,0 +1,5 @@
+LuxuryBlockController={
+  AddList = <function 1>,
+  GetSmallBlockIndices = <function 2>,
+  Init = <function 3>
+}

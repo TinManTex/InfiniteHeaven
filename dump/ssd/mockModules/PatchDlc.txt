@@ -1,0 +1,14 @@
+PatchDlc={
+  AllocateMemoryForRequest = "<function>",
+  DoesExistPatchDlc = "<function>",
+  GetRequestDownloadingResult = "<function>",
+  IsCheckingPatchDlc = "<function>",
+  IsRequestingDownloadingPatchDlc = "<function>",
+  PATCH_DLC_TYPE_MGO_DATA = 0,
+  PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA = 1,
+  REQUEST_DOWNLOADING_RESULT_OK = 0,
+  RequestDownloadingPatchDlc = "<function>",
+  StartCheckingPatchDlc = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

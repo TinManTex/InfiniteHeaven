@@ -1,0 +1,3 @@
+TppAnimalFova={
+  TYPE_COLOR_2 = true
+}

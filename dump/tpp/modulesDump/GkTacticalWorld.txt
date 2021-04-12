@@ -1,0 +1,7 @@
+GkTacticalWorld={
+  Register = <function 1>,
+  SearchObject = <function 2>,
+  SearchObjectSphere = <function 3>,
+  SearchObjectSquarePyramid = <function 4>,
+  Unregister = <function 5>
+}

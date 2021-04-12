@@ -1,0 +1,4 @@
+TppBullet={
+  ClearBulletMark = true,
+  ReloadRecoilMaterials = true
+}

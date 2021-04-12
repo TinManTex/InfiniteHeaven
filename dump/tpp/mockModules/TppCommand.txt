@@ -1,0 +1,5 @@
+TppCommand={
+  Weather = "<table>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

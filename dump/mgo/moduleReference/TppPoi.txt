@@ -1,0 +1,9 @@
+TppPoi={
+  Config = true,
+  POI_GENERIC = true,
+  POI_HANDLE_INVALID = true,
+  POI_TYPE_GENERIC = true,
+  POI_TYPE_PLAYER = true,
+  POI_TYPE_SPAWN_POINT = true,
+  POI_TYPE_VEHICLE = true
+}

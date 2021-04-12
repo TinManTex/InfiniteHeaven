@@ -1,0 +1,14 @@
+Popup=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [75387665] = <function 1>,
+    [100225931] = <function 2>,
+    [148940872] = <function 3>,
+    [149543670] = <function 4>,
+    [153575359] = <function 5>,
+    [166771575] = <function 6>
+  },
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

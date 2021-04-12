@@ -1,0 +1,4 @@
+CaptureCage={
+  GetCaptureAnimalList = true,
+  RegisterCaptureAnimal = true
+}

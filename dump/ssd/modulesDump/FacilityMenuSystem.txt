@@ -1,0 +1,10 @@
+FacilityMenuSystem=<1>{
+  [-285212672] = 4,
+  [42470899] = <function 1>,
+  [52143486] = <function 2>,
+  [120769001] = <function 3>,
+  [142963116] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

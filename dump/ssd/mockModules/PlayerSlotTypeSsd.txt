@@ -1,0 +1,5 @@
+PlayerSlotTypeSsd={
+  PRIMARY_1 = 0,
+  __index = "<function>",
+  __newindex = "<function>"
+}

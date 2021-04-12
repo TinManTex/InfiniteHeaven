@@ -1,0 +1,3 @@
+TppShell={
+  FireMortar = <function 1>
+}

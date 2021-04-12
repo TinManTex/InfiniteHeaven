@@ -1,0 +1,5 @@
+PlayerVars={
+  __index = "<function>",
+  __newindex = "<function>",
+  scannedButtonsDirect = 0
+}

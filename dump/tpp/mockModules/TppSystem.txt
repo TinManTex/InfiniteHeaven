@@ -1,0 +1,8 @@
+TppSystem={
+  BGM_PHASE_ALERT = 6,
+  BGM_PHASE_SNEAK_1 = 1,
+  BGM_PHASE_SNEAK_2 = 2,
+  BGM_PHASE_SNEAK_3 = 3,
+  __index = "<function>",
+  __newindex = "<function>"
+}

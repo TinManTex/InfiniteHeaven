@@ -1,0 +1,3 @@
+DemoxUi={
+  SetDemoUiTriggerInvalid = <function 1>
+}

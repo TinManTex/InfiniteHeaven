@@ -1,0 +1,7 @@
+Pad2=<1>{
+  Init = <function 1>,
+  __index = <function 2>,
+  __newindex = <function 3>,
+  _className = "Pad2",
+  <metatable> = <table 1>
+}

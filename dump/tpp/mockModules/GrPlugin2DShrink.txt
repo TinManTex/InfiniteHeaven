@@ -1,0 +1,6 @@
+GrPlugin2DShrink={
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GrPlugin2DShrink"
+}

@@ -1,0 +1,4 @@
+CountrySettingMenu={
+  __index = "<function>",
+  __newindex = "<function>"
+}

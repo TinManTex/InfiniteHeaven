@@ -1,0 +1,9 @@
+TppEnding={
+  EndEndingBlackRadio = <function 1>,
+  SetDebugForceRawTimeSync = <function 2>,
+  SetDebugJumpTime = <function 3>,
+  SetEndsFile = <function 4>,
+  Start = <function 5>,
+  StartEndingBlackRadio = <function 6>,
+  Stop = <function 7>
+}

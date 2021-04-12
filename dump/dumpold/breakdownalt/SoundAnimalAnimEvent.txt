@@ -1,0 +1,4 @@
+SoundAnimalAnimEvent={
+  SetupAnimalFootStep = <function 1>,
+  SetupAnimalRattleSuit = <function 2>
+}

@@ -1,0 +1,10 @@
+MissionObjectiveInfoSystem={
+  Check = <function 1>,
+  Clear = <function 2>,
+  Close = <function 3>,
+  Open = <function 4>,
+  SetForceOpen = <function 5>,
+  SetForceOpen2 = <function 6>,
+  SetParam = <function 7>,
+  SetTable = <function 8>
+}

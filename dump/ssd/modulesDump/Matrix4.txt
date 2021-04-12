@@ -1,0 +1,15 @@
+Matrix4=<1>{
+  Identity = <function 1>,
+  Inverse = <function 2>,
+  RotTranslation = <function 3>,
+  Rotation = <function 4>,
+  RotationX = <function 5>,
+  RotationY = <function 6>,
+  RotationZ = <function 7>,
+  RotationZYX = <function 8>,
+  Scale = <function 9>,
+  ToString = <function 10>,
+  Translation = <function 11>,
+  __call = <function 12>,
+  <metatable> = <table 1>
+}

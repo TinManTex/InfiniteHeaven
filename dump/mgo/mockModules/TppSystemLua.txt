@@ -1,0 +1,7 @@
+TppSystemLua={
+  IsCombatTest1 = "<function>",
+  IsCombatTest2 = "<function>",
+  IsMissionFullOpen = "<function>",
+  SetEnabledOldCharacterSystem = "<function>",
+  UseAiSystem = "<function>"
+}

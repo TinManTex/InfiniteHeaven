@@ -1,0 +1,10 @@
+PlayerAccessorySlotType=<1>{
+  [-285212672] = 4,
+  [170708] = <function 1>,
+  [184022] = <function 2>,
+  [6474595] = <function 3>,
+  [8106200] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

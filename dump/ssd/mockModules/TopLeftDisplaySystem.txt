@@ -1,0 +1,7 @@
+TopLeftDisplaySystem={
+  RequestClose = "<function>",
+  RequestOpen = "<function>",
+  SetInfo = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

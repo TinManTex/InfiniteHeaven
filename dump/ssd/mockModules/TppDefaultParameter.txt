@@ -1,0 +1,10 @@
+TppDefaultParameter={
+  AddParam = "<function>",
+  GetDataFromGroupName = "<function>",
+  GetParam = "<function>",
+  IsExistingData = "<function>",
+  SetGroupName = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppDefaultParameter"
+}

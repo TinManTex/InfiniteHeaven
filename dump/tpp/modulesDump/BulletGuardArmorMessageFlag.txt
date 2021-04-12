@@ -1,0 +1,11 @@
+BulletGuardArmorMessageFlag=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [6387808] = <function 1>,
+    [149590165] = <function 2>,
+    [158615334] = <function 3>
+  },
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

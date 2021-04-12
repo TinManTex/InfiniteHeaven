@@ -1,0 +1,10 @@
+EntryBuddyType=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [14739414] = <function 1>,
+    [19397470] = <function 2>
+  },
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

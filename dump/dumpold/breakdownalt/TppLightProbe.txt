@@ -1,0 +1,4 @@
+TppLightProbe={
+  SetReadLpshDebugLogDisable = <function 1>,
+  SetReadLpshDebugLogEnable = <function 2>
+}

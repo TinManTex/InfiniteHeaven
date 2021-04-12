@@ -1,0 +1,13 @@
+GameConfig={
+  ApplyAllConfig = <function 1>,
+  GetCameraLRIsReversed = <function 2>,
+  GetCameraUDIsReversed = <function 3>,
+  GetControlType = <function 4>,
+  GetDefaultLanguage = <function 5>,
+  GetStealthAssistEnabled = <function 6>,
+  IsBusyApplying = <function 7>,
+  Reset = <function 8>,
+  SetCameraLRIsReversed = <function 9>,
+  SetCameraUDIsReversed = <function 10>,
+  SetStealthAssistEnabled = <function 11>
+}

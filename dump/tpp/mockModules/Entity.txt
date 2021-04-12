@@ -1,0 +1,16 @@
+Entity={
+  AddProperty = "<function>",
+  DebugGetEntityCount = "<function>",
+  GetClassName = "<function>",
+  GetPropertyInfo = "<function>",
+  GetPropertyList = "<function>",
+  IsKindOf = "<function>",
+  IsMemberOf = "<function>",
+  IsNull = "<function>",
+  Null = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "Entity",
+  _scriptInstanceId = "<userdata: userdata: 0000000009C39BB8>",
+  _scriptPath = "Entity"
+}

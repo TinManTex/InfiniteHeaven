@@ -1,0 +1,13 @@
+MotherBaseStage={
+  GetCompletionPlantCount = true,
+  GetCurrentCluster = true,
+  GetCurrentLayout = true,
+  GetDemoCenter = true,
+  GetFirstCluster = true,
+  IsClientReady = true,
+  LockCluster = true,
+  ModifyLayoutCode = true,
+  RegisterModifyLayoutCodes = true,
+  SetFobClientPlayerRespawnTrg = true,
+  UnlockCluster = true
+}

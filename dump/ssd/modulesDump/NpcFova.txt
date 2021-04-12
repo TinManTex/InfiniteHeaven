@@ -1,0 +1,9 @@
+NpcFova=<1>{
+  [-285212672] = 4,
+  [85695136] = <function 1>,
+  [139117542] = <function 2>,
+  [198722960] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

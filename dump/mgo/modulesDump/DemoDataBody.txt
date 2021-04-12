@@ -1,0 +1,11 @@
+DemoDataBody=<1>{
+  SetupPlayback = <function 1>,
+  Start = <function 2>,
+  Stop = <function 3>,
+  StreamPause = <function 4>,
+  StreamStart = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  _className = "DemoDataBody",
+  <metatable> = <table 1>
+}

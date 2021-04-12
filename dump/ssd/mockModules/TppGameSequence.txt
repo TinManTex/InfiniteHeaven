@@ -1,0 +1,15 @@
+TppGameSequence={
+  GetGameTitleName = "<function>",
+  GetPauseMenu = "<function>",
+  GetShortTargetArea = "<function>",
+  GetShortTargetAreaList = "<function>",
+  GetSpecialVersionName = "<function>",
+  GetTargetArea = "<function>",
+  GetTargetPlatform = "<function>",
+  IsMaster = "<function>",
+  IsMgoEnabled = "<function>",
+  LoadResidentBlock = "<function>",
+  SetSystemBlockSize = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

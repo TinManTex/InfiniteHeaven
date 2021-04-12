@@ -1,0 +1,4 @@
+FxDaemon={
+  Initialize = <function 1>,
+  InitializeReserveObject = <function 2>
+}

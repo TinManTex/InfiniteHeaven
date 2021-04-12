@@ -1,0 +1,14 @@
+TppGameMode=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [44702532] = <function 1>,
+    [46418588] = <function 2>,
+    [164866373] = <function 3>,
+    [170238761] = <function 4>,
+    [177147838] = <function 5>
+  },
+  [148636841] = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

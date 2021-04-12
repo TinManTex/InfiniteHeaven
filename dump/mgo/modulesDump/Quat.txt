@@ -1,0 +1,15 @@
+Quat=<1>{
+  GetW = <function 1>,
+  GetX = <function 2>,
+  GetY = <function 3>,
+  GetZ = <function 4>,
+  Identity = <function 5>,
+  Normalize = <function 6>,
+  Rotation = <function 7>,
+  RotationX = <function 8>,
+  RotationY = <function 9>,
+  RotationZ = <function 10>,
+  ToString = <function 11>,
+  __call = <function 12>,
+  <metatable> = <table 1>
+}

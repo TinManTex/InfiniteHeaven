@@ -1,0 +1,6 @@
+SyncRouteManager={
+  Create = "<function>",
+  SetScriptStep = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

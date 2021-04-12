@@ -1,0 +1,8 @@
+TppMpPlayerInfo=<1>{
+  GetGameObjectId = <function 1>,
+  GetPosRotY = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "TppMpPlayerInfo",
+  <metatable> = <table 1>
+}

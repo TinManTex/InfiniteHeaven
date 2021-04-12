@@ -1,0 +1,10 @@
+FobIsEvent=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [89868756] = <function 1>,
+    [253811871] = <function 2>
+  },
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

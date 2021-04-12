@@ -1,0 +1,15 @@
+TppTrap={
+  ChangeNormalTrapState = "<function>",
+  ChangeTrapState = "<function>",
+  ChangeTriggerTrapState = "<function>",
+  DEBUG_Init = "<function>",
+  DebugUpdate = "<function>",
+  DeclareSVars = "<function>",
+  Disable = "<function>",
+  Enable = "<function>",
+  InitializeVariableTraps = "<function>",
+  OnAllocate = "<function>",
+  RestoreVariableTrapState = "<function>",
+  _scriptInstanceId = "<userdata: userdata: 000000007FA4E6D8>",
+  _scriptPath = "TppTrap"
+}

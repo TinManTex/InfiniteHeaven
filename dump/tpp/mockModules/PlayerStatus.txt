@@ -1,0 +1,13 @@
+PlayerStatus={
+  BINOCLE = 58,
+  CARRY = 134,
+  CRAWL = 6,
+  CURTAIN = 140,
+  DASH = 23,
+  NORMAL_ACTION = 7,
+  PARTS_ACTIVE = 145,
+  SQUAT = 5,
+  STAND = 4,
+  __index = "<function>",
+  __newindex = "<function>"
+}

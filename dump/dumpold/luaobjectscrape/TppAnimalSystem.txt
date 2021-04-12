@@ -1,0 +1,3 @@
+TppAnimalSystem={
+  GetDataBaseIdFromAnimalId = true
+}

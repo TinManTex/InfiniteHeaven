@@ -1,0 +1,12 @@
+TppPickable={
+  ClearAllDroppedInstance = "<function>",
+  DropItem = "<function>",
+  OnAllocate = "<function>",
+  PutBuddyItems = "<function>",
+  PutOn = "<function>",
+  SetDisablePhysicalMove = "<function>",
+  SetEnableByLocatorName = "<function>",
+  StartToCreateFromLocators = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

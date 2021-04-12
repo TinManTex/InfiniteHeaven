@@ -1,0 +1,6 @@
+SoundSoldierAnimEvent={
+  SetupSoldierBodyCollision = true,
+  SetupSoldierFootStep = true,
+  SetupSoldierRattleSuit = true,
+  SetupSoldierType = true
+}

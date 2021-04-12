@@ -1,0 +1,9 @@
+PlayerPartsType={
+  AVATAR_EDIT_MAN = 14,
+  HOSPITAL = 3,
+  NAKED = 7,
+  NORMAL = 0,
+  NORMAL_SCARF = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

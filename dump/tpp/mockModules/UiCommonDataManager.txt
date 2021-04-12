@@ -1,0 +1,17 @@
+UiCommonDataManager={
+  Create = "<function>",
+  End = "<function>",
+  GetInstance = "<function>",
+  GetNclResultCommonData = "<function>",
+  GzTitlePreSetting = "<function>",
+  GzTitleShuffle = "<function>",
+  InitDataCreate = "<function>",
+  IsGroundZeroesMode = "<function>",
+  SetGroundZeroesMode = "<function>",
+  SetTitleType = "<function>",
+  SetUseMbDvcGzBlock = "<function>",
+  StartTitleMenu = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "UiCommonDataManager"
+}

@@ -1,0 +1,10 @@
+MgoMatchMakingManager={
+  ExitRoom = true,
+  GetPartyLeader = true,
+  GetWeatherChangeState = true,
+  HostTestMatch = true,
+  IsActualMatchmake = true,
+  IsQuickmatch = true,
+  JoinTestMatch = true,
+  SetInvitationBlockStoreOpen = true
+}

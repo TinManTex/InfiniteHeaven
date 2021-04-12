@@ -1,0 +1,17 @@
+Vehicle={
+  LoadCarry = "<function>",
+  SaveCarry = "<function>",
+  SetIgnoreDisableNpc = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  class = "<table>",
+  instanceCountMax = 60,
+  life = "<table>",
+  observation = "<table>",
+  paintType = "<table>",
+  speed = "<table>",
+  state = "<table>",
+  subType = "<table>",
+  svars = "<function>",
+  type = "<table>"
+}

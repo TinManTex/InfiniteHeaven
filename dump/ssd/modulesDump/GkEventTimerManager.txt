@@ -1,0 +1,12 @@
+GkEventTimerManager=<1>{
+  IsTimerActive = <function 1>,
+  SetPaused = <function 2>,
+  Start = <function 3>,
+  StartRaw = <function 4>,
+  Stop = <function 5>,
+  StopAll = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  _className = "GkEventTimerManager",
+  <metatable> = <table 1>
+}

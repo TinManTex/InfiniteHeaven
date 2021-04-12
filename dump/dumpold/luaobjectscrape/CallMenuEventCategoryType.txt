@@ -1,0 +1,4 @@
+CallMenuEventCategoryType={
+  None = true,
+  RescueBoy = true
+}

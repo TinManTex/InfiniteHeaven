@@ -1,0 +1,9 @@
+TppMath={
+  AddVector = "<function>",
+  DegreeToRadian = "<function>",
+  FindDistance = "<function>",
+  RadianToDegree = "<function>",
+  Vector3toTable = "<function>",
+  _scriptInstanceId = "<userdata: userdata: 000000007F9B76B8>",
+  _scriptPath = "TppMath"
+}

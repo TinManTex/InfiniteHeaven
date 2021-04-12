@@ -1,0 +1,8 @@
+TppAnimalId=<1>{
+  [-285212672] = 4,
+  [110373869] = <function 1>,
+  [253826925] = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

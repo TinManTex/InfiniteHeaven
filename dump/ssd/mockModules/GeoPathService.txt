@@ -1,0 +1,13 @@
+GeoPathService={
+  BindEdgeTag = "<function>",
+  BindNodeTag = "<function>",
+  EnablePath = "<function>",
+  EnablePathWithNumber = "<function>",
+  InvalidPath = "<function>",
+  RegisterEdgeTag = "<function>",
+  RegisterNodeTag = "<function>",
+  RegisterPathTag = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GeoPathService"
+}

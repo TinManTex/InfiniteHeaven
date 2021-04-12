@@ -1,0 +1,10 @@
+foxmath={
+  Absf = true,
+  Atan2 = true,
+  DegreeToRadian = true,
+  FRnd = true,
+  NormalizeRadian = true,
+  PI = true,
+  RadianToDegree = true,
+  Round = true
+}

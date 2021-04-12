@@ -1,0 +1,8 @@
+TppDataUtility={
+  CreateEffectFromId = true,
+  DestroyEffectFromId = true,
+  SetEnableDataFromIdentifier = true,
+  SetVisibleDataFromIdentifier = true,
+  SetVisibleEffectFromGroupId = true,
+  SetVisibleEffectFromId = true
+}

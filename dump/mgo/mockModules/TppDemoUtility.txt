@@ -1,0 +1,12 @@
+TppDemoUtility={
+  AddSubjectMapping = "<function>",
+  DisablePadZoom = "<function>",
+  EnablePadZoom = "<function>",
+  IsFadeOut = "<function>",
+  IsMgoTitleDemoEnvTextureLoadCompleted = "<function>",
+  ResetFadeInfo = "<function>",
+  ResetMgoTitleDemoEnvTextureLoadCompleted = "<function>",
+  SetEnableDemoZoomSound = "<function>",
+  SetInvisibleUniqueCharacter = "<function>",
+  SetUseBlackDiamond = "<function>"
+}

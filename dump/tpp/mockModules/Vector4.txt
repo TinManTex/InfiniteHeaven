@@ -1,0 +1,9 @@
+Vector4={
+  Add = "<function>",
+  Dot = "<function>",
+  Normalize = "<function>",
+  Scale = "<function>",
+  Sub = "<function>",
+  ToString = "<function>",
+  __call = "<function>"
+}

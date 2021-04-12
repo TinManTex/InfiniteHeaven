@@ -1,0 +1,12 @@
+TppSoldier2={
+  DisableMarkerModelEffect = "<function>",
+  LoadRequestSoldierDefaultWeapon = "<function>",
+  LoadRequestSoldierWeapon = "<function>",
+  ReloadSoldier2ParameterTables = "<function>",
+  SetDefaultPartsPath = "<function>",
+  SetDefaultSoldierWeapon = "<function>",
+  SetDisableMarkerModelEffect = "<function>",
+  SetEnglishVoiceIdTable = "<function>",
+  SetExtendPartsInfo = "<function>",
+  SetSVarsKeyNames = "<function>"
+}

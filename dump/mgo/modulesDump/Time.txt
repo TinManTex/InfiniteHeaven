@@ -1,0 +1,12 @@
+Time=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [16199353] = <function 1>,
+  [46786492] = <function 2>,
+  [107640919] = <function 3>,
+  [172242537] = <function 4>,
+  [250990670] = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

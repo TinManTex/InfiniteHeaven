@@ -1,0 +1,19 @@
+SsdUiSystem=<1>{
+  [-285212672] = 4,
+  [7726379] = <function 1>,
+  [94062097] = <function 2>,
+  [113572094] = <function 3>,
+  [123165811] = <function 4>,
+  [124080576] = <function 5>,
+  [138323524] = <function 6>,
+  [143527158] = <function 7>,
+  [144000368] = <function 8>,
+  [150617509] = <function 9>,
+  [192164914] = <function 10>,
+  [204466741] = <function 11>,
+  [206205818] = <function 12>,
+  [264612070] = <function 13>,
+  __index = <function 14>,
+  __newindex = <function 15>,
+  <metatable> = <table 1>
+}

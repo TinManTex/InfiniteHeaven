@@ -1,0 +1,7 @@
+UiFontGroupData=<1>{
+  SetFontDataElement = <function 1>,
+  __index = <function 2>,
+  __newindex = <function 3>,
+  _className = "UiFontGroupData",
+  <metatable> = <table 1>
+}

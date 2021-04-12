@@ -1,0 +1,17 @@
+TppMain={
+  DisableBlackLoading = true,
+  DisableGameStatus = true,
+  DisableGameStatusOnGameOverMenu = true,
+  DisablePause = true,
+  EnableBlackLoading = true,
+  EnableGameStatus = true,
+  EnableGameStatusForDemo = true,
+  EnablePause = true,
+  OnEnterMissionPrepare = true,
+  OnMissionCanStart = true,
+  OnMissionGameStart = true,
+  OnMissionStartSaving = true,
+  OnTextureLoadingWaitStart = true,
+  ReservePlayerLoadingPosition = true,
+  lua = true
+}

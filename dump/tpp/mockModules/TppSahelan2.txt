@@ -1,0 +1,11 @@
+TppSahelan2={
+  SAHELAN2_PHASE_1ST = 4,
+  SAHELAN2_PHASE_2ND = 5,
+  SAHELAN2_PHASE_7TH = 10,
+  SAHELAN2_PHASE_8TH = 11,
+  SAHELAN2_PHASE_ALERT = 2,
+  SAHELAN2_PHASE_CAUTION = 1,
+  SAHELAN2_PHASE_SNEAK = 0,
+  __index = "<function>",
+  __newindex = "<function>"
+}

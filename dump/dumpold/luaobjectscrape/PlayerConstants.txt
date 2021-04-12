@@ -1,0 +1,3 @@
+PlayerConstants={
+  ITEM_COUNT = true
+}

@@ -1,0 +1,6 @@
+TppMath={
+  DegreeToRadian = true,
+  RadianToDegree = true,
+  Vector3toTable = true,
+  lua = true
+}

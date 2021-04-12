@@ -1,0 +1,4 @@
+HostageVarInfo={
+  __index = "<function>",
+  __newindex = "<function>"
+}

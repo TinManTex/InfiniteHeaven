@@ -1,0 +1,18 @@
+Game={
+  CreateBucket = "<function>",
+  CreateScene = "<function>",
+  DeleteBucket = "<function>",
+  DeleteScene = "<function>",
+  ExportDataRelationGraph = "<function>",
+  GetBucket = "<function>",
+  GetMainBucket = "<function>",
+  GetScene = "<function>",
+  PostDataBodyRecreation = "<function>",
+  PostDataBodyReset = "<function>",
+  SetMainBucket = "<function>",
+  SetName = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "Game"
+}

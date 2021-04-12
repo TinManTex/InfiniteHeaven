@@ -1,0 +1,8 @@
+TppServerManager={
+  AbortSneakMotherBase = true,
+  FobIsSneak = true,
+  GetFobStatus = true,
+  GetNuclearAbolitionCount = true,
+  StartFobPickup = true,
+  StartLogin = true
+}

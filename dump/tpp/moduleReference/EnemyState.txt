@@ -1,0 +1,5 @@
+EnemyState={
+  CARRIED = true,
+  NORMAL = true,
+  STAND_HOLDUP = true
+}

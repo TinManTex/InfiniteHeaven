@@ -1,0 +1,16 @@
+FadeFunction={
+  CallFadeIn = "<function>",
+  CallFadeOut = "<function>",
+  CallStrongFadeOut = "<function>",
+  FadeCustomSetting = "<function>",
+  FadeIgnore = "<function>",
+  FadeSettingDump = "<function>",
+  InitFadeSetting = "<function>",
+  IsFadeOut = "<function>",
+  IsFadeProcessing = "<function>",
+  ResetFadeColor = "<function>",
+  ResetFadeTime = "<function>",
+  SetFadeCallEnable = "<function>",
+  SetFadeColor = "<function>",
+  SetFadeTime = "<function>"
+}

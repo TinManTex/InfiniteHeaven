@@ -1,0 +1,7 @@
+GrPluginDeferredRendering=<1>{
+  __call = <function 1>,
+  __index = <function 2>,
+  __newindex = <function 3>,
+  _className = "GrPluginDeferredRendering",
+  <metatable> = <table 1>
+}

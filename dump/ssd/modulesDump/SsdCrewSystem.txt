@@ -1,0 +1,20 @@
+SsdCrewSystem={
+  EmployTempCrew = <function 1>,
+  GetUniqueCrewGroup = <function 2>,
+  IsCrewFull = <function 3>,
+  IsUniqueCrewExist = <function 4>,
+  LockUniqueCrewDeploy = <function 5>,
+  LockUniqueCrewGroup = <function 6>,
+  RegisterCrew = <function 7>,
+  RegisterTempCrew = <function 8>,
+  RegisterZombieCrew = <function 9>,
+  RemoveAll = <function 10>,
+  Restore = <function 11>,
+  SetGroup = <function 12>,
+  SetUniqueCrewAbsence = <function 13>,
+  Store = <function 14>,
+  UnlockAllUniqueCrewDeploy = <function 15>,
+  UnlockAllUniqueCrewGroup = <function 16>,
+  UnregisterCrew = <function 17>,
+  UnregisterTempCrew = <function 18>
+}

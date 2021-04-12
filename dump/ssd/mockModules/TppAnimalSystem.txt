@@ -1,0 +1,5 @@
+TppAnimalSystem={
+  GetDataBaseIdFromAnimalId = "<function>",
+  IsIgnoreDisableNpc = "<function>",
+  SetIgnoreDisableNpc = "<function>"
+}

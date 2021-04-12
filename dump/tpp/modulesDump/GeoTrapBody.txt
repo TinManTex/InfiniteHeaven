@@ -1,0 +1,9 @@
+GeoTrapBody=<1>{
+  GetByName = <function 1>,
+  SetInvalid = <function 2>,
+  SetValid = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "GeoTrapBody",
+  <metatable> = <table 1>
+}

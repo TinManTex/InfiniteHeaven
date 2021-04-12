@@ -1,0 +1,11 @@
+StageBlockCurrentPositionSetter=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [80171496] = <function 1>,
+  [87560036] = <function 2>,
+  [143846671] = <function 3>,
+  [143846675] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

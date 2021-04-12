@@ -1,0 +1,6 @@
+PlayerHandType={
+  NONE = 0,
+  NORMAL = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,3 @@
+SimDaemon={
+  SetForceStopSimWindEffect = true
+}

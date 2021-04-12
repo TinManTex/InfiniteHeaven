@@ -1,0 +1,7 @@
+BuddyFriendlyType={
+  DOG = 1,
+  HORSE = 2,
+  QUIET = 0,
+  __index = "<function>",
+  __newindex = "<function>"
+}

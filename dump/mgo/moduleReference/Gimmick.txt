@@ -1,0 +1,19 @@
+Gimmick={
+  CallFindContainerResourceLog = true,
+  DoesGimmickExist = true,
+  DoesPermanentGimmickExist = true,
+  GetLifeRatio = true,
+  GetPosition = true,
+  InvisibleGimmick = true,
+  IsSwitchOn = true,
+  RegisterCassetteToRadio = true,
+  RestoreSaveDataPermanentGimmickFromCheckPoint = true,
+  RestoreSaveDataPermanentGimmickFromMission = true,
+  SetFultonability = true,
+  SetIndicatorVisibility = true,
+  SetSwitchInteractability = true,
+  StoreSaveDataPermanentGimmickForMissionClear = true,
+  StoreSaveDataPermanentGimmickFromCheckPoint = true,
+  StoreSaveDataPermanentGimmickFromMission = true,
+  StoreSaveDataPermanentGimmickFromMissionAfterClear = true
+}

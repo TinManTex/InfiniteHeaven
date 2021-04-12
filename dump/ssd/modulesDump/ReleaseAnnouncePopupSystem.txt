@@ -1,0 +1,9 @@
+ReleaseAnnouncePopupSystem=<1>{
+  [-285212672] = 4,
+  [42470899] = <function 1>,
+  [111187452] = <function 2>,
+  [122172484] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

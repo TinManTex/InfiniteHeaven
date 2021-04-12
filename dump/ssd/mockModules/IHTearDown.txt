@@ -1,0 +1,21 @@
+IHTearDown={
+  BuildMockModules = "<function>",
+  BuildMockModulesFromReferences = "<function>",
+  DumpEntityClassDictionary = "<function>",
+  DumpModules = "<function>",
+  DumpSaveVars = "<function>",
+  DumpToFiles = "<function>",
+  DumpVars = "<function>",
+  GetGlobalsByType = "<function>",
+  GetModuleKeysByType = "<function>",
+  GetModuleReferences = "<function>",
+  GetPlainTextModules = "<function>",
+  PostAllModulesLoad = "<function>",
+  RuntimeAnalyzeClasses = "<function>",
+  WriteString = "<function>",
+  WriteTable = "<function>",
+  buildFromScratch = false,
+  doDumpModules = true,
+  dumpDir = "D:\\Projects\\MGS\\dump\\ssd\\",
+  name = "IHTearDown"
+}

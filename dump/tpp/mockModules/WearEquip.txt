@@ -1,0 +1,8 @@
+WearEquip={
+  GAS_MASK = 2,
+  HELMET = 1,
+  NVG = 4,
+  SOFT_ARMOR = 8,
+  __index = "<function>",
+  __newindex = "<function>"
+}

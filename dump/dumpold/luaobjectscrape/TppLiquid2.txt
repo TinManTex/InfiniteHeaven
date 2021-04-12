@@ -1,0 +1,3 @@
+TppLiquid2={
+  LIQUID_PHASE_STARTED_FIGHT = true
+}

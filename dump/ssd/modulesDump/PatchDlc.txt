@@ -1,0 +1,17 @@
+PatchDlc=<1>{
+  [-285212672] = 4,
+  [34038386] = <function 1>,
+  [37824175] = <function 2>,
+  [62539843] = <function 3>,
+  [82783800] = <function 4>,
+  [83472462] = <function 5>,
+  [189460043] = <function 6>,
+  [194197270] = <function 7>,
+  [203213485] = <function 8>,
+  [233579872] = <function 9>,
+  [244027859] = <function 10>,
+  [267873102] = <function 11>,
+  __index = <function 12>,
+  __newindex = <function 13>,
+  <metatable> = <table 1>
+}

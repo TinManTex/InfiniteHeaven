@@ -1,0 +1,4 @@
+TppPause={
+  RegisterPause = true,
+  UnregisterPause = true
+}

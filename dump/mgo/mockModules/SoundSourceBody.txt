@@ -1,0 +1,11 @@
+SoundSourceBody={
+  IsPlaying = "<function>",
+  PostEvent = "<function>",
+  ResetRTPC = "<function>",
+  SetRTPC = "<function>",
+  SetSwitch = "<function>",
+  StopEvent = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "SoundSourceBody"
+}

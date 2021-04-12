@@ -1,0 +1,11 @@
+TppException={
+  GAME_MODE = true,
+  GetCurrentGameMode = true,
+  OnAllocate = true,
+  PROCESS_STATE = true,
+  RegisterOnEndExceptionDialog = true,
+  ShowSaveErrorPopUp = true,
+  TYPE = true,
+  Update = true,
+  lua = true
+}

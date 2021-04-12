@@ -1,0 +1,6 @@
+EntryBuddyType={
+  BUDDY = 0,
+  VEHICLE = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

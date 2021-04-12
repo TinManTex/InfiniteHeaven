@@ -1,0 +1,6 @@
+Popup={
+  SELECT_OK = true,
+  TYPE_ONE_BUTTON = true,
+  TYPE_ONE_CANCEL_BUTTON = true,
+  TYPE_TWO_BUTTON = true
+}

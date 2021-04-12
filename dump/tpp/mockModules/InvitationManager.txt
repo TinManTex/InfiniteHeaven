@@ -1,0 +1,8 @@
+InvitationManager={
+  EnableMessage = "<function>",
+  IsAccepted = "<function>",
+  IsCurrentUserInvited = "<function>",
+  ResetAccept = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

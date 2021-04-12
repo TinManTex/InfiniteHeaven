@@ -1,0 +1,9 @@
+DeadMessageFlag={
+  FIRE = 1,
+  FIRE_OR_DYING = 3,
+  FROM_PLAYER_ORDER = 16,
+  INDIRECTLY_TARGET = 8,
+  NOT_DAMAGE_DEAD = 4,
+  __index = "<function>",
+  __newindex = "<function>"
+}

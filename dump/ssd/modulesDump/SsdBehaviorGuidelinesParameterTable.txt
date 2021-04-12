@@ -1,0 +1,4 @@
+SsdBehaviorGuidelinesParameterTable={
+  ReadBehaviorGuidelines = <function 1>,
+  SetMainMissionGuidelines = <function 2>
+}

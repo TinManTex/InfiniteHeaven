@@ -1,0 +1,17 @@
+TppServerManager={
+  AbortSneakMotherBase = "<function>",
+  FobIsSneak = "<function>",
+  GetFobStatus = "<function>",
+  GetNuclearAbolitionCount = "<function>",
+  GetNuclearMax = "<function>",
+  GetNuclearNum = "<function>",
+  GetOpponentName = "<function>",
+  GetWormhole = "<function>",
+  GetWormholeCount = "<function>",
+  OpenWormhole = "<function>",
+  SendNoticeSneakMotherBase = "<function>",
+  StartFobPickup = "<function>",
+  StartLogin = "<function>",
+  SynchronizeEmblem = "<function>",
+  SynchronizeServer = "<function>"
+}

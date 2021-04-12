@@ -1,0 +1,4 @@
+TppDemoUtility={
+  IsMgoTitleDemoEnvTextureLoadCompleted = true,
+  ResetMgoTitleDemoEnvTextureLoadCompleted = true
+}

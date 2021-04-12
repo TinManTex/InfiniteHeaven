@@ -1,0 +1,4 @@
+MissionType={
+  __index = "<function>",
+  __newindex = "<function>"
+}

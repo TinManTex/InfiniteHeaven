@@ -1,0 +1,13 @@
+EnemyState=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [1637829] = <function 1>,
+    [105583174] = <function 2>,
+    [164559099] = <function 3>,
+    [248643058] = <function 4>,
+    [252206777] = <function 5>
+  },
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

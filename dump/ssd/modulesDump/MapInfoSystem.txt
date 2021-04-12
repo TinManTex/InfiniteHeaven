@@ -1,0 +1,18 @@
+MapInfoSystem=<1>{
+  [-285212672] = 4,
+  [35524831] = <function 1>,
+  [42211871] = <function 2>,
+  [79037117] = <function 3>,
+  [90988749] = <function 4>,
+  [120793555] = <function 5>,
+  [136971040] = <function 6>,
+  [152666004] = <function 7>,
+  [165933612] = <function 8>,
+  [174974174] = <function 9>,
+  [196896347] = <function 10>,
+  [229118468] = <function 11>,
+  [256106867] = <function 12>,
+  __index = <function 13>,
+  __newindex = <function 14>,
+  <metatable> = <table 1>
+}

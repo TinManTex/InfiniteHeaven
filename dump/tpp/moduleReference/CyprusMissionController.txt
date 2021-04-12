@@ -1,0 +1,3 @@
+CyprusMissionController={
+  SendCommand = true
+}

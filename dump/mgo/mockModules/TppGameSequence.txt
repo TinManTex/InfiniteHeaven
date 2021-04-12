@@ -1,0 +1,9 @@
+TppGameSequence={
+  GetGameTitleName = "<function>",
+  GetTargetArea = "<function>",
+  GetTargetPlatform = "<function>",
+  LoadResidentBlock = "<function>",
+  SetSystemBlockSize = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,10 @@
+MaterialInfo=<1>{
+  SetFrictionCoefficient = <function 1>,
+  SetName = <function 2>,
+  SetRestitutionCoefficient = <function 3>,
+  __call = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  _className = "MaterialInfo",
+  <metatable> = <table 1>
+}

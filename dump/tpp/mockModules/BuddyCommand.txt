@@ -1,0 +1,9 @@
+BuddyCommand={
+  DOG_BARKING = 10,
+  HORSE_SHIT = 19,
+  QUIET_AIM_TARGET = 3,
+  QUIET_COMBAT_START = 4,
+  QUIET_SHOOT_THIS = 6,
+  __index = "<function>",
+  __newindex = "<function>"
+}

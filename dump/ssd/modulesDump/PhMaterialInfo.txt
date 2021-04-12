@@ -1,0 +1,11 @@
+PhMaterialInfo=<1>{
+  SetDensity = <function 1>,
+  SetFriction = <function 2>,
+  SetName = <function 3>,
+  SetRestitution = <function 4>,
+  __call = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  _className = "PhMaterialInfo",
+  <metatable> = <table 1>
+}

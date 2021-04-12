@@ -1,0 +1,8 @@
+LUA_EXT_BIND_DEBUG_SUPPORT=<1>{
+  [-285212672] = 0,
+  [-285212671] = {},
+  __index = <function 1>,
+  __newindex = <function 2>,
+  dump = <function 3>,
+  <metatable> = <table 1>
+}

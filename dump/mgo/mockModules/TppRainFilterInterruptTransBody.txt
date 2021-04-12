@@ -1,0 +1,8 @@
+TppRainFilterInterruptTransBody={
+  AddInterruptFlag = "<function>",
+  AddMaskTexturePath = "<function>",
+  AddPlaneMatrix = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppRainFilterInterruptTransBody"
+}

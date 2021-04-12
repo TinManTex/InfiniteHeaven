@@ -1,0 +1,4 @@
+SoundAnimalAnimEvent={
+  SetupAnimalFootStep = true,
+  SetupAnimalRattleSuit = true
+}

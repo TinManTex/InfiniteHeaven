@@ -1,0 +1,13 @@
+HostageStance=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [42436081] = <function 1>,
+    [162255969] = <function 2>,
+    [187213546] = <function 3>,
+    [211203588] = <function 4>,
+    [212180111] = <function 5>
+  },
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

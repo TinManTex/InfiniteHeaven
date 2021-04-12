@@ -1,0 +1,6 @@
+GeoShape=<1>{
+  __index = <function 1>,
+  __newindex = <function 2>,
+  _className = "GeoShape",
+  <metatable> = <table 1>
+}

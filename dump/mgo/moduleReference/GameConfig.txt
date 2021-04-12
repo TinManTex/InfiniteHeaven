@@ -1,0 +1,6 @@
+GameConfig={
+  ApplyAllConfig = true,
+  GetStealthAssistEnabled = true,
+  Reset = true,
+  SetStealthAssistEnabled = true
+}

@@ -1,0 +1,6 @@
+TppFadeOutEffectHolder={
+  Create = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppFadeOutEffectHolder"
+}

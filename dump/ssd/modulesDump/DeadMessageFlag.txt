@@ -1,0 +1,12 @@
+DeadMessageFlag=<1>{
+  [-285212672] = 4,
+  [6387808] = <function 1>,
+  [6786737] = <function 2>,
+  [60630554] = <function 3>,
+  [166203368] = <function 4>,
+  [227395262] = <function 5>,
+  [236105504] = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,11 @@
+SsdMarker={
+  ClearMarker = "<function>",
+  Enable = "<function>",
+  InitializeMissionMarker = "<function>",
+  RegisterMarker = "<function>",
+  RegisterMarkerSubInfo = "<function>",
+  Restore = "<function>",
+  SetParam = "<function>",
+  Store = "<function>",
+  UnregisterMarker = "<function>"
+}

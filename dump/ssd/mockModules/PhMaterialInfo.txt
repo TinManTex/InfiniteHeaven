@@ -1,0 +1,10 @@
+PhMaterialInfo={
+  SetDensity = "<function>",
+  SetFriction = "<function>",
+  SetName = "<function>",
+  SetRestitution = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "PhMaterialInfo"
+}
