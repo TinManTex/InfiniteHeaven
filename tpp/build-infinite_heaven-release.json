@@ -8,6 +8,7 @@
   "modPackPaths": [
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\ih-data1_dat-lua",
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\fpk-mod",
+    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-ih",
   ],
   "otherMgsvsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\mgsv-mods",
   "docsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\mod-gamedir\\docs",
