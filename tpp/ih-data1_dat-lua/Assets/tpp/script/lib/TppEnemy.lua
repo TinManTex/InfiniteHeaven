@@ -2380,6 +2380,7 @@ function this.IsOuterBaseCp(cpId)
   return mvars.ene_outerBaseCpList[cpId]
 end
 --CALLER: From a few events/moments in mission scripts
+--See also UpdateRouteSet
 function this.ChangeRouteSets(routeSets,unk2)
   mvars.ene_routeSetsTemporary=mvars.ene_routeSets
   mvars.ene_routeSetsPriorityTemporary=mvars.ene_routeSetsPriority
@@ -2394,6 +2395,13 @@ function this.ChangeRouteSets(routeSets,unk2)
     SendCommand(cpId,{id="ShiftChange",schedule=schedule})
   end
 end
+--REF info
+--{
+--  cpName="afgh_field_cp",
+--  soldierList={ "sol_vip_0000", },
+--  groupName="vip",
+--}
+--CALLERS: some story missions
 function this.InitialRouteSetGroup(info)
   local cpId=GetGameObjectId(info.cpName)
   local groupName=info.groupName
@@ -2412,6 +2420,7 @@ function this.InitialRouteSetGroup(info)
   end
   SendCommand(cpId,{id="AssignSneakRouteGroup",soldiers=soldiers,group=groupName})
 end
+--CALLER: s10150_enemy
 function this.RegisterHoldTime(soldierName,holdTime)
   local soldierId=GetGameObjectId(soldierName)
   if soldierId==NULL_ID then
@@ -2427,6 +2436,7 @@ function this.ChangeHoldTime(soldierName,holdTime)
   mvars.ene_holdTimes[soldierId]=holdTime
   this.MakeShiftChangeTable()
 end
+--CALLER: none
 function this.RegisterSleepTime(soldierName,sleepTime)
   local soldierId=GetGameObjectId(soldierName)
   if soldierId==NULL_ID then
@@ -2434,6 +2444,7 @@ function this.RegisterSleepTime(soldierName,sleepTime)
   end
   mvars.ene_sleepTimes[soldierId]=sleepTime
 end
+--CALLER: none
 function this.ChangeSleepTime(soldierName,sleepTime)
   local soldierId=GetGameObjectId(soldierName)
   if soldierId==NULL_ID then
@@ -2442,6 +2453,7 @@ function this.ChangeSleepTime(soldierName,sleepTime)
   mvars.ene_sleepTimes[soldierId]=sleepTime
   this.MakeShiftChangeTable()
 end
+--CALLERS: some story missions
 function this.NoShifhtChangeGruopSetting(cpName,groupName)
   local cpId=GetGameObjectId(cpName)
   if cpId==NULL_ID then
@@ -3477,20 +3489,26 @@ end--GetCurrentRouteSetType
 --CALLER: RouteSelector (though there's a Fox.Log warning in mtbs_enemy.GetRouteSetPriority mentioning it(via ene_funcRouteSetPriority -v-))
 --routeSet: routeSet for cp (mvars.ene_routeSets[cpId])
 --routeSetsPriorities: mvars.ene_routeSetsPriority
-function this.GetPrioritizedRouteTable(cpId,routesForGroup,routeSetsPriority,routeSetTagStr32)
+--returns a list of routes by adding a route for each group in priority order till all routes are added
+--see afgh_routesets afgh_citadel_cp for a commented example of a routeset
+function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagStr32)
+--  if this.debugModule then--tex> logging already handled by RouteSelector
+--    local routeSetTag=InfLookup.StrCode32ToString(routeSetTagStr32)
+--    InfCore.LogFlow("TppEnemy.GetPrioritizedRouteTable: cpId:"..InfLookup.CpNameForCpId(cpId).." routeSetTag:"..routeSetTag)
+--  end--<
   local routeList={}
-  local routeSetsPriorityForCp=routeSetsPriority[cpId]
-  if not IsTypeTable(routeSetsPriorityForCp)then
+  local groupPriorityForCp=routeSetsPriority[cpId]
+  if not IsTypeTable(groupPriorityForCp)then
     return
   end
-  if mvars.ene_funcRouteSetPriority then
+  if mvars.ene_funcRouteSetPriority then--tex missionTable.enemy.GetRouteSetPriority, used for mtbs
     --NMC only mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants, plantTables, sysPhase )
-    routeList=mvars.ene_funcRouteSetPriority(cpId,routesForGroup,routeSetsPriority,routeSetTagStr32)
+    routeList=mvars.ene_funcRouteSetPriority(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagStr32)
   else
     local maxRoutes=0
-    for i,groupName in ipairs(routeSetsPriorityForCp)do
-      if routesForGroup[groupName]then
-        local numRoutes=#routesForGroup[groupName]
+    for i,groupName in ipairs(groupPriorityForCp)do
+      if routeGroupsForRouteType[groupName]then
+        local numRoutes=#routeGroupsForRouteType[groupName]
         if numRoutes>maxRoutes then
           maxRoutes=numRoutes
         end
@@ -3501,32 +3519,32 @@ function this.GetPrioritizedRouteTable(cpId,routesForGroup,routeSetsPriority,rou
     --this leads to routes in a table (sniper routes, since they are bundled with some other info) being added first
     local routeNum=1
     for i=1,maxRoutes do
-      for j,groupName in ipairs(routeSetsPriorityForCp)do
-        local routesForGroup=routesForGroup[groupName]
+      for j,groupName in ipairs(groupPriorityForCp)do
+        local routesForGroup=routeGroupsForRouteType[groupName]
         if routesForGroup then
           local route=routesForGroup[i]
           if route and Tpp.IsTypeTable(route)then
             routeList[routeNum]=route
             routeNum=routeNum+1
           end
-        end
-      end
-    end
+        end--routesForGroup
+      end--for groupPriorityForCp
+    end--for maxRoutes
     for i=1,maxRoutes do
-      for j,groupName in ipairs(routeSetsPriorityForCp)do
-        local routes=routesForGroup[groupName]
-        if routes then
-          local route=routes[i]
+      for j,groupName in ipairs(groupPriorityForCp)do
+        local routesForGroup=routeGroupsForRouteType[groupName]
+        if routesForGroup then
+          local route=routesForGroup[i]
           if route and not Tpp.IsTypeTable(route)then
             routeList[routeNum]=route
             routeNum=routeNum+1
           end
-        end
-      end
-    end
+        end--if routes
+      end--for groupPriorityForCp
+    end--for maxRoutes
   end
   if this.debugModule then--tex>
-    InfCore.PrintInspect(routeList, "TppEnemy.GetPrioritizedRouteTable routeList")
+    InfCore.PrintInspect(routeList, "TppEnemy.GetPrioritizedRouteTable numRoutes:"..#routeList.." routeList")
   end--<
   return routeList
 end--GetPrioritizedRouteTable
@@ -3701,8 +3719,12 @@ function this.RegisterRouteAnimation()
     TppRouteAnimationCollector.RegisterGaniPath(mvars.ene_routeAnimationGaniPathTable)
   end
 end
+--CALLERS: RegisterRouteSet, ChangeRouteSets
+--IN/SIDE: mvars.loc_locationCommonRouteSet
+--OUT/SIDE mvars.ene_routeSetsDefine
 function this.MergeRouteSetDefine(routeSets)
   local function MergeRouteSets(cpName,routeSet)
+    --tex NMC GOTCHA: this means priority, fixedShiftChangeGroup is overidden, not merged?
     if routeSet.priority then
       mvars.ene_routeSetsDefine[cpName].priority={}
       mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup={}
@@ -3715,6 +3737,7 @@ function this.MergeRouteSetDefine(routeSets)
         mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup[i]=routeSet.fixedShiftChangeGroup[i]
       end
     end
+    --tex NMC actually merging
     for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
       mvars.ene_routeSetsDefine[cpName][routeSetType]=mvars.ene_routeSetsDefine[cpName][routeSetType]or{}
       if routeSet[routeSetType]then
@@ -3725,10 +3748,10 @@ function this.MergeRouteSetDefine(routeSets)
               mvars.ene_routeSetsDefine[cpName][routeSetType][groupName][i]=routeName
             end
           end
-        end
-      end
-    end
-  end
+        end--for routeSet[routeSetType]
+      end--if routeSet[routeSetType]
+    end--for ROUTE_SET_TYPES
+  end--function MergeRouteSets
 
   for cpName,routeSet in pairs(routeSets)do
     mvars.ene_routeSetsDefine[cpName]=mvars.ene_routeSetsDefine[cpName]or{}
@@ -3737,11 +3760,13 @@ function this.MergeRouteSetDefine(routeSets)
       local cpId=GetGameObjectId(cpName)
       SendCommand(cpId,{id="SetWalkerGearParkRoute",routes=_routeSet.walkergearpark})
     end
+    --afgh_routeSets, mafr_routeSets
     if mvars.loc_locationCommonRouteSets then
       if mvars.loc_locationCommonRouteSets[cpName]then
         if mvars.loc_locationCommonRouteSets[cpName].outofrain then
           local cpId=GetGameObjectId(cpName)
-          if _routeSet.outofrain then
+          --tex NMC DEBUGNOW ADDON this means addon outofrain wont work if location doesnt have common routeset (since this is the only place SetOutOfRainRoute is called) 
+          if _routeSet.outofrain then  
             SendCommand(cpId,{id="SetOutOfRainRoute",routes=_routeSet.outofrain})
           else
             SendCommand(cpId,{id="SetOutOfRainRoute",routes=mvars.loc_locationCommonRouteSets[cpName].outofrain})
@@ -3753,14 +3778,16 @@ function this.MergeRouteSetDefine(routeSets)
           MergeRouteSets(cpName,mvars.loc_locationCommonRouteSets[cpName])
         end
       end
-    end
+    end--if loc_locationCommonRouteSets
     MergeRouteSets(cpName,_routeSet)
   end
-end
+end--MergeRouteSetDefine
 --CALLER: RegisterRouteSet, ChangeRouteSets
 --routeSets = mvars.ene_routeSetsDefine, some mission alternate routeset
+--see afgh_routeSets - afgh_citadel_cp for example of commented routeSet 
 --SIDE/IN: ene_noShiftChangeGroupSetting
 --SIDE/IN/OUT: mvars. ene_routeSets, ene_routeSetsFixedShiftChange, ene_routeSetsPriority
+--used by RouteSelector and GetPrioritizedRouteTable
 function this.UpdateRouteSet(routeSets)
   for cpName,routeSet in pairs(routeSets)do
     local cpId=GetGameObjectId(cpName)
@@ -3779,11 +3806,13 @@ function this.UpdateRouteSet(routeSets)
           mvars.ene_routeSetsFixedShiftChange[cpId][StrCode32(routeSet.fixedShiftChangeGroup[i])]=i
         end
       end
+      --tex NMC via NoShifhtChangeGruopSetting (sic) from some missions
       if mvars.ene_noShiftChangeGroupSetting[cpId]then
         for groupNameStr32,noShiftChange in pairs(mvars.ene_noShiftChangeGroupSetting[cpId])do
           mvars.ene_routeSetsFixedShiftChange[cpId][groupNameStr32]=noShiftChange
         end
       end
+      
       for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
         mvars.ene_routeSets[cpId][routeSetType]=mvars.ene_routeSets[cpId][routeSetType]or{}
         if routeSet[routeSetType]then
@@ -3806,6 +3835,7 @@ end--UpdateRouteSet
 function this.RegisterRouteSet(routeSets)
   mvars.ene_routeSetsDefine={}
   this.MergeRouteSetDefine(routeSets)
+  --tex NMC the output of UpdateRouteSet
   mvars.ene_routeSets={}
   mvars.ene_routeSetsPriority={}
   mvars.ene_routeSetsFixedShiftChange={}
@@ -3814,6 +3844,7 @@ function this.RegisterRouteSet(routeSets)
   TppClock.RegisterClockMessage("ShiftChangeAtMorning",TppClock.NIGHT_TO_DAY)
   TppClock.RegisterClockMessage("ShiftChangeAtMidNight",TppClock.NIGHT_TO_MIDNIGHT)
 end
+--CALLER: MakeShiftChangeTable
 function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
   for shiftName,i in pairs(mvars.ene_shiftChangeTable[cpId])do
     if shiftChangeUnit[shiftName]and next(shiftChangeUnit[shiftName])then
@@ -3827,6 +3858,7 @@ function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
     end
   end
 end
+--CALLER: _MakeShiftChangeUnit
 function this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
   local e=(numPriorities-priorityIndex)+1
   local currentPriority=priorityIndex
@@ -3871,7 +3903,8 @@ function this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,h
   end
   local unkGroup4=priorities[currentPriority]
   return unkGroup1,holdGroup,sleepGroup,unkGroup4
-end
+end--_GetShiftChangeRouteGroup
+--CALLER: MakeShiftChangeTable
 function this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,unkP10,fixedShiftChangeRouteSet)
   if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][groupNameStr32]then
     return nil
@@ -3908,7 +3941,10 @@ function this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,s
     shiftChangeUnit.shiftAtMorning.start={"night",unkGroup1}
   end
   return shiftChangeUnit
-end
+end--_MakeShiftChangeUnit
+--makes ene_shiftChangeTable based on routeset .hold and .sleep (see _MakeShiftChangeUnit -^-)
+--IN/SIDE: mvars.ene_routeSetsPriority, mvars.ene_routeSets
+--OUT/SIDE: mvars.ene_shiftChangeTable
 function this.MakeShiftChangeTable()
   mvars.ene_shiftChangeTable={}
   for cpId,priorities in pairs(mvars.ene_routeSetsPriority)do
@@ -3942,7 +3978,7 @@ function this.MakeShiftChangeTable()
       end
     end
   end
-end
+end--MakeShiftChangeTable
 function this.ShiftChangeByTime(shiftName)
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     return
