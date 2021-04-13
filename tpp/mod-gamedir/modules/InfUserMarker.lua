@@ -177,7 +177,7 @@ function this.PrintMarkerGameObject(index)
   end
   local typeIndex=GetTypeIndex(gameId)
   local typeStr=InfLookup.TppGameObject.typeIndex[typeIndex]
-  local objectName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
+  local objectName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
   InfCore.Log(objectName,true)
   InfCore.Log(gameId.."="..typeStr,true)
 
@@ -190,23 +190,49 @@ function this.PrintMarkerGameObject(index)
 
 
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
-    InfCore.Log("cpName:"..tostring(cpName),true)--DEBUGNOW TODO
+    --InfCore.Log("cpName:"..tostring(cpName),true)--DEBUGNOW TODO
     if objectName~=nil then
       local svarIndex=InfLookup.SoldierSvarIndexForName(objectName)
       if svarIndex==nil then
         InfCore.Log("Could not find svarIndex")
       else
+        local soldierSvarName={
+          "solName",
+          "solState",
+          "solFlagAndStance",
+          "solWeapon",
+          "solLocation",
+          "solMarker",
+          "solFovaSeed",
+          "solFaceFova",
+          "solBodyFova",
+          "solCp",
+          "solCpRoute",
+          "solScriptSneakRoute",
+          "solScriptCautionRoute",
+          "solScriptAlertRoute",
+          "solRouteNodeIndex",
+          "solRouteEventIndex",
+          "solTravelName",
+          "solTravelStepIndex",
+        }--soldierSvarName
+    
+--DEBUGNOW these are seperate? have to iterate to find matching solOptName?
+--    {name="solOptName",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+--    {name="solOptParam1",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+--    {name="solOptParam2",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+   
         InfCore.Log("Soldier svar index:"..tostring(svarIndex))
-        InfCore.Log("cpRoute:"..svars.solCpRoute[svarIndex])
-        InfCore.Log("solScriptSneakRoute:"..svars.solScriptSneakRoute[svarIndex])
-        InfCore.Log("solScriptCautionRoute:"..svars.solScriptCautionRoute[svarIndex])
-        InfCore.Log("solScriptAlertRoute:"..svars.solScriptAlertRoute[svarIndex])
+        InfCore.Log("solCpRoute:"..InfLookup.StrCode32ToString(svars.solCpRoute[svarIndex]))
+        InfCore.Log("solScriptSneakRoute:"..InfLookup.StrCode32ToString(svars.solScriptSneakRoute[svarIndex]))--tex DEBUGNOW not sure why these arent finding their strings
+        InfCore.Log("solScriptCautionRoute:"..InfLookup.StrCode32ToString(svars.solScriptCautionRoute[svarIndex]))
+        InfCore.Log("solScriptAlertRoute:"..InfLookup.StrCode32ToString(svars.solScriptAlertRoute[svarIndex]))
         InfCore.Log("solRouteNodeIndex:"..svars.solRouteNodeIndex[svarIndex])
         InfCore.Log("solRouteEventIndex:"..svars.solRouteEventIndex[svarIndex])
       end
     end
   end
-end
+end--PrintMarkerGameObject
 
 function this.GetLastAddedUserMarkerIndex()
   if vars.userMarkerSaveCount==nil or vars.userMarkerSaveCount==0 then
