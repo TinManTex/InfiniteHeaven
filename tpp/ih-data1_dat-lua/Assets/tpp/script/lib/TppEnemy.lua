@@ -977,7 +977,7 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
       return soldierWeaponIdTable
     end
   end--<
-  
+
   weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex will return this.weaponIdTable if default
 
   if soldierType==EnemyType.TYPE_SOVIET then
@@ -1002,7 +1002,7 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   else
     soldierWeaponIdTable=weaponIdTable.SOVIET_A
   end
-  
+
   return soldierWeaponIdTable
 end
 --ORIG:
@@ -1031,7 +1031,7 @@ end
 --  else
 --    weaponIdTable=this.weaponIdTable.SOVIET_A
 --  end
---  
+--
 --  return weaponIdTable
 --end
 --tex REWORKED
@@ -1833,16 +1833,16 @@ function this.SetOccasionalChatList()
   local typeSoldier={type="TppSoldier2"}
   GameObject.SendCommand(typeSoldier,{id="SetConversationList",list=conversationList})
 end
-function this.SetSaluteVoiceList()  
+function this.SetSaluteVoiceList()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
-  
+
   if Ivars.mbIncreaseStaffSaluteReactions:Is(1) then--tex>
     InfMBVisit.SetSaluteVoiceList()
     return
   end--<
-  
+
   local highList={}
   local highOnceList={}
   local midList={}
@@ -3492,10 +3492,10 @@ end--GetCurrentRouteSetType
 --returns a list of routes by adding a route for each group in priority order till all routes are added
 --see afgh_routesets afgh_citadel_cp for a commented example of a routeset
 function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagStr32)
---  if this.debugModule then--tex> logging already handled by RouteSelector
---    local routeSetTag=InfLookup.StrCode32ToString(routeSetTagStr32)
---    InfCore.LogFlow("TppEnemy.GetPrioritizedRouteTable: cpId:"..InfLookup.CpNameForCpId(cpId).." routeSetTag:"..routeSetTag)
---  end--<
+  --  if this.debugModule then--tex> logging already handled by RouteSelector
+  --    local routeSetTag=InfLookup.StrCode32ToString(routeSetTagStr32)
+  --    InfCore.LogFlow("TppEnemy.GetPrioritizedRouteTable: cpId:"..InfLookup.CpNameForCpId(cpId).." routeSetTag:"..routeSetTag)
+  --  end--<
   local routeList={}
   local groupPriorityForCp=routeSetsPriority[cpId]
   if not IsTypeTable(groupPriorityForCp)then
@@ -3765,8 +3765,8 @@ function this.MergeRouteSetDefine(routeSets)
       if mvars.loc_locationCommonRouteSets[cpName]then
         if mvars.loc_locationCommonRouteSets[cpName].outofrain then
           local cpId=GetGameObjectId(cpName)
-          --tex NMC DEBUGNOW ADDON this means addon outofrain wont work if location doesnt have common routeset (since this is the only place SetOutOfRainRoute is called) 
-          if _routeSet.outofrain then  
+          --tex NMC DEBUGNOW ADDON this means addon outofrain wont work if location doesnt have common routeset (since this is the only place SetOutOfRainRoute is called)
+          if _routeSet.outofrain then
             SendCommand(cpId,{id="SetOutOfRainRoute",routes=_routeSet.outofrain})
           else
             SendCommand(cpId,{id="SetOutOfRainRoute",routes=mvars.loc_locationCommonRouteSets[cpName].outofrain})
@@ -3784,7 +3784,7 @@ function this.MergeRouteSetDefine(routeSets)
 end--MergeRouteSetDefine
 --CALLER: RegisterRouteSet, ChangeRouteSets
 --routeSets = mvars.ene_routeSetsDefine, some mission alternate routeset
---see afgh_routeSets - afgh_citadel_cp for example of commented routeSet 
+--see afgh_routeSets - afgh_citadel_cp for example of commented routeSet
 --SIDE/IN: ene_noShiftChangeGroupSetting
 --SIDE/IN/OUT: mvars. ene_routeSets, ene_routeSetsFixedShiftChange, ene_routeSetsPriority
 --used by RouteSelector and GetPrioritizedRouteTable
@@ -3812,7 +3812,7 @@ function this.UpdateRouteSet(routeSets)
           mvars.ene_routeSetsFixedShiftChange[cpId][groupNameStr32]=noShiftChange
         end
       end
-      
+
       for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
         mvars.ene_routeSets[cpId][routeSetType]=mvars.ene_routeSets[cpId][routeSetType]or{}
         if routeSet[routeSetType]then
