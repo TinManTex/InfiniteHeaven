@@ -20,7 +20,7 @@ local pairs=pairs
 local tostring=tostring
 
 local ivars=ivars
-local InfQuickMenuDefs--PostModuleReload
+local InfQuickMenuDefs--PostAllModulesLoad
 
 this.updateOutsideGame=true
 

@@ -701,10 +701,11 @@ end
 --tex TODO bit of a misnomer now that they can be loaded internally
 --IN/SIDE: InfModules.externalModules
 function this.LoadExternalModule(moduleName,isReload,skipPrint)
-  this.Log("LoadExternalModule "..tostring(moduleName))
+  this.Log("LoadExternalModule "..tostring(moduleName).." isReload:"..tostring(isReload))
   local prevModule=_G[moduleName]
   if isReload then
     if prevModule and prevModule.PreModuleReload then
+      InfCore.Log(moduleName..".PreModuleReload")
       InfCore.PCallDebug(prevModule.PreModuleReload)
     end
   end
@@ -715,7 +716,8 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
     --DEBUGNOW I'm building the path anyway now for FileExists check, so maybe change to a loadfile
     package.loaded[moduleName]=nil
-    local sucess,module=pcall(require,moduleName)
+    local sucess
+    sucess,module=pcall(require,moduleName)
     if not sucess then
       InfCore.Log("ERROR: "..module,false,true)
       --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
@@ -730,12 +732,17 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
       return nil
     end
   else--tex load internal
+    InfCore.Log("Found internal for "..tostring(moduleName))
     Script.LoadLibrary("/Assets/tpp/script/ih/"..moduleName..".lua")
     module=_G[moduleName]
     if not module then
       InfCore.Log("InfCore.LoadExternalModule: ERROR: module"..moduleName.."not in globals",false,true)
       return nil
     end
+  end--if internal or external
+  
+  if not module then
+    InfCore.Log("ERROR: !module for "..moduleName)
   end
 
   if isReload and module then
@@ -743,12 +750,13 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
       InfMain.PostModuleReloadMain(module,prevModule)
     end
     if module.PostModuleReload then
+      InfCore.Log(moduleName..".PostModuleReload")
       InfCore.PCallDebug(module.PostModuleReload,prevModule)
     end
   end
 
   return module
-end
+end--LoadExternalModule
 
 --tex just load via script.loadlibrary, cant reload it
 function this.LoadInternalModule(moduleName,isReload,skipPrint)
