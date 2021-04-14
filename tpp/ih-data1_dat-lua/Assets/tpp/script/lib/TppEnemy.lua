@@ -3548,8 +3548,9 @@ function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPri
   end--<
   return routeList
 end--GetPrioritizedRouteTable
---NMC called from engine with different cpids. Set up in SetUpCommandPost. Seems like it initially called right then. then at what other points?
+--NMC called from engine with different cpids. Set up in SetUpCommandPost. Seems like it initially called right then. DEBUGNOW then at what other points?
 --see mvars.ene_routeSets, which is a transformed <mission script>_enemy.routeSets and mvars.ene_routeSetsPriority for the main drivers of these functions
+--and RegisterRouteSet, ChangeRouteSets
 function this.RouteSelector(cpId,routeTypeTagStr32,routeSetTagStr32)
   --InfCore.PCallDebug(function(cpId,routeTypeTagStr32,routeSetTagStr32)--tex kills function for some reason
   if this.debugModule then--tex>
@@ -3722,6 +3723,7 @@ end
 --CALLERS: RegisterRouteSet, ChangeRouteSets
 --IN/SIDE: mvars.loc_locationCommonRouteSet
 --OUT/SIDE mvars.ene_routeSetsDefine
+--GOTCHA: isn't a pure merge, some aspects of the merging routeset will override the current
 function this.MergeRouteSetDefine(routeSets)
   local function MergeRouteSets(cpName,routeSet)
     --tex NMC GOTCHA: this means priority, fixedShiftChangeGroup is overidden, not merged?
@@ -3737,6 +3739,13 @@ function this.MergeRouteSetDefine(routeSets)
         mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup[i]=routeSet.fixedShiftChangeGroup[i]
       end
     end
+    --tex added so we can reused the current ene_routeSetsDefine for randomisation (was just discarded in vanilla since SetOutOfRainRoute is all it needs) >
+    if routeSet.outofrain then
+      mvars.ene_routeSetsDefine[cpName].outofrain=mvars.ene_routeSetsDefine[cpName].outofrain or {}
+      for i=1,#routeSet.outofrain do
+        mvars.ene_routeSetsDefine[cpName].outofrain[i]=routeSet.outofrain[i]
+      end
+    end--<
     --tex NMC actually merging
     for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
       mvars.ene_routeSetsDefine[cpName][routeSetType]=mvars.ene_routeSetsDefine[cpName][routeSetType]or{}
@@ -3765,7 +3774,7 @@ function this.MergeRouteSetDefine(routeSets)
       if mvars.loc_locationCommonRouteSets[cpName]then
         if mvars.loc_locationCommonRouteSets[cpName].outofrain then
           local cpId=GetGameObjectId(cpName)
-          --tex NMC DEBUGNOW ADDON this means addon outofrain wont work if location doesnt have common routeset (since this is the only place SetOutOfRainRoute is called)
+          --tex GOTCHA: this is override rather than merege
           if _routeSet.outofrain then
             SendCommand(cpId,{id="SetOutOfRainRoute",routes=_routeSet.outofrain})
           else
@@ -3778,6 +3787,12 @@ function this.MergeRouteSetDefine(routeSets)
           MergeRouteSets(cpName,mvars.loc_locationCommonRouteSets[cpName])
         end
       end
+    else
+      --tex GOTCHA: this is override rather than merege
+      if _routeSet.outofrain then--tex> for addon support of outofrain without having a locationCommonRouteSet
+        local cpId=GetGameObjectId(cpName)
+        SendCommand(cpId,{id="SetOutOfRainRoute",routes=_routeSet.outofrain})
+      end--<
     end--if loc_locationCommonRouteSets
     MergeRouteSets(cpName,_routeSet)
   end
