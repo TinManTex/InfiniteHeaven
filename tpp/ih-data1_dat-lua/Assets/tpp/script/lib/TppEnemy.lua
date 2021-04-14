@@ -3804,6 +3804,7 @@ end--MergeRouteSetDefine
 --SIDE/IN/OUT: mvars. ene_routeSets, ene_routeSetsFixedShiftChange, ene_routeSetsPriority
 --used by RouteSelector and GetPrioritizedRouteTable
 function this.UpdateRouteSet(routeSets)
+  InfCore.LogFlow("TppEnemy.UpdateRouteSet")--tex DEBUG
   for cpName,routeSet in pairs(routeSets)do
     local cpId=GetGameObjectId(cpName)
     if cpId==NULL_ID then
