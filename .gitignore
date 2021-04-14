@@ -2,9 +2,6 @@
 #gamedir\mod\strings is a bunch of txt strings from https://github.com/TinManTex/mgsv-lookup-strings that IH uses sor it's StrCodeToString function for debugging
 /*/mod-gamedir/strings/*
 
-#release mod gamedir folder
-/*/mod-gamedir-release/*
-
 #my build tool currently puts a copy of the .mgsv in the gameid folder
 /*/*.mgsv
 
