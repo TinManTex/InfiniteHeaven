@@ -54,6 +54,41 @@ function this.CopyList(sourceList)
   end
   return newList
 end
+function this.CopyTable(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[this.CopyTable(orig_key)] = this.CopyTable(orig_value)
+        end
+        setmetatable(copy, this.CopyTable(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end--CopyTable
+
+--DEBUGNOW is destructive to input table TODO better
+function this.RandomizeArray(array)
+  if array==nil then
+    InfCore.Log("WARNING: RandomizeArray array==nil")
+    return nil
+  end
+
+  if #array==0 then
+    return array
+  end
+  
+  local randomizedArray={}
+  local size=#array
+  for i=1,size do
+    local index=math.random(#array)
+    table.insert(randomizedArray,array[index])
+    table.remove(array,index)
+  end
+  return randomizedArray
+end--RandomizeArray
 
 function this.GetRandomPool(pool)
   --DEBUGNOW
