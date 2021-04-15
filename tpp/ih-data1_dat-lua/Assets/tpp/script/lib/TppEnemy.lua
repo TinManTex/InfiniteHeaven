@@ -3442,8 +3442,8 @@ function this.GetCpIntelTrapTable()
 end
 --CALLER: RouteSelector
 function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
-
-  local SetForTime=function(cpId,timeOfDay)
+  --InfCore.Log("GetCurrentRouteSetType: routeTypeStr32: "..InfLookup.StrCode32ToString(routeTypeStr32).. " phase: "..tostring(phase).." cpId: "..tostring(cpId))--tex DEBUG
+  local RouteSetTypeForTime=function(cpId,timeOfDay)
     if not timeOfDay then
       timeOfDay=TppClock.GetTimeOfDayIncludeMidNight()
     end
@@ -3473,13 +3473,13 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
       return"sleep"
     end
     if phase==this.PHASE.SNEAK then
-      routeSetType=SetForTime(cpId,routeSetType)
+      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
     else
       routeSetType="caution"
     end
   else
     if phase==this.PHASE.SNEAK then
-      routeSetType=SetForTime(cpId)
+      routeSetType=RouteSetTypeForTime(cpId)
     else
       routeSetType="caution"
     end
@@ -3491,7 +3491,7 @@ end--GetCurrentRouteSetType
 --routeSetsPriorities: mvars.ene_routeSetsPriority
 --returns a list of routes by adding a route for each group in priority order till all routes are added
 --see afgh_routesets afgh_citadel_cp for a commented example of a routeset
-function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagStr32)
+function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagOrGroupS32)
   --  if this.debugModule then--tex> logging already handled by RouteSelector
   --    local routeSetTag=InfLookup.StrCode32ToString(routeSetTagStr32)
   --    InfCore.LogFlow("TppEnemy.GetPrioritizedRouteTable: cpId:"..InfLookup.CpNameForCpId(cpId).." routeSetTag:"..routeSetTag)
@@ -3503,7 +3503,7 @@ function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPri
   end
   if mvars.ene_funcRouteSetPriority then--tex missionTable.enemy.GetRouteSetPriority, used for mtbs
     --NMC only mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants, plantTables, sysPhase )
-    routeList=mvars.ene_funcRouteSetPriority(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagStr32)
+    routeList=mvars.ene_funcRouteSetPriority(cpId,routeGroupsForRouteType,routeSetsPriority,routeSetTagOrGroupS32)
   else
     local maxRoutes=0
     for i,groupName in ipairs(groupPriorityForCp)do
@@ -3551,17 +3551,17 @@ end--GetPrioritizedRouteTable
 --NMC called from engine with different cpids. Set up in SetUpCommandPost. Seems like it initially called right then. DEBUGNOW then at what other points?
 --see mvars.ene_routeSets, which is a transformed <mission script>_enemy.routeSets and mvars.ene_routeSetsPriority for the main drivers of these functions
 --and RegisterRouteSet, ChangeRouteSets
-function this.RouteSelector(cpId,routeTypeTagStr32,routeSetTagStr32)
-  --InfCore.PCallDebug(function(cpId,routeTypeTagStr32,routeSetTagStr32)--tex kills function for some reason
+--the params are a mess because kjp tried to jam a lot of different concerns into them
+function this.RouteSelector(cpId,tagOrRouteTypeS32,tagOrSysPhaseOrGroup32)
   if this.debugModule then--tex>
-    InfCore.LogFlow("TppEnemy.RouteSelector: cpId:"..InfLookup.CpNameForCpId(cpId).." routeTypeTag:"..InfLookup.StrCode32ToString(routeTypeTagStr32).." routeSetTag:"..tostring(InfLookup.StrCode32ToString(routeSetTagStr32)))
+    InfCore.LogFlow("TppEnemy.RouteSelector: cpId:"..InfLookup.CpNameForCpId(cpId).." tagOrRouteTypeS32:"..InfLookup.StrCode32ToString(tagOrRouteTypeS32).." tagOrSysPhaseOrGroup32:"..tostring(InfLookup.StrCode32ToString(tagOrSysPhaseOrGroup32)))
   end--<
   local routeSetForCp=mvars.ene_routeSets[cpId]
   if routeSetForCp==nil then
     return{"dummyRoute"}
   end
-  if routeSetTagStr32==StrCode32"immediately"then
-    if routeTypeTagStr32==StrCode32"old"then
+  if tagOrSysPhaseOrGroup32==StrCode32"immediately"then
+    if tagOrRouteTypeS32==StrCode32"old"then
       local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
       if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
       return this.GetPrioritizedRouteTable(cpId,mvars.ene_routeSetsTemporary[cpId][currentRouteSetType],mvars.ene_routeSetsPriorityTemporary)
@@ -3571,21 +3571,21 @@ function this.RouteSelector(cpId,routeTypeTagStr32,routeSetTagStr32)
       return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
     end
   end
-  if routeSetTagStr32==StrCode32"SYS_Sneak"then
+  if tagOrSysPhaseOrGroup32==StrCode32"SYS_Sneak"then
     local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.PHASE.SNEAK,cpId)
     if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority,routeSetTagStr32)
+    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority,tagOrSysPhaseOrGroup32)
   end
-  if routeSetTagStr32==StrCode32"SYS_Caution"then
+  if tagOrSysPhaseOrGroup32==StrCode32"SYS_Caution"then
     local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.PHASE.CAUTION,cpId)
     if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority,routeSetTagStr32)
+    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority,tagOrSysPhaseOrGroup32)
   end
-  local currentRouteSetType=this.GetCurrentRouteSetType(routeTypeTagStr32,this.GetPhaseByCPID(cpId),cpId)
+  local currentRouteSetType=this.GetCurrentRouteSetType(tagOrRouteTypeS32,this.GetPhaseByCPID(cpId),cpId)
   if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-  local routesForTag=routeSetForCp[currentRouteSetType][routeSetTagStr32]
-  if routesForTag then
-    return routesForTag
+  local routesForGroup=routeSetForCp[currentRouteSetType][tagOrSysPhaseOrGroup32]
+  if routesForGroup then
+    return routesForGroup
   else
     if currentRouteSetType=="hold"then
       local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
@@ -3597,11 +3597,9 @@ function this.RouteSelector(cpId,routeTypeTagStr32,routeSetTagStr32)
       return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
     end
   end
-  --end,cpId,routeTypeTagStr32,routeSetTagStr32)--tex
 end--RouteSelector
 --DEBUGNOW tex REWORKED UNUSED
 function this.RouteSelectorNEW(cpId,routeTypeTagStr32,routeSetTagStr32)
-  --InfCore.PCallDebug(function(cpId,routeTypeTagStr32,routeSetTagStr32)--tex DEBUGNOW
   if this.debugModule then--tex>
     InfCore.LogFlow("TppEnemy.RouteSelector: cpId:"..InfLookup.CpNameForCpId(cpId).." routeTypeTag:"..InfLookup.StrCode32ToString(routeTypeTagStr32).." routeSetTag:"..InfLookup.StrCode32ToString(routeSetTagStr32))
   end--<
@@ -3646,7 +3644,6 @@ function this.RouteSelectorNEW(cpId,routeTypeTagStr32,routeSetTagStr32)
   else
     return selectRouteTable
   end
-  --end,cpId,routeTypeTagStr32,routeSetTagStr32)--tex
 end--RouteSelectorNEW
 this.STR32_CAN_USE_SEARCH_LIGHT=StrCode32"CanUseSearchLight"
 this.STR32_CAN_NOT_USE_SEARCH_LIGHT=StrCode32"CanNotUseSearchLight"
@@ -3661,7 +3658,6 @@ end--SetUpSwitchRouteFunc
 --NMC called from engine (when?) (set up in SetUpSwitchRouteFunc, right there -^-)
 --unk4
 function this.SwitchRouteFunc(soldierId,gimmickStateS32,gimmickName,routeS32,unk5)
-  --InfCore.PCallDebug(function(unk1,RENAMEgimmickState,gimmickName,unk4,unk5)--tex
   if this.debugModule then--tex>
     InfCore.LogFlow("TppEnemy.SwitchRouteFunc "..InfLookup.ObjectNameForGameId(soldierId).." "..InfLookup.StrCode32ToString(gimmickStateS32).." "..InfLookup.StrCode32ToString(gimmickName).." "..InfLookup.StrCode32ToString(gimmickName).." "..InfLookup.StrCode32ToString(routeS32).." "..InfLookup.StrCode32ToString(unk5))--DEBUGNOW
   end--<
@@ -3704,7 +3700,6 @@ function this.SwitchRouteFunc(soldierId,gimmickStateS32,gimmickName,routeS32,unk
     end
   end
   return true
-    --end,unk1,RENAMEgimmickState,gimmickName,unk4,unk5)--tex
 end--SwitchRouteFunc
 function this.SetUpCommandPost()
   if not IsTypeTable(mvars.ene_soldierIDList)then
