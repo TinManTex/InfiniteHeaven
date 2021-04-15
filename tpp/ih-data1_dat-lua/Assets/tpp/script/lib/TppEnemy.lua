@@ -3462,18 +3462,18 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
   end
   local routeSetType
   if routeTypeStr32 then
-    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]
-    if routeSetType=="travel"then
+    local routeTypeTag=this.ROUTE_SET_TYPETAG[routeTypeStr32]
+    if routeTypeTag=="travel"then
       return"travel"
     end
-    if routeSetType=="hold"then
+    if routeTypeTag=="hold"then
       return"hold"
     end
-    if routeSetType=="sleep"then
+    if routeTypeTag=="sleep"then
       return"sleep"
     end
     if phase==this.PHASE.SNEAK then
-      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
+      routeSetType=RouteSetTypeForTime(cpId,routeTypeTag)
     else
       routeSetType="caution"
     end
