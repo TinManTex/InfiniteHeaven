@@ -1277,7 +1277,8 @@ end
 --isReload = user initiated
 --CALLER: InfInitMain, also by command or key combo with isReload set
 function this.LoadExternalModules(isReload)
-  InfCore.LogFlow"InfMain.LoadExternalModules"
+  local isReload=isReload or false
+  InfCore.Log("InfMain.LoadExternalModules "..tostring(isReload))
 
   local count=collectgarbage("count")
   InfCore.Log("Lua memory usage start: "..count.." KB")
@@ -1315,11 +1316,15 @@ function this.LoadExternalModules(isReload)
       table.insert(InfModules.moduleNames,moduleName)
     end
   end
-
+  local clock=os.clock
   for i,moduleName in ipairs(InfModules.moduleNames) do
     if not isReload or InfModules.externalModules[moduleName] then--tex don't try and reload internal
+      local startTime=clock()
       InfCore.LoadExternalModule(moduleName,isReload)
+      local endTime=clock()-startTime
+      --InfCore.Log("Loaded in "..endTime)
     end
+
     local module=_G[moduleName]
     if module then
       --InfCore.Log("Loaded "..moduleName)--DEBUG
@@ -1357,18 +1362,24 @@ function this.LoadExternalModules(isReload)
 
   count=collectgarbage("count")
   InfCore.Log("Lua memory usage end: "..count.." KB")
-
+  local startTime=os.clock()
   collectgarbage()
+  local endTime=os.clock()-startTime
+  InfCore.Log("collectgarbage time: "..endTime)
   count=collectgarbage("count")
   InfCore.Log("Lua memory usage post collect: "..count.." KB")
 end
 
 --tex runs a function on all IH modules, used as the main message/event propogation to ih modules
 function this.CallOnModules(functionName,...)
+  local clock=os.clock
   for i,module in ipairs(InfModules) do
     if IsFunc(module[functionName]) then
+      local startTime=clock()
       InfCore.LogFlow(module.name.."."..functionName..":")
       InfCore.PCallDebug(module[functionName],...)
+      local endTime=clock()-startTime
+      --InfCore.Log("Run in "..endTime)--tex DEBUG
     end
   end
 end
