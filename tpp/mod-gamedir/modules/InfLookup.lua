@@ -37,16 +37,20 @@ this.dictionaries={
 }
 
 function this.PostModuleReload(prevModule)
+  this.str32ToString=prevModule.str32ToString
+  this.path32ToString=prevModule.path32ToString
+
   this.subtitleId32ToString=prevModule.subtitleId32ToString
   this.path32ToDataSetName=prevModule.path32ToDataSetName
+  
+  this.strings=prevModule.strings
+  this.gameObjectNames=prevModule.gameObjectNames
+  
+  this.soldierSvarIndexes=prevModule.soldierSvarIndexes
+  
   --GOTCHA: generated lookups need to be restored too else they'll point to the empty ones from the newly loaded module
   this.lookups.subtitleId=this.subtitleId32ToString
   this.lookups.dataSetPath32=this.path32ToDataSetName
-
-  this.strings=prevModule.strings
-  this.gameObjectNames=prevModule.gameObjectNames
-
-  this.soldierSvarIndexes=prevModule.soldierSvarIndexes
 end
 
 function this.PostAllModulesLoad()
@@ -334,13 +338,13 @@ function this.InitObjectLists(missionTable)
   if InfNPC then
     this.objectNameLists.ihHostageNames=InfNPC.hostageNames
   end
-  
+
   InfUtil.ClearArray(this.objectNameListsEnum)
   for k,v in pairs(this.objectNameLists)do
     table.insert(this.objectNameListsEnum,k)
   end
   table.sort(this.objectNameListsEnum)
-  
+
   if this.debugModule then
     InfCore.PrintInspect(this.objectNameListsEnum,"InfLookup.objectNameListsEnum")
     InfCore.PrintInspect(this.objectNameLists,"InfLookup.objectNameLists")
@@ -358,12 +362,12 @@ function this.RefreshObjectLists()
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
- 
+
   --tex not really dynamic/runtime but are setup after Init so cant be in InitObjectLists
   --return InfSoldier.ene_wildCardNames
   --return TppEnemy.armorSoldiers
-  
-    if InfNPCHeli then
+
+  if InfNPCHeli then
     this.objectNameLists.ihHeliList=InfNPCHeli.heliList
   end
 
@@ -395,6 +399,10 @@ function this.LandingZoneName(lzStr32)
 end
 
 function this.BuildStr32ToString()
+  this.str32ToString[StrCode32("")]=[[""]]
+  --this.str32ToString[3205930904]=[[""]]
+
+
   for name,strings in pairs(this.strings) do
     InfCore.Log("Adding "..name.." strings to strCode32List")
     this.AddToStr32StringLookup(strings)
@@ -605,7 +613,7 @@ function this.CpNameForCpId(cpId)
   if cpId==nil then
     return 'nil'
   end
-  
+
   if cpId==NULL_ID then
     return 'NULL_ID'
   end
