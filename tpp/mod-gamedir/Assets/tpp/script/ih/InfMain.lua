@@ -54,6 +54,8 @@ this.appliedProfiles=false
 
 this.usingAltCamera=false--tex IH camera modules flip this on enabled, then it's pulled into checkexec
 
+this.getMissionPackagePathReturnTime={}--
+
 --CALLER: TppVarInit.StartTitle, game save actually first loaded
 --not super accurate execution timing wise
 function this.OnStartTitle()
@@ -94,6 +96,14 @@ function this.PreMissionLoad(missionId,currentMissionId)
 end
 
 function this.OnAllocateTop(missionTable)
+  --tex DEBUG
+  local getMissionPackagePathReturnTime=this.getMissionPackagePathReturnTime[vars.missionCode]
+  this.getMissionPackagePathReturnTime[vars.missionCode]=0
+  if getMissionPackagePathReturnTime then
+    local endTime=os.clock()-getMissionPackagePathReturnTime
+    InfCore.Log("GetMissionPackagePath to OnAllocate time: "..endTime)
+  end
+
   --tex enable/disable debug mode depending on ivar, up until this point (from start) InfCore.debugMode==true (see note there)
   local enable=Ivars.debugMode:Is(1)
   this.DebugModeEnable(enable)
@@ -224,7 +234,8 @@ function this.AddMissionPacks(missionCode,packPaths)
   if IHH then
     IHH.Log_Flush()
   end
-end
+  this.getMissionPackagePathReturnTime[missionCode]=os.clock()--tex DEBUGNOW
+end--AddMissionPacks
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
 function this.OnMissionCanStartBottom()
@@ -702,7 +713,7 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
-this.cpPositions={
+this.cpPositions={--ADDON
   afgh={
     afgh_citadelSouth_ob={-1682.557,536.637,-2409.226},
     afgh_sovietSouth_ob={-1558.834,414.159,-1159.438},
@@ -801,7 +812,7 @@ this.cpPositions={
     ["ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|mtbs_intel_cp"]={-668.973,4.925,524.886},
     ["ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp"]={-744.900,8.800,-360.478},
   }
-}
+}--cpPositions
 
 function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
@@ -810,7 +821,7 @@ function this.GetClosestCp(position)
   local locationName=TppLocation.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   if cpPositions==nil then
-    InfCore.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
+    InfCore.Log("WARNING: GetClosestCp no cpPositions for locationName "..locationName,false,true)--DEBUGNOW
     return nil,nil,nil
   end
 
