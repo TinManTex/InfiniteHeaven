@@ -802,7 +802,7 @@ end
 --this.missionStates={
 --  <mission name>=<bitfield of mission cleared gvar states>,
 --}
-function this.ReadSaveStates()
+function this.ReadSaveStates() --DEBUGNOW uhh not called from anywhere? did I even implement this?
   InfCore.LogFlow"InfMission.ReadSaveStates"
 
   if ih_save==nil then
