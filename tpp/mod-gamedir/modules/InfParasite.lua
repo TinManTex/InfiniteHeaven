@@ -1048,7 +1048,7 @@ function this.GetRoutes(cpName)
   for i,phaseName in ipairs(phases)do
     local phaseRoutes=routeSets[phaseName]
     if phaseRoutes then
-      for i,groupName in ipairs(groups)do
+      for i,groupName in ipairs(groups)do--tex TODO read groups from routeSet .priority instead
         local group=phaseRoutes[groupName]
         if group then
           --tex some groups have duplicate groups
