@@ -155,6 +155,9 @@ this.searchMenu={
 this.objectListsMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
+    "Ivars.warpToListPosition",
+    "Ivars.warpToListObject",    
+    "Ivars.setCamToListObject",
   }
 }
 
