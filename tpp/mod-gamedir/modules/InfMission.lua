@@ -416,6 +416,19 @@ function this.AddInLocations()
       TppDefine.LOCATION_ID[locationName]=locationId
       TppMissionList.locationPackTable[locationId]=locationInfo.packs
 
+      local locationNameLower=string.lower(locationName)
+      local cpPositions=InfMain.cpPositions[locationNameLower] or {}
+      InfMain.cpPositions[locationNameLower]=cpPositions
+      if locationInfo.locationMapParams and locationInfo.locationMapParams.townParameter then
+        for i,townParameter in ipairs(locationInfo.locationMapParams.townParameter)do
+          if townParameter.cpName and townParameter.cpName~=""then--tex TODO in vanilla theres some valid townParameters with cpName ""
+            if townParameter.position then
+              cpPositions[townParameter.cpName]={townParameter.position:GetX(),townParameter.position:GetY(),townParameter.position:GetZ()}
+            end
+          end
+        end--for townParameter
+      end--if locationMapParams townParameter
+
       InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)
     end
   end
@@ -423,7 +436,7 @@ function this.AddInLocations()
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationName=locationInfo.locationName
     if locationName then
-      TppLocation.locationIdForName[string.lower(locationName)]=locationId
+      TppLocation.locationIdForName[string.lower(locationName)]=locationId     
     end
   end
   for locationName,locationId in pairs(TppLocation.locationIdForName)do
@@ -436,6 +449,7 @@ function this.AddInLocations()
 
   if this.debugModule then
     InfCore.PrintInspect(this.locationInfo,"locationInfo")
+    --InfCore.PrintInspect(InfMain.cpPositions,"InfMain.cpPositions")
   end
 end
 
