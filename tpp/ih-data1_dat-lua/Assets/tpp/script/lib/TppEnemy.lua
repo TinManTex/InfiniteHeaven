@@ -3857,7 +3857,7 @@ function this.RegisterRouteSet(routeSets)
 end
 --CALLER: MakeShiftChangeTable
 function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
-  for shiftName,i in pairs(mvars.ene_shiftChangeTable[cpId])do
+  for shiftName,existingUnit in pairs(mvars.ene_shiftChangeTable[cpId])do
     if shiftChangeUnit[shiftName]and next(shiftChangeUnit[shiftName])then
       if shiftChangeUnit[shiftName].hold then
         mvars.ene_shiftChangeTable[cpId][shiftName][insertPos*2-1]={shiftChangeUnit[shiftName].start,shiftChangeUnit[shiftName].hold,holdTime=shiftChangeUnit[shiftName].holdTime}
@@ -3870,37 +3870,37 @@ function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
   end
 end
 --CALLER: _MakeShiftChangeUnit
-function this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
-  local e=(numPriorities-priorityIndex)+1
+function this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local remainingPriorities=(numPriorities-priorityIndex)+1--tex remaining priorities
   local currentPriority=priorityIndex
-  if fixedShiftChangeRouteSet[priorities[priorityIndex]]then
-    e=currentPriority
+  if fixedShiftChangeRouteSet[priorityGroupsS32[priorityIndex]]then
+    remainingPriorities=currentPriority
   else
-    local i=0
-    for a=1,priorityIndex do
-      if fixedShiftChangeRouteSet[priorities[a]]then
-        i=i+1
+    local numFixedPriorities=0
+    for fixedPriorityIndex=1,priorityIndex do
+      if fixedShiftChangeRouteSet[priorityGroupsS32[fixedPriorityIndex]]then
+        numFixedPriorities=numFixedPriorities+1
       end
     end
-    e=e+i
-    local a=0
-    for i=e,numPriorities do
-      if fixedShiftChangeRouteSet[priorities[i]]then
-        a=a+1
+    remainingPriorities=remainingPriorities+numFixedPriorities
+    local numRemainingFixedShift=0
+    for i=remainingPriorities,numPriorities do
+      if fixedShiftChangeRouteSet[priorityGroupsS32[i]]then
+        numRemainingFixedShift=numRemainingFixedShift+1
       end
     end
-    e=e-a
-    local a=e
+    remainingPriorities=remainingPriorities-numRemainingFixedShift
+    local a=remainingPriorities
     local i=0
-    local r=fixedShiftChangeRouteSet[priorities[a]]
-    while r do
+    local fixedShiftPriority=fixedShiftChangeRouteSet[priorityGroupsS32[a]]
+    while fixedShiftPriority do
       i=i+1
       a=a-1
-      r=fixedShiftChangeRouteSet[priorities[a]]
+      fixedShiftPriority=fixedShiftChangeRouteSet[priorityGroupsS32[a]]
     end
-    e=e-i
+    remainingPriorities=remainingPriorities-i
   end
-  local unkGroup1=priorities[e]
+  local remainingGroup=priorityGroupsS32[remainingPriorities]
   local holdGroup="default"
   if hold[groupNameStr32]then
     holdGroup=groupNameStr32
@@ -3912,54 +3912,55 @@ function this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,h
       sleepGroup=groupNameStr32
     end
   end
-  local unkGroup4=priorities[currentPriority]
-  return unkGroup1,holdGroup,sleepGroup,unkGroup4
+  local currentGroup=priorityGroupsS32[currentPriority]
+  return remainingGroup,holdGroup,sleepGroup,currentGroup
 end--_GetShiftChangeRouteGroup
---CALLER: MakeShiftChangeTable
-function this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,unkP10,fixedShiftChangeRouteSet)
+--CALLER: MakeShiftChangeTable while iterating over priorityGroupsS32, and passing in priorityIndex
+function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,unkP10,fixedShiftChangeRouteSet)
   if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][groupNameStr32]then
     return nil
   end
-  local unkGroup1,holdGroup,sleepGroup,unkGroup4=this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local remainingGroup,holdGroup,sleepGroup,currentGroup=this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
   local shiftChangeUnit={}
-  for shiftName,unkV1 in pairs(mvars.ene_shiftChangeTable[cpId])do
+  for shiftName,existingShiftChangeUnit in pairs(mvars.ene_shiftChangeTable[cpId])do
     shiftChangeUnit[shiftName]={}
   end
   if(holdGroup~="default")or(IsTypeTable(hold[StrCode32"default"])and next(hold[StrCode32"default"]))then
-    shiftChangeUnit.shiftAtNight.start={"day",unkGroup1}
+    shiftChangeUnit.shiftAtNight.start={"day",remainingGroup}
     shiftChangeUnit.shiftAtNight.hold={"hold",holdGroup}
     shiftChangeUnit.shiftAtNight.holdTime=mvars.ene_holdTimes[cpId]
-    shiftChangeUnit.shiftAtNight.goal={"night",unkGroup4}
+    shiftChangeUnit.shiftAtNight.goal={"night",currentGroup}
     shiftChangeUnit.shiftAtMorning.hold={"hold",holdGroup}
     shiftChangeUnit.shiftAtMorning.holdTime=mvars.ene_holdTimes[cpId]
-    shiftChangeUnit.shiftAtMorning.goal={"day",unkGroup4}
+    shiftChangeUnit.shiftAtMorning.goal={"day",currentGroup}
   else
-    shiftChangeUnit.shiftAtNight.start={"day",unkGroup1}
-    shiftChangeUnit.shiftAtNight.goal={"night",unkGroup4}
-    shiftChangeUnit.shiftAtMorning.goal={"day",unkGroup4}
+    shiftChangeUnit.shiftAtNight.start={"day",remainingGroup}
+    shiftChangeUnit.shiftAtNight.goal={"night",currentGroup}
+    shiftChangeUnit.shiftAtMorning.goal={"day",currentGroup}
   end
   if isSleep then
-    shiftChangeUnit.shiftAtMidNight.start={"night",unkGroup1}
+    shiftChangeUnit.shiftAtMidNight.start={"night",remainingGroup}
     shiftChangeUnit.shiftAtMidNight.hold={"sleep",holdGroup}
     shiftChangeUnit.shiftAtMidNight.holdTime=mvars.ene_sleepTimes[cpId]
     if isMidnight then
-      shiftChangeUnit.shiftAtMidNight.goal={"midnight",unkGroup4}
+      shiftChangeUnit.shiftAtMidNight.goal={"midnight",currentGroup}
     else
-      shiftChangeUnit.shiftAtMidNight.goal={"night",unkGroup1}
+      shiftChangeUnit.shiftAtMidNight.goal={"night",remainingGroup}
     end
-    shiftChangeUnit.shiftAtMorning.start={"midnight",unkGroup1}
+    shiftChangeUnit.shiftAtMorning.start={"midnight",remainingGroup}
   else
-    shiftChangeUnit.shiftAtMorning.start={"night",unkGroup1}
+    shiftChangeUnit.shiftAtMorning.start={"night",remainingGroup}
   end
   return shiftChangeUnit
 end--_MakeShiftChangeUnit
 --makes ene_shiftChangeTable based on routeset .hold and .sleep (see _MakeShiftChangeUnit -^-)
 --IN/SIDE: mvars.ene_routeSetsPriority, mvars.ene_routeSets
 --OUT/SIDE: mvars.ene_shiftChangeTable
+--CALLERS: called pretty much whenever routeset is set up (but not for changeroutesets?)
 function this.MakeShiftChangeTable()
   mvars.ene_shiftChangeTable={}
-  for cpId,priorities in pairs(mvars.ene_routeSetsPriority)do
-    if not IsTypeTable(priorities)then
+  for cpId,priorityGroupsS32 in pairs(mvars.ene_routeSetsPriority)do
+    if not IsTypeTable(priorityGroupsS32)then
       return
     end
     local isSleep=false
@@ -3979,16 +3980,19 @@ function this.MakeShiftChangeTable()
       sleep=mvars.ene_routeSets[cpId].sleep
     end
     local insertPos=1
-    local numPriorities=#priorities
-    for priorityIndex,groupNameStr32 in ipairs(priorities)do
+    local numPriorities=#priorityGroupsS32
+    for priorityIndex,groupNameStr32 in ipairs(priorityGroupsS32)do
       local shiftChangeUnit
-      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
+      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
       if shiftChangeUnit then
         this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
         insertPos=insertPos+1
       end
-    end
-  end
+    end--for priorityGroupsS32
+  end--for ene_routeSetsPriority
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(mvars.ene_shiftChangeTable,"mvars.ene_shiftChangeTable")--tex DEBUGNOW has s32 groupnames, so Lookup it
+  end--<
 end--MakeShiftChangeTable
 function this.ShiftChangeByTime(shiftName)
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
@@ -3997,9 +4001,9 @@ function this.ShiftChangeByTime(shiftName)
   if not IsTypeTable(mvars.ene_shiftChangeTable)then
     return
   end
-  for cpId,schedules in pairs(mvars.ene_shiftChangeTable)do
-    if schedules[shiftName]then
-      SendCommand(cpId,{id="ShiftChange",schedule=schedules[shiftName]})
+  for cpId,shifts in pairs(mvars.ene_shiftChangeTable)do
+    if shifts[shiftName]then
+      SendCommand(cpId,{id="ShiftChange",schedule=shifts[shiftName]})
     end
   end
 end
