@@ -26,6 +26,7 @@ this.inMissionMenu={
     "InfHelicopter.ForceExitHeliAlt",
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
+    "InfUserMarker.WarpToLastUserMarker",
     "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
     "InfMenuDefs.systemMenuMission",
   }
@@ -148,6 +149,12 @@ this.searchMenu={
   options={
     "Ivars.searchItem",
     "InfMenuCommands.GoBackTopItem",
+  }
+}
+
+this.objectListsMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
+  options={
   }
 }
 

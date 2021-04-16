@@ -73,7 +73,7 @@ this.registerMenus={
 }
 
 this.userMarkerMenu={
-  parentRefs={"InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.objectListsMenu"},
   options={
     "InfUserMarker.WarpToLastUserMarker",
     "InfUserMarker.PrintLatestUserMarker",

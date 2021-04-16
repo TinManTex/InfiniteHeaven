@@ -13,7 +13,7 @@ this.registerMenus={
 }
 
 this.positionsMenu={
-  parentRefs={"InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.objectListsMenu"},
   options={
     "InfPositions.AddPosition",
     "InfPositions.AddMarkerPositions",    

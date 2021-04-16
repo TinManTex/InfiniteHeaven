@@ -84,6 +84,8 @@ this.eng={--english
   showStyleEditor="UI Style Editor",
   systemMenuMission="IH system menu",
   requires_ihhook="Requires IHHook to function",
+  command_for_in_mission="Use this command in-mission",
+  objectListsMenu="Object lists menu",
 }--eng end
 
 this.help={}
