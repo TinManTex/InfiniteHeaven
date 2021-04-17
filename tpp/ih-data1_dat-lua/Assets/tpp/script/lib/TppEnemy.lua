@@ -3484,6 +3484,31 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
       routeSetType="caution"
     end
   end
+--tex REF old r129 bug 
+--CULL
+--  if routeTypeStr32 then
+--    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]--tex bug was here with local assignment of var with same name clobbering the outer one, thus not passing out of scope
+--    if routeSetType=="travel"then
+--      return"travel"
+--    end
+--    if routeSetType=="hold"then
+--      return"hold"
+--    end
+--    if routeSetType=="sleep"then
+--      return"sleep"
+--    end
+--    if phase==this.PHASE.SNEAK then
+--      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
+--    else
+--      routeSetType="caution"
+--    end
+--  else
+--    if phase==this.PHASE.SNEAK then
+--      routeSetType=RouteSetTypeForTime(cpId)
+--    else
+--      routeSetType="caution"
+--    end
+--  end
   return routeSetType
 end--GetCurrentRouteSetType
 --CALLER: RouteSelector (though there's a Fox.Log warning in mtbs_enemy.GetRouteSetPriority mentioning it(via ene_funcRouteSetPriority -v-))
@@ -3915,8 +3940,9 @@ function this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priority
   local currentGroup=priorityGroupsS32[currentPriority]
   return remainingGroup,holdGroup,sleepGroup,currentGroup
 end--_GetShiftChangeRouteGroup
+--Creates a shiftchangeunit that's used by _InsertShiftChangeUnit to transform-insert into mvars.ene_shiftChangeTable
 --CALLER: MakeShiftChangeTable while iterating over priorityGroupsS32, and passing in priorityIndex
-function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,unkP10,fixedShiftChangeRouteSet)
+function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,insertPos,fixedShiftChangeRouteSet)
   if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][groupNameStr32]then
     return nil
   end
@@ -3954,9 +3980,24 @@ function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,is
   return shiftChangeUnit
 end--_MakeShiftChangeUnit
 --makes ene_shiftChangeTable based on routeset .hold and .sleep (see _MakeShiftChangeUnit -^-)
+--USER: ShiftChangeByTime (mvars.ene_shiftChangeTable)
 --IN/SIDE: mvars.ene_routeSetsPriority, mvars.ene_routeSets
 --OUT/SIDE: mvars.ene_shiftChangeTable
 --CALLERS: called pretty much whenever routeset is set up (but not for changeroutesets?)
+--REF --groups are actually StrCode32 in live table
+--afgh_enemyBase_cp
+--mvars.ene_shiftChangeTable[cpId]={
+--  shiftAtNight={
+--    [1]={--insertPos*2-1
+--      [1]={"day","groupE"},-- shiftChangeUnit .start -- {shiftName, groupName}
+--      [2]={"hold","default"},-- shiftChangeUnit .goal
+--      holdTime=60,
+--    },
+--    [2]={--insertPos*2
+--      [1]={"hold","default"},-- shiftChangeUnit .start
+--      [2]={"night","groupA"},-- shiftChangeUnit .goal
+--    },
+--    ...
 function this.MakeShiftChangeTable()
   mvars.ene_shiftChangeTable={}
   for cpId,priorityGroupsS32 in pairs(mvars.ene_routeSetsPriority)do
@@ -3994,6 +4035,7 @@ function this.MakeShiftChangeTable()
     InfCore.PrintInspect(mvars.ene_shiftChangeTable,"mvars.ene_shiftChangeTable")--tex DEBUGNOW has s32 groupnames, so Lookup it
   end--<
 end--MakeShiftChangeTable
+--CALLER: Clock msgs ShiftChangeAtNight etc
 function this.ShiftChangeByTime(shiftName)
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     return
