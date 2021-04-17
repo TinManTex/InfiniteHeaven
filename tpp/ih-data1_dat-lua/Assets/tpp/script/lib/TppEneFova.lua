@@ -1992,8 +1992,8 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local uavLevel=TppMotherBaseManagement.GetMbsUavLevel{}
   local uavSmokeLevel=TppMotherBaseManagement.GetMbsUavSmokeGrenadeLevel{}
   local uavSleepingLevel=TppMotherBaseManagement.GetMbsUavSleepingGusGrenadeLevel{}
-  local soldierEquipGrade=TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}--tex OFF TODO: make sure that all these calls are after vars.missionCode change over   InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()--tex was 
-  local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode() --InfMainTpp.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+  local soldierEquipGrade=TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}--tex OFF InfMainTpp.GetMbsClusterSecuritySoldierEquipGrade()--tex TODO: make sure that all these calls are after vars.missionCode change over   
+  local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode() --tex OFF InfMainTpp.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
   local uavType=TppUav.DEVELOP_LEVEL_LMG_0
   local setUav=false
   local isNLUav=false
