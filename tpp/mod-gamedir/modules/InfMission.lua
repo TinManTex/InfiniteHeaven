@@ -983,6 +983,10 @@ end
 --GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
 --GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table, not a full table like TppEnemy.weaponIdTable
 function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
+  if InfMain.IsOnlineMission(vars.missionCode)then
+    return nil
+  end
+
   local weaponIdTable
   local missionInfo=this.missionInfo[vars.missionCode]
   if missionInfo then

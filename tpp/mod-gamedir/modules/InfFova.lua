@@ -2610,7 +2610,7 @@ function this.PlayerFaceSanityCheck()
     vars.playerFaceEquipId=0
   end
 
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if InfMain.IsOnlineMission(vars.missionCode)then
     if vars.playerFaceId > Soldier2FaceAndBodyData.highestVanillaFaceId then
       if vars.playerType==PlayerType.DD_MALE then
         vars.playerFaceId=0
