@@ -1,26 +1,50 @@
 --InfRouteSet.lua
 --Implements routeSet randomization
 --see afgh_routeSets, TppEnemy.RouteSelector for info on routesets
+--and ene_shiftChangeTable, TppEnemy.MakeShiftChangeTable
 
 --The basic gist is that a routeset for a CP is number of groups of routes (for a given route type, sneak_day/night, caution etc).
 --The actual list for the route type is created by working through the groups in a group priority order untill all routes are listed.
 
---Now assuming the soldiers for the cp are assigned routes from this list in it's order (otherwise why go to the effort)
---and since most cps have less soldiers assigned than routes then there's routes that will never get chosen in the vanilla game.
+--the shift-change hold-sleep system provides variation on top of this, but doesnt seem to grab all soldiers so some routes will stay in play over multiple shifts
 
---even if that isn't the case the shift-change hold-sleep system (even though that does provide some variation due to those hold-sleep routes) doesnt seem to grab all soldiers so some routes will stay in play over multiple shifts
---(this is from eyeballing the diffs of a dump of solCpRoute for all soldiers in one cp)
-
---simply randomising the group priority will allow a few different routes be selected
+--simply randomising the group priority will allow a few different routes be selected, and randomize the shifts.
 --randomizing within groups will give a lot more variation
 --and combining both the most
+
+--further analysis using IHDebugVars.DumpSoldierInfo
+--for given routesets
+--from dumping sneak/non-caution cpRoutes for soldiers of one cp periodically (every 3 hours)
+--
+--all soldiers switch from day/night routes (basic shifts?)
+--some are assigned to sleep or hold (and/or?) shifts
+--which soldiers are assigned to those shifts are decided by user mission deploy time (asap seems to just fall to either day or night)
+--ex deploying day (aka after 0600) over multiple deploys gives the same routes and shifts assigned to the same soldiers.
+--ditto night (aka after 1800)
+--
+--those with the 'basic shifts' seem run the same shedule over every in game day
+--furthermore for some soldiers when deployed get their 'day' route set as a night route, and though they still change to night
+--routes they'll change back to the night route during the day shift.
+--What seems to be happening there is that deploy time sets their initial routes depending on the time, and their shifts just seem to be between night route and initial route.
+--
+--Where the proper shifts change as they should, and a subset within those even changing their routes over in-game days (but only on night deploy? ahhhh).
+--
+--'basic shifts' vs proper shift seems to be biased to the first soldiers in list vs later soldiers
+--
+--its possible the limiting factor for proper shifts is the number of hold/sleep routes
+--see dump-ene_shiftChangeTable.txt (TODO add REF?)
+--
+--
+--session change (quitting and starting game exe again), location change (changing location then returning, both quitting to acc from menu option or exiting via heli) effects no difference on the selection.
+
+--TODO: see if just randomising shift table would 
 
 --TODO: a further - who cares how dumb it looks - randomisation mode could be just randomize all routes across all route types
 
 --TODO: a periodic by min/max clock time var (set a clock message on mission start, randomize and recalculate next period when message hits)
 --see routeset_randomizePeriodically -v-
 
-
+--TODO: addAditionalRoutes (see this.routeSets), would need an additional-merge since MergeRouteSets isnt
 
 --GOTCHA: randomisation is currently done on the active routeSets (mvars.ene_routeSetsDefine),
 --so there's no current resetting to default, or even seed based randomisation
@@ -139,6 +163,205 @@ this.langStrings={
   }--help
 }--langStrings
 
+
+--unused routes? added in a brutegen of <routeprefix>_<routeword2>_<00nn><routeword4>
+--came up with routes not previously in dict (which was mostly based off lua routesets names)
+--a lot of them were _sub or _searchlight variations of exising routes
+--(still dont know what _sub routes are, or why routesets use a few even though a lot of routes have them)
+--ane many of the routes are SwitchRouted to from other routes (might be good to be able to visualise that easier)
+--but these ones are not only not referenced in routesets, dont seem to be referenced in switchroute?
+this.routeSets={
+  afgh={--free
+    afgh_citadel_cp={
+      type="additional",--ih - vs "replace" ?
+      sneak_day={
+        stage1st={
+          "rt_citadel_d_0001",
+        },
+      },
+      sneak_night={
+        stage2nd={
+          "rt_citadel_n_0004",
+        },
+        stage3rd={
+          "rt_citadel_n_0015",
+        },
+        stage4th={
+          "rt_citadel_n_0019",
+        },
+      },
+      caution={
+        stage1st={
+          "rt_citadel_c_0006",
+        },
+      },
+      hold={
+        stage1st={
+          "rt_citadel_h_0000",
+          "rt_citadel_h_0001",
+        },
+        stage2nd={
+          "rt_citadel_h_0002",
+          "rt_citadel_h_0003",
+          "rt_citadel_h_0004",
+          "rt_citadel_h_0005",
+        },
+        stage3rd={
+          "rt_citadel_h_0006",
+          "rt_citadel_h_0007",
+        },
+        stage4th={
+          "rt_citadel_h_0008",
+          "rt_citadel_h_0009",
+        },
+      },
+    },--afgh_citadel_cp
+    afgh_cliffEast_ob={
+      sneak_night={
+        groupB={
+          "rt_cliffEast_n_0004",
+        },
+      },
+    },--afgh_cliffEast_ob
+    afgh_cliffSouth_ob={
+      priority={
+        "groupC",
+      },
+      sneak_day={
+        groupC={
+          "rt_cliffSouth_d_0004",
+          "rt_cliffSouth_d_0005",
+        },
+      },
+      sneak_night={
+        groupC={
+          "rt_cliffSouth_n_0004",
+          "rt_cliffSouth_n_0004",
+        },
+      },
+    },--afgh_cliffSouth_ob
+    afgh_enemyBase_cp={
+      sleep={
+        default={
+          "rt_enemyBase_s_0004",
+        },
+      },
+    },--afgh_enemyBase_cp
+
+    afgh_fort_cp={
+      caution={
+        groupA={
+          "rt_fort_c_0009",
+        },
+      },
+    },--afgh_fort_cp
+    afgh_plantWest_ob={
+      caution={
+        groupA={
+          "rt_plantWest_c_0004",
+          "rt_plantWest_c_0005",
+        },
+      },
+    },--afgh_plantWest_ob
+    afgh_powerPlant_cp={
+      caution={
+        groupA={
+          "rt_powerPlant_c_0010",
+        },
+      },
+    },--afgh_powerPlant_cp
+    afgh_remnants_cp={
+      caution={
+        groupA={
+          "rt_remnants_d_0012",
+        },
+      },
+    },--afgh_remnants_cp
+    afgh_sovietBase_cp={
+      sneak_day={
+        groupD={
+          "rt_sovietBase_d_0017",
+          "rt_sovietBase_d_0018",
+        },
+      },
+      sneak_day={
+        groupD={
+          "rt_sovietBase_n_0017",
+          "rt_sovietBase_d_0018",
+        },
+      },
+    },--afgh_sovietBase_cp
+  },--afgh free
+
+  --DEBUGNOW
+  mafr={--free
+  --rt_bananaSouth_d_0006
+  --
+  --rt_bananaSouth_n_0006
+  --rt_bananaSouth_n_0007
+  --
+  --
+  --rt_diamondNorth_d_0006
+  --rt_diamondNorth_d_0007
+  --rt_diamondNorth_n_0006
+  --rt_diamondNorth_n_0007
+  --
+  --rt_diamondWest_d_0006
+  --rt_diamondWest_n_0007
+  --
+  --
+  --rt_hillSouth_c_0005
+  --rt_hillSouth_c_0006
+  --rt_hillSouth_c_0007
+  --
+  --rt_hillSouth_n_0005
+  --
+  --rt_hillWestNear_c_0006
+  --rt_hillWestNear_c_0007
+  --
+  --rt_hillWestNear_n_0004
+  --rt_hillWestNear_n_0005
+  --
+  --rt_lab_d_0010
+  --rt_lab_d_0011
+  --
+  --rt_outlandNorth_c_0007
+  --
+  --rt_pfCampNorth_c_0004
+  --rt_pfCampNorth_c_0005
+  
+  --rt_pfCampNorth_c_0006--tex only one ive seen that doesnt have route nor _sub used in routeset
+  --rt_pfCampNorth_c_0006_sub
+  
+  --rt_pfCampNorth_c_0007
+  --
+  --rt_savannahNorth_d_0006
+  --rt_savannahNorth_d_0007
+  --
+  --rt_savannahNorth_n_0006
+  --rt_savannahNorth_n_0007
+  --
+  --rt_savannahWest_d_0006
+  --rt_savannahWest_d_0007
+  --
+  --rt_savannahWest_n_0006
+  --rt_savannahWest_n_0007
+  --
+  --rt_swampEast_c_0005
+  --rt_swampEast_c_0006
+  --rt_swampEast_c_0007
+  --
+  --rt_swampEast_n_0009
+  --
+  --rt_swampEast_r_0006
+  --rt_swampEast_r_0007
+  --
+  --rt_swampSouth_c_0005
+  --
+  --rt_swampSouth_n_0005
+  },--mafr free
+}--routeSets
+
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
@@ -245,11 +468,13 @@ function this.RandomizeRouteSet(routeSets)
 
   InfCore.LogFlow("RandomizeRouteSet")
   --DEBUGNOW TODO setrandomtolevelseed, or is there a mission elapsed time var that can be used since this is being called in-mission too?
+  --would only work if not doing RandomizeCurrentRouteSet/repeatedly randomising the same routeset
 
   --tex randomizing priority but keeping same sets just makes soldiers reassign
   --I assume its a case of there being more routes than soldiers thus the distrubution of soldier over them changes
   --tex could have an random-all-but-first, but the first tends to be sniper/vip tables which are added seperate anyway
-  if Ivars.routeset_randomizePriority:Get()==1 then
+  local randomizePriority=Ivars.routeset_randomizePriority:Get()==1
+  if randomizePriority then
     for cpOrLrrp,routeSet in pairs(routeSets)do
       routeSet.priority=InfUtil.RandomizeArray(routeSet.priority)
 
@@ -286,11 +511,13 @@ function this.RandomizeRouteSet(routeSets)
   end--if routeset_randomizeGroups
 
   --tex could further ransomize routes across types,
-  --that is if you're fine with soliders manning lights at night
+  --that is if you're fine with soliders manning lights at night (actually not sure they actually would if theres further checks on whether the gimmick should be used based on world time)
   --or some rushing around like theyre in caution when its sneak
 
   TppEnemy.ChangeRouteSets(routeSets)
-  TppEnemy.MakeShiftChangeTable()--tex DEBUGNOW usually only called on initial routesets setup not for ChangeRouteSets, but lets give it a go
+  if randomizePriority then--tex only cares about the group prios
+    TppEnemy.MakeShiftChangeTable()
+  end
 end--RandomizeRouteSet
 
 return this
