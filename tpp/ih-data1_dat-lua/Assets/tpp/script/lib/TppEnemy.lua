@@ -2421,39 +2421,40 @@ function this.InitialRouteSetGroup(info)
   SendCommand(cpId,{id="AssignSneakRouteGroup",soldiers=soldiers,group=groupName})
 end
 --CALLER: s10150_enemy
-function this.RegisterHoldTime(soldierName,holdTime)
-  local soldierId=GetGameObjectId(soldierName)
-  if soldierId==NULL_ID then
+function this.RegisterHoldTime(cpName,holdTime)
+  local cpId=GetGameObjectId(cpName)
+  if cpId==NULL_ID then
     return
   end
-  mvars.ene_holdTimes[soldierId]=holdTime
+  mvars.ene_holdTimes[cpId]=holdTime
 end
-function this.ChangeHoldTime(soldierName,holdTime)
-  local soldierId=GetGameObjectId(soldierName)
-  if soldierId==NULL_ID then
+function this.ChangeHoldTime(cpName,holdTime)
+  local cpId=GetGameObjectId(cpName)
+  if cpId==NULL_ID then
     return
   end
-  mvars.ene_holdTimes[soldierId]=holdTime
+  mvars.ene_holdTimes[cpId]=holdTime
   this.MakeShiftChangeTable()
 end
 --CALLER: none
-function this.RegisterSleepTime(soldierName,sleepTime)
-  local soldierId=GetGameObjectId(soldierName)
-  if soldierId==NULL_ID then
+function this.RegisterSleepTime(cpName,sleepTime)
+  local cpId=GetGameObjectId(cpName)
+  if cpId==NULL_ID then
     return
   end
-  mvars.ene_sleepTimes[soldierId]=sleepTime
+  mvars.ene_sleepTimes[cpId]=sleepTime
 end
 --CALLER: none
-function this.ChangeSleepTime(soldierName,sleepTime)
-  local soldierId=GetGameObjectId(soldierName)
-  if soldierId==NULL_ID then
+function this.ChangeSleepTime(cpName,sleepTime)
+  local cpId=GetGameObjectId(cpName)
+  if cpId==NULL_ID then
     return
   end
-  mvars.ene_sleepTimes[soldierId]=sleepTime
+  mvars.ene_sleepTimes[cpId]=sleepTime
   this.MakeShiftChangeTable()
 end
 --CALLERS: some story missions
+--(sic)
 function this.NoShifhtChangeGruopSetting(cpName,groupName)
   local cpId=GetGameObjectId(cpName)
   if cpId==NULL_ID then
