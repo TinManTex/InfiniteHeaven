@@ -33,6 +33,7 @@ local debugModules={
   'InfNPC',
   'Ivars',
   'TppEnemy',
+  'InfRouteSet',
 }
 
 local this={}
@@ -713,7 +714,7 @@ function this.Init()
 
   this.SetDebugModules()
 
-  --this.SetupDumpSoldier()--DEBUGNOW
+  --this.SetupDumpSoldier()--DEBUG
 end
 
 function this.OnReload(missionTable)
@@ -1358,12 +1359,12 @@ this.devInMissionMenu={
     "IHDebugVars.DEBUG_SomeShiz2",
     "IHDebugVars.DEBUG_SomeShiz3",
     "InfMenuCommands.DEBUG_WarpToObject",
---    "InfHelicopter.RequestHeliLzToLastMarker",
---    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
---    "InfHelicopter.ForceExitHeli",
---    "InfHelicopter.ForceExitHeliAlt",
---    "InfHelicopter.PullOutHeli",
---    "InfHelicopter.ChangeToIdleStateHeli",
+    --    "InfHelicopter.RequestHeliLzToLastMarker",
+    --    "InfHelicopter.RequestHeliLzToLastMarkerAlt",
+    --    "InfHelicopter.ForceExitHeli",
+    --    "InfHelicopter.ForceExitHeliAlt",
+    --    "InfHelicopter.PullOutHeli",
+    --    "InfHelicopter.ChangeToIdleStateHeli",
     --"Ivars.selectedCp",
     --"InfMenuCommands.SetSelectedCpToMarkerObjectCp",
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
@@ -1371,7 +1372,7 @@ this.devInMissionMenu={
     "InfUserMarker.PrintLatestUserMarker",
     --"InfMenuCommands.CheckPointSave",
     "Ivars.warpToListPosition",
-    "Ivars.warpToListObject",    
+    "Ivars.warpToListObject",
     "Ivars.setCamToListObject",
     "Ivars.dropLoadedEquip",
     "Ivars.dropTestEquip",
@@ -2086,7 +2087,7 @@ function this.DumpSoldierInfoForHour(sender,time)
   if vars.missionCode~=30010 then
     return
   end
-  
+
   local lines={}
   local function AddLine(line)
     table.insert(lines,line)
@@ -2111,22 +2112,22 @@ function this.DumpSoldierInfoForHour(sender,time)
   local hours,minutes,seconds=TppClock.GetTime()
   local worldTime=string.format("%02d-%02d-%02d",hours,minutes,seconds)
   local senderStr=InfLookup.StrCode32ToString(sender)
-  
+
   InfCore.Log("IHDebugVars.DumpSoldierInfoForHour "..senderStr.." - "..worldTime)
-  
-  
-    TppCheckPoint.Update{safetyCurrentPosition=true}
+
+
+  TppCheckPoint.Update{safetyCurrentPosition=true}
   --    while TppSave.IsSaving()do
   --      InfCore.Log"waiting saving end..."
   --      coroutine.yield()
   --    end
-  
+
   AddLine("IHDebugVars.DumpSoldierInfoForHour")
   AddLine("inf_levelSeed: "..igvars.inf_levelSeed)
   AddLine("cpName: "..cpName)
-  
-  
-  
+
+
+
   if levelSeed~=igvars.inf_levelSeed then
     this.soldierInfo={}
   end
@@ -2168,12 +2169,12 @@ function this.DumpSoldierInfoForHour(sender,time)
     end
   end
   InfCore.PrintInspect(this.soldierInfo,"dump soldierInfo")
-  
+
 
   AddLine("soldierInfo=")
   AddLine(InfInspect.Inspect(this.soldierInfo))
-  
-  
+
+
   local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-soldierinfo-]]..igvars.inf_levelSeed..[[-.txt]]
 
   WriteLines(fileName,lines)
@@ -2206,16 +2207,21 @@ function this.DumpSoldierInfo()
 
 
 
-InfCore.PrintInspect(this.soldierInfo,"soldierInfo")
+  InfCore.PrintInspect(this.soldierInfo,"soldierInfo")
 
   --afgh_enemyBase_cp="Wakh Sind Barracks",
   local cpName="afgh_enemyBase_cp"
   local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
 
+  AddLine(InfInspect.Inspect(mvars.ene_shiftChangeTable))
+  local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-ene_shiftChangeTable-inspect-]]..igvars.inf_levelSeed..[[.txt]]
+  WriteLines(fileName,lines)
 
- -- InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
+  lines={}
 
- -- InfCore.PrintInspect(mvars.ene_shiftChangeTable[cpId],"mvars.ene_shiftChangeTable[cpId]")--DEBUGNOW
+  -- InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
+
+  -- InfCore.PrintInspect(mvars.ene_shiftChangeTable[cpId],"mvars.ene_shiftChangeTable[cpId]")--DEBUGNOW
   --REF
   --  mvars.ene_shiftChangeTable[cpId]={
   --  shiftAtMidNight = {
@@ -2261,34 +2267,44 @@ InfCore.PrintInspect(this.soldierInfo,"soldierInfo")
   AddLine("")
   AddLine(cpName)
   AddLine"mvars.ene_shiftChangeTable[cpId]={"
-  for shiftName,shifts in pairs(mvars.ene_shiftChangeTable[cpId])do
-    AddLine("\t"..shiftName.."={")
-    for i,shiftUnit in ipairs(shifts)do
-      AddLine("\t\t["..i.."]={")
-      for k,v in pairs(shiftUnit)do
-        if type(v)=="table"then
-          AddLine('\t\t\t['..k..']={'..v[1]..'","'..InfLookup.StrCode32ToString(v[2])..'"},')
+  for cpId,cpShifts in pairs(mvars.ene_shiftChangeTable)do  --DEBUGNOW all
+    local cpName=mvars.ene_cpList[cpId]
+    AddLine("["..cpName .." cpId:"..cpId.."]={")--DEBUGNOW all
+    --for shiftName,shifts in pairs(mvars.ene_shiftChangeTable[cpId])do
+    for shiftName,shifts in pairs(cpShifts)do
+      AddLine("\t"..shiftName.."={")
+      for i,shiftUnit in ipairs(shifts)do       
+        if type(shiftUnit)~="table"then
+          AddLine('\t\t['..i..']="'..tostring(shiftUnit)..'"')
         else
-          AddLine("\t\t\t"..k.."="..tostring(v)..",")
+          AddLine("\t\t["..i.."]={")
+          for k,v in pairs(shiftUnit)do
+            if type(v)=="table"then
+              AddLine('\t\t\t['..k..']={"'..v[1]..'","'..InfLookup.StrCode32ToString(v[2])..'"},')
+            else
+              AddLine("\t\t\t"..k.."="..tostring(v)..",")
+            end
+          end--for k,v
+          AddLine("\t\t},")
         end
-      end--for k,v
-      AddLine("\t\t},")
-    end--for shifts
-    AddLine("\t},")
-  end--for ene_shiftChangeTable
+      end--for shifts
+      AddLine("\t},")
+    end--for ene_shiftChangeTable
+    AddLine("},")--DEBUGNOW all
+  end--DEBUGNOW
   AddLine("}--mvars.ene_shiftChangeTable[cpId]")
   AddLine""
 
---  for i,line in ipairs(lines)do
---    InfCore.Log(line)
---  end
-  
-  
-    local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-ene_shiftChangeTable]]..igvars.inf_levelSeed..[[.txt]]
+  --  for i,line in ipairs(lines)do
+  --    InfCore.Log(line)
+  --  end
+
+
+  local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-ene_shiftChangeTable]]..igvars.inf_levelSeed..[[.txt]]
 
   WriteLines(fileName,lines)
 
-
+  local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
   local soldiers={
     afgh_enemyBase_cp = {
       "sol_enemyBase_0000",
@@ -2323,9 +2339,9 @@ InfCore.PrintInspect(this.soldierInfo,"soldierInfo")
     --TppMarker.Enable(gameObjectName,visibleArea,goalType,viewType,randomRange,setImportant,setNew,mapRadioName,langId,goalLangId,setInterrogation)
   end
 
-  
+
   if true then return end
-  
+
   ------------------------------
 
   --DEBUGNOW
