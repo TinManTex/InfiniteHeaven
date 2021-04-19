@@ -456,6 +456,7 @@ local menuCommands={
   AddToCombo=true,
   SelectCombo=true,
   SelectAllText=true,
+  EnableCursor=true,
 }
 
 --tex queues up cmd, use WriteToExtTxt to actually write/sends
