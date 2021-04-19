@@ -37,7 +37,7 @@
 --
 --session change (quitting and starting game exe again), location change (changing location then returning, both quitting to acc from menu option or exiting via heli) effects no difference on the selection.
 
---TODO: see if just randomising shift table would 
+--TODO: see if just randomising shift table would
 
 --TODO: a further - who cares how dumb it looks - randomisation mode could be just randomize all routes across all route types
 
@@ -46,10 +46,27 @@
 
 --TODO: addAditionalRoutes (see this.routeSets), would need an additional-merge since MergeRouteSets isnt
 
+--TODO: randomising just the (completed) shift table causes even less variation for some reason (from logging just randomizing shifts, each shift),
+--still maybe worth a go at actually understanding the shift change table and (but need to figure out how soliders are assigned to both routesets and shifts)
+
+--TODO: randomise hold/sleep times
+-- these in game world minutes?
+--TppDefine
+--.DEFAULT_HOLD_TIME=60--mvars.ene_holdTimes[cpId]--TppEnemy.DefineSoldiers
+--.DEFAULT_SLEEP_TIME=300--mvars.ene_sleepTimes[cpId]--TppEnemy.DefineSoldiers
+--.DEFAULT_TRAVEL_HOLD_TIME=15--MakeTravelPlanTable cpLinkDefine
+
+--REF shift times
+--Static from TppClock lua load, but obviously chosen to have a shift change just after player uses the set deploy times
+--TppClock.NIGHT_TO_DAY: 06:04:33
+--TppClock.DAY_TO_NIGHT: 18:14:13
+--TppClock.NIGHT_TO_MIDNIGHT: 22:00:00
+
 --GOTCHA: randomisation is currently done on the active routeSets (mvars.ene_routeSetsDefine),
 --so there's no current resetting to default, or even seed based randomisation
 --(since the underlying routeSets are randomised depending on the amount of times it's been randomised, if that makes sense)
 --so mission reloads will give a different randomisation
+
 
 
 local this={}
@@ -67,7 +84,7 @@ this.routeSetMenu={
     "Ivars.routeset_randomizeOnPhaseChange",
     "Ivars.routeset_randomizePriority",
     "Ivars.routeset_randomizeGroups",
-    "InfRouteSet.RandomizeCurrentRouteSet",
+    "InfRouteSet.RandomizeCurrentRouteSetCmd",
   },
 }--routeSetMenu
 
@@ -138,6 +155,23 @@ this.routeset_randomizeGroups={
   settingNames="set_switch",
 }
 
+function this.RandomizeCurrentRouteSetCmd()
+  if TppMission.IsHelicopterSpace(vars.missionCode) then
+    InfMenu.PrintLangId"command_for_in_mission"
+    return
+  end
+  
+  if Ivars.routeset_randomizePriority:Is(0) and Ivars.routeset_randomizeGroups:Is(0) then
+    InfMenu.PrintLangId"requires_prio_or_routes"
+    return
+  end
+
+  InfMenu.PrintLangId"randomizing_routeset"
+
+  InfCore.Log("RandomizeCurrentRouteSetCmd")
+  this.RandomizeCurrentRouteSet()
+end--RandomizeCurrentRouteSetCmd
+
 this.langStrings={
   eng={
     routeSetMenu="RouteSet menu",
@@ -147,18 +181,20 @@ this.langStrings={
     routeset_randomizeOnPhaseChange="Randomize on phase change",
     routeset_randomizePriority="Randomize group priority",
     routeset_randomizeGroups="Randomize group routes",
-    randomizeCurrentRouteSet="Randomize RouteSet now",
+    randomizeCurrentRouteSetCmd="Randomize RouteSet now",
+    requires_prio_or_routes="Requires rnd group priority or rnd group routes to be enabled",
+    randomizing_routeset="Randomizing Routeset",
   },
   help={
     eng={
       routeSetMenu="Options to randomize what routes soldiers use in a Command Post.",
-      routeset_randomizeRouteSetsFREE="Enables all following options. Also randomizes current routeSet on mission load/reload.",
+      routeset_randomizeRouteSetsFREE="Enables all following options. Also randomizes current routeSet on mission load/reload. Requires randomize group priority or group routes to be on.",
       routeset_randomizeRouteSetsMISSION="Enables all following options. Also randomizes current routeSet on mission load/reload. WARNING: may mess up scripted mission routes.",
       routeset_randomizeOnShiftChange="Randomize current routeSet on morning and night shift changes",
       routeset_randomizeOnPhaseChange="Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.",
       routeset_randomizePriority="Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from.",
       routeset_randomizeGroups="Each routeSet for a CP has a number of groups of routes, this will change the order within the group.",
-      randomizeCurrentRouteSet="Randomize current routeset right now.",
+      randomizeCurrentRouteSetCmd="Randomize current routeset right now. (Use the command in-mission).",
     },
   }--help
 }--langStrings
@@ -329,10 +365,10 @@ this.routeSets={
   --
   --rt_pfCampNorth_c_0004
   --rt_pfCampNorth_c_0005
-  
+
   --rt_pfCampNorth_c_0006--tex only one ive seen that doesnt have route nor _sub used in routeset
   --rt_pfCampNorth_c_0006_sub
-  
+
   --rt_pfCampNorth_c_0007
   --
   --rt_savannahNorth_d_0006
@@ -374,7 +410,7 @@ function this.OnReload(missionTable)
   end
 end--OnReload
 --tex called a little ways after RegisterRouteSet is called in TppMain.OnInitialize
-function this.SetupEnemy(missionTable)
+function this.SetUpEnemy(missionTable)
   if IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     this.RandomizeCurrentRouteSet()
   end
@@ -453,19 +489,19 @@ function this.ShiftChangeAtMidNight(sender,time)
 end--ShiftChangeAtMidNight
 
 function this.RandomizeCurrentRouteSet()
-  --DEBUGNOW warn user if not in mission that this is for in mission
-  InfCore.Log("RandomizeCurrentRouteSet",false,true)
+  InfCore.LogFlow("InfRouteSet.RandomizeCurrentRouteSet")
+  if this.debugModule then
+    InfCore.PrintInspect(mvars.ene_routeSetsDefine,"ene_routeSetsDefine before")
+  end
   local routeSets=InfUtil.CopyTable(mvars.ene_routeSetsDefine)--tex ChangeRouteSets>MergeRouteSets isn't a pure merge, so you'd break things feeding ene_routeSetsDefine back into it directly
   this.RandomizeRouteSet(routeSets)
-end
+  if this.debugModule then
+    InfCore.PrintInspect(mvars.ene_routeSetsDefine,"ene_routeSetsDefine after")
+  end
+end--RandomizeCurrentRouteSet
 
 --tex DEBUGNOW Clean up
 function this.RandomizeRouteSet(routeSets)
-  if TppMission.IsHelicopterSpace(vars.missionCode) then
-    InfMenu.PrintLangId"command_for_in_mission"
-    return
-  end
-
   InfCore.LogFlow("RandomizeRouteSet")
   --DEBUGNOW TODO setrandomtolevelseed, or is there a mission elapsed time var that can be used since this is being called in-mission too?
   --would only work if not doing RandomizeCurrentRouteSet/repeatedly randomising the same routeset
@@ -518,6 +554,63 @@ function this.RandomizeRouteSet(routeSets)
   if randomizePriority then--tex only cares about the group prios
     TppEnemy.MakeShiftChangeTable()
   end
+  --if Ivars.routeset_randomizeShiftChangeTable
+  this.RandomizeShiftChangeTable()--DEBUGNOW
 end--RandomizeRouteSet
+
+--REF --groups are actually StrCode32 in live table
+--afgh_enemyBase_cp
+--mvars.ene_shiftChangeTable[cpId]={
+--  shiftAtNight={
+--    [1]={--insertPos*2-1
+--      [1]={"day","groupE"},-- shiftChangeUnit .start -- {shiftName, groupName}
+--      [2]={"hold","default"},-- shiftChangeUnit .goal
+--      holdTime=60,
+--    },
+--    [2]={--insertPos*2
+--      [1]={"hold","default"},-- shiftChangeUnit .start
+--      [2]={"night","groupA"},-- shiftChangeUnit .goal
+--    },
+--    ...
+--tex DEBUGNOW one downside of ChangeRouteSets is that all soldier will change routes when its called
+--so lets see what changing shifts gets us since its only pulled each shift
+--tex just randomizing ene_shiftChangeTable itself since I havent got my mind around MakeShiftChangeTable
+--IN/OUT/SIDE: mvars.ene_shiftChangeTable
+--DEBUGNOW doesnt seem to do much, possibly assigned by group name and order doesn mean a thing
+--if anything it seems to cause even less variation??
+function this.RandomizeShiftChangeTable()
+  InfCore.LogFlow"InfRouteSet.RandomizeShiftChangeTable"
+  if this.debugModule then
+  --InfCore.PrintInspect(mvars.ene_shiftChangeTable,"mvars.ene_shiftChangeTable before")
+  end
+  for cpId,shiftTypes in pairs(mvars.ene_shiftChangeTable)do
+    InfCore.Log("cpId:"..cpId)--DEBUGNOW
+    for shiftType,shifts in pairs(shiftTypes)do
+      InfCore.Log("shiftType:"..shiftType.." #shifts:"..#shifts)--DEBUGNOW
+      if #shifts>2 then
+        for i=1,#shifts,2 do--shifts are added in pairs
+
+          InfCore.Log("i:"..tostring(i).." #shifts:"..tostring(#shifts))--DEBUGNOW
+
+          local rndIndex=math.random(#shifts-1)
+          --tex odd only
+          if (rndIndex % 2 == 0) then
+            rndIndex=rndIndex+(math.random(0,1)and 1 or -1)
+          end
+          InfCore.Log("rndIndex:"..tostring(rndIndex))--DEBUGNOW
+          --InfCore.PrintInspect(shifts[i],"shifts[i]")--DEBUGNOW
+          --InfCore.PrintInspect(shifts[i+1],"shifts[i+1]")--DEBUGNOW
+          --InfCore.PrintInspect(shifts[rndIndex],"shifts[rndIndex]")--DEBUGNOW
+          --InfCore.PrintInspect(shifts[rndIndex+1],"shifts[rndIndex+1]")--DEBUGNOW
+          InfUtil.SwapEntry(shifts,i,rndIndex)
+          InfUtil.SwapEntry(shifts,i+1,rndIndex+1)
+        end--for shifts,2
+      end--if #shifts>2
+    end
+  end--for ene_shiftChangeTable
+  if this.debugModule then
+  --InfCore.PrintInspect(mvars.ene_shiftChangeTable,"mvars.ene_shiftChangeTable after")
+  end
+end--RandomizeShiftChangeTable
 
 return this
