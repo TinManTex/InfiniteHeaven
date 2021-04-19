@@ -69,6 +69,12 @@ function this.CopyTable(orig)
     return copy
 end--CopyTable
 
+function this.SwapEntry(sourceTable,sourceKey,destKey)
+  local currentEntry=sourceTable[sourceKey]
+  sourceTable[sourceKey]=sourceTable[destKey]
+  sourceTable[destKey]=currentEntry
+end--SwapEntry
+
 --DEBUGNOW is destructive to input table TODO better
 function this.RandomizeArray(array)
   if array==nil then
