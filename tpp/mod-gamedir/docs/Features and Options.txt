@@ -79,24 +79,27 @@ Menu item type symbols:
 Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
 See ReadMe or Features and Options for more info.
 
-3: Camera menu
-4: Cutscenes menu
-5: Debug menu
-6: Enemy Prep menu
-7: Enemy phases menu
-8: Enemy reinforcements menu
-9: Events menu
-10: Mission-prep features menu
-11: Mother Base menu
-12: Patrols and deployments menu
-13: Player restrictions menu
-14: Player settings menu
-15: Progression menu
-16: Side ops menu
-17: Soldier parameters menu
-18: Support heli menu
-19: Time scale menu
-20: Weather menu
+3: Cam - AroundCam menu
+4: Cam - PlayCam menu
+5: Cam - Player Cam hook menu
+6: Cutscenes menu
+7: Debug menu
+8: Enemy Prep menu
+9: Enemy phases menu
+10: Enemy reinforcements menu
+11: Events menu
+12: Mission-prep features menu
+13: Mother Base menu
+14: Patrols and deployments menu
+15: Player restrictions menu
+16: Player settings menu
+17: Progression menu
+18: RouteSet menu
+19: Side ops menu
+20: Soldier parameters menu
+21: Support heli menu
+22: Time scale menu
+23: Weather menu
 
 IH system menu
 --------------
@@ -105,31 +108,33 @@ IHExt is a windows program that acts as an gui overlay if MGSV is running in Win
 2: Enable help text. : Off, On
 Shows help text for some options.
 3: Give IHExt focus : 0-1
-4: Disable hold menu toggle : Off, On
-Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.
-5: UI Style Editor : 0-1
+4: Enable mouse cursor on menu open : Off, On
+Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2
+5: Disable hold menu toggle : Off, On
+Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.
+6: UI Style Editor : 0-1
 Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
-6: Select profile : <Profile name>
+7: Select profile : <Profile name>
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
-7: Set profile options to game defaults : 0-1
+8: Set profile options to game defaults : 0-1
 Sets the options described in the selected profile to their default setting.
-8: Save to UserSaved profile : 0-1
+9: Save to UserSaved profile : 0-1
 Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
-9: Enable Quick Menu : Off, On
+10: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
-10: Start offline : Off, On
+11: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-11: Skip startup logos : Off, On
+12: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-12: Load addon mission : 
-13: Include addon missions in completion percentage : Off, On
-14: Reset all IH settings : 0-1
+13: Load addon mission : NONE
+14: Include addon missions in completion percentage : Off, On
+15: Reset all IH settings : 0-1
 
-Camera menu
-- Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
------------
+Cam - AroundCam menu
+--------------------
 1: Adjust-cam [Mode] : Off, On
   Move cam with normal move keys 
+
   &ltDash&gt(Shift or Left stick click) to move up
 
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
@@ -156,14 +161,21 @@ Camera menu
 6: positionYFreeCam : 0-100000
 7: positionZFreeCam : 0-100000
 8: Cam speed scale : 0.01-10
-9: Disable mode text feedback : Off, On
-10: Set stage position to camera : 0-1
-11: Show freecam position : 0-1
-12: PlayCam menu
+9: focalLengthFreeCam : 0.1-10000
+10: focusDistanceFreeCam : 0.01-1000
+11: apertureFreeCam : 0.001-100
+12: distanceFreeCam : 0-100
+13: targetInterpTimeFreeCam : 0-100
+14: rotationLimitMinXFreeCam : -90-0
+15: rotationLimitMaxXFreeCam : 0-90
+16: alphaDistanceFreeCam : 0-10
+17: Disable mode text feedback : Off, On
+18: Set stage position to camera : 0-1
+19: Show freecam position : 0-1
 
-PlayCam menu
+Cam - PlayCam menu
 - An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.
-------------
+------------------
 1: Start PlayCam : 0-1
 Starts PlayCam with current settings. Changing any setting also automatically starts the PlayCam.
 2: Stop PlayCam : 0-1
@@ -212,6 +224,34 @@ Unknown
 24: Collision check : Off, On
 Checks between camera and target and moves camera in if there is something in the way.
 
+Cam - Player Cam hook menu
+- Uses IHHook to adjust the player camera focal length.
+ Same method as the FOV mod d3d11.dll
+--------------------------
+1: Enable Player Cam hook : Off, On
+2: FocalLength Normal : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+3: FocalLength Aiming : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+4: FocalLength Hiding : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+5: FocalLength CQC : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+6: Apply FOV : 1-179
+Applies FOV(degrees) proportionally to the different cam mode focal lengths.
+
 Cutscenes menu
 --------------
 1: Use selected soldier in all cutscenes and missions : Off, On
@@ -247,6 +287,9 @@ Logs some script execution flow, requires Debug IH mode to be on.
 15: Disable out of bounds checks : Off, On
 16: Disable mission intro credits : Off, On
 17: manualMissionCode : 
+18: manualSequence : NONE
+19: dEBUG_RandomizeAllIvars : 0-1
+WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.
 
 appearanceDebugMenu
 -------------------
@@ -294,7 +337,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : NONE
+7: Custom soldier type in Free roam : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
 Override the soldier type of enemy soldiers in Free Roam.
 New soldier types can be added via the bodyInfo addon system.
 8: Reset enemy preparedness levels : 0-1
@@ -480,7 +523,8 @@ Enemy reinforcements menu
 -------------------------
 1: Vehicle reinforcements : Off, Enemy Prep, Force Prep
 In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more. Only heli will appear in free roam, vehicles depend on mission.
-2: Force enable enemy heli reinforce (disable heli sideops) : Off, On
+2: Force enable enemy heli reinforce (disables heli sideops) : Off, On
+Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.
 3: Force reinforce request for heli : Off, On
 4: Disable reinforce heli pull-out : Off, On
 5: Soldier reinforce with all vehicle reinforce types : Off, On
@@ -550,9 +594,9 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : NONE
+4: DD Suit : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
 New body types can be added via the bodyInfo addon system.
-5: DD Suit female : NONE
+5: DD Suit female : OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE
 New body types can be added via the bodyInfo addon system.
 6: DD Head gear : Off, Current prep
 7: NPC support heli patrols in MB : 0-3
@@ -560,7 +604,7 @@ Spawns some npc support helis that roam around mother base.
 8: Attack heli patrols in MB : No helis, 1 heli, 2 helis, 3 helis, 4 helis, Enemy prep
 Spawns some npc attack helis that roam around mother base.
 9: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot
-10: Attack heli class in MB : 
+10: Attack heli class in MB : DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP
 11: Walker gears in MB : Off, On
 12: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
 13: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
@@ -583,6 +627,7 @@ Soldiers will periodically move between platforms (only within the same cluster)
 Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
 24: Women in Enemy Invasion mode : 0-100%
 25: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+Profiles that sets many of the wargames event settings, but just the underlying categories, see 'MB event random trigger chance' actually themed/flavorful versions
 
 Staff menu
 ----------
@@ -596,6 +641,8 @@ Clears MB staff priority list entirely
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
 5: Staff-wide morale boost for good visit : Off, On
 Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
+6: Add more salute reactions : Off, On
+Adds additional reactions from MB staff when they salute you.
 
 Show characters menu
 --------------------
@@ -621,7 +668,7 @@ Additional NPCs menu
 3: Male researcher : Off, On
 4: Female researcher : Off, On
 5: Male groundcrew : Off, On
-6: Chilren : Off, On
+6: Children : Off, On
 7: Kaz Miller : Off, On
 
 Show assets menu
@@ -655,9 +702,9 @@ Allows multiple enemy helicopters that travel between larger CPs. Due to limitat
 Spawns some npc attack helis that roam around mother base.
 5: Attack heli type in FreeRoam : HP-48 Krokodil, UTH-66 Blackfoot
 6: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot
-7: Attack heli class in FreeRoam : 
+7: Attack heli class in FreeRoam : DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP
 Combined appearance and health
-8: Attack heli class in MB : 
+8: Attack heli class in MB : DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP
 9: Walker gears in free roam : Off, On
 Adds a Walker gear to each main base.
 10: Walker gears in MB : Off, On
@@ -806,6 +853,24 @@ Enables the resource scale options that scale the amount of resources when gathe
 5: Diamond scale : 10-1000%
 6: Container scale : 10-1000%
 
+RouteSet menu
+- Options to randomize what routes soldiers use in a Command Post.
+-------------
+1: Randomize RouteSets in missions : Off, On
+Enables all following options. Also randomizes current routeSet on mission load/reload. WARNING: may mess up scripted mission routes.
+2: Randomize RouteSets in free roam : Off, On
+Enables all following options. Also randomizes current routeSet on mission load/reload. Requires randomize group priority or group routes to be on.
+3: Randomize on shift change : Off, On
+Randomize current routeSet on morning and night shift changes.
+4: Randomize on phase change : Off, On
+Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.
+5: Randomize group priority : Off, On
+Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from.
+6: Randomize group routes : Off, On
+Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
+7: Randomize RouteSet now : 0-1
+Randomize current routeset right now. (Use the command in-mission).
+
 Side ops menu
 -------------
 1: Reroll sideops selection : 0-1
@@ -817,7 +882,8 @@ Sideops are broken into areas to stop overlap, this setting lets you control the
 5: Sideops category filter menu
 6: Show all open sideops : Off, On
 Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.
-7: Force enable enemy heli reinforce (disable heli sideops) : Off, On
+7: Force enable enemy heli reinforce (disables heli sideops) : Off, On
+Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.
 8: Include add-on sideops in completion percentage : Off, On
 
 Sideops category filter menu
@@ -919,7 +985,8 @@ Lets you exit the helicopter while riding it, mind the fall.
 3: Drop current equip : 0-1
 4: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-5: General Help : 0-1
+5: Warp to latest marker : 0-1
+6: General Help : 0-1
 General Help:
 Press F2 to toggle mouse cursor.
 Navigate menu: Arrow keys or Dpad.
@@ -935,25 +1002,25 @@ Menu item type symbols:
 Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
 See ReadMe or Features and Options for more info.
 
-6: IH system menu
-7: Appearance menu
-8: Buddy menu
-9: Camera menu
-10: Debug stuff menu
-11: Enemy phases menu
-12: MB Ocean menu
-13: Markers menu
-14: Misc menu
-15: Motions menu
-16: Objects menu
-17: Player restrictions menu
-18: Positions menu
-19: Routes menu
-20: Staff menu
-21: Support heli menu
-22: Time scale menu
-23: User marker menu
-24: Weather menu
+7: IH system menu
+8: Appearance menu
+9: Buddy menu
+10: Cam - AroundCam menu
+11: Cam - PlayCam menu
+12: Cam - Player Cam hook menu
+13: Debug stuff menu
+14: Enemy phases menu
+15: MB Ocean menu
+16: Markers menu
+17: Misc menu
+18: Motions menu
+19: Object lists menu
+20: Player restrictions menu
+21: RouteSet menu
+22: Staff menu
+23: Support heli menu
+24: Time scale menu
+25: Weather menu
 
 IH system menu
 - See IH system menu while in ACC for full options.
@@ -963,11 +1030,13 @@ IHExt is a windows program that acts as an gui overlay if MGSV is running in Win
 2: Enable help text. : Off, On
 Shows help text for some options.
 3: Give IHExt focus : 0-1
-4: Disable hold menu toggle : Off, On
-Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.
-5: UI Style Editor : 0-1
+4: Enable mouse cursor on menu open : Off, On
+Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2
+5: Disable hold menu toggle : Off, On
+Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.
+6: UI Style Editor : 0-1
 Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
-6: Enable Quick Menu : Off, On
+7: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 
 Appearance menu
@@ -1001,11 +1070,11 @@ Sets a position similar to the Quiet attack positions, but can be nearly anywher
 3: Quiets MB radio track : [Autoplay], Heavens Divide, Koi no Yokushiryoku, Gloria, Kids In America, Rebel Yell, The Final Countdown, Nitrogen, Take On Me, Ride A White Horse, Maneater, A Phantom Pain, Only Time Will Tell, Behind the Drapery, Love Will Tear Us Apart, All the Sun Touches, TRUE, Take The DW, Friday Im In Love, Midnight Mirage, Dancing With Tears In My Eyes, The Tangerine, Planet Scape, How 'bout them zombies ey, Snake Eater, 204863, You Spin Me Round, Quiet Life, She Blinded Me With Science, Dormant Stream, Too Shy, Peace Walker
 Changes the music track of the radio played in Quiets cell on the medical platform in mother base.
 
-Camera menu
-- Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
------------
+Cam - AroundCam menu
+--------------------
 1: Adjust-cam [Mode] : Off, On
   Move cam with normal move keys 
+
   &ltDash&gt(Shift or Left stick click) to move up
 
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
@@ -1032,14 +1101,21 @@ Camera menu
 6: positionYFreeCam : 0-100000
 7: positionZFreeCam : 0-100000
 8: Cam speed scale : 0.01-10
-9: Disable mode text feedback : Off, On
-10: Set stage position to camera : 0-1
-11: Show freecam position : 0-1
-12: PlayCam menu
+9: focalLengthFreeCam : 0.1-10000
+10: focusDistanceFreeCam : 0.01-1000
+11: apertureFreeCam : 0.001-100
+12: distanceFreeCam : 0-100
+13: targetInterpTimeFreeCam : 0-100
+14: rotationLimitMinXFreeCam : -90-0
+15: rotationLimitMaxXFreeCam : 0-90
+16: alphaDistanceFreeCam : 0-10
+17: Disable mode text feedback : Off, On
+18: Set stage position to camera : 0-1
+19: Show freecam position : 0-1
 
-PlayCam menu
+Cam - PlayCam menu
 - An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.
-------------
+------------------
 1: Start PlayCam : 0-1
 Starts PlayCam with current settings. Changing any setting also automatically starts the PlayCam.
 2: Stop PlayCam : 0-1
@@ -1088,6 +1164,34 @@ Unknown
 24: Collision check : Off, On
 Checks between camera and target and moves camera in if there is something in the way.
 
+Cam - Player Cam hook menu
+- Uses IHHook to adjust the player camera focal length.
+ Same method as the FOV mod d3d11.dll
+--------------------------
+1: Enable Player Cam hook : Off, On
+2: FocalLength Normal : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+3: FocalLength Aiming : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+4: FocalLength Hiding : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+5: FocalLength CQC : 0.01-3500
+Only updates after changing cam mode.
+Focal lengths between modes not equivalent (some other factor being applied)
+Lower focal length = wider FOV,
+Higher focal length = lower FOV
+6: Apply FOV : 1-179
+Applies FOV(degrees) proportionally to the different cam mode focal lengths.
+
 Debug stuff menu
 ----------------
 1: Debug IH mode : Off, On
@@ -1103,26 +1207,25 @@ Logs some script execution flow, requires Debug IH mode to be on.
 8: selectedCp : no cp for setting
 9: setSelectedCpToMarkerObjectCp : 0-1
 10: setSelectedCpToMarkerClosestCp : 0-1
-11: dEBUG_PrintCpPowerSettings : 0-1
-12: dEBUG_PrintPowersCount : 0-1
-13: dEBUG_PrintReinforceVars : 0-1
-14: dEBUG_PrintSoldierDefine : 0-1
-15: dEBUG_ShowRevengeConfig : 0-1
-16: appearanceDebugMenu
-17: appearanceDebugMenu
-18: printPressedButtons : Off, On
-19: printOnBlockChange : Off, On
-20: Disable game over : Off, On
-21: Disable out of bounds checks : Off, On
-22: setAllFriendly : 0-1
-23: setAllZombie : 0-1
-24: dEBUG_ToggleParasiteEvent : 0-1
-25: resetStageBlockPosition : 0-1
-26: setStageBlockPositionToMarkerClosest : 0-1
-27: Set stage position to camera : 0-1
-28: Show freecam position : 0-1
-29: Show position : 0-1
-30: checkPointSave : 0-1
+11: dEBUG_ShowRevengeConfig : 0-1
+12: appearanceDebugMenu
+13: printPressedButtons : Off, On
+14: printOnBlockChange : Off, On
+15: Disable game over : Off, On
+16: Disable out of bounds checks : Off, On
+17: setAllFriendly : 0-1
+18: setAllZombie : 0-1
+19: dEBUG_ToggleParasiteEvent : 0-1
+20: resetStageBlockPosition : 0-1
+21: setStageBlockPositionToMarkerClosest : 0-1
+22: Set stage position to camera : 0-1
+23: Show freecam position : 0-1
+24: Show position : 0-1
+25: checkPointSave : 0-1
+26: manualMissionCode : 
+27: manualSequence : NONE
+28: debugPrintMenu
+29: debugStuffMenu
 
 appearanceDebugMenu
 -------------------
@@ -1152,6 +1255,23 @@ appearanceDebugMenu
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
+
+debugPrintMenu
+- Dump various things to log
+--------------
+1: dEBUG_PrintCpPowerSettings : 0-1
+2: dEBUG_PrintPowersCount : 0-1
+3: dEBUG_PrintReinforceVars : 0-1
+4: dEBUG_PrintSoldierDefine : 0-1
+
+debugStuffMenu
+--------------
+1: selectSpeechSoldier : 
+Selects a soldier from Object list (see Objects menu) as a target for debug_CallVoice, debug_CallConversation
+2: selectSpeechSoldier2 : 
+3: debug_CallVoice : 
+4: debug_CallConversation : MB_story_01, MB_story_02, MB_story_03, MB_story_04, MB_story_05, MB_story_06, MB_story_07, MB_story_08, MB_story_09, MB_story_10, MB_story_11, MB_story_12, MB_story_13, MB_story_14, MB_story_15, MB_story_16, MB_story_17, MB_story_18, MB_story_19
+Requires a valid selectSpeechSoldier, selectSpeechSoldier2 of a nearby soldier
 
 Enemy phases menu
 - Adjust minimum and maximum alert phase for enemy Command Posts
@@ -1200,9 +1320,9 @@ Chance soldier will drop an item when eliminated.
 Motions menu
 - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
 ------------
-1: Motion group : BatsuSign
+1: Motion group : NONE
 Press &ltAction&gt to play the selected animation.
-2: Motion number : BatsuSign anim:0
+2: Motion number : NONE
 Press &ltAction&gt to play the selected animation.
 3: Hold motion : Off, On
 Holds motion, requires stop motion to stop.
@@ -1215,12 +1335,22 @@ Use to stop motions with motion hold or motion repeat.
 8: Play motion : 0-1
 Closes menu and plays current selected motion.
 
+Object lists menu
+-----------------
+1: warpToListPosition : no positions
+2: warpToListObject : Player nil
+3: setCamToListObject : Player nil
+4: Objects menu
+5: Positions menu
+6: Routes menu
+7: User marker menu
+
 Objects menu
 - For adding game object names in the game to a Objects List, and writing/loading them to files.
 ------------
 1: Add marked objects to list : 0-1
 Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.
-2: Add lookup list : list is empty
+2: Add lookup list : 
 Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.
 3: Clear Objects List : 0-1
 Clears Objects List
@@ -1229,14 +1359,6 @@ Writes Objects List to file in MGS_TPP\mod\
 5: Load Objects List : 0-1
 Loads objects list from file in MGS_TPP\mod\
 6: Browse object list : Player
-
-Player restrictions menu
-------------------------
-1: Disable head markers : Off, On
-Disables markers above soldiers and objects
-2: Disable world markers : Off, On
-Disables objective and placed markers
-3: Game over on combat alert : Off, On
 
 Positions menu
 - For adding positions in the game to a Positions List, and writing/loading them to files.
@@ -1251,7 +1373,7 @@ Clears Positions List
 Writes Positions List to files in MGS_TPP\mod\
 5: Load positions from file : 0-1
 Loads positions from MGS_TPP\mod\positions_lua.txt
-6: Select position : list is empty
+6: Select position : 
 Selects a position from positions list, mostly just used to browse positions at the moment.
 
 Routes menu
@@ -1263,7 +1385,45 @@ Clears Routes List
 Writes Routes List to file in MGS_TPP\mod\
 3: Load Routes List : 0-1
 Loads routes list from file in MGS_TPP\mod\
-4: setMarkerSneakRoute : list is empty
+4: setMarkerSneakRoute : 
+
+User marker menu
+----------------
+1: Warp to latest marker : 0-1
+2: Print latest marker : 0-1
+3: Print all markers : 0-1
+4: Add markers to Positions List : 0-1
+Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
+5: Write Positions List : 0-1
+Writes Positions List to files in MGS_TPP\mod\
+6: Clear Positions List : 0-1
+Clears Positions List
+
+Player restrictions menu
+------------------------
+1: Disable head markers : Off, On
+Disables markers above soldiers and objects
+2: Disable world markers : Off, On
+Disables objective and placed markers
+3: Game over on combat alert : Off, On
+
+RouteSet menu
+- Options to randomize what routes soldiers use in a Command Post.
+-------------
+1: Randomize RouteSets in missions : Off, On
+Enables all following options. Also randomizes current routeSet on mission load/reload. WARNING: may mess up scripted mission routes.
+2: Randomize RouteSets in free roam : Off, On
+Enables all following options. Also randomizes current routeSet on mission load/reload. Requires randomize group priority or group routes to be on.
+3: Randomize on shift change : Off, On
+Randomize current routeSet on morning and night shift changes.
+4: Randomize on phase change : Off, On
+Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.
+5: Randomize group priority : Off, On
+Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from.
+6: Randomize group routes : Off, On
+Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
+7: Randomize RouteSet now : 0-1
+Randomize current routeset right now. (Use the command in-mission).
 
 Staff menu
 ----------
@@ -1311,18 +1471,6 @@ Does not apply the dust and blur effect while TSM is active.
 6: Clock time scale : 1-10000
 Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
 7: Set clock time : 00
-
-User marker menu
-----------------
-1: Warp to latest marker : 0-1
-2: Print latest marker : 0-1
-3: Print all markers : 0-1
-4: Add markers to Positions List : 0-1
-Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
-5: Write Positions List : 0-1
-Writes Positions List to files in MGS_TPP\mod\
-6: Clear Positions List : 0-1
-Clears Positions List
 
 Weather menu
 ------------
