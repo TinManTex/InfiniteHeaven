@@ -1452,6 +1452,7 @@ function this.GetWeaponStrengths(revengeConfig)
 end
 
 local weaponTypes={
+  "HANDGUN",
   "SNIPER",
   "SHOTGUN",
   "MG",
@@ -1461,8 +1462,13 @@ local weaponTypes={
   "MISSILE",
 }
 --CALLER: OnAllocate > DecideRevenge
+--config=mvars.revenge_revengeConfig
 --tex DEBUGNOW bugged on fob handgun? (since r176 Aug 2016 ouch) I probably just need to add to weaponTypes, but should work through the code properly to see what I was doing
-function this._AllocateResourcesREWORK(config)
+function this._AllocateResources(config)
+  InfCore.Log("_AllocateResources")--tex
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(config,"config")
+  end--<
   mvars.revenge_loadedEquip={}
   local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
   local loadWeaponIds={}
@@ -1526,15 +1532,15 @@ function this._AllocateResourcesREWORK(config)
       local weaponId=weaponIdTable[weaponStrength][weaponName] or weaponIdTable.NORMAL[weaponName]
       if weaponId==nil then
       --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
-      --InfCore.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
-      elseif Tpp.IsTypeTable(weaponId)then
+        InfCore.Log("WARNING: _AllocateResources: weaponidTable "..weaponName.." is nil")--DEBUG
+      elseif Tpp.IsTypeTable(weaponId)then--tex custom weapon table handling
         for i,weaponId in ipairs(weaponId)do
           loadWeaponIds[weaponId]=true
         end
       else
-        loadWeaponIds[weaponId]=true
+        loadWeaponIds[weaponId]=true--tex NMC only used as a bool so custom weapon table having multiple per category isnt a problem
       end
-      mvars.revenge_loadedEquip[weaponName]=weaponId
+      mvars.revenge_loadedEquip[weaponName]=weaponId--tex only used as a bool so custom weapon table having multiple per category isnt a problem
     end
   end
 
@@ -1554,121 +1560,120 @@ function this._AllocateResourcesREWORK(config)
     InfCore.PrintInspect(equipLoadTable,"_AllocateResources equipLoadTable")--tex DEBUGNOW
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
-end--_AllocateResourcesREWORK
---CALLER: OnAllocate > DecideRevenge
-function this._AllocateResources(config)
-  mvars.revenge_loadedEquip={}
-  local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
-  local loadWeaponIds={}
-  local NULL_ID=NULL_ID
-  local defaultSoldierType=TppEnemy.GetSoldierType(NULL_ID)
-  local defaultSubType=TppEnemy.GetSoldierSubType(NULL_ID)
-  local weaponIdTable=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
-  if weaponIdTable==nil then
-    TppEnemy.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
-    weaponIdTable=TppEnemy.weaponIdTable.DD
-  end
-  local disablePowerSettings=mvars.ene_disablePowerSettings
-  local missionId=TppMission.GetMissionID()
-  local useAllWeapons=true
-  if this.CANNOT_USE_ALL_WEAPON_MISSION[missionId]then
-    useAllWeapons=false
-  end
-  local restrictWeaponTable={}
-  if not useAllWeapons then
-    if not config.SHIELD or config.MISSILE then
-      if not missionRequiresSettings.SHIELD then
-        restrictWeaponTable.SHIELD=true
-        disablePowerSettings.SHIELD=true
-      end
-    else
-      if not missionRequiresSettings.MISSILE then
-        restrictWeaponTable.MISSILE=true
-        disablePowerSettings.MISSILE=true
-      end
-    end
-    if defaultSoldierType~=EnemyType.TYPE_DD then
-      if config.SHOTGUN then
-        if not missionRequiresSettings.MG then
-          restrictWeaponTable.MG=true
-          disablePowerSettings.MG=true
-        end
-      else
-        if not missionRequiresSettings.SHOTGUN then
-          restrictWeaponTable.SHOTGUN=true
-          disablePowerSettings.SHOTGUN=true
-        end
-      end
-    end
-  end--if not useAllWeapons
-  for powerType,n in pairs(missionRequiresSettings)do
-    restrictWeaponTable[powerType]=nil
-    disablePowerSettings[powerType]=nil
-  end
-  
-  do
-    local baseWeaponTypes={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
-    local baseWeaponIdTable=weaponIdTable.NORMAL
-    if this.IsUsingStrongWeapon()and weaponIdTable.STRONG then
-      baseWeaponIdTable=weaponIdTable.STRONG
-    end
-    if Tpp.IsTypeTable(baseWeaponIdTable)then
-      for weaponName,weaponId in pairs(baseWeaponIdTable)do
-        if not baseWeaponTypes[weaponName]then
-        elseif disablePowerSettings[weaponName]then
-        elseif restrictWeaponTable[weaponName]then
-        else
-          loadWeaponIds[weaponId]=true
-          mvars.revenge_loadedEquip[weaponName]=weaponId
-        end
-      end
-    end--if baseWeaponIdTable
-  end--do
-  
-  if not disablePowerSettings.MISSILE and not restrictWeaponTable.MISSILE then
-    local missileWeaponIdTable={}
-    if this.IsUsingStrongMissile()and weaponIdTable.STRONG then
-      missileWeaponIdTable=weaponIdTable.STRONG
-    else
-      missileWeaponIdTable=weaponIdTable.NORMAL
-    end
-    local missileWeaponId=missileWeaponIdTable.MISSILE
-    if missileWeaponId then
-      loadWeaponIds[missileWeaponId]=true
-      mvars.revenge_loadedEquip.MISSILE=missileWeaponId
-    end
-  end
-  if not disablePowerSettings.SNIPER and not restrictWeaponTable.SNIPER then
-    local sniperWeaponIdTable={}
-    if this.IsUsingStrongSniper()and weaponIdTable.STRONG then
-      sniperWeaponIdTable=weaponIdTable.STRONG
-    else
-      sniperWeaponIdTable=weaponIdTable.NORMAL
-    end
-    local sniperWeaponId=sniperWeaponIdTable.SNIPER
-    if sniperWeaponId then
-      loadWeaponIds[sniperWeaponId]=true
-      mvars.revenge_loadedEquip.SNIPER=sniperWeaponId
-    end
-  end
-  
-  do
-    local primary,secondary,tertiary=TppEnemy.GetWeaponId(NULL_ID,{})
-    InfCore.Log("TppRevenge._AllocateResources SetDefaultSoldierWeapon primary: "..tostring(primary).. " secondary:"..tostring(secondary).. " tertiary:"..tostring(tertiary))--tex DEBUG
-    TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
-  end
-  local equipLoadTable={}
-  for loadWeaponId,bool in pairs(loadWeaponIds)do
-    table.insert(equipLoadTable,loadWeaponId)
-  end
-  if missionId==10080 or missionId==11080 then
-    table.insert(equipLoadTable,TppEquip.EQP_WP_Wood_ar_010)
-  end
-  if TppEquip.RequestLoadToEquipMissionBlock then
-    --InfCore.PrintInspect(equipLoadTable,"_AllocateResources equipLoadTable")--tex DEBUG
-    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
-  end
 end--_AllocateResources
+--function this._AllocateResourcesORIG(config)
+--  mvars.revenge_loadedEquip={}
+--  local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
+--  local loadWeaponIds={}
+--  local NULL_ID=NULL_ID
+--  local defaultSoldierType=TppEnemy.GetSoldierType(NULL_ID)
+--  local defaultSubType=TppEnemy.GetSoldierSubType(NULL_ID)
+--  local weaponIdTable=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
+--  if weaponIdTable==nil then
+--    TppEnemy.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
+--    weaponIdTable=TppEnemy.weaponIdTable.DD
+--  end
+--  local disablePowerSettings=mvars.ene_disablePowerSettings
+--  local missionId=TppMission.GetMissionID()
+--  local useAllWeapons=true
+--  if this.CANNOT_USE_ALL_WEAPON_MISSION[missionId]then
+--    useAllWeapons=false
+--  end
+--  local restrictWeaponTable={}
+--  if not useAllWeapons then
+--    if not config.SHIELD or config.MISSILE then
+--      if not missionRequiresSettings.SHIELD then
+--        restrictWeaponTable.SHIELD=true
+--        disablePowerSettings.SHIELD=true
+--      end
+--    else
+--      if not missionRequiresSettings.MISSILE then
+--        restrictWeaponTable.MISSILE=true
+--        disablePowerSettings.MISSILE=true
+--      end
+--    end
+--    if defaultSoldierType~=EnemyType.TYPE_DD then
+--      if config.SHOTGUN then
+--        if not missionRequiresSettings.MG then
+--          restrictWeaponTable.MG=true
+--          disablePowerSettings.MG=true
+--        end
+--      else
+--        if not missionRequiresSettings.SHOTGUN then
+--          restrictWeaponTable.SHOTGUN=true
+--          disablePowerSettings.SHOTGUN=true
+--        end
+--      end
+--    end
+--  end--if not useAllWeapons
+--  for powerType,n in pairs(missionRequiresSettings)do
+--    restrictWeaponTable[powerType]=nil
+--    disablePowerSettings[powerType]=nil
+--  end
+--  
+--  do
+--    local baseWeaponTypes={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
+--    local baseWeaponIdTable=weaponIdTable.NORMAL
+--    if this.IsUsingStrongWeapon()and weaponIdTable.STRONG then
+--      baseWeaponIdTable=weaponIdTable.STRONG
+--    end
+--    if Tpp.IsTypeTable(baseWeaponIdTable)then
+--      for weaponName,weaponId in pairs(baseWeaponIdTable)do
+--        if not baseWeaponTypes[weaponName]then
+--        elseif disablePowerSettings[weaponName]then
+--        elseif restrictWeaponTable[weaponName]then
+--        else
+--          loadWeaponIds[weaponId]=true
+--          mvars.revenge_loadedEquip[weaponName]=weaponId
+--        end
+--      end
+--    end--if baseWeaponIdTable
+--  end--do
+--  
+--  if not disablePowerSettings.MISSILE and not restrictWeaponTable.MISSILE then
+--    local missileWeaponIdTable={}
+--    if this.IsUsingStrongMissile()and weaponIdTable.STRONG then
+--      missileWeaponIdTable=weaponIdTable.STRONG
+--    else
+--      missileWeaponIdTable=weaponIdTable.NORMAL
+--    end
+--    local missileWeaponId=missileWeaponIdTable.MISSILE
+--    if missileWeaponId then
+--      loadWeaponIds[missileWeaponId]=true
+--      mvars.revenge_loadedEquip.MISSILE=missileWeaponId
+--    end
+--  end
+--  if not disablePowerSettings.SNIPER and not restrictWeaponTable.SNIPER then
+--    local sniperWeaponIdTable={}
+--    if this.IsUsingStrongSniper()and weaponIdTable.STRONG then
+--      sniperWeaponIdTable=weaponIdTable.STRONG
+--    else
+--      sniperWeaponIdTable=weaponIdTable.NORMAL
+--    end
+--    local sniperWeaponId=sniperWeaponIdTable.SNIPER
+--    if sniperWeaponId then
+--      loadWeaponIds[sniperWeaponId]=true
+--      mvars.revenge_loadedEquip.SNIPER=sniperWeaponId
+--    end
+--  end
+--  
+--  do
+--    local primary,secondary,tertiary=TppEnemy.GetWeaponId(NULL_ID,{})
+--    TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
+--  end
+--  local equipLoadTable={}
+--  for loadWeaponId,bool in pairs(loadWeaponIds)do
+--    if loadWeaponId~="bag" then--tex added bag check, ih custom weapon table has bag entry for choosing random id on assignment in GetWeaponId
+--      table.insert(equipLoadTable,loadWeaponId)
+--    end
+--  end
+--  if missionId==10080 or missionId==11080 then
+--    table.insert(equipLoadTable,TppEquip.EQP_WP_Wood_ar_010)
+--  end
+--  if TppEquip.RequestLoadToEquipMissionBlock then
+--    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+--  end
+--end--_AllocateResourcesORIG
 --tex taken from below>
 function this.GetSoldierCountFromPercentPower(powerSetting,soldierCount)
   if powerSetting:sub(-1)=="%"then
