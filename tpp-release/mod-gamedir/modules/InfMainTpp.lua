@@ -118,7 +118,7 @@ function this.MissionPrepare()
 end
 
 function this.OnInitializeTop(missionTable)
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if InfMain.IsOnlineMission(vars.missionCode)then
     return
   end
 
@@ -470,7 +470,7 @@ end
 
 function this.SetSubsistenceSettings()
   --tex no go, see OnMissionCanStartBottom for alt solution
-  --  if TppMission.IsFOBMission(vars.missionCode) then
+  --  if InfMain.IsOnlineMission(vars.missionCode) then
   --    if vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None then
   --      --InfCore.Log("TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None")--DEBUG
   --      TppPlayer.SetInitWeapons({{primaryHip="EQP_WP_30001"}},true)
@@ -485,7 +485,7 @@ function this.SetSubsistenceSettings()
 
   --TppPlayer.SetInitWeapons(initSetting,true)
 
-  if TppMission.IsFOBMission(vars.missionCode) then
+  if InfMain.IsOnlineMission(vars.missionCode) then
     return
   end
 
@@ -705,7 +705,7 @@ end
 local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
-  if not InfMain.IsFOBMission(missionId) and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
+  if not InfMain.IsOnlineMission(missionId) and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
     return IvarProc.EnabledForMission(enableDDEquipStr)
   end
   return false

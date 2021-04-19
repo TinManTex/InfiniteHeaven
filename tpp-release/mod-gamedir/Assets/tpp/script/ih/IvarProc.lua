@@ -39,7 +39,7 @@ local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 this.debugModule=false
 
 this.CATEGORY_EXTERNAL=1024--tex SYNC Ivars
-
+--GOTCHA: LOCALOPT: use InfMain.IsOnlineMission instead
 function this.IsOnlineMission(missionCode)
   local firstDigit=math.floor(missionCode/1e4)
   if firstDigit==5 then
@@ -230,11 +230,11 @@ function this.SetSetting(self,setting,noSave)
     end
     Ivars.isSaveDirty=true
   end
-  if self.OnChange then
+  if self.OnChange and not this.IsOnlineMission(vars.missionCode) then--tex DEBUGNOW add after exploring problem
     --InfCore.Log("SetSetting OnChange for "..self.name)--DEBUG
     InfCore.PCallDebug(self.OnChange,self,setting,prevSetting)
   end
-end
+end--SetSetting
 
 function this.ResetSetting(self,noSave)
   this.SetSetting(self,self.default,noSave)

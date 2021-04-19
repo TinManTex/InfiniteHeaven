@@ -16,7 +16,7 @@ this.registerMenus={
 }
 
 this.objectsMenu={
-  parentRefs={"InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.objectListsMenu"},
   options={
     "InfObjects.AddMarkerObjects",
     "InfObjects.addObjectLookupList",

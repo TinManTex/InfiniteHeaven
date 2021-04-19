@@ -1839,7 +1839,7 @@ end
 function this.Init(missionTable)
   this.messageExecTable=nil
 
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if InfMain.IsOnlineMission(vars.missionCode)then
     return
   end
 
@@ -1874,7 +1874,7 @@ end
 function this.OnReload(missionTable)
   this.messageExecTable=nil
 
-  if TppMission.IsFOBMission(vars.missionCode)then
+  if InfMain.IsOnlineMission(vars.missionCode)then
     return
   end
 

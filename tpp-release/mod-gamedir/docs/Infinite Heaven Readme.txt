@@ -1,5 +1,5 @@
 = Infinite heaven =
-r249 - 2021-04-12
+r250 - 2021-04-19
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -20,6 +20,40 @@ Recent changes/additions
 ------------------------------
 
 The introduction of IHHook has had plenty of teething troubles, so thanks to all those who have worked wth me to try and nail down the problems.
+
+r250
+IHHook:
+Fix: Keys being stuck on when opening menu.
+Fix: font helpmarker font folder text - thanks OldBoss for the report
+Development: Gives error logging for all lua files loading by default (including those in fpks), and runtime error logging for anything that's p-called by the engine.
+
+IH:
+Fix: FOB soldiers (and probably DD soldiers in MB wargames with certain weapon setups) having invisible pistol.
+Seems I may have broken it in in r176 - August ‎2016 whew - thanks kapacb (and probably many others in the past) for the report.
+
+Fix: Quest addon state flags management - was broken some time around r224 meaning if an addon quest index had been cleared it would stay cleared even if uninstalling quest and installing different one that took that index.
+
+Fix: GetCurrentRouteSetType - RouteSelector - redefinition of local var with same name clobering scope and returning nil. Would cause soldier shifts to fail, meaning no change between night day routes, and no sleeping/hold routes. Bug was introduced while deminifying in r129 - February 2016. Ouch.
+
+RouteSet menu - Options to randomize what routes soldiers use in a Command Post
+Randomize RouteSets in free roam
+Randomize RouteSets in missions - warning: may mess up some required routes for the mission to progress.
+	Enables all following options. Also randomizes current routeSet on mission load/reload. 
+	Requires randomize group priority or group routes to be on.
+
+Randomize on shift change - MGSV already has a 'shifts' system that trigger at morning and night, this applies the randomisation at these times.
+Randomize on phase change - Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.
+
+Randomize group priority - Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from and vary the routes connecting shifts.
+Randomize group routes - Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
+
+Randomize RouteSet now - Command for if you just want to change things up, or see how the options change things.
+[youtube]pZRcPNlZmng[/youtube]
+https://youtu.be/pZRcPNlZmng
+
+menu_enableCursorOnMenuOpen - "Enable mouse cursor on menu open" - "Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2"
+(via IH system menu)
+Dafaults to on, but as mouselook is now disabled when cursor is on I though this the best way to allow user some control beyond manually toggling it.
 
 r249
 IHHook:

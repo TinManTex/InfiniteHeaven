@@ -1,5 +1,45 @@
 Infinite Heaven changelog
 
+r250 - 2021-04-19
+Fix: FOB soldiers (and probably DD soldiers in MB wargames with certain weapon setups) having invisible pistol.
+Seems I may have broken it in in r176 - August ‎2016 whew - thanks kapacb (and probably many others in the past) for the report.
+
+Fix: Quest addon state flags management - was broken some time around r224 meaning if an addon quest index had been cleared it would stay cleared even if uninstalling quest and installing different one that took that index.
+
+Fix: GetCurrentRouteSetType - RouteSelector - redefinition of local var with same name clobering scope and returning nil. Would cause soldier shifts to fail, meaning no change between night day routes, and no sleeping/hold routes. Bug was introduced while deminifying in r129 - February 2016. Ouch.
+
+RouteSet menu - Options to randomize what routes soldiers use in a Command Post
+Randomize RouteSets in free roam
+Randomize RouteSets in missions - warning: may mess up some required routes for the mission to progress.
+	Enables all following options. Also randomizes current routeSet on mission load/reload. 
+	Requires randomize group priority or group routes to be on.
+
+Randomize on shift change - MGSV already has a 'shifts' system that trigger at morning and night, this applies the randomisation at these times.
+Randomize on phase change - Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.
+
+Randomize group priority - Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from and vary the routes connecting shifts.
+Randomize group routes - Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
+
+Randomize RouteSet now - Command for if you just want to change things up, or see how the options change things.
+[youtube]K249zxAd1PU[/youtube]
+https://youtu.be/K249zxAd1PU
+
+menu_enableCursorOnMenuOpen - "Enable mouse cursor on menu open" - "Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2"
+(via IH system menu)
+Dafaults to on, but as mouselook is now disabled when cursor is on I though this the best way to allow user some control beyond manually toggling it.
+
+Fix: PostModuleReload not being called, was broken in r238. Should fix a few reload scripts issues.
+
+Mission Addon System: 
+Automatically add townparameter cps as InfMain.cpPosition for IH GetClosestCp function.
+MergeRouteSetDefine - add outofrain, call SetOutOfRainRoute when no loc_locationCommonRouteSets
+
+InfUtil:
+CopyTable
+RandomizeArray
+
+
+
 r249 - 2021-04-12
 mbIncreaseStaffSaluteReactions - "Add more salute reactions" - "Adds additional reactions from MB staff when 
 via ACC > Mother Base menu > Staff menu 
@@ -229,7 +269,7 @@ Fix: The automatic menu close on IH reloadscripts was called at a bad time casin
 
 Fix: r237b - missed " before stderr filename, causing refreshfilelist to fail - thanks morbidslinky for the fix
 
-r236 - 2010-03-18
+r236 - 2020-03-18
 Fix: InfExtToMgsv mgsvToExtComplete not being set leasing ih_toextcmds.txt to always write all commands, which eventually IHExt would get fed up with. Was somehow lost in some refactoring. Thanks OldBoss for the report.
 
 r235 - 2020-03-15
