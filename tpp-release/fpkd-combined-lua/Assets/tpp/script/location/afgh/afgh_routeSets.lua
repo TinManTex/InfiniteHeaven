@@ -5,9 +5,11 @@ local afgh_routeSets
 
 
 
-
-
-
+--afgh_routeSets
+--merged with the mission routeset (if the cp has USE_COMMON_ROUTE_SETS = true)
+--See TppEnemy.RegisterRouteSet, UpdateRouteSet
+--RouteSelector, GetPrioritizedRouteTable
+--and see afgh_citadel_cp below for commented cp entry
 afgh_routeSets = {
 
 	
@@ -3845,9 +3847,13 @@ afgh_routeSets = {
 	
 	
 	
-	
+	--tex commented probably the largest cp
 	afgh_citadel_cp = {
-
+    --tex most other cps have more generically named groupA, groupB etc
+    --approx ~2-5 groups for a cp
+    --see GetPrioritizedRouteTable which
+    --returns a list of routes by adding a route for each group in priority order till all routes are added
+    --DEBUGNOW figure out how soldiers are assigned across the route table
 		priority = {
 			"groupSniper",
 			"stage4th",
@@ -3856,7 +3862,8 @@ afgh_routeSets = {
 			"stage1st",
 			"groupWalkerGear",
 		},
-
+    --tex mostly just groupSniper in other cps (not all cps have groupSnipe), 
+    --but afgh_citadel_cp has all groups, and mtbs likewise
 		fixedShiftChangeGroup = {
 			"groupSniper",
 			"stage1st",
@@ -3867,7 +3874,11 @@ afgh_routeSets = {
 		},
 
 		sneak_day = {
+		  --tex groups with table entries are added (in the same priority order till all done) before groups with regular lists
 			groupSniper = {
+			 --tex attr SNIPER, or VIP, 
+			 --only reference to attr in lua is in mtbs_enemy.GetRouteSetPriority (verify)
+			 --however since RouteSelector is called by the exe it could be doing something there
 				{ "rt_citadel_snp_0000", attr = "SNIPER" },
 				{ "rt_citadel_d_0026", attr = "SNIPER" },
 				{ "rt_citadel_d_0020", attr = "SNIPER" },
@@ -3989,8 +4000,10 @@ afgh_routeSets = {
 				"rt_citadel_d_0006",	
 				"rt_citadel_d_0014",	
 			},
-			nil
+			nil--tex GOTCHA: watch out for the nils on these route type,routesets when iterating via pairs (shows up as [1]/first array entry)
+			--i think the idea is to iterate via priority
 		},
+		--tex pretty much every other cp just dumps every route into (apart from groupSniper) into first group/groupA
 		caution = {
 			groupSniper = {
 				{ "rt_citadel_snp_0000", attr = "SNIPER" },	
@@ -3998,6 +4011,7 @@ afgh_routeSets = {
 				{ "rt_citadel_c_0023", attr = "SNIPER" },	
 				{ "rt_citadel_c_0011", attr = "SNIPER" },	
 			},
+			--tex some of the 'missing routes are just in groupWalkerGear -v-
 			stage1st = {
 				
 				"rt_citadel_c_0000",
@@ -4055,8 +4069,24 @@ afgh_routeSets = {
 
 			nil
 		},
-
+    --tex generally cps have hold, ob does not
+    --there are actually hold routes for citadel, it just doesnt use them?
+    --both hold and sleep are used to hold soldiers for shift changes
+    --See TppEnemy.MakeShiftChangeTable
 		hold = {
+        --tex REF, original is just an empty table
+--		    default = {
+--      		"rt_citadel_h_0000",
+--          "rt_citadel_h_0001",
+--          "rt_citadel_h_0002",
+--          "rt_citadel_h_0003",
+--          "rt_citadel_h_0004",
+--          "rt_citadel_h_0005",
+--          "rt_citadel_h_0006",
+--          "rt_citadel_h_0007",
+--          "rt_citadel_h_0008",
+--          "rt_citadel_h_0009",
+--        },
 		},
 		sleep = {
 			default = {},
@@ -4079,6 +4109,35 @@ afgh_routeSets = {
 				"rt_citadel_s_0009",
 			},
 		},
+		--tex REF just copied from another cp as example
+    --citadel doesnt have travel entry otherwise
+    --DEBUGNOW descripe use of travel
+    --[[
+    travel = {
+      lrrpHold = {
+        "rt_villageEast_l_0000",
+        "rt_villageEast_l_0001",
+      },
+      in_lrrpHold_E = {
+        "rt_villageEast_lin_E",
+        "rt_villageEast_lin_E",
+      },
+      out_lrrpHold_E = {
+        "rt_villageEast_lout_E",
+        "rt_villageEast_lout_E",
+      },
+      in_lrrpHold_W = {
+        "rt_villageEast_lin_W",
+        "rt_villageEast_lin_W",
+      },
+      out_lrrpHold_W = {
+        "rt_villageEast_lout_W",
+        "rt_villageEast_lout_W",
+      },
+    },
+    --]]
+    --tex GOTCHA: currently doesnt work for addon missions that dont have a location loc_locationCommonRouteSets
+    --See TppEnemy.MergeRouteSetDefine
 		outofrain = {
 			"rt_citadel_r_0000",
 			"rt_citadel_r_0001",
@@ -4489,7 +4548,7 @@ afgh_routeSets = {
 		nil
 	},
 
-	
+	--tex no other references
 	afgh_03_23_lrrp = {
 		priority = {
 			"groupA",
@@ -4773,7 +4832,7 @@ afgh_routeSets = {
 		nil
 	},
 
-	
+	--tex a couple of missions only (not freeroam)
 	afgh_06_36_lrrp = {
 		priority = {
 			"groupA",
@@ -4865,7 +4924,7 @@ afgh_routeSets = {
 		nil
 	},
 
-	
+	--tex no other references
 	afgh_07_23_lrrp = {
 		priority = {
 			"groupA",
@@ -6129,43 +6188,5 @@ afgh_routeSets = {
 	nil
 }
 
---DEBUGNOW 
-local function MultiplyTable(inputTable,count)
-  local newTable={}
-  for i=1,count do
-    for j,route in ipairs(inputTable)do
-      table.insert(newTable,route)
-    end
-  end
-  return newTable
-end
-
-local function ModifyRouteSets(routeSets)
-  local multiplyCount=3
-
-  InfCore.Log"-------------ModifyRouteSets-------"
-  for cpName,cpRouteSet in pairs(routeSets)do
-    --InfCore.PrintInspect(cpRouteSet,cpName.." routesset")
-    for routeSetType,routeSetGroups in pairs(cpRouteSet)do
-      if routeSetType=="priority" then
-      elseif routeSetType=="fixedShiftChangeGroup" then
-      elseif #routeSetGroups>0 then
-        cpRouteSet[routeSetType]=MultiplyTable(cpRouteSet[routeSetType],multiplyCount)
-      else
-        --InfCore.PrintInspect(routeSetGroups,routeSetType.." routeSetGroups")
-        for groupName,routes in pairs(routeSetGroups)do
-         -- InfCore.PrintInspect(routes,groupName.." routes")
-          if type(routes)=="string" then
-          else
-            routeSetGroups[groupName]=MultiplyTable(routes,multiplyCount)
-          end
-        end
-      end
-    end
-  end
-end
-
-InfCore.PCall(ModifyRouteSets,afgh_routeSets)--DEBUGNOW 
---DEBUGNOW InfCore.PrintInspect(afgh_routeSets,"afgh_routeSets-------------------")--DEBUGNOW 
 
 return afgh_routeSets

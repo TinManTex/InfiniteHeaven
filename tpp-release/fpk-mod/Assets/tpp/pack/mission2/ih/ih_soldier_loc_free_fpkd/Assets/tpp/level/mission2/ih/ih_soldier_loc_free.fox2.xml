@@ -18,7 +18,7 @@
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
         </property>
-        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="51">
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="41">
           <value key="sol_ih_0000">0x16000000</value>
           <value key="sol_ih_0001">0x16000010</value>
           <value key="sol_ih_0002">0x16000020</value>
