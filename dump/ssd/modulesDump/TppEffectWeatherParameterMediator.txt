@@ -1,0 +1,6 @@
+TppEffectWeatherParameterMediator={
+  ReleaseAdditionalFogNearDistanceEnvelope = <function 1>,
+  RestoreDefaultParameters = <function 2>,
+  SetParameters = <function 3>,
+  StartAdditionalFogNearDistanceEnvelope = <function 4>
+}

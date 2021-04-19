@@ -1,0 +1,3 @@
+NavTactical={
+  SetTacticalActionSystemScript = true
+}

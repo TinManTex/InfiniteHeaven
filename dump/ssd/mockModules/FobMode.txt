@@ -1,0 +1,8 @@
+FobMode={
+  MODE_ACTUAL = 0,
+  MODE_NONE = 255,
+  MODE_SHAM = 1,
+  MODE_VISIT = 2,
+  __index = "<function>",
+  __newindex = "<function>"
+}

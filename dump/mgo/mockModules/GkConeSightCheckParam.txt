@@ -1,0 +1,14 @@
+GkConeSightCheckParam={
+  GetAngleLeftRight = "<function>",
+  GetAngleUpDown = "<function>",
+  GetHeadBackDistance = "<function>",
+  GetRange = "<function>",
+  SetAngleLeftRight = "<function>",
+  SetAngleUpDown = "<function>",
+  SetHeadBackDistance = "<function>",
+  SetRange = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GkConeSightCheckParam"
+}

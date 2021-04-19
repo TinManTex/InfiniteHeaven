@@ -1,0 +1,6 @@
+InvitationManagerController={
+  IsWaitingConsumeInviteInTitile = "<function>",
+  RequestConsumeInviteInTitle = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

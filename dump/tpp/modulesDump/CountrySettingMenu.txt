@@ -1,0 +1,9 @@
+CountrySettingMenu=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [49289245] = <function 1>,
+  [255594808] = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

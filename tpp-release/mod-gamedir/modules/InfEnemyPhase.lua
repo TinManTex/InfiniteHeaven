@@ -271,7 +271,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     end
   end
 
-  if Ivars.printPhaseChanges:Is(1) and execState.lastPhase~=currentPhase then
+  if execState.lastPhase~=currentPhase and Ivars.printPhaseChanges:Is(1)  then
     InfMenu.Print("Phase change from:"..this.phaseSettings[execState.lastPhase+1].." to:"..this.phaseSettings[currentPhase+1])
   end
 

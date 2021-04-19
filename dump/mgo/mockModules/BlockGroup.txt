@@ -1,0 +1,6 @@
+BlockGroup={
+  FindInstance = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "BlockGroup"
+}

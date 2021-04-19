@@ -1,0 +1,5 @@
+AvatarEdit={
+  AVATAR_IN_HELI = 0,
+  __index = "<function>",
+  __newindex = "<function>"
+}

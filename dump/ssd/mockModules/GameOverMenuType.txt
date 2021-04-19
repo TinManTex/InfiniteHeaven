@@ -1,0 +1,5 @@
+GameOverMenuType={
+  RETURN_TO_BASE = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,8 @@
+WavePopupType={
+  ABORT_DEFENSE = 3,
+  DEFENSE_FAILURE = 4,
+  FINISH = 2,
+  START = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,7 @@
+SoundCoreDaemon={
+  Create = true,
+  SetAssetPath = true,
+  SetDopplerRTPCName = true,
+  SetInterferenceRTPCName = true,
+  SetRearParameter = true
+}

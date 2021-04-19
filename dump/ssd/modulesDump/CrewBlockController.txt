@@ -1,0 +1,11 @@
+CrewBlockController=<1>{
+  [-285212672] = 4,
+  [1423402] = <function 1>,
+  [91961162] = <function 2>,
+  [147499955] = <function 3>,
+  [241797381] = <function 4>,
+  [262065392] = <function 5>,
+  __index = <function 6>,
+  __newindex = <function 7>,
+  <metatable> = <table 1>
+}

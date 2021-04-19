@@ -1,0 +1,12 @@
+NclDaemon={
+  GetInstance = "<function>",
+  IsLogin = "<function>",
+  SetLogin = "<function>",
+  SetLogout = "<function>",
+  SetServer = "<function>",
+  SetUrl = "<function>",
+  SetWebserver = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "NclDaemon"
+}

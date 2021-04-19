@@ -1,0 +1,7 @@
+GameMessage=<1>{
+  [-285212672] = 4,
+  [234444819] = <function 1>,
+  __index = <function 2>,
+  __newindex = <function 3>,
+  <metatable> = <table 1>
+}

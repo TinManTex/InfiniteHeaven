@@ -1,0 +1,9 @@
+GkOffenseTargetData=<1>{
+  GetAttackerHandle = <function 1>,
+  GetKeyName = <function 2>,
+  __call = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "GkOffenseTargetData",
+  <metatable> = <table 1>
+}

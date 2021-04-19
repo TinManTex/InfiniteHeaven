@@ -1,0 +1,10 @@
+TerrainRenderBody=<1>{
+  GetNumBlocksHeight = <function 1>,
+  GetNumBlocksWidth = <function 2>,
+  GetSize = <function 3>,
+  ReloadWorldTextures = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  _className = "TerrainRenderBody",
+  <metatable> = <table 1>
+}

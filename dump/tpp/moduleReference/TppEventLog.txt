@@ -1,0 +1,7 @@
+TppEventLog={
+  PauseRecording = true,
+  ResumeRecording = true,
+  StartRecording = true,
+  StopRecording = true,
+  WriteEvent = true
+}

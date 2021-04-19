@@ -1,0 +1,9 @@
+Progression={
+  Config = <function 1>,
+  DEBUG_GivePurchase = <function 2>,
+  DEBUG_GiveUnlock = <function 3>,
+  GetUnlockValue = <function 4>,
+  HasEquipUnlock = <function 5>,
+  HasUnlock = <function 6>,
+  ResetSavedXP = <function 7>
+}

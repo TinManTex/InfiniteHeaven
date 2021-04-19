@@ -1,0 +1,4 @@
+PlayerCamera={
+  Around = true,
+  Vehicle = true
+}

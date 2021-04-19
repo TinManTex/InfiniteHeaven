@@ -1,0 +1,3 @@
+Lua files from data1.dat (updated from 00.dat)
+Manually deminified by me (tex)
+GOTCHA: currently doesnt include files modded for IH (those are currently in ih-data1_dat-lua)

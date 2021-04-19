@@ -1,0 +1,5 @@
+TppGameStatus={
+  IsSet = "<function>",
+  Reset = "<function>",
+  Set = "<function>"
+}

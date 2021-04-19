@@ -1,0 +1,4 @@
+TppGimmickBlockController={
+  Reload = <function 1>,
+  Setup = <function 2>
+}

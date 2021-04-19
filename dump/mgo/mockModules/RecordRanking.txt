@@ -1,0 +1,6 @@
+RecordRanking={
+  GetMissionBordId = "<function>",
+  GetMissionLimitBordId = "<function>",
+  IsRankingBusy = "<function>",
+  RegistRanking = "<function>"
+}

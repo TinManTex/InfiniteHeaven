@@ -1,0 +1,7 @@
+Color={
+  Add = "<function>",
+  Scale = "<function>",
+  Sub = "<function>",
+  ToString = "<function>",
+  __call = "<function>"
+}

@@ -1,0 +1,3 @@
+MgoGpSystem={
+  GetGp = <function 1>
+}

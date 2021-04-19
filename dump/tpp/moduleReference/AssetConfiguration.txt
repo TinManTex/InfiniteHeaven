@@ -1,0 +1,11 @@
+AssetConfiguration={
+  GetConfigurationFromAssetManager = true,
+  GetDefaultCategory = true,
+  IsDiscOrHddImage = true,
+  RegisterExtensionInfo = true,
+  SetDefaultCategory = true,
+  SetDefaultTargetDirectory = true,
+  SetGroupCurrentLanguage = true,
+  SetLanguageGroupExtention = true,
+  SetTargetDirectory = true
+}

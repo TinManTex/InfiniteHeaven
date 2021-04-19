@@ -1,0 +1,5 @@
+MgoDebug=<1>{
+  Dump = <function 1>,
+  DumpStack = <function 2>,
+  <metatable> = <table 1>
+}

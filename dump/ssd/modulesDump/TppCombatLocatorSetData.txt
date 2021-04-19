@@ -1,0 +1,9 @@
+TppCombatLocatorSetData=<1>{
+  GetLocatorNum = <function 1>,
+  GetLocatorPosition = <function 2>,
+  GetLocatorRadius = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "TppCombatLocatorSetData",
+  <metatable> = <table 1>
+}

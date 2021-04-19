@@ -1,0 +1,5 @@
+PlayerConstants={
+  ITEM_COUNT = 8,
+  __index = "<function>",
+  __newindex = "<function>"
+}

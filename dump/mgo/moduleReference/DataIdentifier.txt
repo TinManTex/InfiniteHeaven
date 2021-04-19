@@ -1,0 +1,4 @@
+DataIdentifier={
+  GetDataBodyWithIdentifier = true,
+  GetDataWithIdentifier = true
+}

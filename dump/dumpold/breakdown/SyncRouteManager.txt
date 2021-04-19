@@ -1,0 +1,4 @@
+SyncRouteManager={
+  numberKeys = { -285212672, 52831430, -285212671, 135184022 },
+  stringKeys = { "__index", "__newindex" }
+}

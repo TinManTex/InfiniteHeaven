@@ -1,0 +1,3 @@
+TppSimpleGameSequenceSystem={
+  Start = true
+}

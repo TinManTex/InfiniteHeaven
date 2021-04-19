@@ -1,0 +1,3 @@
+GrDeviceLib={
+  GetEnableHdrOutput = <function 1>
+}

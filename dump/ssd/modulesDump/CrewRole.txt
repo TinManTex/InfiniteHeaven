@@ -1,0 +1,18 @@
+CrewRole=<1>{
+  [-285212672] = 4,
+  [6387808] = <function 1>,
+  [25709371] = <function 2>,
+  [34352211] = <function 3>,
+  [35284117] = <function 4>,
+  [53235663] = <function 5>,
+  [54770068] = <function 6>,
+  [61471727] = <function 7>,
+  [86435861] = <function 8>,
+  [112729608] = <function 9>,
+  [188257721] = <function 10>,
+  [195785567] = <function 11>,
+  [243142982] = <function 12>,
+  __index = <function 13>,
+  __newindex = <function 14>,
+  <metatable> = <table 1>
+}

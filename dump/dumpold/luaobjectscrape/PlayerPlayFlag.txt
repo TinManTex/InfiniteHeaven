@@ -1,0 +1,11 @@
+PlayerPlayFlag={
+  FAILED_NO_TRACE_PLAY = true,
+  USE_CHICKEN_CAP = true,
+  USE_CHICK_CAP = true,
+  USE_FULTON_MISSILE = true,
+  USE_HIGHGRADE_EQUIP = true,
+  USE_INSTANT_STEALTH = true,
+  USE_MUGEN_BANDANA = true,
+  USE_PARASITE_CAMO = true,
+  USE_STEALTH = true
+}

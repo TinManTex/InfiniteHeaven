@@ -1,0 +1,11 @@
+TppFootPrintBody={
+  AddAlpha = "<function>",
+  AddBlood = "<function>",
+  AddEnable = "<function>",
+  AddKind = "<function>",
+  AddMatrix = "<function>",
+  AddPosition = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppFootPrintBody"
+}

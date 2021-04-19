@@ -1,0 +1,3 @@
+RadioDaemon={
+  GetInstance = true
+}

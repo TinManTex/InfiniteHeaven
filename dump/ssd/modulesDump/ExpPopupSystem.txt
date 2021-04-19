@@ -1,0 +1,6 @@
+ExpPopupSystem=<1>{
+  [-285212672] = 4,
+  __index = <function 1>,
+  __newindex = <function 2>,
+  <metatable> = <table 1>
+}

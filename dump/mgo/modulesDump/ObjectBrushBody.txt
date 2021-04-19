@@ -1,0 +1,15 @@
+ObjectBrushBody=<1>{
+  GetBlockDataName = <function 1>,
+  GetBlockInfo = <function 2>,
+  GetByName = <function 3>,
+  GetDataName = <function 4>,
+  GetNumBlockObjects = <function 5>,
+  GetNumBlocks = <function 6>,
+  GetSize = <function 7>,
+  IsBlockLoaded = <function 8>,
+  IsExistBlockData = <function 9>,
+  __index = <function 10>,
+  __newindex = <function 11>,
+  _className = "ObjectBrushBody",
+  <metatable> = <table 1>
+}

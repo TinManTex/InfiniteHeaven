@@ -1,0 +1,8 @@
+LangDaemon={
+  GetInstance = "<function>",
+  GetManager = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "LangDaemon"
+}

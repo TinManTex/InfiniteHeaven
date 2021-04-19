@@ -1,0 +1,3 @@
+PlayerFlag={
+  USE_VARS_FOR_INITIAL_POS = true
+}

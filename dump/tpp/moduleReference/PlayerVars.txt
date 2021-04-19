@@ -1,0 +1,10 @@
+PlayerVars={
+  cameraZoomRate = true,
+  leftStickXDirect = true,
+  leftStickYDirect = true,
+  rightStickX = true,
+  rightStickXDirect = true,
+  rightStickY = true,
+  rightStickYDirect = true,
+  scannedButtonsDirect = true
+}

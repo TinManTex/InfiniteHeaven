@@ -1,0 +1,11 @@
+TppHostage2={
+  ClearDefaultBodyFovaId = "<function>",
+  ClearHostageType = "<function>",
+  ClearUniquePartsPath = "<function>",
+  ReloadHostage2ParameterTables = "<function>",
+  SetDefaultBodyFovaId = "<function>",
+  SetDefaultPartsPath = "<function>",
+  SetHostageType = "<function>",
+  SetSVarsKeyNames2 = "<function>",
+  SetUniquePartsPath = "<function>"
+}

@@ -1,0 +1,4 @@
+RevivalMenuSystem={
+  __index = "<function>",
+  __newindex = "<function>"
+}

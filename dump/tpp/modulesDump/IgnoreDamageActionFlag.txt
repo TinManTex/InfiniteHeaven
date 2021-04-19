@@ -1,0 +1,18 @@
+IgnoreDamageActionFlag=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [6387808] = <function 1>,
+    [7589621] = <function 2>,
+    [19011005] = <function 3>,
+    [124673115] = <function 4>,
+    [138293320] = <function 5>,
+    [155908253] = <function 6>,
+    [241032174] = <function 7>,
+    [252387100] = <function 8>,
+    [258012809] = <function 9>,
+    [260947781] = <function 10>
+  },
+  __index = <function 11>,
+  __newindex = <function 12>,
+  <metatable> = <table 1>
+}

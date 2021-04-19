@@ -1,0 +1,13 @@
+BuddyFriendlyType=<1>{
+  [-285212672] = 4,
+  [164999] = <function 1>,
+  [99799917] = <function 2>,
+  [142796549] = <function 3>,
+  [145272040] = <function 4>,
+  [239612940] = <function 5>,
+  [247993265] = <function 6>,
+  [254692276] = <function 7>,
+  __index = <function 8>,
+  __newindex = <function 9>,
+  <metatable> = <table 1>
+}

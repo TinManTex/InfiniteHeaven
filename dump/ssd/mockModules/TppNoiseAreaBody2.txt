@@ -1,0 +1,5 @@
+TppNoiseAreaBody2={
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppNoiseAreaBody2"
+}

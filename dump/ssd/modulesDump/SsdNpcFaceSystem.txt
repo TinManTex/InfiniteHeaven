@@ -1,0 +1,9 @@
+SsdNpcFaceSystem=<1>{
+  [-285212672] = 4,
+  [73352192] = <function 1>,
+  [231826870] = <function 2>,
+  [248671988] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

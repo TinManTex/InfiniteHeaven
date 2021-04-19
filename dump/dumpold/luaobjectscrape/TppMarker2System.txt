@@ -1,0 +1,10 @@
+TppMarker2System={
+  CreateMarker2System = true,
+  DisableAllMarker = true,
+  DisableMarker = true,
+  EnableMarker = true,
+  SetMarkerGoalType = true,
+  SetMarkerImportant = true,
+  SetMarkerInterrogation = true,
+  SetMarkerNew = true
+}

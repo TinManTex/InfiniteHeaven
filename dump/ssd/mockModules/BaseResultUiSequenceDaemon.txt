@@ -1,0 +1,9 @@
+BaseResultUiSequenceDaemon={
+  ClearCallbackOnPutAllOfPlayersInventoryInABase = "<function>",
+  IsActive = "<function>",
+  SetCallBackOnPutAllOfPlayersInventoryInABase = "<function>",
+  SetReserved = "<function>",
+  Start = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

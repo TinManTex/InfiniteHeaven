@@ -1,0 +1,7 @@
+CollisionObject={
+  SetInvalidRequest = "<function>",
+  SetValidRequest = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "CollisionObject"
+}

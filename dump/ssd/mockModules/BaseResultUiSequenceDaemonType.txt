@@ -1,0 +1,5 @@
+BaseResultUiSequenceDaemonType={
+  RETURN = 2,
+  __index = "<function>",
+  __newindex = "<function>"
+}

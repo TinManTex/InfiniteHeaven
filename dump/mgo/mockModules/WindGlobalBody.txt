@@ -1,0 +1,8 @@
+WindGlobalBody={
+  ResetWind = "<function>",
+  SetRotation = "<function>",
+  SetSpeed = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "WindGlobalBody"
+}

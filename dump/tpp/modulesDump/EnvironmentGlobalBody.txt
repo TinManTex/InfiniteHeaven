@@ -1,0 +1,6 @@
+EnvironmentGlobalBody=<1>{
+  __index = <function 1>,
+  __newindex = <function 2>,
+  _className = "EnvironmentGlobalBody",
+  <metatable> = <table 1>
+}

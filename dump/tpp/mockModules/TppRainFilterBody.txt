@@ -1,0 +1,6 @@
+TppRainFilterBody={
+  SetForceEnableFlag = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "TppRainFilterBody"
+}

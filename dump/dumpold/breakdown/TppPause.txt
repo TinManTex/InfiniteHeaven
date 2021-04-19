@@ -1,0 +1,4 @@
+TppPause={
+  numberKeys = { -285212672, -285212671, 193154233, 242841334 },
+  stringKeys = { "__index", "__newindex" }
+}

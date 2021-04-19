@@ -1,0 +1,14 @@
+SsdBaseManagement={
+  AddAnimal = "<function>",
+  CheckResourceCounter = "<function>",
+  DeleteAnimal = "<function>",
+  InitializeResource = "<function>",
+  IsAutoDefenseGameCalled = "<function>",
+  IsBedNotEnough = "<function>",
+  IsFoodNotEnough = "<function>",
+  IsFoodPopped = "<function>",
+  IsWaterNotEnough = "<function>",
+  IsWaterPopped = "<function>",
+  Restore = "<function>",
+  Store = "<function>"
+}

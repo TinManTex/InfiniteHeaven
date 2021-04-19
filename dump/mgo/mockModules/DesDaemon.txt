@@ -1,0 +1,8 @@
+DesDaemon={
+  GetInstance = "<function>",
+  PrintDesObjectAll = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "DesDaemon"
+}

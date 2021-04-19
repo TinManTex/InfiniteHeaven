@@ -1,0 +1,9 @@
+TppRainFilterInterruptTransBody=<1>{
+  AddInterruptFlag = <function 1>,
+  AddMaskTexturePath = <function 2>,
+  AddPlaneMatrix = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "TppRainFilterInterruptTransBody",
+  <metatable> = <table 1>
+}

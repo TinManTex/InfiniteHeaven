@@ -1,0 +1,8 @@
+HudCommonDataManager=<1>{
+  Create = <function 1>,
+  GetInstance = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "HudCommonDataManager",
+  <metatable> = <table 1>
+}

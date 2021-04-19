@@ -1,0 +1,7 @@
+ObjectiveIconSystem={
+  Hide = "<function>",
+  LOCATION_TAB = 0,
+  Show = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

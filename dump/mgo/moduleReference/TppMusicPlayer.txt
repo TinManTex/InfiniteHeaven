@@ -1,0 +1,5 @@
+TppMusicPlayer={
+  SetAlbum = true,
+  SetStructure = true,
+  SetTrack = true
+}

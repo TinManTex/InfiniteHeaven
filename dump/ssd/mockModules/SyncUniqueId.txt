@@ -1,0 +1,12 @@
+SyncUniqueId={
+  EraseInstance = "<function>",
+  ExceptSyncUniqueId = "<function>",
+  GetDataSyncUniqueIdTable = "<function>",
+  GetInstance = "<function>",
+  GetSyncUniqueId = "<function>",
+  RegistSyncUniqueIdTable = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "SyncUniqueId"
+}

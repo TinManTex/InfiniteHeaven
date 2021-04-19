@@ -1,0 +1,4 @@
+Shop={
+  AllocatePSStoreMemory = "<function>",
+  FreePSStoreMemory = "<function>"
+}

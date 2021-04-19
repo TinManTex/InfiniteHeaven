@@ -1,0 +1,76 @@
+InfMenuDefs={
+  BuildMenuItem = <function 1>,
+  IsMenu = <function 2>,
+  PostAllModulesLoad = <function 3>,
+  SetupMenus = <function 4>,
+  allItems = { "InfMenuDefs.systemMenu", "InfGameEvent.eventsMenu", "InfMainTppIvars.playerRestrictionsMenu", "InfMainTppIvars.playerSettingsMenu", "InfSoldierParams.soldierParamsMenu", "InfEnemyPhase.phaseMenu", "InfRevengeIvars.revengeMenu", "InfReinforce.enemyReinforceMenu", "InfMainTppIvars.enemyPatrolMenu", "InfQuestIvars.sideOpsMenu", "InfMainTppIvars.motherBaseMenu", "InfDemo.demosMenu", "InfCamera.cameraMenu", "InfMainTppIvars.timeScaleMenu", "InfHelicopter.supportHeliMenu", "InfMainTppIvars.progressionMenu", "InfMgsvToExt.TakeFocus", "InfMenuDefs.debugMenu", "InfMenuCommands.MenuOffItem", "InfHelicopter.RequestHeliLzToLastMarker", "InfHelicopter.ForceExitHeli", "InfMenuCommands.DropCurrentEquip", "Ivars.warpPlayerUpdate", "InfCamera.cameraMenu", "InfMainTppIvars.timeScaleMenu", "InfLookup.positionsMenu", "InfMotion.motionsMenu", "InfUserMarker.userMarkerMenu", "InfMainTppIvars.buddyMenu", "InfFovaIvars.appearanceMenu", "InfMBStaff.mbStaffInMissionMenu", "InfMainTppIvars.playerRestrictionsInMissionMenu", "InfEnemyPhase.phaseMenu", "InfHelicopter.supportHeliMenu", "InfMBAssets.mbOceanMenu", "InfMenuDefs.debugInMissionMenu", "Ivars.itemDropChance", "InfMgsvToExt.TakeFocus", "Ivars.playerHealthScale", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.MenuOffItem", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.ForceExitHeli", "InfHelicopter.ForceExitHeliAlt", "InfHelicopter.PullOutHeli", "InfHelicopter.ChangeToIdleStateHeli", "Ivars.disablePullOutHeli", "Ivars.motionGroupIndex", "Ivars.motionGaniIndex", "Ivars.motionHold", "Ivars.motionRepeat", "InfMotion.StopMotion", "InfMotion.PlayCurrentMotion", "InfCore.StartIHExt", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "Ivars.selectedCp", "Ivars.warpToListObject", "InfUserMarker.PrintLatestUserMarker", "InfMenuCommands.SetAllZombie", "InfMenuCommands.CheckPointSave", "Ivars.manualMissionCode", "InfCore.ClearLog", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.RequestHeliLzToLastMarker", "InfHelicopter.ForceExitHeliAlt", "Ivars.warpToListPosition", "Ivars.warpToListObject", "Ivars.setCamToListObject", "Ivars.dropLoadedEquip", "Ivars.dropTestEquip", "Ivars.selectedGameObjectType", "Ivars.manualMissionCode", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "Ivars.debugValue", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfLookup.DumpValidStrCode", "InfMenuCommands.SetAllFriendly", "InfMenuCommands.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.enableIHExt", "Ivars.enableHelp", "InfMgsvToExt.TakeFocus", "Ivars.selectProfile", "InfMenuCommands.ResetSelectedProfile", "InfMenuCommands.SaveToProfile", "Ivars.enableQuickMenu", "Ivars.startOffline", "Ivars.skipLogos", "Ivars.loadAddonMission", "Ivars.ihMissionsPercentageCount", "InfMenuCommands.ResetAllSettingsItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "Ivars.printPressedButtons", "InfMenuCommands.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.ShowMissionCode", "InfMenuCommands.ShowLangCode", "InfFovaIvars.appearanceDebugMenu", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "Ivars.telopMode", "Ivars.manualMissionCode", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfFovaIvars.appearanceMenu", "InfFovaIvars.appearanceDebugMenu", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "Ivars.selectedCp", "InfMenuCommands.SetSelectedCpToMarkerObjectCp", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "InfMenuCommandsTpp.DEBUG_PrintCpPowerSettings", "InfMenuCommandsTpp.DEBUG_PrintPowersCount", "InfMenuCommandsTpp.DEBUG_PrintReinforceVars", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig", "InfFovaIvars.appearanceDebugMenu", "Ivars.printPressedButtons", "Ivars.printOnBlockChange", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "InfMenuCommands.SetAllFriendly", "InfMenuCommands.SetAllZombie", "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent", "InfMenuCommands.ResetStageBlockPosition", "InfMenuCommands.SetStageBlockPositionToMarkerClosest", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfMenuCommands.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.CheckPointSave", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.resetAACRCount", "InfGimmick.resetAACRCount", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "Ivars.selectEvent", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "InfLookup.DumpValidStrCode", "InfMenuCommands.ForceRegenSeed", "Ivars.debugValue", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem" },
+  allMenus = { <1>{
+      disabled = false,
+      insertEndOffset = 1,
+      name = "heliSpaceMenu",
+      noGoBackItem = true,
+      noResetItem = true,
+      optionType = "MENU",
+      options = { "InfMenuDefs.systemMenu", "InfGameEvent.eventsMenu", "InfMainTppIvars.playerRestrictionsMenu", "InfMainTppIvars.playerSettingsMenu", "InfSoldierParams.soldierParamsMenu", "InfEnemyPhase.phaseMenu", "InfRevengeIvars.revengeMenu", "InfReinforce.enemyReinforceMenu", "InfMainTppIvars.enemyPatrolMenu", "InfQuestIvars.sideOpsMenu", "InfMainTppIvars.motherBaseMenu", "InfDemo.demosMenu", "InfCamera.cameraMenu", "InfMainTppIvars.timeScaleMenu", "InfHelicopter.supportHeliMenu", "InfMainTppIvars.progressionMenu", "InfMgsvToExt.TakeFocus", "InfMenuDefs.debugMenu", "InfMenuCommands.MenuOffItem" }
+    }, <2>{
+      disabled = false,
+      insertEndOffset = 2,
+      name = "inMissionMenu",
+      noGoBackItem = true,
+      noResetItem = true,
+      optionType = "MENU",
+      options = { "InfHelicopter.RequestHeliLzToLastMarker", "InfHelicopter.ForceExitHeli", "InfMenuCommands.DropCurrentEquip", "Ivars.warpPlayerUpdate", "InfCamera.cameraMenu", "InfMainTppIvars.timeScaleMenu", "InfLookup.positionsMenu", "InfMotion.motionsMenu", "InfUserMarker.userMarkerMenu", "InfMainTppIvars.buddyMenu", "InfFovaIvars.appearanceMenu", "InfMBStaff.mbStaffInMissionMenu", "InfMainTppIvars.playerRestrictionsInMissionMenu", "InfEnemyPhase.phaseMenu", "InfHelicopter.supportHeliMenu", "InfMBAssets.mbOceanMenu", "InfMenuDefs.debugInMissionMenu", "Ivars.itemDropChance", "InfMgsvToExt.TakeFocus", "Ivars.playerHealthScale", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.MenuOffItem" }
+    }, <3>{
+      disabled = false,
+      hasGoBackItem = true,
+      hasResetItem = true,
+      name = "devInMissionMenu",
+      noDoc = true,
+      nonConfig = true,
+      optionType = "MENU",
+      options = { "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.ForceExitHeli", "InfHelicopter.ForceExitHeliAlt", "InfHelicopter.PullOutHeli", "InfHelicopter.ChangeToIdleStateHeli", "Ivars.disablePullOutHeli", "Ivars.motionGroupIndex", "Ivars.motionGaniIndex", "Ivars.motionHold", "Ivars.motionRepeat", "InfMotion.StopMotion", "InfMotion.PlayCurrentMotion", "InfCore.StartIHExt", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "Ivars.selectedCp", "Ivars.warpToListObject", "InfUserMarker.PrintLatestUserMarker", "InfMenuCommands.SetAllZombie", "InfMenuCommands.CheckPointSave", "Ivars.manualMissionCode", "InfCore.ClearLog", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.RequestHeliLzToLastMarker", "InfHelicopter.ForceExitHeliAlt", "Ivars.warpToListPosition", "Ivars.warpToListObject", "Ivars.setCamToListObject", "Ivars.dropLoadedEquip", "Ivars.dropTestEquip", "Ivars.selectedGameObjectType", "Ivars.manualMissionCode", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "Ivars.debugValue", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfLookup.DumpValidStrCode", "InfMenuCommands.SetAllFriendly", "InfMenuCommands.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem" }
+    }, <4>{
+      disabled = false,
+      hasGoBackItem = true,
+      hasResetItem = true,
+      name = "systemMenu",
+      optionType = "MENU",
+      options = { "Ivars.enableIHExt", "Ivars.enableHelp", "InfMgsvToExt.TakeFocus", "Ivars.selectProfile", "InfMenuCommands.ResetSelectedProfile", "InfMenuCommands.SaveToProfile", "Ivars.enableQuickMenu", "Ivars.startOffline", "Ivars.skipLogos", "Ivars.loadAddonMission", "Ivars.ihMissionsPercentageCount", "InfMenuCommands.ResetAllSettingsItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem" }
+    }, <5>{
+      disabled = false,
+      hasGoBackItem = true,
+      hasResetItem = true,
+      name = "debugMenu",
+      optionType = "MENU",
+      options = { "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "Ivars.printPressedButtons", "InfMenuCommands.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.ShowMissionCode", "InfMenuCommands.ShowLangCode", "InfFovaIvars.appearanceDebugMenu", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "Ivars.telopMode", "Ivars.manualMissionCode", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem" }
+    }, <6>{
+      disabled = false,
+      hasGoBackItem = true,
+      hasResetItem = true,
+      name = "debugInMissionMenu",
+      optionType = "MENU",
+      options = { "InfFovaIvars.appearanceMenu", "InfFovaIvars.appearanceDebugMenu", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "Ivars.selectedCp", "InfMenuCommands.SetSelectedCpToMarkerObjectCp", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "InfMenuCommandsTpp.DEBUG_PrintCpPowerSettings", "InfMenuCommandsTpp.DEBUG_PrintPowersCount", "InfMenuCommandsTpp.DEBUG_PrintReinforceVars", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig", "InfFovaIvars.appearanceDebugMenu", "Ivars.printPressedButtons", "Ivars.printOnBlockChange", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "InfMenuCommands.SetAllFriendly", "InfMenuCommands.SetAllZombie", "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent", "InfMenuCommands.ResetStageBlockPosition", "InfMenuCommands.SetStageBlockPositionToMarkerClosest", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfMenuCommands.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.CheckPointSave", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem" }
+    }, <7>{
+      disabled = false,
+      hasGoBackItem = true,
+      hasResetItem = true,
+      name = "devInAccMenu",
+      noDoc = true,
+      nonConfig = true,
+      optionType = "MENU",
+      options = { "Ivars.resetAACRCount", "InfGimmick.resetAACRCount", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "Ivars.selectEvent", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "InfLookup.DumpValidStrCode", "InfMenuCommands.ForceRegenSeed", "Ivars.debugValue", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem" }
+    } },
+  debugInMissionMenu = <table 6>,
+  debugMenu = <table 5>,
+  debugModule = false,
+  devInAccMenu = <table 7>,
+  devInMissionMenu = <table 3>,
+  heliSpaceMenu = <table 1>,
+  inMissionMenu = <table 2>,
+  menuForContext = {
+    HELISPACE = <table 1>,
+    MISSION = <table 2>
+  },
+  name = "InfMenuDefs",
+  systemMenu = <table 4>
+}

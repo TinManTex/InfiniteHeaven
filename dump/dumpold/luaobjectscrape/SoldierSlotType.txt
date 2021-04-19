@@ -1,0 +1,3 @@
+SoldierSlotType={
+  SECONDARY = true
+}

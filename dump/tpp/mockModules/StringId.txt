@@ -1,0 +1,6 @@
+StringId={
+  IsEqual = "<function>",
+  IsEqual32 = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

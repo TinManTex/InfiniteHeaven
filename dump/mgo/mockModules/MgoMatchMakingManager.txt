@@ -1,0 +1,21 @@
+MgoMatchMakingManager={
+  CreateMatch = "<function>",
+  ExitRoom = "<function>",
+  GetFriends = "<function>",
+  GetPartyLeader = "<function>",
+  GetWeatherChangeState = "<function>",
+  HostTestMatch = "<function>",
+  IsActualMatchmake = "<function>",
+  IsBusy = "<function>",
+  IsInParty = "<function>",
+  IsQuickmatch = "<function>",
+  IsRejoin = "<function>",
+  JoinTestMatch = "<function>",
+  QuickMatch = "<function>",
+  SetActualMatchmake = "<function>",
+  SetDebugMatchmake = "<function>",
+  SetInvitationBlockStoreOpen = "<function>",
+  StartMatch = "<function>",
+  StartNextMatch = "<function>",
+  WillBeHost = "<function>"
+}

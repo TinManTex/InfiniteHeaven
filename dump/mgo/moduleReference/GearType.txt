@@ -1,0 +1,6 @@
+GearType={
+  BASE = true,
+  CHEST = true,
+  EYES = true,
+  HEAD = true
+}

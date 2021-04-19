@@ -1,0 +1,8 @@
+GeoTrapBody={
+  GetByName = "<function>",
+  SetInvalid = "<function>",
+  SetValid = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GeoTrapBody"
+}

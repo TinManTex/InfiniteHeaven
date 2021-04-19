@@ -1,0 +1,23 @@
+NeutralizeCause={
+  ASSAULT_RIFLE = true,
+  ASSIST = true,
+  CQC = true,
+  CQC_KNIFE = true,
+  D_DOG = true,
+  D_HORSE = true,
+  D_WALKER_GEAR = true,
+  GRENADE = true,
+  HANDGUN = true,
+  MACHINE_GUN = true,
+  MINE = true,
+  MISSILE = true,
+  NO_KILL = true,
+  NO_KILL_BULLET = true,
+  QUIET = true,
+  ROCKET_ARM = true,
+  SHOTGUN = true,
+  SNIPER_RIFLE = true,
+  SUBMACHINE_GUN = true,
+  SUPPORT_HELI = true,
+  VEHICLE = true
+}

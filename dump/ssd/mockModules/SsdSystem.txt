@@ -1,0 +1,5 @@
+SsdSystem={
+  StartHighlightSystem = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

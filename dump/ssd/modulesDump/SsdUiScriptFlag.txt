@@ -1,0 +1,20 @@
+SsdUiScriptFlag=<1>{
+  [-285212672] = 4,
+  [2194133] = <function 1>,
+  [14157229] = <function 2>,
+  [71991711] = <function 3>,
+  [74302548] = <function 4>,
+  [99124452] = <function 5>,
+  [120889991] = <function 6>,
+  [129733123] = <function 7>,
+  [147819231] = <function 8>,
+  [165505701] = <function 9>,
+  [183172298] = <function 10>,
+  [201463523] = <function 11>,
+  [229421396] = <function 12>,
+  [234619855] = <function 13>,
+  [250393152] = <function 14>,
+  __index = <function 15>,
+  __newindex = <function 16>,
+  <metatable> = <table 1>
+}

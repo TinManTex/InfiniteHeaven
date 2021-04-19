@@ -1,0 +1,8 @@
+TppLightProbeUtility=<1>{
+  DebugSetLightRate = <function 1>,
+  __call = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "TppLightProbeUtility",
+  <metatable> = <table 1>
+}

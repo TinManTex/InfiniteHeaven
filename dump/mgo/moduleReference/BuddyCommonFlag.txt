@@ -1,0 +1,4 @@
+BuddyCommonFlag={
+  BUDDY_FORCE_HOSPITALIZE = true,
+  BUDDY_QUIET_LOST = true
+}

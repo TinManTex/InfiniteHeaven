@@ -1,0 +1,13 @@
+InfWarp={
+  ActivateControlSet = "<function>",
+  DoControlSet = "<function>",
+  OnActivate = "<function>",
+  OnDeactivate = "<function>",
+  Update = "<function>",
+  active = "<table>",
+  execCheckTable = "<table>",
+  execState = "<table>",
+  name = "InfWarp",
+  registerIvars = "<table>",
+  warpPlayerUpdate = "<table>"
+}

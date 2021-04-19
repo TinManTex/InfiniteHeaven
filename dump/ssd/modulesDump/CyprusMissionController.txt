@@ -1,0 +1,13 @@
+CyprusMissionController=<1>{
+  [-285212672] = 4,
+  [205835] = <function 1>,
+  [29151772] = <function 2>,
+  [62648174] = <function 3>,
+  [113922819] = <function 4>,
+  [118209490] = <function 5>,
+  [118218052] = <function 6>,
+  [198758036] = <function 7>,
+  __index = <function 8>,
+  __newindex = <function 9>,
+  <metatable> = <table 1>
+}

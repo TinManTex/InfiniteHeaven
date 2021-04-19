@@ -1,0 +1,4 @@
+Shop={
+  AllocatePSStoreMemory = true,
+  FreePSStoreMemory = true
+}

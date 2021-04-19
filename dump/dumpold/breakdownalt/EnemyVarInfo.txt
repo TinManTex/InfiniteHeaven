@@ -1,0 +1,26 @@
+EnemyVarInfo=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [502479] = <function 1>,
+    [20864113] = <function 2>,
+    [38622078] = <function 3>,
+    [48872332] = <function 4>,
+    [80046036] = <function 5>,
+    [99359680] = <function 6>,
+    [139197019] = <function 7>,
+    [142191607] = <function 8>,
+    [146405104] = <function 9>,
+    [170461337] = <function 10>,
+    [194013640] = <function 11>,
+    [216322627] = <function 12>,
+    [230219570] = <function 13>,
+    [245311504] = <function 14>,
+    [251578111] = <function 15>,
+    [257948791] = <function 16>,
+    [263795653] = <function 17>,
+    [264073847] = <function 18>
+  },
+  __index = <function 19>,
+  __newindex = <function 20>,
+  <metatable> = <table 1>
+}

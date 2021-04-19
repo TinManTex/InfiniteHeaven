@@ -1,0 +1,8 @@
+ActionIcon={
+  ACTION = 0,
+  INTEL = 53,
+  INTEL_NG = 54,
+  TRAINING = 118,
+  __index = "<function>",
+  __newindex = "<function>"
+}

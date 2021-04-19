@@ -1,0 +1,14 @@
+ObjectBrushBody={
+  GetBlockDataName = "<function>",
+  GetBlockInfo = "<function>",
+  GetByName = "<function>",
+  GetDataName = "<function>",
+  GetNumBlockObjects = "<function>",
+  GetNumBlocks = "<function>",
+  GetSize = "<function>",
+  IsBlockLoaded = "<function>",
+  IsExistBlockData = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "ObjectBrushBody"
+}

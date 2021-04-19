@@ -54,6 +54,8 @@ this.appliedProfiles=false
 
 this.usingAltCamera=false--tex IH camera modules flip this on enabled, then it's pulled into checkexec
 
+this.getMissionPackagePathReturnTime={}--
+
 --CALLER: TppVarInit.StartTitle, game save actually first loaded
 --not super accurate execution timing wise
 function this.OnStartTitle()
@@ -94,6 +96,14 @@ function this.PreMissionLoad(missionId,currentMissionId)
 end
 
 function this.OnAllocateTop(missionTable)
+  --tex DEBUG
+  local getMissionPackagePathReturnTime=this.getMissionPackagePathReturnTime[vars.missionCode]
+  this.getMissionPackagePathReturnTime[vars.missionCode]=0
+  if getMissionPackagePathReturnTime then
+    local endTime=os.clock()-getMissionPackagePathReturnTime
+    InfCore.Log("GetMissionPackagePath to OnAllocate time: "..endTime)
+  end
+
   --tex enable/disable debug mode depending on ivar, up until this point (from start) InfCore.debugMode==true (see note there)
   local enable=Ivars.debugMode:Is(1)
   this.DebugModeEnable(enable)
@@ -224,7 +234,8 @@ function this.AddMissionPacks(missionCode,packPaths)
   if IHH then
     IHH.Log_Flush()
   end
-end
+  this.getMissionPackagePathReturnTime[missionCode]=os.clock()--tex DEBUGNOW
+end--AddMissionPacks
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
 function this.OnMissionCanStartBottom()
@@ -402,6 +413,56 @@ function this.OnEnterACC()
     end
   end
 end
+
+
+local function IsSysMission(missionCode)
+  local isSysMission=false
+  for missionId,sysMissionCode in pairs(TppDefine.SYS_MISSION_ID)do
+    if missionCode==sysMissionCode then
+      isSysMission=true
+    end
+  end
+
+  return isSysMission
+end
+--CALLER: title_sequence OnSelectContinue
+function this.ShouldAbortToACC(locationCode,missionCode)
+  local shouldAbort=InfMain.abortToAcc or (ih_save and ih_save.loadToACC)
+  if not shouldAbort then
+    --tex valid location?
+    if InfMission then
+      local vanillaLocations={
+        [1]=true,
+        [10]=true,
+        [20]=true,
+        [30]=true,
+        [50]=true,
+        [55]=true,
+        [60]=true,
+      }
+      if not vanillaLocations[locationCode] and InfMission.locationInfo[locationCode]==nil then
+        InfCore.Log("WARNING: ShouldAbortToACC: locationCode not recognised as vanilla or addon")
+        shouldAbort=true
+      end
+    end--if InfMission 
+    --tex valis mission?
+    if InfMission then
+      --tex if not in vanilla mission list and not an addon mission then wtf
+      if TppDefine.MISSION_ENUM[tostring(missionCode)]==nil and not IsSysMission(missionCode) then
+        if InfMission.missionInfo[missionCode]==nil then
+          InfCore.Log("WARNING: ShouldAbortToACC: missionCode not recognised as vanilla or addon")
+          shouldAbort=true
+        end
+      end
+    end--if InfMission
+  end--if not shouldAbort
+  if shouldAbort then
+    InfCore.Log("InfMain.ShouldAbortToACC location:"..tostring(locationCode).." mission:"..tostring(missionCode)..": "..tostring(shouldAbort))
+    InfCore.DebugPrint("IH: Aborting to ACC")
+  end
+  return shouldAbort
+end
+
 --tex on holding esc at title
 function this.ClearOnAbortToACC()
   igvars.inf_event=false
@@ -412,6 +473,7 @@ this.execChecks={
   inSafeSpace=false,--aka heliSpace in tpp
   inMission=false,
   inDemo=false,
+  pastTitle=false,
   missionCanStart=false,
   initialAction=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
   inGroundVehicle=false,
@@ -425,12 +487,19 @@ this.execChecks={
 
 this.abortToAcc=false--tex
 
+--DEBUGNOW
+function this.IsPastTitle(missionCode)
+  return missionCode>5 and missionCode<65535
+end
+
 --IN/OUT SIDE: currentchecks
 function this.UpdateExecChecks(currentChecks)
+  local missionCode=vars.missionCode
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
-  currentChecks.inSafeSpace=vars.missionCode and this.IsSafeSpace(vars.missionCode)
+  currentChecks.inSafeSpace=missionCode and this.IsSafeSpace(missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inSafeSpace
   currentChecks.inDemo=not currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId())--DEBUGNOW inDemo is mis_missionStateIsNotInGame?
+  currentChecks.pastTitle=missionCode>5 and missionCode~=65535
   currentChecks.missionCanStart=this.missionCanStart
   currentChecks.initialAction=false
   currentChecks.inGroundVehicle=false
@@ -545,10 +614,10 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     end
   end
 
---  if not IsFunc(ExecUpdateFunc) then
---    InfCore.DebugPrint"ExecUpdateFunc is not a function"
---    return
---  end
+  --  if not IsFunc(ExecUpdateFunc) then
+  --    InfCore.DebugPrint"ExecUpdateFunc is not a function"
+  --    return
+  --  end
 
   InfCore.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
 
@@ -644,7 +713,7 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
-this.cpPositions={
+this.cpPositions={--ADDON
   afgh={
     afgh_citadelSouth_ob={-1682.557,536.637,-2409.226},
     afgh_sovietSouth_ob={-1558.834,414.159,-1159.438},
@@ -743,7 +812,7 @@ this.cpPositions={
     ["ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|mtbs_intel_cp"]={-668.973,4.925,524.886},
     ["ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp"]={-744.900,8.800,-360.478},
   }
-}
+}--cpPositions
 
 function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
@@ -752,7 +821,7 @@ function this.GetClosestCp(position)
   local locationName=TppLocation.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   if cpPositions==nil then
-    InfCore.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
+    InfCore.Log("WARNING: GetClosestCp no cpPositions for locationName "..locationName,false,true)--DEBUGNOW
     return nil,nil,nil
   end
 
@@ -1120,13 +1189,13 @@ function this.WeaponVarsSanityCheck()
 end
 
 function this.IsOnlineMission(missionCode)
---tex TODO: revisit if ever return to SSD
---  if InfCore.gameId=="TPP" then
---    return this.IsFOBMission(missionCode)
---  else--SSD
---    return this.IsMultiPlayMission(missionCode)
---  end
---tex just do isfobmission for tpp
+  --tex TODO: revisit if ever return to SSD
+  --  if InfCore.gameId=="TPP" then
+  --    return this.IsFOBMission(missionCode)
+  --  else--SSD
+  --    return this.IsMultiPlayMission(missionCode)
+  --  end
+  --tex just do isfobmission for tpp
   local firstDigit=floor(missionCode/1e4)--DEBUGNOW *0.0001)
   if firstDigit==5 then
     return true
@@ -1219,7 +1288,8 @@ end
 --isReload = user initiated
 --CALLER: InfInitMain, also by command or key combo with isReload set
 function this.LoadExternalModules(isReload)
-  InfCore.LogFlow"InfMain.LoadExternalModules"
+  local isReload=isReload or false
+  InfCore.Log("InfMain.LoadExternalModules "..tostring(isReload))
 
   local count=collectgarbage("count")
   InfCore.Log("Lua memory usage start: "..count.." KB")
@@ -1257,11 +1327,15 @@ function this.LoadExternalModules(isReload)
       table.insert(InfModules.moduleNames,moduleName)
     end
   end
-
+  local clock=os.clock
   for i,moduleName in ipairs(InfModules.moduleNames) do
     if not isReload or InfModules.externalModules[moduleName] then--tex don't try and reload internal
+      local startTime=clock()
       InfCore.LoadExternalModule(moduleName,isReload)
+      local endTime=clock()-startTime
+      --InfCore.Log("Loaded in "..endTime)
     end
+
     local module=_G[moduleName]
     if module then
       --InfCore.Log("Loaded "..moduleName)--DEBUG
@@ -1299,18 +1373,24 @@ function this.LoadExternalModules(isReload)
 
   count=collectgarbage("count")
   InfCore.Log("Lua memory usage end: "..count.." KB")
-
+  local startTime=os.clock()
   collectgarbage()
+  local endTime=os.clock()-startTime
+  InfCore.Log("collectgarbage time: "..endTime)
   count=collectgarbage("count")
   InfCore.Log("Lua memory usage post collect: "..count.." KB")
 end
 
 --tex runs a function on all IH modules, used as the main message/event propogation to ih modules
 function this.CallOnModules(functionName,...)
+  local clock=os.clock
   for i,module in ipairs(InfModules) do
     if IsFunc(module[functionName]) then
+      local startTime=clock()
       InfCore.LogFlow(module.name.."."..functionName..":")
       InfCore.PCallDebug(module[functionName],...)
+      local endTime=clock()-startTime
+      --InfCore.Log("Run in "..endTime)--tex DEBUG
     end
   end
 end

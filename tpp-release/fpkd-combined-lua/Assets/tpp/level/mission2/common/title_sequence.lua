@@ -771,8 +771,7 @@ sequences.Seq_Game_TitleMenu = {
    
    local loadToHeli=TppMission.IsHelicopterSpace(gvars.title_nextMissionCode) 
     or loadToHeliMissions[gvars.title_nextMissionCode] 
-    or InfMain.abortToAcc 
-    or (ih_save and ih_save.loadToACC)--tex added abortToAcc/loadToACC
+    or InfMain.ShouldAbortToACC(gvars.title_nextLocationCode,gvars.title_nextMissionCode)--tex added ShouldAbortToAcc
      
     if loadToHeli then--tex> 
       InfMain.abortToAcc=false
@@ -1055,7 +1054,7 @@ sequences.Seq_Game_ChunkInstalled = {
 		this.DoEnableGameStatusFunction()
 		TppMission.SafeStopSettingOnMissionReload()	
 		TppSave.VarRestoreOnContinueFromCheckPoint()
-		InfGameEvent.GenerateEvent(vars.missionCode)--tex DEBUGNOW uhhh, what was I doing here?
+		InfGameEvent.GenerateEvent(vars.missionCode)--tex events are implemented as non saving ivars, so need to reapply if continiuing
 		this.ClearTitleMode()
 		if not this.IsBrokenSaveData( vars.missionCode ) then	
 		TppMain.ReservePlayerLoadingPosition(

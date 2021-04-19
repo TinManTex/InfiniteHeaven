@@ -1,0 +1,6 @@
+TppDemoUtility={
+  AddSubjectMapping = true,
+  DisablePadZoom = true,
+  SetInvisibleUniqueCharacter = true,
+  SetUseBlackDiamond = true
+}

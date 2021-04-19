@@ -1,0 +1,13 @@
+GearType=<1>{
+  [-285212672] = 4,
+  [184022] = <function 1>,
+  [6786490] = <function 2>,
+  [19042352] = <function 3>,
+  [92492381] = <function 4>,
+  [92498110] = <function 5>,
+  [105786426] = <function 6>,
+  [260167062] = <function 7>,
+  __index = <function 8>,
+  __newindex = <function 9>,
+  <metatable> = <table 1>
+}

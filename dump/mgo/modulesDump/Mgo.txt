@@ -1,0 +1,4 @@
+Mgo=<1>{
+  IsHost = <function 1>,
+  <metatable> = <table 1>
+}

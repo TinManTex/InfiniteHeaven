@@ -1,0 +1,10 @@
+MysetMenu=<1>{
+  [-285212672] = 4,
+  [111223895] = <function 1>,
+  [199042992] = <function 2>,
+  [249643139] = <function 3>,
+  [263819337] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,4 @@
+TppCoder={
+  GetWorldCenter = "<function>",
+  SetWorldCenter = "<function>"
+}

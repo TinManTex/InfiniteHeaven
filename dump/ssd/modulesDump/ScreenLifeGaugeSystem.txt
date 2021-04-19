@@ -1,0 +1,10 @@
+ScreenLifeGaugeSystem=<1>{
+  [-285212672] = 4,
+  [15875427] = <function 1>,
+  [42470899] = <function 2>,
+  [80751734] = <function 3>,
+  [111187452] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

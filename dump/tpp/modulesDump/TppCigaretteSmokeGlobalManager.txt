@@ -1,0 +1,10 @@
+TppCigaretteSmokeGlobalManager=<1>{
+  GetInstance = <function 1>,
+  ResetInitAlphaRate = <function 2>,
+  SetBaseColorSmoke = <function 3>,
+  SetInitAlphaRate = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  _className = "TppCigaretteSmokeGlobalManager",
+  <metatable> = <table 1>
+}

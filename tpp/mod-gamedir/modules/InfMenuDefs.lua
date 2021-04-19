@@ -26,6 +26,7 @@ this.inMissionMenu={
     "InfHelicopter.ForceExitHeliAlt",
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
+    "InfUserMarker.WarpToLastUserMarker",
     "InfMenuCommands.GeneralHelpItem",--DEBUGNOW insert in bottom (lol) instead?
     "InfMenuDefs.systemMenuMission",
   }
@@ -45,6 +46,7 @@ this.systemMenu={
     "Ivars.enableIHExt",
     "Ivars.menu_enableHelp",
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
+    "Ivars.menu_enableCursorOnMenuOpen",
     "Ivars.menu_disableToggleMenuHold",
     "InfMenuCommands.ShowStyleEditor",
     --
@@ -69,6 +71,7 @@ this.systemMenuMission={
     "Ivars.enableIHExt",
     "Ivars.menu_enableHelp",
     "InfMgsvToExt.TakeFocus",--tex while this is inserted to root menus on postallmodules, it still needs an non dynamic entry somewhere to make sure BuildCommandItems hits it
+    "Ivars.menu_enableCursorOnMenuOpen",
     "Ivars.menu_disableToggleMenuHold",
     "InfMenuCommands.ShowStyleEditor",
     "Ivars.enableQuickMenu",
@@ -110,23 +113,11 @@ this.debugInMissionMenu={
     "Ivars.log_SetFlushLevel",
     "InfMenuCommands.LoadExternalModules",
     "InfMenuCommands.CopyLogToPrev",
-    --"InfMenuCommandsTpp.DEBUG_PrintRealizedCount",
-    --"InfMenuCommandsTpp.DEBUG_PrintEnemyFova",
     "Ivars.selectedCp",
     "InfMenuCommands.SetSelectedCpToMarkerObjectCp",
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
-    "InfMenuCommandsTpp.DEBUG_PrintCpPowerSettings",
-    "InfMenuCommandsTpp.DEBUG_PrintPowersCount",
-    --"InfMenuCommandsTpp.DEBUG_PrintCpSizes",
-    "InfMenuCommandsTpp.DEBUG_PrintReinforceVars",
-    --"InfMenuCommandsTpp.DEBUG_PrintVehicleTypes",
-    --"InfMenuCommandsTpp.DEBUG_PrintVehiclePaint",
-    "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
-    --"InfMenuCommandsTpp.DEBUG_PrintSoldierIDList",
     "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig",
     "InfFovaIvars.appearanceDebugMenu",
-    "InfFovaIvars.appearanceDebugMenu",
-    --"InfMenuCommandsTpp.DEBUG_ShowPhaseEnums",--CULL
     --"InfMenuCommandsTpp.DEBUG_ChangePhase",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOn",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOff",
@@ -160,6 +151,15 @@ this.searchMenu={
   options={
     "Ivars.searchItem",
     "InfMenuCommands.GoBackTopItem",
+  }
+}
+
+this.objectListsMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
+  options={
+    "Ivars.warpToListPosition",
+    "Ivars.warpToListObject",    
+    "Ivars.setCamToListObject",
   }
 }
 

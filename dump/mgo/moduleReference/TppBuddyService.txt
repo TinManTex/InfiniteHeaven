@@ -1,0 +1,19 @@
+TppBuddyService={
+  BuddyMissionInit = true,
+  BuddyProcessMissionEnd = true,
+  CanSortieBuddyType = true,
+  CheckBuddyCommonFlag = true,
+  DidObtainBuddyType = true,
+  GetFriendlyPoint = true,
+  IsEnableBuddyCommand = true,
+  IsQuietDeadFromDying = true,
+  QuietDyingToDead = true,
+  ResetDogLeakedInformation = true,
+  ResetVarsMissionStart = true,
+  SetDisableAllBuddy = true,
+  SetDisableBuddyType = true,
+  SetMissionGroundStartPositions = true,
+  SetObtainedBuddyType = true,
+  SetSortieBuddyType = true,
+  SetVarsMissionStart = true
+}

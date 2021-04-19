@@ -1,0 +1,17 @@
+MotherBaseStage={
+  GetCompletionPlantCount = "<function>",
+  GetCurrentCluster = "<function>",
+  GetCurrentLayout = "<function>",
+  GetDemoCenter = "<function>",
+  GetFirstCluster = "<function>",
+  IsActivating = "<function>",
+  IsClientReady = "<function>",
+  IsLoading = "<function>",
+  IsOnConnectParts = "<function>",
+  LockCluster = "<function>",
+  ModifyLayoutCode = "<function>",
+  RegisterModifyLayoutCodes = "<function>",
+  SetClusterLodVisibility = "<function>",
+  SetFobClientPlayerRespawnTrg = "<function>",
+  UnlockCluster = "<function>"
+}

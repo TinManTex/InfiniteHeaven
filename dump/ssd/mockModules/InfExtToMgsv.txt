@@ -1,0 +1,13 @@
+InfExtToMgsv={
+  Activate = "<function>",
+  Input = "<function>",
+  ProcessCommands = "<function>",
+  Ready = "<function>",
+  Selected = "<function>",
+  SelectedCombo = "<function>",
+  ToggleMenu = "<function>",
+  Update = "<function>",
+  commands = "<table>",
+  debugModule = false,
+  name = "InfExtToMgsv"
+}

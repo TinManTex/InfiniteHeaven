@@ -1,0 +1,13 @@
+SsdNpc={
+  AssignInfosToGameObjectType = "<function>",
+  GetGameObjectIdFromNpcTypeCode32 = "<function>",
+  GetGameObjectIdFromNpcTypeName = "<function>",
+  GetGameObjectPackFilePathList = "<function>",
+  GetGameObjectPackFilePathsFromNpcType = "<function>",
+  GetGameObjectPackFilePathsFromPartsType = "<function>",
+  IsExistNpcType = "<function>",
+  IsExistPartsType = "<function>",
+  ReloadLevelParameterAll = "<function>",
+  ResetAssignedInfosFromGameObjectType = "<function>",
+  ResetAssignedInfosFromGameObjectTypeAll = "<function>"
+}

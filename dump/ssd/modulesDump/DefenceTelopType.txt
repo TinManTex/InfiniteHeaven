@@ -1,0 +1,10 @@
+DefenceTelopType=<1>{
+  [-285212672] = 4,
+  [29151772] = <function 1>,
+  [29161603] = <function 2>,
+  [82222439] = <function 3>,
+  [173046919] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

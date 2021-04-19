@@ -1,0 +1,8 @@
+DataBodySet=<1>{
+  GetDataBody = <function 1>,
+  GetDataBodyList = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "DataBodySet",
+  <metatable> = <table 1>
+}

@@ -1,0 +1,9 @@
+DemoPlayback={
+  GetCurrentFrame = <function 1>,
+  Pause = <function 2>,
+  Restart = <function 3>,
+  SetAutoPause = <function 4>,
+  SetLoopMode = <function 5>,
+  SetTransform = <function 6>,
+  Skip = <function 7>
+}

@@ -1,0 +1,13 @@
+DemoDaemon={
+  FindDemoBody = true,
+  GetPlayingDemoId = true,
+  GetStartPosition = true,
+  IsDemoPaused = true,
+  IsDemoPlaying = true,
+  IsPlayingDemoId = true,
+  Play = true,
+  SetDemoTransform = true,
+  SkipAll = true,
+  SkipAtDemoPlay = true,
+  StopAll = true
+}

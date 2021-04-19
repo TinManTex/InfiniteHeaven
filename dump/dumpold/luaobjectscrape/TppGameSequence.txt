@@ -1,0 +1,15 @@
+TppGameSequence={
+  GetGameTitleName = true,
+  GetInstance = true,
+  GetPatchVersion = true,
+  GetShortTargetArea = true,
+  GetShortTargetAreaList = true,
+  GetSpecialVersionName = true,
+  GetTargetArea = true,
+  GetTargetPlatform = true,
+  IsMaster = true,
+  IsMgoEnabled = true,
+  LoadResidentBlock = true,
+  RequestGameSetup = true,
+  SetSystemBlockSize = true
+}

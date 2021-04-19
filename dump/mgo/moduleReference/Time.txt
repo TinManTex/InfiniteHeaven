@@ -1,0 +1,4 @@
+Time={
+  GetFrameTime = true,
+  GetRawElapsedTimeSinceStartUp = true
+}

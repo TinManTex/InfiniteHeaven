@@ -1,0 +1,8 @@
+SoundAreaEdgeBody=<1>{
+  CancelParameter = <function 1>,
+  OverwriteParameter = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  _className = "SoundAreaEdgeBody",
+  <metatable> = <table 1>
+}

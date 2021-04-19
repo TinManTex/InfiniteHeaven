@@ -1,0 +1,8 @@
+WorldMarker={
+  CreateMarkerControl = "<function>",
+  DisableMarker = "<function>",
+  EnableMarker = "<function>",
+  SetAdditionalFlag = "<function>",
+  SetPosition = "<function>",
+  SetUserData = "<function>"
+}

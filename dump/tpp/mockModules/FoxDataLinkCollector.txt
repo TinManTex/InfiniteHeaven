@@ -1,0 +1,8 @@
+FoxDataLinkCollector={
+  GetData = "<function>",
+  GetDataBody = "<function>",
+  ShowWarningIfUse = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "FoxDataLinkCollector"
+}

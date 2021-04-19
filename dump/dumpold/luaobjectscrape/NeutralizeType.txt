@@ -1,0 +1,9 @@
+NeutralizeType={
+  DEAD = true,
+  DYING = true,
+  FAINT = true,
+  FULTON = true,
+  HOLDUP = true,
+  INVALID = true,
+  SLEEP = true
+}

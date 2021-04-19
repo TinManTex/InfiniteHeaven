@@ -1,0 +1,3 @@
+TppSky={
+  SetEnable = <function 1>
+}

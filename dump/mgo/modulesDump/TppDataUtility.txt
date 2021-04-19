@@ -1,0 +1,21 @@
+TppDataUtility={
+  CreateEffectFromGroupId = <function 1>,
+  CreateEffectFromId = <function 2>,
+  DestroyEffectFromGroupId = <function 3>,
+  DestroyEffectFromId = <function 4>,
+  DestroyImmediateEffectFromGroupId = <function 5>,
+  DestroyImmediateEffectFromId = <function 6>,
+  InvisibleMeshFromIdentifier = <function 7>,
+  IsReadyEffectFromGroupId = <function 8>,
+  IsReadyEffectFromId = <function 9>,
+  IsValidEffectFromGroupId = <function 10>,
+  IsValidEffectFromId = <function 11>,
+  SetEnableDataFromIdentifier = <function 12>,
+  SetForcedChangePositionEffectFromId = <function 13>,
+  SetVector4EffectFromGroupId = <function 14>,
+  SetVector4EffectFromId = <function 15>,
+  SetVisibleDataFromIdentifier = <function 16>,
+  SetVisibleEffectFromGroupId = <function 17>,
+  SetVisibleEffectFromId = <function 18>,
+  VisibleMeshFromIdentifier = <function 19>
+}

@@ -1,0 +1,12 @@
+TppRainFilterInterruptManager=<1>{
+  FadeInFxFallRainOutside = <function 1>,
+  FadeOutFxFallRainOutside = <function 2>,
+  GetInstance = <function 3>,
+  ResetStartEndFadeInDistanceDemo = <function 4>,
+  SetStartEndFadeInDistanceDemo = <function 5>,
+  SwitchEnableInterruptData = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  _className = "TppRainFilterInterruptManager",
+  <metatable> = <table 1>
+}

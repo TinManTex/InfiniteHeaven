@@ -1,0 +1,10 @@
+SsdBuildingMenuSystem={
+  CloseBuildingMenu = "<function>",
+  LockAllTab = "<function>",
+  LockTab = "<function>",
+  OpenBuildingMenu = "<function>",
+  SetStartCursor = "<function>",
+  UnlockAllTab = "<function>",
+  UnlockTab = "<function>",
+  UnsetStartCursor = "<function>"
+}

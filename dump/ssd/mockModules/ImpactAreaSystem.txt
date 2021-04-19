@@ -1,0 +1,5 @@
+ImpactAreaSystem={
+  SetOffsetHeight = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,17 @@
+StageBlock=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [22831020] = <function 1>,
+    [176962401] = <function 2>
+  },
+  [8473319] = <function 3>,
+  [23879534] = <function 4>,
+  [31063518] = <function 5>,
+  [123484601] = <function 6>,
+  [226149471] = <function 7>,
+  [227686467] = <function 8>,
+  [260017749] = <function 9>,
+  __index = <function 10>,
+  __newindex = <function 11>,
+  <metatable> = <table 1>
+}

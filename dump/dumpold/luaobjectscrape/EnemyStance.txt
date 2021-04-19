@@ -1,0 +1,4 @@
+EnemyStance={
+  STANCE_STAND = true,
+  STANCE_SUPINE = true
+}

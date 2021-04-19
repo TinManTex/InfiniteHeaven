@@ -1,0 +1,22 @@
+Nav={
+  AddAttributeTacticalActionInRange = <function 1>,
+  GetNavigationGraphNodePosition = <function 2>,
+  GetNavmeshBelongPosition = <function 3>,
+  GetNearestMeshPosition = <function 4>,
+  GetNearestWaypointPosition = <function 5>,
+  GetSegmentGraphNodePosition = <function 6>,
+  GetWorld = <function 7>,
+  IsEqualEdgeHandle = <function 8>,
+  IsPointOnNavmeshFromDirection = <function 9>,
+  IsPositionInBounder = <function 10>,
+  IsPositionOnNav = <function 11>,
+  IsPossibleRectilinearTravelFromDirection = <function 12>,
+  IsPossibleRectilinearTravelFromPosition = <function 13>,
+  RegisterRestDistanceParameter = <function 14>,
+  RegisterStrategyPriorityParameter = <function 15>,
+  RemoveAttributeTacticalActionInRange = <function 16>,
+  ReserveDataChunkIdMapper = <function 17>,
+  ResetAttributeTacticalActionInRange = <function 18>,
+  SetEnabledTacticalActionEdgeInRange = <function 19>,
+  SetEnabledTacticalActionInRange = <function 20>
+}

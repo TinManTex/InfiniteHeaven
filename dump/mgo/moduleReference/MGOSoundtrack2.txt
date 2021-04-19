@@ -1,0 +1,15 @@
+MGOSoundtrack2={
+  BGM_PHASE_ALERT = true,
+  BGM_PHASE_CAUTION = true,
+  BGM_PHASE_EVASION = true,
+  BGM_PHASE_SNEAK = true,
+  BGM_TYPE_LOSE_JINGLE = true,
+  BGM_TYPE_PHASE = true,
+  BGM_TYPE_START_JINGLE = true,
+  BGM_TYPE_TITLE = true,
+  BGM_TYPE_WIN_JINGLE = true,
+  Play = true,
+  SetConfig = true,
+  SetPhase = true,
+  Stop = true
+}

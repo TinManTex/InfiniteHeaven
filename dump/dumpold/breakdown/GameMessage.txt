@@ -1,0 +1,4 @@
+GameMessage={
+  numberKeys = { 234444819, -285212672, -285212671 },
+  stringKeys = { "__index", "__newindex" }
+}

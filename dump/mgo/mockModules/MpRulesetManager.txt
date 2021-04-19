@@ -1,0 +1,17 @@
+MpRulesetManager={
+  Config = "<function>",
+  GetActiveRuleset = "<function>",
+  GetRulesetScriptVarsValueById = "<function>",
+  HasBlockController = "<function>",
+  HasCommonBlock = "<function>",
+  HasDynamicBlock = "<function>",
+  HasMapBlock = "<function>",
+  IsCommonBlockLoaded = "<function>",
+  IsDynamicBlockLoaded = "<function>",
+  IsMapBlockLoaded = "<function>",
+  ReloadRuleset = "<function>",
+  SPECIAL_ROLE_NONE = 3,
+  SPECIAL_ROLE_OCELOT = 1,
+  SPECIAL_ROLE_QUIET = 2,
+  SPECIAL_ROLE_SNAKE = 0
+}

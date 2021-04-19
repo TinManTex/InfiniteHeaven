@@ -63,6 +63,7 @@ this.eng={--english
   ihext_not_installed_settings={"Not installed","Not installed"},
   menu_enableHelp="Enable help text.",
   menu_disableToggleMenuHold="Disable hold menu toggle",
+  menu_enableCursorOnMenuOpen="Enable mouse cursor on menu open",
   loadExternalModules="Reload IH modules",
   sys_increaseMemoryAlloc="Increase memory allocation",
   searchMenu="Search menu",
@@ -84,6 +85,8 @@ this.eng={--english
   showStyleEditor="UI Style Editor",
   systemMenuMission="IH system menu",
   requires_ihhook="Requires IHHook to function",
+  command_for_in_mission="Use this command in-mission",
+  objectListsMenu="Object lists menu",
 }--eng end
 
 this.help={}
@@ -118,11 +121,12 @@ See ReadMe or Features and Options for more info.
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
   menu_enableHelp="Shows help text for some options.",
   menu_disableToggleMenuHold="Disables the legacy hold <EVADE> to open menu, the two button menu combo <ZOOM_CHANGE> + <DASH> will still work.",
+  menu_enableCursorOnMenuOpen="Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2",
   sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
   showStyleEditor="Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.",
   systemMenuMission="See IH system menu while in ACC for full options.",
-  DEBUG_RandomizeAllIvars="WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
-  DEBUG_SetIvarsToNonDefault="WARNING: Sets all settings across all of IH to a non default value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
+  dEBUG_RandomizeAllIvars="WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
+  dEBUG_SetIvarsToNonDefault="WARNING: Sets all settings across all of IH to a non default value. Back up your save before using this. This is used as debug coverage to see if anything breaks.",
 }--help.eng
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

@@ -1,0 +1,12 @@
+UiObjControl={
+  Create = "<function>",
+  GetWindowNameForPreview = "<function>",
+  SendTrigger = "<function>",
+  SetVisible = "<function>",
+  Start = "<function>",
+  StartWithoutInitializing = "<function>",
+  Stop = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "UiObjControl"
+}

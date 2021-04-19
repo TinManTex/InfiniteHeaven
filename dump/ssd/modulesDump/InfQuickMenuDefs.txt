@@ -1,0 +1,38 @@
+InfQuickMenuDefs={
+  inDemo = {
+    [4] = {
+      Command = "InfMenuCommands.ToggleCamMode"
+    },
+    [64] = {
+      Command = "InfMenuCommands.ToggleFreeCam"
+    }
+  },
+  inHeliSpace = {
+    [64] = {
+      Command = "InfMenuCommands.ToggleFreeCam"
+    }
+  },
+  inMission = {
+    [2] = {
+      Command = "InfMenuCommandsTpp.QuietMoveToLastMarker"
+    },
+    [4] = {
+      Command = "InfMenuCommands.ToggleCamMode"
+    },
+    [8] = {
+      Command = "InfMenuCommands.WarpToUserMarker"
+    },
+    [32] = {
+      Command = "InfMenuCommands.HighSpeedCameraToggle",
+      immediate = true
+    },
+    [64] = {
+      Command = "InfMenuCommands.ToggleFreeCam"
+    },
+    [131072] = {
+      Command = "InfMenuCommands.DropCurrentEquip"
+    }
+  },
+  name = "InfQuickMenuDefs",
+  quickMenuHoldButton = 512
+}

@@ -1,0 +1,9 @@
+FadeFunction={
+  CallFadeIn = true,
+  CallFadeOut = true,
+  InitFadeSetting = true,
+  IsFadeProcessing = true,
+  ResetFadeColor = true,
+  SetFadeCallEnable = true,
+  SetFadeColor = true
+}

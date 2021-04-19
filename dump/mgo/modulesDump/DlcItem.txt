@@ -1,0 +1,17 @@
+DlcItem=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [40953936] = <function 1>,
+    [64349221] = <function 2>,
+    [86132090] = <function 3>,
+    [88577700] = <function 4>,
+    [104395606] = <function 5>,
+    [121369243] = <function 6>,
+    [139947703] = <function 7>,
+    [190079995] = <function 8>,
+    [200297935] = <function 9>
+  },
+  __index = <function 10>,
+  __newindex = <function 11>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,9 @@
+PassiveBlockController={
+  FindInstance = "<function>",
+  GetBlockGroup = "<function>",
+  LoadRequest = "<function>",
+  UnloadRequest = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "PassiveBlockController"
+}

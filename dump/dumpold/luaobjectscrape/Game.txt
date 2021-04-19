@@ -1,0 +1,3 @@
+Game={
+  DEBUG_AddScript = true
+}

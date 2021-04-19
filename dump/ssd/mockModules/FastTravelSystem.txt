@@ -1,0 +1,7 @@
+FastTravelSystem={
+  IsUnlocked = "<function>",
+  RegisterPoints = "<function>",
+  Unlock = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

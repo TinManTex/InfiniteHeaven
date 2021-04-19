@@ -1,0 +1,3 @@
+GeoTrapBody={
+  GetByName = true
+}

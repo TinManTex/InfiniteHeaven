@@ -1,0 +1,10 @@
+FobResult={
+  RESULT_ABORT = true,
+  RESULT_DEAD = true,
+  RESULT_ERROR = true,
+  RESULT_FULTON = true,
+  RESULT_GOAL = true,
+  RESULT_NONE = true,
+  RESULT_TIMEOUT = true,
+  RESULT_WORMHOLE = true
+}

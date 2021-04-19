@@ -1,0 +1,5 @@
+NpcFova={
+  INVALID_FOVA_VALUE = 32767,
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,6 @@
+TppColorCorrection={
+  RemoveLUT = true,
+  RemoveParameter = true,
+  SetLUT = true,
+  SetParameter = true
+}

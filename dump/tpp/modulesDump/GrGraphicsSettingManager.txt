@@ -1,0 +1,10 @@
+GrGraphicsSettingManager=<1>{
+  GetError = <function 1>,
+  GetStatus = <function 2>,
+  SetEasySetting = <function 3>,
+  SetPluginSettingSelection = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  _className = "GrGraphicsSettingManager",
+  <metatable> = <table 1>
+}

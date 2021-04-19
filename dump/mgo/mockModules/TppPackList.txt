@@ -1,0 +1,22 @@
+TppPackList={
+  AddAvatarEditPack = "<function>",
+  AddColoringPack = "<function>",
+  AddDefaultMissionAreaPack = "<function>",
+  AddFOBLayoutPack = "<function>",
+  AddLocationCommonMissionAreaPack = "<function>",
+  AddLocationCommonScriptPack = "<function>",
+  AddMissionPack = "<function>",
+  DeleteMissionPack = "<function>",
+  GetLocationNameFormMissionCode = "<function>",
+  GetMissionTypeAndMissionName = "<function>",
+  IsMissionPackLabel = "<function>",
+  IsMissionPackLabelList = "<function>",
+  MakeDefaultMissionAreaPackPath = "<function>",
+  MakeDefaultMissionPackList = "<function>",
+  MakeMissionPackList = "<function>",
+  SetDefaultMissionPackLabelName = "<function>",
+  SetMissionPackLabelName = "<function>",
+  SetUseDdEmblemFova = "<function>",
+  _scriptInstanceId = "<userdata: userdata: 00000000D52C3818>",
+  _scriptPath = "TppPackList"
+}

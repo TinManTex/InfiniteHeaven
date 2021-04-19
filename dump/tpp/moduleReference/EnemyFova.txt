@@ -1,0 +1,5 @@
+EnemyFova={
+  INVALID_FOVA_VALUE = true,
+  MAX_REALIZED_COUNT = true,
+  NOT_USED_FOVA_VALUE = true
+}

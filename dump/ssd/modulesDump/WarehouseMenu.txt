@@ -1,0 +1,16 @@
+WarehouseMenu=<1>{
+  [-285212672] = 4,
+  [16478617] = <function 1>,
+  [40583391] = <function 2>,
+  [56681849] = <function 3>,
+  [85320479] = <function 4>,
+  [129233097] = <function 5>,
+  [135967906] = <function 6>,
+  [170377812] = <function 7>,
+  [179439449] = <function 8>,
+  [202891514] = <function 9>,
+  [249643139] = <function 10>,
+  __index = <function 11>,
+  __newindex = <function 12>,
+  <metatable> = <table 1>
+}

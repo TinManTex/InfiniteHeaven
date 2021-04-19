@@ -1,0 +1,3 @@
+SsdReleaseAnnounceParameterTable={
+  ReadReleaseAnnounce = <function 1>
+}

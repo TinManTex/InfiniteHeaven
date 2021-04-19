@@ -1,0 +1,4 @@
+CrewActing={
+  __index = "<function>",
+  __newindex = "<function>"
+}

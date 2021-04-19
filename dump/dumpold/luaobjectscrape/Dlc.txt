@@ -1,0 +1,5 @@
+Dlc={
+  GetLastError = true,
+  IsCheckingDlc = true,
+  StartCheckingDlc = true
+}

@@ -1,0 +1,12 @@
+PlayerType={
+  AVATAR = true,
+  DD_FEMALE = true,
+  DD_MALE = true,
+  MGO_FEMALE = true,
+  MGO_KAZ = true,
+  MGO_MALE = true,
+  MGO_OCELOT = true,
+  MGO_QUIET = true,
+  MGO_SNAKE = true,
+  SNAKE = true
+}

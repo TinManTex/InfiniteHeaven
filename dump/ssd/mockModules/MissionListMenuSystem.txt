@@ -1,0 +1,5 @@
+MissionListMenuSystem={
+  SetCurrentMissionCode = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

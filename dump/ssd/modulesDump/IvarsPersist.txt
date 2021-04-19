@@ -1,0 +1,8 @@
+IvarsPersist={
+  PostAllModulesLoad = <function 1>,
+  SetupVars = <function 2>,
+  inf_event = false,
+  inf_levelSeed = 1,
+  mis_isGroundStart = false,
+  name = "IvarsPersist"
+}

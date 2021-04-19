@@ -1,0 +1,20 @@
+QuarkSystem=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [22178947] = <function 1>,
+    [85742553] = <function 2>,
+    [117136562] = <function 3>,
+    [179261104] = <function 4>,
+    [181324545] = <function 5>,
+    [261785202] = <function 6>
+  },
+  [16534143] = <function 7>,
+  [74310827] = <function 8>,
+  [95345143] = <function 9>,
+  [138905503] = <function 10>,
+  [148900290] = <function 11>,
+  [226569162] = <function 12>,
+  __index = <function 13>,
+  __newindex = <function 14>,
+  <metatable> = <table 1>
+}

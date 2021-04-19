@@ -1,0 +1,7 @@
+EnemyType={
+  TYPE_CHILD = true,
+  TYPE_DD = true,
+  TYPE_PF = true,
+  TYPE_SKULL = true,
+  TYPE_SOVIET = true
+}

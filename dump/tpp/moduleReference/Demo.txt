@@ -1,0 +1,4 @@
+Demo={
+  EnableTempCamera = true,
+  playerPartsType = true
+}

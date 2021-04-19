@@ -1,0 +1,9 @@
+NamePlateMenu=<1>{
+  [-285212672] = 4,
+  [14907550] = <function 1>,
+  [154152689] = <function 2>,
+  [199579586] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

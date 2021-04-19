@@ -1,0 +1,8 @@
+AvatarEdit=<1>{
+  [-285212672] = 4,
+  [155790750] = <function 1>,
+  [215665422] = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

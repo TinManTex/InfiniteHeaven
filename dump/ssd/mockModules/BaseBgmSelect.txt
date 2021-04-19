@@ -1,0 +1,4 @@
+BaseBgmSelect={
+  __index = "<function>",
+  __newindex = "<function>"
+}

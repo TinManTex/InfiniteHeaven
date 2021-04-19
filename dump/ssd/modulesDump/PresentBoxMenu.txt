@@ -1,0 +1,9 @@
+PresentBoxMenu=<1>{
+  [-285212672] = 4,
+  [7628054] = <function 1>,
+  [60959966] = <function 2>,
+  [227083115] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

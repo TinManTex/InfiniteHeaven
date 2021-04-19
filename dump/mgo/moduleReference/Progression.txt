@@ -1,0 +1,4 @@
+Progression={
+  Config = true,
+  DEBUG_GiveUnlock = true
+}

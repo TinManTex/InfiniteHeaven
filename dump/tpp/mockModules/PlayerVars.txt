@@ -1,0 +1,12 @@
+PlayerVars={
+  __index = "<function>",
+  __newindex = "<function>",
+  cameraZoomRate = 0,
+  leftStickXDirect = 0,
+  leftStickYDirect = 0,
+  rightStickX = 0,
+  rightStickXDirect = 0,
+  rightStickY = 0,
+  rightStickYDirect = 0,
+  scannedButtonsDirect = 0
+}

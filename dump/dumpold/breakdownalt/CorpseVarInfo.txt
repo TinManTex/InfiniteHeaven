@@ -1,0 +1,11 @@
+CorpseVarInfo=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [502479] = <function 1>,
+    [159295783] = <function 2>,
+    [263795653] = <function 3>
+  },
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

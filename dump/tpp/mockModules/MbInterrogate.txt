@@ -1,0 +1,19 @@
+MbInterrogate={
+  ARMOR = 2048,
+  BODY = 512,
+  CAMERA = 8,
+  DECOY = 16,
+  FLASH = 4096,
+  FULUTON = 1,
+  GAS = 2,
+  MACHINEGUN = 256,
+  MET = 4,
+  MINE = 32,
+  MISSILE = 16384,
+  NIGHT = 64,
+  SHIELD = 1024,
+  SHOTGUN = 128,
+  SNIPER = 8192,
+  __index = "<function>",
+  __newindex = "<function>"
+}

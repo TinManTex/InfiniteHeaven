@@ -1,0 +1,10 @@
+SsdRewardCbox=<1>{
+  [-285212672] = 4,
+  [8331083] = <function 1>,
+  [27971659] = <function 2>,
+  [195742608] = <function 3>,
+  [206675967] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

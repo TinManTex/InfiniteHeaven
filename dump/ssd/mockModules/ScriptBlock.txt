@@ -1,0 +1,17 @@
+ScriptBlock={
+  Activate = "<function>",
+  Deactivate = "<function>",
+  GetCurrentScriptBlockId = "<function>",
+  GetScriptBlockId = "<function>",
+  GetScriptBlockState = "<function>",
+  Load = "<function>",
+  SCRIPT_BLOCK_ID_INVALID = 4294967295,
+  SCRIPT_BLOCK_STATE_ACTIVE = 3,
+  SCRIPT_BLOCK_STATE_EMPTY = 0,
+  SCRIPT_BLOCK_STATE_INACTIVE = 2,
+  SCRIPT_BLOCK_STATE_PROCESSING = 1,
+  TRANSITION_ACTIVATED = 1,
+  UpdateScriptsInScriptBlocks = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

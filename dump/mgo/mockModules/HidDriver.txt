@@ -1,0 +1,12 @@
+HidDriver={
+  Clear = "<function>",
+  Frame = "<function>",
+  IRelease = "<function>",
+  Input = "<function>",
+  Override = "<function>",
+  Release = "<function>",
+  ResetDefaultPadSensibility = "<function>",
+  SetPadDataCacheCapacity = "<function>",
+  SetPadSensibility = "<function>",
+  Sleep = "<function>"
+}

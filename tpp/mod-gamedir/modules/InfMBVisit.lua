@@ -26,7 +26,7 @@ local revengeDecayCount=0
 this.registerIvars={
   "mbMoraleBoosts",
   "revengeDecayOnLongMbVisit",
-  "mbIncreaseStaffConversation",
+  "mbIncreaseStaffSaluteReactions",
 }
 
 this.mbMoraleBoosts={
@@ -41,8 +41,8 @@ this.revengeDecayOnLongMbVisit={
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckMbAll,
 }
---DEBUGNOW addlang
-this.mbIncreaseStaffConversation={
+
+this.mbIncreaseStaffSaluteReactions={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",

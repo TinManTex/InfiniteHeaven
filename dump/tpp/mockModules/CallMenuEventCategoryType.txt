@@ -1,0 +1,6 @@
+CallMenuEventCategoryType={
+  None = 1,
+  RescueBoy = 2,
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,19 @@
+TppVarInit={
+  ClearIsContinueFromTitle = "<function>",
+  InitializeAllPlatformForNewGame = "<function>",
+  InitializeForContinue = "<function>",
+  InitializeForNewMission = "<function>",
+  InitializeOnNewGame = "<function>",
+  InitializeOnNewGameAtFirstTime = "<function>",
+  InitializeOnStartTitle = "<function>",
+  InitializeOnStatingMainFrame = "<function>",
+  SetHorseObtainedAndCanSortie = "<function>",
+  SetInitPlayerItems = "<function>",
+  SetInitPlayerWeapons = "<function>",
+  SetVarsTitleCypr = "<function>",
+  SetVarsTitleHeliSpace = "<function>",
+  StartInitMission = "<function>",
+  StartTitle = "<function>",
+  _scriptInstanceId = "<userdata: userdata: 00000000D52C46E8>",
+  _scriptPath = "TppVarInit"
+}

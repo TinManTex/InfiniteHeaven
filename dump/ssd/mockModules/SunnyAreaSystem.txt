@@ -1,0 +1,5 @@
+SunnyAreaSystem={
+  UnlockSunnyArea = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -1,0 +1,9 @@
+foxde=<1>{
+  [-285212672] = 0,
+  [-285212671] = {},
+  Assert = <function 1>,
+  Print = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,9 @@
+LangDaemon=<1>{
+  GetInstance = <function 1>,
+  GetManager = <function 2>,
+  __call = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "LangDaemon",
+  <metatable> = <table 1>
+}

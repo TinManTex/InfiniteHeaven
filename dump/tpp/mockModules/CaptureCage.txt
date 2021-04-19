@@ -1,0 +1,4 @@
+CaptureCage={
+  GetCaptureAnimalList = "<function>",
+  RegisterCaptureAnimal = "<function>"
+}

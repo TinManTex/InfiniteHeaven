@@ -1,0 +1,5 @@
+GearMaskLevel={
+  ALLON_LV1 = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

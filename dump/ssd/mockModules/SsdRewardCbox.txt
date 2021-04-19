@@ -1,0 +1,7 @@
+SsdRewardCbox={
+  ClearAll = "<function>",
+  Drop = "<function>",
+  ObtainAll = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

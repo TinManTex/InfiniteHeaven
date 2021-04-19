@@ -1,0 +1,19 @@
+PlayerType=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [2228459] = <function 1>,
+    [8937764] = <function 2>,
+    [19344802] = <function 3>,
+    [35811303] = <function 4>,
+    [92982052] = <function 5>,
+    [97435833] = <function 6>,
+    [126622917] = <function 7>,
+    [241426427] = <function 8>,
+    [252852181] = <function 9>,
+    [254620146] = <function 10>,
+    [258953517] = <function 11>
+  },
+  __index = <function 12>,
+  __newindex = <function 13>,
+  <metatable> = <table 1>
+}

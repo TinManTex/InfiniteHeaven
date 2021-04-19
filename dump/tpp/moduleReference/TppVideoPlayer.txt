@@ -1,0 +1,4 @@
+TppVideoPlayer={
+  LoadVideo = true,
+  PlayVideo = true
+}

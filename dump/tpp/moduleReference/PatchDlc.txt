@@ -1,0 +1,12 @@
+PatchDlc={
+  AllocateMemoryForRequest = true,
+  DoesExistPatchDlc = true,
+  GetRequestDownloadingResult = true,
+  IsCheckingPatchDlc = true,
+  IsRequestingDownloadingPatchDlc = true,
+  PATCH_DLC_TYPE_MGO_DATA = true,
+  PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA = true,
+  REQUEST_DOWNLOADING_RESULT_OK = true,
+  RequestDownloadingPatchDlc = true,
+  StartCheckingPatchDlc = true
+}

@@ -1,0 +1,10 @@
+Vector3={
+  Add = "<function>",
+  Cross = "<function>",
+  Dot = "<function>",
+  Normalize = "<function>",
+  Scale = "<function>",
+  Sub = "<function>",
+  ToString = "<function>",
+  __call = "<function>"
+}

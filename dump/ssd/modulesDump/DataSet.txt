@@ -1,0 +1,12 @@
+DataSet=<1>{
+  GetAllDataList = <function 1>,
+  GetBucket = <function 2>,
+  GetData = <function 3>,
+  GetDataList = <function 4>,
+  GetDataSetFile = <function 5>,
+  GetRootTransformData = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  _className = "DataSet",
+  <metatable> = <table 1>
+}

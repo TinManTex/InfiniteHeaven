@@ -1,0 +1,12 @@
+SoundSourceBody=<1>{
+  IsPlaying = <function 1>,
+  PostEvent = <function 2>,
+  ResetRTPC = <function 3>,
+  SetRTPC = <function 4>,
+  SetSwitch = <function 5>,
+  StopEvent = <function 6>,
+  __index = <function 7>,
+  __newindex = <function 8>,
+  _className = "SoundSourceBody",
+  <metatable> = <table 1>
+}

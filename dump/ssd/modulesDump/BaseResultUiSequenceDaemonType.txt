@@ -1,0 +1,9 @@
+BaseResultUiSequenceDaemonType=<1>{
+  [-285212672] = 4,
+  [178876358] = <function 1>,
+  [212782285] = <function 2>,
+  [255072817] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

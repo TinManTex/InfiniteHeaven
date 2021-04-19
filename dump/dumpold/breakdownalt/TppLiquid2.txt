@@ -1,0 +1,11 @@
+TppLiquid2=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [83453806] = <function 1>,
+    [184104264] = <function 2>,
+    [255491480] = <function 3>
+  },
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

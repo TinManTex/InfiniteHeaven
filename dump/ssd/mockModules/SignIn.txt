@@ -1,0 +1,19 @@
+SignIn={
+  ClearPresetUserId = "<function>",
+  GetPresetUserId = "<function>",
+  GetSignInState = "<function>",
+  GetStorageSelectionState = "<function>",
+  IsOnlineSignedIn = "<function>",
+  IsSignedIn = "<function>",
+  IsStartupProcessCompleted = "<function>",
+  IsStorageSelected = "<function>",
+  PresetUserIdExists = "<function>",
+  SIGN_IN_STATE_BUSY = 1,
+  STORAGE_SELECTION_STATE_BUSY = 1,
+  SetStartupProcessCompleted = "<function>",
+  StartSelectGameSaveStorage = "<function>",
+  StartSignIn = "<function>",
+  StartSignInWithUserId = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

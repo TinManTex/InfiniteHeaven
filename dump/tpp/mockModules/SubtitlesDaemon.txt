@@ -1,0 +1,9 @@
+SubtitlesDaemon={
+  GetDefaultVoiceLanguage = "<function>",
+  GetInstance = "<function>",
+  SetDefaultVoiceLanguage = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "SubtitlesDaemon"
+}

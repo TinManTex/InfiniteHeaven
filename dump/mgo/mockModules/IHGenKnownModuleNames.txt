@@ -1,0 +1,12 @@
+IHGenKnownModuleNames={
+  BuildIHExternalList = "<function>",
+  BuildIHModelInfoList = "<function>",
+  PostAllModulesLoad = "<function>",
+  exeInternal = "<table>",
+  ihExternal = "<table>",
+  ihInternal = "<table>",
+  luaInternal = "<table>",
+  mgoInternal = "<table>",
+  name = "IHGenKnownModuleNamesMgo",
+  tppInternal = "<table>"
+}

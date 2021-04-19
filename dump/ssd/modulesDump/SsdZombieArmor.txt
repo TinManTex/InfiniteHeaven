@@ -1,0 +1,3 @@
+SsdZombieArmor={
+  ReloadParameterTables = <function 1>
+}

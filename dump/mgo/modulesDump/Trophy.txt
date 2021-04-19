@@ -1,0 +1,5 @@
+Trophy={
+  TrophyDiskCheck = <function 1>,
+  TrophyInstall = <function 2>,
+  TrophyUnlock = <function 3>
+}

@@ -1,0 +1,23 @@
+WeatherManager={
+  CancelRequestWeather = true,
+  ClearTag = true,
+  InitializeWeather = true,
+  IsNight = true,
+  NIGHT_END_CLOCK = true,
+  NIGHT_START_CLOCK = true,
+  PauseClock = true,
+  PauseNewWeatherChangeRandom = true,
+  REQUEST_PRIORITY_EXTRA = true,
+  REQUEST_PRIORITY_FORCE = true,
+  REQUEST_PRIORITY_NORMAL = true,
+  RequestTag = true,
+  RequestWeather = true,
+  RestoreFromSVars = true,
+  SetCurrentClock = true,
+  SetDefaultReflectionTexture = true,
+  SetExtraWeatherInterval = true,
+  SetExtraWeatherProbabilities = true,
+  SetNewWeatherProbabilities = true,
+  SetWeatherDurations = true,
+  StoreToSVars = true
+}

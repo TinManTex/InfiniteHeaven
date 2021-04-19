@@ -1,0 +1,13 @@
+TppBuddy2BlockController={
+  CallBuddy = true,
+  CreateBlock = true,
+  DeleteBlock = true,
+  DeleteBuddy = true,
+  DidObtainBuddyType = true,
+  GetActiveBuddyType = true,
+  IsBlockActive = true,
+  Load = true,
+  ReserveCallBuddy = true,
+  SetObtainedBuddyType = true,
+  Unload = true
+}

@@ -1,0 +1,12 @@
+HeadshotMessageFlag=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [6387808] = <function 1>,
+    [64798125] = <function 2>,
+    [188788375] = <function 3>,
+    [228683326] = <function 4>
+  },
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

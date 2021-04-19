@@ -1,0 +1,5 @@
+SoundDaemon={
+  Create = "<function>",
+  MakeLeftRightAnimEventPair = "<function>",
+  RegisterAnimEvent = "<function>"
+}

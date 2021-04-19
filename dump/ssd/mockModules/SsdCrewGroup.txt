@@ -1,0 +1,5 @@
+SsdCrewGroup={
+  GROUP_FARM = 5,
+  __index = "<function>",
+  __newindex = "<function>"
+}

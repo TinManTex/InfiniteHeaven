@@ -1,0 +1,18 @@
+TppMarker2System=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [5904019] = <function 1>,
+  [10720949] = <function 2>,
+  [29403697] = <function 3>,
+  [36820271] = <function 4>,
+  [50065689] = <function 5>,
+  [81885684] = <function 6>,
+  [106823845] = <function 7>,
+  [124778581] = <function 8>,
+  [141966041] = <function 9>,
+  [157389471] = <function 10>,
+  [246800457] = <function 11>,
+  __index = <function 12>,
+  __newindex = <function 13>,
+  <metatable> = <table 1>
+}

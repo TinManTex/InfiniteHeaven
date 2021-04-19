@@ -1,0 +1,3 @@
+TppBullet={
+  ReloadRecoilMaterials = <function 1>
+}

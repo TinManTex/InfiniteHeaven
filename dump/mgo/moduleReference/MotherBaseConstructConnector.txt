@@ -1,0 +1,4 @@
+MotherBaseConstructConnector={
+  GetContainerResourceId = true,
+  RefreshGimmicks = true
+}

@@ -1,0 +1,3 @@
+ScriptUpdater={
+  Create = true
+}

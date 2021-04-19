@@ -1,0 +1,4 @@
+FxSystemConfig={
+  SetLimitInstanceMemoryDefaultSize = true,
+  SetLimitInstanceMemorySize = true
+}

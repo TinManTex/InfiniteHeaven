@@ -1,0 +1,7 @@
+EntityClassDictionary={
+  GetCategoryList = "<function>",
+  GetClassNameList = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "EntityClassDictionary"
+}

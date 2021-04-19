@@ -46,7 +46,6 @@ this.disableHeliAttack={
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local enable=self:Is(0)
     local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
@@ -77,7 +76,6 @@ this.enableGetOutHeli={--WIP UNUSED TEST force every frame via update to see if 
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local enable=setting==1
     local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
@@ -92,7 +90,6 @@ this.setInvincibleHeli={
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local enable=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
     if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
@@ -107,7 +104,6 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
   default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
   range={min=0,max=15},
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=setting})
@@ -121,7 +117,6 @@ this.disablePullOutHeli={
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
@@ -142,7 +137,6 @@ this.setLandingZoneWaitHeightTop={
   default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
   range={min=5,max=50,increment=5},
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=setting})
@@ -156,7 +150,6 @@ this.disableDescentToLandingZone={
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
@@ -177,7 +170,6 @@ this.setSearchLightForcedHeli={
   settings={"DEFAULT","OFF","ON"},
   settingNames="set_default_off_on",
   OnChange=function(self,setting)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
@@ -288,7 +280,7 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.Init()
-  if TppMission.IsFOBMission(vars.missionCode) then
+  if InfMain.IsOnlineMission(vars.missionCode) then
     return
   end
 

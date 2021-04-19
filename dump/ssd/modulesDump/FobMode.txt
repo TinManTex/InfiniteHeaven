@@ -1,0 +1,10 @@
+FobMode=<1>{
+  [-285212672] = 4,
+  [27806863] = <function 1>,
+  [175005757] = <function 2>,
+  [236229889] = <function 3>,
+  [249317613] = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,6 @@
+IgnoreDamageActionFlag={
+  BULLET = true,
+  FLASH_LIGHT = true,
+  NONE = true,
+  PUSH = true
+}

@@ -1,0 +1,3 @@
+AvatarEdit={
+  AVATAR_IN_HELI = true
+}

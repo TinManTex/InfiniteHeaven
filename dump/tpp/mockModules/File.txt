@@ -1,0 +1,10 @@
+File={
+  GetBlockPackagePath = "<function>",
+  GetFileListTable = "<function>",
+  GetReferenceCount = "<function>",
+  ReloadRequest = "<function>",
+  ReloadRequestAll = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "File"
+}

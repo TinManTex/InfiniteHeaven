@@ -1,0 +1,9 @@
+NavWorldDaemon=<1>{
+  AddScene = <function 1>,
+  AddWorld = <function 2>,
+  __call = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "NavWorldDaemon",
+  <metatable> = <table 1>
+}

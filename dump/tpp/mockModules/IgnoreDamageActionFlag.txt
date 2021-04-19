@@ -1,0 +1,8 @@
+IgnoreDamageActionFlag={
+  BULLET = 1,
+  FLASH_LIGHT = 256,
+  NONE = 0,
+  PUSH = 128,
+  __index = "<function>",
+  __newindex = "<function>"
+}

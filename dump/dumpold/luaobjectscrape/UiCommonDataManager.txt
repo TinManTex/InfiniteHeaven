@@ -1,0 +1,4 @@
+UiCommonDataManager={
+  Create = true,
+  GetInstance = true
+}

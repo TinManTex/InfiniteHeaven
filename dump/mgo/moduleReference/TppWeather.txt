@@ -1,0 +1,12 @@
+TppWeather={
+  OnEndMissionPrepareFunction = true,
+  OnMissionCanStart = true,
+  RestoreFromSVars = true,
+  RestoreMissionStartWeather = true,
+  SaveMissionStartWeather = true,
+  SetDefaultWeatherDurations = true,
+  SetDefaultWeatherProbabilities = true,
+  SetMissionStartWeather = true,
+  StoreToSVars = true,
+  lua = true
+}

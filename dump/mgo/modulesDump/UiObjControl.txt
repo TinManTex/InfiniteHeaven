@@ -1,0 +1,13 @@
+UiObjControl=<1>{
+  Create = <function 1>,
+  GetWindowNameForPreview = <function 2>,
+  SendTrigger = <function 3>,
+  SetVisible = <function 4>,
+  Start = <function 5>,
+  StartWithoutInitializing = <function 6>,
+  Stop = <function 7>,
+  __index = <function 8>,
+  __newindex = <function 9>,
+  _className = "UiObjControl",
+  <metatable> = <table 1>
+}

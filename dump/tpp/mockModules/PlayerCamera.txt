@@ -1,0 +1,6 @@
+PlayerCamera={
+  Around = 5,
+  Vehicle = 3,
+  __index = "<function>",
+  __newindex = "<function>"
+}

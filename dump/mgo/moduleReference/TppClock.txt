@@ -1,0 +1,14 @@
+TppClock={
+  DAY_TO_NIGHT = true,
+  NIGHT_TO_DAY = true,
+  OnAllocate = true,
+  RegisterClockMessage = true,
+  RestoreMissionStartClock = true,
+  SaveMissionStartClock = true,
+  SetTime = true,
+  SetTimeFromHelicopterSpace = true,
+  Start = true,
+  Stop = true,
+  UnregisterClockMessage = true,
+  lua = true
+}

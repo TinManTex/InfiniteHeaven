@@ -1,0 +1,9 @@
+EmotionActionType=<1>{
+  [-285212672] = 4,
+  [11558724] = <function 1>,
+  [180552859] = <function 2>,
+  [234820992] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,10 @@
+PlayerCamoType={
+  AVATAR_EDIT_MAN = 27,
+  AVATAR_EDIT_WOMAN = 28,
+  HOSPITAL = 23,
+  NONE = 29,
+  OLIVEDRAB = 0,
+  TIGERSTRIPE = 3,
+  __index = "<function>",
+  __newindex = "<function>"
+}

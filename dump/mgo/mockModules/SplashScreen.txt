@@ -1,0 +1,10 @@
+SplashScreen={
+  Create = "<function>",
+  Delete = "<function>",
+  GetSplashScreenWithName = "<function>",
+  STATE_DELETE = 5,
+  SetStateCallback = "<function>",
+  Show = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

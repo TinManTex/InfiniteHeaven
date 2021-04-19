@@ -1,0 +1,4 @@
+TppHeliPhotoFova={
+  ClearGroupSetting = true,
+  SetGroupUnit = true
+}

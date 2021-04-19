@@ -1,0 +1,3 @@
+AvatarPreloadTextureDaemon={
+  PreloadRequestForLocalPlayer = true
+}

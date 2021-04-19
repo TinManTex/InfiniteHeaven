@@ -1,0 +1,4 @@
+MgoDebug={
+  Dump = "<function>",
+  DumpStack = "<function>"
+}

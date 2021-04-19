@@ -1,0 +1,8 @@
+TppVideoPlayer={
+  AllocateMemoryPool = "<function>",
+  IsVideoLoadDone = "<function>",
+  IsVideoStopped = "<function>",
+  LoadVideo = "<function>",
+  PlayVideo = "<function>",
+  StopVideo = "<function>"
+}

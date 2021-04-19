@@ -1,0 +1,8 @@
+CoopCommunicationEditMenu=<1>{
+  [-285212672] = 4,
+  [47460597] = <function 1>,
+  [111315428] = <function 2>,
+  __index = <function 3>,
+  __newindex = <function 4>,
+  <metatable> = <table 1>
+}

@@ -1,0 +1,10 @@
+Util=<1>{
+  [-285212672] = 4,
+  [-285212671] = {},
+  [214299721] = <function 1>,
+  [235108139] = <function 2>,
+  [257340098] = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  <metatable> = <table 1>
+}

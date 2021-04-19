@@ -2,6 +2,12 @@
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050.fpkd
 --f30050_sequence.lua
+--DEBUGNOW
+if false then 
+  local fileName="f30050_sequence_dev.lua"
+  return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.dev,fileName)end)
+end
+
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table

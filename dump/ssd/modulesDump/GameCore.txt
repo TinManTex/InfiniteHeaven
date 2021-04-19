@@ -1,0 +1,12 @@
+GameCore={
+  DebugDumpRecord = <function 1>,
+  EraseRecord = <function 2>,
+  ExportGameObjectPerf = <function 3>,
+  ExportGameObjectPerfGraph = <function 4>,
+  GetRecordState = <function 5>,
+  PlayRecord = <function 6>,
+  SetGameObjectPerfEnabled = <function 7>,
+  StartRecording = <function 8>,
+  StopPlayingRecord = <function 9>,
+  StopRecording = <function 10>
+}

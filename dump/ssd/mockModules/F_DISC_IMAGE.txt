@@ -1,0 +1,4 @@
+F_DISC_IMAGE={
+  __index = "<function>",
+  __newindex = "<function>"
+}

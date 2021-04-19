@@ -1,0 +1,13 @@
+RewardPopupSystem=<1>{
+  [-285212672] = 4,
+  [19137950] = <function 1>,
+  [42470899] = <function 2>,
+  [78895011] = <function 3>,
+  [127512530] = <function 4>,
+  [134720995] = <function 5>,
+  [150591948] = <function 6>,
+  [165820643] = <function 7>,
+  __index = <function 8>,
+  __newindex = <function 9>,
+  <metatable> = <table 1>
+}

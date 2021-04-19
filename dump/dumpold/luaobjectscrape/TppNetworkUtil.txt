@@ -1,0 +1,22 @@
+TppNetworkUtil={
+  CloseSession = true,
+  DEBUG_DumpServerParameter = true,
+  EnableMultiPlaySession = true,
+  GetClientFobGrade = true,
+  GetEventFobSkullsParam = true,
+  GetFobDeployDamageParams = true,
+  GetFobEventTaskParam = true,
+  GetFobServerParameter = true,
+  GetFobServerParameterByName = true,
+  GetOnlineChallengeTaskParam = true,
+  GetOnlineChallengeTaskVersion = true,
+  GetSessionMemberCount = true,
+  IsEnableFobDeployDamage = true,
+  IsHost = true,
+  IsRequestFobServerParameterBusy = true,
+  IsSessionConnect = true,
+  RequestGetFobServerParameter = true,
+  SessionDisconnectPreparingMembers = true,
+  SessionEnableAccept = true,
+  SetFobResultRankingParam = true
+}

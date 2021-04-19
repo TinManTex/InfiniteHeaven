@@ -113,11 +113,11 @@ function this.SetUpCompositSlot()
     TppScriptVars.SetUpSlotAsCompositSlot(TppDefine.SAVE_SLOT.SAVING,this.COMPOSIT_SLOT_SIZE)
   end
 end
-function this.SaveGameData(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoiunt)
+function this.SaveGameData(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
   if reserveNextMissionStartSave then
-    this.ReserveNextMissionStartSave(this.GetGameSaveFileName(),isCheckPoiunt)
+    this.ReserveNextMissionStartSave(this.GetGameSaveFileName(),isCheckPoint)
   else
-    local saveInfo=this.GetSaveGameDataQueue(missionCode,needIcon,doSaveFunc,isCheckPoiunt)
+    local saveInfo=this.GetSaveGameDataQueue(missionCode,needIcon,doSaveFunc,isCheckPoint)
     this.EnqueueSave(saveInfo)
   end
   this.CheckAndSavePersonalData(reserveNextMissionStartSave)
@@ -224,8 +224,8 @@ function this.DoReservedSaveOnMissionStart()
       return
     end
   end
-  for n,a in pairs(this.missionStartSaveFilePool)do
-    local ReserveSaveFunc=this.DO_RESERVE_SAVE_FUNCTION[n]
+  for saveFileName,a in pairs(this.missionStartSaveFilePool)do
+    local ReserveSaveFunc=this.DO_RESERVE_SAVE_FUNCTION[saveFileName]
     ReserveSaveFunc(nil,nil,nil,nil,a.isCheckPoint)
   end
   this.missionStartSaveFilePool=nil

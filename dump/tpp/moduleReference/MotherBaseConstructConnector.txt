@@ -1,0 +1,9 @@
+MotherBaseConstructConnector={
+  ClearVariableGimmickList = true,
+  GetContainerResourceId = true,
+  GetInitialGimmickCount = true,
+  RefreshGimmicks = true,
+  SetContainerGimmickList = true,
+  SetSahelanLodVisibility = true,
+  SetVariableGimmickList = true
+}

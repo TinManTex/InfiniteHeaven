@@ -1,0 +1,6 @@
+AmmoStockIndex={
+  ITEM = 14,
+  ITEM_END = 22,
+  __index = "<function>",
+  __newindex = "<function>"
+}

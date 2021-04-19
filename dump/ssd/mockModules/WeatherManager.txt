@@ -1,0 +1,23 @@
+WeatherManager={
+  CancelRequestWeather = "<function>",
+  ClearTag = "<function>",
+  InitializeWeather = "<function>",
+  IsNight = "<function>",
+  NIGHT_END_CLOCK = 21873,
+  NIGHT_START_CLOCK = 65653,
+  PauseNewWeatherChangeRandom = "<function>",
+  REQUEST_PRIORITY_EXTRA = 2,
+  REQUEST_PRIORITY_FORCE = 4,
+  REQUEST_PRIORITY_NORMAL = 0,
+  RequestTag = "<function>",
+  RequestWeather = "<function>",
+  RestoreFromSVars = "<function>",
+  SetDefaultReflectionTexture = "<function>",
+  SetExtraWeatherInterval = "<function>",
+  SetExtraWeatherProbabilities = "<function>",
+  SetNewWeatherProbabilities = "<function>",
+  SetWeatherDurations = "<function>",
+  StoreToSVars = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

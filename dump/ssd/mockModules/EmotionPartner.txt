@@ -1,0 +1,4 @@
+EmotionPartner={
+  SetMotion = "<function>",
+  SetVisiblity = "<function>"
+}

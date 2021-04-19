@@ -1,0 +1,10 @@
+UiManager=<1>{
+  DumpEntryUig = <function 1>,
+  ResetScrollDebugPrint = <function 2>,
+  ScrollDownDebugPrint = <function 3>,
+  ScrollUpDebugPrint = <function 4>,
+  __index = <function 5>,
+  __newindex = <function 6>,
+  _className = "UiManager",
+  <metatable> = <table 1>
+}

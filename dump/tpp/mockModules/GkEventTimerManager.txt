@@ -1,0 +1,11 @@
+GkEventTimerManager={
+  IsTimerActive = "<function>",
+  SetPaused = "<function>",
+  Start = "<function>",
+  StartRaw = "<function>",
+  Stop = "<function>",
+  StopAll = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GkEventTimerManager"
+}

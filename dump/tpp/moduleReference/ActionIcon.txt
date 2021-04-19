@@ -1,0 +1,11 @@
+ActionIcon={
+  ACTION = true,
+  AI_POD = true,
+  FULTON = true,
+  INTEL = true,
+  INTEL_NG = true,
+  RIDE_MGM = true,
+  RIDE_MILITALY_VEHICLE = true,
+  RIDE_VEHICLE = true,
+  TRAINING = true
+}

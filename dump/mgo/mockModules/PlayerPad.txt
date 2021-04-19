@@ -1,0 +1,7 @@
+PlayerPad={
+  MB_DEVICE = 256,
+  STANCE = 2,
+  STICK_R = 2,
+  __index = "<function>",
+  __newindex = "<function>"
+}

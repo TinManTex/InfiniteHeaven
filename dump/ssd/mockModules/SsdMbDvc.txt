@@ -1,0 +1,9 @@
+SsdMbDvc={
+  Close = "<function>",
+  DisableTutorialMap = "<function>",
+  EnableTutorialMap = "<function>",
+  IsOpen = "<function>",
+  Open = "<function>",
+  ResetOxygenConvertCount = "<function>",
+  SetShowOxygenUiThreshold = "<function>"
+}

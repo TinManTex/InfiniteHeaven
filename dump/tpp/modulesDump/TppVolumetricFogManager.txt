@@ -1,0 +1,9 @@
+TppVolumetricFogManager=<1>{
+  IsEnableAreaFog = <function 1>,
+  SetEnableAreaFog = <function 2>,
+  SetEnableFog = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "TppVolumetricFogManager",
+  <metatable> = <table 1>
+}

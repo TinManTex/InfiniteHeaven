@@ -1,0 +1,17 @@
+SoundCoreDaemon={
+  Create = <function 1>,
+  ReloadLanguageAsset = <function 2>,
+  ResetGlobalAttenuationRate = <function 3>,
+  ResetGlobalRTPC = <function 4>,
+  ResetGlobalSonicSpeed = <function 5>,
+  ResetState = <function 6>,
+  SetAssetPath = <function 7>,
+  SetDopplerRTPCName = <function 8>,
+  SetGlobalAttenuationRate = <function 9>,
+  SetGlobalRTPC = <function 10>,
+  SetGlobalSonicSpeed = <function 11>,
+  SetInterferenceRTPCName = <function 12>,
+  SetRearParameter = <function 13>,
+  SetState = <function 14>,
+  WaitAsync = <function 15>
+}

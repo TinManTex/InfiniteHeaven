@@ -1,0 +1,11 @@
+TppDemo={
+  IsNotPlayable = true,
+  IsPlayedMBEventDemo = true,
+  OnAllocate = true,
+  OnDemoSkip = true,
+  ReserveEnableInGameFlag = true,
+  ReserveInTheBackground = true,
+  SetNextMBDemo = true,
+  Update = true,
+  lua = true
+}

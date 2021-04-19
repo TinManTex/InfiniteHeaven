@@ -1,0 +1,12 @@
+StateFlag=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [6387808] = <function 1>,
+    [86168592] = <function 2>,
+    [136710049] = <function 3>,
+    [149540610] = <function 4>
+  },
+  __index = <function 5>,
+  __newindex = <function 6>,
+  <metatable> = <table 1>
+}

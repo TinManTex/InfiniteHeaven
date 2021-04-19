@@ -990,7 +990,7 @@ function this.SetMessageFunction(missionTable)--RENAME:
       if module.OnMessage then
         InfCore.LogFlow("SetMessageFunction:"..module.name)
         onMessageTableSize=onMessageTableSize+1
-        onMessageTable[onMessageTableSize]=module.OnMessage
+        onMessageTable[onMessageTableSize]=module.OnMessage--tex InfModules
       end
     end
   end

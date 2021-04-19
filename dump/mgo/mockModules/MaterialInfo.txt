@@ -1,0 +1,9 @@
+MaterialInfo={
+  SetFrictionCoefficient = "<function>",
+  SetName = "<function>",
+  SetRestitutionCoefficient = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "MaterialInfo"
+}

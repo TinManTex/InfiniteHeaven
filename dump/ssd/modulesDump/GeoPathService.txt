@@ -1,0 +1,14 @@
+GeoPathService=<1>{
+  BindEdgeTag = <function 1>,
+  BindNodeTag = <function 2>,
+  EnablePath = <function 3>,
+  EnablePathWithNumber = <function 4>,
+  InvalidPath = <function 5>,
+  RegisterEdgeTag = <function 6>,
+  RegisterNodeTag = <function 7>,
+  RegisterPathTag = <function 8>,
+  __index = <function 9>,
+  __newindex = <function 10>,
+  _className = "GeoPathService",
+  <metatable> = <table 1>
+}

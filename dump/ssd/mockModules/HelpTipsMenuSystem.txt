@@ -1,0 +1,6 @@
+HelpTipsMenuSystem={
+  IsPageOpened = "<function>",
+  SetPageOpenedNoAnnounce = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

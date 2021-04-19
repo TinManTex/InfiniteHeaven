@@ -1,0 +1,6 @@
+GrPluginOverlayModel={
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "GrPluginOverlayModel"
+}

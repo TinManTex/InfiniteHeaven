@@ -1,0 +1,20 @@
+Checkpoint={
+  ClearLatestCheckpointTag = "<function>",
+  DeleteObserver = "<function>",
+  DeleteObserverScript = "<function>",
+  GetLatestCheckpointTag = "<function>",
+  IsBusy = "<function>",
+  IsPassedCheckpoint = "<function>",
+  PostCheckpointCreation = "<function>",
+  PostCheckpointDeletion = "<function>",
+  PostCheckpointDeserialization = "<function>",
+  PostCheckpointDeserializationFromFile = "<function>",
+  PostDataRestoration = "<function>",
+  RegisterObserver = "<function>",
+  RegisterObserverScript = "<function>",
+  SetRestorationFromSerializedDataMode = "<function>",
+  __call = "<function>",
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "Checkpoint"
+}

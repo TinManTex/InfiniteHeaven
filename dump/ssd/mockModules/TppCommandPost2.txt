@@ -1,0 +1,8 @@
+TppCommandPost2={
+  GetDominatedCpCount = "<function>",
+  SetCpDominated = "<function>",
+  SetDominationTargetCpList = "<function>",
+  SetSVarsKeyNames = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

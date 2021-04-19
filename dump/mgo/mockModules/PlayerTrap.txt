@@ -1,0 +1,9 @@
+PlayerTrap={
+  BEHIND = 2,
+  FINE = 1,
+  NORMAL = 1,
+  SQUAT = 2,
+  STAND = 1,
+  __index = "<function>",
+  __newindex = "<function>"
+}

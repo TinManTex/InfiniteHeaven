@@ -1,0 +1,13 @@
+MgoParts={
+  CreateEffect = "<function>",
+  CreateEffectOneShot = "<function>",
+  DetachEffects = "<function>",
+  Realize = "<function>",
+  SendMessageVector4 = "<function>",
+  SetVisibility = "<function>",
+  SetVisibilityMesh = "<function>",
+  SetWorldMatrix = "<function>",
+  StopEffect = "<function>",
+  TearDown = "<function>",
+  TearDownAll = "<function>"
+}

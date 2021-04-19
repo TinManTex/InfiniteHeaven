@@ -13,7 +13,7 @@ this.registerMenus={
 }
 
 this.routesMenu={
-  parentRefs={"InfMenuDefs.inMissionMenu"},
+  parentRefs={"InfMenuDefs.objectListsMenu"},
   options={
     "InfRoutes.ClearRoutes",
     "InfRoutes.WriteRoutes",

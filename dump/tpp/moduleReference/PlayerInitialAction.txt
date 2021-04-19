@@ -1,0 +1,6 @@
+PlayerInitialAction={
+  CRAWL = true,
+  FROM_HELI_SPACE = true,
+  HELI_SPACE = true,
+  SQUAT = true
+}

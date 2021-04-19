@@ -1,0 +1,6 @@
+ReleaseAnnouncePopupSystem={
+  RequestOpen = "<function>",
+  SetInfos = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

@@ -20,7 +20,7 @@ local pairs=pairs
 local tostring=tostring
 
 local ivars=ivars
-local InfQuickMenuDefs--PostModuleReload
+local InfQuickMenuDefs--PostAllModulesLoad
 
 this.updateOutsideGame=true
 
@@ -737,6 +737,9 @@ function this.OnActivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.ShowMenu()
+    if Ivars.menu_enableCursorOnMenuOpen:Is(1)then
+      InfCore.ExtCmd('EnableCursor',1)
+    end
     --InfCore.WriteToExtTxt()--tex handled in DisplaySetting
     this.DisplayCurrentSetting()
   end
@@ -928,10 +931,10 @@ function this.DoControlSet()
     --this.DisplayCurrentSetting()
   end
 
-  if not this.quickMenuOn and InfButton.ButtonHeld(this.resetSettingButton)then
+  if not this.quickMenuOn and InfButton.OnButtonHoldTime(this.resetSettingButton)then
     this.ResetSetting()
   end
-  if not this.quickMenuOn and InfButton.ButtonHeld(this.menuBackButton) then
+  if not this.quickMenuOn and InfButton.OnButtonHoldTime(this.menuBackButton) then
     this.GoBackCurrent()
   end
 

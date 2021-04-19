@@ -1,0 +1,9 @@
+StageBlock={
+  ClearLargeBlockNameForMessage = "<function>",
+  ClearSmallBlockIndexForMessage = "<function>",
+  GetCurrentMinimumSmallBlockIndex = "<function>",
+  GetLoadedLargeBlocks = "<function>",
+  LargeAndSmallBlocksAreEmpty = "<function>",
+  __index = "<function>",
+  __newindex = "<function>"
+}

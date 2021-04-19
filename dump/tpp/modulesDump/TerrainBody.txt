@@ -1,0 +1,9 @@
+TerrainBody=<1>{
+  GetNumBlocksHeight = <function 1>,
+  GetNumBlocksWidth = <function 2>,
+  GetSize = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "TerrainBody",
+  <metatable> = <table 1>
+}

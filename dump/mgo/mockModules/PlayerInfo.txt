@@ -1,0 +1,7 @@
+PlayerInfo={
+  AndCheckStatus = "<function>",
+  CanSpawnAtBuddy = "<function>",
+  GetLocalPlayerIndex = "<function>",
+  IsValidBuddySpawnInfo = "<function>",
+  OrCheckStatus = "<function>"
+}

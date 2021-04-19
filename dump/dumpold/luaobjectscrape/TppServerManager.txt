@@ -1,0 +1,19 @@
+TppServerManager={
+  AbortDefenseMotherBase = true,
+  AbortSneakMotherBase = true,
+  CheckPlayerEquipmentServerItemCorrect = true,
+  FobIsSneak = true,
+  GetEventId = true,
+  GetFobGrade = true,
+  GetFobStatus = true,
+  GetIsPlus = true,
+  GetNuclearAbolitionCount = true,
+  GetNuclearNum = true,
+  IsOpenWormholeBusy = true,
+  IsOpenWormholeOpen = true,
+  IsOpenWormholeSuccess = true,
+  OpenWormhole = true,
+  SendNoticeSneakMotherBase = true,
+  StartFobPickup = true,
+  StartLogin = true
+}

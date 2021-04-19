@@ -1,0 +1,7 @@
+F_HDD_IMAGE=<1>{
+  [-285212672] = 0,
+  [-285212671] = {},
+  __index = <function 1>,
+  __newindex = <function 2>,
+  <metatable> = <table 1>
+}

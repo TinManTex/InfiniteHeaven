@@ -1,0 +1,5 @@
+CpType={
+  TYPE_AFRIKAANS = true,
+  TYPE_AMERICA = true,
+  TYPE_SOVIET = true
+}

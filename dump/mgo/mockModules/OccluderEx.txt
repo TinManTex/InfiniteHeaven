@@ -1,0 +1,5 @@
+OccluderEx={
+  __index = "<function>",
+  __newindex = "<function>",
+  _className = "OccluderEx"
+}

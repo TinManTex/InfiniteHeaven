@@ -1,0 +1,15 @@
+Chunk={
+  GetChunkInstallationEta = true,
+  GetChunkInstallationRate = true,
+  GetChunkState = true,
+  INDEX_AFGH = true,
+  INDEX_CYPR = true,
+  INDEX_MAFR = true,
+  INDEX_MGO = true,
+  INDEX_MTBS = true,
+  INSTALL_SPEED_FAST = true,
+  INSTALL_SPEED_NORMAL = true,
+  PrefetchChunk = true,
+  STATE_INSTALLED = true,
+  SetChunkInstallSpeed = true
+}

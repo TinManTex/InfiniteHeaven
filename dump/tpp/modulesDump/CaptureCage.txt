@@ -1,0 +1,4 @@
+CaptureCage={
+  GetCaptureAnimalList = <function 1>,
+  RegisterCaptureAnimal = <function 2>
+}

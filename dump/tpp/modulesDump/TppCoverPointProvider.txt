@@ -1,0 +1,9 @@
+TppCoverPointProvider=<1>{
+  CheckUsable = <function 1>,
+  ClearAll = <function 2>,
+  Create = <function 3>,
+  __index = <function 4>,
+  __newindex = <function 5>,
+  _className = "TppCoverPointProvider",
+  <metatable> = <table 1>
+}

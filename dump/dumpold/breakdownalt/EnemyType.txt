@@ -1,0 +1,14 @@
+EnemyType=<1>{
+  [-285212672] = 4,
+  [-285212671] = {
+    [5344661] = <function 1>,
+    [34432465] = <function 2>,
+    [83972445] = <function 3>,
+    [213105004] = <function 4>,
+    [230727453] = <function 5>,
+    [261552804] = <function 6>
+  },
+  __index = <function 7>,
+  __newindex = <function 8>,
+  <metatable> = <table 1>
+}

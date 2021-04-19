@@ -8,6 +8,7 @@
   "modPackPaths": [
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\ih-data1_dat-lua",
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod",
+    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-ih",
     "C:\\Projects\\MGS\\Submods\\fpk-mod-minimal-mtbs-interior",
   ],
   "otherMgsvsPath": "C:\\Projects\\MGS\\IHBuild-install-mods",
