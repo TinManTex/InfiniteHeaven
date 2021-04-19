@@ -737,6 +737,9 @@ function this.OnActivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.ShowMenu()
+    if Ivars.menu_enableCursorOnMenuOpen:Is(1)then
+      InfCore.ExtCmd('EnableCursor',1)
+    end
     --InfCore.WriteToExtTxt()--tex handled in DisplaySetting
     this.DisplayCurrentSetting()
   end
