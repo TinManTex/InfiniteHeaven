@@ -47,7 +47,11 @@ local function GetSettingText(option)
     if IsTable(settingNames) then
       --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
       for i,settingName in ipairs(settingNames)do
+        if type(settingName)~="string" then
+          print("WARNING: type settingName ~= string for option "..tostring(option.name))
+        else
         settingText=settingText..settingName..", "
+        end
       end
 
       settingText=string.sub(settingText,1,#settingText-2)
@@ -439,18 +443,18 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
 
   local profileFilePath=projectFolder.."mod-gamedir-release\\profiles\\All_Options_Example.lua"
   print("io.open: "..profileFilePath)
-  local profileFileRelease=io.open(profileFilePath,"w")
+  --DEBGUNOW local profileFileRelease=io.open(profileFilePath,"w")
 
   textFile:write(table.concat(textTable,nl))
   htmlFile:write(table.concat(htmlTable,nl))
   profileFile:write(table.concat(profileTable,nl))
-  profileFileRelease:write(table.concat(profileTable,nl))
+  --DEBGUNOW profileFileRelease:write(table.concat(profileTable,nl))
 
 
   textFile:close()
   htmlFile:close()
   profileFile:close()
-  profileFileRelease:close()
+  --DEBGUNOW profileFileRelease:close()
 
   print"--autodoc done--"
 end--AutoDoc
