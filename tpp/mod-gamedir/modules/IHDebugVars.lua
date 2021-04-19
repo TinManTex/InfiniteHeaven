@@ -34,6 +34,7 @@ local debugModules={
   'Ivars',
   'TppEnemy',
   'InfRouteSet',
+  'TppRevenge',
 }
 
 local this={}
