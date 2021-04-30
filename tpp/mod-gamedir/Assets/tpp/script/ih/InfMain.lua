@@ -803,6 +803,7 @@ this.cpPositions={--ADDON
     mbqf_mtbs_cp={-158.183,0.801,-2076.006},
   },
   mtbs={
+    
     mbqf_mtbs_cp={-158.183,0.801,-2076.006},--tex mbqf free (f30250) (loc 55) actually comes up as location 50/mtbs
     ["ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp"]={9.430,0.800,-24.179},
     ["ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp"]={1141.248,8.800,-604.406},
@@ -1410,7 +1411,7 @@ end
 
 function this.PostModuleReloadMain(module,prevModule)
   --tex rather than have to deal with it in each module
-  if prevModule.messageExecTable then
+  if prevModule and prevModule.messageExecTable then
     module.messageExecTable=Tpp.MakeMessageExecTable(module.Messages())
   end
 end
