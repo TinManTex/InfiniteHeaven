@@ -22,12 +22,12 @@
 --    photoRealMapTexturePath="/Assets/mgo/ui/texture/map/afc0/afc0_jungle_sat_clp.ftex"
 --  },
 --  globalLocationMapParams={ --  see \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd \ mbdvc_map_location_parameter.lua GetGlobalLocationParameter
---    sectionFuncRankForDustBox = 4, 
---    sectionFuncRankForToilet  = 4, 
---    sectionFuncRankForCrack   = 6, 
+--    sectionFuncRankForDustBox = 4,
+--    sectionFuncRankForToilet  = 4,
+--    sectionFuncRankForCrack   = 6,
 --    isSpySearchEnable = true,
 --    isHerbSearchEnable = true,
---    
+--
 --    spySearchRadiusMeter = {  40.0, 40.0, 35.0, 30.0, 25.0, 20.0, 15.0, 10.0, },
 --    spySearchIntervalSec = {  420.0,  420.0,  360.0,  300.0,  240.0,  180.0,  120.0,  60.0, },
 --    herbSearchRadiusMeter = { 0.0,  0.0,  10.0, 15.0, 20.0, 25.0, 30.0, 35.0, },
@@ -75,6 +75,21 @@
 --  orderBoxList = { -- <mission>_sequence.missionStartPosition.orderBoxList -- TODO description
 --    "box_s13000_00",
 --    "box_s13000_01",
+--  },
+--  missionMapParams={--mbdvc_map_mission_parameter.missionParameters
+--    missionArea2 = {
+--      { name="trig_innerZone", vertices={ Vector3(-1130.04,180.00,859.60),Vector3(-748.37,180.00,1241.27),Vector3(-475.96,180.00,968.86),Vector3(-225.87,180.00,1218.95),Vector3(152.35,180.00,840.77),Vector3(152.35,180.00,-89.97),Vector3(-479.32,180.00,-89.97),Vector3(-857.62,180.00,288.33),Vector3(-857.62,180.00,587.19), },  },
+--    },
+--    safetyArea2 = {
+--      { name="trig_hotZone", vertices={ Vector3(-652.23,180.00,1012.55),Vector3(-536.76,180.00,897.08),Vector3(-463.86,180.00,969.99),Vector3(-193.42,180.00,699.55),Vector3(-193.40,180.00,39.43),Vector3(-539.49,180.00,39.43),Vector3(-845.91,180.00,345.86),Vector3(-845.91,180.00,587.93),Vector3(-961.38,180.00,703.40), },  },
+--    },
+--    -- Order box points when mission is highlighted in free mode
+--    missionStartPoint = {Vector3(-218.07,328.03,395.86),Vector3(-381.54,294.27,910.16),},
+--    heliLandPoint = {
+--      {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
+--      {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
+--      {point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},
+--    },
 --  },
 --  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
 --  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable
@@ -342,6 +357,88 @@ end
 
 this.highestUIMission=50--tex vanilla, indexed from 0
 
+this.vanillaMissions={
+  [1]=true,
+  [5]=true,
+  [10010]=true,--1
+  [10020]=true,--2
+  [10030]=true,--3
+  [10036]=true,--4
+  [10043]=true,--5
+  [10033]=true,--6
+  [10040]=true,--7
+  [10041]=true,--8
+  [10044]=true,--9
+  [10052]=true,--10
+  [10054]=true,--11
+  [10050]=true,--12
+  [10070]=true,--13
+  [10080]=true,--14
+  [10086]=true,--15
+  [10082]=true,--16
+  [10090]=true,--17
+  [10195]=true,--18
+  [10091]=true,--19
+  [10100]=true,--20
+  [10110]=true,--21
+  [10121]=true,--22
+  [10115]=true,--23
+  [10120]=true,--24
+  [10085]=true,--25
+  [10200]=true,--26
+  [10211]=true,--27
+  [10081]=true,--28
+  [10130]=true,--29
+  [10140]=true,--30
+  [10150]=true,--31
+  [10151]=true,--32
+  [10045]=true,--33
+  [10156]=true,--34
+  [10093]=true,--35
+  [10171]=true,--36
+  [10240]=true,--37
+  [10260]=true,--38
+  [10280]=true,--39
+  --[10230]=true,--40-no number mission40
+  [11043]=true,--41
+  --[11041]=true,--42-no number mission
+  [11054]=true,--43
+  --[11085]=true,--44-no number mission
+  [11082]=true,--45
+  [11090]=true,--46
+  --[11036]=true,--47-no number mission
+  [11033]=true,--48
+  [11050]=true,--49
+  --[11091]=true,--50-no number mission
+  --[11195]=true,--51-no number mission
+  --[11211]=true,--52-no number mission
+  [11140]=true,--53
+  --[11200]=true,--54-no number mission
+  [11080]=true,--55
+  --[11171]=true,--56-no number mission
+  [11121]=true,--57
+  --[11115]=true,--58-no number mission
+  [11130]=true,--59
+  [11044]=true,--60
+  --[11052]=true,--61-no number mission
+  [11151]=true,--62
+  --
+  [30010]=true,
+  [30020]=true,
+  [30050]=true,
+  [30051]=true,
+  [30150]=true,
+  [30250]=true,
+  [40010]=true,
+  [40020]=true,
+  [40050]=true,
+  [50050]=true,
+}--vanillaMissions
+
+function this.IsVanillaMission(missionCode)
+  return this.vanillaMissions[missionCode]
+end--IsVanillaMission
+
 --tex Load Location addons
 --OUT/SIDE: this.locationInfo
 function this.LoadLocationDefs()
@@ -414,7 +511,9 @@ function this.AddInLocations()
         InfCore.Log("WARNING: location already defined "..locationId)
       end
       TppDefine.LOCATION_ID[locationName]=locationId
-      TppMissionList.locationPackTable[locationId]=locationInfo.packs
+      if locationInfo.packs then
+        TppMissionList.locationPackTable[locationId]=locationInfo.packs
+      end
 
       local locationNameLower=string.lower(locationName)
       local cpPositions=InfMain.cpPositions[locationNameLower] or {}
@@ -424,7 +523,7 @@ function this.AddInLocations()
           if townParameter.cpName and townParameter.cpName~=""then--tex TODO in vanilla theres some valid townParameters with cpName ""
             if townParameter.position then
               cpPositions[townParameter.cpName]={townParameter.position:GetX(),townParameter.position:GetY(),townParameter.position:GetZ()}
-            end
+          end
           end
         end--for townParameter
       end--if locationMapParams townParameter
@@ -436,7 +535,7 @@ function this.AddInLocations()
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationName=locationInfo.locationName
     if locationName then
-      TppLocation.locationIdForName[string.lower(locationName)]=locationId     
+      TppLocation.locationIdForName[string.lower(locationName)]=locationId
     end
   end
   for locationName,locationId in pairs(TppLocation.locationIdForName)do
@@ -478,8 +577,9 @@ function this.AddInMissions()
       end
 
       --tex TODO: check it has a valid location
-
-      TppMissionList.missionPackTable[missionCode]=missionInfo.packs
+      if missionInfo.packs then
+        TppMissionList.missionPackTable[missionCode]=missionInfo.packs
+      end
 
       --tex LOCATION_HAVE_MISSION_LIST is in a pretty bad layout of
       --{<location>={<missioncode>,<missioncode>,...}
@@ -489,7 +589,9 @@ function this.AddInMissions()
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
 
-      TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=missionInfo.startPos
+      if missionInfo.startPos then
+        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=missionInfo.startPos
+      end
 
       --tex TODO: add to format
       --tex indicates that theres no free roam mission box start (there are 7 of these in vanilla)
@@ -498,7 +600,9 @@ function this.AddInMissions()
         InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
         TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
       end
-      TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
+      if missionInfo.noBoxMissionStartPosition then
+        TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
+      end
 
       --tex TODO
       --  TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE--tex only used for two missions (of the 7 no box mission starts)
@@ -509,25 +613,34 @@ function this.AddInMissions()
       --TppDefine.NO_HELICOPTER_ROUTE_ENUM=TppDefine.Enum(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST)
 
       --tex base gmp for mission on mission clear
-      TppResult.MISSION_GUARANTEE_GMP[missionCode]=missionInfo.missionGuaranteeGMP
+      if missionInfo.missionGuaranteeGMP then
+        TppResult.MISSION_GUARANTEE_GMP[missionCode]=missionInfo.missionGuaranteeGMP
+      end
 
       --tex TppResult.MISSION_TASK_LIST, but not totally sure what it is yet, passed to UI via TppUiCommand.RegisterMbMissionListFunction >> TppResult.GetMbMissionListParameterTable
       --TODO find when GetMbMissionListParameterTable actually called, I see I hooked it at some point, I presume to do just that lol
-      TppResult.MISSION_TASK_LIST[missionCode]=missionInfo.missionTaskList
+      if missionInfo.missionTaskList then
+        TppResult.MISSION_TASK_LIST[missionCode]=missionInfo.missionTaskList
+      end
 
       --tex TODO: shouldn't be needed
       --TppTerminal.noAddVolunteerMissions
-
-      TppEneFova.fovaSetupFuncs[missionCode]=missionInfo.fovaSetupFunc
+      if missionInfo.fovaSetupFunc then
+        TppEneFova.fovaSetupFuncs[missionCode]=missionInfo.fovaSetupFunc
+      end
 
       if missionInfo.noArmorForMission then
         TppEneFova.noArmorForMission[missionCode]=1
       end
-      TppEneFova.missionArmorType[missionCode]=missionInfo.missionArmorType
-      TppEneFova.missionHostageInfos[missionCode]=missionInfo.missionHostageInfos
+      if missionInfo.missionArmorType then
+        TppEneFova.missionArmorType[missionCode]=missionInfo.missionArmorType
+      end
+      if missionInfo.missionHostageInfos then
+        TppEneFova.missionHostageInfos[missionCode]=missionInfo.missionHostageInfos
+      end
 
       --tex add IH start-on-foot support
-      --missionInfo.missionMapParams is mbdvc_map_mission_parameter entry
+      --missionInfo.missionMapParams is mbdvc_map_mission_parameter.missionParameters entry
       if missionInfo.missionMapParams and missionInfo.missionMapParams.heliLandPoint then
         for n,heliLandPoint in ipairs(missionInfo.missionMapParams.heliLandPoint)do
           local routeIdStr32=InfCore.StrCode32(heliLandPoint.routeId)
@@ -583,12 +696,14 @@ function this.RegisterMissions()
     if freeSlot==#this.missionListSlotIndices then
       InfCore.Log("WARNING: No free MISSION_LIST slots")
       break
-    elseif not TppMission.IsFreeMission(missionCode) then
-      local missionIndex=this.missionListSlotIndices[freeSlot+1]
-      freeSlot=freeSlot+1
-      TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
-    end
-  end
+    else--if not this.IsVanillaMission(missionCode)then--tex OVERKILL, shouldn't be in missionIds in the first place
+      if not TppMission.IsFreeMission(missionCode) then
+        local missionIndex=this.missionListSlotIndices[freeSlot+1]
+        freeSlot=freeSlot+1
+        TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
+      end--not IsFreeMission
+    end--not IsVanillaMission
+  end--for missionIds
   TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess
 
   if this.debugModule then
@@ -624,7 +739,9 @@ function this.LoadLibraries()
 
   this.missionIds={}--clear
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    table.insert(this.missionIds,missionCode)
+    if not this.IsVanillaMission(missionCode)then
+      table.insert(this.missionIds,missionCode)
+    end
   end
   table.sort(this.missionIds)
 
@@ -636,7 +753,7 @@ function this.LoadLibraries()
   --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
   }
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    if TppMission.IsFreeMission(missionCode) then
+    if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) then
       local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
       if this.freeMissionForLocation[locationId] then
         if this.freeMissionForLocation[locationId]~=missionCode then
