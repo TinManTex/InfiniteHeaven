@@ -10,11 +10,23 @@ if IHH then
   IHH.Init()
 end
 
---tex try loading external first. messy, but it's chicken and egg, once InfCore is up and running it has tidier functions that could do this
-local sucess,ret=pcall(require,"mod/Assets/tpp/script/ih/InfCore")--GOTCHA modPath. relying on default package.paths having game dir DEBUGNOW if IHH then could use gamepath
-if sucess then
-  InfCore=ret
-else
+local corePath="./mod/Assets/tpp/script/ih/InfCore.lua"
+local exists=true
+if IHH then
+  exists=IHH.FileExists(corePath)--WORKAROUND: now that IHHook is catching errors we want to skip just blindly require ing
+end
+if exists then
+  --tex try loading external first. messy, but it's chicken and egg, once InfCore is up and running it has tidier functions that could do this
+  local sucess,ret=pcall(require,"mod/Assets/tpp/script/ih/InfCore")--GOTCHA modPath. relying on default package.paths having game dir DEBUGNOW if IHH then could use gamepath
+  if sucess then
+    InfCore=ret
+    InfCore.Log("Loaded InfCore externally")
+  else
+    exists=false
+  end
+end
+
+if not exists then
   --TODO I don't think there's really any option here to log if InfCore fails and IHHook isn't installed.
   --also, this is only really an error if -v- InfCore doesn't exist internally
   --does loadlibrary raise errors that we can catch?
@@ -22,6 +34,7 @@ else
     --IHH.Log(5,ret)--level_critical
   end
   Script.LoadLibrary"/Assets/tpp/script/ih/InfCore.lua"
+  InfCore.Log("Loaded InfCore internally")
 end
 
 if InfCore and not InfCore.modDirFail then
