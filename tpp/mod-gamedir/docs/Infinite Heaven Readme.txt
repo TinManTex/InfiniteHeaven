@@ -48,8 +48,8 @@ Randomize group priority - Each routeSet for a CP has a number of groups of rout
 Randomize group routes - Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
 
 Randomize RouteSet now - Command for if you just want to change things up, or see how the options change things.
-[youtube]pZRcPNlZmng[/youtube]
-https://youtu.be/pZRcPNlZmng
+[youtube]K249zxAd1PU[/youtube]
+https://youtu.be/K249zxAd1PU
 
 menu_enableCursorOnMenuOpen - "Enable mouse cursor on menu open" - "Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2"
 (via IH system menu)
