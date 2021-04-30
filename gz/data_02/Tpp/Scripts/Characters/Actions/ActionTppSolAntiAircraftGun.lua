@@ -1,0 +1,9 @@
+
+
+
+
+ActionTppSolAntiAircraftGun = {
+WakeUpStates = {
+	"stateAntiAircraftGun",
+},
+}

@@ -1,0 +1,18 @@
+
+
+
+
+ActionTppSoldierGrenade = {
+
+
+
+
+
+
+
+WakeUpStates = {
+	"stateStandThrowGrenadeLong",
+	"stateStandThrowGrenadeMiddle",
+},
+
+}

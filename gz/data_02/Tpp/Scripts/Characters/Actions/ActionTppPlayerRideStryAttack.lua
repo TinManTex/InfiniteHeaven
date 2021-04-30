@@ -1,0 +1,22 @@
+ActionTppPlayerRideStryAttack = {
+
+
+WakeUpStates = {
+	 "*",
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

@@ -1,0 +1,10 @@
+
+
+
+
+return {
+
+
+Component = PlayerRideVehicleDeckPadOperatorComponent,
+
+}
