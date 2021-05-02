@@ -156,6 +156,12 @@ function this.OnInitializeTop(missionTable)
     return
   end
 
+  if missionTable.enemy then
+    if type(missionTable.enemy.soldierDefine)=="table"then
+      this.BuildCpPositions(missionTable.enemy.soldierDefine)
+    end
+  end
+
   this.CallOnModules("OnInitializeTop",missionTable)
   if IHH then
     IHH.Log_Flush()
@@ -444,7 +450,7 @@ function this.ShouldAbortToACC(locationCode,missionCode)
         InfCore.Log("WARNING: ShouldAbortToACC: locationCode not recognised as vanilla or addon")
         shouldAbort=true
       end
-    end--if InfMission 
+    end--if InfMission
     --tex valis mission?
     if InfMission then
       --tex if not in vanilla mission list and not an addon mission then wtf
@@ -713,7 +719,9 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
-this.cpPositions={--ADDON
+--tex built by BuildCpPositions, but has vanilla positions to tide over till that kicks in
+--DEBUGNOW but then you'd want some alternate from mission addons too
+this.cpPositions={
   afgh={
     afgh_citadelSouth_ob={-1682.557,536.637,-2409.226},
     afgh_sovietSouth_ob={-1558.834,414.159,-1159.438},
@@ -803,7 +811,7 @@ this.cpPositions={--ADDON
     mbqf_mtbs_cp={-158.183,0.801,-2076.006},
   },
   mtbs={
-    
+
     mbqf_mtbs_cp={-158.183,0.801,-2076.006},--tex mbqf free (f30250) (loc 55) actually comes up as location 50/mtbs
     ["ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp"]={9.430,0.800,-24.179},
     ["ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp"]={1141.248,8.800,-604.406},
@@ -814,7 +822,28 @@ this.cpPositions={--ADDON
     ["ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp"]={-744.900,8.800,-360.478},
   }
 }--cpPositions
+--CALLER: InfMain.OnInitializeTop
+--OUT/SIDE: this.cpPositions
+function this.BuildCpPositions(soldierDefine)
+  InfCore.LogFlow("InfMain.BuildCpPositions")
+  local locationName=TppLocation.GetLocationName()
+  this.cpPositions[locationName]=this.cpPositions[locationName] or {}
 
+  for cpName,cpDefine in pairs(soldierDefine)do
+    if cpName~="quest_cp"then--tex DEBUGNOW check pos isn't 0,0,0 instead?
+      local cpId=GetGameObjectId(cpName)
+      if not cpId or cpId==NULL_ID then
+        InfCore.Log("WARNING: InfMain.BuildCpPositions: cpId==NULL_ID for cpName:"..tostring(cpName))
+      else
+        local cpPos=SendCommand(cpId,{id="GetCpPosition"})
+        if this.debugModule then
+          InfCore.PrintInspect(cpPos,"cpPos for "..cpName)
+        end
+        this.cpPositions[locationName][cpName]=cpPos
+      end--if cpId
+    end--~="quest_cp"
+  end--for ene_cpList
+end--BuildCpPositions
 function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   position=position or playerPos
