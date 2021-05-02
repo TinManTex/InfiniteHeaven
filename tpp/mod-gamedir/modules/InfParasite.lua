@@ -1236,7 +1236,7 @@ end
 function this.CamoParasiteOff(parasiteName)
   local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
 
-  if gameId~=NULL_ID then
+  if gameObjectId~=NULL_ID then
     local command01={id="SetSightCheck",flag=false}
     SendCommand(gameObjectId,command01)
 
