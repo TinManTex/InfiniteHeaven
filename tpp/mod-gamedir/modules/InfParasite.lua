@@ -1213,20 +1213,6 @@ function this.GetNumCleared()
   return numCleared
 end
 
---tex TODO: build direct gameid>name lookup table on Init()
-function this.GetNameForId(findId)
-  for parasiteType,parasites in pairs(this.parasiteNames) do
-    for i,name in ipairs(parasites)do
-      local gameId=GetGameObjectId(name)
-      if gameId~=NULL_ID then
-        if gameId==findId then
-          return name
-        end
-      end
-    end
-  end
-end
-
 function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina,isMsf)
   isHalf=isHalf or false
 
@@ -1347,123 +1333,123 @@ function this.CamoParasiteCloseCombatMode(parasiteName,enabled)
 end
 
 --REF interesting functions/commands not doing anythig with yet
-function this.CamoParasiteEnableFulton(enabled)
-  local command={id="SetFultonEnabled",enabled=enabled}
-  command.enabled = true
-  local gameObjectId={type="TppBossQuiet2"}
-  SendCommand(gameObjectId, command)
-end
+--function this.CamoParasiteEnableFulton(enabled)
+--  local command={id="SetFultonEnabled",enabled=enabled}
+--  command.enabled = true
+--  local gameObjectId={type="TppBossQuiet2"}
+--  SendCommand(gameObjectId, command)
+--end
 
-function this.CamoParasiteNarrowFarSight(parasiteName,enabled)
-  local command={id="NarrowFarSight",enabled=enabled}
-  local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
-  if gameObjectId~=NULL_ID then
-    SendCommand(gameObjectId,command)
-  end
-end
+--function this.CamoParasiteNarrowFarSight(parasiteName,enabled)
+--  local command={id="NarrowFarSight",enabled=enabled}
+--  local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
+--  if gameObjectId~=NULL_ID then
+--    SendCommand(gameObjectId,command)
+--  end
+--end
 
-function this.CamoParasiteWaterFallShift(enabled)
-  local command = {id="SetWatherFallShift",enabled=enabled}
-  local gameObjectId = { type="TppBossQuiet2" }
-  SendCommand(gameObjectId, command)
-end
+--function this.CamoParasiteWaterFallShift(enabled)
+--  local command = {id="SetWatherFallShift",enabled=enabled}
+--  local gameObjectId = { type="TppBossQuiet2" }
+--  SendCommand(gameObjectId, command)
+--end
 
-function this.IsCamoParasite()
-  local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
-  if quietType==StrCode32"Cam"then--Camo parasite, not Quiet
+--function this.IsCamoParasite()
+--  local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
+--  if quietType==InfCore.StrCode32"Cam"then--Camo parasite, not Quiet
+--
+--  end
+--end
 
-  end
-end
-
---tex from quiet boss fight
-this.RequestShoot = function( target )
-  local command = {}
-
-  if ( target == "player" ) then
-    command = { id="ShootPlayer" }
-
-  elseif ( target == "entrance" ) then
-    command = { id="ShootPosition", position="position" }
-    command.position = {-1828.670, 360.220, -132.585}
-
-  end
-
-  if not( command == {} ) then
-    SendCommand( { type="TppBossQuiet2", index=0 }, command )
-    Fox.Log("#### qest_bossQuiet_00 #### RequestShoot [ "..tostring(target).." ]")
-
-    if ( target == "player" ) then
-      local ridingGameObjectId = vars.playerVehicleGameObjectId
-      if Tpp.IsHorse(ridingGameObjectId) then
-
-        SendCommand( ridingGameObjectId, { id = "HorseForceStop" } )
-      elseif( Tpp.IsPlayerWalkerGear(ridingGameObjectId) or Tpp.IsEnemyWalkerGear(ridingGameObjectId) )then
-
-        SendCommand( ridingGameObjectId, { id = "ForceStop", enabled = true } )
-      end
-    end
-
-    if (this.isPlayerRideVehicle()) then
-      this.ChangeVehicleSettingForEvent()
-    end
-  end
-end
-
-this.SetQuietExtraRoute = function(demo,kill,recovery,antiHeli)
-  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET )
-
-
-  local command = {id="SetDemoRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = demo
-    SendCommand(gameObjectId, command)
-  end
-
-
-  command = {id="SetKillRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = kill
-    SendCommand(gameObjectId, command)
-  end
-
-
-  command = {id="SetRecoveryRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = recovery
-    SendCommand(gameObjectId, command)
-  end
-
-
-  command = {id="SetAntiHeliRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = kill
-    SendCommand(gameObjectId, command)
-  end
-end
-
+--tex REF from quiet boss fight s10050_enemy
+--this.RequestShoot = function( target )
+--  local command = {}
+--
+--  if ( target == "player" ) then
+--    command = { id="ShootPlayer" }
+--
+--  elseif ( target == "entrance" ) then
+--    command = { id="ShootPosition", position="position" }
+--    command.position = {-1828.670, 360.220, -132.585}
+--
+--  end
+--
+--  if not( command == {} ) then
+--    SendCommand( { type="TppBossQuiet2", index=0 }, command )
+--    Fox.Log("#### qest_bossQuiet_00 #### RequestShoot [ "..tostring(target).." ]")
+--
+--    if ( target == "player" ) then
+--      local ridingGameObjectId = vars.playerVehicleGameObjectId
+--      if Tpp.IsHorse(ridingGameObjectId) then
+--
+--        SendCommand( ridingGameObjectId, { id = "HorseForceStop" } )
+--      elseif( Tpp.IsPlayerWalkerGear(ridingGameObjectId) or Tpp.IsEnemyWalkerGear(ridingGameObjectId) )then
+--
+--        SendCommand( ridingGameObjectId, { id = "ForceStop", enabled = true } )
+--      end
+--    end
+--
+--    if (this.isPlayerRideVehicle()) then
+--      this.ChangeVehicleSettingForEvent()
+--    end
+--  end
+--end
+--REF s10050_enemy
+--local BOSS_QUIET  = "BossQuietGameObjectLocator"
+--this.SetQuietExtraRoute = function(demo,kill,recovery,antiHeli)
+--  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET )
+--
+--
+--  local command = {id="SetDemoRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = demo
+--    SendCommand(gameObjectId, command)
+--  end
+--
+--
+--  command = {id="SetKillRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = kill
+--    SendCommand(gameObjectId, command)
+--  end
+--
+--
+--  command = {id="SetRecoveryRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = recovery
+--    SendCommand(gameObjectId, command)
+--  end
+--
+--
+--  command = {id="SetAntiHeliRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = kill
+--    SendCommand(gameObjectId, command)
+--  end
+--end
+--REF s10050_enemy
 --tex doesn't seem to be called
-this.QuietKillModeChange = function()
-  local command = {id="SetKill", flag="flag"}
-  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET)
-
-  if gameObjectId ~= NULL_ID then
-
-    command.flag = svars.isKillMode
-    SendCommand(gameObjectId, command)
-  else
-  end
-end
-
-this.QuietForceCombatMode = function()
-  SendCommand( { type="TppBossQuiet2", index=0 }, { id="StartCombat" } )
-end
-
-
-this.StartQuietDeadEffect = function()
-  local command = { id="StartDeadEffect" }
-  local gameObjectId = { type="TppBossQuiet2", index=0 }
-  SendCommand(gameObjectId, command)
-end
+--this.QuietKillModeChange = function()
+--  local command = {id="SetKill", flag="flag"}
+--  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET)
+--
+--  if gameObjectId ~= NULL_ID then
+--
+--    command.flag = svars.isKillMode
+--    SendCommand(gameObjectId, command)
+--  else
+--  end
+--end
+--REF s10050_enemy
+--this.QuietForceCombatMode = function()
+--  SendCommand( { type="TppBossQuiet2", index=0 }, { id="StartCombat" } )
+--end
+--REF s10050_enemy
+--this.StartQuietDeadEffect = function()
+--  local command = { id="StartDeadEffect" }
+--  local gameObjectId = { type="TppBossQuiet2", index=0 }
+--  SendCommand(gameObjectId, command)
+--end
 ---
 
 function this.PointOnCircle(origin,radius,angle)
