@@ -1048,7 +1048,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
 
   return parasitePos
 end
-
+--DEBUGNOW get working for MB
 function this.GetRoutes(cpName)
   local routeSets=mvars.ene_routeSetsDefine[cpName]
   if not routeSets then
@@ -1084,7 +1084,7 @@ function this.GetRoutes(cpName)
     end
   end
   return routeCount,cpRoutes
-end
+end--GetRoutes
 
 function this.Timer_StartCombat()
   SendCommand({type="TppParasite2"},{id="StartCombat"})
