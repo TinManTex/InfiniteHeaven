@@ -66,53 +66,40 @@ local camoShiftRouteAttackCount=3
 local triggerAttackCount=45--tex mbqf hostage parasites
 
 local PARASITE_PARAMETERS={
-  NORMAL={--10020
-    sightDistance = 20,
-    sightVertical = 36.0,
-    sightHorizontal = 48.0,
+  --  NORMAL={--10020
+  --    sightDistance = 20,
+  --    sightVertical = 36.0,
+  --    sightHorizontal = 48.0,
+  --  },
+  --10090
+  NORMAL = {
+    sightDistance                 = 25,
+    sightDistanceCombat           = 75,
+    sightHorizontal               = 60,
+    noiseRate                     = 8,
+    avoidSideMin                  = 8,
+    avoidSideMax                  = 12,
+    areaCombatBattleRange         = 50,
+    areaCombatBattleToSearchTime  = 1,
+    areaCombatLostSearchRange     = 1000,
+    areaCombatLostToGuardTime     = 120,
+    throwRecastTime               = 10,
   },
-  HARD={
-    sightDistance = 30,
-    sightVertical = 55.0,
-    sightHorizontal = 48.0,
+  EXTREME={
+    sightDistance                 = 25,
+    sightDistanceCombat           = 100,
+    sightHorizontal               = 100,
+    noiseRate                     = 10,
+    avoidSideMin                  = 8,
+    avoidSideMax                  = 12,
+    areaCombatBattleRange         = 50,
+    areaCombatBattleToSearchTime  = 1,
+    areaCombatLostSearchRange     = 1000,
+    areaCombatLostToGuardTime     = 60,
+    throwRecastTime               = 10,
   },
-}
-
---10090
---local PARASITE_PARAMETERS={
---  NORMAL = {
---    sightDistance         = 25,
---    sightDistanceCombat       = 75,
---
---    sightHorizontal         = 60,
---    noiseRate           = 8,
---    avoidSideMin          = 8,
---    avoidSideMax          = 12,
---    areaCombatBattleRange     = 50,
---    areaCombatBattleToSearchTime  = 1,
---    areaCombatLostSearchRange   = 1000,
---    areaCombatLostToGuardTime   = 120,
---
---    throwRecastTime         = 10,
---  },
---
---  EXTREME={
---    sightDistance         = 25,
---    sightDistanceCombat       = 100,
---
---    sightHorizontal         = 100,
---    noiseRate           = 10,
---    avoidSideMin          = 8,
---    avoidSideMax          = 12,
---    areaCombatBattleRange     = 50,
---    areaCombatBattleToSearchTime  = 1,
---    areaCombatLostSearchRange   = 1000,
---    areaCombatLostToGuardTime   = 60,
---
---    throwRecastTime         = 10,
---  },
---}
-
+}--PARASITE_PARAMETERS
+--o50050_enemy
 local PARASITE_GRADE={
   NORMAL={
     defenseValueMain=4000,
