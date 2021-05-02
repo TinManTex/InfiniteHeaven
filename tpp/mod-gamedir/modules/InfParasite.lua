@@ -351,10 +351,19 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
     CAMO=Ivars.camoParasiteEnabled:Is(1),
   }
 
-  --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
+  --tex WORKAROUND quiet battle, will crash with CAMO (which also use TppBossQuiet2)
   if TppQuest.IsActive"waterway_q99010" then
     InfCore.Log("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
     enabledTypes.CAMO=false
+  end
+  --tex WORKAROUND zoo currently has no routes for sniper
+  if nextMissionCode==30150 then
+    enabledTypes.CAMO=false
+  end
+  --tex WORKAROUND mb crashes on armor/mist
+  if nextMissionCode==30050 then
+    enabledTypes.ARMOR=false
+    enabledTypes.MIST=false
   end
 
   local parasiteTypes={}
