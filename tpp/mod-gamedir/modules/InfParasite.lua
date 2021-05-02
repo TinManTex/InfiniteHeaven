@@ -1197,7 +1197,11 @@ function this.EndEvent()
   svars.inf_parasiteEvent=false
   TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
 
+  if this.parasiteType=="CAMO"then
+    SendCommand({type="TppBossQuiet2"},{id="SetWithdrawal",enabled=true})
+  else
   SendCommand({type="TppParasite2"},{id="StartWithdrawal"})
+  end
 
   --tex TODO throw CAMO parasites to some far route (or warprequest if it doesn't immediately vanish them) then Off them after a while
 
