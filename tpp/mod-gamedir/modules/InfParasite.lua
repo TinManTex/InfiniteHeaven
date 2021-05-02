@@ -642,7 +642,7 @@ function this.OnDying(gameId)
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    --InfCore.DebugPrint"OnDying all eliminated"--DEBUG
+    InfCore.Log("InfParasite OnDying: all eliminated")--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
@@ -676,7 +676,7 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    --InfCore.Log"OnFulton all eliminated"--DEBUG
+    InfCore.Log("InfParasite OnFulton: all eliminated")--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
@@ -687,7 +687,7 @@ function this.InitEvent()
   InfCore.Log("InfParasite InitEvent")--DEBUG
 
   if not this.ParasiteEventEnabled() then
-    InfCore.Log("InfParasite InitEvent not para")--DEBUG
+    InfCore.Log("InfParasite InitEvent ParasiteEventEnabled false")--DEBUG
     return
   end
 
@@ -750,7 +750,7 @@ function this.StartEventTimer(time)
   --but as the scriptblock definitions are in the scriptblock fpk itself there's a chicken and egg problem if they're what is used to define the script block name.
   --  local success=TppScriptBlock.Load("parasite_block",this.parasiteType,true,true)--DEBUGNOW TODO only start once block loaded and active
   --  if not success then
-  --    InfCore.Log("WARNING: TppScriptBlock.Load returned false")--DEBUG
+  --    InfCore.Log("WARNING: InfParasite TppScriptBlock.Load returned false")--DEBUG
   --  end
 
   TimerStop(Timer_ParasiteEventStr)
@@ -759,13 +759,14 @@ function this.StartEventTimer(time)
 end
 
 function this.StartEvent()
+  InfCore.Log("InfParasite StartEvent")
   if IsTimerActive(Timer_ParasiteEventStr)then
     TimerStop(Timer_ParasiteEventStr)
   end
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    InfCore.Log("StartEvent numCleared==numParasites aborting",this.debugModule)
+    InfCore.Log("InfParasite StartEvent numCleared==numParasites ("..tostring(numCleared).."=="..tostring(numParasites)..") aborting",this.debugModule)
     this.EndEvent()
     return
   end
@@ -806,7 +807,7 @@ end
 
 function this.ParasiteAppear()
   InfCore.PCallDebug(function()--DEBUG
-
+    InfCore.LogFlow("InfParasite ParasiteAppear")
     local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
     local closestPos=playerPos
     local closestDist=999999999999999
@@ -817,11 +818,12 @@ function this.ParasiteAppear()
     local closestCp,cpDistance,cpPosition
 
     if noCps then
+		  InfCore.Log("InfParasite.ParasiteAppear noCps")
       closestPos=playerPos
     else
       closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
       if closestCp==nil or cpPosition==nil then
-        InfCore.Log("WARNING: ParasiteAppear closestCp==nil",true)--DEBUG
+        InfCore.Log("WARNING: InfParasite ParasiteAppear closestCp==nil",true)--DEBUG
         return
       end
 
@@ -830,7 +832,7 @@ function this.ParasiteAppear()
       if not isMb then--tex TODO: implement for mb
         local closestLz,lzDistance,lzPosition=InfLZ.GetClosestLz(playerPos)
         if closestLz==nil or lzPosition==nil then
-          InfCore.Log("WARNING: ParasiteAppear closestLz==nil",true)--DEBUG
+          InfCore.Log("WARNING: InfParasite ParasiteAppear closestLz==nil",true)--DEBUG
           return
         end
 
@@ -949,6 +951,10 @@ function this.ZombifyFree(closestCp,position)
 end
 
 function this.ArmorParasiteAppear(parasitePos,spawnRadius)
+  InfCore.Log("InfParasite ArmorParasiteAppear spawnRadius:"..spawnRadius)
+  if this.debugModule then
+    InfCore.PrintInspect(parasitePos,"parasitePos")
+  end
   --tex after fultoning armor parasites don't appear, try and reset
   --doesnt work, parasite does appear, but is in fulton pose lol
   --  if numFultonedThisMap>0 then
@@ -992,7 +998,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
   --  InfCore.PrintInspect(cpRoutes)
 
   if routeCount<numParasites then
-    InfCore.Log("WARNING: CamoParasiteAppear - routeCount< #camo parasites",true)
+    InfCore.Log("WARNING: InfParasite CamoParasiteAppear - routeCount< #camo parasites",true)
     return
   end
 
@@ -1005,7 +1011,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
     if states[index]==stateTypes.READY then
       local gameId=GetGameObjectId("TppBossQuiet2",parasiteName)
       if gameId==NULL_ID then
-        InfCore.Log("WARNING: CamoParasiteAppear - "..parasiteName.. " not found",true)
+        InfCore.Log("WARNING: InfParasite CamoParasiteAppear - "..parasiteName.. " not found",true)
       else
         local parasiteRotY=0
 
@@ -1051,14 +1057,14 @@ function this.GetRoutes(cpName)
     routeSets=mvars.ene_routeSetsDefine[cpName]
   end
   if not routeSets then
-    InfCore.Log"CamoParasiteAppear - no routesets found, aborting"
+    InfCore.Log"WARNING: InfParasite  CamoParasiteAppear - no routesets found, aborting"
     return
   end
 
   local cpRoutes={}
   --tex TODO prioritze picking sniper group first?
   if routeSets==nil then
-    InfCore.DebugPrint("WARNING CamoParasiteAppear no routesets for "..cpName)--DEBUG
+    InfCore.Log("WARNING: InfParasite CamoParasiteAppear no routesets for "..cpName,true)--DEBUG
     return
   end
 
@@ -1097,7 +1103,7 @@ function this.Timer_MonitorEvent()
   end
 
   if this.parasitePos==nil then
-    InfCore.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
+    InfCore.Log("WARNING MonitorEvent parasitePos==nil",true)--DEBUG
     return
   end
 
@@ -1167,7 +1173,7 @@ function this.Timer_MonitorEvent()
 end
 
 function this.EndEvent()
-  InfCore.Log("EndEvent",this.debugModule)
+  InfCore.Log("InfParasite EndEvent",this.debugModule)
 
   svars.inf_parasiteEvent=false
   TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
