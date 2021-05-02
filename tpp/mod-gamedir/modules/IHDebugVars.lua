@@ -35,11 +35,16 @@ local debugModules={
   'TppEnemy',
   'InfRouteSet',
   'TppRevenge',
+  'InfLZ',
+  'TppLandingZone',
+  'InfParasite',
 }
 
 local this={}
 
 this.packages={
+  --[30050]="/Assets/tpp/pack/mission2/free/f30050/f30050_ly000_q30210.fpk",--DEBUGNOW
+  --[30010]="/Assets/tpp/pack/mission2/ih/mgo_bgm.fpk",--DEBUG    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-bgm-mgo",
   --[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
   -- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
   }
@@ -530,12 +535,32 @@ function this.SetSaluteVoiceList()
   local typeSoldier={type="TppSoldier2"}
   GameObject.SendCommand(typeSoldier,{id="SetSaluteVoiceList",list=saluteVoiceList})
 end--SetSaluteVoiceList
+--DEBUGNOW
+local GetGameObjectId=GameObject.GetGameObjectId
+local SendCommand=GameObject.SendCommand
 
 function this.PostAllModulesLoad()
   if isMockFox then
     InfCore.Log("isMockFox, returning:")
     return
   end
+
+  InfCore.Log("mvars.mis_missionStateIsNotInGame"..tostring("mvars.mis_missionStateIsNotInGame"))
+
+
+  --  InfCore.Log("getregistry")
+  --  local registry=debug.getregistry()
+  --  -- InfCore.PrintInspect(registry,"lua registry")--tex memory explosion, whatever Inspect is doing it dont like registry
+  --
+  --  for k,v in pairs(registry)do
+  --    InfCore.Log("registry."..tostring(k).."="..tostring(v))
+  --    if type(v)=="table"then
+  --      for k2,v2 in pairs(v)do
+  --        InfCore.Log("\t"..k.."."..tostring(k2).."="..tostring(v2))
+  --      end
+  --    end
+  --  end
+  --  InfCore.Log("registry end")
 
   --DEBUGNOW!!!!!!!!! use this.DebugAction instead
 
@@ -544,7 +569,7 @@ function this.PostAllModulesLoad()
   --  TppEnemy.SetSaluteVoiceList=InfSoldier.SetMBSaluteVoiceList--DEBUGNOW
   --  InfSoldier.SetMBSaluteVoiceList()
 
-  InfObjects.objectNames[1]="sol_ih_0135"
+  -- InfObjects.objectNames[1]="sol_ih_0135"
   --InfObjects.objectNames[2]="sol_ih_0128"
   --Ivars.selectSpeechSoldier:Set(0)
   --Ivars.selectSpeechSoldier2:Set(1)
@@ -787,7 +812,12 @@ end--SetDebugVars
 
 function this.SetDebugModules()
   for i,moduleName in ipairs(debugModules)do
-    _G[moduleName].debugModule=true
+    local module=_G[moduleName]
+    if not module then
+      InfCore.Log("WARNING: IHDebugVars.SetDebugModules module "..tostring(moduleName).."==nil")
+    else
+      module.debugModule=true
+    end
   end
 end--SetDebugModules
 
@@ -1316,6 +1346,7 @@ this.registerMenus={
 this.registerIvars={
   "playRadio",
   "setSTORY_MISSION_LAYOUT_CODE",
+  "debug_PostJingleEvent",
 }
 
 this.devInAccMenu={
@@ -1353,6 +1384,8 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "InfParasite.DEBUG_ToggleParasiteEvent",
+    "Ivars.debug_PostJingleEvent",
     "Ivars.playRadio",
     "InfMenuCommands.ShowImguiDemo",
     "Ivars.cam_disableCameraAnimations",
@@ -1381,7 +1414,7 @@ this.devInMissionMenu={
     "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
     --"Ivars.parasitePeriod_MIN",
     --"Ivars.parasitePeriod_MAX",
-    --"InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
+
     "InfLookup.DumpValidStrCode",
     "InfCore.ClearLog",
   }
@@ -2274,7 +2307,7 @@ function this.DumpSoldierInfo()
     --for shiftName,shifts in pairs(mvars.ene_shiftChangeTable[cpId])do
     for shiftName,shifts in pairs(cpShifts)do
       AddLine("\t"..shiftName.."={")
-      for i,shiftUnit in ipairs(shifts)do       
+      for i,shiftUnit in ipairs(shifts)do
         if type(shiftUnit)~="table"then
           AddLine('\t\t['..i..']="'..tostring(shiftUnit)..'"')
         else
@@ -2446,7 +2479,19 @@ end--DumpSoldierInfo
 --tex called from QuickMenuDefs_User <CALL> + <ACTION>
 function this.DebugAction()
   InfCore.Log("IHDebugVars.DebugAction",true,true)
-  this.DumpSoldierInfo()
+
+
+
+  --  InfCore.PrintInspect(vars,"vars")
+  --  local metaTable=getmetatable(vars)
+  --  InfCore.PrintInspect(metaTable,"vars metaTable")
+
+  --this.DumpSoldierInfo()
+  --InfCore.Log("Fox.ClassInfo")
+  --Fox.ClassInfo()--tex PrintClassInfoSimple
+  --Fox.ClassInfo("Rotation")--className --TODO: any other params?
+  --InfCore.Log("Fox.GenSid")
+  --Fox.GenSid("something")
 end--DebugAction
 
 --DEBUGNOW
@@ -2459,5 +2504,448 @@ end--DebugAction
 function this.IHDebugHourClock(sender,time)
   this.DumpSoldierInfoForHour(sender,time)
 end
+
+--
+
+this.bgmLabels={
+  --tpp jingles
+  "Play_bgm_common_jingle_failed",
+  "Play_bgm_common_jingle_clear",
+  "Play_bgm_common_jingle_achieved",
+  "Play_bgm_mission_heli_descent_short",
+  "Play_bgm_mission_heli_descent_low",
+  "Play_bgm_mission_heli_descent",
+  "Play_bgm_mission_clear_heli",
+  "Play_bgm_mission_clear_heli_sad",
+  "Play_bgm_afgh_mission_escape",
+  "Stop_bgm_afgh_mission_escape",
+  "Play_bgm_mafr_mission_escape",
+  "Stop_bgm_mafr_mission_escape",
+  "Play_bgm_mission_start",
+
+
+  "Play_bgm_common_jingle_op",
+  "Play_bgm_afgh_jingle_op",
+  "Play_bgm_mafr_jingle_op",
+  "Play_chapter_telop",
+  "Set_Switch_bgm_jingle_result_s",
+  "Set_Switch_bgm_jingle_result_ab",
+  "Set_Switch_bgm_jingle_result_ab",
+  "Set_Switch_bgm_jingle_result_cd",
+  "Set_Switch_bgm_jingle_result_cd",
+  "Set_Switch_bgm_jingle_result_e",
+  "Set_Switch_bgm_jingle_result_kaz",
+  "Stop_bgm_common_jingle_ed",--
+  "sfx_s_bgm_change_situation",
+  --mtbs target quests?
+  "Play_bgm_training_jingle_clear",
+  "Play_bgm_training_jingle_failed",
+  --mgo
+  "Play_bgm_Freeplay",
+  "Play_bgm_Theme",
+  "Play_bgm_Intro_01",
+  "Play_bgm_Outro_win",
+  "Play_bgm_Outro_lose",
+  "Play_bgm_Result_normal_01",
+  "Play_bgm_Result_victory_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGO3",
+  --name="mgo_UI_Briefing_BGM_ORIGINAL1",
+  "Play_bgm_Default_Set1_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGO3",
+  --name="mgo_UI_Briefing_BGM_ORIGINAL2",
+  "Play_bgm_ALT_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGO3",
+  --name="mgo_UI_Briefing_BGM_ORIGINAL3",
+  "Play_bgm_ALT_A_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_TPP",
+  --name="mgo_UI_Briefing_BGM_TPP_CYPR",
+  "Play_bgm_MGO_cypr_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_TPP",
+  --name="mgo_UI_Briefing_BGM_TPP_AFGH",
+  "Play_bgm_MGO_afgh_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_TPP",
+  --name="mgo_UI_Briefing_BGM_TPP_AFRC",
+  "Play_bgm_MGO_mafr_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_TPP",
+  --name="mgo_UI_Briefing_BGM_TPP_MTBS",
+  "Play_bgm_MGO_mtbs_phase",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_TPP",
+  --name="mgo_UI_Briefing_BGM_TPP_SINS",
+  "Play_bgm_TPP_Sinsoffather",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_TPP",
+  --name="mgo_UI_Briefing_BGM_TPP_QUIET",
+  "Play_bgm_TPP_Quietstheme",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_GZ",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_GZ_phase_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGR",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_RISING_phase_01",
+  "Play_bgm_RISING_Intro",
+  "Play_bgm_RISING_Outro_win",
+  "Play_bgm_RISING_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGR",
+  --name="mgo_UI_Briefing_BGM_MGR_MISTRAL",
+  "Play_bgm_MGR_mystral",
+  --"Play_bgm_RISING_Intro",
+  --"Play_bgm_RISING_Outro_win",
+  --"Play_bgm_RISING_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGR",
+  --name="mgo_UI_Briefing_BGM_MGR_MONSOON",
+  "Play_bgm_MGR_Monsoon",
+  --"Play_bgm_RISING_Intro",
+  --"Play_bgm_RISING_Outro_win",
+  --"Play_bgm_RISING_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGR",
+  --name="mgo_UI_Briefing_BGM_MGR_SUNDOWNER",
+  "Play_bgm_MGR_sundowner",
+  --"Play_bgm_RISING_Intro",
+  --"Play_bgm_RISING_Outro_win",
+  --"Play_bgm_RISING_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGR",
+  --name="mgo_UI_Briefing_BGM_MGR_SAMUEL",
+  "Play_bgm_MGR_samuel",
+  --"Play_bgm_RISING_Intro",
+  --"Play_bgm_RISING_Outro_win",
+  --"Play_bgm_RISING_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGR",
+  "mgo_UI_Briefing_BGM_MGR_ARMSTRONG",
+  "Play_bgm_MGR_Armstrong",
+  --"Play_bgm_RISING_Intro",
+  --"Play_bgm_RISING_Outro_win",
+  --"Play_bgm_RISING_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_PW",
+  "mgo_UI_Briefing_BGM_OUTDOOR",
+  "Play_bgm_MGSPW_OUT_phase_01",
+  "Play_bgm_MGSPW_OUT_Intro",
+  "Play_bgm_MGSPW_OUT_Outro_win",
+  "Play_bgm_MGSPW_OUT_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_PW",
+  --name="mgo_UI_Briefing_BGM_INDOOR",
+  "Play_bgm_MGSPW_IN_phase_01",
+  --"Play_bgm_MGSPW_IN_Intro",
+  --"Play_bgm_MGSPW_OUT_Outro_win",
+  --"Play_bgm_MGSPW_IN_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_PW",
+  --name="mgo_UI_Briefing_BGM_PW_GEARREX",
+  "Play_bgm_MGSPW_Gearrex",
+  --"Play_bgm_MGSPW_IN_Intro",
+  --"Play_bgm_MGSPW_OUT_Outro_win",
+  --"Play_bgm_MGSPW_IN_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_PW",
+  --name="mgo_UI_Briefing_BGM_THEME",
+  "Play_bgm_PW_Metal2",
+  --"Play_bgm_MGSPW_IN_Intro",
+  --"Play_bgm_MGSPW_OUT_Outro_win",
+  --"Play_bgm_MGSPW_IN_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_PW",
+  --name="mgo_UI_Briefing_BGM_PW_YOKUSHI",
+  "Play_bgm_MGSPW_yokushiryoku",
+  --"Play_bgm_MGSPW_IN_Intro",
+  --"Play_bgm_MGSPW_OUT_Outro_win",
+  --"Play_bgm_MGSPW_IN_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGO2",
+  --name="mgo_UI_Briefing_BGM_ORIGINAL1",
+  "Play_bgm_MGS4_2_phase_01",
+  "Play_bgm_MGS4_2_Intro_01",
+  "Play_bgm_MGS4_1_Outro_win_01",
+  "Play_bgm_MGS4_2_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGO2",
+  --name="mgo_UI_Briefing_BGM_ORIGINAL2",
+  "Play_bgm_MGS4_1_phase_01",
+  "Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS4",
+  --name="mgo_UI_Briefing_BGM_MGS4_ME",
+  "Play_bgm_MGS4ME_phase_01",
+  --"Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS4",
+  --name="mgo_UI_Briefing_BGM_MGS4_SA",
+  "Play_bgm_MGS4SA_phase_01",
+  --"Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS4",
+  --name="mgo_UI_Briefing_BGM_MGS4_EE",
+  "Play_bgm_MGS4EE_phase_01",
+  --"Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS4",
+  --name="mgo_UI_Briefing_BGM_MGS4_SM",
+  "Play_bgm_MGS4SM_phase_01",
+  --"Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS4",
+  --name="mgo_UI_Briefing_BGM_MGS4_HV",
+  "Play_bgm_MGS4HV_phase_01",
+  --"Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS4",
+  --name="mgo_UI_Briefing_BGM_MGS4_REXVSRAY",
+  "Play_bgm_MGS4_Rexray",
+  --"Play_bgm_MGS4_1_Intro_01",
+  --"Play_bgm_MGS4_1_Outro_win_01",
+  --"Play_bgm_MGS4_1_Outro_lose_01",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MPO",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MGSP_OPS_phase_01",
+  "Play_bgm_MGSP_OPS_Intro",
+  "Play_bgm_MGSP_OPS_Outro_win",
+  "Play_bgm_MGSP_OPS_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MPO",
+  --name="mgo_UI_Briefing_BGM_MPO_RAXA",
+  "Play_bgm_MPO_Raxa",
+  --"Play_bgm_MGSP_OPS_Intro",
+  --"Play_bgm_MGSP_OPS_Outro_win",
+  --"Play_bgm_MGSP_OPS_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MPO",
+  --name="mgo_UI_Briefing_BGM_MPO_SHOWTIME",
+  "Play_bgm_MPO_Showtime",
+  --"Play_bgm_MGSP_OPS_Intro",
+  --"Play_bgm_MGSP_OPS_Outro_win",
+  --"Play_bgm_MGSP_OPS_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGO1",
+  --name="mgo_UI_Briefing_BGM_ORIGINAL",
+  "Play_bgm_Pre_phase_01",
+  "Play_bgm_Pre_Intro",
+  "Play_bgm_Pre_Outro_win",
+  "Play_bgm_Pre_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS3",
+  --name="mgo_UI_Briefing_BGM_OUTDOOR",
+  "Play_bgm_MGS3O_phase_01",
+  --"Play_bgm_Pre_Intro",
+  --"Play_bgm_Pre_Outro_win",
+  --"Play_bgm_Pre_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS3",
+  --name="mgo_UI_Briefing_BGM_INDOOR",
+  "Play_bgm_MGS3IN_phase_01",
+  --"Play_bgm_Pre_Intro",
+  --"Play_bgm_Pre_Outro_win",
+  --"Play_bgm_Pre_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS3",
+  --name="mgo_UI_Briefing_BGM_MGS3_THEBOSS",
+  "Play_bgm_MGS3_Theboss",
+  --"Play_bgm_Pre_Intro",
+  --"Play_bgm_Pre_Outro_win",
+  --"Play_bgm_Pre_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS2SS",
+  --name="mgo_UI_Briefing_BGM_VR",
+  "Play_bgm_MGS2S_phase",
+  "BGM_MGS2S_Intro",
+  "BGM_MGS2S_Outro_win",
+  "BGM_MGS2S_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS2SS",
+  --name="mgo_UI_Briefing_BGM_MGS2SS_GURLUGON",
+  "Play_bgm_MGS2S_Gurlugon",
+  --"BGM_MGS2S_Intro",
+  --"BGM_MGS2S_Outro_win",
+  --"BGM_MGS2S_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS2",
+  --name="mgo_UI_Briefing_BGM_MGS2_TANKER",
+  "Play_bgm_MGS2T_phase_01",
+  --"BGM_MGS2S_Intro",
+  --"BGM_MGS2S_Outro_win",
+  --"BGM_MGS2S_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS2",
+  --name="mgo_UI_Briefing_BGM_MGS2_PLANT",
+  "Play_bgm_MGS2P_phase_01",
+  --"BGM_MGS2S_Intro",
+  --"BGM_MGS2S_Outro_win",
+  --"BGM_MGS2S_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS2",
+  --name="mgo_UI_Briefing_BGM_MGS2_DEADCELL",
+  "Play_bgm_MGS2_Boss",
+  --"BGM_MGS2S_Intro",
+  --"BGM_MGS2S_Outro_win",
+  --"BGM_MGS2S_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS1IT",
+  --name="mgo_UI_Briefing_BGM_VR",
+  "Play_bgm_MGSI_phase",
+  "BGM_MGSI_Intro",
+  "BGM_MGSI_Outro_win",
+  "BGM_MGSI_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS1IT",
+  --name="mgo_UI_Briefing_BGM_MGS1IT_GENOLA",
+  "Play_bgm_MGSI_genola",
+  --"BGM_MGSI_Intro",
+  --"BGM_MGSI_Outro_win",
+  --"BGM_MGSI_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS1",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MGS1_phase_01",
+  --"BGM_MGSI_Intro",
+  --"BGM_MGSI_Outro_win",
+  --"BGM_MGSI_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MGS1",
+  --name="mgo_UI_Briefing_BGM_MGS1_DUEL",
+  "Play_bgm_MGS1_Boss",
+  --"BGM_MGSI_Intro",
+  --"BGM_MGSI_Outro_win",
+  --"BGM_MGSI_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MG2",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MG2_phase_01",
+  "Play_bgm_MG2_Intro",
+  "Play_bgm_MG2_Outro_win",
+  "Play_bgm_MG2_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_MG1",
+  "mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MG_phase_01",
+  "Play_bgm_MG_Intro",
+  "Play_bgm_MG_Outro_win",
+  "Play_bgm_MG_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_ACID2",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MGA2_phase",
+  "BGM_MGA_Intro",
+  "BGM_MGA_Outro_win",
+  "BGM_MGA_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_ACID2",
+  --name="mgo_UI_Briefing_BGM_ACID2_DUALITY",
+  "Play_bgm_MGA2_duality",
+  --"BGM_MGA_Intro",
+  --"BGM_MGA_Outro_win",
+  --"BGM_MGA_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_ACID",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MGA_phase",
+  --"BGM_MGA_Intro",
+  --"BGM_MGA_Outro_win",
+  -- "BGM_MGA_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_ACID",
+  --name="mgo_UI_Briefing_BGM_ACID_NIKO2",
+  "Play_bgm_MGA_niko2",
+  --"BGM_MGA_Intro",
+  --"BGM_MGA_Outro_win",
+  --"BGM_MGA_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_GB",
+  --name="mgo_UI_Briefing_BGM_GAMEPLAY",
+  "Play_bgm_MGGB_phase",
+  "BGM_MGGB_Intro",
+  "BGM_MGGB_Outro_win",
+  "BGM_MGGB_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_GB",
+  --name="mgo_UI_Briefing_BGM_GB_BC",
+  "Play_bgm_MGGB_mggb16",
+  --"BGM_MGGB_Intro",
+  --"BGM_MGGB_Outro_win",
+  --"BGM_MGGB_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_ANUBIS",
+  --name="mgo_UI_Briefing_BGM_ANUBIS_JEHUTY",
+  "Play_bgm_ZOE2_Jehuty",
+  "BGM_ZOE2_Intro",
+  "BGM_ZOE2_Outro_win",
+  "BGM_ZOE2_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_ZOE",
+  --name="mgo_UI_Briefing_BGM_ZOE_BOSS",
+  "Play_bgm_ZOE_Boss",
+  "BGM_ZOE_Intro",
+  "BGM_ZOE_Outro_win",
+  "BGM_ZOE_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_BKDS",
+  --name="mgo_UI_Briefing_BGM_BKDS_LAPLACE",
+  "Play_bgm_BKDS_Shooting",
+  "BGM_BKDS_Intro",
+  "BGM_BKDS_Outro_win",
+  "BGM_BKDS_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_BK",
+  --name="mgo_UI_Briefing_BGM_BK_WOD",
+  "Play_bgm_BKGBS_st05boss2",
+  "BGM_BKGBS_Intro",
+  "BGM_BKGBS_Outro_win",
+  "BGM_BKGBS_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_PN",
+  --name="mgo_UI_Briefing_BGM_PN_ICAD",
+  "Play_bgm_PN_icy",
+  "BGM_PN_Intro",
+  "BGM_PN_Outro_win",
+  "BGM_PN_Outro_lose",
+  --
+  --game="mgo_UI_Briefing_BGM_Title_SN",
+  --name="mgo_UI_Briefing_BGM_SNATCHER",
+  "Play_bgm_SN_theme",
+  "BGM_SN_Intro",
+  "BGM_SN_Outro_win",
+  "BGM_SN_Outro_lose",
+--
+--"mgo_idt_Rand",
+--
+--"mgo_UI_Briefing_BGM_OFF",
+}--bgm
+
+
+this.debug_PostJingleEvent={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  settings=this.bgmLabels,
+  OnActivate=function(self,setting,previousSetting)
+    TppMusicManager.StopJingleEvent()
+    local bgmLabel=self.settings[setting+1]
+    TppMusicManager.PostJingleEvent('SingleShot',bgmLabel)
+  end,
+}--debug_PostJingleEvent
 
 return this
