@@ -65,16 +65,28 @@ local camoShiftRouteAttackCount=3
 
 local triggerAttackCount=45--tex mbqf hostage parasites
 
+--SetParameters
 local PARASITE_PARAMETERS={
-  --  NORMAL={--10020
-  --    sightDistance = 20,
-  --    sightVertical = 36.0,
-  --    sightHorizontal = 48.0,
-  --  },
+  EASY={--10020
+    sightDistance = 20,
+    sightVertical = 36.0,
+    sightHorizontal = 48.0,
+  },
+
+  --ARMOR
+  --o50050_enemy
+  HARD = {
+    sightDistance = 30,
+    sightVertical = 55.0,
+    sightHorizontal = 48.0,
+  },
+
+
   --10090
   NORMAL = {
     sightDistance                 = 25,
     sightDistanceCombat           = 75,
+    sightVertical                 = 40,
     sightHorizontal               = 60,
     noiseRate                     = 8,
     avoidSideMin                  = 8,
@@ -83,11 +95,14 @@ local PARASITE_PARAMETERS={
     areaCombatBattleToSearchTime  = 1,
     areaCombatLostSearchRange     = 1000,
     areaCombatLostToGuardTime     = 120,
+    --areaCombatGuardDistance
     throwRecastTime               = 10,
   },
+  --10090
   EXTREME={
     sightDistance                 = 25,
     sightDistanceCombat           = 100,
+    sightVertical                 = 60,
     sightHorizontal               = 100,
     noiseRate                     = 10,
     avoidSideMin                  = 8,
@@ -96,12 +111,16 @@ local PARASITE_PARAMETERS={
     areaCombatBattleToSearchTime  = 1,
     areaCombatLostSearchRange     = 1000,
     areaCombatLostToGuardTime     = 60,
+    --areaCombatGuardDistance
     throwRecastTime               = 10,
   },
 }--PARASITE_PARAMETERS
+
+--SetCombatGrade
 --o50050_enemy
 local PARASITE_GRADE={
   NORMAL={
+    --DEBUGNOW where did I get these values from, did I actually log fob?
     defenseValueMain=4000,
     defenseValueArmor=7000,
     defenseValueWall=8000,
@@ -115,6 +134,13 @@ local PARASITE_GRADE={
     offenseGrade=5,
     defenseGrade=7,
   },
+}
+
+--SetCombatGrade
+local PARASITE_GRADE_CAMO={
+  defenseValue=4000,
+  offenseGrade=2,
+  defenseGrade=7,
 }
 
 --seconds
@@ -1315,6 +1341,19 @@ function this.CamoParasiteCloseCombatMode(parasiteName,enabled)
 end
 
 --REF interesting functions/commands not doing anythig with yet
+--armor, from fob
+--this.StartSearchParasite = function ()
+--  Fox.Log("***** this.StartSearchParasite *****")
+--
+--  for k, parasiteName in pairs(this.PARASITE_NAME_LIST) do
+--    local gameObjectId = GameObject.GetGameObjectId(parasiteName)
+--    if gameObjectId ~= nil then
+--      GameObject.SendCommand( gameObjectId, { id="StartSearch" })
+--    end
+--  end
+--end
+
+--camo
 --function this.CamoParasiteEnableFulton(enabled)
 --  local command={id="SetFultonEnabled",enabled=enabled}
 --  command.enabled = true
