@@ -695,7 +695,7 @@ function this.InitEvent()
   this.SetupParasites()
 
   if TppMission.IsMissionStart() then
-    --InfCore.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
+    InfCore.Log"InfParasite InitEvent IsMissionStart clear"--DEBUG
     svars.inf_parasiteEvent=false
   end
 
@@ -867,7 +867,7 @@ function this.ParasiteAppear()
       end
     end
     if armorFultoned and this.parasiteType=="ARMOR" then
-      --InfCore.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+      --InfCore.Log("Timer_ParasiteCombat start",true)--DEBUG
       TimerStart("Timer_ParasiteCombat",4)
     end
 
@@ -901,7 +901,7 @@ local SetZombies=function(soldierNames,position,radius)
         soldierDistance=TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},position)
       end
       if not position or (radius and soldierDistance<radius) then
-        --InfCore.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
+        --InfCore.Log(soldierName.." close to "..closestCp.. ", zombifying",true)--DEBUG
         this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina)
       end
     end
@@ -915,7 +915,7 @@ function this.ZombifyFree(closestCp,position)
   if closestCp then
     local cpDefine=mvars.ene_soldierDefine[closestCp]
     if cpDefine==nil then
-      InfCore.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
+      InfCore.Log("WARNING InfParasite StartEvent could not find cpdefine for "..closestCp)--DEBUG
     else
       SetZombies(cpDefine)
     end
@@ -1085,7 +1085,7 @@ function this.Timer_MonitorEvent()
   end
 
   if this.parasitePos==nil then
-    InfCore.Log("WARNING MonitorEvent parasitePos==nil",true)--DEBUG
+    InfCore.Log("WARNING InfParasite MonitorEvent parasitePos==nil",true)--DEBUG
     return
   end
 
@@ -1098,7 +1098,7 @@ function this.Timer_MonitorEvent()
   end
 
   --InfCore.Log("Timer_MonitorEvent "..this.parasiteType.. " escapeDistanceSqr:"..escapeDistance.." distSqr:"..distSqr)--DEBUG
-  --InfCore.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
+  --InfCore.Log("dist:"..math.sqrt(distSqr),true)--DEBUG
 
   --tex TppParasites aparently dont support GetPosition, frustrating inconsistancy, you'd figure it would be a function of all gameobjects
   --  for i,parasiteName in pairs(this.parasiteNames.ARMOR) do
@@ -1106,7 +1106,7 @@ function this.Timer_MonitorEvent()
   --    if gameId~=NULL_ID then
   --      local parasitePos=SendCommand(gameId,{id="GetPosition"})
   --      local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
-  --     -- InfCore.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
+  --     -- InfCore.Log(parasiteName.." dist:"..math.sqrt(distSqr),true)--DEBUG
   --      if distSqr<escapeDistance[this.parasiteType] then
   --        outOfRange=false
   --        break
