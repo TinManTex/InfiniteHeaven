@@ -849,32 +849,30 @@ function this.ParasiteAppear()
     else
       closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
       if closestCp==nil or cpPosition==nil then
-        InfCore.Log("WARNING: InfParasite ParasiteAppear closestCp==nil",true)--DEBUG
-        return
-      end
-
+        InfCore.Log("WARNING: InfParasite ParasiteAppear closestCp==nil")--DEBUG
+        closestPos=playerPos
+      else
       closestDist=cpDistance
 
       if not isMb then--tex TODO: implement for mb
         local closestLz,lzDistance,lzPosition=InfLZ.GetClosestLz(playerPos)
         if closestLz==nil or lzPosition==nil then
-          InfCore.Log("WARNING: InfParasite ParasiteAppear closestLz==nil",true)--DEBUG
-          return
-        end
-
+            InfCore.Log("WARNING: InfParasite ParasiteAppear closestLz==nil")--DEBUG
+          else
         local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
         closestPos=cpPosition
         if cpDistance>lzDistance and lzCpDist>playerRange*2 then
           closestPos=lzPosition
           closestDist=lzDistance
         end
-      end
+          end--if closestLz
+        end--if no isMb
 
       if closestDist>playerRange then
         closestPos=playerPos
       end
-
-    end
+      end--if closestCp
+    end--if not noCps
 
     InfCore.Log("ParasiteAppear "..this.parasiteType.." closestCp:"..tostring(closestCp),this.debugModule)
 
