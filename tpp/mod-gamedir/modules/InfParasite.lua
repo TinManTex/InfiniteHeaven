@@ -248,6 +248,10 @@ this.enableParasiteEvent={
   range=Ivars.switchRange,
   settingNames="set_switch",
   MissionCheck=IvarProc.MissionCheckFree,
+  --DEBUG mbzoo not set up (needs command post,routes), mb crashes or restart/abort for armor/mist, snipers seem to work ok (but would need to hide npcs on attack to stop it looking weird)
+--  MissionCheck=function(self,missionCode)
+--    if TppMission.IsFreeMission(missionCode) then return true end
+--  end,
 }
 
 this.armorParasiteEnabled={
