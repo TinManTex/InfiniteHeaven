@@ -1050,12 +1050,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
 end
 
 function this.GetRoutes(cpName)
-  local routeSets=nil
-  if mvars.loc_locationCommonRouteSets then
-    routeSets=mvars.loc_locationCommonRouteSets[cpName]
-  elseif mvars.ene_routeSetsDefine then
-    routeSets=mvars.ene_routeSetsDefine[cpName]
-  end
+  local routeSets=mvars.ene_routeSetsDefine[cpName]
   if not routeSets then
     InfCore.Log"WARNING: InfParasite  CamoParasiteAppear - no routesets found, aborting"
     return
