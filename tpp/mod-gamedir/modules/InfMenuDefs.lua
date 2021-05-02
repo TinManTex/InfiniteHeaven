@@ -132,7 +132,7 @@ this.debugInMissionMenu={
     "Ivars.disableOutOfBoundsChecks",
     "InfMenuCommands.SetAllFriendly",
     "InfMenuCommands.SetAllZombie",
-    "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
+    "InfParasite.DEBUG_ToggleParasiteEvent",
     "InfMenuCommands.ResetStageBlockPosition",
     "InfMenuCommands.SetStageBlockPositionToMarkerClosest",
     "InfMenuCommands.SetStageBlockPositionToFreeCam",
