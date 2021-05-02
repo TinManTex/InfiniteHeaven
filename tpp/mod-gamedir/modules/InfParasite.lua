@@ -608,8 +608,8 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
   local isHostage=false
   for i,parasiteName in pairs(hostageParasites) do
-    local gameId=GetGameObjectId(parasiteName)
-    if gameId==gameId then
+    local parasiteHostage=GetGameObjectId(parasiteName)
+    if gameId==parasiteHostage then
       isHostage=true
       break
     end
@@ -617,7 +617,7 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
   if isHostage then
     this.hostageParasiteHitCount=this.hostageParasiteHitCount+1
-    --InfCore.Log("hostageParasiteHitCount "..this.hostageParasiteHitCount,true)--DEBUG
+    InfCore.Log("hostageParasiteHitCount "..this.hostageParasiteHitCount,this.debugModule)--DEBUG
 
     if this.hostageParasiteHitCount>triggerAttackCount then
       this.hostageParasiteHitCount=0
