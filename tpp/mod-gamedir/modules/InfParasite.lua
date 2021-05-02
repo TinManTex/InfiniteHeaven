@@ -288,6 +288,24 @@ IvarProc.MinMaxIvar(
     range={min=0,max=180,increment=1},
   }
 )
+
+local parasiteToggle=false
+this.DEBUG_ToggleParasiteEvent=function()
+  if not this.ParasiteEventEnabled() then
+    InfCore.Log("InfParasite InitEvent ParasiteEventEnabled false",true)--DEBUG
+    return
+  end
+
+  parasiteToggle=not parasiteToggle
+  if parasiteToggle then
+    InfCore.Log("DEBUG_ToggleParasiteEvent on",false,true)
+    this.InitEvent()
+    this.StartEvent()
+  else
+    InfCore.Log("DEBUG_ToggleParasiteEvent off",false,true)
+    this.EndEvent()
+  end
+end--DEBUG_ToggleParasiteEvent
 --< ivar defs
 
 function this.PreModuleReload()
