@@ -24,7 +24,7 @@ this.aacrGimmickInfo={--tex was local
 }
 --tex as nasanhak points out some of these var names are misleading
 --aprLandingZoneName is the lz name (which uses approach route by default),
---drpLandingZoneName is the drop route (fancy route from mission start)
+--drpLandingZoneName is the drop route (fancy route from mission start) for the same lz
 --mbdvs_map_mission_parameter also referenced the drpLandingZoneName
 
 --routes seem to be named consistently enough so you can derive them from lz name
@@ -138,6 +138,7 @@ this.missionLzs={
   mafr={},
 }
 --tex replaces use of the seperate afghanistanLZTable/middleAfricaLZTable in vanilla functions
+--ADDON: InfMission DEBUGNOW
 this.locInfo={
   afgh={
     ConnectLandingZoneTable=afghLZTable.ConnectLandingZoneTable,
@@ -148,22 +149,36 @@ this.locInfo={
     MissionLandingZoneTable=mafrLZTable.MissionLandingZoneTable
   },
 }
-function this.BuildLzTables()
+function this.BuildConnectLzTable()
+  InfCore.LogFlow("TppLandingZone.BuildConnectLzTable")
   for location,locationInfo in pairs(this.locInfo)do
-    local lzTable=this.assaultLzs[location]
+    local assaultLocLzs=this.assaultLzs[location] or {}
     for aaName,lzInfo in pairs(locationInfo.ConnectLandingZoneTable) do
-      lzTable[lzInfo.drpLandingZoneName[1]]=lzInfo.aprLandingZoneName[1]
+      assaultLocLzs[lzInfo.drpLandingZoneName[1]]=lzInfo.aprLandingZoneName[1]
     end
-  
-    local lzTable=this.missionLzs[location]
+    this.assaultLzs[location]=assaultLocLzs
+  end
+  if this.debugModule then
+    InfCore.PrintInspect(this.assaultLzs,"assaultLzs")
+  end
+end--BuildConnectLzTable
+function this.BuildMissionLzTable()
+  InfCore.LogFlow("TppLandingZone.BuildMissionLzTable")
+  for location,locationInfo in pairs(this.locInfo)do
+    local missionLocLzs=this.missionLzs[location] or {}
     for j=1,#locationInfo.MissionLandingZoneTable do
       local lzInfo=locationInfo.MissionLandingZoneTable[j]
-      lzTable[lzInfo.drpLandingZoneName]=lzInfo.aprLandingZoneName
+      missionLocLzs[lzInfo.drpLandingZoneName]=lzInfo.aprLandingZoneName
     end
+    this.missionLzs[location]=missionLocLzs
   end
-end--BuildLzTables
+  if this.debugModule then
+    InfCore.PrintInspect(this.missionLzs,"missionLzs")
+  end
+end--BuildMissionLzTable
 --EXEC
-this.BuildLzTables()
+this.BuildConnectLzTable()
+this.BuildMissionLzTable()
 --<
 
 function this.OnInitialize()
