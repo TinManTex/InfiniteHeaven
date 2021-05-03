@@ -16,7 +16,7 @@ this.walkerPool={}--tex free walkers
 
 this.numLrrpWalkers=5--tex FREE pulled from total
 this.walkersPerLrrp=1--tex soldiers done respect each others personal space lol, which is more of an issue with walkers. unless I can set up command SetForceFormationLine
-this.numWalkerGears=10--DEBUGNOW--tex dependant on the entity defs
+this.numWalkerGears=10--DEBUGNOW--tex dependant on the entity defs, also see see TppEnemy.DeclareSvars/mvars.ene_maxWalkerGearStateCount
 
 this.walkerNames=InfUtil.GenerateNameList("wkr_WalkerGear_%04d",this.numWalkerGears)
 
@@ -269,6 +269,17 @@ this.langStrings={
     },
   },
 }
+
+function this.OnAllocate(missionTable)
+  if not IvarProc.EnabledForMission("enableWalkerGears") then
+    return
+  end
+  
+  if missionTable.enemy and missionTable.enemy.MAX_WALKER_GEAR_STATE_COUNT then
+    InfCore.Log("WARNING: InfWalkerGear.OnAllocate missionTable.enemy.MAX_WALKER_GEAR_STATE_COUNT=="..tostring(missionTable.enemy.MAX_WALKER_GEAR_STATE_COUNT))
+  end
+  mvars.ene_maxWalkerGearStateCount=this.numWalkerGears
+end
 
 function this.Init()
   if not IvarProc.EnabledForMission("enableWalkerGears") then
