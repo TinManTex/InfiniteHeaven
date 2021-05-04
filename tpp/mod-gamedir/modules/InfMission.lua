@@ -110,6 +110,23 @@
 --    NoVehicleMenuFromMissionPreparetion=true,            -- No vehicle select in the sortie
 --    DisableSelectSortieTimeFromMissionPreparetion=true,  -- Only ASAP as deployment time option
 --  },
+--  defaultDropRoute="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",--tex story missions only (not free roam), not exactly sure how/what its used for, but it's in TppDefine.DEFAULT_DROP_ROUTE
+--  --tex DEBUGNOW debating whether to have this here or in locationInfo to save duplication, 
+--  --TppLandingZoneData is defined in mission pack fox2 so author would be duplicating anyhoo
+--  --but using this to build TppLandingZone MissionLandingZoneTable which is pretty much all the lzs dumped in for managing disabling the lzs in idroid
+--  --tex see also comment above InfLZ.lzInfo for the breakdown of what the data is from 
+--  lzInfo={
+--    ["lz_bridge_S0000|lz_bridge_S_0000"]={
+--      approachRoute="lz_bridge_S0000|rt_apr_bridge_S_0000",
+--      dropRoute="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",
+--      returnRoute="lz_bridge_S0000|rt_rtn_bridge_S_0000",
+--    },
+--    ["lz_citadelSouth_S0000|lz_citadelSouth_S_0000"]={
+--      approachRoute="lz_citadelSouth_S0000|rt_apr_citadelSouth_S_0000",
+--      dropRoute="lz_drp_citadelSouth_S0000|rt_drp_citadelSouth_S_0000",
+--      returnRoute="lz_citadelSouth_S0000|rt_rtn_citadelSouth_S_0000",
+--    },
+--  },--lzInfo
 --}
 --
 --return this
@@ -514,7 +531,8 @@ function this.AddInLocations()
       if locationInfo.packs then
         TppMissionList.locationPackTable[locationId]=locationInfo.packs
       end
-
+      
+      --KLUDGE may not be accurate, but just stand-in until InfMain.BuildCpPositions kicks in and gets actually positions from the cp entities
       local locationNameLower=string.lower(locationName)
       local cpPositions=InfMain.cpPositions[locationNameLower] or {}
       InfMain.cpPositions[locationNameLower]=cpPositions
@@ -560,6 +578,8 @@ function this.AddInMissions()
   end
 
   InfCore.Log("InfMission.AddInMissions: Adding missionInfos")
+  local rebuildLzTables=false
+  
   for missionCode,missionInfo in pairs(this.missionInfo)do
     InfCore.Log("Adding mission: "..missionCode)
 
@@ -649,12 +669,66 @@ function this.AddInMissions()
           end
           --tex heliLandPoint.point is ui point and .startPoint is the start of the route (according to caplag eyeballing a mission), as he's used it in gntn as the ground point without any issues I guess the game either doesn't use it, or it warps to route start which would make it moot anyhoo
           --using startPoint for custom missions to allow the author some more control over the startOnFoot point.
+          --DEBUGNOW this means I can't use AddLzPointsFromMissionParameters yet (because its using .point)
           InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(), heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
         end
       end--if missionInfo heliLandPoint
+      --DEBUGNOW currently only MissionLandingZoneTable as aacrGimmicks not worked out yet
+      --REF 
+      --TppLandingZone.locInfo={
+      --  afgh={
+      --    MissionLandingZoneTable={
+      --      {aprLandingZoneName="lz_bridge_S0000|lz_bridge_S_0000",drpLandingZoneName="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",missionList={10040}},
+      if missionInfo.lzInfo then      
+        rebuildLzTables=true       
+        local locationNameLower=string.lower(missionInfo.location)
+        for lzName,lzInfo in pairs(missionInfo.lzInfo)do
+          InfLZ.lzInfo[lzName]=lzInfo
+        
+          TppLandingZone.locInfo[locationNameLower]=TppLandingZone.locInfo[locationNameLower] or {MissionLandingZoneTable={},ConnectLandingZoneTable={}}
+          local missionLandingZoneTable=TppLandingZone.locInfo[locationNameLower].MissionLandingZoneTable
+          local currentLzEntry
+          --tex find any existing entry for lz DEBUGNOW slow
+          for lzName,lzEntry in pairs(missionLandingZoneTable)do
+            if lzEntry.aprLandingZoneName==lzName then
+              currentLzEntry=lzEntry
+              break
+            end
+          end--for missionLandingZoneTable          
+          --DEBUGNOW validate that drpLandingZoneName matches?
+          if not currentLzEntry then
+            --GOTCHA: aprLandingZoneName is lzName (not route), while drpLandingZoneName is droproute (for that lz)
+            currentLzEntry={aprLandingZoneName=lzName,drpLandingZoneName=lzInfo.dropRoute,missionList={}}
+            table.insert(missionLandingZoneTable,currentLzEntry)
+          end
+
+          if TppMission.IsStoryMission(missionCode)then
+            InfUtil.InsertUniqueInList(currentLzEntry.missionList,missionCode)
+          else
+            --tex KLUDGE need something open, so just slap in early mission
+            --a solution would be to - if IsFreeRoam then for all storymission in that location add
+            InfUtil.InsertUniqueInList(currentLzEntry.missionList,10020)
+          end
+          if this.debugModule then
+            InfCore.PrintInspect(currentLzEntry,"currentLzEntry")
+          end
+        end--for lzInfo
+      end--if lzInfo
+      
+      if missionInfo.defaultDropRoute then
+        if TppMission.IsStoryMission(missionCode)then
+          TppDefine.DEFAULT_DROP_ROUTE[missionCode]=missionInfo.defaultDropRoute
+        end
+      end
+      --DEBUGNOW there's also isDefault on some mbdvc_map_mbstage_parameter routes?
     end--if validate
   end--for missionInfo
-
+  if rebuildLzTables then
+    if this.debugModule then
+      InfCore.PrintInspect(TppLandingZone.locInfo,"TppLandingZone.locInfo")--DEBUGNOW
+    end
+    TppLandingZone.BuildMissionLzTable()
+  end
 
   if this.debugModule then
     InfCore.PrintInspect(this.missionInfo,"missionInfo")
