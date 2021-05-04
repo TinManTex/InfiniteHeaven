@@ -2847,17 +2847,17 @@ end
 function this.SetMaxHeliStateCount(maxStateCount)--tex>
   if Tpp.IsTypeNumber(maxStateCount)and(maxStateCount>0)then
     mvars.ene_maxHeliStateCount=maxStateCount
-  end
+end
 end
 function this.SetMaxWalkerGearStateCount(maxStateCount)--tex>
   if Tpp.IsTypeNumber(maxStateCount)and(maxStateCount>0)then
     mvars.ene_maxWalkerGearStateCount=maxStateCount
-  end
+end
 end
 function this.SetMaxUAVStateCount(maxStateCount)--tex>
   if Tpp.IsTypeNumber(maxStateCount)and(maxStateCount>0)then
     mvars.ene_maxUAVStateCount=maxStateCount
-  end
+end
 end
 --<
 function this.RestoreOnMissionStart2()
@@ -2951,7 +2951,7 @@ function this.RestoreOnMissionStart2()
   end
   else
     --tex REWORKED see GOTCHA above
-  for e=0,mvars.ene_maxHeliStateCount-1 do
+    for e=0,mvars.ene_maxHeliStateCount-1 do
       svars.enemyHeliName[e]=0
       svars.enemyHeliLocation[e*4+0]=0
       svars.enemyHeliLocation[e*4+1]=0
@@ -3501,31 +3501,31 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
       routeSetType="caution"
     end
   end
---tex REF old r129 bug 
---CULL
---  if routeTypeStr32 then
---    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]--tex bug was here with local assignment of var with same name clobbering the outer one, thus not passing out of scope
---    if routeSetType=="travel"then
---      return"travel"
---    end
---    if routeSetType=="hold"then
---      return"hold"
---    end
---    if routeSetType=="sleep"then
---      return"sleep"
---    end
---    if phase==this.PHASE.SNEAK then
---      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
---    else
---      routeSetType="caution"
---    end
---  else
---    if phase==this.PHASE.SNEAK then
---      routeSetType=RouteSetTypeForTime(cpId)
---    else
---      routeSetType="caution"
---    end
---  end
+  --tex REF old r129 bug
+  --CULL
+  --  if routeTypeStr32 then
+  --    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]--tex bug was here with local assignment of var with same name clobbering the outer one, thus not passing out of scope
+  --    if routeSetType=="travel"then
+  --      return"travel"
+  --    end
+  --    if routeSetType=="hold"then
+  --      return"hold"
+  --    end
+  --    if routeSetType=="sleep"then
+  --      return"sleep"
+  --    end
+  --    if phase==this.PHASE.SNEAK then
+  --      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
+  --    else
+  --      routeSetType="caution"
+  --    end
+  --  else
+  --    if phase==this.PHASE.SNEAK then
+  --      routeSetType=RouteSetTypeForTime(cpId)
+  --    else
+  --      routeSetType="caution"
+  --    end
+  --  end
   return routeSetType
 end--GetCurrentRouteSetType
 --CALLER: RouteSelector (though there's a Fox.Log warning in mtbs_enemy.GetRouteSetPriority mentioning it(via ene_funcRouteSetPriority -v-))
