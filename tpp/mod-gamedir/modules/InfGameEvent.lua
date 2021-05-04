@@ -184,13 +184,6 @@ this.eventsMenu={
     "Ivars.enableEventHUNTED",
     "Ivars.enableEventCRASHLAND",
     "Ivars.enableEventLOST_COMS",
-    "Ivars.enableParasiteEvent",
-    "Ivars.armorParasiteEnabled",
-    "Ivars.mistParasiteEnabled",
-    "Ivars.camoParasiteEnabled",
-    "Ivars.parasitePeriod_MIN",
-    "Ivars.parasitePeriod_MAX",
-    "Ivars.parasiteWeather",
   }
 }
 --< menu defs
