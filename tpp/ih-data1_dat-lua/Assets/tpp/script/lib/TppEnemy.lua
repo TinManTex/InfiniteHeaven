@@ -2928,29 +2928,29 @@ function this.RestoreOnMissionStart2()
     end
   end
   this._RestoreOnMissionStart_Hostage2()
-  --DEBUGNOW CULL, just this line: if not IvarProc.EnabledForMission("attackHeliPatrols") then--tex added check
-  --ORIG GOTCHA: don't know what's actually going on here, this is treating the svars as if they arent arrays, even though they are defined with arraysize (even if that arraysize is 1)
-  --don't know how the actual save/restore functions are handling them (RestoreFromSVars)
---  for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do     
---    svars.enemyHeliName=0
---    svars.enemyHeliLocation[0]=0
---    svars.enemyHeliLocation[1]=0
---    svars.enemyHeliLocation[2]=0
---    svars.enemyHeliLocation[3]=0
---    svars.enemyHeliCp=0
---    svars.enemyHeliFlag=0
---    svars.enemyHeliSneakRoute=0
---    svars.enemyHeliCautionRoute=0
---    svars.enemyHeliAlertRoute=0
---    svars.enemyHeliRouteNodeIndex=0
---    svars.enemyHeliRouteEventIndex=0
---    svars.enemyHeliMarker=0
---    svars.enemyHeliLife=0
---  end
---else--tex DEBUGNOW CULL just this line
-  --tex REWORKED what it should be, see GOTCHA above
-     --DEBUGNOW CULL line:   local heliCount=InfNPCHeli.totalAttackHelis
-    --DEBUGNOW CULL line: for e=0,heliCount-1 do
+  --GOTCHA: svars are weird in that if arraySize==1 then they arent defined as an array(so trying to index them as such will give an error)
+  --DEFAULT_ENEMY_HELI_STATE_COUNT is 1, but don't know how the actual save/restore functions are handling them (RestoreFromSVars) as thats in the exe
+  --KLUDGE don't want to just bump DEFAULT_ENEMY_HELI_STATE_COUNT to 2 in case there really is something else going on in the exe so run through the vanilla code path unless specficially not
+  if mvars.ene_maxHeliStateCount==TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT then--tex
+    --ORIG
+    for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do
+      svars.enemyHeliName=0
+      svars.enemyHeliLocation[0]=0
+      svars.enemyHeliLocation[1]=0
+      svars.enemyHeliLocation[2]=0
+      svars.enemyHeliLocation[3]=0
+      svars.enemyHeliCp=0
+      svars.enemyHeliFlag=0
+      svars.enemyHeliSneakRoute=0
+      svars.enemyHeliCautionRoute=0
+      svars.enemyHeliAlertRoute=0
+      svars.enemyHeliRouteNodeIndex=0
+      svars.enemyHeliRouteEventIndex=0
+      svars.enemyHeliMarker=0
+      svars.enemyHeliLife=0
+  end
+  else
+    --tex REWORKED see GOTCHA above
   for e=0,mvars.ene_maxHeliStateCount-1 do
       svars.enemyHeliName[e]=0
       svars.enemyHeliLocation[e*4+0]=0
@@ -2967,7 +2967,7 @@ function this.RestoreOnMissionStart2()
       svars.enemyHeliMarker[e]=0
       svars.enemyHeliLife[e]=0
     end
-  --tex DEBUGNOW CULL just this line: end
+  end
   --<
   for e=0,TppDefine.MAX_SECURITY_CAMERA_COUNT-1 do
     svars.securityCameraCp[e]=0
