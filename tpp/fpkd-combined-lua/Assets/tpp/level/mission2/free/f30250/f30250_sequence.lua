@@ -66,7 +66,7 @@ end
 
 this.OnEndMissionPrepareSequence = function ()
   this.UnsetEmergencyAsset()
-  if Ivars.enableParasiteEvent:Is(0) and Ivars.mbEnableLethalActions:Is(0) then--tex bypass
+  if Ivars.parasite_enableEvent:Is(0) and Ivars.mbEnableLethalActions:Is(0) then--tex bypass
     TppUiStatusManager.SetStatus(	"EquipHudAll", "ALL_KILL_NOUSE" )
   end
 end
@@ -74,7 +74,7 @@ end
 function this.OnRestoreSVars()
   local missionName = TppMission.GetMissionName()
   Fox.Log("*** " .. tostring(missionName) .. " OnRestoreSVars ***")
-  if Ivars.enableParasiteEvent:Is(1) or Ivars.mbEnableLethalActions:Is(1) then--tex>
+  if Ivars.parasite_enableEvent:Is(1) or Ivars.mbEnableLethalActions:Is(1) then--tex>
     vars.playerDisableActionFlag = PlayerDisableAction.NONE
   else--<
     vars.playerDisableActionFlag = PlayerDisableAction.CQC_KNIFE_KILL + PlayerDisableAction.KILLING_WEAPON
