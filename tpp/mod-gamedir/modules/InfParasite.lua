@@ -235,7 +235,6 @@ this.bgmList={
 }
 
 this.registerIvars={
-  "parasite_enableEvent",
   "parasite_enabledARMOR",
   "parasite_enabledMIST",
   "parasite_enabledCAMO",
@@ -246,16 +245,20 @@ this.registerIvars={
   "parasite_msfRate",
 }
 
-this.parasite_enableEvent={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-  MissionCheck=IvarProc.MissionCheckFree,
---DEBUG mbzoo not set up (needs command post,routes), mb crashes or restart/abort for armor/mist, snipers seem to work ok (but would need to hide npcs on attack to stop it looking weird)
---  MissionCheck=function(self,missionCode)
---    if TppMission.IsFreeMission(missionCode) then return true end
---  end,
-}
+IvarProc.MissionModeIvars(
+  this,
+  "parasite_enableEvent",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.switchRange,
+    settingNames="set_switch",
+  },
+  {
+    "FREE",
+    --"MISSION",
+    --"MB_ALL",
+  }
+)
 
 this.parasite_enabledARMOR={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -551,7 +554,7 @@ this.registerMenus={
 this.parasiteMenu={
   parentRefs={"InfGameEvent.eventsMenu"},
   options={
-    "Ivars.parasite_enableEvent",
+    "Ivars.parasite_enableEventFREE",
     "Ivars.parasite_enabledARMOR",
     "Ivars.parasite_enabledMIST",
     "Ivars.parasite_enabledCAMO",
@@ -792,7 +795,7 @@ function this.FadeInOnGameStart()
     return
   end
 
-  if Ivars.parasite_enableEvent:Is(0) then
+  if Ivars.parasite_enableEventFREE:Is(0) then
     return
   end
 
@@ -814,7 +817,7 @@ end
 
 function this.ParasiteEventEnabled(missionCode)
   local missionCode=missionCode or vars.missionCode
-  if Ivars.parasite_enableEvent:Is(1) and (Ivars.parasite_enableEvent:MissionCheck(missionCode) or missionCode==30250) then
+  if Ivars.parasite_enableEventFREE:Is(1) and (Ivars.parasite_enableEventFREE:MissionCheck(missionCode) or missionCode==30250) then
     return true
   end
   return false
@@ -1104,7 +1107,7 @@ function this.StartEventTimer(time)
     return
   end
 
-  if Ivars.parasite_enableEvent:Is(0) then
+  if Ivars.parasite_enableEventFREE:Is(0) then
     return
   end
 
@@ -1858,7 +1861,7 @@ end
 this.langStrings={
   eng={
     parasiteMenu="Skulls event menu",
-    parasite_enableEvent="Enable Skull attacks in Free roam",
+    parasite_enableEventFREE="Enable Skull attacks in Free roam",
     parasite_eventPeriod_MIN="Skull attack min (minutes)",
     parasite_eventPeriod_MAX="Skull attack max (minutes)",
     parasite_weather="Weather on Skull attack",
@@ -1869,7 +1872,7 @@ this.langStrings={
   },
   help={
     eng={
-      parasite_enableEvent="Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.",
+      parasite_enableEventFREE="Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.",
       parasite_msfRate="Percentage chance a zombified soldier will have msf zombie behaviour",
     },
   }
