@@ -32,6 +32,7 @@ this.registerIvars={
   "disableRetry",
   "gameOverOnDiscovery",
   "disableOutOfBoundsChecks",
+  "disableKillChildSoldierGameOver",
   "disableGameOver",
   "disableTranslators",
   "fultonNoMbSupport",
@@ -293,6 +294,13 @@ this.disableOutOfBoundsChecks={
     TppTrap.ChangeNormalTrapState(trapName,enable)
     TppTrap.ChangeTriggerTrapState(trapName,enable)
   end
+}
+
+this.disableKillChildSoldierGameOver={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
 }
 
 this.disableGameOver={
@@ -1105,6 +1113,7 @@ this.langStrings={
     mbEnableLethalActions="Allow lethal actions",
     progressionMenu="Progression menu",
     disableOutOfBoundsChecks="Disable out of bounds checks",
+    disableKillChildSoldierGameOver="Disable game over on killing child soldier",
     disableGameOver="Disable game over",
     itemLevelSettings={"Don't override","Grade 1","Grade 2","Grade 3","Grade 4"},
     itemLevelMenu="Item level menu",

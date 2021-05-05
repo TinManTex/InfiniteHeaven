@@ -95,6 +95,7 @@ this.debugMenu={
     "InfMenuCommands.ShowLangCode",
     "InfFovaIvars.appearanceDebugMenu",
     "Ivars.disableGameOver",
+    "Ivars.disableKillChildSoldierGameOver",--DEBUGNOW move these
     "Ivars.disableOutOfBoundsChecks",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
@@ -129,6 +130,7 @@ this.debugInMissionMenu={
     "Ivars.printPressedButtons",
     "Ivars.printOnBlockChange",
     "Ivars.disableGameOver",
+    "Ivars.disableKillChildSoldierGameOver",--DEBUGNOW move these
     "Ivars.disableOutOfBoundsChecks",
     "InfMenuCommands.SetAllFriendly",
     "InfMenuCommands.SetAllZombie",
