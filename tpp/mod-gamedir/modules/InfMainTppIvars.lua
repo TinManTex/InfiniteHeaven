@@ -800,6 +800,9 @@ this.playerRestrictionsMenu={
     "Ivars.abortMenuItemControl",
     "Ivars.disableRetry",
     "Ivars.gameOverOnDiscovery",
+    "Ivars.disableKillChildSoldierGameOver",
+    "Ivars.disableOutOfBoundsChecks",
+    "Ivars.disableGameOver",
     "Ivars.disableSpySearch",
     "Ivars.disableHerbSearch",
     "Ivars.dontOverrideFreeLoadout",
@@ -820,6 +823,9 @@ this.playerRestrictionsInMissionMenu={
     --"Ivars.disableXrayMarkers",--tex doesn"t seem to work realtime
     "Ivars.disableWorldMarkers",
     "Ivars.gameOverOnDiscovery",
+    "Ivars.disableKillChildSoldierGameOver",
+    "Ivars.disableOutOfBoundsChecks",
+    "Ivars.disableGameOver",
   },
 }
 
