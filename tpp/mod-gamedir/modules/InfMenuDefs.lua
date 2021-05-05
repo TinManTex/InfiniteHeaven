@@ -94,9 +94,6 @@ this.debugMenu={
     "InfMenuCommands.ShowMissionCode",
     "InfMenuCommands.ShowLangCode",
     "InfFovaIvars.appearanceDebugMenu",
-    "Ivars.disableGameOver",
-    "Ivars.disableKillChildSoldierGameOver",--DEBUGNOW move these
-    "Ivars.disableOutOfBoundsChecks",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
