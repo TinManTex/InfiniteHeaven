@@ -2563,8 +2563,14 @@ function this.UnRealizeParasiteSquad()
 end
 function this.OnAllocate(missionTable)
   this.SetMaxSoldierStateCount(TppDefine.DEFAULT_SOLDIER_STATE_COUNT)
+  this.SetMaxHeliStateCount(TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT)--tex>
+  this.SetMaxWalkerGearStateCount(TppDefine.DEFAULT_WALKER_GEAR_STATE_COUNT)
+  this.SetMaxUAVStateCount(TppDefine.DEFAULT_UAV_STATE_COUNT)--<
   if missionTable.enemy then
     this.SetMaxSoldierStateCount(missionTable.enemy.MAX_SOLDIER_STATE_COUNT)
+    this.SetMaxHeliStateCount(missionTable.enemy.MAX_HELI_STATE_COUNT)--tex>
+    this.SetMaxWalkerGearStateCount(missionTable.enemy.MAX_WALKER_GEAR_STATE_COUNT)--tex
+    this.SetMaxUAVStateCount(missionTable.enemy.MAX_UAV_STATE_COUNT)--tex--<
   end
   if TppCommandPost2 then
     TppCommandPost2.SetSVarsKeyNames{names="cpNames",flags="cpFlags"}
@@ -2669,18 +2675,11 @@ function this.OnAllocate(missionTable)
 end
 function this.DeclareSVars(missionTable)
   --tex>
-  local walkerGearCount=4
-  if IvarProc.EnabledForMission("enableWalkerGears") then
-    walkerGearCount=InfWalkerGear.numWalkerGears
-  end
-  --tex WIP
-  local heliCount=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT
-  if IvarProc.EnabledForMission("attackHeliPatrols") then
-    heliCount=InfNPCHeli.totalAttackHelis
-  end
-  TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount
+  InfCore.LogFlow("mvars.ene_maxHeliStateCount:"..tostring(mvars.ene_maxHeliStateCount))
+  InfCore.LogFlow("mvars.ene_maxWalkerGearStateCount:"..tostring(mvars.ene_maxWalkerGearStateCount))
+  InfCore.LogFlow("mvars.ene_maxUAVStateCount:"..tostring(mvars.ene_maxUAVStateCount))
   --<
-  local uavCount=0
+  local uavCount=mvars.ene_maxUAVStateCount--tex was 0 --DEBUGNOW think of how to set for addon quest
   local missionId=TppMission.GetMissionID()
   if TppMission.IsFOBMission(missionId)then
     uavCount=TppDefine.MAX_UAV_COUNT
@@ -2747,23 +2746,23 @@ function this.DeclareSVars(missionTable)
     {name="hosOptParam1",arraySize=TppDefine.DEFAULT_HOSTAGE_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="hosOptParam2",arraySize=TppDefine.DEFAULT_HOSTAGE_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="hosRandomSeed",arraySize=TppDefine.DEFAULT_HOSTAGE_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliName",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliLocation",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT*4,type=TppScriptVars.TYPE_FLOAT,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliCp",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliFlag",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliSneakRoute",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliCautionRoute",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliAlertRoute",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliRouteNodeIndex",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliRouteEventIndex",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="enemyHeliMarker",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
-    {name="enemyHeliLife",arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_name",arraySize=walkerGearCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},--tex NMC arraysSize was '4'-v-
-    {name="ene_wkrg_life",arraySize=walkerGearCount,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_partslife",arraySize=walkerGearCount*24,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_location",arraySize=walkerGearCount*4,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_bulletleft",arraySize=walkerGearCount*2,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-    {name="ene_wkrg_marker",arraySize=walkerGearCount*2,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+    {name="enemyHeliName",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},--tex was arraySize=TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT>
+    {name="enemyHeliLocation",arraySize=mvars.ene_maxHeliStateCount*4,type=TppScriptVars.TYPE_FLOAT,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliCp",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliFlag",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliSneakRoute",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliCautionRoute",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliAlertRoute",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliRouteNodeIndex",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliRouteEventIndex",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="enemyHeliMarker",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+    {name="enemyHeliLife",arraySize=mvars.ene_maxHeliStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},--< arraysize
+    {name="ene_wkrg_name",arraySize=mvars.ene_maxWalkerGearStateCount,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},--tex NMC arraysSize was '4'-v-
+    {name="ene_wkrg_life",arraySize=mvars.ene_maxWalkerGearStateCount,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_partslife",arraySize=mvars.ene_maxWalkerGearStateCount*24,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_location",arraySize=mvars.ene_maxWalkerGearStateCount*4,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_bulletleft",arraySize=mvars.ene_maxWalkerGearStateCount*2,type=TppScriptVars.TYPE_UINT16,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="ene_wkrg_marker",arraySize=mvars.ene_maxWalkerGearStateCount*2,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
     {name="ene_holdRecoveredStateName",arraySize=TppDefine.MAX_HOLD_RECOVERED_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="ene_isRecovered",arraySize=TppDefine.MAX_HOLD_RECOVERED_STATE_COUNT,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="ene_holdBrokenStateName",arraySize=TppDefine.MAX_HOLD_VEHICLE_BROKEN_STATE_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
@@ -2845,6 +2844,22 @@ function this.SetMaxSoldierStateCount(maxStateCount)
     mvars.ene_maxSoldierStateCount=maxStateCount
   end
 end
+function this.SetMaxHeliStateCount(maxStateCount)--tex>
+  if Tpp.IsTypeNumber(maxStateCount)and(maxStateCount>0)then
+    mvars.ene_maxHeliStateCount=maxStateCount
+end
+end
+function this.SetMaxWalkerGearStateCount(maxStateCount)--tex>
+  if Tpp.IsTypeNumber(maxStateCount)and(maxStateCount>0)then
+    mvars.ene_maxWalkerGearStateCount=maxStateCount
+end
+end
+function this.SetMaxUAVStateCount(maxStateCount)--tex>
+  if Tpp.IsTypeNumber(maxStateCount)and(maxStateCount>0)then
+    mvars.ene_maxUAVStateCount=maxStateCount
+end
+end
+--<
 function this.RestoreOnMissionStart2()
   local INVALID_FOVA_FACE=0
   local INVALID_FOVA_BODY=0
@@ -2913,9 +2928,12 @@ function this.RestoreOnMissionStart2()
     end
   end
   this._RestoreOnMissionStart_Hostage2()
-  if not IvarProc.EnabledForMission("attackHeliPatrols") then--tex added check
+  --GOTCHA: svars are weird in that if arraySize==1 then they arent defined as an array(so trying to index them as such will give an error)
+  --DEFAULT_ENEMY_HELI_STATE_COUNT is 1, but don't know how the actual save/restore functions are handling them (RestoreFromSVars) as thats in the exe
+  --KLUDGE don't want to just bump DEFAULT_ENEMY_HELI_STATE_COUNT to 2 in case there really is something else going on in the exe so run through the vanilla code path unless specficially not
+  if mvars.ene_maxHeliStateCount==TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT then--tex
+    --ORIG
     for e=0,TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT-1 do
-      --NMC another casualty of optimisation I guess, TppEnemyHeli only saves/restores to non array unlike the other gameobject types, even though it's clearly originally set up the same
       svars.enemyHeliName=0
       svars.enemyHeliLocation[0]=0
       svars.enemyHeliLocation[1]=0
@@ -2931,11 +2949,9 @@ function this.RestoreOnMissionStart2()
       svars.enemyHeliMarker=0
       svars.enemyHeliLife=0
   end
-  --WIP
-  else--tex>
-    --tex what it should be :/
-    local heliCount=InfNPCHeli.totalAttackHelis
-    for e=0,heliCount-1 do
+  else
+    --tex REWORKED see GOTCHA above
+    for e=0,mvars.ene_maxHeliStateCount-1 do
       svars.enemyHeliName[e]=0
       svars.enemyHeliLocation[e*4+0]=0
       svars.enemyHeliLocation[e*4+1]=0
@@ -3485,31 +3501,31 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
       routeSetType="caution"
     end
   end
---tex REF old r129 bug 
---CULL
---  if routeTypeStr32 then
---    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]--tex bug was here with local assignment of var with same name clobbering the outer one, thus not passing out of scope
---    if routeSetType=="travel"then
---      return"travel"
---    end
---    if routeSetType=="hold"then
---      return"hold"
---    end
---    if routeSetType=="sleep"then
---      return"sleep"
---    end
---    if phase==this.PHASE.SNEAK then
---      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
---    else
---      routeSetType="caution"
---    end
---  else
---    if phase==this.PHASE.SNEAK then
---      routeSetType=RouteSetTypeForTime(cpId)
---    else
---      routeSetType="caution"
---    end
---  end
+  --tex REF old r129 bug
+  --CULL
+  --  if routeTypeStr32 then
+  --    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]--tex bug was here with local assignment of var with same name clobbering the outer one, thus not passing out of scope
+  --    if routeSetType=="travel"then
+  --      return"travel"
+  --    end
+  --    if routeSetType=="hold"then
+  --      return"hold"
+  --    end
+  --    if routeSetType=="sleep"then
+  --      return"sleep"
+  --    end
+  --    if phase==this.PHASE.SNEAK then
+  --      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
+  --    else
+  --      routeSetType="caution"
+  --    end
+  --  else
+  --    if phase==this.PHASE.SNEAK then
+  --      routeSetType=RouteSetTypeForTime(cpId)
+  --    else
+  --      routeSetType="caution"
+  --    end
+  --  end
   return routeSetType
 end--GetCurrentRouteSetType
 --CALLER: RouteSelector (though there's a Fox.Log warning in mtbs_enemy.GetRouteSetPriority mentioning it(via ene_funcRouteSetPriority -v-))

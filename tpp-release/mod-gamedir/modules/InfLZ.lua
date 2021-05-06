@@ -3,16 +3,21 @@
 local this = {}
 local StrCode32=InfCore.StrCode32
 
+this.debugModule=false
+
 --References:
 --TppLandingZone
---TppDefine.DEFAULT_DROP_ROUTE[missionCode]
 --mbdvc_map_mission_parameter
 --<mission code>_heli.fox2 TppLandingZoneData
 
---indexed by lz locator name
---approachRoute -- approach to lz hover (not landed)? when player not aboard
---dropRoute -- route to drop player when player aboard, used as mission start route, lz hover (not landed)?
+--indexed by TppLandingZoneData entity name (in mission pack <mission id>_heli.fox2s)
+--approachRoute -- player call in chopper approach to lz hover, when player not aboard
+--from TppLandingZoneData
+--dropRoute -- mission start route route to drop player, when player aboard
+--from mbsvc_map_mission_parameter (heliLandPoint entry routeId) and TppLandingZone location ConnectLandingZoneTable, MissionLandingZoneTable (drpLandingZoneName)
 --returnRoute -- route from heli lz landed/descended to 'leave map'. includes a close door route event
+--from TppLandingZoneData
+--UNUSED (some wip commented out usage in InfHelicopter?)
 this.lzInfo={
   --  afgh={
   ["lz_bridge_S0000|lz_bridge_S_0000"]={
@@ -412,6 +417,7 @@ this.lzInfo={
 }
 
 --tex gvars.heli_missionStartRoute is str32 drop route
+--UNUSED
 this.drpRoute32toLzName={}
 for lz,lzInfo in pairs(this.lzInfo)do
   this.drpRoute32toLzName[StrCode32(lzInfo.dropRoute)]=lz
@@ -430,7 +436,7 @@ end
 --couple of mission cusom exit routes
 --otherheli,westheli,enemyheli routes
 
-
+--DEBUGNOW CULL (but think about what do with rotY data)
 --indexed by mbLayout or 0 where layout n/a
 local groundStartPositionsInitial={
   {--0 or no layout
@@ -670,13 +676,27 @@ local groundStartPositionsInitial={
 }
 
 --TABLESETUP
+--REF
+--groundStartPositions={
+--  [layoutCode+1]={--tex mbLayoutCode or 0 for non-mb
+--    [lzNameStr32]={pos={995.28381347656,-3.498596906662,343.14279174805}, },
+--    ...
+--  },
+--  ...
+--}
 this.groundStartPositions={}
+--tex layouts
+this.groundStartPositions[1]={}--default/no layout or mbLayout0
+this.groundStartPositions[2]={}
+this.groundStartPositions[3]={}
+this.groundStartPositions[4]={}
 for layoutIndex=1,#groundStartPositionsInitial do
   local layoutLzTableInitial=groundStartPositionsInitial[layoutIndex]
 
   local layoutLzTable={}
   for lzName,lzInfo in pairs(layoutLzTableInitial)do
     local strCodeLzName=StrCode32(lzName)
+    --strCodeLzName=lzName--DEBUG
     layoutLzTable[strCodeLzName]=lzInfo
   end
 
@@ -684,7 +704,97 @@ for layoutIndex=1,#groundStartPositionsInitial do
 end
 --tex clear initial table
 groundStartPositionsInitial=nil
---GOTCHA: requires missioncode for mb in order to pull mblayout, 
+if this.debugModule then
+  InfCore.PrintInspect(this.groundStartPositions,"groundStartPositions manual")
+end
+--DEBUG
+--this.groundStartPositions={}
+----tex layouts
+--this.groundStartPositions[1]={}--default/no layout or mbLayout0
+--this.groundStartPositions[2]={}
+--this.groundStartPositions[3]={}
+--this.groundStartPositions[4]={}
+
+
+--OUT/SIDE layoutLzs
+function this.AddLandPointInfo(landPointInfo,groundPositionsL)
+  local lzName=landPointInfo.routeId
+  local strCodeLzName=StrCode32(lzName)
+  --strCodeLzName=lzName--DEBUG
+  local point=landPointInfo.point
+  if groundPositionsL[strCodeLzName] then
+    if this.debugModule then
+      if groundPositionsL[strCodeLzName].pos[1]~=point:GetX()
+        or groundPositionsL[strCodeLzName].pos[2]~=point:GetY()
+        or groundPositionsL[strCodeLzName].pos[3]~=point:GetZ() then
+        InfCore.Log("WARNING: InfLZ: point for "..lzName.." already exists but differs")
+      else
+        if this.debugModule then
+          InfCore.Log("InfLZ: point for "..lzName.." already exists and is identical")
+        end
+      end--if point==
+    end
+  else
+    groundPositionsL[strCodeLzName]={pos={point:GetX(),point:GetY(),point:GetZ()}}
+  end--if layoutLzs[strCodeLzName]
+  if this.debugModule then
+  --InfCore.PrintInspect(layoutLzs[strCodeLzName],missionCode.." "..lzName)
+  end
+end--AddLandPointInfo
+
+--missionParameters =
+--mbdvc_map_mission_parameter.missionParameters,
+-- mbdvc_map_mbstage_parameter.missionParameters
+--InfMission missionInfo .missionMapParams
+--OUT/SIDE: layoutLzs
+function this.AddLzPointsFromMissionParameters(missionParameters,groundStartPositions)
+  for missionCode,params in pairs(missionParameters)do
+    if params.heliLandPoint then
+      local locationNameForMission
+      local hasLayouts=missionCode==10115 or missionCode==30050--DEBUGNOW TODO better
+      for i,landPointInfo in ipairs(params.heliLandPoint)do
+        if not hasLayouts then--tex simple layout
+          this.AddLandPointInfo(landPointInfo,groundStartPositions[1])
+        else
+          --landPointInfo is layoutData
+          for clusterIdPlus1,clusterData in ipairs(landPointInfo)do
+            for platIdPlus1,platData in ipairs(clusterData) do
+              for j,heliLandPointData in ipairs(platData) do
+                this.AddLandPointInfo(heliLandPointData,groundStartPositions[i])
+              end--for platData
+            end--for landPointInfo
+          end--for landPointInfo
+        end--if hasLayouts
+      end--for heliLandPoint
+    end--if heliLandPoint
+  end--for missionParameters
+end--AddLzPointsFromMissionParameters
+
+if mbdvc_map_mission_parameter==nil then
+  InfCore.Log("WARNING: InfLZ load: mbdvc_map_mission_parameter==nil")
+else
+  InfCore.Log("InfLZ building groundStartPositions from mbdvc_map_mission_parameter")
+  if this.debugModule then
+    InfCore.PrintInspect(mbdvc_map_mission_parameter.missionParameters,"mbdvc_map_mission_parameter.missionParameters")
+  end
+  this.AddLzPointsFromMissionParameters(mbdvc_map_mission_parameter.missionParameters,this.groundStartPositions)
+end--if mbdvc_map_mission_parameter
+
+if mbdvc_map_mbstage_parameter==nil then
+  InfCore.Log("WARNING: InfLZ load: mbdvc_map_mbstage_parameter==nil")
+else
+  InfCore.Log("InfLZ building groundStartPositions from mbdvc_map_mbstage_parameter")
+  if this.debugModule then
+    InfCore.PrintInspect(mbdvc_map_mbstage_parameter.missionParameters,"mbdvc_map_mbstage_parameter.missionParameters")
+  end
+  this.AddLzPointsFromMissionParameters(mbdvc_map_mbstage_parameter.missionParameters,this.groundStartPositions)
+end
+
+if this.debugModule then
+  InfCore.PrintInspect(this.groundStartPositions,"groundStartPositions data")
+end
+
+--GOTCHA: requires missioncode for mb in order to pull mblayout,
 --at some points of exec vars.missionCode doesnt cut it because it's near transition to next mission and hasn't been updated
 function this.GetGroundStartPosition(missionStartRoute,missionCode)
   local missionCode=missionCode or vars.missionCode
@@ -714,16 +824,20 @@ function this.GetClosestLz(position)
   local closestPosition=nil
 
   local locationName=TppLocation.GetLocationName()
-
-  if not TppLandingZone.assaultLzs[locationName] then
-    InfCore.Log("WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil",true,true)--DEBUG
-  end
+--CULL
+--  if not TppLandingZone.assaultLzs[locationName] then
+--    InfCore.Log("WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil",true,true)--DEBUG
+--  end
   local lzTables={
-    TppLandingZone.assaultLzs[locationName],
-    TppLandingZone.missionLzs[locationName]
+    TppLandingZone.assaultLzs[locationName] or {},
+    TppLandingZone.missionLzs[locationName] or {},
   }
+  --if this.debugModule then
+    InfCore.PrintInspect(lzTables,"lzTables")--DEBUGNOW
+  --end
   for i,lzTable in ipairs(lzTables)do
     for dropLzName,aprLzName in pairs(lzTable)do
+      InfCore.Log("GetClosestLz dropLzName:"..tostring(dropLzName))--DEBUGNOW
       local coords=this.GetGroundStartPosition(StrCode32(dropLzName))
       if coords then
         local cpPos=coords.pos
@@ -741,12 +855,12 @@ function this.GetClosestLz(position)
           closestRoute=dropLzName
           closestPosition=cpPos
         end
-      end
-    end
-  end
+      end--if coords
+    end--for lzTable
+  end--for lzTables
 
   return closestRoute,closestDist,closestPosition
-end
+end--GetClosestLz
 
 function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
   if lzTable==nil then

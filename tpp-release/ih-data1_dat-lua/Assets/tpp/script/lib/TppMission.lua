@@ -940,6 +940,11 @@ end
 function this.ReserveGameOver(gameOverType,gameOverRadio,isAborting)
   InfCore.LogFlow("TppMission.ReserveGameOver")--tex
   --tex>
+  if gameOverType==TppDefine.GAME_OVER_TYPE.PLAYER_KILL_CHILD_SOLDIER then
+    if Ivars.disableKillChildSoldierGameOver:Is(1) then
+      return false
+    end
+  end 
   if gameOverType==TppDefine.GAME_OVER_TYPE.OUTSIDE_OF_MISSION_AREA then
     if Ivars.disableOutOfBoundsChecks:Is(1) then
       return false

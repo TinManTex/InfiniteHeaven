@@ -1,3 +1,7 @@
+-- DOBUILD: 0 --DEBUGNOW
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050.fpkd
+--f30050_sound.lua
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -54,6 +58,14 @@ this.bgmList = {
 			start = "Play_bgm_mtbs_free_start",
 			finish = "Stop_bgm_mtbs_free_start",
 		},
+		--tex> o50050 fob
+  bgm_fob_neutral = {
+    start = "Play_bgm_mission_chase_phase",
+  },
+  bgm_time_limit = {
+    start = "Play_bgm_mission_chase_phase",
+  },
+  --<
 }
 
 

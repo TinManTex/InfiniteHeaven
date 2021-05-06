@@ -173,4 +173,9 @@ function this.LoadPositions()
   InfCore.Log(#this.positions.." positions loaded from "..fileName,true,true)--ADDLANG
 end
 
+function this.AddAndWrite()
+  this.AddPosition()
+  this.WritePositions()
+end
+
 return this

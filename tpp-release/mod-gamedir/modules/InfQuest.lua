@@ -64,6 +64,27 @@ function this.OnAllocate(missionTable)
   end
 end
 
+function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode < 5 then
+    return
+  end
+
+  for questName,questInfo in pairs(this.ihQuestsInfo)do
+    if TppQuest.IsActive(questName) then
+      if questInfo.missionPackList and questInfo.missionPackList[missionCode]then
+        local packs=questInfo.missionPackList[missionCode]
+        if missionCode==30050 then --DEBUGNOW
+          packs=packs[vars.mbLayoutCode] or packs[0]
+        end
+        for i,packPath in ipairs(packs)do
+          packPaths[#packPaths+1]=packPath
+        end
+      end--if questInfo.missionPackList
+    end--if IsActive
+  end--for ihQuestsInfo
+end--AddMissionPacks
+
+
 --tex see InfEquip.LoadEquipTable for notes
 --CULL, now in InfEquip.LoadEquipTable
 --function this.LoadEquipTable()

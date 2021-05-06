@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r250
+-- Defaults / example of all profile options for IH r251
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -70,8 +70,6 @@ local this={
 		mbDemoMinute=0,--{ 0-59 } -- Minute
 		mbDemoOverrideWeather=0,--{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather
 		--Debug menu
-		disableGameOver=0,--{ 0-1 } -- Disable game over
-		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Enemy Prep menu
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
@@ -199,13 +197,49 @@ local this={
 		enableEventHUNTED=1,--{ 0-1 } -- Allow Hunted event
 		enableEventCRASHLAND=1,--{ 0-1 } -- Allow Crashland event
 		enableEventLOST_COMS=1,--{ 0-1 } -- Allow Lost Coms event
-		enableParasiteEvent=0,--{ 0-1 } -- Enable Skull attacks in Free roam
-		armorParasiteEnabled=1,--{ 0-1 } -- Allow armor skulls
-		mistParasiteEnabled=1,--{ 0-1 } -- Allow mist skulls
-		camoParasiteEnabled=1,--{ 0-1 } -- Allow sniper skulls
-		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
-		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
-		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		--Skulls event menu
+		parasite_enableEventFREE=0,--{ 0-1 } -- Enable Skull attacks in Free roam
+		parasite_enabledARMOR=1,--{ 0-1 } -- Allow armor skulls
+		parasite_enabledMIST=1,--{ 0-1 } -- Allow mist skulls
+		parasite_enabledCAMO=1,--{ 0-1 } -- Allow sniper skulls
+		parasite_eventPeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
+		parasite_eventPeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
+		parasite_weather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		parasite_zombieLife=300,--{ 0-10000 } -- 
+		parasite_zombieStamina=200,--{ 0-10000 } -- 
+		parasite_msfRate=10,--{ 0-100 } -- Percentage chance a zombified soldier will have msf zombie behaviour
+		parasite_msfCombatLevel_MIN=0,--{ 0-9 } -- 
+		parasite_msfCombatLevel_MAX=9,--{ 0-9 } -- 
+		parasite_playerRange=175,--{ 0-1000 } -- 
+		parasite_sightDistance=25,--{ 0-1000 } -- 
+		parasite_sightDistanceCombat=75,--{ 0-1000 } -- 
+		parasite_sightVertical=40,--{ 0-1000 } -- 
+		parasite_sightHorizontal=60,--{ 0-1000 } -- 
+		parasite_noiseRate=8,--{ 0-100 } -- 
+		parasite_avoidSideMin=8,--{ 0-100 } -- 
+		parasite_avoidSideMax=12,--{ 0-100 } -- 
+		parasite_areaCombatBattleRange=50,--{ 0-1000 } -- 
+		parasite_areaCombatBattleToSearchTime=1,--{ 0-100 } -- 
+		parasite_areaCombatLostSearchRange=1000,--{ 0-10000 } -- 
+		parasite_areaCombatLostToGuardTime=120,--{ 0-1000 } -- 
+		parasite_throwRecastTime=10,--{ 0-1000 } -- 
+		parasite_defenseValueMain=4000,--{ 0-100000 } -- 
+		parasite_defenseValueArmor=7000,--{ 0-100000 } -- 
+		parasite_defenseValueWall=8000,--{ 0-100000 } -- 
+		parasite_offenseGrade=2,--{ 0-100 } -- 
+		parasite_defenseGrade=7,--{ 0-100 } -- 
+		parasite_defenseValueCAMO=4000,--{ 0-100000 } -- 
+		parasite_offenseGradeCAMO=2,--{ 0-100 } -- 
+		parasite_defenseGradeCAMO=7,--{ 0-100 } -- 
+		parasite_escapeDistanceARMOR=250,--{ 0-10000 } -- 
+		parasite_escapeDistanceMIST=0,--{ 0-10000 } -- 
+		parasite_escapeDistanceCAMO=250,--{ 0-10000 } -- 
+		parasite_spawnRadiusARMOR=40,--{ 0-1000 } -- 
+		parasite_spawnRadiusMIST=20,--{ 0-1000 } -- 
+		parasite_spawnRadiusCAMO=10,--{ 0-1000 } -- 
+		parasite_timeOutARMOR=0,--{ 0-1000 } -- 
+		parasite_timeOutMIST=60,--{ 0-1000 } -- 
+		parasite_timeOutCAMO=0,--{ 0-1000 } -- 
 		--Mission-prep features menu
 		heliSpace_SkipMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Free Roam
 		heliSpace_SkipMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Story Mission
@@ -295,6 +329,9 @@ local this={
 		abortMenuItemControl=0,--{ 0-1 } -- Disable abort mission from pause menu
 		disableRetry=0,--{ 0-1 } -- Disable retry on mission fail
 		gameOverOnDiscovery=0,--{ 0-1 } -- Game over on combat alert
+		disableKillChildSoldierGameOver=0,--{ 0-1 } -- Disable game over on killing child soldier
+		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
+		disableGameOver=0,--{ 0-1 } -- Disable game over
 		disableSpySearch=0,--{ 0-1 } -- Disable Intel team enemy spotting
 		disableHerbSearch=0,--{ 0-1 } -- Disable Intel team herb spotting (requires game restart)
 		dontOverrideFreeLoadout=0,--{ 0-1 } -- Keep equipment Free<>Mission
