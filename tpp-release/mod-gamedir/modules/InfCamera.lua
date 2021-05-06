@@ -164,21 +164,21 @@ for i,camName in ipairs(this.camNames) do
     inMission=true,
     --OFF save=IvarProc.CATEGORY_EXTERNAL,
     default=0,
-    range={max=100000,min=0,increment=1},
+    range={max=100000,min=-100000,increment=1},
     noBounds=true,
   }
   this["positionY"..camName]={
     inMission=true,
     --OFF save=IvarProc.CATEGORY_EXTERNAL,
     default=0,
-    range={max=100000,min=0,increment=1},
+    range={max=100000,min=-100000,increment=1},
     noBounds=true,
   }
   this["positionZ"..camName]={
     inMission=true,
     --OFF save=IvarProc.CATEGORY_EXTERNAL,
     default=0,
-    range={max=100000,min=0,increment=1},
+    range={max=100000,min=-100000,increment=1},
     noBounds=true,
   }
 

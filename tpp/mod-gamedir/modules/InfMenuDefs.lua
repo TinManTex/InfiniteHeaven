@@ -94,8 +94,6 @@ this.debugMenu={
     "InfMenuCommands.ShowMissionCode",
     "InfMenuCommands.ShowLangCode",
     "InfFovaIvars.appearanceDebugMenu",
-    "Ivars.disableGameOver",
-    "Ivars.disableOutOfBoundsChecks",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
@@ -129,10 +127,11 @@ this.debugInMissionMenu={
     "Ivars.printPressedButtons",
     "Ivars.printOnBlockChange",
     "Ivars.disableGameOver",
+    "Ivars.disableKillChildSoldierGameOver",--DEBUGNOW move these
     "Ivars.disableOutOfBoundsChecks",
     "InfMenuCommands.SetAllFriendly",
     "InfMenuCommands.SetAllZombie",
-    "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
+    "InfParasite.DEBUG_ToggleParasiteEvent",
     "InfMenuCommands.ResetStageBlockPosition",
     "InfMenuCommands.SetStageBlockPositionToMarkerClosest",
     "InfMenuCommands.SetStageBlockPositionToFreeCam",

@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r244
+-- Defaults / example of all profile options for IH r251
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -15,14 +15,23 @@ local this={
 		--IH system menu
 		enableIHExt=0,--{ 0-1 } -- Enable IHExt
 		menu_enableHelp=1,--{ 0-1 } -- Enable help text.
+		menu_enableCursorOnMenuOpen=1,--{ 0-1 } -- Enable mouse cursor on menu open
 		menu_disableToggleMenuHold=0,--{ 0-1 } -- Disable hold menu toggle
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
 		ihMissionsPercentageCount=0,--{ 0-1 } -- Include addon missions in completion percentage
-		--Camera menu
+		--Cam - AroundCam menu
 		moveScale=0.5,--{ 0.01-10 } -- Cam speed scale
-		--PlayCam menu
+		focalLengthFreeCam=21,--{ 0.1-10000 } -- 
+		focusDistanceFreeCam=8.175,--{ 0.01-1000 } -- 
+		apertureFreeCam=1.875,--{ 0.001-100 } -- 
+		distanceFreeCam=0,--{ 0-100 } -- 
+		targetInterpTimeFreeCam=0,--{ 0-100 } -- 
+		rotationLimitMinXFreeCam=-90,--{ -90-0 } -- 
+		rotationLimitMaxXFreeCam=90,--{ 0-90 } -- 
+		alphaDistanceFreeCam=0,--{ 0-10 } -- 
+		--Cam - PlayCam menu
 		cam_focalLength=21,--{ 0.1-10000 } -- Focal length
 		cam_focusDistance=0.9,--{ 0.1-30 } -- Focus distance
 		cam_aperture=1.875,--{ 0.001-100 } -- Apeture
@@ -44,6 +53,13 @@ local this={
 		cam_callSeOfCameraInterp=0,--{ 0-1 } -- Call Se of Camera Interp
 		cam_useLastSelectedIndex=0,--{ 0-1 } -- Use last selected index
 		cam_isCollisionCheck=0,--{ 0-1 } -- Collision check
+		--Cam - Player Cam hook menu
+		camhook_enable=0,--{ 0-1 } -- Enable Player Cam hook
+		camhook_focalLength_NORMAL=21,--{ 0.01-3500 } -- FocalLength Normal
+		camhook_focalLength_AIMING=22,--{ 0.01-3500 } -- FocalLength Aiming
+		camhook_focalLength_HIDING=26,--{ 0.01-3500 } -- FocalLength Hiding
+		camhook_focalLength_CQC=32,--{ 0.01-3500 } -- FocalLength CQC
+		camhook_ApplyFOV=81,--{ 1-179 } -- Apply FOV
 		--Cutscenes menu
 		useSoldierForDemos=0,--{ 0-1 } -- Use selected soldier in all cutscenes and missions
 		mbDemoSelection=0,--{ DEFAULT, PLAY, DISABLED } -- MB cutscene play mode
@@ -54,14 +70,12 @@ local this={
 		mbDemoMinute=0,--{ 0-59 } -- Minute
 		mbDemoOverrideWeather=0,--{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather
 		--Debug menu
-		disableGameOver=0,--{ 0-1 } -- Disable game over
-		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Enemy Prep menu
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
 		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode
 		revengeModeMB_ALL=0,--{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode
-		customSoldierTypeFREE="NONE",--{ NONE } -- Custom soldier type in Free roam
+		customSoldierTypeFREE=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- Custom soldier type in Free roam
 		changeCpSubTypeFREE=0,--{ 0-1 } -- Random CP subtype in free roam
 		changeCpSubTypeMISSION=0,--{ 0-1 } -- Random CP subtype in missions
 		enableInfInterrogation=0,--{ 0-1 } -- IH interrogation in free roam
@@ -173,7 +187,7 @@ local this={
 		printPhaseChanges=0,--{ 0-1 } -- Print phase changes
 		--Enemy reinforcements menu
 		forceSuperReinforce=0,--{ OFF, ON_CONFIG, FORCE_CONFIG } -- Vehicle reinforcements
-		enableHeliReinforce=0,--{ 0-1 } -- Force enable enemy heli reinforce (disable heli sideops)
+		enableHeliReinforce=0,--{ 0-1 } -- Force enable enemy heli reinforce (disables heli sideops)
 		forceReinforceRequest=0,--{ 0-1 } -- Force reinforce request for heli
 		disableReinforceHeliPullOut=0,--{ 0-1 } -- Disable reinforce heli pull-out
 		enableSoldiersWithVehicleReinforce=0,--{ 0-1 } -- Soldier reinforce with all vehicle reinforce types
@@ -183,13 +197,49 @@ local this={
 		enableEventHUNTED=1,--{ 0-1 } -- Allow Hunted event
 		enableEventCRASHLAND=1,--{ 0-1 } -- Allow Crashland event
 		enableEventLOST_COMS=1,--{ 0-1 } -- Allow Lost Coms event
-		enableParasiteEvent=0,--{ 0-1 } -- Enable Skull attacks in Free roam
-		armorParasiteEnabled=1,--{ 0-1 } -- Allow armor skulls
-		mistParasiteEnabled=1,--{ 0-1 } -- Allow mist skulls
-		camoParasiteEnabled=1,--{ 0-1 } -- Allow sniper skulls
-		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
-		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
-		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		--Skulls event menu
+		parasite_enableEventFREE=0,--{ 0-1 } -- Enable Skull attacks in Free roam
+		parasite_enabledARMOR=1,--{ 0-1 } -- Allow armor skulls
+		parasite_enabledMIST=1,--{ 0-1 } -- Allow mist skulls
+		parasite_enabledCAMO=1,--{ 0-1 } -- Allow sniper skulls
+		parasite_eventPeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
+		parasite_eventPeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
+		parasite_weather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		parasite_zombieLife=300,--{ 0-10000 } -- 
+		parasite_zombieStamina=200,--{ 0-10000 } -- 
+		parasite_msfRate=10,--{ 0-100 } -- Percentage chance a zombified soldier will have msf zombie behaviour
+		parasite_msfCombatLevel_MIN=0,--{ 0-9 } -- 
+		parasite_msfCombatLevel_MAX=9,--{ 0-9 } -- 
+		parasite_playerRange=175,--{ 0-1000 } -- 
+		parasite_sightDistance=25,--{ 0-1000 } -- 
+		parasite_sightDistanceCombat=75,--{ 0-1000 } -- 
+		parasite_sightVertical=40,--{ 0-1000 } -- 
+		parasite_sightHorizontal=60,--{ 0-1000 } -- 
+		parasite_noiseRate=8,--{ 0-100 } -- 
+		parasite_avoidSideMin=8,--{ 0-100 } -- 
+		parasite_avoidSideMax=12,--{ 0-100 } -- 
+		parasite_areaCombatBattleRange=50,--{ 0-1000 } -- 
+		parasite_areaCombatBattleToSearchTime=1,--{ 0-100 } -- 
+		parasite_areaCombatLostSearchRange=1000,--{ 0-10000 } -- 
+		parasite_areaCombatLostToGuardTime=120,--{ 0-1000 } -- 
+		parasite_throwRecastTime=10,--{ 0-1000 } -- 
+		parasite_defenseValueMain=4000,--{ 0-100000 } -- 
+		parasite_defenseValueArmor=7000,--{ 0-100000 } -- 
+		parasite_defenseValueWall=8000,--{ 0-100000 } -- 
+		parasite_offenseGrade=2,--{ 0-100 } -- 
+		parasite_defenseGrade=7,--{ 0-100 } -- 
+		parasite_defenseValueCAMO=4000,--{ 0-100000 } -- 
+		parasite_offenseGradeCAMO=2,--{ 0-100 } -- 
+		parasite_defenseGradeCAMO=7,--{ 0-100 } -- 
+		parasite_escapeDistanceARMOR=250,--{ 0-10000 } -- 
+		parasite_escapeDistanceMIST=0,--{ 0-10000 } -- 
+		parasite_escapeDistanceCAMO=250,--{ 0-10000 } -- 
+		parasite_spawnRadiusARMOR=40,--{ 0-1000 } -- 
+		parasite_spawnRadiusMIST=20,--{ 0-1000 } -- 
+		parasite_spawnRadiusCAMO=10,--{ 0-1000 } -- 
+		parasite_timeOutARMOR=0,--{ 0-1000 } -- 
+		parasite_timeOutMIST=60,--{ 0-1000 } -- 
+		parasite_timeOutCAMO=0,--{ 0-1000 } -- 
 		--Mission-prep features menu
 		heliSpace_SkipMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Free Roam
 		heliSpace_SkipMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Story Mission
@@ -205,13 +255,13 @@ local this={
 		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for MB
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
-		customSoldierTypeMB_ALL="NONE",--{ NONE } -- DD Suit
-		customSoldierTypeFemaleMB_ALL="NONE",--{ NONE } -- DD Suit female
+		customSoldierTypeMB_ALL=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- DD Suit
+		customSoldierTypeFemaleMB_ALL=0,--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		supportHeliPatrolsMB=0,--{ 0-3 } -- NPC support heli patrols in MB
 		attackHeliPatrolsMB="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in MB
 		attackHeliTypeMB="SBH",--{ SBH, UTH } -- Attack heli type in MB
-		attackHeliFovaMB=0,--{  } -- Attack heli class in MB
+		attackHeliFovaMB=0,--{ DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Attack heli class in MB
 		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears in MB
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
@@ -226,6 +276,7 @@ local this={
 		--Staff menu
 		mbPrioritizeFemale=0,--{ OFF, DISABLE, MAX, HALF } -- Female staff selection
 		mbMoraleBoosts=0,--{ 0-1 } -- Staff-wide morale boost for good visit
+		mbIncreaseStaffSaluteReactions=0,--{ 0-1 } -- Add more salute reactions
 		--Show characters menu
 		mbEnableOcelot=0,--{ 0-1 } -- Enable Ocelot
 		mbEnablePuppy=0,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
@@ -239,7 +290,7 @@ local this={
 		mbNpc_DDS_RESEARCHER=0,--{ 0-1 } -- Male researcher
 		mbNpc_DDS_RESEARCHER_FEMALE=0,--{ 0-1 } -- Female researcher
 		mbNpc_DDS_GROUNDCREW=0,--{ 0-1 } -- Male groundcrew
-		mbNpc_CHILD_0=0,--{ 0-1 } -- Chilren
+		mbNpc_CHILD_0=0,--{ 0-1 } -- Children
 		mbNpc_KAZ=0,--{ 0-1 } -- Kaz Miller
 		--Show assets menu
 		mbShowBigBossPosters=0,--{ 0-1 } -- Show Big Boss posters
@@ -260,7 +311,7 @@ local this={
 		enableWildCardFreeRoam=0,--{ 0-1 } -- Wildcard soldiers Free roam
 		attackHeliPatrolsFREE="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in free roam
 		attackHeliTypeFREE="SBH",--{ SBH, UTH } -- Attack heli type in FreeRoam
-		attackHeliFovaFREE=0,--{  } -- Attack heli class in FreeRoam
+		attackHeliFovaFREE=0,--{ DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Attack heli class in FreeRoam
 		enableWalkerGearsFREE=0,--{ 0-1 } -- Walker gears in free roam
 		vehiclePatrolProfile=0,--{ OFF, SINGULAR, EACH_VEHICLE } -- Vehicle patrols in free roam
 		vehiclePatrolClass=0,--{ DEFAULT, DARK_GRAY, OXIDE_RED, RANDOM, RANDOM_EACH, ENEMY_PREP } -- Vehicle patrol class
@@ -278,6 +329,9 @@ local this={
 		abortMenuItemControl=0,--{ 0-1 } -- Disable abort mission from pause menu
 		disableRetry=0,--{ 0-1 } -- Disable retry on mission fail
 		gameOverOnDiscovery=0,--{ 0-1 } -- Game over on combat alert
+		disableKillChildSoldierGameOver=0,--{ 0-1 } -- Disable game over on killing child soldier
+		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
+		disableGameOver=0,--{ 0-1 } -- Disable game over
 		disableSpySearch=0,--{ 0-1 } -- Disable Intel team enemy spotting
 		disableHerbSearch=0,--{ 0-1 } -- Disable Intel team herb spotting (requires game restart)
 		dontOverrideFreeLoadout=0,--{ 0-1 } -- Keep equipment Free<>Mission
@@ -327,6 +381,13 @@ local this={
 		resourceScalePoster=100,--{ 10-1000 } -- Poster scale (percentage)
 		resourceScaleDiamond=100,--{ 10-1000 } -- Diamond scale (percentage)
 		resourceScaleContainer=100,--{ 10-1000 } -- Container scale (percentage)
+		--RouteSet menu
+		routeset_randomizeRouteSetsMISSION=0,--{ 0-1 } -- Randomize RouteSets in missions
+		routeset_randomizeRouteSetsFREE=0,--{ 0-1 } -- Randomize RouteSets in free roam
+		routeset_randomizeOnShiftChange=0,--{ 0-1 } -- Randomize on shift change
+		routeset_randomizeOnPhaseChange=0,--{ 0-1 } -- Randomize on phase change
+		routeset_randomizePriority=0,--{ 0-1 } -- Randomize group priority
+		routeset_randomizeGroups=0,--{ 0-1 } -- Randomize group routes
 		--Side ops menu
 		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
@@ -393,8 +454,8 @@ local this={
 		mbSetOceanWindDirectionP1=0.1,--{ -10-10 } -- 
 		mbSetOceanWindDirectionP2=0.1,--{ -10-10 } -- 
 		--Motions menu
-		motionGroupIndex=0,--{ 0-0 } -- Motion group
-		motionGaniIndex=0,--{ 0-0 } -- Motion number
+		motionGroupIndex="NONE",--{ NONE } -- Motion group
+		motionGaniIndex="NONE",--{ NONE } -- Motion number
 		motionHold=0,--{ 0-1 } -- Hold motion
 		motionRepeat=0,--{ 0-1 } -- Repeat motion
 		motionCloseMenuOnPlay=0,--{ 0-1 } -- Close menu on Playing motion

@@ -5,7 +5,7 @@ if false then
   local fileName="TppQuest_dev.lua"
   return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.dev,fileName)end)
 end
-InfCore.Log"TppQuest_dev.lua internal"--DEBUGNOW
+InfCore.Log"TppQuest.lua internal"--DEBUGNOW
 
 local this={}
 local maxSteps=256
@@ -30,6 +30,7 @@ local mafrAreaList={"outland","pfCamp","savannah","hill","banana","diamond","lab
 local mtbsAreaList={"MtbsCommand","MtbsCombat","MtbsDevelop","MtbsMedical","MtbsSupport","MtbsSpy","MtbsBaseDev","MtbsPaz"}--tex
 local shootingPracticeMarkers={
   Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",
+  --Command="ly003_cl00_npc0000|cl00pl1_q30210|Marker_shootingPractice",--tex DEBUGNOW
   Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
   Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",
   BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",

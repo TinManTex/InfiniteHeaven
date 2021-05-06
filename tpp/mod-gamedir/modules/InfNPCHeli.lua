@@ -118,7 +118,7 @@ local levelToColor={0,0,0,1,1,2}
 
 local attackHeliPatrolsStr="attackHeliPatrols"
 
-this.totalAttackHelis=5--tex for svars, must match max instance count/fox2 totalcount (so includes reinforce/quest heli)
+this.totalAttackHelis=5--tex GOTCHA: for svars, must match max instance count/fox2 totalcount (so includes reinforce/quest heli), see TppEnemy.DeclareSvars/mvars.ene_maxHeliStateCount, DEFAULT_ENEMY_HELI_STATE_COUNT, svars enemyHeli*, RestoreOnContinueFromCheckPoint2
 
 --tex see note where this is actually read (in AddMissionPacks)
 --GOTCH: if you expand fova you will need to convert attackHeliFova to cmd SetColoring coloringType, which I think sets the health of the heli
@@ -523,6 +523,17 @@ function this.AddMissionPacks(missionCode,packPaths)
     end
   end
 end--AddMissionPacks
+
+function this.OnAllocate(missionTable)
+  if not IvarProc.EnabledForMission(attackHeliPatrolsStr) then
+    return
+  end
+  
+  if missionTable.enemy and missionTable.enemy.MAX_HELI_STATE_COUNT then
+    InfCore.Log("WARNING: InfNPCHeli.OnAllocate missionTable.enemy.MAX_HELI_STATE_COUNT=="..tostring(missionTable.enemy.MAX_HELI_STATE_COUNT))
+  end
+  mvars.ene_maxHeliStateCount=this.totalAttackHelis
+end
 
 function this.Init(missionTable,currentChecks)
   this.messageExecTable=nil

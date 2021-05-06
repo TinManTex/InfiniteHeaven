@@ -40,6 +40,7 @@ this.mbWarGamesProfile={
       mbEnemyHeli=0,
     },
     TRAINING={
+      mbUnlockGoalDoors=1,
       --mbDDEquipNonLethal=0,--tex allow user setting
       mbHostileSoldiers=1,
       mbEnableLethalActions=0,
@@ -49,6 +50,7 @@ this.mbWarGamesProfile={
       mbEnemyHeli=0,
     },
     INVASION={
+      mbUnlockGoalDoors=1,
       mbDDEquipNonLethal=0,
       mbHostileSoldiers=1,
       mbEnableLethalActions=1,
@@ -59,6 +61,7 @@ this.mbWarGamesProfile={
       mbEnemyHeli=1,
     },
     ZOMBIE_DD={
+      mbUnlockGoalDoors=1,
       mbDDEquipNonLethal=0,--tex n/a
       mbHostileSoldiers=1,
       mbEnableLethalActions=0,
@@ -68,6 +71,7 @@ this.mbWarGamesProfile={
       mbEnemyHeli=0,
     },
     ZOMBIE_OBLITERATION={
+      mbUnlockGoalDoors=1,
       mbDDEquipNonLethal=0,
       mbHostileSoldiers=1,
       mbEnableLethalActions=1,
@@ -184,13 +188,6 @@ this.eventsMenu={
     "Ivars.enableEventHUNTED",
     "Ivars.enableEventCRASHLAND",
     "Ivars.enableEventLOST_COMS",
-    "Ivars.enableParasiteEvent",
-    "Ivars.armorParasiteEnabled",
-    "Ivars.mistParasiteEnabled",
-    "Ivars.camoParasiteEnabled",
-    "Ivars.parasitePeriod_MIN",
-    "Ivars.parasitePeriod_MAX",
-    "Ivars.parasiteWeather",
   }
 }
 --< menu defs
@@ -243,6 +240,27 @@ Zombie Obliteration (non DD)]],
 function this.PostModuleReload(prevModule)
   this.forceEvent=prevModule.forceEvent
   this.inf_enabledEvents=prevModule.inf_enabledEvents
+end
+
+this.packages={
+  [30050]={"/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",},
+}
+
+function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode < 5 then
+    return
+  end
+  
+  --GOTCHA: mb only
+  if not InfMainTpp.IsMbEvent(missionCode) then
+    return
+  end
+
+  if this.packages[missionCode] then
+    for i,path in ipairs(this.packages[missionCode])do
+    packPaths[#packPaths+1]=path
+    end
+  end
 end
 
 function this.DisableEvent()
@@ -471,6 +489,7 @@ end
 
 local warGamesBase={
   TRAINING={
+    mbUnlockGoalDoors=1,
     mbDDEquipNonLethal=1,
     mbHostileSoldiers=1,
     mbEnableLethalActions=0,
@@ -480,6 +499,7 @@ local warGamesBase={
     mbEnemyHeli=0,
   },
   INVASION={
+    mbUnlockGoalDoors=1,
     mbDDEquipNonLethal=0,
     mbHostileSoldiers=1,
     mbEnableLethalActions=1,
@@ -490,6 +510,7 @@ local warGamesBase={
     mbEnemyHeli=1,
   },
   ZOMBIE_DD={
+    mbUnlockGoalDoors=1,
     mbDDEquipNonLethal=0,
     mbHostileSoldiers=1,
     mbEnableLethalActions=0,
@@ -499,6 +520,7 @@ local warGamesBase={
     mbEnemyHeli=0,
   },
   ZOMBIE_OBLITERATION={
+    mbUnlockGoalDoors=1,
     mbDDEquipNonLethal=0,
     mbHostileSoldiers=1,
     mbEnableLethalActions=1,

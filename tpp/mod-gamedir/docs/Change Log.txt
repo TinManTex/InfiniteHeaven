@@ -1,5 +1,25 @@
 Infinite Heaven changelog
 
+r251 - 2021-04-06
+
+WarGames: Added FOB phase background music during wargames - thanks Body Damage, and others for the suggestion.
+
+disableKillChildSoldierGameOver - "Disable game over on killing child soldier" (via player restictions menu menu) - thanks CFWMagic for showing a clear example when updating the stand alone mod.
+
+Skull Events
+Moved to its own menu (via the Events menu)
+A bajillion settings for the event settings and the parameters for the skulls and zombies in the event exposed.
+Now (should) work for Free roam addon missions (does on Caplags gntn - US Naval Prison Facility)
+
+API:
+svar size for helis,walkerGears and uavs now set like mvars.ene_maxSoldierStateCount, and settable via missionScript _enemy .MAX_HELI_STATE_COUNT etc (search TppEnemy .SetMaxHeliStateCount)
+
+missionInfo addons can override vanilla missions.
+
+cpPositions built from actual positions, which allows for the GetClosestCp to work for addon missions.
+
+missionInfo.lzInfo to fill out various TppLandingZone stuff and allow GetClosestLZ to work for addon missions.
+
 r250 - 2021-04-19
 Fix: FOB soldiers (and probably DD soldiers in MB wargames with certain weapon setups) having invisible pistol.
 Seems I may have broken it in in r176 - August ‎2016 whew - thanks kapacb (and probably many others in the past) for the report.

@@ -12,8 +12,13 @@ local this={
   description="Interior example: BG Hangar",--description for IH
   missionCode=30050,--missionCode this is an interior for DEBUGNOW do I want to restrict it like that? its needed at some point, and all the outer exit info is a position in the specific mission
   packs=function(missionCode)--DEBUGNOW?
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_hanger_btg00mod.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_hanger_minimal_ih.fpk"
+    --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_minimal_void.fpk"
   end,
+  missionPacks={--tex packs loaded in exterior mission (for missionCode), usually just the 
+    --mbLayoutCode.
+    [0]={"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly003_cl00_ih.fpk",},--DEBUGNOW this fpk not in right place, see area packs mtbs_area_ly003_cl00
+  },
   --tex switch on mb to enter interior. strictly speaking this doesn't need to have anything to do with the interior
   enterSwitchLocatorName="ext_enter_switch_cl0_plnt0_hangar_ih",--DEBUGNOW
   enterSwitchDataSet="/Assets/tpp/level/location/mtbs/block_large/ext_switches_ly03_cl00_ih.fox2",--DEBUGNOW this will be dynamic on vars.layout
@@ -74,26 +79,45 @@ local this={}
 local StrCode32=InfCore.StrCode32
 
 function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode<5 then
+    return
+  end
+  
   --DEBUGNOW
   --if has locations installed
-  if missionCode==30050 then
-    --layout, cluster? how does game add these cluster packs?
-   --table.insert(packPaths,"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly000_cl00_ih.fpk")
-
-
-    --DEBUGNOW test switches
-    TppPackList.AddMissionPack"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly003_cl00_ih.fpk"--DEBUGNOW this fpk not in right place, see area packs mtbs_area_ly003_cl00
- 
+  --DEBUGNOW for interiorName,interiorInfo in pairs(this.locationInfos)do
+  local interiorInfo=interiorInfo
+  
+  if interiorInfo.missionCode ~= missionCode then
+    return
   end
+  
+  local missionPacks=interiorInfo.missionPacks
+  if missionPacks then
+
+
+    --layout, cluster? how does game add these cluster packs?
+
+
+    if missionCode==30050 then --DEBUGNOW
+        --  table.insert(packPaths,"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly003_cl00_ih.fpk")
+      missionPacks=missionPacks[vars.mbLayoutCode] or missionPacks[0]
+    end
+    for i,packPath in ipairs(missionPacks)do
+      packPaths[#packPaths+1]=packPath
+    end
+  end--if packs
 end--AddMissionPacks
-
+--CALLER: missionPackTable[30050]--DEBUGNOW
 function this.AddInteriorMissionPacks(missionCode)
---DEBUGNOW get missionCode/ base pack for mission
-     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_base.fpk"
-
+  --DEBUGNOW get missionCode/ base pack for mission
+  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_base.fpk"
+--
   local interiorInfo=interiorInfo--DEBUGNOW how do we know what interior??
-
-  interiorInfo.packs(missionCode)
+--
+  if type(interiorInfo.packs)=="function"then
+    interiorInfo.packs(missionCode)
+  end
 end
 
 function this.PushSwitchOnLeave(gameObjectId, locatorNameStr32, name, switchFlag)
@@ -101,7 +125,7 @@ function this.PushSwitchOnLeave(gameObjectId, locatorNameStr32, name, switchFlag
 
   --DEBUGNOW TODO iterate interiorExitSwitches
   local interiorInfo=interiorInfo--DEBUGNOW get interior for gameObjectName, name? iteate switches until GimmickGetGameobject==gameobject??
-  
+
   if locatorNameStr32~=StrCode32(interiorInfo.exitSwitchLocatorName) then--DEBUGNOW
     InfCore.Log("locatorName ~= "..tostring(interiorInfo.exitSwitchLocatorName))--DEBUGNOW
     return false
@@ -188,7 +212,7 @@ end--PlayExteriorDoorClose
 function this.GetPositionOuterInterior(gameObjectId, gameObjectName, name, switchFlag)
   --DEBUGNOW TODO: find interior for switch, get exit/outside teleport pos
   local interiorInfo=interiorInfo--DEBUGNOW
-  
+
   return mtbs_cluster.GetPosAndRotY( interiorInfo.clusterName, interiorInfo.plant, interiorInfo.outsideExitPos.pos , interiorInfo.outsideExitPos.rotY )
 end--GetPositionOuterInterior
 

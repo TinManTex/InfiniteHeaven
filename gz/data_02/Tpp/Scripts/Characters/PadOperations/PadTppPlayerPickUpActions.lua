@@ -1,0 +1,14 @@
+
+
+
+
+PadTppPlayerPickUpActions = {
+
+
+
+
+
+Component = TppPlayerPickUpActionPadOperatorComponent, 
+
+}
+

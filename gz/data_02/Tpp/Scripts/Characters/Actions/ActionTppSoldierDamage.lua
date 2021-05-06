@@ -1,0 +1,17 @@
+
+
+
+
+ActionTppSoldierDamage = {
+
+
+
+
+
+
+WakeUpStates = {
+	"*",	
+},
+
+}
+

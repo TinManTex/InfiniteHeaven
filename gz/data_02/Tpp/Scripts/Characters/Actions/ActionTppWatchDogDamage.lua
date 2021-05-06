@@ -1,0 +1,17 @@
+
+
+
+
+ActionTppWatchDogDamage = {
+
+
+
+
+
+
+WakeUpStates = {
+	"*",	
+},
+
+}
+

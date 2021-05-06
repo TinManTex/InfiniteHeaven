@@ -60,58 +60,67 @@
 <div id="itemHelp">General Help:<br/>Press F2 to toggle mouse cursor.<br/>Navigate menu: Arrow keys or Dpad.<br/>Activate or advance setting: Press Right key or Dpad or double-click option in menu.<br/>Search for settings: Click on the setting text below the menu list, type what you want and press Enter.<br/>Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.<br/>Menu item type symbols:<br/>&gt Sub-menu <br/>&gt&gt Command <br/>&gt] Command that closes menu when done <br/>&lt&gt Option that applies change when setting selectected/cycled to <br/>&gt! Option that has an action activated by pressing &ltAction&gt<br/>Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.<br/>See ReadMe or Features and Options for more info.<br/></div>
 </div>
 <div id="menuItem">
-<div>3: <a href="#cameraMenu">Camera menu</a></div>
+<div>3: <a href="#cam_aroundcamMenu">Cam - AroundCam menu</a></div>
 </div>
 <div id="menuItem">
-<div>4: <a href="#demosMenu">Cutscenes menu</a></div>
+<div>4: <a href="#playCamMenu">Cam - PlayCam menu</a></div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#debugMenu">Debug menu</a></div>
+<div>5: <a href="#camhookMenu">Cam - Player Cam hook menu</a></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#revengeMenu">Enemy Prep menu</a></div>
+<div>6: <a href="#demosMenu">Cutscenes menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>7: <a href="#debugMenu">Debug menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
+<div>8: <a href="#revengeMenu">Enemy Prep menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#eventsMenu">Events menu</a></div>
+<div>9: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
+<div>10: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#motherBaseMenu">Mother Base menu</a></div>
+<div>11: <a href="#eventsMenu">Events menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
+<div>12: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+<div>13: <a href="#motherBaseMenu">Mother Base menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#playerSettingsMenu">Player settings menu</a></div>
+<div>14: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#progressionMenu">Progression menu</a></div>
+<div>15: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#sideOpsMenu">Side ops menu</a></div>
+<div>16: <a href="#playerSettingsMenu">Player settings menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+<div>17: <a href="#progressionMenu">Progression menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>18: <a href="#routeSetMenu">RouteSet menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>19: <a href="#sideOpsMenu">Side ops menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#weatherMenu">Weather menu</a></div>
+<div>20: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+</div>
+<div id="menuItem">
+<div>21: <a href="#supportHeliMenu">Support heli menu</a></div>
+</div>
+<div id="menuItem">
+<div>22: <a href="#timeScaleMenu">Time scale menu</a></div>
+</div>
+<div id="menuItem">
+<div>23: <a href="#weatherMenu">Weather menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -133,45 +142,49 @@
 <div>3: Give IHExt focus : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Disable hold menu toggle : Off, On</div>
-<div id="itemHelp">Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.</div>
+<div>4: Enable mouse cursor on menu open : Off, On</div>
+<div id="itemHelp">Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2</div>
 </div>
 <div id="menuItem">
-<div>5: UI Style Editor : 0-1</div>
+<div>5: Disable hold menu toggle : Off, On</div>
+<div id="itemHelp">Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.</div>
+</div>
+<div id="menuItem">
+<div>6: UI Style Editor : 0-1</div>
 <div id="itemHelp">Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.</div>
 </div>
 <div id="menuItem">
-<div>6: Select profile : &ltProfile name&gt</div>
+<div>7: Select profile : &ltProfile name&gt</div>
 <div id="itemHelp">Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
 </div>
 <div id="menuItem">
-<div>7: Set profile options to game defaults : 0-1</div>
+<div>8: Set profile options to game defaults : 0-1</div>
 <div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
-<div>8: Save to UserSaved profile : 0-1</div>
+<div>9: Save to UserSaved profile : 0-1</div>
 <div id="itemHelp">Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.</div>
 </div>
 <div id="menuItem">
-<div>9: Enable Quick Menu : Off, On</div>
+<div>10: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>10: Start offline : Off, On</div>
+<div>11: Start offline : Off, On</div>
 <div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>11: Skip startup logos : Off, On</div>
+<div>12: Skip startup logos : Off, On</div>
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>12: Load addon mission : </div>
+<div>13: Load addon mission : NONE</div>
 </div>
 <div id="menuItem">
-<div>13: Include addon missions in completion percentage : Off, On</div>
+<div>14: Include addon missions in completion percentage : Off, On</div>
 </div>
 <div id="menuItem">
-<div>14: Reset all IH settings : 0-1</div>
+<div>15: Reset all IH settings : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -181,12 +194,11 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="cameraMenu">Camera menu</div>
-<div id="menuHelp">Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.</div>
+<div id="cam_aroundcamMenu">Cam - AroundCam menu</div>
 </div>
 <div id="menuItem">
 <div>1: Adjust-cam [Mode] : Off, On</div>
-<div id="itemHelp">  Move cam with normal move keys <br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
 </div>
 <div id="menuItem">
 <div>2: Camera mode : Default, Free cam</div>
@@ -198,28 +210,49 @@
 <div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: positionXFreeCam : 0-100000</div>
+<div>5: positionXFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>6: positionYFreeCam : 0-100000</div>
+<div>6: positionYFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7: positionZFreeCam : 0-100000</div>
+<div>7: positionZFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
 <div>8: Cam speed scale : 0.01-10</div>
 </div>
 <div id="menuItem">
-<div>9: Disable mode text feedback : Off, On</div>
+<div>9: focalLengthFreeCam : 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>10: Set stage position to camera : 0-1</div>
+<div>10: focusDistanceFreeCam : 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>11: Show freecam position : 0-1</div>
+<div>11: apertureFreeCam : 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#playCamMenu">PlayCam menu</a></div>
+<div>12: distanceFreeCam : 0-100</div>
+</div>
+<div id="menuItem">
+<div>13: targetInterpTimeFreeCam : 0-100</div>
+</div>
+<div id="menuItem">
+<div>14: rotationLimitMinXFreeCam : -90-0</div>
+</div>
+<div id="menuItem">
+<div>15: rotationLimitMaxXFreeCam : 0-90</div>
+</div>
+<div id="menuItem">
+<div>16: alphaDistanceFreeCam : 0-10</div>
+</div>
+<div id="menuItem">
+<div>17: Disable mode text feedback : Off, On</div>
+</div>
+<div id="menuItem">
+<div>18: Set stage position to camera : 0-1</div>
+</div>
+<div id="menuItem">
+<div>19: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -229,7 +262,7 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="playCamMenu">PlayCam menu</div>
+<div id="playCamMenu">Cam - PlayCam menu</div>
 <div id="menuHelp">An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.</div>
 </div>
 <div id="menuItem">
@@ -335,6 +368,40 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="camhookMenu">Cam - Player Cam hook menu</div>
+<div id="menuHelp">Uses IHHook to adjust the player camera focal length.<br/> Same method as the FOV mod d3d11.dll</div>
+</div>
+<div id="menuItem">
+<div>1: Enable Player Cam hook : Off, On</div>
+</div>
+<div id="menuItem">
+<div>2: FocalLength Normal : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>3: FocalLength Aiming : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>4: FocalLength Hiding : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>5: FocalLength CQC : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>6: Apply FOV : 1-179</div>
+<div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal lengths.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="demosMenu">Cutscenes menu</div>
 </div>
 <div id="menuItem">
@@ -416,16 +483,17 @@
 <div>13: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>14: Disable game over : Off, On</div>
+<div>14: Disable mission intro credits : Off, On</div>
 </div>
 <div id="menuItem">
-<div>15: Disable out of bounds checks : Off, On</div>
+<div>15: manualMissionCode : </div>
 </div>
 <div id="menuItem">
-<div>16: Disable mission intro credits : Off, On</div>
+<div>16: manualSequence : NONE</div>
 </div>
 <div id="menuItem">
-<div>17: manualMissionCode : </div>
+<div>17: dEBUG_RandomizeAllIvars : 0-1</div>
+<div id="itemHelp">WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -566,7 +634,7 @@
 <div>6: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: Custom soldier type in Free roam : NONE</div>
+<div>7: Custom soldier type in Free roam : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
 <div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam.<br/>New soldier types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
@@ -1053,7 +1121,8 @@
 <div id="itemHelp">In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more. Only heli will appear in free roam, vehicles depend on mission.</div>
 </div>
 <div id="menuItem">
-<div>2: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
+<div>2: Force enable enemy heli reinforce (disables heli sideops) : Off, On</div>
+<div id="itemHelp">Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.</div>
 </div>
 <div id="menuItem">
 <div>3: Force reinforce request for heli : Off, On</div>
@@ -1097,26 +1166,145 @@
 <div>6: Allow Lost Coms event : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Enable Skull attacks in Free roam : Off, On</div>
+<div>7: <a href="#parasiteMenu">Skulls event menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="parasiteMenu">Skulls event menu</div>
+</div>
+<div id="menuItem">
+<div>1: Enable Skull attacks in Free roam : Off, On</div>
 <div id="itemHelp">Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.</div>
 </div>
 <div id="menuItem">
-<div>8: Allow armor skulls : Off, On</div>
+<div>2: Allow armor skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: Allow mist skulls : Off, On</div>
+<div>3: Allow mist skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>10: Allow sniper skulls : Off, On</div>
+<div>4: Allow sniper skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Skull attack min (minutes) : 0-180</div>
+<div>5: Skull attack min (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>12: Skull attack max (minutes) : 0-180</div>
+<div>6: Skull attack max (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>13: Weather on Skull attack : None, Parasite fog, Random</div>
+<div>7: Weather on Skull attack : None, Parasite fog, Random</div>
+</div>
+<div id="menuItem">
+<div>8: parasite_zombieLife : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>9: parasite_zombieStamina : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>10: parasite_msfRate : 0-100</div>
+<div id="itemHelp">Percentage chance a zombified soldier will have msf zombie behaviour</div>
+</div>
+<div id="menuItem">
+<div>11: parasite_msfCombatLevel_MIN : 0-9</div>
+</div>
+<div id="menuItem">
+<div>12: parasite_msfCombatLevel_MAX : 0-9</div>
+</div>
+<div id="menuItem">
+<div>13: parasite_playerRange : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>14: parasite_sightDistance : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>15: parasite_sightDistanceCombat : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>16: parasite_sightVertical : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>17: parasite_sightHorizontal : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>18: parasite_noiseRate : 0-100</div>
+</div>
+<div id="menuItem">
+<div>19: parasite_avoidSideMin : 0-100</div>
+</div>
+<div id="menuItem">
+<div>20: parasite_avoidSideMax : 0-100</div>
+</div>
+<div id="menuItem">
+<div>21: parasite_areaCombatBattleRange : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>22: parasite_areaCombatBattleToSearchTime : 0-100</div>
+</div>
+<div id="menuItem">
+<div>23: parasite_areaCombatLostSearchRange : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>24: parasite_areaCombatLostToGuardTime : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>25: parasite_throwRecastTime : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>26: parasite_defenseValueMain : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>27: parasite_defenseValueArmor : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>28: parasite_defenseValueWall : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>29: parasite_offenseGrade : 0-100</div>
+</div>
+<div id="menuItem">
+<div>30: parasite_defenseGrade : 0-100</div>
+</div>
+<div id="menuItem">
+<div>31: parasite_defenseValueCAMO : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>32: parasite_offenseGradeCAMO : 0-100</div>
+</div>
+<div id="menuItem">
+<div>33: parasite_defenseGradeCAMO : 0-100</div>
+</div>
+<div id="menuItem">
+<div>34: parasite_escapeDistanceARMOR : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>35: parasite_escapeDistanceMIST : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>36: parasite_escapeDistanceCAMO : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>37: parasite_spawnRadiusARMOR : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>38: parasite_spawnRadiusMIST : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>39: parasite_spawnRadiusCAMO : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>40: parasite_timeOutARMOR : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>41: parasite_timeOutMIST : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>42: parasite_timeOutCAMO : 0-1000</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1197,11 +1385,11 @@
 <div>3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range</div>
 </div>
 <div id="menuItem">
-<div>4: DD Suit : NONE</div>
+<div>4: DD Suit : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
 <div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
-<div>5: DD Suit female : NONE</div>
+<div>5: DD Suit female : OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE</div>
 <div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
@@ -1219,7 +1407,7 @@
 <div>9: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot</div>
 </div>
 <div id="menuItem">
-<div>10: Attack heli class in MB : </div>
+<div>10: Attack heli class in MB : DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP</div>
 </div>
 <div id="menuItem">
 <div>11: Walker gears in MB : Off, On</div>
@@ -1272,6 +1460,7 @@
 </div>
 <div id="menuItem">
 <div>25: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+<div id="itemHelp">Profiles that sets many of the wargames event settings, but just the underlying categories, see 'MB event random trigger chance' actually themed/flavorful versions</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1302,6 +1491,10 @@
 <div id="menuItem">
 <div>5: Staff-wide morale boost for good visit : Off, On</div>
 <div id="itemHelp">Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.</div>
+</div>
+<div id="menuItem">
+<div>6: Add more salute reactions : Off, On</div>
+<div id="itemHelp">Adds additional reactions from MB staff when they salute you.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1373,7 +1566,7 @@
 <div>5: Male groundcrew : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: Chilren : Off, On</div>
+<div>6: Children : Off, On</div>
 </div>
 <div id="menuItem">
 <div>7: Kaz Miller : Off, On</div>
@@ -1463,11 +1656,11 @@
 <div>6: Attack heli type in MB : HP-48 Krokodil, UTH-66 Blackfoot</div>
 </div>
 <div id="menuItem">
-<div>7: Attack heli class in FreeRoam : </div>
+<div>7: Attack heli class in FreeRoam : DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP</div>
 <div id="itemHelp">Combined appearance and health</div>
 </div>
 <div id="menuItem">
-<div>8: Attack heli class in MB : </div>
+<div>8: Attack heli class in MB : DEFAULT, BLACK, RED, RANDOM, RANDOM_EACH, ENEMY_PREP</div>
 </div>
 <div id="menuItem">
 <div>9: Walker gears in free roam : Off, On</div>
@@ -1536,40 +1729,49 @@
 <div>7: Game over on combat alert : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Disable Intel team enemy spotting : Off, On</div>
+<div>8: Disable game over on killing child soldier : Off, On</div>
+</div>
+<div id="menuItem">
+<div>9: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+<div>11: Disable Intel team enemy spotting : Off, On</div>
 <div id="itemHelp">Stops the Intel teams enemy spotting audio notification and indication on the idroid map.</div>
 </div>
 <div id="menuItem">
-<div>9: Disable Intel team herb spotting (requires game restart) : Off, On</div>
+<div>12: Disable Intel team herb spotting (requires game restart) : Off, On</div>
 <div id="itemHelp">Stops the Intel teams plant spotting audio notification and indication on the idroid map. Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.</div>
 </div>
 <div id="menuItem">
-<div>10: Keep equipment Free&lt&gtMission : Off, On</div>
+<div>13: Keep equipment Free&lt&gtMission : Off, On</div>
 <div id="itemHelp">Prevents equipment and weapons being reset when going between free-roam and missions.</div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#markersMenu">Marking display menu</a></div>
+<div>14: <a href="#markersMenu">Marking display menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#disableSupportMenuMenu">Disable mission support-menus menu</a></div>
+<div>15: <a href="#disableSupportMenuMenu">Disable mission support-menus menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#itemLevelMenu">Item level menu</a></div>
+<div>16: <a href="#itemLevelMenu">Item level menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#handLevelMenu">Hand abilities levels menu</a></div>
+<div>17: <a href="#handLevelMenu">Hand abilities levels menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#fultonLevelMenu">Fulton levels menu</a></div>
+<div>18: <a href="#fultonLevelMenu">Fulton levels menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#fultonSuccessMenu">Fulton success menu</a></div>
+<div>19: <a href="#fultonSuccessMenu">Fulton success menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#ospMenu">OSP menu</a></div>
+<div>20: <a href="#ospMenu">OSP menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
+<div>21: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -1876,6 +2078,45 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="routeSetMenu">RouteSet menu</div>
+<div id="menuHelp">Options to randomize what routes soldiers use in a Command Post.</div>
+</div>
+<div id="menuItem">
+<div>1: Randomize RouteSets in missions : Off, On</div>
+<div id="itemHelp">Enables all following options. Also randomizes current routeSet on mission load/reload. WARNING: may mess up scripted mission routes.</div>
+</div>
+<div id="menuItem">
+<div>2: Randomize RouteSets in free roam : Off, On</div>
+<div id="itemHelp">Enables all following options. Also randomizes current routeSet on mission load/reload. Requires randomize group priority or group routes to be on.</div>
+</div>
+<div id="menuItem">
+<div>3: Randomize on shift change : Off, On</div>
+<div id="itemHelp">Randomize current routeSet on morning and night shift changes.</div>
+</div>
+<div id="menuItem">
+<div>4: Randomize on phase change : Off, On</div>
+<div id="itemHelp">Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.</div>
+</div>
+<div id="menuItem">
+<div>5: Randomize group priority : Off, On</div>
+<div id="itemHelp">Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from.</div>
+</div>
+<div id="menuItem">
+<div>6: Randomize group routes : Off, On</div>
+<div id="itemHelp">Each routeSet for a CP has a number of groups of routes, this will change the order within the group.</div>
+</div>
+<div id="menuItem">
+<div>7: Randomize RouteSet now : 0-1</div>
+<div id="itemHelp">Randomize current routeset right now. (Use the command in-mission).</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="sideOpsMenu">Side ops menu</div>
 </div>
 <div id="menuItem">
@@ -1900,7 +2141,8 @@
 <div id="itemHelp">Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.</div>
 </div>
 <div id="menuItem">
-<div>7: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
+<div>7: Force enable enemy heli reinforce (disables heli sideops) : Off, On</div>
+<div id="itemHelp">Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.</div>
 </div>
 <div id="menuItem">
 <div>8: Include add-on sideops in completion percentage : Off, On</div>
@@ -2156,65 +2398,68 @@
 <div id="itemHelp">Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.</div>
 </div>
 <div id="menuItem">
-<div>5: General Help : 0-1</div>
+<div>5: Warp to latest marker : 0-1</div>
+</div>
+<div id="menuItem">
+<div>6: General Help : 0-1</div>
 <div id="itemHelp">General Help:<br/>Press F2 to toggle mouse cursor.<br/>Navigate menu: Arrow keys or Dpad.<br/>Activate or advance setting: Press Right key or Dpad or double-click option in menu.<br/>Search for settings: Click on the setting text below the menu list, type what you want and press Enter.<br/>Change a numerical setting: Click on the setting value below the menu list, type what you want and press Enter.<br/>Menu item type symbols:<br/>&gt Sub-menu <br/>&gt&gt Command <br/>&gt] Command that closes menu when done <br/>&lt&gt Option that applies change when setting selectected/cycled to <br/>&gt! Option that has an action activated by pressing &ltAction&gt<br/>Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.<br/>See ReadMe or Features and Options for more info.<br/></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#systemMenuMission">IH system menu</a></div>
+<div>7: <a href="#systemMenuMission">IH system menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#appearanceMenu">Appearance menu</a></div>
+<div>8: <a href="#appearanceMenu">Appearance menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#buddyMenu">Buddy menu</a></div>
+<div>9: <a href="#buddyMenu">Buddy menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#cameraMenu">Camera menu</a></div>
+<div>10: <a href="#cam_aroundcamMenu">Cam - AroundCam menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
+<div>11: <a href="#playCamMenu">Cam - PlayCam menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>12: <a href="#camhookMenu">Cam - Player Cam hook menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#mbOceanMenu">MB Ocean menu</a></div>
+<div>13: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#markersInMissionMenu">Markers menu</a></div>
+<div>14: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#miscInMissionMenu">Misc menu</a></div>
+<div>15: <a href="#mbOceanMenu">MB Ocean menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#motionsMenu">Motions menu</a></div>
+<div>16: <a href="#markersInMissionMenu">Markers menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#objectsMenu">Objects menu</a></div>
+<div>17: <a href="#miscInMissionMenu">Misc menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#playerRestrictionsInMissionMenu">Player restrictions menu</a></div>
+<div>18: <a href="#motionsMenu">Motions menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#positionsMenu">Positions menu</a></div>
+<div>19: <a href="#objectListsMenu">Object lists menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#routesMenu">Routes menu</a></div>
+<div>20: <a href="#playerRestrictionsInMissionMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
+<div>21: <a href="#routeSetMenu">RouteSet menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>22: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>22: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>23: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>23: <a href="#userMarkerMenu">User marker menu</a></div>
+<div>24: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
-<div>24: <a href="#weatherMenu">Weather menu</a></div>
+<div>25: <a href="#weatherMenu">Weather menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2239,15 +2484,19 @@
 <div>3: Give IHExt focus : 0-1</div>
 </div>
 <div id="menuItem">
-<div>4: Disable hold menu toggle : Off, On</div>
-<div id="itemHelp">Disables the legacy one-button hold-to-toggle menu, the two button menu combo will still work.</div>
+<div>4: Enable mouse cursor on menu open : Off, On</div>
+<div id="itemHelp">Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2</div>
 </div>
 <div id="menuItem">
-<div>5: UI Style Editor : 0-1</div>
+<div>5: Disable hold menu toggle : Off, On</div>
+<div id="itemHelp">Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.</div>
+</div>
+<div id="menuItem">
+<div>6: UI Style Editor : 0-1</div>
 <div id="itemHelp">Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.</div>
 </div>
 <div id="menuItem">
-<div>6: Enable Quick Menu : Off, On</div>
+<div>7: Enable Quick Menu : Off, On</div>
 <div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
@@ -2342,12 +2591,11 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="cameraMenu">Camera menu</div>
-<div id="menuHelp">Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.</div>
+<div id="cam_aroundcamMenu">Cam - AroundCam menu</div>
 </div>
 <div id="menuItem">
 <div>1: Adjust-cam [Mode] : Off, On</div>
-<div id="itemHelp">  Move cam with normal move keys <br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
 </div>
 <div id="menuItem">
 <div>2: Camera mode : Default, Free cam</div>
@@ -2359,28 +2607,49 @@
 <div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: positionXFreeCam : 0-100000</div>
+<div>5: positionXFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>6: positionYFreeCam : 0-100000</div>
+<div>6: positionYFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7: positionZFreeCam : 0-100000</div>
+<div>7: positionZFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
 <div>8: Cam speed scale : 0.01-10</div>
 </div>
 <div id="menuItem">
-<div>9: Disable mode text feedback : Off, On</div>
+<div>9: focalLengthFreeCam : 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>10: Set stage position to camera : 0-1</div>
+<div>10: focusDistanceFreeCam : 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>11: Show freecam position : 0-1</div>
+<div>11: apertureFreeCam : 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#playCamMenu">PlayCam menu</a></div>
+<div>12: distanceFreeCam : 0-100</div>
+</div>
+<div id="menuItem">
+<div>13: targetInterpTimeFreeCam : 0-100</div>
+</div>
+<div id="menuItem">
+<div>14: rotationLimitMinXFreeCam : -90-0</div>
+</div>
+<div id="menuItem">
+<div>15: rotationLimitMaxXFreeCam : 0-90</div>
+</div>
+<div id="menuItem">
+<div>16: alphaDistanceFreeCam : 0-10</div>
+</div>
+<div id="menuItem">
+<div>17: Disable mode text feedback : Off, On</div>
+</div>
+<div id="menuItem">
+<div>18: Set stage position to camera : 0-1</div>
+</div>
+<div id="menuItem">
+<div>19: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2390,7 +2659,7 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="playCamMenu">PlayCam menu</div>
+<div id="playCamMenu">Cam - PlayCam menu</div>
 <div id="menuHelp">An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.</div>
 </div>
 <div id="menuItem">
@@ -2496,6 +2765,40 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="camhookMenu">Cam - Player Cam hook menu</div>
+<div id="menuHelp">Uses IHHook to adjust the player camera focal length.<br/> Same method as the FOV mod d3d11.dll</div>
+</div>
+<div id="menuItem">
+<div>1: Enable Player Cam hook : Off, On</div>
+</div>
+<div id="menuItem">
+<div>2: FocalLength Normal : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>3: FocalLength Aiming : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>4: FocalLength Hiding : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>5: FocalLength CQC : 0.01-3500</div>
+<div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
+</div>
+<div id="menuItem">
+<div>6: Apply FOV : 1-179</div>
+<div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal lengths.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="debugInMissionMenu">Debug stuff menu</div>
 </div>
 <div id="menuItem">
@@ -2532,64 +2835,64 @@
 <div>10: setSelectedCpToMarkerClosestCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: dEBUG_PrintCpPowerSettings : 0-1</div>
+<div>11: dEBUG_ShowRevengeConfig : 0-1</div>
 </div>
 <div id="menuItem">
-<div>12: dEBUG_PrintPowersCount : 0-1</div>
+<div>12: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>13: dEBUG_PrintReinforceVars : 0-1</div>
+<div>13: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>14: dEBUG_PrintSoldierDefine : 0-1</div>
+<div>14: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>15: dEBUG_ShowRevengeConfig : 0-1</div>
+<div>15: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>16: Disable game over on killing child soldier : Off, On</div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>17: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>18: printPressedButtons : Off, On</div>
+<div>18: setAllFriendly : 0-1</div>
 </div>
 <div id="menuItem">
-<div>19: printOnBlockChange : Off, On</div>
+<div>19: setAllZombie : 0-1</div>
 </div>
 <div id="menuItem">
-<div>20: Disable game over : Off, On</div>
+<div>20: dEBUG_ToggleParasiteEvent : 0-1</div>
 </div>
 <div id="menuItem">
-<div>21: Disable out of bounds checks : Off, On</div>
+<div>21: resetStageBlockPosition : 0-1</div>
 </div>
 <div id="menuItem">
-<div>22: setAllFriendly : 0-1</div>
+<div>22: setStageBlockPositionToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
-<div>23: setAllZombie : 0-1</div>
+<div>23: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
-<div>24: dEBUG_ToggleParasiteEvent : 0-1</div>
+<div>24: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>25: resetStageBlockPosition : 0-1</div>
+<div>25: Show position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>26: setStageBlockPositionToMarkerClosest : 0-1</div>
+<div>26: checkPointSave : 0-1</div>
 </div>
 <div id="menuItem">
-<div>27: Set stage position to camera : 0-1</div>
+<div>27: manualMissionCode : </div>
 </div>
 <div id="menuItem">
-<div>28: Show freecam position : 0-1</div>
+<div>28: manualSequence : NONE</div>
 </div>
 <div id="menuItem">
-<div>29: Show position : 0-1</div>
+<div>29: <a href="#debugPrintMenu">debugPrintMenu</a></div>
 </div>
 <div id="menuItem">
-<div>30: checkPointSave : 0-1</div>
+<div>30: <a href="#debugStuffMenu">debugStuffMenu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2678,6 +2981,51 @@
 </div>
 <div id="menuItem">
 <div>26: <a href="#fovaModMenu">Form Variation menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="debugPrintMenu">debugPrintMenu</div>
+<div id="menuHelp">Dump various things to log</div>
+</div>
+<div id="menuItem">
+<div>1: dEBUG_PrintCpPowerSettings : 0-1</div>
+</div>
+<div id="menuItem">
+<div>2: dEBUG_PrintPowersCount : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: dEBUG_PrintReinforceVars : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: dEBUG_PrintSoldierDefine : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="debugStuffMenu">debugStuffMenu</div>
+</div>
+<div id="menuItem">
+<div>1: selectSpeechSoldier : </div>
+<div id="itemHelp">Selects a soldier from Object list (see Objects menu) as a target for debug_CallVoice, debug_CallConversation</div>
+</div>
+<div id="menuItem">
+<div>2: selectSpeechSoldier2 : </div>
+</div>
+<div id="menuItem">
+<div>3: debug_CallVoice : </div>
+</div>
+<div id="menuItem">
+<div>4: debug_CallConversation : MB_story_01, MB_story_02, MB_story_03, MB_story_04, MB_story_05, MB_story_06, MB_story_07, MB_story_08, MB_story_09, MB_story_10, MB_story_11, MB_story_12, MB_story_13, MB_story_14, MB_story_15, MB_story_16, MB_story_17, MB_story_18, MB_story_19</div>
+<div id="itemHelp">Requires a valid selectSpeechSoldier, selectSpeechSoldier2 of a nearby soldier</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2807,11 +3155,11 @@
 <div id="menuHelp">Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)</div>
 </div>
 <div id="menuItem">
-<div>1: Motion group : BatsuSign</div>
+<div>1: Motion group : NONE</div>
 <div id="itemHelp">Press &ltAction&gt to play the selected animation.</div>
 </div>
 <div id="menuItem">
-<div>2: Motion number : BatsuSign anim:0</div>
+<div>2: Motion number : NONE</div>
 <div id="itemHelp">Press &ltAction&gt to play the selected animation.</div>
 </div>
 <div id="menuItem">
@@ -2844,6 +3192,37 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="objectListsMenu">Object lists menu</div>
+</div>
+<div id="menuItem">
+<div>1: warpToListPosition : no positions</div>
+</div>
+<div id="menuItem">
+<div>2: warpToListObject : Player nil</div>
+</div>
+<div id="menuItem">
+<div>3: setCamToListObject : Player nil</div>
+</div>
+<div id="menuItem">
+<div>4: <a href="#objectsMenu">Objects menu</a></div>
+</div>
+<div id="menuItem">
+<div>5: <a href="#positionsMenu">Positions menu</a></div>
+</div>
+<div id="menuItem">
+<div>6: <a href="#routesMenu">Routes menu</a></div>
+</div>
+<div id="menuItem">
+<div>7: <a href="#userMarkerMenu">User marker menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="objectsMenu">Objects menu</div>
 <div id="menuHelp">For adding game object names in the game to a Objects List, and writing/loading them to files.</div>
 </div>
@@ -2852,7 +3231,7 @@
 <div id="itemHelp">Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.</div>
 </div>
 <div id="menuItem">
-<div>2: Add lookup list : list is empty</div>
+<div>2: Add lookup list : </div>
 <div id="itemHelp">Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.</div>
 </div>
 <div id="menuItem">
@@ -2869,27 +3248,6 @@
 </div>
 <div id="menuItem">
 <div>6: Browse object list : Player</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="playerRestrictionsInMissionMenu">Player restrictions menu</div>
-</div>
-<div id="menuItem">
-<div>1: Disable head markers : Off, On</div>
-<div id="itemHelp">Disables markers above soldiers and objects</div>
-</div>
-<div id="menuItem">
-<div>2: Disable world markers : Off, On</div>
-<div id="itemHelp">Disables objective and placed markers</div>
-</div>
-<div id="menuItem">
-<div>3: Game over on combat alert : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2923,7 +3281,7 @@
 <div id="itemHelp">Loads positions from MGS_TPP\mod\positions_lua.txt</div>
 </div>
 <div id="menuItem">
-<div>6: Select position : list is empty</div>
+<div>6: Select position : </div>
 <div id="itemHelp">Selects a position from positions list, mostly just used to browse positions at the moment.</div>
 </div>
 <div id="menuItem">
@@ -2950,7 +3308,105 @@
 <div id="itemHelp">Loads routes list from file in MGS_TPP\mod\</div>
 </div>
 <div id="menuItem">
-<div>4: setMarkerSneakRoute : list is empty</div>
+<div>4: setMarkerSneakRoute : </div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="userMarkerMenu">User marker menu</div>
+</div>
+<div id="menuItem">
+<div>1: Warp to latest marker : 0-1</div>
+</div>
+<div id="menuItem">
+<div>2: Print latest marker : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: Print all markers : 0-1</div>
+</div>
+<div id="menuItem">
+<div>4: Add markers to Positions List : 0-1</div>
+<div id="itemHelp">Adds current user markers to positions list, positions list can be written to file with Write Positons List command.</div>
+</div>
+<div id="menuItem">
+<div>5: Write Positions List : 0-1</div>
+<div id="itemHelp">Writes Positions List to files in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>6: Clear Positions List : 0-1</div>
+<div id="itemHelp">Clears Positions List</div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="playerRestrictionsInMissionMenu">Player restrictions menu</div>
+</div>
+<div id="menuItem">
+<div>1: Disable head markers : Off, On</div>
+<div id="itemHelp">Disables markers above soldiers and objects</div>
+</div>
+<div id="menuItem">
+<div>2: Disable world markers : Off, On</div>
+<div id="itemHelp">Disables objective and placed markers</div>
+</div>
+<div id="menuItem">
+<div>3: Game over on combat alert : Off, On</div>
+</div>
+<div id="menuItem">
+<div>4: Disable game over on killing child soldier : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="routeSetMenu">RouteSet menu</div>
+<div id="menuHelp">Options to randomize what routes soldiers use in a Command Post.</div>
+</div>
+<div id="menuItem">
+<div>1: Randomize RouteSets in missions : Off, On</div>
+<div id="itemHelp">Enables all following options. Also randomizes current routeSet on mission load/reload. WARNING: may mess up scripted mission routes.</div>
+</div>
+<div id="menuItem">
+<div>2: Randomize RouteSets in free roam : Off, On</div>
+<div id="itemHelp">Enables all following options. Also randomizes current routeSet on mission load/reload. Requires randomize group priority or group routes to be on.</div>
+</div>
+<div id="menuItem">
+<div>3: Randomize on shift change : Off, On</div>
+<div id="itemHelp">Randomize current routeSet on morning and night shift changes.</div>
+</div>
+<div id="menuItem">
+<div>4: Randomize on phase change : Off, On</div>
+<div id="itemHelp">Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.</div>
+</div>
+<div id="menuItem">
+<div>5: Randomize group priority : Off, On</div>
+<div id="itemHelp">Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from.</div>
+</div>
+<div id="menuItem">
+<div>6: Randomize group routes : Off, On</div>
+<div id="itemHelp">Each routeSet for a CP has a number of groups of routes, this will change the order within the group.</div>
+</div>
+<div id="menuItem">
+<div>7: Randomize RouteSet now : 0-1</div>
+<div id="itemHelp">Randomize current routeset right now. (Use the command in-mission).</div>
 </div>
 <div id="menuItem">
 </div>
@@ -3063,35 +3519,6 @@
 <div>7: Set clock time : 00</div>
 </div>
 <div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="userMarkerMenu">User marker menu</div>
-</div>
-<div id="menuItem">
-<div>1: Warp to latest marker : 0-1</div>
-</div>
-<div id="menuItem">
-<div>2: Print latest marker : 0-1</div>
-</div>
-<div id="menuItem">
-<div>3: Print all markers : 0-1</div>
-</div>
-<div id="menuItem">
-<div>4: Add markers to Positions List : 0-1</div>
-<div id="itemHelp">Adds current user markers to positions list, positions list can be written to file with Write Positons List command.</div>
-</div>
-<div id="menuItem">
-<div>5: Write Positions List : 0-1</div>
-<div id="itemHelp">Writes Positions List to files in MGS_TPP\mod\</div>
-</div>
-<div id="menuItem">
-<div>6: Clear Positions List : 0-1</div>
-<div id="itemHelp">Clears Positions List</div>
 </div>
 <div id="menuItem">
 </div>

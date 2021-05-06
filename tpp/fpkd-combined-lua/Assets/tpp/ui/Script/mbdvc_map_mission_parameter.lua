@@ -653,11 +653,17 @@ mbdvc_map_mission_parameter = {
         elseif Ivars.disableLzs:Is"REGULAR" then
           checkLzs=TppLandingZone.missionLzs
         end
-
+        --tex DEBUGNOW TODO
         for i=1,#lzTable do
           local lzInfo=lzTable[i]
-          if not checkLzs.afgh[lzInfo.routeId] and
-            not checkLzs.mafr[lzInfo.routeId] then
+          local addLz=true
+          for location,lzs in pairs(checkLzs)do
+            if lzs[lzInfo.routeId] then
+              addLz=false
+              break
+            end
+          end
+          if addLz then
             newLzTable[#newLzTable+1]=lzInfo
           end
         end
@@ -666,5 +672,5 @@ mbdvc_map_mission_parameter = {
       --<
 
       return missionParameter
-    end,
-}
+    end,--GetMissionParameter2
+}--mbdvc_map_mission_parameter

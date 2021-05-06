@@ -1,0 +1,12 @@
+
+
+
+ActionTppPlayerDead = {
+
+
+WakeUpStates = {
+	 "stateDead",
+},
+	
+}
+

@@ -25,9 +25,13 @@
 
 --lua api
 local functionEntries={
+  {name="_mainCRTStartup",},
+  {name="FoxMain",},
   {name="StrCode64",},
   {name="GetFreeRoamLangId",},
   {name="UpdateFOVLerp",},
+  {name="UnkSomePrintFunction",note="Some info printing function that has been stubbed out"},
+  {name="l_StubbedOut",},
   --<
   --lua
   {name="lua_newstate",note="tex could use default implementation, but may want to hook if we want to see what the engine is up to"},
@@ -189,7 +193,6 @@ local functionEntries={
   {name="luaopen_package",},
   {name="luaL_openlibs",},
 --luaLib.h<
-
 }--functionEntries
 
 local noAddressLegend=[[
@@ -366,6 +369,39 @@ function ProcessCSVEntries(csvEntries,functionEntries)
   return outLines
 end--ProcessCSVEntriesOld
 
+--REF: Input functionSignature
+--lua_State * lua_newstate(lua_Alloc f, void * ud)
+--REF: output
+--FUNCPTRDEF(lua_State *, lua_newstate, lua_Alloc f, void * ud)
+function ParseFunctionSignature(functionSignature)
+--  print("ParseFunctionSignature "..tostring(functionSignature))
+--  local paramStart=functionSignature:find('(')
+--  if not paramStart then
+--    print("ERROR: could not find paramStart '(' in functionSignature "..tostring(functionSignature))
+--    return nil
+--  end
+--  
+--  local frag=functionSignature:sub(paramStart)
+--  local spaceSplit=split(frag," ")--tex probably smarter ways to do this but oh well
+--  
+--  
+--  local nameStart=functionSignature:find(',')+1+1--tex first comma  +1 for comma, +1 for space
+--  local nameStart = left from paramStart to first space " "
+--  
+--  local funcName=functionSignature:sub(nameStart,paramStart-1) -- -1 strips '('
+--  print("funcName:"..tostring(funcName))
+--  local ret = functionSignature:sub(nameStart-1)-- -1 strips ' '
+  --params = split(paramState+1,end-1) -- -1s strip '(', ')'
+  --for params strip any leading whitespace
+  
+  --local headerLine="FUNCPTRDEF("..ret..", "..funcName
+  --for i, paramDecl in ipairs(params)do
+  --  headerLine=headerLine..", "..paramDecl
+  --end--for params
+  --headerLine=headerLine..")"
+  --return headerLine
+end--ParseFunctionSignature
+
 --write .h file
 function WriteH(outLines,hDestPath,header,footer)
   print("WriteH: "..hDestPath)
@@ -424,6 +460,7 @@ local versions={
 
 for i,version in ipairs(versions)do
   for j,lang in ipairs(langs)do
+    print("----")
     local fileName=exeName.."_adresses_"..version.."_"..lang
     local csvSourcePath=[[D:\GitHub\IHHook\]]..fileName..[[.csv]]
     local hDestPath=[[D:\GitHub\IHHook\IHHook\]]..fileName..[[.h]]

@@ -1,5 +1,7 @@
 -- InfParasite.lua
 -- tex implements parasite/skulls unit event
+--TODO: expose  parasiteAppearTimeMin, parasiteAppearTimeMax
+
 local this={}
 
 local InfCore=InfCore
@@ -65,69 +67,88 @@ local camoShiftRouteAttackCount=3
 
 local triggerAttackCount=45--tex mbqf hostage parasites
 
-local PARASITE_PARAMETERS={
-  NORMAL={--10020
-    sightDistance = 20,
-    sightVertical = 36.0,
-    sightHorizontal = 48.0,
-  },
-  HARD={
-    sightDistance = 30,
-    sightVertical = 55.0,
-    sightHorizontal = 48.0,
-  },
-}
-
---10090
+--REF CULL
+--SetParameters
 --local PARASITE_PARAMETERS={
---  NORMAL = {
---    sightDistance         = 25,
---    sightDistanceCombat       = 75,
---
---    sightHorizontal         = 60,
---    noiseRate           = 8,
---    avoidSideMin          = 8,
---    avoidSideMax          = 12,
---    areaCombatBattleRange     = 50,
---    areaCombatBattleToSearchTime  = 1,
---    areaCombatLostSearchRange   = 1000,
---    areaCombatLostToGuardTime   = 120,
---
---    throwRecastTime         = 10,
+--  EASY={--10020
+--    sightDistance = 20,
+--    sightVertical = 36.0,
+--    sightHorizontal = 48.0,
 --  },
 --
---  EXTREME={
---    sightDistance         = 25,
---    sightDistanceCombat       = 100,
+--  --ARMOR
+--  --o50050_enemy
+--  HARD = {
+--    sightDistance = 30,
+--    sightVertical = 55.0,
+--    sightHorizontal = 48.0,
+--  },
 --
---    sightHorizontal         = 100,
---    noiseRate           = 10,
---    avoidSideMin          = 8,
---    avoidSideMax          = 12,
---    areaCombatBattleRange     = 50,
+--
+--  --10090
+--  NORMAL = {
+--    sightDistance                 = 25,
+--    sightDistanceCombat           = 75,
+--    sightVertical                 = 40,
+--    sightHorizontal               = 60,
+--    noiseRate                     = 8,
+--    avoidSideMin                  = 8,
+--    avoidSideMax                  = 12,
+--    areaCombatBattleRange         = 50,
 --    areaCombatBattleToSearchTime  = 1,
---    areaCombatLostSearchRange   = 1000,
---    areaCombatLostToGuardTime   = 60,
+--    areaCombatLostSearchRange     = 1000,
+--    areaCombatLostToGuardTime     = 120,
+--    --areaCombatGuardDistance
+--    throwRecastTime               = 10,
+--  },
+--  --10090
+--  EXTREME={
+--    sightDistance                 = 25,
+--    sightDistanceCombat           = 100,
+--    sightVertical                 = 60,
+--    sightHorizontal               = 100,
+--    noiseRate                     = 10,
+--    avoidSideMin                  = 8,
+--    avoidSideMax                  = 12,
+--    areaCombatBattleRange         = 50,
+--    areaCombatBattleToSearchTime  = 1,
+--    areaCombatLostSearchRange     = 1000,
+--    areaCombatLostToGuardTime     = 60,
+--    --areaCombatGuardDistance
+--    throwRecastTime               = 10,
+--  },
+--}--PARASITE_PARAMETERS
 --
---    throwRecastTime         = 10,
+----SetCombatGrade
+----o50050_enemy
+--local PARASITE_GRADE={
+--  NORMAL={
+--    --DEBUGNOW where did I get these values from, did I log fob?
+--    defenseValueMain=4000,
+--    defenseValueArmor=7000,
+--    defenseValueWall=8000,
+--    offenseGrade=2,
+--    defenseGrade=7,
+--  },
+--  HARD={
+--    defenseValueMain=4000,
+--    defenseValueArmor=8400,
+--    defenseValueWall=9600,
+--    offenseGrade=5,
+--    defenseGrade=7,
 --  },
 --}
-
-local PARASITE_GRADE={
-  NORMAL={
-    defenseValueMain=4000,
-    defenseValueArmor=7000,
-    defenseValueWall=8000,
-    offenseGrade=2,
-    defenseGrade=7,
-  },
-  HARD={
-    defenseValueMain=4000,
-    defenseValueArmor=8400,
-    defenseValueWall=9600,
-    offenseGrade=5,
-    defenseGrade=7,
-  },
+--
+----SetCombatGrade
+--local PARASITE_GRADE_CAMO={
+--  defenseValue=4000,
+--  offenseGrade=2,
+--  defenseGrade=7,
+--}
+local parasiteTypes={
+  "ARMOR",
+  "MIST",
+  "CAMO",
 }
 
 --seconds
@@ -142,11 +163,6 @@ local escapeDistances={
   MIST=0,
   CAMO=250,
 }
---distsqr
-playerRange=playerRange*playerRange
-for paraType,escapeDistance in pairs(escapeDistances)do
-  escapeDistances[paraType]=escapeDistance*escapeDistance
-end
 
 local spawnRadius={
   ARMOR=40,
@@ -167,10 +183,6 @@ local timeOuts={
 --TUNE zombies
 local disableDamage=false
 local isHalf=false
-local msfRate=10--mb only
-
-local cpZombieLife=300
-local cpZombieStamina=200
 
 --<
 
@@ -223,35 +235,46 @@ this.bgmList={
 }
 
 this.registerIvars={
-  "enableParasiteEvent",
-  "armorParasiteEnabled",
-  "mistParasiteEnabled",
-  "camoParasiteEnabled",
-  "parasiteWeather",
+  "parasite_enabledARMOR",
+  "parasite_enabledMIST",
+  "parasite_enabledCAMO",
+  "parasite_weather",
+  "parasite_playerRange",
+  "parasite_zombieLife",
+  "parasite_zombieStamina",
+  "parasite_msfRate",
 }
 
-this.enableParasiteEvent={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-  MissionCheck=IvarProc.MissionCheckFree,
-}
+IvarProc.MissionModeIvars(
+  this,
+  "parasite_enableEvent",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.switchRange,
+    settingNames="set_switch",
+  },
+  {
+    "FREE",
+    --"MISSION",
+    --"MB_ALL",
+  }
+)
 
-this.armorParasiteEnabled={
+this.parasite_enabledARMOR={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=1,
   range=Ivars.switchRange,
   settingNames="set_switch",
 }
 
-this.mistParasiteEnabled={
+this.parasite_enabledMIST={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=1,
   range=Ivars.switchRange,
   settingNames="set_switch",
 }
 
-this.camoParasiteEnabled={
+this.parasite_enabledCAMO={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=1,
   range=Ivars.switchRange,
@@ -259,7 +282,7 @@ this.camoParasiteEnabled={
 }
 
 --tex See weatherTypes in StartEvent
-this.parasiteWeather={
+this.parasite_weather={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=1,--parasite
   settings={"NONE","PARASITE_FOG","RANDOM"},
@@ -268,7 +291,7 @@ this.parasiteWeather={
 --tex time in minutes
 IvarProc.MinMaxIvar(
   this,
-  "parasitePeriod",
+  "parasite_eventPeriod",
   {
     default=10,
     OnChange=function(self,setting,prevSetting)
@@ -288,6 +311,316 @@ IvarProc.MinMaxIvar(
     range={min=0,max=180,increment=1},
   }
 )
+
+--SetParameters, mist/armor
+local paramNames={
+  "sightDistance",
+  "sightDistanceCombat",
+  "sightVertical",
+  "sightHorizontal",
+  "noiseRate",
+  "avoidSideMin",
+  "avoidSideMax",
+  "areaCombatBattleRange",
+  "areaCombatBattleToSearchTime",
+  "areaCombatLostSearchRange",
+  "areaCombatLostToGuardTime",
+  --"areaCombatGuardDistance"
+  "throwRecastTime",
+}--paramNames
+
+this.parasite_sightDistance={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=25,--20,25,30
+  range={min=0,max=1000,},
+}
+this.parasite_sightDistanceCombat={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=75,--75,100
+  range={min=0,max=1000,},
+}
+this.parasite_sightVertical={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=40,--36,40,55,60
+  range={min=0,max=1000,},
+}
+this.parasite_sightHorizontal={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=60,--48,60,100
+  range={min=0,max=1000,},
+}
+this.parasite_noiseRate={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=8,--10
+  range={min=0,max=100,},
+}
+this.parasite_avoidSideMin={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=8,
+  range={min=0,max=100,},
+}
+this.parasite_avoidSideMax={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=12,
+  range={min=0,max=100,},
+}
+this.parasite_areaCombatBattleRange={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=50,
+  range={min=0,max=1000,},
+}
+this.parasite_areaCombatBattleToSearchTime={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range={min=0,max=100,},
+}
+this.parasite_areaCombatLostSearchRange={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=1000,
+  range={min=0,max=10000,},
+}
+this.parasite_areaCombatLostToGuardTime={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=120,--120,60
+  range={min=0,max=1000,},
+}
+--DEBUGNOW no idea of what a good value is
+--this.parasite_areaCombatGuardDistance={
+--  save=IvarProc.CATEGORY_EXTERNAL,
+--  default=120,
+--  range={min=0,max=1000,},
+--}
+this.parasite_throwRecastTime={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=10,
+  range={min=0,max=1000,},
+}
+--
+local gradeNames={
+  "defenseValueMain",
+  "defenseValueArmor",
+  "defenseValueWall",
+  "offenseGrade",
+  "defenseGrade",
+}--gradeNames
+
+this.parasite_defenseValueMain={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=4000,
+  range={min=0,max=100000,increment=1000},
+}
+this.parasite_defenseValueArmor={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=7000,--8400
+  range={min=0,max=100000,increment=1000},
+}
+this.parasite_defenseValueWall={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=8000,--9600
+  range={min=0,max=100000,increment=1000},
+}
+this.parasite_offenseGrade={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=2,--5
+  range={min=0,max=100,},
+}
+this.parasite_defenseGrade={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=7,
+  range={min=0,max=100,},
+}
+
+local gradeNamesCAMO={
+  "defenseValue",
+  "offenseGrade",
+  "defenseGrade",
+}--gradeNamesCamo
+
+this.parasite_defenseValueCAMO={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=4000,
+  range={min=0,max=100000,increment=1000},
+}
+this.parasite_offenseGradeCAMO={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=2,
+  range={min=0,max=100,},
+}
+this.parasite_defenseGradeCAMO={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=7,
+  range={min=0,max=100,},
+}
+--
+this.parasite_escapeDistanceARMOR={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=250,
+  range={min=0,max=10000,},
+}
+this.parasite_escapeDistanceMIST={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=0,
+  range={min=0,max=10000,},
+}
+this.parasite_escapeDistanceCAMO={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=250,
+  range={min=0,max=10000,},
+}
+
+this.parasite_spawnRadiusARMOR={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=40,
+  range={min=0,max=1000,},
+}
+this.parasite_spawnRadiusMIST={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=20,
+  range={min=0,max=1000,},
+}
+--DEBUGNOW ADDLANG
+--tex since camos start moving to route when activated, and closest cp may not be that discoverable
+--or their positions even that good, spawn at player pos in a close enough radius that they spot player
+--they'll then be aiming at player when they reach the cp
+this.parasite_spawnRadiusCAMO={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=10,
+  range={min=0,max=1000,},
+}
+
+this.parasite_timeOutARMOR={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=0,
+  range={min=0,max=1000,},
+}
+this.parasite_timeOutMIST={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=60,
+  range={min=0,max=1000,},
+}
+this.parasite_timeOutCAMO={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=0,
+  range={min=0,max=1000,},
+}
+--DEBUGNOW ADDLANG -tex choose player pos as attack pos if closest lz or cp >
+--tex player distance from parasite attack pos to call off attack
+this.parasite_playerRange={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=175,
+  range={min=0,max=1000,},
+}
+--
+this.parasite_zombieLife={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=300,
+  range={min=0,max=10000,},
+}
+this.parasite_zombieStamina={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=200,
+  range={min=0,max=10000,},
+}
+this.parasite_msfRate={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=10,
+  range={min=0,max=100,},
+}
+
+IvarProc.MinMaxIvar(
+  this,
+  "parasite_msfCombatLevel",
+  {
+    default=0,
+    OnChange=function(self,setting,prevSetting)
+      IvarProc.PushMax(self,setting,prevSetting)
+    end,
+  },
+  {
+    default=9,
+    OnChange=function(self,setting,prevSetting)
+      IvarProc.PushMin(self,setting,prevSetting)
+    end,
+  },
+  {
+    range={min=0,max=9,increment=1},
+  }
+)
+
+this.registerMenus={
+  'parasiteMenu',
+}
+
+this.parasiteMenu={
+  parentRefs={"InfGameEvent.eventsMenu"},
+  options={
+    "Ivars.parasite_enableEventFREE",
+    "Ivars.parasite_enabledARMOR",
+    "Ivars.parasite_enabledMIST",
+    "Ivars.parasite_enabledCAMO",
+    "Ivars.parasite_eventPeriod_MIN",
+    "Ivars.parasite_eventPeriod_MAX",
+    "Ivars.parasite_weather",
+    "Ivars.parasite_zombieLife",
+    "Ivars.parasite_zombieStamina",
+    "Ivars.parasite_msfRate",
+    "Ivars.parasite_msfCombatLevel_MIN",
+    "Ivars.parasite_msfCombatLevel_MAX",
+    "Ivars.parasite_playerRange",
+  },
+}--parasiteMenu
+local parasiteStr="parasite_"
+local ivarsStr="Ivars."
+for i,paramName in ipairs(paramNames)do
+  local ivarName=parasiteStr..paramName
+  table.insert(this.registerIvars,ivarName)
+  table.insert(this.parasiteMenu.options,ivarsStr..ivarName)
+end
+for i,paramName in ipairs(gradeNames)do
+  local ivarName=parasiteStr..paramName
+  table.insert(this.registerIvars,ivarName)
+  table.insert(this.parasiteMenu.options,ivarsStr..ivarName)
+end
+for i,paramName in ipairs(gradeNamesCAMO)do
+  local ivarName=parasiteStr..paramName.."CAMO"
+  table.insert(this.registerIvars,ivarName)
+  table.insert(this.parasiteMenu.options,ivarsStr..ivarName)
+end
+
+for i,parasiteType in ipairs(parasiteTypes)do
+  local ivarName=parasiteStr.."escapeDistance"..parasiteType
+  table.insert(this.registerIvars,ivarName)
+  table.insert(this.parasiteMenu.options,ivarsStr..ivarName)
+end
+for i,parasiteType in ipairs(parasiteTypes)do
+  local ivarName=parasiteStr.."spawnRadius"..parasiteType
+  table.insert(this.registerIvars,ivarName)
+  table.insert(this.parasiteMenu.options,ivarsStr..ivarName)
+end
+for i,parasiteType in ipairs(parasiteTypes)do
+  local ivarName=parasiteStr.."timeOut"..parasiteType
+  table.insert(this.registerIvars,ivarName)
+  table.insert(this.parasiteMenu.options,ivarsStr..ivarName)
+end
+
+
+local parasiteToggle=false
+this.DEBUG_ToggleParasiteEvent=function()
+  if not this.ParasiteEventEnabled() then
+    InfCore.Log("InfParasite InitEvent ParasiteEventEnabled false",true)--DEBUG
+    return
+  end
+
+  parasiteToggle=not parasiteToggle
+  if parasiteToggle then
+    InfCore.Log("DEBUG_ToggleParasiteEvent on",false,true)
+    this.InitEvent()
+    this.StartEvent()
+  else
+    InfCore.Log("DEBUG_ToggleParasiteEvent off",false,true)
+    this.EndEvent()
+  end
+end--DEBUG_ToggleParasiteEvent
 --< ivar defs
 
 function this.PreModuleReload()
@@ -311,32 +644,46 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   InfMain.RandomSetToLevelSeed()
 
   local enabledTypes={
-    ARMOR=Ivars.armorParasiteEnabled:Is(1),
-    MIST=Ivars.mistParasiteEnabled:Is(1),
-    CAMO=Ivars.camoParasiteEnabled:Is(1),
+    ARMOR=Ivars.parasite_enabledARMOR:Is(1),
+    MIST=Ivars.parasite_enabledMIST:Is(1),
+    CAMO=Ivars.parasite_enabledCAMO:Is(1),
   }
-
-  --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
-  if TppQuest.IsActive"waterway_q99010" then
-    InfCore.Log("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
-    enabledTypes.CAMO=false
+  if this.debugModule then
+    InfCore.Log("InfParasite.OnLoad")
+    InfCore.PrintInspect(enabledTypes,"enabledTypes")
   end
 
-  local parasiteTypes={}
+  --tex WORKAROUND quiet battle, will crash with CAMO (which also use TppBossQuiet2)
+  if TppPackList.GetLocationNameFormMissionCode(nextMissionCode)=="AFGH" and TppQuest.IsActive"waterway_q99010" then
+    InfCore.Log("InfParasite.Onload - IsActive'waterway_q99010', disabling CAMO")--DEBUGNOW TODO triggering when I wouldnt have expected it to
+    enabledTypes.CAMO=false
+  end
+  --tex WORKAROUND zoo currently has no routes for sniper
+  if nextMissionCode==30150 then
+    enabledTypes.CAMO=false
+  end
+  --tex WORKAROUND mb crashes on armor/mist
+  if nextMissionCode==30050 then
+    enabledTypes.ARMOR=false
+    enabledTypes.MIST=false
+  end
+
+  local parasiteTypesEnabled={}
 
   local allDisabled=true
   for paraType,enabled in pairs(enabledTypes) do
     if enabled then
-      table.insert(parasiteTypes,paraType)
+      table.insert(parasiteTypesEnabled,paraType)
       allDisabled=false
     end
   end
 
   if allDisabled then
-    table.insert(parasiteTypes,"ARMOR")
+    InfCore.Log("InfParasite.OnLoad allDisabled, adding ARMOR")
+    table.insert(parasiteTypesEnabled,"ARMOR")
   end
 
-  this.parasiteType=parasiteTypes[math.random(#parasiteTypes)]
+  this.parasiteType=parasiteTypesEnabled[math.random(#parasiteTypesEnabled)]
 
   --tex DEBUG
   --TODO force type via ivar
@@ -448,7 +795,7 @@ function this.FadeInOnGameStart()
     return
   end
 
-  if Ivars.enableParasiteEvent:Is(0) then
+  if Ivars.parasite_enableEventFREE:Is(0) then
     return
   end
 
@@ -470,30 +817,53 @@ end
 
 function this.ParasiteEventEnabled(missionCode)
   local missionCode=missionCode or vars.missionCode
-  if Ivars.enableParasiteEvent:Is(1) and (Ivars.enableParasiteEvent:MissionCheck(missionCode) or missionCode==30250) then
+  if Ivars.parasite_enableEventFREE:Is(1) and (Ivars.parasite_enableEventFREE:MissionCheck(missionCode) or missionCode==30250) then
     return true
   end
   return false
 end
 
 function this.SetupParasites()
-  if this.parasiteType~="CAMO" then
-    local parameters=PARASITE_PARAMETERS.NORMAL
-    local combatGrade=PARASITE_GRADE.NORMAL
-    SendCommand({type="TppParasite2"},{id="SetParameters",params=parameters})
-    SendCommand(
-      {type="TppParasite2"},
-      {
-        id="SetCombatGrade",
-        defenseValueMain=combatGrade.defenseValueMain,
-        defenseValueArmor=combatGrade.defenseValueArmor,
-        defenseValueWall=combatGrade.defenseValueWall,
-        offenseGrade=combatGrade.offenseGrade,
-        defenseGrade=combatGrade.defenseGrade,
-      }
-    )
+  InfCore.LogFlow("InfParasite.SetupParasites")
+
+  local skullTypes={"TppBossQuiet2","TppParasite2"}
+  for n,skullType in ipairs(skullTypes)do
+    if GameObject.DoesGameObjectExistWithTypeName(skullType)then
+      SendCommand({type=skullType},{id="SetFultonEnabled",enabled=true})
+    end
   end
-end
+
+  if this.parasiteType=="CAMO" then
+    local combatGradeCommand={id="SetCombatGrade",}
+    for i,paramName in ipairs(gradeNamesCAMO)do
+      local ivarName=parasiteStr..paramName.."CAMO"
+      combatGradeCommand[paramName]=Ivars[ivarName]:Get()
+    end
+    SendCommand({type="TppBossQuiet2"},combatGradeCommand)
+    if this.debugModule then
+      InfCore.PrintInspect(combatGradeCommand,"SetCombatGrade")
+    end
+  else
+    local parameters={}
+    for i,paramName in ipairs(paramNames)do
+      local ivarName=parasiteStr..paramName
+      parameters[paramName]=Ivars[ivarName]:Get()
+    end
+    SendCommand({type="TppParasite2"},{id="SetParameters",params=parameters})
+
+    local combatGradeCommand={id="SetCombatGrade",}
+    for i,paramName in ipairs(gradeNames)do
+      local ivarName=parasiteStr..paramName
+      combatGradeCommand[paramName]=Ivars[ivarName]:Get()
+    end
+    SendCommand({type="TppParasite2"},combatGradeCommand)
+
+    if this.debugModule then
+      InfCore.PrintInspect(parameters,"SetParameters")
+      InfCore.PrintInspect(combatGradeCommand,"SetCombatGrade")
+    end
+  end
+end--SetupParasites
 
 function this.OnDamage(gameId,attackId,attackerId)
   local typeIndex=GetTypeIndex(gameId)
@@ -564,8 +934,8 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
   local isHostage=false
   for i,parasiteName in pairs(hostageParasites) do
-    local gameId=GetGameObjectId(parasiteName)
-    if gameId==gameId then
+    local parasiteHostage=GetGameObjectId(parasiteName)
+    if gameId==parasiteHostage then
       isHostage=true
       break
     end
@@ -573,7 +943,7 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
   if isHostage then
     this.hostageParasiteHitCount=this.hostageParasiteHitCount+1
-    --InfCore.Log("hostageParasiteHitCount "..this.hostageParasiteHitCount,true)--DEBUG
+    InfCore.Log("hostageParasiteHitCount "..this.hostageParasiteHitCount,this.debugModule)--DEBUG
 
     if this.hostageParasiteHitCount>triggerAttackCount then
       this.hostageParasiteHitCount=0
@@ -615,6 +985,12 @@ function this.OnDying(gameId)
     return
   end
 
+  --KLUDGE DEBUGNOW don't know why OnDying keeps triggering repeatedly
+  if states[parasiteIndex]==stateTypes.DOWNED then
+    InfCore.Log"WARNING: InfParasite.OnDying state already ==DOWNED"
+    return
+  end
+
   states[parasiteIndex]=stateTypes.DOWNED
 
   if this.debugModule then
@@ -624,7 +1000,7 @@ function this.OnDying(gameId)
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    --InfCore.DebugPrint"OnDying all eliminated"--DEBUG
+    InfCore.Log("InfParasite OnDying: all eliminated")--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
@@ -658,7 +1034,7 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    --InfCore.Log"OnFulton all eliminated"--DEBUG
+    InfCore.Log("InfParasite OnFulton: all eliminated")--DEBUG
     this.EndEvent()
   end
   --end,gameId)--
@@ -669,7 +1045,7 @@ function this.InitEvent()
   InfCore.Log("InfParasite InitEvent")--DEBUG
 
   if not this.ParasiteEventEnabled() then
-    InfCore.Log("InfParasite InitEvent not para")--DEBUG
+    InfCore.Log("InfParasite InitEvent ParasiteEventEnabled false")--DEBUG
     return
   end
 
@@ -687,10 +1063,31 @@ function this.InitEvent()
 
   numParasites=#this.parasiteNames[this.parasiteType]
 
+  for i,parasiteType in ipairs(parasiteTypes)do
+    local ivarName=parasiteStr.."escapeDistance"..parasiteType
+    escapeDistances[parasiteType]=Ivars[ivarName]:Get()
+  end
+  for i,parasiteType in ipairs(parasiteTypes)do
+    local ivarName=parasiteStr.."spawnRadius"..parasiteType
+    spawnRadius[parasiteType]=Ivars[ivarName]:Get()
+  end
+  for i,parasiteType in ipairs(parasiteTypes)do
+    local ivarName=parasiteStr.."timeOut"..parasiteType
+    timeOuts[parasiteType]=Ivars[ivarName]:Get()
+  end
+  
+  playerRange=Ivars.parasite_playerRange:Get()
+
+  --distsqr
+  playerRange=playerRange*playerRange
+  for paraType,escapeDistance in pairs(escapeDistances)do
+    escapeDistances[paraType]=escapeDistance*escapeDistance
+  end
+
   this.SetupParasites()
 
   if TppMission.IsMissionStart() then
-    --InfCore.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
+    InfCore.Log"InfParasite InitEvent IsMissionStart clear"--DEBUG
     svars.inf_parasiteEvent=false
   end
 
@@ -710,7 +1107,7 @@ function this.StartEventTimer(time)
     return
   end
 
-  if Ivars.enableParasiteEvent:Is(0) then
+  if Ivars.parasite_enableEventFREE:Is(0) then
     return
   end
 
@@ -722,7 +1119,7 @@ function this.StartEventTimer(time)
   end
 
   local minute=60
-  local nextEventTime=time or math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
+  local nextEventTime=time or math.random(Ivars.parasite_eventPeriod_MIN:Get()*minute,Ivars.parasite_eventPeriod_MAX:Get()*minute)
   --local nextEventTime=10--DEBUG
   InfCore.Log("Timer_ParasiteEvent start in "..nextEventTime,this.debugModule)--DEBUG
 
@@ -732,7 +1129,7 @@ function this.StartEventTimer(time)
   --but as the scriptblock definitions are in the scriptblock fpk itself there's a chicken and egg problem if they're what is used to define the script block name.
   --  local success=TppScriptBlock.Load("parasite_block",this.parasiteType,true,true)--DEBUGNOW TODO only start once block loaded and active
   --  if not success then
-  --    InfCore.Log("WARNING: TppScriptBlock.Load returned false")--DEBUG
+  --    InfCore.Log("WARNING: InfParasite TppScriptBlock.Load returned false")--DEBUG
   --  end
 
   TimerStop(Timer_ParasiteEventStr)
@@ -741,13 +1138,14 @@ function this.StartEventTimer(time)
 end
 
 function this.StartEvent()
+  InfCore.Log("InfParasite StartEvent")
   if IsTimerActive(Timer_ParasiteEventStr)then
     TimerStop(Timer_ParasiteEventStr)
   end
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
-    InfCore.Log("StartEvent numCleared==numParasites aborting",this.debugModule)
+    InfCore.Log("InfParasite StartEvent numCleared==numParasites ("..tostring(numCleared).."=="..tostring(numParasites)..") aborting",this.debugModule)
     this.EndEvent()
     return
   end
@@ -763,9 +1161,9 @@ function this.StartEvent()
   }
 
   local weatherInfo
-  if Ivars.parasiteWeather:Is"PARASITE_FOG" then
+  if Ivars.parasite_weather:Is"PARASITE_FOG" then
     weatherInfo=weatherTypes[1]
-  elseif Ivars.parasiteWeather:Is"RANDOM" then
+  elseif Ivars.parasite_weather:Is"RANDOM" then
     weatherInfo=weatherTypes[math.random(#weatherTypes)]
   end
 
@@ -788,7 +1186,7 @@ end
 
 function this.ParasiteAppear()
   InfCore.PCallDebug(function()--DEBUG
-
+    InfCore.LogFlow("InfParasite ParasiteAppear")
     local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
     local closestPos=playerPos
     local closestDist=999999999999999
@@ -799,36 +1197,35 @@ function this.ParasiteAppear()
     local closestCp,cpDistance,cpPosition
 
     if noCps then
+      InfCore.Log("InfParasite.ParasiteAppear noCps")
       closestPos=playerPos
     else
       closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
       if closestCp==nil or cpPosition==nil then
-        InfCore.Log("WARNING: ParasiteAppear closestCp==nil",true)--DEBUG
-        return
-      end
-
-      closestDist=cpDistance
-
-      if not isMb then--tex TODO: implement for mb
-        local closestLz,lzDistance,lzPosition=InfLZ.GetClosestLz(playerPos)
-        if closestLz==nil or lzPosition==nil then
-          InfCore.Log("WARNING: ParasiteAppear closestLz==nil",true)--DEBUG
-          return
-        end
-
-        local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
-        closestPos=cpPosition
-        if cpDistance>lzDistance and lzCpDist>playerRange*2 then
-          closestPos=lzPosition
-          closestDist=lzDistance
-        end
-      end
-
-      if closestDist>playerRange then
+        InfCore.Log("WARNING: InfParasite ParasiteAppear closestCp==nil")--DEBUG
         closestPos=playerPos
-      end
+      else
+        closestDist=cpDistance
 
-    end
+        if not isMb then--tex TODO: implement for mb
+          local closestLz,lzDistance,lzPosition=InfLZ.GetClosestLz(playerPos)
+          if closestLz==nil or lzPosition==nil then
+            InfCore.Log("WARNING: InfParasite ParasiteAppear closestLz==nil")--DEBUG
+          else
+            local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
+            closestPos=cpPosition
+            if cpDistance>lzDistance and lzCpDist>playerRange*2 then
+              closestPos=lzPosition
+              closestDist=lzDistance
+            end
+          end--if closestLz
+        end--if no isMb
+
+        if closestDist>playerRange then
+          closestPos=playerPos
+        end
+      end--if closestCp
+    end--if not noCps
 
     InfCore.Log("ParasiteAppear "..this.parasiteType.." closestCp:"..tostring(closestCp),this.debugModule)
 
@@ -860,7 +1257,7 @@ function this.ParasiteAppear()
       end
     end
     if armorFultoned and this.parasiteType=="ARMOR" then
-      --InfCore.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+      --InfCore.Log("Timer_ParasiteCombat start",true)--DEBUG
       TimerStart("Timer_ParasiteCombat",4)
     end
 
@@ -869,12 +1266,16 @@ function this.ParasiteAppear()
 end
 
 function this.ZombifyMB(disableDamage)
+  local cpZombieLife=Ivars.parasite_zombieLife:Get()
+  local cpZombieStamina=Ivars.parasite_zombieStamina:Get()
+  local msfRate=Ivars.parasite_msfRate:Get()
+  local msfLevel=math.random(Ivars.parasite_msfCombatLevel_MIN:Get(),Ivars.parasite_msfCombatLevel_MAX:Get())
   for cpName,cpDefine in pairs(mvars.ene_soldierDefine)do
     for i,soldierName in ipairs(cpDefine)do
       local soldierId=GetGameObjectId("TppSoldier2",soldierName)
       if soldierId~=NULL_ID then
         local isMsf=math.random(100)<msfRate
-        this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina,isMsf)
+        this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina,isMsf,msfLevel)
 
         --tex GOTCHA setfriendlycp seems to be one-way only
         local command={id="SetFriendly",enabled=false}
@@ -885,6 +1286,10 @@ function this.ZombifyMB(disableDamage)
 end
 
 local SetZombies=function(soldierNames,position,radius)
+  local cpZombieLife=Ivars.parasite_zombieLife:Get()
+  local cpZombieStamina=Ivars.parasite_zombieStamina:Get()
+  local msfRate=Ivars.parasite_msfRate:Get()
+  local msfLevel=math.random(Ivars.parasite_msfCombatLevel_MIN:Get(),Ivars.parasite_msfCombatLevel_MAX:Get())
   for i,soldierName in ipairs(soldierNames) do
     local gameId=GetGameObjectId("TppSoldier2",soldierName)
     if gameId~=NULL_ID then
@@ -894,8 +1299,9 @@ local SetZombies=function(soldierNames,position,radius)
         soldierDistance=TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},position)
       end
       if not position or (radius and soldierDistance<radius) then
-        --InfCore.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
-        this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina)
+        --InfCore.Log(soldierName.." close to "..closestCp.. ", zombifying",true)--DEBUG
+        local isMsf=math.random(100)<msfRate
+        this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina,isMsf,msfLevel)
       end
     end
   end
@@ -908,7 +1314,7 @@ function this.ZombifyFree(closestCp,position)
   if closestCp then
     local cpDefine=mvars.ene_soldierDefine[closestCp]
     if cpDefine==nil then
-      InfCore.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
+      InfCore.Log("WARNING InfParasite StartEvent could not find cpdefine for "..closestCp)--DEBUG
     else
       SetZombies(cpDefine)
     end
@@ -931,6 +1337,10 @@ function this.ZombifyFree(closestCp,position)
 end
 
 function this.ArmorParasiteAppear(parasitePos,spawnRadius)
+  InfCore.Log("InfParasite ArmorParasiteAppear spawnRadius:"..spawnRadius)
+  if this.debugModule then
+    InfCore.PrintInspect(parasitePos,"parasitePos")
+  end
   --tex after fultoning armor parasites don't appear, try and reset
   --doesnt work, parasite does appear, but is in fulton pose lol
   --  if numFultonedThisMap>0 then
@@ -974,7 +1384,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
   --  InfCore.PrintInspect(cpRoutes)
 
   if routeCount<numParasites then
-    InfCore.Log("WARNING: CamoParasiteAppear - routeCount< #camo parasites",true)
+    InfCore.Log("WARNING: InfParasite CamoParasiteAppear - routeCount< #camo parasites",true)
     return
   end
 
@@ -987,7 +1397,7 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
     if states[index]==stateTypes.READY then
       local gameId=GetGameObjectId("TppBossQuiet2",parasiteName)
       if gameId==NULL_ID then
-        InfCore.Log("WARNING: CamoParasiteAppear - "..parasiteName.. " not found",true)
+        InfCore.Log("WARNING: InfParasite CamoParasiteAppear - "..parasiteName.. " not found",true)
       else
         local parasiteRotY=0
 
@@ -1024,23 +1434,18 @@ function this.CamoParasiteAppear(parasitePos,closestCp,cpPosition,spawnRadius)
 
   return parasitePos
 end
-
+--DEBUGNOW get working for MB
 function this.GetRoutes(cpName)
-  local routeSets=nil
-  if mvars.loc_locationCommonRouteSets then
-    routeSets=mvars.loc_locationCommonRouteSets[cpName]
-  elseif mvars.ene_routeSetsDefine then
-    routeSets=mvars.ene_routeSetsDefine[cpName]
-  end
+  local routeSets=mvars.ene_routeSetsDefine[cpName]
   if not routeSets then
-    InfCore.Log"CamoParasiteAppear - no routesets found, aborting"
+    InfCore.Log"WARNING: InfParasite  CamoParasiteAppear - no routesets found, aborting"
     return
   end
 
   local cpRoutes={}
   --tex TODO prioritze picking sniper group first?
   if routeSets==nil then
-    InfCore.DebugPrint("WARNING CamoParasiteAppear no routesets for "..cpName)--DEBUG
+    InfCore.Log("WARNING: InfParasite CamoParasiteAppear no routesets for "..cpName,true)--DEBUG
     return
   end
 
@@ -1065,7 +1470,7 @@ function this.GetRoutes(cpName)
     end
   end
   return routeCount,cpRoutes
-end
+end--GetRoutes
 
 function this.Timer_StartCombat()
   SendCommand({type="TppParasite2"},{id="StartCombat"})
@@ -1079,7 +1484,7 @@ function this.Timer_MonitorEvent()
   end
 
   if this.parasitePos==nil then
-    InfCore.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
+    InfCore.Log("WARNING InfParasite MonitorEvent parasitePos==nil",true)--DEBUG
     return
   end
 
@@ -1092,7 +1497,7 @@ function this.Timer_MonitorEvent()
   end
 
   --InfCore.Log("Timer_MonitorEvent "..this.parasiteType.. " escapeDistanceSqr:"..escapeDistance.." distSqr:"..distSqr)--DEBUG
-  --InfCore.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
+  --InfCore.Log("dist:"..math.sqrt(distSqr),true)--DEBUG
 
   --tex TppParasites aparently dont support GetPosition, frustrating inconsistancy, you'd figure it would be a function of all gameobjects
   --  for i,parasiteName in pairs(this.parasiteNames.ARMOR) do
@@ -1100,7 +1505,7 @@ function this.Timer_MonitorEvent()
   --    if gameId~=NULL_ID then
   --      local parasitePos=SendCommand(gameId,{id="GetPosition"})
   --      local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
-  --     -- InfCore.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
+  --     -- InfCore.Log(parasiteName.." dist:"..math.sqrt(distSqr),true)--DEBUG
   --      if distSqr<escapeDistance[this.parasiteType] then
   --        outOfRange=false
   --        break
@@ -1149,12 +1554,16 @@ function this.Timer_MonitorEvent()
 end
 
 function this.EndEvent()
-  InfCore.Log("EndEvent",this.debugModule)
+  InfCore.Log("InfParasite EndEvent",this.debugModule)
 
   svars.inf_parasiteEvent=false
   TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
 
-  SendCommand({type="TppParasite2"},{id="StartWithdrawal"})
+  if this.parasiteType=="CAMO"then
+    SendCommand({type="TppBossQuiet2"},{id="SetWithdrawal",enabled=true})
+  else
+    SendCommand({type="TppParasite2"},{id="StartWithdrawal"})
+  end
 
   --tex TODO throw CAMO parasites to some far route (or warprequest if it doesn't immediately vanish them) then Off them after a while
 
@@ -1189,23 +1598,8 @@ function this.GetNumCleared()
   return numCleared
 end
 
---tex TODO: build direct gameid>name lookup table on Init()
-function this.GetNameForId(findId)
-  for parasiteType,parasites in pairs(this.parasiteNames) do
-    for i,name in ipairs(parasites)do
-      local gameId=GetGameObjectId(name)
-      if gameId~=NULL_ID then
-        if gameId==findId then
-          return name
-        end
-      end
-    end
-  end
-end
-
-function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina,isMsf)
+function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina,isMsf,msfLevel)
   isHalf=isHalf or false
-
   local gameObjectId=GetGameObjectId("TppSoldier2",gameObjectName)
   SendCommand(gameObjectId,{id="SetZombie",enabled=true,isHalf=isHalf,isZombieSkin=true,isHagure=true,isMsf=isMsf})
   SendCommand(gameObjectId,{id="SetMaxLife",life=life,stamina=stamina})
@@ -1216,6 +1610,9 @@ function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina,isMsf)
   if isHalf then
     local ignoreFlag=0
     SendCommand(gameObjectId,{id="SetIgnoreDamageAction",flag=ignoreFlag})
+  end
+  if msfLevel~=nil then
+    SendCommand(gameObjectId,{id="SetMsfCombatLevel",level=msfLevel})
   end
 end
 
@@ -1231,7 +1628,7 @@ end
 function this.CamoParasiteOff(parasiteName)
   local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
 
-  if gameId~=NULL_ID then
+  if gameObjectId~=NULL_ID then
     local command01={id="SetSightCheck",flag=false}
     SendCommand(gameObjectId,command01)
 
@@ -1323,123 +1720,136 @@ function this.CamoParasiteCloseCombatMode(parasiteName,enabled)
 end
 
 --REF interesting functions/commands not doing anythig with yet
-function this.CamoParasiteEnableFulton(enabled)
-  local command={id="SetFultonEnabled",enabled=enabled}
-  command.enabled = true
-  local gameObjectId={type="TppBossQuiet2"}
-  SendCommand(gameObjectId, command)
-end
+--armor, from fob
+--this.StartSearchParasite = function ()
+--  Fox.Log("***** this.StartSearchParasite *****")
+--
+--  for k, parasiteName in pairs(this.PARASITE_NAME_LIST) do
+--    local gameObjectId = GameObject.GetGameObjectId(parasiteName)
+--    if gameObjectId ~= nil then
+--      GameObject.SendCommand( gameObjectId, { id="StartSearch" })
+--    end
+--  end
+--end
 
-function this.CamoParasiteNarrowFarSight(parasiteName,enabled)
-  local command={id="NarrowFarSight",enabled=enabled}
-  local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
-  if gameObjectId~=NULL_ID then
-    SendCommand(gameObjectId,command)
-  end
-end
+--camo
+--function this.CamoParasiteEnableFulton(enabled)
+--  local command={id="SetFultonEnabled",enabled=enabled}
+--  command.enabled = true
+--  local gameObjectId={type="TppBossQuiet2"}
+--  SendCommand(gameObjectId, command)
+--end
 
-function this.CamoParasiteWaterFallShift(enabled)
-  local command = {id="SetWatherFallShift",enabled=enabled}
-  local gameObjectId = { type="TppBossQuiet2" }
-  SendCommand(gameObjectId, command)
-end
+--function this.CamoParasiteNarrowFarSight(parasiteName,enabled)
+--  local command={id="NarrowFarSight",enabled=enabled}
+--  local gameObjectId=GetGameObjectId("TppBossQuiet2",parasiteName)
+--  if gameObjectId~=NULL_ID then
+--    SendCommand(gameObjectId,command)
+--  end
+--end
 
-function this.IsCamoParasite()
-  local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
-  if quietType==StrCode32"Cam"then--Camo parasite, not Quiet
+--function this.CamoParasiteWaterFallShift(enabled)
+--  local command = {id="SetWatherFallShift",enabled=enabled}
+--  local gameObjectId = { type="TppBossQuiet2" }
+--  SendCommand(gameObjectId, command)
+--end
 
-  end
-end
+--function this.IsCamoParasite()
+--  local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
+--  if quietType==InfCore.StrCode32"Cam"then--Camo parasite, not Quiet
+--
+--  end
+--end
 
---tex from quiet boss fight
-this.RequestShoot = function( target )
-  local command = {}
-
-  if ( target == "player" ) then
-    command = { id="ShootPlayer" }
-
-  elseif ( target == "entrance" ) then
-    command = { id="ShootPosition", position="position" }
-    command.position = {-1828.670, 360.220, -132.585}
-
-  end
-
-  if not( command == {} ) then
-    SendCommand( { type="TppBossQuiet2", index=0 }, command )
-    Fox.Log("#### qest_bossQuiet_00 #### RequestShoot [ "..tostring(target).." ]")
-
-    if ( target == "player" ) then
-      local ridingGameObjectId = vars.playerVehicleGameObjectId
-      if Tpp.IsHorse(ridingGameObjectId) then
-
-        SendCommand( ridingGameObjectId, { id = "HorseForceStop" } )
-      elseif( Tpp.IsPlayerWalkerGear(ridingGameObjectId) or Tpp.IsEnemyWalkerGear(ridingGameObjectId) )then
-
-        SendCommand( ridingGameObjectId, { id = "ForceStop", enabled = true } )
-      end
-    end
-
-    if (this.isPlayerRideVehicle()) then
-      this.ChangeVehicleSettingForEvent()
-    end
-  end
-end
-
-this.SetQuietExtraRoute = function(demo,kill,recovery,antiHeli)
-  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET )
-
-
-  local command = {id="SetDemoRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = demo
-    SendCommand(gameObjectId, command)
-  end
-
-
-  command = {id="SetKillRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = kill
-    SendCommand(gameObjectId, command)
-  end
-
-
-  command = {id="SetRecoveryRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = recovery
-    SendCommand(gameObjectId, command)
-  end
-
-
-  command = {id="SetAntiHeliRoute", route="route"}
-  if gameObjectId ~= NULL_ID then
-    command.route = kill
-    SendCommand(gameObjectId, command)
-  end
-end
-
+--tex REF from quiet boss fight s10050_enemy
+--this.RequestShoot = function( target )
+--  local command = {}
+--
+--  if ( target == "player" ) then
+--    command = { id="ShootPlayer" }
+--
+--  elseif ( target == "entrance" ) then
+--    command = { id="ShootPosition", position="position" }
+--    command.position = {-1828.670, 360.220, -132.585}
+--
+--  end
+--
+--  if not( command == {} ) then
+--    SendCommand( { type="TppBossQuiet2", index=0 }, command )
+--    Fox.Log("#### qest_bossQuiet_00 #### RequestShoot [ "..tostring(target).." ]")
+--
+--    if ( target == "player" ) then
+--      local ridingGameObjectId = vars.playerVehicleGameObjectId
+--      if Tpp.IsHorse(ridingGameObjectId) then
+--
+--        SendCommand( ridingGameObjectId, { id = "HorseForceStop" } )
+--      elseif( Tpp.IsPlayerWalkerGear(ridingGameObjectId) or Tpp.IsEnemyWalkerGear(ridingGameObjectId) )then
+--
+--        SendCommand( ridingGameObjectId, { id = "ForceStop", enabled = true } )
+--      end
+--    end
+--
+--    if (this.isPlayerRideVehicle()) then
+--      this.ChangeVehicleSettingForEvent()
+--    end
+--  end
+--end
+--REF s10050_enemy
+--local BOSS_QUIET  = "BossQuietGameObjectLocator"
+--this.SetQuietExtraRoute = function(demo,kill,recovery,antiHeli)
+--  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET )
+--
+--
+--  local command = {id="SetDemoRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = demo
+--    SendCommand(gameObjectId, command)
+--  end
+--
+--
+--  command = {id="SetKillRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = kill
+--    SendCommand(gameObjectId, command)
+--  end
+--
+--
+--  command = {id="SetRecoveryRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = recovery
+--    SendCommand(gameObjectId, command)
+--  end
+--
+--
+--  command = {id="SetAntiHeliRoute", route="route"}
+--  if gameObjectId ~= NULL_ID then
+--    command.route = kill
+--    SendCommand(gameObjectId, command)
+--  end
+--end
+--REF s10050_enemy
 --tex doesn't seem to be called
-this.QuietKillModeChange = function()
-  local command = {id="SetKill", flag="flag"}
-  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET)
-
-  if gameObjectId ~= NULL_ID then
-
-    command.flag = svars.isKillMode
-    SendCommand(gameObjectId, command)
-  else
-  end
-end
-
-this.QuietForceCombatMode = function()
-  SendCommand( { type="TppBossQuiet2", index=0 }, { id="StartCombat" } )
-end
-
-
-this.StartQuietDeadEffect = function()
-  local command = { id="StartDeadEffect" }
-  local gameObjectId = { type="TppBossQuiet2", index=0 }
-  SendCommand(gameObjectId, command)
-end
+--this.QuietKillModeChange = function()
+--  local command = {id="SetKill", flag="flag"}
+--  local gameObjectId = GetGameObjectId("TppBossQuiet2", BOSS_QUIET)
+--
+--  if gameObjectId ~= NULL_ID then
+--
+--    command.flag = svars.isKillMode
+--    SendCommand(gameObjectId, command)
+--  else
+--  end
+--end
+--REF s10050_enemy
+--this.QuietForceCombatMode = function()
+--  SendCommand( { type="TppBossQuiet2", index=0 }, { id="StartCombat" } )
+--end
+--REF s10050_enemy
+--this.StartQuietDeadEffect = function()
+--  local command = { id="StartDeadEffect" }
+--  local gameObjectId = { type="TppBossQuiet2", index=0 }
+--  SendCommand(gameObjectId, command)
+--end
 ---
 
 function this.PointOnCircle(origin,radius,angle)
@@ -1450,18 +1860,20 @@ end
 
 this.langStrings={
   eng={
-    enableParasiteEvent="Enable Skull attacks in Free roam",
-    parasitePeriod_MIN="Skull attack min (minutes)",
-    parasitePeriod_MAX="Skull attack max (minutes)",
-    parasiteWeather="Weather on Skull attack",
-    parasiteWeatherSettings={"None","Parasite fog","Random"},
-    armorParasiteEnabled="Allow armor skulls",
-    mistParasiteEnabled="Allow mist skulls",
-    camoParasiteEnabled="Allow sniper skulls",
+    parasiteMenu="Skulls event menu",
+    parasite_enableEventFREE="Enable Skull attacks in Free roam",
+    parasite_eventPeriod_MIN="Skull attack min (minutes)",
+    parasite_eventPeriod_MAX="Skull attack max (minutes)",
+    parasite_weather="Weather on Skull attack",
+    parasite_weatherSettings={"None","Parasite fog","Random"},
+    parasite_enabledARMOR="Allow armor skulls",
+    parasite_enabledMIST="Allow mist skulls",
+    parasite_enabledCAMO="Allow sniper skulls",
   },
   help={
     eng={
-      enableParasiteEvent="Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.",
+      parasite_enableEventFREE="Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.",
+      parasite_msfRate="Percentage chance a zombified soldier will have msf zombie behaviour",
     },
   }
 }

@@ -1,0 +1,9 @@
+ActionTppNewCarried = {
+
+
+WakeUpStates = {
+	"stateNewStandCarriedIdle",
+	"stateNewSquatCarriedIdle",
+},
+
+}

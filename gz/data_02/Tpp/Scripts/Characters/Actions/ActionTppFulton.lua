@@ -1,0 +1,10 @@
+ActionTppFulton = {
+
+
+
+WakeUpStates = {
+	 "stateSquatFulton",
+	 "stateStandFultonSelf",
+},
+
+}

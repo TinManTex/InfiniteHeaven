@@ -35,11 +35,25 @@ local debugModules={
   'TppEnemy',
   'InfRouteSet',
   'TppRevenge',
+  'InfLZ',
+  'TppLandingZone',
+  'InfParasite',
 }
 
 local this={}
 
 this.packages={
+--[30050]="/Assets/tpp/pack/mission2/free/f30050/f30050_ly000_q30210.fpk",--DEBUGNOW
+--[30050]="/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",--DEBUGNOW
+  --[30050]="/Assets/tpp/pack/mission2/free/f30050/f30050_ly000_q30210.fpk",--DEBUGNOW
+  [30010]={  
+  --"/Assets/tpp/pack/mission2/ih/mgo_bgm.fpk",
+ -- "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
+  },--DEBUG    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-bgm-mgo",
+  [30050]={
+  --"/Assets/tpp/pack/mission2/ih/mgo_bgm.fpk",
+--  "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
+  },--DEBUG    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-bgm-mgo",
   --[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
   -- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
   }
@@ -50,7 +64,9 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 
   if this.packages[missionCode] then
-    packPaths[#packPaths+1]=this.packages[missionCode]
+    for i,path in ipairs(this.packages[missionCode])do
+    packPaths[#packPaths+1]=path
+    end
   end
 end
 
@@ -76,466 +92,40 @@ function this.DumpSomething()
     end
   end
   ---------
-  local PEX={
-    DEPLOYED=1,--Ex-- On when not in ACC or mission prepare
-    UNK2=2,--UNKNOWN-- Always on, unknown meaning
-    UNK3=3,--UNKNOWN-- Always on, unknown meaning
-    STAND=4,-- standing; false if HORSE_STAND; true when ON_VEHICLE
-    SQUAT=5,-- crouching or doing cbox slide
-    CRAWL=6,-- prone or when CBOX_EVADE
-    NORMAL_ACTION=7,-- true for most basic on-foot movement-related actions like walking; false when ON_VEHICLE or ON_HORSE or CBOX
-    PARALLEL_MOVE=8,-- aiming
-    IDLE=9,-- Never on (to my knowledge), unknown meaning
-    GUN_READY=10,--Ex-- On when holding a weapon which can be fired but not currently firing
-    GUN_FIRE=11,-- true even with suppressor; GUN_FIRE and GUN_FIRE_SUPPRESSOR not true with vehicle/static weapons
-    GUN_FIRE_SUPPRESSOR=12,-- true when discharging with suppressor
-    GUN_RELOAD=13,--Ex-- On when reloading a weapon but not when manually cycling rounds
-    GUN_CYCLE=14,--Ex--   On when manually cycling rounds (e.g. pump-action, bolt-action weapons)
-    STUN_ARM_READY=15,--Ex-- On when aiming (but not firing? - check) the stun-arm
-    ROCKET_ARM_READY=16,--Ex-- On when aiming (but not firing? - check) the rocket-arm
-    SHIELD_READY=17,--Ex-- On when aiming with a shield
-    PLACEABLE_READY=18,--Ex-- On when aiming with a placeable item (e.g. C4)
-    PLACEABLE_PLACE=19,--Ex-- On when placing a placeable item (e.g. C4)
-    STOP=20,-- when idle on foot or cbox; true when CBOX_EVADE; always true if ON_VEHICLE;
-    WALK=21,-- min speed
-    RUN=22,--  mid speed (default when standing)
-    DASH=23,-- max speed (default when stance is limited to two speeds)
-    RUN_INTERPOLATE=24,--Ex-- On when in run state but animation below full run speed
-    ON_HORSE=25,-- piloting D-Horse
-    ON_VEHICLE=26,-- piloting vehicle
-    ON_LIGHT_VEHICLE=27,--Ex-- On when piloting a light vehicle
-    ON_TRUCK=28,--Ex-- On when piloting a truck
-    ON_APC=29,--Ex-- On when piloting an armoured personnel carrier
-    ON_TANK=30,--Ex-- On when piloting a tank
-    TRUCK_HIDE=31,--Ex--    On when turning off the engine and hiding in a truck
-    VEHICLE_ACCL=32,--Ex-- On when accelerating in a vehicle
-    VEHICLE_REV=33,--Ex-- On when reversing in a vehicle
-    VEHICLE_IDLE=34,--Ex-- On when reversing in a vehicle
-    VEHICLE_FIRE=35,--Ex-- On when firing a weapon on a vehicle (I think?)
-    VEHICLE_CRASH=36,--Ex-- On when crashing a vehicle
-    ON_HELICOPTER=37,-- riding helicopter
-    ON_WALKERGEAR=38,--Ex-- On when piloting walker gear (including D-Walker)
-    UNK39=39,--UNKNOWN-- There is no code to set this flag?
-    UNK40=40,--UNKNOWN-- There is no code to set this flag?
-    HORSE_STAND=41,-- On when on a horse and not hiding
-    HORSE_HIDE_R=42,-- hiding on right side of horse
-    HORSE_HIDE_L=43,-- hiding on left side of horse
-    HORSE_IDLE=44,-- HORSE_[speed] also used for D-Walker; can tell which with ON_HORSE check
-    HORSE_TROT=45,-- slow speed
-    HORSE_CANTER=46,-- mid speed (default)
-    HORSE_GALLOP=47,-- fast speed
-    HORSE_MOUNT=48,--Ex-- On while climbing on horse
-    HORSE_STEP_DOWN=49,--Ex--  On when horse steps down from any height
-    HORSE_AIR=50,--Ex--  On when horse is airborne during to a jump
-    HORSE_LANDING=51,--Ex--  On when horse is landing during a jump
-    HORSE_JUMP=52,--Ex-- On at all times during a horse jump
-    HORSE_STEP_DOWN_CANTER=53,--Ex-- On when horse is stepping down from a height at a canter (special animation)
-    HORSE_STEP_DOWN_GALLOP=54,--Ex-- On when horse is stepping down from a height at a gallop (special animation)
-    WALKERGEAR_DRIVE_MODE=55,--Ex-- On when in D-Walker's drive mode
-    SUBJECT=56,-- On when subjective camera is active (POV camera)
-    BINOCLE=58,-- using int-scope
-    INTRUDE=59,-- On when forced subjective camera is active in crawl-spaces
-    LFET_STOCK=60,-- On when camera is behind player's right shoulder
-    CUTIN=61,-- On when cutin camera is active (e.g. climbing on horse, entering vehicles, toilets, dumpsters, or putting enemies in things)
-    DEAD=62,-- On when player is dead
-    DEAD_FRESH=63,-- On during death animation?
-    NEAR_DEATH=64,-- On when health is low? Perhaps during or recovering from serious injury?
-    NEAR_DEAD=65,-- Despite being named, there is no code to set this flag?
-    UNK66=66,--UNKNOWN-- There is no code to set this flag?
-    FALL=67,-- On when falling
-    CBOX=68,-- true while in cbox and not sliding and not CBOX_EVADE
-    CBOX_EVADE=69,-- crawling out of cbox; CBOX false if true
-    CBOX_STANCE=70,--Ex-- On when changing stance while in cardboard box
-    TRASH_BOX=71,-- in trash box with closed lid
-    TRASH_BOX_HALF_OPEN=72,-- in trash box and aiming weapon
-    TRASH_BOX_OPEN=73,--Ex-- On when entering/exiting trash box
-    SEARCH_LIGHT=74,--Ex-- On when using search lights
-    MORTAR=75,--Ex-- On when using mortars
-    MACHINE_GUN=76,--Ex--  On when using machine gun placements
-    AA_GUN=77,--Ex-- On when using anti-air emplacements
-    BUTTON_PRESS=78,--Ex-- On when pressing interactive buttons (e.g. power supplies)
-    DOOR_PICKING=79,--Ex-- On when picking locks
-
-    --TODO DOCUMENT: -v-
-    INJURY_LOWER=80,--
-    INJURY_UPPER=81,--
-    UNK82=82,--
-    CURE=83,--
-    UNK84=84,--
-    UNK85=85,--
-    UNK86=86,--
-    UNK87=87,--
-    CQC_CONTINUOUS=88,--
-    UNK89=89,--
-    BEHIND=90,-- pressed against cover/wall
-    UNK91=91,--
-    UNK92=92,--
-    UNK93=93,--
-    UNK94=94,--
-    UNK95=95,--
-    UNK96=96,--
-    UNK97=97,--
-    UNK98=98,--
-    UNK99=99,--
-    UNK100=100,--
-    UNK101=101,--
-    UNK102=102,--
-    UNCONSCIOUS=103,--
-    UNK104=104,--
-    UNK105=105,--
-    UNK106=106,--
-    UNK107=107,--
-    UNK108=108,--
-    UNK109=109,--
-    UNK110=110,--
-    UNK111=111,--
-    UNK112=112,--
-    UNK113=113,--
-    UNK114=114,--
-    UNK115=115,--
-    UNK116=116,--
-    UNK117=117,--
-    UNK118=118,--
-    UNK119=119,--
-    UNK120=120,--
-    UNK121=121,--
-    VOLGIN_CHASE=122,--
-    UNK123=123,--
-    UNK124=124,--
-    UNK125=125,--
-    UNK126=126,--
-    UNK127=127,--
-    UNK128=128,--
-    UNK129=129,--
-    UNK130=130,--
-    UNK131=131,--
-    UNK132=132,--
-    UNK133=133,--
-    CARRY=134,-- player is carrying an AI (use with "Carried" FoxStrCode32 msg to check status and obj type)
-    UNK135=135,--
-    UNK136=136,--
-    UNK137=137,--
-    UNK138=138,--
-    UNK139=139,--
-    CURTAIN=140,--
-    ENABLE_TARGET_MARKER_CHECK=141,--
-    UNK142=142,--
-    UNK143=143,--
-    UNK144=144,--
-    PARTS_ACTIVE=145,-- seems to always be true during gameplay
-  }--this
-
-
-  --  local addPEX={}
-  --  for k,v in pairs(PEX)do
-  --
-  --    if k==nil then
-  -- --     AddLine("k==nil")
-  --    end
-  --    if v==nil then
-  --  --    AddLine("v==nil for key "..tostring(k))
-  --    end
-  --
-  --    if string.find(k,"PLACEABLE_")then
-  --     AddLine("hurrp: "..tostring(k)..":"..tostring(v))
-  --    end
-  --      if type(v)=="number"then
-  --        addPEX[v]=k
-  --      else
-  --       -- AddLine("hurrp: "..tostring(k)..":"..tostring(v))
-  --      end
-  --   -- end
-  --    if type(v)=="number"then
-  --    --table.insert(PEX,v,k)
-  --    else
-  --    -- AddLine("hurrp: "..tostring(v))
-  --    end
-  --
-  --  --  if PEX[v]==nil then
-  --  --    AddLine("PEX["..tostring(v).."]==nil ")
-  --  --  end
-  --  end
-  --
-  --  for i,v in ipairs(addPEX)do
-  --    PEX[i]=v
-  --  end
-  --
-  --
-  --
-  --
-  --
-  --
-  --
-  --  --  AddLine("PlayerStatusEx ipairs")
-  --  --  for enum,id in ipairs(PlayerStatusEx)do
-  --  --    AddLine(tostring(enum).."="..tostring(id))
-  --  --  end
-  --  AddLine("--------------")
-  --  AddLine("PEx2 pairs")
-  --  for id,enum in pairs(PEX)do
-  --    AddLine(tostring(id).."="..tostring(enum))
-  --  end
-  AddLine("PlayerStatusEx")
-  local ins=InfInspect.Inspect(PlayerStatusEx)
-  AddLine(ins)
-
+ 
   ------------
   local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dumpsomething.txt]]
 
   WriteLines(fileName,lines)
 end--DumpSomething
 
+
 --DEBUGNOW
---Mother base soldiers salute voice list
---With no salue list set all they will say is "Boss!"
---Can be re-called during in-mission with changes to test
---each salute id(?) has multiple variations (depending on the voice of the soldier I guess, dont know if theres multiple takes for same)
---tex TODO: figure out the saluteId is related to the multiple voice/subtitle lines
---example
---salute0080 =
---sltb1000_093528_0_eneb_enf
---sltb1000_093527_0_enea_enf
---sltb1000_093268_0_enec
-
---See debug_CallVoice / speechLabels for more notes
-
-function this.SetSaluteVoiceList()
-  --DEBUGNOW
-  --  if mb_additionalSalueCommentsorsomething
-  --      InfSolier.SetMBSaluteVoiceList()
-  --      return
-  --    end
-
-
-  InfCore.LogFlow("SetSaluteVoiceList")--tex DEBUG
-  if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
-    return
-  end
-
-  local highList={}
-  local highOnceList={}
-  local midList={}
-  local midOnceList={}
-  local lowList={}
-  local lowOnceList={}
-
-
-  --tex from DEBUGNOW ?? speechLabels
-  lowList={
-    --other voice labels that have nothing to do with salute but might be cool to include:
-    --Enemy Voices Sneak (NORMAL/player not spotted status)
-    --"EVS040",--"very soft Phew/Ahh",},-- Relaxing --OFF too soft
-    "EVS060",--"(exersion) Hmph/Hup",},--Light exertion lines
-    "EVS090",--"Rrrgh",},--Soldier gets something in his eye.
-    "EVS100",--"(tired) sigh",},--
-    "EVS110",--"(frustrated) Dammit",},--Irritated
-    "EVS120",--"He's taking so long...",},--Waiting for comrade - General purpose
-    "EVS130",--"(to self) I'm going.",},--Can't bear waiting any longer, goes alone
-
-    --Enemy Voiced Notice
-    "EVN060",--"soft huh?",},-- From nearby: Enemy spots something
-    --"EVN070",--"real soft hmm",}, -- From nearby: Checking it out --OFF too soft
-    "EVN080",--"you there!|hey!",}, -- From nearby: Spotted something suspicious
-
-    --"EVN100",--"soft sigh",}, -- From nearby: Nothing spotted --OFF too soft
-    --"EVN110",--"soft huh?!",}, -- Heard a knock, footsteps, or other unusual noise-- OFF too soft
-    "EVN120",--"The hell?!|Wha-?!|What was that?!",},-- Reacting to an explosion or other loud noise
-    "EVN130",--"soft Hm? Huh...",}, -- Checking last known position
-    --"EVN140",--"He's here!",}, -- Spotting a suspicious person while searching/on guard, and engaging him
-    --"EVN150",--"Contact!|Hostile!",}, --The suspicious person spotted has been identified as an enemy (the player) and is engaged.
-    "EVN170",--"Hey - look over there.",},--Spotting something suspicious, and attracting a comrade's attention.
-
-    "EVN311",--"Shoo, shoo! (to animal)",},--chasing away an animal
-    "EVN312",--"Get Lost! (to animal angry)",},--
-    "EVN350",--"cursing something (multi-purpose)",},--
-
-    --Enemy Voices Reaction
-    "EVR010",--"(shock) What the!",}, --
-    "EVR011",--"(shock,extreme) Huh!",}, --
-    "EVR012",--"(shock,little) Ah!",}, --
-    --"EVR020",--"Shit! Enemy fire!",}, --Taking gunfire
-
-    "EVR070",--"hahh! (Short outbursts to steel himself.)",}, --Taking gunfirePlayer has their gun on the enemy, threatening him. Bold reactions.
-    "EVR180",--"The hell you doing? (spotted hold-up)",}, --Spotting a comrade in hold-up status
-    "EVR220",--"(chuckles)",},--spotted Snake while he's wearing the chicken hat
-    "EVR230",--"(chuckles)",},--spotted Snake while he's wearing the chicken hat
-
-    --Enemy Voices Damage/Status changes
-    --"EVD070",--"General coughs.",},--doesnt seem to trigger, needs condition?
-
-    --Enemy Voices Battle
-    "EVB010",--"Small psych-up shouts.",},
-    "EVB030",--"Big psych-up shouts.",},
-    --"EVB040",--"Mammoth psych-up shouts.",},--doesnt seem to trigger, needs condition?
-
-    --Enemy Voices Comrades (Battle,Teamwork)
-    --"EVC250",--"Go! (to comrades)",},
-    "EVC260",--"Go go go! (to comrades)",},
-    "EVC330",--"I'm OK (to comrades)",},
-    "EVC340",--"You OK? (to comrades)",},
-
-    --Enemy Voices E? Post-combat voices - Caution
-
-    --Enemy Voices Fight?
-    "EVF010",--"Boss!",},--default saluting boss.
-    "EVF020",--"its an honor boss|dont pull any punches",}, ----no ref,  Greeting Boss before practice:
-    "EVF030",--"boss, thats not quite right|boss, um with all due respect",}, --no ref,-- Multipurpose lines for when player fails to do something correctly:
-    "EVF040",--"thank you boss!",}, --no ref, the standard cqc reaction
-
-    --TODO: is there a last mission result var anywhere to drive this?
-    "salute0010",--"great work on that mission",},--no ref, After completing a mission (score: high)
-    "salute0020",--"nice job on that mission",}, --no ref, After completing a mission (score: medium)
-    "salute0030",--"that was a pretty rough mission",}, --no ref, ・After completing a mission (score: low)
-    --<
-    -- already used "salute0040",--"good to have you back boss",}, -- After Boss returns (they"re happy to see him)
-    -- already used "salute0050",--"long time no see",}, -- ・Boss returns after a long time away
-    -- already used "salute0060",--"welcome home boss",}, --- with warmth ・General-purpose lines after Boss returns
-    --!  "salute0070",--"boss? what is..? uhh never mind|thats a.. interesting hat youve got there",},-- spoken uncertainly. ----no ref, ・After Boss returns (when wearing chicken hat) (prep)
-    -- already used "salute0080",--"welcome back boss",},-- often said with trepidation, other times sounds normal. -- ・Boss"s "demon level" has exceeded a certain point
-    -- already used "salute0090",--"we need more personel",},
-    -- already used "salute0100",--"we cant get by with so few staff",},
-    --! "salute0110",--"thanks for bringing in more guys",},--no ref,
-    -- already used "salute0120",--"starting to get a little crowded here",},
-    --!  "salute0130",--"thanks for upgrading the base|for expanding",},--no ref,
-    --!  "salute0140",--"that new weapon is just what we needed boss",},--no ref,
-    -- already used "salute0150",--"boss, we still in the red?",},
-    -- already used "salute0160",--"we're ready to develop new equipment",},
-    -- already used "salute0170",--"do you think you can bring in more materials?",},
-    "salute0180",--"train with me",},
-    -- already used "salute0190",--"boss! you, me, mock battle, what do you say?",},
-    -- already used "salute0200",--"i'm ready for a dispatch. send me on a mission",},
-    --!  "salute0210",--"damage to the fob is getting serious, you need to review fob security",}, --no ref,  for after fob attack i guess
-    "salute0220",--"whatever supplies you need, let us know",},
-    -- already used "salute0230",--"we're here for you if you need combat support",},
-    -- already used "salute0240",--"boss, thanks for saving that puppy",},
-    -- already used "salute0250",--"i hope you keep that woman locked up boss",},
-    -- already used "salute0260",--"do you think you could bring back more medicinal plants?",},
-    -- already used "salute0270",--"you have to rescue our men",},
-    -- already used "salute0280",--"you need to put an end to the infection boss",},
-    -- already used "salute0290",--"thanks for taking in those children",},
-    -- already used "salute0300",--"thank you for getting those animals out boss",},
-    "salute0310",--"how's it going boss?",},
-    "salute0320",--"boss good moring|have a good day boss",}, -- condition: must actually be morning ?
-    -- already used "salute0330",--"thank you for rescuing our men boss",},
-    -- already used "salute0340",--"thank you for ending the infection",},
-    -- already used "salute0350",--"boss, now our guys can rest in peace. thank you for what you did with the diamonds",},
-    -- already used "salute0360",--"thank you for stopping the infection boss",},--with more emotion
-    -- already used  "salute0370",--"boss, whoever you are, youre still my CO",},
-    -- already used "salute0380",--"happy birthday boss",},
-    --!  "salute0390",--"congratulations on the decomissioning boss",}, -- no ref,  ・After abolishing nuclear weapons
-    --!  "salute0400",--"congratulations",}, -- --no ref ・General-purpose congratulatory greeting
-    "salute0410",--"uh, how about taking a shower after a mission?",},--When Boss stinks - requires condition
-    "salute0420",--"thank you for letting me join diamond dogs",},--  New recruit who was just extracted? - requires condition?
-  --! "salute0430",--"boss! I new you were alive!|its.. its you boss",},--no ref amazed -- ●NPC lines: when reuniting with soldiers who were at the old Mother Base (survivors of 9 years ago)
-  --> anything higher is silence/no table
-  }--lowList
-
-
-
-  table.insert(lowList,"EVF010")--"Boss!",},--default saluting boss.
-  table.insert(lowList,"salute0180")--'train with me'
-  table.insert(lowList,"salute0220")--'whatever supplies you need, let us know'
-  table.insert(lowList,"salute0310")--'how's it going boss?'
-  table.insert(lowList,"salute0320")--"boss good moring|have a good day boss",}, -- condition: must actually be morning ?
-
-  table.insert(midList,"salute0410")--"uh, how about taking a shower after a mission?",},--When Boss stinks - requires condition?
-  table.insert(midList,"salute0420")--  New recruit who was just extracted - requires condition?
-
-  local storySequence=gvars.str_storySequence
-  if TppMotherBaseManagement.GetOgrePoint()>=5e4 then
-    table.insert(highOnceList,"salute0080")--'welcome back boss', often said with trepidation, other times sounds normal.
-  elseif Player.GetSmallFlyLevel()>=5 then
-    table.insert(highOnceList,"salute0050")--'long time no see'
-  elseif Player.GetSmallFlyLevel()>=3 then
-    table.insert(highOnceList,"salute0040")--'good to have you back boss'
-  else
-    table.insert(highOnceList,"salute0060")--'welcome home boss', with warmth
-  end
-  local staffcount=TppMotherBaseManagement.GetStaffCount()
-  local staffLimit=0
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_COMBAT}
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_DEVELOP}
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_BASE_DEV}
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_SUPPORT}
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_SPY}
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_MEDICAL}
-  staffLimit=staffLimit+TppMotherBaseManagement.GetSectionStaffCountLimit{section=TppMotherBaseManagementConst.SECTION_SECURITY}
-  local percentageFull=staffcount/staffLimit
-  if percentageFull<.2 then
-    table.insert(lowList,"salute0100")--'we cant get by with so few staff'
-  elseif percentageFull<.4 then
-    table.insert(lowList,"salute0090")--'we need more personel'
-  elseif percentageFull>.8 then
-    table.insert(lowList,"salute0120")--'starting to get a little crowded here'
-  end
-  if TppMotherBaseManagement.GetGmp()<0 then
-    table.insert(lowList,"salute0150")--'boss, we still in the red?'
-  end
-  if TppMotherBaseManagement.GetDevelopableEquipCount()>8 then
-    table.insert(lowList,"salute0160")--'we're ready to develop new equipment'
-  end
-  if(TppMotherBaseManagement.GetResourceUsableCount{resource="CommonMetal"}<500 or TppMotherBaseManagement.GetResourceUsableCount{resource="FuelResource"}<200)or TppMotherBaseManagement.GetResourceUsableCount{resource="BioticResource"}<200 then
-    table.insert(lowList,"salute0170")--'do you think you can bring in more materials?'
-  end
-  if TppMotherBaseManagement.IsBuiltFirstFob()then
-    table.insert(lowList,"salute0190")--'boss! you, me, mock battle, what do you say?'
-  end
-  if TppTerminal.IsReleaseSection"Combat"then
-    table.insert(lowList,"salute0200")--'i'm ready for a dispatch. send me on a mission'
-  end
-  if TppMotherBaseManagement.IsOpenedSectionFunc{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE}then
-    local n=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE}
-    if n>=TppMotherBaseManagementConst.SECTION_FUNC_RANK_E then
-      table.insert(lowList,"salute0230")--'we're here for you if you need combat support'
-    end
-  end
-  if(TppBuddyService.DidObtainBuddyType(BuddyType.DOG)and not TppBuddyService.CanSortieBuddyType(BuddyType.DOG))and not TppBuddyService.IsDeadBuddyType(BuddyType.DOG)then
-    table.insert(lowList,"salute0240")--'boss, thanks for saving that puppy'
-  end
-  if(TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)and not TppBuddyService.CanSortieBuddyType(BuddyType.QUIET))and not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)then
-    table.insert(lowList,"salute0250")--'i hope you keep that woman locked up boss'
-  end
-  if TppMotherBaseManagement.GetResourceUsableCount{resource="Plant2000"}<100 or TppMotherBaseManagement.GetResourceUsableCount{resource="Plant2005"}<100 then
-    table.insert(lowList,"salute0260")--'do you think you could bring back more medicinal plants?'
-  end
-  if storySequence==TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY then
-    table.insert(midList,"salute0270")--'you have to rescue our men'
-  end
-  if TppMotherBaseManagement.IsPandemicEventMode()or storySequence==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_MURDER_INFECTORS then
-    table.insert(midList,"salute0280")--'you need to put an end to the infection boss'
-  end
-  if storySequence==TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_POWS then
-    table.insert(midList,"salute0290")--'thanks for taking in those children'
-  end
-  if TppTerminal.IsBuiltAnimalPlatform()then
-    table.insert(lowList,"salute0300")--'thank you for getting those animals out boss'
-  end
-  if storySequence==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_INTEL_AGENTS then
-    table.insert(midList,"salute0330")--'thank you for rescuing our men boss'
-  end
-  if storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA and storySequence<=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
-    table.insert(midList,"salute0340")--'thank you for ending the infection'
-  end
-  if storySequence==TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then
-    table.insert(midList,"salute0350")--'boss, now our guys can rest in peace. thank you for what you did with the diamonds'
-    table.insert(midList,"salute0360")--'thank you for stopping the infection boss', with more emotion
-  end
-  if storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
-    table.insert(lowList,"salute0370")--'boss, whoever you are, youre still my CO'
-  end
-  if TppUiCommand.IsBirthDay()then
-    table.insert(highList,"salute0380")--'happy birthday boss'
-  end
-  local saluteVoiceList={high={normal=highList,once=highOnceList},mid={normal=midList,once=midOnceList},low={normal=lowList,once=lowOnceList}}
-  local typeSoldier={type="TppSoldier2"}
-  GameObject.SendCommand(typeSoldier,{id="SetSaluteVoiceList",list=saluteVoiceList})
-end--SetSaluteVoiceList
+local GetGameObjectId=GameObject.GetGameObjectId
+local SendCommand=GameObject.SendCommand
 
 function this.PostAllModulesLoad()
   if isMockFox then
     InfCore.Log("isMockFox, returning:")
     return
   end
+
+  InfCore.Log("mvars.mis_missionStateIsNotInGame"..tostring("mvars.mis_missionStateIsNotInGame"))
+
+
+  --  InfCore.Log("getregistry")
+  --  local registry=debug.getregistry()
+  --  -- InfCore.PrintInspect(registry,"lua registry")--tex memory explosion, whatever Inspect is doing it dont like registry
+  --
+  --  for k,v in pairs(registry)do
+  --    InfCore.Log("registry."..tostring(k).."="..tostring(v))
+  --    if type(v)=="table"then
+  --      for k2,v2 in pairs(v)do
+  --        InfCore.Log("\t"..k.."."..tostring(k2).."="..tostring(v2))
+  --      end
+  --    end
+  --  end
+  --  InfCore.Log("registry end")
 
   --DEBUGNOW!!!!!!!!! use this.DebugAction instead
 
@@ -544,7 +134,7 @@ function this.PostAllModulesLoad()
   --  TppEnemy.SetSaluteVoiceList=InfSoldier.SetMBSaluteVoiceList--DEBUGNOW
   --  InfSoldier.SetMBSaluteVoiceList()
 
-  InfObjects.objectNames[1]="sol_ih_0135"
+  -- InfObjects.objectNames[1]="sol_ih_0135"
   --InfObjects.objectNames[2]="sol_ih_0128"
   --Ivars.selectSpeechSoldier:Set(0)
   --Ivars.selectSpeechSoldier2:Set(1)
@@ -685,45 +275,18 @@ function this.PostAllModulesLoad()
 
   --this.PrintStrCodes()
 
-  --Quat shiz
-  --
-  --    local rotY=30
-  --    local rotQuat=Quat.RotationY(TppMath.DegreeToRadian(rotY))
-  --    InfCore.PrintInspect(rotQuat,"rotQuat")
-  --    InfCore.PrintInspect(tostring(rotQuat),"rotQuat")
-  --    InfCore.PrintInspect(rotQuat:ToString(),"rotQuat")
 
-  --Ivars.customSoldierTypeFREE:Set"OFF"
-  --Ivars.disableXrayMarkers:Set(1)
 end
 
 function this.Init()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-  --  InfCore.Log("IHDebugVars")
-  --    InfCore.PrintInspect(gvars.rev_revengeRandomValue, "rev_revengeRandomValue")
-  --  for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
-  --  --  gvars.rev_revengeLv[i] = 3
-  --  end
-  --
-  --    for i=0,TppRevenge.REVENGE_TYPE.MAX-1 do
-  --    InfCore.PrintInspect(gvars.rev_revengeLv[i], "rev_revengeLv "..i..":")
-  --  end
-  local gimMax=1025
-  for i=1,gimMax do
-  --InfCore.PrintInspect(gvars.gim_missionStartBreakableObjects[i],"Init gim_missionStartBreakableObjects["..i.."]:")
-  end
 
   this.SetDebugModules()
-
-  --this.SetupDumpSoldier()--DEBUG
 end
 
 function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
-  if IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
-    this.RandomizeCurrentRouteSet()
-  end
 end--OnReload
 
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
@@ -732,40 +295,11 @@ end
 
 function this.Messages()
   return Tpp.StrCode32Table{
-    Weather={
-      {msg="Clock",sender="IH-00-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-01-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-02-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-03-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-04-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-05-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-06-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-07-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-08-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-09-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-10-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-11-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-12-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-13-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-14-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-15-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-16-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-17-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-18-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-19-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-20-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-21-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-22-00",func=this.IHDebugHourClock},
-      {msg="Clock",sender="IH-23-00",func=this.IHDebugHourClock},
-    },--Weather
+
   }--StrCode32Table message table
 end--Messages
 
 function this.OnAllocate(missionTable)
-  local gimMax=1025
-  for i=1,gimMax do
-  --InfCore.PrintInspect(gvars.gim_missionStartBreakableObjects[i],"Init gim_missionStartBreakableObjects["..i.."]:")
-  end
 end
 
 function this.SetDebugVars()
@@ -787,7 +321,12 @@ end--SetDebugVars
 
 function this.SetDebugModules()
   for i,moduleName in ipairs(debugModules)do
-    _G[moduleName].debugModule=true
+    local module=_G[moduleName]
+    if not module then
+      InfCore.Log("WARNING: IHDebugVars.SetDebugModules module "..tostring(moduleName).."==nil")
+    else
+      module.debugModule=true
+    end
   end
 end--SetDebugModules
 
@@ -1314,15 +853,13 @@ this.registerMenus={
 }
 
 this.registerIvars={
-  "playRadio",
-  "setSTORY_MISSION_LAYOUT_CODE",
+"debug_grtools_setLodScale",
 }
 
 this.devInAccMenu={
   noDoc=true,
   nonConfig=true,
   options={
-    "Ivars.setSTORY_MISSION_LAYOUT_CODE",
     "InfMenuCommands.RefreshPlayer",--DEBUGNOW
     "InfMenuCommands.ShowImguiDemo",
     "Ivars.quest_useAltForceFulton",--DEBUGNOW
@@ -1353,7 +890,7 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
-    "Ivars.playRadio",
+    "Ivars.debug_grtools_setLodScale",
     "InfMenuCommands.ShowImguiDemo",
     "Ivars.cam_disableCameraAnimations",
     "IHDebugVars.DEBUG_SomeShiz",
@@ -1381,7 +918,7 @@ this.devInMissionMenu={
     "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine",
     --"Ivars.parasitePeriod_MIN",
     --"Ivars.parasitePeriod_MAX",
-    --"InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent",
+
     "InfLookup.DumpValidStrCode",
     "InfCore.ClearLog",
   }
@@ -1407,8 +944,8 @@ end--AddDevMenus
 
 --menuCommands
 local toggle1=true
-local index1Min=1
-local index1Max=3
+local index1Min=0
+local index1Max=10
 local index1=index1Min
 local count=0
 local increment=1
@@ -1416,7 +953,18 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
+  
+  InfCore.DebugPrint("index1:"..index1)
+  InfCore.DebugPrint("toggle1:"..tostring(toggle1))
+  index1=index1+increment
+  if index1>index1Max then
+    index1=index1Min
+  end
+  toggle1=not toggle1
 
+  
+  --GrTools.SetLodScale(index1)
+  
   ---
 
   --  InfCore.Log("mbLayoutCode:"..vars.mbLayoutCode)
@@ -1660,14 +1208,6 @@ this.DEBUG_SomeShiz=function()
   local  referenceCount=File.GetReferenceCount("Tpp/Scripts/Equip/EquipMotionData.lua")
   InfCore.PrintInspect(referenceCount,"referenceCount")
 
-  if true then return end
-
-  InfCore.DebugPrint("index1:"..index1)
-  index1=index1+increment
-  if index1>index1Max then
-    index1=index1Min
-  end
-  toggle1=not toggle1
 end
 
 local index2Min=300
@@ -1873,580 +1413,27 @@ end
 --< menuCommands
 
 
---see PlayMusicFromQuietRoom
-local quietRadioNames={
-  "[Autoplay]",
-  "Heavens Divide",
-  "Koi no Yokushiryoku",
-  "Gloria",
-  "Kids In America",
-  "Rebel Yell",
-  "The Final Countdown",
-  "Nitrogen",
-  "Take On Me",
-  "Ride A White Horse",
-  "Maneater",
-  "A Phantom Pain",
-  "Only Time Will Tell",
-  "Behind the Drapery",
-  "Love Will Tear Us Apart",
-  "All the Sun Touches",
-  "TRUE",
-  "Take The DW",
-  "Friday Im In Love",
-  "Midnight Mirage",
-  "Dancing With Tears In My Eyes",
-  "The Tangerine",
-  "Planet Scape",
-  "How 'bout them zombies ey",
-  "Snake Eater",
-  "204863",
-  "You Spin Me Round",
-  "Quiet Life",
-  "She Blinded Me With Science",
-  "Dormant Stream",
-  "Too Shy",
-  "Peace Walker",--not in QUIET_RADIO_TELOP_LANG_LIST
-}--quietRadioNames
 
-this.playRadio={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  --range={min=0,max=31},
-  --range = 0=OFF,#list
-  settings=quietRadioNames,
-  OnChange=function(self,setting,previousSetting)
-    --if setting>0 or previousSetting~=0 then
-    if f30050_sequence and mvars.f30050_quietRadioName then
-      f30050_sequence.PlayMusicFromQuietRoom()
-    end
-    --end
-  end,
-}--quietRadioMode
 
---REF
---this.OFFLINE_MOHTER_BASE_LAYOUT_CODE=0
---this.STORY_MISSION_LAYOUT_CODE={
---  [10030]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
---  [10115]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
---  [11115]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
---  [10240]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
---  [30050]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
---  [30051]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
---  [30150]=500,
---  [30250]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE
---}
---this.INVALID_LAYOUT_CODE=65535
---this.STORY_MISSION_CLUSTER_ID={
---  [10030]=0,
---  [10115]=2,
---  [11115]=2,
---  [10240]=7,
---  [30050]=0,
---  [30150]=0,
---  [30250]=7
---}
-
-function this.AddFOBLayoutPack(missionCode)
-  local missionTypeName,missionCodeName=this.GetMissionTypeAndMissionName(missionCode)
-  if missionCode==50050 then
-  end
-  if(missionCode==50050)or(missionCode==10115)or(missionCode==30050 and vars.mbLayoutCode>3)then--tex DEBUGNOW added or 30050 passthrough
-    local layoutPath="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_area_ly%03d",vars.mbLayoutCode))))))
-    local layoutPack=layoutPath..".fpk"
-    local clusterId=vars.mbClusterId
-    if(missionCode==10115)then
-      clusterId=TppDefine.CLUSTER_DEFINE.Develop
-    end
-    local clusterLayoutPack=layoutPath..(string.format("_cl%02d",clusterId)..".fpk")
-    this.AddMissionPack(layoutPack)
-    this.AddMissionPack(clusterLayoutPack)
-  elseif missionCode==30050 then
-    local layoutPack="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_ly%03d",vars.mbLayoutCode))))))
-    local fpkPath=layoutPack..".fpk"
-    this.AddMissionPack(fpkPath)
-  end
-end
-
-function this.GoToEmergencyMission()
-  local emergencyMissionCode=gvars.mis_nextMissionCodeForEmergency
-  local startRoute
-  if emergencyMissionCode~=TppDefine.SYS_MISSION_ID.FOB then
-    if gvars.mis_nextMissionStartRouteForEmergency~=0 then
-      startRoute=gvars.mis_nextMissionStartRouteForEmergency
-      --tex DEBUGNOW HACK OFF
-      --    else
-      --      return
-    end
-  end
-  local mbLayoutCode
-  if gvars.mis_nextLayoutCodeForEmergency~=TppDefine.INVALID_LAYOUT_CODE then
-    mbLayoutCode=gvars.mis_nextLayoutCodeForEmergency
-  else
-    mbLayoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[vars.missionCode]or TppDefine.OFFLINE_MOHTER_BASE_LAYOUT_CODE--RETAILBUG: since day0, was TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode]
-  end
-  local clusterId=2
-  if gvars.mis_nextClusterIdForEmergency~=TppDefine.INVALID_CLUSTER_ID then
-    clusterId=gvars.mis_nextClusterIdForEmergency
-  end
-  this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=emergencyMissionCode,nextHeliRoute=startRoute,nextLayoutCode=mbLayoutCode,nextClusterId=clusterId}
-end
-
-this.setSTORY_MISSION_LAYOUT_CODE={
-  --save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=1000},
-  OnChange=function(self,setting,previousSetting)
-
-    InfCore.DebugPrint"terrible hack"
-    InfCore.Log("setSTORY_MISSION_LAYOUT_CODE")
-    TppPackList.AddFOBLayoutPack=this.AddFOBLayoutPack
-    TppMission.GoToEmergencyMission=this.GoToEmergencyMission
-    TppDefine.STORY_MISSION_LAYOUT_CODE[10115]=setting
-    TppDefine.STORY_MISSION_LAYOUT_CODE[30050]=setting
-
-    gvars.mis_nextMissionCodeForEmergency=30050
-    gvars.mis_nextMissionStartRouteForEmergency=nil
-    gvars.mis_nextLayoutCodeForEmergency=setting
-    gvars.mis_nextClusterIdForEmergency=0
-    InfCore.Log("setSTORY_MISSION_LAYOUT_CODE done")
-  end,
-}--setSTORY_MISSION_LAYOUT_CODE
-
---DEBUGNOW hijack to experiment
---vox_ ?
---bgm_ ?
-quietRadioNames={
-  "sfx_m_mtbs_nature",
-  "sfx_f_supply_flare",
-  "bgm_mission_start",
-  "tp_m_10100_01",
-  "bgm_mission_clear_heli",
-  "tp_bgm_10_01",
-  "sfx_m_tp_10_01",
-  "sfx_m_10_01",
-  "sfx_tp_10_01",
-}--quietRadioNames
-this.playRadio.settings=quietRadioNames
-this.playRadio.OnChange=function(self,setting,previousSetting)
-  --local radioName=string.format("sfx_m_prison_radio_%02d",radioIndex)
-  local radioName=self.settings[setting+1]
-  local soundPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-  --    TppMusicManager.PlayPositionalMusic(radioName,soundPos)
-  --TppSoundDaemon.PostEvent(radioName)
-  TppSoundDaemon.PostEvent3D(radioName,soundPos)
-end
-
---DEBUGNOW REF
-function this.PlayMusicFromQuietRoom()
-  local totalPlayTime = TppScriptVars.GetTotalPlayTime()
-  local radioIndex = totalPlayTime%(#QUIET_RADIO_TELOP_LANG_LIST) + 1
-  if Ivars.quietRadioMode:Is()>0 then--tex
-    radioIndex=Ivars.quietRadioMode:Get()
-  end--
-  mvars.f30050_quietRadioName = string.format("sfx_m_prison_radio_%02d",radioIndex )
-  mvars.f30050_requestShowUIQuietRadioName = QUIET_RADIO_TELOP_LANG_LIST[radioIndex]
-  local position = Tpp.GetLocator("quiet_AssetIdentifier", "radio_pos")
-  if position == nil then
-    return
-  end
-  TppMusicManager.PlayPositionalMusic( mvars.f30050_quietRadioName, Vector3(position[1], position[2], position[3]) )
-
-  mvars.f30050_requestShowUIQuietRadio = true
-  InfCore.Log("PlayQuietRadio:"..tostring(mvars.f30050_quietRadioName) )
-end
-function this.StopMusicFromQuietRoom()
-  if mvars.f30050_quietRadioName then
-    TppMusicManager.StopPositionalMusic()
-    mvars.f30050_quietRadioName = nil
-    mvars.f30050_requestShowUIQuietRadioName = nil
-  end
-end
-
-function this.ShowMusicTeropInQuietRoom( radioName )
-  if mvars.f30050_requestShowUIQuietRadioName and mvars.f30050_isInQuietAudioTelopArea then
-
-    if TppMusicManager.IsPlayingPositionalMusic( radioName ) then
-
-      TppUiCommand.ShowMusicTelop( mvars.f30050_requestShowUIQuietRadioName, 10.0 )
-      mvars.f30050_requestShowUIQuietRadioName = nil
-      return
-    end
-  end
-end
-
-
-
-this.soldierInfo={}
-this.day=0
-function this.SetupDumpSoldier()
-  local incrementHours=3
-  for hour=0,24,incrementHours do
-    TppClock.RegisterClockMessage(string.format("IH-%02d-00",hour),string.format("%02d:00:00",hour))
-  end
-end
-local levelSeed=0
-function this.DumpSoldierInfoForHour(sender,time)
-  if vars.missionCode~=30010 then
-    return
-  end
-
-  local lines={}
-  local function AddLine(line)
-    table.insert(lines,line)
-  end
-
-  local WriteLines = function(fileName,lines)
-    local f,err = io.open(fileName,"w")
-    if f==nil then
-      InfCore.Log("ERROR: "..err)
-      return
-    else
-      for i,line in ipairs(lines)do
-        local t = f:write(line.."\n")
-      end
-      f:close()
-    end
-  end
-
-  --afgh_enemyBase_cp="Wakh Sind Barracks",
-  local cpName="afgh_enemyBase_cp"
-  local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
-  local hours,minutes,seconds=TppClock.GetTime()
-  local worldTime=string.format("%02d-%02d-%02d",hours,minutes,seconds)
-  local senderStr=InfLookup.StrCode32ToString(sender)
-
-  InfCore.Log("IHDebugVars.DumpSoldierInfoForHour "..senderStr.." - "..worldTime)
-
-
-  TppCheckPoint.Update{safetyCurrentPosition=true}
-  --    while TppSave.IsSaving()do
-  --      InfCore.Log"waiting saving end..."
-  --      coroutine.yield()
-  --    end
-
-  AddLine("IHDebugVars.DumpSoldierInfoForHour")
-  AddLine("inf_levelSeed: "..igvars.inf_levelSeed)
-  AddLine("cpName: "..cpName)
-
-
-
-  if levelSeed~=igvars.inf_levelSeed then
-    this.soldierInfo={}
-  end
-  levelSeed=igvars.inf_levelSeed
-
-  local soldiers={
-    afgh_enemyBase_cp = {
-      "sol_enemyBase_0000",
-      "sol_enemyBase_0001",
-      "sol_enemyBase_0002",
-      "sol_enemyBase_0003",
-      "sol_enemyBase_0004",
-      "sol_enemyBase_0005",
-      "sol_enemyBase_0006",
-      "sol_enemyBase_0007",
-      "sol_enemyBase_0008",
-      "sol_enemyBase_0009",
-      "sol_enemyBase_0010",
-      "sol_enemyBase_0011",
-      "sol_enemyBase_0012",
-      "sol_enemyBase_0013",
-      nil
-    },
-  }--soldiers
-
-
-
-  for i,soldierName in ipairs(soldiers[cpName])do
-    local svarIndex=InfLookup.SoldierSvarIndexForName(soldierName)
-    if svarIndex==nil then
-      InfCore.Log("Could not find svarIndex")
-    else
-
-      local soldierInfo=this.soldierInfo[soldierName] or {}
-      this.soldierInfo[soldierName]=soldierInfo
-      local soldierTime=soldierInfo[senderStr] or {}--soldier routes for world time, using sender/clock name since actual clock time varies
-      soldierInfo[senderStr]=soldierTime
-      table.insert(soldierTime,InfLookup.StrCode32ToString(svars.solCpRoute[svarIndex]))
-    end
-  end
-  InfCore.PrintInspect(this.soldierInfo,"dump soldierInfo")
-
-
-  AddLine("soldierInfo=")
-  AddLine(InfInspect.Inspect(this.soldierInfo))
-
-
-  local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-soldierinfo-]]..igvars.inf_levelSeed..[[-.txt]]
-
-  WriteLines(fileName,lines)
-end--DumpSoldierInfoForHour
-
-function this.DumpSoldierInfo()
-  if vars.missionCode~=30010 then
-    return
-  end
-
-  ---
-  local lines={}
-  local function AddLine(line)
-    table.insert(lines,line)
-  end
-
-  local WriteLines = function(fileName,lines)
-    local f,err = io.open(fileName,"w")
-    if f==nil then
-      InfCore.Log("ERROR: "..err)
-      return
-    else
-      for i,line in ipairs(lines)do
-        local t = f:write(line.."\n")
-      end
-      f:close()
-    end
-  end
-
-
-
-
-  InfCore.PrintInspect(this.soldierInfo,"soldierInfo")
-
-  --afgh_enemyBase_cp="Wakh Sind Barracks",
-  local cpName="afgh_enemyBase_cp"
-  local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
-
-  AddLine(InfInspect.Inspect(mvars.ene_shiftChangeTable))
-  local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-ene_shiftChangeTable-inspect-]]..igvars.inf_levelSeed..[[.txt]]
-  WriteLines(fileName,lines)
-
-  lines={}
-
-  -- InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
-
-  -- InfCore.PrintInspect(mvars.ene_shiftChangeTable[cpId],"mvars.ene_shiftChangeTable[cpId]")--DEBUGNOW
-  --REF
-  --  mvars.ene_shiftChangeTable[cpId]={
-  --  shiftAtMidNight = {
-  --    {
-  --      { "night", 1825487102 },
-  --      <1>{ "sleep", "default" },
-  --        holdTime = 300
-  --    },
-  --    {
-  --      <table 1>,
-  --      { "night", 1825487102 }
-  --    },
-  --    {
-  --      { "night", 405073021 },
-  --      <2>{ "sleep", "default" },
-  --      holdTime = 300
-  --    },
-  --    {
-  --      <table 2>,
-  --      { "night", 405073021 }
-  --    },
-  --    {
-  --      { "night", 1574494500 },
-  --      <3>{ "sleep", "default" },
-  --    holdTime = 300
-  --    },
-  --    { <table 3>, { "night", 1574494500 } }, { { "night", 2257358364 }, <4>{ "sleep", "default" },
-  --      holdTime = 300
-  --    },
-  --    { <table 4>, { "night", 2257358364 } }, { { "night", 1894115093 }, <5>{ "sleep", "default" },
-  --      holdTime = 300
-  --    },
-  --    { <table 5>, { "night", 1894115093 } } },
-  --  shiftAtMorning = { { { "midnight", 1825487102 }, <6>{ "hold", "default" },
-  AddLine("inf_levelSeed: "..igvars.inf_levelSeed)
-  AddLine("os.clock: "..os.clock())
-  AddLine("day: "..this.day)
-  AddLine("Clock Time: "..TppClock.GetTime"string")
-  AddLine("")
-  AddLine("TppClock.NIGHT_TO_DAY: "..TppClock.NIGHT_TO_DAY)
-  AddLine("TppClock.DAY_TO_NIGHT: "..TppClock.DAY_TO_NIGHT)
-  AddLine("TppClock.NIGHT_TO_MIDNIGHT: "..TppClock.NIGHT_TO_MIDNIGHT)
-  AddLine("")
-  AddLine(cpName)
-  AddLine"mvars.ene_shiftChangeTable[cpId]={"
-  for cpId,cpShifts in pairs(mvars.ene_shiftChangeTable)do  --DEBUGNOW all
-    local cpName=mvars.ene_cpList[cpId]
-    AddLine("["..cpName .." cpId:"..cpId.."]={")--DEBUGNOW all
-    --for shiftName,shifts in pairs(mvars.ene_shiftChangeTable[cpId])do
-    for shiftName,shifts in pairs(cpShifts)do
-      AddLine("\t"..shiftName.."={")
-      for i,shiftUnit in ipairs(shifts)do       
-        if type(shiftUnit)~="table"then
-          AddLine('\t\t['..i..']="'..tostring(shiftUnit)..'"')
-        else
-          AddLine("\t\t["..i.."]={")
-          for k,v in pairs(shiftUnit)do
-            if type(v)=="table"then
-              AddLine('\t\t\t['..k..']={"'..v[1]..'","'..InfLookup.StrCode32ToString(v[2])..'"},')
-            else
-              AddLine("\t\t\t"..k.."="..tostring(v)..",")
-            end
-          end--for k,v
-          AddLine("\t\t},")
-        end
-      end--for shifts
-      AddLine("\t},")
-    end--for ene_shiftChangeTable
-    AddLine("},")--DEBUGNOW all
-  end--DEBUGNOW
-  AddLine("}--mvars.ene_shiftChangeTable[cpId]")
-  AddLine""
-
-  --  for i,line in ipairs(lines)do
-  --    InfCore.Log(line)
-  --  end
-
-
-  local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dump-ene_shiftChangeTable]]..igvars.inf_levelSeed..[[.txt]]
-
-  WriteLines(fileName,lines)
-
-  local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
-  local soldiers={
-    afgh_enemyBase_cp = {
-      "sol_enemyBase_0000",
-      "sol_enemyBase_0001",
-      "sol_enemyBase_0002",
-      "sol_enemyBase_0003",
-      "sol_enemyBase_0004",
-      "sol_enemyBase_0005",
-      "sol_enemyBase_0006",
-      "sol_enemyBase_0007",
-      "sol_enemyBase_0008",
-      "sol_enemyBase_0009",
-      "sol_enemyBase_0010",
-      "sol_enemyBase_0011",
-      "sol_enemyBase_0012",
-      "sol_enemyBase_0013",
-      nil
-    },
-  }--soldiers
-
-
-
-  for i,soldierName in ipairs(soldiers[cpName])do
-    local gameObjectId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-    local radius=0
-    local goalType="none"
-    local viewType="map_and_world_only_icon"
-    local randomRange=0
-    local setImportant=false
-    local setNew=false
-    TppMarker.Enable(gameObjectId,radius,goalType,viewType,randomRange,setImportant,setNew)
-    --TppMarker.Enable(gameObjectName,visibleArea,goalType,viewType,randomRange,setImportant,setNew,mapRadioName,langId,goalLangId,setInterrogation)
-  end
-
-
-  if true then return end
-
-  ------------------------------
-
-  --DEBUGNOW
-  TppCheckPoint.Update{safetyCurrentPosition=true}
-  --    while TppSave.IsSaving()do
-  --      InfCore.Log"waiting saving end..."
-  --      coroutine.yield()
-  --    end
-
-
-
-
-
-  local lines={}
-  local function AddLine(line)
-    table.insert(lines,line)
-  end
-
-  local WriteLines = function(fileName,lines)
-    local f,err = io.open(fileName,"w")
-    if f==nil then
-      InfCore.Log("ERROR: "..err)
-      return
-    else
-      for i,line in ipairs(lines)do
-        local t = f:write(line.."\n")
-      end
-      f:close()
-    end
-  end
-
-  ----
-
-  AddLine("inf_levelSeed: "..igvars.inf_levelSeed)
-  AddLine("os.clock: "..os.clock())
-  AddLine("day: "..this.day)
-  AddLine("Clock Time: "..TppClock.GetTime"string")
-  AddLine("")
-  AddLine("TppClock.NIGHT_TO_DAY: "..TppClock.NIGHT_TO_DAY)
-  AddLine("TppClock.DAY_TO_NIGHT: "..TppClock.DAY_TO_NIGHT)
-  AddLine("TppClock.NIGHT_TO_MIDNIGHT: "..TppClock.NIGHT_TO_MIDNIGHT)
-  AddLine("")
-
-
-
-  --
-  local hours,minutes,seconds=TppClock.GetTime()
-  local worldTime=string.format("%02d-%02d-%02d",hours,minutes,seconds)
-
-  for i,soldierName in ipairs(soldiers[cpName])do
-    local svarIndex=InfLookup.SoldierSvarIndexForName(soldierName)
-    if svarIndex==nil then
-      InfCore.Log("Could not find svarIndex")
-    else
-
-
-      local soldierSvarName={
-        "solName",
-        "solState",
-        "solFlagAndStance",
-        "solWeapon",
-        "solLocation",
-        "solMarker",
-        "solFovaSeed",
-        "solFaceFova",
-        "solBodyFova",
-        "solCp",
-        "solCpRoute",
-        "solScriptSneakRoute",
-        "solScriptCautionRoute",
-        "solScriptAlertRoute",
-        "solRouteNodeIndex",
-        "solRouteEventIndex",
-        "solTravelName",
-        "solTravelStepIndex",
-      }--soldierSvarName
-
-      --DEBUGNOW these are seperate? have to iterate to find matching solOptName?
-      --    {name="solOptName",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-      --    {name="solOptParam1",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-      --    {name="solOptParam2",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-
-      AddLine(soldierName)
-      AddLine("Soldier svar index: "..tostring(svarIndex))
-      AddLine("solCpRoute: "..InfLookup.StrCode32ToString(svars.solCpRoute[svarIndex]))
-      --AddLine("solScriptSneakRoute: "..InfLookup.StrCode32ToString(svars.solScriptSneakRoute[svarIndex]))--tex DEBUGNOW not sure why these arent finding their strings
-      --AddLine("solScriptCautionRoute: "..InfLookup.StrCode32ToString(svars.solScriptCautionRoute[svarIndex]))
-      --AddLine("solScriptAlertRoute: "..InfLookup.StrCode32ToString(svars.solScriptAlertRoute[svarIndex]))
-      --AddLine("solRouteNodeIndex: "..svars.solRouteNodeIndex[svarIndex])
-      --AddLine("solRouteEventIndex: "..svars.solRouteEventIndex[svarIndex])
-      AddLine("")
-    end--if svarIndex
-  end--for soldiers.afgh_enemyBase_cp
-
-
-  local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dumpsoldierinfo-]]..worldTime.."-"..os.clock()..[[.txt]]
-
-  WriteLines(fileName,lines)
-end--DumpSoldierInfo
 
 --tex called from QuickMenuDefs_User <CALL> + <ACTION>
 function this.DebugAction()
   InfCore.Log("IHDebugVars.DebugAction",true,true)
-  this.DumpSoldierInfo()
+  
+  
+
+ -- TppSound.SetPhaseBGM( "bgm_fob_neutral" )
+
+  --  InfCore.PrintInspect(vars,"vars")
+  --  local metaTable=getmetatable(vars)
+  --  InfCore.PrintInspect(metaTable,"vars metaTable")
+
+  --this.DumpSoldierInfo()
+  --InfCore.Log("Fox.ClassInfo")
+  --Fox.ClassInfo()--tex PrintClassInfoSimple
+  --Fox.ClassInfo("Rotation")--className --TODO: any other params?
+  --InfCore.Log("Fox.GenSid")
+  --Fox.GenSid("something")
 end--DebugAction
 
 --DEBUGNOW
@@ -2456,8 +1443,13 @@ end--DebugAction
 --  end
 --end
 
-function this.IHDebugHourClock(sender,time)
-  this.DumpSoldierInfoForHour(sender,time)
-end
+this.debug_grtools_setLodScale={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=10000,increment=0.1},
+  OnChange=function(self,setting)
+    GrTools.SetLodScale(setting)
+  end,
+}
+
 
 return this
