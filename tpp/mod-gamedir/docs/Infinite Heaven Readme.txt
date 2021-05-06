@@ -1,5 +1,5 @@
 = Infinite heaven =
-r250 - 2021-04-19
+r251 - 2021-04-06
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
 
@@ -20,6 +20,18 @@ Recent changes/additions
 ------------------------------
 
 The introduction of IHHook has had plenty of teething troubles, so thanks to all those who have worked wth me to try and nail down the problems.
+
+r251
+WarGames: Added FOB phase background music during wargames - thanks Body Damage, and others for the suggestion.
+
+disableKillChildSoldierGameOver - "Disable game over on killing child soldier" (via player restictions menu menu) - thanks CFWMagic for showing a clear example when updating the stand alone mod.
+
+Skull Events
+Moved to its own menu (via the Events menu)
+A bajillion settings for the event settings and the parameters for the skulls and zombies in the event exposed.
+Now (should) work for Free roam addon missions (does on Caplags gntn - US Naval Prison Facility)
+[youtube]K249zxAd1PU[/youtube]
+https://youtu.be/zE49gPHU3uE
 
 r250
 IHHook:
