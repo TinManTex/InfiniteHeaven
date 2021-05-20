@@ -208,11 +208,15 @@ function this.GetForced()
     local unlockedArea=nil
     if unlockedName~=nil then
       unlockedArea=TppQuestList.questAreaNameTable[unlockedName]
-      forcedQuests[unlockedArea]=unlockedName
-      forcedCount=forcedCount+1
-      InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
-    end
-  end
+      if unlockedArea==nil then
+        InfCore.Log("ERROR: InfQuest.GetForced questAreaNameTable[] nil for "..unlockedName)
+      else
+        forcedQuests[unlockedArea]=unlockedName
+        forcedCount=forcedCount+1
+        InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
+      end
+    end--if unlockedName
+  end--if unlockSideOpNumber <=#questTable
 
   if forcedCount==0 then
     return nil
