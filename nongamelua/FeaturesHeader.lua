@@ -69,7 +69,12 @@ local this={
   },
   {
     title="Menu, Options and Settings",
-[[Basic terms used in the Infinite Heaven menu:
+[[How to Open the menu:
+While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)
+Press and hold <Switch Zoom> (V key or RStick click) then press <Dash> (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.
+Or if IHHook is working, press F3
+
+Basic terms used in the Infinite Heaven menu:
 [Option] : [Setting(s)] ]],
   },
 }
