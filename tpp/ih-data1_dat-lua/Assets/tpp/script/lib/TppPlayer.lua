@@ -84,7 +84,7 @@ function this.SetForceFultonPercent(gameId,percentage)
 end
 function this.ForceChangePlayerToSnake(basic)
   if Ivars.useSoldierForDemos:Is(1) then--tex catch more cases the isSnakeOnly in demo didn't catch
-    if not TppMission.IsFOBMission(vars.missionCode) then--tex 50050 sequence calls this a couple of times, I can't reason it out as being a meaningful change but I don't want to change default behaviour
+    if not InfMain.IsOnlineMission(vars.missionCode) then--tex 50050 sequence calls this a couple of times, I can't reason it out as being a meaningful change but I don't want to change default behaviour
       if not (vars.missionCode==10240) then-- and DemoDaemon.IsDemoPlaying()) then--tex demo not actually playing at that point aparently --tex PATCHUP: stop stupid sexy snake player body/snake head for shining lights funeral scene
         return
     end
