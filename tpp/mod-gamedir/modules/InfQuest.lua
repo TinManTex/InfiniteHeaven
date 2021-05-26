@@ -5,8 +5,12 @@ local this={}
 
 local TppDefine=TppDefine
 local InfCore=InfCore
+local IvarProc=IvarProc
+local pairs=pairs
+local ipairs=ipairs
 
-this.debugModule=false
+this.debugModule=true--DEBUGNOW
+this.debugSave=true--DEBUGNOW
 
 --tex the engine breaks down the quest name in some cases to the last 6 characters (ie q30010), or just the numbers
 --see TppQuest GetQuestNameId, GetQuestName
@@ -33,8 +37,6 @@ this.debugModule=false
 --GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 157 vanilla quests.
 --this is governing the qst_* gvars that hold the quest states (see TppGvars).
 
-this.questsRegistered=false
-
 --tex see LoadQuestDefs,
 this.ihQuestNames={}
 --tex see LoadQuestDefs, RegisterQuests
@@ -42,19 +44,19 @@ this.ihQuestNames={}
 this.ihQuestsInfo={}
 
 function this.PostModuleReload(prevModule)
-  this.questsRegistered=prevModule.questsRegistered
   this.ihQuestNames=prevModule.ihQuestNames
   this.ihQuestsInfo=prevModule.ihQuestsInfo
+  --DEBUGNOW this.LoadLibraries()--TODO: see that stuff in RegisterQuests isnt additive/go pear shaped with multiple calls
 end
 
-function this.PostAllModulesLoad()
+function this.LoadLibraries()
+  this.LoadStates()
   this.LoadQuestDefs()
-  if this.questsRegistered then--DEBUGNOW what is this guarding? maybe was trying to stop a second call unless manually reloaded, but since the first call is before this in TppMain.OnInitialize that's not going to work
-    this.RegisterQuests()
-  end
+  this.RegisterQuests()
 end
 
 function this.OnStartTitle()
+  --tex since registerquests is run before the first game save/gvar load
   this.SetupInstalledQuestsState()
 end
 
@@ -256,19 +258,7 @@ local gvarFlagNames={
   "qst_questClearedFlag",
   "qst_questActiveFlag",
 }
-local gvarFlagTypes=Tpp.Enum(gvarFlagNames)
 
---CULL
-function this.GetGvarFlags()
-  local gvarFlags={}
-  for questGvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES,TppDefine.QUEST_MAX-1 do
-    gvarFlags[questGvarIndex]={}
-    for i,gvarName in ipairs(gvarFlagNames)do
-      gvarFlags[questGvarIndex][gvarName]=gvars[gvarName][questGvarIndex]
-    end
-  end
-  return gvarFlags
-end
 --tex clear range above vanilla quests
 function this.ClearGvarFlagsAddonRange()
   for questGvarIndex=TppDefine.NUM_VANILLA_QUEST_DEFINES,TppDefine.QUEST_MAX-1 do
@@ -399,7 +389,6 @@ function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,ques
   questInfoTable[questInfoIndex]=addQuestInfo
 end
 
---CALLER: InfMain OnInitialize, before TppQuest.RegisterQuestList, and PostModulesReload
 --tex basically just pulls together a lot of scattered data for easier setup of new quests
 function this.RegisterQuests()
   InfCore.LogFlow("InfQuest.RegisterQuests")
@@ -476,8 +465,6 @@ function this.RegisterQuests()
   end
 
   InfMain.RandomResetToOsTime()
-
-  this.questsRegistered=true
 
   InfCore.Log("numUiQuests:"..#questInfoTable)
 
@@ -568,12 +555,15 @@ end
 --CALLER: TppVarInit.StartTitle (>InfMain CallOnModules this.OnStartTitle) - since registerquests is run before the first game save/gvar load
 function this.SetupInstalledQuestsState()
   InfCore.LogFlow"InfQuest.SetupInstalledQuestsState"
-  --tex clear quest gvars range as matter of course and rely on ih_save.questStates to restore them
-  this.ClearGvarFlagsAddonRange()--DEBUGNOW TESTS
-  --complete addon quest, quit and see if its still completed next session
-  --then uninstall it, run game, reinstall it, run game, see if its cleared
-  --
-
+  if not this.questStatesLoaded then  
+    --tex clear quest gvars range as matter of course and rely on ih_save.questStates to restore them
+    this.ClearGvarFlagsAddonRange()--DEBUGNOW TESTS
+    --complete addon quest, quit and see if its still completed next session
+    --then uninstall it, run game, reinstall it, run game, see if its cleared
+    --  
+    this.questStatesLoaded=true
+  end
+  
   --this.DEBUG_PrintQuestClearedFlags()      f
   --tex clear quest gvars as matter of course
   --CULL
@@ -702,63 +692,124 @@ function this.GetQuestPositions()
   return positions
 end
 
+--saving/loading
+--tex currently only loads ih_quest_states once on session
+--but saves to is on every game save
+--the qst_ gvars keep doing their thing normally after the initial set by ih
+-- 
+this.isSaveDirty=true
+
+this.saveName="ih_quest_states.lua"
+
+--tex don't lose existing on modulereload
+ih_quest_states=ih_quest_states or {}--DEBUGNOW
+
+function this.Save(newSave)
+  InfCore.LogFlow"InfQuest.Save"
+  
+  local isDirty=this.GetCurrentStates()
+  if isDirty then
+    if this.debugSave then
+      InfCore.Log("questStates isDirty")
+    end
+
+    local saveTextList={
+      "-- "..this.saveName,
+      "-- save states for quests (sideops).",
+      "local this={}",
+    }
+    for questName,questStates in pairs(ih_quest_states)do
+      IvarProc.BuildTableText(questName,questStates,saveTextList)
+    end
+
+    saveTextList[#saveTextList+1]="return this"
+    IvarProc.WriteSave(saveTextList,this.saveName)
+  end
+  
+  if this.debugSave then
+    InfCore.PrintInspect(ih_quest_states,"ih_quest_states")
+  end
+end--Save
+--GOTCHA: not module 'LoadSave' because we only really want to load once on , as gvars handles reverting state
+function this.LoadStates()
+  InfCore.LogFlow"InfQuest.LoadStates"
+  local saveName=this.saveName
+  local filePath=InfCore.paths.saves..saveName
+  local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
+  if ih_save_chunk==nil then
+    local errorText="LoadStates Error: loadfile error: "..tostring(loadError)
+    InfCore.Log(errorText,false,true)
+    return nil
+  end
+
+  local sandboxEnv={}
+  if setfenv then
+    setfenv(ih_save_chunk,sandboxEnv)
+  end
+  local ih_save=ih_save_chunk()
+
+  if ih_save==nil then
+    local errorText="LoadStates Error: ih_save==nil"
+    InfCore.Log(errorText,true,true)
+
+    return nil
+  end
+
+  if type(ih_save)~="table"then
+    local errorText="LoadStates Error: ih_save==table"
+    InfCore.Log(errorText,true,true)
+
+    return nil
+  end
+
+  ih_quest_states=ih_save
+  if this.debugSave then
+    InfCore.PrintInspect(ih_quest_states,"ih_quest_states")
+  end
+end--LoadStates
+
 --tex set questCleared gvars from ih_save state
 --IN/SIDE: ih_save
 --REF ih_save
---ih_save.questStates={
---  ih_quest_q30100=17,
---  <quest name>=<bitfield of quest cleared gvar states>,
+--ih_quest_states={
+--  ih_quest_q30100={
+--    qst_questOpenFlag=true,
+--  },
 --}
 
 function this.ReadSaveStates()
   InfCore.LogFlow"InfQuest.ReadSaveStates"
 
-  if ih_save==nil then
-    local errorText="ERROR: ReadSaveStates: ih_save==nil"
+  if ih_quest_states==nil then
+    local errorText="ERROR: ReadSaveStates: ih_quest_states==nil"
     InfCore.Log(errorText,true,true)
     return {}
   end
-
-  if ih_save.questStates==nil then
-    InfCore.Log"ReadSaveStates: ih_save.questStates==nil"
-    return {}
-  end
-
-  if type(ih_save.questStates)~="table" then
-    local errorText="ERROR: ReadSaveStates: ih_save.questStates~=typeTable"
-    InfCore.Log(errorText,true,true)
-    return {}
+  
+  if this.debugSave then
+    InfCore.PrintInspect(ih_quest_states,"ih_quest_states")
   end
 
   local clearStates={}
-  for questName,questState in pairs(ih_save.questStates) do
-    if type(questName)~="string" then
-      InfCore.Log("ERROR: ReadSaveStates: ih_save: name~=string:"..tostring(questName),false,true)
+  for questName,questStates in pairs(ih_quest_states) do
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if not questIndex then
+      InfCore.Log("InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
+      table.insert(clearStates,questName)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
     else
-      if type(questState)~="number" then
-        InfCore.Log("ERROR: ReadSaveStates: ih_save: value~=number: "..questName.."="..tostring(questState),false,true)
-      else
-        local questIndex=TppDefine.QUEST_INDEX[questName]
-        if not questIndex then
-          InfCore.Log("InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
-          table.insert(clearStates,questName)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
-        else
-          for i=1,#gvarFlagNames do
-            local value=bit.band(questState,i^2)==i^2
-            gvars[gvarFlagNames[i]][questIndex]=value
-          end
-        end
+      for i,gvarFlagName in ipairs(gvarFlagNames)do
+        gvars[gvarFlagName][questIndex]=questStates[gvarFlagName] or false
       end
     end
-  end--for ih_save.questStates
+  end--for ih_quest_states
 
   for i,questName in ipairs(clearStates)do
-    ih_save.questStates[questName]=nil
+    ih_quest_states[questName]=nil
   end
 
   --tex open up new quests
   for i,questName in ipairs(this.ihQuestNames)do
-    if not ih_save.questStates[questName] then
+    if not ih_quest_states[questName] then
       local questIndex=TppDefine.QUEST_INDEX[questName]
       if not questIndex then
         InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
@@ -767,14 +818,26 @@ function this.ReadSaveStates()
       end
     end
   end--for ihQuestNames
+
+  if this.debugSave then
+    for questName,questStates in pairs(ih_quest_states) do
+      InfCore.Log(questName)
+      local questIndex=TppDefine.QUEST_INDEX[questName]
+      if not questIndex then
+      else
+        for i,gvarFlagName in ipairs(gvarFlagNames)do
+          local value=tostring(gvars[gvarFlagName][questIndex])
+          InfCore.Log(gvarFlagName.."="..value)
+        end
+      end
+    end--for ih_quest_states
+  end
 end--ReadSaveStates
 
-local questClearStates={}--tex cache of last to compare against for isdirty
 --CALLER: IvarProc.BuildSaveText
 function this.GetCurrentStates()
   local QUEST_INDEX=TppDefine.QUEST_INDEX
   local gvars=gvars
-  local bor=bit.bor
 
   local isSaveDirty=false
 
@@ -783,45 +846,22 @@ function this.GetCurrentStates()
     if not questIndex then
       InfCore.Log("ERROR: InfQuest.GetCurrentStates: Could not find questIndex for "..questName,false,true)
     else
-      local bitState=0
+      local questStates=ih_quest_states[questName] or {}
 
-      for i=1,#gvarFlagNames do
-        local gvarValue=gvars[gvarFlagNames[i]][questIndex]
-        if gvarValue==true then
-          bitState=bor(bitState,i^2)
+      for i,gvarFlagName in ipairs(gvarFlagNames) do
+        local gvarValue=gvars[gvarFlagName][questIndex]
+        if questStates[gvarFlagName]~=gvarValue then
+          isSaveDirty=true
+          questStates[gvarFlagName]=gvarValue
         end
       end
 
-      local currentClearState=questClearStates[questName]
-      if currentClearState==nil or currentClearState~=bitState then
-        isSaveDirty=true
-      end
-
-      questClearStates[questName]=bitState
+      ih_quest_states[questName]=questStates
     end
-  end
+  end--for ihQuestNames
 
-  --tex WORKAROUND (not quite the place for it, should have it's own func then anoteher uniting the two tables
-  --transfer over existing states in ih_save
-  --this will cover any runs of ih without the addon quests installed
-  --downside is old data will still persist if developer changes questName
-  --OFF
-  --  local ih_save=ih_save
-  --  if ih_save and ih_save.questStates then
-  --    for questName,bitState in ipairs(ih_save.questStates)do
-  --      if not questClearStates[questName] then
-  --        questClearStates[questName]=bitState
-  --        isSaveDirty=true
-  --      end
-  --    end
-  --  end
-
-  if isSaveDirty then
-    return questClearStates
-  end
-
-  return nil
-end
+  return isSaveDirty
+end--GetCurrentStates
 
 --CALLER: TppLandingZone.OnMissionCanStart
 function this.DisableLandingZones()

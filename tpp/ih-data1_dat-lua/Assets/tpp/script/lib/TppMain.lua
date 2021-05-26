@@ -402,7 +402,6 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppAnimalBlock.InitializeBlockStatus()
   if TppQuestList then
-    InfCore.PCallDebug(InfQuest.RegisterQuests)--tex
     TppQuest.RegisterQuestList(TppQuestList.questList)
     TppQuest.RegisterQuestPackList(TppQuestList.questPackList)
   end
