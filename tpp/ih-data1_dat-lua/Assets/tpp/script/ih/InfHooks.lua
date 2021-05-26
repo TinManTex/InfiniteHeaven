@@ -31,8 +31,21 @@ this.hookFuncs={
       InfCore.LogFlow("InfHook TppSave.DoSave")
       local saveResult=this.TppSave.DoSave(saveParams,force)
 
-      IvarProc.OnSave(saveParams,force)
+      --DEBUGNOW IvarProc.OnSave(saveParams,force)--tex hookin on this level catches savepersonaldata called in init_sequence can throw spanner in works for some of the stuff we want to do during load
       return saveResult
+    end,
+    SaveGameData=function(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
+      InfCore.LogFlow("InfHook TppSave.SaveGameData")
+      IvarProc.OnSave(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)--tex don't know if want before or after
+      this.TppSave.SaveGameData(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
+    end,
+    SaveConfigData=function(needIcon,doSave,reserveNextMissionStart)
+      InfCore.LogFlow("InfHook TppSave.SaveConfigData")
+      this.TppSave.SaveConfigData(needIcon,doSave,reserveNextMissionStart)
+    end,
+    SavePersonalData=function(needIcon,doSave,reserveNextMissionStartSave)
+      InfCore.LogFlow("InfHook TppSave.SavePersonalData")
+      this.TppSave.SavePersonalData(needIcon,doSave,reserveNextMissionStartSave)
     end,
   },
   TppSequence={
