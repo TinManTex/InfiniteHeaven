@@ -158,6 +158,7 @@ end
 --    "EQP_WP_EX_hg_010",
 --    "EQP_WP_West_ar_050",
 --  },
+--  allowInWarGames=true,--by default quests are blocked on mb wargames, this is to allow the quest during wargames
 --}
 --return this
 
@@ -185,7 +186,10 @@ function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
   if InfMainTpp.IsMbEvent() then
     --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
-    return true
+    local questInfo=this.ihQuestsInfo[questName]
+    if not questInfo or not questInfo.allowInWargames then
+      return true
+    end
   end
 
   if blockQuests[questName] then
