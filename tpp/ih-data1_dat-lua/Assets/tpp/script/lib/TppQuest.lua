@@ -30,7 +30,6 @@ local mafrAreaList={"outland","pfCamp","savannah","hill","banana","diamond","lab
 local mtbsAreaList={"MtbsCommand","MtbsCombat","MtbsDevelop","MtbsMedical","MtbsSupport","MtbsSpy","MtbsBaseDev","MtbsPaz"}--tex
 local shootingPracticeMarkers={
   Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",
-  --Command="ly003_cl00_npc0000|cl00pl1_q30210|Marker_shootingPractice",--tex DEBUGNOW
   Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
   Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",
   BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",
@@ -2412,6 +2411,7 @@ function this.IsInvoking()
   end
 end
 function this.UpdateOpenQuest()
+  InfCore.LogFlow("TppQuest.UpdateOpenQuest")--tex
   mvars.qst_isQuestNewOpenFlag=false
   for questName,questIndex in pairs(TppDefine.QUEST_INDEX) do
     local CanOpenQuestFunc=canOpenQuestChecks[questName]
@@ -2431,7 +2431,7 @@ function this.UpdateActiveQuest(updateFlags)
     InfCore.LogFlow("TppMain.UpdateActiveQuest return: not mvars.qst_questList")--tex DEBUGNOW
     return
   end
-  InfCore.LogFlow("TppMain.UpdateActiveQuest "..vars.missionCode)--tex DEBUGNOW
+  InfCore.LogFlow("TppQuest.UpdateActiveQuest "..vars.missionCode)--tex DEBUGNOW
   if this.NeedUpdateActiveQuest(updateFlags)then
     InfCore.LogFlow("NeedUpdateActiveQuest")--tex DEBUGNOW
     this.UpdateOpenQuest()
@@ -2470,7 +2470,7 @@ function this.UpdateActiveQuest(updateFlags)
     --<
     
     local selectedQuestCount=0
-    local forcedQuests=InfQuest.GetForced()--tex
+    local forcedQuest=InfQuest.GetForced()--tex
     for i,areaQuests in ipairs(mvars.qst_questList)do
       --ORPHAN local RENsomeTable={}
       local questList={}
@@ -2478,7 +2478,7 @@ function this.UpdateActiveQuest(updateFlags)
       local nonStoryQuests={}
       local repopQuests={}
       --tex forcedquests>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
-      local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
+      local unlockedName=forcedQuest and forcedQuest[areaQuests.areaName] or nil
       if unlockedName then
         for j,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
@@ -2497,7 +2497,11 @@ function this.UpdateActiveQuest(updateFlags)
             gvars.qst_questActiveFlag[questIndex]=false
             --NMC: -v- some list of conditions, not as big as the 't' list
             local CheckQuestFunc=checkQuestFuncs[questName]
-            if this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc()) then
+            local blockQuest=InfQuest.BlockQuest(questName)--tex
+            if blockQuest then
+              InfCore.Log("blocked Quest "..questName)
+            end
+            if this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc())and not blockQuest then--tex added blockQuest
               local questInfo=this.GetSideOpsInfo(questName)--tex category filtering>
               if not questInfo or enabledCategories[questInfo.category] then
                 --<
@@ -2509,7 +2513,7 @@ function this.UpdateActiveQuest(updateFlags)
                     table.insert(nonStoryQuests,questName)
                     table.insert(questList,questName)--tex
                   end
-                elseif this.IsRepop(questName) and not InfQuest.BlockQuest(questName) then --tex added blockquest
+                elseif this.IsRepop(questName) then
                   table.insert(repopQuests,questName)
                   table.insert(questList,questName)--tex
                 end
@@ -2517,7 +2521,7 @@ function this.UpdateActiveQuest(updateFlags)
             end --<quest open
           end --<questindex
         end --<for infolist
-        InfCore.Log("UpdateActiveQuest selected "..#questList.." quest candidates for area "..areaQuests.areaName)--tex
+        InfCore.Log("UpdateActiveQuest selected "..#questList.." quest candidates out of "..#areaQuests.infoList.." for area "..areaQuests.areaName)--tex
         if this.debugModule then--tex>
           InfCore.PrintInspect(questList,"questList")
           InfCore.PrintInspect(storyQuests,"storyQuests")
@@ -2586,8 +2590,8 @@ function this.UpdateActiveQuest(updateFlags)
         else
           InfCore.Log("UpdateActiveQuest "..vars.missionCode.." did not select a quest for area "..areaQuests.areaName)--tex
         end
-      end--forcedquests switch
-    end-- for questlist
+      end--not forcedquest
+    end-- for areaQuests in questlist
     
     InfCore.Log(selectedQuestCount.." quests selected")--tex
   --< if NeedUpdateActiveQuest
@@ -3337,17 +3341,30 @@ function this.OnQuestShootingTimerEnd()
   TppUiStatusManager.UnsetStatus("DisplayTimer","STOP_VISIBLE")
   TppUiCommand.EraseDisplayTimer()
 end
-function this.ShowShootingPracticeStartUi(offsetType,startUiPosition)
+--CALLERS: Quest script OnActivate, TppQuest.SetRetryShootingPracticeStartUi
+--NMC: tex: shooting practice start marker system is a bit of a mess, the locators are loaded by mission pack (layout pack), so all the known markers are hidden on current shooting quest activate
+--further more the ground ui 'mb stage spot' is relocated using offset from plat pos, (but the icon marker above it isnt?)
+--tex so trying to expand this further without having to mod the vanilla stuff
+--tex added markerName, and assumes startUiPosition is absolute if offsetType is nil
+function this.ShowShootingPracticeStartUi(offsetType,startUiPosition,markerName)
   this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
-  this.ShowShootingPracticeMarker(offsetType)
+  this.ShowShootingPracticeMarker(offsetType,markerName)
 end
+--CALLERS: ShowShootingPracticeStartUi ^, SetCancelShootingPracticeStartUi (called with nil params)
 function this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
   mvars.qst_shootingPracticeStartUiPos=startUiPosition or mvars.qst_shootingPracticeStartUiPos
   mvars.qst_shootingPracticeOffsetType=offsetType or mvars.qst_shootingPracticeOffsetType
+  if mvars.qst_shootingPracticeOffsetType==nil and mvars.qst_shootingPracticeStartUiPos~=nil then--tex> absolute positioning
+    local pos=mvars.qst_shootingPracticeStartUiPos
+    TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
+  else--<
   local pos,rotY=mtbs_cluster.GetPosAndRotY(mvars.qst_shootingPracticeOffsetType,"plnt0",mvars.qst_shootingPracticeStartUiPos,0)
   TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
+  end
 end
-function this.ShowShootingPracticeMarker(offsetType)
+--CALLERS: ShowShootingPracticeStartUi ^, Quest script LandingFromHeli
+--tex added markerName
+function this.ShowShootingPracticeMarker(offsetType,markerName)
   if offsetType then
     for clusterName,locatorName in pairs(shootingPracticeMarkers)do
       if clusterName~=offsetType then
@@ -3357,6 +3374,14 @@ function this.ShowShootingPracticeMarker(offsetType)
       end
     end
   end
+  if markerName then--tex> DEBUGNOW
+    for clusterName,locatorName in pairs(shootingPracticeMarkers)do
+      if locatorName~=markerName then
+        TppMarker.Disable(locatorName)
+      end
+    end 
+    mvars.qst_shootingPracticeMarkerName=markerName or mvars.qst_shootingPracticeMarkerName
+  end--<
   if Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
     return
   end
