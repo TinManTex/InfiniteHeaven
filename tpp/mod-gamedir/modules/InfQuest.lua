@@ -117,12 +117,18 @@ end--AddMissionPacks
 --    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
 --  end
 --end
---better name QuestClusterIsDeveloped
+--tex some basic 'CanOpen' functions
 function this.CanOpenClusterGrade0(questName)
   local questInfo=this.ihQuestsInfo[questName]
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>0
 end
-function this.QuestPlntIsDeveloped(questName)
+--tex mother base mbLayout changes from 0-3 depending on the plnts built off command
+--so if you don't want to mess around with having to work out positions for all the layouts you can just limit it to this 
+--(through the player will have to have developed mb to that point before 
+function this.CanOpenIsMbLayout3(questName)
+  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Command+1)>=4
+end
+function this.CanOpenPlntIsDeveloped(questName)
   local questInfo=this.ihQuestsInfo[questName]
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>=(questInfo.plntId+1)
 end
@@ -633,7 +639,7 @@ function this.PrintSideOpsListTable()
 end
 
 function this.PrintQuestArea()
-  if vars.missionCode==30050 then
+  if TppLocation.GetLocationName()=="mtbs" or TppLocation.GetLocationName()=="mbqf" then
     local clusterId=MotherBaseStage.GetCurrentCluster()
     if clusterId==nil then
       InfCore.Log("InfQuest.PrintQuestArea: WARNING: GetCurrentCluster==nil")
