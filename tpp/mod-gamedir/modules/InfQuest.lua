@@ -4,6 +4,7 @@
 local this={}
 
 local TppDefine=TppDefine
+
 local InfCore=InfCore
 local IvarProc=IvarProc
 local pairs=pairs
@@ -116,10 +117,14 @@ end--AddMissionPacks
 --    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
 --  end
 --end
-
+--better name QuestClusterIsDeveloped
 function this.CanOpenClusterGrade0(questName)
   local questInfo=this.ihQuestsInfo[questName]
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>0
+end
+function this.QuestPlntIsDeveloped(questName)
+  local questInfo=this.ihQuestsInfo[questName]
+  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>=(questInfo.plntId+1)
 end
 function this.AllwaysOpenQuest()
   return true
@@ -210,6 +215,7 @@ local forcedQuests={}
 
 local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
+  InfCore.LogFlow("InfQuest.GetForced")
   --tex TODO: need to get intended mission code
   if InfMainTpp.IsMbEvent() then
     --InfCore.Log("GetForced on event "..tostring(vars.missionCode))--DEBUG
@@ -245,7 +251,7 @@ function this.GetForced()
     return nil
   else
     if this.debugModule then
-      InfCore.PrintInspect(forcedQuests,{varName="questInfo"})
+      InfCore.PrintInspect(forcedQuests,forcedQuests)
     end
 
     return forcedQuests
@@ -555,15 +561,15 @@ end
 --CALLER: TppVarInit.StartTitle (>InfMain CallOnModules this.OnStartTitle) - since registerquests is run before the first game save/gvar load
 function this.SetupInstalledQuestsState()
   InfCore.LogFlow"InfQuest.SetupInstalledQuestsState"
-  if not this.questStatesLoaded then  
+  if not this.questStatesLoaded then
     --tex clear quest gvars range as matter of course and rely on ih_save.questStates to restore them
     this.ClearGvarFlagsAddonRange()--DEBUGNOW TESTS
     --complete addon quest, quit and see if its still completed next session
     --then uninstall it, run game, reinstall it, run game, see if its cleared
-    --  
+    --
     this.questStatesLoaded=true
   end
-  
+
   --this.DEBUG_PrintQuestClearedFlags()      f
   --tex clear quest gvars as matter of course
   --CULL
@@ -696,7 +702,7 @@ end
 --tex currently only loads ih_quest_states once on session
 --but saves to is on every game save
 --the qst_ gvars keep doing their thing normally after the initial set by ih
--- 
+--
 this.isSaveDirty=true
 
 this.saveName="ih_quest_states.lua"
@@ -706,7 +712,7 @@ ih_quest_states=ih_quest_states or {}--DEBUGNOW
 
 function this.Save(newSave)
   InfCore.LogFlow"InfQuest.Save"
-  
+
   local isDirty=this.GetCurrentStates()
   if isDirty then
     if this.debugSave then
@@ -725,7 +731,7 @@ function this.Save(newSave)
     saveTextList[#saveTextList+1]="return this"
     IvarProc.WriteSave(saveTextList,this.saveName)
   end
-  
+
   if this.debugSave then
     InfCore.PrintInspect(ih_quest_states,"ih_quest_states")
   end
@@ -785,7 +791,7 @@ function this.ReadSaveStates()
     InfCore.Log(errorText,true,true)
     return {}
   end
-  
+
   if this.debugSave then
     InfCore.PrintInspect(ih_quest_states,"ih_quest_states")
   end
@@ -923,6 +929,36 @@ function this.GetScript(scriptName)
     return questScript
   end
 end
+
+function this.PrintShootingPracticeBestTime(questName,parTime)
+  local questState=ih_quest_states[questName]
+
+  local scoreTime
+  if not questState then
+  else
+    scoreTime=questState.scoreTime
+  end
+
+  if not scoreTime then
+    InfMenu.PrintLangId("quest_no_best_time")
+  else
+    local minutes=math.floor(scoreTime/6e4)
+    local seconds=math.floor((scoreTime-minutes*6e4)/1e3)
+    local milliseconds=(scoreTime-minutes*6e4)-seconds*1e3
+    TppUiCommand.AnnounceLogView(InfLangProc.LangString("quest_best_time").." "..minutes..":"..seconds.."."..milliseconds)
+  end
+end--PrintShootingPracticeBestTime
+--tex addon equivalent of TppRanking. , since those are backed up by the whole ui and leaderboards don't really want to poke at that at the moment
+--called from quest script on quest clear
+function this.UpdateShootingPracticeClearTime(questName,leftTime)
+  local questState=ih_quest_states[questName] or {}
+  local bestTime=questState.scoreTime or 0--tex 
+  if leftTime>bestTime then--tex since it's timeleft
+    TppRanking._ShowScoreTimeAnnounceLog(leftTime)
+    questState.scoreTime=leftTime
+    ih_quest_states[questName]=questState
+  end
+end--UpdateShootingPracticeClearTime
 
 --Commands
 --DEBUG, UNUSED
