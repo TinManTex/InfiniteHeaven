@@ -216,6 +216,8 @@ this.langStrings={
     rerollQuestSelection="Reroll sideops selection",
     showAllOpenSideopsOnUi="Show all open sideops",
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
+    quest_no_best_time="No best time set",
+    quest_best_time="Best time",
   },
   help={
     eng={
