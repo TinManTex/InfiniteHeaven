@@ -8,6 +8,7 @@ this.registerIvars={
   "showAllOpenSideopsOnUi",
   "ihSideopsPercentageCount",
   "quest_useAltForceFulton",
+  "quest_setShootingPracticeTimeLimitToBestTime",
 }
 
 local function UpdateActiveQuest()
@@ -123,6 +124,12 @@ this.quest_useAltForceFulton={--DEBUGNOW
   range=Ivars.switchRange,
   settingNames="set_switch",
 }
+
+this.quest_setShootingPracticeTimeLimitToBestTime={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
 --< ivar defs
 
 this.registerMenus={
@@ -141,6 +148,7 @@ this.sideOpsMenu={
     "Ivars.showAllOpenSideopsOnUi",
     "Ivars.enableHeliReinforce",
     "Ivars.ihSideopsPercentageCount",
+    --"Ivars.quest_setShootingPracticeTimeLimitToBestTime",--OFF UpdateShootingPracticeClearTime not working out
   }
 }
 
@@ -218,6 +226,7 @@ this.langStrings={
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
     quest_no_best_time="No best time set",
     quest_best_time="Best time",
+    quest_setShootingPracticeTimeLimitToBestTime="Set Shooting Practice time limit to best time",
   },
   help={
     eng={

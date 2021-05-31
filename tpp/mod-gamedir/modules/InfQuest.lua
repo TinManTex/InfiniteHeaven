@@ -123,8 +123,8 @@ function this.CanOpenClusterGrade0(questName)
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>0
 end
 --tex mother base mbLayout changes from 0-3 depending on the plnts built off command
---so if you don't want to mess around with having to work out positions for all the layouts you can just limit it to this 
---(through the player will have to have developed mb to that point before 
+--so if you don't want to mess around with having to work out positions for all the layouts you can just limit it to this
+--(through the player will have to have developed mb to that point before
 function this.CanOpenIsMbLayout3(questName)
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Command+1)>=4
 end
@@ -960,15 +960,76 @@ function this.PrintShootingPracticeBestTime(questName,parTime)
 end--PrintShootingPracticeBestTime
 --tex addon equivalent of TppRanking. , since those are backed up by the whole ui and leaderboards don't really want to poke at that at the moment
 --called from quest script on quest clear
+--leftTime in ms
+--'best times' are actually time-left in respect to the starting time limit
 function this.UpdateShootingPracticeClearTime(questName,leftTime)
+--  local limitIsBestTime=Ivars.quest_setShootingPracticeTimeLimitToBestTime:Is(1)
+--  
+--  
+--  local fullTimeLimit=mvars.gim_questDefaultTimeSec or mvars.gim_questDisplayTimeSec
+--  local fullTimeLimit=fullTimeLimit*1000
+--  local currentTimeLimit=mvars.gim_questDisplayTimeSec*1000
+--  
+--  local bestTimeLeft=this.GetShootingPracticeTime(questName)
+--  local bestTimeTaken=fullTimeLimit-bestTimeLeft
+--  
+--  local currentTimeLeft=leftTime
+--  local currentTimeTaken=currentTimeLimit-currentTimeLeft
+--  
+--  --tex leftTime is time left in respect to the 'best time', which is time left of default/full time limit. fun 
+--  if limitIsBestTime then
+--    leftTime=fullTimeLimit-(bestTimeTaken+currentTimeTaken)
+--  end
+  
   local questState=ih_quest_states[questName] or {}
-  local bestTime=questState.scoreTime or 0--tex 
+  local bestTime=questState.scoreTime or 0--tex
+  InfCore.Log("UpdateShootingPracticeClearTime currentBestTime:"..tostring(bestTime).." leftTime:"..tostring(leftTime))--DEBUGNOW
   if leftTime>bestTime then--tex since it's timeleft
+    --tex replicate TppRanking.UpdateScore>ShowUpdateScoreAnnounceLog
+    TppUI.ShowAnnounceLog"trial_update"
+    --tex uhh, I don't see anything print in vanilla between trial_update - announce_trial_update 'New trial record:' and the time?
+    --local rankingLangId=this.GetRankingLangId(rankingCategoryEnum)
+    --TppUiCommand.AnnounceLogViewLangId(rankingLangId)
+    --tex DEBUGNOW TODOif Ivars.quest_showShootingPracticeBestTimeAsTimeTaken -- show as time taken on quest clear message and on announcelog when entering start trap
+    --TppRanking._ShowScoreTimeAnnounceLog(currentTimeTaken)
+    --else
     TppRanking._ShowScoreTimeAnnounceLog(leftTime)
     questState.scoreTime=leftTime
     ih_quest_states[questName]=questState
   end
 end--UpdateShootingPracticeClearTime
+
+--CALLER: TppQuest.StartShootingPractice
+--mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec
+function this.OverrideShootingPracticeTime()
+  InfCore.LogFlow"OverrideShootingPracticeTime"--DEBUGNOW
+  local overRideTime=this.GetShootingPracticeTime()
+  if overRideTime then
+    mvars.gim_questDefaultTimeSec=mvars.gim_questDisplayTimeSec--tex added
+    --GOTCHA: mvars must be set directly, can't set it on passed in reference
+    mvars.gim_questDisplayTimeSec=math.ceil(overRideTime/1000)--tex scoreTime is in ms
+    mvars.gim_questCautionTimeSec=math.ceil(mvars.gim_questCautionTimeSec/5)
+  end
+end--OverrideShootingPracticeTime
+
+function this.GetShootingPracticeTime(questName)
+  questName=questName or TppQuest.GetCurrentQuestName()
+  InfCore.Log("GetShootingPracticeTime "..tostring(questName))--DEBUGNOW
+  if questName then
+    local questState=ih_quest_states[questName]
+    if questState then
+      InfCore.Log("has questState, scoreTime:"..tostring(questState.scoreTime))--DEBUGNOW
+      return questState.scoreTime
+    else
+      --tex vanilla shootingpractice quests
+      local gvarName="rnk_"..questName
+      local scoreTime=gvars[gvarName]
+      if scoreTime then
+        return scoreTime
+      end
+    end
+  end--if questName
+end--GetShootingPracticeTime
 
 --Commands
 --DEBUG, UNUSED
