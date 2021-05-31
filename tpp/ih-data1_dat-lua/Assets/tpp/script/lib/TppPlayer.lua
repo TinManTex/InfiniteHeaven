@@ -830,15 +830,15 @@ function this.AddTrapSettingForIntel(trapInfo)
   mvars.ply_intelTrapInfo[intelName].directionRange=directionRange
   Player.AddTrapDetailCondition{trapName=trapName,condition=PlayerTrap.FINE,action=(PlayerTrap.NORMAL+PlayerTrap.BEHIND),stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=direction,directionRange=directionRange}
 end
-function this.ShowIconForIntel(messageArg,dontShow)
-  if not IsTypeString(messageArg)then
+function this.ShowIconForIntel(intelName,dontShow)
+  if not IsTypeString(intelName)then
     return
   end
   local trapName
-  if mvars.ply_intelTrapInfo and mvars.ply_intelTrapInfo[messageArg]then
-    trapName=mvars.ply_intelTrapInfo[messageArg].trapName
+  if mvars.ply_intelTrapInfo and mvars.ply_intelTrapInfo[intelName]then
+    trapName=mvars.ply_intelTrapInfo[intelName].trapName
   end
-  local intelFlagInfo=mvars.ply_intelFlagInfo[messageArg]
+  local intelFlagInfo=mvars.ply_intelFlagInfo[intelName]
   if intelFlagInfo then
     if svars[intelFlagInfo]~=nil then
       dontShow=svars[intelFlagInfo]
@@ -846,9 +846,9 @@ function this.ShowIconForIntel(messageArg,dontShow)
   end
   if not dontShow then
     if Tpp.IsNotAlert()then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=StrCode32"GetIntel",messageInDisplay=StrCode32"IntelIconInDisplay",messageArg=messageArg}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=StrCode32"GetIntel",messageInDisplay=StrCode32"IntelIconInDisplay",messageArg=intelName}
     elseif trapName then
-      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG,message=StrCode32"NGIntel",messageInDisplay=StrCode32"IntelIconInDisplay",messageArg=messageArg}
+      Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG,message=StrCode32"NGIntel",messageInDisplay=StrCode32"IntelIconInDisplay",messageArg=intelName}
       if not TppRadio.IsPlayed(TppRadio.COMMON_RADIO_LIST[TppDefine.COMMON_RADIO.CANNOT_GET_INTEL_ON_ALERT])then
         TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CANNOT_GET_INTEL_ON_ALERT)
       end
@@ -877,11 +877,11 @@ function this.HideIconForIntel()
   Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL}
   Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG}
 end
-function this.AddTrapSettingForQuest(quest)
-  local trapName=quest.trapName
-  local direction=quest.direction or 0
-  local directionRange=quest.directionRange or 180
-  local questName=quest.questName
+function this.AddTrapSettingForQuest(trapInfo)
+  local trapName=trapInfo.trapName
+  local direction=trapInfo.direction or 0
+  local directionRange=trapInfo.directionRange or 180
+  local questName=trapInfo.questName
   if not IsTypeString(trapName)then
     return
   end
@@ -904,9 +904,9 @@ function this.ShowIconForQuest(questName,questStarted)
   if not IsTypeString(questName)then
     return
   end
-  local trapInfo
+  local trapName
   if mvars.ply_questStartTrapInfo and mvars.ply_questStartTrapInfo[questName]then
-    trapInfo=mvars.ply_questStartTrapInfo[questName].trapName
+    trapName=mvars.ply_questStartTrapInfo[questName].trapName
   end
   if mvars.ply_questStartFlagInfo[questName]~=nil then
     questStarted=mvars.ply_questStartFlagInfo[questName]
@@ -915,6 +915,7 @@ function this.ShowIconForQuest(questName,questStarted)
     Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=StrCode32"QuestStarted",messageInDisplay=StrCode32"QuestIconInDisplay",messageArg=questName}
   end
 end
+--CALLER: Shooting practice sideops
 function this.QuestStarted(questNameHash)
   local questName=mvars.ply_questNameReverse[questNameHash]
   if mvars.ply_questStartFlagInfo[questName]~=nil then
@@ -2716,46 +2717,46 @@ function this.OnEndFadeInWarpByCboxDelivery()
   TimerStop"Timer_DeliveryWarpSoundCannotCancel"
   Player.ResetPadMask{settingName="CboxDelivery"}
 end
-function this.OnEnterIntelMarkerTrap(e,a)
-  local e=mvars.ply_intelMarkerTrapInfo[e]
-  local a=mvars.ply_intelFlagInfo[e]
-  if a then
-    if svars[a]then
+function this.OnEnterIntelMarkerTrap(markerTrapNameS32,trappedGameId)
+  local intelNameS32=mvars.ply_intelMarkerTrapInfo[markerTrapNameS32]
+  local intelFlagName=mvars.ply_intelFlagInfo[intelNameS32]
+  if intelFlagName then
+    if svars[intelFlagName]then
       return
     end
   else
     return
   end
-  local objective=mvars.ply_intelMarkerObjectiveName[e]
+  local objective=mvars.ply_intelMarkerObjectiveName[intelNameS32]
   if objective then
     TppMission.UpdateObjective{objectives={objective}}
   end
 end
-function this.OnEnterIntelTrap(a,t)
-  local a=mvars.ply_intelTrapInfo[a]
-  this.ShowIconForIntel(a)
+function this.OnEnterIntelTrap(trapNameS32,trappedGameId)
+  local intelName=mvars.ply_intelTrapInfo[trapNameS32]
+  this.ShowIconForIntel(intelName)
 end
-function this.OnExitIntelTrap(a,a)
+function this.OnExitIntelTrap(trapNameS32,trappedGameId)
   this.HideIconForIntel()
 end
-function this.OnIntelIconDisplayContinue(a,t,t)
-  local a=mvars.ply_intelNameReverse[a]
-  this.ShowIconForIntel(a)
+function this.OnIntelIconDisplayContinue(intelNameS32,unk2,unk3)
+  local intelName=mvars.ply_intelNameReverse[intelNameS32]
+  this.ShowIconForIntel(intelName)
 end
-function this.OnEnterQuestTrap(trap,player)
-  local questName=mvars.ply_questStartTrapInfo[trap]
+function this.OnEnterQuestTrap(trapNameS32,player)
+  local questName=mvars.ply_questStartTrapInfo[trapNameS32]
   this.ShowIconForQuest(questName)
   local questStarted=mvars.ply_questStartFlagInfo[questName]
   if questStarted~=nil and questStarted==false then
     TppSoundDaemon.PostEvent"sfx_s_ifb_mbox_arrival"
   end
 end
-function this.OnExitQuestTrap(a,a)
+function this.OnExitQuestTrap(trap,player)
   this.HideIconForQuest()
 end
-function this.OnQuestIconDisplayContinue(a,t,t)
-  local a=mvars.ply_questNameReverse[a]
-  this.ShowIconForQuest(a)
+function this.OnQuestIconDisplayContinue(questNameS32,unk2,unk3)
+  local questName=mvars.ply_questNameReverse[questNameS32]
+  this.ShowIconForQuest(questName)
 end
 function this.UpdateCheckPointOnMissionStartDrop()
   if not TppSequence.IsHelicopterStart()then
