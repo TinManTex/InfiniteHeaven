@@ -910,10 +910,10 @@ function this.DebugUpdate()
   end
   if mvars.debug.ply_intelTrap then
     Print(newContext,{.5,.5,1},"LuaSystem PLY.intelTrap")
-    for e,a in pairs(mvars.ply_intelTrapInfo)do
-      if Tpp.IsTypeString(e)then
-        Print(newContext,{.5,1,.5},"intelName = "..tostring(e))
-        for e,a in pairs(a)do
+    for intelName,trapInfo in pairs(mvars.ply_intelTrapInfo)do
+      if Tpp.IsTypeString(intelName)then
+        Print(newContext,{.5,1,.5},"intelName = "..tostring(intelName))
+        for e,a in pairs(trapInfo)do
           Print(newContext,tostring(e)..(" = "..tostring(a)))
         end
       end
