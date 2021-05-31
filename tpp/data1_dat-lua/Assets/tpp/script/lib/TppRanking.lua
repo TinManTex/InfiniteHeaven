@@ -137,10 +137,10 @@ function this._ShowCommonUpdateScoreAnnounceLog(rankingCategoryEnum)
   TppUiCommand.AnnounceLogViewLangId(rankingLangId)
 end
 function this._ShowScoreTimeAnnounceLog(scoreTime)
-  local e=math.floor(scoreTime/6e4)
-  local a=math.floor((scoreTime-e*6e4)/1e3)
-  local n=(scoreTime-e*6e4)-a*1e3
-  TppUiCommand.AnnounceLogViewLangId("announce_trial_time",e,a,n)
+  local minutes=math.floor(scoreTime/6e4)
+  local seconds=math.floor((scoreTime-minutes*6e4)/1e3)
+  local milliseconds=(scoreTime-minutes*6e4)-seconds*1e3
+  TppUiCommand.AnnounceLogViewLangId("announce_trial_time",minutes,seconds,milliseconds)
 end
 function this._ShowScoreDistanceAnnounceLog(scoreDistance)
   local e=math.floor(scoreDistance)
@@ -207,6 +207,7 @@ function this.CheckExcludeMission(rankingCategoryEnum,missionCode)
   end
   return false
 end
+--NMC: no refrences?
 function this.UpdateScoreTime(rankingCategory)
   this.UpdateScore(rankingCategory,svars.scoreTime)
 end
