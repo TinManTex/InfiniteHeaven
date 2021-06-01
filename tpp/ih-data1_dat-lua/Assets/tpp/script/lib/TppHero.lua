@@ -185,6 +185,7 @@ function this.OnFultonHostage(gameId,recoveredByHeli)
     end
   end
 end
+--No refs?
 function this.OnFultonEli(n,e)
   if e then
     TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=240,subOgrePoint=240}
@@ -236,11 +237,32 @@ function this.AnnounceHeroicPoint(pointTable,downLangId,upLangId)
     TppUI.ShowAnnounceLog(addLangId,amount)
   end
 end
+local pointTableMod={}--tex OPT
 function this.SetAndAnnounceHeroicOgrePoint(pointTable,downLangId,upLangId)
   if TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  this.SetHeroicPoint(pointTable.heroicPoint)
+  --tex> dont want to change any actual table passed by ref
+  if this.debugModule then
+    InfCore.PrintInspect(pointTable,"SetAndAnnounceHeroicOgrePoint pointTable")
+  end
+  pointTableMod.heroicPoint=pointTable.heroicPoint or 0
+  pointTableMod.ogrePoint=pointTable.ogrePoint or 0
+  if pointTableMod.heroicPoint<0 and Ivars.hero_dontSubtractHeroPoints:Is(1)then
+    pointTableMod.heroicPoint=0
+  end
+  if pointTableMod.ogrePoint>0 and Ivars.hero_dontAddOgrePoints:Is(1)then
+    pointTableMod.ogrePoint=0
+  end
+  if pointTableMod.heroicPoint>0 and Ivars.hero_heroPointsSubstractOgrePoints:Is(1)then
+    pointTableMod.ogrePoint=-pointTableMod.heroicPoint
+  end
+  pointTable=pointTableMod
+  if this.debugModule then
+    InfCore.PrintInspect(pointTableMod,"SetAndAnnounceHeroicOgrePoint pointTableMod")
+  end
+  --<
+  this.SetHeroicPoint(pointTable.heroicPoint) 
   this.AnnounceHeroicPoint(pointTable,downLangId,upLangId)
   this.SetOgrePoint(pointTable.ogrePoint)
 end

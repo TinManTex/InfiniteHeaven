@@ -965,8 +965,11 @@ this.playerSettingsMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.playerHealthScale",
-    "InfMenuCommandsTpp.RemoveDemon",
-    "InfMenuCommandsTpp.SetDemon",
+    "InfHero.RemoveDemon",
+    "InfHero.SetDemon",
+    "Ivars.hero_dontSubtractHeroPoints",
+    "Ivars.hero_dontAddOgrePoints",
+    "Ivars.hero_heroPointsSubstractOgrePoints",
     "Ivars.useSoldierForDemos",
     "InfFovaIvars.appearanceMenu",
   }
@@ -1069,12 +1072,6 @@ this.langStrings={
     disableXrayMarkers="Disable Xray marking",
     quietRadioMode="Quiets MB radio track",
     playerSettingsMenu="Player settings menu",
-    ogrePointChange="Set demon snake",
-    ogrePointChangeSettings={"Default","Normal","Demon"},
-    setDemon="Add demon points",
-    set_demon=" demon points subtracted, visual will refresh on mission start or retry command.",
-    removeDemon="Subtract demon points",
-    removed_demon=" demon points subtracted, visual should refresh on mission start or retry command.",
     fultonSuccessMenu="Fulton success menu",
     fultonNoMbSupport="Disable MB fulton support",
     fultonNoMbMedical="Disable MB fulton medical",
@@ -1147,8 +1144,6 @@ this.langStrings={
       fultonNoMbMedical="Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty",
       fultonDontApplyMbMedicalToSleep="Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.",
       ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.",
-      setDemon="Adds 999999 points to demon score",--SYNC
-      removeDemon="Subtracts 999999 points from demon score",--SYNC
       fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",
       changeCpSubTypeFREE="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
       changeCpSubTypeMISSION="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
