@@ -122,10 +122,11 @@ this.ShowPosition=function()
   if TppLocation.GetLocationName()=="mtbs" then
     local clusterId=MotherBaseStage.GetCurrentCluster()
     local clusterName=mtbs_cluster.GetCurrentClusterName()
-    --local plntName=mtbs_cluster.GetCurrentPlnt()
+    local plntName=mtbs_cluster.GetCurrentPlnt()
     local plntName="plnt0"
     local clusterCenter=mtbs_cluster.GetDemoCenter(clusterName,plntName)
-    InfCore.Log(clusterId.." "..clusterName.." Cluster plnt0 center: "..clusterCenter:GetX()..","..clusterCenter:GetY()..","..clusterCenter:GetZ())
+    InfCore.Log(clusterId.." "..clusterName.." "..plntName)
+    InfCore.Log("Cluster plnt0 center: "..clusterCenter:GetX()..","..clusterCenter:GetY()..","..clusterCenter:GetZ())
   end
   InfQuest.PrintQuestArea()
 
