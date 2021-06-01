@@ -713,11 +713,13 @@ ih_quest_states=ih_quest_states or {}--DEBUGNOW
 function this.Save(newSave)
   InfCore.LogFlow"InfQuest.Save"
 
-  local isDirty=this.GetCurrentStates()
+  local isDirty=this.GetCurrentStates() or InfShootingPractice.saveDirty
   if isDirty then
     if this.debugSave then
       InfCore.Log("questStates isDirty")
     end
+    
+    InfShootingPractice.saveDirty=false--DEBUGNOW TODO better
 
     local saveTextList={
       "-- "..this.saveName,

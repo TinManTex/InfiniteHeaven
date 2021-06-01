@@ -6,6 +6,8 @@ local this={}
 local floor=math.floor
 local format=string.format
 
+this.saveDirty=false
+
 function this.Init()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
@@ -227,6 +229,8 @@ function this.UpdateShootingPracticeClearTime(questName,leftTime)
     --TppRanking._ShowScoreTimeAnnounceLog(currentTimeTaken)
     --else
     TppRanking._ShowScoreTimeAnnounceLog(leftTime)
+    
+    this.saveDirty=true--TODO better
     questState.scoreTime=leftTime
     ih_quest_states[questName]=questState
   end
