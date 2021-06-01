@@ -9,6 +9,8 @@ local InfCore=InfCore
 local IvarProc=IvarProc
 local pairs=pairs
 local ipairs=ipairs
+local floor=math.floor
+local format=string.format
 
 this.debugModule=true--DEBUGNOW
 this.debugSave=true--DEBUGNOW
@@ -47,6 +49,7 @@ this.ihQuestsInfo={}
 function this.PostModuleReload(prevModule)
   this.ihQuestNames=prevModule.ihQuestNames
   this.ihQuestsInfo=prevModule.ihQuestsInfo
+  this.messageExecTable=prevModule.messageExecTable
   --DEBUGNOW this.LoadLibraries()--TODO: see that stuff in RegisterQuests isnt additive/go pear shaped with multiple calls
 end
 
@@ -87,6 +90,93 @@ function this.AddMissionPacks(missionCode,packPaths)
   end--for ihQuestsInfo
 end--AddMissionPacks
 
+function this.Init()
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+function this.OnReload(missionTable)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+function this.Messages()
+  local shootingPracticeTrapNames={
+    --tex vanilla traps
+    "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|trap_shootingPractice_start",--Command
+    "ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|trap_shootingPractice_start",--Combat
+    "ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|trap_shootingPractice_start",--Develop
+    "ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|trap_shootingPractice_start",--Support
+    "ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|trap_shootingPractice_start",--Medical
+    "ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|trap_shootingPractice_start",--Spy
+    "ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|trap_shootingPractice_start",--BaseDev
+  }
+  for questName,questInfo in pairs(this.ihQuestsInfo)do
+    if questInfo.startTrapName then
+      table.insert(shootingPracticeTrapNames,questInfo.startTrapName)
+    end
+  end
+  
+  return Tpp.StrCode32Table{
+    Player={
+      {
+        --tex sent by ActionIcon of start trap
+        --Overriding the quest scripts message callback via this.QuestBlockOnInitializeBottom
+        msg="QuestStarted",
+        sender="ShootingPractice",
+        func=function(questNameHash)
+          InfCore.Log("InfQuest msg QuestStarted")
+          if mvars.qst_isShootingPracticeStarted then
+            InfCore.Log("ShootingPractice manual cancel")
+            local isClearType=TppGimmick.CheckQuestAllTarget(TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE,nil,true)
+            TppQuest.ClearWithSave(isClearType)--tex will have to think this through (and all calls to ClearWithSave) if you chand ClearWithSave to actually save (it currently doesnt for shooting practice)
+          else
+            InfCore.Log("InfQuest QuestStarted")
+            --TppPlayer.QuestStarted(questNameHash)--tex hides action icon and stops sfx when entering start trap  
+            TppQuest.SetQuestShootingPractice()
+            
+            if MotherBaseStage.GetCurrentCluster()==4 then--Medical
+              f30050_sequence.StopMusicFromQuietRoom()
+              mvars.isShootingPracticeInMedicalStopMusicFromQuietRoom = true
+            end
+          
+            --KLUDGE, don't know why these aren't just a single var anyway
+            mvars.needToUpdateRankingInCommand = false
+            mvars.needToUpdateRankingInCombat = false
+            mvars.needToUpdateRankingInDevelop = false
+            mvars.needToUpdateRankingInSupport = false
+            mvars.needToUpdateRankingInMedical = false
+            mvars.needToUpdateRankingInSpy = false
+            mvars.needToUpdateRankingInBaseDev = false
+          end
+        end--func
+      }--msg QuestStarted
+    },--Player
+    Trap = {
+      {
+        msg="Enter",sender=shootingPracticeTrapNames,
+        func=function(trap,player)
+          if mvars.qst_isShootingPracticeStarted then
+            --InfCore.Log( "Shooting Quest Trap Enter: ShootingPractice is Deactivated. Return" )
+            return
+          end
+          local questName=TppQuest.GetCurrentQuestName()
+          this.PrintShootingPracticeBestTime(questName)
+        end
+      },--msg Enter
+      {
+        msg="Exit",sender=shootingPracticeTrapNames,
+        func=function(trap,player)
+          if mvars.qst_isShootingPracticeStarted then
+            --InfCore.Log( "Shooting Quest Trap Exit: ShootingPractice is Deactivated. Return" )
+            return
+          end
+          local questName=TppQuest.GetCurrentQuestName()
+        end
+      },--msg Exit
+    },--Trap  
+  }--StrCode32Table
+end--Messages
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
 
 --tex see InfEquip.LoadEquipTable for notes
 --CULL, now in InfEquip.LoadEquipTable
@@ -180,7 +270,6 @@ end
 --"quest_extract_animal",--"Animal Extracted [%d/%d]"--tex added by IH
 --tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
 --if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
-
 
 local blockQuests={
   tent_q99040=true, -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
@@ -603,32 +692,87 @@ end
 --tex called from equivalent TppQuest funcs
 --QuestBlockOnAllocate only called in added ih quests, not vanilla quests, the rest of the functions called by vannila quest scripts
 function this.QuestBlockOnAllocate(questScript)--tex
-  local questName=TppQuest.GetCurrentQuestName()
 
-  if DebugIHQuest then
-    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
-  end
 end
 --tex called during questScript .OnAllocate
 function this.RegisterQuestSystemCallbacks(callbackFunctions)
-  if DebugIHQuest then
-    InfCore.PCall(DebugIHQuest.RegisterQuestSystemCallbacks,callbackFunctions)
-  end
+
 end
 function this.QuestBlockOnInitialize(questScript)
-  if DebugIHQuest then
-    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
-  end
+
 end
+function this.QuestBlockOnInitializeBottom(questScript)
+  InfCore.LogFlow("InfQuest.QuestBlockOnInitializeBottom")--DEBUGNOW
+   --DEBUGNOW REF
+--mvars.qst_questScriptBlockMessageExecTable={
+--  [738746875] = {
+--    [669800987] = {
+--      func = <function 1>
+--    }
+--  },
+--  [2524903270] = {
+--    [166925615] = {
+--      sender = {
+--        [814656445] = <function 2>
+--      },
+--      senderOption = {}
+--    },
+--    [246347329] = {
+--      sender = {
+--        [814656445] = <function 3>
+--      },
+--      senderOption = {}
+--    }
+--  },
+--  [3087473413] = {
+--    [845558693] = {
+--      func = <function 4>
+--    },
+--    [3220759189] = {
+--      sender = {
+--        [2294579761] = <function 5>
+--      },
+--      senderOption = {}
+--    },
+--    [4187264311] = {
+--      func = <function 6>
+--    }
+--  }
+--} 
+  if mvars.qst_questScriptBlockMessageExecTable then
+    --tex kill quests message subscriber so it doesn't interfere with our override (in this.Messages)
+    --TODO: generalize this to KillMessage or something
+    local PlayerS32=Fox.StrCode32("Player")
+    local QuestStartedS32=Fox.StrCode32("QuestStarted")
+    local ShootingPracticeS32=Fox.StrCode32("ShootingPractice")
+    --REF Tpp.MakeMessageExecTable, mvars.qst_questScriptBlockMessageExecTable
+    for messageClassS32,messageNames in pairs(mvars.qst_questScriptBlockMessageExecTable)do
+      if messageClassS32==PlayerS32 then
+        InfCore.LogFlow("found PlayerS32")--DEBUGNOW
+        for messageNameS32,messageInfo in pairs(messageNames)do
+          if messageNameS32==QuestStartedS32 then
+            InfCore.LogFlow("found QuestStartedS32")--DEBUGNOW
+            mvars.qst_questScriptBlockMessageExecTable[PlayerS32][QuestStartedS32]=nil
+--            for senderS32,senderInfo in pairs(messageInfo)do
+--              if senderS32==ShootingPracticeS32 then
+--                --DEBUGNOW not finding it
+--                InfCore.LogFlow("found ShootingPracticeS32")--DEBUGNOW
+--                --tex TODO: should really check there is only one sender listed
+--                
+--                break
+--              end
+--            end--for messageInfo
+          end--if QuestStartedS32
+        end--for messageNames
+      end--if PlayerS32
+    end--for qst_questScriptBlockMessageExecTable
+  end--if qst_questScriptBlockMessageExecTable
+end--QuestBlockOnInitializeBottom
 function this.QuestBlockOnUpdate(questScript)
-  if DebugIHQuest then
-    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
-  end
+
 end
 function this.QuestBlockOnTerminate(questScript)
-  if DebugIHQuest then
-    InfCore.PCall(DebugIHQuest.QuestBlockOnUpdate,questScript)
-  end
+
 end
 --
 
@@ -940,22 +1084,27 @@ function this.GetScript(scriptName)
   end
 end
 
-function this.PrintShootingPracticeBestTime(questName,parTime)
-  local questState=ih_quest_states[questName]
-
-  local scoreTime
-  if not questState then
-  else
-    scoreTime=questState.scoreTime
-  end
-
+--TODO move to util
+function this.BreakDownMs(timeInMs)
+  local minutes=math.floor(timeInMs/6e4)
+  local seconds=math.floor((timeInMs-minutes*6e4)/1e3)
+  local milliseconds=(timeInMs-minutes*6e4)-seconds*1e3
+  return minutes,seconds,milliseconds
+end
+local timeFmt="%d:%02d:%d"
+function this.PrintShootingPracticeBestTime(questName)
+  local scoreTime=this.GetShootingPracticeTime(questName)
+  local parTime=mvars.gim_questDisplayTimeSec*1000
+  
   if not scoreTime then
     InfMenu.PrintLangId("quest_no_best_time")
   else
-    local minutes=math.floor(scoreTime/6e4)
-    local seconds=math.floor((scoreTime-minutes*6e4)/1e3)
-    local milliseconds=(scoreTime-minutes*6e4)-seconds*1e3
-    TppUiCommand.AnnounceLogView(InfLangProc.LangString("quest_best_time").." "..minutes..":"..seconds.."."..milliseconds)
+    local minutes,seconds,milliseconds=this.BreakDownMs(scoreTime)
+    local bestTimeStr=format(timeFmt,minutes,seconds,milliseconds)
+    local minutes,seconds,milliseconds=this.BreakDownMs(parTime)
+    local parTimeStr=format(timeFmt,minutes,seconds,milliseconds)
+    --TppUiCommand.AnnounceLogView(InfLangProc.LangString("quest_best_time").."["..bestTimeStr.."/"..parTimeStr.."]")--tex announcelog not up long enough for this to be readable
+    TppUiCommand.AnnounceLogView(InfLangProc.LangString("quest_best_time").." "..bestTimeStr)
   end
 end--PrintShootingPracticeBestTime
 --tex addon equivalent of TppRanking. , since those are backed up by the whole ui and leaderboards don't really want to poke at that at the moment
@@ -963,24 +1112,24 @@ end--PrintShootingPracticeBestTime
 --leftTime in ms
 --'best times' are actually time-left in respect to the starting time limit
 function this.UpdateShootingPracticeClearTime(questName,leftTime)
---  local limitIsBestTime=Ivars.quest_setShootingPracticeTimeLimitToBestTime:Is(1)
---  
---  
---  local fullTimeLimit=mvars.gim_questDefaultTimeSec or mvars.gim_questDisplayTimeSec
---  local fullTimeLimit=fullTimeLimit*1000
---  local currentTimeLimit=mvars.gim_questDisplayTimeSec*1000
---  
---  local bestTimeLeft=this.GetShootingPracticeTime(questName)
---  local bestTimeTaken=fullTimeLimit-bestTimeLeft
---  
---  local currentTimeLeft=leftTime
---  local currentTimeTaken=currentTimeLimit-currentTimeLeft
---  
---  --tex leftTime is time left in respect to the 'best time', which is time left of default/full time limit. fun 
---  if limitIsBestTime then
---    leftTime=fullTimeLimit-(bestTimeTaken+currentTimeTaken)
---  end
-  
+  --  local limitIsBestTime=Ivars.quest_setShootingPracticeTimeLimitToBestTime:Is(1)
+  --
+  --
+  --  local fullTimeLimit=mvars.gim_questDefaultTimeSec or mvars.gim_questDisplayTimeSec
+  --  local fullTimeLimit=fullTimeLimit*1000
+  --  local currentTimeLimit=mvars.gim_questDisplayTimeSec*1000
+  --
+  --  local bestTimeLeft=this.GetShootingPracticeTime(questName)
+  --  local bestTimeTaken=fullTimeLimit-bestTimeLeft
+  --
+  --  local currentTimeLeft=leftTime
+  --  local currentTimeTaken=currentTimeLimit-currentTimeLeft
+  --
+  --  --tex leftTime is time left in respect to the 'best time', which is time left of default/full time limit. fun
+  --  if limitIsBestTime then
+  --    leftTime=fullTimeLimit-(bestTimeTaken+currentTimeTaken)
+  --  end
+
   local questState=ih_quest_states[questName] or {}
   local bestTime=questState.scoreTime or 0--tex
   InfCore.Log("UpdateShootingPracticeClearTime currentBestTime:"..tostring(bestTime).." leftTime:"..tostring(leftTime))--DEBUGNOW
