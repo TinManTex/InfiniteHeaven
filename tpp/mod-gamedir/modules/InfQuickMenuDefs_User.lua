@@ -45,7 +45,8 @@ this.inMission={
   --[InfButton.SUBJECT]={Command='InfQuickMenuDefs_User.ExampleCommand'},--Example of command using own function in this module (see function below)
   [InfButton.LIGHT_SWITCH]={Command='InfMenuCommandsTpp.DropCurrentEquip'},
   [InfButton.HOLD]={Command='InfUserMarker.WarpToLastUserMarker'},
-  [InfButton.ACTION]={Command='IHDebugVars.DebugAction'},--tex DEBUGNOE
+  [InfButton.ACTION]={Command='IHDebugVars.DebugAction'},--tex DEBUGNOW
+  --[InfButton.ACTION]={Command='InfPositions.AddAndWrite'},
   [InfButton.RELOAD]={Command='InfCamera.ToggleFreeCam'},
   [InfButton.STANCE]={Command='InfMenuCommandsTpp.QuietMoveToLastMarker'},
   --tex InfMotion playback
