@@ -1383,18 +1383,23 @@ function this.SetNextQuestStep(questStep)
   end
 end
 function this.ClearWithSave(clearType,questName)
+  local retryOnClear=Ivars.quest_enableShootingPracticeRetry:Is(1)--tex
   if not questName then
     questName=this.GetCurrentQuestName()
   end
   local questIndex=this.GetQuestIndex(questName)
   if clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR or clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
     this.OnFinishShootingPractice(clearType)
+    --tex> --DEBUGNOW WORKAROUND rather than patching all the functions from OnFinishShootingPractice leading to this
+    if clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR and retryOnClear then
+      TppGimmick.EndQuestShootingPractice(TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY)
+    end--<
   end
   if clearType==TppDefine.QUEST_CLEAR_TYPE.CLEAR or clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
     if clearType~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
       this.AddStaffsFromTempBuffer()
     end
-    this.Clear(questName)
+    this.Clear(questName,retryOnClear)--tex added retryOnClear
     if clearType~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
       this.Save()
     end
@@ -1416,7 +1421,7 @@ function this.ClearWithSaveMtbsDDQuest()
   this.UpdateRepopFlag(questIndex)
   this.Save()
 end
-function this.Clear(questName)
+function this.Clear(questName,keepAlive)--tex added keepAlive
   if questName==nil then
     questName=this.GetCurrentQuestName()
     if questName==nil then
@@ -1427,11 +1432,15 @@ function this.Clear(questName)
   if questIndex==nil then
     return
   end
+  if not keepAlive then--tex added bypass
   this.SetNextQuestStep(questStepClear)
+  end
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,questName)
   this.CheckClearBounus(questIndex,questName)
-  this.UpdateClearFlag(questIndex,true)
+  this.UpdateClearFlag(questIndex,true,keepAlive)--tex added keepAlive
+  if not keepAlive then--tex added bypass DEBUGNOW
   this.UpdateRepopFlag(questIndex)
+  end
   this.CheckAllClearBounus()
   this.CheckAllClearMineQuest()
   if not TppLocation.IsMotherBase()then
@@ -2131,6 +2140,7 @@ function this.QuestBlockOnInitialize(questScript)
   this.MakeQuestStepMessageExecTable()
   mvars.qst_skipTerminateFlag=nil
   mvars.qst_isRadioTarget=false
+  InfQuest.QuestBlockOnInitializeBottom(questScript)--tex
 end
 function this.QuestBlockOnTerminate(questScript)
   InfCore.LogFlow("TppQuest.QuestBlockOnTerminate")--tex
@@ -2865,11 +2875,13 @@ function this.CheckClearBounus(questIndex,t)
     TppTerminal.UpdateGMP{gmp=gmp,gmpCostType=TppDefine.GMP_COST_TYPE.CLEAR_SIDE_OPS}
   end
 end
-function this.UpdateClearFlag(questIndex,clear)
+function this.UpdateClearFlag(questIndex,clear,keepAlive)--tex added keepAlive
   if clear then
     gvars.qst_questClearedFlag[questIndex]=true
   end
+  if not keepAlive then--tex added bypass
   gvars.qst_questActiveFlag[questIndex]=false
+  end
 end
 function this.UpdateRepopFlag(questIndex)
   gvars.qst_questRepopFlag[questIndex]=false
@@ -3254,12 +3266,15 @@ function this.SetQuestShootingPractice()
   TppSoundDaemon.PostEvent"sfx_s_training_ready_go"
   GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
   this.StopTimer"TimerShootingPracticeRetryConfirm"
-  this.HideShootingPracticeStartUi()
+  if Ivars.quest_enableShootingPracticeRetry:Is(0) then--tex--tex added bypass
+    this.HideShootingPracticeStartUi()
+  end
   mvars.qst_isShootingPracticeStarted=true
   GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut"})
 end
 function this.StartShootingPractice()
   this.UpdateShootingPracticeUi()
+  InfShootingPractice.OverrideShootingPracticeTime()--tex
   TppUiCommand.StartDisplayTimer(mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec)
   TppGimmick.StartQuestShootingPractice()
   TppGimmick.SetQuestSootingTargetInvincible(false)
@@ -3354,13 +3369,8 @@ end
 function this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
   mvars.qst_shootingPracticeStartUiPos=startUiPosition or mvars.qst_shootingPracticeStartUiPos
   mvars.qst_shootingPracticeOffsetType=offsetType or mvars.qst_shootingPracticeOffsetType
-  if mvars.qst_shootingPracticeOffsetType==nil and mvars.qst_shootingPracticeStartUiPos~=nil then--tex> absolute positioning
-    local pos=mvars.qst_shootingPracticeStartUiPos
-    TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
-  else--<
   local pos,rotY=mtbs_cluster.GetPosAndRotY(mvars.qst_shootingPracticeOffsetType,"plnt0",mvars.qst_shootingPracticeStartUiPos,0)
   TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
-  end
 end
 --CALLERS: ShowShootingPracticeStartUi ^, Quest script LandingFromHeli
 --tex added markerName
