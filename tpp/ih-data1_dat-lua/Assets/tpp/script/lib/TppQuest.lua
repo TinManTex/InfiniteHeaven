@@ -12,7 +12,7 @@ local maxSteps=256
 local defaultStepNumber=0
 local questNameNone=0
 local defaultQuestBlockName="quest_block"
-local questStepClear="QStep_Clear"
+local QStep_ClearStr="QStep_Clear"
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
 local IsTypeFunc=Tpp.IsTypeFunc
@@ -1319,7 +1319,7 @@ function this.RegisterQuestStepList(questStepNames)
   if numSteps>=maxSteps then
     return
   end
-  table.insert(questStepNames,questStepClear)
+  table.insert(questStepNames,QStep_ClearStr)
   mvars.qst_questStepList=Tpp.Enum(questStepNames)
 end
 --NMC CALLER: quest script OnAllocate, just after above.
@@ -1327,7 +1327,7 @@ function this.RegisterQuestStepTable(questStepTable)
   if not IsTypeTable(questStepTable)then
     return
   end
-  questStepTable[questStepClear]={}
+  questStepTable[QStep_ClearStr]={}
   mvars.qst_questStepTable=questStepTable
   if mtbs_enemy and vars.missionCode==30050 then
     mtbs_enemy.OnAllocateDemoBlock()
@@ -1433,7 +1433,7 @@ function this.Clear(questName,keepAlive)--tex added keepAlive
     return
   end
   if not keepAlive then--tex added bypass
-  this.SetNextQuestStep(questStepClear)
+  this.SetNextQuestStep(QStep_ClearStr)
   end
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,questName)
   this.CheckClearBounus(questIndex,questName)
@@ -1495,7 +1495,7 @@ function this.Failure(questName)
     return
   end
   this.UpdateClearFlag(questIndex,false)
-  this.SetNextQuestStep(questStepClear)
+  this.SetNextQuestStep(QStep_ClearStr)
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,questName)
   TppUiCommand.SetSideOpsListUpdate()
   for e=0,9,1 do
@@ -2822,7 +2822,7 @@ function this.IsEnd(questName)
       return
     end
   end
-  if mvars.qst_questStepList[gvars.qst_currentQuestStepNumber]==questStepClear then
+  if mvars.qst_questStepList[gvars.qst_currentQuestStepNumber]==QStep_ClearStr then
     return true
   end
   return false
