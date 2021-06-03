@@ -571,7 +571,7 @@ this.faceFova={
     for param,bool in pairs(settingsNonDup) do
       table.insert(settingsTable,param)
     end
-    InfMain.SortAscend(settingsTable)
+    table.sort(settingsTable)
     --InfCore.PrintInspect(settingsTable)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
@@ -612,7 +612,7 @@ this.faceDecoFova={
     for param,bool in pairs(settingsNonDup) do
       table.insert(settingsTable,param)
     end
-    InfMain.SortAscend(settingsTable)
+    table.sort(settingsTable)
     InfCore.PrintInspect(settingsTable,{varName="Ivars.faceDecoFova.settingsTable"})--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
@@ -648,7 +648,7 @@ this.hairFova={
     for param,bool in pairs(settingsNonDup) do
       table.insert(settingsTable,param)
     end
-    InfMain.SortAscend(settingsTable)
+    table.sort(settingsTable)
     --InfCore.PrintInspect(settings)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1

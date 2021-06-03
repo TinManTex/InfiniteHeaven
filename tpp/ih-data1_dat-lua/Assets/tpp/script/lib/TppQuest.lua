@@ -1,12 +1,6 @@
 -- DOBUILD: 1
 -- TppQuest.lua
 
-if false then
-  local fileName="TppQuest_dev.lua"
-  return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.dev,fileName)end)
-end
-InfCore.Log"TppQuest.lua internal"--DEBUGNOW
-
 local this={}
 local maxSteps=256
 local defaultStepNumber=0
