@@ -15,6 +15,7 @@ namespace FoxKit.IH {
         public GameObject proxyGameObject;
 
         public SyncDirection syncDirection = SyncDirection.GAME_TO_EDITOR;
+        public float offSetY = -0.8f;//tex whatever playerPosY actually is, its about 0.8 above ground pos, though user may want to adjust it to a bit less (ih showpos has had it at -0.783) to clear actual ground a bit/have less of an issue with clipping
 
         override public void RegisterFromGameCommands() {
             IPC.Instance.AddCommand("GamePlayerPos", GamePlayerPos);
@@ -64,6 +65,8 @@ namespace FoxKit.IH {
             //fox to unity
             x=-x;
             yaw=-yaw;
+
+            y = y + offSetY;
 
             if (proxyGameObject != null) {
                 proxyGameObject.transform.position = new Vector3(x, y, z);
