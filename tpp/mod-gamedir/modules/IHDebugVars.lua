@@ -8,55 +8,57 @@
 --or stuff that the module has run before PostAllModulesLoad
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
-  'InfWeaponIdTable',
-  'InfCore',
-  'InfExtToMgsv',
-  'InfMgsvToExt',
+  'TppHero',
+  --'InfWeaponIdTable',
+  --'InfCore',
+  --'InfExtToMgsv',
+  --'InfMgsvToExt',
   'InfMain',
-  'InfMenu',
-  'InfMenuDefs',
+  --'InfMenu',
+  --'InfMenuDefs',
   'IvarProc',
   --  'InfNPC',
-  'InfModelProc',--GOTCHA: is loaded before this module, so you'll have to manually set debugMode in the file
+  --'InfModelProc',--GOTCHA: is loaded before this module, so you'll have to manually set debugMode in the file
   'InfQuest',
   'TppQuest',
   --  'TppQuest',
   --  'InfInterrogation',
   --  'InfMBGimmick',
-  'InfLookup',
+  --'InfLookup',
   --  'InfMission',
-  'InfEquip',
+  --'InfEquip',
   --'InfWalkerGear',
   --'InfSoldier',
-  'InfEneFova',
+  --'InfEneFova',
   --'InfMission',
-  'InfNPC',
+  --'InfNPC',
   'Ivars',
-  'TppEnemy',
-  'InfRouteSet',
-  'TppRevenge',
-  'InfLZ',
-  'TppLandingZone',
-  'InfParasite',
+--'TppEnemy',
+--'InfRouteSet',
+--'TppRevenge',
+--'InfLZ',
+--'TppLandingZone',
+--'InfParasite',
+--'TppMain',
 }
 
 local this={}
 
 this.packages={
---[30050]="/Assets/tpp/pack/mission2/free/f30050/f30050_ly000_q30210.fpk",--DEBUGNOW
---[30050]="/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",--DEBUGNOW
   --[30050]="/Assets/tpp/pack/mission2/free/f30050/f30050_ly000_q30210.fpk",--DEBUGNOW
-  [30010]={  
+  --[30050]="/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",--DEBUGNOW
+  --[30050]="/Assets/tpp/pack/mission2/free/f30050/f30050_ly000_q30210.fpk",--DEBUGNOW
+  [30010]={
   --"/Assets/tpp/pack/mission2/ih/mgo_bgm.fpk",
- -- "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
+  -- "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
   },--DEBUG    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-bgm-mgo",
   [30050]={
   --"/Assets/tpp/pack/mission2/ih/mgo_bgm.fpk",
---  "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
+  --  "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
   },--DEBUG    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-bgm-mgo",
-  --[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
-  -- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
-  }
+--[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
+-- [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
+}
 
 function this.AddMissionPacks(missionCode,packPaths)
   if missionCode < 5 then
@@ -65,7 +67,7 @@ function this.AddMissionPacks(missionCode,packPaths)
 
   if this.packages[missionCode] then
     for i,path in ipairs(this.packages[missionCode])do
-    packPaths[#packPaths+1]=path
+      packPaths[#packPaths+1]=path
     end
   end
 end
@@ -92,7 +94,7 @@ function this.DumpSomething()
     end
   end
   ---------
- 
+
   ------------
   local fileName=[[C:\Projects\MGS\InfiniteHeaven\tpp\mod-gamedir\dumpsomething.txt]]
 
@@ -111,7 +113,7 @@ function this.PostAllModulesLoad()
   end
 
   InfCore.Log("mvars.mis_missionStateIsNotInGame"..tostring("mvars.mis_missionStateIsNotInGame"))
-
+ --InfCore.PrintInspect(mvars.qst_questScriptBlockMessageExecTable,"mvars.qst_questScriptBlockMessageExecTable")
 
   --  InfCore.Log("getregistry")
   --  local registry=debug.getregistry()
@@ -296,7 +298,7 @@ end
 function this.Messages()
   return Tpp.StrCode32Table{
 
-  }--StrCode32Table message table
+    }--StrCode32Table message table
 end--Messages
 
 function this.OnAllocate(missionTable)
@@ -853,13 +855,22 @@ this.registerMenus={
 }
 
 this.registerIvars={
-"debug_grtools_setLodScale",
+  "debug_GrTools_SetLodScale",
+  "debug_GrTools_SetVertexLodScale",
+  "debug_GrTools_SetModelLodScale",
+  "debug_GrTools_SetModelVertexLodScale",
+  "debug_GrTools_SetLodFactorResolution",
+  "debug_GrTools_SetOccluderEffectiveRange",
+  "debug_GrTools_SetOccluderLimit",
+  "debug_Player_SetAroundCameraMaxDistanceForAlphaExamination",
+  "debug_vars_playerType",
 }
 
 this.devInAccMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "Ivars.debug_vars_playerType",
     "InfMenuCommands.RefreshPlayer",--DEBUGNOW
     "InfMenuCommands.ShowImguiDemo",
     "Ivars.quest_useAltForceFulton",--DEBUGNOW
@@ -883,6 +894,7 @@ this.devInAccMenu={
     "Ivars.debugFlow",
     "Ivars.debugOnUpdate",
     "Ivars.log_SetFlushLevel",
+    "InfMenuCommands.DEBUG_RandomizeAllIvars",
   }
 }--devInAccMenu
 
@@ -890,7 +902,14 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
-    "Ivars.debug_grtools_setLodScale",
+    "Ivars.debug_GrTools_SetLodScale",
+    "Ivars.debug_GrTools_SetVertexLodScale",
+    "Ivars.debug_GrTools_SetModelLodScale",
+    "Ivars.debug_GrTools_SetModelVertexLodScale",
+    "Ivars.debug_GrTools_SetLodFactorResolution",
+    "Ivars.debug_GrTools_SetOccluderEffectiveRange",
+    "Ivars.debug_GrTools_SetOccluderLimit",
+    "Ivars.debug_Player_SetAroundCameraMaxDistanceForAlphaExamination",
     "InfMenuCommands.ShowImguiDemo",
     "Ivars.cam_disableCameraAnimations",
     "IHDebugVars.DEBUG_SomeShiz",
@@ -944,8 +963,8 @@ end--AddDevMenus
 
 --menuCommands
 local toggle1=true
-local index1Min=0
-local index1Max=10
+local index1Min=1
+local index1Max=4
 local index1=index1Min
 local count=0
 local increment=1
@@ -953,7 +972,7 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-  
+
   InfCore.DebugPrint("index1:"..index1)
   InfCore.DebugPrint("toggle1:"..tostring(toggle1))
   index1=index1+increment
@@ -962,9 +981,52 @@ this.DEBUG_SomeShiz=function()
   end
   toggle1=not toggle1
 
-  
+
+ 
+
+
+--  local displayTimeSec=1*50
+--  local cautionTimeSec=30
+--  if index1==1 then
+--    TppUiCommand.StartDisplayTimer(displayTimeSec,cautionTimeSec)
+--    InfCore.Log("DisplayTimer start:"..tostring(displayTimeSec*1000),true,true)
+--  elseif index1==2 then
+--    --InfCore.Log("DisplayTimer stop",true,true)
+--    --TppUiStatusManager.SetStatus("DisplayTimer","STOP_VISIBLE")
+--  elseif index1==3 then 
+--    local leftTime=TppUiCommand.GetLeftTimeFromDisplayTimer()
+--    InfCore.Log("DisplayTimer leftTime:"..tostring(leftTime),true,true)
+--  else
+--    --InfCore.Log("DisplayTimer erase",true,true)
+--    --TppUiStatusManager.UnsetStatus("DisplayTimer","STOP_VISIBLE")
+--    --TppUiCommand.EraseDisplayTimer()
+--
+--  end
+
+  local time=1234
+  --  TppRanking._ShowScoreTimeAnnounceLog(time)
+  -- InfCore.PrintInspect(TppEquip.EQP_SWP_WormholePortal_G02,"EQP_SWP_WormholePortal_G02")
+
+  -- TppMotherBaseManagement.SetEquipDeveloped{equipDevelopID=TppEquip.EQP_SWP_WormholePortal_G02}
+
   --GrTools.SetLodScale(index1)
-  
+  -- GrTools.SetModelLodScale(index1)
+  -- GrTools.SetLodFactorResolution(index1) --??
+  -- GrTools.SetEnableNoRejectOnShadow(toggle1)
+
+  --GrTools.SetEnableShadowedLightLimit(toggle1)
+
+
+  --TppEffectUtility.SetTppAtmosphereSunLightEnable(toggle1)--works
+  --TppEffectUtility.SetTppAtmosphereShadowEnable(toggle1)--works, world shadows
+
+  --GrTools.SetCloudShadowTexture(??)--havent trues
+  --TppWeatherEffectManager.SetCloudShadowVisibility(toggle1)--no aprent change
+  --TppWeatherEffectManager.SetSunMoonDecorationDistance(10000*index1)--no aprent change
+  -- TppWeatherEffectManager.SetSunMoonDecorationVisible(toggle1)--no aprent change
+  --TppWeatherEffectManager.SetWeatherThunderAutoGeneration(toggle1)
+
+
   ---
 
   --  InfCore.Log("mbLayoutCode:"..vars.mbLayoutCode)
@@ -1419,10 +1481,10 @@ end
 --tex called from QuickMenuDefs_User <CALL> + <ACTION>
 function this.DebugAction()
   InfCore.Log("IHDebugVars.DebugAction",true,true)
-  
-  
 
- -- TppSound.SetPhaseBGM( "bgm_fob_neutral" )
+
+
+  -- TppSound.SetPhaseBGM( "bgm_fob_neutral" )
 
   --  InfCore.PrintInspect(vars,"vars")
   --  local metaTable=getmetatable(vars)
@@ -1443,11 +1505,83 @@ end--DebugAction
 --  end
 --end
 
-this.debug_grtools_setLodScale={
-  save=IvarProc.CATEGORY_EXTERNAL,
+this.debug_GrTools_SetLodScale={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
   range={min=0,max=10000,increment=0.1},
   OnChange=function(self,setting)
     GrTools.SetLodScale(setting)
+  end,
+}
+
+this.debug_GrTools_SetVertexLodScale={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  default=1,
+  range={min=0,max=10000,increment=0.1},
+  OnChange=function(self,setting)
+    GrTools.SetVertexLodScale(setting)
+  end,
+}
+
+
+
+
+this.debug_GrTools_SetModelLodScale={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=10000,increment=0.1},
+  OnChange=function(self,setting)
+    GrTools.SetModelLodScale(setting)
+  end,
+}
+
+this.debug_GrTools_SetModelVertexLodScale={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=10000,increment=0.1},
+  OnChange=function(self,setting)
+    GrTools.SetModelVertexLodScale(setting)
+  end,
+}
+--tex set to screen resolution or higher?, more effective in increasing lod than others
+--ADDLANG set to screen resolution for default, and higher for higher lods loaded further, scales logarythimically
+--warning at high levels hitching will occur as it loads if you are travelling at high speed speed via freecam (happens somewhat even without using this, this just accecerbates it
+this.debug_GrTools_SetLodFactorResolution={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=100000,increment=1000},
+  OnChange=function(self,setting)
+    GrTools.SetLodFactorResolution(setting)
+  end,
+}
+
+this.debug_GrTools_SetOccluderEffectiveRange={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=1000000,increment=0.1},
+  OnChange=function(self,setting)
+    GrTools.SetOccluderEffectiveRange(setting)
+  end,
+}
+
+this.debug_GrTools_SetOccluderLimit={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=1000000,increment=0.1},
+  OnChange=function(self,setting)
+    GrTools.SetOccluderLimit(setting)
+  end,
+}
+
+--sets for default camera, SetCameraParams already has alphaDistance, DEBUGNOW but do we want this for all?
+this.debug_Player_SetAroundCameraMaxDistanceForAlphaExamination={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=1000000,increment=0.1},
+  OnChange=function(self,setting)
+    Player.SetAroundCameraMaxDistanceForAlphaExamination(setting)
+  end,
+}
+
+this.debug_vars_playerType={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=6,},
+  OnActivate=function(self,setting)
+    vars.playerType=setting
   end,
 }
 
