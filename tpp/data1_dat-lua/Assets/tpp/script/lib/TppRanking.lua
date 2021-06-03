@@ -211,8 +211,10 @@ end
 function this.UpdateScoreTime(rankingCategory)
   this.UpdateScore(rankingCategory,svars.scoreTime)
 end
-function this.UpdateShootingPracticeClearTime(rankingCategory,scoreTime)
-  this.UpdateScore(rankingCategory,scoreTime)
+--CALLER: quest script on clear
+--HOOKED: (InfHooks) > InfShootingPractice.UpdateShootingPracticeClearTime
+function this.UpdateShootingPracticeClearTime(questNameAsRankingCategory,scoreTime)
+  this.UpdateScore(questNameAsRankingCategory,scoreTime)
 end
 function this.Messages()
   return Tpp.StrCode32Table{
