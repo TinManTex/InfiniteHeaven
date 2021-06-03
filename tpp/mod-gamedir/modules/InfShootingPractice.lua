@@ -193,11 +193,17 @@ function this.PrintShootingPracticeBestTime(questName)
     TppUiCommand.AnnounceLogView(InfLangProc.LangString("quest_best_time").." "..bestTimeStr)
   end
 end--PrintShootingPracticeBestTime
---tex addon equivalent of TppRanking. , since those are backed up by the whole ui and leaderboards don't really want to poke at that at the moment
+--tex Hook of TppRanking.UpdateShootingPracticeClearTime (See InfHooks)
 --CALLER: quest script on quest clear
 --leftTime in ms
 --'best times' are actually time-left in respect to the starting time limit
 function this.UpdateShootingPracticeClearTime(questName,leftTime)
+  local questInfo=InfQuest.ihQuestsInfo[questName]
+  if not questInfo then
+    --tex vanilla shootingpractice, since those are backed up by the whole ui and leaderboards don't really want to poke at that at the moment
+    TppRanking.UpdateScore(questName,leftTime)
+  else
+
   --  local limitIsBestTime=Ivars.quest_setShootingPracticeTimeLimitToBestTime:Is(1)
   --
   --
@@ -234,6 +240,7 @@ function this.UpdateShootingPracticeClearTime(questName,leftTime)
     questState.scoreTime=leftTime
     ih_quest_states[questName]=questState
   end
+  end--if not questInfo
 end--UpdateShootingPracticeClearTime
 
 --CALLER: TppQuest.StartShootingPractice
@@ -302,11 +309,14 @@ this.langStrings={
   eng={
     quest_no_best_time="No best time set",
     quest_best_time="Best time",
+    quest_enableShootingPracticeRetry="Enable Shooting Practice Retry",
     quest_setShootingPracticeTimeLimitToBestTime="Set Shooting Practice time limit to best time",
+    quest_setShootingPracticeCautionTimeToBestTime="Set Shooting Practice caution time to best time",
   },--eng
   help={
     eng={
-    
+      quest_enableShootingPracticeRetry="Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.",
+      quest_setShootingPracticeCautionTimeToBestTime="Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.",    
     },
   }--help
 }--langStrings
