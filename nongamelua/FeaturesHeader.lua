@@ -60,7 +60,7 @@ local this={
     },
     {
       featureDescription="IHHook proxy dll",
-      featureHelp="For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).\r\nSee docs\IHHook-Changelog.txt or github.com/TinManTex/IHHook"
+      featureHelp="Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).\r\n"
     },
 --    {
 --      featureDescription="IHExt overlay",
