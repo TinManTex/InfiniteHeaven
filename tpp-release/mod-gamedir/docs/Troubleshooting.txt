@@ -12,6 +12,10 @@ What you expected to happen.
 
 What happened instead.
 
+What version of IH you are using.
+
+If it happened after updating IH, what was the previous version you were using that it worked on.
+
 What mods you have installed.
 
 And provide some files (saves and logs) so anyone trying to help has yet more information:

@@ -112,16 +112,24 @@ this.positions={}
 this.positionsXML={}
 this.ShowPosition=function()
   InfCore.Log"ShowPosition"
-  --if TppLocation.GetLocationName()=="afgh" or TppLocation.GetLocationName()=="mafr" then--DEBUGNOW
+
   local blockNameStr32=Tpp.GetLoadedLargeBlock()
   local blockName=InfLookup.StrCode32ToString(blockNameStr32) or blockNameStr32 or "nil"
   InfCore.Log("Current large block:"..blockName,false,true)
   local blockIndexX,blockIndexY=Tpp.GetCurrentStageSmallBlockIndex()
   InfCore.Log("Current small block index: x:"..blockIndexX..",y:"..blockIndexY,false,true)
-  --end
+  
+  if TppLocation.GetLocationName()=="mtbs" then
+    local clusterId=MotherBaseStage.GetCurrentCluster()
+    local clusterName=mtbs_cluster.GetCurrentClusterName()
+    local plntName=mtbs_cluster.GetCurrentPlnt()
+    local plntName="plnt0"
+    local clusterCenter=mtbs_cluster.GetDemoCenter(clusterName,plntName)
+    InfCore.Log(clusterId.." "..clusterName.." "..plntName)
+    InfCore.Log("Cluster plnt0 center: "..clusterCenter:GetX()..","..clusterCenter:GetY()..","..clusterCenter:GetZ())
+  end
   InfQuest.PrintQuestArea()
 
-  --tex TODO: dump to seperate file
   local offsetY=0-- -0.78
   local x,y,z=vars.playerPosX,vars.playerPosY,vars.playerPosZ
   y=y+offsetY

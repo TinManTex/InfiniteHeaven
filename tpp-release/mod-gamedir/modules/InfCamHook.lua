@@ -27,6 +27,7 @@ this.registerMenus={
 
 this.camhookMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},--DEBUGNOW
+  usesIHH=true,
   options={
     "Ivars.camhook_enable",
     "Ivars.camhook_focalLength_NORMAL",

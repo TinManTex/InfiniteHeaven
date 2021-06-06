@@ -141,6 +141,9 @@ this.sideOpsMenu={
     "Ivars.showAllOpenSideopsOnUi",
     "Ivars.enableHeliReinforce",
     "Ivars.ihSideopsPercentageCount",
+    "Ivars.quest_enableShootingPracticeRetry",
+    "Ivars.quest_setShootingPracticeCautionTimeToBestTime",
+    --"Ivars.quest_setShootingPracticeTimeLimitToBestTime",--OFF UpdateShootingPracticeClearTime not working out
   }
 }
 

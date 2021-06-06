@@ -1460,6 +1460,15 @@ function this.LoadLibraries()
       InfCore.PCallDebug(module.LoadLibraries)
     end
   end
+  
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.LoadSave) then
+      InfCore.LogFlow(module.name..".LoadSave:")
+      InfCore.PCallDebug(module.LoadSave)
+    end
+  end 
+  
+  InfCore.LogFlow"InfMain.LoadLibraries done"
 end
 
 InfCore.LogFlow"InfMain.lua done"

@@ -1,7 +1,36 @@
 Infinite Heaven changelog
 
-r251 - 2021-04-06
+r252 - 2021-06-05
+IHHook split to it's own installation !link
 
+InfShootingPractice:
+Support for new Shooting Practice sideops, as the vanilla SP sidops use online saves which can't be added to, IH SP sideops save to ih_quest_states in mod\saves instead.
+Will display best time when entering the start marker since it likewise can't use the ranking ui.
+
+quest_enableShootingPracticeRetry - "Enable Shooting Practice Retry" - "Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again."
+quest_setShootingPracticeCautionTimeToBestTime - "Set Shooting Practice caution time to best time" - "Sets the caution time/time when the timer turns red to the current best time so you have a clearer idea when going for best time."
+[youtube]gX3O0pauMOA[/youtube]
+https://youtu.be/gX3O0pauMOA
+
+InfHero: 
+moved SetDemon, RemoveDemon from InfMainTppIvars
+hero_dontSubtractHeroPoints "Don't subtract hero points" - "Actions that usually subtract hero points don't." 
+hero_dontAddOgrePoints - "Don't add demon points" - "Actions that usually add demon points don't."
+hero_heroPointsSubstractOgrePoints - "Hero points subtract demon points" - "Actions that add hero points subtract the same amount of demon points"
+Thanks TheFluffyPlatypus for the queries.
+
+updateStageBlockLoadPositionToCameraPosition - "Update stage position with camera" (via Cam - AroundCam) Replaces the one-off SetStageBlockPositionToFreeCam command.
+"Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.
+
+fix: selecting a quest referencing a missing questArea would error out the quest selection
+
+Refactor save system: quest states moved from ih_save to ih_quest_states, users will lose completion status for installed addon sideops.
+
+Debugging: PrintOnMessage to after resendcount check so less message logging spam, and more accurate indication of when message is being sent.
+
+Quest addon system: questInfo allowInWargames to allow quest on mb to be active during wargames.
+
+r251 - 2021-04-06
 WarGames: Added FOB phase background music during wargames - thanks Body Damage, and others for the suggestion.
 
 disableKillChildSoldierGameOver - "Disable game over on killing child soldier" (via player restictions menu menu) - thanks CFWMagic for showing a clear example when updating the stand alone mod.
@@ -10,6 +39,8 @@ Skull Events
 Moved to its own menu (via the Events menu)
 A bajillion settings for the event settings and the parameters for the skulls and zombies in the event exposed.
 Now (should) work for Free roam addon missions (does on Caplags gntn - US Naval Prison Facility)
+[youtube]K249zxAd1PU[/youtube]
+https://youtu.be/zE49gPHU3uE
 
 API:
 svar size for helis,walkerGears and uavs now set like mvars.ene_maxSoldierStateCount, and settable via missionScript _enemy .MAX_HELI_STATE_COUNT etc (search TppEnemy .SetMaxHeliStateCount)
