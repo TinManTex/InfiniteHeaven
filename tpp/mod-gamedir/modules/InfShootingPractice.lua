@@ -6,7 +6,7 @@ local this={}
 local floor=math.floor
 local format=string.format
 
-this.saveDirty=false
+this.saveDirty=true
 
 function this.Init()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -102,7 +102,7 @@ end
 
 function this.QuestBlockOnInitializeBottom(questScript)
   InfCore.LogFlow("InfShootingQuest.QuestBlockOnInitializeBottom")
-  --DEBUGNOW REF
+  --REF
   --mvars.qst_questScriptBlockMessageExecTable={
   --  [738746875] = {
   --    [669800987] = {
@@ -148,15 +148,15 @@ function this.QuestBlockOnInitializeBottom(questScript)
       --REF Tpp.MakeMessageExecTable, mvars.qst_questScriptBlockMessageExecTable
       for messageClassS32,messageNames in pairs(mvars.qst_questScriptBlockMessageExecTable)do
         if messageClassS32==PlayerS32 then
-          InfCore.LogFlow("found PlayerS32")--DEBUGNOW
+          InfCore.LogFlow("found PlayerS32")--
           for messageNameS32,messageInfo in pairs(messageNames)do
             if messageNameS32==QuestStartedS32 then
-              InfCore.LogFlow("found QuestStartedS32")--DEBUGNOW
+              InfCore.LogFlow("found QuestStartedS32")--
               mvars.qst_questScriptBlockMessageExecTable[PlayerS32][QuestStartedS32]=nil
               --            for senderS32,senderInfo in pairs(messageInfo)do
               --              if senderS32==ShootingPracticeS32 then
               --                --DEBUGNOW not finding it
-              --                InfCore.LogFlow("found ShootingPracticeS32")--DEBUGNOW
+              --                InfCore.LogFlow("found ShootingPracticeS32")
               --                --tex TODO: should really check there is only one sender listed
               --
               --                break
@@ -246,7 +246,7 @@ end--UpdateShootingPracticeClearTime
 --CALLER: TppQuest.StartShootingPractice
 --mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec
 function this.OverrideShootingPracticeTime()
-  InfCore.LogFlow"OverrideShootingPracticeTime"--DEBUGNOW
+  InfCore.LogFlow"OverrideShootingPracticeTime"
   mvars.gim_questDefaultTimeSec=nil
   local scoreTime=this.GetShootingPracticeTime()
   if scoreTime then
@@ -264,11 +264,11 @@ end--OverrideShootingPracticeTime
 
 function this.GetShootingPracticeTime(questName)
   questName=questName or TppQuest.GetCurrentQuestName()
-  InfCore.Log("GetShootingPracticeTime "..tostring(questName))--DEBUGNOW
+  InfCore.Log("GetShootingPracticeTime "..tostring(questName))
   if questName then
     local questState=ih_quest_states[questName]
     if questState then
-      InfCore.Log("has questState, scoreTime:"..tostring(questState.scoreTime))--DEBUGNOW
+      InfCore.Log("has questState, scoreTime:"..tostring(questState.scoreTime))
       return questState.scoreTime
     else
       --tex vanilla shootingpractice quests
@@ -287,13 +287,13 @@ this.registerIvars={
   "quest_setShootingPracticeTimeLimitToBestTime",
 }
 
-this.quest_enableShootingPracticeRetry={--DEBUGNOW addlang
+this.quest_enableShootingPracticeRetry={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
 }
 
-this.quest_setShootingPracticeCautionTimeToBestTime={--DEBUGNOW addlang
+this.quest_setShootingPracticeCautionTimeToBestTime={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
