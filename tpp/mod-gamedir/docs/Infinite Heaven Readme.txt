@@ -1,7 +1,8 @@
 = Infinite heaven =
-r251 - 2021-04-06
+r252 - 2021-06-05
 by tin man tex
-For MGSV version 1.15 (in title screen), 1.0.15.2 in exe
+For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
+Compatable IHHook version: r15b
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features, as well as providing addon systems to support other mods.
 
@@ -11,15 +12,45 @@ Has several hundred toggleable options ranging from Subsistence mode for all mis
 
 Full Infinite Heaven features and options:
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
-Or see the Features and Options.html file in the Infinite Heaven .zip
+The most up to date and further documents in MGS_TPP\mod\docs
 
 YouTube playlist of demonstrations for many features:
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
 Recent changes/additions
 ------------------------------
+NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
+https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
-The introduction of IHHook has had plenty of teething troubles, so thanks to all those who have worked wth me to try and nail down the problems.
+r252 - 2021-06-05
+InfShootingPractice:
+Support for new Shooting Practice sideops, as the vanilla SP sidops use online saves which can't be added to, IH SP sideops save to ih_quest_states in mod\saves instead.
+Will display best time when entering the start marker since it likewise can't use the ranking ui.
+
+quest_enableShootingPracticeRetry - "Enable Shooting Practice Retry" - "Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again."
+quest_setShootingPracticeCautionTimeToBestTime - "Set Shooting Practice caution time to best time" - "Sets the caution time/time when the timer turns red to the current best time so you have a clearer idea when going for best time."
+[youtube]gX3O0pauMOA[/youtube]
+https://youtu.be/gX3O0pauMOA
+
+Sideop shown can be downloaded in optional files.
+
+InfHero: 
+moved SetDemon, RemoveDemon from InfMainTppIvars
+hero_dontSubtractHeroPoints "Don't subtract hero points" - "Actions that usually subtract hero points don't." 
+hero_dontAddOgrePoints - "Don't add demon points" - "Actions that usually add demon points don't."
+hero_heroPointsSubstractOgrePoints - "Hero points subtract demon points" - "Actions that add hero points subtract the same amount of demon points"
+Thanks TheFluffyPlatypus for the queries.
+
+updateStageBlockLoadPositionToCameraPosition - "Update stage position with camera" (via Cam - AroundCam) Replaces the one-off SetStageBlockPositionToFreeCam command.
+"Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.
+
+fix: selecting a quest referencing a missing questArea would error out the quest selection
+
+Refactor save system: quest states moved from ih_save to ih_quest_states, users will lose completion status for installed addon sideops.
+
+Debugging: PrintOnMessage to after resendcount check so less message logging spam, and more accurate indication of when message is being sent.
+
+Quest addon system: questInfo allowInWargames to allow quest on mb to be active during wargames.
 
 r251
 WarGames: Added FOB phase background music during wargames - thanks Body Damage, and others for the suggestion.
@@ -30,7 +61,7 @@ Skull Events
 Moved to its own menu (via the Events menu)
 A bajillion settings for the event settings and the parameters for the skulls and zombies in the event exposed.
 Now (should) work for Free roam addon missions (does on Caplags gntn - US Naval Prison Facility)
-[youtube]K249zxAd1PU[/youtube]
+[youtube]zE49gPHU3uE[/youtube]
 https://youtu.be/zE49gPHU3uE
 
 r250
@@ -87,147 +118,6 @@ https://youtu.be/svLN4LFAh8w
 
 Auto Abort-to-ACC when vars.locationCode or vars.missionCode not a valid vanilla or addon code - could be caused by uninstalling an addon mission while save was in mission.
 Fix: Reset setting and go back menu hotkeys repeat spamming due to being OnHeld instead of OnHoldTime.
-
-r248
-IHHook - Support for mgsvtpp JP audio version - thanks everyone for the reports.
-[youtube]608ad3UA_EM[/youtube]
-https://youtu.be/608ad3UA_EM
-
-r247
-Menu: Go back menu and Reset current to default hotkeys must now be held breifly.
-
-Cam - Player Cam hook menu
-Uses IHHook to adjust the player camera focal length.
-Same method as the 'FOV Modifier' (on nexus)
-https://github.com/mon/MGSV-TPP-FoV
-This IH feature now superscedes that mod, so if IHHook is working (currently requires 1.0.15.3 eng exe) you should remove that mods d3d11.dll
-
-camhook_enable -Enable Player Cam hook,
-Only updates after changing cam mode.
-	Focal lengths between modes not equivalent (some other factor being applied)
-	Lower focal length = wider FOV,
-	Higher focal length = lower FOV
-camhook_focalLength_NORMAL="FocalLength Normal",
-camhook_focalLength_AIMING="FocalLength Aiming",
-camhook_focalLength_HIDING="FocalLength Hiding",
-camhook_focalLength_CQC="FocalLength CQC",
-camhook_ApplyFOV - "Apply FOV" - "Applies FOV(degrees) proportionally to the different cam mode focal lengths."
-[youtube]QRhBMK1S5YA[/youtube]
-https://youtu.be/QRhBMK1S5YA
-
-Camera menu (FreeCam)
-Renamed "Cam - AroundCam menu"
-Added the other AroundCam settings that could only be changed via the button shortcuts while cam was active.
-Added some more of the AroundCam settings
-targetInterpTime
-rotationLimitMinX
-rotationLimitMaxX
-alphaDistance
-All aroundcam settings now save.
-
-PlayCam menu 
-Renamed "Cam - PlayCam menu"
-moved to root menu.
-
-Fix: fix GenerateEvent event not being reapplied on new session when using forceEvent/Trigger IH Event
-Fix: MB wargames events not applying soldier body type (would stay as whatever dd suit setting you had) - thanks KLOC for the report and troubleshooting files to test.
-
-r246
-Fix: Hang on mission load - just a dumb typo I forgot to error check. 
-
-r245
-Fix: Location addon that adds new questarea while not having any sideops installed set in the area would cause the sideops system to break - thanks Delta 6, Yooungi, caplag for the reports
-
-r244
-IHHook:
-Fix: Check to see if it's the jp language version. Currently it only warns that IHHook doesn't currently support the version, but that's better than crashing.
-Fix: menu close button working from start, doesn't require the IH callback so it can function when it's there as the startup error window.
-
-Infinite Heaven:
-Fix: Intel team not marking anything on idroid map - AddGlobalLocationParameters modifies by param not by return.
-
-r243
-Fix: A grame crash soon after starting - issue likely was user not having vs redist for what IHHook was built against - thanks fintip for the report and working through test builds with me.
-
-Fix: unlockSideopNumber - 'Unlock specific sideop' not allowing the top most sideop. Had recently cleaned up how some settings ranges were set but forgot that sideops was outside of the normal indexedfrom0 case - thanks psavi for the report (and some others I might have passed by in the past sorry).
-unlockSideopNumber now shows the questName.
-
-weather_requestTag - Weather Menu > RequestTag
-A collection of sky, lighting settings bundled under a 'tag' name in the locations weatherParameters file.
-[youtube]dgz7vyh_3rQ[/youtube]
-https://youtu.be/dgz7vyh_3rQ
-
-SetSkyParameters - Weather Menu > various settings:
-weather_skyParameterSetSkyScale="Scale of main clouds overhead",
-weather_skyParameterAddOffsetY="Height of horizon clouds",
-weather_skyParameterSetScrollSpeedRate="Scrolling speed of horizon clouds",
-
-Mission Addon system:
-Initial implementation of sideop support.
-[youtube]rBSvPVxLSbc[/youtube]
-https://youtu.be/rBSvPVxLSbc
-
-r242
-Fix: changeCpSubType - Random CP subtype erroring.
-
-r241
-Fix: Addon missions breaking when IHHook not initialized - thanks Yooungi for the report
-
-r240
-Fix: Game crashing on startup with enableIHExt.
-Was trying to log with announcelog via debugprint, which should have been ok because it had a guard against the announcelog not stood-up crash by checking vars.missionCode not nil. Except it should have been checking missionCode wasnt MAX - 65535 - thanks everyone for the report and Venom Raven for the ih_save and testing.
-Fix: Mission-prep features menu repeated entry in player restrictions menu removed (is being auto added via parent tag) - thanks OldBoss for the report.
-
-IMGUI: Default style tweaked.
-
-Mission Addon system: 
-Free roam missions now get registered to the free roam tab and not the mission tab.
-In theory should support moving from an addon free roam to a mission set in that location and visaversa (via mission leave out of bounds).
-
-Free roam missions get proper langId for entry thanks to IHHook, uses locationMapParams.locationNameLangId or defaults to tpp_loc_<lowercase locationName>
-
-r239
-Update to MGSV version 1.0.15.3
-IHHook: IMGUI style editor with save/load. Via IH System Menu > UI Style Editor
-[youtube]_AbPHXTgfLg[/youtube]
-https://youtu.be/_AbPHXTgfLg
-
-r238:
-Update to MGSV version 1.0.15.2
-
-Includes IHHook, dll proxy for extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
-See docs\IHHook-Changelog.txt or github.com/TinManTex/IHHook
-[youtube]4V7lPJ2t_rw[/youtube]
-https://youtu.be/4V7lPJ2t_rw
-
-Added: Appearance menu - skipDevelopChecks - Allows items that haven't been developed to be selected in the Appearance menu.
-Added: attackHeliType - UTH Blackfoot - thanks caplag for discovering uth TppHeliParameters applied to TppEnemyHeli 
-Known Issues: UTH wont attack with missiles despite doing the long on sound and behaviour. UTH attack heli classes not actually visually different.
-[youtube]ERL7okZVcW4[/youtube]
-
-Added: GeneralHelpItem - mostly for seeing the extensive help text when show help is on.
-
-Added: menu_disableToggleMenuHold - Disable hold menu toggle - Disables the legacy one-button <dive> hold-to-toggle menu, the two button menu combo <zoom_change> + <dash> will still work.
-
-Camera menu:
-Added: 'Reset camera position to player' (still can be accessed by pressing the ih camera reset button (binoc) and <dash>) - thanks Muffins for the suggestion (of an obvious oversight).
-Added: positionXFreeCam (and Y,Z) - more useful since you can enter the value directly with IHH menu, useful if you have some position from somewhere but you don't know where it is in game.
-
-Mission prep features override:
-Replaces the "Mission-prep restrictions menu"
-
-heliSpace_SkipMissionPreparetion - Skip mission prep
-heliSpace_NoBuddyMenuFromMissionPreparetion - Disable select-buddy
-heliSpace_NoVehicleMenuFromMissionPreparetion - Disable select-vehicle
-heliSpace_DisableSelectSortieTimeFromMissionPreparetion - Disable select-sortie time
-
-Lets you force on or off the various mission prep features, though some may not make sense or have stuff overidden by the mission, such as enabling mission prep for the prologue.
-
-Fix: getBodyInfo reverted to directly reading ivar, should fix some issues related to enemy customBodyType - thank Solidus Snake for the report
-Fix: GetGroundStartPosition - guard against unexpected mbLayoutCode (still no idea of the situation that would cause the value) - thank Solidus Snake for the files (and caplag for getting him to enable logging)
-Fix: All customWeaponTable vars off would error.
-Fix: (of a previous fix) of wildcard soldiers causing the game to hang with some sideops,  thanks worthless person for the report.
-Fix: GetLastUserMarkerIndex - sometimes would not return correct marker, affected IH features using user markers.
 
 See Change Log.txt for more detail.
 

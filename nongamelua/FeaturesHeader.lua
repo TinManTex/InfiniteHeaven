@@ -60,7 +60,7 @@ local this={
     },
     {
       featureDescription="IHHook proxy dll",
-      featureHelp="For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).\r\nSee docs\IHHook-Changelog.txt or github.com/TinManTex/IHHook"
+      featureHelp="Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).\r\n"
     },
 --    {
 --      featureDescription="IHExt overlay",
@@ -69,7 +69,12 @@ local this={
   },
   {
     title="Menu, Options and Settings",
-[[Basic terms used in the Infinite Heaven menu:
+[[How to Open the menu:
+While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)
+Press and hold <Switch Zoom> (V key or RStick click) then press <Dash> (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.
+Or if IHHook is working, press F3
+
+Basic terms used in the Infinite Heaven menu:
 [Option] : [Setting(s)] ]],
   },
 }

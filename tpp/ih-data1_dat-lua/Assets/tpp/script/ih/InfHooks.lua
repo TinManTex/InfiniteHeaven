@@ -14,13 +14,13 @@ this.debugHooksEnabled=false
 --can also isolate your hook function in a pcall to isolate it crashing from impacting the original function
 this.hookFuncs={
   TppSave={
---CULL
---    VarRestoreOnMissionStart=function()
---      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
---      this.TppSave.VarRestoreOnMissionStart()
---      --post-hook
---      IvarProc.OnLoadVarsFromSlot()
---    end,
+    --CULL
+    --    VarRestoreOnMissionStart=function()
+    --      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
+    --      this.TppSave.VarRestoreOnMissionStart()
+    --      --post-hook
+    --      IvarProc.OnLoadVarsFromSlot()
+    --    end,
     VarRestoreOnContinueFromCheckPoint=function()
       InfCore.LogFlow("InfHook TppSave.VarRestoreOnContinueFromCheckPoint")
       this.TppSave.VarRestoreOnContinueFromCheckPoint()
@@ -31,31 +31,49 @@ this.hookFuncs={
       InfCore.LogFlow("InfHook TppSave.DoSave")
       local saveResult=this.TppSave.DoSave(saveParams,force)
 
-      IvarProc.OnSave(saveParams,force)
+      --OFF IvarProc.OnSave(saveParams,force)--tex hookin on this level catches savepersonaldata called in init_sequence can throw spanner in works for some of the stuff we want to do during load, so hooking
       return saveResult
     end,
+    SaveGameData=function(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
+      InfCore.LogFlow("InfHook TppSave.SaveGameData")
+      IvarProc.OnSave(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)--tex don't know if want before or after
+      this.TppSave.SaveGameData(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
+    end,
+    SaveConfigData=function(needIcon,doSave,reserveNextMissionStart)
+      InfCore.LogFlow("InfHook TppSave.SaveConfigData")
+      this.TppSave.SaveConfigData(needIcon,doSave,reserveNextMissionStart)
+    end,
+    SavePersonalData=function(needIcon,doSave,reserveNextMissionStartSave)
+      InfCore.LogFlow("InfHook TppSave.SavePersonalData")
+      this.TppSave.SavePersonalData(needIcon,doSave,reserveNextMissionStartSave)
+    end,
+  --tex no go for some reason.
+  --  LoadGameDataFromSaveFile=function(area)
+  --    return InfCore.PCall(function(area)--DEBUG
+  --    --InfCore.LogFlow("InfHook TppSave.LoadGameDataFromSaveFile("..tostring(area)..")")
+  --    local loadResult=this.LoadGameDataFromSaveFile(area)
+
+
+  --    return loadResult
+  --    end,area)--DEBUG
+  --  end,
   },
   TppSequence={
     SetNextSequence=function(sequenceName,params)
       local currentId=svars.seq_sequence
       local prevName=""
       if currentId then
-        prevName=TppSequence.GetSequenceNameWithIndex(currentId) 
+        prevName=TppSequence.GetSequenceNameWithIndex(currentId)
       end
       InfCore.Log("TppSequence.SetNextSequence from "..prevName.." to "..sequenceName)
       this.TppSequence.SetNextSequence(sequenceName,params)
     end,
   },
---tex no go for some reason.
---  LoadGameDataFromSaveFile=function(area)
---    return InfCore.PCall(function(area)--DEBUG
---    --InfCore.LogFlow("InfHook TppSave.LoadGameDataFromSaveFile("..tostring(area)..")")
---    local loadResult=this.LoadGameDataFromSaveFile(area)
-
-
---    return loadResult
---    end,area)--DEBUG
---  end,
+  TppRanking={
+    UpdateShootingPracticeClearTime=function(questNameAsRankingCategory,scoreTime)
+      InfShootingPractice.UpdateShootingPracticeClearTime(questNameAsRankingCategory,scoreTime)
+    end,
+  },--TppRanking
 }
 
 this.debugPCallHooks={

@@ -51,11 +51,16 @@ New sideops for Mother Base.
 (Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
 
 IHHook proxy dll
-For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
-See docsIHHook-Changelog.txt or github.com/TinManTex/IHHook
+Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
+
 
 Menu, Options and Settings
 ==========================
+
+How to Open the menu:
+While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)
+Press and hold <Switch Zoom> (V key or RStick click) then press <Dash> (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.
+Or if IHHook is working, press F3
 
 Basic terms used in the Infinite Heaven menu:
 [Option] : [Setting(s)] 
@@ -157,20 +162,20 @@ Cam - AroundCam menu
 2: Camera mode : Default, Free cam
 3: Reset camera position to player : 0-1
 4: Warp body to FreeCam position : 0-1
-5: positionXFreeCam : -100000-100000
-6: positionYFreeCam : -100000-100000
-7: positionZFreeCam : -100000-100000
-8: Cam speed scale : 0.01-10
-9: focalLengthFreeCam : 0.1-10000
-10: focusDistanceFreeCam : 0.01-1000
-11: apertureFreeCam : 0.001-100
-12: distanceFreeCam : 0-100
-13: targetInterpTimeFreeCam : 0-100
-14: rotationLimitMinXFreeCam : -90-0
-15: rotationLimitMaxXFreeCam : 0-90
-16: alphaDistanceFreeCam : 0-10
-17: Disable mode text feedback : Off, On
-18: Set stage position to camera : 0-1
+5: Update stage position with camera : Off, On
+6: positionXFreeCam : -100000-100000
+7: positionYFreeCam : -100000-100000
+8: positionZFreeCam : -100000-100000
+9: Cam speed scale : 0.01-10
+10: focalLengthFreeCam : 0.1-10000
+11: focusDistanceFreeCam : 0.01-1000
+12: apertureFreeCam : 0.001-100
+13: distanceFreeCam : 0-100
+14: targetInterpTimeFreeCam : 0-100
+15: rotationLimitMinXFreeCam : -90-0
+16: rotationLimitMaxXFreeCam : 0-90
+17: alphaDistanceFreeCam : 0-10
+18: Disable mode text feedback : Off, On
 19: Show freecam position : 0-1
 
 Cam - PlayCam menu
@@ -274,7 +279,7 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]
 6: Reload IH modules : 0-1
 7: copyLogToPrev : 0-1
 8: printPressedButtons : Off, On
@@ -286,8 +291,6 @@ Logs some script execution flow, requires Debug IH mode to be on.
 14: Disable mission intro credits : Off, On
 15: manualMissionCode : 
 16: manualSequence : NONE
-17: dEBUG_RandomizeAllIvars : 0-1
-WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.
 
 appearanceDebugMenu
 -------------------
@@ -853,8 +856,14 @@ Player settings menu
 Subtracts 999999 points from demon score
 3: Add demon points : 0-1
 Adds 999999 points to demon score
-4: Use selected soldier in all cutscenes and missions : Off, On
-5: Appearance menu
+4: Don't subtract hero points : Off, On
+Actions that usually subtract hero points don't.
+5: Don't add demon points : Off, On
+Actions that usually add demon points don't.
+6: Hero points subtract demon points : Off, On
+Actions that add hero points subtract the same amount of demon points
+7: Use selected soldier in all cutscenes and missions : Off, On
+8: Appearance menu
 
 Appearance menu
 ---------------
@@ -926,6 +935,10 @@ Shows all open sideops in sideop list, this mostly affects open but not yet comp
 7: Force enable enemy heli reinforce (disables heli sideops) : Off, On
 Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.
 8: Include add-on sideops in completion percentage : Off, On
+9: Enable Shooting Practice Retry : Off, On
+Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.
+10: Set Shooting Practice caution time to best time : Off, On
+Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.
 
 Sideops category filter menu
 - Filters selection of sideops per category, Sideop selection mode will override this.
@@ -1138,20 +1151,20 @@ Cam - AroundCam menu
 2: Camera mode : Default, Free cam
 3: Reset camera position to player : 0-1
 4: Warp body to FreeCam position : 0-1
-5: positionXFreeCam : -100000-100000
-6: positionYFreeCam : -100000-100000
-7: positionZFreeCam : -100000-100000
-8: Cam speed scale : 0.01-10
-9: focalLengthFreeCam : 0.1-10000
-10: focusDistanceFreeCam : 0.01-1000
-11: apertureFreeCam : 0.001-100
-12: distanceFreeCam : 0-100
-13: targetInterpTimeFreeCam : 0-100
-14: rotationLimitMinXFreeCam : -90-0
-15: rotationLimitMaxXFreeCam : 0-90
-16: alphaDistanceFreeCam : 0-10
-17: Disable mode text feedback : Off, On
-18: Set stage position to camera : 0-1
+5: Update stage position with camera : Off, On
+6: positionXFreeCam : -100000-100000
+7: positionYFreeCam : -100000-100000
+8: positionZFreeCam : -100000-100000
+9: Cam speed scale : 0.01-10
+10: focalLengthFreeCam : 0.1-10000
+11: focusDistanceFreeCam : 0.01-1000
+12: apertureFreeCam : 0.001-100
+13: distanceFreeCam : 0-100
+14: targetInterpTimeFreeCam : 0-100
+15: rotationLimitMinXFreeCam : -90-0
+16: rotationLimitMaxXFreeCam : 0-90
+17: alphaDistanceFreeCam : 0-10
+18: Disable mode text feedback : Off, On
 19: Show freecam position : 0-1
 
 Cam - PlayCam menu
@@ -1242,7 +1255,7 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]
 6: Reload IH modules : 0-1
 7: copyLogToPrev : 0-1
 8: selectedCp : no cp for setting

@@ -17,7 +17,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=251
+this.modVersion=252
 this.modName="Infinite Heaven"
 this.hookVersion=15--tex for version check
 
@@ -852,6 +852,8 @@ function this.OnLoadEvars()
     this.ihSaveFirstLoad=true
     if not this.debugMode then
       InfCore.Log("Further non critical logging disabled while debugMode is off",false,true)
+    else
+      InfCore.Log("Non debug log cut-off point")
     end
   end
 end

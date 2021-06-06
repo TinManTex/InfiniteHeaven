@@ -852,6 +852,8 @@ function this.OnLoadEvars()
     this.ihSaveFirstLoad=true
     if not this.debugMode then
       InfCore.Log("Further non critical logging disabled while debugMode is off",false,true)
+    else
+      InfCore.Log("Non debug log cut-off point")
     end
   end
 end

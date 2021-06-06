@@ -778,14 +778,14 @@ this.UpdateSettingFromGvar=function(option)
   end
 end
 
---CALLER: TppSave.DoSave (via InfHooks)
-function this.OnSave()
+--CALLER: TppSave.SaveGameData (via InfHooks)
+function this.OnSave(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
   InfCore.PCallDebug(this.SaveAll)
 end
 
 --CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
 function this.OnLoadVarsFromSlot()
-  InfCore.PCallDebug(this.LoadEvars)
+  InfCore.PCallDebug(this.LoadAllSave)
 end
 
 --debug stuff
@@ -1157,7 +1157,7 @@ local saveHeader={
 local saveTextList={}
 local evarsTextList={}
 local igvarsTextList={}
-local questStatesTextList={}
+--local questStatesTextList={}--DEBUGNOW CULL
 local igvarsPrev={}
 
 --tex knocks about 0.005s vs previous (with ivars and quest not dirty)
@@ -1196,19 +1196,20 @@ function this.BuildSaveText(inMission,onlyNonDefault,newSave)
   end
 
   --tex also skips depenancy on InfQuest
-  if not newSave then
-    if InfQuest then
-      local questStates=InfQuest.GetCurrentStates()
-      if questStates then
-        isDirty=true
-        if this.debugModule then
-          InfCore.Log("questStates isDirty")
-        end
-        ClearArray(questStatesTextList)
-        this.BuildTableText("questStates",questStates,questStatesTextList)
-      end
-    end
-  end
+  --DEBUGNOW CULL
+--  if not newSave then
+--    if InfQuest then
+--      local questStates=InfQuest.GetCurrentStates()
+--      if questStates then
+--        isDirty=true
+--        if this.debugModule then
+--          InfCore.Log("questStates isDirty")
+--        end
+--        ClearArray(questStatesTextList)
+--        this.BuildTableText("questStates",questStates,questStatesTextList)
+--      end
+--    end
+--  end
 
   if not isDirty and not newSave then
     if this.debugModule then
@@ -1228,43 +1229,12 @@ function this.BuildSaveText(inMission,onlyNonDefault,newSave)
 
   MergeArray(saveTextList,evarsTextList)
   MergeArray(saveTextList,igvarsTextList)
-  MergeArray(saveTextList,questStatesTextList)
+  --DEBUGNOW CULL MergeArray(saveTextList,questStatesTextList)
 
   saveTextList[#saveTextList+1]="return this"
 
   return saveTextList
 end
-
---PREV CULL DEBUGNOW
---function this.BuildSaveText(inMission,onlyNonDefault,newSave)
---  local inMission=inMission or false
---
---  local saveTextList={
---    "-- "..InfCore.saveName,
---    "-- Save file for IH options",
---    "-- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.",
---    "-- See Readme for more info",
---    "local this={}",
---    "this.ihVer="..InfCore.modVersion,
---    "this.saveTime="..os.time(),
---    "this.inMission="..tostring(inMission),
---    "this.loadToACC=false",
---  }
---
---  this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
---  this.BuildTableText("igvars",igvars,saveTextList)
---  --tex also skips depenancy on InfQuest
---  if not newSave then
---    if InfQuest then
---      local questStates=InfQuest.GetCurrentStates()
---      this.BuildTableText("questStates",questStates,saveTextList)
---    end
---  end
---
---  saveTextList[#saveTextList+1]="return this"
---
---  return saveTextList
---end
 
 --IN/OUT saveTextList
 local evarLineFormatStr="\t%s=%g,"
@@ -1296,7 +1266,7 @@ local tableHeaderFmt="this.%s={"
 
 local Format=string.format
 function this.BuildTableText(tableName,sourceTable,saveTextList)
-  saveTextList[#saveTextList+1]=string.format(tableHeaderFmt,tableName)
+  saveTextList[#saveTextList+1]=Format(tableHeaderFmt,tableName)
   for k,v in pairs(sourceTable)do
     local keyLine=""
     if type(k)=="number" then
@@ -1307,9 +1277,9 @@ function this.BuildTableText(tableName,sourceTable,saveTextList)
     
     local valueLine=""
     if type(v)=="string" then
-      valueLine=string.format(saveLineValueStr,tostring(v))
+      valueLine=Format(saveLineValueStr,tostring(v))
     else
-      valueLine=string.format(saveLineValueOther,tostring(v))
+      valueLine=Format(saveLineValueOther,tostring(v))
     end
     
     saveTextList[#saveTextList+1]=keyLine..valueLine
@@ -1424,8 +1394,8 @@ function this.CreateNewSave(filePath,saveName)
   this.WriteSave(saveTextList,saveName)
   ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
 end
-
-function this.LoadSave()
+--tex ih_save only, see also LoadAllSave
+function this.LoadIHSave()
   InfCore.LogFlow"IvarProc.LoadSave"
   local saveName=InfCore.saveName
   local filePath=InfCore.paths.saves..saveName
@@ -1477,9 +1447,10 @@ function this.LoadSave()
 
   return ih_save
 end
-
-function this.LoadAll()
-  InfCore.LogFlow"IvarProc.LoadAll"
+--See Also InfMain.LoadLibraries 
+--and init_sequence.Seq_Demo_CreateOrLoadSaveData (GOTCHA: first game load, so if you're doing any gvars wrangling in LoadSave you may have to make sure its called after too)
+function this.LoadAllSave()
+  InfCore.LogFlow"IvarProc.LoadAllSave"
   this.LoadEvars()
   for i,module in ipairs(InfModules) do
     if type(module.LoadSave)=="function" then
@@ -1492,7 +1463,7 @@ end
 --SIDE: ih_save (global module)
 function this.LoadEvars()
   InfCore.LogFlow"IvarProc.LoadEvars"
-  ih_save=this.LoadSave()
+  ih_save=this.LoadIHSave()
   if ih_save then
     local loadedEvars=this.ReadEvars(ih_save)
     if this.debugModule then

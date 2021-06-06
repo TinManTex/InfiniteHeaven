@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r251
+-- Defaults / example of all profile options for IH r252
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -22,6 +22,7 @@ local this={
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
 		ihMissionsPercentageCount=0,--{ 0-1 } -- Include addon missions in completion percentage
 		--Cam - AroundCam menu
+		updateStageBlockLoadPositionToCameraPosition=0,--{ 0-1 } -- Update stage position with camera
 		moveScale=0.5,--{ 0.01-10 } -- Cam speed scale
 		focalLengthFreeCam=21,--{ 0.1-10000 } -- 
 		focusDistanceFreeCam=8.175,--{ 0.01-1000 } -- 
@@ -372,6 +373,9 @@ local this={
 		clearSupportItems=0,--{ OFF, EQUIP_NONE } -- Support items OSP
 		--Player settings menu
 		playerHealthScale=100,--{ 0-650 } -- Player life scale (percentage)
+		hero_dontSubtractHeroPoints=0,--{ 0-1 } -- Don't subtract hero points
+		hero_dontAddOgrePoints=0,--{ 0-1 } -- Don't add demon points
+		hero_heroPointsSubstractOgrePoints=0,--{ 0-1 } -- Hero points subtract demon points
 		--Progression menu
 		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
 		--Resource scale menu
@@ -394,6 +398,8 @@ local this={
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS, ADDON_QUEST } -- Sideop selection mode
 		showAllOpenSideopsOnUi=0,--{ 0-1 } -- Show all open sideops
 		ihSideopsPercentageCount=0,--{ 0-1 } -- Include add-on sideops in completion percentage
+		quest_enableShootingPracticeRetry=0,--{ 0-1 } -- Enable Shooting Practice Retry
+		quest_setShootingPracticeCautionTimeToBestTime=0,--{ 0-1 } -- Set Shooting Practice caution time to best time
 		--Sideops category filter menu
 		sideops_STORY=1,--{ 0-1 } -- Story/unique
 		sideops_EXTRACT_INTERPRETER=1,--{ 0-1 } -- Extract interpreter

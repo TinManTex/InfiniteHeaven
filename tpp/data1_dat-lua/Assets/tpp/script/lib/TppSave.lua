@@ -113,6 +113,7 @@ function this.SetUpCompositSlot()
     TppScriptVars.SetUpSlotAsCompositSlot(TppDefine.SAVE_SLOT.SAVING,this.COMPOSIT_SLOT_SIZE)
   end
 end
+--HOOKED: see InfHooks
 function this.SaveGameData(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
   if reserveNextMissionStartSave then
     this.ReserveNextMissionStartSave(this.GetGameSaveFileName(),isCheckPoint)
@@ -381,6 +382,7 @@ function this.ProcessSaveQueue()
     end
   end
 end
+--HOOKED: see InfHooks
 function this.DoSave(saveParams,force)
   local checkResult=true
   if force then
@@ -677,6 +679,7 @@ function this.VarRestoreOnMissionStart()
   end
   gvars.sav_varRestoreForContinue=false
 end
+--HOOKED: see InfHooks
 function this.VarRestoreOnContinueFromCheckPoint()
   TppScriptVars.LoadVarsFromSlot(TppDefine.SAVE_SLOT.GLOBAL,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_GAME_GLOBAL)
   if gvars.usingNormalMissionSlot then

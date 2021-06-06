@@ -1329,6 +1329,7 @@ sequences.Seq_Demo_ConfirmAutoSave = {
 			TppUiCommand.SetPopupAllPad()
 			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CONFIRM_AUTO_SAVE, Popup.TYPE_ONE_BUTTON )
     end--]]
+    InfCore.Log("init_sequence.Seq_Demo_ConfirmAutoSave skip popup")--tex
     TppSequence.SetNextSequence("Seq_Demo_StartSignIn")--tex screw popup, just go
   end,
 
@@ -1757,6 +1758,7 @@ end
 
 
 local function CreateOrLoadSaveData()
+  InfCore.Log("init_sequence CreateOrLoadSaveData")--tex
   local DebugText = DebugText
   local function DebugPrintState(state)
     if DebugText then
@@ -2175,7 +2177,7 @@ local function CreateOrLoadSaveData()
     end
   end
 
-
+  InfCore.Log("init_sequence CreateOrLoadSaveData success")--tex
 
   if Ivars.startOffline:Is(1) then--tex>
     return "Seq_Demo_CheckDlc"
@@ -2186,6 +2188,7 @@ end
 
 sequences.Seq_Demo_CreateOrLoadSaveData = {
   OnEnter = function(self)
+    InfCore.Log"init_sequence.Seq_Demo_CreateOrLoadSaveData"--tex
     self.nextSequence = nil
     this.saveCoroutine = coroutine.create(CreateOrLoadSaveData)
   end,

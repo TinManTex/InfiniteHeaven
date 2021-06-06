@@ -829,13 +829,17 @@ function this.LoadLibraries()
   for missionCode,missionInfo in pairs(this.missionInfo)do
     if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) then
       local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
+      if locationId==nil then
+        InfCore.Log("ERROR: InfMission.LoadLibraries: locationId==nil for missionInfo.location:"..tostring(missionInfo.location))
+      else
       if this.freeMissionForLocation[locationId] then
         if this.freeMissionForLocation[locationId]~=missionCode then
           InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has a different free mission defined")
         end
       else
         this.freeMissionForLocation[locationId]=missionCode
-      end
+        end--if freeMissionForLocation
+      end--if locationId
     end
   end--for missionInfo
 
@@ -1217,7 +1221,7 @@ function this.AddOrderBoxInfoToFreeRoam(missionTable)
   local currentLocationCode=vars.locationCode
   local missionStartPosition=missionTable.sequence.missionStartPosition--tex such a strange name for what the table is used for. ASSUMPTION always exists (it should if the sequence script has been cribbed from a vanilla script)
   if not missionStartPosition then
-    InfCore.Log("WARNING: InfMission.AddOrderBoxInfoToFreeRoam: missionTable.sequence.missionStartPositio==nil ")
+    InfCore.Log("WARNING: InfMission.AddOrderBoxInfoToFreeRoam: missionTable.sequence.missionStartPosition==nil ")
   else
     --  local sequenceModule = _G["f"..missionCode.."_sequence] -- is just missionTable.sequence
     local orderBoxListModule=_G["f"..currentMissionCode.."_orderBoxList"]

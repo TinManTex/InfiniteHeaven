@@ -37,6 +37,7 @@ this.registerIvars={
   "cameraMode",
   "moveScale",
   "disableCamText",
+  "updateStageBlockLoadPositionToCameraPosition",
   --tex ivars in camIvarPrefixes registered below
 }
 
@@ -92,6 +93,19 @@ this.cameraMode={
     else
       Player.SetAroundCameraManualMode(true)
       InfCamera.UpdateCameraManualMode()
+    end
+  end,
+}
+
+this.updateStageBlockLoadPositionToCameraPosition={--DEBUGNOW addlang, add a warning about player falling through world if terrain is unloaded?
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,setting)
+    local enable=setting==1
+    if not enable or Ivars.adjustCameraUpdate:Get()~=0 then
+      StageBlockCurrentPositionSetter.SetEnable(enable)
     end
   end,
 }
@@ -277,6 +291,7 @@ this.cam_aroundcamMenu={
     "Ivars.cameraMode",
     "InfCamera.ResetCameraToPlayerPos",
     "InfCamera.WarpToCamPos",
+    "Ivars.updateStageBlockLoadPositionToCameraPosition",
     "Ivars.positionXFreeCam",--DEBUGNOW ADDLANG
     "Ivars.positionYFreeCam",
     "Ivars.positionZFreeCam",
@@ -290,7 +305,7 @@ this.cam_aroundcamMenu={
     "Ivars.rotationLimitMaxXFreeCam",--DEBUGNOW ADDLANG
     "Ivars.alphaDistanceFreeCam",--DEBUGNOW ADDLANG
     "Ivars.disableCamText",--DEBUGNOW ADDLANG
-    "InfMenuCommands.SetStageBlockPositionToFreeCam",
+    --"InfMenuCommands.SetStageBlockPositionToFreeCam",
     "InfCamera.ShowFreeCamPosition",--DEBUGNOW ADDLANG help
   }
 }--cam_aroundcamMenu
@@ -320,6 +335,7 @@ this.langStrings={
     showFreeCamPosition="Show freecam position",
     freecam_non_adjust="Static cam mode",
     setStageBlockPositionToFreeCam="Set stage position to camera",
+    updateStageBlockLoadPositionToCameraPosition="Update stage position with camera",
   },
   help={
     eng={
@@ -348,6 +364,7 @@ this.langStrings={
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
     },
     setStageBlockPositionToFreeCam="Sets the map loading position to the free cam position.",
+    updateStageBlockLoadPositionToCameraPosition="Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.",
   }
 }--langStrings
 
@@ -488,6 +505,9 @@ function this.OnActivateCameraAdjust()
   end
   --this.DisableAction(Ivars.adjustCameraUpdate.disableActions)--tex OFF not really needed, padmask is sufficient
   Player.SetPadMask(InfMain.allButCamPadMask)
+  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1)then
+    StageBlockCurrentPositionSetter.SetEnable(true)
+  end
 end
 
 function this.OnDectivateCameraAdjust()
@@ -495,6 +515,9 @@ function this.OnDectivateCameraAdjust()
   Player.ResetPadMask {
     settingName = "allButCam",
   }
+  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1) then
+    StageBlockCurrentPositionSetter.SetEnable(false)
+  end
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
@@ -524,6 +547,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   this.DoControlSet(currentChecks)
+  
+  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1)then
+    local currentCamName=this.GetCurrentCamName()
+    local movePosition=this.ReadPosition(currentCamName)
+    StageBlockCurrentPositionSetter.SetPosition(movePosition:GetX(),movePosition:GetZ())   
+  end
 
   this.UpdateCameraManualMode()
   --end,currentChecks,currentTime,execChecks,execState)--DEBUG
@@ -707,6 +736,7 @@ function this.DoControlSet(currentChecks)
   end
 
   this.WritePosition(currentCamName,movePosition)
+  return movePosition
   --end,currentChecks)--DEBUG
 end--DoControlSet
 

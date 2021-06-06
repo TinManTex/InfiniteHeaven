@@ -40,12 +40,12 @@
 <div id="menuItem">New sideops for Mother Base.</div>
 <div id="itemHelp">(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.</div>
 <div id="menuItem">IHHook proxy dll</div>
-<div id="itemHelp">For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).<br/>See docsIHHook-Changelog.txt or github.com/TinManTex/IHHook</div>
+<div id="itemHelp">Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).<br/></div>
 </div>
 <br/>
 <div id="menu">
 <div id="menuTitle">Menu, Options and Settings</div>
-<div id="menuItem">Basic terms used in the Infinite Heaven menu:<br/>[Option] : [Setting(s)] </div>
+<div id="menuItem">How to Open the menu:<br/>While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)<br/>Press and hold &ltSwitch Zoom&gt (V key or RStick click) then press &ltDash&gt (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.<br/>Or if IHHook is working, press F3<br/><br/>Basic terms used in the Infinite Heaven menu:<br/>[Option] : [Setting(s)] </div>
 </div>
 <br/>
 <div id="menu">
@@ -210,46 +210,46 @@
 <div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: positionXFreeCam : 0-100000</div>
+<div>5: Update stage position with camera : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: positionYFreeCam : 0-100000</div>
+<div>6: positionXFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7: positionZFreeCam : 0-100000</div>
+<div>7: positionYFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>8: Cam speed scale : 0.01-10</div>
+<div>8: positionZFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>9: focalLengthFreeCam : 0.1-10000</div>
+<div>9: Cam speed scale : 0.01-10</div>
 </div>
 <div id="menuItem">
-<div>10: focusDistanceFreeCam : 0.01-1000</div>
+<div>10: focalLengthFreeCam : 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>11: apertureFreeCam : 0.001-100</div>
+<div>11: focusDistanceFreeCam : 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>12: distanceFreeCam : 0-100</div>
+<div>12: apertureFreeCam : 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>13: targetInterpTimeFreeCam : 0-100</div>
+<div>13: distanceFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>14: rotationLimitMinXFreeCam : -90-0</div>
+<div>14: targetInterpTimeFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>15: rotationLimitMaxXFreeCam : 0-90</div>
+<div>15: rotationLimitMinXFreeCam : -90-0</div>
 </div>
 <div id="menuItem">
-<div>16: alphaDistanceFreeCam : 0-10</div>
+<div>16: rotationLimitMaxXFreeCam : 0-90</div>
 </div>
 <div id="menuItem">
-<div>17: Disable mode text feedback : Off, On</div>
+<div>17: alphaDistanceFreeCam : 0-10</div>
 </div>
 <div id="menuItem">
-<div>18: Set stage position to camera : 0-1</div>
+<div>18: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
 <div>19: Show freecam position : 0-1</div>
@@ -456,7 +456,7 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]</div>
 </div>
 <div id="menuItem">
 <div>6: Reload IH modules : 0-1</div>
@@ -483,23 +483,13 @@
 <div>13: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>14: Disable game over : Off, On</div>
+<div>14: Disable mission intro credits : Off, On</div>
 </div>
 <div id="menuItem">
-<div>15: Disable out of bounds checks : Off, On</div>
+<div>15: manualMissionCode : </div>
 </div>
 <div id="menuItem">
-<div>16: Disable mission intro credits : Off, On</div>
-</div>
-<div id="menuItem">
-<div>17: manualMissionCode : </div>
-</div>
-<div id="menuItem">
-<div>18: manualSequence : NONE</div>
-</div>
-<div id="menuItem">
-<div>19: dEBUG_RandomizeAllIvars : 0-1</div>
-<div id="itemHelp">WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.</div>
+<div>16: manualSequence : NONE</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1172,26 +1162,145 @@
 <div>6: Allow Lost Coms event : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Enable Skull attacks in Free roam : Off, On</div>
+<div>7: <a href="#parasiteMenu">Skulls event menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="parasiteMenu">Skulls event menu</div>
+</div>
+<div id="menuItem">
+<div>1: Enable Skull attacks in Free roam : Off, On</div>
 <div id="itemHelp">Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.</div>
 </div>
 <div id="menuItem">
-<div>8: Allow armor skulls : Off, On</div>
+<div>2: Allow armor skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>9: Allow mist skulls : Off, On</div>
+<div>3: Allow mist skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>10: Allow sniper skulls : Off, On</div>
+<div>4: Allow sniper skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Skull attack min (minutes) : 0-180</div>
+<div>5: Skull attack min (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>12: Skull attack max (minutes) : 0-180</div>
+<div>6: Skull attack max (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>13: Weather on Skull attack : None, Parasite fog, Random</div>
+<div>7: Weather on Skull attack : None, Parasite fog, Random</div>
+</div>
+<div id="menuItem">
+<div>8: parasite_zombieLife : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>9: parasite_zombieStamina : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>10: parasite_msfRate : 0-100</div>
+<div id="itemHelp">Percentage chance a zombified soldier will have msf zombie behaviour</div>
+</div>
+<div id="menuItem">
+<div>11: parasite_msfCombatLevel_MIN : 0-9</div>
+</div>
+<div id="menuItem">
+<div>12: parasite_msfCombatLevel_MAX : 0-9</div>
+</div>
+<div id="menuItem">
+<div>13: parasite_playerRange : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>14: parasite_sightDistance : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>15: parasite_sightDistanceCombat : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>16: parasite_sightVertical : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>17: parasite_sightHorizontal : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>18: parasite_noiseRate : 0-100</div>
+</div>
+<div id="menuItem">
+<div>19: parasite_avoidSideMin : 0-100</div>
+</div>
+<div id="menuItem">
+<div>20: parasite_avoidSideMax : 0-100</div>
+</div>
+<div id="menuItem">
+<div>21: parasite_areaCombatBattleRange : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>22: parasite_areaCombatBattleToSearchTime : 0-100</div>
+</div>
+<div id="menuItem">
+<div>23: parasite_areaCombatLostSearchRange : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>24: parasite_areaCombatLostToGuardTime : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>25: parasite_throwRecastTime : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>26: parasite_defenseValueMain : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>27: parasite_defenseValueArmor : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>28: parasite_defenseValueWall : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>29: parasite_offenseGrade : 0-100</div>
+</div>
+<div id="menuItem">
+<div>30: parasite_defenseGrade : 0-100</div>
+</div>
+<div id="menuItem">
+<div>31: parasite_defenseValueCAMO : 0-100000</div>
+</div>
+<div id="menuItem">
+<div>32: parasite_offenseGradeCAMO : 0-100</div>
+</div>
+<div id="menuItem">
+<div>33: parasite_defenseGradeCAMO : 0-100</div>
+</div>
+<div id="menuItem">
+<div>34: parasite_escapeDistanceARMOR : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>35: parasite_escapeDistanceMIST : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>36: parasite_escapeDistanceCAMO : 0-10000</div>
+</div>
+<div id="menuItem">
+<div>37: parasite_spawnRadiusARMOR : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>38: parasite_spawnRadiusMIST : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>39: parasite_spawnRadiusCAMO : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>40: parasite_timeOutARMOR : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>41: parasite_timeOutMIST : 0-1000</div>
+</div>
+<div id="menuItem">
+<div>42: parasite_timeOutCAMO : 0-1000</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1616,40 +1725,49 @@
 <div>7: Game over on combat alert : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Disable Intel team enemy spotting : Off, On</div>
+<div>8: Disable game over on killing child soldier : Off, On</div>
+</div>
+<div id="menuItem">
+<div>9: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Disable game over : Off, On</div>
+</div>
+<div id="menuItem">
+<div>11: Disable Intel team enemy spotting : Off, On</div>
 <div id="itemHelp">Stops the Intel teams enemy spotting audio notification and indication on the idroid map.</div>
 </div>
 <div id="menuItem">
-<div>9: Disable Intel team herb spotting (requires game restart) : Off, On</div>
+<div>12: Disable Intel team herb spotting (requires game restart) : Off, On</div>
 <div id="itemHelp">Stops the Intel teams plant spotting audio notification and indication on the idroid map. Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.</div>
 </div>
 <div id="menuItem">
-<div>10: Keep equipment Free&lt&gtMission : Off, On</div>
+<div>13: Keep equipment Free&lt&gtMission : Off, On</div>
 <div id="itemHelp">Prevents equipment and weapons being reset when going between free-roam and missions.</div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#markersMenu">Marking display menu</a></div>
+<div>14: <a href="#markersMenu">Marking display menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#disableSupportMenuMenu">Disable mission support-menus menu</a></div>
+<div>15: <a href="#disableSupportMenuMenu">Disable mission support-menus menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#itemLevelMenu">Item level menu</a></div>
+<div>16: <a href="#itemLevelMenu">Item level menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#handLevelMenu">Hand abilities levels menu</a></div>
+<div>17: <a href="#handLevelMenu">Hand abilities levels menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#fultonLevelMenu">Fulton levels menu</a></div>
+<div>18: <a href="#fultonLevelMenu">Fulton levels menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#fultonSuccessMenu">Fulton success menu</a></div>
+<div>19: <a href="#fultonSuccessMenu">Fulton success menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#ospMenu">OSP menu</a></div>
+<div>20: <a href="#ospMenu">OSP menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
+<div>21: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -1840,10 +1958,22 @@
 <div id="itemHelp">Adds 999999 points to demon score</div>
 </div>
 <div id="menuItem">
-<div>4: Use selected soldier in all cutscenes and missions : Off, On</div>
+<div>4: Don't subtract hero points : Off, On</div>
+<div id="itemHelp">Actions that usually subtract hero points don't.</div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#appearanceMenu">Appearance menu</a></div>
+<div>5: Don't add demon points : Off, On</div>
+<div id="itemHelp">Actions that usually add demon points don't.</div>
+</div>
+<div id="menuItem">
+<div>6: Hero points subtract demon points : Off, On</div>
+<div id="itemHelp">Actions that add hero points subtract the same amount of demon points</div>
+</div>
+<div id="menuItem">
+<div>7: Use selected soldier in all cutscenes and missions : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: <a href="#appearanceMenu">Appearance menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2024,6 +2154,14 @@
 </div>
 <div id="menuItem">
 <div>8: Include add-on sideops in completion percentage : Off, On</div>
+</div>
+<div id="menuItem">
+<div>9: Enable Shooting Practice Retry : Off, On</div>
+<div id="itemHelp">Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.</div>
+</div>
+<div id="menuItem">
+<div>10: Set Shooting Practice caution time to best time : Off, On</div>
+<div id="itemHelp">Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2485,46 +2623,46 @@
 <div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: positionXFreeCam : 0-100000</div>
+<div>5: Update stage position with camera : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: positionYFreeCam : 0-100000</div>
+<div>6: positionXFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7: positionZFreeCam : 0-100000</div>
+<div>7: positionYFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>8: Cam speed scale : 0.01-10</div>
+<div>8: positionZFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>9: focalLengthFreeCam : 0.1-10000</div>
+<div>9: Cam speed scale : 0.01-10</div>
 </div>
 <div id="menuItem">
-<div>10: focusDistanceFreeCam : 0.01-1000</div>
+<div>10: focalLengthFreeCam : 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>11: apertureFreeCam : 0.001-100</div>
+<div>11: focusDistanceFreeCam : 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>12: distanceFreeCam : 0-100</div>
+<div>12: apertureFreeCam : 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>13: targetInterpTimeFreeCam : 0-100</div>
+<div>13: distanceFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>14: rotationLimitMinXFreeCam : -90-0</div>
+<div>14: targetInterpTimeFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>15: rotationLimitMaxXFreeCam : 0-90</div>
+<div>15: rotationLimitMinXFreeCam : -90-0</div>
 </div>
 <div id="menuItem">
-<div>16: alphaDistanceFreeCam : 0-10</div>
+<div>16: rotationLimitMaxXFreeCam : 0-90</div>
 </div>
 <div id="menuItem">
-<div>17: Disable mode text feedback : Off, On</div>
+<div>17: alphaDistanceFreeCam : 0-10</div>
 </div>
 <div id="menuItem">
-<div>18: Set stage position to camera : 0-1</div>
+<div>18: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
 <div>19: Show freecam position : 0-1</div>
@@ -2695,7 +2833,7 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]</div>
 </div>
 <div id="menuItem">
 <div>6: Reload IH modules : 0-1</div>
@@ -2728,46 +2866,49 @@
 <div>15: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>16: Disable out of bounds checks : Off, On</div>
+<div>16: Disable game over on killing child soldier : Off, On</div>
 </div>
 <div id="menuItem">
-<div>17: setAllFriendly : 0-1</div>
+<div>17: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>18: setAllZombie : 0-1</div>
+<div>18: setAllFriendly : 0-1</div>
 </div>
 <div id="menuItem">
-<div>19: dEBUG_ToggleParasiteEvent : 0-1</div>
+<div>19: setAllZombie : 0-1</div>
 </div>
 <div id="menuItem">
-<div>20: resetStageBlockPosition : 0-1</div>
+<div>20: dEBUG_ToggleParasiteEvent : 0-1</div>
 </div>
 <div id="menuItem">
-<div>21: setStageBlockPositionToMarkerClosest : 0-1</div>
+<div>21: resetStageBlockPosition : 0-1</div>
 </div>
 <div id="menuItem">
-<div>22: Set stage position to camera : 0-1</div>
+<div>22: setStageBlockPositionToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
-<div>23: Show freecam position : 0-1</div>
+<div>23: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
-<div>24: Show position : 0-1</div>
+<div>24: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>25: checkPointSave : 0-1</div>
+<div>25: Show position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>26: manualMissionCode : </div>
+<div>26: checkPointSave : 0-1</div>
 </div>
 <div id="menuItem">
-<div>27: manualSequence : NONE</div>
+<div>27: manualMissionCode : </div>
 </div>
 <div id="menuItem">
-<div>28: <a href="#debugPrintMenu">debugPrintMenu</a></div>
+<div>28: manualSequence : NONE</div>
 </div>
 <div id="menuItem">
-<div>29: <a href="#debugStuffMenu">debugStuffMenu</a></div>
+<div>29: <a href="#debugPrintMenu">debugPrintMenu</a></div>
+</div>
+<div id="menuItem">
+<div>30: <a href="#debugStuffMenu">debugStuffMenu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -3234,6 +3375,15 @@
 </div>
 <div id="menuItem">
 <div>3: Game over on combat alert : Off, On</div>
+</div>
+<div id="menuItem">
+<div>4: Disable game over on killing child soldier : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Disable out of bounds checks : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
 </div>

@@ -18,22 +18,6 @@ this.ShowQuietReunionMissionCount=function()
 end
 
 --
-this.ogrePointChange=90000
---tex see https://www.gamefaqs.com/boards/718564-metal-gear-solid-v-the-phantom-pain/72466130 for breakdown of the demon points levels.
-this.SetDemon=function()
-  --tex why aren't I using this again? not usable in tpp release build?
-  --TppMotherBaseManagement.SetOgrePoint{ogrePoint=99999999}
-
-  TppHero.SetOgrePoint(this.ogrePointChange)
-  InfMenu.Print("-"..this.ogrePointChange .. InfLangProc.LangString"set_demon")
-end
-this.RemoveDemon=function()
-  --TppMotherBaseManagement.SetOgrePoint{ogrePoint=1}
-  --TppMotherBaseManagement.SubOgrePoint{ogrePoint=-999999999}
-  TppHero.SetOgrePoint(-this.ogrePointChange)
-  InfMenu.Print(this.ogrePointChange .. InfLangProc.LangString"removed_demon")
-end
-
 this.ReturnQuiet=function()
   if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
     InfMenu.PrintLangId"quiet_already_returned"--"Quiet has already returned."
