@@ -40,12 +40,12 @@
 <div id="menuItem">New sideops for Mother Base.</div>
 <div id="itemHelp">(Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.</div>
 <div id="menuItem">IHHook proxy dll</div>
-<div id="itemHelp">For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).<br/>See docsIHHook-Changelog.txt or github.com/TinManTex/IHHook</div>
+<div id="itemHelp">Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).<br/></div>
 </div>
 <br/>
 <div id="menu">
 <div id="menuTitle">Menu, Options and Settings</div>
-<div id="menuItem">Basic terms used in the Infinite Heaven menu:<br/>[Option] : [Setting(s)] </div>
+<div id="menuItem">How to Open the menu:<br/>While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)<br/>Press and hold &ltSwitch Zoom&gt (V key or RStick click) then press &ltDash&gt (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.<br/>Or if IHHook is working, press F3<br/><br/>Basic terms used in the Infinite Heaven menu:<br/>[Option] : [Setting(s)] </div>
 </div>
 <br/>
 <div id="menu">
@@ -210,46 +210,46 @@
 <div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: positionXFreeCam : -100000-100000</div>
+<div>5: Update stage position with camera : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: positionYFreeCam : -100000-100000</div>
+<div>6: positionXFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7: positionZFreeCam : -100000-100000</div>
+<div>7: positionYFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>8: Cam speed scale : 0.01-10</div>
+<div>8: positionZFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>9: focalLengthFreeCam : 0.1-10000</div>
+<div>9: Cam speed scale : 0.01-10</div>
 </div>
 <div id="menuItem">
-<div>10: focusDistanceFreeCam : 0.01-1000</div>
+<div>10: focalLengthFreeCam : 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>11: apertureFreeCam : 0.001-100</div>
+<div>11: focusDistanceFreeCam : 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>12: distanceFreeCam : 0-100</div>
+<div>12: apertureFreeCam : 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>13: targetInterpTimeFreeCam : 0-100</div>
+<div>13: distanceFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>14: rotationLimitMinXFreeCam : -90-0</div>
+<div>14: targetInterpTimeFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>15: rotationLimitMaxXFreeCam : 0-90</div>
+<div>15: rotationLimitMinXFreeCam : -90-0</div>
 </div>
 <div id="menuItem">
-<div>16: alphaDistanceFreeCam : 0-10</div>
+<div>16: rotationLimitMaxXFreeCam : 0-90</div>
 </div>
 <div id="menuItem">
-<div>17: Disable mode text feedback : Off, On</div>
+<div>17: alphaDistanceFreeCam : 0-10</div>
 </div>
 <div id="menuItem">
-<div>18: Set stage position to camera : 0-1</div>
+<div>18: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
 <div>19: Show freecam position : 0-1</div>
@@ -456,7 +456,7 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]</div>
 </div>
 <div id="menuItem">
 <div>6: Reload IH modules : 0-1</div>
@@ -490,10 +490,6 @@
 </div>
 <div id="menuItem">
 <div>16: manualSequence : NONE</div>
-</div>
-<div id="menuItem">
-<div>17: dEBUG_RandomizeAllIvars : 0-1</div>
-<div id="itemHelp">WARNING: Sets all settings across all of IH to a random value. Back up your save before using this. This is used as debug coverage to see if anything breaks.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1962,10 +1958,22 @@
 <div id="itemHelp">Adds 999999 points to demon score</div>
 </div>
 <div id="menuItem">
-<div>4: Use selected soldier in all cutscenes and missions : Off, On</div>
+<div>4: Don't subtract hero points : Off, On</div>
+<div id="itemHelp">Actions that usually subtract hero points don't.</div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#appearanceMenu">Appearance menu</a></div>
+<div>5: Don't add demon points : Off, On</div>
+<div id="itemHelp">Actions that usually add demon points don't.</div>
+</div>
+<div id="menuItem">
+<div>6: Hero points subtract demon points : Off, On</div>
+<div id="itemHelp">Actions that add hero points subtract the same amount of demon points</div>
+</div>
+<div id="menuItem">
+<div>7: Use selected soldier in all cutscenes and missions : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: <a href="#appearanceMenu">Appearance menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2146,6 +2154,14 @@
 </div>
 <div id="menuItem">
 <div>8: Include add-on sideops in completion percentage : Off, On</div>
+</div>
+<div id="menuItem">
+<div>9: Enable Shooting Practice Retry : Off, On</div>
+<div id="itemHelp">Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.</div>
+</div>
+<div id="menuItem">
+<div>10: Set Shooting Practice caution time to best time : Off, On</div>
+<div id="itemHelp">Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2607,46 +2623,46 @@
 <div>4: Warp body to FreeCam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: positionXFreeCam : -100000-100000</div>
+<div>5: Update stage position with camera : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: positionYFreeCam : -100000-100000</div>
+<div>6: positionXFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7: positionZFreeCam : -100000-100000</div>
+<div>7: positionYFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>8: Cam speed scale : 0.01-10</div>
+<div>8: positionZFreeCam : -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>9: focalLengthFreeCam : 0.1-10000</div>
+<div>9: Cam speed scale : 0.01-10</div>
 </div>
 <div id="menuItem">
-<div>10: focusDistanceFreeCam : 0.01-1000</div>
+<div>10: focalLengthFreeCam : 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>11: apertureFreeCam : 0.001-100</div>
+<div>11: focusDistanceFreeCam : 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>12: distanceFreeCam : 0-100</div>
+<div>12: apertureFreeCam : 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>13: targetInterpTimeFreeCam : 0-100</div>
+<div>13: distanceFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>14: rotationLimitMinXFreeCam : -90-0</div>
+<div>14: targetInterpTimeFreeCam : 0-100</div>
 </div>
 <div id="menuItem">
-<div>15: rotationLimitMaxXFreeCam : 0-90</div>
+<div>15: rotationLimitMinXFreeCam : -90-0</div>
 </div>
 <div id="menuItem">
-<div>16: alphaDistanceFreeCam : 0-10</div>
+<div>16: rotationLimitMaxXFreeCam : 0-90</div>
 </div>
 <div id="menuItem">
-<div>17: Disable mode text feedback : Off, On</div>
+<div>17: alphaDistanceFreeCam : 0-10</div>
 </div>
 <div id="menuItem">
-<div>18: Set stage position to camera : 0-1</div>
+<div>18: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
 <div>19: Show freecam position : 0-1</div>
@@ -2817,7 +2833,7 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]</div>
 </div>
 <div id="menuItem">
 <div>6: Reload IH modules : 0-1</div>
