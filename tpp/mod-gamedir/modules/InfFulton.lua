@@ -31,7 +31,7 @@ function this.Init()
 
   this.messageExecTable=nil
 
-  if Ivars.fulton_autoFulton:Is(0)then
+  if not this.IsAutoFultonEnabled()then
     this.active=0
     return
   end
@@ -42,7 +42,9 @@ end
 function this.OnReload(missionTable)
   this.messageExecTable=nil
 
-  --DEBUGNOW return if not ivar
+  if not this.IsAutoFultonEnabled() then
+    return
+  end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
@@ -114,6 +116,18 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   this.CheckAndFultonExtractSoldiers()--DEBUGNOW TODO also on mission end
 end--Update
 
+function this.IsAutoFultonEnabled()
+  if not IvarProc.EnabledForMission("fulton_autoFulton")then
+    return false
+  end
+
+  if var.missionCode==30050 and not InfMainTpp.IsMbEvent()then
+    return false
+  end
+  
+  return true
+end--AutoFultonEnabled
+
 local SUPINE_HOLDUP=3--tex no enum in EnemyState
 function this.DontExtract(gameId)
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
@@ -155,11 +169,8 @@ end
 local clearSoldiers={}
 function this.CheckAndFultonExtractSoldiers()
   ClearArray(clearSoldiers)
-
-  --TODO: better to do the phase of the cp of the soldiers, but there isn't a quick soldierId>cpId lookup
-  if vars.playerPhase==TppGameObject.PHASE_ALERT then
-    return
-  end
+  
+  local extractFailFromPhase=0
 
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   local distSqr=this.checkDist*this.checkDist--TODO OPT
@@ -167,29 +178,34 @@ function this.CheckAndFultonExtractSoldiers()
   for gameId,addedTime in pairs(this.extractSoldiers)do
     if addedTime and elapsedTime>addedTime then
       if this.DontExtract(gameId)then
-        InfCore.Log("DontExtract "..tostring(gameId))--DEBUGNOW
+        InfCore.Log("DontExtract "..gameId)--DEBUGNOW
         this.PrintStatus(gameId)--DEBUGNOW
         clearSoldiers[#clearSoldiers+1]=gameId
       else
-        InfCore.Log("blurg")--DEBUGNOW
         if this.FurtherFromPlayerThanDistSqr(distSqr,playerPosition,gameId)then
-          clearSoldiers[#clearSoldiers+1]=gameId
-          local percentage=TppPlayer.MakeFultonRecoverSucceedRatio(nil,gameId)
-          --local percentage=100--DEBUGNOW 
-          --tex see comments above SetFultonIconPercentage in MakeFultonRecoverSucceedRatio
-          if percentage>0 then
-            local exeFudge=20
-            percentage=percentage+exeFudge
-          end
-          if this.debugModule then
-            InfCore.Log("FurtherFromPlayerThanDistSqr "..tostring(gameId).." fulton%:"..tostring(percentage))--DEBUGNOW
-          end
-          --percentage=1--DEBUG
-          if math.random(100)>percentage then
-            InfCore.Log("Extraction Team: Failed to extracted soldier",true,true)--DEBUGNOW ADDLANG
+          --TODO: better to check the phase of the cp of the soldiers, but there isn't a quick soldierId>cpId lookup
+          if vars.playerPhase==TppGameObject.PHASE_ALERT then
+            --InfCore.Log("Extraction Team: CP on too high alert",true,true)--DEBUGNOW ADDLANG TODO only on specific cp, batch announce so only 1 per update
+            extractFailFromPhase=extractFailFromPhase+1
           else
-            SendCommand(gameId,{id="RequestForceFulton"})
-            InfCore.Log("Extraction Team: Extracted soldier",true,true)--DEBUGNOW ADDLANG
+            clearSoldiers[#clearSoldiers+1]=gameId
+            local percentage=TppPlayer.MakeFultonRecoverSucceedRatio(nil,gameId)
+            --local percentage=100--DEBUGNOW 
+            --tex see comments above SetFultonIconPercentage in MakeFultonRecoverSucceedRatio
+            if percentage>0 then
+              local exeFudge=20
+              percentage=percentage+exeFudge
+            end
+            if this.debugModule then
+              InfCore.Log("InfFulton FurtherFromPlayerThanDistSqr "..tostring(gameId).." fulton%:"..tostring(percentage))
+            end
+            --percentage=1--DEBUG
+            if math.random(100)>percentage then
+              InfMenu.PrintLangId("autofulton_success")
+            else
+              SendCommand(gameId,{id="RequestForceFulton"})
+              InfMenu.PrintLangId("autofulton_fail")
+            end
           end
         end
       end--if not DontExtract
@@ -200,6 +216,9 @@ function this.CheckAndFultonExtractSoldiers()
     this.extractSoldiers[gameId]=nil
   end
 
+  if extractFailFromPhase then
+    InfMenu.PrintLangId("autofulton_phase_too_high")
+  end
 end--CheckAndFultonExtractSoldiers
 
 --DEBUGNOW TODO InfLookup
@@ -214,22 +233,46 @@ end--PrintStatus
 this.registerIvars={
   "fulton_autoFulton",
 }
+--DEBUGNOW ADDLANG
+--GOTCHA: use this.IsAutoFultonEnabled()
+IvarProc.MissionModeIvars(
+  this,
+  "fulton_autoFulton",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.switchRange,
+    settingNames="set_switch",
+  },
+  {
+    "FREE",
+    "MISSION",
+  }
+)
 
-this.fulton_autoFulton={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
+this.registerMenus={
+  "fultonMenu"
 }
 
+this.fultonMenu={
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
+  options={
+    "Ivars.fulton_autoFultonFREE",
+    "Ivars.fulton_autoFultonMISSION",
+  },
+}
 
 this.langStrings={
   eng={
-    autofulton_success="Extraction Team: Extracted soldier",
-    autofulton_fail="Extraction Team: Failed to extracted soldier",
+    autofulton_success="[Extraction team] Extracted soldier",--DEBUGNOW wording, support? extraction team?
+    autofulton_fail="[Extraction team] Failed to extract soldier",
+    autofulton_phase_too_high="[Extraction team] CP too high alert",
+    fulton_autoFultonFREE="Extraction team in Free Roam",
+    fulton_autoFultonMISSION="Extraction team in Missions",
+    --fultonMenu="",--DEBUGNOW
   },--eng
   help={
     eng={
- 
+      fulton_autoFultonFREE="Extraction team will recover neutralized enemies",
     },
   }--help
 }--langStrings
