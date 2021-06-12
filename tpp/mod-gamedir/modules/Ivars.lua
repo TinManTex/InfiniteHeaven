@@ -602,7 +602,7 @@ function this.DeclareVars()
   --InfInterrogation --DEBUGNOW
   local maxQuestSoldiers=20--SYNC InfInterrogate numQuestSoldiers
   local arrays={
-    {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    --DEBUGNOW CULL {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
   }
   for i,gvar in ipairs(arrays)do
     varTable[#varTable+1]=gvar
