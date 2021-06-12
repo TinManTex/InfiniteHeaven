@@ -24,6 +24,7 @@ this.CageRandomTableG1={{1,20},{0,80}}
 this.CageRandomTableG2={{2,15},{1,20},{0,65}}
 this.CageRandomTableG3={{4,5},{3,10},{2,15},{1,20},{0,50}}
 this.RareLevelList={"N","NR","R","SR","SSR"}
+--No refs?
 function this.RegisterCallbacks(callBacks)
   if IsTypeFunc(callBacks.OnFultonIconDying)then
     mvars.ply_OnFultonIconDying=callBacks.OnFultonIconDying
@@ -2026,11 +2027,15 @@ this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFal
 function this.Messages()
   local messageTable=Tpp.StrCode32Table{
     Player={
-      {msg="CalcFultonPercent",func=function(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
-        this.MakeFultonRecoverSucceedRatio(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,false)
+      --NMC playerIndex only assumed. SEE InfLookup
+      {msg="CalcFultonPercent",func=function(playerIndex,targetId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
+          local percentage=this.MakeFultonRecoverSucceedRatio(playerIndex,targetId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,false)
+          --tex see commented out SetFultonIconPercentage at bottom of MakeFultonRecoverSucceedRatio for notes on it
+         Player.SetFultonIconPercentage{percentage=percentage,targetId=targetId}--tex was set by MakeFultonRecoverSucceedRatio directly
       end},
-      {msg="CalcDogFultonPercent",func=function(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
-        this.MakeFultonRecoverSucceedRatio(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,true)
+      {msg="CalcDogFultonPercent",func=function(playerIndex,targetId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
+        local percentage=this.MakeFultonRecoverSucceedRatio(playerIndex,targetId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,true)
+        Player.SetDogFultonIconPercentage{percentage=percentage,targetId=targetId}--tex was set by MakeFultonRecoverSucceedRatio directly
       end},
       {msg="RideHelicopter",func=this.SetHelicopterInsideAction},
       {msg="PlayerFulton",func=this.OnPlayerFulton},
@@ -2188,6 +2193,7 @@ function this.Init(missionTable)
     vars.isInitialWeapon[TppDefine.WEAPONSLOT.PRIMARY_BACK]=1
     vars.isInitialWeapon[TppDefine.WEAPONSLOT.SECONDARY]=1
   end
+  --NMC only s10030 in vanilla
   if missionTable.sequence and missionTable.sequence.ALLWAYS_100_PERCENT_FULTON then
     mvars.ply_allways_100percent_fulton=true
   end
@@ -2293,7 +2299,7 @@ end
 function this.Update()
   this.UpdateDeliveryWarp()
 end
-local fultonWeatherSuccessTable={
+this.fultonWeatherSuccessTable={--tex made module member
   [TppDefine.WEATHER.SUNNY]=0,
   [TppDefine.WEATHER.CLOUDY]=-10,
   [TppDefine.WEATHER.RAINY]=-30,
@@ -2310,55 +2316,80 @@ this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
 }
-function this.MakeFultonRecoverSucceedRatio(unk1,_gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
-  local gameId=_gameId
+--Calculates fulton success ratio
+--tex now returns percentage instead of putting it directly to SetFultonIconPercentage
+--(so better name is GetFultonRecoverSucceedRatio)
+function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
+  local targetId=gameId
   local percentage=0
   local baseLine=100
-  local doFuncSuccess=0
+  local successForFultonType=0
   --RETAILPATCH: 1.0.4.4, was: -v- guess they missed updating this call when they added the param last patch CULL:
   --TppTerminal.DoFuncByFultonTypeSwitch(t,p,r,l,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
-  doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
-  if doFuncSuccess==nil then
-    doFuncSuccess=100
+  successForFultonType=TppTerminal.DoFuncByFultonTypeSwitch(targetId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+  if successForFultonType==nil then
+    successForFultonType=100
   end
-  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
-  local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0
+  local mbSupportFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
+  local mbSupportFultonSectionSuccess=this.mbSectionRankSuccessTable[mbSupportFultonRank]or 0
   if Ivars.fultonNoMbSupport:Is(1) then--tex>
-    mbSectionSuccess=0
+    mbSupportFultonSectionSuccess=0
   end--<
 
-  local successMod=fultonWeatherSuccessTable[vars.weather]or 0
-  successMod=successMod+mbSectionSuccess
-  if successMod>0 then
-    successMod=0
+  local weatherPenalty=this.fultonWeatherSuccessTable[vars.weather]or 0--tex gave weatherSuccessMod its own local for clarity
+
+  --NMC: REF vanilla ranges of values
+  --weatherSuccessMod: -70 to 0
+  --mbSupportFultonSectionSuccess: 0 to 60
+  --since this is capped to 0 means SECTION_FUNC_ID_SUPPORT_FULTON sole purpose is to counter weather
+  local fultonInWeatherPenalty=weatherPenalty+mbSupportFultonSectionSuccess
+  if fultonInWeatherPenalty>0 then
+    fultonInWeatherPenalty=0
   end
-  percentage=(baseLine+doFuncSuccess)+successMod
+
+  --NMC: REF vanilla ranges of values
+  --baseLine: 100
+  --successForFultonType: 0 (non soldier), -80 to 0 (soldier)
+  --successMod: -70 to 0
+  --GOTCHA: SetFultonIconPercentage seems to add 20% (if not 0)
+  --So at S rank support and medical the worst case weather (sandstorm) and medical (dying soldier) is only 80%+the exe bumping it to 100%
+  percentage=(baseLine+successForFultonType)+fultonInWeatherPenalty
+  if this.debugModule then--tex>
+    local logLine="MakeFultonRecoverSucceedRatio: initial percentage:"..tostring(percentage)
+    logLine=logLine.."  successForFultonType:"..tostring(successForFultonType).." fultonInWeatherSuccess:"..tostring(fultonInWeatherPenalty)
+    logLine=logLine.."  weatherSuccessMod:"..tostring(weatherPenalty).." mbSupportFultonSectionSuccess:"..tostring(mbSupportFultonSectionSuccess)
+    InfCore.Log(logLine)
+  end--<
 
   --  if Tpp.IsSoldier(gameId)then--tex fulton success variation WIP
-  --    if gvars.fultonSoldierVariationRange>0 then--tex
+  --    local fultonSoldierVariationRange=Ivars.fultonSoldierVariationRange:Get()
+  --    if fultonSoldierVariationRange>0 then--tex
   --      local frequency=0.1
-  --      local rate=gvars.fultonVariationInvRate/gvars.clockscale
+  --      local fultonVariationInvRate=
+  --      local rate=fultonVariationInvRate/gvars.clockscale
   --      local t=math.fmod(vars.clock/rate,2*math.pi)--tex mod to sine range
-  --      local amplitude=gvars.fultonSoldierVariationRange*0.5
+  --      local amplitude=fultonSoldierVariationRange*0.5
   --      local bias=-amplitude
   --      local variationMod=amplitude*math.sin(t)+bias
   --
-  --      --percentage=math.random(percentage-gvars.fultonVariationRange,percentage)
+  --      --percentage=math.random(percentage-fultonSoldierVariationRange,percentage)
   --      percentage=percentage+variationMod
   --    end
   --  else
-  --    if gvars.fultonOtherVariationRange>0 then--tex
+  --    if Ivars.fultonOtherVariationRange:Get()>0 then--tex
   --      --TODO
   --    end
   --  end--
-
+  
+  --NMC only s10030 in vanilla
   if mvars.ply_allways_100percent_fulton then
     percentage=100
   end
-  if TppEnemy.IsRescueTarget(gameId)then
+  --NMC: is mvars.ene_rescueTargetList[gameId]
+  if TppEnemy.IsRescueTarget(targetId)then
     percentage=100
   end
-  if Tpp.IsHostage(gameId) then--tex>
+  if Tpp.IsHostage(targetId) then--tex>
     if Ivars.fultonHostageHandling:Is"ZERO" then
       percentage=0
   end
@@ -2378,40 +2409,51 @@ function this.MakeFultonRecoverSucceedRatio(unk1,_gameId,gimmickInstanceOrAnimal
   --  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
   --    percentage=0
   --  end--<
-  if Tpp.IsFultonContainer(gameId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
+  if Tpp.IsFultonContainer(targetId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
     percentage=0
   end--<
 
   local forcePercent
   if mvars.ply_forceFultonPercent then
-    forcePercent=mvars.ply_forceFultonPercent[gameId]
+    forcePercent=mvars.ply_forceFultonPercent[targetId]
   end
   if forcePercent then
     percentage=forcePercent
   end
-  if isDogFultoning then
-    Player.SetDogFultonIconPercentage{percentage=percentage,targetId=gameId}
-  else
-    Player.SetFultonIconPercentage{percentage=percentage,targetId=gameId}
-  end
-end
+
+  InfCore.Log("MakeFultonRecoverSucceedRatio percentage:"..tostring(percentage))--DEBUGNOW
+
+  return percentage
+  
+  --tex without SetFultonIconPercentage call will be 0%
+  --0 will be 0%
+  --otherwise exe seems to add base level of 20%
+  --not sure what its doing with targetId, 
+  --it also obviously does fulton collision check in exe (but will still do that with nil targetId)
+--tex WAS
+--  if isDogFultoning then
+--    Player.SetDogFultonIconPercentage{percentage=percentage,targetId=targetId}
+--  else
+--    Player.SetFultonIconPercentage{percentage=percentage,targetId=targetId}
+--  end
+end--MakeFultonRecoverSucceedRatio
 function this.GetSoldierFultonSucceedRatio(gameId)
-  local successMod=0
-  local holdupSuccessMod=0
+  local lifeStatusPenalty=0
+  local holdupPenalty=0
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
   local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
   local dying=bit.band(stateFlag,StateFlag.DYING_LIFE)~=0
   if(dying)then
-    successMod=-(Ivars.fultonDyingPenalty:Get())--tex was -70
+    lifeStatusPenalty=-(Ivars.fultonDyingPenalty:Get())--tex was -70
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_SLEEP)or(lifeStatus==TppGameObject.NPC_LIFE_STATE_FAINT)then
-    successMod=-(Ivars.fultonSleepPenalty:Get())--tex was 0
-    if mvars.ply_OnFultonIconDying then
+    lifeStatusPenalty=-(Ivars.fultonSleepPenalty:Get())--tex was 0
+    if mvars.ply_OnFultonIconDying then--NMC doesn't ever seem to be set
       mvars.ply_OnFultonIconDying()
     end
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD)then
     return
   end
-  --tex OFF, using this.mbSectionRankSuccessTable instead
+  --tex OFF broken out to module member
   --  local mbSectionRankSuccessTable={
   --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
   --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
@@ -2422,24 +2464,32 @@ function this.GetSoldierFultonSucceedRatio(gameId)
   --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
   --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
   --  }
-  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
-  local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0--tex changed from table local to function to in module
+  local mbMedicalRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
+  local mbMedicalSuccess=this.mbSectionRankSuccessTable[mbMedicalRank]or 0--tex changed from table local to function to in module
   if Ivars.fultonNoMbMedical:Is(1) then--tex>
-    mbSectionSuccess=0
+    mbMedicalSuccess=0
   end
   if Ivars.fultonDontApplyMbMedicalToSleep:Is(1) and not dying then--tex don't apply medical bonus to sleeping
-    mbSectionSuccess=0
+    mbMedicalSuccess=0
   end--<
-  successMod=successMod+mbSectionSuccess
-  if successMod>0 then
-    successMod=0
+  --NMC: REF vanilla ranges of values
+  --lifeStatusMod:-70 to 0
+  --mbMedicalSuccess: 0 to 60
+  --since this is capped to 0 means SECTION_FUNC_ID_SUPPORT_FULTON sole purpose is to counter lifeStatus
+  local medicalPenalty=lifeStatusPenalty+mbMedicalSuccess--tex gave lifeStatusMod its own local for clarity
+  if medicalPenalty>0 then
+    medicalPenalty=0
   end
   local status=SendCommand(gameId,{id="GetStatus"})
+  --GOTCHA: not supine holdup
   if status==EnemyState.STAND_HOLDUP then
-    holdupSuccessMod=-(Ivars.fultonHoldupPenalty:Get())--tex was -10
+    holdupPenalty=-(Ivars.fultonHoldupPenalty:Get())--tex was -10
   end
-  return(successMod+holdupSuccessMod)
-end
+  --NMC: REF vanilla ranges of values
+  --successMod: -70 to 0
+  --holdupSuccessMod:-10
+  return(medicalPenalty+holdupPenalty)
+end--GetSoldierFultonSucceedRatio
 function this.GetDefaultSucceedRatio(e)
   return 0
 end
@@ -2449,30 +2499,42 @@ end
 function this.SetHelicopterInsideAction()
   Player.SetHeliToInsideParam{canClearMission=svars.mis_canMissionClear}
 end
+this.gmpForFultonedObject={--tex broken out from OnPlayerFulton
+  DEFAULT                                               =300,
+  [TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]          =10000,
+  [TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]   =10000,
+  [TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]           =10000,
+  [TppGameObject.GAME_OBJECT_TYPE_VEHICLE]              =10000,
+  [TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER] =10000,
+  [TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]           =10000,
+  [TppGameObject.GAME_OBJECT_TYPE_MORTAR]               =5000,
+  [TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]           =5000
+}
 function this.OnPlayerFulton(playerIndex,gameId)
   if playerIndex~=PlayerInfo.GetLocalPlayerIndex()then
     return
   end
-  local defaultGmp=300
-  local gearGmp=1e4
-  local midGmp=1e4
-  local lowGmp=5e3
-  local gmpForFultonedObject={
-    [TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]=gearGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]=gearGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]=gearGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_VEHICLE]=midGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]=midGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]=midGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_MORTAR]=lowGmp,
-    [TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]=lowGmp
-  }
+  --tex broken out to module member
+  --  local defaultGmp=300
+  --  local gearGmp=1e4
+  --  local midGmp=1e4
+  --  local lowGmp=5e3
+  --  local gmpForFultonedObject={
+  --    [TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]=gearGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]=gearGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]=gearGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_VEHICLE]=midGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]=midGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]=midGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_MORTAR]=lowGmp,
+  --    [TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]=lowGmp
+  --  }
   local gmpAmount
   local typeIndex=GameObject.GetTypeIndex(gameId)
-  gmpAmount=gmpForFultonedObject[typeIndex]or defaultGmp
+  gmpAmount=this.gmpForFultonedObject[typeIndex]or this.gmpForFultonedObject.DEFAULT
   TppTerminal.UpdateGMP{gmp=-gmpAmount,gmpCostType=TppDefine.GMP_COST_TYPE.FULTON}
   svars.supportGmpCost=svars.supportGmpCost+gmpAmount
-end
+end--OnPlayerFulton
 function this.QuietRideHeli(gameId)
   if gameId==GameObject.GetGameObjectIdByIndex("TppBuddyQuiet2",0)then
     Player.RequestToPlayCameraNonAnimation{
