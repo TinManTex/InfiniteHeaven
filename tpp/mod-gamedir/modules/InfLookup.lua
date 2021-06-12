@@ -339,25 +339,24 @@ function this.InitObjectLists(missionTable)
     this.objectNameLists.ihHostageNames=InfNPC.hostageNames
   end
 
-  InfUtil.ClearArray(this.objectNameListsEnum)
-  for k,v in pairs(this.objectNameLists)do
-    table.insert(this.objectNameListsEnum,k)
-  end
-  table.sort(this.objectNameListsEnum)
+  this.BuildObjectNameListsEnum()
 
   if this.debugModule then
     InfCore.PrintInspect(this.objectNameListsEnum,"InfLookup.objectNameListsEnum")
     InfCore.PrintInspect(this.objectNameLists,"InfLookup.objectNameLists")
   end
+end--InitObjectLists
+function this.BuildObjectNameListsEnum()
+  InfUtil.ClearArray(this.objectNameListsEnum)
+  for k,v in pairs(this.objectNameLists)do
+    table.insert(this.objectNameListsEnum,k)
+  end
+  table.sort(this.objectNameListsEnum)
 end
 
---tex --DEBUGNOW run onselect
+--tex --CULL DEBUGNOW run onselect
 --GOTCHA: would have to update enum as well
 function this.RefreshObjectLists()
-  if InfInterrogation then
-    this.objectNameLists.interCpQuestSoldiers=InfInterrogation.interCpQuestSoldiers
-  end
-
 
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
@@ -367,10 +366,7 @@ function this.RefreshObjectLists()
   --return InfSoldier.ene_wildCardNames
   --return TppEnemy.armorSoldiers
 
-  if InfNPCHeli then
-    this.objectNameLists.ihHeliList=InfNPCHeli.heliList
-  end
-
+  
 end
 --
 
