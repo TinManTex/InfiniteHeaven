@@ -45,7 +45,23 @@ mbdvc_map_location_parameter = {
 				townParameter = {
 					
 					{ cpName = "", langId = "tpp_afghan_en_ruins", cursorLangId = "tpp_afghan_ruins", position = Vector3(1459.0,0.0,1478.4), radius=75.0, uShift=0.25 , vShift=0.50 , mini=false },  
-					{ cpName = "afgh_village_cp", langId = "tpp_afghan_en_village", cursorLangId = "tpp_afghan_village", position = Vector3(512.3,0.0,1152.3), radius=200.0, uShift=0.25 , vShift=0.75 , mini=false },  
+					--notes from caplag
+					{ 
+					 -- Will pull the phase status from the given CP:
+					 cpName = "afgh_village_cp", 
+					 -- langId shown when highlighted:
+					 langId = "tpp_afghan_en_village", 
+					 -- langId of the marker on the map:
+					 cursorLangId = "tpp_afghan_village", 
+					 position = Vector3(512.3,0.0,1152.3), 
+					 -- Radius of the town, which Quiet will scout out:
+					 radius=200.0, 
+					 -- UV shift of the town icon:
+					 uShift=0.25 , 
+					 vShift=0.75 , 
+					 -- true - use commonTown texture, false - use uniqueTown texture
+					 mini=false 
+					},  
 					{ cpName = "afgh_commFacility_cp", langId = "tpp_afghan_en_commFacility", cursorLangId = "tpp_afghan_commFacility", position = Vector3(1505.4,0.0,449.4), radius=200.0, uShift=0.75 , vShift=0.00 , mini=false },  
 					{ cpName = "afgh_slopedTown_cp", langId = "tpp_afghan_en_slopedTown", cursorLangId = "tpp_afghan_slopedTown", position = Vector3(511.2,0.0,64.9), radius=200.0, uShift=0.50 , vShift=0.50 , mini=false },  
 					{ cpName = "afgh_enemyBase_cp", langId = "tpp_afghan_en_enemyBase", cursorLangId = "tpp_afghan_enemyBase", position = Vector3(-569.3,0.0,518.8), radius=200.0, uShift=0.00 , vShift=0.25 , mini=false },  
@@ -212,16 +228,22 @@ mbdvc_map_location_parameter = {
 	 local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
    local enableHerbSearch=Ivars.disableHerbSearch~=nil and Ivars.disableHerbSearch:Get() or true--tex disableHerbSearch hasnt been added to Ivars when GetGlobalLocationParameter is first called 
 	 local globalLocationParameters={--tex was just return the table
+	   --notes from caplag
 			{	
 				locationId = 10,
+				-- Intel level needed to mark objects on the map:
 				sectionFuncRankForDustBox	= 2, 
 				sectionFuncRankForToilet	= 2, 
 				sectionFuncRankForCrack		= 4, 
+				-- Enable enemy FOM:
 				isSpySearchEnable = enableSpySearch,--tex was true
+				-- Enable herb marking:
 				isHerbSearchEnable = enableHerbSearch,--tex was true
-				
+				-- Distance at which enemy FOM will be marked, each corresponding to Intel level:
 				spySearchRadiusMeter = {	40.0,	40.0,	35.0,	30.0,	25.0,	20.0,	15.0,	10.0, },
+				-- Intervals between enemy FOM updates, corresponding to Intel level:
 				spySearchIntervalSec = {	420.0,	420.0,	360.0,	300.0,	240.0,	180.0,	120.0,	60.0, },
+				-- Radius at which Intel will mark herbs, according to Intel level:
 				herbSearchRadiusMeter = {	0.0,	0.0,	10.0,	15.0,	20.0,	25.0,	30.0,	35.0, },
 			},
 			{	
