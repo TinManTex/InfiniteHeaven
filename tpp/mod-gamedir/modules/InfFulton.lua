@@ -309,6 +309,15 @@ end--CheckAndFultonExtractSoldiers
 --
 this.registerIvars={
   "fulton_autoFulton",
+  "fultonNoMbSupport",
+  "fultonNoMbMedical",
+  "fultonDyingPenalty",
+  "fultonSleepPenalty",
+  "fultonHoldupPenalty",
+  "fultonDontApplyMbMedicalToSleep",
+  "fultonHostageHandling",
+  "fultonWildCardHandling",
+  "fultonMotherBaseHandling",
 }
 --GOTCHA: use this.IsAutoFultonEnabled()
 IvarProc.MissionModeIvars(
@@ -325,8 +334,89 @@ IvarProc.MissionModeIvars(
   }
 )
 
+--fulton success>
+--this.fultonSoldierVariationRange={--WIP
+--  save=IvarProc.CATEGORY_EXTERNAL,
+--  default=0,
+--  range={max=100,min=0,increment=1},
+--}
+--this.fultonOtherVariationRange={
+--  save=IvarProc.CATEGORY_EXTERNAL,
+--  default=0,
+--  range={max=100,min=0,increment=1},
+--}
+--
+--this.fultonVariationInvRate={
+--  save=IvarProc.CATEGORY_EXTERNAL,
+--  range={max=500,min=10,increment=10},
+--}
+
+this.fultonNoMbSupport={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.fultonDyingPenalty={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=70,
+  range={max=100,min=0,increment=5},
+}
+
+this.fultonSleepPenalty={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=0,
+  range={max=100,min=0,increment=5},
+}
+
+this.fultonHoldupPenalty={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=10,
+  range={max=100,min=0,increment=5},
+}
+
+this.fultonDontApplyMbMedicalToSleep={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.fultonHostageHandling={
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"DEFAULT","ZERO"},
+  settingNames="fultonHostageHandlingSettings",
+}
+
+this.fultonWildCardHandling={--WIP
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"DEFAULT","ZERO"},
+  settingNames="fultonHostageHandlingSettings",
+}
+
+this.fultonMotherBaseHandling={ --WIP
+  inMission=true,
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={"DEFAULT","ZERO"},
+  settingNames="fultonHostageHandlingSettings",
+}
+--<fulton success
+
 this.registerMenus={
-  "fultonMenu"
+  "fultonMenu",
+  "fultonSuccessMenu",
 }
 
 this.fultonMenu={
@@ -334,6 +424,22 @@ this.fultonMenu={
   options={
     "Ivars.fulton_autoFultonFREE",
     "Ivars.fulton_autoFultonMISSION",
+    "Ivars.disableFulton",
+    "InfMainTppIvars.fultonLevelMenu",
+    "InfMainTppIvars.fultonSuccessMenu",
+  },
+}
+
+this.fultonSuccessMenu={
+  options={
+    "Ivars.fultonNoMbSupport",
+    "Ivars.fultonNoMbMedical",
+    "Ivars.fultonDyingPenalty",
+    "Ivars.fultonSleepPenalty",
+    "Ivars.fultonHoldupPenalty",
+    "Ivars.fultonDontApplyMbMedicalToSleep",
+    "Ivars.fultonHostageHandling",
+    "InfMenuCommandsTpp.PrintFultonSuccessBonus",
   },
 }
 
@@ -345,10 +451,26 @@ this.langStrings={
     fulton_autoFultonFREE="Extraction team in Free Roam",
     fulton_autoFultonMISSION="Extraction team in Missions",
   --fultonMenu="",--DEBUGNOW
+    fultonSuccessMenu="Fulton success menu",
+    fultonNoMbSupport="Disable MB fulton support",
+    fultonNoMbMedical="Disable MB fulton medical",
+    fultonDyingPenalty="Target dying penalty",
+    fultonSleepPenalty="Target sleeping penalty",
+    fultonHoldupPenalty="Target holdup penalty",
+    fultonDontApplyMbMedicalToSleep="Dont apply MB medical bonus to sleeping/fainted target",
+    fulton_mb_support="Current MB support bonus +",
+    fulton_mb_medical="Current MB medical bonus +",
+    printFultonSuccessBonus="Print fulton success bonus",
+    fultonHostageHandling="Hostage handling",
+    fultonHostageHandlingSettings={"Default","Must extract (0%)"},
   },--eng
   help={
     eng={
       fulton_autoFultonFREE="Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post). This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.",
+      fultonSuccessMenu="Adjust the success rate of fultoning",
+      fultonNoMbSupport="Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.",
+      fultonNoMbMedical="Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty",
+      fultonDontApplyMbMedicalToSleep="Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.",
     },
   }--help
 }--langStrings
