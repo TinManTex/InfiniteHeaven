@@ -630,7 +630,7 @@ function this.CpNameForCpId(cpId)
     end
   end
   if cpName==nil then
-    InfCore.Log("WARNING: InfLookup.CpNameForCpId: could not find cpName in lists")
+    InfCore.Log("WARNING: InfLookup.CpNameForCpId "..cpId..":could not find cpName in lists")
     return this.ObjectNameForGameId(cpId)
   end
   return cpName
@@ -1862,6 +1862,13 @@ function this.DumpValidStrCode()
   local ins=InfInspect.Inspect(InfCore.str32ToString)
   InfCore.Log(ins)--TODO dump to seperate file
 end
+
+function this.PrintStatus(gameId)
+  InfCore.Log("PrintStatus "..tostring(gameId))
+  local status=GameObject.SendCommand(gameId,{id="GetStatus"})
+  local lifeStatus=GameObject.SendCommand(gameId,{id="GetLifeStatus"})
+  InfCore.Log("status:"..tostring(status).." lifeStatus:"..tostring(lifeStatus))
+end--PrintStatus
 
 --EXEC
 if this.debugModule then
