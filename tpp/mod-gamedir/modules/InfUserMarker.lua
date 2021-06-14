@@ -1,7 +1,7 @@
 --InfUserMarker.lua
---tex various feature using usermarkers 
---description of in game usermarkers feature/behaviour: 
---the square map markers that a player can place up to on a map, 
+--tex various feature using usermarkers
+--description of in game usermarkers feature/behaviour:
+--the square map markers that a player can place up to on a map,
 --when there's 5 the 'oldest' gets removed.
 --they are labeled A-Z, wrapping back to A after Z has been placed.
 --player can remove a user marker by clicking on it, therefore they aren't a contiguous set
@@ -10,17 +10,17 @@
 --they are saved/loaded (ie they will still be there on a new session, however they remain the same on a checkpoint /mission restart)
 --they are cleared on returning to ACC, however remain if placed in acc on the current location (acc actually has afgh mafr and mb locations)
 --RESEARCH: do they remain on free roam to mission and visa versa
---RESEARCH: a way to test maybe would be to go from free roam to mission without changing and seeing if markers still there, then doing that again after manually setting userMarkerLocationId to something 
+--RESEARCH: a way to test maybe would be to go from free roam to mission without changing and seeing if markers still there, then doing that again after manually setting userMarkerLocationId to something
 --the data for them seem to be in vars.userMarker*
 --the arrays are [maxUserMarkers - 5] elements
---arrays are 0 indexed, compacted on removes (ie later elements are moved up), 
+--arrays are 0 indexed, compacted on removes (ie later elements are moved up),
 --so current max index is vars.userMarkerSaveCount-1
 --and it's also the most recently added (I'm pretty sure? lol)
 --'unset'/removed entries have valid zeroed/default values
 --userMarkerAddFlag[] - number - a flag to track when it was added?
 --RETAILBUG: maybe (or there's actual reason for the differing behaviour).
 --When usermarkers are placed via binoculars then this increments up to 26 (0 = marker not set) then wraps.
---kind of makes sense, means addFlag maps to letter, prevents eventual overflow, 
+--kind of makes sense, means addFlag maps to letter, prevents eventual overflow,
 --QUESTION: but then how do they figure out what the oldest marker was (when then need to remove it).
 --When usermarkers are placed via the map addFlag just keeps getting incremented without wrapping *shrug*
 --QUESTION: then how do they figure out the letter for the marker?
@@ -130,6 +130,7 @@ function this.PrintUserMarkers()
   end
 end
 this.PrintLatestUserMarker=function()
+  InfCore.Log("PrintLatestUserMarker")
   local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
   if lastMarkerIndex==nil then
     InfCore.DebugPrint("lastMarkerIndex==nil")
@@ -191,6 +192,46 @@ function this.PrintMarkerGameObject(index)
 
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     --InfCore.Log("cpName:"..tostring(cpName),true)--DEBUGNOW TODO
+    
+    --TODO: InfLookup
+    --REF
+    --TppGameObject.
+    --  NPC_STATE_DISABLE = 0,
+    --  NPC_STATE_NORMAL = 1,
+    --  2--??
+    --  NPC_STATE_CARRIED = 4,
+    --REF
+    --EnemyState.
+    --NORMAL = 1,
+    --STAND_HOLDUP = 2,
+    --3?? is supine_holdup?
+    --CARRIED = 4,
+    local status=GameObject.SendCommand(gameId,{id="GetStatus"})
+    --REF
+    --TppGameObject.
+    --  NPC_LIFE_STATE_NORMAL
+    --  NPC_LIFE_STATE_DEAD
+    --  NPC_LIFE_STATE_DYING
+    --  NPC_LIFE_STATE_SLEEP
+    --  NPC_LIFE_STATE_FAINT
+    --REF
+    --TppEnemy.LIFE_STATUS.*,
+    --  NORMAL=0,
+    --  DEAD=1,
+    --  DYING=2,
+    --  SLEEP=3,
+    --  FAINT=4
+    local lifeStatus=GameObject.SendCommand(gameId,{id="GetLifeStatus"})
+    InfCore.Log("status:"..tostring(status).." lifeStatus:"..tostring(lifeStatus))
+    --tex state bitflag (not just an enum) so use bitops bit. lib
+    --REF
+    --StateFlag.DYING_LIFE
+      --DYING_LIFE = 1,
+      --2??
+      --ZOMBIE = 4,
+    local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
+    InfCore.Log("stateFlag:"..tostring(stateFlag))
+
     if objectName~=nil then
       local svarIndex=InfLookup.SoldierSvarIndexForName(objectName)
       if svarIndex==nil then
@@ -216,12 +257,12 @@ function this.PrintMarkerGameObject(index)
           "solTravelName",
           "solTravelStepIndex",
         }--soldierSvarName
-    
---DEBUGNOW these are seperate? have to iterate to find matching solOptName?
---    {name="solOptName",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
---    {name="solOptParam1",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
---    {name="solOptParam2",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-   
+
+        --DEBUGNOW these are seperate? have to iterate to find matching solOptName?
+        --    {name="solOptName",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+        --    {name="solOptParam1",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+        --    {name="solOptParam2",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+
         InfCore.Log("Soldier svar index:"..tostring(svarIndex))
         InfCore.Log("solCpRoute:"..InfLookup.StrCode32ToString(svars.solCpRoute[svarIndex]))
         InfCore.Log("solScriptSneakRoute:"..InfLookup.StrCode32ToString(svars.solScriptSneakRoute[svarIndex]))--tex DEBUGNOW not sure why these arent finding their strings
@@ -247,7 +288,7 @@ end
 --  if vars.userMarkerSaveCount==nil or vars.userMarkerSaveCount==0 then
 --    return 0
 --  end
---  
+--
 --  --tex find 'last added' in repect to how userMarker works described in above notes
 --  --there may be a better way to do this, but I b bad math
 --  --grab all the markerFlags
