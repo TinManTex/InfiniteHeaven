@@ -1,5 +1,6 @@
 --InfInterrogation.lua
 --tex implements enableInfInterrogation
+--TODO: handle partner being fultoned
 local this={}
 
 local StrCode32=InfCore.StrCode32
@@ -72,9 +73,9 @@ this.langStrings={
     interrogate_walker="[Intel] the soldier indicates there was a Walker Gear assigned to %s",--cp name
     interrogate_wildcard="[Intel] the soldier indicates there was a mercenary assigned to %s",--cp name
     interrogate_heli="[Intel] the soldier indicates an attack heli is travelling to %s",--cp name
-    intercp_comrade_location="[Intel] the soldier indicates their comrade assigned to %s has stashed some things",--cp name
-    intercp_complete="[Intel] the soldier has given us the location of their stash",
-    intercp_repeat="[Intel] the soldier is just repeating himself",
+    intercp_comrade_location="[Intel] the soldier indicates their comrade assigned to %s has stashed some things.",--cp name
+    intercp_complete="[Intel] the soldier has given us the location of their stash.",
+    intercp_repeat="[Intel] the soldier is just repeating himself.",
   },
   help={
     eng={
@@ -99,21 +100,21 @@ function this.Init(missionTable)
   end
 
   --DEBUGNOW OFF
---  if TppMission.IsMissionStart() then
---    --InfCore.Log("InfInterrogate IsMissionStart")--DEBUG
---    --tex TODO KLUDGE, cant actually see how it's reset normally, I guess it's through the TppInterrogate.DeclareSvars
---    --but it doesn't seem to trigger unless I do
---    --also there seems to be only one actual .normal interrogation used in one mission (s10043), unless the generic interrogation uses the .normal layer
---    --and doing it this way actually resets the save vars
---    --breaking my policy here in that this code is run reguardless
---    for index=0,127 do
---      svars.InterrogationNormal[index]=bit.bnot(0)--tex from TppInterrogation.ResetFlagNormal
---    end
---  end
+  --  if TppMission.IsMissionStart() then
+  --    --InfCore.Log("InfInterrogate IsMissionStart")--DEBUG
+  --    --tex TODO KLUDGE, cant actually see how it's reset normally, I guess it's through the TppInterrogate.DeclareSvars
+  --    --but it doesn't seem to trigger unless I do
+  --    --also there seems to be only one actual .normal interrogation used in one mission (s10043), unless the generic interrogation uses the .normal layer
+  --    --and doing it this way actually resets the save vars
+  --    --breaking my policy here in that this code is run reguardless
+  --    for index=0,127 do
+  --      svars.InterrogationNormal[index]=bit.bnot(0)--tex from TppInterrogation.ResetFlagNormal
+  --    end
+  --  end
   if not Ivars.enableInfInterrogation:EnabledForMission() then
     return
   end
-  
+
   if this.maxQuestSoldiers==0 then
     InfCore.Log("InfInterrogate.Init maxQuestSoldiers==0, returning")
     return
@@ -136,12 +137,12 @@ function this.DeclareSVars(missionTable)
   if not Ivars.enableInfInterrogation:EnabledForMission() then
     return{}
   end
-  
+
   if this.maxQuestSoldiers==0 then
     InfCore.Log("InfInterrogate.DeclareSVars maxQuestSoldiers==0, returning")
     return{}
   end
-  
+
   if this.debugModule then
     InfCore.Log("InfInterrogation.DeclareSVars declaring svars.inf_interCpQuestStatus, this.maxQuestSoldiers:"..this.maxQuestSoldiers)
   end
@@ -165,7 +166,7 @@ end--<
 
 --TUNE, interrogation type selection
 this.InterCall_Location=function(soldierId,cpId,interName)
-  --InfCore.DebugPrint"InterCall_Location"--DEBUG
+  InfCore.LogFlow"InterCall_Location"--DEBUG
   local interrFuncs={}
   if Ivars.enableLrrpFreeRoam:Is(1) then
     interrFuncs[#interrFuncs+1]=this.LrrpLocation
@@ -304,6 +305,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   this.interCpQuestSoldiers={}
   this.interCpQuestIds={}
   this.interCpQuestSoldiersCps={}
+  local soldierNames={}
 
   local numICPQSoldiers=0--DEBUG
 
@@ -314,7 +316,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
     InfCore.Log("WARNING: InfInterrogation.SetupInterCpQuests: baseNames<2, returning")
     return
   end
-  
+
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
@@ -352,6 +354,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
       this.interCpQuestSoldiers[soldierIndex]=soldierId
       this.interCpQuestIds[soldierId]=soldierIndex
       this.interCpQuestSoldiersCps[soldierIndex]=cpName
+      table.insert(soldierNames,soldierName)
 
       uniqueInterrogation.uniqueChara=uniqueInterrogation.uniqueChara or {}
       local uniqueCharaEntry={name=soldierName,func=this.InterStart_CpQuest}
@@ -363,22 +366,16 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
     numICPQSoldiers=numICPQSoldiers+1
   end
 
-  InfMain.RandomResetToOsTime() 
-  if this.debugModule then  
-    InfCore.Log("InfInterrogation.SetupInterCpQuests") 
+  InfMain.RandomResetToOsTime()
+  if this.debugModule then
+    InfCore.Log("InfInterrogation.SetupInterCpQuests")
     InfCore.Log("num numICPQSoldiers"..numICPQSoldiers)
-    InfCore.PrintInspect(uniqueInterrogation)--DEBUG   
+    InfCore.PrintInspect(uniqueInterrogation)--DEBUG
     InfCore.PrintInspect(this.interCpQuestSoldiers,"interCpQuestSoldiers")
     InfCore.PrintInspect(this.interCpQuestIds,"interCpQuestIds")
     InfCore.PrintInspect(this.interCpQuestSoldiersCps,"interCpQuestSoldiersCps")
-    
-    InfLookup.objectNameLists.interCpQuestSoldiers={}
-    for soldierIndex,soldierId in pairs(this.interCpQuestSoldiers)do
-      local soldierName=InfLookup.ObjectNameForGameId(soldierId,"TppSoldier2")
-      if soldierName then
-        table.insert(InfLookup.objectNameLists.interCpQuestSoldiers,soldierName)
-      end
-    end
+    InfCore.PrintInspect(soldierNames,"soldierNames")
+    InfLookup.objectNameLists.interCpQuestSoldiers=soldierNames
     InfLookup.BuildObjectNameListsEnum()
   end
 end--SetupInterCpQuests
@@ -439,10 +436,27 @@ function this.InterCall_InterCpQuest(soldierId,cpId,interName)
     InfCore.Log("ERROR: InterStart_CpQuest partnerICPQId out of range:"..tostring(partnerICPQId))
     return false
   end
+  
+  
+  local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
+  local partnerGone=false
+  if this.debugModule then
+    InfLookup.PrintStatus(partnerGameId)
+  end
+  local status=GameObject.SendCommand(partnerGameId,{id="GetStatus"})
+  --TODO: think soldiers get set to disable at disance anyhoo, any way to see if soldier has been fultoned (or do I have to start tracking them myself?)
+  --if status==TppGameObject.NPC_STATE_DISABLE then
+    --InfCore.Log("InterCall_InterCpQuest partnerGone NPC_STATE_DISABLE")
+    --partnerGone=true
+  --end
+  local lifeStatus=GameObject.SendCommand(partnerGameId,{id="GetLifeStatus"})
+  if lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD then
+    InfCore.Log("InterCall_InterCpQuest partnerGone NPC_LIFE_STATE_DEAD")
+    partnerGone=true
+  end
 
   --tex starting
-  if not svars.inf_interCpQuestStatus[partnerICPQId] then
-    local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
+  if not svars.inf_interCpQuestStatus[partnerICPQId] and not partnerGone then
     local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
     local cpNameLang=InfLangProc.CpNameString(partnerCpName,TppLocation.GetLocationName())
     --InfCore.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
@@ -453,12 +467,13 @@ function this.InterCall_InterCpQuest(soldierId,cpId,interName)
     --        save startposition? -- TODO: just calculate between base positions
     svars.inf_interCpQuestStatus[soldierICPQId]=true
     --tex complete quest
-  elseif svars.inf_interCpQuestStatus[partnerICPQId] and not svars.inf_interCpQuestStatus[soldierICPQId] then
+  elseif (svars.inf_interCpQuestStatus[partnerICPQId] and not svars.inf_interCpQuestStatus[soldierICPQId]) or partnerGone then
     InfMenu.PrintLangId"intercp_complete"
     this.GiveInterCpQuestReward()
 
     svars.inf_interCpQuestStatus[soldierICPQId]=true
-    --tex quest completed
+    svars.inf_interCpQuestStatus[partnerICPQId]=true
+    --tex quest completed>
   elseif svars.inf_interCpQuestStatus[soldierICPQId] and svars.inf_interCpQuestStatus[partnerICPQId] then
     --InfCore.Log"InterCall_InterCpQuest, quest was already completed "--DEBUG
     InfMenu.PrintLangId"intercp_repeat"
@@ -470,8 +485,8 @@ function this.InterCall_InterCpQuest(soldierId,cpId,interName)
     local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
     InfCore.Log("InfInterrogation.InterCall_InterCpQuest soldierId:"..soldierId.." soldierICPQId:"..soldierICPQId)
     InfCore.Log("partnerGameId:"..partnerGameId.." partnerICPQId:"..partnerICPQId)
-    InfCore.Log("inf_interCpQuestStatus[soldierICPQId]"..svars.inf_interCpQuestStatus[soldierICPQId])
-    InfCore.Log("inf_interCpQuestStatus[partnerICPQId]"..svars.inf_interCpQuestStatus[partnerICPQId])
+    InfCore.Log("inf_interCpQuestStatus[soldierICPQId]"..tostring(svars.inf_interCpQuestStatus[soldierICPQId]))
+    InfCore.Log("inf_interCpQuestStatus[partnerICPQId]"..tostring(svars.inf_interCpQuestStatus[partnerICPQId]))
   end
   return false--DEBUGNOW TODO figure out what InterCall return bool actually does
 end--InterCall_InterCpQuest
@@ -480,10 +495,12 @@ function this.GiveInterCpQuestReward(rewardType)
   if math.random(100)>parasiteChance then
     local resourceCount=math.random(resourceMin,resourceMax)
     local resourceName=resourceNames[math.random(#resourceNames)]
+    InfCore.Log("GiveInterCpQuestReward resourceName:"..resourceName.." resourceCount:"..resourceCount)
     TppMotherBaseManagement.AddTempResource{resource=resourceName,count=resourceCount}
   else
     local resourceCount=1
     local resourceName=parasiteResourceNames[math.random(#parasiteResourceNames)]
+    InfCore.Log("GiveInterCpQuestReward resourceName:"..resourceName.." resourceCount:"..resourceCount)
     TppMotherBaseManagement.AddTempResource{resource=resourceName,count=resourceCount}
   end
 end
