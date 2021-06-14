@@ -2320,11 +2320,6 @@ this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio,
 --tex now returns percentage instead of putting it directly to SetFultonIconPercentage
 --(so better name is GetFultonRecoverSucceedRatio)
 function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
-  --DEBUGNOW
-  if true then
-  return InfFulton.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
-  end
-  --DEBUGNOW
   local targetId=gameId
   local percentage=0
   local baseLine=100
@@ -2337,9 +2332,12 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
   end
   local mbSupportFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
   local mbSupportFultonSectionSuccess=this.mbSectionRankSuccessTable[mbSupportFultonRank]or 0
-  mbSupportFultonSectionSuccess=Ivars.fultonMbSupportScale:Scale(mbSupportFultonSectionSuccess)--tex
+  if Ivars.fultonNoMbSupport:Is(1) then--tex>
+    mbSupportFultonSectionSuccess=0
+  end--<
 
   local weatherPenalty=this.fultonWeatherSuccessTable[vars.weather]or 0--tex gave weatherSuccessMod its own local for clarity
+
   --NMC: REF vanilla ranges of values
   --weatherSuccessMod: -70 to 0
   --mbSupportFultonSectionSuccess: 0 to 60
@@ -2467,8 +2465,13 @@ function this.GetSoldierFultonSucceedRatio(gameId)
   --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
   --  }
   local mbMedicalRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
-  local mbMedicalSuccess=this.mbSectionRankSuccessTable[mbMedicalRank]or 0--tex changed from table local to function to in module  
-  mbMedicalSuccess=Ivars.fultonMbMedicalScale:Scale(mbMedicalSuccess)--tex
+  local mbMedicalSuccess=this.mbSectionRankSuccessTable[mbMedicalRank]or 0--tex changed from table local to function to in module
+  if Ivars.fultonNoMbMedical:Is(1) then--tex>
+    mbMedicalSuccess=0
+  end
+  if Ivars.fultonDontApplyMbMedicalToSleep:Is(1) and not dying then--tex don't apply medical bonus to sleeping
+    mbMedicalSuccess=0
+  end--<
   --NMC: REF vanilla ranges of values
   --lifeStatusMod:-70 to 0
   --mbMedicalSuccess: 0 to 60
