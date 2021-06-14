@@ -722,7 +722,7 @@ this.playerRestrictionsMenu={
     "InfMainTppIvars.itemLevelMenu",
     "InfMainTppIvars.handLevelMenu",
     "InfMainTppIvars.fultonLevelMenu",--DEBUGNOW
-    "InfMainTppIvars.fultonSuccessMenu",
+    "InfFulton.fultonSuccessMenu",
     "InfMainTppIvars.ospMenu",
   }
 }

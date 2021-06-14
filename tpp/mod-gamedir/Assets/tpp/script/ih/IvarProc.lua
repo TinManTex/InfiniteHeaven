@@ -539,6 +539,16 @@ function this.SetVector3(ivar,vec3)
   return {ivar.vec3Ivars.X:Set(vec3[0]),ivar.vec3Ivars.Y:Set(vec3[0]),ivar.vec3Ivars.Z:Set(vec3[0])}
 end
 
+function this.Scale(ivar,value)
+  local ivarScale=ivar:Get()
+  if ivarScale~=100 then
+    local scale=ivarScale/100
+    return value*scale
+  else
+    return value
+  end
+end
+
 local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
 
 function this.MissionCheckAll()
