@@ -316,6 +316,7 @@ function this.ClearStaffNewIcon(isHeliSpace,isFreeMission,nextIsHeliSpace,nextIs
   end
 end
 function this.AddStaffsFromTempBuffer(readOnly,RENoffline)
+  InfCore.LogFlow("TppTerminal.AddStaffsFromTempBuffer")--tex
   if(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
@@ -1541,6 +1542,7 @@ function this.CheckAddTempBuffer(playerIndex)
   end
 end
 function this.AddTempStaffFulton(staffInfo)
+  InfCore.LogFlow("TppTerminal.AddTempStaffFulton")--tex
   if mvars.trm_isAlwaysDirectAddStaff~=true then
     local fultonedPlayer=staffInfo.fultonedPlayer or 0
     if this.CheckAddTempBuffer(fultonedPlayer)then
