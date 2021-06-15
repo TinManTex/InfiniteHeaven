@@ -468,6 +468,8 @@ this.langStrings={
       fultonMbSupportScale="Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.",
       fultonMbMedicalScale="Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty",
       disableFulton="Disables fulton at the player-action level",
+      fultonVariationRange="Subtracts the purcentage from fulton success in a periodic fashion.",
+      fultonVariationInvRate="Inverse rate (higher slower) of fulton variation cycle",
     },
   }--help
 }--langStrings
