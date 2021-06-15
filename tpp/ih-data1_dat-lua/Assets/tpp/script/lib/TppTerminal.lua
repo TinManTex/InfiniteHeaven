@@ -879,7 +879,7 @@ function this.OnReload(missionTable)
   this.MakeMessage()
 end
 --CALLER: TppMain.OnMissionGameStart
---GOTCHA: param isn't actuall passes in
+--GOTCHA: param isn't actuall passed in
 function this.OnMissionGameStart(e)
   if not mvars.trm_currentIntelCpName then
     if Ivars.disableSpySearch:Is(1) then--tex added bypass
