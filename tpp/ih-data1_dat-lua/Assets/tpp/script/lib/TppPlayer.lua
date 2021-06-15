@@ -2320,11 +2320,8 @@ this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio,
 --tex now returns percentage instead of putting it directly to SetFultonIconPercentage
 --(so better name is GetFultonRecoverSucceedRatio)
 function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
-  --DEBUGNOW
-  if true then
-  return InfFulton.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
-  end
-  --DEBUGNOW
+  local this=TppPlayer
+
   local targetId=gameId
   local percentage=0
   local baseLine=100
@@ -2363,26 +2360,27 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
     InfCore.Log(logLine)
   end--<
 
-  --  if Tpp.IsSoldier(gameId)then--tex fulton success variation WIP
-  --    local fultonSoldierVariationRange=Ivars.fultonSoldierVariationRange:Get()
-  --    if fultonSoldierVariationRange>0 then--tex
-  --      local frequency=0.1
-  --      local fultonVariationInvRate=
-  --      local rate=fultonVariationInvRate/gvars.clockscale
-  --      local t=math.fmod(vars.clock/rate,2*math.pi)--tex mod to sine range
-  --      local amplitude=fultonSoldierVariationRange*0.5
-  --      local bias=-amplitude
-  --      local variationMod=amplitude*math.sin(t)+bias
-  --
-  --      --percentage=math.random(percentage-fultonSoldierVariationRange,percentage)
-  --      percentage=percentage+variationMod
-  --    end
-  --  else
-  --    if Ivars.fultonOtherVariationRange:Get()>0 then--tex
-  --      --TODO
-  --    end
-  --  end--
-  
+  if percentage>0 then
+  local fultonVariationRange=0--tex>
+  if Tpp.IsSoldier(gameId)then--tex fulton success variation WIP
+    fultonVariationRange=Ivars.fultonSoldierVariationRange:Get()
+  else
+    fultonVariationRange=Ivars.fultonVariationRange:Get()
+  end
+  if fultonVariationRange>0 then--tex
+    local frequency=1
+    local rate=Ivars.fultonVariationInvRate:Get()
+    --local x=math.fmod(vars.clock/rate,2*math.pi)--tex mod to sine range
+    local x=vars.clock/rate
+    local amplitude=fultonVariationRange*0.5
+    local xShift=0
+    local yShift=1+-amplitude
+    local variationMod=amplitude*math.sin((x+xShift))+yShift
+    percentage=percentage+variationMod
+  end
+  --percentage=math.random(percentage-fultonVariationRange,percentage)
+  end--<
+
   --NMC only s10030 in vanilla
   if mvars.ply_allways_100percent_fulton then
     percentage=100
@@ -2426,18 +2424,18 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
   InfCore.Log("MakeFultonRecoverSucceedRatio percentage:"..tostring(percentage))--DEBUGNOW
 
   return percentage
-  
-  --tex without SetFultonIconPercentage call will be 0%
-  --0 will be 0%
-  --otherwise exe seems to add base level of 20%
-  --not sure what its doing with targetId, 
-  --it also obviously does fulton collision check in exe (but will still do that with nil targetId)
---tex WAS
---  if isDogFultoning then
---    Player.SetDogFultonIconPercentage{percentage=percentage,targetId=targetId}
---  else
---    Player.SetFultonIconPercentage{percentage=percentage,targetId=targetId}
---  end
+
+    --tex without SetFultonIconPercentage call will be 0%
+    --0 will be 0%
+    --otherwise exe seems to add base level of 20%
+    --not sure what its doing with targetId,
+    --it also obviously does fulton collision check in exe (but will still do that with nil targetId)
+    --tex WAS
+    --  if isDogFultoning then
+    --    Player.SetDogFultonIconPercentage{percentage=percentage,targetId=targetId}
+    --  else
+    --    Player.SetFultonIconPercentage{percentage=percentage,targetId=targetId}
+    --  end
 end--MakeFultonRecoverSucceedRatio
 function this.GetSoldierFultonSucceedRatio(gameId)
   local lifeStatusPenalty=0
