@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mission2\init\init.fpkd
+-- init_sequence.lua
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -189,8 +190,8 @@ function this.OnLoad()
     "Seq_Demo_GoToMgo",
     "Seq_Demo_CheckCompatibilityPatchDlc",
     "Seq_Demo_CheckBootTypeMgo",
-	"Seq_Demo_GoToGz",
-	"Seq_Demo_CheckBootGz",
+    "Seq_Demo_GoToGz",
+    "Seq_Demo_CheckBootGz",
     "Seq_Demo_Init",
     "Seq_Demo_StartTitle",
     "Seq_Demo_ShowKonamiAndFoxLogo",
