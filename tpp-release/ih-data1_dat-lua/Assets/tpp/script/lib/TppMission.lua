@@ -2644,6 +2644,7 @@ function this.ExecuteVehicleSaveCarryOnClear()
   Vehicle.SaveCarry{options=options,initialPosition=initialPos,initialRotY=rotY}
 end
 function this.EstablishedMissionAbort()
+  InfMain.EstablishedMissionAbortTop()--tex
   this.SeizeReliefVehicleOnAbort()
   TppQuest.OnMissionGameEnd()
   if mvars.mis_abortWithPlayRadio then
@@ -2680,6 +2681,7 @@ function this.OnEndFadeOutMissionAbort()
   this.ShowAnnounceLogOnFadeOut(this.LoadForMissionAbort)
 end
 function this.EstablishedGameOver()
+  InfMain.EstablishedGameOverTop()--tex
   TppMusicManager.StopJingleEvent()
   local tipNames={}
   local currentStorySequence=TppStory.GetCurrentStorySequence()
@@ -3077,6 +3079,7 @@ function this.SetMissionStartPositionMtbsClusterPosition()
   TppPlayer.SetInitialPosition(position,0)
 end
 function this.EstablishedMissionClear()
+  InfMain.EstablishedMissionClearTop()--tex
   DemoDaemon.StopAll()
   GkEventTimerManager.StopAll()
   if Tpp.IsHorse(vars.playerVehicleGameObjectId)then

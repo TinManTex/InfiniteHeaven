@@ -1,10 +1,13 @@
 FAQ Known issues:
 (See Troubleshooting.txt to work through other issues).
 
-Crash on start:
+Crash to desktop on start:
+Uninstall IHHook to see if the issue is specific to it, or IH.
+
+Crash to desktop on start:
 Try disabling any overlay programs (ex nvidia overlay).
 
-Crash on start:
+Crash to desktop on start:
 Check you virus software isn't quaranting MGSV, some are a bit too paranoid of IH running a command prompt on startup (which it does to get a list of files in the IH directory and start IHExt).
 
 Hang on exiting free roam: This may occur if you previously had an additional sideops mod installed but reset 00.dat or snakebite without uninstalling the mod first.

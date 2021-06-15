@@ -35,15 +35,6 @@ this.registerIvars={
   "disableKillChildSoldierGameOver",
   "disableGameOver",
   "disableTranslators",
-  "fultonNoMbSupport",
-  "fultonNoMbMedical",
-  "fultonDyingPenalty",
-  "fultonSleepPenalty",
-  "fultonHoldupPenalty",
-  "fultonDontApplyMbMedicalToSleep",
-  "fultonHostageHandling",
-  "fultonWildCardHandling",
-  "fultonMotherBaseHandling",
   "handLevelSonar",
   "handLevelPhysical",
   "handLevelPrecision",
@@ -341,85 +332,6 @@ this.disableTranslators={
   end,
 }
 
---fulton success>
---this.fultonSoldierVariationRange={--WIP
---  save=IvarProc.CATEGORY_EXTERNAL,
---  default=0,
---  range={max=100,min=0,increment=1},
---}
---this.fultonOtherVariationRange={
---  save=IvarProc.CATEGORY_EXTERNAL,
---  default=0,
---  range={max=100,min=0,increment=1},
---}
---
---this.fultonVariationInvRate={
---  save=IvarProc.CATEGORY_EXTERNAL,
---  range={max=500,min=10,increment=10},
---}
-
-this.fultonNoMbSupport={
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-
-this.fultonDyingPenalty={
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  default=70,
-  range={max=100,min=0,increment=5},
-}
-
-this.fultonSleepPenalty={
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  default=0,
-  range={max=100,min=0,increment=5},
-}
-
-this.fultonHoldupPenalty={
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  default=10,
-  range={max=100,min=0,increment=5},
-}
-
-this.fultonDontApplyMbMedicalToSleep={
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-
-this.fultonHostageHandling={
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"DEFAULT","ZERO"},
-  settingNames="fultonHostageHandlingSettings",
-}
-
-this.fultonWildCardHandling={--WIP
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"DEFAULT","ZERO"},
-  settingNames="fultonHostageHandlingSettings",
-}
-
-this.fultonMotherBaseHandling={ --WIP
-  inMission=true,
-  save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"DEFAULT","ZERO"},
-  settingNames="fultonHostageHandlingSettings",
-}
---<fulton success
 --item levels>
 local function OnChangeItemLevel(self,setting)
   if setting>0 then
@@ -779,7 +691,6 @@ this.registerMenus={
   "itemLevelMenu",
   "handLevelMenu",
   "fultonLevelMenu",
-  "fultonSuccessMenu",
 }
 
 this.miscInMissionMenu={
@@ -810,8 +721,8 @@ this.playerRestrictionsMenu={
     "InfMainTppIvars.disableSupportMenuMenu",
     "InfMainTppIvars.itemLevelMenu",
     "InfMainTppIvars.handLevelMenu",
-    "InfMainTppIvars.fultonLevelMenu",
-    "InfMainTppIvars.fultonSuccessMenu",
+    "InfMainTppIvars.fultonLevelMenu",--DEBUGNOW
+    "InfFulton.fultonSuccessMenu",
     "InfMainTppIvars.ospMenu",
   }
 }
@@ -1008,19 +919,6 @@ this.fultonLevelMenu={
   }
 }
 
-this.fultonSuccessMenu={
-  options={
-    "Ivars.fultonNoMbSupport",
-    "Ivars.fultonNoMbMedical",
-    "Ivars.fultonDyingPenalty",
-    "Ivars.fultonSleepPenalty",
-    "Ivars.fultonHoldupPenalty",
-    "Ivars.fultonDontApplyMbMedicalToSleep",
-    "Ivars.fultonHostageHandling",
-    "InfMenuCommandsTpp.PrintFultonSuccessBonus",
-  },
-}
-
 --< menu defs
 this.langStrings={
   eng={
@@ -1071,22 +969,11 @@ this.langStrings={
     allready_unlocked="Allready unlocked",
     disableXrayMarkers="Disable Xray marking",
     quietRadioMode="Quiets MB radio track",
-    playerSettingsMenu="Player settings menu",
-    fultonSuccessMenu="Fulton success menu",
-    fultonNoMbSupport="Disable MB fulton support",
-    fultonNoMbMedical="Disable MB fulton medical",
-    fultonDyingPenalty="Target dying penalty",
-    fultonSleepPenalty="Target sleeping penalty",
-    fultonHoldupPenalty="Target holdup penalty",
-    fultonDontApplyMbMedicalToSleep="Dont apply MB medical bonus to sleeping/fainted target",
-    fulton_mb_support="Current MB support bonus +",
-    fulton_mb_medical="Current MB medical bonus +",
+    playerSettingsMenu="Player settings menu", 
     changeCpSubTypeFREE="Random CP subtype in free roam",
     changeCpSubTypeMISSION="Random CP subtype in missions",
     disableRetry="Disable retry on mission fail",
     gameOverOnDiscovery="Game over on combat alert",
-    fultonHostageHandling="Hostage handling",
-    fultonHostageHandlingSettings={"Default","Must extract (0%)"},
     mbPrioritizeFemale="Female staff selection",
     mbPrioritizeFemaleSettings={"Default","None","All available","Half"},
     enemyPatrolMenu="Patrols and deployments menu",
@@ -1123,7 +1010,6 @@ this.langStrings={
     itemLevelIntScope="Int-Scope level",
     itemLevelIDroid="IDroid level",
     mbForceBattleGearDevelopLevel="Force BattleGear built level",
-    printFultonSuccessBonus="Print fulton success bonus",
     dropCurrentEquip="Drop current equip",
     markersInMissionMenu="Markers menu",
     heliSpace_SkipMissionPreparetion="Skip mission prep",
@@ -1139,10 +1025,6 @@ this.langStrings={
       disableWorldMarkers="Disables objective and placed markers",
       disableXrayMarkers="Disables the 'X-ray' effect of marked soldiers. Note: Buddies that mark still cause the effect.",
       disableSupportMenuMenu="Disables mission support menus in iDroid",
-      fultonSuccessMenu="Adjust the success rate of fultoning",
-      fultonNoMbSupport="Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.",
-      fultonNoMbMedical="Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty",
-      fultonDontApplyMbMedicalToSleep="Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.",
       ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.",
       fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",
       changeCpSubTypeFREE="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",

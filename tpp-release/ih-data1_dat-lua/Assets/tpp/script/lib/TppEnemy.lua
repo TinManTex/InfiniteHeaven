@@ -752,7 +752,7 @@ function this._GetSoldierType(soldierId)--tex was GetSoldierType
       end
     end
   else
-    --NMC: used for quest enemies and a few story missions
+    --NMC: used for quest enemies and a few story missions, <missioncode>_enemy.soldierTypes
     if mvars.ene_soldierTypes then
       local soldierType=mvars.ene_soldierTypes[soldierId]
       if soldierType then

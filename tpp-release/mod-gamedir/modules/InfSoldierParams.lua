@@ -143,7 +143,7 @@ this.langStrings={
   },
   help={
     eng={
-      soldierParamsProfile="Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).",
+      soldierParamsProfile="Turn this on to enable the life, sight and hearing enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).",
       soldierHealthScale="0% will kill off all enemies",
       soldierSightDistScale="A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.",
     },

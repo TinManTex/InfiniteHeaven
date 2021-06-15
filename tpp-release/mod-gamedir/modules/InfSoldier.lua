@@ -532,12 +532,18 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
 
   InfMain.RandomSetToLevelSeed()
 
-  local baseNameBag1=InfUtil.ShuffleBag:New()
-  local baseNameBag2=InfUtil.ShuffleBag:New()
 
   local locationName=TppLocation.GetLocationName()
   local baseNames=InfMain.baseNames[locationName]
   local halfBases=math.ceil(#baseNames/2)
+  
+  if baseNames==nil or #baseNames<2 then
+    InfCore.Log("InfSoldier.AddLrrps baseNames==nil or #baseNames<2, returning")
+    return
+  end  
+  
+  local baseNameBag1=InfUtil.ShuffleBag:New()
+  local baseNameBag2=InfUtil.ShuffleBag:New()
 
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]

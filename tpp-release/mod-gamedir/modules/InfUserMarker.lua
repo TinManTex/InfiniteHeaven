@@ -130,6 +130,7 @@ function this.PrintUserMarkers()
   end
 end
 this.PrintLatestUserMarker=function()
+  InfCore.Log("PrintLatestUserMarker")
   local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
   if lastMarkerIndex==nil then
     InfCore.DebugPrint("lastMarkerIndex==nil")
@@ -191,6 +192,46 @@ function this.PrintMarkerGameObject(index)
 
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     --InfCore.Log("cpName:"..tostring(cpName),true)--DEBUGNOW TODO
+    
+    --TODO: InfLookup
+    --REF
+    --TppGameObject.
+    --  NPC_STATE_DISABLE = 0,
+    --  NPC_STATE_NORMAL = 1,
+    --  2--??
+    --  NPC_STATE_CARRIED = 4,
+    --REF
+    --EnemyState.
+    --NORMAL = 1,
+    --STAND_HOLDUP = 2,
+    --3?? is supine_holdup?
+    --CARRIED = 4,
+    local status=GameObject.SendCommand(gameId,{id="GetStatus"})
+    --REF
+    --TppGameObject.
+    --  NPC_LIFE_STATE_NORMAL
+    --  NPC_LIFE_STATE_DEAD
+    --  NPC_LIFE_STATE_DYING
+    --  NPC_LIFE_STATE_SLEEP
+    --  NPC_LIFE_STATE_FAINT
+    --REF
+    --TppEnemy.LIFE_STATUS.*,
+    --  NORMAL=0,
+    --  DEAD=1,
+    --  DYING=2,
+    --  SLEEP=3,
+    --  FAINT=4
+    local lifeStatus=GameObject.SendCommand(gameId,{id="GetLifeStatus"})
+    InfCore.Log("status:"..tostring(status).." lifeStatus:"..tostring(lifeStatus))
+    --tex state bitflag (not just an enum) so use bitops bit. lib
+    --REF
+    --StateFlag.DYING_LIFE
+      --DYING_LIFE = 1,
+      --2??
+      --ZOMBIE = 4,
+    local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
+    InfCore.Log("stateFlag:"..tostring(stateFlag))
+
     if objectName~=nil then
       local svarIndex=InfLookup.SoldierSvarIndexForName(objectName)
       if svarIndex==nil then

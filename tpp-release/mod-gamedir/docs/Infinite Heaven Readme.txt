@@ -1,5 +1,5 @@
 = Infinite heaven =
-r252 - 2021-06-05
+r253 - 2021-06-15
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r15b
@@ -20,7 +20,20 @@ YouTube playlist of demonstrations for many features:
 Recent changes/additions
 ------------------------------
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
+https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
+r253 - 2021-06-15
+InfFulton:
+Fulton menu (in ACC)
+fulton_autoFultonFREE, fulton_autoFultonMISSION - Extraction team in Free Roam/Missions
+"Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post). 
+This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
+
+fultonVariationRange - "Fulton success variation","Subtracts the percentage from fulton success in a periodic fashion."
+fultonVariationInvRate="Fulton variation inv rate","Inverse rate (higher slower) of fulton variation cycle"
+
+InfInterrogation:
+fix: Inter cp stash interrogation quests would just endlessly loop between some paired soldiers as the array for advancement state was too small - thanks William for your reports.
 
 r252 - 2021-06-05
 InfShootingPractice:

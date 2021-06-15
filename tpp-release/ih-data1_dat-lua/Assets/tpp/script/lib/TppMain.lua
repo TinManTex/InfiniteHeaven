@@ -652,7 +652,8 @@ function this.OnMissionCanStart()
   end
   InfMain.OnMissionCanStartBottom()--tex
 end
-function this.OnMissionGameStart(n)
+--CALLER: TppSequence. Seq_Mission_Prepare OnLeave
+function this.OnMissionGameStart(sequenceName)
   TppClock.Start()
   if not gvars.ini_isTitleMode then
     PlayRecord.RegistPlayRecord"MISSION_START"
