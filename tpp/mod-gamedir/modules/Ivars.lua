@@ -599,10 +599,8 @@ function this.DeclareVars()
     end--ivar
   end
 
-  --InfInterrogation --DEBUGNOW
-  local maxQuestSoldiers=20--SYNC InfInterrogate numQuestSoldiers
   local arrays={
-    --DEBUGNOW CULL {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    --REF {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
   }
   for i,gvar in ipairs(arrays)do
     varTable[#varTable+1]=gvar
@@ -662,6 +660,9 @@ function this.BuildIvar(name,ivar)
     ivar.GetSettingName=IvarProc.GetSettingName
     ivar.MissionCheck=ivar.MissionCheck--tex OFF or IvarProc.MissionCheckAll--rather have the functions on it bring up warnings than have it cause issues by going through
     ivar.EnabledForMission=IvarProc.IvarEnabledForMission
+    if ivar.isPercent then
+      ivar.Scale=IvarProc.Scale
+    end
 
     ivars[ivar.name]=ivars[ivar.name] or ivar.default
     if ivar.save and ivar.save==EXTERNAL then
