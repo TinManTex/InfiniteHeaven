@@ -6,8 +6,8 @@ local this={
     --itemLevelFulton=1,--{ 1-4 } -- Fulton Level
     --itemLevelWormhole="DISABLE",--{ DISABLE, ENABLE } -- Wormhole Level
     --Fulton success menu
-    fultonNoMbSupport=1,--{ 0-1 } -- Disable MB fulton support
-    fultonNoMbMedical=1,--{ 0-1 } -- Disable MB fulton medical
+    fultonMbSupportScale=0,--{ 0-1 } -- Disable MB fulton support
+    fultonMbMedicalScale=0,--{ 0-1 } -- Disable MB fulton medical
     fultonDyingPenalty=40,--{ 0-100 } -- Target dying penalty
     fultonSleepPenalty=20,--{ 0-100 } -- Target sleeping penalty
     fultonHoldupPenalty=0,--{ 0-100 } -- Target holdup penalty

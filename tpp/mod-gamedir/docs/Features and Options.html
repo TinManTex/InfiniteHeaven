@@ -87,40 +87,43 @@
 <div>11: <a href="#eventsMenu">Events menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
+<div>12: <a href="#fultonMenu">Fulton menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#motherBaseMenu">Mother Base menu</a></div>
+<div>13: <a href="#heliSpaceFlagsMenu">Mission-prep features menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
+<div>14: <a href="#motherBaseMenu">Mother Base menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+<div>15: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#playerSettingsMenu">Player settings menu</a></div>
+<div>16: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#progressionMenu">Progression menu</a></div>
+<div>17: <a href="#playerSettingsMenu">Player settings menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#routeSetMenu">RouteSet menu</a></div>
+<div>18: <a href="#progressionMenu">Progression menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#sideOpsMenu">Side ops menu</a></div>
+<div>19: <a href="#routeSetMenu">RouteSet menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+<div>20: <a href="#sideOpsMenu">Side ops menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>21: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
 </div>
 <div id="menuItem">
-<div>22: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>22: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>23: <a href="#weatherMenu">Weather menu</a></div>
+<div>23: <a href="#timeScaleMenu">Time scale menu</a></div>
+</div>
+<div id="menuItem">
+<div>24: <a href="#weatherMenu">Weather menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -1310,6 +1313,94 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="fultonMenu">Fulton menu</div>
+</div>
+<div id="menuItem">
+<div>1: Extraction team in Free Roam : Off, On</div>
+<div id="itemHelp">Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.</div>
+</div>
+<div id="menuItem">
+<div>2: Extraction team in Missions : Off, On</div>
+</div>
+<div id="menuItem">
+<div>3: Disable fulton action : Off, On</div>
+<div id="itemHelp">Disables fulton at the player-action level</div>
+</div>
+<div id="menuItem">
+<div>4: <a href="#fultonLevelMenu">Fulton levels menu</a></div>
+</div>
+<div id="menuItem">
+<div>5: <a href="#fultonSuccessMenu">Fulton success menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="fultonLevelMenu">Fulton levels menu</div>
+</div>
+<div id="menuItem">
+<div>1: Fulton Level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4</div>
+</div>
+<div id="menuItem">
+<div>2: Wormhole Level : Don't override, Disable, Enable</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="fultonSuccessMenu">Fulton success menu</div>
+<div id="menuHelp">Adjust the success rate of fultoning</div>
+</div>
+<div id="menuItem">
+<div>1: Fulton success variation : 0-100</div>
+<div id="itemHelp">Subtracts the purcentage from fulton success in a periodic fashion.</div>
+</div>
+<div id="menuItem">
+<div>2: Soldier fulton success variation : 0-100</div>
+</div>
+<div id="menuItem">
+<div>3: Fulton variation inv rate : 1-1000</div>
+<div id="itemHelp">Inverse rate (higher slower) of fulton variation cycle</div>
+</div>
+<div id="menuItem">
+<div>4: MB fulton support scale : 0-400%</div>
+<div id="itemHelp">Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.</div>
+</div>
+<div id="menuItem">
+<div>5: MB fulton medical scale : 0-400%</div>
+<div id="itemHelp">Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty</div>
+</div>
+<div id="menuItem">
+<div>6: Target dying penalty : 0-100</div>
+</div>
+<div id="menuItem">
+<div>7: Target sleeping penalty : 0-100</div>
+</div>
+<div id="menuItem">
+<div>8: Target holdup penalty : 0-100</div>
+</div>
+<div id="menuItem">
+<div>9: Hostage handling : Default, Must extract (0%)</div>
+</div>
+<div id="menuItem">
+<div>10: Print mb fulton success bonus : 0-1</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="heliSpaceFlagsMenu">Mission-prep features menu</div>
 <div id="menuHelp">Only affects the mission-prep screen, not the in-mission equivalents.</div>
 </div>
@@ -1708,6 +1799,7 @@
 </div>
 <div id="menuItem">
 <div>2: Disable fulton action : Off, On</div>
+<div id="itemHelp">Disables fulton at the player-action level</div>
 </div>
 <div id="menuItem">
 <div>3: Force subsistence suit (Olive Drab, no headgear) : Off, On</div>
@@ -1855,60 +1947,6 @@
 </div>
 <div id="menuItem">
 <div>4: Medical level : Don't override, Disable, Grade 2, Grade 3, Grade 4</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="fultonLevelMenu">Fulton levels menu</div>
-</div>
-<div id="menuItem">
-<div>1: Fulton Level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4</div>
-</div>
-<div id="menuItem">
-<div>2: Wormhole Level : Don't override, Disable, Enable</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="fultonSuccessMenu">Fulton success menu</div>
-<div id="menuHelp">Adjust the success rate of fultoning</div>
-</div>
-<div id="menuItem">
-<div>1: Disable MB fulton support : Off, On</div>
-<div id="itemHelp">Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.</div>
-</div>
-<div id="menuItem">
-<div>2: Disable MB fulton medical : Off, On</div>
-<div id="itemHelp">Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty</div>
-</div>
-<div id="menuItem">
-<div>3: Target dying penalty : 0-100</div>
-</div>
-<div id="menuItem">
-<div>4: Target sleeping penalty : 0-100</div>
-</div>
-<div id="menuItem">
-<div>5: Target holdup penalty : 0-100</div>
-</div>
-<div id="menuItem">
-<div>6: Dont apply MB medical bonus to sleeping/fainted target : Off, On</div>
-<div id="itemHelp">Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.</div>
-</div>
-<div id="menuItem">
-<div>7: Hostage handling : Default, Must extract (0%)</div>
-</div>
-<div id="menuItem">
-<div>8: Print fulton success bonus : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2231,7 +2269,7 @@
 </div>
 <div id="menuItem">
 <div>1: Enable soldier parameter settings : Off, On</div>
-<div id="itemHelp">Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).</div>
+<div id="itemHelp">Turn this on to enable the life, sight and hearing enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).</div>
 </div>
 <div id="menuItem">
 <div>2: Soldier life scale : 0-900%</div>
@@ -2445,37 +2483,40 @@
 <div>14: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#mbOceanMenu">MB Ocean menu</a></div>
+<div>15: <a href="#fultonSuccessMenu">Fulton success menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#markersInMissionMenu">Markers menu</a></div>
+<div>16: <a href="#mbOceanMenu">MB Ocean menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#miscInMissionMenu">Misc menu</a></div>
+<div>17: <a href="#markersInMissionMenu">Markers menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#motionsMenu">Motions menu</a></div>
+<div>18: <a href="#miscInMissionMenu">Misc menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#objectListsMenu">Object lists menu</a></div>
+<div>19: <a href="#motionsMenu">Motions menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#playerRestrictionsInMissionMenu">Player restrictions menu</a></div>
+<div>20: <a href="#objectListsMenu">Object lists menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: <a href="#routeSetMenu">RouteSet menu</a></div>
+<div>21: <a href="#playerRestrictionsInMissionMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>22: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
+<div>22: <a href="#routeSetMenu">RouteSet menu</a></div>
 </div>
 <div id="menuItem">
-<div>23: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>23: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>24: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>24: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>25: <a href="#weatherMenu">Weather menu</a></div>
+<div>25: <a href="#timeScaleMenu">Time scale menu</a></div>
+</div>
+<div id="menuItem">
+<div>26: <a href="#weatherMenu">Weather menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -3083,6 +3124,51 @@
 <div id="menuItem">
 <div>8: Print phase changes : Off, On</div>
 <div id="itemHelp">Displays when phase changes.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="fultonSuccessMenu">Fulton success menu</div>
+<div id="menuHelp">Adjust the success rate of fultoning</div>
+</div>
+<div id="menuItem">
+<div>1: Fulton success variation : 0-100</div>
+<div id="itemHelp">Subtracts the purcentage from fulton success in a periodic fashion.</div>
+</div>
+<div id="menuItem">
+<div>2: Soldier fulton success variation : 0-100</div>
+</div>
+<div id="menuItem">
+<div>3: Fulton variation inv rate : 1-1000</div>
+<div id="itemHelp">Inverse rate (higher slower) of fulton variation cycle</div>
+</div>
+<div id="menuItem">
+<div>4: MB fulton support scale : 0-400%</div>
+<div id="itemHelp">Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.</div>
+</div>
+<div id="menuItem">
+<div>5: MB fulton medical scale : 0-400%</div>
+<div id="itemHelp">Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty</div>
+</div>
+<div id="menuItem">
+<div>6: Target dying penalty : 0-100</div>
+</div>
+<div id="menuItem">
+<div>7: Target sleeping penalty : 0-100</div>
+</div>
+<div id="menuItem">
+<div>8: Target holdup penalty : 0-100</div>
+</div>
+<div id="menuItem">
+<div>9: Hostage handling : Default, Must extract (0%)</div>
+</div>
+<div id="menuItem">
+<div>10: Print mb fulton success bonus : 0-1</div>
 </div>
 <div id="menuItem">
 </div>

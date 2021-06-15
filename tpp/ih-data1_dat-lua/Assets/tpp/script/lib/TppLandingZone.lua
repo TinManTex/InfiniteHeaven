@@ -23,7 +23,7 @@ this.aacrGimmickInfo={--tex was local
   swamp_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/mafr/block_large/swamp/mafr_swamp_gimmick.fox2"}
 }
 --tex as nasanhak points out some of these var names are misleading
---aprLandingZoneName is the lz name (which uses approach route by default),
+--aprLandingZoneName is the lz name (TppLandingZoneData entity name), which uses approach route by default,
 --drpLandingZoneName is the drop route (fancy route from mission start) for the same lz
 --mbdvs_map_mission_parameter also referenced the drpLandingZoneName
 

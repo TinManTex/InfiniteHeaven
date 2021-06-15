@@ -286,6 +286,25 @@ function this.OnMissionGameEndTop()
   end
 end
 
+function this.EstablishedMissionAbortTop()
+  if this.IsOnlineMission(vars.missionCode)then
+    return
+  end
+  this.CallOnModules("EstablishedMissionAbortTop")
+end--EstablishedMissionAbortTop
+function this.EstablishedMissionClearTop()
+  if this.IsOnlineMission(vars.missionCode)then
+    return
+  end
+  this.CallOnModules("EstablishedMissionClearTop")
+end--EstablishedMissionClearTop
+function this.EstablishedGameOverTop()
+  if this.IsOnlineMission(vars.missionCode)then
+    return
+  end
+  this.CallOnModules("EstablishedGameOverTop")
+end--EstablishedGameOver
+
 --tex called from TppMission.AbortMission (TODO: caller of that?)
 function this.AbortMissionTop(abortInfo)
   if this.IsOnlineMission(abortInfo.nextMissionId)then
@@ -555,7 +574,7 @@ function this.Update(missionTable)
   end
   local currentChecks=this.execChecks
   this.UpdateExecChecks(currentChecks)
-  local currentTime=GetRawElapsedTimeSinceStartUp()
+  local currentTime=GetRawElapsedTimeSinceStartUp()--tex in seconds, with decimal for < second
 
   InfButton.UpdateHeld()
   InfButton.UpdateRepeatReset()
@@ -583,7 +602,7 @@ function this.Update(missionTable)
           --this is to cut down on non IH modules that have just been using Update without any checks
           if currentChecks.inGame or currentChecks.inSafeSpace or module.updateOutsideGame or module.execState then--DEBUGNOW
             --InfCore.Log("ExecUpdate for "..tostring(module.name))--DEBUG
-            local updateRate=this.ValueOrIvarValue(module.updateRate)
+            local updateRate=this.ValueOrIvarValue(module.updateRate)--tex nextUpdate=currentTime+updateRate, in seconds, with decimal for < second
             this.ExecUpdate(currentChecks,currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
           end
         end

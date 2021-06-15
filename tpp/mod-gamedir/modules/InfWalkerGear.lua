@@ -616,6 +616,13 @@ function this.SetUpEnemyGear(missionTable,lrrpDefines)
   if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
     return
   end
+  
+  local locationName=TppLocation.GetLocationName()
+  local baseNames=InfMain.baseNames[locationName]
+  if baseNames==nil or #baseNames<2 then
+    InfCore.Log("InfWalkerGear.SetUpEnemyGear baseNames==nil or #baseNames<2, returning")
+    return
+  end  
 
   if not Ivars.enableWalkerGearsFREE:EnabledForMission() then
     return

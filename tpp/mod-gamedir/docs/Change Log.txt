@@ -1,5 +1,30 @@
 Infinite Heaven changelog
 
+r253 - 2021-06-15
+InfFulton:
+Fulton menu (in ACC)
+fulton_autoFultonFREE, fulton_autoFultonMISSION - Extraction team in Free Roam/Missions
+"Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post). 
+This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
+[youtube]NQiXzE6PL2s[/youtube]
+https://youtu.be/NQiXzE6PL2s
+
+fultonVariationRange - "Fulton success variation","Subtracts the percentage from fulton success in a periodic fashion."
+fultonVariationInvRate="Fulton variation inv rate","Inverse rate (higher slower) of fulton variation cycle"
+
+Moved fulton success menu/ivars to module.
+fultonNoMbSupport/Medical changed tp fultonSupport/MedicalScale
+
+InfInterrogation:
+fix: Inter cp stash interrogation quests would just endlessly loop between some paired soldiers as the array for advancement state was too small - thanks William for your reports.
+changed states from gvars to svars, a holdout from IHs shift away from gvars many years ago (and it should have been svars from the start).
+
+InfLookup:
+BuildObjectNameLists, so other modules can add to objectNameLists
+
+Module API: TppMission.EstablishedMission* ih module hooks
+Ivar API: isPercent percentage range ivars can use :Scale(value)
+
 r252 - 2021-06-05
 IHHook split to it's own installation: https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 

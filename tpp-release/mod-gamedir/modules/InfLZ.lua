@@ -18,6 +18,8 @@ this.debugModule=false
 --returnRoute -- route from heli lz landed/descended to 'leave map'. includes a close door route event
 --from TppLandingZoneData
 --UNUSED (some wip commented out usage in InfHelicopter?)
+--however mission addons add their own entries and use that to add some data to various tables (notible toolandingzone.locInfo)
+--(apart from the dynamically added addon lzs) this afgh and mafr free roam only, currently no story lzs
 this.lzInfo={
   --  afgh={
   ["lz_bridge_S0000|lz_bridge_S_0000"]={

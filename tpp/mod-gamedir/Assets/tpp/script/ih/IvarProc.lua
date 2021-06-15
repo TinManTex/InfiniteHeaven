@@ -528,7 +528,6 @@ function this.GetVector3(ivar)
   end
   return Vector3(ivar.vec3Ivars.X:Get(),ivar.vec3Ivars.Y:Get(),ivar.vec3Ivars.Z:Get())
 end
-
 function this.SetVector3(ivar,vec3)
   if ivar.vec3Ivars==nil then
     InfCore.Log("ERROR: IvarProc.SetVector3: "..ivar.name..".vec3Ivars==nil")
@@ -538,6 +537,15 @@ function this.SetVector3(ivar,vec3)
   --if is table and .X, else X=vec3[1]
   return {ivar.vec3Ivars.X:Set(vec3[0]),ivar.vec3Ivars.Y:Set(vec3[0]),ivar.vec3Ivars.Z:Set(vec3[0])}
 end
+function this.Scale(ivar,value)
+  local ivarScale=ivar:Get()
+  if ivarScale~=100 then
+    local scale=ivarScale/100
+    return value*scale
+  else
+    return value
+  end
+end--Scale
 
 local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
 

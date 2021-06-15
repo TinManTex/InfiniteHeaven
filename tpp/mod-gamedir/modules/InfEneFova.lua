@@ -11,10 +11,10 @@ this.bodiesForMap={}
 this.isFemaleSoldierId={}--DEBUGNOW tex better of as a svar?
 
 function this.PostModuleReload(prevModule)
-  this.inf_wildCardMaleFaceList=this.inf_wildCardMaleFaceList
-  this.inf_wildCardFemaleFaceList=this.inf_wildCardFemaleFaceList
-  this.bodiesForMap=this.bodiesForMap
-  this.isFemaleSoldierId=this.isFemaleSoldierId
+  this.inf_wildCardMaleFaceList=prevModule.inf_wildCardMaleFaceList
+  this.inf_wildCardFemaleFaceList=prevModule.inf_wildCardFemaleFaceList
+  this.bodiesForMap=prevModule.bodiesForMap
+  this.isFemaleSoldierId=prevModule.isFemaleSoldierId
 end
 
 this.bodyTypes={

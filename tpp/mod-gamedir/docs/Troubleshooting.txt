@@ -4,6 +4,8 @@ Check the FAQ Known Issues document.
 
 If you have issues with Snakebite try the suggestions on the stickied post on the snakebite nexus posts.
 
+If you're using IHHook make sure it's updated to a version compatible with the version of IH you're using.
+
 For other issues, in general when asking for help you want to provide as much information, in as much detail as possible:
 
 What your were doing leading up to the issue.
