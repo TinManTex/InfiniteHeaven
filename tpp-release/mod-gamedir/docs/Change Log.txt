@@ -4,8 +4,10 @@ r253 - 2021-06-15
 InfFulton:
 Fulton menu (in ACC)
 fulton_autoFultonFREE, fulton_autoFultonMISSION - Extraction team in Free Roam/Missions
-"Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post). 
+"Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post). 
 This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
+[youtube]NQiXzE6PL2s[/youtube]
+https://youtu.be/NQiXzE6PL2s
 
 fultonVariationRange - "Fulton success variation","Subtracts the percentage from fulton success in a periodic fashion."
 fultonVariationInvRate="Fulton variation inv rate","Inverse rate (higher slower) of fulton variation cycle"
