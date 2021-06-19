@@ -23,14 +23,17 @@ this.debugModule=false
 --DATA
 this.packages={
   ARMOR={
+    "/Assets/tpp/pack/mission2/ih/snd_zmb.fpk",
     "/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk",
   --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
   },
   MIST={
+    "/Assets/tpp/pack/mission2/ih/snd_zmb.fpk",
     "/Assets/tpp/pack/mission2/ih/ih_parasite_mist.fpk",
   --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
   },
   CAMO={
+    "/Assets/tpp/pack/mission2/ih/snd_zmb.fpk",
     "/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk",
   --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
   },
