@@ -2658,6 +2658,9 @@ function this.OnAllocate(missionTable)
     if missionTable.enemy.soldierTypes then
       this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
     end
+    if missionTable.enemy.cpType then--tex>
+      mvars.ene_cpType=missionTable.enemy.cpType
+    end--<
   end
   mvars.ene_soldierPowerSettings={}
   mvars.ene_missionSoldierPowerSettings={}
@@ -2672,7 +2675,7 @@ function this.OnAllocate(missionTable)
   mvars.ene_questBalaclavaId=0
   mvars.ene_isQuestSetup=false
   mvars.ene_isQuestHeli=false
-end
+end--OnAllocate
 function this.DeclareSVars(missionTable)
   --tex>
   InfCore.LogFlow("mvars.ene_maxHeliStateCount:"..tostring(mvars.ene_maxHeliStateCount))
@@ -3197,7 +3200,18 @@ function this.DefineSoldiers(soldierDefine)
       end
     end
   end
-end
+
+  if this.debugModule then  --tex>
+    InfCore.PrintInspect(mvars.ene_soldierDefine,"mvars.ene_soldierDefine")
+    InfCore.PrintInspect(mvars.ene_cpList,"mvars.ene_cpList")
+    InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
+    InfCore.PrintInspect(mvars.ene_sleepTimes,"mvars.ene_sleepTimes")
+    InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_sene_soldierIDListoldierDefine")
+    InfCore.PrintInspect(mvars.lrrpTravelPlan,"mvars.lrrpTravelPlan")
+    InfCore.PrintInspect(mvars.lrrpVehicle,"mvars.lrrpVehicle")
+    InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_soldierIDList")
+  end --<
+end--DefineSoldiers
 --CALLER: TppMain.OnInitialize
 function this.SetUpSoldiers()
   if not IsTypeTable(mvars.ene_soldierDefine)then
@@ -3242,12 +3256,22 @@ function this.SetUpSoldiers()
         setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
       elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
         setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
+      elseif mvars.ene_cpType~=nil then--tex>--DEBUGNOW not sure this is working, it seems like soldier type is taking precedence??
+        setCpType={id="SetCpType",type=mvars.ene_cpType}
+      --<
       end
+      if this.debugModule then--tex>
+        if setCpType==nil then
+          InfCore.Log("WARNING: SetUpSoldiers setCpType==nil")
+        else
+          InfCore.Log("SetUpSoldiers "..cpId.." SetCpType:"..setCpType.type)
+        end
+      end--<
       if setCpType then
         GameObject.SendCommand(cpId,setCpType)
       end
-    end
-  end
+    end--if cpId
+  end--for soldierDegine
   for cpId,cpName in pairs(mvars.ene_cpList)do
     if mvars.ene_baseCpList[cpId]then
       local soldierList=mvars.ene_soldierDefine[cpName]
@@ -3258,7 +3282,7 @@ function this.SetUpSoldiers()
           SendCommand(soldierId,{id="AddRouteAssignMember"})
         end
       end
-    end
+    end--for cpList
   end
   --NMC not sure why its seperating this into has baseCp and not passes, but whatev.
   for cpId,cpName in pairs(mvars.ene_cpList)do
@@ -3272,10 +3296,11 @@ function this.SetUpSoldiers()
         end
       end
     end
-  end
+  end--for cpList
   this.AssignSoldiersToCP()
-end
+end--SetUpSoldiers
 function this.AssignSoldiersToCP()
+  InfCore.LogFlow"TppEnemy.AssignSoldiersToCP"--tex
   --tex CULL
   --  local forceSubType=InfEneFova.enemySubTypes[gvars.forceSoldierSubType]--tex WIP
   --  if Ivars.forceSoldierSubType:Is(1) then
