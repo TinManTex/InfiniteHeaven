@@ -8,6 +8,8 @@
 --or stuff that the module has run before PostAllModulesLoad
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
+'TppPlayer',
+  'InfFulton',
   'TppHero',
   --'InfWeaponIdTable',
   --'InfCore',
@@ -22,7 +24,7 @@ local debugModules={
   'InfQuest',
   'TppQuest',
   --  'TppQuest',
-  --  'InfInterrogation',
+    'InfInterrogation',
   --  'InfMBGimmick',
   --'InfLookup',
   --  'InfMission',
@@ -33,9 +35,9 @@ local debugModules={
   --'InfMission',
   --'InfNPC',
   'Ivars',
---'TppEnemy',
+'TppEnemy',
 --'InfRouteSet',
---'TppRevenge',
+'TppRevenge',
 --'InfLZ',
 --'TppLandingZone',
 --'InfParasite',
@@ -111,6 +113,8 @@ function this.PostAllModulesLoad()
     InfCore.Log("isMockFox, returning:")
     return
   end
+  
+  this.SetDebugModules()
 
   InfCore.Log("mvars.mis_missionStateIsNotInGame"..tostring("mvars.mis_missionStateIsNotInGame"))
  --InfCore.PrintInspect(mvars.qst_questScriptBlockMessageExecTable,"mvars.qst_questScriptBlockMessageExecTable")
@@ -980,9 +984,39 @@ this.DEBUG_SomeShiz=function()
     index1=index1Min
   end
   toggle1=not toggle1
+  
 
+  
+  for revengeTypeIndex=0,TppRevenge.REVENGE_TYPE.MAX-1 do
+    local revengeTypeName=TppRevenge.REVENGE_TYPE_NAME[revengeTypeIndex+1]
+    local revengePoint=gvars.rev_revengePoint[revengeTypeIndex]
+    InfCore.Log("rev_revengePoint["..revengeTypeName.."]".."="..tostring(revengePoint))  
+  
+    local revengeLv=gvars.rev_revengeLv[revengeTypeIndex]
+    InfCore.Log("rev_revengeLv["..revengeTypeName.."]".."="..tostring(revengeLv))
+  end
+  for blockedTypeIndex=0,TppRevenge.BLOCKED_TYPE.MAX-1 do
+    local blockedCount=gvars.rev_revengeBlockedCount[blockedTypeIndex]
+    InfCore.Log("rev_revengeBlockedCount["..blockedTypeIndex.."]".."="..tostring(blockedCount))
+  end
 
- 
+--InfCore.PrintInspect(player2_camouf_param,"player2_camouf_param")
+--InfCore.Log("elapsedTime:"..Time.GetRawElapsedTimeSinceStartUp())
+--tex example usage of the cammoTypes and materialTypes tables I added
+--local camoType=this.camoTypes.SWIMWEAR_C00
+--local materialType=this.materialTypes.MTR_WOOD_A
+--local camoMaterialValue=this.cammoTable[camoType][materialType] --get value
+--this.camoTable[camoType][materialType]=50 --set value
+
+--or conversely, printing out
+--for cammoType,cammoStrengths in ipairs(this.cammoTable)do
+--  InfCore.Log(this.playerCammoTypeNames[cammoType])
+--  for materialType,cammoStrength in ipairs(cammoStrengths)do
+--    InfCore.Log(this.materialTypeNames[materialType]..":"..cammoStrength)
+--  end
+--end
+  
+
 
 
 --  local displayTimeSec=1*50
@@ -1544,6 +1578,7 @@ this.debug_GrTools_SetModelVertexLodScale={
 --tex set to screen resolution or higher?, more effective in increasing lod than others
 --ADDLANG set to screen resolution for default, and higher for higher lods loaded further, scales logarythimically
 --warning at high levels hitching will occur as it loads if you are travelling at high speed speed via freecam (happens somewhat even without using this, this just accecerbates it
+--help grTools_SetLodFactorResolution="Sets how Level Of Detail of loaded world models scale to disatance vs screen resolution. Set it to your screen reolution for default or higher for higher LOD. Scales logarythmically.",
 this.debug_GrTools_SetLodFactorResolution={
   --save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=100000,increment=1000},
