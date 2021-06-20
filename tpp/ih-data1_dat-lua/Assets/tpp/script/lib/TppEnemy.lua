@@ -2658,8 +2658,8 @@ function this.OnAllocate(missionTable)
     if missionTable.enemy.soldierTypes then
       this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
     end
-    if missionTable.enemy.cpType then--tex>
-      mvars.ene_cpType=missionTable.enemy.cpType
+    if missionTable.enemy.cpTypes then--tex>
+      mvars.ene_cpTypes=missionTable.enemy.cpTypes
     end--<
   end
   mvars.ene_soldierPowerSettings={}
@@ -3256,8 +3256,17 @@ function this.SetUpSoldiers()
         setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
       elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
         setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
-      elseif mvars.ene_cpType~=nil then--tex>--DEBUGNOW not sure this is working, it seems like soldier type is taking precedence??
-        setCpType={id="SetCpType",type=mvars.ene_cpType}
+      elseif mvars.ene_cpTypes~=nil then--tex>
+        --tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
+        local cpType
+        if type(mvars.ene_cpTypes)~="table"then
+          cpType=mvars.ene_cpTypes
+        else
+          cpType=mvars.ene_cpTypes[cpName]
+        end
+        if cpType then
+          setCpType={id="SetCpType",type=cpType}
+        end
       --<
       end
       if this.debugModule then--tex>
@@ -3342,6 +3351,9 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
+      if this.debugModule then--tex>
+        InfCore.Log(soldierId.." SetSoldier2Type:"..tostring(soldierType))
+      end--<
       --tex CULL
       --      if Ivars.forceSoldierSubType:Is(1) then--tex> WIP:
       --        this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
