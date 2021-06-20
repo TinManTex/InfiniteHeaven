@@ -67,4 +67,8 @@ Again test to see if the game loads.
 Install Infinite Heaven only.
 Test again to see if the issue still occurs.
 
+Copy MGS_TPP\mod\docs\ih_save-with-debug\ih_save.lua to MGS_TPP\mod\saves and test again.
+Send the MGS_TPP\mod\ih_log.txt if you hit the problem again.
+You should delete this save from MGS_TPP\mod\saves after your testing.
+
 If the game save is in-mission and not in ACC you may need to Abort to ACC from title (see above).
