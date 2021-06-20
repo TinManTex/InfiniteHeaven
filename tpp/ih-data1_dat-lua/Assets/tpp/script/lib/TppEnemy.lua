@@ -3144,7 +3144,28 @@ function this.Init(missionTable)
       GameObject.SendCommand({type=skullType},{id="SetFultonEnabled",enabled=skullFultonable})
     end
   end
-end
+  if missionTable.enemy then--tex>
+    local langIds=missionTable.enemy.cpAnounceLangIds
+    if langIds then
+      mvars.cpAnounceLangIds=langIds
+      local langId
+      if type(langIds)~="table"then
+        mvars.cpAnounceLangIds=langIds
+      else
+        mvars.cpAnounceLangIds={}
+        for cpName,langId in pairs(langIds)do
+          local cpId=GetGameObjectId(cpName)
+          if cpId==NULL_ID then
+            InfCore.Log("WARNING: TppEnemy.Init: enemy.cpAnounceLangIds could not find cpId for "..tostring(cpName))
+          else
+            mvars.cpAnounceLangIds[cpId]=langId
+          end--if cpId
+        end--for langIds
+      end--if type langIds
+      InfCore.PrintInspect(mvars.cpAnounceLangIds,"mvars.cpAnounceLangIds")
+    end--if langIds
+  end--< if missionTable.enemy
+end--Init
 function this.RegistCommonRoutePointMessage()
 end
 function this.OnReload(missionTable)
@@ -6177,22 +6198,33 @@ this.announceForPhase={
 --<
 --tex REWORKED
 function this._AnnouncePhaseChange(cpId,phase)
-  local cpSubType=this.GetCpSubType(cpId)
-  if cpSubType==nil then
-    InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: cpSubType==nil for cpId "..tostring(cpId))
-    return
+  local cpLangId
+  if mvars.cpAnounceLangIds then--tex> set via missionScript _enemy
+    if type(mvars.cpAnounceLangIds)~="table"then
+      cpLangId=mvars.cpAnounceLangIds
+    else
+      cpLangId=mvars.cpAnounceLangIds[cpId]
+    end
+    InfCore.Log("TppEnemy._AnnouncePhaseChange cpAnounceLangIds cpLangId "..tostring(cpId).." "..tostring(cpLangId))--DEBUGNOW
   end
-  local cpLangId=this.cpSubTypeToLangId[cpSubType]
-  if cpLangId==nil then
-    InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: unknown cpSubType "..cpSubType.." for cpId "..tostring(cpId))
+  if cpLangId==nil then--<
+    local cpSubType=this.GetCpSubType(cpId)
+    if cpSubType==nil then
+      InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: cpSubType==nil for cpId "..tostring(cpId))
+      return
+    end
+    cpLangId=this.cpSubTypeToLangId[cpSubType]--tex shifted declaration to top
+    if cpLangId==nil then
+      InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: unknown cpSubType "..cpSubType.." for cpId "..tostring(cpId))
+    end
+    cpLangId=cpLangId or "cmmn_ene_soviet"--tex default to sov
   end
-  cpLangId=cpLangId or "cmmn_ene_soviet"--tex default to sov
   if cpLangId=="" then--tex unless specifically none
     return
   end
   local announceLangId=this.announceForPhase[phase]
   TppUiCommand.AnnounceLogViewLangId(announceLangId,cpLangId)
-end
+end--_AnnouncePhaseChange
 --ORIG
 --function this._AnnouncePhaseChange(cpId,phase)
 --  local cpSubType=this.GetCpSubType(cpId)
