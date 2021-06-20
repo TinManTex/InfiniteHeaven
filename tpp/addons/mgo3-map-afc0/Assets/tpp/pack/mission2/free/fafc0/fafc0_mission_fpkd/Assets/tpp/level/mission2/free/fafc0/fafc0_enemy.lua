@@ -7,7 +7,21 @@ local SendCommand=GameObject.SendCommand
 
 this.requires={}
 
-this.cpType=CpType.TYPE_AFRIKAANS
+--tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
+this.cpTypes=CpType.TYPE_AFRIKAANS
+--tex per cp cpType example
+--this.cpTypes={
+--	briefing_cp=CpType.TYPE_AFRIKAANS,
+--	village_cp=CpType.TYPE_AMERICA,
+--}--cpTypes
+
+--tex cpAnounceLangIds examples
+--REF TppEnemy._AnnouncePhaseChange, cpSubTypeToLangId
+--this.cpAnounceLangIds="cmmn_ene_pf"--or
+--this.cpAnounceLangIds={
+--	briefing_cp="cmmn_ene_pf",
+--	village_cp="cmmn_ene_zrs",
+--}--cpAnounceLangIds
 
 this.soldierDefine={
 	briefing_cp = {--17
