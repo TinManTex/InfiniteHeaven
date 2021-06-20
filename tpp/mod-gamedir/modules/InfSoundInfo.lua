@@ -19,7 +19,7 @@ this.langForEnemyType={
   [EnemyType.TYPE_SOVIET]="ene_ru",    
   [EnemyType.TYPE_PF]="ene_af",
   [EnemyType.TYPE_SKULL]="ene_en",  
-  --[EnemyType.TYPE_CHILD]=,--DEBUGNOW TODO build pack
+  --[EnemyType.TYPE_CHILD]=,--TODO build pack
   [EnemyType.TYPE_DD]="ene_en",
 }--langForEnemyType
 
@@ -37,13 +37,9 @@ function this.AddMissionPacks(missionCode,packPaths)
   local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionCode)
   local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionCode)
   
-  --DEBUGNOW see TppEnemy.GetSoldierSubType defaulting to soldierSubType DD_FOB why?
-  local function GetSoldierType(bodyInfo)
-    return bodyInfo.soldierSubType and InfMainTpp.soldierTypeForSubtypes[bodyInfo.soldierSubType] or "DD_FOB"
-  end
-
   if maleBodyInfo then
-    local soldierType=GetSoldierType(maleBodyInfo)
+    local soldierSubType=maleBodyInfo.soldierSubType and maleBodyInfo.soldierSubType or "DD_FOB" --TODO see TppEnemy.GetSoldierSubType defaulting to soldierSubType DD_FOB why?
+    local soldierType=InfMainTpp.soldierTypeForSubtypes[soldierSubType]
     local lang=this.langForEnemyType[soldierType]
     table.insert(packPaths,this.soundPacks[lang])
   end
