@@ -7,11 +7,12 @@
 local this={}
 
 --tex SoundPackage>sdf>vox_ene_common_* sbp loaders
+--the vox_ene_common* soundbanks include both soldier and CP vox for the respective language
 this.soundPacks={
-  ene_en="/Assets/tpp/pack/mission2/ih/snd_ene_en.fpk",
-  ene_en_fml="/Assets/tpp/pack/mission2/ih/snd_ene_en_fml.fpk",
-  ene_ru="/Assets/tpp/pack/mission2/ih/snd_ene_ru.fpk",
-  ene_af="/Assets/tpp/pack/mission2/ih/snd_ene_af.fpk",
+  ene_en="/Assets/tpp/pack/mission2/ih/snd_ene_en.fpk",--vox_ene_common.sbp
+  ene_en_fml="/Assets/tpp/pack/mission2/ih/snd_ene_en_fml.fpk",--vox_ene_common_fml..sbp
+  ene_ru="/Assets/tpp/pack/mission2/ih/snd_ene_ru.fpk",--vox_ene_common_ru.sbp
+  ene_af="/Assets/tpp/pack/mission2/ih/snd_ene_af.fpk",--vox_ene_common_af..sbp
 }--soundPacks
 
 this.langForEnemyType={
