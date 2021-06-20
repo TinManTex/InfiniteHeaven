@@ -10,9 +10,9 @@ local this={}
 --the vox_ene_common* soundbanks include both soldier and CP vox for the respective language
 this.soundPacks={
   ene_en="/Assets/tpp/pack/mission2/ih/snd_ene_en.fpk",--vox_ene_common.sbp
-  ene_en_fml="/Assets/tpp/pack/mission2/ih/snd_ene_en_fml.fpk",--vox_ene_common_fml..sbp
+  ene_en_fml="/Assets/tpp/pack/mission2/ih/snd_ene_en_fml.fpk",--vox_ene_common_fml.sbp
   ene_ru="/Assets/tpp/pack/mission2/ih/snd_ene_ru.fpk",--vox_ene_common_ru.sbp
-  ene_af="/Assets/tpp/pack/mission2/ih/snd_ene_af.fpk",--vox_ene_common_af..sbp
+  ene_af="/Assets/tpp/pack/mission2/ih/snd_ene_af.fpk",--vox_ene_common_af.sbp
 }--soundPacks
 
 this.langForEnemyType={
@@ -22,6 +22,12 @@ this.langForEnemyType={
   --[EnemyType.TYPE_CHILD]=,--DEBUGNOW TODO build pack
   [EnemyType.TYPE_DD]="ene_en",
 }--langForEnemyType
+
+this.langForCpType={    
+  [CpType.TYPE_SOVIET]="ene_ru",   
+  [CpType.TYPE_AMERICA]="ene_en",
+  [CpType.TYPE_AFRIKAANS]="ene_af",
+}--langForCpType
 
 function this.AddMissionPacks(missionCode,packPaths)
   if missionCode < 5 then
