@@ -1,7 +1,3 @@
---DEBUGNOW
-InfCore.Log("fafc0_enemy")--DEBUGNOW
-return InfCore.PCall(function()
-
 local this={}
 local StrCode32=InfCore.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
@@ -34,7 +30,6 @@ this.soldierDefine={
 		"sol_afc0_0016",
 		"sol_afc0_0017",
 		"sol_afc0_0018",
-		nil
 	},--briefing_cp
 	village_cp = {--21
 		"sol_afc0_0019",
@@ -58,7 +53,6 @@ this.soldierDefine={
 		"sol_afc0_0037",
 		"sol_afc0_0038",
 		"sol_afc0_0039",
-		nil
 	},--village_cp	
 	quest_cp={
 		"sol_quest_0000",
@@ -91,7 +85,6 @@ this.routeSets={
 			"groupA",
 			"groupB",
 			"groupC",
-			nil
 		},
 		sneak_day={
 			groupA={
@@ -150,7 +143,6 @@ this.routeSets={
 			"groupB",
 			"groupC",
 			"groupD",
-			nil
 		},
 		sneak_day={
 			groupA={
@@ -215,30 +207,77 @@ this.routeSets={
 			},
 		},--sneak_night
 	},--village_cp
-	--quest_cp					= { USE_COMMON_ROUTE_SETS = true, },
+	quest_cp--DEBUGNOW  = { USE_COMMON_ROUTE_SETS = true, },
+	--TODO common routesets, see /Assets/tpp/script/location/afgh/afgh_routeSets.lua
+	--refrerenced through location script .requires, see /Assets/tpp/script/location/afgh/afgh.lua .requires
+		 = {
+		priority = {
+			"groupA",
+		},
+		sneak_day = {
+			groupA = {
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+			},
+		},
+		sneak_night = {
+			groupA = {
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+			},
+		},
+		caution = {
+			groupA = {
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+				"rt_quest_dummy_0000",
+			},
+		},
+		hold = {
+			default = {
+			},
+		},
+		sleep = {
+			default = {
+			},
+		},
+		travel = {
+			lrrpHold = {
+			},
+		},
+		nil
+	},--quest_cp
 }--routeSets
 
 this.combatSetting={
 	nil
-}
+}--combatSetting
 
 this.InitEnemy=function()
 end
 
 this.SetUpEnemy=function()
 	TppEnemy.SetupQuestEnemy()
-	--DEBUGNOW
-	for i,soldierName in ipairs(this.soldierDefine.afc0_cp) do
-		local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
-		if gameObjectId~=NULL_ID then
-			SendCommand(gameObjectId, {id="SetZombie",enabled=true,isMsf=false,isZombieSkin=true,isHagure=false})
-		end
-	end--for afc0_cp
 end--SetUpEnemy
 
 this.OnLoad=function()
 end
 
 return this
-
-end)--DEBUGNOW
