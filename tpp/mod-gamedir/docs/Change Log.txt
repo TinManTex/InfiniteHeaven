@@ -1,5 +1,19 @@
 Infinite Heaven changelog
 
+r254 - 2021-06-22
+fix: hang on exit fob due to IH not handling heroicPoint as string - thanks William for your report and log.
+
+API: mission _enemy script 
+.cpTypes as either direct CpType or as table of [cpName]=CpType
+.cpSubTypes as either one soldierSubType applied to all cps, or table of [cpName]=soldierSubType
+.cpAnnounceLangIds - cp name langId used in TppEnemy._AnnouncePhaseChange, also see cpSubTypeToLangId
+.soldierSubTypes=true (alternative to the existing [soldierSubType]={soldierName,...}), to use .cpSubTypes to define the soldierSubTypes for soldiers of the soldierDefine for those cps.
+
+InfMainTpp.IsDDEnemy used to bypass staff died messages and hero point loss - should only catch vanilla DD enemies not addon uses of DD soldiers.
+
+InfSoundInfo, ih/snd_ene_* fpks to load vox_ene soundbanks
+fix: Some Custom soldier types having silent voices in mafr
+
 r253 - 2021-06-15
 InfFulton:
 Fulton menu (in ACC)
