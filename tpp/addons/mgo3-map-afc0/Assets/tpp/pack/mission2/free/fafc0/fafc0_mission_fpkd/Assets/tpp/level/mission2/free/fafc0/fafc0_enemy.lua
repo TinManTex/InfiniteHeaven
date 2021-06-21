@@ -128,7 +128,6 @@ this.routeSets={
 				"rt_afc0_d_0010",
 			},
 			groupC={
-				"rt_afc0_d_0031",
 				"rt_afc0_d_0032",
 				"rt_afc0_d_0033",
 				"rt_afc0_d_0034",
@@ -153,7 +152,6 @@ this.routeSets={
 				"rt_afc0_d_0010",
 			},
 			groupC={
-				"rt_afc0_d_0031",
 				"rt_afc0_d_0032",
 				"rt_afc0_d_0033",
 				"rt_afc0_d_0034",
