@@ -429,19 +429,6 @@ function this.ResetCpTableToDefault()
     end
   end
 end
-
---tex CULL
---local cpSubTypes={
---  afgh={
---    "SOVIET_A",
---    "SOVIET_B",
---  },
---  mafr={
---    "PF_A",
---    "PF_B",
---    "PF_C",
---  },
---}
 --TODO: and soldier sub types?
 local changeCpSubTypeStr="changeCpSubType"
 function this.RandomizeCpSubTypeTable(missionTable)
