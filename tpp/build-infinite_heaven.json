@@ -36,6 +36,7 @@
   "copyInternalLua": true,
   "copyExternalLua": false,
   "copyModulesToInternal": false,
+	"copyProxyDll": false,
   "makeMod": true,
   "installMod": true,
   "installOtherMods": false,
