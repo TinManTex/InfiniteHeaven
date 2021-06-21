@@ -22,7 +22,7 @@
         </property>
         <property name="dataList" type="EntityPtr" container="StringMap" arraySize="12">
           <value key="Soldier2GameObject">0x04902620</value>
-          <value key="briefing_cp">0x04903420</value>
+          <value key="briefing_ob">0x04903420</value>
           <value key="village_cp">0x04903520</value>
           <value key="sol_afc0_0000">0x16000000</value>
           <value key="sol_afc0_0001">0x16000010</value>
@@ -143,7 +143,7 @@
     <entity class="GameObjectLocator" classVersion="2" addr="0x04903420" unknown1="272" unknown2="36001">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>briefing_cp</value>
+          <value>briefing_ob</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x049025B0</value>
