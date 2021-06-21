@@ -11,7 +11,7 @@ this.requires={}
 this.cpTypes=CpType.TYPE_AFRIKAANS--tex apply to all cps
 --tex or per cp cpType
 --this.cpTypes={
---	briefing_ob=CpType.TYPE_AFRIKAANS,
+--	briefing_cp=CpType.TYPE_AFRIKAANS,
 --	village_cp=CpType.TYPE_AMERICA,
 --}--cpTypes
 
@@ -19,19 +19,19 @@ this.cpTypes=CpType.TYPE_AFRIKAANS--tex apply to all cps
 --this.cpAnounceLangIds="cmmn_ene_pf"--tex apply to all cps
 --tex or per cp
 --this.cpAnounceLangIds={
---	briefing_ob="cmmn_ene_pf",
+--	briefing_cp="cmmn_ene_pf",
 --	village_cp="cmmn_ene_zrs",
 --}--cpAnounceLangIds
 
 --this.cpSubTypes="PF_C"--tex apply to all cps
 --tex or per cp subtype
 this.cpSubTypes={
-	briefing_ob="PF_B",
-	village_cp="PF_C",
+	briefing_cp="PF_C",
+	village_cp="PF_B",
 }--cpSubTypes
 
 this.soldierDefine={
-	briefing_ob = {--17
+	briefing_cp = {--17
 		"sol_afc0_0000",
 		"sol_afc0_0001",
 		"sol_afc0_0002",
@@ -49,7 +49,7 @@ this.soldierDefine={
 		"sol_afc0_0014",
 		"sol_afc0_0015",
 		"sol_afc0_0016",
-	},--briefing_ob
+	},--briefing_cp
 	village_cp = {--21
 		"sol_afc0_0017",
 		"sol_afc0_0018",
@@ -87,7 +87,7 @@ this.soldierDefine={
 
 this.soldierTypes={
 	PF={--REF EnemyType["TYPE_"..soldierType]
-		this.soldierDefine.briefing_ob,
+		this.soldierDefine.briefing_cp,
 		this.soldierDefine.village_cp,
 	},
 }--soldierTypes
@@ -95,17 +95,17 @@ this.soldierTypes={
 this.soldierSubTypes=true--tex true = use cpSubTypes to define soldier subtypes for
 --tex or per soldier sub type
 --this.soldierSubTypes={	
---	PF_C={
---		"sol_afc0_0019",
---		this.soldierDefine.briefing_ob,	
---	},
---	PF_B={
---		this.soldierDefine.village_cp,
---	},
+	--PF_C={
+		--"sol_afc0_0019",
+		--this.soldierDefine.briefing_cp,	
+	--},
+	--PF_B={
+	--	this.soldierDefine.village_cp,
+	--},
 --}--soldierSubTypes
 
 this.routeSets={
-	briefing_ob={
+	briefing_cp={
 		priority={
 			"groupA",
 			"groupB",
@@ -159,7 +159,7 @@ this.routeSets={
 				"rt_afc0_d_0036",			
 			},
 		},--sneak_night
-	},--briefing_ob
+	},--briefing_cp
 	village_cp={
 		priority={
 			"groupA",
