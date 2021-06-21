@@ -8,20 +8,27 @@ local SendCommand=GameObject.SendCommand
 this.requires={}
 
 --tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
-this.cpTypes=CpType.TYPE_AFRIKAANS
---tex per cp cpType example
+this.cpTypes=CpType.TYPE_AFRIKAANS--tex apply to all cps
+--tex or per cp cpType
 --this.cpTypes={
 --	briefing_cp=CpType.TYPE_AFRIKAANS,
 --	village_cp=CpType.TYPE_AMERICA,
 --}--cpTypes
 
---tex cpAnounceLangIds examples
 --REF TppEnemy._AnnouncePhaseChange, cpSubTypeToLangId
---this.cpAnounceLangIds="cmmn_ene_pf"--or
+--this.cpAnounceLangIds="cmmn_ene_pf"--tex apply to all cps
+--tex or per cp
 --this.cpAnounceLangIds={
 --	briefing_cp="cmmn_ene_pf",
 --	village_cp="cmmn_ene_zrs",
 --}--cpAnounceLangIds
+
+--this.cpSubTypes="PF_C"--tex apply to all cps
+--tex or per cp subtype
+this.cpSubTypes={
+	briefing_cp="PF_B",
+	village_cp="PF_C",
+}--cpSubTypes
 
 this.soldierDefine={
 	briefing_cp = {--17
@@ -86,12 +93,18 @@ this.soldierTypes={
 		this.soldierDefine.village_cp,
 	},
 }--soldierTypes
-this.soldierSubTypes={
-	PF_C={
-		this.soldierDefine.briefing_cp,
-		this.soldierDefine.village_cp,
-	},
-}--soldierSubTypes
+
+this.soldierSubTypes=true--tex true = use cpSubTypes to define soldier subtypes for
+--tex or per soldier sub type
+--this.soldierSubTypes={	
+--	PF_C={
+--		"sol_afc0_0019",
+--		this.soldierDefine.briefing_cp,	
+--	},
+--	PF_B={
+--		this.soldierDefine.village_cp,
+--	},
+--}--soldierSubTypes
 
 this.routeSets={
 	briefing_cp={
