@@ -93,18 +93,19 @@ See ReadMe or Features and Options for more info.
 9: Enemy phases menu
 10: Enemy reinforcements menu
 11: Events menu
-12: Mission-prep features menu
-13: Mother Base menu
-14: Patrols and deployments menu
-15: Player restrictions menu
-16: Player settings menu
-17: Progression menu
-18: RouteSet menu
-19: Side ops menu
-20: Soldier parameters menu
-21: Support heli menu
-22: Time scale menu
-23: Weather menu
+12: Fulton menu
+13: Mission-prep features menu
+14: Mother Base menu
+15: Patrols and deployments menu
+16: Player restrictions menu
+17: Player settings menu
+18: Progression menu
+19: RouteSet menu
+20: Side ops menu
+21: Soldier parameters menu
+22: Support heli menu
+23: Time scale menu
+24: Weather menu
 
 IH system menu
 --------------
@@ -602,6 +603,39 @@ Percentage chance a zombified soldier will have msf zombie behaviour
 41: parasite_timeOutMIST : 0-1000
 42: parasite_timeOutCAMO : 0-1000
 
+Fulton menu
+-----------
+1: Extraction team in Free Roam : Off, On
+Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
+2: Extraction team in Missions : Off, On
+3: Disable fulton action : Off, On
+Disables fulton at the player-action level
+4: Fulton levels menu
+5: Fulton success menu
+
+Fulton levels menu
+------------------
+1: Fulton Level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4
+2: Wormhole Level : Don't override, Disable, Enable
+
+Fulton success menu
+- Adjust the success rate of fultoning
+-------------------
+1: Fulton success variation : 0-100
+Subtracts the purcentage from fulton success in a periodic fashion.
+2: Soldier fulton success variation : 0-100
+3: Fulton variation inv rate : 1-1000
+Inverse rate (higher slower) of fulton variation cycle
+4: MB fulton support scale : 0-400%
+Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.
+5: MB fulton medical scale : 0-400%
+Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty
+6: Target dying penalty : 0-100
+7: Target sleeping penalty : 0-100
+8: Target holdup penalty : 0-100
+9: Hostage handling : Default, Must extract (0%)
+10: Print mb fulton success bonus : 0-1
+
 Mission-prep features menu
 - Only affects the mission-prep screen, not the in-mission equivalents.
 --------------------------
@@ -766,6 +800,7 @@ Player restrictions menu
 1: Disable support heli attack : Off, On
 Stops support heli from engaging targets.
 2: Disable fulton action : Off, On
+Disables fulton at the player-action level
 3: Force subsistence suit (Olive Drab, no headgear) : Off, On
 4: Set hand type to default : Off, On
 5: Disable abort mission from pause menu : Off, On
@@ -819,26 +854,6 @@ Hand abilities levels menu
 2: Mobility level : Don't override, Disable, Grade 2, Grade 3, Grade 4
 3: Precision level : Don't override, Disable, Grade 2, Grade 3, Grade 4
 4: Medical level : Don't override, Disable, Grade 2, Grade 3, Grade 4
-
-Fulton levels menu
-------------------
-1: Fulton Level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4
-2: Wormhole Level : Don't override, Disable, Enable
-
-Fulton success menu
-- Adjust the success rate of fultoning
--------------------
-1: Disable MB fulton support : Off, On
-Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.
-2: Disable MB fulton medical : Off, On
-Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty
-3: Target dying penalty : 0-100
-4: Target sleeping penalty : 0-100
-5: Target holdup penalty : 0-100
-6: Dont apply MB medical bonus to sleeping/fainted target : Off, On
-Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
-7: Hostage handling : Default, Must extract (0%)
-8: Print fulton success bonus : 0-1
 
 OSP menu
 - Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.
@@ -962,7 +977,7 @@ Sideops category filter menu
 Soldier parameters menu
 -----------------------
 1: Enable soldier parameter settings : Off, On
-Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).
+Turn this on to enable the life, sight and hearing enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).
 2: Soldier life scale : 0-900%
 0% will kill off all enemies
 3: Soldier sight scale : 0-400%
@@ -1064,17 +1079,18 @@ See ReadMe or Features and Options for more info.
 12: Cam - Player Cam hook menu
 13: Debug stuff menu
 14: Enemy phases menu
-15: MB Ocean menu
-16: Markers menu
-17: Misc menu
-18: Motions menu
-19: Object lists menu
-20: Player restrictions menu
-21: RouteSet menu
-22: Staff menu
-23: Support heli menu
-24: Time scale menu
-25: Weather menu
+15: Fulton success menu
+16: MB Ocean menu
+17: Markers menu
+18: Misc menu
+19: Motions menu
+20: Object lists menu
+21: Player restrictions menu
+22: RouteSet menu
+23: Staff menu
+24: Support heli menu
+25: Time scale menu
+26: Weather menu
 
 IH system menu
 - See IH system menu while in ACC for full options.
@@ -1345,6 +1361,24 @@ Random variation of update rate
 Does not require phase modifications setting to be enabled. The enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
 8: Print phase changes : Off, On
 Displays when phase changes.
+
+Fulton success menu
+- Adjust the success rate of fultoning
+-------------------
+1: Fulton success variation : 0-100
+Subtracts the purcentage from fulton success in a periodic fashion.
+2: Soldier fulton success variation : 0-100
+3: Fulton variation inv rate : 1-1000
+Inverse rate (higher slower) of fulton variation cycle
+4: MB fulton support scale : 0-400%
+Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.
+5: MB fulton medical scale : 0-400%
+Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty
+6: Target dying penalty : 0-100
+7: Target sleeping penalty : 0-100
+8: Target holdup penalty : 0-100
+9: Hostage handling : Default, Must extract (0%)
+10: Print mb fulton success bonus : 0-1
 
 MB Ocean menu
 -------------

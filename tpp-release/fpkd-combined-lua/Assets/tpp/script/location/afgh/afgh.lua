@@ -1,3 +1,6 @@
+-- ORIGINALQAR: chunk2
+-- PACKPATH: \Assets\tpp\pack\location\afgh\pack_common\afgh_script.fpkd
+-- Referenced via AddLocationCommonScriptPack
 local afgh = {}
 
 

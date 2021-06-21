@@ -23,7 +23,7 @@ local ClearArray=InfUtil.ClearArray
 this.debugModule=false
 
 this.updateRate=5
-this.active=0--DEBUGNOW this.active execstate whatever on ivar
+this.active=0
 this.execState={
   nextUpdate=0,
 }
@@ -463,7 +463,7 @@ this.langStrings={
   },--eng
   help={
     eng={
-      fulton_autoFultonFREE="Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.",
+      fulton_autoFultonFREE="Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.",
       fultonSuccessMenu="Adjust the success rate of fultoning",
       fultonMbSupportScale="Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.",
       fultonMbMedicalScale="Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty",

@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r252
+-- Defaults / example of all profile options for IH r253
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -241,6 +241,21 @@ local this={
 		parasite_timeOutARMOR=0,--{ 0-1000 } -- 
 		parasite_timeOutMIST=60,--{ 0-1000 } -- 
 		parasite_timeOutCAMO=0,--{ 0-1000 } -- 
+		--Fulton menu
+		fulton_autoFultonFREE=0,--{ 0-1 } -- Extraction team in Free Roam
+		fulton_autoFultonMISSION=0,--{ 0-1 } -- Extraction team in Missions
+		disableFulton=0,--{ 0-1 } -- Disable fulton action
+		--Fulton levels menu
+		itemLevelFulton=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Fulton Level
+		itemLevelWormhole=0,--{ DEFAULT, DISABLE, ENABLE } -- Wormhole Level
+		--Fulton success menu
+		fultonVariationRange=0,--{ 0-100 } -- Fulton success variation
+		fultonSoldierVariationRange=0,--{ 0-100 } -- Soldier fulton success variation
+		fultonVariationInvRate=100,--{ 1-1000 } -- Fulton variation inv rate
+		fultonDyingPenalty=70,--{ 0-100 } -- Target dying penalty
+		fultonSleepPenalty=0,--{ 0-100 } -- Target sleeping penalty
+		fultonHoldupPenalty=10,--{ 0-100 } -- Target holdup penalty
+		fultonHostageHandling=0,--{ DEFAULT, ZERO } -- Hostage handling
 		--Mission-prep features menu
 		heliSpace_SkipMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Free Roam
 		heliSpace_SkipMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Story Mission
@@ -324,7 +339,6 @@ local this={
 		putEquipOnTrucks=0,--{ 0-1 } -- Equipment on trucks
 		--Player restrictions menu
 		disableHeliAttack=0,--{ 0-1 } -- Disable support heli attack
-		disableFulton=0,--{ 0-1 } -- Disable fulton action
 		setSubsistenceSuit=0,--{ 0-1 } -- Force subsistence suit (Olive Drab, no headgear)
 		setDefaultHand=0,--{ 0-1 } -- Set hand type to default
 		abortMenuItemControl=0,--{ 0-1 } -- Disable abort mission from pause menu
@@ -354,17 +368,6 @@ local this={
 		handLevelPhysical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Mobility level
 		handLevelPrecision=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Precision level
 		handLevelMedical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Medical level
-		--Fulton levels menu
-		itemLevelFulton=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Fulton Level
-		itemLevelWormhole=0,--{ DEFAULT, DISABLE, ENABLE } -- Wormhole Level
-		--Fulton success menu
-		fultonNoMbSupport=0,--{ 0-1 } -- Disable MB fulton support
-		fultonNoMbMedical=0,--{ 0-1 } -- Disable MB fulton medical
-		fultonDyingPenalty=70,--{ 0-100 } -- Target dying penalty
-		fultonSleepPenalty=0,--{ 0-100 } -- Target sleeping penalty
-		fultonHoldupPenalty=10,--{ 0-100 } -- Target holdup penalty
-		fultonDontApplyMbMedicalToSleep=0,--{ 0-1 } -- Dont apply MB medical bonus to sleeping/fainted target
-		fultonHostageHandling=0,--{ DEFAULT, ZERO } -- Hostage handling
 		--OSP menu
 		primaryWeaponOsp=0,--{ OFF, EQUIP_NONE } -- Primary weapon OSP
 		secondaryWeaponOsp=0,--{ OFF, EQUIP_NONE } -- Secondary weapon OSP

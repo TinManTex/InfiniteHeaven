@@ -32,7 +32,7 @@
   "copyInternalLua": true,
   "copyExternalLua": true,
   "copyModulesToInternal": false,
-  "copyProxyDll": true,
+  "copyProxyDll": false,
   "copyIHExt": true,
   "makeMod": true,
   "installMod": false,

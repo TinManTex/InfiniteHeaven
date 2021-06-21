@@ -193,33 +193,33 @@ function this.OnFultonEli(n,e)
     TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=120,subOgrePoint=120}
   end
 end
-function this.GetFobServerParameter(_name)
-  local parameter,name
-  if IsTypeString(_name)then
-    name=_name
-    parameter=TppNetworkUtil.GetFobServerParameterByName(_name)
+function this.GetFobServerParameter(pointsOrParamName)
+  local points,name
+  if IsTypeString(pointsOrParamName)then
+    name=pointsOrParamName
+    points=TppNetworkUtil.GetFobServerParameterByName(pointsOrParamName)
   else
-    parameter=_name
+    points=pointsOrParamName
   end
-  return parameter,name
+  return points,name
 end
-function this.SetHeroicPoint(points)
-  local _points,n=this.GetFobServerParameter(points)
-  if _points<0 then
-    TppMotherBaseManagement.SubHeroicPoint{heroicPoint=-_points}
-  elseif _points>0 then
-    TppMotherBaseManagement.AddHeroicPoint{heroicPoint=_points}
+function this.SetHeroicPoint(pointsOrParamName)
+  local points,name=this.GetFobServerParameter(pointsOrParamName)
+  if points<0 then
+    TppMotherBaseManagement.SubHeroicPoint{heroicPoint=-points}
+  elseif points>0 then
+    TppMotherBaseManagement.AddHeroicPoint{heroicPoint=points}
   end
-  return _points
+  return points
 end
 function this.SetOgrePoint(ogrePoint)
-  local amount,n=this.GetFobServerParameter(ogrePoint)
-  if amount<0 then
-    TppMotherBaseManagement.SubOgrePoint{ogrePoint=-amount}
-  elseif amount>0 then
-    TppMotherBaseManagement.AddOgrePoint{ogrePoint=amount}
+  local points,name=this.GetFobServerParameter(ogrePoint)
+  if points<0 then
+    TppMotherBaseManagement.SubOgrePoint{ogrePoint=-points}
+  elseif points>0 then
+    TppMotherBaseManagement.AddOgrePoint{ogrePoint=points}
   end
-  svars.her_missionOgrePoint=svars.her_missionOgrePoint+amount
+  svars.her_missionOgrePoint=svars.her_missionOgrePoint+points
 end
 function this.GetMissionOgrePoint()
   return svars.her_missionOgrePoint
@@ -237,31 +237,11 @@ function this.AnnounceHeroicPoint(pointTable,downLangId,upLangId)
     TppUI.ShowAnnounceLog(addLangId,amount)
   end
 end
-local pointTableMod={}--tex OPT
 function this.SetAndAnnounceHeroicOgrePoint(pointTable,downLangId,upLangId)
   if TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  --tex> dont want to change any actual table passed by ref
-  if this.debugModule then
-    InfCore.PrintInspect(pointTable,"SetAndAnnounceHeroicOgrePoint pointTable")
-  end
-  pointTableMod.heroicPoint=pointTable.heroicPoint or 0
-  pointTableMod.ogrePoint=pointTable.ogrePoint or 0
-  if pointTableMod.heroicPoint<0 and Ivars.hero_dontSubtractHeroPoints:Is(1)then
-    pointTableMod.heroicPoint=0
-  end
-  if pointTableMod.ogrePoint>0 and Ivars.hero_dontAddOgrePoints:Is(1)then
-    pointTableMod.ogrePoint=0
-  end
-  if pointTableMod.heroicPoint>0 and Ivars.hero_heroPointsSubstractOgrePoints:Is(1)then
-    pointTableMod.ogrePoint=-pointTableMod.heroicPoint
-  end
-  pointTable=pointTableMod
-  if this.debugModule then
-    InfCore.PrintInspect(pointTableMod,"SetAndAnnounceHeroicOgrePoint pointTableMod")
-  end
-  --<
+  pointTable=InfHero.ModHeroicPoint(pointTable)--tex
   this.SetHeroicPoint(pointTable.heroicPoint) 
   this.AnnounceHeroicPoint(pointTable,downLangId,upLangId)
   this.SetOgrePoint(pointTable.ogrePoint)

@@ -1827,7 +1827,7 @@ function this.SoldierTypeNameForType(soldierType)
   return nil
 end
 
-function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil soldiertype because fsk that
+function this.IsSubTypeCorrectForType(soldierType,subType)--GOTCHA: returns true on nil soldiertype because fsk that
   local soldierTypeName=this.SoldierTypeNameForType(soldierType)
   if soldierTypeName ~= nil then
     local subTypes=this.soldierSubTypesForTypeName[soldierTypeName]

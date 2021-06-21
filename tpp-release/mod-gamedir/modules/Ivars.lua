@@ -87,6 +87,7 @@ this.debugMessages={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+  allowOnline=true,
 }
 
 this.debugFlow={
@@ -95,6 +96,7 @@ this.debugFlow={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+  allowOnline=true,
 }
 
 this.debugOnUpdate={
@@ -103,6 +105,7 @@ this.debugOnUpdate={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+  allowOnline=true,
   OnChange=function(self,setting)
     InfCore.debugOnUpdate=setting==1
   end,

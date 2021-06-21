@@ -6,6 +6,7 @@ local afgh_routeSets
 
 
 --afgh_routeSets
+--referenced via location script, /Assets/tpp/script/location/afgh/afgh.lua .requires
 --merged with the mission routeset (if the cp has USE_COMMON_ROUTE_SETS = true)
 --See TppEnemy.RegisterRouteSet, UpdateRouteSet
 --RouteSelector, GetPrioritizedRouteTable

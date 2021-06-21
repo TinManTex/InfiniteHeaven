@@ -32,6 +32,9 @@ local functionEntries={
   {name="UpdateFOVLerp",},
   {name="UnkSomePrintFunction",note="Some info printing function that has been stubbed out"},
   {name="l_StubbedOut",},
+  {name="UnkSomePlayerUpdateFunc"},
+  {name="UnkAnotherPlayerUpdateFuncButHuge"},
+  {name="nullsub_2"},
   --<
   --lua
   {name="lua_newstate",note="tex could use default implementation, but may want to hook if we want to see what the engine is up to"},

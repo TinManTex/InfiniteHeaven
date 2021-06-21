@@ -3,6 +3,44 @@
 --TODO: there's a couple of calls to SetHeroicPoint directly (for mission clear and abort), and SetOgrePoint that I'm missing by only modding SetAndAnnounceHeroicOgrePoint
 local this={}
 
+--CALLER: TppHero.SetAndAnnounceHeroicOgrePoint
+local pointTableMod={}--tex OPT
+function this.ModHeroicPoint(pointTable)
+  if InfMain.IsOnlineMission(vars.missionCode) then
+    return pointTable
+  end
+  --tex should only happen in fob, but log anyway to see if I'm missing anything
+  if type(pointTable.heroicPoint)=="string" then
+    InfCore.Log("WARNING InfHero.ModHeroicPoint heroicPoint==string")
+    return pointTable
+  end
+  if type(pointTable.ogrePoint)=="string" then
+    InfCore.Log("WARNING InfHero.ModHeroicPoint ogrePoint==string")
+    return pointTable
+  end
+
+  if this.debugModule then
+    InfCore.PrintInspect(pointTable,"SetAndAnnounceHeroicOgrePoint pointTable")
+  end
+  --tex> dont want to change any actual table passed by ref
+  pointTableMod.heroicPoint=pointTable.heroicPoint or 0
+  pointTableMod.ogrePoint=pointTable.ogrePoint or 0
+  if pointTableMod.heroicPoint<0 and Ivars.hero_dontSubtractHeroPoints:Is(1)then
+    pointTableMod.heroicPoint=0
+  end
+  if pointTableMod.ogrePoint>0 and Ivars.hero_dontAddOgrePoints:Is(1)then
+    pointTableMod.ogrePoint=0
+  end
+  if pointTableMod.heroicPoint>0 and Ivars.hero_heroPointsSubstractOgrePoints:Is(1)then
+    pointTableMod.ogrePoint=-pointTableMod.heroicPoint
+  end
+
+  if this.debugModule then
+    InfCore.PrintInspect(pointTableMod,"SetAndAnnounceHeroicOgrePoint pointTableMod")
+  end
+  return pointTableMod
+end--ModHeroicPoint
+
 this.registerIvars={
   "hero_dontSubtractHeroPoints",  
   "hero_dontAddOgrePoints",

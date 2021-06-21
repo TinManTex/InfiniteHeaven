@@ -235,7 +235,7 @@ this.subTypeOfCpTable={
     mafr_27_30_lrrp=true
   }
 }
-this.subTypeOfCp={}
+this.subTypeOfCp={}--tex built below, but also added to via missionTable.enemy.cpSubTypes in OnAllocate
 this.subTypeOfCpDefault={}--tex
 for subType,cp in pairs(this.subTypeOfCpTable)do
   for cpName,bool in pairs(cp)do
@@ -632,6 +632,9 @@ function this._SetUpSoldierTypes(soldierType,soldierIds)
   end
 end
 function this.SetUpSoldierTypes(soldierTypes)
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(soldierTypes,"TppEnemy.SetUpSoldierTypes")
+  end--<  
   for subTypes,soldierNames in pairs(soldierTypes)do
     this._SetUpSoldierTypes(subTypes,soldierNames)
   end
@@ -647,6 +650,9 @@ function this._SetUpSoldierSubTypes(subTypes,soldierNames)
   end
 end
 function this.SetUpSoldierSubTypes(soldierSubTypes)
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(soldierSubTypes,"TppEnemy.SetUpSoldierSubTypes")
+  end--<
   for subTypes,soldierName in pairs(soldierSubTypes)do
     this._SetUpSoldierSubTypes(subTypes,soldierName)
   end
@@ -2658,6 +2664,17 @@ function this.OnAllocate(missionTable)
     if missionTable.enemy.soldierTypes then
       this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
     end
+    if missionTable.enemy.cpTypes then--tex>
+      mvars.ene_cpTypes=missionTable.enemy.cpTypes
+    end--<
+    if missionTable.enemy.cpSubTypes then--tex>
+      --mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes--tex only really needed if need a location only list later, otherwise use the already existing .subTypeOfCp, even then can't be relied on since it will only be in addons not vanilla
+      for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
+        this.subTypeOfCp[cpName]=subType
+        this.subTypeOfCpDefault[cpName]=subType--tex
+      end
+    end--<
+    InfMainTpp.RandomizeCpSubTypeTable(missionTable)--tex
   end
   mvars.ene_soldierPowerSettings={}
   mvars.ene_missionSoldierPowerSettings={}
@@ -2672,7 +2689,7 @@ function this.OnAllocate(missionTable)
   mvars.ene_questBalaclavaId=0
   mvars.ene_isQuestSetup=false
   mvars.ene_isQuestHeli=false
-end
+end--OnAllocate
 function this.DeclareSVars(missionTable)
   --tex>
   InfCore.LogFlow("mvars.ene_maxHeliStateCount:"..tostring(mvars.ene_maxHeliStateCount))
@@ -3141,7 +3158,28 @@ function this.Init(missionTable)
       GameObject.SendCommand({type=skullType},{id="SetFultonEnabled",enabled=skullFultonable})
     end
   end
-end
+  if missionTable.enemy then--tex>
+    local langIds=missionTable.enemy.cpAnounceLangIds
+    if langIds then
+      mvars.cpAnounceLangIds=langIds
+      local langId
+      if type(langIds)~="table"then
+        mvars.cpAnounceLangIds=langIds
+      else
+        mvars.cpAnounceLangIds={}
+        for cpName,langId in pairs(langIds)do
+          local cpId=GetGameObjectId(cpName)
+          if cpId==NULL_ID then
+            InfCore.Log("WARNING: TppEnemy.Init: enemy.cpAnounceLangIds could not find cpId for "..tostring(cpName))
+          else
+            mvars.cpAnounceLangIds[cpId]=langId
+          end--if cpId
+        end--for langIds
+      end--if type langIds
+      InfCore.PrintInspect(mvars.cpAnounceLangIds,"mvars.cpAnounceLangIds")
+    end--if langIds
+  end--< if missionTable.enemy
+end--Init
 function this.RegistCommonRoutePointMessage()
 end
 function this.OnReload(missionTable)
@@ -3197,7 +3235,19 @@ function this.DefineSoldiers(soldierDefine)
       end
     end
   end
-end
+
+  if this.debugModule then  --tex>
+    InfCore.PrintInspect(mvars.ene_soldierDefine,"mvars.ene_soldierDefine")
+    InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_soldierIDList")
+    InfCore.PrintInspect(mvars.ene_cpList,"mvars.ene_cpList")
+    --InfCore.PrintInspect(mvars.ene_baseCpList,"mvars.ene_baseCpList")
+    --InfCore.PrintInspect(mvars.ene_outerBaseCpList,"mvars.ene_outerBaseCpList")    
+    InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
+    InfCore.PrintInspect(mvars.ene_sleepTimes,"mvars.ene_sleepTimes")
+    InfCore.PrintInspect(mvars.lrrpTravelPlan,"mvars.lrrpTravelPlan")
+    InfCore.PrintInspect(mvars.lrrpVehicle,"mvars.lrrpVehicle")
+  end --<
+end--DefineSoldiers
 --CALLER: TppMain.OnInitialize
 function this.SetUpSoldiers()
   if not IsTypeTable(mvars.ene_soldierDefine)then
@@ -3242,12 +3292,31 @@ function this.SetUpSoldiers()
         setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
       elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
         setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
+      elseif mvars.ene_cpTypes~=nil then--tex>
+        --tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
+        local cpType
+        if type(mvars.ene_cpTypes)~="table"then
+          cpType=mvars.ene_cpTypes
+        else
+          cpType=mvars.ene_cpTypes[cpName]
       end
+        if cpType then
+          setCpType={id="SetCpType",type=cpType}
+      end
+      --<
+    end
+      if this.debugModule then--tex>
+        if setCpType==nil then
+          InfCore.Log("WARNING: SetUpSoldiers setCpType==nil")
+        else
+          InfCore.Log("SetUpSoldiers "..cpId.." SetCpType:"..setCpType.type)
+        end
+      end--<
       if setCpType then
         GameObject.SendCommand(cpId,setCpType)
-      end
-    end
   end
+    end--if cpId
+  end--for soldierDegine
   for cpId,cpName in pairs(mvars.ene_cpList)do
     if mvars.ene_baseCpList[cpId]then
       local soldierList=mvars.ene_soldierDefine[cpName]
@@ -3258,7 +3327,7 @@ function this.SetUpSoldiers()
           SendCommand(soldierId,{id="AddRouteAssignMember"})
         end
       end
-    end
+    end--for cpList
   end
   --NMC not sure why its seperating this into has baseCp and not passes, but whatev.
   for cpId,cpName in pairs(mvars.ene_cpList)do
@@ -3272,10 +3341,11 @@ function this.SetUpSoldiers()
         end
       end
     end
-  end
+  end--for cpList
   this.AssignSoldiersToCP()
-end
+end--SetUpSoldiers
 function this.AssignSoldiersToCP()
+  InfCore.LogFlow"TppEnemy.AssignSoldiersToCP"--tex
   --tex CULL
   --  local forceSubType=InfEneFova.enemySubTypes[gvars.forceSoldierSubType]--tex WIP
   --  if Ivars.forceSoldierSubType:Is(1) then
@@ -3317,6 +3387,9 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
+      if this.debugModule then--tex>
+        InfCore.Log(soldierId.." SetSoldier2Type:"..tostring(soldierType))
+      end--<
       --tex CULL
       --      if Ivars.forceSoldierSubType:Is(1) then--tex> WIP:
       --        this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
@@ -6139,23 +6212,38 @@ this.announceForPhase={
 }
 --<
 --tex REWORKED
+--via msg ChangePhaseForAnnounce, not called on _ob / outer bases?
 function this._AnnouncePhaseChange(cpId,phase)
+  local cpLangId
+  if mvars.cpAnounceLangIds then--tex> set via missionScript _enemy
+    if type(mvars.cpAnounceLangIds)~="table"then
+      cpLangId=mvars.cpAnounceLangIds
+    else
+      cpLangId=mvars.cpAnounceLangIds[cpId]
+    end
+    --InfCore.Log("TppEnemy._AnnouncePhaseChange cpAnounceLangIds cpLangId "..tostring(cpId).." "..tostring(cpLangId))--DEBUG
+  end
+  if cpLangId==nil then--<
   local cpSubType=this.GetCpSubType(cpId)
   if cpSubType==nil then
     InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: cpSubType==nil for cpId "..tostring(cpId))
     return
   end
-  local cpLangId=this.cpSubTypeToLangId[cpSubType]
+    cpLangId=this.cpSubTypeToLangId[cpSubType]--tex shifted declaration to top
   if cpLangId==nil then
     InfCore.Log("WARNING: TppEnemy._AnnouncePhaseChange: unknown cpSubType "..cpSubType.." for cpId "..tostring(cpId))
   end
   cpLangId=cpLangId or "cmmn_ene_soviet"--tex default to sov
+  end
   if cpLangId=="" then--tex unless specifically none
     return
   end
+  if this.debugModule then--tex>--DEBUGNOW
+    InfCore.Log("TppEnemy._AnnouncePhaseChange "..tostring(cpId).." "..tostring(cpLangId))
+  end--<
   local announceLangId=this.announceForPhase[phase]
   TppUiCommand.AnnounceLogViewLangId(announceLangId,cpLangId)
-end
+end--_AnnouncePhaseChange
 --ORIG
 --function this._AnnouncePhaseChange(cpId,phase)
 --  local cpSubType=this.GetCpSubType(cpId)

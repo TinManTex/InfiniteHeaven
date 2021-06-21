@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  <Entries>
+    <Entry LangId="tpp_loc_afc0" Color="1" Value="Jade Forest" />
+    <Entry LangId="sub_location_101" Color="1" Value="Jade Forest" /> 
+    <Entry LangId="sub_location_101" Color="1" Value="Jade Forest" />       
+    <Entry LangId="name_mission_101_12020" Color="1" Value="Jade Forest name_mission" />
+    <Entry LangId="sub_mission_101_12020" Color="1" Value="Jade Forest sub_mission" />
+    <Entry LangId="info_mission_101_12020_00" Color="1" Value="Jade Forest info_mission" />
+  </Entries>
+</LangFile>

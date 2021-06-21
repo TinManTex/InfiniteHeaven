@@ -493,7 +493,20 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       end
     end
     if missionTable.enemy.soldierSubTypes then
+      if missionTable.enemy.soldierDefine and type(missionTable.enemy.soldierSubTypes)=="boolean" and missionTable.enemy.cpSubTypes~=nil then--tex> use missionTable.enemy.cpSubTypes
+        local soldierSubTypes={}
+        for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
+          local soldierSubType=type(missionTable.enemy.cpSubTypes)~="table" and missionTable.enemy.cpSubTypes or missionTable.enemy.cpSubTypes[cpName]
+          if soldierSubType==nil then
+          else
+            soldierSubTypes[soldierSubType]=soldierSubTypes[soldierSubType] or {}
+            table.insert(soldierSubTypes[soldierSubType],cpSoldiers)
+          end 
+        end--for soldierDefine
+        TppEnemy.SetUpSoldierSubTypes(soldierSubTypes)
+      else--<
       TppEnemy.SetUpSoldierSubTypes(missionTable.enemy.soldierSubTypes)
+      end
     end
     TppRevenge.SetUpEnemy()
     TppEnemy.ApplyPowerSettingsOnInitialize()

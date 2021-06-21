@@ -73,9 +73,9 @@ this.langStrings={
     interrogate_walker="[Intel] the soldier indicates there was a Walker Gear assigned to %s",--cp name
     interrogate_wildcard="[Intel] the soldier indicates there was a mercenary assigned to %s",--cp name
     interrogate_heli="[Intel] the soldier indicates an attack heli is travelling to %s",--cp name
-    intercp_comrade_location="[Intel] the soldier indicates their comrade assigned to %s has stashed some things.",--cp name
-    intercp_complete="[Intel] the soldier has given us the location of their stash.",
-    intercp_repeat="[Intel] the soldier is just repeating himself.",
+    intercp_comrade_location="[Intel] the soldier indicates their comrade assigned to %s has stashed some things",--cp name
+    intercp_complete="[Intel] the soldier has given us the location of their stash",
+    intercp_repeat="[Intel] the soldier is just repeating himself",
   },
   help={
     eng={
@@ -99,7 +99,7 @@ function this.Init(missionTable)
     return
   end
 
-  --DEBUGNOW OFF
+  -- CULL
   --  if TppMission.IsMissionStart() then
   --    --InfCore.Log("InfInterrogate IsMissionStart")--DEBUG
   --    --tex TODO KLUDGE, cant actually see how it's reset normally, I guess it's through the TppInterrogate.DeclareSvars
@@ -294,7 +294,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   InfMain.RandomSetToLevelSeed()
 
   --tex basic interrogations
-  --DEBUGNOW DOCUMENT what am I doing here?
+  --TODO DOCUMENT what am I doing here?
   uniqueInterrogation.unique=uniqueInterrogation.unique or {}
   for i,interrogationId in pairs(this.helpYouInterrogateIds) do
     local uniqueEntry={name=interrogationId,func=this.InterCall_InterCpQuest}
@@ -488,7 +488,7 @@ function this.InterCall_InterCpQuest(soldierId,cpId,interName)
     InfCore.Log("inf_interCpQuestStatus[soldierICPQId]"..tostring(svars.inf_interCpQuestStatus[soldierICPQId]))
     InfCore.Log("inf_interCpQuestStatus[partnerICPQId]"..tostring(svars.inf_interCpQuestStatus[partnerICPQId]))
   end
-  return false--DEBUGNOW TODO figure out what InterCall return bool actually does
+  return false--TODO figure out what InterCall return bool actually does
 end--InterCall_InterCpQuest
 
 function this.GiveInterCpQuestReward(rewardType)
