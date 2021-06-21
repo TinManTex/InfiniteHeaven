@@ -49,10 +49,10 @@ this.soldierDefine={
 		"sol_afc0_0014",
 		"sol_afc0_0015",
 		"sol_afc0_0016",
-		"sol_afc0_0017",
-		"sol_afc0_0018",
 	},--briefing_cp
 	village_cp = {--21
+		"sol_afc0_0017",
+		"sol_afc0_0018",
 		"sol_afc0_0019",
 		"sol_afc0_0020",
 		"sol_afc0_0021",
@@ -72,8 +72,6 @@ this.soldierDefine={
 		"sol_afc0_0035",
 		"sol_afc0_0036",
 		"sol_afc0_0037",
-		"sol_afc0_0038",
-		"sol_afc0_0039",
 	},--village_cp	
 	quest_cp={
 		"sol_quest_0000",
