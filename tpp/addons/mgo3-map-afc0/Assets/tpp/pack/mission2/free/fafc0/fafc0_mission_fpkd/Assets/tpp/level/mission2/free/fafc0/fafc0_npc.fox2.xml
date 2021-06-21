@@ -182,7 +182,7 @@
           <value>0x04903420</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="137.3" y="1" z="3" w="0" />
+          <value x="230" y="230" z="230" w="0" />
         </property>
         <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
           <value x="0" y="0" z="0" w="1" />
@@ -235,13 +235,13 @@
           <value>0x04903520</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="137.3" y="1" z="3" w="0" />
+          <value x="250" y="250" z="250" w="0" />
         </property>
         <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
           <value x="0" y="0" z="0" w="1" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-12.788" y="9.483" z="166.559" w="0" />
+          <value x="43.73393" y="11.76005" z="-90.03412" w="0" />
         </property>
       </staticProperties>
       <dynamicProperties />
