@@ -1,5 +1,5 @@
 = Infinite heaven =
-r253 - 2021-06-15
+r254 - 2021-06-22
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r15b
@@ -21,6 +21,11 @@ Recent changes/additions
 ------------------------------
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
+
+r254 - 2021-06-22
+fix: hang on exit fob due to IH not handling heroicPoint as string - thanks William for your report and log.
+
+fix: Some Custom soldier types having silent voices in mafr
 
 r253 - 2021-06-15
 InfFulton:
