@@ -2669,6 +2669,10 @@ function this.OnAllocate(missionTable)
     end--<
     if missionTable.enemy.cpSubTypes then--tex>
       mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes
+      for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
+        this.subTypeOfCp[cpName]=subType
+        this.subTypeOfCpDefault[cpName]=subType--tex
+      end
     end--<
   end
   mvars.ene_soldierPowerSettings={}
