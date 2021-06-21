@@ -235,7 +235,7 @@ this.subTypeOfCpTable={
     mafr_27_30_lrrp=true
   }
 }
-this.subTypeOfCp={}
+this.subTypeOfCp={}--tex built below, but also added to via missionTable.enemy.cpSubTypes in OnAllocate
 this.subTypeOfCpDefault={}--tex
 for subType,cp in pairs(this.subTypeOfCpTable)do
   for cpName,bool in pairs(cp)do
@@ -2668,12 +2668,13 @@ function this.OnAllocate(missionTable)
       mvars.ene_cpTypes=missionTable.enemy.cpTypes
     end--<
     if missionTable.enemy.cpSubTypes then--tex>
-      mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes
+      --mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes--tex only really needed if need a location only list later, otherwise use the already existing .subTypeOfCp, even then can't be relied on since it will only be in addons not vanilla
       for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
         this.subTypeOfCp[cpName]=subType
         this.subTypeOfCpDefault[cpName]=subType--tex
       end
     end--<
+    InfMainTpp.RandomizeCpSubTypeTable(missionTable)--tex
   end
   mvars.ene_soldierPowerSettings={}
   mvars.ene_missionSoldierPowerSettings={}
