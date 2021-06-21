@@ -6207,6 +6207,7 @@ this.announceForPhase={
 }
 --<
 --tex REWORKED
+--via msg ChangePhaseForAnnounce, not called on _ob / outer bases?
 function this._AnnouncePhaseChange(cpId,phase)
   local cpLangId
   if mvars.cpAnounceLangIds then--tex> set via missionScript _enemy
@@ -6232,6 +6233,9 @@ function this._AnnouncePhaseChange(cpId,phase)
   if cpLangId=="" then--tex unless specifically none
     return
   end
+  if this.debugModule then--tex>--DEBUGNOW
+    InfCore.Log("TppEnemy._AnnouncePhaseChange "..tostring(cpId).." "..tostring(cpLangId))
+  end--<
   local announceLangId=this.announceForPhase[phase]
   TppUiCommand.AnnounceLogViewLangId(announceLangId,cpLangId)
 end--_AnnouncePhaseChange
