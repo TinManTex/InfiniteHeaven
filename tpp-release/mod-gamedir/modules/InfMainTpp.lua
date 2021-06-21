@@ -122,8 +122,6 @@ function this.OnInitializeTop(missionTable)
     return
   end
 
-  this.RandomizeCpSubTypeTable()
-
   --tex modify missionTable before it's acted on
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
@@ -429,34 +427,43 @@ function this.ResetCpTableToDefault()
     end
   end
 end
-
---tex TODO: think about extending this to custom locations
-local cpSubTypes={
-  afgh={
-    "SOVIET_A",
-    "SOVIET_B",
-  },
-  mafr={
-    "PF_A",
-    "PF_B",
-    "PF_C",
-  },
-}
-
+--TODO: and soldier sub types?
 local changeCpSubTypeStr="changeCpSubType"
-function this.RandomizeCpSubTypeTable()
+function this.RandomizeCpSubTypeTable(missionTable)
+  if InfMain.IsOnlineMission(vars.missionCode)then
+    return
+  end
+
   if not IvarProc.EnabledForMission(changeCpSubTypeStr) then
     this.ResetCpTableToDefault()
     return
   end
 
-  local locationName=TppLocation.GetLocationName(vars.locationCode)
-  local locationSubTypes=cpSubTypes[locationName]
-  if locationSubTypes==nil then
-    InfCore.Log("WARNING: RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
+  if missionTable.enemy==nil then
     return
   end
 
+  local soldierDefine=missionTable.enemy.soldierDefine
+  if soldierDefine==nil or next(soldierDefine)==nil then
+    return
+  end
+  --tex cant use missionTable.enemy.cpSubTypes since that will only be on some addon missions
+  --TODO: this way only randomizes the defined subtypes for the mission rather than all possible subtypes for the type
+  local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
+  local locationSubTypesTable={}
+  for cpName,soldierNameList in pairs(soldierDefine) do
+    local subType=subTypeOfCpDefault[cpName]
+    if not subType then      
+      InfCore.Log("RandomizeCpSubTypeTable no subTypeOfCpDefault for "..tostring(cpName))--DEBUGNOW
+    else
+      locationSubTypesTable[subType]=true
+    end
+  end
+  local locationSubTypes={}
+  for subType,bool in pairs(locationSubTypesTable)do
+    table.insert(locationSubTypes,subType)
+  end
+  InfCore.PrintInspect(locationSubTypes,"InfMainTpp.RandomizeCpSubTypeTable locationSubTypes")--
   InfMain.RandomSetToLevelSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
@@ -466,7 +473,7 @@ function this.RandomizeCpSubTypeTable()
     subTypeOfCp[cp]=locationSubTypes[rnd]
   end
   InfMain.RandomResetToOsTime()
-end
+end--RandomizeCpSubTypeTable
 
 function this.SetSubsistenceSettings()
   --tex no go, see OnMissionCanStartBottom for alt solution
@@ -644,27 +651,55 @@ function this.WarpRat(gameObjectName,pos,rotY)
   GameObject.SendCommand(gameObjectId,command)
 end
 
---tex used to counteract sendcommand IsDD
+--tex used to counteract sendcommand IsDD in TppHero / stop dd staff killed message and point loss
+--TODO: not handling hostage 
 --(ie should be used in conjunction with, unless you want to throw a IsDD or maybe EnemyType.TYPE_DD in)
 --currently only used in TppHero to manage mb_staff_died
 --currently soldiers only
 --REF base game DD soldiers
---MB Free soldiers
---Fob soldiers, but only on defense
+--MB Free soldiers - your staff
+--Fob soldiers: 
+--defense - your staff
+--attack - enemy dd
 --Fob Hostages, but only on event?
---10115 : Mission 22 - Retake the Platform  hostages
---10240 : shining lights
---some sideops hostages (which ones exactly?)
---sideops wandering mb soldiers
+--10115 : Mission 22 - Retake the Platform  
+--soldiers - enemy dd
+--hostages - your staff
+--10240 : shining lights -- your staff
+--some sideops hostages (which ones exactly?) - your staff
+--sideops wandering mb soldiers - your staff
 
 --sendcommand IsDD seems to return true when soldierType==EnemyType.TYPE_DD -- VERIFY
---seems to have an exception (return false) for 10115 soldiers
+--seems to have an exception (return false) for 10115 soldiers VERIFY
+--what about FOB?
+
+--DEBUGNOW reworked to just assume anything outside of vanilla usage for DD soldiers means DD are from an addon where DD type is used as enemy, 
+--but may eventually want authors to more explicitly define if the DD type is enemy or staff
 function this.IsDDEnemy(gameId)
+  local missionCode=vars.missionCode
+  if TppMission.IsFOBMission(missionCode) then
+    return false
+  end
+
   --if Tpp.IsHostage(gameId)then
   --elseif Tpp.IsSoldier(gameId)then--tex current usage already has this check
   --tex mb invasion TODO can't remember if I mbqf can have invasion lol
-  if (vars.missionCode==30050 or vars.missionCode==30250) and Ivars.mbNonStaff:Is(1) then
+  if (missionCode==30050 or missionCode==30250) and Ivars.mbNonStaff:Is(0) then
+    return false
+  end
+  
+  if missionCode==10240 then
+    return false
+  end
+  
+  if true then
     return true
+  end
+  -----
+  
+  
+  if missionCode==10115 then
+    return true--tex see note about IsDD exception above
   end
 
   if Ivars.customSoldierTypeFREE:Is()>0 and Ivars.customSoldierTypeFREE:MissionCheck() then
@@ -679,7 +714,7 @@ function this.IsDDEnemy(gameId)
   --(the assumption that they are only sol_quest* soldiers isn't always true for some sideops that use existing soldiers)
   --the best spot to flag them as ddenemy would be the quest script, but that also has no easy way to reference
   --KLUDGE, as above TODO is not implemented
-  if TppMission.IsFreeMission(vars.missionCode)and(vars.missionCode~=30050 and vars.missionCode~=30250)then
+  if TppMission.IsFreeMission(missionCode)and(missionCode~=30050 and missionCode~=30250)then
     local soldierType=mvars.ene_soldierTypes[gameId]
     if soldierType==EnemyType.TYPE_DD then
       local subType=mvars.ene_soldierSubType[gameId]

@@ -1156,10 +1156,11 @@ function this.ApplyMissionTendency(missionId,isAbort)
       end
       --InfCore.DebugPrint(missionTendancy.." add points: stealth:"..tostring(missionTendancyPointTable.STEALTH[stealthLevel])..", combat:"..tostring(missionTendancyPointTable.COMBAT[combatLevel]))--DEBUG
       --tex> bit of a kludge, would prefer to scale free roam by time in world
+      --TODO DOCUMENT what was I actually doing here? and why is it violating my default-by-default policy?
       local notFree=missionId~=30010 and missionId~=30020
       local didSomething=this.GetRevengePoint(this.REVENGE_TYPE.M_STEALTH)>0 or this.GetRevengePoint(this.REVENGE_TYPE.M_COMBAT)>0
       --<
-      if notFree or (not isAbort and didSomething) then--tex added bypass for freeroam
+      if notFree or (not isAbort and didSomething) then--tex added bypass for freeroam, vanilla just adds reguardless/this whole line doesnt exist
         this.AddRevengePoint(this.REVENGE_TYPE.STEALTH,missionTendancyPointTable.STEALTH[stealthLevel])
         this.AddRevengePoint(this.REVENGE_TYPE.COMBAT,missionTendancyPointTable.COMBAT[combatLevel])
       end
@@ -1268,6 +1269,8 @@ end
 
 --NMC: revengeTypes ==mvars.revenge_revengeType == (mvars.revenge_forceRevengeType(via mtbs_enemy) or this.SelectRevengeType())
 function this._CreateRevengeConfig(revengeTypes)
+  InfCore.LogFlow("TppRevenge._CreateRevengeConfig")--tex
+  InfCore.PrintInspect(revengeTypes,"revengeTypes")--tex
   local revengeConfig={}
   local disablePowerSettings=mvars.ene_disablePowerSettings
 
@@ -1421,7 +1424,6 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  InfCore.Log"TppRevenge._CreateRevengeConfig"--tex DEBUG
   InfCore.PrintInspect(revengeConfig,{varName="revengeConfig"})--tex DEBUG
   return revengeConfig
 end
