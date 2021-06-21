@@ -632,6 +632,9 @@ function this._SetUpSoldierTypes(soldierType,soldierIds)
   end
 end
 function this.SetUpSoldierTypes(soldierTypes)
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(soldierTypes,"TppEnemy.SetUpSoldierTypes")
+  end--<  
   for subTypes,soldierNames in pairs(soldierTypes)do
     this._SetUpSoldierTypes(subTypes,soldierNames)
   end
@@ -647,6 +650,9 @@ function this._SetUpSoldierSubTypes(subTypes,soldierNames)
   end
 end
 function this.SetUpSoldierSubTypes(soldierSubTypes)
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(soldierSubTypes,"TppEnemy.SetUpSoldierSubTypes")
+  end--<
   for subTypes,soldierName in pairs(soldierSubTypes)do
     this._SetUpSoldierSubTypes(subTypes,soldierName)
   end
@@ -2660,6 +2666,9 @@ function this.OnAllocate(missionTable)
     end
     if missionTable.enemy.cpTypes then--tex>
       mvars.ene_cpTypes=missionTable.enemy.cpTypes
+    end--<
+    if missionTable.enemy.cpSubTypes then--tex>
+      mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes
     end--<
   end
   mvars.ene_soldierPowerSettings={}
