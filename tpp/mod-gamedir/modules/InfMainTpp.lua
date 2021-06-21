@@ -122,7 +122,7 @@ function this.OnInitializeTop(missionTable)
     return
   end
 
-  this.RandomizeCpSubTypeTable()
+  this.RandomizeCpSubTypeTable(missionTable)
 
   --tex modify missionTable before it's acted on
   if missionTable.enemy then
@@ -430,33 +430,55 @@ function this.ResetCpTableToDefault()
   end
 end
 
---tex TODO: think about extending this to custom locations
-local cpSubTypes={
-  afgh={
-    "SOVIET_A",
-    "SOVIET_B",
-  },
-  mafr={
-    "PF_A",
-    "PF_B",
-    "PF_C",
-  },
-}
-
+--tex CULL
+--local cpSubTypes={
+--  afgh={
+--    "SOVIET_A",
+--    "SOVIET_B",
+--  },
+--  mafr={
+--    "PF_A",
+--    "PF_B",
+--    "PF_C",
+--  },
+--}
+--TODO: and soldier sub types?
 local changeCpSubTypeStr="changeCpSubType"
-function this.RandomizeCpSubTypeTable()
+function this.RandomizeCpSubTypeTable(missionTable)
+  if InfMain.IsOnlineMission(vars.missionCode)then
+    return
+  end
+
   if not IvarProc.EnabledForMission(changeCpSubTypeStr) then
     this.ResetCpTableToDefault()
     return
   end
-
-  local locationName=TppLocation.GetLocationName(vars.locationCode)
-  local locationSubTypes=cpSubTypes[locationName]
-  if locationSubTypes==nil then
-    InfCore.Log("WARNING: RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
+  
+  if missionTable.enemy==nil then
     return
   end
-
+  
+  local soldierDefine=missionTable.enemy.soldierDefine
+  if soldierDefine==nil or next(soldierDefine)==nil then
+    return
+  end
+  --tex cant use missionTable.enemy.cpSubTypes since that will only be on some addon missions
+  --TODO: this way only randomizes the defined subtypes for the mission rather than all possible subtypes for the type
+  local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
+  local locationSubTypesTable={}
+  for cpName,soldierNameList in pairs(soldierDefine) do
+    local subType=subTypeOfCpDefault[cpName]
+    if not subType then      
+      InfCore.Log("RandomizeCpSubTypeTable no subTypeOfCpDefault for "..tostring(cpName))--DEBUGNOW
+    else
+      locationSubTypesTable[subType]=true
+    end
+  end
+  local locationSubTypes={}
+  for subType,bool in pairs(locationSubTypesTable)do
+    table.insert(locationSubTypes,subType)
+  end
+  InfCore.PrintInspect(locationSubTypes,"InfMainTpp.RandomizeCpSubTypeTable locationSubTypes")--
   InfMain.RandomSetToLevelSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
@@ -466,7 +488,7 @@ function this.RandomizeCpSubTypeTable()
     subTypeOfCp[cp]=locationSubTypes[rnd]
   end
   InfMain.RandomResetToOsTime()
-end
+end--RandomizeCpSubTypeTable
 
 function this.SetSubsistenceSettings()
   --tex no go, see OnMissionCanStartBottom for alt solution
