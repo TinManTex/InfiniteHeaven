@@ -3233,13 +3233,14 @@ function this.DefineSoldiers(soldierDefine)
 
   if this.debugModule then  --tex>
     InfCore.PrintInspect(mvars.ene_soldierDefine,"mvars.ene_soldierDefine")
+    InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_soldierIDList")
     InfCore.PrintInspect(mvars.ene_cpList,"mvars.ene_cpList")
+    --InfCore.PrintInspect(mvars.ene_baseCpList,"mvars.ene_baseCpList")
+    --InfCore.PrintInspect(mvars.ene_outerBaseCpList,"mvars.ene_outerBaseCpList")    
     InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
     InfCore.PrintInspect(mvars.ene_sleepTimes,"mvars.ene_sleepTimes")
-    InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_sene_soldierIDListoldierDefine")
     InfCore.PrintInspect(mvars.lrrpTravelPlan,"mvars.lrrpTravelPlan")
     InfCore.PrintInspect(mvars.lrrpVehicle,"mvars.lrrpVehicle")
-    InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_soldierIDList")
   end --<
 end--DefineSoldiers
 --CALLER: TppMain.OnInitialize
@@ -6214,7 +6215,7 @@ function this._AnnouncePhaseChange(cpId,phase)
     else
       cpLangId=mvars.cpAnounceLangIds[cpId]
     end
-    InfCore.Log("TppEnemy._AnnouncePhaseChange cpAnounceLangIds cpLangId "..tostring(cpId).." "..tostring(cpLangId))--DEBUGNOW
+    --InfCore.Log("TppEnemy._AnnouncePhaseChange cpAnounceLangIds cpLangId "..tostring(cpId).." "..tostring(cpLangId))--DEBUG
   end
   if cpLangId==nil then--<
     local cpSubType=this.GetCpSubType(cpId)
