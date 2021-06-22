@@ -122,8 +122,6 @@ function this.OnInitializeTop(missionTable)
     return
   end
 
-  this.RandomizeCpSubTypeTable(missionTable)
-
   --tex modify missionTable before it's acted on
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
@@ -466,6 +464,10 @@ function this.RandomizeCpSubTypeTable(missionTable)
     table.insert(locationSubTypes,subType)
   end
   InfCore.PrintInspect(locationSubTypes,"InfMainTpp.RandomizeCpSubTypeTable locationSubTypes")--
+  if #locationSubTypes<2 then
+    InfCore.Log("InfMainTpp.RandomizeCpSubTypeTable: #locationSubTypes<2, returning")
+    return
+  end
   InfMain.RandomSetToLevelSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
