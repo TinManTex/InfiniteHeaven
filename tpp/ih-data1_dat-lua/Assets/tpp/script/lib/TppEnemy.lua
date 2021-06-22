@@ -623,11 +623,11 @@ function this._ConvertSoldierNameKeysToId(soldierTypes)
   end
 end
 function this._SetUpSoldierTypes(soldierType,soldierIds)
-  for a,soldierId in ipairs(soldierIds)do
-    if IsTypeTable(soldierId)then
-      this._SetUpSoldierTypes(soldierType,soldierId)
+  for a,soldierName in ipairs(soldierIds)do
+    if IsTypeTable(soldierName)then
+      this._SetUpSoldierTypes(soldierType,soldierName)
     else
-      mvars.ene_soldierTypes[soldierId]=EnemyType["TYPE_"..soldierType]
+      mvars.ene_soldierTypes[soldierName]=EnemyType["TYPE_"..soldierType]--tex NMC gets converted to soldierId later
     end
   end
 end
@@ -2662,17 +2662,34 @@ function this.OnAllocate(missionTable)
       this.DisablePowerSettings(missionTable.enemy.disablePowerSettings)
     end
     if missionTable.enemy.soldierTypes then
+      if type(missionTable.enemy.soldierTypes)~="table" and missionTable.enemy.soldierDefine then--tex>
+        local soldierType=missionTable.enemy.soldierTypes
+        for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
+          for i,soldierName in ipairs(cpSoldiers)do
+             mvars.ene_soldierTypes[soldierName]=EnemyType["TYPE_"..soldierType]--tex NMC gets converted to soldierId later
+          end
+        end
+      else--<
       this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
+      end
     end
     if missionTable.enemy.cpTypes then--tex>
       mvars.ene_cpTypes=missionTable.enemy.cpTypes
     end--<
     if missionTable.enemy.cpSubTypes then--tex>
       --mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes--tex only really needed if need a location only list later, otherwise use the already existing .subTypeOfCp, even then can't be relied on since it will only be in addons not vanilla
-      for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
-        this.subTypeOfCp[cpName]=subType
-        this.subTypeOfCpDefault[cpName]=subType--tex
-      end
+      if type(missionTable.enemy.cpSubTypes)~="table" and missionTable.enemy.soldierDefine then
+        local subType=missionTable.enemy.cpSubTypes
+        for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
+          this.subTypeOfCp[cpName]=subType
+          this.subTypeOfCpDefault[cpName]=subType--tex
+        end
+      else
+        for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
+          this.subTypeOfCp[cpName]=subType
+          this.subTypeOfCpDefault[cpName]=subType--tex
+        end
+      end--if type cpSubTypes
     end--<
     InfMainTpp.RandomizeCpSubTypeTable(missionTable)--tex
   end
