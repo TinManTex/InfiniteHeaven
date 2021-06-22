@@ -7,7 +7,8 @@ local SendCommand=GameObject.SendCommand
 
 this.requires={}
 
---tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
+--tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths 
+--or add the required voxs to your sdf loadbanks
 this.cpTypes=CpType.TYPE_AFRIKAANS--tex apply to all cps
 --tex or per cp cpType
 --this.cpTypes={
@@ -85,12 +86,17 @@ this.soldierDefine={
 	},
 }--soldierDefine
 
-this.soldierTypes={
-	PF={--REF EnemyType["TYPE_"..soldierType]
-		this.soldierDefine.briefing_cp,
-		this.soldierDefine.village_cp,
-	},
-}--soldierTypes
+this.soldierTypes="PF"--REF EnemyType["TYPE_"..soldierType]--tex apply to all soldiers
+--tex or per soldier type (can only really do main type and extend type, then subtypes would need to match for those soldiers
+--this.soldierTypes={
+--	PF={
+--		this.soldierDefine.briefing_cp,
+--		this.soldierDefine.village_cp,
+--	},
+--  CHILD={
+--    
+--  },
+--}--soldierTypes
 
 this.soldierSubTypes=true--tex true = use cpSubTypes to define soldier subtypes for
 --tex or per soldier sub type
