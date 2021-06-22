@@ -25,6 +25,7 @@ local this={
       invokeArea={103,103,106,106},
     },
   },
+  requestTppBuddy2BlockController=true,
 }
 
 return this
