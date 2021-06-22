@@ -2665,9 +2665,7 @@ function this.OnAllocate(missionTable)
       if type(missionTable.enemy.soldierTypes)~="table" and missionTable.enemy.soldierDefine then--tex>
         local soldierType=missionTable.enemy.soldierTypes
         for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
-          for i,soldierName in ipairs(cpSoldiers)do
-             mvars.ene_soldierTypes[soldierName]=EnemyType["TYPE_"..soldierType]--tex NMC gets converted to soldierId later
-          end
+          this._SetUpSoldierTypes(soldierType,cpSoldiers)
         end
       else--<
       this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
@@ -3301,15 +3299,7 @@ function this.SetUpSoldiers()
         end
       end
       local setCpType
-      if(missionId==10150 or missionId==10151)or missionId==11151 then
-        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
-      elseif TppLocation.IsAfghan()then
-        setCpType={id="SetCpType",type=CpType.TYPE_SOVIET}
-      elseif TppLocation.IsMiddleAfrica()then
-        setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
-      elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
-      elseif mvars.ene_cpTypes~=nil then--tex>
+      if mvars.ene_cpTypes~=nil then--tex>
         --tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
         local cpType
         if type(mvars.ene_cpTypes)~="table"then
@@ -3321,6 +3311,14 @@ function this.SetUpSoldiers()
           setCpType={id="SetCpType",type=cpType}
         end
       --<
+      elseif(missionId==10150 or missionId==10151)or missionId==11151 then
+        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
+      elseif TppLocation.IsAfghan()then
+        setCpType={id="SetCpType",type=CpType.TYPE_SOVIET}
+      elseif TppLocation.IsMiddleAfrica()then
+        setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
+      elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
       end
       if this.debugModule then--tex>
         if setCpType==nil then
