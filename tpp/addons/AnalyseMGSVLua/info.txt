@@ -1,2 +1,0 @@
-Stuff to analyse and dump mgsv lua stuff when the game is loaded
-Including outputing some data mockfox uses.
