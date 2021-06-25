@@ -32,7 +32,6 @@
         <property name="loadBanks" type="String" container="DynamicArray" arraySize="3">
           <value>vox_free</value>
           <value>vox_generic_00</value>
-          <value>vox_ene_common_af</value>
         </property>
         <property name="prepareBanks" type="String" container="DynamicArray" />
         <property name="prepareEvents" type="String" container="DynamicArray" />

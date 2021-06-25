@@ -623,11 +623,11 @@ function this._ConvertSoldierNameKeysToId(soldierTypes)
   end
 end
 function this._SetUpSoldierTypes(soldierType,soldierIds)
-  for a,soldierId in ipairs(soldierIds)do
-    if IsTypeTable(soldierId)then
-      this._SetUpSoldierTypes(soldierType,soldierId)
+  for a,soldierName in ipairs(soldierIds)do
+    if IsTypeTable(soldierName)then
+      this._SetUpSoldierTypes(soldierType,soldierName)
     else
-      mvars.ene_soldierTypes[soldierId]=EnemyType["TYPE_"..soldierType]
+      mvars.ene_soldierTypes[soldierName]=EnemyType["TYPE_"..soldierType]--tex NMC gets converted to soldierId later
     end
   end
 end
@@ -2662,17 +2662,32 @@ function this.OnAllocate(missionTable)
       this.DisablePowerSettings(missionTable.enemy.disablePowerSettings)
     end
     if missionTable.enemy.soldierTypes then
+      if type(missionTable.enemy.soldierTypes)~="table" and missionTable.enemy.soldierDefine then--tex>
+        local soldierType=missionTable.enemy.soldierTypes
+        for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
+          this._SetUpSoldierTypes(soldierType,cpSoldiers)
+        end
+      else--<
       this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
+      end
     end
     if missionTable.enemy.cpTypes then--tex>
       mvars.ene_cpTypes=missionTable.enemy.cpTypes
     end--<
     if missionTable.enemy.cpSubTypes then--tex>
       --mvars.ene_cpSubTypes=missionTable.enemy.cpSubTypes--tex only really needed if need a location only list later, otherwise use the already existing .subTypeOfCp, even then can't be relied on since it will only be in addons not vanilla
-      for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
-        this.subTypeOfCp[cpName]=subType
-        this.subTypeOfCpDefault[cpName]=subType--tex
-      end
+      if type(missionTable.enemy.cpSubTypes)~="table" and missionTable.enemy.soldierDefine then
+        local subType=missionTable.enemy.cpSubTypes
+        for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
+          this.subTypeOfCp[cpName]=subType
+          this.subTypeOfCpDefault[cpName]=subType--tex
+        end
+      else
+        for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
+          this.subTypeOfCp[cpName]=subType
+          this.subTypeOfCpDefault[cpName]=subType--tex
+        end
+      end--if type cpSubTypes
     end--<
     InfMainTpp.RandomizeCpSubTypeTable(missionTable)--tex
   end
@@ -3284,15 +3299,7 @@ function this.SetUpSoldiers()
         end
       end
       local setCpType
-      if(missionId==10150 or missionId==10151)or missionId==11151 then
-        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
-      elseif TppLocation.IsAfghan()then
-        setCpType={id="SetCpType",type=CpType.TYPE_SOVIET}
-      elseif TppLocation.IsMiddleAfrica()then
-        setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
-      elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
-      elseif mvars.ene_cpTypes~=nil then--tex>
+      if mvars.ene_cpTypes~=nil then--tex>
         --tex requires the proper vox_ene_common_ soundbank to be loaded, see InfSoundInfo for pack paths
         local cpType
         if type(mvars.ene_cpTypes)~="table"then
@@ -3304,6 +3311,14 @@ function this.SetUpSoldiers()
           setCpType={id="SetCpType",type=cpType}
         end
       --<
+      elseif(missionId==10150 or missionId==10151)or missionId==11151 then
+        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
+      elseif TppLocation.IsAfghan()then
+        setCpType={id="SetCpType",type=CpType.TYPE_SOVIET}
+      elseif TppLocation.IsMiddleAfrica()then
+        setCpType={id="SetCpType",type=CpType.TYPE_AFRIKAANS}
+      elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+        setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
       end
       if this.debugModule then--tex>
         if setCpType==nil then
