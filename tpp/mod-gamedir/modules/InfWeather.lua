@@ -1,6 +1,49 @@
 -- InfWeather.lua
 local this={}
 
+--tex hooking TppWeather for the moment since there's other mods out for it
+
+--tex added to by location addon
+--keyed by uppercase locationName
+this.weatherProbabilitiesTable={}
+this.extraWeatherProbabilitiesTable={
+  NONE={},
+}
+
+local TppWeather_SetDefaultWeatherProbabilities=TppWeather.SetDefaultWeatherProbabilities
+function this.SetDefaultWeatherProbabilities()
+  local locationName=TppLocation.GetLocationName()
+  locationName=string.upper(locationName)
+  
+  --DEBUGNOW and per mission too?
+  local weatherProbabilities=this.weatherProbabilitiesTable[locationName]
+  if weatherProbabilities then
+    TppWeather_SetDefaultWeatherProbabilities()
+    return
+  end
+  
+  local heliSuffix=""
+  if TppMission.IsHelicopterSpace(vars.missionCode) then
+    heliSuffix="_HELI"
+  end
+  local extraWeatherProbabilities=this.extraWeatherProbabilitiesTable[locationName..heliSuffix] or this.extraWeatherProbabilitiesTable.NONE
+  
+  if weatherProbabilities then
+    WeatherManager.SetNewWeatherProbabilities("default",weatherProbabilities)
+  end
+  if extraWeatherProbabilities then
+    WeatherManager.SetExtraWeatherProbabilities(extraWeatherProbabilities)
+  end
+end--SetDefaultWeatherProbabilities
+TppWeather.SetDefaultWeatherProbabilities=this.SetDefaultWeatherProbabilities
+
+--CALLER: InfMission.AddInLocations
+--GOTCHA: no checks to see if it tramples an previously added entry
+function this.AddWeatherProbabilities(locationId,locationInfo)
+  this.weatherProbabilitiesTable[locationId]=locationInfo.weatherProbabilities
+  this.extraWeatherProbabilitiesTable[locationId]=locationInfo.extraWeatherProbabilities
+end--AddWeatherProbabilities
+
 --REF TppDefine.WEATHER={SUNNY=0,CLOUDY=1,RAINY=2,SANDSTORM=3,FOGGY=4,POURING=5}
 
 local fogTypeToWeatherFogType={--DEBUGNOW TODO its probably the exact same value as the enum anyway
