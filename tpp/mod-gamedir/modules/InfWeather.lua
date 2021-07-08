@@ -12,6 +12,7 @@ this.extraWeatherProbabilitiesTable={
 
 local TppWeather_SetDefaultWeatherProbabilities=TppWeather.SetDefaultWeatherProbabilities
 function this.SetDefaultWeatherProbabilities()
+  InfCore.LogFlow"InfWeather.SetDefaultWeatherProbabilities"
   local locationName=TppLocation.GetLocationName()
   locationName=string.upper(locationName)
   
