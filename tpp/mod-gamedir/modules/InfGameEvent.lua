@@ -350,7 +350,7 @@ function this.GenerateEvent(missionCode)
 
     if missionCode==30050 then
       this.GenerateWarGameEvent(missionCode)
-    elseif missionCode==30010 or missionCode==30020 then
+    elseif IvarProc.MissionCheckFree() then
       this.GenerateRoamEvent(missionCode)
     end
 
@@ -462,11 +462,6 @@ function this.GenerateRoamEvent(missionCode)
     IvarProc.ApplyProfile(roamEventProfiles[eventId],true)
   end
 
-  local missionCodeLocation={
-    [30010]="afgh",
-    [30020]="mafr",
-  }
-
   if this.inf_enabledEvents.CRASHLAND then
     --      local rndHours=math.random(0,23)
     --      local rndMinutes=math.random(0,60)
@@ -475,14 +470,18 @@ function this.GenerateRoamEvent(missionCode)
     --      vars.clock=gvars.missionStartClock
 
     --tex random start location
-    local locationName=missionCodeLocation[missionCode]
+    local locationName=TppLocation.GetLocationName()
     local lzTable=TppLandingZone.missionLzs[locationName]
-    local lzDrpNames={}
-    for drpName,aprName in pairs(lzTable)do
-      lzDrpNames[#lzDrpNames+1]=drpName
+      if lzTable==nil then
+        InfCore.Log("CRASHLAND TppLandingZone.missionLzs["..locationName.."]==nil")
+      else
+        local lzDrpNames={}
+        for drpName,aprName in pairs(lzTable)do
+          lzDrpNames[#lzDrpNames+1]=drpName
+        end
+        mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
+        --InfCore.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
     end
-    mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
-    --InfCore.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
   end
   --end,missionCode)
 end
