@@ -57,6 +57,9 @@ public class EventParamHelper : MonoBehaviour
     public string ParamString = "";
     public uint StringAsS32Uint = 0;
 
+    public ushort P1Short0FromYaw = 0;
+    public ushort P1Short1WaitTime = 0;
+    public uint Param1Combined = 0;
 
     // Use this for initialization
     void Start()
@@ -144,5 +147,21 @@ public class EventParamHelper : MonoBehaviour
         }
 
         Param0Uint = IsEdge ? (uint)AimTargetType : (uint)AimTargetType + 1;
-    }
-}
+
+        P1Short0FromYaw = GetShortRotation();
+
+        uint RIGHT = 0xFFFF;
+        Param1Combined = (uint)((P1Short0FromYaw << 16) | (P1Short1WaitTime & RIGHT));
+    }//OnValidate
+
+    private ushort GetShortRotation()
+    {
+        //tex: from caplag
+        //https://discord.com/channels/364177293133873153/364177978315374592/819967138550251530
+        float yaw = transform.rotation.eulerAngles.y;
+        yaw -= 360;
+        yaw = Mathf.Abs(yaw);
+        yaw *= 182;
+        return (ushort)yaw;
+    }//GetShortRotation
+}//EventParamHelper
