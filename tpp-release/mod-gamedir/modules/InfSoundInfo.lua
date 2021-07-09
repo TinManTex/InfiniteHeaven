@@ -15,6 +15,21 @@ this.soundPacks={
   ene_af="/Assets/tpp/pack/mission2/ih/snd_ene_af.fpk",--vox_ene_common_af.sbp
 }--soundPacks
 
+--WIP subtitles_boot / SubtitlesBlockControllerData which currently just point to the free roam subtitle packs, 
+--which means there's doubling up for subp references which seems to be causing issues, either that or two subs packs cant be loaded
+--but there already are via results_subtitles in location pack?
+
+--a 'more proper' way would require to build seperate packs for every <lang>Voice/<lang>Text which is a bunch of work
+--but cant guarantee wont still have issues since vanilla files will still double up on the SubtitlesPackage references
+
+--if I hadn't hit the issues I would have just rolled them into the above soundpacks.
+this.subsPacks={
+  ene_en="/Assets/tpp/pack/mission2/ih/subs_boot_ene_en.fpk",-- f30050_subtitles -> <lang>Voice/<lang>Text/ene_common.subp,_str.subp
+  ene_ru="/Assets/tpp/pack/mission2/ih/subs_boot_ene_ru.fpk",-- f30010_subtitles -> <lang>Voice/<lang>Text/ene_common_ru.subp,_str.subp
+  ene_af="/Assets/tpp/pack/mission2/ih/subs_boot_ene_af.fpk",-- f30020_subtitles -> <lang>Voice/<lang>Text/ene_common_af.subp,_str.subp
+}--soundPacks
+
+
 this.langForEnemyType={
   [EnemyType.TYPE_SOVIET]="ene_ru",    
   [EnemyType.TYPE_PF]="ene_af",

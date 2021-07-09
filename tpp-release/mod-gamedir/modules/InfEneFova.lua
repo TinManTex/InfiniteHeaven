@@ -295,6 +295,11 @@ function this.GetMaleBodyInfo(missionCode)
     return nil
   end
   --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(bodyType))--DEBUG
+  if bodyType=="RANDOM"then
+    InfMain.RandomSetToLevelSeed()
+    bodyType=InfBodyInfo.bodies.MALE[math.random(2,#InfBodyInfo.bodies.MALE)]--tex skip OFF and RANDOM
+    InfMain.RandomResetToOsTime()
+  end
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
   if bodyInfo==nil then
     InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo bodyInfo "..bodyType.." not found")
@@ -318,6 +323,11 @@ function this.GetFemaleBodyInfo(missionCode)--DEBUGNOW
     return nil
   end
   --InfCore.Log("InfEneFova.GetFemaleBodyInfo "..tostring(bodyType))--DEBU
+  if bodyType=="RANDOM"then
+    InfMain.RandomSetToLevelSeed() 
+    bodyType=InfBodyInfo.bodies.FEMALE[math.random(2,#InfBodyInfo.bodies.FEMALE)]--tex skip OFF and RANDOM
+    InfMain.RandomResetToOsTime()
+  end
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
   if bodyInfo==nil then
     InfCore.Log("WARNING: InfEneFova.GetFemaleBodyInfo bodyInfo "..bodyType.." not found")

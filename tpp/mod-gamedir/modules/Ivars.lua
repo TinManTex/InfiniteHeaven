@@ -59,7 +59,7 @@ local int32=2^32
 this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions/whatever was highest
 
 this.switchRange={max=1,min=0,increment=1}
-this.percentRange={max=100,min=0,increment=5}
+this.percentRange={max=100,min=0,increment=1}
 
 this.switchSettings={"OFF","ON"}
 this.simpleProfileSettings={"DEFAULT","CUSTOM"}

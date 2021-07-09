@@ -633,7 +633,7 @@
 <div>6: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: Custom soldier type in Free roam : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
+<div>7: Custom soldier type in Free roam : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED</div>
 <div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam.<br/>New soldier types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
@@ -1144,28 +1144,23 @@
 <div id="eventsMenu">Events menu</div>
 </div>
 <div id="menuItem">
-<div>1: Trigger random IH event : 0-1</div>
-<div id="itemHelp">Events are temporary combinations of IH settings for free roam and mother base.<br/>Free roam events (can stack): <br/>Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. <br/>Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>MB events (only one active): <br/>DD Training wargame, <br/>Soviet attack, <br/>Rogue Coyote attack, <br/>XOF attack, <br/>DD Infection outbreak, <br/>Zombie Obliteration (non DD)</div>
-</div>
-<div id="menuItem">
-<div>2: Free roam event random trigger chance : 0-100%</div>
-<div id="itemHelp">Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')</div>
-</div>
-<div id="menuItem">
-<div>3: MB event random trigger chance : 0-100%</div>
+<div>1: MB event random trigger chance : 0-100%</div>
 <div id="itemHelp">Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')</div>
 </div>
 <div id="menuItem">
-<div>4: Allow Hunted event : Off, On</div>
+<div>2: Hunted event chance : 0-100%</div>
+<div id="itemHelp">Chance to start event Hunted on starting free roam. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. </div>
 </div>
 <div id="menuItem">
-<div>5: Allow Crashland event : Off, On</div>
+<div>3: Crashland event chance : 0-100%</div>
+<div id="itemHelp">Chance to start event Crashland on starting free roam. Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.</div>
 </div>
 <div id="menuItem">
-<div>6: Allow Lost Coms event : Off, On</div>
+<div>4: Lost Coms event chance : 0-100%</div>
+<div id="itemHelp">Chance to start event Lost-coms on starting free roam. Disables most mother base support menus and disables all heli landing zones except from main bases/towns. </div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#parasiteMenu">Skulls event menu</a></div>
+<div>5: <a href="#parasiteMenu">Skulls event menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -1317,7 +1312,7 @@
 </div>
 <div id="menuItem">
 <div>1: Extraction team in Free Roam : Off, On</div>
-<div id="itemHelp">Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.</div>
+<div id="itemHelp">Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.</div>
 </div>
 <div id="menuItem">
 <div>2: Extraction team in Missions : Off, On</div>
@@ -1472,11 +1467,11 @@
 <div>3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range</div>
 </div>
 <div id="menuItem">
-<div>4: DD Suit : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
+<div>4: DD Suit : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED</div>
 <div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
-<div>5: DD Suit female : OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE</div>
+<div>5: DD Suit female : OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE</div>
 <div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">

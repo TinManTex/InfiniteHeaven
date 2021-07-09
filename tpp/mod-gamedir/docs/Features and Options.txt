@@ -339,7 +339,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
+7: Custom soldier type in Free roam : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED
 Override the soldier type of enemy soldiers in Free Roam.
 New soldier types can be added via the bodyInfo addon system.
 8: Reset enemy preparedness levels : 0-1
@@ -534,27 +534,15 @@ Allows an extra set of reinforce soldiers with all vehicle reinforce types inste
 
 Events menu
 -----------
-1: Trigger random IH event : 0-1
-Events are temporary combinations of IH settings for free roam and mother base.
-Free roam events (can stack): 
-Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
-Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
-Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
-MB events (only one active): 
-DD Training wargame, 
-Soviet attack, 
-Rogue Coyote attack, 
-XOF attack, 
-DD Infection outbreak, 
-Zombie Obliteration (non DD)
-2: Free roam event random trigger chance : 0-100%
-Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')
-3: MB event random trigger chance : 0-100%
+1: MB event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
-4: Allow Hunted event : Off, On
-5: Allow Crashland event : Off, On
-6: Allow Lost Coms event : Off, On
-7: Skulls event menu
+2: Hunted event chance : 0-100%
+Chance to start event Hunted on starting free roam. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
+3: Crashland event chance : 0-100%
+Chance to start event Crashland on starting free roam. Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.
+4: Lost Coms event chance : 0-100%
+Chance to start event Lost-coms on starting free roam. Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
+5: Skulls event menu
 
 Skulls event menu
 -----------------
@@ -606,7 +594,7 @@ Percentage chance a zombified soldier will have msf zombie behaviour
 Fulton menu
 -----------
 1: Extraction team in Free Roam : Off, On
-Extraction team will recover enemies you have neutralized after you've travelled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
+Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
 2: Extraction team in Missions : Off, On
 3: Disable fulton action : Off, On
 Disables fulton at the player-action level
@@ -669,9 +657,9 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
+4: DD Suit : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED
 New body types can be added via the bodyInfo addon system.
-5: DD Suit female : OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE
+5: DD Suit female : OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE
 New body types can be added via the bodyInfo addon system.
 6: DD Head gear : Off, Current prep
 7: NPC support heli patrols in MB : 0-3
