@@ -18,7 +18,7 @@ function this.SetDefaultWeatherProbabilities()
   
   --DEBUGNOW and per mission too?
   local weatherProbabilities=this.weatherProbabilitiesTable[locationName]
-  if weatherProbabilities then
+  if weatherProbabilities==nil then
     TppWeather_SetDefaultWeatherProbabilities()
     return
   end
@@ -45,9 +45,9 @@ TppWeather.SetDefaultWeatherProbabilities=this.SetDefaultWeatherProbabilities
 
 --CALLER: InfMission.AddInLocations
 --GOTCHA: no checks to see if it tramples an previously added entry
-function this.AddWeatherProbabilities(locationId,locationInfo)
-  this.weatherProbabilitiesTable[locationId]=locationInfo.weatherProbabilities
-  this.extraWeatherProbabilitiesTable[locationId]=locationInfo.extraWeatherProbabilities
+function this.AddWeatherProbabilities(locationName,locationInfo)
+  this.weatherProbabilitiesTable[locationName]=locationInfo.weatherProbabilities
+  this.extraWeatherProbabilitiesTable[locationName]=locationInfo.extraWeatherProbabilities
 end--AddWeatherProbabilities
 --<
 
