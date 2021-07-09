@@ -35,6 +35,11 @@ function this.SetDefaultWeatherProbabilities()
   if extraWeatherProbabilities then
     WeatherManager.SetExtraWeatherProbabilities(extraWeatherProbabilities)
   end
+  
+  if this.debugModule then
+    InfCore.PrintInspect(weatherProbabilities,locationName.." weatherProbabilities")
+    InfCore.PrintInspect(weatherProbabilities,locationName.." extraWeatherProbabilities")
+  end
 end--SetDefaultWeatherProbabilities
 TppWeather.SetDefaultWeatherProbabilities=this.SetDefaultWeatherProbabilities
 
@@ -44,6 +49,7 @@ function this.AddWeatherProbabilities(locationId,locationInfo)
   this.weatherProbabilitiesTable[locationId]=locationInfo.weatherProbabilities
   this.extraWeatherProbabilitiesTable[locationId]=locationInfo.extraWeatherProbabilities
 end--AddWeatherProbabilities
+--<
 
 --REF TppDefine.WEATHER={SUNNY=0,CLOUDY=1,RAINY=2,SANDSTORM=3,FOGGY=4,POURING=5}
 
