@@ -555,7 +555,7 @@ function this.AddInLocations()
       end--if locationMapParams townParameter
 
       InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)      
-      InfWeather.AddWeatherProbabilities(locationId,locationInfo)
+      InfWeather.AddWeatherProbabilities(locationName,locationInfo)
     end
   end
   InfCore.LogFlow"Adding to TppLocation.locationIdForName for TppLocation.GetLocationName"
