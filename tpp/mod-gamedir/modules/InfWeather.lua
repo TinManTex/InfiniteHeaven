@@ -14,8 +14,7 @@ local TppWeather_SetDefaultWeatherProbabilities=TppWeather.SetDefaultWeatherProb
 function this.SetDefaultWeatherProbabilities()
   InfCore.LogFlow"InfWeather.SetDefaultWeatherProbabilities"
   local locationName=TppLocation.GetLocationName()
-  locationName=string.upper(locationName)
-  
+  locationName=string.upper(locationName) 
   --DEBUGNOW and per mission too?
   local weatherProbabilities=this.weatherProbabilitiesTable[locationName]
   if weatherProbabilities==nil then
