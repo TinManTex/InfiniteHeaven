@@ -1,3 +1,0 @@
-location pack is pretty much vanilla mgo
-minus afc0_common_ui culling DroidInfo which doesnt exist in tpp
-and afc0_common_ruleset culling the TPPMP entities

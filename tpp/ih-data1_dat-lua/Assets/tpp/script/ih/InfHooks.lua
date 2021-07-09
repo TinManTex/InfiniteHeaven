@@ -98,9 +98,6 @@ this.debugPCallHooks={
     OnDeactivateQuest=true,
     CheckQuestAllTarget=true,
   },
-  TppLocation={
-    ActivateBlock=true,
-  },
   TppMission={
     ExecuteMissionFinalize=true,
     MissionFinalize=true,

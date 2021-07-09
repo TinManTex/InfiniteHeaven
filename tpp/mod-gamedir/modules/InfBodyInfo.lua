@@ -32,6 +32,7 @@ local this={}
 
 this.bodyInfo={
   OFF={},--KLUDGE for ivar
+  RANDOM={},--KLUDGE for ivar
   DRAB={--DDS, mother base default
     description="Fatigues - Drab",
     bodyIds={TppEnemyBodyId.dds3_main0_v00},
@@ -984,6 +985,7 @@ this.bodyInfo={
 this.bodies={
   MALE={
     "OFF",
+    "RANDOM",
     "DRAB",
     "TIGER",
     "SNEAKING_SUIT",
@@ -1011,6 +1013,7 @@ this.bodies={
   },
   FEMALE={
     "OFF",
+    "RANDOM",
     "DRAB_FEMALE",
     "TIGER_FEMALE",
     "SNEAKING_SUIT_FEMALE",

@@ -205,7 +205,9 @@ end
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
+--CALLER: TppMain.OnMissionCanStart
 function this.ActivateBlock()
+  InfCore.LogFlow"TppLocation.ActivateBlock"--tex
   local noLoadTable={[1]=true,[30]=true,[50]=true,[55]=true}--init,cypr,mtbs,mbqf
   if noLoadTable[vars.locationCode]then
     return

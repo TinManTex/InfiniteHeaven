@@ -2508,6 +2508,9 @@ function this.RegisterCombatSetting(combatSetting)
       GameObject.SendCommand(type,command)
     else
       for t,locatorSetName in ipairs(cpCombatSetting)do
+        if this.debugModule then--tex>
+          InfCore.Log("RegisterCombatLocatorSetToCpforLua "..tostring(cpName).." "..tostring(locatorSetName))
+        end--<
         TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=cpName,locatorSetName=locatorSetName}
       end
     end

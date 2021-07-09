@@ -1,5 +1,23 @@
 Infinite Heaven changelog
 
+r255 - 2021-07-09
+fix: hang with Random cp subtype in addon missions.
+
+customSoldierType: added RANDOM option
+GOTCHA: if you were using customSoldierType prior to this update it will be set to the previous body type till you set it again.
+
+Events: 
+Free roam events now work for free roam addon locations
+Free roam event options changed from Allow-on/off to percentage chances.
+
+API: mission script _enemy 
+Direct value to set on all, or per type table options for cpSubTypes, soldierTypes, soldierSubTypes, and cpTypes, cpAnounceLangIds
+cpTypes added to set the cp voice
+cpAnounceLangIds added to set the cp type in phase change announce.
+soldierSubTypes can be set to true to use cpSubTypes to define soldier subtypes
+
+API: location script weatherProbabilities, extraWeatherProbabilities
+
 r254 - 2021-06-22
 fix: hang on exit fob due to IH not handling heroicPoint as string - thanks William for your report and log.
 

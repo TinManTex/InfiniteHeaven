@@ -1,5 +1,5 @@
 = Infinite heaven =
-r254 - 2021-06-22
+r255 - 2021-07-09
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r15b
@@ -21,6 +21,16 @@ Recent changes/additions
 ------------------------------
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
+
+r255 - 2021-07-09
+fix: hang with Random cp subtype in addon missions.
+
+customSoldierType: added RANDOM option
+GOTCHA: if you were using customSoldierType prior to this update it will be set to the previous body type till you set it again.
+
+Events: 
+Free roam events now work for free roam addon locations
+Free roam event options changed from Allow-on/off to percentage chances.
 
 r254 - 2021-06-22
 fix: hang on exit fob due to IH not handling heroicPoint as string - thanks William for your report and log.

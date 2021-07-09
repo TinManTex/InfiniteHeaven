@@ -42,7 +42,15 @@
 --    },
 --  },
 --  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
---}
+--  weatherProbabilities={-- see TppWeather.weatherProbabilitiesTable
+--    {TppDefine.WEATHER.SUNNY,80},
+--    {TppDefine.WEATHER.CLOUDY,20}  
+--  },
+--  extraWeatherProbabilities={-- see TppWeather.extraWeatherProbabilitiesTable
+--    {TppDefine.WEATHER.RAINY,50},
+--    {TppDefine.WEATHER.FOGGY,50}
+--  },
+--}--this
 --
 --return this
 --<
@@ -127,7 +135,7 @@
 --      returnRoute="lz_citadelSouth_S0000|rt_rtn_citadelSouth_S_0000",
 --    },
 --  },--lzInfo
---}
+--}--this
 --
 --return this
 --<
@@ -546,7 +554,8 @@ function this.AddInLocations()
         end--for townParameter
       end--if locationMapParams townParameter
 
-      InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)
+      InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)      
+      InfWeather.AddWeatherProbabilities(locationName,locationInfo)
     end
   end
   InfCore.LogFlow"Adding to TppLocation.locationIdForName for TppLocation.GetLocationName"

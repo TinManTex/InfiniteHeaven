@@ -8,9 +8,14 @@ local SendCommand=GameObject.SendCommand
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 
-this.forceEvent=false
 this.inf_enabledEvents={}
-this.doInjury=false
+
+local roamEventNames={
+  "HUNTED",
+  "CRASHLAND",
+  "LOST_COMS",
+}
+local eventIvarPrefix="gameevent_chance"
 
 this.registerIvars={
   "mbWarGamesProfile",
@@ -20,10 +25,6 @@ this.registerIvars={
   "mbZombies",
   "mbEnemyHeli",
   "mbEnableFultonAddStaff",
-  "selectEvent",
-  "enableEventHUNTED",
-  "enableEventCRASHLAND",
-  "enableEventLOST_COMS",
 }
 --tex profile that sets many of the wargames event settings, but just the underlying categories
 --see gameEventChance, GenerateEvent, igvars.inf_event for the randomly triggered event that sets the actually themed/flavorful ones
@@ -86,7 +87,7 @@ this.mbWarGamesProfile={
 
 this.mbWargameFemales={
   save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=100,increment=10},
+  range=Ivars.percentRange,
   isPercent=true,
 }
 
@@ -134,12 +135,12 @@ IvarProc.MissionModeIvars(
   "gameEventChance",
   {
     save=IvarProc.CATEGORY_EXTERNAL,
-    range={min=0,max=100,increment=5},
+    range=Ivars.percentRange,
     isPercent=true,
   },
-  {"FREE","MB",}
+  {"MB",}
 )
-
+--CULL
 this.selectEvent={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"NONE"},--DYNAMIC
@@ -154,6 +155,19 @@ this.selectEvent={
 }
 
 --
+for i,eventName in ipairs(roamEventNames)do
+  local ivarName=eventIvarPrefix..eventName
+  local ivar={
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.percentRange,
+    isPercent=true,
+    default=0,
+  }
+  this[ivarName]=ivar
+  table.insert(this.registerIvars,ivarName)
+end
+
+--CULL
 this.enableEventHUNTED={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=1,
@@ -182,21 +196,23 @@ this.registerMenus={
 this.eventsMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
-    "InfGameEvent.ForceGameEvent",
-    "Ivars.gameEventChanceFREE",
+    --CULL
+    --"InfGameEvent.ForceGameEvent",
+    --"Ivars.gameEventChanceFREE",
     "Ivars.gameEventChanceMB",
-    "Ivars.enableEventHUNTED",
-    "Ivars.enableEventCRASHLAND",
-    "Ivars.enableEventLOST_COMS",
   }
 }
+for i,eventName in ipairs(roamEventNames)do
+  local ivarName="Ivars."..eventIvarPrefix..eventName
+  table.insert(this.eventsMenu.options,ivarName)
+end
 --< menu defs
 this.langStrings={
   eng={
     eventsMenu="Events menu",
-    enableEventHUNTED="Allow Hunted event",
-    enableEventCRASHLAND="Allow Crashland event",
-    enableEventLOST_COMS="Allow Lost Coms event",
+    gameevent_chanceHUNTED="Hunted event chance",
+    gameevent_chanceCRASHLAND="Crashland event chance",
+    gameevent_chanceLOST_COMS="Lost Coms event chance",
     event_announce="Event: %s",--event name
     event_forced="Event will start on next MB visit or Free Roam",
     forceGameEvent="Trigger random IH event",
@@ -219,6 +235,9 @@ this.langStrings={
     eng={
       gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')",
       gameEventChanceFREE="Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')",
+      gameevent_chanceHUNTED="Chance to start event Hunted on starting free roam. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. ",
+      gameevent_chanceCRASHLAND="Chance to start event Crashland on starting free roam. Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.",
+      gameevent_chanceLOST_COMS="Chance to start event Lost-coms on starting free roam. Disables most mother base support menus and disables all heli landing zones except from main bases/towns. ",
        forceGameEvent=[[Events are temporary combinations of IH settings for free roam and mother base.
 Free roam events (can stack): 
 Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
@@ -238,7 +257,6 @@ Zombie Obliteration (non DD)]],
 --<
 
 function this.PostModuleReload(prevModule)
-  this.forceEvent=prevModule.forceEvent
   this.inf_enabledEvents=prevModule.inf_enabledEvents
 end
 
@@ -264,13 +282,8 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.DisableEvent()
-  local eventMissions={
-    [30010]=true,
-    [30020]=true,
-    [30050]=true,
-  }
-
-  if eventMissions[vars.missionCode] then
+  --tex missions events enabled in
+  if vars.missionCode==30050 or IvarProc.MissionCheckFree() then
     if igvars.inf_event~=false then
       igvars.inf_event=false
       this.inf_enabledEvents={}
@@ -292,7 +305,6 @@ function this.OnMissionCanStart()
 
   this.DisableLzs()
 
-  this.doInjury=false
   if this.inf_enabledEvents.CRASHLAND then
     InfCore.Log"InfGameEvent.OnMissionCanStart event CRASHLAND"
     if TppMission.IsMissionStart() then
@@ -315,52 +327,19 @@ function this.OnMissionCanStart()
       Player.SetForceInjury{type=math.random(1,3)}
     end
   end
-end
+end--OnMissionCanStart
 --CALLERS: InfMain.ExecuteMissionFinalizeTop, title_sequence OnEndFadeOutSelectContinue (to re-apply event following session since they are implmented as non saved profiles)
 function this.GenerateEvent(missionCode)
-  --InfCore.PCallDebug(function(misisonCode)--DEBUGOW
-  if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) and not igvars.inf_event then
-    return
-  end
-
-  InfMain.RandomSetToLevelSeed()
-  local randomTriggered=math.random(100)<Ivars.gameEventChanceFREE:Get()
   if missionCode==30050 then
-    randomTriggered=math.random(100)<Ivars.gameEventChanceMB:Get()
+    this.GenerateWarGameEvent(missionCode)
+  elseif IvarProc.MissionCheckFree(nil,missionCode) then--tex non mb free roams
+    this.GenerateRoamEvent(missionCode)
   end
 
-  --tex some of these have been getting stuck on for some users even though they are only applied with noSave
-  if Ivars.mbWarGamesProfile:Is(0) then
-    local clearVars={
-      --mbDDEquipNonLethal=0,
-      mbHostileSoldiers=0,
-      mbNonStaff=0,
-      mbEnableFultonAddStaff=0,
-      mbZombies=0,
-      mbEnemyHeli=0,
-    }
-    IvarProc.ApplyProfile(clearVars)
+  if igvars.inf_event then
+    InfCore.PrintInspect(this.inf_enabledEvents,"InfGameEvent.inf_enabledEvents")
   end
-
-  if this.forceEvent or randomTriggered or igvars.inf_event then
-    InfCore.Log("InfGameEvent.GenerateEvent missionCode:"..missionCode)--DEBUG
-    --    InfCore.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
-    --    InfCore.DebugPrint("inf_levelSeed:"..tostring(igvars.inf_levelSeed))--DEBUG
-
-
-    if missionCode==30050 then
-      this.GenerateWarGameEvent(missionCode)
-    elseif missionCode==30010 or missionCode==30020 then
-      this.GenerateRoamEvent(missionCode)
-    end
-
-    this.forceEvent=false
-
-    InfCore.PrintInspect(this.inf_enabledEvents,{varName="InfGameEvent.inf_enabledEvents"})
-  end
-  InfMain.RandomResetToOsTime()
-  --end,missionCode)--DEBUG
-end
+end--GenerateEvent
 
 --TUNE
 local roamEventProfiles={
@@ -392,12 +371,6 @@ local roamEventProfiles={
   },
 }
 
-local roamEventNames={
-  "HUNTED",
-  "CRASHLAND",
-  "LOST_COMS",
-}
-
 local disableLzsFromStartDistance=1900--tex TUNE
 disableLzsFromStartDistance=disableLzsFromStartDistance*disableLzsFromStartDistance
 --tex called from InfMain.OnMissionCanStartBottom
@@ -412,43 +385,32 @@ function this.DisableLzs()
 end
 
 function this.GenerateRoamEvent(missionCode)
-  --InfCore.PCall(function(missionCode)--DEBUG
-  igvars.inf_event=true
-
   this.inf_enabledEvents={}
+  
+  InfMain.RandomSetToLevelSeed()
+  
   local numEvents=0
-
-  local forcedEvent=false
-  if this.forceEvent then
-    if type(this.forceEvent)=="string" then
-      if roamEventNames[this.forceEvent] then
-        forcedEvent=this.forceEvent
+  for i,eventName in ipairs(roamEventNames) do
+    local eventChance=Ivars[eventIvarPrefix..eventName]:Get()
+    if eventChance>0 then
+      local rnd=math.random(100)
+      InfCore.Log("eventName eventChance:"..eventChance.." rndChance:"..rnd)--DEBUGNOW
+      if rnd<=eventChance then
+        this.inf_enabledEvents[eventName]=true
+        numEvents=numEvents+1
       end
     end
   end
-  if forcedEvent then
-    this.inf_enabledEvents[forcedEvent]=true
-    numEvents=numEvents+1
-  else
-    local enabledTypes={}
-    for i,eventType in ipairs(roamEventNames)do
-      enabledTypes[eventType]=Ivars["enableEvent"..eventType]:Is(1)
-    end
-
-    for i,eventName in ipairs(roamEventNames) do
-      if enabledTypes[eventName] then
-        if math.random(100)<100/#roamEventNames then--TUNE
-          this.inf_enabledEvents[eventName]=true
-          numEvents=numEvents+1
-        end
-      end
-    end
-  end
+  
   if numEvents==0 then
-    local eventName=roamEventNames[math.random(#roamEventNames)]
-    this.inf_enabledEvents[eventName]=true
+    if this.debugModule then
+      InfCore.Log("InfGameEvent numEvents chosen == 0")
+    end
+    return
   end
-
+  
+  igvars.inf_event=true
+  
   --DEBUG
   --  this.inf_enabledEvents={}
   --  this.inf_enabledEvents={
@@ -462,11 +424,6 @@ function this.GenerateRoamEvent(missionCode)
     IvarProc.ApplyProfile(roamEventProfiles[eventId],true)
   end
 
-  local missionCodeLocation={
-    [30010]="afgh",
-    [30020]="mafr",
-  }
-
   if this.inf_enabledEvents.CRASHLAND then
     --      local rndHours=math.random(0,23)
     --      local rndMinutes=math.random(0,60)
@@ -475,17 +432,27 @@ function this.GenerateRoamEvent(missionCode)
     --      vars.clock=gvars.missionStartClock
 
     --tex random start location
-    local locationName=missionCodeLocation[missionCode]
+    local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
+    locationName=string.lower(locationName)
     local lzTable=TppLandingZone.missionLzs[locationName]
-    local lzDrpNames={}
-    for drpName,aprName in pairs(lzTable)do
-      lzDrpNames[#lzDrpNames+1]=drpName
+    if lzTable==nil then
+      InfCore.Log("CRASHLAND TppLandingZone.missionLzs["..locationName.."]==nil")
+    else
+      local lzDrpNames={}
+      for drpName,aprName in pairs(lzTable)do
+        lzDrpNames[#lzDrpNames+1]=drpName
+      end
+      if #lzDrpNames==0 then
+        InfCore.Log("CRASHLAND #lzDrpNames==0")
+      else
+        mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
+        
+        InfCore.Log("CRASHLAND mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)
+      end
     end
-    mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
-    --InfCore.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
   end
-  --end,missionCode)
-end
+  InfMain.RandomResetToOsTime()
+end--GenerateRoamEvent
 
 local warGamesBase={
   TRAINING={
@@ -636,16 +603,34 @@ local warGameSettings={
   },
 }
 
-function this.GenerateWarGameEvent()
-  --InfCore.PCallDebug(function()--DEBUG
-  --tex user is doing wargames anyway (see mbWarGamesProfile vs gameEventChance)
-  if Ivars.mbWarGamesProfile:Is()>0 and not igvars.inf_event then
-    return
-  end
+function this.GenerateWarGameEvent(missionCode)
+  --InfCore.PCallDebug(function()--DEBUG 
+  if not igvars.inf_event then
+    --tex WORKAROUND some of these have been getting stuck on for some users even though they are only applied with noSave
+    if Ivars.mbWarGamesProfile:Is(0) then
+        local clearVars={
+          --mbDDEquipNonLethal=0,
+          mbHostileSoldiers=0,
+          mbNonStaff=0,
+          mbEnableFultonAddStaff=0,
+          mbZombies=0,
+          mbEnemyHeli=0,
+        }
+        IvarProc.ApplyProfile(clearVars) 
+    else
+      --tex user is doing wargames anyway (see mbWarGamesProfile vs gameEventChance)
+      return
+    end
+  end--not inf_event
 
   --tex TODO: only catches some times
   --InfCore.Log("GenerateWarGameEvent mbFreeDemoPlayNextIndex:"..tostring(gvars.mbFreeDemoPlayNextIndex))--DEBUG
   if gvars.mbFreeDemoPlayNextIndex and gvars.mbFreeDemoPlayNextIndex~=0 then
+    return
+  end
+  
+  local eventChance=Ivars.gameEventChanceMB:Get()
+  if eventChance==0 and not this.forceEvent then
     return
   end
 
@@ -653,7 +638,10 @@ function this.GenerateWarGameEvent()
 
   this.inf_enabledEvents={}
 
+  InfMain.RandomSetToLevelSeed()
   local warGame=warGames[math.random(#warGames)]
+  InfMain.RandomResetToOsTime()
+  
   if this.forceEvent then
     if type(this.forceEvent)=="string" then
       if warGamesEnum[this.forceEvent] then
@@ -685,9 +673,7 @@ function this.GenerateWarGameEvent()
   --Ivars.revengeModeMB_ALL:Set("CUSTOM",true)
   --tex for now just useing enemy prep levels (set via warGames table)
   --end)--
-end
-
-
+end--GenerateWarGameEvent
 
 function this.GetEventNames()
   local eventNames={}
@@ -699,7 +685,7 @@ function this.GetEventNames()
   end
   return eventNames
 end
-
+--CULL
 function this.ForceGameEvent()
   InfMenu.PrintLangId"event_forced"
   this.forceEvent=true
