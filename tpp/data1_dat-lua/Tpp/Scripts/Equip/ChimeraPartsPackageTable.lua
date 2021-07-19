@@ -1,7 +1,8 @@
 --ChimeraPartsPackageTable.lua
 --see https://metalgearmodding.fandom.com/wiki/Chimera_Package_Table for more info
 local this={}--tex made local
-TppEquip.ReloadChimeraPartsInfoTable{
+-- was TppEquip.ReloadChimeraPartsInfoTable{--<table>
+this.chimeraPartsInfoTable={
   packageInfos={
     {"/Assets/tpp/parts/weapon/bar/ba03_main1_def_v00.parts","/Assets/tpp/pack/collectible/chimera/barrel/ba03_main1_def_v00.fpk","/Assets/tpp/fova/weapon/bar/ba03_main1_def_cam.fv2","/Assets/tpp/pack/collectible/fova/barrel/ba03_main1_def_cam.fpk","/Assets/tpp/fova/weapon/bar/ba03_main1_def_clv.fv2","/Assets/tpp/pack/collectible/fova/barrel/ba03_main1_def_clv.fpk","/Assets/tpp/fova/weapon/bar/default/ba03_main1_def.fv2","/Assets/tpp/pack/collectible/fova/barrel/ba03_main1_def.fpk"},
     {"/Assets/tpp/parts/weapon/bar/ba08_main0_def_v00.parts","/Assets/tpp/pack/collectible/chimera/barrel/ba08_main0_def_v00.fpk","/Assets/tpp/fova/weapon/bar/ba08_main0_def_cam.fv2","/Assets/tpp/pack/collectible/fova/barrel/ba08_main0_def_cam.fpk","/Assets/tpp/fova/weapon/bar/ba08_main0_def_clv.fv2","/Assets/tpp/pack/collectible/fova/barrel/ba08_main0_def_clv.fpk","/Assets/tpp/fova/weapon/bar/default/ba08_main0_def.fv2","/Assets/tpp/pack/collectible/fova/barrel/ba08_main0_def.fpk"},
@@ -1116,6 +1117,5 @@ TppEquip.ReloadChimeraPartsInfoTable{
     {"/Assets/tpp/fova/weapon/all/wfv_camo_c94.fv2","/Assets/tpp/pack/collectible/fova/color/wfv_camo_c94.fpk"}
   }--color
 }--chimeraPartsInfoTable
+TppEquip.ReloadChimeraPartsInfoTable(this.chimeraPartsInfoTable)--tex
 return this
-
-
