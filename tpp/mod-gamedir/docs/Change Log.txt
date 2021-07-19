@@ -2,6 +2,9 @@ Infinite Heaven changelog
 
 r256 - 
 fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
+fulton_recoverCritical "Extraction recover critical" - "Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay."
+(via Fulton menu)
+
 
 
 r255 - 2021-07-09
