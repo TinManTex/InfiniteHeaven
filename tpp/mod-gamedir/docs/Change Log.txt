@@ -1,5 +1,9 @@
 Infinite Heaven changelog
 
+r256 - 
+fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
+
+
 r255 - 2021-07-09
 fix: hang with Random cp subtype in addon missions.
 
