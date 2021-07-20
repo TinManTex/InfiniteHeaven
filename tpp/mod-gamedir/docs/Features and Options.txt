@@ -596,10 +596,12 @@ Fulton menu
 1: Extraction team in Free Roam : Off, On
 Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
 2: Extraction team in Missions : Off, On
-3: Disable fulton action : Off, On
+3: Extraction recover critical : Off, On
+Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay.
+4: Disable fulton action : Off, On
 Disables fulton at the player-action level
-4: Fulton levels menu
-5: Fulton success menu
+5: Fulton levels menu
+6: Fulton success menu
 
 Fulton levels menu
 ------------------
@@ -879,9 +881,13 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 6: Face : <Face Id for player type and face filter>
 7: Skip developed checks : Off, On
 Allows items that haven't been developed to be selected.
-8: Print face info : 0-1
-9: Print appearance info : 0-1
-10: Form Variation menu
+8: Load avatar : 
+Load avatar from MGS_TPP\mod\avatars
+9: Save avatar : New
+Save avatar to MGS_TPP\mod\avatars
+10: Print face info : 0-1
+11: Print appearance info : 0-1
+12: Form Variation menu
 
 Progression menu
 ----------------
@@ -1108,9 +1114,13 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 6: Face : <Face Id for player type and face filter>
 7: Skip developed checks : Off, On
 Allows items that haven't been developed to be selected.
-8: Print face info : 0-1
-9: Print appearance info : 0-1
-10: Form Variation menu
+8: Load avatar : 
+Load avatar from MGS_TPP\mod\avatars
+9: Save avatar : New
+Save avatar to MGS_TPP\mod\avatars
+10: Print face info : 0-1
+11: Print appearance info : 0-1
+12: Form Variation menu
 
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.

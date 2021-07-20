@@ -119,7 +119,7 @@ this.moveScale={--Set
 
 this.disableCamText={
   inMission=true,
-  --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
 }

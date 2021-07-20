@@ -948,6 +948,8 @@ this.appearanceMenu={
     "Ivars.playerFaceFilter",
     "Ivars.playerFaceId",
     "Ivars.skipDevelopChecks",
+    "Ivars.loadAvatar",
+    "Ivars.saveAvatar",
     "InfMenuCommandsTpp.PrintFaceInfo",
     "InfMenuCommandsTpp.PrintCurrentAppearance",
     "InfFovaIvars.fovaModMenu",

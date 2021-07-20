@@ -380,7 +380,6 @@ IvarProc.MissionModeIvars(
   }
 )--fulton_autoFulton
 
---DEBUGNOW lang requires fulton_autoFulton
 this.fulton_recoverCritical={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
