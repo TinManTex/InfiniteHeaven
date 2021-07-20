@@ -781,111 +781,171 @@ for i,missionBaseStaffType in pairs(missionBaseStaffTypes)do
   TppMotherBaseManagement.RegisterMissionBaseStaffTypes(missionBaseStaffType)
 end
 
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,giveRate=0,minEnmity=0,maxEnmity=0}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,giveRate=5,minEnmity=1,maxEnmity=2}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,giveRate=10,minEnmity=1,maxEnmity=2}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,giveRate=20,minEnmity=2,maxEnmity=5}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,giveRate=30,minEnmity=4,maxEnmity=7}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,giveRate=50,minEnmity=5,maxEnmity=9}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,giveRate=75,minEnmity=6,maxEnmity=10}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,giveRate=90,minEnmity=7,maxEnmity=11}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,giveRate=95,minEnmity=8,maxEnmity=12}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,giveRate=100,minEnmity=9,maxEnmity=13}
-TppMotherBaseManagement.RegisterBaseInitEnmityParam{initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100,giveRate=100,minEnmity=10,maxEnmity=14}
+local baseInitEnmityParams={
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,giveRate=0,minEnmity=0,maxEnmity=0},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,giveRate=5,minEnmity=1,maxEnmity=2},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,giveRate=10,minEnmity=1,maxEnmity=2},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,giveRate=20,minEnmity=2,maxEnmity=5},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,giveRate=30,minEnmity=4,maxEnmity=7},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,giveRate=50,minEnmity=5,maxEnmity=9},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,giveRate=75,minEnmity=6,maxEnmity=10},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,giveRate=90,minEnmity=7,maxEnmity=11},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,giveRate=95,minEnmity=8,maxEnmity=12},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,giveRate=100,minEnmity=9,maxEnmity=13},
+  {initEnmityLv=TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100,giveRate=100,minEnmity=10,maxEnmity=14},
+}--baseInitEnmityParams
+for i,baseInitEnmityParam in ipairs(baseInitEnmityParams)do
+  TppMotherBaseManagement.RegisterBaseInitEnmityParam()
+end
 
 TppMotherBaseManagement.RegisterInitEnmityOffset{dying=5,holdup=-3}
 
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=0,heroicPoint=0,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=1,heroicPoint=1e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=2,heroicPoint=2e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=3,heroicPoint=3e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=4,heroicPoint=4e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=5,heroicPoint=5e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=6,heroicPoint=6e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=7,heroicPoint=7e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=8,heroicPoint=8e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=9,heroicPoint=9e3,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=10,heroicPoint=1e4,timeMinutePer1Enmity=10}
+local timeMinutePer1Enmitys={
+  {index=0,heroicPoint=0,timeMinutePer1Enmity=10},
+  {index=1,heroicPoint=1e3,timeMinutePer1Enmity=10},
+  {index=2,heroicPoint=2e3,timeMinutePer1Enmity=10},
+  {index=3,heroicPoint=3e3,timeMinutePer1Enmity=10},
+  {index=4,heroicPoint=4e3,timeMinutePer1Enmity=10},
+  {index=5,heroicPoint=5e3,timeMinutePer1Enmity=10},
+  {index=6,heroicPoint=6e3,timeMinutePer1Enmity=10},
+  {index=7,heroicPoint=7e3,timeMinutePer1Enmity=10},
+  {index=8,heroicPoint=8e3,timeMinutePer1Enmity=10},
+  {index=9,heroicPoint=9e3,timeMinutePer1Enmity=10},
+  {index=10,heroicPoint=1e4,timeMinutePer1Enmity=10},
+}--timeMinutePer1Enmitys
+for i,timeMinutePer1Enmity in ipairs(timeMinutePer1Enmitys)do
+TppMotherBaseManagement.RegisterTimeMinutePer1Enmity(timeMinutePer1Enmity)
+end
 
-TppMotherBaseManagement.RegisterMoraleParam{moraleTimeMinute=36,defectionRates={morale0=4,morale1=2,morale2=1},defectionCountLimit=2,defectionLineStaffCount=16,powerUpPoints={morale8=2,morale9=4,morale10=6,morale11=8,morale12=10,morale13=15,morale14=20,morale15=31},baseMoveRate=50,redMoveRate=100,redMoveValue=-1,heroicPointsForInitMorale={add1=1e4,add2=2e4,add3=3e4}}
+TppMotherBaseManagement.RegisterMoraleParam{
+  moraleTimeMinute=36,
+  defectionRates={morale0=4,morale1=2,morale2=1},
+  defectionCountLimit=2,
+  defectionLineStaffCount=16,
+  powerUpPoints={morale8=2,morale9=4,morale10=6,morale11=8,morale12=10,morale13=15,morale14=20,morale15=31},
+  baseMoveRate=50,
+  redMoveRate=100,
+  redMoveValue=-1,
+  heroicPointsForInitMorale={add1=1e4,add2=2e4,add3=3e4}
+}
 TppMotherBaseManagement.RegisterMedalParam{meritMedalLinePoint=9,powerUpPoint=30}
-TppMotherBaseManagement.RegisterLanguageParam{spreadTimeMinute=12,spreadRates={count1=20,count2=10,count3=4,count4=0},kikongoBoostWhiteLang1Rate=4,kikongoBoostWhiteLang2Rate=25,kikongoBoostWhiteLang3Rate=12,kikongoBoostBlackLang1Rate=50,kikongoBoostBlackLang2Rate=40,kikongoBoostBlackLang3Rate=20,kikongoBoostSpreadCount=20}
-TppMotherBaseManagement.RegisterPandemicParam{startAttackStaffCount=8,startPositiveStaffCount=30,pandemicTimeMinute=12,pandemicRates={none=0,learning=70,master=90,native=100},pandemicCheckStaffCount=43,deadRate=30,deadCheckStaffCount=10,spreadAttackLimitRate=40,spreadAttackLimitCountMin=50,spreadAttackLimitCountMax=400}
+TppMotherBaseManagement.RegisterLanguageParam{
+  spreadTimeMinute=12,
+  spreadRates={count1=20,count2=10,count3=4,count4=0},
+  kikongoBoostWhiteLang1Rate=4,
+  kikongoBoostWhiteLang2Rate=25,
+  kikongoBoostWhiteLang3Rate=12,
+  kikongoBoostBlackLang1Rate=50,
+  kikongoBoostBlackLang2Rate=40,
+  kikongoBoostBlackLang3Rate=20,
+  kikongoBoostSpreadCount=20
+}
+TppMotherBaseManagement.RegisterPandemicParam{
+  startAttackStaffCount=8,
+  startPositiveStaffCount=30,
+  pandemicTimeMinute=12,
+  pandemicRates={none=0,learning=70,master=90,native=100},
+  pandemicCheckStaffCount=43,
+  deadRate=30,
+  deadCheckStaffCount=10,
+  spreadAttackLimitRate=40,
+  spreadAttackLimitCountMin=50,
+  spreadAttackLimitCountMax=400
+}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffParam{addRateWithKillCount=80,roughRate=10}
+local ogreUserVolunteerStaffTypes={
+  {missionId=10020,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10033,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10036,limitCount=10,staffTypes={30,31,32,33,34,35}},
+  {missionId=10040,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10041,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10043,limitCount=10,staffTypes={30,31,32,33,34,35}},
+  {missionId=10044,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10045,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10052,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10054,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10070,limitCount=30,staffTypes={30,31,32,33,34,35}},
+  {missionId=10080,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10081,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10085,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10086,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10090,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10091,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10093,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10100,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10110,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10115,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10120,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10121,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10130,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10140,limitCount=5,staffTypes={30,31,32,33,34,35}},
+  {missionId=10150,limitCount=35,staffTypes={30,31,32,33,34,35}},
+  {missionId=10156,limitCount=15,staffTypes={30,31,32,33,34,35}},
+  {missionId=10171,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10195,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10200,limitCount=20,staffTypes={30,31,32,33,34,35}},
+  {missionId=10211,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=10260,limitCount=25,staffTypes={30,31,32,33,34,35}},
+  {missionId=30010,limitCount=35,staffTypes={30,31,32,33,34,35}},
+  {missionId=30020,limitCount=35,staffTypes={30,31,32,33,34,35}},
+}--ogreUserVolunteerStaffTypes
+for i,ogreUserVolunteerStaffType in ipairs(ogreUserVolunteerStaffTypes)do
+  TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes(ogreUserVolunteerStaffType)
+end
 
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10020,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10033,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10036,limitCount=10,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10040,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10041,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10043,limitCount=10,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10044,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10045,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10052,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10054,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10070,limitCount=30,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10080,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10081,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10085,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10086,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10090,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10091,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10093,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10100,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10110,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10115,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10120,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10121,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10130,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10140,limitCount=5,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10150,limitCount=35,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10156,limitCount=15,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10171,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10195,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10200,limitCount=20,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10211,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10260,limitCount=25,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=30010,limitCount=35,staffTypes={30,31,32,33,34,35}}
-TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=30020,limitCount=35,staffTypes={30,31,32,33,34,35}}
+local commonVolunteerStaffHeroicParams={
+  {index=0,heroicPoint=1e4,count=1},
+  {index=1,heroicPoint=2e4,count=2},
+  {index=2,heroicPoint=3e4,count=3},
+  {index=3,heroicPoint=4e4,count=4},
+  {index=4,heroicPoint=5e4,count=5},
+  {index=5,heroicPoint=6e4,count=6},
+  {index=6,heroicPoint=7e4,count=7},
+  {index=7,heroicPoint=8e4,count=8},
+  {index=8,heroicPoint=9e4,count=9},
+  {index=9,heroicPoint=1e5,count=10},
+}--commonVolunteerStaffHeroicParams
+for i,commonVolunteerStaffHeroicParam in ipairs(commonVolunteerStaffHeroicParams)do
+  TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam(commonVolunteerStaffHeroicParam)
+end
 
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=0,heroicPoint=1e4,count=1}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=1,heroicPoint=2e4,count=2}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=2,heroicPoint=3e4,count=3}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=3,heroicPoint=4e4,count=4}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=4,heroicPoint=5e4,count=5}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=5,heroicPoint=6e4,count=6}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=6,heroicPoint=7e4,count=7}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=7,heroicPoint=8e4,count=8}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=8,heroicPoint=9e4,count=9}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffHeroicParam{index=9,heroicPoint=1e5,count=10}
+local commonVolunteerStaffOgreParams={
+  {index=0,ogrePoint=5e3,count=1},
+  {index=1,ogrePoint=1e4,count=2},
+  {index=2,ogrePoint=15e3,count=3},
+  {index=3,ogrePoint=2e4,count=4},
+  {index=4,ogrePoint=25e3,count=5},
+  {index=5,ogrePoint=3e4,count=6},
+  {index=6,ogrePoint=35e3,count=7},
+  {index=7,ogrePoint=4e4,count=8},
+  {index=8,ogrePoint=45e3,count=9},
+  {index=9,ogrePoint=5e4,count=10},
+  {index=10,ogrePoint=55e3,count=11},
+  {index=11,ogrePoint=6e4,count=12},
+  {index=12,ogrePoint=65e3,count=13},
+  {index=13,ogrePoint=7e4,count=14},
+  {index=14,ogrePoint=75e3,count=15},
+  {index=15,ogrePoint=8e4,count=16},
+  {index=16,ogrePoint=85e3,count=17},
+  {index=17,ogrePoint=9e4,count=18},
+  {index=18,ogrePoint=95e3,count=19},
+  {index=19,ogrePoint=1e5,count=20},
+}--commonVolunteerStaffOgreParams
+for i,commonVolunteerStaffOgreParam in ipairs(commonVolunteerStaffOgreParams)do
+  TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam(commonVolunteerStaffOgreParam)
+end
 
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=0,ogrePoint=5e3,count=1}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=1,ogrePoint=1e4,count=2}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=2,ogrePoint=15e3,count=3}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=3,ogrePoint=2e4,count=4}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=4,ogrePoint=25e3,count=5}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=5,ogrePoint=3e4,count=6}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=6,ogrePoint=35e3,count=7}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=7,ogrePoint=4e4,count=8}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=8,ogrePoint=45e3,count=9}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=9,ogrePoint=5e4,count=10}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=10,ogrePoint=55e3,count=11}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=11,ogrePoint=6e4,count=12}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=12,ogrePoint=65e3,count=13}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=13,ogrePoint=7e4,count=14}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=14,ogrePoint=75e3,count=15}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=15,ogrePoint=8e4,count=16}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=16,ogrePoint=85e3,count=17}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=17,ogrePoint=9e4,count=18}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=18,ogrePoint=95e3,count=19}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffOgreParam{index=19,ogrePoint=1e5,count=20}
-
-TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=0,clearTimeMinute=30,countRate=100}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=1,clearTimeMinute=25,countRate=85}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=2,clearTimeMinute=20,countRate=70}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=3,clearTimeMinute=15,countRate=50}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=4,clearTimeMinute=10,countRate=40}
-TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam{index=5,clearTimeMinute=5,countRate=20}
+local commonVolunteerStaffClearTimeParams={
+  {index=0,clearTimeMinute=30,countRate=100},
+  {index=1,clearTimeMinute=25,countRate=85},
+  {index=2,clearTimeMinute=20,countRate=70},
+  {index=3,clearTimeMinute=15,countRate=50},
+  {index=4,clearTimeMinute=10,countRate=40},
+  {index=5,clearTimeMinute=5,countRate=20},
+}--commonVolunteerStaffClearTimeParams
+for i,commonVolunteerStaffClearTimeParam in ipairs(commonVolunteerStaffClearTimeParams)do
+  TppMotherBaseManagement.RegisterCommonVolunteerStaffClearTimeParam(commonVolunteerStaffClearTimeParam)
+end
 
 return this
 

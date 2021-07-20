@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r250
+-- Defaults / example of all profile options for IH r256
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -22,6 +22,7 @@ local this={
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
 		ihMissionsPercentageCount=0,--{ 0-1 } -- Include addon missions in completion percentage
 		--Cam - AroundCam menu
+		updateStageBlockLoadPositionToCameraPosition=0,--{ 0-1 } -- Update stage position with camera
 		moveScale=0.5,--{ 0.01-10 } -- Cam speed scale
 		focalLengthFreeCam=21,--{ 0.1-10000 } -- 
 		focusDistanceFreeCam=8.175,--{ 0.01-1000 } -- 
@@ -31,6 +32,7 @@ local this={
 		rotationLimitMinXFreeCam=-90,--{ -90-0 } -- 
 		rotationLimitMaxXFreeCam=90,--{ 0-90 } -- 
 		alphaDistanceFreeCam=0,--{ 0-10 } -- 
+		disableCamText=0,--{ 0-1 } -- Disable mode text feedback
 		--Cam - PlayCam menu
 		cam_focalLength=21,--{ 0.1-10000 } -- Focal length
 		cam_focusDistance=0.9,--{ 0.1-30 } -- Focus distance
@@ -70,14 +72,12 @@ local this={
 		mbDemoMinute=0,--{ 0-59 } -- Minute
 		mbDemoOverrideWeather=0,--{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather
 		--Debug menu
-		disableGameOver=0,--{ 0-1 } -- Disable game over
-		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Enemy Prep menu
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
 		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode
 		revengeModeMB_ALL=0,--{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode
-		customSoldierTypeFREE=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- Custom soldier type in Free roam
+		customSoldierTypeFREE=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED } -- Custom soldier type in Free roam
 		changeCpSubTypeFREE=0,--{ 0-1 } -- Random CP subtype in free roam
 		changeCpSubTypeMISSION=0,--{ 0-1 } -- Random CP subtype in missions
 		enableInfInterrogation=0,--{ 0-1 } -- IH interrogation in free roam
@@ -194,18 +194,69 @@ local this={
 		disableReinforceHeliPullOut=0,--{ 0-1 } -- Disable reinforce heli pull-out
 		enableSoldiersWithVehicleReinforce=0,--{ 0-1 } -- Soldier reinforce with all vehicle reinforce types
 		--Events menu
-		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
-		enableEventHUNTED=1,--{ 0-1 } -- Allow Hunted event
-		enableEventCRASHLAND=1,--{ 0-1 } -- Allow Crashland event
-		enableEventLOST_COMS=1,--{ 0-1 } -- Allow Lost Coms event
-		enableParasiteEvent=0,--{ 0-1 } -- Enable Skull attacks in Free roam
-		armorParasiteEnabled=1,--{ 0-1 } -- Allow armor skulls
-		mistParasiteEnabled=1,--{ 0-1 } -- Allow mist skulls
-		camoParasiteEnabled=1,--{ 0-1 } -- Allow sniper skulls
-		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
-		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
-		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		gameevent_chanceHUNTED=0,--{ 0-100 } -- Hunted event chance (percentage)
+		gameevent_chanceCRASHLAND=0,--{ 0-100 } -- Crashland event chance (percentage)
+		gameevent_chanceLOST_COMS=0,--{ 0-100 } -- Lost Coms event chance (percentage)
+		--Skulls event menu
+		parasite_enableEventFREE=0,--{ 0-1 } -- Enable Skull attacks in Free roam
+		parasite_enabledARMOR=1,--{ 0-1 } -- Allow armor skulls
+		parasite_enabledMIST=1,--{ 0-1 } -- Allow mist skulls
+		parasite_enabledCAMO=1,--{ 0-1 } -- Allow sniper skulls
+		parasite_eventPeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
+		parasite_eventPeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
+		parasite_weather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack
+		parasite_zombieLife=300,--{ 0-10000 } -- 
+		parasite_zombieStamina=200,--{ 0-10000 } -- 
+		parasite_msfRate=10,--{ 0-100 } -- Percentage chance a zombified soldier will have msf zombie behaviour
+		parasite_msfCombatLevel_MIN=0,--{ 0-9 } -- 
+		parasite_msfCombatLevel_MAX=9,--{ 0-9 } -- 
+		parasite_playerRange=175,--{ 0-1000 } -- 
+		parasite_sightDistance=25,--{ 0-1000 } -- 
+		parasite_sightDistanceCombat=75,--{ 0-1000 } -- 
+		parasite_sightVertical=40,--{ 0-1000 } -- 
+		parasite_sightHorizontal=60,--{ 0-1000 } -- 
+		parasite_noiseRate=8,--{ 0-100 } -- 
+		parasite_avoidSideMin=8,--{ 0-100 } -- 
+		parasite_avoidSideMax=12,--{ 0-100 } -- 
+		parasite_areaCombatBattleRange=50,--{ 0-1000 } -- 
+		parasite_areaCombatBattleToSearchTime=1,--{ 0-100 } -- 
+		parasite_areaCombatLostSearchRange=1000,--{ 0-10000 } -- 
+		parasite_areaCombatLostToGuardTime=120,--{ 0-1000 } -- 
+		parasite_throwRecastTime=10,--{ 0-1000 } -- 
+		parasite_defenseValueMain=4000,--{ 0-100000 } -- 
+		parasite_defenseValueArmor=7000,--{ 0-100000 } -- 
+		parasite_defenseValueWall=8000,--{ 0-100000 } -- 
+		parasite_offenseGrade=2,--{ 0-100 } -- 
+		parasite_defenseGrade=7,--{ 0-100 } -- 
+		parasite_defenseValueCAMO=4000,--{ 0-100000 } -- 
+		parasite_offenseGradeCAMO=2,--{ 0-100 } -- 
+		parasite_defenseGradeCAMO=7,--{ 0-100 } -- 
+		parasite_escapeDistanceARMOR=250,--{ 0-10000 } -- 
+		parasite_escapeDistanceMIST=0,--{ 0-10000 } -- 
+		parasite_escapeDistanceCAMO=250,--{ 0-10000 } -- 
+		parasite_spawnRadiusARMOR=40,--{ 0-1000 } -- 
+		parasite_spawnRadiusMIST=20,--{ 0-1000 } -- 
+		parasite_spawnRadiusCAMO=10,--{ 0-1000 } -- 
+		parasite_timeOutARMOR=0,--{ 0-1000 } -- 
+		parasite_timeOutMIST=60,--{ 0-1000 } -- 
+		parasite_timeOutCAMO=0,--{ 0-1000 } -- 
+		--Fulton menu
+		fulton_autoFultonFREE=0,--{ 0-1 } -- Extraction team in Free Roam
+		fulton_autoFultonMISSION=0,--{ 0-1 } -- Extraction team in Missions
+		fulton_recoverCritical=0,--{ 0-1 } -- Extraction recover critical
+		disableFulton=0,--{ 0-1 } -- Disable fulton action
+		--Fulton levels menu
+		itemLevelFulton=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Fulton Level
+		itemLevelWormhole=0,--{ DEFAULT, DISABLE, ENABLE } -- Wormhole Level
+		--Fulton success menu
+		fultonVariationRange=0,--{ 0-100 } -- Fulton success variation
+		fultonSoldierVariationRange=0,--{ 0-100 } -- Soldier fulton success variation
+		fultonVariationInvRate=100,--{ 1-1000 } -- Fulton variation inv rate
+		fultonDyingPenalty=70,--{ 0-100 } -- Target dying penalty
+		fultonSleepPenalty=0,--{ 0-100 } -- Target sleeping penalty
+		fultonHoldupPenalty=10,--{ 0-100 } -- Target holdup penalty
+		fultonHostageHandling=0,--{ DEFAULT, ZERO } -- Hostage handling
 		--Mission-prep features menu
 		heliSpace_SkipMissionPreparetionFREE=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Free Roam
 		heliSpace_SkipMissionPreparetionMISSION=0,--{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Story Mission
@@ -221,8 +272,8 @@ local this={
 		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for MB
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
-		customSoldierTypeMB_ALL=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- DD Suit
-		customSoldierTypeFemaleMB_ALL=0,--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
+		customSoldierTypeMB_ALL=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED } -- DD Suit
+		customSoldierTypeFemaleMB_ALL=0,--{ OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		supportHeliPatrolsMB=0,--{ 0-3 } -- NPC support heli patrols in MB
 		attackHeliPatrolsMB="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in MB
@@ -289,12 +340,14 @@ local this={
 		putEquipOnTrucks=0,--{ 0-1 } -- Equipment on trucks
 		--Player restrictions menu
 		disableHeliAttack=0,--{ 0-1 } -- Disable support heli attack
-		disableFulton=0,--{ 0-1 } -- Disable fulton action
 		setSubsistenceSuit=0,--{ 0-1 } -- Force subsistence suit (Olive Drab, no headgear)
 		setDefaultHand=0,--{ 0-1 } -- Set hand type to default
 		abortMenuItemControl=0,--{ 0-1 } -- Disable abort mission from pause menu
 		disableRetry=0,--{ 0-1 } -- Disable retry on mission fail
 		gameOverOnDiscovery=0,--{ 0-1 } -- Game over on combat alert
+		disableKillChildSoldierGameOver=0,--{ 0-1 } -- Disable game over on killing child soldier
+		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
+		disableGameOver=0,--{ 0-1 } -- Disable game over
 		disableSpySearch=0,--{ 0-1 } -- Disable Intel team enemy spotting
 		disableHerbSearch=0,--{ 0-1 } -- Disable Intel team herb spotting (requires game restart)
 		dontOverrideFreeLoadout=0,--{ 0-1 } -- Keep equipment Free<>Mission
@@ -316,17 +369,6 @@ local this={
 		handLevelPhysical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Mobility level
 		handLevelPrecision=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Precision level
 		handLevelMedical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Medical level
-		--Fulton levels menu
-		itemLevelFulton=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Fulton Level
-		itemLevelWormhole=0,--{ DEFAULT, DISABLE, ENABLE } -- Wormhole Level
-		--Fulton success menu
-		fultonNoMbSupport=0,--{ 0-1 } -- Disable MB fulton support
-		fultonNoMbMedical=0,--{ 0-1 } -- Disable MB fulton medical
-		fultonDyingPenalty=70,--{ 0-100 } -- Target dying penalty
-		fultonSleepPenalty=0,--{ 0-100 } -- Target sleeping penalty
-		fultonHoldupPenalty=10,--{ 0-100 } -- Target holdup penalty
-		fultonDontApplyMbMedicalToSleep=0,--{ 0-1 } -- Dont apply MB medical bonus to sleeping/fainted target
-		fultonHostageHandling=0,--{ DEFAULT, ZERO } -- Hostage handling
 		--OSP menu
 		primaryWeaponOsp=0,--{ OFF, EQUIP_NONE } -- Primary weapon OSP
 		secondaryWeaponOsp=0,--{ OFF, EQUIP_NONE } -- Secondary weapon OSP
@@ -335,6 +377,9 @@ local this={
 		clearSupportItems=0,--{ OFF, EQUIP_NONE } -- Support items OSP
 		--Player settings menu
 		playerHealthScale=100,--{ 0-650 } -- Player life scale (percentage)
+		hero_dontSubtractHeroPoints=0,--{ 0-1 } -- Don't subtract hero points
+		hero_dontAddOgrePoints=0,--{ 0-1 } -- Don't add demon points
+		hero_heroPointsSubstractOgrePoints=0,--{ 0-1 } -- Hero points subtract demon points
 		--Progression menu
 		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
 		--Resource scale menu
@@ -357,6 +402,8 @@ local this={
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS, ADDON_QUEST } -- Sideop selection mode
 		showAllOpenSideopsOnUi=0,--{ 0-1 } -- Show all open sideops
 		ihSideopsPercentageCount=0,--{ 0-1 } -- Include add-on sideops in completion percentage
+		quest_enableShootingPracticeRetry=0,--{ 0-1 } -- Enable Shooting Practice Retry
+		quest_setShootingPracticeCautionTimeToBestTime=0,--{ 0-1 } -- Set Shooting Practice caution time to best time
 		--Sideops category filter menu
 		sideops_STORY=1,--{ 0-1 } -- Story/unique
 		sideops_EXTRACT_INTERPRETER=1,--{ 0-1 } -- Extract interpreter

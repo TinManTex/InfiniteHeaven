@@ -2443,7 +2443,8 @@ function this.GetSoldierFultonSucceedRatio(gameId)
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
   local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
   local dying=bit.band(stateFlag,StateFlag.DYING_LIFE)~=0
-  if(dying)then
+  local dead=lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD--tex
+  if(dying or dead)then--tex added dead
     lifeStatusPenalty=-(Ivars.fultonDyingPenalty:Get())--tex was -70
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_SLEEP)or(lifeStatus==TppGameObject.NPC_LIFE_STATE_FAINT)then
     lifeStatusPenalty=-(Ivars.fultonSleepPenalty:Get())--tex was 0

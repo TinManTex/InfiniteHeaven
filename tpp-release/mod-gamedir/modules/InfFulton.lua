@@ -19,6 +19,8 @@ local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 local pairs=pairs
 local ipairs=ipairs
 local ClearArray=InfUtil.ClearArray
+local NeutralizeType=NeutralizeType
+local HeadshotMessageFlag=HeadshotMessageFlag
 
 this.debugModule=false
 
@@ -94,6 +96,7 @@ function this.Messages()
       --{msg="Holdup",func=this.OnHoldup},
       --{msg="TapHoldup",func=this.OnHoldup},--tactical action point holdup
       {msg="Neutralize",func=this.OnNeutralize},
+      {msg="HeadShot",func=this.OnHeadShot},
       {msg="Dead",func=this.OnDead},
       {msg="Fulton",func=this.OnFulton},
     },--GameObject
@@ -112,8 +115,12 @@ function this.OnDead(gameId,attackerId,phase,damageFlag)
     return
   end
 
+  if ivars.fulton_recoverCritical==0 then
   if this.extractSoldiers[gameId]then
     this.extractSoldiers[gameId]=nil
+  end
+  else
+    this.AddExtractSoldier(gameId)
   end
 end--OnDead
 function this.OnDying(gameId)
@@ -147,7 +154,12 @@ function this.OnFulton(gameId)
 end--OnFulton
 function this.OnNeutralize(gameId,attackerId,neutralizeType,neutralizeCause)
   if neutralizeType==NeutralizeType.DEAD then
+    if ivars.fulton_recoverCritical==0 then
     this.extractSoldiers[gameId]=nil
+    else
+      this.AddExtractSoldier(gameId)
+      return
+    end
   end
 
   if Tpp.IsPlayer(attackerId) then
@@ -163,6 +175,28 @@ function this.OnNeutralize(gameId,attackerId,neutralizeType,neutralizeCause)
     this.AddExtractSoldier(gameId,holdupStateChangeTime)
   end
 end--OnNeutralize
+--tex clear if lethal headshot
+function this.OnHeadShot(gameId,attackId,attackerObjectId,headShotFlag)
+  if GetTypeIndex(gameId)~=GAME_OBJECT_TYPE_SOLDIER2 then
+    return
+  end
+  if bit.band(headShotFlag,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==0 then
+    return
+  end
+  if bit.band(headShotFlag,HeadshotMessageFlag.IS_TRANQ_HANDGUN)==HeadshotMessageFlag.IS_TRANQ_HANDGUN then--tex in theory should be covered by above
+    return
+  end
+  if bit.band(headShotFlag,HeadshotMessageFlag.NEUTRALIZE_DONE)~=HeadshotMessageFlag.NEUTRALIZE_DONE then
+    return
+  end
+
+  if this.debugModule then
+    InfCore.Log("InfFulton.OnHeadShot lethal?")
+  end
+
+  --tex Neutralize will have added soldier, dont think I can catch any other cases 
+  --OFF this.extractSoldiers[gameId]=nil
+end--OnHeadShot
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
   if not currentChecks.inGame then
@@ -190,7 +224,9 @@ local SUPINE_HOLDUP=3--tex no enum in EnemyState
 function this.DontExtract(gameId)
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
   if lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD then
+    if ivars.fulton_recoverCritical==0 then
     return true
+  end
   end
   if lifeStatus==TppGameObject.NPC_LIFE_STATE_NORMAL then
     local status=SendCommand(gameId,{id="GetStatus"})
@@ -212,6 +248,10 @@ function this.AddExtractSoldier(gameId,addDelta)
     InfLookup.PrintStatus(gameId)
   end
   this.extractSoldiers[gameId]=GetRawElapsedTimeSinceStartUp()+addDelta--tex need some leeway for state changes so DontExtract doesn't immediately boot them
+  --DEBUGNOW
+  if this.debugModule then
+    InfCore.PrintInspect(this.extractSoldiers,"extractSoldiers")
+  end
 end--AddExtractSoldier
 
 function this.FurtherFromPlayerThanDistSqr(checkDistSqr,playerPosition,gameId)
@@ -229,7 +269,8 @@ end
 local clearSoldiers={}
 function this.CheckAndFultonExtractSoldiers(force)
   if this.debugModule then
-    InfCore.LogFlow("CheckAndFultonExtractSoldiers")
+    InfCore.LogFlow("CheckAndFultonExtractSoldiers: force:"..tostring(force))
+    InfCore.PrintInspect(this.extractSoldiers,"extractSoldiers")
   end
   ClearArray(clearSoldiers)
 
@@ -268,7 +309,7 @@ function this.CheckAndFultonExtractSoldiers(force)
               end
             end
             if this.debugModule then
-              InfCore.Log("InfFulton FurtherFromPlayerThanDistSqr "..tostring(gameId).." fulton%:"..tostring(percentage))
+              InfCore.Log("InfFulton FurtherFromPlayerThanDistSqr or force "..tostring(gameId).." fulton%:"..tostring(percentage))
             end
             --percentage=1--DEBUG
             if math.random(100)>percentage then
@@ -280,7 +321,10 @@ function this.CheckAndFultonExtractSoldiers(force)
               if force then
                 --tex ASSUMPTION: force is due to EstablishedMissionClear/Abort
                 --actual fulton in this case doesnt complete in time before mission end
-                TppTerminal.OnFultonSoldier(gameId)
+                local playerIndex=0
+                local recoveredByHeli=nil
+                --TppTerminal.OnFultonSoldier(gameId,nil,nil,nil,recoveredByHeli,playerIndex)
+                TppTerminal.OnFulton(gameId,nil,nil,nil,nil,nil,playerIndex)
               else
                 SendCommand(gameId,{id="RequestForceFulton"})
               end
@@ -319,6 +363,7 @@ this.registerIvars={
   "fultonVariationRange",
   "fultonSoldierVariationRange",
   "fultonVariationInvRate",
+  "fulton_recoverCritical",
 }
 --GOTCHA: use this.IsAutoFultonEnabled()
 IvarProc.MissionModeIvars(
@@ -334,6 +379,12 @@ IvarProc.MissionModeIvars(
     "MISSION",
   }
 )--fulton_autoFulton
+
+this.fulton_recoverCritical={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
 
 --fulton success>
 this.fultonSoldierVariationRange={
@@ -417,6 +468,7 @@ this.fultonMenu={
   options={
     "Ivars.fulton_autoFultonFREE",
     "Ivars.fulton_autoFultonMISSION",
+    "Ivars.fulton_recoverCritical",
     "Ivars.disableFulton",
     "InfMainTppIvars.fultonLevelMenu",
     "InfFulton.fultonSuccessMenu",
@@ -445,6 +497,7 @@ this.langStrings={
     autofulton_phase_too_high="[Extraction team] CP too high alert",
     fulton_autoFultonFREE="Extraction team in Free Roam",
     fulton_autoFultonMISSION="Extraction team in Missions",
+    fulton_recoverCritical="Extraction recover critical",
     fultonMenu="Fulton menu",
     fultonSuccessMenu="Fulton success menu",
     fultonMbSupportScale="MB fulton support scale",
@@ -464,6 +517,7 @@ this.langStrings={
   help={
     eng={
       fulton_autoFultonFREE="Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post), using the same success rate as manual fultoning. This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.",
+      fulton_recoverCritical="Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay.",
       fultonSuccessMenu="Adjust the success rate of fultoning",
       fultonMbSupportScale="Scales the success bonus from mother base support section (which itself scales by section level). In the base game this is mostly used to counter weather penalty.",
       fultonMbMedicalScale="Scales the success bonus from mother base medical section (which itself scales by section level). In the base game this used to counter injured target penalty",

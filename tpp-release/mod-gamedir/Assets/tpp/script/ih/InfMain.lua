@@ -1076,6 +1076,27 @@ this.baseNames={
   },
 }
 
+--DEBUGNOW
+function this.BuildBaseNames(soldierDefine)
+  local baseNames={}
+  for cpName,soldierList in pairs(soldierDefine)do
+    local cpId=GetGameObjectId(cpName)
+    if cpId==NULL_ID then
+    else
+      if string.sub(cpName,-4)=="lrrp"then
+      end
+      local cpType=string.sub(cpName,-2)
+      if cpType=="ob"then
+        baseNames[cpId]=cpName
+      end
+      if cpType=="cp"then
+        baseNames[cpId]=cpName
+      end
+    end--if cpId
+  end--for soldierDefine
+  return baseNames
+end--BuildBaseNames
+
 --tex in the mission soldierDefine tables there's a bunch of empty _lrrp cps that I'm repurposing
 local lrrpInd="_lrrp"
 function this.BuildEmptyCpPool(soldierDefine)

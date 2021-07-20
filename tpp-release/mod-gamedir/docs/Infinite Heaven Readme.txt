@@ -1,5 +1,5 @@
 = Infinite heaven =
-r255 - 2021-07-09
+r255 - 2021-07-20
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r15b
@@ -21,6 +21,21 @@ Recent changes/additions
 ------------------------------
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
+
+r256 - 2021-07-20
+fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
+
+fulton_recoverCritical "Extraction recover critical", "Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay."
+(via Fulton menu)
+[youtube]oGiF4KpNo-Y[/youtube]
+https://youtu.be/oGiF4KpNo-Y
+
+"Load avatar", "Load avatar from MGS_TPP\\mod\\avatars"
+"Save avatar", "Save avatar to MGS_TPP\\mod\\avatars"
+(Via Appearance menu)
+Must be in ACC
+[youtube]W3enynh89CI[/youtube]
+https://youtu.be/W3enynh89CI
 
 r255 - 2021-07-09
 fix: hang with Random cp subtype in addon missions.
@@ -93,61 +108,6 @@ A bajillion settings for the event settings and the parameters for the skulls an
 Now (should) work for Free roam addon missions (does on Caplags gntn - US Naval Prison Facility)
 [youtube]zE49gPHU3uE[/youtube]
 https://youtu.be/zE49gPHU3uE
-
-r250
-IHHook:
-Fix: Keys being stuck on when opening menu.
-Fix: font helpmarker font folder text - thanks OldBoss for the report
-Development: Gives error logging for all lua files loading by default (including those in fpks), and runtime error logging for anything that's p-called by the engine.
-
-IH:
-Fix: FOB soldiers (and probably DD soldiers in MB wargames with certain weapon setups) having invisible pistol.
-Seems I may have broken it in in r176 - August ‎2016 whew - thanks kapacb (and probably many others in the past) for the report.
-
-Fix: Quest addon state flags management - was broken some time around r224 meaning if an addon quest index had been cleared it would stay cleared even if uninstalling quest and installing different one that took that index.
-
-Fix: GetCurrentRouteSetType - RouteSelector - redefinition of local var with same name clobering scope and returning nil. Would cause soldier shifts to fail, meaning no change between night day routes, and no sleeping/hold routes. Bug was introduced while deminifying in r129 - February 2016. Ouch.
-
-RouteSet menu - Options to randomize what routes soldiers use in a Command Post
-Randomize RouteSets in free roam
-Randomize RouteSets in missions - warning: may mess up some required routes for the mission to progress.
-	Enables all following options. Also randomizes current routeSet on mission load/reload. 
-	Requires randomize group priority or group routes to be on.
-
-Randomize on shift change - MGSV already has a 'shifts' system that trigger at morning and night, this applies the randomisation at these times.
-Randomize on phase change - Randomize current routeSet when enemy phase changes in any way, Sneak, Caution, Alert, Evasion. Up or down.
-
-Randomize group priority - Each routeSet for a CP has a number of groups of routes, this will change the order the groups are picked from and vary the routes connecting shifts.
-Randomize group routes - Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
-
-Randomize RouteSet now - Command for if you just want to change things up, or see how the options change things.
-[youtube]K249zxAd1PU[/youtube]
-https://youtu.be/K249zxAd1PU
-
-menu_enableCursorOnMenuOpen - "Enable mouse cursor on menu open" - "Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2"
-(via IH system menu)
-Dafaults to on, but as mouselook is now disabled when cursor is on I though this the best way to allow user some control beyond manually toggling it.
-
-r249
-IHHook:
-Style Editor: Font/size selection, copy fonts to MGS_TPP\mod\fonts to add more - thanks IroquoisPliskin, others for the request.
-[youtube]pZRcPNlZmng[/youtube]
-https://youtu.be/pZRcPNlZmng
-
-IHMenu improved: Menu items list now descreases in size with window meaning the bottom of the list and setting line wont dissapear when making smaller window.
-Window itself no longer adds a scrollbar but help text now has it's own scroll bar. So you don't have to scroll the menu away just to scroll the help text.
-
-Fix: Alt-tabbing or doing anything else that would reset the d3d device would apply the menu InitialText again, which would only fix once you went into a menu to reset the menu list - thanks Yooungi for the report.
-
-IH:
-mbIncreaseStaffSaluteReactions - "Add more salute reactions" - "Adds additional reactions from MB staff when 
-via ACC > Mother Base menu > Staff menu 
-Thanks caplag for lending your notes and your discussion.
-[youtube]svLN4LFAh8w[/youtube]
-https://youtu.be/svLN4LFAh8w
-
-Auto Abort-to-ACC when vars.locationCode or vars.missionCode not a valid vanilla or addon code - could be caused by uninstalling an addon mission while save was in mission.
-Fix: Reset setting and go back menu hotkeys repeat spamming due to being OnHeld instead of OnHoldTime.
 
 See Change Log.txt for more detail.
 
