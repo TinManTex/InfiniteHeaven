@@ -78,7 +78,6 @@ function this.SaveVars(saveName)
   InfCore.LogFlow"InfAvatar.SaveVars"
   local saveTextList=this.BuildSaveText(saveName)
   local fileName=InfCore.paths.avatars..saveName
-  --CULL  InfPersistence.Store(InfCore.paths.mod..profilesFileName,Ivars.savedProfiles)
   InfCore.WriteStringTable(fileName,saveTextList)
   InfCore.RefreshFileList()
   InfCore.Log("Saved "..saveName,true,true)
@@ -86,19 +85,20 @@ end--SaveVars
 function this.LoadVars(saveName)
   local module=InfCore.LoadSimpleModule(InfCore.paths.avatars,saveName)
   if module==nil then
-    InfCore.Log("ERROR: InfAvatar.LoadVars: could not load saves\\"..saveName)
-  else
-    for i,varName in ipairs(this.varNames)do
-      local arraySize=isArray[varName] or 0
-      if arraySize>0 then
-        for j=0,arraySize-1 do--tex vars 0 indexed
-          vars[varName][j]=module[varName][j+1]--tex lua index by 1
-        end
-      else
-        vars[varName]=module[varName]
-      end--if arraySize
-    end--for varNames
-  end--if module
+    InfCore.Log("ERROR: InfAvatar.LoadVars: could not load saves\\"..saveName,true,true)
+    return
+  end
+  
+  for i,varName in ipairs(this.varNames)do
+    local arraySize=isArray[varName] or 0
+    if arraySize>0 then
+      for j=0,arraySize-1 do--tex vars 0 indexed
+        vars[varName][j]=module[varName][j+1]--tex lua index by 1
+      end
+    else
+      vars[varName]=module[varName]
+    end--if arraySize
+  end--for varNames
   
   this.TppSaveAndReload()
 end--LoadVars
@@ -120,9 +120,13 @@ end--TppSaveAndReload
 --Ivars
 this.loadAvatar={
 --save=IvarProc.CATEGORY_EXTERNAL,
-  settings={},--DYNAMIC
+  settings={"None Found"},--DYNAMIC
+  default=0,
   OnSelect=function(self)
     local files=InfCore.GetFileList(InfCore.files.avatars,".lua")
+    if #files==0 then
+      table.insert(files,1,"None Found")
+    end
     IvarProc.SetSettings(self,files)
   end,
   OnActivate=function(self,setting)
