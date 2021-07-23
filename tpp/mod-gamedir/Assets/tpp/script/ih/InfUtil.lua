@@ -327,4 +327,17 @@ function this.GenerateNameList(fmt,num,list)
   return list
 end
 
+--tex index 0 based 
+function this.From3Dto1D(x,y,z,xMax,yMax)
+  return (z*xMax*yMax)+(y*xMax)+x
+end--From3Dto1D
+--tex index 0 based
+function this.From1Dto3D(idx,xMax,yMax)
+  local z=math.floor(idx/(xMax*yMax))
+  idx=idx-(z*xMax*yMax)
+  local y=math.floor(idx/xMax)
+  local x=math.floor(idx%xMax)
+  return x,y,z
+end--From1Dto3D
+
 return this
