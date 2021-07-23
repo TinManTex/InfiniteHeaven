@@ -1,6 +1,14 @@
-﻿using FoxKit.Utils;
+﻿using FoxKit.Modules.RouteBuilder;
+using FoxKit.Utils;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+//tex Only really deals with  AimTargetType / params 0 - 4,
+//and only aimTargetType > param0 not visa versa
+
+//copyFromRouteParams copies as uint, so will be trampled on when input type switched (as normal values are too)
+//also doesnt copy param0 as aimTargetType code does trample it
 
 [ExecuteInEditMode]
 public class EventParamHelper : MonoBehaviour
@@ -12,54 +20,75 @@ public class EventParamHelper : MonoBehaviour
         Character = 0x200,
         RouteAsSightMovePath = 0x300,
         RouteAsObject = 0x400,
-        NoTargetAlt = 0x1000000,
-        StaticPointAlt = 0x1000100,
-        CharacterAlt = 0x1000200,
-        RouteAsSightMovePathAlt = 0x1000300,
-        RouteAsObjectAlt = 0x1000400,
     };
 
+    public enum ParamValueTypes 
+    {
+        UIntValue,//tex to simplify things and just convert DEBUGNOW could hide/private Param0Uint to lessen confusion
+        FloatValue,
+        StringToStr32,
+    }
+
     public bool IsEdge = false;
-
+    public bool UseAimTargetUnkHiFlag = false;
     public RouteAimTargetType AimTargetType;
-    public uint Param0Uint = 0;
+    
+    //TODO: not actually sure what the 0x1000000 flag indicates, is only on nodes not edges
+    uint aimTargetUnkIsEdgeLowFlag = 0x1;
+    uint aimTargetUnkHiFlag = 0x1000000;
 
-    public string Param1 = "0";
-    public uint Param1Uint = 0;
 
-    public string Param2 = "0";
-    public uint Param2Uint = 0;
+    private uint Param0Uint = 0;
+    //tex only allowing aimTargetType which writes Param0Uint
+    //public string Param0 = "0";
+    //public ParamValueTypes Param0InputType = ParamValueTypes.UIntValue;
 
-    public string Param3 = "0";
-    public uint Param3Uint = 0;
-
-    public string Param4 = "0";
-    public uint Param4Uint = 0;
-
-    public string Param5 = "0";
-    public uint Param5Uint = 0;
-
-    public string Param6 = "0";
-    public uint Param6Uint = 0;
-
-    public string Param7 = "0";
-    public uint Param7Uint = 0;
-
-    public string Param8 = "0";
-    public uint Param8Uint = 0;
-
-    public string Param9 = "0";
-    public uint Param9Uint = 0;
-
-    public float ParamFloat = 0.0f;
-    public uint FloatAsUint = 0;
-
-    public string ParamString = "";
-    public uint StringAsS32Uint = 0;
+    private uint Param1Uint = 0;
+    //tex only allowing P1Shorts (actually only P1Short1WaitTime since P1Short0FromYaw gets set from parent yaw)
+    //public string Param1 = "0";
+    //public ParamValueTypes Param1InputType = ParamValueTypes.UIntValue;
 
     public ushort P1Short0FromYaw = 0;
-    public ushort P1Short1WaitTime = 0;
-    public uint Param1Combined = 0;
+    public ushort P1Short1WaitTime = 479;
+
+    private uint Param2Uint = 0;
+    public string Param2 = "0";
+    public ParamValueTypes Param2InputType = ParamValueTypes.UIntValue;
+
+    private uint Param3Uint = 0;
+    public string Param3 = "0";
+    public ParamValueTypes Param3InputType = ParamValueTypes.UIntValue;
+
+    private uint Param4Uint = 0;
+    public string Param4 = "0";
+    public ParamValueTypes Param4InputType = ParamValueTypes.UIntValue;
+
+    private uint Param5Uint = 0;
+    public string Param5 = "0";
+    public ParamValueTypes Param5InputType = ParamValueTypes.UIntValue;
+
+    private uint Param6Uint = 0;
+    public string Param6 = "0";
+    public ParamValueTypes Param6InputType = ParamValueTypes.UIntValue;
+
+    private uint Param7Uint = 0;
+    public string Param7 = "0";
+    public ParamValueTypes Param7InputType = ParamValueTypes.UIntValue;
+
+    private uint Param8Uint = 0;
+    public string Param8 = "0";
+    public ParamValueTypes Param8InputType = ParamValueTypes.UIntValue;
+
+    private uint Param9Uint = 0;
+    public string Param9 = "0";
+    public ParamValueTypes Param9InputType = ParamValueTypes.UIntValue;
+
+
+    //public uint Param1Combined = 0;
+
+    //public bool P1ShortsToParam1 = false;
+    public bool copyToRouteParams = false;
+    public bool copyFromRouteParams = false;
 
     // Use this for initialization
     void Start()
@@ -78,80 +107,197 @@ public class EventParamHelper : MonoBehaviour
         return (uint)Hashing.HashFileNameLegacy(inputString);
     }
 
+    private uint ParamToUint(string inputParam, ParamValueTypes valueType)
+    {
+        switch (valueType)
+        {
+            case ParamValueTypes.UIntValue:
+                if (inputParam == "") return 0;
+                uint paramUint = uint.Parse(inputParam);
+                return paramUint;
+                break;
+            case ParamValueTypes.FloatValue:
+                if (inputParam == "") return 0;
+                float paramFloat = float.Parse(inputParam);
+                return BitConverter.ToUInt32(BitConverter.GetBytes(paramFloat), 0);
+                break;
+            case ParamValueTypes.StringToStr32:
+                uint paramStr32 = StrCode32(inputParam);
+                return paramStr32;
+                break;
+        }//valueType
+        return 0;
+    }//UpdateParam
+
     // Called when value is changed in inspector
     private void OnValidate()
     {
-        FloatAsUint = BitConverter.ToUInt32(BitConverter.GetBytes(ParamFloat), 0);
-
-        StringAsS32Uint = StrCode32(ParamString);
-
-
-        int aimAltRange = 0x1000000;
-        // No edge events in vanilla frts use alt aimTargetType
-        if (IsEdge)
+        RouteNode routeNode = GetComponent<RouteNode>();
+        RouteEdgeEvent routeEdgeEvent = null;
+        if (routeNode != null)
         {
-            if ((int)AimTargetType >= aimAltRange)
-            {
-                AimTargetType -= aimAltRange;
-            }
+            routeEdgeEvent = routeNode.EdgeEvent;
+            //Debug.Log("EventParamHelper.OnValidate: routeNode != null");
+        }
+        RouteNodeEvent routeNodeEvent = GetComponent<RouteNodeEvent>();
+
+        List<uint> Params = null;
+        if (routeEdgeEvent != null)
+        {
+            Params = routeEdgeEvent.Params;
+        }
+        if (routeNodeEvent != null)
+        {
+            Params = routeNodeEvent.Params;
+        }
+        if (Params == null)
+        {
+            //Debug.Log("EventParamHelper.OnValidate: Params == null");
         }
 
+        if (routeEdgeEvent != null)
+        {
+            IsEdge = true;
+        }
+        if (routeNodeEvent != null)
+        {
+            IsEdge = false;
+        }
+        //
+        if (copyFromRouteParams)
+        {
+            copyFromRouteParams = false;
+
+            if (Params == null)
+            {
+                Debug.Log("EventParamHelper.OnValidate: Params == null");
+            }
+            else
+            {
+                //Param0 = Params[0].ToString();//DEBUGNOW
+                //Param1 = Params[1].ToString();
+                Param2 = Params[2].ToString();
+                Param3 = Params[3].ToString();
+                Param4 = Params[4].ToString();
+                Param5 = Params[5].ToString();
+                Param6 = Params[6].ToString();
+                Param7 = Params[7].ToString();
+                Param8 = Params[8].ToString();
+                Param9 = Params[9].ToString();
+
+                //Param0InputType = ParamValueTypes.UIntValue;
+                //Param1InputType = ParamValueTypes.UIntValue;
+                Param2InputType = ParamValueTypes.UIntValue;
+                Param3InputType = ParamValueTypes.UIntValue;
+                Param4InputType = ParamValueTypes.UIntValue;
+                Param5InputType = ParamValueTypes.UIntValue;
+                Param6InputType = ParamValueTypes.UIntValue;
+                Param7InputType = ParamValueTypes.UIntValue;
+                Param8InputType = ParamValueTypes.UIntValue;
+                Param9InputType = ParamValueTypes.UIntValue;
+            }
+        }
+        //
 
         switch (AimTargetType)
         {
             case RouteAimTargetType.NoTarget:
-            case RouteAimTargetType.NoTargetAlt:
-                Param2Uint = 0;
-                Param3Uint = 0;
-                Param4Uint = 0;
+                //param1 = aim and wait time //TODO: shift param1shorts stuff here?
+                Param2 = "0";//allways 0
+                Param3 = "0";//allways 0
+                Param4 = "0";//allways 0
                 break;
             case RouteAimTargetType.StaticPoint:
-            case RouteAimTargetType.StaticPointAlt:
-                Param2Uint = 0;
-                Param3Uint = 0;
-                Param4Uint = 0;
-
-                float Param2Float = 0.0f;
-                float Param3Float = 0.0f;
-                float Param4Float = 0.0f;
-
-                float.TryParse(Param2, out Param2Float);
-                float.TryParse(Param3, out Param3Float);
-                float.TryParse(Param4, out Param4Float);
-
-                Param2Uint = BitConverter.ToUInt32(BitConverter.GetBytes(Param2Float), 0);
-                Param3Uint = BitConverter.ToUInt32(BitConverter.GetBytes(Param3Float), 0);
-                Param4Uint = BitConverter.ToUInt32(BitConverter.GetBytes(Param4Float), 0);
-
+                Param2InputType = ParamValueTypes.FloatValue;//aimPointX
+                Param3InputType = ParamValueTypes.FloatValue;//aimPointY
+                Param4InputType = ParamValueTypes.FloatValue;//aimPointZ
                 break;
             case RouteAimTargetType.Character:
-            case RouteAimTargetType.CharacterAlt:
-                Param2Uint = StrCode32(Param2);
-                Param3Uint = 0;
-                Param4Uint = 0;
+                Param2InputType = ParamValueTypes.StringToStr32;//aimCharacterNameS32 - ex S32"Player" or S32"sol_vip_village"
+                //Param3 = "0";//unknown - never 0 - maybe bodySection/bone to aim at? TODO: look at values again
+                Param4 = "0";//always 0
                 break;
             case RouteAimTargetType.RouteAsSightMovePath:
-            case RouteAimTargetType.RouteAsSightMovePathAlt:
-                Param2Uint = StrCode32(Param2);
-                Param3Uint = StrCode32(Param3);
-                Param4Uint = StrCode32(Param4);
+                Param2InputType = ParamValueTypes.StringToStr32;//aimRouteS32 - S32"some_aim_route_name" (aim route names haven't been found since they are soley referenced within routes TODO is this still true) (or S32 empty string, never 0)
+                Param3InputType = ParamValueTypes.StringToStr32;//unknown - never 0, S32 empty string or sometimes == to Param3
+                Param4InputType = ParamValueTypes.StringToStr32;//unknown - never 0, S32 empty string or sometimes == to Param4
                 break;
             case RouteAimTargetType.RouteAsObject:
-            case RouteAimTargetType.RouteAsObjectAlt:
-                Param2Uint = StrCode32(Param2);
-                Param3Uint = StrCode32(Param3);
-                Param4Uint = StrCode32(Param4);
+                Param2InputType = ParamValueTypes.StringToStr32;//aimRouteS32 - see above
+                Param3InputType = ParamValueTypes.StringToStr32;//unknown
+                Param4InputType = ParamValueTypes.StringToStr32;//unknown
                 break;
             default:
                 break;
         }
 
-        Param0Uint = IsEdge ? (uint)AimTargetType : (uint)AimTargetType + 1;
+        // No edge events in vanilla frts use unk 0x100000 high flag TODO: but conversely do all nodes use high? if not then which ones?
+        if (IsEdge) UseAimTargetUnkHiFlag = false;
 
+        uint aimTargetValue = (uint)AimTargetType;
+        if (IsEdge)
+        {
+            aimTargetValue += aimTargetUnkIsEdgeLowFlag;
+        }
+        if (UseAimTargetUnkHiFlag)
+        {
+            aimTargetValue += aimTargetUnkHiFlag;
+        }
+
+        Param0Uint = aimTargetValue;//TODO: verify that param0 is allways aim target type
+
+        //
         P1Short0FromYaw = GetShortRotation();
 
         uint RIGHT = 0xFFFF;
-        Param1Combined = (uint)((P1Short0FromYaw << 16) | (P1Short1WaitTime & RIGHT));
+        Param1Uint = (uint)((P1Short0FromYaw << 16) | (P1Short1WaitTime & RIGHT));
+
+        //if (P1ShortsToParam1)
+        //{
+        //    P1ShortsToParam1 = false;
+        //    Param1InputType = ParamValueTypes.UIntValue;
+        //    Param1 = Param1Combined.ToString();
+        //}
+
+
+
+
+        //Param0Uint = ParamToUint(Param0, Param0InputType);
+        //Param1Uint = ParamToUint(Param1, Param1InputType);
+        Param2Uint = ParamToUint(Param2, Param2InputType);
+        Param3Uint = ParamToUint(Param3, Param3InputType);
+        Param4Uint = ParamToUint(Param4, Param4InputType);
+        Param5Uint = ParamToUint(Param5, Param5InputType);
+        Param6Uint = ParamToUint(Param6, Param6InputType);
+        Param7Uint = ParamToUint(Param7, Param7InputType);
+        Param8Uint = ParamToUint(Param8, Param8InputType);
+        Param9Uint = ParamToUint(Param9, Param9InputType);
+
+
+
+
+        if (copyToRouteParams)
+        {
+            copyToRouteParams = false;
+
+            if (Params == null)
+            {
+                Debug.Log("EventParamHelper.OnValidate: Params == null");
+            }
+            else 
+            {
+                Params[0] = Param0Uint;
+                Params[1] = Param1Uint;
+                Params[2] = Param2Uint;
+                Params[3] = Param3Uint;
+                Params[4] = Param4Uint;
+                Params[5] = Param5Uint;
+                Params[6] = Param6Uint;
+                Params[7] = Param7Uint;
+                Params[8] = Param8Uint;
+                Params[9] = Param9Uint;
+            }
+        }
     }//OnValidate
 
     private ushort GetShortRotation()
