@@ -469,8 +469,8 @@ function this.BuildGameClassEnumNameLookup(gameClassName,enumNames)
 end
 
 --tex assumes gameclass has lua readable enum names like TppDamage, and not whatever index fancyness gameclasses like ScritBlock do
-function this.BuildDirectGameClassEnumLookup(gameClassName,filter)
-  InfCore.LogFlow("InfLookup.BuildGameClassEnumNameLookup: "..gameClassName)
+function this.BuildDirectGameClassEnumLookup(gameClassName,filter,exclude)
+  InfCore.LogFlow("InfLookup.BuildGameClassEnumNameLookup: "..gameClassName.." "..tostring(filter))
 
   local gameClass=_G[gameClassName]
 
@@ -483,11 +483,22 @@ function this.BuildDirectGameClassEnumLookup(gameClassName,filter)
   local enumToName={}
   for k,v in pairs(gameClass)do
     if type(v)=="number" then
-      if string.find(k,filter)~=nil then
-        if enumToName[v] then
-          if this.debugModule then
-            InfCore.Log("WARNING: InfLookup.BuildDirectGameClassEnumLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
+      local doExclude=false
+      if type(exclude)=="table"then
+        for i,excludeStr in ipairs(exclude)do
+          if string.find(k,excludeStr)~=nil then
+            doExclude=true
           end
+        end
+      elseif type(exclude)=="string"then
+        if string.find(k,exclude)~=nil then
+          doExclude=true
+        end
+      end
+    
+      if string.find(k,filter)~=nil and not doExclude then
+        if enumToName[v] then
+          InfCore.Log("WARNING: InfLookup.BuildDirectGameClassEnumLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
           enumToName[v]=enumToName[v].."|"..k
         else
           enumToName[v]=k
@@ -654,25 +665,6 @@ function this.SoldierSvarIndexForName(soldierName)
 end
 
 --TABLESETUP
-function this.BuildTppEquipLookup()
-  local enumToName={}
-  for k,v in pairs(TppEquip)do
-    if type(v)=="number" then
-      if string.find(k,"EQP_")~=nil and string.find(k,"EQP_TYPE_")==nil and string.find(k,"EQP_BLOCK_")==nil then
-        if enumToName[v] then
-          if this.debugModule then
-            InfCore.Log("WARNING: InfLookup.BuildTppEquipLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])
-          end
-          enumToName[v]=enumToName[v].."|"..k
-        else
-          enumToName[v]=k
-        end
-      end
-    end
-  end
-  return enumToName
-end
-
 function this.AddToStr32StringLookup(strCode32List)
   for i,someString in ipairs(strCode32List)do
     this.str32ToString[StrCode32(someString)]=someString
@@ -898,10 +890,45 @@ this.TppDamage={
   injuryType=this.BuildDirectGameClassEnumLookup("TppDamage","INJ_TYPE_"),
 }
 
+this.tppEquipPrefix={  
+  equipId="EQP",--tex couple of exceptions for just using this prefix, EQP_TYPE_, EQP_BLOCK_ trample on some equipIds, and EQP_ also includes some of the following prefixes
+  supportWeapon="SWP",
+  weaponId="WP",
+  --tex in chimera parts order
+  reciever="RC",
+  barrel="BA",
+  ammo="AM",--'Magazine'
+  stock="SK",
+  muzzle="MZ",
+  muzzleOption="MO",--'muzzle accessory'
+  rearSight="ST",--'Optics 1'
+  frontSight="ST",--'Optics 2'
+  option1="LT",--'Flashlight'
+  option2="LS",--'Laser Sight
+  underBarrel="UB",
+  underBarrelAmmo="AM",
+  --alts
+  weapon="WP",
+  magazine="AM",
+  sight="ST",
+  flashLight="LT",
+  laserSight="LS",
+  
+  blast="BLA",
+  bullet="BL",
+}--tppEquipPrefix
+
 this.TppEquip={
-  equipId=this.BuildTppEquipLookup(),
+  equipId=this.BuildDirectGameClassEnumLookup("TppEquip","EQP_",{"EQP_TYPE","EQP_BLOCK"}),--tex TYPE and BLOCK trample on equipIds so exclude them 
   equipType=this.BuildDirectGameClassEnumLookup("TppEquip","EQP_TYPE_"),
 }
+
+for id,prefix in pairs(this.tppEquipPrefix)do
+  if not this.TppEquip[id]then
+     this.TppEquip[id]=this.BuildDirectGameClassEnumLookup("TppEquip",prefix.."_","EQP_")--tex EQP includes some of the specific types so exclude it
+  end
+end
+InfCore.PrintInspect(this.TppEquip,"this.TppEquip")--DEBUGNOW
 
 --DEBUG >
 --InfCore.Log("Iterate TppGameObject")
