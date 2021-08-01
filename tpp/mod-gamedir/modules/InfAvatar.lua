@@ -2,7 +2,9 @@
 --TODO: document vars with avatar_presets.lua, packs (see TppDefine.AVATAR_ASSET_LIST)
 local this={}
 
+this.infosPath="avatars"
 this.saveName="avatar"
+this.infoType="AVATAR"
 
 this.varNames={
   "avatarAcceFlag",--=255,
@@ -47,58 +49,115 @@ local isArray={
   avatarMotionFrame=60,--0-59
 }
 
-function this.BuildSaveText(saveName)
+this.infos={}
+this.names={}
+
+function this.PostAllModulesLoad(isReload)
+  if isReload then
+    this.LoadLibraries()
+  end
+end--PostAllModulesLoad
+function this.LoadLibraries()
+  InfUtil.ClearArray(this.names)
+  local infoFiles=InfCore.GetFileList(InfCore.files[this.infosPath],".lua")
+  for i,fileName in ipairs(infoFiles)do
+    InfCore.Log("LoadLibraries "..fileName)
+    local name=InfUtil.StripExt(fileName)
+    local module=InfCore.LoadSimpleModule(InfCore.paths[this.infosPath],fileName)
+    if module==nil then
+    --tex LoadSimpleModule should give the error
+    else
+      --TODO VALIDATE
+      this.infos[name]=module
+      table.insert(this.names,name)
+    end--if module
+  end--for emblemFiles
+
+  for name,info in pairs(this.infos)do
+
+  end--for infos
+end--LoadLibraries
+function this.BuildSaveText(saveName,infoType,info)
   local saveTextList={
     "-- "..saveName,
     "-- ",
     "local this={",
   }
+  table.insert(saveTextList,'\tinfoType="'..infoType..'",')
 
-  for i,varName in ipairs(this.varNames)do
-    local arraySize=isArray[varName] or 0
-    if arraySize>0 then
-      --tex on one line
-      local line=varName.."={"
-      for j=0,arraySize-1 do--tex vars 0 indexed
-        line=line..vars[varName][j]..","--tex one line
-      end
-      line=line.."},"
-      saveTextList[#saveTextList+1]='\t'..line
+  for varName,value in pairs(info)do
+    if type(value)=="table"then
+      saveTextList[#saveTextList+1]='\t'..varName..'={'..table.concat(value,',')..'},'
+    elseif type(value)=="string"then
+      saveTextList[#saveTextList+1]='\t'..varName..'="'..value..'",'
     else
-      saveTextList[#saveTextList+1]='\t'..varName.."="..vars[varName]..","
+      saveTextList[#saveTextList+1]='\t'..varName..'='..value..','
     end
-  end--for varNames
+  end
 
   saveTextList[#saveTextList+1]="}--this"
   saveTextList[#saveTextList+1]="return this"
 
   return saveTextList
 end--BuildSaveText
-function this.SaveVars(saveName)
+function this.VarsToInfo()
+  local info={}
+  for i,varName in ipairs(this.varNames)do
+    local arraySize=isArray[varName] or 0
+    if arraySize>0 then
+      local array={}
+      for j=0,arraySize-1 do--tex vars 0 indexed
+        table.insert(array,vars[varName][j])
+      end
+      info[varName]=array
+    else
+      info[varName]=vars[varName]
+    end
+  end--for varNames
+  return info
+end--VarsToInfo
+function this.SaveVars(saveName,infoType)
   InfCore.LogFlow"InfAvatar.SaveVars"
-  local saveTextList=this.BuildSaveText(saveName)
-  local fileName=InfCore.paths.avatars..saveName
+  
+  InfUtil.InsertUniqueInList(this.names,saveName)
+  local info=this.VarsToInfo()
+  this.infos[saveName]=info
+    
+  local saveTextList=this.BuildSaveText(saveName,infoType,info)
+  local fileName=InfCore.paths.avatars..saveName..".lua"
   InfCore.WriteStringTable(fileName,saveTextList)
   InfCore.RefreshFileList()
   InfCore.Log("Saved "..saveName,true,true)
 end--SaveVars
 function this.LoadVars(saveName)
-  local module=InfCore.LoadSimpleModule(InfCore.paths.avatars,saveName)
-  if module==nil then
-    InfCore.Log("ERROR: InfAvatar.LoadVars: could not load saves\\"..saveName,true,true)
-    return
-  end
-  
-  for i,varName in ipairs(this.varNames)do
-    local arraySize=isArray[varName] or 0
-    if arraySize>0 then
-      for j=0,arraySize-1 do--tex vars 0 indexed
-        vars[varName][j]=module[varName][j+1]--tex lua index by 1
+  local info=this.infos[saveName]
+  for varName,value in pairs(info)do
+    if type(value)=="table"then
+      for i,avalue in ipairs(value)do
+        vars[varName][i-1]=avalue--tex shift from lua 1 indexed to vars 0 indexed
       end
     else
-      vars[varName]=module[varName]
-    end--if arraySize
-  end--for varNames
+      vars[varName]=value
+    end--if table
+  end--for info
+
+  --DEBUGNOW CULL
+--  local module=InfCore.LoadSimpleModule(InfCore.paths.avatars,saveName)
+--  if module==nil then
+--    InfCore.Log("ERROR: InfAvatar.LoadVars: could not load saves\\"..saveName,true,true)
+--    return
+--  end
+--  
+--  for i,varName in ipairs(this.varNames)do
+--    local arraySize=isArray[varName] or 0
+--    if arraySize>0 then
+--      for j=0,arraySize-1 do--tex vars 0 indexed
+--        vars[varName][j]=module[varName][j+1]--tex lua index by 1
+--      end
+--    else
+--      vars[varName]=module[varName]
+--    end--if arraySize
+--  end--for varNames
   
   this.TppSaveAndReload()
 end--LoadVars
@@ -118,16 +177,20 @@ function this.TppSaveAndReload()
 end--TppSaveAndReload
 
 --Ivars
-this.loadAvatar={
+this.avatar_load={
 --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"None Found"},--DYNAMIC
   default=0,
   OnSelect=function(self)
-    local files=InfCore.GetFileList(InfCore.files.avatars,".lua")
-    if #files==0 then
-      table.insert(files,1,"None Found")
+    InfUtil.ClearArray(self.settings)
+    if #this.names==0 then
+      table.insert(self.settings,1,"None Found")
+    else
+      for i,name in ipairs(this.names)do
+        table.insert(self.settings,name)
+      end
     end
-    IvarProc.SetSettings(self,files)
+    IvarProc.SetSettings(self,self.settings)  
   end,
   OnActivate=function(self,setting)
     if not TppMission.IsHelicopterSpace(vars.missionCode) then
@@ -137,16 +200,20 @@ this.loadAvatar={
   
     local saveName=self.settings[setting+1]
     this.LoadVars(saveName)
+    InfCore.Log("Loaded "..saveName,true,true)--DEBUGNOW addlang
   end,
-}--loadAvatar
+}--avatar_load
 
-this.saveAvatar={
+this.avatar_save={
 --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"New",},--DYNAMIC
   OnSelect=function(self)
-    local files=InfCore.GetFileList(InfCore.files.avatars,".lua")
-    table.insert(files,1,"New")
-    IvarProc.SetSettings(self,files)
+    InfUtil.ClearArray(self.settings)
+    for i,name in ipairs(this.names)do
+      table.insert(self.settings,name)
+    end
+    table.insert(self.settings,1,"New")
+    IvarProc.SetSettings(self,self.settings)
   end,
   OnActivate=function(self,setting)
     if not TppMission.IsHelicopterSpace(vars.missionCode) then
@@ -159,26 +226,43 @@ this.saveAvatar={
     if saveName=="New" then
       saveName=this.saveName..os.time()..".lua"
     end
-    this.SaveVars(saveName)
+    this.SaveVars(saveName,this.infoType)
     self:OnSelect()
+    InfCore.Log("Saved "..saveName,true,true)--DEBUGNOW addlang
   end,
-}--saveAvatar
+  OnInput=function(self,input)
+    local setting=ivars[self.name]--tex turns out an Ivar doesn't actually know its own value
+    if setting==0 then--New 
+      local saveName=input
+      this.SaveVars(saveName,this.infoType)
+      self:OnSelect()
+      for i,name in ipairs(self.settings)do
+        if name==input then
+          self:Set(i-1)
+          InfMenu.DisplayCurrentSetting()
+          break
+        end
+      end
+      InfCore.Log("Saved "..saveName,true,true)--DEBUGNOW addlang
+    end
+  end,
+}--avatar_save
 
 this.registerIvars={
-  'loadAvatar',
-  'saveAvatar',
+  'avatar_load',
+  'avatar_save',
 }
 
 this.langStrings={
   eng={
-    loadAvatar="Load avatar",
-    saveAvatar="Save avatar",
+    avatar_load="Load avatar",
+    avatar_save="Save avatar",
     must_be_in_helispace="Must be in ACC",
   },
   help={
     eng={
-      loadAvatar="Load avatar from MGS_TPP\\mod\\avatars",
-      saveAvatar="Save avatar to MGS_TPP\\mod\\avatars",
+      avatar_load="Load avatar from MGS_TPP\\mod\\avatars",
+      avatar_save="Save avatar to MGS_TPP\\mod\\avatars",
     },
   }
 }--langStrings
