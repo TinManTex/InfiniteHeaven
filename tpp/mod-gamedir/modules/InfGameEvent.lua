@@ -633,6 +633,15 @@ function this.GenerateWarGameEvent(missionCode)
   if eventChance==0 and not this.forceEvent then
     return
   end
+  
+  InfMain.RandomSetToLevelSeed()
+  local rnd=math.random(100)
+  InfCore.Log("InfGameEvent eventChance:"..eventChance.." rndChance:"..rnd)--DEBUGNOW
+  if rnd>eventChance then
+    return
+  end
+  InfMain.RandomResetToOsTime()
+  
 
   igvars.inf_event=true
 
