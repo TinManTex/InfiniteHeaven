@@ -339,5 +339,9 @@ function this.From1Dto3D(idx,xMax,yMax)
   local x=math.floor(idx%xMax)
   return x,y,z
 end--From1Dto3D
+--tex index 0 based 
+function this.From2Dto1D(x,y,xMax)
+  return (y*xMax)+x
+end--From3Dto1D
 
 return this
