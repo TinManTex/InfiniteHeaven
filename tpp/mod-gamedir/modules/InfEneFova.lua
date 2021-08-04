@@ -297,7 +297,10 @@ function this.GetMaleBodyInfo(missionCode)
   --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(bodyType))--DEBUG
   if bodyType=="RANDOM"then
     InfMain.RandomSetToLevelSeed()
-    bodyType=InfBodyInfo.bodies.MALE[math.random(2,#InfBodyInfo.bodies.MALE)]--tex skip OFF and RANDOM
+    bodyType=InfBodyInfo.bodies.MALE[math.random(3,#InfBodyInfo.bodies.MALE)]--tex skip OFF and RANDOM
+    if this.debugModule then--tex wrapping since this function is called a lot
+      InfCore.Log("GetMaleBodyInfo RANDOM:"..tostring(bodyType))
+    end
     InfMain.RandomResetToOsTime()
   end
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
@@ -325,7 +328,10 @@ function this.GetFemaleBodyInfo(missionCode)--DEBUGNOW
   --InfCore.Log("InfEneFova.GetFemaleBodyInfo "..tostring(bodyType))--DEBU
   if bodyType=="RANDOM"then
     InfMain.RandomSetToLevelSeed() 
-    bodyType=InfBodyInfo.bodies.FEMALE[math.random(2,#InfBodyInfo.bodies.FEMALE)]--tex skip OFF and RANDOM
+    bodyType=InfBodyInfo.bodies.FEMALE[math.random(3,#InfBodyInfo.bodies.FEMALE)]--tex skip OFF and RANDOM
+    if this.debugModule then--tex wrapping since this function is called a lot
+      InfCore.Log("GetFemaleBodyInfo RANDOM:"..tostring(bodyType))
+    end
     InfMain.RandomResetToOsTime()
   end
   local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
