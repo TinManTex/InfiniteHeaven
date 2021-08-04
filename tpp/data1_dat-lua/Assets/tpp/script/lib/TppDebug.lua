@@ -453,7 +453,8 @@ function this.DEBUG_SetFobPlayerDefence()
     },
     {
       equipId=TppEquip.EQP_WP_20215,
-      partsInfo={ammo=TppEquip.AM_20106,
+      partsInfo={
+        ammo=TppEquip.AM_20106,
         stock=TppEquip.SK_20216,
         muzzleOption=TppEquip.MO_20205,
         rearSight=TppEquip.ST_60102,
