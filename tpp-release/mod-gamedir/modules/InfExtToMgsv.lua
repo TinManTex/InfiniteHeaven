@@ -221,11 +221,15 @@ function this.Input(args)
         --        end
       else
         if currentOption.optionType==OPTION then
+          if currentOption.OnInput then
+            currentOption:OnInput(input)
+          else
           local setting=tonumber(input) or input
           IvarProc.SetSetting(currentOption,setting)
           InfMenu.DisplayCurrentSetting()
         end
       end
+      end--if optionType
     end--commandArgs
   end--elementName==inputLine or menuSetting
 end--function Input
@@ -247,6 +251,7 @@ end
 
 --args string comboName, int selectedIndex
 function this.SelectedCombo(args)
+  local InfMenu=InfMenu
   --DEBUGNOW TODO some kind of list registry and subscription to event i guess
   --just hardcoded to menu for now
   if args[3]=="menuSetting" then
@@ -258,7 +263,7 @@ function this.SelectedCombo(args)
       end
       if currentOption.optionType==OPTION then
         currentOption:Set(setting)
-        InfMenu.GetSetting()
+        --InfMenu.GetSetting()--tex ClearCombo and AddCombo overkill, and interferes with doing other stuff IHHook side
         InfMenu.DisplayCurrentSetting()
       end
     end

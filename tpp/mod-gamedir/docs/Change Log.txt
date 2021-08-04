@@ -1,7 +1,9 @@
 Infinite Heaven changelog
 
 r257 - 2021-08-04
-InfCamHook moved to IHHook installation.
+InfCamHook moved to IHHook r16 installation.
+
+fix: MB GameEvents always triggering on any chance but 0 - thanks Adchap for the report
 
 fix: Sideop remaining active on clear on non Shooting Practice sideops while Shooting Practice Retry enabled - thanks countfuzzball for the report
 
@@ -26,6 +28,8 @@ Save name input for Avatar, Emblem, and Chimera requires IHHook r16.
 
 Customize menu
 Avatar, Emblem, and Chimera
+
+InfLookup: TppEquip reverse enums
 
 r256 - 2021-07-20
 fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.

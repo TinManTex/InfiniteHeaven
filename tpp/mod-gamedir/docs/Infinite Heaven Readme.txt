@@ -23,7 +23,9 @@ NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
 r257 - 2021-08-04
-InfCamHook moved to IHHook installation.
+InfCamHook moved to IHHook r16 installation.
+
+fix: MB GameEvents always triggering on any chance but 0 - thanks Adchap for the report
 
 fix: Sideop remaining active on clear on non Shooting Practice sideops while Shooting Practice Retry enabled - thanks countfuzzball for the report
 

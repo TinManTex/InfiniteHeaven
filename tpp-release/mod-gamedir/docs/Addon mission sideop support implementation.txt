@@ -1,5 +1,5 @@
 
-IH feature quest support for addons
+IH feature quest support for location addons
 
 Bug: No sideop location tab for anything but the vanilla locs + All
 Bug: Cannot select sideop from idroid list to travel to that sideop location.
