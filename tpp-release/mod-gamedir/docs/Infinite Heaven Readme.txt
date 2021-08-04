@@ -52,6 +52,8 @@ Customize menu
 Avatar, Emblem, and Chimera
 
 r256 - 2021-07-20
+fix: Custom soldier type RANDOM hanging on load if it chose off-by-1 lowest value.
+
 fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
 
 fulton_recoverCritical "Extraction recover critical", "Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay."

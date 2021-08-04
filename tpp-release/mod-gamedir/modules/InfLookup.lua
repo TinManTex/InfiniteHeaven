@@ -892,7 +892,7 @@ this.TppDamage={
 
 this.tppEquipPrefix={  
   equipId="EQP",--tex couple of exceptions for just using this prefix, EQP_TYPE_, EQP_BLOCK_ trample on some equipIds, and EQP_ also includes some of the following prefixes
-  supportWeapon="SWP",
+  supportWeapon="SWP",--DEBUGNOW matches for WP
   weaponId="WP",
   --tex in chimera parts order
   reciever="RC",
@@ -922,13 +922,15 @@ this.TppEquip={
   equipId=this.BuildDirectGameClassEnumLookup("TppEquip","EQP_",{"EQP_TYPE","EQP_BLOCK"}),--tex TYPE and BLOCK trample on equipIds so exclude them 
   equipType=this.BuildDirectGameClassEnumLookup("TppEquip","EQP_TYPE_"),
 }
-
+--DEBUGNOW TODO: only build most lookups if debug mode
 for id,prefix in pairs(this.tppEquipPrefix)do
   if not this.TppEquip[id]then
      this.TppEquip[id]=this.BuildDirectGameClassEnumLookup("TppEquip",prefix.."_","EQP_")--tex EQP includes some of the specific types so exclude it
   end
 end
-InfCore.PrintInspect(this.TppEquip,"this.TppEquip")--DEBUGNOW
+if this.debugModule then
+  InfCore.PrintInspect(this.TppEquip,"this.TppEquip")--DEBUG
+end
 
 --DEBUG >
 --InfCore.Log("Iterate TppGameObject")
