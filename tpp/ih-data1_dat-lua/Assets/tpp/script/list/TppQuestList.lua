@@ -209,7 +209,7 @@ this.questList={--see lso mvars.qst_questList
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsSupport",clusterName="Support",infoList={{name="mtbs_q42030",invokeStepName="QStep_Start"}}},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsSpy",clusterName="Spy",infoList={{name="mtbs_q42060",invokeStepName="QStep_Start"}}},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsBaseDev",clusterName="BaseDev",infoList={{name="mtbs_q42040",invokeStepName="QStep_Start"}}},
-  {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsPaz",clusterName="MedicalPaz",infoList={{name="mtbs_q99060",invokeStepName="QStep_Start",isStory=true,isOnce=true}}},
+  {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsPaz",clusterName="MedicalPaz",infoList={{name="mtbs_q99060",invokeStepName="QStep_Start",isStory=true,isOnce=true}}}
 }--questList
 
 this.questPackList={

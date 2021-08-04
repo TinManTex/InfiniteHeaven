@@ -691,6 +691,7 @@ this.registerMenus={
   "itemLevelMenu",
   "handLevelMenu",
   "fultonLevelMenu",
+  "customizeMenu",
 }
 
 this.miscInMissionMenu={
@@ -919,6 +920,17 @@ this.fultonLevelMenu={
   }
 }
 
+this.customizeMenu={
+  parentRefs={"InfMenuDefs.safeSpaceMenu"},
+  options={
+    'InfChimera.chimeraMenu',    
+    'Ivars.emblem_load',
+    'Ivars.emblem_save',
+    'Ivars.avatar_load',
+    'Ivars.avatar_save',
+  },
+}--customizeMenu
+
 --< menu defs
 this.langStrings={
   eng={
@@ -1016,6 +1028,7 @@ this.langStrings={
     heliSpace_NoBuddyMenuFromMissionPreparetion="Disable select-buddy",
     heliSpace_NoVehicleMenuFromMissionPreparetion="Disable select-vehicle",
     heliSpace_DisableSelectSortieTimeFromMissionPreparetion="Disable select-sortie time",
+    customizeMenu="Customize menu",
   },--eng
   help={
     eng={
@@ -1051,6 +1064,7 @@ this.langStrings={
       heliSpace_NoBuddyMenuFromMissionPreparetion="Prevents selection of buddies during mission prep.",
       heliSpace_NoVehicleMenuFromMissionPreparetion="WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).",
       heliSpace_DisableSelectSortieTimeFromMissionPreparetion="Only allows ASAP at mission prep",
+      customizeMenu="Options for saving/loading to items in the idroid Customize menu",
     },--eng
   }--help
 }--langStrings

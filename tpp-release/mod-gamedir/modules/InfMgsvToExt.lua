@@ -124,7 +124,8 @@ function this.SetMenuLine(fullText,text)
   ExtCmd('SelectItem',menuItems,InfMenu.currentIndex-1)
   --tex setting the combo settings only needs to be run on selection of setting, selectcombo still needs to be run though
   local currentOption=InfMenu.GetCurrentOption()
-  if currentOption and currentOption.optionType=="OPTION" then
+  if currentOption then
+    if currentOption.optionType=="OPTION" then
     local currentSetting=ivars[currentOption.name]
     --      InfCore.Log("currentOption:"..currentOption.name.." ivar="..tostring(currentSetting))
     --      if currentOption.OnSelect then
@@ -143,8 +144,11 @@ function this.SetMenuLine(fullText,text)
       ExtCmd('AddToCombo',menuSetting,currentSetting)
       ExtCmd('SelectCombo',menuSetting,0)
     end
-  end
-end
+    else--currentOption.optionType
+      InfCore.ExtCmd('ClearCombo','menuSetting')
+    end--currentOption.optionType
+  end--if currentOption
+end--SetMenuLine
 
 function this.TakeFocus()
   ExtCmd('TakeFocus')

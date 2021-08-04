@@ -1,5 +1,5 @@
 = Infinite heaven =
-r255 - 2021-07-20
+r257 - 2021-08-04
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r15b
@@ -21,6 +21,52 @@ Recent changes/additions
 ------------------------------
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
+
+r257 - 2021-08-04
+InfCamHook moved to IHHook r16 installation.
+
+fix: MB GameEvents always triggering on any chance but 0 - thanks Adchap for the report
+
+fix: Sideop remaining active on clear on non Shooting Practice sideops while Shooting Practice Retry enabled - thanks countfuzzball for the report
+
+InfEmblem:
+"Load emblem","Load emblem from MGS_TPP\\mod\\emblems . After loading emblem you must go to the normal Customize emblem system and OK it for it to reapply it. It will also regenerate it next time game is started."
+"Save emblem","Save emblem to MGS_TPP\\mod\\emblems"
+(via Customize menu)
+[youtube]VyEj1cPbKX4[/youtube]
+https://youtu.be/VyEj1cPbKX4
+
+InfChimera:
+Chimera is MGSVs weapon cusomization system, this menu lets you save/load from the Customize > Weapons idroid menu
+"Weapon category","Changes which weapon category the slots refer to."
+"Load to slot 1","Load chimera from MGS_TPP\\mod\\chimeras to spcified slot"
+"Save from slot 1","Save chimera of specified slot for to MGS_TPP\\mod\\chimeras "
+"Clear slot"
+(via Customize menu)
+[youtube]K3khMmt9S7I[/youtube]
+https://youtu.be/K3khMmt9S7I
+
+Save name input for Avatar, Emblem, and Chimera requires IHHook r16.
+
+Customize menu
+Avatar, Emblem, and Chimera
+
+r256 - 2021-07-20
+fix: Custom soldier type RANDOM hanging on load if it chose off-by-1 lowest value.
+
+fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
+
+fulton_recoverCritical "Extraction recover critical", "Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay."
+(via Fulton menu)
+[youtube]oGiF4KpNo-Y[/youtube]
+https://youtu.be/oGiF4KpNo-Y
+
+"Load avatar", "Load avatar from MGS_TPP\\mod\\avatars"
+"Save avatar", "Save avatar to MGS_TPP\\mod\\avatars"
+(Via Appearance menu)
+Must be in ACC
+[youtube]W3enynh89CI[/youtube]
+https://youtu.be/W3enynh89CI
 
 r256 - 2021-07-20
 fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.

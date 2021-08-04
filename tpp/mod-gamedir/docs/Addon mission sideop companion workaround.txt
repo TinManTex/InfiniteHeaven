@@ -6,7 +6,9 @@ Quest Area to whatever the top one is.
 Quest CP: to anything but NONE
 Do all the rest normaly, hit build.
 Open SOC folder \Sideop_Build\GameDir\mod\quests\ <questInfo> lua
-Change locationId to whatever matches the location (in this case gntn=40) or the more friendlier TppDefine.LOCATION_ID.GNTN
+Change locationId to whatever matches the location:
+	look in mgs_tpp\mod\locations at the locationInfo lua for the locationId
+	or the more friendlier TppDefine.LOCATION_ID.<locationName> ex. TppDefine.LOCATION_ID.GNTN
 Change areaName to an area defined in the locationInfo questAreas
 in this case areaName = "gntn",
 
