@@ -87,25 +87,26 @@ See ReadMe or Features and Options for more info.
 3: Cam - AroundCam menu
 4: Cam - PlayCam menu
 5: Cam - Player Cam hook menu
-6: Cutscenes menu
-7: Debug menu
-8: Enemy Prep menu
-9: Enemy phases menu
-10: Enemy reinforcements menu
-11: Events menu
-12: Fulton menu
-13: Mission-prep features menu
-14: Mother Base menu
-15: Patrols and deployments menu
-16: Player restrictions menu
-17: Player settings menu
-18: Progression menu
-19: RouteSet menu
-20: Side ops menu
-21: Soldier parameters menu
-22: Support heli menu
-23: Time scale menu
-24: Weather menu
+6: Customize menu
+7: Cutscenes menu
+8: Debug menu
+9: Enemy Prep menu
+10: Enemy phases menu
+11: Enemy reinforcements menu
+12: Events menu
+13: Fulton menu
+14: Mission-prep features menu
+15: Mother Base menu
+16: Patrols and deployments menu
+17: Player restrictions menu
+18: Player settings menu
+19: Progression menu
+20: RouteSet menu
+21: Side ops menu
+22: Soldier parameters menu
+23: Support heli menu
+24: Time scale menu
+25: Weather menu
 
 IH system menu
 --------------
@@ -257,6 +258,34 @@ Lower focal length = wider FOV,
 Higher focal length = lower FOV
 6: Apply FOV : 1-179
 Applies FOV(degrees) proportionally to the different cam mode focal lengths.
+
+Customize menu
+- Options for saving/loading to items in the idroid Customize menu
+--------------
+1: Chimera menu
+2: Load emblem : None found
+Load emblem from MGS_TPP\mod\emblems . After loading emblem you must go to the normal Customize emblem system and OK it for it to reapply it. It will also regenerate it next time game is started.
+3: Save emblem : New
+Save emblem to MGS_TPP\mod\emblems
+4: Load avatar : None Found
+Load avatar from MGS_TPP\mod\avatars
+5: Save avatar : New
+Save avatar to MGS_TPP\mod\avatars
+
+Chimera menu
+- Chimera is MGSVs weapon cusomization system, this menu lets you save/load from the Customize > Weapons idroid menu
+------------
+1: Weapon category : HANDGGUN, SMG, ASSAULT, SHOTGUN, GRENADELAUNCHER, SNIPER, MG, MISSILE
+Changes which weapon category the slots refer to.
+2: Load to slot 1 : None found
+Load chimera from MGS_TPP\mod\chimeras to specified slot
+3: Load to slot 2 : None found
+4: Load to slot 3 : None found
+5: Save from slot 1 : New
+Save chimera of specified slot for to MGS_TPP\mod\chimeras 
+6: Save from slot 2 : New
+7: Save from slot 3 : New
+8: Clear slot : SLOT1, SLOT2, SLOT3
 
 Cutscenes menu
 --------------
@@ -881,7 +910,7 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 6: Face : <Face Id for player type and face filter>
 7: Skip developed checks : Off, On
 Allows items that haven't been developed to be selected.
-8: Load avatar : 
+8: Load avatar : None Found
 Load avatar from MGS_TPP\mod\avatars
 9: Save avatar : New
 Save avatar to MGS_TPP\mod\avatars
@@ -1114,7 +1143,7 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 6: Face : <Face Id for player type and face filter>
 7: Skip developed checks : Off, On
 Allows items that haven't been developed to be selected.
-8: Load avatar : 
+8: Load avatar : None Found
 Load avatar from MGS_TPP\mod\avatars
 9: Save avatar : New
 Save avatar to MGS_TPP\mod\avatars
