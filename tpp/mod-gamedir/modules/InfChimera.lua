@@ -8,7 +8,7 @@ local this={}
 this.SLOTS_PER_CATEROGRY=3
 this.PARTS_COUNT=12--tex chimera parts slots per weapon, includes color
 
-this.path="chimeras"
+this.infosPath="chimeras"
 this.saveName="chimera"
 this.infoType="CHIMERA"
 
@@ -168,7 +168,7 @@ function this.SaveVars(saveName,infoType,category,slot)
   local saveTextList=this.BuildSaveText(saveName,infoType,info)
   local fileName=InfCore.paths.chimeras..saveName..".lua"
   InfCore.WriteStringTable(fileName,saveTextList)
-  InfCore.Log("Saved "..fileName,true,true)
+  InfCore.Log("Saved "..saveName,true,true)--TODO  lang
 end--SaveVars
 function this.LoadVars(saveName,category,slot)
   local info=this.infos[saveName]
@@ -178,11 +178,13 @@ function this.LoadVars(saveName,category,slot)
     return
   end
 
+  if this.debugModule then
   local line=""--DEBUG
   for i=0,(#this.weaponCategories*#this.slots*#this.parts)-1 do
     line=line..vars.userPresetChimeraParts[i]..","
   end
   InfCore.Log("vars.userPresetChimeraParts prev = "..line)--
+  end
 
   local part=0
   local startIdx=InfUtil.From3Dto1D(part,slot,category,#this.parts,#this.slots)
@@ -197,11 +199,13 @@ function this.LoadVars(saveName,category,slot)
   vars.userPresetChimeraColorIndex[weaponSlotIndex]=info.colorIndex
   vars.userPresetChimeraPaintType[weaponSlotIndex]=info.paintType
 
+  if this.debugModule then
   local line=""--DEBUG
   for i=0,(#this.weaponCategories*#this.slots*#this.parts)-1 do
     line=line..vars.userPresetChimeraParts[i]..","
   end
   InfCore.Log("vars.userPresetChimeraParts post = "..line)--
+  end
 
   this.TppSave()
 end--LoadVars
@@ -262,7 +266,7 @@ for i=0,#this.slots-1 do
       local saveName=self.settings[setting+1]
       local category=ivars.chimera_weaponCategory
       this.LoadVars(saveName,category,self.slot)
-      InfCore.DebugPrint(InfLangProc.LangString"chimera_loaded_to_slot".." "..self.slot+1)
+      InfCore.DebugPrint(InfLangProc.LangString"chimera_loaded_slot".." "..self.slot+1)
     end,
   }--chimera_loadSlot
 end--for slots
@@ -324,6 +328,14 @@ for i=0,#this.slots-1 do
   }--saveChimera
 end--for slots
 
+--interleave into menus
+--for i=0,#this.slots-1 do
+--  local ivarName="chimera_loadSlot"..i+1--1 indexed
+--  table.insert(this.chimeraMenu.options,"Ivars."..ivarName)
+--  local ivarName="chimera_saveSlot"..i+1--1 indexed
+--  table.insert(this.chimeraMenu.options,"Ivars."..ivarName)
+--end--for slots
+
 this.chimera_clearSlot={
   settings=this.slots,
   OnActivate=function(self,setting)
@@ -346,15 +358,25 @@ table.insert(this.chimeraMenu.options,"Ivars.chimera_clearSlot")
 
 this.langStrings={
   eng={
-    loadChimera="Load chimera",
-    saveChimera="Save chimera",
+    chimera_weaponCategory="Weapon category",
+    chimera_loadSlot1="Load to slot 1",
+    chimera_loadSlot2="Load to slot 2",
+    chimera_loadSlot3="Load to slot 3",
+    chimera_saveSlot1="Save from slot 1",
+    chimera_saveSlot2="Save from slot 2",
+    chimera_saveSlot3="Save from slot 3",
+    chimera_clearSlot="Clear slot",
     chimeraMenu="Chimera menu",
+    chimera_loaded_slot="Loaded to slot ",
+    chimera_saved_slot="Saved from slot ",
+    chimera_cleared_slot="Cleared slot",
   },
   help={
     eng={
       chimeraMenu="Chimera is MGSVs weapon cusomization system, this menu lets you save/load from the Customize > Weapons idroid menu",
-      loadChimera="Load chimera from MGS_TPP\\mod\\chimeras to spcified slot",
-      saveChimera="Save chimera of specified slot for to MGS_TPP\\mod\\chimeras ",
+      chimera_weaponCategory="Changes which weapon category the slots refer to.",
+      chimera_loadSlot1="Load chimera from MGS_TPP\\mod\\chimeras to specified slot",
+      chimera_saveSlot1="Save chimera of specified slot for to MGS_TPP\\mod\\chimeras ",
     },
   }
 }--langStrings
