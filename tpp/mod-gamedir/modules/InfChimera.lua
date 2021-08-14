@@ -266,7 +266,7 @@ for i=0,#this.slots-1 do
       local saveName=self.settings[setting+1]
       local category=ivars.chimera_weaponCategory
       this.LoadVars(saveName,category,self.slot)
-      InfCore.DebugPrint(InfLangProc.LangString"chimera_loaded_slot".." "..self.slot+1)
+      InfCore.DebugPrint(InfLangProc.LangString"chimera_loaded_slot"..self.slot+1)
     end,
   }--chimera_loadSlot
 end--for slots
@@ -304,7 +304,7 @@ for i=0,#this.slots-1 do
       end
       this.SaveVars(saveName,this.infoType,category,self.slot)
       self:OnSelect()
-      InfCore.DebugPrint(InfLangProc.LangString"chimera_saved_slot".." "..self.slot+1)
+      InfCore.DebugPrint(InfLangProc.LangString"chimera_saved_slot"..self.slot+1)
     end,
     OnInput=function(self,input)
       local setting=ivars[self.name]--tex turns out an Ivar doesn't actually know its own value
@@ -322,7 +322,7 @@ for i=0,#this.slots-1 do
             break
           end
         end
-        InfCore.DebugPrint(InfLangProc.LangString"chimera_saved_slot".." "..self.slot+1)
+        InfCore.DebugPrint(InfLangProc.LangString"chimera_saved_slot"..self.slot+1)
       end
     end,
   }--saveChimera
@@ -351,7 +351,7 @@ this.chimera_clearSlot={
     vars.userPresetCustomizedWeapon[weaponSlotIndex]=0
     vars.userPresetChimeraColorIndex[weaponSlotIndex]=0
     vars.userPresetChimeraPaintType[weaponSlotIndex]=0
-    InfCore.DebugPrint(InfLangProc.LangString"chimera_cleared_slot".." "..setting)
+    InfCore.DebugPrint(InfLangProc.LangString"chimera_cleared_slot"..setting+1)
   end,
 }--chimera_clearSlot
 table.insert(this.chimeraMenu.options,"Ivars.chimera_clearSlot")
@@ -369,7 +369,7 @@ this.langStrings={
     chimeraMenu="Chimera menu",
     chimera_loaded_slot="Loaded to slot ",
     chimera_saved_slot="Saved from slot ",
-    chimera_cleared_slot="Cleared slot",
+    chimera_cleared_slot="Cleared slot ",
   },
   help={
     eng={
