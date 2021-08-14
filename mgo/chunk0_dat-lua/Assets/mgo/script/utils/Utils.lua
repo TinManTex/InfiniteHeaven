@@ -102,14 +102,16 @@ end
 function this.GetTeamTag(p)
   local e="TEAM_"
   if p<10 then
-    e=e.."0"end
+    e=e.."0"
+    end
   e=e..tostring(p+1)
   return e
 end
 function this.GetInstanceTag(p)
   local e="GENERIC_"
   if p<10 then
-    e=e.."0"end
+    e=e.."0"
+    end
   e=e..tostring(p)
   return e
 end
@@ -148,7 +150,7 @@ function this.InsertArrayUniqueInArray(_,p)
     end
   end
 end
-function this.SetWeatherInterval(o,T,i,a,_,n)
+function this.SetWeatherInterval(unkWeather1,unkWeather2,i,a,_,n)
   for p=1,this.WEATHER_CHANGE_COUNT_MAX do
     if this.weatherStartIds[p]then
       Util.ClearInterval(this.weatherStartIds[p])
@@ -158,8 +160,8 @@ function this.SetWeatherInterval(o,T,i,a,_,n)
     end
   end
   for p=1,#i do
-    this.weatherStartIds[p]=Util.SetInterval(i[p]*1e3,false,"Utils","SyncWeather",T,_/n)
-    this.weatherEndIds[p]=Util.SetInterval(((i[p]+a)+_)*1e3,false,"Utils","SyncWeather",o,_/n)
+    this.weatherStartIds[p]=Util.SetInterval(i[p]*1e3,false,"Utils","SyncWeather",unkWeather2,_/n)
+    this.weatherEndIds[p]=Util.SetInterval(((i[p]+a)+_)*1e3,false,"Utils","SyncWeather",unkWeather1,_/n)
   end
 end
 function this.SyncWeather(e,p)
@@ -186,25 +188,25 @@ function this.TriggerEffect(_,i,e,p)
     end
   end
 end
-function this.SetupEffects(_,p)
+function this.SetupEffects(locationCode,isNight)
   if vars.isGameplayHost==1 then
-    this.WeatherRequest(_,p,false)
+    this.WeatherRequest(locationCode,isNight,false)
   end
-  if _==103 then
-    if p then
+  if locationCode==103 then
+    if isNight then
     end
-  elseif _==101 then
-    if p then
+  elseif locationCode==101 then
+    if isNight then
     end
-  elseif _==102 then
-    if p then
+  elseif locationCode==102 then
+    if isNight then
     end
-  elseif _==104 then
-    if p then
+  elseif locationCode==104 then
+    if isNight then
     end
-  elseif _==105 then
+  elseif locationCode==105 then
   end
-  if p then
+  if isNight then
     TppDataUtility.SetVisibleEffectFromGroupId("FxLocatorGroup_NightTimeOnly",true)
     TppDataUtility.SetVisibleEffectFromGroupId("FxLocatorGroup_DaytimeOnly",false)
   else
@@ -213,146 +215,150 @@ function this.SetupEffects(_,p)
   end
   return
 end
-function this.WeatherRequest(i,n,o)
-  local p={}
+function this.WeatherRequest(locationCode,isNight,isGameplayHost)
+  local unkTable1={}
   if math.random(2)==1 then
-    p={180}
+    unkTable1={180}
   end
   if MgoMatchMakingManager.GetWeatherChangeState~=nil then
     local _=MgoMatchMakingManager.GetWeatherChangeState()
     if _==0 then
-      p={}
+      unkTable1={}
     elseif _==2 then
-      local _=math.random(20,80)p={}while#p<this.WEATHER_CHANGE_COUNT_MAX and _<(vars.roundTimeLimit-30)do
-        table.insert(p,_)_=(_+math.random(120,240))+(vars.roundTimeLimit/30)
+      local _=math.random(20,80)
+      unkTable1={}
+      while#unkTable1<this.WEATHER_CHANGE_COUNT_MAX and _<(vars.roundTimeLimit-30)
+      do
+        table.insert(unkTable1,_)
+        _=(_+math.random(120,240))+(vars.roundTimeLimit/30)
       end
     end
   end
   local _=false
-  if o and#p>0 then
+  if isGameplayHost and#unkTable1>0 then
     _=true
   end
-  if i==103 then
-    if n then
+  if locationCode==103 then
+    if isNight then
       this.SyncWeather("rainy",0)
       WeatherManager.SetCurrentClock("1","00")
     else
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("13","00")
       if _ then
-        this.SetWeatherInterval("clear","rainy",p,30,20,2)
+        this.SetWeatherInterval("clear","rainy",unkTable1,30,20,2)
       end
     end
-  elseif i==101 then
-    if n then
+  elseif locationCode==101 then
+    if isNight then
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     else
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("15","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     end
-  elseif i==102 then
-    if n then
+  elseif locationCode==102 then
+    if isNight then
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","sandstorm",p,30,20,2)
+        this.SetWeatherInterval("clear","sandstorm",unkTable1,30,20,2)
       end
     else
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("06","12")
       if _ then
-        this.SetWeatherInterval("clear","sandstorm",p,30,20,2)
+        this.SetWeatherInterval("clear","sandstorm",unkTable1,30,20,2)
       end
     end
-  elseif i==104 then
-    if n then
+  elseif locationCode==104 then
+    if isNight then
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","rainy",p,30,20,2)
+        this.SetWeatherInterval("clear","rainy",unkTable1,30,20,2)
       end
     else
       this.SyncWeather("cloudy",0)
       WeatherManager.SetCurrentClock("06","30")
       if _ then
-        this.SetWeatherInterval("cloudy","rainy",p,30,20,1)
+        this.SetWeatherInterval("cloudy","rainy",unkTable1,30,20,1)
       end
     end
-  elseif i==105 then
-    if n then
+  elseif locationCode==105 then
+    if isNight then
       this.SyncWeather("cloudy",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("cloudy","rainy",p,30,20,1)
+        this.SetWeatherInterval("cloudy","rainy",unkTable1,30,20,1)
       end
     else
       this.SyncWeather("cloudy",0)
       WeatherManager.SetCurrentClock("17","30")
       if _ then
-        this.SetWeatherInterval("cloudy","rainy",p,30,20,1)
+        this.SetWeatherInterval("cloudy","rainy",unkTable1,30,20,1)
       end
     end
-  elseif(i==111 or i==114)or i==115 then
-    if n then
+  elseif(locationCode==111 or locationCode==114)or locationCode==115 then
+    if isNight then
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     else
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("13","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     end
-  elseif i==112 then
-    if n then
+  elseif locationCode==112 then
+    if isNight then
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     else
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("13","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     end
-  elseif i==113 then
-    if n then
+  elseif locationCode==113 then
+    if isNight then
       this.SyncWeather("cloudy",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     else
       this.SyncWeather("cloudy",0)
       WeatherManager.SetCurrentClock("17","30")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     end
   else
-    if n then
+    if isNight then
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("1","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     else
       this.SyncWeather("clear",0)
       WeatherManager.SetCurrentClock("15","00")
       if _ then
-        this.SetWeatherInterval("clear","cloudy",p,30,20,1)
+        this.SetWeatherInterval("clear","cloudy",unkTable1,30,20,1)
       end
     end
   end
@@ -587,7 +593,8 @@ function this.DBEUG_LookupObjectiveMessage(_,p)
   return""
 end
 this.Team={SOLID=0,LIQUID=1,BOTH=2}
-this.ObjectiveMessage={NONE={name="NONE",debug=""},
+this.ObjectiveMessage={
+NONE={name="NONE",debug=""},
   MP_OBJ={name="MP_OBJ",debug="Objective",langTag="mgo_UI_Briefing_Tips1_DOM"},
   MP_INFO={name="MP_INFO",debug="Information",langTag="mgo_idt_information"},
   MP_OBJ_MODE_DM={name="MP_OBJ_MODE_DM",debug="Bounty",langTag="mgo_idt_TDM"},
@@ -680,15 +687,15 @@ this.NotificationSounds={
   MP_SFX_CONTRACT_PROGRESS="sfx_s_title_slct_mission",
   MP_SFX_CONTRACT_COMPLETE="sfx_stinger_subobjective"
 }
-function this.DBEUG_LookupObjectiveMessage(_,
-  i)
+function this.DBEUG_LookupObjectiveMessage(_,i)
   for e,p in pairs(this.ObjectiveMessage)do
     local e=_:DEBUG_GetStringId(e)
     if(i==e)then
       return p.debug
     end
   end
-  return""end
+  return""
+  end
 function this.AllRulesetBlocksAreLoaded()
   local e=MpRulesetManager.HasBlockController()
   if not e then
@@ -769,7 +776,8 @@ function this.GetAtkIcon(p)
   end
 end
 function this.OneMinuteLeft()
-  TppUiCommand.AnnounceLogViewLangId"mgo_announce_generic_one_min"end
+  TppUiCommand.AnnounceLogViewLangId"mgo_announce_generic_one_min"
+  end
 function this.TryNotifyBuddyChange(p,e,_,i)
   if SpawnHelpers.initialTeamAssignmentHasHappened==true and p.currentState~="RULESET_STATE_BRIEFING"then
     TppNetworkUtil.SyncedExecuteSessionIndex(_,"Utils","announceBuddyLink",e)
@@ -778,11 +786,14 @@ function this.TryNotifyBuddyChange(p,e,_,i)
 end
 function this.announceBuddyLink(e)
   if e then
-    TppUiCommand.AnnounceLogViewLangId"mgo_announce_buddy_link_start"else
-    TppUiCommand.AnnounceLogViewLangId"mgo_announce_buddy_link_end"end
+    TppUiCommand.AnnounceLogViewLangId"mgo_announce_buddy_link_start"
+    else
+    TppUiCommand.AnnounceLogViewLangId"mgo_announce_buddy_link_end"
+    end
 end
 function this.ClientAnnounceBuddyLink()
-  TppUiCommand.AnnounceLogViewLangId"mgo_announce_buddy_link_start"end
+  TppUiCommand.AnnounceLogViewLangId"mgo_announce_buddy_link_start"
+  end
 function this.HandleSessionDisconnect(e,e)
   if(not MgoMatchMakingManager.IsActualMatchmake())then
     TppNetworkUtil.StopDebugSession()
@@ -1056,7 +1067,8 @@ function this.DrawTutorial(p,_)
       this.TutorialTime=p-5
     else
       if p-this.TutorialTime>8 then
-        TppUiCommand.CallButtonGuide"tutorial_link_action"this.TutorialPhase=2
+        TppUiCommand.CallButtonGuide"tutorial_link_action"
+        this.TutorialPhase=2
         this.TutorialTime=p
       end
     end
@@ -1076,7 +1088,8 @@ function this.DrawTutorial(p,_)
       this.TutorialTime=p-5
     else
       if p-this.TutorialTime>8 then
-        TppUiCommand.CallButtonGuide"tutorial_shortcut_radio"this.TutorialPhase=4
+        TppUiCommand.CallButtonGuide"tutorial_shortcut_radio"
+        this.TutorialPhase=4
         this.TutorialTime=p
         vars.gamePlayTutorialCount=vars.gamePlayTutorialCount+1
       end
@@ -1084,6 +1097,7 @@ function this.DrawTutorial(p,_)
   end
 end
 function this.SetStaminaConfig(p)
-  local e={Stamina={UnconsciousStaminaRegenRate=.35,BasicActionStaminaRegenRate=1,ComplexActionStaminaRegenRate=1,ButtonMashModifier=.75}}p:ReloadRulesetConfig(e)
+  local e={Stamina={UnconsciousStaminaRegenRate=.35,BasicActionStaminaRegenRate=1,ComplexActionStaminaRegenRate=1,ButtonMashModifier=.75}}
+  p:ReloadRulesetConfig(e)
 end
 return this
