@@ -1377,21 +1377,24 @@ function this.SetNextQuestStep(questStep)
   end
 end
 function this.ClearWithSave(clearType,questName)
-  local retryOnClear=Ivars.quest_enableShootingPracticeRetry:Is(1)--tex
   if not questName then
     questName=this.GetCurrentQuestName()
   end
   local questIndex=this.GetQuestIndex(questName)
   if clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR or clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
     this.OnFinishShootingPractice(clearType)
-    --tex> --DEBUGNOW WORKAROUND rather than patching all the functions from OnFinishShootingPractice leading to this
+    --tex> WORKAROUND rather than patching all the functions from OnFinishShootingPractice leading to this
+    local retryOnClear=Ivars.quest_enableShootingPracticeRetry:Is(1)
     if clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR and retryOnClear then
       TppGimmick.EndQuestShootingPractice(TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY)
     end--<
   end
   if clearType==TppDefine.QUEST_CLEAR_TYPE.CLEAR or clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
+    local retryOnClear=false--tex
     if clearType~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
       this.AddStaffsFromTempBuffer()
+    else
+      retryOnClear=Ivars.quest_enableShootingPracticeRetry:Is(1)--tex
     end
     this.Clear(questName,retryOnClear)--tex added retryOnClear
     if clearType~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
