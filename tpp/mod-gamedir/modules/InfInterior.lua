@@ -8,126 +8,141 @@
 
 --REF interior addon module <GameDir>\mod\interiors\ >
 --DEBUGNOW
-local this={
-  description="Interior example: BG Hangar",--description for IH
-  missionCode=30050,--missionCode this is an interior for DEBUGNOW do I want to restrict it like that? its needed at some point, and all the outer exit info is a position in the specific mission
-  packs=function(missionCode)--DEBUGNOW?
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_hanger_minimal_ih.fpk"
-    --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_minimal_void.fpk"
-  end,
-  missionPacks={--tex packs loaded in exterior mission (for missionCode), usually just the 
-    --mbLayoutCode.
-    [0]={"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly003_cl00_ih.fpk",},--DEBUGNOW this fpk not in right place, see area packs mtbs_area_ly003_cl00
-  },
-  --tex switch on mb to enter interior. strictly speaking this doesn't need to have anything to do with the interior
-  enterSwitchLocatorName="ext_enter_switch_cl0_plnt0_hangar_ih",--DEBUGNOW
-  enterSwitchDataSet="/Assets/tpp/level/location/mtbs/block_large/ext_switches_ly03_cl00_ih.fox2",--DEBUGNOW this will be dynamic on vars.layout
-  --tex interior to exterior switch, defined in an interior pack
-  exitSwitchLocatorName="int_exit_switch_mtbs_hanger_test_ih",
-  exitDataSetName="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick_test_ih.fox2",
-  startPos={pos={-11.600,-8.000,8.511},rotY=180},--start position, rotation in interior coordinates
-  startCamera={rotX=-10,rotY=200},--optional, initial camera rotation once warped to interior
-  clusterName="Command",--mb specific, the cluster this interior is supposed to be in
-  plant="plnt0",--mb specific, the plant (platform) the interior is supposed to be in
-  outsideExitPos={pos={-30.980, -7.000, 14.779},rotY=0},--DEBUGNOW in relation to platform center?? see GetPositionOuterInterior
-}
-
+--local this={
+--  description="Interior example: BG Hangar",--description for IH
+--  missionCode=30050,--missionCode this is an interior for DEBUGNOW do I want to restrict it like that? its needed at some point, and all the outer exit info is a position in the specific mission
+--  packs=function(missionCode)--DEBUGNOW?--interior packs
+--    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_hanger_minimal_ih.fpk"
+--    --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_minimal_void.fpk"
+--  end,
+--  missionPacks={--tex packs loaded in exterior mission (for missionCode), usually just the extererior entrance switch
+--    --mbLayoutCode.
+--    [0]={"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly003_cl00_ih.fpk",},--DEBUGNOW this fpk not in right place, see area packs mtbs_area_ly003_cl00
+--  },
+--  --tex switch on mb to enter interior. strictly speaking this doesn't need to have anything to do with the interior
+--  enterSwitchLocatorName="ext_enter_switch_cl0_plnt0_hangar_ih",--DEBUGNOW
+--  enterSwitchDataSet="/Assets/tpp/level/location/mtbs/block_large/ext_switches_ly03_cl00_ih.fox2",--DEBUGNOW this will be dynamic on vars.layout
+--  --tex interior to exterior switch, defined in an interior pack
+--  exitSwitchLocatorName="int_exit_switch_mtbs_hanger_test_ih",
+--  exitDataSetName="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick_test_ih.fox2",
+--  startPos={pos={-11.600,-8.000,8.511},rotY=180},--start position, rotation in interior coordinates
+--  startCamera={rotX=-10,rotY=200},--optional, initial camera rotation once warped to interior
+--  clusterName="Command",--mb specific, the cluster this interior is supposed to be in
+--  plant="plnt0",--mb specific, the plant (platform) the interior is supposed to be in
+--  outsideExitPos={pos={-30.980, -7.000, 14.779},rotY=0},--DEBUGNOW in relation to platform center?? see GetPositionOuterInterior
+--}
 --return this
 --< REF interior addon module
-local interiorInfo=this--DEBUGNOW
-
-InfCore.StrCode32(interiorInfo.enterSwitchLocatorName)--DEBUGNOW add for lookup
-InfCore.StrCode32(interiorInfo.exitSwitchLocatorName)--DEBUGNOW add for lookup
-
-local function AddDataSetToLookup(dataset)--DEBUGNOW TODO add this to inflookup
-  local path32=Fox.PathFileNameCode32(dataset)--DEBUGNOW TODO do a InfCore.PathFileNameCode32 setup like InfCore.StrCode32
-  InfLookup.path32ToDataSetName[path32]=dataset
-end
-
---DEBUGNOW AddDataSetToLookup(interiorInfo.enterSwitchDataSet)
---DEBUGNOW AddDataSetToLookup(interiorInfo.exitSwitchDataSet)
-
---DEBUGNOW
---DEBUGNOW
---hangar interior switch
-local gimmickName="gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001"
-local dataSetName="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
---cluster ? plat0 battlge hangar exterior entrance switch
-local gimmickName="ly003_cl02_item0000|cl02pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001"
-local dataSetName="/Assets/tpp/level/location/mtbs/block_area/ly00" ..tostring(vars.mbLayoutCode) .."/cl02/mtbs_ly00" ..tostring(vars.mbLayoutCode).. "_cl02_item.fox2"
-
-
---DEBUGNOW
-local switchEntries={
-  ["ly003_cl02_item0000|cl02pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001"]={--tex gimmickId is switchEntried Id
-    clusterName="Develop",
-    plant="plnt0",
-    outsideExitPos={pos={-30.980,-7.000,14.779},rotY=180},--DEBUGNOW in relation to platform center?? see GetPositionOuterInterior
-  }
-}
---DEBUGNOW
-local switchConnections={
-  ["ly003_cl02_item0000|cl02pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001"]={
-    interior="some_interior_id",
-  },
-}
---tex then reverse lookup I guess for interior>switchId
-
 
 local this={}
 
 local StrCode32=InfCore.StrCode32
 
+this.infosPath="interiors"
+
+this.names={}
+this.infos={}--[name]=info
+
+--[StrCode32(info.enterSwitchLocatorName)]=info
+--[StrCode32(info.exitSwitchLocatorName)]=info
+this.infoForSwitch={}
+
+--CULL
+--function this.DeclareSVars()
+----  if not   then
+----    return{}
+----  end
+--  local saveVarsList={
+--    interiorId=0,--tex index of interior name, which isn't really safe over sessions if user installs or uninstalls interiors, but we aren't saving while in interior at the moment anyway
+--  }
+--  return TppSequence.MakeSVarsTable(saveVarsList)
+--end--DeclareSVars
+
+function this.PostModuleReload(prevModule)
+  this.LoadLibraries()
+end--PostAllModulesLoad
+
+function this.LoadLibraries()
+  this.LoadInfos()
+  this.RegisterInfos()
+end--LoadLibraries
+
+function this.LoadInfos()
+  --tex load infos
+  local names={}
+  local infos={}
+  
+  local files=InfCore.GetFileList(InfCore.files[this.infosPath],".lua")
+  for i,fileName in ipairs(files)do
+    InfCore.Log("Load info: "..this.infosPath.." "..fileName)
+    InfCore.Log("LoadLibraries "..fileName)
+    local name=InfUtil.StripExt(fileName)
+    local module=InfCore.LoadSimpleModule(InfCore.paths[this.infosPath],fileName)
+    if module==nil then
+    --tex LoadSimpleModule should give the error
+    else
+      --TODO VALIDATE
+      infos[name]=module
+      table.insert(names,name)
+    end--if module
+  end
+  
+  this.names=names
+  this.infos=infos
+end--LoadInteriorInfos
+
+function this.RegisterInfos()
+  for name,info in pairs(this.infos)do
+    this.infoForSwitch[StrCode32(info.enterSwitchLocatorName)]=info
+    this.infoForSwitch[StrCode32(info.exitSwitchLocatorName)]=info
+  end--for infos
+end--RegisterInfos
+
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode<5 then
+  if not InfMain.IsPastTitle(missionCode) then
     return
   end
-  
-  --DEBUGNOW
-  --if has locations installed
-  --DEBUGNOW for interiorName,interiorInfo in pairs(this.locationInfos)do
-  local interiorInfo=interiorInfo
-  
-  if interiorInfo.missionCode ~= missionCode then
-    return
-  end
-  
-  local missionPacks=interiorInfo.missionPacks
-  if missionPacks then
 
-
-    --layout, cluster? how does game add these cluster packs?
-
-
-    if missionCode==30050 then --DEBUGNOW
-        --  table.insert(packPaths,"/Assets/tpp/pack/location/mtbs/pack_area/mtbs_area_ly003_cl00_ih.fpk")
-      missionPacks=missionPacks[vars.mbLayoutCode] or missionPacks[0]
-    end
-    for i,packPath in ipairs(missionPacks)do
-      packPaths[#packPaths+1]=packPath
-    end
-  end--if packs
+  for interiorName,interiorInfo in pairs(this.infos)do
+    if interiorInfo.missionCode==missionCode then
+      local missionPacks=interiorInfo.missionPacks
+      if missionPacks then
+        if missionCode==30050 then
+          missionPacks=missionPacks[vars.mbLayoutCode] or missionPacks[0]--tex layout 0 can act as an all-layouts pack
+        end
+        for i,packPath in ipairs(missionPacks)do
+          packPaths[#packPaths+1]=packPath
+        end
+      end--if packs
+    end--if missionCode
+  end--for infor
 end--AddMissionPacks
---CALLER: missionPackTable[30050]--DEBUGNOW
+--CALLER: missionPackTable[30050] MissionPackLabel "Interior"
 function this.AddInteriorMissionPacks(missionCode)
   --DEBUGNOW get missionCode/ base pack for mission
-  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_base.fpk"
---
-  local interiorInfo=interiorInfo--DEBUGNOW how do we know what interior??
---
+  if missionCode==30050 then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_interior_base.fpk"
+  end
+  --
+  local interiorInfo=this.infos.mtbs_test_hangar--DEBUGNOW how do we know what interior??
+  --
   if type(interiorInfo.packs)=="function"then
     interiorInfo.packs(missionCode)
   end
 end
-
-function this.PushSwitchOnLeave(gameObjectId, locatorNameStr32, name, switchFlag)
+--CALLER: f30050_sequence msg = "SwitchGimmick"
+--REF PushSwitchOnLeaveBattleHanger
+function this.PushSwitchOnLeave(gameObjectId,locatorNameS32,name,switchFlag)
   InfCore.Log"InfInterior.PushSwitchOnLeave"--tex DEBUG
 
-  --DEBUGNOW TODO iterate interiorExitSwitches
-  local interiorInfo=interiorInfo--DEBUGNOW get interior for gameObjectName, name? iteate switches until GimmickGetGameobject==gameobject??
+  local interiorInfo=this.infoForSwitch[locatorNameS32]
+  if interiorInfo==nil then
+    InfCore.Log("ERROR: InfInterior.PushSwitchOnLeave infoForSwitch["..InfLookup.StrCode32ToString(locatorNameS32).." S32]==nil")
+    return false
+  end
 
-  if locatorNameStr32~=StrCode32(interiorInfo.exitSwitchLocatorName) then--DEBUGNOW
-    InfCore.Log("locatorName ~= "..tostring(interiorInfo.exitSwitchLocatorName))--DEBUGNOW
+  if locatorNameS32~=StrCode32(interiorInfo.exitSwitchLocatorName) then
+    InfCore.Log("ERROR: InfInterior.PushSwitchOnLeave locatorName ~= "..tostring(interiorInfo.exitSwitchLocatorName))
     return false
   end
 
@@ -135,7 +150,7 @@ function this.PushSwitchOnLeave(gameObjectId, locatorNameStr32, name, switchFlag
   --  local dataSetName = "/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
   --  local dataName = "mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
   --  Gimmick.BreakGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION, dataName, dataSetName, false)
-  --tex TODO -^- open door sound
+  --tex TODO -^- open door sound, just play at info outsideExitPos?
   --  local soundPos = this.GetPositionInInteriorDoor()
   --  TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_open", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
 
@@ -145,15 +160,15 @@ function this.PushSwitchOnLeave(gameObjectId, locatorNameStr32, name, switchFlag
     OnEndFadeOut=function()
       svars.restartClusterId=TppDefine.CLUSTER_DEFINE[interiorInfo.clusterName]--DEBUGNOW
       TppSequence.ReserveNextSequence("Seq_Game_Setup")
-      local pos,rotY=this.GetPositionOuterInterior(gameObjectId,locatorNameStr32,name,switchFlag)
+      local pos,rotY=this.GetPositionOuterInterior(interiorInfo)
       TppPlayer.SetInitialPosition(pos,rotY)
-      mtbs_cluster.LockCluster(interiorInfo.clusterName)--DEBUGNOW wut
-      svars.isLeaveInterior=true--DEBUGNOW
+      mtbs_cluster.LockCluster(interiorInfo.clusterName)
+      --svars.isLeaveInterior=true--tex ala isLeaveBattleHanger, just to play sfx_m_hanger_door_close OnEndMissionPrepareSequence
     end,
   }
   return true
 end--PushSwitchOnLeave
-
+--CALLER: f30050_sequence msg = "PlayerSwitchStart"
 function this.PlayerSwitchStart(playerGameObjectId, switchGameObjectId)
 --tex just run camera
 --tex exit switch
@@ -201,46 +216,41 @@ function this.SetCameraPushSwitch()
   }
 end--SetCameraPushSwitch
 
---DEBUGNOW not workable as no info as to what interior we exited
---change f30050_sequence.isLeaveInterior to id of what switch
-function this.PlayExteriorDoorClose()
---    local soundPos = this.GetPositionOuterInterior(gameObjectId, gameObjectName, name, switchFlag)
---    TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_close", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
-end--PlayExteriorDoorClose
-
---CALLER: PushSwitchOnLeave
-function this.GetPositionOuterInterior(gameObjectId, gameObjectName, name, switchFlag)
-  --DEBUGNOW TODO: find interior for switch, get exit/outside teleport pos
-  local interiorInfo=interiorInfo--DEBUGNOW
-
-  return mtbs_cluster.GetPosAndRotY( interiorInfo.clusterName, interiorInfo.plant, interiorInfo.outsideExitPos.pos , interiorInfo.outsideExitPos.rotY )
+--CALLER: PushSwitchOnLeave > TppMission.Reload > OnEndFadeOut
+function this.GetPositionOuterInterior(interiorInfo)
+  return mtbs_cluster.GetPosAndRotY(interiorInfo.clusterName,interiorInfo.plant,interiorInfo.outsideExitPos.pos,interiorInfo.outsideExitPos.rotY)
 end--GetPositionOuterInterior
 
 --tex DEBUGNOW need info on what switch or interior it is
+--CALLER: f30050_sequence Seq_Demo_SetupCluster  --UNUSED
 function this.WarpToInterior()
-  TppPlayer.Warp{ pos = {-11.600, -8.000, 8.511}, rotY = 180}
-  Player.RequestToSetCameraRotation{rotX =-10 , rotY = 200 }
+--  TppPlayer.Warp{ pos = {-11.600, -8.000, 8.511}, rotY = 180}
+--  Player.RequestToSetCameraRotation{rotX =-10 , rotY = 200 }
 end
+--tex really PushSwitchToEnterInterior, but keeping naming similar to other uses
+--CALLER: f30050_sequence Seq_Game_MainGame msg = "SwitchGimmick"
+--REF PushSwitchOnEnterBattleHanger
+function this.PushSwitchOnEnter(gameObjectId,locatorNameS32,name,switchFlag)
+  InfCore.LogFlow"PushSwitchOnEnter"
 
-function this.PushSwitchOnEnterInterior(gameObjectId, locatorNameS32, name, switchFlag)
-  InfCore.LogFlow"PushSwitchOnEnterInterior"
+  local interiorInfo=this.infoForSwitch[locatorNameS32]
+  if interiorInfo==nil then
+    InfCore.Log("ERROR: InfInterior.PushSwitchOnEnter infoForSwitch["..InfLookup.StrCode32ToString(locatorNameS32).." S32]==nil")
+    return false
+  end
 
-
-  local interiorInfo=interiorInfo--DEBUGNOW
-
-  --DEBUGNOW check interior switches
   if locatorNameS32~=StrCode32(interiorInfo.enterSwitchLocatorName) then
-    InfCore.Log("locatorNameStr ~= "..interiorInfo.enterSwitchLocatorName)--DEBUGNOW
+    InfCore.Log("ERROR: InfInterior.PushSwitchOnEnter locatorName ~= "..tostring(interiorInfo.enterSwitchLocatorName))
     return false
   end
 
   --DEBUGNOW
   do
-    local triggerDistance = 9.0
-    local pos, rotY = mtbs_cluster.GetPosAndRotY( interiorInfo.clusterName, interiorInfo.plant, interiorInfo.outsideExitPos.pos, 0 )--GOTCHA DEBUGNOW why rotY = 0 instead of interiorInfo.outsideExitPos.rotY???
-    local distance = (pos[1] - vars.playerPosX) * ( pos[1] - vars.playerPosX ) + ( pos[2] - vars.playerPosY ) * (pos[2] - vars.playerPosY) + (pos[3] - vars.playerPosZ) * ( pos[3] - vars.playerPosZ )
-    if distance > triggerDistance then
-      InfCore.Log("WARNING: player > triggerDistance")
+    local triggerDistance=9.0
+    local pos,rotY=mtbs_cluster.GetPosAndRotY(interiorInfo.clusterName,interiorInfo.plant,interiorInfo.outsideExitPos.pos,0)--GOTCHA DEBUGNOW why rotY = 0 instead of interiorInfo.outsideExitPos.rotY???
+    local distance=(pos[1]-vars.playerPosX)*(pos[1]-vars.playerPosX)+(pos[2]-vars.playerPosY)*(pos[2]-vars.playerPosY)+(pos[3]-vars.playerPosZ)*(pos[3]-vars.playerPosZ)
+    if distance>triggerDistance then
+      InfCore.Log("WARNING: player>triggerDistance")
       --DEBUGNOW return
     end
   end
@@ -257,36 +267,33 @@ function this.PushSwitchOnEnterInterior(gameObjectId, locatorNameS32, name, swit
   --
   --  local soundPos = this.GetPositionOuterInteriorDoor()
   --  TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_open", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
-
+  local clusterId=MotherBaseStage.GetCurrentCluster()-- was TppDefine.CLUSTER_DEFINE.Command,
   TppMission.Reload{
-    missionPackLabelName = "Interior",
-    clusterId = TppDefine.CLUSTER_DEFINE[interiorInfo.clusterName],--DEBUGNOW was TppDefine.CLUSTER_DEFINE.Command,--DEBUGNOW
-    OnEndFadeOut = function()
-      svars.restartClusterId = TppDefine.CLUSTER_DEFINE[interiorInfo.clusterName]--DEBUGNOW was TppDefine.CLUSTER_DEFINE.Command--DEBUGNOW
+    missionPackLabelName="Interior",
+    clusterId=clusterId,
+    OnEndFadeOut=function()
+      svars.restartClusterId=clusterId,
       TppSave.ReserveVarRestoreForContinue()
-      this.SetPlayerInitialPositionInInterior()--DEBUGNOW
-      TppSequence.ReserveNextSequence( "Seq_Demo_Interior" )
+      this.SetPlayerInitialPositionInInterior(interiorInfo)
+      TppSequence.ReserveNextSequence"Seq_Game_Interior"
     end,
   }
-  --  else--REF CULL was if not BattleGearDevelop, fun to just have the door buzz
-  --    local playerPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
-  --    local soundPos = playerPos + Quat.RotationY( vars.playerRotY ):Rotate( Vector3(-0.65,0.35,0.3) )
-  --    TppSoundDaemon.PostEvent3D( "sfx_m_door_buzzer", soundPos )
-  --  end
-end--PushSwitchOnEnterInterior
-
---DEBUGNOW need interiorInfo
-function this.SetPlayerInitialPositionInInterior()
-  TppPlayer.SetInitialPosition({-11.600, -8.000, 8.511}, 180 )
-  vars.playerCameraRotation[0] = -10
-  vars.playerCameraRotation[1] = 200
+end--PushSwitchOnEnter
+function this.SetPlayerInitialPositionInInterior(interiorInfo)
+  TppPlayer.SetInitialPosition(interiorInfo.startPos.pos,interiorInfo.startPos.rotY)
+  vars.playerCameraRotation[0]=interiorInfo.startCamera.rotX or 0
+  vars.playerCameraRotation[1]=interiorInfo.startCamera.rotY or 0
 end--SetPlayerInitialPositionInInterior
 
 --DEBUGNOW need interiorInfo
---CALLERS: Seq_Demo_Interior OnEnter, Seq_Game_Interior OnEnter,
+--CALLER: Seq_Game_Interior OnEnter
 function this.SetupInterior()
-  TppWeather.ForceRequestWeather( TppDefine.WEATHER.SUNNY, 0 )
+  TppWeather.ForceRequestWeather(TppDefine.WEATHER.SUNNY,0)
 
+  --DEBUGNOW
+--    local playerPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+--    local soundPos = playerPos + Quat.RotationY( vars.playerRotY ):Rotate( Vector3(0.794681, 0, 0.831533) )
+--    TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_close", soundPos, 'Loading')
   --DEBUGNOW TppDataUtility.SetVector4EffectFromId("BattleHangerDoorLightOnLeave", "Color", 0.0, 1.0, 0.5, 0.5 )--DEBUGNOW
   --DEBUGNOW
   --  TppUiStatusManager.SetStatus( "EquipHud" ,"INVALID")
@@ -296,35 +303,43 @@ function this.SetupInterior()
   --    EquipPanel = false,
   --  }
   --  f30050_sequence.SetEnableQuestUI(false)--DEBUGNOW
+  
+     --DEBUGNOW
+     --if interiorInfo.locationLang then
+    --TppUiCommand.RegistInfoTypingText("lang",5,interiorInfo.locationLang)--DEBUGNOW
+    --TppUiCommand.ShowInfoTypingText() 
+    --end
+
+    this.SetPlayerInitialPositionInInterior(interiorInfo)--tex DEBUGNOW need info on what interior
+    svars.restartClusterId=MotherBaseStage.GetCurrentCluster()   
+
+    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"OnEnterInterior")
+    TppMain.EnableAllGameStatus()
+    this.SetupPadMaskInInterior()
 end--SetupInterior
-
+--Seq_Game_Interior OnEnter
+--DEBUGNOW unused
 function this.SetupPadMaskInInterior()
-  Player.SetPadMask {
-
-    settingName = "Interior",
-
-    except = false,
-
-    buttons = PlayerPad.MB_DEVICE
-    + PlayerPad.HOLD
-    + PlayerPad.RELOAD
-  }
+--  Player.SetPadMask{
+--    settingName = "Interior",
+--    except = false,
+--    buttons = PlayerPad.MB_DEVICE
+--    + PlayerPad.HOLD
+--    + PlayerPad.RELOAD
+--  }
 end--SetupPadMaskInInterior
+--CALLER: Seq_Game_Interior OnLeave
+--terrible name i know
+function this.UnSetupInterior()
+--DEBUGNOW undoes SetupInterior
+    TppWeather.CancelForceRequestWeather()
 
---DEBUGNOW
---CALLER: ?, use?
-function this.GetPositionInInteriorDoor()
-  local pos = {-11.512, -6.922, 10.334}
-  local rotY = 0
-  return mtbs_cluster.GetPosAndRotY( "Command", "plnt0", pos, rotY )
-end--GetPositionInInteriorDoor
-
---DEBUGNOW
---CALLER: ?, use?
-function this.GetPositionOuterInteriorDoor()
-  local pos = {-30.078, -6.922, 15.039 }
-  local rotY = 0
-  return mtbs_cluster.GetPosAndRotY( "Develop", "plnt0", pos , rotY )
-end--GetPositionOuterInteriorDoor
+    --DEBUGNOW  Player.ResetPadMask{settingName = "Interior"}
+    
+    --DEBUGNOW  TppUiStatusManager.UnsetStatus( "EquipHud" ,"INVALID")
+    --DEBUGNOW  TppUiStatusManager.UnsetStatus( "EquipPanel","INVALID")
+    --DEBUGNOW   TppUI.UnsetOverrideFadeInGameStatus()
+    --DEBUGNOW   this.SetEnableQuestUI(true)
+end--UnSetupInterior
 
 return this
