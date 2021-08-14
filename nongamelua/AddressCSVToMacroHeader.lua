@@ -28,6 +28,8 @@ local functionEntries={
   {name="_mainCRTStartup",},
   {name="FoxMain",},
   {name="StrCode64",},
+  {name="FNVHash32",},
+  --{name="FNVHash64",},
   {name="GetFreeRoamLangId",},
   {name="UpdateFOVLerp",},
   {name="UnkSomePrintFunction",note="Some info printing function that has been stubbed out"},
