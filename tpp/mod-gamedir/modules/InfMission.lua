@@ -61,6 +61,7 @@
 --  description="Jade Forest",-- Description for IH menu.
 --  missionCode=12020,
 --  location="AFC0",
+--  hideMission=false,--doesn't add mission to idroid/internal mission list
 --  packs=function(missionCode) -- TppMissionList.missionPackTable entry, can be table of fpk names or function of packlist adding calls.
 --    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
 --    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s13000/s13000_area.fpk"
@@ -93,6 +94,7 @@
 --    },
 --    -- Order box points when mission is highlighted in free mode
 --    missionStartPoint = {Vector3(-218.07,328.03,395.86),Vector3(-381.54,294.27,910.16),},
+--    --GOTCHA: heli routeIds need to be unique across all locations
 --    heliLandPoint = {
 --      {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
 --      {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
@@ -173,8 +175,9 @@ this.debugModule=true--DEBUGNOW
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
 this.missionNames={}--tex see LoadMissionDefs
-this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions()
+this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions(), story missions only not free roam missions
 this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
+this.freeMissionIds={}--tex free roam missions
 
 --tex addon mission added in LoadLibraries,
 this.freeMissionForLocation={
@@ -226,8 +229,8 @@ this.loadAddonMission={
   settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
-    for i,missionCode in pairs(InfMission.missionIds)do
-      self.settings[#self.settings+1]=tostring(missionCode)
+    for missionCode,missionInfo in pairs(this.missionInfo)do
+      table.insert(self.settings,tostring(missionCode))
     end
     table.sort(self.settings)
     IvarProc.SetSettings(self,self.settings)
@@ -276,6 +279,7 @@ function this.PostModuleReload(prevModule)
   this.missionIds=prevModule.missionIds
   this.missionInfo=prevModule.missionInfo
   this.missionListSlotIndices=prevModule.missionListSlotIndices
+  this.freeMissionIds=prevModule.freeMissionIds
   this.freeMissionForLocation=prevModule.freeMissionForLocation
 end
 
@@ -631,6 +635,10 @@ function this.AddInMissions()
       end
       if missionInfo.noBoxMissionStartPosition then
         TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
+      else
+        if missionInfo.isNoOrderBoxMission and missionInfo.startPos then
+          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.startPos
+        end
       end
 
       --tex TODO
@@ -780,11 +788,9 @@ function this.RegisterMissions()
       InfCore.Log("WARNING: No free MISSION_LIST slots")
       break
     else--if not this.IsVanillaMission(missionCode)then--tex OVERKILL, shouldn't be in missionIds in the first place
-      if not TppMission.IsFreeMission(missionCode) then
-        local missionIndex=this.missionListSlotIndices[freeSlot+1]
-        freeSlot=freeSlot+1
-        TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
-      end--not IsFreeMission
+      local missionIndex=this.missionListSlotIndices[freeSlot+1]
+      freeSlot=freeSlot+1
+      TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
     end--not IsVanillaMission
   end--for missionIds
   TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess
@@ -822,13 +828,15 @@ function this.LoadLibraries()
 
   this.missionIds={}--clear
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    if not this.IsVanillaMission(missionCode)then
+    if not this.IsVanillaMission(missionCode) and not TppMission.IsFreeMission(missionCode) and not missionInfo.hideMission then
       table.insert(this.missionIds,missionCode)
     end
   end
   table.sort(this.missionIds)
+  
+  this.RegisterMissions()
 
-
+  this.freeMissionIds={}
   this.freeMissionForLocation={
     [TppDefine.LOCATION_ID.AFGH]=30010,
     [TppDefine.LOCATION_ID.MAFR]=30020,
@@ -836,7 +844,9 @@ function this.LoadLibraries()
   --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
   }
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) then
+    if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) and not missionInfo.hideMission then
+      table.insert(this.freeMissionIds,missionCode)
+      
       local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
       if locationId==nil then
         InfCore.Log("ERROR: InfMission.LoadLibraries: locationId==nil for missionInfo.location:"..tostring(missionInfo.location))
@@ -851,8 +861,6 @@ function this.LoadLibraries()
       end--if locationId
     end
   end--for missionInfo
-
-  this.RegisterMissions()
 
   this.UpdateChangeLocationMenu()
 
