@@ -40,6 +40,17 @@ this.infoType="CHIMERA"
 --  initCustomizedWeapon = { [0] = 856, 790, 573,},
 --  initChimeraParts = { [0] = 199, 46, 64, 17, 9, 38, 4, 3, 4, 0, 4, 0, 155, 83, 109, 35, 17, 33, 16, 0, 0, 0, 0, 0, 10, 5, 6, 0, 0, 1, 0, 0, 2, 0, 0, 0,},
 
+--REF chimeraInfo
+--local this={
+--  infoType="CHIMERA",
+--  colorIndex=0,
+--  category="HANDGGUN",
+--  paintType=0,
+--  weaponId=50,
+--  parts={40,18,28,0,0,0,0,0,0,6,0,0},
+--}--this
+--return this
+
 this.names={}
 this.infos={}
 
@@ -78,6 +89,14 @@ this.parts={
   "underBarrelAmmo",
 }--parts
 this.partsEnum=Tpp.Enum(this.parts)
+
+local infoVarOrder={
+  "category",
+  "weaponId",
+  "parts",
+  "colorIndex",
+  "paintType",
+}
 
 function this.PostAllModulesLoad(isReload)
   if isReload then
@@ -122,22 +141,43 @@ function this.BuildSaveText(saveName,infoType,info)
     "local this={",
   }
   table.insert(saveTextList,'\tinfoType="'..infoType..'",')
-
-  for varName,value in pairs(info)do
+  for i,varName in ipairs(infoVarOrder)do
+    local value=info[varName]
     if type(value)=="table"then
-      saveTextList[#saveTextList+1]='\t'..varName..'={'..table.concat(value,',')..'},'
+      if varName=="parts"then
+        saveTextList[#saveTextList+1]='\t'..varName..'={'
+        for j,partName in ipairs(this.parts)do
+          local aValue=value[j]
+          local enumStr=this.VarToTppEquipEnumStr(partName,aValue) or aValue
+          saveTextList[#saveTextList+1]='\t\t'..enumStr..',--'..partName
+        end
+        saveTextList[#saveTextList+1]='\t},--parts'
+      else
+        saveTextList[#saveTextList+1]='\t'..varName..'={'..table.concat(value,',')..'},'
+      end
     elseif type(value)=="string"then
       saveTextList[#saveTextList+1]='\t'..varName..'="'..value..'",'
     else
-      saveTextList[#saveTextList+1]='\t'..varName..'='..value..','
+      local enumStr=this.VarToTppEquipEnumStr(varName,value) or value
+      saveTextList[#saveTextList+1]='\t'..varName..'='..enumStr..','
     end
-  end
-
+  end 
   saveTextList[#saveTextList+1]="}--this"
   saveTextList[#saveTextList+1]="return this"
 
   return saveTextList
 end--BuildSaveText
+function this.VarToTppEquipEnumStr(varName,value)
+  local prefix=InfLookup.tppEquipPrefix[varName]
+  if prefix~=nil then
+    local enumName=InfLookup.TppEquip[varName][value]
+    if enumName==nil then
+      InfCore.Log("WARNING: InfChimera.VarToTppEquipEnumStr: no enumname found for InfLookup.TppEnum."..varName.."["..tostring(value).."]")
+    else
+      return "TppEquip."..enumName
+    end
+  end
+end--VarToTppEquipEnum
 function this.VarsToInfo(category,slot)
   local info={}
 
@@ -171,6 +211,16 @@ function this.SaveVars(saveName,infoType,category,slot)
   InfCore.Log("Saved "..saveName,true,true)--TODO  lang
 end--SaveVars
 function this.LoadVars(saveName,category,slot)
+  local fileName=saveName..".lua"
+  local module=InfCore.LoadSimpleModule(InfCore.paths[this.infosPath],fileName)
+  if module==nil then
+  --tex LoadSimpleModule should give the error
+  else
+    --TODO VALIDATE
+    this.infos[saveName]=module
+    --table.insert(this.names,name)
+  end--if module
+  --
   local info=this.infos[saveName]
   --tex should be filtered before even getting to this point
   if info.category~=this.weaponCategoriesEnum[category+1] then
