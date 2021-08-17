@@ -469,6 +469,7 @@ function this.BuildGameClassEnumNameLookup(gameClassName,enumNames)
 end
 
 --tex assumes gameclass has lua readable enum names like TppDamage, and not whatever index fancyness gameclasses like ScritBlock do
+--GOTCHA: filter is exact match prefix, ie must match from start of string
 function this.BuildDirectGameClassEnumLookup(gameClassName,filter,exclude)
   InfCore.LogFlow("InfLookup.BuildGameClassEnumNameLookup: "..gameClassName.." "..tostring(filter))
 
@@ -496,7 +497,7 @@ function this.BuildDirectGameClassEnumLookup(gameClassName,filter,exclude)
         end
       end
     
-      if string.find(k,filter)~=nil and not doExclude then
+      if string.find(k,filter)==1 and not doExclude then
         if enumToName[v] then
           InfCore.Log("WARNING: InfLookup.BuildDirectGameClassEnumLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
           enumToName[v]=enumToName[v].."|"..k
