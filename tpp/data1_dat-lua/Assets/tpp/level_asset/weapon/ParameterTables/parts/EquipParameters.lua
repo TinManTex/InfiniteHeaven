@@ -6,7 +6,7 @@ local this={}
 this.equipParameterTables={
   gunBasic={
     1,--NMC these first entry numbers seem to define table format, see what seems to be an older EquipParameters.lua (in Tpp/Scripts/Equip/) that only loads if this file doesnt exist
-    --{weaponId,recieverId,barrelId,ammoId,stockId,muzzleId,muzzleOptionId,scope1Id (upper scope slot), scope2Id, laser/flash1,laser/flash2, underbarrelId,weaponGrade}
+    --{weaponId,recieverId,barrelId,ammoId,stockId,muzzleId,muzzleOptionId,scope1Id (upper scope slot), scope2Id, underbarrelId, laser/flash1,laser/flash2,weaponGrade}
     {TppEquip.WP_10001,TppEquip.RC_10001,TppEquip.BA_10001,TppEquip.AM_10001,TppEquip.SK_None,TppEquip.MZ_None,TppEquip.MO_None,TppEquip.ST_None,TppEquip.ST_None,TppEquip.UD_None,TppEquip.LT_None,TppEquip.LT_None,1},
     {TppEquip.WP_10002,TppEquip.RC_10001,TppEquip.BA_10001,TppEquip.AM_10001,TppEquip.SK_None,TppEquip.MZ_None,TppEquip.MO_10002,TppEquip.ST_None,TppEquip.ST_None,TppEquip.UD_None,TppEquip.LT_None,TppEquip.LT_None,2},
     {TppEquip.WP_10003,TppEquip.RC_10003,TppEquip.BA_10001,TppEquip.AM_10003,TppEquip.SK_None,TppEquip.MZ_None,TppEquip.MO_10002,TppEquip.ST_None,TppEquip.ST_None,TppEquip.UD_None,TppEquip.LT_10102,TppEquip.LT_None,3},
