@@ -61,7 +61,7 @@
 --  description="Jade Forest",-- Description for IH menu.
 --  missionCode=12020,
 --  location="AFC0",
---  hideMission=false,--doesn't add mission to idroid/internal mission list
+--  hideMission=false,--doesn't add mission to idroid/internal mission list (so no mission completion/ranking saved)
 --  packs=function(missionCode) -- TppMissionList.missionPackTable entry, can be table of fpk names or function of packlist adding calls.
 --    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
 --    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s13000/s13000_area.fpk"
@@ -621,11 +621,12 @@ function this.AddInMissions()
       local locationMissions=TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location] or {}
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
-
-      if missionInfo.startPos then
-        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=missionInfo.startPos
+      
+      local startPos=missionInfo.startPos and missionInfo.startPos.pos or missionInfo.startPos
+      local rotY=missionInfo.startPos and missionInfo.startPos[4] or missionInfo.startPos.rotY
+      if startPos then
+        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=startPos
       end
-
       --tex TODO: add to format
       --tex indicates that theres no free roam mission box start (there are 7 of these in vanilla)
       --see also AddOrderBoxInfoToFreeRoam
@@ -633,11 +634,12 @@ function this.AddInMissions()
         InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
         TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
       end
-      if missionInfo.noBoxMissionStartPosition then
+      if missionInfo.noBoxMissionStartPosition then--tex shouldn't really be used, use startPos instead 
         TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
       else
-        if missionInfo.isNoOrderBoxMission and missionInfo.startPos then
-          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.startPos
+        if missionInfo.isNoOrderBoxMission and startPos then
+          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=startPos
+          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode][4]=rotY
         end
       end
 
