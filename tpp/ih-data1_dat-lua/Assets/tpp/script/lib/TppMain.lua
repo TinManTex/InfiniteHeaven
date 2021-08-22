@@ -697,6 +697,7 @@ local function HasHeliRoute()
 end
 --NMC from MISSION_FINALIZE
 local function LoadingPositionToHeliSpace()
+  InfCore.LogFlow"LoadingPositionToHeliSpace"--tex
   TppHelicopter.ResetMissionStartHelicopterRoute()
   TppPlayer.ResetInitialPosition()
   TppPlayer.ResetMissionStartPosition()
@@ -706,6 +707,7 @@ local function LoadingPositionToHeliSpace()
 end
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
+  InfCore.LogFlow"LoadingPositionFromHeliSpace"--tex
   if HasHeliRoute() then
     --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
@@ -728,7 +730,15 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
         igvars.mis_isGroundStart=true
       end
       local pos=groundStartPosition.pos
-      local rotY=groundStartPosition.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest
+      InfCore.PrintInspect(groundStartPosition,"groundStartPosition")--DEBUG
+      local rotY=groundStartPosition.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest cp center
+      if pos==nil then
+        InfCore.Log("ERROR: TppMain LoadingPositionFromHeliSpace pos==nil for "..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--
+      elseif groundStartPosition.rotY==nil then
+        --tex point toward lookPos
+        local lookPos={0,0,0}--tex DEBUGNOW or closest CP (are entities loaded at this point in execution?)
+        rotY=InfUtil.YawTowardsLookpos(pos,lookPos) 
+      end
       mvars.mis_helicopterMissionStartPosition=pos
       TppPlayer.SetInitialPosition(pos,rotY)
       TppPlayer.SetMissionStartPosition(pos,rotY)
@@ -747,9 +757,10 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
   TppPlayer.ResetNoOrderBoxMissionStartPosition()
   TppMission.SetIsStartFromHelispace()
   TppMission.ResetIsStartFromFreePlay()
-end
---NMC from MISSION_FINALIZE, not from helispace
-local function LoadingPositionToFree()
+end--LoadingPositionFromHeliSpace
+--NMC from MISSION_FINALIZE, not from helispace, to a free mission
+local function LoadingPositionToFree(nextIsFreeMission)
+  InfCore.LogFlow"LoadingPositionToFree"--tex
   if TppLocation.IsMotherBase()then
     TppPlayer.SetStartStatusRideOnHelicopter()
   else
@@ -770,7 +781,7 @@ local function LoadingPositionToFree()
     TppMission.SetIsStartFromHelispace()
     TppMission.ResetIsStartFromFreePlay()
   end--^
-  if HasHeliRoute() then--tex startOnFoot zoo/ward transfer>
+  if HasHeliRoute() then--tex startOnFoot zoo/ward transfer, heliLandPoint>
     local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
     local isAssaultLz=TppLandingZone.IsAssaultDropLandingZone(gvars.heli_missionStartRoute)
     local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz) and TppMission.GetMissionClearType()~=TppDefine.MISSION_CLEAR_TYPE.FORCE_GO_TO_MB_ON_SIDE_OPS_CLEAR
@@ -782,8 +793,56 @@ local function LoadingPositionToFree()
       TppPlayer.SetInitialPosition(pos,rotY)
       TppPlayer.SetMissionStartPosition(pos,rotY)
     end
+  elseif nextIsFreeMission then--tex doesn't happen in vanilla, but we supporting it
+    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
+    local noHeliMissionStartPos=TppDefine.NO_HELICOPTER_MISSION_START_POSITION[vars.missionCode]
+    if noHeliMissionStartPos then
+      TppPlayer.SetInitialPosition(noHeliMissionStartPos,0)
+      TppPlayer.SetMissionStartPosition(noHeliMissionStartPos,0)
+    end
   end--<
-end
+end--LoadingPositionToFree
+--NMC from MISSION_FINALIZE
+local function LoadingPositionFromMBFree()
+  if HasHeliRoute() then
+    TppPlayer.SetStartStatusRideOnHelicopter()
+  else
+    TppPlayer.ResetInitialPosition()
+    TppPlayer.ResetMissionStartPosition()
+  end
+  TppPlayer.ResetNoOrderBoxMissionStartPosition()
+  TppMission.SetIsStartFromHelispace()
+  TppMission.ResetIsStartFromFreePlay()
+end--LoadingPositionFromMBFree
+--NMC from MISSION_FINALIZE
+local function LoadingPositionFromFree()
+  if mvars.mis_orderBoxName then
+    TppMission.SetMissionOrderBoxPosition()
+    TppPlayer.ResetNoOrderBoxMissionStartPosition()
+  else
+    TppPlayer.ResetInitialPosition()
+    TppPlayer.ResetMissionStartPosition()
+    local posrot=TppDefine.NO_BOX_MISSION_START_POSITION[vars.missionCode]--tex was local table, shifted to TppDegine
+    if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and posrot then
+      TppPlayer.SetNoOrderBoxMissionStartPosition(posrot,posrot[4])
+    else
+      TppPlayer.ResetNoOrderBoxMissionStartPosition()
+    end
+  end
+  local noOrderFixHeliRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
+  if noOrderFixHeliRoute then
+    TppPlayer.SetStartStatusRideOnHelicopter()
+    TppMission.SetIsStartFromHelispace()
+    TppMission.ResetIsStartFromFreePlay()
+  else
+    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
+    TppHelicopter.ResetMissionStartHelicopterRoute()
+    TppMission.ResetIsStartFromHelispace()
+    TppMission.SetIsStartFromFreePlay()
+  end
+  local missionClearType=TppMission.GetMissionClearType()
+  TppQuest.SpecialMissionStartSetting(missionClearType)
+end--LoadingPositionFromFree
 --
 local loadPositionFuncs={}
 --
@@ -793,62 +852,12 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
   elseif isHeliSpace then
     LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
   elseif nextIsFreeMission then
-    LoadingPositionToFree()
+    LoadingPositionToFree(nextIsFreeMission)
   elseif(isFreeMission and TppLocation.IsMotherBase())then
-    if HasHeliRoute() then
-      TppPlayer.SetStartStatusRideOnHelicopter()
-    else
-      TppPlayer.ResetInitialPosition()
-      TppPlayer.ResetMissionStartPosition()
-    end
-    TppPlayer.ResetNoOrderBoxMissionStartPosition()
-    TppMission.SetIsStartFromHelispace()
-    TppMission.ResetIsStartFromFreePlay()
+    LoadingPositionFromMBFree()
   else
     if isFreeMission then
-      if mvars.mis_orderBoxName then
-        TppMission.SetMissionOrderBoxPosition()
-        TppPlayer.ResetNoOrderBoxMissionStartPosition()
-      else
-        TppPlayer.ResetInitialPosition()
-        TppPlayer.ResetMissionStartPosition()
-        --tex shifted to TppDefine
-        --ORIG
-        --        local noBoxMissionStartPos={
-        --          [10020]={1449.3460693359,339.18698120117,1467.4300537109,-104},
-        --          [10050]={-1820.7060546875,349.78659057617,-146.44400024414,139},
-        --          [10070]={-792.00512695313,537.3740234375,-1381.4598388672,136},
-        --          [10080]={-439.28802490234,-20.472593307495,1336.2784423828,-151},
-        --          [10140]={499.91635131836,13.07358455658,1135.1315917969,79},
-        --          [10150]={-1732.0286865234,543.94067382813,-2225.7587890625,162},
-        --          [10260]={-1260.0454101563,298.75305175781,1325.6383056641,51}
-        --        }
-        --        noBoxMissionStartPos[11050]=noBoxMissionStartPos[10050]
-        --        noBoxMissionStartPos[11080]=noBoxMissionStartPos[10080]
-        --        noBoxMissionStartPos[11140]=noBoxMissionStartPos[10140]
-        --        noBoxMissionStartPos[10151]=noBoxMissionStartPos[10150]
-        --        noBoxMissionStartPos[11151]=noBoxMissionStartPos[10150]
-        --        local posrot=noBoxMissionStartPos[vars.missionCode]
-        local posrot=TppDefine.NO_BOX_MISSION_START_POSITION[vars.missionCode]
-        if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and posrot then
-          TppPlayer.SetNoOrderBoxMissionStartPosition(posrot,posrot[4])
-        else
-          TppPlayer.ResetNoOrderBoxMissionStartPosition()
-        end
-      end
-      local noOrderFixHeliRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
-      if noOrderFixHeliRoute then
-        TppPlayer.SetStartStatusRideOnHelicopter()
-        TppMission.SetIsStartFromHelispace()
-        TppMission.ResetIsStartFromFreePlay()
-      else
-        TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
-        TppHelicopter.ResetMissionStartHelicopterRoute()
-        TppMission.ResetIsStartFromHelispace()
-        TppMission.SetIsStartFromFreePlay()
-      end
-      local missionClearType=TppMission.GetMissionClearType()
-      TppQuest.SpecialMissionStartSetting(missionClearType)
+      LoadingPositionFromFree()
     else
       --NMC not free mission
       TppPlayer.ResetInitialPosition()

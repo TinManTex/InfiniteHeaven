@@ -343,5 +343,11 @@ end--From1Dto3D
 function this.From2Dto1D(x,y,xMax)
   return (y*xMax)+x
 end--From3Dto1D
+--{x,y,z} vectors
+function this.YawTowardsLookPos(pos,lookPos)
+  local dirVec=Vector3(lookPos[1]-pos[1],0,lookPos[3]-pos[3])
+  dirVec=dirVec:Normalize()
+  return TppMath.RadianToDegree(foxmath.Atan2(dirVec:GetX(),dirVec:GetZ()))  
+end
 
 return this
