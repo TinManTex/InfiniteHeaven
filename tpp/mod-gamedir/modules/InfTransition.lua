@@ -169,7 +169,12 @@ function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
 --  }
   local startPos=transitionInfo.startPos.pos or transitionInfo.startPos
   if startPos then
-    startPos[4]=transitionInfo.startPos.rotY or startPos[4]
+    local rotY=transitionInfo.startPos.rotY or startPos[4]
+    if transitionInfo.clusterName then
+      startPos,rotY=this.GetMBPosAndRotY(transitionInfo.clusterName,transitionInfo.plant,startPos,rotY)
+    end
+    startPos[4]=rotY
+    
     mvars.mis_transitionMissionStartPosition=startPos
     InfCore.PrintInspect(transitionInfo.startPos,"transitionInfo.startPos")--DEBUGNOW
     InfCore.PrintInspect(mvars.mis_transitionMissionStartPosition,"mis_transitionMissionStartPosition")--DEBUGNOW
@@ -235,15 +240,40 @@ function this.SetCameraPushSwitch()
   }
 end--SetCameraPushSwitch
 
---CALLER: PushSwitchOnLeave > TppMission.Reload > OnEndFadeOut
-function this.GetPositionOuterInterior(transferInfo)
-  return mtbs_cluster.GetPosAndRotY(transferInfo.clusterName,transferInfo.plant,transferInfo.startPos.pos,transferInfo.startPos.rotY)
-end--GetPositionOuterInterior
-
-function this.SetPlayerInitialPositionInInterior(transferInfo)
-  TppPlayer.SetInitialPosition(transferInfo.startPos.pos,transferInfo.startPos.rotY)
-  vars.playerCameraRotation[0]=transferInfo.startCamera.rotX or 0
-  vars.playerCameraRotation[1]=transferInfo.startCamera.rotY or 0
-end--SetPlayerInitialPositionInInterior
+--WORKAROUND mtbs_cluster only loaded with mtbs
+local CLUSTER_INDEX = {}
+for i,clusterName in ipairs(TppDefine.CLUSTER_NAME) do
+  CLUSTER_INDEX[clusterName] = i
+end
+local PLNT_INDEX = {
+  plnt0 = 0,
+  plnt1 = 1,
+  plnt2 = 2,
+  plnt3 = 3,
+}
+function this.GetDemoCenter( clusterName, plntName )
+  if clusterName then
+    local clusterId = CLUSTER_INDEX[clusterName] - 1
+    local plntId = 0
+    if plntName then
+      if Tpp.IsTypeString(plntName) then
+        plntId = PLNT_INDEX[plntName]
+      elseif Tpp.IsTypeNumber( plntName ) then
+        plntId = plntName
+      end
+    end
+    return MotherBaseStage.GetDemoCenter( clusterId, plntId )
+  else
+    return MotherBaseStage.GetDemoCenter()
+  end
+end
+--GetPosAndRotY
+function this.GetMBPosAndRotY( clusterName, plntName, pos, rotY )
+  local plntCenterPos, rotQuat = this.GetDemoCenter( clusterName, plntName )
+  local posVec = plntCenterPos + rotQuat:Rotate( Vector3(pos[1],pos[2],pos[3]) )
+  local retPos = { posVec:GetX(), posVec:GetY(), posVec:GetZ() }
+  local retRotY = rotY + Tpp.GetRotationY( rotQuat )
+  return retPos, retRotY
+end
 
 return this
