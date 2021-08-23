@@ -167,6 +167,14 @@ function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
 --      --svars.isLeaveInterior=true--tex ala isLeaveBattleHanger, just to play sfx_m_hanger_door_close OnEndMissionPrepareSequence
 --    end,
 --  }
+  local startPos=transitionInfo.startPos.pos or transitionInfo.startPos
+  if startPos then
+    startPos[4]=transitionInfo.startPos.rotY or startPos[4]
+    mvars.mis_transitionMissionStartPosition=startPos
+    InfCore.PrintInspect(transitionInfo.startPos,"transitionInfo.startPos")--DEBUGNOW
+    InfCore.PrintInspect(mvars.mis_transitionMissionStartPosition,"mis_transitionMissionStartPosition")--DEBUGNOW
+  end
+  
   local clusterId
   if transitionInfo.clusterName then
     clusterId=TppDefine.CLUSTER_DEFINE[transitionInfo.clusterName]
