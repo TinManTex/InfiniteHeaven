@@ -329,6 +329,7 @@ function this.SelectNextMissionHeliStartRoute(missionCode,heliRoute,startFobSnea
     gvars.heli_missionStartRoute=heliRoute
   end
 end
+--CALLER: msg="MbDvcActHeliLandStartPos"
 function this.SetHelicopterMissionStartPosition(set,x,y,z)
   if set==1 then
     mvars.mis_helicopterMissionStartPosition={x,y,z}
@@ -3040,9 +3041,9 @@ function this.SetFobPlayerStartPoint()
   local locatorName=""
   if TppNetworkUtil.IsHost()==false then
     locatorName="player_locator_clst"..(cluster.."_plnt0_df0")
-    local pos,rot=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
+    local pos,rotY=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
     if pos then
-      TppPlayer.SetInitialPosition(pos,rot)
+      TppPlayer.SetInitialPosition(pos,rotY)
       return true
     end
     return false
