@@ -200,7 +200,7 @@ function this.SetNoOrderBoxMissionStartPosition(pos,rotY)
   gvars.ply_missionStartPosForNoOrderBox[0]=pos[1]
   gvars.ply_missionStartPosForNoOrderBox[1]=pos[2]
   gvars.ply_missionStartPosForNoOrderBox[2]=pos[3]
-  gvars.ply_missionStartRotForNoOrderBox=rotY
+  gvars.ply_missionStartRotForNoOrderBox=pos[4] or rotY or 0--tex was =rotY
 end
 function this.SetNoOrderBoxMissionStartPositionToCurrentPosition()
   gvars.ply_useMissionStartPosForNoOrderBox=true
@@ -214,7 +214,7 @@ function this.SetMissionStartPosition(pos,rotY)
   gvars.ply_missionStartPos[0]=pos[1]
   gvars.ply_missionStartPos[1]=pos[2]
   gvars.ply_missionStartPos[2]=pos[3]
-  gvars.ply_missionStartRot=rotY
+  gvars.ply_missionStartRot=pos[4] or rotY or 0--tex was =rotY
 end
 function this.ResetMissionStartPosition()
   gvars.ply_useMissionStartPos=false
@@ -267,12 +267,12 @@ function this.SetInitialPositionToCurrentPosition()
   vars.initialPlayerPosZ=vars.playerPosZ
   vars.initialPlayerRotY=vars.playerRotY
 end
-function this.SetInitialPosition(position,rotation)
+function this.SetInitialPosition(pos,rotY)
   vars.initialPlayerFlag=PlayerFlag.USE_VARS_FOR_INITIAL_POS
-  vars.initialPlayerPosX=position[1]
-  vars.initialPlayerPosY=position[2]
-  vars.initialPlayerPosZ=position[3]
-  vars.initialPlayerRotY=rotation
+  vars.initialPlayerPosX=pos[1]
+  vars.initialPlayerPosY=pos[2]
+  vars.initialPlayerPosZ=pos[3]
+  vars.initialPlayerRotY=pos[4] or rotY or 0--tex was =rotY
 end
 function this.SetInitialPositionFromMissionStartPosition()
   if gvars.ply_useMissionStartPos then
