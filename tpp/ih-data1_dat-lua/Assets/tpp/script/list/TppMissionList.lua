@@ -725,9 +725,9 @@ this.missionPackTable[30050]=function(missionCode)
       isUseMBDemoStage=true
       TppDemo.SetNextMBDemo(nil)
     end
-    --tex INTERIOR>
+    --tex INTERIOR> WIP
     if TppPackList.IsMissionPackLabel"Interior" then
-      InfInterior.AddInteriorMissionPacks(missionCode)    
+      --InfInterior.AddInteriorMissionPacks(missionCode)    
       gvars.f30050_missionPackIndex=3--tex f30050_sequence STAGE_PACK_INDEX.INTERIOR
     --<
     elseif TppPackList.IsMissionPackLabel"BattleHanger"or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())then  
