@@ -258,10 +258,6 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
-
   if InfMain.IsSafeSpace(missionCode) then
     return
   end

@@ -45,10 +45,6 @@ this.langForCpType={
 }--langForCpType
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
-  
   local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionCode)
   local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionCode)
   

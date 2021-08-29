@@ -265,10 +265,6 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
-  
   --GOTCHA: mb only
   if not InfMainTpp.IsMbEvent(missionCode) then
     return

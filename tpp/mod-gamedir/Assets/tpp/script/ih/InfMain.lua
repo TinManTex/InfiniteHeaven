@@ -217,10 +217,15 @@ function this.OnInitializeBottom(missionTable)
 end
 
 --CALLER: TppMissionList.GetMissionPackagePath
---IN/OUT packPath
+--IN/OUT packPath  
+--tex GOTCHA: will need another method if want to add missionpacks earlier than title
 function this.AddMissionPacks(missionCode,packPaths)
   InfCore.LogFlow("InfMain.AddMissionPacks "..missionCode)
   if this.IsOnlineMission(missionCode)then
+    return
+  end
+
+  if not this.IsPastTitle(missionCode) then
     return
   end
 
