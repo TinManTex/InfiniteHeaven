@@ -218,7 +218,7 @@ local questInfoTable={
   --[[155]]{questName="mtbs_q42060",questId="mtbs_q42060",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Spy,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
   --[[156]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
   --[[157]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-}
+}--questInfoTable
 
 --TABLESETUP
 --tex various lookup tables>
@@ -368,7 +368,7 @@ this.questCompleteLangIds={--tex made module local
   mtbs_q42060="quest_target_eliminate",
   mtbs_q42070="quest_target_eliminate",
   mtbs_q42010="quest_target_eliminate"
-}
+}--questCompleteLangIds
 local keyItems={
   tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,
   field_q80020=TppMotherBaseManagementConst.PHOTO_1007,
@@ -1297,10 +1297,29 @@ function this.SpecialMissionStartSetting(missionClearType)
     TppMission.SetIsStartFromFreePlay()
   end
 end
+--tex REWORKED only vanilla use was list of questNames 
 function this.RegisterCanActiveQuestListInMission(allowedQuests)
-  mvars.qst_canActiveQuestList=allowedQuests
-end
-
+  if allowedQuests then
+    local quests=mvars.qst_canActiveQuestList or {}
+    mvars.qst_canActiveQuestList=quests
+  
+    if type(allowedQuests)=="table"then
+      for k,v in pairs(allowedQuests)do
+        if type(v)=="string"then--tex original usage as a list
+          quests[v]=true
+        else
+          quests[k]=true
+        end
+      end--for allowedQuests
+    elseif type(allowedQuests)=="string"then
+      quests[allowedQuests]=true
+    end--if table
+  end--if allowedQuests
+end--RegisterCanActiveQuestListInMission
+--ORIG
+--function this.RegisterCanActiveQuestListInMission(allowedQuests)
+--  mvars.qst_canActiveQuestList=allowedQuests
+--end
 --NMC CALLER: quest script OnAllocate
 function this.RegisterQuestStepList(questStepNames)
   if not IsTypeTable(questStepNames)then
@@ -2702,11 +2721,13 @@ function this.CanActiveQuestInMission(missionCode,questName)
     return true
   else
     if mvars.qst_canActiveQuestList then
-      for i,_questName in ipairs(mvars.qst_canActiveQuestList)do
-        if _questName==questName then
-          return true
-        end
-      end
+      return mvars.qst_canActiveQuestList[questName]--tex changed to key,bool table
+    --ORIG
+--      for i,_questName in ipairs(mvars.qst_canActiveQuestList)do
+--        if _questName==questName then
+--          return true
+--        end
+--      end
     end
     return false
   end
