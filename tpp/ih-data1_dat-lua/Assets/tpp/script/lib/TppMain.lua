@@ -706,7 +706,7 @@ local function LoadingPositionToHeliSpace()
   TppMission.ResetIsStartFromFreePlay()
 end
 --NMC from MISSION_FINALIZE
-local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
+local function LoadingPositionFromHeliSpace(nextIsFreeMission,fromFreeMission)
   InfCore.LogFlow"LoadingPositionFromHeliSpace"--tex
   if HasHeliRoute() then
     --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
@@ -721,7 +721,7 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
     local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
     local isAssaultLz=TppLandingZone.IsAssaultDropLandingZone(gvars.heli_missionStartRoute)
     local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
-    local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or isFreeMission)
+    local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or fromFreeMission)
     if startOnFoot then
       TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
       --TppHelicopter.ResetMissionStartHelicopterRoute()
@@ -759,7 +759,7 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
   TppMission.ResetIsStartFromFreePlay()
 end--LoadingPositionFromHeliSpace
 --NMC from MISSION_FINALIZE, not from helispace, to a free mission
-local function LoadingPositionToFree(isFreeMission)
+local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
   InfCore.LogFlow"LoadingPositionToFree"--tex
   if TppLocation.IsMotherBase()then
     TppPlayer.SetStartStatusRideOnHelicopter()
@@ -793,7 +793,7 @@ local function LoadingPositionToFree(isFreeMission)
       TppPlayer.SetInitialPosition(pos,0)
       TppPlayer.SetMissionStartPosition(pos,0)
     end
-  elseif isFreeMission then--tex shouldn't happen in vanilla, but we supporting it for more map transitions
+  elseif fromFreeMission then--tex shouldn't happen in vanilla, but we supporting it for more map transitions
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     if mvars.mis_transitionMissionStartPosition then
       TppPlayer.SetInitialPosition(mvars.mis_transitionMissionStartPosition,0)
@@ -808,7 +808,7 @@ local function LoadingPositionToFree(isFreeMission)
   end--<
 end--LoadingPositionToFree
 --NMC from MISSION_FINALIZE
-local function LoadingPositionFromMBFree()
+local function LoadingPositionFromFreeToMB()
   if HasHeliRoute() then
     TppPlayer.SetStartStatusRideOnHelicopter()
   else
@@ -818,7 +818,7 @@ local function LoadingPositionFromMBFree()
   TppPlayer.ResetNoOrderBoxMissionStartPosition()
   TppMission.SetIsStartFromHelispace()
   TppMission.ResetIsStartFromFreePlay()
-end--LoadingPositionFromMBFree
+end--LoadingPositionFromFreeToMB
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromFree()
   if mvars.mis_orderBoxName then
@@ -859,7 +859,7 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
   elseif nextIsFreeMission then
     LoadingPositionToFree(isFreeMission)
   elseif(isFreeMission and TppLocation.IsMotherBase())then
-    LoadingPositionFromMBFree()
+    LoadingPositionFromFreeToMB()
   else
     if isFreeMission then
       LoadingPositionFromFree()
@@ -874,7 +874,7 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
   end
 end
 --
-loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
   TppPlayer.ResetInitialPosition()
   TppHelicopter.ResetMissionStartHelicopterRoute()
   TppMission.ResetIsStartFromHelispace()
@@ -904,11 +904,11 @@ end
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
 --NMC: tex most commonly only called with just missionLoadType, so the params are really just specific to the call with the missionLoadType that actually passes them in.
-function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+function this.ReservePlayerLoadingPosition(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
   igvars.mis_isGroundStart=false--tex WORKAROUND
   this.DisableGameStatus()
-  loadPositionFuncs[missionLoadType](missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)--tex broke out from this functions
-  if isHeliSpace and isLocationChange then
+  loadPositionFuncs[missionLoadType](missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)--tex broke out from this functions
+  if fromHeliSpace and isLocationChange then
     Mission.AddLocationFinalizer(function()this.StageBlockCurrentPosition()end)
   else
     this.StageBlockCurrentPosition()
