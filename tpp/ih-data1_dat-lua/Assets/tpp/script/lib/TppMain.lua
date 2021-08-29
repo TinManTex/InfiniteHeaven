@@ -787,7 +787,7 @@ local function LoadingPositionFromFreeToMB()
   TppMission.ResetIsStartFromFreePlay()
 end--LoadingPositionFromFreeToMB
 --NMC from MISSION_FINALIZE
-local function LoadingPositionFromFree()
+local function LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
   if mvars.mis_orderBoxName then
     TppMission.SetMissionOrderBoxPosition()
     TppPlayer.ResetNoOrderBoxMissionStartPosition()
@@ -827,17 +827,15 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
     LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
   elseif(fromFreeMission and TppLocation.IsMotherBase())then
     LoadingPositionFromFreeToMB()
+  elseif fromFreeMission then
+    LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
   else
-    if fromFreeMission then
-      LoadingPositionFromFree()
-    else
-      --NMC not free mission
-      TppPlayer.ResetInitialPosition()
-      TppPlayer.ResetMissionStartPosition()
-      TppPlayer.ResetNoOrderBoxMissionStartPosition()
-      TppMission.ResetIsStartFromHelispace()
-      TppMission.ResetIsStartFromFreePlay()
-    end
+    --NMC not free mission
+    TppPlayer.ResetInitialPosition()
+    TppPlayer.ResetMissionStartPosition()
+    TppPlayer.ResetNoOrderBoxMissionStartPosition()
+    TppMission.ResetIsStartFromHelispace()
+    TppMission.ResetIsStartFromFreePlay()
   end
 end--loadPositionFuncs MISSION_FINALIZE<
 --
