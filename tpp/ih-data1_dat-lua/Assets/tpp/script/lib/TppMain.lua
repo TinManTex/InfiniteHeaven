@@ -760,6 +760,7 @@ local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
     InfCore.LogFlow("LoadingPositionToFree HasHeliRoute")--DEBUGNOW
     this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)--tex calls SetInitialPosition,SetMissionStartPosition
   elseif fromFreeMission then--tex shouldn't happen in vanilla, but we supporting it for more map transitions
+    InfCore.LogFlow("LoadingPositionToFree !HasHeliRoute")--DEBUGNOW
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     if mvars.mis_transitionMissionStartPosition then
       TppPlayer.SetInitialPosition(mvars.mis_transitionMissionStartPosition,0)
@@ -814,7 +815,7 @@ local function LoadingPositionFromFree()
   local missionClearType=TppMission.GetMissionClearType()
   TppQuest.SpecialMissionStartSetting(missionClearType)
 end--LoadingPositionFromFree
---
+--NMC: GOTCHA: at this point mission/location vars have been changed to next mission (so next is really current)
 local loadPositionFuncs={}
 --
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
@@ -838,10 +839,11 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
       TppMission.ResetIsStartFromFreePlay()
     end
   end
-end
+end--loadPositionFuncs MISSION_FINALIZE<
 --
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
   TppPlayer.ResetInitialPosition()
+  --tex TODO:[a] ResetMissionStartPosition? only if safe for below
   TppHelicopter.ResetMissionStartHelicopterRoute()
   TppMission.ResetIsStartFromHelispace()
   TppMission.ResetIsStartFromFreePlay()
@@ -854,8 +856,12 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoa
     elseif nextIsHeliSpace then
       TppPlayer.ResetMissionStartPosition()
     elseif vars.missionCode~=5 then
+      InfCore.Log("DOCUMENT ReservePlayerLoadingPosition MISSION_LOAD_TYPE.MISSION_ABORT fall through case 1. missionCode:"..tostring(vars.missionCode))--DEBUGNOW
+      --DOCUMENT: what mission would this actually be?
+      --TODO:[a] MissionStartPosition?
     end
   else
+    --not abortWithSave
     if nextIsHeliSpace then
       TppHelicopter.ResetMissionStartHelicopterRoute()
       TppPlayer.ResetInitialPosition()
@@ -863,9 +869,12 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoa
     elseif nextIsFreeMission then
       TppMission.SetMissionOrderBoxPosition()
     elseif vars.missionCode~=5 then
+      InfCore.Log("DOCUMENT ReservePlayerLoadingPosition MISSION_LOAD_TYPE.MISSION_ABORT fall through case 2. missionCode:"..tostring(vars.missionCode))--DEBUGNOW
+      --DOCUMENT: what mission would this actually be?
+      --TODO:[a] MissionStartPosition?
     end
-  end
-end
+  end--abortWithSave
+end--loadPositionFuncs MISSION_ABORT<
 --
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
