@@ -393,7 +393,7 @@ end
 function this.ReserveHelicopterSoundOnMissionGameEnd()
   mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
 end
---tex was local to AddVolunteerStaffs
+--tex was local to AddVolunteerStaffs ADDON: added to in InfMission
 this.noAddVolunteerMissions={
   [10010]=true,
   [10030]=true,
@@ -404,7 +404,9 @@ this.noAddVolunteerMissions={
   [30250]=true,
   [50050]=true
 }
+--CALLER: TppMission.OnMissionGameEndFadeOutFinish
 function this.AddVolunteerStaffs()
+  InfCore.LogFlow"AddVolunteerStaffs"--tex
   local storySequence=TppStory.GetCurrentStorySequence()
   if storySequence<TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
     return
@@ -417,6 +419,14 @@ function this.AddVolunteerStaffs()
   if isHeliSpace then
     return
   end
+  local missionClearType=TppMission.GetMissionClearType()--tex> WORKAROUND TODO think this though, why doesnt normal free roam > mission via no/order_box not call AddVolunteerStaffs?
+  if(missionClearType==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO)or(missionClearType==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX)then
+    if mvars.mis_transitionMissionStartPosition~=nil then
+      InfCore.Log"AddVolunteerStaffs mis_transitionMissionStartPosition~=nil, returning"
+      return
+    end
+  end--<
+  
   local killCount=svars.killCount
   local clearTimeMinute=(svars.scoreTime/1e3)/60
   local missionResult={missionId=vars.missionCode,clearTimeMinute=clearTimeMinute,killCount=killCount}
