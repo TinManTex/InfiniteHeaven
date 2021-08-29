@@ -733,10 +733,13 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,fromFreeMission)
   TppMission.SetIsStartFromHelispace()
   TppMission.ResetIsStartFromFreePlay()
 end--LoadingPositionFromHeliSpace
---NMC from MISSION_FINALIZE, not from helispace, to a free mission
+--NMC from MISSION_FINALIZE, not to/from helispace, to a free mission
+--which in vanilla means from a mission to free roam - afgh,mafr, mb and outer plats
+--which is either ending mission by out of hot-zone, or mission specifically putting you back in free
+--with IH transitions means it can also be free roam to an addon free roam map, or visa versa
 local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
   InfCore.LogFlow"LoadingPositionToFree"--tex
-  if TppLocation.IsMotherBase()then
+  if TppLocation.IsMotherBase()then--NMC to MB
     --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
     TppPlayer.ResetInitialPosition()
