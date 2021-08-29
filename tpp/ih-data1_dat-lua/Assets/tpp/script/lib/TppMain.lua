@@ -818,17 +818,17 @@ end--LoadingPositionFromFree
 --NMC: GOTCHA: at this point mission/location vars have been changed to next mission (so next is really current)
 local loadPositionFuncs={}
 --
-loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
   if nextIsHeliSpace then
     LoadingPositionToHeliSpace()
-  elseif isHeliSpace then
-    LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
+  elseif fromHeliSpace then
+    LoadingPositionFromHeliSpace(nextIsFreeMission,fromFreeMission)
   elseif nextIsFreeMission then
-    LoadingPositionToFree(isFreeMission)
-  elseif(isFreeMission and TppLocation.IsMotherBase())then
+    LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
+  elseif(fromFreeMission and TppLocation.IsMotherBase())then
     LoadingPositionFromFreeToMB()
   else
-    if isFreeMission then
+    if fromFreeMission then
       LoadingPositionFromFree()
     else
       --NMC not free mission
