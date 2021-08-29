@@ -788,7 +788,17 @@ local function LoadingPositionFromFreeToMB()
 end--LoadingPositionFromFreeToMB
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
-  if mvars.mis_orderBoxName then
+  if mvars.mis_transitionMissionStartPosition then--tex>
+    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
+    TppPlayer.SetInitialPosition(mvars.mis_transitionMissionStartPosition,0)
+    TppPlayer.SetMissionStartPosition(mvars.mis_transitionMissionStartPosition,0)
+    TppPlayer.ResetNoOrderBoxMissionStartPosition()
+    --DEBUGNOW
+    TppMission.ResetIsStartFromHelispace()
+    TppMission.SetIsStartFromFreePlay()
+    return
+    --<
+  elseif mvars.mis_orderBoxName then
     TppMission.SetMissionOrderBoxPosition()
     TppPlayer.ResetNoOrderBoxMissionStartPosition()
   else
