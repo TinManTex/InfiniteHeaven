@@ -767,11 +767,12 @@ local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
     this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)--tex calls SetInitialPosition,SetMissionStartPosition
   elseif fromFreeMission then--tex shouldn't happen in vanilla, but we supporting it for more map transitions
     InfCore.LogFlow("LoadingPositionToFree !HasHeliRoute")--DEBUGNOW
-    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     if mvars.mis_transitionMissionStartPosition then
+    	TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
       TppPlayer.SetInitialPosition(mvars.mis_transitionMissionStartPosition,0)
       TppPlayer.SetMissionStartPosition(mvars.mis_transitionMissionStartPosition,0)
     else
+      TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
       local noHeliMissionStartPos=TppDefine.NO_HELICOPTER_MISSION_START_POSITION[vars.missionCode]
       if noHeliMissionStartPos then
         TppPlayer.SetInitialPosition(noHeliMissionStartPos,0)
