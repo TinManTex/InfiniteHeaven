@@ -8,7 +8,7 @@
 --  description="Jade Forest",
 --  locationName="AFC0",
 --  locationId=101,
---  packs={"/Assets/mgo/pack/location/afc0/afc0.fpk"},-- TppMissionList.locationPackTable entry
+--  packs={"/Assets/mgo/pack/location/afc0/afc0.fpk"},-- TppMissionList.locationPackTable entry RENAMED was: packs
 --  locationMapParams={-- \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd \ mbdvc_map_location_parameter.lua entry
 --    stageSize=556*1,
 --    scrollMaxLeftUpPosition=Vector3(-255,0,-275),
@@ -61,8 +61,8 @@
 --  description="Jade Forest",-- Description for IH menu.
 --  missionCode=12020,
 --  location="AFC0",
---  hideMission=false,--doesn't add mission to idroid/internal mission list (so no mission completion/ranking saved)
---  packs=function(missionCode) -- TppMissionList.missionPackTable entry, can be table of fpk names or function of packlist adding calls.
+--  hideMission=false,--doesn't add mission to idroid/internal mission list (so no mission completion/ranking saved). Still loadable via Load addon mission, or TppMission.ReserveMissionClear, or Transistion system
+--  missionPacks=function(missionCode) -- TppMissionList.missionPackTable entry, can be table of fpk names or function of packlist adding calls. RENAMED was: packs
 --    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
 --    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s13000/s13000_area.fpk"
 --  end,
@@ -77,6 +77,7 @@
 --  enableOOB=true,-- Enable the mission out of bound system
 --  startPos={-11.788,8.483,165.559},--NO_HELICOPTER_MISSION_START_POSITION entry -  player spawn pos for non heli ride missions
 --  missionGuaranteeGMP=120000, --TppResult.MISSION_GUARANTEE_GMP - base gmp for mission on mission clear
+--  noAddVolunteers=false,--dont add any volunteer staff on mission complete
 --  missionTaskList={0,2,3,4,5,6},--TppResult.MISSION_TASK_LIST - Haven't worked out exactly what this is
 --  noArmorForMission=true,--TppEneFova.noArmorForMission - disallow heavy armor in the mission
 --  missionArmorType={TppDefine.AFR_ARMOR.TYPE_RC},--TppEneFova.missionArmorType - Armor type for pfs in mafr
@@ -146,19 +147,25 @@ local missionInfoFormat={
   description="string",
   missionCode="number",
   location="string",
+  hideMission="boolean",
   --packs={"table","function"},--tex OFF till I make validate support multiple data types for a key
   fovaSetupFunc="function",
   enableOOB="boolean",
   startPos="table",
   missionGuaranteeGMP="number",
+  noAddVolunteers="boolean",
   missionTaskList="table",
   noArmorForMission="boolean",
   missionArmorType="table",
   missionHostageInfos="table",
   orderBoxList="table",
   orderBoxBlockList="table",
+  missionMapParams="table",
+  orderBoxBlockList="table",
   --weaponIdTable={"string","table"}
   heliSpaceFlags="table",
+  defaultDropRoute="string",
+  lzInfo="table",
 }
 
 local heliSpaceFlagNames={
@@ -504,6 +511,8 @@ function this.LoadMissionDefs()
     local missionName=InfUtil.StripExt(fileName)
     local missionInfo=InfCore.LoadSimpleModule(InfCore.paths.missions,fileName)
     if missionInfo then
+      missionInfo.missionPacks=missionInfo.missionPacks or missionInfo.packs--tex PATCHUP: RENAMED packs
+    
       local missionCode=missionInfo.missionCode--TYPE
       if not missionCode then
         InfCore.Log("WARNING: could not find missionCode on "..fileName)
@@ -535,6 +544,8 @@ function this.AddInLocations()
     if not locationName then
       InfCore.Log("WARNING: Could nof find locationName for "..locationId)
     else
+      locationInfo.locationPacks=locationInfo.locationPacks or locationInfo.packs--tex PATCHUP: RENAMED packs
+    
       InfCore.Log("Adding location: "..locationName.." "..locationId)
       if TppDefine.LOCATION_ID[locationName] then
         InfCore.Log("WARNING: location already defined "..locationId)
@@ -624,6 +635,7 @@ function this.AddInMissions()
       
       local startPos=missionInfo.startPos and missionInfo.startPos.pos or missionInfo.startPos
       local rotY=missionInfo.startPos and missionInfo.startPos[4] or missionInfo.startPos.rotY
+      startPos[4]=rotY--NO_BOX_MISSION_START_POSITION format of {x,y,z,rotY} but using for NO_HELICOPTER_MISSION_START_POSITION (which had no rotY in vanilla) as well to be consistant
       if startPos then
         TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=startPos
       end
@@ -639,7 +651,6 @@ function this.AddInMissions()
       else
         if missionInfo.isNoOrderBoxMission and startPos then
           TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=startPos
-          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode][4]=rotY
         end
       end
 
@@ -654,6 +665,10 @@ function this.AddInMissions()
       --tex base gmp for mission on mission clear
       if missionInfo.missionGuaranteeGMP then
         TppResult.MISSION_GUARANTEE_GMP[missionCode]=missionInfo.missionGuaranteeGMP
+      end
+      --tex dont add volunteers on mission clear
+      if missionInfo.noAddVolunteers then
+        TppTerminal.noAddVolunteerMissions[missionCode]=true
       end
 
       --tex TppResult.MISSION_TASK_LIST, but not totally sure what it is yet, passed to UI via TppUiCommand.RegisterMbMissionListFunction >> TppResult.GetMbMissionListParameterTable
