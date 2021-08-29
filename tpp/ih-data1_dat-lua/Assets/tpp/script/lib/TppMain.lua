@@ -737,7 +737,10 @@ end--LoadingPositionFromHeliSpace
 local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
   InfCore.LogFlow"LoadingPositionToFree"--tex
   if TppLocation.IsMotherBase()then
-    TppPlayer.SetStartStatusRideOnHelicopter()
+    --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
+    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
+    TppPlayer.ResetInitialPosition()
+    TppPlayer.ResetMissionStartPosition()--^
   else
     TppPlayer.ResetInitialPosition()
     TppHelicopter.ResetMissionStartHelicopterRoute()
@@ -777,7 +780,10 @@ end--LoadingPositionToFree
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromFreeToMB()
   if HasHeliRoute() then
-    TppPlayer.SetStartStatusRideOnHelicopter()
+    --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
+    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
+    TppPlayer.ResetInitialPosition()
+    TppPlayer.ResetMissionStartPosition()--^
   else
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
@@ -813,7 +819,10 @@ local function LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
   end
   local noOrderFixHeliRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
   if noOrderFixHeliRoute then
-    TppPlayer.SetStartStatusRideOnHelicopter()
+    --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
+    TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
+    TppPlayer.ResetInitialPosition()
+    TppPlayer.ResetMissionStartPosition()--^
     TppMission.SetIsStartFromHelispace()
     TppMission.ResetIsStartFromFreePlay()
   else
