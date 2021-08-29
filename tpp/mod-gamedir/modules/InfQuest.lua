@@ -4,6 +4,8 @@
 local this={}
 
 local TppDefine=TppDefine
+local TppQuest=TppQuest
+local TppLocation=TppLocation
 local InfCore=InfCore
 local IvarProc=IvarProc
 local pairs=pairs
@@ -74,24 +76,39 @@ function this.OnAllocate(missionTable)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
+  local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
+  local locationId=TppDefine.LOCATION_ID[locationName]
 
   for questName,questInfo in pairs(this.ihQuestsInfo)do
-    if TppQuest.IsActive(questName) then
-      if questInfo.missionPackList and questInfo.missionPackList[missionCode]then
-        local packs=questInfo.missionPackList[missionCode]
-        if missionCode==30050 then --DEBUGNOW
-          packs=packs[vars.mbLayoutCode] or packs[0]
-        end
-        for i,packPath in ipairs(packs)do
-          packPaths[#packPaths+1]=packPath
-        end
-      end--if questInfo.missionPackList
-    end--if IsActive
+    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--tex PATCHUP: RENAMED missionPackList
+  
+    if questInfo.missionPacks then
+      if questInfo.locationId==locationId then
+        if TppQuest.CanActiveQuestInMission(missionCode,questName)then
+          if TppQuest.IsActive(questName) then
+            local packs=questInfo.missionPacks[missionCode] or questInfo.missionPacks--tex LEGACY: don't actually need to push packs into [missionCode] subtable now that I'm filtering by location and CanActiveQuestInMission
+            if locationName=="MTBS" then
+              packs=packs[vars.mbLayoutCode] or packs[0]
+            end
+            for i,packPath in ipairs(packs)do
+              packPaths[#packPaths+1]=packPath
+            end
+          end--if IsActive
+        end--if CanActiveQuestInMission
+      end
+    end--if questInfo.missionPacks
   end--for ihQuestsInfo
 end--AddMissionPacks
+
+function this.MissionPrepare()
+  local allowedQuests={}
+  for questName,questInfo in pairs(this.ihQuestsInfo)do
+    if questInfo.allowInStoryMissions then
+      allowedQuests[questName]=true
+    end
+  end--for ihQuestsInfo
+  TppQuest.RegisterCanActiveQuestListInMission(allowedQuests)
+end--MissionPrepare
 
 --tex see InfEquip.LoadEquipTable for notes
 --CULL, now in InfEquip.LoadEquipTable
@@ -141,9 +158,11 @@ function this.AllwaysOpenQuest()
   return true
 end
 
---REF questDef
--- ih_quest_q30103.lua --file name must have q%05u format as suffix.
+--REF questDef questInfo
+--all options rather than sane example
+---- ih_quest_q30103.lua --file name must have q%05u format as suffix.
 --local this={
+--  questId=30103,--TODO
 --  questPackList={
 --    "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
 --    "/Assets/tpp/pack/mission2/ih/ddr1_main0_mdl.fpk",--model pack, edit the partsType in the TppHostage2Parameter in the quest .fox2 to match, see InfBodyInfo.lua for different body types.
@@ -152,7 +171,7 @@ end
 --      gender="FEMALE",
 --      count=1,
 --    }
---  },
+--  },--questPackList
 --  locationId=TppDefine.LOCATION_ID.AFGH,
 --  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.
 --  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
@@ -169,8 +188,41 @@ end
 --    "EQP_WP_EX_hg_010",
 --    "EQP_WP_West_ar_050",
 --  },
+--  allowInStoryMissions=true,--allow quest during story mission (still follows the normal quest selection rules)--TODO needs more work to filter out quests not in mission area --DEBUGNOW TEST
 --  allowInWarGames=true,--by default quests are blocked on mb wargames, this is to allow the quest during wargames
---}
+--  --required for shooting practice quests, but can be used to keep stuff resident before/after quest pack has been loaded/unloaded 
+--  --TODO: not a good idea for afgh/mafr sized maps though, really need to build additional system on top of map block loading/unloading
+--  missionPacks={
+--    "/Assets/tpp/pack/mission2/void/quest/q30211_void_shootingpractice_start.fpk",
+--  },--missionPacks
+--}--this
+--return this
+
+--Example shooting quest on mother base
+--local this={
+--    questId=30210,
+--    questPackList={
+--        "/Assets/tpp/pack/mission2/quest/mtbs/Medical/quest_q30210.fpk",
+--    },
+--    locationId=TppDefine.LOCATION_ID.MTBS,
+--    areaName="MtbsMedical",--quest area, is 'Mtbs<cluster name>'
+--    clusterName="Medical",--https://metalgearmodding.fandom.com/wiki/MotherBase_Clusters
+--    plntId=TppDefine.PLNT_DEFINE.Common2,--platform id. can just be the number 0-3, with 0 being the unique 'main' platform of the cluster
+--    category=TppQuest.QUEST_CATEGORIES_ENUM.TARGET_PRACTIVE,
+--    questCompleteLangId="quest_target_eliminate",
+--    canOpenQuest=function(questName)--whether quest can be active
+--        local isMbLayout3=InfQuest.CanOpenIsMbLayout3()--only built layout for mbLayout 3
+--        local questPlntIsDeveloped=InfQuest.CanOpenPlntIsDeveloped(questName)--uses the clusterName and plntId to check if its been built
+--        return isMbLayout3 and questPlntIsDeveloped
+--    end,
+--    questRank=TppDefine.QUEST_RANK.I,
+--    --shooting practice quests need a marker and geotrap to start the quest which needs to be resident on mission load
+--    missionPacks={
+--        [3]={"/Assets/tpp/pack/mission2/free/f30050/f30050_ly003_q30210.fpk",}--mb layout, if only [0] entry will use pack for all layouts 
+--    },--missionPacks
+--    startTrapName="ly003_cl04_npc0000|cl04pl2_q30210|trap_shootingPractice_start",--entity name, in layout fpkd fox2
+--    startMarkerName="ly003_cl04_npc0000|cl04pl2_q30210|Marker_shootingPractice",--entity name, in layout fpkd fox2
+--}--this
 --return this
 
 --REF questCompleteLangId =
@@ -430,6 +482,8 @@ function this.RegisterQuests()
 
   for i,questName in ipairs(this.ihQuestNames)do
     local questInfo=this.ihQuestsInfo[questName]
+    
+    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--PATCHUP: LEGACY: missionPackList renamed (only initial release of mtbs_medical_plnt2_shootingpractice should have this, unless someone in the community started using it since) 
 
     --tex find existing or new
     local questIndex
@@ -616,7 +670,7 @@ end
 function this.QuestBlockOnInitialize(questScript)
 
 end
-function this.QuestBlockOnInitializeBottom(questScript)  
+function this.QuestBlockOnInitializeBottom(questScript)
   InfCore.LogFlow("InfQuest.QuestBlockOnInitializeBottom")
   InfShootingPractice.QuestBlockOnInitializeBottom(questScript)
 end--QuestBlockOnInitializeBottom
@@ -724,7 +778,7 @@ function this.Save(newSave)
     if this.debugSave then
       InfCore.Log("questStates isDirty")
     end
-    
+
     InfShootingPractice.saveDirty=false--DEBUGNOW TODO better
 
     local saveTextList={
