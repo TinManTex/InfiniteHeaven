@@ -814,7 +814,7 @@ local function LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
   else
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
-    local posrot=TppDefine.NO_BOX_MISSION_START_POSITION[vars.missionCode]--tex was local table, shifted to TppDegine
+    local posrot=TppDefine.NO_BOX_MISSION_START_POSITION[vars.missionCode]--tex was local table, shifted to TppDefine
     if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and posrot then
       TppPlayer.SetNoOrderBoxMissionStartPosition(posrot,posrot[4])
     else
