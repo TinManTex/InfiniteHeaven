@@ -3,8 +3,32 @@
 
 
 --REF transtion info <GameDir>\mod\transition\ >
---DEBUGNOW TODO
+--local this={
+--  infoType="TRANSITION",
+--  missionCode=30050,--tex missionCode to transition to
+--  clusterName="Command",--MB specific
+--  plant="plnt0",--MB specific
+--  startPos={pos={1.983,25.000,-3.742},rotY=103.119,},--tex position in mission to spawn at. if in mb this is relative to platform center.
+--  switchLocatorName="exit_switch_void",--tex should be unique across all switches
+--  --tex transition is triggered by a switch gimmick, in this case loaded by missionPacks fpk
+--  fromMissionCode=34000,--tex mission to load the missionPacks in/its transitioning from
+--  missionPacks={"/Assets/tpp/pack/transition/void/exit_switch_void.fpk",},
+--}--this
+--return this
 
+--local this={
+--  infoType="TRANSITION",
+--  missionCode=34001,
+--  startPos={pos={-11.600,-8.000,8.511},rotY=200},
+--  switchLocatorName="enter_switch_ly03_cl00_plnt0_hangar",
+--  fromMissionCode=30050,
+--  fromClusterName="Command",--for MB: Game only loads one cluster at a time, so only TODO: currently not implemented, so all packs for MB are always loaded
+--  missionPacks={
+--    --for MB: mbLayoutCode, 0=load for all layouts (if the specific layout entry isnt found)
+--    [0]={"/Assets/tpp/pack/transition/mtbs/enter_switch_ly03_cl00_plnt0_hangar.fpk",},
+--  },--missionPacks
+--}--this
+--return this
 --< REF transtion info
 
 local this={}
@@ -62,10 +86,6 @@ function this.RegisterInfos()
 end--RegisterInfos
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if not InfMain.IsPastTitle(missionCode) then
-    return
-  end
-
   for name,transitionInfo in pairs(this.infos)do
     if transitionInfo.fromMissionCode==missionCode then
       local packs=transitionInfo.missionPacks
@@ -133,7 +153,7 @@ end--Messages
 
 --CALLER: msg="SwitchGimmick"
 --REF PushSwitchOnLeaveBattleHanger
-function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
+function this.PushSwitch(gameObjectId,locatorNameS32,dataSetNameS32,switchFlag)
   InfCore.Log"InfTransition.PushSwitch"
 
   local transitionInfo=this.infoForSwitch[locatorNameS32]
@@ -141,10 +161,13 @@ function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
     InfCore.Log("InfTransition.PushSwitch infoForSwitch["..InfLookup.StrCode32ToString(locatorNameS32).." S32]==nil")
     return
   end
-  
   if locatorNameS32~=StrCode32(transitionInfo.switchLocatorName) then
     InfCore.Log("ERROR: InfTransition.PushSwitch locatorName ~= "..tostring(transitionInfo.switchLocatorName))
     return
+  end
+  if transitionInfo.switchDataSet and dataSetNameS32~=StrCode32(transitionInfo.switchDataSet) then
+    InfCore.Log("ERROR: InfTransition.PushSwitch dataSetName ~= "..tostring(transitionInfo.switchDataSet))
+    --DEBUGNOWreturn
   end
 
   --tex TODO? (interior def optional) open interior door
@@ -154,6 +177,7 @@ function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
   --tex TODO -^- open door sound, just play at info outsideExitPos?
   --  local soundPos = this.GetPositionInInteriorDoor()
   --  TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_open", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
+  
 --  local clusterId=TppDefine.CLUSTER_DEFINE[transferInfo.clusterName]
 --  TppMission.Reload{
 --    missionPackLabelName="AfterDemo",
@@ -167,10 +191,12 @@ function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
 --      --svars.isLeaveInterior=true--tex ala isLeaveBattleHanger, just to play sfx_m_hanger_door_close OnEndMissionPrepareSequence
 --    end,
 --  }
+
   local startPos=transitionInfo.startPos.pos or transitionInfo.startPos
   if startPos then
     local rotY=transitionInfo.startPos.rotY or startPos[4]
     if transitionInfo.clusterName then
+      --DEBUGNOW cluster not loaded might be an issue, old TppMission.Reload worked because it provided a callback to run after map was loaded to call LockCluster
       startPos,rotY=this.GetMBPosAndRotY(transitionInfo.clusterName,transitionInfo.plant,startPos,rotY)
     end
     startPos[4]=rotY
@@ -187,7 +213,7 @@ function this.PushSwitch(gameObjectId,locatorNameS32,name,switchFlag)
   TppMission.ReserveMissionClear{
     nextMissionId=transitionInfo.missionCode,
     nextClusterId=clusterId,
-    nextHeliRoute=transitionInfo.heliRoute,
+    nextHeliRoute=transitionInfo.heli_missionStartRoute,
     missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX
   }
 end--PushSwitchOnLeave
@@ -240,7 +266,7 @@ function this.SetCameraPushSwitch()
   }
 end--SetCameraPushSwitch
 
---WORKAROUND mtbs_cluster only loaded with mtbs
+--WORKAROUND mtbs_cluster is only loaded with mtbs, so just copied them here
 local CLUSTER_INDEX = {}
 for i,clusterName in ipairs(TppDefine.CLUSTER_NAME) do
   CLUSTER_INDEX[clusterName] = i
