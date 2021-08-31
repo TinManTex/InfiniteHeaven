@@ -551,8 +551,8 @@ function this.AddInLocations()
         InfCore.Log("WARNING: location already defined "..locationId)
       end
       TppDefine.LOCATION_ID[locationName]=locationId
-      if locationInfo.packs then
-        TppMissionList.locationPackTable[locationId]=locationInfo.packs
+      if locationInfo.locationPacks then
+        TppMissionList.locationPackTable[locationId]=locationInfo.locationPacks
       end
       
       --KLUDGE may not be accurate, but just stand-in until InfMain.BuildCpPositions kicks in and gets actually positions from the cp entities
@@ -621,8 +621,8 @@ function this.AddInMissions()
       end
 
       --tex TODO: check it has a valid location
-      if missionInfo.packs then
-        TppMissionList.missionPackTable[missionCode]=missionInfo.packs
+      if missionInfo.missionPacks then
+        TppMissionList.missionPackTable[missionCode]=missionInfo.missionPacks
       end
 
       --tex LOCATION_HAVE_MISSION_LIST is in a pretty bad layout of
