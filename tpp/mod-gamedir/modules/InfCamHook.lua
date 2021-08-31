@@ -9,6 +9,7 @@
 --StartTargetConstrainCamera
 --RequestToPlayCameraNonAnimation
 --RequestToSetCameraRotation
+--ChangeCameraParameter
 --
 --might be in the same camera structure that fov hook / UpdateFOVLerp gets passed in.
 --maybe test by setting the params, breakpointing UpdateFOVLerp and looking at what the pointer is at
