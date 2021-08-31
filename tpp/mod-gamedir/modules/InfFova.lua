@@ -94,7 +94,7 @@ this.playerPartsTypes={
   "SWIMWEAR_H",--25
   "OCELOT",--26
   "QUIET",--27
-  --tex unknown, see playerPartsTypesInfo, own names
+  --tex var can overflow and repeat for a bit before hanging
   "NORMAL2",--24
   "NORMAL_SCARF2",--25
   "SNEAKING_SUIT_BB",--26
@@ -477,8 +477,8 @@ this.playerPartsTypesInfo={
     },
   },
 
-  --tex following enum names are unknown, currently just named after what appears with vars.playerParts set to the numerical value
-  --24 onward>>
+  --tex following are actually playerParts overflow, currently just named after what appears with vars.playerParts set to the numerical value
+  --28 onward>>
   --appear to be the DD soldier, but most no head even when set to DD_MALE
   --changes depending on playerType
   --SNAKE,AVATAR show male versions (of those models that have them),
@@ -486,13 +486,13 @@ this.playerPartsTypesInfo={
   --DD_FEMALE crashes game
   --What on earth is the engine doing with these lol.
   --names aren't valid PlayerPartsType
-  {--24 no actual scarf, does not respond to vars.playerCamoType
+  {--28 no actual scarf, does not respond to vars.playerCamoType
     name="NORMAL2",
   },
-  {--25 no actual scarf, does not respond to vars.playerCamoType
+  {--29 no actual scarf, does not respond to vars.playerCamoType
     name="NORMAL_SCARF2",
   },
-  {--26 Shows snakes head reguardless of SNAKE or AVATAR
+  {--30 Shows snakes head reguardless of SNAKE or AVATAR
     name="SNEAKING_SUIT_BB",--tex own name
     description="Big Boss SV-Sneaking suit",--tex actual GZ Snake, not Venom in GZ suit
     playerParts=26,
@@ -527,8 +527,8 @@ this.playerPartsTypesInfo={
   {--no head, hand when
     name="LEATHER_JACKET2",
   },
---    35> invisible/hang model system
-}
+--    > invisible/hang model system
+}--playerPartsTypesInfo
 
 --tex currently reference only
 --info on plparts fpk / model id
@@ -578,7 +578,7 @@ this.plPartsInfo={
   plparts_dle1_plyf0_def_v00={modelId="dle1_plyf0"},
   plparts_ocelot={modelId="ooc0_main1"},
   plparts_quiet={modelId="quip_main0_def0"},
-}
+}--plPartsInfo
 
 --tex TODO: build reverse lookup table if nessesary
 
@@ -707,7 +707,7 @@ this.playerCamoTypes={
   "SWIMWEAR_H_C46",--,IRON BLUE
   "SWIMWEAR_H_C48",--,RED RUST
   "SWIMWEAR_H_C53",--114,MUD
-}--SYNC player2_camout_param
+}--playerCamoTypes--SYNC player2_camout_param
 
 --tex camos that apply to partsType NORMAL,NORMAL_SCARF,NAKED
 this.playerCamoTypesCommon={
@@ -771,7 +771,7 @@ this.playerCamoTypesCommon={
   "C58",--76,BIRCH LEAF TWO-TONE
   "C59",--77,STONE TWO-TONE
   "C60",--78,KHAKI URBAN TWO-TONE
-}
+}--playerCamoTypesCommon
 
 --tex ASSUMPTION currently if no playerTypes, assume ALL
 --see 'Camo fovas' below for explanation of fovaCamoId
@@ -2166,7 +2166,7 @@ this.playerCamoTypesInfo={
       QUIET=true,
     }
   },
-}
+}--playerCamoTypesInfo
 
 --REF Camo fovas
 --<id> == two digit fova common camo id (see playerCamoTypesInfo .fovaCamoId and plPartsInfo .modelId above)
@@ -2267,7 +2267,7 @@ this.playerFaceEquipIdInfo={
       [PlayerType.DD_FEMALE]=true,
     },
   },
-}
+}--playerFaceEquipIdInfo
 
 
 --tex mostly for IH ivars to differentiate some features
