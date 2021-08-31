@@ -514,17 +514,17 @@ function this.QAReleaseDebugUpdate()
     TppMission.UpdateCheckPoint{ignoreAlert=true,atCurrentPosition=true}
   end
   if gvars.DEBUG_showSysVars then
-    local a=this.DEBUG_GetSysVarsLog()
+    local sysVarsLog=this.DEBUG_GetSysVarsLog()
     Print(newContext,{.5,.5,1},"LuaSystem showSysVars")
-    for o,a in ipairs(a)do
-      Print(newContext,a)
+    for i,line in ipairs(sysVarsLog)do
+      Print(newContext,line)
     end
     local a={[FobMode.MODE_ACTUAL]="MODE_ACTUAL",[FobMode.MODE_SHAM]="MODE_SHAM",[FobMode.MODE_VISIT]="MODE_VISIT",[FobMode.MODE_NONE]="MODE_NONE"}
     Print(newContext,"vars.fobSneakMode = "..tostring(a[vars.fobSneakMode]))
-    local a=TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,"vars","mbmTppGmp",0)
-    Print(newContext,"GMP(inSlot) = "..tostring(a))
-    local a=TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,"vars","mbmTppHeroicPoint",0)
-    Print(newContext,"HeroicPoint(inSlot) = "..tostring(a))
+    local value=TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,"vars","mbmTppGmp",0)
+    Print(newContext,"GMP(inSlot) = "..tostring(value))
+    local value=TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,"vars","mbmTppHeroicPoint",0)
+    Print(newContext,"HeroicPoint(inSlot) = "..tostring(value))
     Print(newContext,"killCount = "..tostring(svars.killCount))
     Print(newContext,"totalKillCount = "..tostring(gvars.totalKillCount))
   end
