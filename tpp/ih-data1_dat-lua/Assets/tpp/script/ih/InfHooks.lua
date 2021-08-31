@@ -139,7 +139,7 @@ this.debugPCallHooks={
     FadeIn=true,
     FadeOut=true,
   },
-}
+}--debugPCallHooks
 
 function this.GetFunction(moduleName,functionName)
   local originalModule=_G[moduleName]
