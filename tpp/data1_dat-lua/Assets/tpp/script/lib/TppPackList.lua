@@ -176,6 +176,7 @@ end
 --GOTCHA: only returns addon missions after TppMission.AddInLocations is exec
 --GOTCHA: returns uppercase
 --SEO GetLocationNameForMissionCode (actual function is mispelled v)
+--LocationForMission
 function this.GetLocationNameFormMissionCode(missionCode)
   local locationName
   for location,missions in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST)do
