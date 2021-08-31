@@ -10,11 +10,111 @@ this.REWARD_FIRST_LANG={
   [this.TYPE.BLUE_PRINT]="announce_get_blueprint",
   [this.TYPE.EMBLEM]=nil,
   [this.TYPE.ANIMAL]="announce_extract_animal",
-  [this.TYPE.RANKING]="reward_607"}
-this.REWARD_MAX={[TppScriptVars.CATEGORY_MISSION]=TppDefine.REWARD_MAX.MISSION,[TppScriptVars.CATEGORY_MB_MANAGEMENT]=TppDefine.REWARD_MAX.MB_MANAGEMENT,[TppScriptVars.CATEGORY_QUEST]=TppDefine.REWARD_MAX.QUEST}
-this.LANG_ENUM={[TppScriptVars.CATEGORY_MISSION]=Tpp.Enum{"reward_fob_goal_staff","reward_fob_goal_resources","reward_fob_goal_herbs","reward_fob_goal_wormhole"},[TppScriptVars.CATEGORY_MB_MANAGEMENT]=Tpp.Enum{"key_item_3013","key_item_3003","key_item_3008","reward_100","reward_101","reward_102","reward_103","reward_104","reward_105","reward_106","reward_107","reward_108","reward_109","reward_110","reward_111","reward_112","reward_113","reward_300","reward_301","reward_302","reward_303","reward_304","reward_305","reward_306","reward_400","reward_401","reward_402","reward_403","reward_404","reward_405","reward_406","reward_500","reward_501","reward_502","reward_503","reward_504","reward_600","reward_601","reward_602","reward_603","reward_604","reward_605","reward_606","reward_607","dummy","reward_114","reward_115","key_item_3014","key_item_3015","key_item_3016","key_item_3017","key_item_3018","key_item_3019","key_item_3007","reward_307","key_item_3010","key_item_3020"},[TppScriptVars.CATEGORY_QUEST]=Tpp.Enum{"dummy"}}
-this.GVARS_NAME={[TppScriptVars.CATEGORY_MISSION]={langEnumName="rwd_missionRewardLangEnum",stackSizeName="rwd_missionRewardStackSize",paramName="rwd_missionRewardParam"},[TppScriptVars.CATEGORY_MB_MANAGEMENT]={langEnumName="rwd_mbManagementRewardLangEnum",stackSizeName="rwd_mbManagementRewardStackSize",paramName="rwd_mbManagementRewardParam"},[TppScriptVars.CATEGORY_QUEST]={langEnumName="rwd_questRewardLangEnum",stackSizeName="rwd_questRewardStackSize",paramName="rwd_questRewardParam"}}
-this.RADIO_GROUP_NAME={[5]="f6000_rtrg2010",[6]="f6000_rtrg2020",[7]="f6000_rtrg2030",[8]="f6000_rtrg2040",[10]="f6000_rtrg2050",[11]="f6000_rtrg2060",[20]="f6000_rtrg2130",[22]="f6000_rtrg2140",[30]="f6000_rtrg2150",[25]="f6000_rtrg2160",[55]="f6000_rtrg2270"}
+  [this.TYPE.RANKING]="reward_607"
+}--REWARD_FIRST_LANG
+this.REWARD_MAX={
+  [TppScriptVars.CATEGORY_MISSION]=TppDefine.REWARD_MAX.MISSION,
+  [TppScriptVars.CATEGORY_MB_MANAGEMENT]=TppDefine.REWARD_MAX.MB_MANAGEMENT,
+  [TppScriptVars.CATEGORY_QUEST]=TppDefine.REWARD_MAX.QUEST
+}
+this.LANG_ENUM={
+  [TppScriptVars.CATEGORY_MISSION]=Tpp.Enum{
+    "reward_fob_goal_staff",
+    "reward_fob_goal_resources",
+    "reward_fob_goal_herbs",
+    "reward_fob_goal_wormhole"
+  },
+  [TppScriptVars.CATEGORY_MB_MANAGEMENT]=Tpp.Enum{
+    "key_item_3013",
+    "key_item_3003",
+    "key_item_3008",
+    "reward_100",
+    "reward_101",
+    "reward_102",
+    "reward_103",
+    "reward_104",
+    "reward_105",
+    "reward_106",
+    "reward_107",
+    "reward_108",
+    "reward_109",
+    "reward_110",
+    "reward_111",
+    "reward_112",
+    "reward_113",
+    "reward_300",
+    "reward_301",
+    "reward_302",
+    "reward_303",
+    "reward_304",
+    "reward_305",
+    "reward_306",
+    "reward_400",
+    "reward_401",
+    "reward_402",
+    "reward_403",
+    "reward_404",
+    "reward_405",
+    "reward_406",
+    "reward_500",
+    "reward_501",
+    "reward_502",
+    "reward_503",
+    "reward_504",
+    "reward_600",
+    "reward_601",
+    "reward_602",
+    "reward_603",
+    "reward_604",
+    "reward_605",
+    "reward_606",
+    "reward_607",
+    "dummy",
+    "reward_114",
+    "reward_115",
+    "key_item_3014",
+    "key_item_3015",
+    "key_item_3016",
+    "key_item_3017",
+    "key_item_3018",
+    "key_item_3019",
+    "key_item_3007",
+    "reward_307",
+    "key_item_3010",
+    "key_item_3020"
+  },--CATEGORY_MB_MANAGEMENT
+  [TppScriptVars.CATEGORY_QUEST]=Tpp.Enum{"dummy"}
+}--LANG_ENUM
+this.GVARS_NAME={
+  [TppScriptVars.CATEGORY_MISSION]={
+    langEnumName="rwd_missionRewardLangEnum",
+    stackSizeName="rwd_missionRewardStackSize",
+    paramName="rwd_missionRewardParam"
+  },
+  [TppScriptVars.CATEGORY_MB_MANAGEMENT]={
+    langEnumName="rwd_mbManagementRewardLangEnum",
+    stackSizeName="rwd_mbManagementRewardStackSize",
+    paramName="rwd_mbManagementRewardParam"
+  },
+  [TppScriptVars.CATEGORY_QUEST]={
+    langEnumName="rwd_questRewardLangEnum",
+    stackSizeName="rwd_questRewardStackSize",
+    paramName="rwd_questRewardParam"
+  }
+}--GVARS_NAME
+this.RADIO_GROUP_NAME={
+  [5]="f6000_rtrg2010",
+  [6]="f6000_rtrg2020",
+  [7]="f6000_rtrg2030",
+  [8]="f6000_rtrg2040",
+  [10]="f6000_rtrg2050",
+  [11]="f6000_rtrg2060",
+  [20]="f6000_rtrg2130",
+  [22]="f6000_rtrg2140",
+  [30]="f6000_rtrg2150",
+  [25]="f6000_rtrg2160",
+  [55]="f6000_rtrg2270"
+}--RADIO_GROUP_NAME
 function this.Push(rewardInfo)
   if not IsTable(rewardInfo)then
     return
@@ -77,8 +177,8 @@ end
 function this.PushBluePrintReward(e)
 end
 function this.ShowAllReward()
-  for r,a in pairs(this.GVARS_NAME)do
-    this.ShowReward(r)
+  for category,gvarNamesTable in pairs(this.GVARS_NAME)do
+    this.ShowReward(category)
   end
   if TppUiCommand.GetBonusPopupRegist"animal">0 then
     TppUiCommand.ShowBonusPopupRegist"animal"
@@ -86,9 +186,9 @@ function this.ShowAllReward()
   if TppUiCommand.GetBonusPopupRegist"staff">0 then
     TppUiCommand.ShowBonusPopupRegist"staff"
   end
-  local e=TppRadio.DoEventOnRewardEndRadio()
-  if next(e)then
-    TppUiCommand.SetBonusPopupAfterRadio(e[1])
+  local radio=TppRadio.DoEventOnRewardEndRadio()
+  if next(radio)then
+    TppUiCommand.SetBonusPopupAfterRadio(radio[1])
   end
 end
 function this.IsStacked()
