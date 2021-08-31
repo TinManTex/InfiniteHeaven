@@ -77,10 +77,10 @@ this.progressionMenu={
     "Ivars.mbCollectionRepop",--tex also in motherBaseMenu
     "Ivars.mbForceBattleGearDevelopLevel",--tex also in motherBaseShowAssetsMenu
     "InfProgression.UnlockPlayableAvatar",
-    "InfMenuCommandsTpp.UnlockWeaponCustomization",
-    "InfMenuCommandsTpp.ResetPaz",--tex also in motherBaseShowCharactersMenu
-    "InfMenuCommandsTpp.ReturnQuiet",--tex also in motherBaseShowCharactersMenu
-    "InfMenuCommandsTpp.ShowQuietReunionMissionCount",
+    "InfProgression.UnlockWeaponCustomization",
+    "InfProgression.ResetPaz",--tex also in motherBaseShowCharactersMenu
+    "InfProgression.ReturnQuiet",--tex also in motherBaseShowCharactersMenu
+    "InfProgression.ShowQuietReunionMissionCount",
   --"InfQuest.ForceAllQuestOpenFlagFalse",
   }
 }--progressionMenu
