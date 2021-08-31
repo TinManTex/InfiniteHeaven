@@ -632,10 +632,10 @@ end
 function this._AcquireGzPrivilegeStaff(uniqueStaffType)
   return this._AcquirePrivilegeStaff(uniqueStaffType,"fromGZ")
 end
-function this._AcquireDlcItemStaff(n,t)
-  for n,uniqueStaffType in ipairs(t)do
-    local e=this._AcquirePrivilegeStaff(uniqueStaffType,"fromExtra")
-    if not e then
+function this._AcquireDlcItemStaff(n,staffList)
+  for n,uniqueStaffType in ipairs(staffList)do
+    local aquired=this._AcquirePrivilegeStaff(uniqueStaffType,"fromExtra")
+    if not aquired then
       return
     end
   end
@@ -654,14 +654,14 @@ function this.AcquirePrivilegeInTitleScreen()
   this.AcquireDlcItemEmblem()
 end
 function this.AcquireGzPrivilegeKeyItem()
-  local t={SAVEDATA_EXIST=MBMConst.EXTRA_4011,CLEAR_MISSION_20060=MBMConst.EXTRA_4012}
-  local function n(e)
-    local e=t[e]
-    TppMotherBaseManagement.DirectAddDataBase{dataBaseId=e,isNew=true}
+  local dlcList={SAVEDATA_EXIST=MBMConst.EXTRA_4011,CLEAR_MISSION_20060=MBMConst.EXTRA_4012}
+  local function AddFunc(e)
+    local dataBaseId=dlcList[e]
+    TppMotherBaseManagement.DirectAddDataBase{dataBaseId=dataBaseId,isNew=true}
     return true
   end
-  for t,a in pairs(t)do
-    this.AcquireGzPrivilege(t,n)
+  for dlcType,databaseId in pairs(dlcList)do
+    this.AcquireGzPrivilege(dlcType,AddFunc)
   end
   --RETAILPATCH 1.10>
   if TppMotherBaseManagement.IsGotDataBase{dataBaseId=MBMConst.EXTRA_4011}then
@@ -695,14 +695,14 @@ function this.AcquireDlcItemKeyItem()
     HORSE_PARADE=MBMConst.EXTRA_4009,
     ARM_GOLD=MBMConst.EXTRA_6000,--RETAILPATCH 1.10 added
   }
-  local function funcAdd(n,e)
-    local dataBaseId=dlcList[e]
+  local function funcAdd(n,dlcType)
+    local dataBaseId=dlcList[dlcType]
     TppMotherBaseManagement.DirectAddDataBase{dataBaseId=dataBaseId,isNew=true}
     return true
   end
-  local function funcRemove(a,e)--RETAILPATCH: 1060
+  local function funcRemove(a,dlcType)--RETAILPATCH: 1060
     local platform=Fox.GetPlatformName()
-    local dataBaseId=dlcList[e]
+    local dataBaseId=dlcList[dlcType]
     if platform=="Xbox360"or platform=="XboxOne"then
       if((dataBaseId==NULL_ID.EXTRA_4025)or(dataBaseId==NULL_ID.EXTRA_4003))or(dataBaseId==NULL_ID.EXTRA_4008)then
         return false
@@ -711,11 +711,11 @@ function this.AcquireDlcItemKeyItem()
     TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
     return true
   end--
-  for n,t in pairs(dlcList)do
-    local t=DlcItem[n]
+  for dlcType,t in pairs(dlcList)do
+    local t=DlcItem[dlcType]
     if t then
-      this.EraseDlcItem(t,funcRemove,n)--RETAILPATCH: 1.0.4.1
-      this.AcquireDlcItem(t,funcAdd,n)
+      this.EraseDlcItem(t,funcRemove,dlcType)--RETAILPATCH: 1.0.4.1
+      this.AcquireDlcItem(t,funcAdd,dlcType)
     end
   end
 end
@@ -735,49 +735,49 @@ function this.AcquireDlcItemEmblem()
     end
   end
 end
-function this.AcquireGzPrivilege(e,t)
-  if not TppUiCommand.CheckGzSaveDataFlag(e)then
+function this.AcquireGzPrivilege(uniqueStaffType,FuncOnAquire)
+  if not TppUiCommand.CheckGzSaveDataFlag(uniqueStaffType)then
     return
   end
-  if TppUiCommand.CheckGzPrivilegeAcquiredFlag(e)and gvars.mb_isRecoverd_dlc_staffs then--RETAILPATCH 1060 gvar added
+  if TppUiCommand.CheckGzPrivilegeAcquiredFlag(uniqueStaffType)and gvars.mb_isRecoverd_dlc_staffs then--RETAILPATCH 1060 gvar added
     return
   end
-  if not Tpp.IsTypeFunc(t)then
+  if not Tpp.IsTypeFunc(FuncOnAquire)then
     return
   end
-  local t=t(e)
-  if t then
-    TppUiCommand.SetGzPrivilegeAcquired(e)
+  local aquired=FuncOnAquire(uniqueStaffType)
+  if aquired then
+    TppUiCommand.SetGzPrivilegeAcquired(uniqueStaffType)
   end
 end
-function this.AcquireDlcItem(e,t,n)
-  if not TppUiCommand.CheckDlcFlag(e)then
+function this.AcquireDlcItem(dlcId,FuncOnAquire,n)
+  if not TppUiCommand.CheckDlcFlag(dlcId)then
     return
   end
-  if TppUiCommand.CheckDlcAcquiredFlag(e)then
+  if TppUiCommand.CheckDlcAcquiredFlag(dlcId)then
     return
   end
-  if not Tpp.IsTypeFunc(t)then
+  if not Tpp.IsTypeFunc(FuncOnAquire)then
     return
   end
-  local t=t(e,n)
-  if t then
-    TppUiCommand.SetDlcAcquired(e)
+  local aquired=FuncOnAquire(dlcId,n)
+  if aquired then
+    TppUiCommand.SetDlcAcquired(dlcId)
   end
 end
-function this.EraseDlcItem(e,t,n)
-  if not TppUiCommand.CheckDlcAcquiredFlag(e)then
+function this.EraseDlcItem(dlcId,t,n)
+  if not TppUiCommand.CheckDlcAcquiredFlag(dlcId)then
     return
   end
-  if TppUiCommand.CheckDlcFlag(e)then
+  if TppUiCommand.CheckDlcFlag(dlcId)then
     return
   end
   if not Tpp.IsTypeFunc(t)then
     return
   end
-  local t=true--RETAILPATCH: 1060 was t(e,n)
-  if t then
-    TppUiCommand.ResetDlcAcquired(e)
+  local reset=true--RETAILPATCH: 1060 was t(e,n)
+  if reset then
+    TppUiCommand.ResetDlcAcquired(dlcId)
   end
 end
 local uniqueCharacterStaffStoryStage={
