@@ -65,6 +65,77 @@ end
 this.ShowQuietReunionMissionCount=function()
   TppUiCommand.AnnounceLogView("quietReunionMissionCount: "..gvars.str_quietReunionMissionCount)
 end
+--tex Cribbed from TppTerminal.AcquireDlcItemKeyItem
+local MBMConst=TppMotherBaseManagementConst
+this.dlcItemKeyItemList={
+  WEAPON_MACHT_P5_WEISS=MBMConst.EXTRA_4000,
+  WEAPON_RASP_SB_SG_GOLD=MBMConst.EXTRA_4001,
+  WEAPON_PB_SHIELD_SIL=MBMConst.EXTRA_4002,
+  WEAPON_PB_SHIELD_OD=MBMConst.EXTRA_4003,
+  WEAPON_PB_SHIELD_WHT=MBMConst.EXTRA_4004,
+  WEAPON_PB_SHIELD_GLD=MBMConst.EXTRA_4005,
+  ITEM_CBOX_APD=MBMConst.EXTRA_4006,
+  ITEM_CBOX_RT=MBMConst.EXTRA_4007,
+  ITEM_CBOX_WET=MBMConst.EXTRA_4008,
+  SUIT_FATIGUES_APD=MBMConst.EXTRA_4015,
+  SUIT_FATIGUES_GRAY_URBAN=MBMConst.EXTRA_4016,
+  SUIT_FATIGUES_BLUE_URBAN=MBMConst.EXTRA_4017,
+  SUIT_FATIGUES_BLACK_OCELOT=MBMConst.EXTRA_4018,
+  WEAPON_ADAM_SKA_SP=MBMConst.EXTRA_4024,
+  WEAPON_WU_S333_CB_SP=MBMConst.EXTRA_4025,
+  SUIT_MGS3_NORMAL=MBMConst.EXTRA_4019,
+  SUIT_MGS3_SNEAK=MBMConst.EXTRA_4022,
+  SUIT_MGS3_TUXEDO=MBMConst.EXTRA_4023,
+  SUIT_THE_BOSS=MBMConst.EXTRA_4026,
+  SUIT_EVA=MBMConst.EXTRA_4027,
+  HORSE_WESTERN=MBMConst.EXTRA_4028,
+  HORSE_PARADE=MBMConst.EXTRA_4009,
+  ARM_GOLD=MBMConst.EXTRA_6000,--RETAILPATCH 1.10 added
+ }--dlcItemKeyItemList
+function this.UnlockDLC()
+  local function AddDlcItem(dlcId,dlcType)
+    local dataBaseId=this.dlcItemKeyItemList[dlcType]
+    TppMotherBaseManagement.DirectAddDataBase{dataBaseId=dataBaseId,isNew=true}
+    return true
+  end
+--  local function RemoveDlcItem(dlcId,dlcType)--RETAILPATCH: 1060
+--    local platform=Fox.GetPlatformName()
+--    local dataBaseId=this.dlcItemKeyItemList[dlcType]
+--    if platform=="Xbox360"or platform=="XboxOne"then
+--      if((dataBaseId==NULL_ID.EXTRA_4025)or(dataBaseId==NULL_ID.EXTRA_4003))or(dataBaseId==NULL_ID.EXTRA_4008)then
+--        return false
+--      end
+--    end
+--    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
+--    return true
+--  end--
+  for dlcType,databaseId in pairs(this.dlcItemKeyItemList)do
+    local dlcItem=DlcItem[dlcType]
+    --InfCore.Log("AcquireDlcItemKeyItem dlcType:"..tostring(dlcType).." databaseId:"..tostring(databaseId).." dlcId:"..tostring(databaseId))--dlcId == databaseId
+    if dlcItem then
+      --tex OFF this.EraseDlcItem(dlcItem,RemoveDlcItem,dlcType)--RETAILPATCH: 1.0.4.1
+      this.AcquireDlcItem(dlcItem,AddDlcItem,dlcType)
+    end
+  end
+end--UnlockDLC
+--tex Cribbed from TppTerminal
+--param==emblemType or dlcType
+function this.AcquireDlcItem(databaseId,FuncOnAquire,param)
+--OFF
+--  if not TppUiCommand.CheckDlcFlag(databaseId)then
+--    return
+--  end
+  if TppUiCommand.CheckDlcAcquiredFlag(databaseId)then
+    return
+  end
+  if not Tpp.IsTypeFunc(FuncOnAquire)then
+    return
+  end
+  local aquired=FuncOnAquire(databaseId,param)
+  if aquired then
+    TppUiCommand.SetDlcAcquired(databaseId)
+  end
+end--AcquireDlcItem
 
 this.registerMenus={
   "progressionMenu",
@@ -78,6 +149,7 @@ this.progressionMenu={
     "Ivars.mbForceBattleGearDevelopLevel",--tex also in motherBaseShowAssetsMenu
     "InfProgression.UnlockPlayableAvatar",
     "InfProgression.UnlockWeaponCustomization",
+    "InfProgression.UnlockDLC",--DEBUGNOW lang
     "InfProgression.ResetPaz",--tex also in motherBaseShowCharactersMenu
     "InfProgression.ReturnQuiet",--tex also in motherBaseShowCharactersMenu
     "InfProgression.ShowQuietReunionMissionCount",
