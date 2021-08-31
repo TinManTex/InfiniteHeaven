@@ -264,9 +264,9 @@ this.motherBaseShowCharactersMenu={
     "Ivars.mbShowHuey",
     "Ivars.mbEnableBirds",
     "InfNPC.mbAdditionalNpcsMenu",
-    "InfMenuCommandsTpp.ResetPaz",
-    "InfMenuCommandsTpp.ReturnQuiet",
-    "InfMenuCommandsTpp.ShowQuietReunionMissionCount",
+    "InfProgression.ResetPaz",
+    "InfProgression.ReturnQuiet",
+    "InfProgression.ShowQuietReunionMissionCount",
   }
 }
 
