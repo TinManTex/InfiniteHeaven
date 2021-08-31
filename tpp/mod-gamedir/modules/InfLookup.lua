@@ -893,7 +893,7 @@ this.TppDamage={
 
 this.tppEquipPrefix={  
   equipId="EQP",--tex couple of exceptions for just using this prefix, EQP_TYPE_, EQP_BLOCK_ trample on some equipIds, and EQP_ also includes some of the following prefixes
-  supportWeapon="SWP",--DEBUGNOW matches for WP
+  supportWeapon="SWP",
   weaponId="WP",
   --tex in chimera parts order
   reciever="RC",
