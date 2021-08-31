@@ -387,6 +387,11 @@ IvarProc.MinMaxIvar(
   }
 )
 --<custom revenge config
+this.ResetRevenge=function()
+  TppRevenge.ResetRevenge()
+  TppRevenge._SetUiParameters()
+  InfMenu.PrintLangId"revenge_reset"
+end
 --< ivar defs
 this.registerMenus={
   "revengeMenu",
@@ -404,7 +409,7 @@ this.revengeMenu={
     "InfRevengeIvars.revengeSystemMenu",
     "InfEquip.customEquipMenu",
     "Ivars.customSoldierTypeFREE",
-    "InfMenuCommandsTpp.ResetRevenge",
+    "InfRevengeIvars.ResetRevenge",
     "InfMenuCommandsTpp.DEBUG_PrintRevengePoints",
     "Ivars.changeCpSubTypeFREE",
     "Ivars.changeCpSubTypeMISSION",
