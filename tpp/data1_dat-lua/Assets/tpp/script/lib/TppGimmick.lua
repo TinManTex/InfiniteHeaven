@@ -980,7 +980,7 @@ function this.SetQuestInvisibleGimmick(questMarkSetIndex,setInvisible,skipCheck)
     end
   end
 end
-function this.SetQuestSootingTargetInvincible(setInvincible)--GOTCHA: invinvible not invisible
+function this.SetQuestSootingTargetInvincible(setInvincible)--TYPO: Sooting. GOTCHA: invincible not invisible
   for i,targetInfo in pairs(mvars.gim_questTargetList)do
     Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",targetInfo.dataSetName,setInvincible)
     break--NMC tex wut. mtbs_bord001_vrtn003_ev_gim_i0000 is the instance rather than specific target, but they still need the datasetname, they could have just used mvars.gim_questTargetList[1].dataSetName?
