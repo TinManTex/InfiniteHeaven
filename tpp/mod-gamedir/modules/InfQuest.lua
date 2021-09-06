@@ -276,9 +276,6 @@ function this.BlockQuest(questName)
   return false
 end
 
---tex <areaName>=<questName>
-local forcedQuests={}
-
 local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
   InfCore.LogFlow("InfQuest.GetForced")
@@ -288,11 +285,8 @@ function this.GetForced()
     return nil
   end
 
+  local forcedQuests={}--tex <areaName>=<questName>
   local forcedCount=0
-  --tex Clear
-  for areaName,forceCount in pairs(forcedQuests)do
-    forcedQuests[areaName]=nil
-  end
 
   local questTable=TppQuest.GetQuestInfoTable()
 
