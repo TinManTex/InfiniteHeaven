@@ -1019,6 +1019,7 @@ function this.OnUpdate(missionTable)
 end
 --NMC: called via mission_main
 function this.OnChangeSVars(subScripts,varName,key)
+  InfCore.LogFlow("mission_main > TppMain.OnChangeSVars")--tex
   for i,lib in ipairs(Tpp._requireList)do
     local OnChangeSVars=_G[lib].OnChangeSVars
     if OnChangeSVars then
@@ -1026,6 +1027,7 @@ function this.OnChangeSVars(subScripts,varName,key)
       InfCore.PCallDebug(OnChangeSVars,varName,key)--tex PCALL
     end
   end
+  InfCore.LogFlow("TppMain.OnChangeSVars done")--tex
 end
 function this.SetMessageFunction(missionTable)--RENAME:
   onMessageTable={}
