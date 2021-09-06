@@ -8,11 +8,13 @@
 --or stuff that the module has run before PostAllModulesLoad
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
-'TppPlayer',
+  'TppMain',
+  'TppPlayer',
   'InfFulton',
   'TppHero',
+  'InfLookup',
   --'InfWeaponIdTable',
-  --'InfCore',
+  'InfCore',
   --'InfExtToMgsv',
   --'InfMgsvToExt',
   'InfMain',
@@ -27,7 +29,7 @@ local debugModules={
   'InfInterrogation',
   --  'InfMBGimmick',
   --'InfLookup',
-  --  'InfMission',
+  'InfMission',
   --'InfEquip',
   --'InfWalkerGear',
   --'InfSoldier',
@@ -39,10 +41,17 @@ local debugModules={
   'TppEnemy',
   --'InfRouteSet',
   'TppRevenge',
---'InfLZ',
---'TppLandingZone',
---'InfParasite',
---'TppMain',
+  --'InfLZ',
+  --'TppLandingZone',
+  --'InfParasite',
+  'InfGameEvent',
+  'InfWeather',
+  'InfLookup',
+  'InfEmblem',
+  'InfAvatar',
+  'InfChimera',
+  'InfEneFova',
+  'InfTransition',
 }
 
 local this={}
@@ -64,10 +73,6 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
-
   if this.packages[missionCode] then
     for i,path in ipairs(this.packages[missionCode])do
       packPaths[#packPaths+1]=path
@@ -114,11 +119,11 @@ function this.PostAllModulesLoad()
     InfCore.Log("isMockFox, returning:")
     return
   end
-  
+
   this.SetDebugModules()
 
   InfCore.Log("mvars.mis_missionStateIsNotInGame"..tostring("mvars.mis_missionStateIsNotInGame"))
- --InfCore.PrintInspect(mvars.qst_questScriptBlockMessageExecTable,"mvars.qst_questScriptBlockMessageExecTable")
+  --InfCore.PrintInspect(mvars.qst_questScriptBlockMessageExecTable,"mvars.qst_questScriptBlockMessageExecTable")
 
   --  InfCore.Log("getregistry")
   --  local registry=debug.getregistry()
@@ -869,6 +874,8 @@ this.registerIvars={
   "debug_GrTools_SetOccluderLimit",
   "debug_Player_SetAroundCameraMaxDistanceForAlphaExamination",
   "debug_vars_playerType",
+  "UnSetStandMoveSpeedLimit",
+  "setStandMoveSpeedLimit",
 }
 
 this.devInAccMenu={
@@ -884,7 +891,6 @@ this.devInAccMenu={
     "IHDebugVars.DEBUG_SomeShiz2",
     "IHDebugVars.DEBUG_SomeShiz3",
     --"Ivars.customBodyTypeMB_ALL",--DEBUGNOW
-    "Ivars.selectEvent",
     --"Ivars.customSoldierTypeMISSION",--TODO:
     "Ivars.manualSequence",
     "Ivars.allowUndevelopedDDEquip",
@@ -907,6 +913,10 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "IHDebugVars.UnSetStandMoveSpeedLimit",
+    "Ivars.setStandMoveSpeedLimit",
+
+    "InfMenuCommands.RefreshPlayer",--DEBUGNOW
     "Ivars.debug_GrTools_SetLodScale",
     "Ivars.debug_GrTools_SetVertexLodScale",
     "Ivars.debug_GrTools_SetModelLodScale",
@@ -966,6 +976,71 @@ function this.AddDevMenus()
 end--AddDevMenus
 --< menus
 
+function this.ClearEnabledMarkers()--tex theres already a ClearMarkers in this module
+  if mvars.ene_soldierDefine then
+    for cpName,cpSoldiers in pairs(mvars.ene_soldierDefine)do
+      for i,soldierName in ipairs(cpSoldiers)do
+        local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+        if gameId~=GameObject.NULL_ID then
+          TppMarker.Disable(gameId,true,true)
+        end--~=NULL_ID
+      end--for cpSoldiers
+    end--for ene_soldierDefine
+end--if ene_soldierDefine
+
+local hostages=TppEnemy.GetAllHostages()
+for i,gameId in ipairs(hostages)do
+  TppMarker.Disable(gameId,true,true)
+end
+
+--TODO gimmicks
+
+--TODO vehicles
+
+local walkerGears=TppEnemy.GetAllActiveEnemyWalkerGear()
+for i,gameId in ipairs(walkerGears)do
+  TppMarker.Disable(gameId,true,true)
+end
+end--ClearEnabledMarkers
+
+--DEBUGNOW
+this.SLOTS_PER_CATEROGRY=3
+this.PARTS_COUNT=12--tex chimera parts slots per weapon, includes color
+this.weaponCategories={
+  "HANDGGUN",
+  "SMG",
+  "ASSAULT",
+  "SHOTGUN",
+  "GRENADELAUNCHER",
+  "SNIPER",
+  "MG",
+  "MISSILE",
+}--weaponCategories
+this.weaponCategoriesEnum=Tpp.Enum(this.weaponCategories)
+this.slots={
+  "SLOT1",
+  "SLOT2",
+  "SLOT3",
+}--slots
+this.slotsEnum=Tpp.Enum(this.slots)
+--VERIFY, just cribbing from TppDebug DEBUG_ChangeChimeraWeapon chimeraInfo
+--comments are edit mode
+this.parts={
+  "equipId",--recieverId?--'Base'
+  "barrel",
+  "ammo",--'Magazine'
+  "stock",
+  "muzzle",
+  "muzzleOption",--'muzzle accessory'
+  "rearSight",--'Optics 1'
+  "frontSight",--'Optics 2'
+  "option1",--'Flashlight'
+  "option2",--'Laser Sight'
+  "underBarrel",
+  "underBarrelAmmo",
+}--parts
+this.partsEnum=Tpp.Enum(this.parts)
+
 --menuCommands
 local toggle1=true
 local index1Min=1
@@ -985,14 +1060,142 @@ this.DEBUG_SomeShiz=function()
     index1=index1Min
   end
   toggle1=not toggle1
-  
 
-  
+
+
+  local markerName="ly003_cl04_npc0000|cl04pl2_q30210|Marker_shootingPractice"
+
+  local GetGameObjectId=GameObject.GetGameObjectId
+  local NULL_ID=GameObject.NULL_ID
+
+  local gameId=GetGameObjectId(markerName)
+  if gameId==NULL_ID then
+    InfCore.Log(markerName.."==NULL_ID")
+  else
+    InfCore.Log(markerName.." gameId:"..tostring(gameId))
+    TppMarker.Enable(markerName)
+  end
+
+  local trapName="ly003_cl04_npc0000|cl04pl2_q30210|trap_shootingPractice_start"
+  local gameId=GetGameObjectId(markerName)
+  if gameId==NULL_ID then
+    InfCore.Log(trapName.."==NULL_ID")
+  end
+
+  --InfCore.PrintInspect(EquipIdTable,"EquipIdTable")
+  --InfCore.PrintInspect(InfInit,"InfInit insp")--DEBUGNOW
+  --
+  local filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
+  --InfCore.DoFile(filePath)
+
+  --local equipDevelopID={
+  --11080,
+  --11081,
+  --11082,
+  --11083,
+  --}
+  --
+  --
+  --  for t,equipDevelopID in ipairs(equipDevelopID)do
+  --    InfCore.DebugPrint(equipDevelopID)
+  --    TppMotherBaseManagement.SetEquipDeveloped{equipDevelopID=equipDevelopID}
+  --  end
+
+
+  --  local InterrogateQuiet="p51_010210"
+  --
+  --  local demoId=InterrogateQuiet
+  --  DemoDaemon.Play(demoId)
+
+  ---InfCore.PrintInspect(mvars.mis_transitionMissionStartPosition,"mvars.mis_transitionMissionStartPosition")
+
+  local missionCode=33003
+  --TppMission.ReserveMissionClear{nextMissionId=missionCode,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
+
+  --MotherBaseStage.LockCluster(8)--DEBUGNOW
+
+  --InfCore.PrintInspect(TppEquip,"TppEquip")
+
+  if true then return end
+
+  local userPresetChimeraParts={}
+  --={
+  --15, 5, 7, 0, 0, 1, 0, 0, 2, 0, 0, 0,
+  --29, 11, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  --32, 16, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  --59, 23, 47, 4, 0, 17, 3, 0, 0, 0, 1, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  --65, 30, 54, 11, 2, 24, 4, 1, 0, 0, 0, 0,
+  --68, 40, 56, 15, 1, 32, 3, 0, 4, 8, 11, 86,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  --196, 63, 148, 23, 11, 0, 1, 0, 5, 0, 0, 0,
+  --88, 57, 73, 21, 0, 0, 0, 0, 0, 0, 0, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  --116, 71, 0, 28, 0, 0, 9, 0, 0, 9, 11, 86,
+  --142, 77, 101, 10, 0, 0, 12, 0, 0, 0, 0, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  --163, 88, 113, 39, 19, 33, 19, 0, 0, 9, 3, 0,
+  --150, 81, 106, 36, 25, 33, 5, 1, 0, 9, 0, 0,
+  --145, 84, 104, 28, 17, 33, 16, 0, 0, 0, 0, 0,
+
+  --170, 96, 120, 0, 0, 20, 3, 0, 4, 8, 0, 0,
+  --208, 99, 152, 18, 25, 0, 3, 0, 0, 0, 0, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  --210, 0, 157, 0, 0, 0, 22, 0, 3, 8, 0, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  --0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  --}
+
+  local chimera={}
+  local chimera2={}
+  InfCore.Log("idx:")
+  for i,category in ipairs(this.weaponCategories)do
+    chimera[category]={}
+    chimera2[category]={}
+    for j,slot in ipairs(this.slots) do
+      chimera[category][slot]={}
+      chimera2[category][slot]={}
+      for k,part in ipairs(this.parts)do
+        local idx=InfChimera.From3Dto1D(k-1,j-1,i-1,#this.parts,#this.slots)
+        InfCore.Log(idx)
+        chimera2[category][slot][part]=vars.userPresetChimeraParts[idx]
+      end
+    end
+  end
+
+  local varsSize=#this.weaponCategories*this.SLOTS_PER_CATEROGRY*this.PARTS_COUNT
+  for i=0,varsSize-1 do
+    local part,slot,cat=InfChimera.From1Dto3D(i,#this.parts,#this.slots)
+    local catName=this.weaponCategoriesEnum[cat+1]
+    local slotName=this.slotsEnum[slot+1]
+    local partName=this.partsEnum[part+1]
+    InfCore.Log("cat: "..cat.." slot:"..slot.." part:"..part)
+    InfCore.Log("catName: "..tostring(catName).." slotName:"..tostring(slotName).." partName:"..tostring(partName))
+
+    table.insert(userPresetChimeraParts,vars.userPresetChimeraParts[i])
+    chimera[catName][slotName][partName]=vars.userPresetChimeraParts[i]
+  end
+  InfCore.PrintInspect(userPresetChimeraParts,"userPresetChimeraParts")
+  InfCore.PrintInspect(chimera,"chimera")
+  InfCore.PrintInspect(chimera2,"chimera2")
+
+  if true then return end
+  this.ClearEnabledMarkers()
+
+  if true then return end
+
   for revengeTypeIndex=0,TppRevenge.REVENGE_TYPE.MAX-1 do
     local revengeTypeName=TppRevenge.REVENGE_TYPE_NAME[revengeTypeIndex+1]
     local revengePoint=gvars.rev_revengePoint[revengeTypeIndex]
-    InfCore.Log("rev_revengePoint["..revengeTypeName.."]".."="..tostring(revengePoint))  
-  
+    InfCore.Log("rev_revengePoint["..revengeTypeName.."]".."="..tostring(revengePoint))
+
     local revengeLv=gvars.rev_revengeLv[revengeTypeIndex]
     InfCore.Log("rev_revengeLv["..revengeTypeName.."]".."="..tostring(revengeLv))
   end
@@ -1001,42 +1204,42 @@ this.DEBUG_SomeShiz=function()
     InfCore.Log("rev_revengeBlockedCount["..blockedTypeIndex.."]".."="..tostring(blockedCount))
   end
 
---InfCore.PrintInspect(player2_camouf_param,"player2_camouf_param")
---InfCore.Log("elapsedTime:"..Time.GetRawElapsedTimeSinceStartUp())
---tex example usage of the cammoTypes and materialTypes tables I added
---local camoType=this.camoTypes.SWIMWEAR_C00
---local materialType=this.materialTypes.MTR_WOOD_A
---local camoMaterialValue=this.cammoTable[camoType][materialType] --get value
---this.camoTable[camoType][materialType]=50 --set value
+  --InfCore.PrintInspect(player2_camouf_param,"player2_camouf_param")
+  --InfCore.Log("elapsedTime:"..Time.GetRawElapsedTimeSinceStartUp())
+  --tex example usage of the cammoTypes and materialTypes tables I added
+  --local camoType=this.camoTypes.SWIMWEAR_C00
+  --local materialType=this.materialTypes.MTR_WOOD_A
+  --local camoMaterialValue=this.cammoTable[camoType][materialType] --get value
+  --this.camoTable[camoType][materialType]=50 --set value
 
---or conversely, printing out
---for cammoType,cammoStrengths in ipairs(this.cammoTable)do
---  InfCore.Log(this.playerCammoTypeNames[cammoType])
---  for materialType,cammoStrength in ipairs(cammoStrengths)do
---    InfCore.Log(this.materialTypeNames[materialType]..":"..cammoStrength)
---  end
---end
-  
-
+  --or conversely, printing out
+  --for cammoType,cammoStrengths in ipairs(this.cammoTable)do
+  --  InfCore.Log(this.playerCammoTypeNames[cammoType])
+  --  for materialType,cammoStrength in ipairs(cammoStrengths)do
+  --    InfCore.Log(this.materialTypeNames[materialType]..":"..cammoStrength)
+  --  end
+  --end
 
 
---  local displayTimeSec=1*50
---  local cautionTimeSec=30
---  if index1==1 then
---    TppUiCommand.StartDisplayTimer(displayTimeSec,cautionTimeSec)
---    InfCore.Log("DisplayTimer start:"..tostring(displayTimeSec*1000),true,true)
---  elseif index1==2 then
---    --InfCore.Log("DisplayTimer stop",true,true)
---    --TppUiStatusManager.SetStatus("DisplayTimer","STOP_VISIBLE")
---  elseif index1==3 then 
---    local leftTime=TppUiCommand.GetLeftTimeFromDisplayTimer()
---    InfCore.Log("DisplayTimer leftTime:"..tostring(leftTime),true,true)
---  else
---    --InfCore.Log("DisplayTimer erase",true,true)
---    --TppUiStatusManager.UnsetStatus("DisplayTimer","STOP_VISIBLE")
---    --TppUiCommand.EraseDisplayTimer()
---
---  end
+
+
+  --  local displayTimeSec=1*50
+  --  local cautionTimeSec=30
+  --  if index1==1 then
+  --    TppUiCommand.StartDisplayTimer(displayTimeSec,cautionTimeSec)
+  --    InfCore.Log("DisplayTimer start:"..tostring(displayTimeSec*1000),true,true)
+  --  elseif index1==2 then
+  --    --InfCore.Log("DisplayTimer stop",true,true)
+  --    --TppUiStatusManager.SetStatus("DisplayTimer","STOP_VISIBLE")
+  --  elseif index1==3 then
+  --    local leftTime=TppUiCommand.GetLeftTimeFromDisplayTimer()
+  --    InfCore.Log("DisplayTimer leftTime:"..tostring(leftTime),true,true)
+  --  else
+  --    --InfCore.Log("DisplayTimer erase",true,true)
+  --    --TppUiStatusManager.UnsetStatus("DisplayTimer","STOP_VISIBLE")
+  --    --TppUiCommand.EraseDisplayTimer()
+  --
+  --  end
 
   local time=1234
   --  TppRanking._ShowScoreTimeAnnounceLog(time)
@@ -1312,6 +1515,12 @@ local index2Max=334
 local index2=index2Min
 this.DEBUG_SomeShiz2=function()
   InfCore.Log("---DEBUG_SomeShiz2---")
+
+  local varsSize=#this.weaponCategories*this.SLOTS_PER_CATEROGRY*this.PARTS_COUNT
+  for i=0,varsSize-1 do
+    vars.userPresetChimeraParts[i]=0
+  end
+  if true then return end
 
   -- vars.missionCode=12345--
 
@@ -1620,6 +1829,20 @@ this.debug_vars_playerType={
     vars.playerType=setting
   end,
 }
+
+this.UnSetStandMoveSpeedLimit=function()
+  GameObject.SendCommand( { type="TppPlayer2", index=PlayerInfo.GetLocalPlayerIndex() }, { id="SetStandMoveSpeedLimit", speedRateLimit = -1 } )
+end
+
+this.setStandMoveSpeedLimit={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=60,increment=0.1},
+  OnChange=function(self,setting)
+    --tex speedRateLimit 0-1 - controls normal run speed (not slow walk or sprint) 0 = slow walk speed - 1(max) = normal speed
+    GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="SetStandMoveSpeedLimit",speedRateLimit=setting})
+  end,
+}
+
 
 
 return this
