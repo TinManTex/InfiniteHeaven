@@ -2,6 +2,7 @@
 --NMC: maps a friendly id (in this case something close to the fv2 name) to an enum. in Soldier2FacaAndBodyData the enum is then mapped(via bodyDefinition table)to the actual fv2 path and fpk (bodyFova table >
 --In a lot of cases these aren't used and the body id/index is used directly
 --and in some cases the mapping is incorrect (see note on pfs0_dds0_v00 below)
+--DYNAMIC: ADDON: added to by IH InfModelProc
 local this={
   --SOVIET see TppEnemy.bodyIdTable
   svs0_rfl_v00_a=0,
