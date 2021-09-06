@@ -134,6 +134,7 @@ function this.GetSaveGameDataQueue(missionCode,needIcon,doSaveFunc,isCheckPoint)
   saveInfo=this._SaveQuestData(saveInfo)
   return saveInfo
 end
+--HOOKED: see InfHooks
 function this.SaveConfigData(needIcon,doSave,reserveNextMissionStart)
   if doSave then
     local saveInfo=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,needIcon)
@@ -147,6 +148,7 @@ end
 function this.SaveMGOData()
   this.EnqueueSave(TppDefine.SAVE_SLOT.MGO,TppDefine.SAVE_SLOT.MGO_SAVE,TppScriptVars.CATEGORY_MGO,TppDefine.MGO_SAVE_FILE_NAME)
 end
+--HOOKED: see InfHooks
 function this.SavePersonalData(needIcon,doSave,reserveNextMissionStartSave)
   if doSave then
     local saveInfo=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.SAVE_SLOT.PERSONAL_SAVE,TppScriptVars.CATEGORY_PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,needIcon)
