@@ -1437,7 +1437,8 @@ function this.ClearWithSaveMtbsDDQuest()
   this.UpdateRepopFlag(questIndex)
   this.Save()
 end
-function this.Clear(questName,keepAlive)--tex added keepAlive
+--tex added keepAlive
+function this.Clear(questName,keepAlive)
   if questName==nil then
     questName=this.GetCurrentQuestName()
     if questName==nil then
@@ -2452,6 +2453,9 @@ function this.UpdateOpenQuest()
 end
 --tex heavily REWORKED --PCall InfHooked
 --CALLER: TppMain.OnInitialize
+--GOTCHA: once player has completed most quests the system then mostly relies on repoping quests, which is driven by UpdateRepopFlag/UpdateRepopFlagImpl.
+--however with vanilla code this is mainly only called on quest completion. This means with some IH quest selection options the whole list could get stuck in a none-selected state.
+--though in most of those cases IH runs UpdateRepopFlagImpl on changing its options anyway, and IH reroll also calls it.
 function this.UpdateActiveQuest(updateFlags)
   if not mvars.qst_questList then
     InfCore.LogFlow("TppMain.UpdateActiveQuest return: not mvars.qst_questList")--tex DEBUGNOW
@@ -2496,7 +2500,7 @@ function this.UpdateActiveQuest(updateFlags)
     --<
     
     local selectedQuestCount=0
-    local forcedQuest=InfQuest.GetForced()--tex
+    local forcedQuests=InfQuest.GetForced()--tex
     for i,areaQuests in ipairs(mvars.qst_questList)do
       --ORPHAN local RENsomeTable={}
       local questList={}
@@ -2504,8 +2508,9 @@ function this.UpdateActiveQuest(updateFlags)
       local nonStoryQuests={}
       local repopQuests={}
       --tex forcedquests>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
-      local unlockedName=forcedQuest and forcedQuest[areaQuests.areaName] or nil
+      local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
       if unlockedName then
+        InfCore.Log("TppQuest.UpdateActiveQuest unlockedName:"..unlockedName)--
         for j,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
@@ -2527,6 +2532,10 @@ function this.UpdateActiveQuest(updateFlags)
             if blockQuest then
               InfCore.Log("blocked Quest "..questName)
             end
+            if this.debugModule then--tex>
+              local checkedQuest=not CheckQuestFunc or CheckQuestFunc()
+              InfCore.Log(questName.." selection states: checkedQuest:"..tostring(checkedQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
+            end--<
             if this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc())and not blockQuest then--tex added blockQuest
               local questInfo=this.GetSideOpsInfo(questName)--tex category filtering>
               if not questInfo or enabledCategories[questInfo.category] then
@@ -2901,6 +2910,7 @@ function this.UpdateClearFlag(questIndex,clear,keepAlive)--tex added keepAlive
   gvars.qst_questActiveFlag[questIndex]=false
   end
 end
+--CALLER: Clear
 function this.UpdateRepopFlag(questIndex)
   gvars.qst_questRepopFlag[questIndex]=false
   local questAreaTable=this.GetCurrentQuestTable()
@@ -2911,6 +2921,7 @@ function this.UpdateRepopFlag(questIndex)
 end
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
+    InfCore.LogFlow"TppQuest.UpdateRepopFlagImpl"--tex
     local forceRepop=Ivars.unlockSideOps:Is()>0--tex
     local numOpen=0
     for n,questInfo in ipairs(locationQuests.infoList)do
@@ -2922,20 +2933,32 @@ function this.UpdateRepopFlagImpl(locationQuests)
         if this.IsRepop(questName)or not this.IsCleard(questName)then
           local CheckQuestFunc=checkQuestFuncs[questName]
           if(CheckQuestFunc==nil)or CheckQuestFunc()then
+            if this.debugModule then--tex>
+              InfCore.Log("TppQuest.UpdateRepopFlagImpl:"..questName.." IsRepop and CheckQuest")
+            end--<
             return
           end
         end
       end
     end
-    if numOpen<=1 and(not TppLocation.IsMotherBase())then
+    if numOpen<=1 and(not TppLocation.IsMotherBase())then--NMC tex dont know what this is trying to protect against, RETAILBUG? either way it seems like a flaw in not catching mtbs quests when in afgh/mafr helispace
+      if this.debugModule then--tex>
+        InfCore.Log("TppQuest.UpdateRepopFlagImpl numOpen<=1 and(not TppLocation.IsMotherBase()) returning")
+      end--<
       return
     end
     for n,questInfo in ipairs(locationQuests.infoList)do
       if this.IsCleard(questInfo.name)and((not questInfo.isOnce) or forceRepop) then--tex added forceRepop
+        if this.debugModule then--tex>
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop true")
+      end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
       end
       local CheckQuestFunc=checkQuestFuncs[questInfo.name]
       if CheckQuestFunc and(not CheckQuestFunc())then
+        if this.debugModule then--tex>
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop false")
+        end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
       end
     end
@@ -3280,6 +3303,7 @@ function this._ChangeToEnable(instanceName,makerType,gameObjectId,identification
     end
   end
 end
+--CALLER: quest script msg QuestStarted
 function this.SetQuestShootingPractice()
   TppSoundDaemon.PostEvent"sfx_s_training_ready_go"
   GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
@@ -3290,6 +3314,7 @@ function this.SetQuestShootingPractice()
   mvars.qst_isShootingPracticeStarted=true
   GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut"})
 end
+--CALLER: TimerShootingPracticeStart -^
 function this.StartShootingPractice()
   this.UpdateShootingPracticeUi()
   InfShootingPractice.OverrideShootingPracticeTime()--tex
