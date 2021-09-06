@@ -3321,7 +3321,11 @@ function this.StartShootingPractice()
   TppUiCommand.StartDisplayTimer(mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec)
   TppGimmick.StartQuestShootingPractice()
   TppGimmick.SetQuestSootingTargetInvincible(false)
-  f30050_sound.SetScene_ShootingRange()
+  --tex REWORKED
+  if mvars.snd_bgmList and mvars.snd_bgmList.bgm_shooting_range then
+    TppSound.SetSceneBGM("bgm_shooting_range")
+  end
+  --ORIG --f30050_sound.SetScene_ShootingRange()
   TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"
   Player.SetInfiniteAmmoFromScript(true)
 end
@@ -3412,8 +3416,14 @@ end
 function this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
   mvars.qst_shootingPracticeStartUiPos=startUiPosition or mvars.qst_shootingPracticeStartUiPos
   mvars.qst_shootingPracticeOffsetType=offsetType or mvars.qst_shootingPracticeOffsetType
+
+  if mvars.qst_shootingPracticeOffsetType==nil then--tex> using startUiPos instead if no offsetType so it can be used in other locations than mtbs
+    local pos=mvars.qst_shootingPracticeStartUiPos or {0,0,0}
+    TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
+  else--<
   local pos,rotY=mtbs_cluster.GetPosAndRotY(mvars.qst_shootingPracticeOffsetType,"plnt0",mvars.qst_shootingPracticeStartUiPos,0)
   TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
+end
 end
 --CALLERS: ShowShootingPracticeStartUi ^, Quest script LandingFromHeli
 --tex added markerName
