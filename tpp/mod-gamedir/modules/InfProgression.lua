@@ -92,6 +92,7 @@ this.dlcItemKeyItemList={
   HORSE_PARADE=MBMConst.EXTRA_4009,
   ARM_GOLD=MBMConst.EXTRA_6000,--RETAILPATCH 1.10 added
  }--dlcItemKeyItemList
+ --tex messagelog lists everything being unlocked, but dont acutally show in dev ui or equipment select, so I guess its doing CheckDlcFlag in exe or something.
 function this.UnlockDLC()
   local function AddDlcItem(dlcId,dlcType)
     local dataBaseId=this.dlcItemKeyItemList[dlcType]
@@ -117,6 +118,9 @@ function this.UnlockDLC()
       this.AcquireDlcItem(dlcItem,AddDlcItem,dlcType)
     end
   end
+  
+  TppSave.CheckAndSavePersonalData()--DEBUGNOW
+  --TODO: lang success or fail (allready aquired)
 end--UnlockDLC
 --tex Cribbed from TppTerminal
 --param==emblemType or dlcType
@@ -149,7 +153,7 @@ this.progressionMenu={
     "Ivars.mbForceBattleGearDevelopLevel",--tex also in motherBaseShowAssetsMenu
     "InfProgression.UnlockPlayableAvatar",
     "InfProgression.UnlockWeaponCustomization",
-    "InfProgression.UnlockDLC",--DEBUGNOW lang
+    --"InfProgression.UnlockDLC",
     "InfProgression.ResetPaz",--tex also in motherBaseShowCharactersMenu
     "InfProgression.ReturnQuiet",--tex also in motherBaseShowCharactersMenu
     "InfProgression.ShowQuietReunionMissionCount",
@@ -169,6 +173,7 @@ this.langStrings={
     returnQuiet="Return Quiet after mission 45",
     quiet_already_returned="Quiet has already returned.",
     quiet_return="Quiet has returned.",
+    unlockDLC="Unlock DLC",
   },--eng
   help={
     eng={
