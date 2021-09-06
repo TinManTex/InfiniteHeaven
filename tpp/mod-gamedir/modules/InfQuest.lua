@@ -34,9 +34,9 @@ this.debugSave=true--DEBUGNOW
 --q30400-q30499--MgSolidus (via nexus message)
 --q30500-q30504--hsronacse (via nexus posts page)
 --q30600-q30699--amars464 (via discord) (currently made 12)
---q31069-q31099--jackwall (via nexus message) - 
+--q31069-q31099--jackwall (via nexus message)
 --q31100-q31199--Adam_Online (discord) - Tales from Mother Base sidop collection on nexus.
---q35648-q34651--ventos - boss sheep --https://www.nexusmods.com/metalgearsolidvtpp/mods/624
+--q35648-q34651--ventos - boss sheep
 --q36660-q36760--ventos
 
 
@@ -208,7 +208,7 @@ end
 --    areaName="MtbsMedical",--quest area, is 'Mtbs<cluster name>'
 --    clusterName="Medical",--https://metalgearmodding.fandom.com/wiki/MotherBase_Clusters
 --    plntId=TppDefine.PLNT_DEFINE.Common2,--platform id. can just be the number 0-3, with 0 being the unique 'main' platform of the cluster
---    category=TppQuest.QUEST_CATEGORIES_ENUM.TARGET_PRACTIVE,
+--    category=TppQuest.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE,
 --    questCompleteLangId="quest_target_eliminate",
 --    canOpenQuest=function(questName)--whether quest can be active
 --        local isMbLayout3=InfQuest.CanOpenIsMbLayout3()--only built layout for mbLayout 3
@@ -250,6 +250,9 @@ function this.BlockQuest(questName)
     --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
     local questInfo=this.ihQuestsInfo[questName]
     if not questInfo or not questInfo.allowInWargames then
+      if this.debugModule then
+        InfCore.Log("BlockQuest "..questName.." IsMbEvent")
+      end
       return true
     end
   end
@@ -985,6 +988,7 @@ function this.DisableLandingZones()
 end
 
 function this.UpdateActiveQuest()
+  InfCore.LogFlow("InfQuest.UpdateActiveQuest")
   for i=0,TppDefine.QUEST_MAX-1 do
     gvars.qst_questRepopFlag[i]=false
   end
