@@ -508,7 +508,7 @@ this.equipParameterTables={
     {TppEquip.WP_60616,TppEquip.RC_60615,TppEquip.BA_None,TppEquip.AM_60616,TppEquip.SK_None,TppEquip.MZ_None,TppEquip.MO_None,TppEquip.ST_60105,TppEquip.ST_None,TppEquip.UD_None,TppEquip.LT_None,TppEquip.LS_30104,9},
     {TppEquip.WP_60617,TppEquip.RC_60615,TppEquip.BA_None,TppEquip.AM_60617,TppEquip.SK_None,TppEquip.MZ_None,TppEquip.MO_None,TppEquip.ST_60105,TppEquip.ST_None,TppEquip.UD_None,TppEquip.LT_None,TppEquip.LS_30104,11},
     --<
-  },
+  },--gunBasic
   -- From https://metalgearmodding.fandom.com/wiki/Iron_Sight_adjustments,_fire-rate,_draw_and_reload_speeds
   -- as of 2019-8-11
   -- check to see if it's updated
@@ -610,7 +610,7 @@ this.equipParameterTables={
     {300,30,.5,30,30,.39,29,1},
     {180,42,.4,42,42,.35,29,1},
     {810,41,.34,41,41,.35,29,1}
-  },
+  },--receiverParamSetsBase
   receiverParamSetsWobbling={
     {2.25,1.95,5.5,.4,4.7,3.25,.27},
     {2.2,1.9,5,.4,4.7,3.15,.28},
@@ -739,7 +739,7 @@ this.equipParameterTables={
     {2,1.75,2.75,.43,4,3.5,.31},
     {.45,.45,3,.35,.9,.1,.58},
     {2.5,2.25,3,.41,4.5,3.75,.3}
-  },
+  },--receiverParamSetsWobbling
   receiverParamSetsSystem={
     {TppEquip.EQP_TYPE_Handgun,TppEquip.RETICLE_UI_HANDGUN,TppEquip.TRIGGER_SEMIAUTO,1,1,0,0,0,0,0,0,0},
     {TppEquip.EQP_TYPE_Handgun,TppEquip.RETICLE_UI_HANDGUN,TppEquip.TRIGGER_SEMIAUTO,1,1,0,0,0,0,1,0,0},
@@ -807,7 +807,7 @@ this.equipParameterTables={
     {TppEquip.EQP_TYPE_Sniper,TppEquip.RETICLE_UI_SNIPER,TppEquip.TRIGGER_COCKING,1,1,0,0,0,0,0,0,0},
     {TppEquip.EQP_TYPE_Shotgun,TppEquip.RETICLE_UI_SHOTGUN,TppEquip.TRIGGER_FULLAUTO,0,0,0,0,0,0,0,0,0},
     {TppEquip.EQP_TYPE_Machinegun,TppEquip.RETICLE_UI_MACHINEGUN,TppEquip.TRIGGER_FULLAUTO,1,1,0,0,0,0,0,0,0}
-  },
+  },--receiverParamSetsSystem
   receiverParamSetsSound={
     {"hg00"},
     {"hg07"},
@@ -849,7 +849,7 @@ this.equipParameterTables={
     {"hg12"},
     {"gl05"},
     {"sr06"}
-  },
+  },--receiverParamSetsSound
   receiver={
     1,
     --{recieverId,attackId,receiverParamSetsBase,receiverParamSetsWobbling,receiverParamSetsSystem,receiverParamSetsSound},
@@ -1089,7 +1089,7 @@ this.equipParameterTables={
     {TppEquip.RC_60605,TppDamage.ATK_60605,78,96,63,23},
     {TppEquip.RC_60615,TppDamage.ATK_60615,78,96,63,23},
     --<
-  },
+  },--receiver
   barrelParamSetsBase={
     {1,1,1,1,1,1,1},
     {1,1,1.3,1,1,.75,1},
@@ -1168,7 +1168,7 @@ this.equipParameterTables={
     {1.1,1,1,1,1,1,.6},
     {1.1,.95,1.05,.95,.95,1.1,.7},
     {1,1,1,1,1,1,.85}
-  },
+  },--barrelParamSetsBase
   barrel={
     1,
     --{barrelId,barrelParamSetsBase,BARREL_LENGTH,hasScopeMount,unk2,hasSideMount,hasUnderMount}--last 4 params are intbool {0-1}, unk2 is always 0
@@ -1285,7 +1285,7 @@ this.equipParameterTables={
     {TppEquip.BA_Pr_sg_010,0,TppEquip.BARREL_LENGTH_MIDDLE,0,0,0,0},
     {TppEquip.BA_Pr_sr_010,51,TppEquip.BARREL_LENGTH_LONG,0,0,0,0},
     {TppEquip.BA_mgm0_mgun00,0,TppEquip.BARREL_LENGTH_LONG,0,0,0,0}
-  },
+  },--barrel
   magazine={
     1,
     --{ammoId,equip ammo id,magazine capacity,total carry capacity,bulletId}
@@ -1482,7 +1482,7 @@ this.equipParameterTables={
     {TppEquip.AM_60616,TppEquip.EQP_AM_60605,1,12,TppEquip.BL_60615},
     {TppEquip.AM_60617,TppEquip.EQP_AM_60605,1,16,TppEquip.BL_60615},
     --<
-  },
+  },--magazine
   muzzleOption={
     1,
     --{muzzleOptionId, grouping bonus?,durability in number of shots (-1 infinite),bool for sound suppress? (is 1 on supperessors}--from bipbop
@@ -1525,7 +1525,7 @@ this.equipParameterTables={
     {TppEquip.MO_60406,1,15,1},
     {TppEquip.MO_6040a,1,30,1},
     {TppEquip.MO_70025,.8,-1,0}
-  },
+  },--muzzleOption
   option={
     1,
     {TppEquip.LT_10102,1,0},
@@ -1537,7 +1537,7 @@ this.equipParameterTables={
     {TppEquip.LS_20004,0,1},
     {TppEquip.LS_30104,0,1},
     {TppEquip.LS_40034,0,1}
-  },
+  },--option
   sight={
     1,
     --{scopeId,zoom magnification step1 (0,step2(0 if none),step3,scope ui id,bool booster scope, bool nvg, bool build in scope, bool range finder, bool range finder w bullet drop correction crosshair}--from bipbop - untested
@@ -1565,7 +1565,7 @@ this.equipParameterTables={
     {TppEquip.ST_80103,2,4,6,TppEquip.SCOPE_UI_DEFAULT,0,0,0,0,0},
     {TppEquip.ST_80203,2,4,6,TppEquip.SCOPE_UI_DEFAULT,0,0,0,0,0},
     {TppEquip.ST_80303,2,4,6,TppEquip.SCOPE_UI_DEFAULT,0,0,0,0,0}
-  },
+  },--sight
   stock={
     1,
     {TppEquip.SK_20002,1,1},
@@ -1608,7 +1608,7 @@ this.equipParameterTables={
     {TppEquip.SK_60405,1.2,.7},
     {TppEquip.SK_70103,1,1},
     {TppEquip.SK_70203,1,1}
-  },
+  },--stock
   underBarrel={
     1,
     {TppEquip.UB_20105,TppEquip.RC_None,TppEquip.AM_None,1},
@@ -1633,7 +1633,7 @@ this.equipParameterTables={
     {TppEquip.UB_50147,TppEquip.RC_50147,TppEquip.AM_50147,7},
     {TppEquip.UB_50133,TppEquip.RC_50133,TppEquip.AM_50102,3},
     {TppEquip.UB_50136,TppEquip.RC_50136,TppEquip.AM_50136,5}
-  },
+  },--underBarrel
   bulletParamSetsBase={
     {38,76,.5,15,30,.5,40,60,.14,TppEquip.PENETRATE_LEVEL_HANDGUN,TppEquip.PENETRATE_LEVEL_TRANQ,24},
     {38,76,.5,15,30,.5,40,60,.14,TppEquip.PENETRATE_LEVEL_TRANQ,TppEquip.PENETRATE_LEVEL_TRANQ,24},
@@ -1670,7 +1670,7 @@ this.equipParameterTables={
     {45,60,.75,45,60,.75,40,70,.8,TppEquip.PENETRATE_LEVEL_RIFLE,TppEquip.PENETRATE_LEVEL_TRANQ,45},
     {30,45,.75,30,45,.75,30,45,.5,TppEquip.PENETRATE_LEVEL_TRANQ,TppEquip.PENETRATE_LEVEL_TRANQ,45},
     {20,40,.5,15,30,.5,40,60,.14,TppEquip.PENETRATE_LEVEL_HANDGUN,TppEquip.PENETRATE_LEVEL_TRANQ,24}
-  },
+  },--bulletParamSetsBase
   bulletTrailEffectList={
     {""},
     {"/Assets/tpp/effect/vfx_data/weapon/fx_tpp_wepbltlin01_s0LG.vfx"},
@@ -1681,7 +1681,7 @@ this.equipParameterTables={
     {"/Assets/tpp/effect/vfx_data/fire/fx_tpp_firvolbltrid01_s0LG.vfx"},
     {"/Assets/tpp/effect/vfx_data/weapon/fx_tpp_wepbltlin02_s0LG.vfx"},
     {"/Assets/tpp/effect/vfx_data/weapon/fx_tpp_wepbltlinsnr01_s0.vfx"},--RETAILPATCH 1.0.13
-  },
+  },--bulletTrailEffectList
   bullet={
     0,
     {TppEquip.BL_20mmSmoke,90,90,9.8,21,21,0,0,TppEquip.RICOCHET_SIZE_DEFAULT,TppEquip.BULLET_TYPE_SHELL,TppEquip.BLA_20mmGrenade,0,TppEquip.EQP_TYPE_GrenadeLauncher},
@@ -1792,7 +1792,7 @@ this.equipParameterTables={
     {TppEquip.BL_UavGrenade,180,100,9.8,21,21,0,0,TppEquip.RICOCHET_SIZE_DEFAULT,TppEquip.BULLET_TYPE_SHELL,0,0,TppEquip.EQP_TYPE_None},
     {TppEquip.BL_60615,450,450,15,25,26,8,8,TppEquip.RICOCHET_SIZE_SMALL,TppEquip.BULLET_TYPE_NORMAL,0,0,TppEquip.EQP_TYPE_Sniper},--RETAILPATCH 1.0.13
     {TppEquip.BL_UavSmokeGrenade,180,100,9.8,21,21,0,0,TppEquip.RICOCHET_SIZE_DEFAULT,TppEquip.BULLET_TYPE_SHELL,0,0,TppEquip.EQP_TYPE_None}
-  }
-}
+  }--bullet
+}--equipParameterTables
 TppEquip.ReloadEquipParameterTables2(this.equipParameterTables)
 return this
