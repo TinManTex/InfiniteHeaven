@@ -2474,26 +2474,7 @@ function this.UpdateActiveQuest(updateFlags)
     InfCore.Log("UpdateActiveQuest: selectionCategory:"..tostring(selectionCategory))--tex DEBUG
     InfCore.Log("UpdateActiveQuest: selectionCategoryEnum:"..tostring(selectionCategoryEnum))--tex DEBUG
 
-    local enabledCategories={}
-    local ivarPrefix="sideops_"
-    for i,categoryName in ipairs(this.QUEST_CATEGORIES)do
-      local ivarName=ivarPrefix..categoryName
-      local categoryEnum=this.QUEST_CATEGORIES_ENUM[categoryName]
-      local enabled=false
-      local ivar=Ivars[ivarName]
-      --tex the per-category ivars default to 1/enabled
-      if ivar then--tex ADDON doesnt have an ivar
-        enabled=Ivars[ivarName]:Get()==1
-        InfCore.Log(ivarName.."="..tostring(enabled))
-      end
-
-      --tex selectionmode overrides individual selection categories filter
-      if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
-        enabled=true
-      end
-
-      enabledCategories[categoryEnum]=enabled
-    end
+    local enabledCategories=InfQuest.GetEnabledCategories(selectionCategoryEnum)--REF enabledCategories[categoryEnum]=enabled
     if this.debugModule then
       InfCore.PrintInspect(enabledCategories,"enabledCategories")
     end

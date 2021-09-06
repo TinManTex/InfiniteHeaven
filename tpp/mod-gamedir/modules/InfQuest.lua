@@ -322,7 +322,30 @@ function this.GetForced()
 
     return forcedQuests
   end
+end--GetForced
+function this.GetEnabledCategories(selectionCategoryEnum)
+  local enabledCategories={}
+  local ivarPrefix="sideops_"
+  for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
+    local ivarName=ivarPrefix..categoryName
+    local categoryEnum=TppQuest.QUEST_CATEGORIES_ENUM[categoryName]
+    local enabled=true
+    local ivar=Ivars[ivarName]
+    --tex the per-category ivars default to 1/enabled
+    if ivar then--tex ADDON doesnt have an ivar
+      enabled=ivar:Get()==1
+      InfCore.Log(ivarName.."="..tostring(enabled))
+    end
+
+    --tex selectionmode overrides individual selection categories filter
+    if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
+      enabled=true
+    end
+
+    enabledCategories[categoryEnum]=enabled
 end
+  return enabledCategories
+end--GetEnabledCategories
 
 local gvarFlagNames={
   "qst_questOpenFlag",
