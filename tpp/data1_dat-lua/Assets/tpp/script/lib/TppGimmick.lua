@@ -90,7 +90,7 @@ this.COLLECTION_REPOP_COUNT_DECREMENT_TABLE={
   [TppCollection.TYPE_HERB_HAOMA]=100,
   [TppCollection.TYPE_HERB_0]=100,
   [TppCollection.TYPE_HERB_1]=100
-}
+}--COLLECTION_REPOP_COUNT_DECREMENT_TABLE
 function this.Messages()
   return Tpp.StrCode32Table{
     Radio={
@@ -577,7 +577,6 @@ end
 --NMC on GameObject BreakGimmick msg
 function this.BreakGimmick(gameId,locatorNameHash,dataSetNameHash,unkGameId)
   local gimmickId=this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
-  --GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   if not gimmickId then
     return
   end
