@@ -151,6 +151,7 @@ function this.EnableMarkerGimmick(gimmickId)
   Gimmick.EnableMarkerGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName,true)
 end
 function this.OnAllocate(missionTable)
+  --tex TODO: need to test how gracefully if at all removed gvars are cleaned up, and figure out how much space is actually used before extending this to addon locations
   if TppLocation.IsAfghan()then
     TppCollection.SetScriptDeclVars("col_daimondStatus_afgh","col_markerStatus_afgh","col_isRegisteredInDb_afgh")
   elseif TppLocation.IsMiddleAfrica()then
@@ -521,12 +522,13 @@ function this.SetUpConnectLandingZoneTable(connectLZTable)
     mvars.gim_connectLandingZoneTable[gimmickName]=lzInfo.aprLandingZoneName
   end
 end
-function this.SetUpConnectPowerCutTable(e)
+--<locationName>_gimmick.gimmickPowerCutConnectTable
+function this.SetUpConnectPowerCutTable(gimmickPowerCutConnectTable)
   mvars.gim_connectPowerCutAreaTable={}
   mvars.gim_connectPowerCutCpTable={}
-  for gimmickId,e in pairs(e)do
-    local areaName=e.powerCutAreaName
-    local cpName=e.cpName
+  for gimmickId,info in pairs(gimmickPowerCutConnectTable)do
+    local areaName=info.powerCutAreaName
+    local cpName=info.cpName
     mvars.gim_connectPowerCutAreaTable[gimmickId]=areaName
     if cpName then
       local cpId=GetGameObjectId(cpName)
@@ -540,21 +542,23 @@ function this.SetUpConnectPowerCutTable(e)
     end
   end
 end
-function this.SetUpConnectVisibilityTable(e)
+--<locationName>_gimmick.gimmickVisibilityiConnectTable
+function this.SetUpConnectVisibilityTable(gimmickVisibilityiConnectTable)
   mvars.gim_connectVisibilityTable={}
-  for e,n in pairs(e)do
-    mvars.gim_connectVisibilityTable[e]=n
+  for gimmickId,info in pairs(gimmickVisibilityiConnectTable)do
+    mvars.gim_connectVisibilityTable[gimmickId]=info
   end
 end
-function this.SetCommunicateGimmick(e)
-  if not IsTypeTable(e)then
+--<locationName>_gimmick.gimmickCpConnectTable
+function this.SetCommunicateGimmick(gimmickCpConnectTable)
+  if not IsTypeTable(gimmickCpConnectTable)then
     return
   end
   mvars.gim_gimmickIdToCpTable=mvars.gim_gimmickIdToCpTable or{}
   local tppCommandPost={type="TppCommandPost2"}
-  for cpName,e in pairs(e)do
+  for cpName,info in pairs(gimmickCpConnectTable)do
     local gimmicks={}
-    for e,gimmickId in ipairs(e)do
+    for i,gimmickId in ipairs(info)do
       local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
       if gimmickInfo then
         table.insert(gimmicks,gimmickInfo)
@@ -564,14 +568,14 @@ function this.SetCommunicateGimmick(e)
         mvars.gim_gimmickIdToCpTable[StrCode32(gimmickId)]=cpId
       end
     end
-    local isCommunicateBase=e.isCommunicateBase
-    local groupName=e.groupName
+    local isCommunicateBase=info.isCommunicateBase
+    local groupName=info.groupName
     local command={id="SetCommunicateGimmick",cpName=cpName,isCommunicateBase=isCommunicateBase,gimmicks=gimmicks,groupName=groupName}
     GameObject.SendCommand(tppCommandPost,command)
   end
 end
---NMC on GameObject SwitBreakGimmickchGimmick msg
-function this.BreakGimmick(gameId,locatorNameHash,dataSetNameHash,unkP4)
+--NMC on GameObject BreakGimmick msg
+function this.BreakGimmick(gameId,locatorNameHash,dataSetNameHash,unkGameId)
   local gimmickId=this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   --GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   if not gimmickId then
@@ -582,12 +586,12 @@ function this.BreakGimmick(gameId,locatorNameHash,dataSetNameHash,unkP4)
   this.HideAsset(gimmickId)
   this.ShowAnnounceLog(gimmickId)
   this.UnlockLandingZone(gimmickId)
-  local unkLBool=false
-  if(unkP4==NULL_ID)then
-    unkLBool=true
+  local noUnkGameId=false
+  if(unkGameId==NULL_ID)then
+    noUnkGameId=true
   end
-  this.PowerCut(gimmickId,true,unkLBool)
-  this.SetHeroicAndOrgPoint(gimmickId,unkP4)
+  this.PowerCut(gimmickId,true,noUnkGameId)
+  this.SetHeroicAndOrgPoint(gimmickId,unkGameId)
 end
 --NMC returns gimmickIdentifierParamTable identifier, see  SetUpIdentifierTable
 function this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
@@ -617,8 +621,8 @@ function this.GetGameObjectId(gimmickId)
   end
   return Gimmick.GetGameObjectId(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
 end
-function this.BreakConnectedGimmick(e)
-  local connectedGimmickId=mvars.gim_breakConnectTable[e]
+function this.BreakConnectedGimmick(gimmickId)
+  local connectedGimmickId=mvars.gim_breakConnectTable[gimmickId]
   if not connectedGimmickId then
     return
   end
@@ -642,17 +646,18 @@ function this.CheckBrokenAndBreakConnectedGimmick(gimmickId)
     end
   end
 end
-function this.HideAsset(e)
-  local e=mvars.gim_connectVisibilityTable[e]
-  if not e then
+--<locationName>_gimmick.gimmickVisibilityiConnectTable
+function this.HideAsset(gimmickId)
+  local info=mvars.gim_connectVisibilityTable[gimmickId]
+  if not info then
     return
   end
-  for i,n in pairs(e.invisibilityList)do
-    TppDataUtility.SetVisibleDataFromIdentifier(e.identifierName,n,false,true)
+  for i,setVisibleIdentifierKey in pairs(info.invisibilityList)do
+    TppDataUtility.SetVisibleDataFromIdentifier(info.identifierName,setVisibleIdentifierKey,false,true)
   end
 end
 function this.Show(gimmickId)
-  local e=this.SetVisibility(gimmickId,false)
+  local success=this.SetVisibility(gimmickId,false)
 end
 function this.Hide(gimmickId)
   this.SetVisibility(gimmickId,true)
@@ -695,11 +700,11 @@ function this.ShowAnnounceLog(gimmickId)
   end
   this._ShowCommCutOffAnnounceLog(gimmickId)
 end
-function this._ShowCommCutOffAnnounceLog(e)
+function this._ShowCommCutOffAnnounceLog(gimmickId)
   if not mvars.gim_gimmickIdToCpTable then
     return
   end
-  local cpId=mvars.gim_gimmickIdToCpTable[StrCode32(e)]
+  local cpId=mvars.gim_gimmickIdToCpTable[StrCode32(gimmickId)]
   if not cpId then
     return
   end
@@ -727,8 +732,8 @@ function this.PowerCut(gimmickId,powerCutOn,RENsomeBool)
     end
   end
 end
-function this.SetHeroicAndOrgPoint(gimmickId,e)
-  if e==NULL_ID then
+function this.SetHeroicAndOrgPoint(gimmickId,gameId)
+  if gameId==NULL_ID then
     return
   end
   local gimmickType=mvars.gim_identifierParamTable[gimmickId].gimmickType
@@ -980,7 +985,10 @@ function this.SetQuestInvisibleGimmick(questMarkSetIndex,setInvisible,skipCheck)
     end
   end
 end
-function this.SetQuestSootingTargetInvincible(setInvincible)--TYPO: Sooting. GOTCHA: invincible not invisible
+--TYPO: Sooting. 
+--GOTCHA: invincible not invisible
+--GOTCHA: hardcoded instance name
+function this.SetQuestSootingTargetInvincible(setInvincible)
   for i,targetInfo in pairs(mvars.gim_questTargetList)do
     Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",targetInfo.dataSetName,setInvincible)
     break--NMC tex wut. mtbs_bord001_vrtn003_ev_gim_i0000 is the instance rather than specific target, but they still need the datasetname, they could have just used mvars.gim_questTargetList[1].dataSetName?
