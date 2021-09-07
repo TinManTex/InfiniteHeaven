@@ -1,3 +1,4 @@
+-- DOBUILD: 1
 -- TppGimmick.lua
 --tex TODO: if you pull this into the build then integrate workaround in InfQuest.OnActivateQuest
 local this={}
@@ -799,6 +800,9 @@ function this.OnActivateQuest(questTable)
   end
   local questIsSetUp=false
   if mvars.gim_isQuestSetup==false then
+    --tex> name of the TppPermanentGimmickData that defines the targets lba
+    mvars.gim_permanentGimmickName=questTable.gimmickPermanentGimmickName or"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev"--tex fallback for vanilla shooting quests
+    --<
     if(questTable.targetGimmicklList and Tpp.IsTypeTable(questTable.targetGimmicklList))and next(questTable.targetGimmicklList)then
       for n,gimmickId in pairs(questTable.targetGimmicklList)do
         local targetInfo={gimmickId=gimmickId,messageId="None",idType="Gimmick"}
@@ -988,11 +992,20 @@ end
 --GOTCHA: invincible not invisible
 --GOTCHA: hardcoded instance name
 function this.SetQuestSootingTargetInvincible(setInvincible)
-  for i,targetInfo in pairs(mvars.gim_questTargetList)do
-    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",targetInfo.dataSetName,setInvincible)
-    break--NMC tex wut. mtbs_bord001_vrtn003_ev_gim_i0000 is the instance rather than specific target, but they still need the datasetname, they could have just used mvars.gim_questTargetList[1].dataSetName?
-  end
+  InfCore.LogFlow"TppGimmick.SetQuestSootingTargetInvincible"
+  if mvars.gim_questTargetList and mvars.gim_questTargetList[1] then
+    local instanceName=mvars.gim_permanentGimmickName or "mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev"
+    local dataSetName=mvars.gim_questTargetList[1].dataSetName
+    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,instanceName,dataSetName,setInvincible)
 end
+end--SetQuestSootingTargetInvincible
+--ORIG
+--function this.SetQuestSootingTargetInvincible(setInvincible)
+--  for i,targetInfo in pairs(mvars.gim_questTargetList)do
+--    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",targetInfo.dataSetName,setInvincible)
+--    break--NMC tex wut. mtbs_bord001_vrtn003_ev_gim_i0000 is the instance rather than specific target, but they still need the datasetname, they could have just used mvars.gim_questTargetList[1].dataSetName?
+--  end
+--end
 --NMC no references
 function this.IsQuestStartSwitchGimmick(locatorS32)
   if locatorS32==mvars.gim_questMarkStartName then
