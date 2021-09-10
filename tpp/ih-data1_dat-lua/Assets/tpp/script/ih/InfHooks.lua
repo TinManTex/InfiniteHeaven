@@ -28,7 +28,10 @@ this.hookFuncs={
       IvarProc.OnLoadVarsFromSlot()
     end,
     DoSave=function(saveParams,force)
-      InfCore.LogFlow("InfHook TppSave.DoSave")--tex dosave is either through the following Save<bleh>Data functions directly(rarely, you see the logging of that function directly above if it is) or enqued by the same functions (where youll see the function names logged higher up) to happen next Update > ProcessSaveQueue or OnAllocate > WaitingAllEnqueuedSaveOnStartMission 
+      InfCore.LogFlow("InfHook TppSave.DoSave force:"..tostring(force))--tex dosave is either through the following Save<bleh>Data functions directly(rarely, you see the logging of that function directly above if it is) or enqued by the same functions (where youll see the function names logged higher up) to happen next Update > ProcessSaveQueue or OnAllocate > WaitingAllEnqueuedSaveOnStartMission 
+      if TppSave.debugModule then
+        InfCore.PrintInspect(saveParams,"TppSave.DoSave saveParams")
+      end
       local saveResult=this.TppSave.DoSave(saveParams,force)
 
       --OFF IvarProc.OnSave(saveParams,force)--tex hookin on this level catches savepersonaldata called in init_sequence can throw spanner in works for some of the stuff we want to do during load, so hooking
