@@ -2409,7 +2409,7 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
   --  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
   --    percentage=0
   --  end--<
-  if Tpp.IsFultonContainer(targetId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
+  if Tpp.IsFultonContainer(targetId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness TODO DOCUMENT what am I actually doing here?
     percentage=0
   end--<
 
