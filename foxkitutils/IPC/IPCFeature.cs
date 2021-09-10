@@ -2,6 +2,7 @@
 IPCFeature.cs
 Base MonoBehaviour of component that uses IPC in conjunction with IHHook to send and recieve commands from
 mgsv
+Don't need to do anything with this manually, use another component that inherits from it (Camera/Player/UserMarkerSync).
  */
 
 using UnityEditor;

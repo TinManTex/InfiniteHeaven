@@ -1,4 +1,7 @@
-﻿using System;
+﻿//IPC.cs
+//IH IPC core
+//Don't need to do anything with this manually
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;

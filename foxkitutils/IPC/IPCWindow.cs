@@ -1,8 +1,8 @@
 ﻿/*
 IPCWindow.cs
-Component to communicate with MGSV via IHHooks command/message system.
-Add component to a gameobject.
+Window to communicate with MGSV via IHHooks command/message system.
 Start Game (that has IHHook)
+Open Window > FoxKit > MGSV IPC
 Click StartIPC.
 
 Use a IPCFeature derived component to do stuff
