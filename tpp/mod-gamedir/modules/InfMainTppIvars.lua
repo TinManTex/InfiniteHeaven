@@ -1,10 +1,6 @@
 -- InfMainTppIvars.lua
 local this={}
 
-this.ivarsPersist={
-  mbRepopDiamondCountdown=4,
-}
-
 this.registerIvars={
   "playerHealthScale",
   "mbEnableLethalActions",

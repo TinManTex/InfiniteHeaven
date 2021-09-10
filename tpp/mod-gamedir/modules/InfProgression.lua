@@ -2,6 +2,47 @@
 --tex options and commands for managing games progression
 local this={}
 
+function this.OnMissionCanStart(currentChecks)
+  if Ivars.repopulateRadioTapes:Is(1) then
+    Gimmick.ForceResetOfRadioCassetteWithCassette()
+  end
+end--OnMissionCanStart
+
+function this.RepopFromFree(isMotherBase,isZoo)
+    this.AntiAirRadarsRepop()--tex
+    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear, thus the isBleh vars
+    this.MbCollectionRepop(isMotherBase,isZoo)--tex isFreeVersion IH repop since -^-
+end--RepopFromMission
+function this.RepopFromMission()
+  this.AntiAirRadarsRepop()
+end--RepopFromFree
+
+--CALLER: ExecuteMissionFinalize if freemission just before regular repop
+function this.MbCollectionRepop(isMotherBase,isZoo)
+  --tex repop count decrement for plants
+  if Ivars.mbCollectionRepop:Is(1) then
+    if isZoo then
+      TppGimmick.DecrementCollectionRepopCount()
+    elseif isMotherBase then
+      --tex dont want it too OP
+      local defaultValue=IvarsPersist.mbRepopDiamondCountdown
+      local value=igvars.mbRepopDiamondCountdown or defaultValue
+      value=value-1
+      if value<=0 then
+        value=defaultValue
+        --InfCore.Log("mbCollectionRepop decrement/reset")--DEBUG
+        TppGimmick.DecrementCollectionRepopCount()
+      end
+      --InfCore.Log("mbRepopDiamondCountdown decrement from "..igvars.mbRepopDiamondCountdown.." to "..value)--DEBUG
+      igvars.mbRepopDiamondCountdown=value
+    end
+  end
+end--MbCollectionRepop
+
+this.ivarsPersist={
+  mbRepopDiamondCountdown=4,
+}
+
 this.registerIvars={
   "repopulateRadioTapes",
   "mbCollectionRepop",

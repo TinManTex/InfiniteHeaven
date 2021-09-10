@@ -1401,12 +1401,12 @@ function this.ExecuteMissionFinalize()
   end
   if not fromHeliSpace and not fromFreeMission then
     TppGimmick.DecrementCollectionRepopCount()
+    InfProgression.RepopFromMission()--tex
     Gimmick.StoreSaveDataPermanentGimmickForMissionClear()
     Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
   end
   if fromFreeMission then
-    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear, thus the isBleh vars
-    InfMainTpp.MbCollectionRepop(isMotherBase,isZoo)--tex isFreeVersion IH repop since -^-
+    InfProgression.RepopFromFree(isMotherBase,isZoo)--tex
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
   local lockStaffForMission={

@@ -201,10 +201,6 @@ function this.OnMissionCanStart(currentChecks)
     InfLZ.DisableLzs(TppLandingZone.missionLzs[locationName])
   end
 
-  if Ivars.repopulateRadioTapes:Is(1) then
-    Gimmick.ForceResetOfRadioCassetteWithCassette()
-  end
-
   if Ivars.disableOutOfBoundsChecks:Is(1) then
     mvars.mis_ignoreAlertOfMissionArea=true
     local trapName="trap_mission_failed_area"
@@ -818,28 +814,6 @@ function this.OverwriteBuddyPosForMb()
         mbBuddyEntrySettings[gvars.heli_missionStartRoute]=entryEntry
         TppEnemy.NPCEntryPointSetting(mbBuddyEntrySettings)
       end
-    end
-  end
-end
-
---CALLER: ExecuteMissionFinalize if freemission just before regular repop
-function this.MbCollectionRepop(isMotherBase,isZoo)
-  --tex repop count decrement for plants
-  if Ivars.mbCollectionRepop:Is(1) then
-    if isZoo then
-      TppGimmick.DecrementCollectionRepopCount()
-    elseif isMotherBase then
-      --tex dont want it too OP
-      local defaultValue=IvarsPersist.mbRepopDiamondCountdown
-      local value=igvars.mbRepopDiamondCountdown or defaultValue
-      value=value-1
-      if value<=0 then
-        value=defaultValue
-        --InfCore.Log("mbCollectionRepop decrement/reset")--DEBUG
-        TppGimmick.DecrementCollectionRepopCount()
-      end
-      --InfCore.Log("mbRepopDiamondCountdown decrement from "..igvars.mbRepopDiamondCountdown.." to "..value)--DEBUG
-      igvars.mbRepopDiamondCountdown=value
     end
   end
 end
