@@ -1,7 +1,36 @@
 --InfProgression.lua
 --tex options and commands for managing games progression
+--TODO: all the aacr stuff might be better in InfGimmick
 local this={}
 
+this.debugModule=false
+
+this.dataSetPath32ToAacr={}
+
+--EXEC
+--fast lookup from OnBreakGimmick message pathcode32
+for gimmickId,gimmickInfo in pairs(TppLandingZone.aacrGimmickInfo) do
+  this.dataSetPath32ToAacr[Fox.PathFileNameCode32(gimmickInfo.dataSetName)]=gimmickId
+end
+
+function this.Init(missionTable)
+  this.messageExecTable=nil
+
+  if Ivars.repopAARadars:Is(0) then
+    return
+  end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+function this.OnReload(missionTable)
+  this.messageExecTable=nil
+
+  if not Ivars.repopAARadars:Is(0) then
+    return
+  end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
 function this.OnMissionCanStart(currentChecks)
   if Ivars.repopulateRadioTapes:Is(1) then
     Gimmick.ForceResetOfRadioCassetteWithCassette()
@@ -17,6 +46,52 @@ function this.RepopFromMission()
   this.AntiAirRadarsRepop()
 end--RepopFromFree
 
+function this.Messages()
+  return Tpp.StrCode32Table{
+    GameObject={
+      {msg="BreakGimmick",func=this.OnBreakGimmick},
+    },
+  }
+end
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+function this.OnBreakGimmick(gimmickId,locatorS32,dataSetP32,destroyerId)
+  local repopMissionElapseCount=ivars.repopAARadars
+  if repopMissionElapseCount>0 then
+    local gimmickId=this.dataSetPath32ToAacr[dataSetP32]
+    if gimmickId then
+      local gimmickInfo=TppLandingZone.aacrGimmickInfo[gimmickId]
+      --if Fox.StrCode32(info.locatorName)==locatorNameS32 then
+      InfCore.Log("InfProgression.OnBreakGimmick repopAntiAirRadar setting "..gimmickId.." to repopMissionElapseCount:"..repopMissionElapseCount)
+      igvars[gimmickId]=repopMissionElapseCount
+      --end
+    end
+  end
+end--OnBreakGimmick
+function this.AntiAirRadarsRepop()
+  --tex repop count decrement
+  local repopMissionElapse=Ivars.repopAARadars:Get()
+  if repopMissionElapse>0 then
+    InfCore.LogFlow("InfProgression.AntiAirRadarsRepop "..repopMissionElapse)
+    for gimmickId,gimmickInfo in pairs(TppLandingZone.aacrGimmickInfo)do
+      if Gimmick.IsBrokenGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName) then
+        local value=igvars[gimmickId] or repopMissionElapse
+        value=value-1
+        if value<=0 then
+          value=repopMissionElapse
+          InfCore.Log("InfProgression.AntiAirRadarRepop "..gimmickId.." decrement/reset")--DEBUG
+          InfMenu.PrintLangId"aaradar_reset"
+          Gimmick.ForceIndelibleClear(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
+        end
+        if this.debugModule then
+          InfCore.Log("InfProgression.AntiAirRadarRepop "..gimmickId.." changed from "..tostring(igvars[gimmickId]).." to "..value)--DEBUGNOW
+        end
+        igvars[gimmickId]=value
+      end--if IsBrokenGimmick
+    end--for aacrGimmickInfo
+  end--if repopMissionElapseCount
+end--AntiAirRadarsRepop
 --CALLER: ExecuteMissionFinalize if freemission just before regular repop
 function this.MbCollectionRepop(isMotherBase,isZoo)
   --tex repop count decrement for plants
@@ -42,10 +117,14 @@ end--MbCollectionRepop
 this.ivarsPersist={
   mbRepopDiamondCountdown=4,
 }
+for gimmickId,gimmickInfo in pairs(TppLandingZone.aacrGimmickInfo)do
+  this.ivarsPersist[gimmickId]=-1--indicator for those already broken before ivar repopAARadars is turned on
+end
 
 this.registerIvars={
   "repopulateRadioTapes",
   "mbCollectionRepop",
+  "repopAARadars",
   "mbForceBattleGearDevelopLevel",
 }
 
@@ -58,6 +137,12 @@ this.mbCollectionRepop={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+}
+this.repopAARadars={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  default=0,
+  range={max=100,min=0},
+--DEBUGNOW MissionCheck=
 }
 this.mbForceBattleGearDevelopLevel={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -106,6 +191,23 @@ end
 this.ShowQuietReunionMissionCount=function()
   TppUiCommand.AnnounceLogView("quietReunionMissionCount: "..gvars.str_quietReunionMissionCount)
 end
+function this.RepopAntiAirRadar()
+  --tex needs to be called in-mission when the specific gimmicks are loaded (so running on all like how currently below no good)
+  --not sure how the persistant data that the assault LZ dissabling system uses works.
+  --tex doesn't save/apply fully if abort to acc? fine if exit via heli (normal mission exit)?
+  local aacrGimmickInfo=TppLandingZone.aacrGimmickInfo
+  for gimmickId,gimmickInfo in pairs(aacrGimmickInfo)do
+    Gimmick.ForceIndelibleClear(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
+    --Gimmick.ResetGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
+  end
+
+  --DEBUGNOW
+  --      for i, gimmickId in pairs( resetGimmickIdTable_Tank ) do
+  --      Fox.Log("TppGimmick.s10080.ResetGimmick"..gimmickId)
+  --      TppGimmick.ResetGimmick{ gimmickId = gimmickId, searchFromSaveData = false }
+  --    end
+end--RepopAntiAirRadar
+
 --tex Cribbed from TppTerminal.AcquireDlcItemKeyItem
 local MBMConst=TppMotherBaseManagementConst
 this.dlcItemKeyItemList={
@@ -191,6 +293,7 @@ this.progressionMenu={
     "InfResources.resourceScaleMenu",
     "Ivars.repopulateRadioTapes",
     "Ivars.mbCollectionRepop",--tex also in motherBaseMenu
+    "Ivars.repopAARadars",
     "Ivars.mbForceBattleGearDevelopLevel",--tex also in motherBaseShowAssetsMenu
     "InfProgression.UnlockPlayableAvatar",
     "InfProgression.UnlockWeaponCustomization",
@@ -207,6 +310,7 @@ this.langStrings={
     progressionMenu="Progression menu",
     repopulateRadioTapes="Repopulate music tape radios",
     mbCollectionRepop="Repopulate plants and diamonds",
+    repopAARadars="Repopulate AA Radars",
     mbForceBattleGearDevelopLevel="Force BattleGear built level",
     resetPaz="Reset Paz state to beginning",
     paz_reset="Paz reset",
@@ -215,10 +319,12 @@ this.langStrings={
     quiet_already_returned="Quiet has already returned.",
     quiet_return="Quiet has returned.",
     unlockDLC="Unlock DLC",
+    aaradar_reset="[Intel] an AA Radar has been replaced in the field",
   },--eng
   help={
     eng={
       mbCollectionRepop="Regenerates plants on Zoo platform and diamonds on Mother base over time.",
+      repopAARadars="Number of mission completes before destroyed Anti Air Radars are rebuilt.",
       mbForceBattleGearDevelopLevel="Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.",
       unlockPlayableAvatar="Unlock avatar before mission 46",
       unlockWeaponCustomization="Unlock without having to complete legendary gunsmith missions",
