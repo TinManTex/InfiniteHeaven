@@ -311,18 +311,21 @@ function this.AddSlotToSaveQueue(saveInfo,slot,savingSlot,category)
   returnSaveInfo.category[n]=category
   return returnSaveInfo
 end
-function this.EnqueueSave(saveInfoOrType,slot,category,fileName,needIcon)
-  if saveInfoOrType==nil then
+--NMC adds to queue to be processed via Update > ProcessSaveQueue > DoSave
+--slot==TppDefine.SAVE_SLOT.<>
+--savingSlot==TppDefine.SAVE_SLOT.<>_SAVE
+function this.EnqueueSave(saveInfoOrSlot,savingSlot,category,fileName,needIcon)
+  if saveInfoOrSlot==nil then
     return
   end
   if(gvars.isLoadedInitMissionOnSignInUserChanged or TppException.isLoadedInitMissionOnSignInUserChanged)or TppException.isNowGoingToMgo then
     return
   end
   local saveInfo
-  if Tpp.IsTypeTable(saveInfoOrType)then
-    saveInfo=saveInfoOrType
+  if Tpp.IsTypeTable(saveInfoOrSlot)then
+    saveInfo=saveInfoOrSlot
   else
-    if slot==nil then
+    if savingSlot==nil then
       return
     end
     if category==nil then
@@ -336,7 +339,7 @@ function this.EnqueueSave(saveInfoOrType,slot,category,fileName,needIcon)
   if saveInfo then
     this.saveQueueList[this.saveQueueDepth]=saveInfo
   else
-    this.saveQueueList[this.saveQueueDepth]=this.MakeNewSaveQueue(saveInfoOrType,slot,category,fileName,needIcon)
+    this.saveQueueList[this.saveQueueDepth]=this.MakeNewSaveQueue(saveInfoOrSlot,savingSlot,category,fileName,needIcon)
   end
 end
 function this.MakeNewSaveQueue(slot,savingSlot,category,fileName,needIcon,saveFunc)
@@ -385,6 +388,8 @@ function this.ProcessSaveQueue()
   end
 end
 --HOOKED: see InfHooks
+--CALLERS: this.Save<>Data if doSave, 
+--otherwise EnqueueSave > Update > ProcessSaveQueue
 function this.DoSave(saveParams,force)
   local checkResult=true
   if force then
@@ -402,10 +407,10 @@ function this.DoSave(saveParams,force)
     needIcon=saveParams.needIcon
     doSaveFunc=saveParams.doSaveFunc
     isCheckPoint=saveParams.isCheckPoint
-    for S,t in ipairs(saveParams.slot)do
-      category=saveParams.category[S]
+    for n,slot in ipairs(saveParams.slot)do
+      category=saveParams.category[n]
       saveFileVersion=this.GetSaveFileVersion(category)
-      TppScriptVars.CopySlot({saveParams.savingSlot,t},t)
+      TppScriptVars.CopySlot({saveParams.savingSlot,slot},slot)
     end
   else
     category=saveParams.category
