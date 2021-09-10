@@ -275,7 +275,7 @@ function this.AnnounceVehicleBroken(vehicleId)
     this.SetAndAnnounceHeroicOgrePoint(hAndOPoints)
   end
 end
-function this.AnnounceBreakGimmick(gimmickId,locatorS32,unk2,destroyerId)
+function this.AnnounceBreakGimmick(gimmickId,locatorS32,dataSetP32,destroyerId)
   if not Tpp.IsLocalPlayer(destroyerId)then
     return
   end
