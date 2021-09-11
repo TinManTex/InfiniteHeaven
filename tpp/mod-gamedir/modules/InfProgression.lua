@@ -247,7 +247,8 @@ this.dlcItemKeyItemList={
   HORSE_PARADE=MBMConst.EXTRA_4009,
   ARM_GOLD=MBMConst.EXTRA_6000,--RETAILPATCH 1.10 added
 }--dlcItemKeyItemList
---tex messagelog lists everything being unlocked, but dont acutally show in dev ui or equipment select, so I guess its doing CheckDlcFlag in exe or something.
+--tex even when 1.0.4.1 stuff removed (ExcludeNonPermissionContents, EraseDlcItem) messagelog lists everything being unlocked, but dont acutally show in dev ui or equipment select, 
+--so I guess its doing CheckDlcFlag in exe or something.
 function this.UnlockDLC()
   local function AddDlcItem(dlcId,dlcType)
     local dataBaseId=this.dlcItemKeyItemList[dlcType]
