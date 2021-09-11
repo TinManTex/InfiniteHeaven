@@ -111,9 +111,9 @@ end
 
 function this.MissionPrepare()
   --tex OFF if TppMission.IsStoryMission(vars.missionCode) then
-    if Ivars.gameOverOnDiscovery:Is(1) then
-      TppMission.RegistDiscoveryGameOver()
-    end
+  if Ivars.gameOverOnDiscovery:Is(1) then
+    TppMission.RegistDiscoveryGameOver()
+  end
   --end
 end
 
@@ -434,11 +434,11 @@ function this.RandomizeCpSubTypeTable(missionTable)
     this.ResetCpTableToDefault()
     return
   end
-  
+
   if missionTable.enemy==nil then
     return
   end
-  
+
   local soldierDefine=missionTable.enemy.soldierDefine
   if soldierDefine==nil or next(soldierDefine)==nil then
     return
@@ -449,7 +449,7 @@ function this.RandomizeCpSubTypeTable(missionTable)
   local locationSubTypesTable={}
   for cpName,soldierNameList in pairs(soldierDefine) do
     local subType=subTypeOfCpDefault[cpName]
-    if not subType then      
+    if not subType then
       InfCore.Log("RandomizeCpSubTypeTable no subTypeOfCpDefault for "..tostring(cpName))--DEBUGNOW
     else
       locationSubTypesTable[subType]=true
@@ -652,17 +652,17 @@ function this.WarpRat(gameObjectName,pos,rotY)
 end
 
 --tex used to counteract sendcommand IsDD in TppHero / stop dd staff killed message and point loss
---TODO: not handling hostage 
+--TODO: not handling hostage
 --(ie should be used in conjunction with, unless you want to throw a IsDD or maybe EnemyType.TYPE_DD in)
 --currently only used in TppHero to manage mb_staff_died
 --currently soldiers only
 --REF base game DD soldiers
 --MB Free soldiers - your staff
---Fob soldiers: 
+--Fob soldiers:
 --defense - your staff
 --attack - enemy dd
 --Fob Hostages, but only on event?
---10115 : Mission 22 - Retake the Platform  
+--10115 : Mission 22 - Retake the Platform
 --soldiers - enemy dd
 --hostages - your staff
 --10240 : shining lights -- your staff
@@ -673,7 +673,7 @@ end
 --seems to have an exception (return false) for 10115 soldiers VERIFY
 --what about FOB?
 
---DEBUGNOW reworked to just assume anything outside of vanilla usage for DD soldiers means DD are from an addon where DD type is used as enemy, 
+--DEBUGNOW reworked to just assume anything outside of vanilla usage for DD soldiers means DD are from an addon where DD type is used as enemy,
 --but may eventually want authors to more explicitly define if the DD type is enemy or staff
 function this.IsDDEnemy(gameId)
   local missionCode=vars.missionCode
@@ -687,17 +687,17 @@ function this.IsDDEnemy(gameId)
   if (missionCode==30050 or missionCode==30250) and Ivars.mbNonStaff:Is(0) then
     return false
   end
-  
+
   if missionCode==10240 then
     return false
   end
-  
+
   if true then
     return true
   end
   -----
-  
-  
+
+
   if missionCode==10115 then
     return true--tex see note about IsDD exception above
   end
@@ -705,12 +705,12 @@ function this.IsDDEnemy(gameId)
   if Ivars.customSoldierTypeFREE:Is()>0 and Ivars.customSoldierTypeFREE:MissionCheck() then
     return true
   end
-  
+
   --tex problem: some community sideops (caplags for ex) set the soldier type to TYPE_DD to have the soldiers talk english (VERIFY some languae setting in exe keying off soldierType?)
   --and to workaround some soldierType>weaponIdTable issues.
   --TODO some way of indicating quest soldier is enemy
   --would take a bit of effort to get working as:
-  --(unless I've missed something) currently there's no way of knowing if soldier is part of a quest using just their gameId 
+  --(unless I've missed something) currently there's no way of knowing if soldier is part of a quest using just their gameId
   --(the assumption that they are only sol_quest* soldiers isn't always true for some sideops that use existing soldiers)
   --the best spot to flag them as ddenemy would be the quest script, but that also has no easy way to reference
   --KLUDGE, as above TODO is not implemented
@@ -788,7 +788,7 @@ end
 
 function this.IsNonCombatMission(missionCode)
   missionCode=missionCode or vars.missionCode
-  --tex KLUDGE TODO: really need a good way to indicate this is a non combat mission, 
+  --tex KLUDGE TODO: really need a good way to indicate this is a non combat mission,
   --also may need to expand this to other stuff (see what else is being called where this function is called, or rather whats calling that)
   local mbMissions={[30050]=true,[30150]=true,[30250]=true}--tex>
   if mbMissions[vars.missionCode] and not this.IsMbEvent(vars.missionCode) then
