@@ -99,7 +99,12 @@ public class EventParamHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.hasChanged)
+        {
+            transform.hasChanged = false;
+            //Debug.Log("transform.hasChanged");
+            OnValidate();
+        }
     }
 
     private uint StrCode32(string inputString)
@@ -170,11 +175,11 @@ public class EventParamHelper : MonoBehaviour
 
             if (Params == null)
             {
-                Debug.Log("EventParamHelper.OnValidate: Params == null");
+                Debug.Log("EventParamHelper: Component isn't attached to a route Edge or Node");
             }
             else
             {
-                //Param0 = Params[0].ToString();//DEBUGNOW
+                //Param0 = Params[0].ToString();//
                 //Param1 = Params[1].ToString();
                 Param2 = Params[2].ToString();
                 Param3 = Params[3].ToString();
@@ -232,7 +237,14 @@ public class EventParamHelper : MonoBehaviour
         }
 
         // No edge events in vanilla frts use unk 0x100000 high flag TODO: but conversely do all nodes use high? if not then which ones?
-        if (IsEdge) UseAimTargetUnkHiFlag = false;
+        if (IsEdge)
+        {
+            if (UseAimTargetUnkHiFlag)
+            {
+                Debug.Log("EventParamHelper this flag only appears on RouteNodes");
+            }
+            UseAimTargetUnkHiFlag = false;
+        }
 
         uint aimTargetValue = (uint)AimTargetType;
         if (IsEdge)
@@ -282,7 +294,7 @@ public class EventParamHelper : MonoBehaviour
 
             if (Params == null)
             {
-                Debug.Log("EventParamHelper.OnValidate: Params == null");
+                Debug.Log("EventParamHelper: Component isn't attached to a route Edge or Node");
             }
             else 
             {
