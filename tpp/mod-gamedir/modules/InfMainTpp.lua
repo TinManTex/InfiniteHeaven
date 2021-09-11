@@ -786,6 +786,15 @@ function this.GetAverageRevengeLevel()
   return math.floor((stealthLevel+combatLevel)/2)
 end
 
+function this.IsNonCombatMission(missionCode)
+  missionCode=missionCode or vars.missionCode
+  --tex KLUDGE TODO: really need a good way to indicate this is a non combat mission, 
+  --also may need to expand this to other stuff (see what else is being called where this function is called, or rather whats calling that)
+  local mbMissions={[30050]=true,[30150]=true,[30250]=true}--tex>
+  if mbMissions[vars.missionCode] and not this.IsMbEvent(vars.missionCode) then
+    return true
+  end
+end--IsNonCombatMission
 function this.IsMbEvent(missionCode)
   missionCode=missionCode or vars.missionCode
   return missionCode==30050 and (Ivars.mbWarGamesProfile:Is()>0 or igvars.inf_event~=false)

@@ -4619,6 +4619,10 @@ function this.CheckRescueTarget(gameId,playerPosition,targetName)
   end
 end
 function this.FultonRecoverOnMissionGameEnd()
+  InfCore.LogFlow"TppEnemy.FultonRecoverOnMissionGameEnd"--tex
+  if InfMainTpp.IsNonCombatMission(vars.missionCode) then--tex> hostages and walkergears probably already belong to player
+    return
+  end--<
   if mvars.ene_soldierIDList==nil then
     return
   end
