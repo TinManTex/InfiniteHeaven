@@ -715,7 +715,7 @@ function this.AcquireDlcItemKeyItem()
     local dlcItem=DlcItem[dlcType]
     --InfCore.Log("AcquireDlcItemKeyItem dlcType:"..tostring(dlcType).." databaseId:"..tostring(databaseId).." dlcId:"..tostring(databaseId))--dlcId == databaseId
     if dlcItem then
-      --tex OFF this.EraseDlcItem(dlcItem,RemoveDlcItem,dlcType)--RETAILPATCH: 1.0.4.1
+      this.EraseDlcItem(dlcItem,RemoveDlcItem,dlcType)--RETAILPATCH: 1.0.4.1
       this.AcquireDlcItem(dlcItem,AddDlcItem,dlcType)
     end
   end
@@ -731,7 +731,7 @@ function this.AcquireDlcItemEmblem()
   for emblemId,emblemName in pairs(emblemList)do
     local dlcItem=DlcItem[emblemId]
     if dlcItem then
-      --tex OFF this.EraseDlcItem(dlcItem,funcRemove,emblemName)--RETAILPATCH: 1.0.4.1
+      this.EraseDlcItem(dlcItem,funcRemove,emblemName)--RETAILPATCH: 1.0.4.1
       this.AcquireDlcItem(dlcItem,funcAdd,emblemName)
     end
   end
