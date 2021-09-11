@@ -38,11 +38,23 @@ function this.OnMissionCanStart(currentChecks)
 end--OnMissionCanStart
 
 function this.RepopFromFree(isMotherBase,isZoo)
-    this.AntiAirRadarsRepop()--tex
-    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear, thus the isBleh vars
-    this.MbCollectionRepop(isMotherBase,isZoo)--tex isFreeVersion IH repop since -^-
+  if InfTransition.IsTransition() then
+    if this.debugModule then
+      InfCore.Log"InfProgression.RepopFromFree IsTransition, returning"
+    end
+    return
+  end
+  this.AntiAirRadarsRepop()--tex
+  --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear, thus the isBleh vars
+  this.MbCollectionRepop(isMotherBase,isZoo)--tex isFreeVersion IH repop since -^-
 end--RepopFromMission
 function this.RepopFromMission()
+  if InfTransition.IsTransition() then
+    if this.debugModule then
+      InfCore.Log"InfProgression.RepopFromFree IsTransition, returning"
+    end
+    return
+  end
   this.AntiAirRadarsRepop()
 end--RepopFromFree
 
@@ -234,25 +246,25 @@ this.dlcItemKeyItemList={
   HORSE_WESTERN=MBMConst.EXTRA_4028,
   HORSE_PARADE=MBMConst.EXTRA_4009,
   ARM_GOLD=MBMConst.EXTRA_6000,--RETAILPATCH 1.10 added
- }--dlcItemKeyItemList
- --tex messagelog lists everything being unlocked, but dont acutally show in dev ui or equipment select, so I guess its doing CheckDlcFlag in exe or something.
+}--dlcItemKeyItemList
+--tex messagelog lists everything being unlocked, but dont acutally show in dev ui or equipment select, so I guess its doing CheckDlcFlag in exe or something.
 function this.UnlockDLC()
   local function AddDlcItem(dlcId,dlcType)
     local dataBaseId=this.dlcItemKeyItemList[dlcType]
     TppMotherBaseManagement.DirectAddDataBase{dataBaseId=dataBaseId,isNew=true}
     return true
   end
---  local function RemoveDlcItem(dlcId,dlcType)--RETAILPATCH: 1060
---    local platform=Fox.GetPlatformName()
---    local dataBaseId=this.dlcItemKeyItemList[dlcType]
---    if platform=="Xbox360"or platform=="XboxOne"then
---      if((dataBaseId==NULL_ID.EXTRA_4025)or(dataBaseId==NULL_ID.EXTRA_4003))or(dataBaseId==NULL_ID.EXTRA_4008)then
---        return false
---      end
---    end
---    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
---    return true
---  end--
+  --  local function RemoveDlcItem(dlcId,dlcType)--RETAILPATCH: 1060
+  --    local platform=Fox.GetPlatformName()
+  --    local dataBaseId=this.dlcItemKeyItemList[dlcType]
+  --    if platform=="Xbox360"or platform=="XboxOne"then
+  --      if((dataBaseId==NULL_ID.EXTRA_4025)or(dataBaseId==NULL_ID.EXTRA_4003))or(dataBaseId==NULL_ID.EXTRA_4008)then
+  --        return false
+  --      end
+  --    end
+  --    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
+  --    return true
+  --  end--
   for dlcType,databaseId in pairs(this.dlcItemKeyItemList)do
     local dlcItem=DlcItem[dlcType]
     --InfCore.Log("AcquireDlcItemKeyItem dlcType:"..tostring(dlcType).." databaseId:"..tostring(databaseId).." dlcId:"..tostring(databaseId))--dlcId == databaseId
@@ -261,17 +273,17 @@ function this.UnlockDLC()
       this.AcquireDlcItem(dlcItem,AddDlcItem,dlcType)
     end
   end
-  
+
   TppSave.CheckAndSavePersonalData()--DEBUGNOW
   --TODO: lang success or fail (allready aquired)
 end--UnlockDLC
 --tex Cribbed from TppTerminal
 --param==emblemType or dlcType
 function this.AcquireDlcItem(databaseId,FuncOnAquire,param)
---OFF
---  if not TppUiCommand.CheckDlcFlag(databaseId)then
---    return
---  end
+  --OFF
+  --  if not TppUiCommand.CheckDlcFlag(databaseId)then
+  --    return
+  --  end
   if TppUiCommand.CheckDlcAcquiredFlag(databaseId)then
     return
   end
