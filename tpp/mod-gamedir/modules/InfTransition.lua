@@ -266,6 +266,10 @@ function this.SetCameraPushSwitch()
   }
 end--SetCameraPushSwitch
 
+function this.IsTransition()
+ return mvars.mis_transitionMissionStartPosition==true
+end
+
 --WORKAROUND mtbs_cluster is only loaded with mtbs, so just copied them here
 local CLUSTER_INDEX = {}
 for i,clusterName in ipairs(TppDefine.CLUSTER_NAME) do
