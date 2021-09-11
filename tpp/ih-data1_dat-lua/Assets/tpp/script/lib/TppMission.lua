@@ -629,6 +629,7 @@ function this.ExecuteOnReturnToMissionCallback()
     OnReturnToMission=this.systemCallbacks.OnReturnToMission
   end
   if OnReturnToMission then
+    InfCore.LogFlow"TppMission.ExecuteOnReturnToMissionCallback"--tex
     TppMain.DisablePause()
     Player.SetPause()
     TppUiStatusManager.ClearStatus"AnnounceLog"
@@ -3108,6 +3109,7 @@ function this.EstablishedMissionClear()
   this.systemCallbacks.OnEstablishMissionClear(svars.mis_missionClearType)
 end
 function this.OnMissionGameEndFadeOutFinish()
+  InfCore.LogFlow"TppMission.OnMissionGameEndFadeOutFinish"--tex
   local nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
   if not nextIsHeliSpace then
     this.ReserveMissionStartRecoverSoundDemo()
@@ -3130,6 +3132,7 @@ function this.OnMissionGameEndFadeOutFinish()
   end
 end
 function this.OnMissionGameEndFadeOutFinish2nd()
+  InfCore.LogFlow"TppMission.OnMissionGameEndFadeOutFinish2nd"--tex
   InfMain.OnMissionGameEndTop()--tex
   TppUiStatusManager.ClearStatus"GmpInfo"
   TppStory.UpdateStorySequence{updateTiming="OnMissionClear",missionId=this.GetMissionID()}
@@ -3483,6 +3486,7 @@ function this.DisableObjective(objectiveDefine)
   end
 end
 function this.VarSaveOnUpdateCheckPoint(saveBusy)
+  InfCore.LogFlow"TppMission.VarSaveOnUpdateCheckPoint"--tex
   gvars.isNewGame=false
   TppTerminal.OnRecoverByHelicopterOnCheckPoint()
   TppTerminal.AddStaffsFromTempBuffer(true)
