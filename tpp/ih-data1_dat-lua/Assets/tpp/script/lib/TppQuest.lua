@@ -1396,6 +1396,7 @@ function this.SetNextQuestStep(questStep)
   end
 end
 function this.ClearWithSave(clearType,questName)
+  InfCore.LogFlow("TppQuest.ClearWithSave "..tostring(clearType).." "..tostring(questName))--tex
   if not questName then
     questName=this.GetCurrentQuestName()
   end
