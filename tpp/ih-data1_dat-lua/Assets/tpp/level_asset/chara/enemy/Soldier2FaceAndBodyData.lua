@@ -2,7 +2,7 @@
 -- Soldier2FaceAndBodyData.lua
 -- The soldier face system is used by ai soldiers and hostages and player as DD soldier, soldier body system is used by ai soldiers and hostages.
 -- Infinite Heaven includes two systems for adding to these entries, so editing it yourself should be unnessesary (and if the system doesn't cover the feature you want contact me)
--- see \Assets\tpp\script\ih\InfModelProc.lua for head fova addons - faceFova, faceDecoFova, hairFova, hairDecoFova
+-- see InfSoldierFace for head fova addons - faceFova, faceDecoFova, hairFova, hairDecoFova
 -- and headDefinitions which pull them all together to generate or modify a faceDefinition.
 -- and \mod\modules\InfBodyInfo.lua which handles the soldier body fova addons -
 -- FLOW: The actual loading/initialization of the fpks seems to be in-engine between GetMissionPackagePath and OnAllocate
@@ -1493,7 +1493,7 @@ if TppSoldierFace~=nil then
     bodyFova={table=this.bodyFova,maxCount=301}--RETAILPATCH 1.0.11 increased from 256
   }
   --tex maxCounts may be increased in below functions
-  InfCore.PCall(InfModelProc.Setup,this)--tex
+  InfCore.PCall(InfSoldierFace.Setup,this)--tex
 
   TppSoldierFace.SetFovaFileTable(this.fovaFileTable)
 

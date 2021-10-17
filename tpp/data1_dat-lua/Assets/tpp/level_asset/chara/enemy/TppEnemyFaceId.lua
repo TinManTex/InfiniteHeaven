@@ -1,5 +1,5 @@
 --TppEnemyFaceId.lua
---DYNAMIC: ADDON: added to by IH InfModelProc
+--DYNAMIC: ADDON: added to by IH InfSoldierFace
 local this={
   --HMT=DD greentop
   svs_balaclava=550,  --[M][---][---][---] Balaclava

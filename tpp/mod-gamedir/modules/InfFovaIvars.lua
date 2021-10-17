@@ -344,14 +344,14 @@ this.playerFaceId={
     local faceId=faceDef[1]
 
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
-      if not InfModelProc.hasFaceFova then
+      if not InfSoldierFace.hasFaceFova then
         return InfLangProc.LangString"no_head_fovas"
       end
     end
 
-    local headDefinitionName=InfModelProc.headDefinitions[faceId]
+    local headDefinitionName=InfSoldierFace.headDefinitions[faceId]
     if headDefinitionName then
-      local headDefinition=InfModelProc.headDefinitions[headDefinitionName]
+      local headDefinition=InfSoldierFace.headDefinitions[headDefinitionName]
       local desciption=headDefinition.description or headDefinitionName
       return "faceId:"..faceId.." - "..desciption
     end

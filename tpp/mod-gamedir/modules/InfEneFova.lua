@@ -1662,7 +1662,7 @@ function this.PrintFaceInfo(faceId)
   for i,faceDef in ipairs(faceAndBodyData.faceDefinition)do
     if faceDef[1]==faceId then
       local faceInfoString=""
-      for i,fovaType in ipairs(InfModelProc.fovaTypes)do
+      for i,fovaType in ipairs(InfSoldierFace.fovaTypes)do
         local index=faceDef[InfEneFova.faceDefinitionParams[fovaType]]
         local fovaInfo=faceAndBodyData[fovaType][index]
         local name
