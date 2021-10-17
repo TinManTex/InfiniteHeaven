@@ -1,6 +1,7 @@
 --InfBodyInfo.lua
 --tex used for IH soldier type change, but can be used as a reference to what game chara models are (mostly look at partsPath)
 --Also handles \mod\bodyInfo\ addons.
+--Actual implementation scattered across InfEneFova and InfModelProc
 
 local this={}
 --REF bodyInfo entry
