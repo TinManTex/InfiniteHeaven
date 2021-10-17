@@ -1,6 +1,7 @@
 --RecoilMaterialTable.lua
-this={}
-TppBullet.ReloadRecoilMaterials{
+local this={}--tex made local
+--tex moved to own table
+this.reloadRecoilMaterials={
   RecoilMaterial={
     0,
     {"MTR_IRON_A",TppEquip.PENETRATE_LEVEL_AMRIFLE,"IRON_A",1,1},
@@ -85,7 +86,7 @@ TppBullet.ReloadRecoilMaterials{
     {"MTR_WATE_C",TppEquip.PENETRATE_LEVEL_AMRIFLE,"WATE_A",0,18},
     {"MTR_AIR_A",TppEquip.PENETRATE_LEVEL_MINIMUM,"NONE_A",0,0},
     {"MTR_NONE_A",TppEquip.PENETRATE_LEVEL_AMRIFLE,"NONE_A",0,0}
-  },
+  },--RecoilMaterial
   BulletMarkEffect={
     "",
     "fx_tpp_hitbltirn00_s0MG",
@@ -94,7 +95,7 @@ TppBullet.ReloadRecoilMaterials{
     "fx_tpp_hitbltgls00_s0MG",
     "fx_tpp_hitbltroc00_s0MG",
     "fx_tpp_hitbltwod00_s0MG"
-  },
+  },--BulletMarkEffect
   RicochetEffect={
     "",
     "fx_tpp_rctirn01M_s0LG",
@@ -117,6 +118,7 @@ TppBullet.ReloadRecoilMaterials{
     "fx_tpp_rctwtr01M_s0",
     "fx_tpp_rctpdl01M_s0",
     "fx_tpp_rctgrs01M_s0LG"
-  }
-}
+  }--RicochetEffect
+}--reloadRecoilMaterials
+TppBullet.ReloadRecoilMaterials(this.reloadRecoilMaterials)
 return this
