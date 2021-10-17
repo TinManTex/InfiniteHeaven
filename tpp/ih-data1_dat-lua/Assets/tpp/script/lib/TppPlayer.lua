@@ -2336,9 +2336,9 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
   local mbSupportFultonSectionSuccess=this.mbSectionRankSuccessTable[mbSupportFultonRank]or 0
   mbSupportFultonSectionSuccess=Ivars.fultonMbSupportScale:Scale(mbSupportFultonSectionSuccess)--tex
 
-  local weatherPenalty=this.fultonWeatherSuccessTable[vars.weather]or 0--tex gave weatherSuccessMod its own local for clarity
+  local weatherPenalty=this.fultonWeatherSuccessTable[vars.weather]or 0--tex gave weatherPenalty its own local for clarity
   --NMC: REF vanilla ranges of values
-  --weatherSuccessMod: -70 to 0
+  --weatherPenalty: -70 to 0
   --mbSupportFultonSectionSuccess: 0 to 60
   --since this is capped to 0 means SECTION_FUNC_ID_SUPPORT_FULTON sole purpose is to counter weather
   local fultonInWeatherPenalty=weatherPenalty+mbSupportFultonSectionSuccess
