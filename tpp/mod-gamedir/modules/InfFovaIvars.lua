@@ -27,10 +27,10 @@ this.registerIvars={
   "hairDecoFovaDirect",
   "faceFovaUnknown1",
   "faceFovaUnknown2",
-  "faceFovaUnknown3",
-  "faceFovaUnknown4",
+  "eyeFova",
+  "skinFova",
   "faceFovaUnknown5",
-  "faceFovaUnknown6",
+  "uiTextureCount",
   "faceFovaUnknown7",
   "faceFovaUnknown8",
   "faceFovaUnknown9",
@@ -113,28 +113,12 @@ this.playerType={
 this.playerTypeDirect={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
-  settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
-    PlayerType.SNAKE,
-    PlayerType.AVATAR,
-    PlayerType.DD_MALE,
-    PlayerType.DD_FEMALE,
-  },
-  playerTypeToSetting={
-    --    [PlayerType.SNAKE]=0,
-    --    [PlayerType.AVATAR]=1,
-    --    [PlayerType.DD_MALE]=2,
-    --    [PlayerType.DD_FEMALE]=3,
-    [0]=0,
-    [1]=2,
-    [2]=3,
-    [3]=1,
-  },
+  range={min=0,max=255},
   OnSelect=function(self)
-    ivars[self.name]=self.playerTypeToSetting[vars.playerType]
+    ivars[self.name]=vars.playerType
   end,
   OnActivate=function(self,setting)
-  --self:OnChange(setting,setting)
+    vars.playerType=setting
   end,
 }
 
@@ -145,7 +129,7 @@ local playerPartsTypeSettings={
   "NAKED",--7,
   "SNEAKING_SUIT_TPP",--8,
   "SNEAKING_SUIT",--2,
-  "SNEAKING_SUIT_BB",--25
+  "SNEAKING_SUIT_BB",--30--GOTCHA: overflow
   "BATTLEDRESS",--9
   "PARASITE",--10
   "LEATHER",--11
@@ -213,19 +197,20 @@ this.playerPartsType={
 
     vars.playerPartsType=partsType
 
-    Ivars.playerCamoType:OnSelect()--tex sort out camo type too
+    Ivars.playerCamoType:OnSelect()--tex sort out camo type too, as the exe doesnt seem to change on camotype change, not playerpartstype change
   end,
 }
 
 this.playerPartsTypeDirect={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=100},
+  range={min=0,max=255},
   OnSelect=function(self)
     ivars[self.name]=vars.playerPartsType
   end,
   OnActivate=function(self,setting)
     vars.playerPartsType=setting
+    vars.playerCamoType=0--DEBUGNOW
   end,
 }
 
@@ -282,7 +267,7 @@ this.playerCamoType={
 --tex for DEBUG, just exploring direct value
 this.playerCamoTypeDirect={
   inMission=true,
-  range={min=0,max=1000},
+  range={min=0,max=255},
   OnSelect=function(self)
     self:SetDirect(vars.playerCamoType)
   end,
@@ -757,7 +742,7 @@ this.faceFovaUnknown2={
     InfEneFova.ApplyFaceFova()
   end,
 }
-this.faceFovaUnknown3={
+this.eyeFova={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=4},
@@ -765,10 +750,10 @@ this.faceFovaUnknown3={
     InfEneFova.ApplyFaceFova()
   end,
 }
-this.faceFovaUnknown4={
+this.skinFova={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=4},
+  range={min=0,max=5},
   OnActivate=function(self)
     InfEneFova.ApplyFaceFova()
   end,
@@ -781,7 +766,7 @@ this.faceFovaUnknown5={
     InfEneFova.ApplyFaceFova()
   end,
 }
-this.faceFovaUnknown6={
+this.uiTextureCount={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=3},
@@ -979,10 +964,10 @@ this.appearanceDebugMenu={
 
     "Ivars.faceFovaUnknown1",
     "Ivars.faceFovaUnknown2",
-    "Ivars.faceFovaUnknown3",
-    "Ivars.faceFovaUnknown4",
+    "Ivars.eyeFova",
+    "Ivars.skinFova",
     "Ivars.faceFovaUnknown5",
-    "Ivars.faceFovaUnknown6",
+    "Ivars.uiTextureCount",
     "Ivars.faceFovaUnknown7",
     "Ivars.faceFovaUnknown8",
     "Ivars.faceFovaUnknown9",
