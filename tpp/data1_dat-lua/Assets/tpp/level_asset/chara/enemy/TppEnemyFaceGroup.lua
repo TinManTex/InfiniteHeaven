@@ -1,6 +1,7 @@
 -- TppEnemyFaceGroup.lua
 local this={}
---see TppEnemyFaceGroupId
+--see TppEnemyFaceGroupId, TppEneFova.GetFaceGroupTableAtGroupType, gvars.solface_groupNumber
+--used with the above to select a 'random' group of faces for a mission
 function this.GetFaceGroupTable(groupId)
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
   local AFGAN_GRP_00={2,30,82,93,103,175,0,31,83,94,104,176,4,33,84,96,106,177,165,164,21,41,63,124}
@@ -154,10 +155,10 @@ function this.GetFaceGroupTable(groupId)
     AFRICA_GRP028_W,
     AFRICA_GRP029_B,
     AFRICA_GRP029_W,
-  }
+  }--allGroups
   if groupId>=#allGroups then
     return allGroups[1]
   end
   return allGroups[groupId+1]
-end
+end--GetFaceGroupTable
 return this
