@@ -15,6 +15,7 @@ this.playerTypes={
   "LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
   "OCELOT",--5
   "QUIET",--6
+--"MAX",--255--sinces underlying variable is a byte
 }
 
 this.fobLocked={
@@ -23,47 +24,80 @@ this.fobLocked={
 }
 
 --tex indexed by vars.playerType
+--LoadPlayerFacialMotion* vanilla handles DD_MALE,DD_FEMALE,OCELOT,QUIET
+--and the rest default to player2_facial_snake.fpk/TppPlayer2Facial.mtar
+--LoadPlayerFacialMotion*s only param is playerType
+--TODO: facialhelispace
 this.playerTypesInfo={
   {
     name="SNAKE",
     description="Snake",
     playerType=0,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_snake.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar",
+    },
   },
   {
     name="DD_MALE",
     description="DD Male",
     playerType=1,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_dd_male.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_ddm_facial.mtar",
+    },
   },
   {
     name="DD_FEMALE",
     description="DD Female",
     playerType=2,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_dd_female.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_ddf_facial.mtar",
+    },
   },
   {
     name="AVATAR",
     description="Avatar",
     playerType=3,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_snake.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar",
+    },
   },
   {
     name="LIQUID",
     description="LIQUID",
     playerType=4,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_snake.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar",
+    },
   },
   {
     name="OCELOT",
     description="Ocelot",
     playerType=5,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_ocelot.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_ocelot_facial.mtar",
+    },
   },
   {
     name="QUIET",
     description="Quiet",
     playerType=6,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_quiet.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_quiet_facial.mtar",
+    },
   },
-}
+}--playerTypesInfo
 
 --tex vars.playerParts drives which plparts fpk is used
 --\chunk0_dat\Assets\tpp\pack\player\parts\plparts*.fpk
---corresponding to PlayerPartsType enum
+--corresponding to PlayerPartsType enum, which isn't actually filled out beyond the first few entries,
+--so cribbing names from PlayerCamoType
 --tex indexed by vars.playerPartsType
 this.playerPartsTypes={
   "NORMAL",--0,
@@ -94,21 +128,21 @@ this.playerPartsTypes={
   "SWIMWEAR_H",--25
   "OCELOT",--26
   "QUIET",--27
-  --tex var can overflow and repeat for a bit before hanging
-  "NORMAL2",--24
-  "NORMAL_SCARF2",--25
-  "SNEAKING_SUIT_BB",--26
-  "HOSPITAL2",--27
-  "MGS12",--27
-  "NINJA2",--28
-  "RAIDEN2",--29
-  "NAKED2",--30
-  "SNEAKING_SUIT_TPP2",--31
-  "BATTLEDRESS2",--32
-  "PARASITE_SUIT2",--33
-  "LEATHER_JACKET2",--34
---    35-blank, hang model system
-}
+  --tex var can overflow and repeat for a bit before hanging. since array exe side is playertype/playerparts, basically will overflow from one playertype to start of next, except for DD_FEM which overflows to snake camo array
+  "NORMAL2",--28
+  "NORMAL_SCARF2",--29
+  "SNEAKING_SUIT_BB",--30 --TODO and see how this is coming about, I guess snake head interacting with the parts type overflow
+  "HOSPITAL2",
+  "MGS12",
+  "NINJA2",
+  "RAIDEN2",
+  "NAKED2",
+  "SNEAKING_SUIT_TPP2",
+  "BATTLEDRESS2",
+  "PARASITE_SUIT2",
+  "LEATHER_JACKET2",
+--"MAX",--255--sinces underlying variable is a byte, exe might actually be using this as non value
+}--playerPartsTypes
 
 --tex replacing engines PlayerPartsType since > 23 not covered
 this.PlayerPartsType=InfUtil.EnumFrom0(this.playerPartsTypes)
@@ -117,21 +151,69 @@ this.PlayerPartsType=InfUtil.EnumFrom0(this.playerPartsTypes)
 --plPartsName doubles for checks to which playertype supports the partstype
 --if no camoTypes then try PlayerCamoType[name]
 
+
+--tex MUSING while in theory I could really break things up in respect to playerType, playerPartsType, playerCammoType
+--the vanilla system does have relationships between them, and the following table is an attempt to recreate them
+--mainly that playerPartsType is the driver, even though there are seperate partstype arrays for each playerType,
+--they are indexed by playerPartsType across the playerType playerPartsType arrays
+--(with 0 values for in the playerType arrays of those that dont support that playerPartsType)
 --plPartsName: fpk name from \chunk0_dat\Assets\tpp\pack\player\parts\
+--NOTE: even though I'm including AVATAR for plParts, vanilla exe side it just changes playerType to 0(SNAKE) for the .parts and .fpk within the func
+--so I'm just duplicating here rather than having it fallback in code
 this.playerPartsTypesInfo={
   {--0 -- uses set camo type
     name="NORMAL",
     description="Standard fatigues",
     playerParts=0,
     --developId=--Common
-    plPartsName={
+    plPartsName={--tex actually playerPartsFpkName
       SNAKE="plparts_normal",
       AVATAR="plparts_normal",
       DD_MALE="plparts_dd_male",
       DD_FEMALE="plparts_dd_female",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",
+      --tex in the exe for LoadPlayerPartsParts, LoadPlayerPartsFpk it doesnt even look up an array, just returns the singular value by playerType
+      --which is kind of weird given that OCELOT and QUIET have their own playerPartsType enum
+      --but then that kind of goes against the array per playerType that SNAKE/DD_M/F has
+      LIQUID=   "/Assets/tpp/pack/player/parts/plparts_liquid.fpk",
+      OCELOT=   "/Assets/tpp/pack/player/parts/plparts_ocelot.fpk",
+      QUIET=    "/Assets/tpp/pack/player/parts/plparts_quiet.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",
+      LIQUID=   "/Assets/tpp/parts/chara/lqd/lqd0_main0_ply_v00.parts",
+      OCELOT=   "/Assets/tpp/parts/chara/ooc/ooc0_main1_def_v00.parts",
+      QUIET=    "/Assets/tpp/parts/chara/qui/quip_main0_def_v00.parts",
+    },
+    --tex see exe/IHHook LoadPlayerPartsSkinToneFv2
+    skinToneFv2={
+      --tex  in vanilla this is applied to all DD_M (if CheckPlayerPartsIfShouldApplySkinToneFv2) except those with their own specific fv2s
+      --rather than handle in function I'll fill out all values, and make the assumption if it has a value then it should be applied (ie CheckPlayerPartsIfShouldApplySkinToneFv2 isn't nessesary)
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
     camoTypes={
       COMMON=true,
+    },
+    --tex from exe/IHHook LoadPlayerBionicArm*, see also playerHandType below
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    --tex from exe IsHeadNeeded* . needHead false/nil = model includes head, true = load the head for that playerType 
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--1--uses set camo type
@@ -143,8 +225,34 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_normal_scarf",
       AVATAR="plparts_normal_scarf",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",--NORMAL
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",--NORMAL
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",--NORMAL
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",--NORMAL
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
     camoTypes={
       COMMON=true,
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--2,--gz unlock, --GZ/MSF, matches PlayerCamoType.SNEAKING_SUIT_GZ
@@ -156,17 +264,58 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_gz_suit",
       AVATAR="plparts_gz_suit",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
     camoTypes={
       "SNEAKING_SUIT_GZ",
-    }
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
-  {--3-- crash on avatar
+  {--3-- crash on avatar, probably because IsHeadNeededForPartsTypeAndAvatar has an extra return true for needHead for some reason
     name="HOSPITAL",
     description="Hospital Prolog snake",
     playerParts=3,
     plPartsName={
       SNAKE="plparts_hospital",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
+    },
+    needHead={
+      AVATAR=true,--VANILLA, has a seperate clause return true in IsHeadNeededForPartsTypeAndAvatar for some reason. VERIFY by running the orig func
+    },    
   },
   {--4,--gz unlock
     name="MGS1",
@@ -178,6 +327,18 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_mgs1",
       DD_MALE="plparts_mgs1",
       DD_FEMALE="plparts_mgs1",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
     },
     camoTypes={
       "SOLIDSNAKE",
@@ -194,6 +355,18 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ninja",
       DD_FEMALE="plparts_ninja",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
+    },
   },
   {--6
     name="RAIDEN",
@@ -206,6 +379,18 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_raiden",
       DD_FEMALE="plparts_raiden",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
+    },
   },
   {--7--uses set camo type?
     name="NAKED",
@@ -217,9 +402,35 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_naked",
     --DD_MALE=--no arm and eyes
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_naked.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
     camoTypes={
       COMMON=true,
     },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },  
   },
   {--8
     name="SNEAKING_SUIT_TPP",
@@ -231,6 +442,32 @@ this.playerPartsTypesInfo={
       AVATAR="pl_venom",
       DD_MALE="plparts_ddm_venom",
       DD_FEMALE="plparts_ddf_venom",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_venom.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_venom.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_venom.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_venom.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna4_plym0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna4_plyf0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--9
@@ -244,6 +481,32 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_battledress",
       DD_FEMALE="plparts_ddf_battledress",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_battledress.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_battledress.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna5_plym0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna5_plyf0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--10
     name="PARASITE",
@@ -256,6 +519,22 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_parasite",
       DD_FEMALE="plparts_ddf_parasite",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_parasite.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_parasite.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna7_plym0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna7_plyf0_def_v00.parts",
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
   },
   {--11,--unlock
     name="LEATHER",
@@ -266,7 +545,33 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_leather",
       AVATAR="plparts_leather",
     --DD_MALE=--no arm and eyes
-    }
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_leather.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--12,--unlock
     name="GOLD",
@@ -278,6 +583,32 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_gold", --gold body and normal avatar head, neat
     --DD_MALE=--invis/hang model sys
     --DD_FEMALE=--invis/hang model sys
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gold.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gold.fpk",
+      DD_MALE=  0,
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
+      DD_MALE=  0,
+      DD_FEMALE=0,
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--13,--unlock, when AVATAR, gold body and normal avatar head, neat
@@ -291,6 +622,33 @@ this.playerPartsTypesInfo={
     --DD_MALE=--invis/hang model sys
     --DD_FEMALE=--invis/hang model sys
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_silver.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_silver.fpk",
+      DD_MALE=  0,
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
+      DD_MALE=  0,
+      DD_FEMALE=0,
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--14
     name="AVATAR_EDIT_MAN",
@@ -298,6 +656,28 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_avatar_man",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },  
   },
   --DLC TODO: find out pack names, find a have-this check
   {--15
@@ -310,6 +690,32 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dla0_main0_def_v00",
       DD_MALE="plparts_dla0_plym0_def_v00",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dla0_plym0_def_v00.fpk",
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dla0_plym0_def_v00.parts",
+      DD_FEMALE=0,
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/dla/dla0_plym0_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO: no DD_FEM parts
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--16
     name="MGS3_NAKED",
@@ -320,6 +726,32 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_dla1_main0_def_v00",
       AVATAR="plparts_dla1_main0_def_v00",
       DD_MALE="plparts_dla1_plym0_def_v00",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dla1_plym0_def_v00.fpk",
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dla1_plym0_def_v00.parts",
+      DD_FEMALE=0,
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/dla/dla1_plym0_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO no DD_FEM parts
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--17
@@ -332,6 +764,31 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dlb0_main0_def_v00",
       DD_MALE="plparts_dlb0_plym0_def_v00",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dlb0_plym0_def_v00.fpk",
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dlb0_plym0_def_v00.parts",
+      DD_FEMALE=0,
+    },
+    skinToneFv2={
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO no DD_FEM parts
+    },  
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--18
     name="MGS3_TUXEDO",
@@ -343,6 +800,32 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dld0_main0_def_v00",
       DD_MALE="plparts_dld0_plym0_def_v00",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dld0_plym0_def_v00.fpk",
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dld0_plym0_def_v00.parts",
+      DD_FEMALE=0,
+    },
+    skinToneFv2={
+      SNAKE="/Assets/tpp/fova/chara/dld/dld0_main0_sna.fv2",
+      DD_MALE="/Assets/tpp/fova/chara/dld/dld0_plym0_v00.fv2",
+    },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--19
     name="EVA_CLOSE",
@@ -351,6 +834,27 @@ this.playerPartsTypesInfo={
     developId=19086,
     plPartsName={
       DD_FEMALE="plparts_dle0_plyf0_def_v00",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_FEMALE="/Assets/tpp/fova/chara/dle/dle0_plyf0_v00.fv2",
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,--TODO uhh?
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--20
@@ -361,6 +865,27 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_FEMALE="/Assets/tpp/fova/chara/dle/dle1_plyf0_v00.fv2",
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,--TODO uhh?
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--21
     name="BOSS_CLOSE",
@@ -368,7 +893,26 @@ this.playerPartsTypesInfo={
     playerParts=21,
     developId=19085,
     plPartsName={
-      DD_FEMALE="plparts_dle0_plyf0_def_v00",--TODO: ASSUMPTION same model as eva just fova for different texture
+      DD_FEMALE="plparts_dlc0_plyf0_def_v00",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
+    },
+    --tex DEBUGNOW why no skintone?
+    needHead={
+      SNAKE=true,
+      AVATAR=true,--TODO uhh?
+      DD_MALE=true,
+      DD_FEMALE=true,
     },
   },
   {--22
@@ -379,6 +923,27 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",--TODO:
     },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
+      DD_MALE=  0,
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_FEMALE="/Assets/tpp/fova/chara/dlc/dlc1_plyf0_v00.fv2",
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,--TODO uhh?
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--23
     name="SWIMWEAR",
@@ -388,6 +953,22 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_MALE="plparts_ddm_swimwear",
       DD_FEMALE="plparts_ddf_swimwear",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      DD_MALE=  "/Assets/tpp/parts/chara/dlf/dlf1_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/dlf/dlf0_main0_def_f_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/dlf/dlf1_main0_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/dlf/dlf1_main0_f_v00.fv2",
     },
     camoTypes={
       "SWIMWEAR_C00",--79,
@@ -403,6 +984,16 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_C48",--89,
       "SWIMWEAR_C53",--90,
     },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--24
     name="SWIMWEAR_G",
@@ -412,6 +1003,22 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_MALE="plparts_ddm_swimwear_g",
       DD_FEMALE="plparts_ddf_swimwear_g",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_g.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_g.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      DD_MALE=  "/Assets/tpp/parts/chara/dlg/dlg1_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/dlg/dlg0_main0_def_f_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/dlg/dlg1_main0_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/dlg/dlg1_main0_f_v00.fv2",
     },
     camoTypes={
       "SWIMWEAR_G_C00",--91
@@ -427,6 +1034,16 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_G_C48",--
       "SWIMWEAR_G_C53",--102
     },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--25
     name="SWIMWEAR_H",
@@ -436,6 +1053,22 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_MALE="plparts_ddm_swimwear_h",
       DD_FEMALE="plparts_ddf_swimwear_h",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_h.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_h.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      DD_MALE=  "/Assets/tpp/parts/chara/dlh/dlh1_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/dlh/dlh0_main0_def_f_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/dlh/dlh1_main0_v00.fv2",
+      DD_FEMALE="/Assets/tpp/fova/chara/dlh/dlh1_main0_f_v00.fv2",
     },
     camoTypes={
       "SWIMWEAR_H_C00",--103
@@ -451,6 +1084,16 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_H_C48",--
       "SWIMWEAR_H_C53",--114
     },
+    needBionicHand={
+      SNAKE=true,
+      AVATAR=true,
+    },
+    needHead={
+      SNAKE=true,
+      AVATAR=true,
+      DD_MALE=true,
+      DD_FEMALE=true,
+    },
   },
   {--26
     name="OCELOT",
@@ -459,6 +1102,18 @@ this.playerPartsTypesInfo={
     --developId=--Common
     plPartsName={
       OCELOT="plparts_ocelot",
+    },
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",--NORMAL
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",--NORMAL
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",--NORMAL
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",--NORMAL
     },
     camoTypes={
       "OCELOT",
@@ -471,6 +1126,18 @@ this.playerPartsTypesInfo={
     --developId=--Common
     plPartsName={
       QUIET="plparts_quiet",
+    },
+    plPartsFpkName={
+      SNAKE=    0,
+      AVATAR=   0,
+      DD_MALE=  0,
+      DD_FEMALE=0,
+    },
+    plPartsPartsName={
+      SNAKE=    0,
+      AVATAR=   0,
+      DD_MALE=  0,
+      DD_FEMALE=0,
     },
     camoTypes={
       "QUIET",
@@ -707,7 +1374,11 @@ this.playerCamoTypes={
   "SWIMWEAR_H_C46",--,IRON BLUE
   "SWIMWEAR_H_C48",--,RED RUST
   "SWIMWEAR_H_C53",--114,MUD
-}--playerCamoTypes--SYNC player2_camout_param
+
+  "OCELOT",--115,
+  "QUIET",--116,
+--"MAX",--255--sinces underlying variable is a byte
+}--playerCamoTypes--SYNC player2_camouf_param
 
 --tex camos that apply to partsType NORMAL,NORMAL_SCARF,NAKED
 this.playerCamoTypesCommon={
@@ -774,7 +1445,11 @@ this.playerCamoTypesCommon={
 }--playerCamoTypesCommon
 
 --tex ASSUMPTION currently if no playerTypes, assume ALL
+--(or rather use playerPartsType to figure out what playerTypes allowed since there's more exceptions with SCARF and NAKED)
 --see 'Camo fovas' below for explanation of fovaCamoId
+--could be fancy and build the fpk and fv2 paths via the player parts modelName + fovaCamoId
+--but just going to explicitly put them out, which reflects the arrays LoadPlayerCammoFpk/Fv2 anyway
+--and is clearer for it I'm going to allow overloading/extending that
 this.playerCamoTypesInfo={
   {
     name="OLIVEDRAB",
@@ -783,7 +1458,21 @@ this.playerCamoTypesInfo={
     developId=19001,
     fovaCamoId=00,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",
+        },
+        --tex exe side AVATAR reuses SNAKE array, but I'm duplicating here (for all camos)
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -795,7 +1484,20 @@ this.playerCamoTypesInfo={
     developId=19002,
     fovaCamoId=06,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c06.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c06.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c06.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c06.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -807,7 +1509,20 @@ this.playerCamoTypesInfo={
     developId=19003,
     fovaCamoId=12,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c12.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c12.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c06.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c06.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -819,7 +1534,20 @@ this.playerCamoTypesInfo={
     developId=19010,
     fovaCamoId=01,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c01.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c01.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c01.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c01.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -831,7 +1559,20 @@ this.playerCamoTypesInfo={
     developId=19011,
     fovaCamoId=02,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -843,7 +1584,20 @@ this.playerCamoTypesInfo={
     developId=19020,
     fovaCamoId=03,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -855,7 +1609,20 @@ this.playerCamoTypesInfo={
     developId=19021,
     fovaCamoId=10,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -867,7 +1634,20 @@ this.playerCamoTypesInfo={
     developId=19022,
     fovaCamoId=05,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c05.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c05.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c05.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c05.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -880,7 +1660,20 @@ this.playerCamoTypesInfo={
     developId=19030,
     fovaCamoId=08,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c08.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c08.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c08.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c08.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -892,7 +1685,20 @@ this.playerCamoTypesInfo={
     developId=19031,
     fovaCamoId=07,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c07.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c07.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c07.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c07.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -904,7 +1710,20 @@ this.playerCamoTypesInfo={
     developId=19032,
     fovaCamoId=11,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -912,10 +1731,12 @@ this.playerCamoTypesInfo={
   {
     name="REALTREE", --OFF --does not set
     playerCamoType=11,
+  --exe NORMAL array entry is 0
   },
   {
     name="INVISIBLE", --OFF --does not set
     playerCamoType=12,
+  --exe NORMAL array entry is 0
   },
   {
     name="BLACK",
@@ -924,7 +1745,20 @@ this.playerCamoTypesInfo={
     developId=19033,
     fovaCamoId=13,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c13.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c13.fv2",
+        },
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c13.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c13.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -936,6 +1770,18 @@ this.playerCamoTypesInfo={
     playerCamoType=14,
     developId=19040,
     playerParts={
+      NORMAL={
+        SNAKE={
+          --DEBUGNOW mystery, no matches?
+          fpk=5920914369742744086,--522B503FBA05AA16h
+          fv2=6956193077379482837,--60895CBF963C44D5h
+        },
+        AVATAR={
+          --DEBUGNOW mystery, no matches?
+          fpk=5920914369742744086,--522B503FBA05AA16h
+          fv2=6956193077379482837,--60895CBF963C44D5h
+        },
+      },
       SNEAKING_SUIT=true,
     },
     playerTypes={
@@ -1063,7 +1909,20 @@ this.playerCamoTypesInfo={
     developId=19012,
     fovaCamoId=14,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c14.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c14.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c14.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c14.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1160,7 +2019,20 @@ this.playerCamoTypesInfo={
     playerCamoType=36,
     fovaCamoId=23,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c23.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c23.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c23.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c23.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1172,7 +2044,20 @@ this.playerCamoTypesInfo={
     playerCamoType=37,
     fovaCamoId=24,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c24.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c24.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c24.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c24.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1184,7 +2069,20 @@ this.playerCamoTypesInfo={
     playerCamoType=38,
     fovaCamoId=27,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c27.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c27.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c27.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c27.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1196,7 +2094,20 @@ this.playerCamoTypesInfo={
     playerCamoType=39,
     fovaCamoId=29,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c29.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c29.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c29.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c29.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1208,7 +2119,20 @@ this.playerCamoTypesInfo={
     playerCamoType=40,
     fovaCamoId=30,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c30.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c30.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c30.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c30.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1220,7 +2144,20 @@ this.playerCamoTypesInfo={
     playerCamoType=41,
     fovaCamoId=35,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c35.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c35.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c35.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c35.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1232,7 +2169,20 @@ this.playerCamoTypesInfo={
     playerCamoType=42,
     fovaCamoId=38,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c38.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c38.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c38.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c38.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1244,7 +2194,20 @@ this.playerCamoTypesInfo={
     playerCamoType=43,
     fovaCamoId=39,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c39.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c39.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c39.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c39.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1256,7 +2219,20 @@ this.playerCamoTypesInfo={
     playerCamoType=44,
     fovaCamoId=42,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c42.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c42.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c42.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c42.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1268,7 +2244,20 @@ this.playerCamoTypesInfo={
     playerCamoType=45,
     fovaCamoId=46,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c46.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c46.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c46.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c46.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1280,7 +2269,20 @@ this.playerCamoTypesInfo={
     playerCamoType=46,
     fovaCamoId=49,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c49.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c49.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c49.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c49.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1292,7 +2294,20 @@ this.playerCamoTypesInfo={
     playerCamoType=47,
     fovaCamoId=52,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c52.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c52.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c52.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c52.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1305,7 +2320,20 @@ this.playerCamoTypesInfo={
     playerCamoType=48,
     fovaCamoId=16,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c16.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c16.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c16.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c16.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1317,7 +2345,20 @@ this.playerCamoTypesInfo={
     playerCamoType=49,
     fovaCamoId=17,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c17.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c17.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c17.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c17.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1329,7 +2370,20 @@ this.playerCamoTypesInfo={
     playerCamoType=50,
     fovaCamoId=18,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c18.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c18.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c18.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c18.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1341,7 +2395,20 @@ this.playerCamoTypesInfo={
     playerCamoType=51,
     fovaCamoId=19,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c19.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c19.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c19.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c19.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1353,7 +2420,20 @@ this.playerCamoTypesInfo={
     playerCamoType=52,
     fovaCamoId=20,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c20.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c20.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c20.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c20.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1365,7 +2445,20 @@ this.playerCamoTypesInfo={
     playerCamoType=53,
     fovaCamoId=22,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c22.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c22.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c22.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c22.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1377,7 +2470,20 @@ this.playerCamoTypesInfo={
     playerCamoType=54,
     fovaCamoId=25,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c25.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c25.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c25.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c25.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1389,7 +2495,20 @@ this.playerCamoTypesInfo={
     playerCamoType=55,
     fovaCamoId=26,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c26.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c26.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c26.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c26.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1401,7 +2520,20 @@ this.playerCamoTypesInfo={
     playerCamoType=56,
     fovaCamoId=28,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c28.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c28.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c28.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c28.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1413,7 +2545,20 @@ this.playerCamoTypesInfo={
     playerCamoType=57,
     fovaCamoId=31,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c31.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c31.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c31.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c31.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1425,7 +2570,20 @@ this.playerCamoTypesInfo={
     playerCamoType=58,
     fovaCamoId=32,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c32.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c32.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c32.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c32.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1437,7 +2595,20 @@ this.playerCamoTypesInfo={
     playerCamoType=59,
     fovaCamoId=33,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c33.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c33.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c33.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c33.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1449,7 +2620,20 @@ this.playerCamoTypesInfo={
     playerCamoType=60,
     fovaCamoId=36,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c36.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c36.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c36.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c36.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1461,7 +2645,20 @@ this.playerCamoTypesInfo={
     playerCamoType=61,
     fovaCamoId=37,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c37.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c37.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c37.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c37.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1473,7 +2670,20 @@ this.playerCamoTypesInfo={
     playerCamoType=62,
     fovaCamoId=40,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c40.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c40.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c40.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c40.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1485,7 +2695,20 @@ this.playerCamoTypesInfo={
     playerCamoType=63,
     fovaCamoId=41,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c41.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c41.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c41.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c41.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1497,7 +2720,20 @@ this.playerCamoTypesInfo={
     playerCamoType=64,
     fovaCamoId=43,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c43.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c43.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c43.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c43.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1509,7 +2745,20 @@ this.playerCamoTypesInfo={
     playerCamoType=65,
     fovaCamoId=44,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c44.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c44.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c44.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c44.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1521,7 +2770,20 @@ this.playerCamoTypesInfo={
     playerCamoType=66,
     fovaCamoId=45,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c45.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c45.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c45.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c45.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1533,7 +2795,20 @@ this.playerCamoTypesInfo={
     playerCamoType=67,
     fovaCamoId=47,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c47.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c47.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c47.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c47.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1545,7 +2820,20 @@ this.playerCamoTypesInfo={
     playerCamoType=68,
     fovaCamoId=48,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c48.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c48.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c48.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c48.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1557,7 +2845,20 @@ this.playerCamoTypesInfo={
     playerCamoType=69,
     fovaCamoId=50,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c50.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c50.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c50.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c50.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1569,7 +2870,20 @@ this.playerCamoTypesInfo={
     playerCamoType=70,
     fovaCamoId=51,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c51.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c51.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c51.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c51.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1581,7 +2895,20 @@ this.playerCamoTypesInfo={
     playerCamoType=71,
     fovaCamoId=53,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c53.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c53.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c53.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c53.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1593,7 +2920,20 @@ this.playerCamoTypesInfo={
     playerCamoType=72,
     fovaCamoId=54,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c54.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c54.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c54.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c54.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1605,7 +2945,20 @@ this.playerCamoTypesInfo={
     playerCamoType=73,
     fovaCamoId=55,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c55.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c55.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c55.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c55.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1617,7 +2970,20 @@ this.playerCamoTypesInfo={
     playerCamoType=74,
     fovaCamoId=56,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c56.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c56.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c56.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c56.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1629,7 +2995,20 @@ this.playerCamoTypesInfo={
     playerCamoType=75,
     fovaCamoId=57,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c57.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c57.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c57.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c57.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1641,7 +3020,20 @@ this.playerCamoTypesInfo={
     playerCamoType=76,
     fovaCamoId=58,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c58.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c58.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c58.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c58.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1653,7 +3045,20 @@ this.playerCamoTypesInfo={
     playerCamoType=77,
     fovaCamoId=59,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c59.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c59.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c59.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c59.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
@@ -1665,13 +3070,30 @@ this.playerCamoTypesInfo={
     playerCamoType=78,
     fovaCamoId=60,
     playerParts={
-      NORMAL=true,
+      NORMAL={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c60.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c60.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c60.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c60.fv2",
+        },
+        DD_MALE={
+          fpk=-1,
+          fv2=-1,
+        },
+      },
       NORMAL_SCARF=true,
       NAKED=true,
     },
   },
   ---------------------
-
+  --TODO: all the swimsuit camos have the default for SNAKE/AVAT normal?
+  --the loadPlayerCamo* functions are weird to in that they only seem to reference the array for swimsuis so don't know how normal tables are loaded
+  --they have their own DD_MALE/DD_FEMALE where they actually apply
+  --  "/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",--DEFAULT
+  --"/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",--DEFAULT
   {
     name="SWIMWEAR_C00",
     description="Olive Drab",
@@ -2205,7 +3627,6 @@ this.playerCamoTypesInfo={
 --ex-plfova_cmf0_main0_def_v46.fpk
 --fova files \Assets\tpp\fova\chara\dlf\cmf0_main0_def_v<swimsuit camo id>.fv2
 
-
 --tex there doesn't seem to be any enum for this
 this.playerFaceEquipId={
   "NONE",--0
@@ -2269,6 +3690,85 @@ this.playerFaceEquipIdInfo={
   },
 }--playerFaceEquipIdInfo
 
+--tex from LoadPlayerSnakeFaceFpk,Fv2
+--indexed by playerFaceId, but bandanas (playerFaceEquipId 1,2) = playerFaceId + 3
+--TODO: figure out where playerFaceId chosen for snake
+--TODO: document GOLD,SILVER from LoadPlayerSnakeFaceFpk which is tied up in logic
+--face3 only used in \Assets\tpp\pack\mission2\story\s10280\s10280_d12.fpk
+this.snakeFaceInfo={
+  {--0
+   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face0_v00.fpk",
+   fv2="/Assets/tpp/fova/chara/sna/sna0_face0_v00.fv2",
+  },
+  {--1
+   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face1_v00.fpk",
+   fv2="/Assets/tpp/fova/chara/sna/sna0_face1_v00.fv2",
+  },
+  {--2
+   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face2_v00.fpk",
+   fv2="/Assets/tpp/fova/chara/sna/sna0_face2_v00.fv2",
+  },
+  {--3
+   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face4_v00.fpk",
+   fv2="/Assets/tpp/fova/chara/sna/sna0_face4_v00.fv2",
+  },
+  {--4
+   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face5_v00.fpk",
+   fv2="/Assets/tpp/fova/chara/sna/sna0_face5_v00.fv2",
+  },
+  {--5
+   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face6_v00.fpk",
+   fv2="/Assets/tpp/fova/chara/sna/sna0_face6_v00.fv2",
+  },
+}--snakeFaceInfo
+
+--tex TODO mockfox doesnt dump the enum complete? only NONE,NORMAL
+this.PlayerHandType={
+  "NONE",--0
+  "NORMAL",
+  "STUN_ARM",
+  "JEHUTY",
+  "STUN_ROCKET",
+  "KILL_ROCKET",
+  "GOLD",
+  "SILVER",
+}
+
+--tex from exe LoadPlayerBionicArm*, driven by vars.playerHandType
+this.playerHandTypes={
+  {--0
+    fpk=0,
+    fv2=0,
+  },
+  {--1
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm0_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm0_v00.fv2",
+  },
+  {--2
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm3_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm3_v00.fv2",
+  },
+  {--3
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm4_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm4_v00.fv2",
+  },
+  {--4
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm2_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm2_v00.fv2",
+  },
+  {--5
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm1_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm1_v00.fv2",
+  },
+  {--6
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm6_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm6_v00.fv2",
+  },
+  {--7
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm7_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm7_v00.fv2",
+  },
+}--playerHandTypes
 
 --tex mostly for IH ivars to differentiate some features
 this.playerTypeGroup={
