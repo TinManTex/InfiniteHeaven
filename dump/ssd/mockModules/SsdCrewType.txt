@@ -1,9 +1,0 @@
-SsdCrewType={
-  UNIQUE_TYPE_BOY = 2,
-  UNIQUE_TYPE_MLT = 1,
-  UNIQUE_TYPE_NRS = 3,
-  UNIQUE_TYPE_PLC = 4,
-  UNIQUE_TYPE_SETH = 6,
-  __index = "<function>",
-  __newindex = "<function>"
-}

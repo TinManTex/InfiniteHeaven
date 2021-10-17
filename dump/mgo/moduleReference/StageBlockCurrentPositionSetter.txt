@@ -1,5 +1,0 @@
-StageBlockCurrentPositionSetter={
-  DisablePosition = true,
-  SetEnable = true,
-  SetPosition = true
-}

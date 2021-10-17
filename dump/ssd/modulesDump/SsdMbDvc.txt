@@ -1,9 +1,0 @@
-SsdMbDvc={
-  Close = <function 1>,
-  DisableTutorialMap = <function 2>,
-  EnableTutorialMap = <function 3>,
-  IsOpen = <function 4>,
-  Open = <function 5>,
-  ResetOxygenConvertCount = <function 6>,
-  SetShowOxygenUiThreshold = <function 7>
-}

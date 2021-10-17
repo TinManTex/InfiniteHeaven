@@ -1,9 +1,0 @@
-_IHHook_TestTable={
-  booleanfield = true,
-  integerfield = 3,
-  lstringfield = "lstringvalue",
-  numberfield = 2.0999999046326,
-  rawsetkey = "rawsetvalue",
-  settablekey = "settablevalue",
-  stringfield = "stringvalue"
-}

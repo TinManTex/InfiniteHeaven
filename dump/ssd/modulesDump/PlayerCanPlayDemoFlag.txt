@@ -1,8 +1,0 @@
-PlayerCanPlayDemoFlag=<1>{
-  [-285212672] = 4,
-  [6387808] = <function 1>,
-  [265372424] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

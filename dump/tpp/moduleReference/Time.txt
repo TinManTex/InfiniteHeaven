@@ -1,5 +1,0 @@
-Time={
-  GetDeltaGameTime = true,
-  GetFrameTime = true,
-  GetRawElapsedTimeSinceStartUp = true
-}

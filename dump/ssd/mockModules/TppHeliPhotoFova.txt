@@ -1,4 +1,0 @@
-TppHeliPhotoFova={
-  ClearGroupSetting = "<function>",
-  SetGroupUnit = "<function>"
-}

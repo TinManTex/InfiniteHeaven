@@ -1,6 +1,0 @@
-EnemyStance={
-  STANCE_STAND = 1,
-  STANCE_SUPINE = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

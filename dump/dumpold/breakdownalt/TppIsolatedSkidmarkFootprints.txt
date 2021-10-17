@@ -1,3 +1,0 @@
-TppIsolatedSkidmarkFootprints={
-  SetVisible = <function 1>
-}

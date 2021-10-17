@@ -1,4 +1,0 @@
-PlayerHandType={
-  NONE = true,
-  NORMAL = true
-}

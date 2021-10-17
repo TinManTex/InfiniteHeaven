@@ -1,3 +1,0 @@
-Geo={
-  GeoLuaEnableTriggerTrap = true
-}

@@ -1,5 +1,0 @@
-TppSoldier2CommonBlockController={
-  CreateCommonMotionBlockGroup = true,
-  IsReady = true,
-  SetPackagePathWithPrerequisites = true
-}

@@ -1,9 +1,0 @@
-FxLocator={
-  Create = "<function>",
-  Destroy = "<function>",
-  Invisible = "<function>",
-  Visible = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "FxLocator"
-}

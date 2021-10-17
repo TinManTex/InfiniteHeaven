@@ -1,5 +1,0 @@
-FobMode={
-  MODE_ACTUAL = true,
-  MODE_SHAM = true,
-  MODE_VISIT = true
-}

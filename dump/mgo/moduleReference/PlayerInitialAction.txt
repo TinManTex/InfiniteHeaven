@@ -1,5 +1,0 @@
-PlayerInitialAction={
-  FROM_HELI_SPACE = true,
-  HELI_SPACE = true,
-  STAND = true
-}

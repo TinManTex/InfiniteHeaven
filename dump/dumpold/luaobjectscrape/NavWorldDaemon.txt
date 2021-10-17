@@ -1,4 +1,0 @@
-NavWorldDaemon={
-  AddScene = true,
-  AddWorld = true
-}

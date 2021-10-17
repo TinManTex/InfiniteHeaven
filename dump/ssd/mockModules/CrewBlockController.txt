@@ -1,5 +1,0 @@
-CrewBlockController={
-  IsProcessing = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

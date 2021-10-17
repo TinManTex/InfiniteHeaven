@@ -1,6 +1,0 @@
-TppGameMode={
-  GetUserMode = "<function>",
-  U_SIGN_OUT = 1,
-  __index = "<function>",
-  __newindex = "<function>"
-}

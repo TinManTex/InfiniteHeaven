@@ -1,8 +1,0 @@
-FobIsSneak=<1>{
-  [-285212672] = 4,
-  [159424037] = <function 1>,
-  [245254594] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

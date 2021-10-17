@@ -1,4 +1,0 @@
-NeutralizeType={
-  __index = "<function>",
-  __newindex = "<function>"
-}

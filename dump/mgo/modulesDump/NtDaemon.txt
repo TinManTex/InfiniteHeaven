@@ -1,3 +1,0 @@
-NtDaemon={
-  Create = <function 1>
-}

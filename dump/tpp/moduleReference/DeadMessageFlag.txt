@@ -1,7 +1,0 @@
-DeadMessageFlag={
-  FIRE = true,
-  FIRE_OR_DYING = true,
-  FROM_PLAYER_ORDER = true,
-  INDIRECTLY_TARGET = true,
-  NOT_DAMAGE_DEAD = true
-}

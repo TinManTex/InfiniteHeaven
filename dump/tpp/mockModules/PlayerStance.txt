@@ -1,7 +1,0 @@
-PlayerStance={
-  CRAWL = 3,
-  SQUAT = 2,
-  STAND = 1,
-  __index = "<function>",
-  __newindex = "<function>"
-}

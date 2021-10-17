@@ -1,8 +1,0 @@
-TerrainRender=<1>{
-  ClearPackedMaterialTexture = <function 1>,
-  ExportPackedMaterialTexture = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "TerrainRender",
-  <metatable> = <table 1>
-}

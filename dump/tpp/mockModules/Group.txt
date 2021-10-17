@@ -1,6 +1,0 @@
-Group={
-  GetMembers = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "Group"
-}

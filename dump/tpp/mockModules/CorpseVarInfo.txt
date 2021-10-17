@@ -1,4 +1,0 @@
-CorpseVarInfo={
-  __index = "<function>",
-  __newindex = "<function>"
-}

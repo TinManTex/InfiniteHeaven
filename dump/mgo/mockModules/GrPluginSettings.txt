@@ -1,6 +1,0 @@
-GrPluginSettings={
-  SetRenderName = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "GrPluginSettings"
-}

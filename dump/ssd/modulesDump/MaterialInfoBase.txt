@@ -1,8 +1,0 @@
-MaterialInfoBase=<1>{
-  SetName = <function 1>,
-  __call = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "MaterialInfoBase",
-  <metatable> = <table 1>
-}

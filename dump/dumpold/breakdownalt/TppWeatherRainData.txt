@@ -1,6 +1,0 @@
-TppWeatherRainData=<1>{
-  __index = <function 1>,
-  __newindex = <function 2>,
-  _className = "TppWeatherRainData",
-  <metatable> = <table 1>
-}

@@ -1,3 +1,0 @@
-GeoTrapBody={
-  GetByName = true
-}

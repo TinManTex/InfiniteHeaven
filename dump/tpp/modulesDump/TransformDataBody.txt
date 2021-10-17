@@ -1,8 +1,0 @@
-TransformDataBody=<1>{
-  GetWorldMatrix = <function 1>,
-  GetWorldTransform = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "TransformDataBody",
-  <metatable> = <table 1>
-}

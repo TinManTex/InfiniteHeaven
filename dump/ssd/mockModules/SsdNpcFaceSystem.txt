@@ -1,7 +1,0 @@
-SsdNpcFaceSystem={
-  SetBodyIdInfoTable = "<function>",
-  SetFaceIdInfoTable = "<function>",
-  SetFovaFileTable = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

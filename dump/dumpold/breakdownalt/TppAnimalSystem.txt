@@ -1,6 +1,0 @@
-TppAnimalSystem={
-  GetDataBaseIdFromAnimaId = <function 1>,
-  GetDataBaseIdFromAnimalId = <function 2>,
-  IsIgnoreDisableNpc = <function 3>,
-  SetIgnoreDisableNpc = <function 4>
-}

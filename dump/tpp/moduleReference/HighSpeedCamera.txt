@@ -1,4 +1,0 @@
-HighSpeedCamera={
-  RequestEvent = true,
-  RequestToCancel = true
-}

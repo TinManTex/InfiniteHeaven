@@ -1,4 +1,0 @@
-GearGender={
-  __index = "<function>",
-  __newindex = "<function>"
-}

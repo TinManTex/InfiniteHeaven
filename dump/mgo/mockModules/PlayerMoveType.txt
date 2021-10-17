@@ -1,4 +1,0 @@
-PlayerMoveType={
-  __index = "<function>",
-  __newindex = "<function>"
-}

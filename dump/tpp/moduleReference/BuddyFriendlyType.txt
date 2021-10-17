@@ -1,5 +1,0 @@
-BuddyFriendlyType={
-  DOG = true,
-  HORSE = true,
-  QUIET = true
-}

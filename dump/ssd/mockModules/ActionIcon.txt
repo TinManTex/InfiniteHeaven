@@ -1,9 +1,0 @@
-ActionIcon={
-  ACTION = 0,
-  INTEL = 67,
-  INTEL_NG = 68,
-  TRAINING = 132,
-  WORMHOLE_RETURN = 136,
-  __index = "<function>",
-  __newindex = "<function>"
-}

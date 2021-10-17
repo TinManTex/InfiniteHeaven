@@ -1,7 +1,0 @@
-Installer={
-  GetInstallResult = true,
-  INSTALL_RESULT_NOSPACE = true,
-  IsCheckingInstallation = true,
-  IsInstalled = true,
-  StartCheckingInstallation = true
-}

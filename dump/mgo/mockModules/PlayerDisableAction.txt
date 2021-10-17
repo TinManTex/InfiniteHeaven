@@ -1,6 +1,0 @@
-PlayerDisableAction={
-  NONE = 0,
-  SUBJECTIVE_CAMERA = 512,
-  __index = "<function>",
-  __newindex = "<function>"
-}

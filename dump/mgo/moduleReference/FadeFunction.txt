@@ -1,8 +1,0 @@
-FadeFunction={
-  CallFadeIn = true,
-  CallFadeOut = true,
-  InitFadeSetting = true,
-  IsFadeProcessing = true,
-  ResetFadeColor = true,
-  SetFadeColor = true
-}

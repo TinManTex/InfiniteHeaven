@@ -1,3 +1,0 @@
-PlayerSlotType={
-  ITEM = true
-}

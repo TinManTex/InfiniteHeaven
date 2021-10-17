@@ -1,3 +1,0 @@
-PlayerMissionPrepareAction={
-  READY = true
-}

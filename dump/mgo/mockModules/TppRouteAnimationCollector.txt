@@ -1,4 +1,0 @@
-TppRouteAnimationCollector={
-  ClearGaniPath = "<function>",
-  RegisterGaniPath = "<function>"
-}

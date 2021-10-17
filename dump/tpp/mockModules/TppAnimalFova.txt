@@ -1,5 +1,0 @@
-TppAnimalFova={
-  TYPE_COLOR_2 = 2,
-  __index = "<function>",
-  __newindex = "<function>"
-}

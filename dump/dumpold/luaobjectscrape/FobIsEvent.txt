@@ -1,3 +1,0 @@
-FobIsEvent={
-  NOT_EVENT = true
-}

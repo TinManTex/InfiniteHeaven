@@ -1,7 +1,0 @@
-TppChallengeTask={
-  IsCompletedOnlineTask = true,
-  RegisterCheckerFunction = true,
-  RequestUpdate = true,
-  RequestUpdateAllChecker = true,
-  SetFlagCompletedOnlineTask = true
-}

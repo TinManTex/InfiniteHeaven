@@ -1,4 +1,0 @@
-FxDaemon={
-  Initialize = "<function>",
-  InitializeReserveObject = "<function>"
-}

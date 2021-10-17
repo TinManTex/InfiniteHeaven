@@ -1,9 +1,0 @@
-WindGlobalBody=<1>{
-  ResetWind = <function 1>,
-  SetRotation = <function 2>,
-  SetSpeed = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  _className = "WindGlobalBody",
-  <metatable> = <table 1>
-}

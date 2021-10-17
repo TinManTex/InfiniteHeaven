@@ -1,4 +1,0 @@
-TppCommand={
-  numberKeys = { -285212672, -285212671, 44836877 },
-  stringKeys = { "__index", "__newindex" }
-}

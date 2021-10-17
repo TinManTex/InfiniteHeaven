@@ -1,8 +1,0 @@
-TppSystemUtility={
-  ConfigDefaultPadAssigns = "<function>",
-  GetCurrentGameMode = "<function>",
-  SetCurrentGameMode = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TppSystemUtility"
-}

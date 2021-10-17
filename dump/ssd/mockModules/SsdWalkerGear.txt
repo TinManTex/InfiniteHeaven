@@ -1,3 +1,0 @@
-SsdWalkerGear={
-  ReloadParameterTables = "<function>"
-}

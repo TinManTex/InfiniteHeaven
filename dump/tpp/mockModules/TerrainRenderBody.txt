@@ -1,9 +1,0 @@
-TerrainRenderBody={
-  GetNumBlocksHeight = "<function>",
-  GetNumBlocksWidth = "<function>",
-  GetSize = "<function>",
-  ReloadWorldTextures = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TerrainRenderBody"
-}

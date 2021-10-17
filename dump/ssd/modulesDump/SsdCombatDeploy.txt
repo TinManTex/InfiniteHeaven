@@ -1,5 +1,0 @@
-SsdCombatDeploy={
-  GetFailureTeamCount = <function 1>,
-  GetSuccessTeamCount = <function 2>,
-  ReloadCombatDeployParameterTable = <function 3>
-}

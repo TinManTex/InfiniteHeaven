@@ -1,4 +1,0 @@
-TppBuddy2BlockController={
-  Load = true,
-  Unload = true
-}

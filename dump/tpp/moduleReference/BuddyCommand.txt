@@ -1,7 +1,0 @@
-BuddyCommand={
-  DOG_BARKING = true,
-  HORSE_SHIT = true,
-  QUIET_AIM_TARGET = true,
-  QUIET_COMBAT_START = true,
-  QUIET_SHOOT_THIS = true
-}

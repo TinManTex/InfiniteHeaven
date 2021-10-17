@@ -1,6 +1,0 @@
-TppSimpleGameSequenceSystem={
-  Start = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TppSimpleGameSequenceSystem"
-}

@@ -1,5 +1,0 @@
-EnvironmentArea={
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "EnvironmentArea"
-}

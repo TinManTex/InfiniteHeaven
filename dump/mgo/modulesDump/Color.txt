@@ -1,8 +1,0 @@
-Color=<1>{
-  Add = <function 1>,
-  Scale = <function 2>,
-  Sub = <function 3>,
-  ToString = <function 4>,
-  __call = <function 5>,
-  <metatable> = <table 1>
-}

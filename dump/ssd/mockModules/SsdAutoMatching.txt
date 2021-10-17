@@ -1,5 +1,0 @@
-SsdAutoMatching={
-  IsBusy = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,4 +1,0 @@
-PlayerDisableAction={
-  NONE = true,
-  SUBJECTIVE_CAMERA = true
-}

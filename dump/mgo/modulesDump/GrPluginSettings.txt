@@ -1,7 +1,0 @@
-GrPluginSettings=<1>{
-  SetRenderName = <function 1>,
-  __index = <function 2>,
-  __newindex = <function 3>,
-  _className = "GrPluginSettings",
-  <metatable> = <table 1>
-}

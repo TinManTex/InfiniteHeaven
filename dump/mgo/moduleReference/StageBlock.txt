@@ -1,7 +1,0 @@
-StageBlock={
-  ClearLargeBlockNameForMessage = true,
-  ClearSmallBlockIndexForMessage = true,
-  GetCurrentMinimumSmallBlockIndex = true,
-  GetLoadedLargeBlocks = true,
-  LargeAndSmallBlocksAreEmpty = true
-}

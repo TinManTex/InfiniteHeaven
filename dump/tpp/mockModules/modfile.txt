@@ -1,6 +1,0 @@
-modfile={
-  getmodfiles = "<function>",
-  log = "<function>",
-  onupdate = "<function>",
-  startihext = "<function>"
-}

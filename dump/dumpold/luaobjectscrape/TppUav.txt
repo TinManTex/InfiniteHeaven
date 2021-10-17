@@ -1,9 +1,0 @@
-TppUav={
-  DEVELOP_LEVEL_LMG_0 = true,
-  DEVELOP_LEVEL_LMG_1 = true,
-  DEVELOP_LEVEL_LMG_2 = true,
-  DEVELOP_LEVEL_SLEEP_0 = true,
-  DEVELOP_LEVEL_SMOKE_0 = true,
-  DEVELOP_LEVEL_SMOKE_1 = true,
-  DEVELOP_LEVEL_SMOKE_2 = true
-}

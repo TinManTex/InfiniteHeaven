@@ -1,4 +1,0 @@
-TppCoder={
-  GetWorldCenter = <function 1>,
-  SetWorldCenter = <function 2>
-}

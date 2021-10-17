@@ -1,7 +1,0 @@
-PlayerPartsType={
-  AVATAR_EDIT_MAN = true,
-  AVATAR_EDIT_WOMAN = true,
-  HOSPITAL = true,
-  NORMAL = true,
-  NORMAL_SCARF = true
-}

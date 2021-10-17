@@ -1,8 +1,0 @@
-BuddyCommonFlag={
-  BOSS_QUIET_KILL = true,
-  BUDDY_FORCE_HOSPITALIZE = true,
-  BUDDY_QUIET_DYING = true,
-  BUDDY_QUIET_HOSPITALIZE = true,
-  BUDDY_QUIET_LOST = true,
-  BUDDY_RIDE_HELI = true
-}

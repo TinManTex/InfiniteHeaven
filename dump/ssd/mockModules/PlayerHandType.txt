@@ -1,5 +1,0 @@
-PlayerHandType={
-  NORMAL = 1,
-  __index = "<function>",
-  __newindex = "<function>"
-}

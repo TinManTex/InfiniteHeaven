@@ -1,5 +1,0 @@
-TppWeatherSandStormData={
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TppWeatherSandStormData"
-}

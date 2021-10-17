@@ -1,5 +1,0 @@
-TppGameMode={
-  GetUserMode = true,
-  U_KONAMI_LOGIN = true,
-  U_SIGN_OUT = true
-}

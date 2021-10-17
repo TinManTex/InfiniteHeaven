@@ -1,5 +1,0 @@
-PlayerPad={
-  MB_DEVICE = true,
-  STANCE = true,
-  STICK_R = true
-}

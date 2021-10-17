@@ -1,7 +1,0 @@
-CallbackProcedureTransformDataBody={
-  GetWorldMatrix = "<function>",
-  GetWorldTransform = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "CallbackProcedureTransformDataBody"
-}

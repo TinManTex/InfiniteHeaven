@@ -1,7 +1,0 @@
-EnemyState={
-  CARRIED = 4,
-  NORMAL = 1,
-  STAND_HOLDUP = 2,
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,6 +1,0 @@
-PlatformConfiguration={
-  SetAudioRecordingEnabled = "<function>",
-  SetScreenShotEnabled = "<function>",
-  SetShareScreenEnabled = "<function>",
-  SetVideoRecordingEnabled = "<function>"
-}

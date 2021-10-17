@@ -1,9 +1,0 @@
-BuddyType={
-  BATTLE_GEAR = 5,
-  DOG = 2,
-  HORSE = 1,
-  QUIET = 3,
-  WALKER_GEAR = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

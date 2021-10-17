@@ -1,9 +1,0 @@
-DemoPlayback={
-  GetCurrentFrame = "<function>",
-  Pause = "<function>",
-  Restart = "<function>",
-  SetAutoPause = "<function>",
-  SetLoopMode = "<function>",
-  SetTransform = "<function>",
-  Skip = "<function>"
-}

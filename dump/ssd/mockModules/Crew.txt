@@ -1,5 +1,0 @@
-Crew={
-  SetRoleInfo = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

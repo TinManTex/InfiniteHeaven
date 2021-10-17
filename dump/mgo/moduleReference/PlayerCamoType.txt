@@ -1,8 +1,0 @@
-PlayerCamoType={
-  AVATAR_EDIT_MAN = true,
-  AVATAR_EDIT_WOMAN = true,
-  HOSPITAL = true,
-  NONE = true,
-  OLIVEDRAB = true,
-  TIGERSTRIPE = true
-}

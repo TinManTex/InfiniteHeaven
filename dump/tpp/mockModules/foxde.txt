@@ -1,6 +1,0 @@
-foxde={
-  Assert = "<function>",
-  Print = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

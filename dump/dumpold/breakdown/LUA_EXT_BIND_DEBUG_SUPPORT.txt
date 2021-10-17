@@ -1,4 +1,0 @@
-LUA_EXT_BIND_DEBUG_SUPPORT={
-  numberKeys = { -285212672, -285212671 },
-  stringKeys = { "dump", "__index", "__newindex" }
-}

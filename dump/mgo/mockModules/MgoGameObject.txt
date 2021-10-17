@@ -1,5 +1,0 @@
-MgoGameObject={
-  GameObjectId = "<function>",
-  GetActor = "<function>",
-  GetLocationLW = "<function>"
-}

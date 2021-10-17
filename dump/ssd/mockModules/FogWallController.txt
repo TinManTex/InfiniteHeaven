@@ -1,5 +1,0 @@
-FogWallController={
-  SetEnabled = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

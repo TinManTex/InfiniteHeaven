@@ -1,9 +1,0 @@
-TppHostage2={
-  ClearDefaultBodyFovaId = true,
-  ClearHostageType = true,
-  ClearUniquePartsPath = true,
-  SetDefaultBodyFovaId = true,
-  SetHostageType = true,
-  SetSVarsKeyNames2 = true,
-  SetUniquePartsPath = true
-}

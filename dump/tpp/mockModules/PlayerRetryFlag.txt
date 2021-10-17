@@ -1,6 +1,0 @@
-PlayerRetryFlag={
-  RETRY = 1,
-  RETRY_WITH_CHICK_CAP = 2,
-  __index = "<function>",
-  __newindex = "<function>"
-}

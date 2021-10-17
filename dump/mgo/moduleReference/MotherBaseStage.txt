@@ -1,6 +1,0 @@
-MotherBaseStage={
-  GetCurrentCluster = true,
-  GetDemoCenter = true,
-  GetFirstCluster = true,
-  RegisterModifyLayoutCodes = true
-}

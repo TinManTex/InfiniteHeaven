@@ -1,9 +1,0 @@
-EnemyType={
-  TYPE_CHILD = 3,
-  TYPE_DD = 4,
-  TYPE_PF = 1,
-  TYPE_SKULL = 2,
-  TYPE_SOVIET = 0,
-  __index = "<function>",
-  __newindex = "<function>"
-}

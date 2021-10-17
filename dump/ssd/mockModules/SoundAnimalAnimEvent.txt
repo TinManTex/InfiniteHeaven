@@ -1,4 +1,0 @@
-SoundAnimalAnimEvent={
-  SetupAnimalFootStep = "<function>",
-  SetupAnimalRattleSuit = "<function>"
-}

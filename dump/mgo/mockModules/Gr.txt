@@ -1,7 +1,0 @@
-Gr={
-  DBGColor = "<function>",
-  DBGFontSize = "<function>",
-  DBGLocate = "<function>",
-  DBGPrint = "<function>",
-  ModelConvert = "<function>"
-}

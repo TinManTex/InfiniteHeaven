@@ -1,4 +1,0 @@
-MgoSignal=<1>{
-  SendSignal = <function 1>,
-  <metatable> = <table 1>
-}

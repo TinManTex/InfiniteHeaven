@@ -1,8 +1,0 @@
-WindManager={
-  GetInstance = "<function>",
-  RestartTimer = "<function>",
-  __call = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "WindManager"
-}

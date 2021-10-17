@@ -1,4 +1,0 @@
-TppLightProbe={
-  SetReadLpshDebugLogDisable = "<function>",
-  SetReadLpshDebugLogEnable = "<function>"
-}

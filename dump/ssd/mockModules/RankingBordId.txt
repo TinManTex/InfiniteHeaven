@@ -1,5 +1,0 @@
-RankingBordId={
-  NONE = 9999,
-  __index = "<function>",
-  __newindex = "<function>"
-}

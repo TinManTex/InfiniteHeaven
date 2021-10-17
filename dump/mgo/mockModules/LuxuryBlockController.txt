@@ -1,4 +1,0 @@
-LuxuryBlockController={
-  AddList = "<function>",
-  Init = "<function>"
-}

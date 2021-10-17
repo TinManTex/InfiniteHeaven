@@ -1,9 +1,0 @@
-Matrix3={
-  Identity = "<function>",
-  Inverse = "<function>",
-  RotationX = "<function>",
-  RotationY = "<function>",
-  RotationZ = "<function>",
-  ToString = "<function>",
-  __call = "<function>"
-}

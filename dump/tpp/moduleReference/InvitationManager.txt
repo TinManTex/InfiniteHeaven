@@ -1,6 +1,0 @@
-InvitationManager={
-  EnableMessage = true,
-  IsAccepted = true,
-  IsCurrentUserInvited = true,
-  ResetAccept = true
-}

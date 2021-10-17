@@ -1,6 +1,0 @@
-PlayerCamera={
-  Around = 6,
-  Vehicle = 2,
-  __index = "<function>",
-  __newindex = "<function>"
-}

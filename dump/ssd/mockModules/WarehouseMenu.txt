@@ -1,4 +1,0 @@
-WarehouseMenu={
-  __index = "<function>",
-  __newindex = "<function>"
-}

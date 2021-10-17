@@ -1,5 +1,0 @@
-HeadshotMessageFlag={
-  IS_JUST_UNCONSCIOUS = true,
-  IS_TRANQ_HANDGUN = true,
-  NEUTRALIZE_DONE = true
-}

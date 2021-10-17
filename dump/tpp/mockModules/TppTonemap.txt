@@ -1,3 +1,0 @@
-TppTonemap={
-  SetEnable = "<function>"
-}

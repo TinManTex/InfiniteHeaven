@@ -1,9 +1,0 @@
-UiSupport={
-  Create = "<function>",
-  CreateLoginPrint = "<function>",
-  End = "<function>",
-  GetInstance = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "UiSupport"
-}

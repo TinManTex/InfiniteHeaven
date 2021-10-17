@@ -1,6 +1,0 @@
-TppUiStatusManager={
-  CheckStatus = true,
-  ClearStatus = true,
-  SetStatus = true,
-  UnsetStatus = true
-}

@@ -1,5 +1,0 @@
-PlayerStance={
-  CRAWL = true,
-  SQUAT = true,
-  STAND = true
-}

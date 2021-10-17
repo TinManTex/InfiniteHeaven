@@ -1,4 +1,0 @@
-CrewPanelSystem={
-  __index = "<function>",
-  __newindex = "<function>"
-}

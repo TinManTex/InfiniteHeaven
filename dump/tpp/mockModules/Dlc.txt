@@ -1,7 +1,0 @@
-Dlc={
-  GetLastError = "<function>",
-  IsCheckingDlc = "<function>",
-  StartCheckingDlc = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,6 +1,0 @@
-GkEventTimerManager={
-  IsTimerActive = true,
-  Start = true,
-  Stop = true,
-  StopAll = true
-}

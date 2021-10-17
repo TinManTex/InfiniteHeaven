@@ -1,6 +1,0 @@
-BuddyCommonFlag={
-  BUDDY_FORCE_HOSPITALIZE = 7,
-  BUDDY_QUIET_LOST = 3,
-  __index = "<function>",
-  __newindex = "<function>"
-}

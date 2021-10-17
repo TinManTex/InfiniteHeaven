@@ -1,5 +1,0 @@
-GeoShape={
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "GeoShape"
-}

@@ -1,3 +1,0 @@
-MgoGpSystem={
-  GetGp = "<function>"
-}

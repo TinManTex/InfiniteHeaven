@@ -1,8 +1,0 @@
-WorldMarker={
-  CreateMarkerControl = true,
-  DisableMarker = true,
-  EnableMarker = true,
-  SetAdditionalFlag = true,
-  SetPosition = true,
-  SetUserData = true
-}

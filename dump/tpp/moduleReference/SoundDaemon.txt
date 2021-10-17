@@ -1,5 +1,0 @@
-SoundDaemon={
-  Create = true,
-  MakeLeftRightAnimEventPair = true,
-  RegisterAnimEvent = true
-}

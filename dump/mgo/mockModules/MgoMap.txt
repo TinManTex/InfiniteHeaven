@@ -1,7 +1,0 @@
-MgoMap={
-  AddIcon = "<function>",
-  AddIcon2 = "<function>",
-  Jam = "<function>",
-  RemoveIcon = "<function>",
-  UnJam = "<function>"
-}

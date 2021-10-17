@@ -1,3 +1,0 @@
-MgoSignal={
-  SendSignal = "<function>"
-}

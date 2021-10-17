@@ -1,3 +1,0 @@
-MgoWeaponParams={
-  LoadParams = "<function>"
-}

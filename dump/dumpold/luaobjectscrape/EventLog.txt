@@ -1,8 +1,0 @@
-EventLog={
-  EVENT_ALERT = true,
-  EVENT_MISSION_ABORT = true,
-  EVENT_PLAYER_ESCAPE = true,
-  EVENT_PLAYER_GOAL = true,
-  EVENT_PLAYER_START = true,
-  EVENT_RESTART = true
-}

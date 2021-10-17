@@ -1,5 +1,0 @@
-Trophy={
-  TrophyDiskCheck = "<function>",
-  TrophyInstall = "<function>",
-  TrophyUnlock = "<function>"
-}

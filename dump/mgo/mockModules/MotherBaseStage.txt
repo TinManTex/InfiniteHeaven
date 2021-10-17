@@ -1,3 +1,0 @@
-MotherBaseStage={
-  RegisterModifyLayoutCodes = "<function>"
-}

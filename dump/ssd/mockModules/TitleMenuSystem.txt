@@ -1,7 +1,0 @@
-TitleMenuSystem={
-  RequestClose = "<function>",
-  RequestOpen = "<function>",
-  RequestReopen = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

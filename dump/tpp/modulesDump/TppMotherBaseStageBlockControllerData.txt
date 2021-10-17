@@ -1,6 +1,0 @@
-TppMotherBaseStageBlockControllerData=<1>{
-  __index = <function 1>,
-  __newindex = <function 2>,
-  _className = "TppMotherBaseStageBlockControllerData",
-  <metatable> = <table 1>
-}

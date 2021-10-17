@@ -1,5 +1,0 @@
-FastTravelMenuSystem={
-  SetLocationMoveEnabled = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

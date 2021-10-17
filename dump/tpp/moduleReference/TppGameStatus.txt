@@ -1,5 +1,0 @@
-TppGameStatus={
-  IsSet = true,
-  Reset = true,
-  Set = true
-}

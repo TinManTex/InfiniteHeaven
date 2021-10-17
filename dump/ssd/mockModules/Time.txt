@@ -1,6 +1,0 @@
-Time={
-  GetFrameTime = "<function>",
-  GetRawElapsedTimeSinceStartUp = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

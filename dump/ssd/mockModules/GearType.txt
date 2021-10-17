@@ -1,9 +1,0 @@
-GearType={
-  ARM = 3,
-  HELMET = 2,
-  INNER = 6,
-  LOWER_BODY = 5,
-  UPPER_BODY = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,8 +1,0 @@
-SplashScreen={
-  Create = true,
-  Delete = true,
-  GetSplashScreenWithName = true,
-  STATE_DELETE = true,
-  SetStateCallback = true,
-  Show = true
-}

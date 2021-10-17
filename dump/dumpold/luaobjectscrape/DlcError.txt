@@ -1,4 +1,0 @@
-DlcError={
-  E_NETWORK = true,
-  E_OK = true
-}

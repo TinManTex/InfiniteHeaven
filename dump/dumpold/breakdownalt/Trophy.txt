@@ -1,6 +1,0 @@
-Trophy={
-  ShowShop = <function 1>,
-  TrophyDiskCheck = <function 2>,
-  TrophyInstall = <function 3>,
-  TrophyUnlock = <function 4>
-}

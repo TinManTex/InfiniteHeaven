@@ -1,3 +1,0 @@
-PlayRecord={
-  RegistPlayRecord = true
-}

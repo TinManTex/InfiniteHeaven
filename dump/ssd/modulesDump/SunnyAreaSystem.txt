@@ -1,8 +1,0 @@
-SunnyAreaSystem=<1>{
-  [-285212672] = 4,
-  [134137719] = <function 1>,
-  [204624897] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

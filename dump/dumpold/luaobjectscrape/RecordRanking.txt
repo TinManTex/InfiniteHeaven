@@ -1,7 +1,0 @@
-RecordRanking={
-  GetMissionBordId = true,
-  GetMissionLimitBordId = true,
-  IsRankingBusy = true,
-  RegistRanking = true,
-  WriteServerRankingScore = true
-}

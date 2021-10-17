@@ -1,6 +1,0 @@
-MgoGameObject=<1>{
-  GameObjectId = <function 1>,
-  GetActor = <function 2>,
-  GetLocationLW = <function 3>,
-  <metatable> = <table 1>
-}

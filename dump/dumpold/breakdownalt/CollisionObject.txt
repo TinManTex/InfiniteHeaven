@@ -1,8 +1,0 @@
-CollisionObject=<1>{
-  SetInvalidRequest = <function 1>,
-  SetValidRequest = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "CollisionObject",
-  <metatable> = <table 1>
-}

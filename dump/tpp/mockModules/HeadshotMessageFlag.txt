@@ -1,7 +1,0 @@
-HeadshotMessageFlag={
-  IS_JUST_UNCONSCIOUS = 2,
-  IS_TRANQ_HANDGUN = 1,
-  NEUTRALIZE_DONE = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

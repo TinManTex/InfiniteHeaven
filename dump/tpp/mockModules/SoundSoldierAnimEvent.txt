@@ -1,6 +1,0 @@
-SoundSoldierAnimEvent={
-  SetupSoldierBodyCollision = "<function>",
-  SetupSoldierFootStep = "<function>",
-  SetupSoldierRattleSuit = "<function>",
-  SetupSoldierType = "<function>"
-}

@@ -1,8 +1,0 @@
-GearState=<1>{
-  [-285212672] = 4,
-  [96104615] = <function 1>,
-  [226486313] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

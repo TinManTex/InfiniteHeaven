@@ -1,9 +1,0 @@
-GeoSearchObject=<1>{
-  GetData = <function 1>,
-  GetPosition = <function 2>,
-  __call = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  _className = "GeoSearchObject",
-  <metatable> = <table 1>
-}

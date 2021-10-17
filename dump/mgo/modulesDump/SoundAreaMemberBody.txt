@@ -1,8 +1,0 @@
-SoundAreaMemberBody=<1>{
-  ResetOverWrite = <function 1>,
-  SetOverWrite = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "SoundAreaMemberBody",
-  <metatable> = <table 1>
-}

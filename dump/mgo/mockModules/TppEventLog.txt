@@ -1,7 +1,0 @@
-TppEventLog={
-  PauseRecording = "<function>",
-  ResumeRecording = "<function>",
-  StartRecording = "<function>",
-  StopRecording = "<function>",
-  WriteEvent = "<function>"
-}

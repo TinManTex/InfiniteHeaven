@@ -1,6 +1,0 @@
-ScriptParam={
-  GetDefaultValue = <function 1>,
-  GetValue = <function 2>,
-  ResetValueToDefault = <function 3>,
-  SetValue = <function 4>
-}

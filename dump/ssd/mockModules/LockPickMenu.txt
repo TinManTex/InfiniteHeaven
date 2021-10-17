@@ -1,4 +1,0 @@
-LockPickMenu={
-  __index = "<function>",
-  __newindex = "<function>"
-}

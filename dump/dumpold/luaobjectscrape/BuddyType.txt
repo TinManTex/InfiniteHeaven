@@ -1,8 +1,0 @@
-BuddyType={
-  BATTLE_GEAR = true,
-  DOG = true,
-  HORSE = true,
-  NONE = true,
-  QUIET = true,
-  WALKER_GEAR = true
-}

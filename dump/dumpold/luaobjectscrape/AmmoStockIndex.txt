@@ -1,4 +1,0 @@
-AmmoStockIndex={
-  ITEM = true,
-  ITEM_END = true
-}

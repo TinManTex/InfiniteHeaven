@@ -1,7 +1,0 @@
-SoundAreaMemberBody={
-  ResetOverWrite = "<function>",
-  SetOverWrite = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "SoundAreaMemberBody"
-}

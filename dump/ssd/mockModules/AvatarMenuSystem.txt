@@ -1,8 +1,0 @@
-AvatarMenuSystem={
-  OpenGenderMenu = "<function>",
-  OpenNameEntryMenu = "<function>",
-  RequestCloseGenderMenu = "<function>",
-  RequestCloseNameEntryMenu = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

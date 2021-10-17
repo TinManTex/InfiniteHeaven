@@ -1,7 +1,0 @@
-PlayerType={
-  AVATAR = true,
-  DD_FEMALE = true,
-  DD_MALE = true,
-  MGO_MALE = true,
-  SNAKE = true
-}

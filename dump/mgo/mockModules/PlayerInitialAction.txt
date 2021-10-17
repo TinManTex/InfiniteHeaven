@@ -1,7 +1,0 @@
-PlayerInitialAction={
-  FROM_HELI_SPACE = 5,
-  HELI_SPACE = 4,
-  STAND = 0,
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,7 +1,0 @@
-TppRainFilterBody=<1>{
-  SetForceEnableFlag = <function 1>,
-  __index = <function 2>,
-  __newindex = <function 3>,
-  _className = "TppRainFilterBody",
-  <metatable> = <table 1>
-}

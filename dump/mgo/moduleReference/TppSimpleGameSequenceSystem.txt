@@ -1,5 +1,0 @@
-TppSimpleGameSequenceSystem={
-  IsShowLoadScreen = true,
-  SetShowLoadScreen = true,
-  Start = true
-}

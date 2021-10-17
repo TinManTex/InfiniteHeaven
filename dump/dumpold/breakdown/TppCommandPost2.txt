@@ -1,4 +1,0 @@
-TppCommandPost2={
-  numberKeys = { 166981809, -285212672, -285212671, 141414643, 125550480, 81800313 },
-  stringKeys = { "__index", "__newindex" }
-}

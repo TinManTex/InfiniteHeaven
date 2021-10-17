@@ -1,7 +1,0 @@
-CpType={
-  TYPE_AFRIKAANS = 2,
-  TYPE_AMERICA = 1,
-  TYPE_SOVIET = 0,
-  __index = "<function>",
-  __newindex = "<function>"
-}
