@@ -1611,10 +1611,10 @@ function this.ApplyFaceFova()
 
   local unknown1=Ivars.faceFovaUnknown1:Get()
   local unknown2=Ivars.faceFovaUnknown2:Get()
-  local unknown3=Ivars.faceFovaUnknown3:Get()
-  local unknown4=Ivars.faceFovaUnknown4:Get()
+  local eyeFova=Ivars.eyeFova:Get()
+  local skinFova=Ivars.skinFova:Get()
   local unknown5=Ivars.faceFovaUnknown5:Get()
-  local unknown6=Ivars.faceFovaUnknown6:Get()
+  local uiTextureCount=Ivars.uiTextureCount:Get()
   local unknown7=Ivars.faceFovaUnknown7:Get()
   local unknown8=Ivars.faceFovaUnknown8:Get()
   local unknown9=Ivars.faceFovaUnknown9:Get()
@@ -1632,11 +1632,11 @@ function this.ApplyFaceFova()
     faceDecoFova,
     hairFova,
     hairDecoFova,
-    unknown3,
-    unknown4,
+    eyeFova,
+    skinFova,
     unknown5,
     uiTextureName,
-    unknown6,
+    uiTextureCount,
     unknown7,
     unknown8,
     unknown9,
