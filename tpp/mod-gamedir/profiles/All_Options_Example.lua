@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r253
+-- Defaults / example of all profile options for IH r257
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -32,6 +32,7 @@ local this={
 		rotationLimitMinXFreeCam=-90,--{ -90-0 } -- 
 		rotationLimitMaxXFreeCam=90,--{ 0-90 } -- 
 		alphaDistanceFreeCam=0,--{ 0-10 } -- 
+		disableCamText=0,--{ 0-1 } -- Disable mode text feedback
 		--Cam - PlayCam menu
 		cam_focalLength=21,--{ 0.1-10000 } -- Focal length
 		cam_focusDistance=0.9,--{ 0.1-30 } -- Focus distance
@@ -76,7 +77,7 @@ local this={
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
 		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode
 		revengeModeMB_ALL=0,--{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode
-		customSoldierTypeFREE=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- Custom soldier type in Free roam
+		customSoldierTypeFREE=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED } -- Custom soldier type in Free roam
 		changeCpSubTypeFREE=0,--{ 0-1 } -- Random CP subtype in free roam
 		changeCpSubTypeMISSION=0,--{ 0-1 } -- Random CP subtype in missions
 		enableInfInterrogation=0,--{ 0-1 } -- IH interrogation in free roam
@@ -193,11 +194,10 @@ local this={
 		disableReinforceHeliPullOut=0,--{ 0-1 } -- Disable reinforce heli pull-out
 		enableSoldiersWithVehicleReinforce=0,--{ 0-1 } -- Soldier reinforce with all vehicle reinforce types
 		--Events menu
-		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
-		enableEventHUNTED=1,--{ 0-1 } -- Allow Hunted event
-		enableEventCRASHLAND=1,--{ 0-1 } -- Allow Crashland event
-		enableEventLOST_COMS=1,--{ 0-1 } -- Allow Lost Coms event
+		gameevent_chanceHUNTED=0,--{ 0-100 } -- Hunted event chance (percentage)
+		gameevent_chanceCRASHLAND=0,--{ 0-100 } -- Crashland event chance (percentage)
+		gameevent_chanceLOST_COMS=0,--{ 0-100 } -- Lost Coms event chance (percentage)
 		--Skulls event menu
 		parasite_enableEventFREE=0,--{ 0-1 } -- Enable Skull attacks in Free roam
 		parasite_enabledARMOR=1,--{ 0-1 } -- Allow armor skulls
@@ -244,6 +244,7 @@ local this={
 		--Fulton menu
 		fulton_autoFultonFREE=0,--{ 0-1 } -- Extraction team in Free Roam
 		fulton_autoFultonMISSION=0,--{ 0-1 } -- Extraction team in Missions
+		fulton_recoverCritical=0,--{ 0-1 } -- Extraction recover critical
 		disableFulton=0,--{ 0-1 } -- Disable fulton action
 		--Fulton levels menu
 		itemLevelFulton=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Fulton Level
@@ -271,8 +272,8 @@ local this={
 		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for MB
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
-		customSoldierTypeMB_ALL=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- DD Suit
-		customSoldierTypeFemaleMB_ALL=0,--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
+		customSoldierTypeMB_ALL=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED } -- DD Suit
+		customSoldierTypeFemaleMB_ALL=0,--{ OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		supportHeliPatrolsMB=0,--{ 0-3 } -- NPC support heli patrols in MB
 		attackHeliPatrolsMB="0",--{ 0, 1, 2, 3, 4, ENEMY_PREP } -- Attack heli patrols in MB
