@@ -1401,14 +1401,18 @@ function this.ExecuteMissionFinalize()
     TppUiCommand.LoadoutSetReturnHelicopter()
   end
   if not fromHeliSpace and not fromFreeMission then
-    TppGimmick.DecrementCollectionRepopCount()
-    InfProgression.RepopFromMission()--tex
+    TppGimmick.DecrementCollectionRepopCount()--NMC handles repopulating stuff like plants and diamonds
+    --NMC apart from saving the state of permanent gimmicks, the destructable radios and dishes and such
+    --RESEARCH: is it weapon emplacements too?
+    --one of these (guessing FromMissionAfterClear) handles resetting/repairing them after 5 calls of the function
+    --does not reset AA radars
     Gimmick.StoreSaveDataPermanentGimmickForMissionClear()
     Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
+    InfCore.PCallDebug(InfProgression.RepopFromMission)--tex    
   end
   if fromFreeMission then
-    InfProgression.RepopFromFree(isMotherBase,isZoo)--tex
-    Gimmick.StoreSaveDataPermanentGimmickFromMission()
+    Gimmick.StoreSaveDataPermanentGimmickFromMission()    
+    InfCore.PCallDebug(InfProgression.RepopFromFree,isMotherBase,isZoo)--tex
   end
   local lockStaffForMission={
     [10091]=function()
