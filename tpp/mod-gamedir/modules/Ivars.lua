@@ -554,7 +554,7 @@ end
 
 --ivar system setup>
 --gvars setup
-function this.DeclareVars()
+function this.DeclareGVars()
   local varTable={}
   --varTable={
   --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
@@ -608,6 +608,10 @@ function this.DeclareVars()
   }
   for i,gvar in ipairs(arrays)do
     varTable[#varTable+1]=gvar
+  end
+  
+  if this.debugModule then
+    InfCore.PrintInspect(varTable,"Ivars varTable")
   end
 
   return varTable

@@ -294,7 +294,8 @@ this.DeclareGVarsTable={
   {name="dbg_autoMissionOpenClearCheck",type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},
   nil
 }
-Tpp.ApendArray(this.DeclareGVarsTable,Ivars.DeclareVars())--tex
+local ihVars=InfCore.PCallDebug(Ivars.DeclareGVars)--tex
+Tpp.ApendArray(this.DeclareGVarsTable,ihVars)--tex
 
 TppScriptVars.DeclareGVars(this.DeclareGVarsTable)
 
