@@ -1,7 +1,8 @@
 --EquipMotionDataForChimera.lua
 --RETAILPATCH 1090 various additions
-this={}
-TppEquip.ReloadEquipMotionData2{
+local this={}--tex was global
+--tex moved to own table
+this.equipMotionData={
   version=0,
   motions={
     {"SKL_001_SLIDE",TppEquip.AXIS_Z_TRANS,TppEquip.MOVE_ROUND,0,.1,-.033},
@@ -24,7 +25,7 @@ TppEquip.ReloadEquipMotionData2{
     {"SKL_202_BOLT",TppEquip.AXIS_Z_TRANS,TppEquip.MOVE_ROUND,0,.1,-.045},
     {"SKL_003_BOLT",TppEquip.AXIS_Z_TRANS,TppEquip.MOVE_ROUND,0,.1,-.1},
     {"SKL_002_AMMO",TppEquip.AXIS_Z_ROT,TppEquip.MOVE_ONEWAY,0,.1,60}
-  },
+  },--motions
   poses={
     {"SKL_004_HAMMER",TppEquip.AXIS_X_ROT,-62},
     {"SKL_001_SLIDE",TppEquip.AXIS_Z_TRANS,-.033},
@@ -38,8 +39,9 @@ TppEquip.ReloadEquipMotionData2{
     {"SKL_003_BOLT",TppEquip.AXIS_Z_TRANS,-.045},
     {"SKL_202_BOLT",TppEquip.AXIS_Z_TRANS,-.045},
     {"SKL_003_BOLT",TppEquip.AXIS_Z_TRANS,-.1}
-  },
-  mtars={"/Assets/tpp/motion/mtar/equip/chimera/receiver/hg00_default.mtar",
+  },--poses
+  mtars={
+    "/Assets/tpp/motion/mtar/equip/chimera/receiver/hg00_default.mtar",
     "/Assets/tpp/motion/mtar/equip/chimera/receiver/hg01_default.mtar",
     "/Assets/tpp/motion/mtar/equip/chimera/receiver/hg08_default.mtar",
     "/Assets/tpp/motion/mtar/equip/chimera/receiver/hg10_default.mtar",
@@ -77,7 +79,7 @@ TppEquip.ReloadEquipMotionData2{
     "/Assets/tpp/motion/mtar/equip/chimera/receiver/mg03_default.mtar",
     "/Assets/tpp/motion/mtar/equip/chimera/receiver/mg02_default.mtar",
     "/Assets/tpp/motion/mtar/equip/chimera/receiver/ms02_default.mtar"
-  },
+  },--mtars
   assignments={
     {TppEquip.RC_10001,1,2,3,2,1,0,2,1,1,0,0},
     {TppEquip.RC_10003,1,2,3,2,1,0,2,1,1,0,0},
@@ -309,6 +311,7 @@ TppEquip.ReloadEquipMotionData2{
     {TppEquip.RC_EX_gl_000,0,0,0,0,0,0,0,0,26,0,0},
     {TppEquip.RC_EX_sr_000,0,0,0,0,0,0,0,0,33,0,0},
     {TppEquip.RC_EX_hg_010,0,0,0,0,5,0,5,0,0,0,0}
-  }
-}
+  }--assignments
+}--equipMotionData
+TppEquip.ReloadEquipMotionData2(this.equipMotionData)
 return this
