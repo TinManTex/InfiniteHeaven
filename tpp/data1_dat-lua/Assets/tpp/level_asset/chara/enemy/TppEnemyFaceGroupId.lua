@@ -1,4 +1,6 @@
-local _={
+--TppEnemyFaceGroupId.lua
+--just an enum for TppEnemyFaceGroup
+local this={
   AFGAN_GRP_00=0,
   AFGAN_GRP_01=1,
   AFGAN_GRP_02=2,
@@ -75,5 +77,5 @@ local _={
   AFRICA_GRP029_B=73,
   AFRICA_GRP029_W=74,
   GroupCount=75
-}
-return _
+}--this
+return this
