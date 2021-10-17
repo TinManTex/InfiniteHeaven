@@ -1,3 +1,23 @@
+
+local this={}
+
+this.packages={
+
+ -- "/Assets/tpp/pack/mission2/ih/mgo_bgm.fpk",
+   "/Assets/tpp/pack/mission2/ih/bgm_fob_ih.fpk",
+  --DEBUG    "C:\\Projects\\MGS\\InfiniteHeaven\\SubMods\\bgm-mgo",
+}
+
+function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode < 5 then
+    return
+  end
+
+    for i,path in ipairs(this.packages)do
+      packPaths[#packPaths+1]=path
+    end
+end
+
 this.bgmLabels={
   "Play_bgm_mtbs_phase",
 "Play_bgm_f30050_eli",
@@ -41,6 +61,7 @@ this.bgmLabels={
   --mtbs target quests?
   "Play_bgm_training_jingle_clear",
   "Play_bgm_training_jingle_failed",
+  
   --mgo
   "Play_bgm_Freeplay",
   "Play_bgm_Theme",
@@ -514,9 +535,13 @@ quietRadioNames={
   "sfx_m_tp_10_01",
   "sfx_m_10_01",
   "sfx_tp_10_01",
+  "Play_bgm_Freeplay",
+  "sfx_m_afc0_fall_s",--
+  "Play_bgm_mission_chase_phase",
 }--quietRadioNames
 this.playRadio.settings=quietRadioNames
-this.playRadio.OnChange=function(self,setting,previousSetting)
+this.playRadio.OnChange=nil
+this.playRadio.OnActivate=function(self,setting,previousSetting)
   --local radioName=string.format("sfx_m_prison_radio_%02d",radioIndex)
   local radioName=self.settings[setting+1]
   local soundPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
@@ -563,3 +588,24 @@ function this.ShowMusicTeropInQuietRoom( radioName )
   end
 end
 
+this.registerMenus={
+  "soundPlayMenu",
+}
+
+this.registerIvars={
+  "debug_PostJingleEvent",
+  "playRadio",
+
+}
+
+this.soundPlayMenu={
+  noDoc=true,
+  nonConfig=true,
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
+  options={
+    "Ivars.debug_PostJingleEvent",
+    "Ivars.playRadio",
+  },
+}--soundPlayMenu
+
+return this
