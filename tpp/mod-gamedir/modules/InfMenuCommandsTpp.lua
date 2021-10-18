@@ -66,7 +66,7 @@ this.PrintBodyInfo=function()
 end
 
 this.PrintFaceInfo=function()
-  InfEneFova.PrintFaceInfo(vars.playerFaceId)
+  InfFovaIvars.PrintFaceInfo(vars.playerFaceId)
 end
 
 this.DEBUG_PrintInterrogationInfo=function()

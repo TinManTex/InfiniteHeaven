@@ -562,7 +562,7 @@ this.faceFova={
     self.range.max=#settingsTable-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 
@@ -603,7 +603,7 @@ this.faceDecoFova={
     self.range.max=#settingsTable-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 this.hairFova={
@@ -639,7 +639,7 @@ this.hairFova={
     self.range.max=#settingsTable-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 this.hairDecoFova={
@@ -656,7 +656,7 @@ this.hairDecoFova={
     self.range.max=#Soldier2FaceAndBodyData.hairDecoFova-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 --<
@@ -674,7 +674,7 @@ this.faceFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceDecoFovaDirect={
@@ -690,7 +690,7 @@ this.faceDecoFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.hairFovaDirect={
@@ -706,7 +706,7 @@ this.hairFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.hairDecoFovaDirect={
@@ -722,7 +722,7 @@ this.hairDecoFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 
@@ -731,7 +731,7 @@ this.faceFovaUnknown1={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=50},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown2={
@@ -739,7 +739,7 @@ this.faceFovaUnknown2={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.eyeFova={
@@ -747,7 +747,7 @@ this.eyeFova={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=4},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.skinFova={
@@ -755,7 +755,7 @@ this.skinFova={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=5},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown5={
@@ -763,7 +763,7 @@ this.faceFovaUnknown5={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.uiTextureCount={
@@ -771,7 +771,7 @@ this.uiTextureCount={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown7={
@@ -779,7 +779,7 @@ this.faceFovaUnknown7={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown8={
@@ -787,7 +787,7 @@ this.faceFovaUnknown8={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown9={
@@ -795,7 +795,7 @@ this.faceFovaUnknown9={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown10={
@@ -803,7 +803,7 @@ this.faceFovaUnknown10={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 --
@@ -1008,5 +1008,114 @@ this.langStrings={
     },
   },
 }
+
+--tex for face fova ivars
+--Soldier2FaceAndBodyData.faceDefinition indexes for
+--DEBUGNOW TODO: make so faceDefinition is built from the ivars on startup (just apply same to both so if player loading game with face set you don't have to worry about saving current used mod face slot)
+this.faceModSlots={
+  512,
+  513,
+}
+this.currentFaceIdSlot=1
+function this.ApplyFaceFova()
+  if vars.playerType~=PlayerType.DD_MALE and vars.playerType~=PlayerType.DD_FEMALE then
+    InfMenu.PrintLangId"setting_only_for_dd"
+    return
+  end
+
+  local noFova=EnemyFova.INVALID_FOVA_VALUE
+  local faceDefinitions=Soldier2FaceAndBodyData.faceDefinition
+
+  --tex since the engine only applies face if vars.playerFaceId changes to a different id I'm just cyling between a couple of faceDefinition entries
+  --index in faceDefinition
+
+
+  local faceFova=Ivars.faceFovaDirect:Get()
+  local faceDecoFova=Ivars.faceDecoFovaDirect:Get()
+  local hairFova=Ivars.hairFovaDirect:Get()
+  local hairDecoFova=Ivars.hairDecoFovaDirect:Get()
+  local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
+
+  local uiTextureName=""
+
+  local unknown1=Ivars.faceFovaUnknown1:Get()
+  local unknown2=Ivars.faceFovaUnknown2:Get()
+  local eyeFova=Ivars.eyeFova:Get()
+  local skinFova=Ivars.skinFova:Get()
+  local unknown5=Ivars.faceFovaUnknown5:Get()
+  local uiTextureCount=Ivars.uiTextureCount:Get()
+  local unknown7=Ivars.faceFovaUnknown7:Get()
+  local unknown8=Ivars.faceFovaUnknown8:Get()
+  local unknown9=Ivars.faceFovaUnknown9:Get()
+  local unknown10=Ivars.faceFovaUnknown10:Get()
+
+  local currentSlotIndex=this.faceModSlots[this.currentFaceIdSlot]
+  local currentFaceId=faceDefinitions[currentSlotIndex][1]
+
+  local newFace={
+    currentFaceId,
+    unknown1,
+    gender,
+    unknown2,
+    faceFova,
+    faceDecoFova,
+    hairFova,
+    hairDecoFova,
+    eyeFova,
+    skinFova,
+    unknown5,
+    uiTextureName,
+    uiTextureCount,
+    unknown7,
+    unknown8,
+    unknown9,
+    unknown10,
+  }
+
+  faceDefinitions[currentSlotIndex]=newFace
+
+  --tex GOTCHA crashes after repeated calls, wouldnt really trust it even after one
+  TppSoldierFace.SetFaceFovaDefinitionTable{table=faceDefinitions,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
+
+  vars.playerFaceId=currentFaceId
+
+  if this.currentFaceIdSlot==1 then
+    this.currentFaceIdSlot=2
+  else
+    this.currentFaceIdSlot=1
+  end
+end--ApplyFaceFova
+
+function this.PrintFaceInfo(faceId)
+  local faceAndBodyData=Soldier2FaceAndBodyData
+  for i,faceDef in ipairs(faceAndBodyData.faceDefinition)do
+    if faceDef[1]==faceId then
+      local faceInfoString=""
+      for i,fovaType in ipairs(InfSoldierFace.fovaTypes)do
+        local index=faceDef[InfEneFova.faceDefinitionParams[fovaType]]
+        local fovaInfo=faceAndBodyData[fovaType][index]
+        local name
+        if fovaInfo then
+          name=InfUtil.GetFileName(fovaInfo[1])
+        elseif index==EnemyFova.INVALID_FOVA_VALUE then
+          name="nil_fova"
+        else
+          name=index
+        end
+
+        local fovaInfoExt=InfEneFova[fovaType][name]
+        local description=name
+        if fovaInfoExt and fovaInfoExt.description then
+          description=description..":"..fovaInfoExt.description
+        end
+
+        faceInfoString=faceInfoString..fovaType..":"..description..", "
+      end
+
+      InfCore.Log(faceInfoString,true)
+      break
+    end
+  end
+end--PrintFaceInfo
 
 return this
