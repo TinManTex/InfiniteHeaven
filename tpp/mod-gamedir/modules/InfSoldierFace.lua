@@ -1,6 +1,12 @@
--- InfModelProc.lua --TODO bad name, rename
+-- InfSoldierFace.lua
+-- extends TppSoldierFaceAndBodyData face fovas and definitions / vars.playerFaceId, enemy and staff faceIds
+
+-- extends TppSoldierFaceAndBodyData eneny body fovas and bodyIds--TODO: split out body stuffto InfSoldierBod
+-- See also InfBodyInfo
+
 -- SYNC: DEBUGNOW to some external document explaining fova addons (collate this, Solder2FaceAndBodyData, InfBodyInfo comments, and the mgo head, us ih body addon stuff)
 -- Loads addons in \mod\fovaInfo which add face or body fova entries to Solder2FaceAndBodyData
+-- TODO split this too?
 -- See: Mgo headgear fova mod r1
 -- and: US Soldier - IH body addon (or caplags version)
 -- on the IH nexus page for working examples
@@ -32,7 +38,7 @@ this.fovaInfos={}
 --which means you can't really guarantee on a static, persistant faceId since you don't know what headFovas your user might have installed.
 --You can however get the faceId assigned for the game session using TppEnemyFaceId.<head definition entry name>
 
---See mod\core\InfModelProc.lua when IH is installed for the implementation of the system and the newest version of these notes.
+--See mod\modules\InfSoldierFace.lua when IH is installed for the implementation of the system and the newest version of these notes.
 
 --REF mod\fovaInfo\example_head_fovaInfo
 --local this={
@@ -169,7 +175,7 @@ for i, name in ipairs(faceDefEnum)do
 end
 
 function this.LoadFovaInfo()
-  InfCore.Log("InfModelProc.LoadFovaInfo")
+  InfCore.Log("InfSoldierFace.LoadFovaInfo")
   this.fovaInfos={}
   if not InfCore.files.fovaInfo then
     return
@@ -177,11 +183,11 @@ function this.LoadFovaInfo()
 
   local fovaInfoFiles=InfCore.GetFileList(InfCore.files.fovaInfo,".lua")
   for i,fileName in ipairs(fovaInfoFiles)do
-    InfCore.Log("InfModelProc.LoadFovaInfo: "..fileName)
+    InfCore.Log("InfSoldierFace.LoadFovaInfo: "..fileName)
     local box=false
     local fovaInfo=InfCore.LoadSimpleModule(InfCore.paths.fovaInfo,fileName,box)
     if fovaInfo==nil then
-      InfCore.Log("ERROR: InfModelProc.LoadFovaInfo: fovaInfo "..fileName.." ==nil")
+      InfCore.Log("ERROR: InfSoldierFace.LoadFovaInfo: fovaInfo "..fileName.." ==nil")
     else
       this.fovaInfos[fileName]=fovaInfo
     end
@@ -202,7 +208,7 @@ function this.CheckDefinition(definition,fovaTypes,definitionName)
       if fovaName==EnemyFova.INVALID_FOVA_VALUE then
 
       elseif not this[fovaTypeName][fovaName] then
-        InfCore.Log("WARNING: InfModelProc.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
+        InfCore.Log("WARNING: InfSoldierFace.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
         definitionOK=false
         break
       end
@@ -215,7 +221,7 @@ end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
 --IN/OUT Solder2FaceAndBodyData
 function this.Setup(faceAndBodyData)
-  InfCore.LogFlow"InfModelProc.SetupFova:"
+  InfCore.LogFlow"InfSoldierFace.SetupFova:"
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData pre setup")
   end
@@ -250,7 +256,7 @@ function this.Setup(faceAndBodyData)
       local fovaName=InfUtil.GetFileName(fovaInfo[1])
       local existing=this[fovaTypeName][fovaName]
       if existing~=nil then
-        InfCore.Log("InfModelProc.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
+        InfCore.Log("InfSoldierFace.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
       end
       this[fovaTypeName][fovaName]=fovaIndex-1--tex shift from lua indexed (from 1), to fova indexed (from 0)
     end
@@ -268,7 +274,7 @@ end
 --CALLER: Solder2FaceAndBodyData
 --IN/OUT Solder2FaceAndBodyData.lua
 function this.SetupFaceFova(faceAndBodyData)
-  InfCore.LogFlow"InfModelProc.SetupFaceFova"
+  InfCore.LogFlow"InfSoldierFace.SetupFaceFova"
   local genders={
     MALE=0,
     FEMALE=1,
@@ -372,7 +378,7 @@ function this.SetupFaceFova(faceAndBodyData)
   end
 
   if this.debugModule then
-    InfCore.PrintInspect(this,"InfModelProc")
+    InfCore.PrintInspect(this,"InfSoldierFace")
     InfCore.PrintInspect(faceAndBodyData,"faceAndBodyData")
   end
 end
