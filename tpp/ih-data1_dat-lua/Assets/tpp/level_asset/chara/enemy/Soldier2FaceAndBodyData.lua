@@ -564,19 +564,21 @@ this.faceDefinition={
   --4 - b1 - dark black
   --5 zombie
   --oddly other race enums (TppMotherBaseManagementConst, TppDefine.QUEST_RACE_TYPE are different (but consistant with each other), don't include secondary white type)
-  --DJDialga1s note: higher values can be used and will apply proper skintone fv2 that has the entries
+  --DJDialga1 note: higher values can be used and will apply proper skintone fv2 that has the entries
+  --TODO: see if the same deal with eyeFova
 
   --idroid staff texture:
   --/Assets/tpp/ui/texture/StaffImage/<uiTextureName>_<0-uiTextureCount>.ftex 
   --(as indicated by SetFaceFovaDefinitionTable .uiTexBasePath)
   --TODO: not sure how the mb_staff_face_ texures are assigned
 
-  --uiTextureCount->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
+  --unk7->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
   
   --changing faceFova and also unk1 (other params currently untested) changes voice
 --{n,50, 1, 1,58,60,13,24, 4, 4, 1,N/A          , 3,303,303,303,3},--maximums (from values)
 --{n,50, 1, 1,58,no,no,no,no,no, 1,N/A          , 3,303,303,303,3},--actual maximums (no=EnemyFova.INVALID_FOVA_VALUE)
 --{n,       50,     1,   1,      58,          60,      13,          24,      4,       4,   1,          N/A,             3, 303, 303, 303,    3},--maximums
+--#     1,   2,     3,   4,       5,           6,       7,           8,      9,      10,  11,           12,            13,  14,  15,  16,   17,
 --{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,eyeFova,skinFova,unk5,uiTextureName,uiTextureCount,unk7,unk8,unk9,unk10},--notes
   {  0, 0, 0, 0, 3, 0,no,no, 0, 0, 0,"ui_face_000", 3,  4,  2,  6,3},--male>
   {  1, 0, 0, 0, 1, 0,no,no, 3, 0, 0,"ui_face_001", 3,  4,  1,  0,2},
@@ -1093,10 +1095,11 @@ this.faceDefinition={
   {688, 0, 0, 0,44,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex Hideo TODO: find hideo ui texture name
   --{689, 0, 0, 0,45,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex not-a-snail dude? same as 623 but all-in one I guess.
   --<
-  --tex slots for run-time face modding, see InfEneFova.ApplyFaceFova >
+  --tex slots for run-time face modding, see InfFovaIvars.ApplyFaceFova >
   {689, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
   {690, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
 --{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,eyeFova,skinFova,unk5,uiTextureName,uiTextureCount,unk7,unk8,unk9,unk10},--notes
+--#     1,   2,     3,   4,       5,           6,       7,           8,      9,      10,  11,           12,            13,  14,  15,  16,   17,
 --<
 }--faceDefinition
 
