@@ -1,4 +1,5 @@
 --IvarsPersist.lua
+--Intially loaded in InfInit
 --tex persistant/across mission vars ala gvars
 --live values in igvars{} (global)
 --DEBUGNOW: BuildSaveText doesnt support strings? (needs to add quotes)
