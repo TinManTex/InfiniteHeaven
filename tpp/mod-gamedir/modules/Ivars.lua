@@ -1,5 +1,6 @@
 -- Ivars.lua
 --tex Ivar system
+--Intially loaded in InfInit
 --Property system used by IH menu and code to provide modifyable and savable settings.
 --Ivars can be defined in other IH modules and their names added to <module>.registerIvars, these will actually be built in to the Ivars module.
 
