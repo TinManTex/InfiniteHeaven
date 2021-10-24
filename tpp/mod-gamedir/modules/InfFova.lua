@@ -166,13 +166,13 @@ this.playerPartsTypesInfo={
     description="Standard fatigues",
     playerParts=0,
     --developId=--Common
-    plPartsName={--tex DEBUGNOW shift to using plPartsFpkName instead
+    plPartsName={--tex DEBUGNOW shift to using playerPartsFpk instead
       SNAKE="plparts_normal",
       AVATAR="plparts_normal",
       DD_MALE="plparts_dd_male",
       DD_FEMALE="plparts_dd_female",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",
@@ -184,7 +184,7 @@ this.playerPartsTypesInfo={
       --DEBUGNOW give it its own fake entry/OCELOT/QUIET equivalent at the end?
       LIQUID=   "/Assets/tpp/pack/player/parts/plparts_liquid.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",
@@ -223,13 +223,13 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_normal_scarf",
       AVATAR="plparts_normal_scarf",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",--NORMAL
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",--NORMAL
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",--NORMAL
@@ -262,13 +262,13 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_gz_suit",
       AVATAR="plparts_gz_suit",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
@@ -299,13 +299,13 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_hospital",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
@@ -329,13 +329,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_mgs1",
       DD_FEMALE="plparts_mgs1",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
@@ -356,13 +356,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ninja",
       DD_FEMALE="plparts_ninja",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
@@ -383,13 +383,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_raiden",
       DD_FEMALE="plparts_raiden",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
@@ -409,13 +409,13 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_naked",
     --DD_MALE=--no arm and eyes
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_naked.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
@@ -450,13 +450,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_venom",
       DD_FEMALE="plparts_ddf_venom",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_venom.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_venom.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_venom.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_venom.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna4_plym0_def_v00.parts",
@@ -491,13 +491,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_battledress",
       DD_FEMALE="plparts_ddf_battledress",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_battledress.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_battledress.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna5_plym0_def_v00.parts",
@@ -532,13 +532,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_parasite",
       DD_FEMALE="plparts_ddf_parasite",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_parasite.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_parasite.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna7_plym0_def_v00.parts",
@@ -562,13 +562,13 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_leather",
     --DD_MALE=--no arm and eyes
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_leather.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
@@ -603,13 +603,13 @@ this.playerPartsTypesInfo={
     --DD_MALE=--invis/hang model sys
     --DD_FEMALE=--invis/hang model sys
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gold.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gold.fpk",
       DD_MALE=  0,
       DD_FEMALE=0,
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
       DD_MALE=  0,
@@ -644,13 +644,13 @@ this.playerPartsTypesInfo={
     --DD_MALE=--invis/hang model sys
     --DD_FEMALE=--invis/hang model sys
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_silver.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_silver.fpk",
       DD_MALE=  0,
       DD_FEMALE=0,
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
       DD_MALE=  0,
@@ -681,13 +681,13 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_avatar_man",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
@@ -718,13 +718,13 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dla0_main0_def_v00",
       DD_MALE="plparts_dla0_plym0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dla0_plym0_def_v00.fpk",
       DD_FEMALE=0,
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dla0_plym0_def_v00.parts",
@@ -758,13 +758,13 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dla1_main0_def_v00",
       DD_MALE="plparts_dla1_plym0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dla1_plym0_def_v00.fpk",
       DD_FEMALE=0,
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dla1_plym0_def_v00.parts",
@@ -798,13 +798,13 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dlb0_main0_def_v00",
       DD_MALE="plparts_dlb0_plym0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dlb0_plym0_def_v00.fpk",
       DD_FEMALE=0,
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dlb0_plym0_def_v00.parts",
@@ -837,13 +837,13 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dld0_main0_def_v00",
       DD_MALE="plparts_dld0_plym0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dld0_plym0_def_v00.fpk",
       DD_FEMALE=0,
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dld0_plym0_def_v00.parts",
@@ -875,13 +875,13 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle0_plyf0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
       DD_MALE=  0,
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
       DD_MALE=  0,
@@ -908,13 +908,13 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
       DD_MALE=  0,
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
       DD_MALE=  0,
@@ -941,13 +941,13 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dlc0_plyf0_def_v00",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
       DD_MALE=  0,
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
       DD_MALE=  0,
@@ -972,13 +972,13 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",--TODO:
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
       DD_MALE=  0,
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
       DD_MALE=  0,
@@ -1006,13 +1006,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_swimwear",
       DD_FEMALE="plparts_ddf_swimwear",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       DD_MALE=  "/Assets/tpp/parts/chara/dlf/dlf1_main0_def_v00.parts",
@@ -1056,13 +1056,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_swimwear_g",
       DD_FEMALE="plparts_ddf_swimwear_g",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_g.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_g.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       DD_MALE=  "/Assets/tpp/parts/chara/dlg/dlg1_main0_def_v00.parts",
@@ -1106,13 +1106,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_swimwear_h",
       DD_FEMALE="plparts_ddf_swimwear_h",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_h.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_h.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       DD_MALE=  "/Assets/tpp/parts/chara/dlh/dlh1_main0_def_v00.parts",
@@ -1158,14 +1158,14 @@ this.playerPartsTypesInfo={
     plPartsName={
       OCELOT="plparts_ocelot",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",--NORMAL
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",--NORMAL
       OCELOT=   "/Assets/tpp/pack/player/parts/plparts_ocelot.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
       DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",--NORMAL
@@ -1185,14 +1185,14 @@ this.playerPartsTypesInfo={
     plPartsName={
       QUIET="plparts_quiet",
     },
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    0,
       AVATAR=   0,
       DD_MALE=  0,
       DD_FEMALE=0,
       QUIET=    "/Assets/tpp/pack/player/parts/plparts_quiet.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    0,
       AVATAR=   0,
       DD_MALE=  0,
@@ -1227,13 +1227,13 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_sneaking_suit",
     },
     --tex just copying SNEAKING_SUIT, this is not quite correct since this is overflow
-    plPartsFpkName={
+    playerPartsFpk={
       SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
     },
-    plPartsPartsName={
+    playerPartsParts={
       SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
       AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
       DD_MALE=  "/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
@@ -4892,9 +4892,9 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
       InfCore.Log("WARNING: GetPlayerPartsTypes: could not find partsTypeInfo for "..partsTypeName,true)
     else
       local playerTypeName=InfFova.playerTypes[playerType+1]
-      local plPartsFpkName=partsTypeInfo.plPartsFpkName and partsTypeInfo.plPartsFpkName[playerTypeName] or 0
-      if plPartsFpkName==0 then
-        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find plPartsFpkName for "..partsTypeName.. " "..playerTypeName)
+      local playerPartsFpk=partsTypeInfo.playerPartsFpk and partsTypeInfo.playerPartsFpk[playerTypeName] or 0
+      if playerPartsFpk==0 then
+        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find playerPartsFpk for "..partsTypeName.. " "..playerTypeName)
       else
         if partsTypeInfo.developId and checkDeveloped then
           if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=partsTypeInfo.developId} then
@@ -4922,9 +4922,9 @@ function this.GetCamoTypes(partsTypeName)
   local playerTypeName=InfFova.playerTypes[vars.playerType+1]
   --InfCore.DebugPrint(playerTypeName)--DEBUG
 
-  local plPartsFpkName=partsTypeInfo.plPartsFpkName and partsTypeInfo.plPartsFpkName[playerTypeName] or 0
+  local playerPartsFpk=partsTypeInfo.playerPartsFpk and partsTypeInfo.playerPartsFpk[playerTypeName] or 0
 
-  if plPartsFpkName==0 then
+  if playerPartsFpk==0 then
     InfCore.DebugPrint("WARNING: "..partsTypeInfo.name.." does support player type "..tostring(playerTypeName))--DEBUG
     return
   end
