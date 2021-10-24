@@ -177,7 +177,7 @@ this.playerPartsTypesInfo={
       AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
       DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",
       DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",
-      --tex in the exe for LoadPlayerPartsParts, LoadPlayerPartsFpk it doesnt even look up the playerParts/playerType array, 
+      --tex in the exe for LoadPlayerPartsParts, LoadPlayerPartsFpk it doesnt even look up the playerParts/playerType array,
       --it just returns the singular value by playerType for LIQUID/OCELOT/QUIET
       --which is kind of weird given that OCELOT and QUIET do have their own playerPartsType enum
       --but then that kind of goes against the array per playerType that SNAKE/DD_M/F has
@@ -206,7 +206,7 @@ this.playerPartsTypesInfo={
       SNAKE=true,
       AVATAR=true,
     },
-    --tex from exe IsHeadNeeded* . needHead false/nil = model includes head, true = load the head for that playerType 
+    --tex from exe IsHeadNeeded* . needHead false/nil = model includes head, true = load the head for that playerType
     needHead={
       SNAKE=true,
       AVATAR=true,
@@ -437,7 +437,7 @@ this.playerPartsTypesInfo={
       AVATAR=true,
       DD_MALE=true,
       DD_FEMALE=true,
-    },  
+    },
   },
   {--8
     name="SNEAKING_SUIT_TPP",
@@ -812,7 +812,7 @@ this.playerPartsTypesInfo={
     },
     skinToneFv2={
       DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO no DD_FEM parts
-    },  
+    },
     needBionicHand={
       SNAKE=true,
       AVATAR=true,
@@ -1148,7 +1148,7 @@ this.playerPartsTypesInfo={
     },
   },
   {--26
-    --tex while exe does fill out other player types to be their defaults, 
+    --tex while exe does fill out other player types to be their defaults,
     --it doesnt include the actual ocelot parts paths since it just returns them directly
     --on playerType rather than using the playerPartsType[playerType] array
     name="OCELOT",
@@ -1225,6 +1225,23 @@ this.playerPartsTypesInfo={
     playerParts=26,
     plPartsName={
       SNAKE="plparts_sneaking_suit",
+    },
+    --tex just copying SNEAKING_SUIT, this is not quite correct since this is overflow
+    plPartsFpkName={
+      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
+      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
+      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
+      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
+    },
+    plPartsPartsName={
+      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
+      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
+    },
+    skinToneFv2={
+      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
+      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
     },
   },
   {--does not crash with AVATAR
@@ -1519,6 +1536,8 @@ end
 --could be fancy and build the fpk and fv2 paths via the player parts modelName + fovaCamoId
 --but just going to explicitly put them out, which reflects the arrays LoadPlayerCammoFpk/Fv2 anyway
 --and is clearer for it I'm going to allow overloading/extending that
+--GOTCHA: playerParts that have no camo/variants still have a playerCamoType, but no actual camo fpk/fv2 returned
+--so don't use info.playerParts..<playerType>.fpk as a check, use .<playerType> itself (and check if table vs bool if actually using .<playerType> entry)
 this.playerCamoTypesInfo={
   {
     name="OLIVEDRAB",
@@ -1545,11 +1564,39 @@ this.playerCamoTypesInfo={
           fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v00.fpk",
           fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",
         },
-      },
-      NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      },--NORMAL
+      --tex is just a dupe of normal
+      NORMAL_SCARF={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",
+        },
+        DD_MALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",
+        },
+      },--NORMAL_SCARF
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c00.fv2",
+        },
+        --tex exe side AVATAR reuses SNAKE array, but I'm duplicating here (for all camos)
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c00.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c00.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--OLIVEDRAB
   {
     name="SPLITTER",
     description="Splitter",
@@ -1575,10 +1622,19 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v06.fv2",
         },
       },
-      NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NORMAL_SCARF=true,--DEBUGNOW TODO all dupes of NORMAL
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c06.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c06.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c06.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c06.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--SPLITTER
   {
     name="SQUARE",
     description="Square",
@@ -1592,18 +1648,31 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c12.fv2",
         },
         AVATAR={
-          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c06.fpk",
-          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c06.fv2",
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c12.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c12.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v12.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v12.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v12.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v12.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c12.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c12.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c12.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c12.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--SQUARE
   {
     name="TIGERSTRIPE",
     description="Tiger Stripe",
@@ -1621,14 +1690,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c01.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v01.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v01.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v01.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v01.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c01.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c01.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c01.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c01.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--TIGERSTRIPE
   {
     name="GOLDTIGER",
     description="Gold Tiger",
@@ -1638,22 +1720,35 @@ this.playerCamoTypesInfo={
     playerParts={
       NORMAL={
         SNAKE={
-          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c03.fpk",
-          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c02.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c02.fv2",
         },
         AVATAR={
-          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c03.fpk",
-          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c02.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c02.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v02.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v02.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v02.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v02.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c02.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c02.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c02.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c02.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--GOLDTIGER
   {
     name="FOXTROT",
     description="Desert Fox",
@@ -1671,14 +1766,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c03.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v03.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v03.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c03.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c03.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c03.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--FOXTROT
   {
     name="WOODLAND",
     description="Woodland",
@@ -1696,14 +1804,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v10.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v10.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c10.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c10.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c10.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--WOODLAND
   {
     name="WETWORK",
     description="Wetwork",
@@ -1721,14 +1842,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c05.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v05.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v05.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v05.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v05.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c05.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c05.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c05.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c05.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--WETWORK
   --Console special edition
   {
     name="ARBANGRAY",
@@ -1747,14 +1881,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c08.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v08.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v08.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v08.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v08.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c08.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c08.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c08.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c08.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--ARBANGRAY
   {
     name="ARBANBLUE",
     description="Blue Urban",
@@ -1772,14 +1919,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c07.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v07.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v07.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v07.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v07.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c07.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c07.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c07.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c07.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--ARBANBLUE
   {
     name="SANDSTORM",
     description="APD (Pixelated Desert)",
@@ -1789,32 +1949,45 @@ this.playerCamoTypesInfo={
     playerParts={
       NORMAL={
         SNAKE={
-          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c10.fpk",
-          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c11.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c11.fv2",
         },
         AVATAR={
-          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c10.fpk",
-          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c10.fv2",
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna0_main1_c11.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c11.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v11.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v11.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v11.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v11.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c11.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c11.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c11.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c11.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--SANDSTORM
   {
     name="REALTREE", --OFF --does not set
     playerCamoType=11,
   --exe NORMAL array entry is 0
-  },
+  },--REALTREE
   {
     name="INVISIBLE", --OFF --does not set
     playerCamoType=12,
   --exe NORMAL array entry is 0
-  },
+  },--INVISIBLE
   {
     name="BLACK",
     description="Black Ocelot",
@@ -1832,14 +2005,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c13.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v13.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v13.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v13.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v13.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c13.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c13.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c13.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c13.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--BLACK
   --
   {
     name="SNEAKING_SUIT_GZ",
@@ -1849,7 +2035,7 @@ this.playerCamoTypesInfo={
     playerParts={
       NORMAL={
         SNAKE={
-          --DEBUGNOW mystery, no matches?
+          --DEBUGNOW mystery, no matches? also weird that a single/unique actually has a camo value when they usually dont
           fpk=5920914369742744086,--522B503FBA05AA16h
           fv2=6956193077379482837,--60895CBF963C44D5h
         },
@@ -1858,6 +2044,14 @@ this.playerCamoTypesInfo={
           fpk=5920914369742744086,--522B503FBA05AA16h
           fv2=6956193077379482837,--60895CBF963C44D5h
         },
+        DD_MALE={
+          fpk=5920482023112522521,--5229C7082EB53B19h
+          fv2=6955816467441122854,--6088063940A3FE26h
+        },
+        DD_FEMALE={
+          fpk=5920447342875638851,--5229A77D8F81FC43h
+          fv2=5920447342875638851,--608AE00996023DEAh
+        },
       },
       SNEAKING_SUIT=true,
     },
@@ -1865,7 +2059,7 @@ this.playerCamoTypesInfo={
       SNAKE=true,
       AVATAR=true,
     }
-  },
+  },--SNEAKING_SUIT_GZ
   {
     name="SNEAKING_SUIT_TPP",
     description="Sneaking suit (TPP)",
@@ -1878,7 +2072,7 @@ this.playerCamoTypesInfo={
       SNAKE=true,
       AVATAR=true,
     }
-  },
+  },--SNEAKING_SUIT_TPP
   {
     name="BATTLEDRESS",
     desciprion="Battle Dress",
@@ -1996,14 +2190,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c14.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v14.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v14.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v14.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v14.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c14.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c14.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c14.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c14.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--PANTHER
   {
     name="AVATAR_EDIT_MAN",--OFF--just part of upper body that fits the zoomed cam, lel
     playerCamoType=27,
@@ -2106,14 +2313,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c23.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v23.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v23.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v23.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v23.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c23.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c23.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c23.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c23.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C23
   {
     name="C24",
     description="Ambush",
@@ -2131,14 +2351,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c24.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v24.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v24.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v24.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v24.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c24.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c24.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c24.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c24.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C24
   {
     name="C27",
     description="Solum",
@@ -2156,14 +2389,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c27.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v27.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v27.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v27.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v27.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c27.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c27.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c27.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c27.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C27
   {
     name="C29",
     description="Dead Leaf",
@@ -2181,14 +2427,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c29.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v29.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v29.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v29.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v29.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c29.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c29.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c29.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c29.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C29
   {
     name="C30",
     description="Lichen",
@@ -2206,14 +2465,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c30.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v30.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v30.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v30.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v30.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c30.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c30.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c30.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c30.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C30
   {
     name="C35",
     description="Stone",
@@ -2231,14 +2503,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c35.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v35.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v35.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v35.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v35.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c35.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c35.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c35.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c35.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C35
   {
     name="C38",
     description="Parasite Mist",
@@ -2256,14 +2541,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c38.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v38.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v38.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v38.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v38.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c38.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c38.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c38.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c38.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C38
   {
     name="C39",
     description="Old Rose",
@@ -2281,14 +2579,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c39.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v39.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v39.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v39.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v39.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c39.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c39.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c39.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c39.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C39
   {
     name="C42",
     description="Brick Red",
@@ -2306,14 +2617,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c42.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v42.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v42.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v42.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v42.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c42.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c42.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c42.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c42.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C42
   {
     name="C46",
     description="Iron Blue",
@@ -2331,14 +2655,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c46.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v46.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v46.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v46.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v46.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c46.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c46.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c46.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c46.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C46
   {
     name="C49",
     description="Steel Grey",
@@ -2356,14 +2693,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c49.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v49.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v49.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v49.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v49.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c49.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c49.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c49.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c49.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C49
   {
     name="C52",
     description="Tselinoyarsk",
@@ -2381,14 +2731,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c52.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v52.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v52.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v52.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v52.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c52.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c52.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c52.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c52.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C52
   -------------
   {
     name="C16",
@@ -2407,14 +2770,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c16.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v16.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v16.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v16.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v16.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c16.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c16.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c16.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c16.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C16
   {
     name="C17",
     description="Rain",
@@ -2432,14 +2808,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c17.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v17.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v17.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v17.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v17.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c17.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c17.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c17.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c17.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C17
   {
     name="C18",
     description="Green Tiger Stripe",
@@ -2457,14 +2846,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c18.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v18.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v18.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v18.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v18.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c18.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c18.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c18.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c18.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C18
   {
     name="C19",
     description="Birch Leaf",
@@ -2482,14 +2884,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c19.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v19.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v19.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v19.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v19.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c19.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c19.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c19.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c19.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C19
   {
     name="C20",
     description="Desert Ambush",
@@ -2507,14 +2922,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c20.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v20.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v20.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v20.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v20.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c20.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c20.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c20.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c20.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C20
   {
     name="C22",
     description="Dark Leaf Fleck",
@@ -2532,14 +2960,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c22.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v22.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v13.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v22.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v13.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c22.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c22.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c22.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c22.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C22
   {
     name="C25",
     description="Night Bush",
@@ -2557,14 +2998,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c25.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v25.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v25.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v25.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v25.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c25.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c25.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c25.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c25.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C25
   {
     name="C26",
     description="Grass",
@@ -2582,14 +3036,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c26.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v26.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v26.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v26.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v26.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c26.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c26.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c26.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c26.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C26
   {
     name="C28",
     description="Ripple",
@@ -2607,14 +3074,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c28.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v28.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v28.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v28.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v28.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c28.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c28.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c28.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c28.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C28
   {
     name="C31",
     description="Citrullus",
@@ -2632,14 +3112,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c31.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v31.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v31.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v31.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v31.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c31.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c31.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c31.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c31.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C31
   {
     name="C32",
     description="Digital Bush",
@@ -2657,14 +3150,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c32.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v32.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v32.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v32.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v32.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c32.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c32.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c32.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c32.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C32
   {
     name="C33",
     description="Zebra",
@@ -2682,14 +3188,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c33.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v33.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v33.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v33.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v33.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c33.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c33.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c33.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c33.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C33
   {
     name="C36",
     description="Desert Sand",
@@ -2707,14 +3226,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c36.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v36.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v36.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v36.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v36.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c36.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c36.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c36.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c36.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C36
   {
     name="C37",
     description="Steel Khaki",
@@ -2732,14 +3264,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c37.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v37.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v37.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v37.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v37.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c37.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c37.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c37.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c37.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C37
   {
     name="C40",
     description="Dark Rubber",
@@ -2757,14 +3302,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c40.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v40.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v40.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v40.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v40.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c40.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c40.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c40.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c40.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C40
   {
     name="C41",
     description="Gray",
@@ -2782,14 +3340,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c41.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v41.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v41.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v41.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v41.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c41.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c41.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c41.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c41.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C41
   {
     name="C43",
     description="Camoflage Yellow",
@@ -2807,14 +3378,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c43.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v43.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v43.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v43.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v43.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c43.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c43.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c43.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c43.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C43
   {
     name="C44",
     description="Camoflage Green",
@@ -2832,14 +3416,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c44.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v44.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v44.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v44.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v44.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c44.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c44.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c44.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c44.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C44
   {
     name="C45",
     description="Iron Green",
@@ -2857,14 +3454,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c45.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v45.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v45.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v45.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v45.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c45.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c45.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c45.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c45.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C45
   {
     name="C47",
     description="Light Rubber",
@@ -2882,14 +3492,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c47.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v47.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v47.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v47.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v47.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c47.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c47.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c47.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c47.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C47
   {
     name="C48",
     description="Red Rust",
@@ -2907,14 +3530,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c48.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v48.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v48.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v48.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v48.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c48.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c48.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c48.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c48.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C48
   {
     name="C50",
     description="Steel Green",
@@ -2932,14 +3568,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c50.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v50.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v50.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v50.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v50.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c50.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c50.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c50.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c50.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C50
   {
     name="C51",
     description="Steel Orange",
@@ -2957,14 +3606,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c51.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v51.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v15.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v51.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v51.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c51.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c51.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c51.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c51.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C51
   {
     name="C53",
     description="Mud",
@@ -2982,14 +3644,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c53.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v53.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v53.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v53.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v53.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c53.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c53.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c53.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c53.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C53
   {
     name="C54",
     description="Steel Blue",
@@ -3007,14 +3682,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c54.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v54.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v54.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v54.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v54.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c54.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c54.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c54.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c54.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C54
   {
     name="C55",
     description="Dark Rust",
@@ -3032,14 +3720,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c55.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v55.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v55.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v55.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v55.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c55.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c55.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c55.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c55.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C55
   {
     name="C56",
     description="Citrullus two-tone",
@@ -3057,14 +3758,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c56.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v56.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v56.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v56.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v56.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c56.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c56.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c56.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c56.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C56
   {
     name="C57",
     description="Gold Tiger Stripe Two-tone",
@@ -3082,14 +3796,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c57.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v57.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v57.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v57.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v57.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c57.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c57.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c57.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c57.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C57
   {
     name="C58",
     description="Birch Leaf Two-tone",
@@ -3107,14 +3834,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c58.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v58.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v58.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v58.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v58.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c58.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c58.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c58.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c58.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C58
   {
     name="C59",
     description="Stone Two-tone",
@@ -3132,14 +3872,27 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c59.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v59.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v59.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v59.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v59.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c59.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c59.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c59.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c59.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C59
   {
     name="C60",
     description="Khaki Two-tone",
@@ -3157,20 +3910,34 @@ this.playerCamoTypesInfo={
           fv2="/Assets/tpp/fova/chara/sna/sna0_main1_c60.fv2",
         },
         DD_MALE={
-          fpk=-1,
-          fv2=-1,
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v60.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v60.fv2",
+        },
+        DD_FEMALE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v60.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v60.fv2",
         },
       },
       NORMAL_SCARF=true,
-      NAKED=true,
-    },
-  },
+      NAKED={
+        SNAKE={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c60.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c60.fv2",
+        },
+        AVATAR={
+          fpk="/Assets/tpp/pack/player/fova/plfova_sna8_main0_c60.fpk",
+          fv2="/Assets/tpp/fova/chara/sna/sna8_main0_c60.fv2",
+        },
+      },--NAKED
+    },--playerParts
+  },--C60
   ---------------------
-  --TODO: all the swimsuit camos have the default for SNAKE/AVAT normal?
-  --the loadPlayerCamo* functions are weird to in that they only seem to reference the array for swimsuis so don't know how normal tables are loaded
-  --they have their own DD_MALE/DD_FEMALE where they actually apply
-  --  "/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",--DEFAULT
+  --tex SNAKE/AVATAR exe entries are all default fatigues (as is the playerParts)
+  --even though it doesnt look up the table for swimwear
+  --"/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",--DEFAULT
   --"/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",--DEFAULT
+  --tex the actual fpk/fv2s seem to be the same between DD_MALE/DD_FEMALE
+  --and the same between SWIMWEAR,SWIMWEAR_H,SWIMWEAR_G
   {
     name="SWIMWEAR_C00",
     description="Olive Drab",
@@ -3180,9 +3947,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v00.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v00.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v00.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v00.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C01",
@@ -3193,9 +3966,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v01.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v01.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v01.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v01.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C02",
@@ -3206,9 +3985,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v02.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v02.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v02.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v02.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C03",
@@ -3219,9 +4004,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v03.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v03.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v03.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v03.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C05",
@@ -3232,8 +4023,14 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2",
+      },
     }
   },
   {
@@ -3245,9 +4042,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C38",
@@ -3258,9 +4061,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v38.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v38.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v38.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v38.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C39",
@@ -3271,9 +4080,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v39.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v39.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v39.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v39.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C44",
@@ -3284,9 +4099,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v44.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v44.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v44.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v44.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C46",
@@ -3297,9 +4118,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v46.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v46.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v46.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v46.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C48",
@@ -3310,9 +4137,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v48.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v48.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v48.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v48.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_C53",
@@ -3323,9 +4156,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v53.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v53.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v53.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v53.fv2",
+      },
+    },
   },
   --
   {
@@ -3337,9 +4176,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v00.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v00.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v00.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v00.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C01",
@@ -3350,9 +4195,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v01.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v01.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v01.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v01.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C02",
@@ -3363,9 +4214,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v02.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v02.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v02.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v02.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C03",
@@ -3376,9 +4233,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v03.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v03.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v03.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v03.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C05",
@@ -3389,9 +4252,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C06",
@@ -3402,9 +4271,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v06.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v06.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v06.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v06.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C38",
@@ -3415,9 +4290,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v38.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v38.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v38.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v38.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C39",
@@ -3428,9 +4309,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v39.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v39.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v39.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v39.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C44",
@@ -3441,9 +4328,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v44.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v44.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v44.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v44.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C46",
@@ -3454,9 +4347,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v46.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v46.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v46.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v46.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C48",
@@ -3467,9 +4366,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v48.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v48.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v48.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v48.fv2,",
+      },
+    },
   },
   {
     name="SWIMWEAR_G_C53",
@@ -3480,9 +4385,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_G=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v53.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v53.fv2,",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v53.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v53.fv2,",
+      },
+    },
   },
   --
   {
@@ -3494,9 +4405,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v00.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v00.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v00.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v00.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C01",
@@ -3507,9 +4424,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v01.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v01.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v01.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v01.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C02",
@@ -3520,9 +4443,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v02.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v02.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v02.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v02.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C03",
@@ -3533,9 +4462,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v03.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v03.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v03.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v03.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C05",
@@ -3546,9 +4481,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v05.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v05.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C06",
@@ -3559,9 +4500,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v06.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v06.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v06.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v06.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C38",
@@ -3572,9 +4519,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v38.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v38.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v38.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v38.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C39",
@@ -3585,9 +4538,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v39.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v39.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v39.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v39.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C44",
@@ -3598,9 +4557,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v44.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v44.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v44.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v44.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C46",
@@ -3611,9 +4576,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v46.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v46.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v46.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v46.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C48",
@@ -3624,9 +4595,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v48.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v48.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v48.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v48.fv2",
+      },
+    },
   },
   {
     name="SWIMWEAR_H_C53",
@@ -3637,9 +4614,15 @@ this.playerCamoTypesInfo={
       SWIMWEAR_H=true,
     },
     playerTypes={
-      DD_MALE=true,
-      DD_FEMALE=true,
-    }
+      DD_MALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v53.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v53.fv2",
+      },
+      DD_FEMALE={
+        fpk="/Assets/tpp/pack/player/fova/plfova_cmf0_main0_def_v53.fpk",
+        fv2="/Assets/tpp/fova/chara/dlf/cmf0_main0_def_v53.fv2",
+      },
+    },
   },
   {
     name="OCELOT",
@@ -3651,7 +4634,7 @@ this.playerCamoTypesInfo={
     },
     playerTypes={
       OCELOT=true,
-    }
+    },
   },
   {
     name="QUIET",
@@ -3663,9 +4646,17 @@ this.playerCamoTypesInfo={
     },
     playerTypes={
       QUIET=true,
-    }
+    },
   },
 }--playerCamoTypesInfo
+
+--WORKAROUND 
+--TODO: fill out manually
+for i,camoInfo in ipairs(this.playerCamoTypesInfo)do
+  if camoInfo.playerParts.NORMAL_SCARF then
+    camoInfo.playerParts.NORMAL_SCARF=camoInfo.playerParts.NORMAL
+  end
+end
 
 --REF Camo fovas
 --<id> == two digit fova common camo id (see playerCamoTypesInfo .fovaCamoId and plPartsInfo .modelId above)
@@ -3699,7 +4690,8 @@ this.playerCamoTypesInfo={
 
 
 --retail 1.10 swimwear camos
---in /0/00.dat /Assets/tpp/pack/player/fova
+--in /0/00.dat
+--/Assets/tpp/pack/player/fova
 --plfova_cmf0_main0_def_v<swimsuit camoId>.fpk/d
 --ex-plfova_cmf0_main0_def_v46.fpk
 --fova files \Assets\tpp\fova\chara\dlf\cmf0_main0_def_v<swimsuit camo id>.fv2
@@ -3728,7 +4720,7 @@ this.playerFaceEquipIdInfo={
       [PlayerType.SNAKE]=true,
       [PlayerType.AVATAR]=true,
     },
-    --playerPartsTypes=normal,scarf,naked,leather jacket
+  --playerPartsTypes=normal,scarf,naked,leather jacket
   },
   {--2
     name="INFINITY_BANDANA",
@@ -3747,7 +4739,7 @@ this.playerFaceEquipIdInfo={
       [PlayerType.DD_MALE]=true,
       [PlayerType.DD_FEMALE]=true,
     },
-    --playerPartsTypes=normal,swimsuit
+  --playerPartsTypes=normal,swimsuit
   },
   {--4
     name="SP_HEADGEAR",--Blacktop
@@ -3757,7 +4749,7 @@ this.playerFaceEquipIdInfo={
       [PlayerType.DD_MALE]=true,
       [PlayerType.DD_FEMALE]=true,
     },
-    --playerPartsTypes=sneaking suits,battledress,swimsuit
+  --playerPartsTypes=sneaking suits,battledress,swimsuit
   },
   {--5
     name="HP_HEADGEAR",--Greentop
@@ -3767,7 +4759,7 @@ this.playerFaceEquipIdInfo={
       [PlayerType.DD_MALE]=true,
       [PlayerType.DD_FEMALE]=true,
     },
-    --playerPartsTypes=sneaking suits,battledress
+  --playerPartsTypes=sneaking suits,battledress
   },
 }--playerFaceEquipIdInfo
 
@@ -3778,28 +4770,28 @@ this.playerFaceEquipIdInfo={
 --face3 only used in \Assets\tpp\pack\mission2\story\s10280\s10280_d12.fpk
 this.snakeFaceInfo={
   {--0
-   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face0_v00.fpk",
-   fv2="/Assets/tpp/fova/chara/sna/sna0_face0_v00.fv2",
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face0_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face0_v00.fv2",
   },
   {--1
-   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face1_v00.fpk",
-   fv2="/Assets/tpp/fova/chara/sna/sna0_face1_v00.fv2",
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face1_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face1_v00.fv2",
   },
   {--2
-   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face2_v00.fpk",
-   fv2="/Assets/tpp/fova/chara/sna/sna0_face2_v00.fv2",
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face2_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face2_v00.fv2",
   },
   {--3
-   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face4_v00.fpk",
-   fv2="/Assets/tpp/fova/chara/sna/sna0_face4_v00.fv2",
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face4_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face4_v00.fv2",
   },
   {--4
-   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face5_v00.fpk",
-   fv2="/Assets/tpp/fova/chara/sna/sna0_face5_v00.fv2",
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face5_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face5_v00.fv2",
   },
   {--5
-   fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face6_v00.fpk",
-   fv2="/Assets/tpp/fova/chara/sna/sna0_face6_v00.fv2",
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face6_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face6_v00.fv2",
   },
 }--snakeFaceInfo
 
@@ -3902,7 +4894,7 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
       local playerTypeName=InfFova.playerTypes[playerType+1]
       local plPartsFpkName=partsTypeInfo.plPartsFpkName and partsTypeInfo.plPartsFpkName[playerTypeName] or 0
       if plPartsFpkName==0 then
-        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find plPartsFpkName for "..partsTypeName.. " "..playerTypeName,true)
+        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find plPartsFpkName for "..partsTypeName.. " "..playerTypeName)
       else
         if partsTypeInfo.developId and checkDeveloped then
           if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=partsTypeInfo.developId} then
@@ -3929,7 +4921,7 @@ function this.GetCamoTypes(partsTypeName)
 
   local playerTypeName=InfFova.playerTypes[vars.playerType+1]
   --InfCore.DebugPrint(playerTypeName)--DEBUG
-  
+
   local plPartsFpkName=partsTypeInfo.plPartsFpkName and partsTypeInfo.plPartsFpkName[playerTypeName] or 0
 
   if plPartsFpkName==0 then
