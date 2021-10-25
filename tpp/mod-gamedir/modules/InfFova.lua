@@ -151,6 +151,7 @@ this.PlayerPartsType=InfUtil.EnumFrom0(this.playerPartsTypes)
 --plPartsName doubles for checks to which playertype supports the partstype
 --if no camoTypes then try PlayerCamoType[name]
 
+--DEBUGNOW split out into seperate InfPlayerParts/addon entries
 
 --tex MUSING while in theory I could really break things up in respect to playerType, playerPartsType, playerCammoType
 --the vanilla system does have relationships between them, and the following table is an attempt to recreate them
@@ -161,60 +162,24 @@ this.PlayerPartsType=InfUtil.EnumFrom0(this.playerPartsTypes)
 --NOTE: even though I'm including AVATAR for plParts, vanilla exe side it just changes playerType to 0(SNAKE) for the .parts and .fpk within the func
 --so I'm just duplicating here rather than having it fallback in code
 this.playerPartsTypesInfo={
-  {--0 -- uses set camo type
+  {--0 -- uses set camo type ---selected in ui for camo type: Standard
     name="NORMAL",
     description="Standard fatigues",
     playerParts=0,
     --developId=--Common
-    plPartsName={--tex DEBUGNOW shift to using playerPartsFpk instead
+    plPartsName={--tex DEBUGNOW shift to using partsFpk instead
       SNAKE="plparts_normal",
       AVATAR="plparts_normal",
       DD_MALE="plparts_dd_male",
       DD_FEMALE="plparts_dd_female",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",
-      --tex in the exe for LoadPlayerPartsParts, LoadPlayerPartsFpk it doesnt even look up the playerParts/playerType array,
-      --it just returns the singular value by playerType for LIQUID/OCELOT/QUIET
-      --which is kind of weird given that OCELOT and QUIET do have their own playerPartsType enum
-      --but then that kind of goes against the array per playerType that SNAKE/DD_M/F has
-      --DEBUGNOW give it its own fake entry/OCELOT/QUIET equivalent at the end?
-      LIQUID=   "/Assets/tpp/pack/player/parts/plparts_liquid.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",
-      LIQUID=   "/Assets/tpp/parts/chara/lqd/lqd0_main0_ply_v00.parts",
-    },
-    --tex see exe/IHHook LoadPlayerPartsSkinToneFv2
-    skinToneFv2={
-      --tex  in vanilla this is applied to all DD_M (if CheckPlayerPartsIfShouldApplySkinToneFv2) except those with their own specific fv2s
-      --rather than handle in function I'll fill out all values, and make the assumption if it has a value then it should be applied (ie CheckPlayerPartsIfShouldApplySkinToneFv2 isn't nessesary)
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
+    --tex if nil then will just assume theres a single camo with the same id as partsTypeName
+    --DEBUGNOW am I actually using these for anything other than reference?
     camoTypes={
       COMMON=true,--WORKAROUND: table filled out after common is defined in playerCamoTypesCommon
     },
-    --tex from exe/IHHook LoadPlayerBionicArm*, see also playerHandType below
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    --tex from exe IsHeadNeeded* . needHead false/nil = model includes head, true = load the head for that playerType
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
   },
-  {--1--uses set camo type
+  {--1--uses set camo type --selected in ui for camo type: Scarf
     name="NORMAL_SCARF",
     description="Fatigues with scarf",
     playerParts=1,
@@ -223,34 +188,8 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_normal_scarf",
       AVATAR="plparts_normal_scarf",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",--NORMAL
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",--NORMAL
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",--NORMAL
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",--NORMAL
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
     camoTypes={
       COMMON=true,
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
     },
   },
   {--2,--gz unlock, --GZ/MSF, matches PlayerCamoType.SNEAKING_SUIT_GZ
@@ -262,60 +201,16 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_gz_suit",
       AVATAR="plparts_gz_suit",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
     camoTypes={
       "SNEAKING_SUIT_GZ",
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
     },
   },
   {--3-- crash on avatar, probably because IsHeadNeededForPartsTypeAndAvatar has an extra return true for needHead for some reason
     name="HOSPITAL",
-    description="Hospital Prolog snake",
+    description="Hospital Prologue snake",
     playerParts=3,
     plPartsName={
       SNAKE="plparts_hospital",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
-    },
-    needHead={
-      AVATAR=true,--VANILLA, has a seperate clause return true in IsHeadNeededForPartsTypeAndAvatar for some reason. VERIFY by running the orig func
-    },
-    camoTypes={
-      "HOSPITAL",
     },
   },
   {--4,--gz unlock
@@ -328,18 +223,6 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_mgs1",
       DD_MALE="plparts_mgs1",
       DD_FEMALE="plparts_mgs1",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
     },
     camoTypes={
       "SOLIDSNAKE",
@@ -356,21 +239,6 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ninja",
       DD_FEMALE="plparts_ninja",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
-    },
-    camoTypes={
-      "NINJA",
-    },
   },
   {--6
     name="RAIDEN",
@@ -383,23 +251,8 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_raiden",
       DD_FEMALE="plparts_raiden",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
-    },
-    camoTypes={
-      "RAIDEN",
-    },
   },
-  {--7--uses set camo type?
+  {--7--uses set camo type? --selected in ui for camo type: Naked
     name="NAKED",
     description="Naked fatigues",
     playerParts=7,
@@ -409,34 +262,8 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_naked",
     --DD_MALE=--no arm and eyes
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_naked.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_naked.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
     camoTypes={
       COMMON=true,
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
     },
   },
   {--8
@@ -450,35 +277,6 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_venom",
       DD_FEMALE="plparts_ddf_venom",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_venom.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_venom.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_venom.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_venom.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna4_plym0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna4_plyf0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "SNEAKING_SUIT_TPP",
-    },
   },
   {--9
     name="BATTLEDRESS",
@@ -490,35 +288,6 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_battledress",
       DD_MALE="plparts_ddm_battledress",
       DD_FEMALE="plparts_ddf_battledress",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_battledress.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_battledress.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna5_plym0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna5_plyf0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "BATTLEDRESS",
     },
   },
   {--10
@@ -532,25 +301,6 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_ddm_parasite",
       DD_FEMALE="plparts_ddf_parasite",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_parasite.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_parasite.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna7_plym0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna7_plyf0_def_v00.parts",
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    camoTypes={
-      "PARASITE",
-    },
   },
   {--11,--unlock
     name="LEATHER",
@@ -562,35 +312,6 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_leather",
     --DD_MALE=--no arm and eyes
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_leather.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_leather.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "LEATHER",
-    },
   },
   {--12,--unlock
     name="GOLD",
@@ -600,37 +321,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_gold",
       AVATAR="plparts_gold", --gold body and normal avatar head, neat
-    --DD_MALE=--invis/hang model sys
-    --DD_FEMALE=--invis/hang model sys
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gold.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gold.fpk",
-      DD_MALE=  0,
-      DD_FEMALE=0,
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
-      DD_MALE=  0,
-      DD_FEMALE=0,
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "GOLD",
     },
   },
   {--13,--unlock, when AVATAR, gold body and normal avatar head, neat
@@ -641,38 +331,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_silver",
       AVATAR="plparts_silver", --gold body and normal avatar head, neat
-    --DD_MALE=--invis/hang model sys
-    --DD_FEMALE=--invis/hang model sys
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_silver.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_silver.fpk",
-      DD_MALE=  0,
-      DD_FEMALE=0,
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
-      DD_MALE=  0,
-      DD_FEMALE=0,
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "SILVER",
     },
   },
   {--14
@@ -681,33 +339,8 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_avatar_man",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "AVATAR_EDIT_MAN",
-    },
   },
-  --DLC TODO: find out pack names, find a have-this check
+  --DLC
   {--15
     name="MGS3",
     description="Fatigues (NS)",
@@ -717,35 +350,6 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_dla0_main0_def_v00",
       AVATAR="plparts_dla0_main0_def_v00",
       DD_MALE="plparts_dla0_plym0_def_v00",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dla0_plym0_def_v00.fpk",
-      DD_FEMALE=0,
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dla0_plym0_def_v00.parts",
-      DD_FEMALE=0,
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/dla/dla0_plym0_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO: no DD_FEM parts
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "MGS3",
     },
   },
   {--16
@@ -758,35 +362,6 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dla1_main0_def_v00",
       DD_MALE="plparts_dla1_plym0_def_v00",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dla1_plym0_def_v00.fpk",
-      DD_FEMALE=0,
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dla1_plym0_def_v00.parts",
-      DD_FEMALE=0,
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/dla/dla1_plym0_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO no DD_FEM parts
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "MGS3_NAKED",
-    },
   },
   {--17
     name="MGS3_SNEAKING",
@@ -797,34 +372,6 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_dlb0_main0_def_v00",
       AVATAR="plparts_dlb0_main0_def_v00",
       DD_MALE="plparts_dlb0_plym0_def_v00",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dlb0_plym0_def_v00.fpk",
-      DD_FEMALE=0,
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dlb0_plym0_def_v00.parts",
-      DD_FEMALE=0,
-    },
-    skinToneFv2={
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT TODO no DD_FEM parts
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "MGS3_SNEAKING",
     },
   },
   {--18
@@ -837,37 +384,8 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_dld0_main0_def_v00",
       DD_MALE="plparts_dld0_plym0_def_v00",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dld0_plym0_def_v00.fpk",
-      DD_FEMALE=0,
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dld0_plym0_def_v00.parts",
-      DD_FEMALE=0,
-    },
-    skinToneFv2={
-      SNAKE="/Assets/tpp/fova/chara/dld/dld0_main0_sna.fv2",
-      DD_MALE="/Assets/tpp/fova/chara/dld/dld0_plym0_v00.fv2",
-    },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "MGS3_TUXEDO",
-    },
   },
-  {--19
+  {--19 --selected in ui for Jumpsuit (EVA): Standard
     name="EVA_CLOSE",
     description="Jumpsuit (EVA)",
     playerParts=19,
@@ -875,32 +393,8 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle0_plyf0_def_v00",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_FEMALE="/Assets/tpp/fova/chara/dle/dle0_plyf0_v00.fv2",
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,--TODO uhh?
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "EVA_CLOSE",
-    },
   },
-  {--20
+  {--20 --selected in ui for Jumpsuit (EVA) : Naked
     name="EVA_OPEN",
     description="Jumpsuit open (EVA)",
     playerParts=20,
@@ -908,32 +402,8 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dle1_plyf0_def_v00.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dle1_plyf0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_FEMALE="/Assets/tpp/fova/chara/dle/dle1_plyf0_v00.fv2",
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,--TODO uhh?
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "MGS3_OPEN",
-    },
   },
-  {--21
+  {--21 --selected in ui for Sneaking Suit (TB) : Standard
     name="BOSS_CLOSE",
     description="Sneaking Suit (TB)",
     playerParts=21,
@@ -941,60 +411,14 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_FEMALE="plparts_dlc0_plyf0_def_v00",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
-    },
-    --tex DEBUGNOW why no skintone?
-    needHead={
-      SNAKE=true,
-      AVATAR=true,--TODO uhh?
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "BOSS_CLOSE",
-    },
   },
-  {--22
+  {--22 -selected in ui for Sneaking Suit (TB) : Naked
     name="BOSS_OPEN",
     description="Sneaking Suit open (TB)",
     playerParts=22,
     developId=19085,--tex as above
     plPartsName={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",--TODO:
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
-      DD_MALE=  0,
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_FEMALE="/Assets/tpp/fova/chara/dlc/dlc1_plyf0_v00.fv2",
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,--TODO uhh?
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
-    camoTypes={
-      "BOSS_OPEN",
     },
   },
   {--23
@@ -1005,22 +429,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_MALE="plparts_ddm_swimwear",
       DD_FEMALE="plparts_ddf_swimwear",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      DD_MALE=  "/Assets/tpp/parts/chara/dlf/dlf1_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/dlf/dlf0_main0_def_f_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/dlf/dlf1_main0_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/dlf/dlf1_main0_f_v00.fv2",
     },
     camoTypes={
       "SWIMWEAR_C00",--79,
@@ -1036,16 +444,6 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_C48",--89,
       "SWIMWEAR_C53",--90,
     },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
   },
   {--24
     name="SWIMWEAR_G",
@@ -1055,22 +453,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_MALE="plparts_ddm_swimwear_g",
       DD_FEMALE="plparts_ddf_swimwear_g",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_g.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_g.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      DD_MALE=  "/Assets/tpp/parts/chara/dlg/dlg1_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/dlg/dlg0_main0_def_f_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/dlg/dlg1_main0_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/dlg/dlg1_main0_f_v00.fv2",
     },
     camoTypes={
       "SWIMWEAR_G_C00",--91
@@ -1086,16 +468,6 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_G_C48",--
       "SWIMWEAR_G_C53",--102
     },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
   },
   {--25
     name="SWIMWEAR_H",
@@ -1105,22 +477,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       DD_MALE="plparts_ddm_swimwear_h",
       DD_FEMALE="plparts_ddf_swimwear_h",
-    },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_h.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_h.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      DD_MALE=  "/Assets/tpp/parts/chara/dlh/dlh1_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/dlh/dlh0_main0_def_f_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/dlh/dlh1_main0_v00.fv2",
-      DD_FEMALE="/Assets/tpp/fova/chara/dlh/dlh1_main0_f_v00.fv2",
     },
     camoTypes={
       "SWIMWEAR_H_C00",--103
@@ -1136,16 +492,6 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_H_C48",--
       "SWIMWEAR_H_C53",--114
     },
-    needBionicHand={
-      SNAKE=true,
-      AVATAR=true,
-    },
-    needHead={
-      SNAKE=true,
-      AVATAR=true,
-      DD_MALE=true,
-      DD_FEMALE=true,
-    },
   },
   {--26
     --tex while exe does fill out other player types to be their defaults,
@@ -1158,23 +504,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       OCELOT="plparts_ocelot",
     },
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_normal.fpk",--NORMAL
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",--NORMAL
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",--NORMAL
-      OCELOT=   "/Assets/tpp/pack/player/parts/plparts_ocelot.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",--NORMAL
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",--NORMAL
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",--NORMAL
-      OCELOT=   "/Assets/tpp/parts/chara/ooc/ooc0_main1_def_v00.parts",
-    },
-    camoTypes={
-      "OCELOT",
-    },
   },
   {--27
     --tex same deal as ocelot
@@ -1184,23 +513,6 @@ this.playerPartsTypesInfo={
     --developId=--Common
     plPartsName={
       QUIET="plparts_quiet",
-    },
-    playerPartsFpk={
-      SNAKE=    0,
-      AVATAR=   0,
-      DD_MALE=  0,
-      DD_FEMALE=0,
-      QUIET=    "/Assets/tpp/pack/player/parts/plparts_quiet.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    0,
-      AVATAR=   0,
-      DD_MALE=  0,
-      DD_FEMALE=0,
-      QUIET=    "/Assets/tpp/parts/chara/qui/quip_main0_def_v00.parts",
-    },
-    camoTypes={
-      "QUIET",
     },
   },
 
@@ -1225,23 +537,6 @@ this.playerPartsTypesInfo={
     playerParts=26,
     plPartsName={
       SNAKE="plparts_sneaking_suit",
-    },
-    --tex just copying SNEAKING_SUIT, this is not quite correct since this is overflow
-    playerPartsFpk={
-      SNAKE=    "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
-      AVATAR=   "/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
-      DD_MALE=  "/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
-      DD_FEMALE="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
-    },
-    playerPartsParts={
-      SNAKE=    "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
-      AVATAR=   "/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
-      DD_MALE=  "/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
-      DD_FEMALE="/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
-    },
-    skinToneFv2={
-      DD_MALE="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",--DEFAULT
-      DD_FEMALE="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",--DEFAULT
     },
   },
   {--does not crash with AVATAR
@@ -1274,7 +569,512 @@ this.playerPartsTypesInfo={
 --    > invisible/hang model system
 }--playerPartsTypesInfo
 
---EXEC
+--tex the (vanilla) individual per .parts (which are essentially per playerType)
+--multple playerParts may be assigned to a playerPartsType
+--InfPlayerParts addon system uses same format, see the REF example for more notes
+this.playerPartsInfos={
+  NORMAL_SNAKE={
+    name="NORMAL_SNAKE",--tex SNAKE_FATIGUES would be better, but wouldn't gel with the AVATAR WORKAROUND below
+    description="Normal Fatigues Snake",
+    playerTypeName="SNAKE",--vars.playerType name, or nil for all playerTypes. there's still so much tied to playerType that cant yet divorce playerParts from it entirely, nor create new ones
+    partsTypeName="NORMAL",--vars.playerPartsType name or a common name for collating playerParts for different playerTypes to one logical id
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_normal.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts",
+    --tex from exe IsHeadNeeded* . needHead false/nil = model includes head, true = load the head for that playerType
+    needHead=true,
+    --tex from exe/IHHook LoadPlayerBionicArm*, see also playerHandType below
+    needBionicHand=true,
+  },
+  NORMAL_DD_MALE={
+    name="NORMAL_DD_MALE",
+    description="Normal Fatigues DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="NORMAL",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts",
+    --tex see exe/IHHook LoadPlayerPartsSkinToneFv2
+    --tex in vanilla this is applied to all DD_M (if CheckPlayerPartsIfShouldApplySkinToneFv2) except those with their own specific fv2s
+    --rather than handle in function I'll fill out all values, and make the assumption if it has a value then it should be applied (ie CheckPlayerPartsIfShouldApplySkinToneFv2 isn't nessesary)
+    skinToneFv2="/Assets/tpp/fova/chara/sna/dds5_main0_ply_v00.fv2",
+    needHead=true,
+  },
+  NORMAL_DD_FEMALE={
+    name="NORMAL_DD_FEMALE",
+    description="Normal Fatigues DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="NORMAL",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dd_female.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dds6_main0_ply_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/sna/dds6_main0_ply_v00.fv2",
+    needHead=true,
+  },
+
+  NORMAL_SCARF_SNAKE={
+    name="NORMAL_SCARF_SNAKE",
+    description="Normal Fatigues with scarf Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="NORMAL_SCARF",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  --tex DEBUGNOW exe actually fills out NORMAL_SCARF arrays for DD_MALE/FEMALE with NORMAL entries
+  --even though ui doesn't let you select it, fallback if vars.playerPartsType is set I guess
+
+  SNEAKING_SUIT_GZ_SNAKE={
+    name="SNEAKING_SUIT_GZ_SNAKE",
+    description="SV-Sneaking suit (GZ) Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="SNEAKING_SUIT",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_gz_suit.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  --tex cant select in ui
+  --includes head, in vanilla arrays for DD_MALE/DD_FEMALE even though its not selectable in ui
+  --and is parts includes big boss head and arm (wheres the above sna0_main1_def_v00 is for venom/avatar head and bionic arm)
+  --DEBUGNOW so should really be its own variant for SNAKE/DD_MALE
+  --SNEAKING_SUIT_GZ_BIGBOSS - SNAKE,DD_MALE
+  --add to via addon system then since it wouldnt be vanilla playerPartsType?
+  SNEAKING_SUIT_GZ_DD_MALE={
+    name="SNEAKING_SUIT_GZ_DD_MALE",
+    description="SV-Sneaking suit (GZ) DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="SNEAKING_SUIT",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
+  --needHead=true,--DEBUGNOW see what vanilla value is, the actual parts includes head so this should rightly be nil/false
+  },
+
+  --DEBUGNOW make sure you implement playerTypeless
+  --really this isn't all playerTypes but SNAKE,AVATAR,DD_MALE,DD_FEMALE
+  HOSPITAL={
+    name="HOSPITAL",
+    description="Hospital Prologue",
+    partsTypeName="HOSPITAL",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_hospital.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",
+  },
+  --DEBUGNOW
+  --  AVATAR_HOSPITAL={
+  --    needHead=true,----VANILLA, has a seperate clause return true in IsHeadNeededForPartsTypeAndAvatar for some reason. VERIFY by running the orig func
+  --  },
+
+  MGS1={
+    name="MGS1",
+    description="MGS1 Solid Snake",
+    partsTypeName="MGS1",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
+  },
+  NINJA={
+    name="NINJA",
+    description="MGS1 Cyborg Ninja",
+    partsTypeName="NINJA",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ninja.fpk",
+    partsParts="/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts",
+  },
+  RAIDEN={
+    name="RAIDEN",
+    description="Raiden",
+    partsTypeName="RAIDEN",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_raiden.fpk",
+    partsParts="/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts",
+  },
+
+  NAKED_SNAKE={
+    name="NAKED_SNAKE",
+    description="Naked fatigues Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="NAKED",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_naked.fpk",
+    partsParts= "/Assets/tpp/parts/chara/sna/sna8_main0_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  --DD_MALE/DD_MALE NAKED not selectable in ui, but entries fall back to SNAKE NAKED
+
+  SNEAKING_SUIT_TPP_SNAKE={
+    name="SNEAKING_SUIT_TPP_SNAKE",
+    description="Sneaking suit (TPP) Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="SNEAKING_SUIT_TPP",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_venom.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna4_main0_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  SNEAKING_SUIT_TPP_DD_MALE={
+    name="SNEAKING_SUIT_TPP_DD_MALE",
+    description="Sneaking suit (TPP) DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="SNEAKING_SUIT_TPP",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddm_venom.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna4_plym0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
+    needHead=true,
+  },
+  SNEAKING_SUIT_TPP_DD_FEMALE={
+    name="SNEAKING_SUIT_TPP_DD_FEMALE",
+    description="Sneaking suit (TPP) DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="SNEAKING_SUIT_TPP",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddf_venom.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna4_plyf0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",--DEBUGNOW plym?
+    needHead=true,
+  },
+
+  BATTLEDRESS_SNAKE={
+    name="BATTLEDRESS_SNAKE",
+    description="Battle dress Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="BATTLEDRESS",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_battledress.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna5_main0_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  BATTLEDRESS_DD_MALE={
+    name="BATTLEDRESS_DD_MALE",
+    description="Battle dress DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="BATTLEDRESS",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddm_battledress.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna5_plym0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",
+    needHead=true,
+  },
+  BATTLEDRESS_DD_FEMALE={
+    name="BATTLEDRESS_DD_FEMALE",
+    description="Battle dress DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="BATTLEDRESS",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddf_battledress.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna5_plyf0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2",--DEBUGNOW plym?
+    needHead=true,
+  },
+
+  PARASITE_SNAKE={
+    name="PARASITE_SNAKE",
+    description="Parasite suit Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="PARASITE",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_parasite.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna7_main0_def_v00.parts",
+    needBionicHand=true,
+  },
+  PARASITE_DD_MALE={
+    name="PARASITE_DD_MALE",
+    description="Parasite suit DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="PARASITE",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddm_parasite.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna7_plym0_def_v00.parts",
+  },
+  PARASITE_DD_FEMALE={
+    name="PARASITE_DD_FEMALE",
+    description="Parasite suit DD Male",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="PARASITE",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddf_parasite.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna7_plyf0_def_v00.parts",
+  },
+
+  LEATHER_SNAKE={
+    name="LEATHER_SNAKE",
+    description="Leather jacket Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="LEATHER",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_leather.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna3_main1_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  --DD_MALE/FEMALE not selectable in ui, arrays same values as SNAKE_LEATHER
+
+  GOLD_SNAKE={
+    name="GOLD_SNAKE",
+    description="Naked Gold Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="GOLD",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_gold.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna9_main0_def_v00.parts",
+    needHead=true,--DEBUGNOW has seperate head handling to apply gold head
+    needBionicHand=true,
+  },
+  --DD_MALE/FEMALE have 0 for their path array entries
+
+  SILVER_SNAKE={
+    name="SILVER_SNAKE",
+    description="Naked Silver Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="SILVER",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_silver.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna9_main1_def_v00.parts",
+    needHead=true,--DEBUGNOW has seperate head handling to apply silver head
+    needBionicHand=true,
+  },
+  --DD_MALE/FEMALE have 0 for their path array entries
+
+  AVATAR_EDIT_MAN={
+    name="AVATAR_EDIT_MAN",
+    partsTypeName="AVATAR_EDIT_MAN",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_avatar_man.fpk",
+    partsParts="/Assets/tpp/parts/chara/avm/avm0_main0_def_v00.parts",
+    needHead=true,
+  },
+
+  MGS3_SNAKE={
+    name="MGS3_SNAKE",
+    description="Fatigues (NS) Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="MGS3",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dla0_main0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dla0_main0_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  MGS3_DD_MALE={
+    name="MGS3_DD_MALE",
+    description="Fatigues (NS) DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="MGS3",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dla0_plym0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dla0_plym0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dla/dla0_plym0_v00.fv2",
+    needHead=true,
+  },
+  --DD_FEMALE has 0 for its path entries
+
+  MGS3_NAKED_SNAKE={
+    name="MGS3_NAKED_SNAKE",
+    description="Fatigues Naked (NS) Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="MGS3_NAKED",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dla1_main0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dla1_main0_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  MGS3_NAKED_DD_MALE={
+    name="MGS3_NAKED_DD_MALE",
+    description="Fatigues Naked (NS) DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="MGS3_NAKED",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dla1_plym0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dla1_plym0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dla/dla1_plym0_v00.fv2",
+    needHead=true,
+  },
+  --DD_FEMALE has 0 for its path entries
+
+  MGS3_SNEAKING_SNAKE={
+    name="MGS3_SNEAKING_SNAKE",
+    description="Sneaking Suit (NS) Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="MGS3_SNEAKING",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dlb0_main0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dlb0_main0_def_v00.parts",
+    needHead=true,
+    needBionicHand=true,
+  },
+  MGS3_SNEAKING_DD_MALE={
+    name="MGS3_SNEAKING_DD_MALE",
+    description="Sneaking Suit (NS) DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="MGS3_SNEAKING",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dlb0_plym0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dlb0_plym0_def_v00.parts",
+    needHead=true,
+  },
+  --DD_FEMALE has 0 for its path entries
+
+  MGS3_TUXEDO_SNAKE={
+    name="MGS3_TUXEDO_SNAKE",
+    description="Tuxedo Snake",
+    playerTypeName="SNAKE",
+    partsTypeName="MGS3_TUXEDO",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dld0_main0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dld/dld0_main0_sna.fv2",--DEBUGNOW skintone snake wut?
+    needHead=true,
+    needBionicHand=true,
+  },
+  MGS3_TUXEDO_DD_MALE={
+    name="MGS3_TUXEDO_DD_MALE",
+    description="Sneaking Suit (NS) DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="MGS3_TUXEDO",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dld0_plym0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dld0_plym0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dld/dld0_plym0_v00.fv2",
+    needHead=true,
+  },
+  --DD_FEMALE has 0 for its path entries
+
+  --SNAKE no selectable in ui, but has same values for its path entries
+  -- EVA_CLOSE_SNAKE={--DEBUGNOW uhh
+  --    name="EVA_CLOSE",
+  --    description="Jumpsuit (EVA)",
+  --    playerTypeName="SNAKE",
+  --    partsTypeName="EVA_CLOSE",
+  --    partsFpk="/Assets/tpp/pack/player/parts/plparts_dld0_main0_def_v00.fpk",
+  --    partsParts="/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
+  --    needHead=true,
+  --  },
+  EVA_CLOSE_DD_FEMALE={
+    name="EVA_CLOSE_DD_FEMALE",
+    description="Jumpsuit (EVA) DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="EVA_CLOSE",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dle0_plyf0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dle0_plyf0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dle/dle0_plyf0_v00.fv2",
+    needHead=true,
+  },
+  --DD_MALE has 0 for its path entries
+
+  --SNAKE no selectable in ui, but has same values for its path entries
+  BOSS_CLOSE_DD_FEMALE={
+    name="BOSS_CLOSE_DD_FEMALE",
+    description="Sneaking Suit (TB)",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="BOSS_CLOSE",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dlc0_plyf0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dlc0_plyf0_def_v00.parts",
+    --skinToneFv2=--tex DEBUGNOW why no skintone?
+    needHead=true,
+  },
+  --DD_MALE has 0 for its path entries
+  --SNAKE no selectable in ui, but has same values for its path entries
+  BOSS_OPEN_DD_FEMALE={
+    name="BOSS_OPEN_DD_FEMALE",
+    description="Sneaking Suit open (TB)",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="BOSS_OPEN",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_dlc1_plyf0_def_v00.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/dlc1_plyf0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlc/dlc1_plyf0_v00.fv2",
+    needHead=true,
+  },
+  --DD_MALE has 0 for its path entries
+
+  --SNAKE has plparts normal for its path entries
+  SWIMWEAR_DD_MALE={
+    name="SWIMWEAR_DD_MALE",
+    description="Swimsuit DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="SWIMWEAR",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddm_swimwear.fpk",
+    partsParts="/Assets/tpp/parts/chara/dlf/dlf1_main0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlf/dlf1_main0_v00.fv2",
+    needHead=true,
+  },
+  SWIMWEAR_DD_FEMALE={
+    name="SWIMWEAR_DD_FEMALE",
+    description="Swimsuit DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="SWIMWEAR",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear.fpk",
+    partsParts="/Assets/tpp/parts/chara/dlf/dlf0_main0_def_f_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlf/dlf1_main0_f_v00.fv2",
+    needHead=true,
+  },
+
+  --SNAKE has plparts normal for its path entries
+  SWIMWEAR_G_DD_MALE={
+    name="SWIMWEAR_G_DD_MALE",
+    description="Goblin Swimsuit DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="SWIMWEAR_G",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_g.fpk",
+    partsParts="/Assets/tpp/parts/chara/dlg/dlg1_main0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlg/dlg1_main0_v00.fv2",
+    needHead=true,
+  },
+  SWIMWEAR_G_DD_FEMALE={
+    name="SWIMWEAR_G_DD_FEMALE",
+    description="Goblin Swimsuit DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="SWIMWEAR_G",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_g.fpk",
+    partsParts="/Assets/tpp/parts/chara/dlg/dlg0_main0_def_f_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlg/dlg1_main0_f_v00.fv2",
+    needHead=true,
+  },
+
+  --SNAKE has plparts normal for its path entries
+  SWIMWEAR_H_DD_MALE={
+    name="SWIMWEAR_H_DD_MALE",
+    description="Megalodon Swimsuit DD Male",
+    playerTypeName="DD_MALE",
+    partsTypeName="SWIMWEAR_H",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddm_swimwear_h.fpk",
+    partsParts="/Assets/tpp/parts/chara/dlh/dlh1_main0_def_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlh/dlh1_main0_v00.fv2",
+    needHead=true,
+  },
+  SWIMWEAR_H_DD_FEMALE={
+    name="SWIMWEAR_H_DD_FEMALE",
+    description="Megalodon Swimsuit DD Female",
+    playerTypeName="DD_FEMALE",
+    partsTypeName="SWIMWEAR_H",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ddf_swimwear_h.fpk",
+    partsParts="/Assets/tpp/parts/chara/dlh/dlh0_main0_def_f_v00.parts",
+    skinToneFv2="/Assets/tpp/fova/chara/dlh/dlh1_main0_f_v00.fv2",
+    needHead=true,
+  },
+
+  --tex while exe does fill out other player types to be their defaults,
+  --it doesnt include the actual ocelot parts paths since it just returns them directly
+  --on playerType rather than using the playerPartsType[playerType] array
+  OCELOT_OCELOT={
+    name="OCELOT_OCELOT",
+    description="Ocelot",
+    playerTypeName="OCELOT",
+    partsTypeName="OCELOT",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_ocelot.fpk",
+    partsParts="/Assets/tpp/parts/chara/ooc/ooc0_main1_def_v00.parts",
+  },
+  --tex same deal as ocelot except it has 0 for paths?
+  QUIET_QUIET={
+    name="QUIET_QUIET",
+    description="Quiet",
+    playerTypeName="QUIET",
+    partsTypeName="QUIET",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_quiet.fpk",
+    partsParts="/Assets/tpp/parts/chara/qui/quip_main0_def_v00.parts",
+  },
+
+--tex same deal as above except there's no actual playerPartsType/playerCamoType (it just returns these hardcoded paths on playerType)
+--  LIQUID_LIQUID={
+--    name="LIQUID_LIQUID",
+--    description="Liquid",
+--    playerTypeName="LIQUID",
+--    partsTypeName="LIQUID",
+--    partsFpk="/Assets/tpp/pack/player/parts/plparts_liquid.fpk",
+--    partsParts="/Assets/tpp/parts/chara/lqd/lqd0_main0_ply_v00.parts",
+--  },
+}--playerPartsInfos
+
+--EXEC WORKAROUND, in vanilla they are the same (or rather it just uses one array for both SNAKE/AVATAR)
+--rather that have similar logic, i'll dupe/fill out the data
+for partsInfoName,partsInfo in pairs(this.playerPartsInfos)do
+  local info={}
+  if partsInfo.playerTypeName=="SNAKE"then
+    for k,v in pairs(partsInfo)do
+      info[k]=v
+    end
+    info.playerTypeName="AVATAR"
+    info.name=info.partsTypeName.."_"..info.playerTypeName
+    info.description=info.name
+    this.playerPartsInfos[info.name]=info
+  end--if SNAKE
+end--for playerPartsInfos
 
 --tex
 --info on plparts fpk / model id
@@ -4650,10 +4450,10 @@ this.playerCamoTypesInfo={
   },
 }--playerCamoTypesInfo
 
---WORKAROUND 
---TODO: fill out manually
+--WORKAROUND
+--TODO: fill out manually?
 for i,camoInfo in ipairs(this.playerCamoTypesInfo)do
-  if camoInfo.playerParts.NORMAL_SCARF then
+  if camoInfo.playerParts and camoInfo.playerParts.NORMAL_SCARF then
     camoInfo.playerParts.NORMAL_SCARF=camoInfo.playerParts.NORMAL
   end
 end
@@ -4891,24 +4691,25 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
     if not partsTypeInfo then
       InfCore.Log("WARNING: GetPlayerPartsTypes: could not find partsTypeInfo for "..partsTypeName,true)
     else
-      local playerTypeName=InfFova.playerTypes[playerType+1]
-      local playerPartsFpk=partsTypeInfo.playerPartsFpk and partsTypeInfo.playerPartsFpk[playerTypeName] or 0
-      if playerPartsFpk==0 then
-        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find playerPartsFpk for "..partsTypeName.. " "..playerTypeName)
+      local plPartsName=partsTypeInfo.plPartsName
+      if not plPartsName then
+        InfCore.Log("WARNING: GetPlayerPartsTypes: could not find plPartsName for "..partsTypeName,true)
       else
-        if partsTypeInfo.developId and checkDeveloped then
-          if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=partsTypeInfo.developId} then
+        local playerTypeName=InfFova.playerTypes[playerType+1]
+        if plPartsName[playerTypeName] then
+          if partsTypeInfo.developId and checkDeveloped then
+            if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=partsTypeInfo.developId} then
+              table.insert(playerPartsTypes,partsTypeName)
+            end
+          else
             table.insert(playerPartsTypes,partsTypeName)
           end
-        else
-          table.insert(playerPartsTypes,partsTypeName)
         end
       end
     end
   end
   return playerPartsTypes
 end
-
 
 function this.GetCamoTypes(partsTypeName)
   local InfFova=this
@@ -4922,10 +4723,14 @@ function this.GetCamoTypes(partsTypeName)
   local playerTypeName=InfFova.playerTypes[vars.playerType+1]
   --InfCore.DebugPrint(playerTypeName)--DEBUG
 
-  local playerPartsFpk=partsTypeInfo.playerPartsFpk and partsTypeInfo.playerPartsFpk[playerTypeName] or 0
+  local plPartsName=partsTypeInfo.plPartsName
+  if not plPartsName then
+    InfCore.DebugPrint("WARNING: could not find plPartsName on "..partsTypeName)--DEBUG
+    return
+  end
 
-  if playerPartsFpk==0 then
-    InfCore.DebugPrint("WARNING: "..partsTypeInfo.name.." does support player type "..tostring(playerTypeName))--DEBUG
+  if plPartsName and not plPartsName.ALL and not plPartsName[playerTypeName] then
+    InfCore.DebugPrint("WARNING: "..tostring(plPartsName).." not supported for player type "..tostring(playerTypeName))--DEBUG
     return
   end
 
@@ -5004,7 +4809,7 @@ function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
     return
   end
 
-  if playerPartsTypeInfo.playerFpk==nil then
+  if playerPartsTypeInfo.plPartsName==nil then
     --TODO: warning off till all filled out
     --InfCore.Log"WARNING: GetFovaTable playerPartsTypeInfo.plPartsName==nil"
     return
