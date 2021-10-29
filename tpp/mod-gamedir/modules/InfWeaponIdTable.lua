@@ -79,17 +79,18 @@ end--LoadWeaponIdTables
 --GOTCHA: called a lot so logging will spam
 --CALLERS: TppEnemy.GetWeaponIdTable, InfEquip.CreateCustomWeaponTable
 function this.GetWeaponIdTable()
+  local weaponIdTable=TppEnemy.weaponIdTable
   if not IvarProc.EnabledForMission("weaponTableGlobal",vars.missionCode) then
-    return nil
+    return weaponIdTable
   end
   local addonIndex=IvarProc.GetForMission("weaponTableGlobal",vars.missionCode)
   if addonIndex==0 then--DEBUGNOW do we need to do EnabledForMission if we're doing this?
-    return nil
+    return TweaponIdTable
   end
   local addonName=this.addonsNames[addonIndex+1]
   if addonName==nil then
     InfCore.Log("WARNING: InfWeaponIdTable.GetWeaponIdTable: could not find addonName for weaponTableGlobal:"..tostring(addonIndex))
-    return nil
+    return weaponIdTable
   end 
   --DEBUGNOW cant use till settings inited local addonName=IvarProc.GetSettingNameForMission("weaponTableGlobal",vars.missionCode)
   if this.debugModule then

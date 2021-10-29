@@ -990,10 +990,7 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
     end
   end--<
 
-  weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex TppEnemy.weaponIdTable override by addon>
-  if weaponIdTable==nil then
-    weaponIdTable=this.weaponIdTable
-  end--<
+  weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex TppEnemy.weaponIdTable override by addon>\
   
   soldierWeaponIdTable=this.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
   
