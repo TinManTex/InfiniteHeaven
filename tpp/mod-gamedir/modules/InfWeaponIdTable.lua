@@ -1,6 +1,9 @@
 -- InfWeaponIdTable.lua
 --Implements weaponIdTable addon loading
 --see \mod\devmodules\weaponIdTables\example.lua
+--Ivar weaponTableGlobal* in InfEquip
+--Actual use/return of weaponIdTable in TppEnemy.GetWeaponIdTable which also handled mission addon overriding of weaponIdTable.
+
 --REF IH Feature custom weapon table.txt
 --TODO validate addon on load
 --validate it has all the base soldiertypes
@@ -12,13 +15,24 @@ this.debugModule=false
 this.addons={}
 this.addonsNames={}
 
+this.vanillaTableNames={
+  DD=true,
+  SOVIET_A=true,
+  SOVIET_B=true,
+  PF_A=true,
+  PF_B=true,
+  PF_C=true,
+  SKULL=true,
+  CHILD=true,
+}--vanillaTableNames
+
 function this.PostAllModulesLoad()
   this.addons={}
   this.addonsNames={}
   
   this.addons.DEFAULT={
     description="Default",
-    weaponIdTable=TppEnemy.weaponIdTable,
+    weaponIdTable=TppEnemy.weaponIdTable,--InfUtil.CopyTable(TppEnemy.weaponIdTable),--: would cause issues if reloading scripts, but refencing TppEnemy.weaponIdTable would cause issues if I replace it outright
   }
 
   this.LoadWeaponIdTables()
@@ -65,18 +79,17 @@ end--LoadWeaponIdTables
 --GOTCHA: called a lot so logging will spam
 --CALLERS: TppEnemy.GetWeaponIdTable, InfEquip.CreateCustomWeaponTable
 function this.GetWeaponIdTable()
-  local weaponIdTable=TppEnemy.weaponIdTable
   if not IvarProc.EnabledForMission("weaponTableGlobal",vars.missionCode) then
-    return weaponIdTable
+    return nil
   end
   local addonIndex=IvarProc.GetForMission("weaponTableGlobal",vars.missionCode)
   if addonIndex==0 then--DEBUGNOW do we need to do EnabledForMission if we're doing this?
-    return weaponIdTable
+    return nil
   end
   local addonName=this.addonsNames[addonIndex+1]
   if addonName==nil then
     InfCore.Log("WARNING: InfWeaponIdTable.GetWeaponIdTable: could not find addonName for weaponTableGlobal:"..tostring(addonIndex))
-    return weaponIdTable
+    return nil
   end 
   --DEBUGNOW cant use till settings inited local addonName=IvarProc.GetSettingNameForMission("weaponTableGlobal",vars.missionCode)
   if this.debugModule then
