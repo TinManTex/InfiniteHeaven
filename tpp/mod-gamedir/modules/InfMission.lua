@@ -2,6 +2,8 @@
 -- tex implements various mission selection options
 -- and IH location and mission addon systems
 
+--TODO: call validateweaponIdtable on load
+
 --REF location addon module <GameDir>\mod\locations\ >
 --reference of all entries rather than a sane example
 --local this={
@@ -103,16 +105,18 @@
 --    },
 --  },
 --  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
---  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable
---    NORMAL={
---      HANDGUN=TppEquip.EQP_WP_East_hg_010,
---      SMG=TppEquip.EQP_WP_East_sm_010,
---      ASSAULT=TppEquip.EQP_WP_East_ar_010,
---      SNIPER=TppEquip.EQP_WP_East_sr_011,
---      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
---      MG=TppEquip.EQP_WP_East_mg_010,
---      MISSILE=TppEquip.EQP_WP_East_ms_010,
---      SHIELD=TppEquip.EQP_SLD_SV
+--  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable, see also InfWeaponIdTable for IH global weaponIdTable override
+--    PF_A={
+--      NORMAL={
+--        HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--        SMG=TppEquip.EQP_WP_East_sm_010,
+--        ASSAULT=TppEquip.EQP_WP_East_ar_010,
+--        SNIPER=TppEquip.EQP_WP_East_sr_011,
+--        SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
+--        MG=TppEquip.EQP_WP_East_mg_010,
+--        MISSILE=TppEquip.EQP_WP_East_ms_010,
+--        SHIELD=TppEquip.EQP_SLD_SV
+--      },
 --    },
 --  },
 --  heliSpaceFlags={-- Sortie/mission prep screen feature flags
@@ -1212,31 +1216,36 @@ function this.ValidateWeaponIdTable(weaponIdTable)
 end
 
 --CALLER: TppEnemy.GetWeaponIdTable
---IN/SIDE vars.missionCode
---GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
---GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table, not a full table like TppEnemy.weaponIdTable
+--returns soldier type weaponIdTable
+--GOTCHA: soldierType==EnemyType, soldierSubType==string
 function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
   if InfMain.IsOnlineMission(vars.missionCode)then
     return nil
   end
-
+  
   local weaponIdTable
   local missionInfo=this.missionInfo[vars.missionCode]
   if missionInfo then
     weaponIdTable=missionInfo.weaponIdTable
+    --tex key is just a soldierSubType string to lookup the base weaponIdTable
     if type(weaponIdTable)=="string" then
       weaponIdTable=TppEnemy.weaponIdTable[weaponIdTable]
       if weaponIdTable==nil then
         InfCore.Log("WARNING: InfMission.GetWeaponIdTable: could not find weaponIdTable["..missionInfo.weaponIdTable.."]")
       end
-    elseif type(weaponIdTable)=="table" then
-      this.ValidateWeaponIdTable(weaponIdTable)--DEBUGNOW just do it on load instead, maybe set a valid flag to check so we can return nil, or just nil the entry on fail
-      --tex pass through, it will return at the end
+    elseif type(weaponIdTable)=="table" then 
+      --LEGACY: initial implementation missionInfo.weaponIdTable was just a soldieSubType weaponIdTable
+      if weaponIdTable.NORMAL or weaponIdTable.STRONG then
+        --will just use weaponIdTable
+      else
+        --assuming its a full weaponIdTable
+        weaponIdTable=TppEnemy.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
+      end
     else
       weaponIdTable=nil
     end
   end--if missionInfo
-  --InfCore.PrintInspect(weaponIdTable,"InfMission weaponIdTable")--DEBUG
+
   return weaponIdTable
 end--GetSoldierWeaponIdTable
 --
