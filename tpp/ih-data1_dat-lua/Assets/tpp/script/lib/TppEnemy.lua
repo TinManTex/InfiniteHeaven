@@ -101,6 +101,7 @@ this.ACTION_STATUS={NORMAL=0,FULTON_RECOVERD=1,HOLD_UP_STAND=2,HOLD_UP_CROWL=3,N
 this.SOLDIER_DEFINE_RESERVE_TABLE_NAME=Tpp.Enum{"lrrpTravelPlan","lrrpVehicle"}
 this.TAKING_OVER_HOSTAGE_LIST={"hos_takingOver_0000","hos_takingOver_0001","hos_takingOver_0002","hos_takingOver_0003"}
 this.ROUTE_SET_TYPETAG={}
+--NMC only use to build subTypeOfCp below
 this.subTypeOfCpTable={
   SOVIET_A={
     afgh_field_cp=true,
@@ -234,13 +235,15 @@ this.subTypeOfCpTable={
     mafr_18_26_lrrp=true,
     mafr_27_30_lrrp=true
   }
-}
-this.subTypeOfCp={}--tex built below, but also added to via missionTable.enemy.cpSubTypes in OnAllocate
-this.subTypeOfCpDefault={}--tex
+}--subTypeOfCpTable
+--tex subTypeOfCp is also added to by IH via missionTable.enemy.cpSubTypes in OnAllocate. 
+--used by GetCpSubType, AssignSoldiersToCP, IH RandomizeCpSubTypeTable
+this.subTypeOfCp={}
+this.subTypeOfCpDefault={}--tex added
 for subType,cp in pairs(this.subTypeOfCpTable)do
   for cpName,bool in pairs(cp)do
     this.subTypeOfCp[cpName]=subType
-    this.subTypeOfCpDefault[cpName]=subType--tex
+    this.subTypeOfCpDefault[cpName]=subType--tex added
   end
 end
 local TppEnemyBodyId=TppEnemyBodyId or{}
@@ -315,6 +318,7 @@ this.bodyIdTable={
   SKULL_AFGH={ASSAULT={TppEnemyBodyId.wss4_main0_v00}},
   CHILD={ASSAULT=this.childBodyIdTable}
 }
+--tex ADDON via IH InfWeaponIdTable
 this.weaponIdTable={
   SOVIET_A={
     NORMAL={
@@ -966,7 +970,9 @@ function this.SetUpDDParameter()
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
 end
 --CALLERS: TppRevenge._AllocateResources, TppEnemy.GetWeaponId
---REWORKED
+--tex REWORKED
+--GOTCHA: soldierType==EnemyType, soldierSubType==string
+--is really GetSoldierWeaponIdTable
 function this.GetWeaponIdTable(soldierType,soldierSubType)
   local weaponIdTable=this.weaponIdTable
   local soldierWeaponIdTable={}
@@ -977,15 +983,26 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD"then--tex>
     return this.weaponIdTable.WILDCARD
   end--<
-  if InfMission then--tex> allow custom missions prefered weaponIdTable
+  if InfMission then--tex> allow custom missions prefered weaponIdTable TODO: this should probably be below InfWeaponIdTable, but the legacy missionInfo soldier type string and soldier type table complicates things
     soldierWeaponIdTable=InfMission.GetSoldierWeaponIdTable(soldierType,soldierSubType)--GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table
     if soldierWeaponIdTable then
       return soldierWeaponIdTable
     end
   end--<
 
-  weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex will return this.weaponIdTable if default
-
+  weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex TppEnemy.weaponIdTable override by addon>
+  if weaponIdTable==nil then
+    weaponIdTable=this.weaponIdTable
+  end--<
+  
+  soldierWeaponIdTable=this.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
+  
+  return soldierWeaponIdTable
+end
+--tex split out from GetWeaponIdTable
+--GetSoldierWeaponIdTableFromWeaponIdTable
+function this.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
+  local soldierWeaponIdTable={}
   if soldierType==EnemyType.TYPE_SOVIET then
     soldierWeaponIdTable=weaponIdTable.SOVIET_A
   elseif soldierType==EnemyType.TYPE_PF then
@@ -1008,9 +1025,8 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   else
     soldierWeaponIdTable=weaponIdTable.SOVIET_A
   end
-
   return soldierWeaponIdTable
-end
+end--GetSoldierWeaponIdTable
 --ORIG:
 --function this.GetWeaponIdTable(soldierType,soldierSubType)
 --  --ORPHAN local n={}
@@ -2683,12 +2699,12 @@ function this.OnAllocate(missionTable)
         local subType=missionTable.enemy.cpSubTypes
         for cpName,cpSoldiers in pairs(missionTable.enemy.soldierDefine)do
           this.subTypeOfCp[cpName]=subType
-          this.subTypeOfCpDefault[cpName]=subType--tex
+          this.subTypeOfCpDefault[cpName]=subType--tex added
         end
       else
         for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
           this.subTypeOfCp[cpName]=subType
-          this.subTypeOfCpDefault[cpName]=subType--tex
+          this.subTypeOfCpDefault[cpName]=subType--tex added
         end
       end--if type cpSubTypes
     end--<
