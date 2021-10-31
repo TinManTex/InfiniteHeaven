@@ -1,36 +1,165 @@
 --InfBodyInfo.lua
---tex used for IH soldier type change, but can be used as a reference to what game chara models are (mostly look at partsPath)
+--tex used to define soldier body info for IH soldier type change (via customSoldierType option) or addon missions (TODO actually document how to do so)
+--bodyInfo table can be used as a reference if you want to look up what game chara models are (mostly look at partsPath)
+
 --Also handles \mod\bodyInfo\ addons.
---Actual implementation scattered across InfEneFova and InfSoldierFace
+
+--Actual implementation scattered across InfEneFova and InfSoldierFace, search InfBodyInfo, GetMaleBodyInfo
+
+--GOTCHA: note from Warm Wallaby: option hasFace disable notification about staff morale (on MTBS) because game treat soldier like a enemy (soldiers doen't have face fova)
+--https://discord.com/channels/364177293133873153/364177950805065732/902560368314961970
+--TODO: document how hasface/balaclavaIds work
+
+--tex DEBUGNOW GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 
 local this={}
---REF bodyInfo entry
---tex GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
--- ex
---  SOME_BODY={
---    description="Body name for menu",
---    bodyIds={--tex if bodyId nil then will fall back to normal GetBodyId, if bodyId is a table (like this example) bodyId is chosen randomly (TODO example bodyId doesnt match body)
---      TppEnemyBodyId.dlf_enef0_def,
---      TppEnemyBodyId.dlf_enef1_def,
+--REF bodyInfo addon, just an all parameters rather than valid example
+--this={
+--  infoType="BODYINFO",
+--  name="SOME_ENEMY",--bodyType id, automatically set using addon file name
+--  description="Body name for menu",
+--  --tex new bodyIds are added by fovaInfo addons with bodyFova, bodyDefinition entries. See InfSoldierFace
+--  --tex if bodyId nil then will fall back to normal GetBodyId (which relies on soldierSubType),
+--  --if bodyIds is an array (like this example) bodyId is chosen randomly
+--  bodyIds={
+--    TppEnemyBodyId.pfs0_rfl_v00_a,
+--    TppEnemyBodyId.pfs0_rfl_v01_a,
+--    TppEnemyBodyId.pfs0_mcg_v00_a,
+--    TppEnemyBodyId.pfs0_snp_v00_a,
+--    TppEnemyBodyId.pfs0_rdo_v00_a,
+--    TppEnemyBodyId.pfs0_rfl_v00_b,
+--    TppEnemyBodyId.pfs0_rfl_v01_b,
+--    TppEnemyBodyId.pfs0_mcg_v00_b,
+--    TppEnemyBodyId.pfs0_snp_v00_b,
+--    TppEnemyBodyId.pfs0_rdo_v00_b,
+--    TppEnemyBodyId.pfs0_rfl_v00_c,
+--    TppEnemyBodyId.pfs0_rfl_v01_c,
+--    TppEnemyBodyId.pfs0_mcg_v00_c,
+--    TppEnemyBodyId.pfs0_snp_v00_c,
+--    TppEnemyBodyId.pfs0_rdo_v00_c,
+--    TppEnemyBodyId.pfa0_v00_b,
+--    TppEnemyBodyId.pfa0_v00_c,
+--    TppEnemyBodyId.pfa0_v00_a,
+--    TppEnemyBodyId.pfs0_unq_v210,
+--    TppEnemyBodyId.pfs0_unq_v250,
+--    TppEnemyBodyId.pfs0_unq_v360,
+--    TppEnemyBodyId.pfs0_unq_v280,
+--    TppEnemyBodyId.pfs0_unq_v150,
+--    TppEnemyBodyId.pfs0_unq_v220,
+--    TppEnemyBodyId.pfs0_unq_v140,
+--    TppEnemyBodyId.pfs0_unq_v241,
+--    TppEnemyBodyId.pfs0_unq_v242,
+--    TppEnemyBodyId.pfs0_unq_v450,
+--    TppEnemyBodyId.pfs0_unq_v440,
+--    TppEnemyBodyId.pfs0_unq_v155,
+--  },--bodyIds
+--  --TppEnemy.bodyIdTable style table, NOTE: if using this don't need the above bodyIds (as it will be built from bodyIdTable anyway)
+--  bodyIdTable={
+--tex hope to eventually support multiple subTypes per body like the base game does, but for now just one entry as the bodyInfo name
+--    SOME_ENEMY={
+--      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_mcg_v00_a},
+--      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a,TppEnemyBodyId.pfs0_mcg_v00_a},
+--      SNIPER={TppEnemyBodyId.pfs0_snp_v00_a},
+--      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_a},
+--      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a},
+--      MG={TppEnemyBodyId.pfs0_mcg_v00_a},
+--      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_a},
+--      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_a},
+--      ARMOR={TppEnemyBodyId.pfa0_v00_b},
+--      RADIO={TppEnemyBodyId.pfs0_rdo_v00_a}
 --    },
---    partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00_ih_sol.parts",--tex parts for soldier base, usually matches a vanilla .parts (minus the _ih_sol suffix)
---    partsPathHostage="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00_ih_hos.parts",--tex parts for hostage base
---    missionPackPath={
---      "BASE_PACK",--tex indicator for certain get body info functions to use base pack,
---      -- uses "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk" for soldier
---      -- and  "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk" for hostage
---      "/Assets/tpp/pack/mission2/ih/prs6_main0_mdl.fpk",
+--DEBUGNOW
+--    SOME_ENEMY_A={
+--      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_mcg_v00_a},
+--      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a,TppEnemyBodyId.pfs0_mcg_v00_a},
+--      SNIPER={TppEnemyBodyId.pfs0_snp_v00_a},
+--      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_a},
+--      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a},
+--      MG={TppEnemyBodyId.pfs0_mcg_v00_a},
+--      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_a},
+--      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_a},
+--      ARMOR={TppEnemyBodyId.pfa0_v00_b},
+--      RADIO={TppEnemyBodyId.pfs0_rdo_v00_a}
 --    },
---    hasFace=true,--tex model includes it's own face so don't use fova face
---    hasArmor=true,--tex switches off armor at the config level (if false), for bodies that are mixed
---    isArmor=true,--tex switches armor on at the soldier config level, for bodies that are only armor
---    helmetOnly=true,--tex no gas mask or nvg.
---    hasHelmet=true,--tex indicator for DD headgear to not select gear markes as HELMET
---    soldierSubType="DD_FOB",--tex defaults to DD_FOB if not defined.
---    useDDHeadgear=true,--tex use DD headgear as balaclava/GetHeadGearForPowers system
---    noSkinTones=true,--tex body doesn't have different textures for skintones (a lot of models just sidestep this by not showing skin/having gloves), currently only as a note, no system acting on the value
+--    SOME_ENEMY_B={
+--      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_mcg_v00_b},
+--      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b,TppEnemyBodyId.pfs0_mcg_v00_b},
+--      SNIPER={TppEnemyBodyId.pfs0_snp_v00_b},
+--      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_b},
+--      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b},
+--      MG={TppEnemyBodyId.pfs0_mcg_v00_b},
+--      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_b},
+--      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_b},
+--      ARMOR={TppEnemyBodyId.pfa0_v00_a},
+--      RADIO={TppEnemyBodyId.pfs0_rdo_v00_b}
+--    },
+--    SOME_ENEMY_C={
+--      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_mcg_v00_c},
+--      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c,TppEnemyBodyId.pfs0_mcg_v00_c},
+--      SNIPER={TppEnemyBodyId.pfs0_snp_v00_c},
+--      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_c},
+--      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c},
+--      MG={TppEnemyBodyId.pfs0_mcg_v00_c},
+--      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_c},
+--      SHIELD={TppEnemyBodyId.pfs0_rfl_v01_c},
+--      ARMOR={TppEnemyBodyId.pfa0_v00_c},
+--      RADIO={TppEnemyBodyId.pfs0_rdo_v00_c}
+--    },
+--    SOME_ENEMY_D={
+--      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_mcg_v00_b},
+--      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b,TppEnemyBodyId.pfs0_mcg_v00_b},
+--      SNIPER={TppEnemyBodyId.pfs0_snp_v00_c},
+--      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_c},
+--      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c},
+--      MG={TppEnemyBodyId.pfs0_mcg_v00_c},
+--      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_c},
+--      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_b},
+--      ARMOR={TppEnemyBodyId.pfa0_v00_c},
+--      RADIO={TppEnemyBodyId.pfs0_rdo_v00_c}
+--    },
+--  },--bodyIdTable
+--  soldierType="DD",--base game EnemyType "TYPE_", since there's still a lot of things tied up to the base games values DEBUGNOW TODO implement and document
+--  soldierSubType="DD_FOB",--tex base game subType, since there's still a lot of things tied up to the base games values DEBUGNOW TODO document what
+--  --tex map your own soldier(Sub)Types to baseType
+--  --TODO actually implement
+--  --tex maybe someday you'll be able to use body subtypes at a higher level, till then the way to use them is by mapping the existing types
+--  subTypeForBaseType={
+--    SOVIET_A="SOME_ENEMY_A",
+--    SOVIET_B="SOME_ENEMY_B",
+--    PF_A="SOME_ENEMY_B",
+--    PF_B="SOME_ENEMY_B",
+--    PF_C="SOME_ENEMY_B",
+--    DD_A="SOME_ENEMY_D",
+--    DD_FOB="SOME_ENEMY_C",
+--    DD_PW="SOME_ENEMY_B",
+--    SKULL_CYPR="SOME_ENEMY_D",
+--    SKULL_AFGH="SOME_ENEMY_B",
+--  },--subTypeToBaseType
+--  partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00_ih_sol.parts",--tex parts for soldier base, usually matches a vanilla .parts (minus the _ih_sol suffix)
+--  partsPathHostage="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00_ih_hos.parts",--tex parts for hostage base
+--  missionPackPath={
+--    "BASE_PACK",--tex indicator for certain get body info functions to use base pack, so your addon pack can just include the model and be smaller than the base games soldier packs
+--    -- uses "/Assets/tpp/pack/mission2/ih/ih_soldier_base.fpk" for soldier
+--    -- and  "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk" for hostage
+--    "/Assets/tpp/pack/mission2/ih/pfs0_main0_def_mdl.fpk",
 --  },
+--  missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_pf.fpk",--alternate to the above, just a full base game style pack
+--  hasFace=true,--tex model includes it's own face so don't use fova face
+--  hasArmor=true,--tex switches off armor at the config level (if false), for bodies that are mixed
+--  isArmor=true,--tex switches armor on at the soldier config level, for bodies that are only armor
+--  helmetOnly=true,--tex no gas mask or nvg.
+--  hasHelmet=true,--tex indicator for DD headgear to not select gear markes as HELMET
+--  useDDHeadgear=true,--tex use DD headgear as balaclava/GetHeadGearForPowers system
+--  noSkinTones=true,--tex body doesn't have different textures for skintones (a lot of models just sidestep this by not showing skin/having gloves), currently only as a note, no system acting on the value
+--  --DEBUGNOW DOCUMENT, how does this interact with the above settings?
+--  config={
+--    HELMET=true,
+--    GAS_MASK=true,
+--    NVG=false,
+--  },
+--}
 
+--IH entries, addon system adds to this table
 this.bodyInfo={
   OFF={},--KLUDGE for ivar
   RANDOM={},--KLUDGE for ivar
@@ -1234,7 +1363,7 @@ this.bodyIdToCamoType={
 --Loads \mod\bodyInfo\*.lua into this.bodyInfo
 function this.LoadBodyInfos()
   InfCore.LogFlow("InfBodyInfo.LoadBodyInfos")
-  
+
   local files=InfCore.GetFileList(InfCore.files.bodyInfo,".lua")
   for i,fileName in ipairs(files)do
     InfCore.Log("InfBodyInfo.LoadBodyInfos: "..fileName)
@@ -1252,50 +1381,33 @@ function this.LoadBodyInfos()
     end
   end
 
-  --tex MORPH: a bit ugly changing bodyId name to bodyId but as vanilla is just bodyIds can't really have all as bodyId name.
-  for bodyName,bodyInfo in pairs(this.bodyInfo)do
-    if bodyInfo.bodyIds then
-      for j,bodyId in ipairs(bodyInfo.bodyIds) do
-        if type(bodyId)=="string" then
-          local bodyIdNum=TppEnemyBodyId[bodyId]
-          if bodyIdNum==nil then
-            InfCore.Log("WARNING: InfBodyInfo.LoadBodyInfos: could not find TppEnemyBodyId "..bodyId.." for "..bodyName)
-          else
-            bodyInfo.bodyIds[j]=bodyIdNum
-          end
-        end--if bodyIdNum
-      end--for bodyIds
-    end--for bodyInfo
-  end--if bodyIds
-  
-  --tex fold in TppEnemy.bodyIdTable for soldierSubType so bodyIds get added for loading
   for bodyType,bodyInfo in pairs(this.bodyInfo)do
-    if type(bodyInfo)~="table"then
-      InfCore.Log("WARNING: bodyInfo~=table : "..tostring(bodyType).."="..tostring(bodyInfo))--DEBUG
-    else
-      bodyInfo.bodyType=bodyType
-      bodyInfo.bodyIds=this.GetBodyIds(bodyInfo)--tex crunches down TppEnemy.bodyIdTable if applicable
+    bodyType=bodyInfo.bodyType or bodyInfo.name or bodyType
+    bodyInfo.bodyType=bodyType--LEGACY TODO cull once you've changed code to .name
+    bodyInfo.name=bodyType--tex standard with other ih info formats
+    if bodyInfo.bodyIds==nil or bodyInfo.bodyIdTable then
+      local bodyIdTable=bodyInfo.bodyIdTable or TppEnemy.bodyIdTable
+      bodyInfo.bodyIds=this.GatherBodyIds(bodyInfo.soldierSubType,bodyIdTable)--DEBUGNOW need to handle multiple soldiertypes
     end
-  end
-end
-
---TABLESETUP
-function this.GetBodyIds(bodyInfo)
-  local bodyIds=bodyInfo.bodyIds
-  if bodyIds then
-  elseif bodyInfo.soldierSubType then
-    bodyIds={}
-    local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-    if bodyIdTable then
-      for powerType,bodyTable in pairs(bodyIdTable)do
-        for i,_bodyId in ipairs(bodyTable)do
-          bodyIds[#bodyIds+1]=_bodyId
-        end
+  end--for bodyInfos
+end--LoadBodyInfos
+--crunch down bodyIdTable to array
+function this.GatherBodyIds(soldierSubType,bodyIdTable)
+  local bodyIds={}
+  local bodyIdTable=bodyIdTable[soldierSubType]
+  if bodyIdTable then
+    local bodyIdsUnique={}--tex may be multiple references to a bodyId
+    for powerType,bodyTable in pairs(bodyIdTable)do
+      for i,bodyId in ipairs(bodyTable)do
+        bodyIdsUnique[bodyId]=true
       end
+    end
+    for bodyId,bool in pairs(bodyIdsUnique)do
+      bodyIds[#bodyIds+1]=bodyId
     end
   end
   return bodyIds
-end
+end--GatherBodyIds
 
 function this.PostAllModulesLoad()
   this.LoadBodyInfos()
