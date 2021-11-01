@@ -544,7 +544,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   for name,module in pairs(missionTable)do
     if module.OnRestoreSVars then
-      if vars.missionCode==10010 then--tex> WORKAROUND, s10010_sequence.OnRestoreSvars has a coroutine.yield()
+      if vars.missionCode==10010 or vars.missionCode==10280 then--tex> WORKAROUND, s10010_sequence.OnRestoreSvars has a coroutine.yield()
         module.OnRestoreSVars()
       else--<
         InfCore.PCallDebug(module.OnRestoreSVars)--tex wrapped in pcall
