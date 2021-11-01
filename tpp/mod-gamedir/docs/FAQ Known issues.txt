@@ -22,6 +22,13 @@ Solution: Change the Unlock Sideops mode to any setting, this should refresh the
 
 Replaying sideop 144: Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
 
+Sideops for addon locations:
+Can not start sidop from ACC sideops list, sideop will still start if you load the location normally.
+
+Sideop start text doesn't show.
+
+Sideop will show it's active radius in afghanistan. A bug due to the UI not supporting addon locations.
+
 With Walker gears in free roam in Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad (it's the 0,0,0 point). This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
 
 Same issue as above with Skull sniper.
