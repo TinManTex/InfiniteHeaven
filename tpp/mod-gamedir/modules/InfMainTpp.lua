@@ -705,6 +705,9 @@ function this.IsDDEnemy(gameId)
   if Ivars.customSoldierTypeFREE:Is()>0 and Ivars.customSoldierTypeFREE:MissionCheck() then
     return true
   end
+  if Ivars.customSoldierTypeMISSION:Is()>0 and Ivars.customSoldierTypeMISSION:MissionCheck() then
+    return true
+  end
 
   --tex problem: some community sideops (caplags for ex) set the soldier type to TYPE_DD to have the soldiers talk english (VERIFY some languae setting in exe keying off soldierType?)
   --and to workaround some soldierType>weaponIdTable issues.

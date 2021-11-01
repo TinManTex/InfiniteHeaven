@@ -22,7 +22,7 @@ IvarProc.MissionModeIvars(
   },
   {
     "FREE",
-    --"MISSION",--TODO: missions a bit more complicated with a bunch of specific body setup
+    "MISSION",--TODO: missions a bit more complicated with a bunch of specific body setup
     "MB_ALL",
   }
 )
@@ -59,6 +59,7 @@ this.langStrings={
     mbDDHeadGear="DD Head gear",
     mbDDHeadGearSettings={"Off","Current prep"},
     customSoldierTypeFREE="Custom soldier type in Free roam",
+    customSoldierTypeMISSION="Custom soldier type in Missions",
     customSoldierTypeMB_ALL="DD Suit",
     customSoldierTypeFemaleMB_ALL="DD Suit female",
     setting_only_for_dd="This setting is only for DD soliders",
@@ -66,6 +67,7 @@ this.langStrings={
   help={
     eng={
       customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam.\nNew soldier types can be added via the bodyInfo addon system.",
+      customSoldierTypeMISSION="WARNING: Unique soldiers in the mission are likely to either be the default body from the selected custom soldier, or have visual issues if there isn't one.",
       customSoldierTypeMB_ALL="New body types can be added via the bodyInfo addon system.",
       customSoldierTypeFemaleMB_ALL="New body types can be added via the bodyInfo addon system.",
     },
