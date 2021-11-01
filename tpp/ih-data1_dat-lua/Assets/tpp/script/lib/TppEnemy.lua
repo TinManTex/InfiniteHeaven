@@ -1277,7 +1277,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
     InfCore.PrintInspect(soldierPowerSettings,"soldierPowerSettings")
   end--<
 
-  local _GetBodyId=function(selection,loadoutBodies)
+  local SelectBodyId=function(selection,loadoutBodies)
     if#loadoutBodies==0 then
       return loadoutBodies[1]
     end
@@ -1302,9 +1302,9 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
 --  --tex defaults to ASSAULT if the table has it, reguardless of soldierPowerSettings
 --  if bodyIdTable.ASSAULT then
 --    if soldierPowerSettings.OB and bodyIdTable.ASSAULT_OB then
---      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT_OB)
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.ASSAULT_OB)
 --    else
---      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.ASSAULT)
 --    end
 --  end
 --  local bodyChosen=""--DEBUG
@@ -1312,42 +1312,42 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
 --    if soldierPowerSettings[power] and bodyIdTable[power]then
 --      bodyChosen=power
 --      if soldierPowerSettings.OB and bodyIdTable[power.."_OB"] then
---        bodyId=_GetBodyId(soldierId,bodyIdTable[power.."_OB"])
+--        bodyId=SelectBodyId(soldierId,bodyIdTable[power.."_OB"])
 --        break
 --      else
---        bodyId=_GetBodyId(soldierId,bodyIdTable[power])
+--        bodyId=SelectBodyId(soldierId,bodyIdTable[power])
 --        break
 --      end
 --    end
 --  end--for bodyPowerOrder
 
   if soldierPowerSettings.ARMOR and bodyIdTable.ARMOR then
-    bodyId=_GetBodyId(soldierId,bodyIdTable.ARMOR)
+    bodyId=SelectBodyId(soldierId,bodyIdTable.ARMOR)
   elseif(mvars.ene_soldierLrrp[soldierId]or soldierPowerSettings.RADIO)and bodyIdTable.RADIO then
-    bodyId=_GetBodyId(soldierId,bodyIdTable.RADIO)
+    bodyId=SelectBodyId(soldierId,bodyIdTable.RADIO)
   elseif soldierPowerSettings.MISSILE and bodyIdTable.MISSILE then
-    bodyId=_GetBodyId(soldierId,bodyIdTable.MISSILE)
+    bodyId=SelectBodyId(soldierId,bodyIdTable.MISSILE)
   elseif soldierPowerSettings.SHIELD and bodyIdTable.SHIELD then
-    bodyId=_GetBodyId(soldierId,bodyIdTable.SHIELD)
+    bodyId=SelectBodyId(soldierId,bodyIdTable.SHIELD)
   elseif soldierPowerSettings.SNIPER and bodyIdTable.SNIPER then
-    bodyId=_GetBodyId(soldierId,bodyIdTable.SNIPER)
+    bodyId=SelectBodyId(soldierId,bodyIdTable.SNIPER)
   elseif soldierPowerSettings.SHOTGUN and bodyIdTable.SHOTGUN then
     if soldierPowerSettings.OB and bodyIdTable.SHOTGUN_OB then
-      bodyId=_GetBodyId(soldierId,bodyIdTable.SHOTGUN_OB)
+      bodyId=SelectBodyId(soldierId,bodyIdTable.SHOTGUN_OB)
     else
-      bodyId=_GetBodyId(soldierId,bodyIdTable.SHOTGUN)
+      bodyId=SelectBodyId(soldierId,bodyIdTable.SHOTGUN)
     end
   elseif soldierPowerSettings.MG and bodyIdTable.MG then
     if soldierPowerSettings.OB and bodyIdTable.MG_OB then
-      bodyId=_GetBodyId(soldierId,bodyIdTable.MG_OB)
+      bodyId=SelectBodyId(soldierId,bodyIdTable.MG_OB)
     else
-      bodyId=_GetBodyId(soldierId,bodyIdTable.MG)
+      bodyId=SelectBodyId(soldierId,bodyIdTable.MG)
     end
   elseif bodyIdTable.ASSAULT then
     if soldierPowerSettings.OB and bodyIdTable.ASSAULT_OB then
-      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT_OB)
+      bodyId=SelectBodyId(soldierId,bodyIdTable.ASSAULT_OB)
     else
-      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
+      bodyId=SelectBodyId(soldierId,bodyIdTable.ASSAULT)
     end
   end
   if this.debugModule then--tex>
