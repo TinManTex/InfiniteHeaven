@@ -1082,11 +1082,11 @@ this.gamePath=GetGamePath()
 if isMockFox then
   print("InfCore.gamePath:"..tostring(this.gamePath))
 end
---tex full paths of each subfolder of mod
+--tex full paths of each subfolder of MGS_TPP\mod (and mod itself), no subfolders of subfolders
 this.paths={
   mod=this.gamePath..this.modSubPath.."/",
 }
---tex filenames by subfolder name
+--tex filenames (incl extension) by subfolder name
 this.files={
   mod={},
 }
