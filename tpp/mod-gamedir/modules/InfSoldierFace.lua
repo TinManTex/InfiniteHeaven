@@ -69,7 +69,8 @@ this.fovaInfos={}
 --      --actual texture is /Assets/tpp/ui/texture/StaffImage/<uiTextureName>_<n = 0-2>.ftex (.<1-3>.ftexs etc)
 --    },
 --  },
---}
+--}--this
+--return this
 
 --REF mod\fovaInfo\uss0_main0
 --local this={
@@ -103,7 +104,7 @@ this.fovaInfos={}
 --      bodyFova="uss0_main0_v04.fv2",
 --    },
 --  },
---}
+--}--this
 --return this
 
 local bodyFovaLimit=366
@@ -114,23 +115,24 @@ this.bodyFova={}
 --TODO also integrate fv2 info from external fovainfo modules
 --tex cleared in .Setup
 --EnemyFova.INVALID_FOVA_VALUE=32767
+local INVALID_FOVA_VALUE=32767
 this.faceFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 this.faceDecoFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 this.hairFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 this.hairDecoFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 
 this.headDefinitions={}--headInfo headDefinitions entries
 this.faceDefinitions={}--Entries for Solder2FaceAndBodyData.faceDefinition
 
-this.hasFaceFova=false
+this.hasFaceFova=false--tex for Ivar playerFaceId
 --
 this.fovaTypes={
   "faceFova",
@@ -263,7 +265,7 @@ function this.Setup(faceAndBodyData)
   end
 
   this.SetupFaceFova(faceAndBodyData)
-  this.SetupBodyFova(faceAndBodyData)
+  this.SetupBodyFova(faceAndBodyData)--FLOW DEPENDANCY InfBodyInfo relies on TppEnemyBodyId being set by the time it does its PostAllModulesLoaded
 
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData post setup")
