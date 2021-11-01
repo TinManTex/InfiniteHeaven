@@ -4,7 +4,7 @@
 
 --Also handles \mod\bodyInfo\ addons.
 
---Actual implementation scattered across InfEneFova and InfSoldierFace, search InfBodyInfo, GetMaleBodyInfo
+--Actual implementation scattered across InfEneFova and InfSoldierFaceAndBody, search InfBodyInfo, GetMaleBodyInfo
 
 --GOTCHA: note from Warm Wallaby: option hasFace disable notification about staff morale (on MTBS) because game treat soldier like a enemy (soldiers doen't have face fova)
 --https://discord.com/channels/364177293133873153/364177950805065732/902560368314961970
@@ -21,7 +21,7 @@ this.debugModule=false
 --  infoType="BODYINFO",
 --  name="SOME_ENEMY",--bodyType id, automatically set using addon file name
 --  description="Body name for menu",
---  --tex new bodyIds are added by fovaInfo addons with bodyFova, bodyDefinition entries. See InfSoldierFace
+--  --tex new bodyIds are added by fovaInfo addons with bodyFova, bodyDefinition entries. See InfSoldierFaceAndBody
 --  --tex if bodyId nil then will fall back to normal GetBodyId (which relies on soldierSubType),
 --  --if bodyIds is an array (like this example) bodyId is chosen randomly
 --  bodyIds={

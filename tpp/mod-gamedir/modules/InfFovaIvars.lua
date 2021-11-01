@@ -210,7 +210,7 @@ this.playerPartsTypeDirect={
   end,
   OnActivate=function(self,setting)
     vars.playerPartsType=setting
-    vars.playerCamoType=0--DEBUGNOW
+    --vars.playerCamoType=0--DEBUGNOW
   end,
 }
 
@@ -344,14 +344,14 @@ this.playerFaceId={
     local faceId=faceDef[1]
 
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
-      if not InfSoldierFace.hasFaceFova then
+      if not InfSoldierFaceAndBody.hasFaceFova then
         return InfLangProc.LangString"no_head_fovas"
       end
     end
 
-    local headDefinitionName=InfSoldierFace.headDefinitions[faceId]
+    local headDefinitionName=InfSoldierFaceAndBody.headDefinitions[faceId]
     if headDefinitionName then
-      local headDefinition=InfSoldierFace.headDefinitions[headDefinitionName]
+      local headDefinition=InfSoldierFaceAndBody.headDefinitions[headDefinitionName]
       local desciption=headDefinition.description or headDefinitionName
       return "faceId:"..faceId.." - "..desciption
     end
@@ -1091,7 +1091,7 @@ function this.PrintFaceInfo(faceId)
   for i,faceDef in ipairs(faceAndBodyData.faceDefinition)do
     if faceDef[1]==faceId then
       local faceInfoString=""
-      for i,fovaType in ipairs(InfSoldierFace.fovaTypes)do
+      for i,fovaType in ipairs(InfSoldierFaceAndBody.fovaTypes)do
         local index=faceDef[InfEneFova.faceDefinitionParams[fovaType]]
         local fovaInfo=faceAndBodyData[fovaType][index]
         local name

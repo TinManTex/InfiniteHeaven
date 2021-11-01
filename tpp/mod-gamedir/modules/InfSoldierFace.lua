@@ -1,4 +1,4 @@
--- InfSoldierFace.lua
+-- InfSoldierFaceAndBody.lua
 -- extends TppSoldierFaceAndBodyData face fovas and definitions / vars.playerFaceId, enemy and staff faceIds
 
 -- extends TppSoldierFaceAndBodyData eneny body fovas and bodyIds--TODO: split out body stuffto InfSoldierBod
@@ -38,7 +38,7 @@ this.fovaInfos={}
 --which means you can't really guarantee on a static, persistant faceId since you don't know what headFovas your user might have installed.
 --You can however get the faceId assigned for the game session using TppEnemyFaceId.<head definition entry name>
 
---See mod\modules\InfSoldierFace.lua when IH is installed for the implementation of the system and the newest version of these notes.
+--See mod\modules\InfSoldierFaceAndBody.lua when IH is installed for the implementation of the system and the newest version of these notes.
 
 --REF mod\fovaInfo\example_head_fovaInfo
 --local this={
@@ -177,7 +177,7 @@ for i, name in ipairs(faceDefEnum)do
 end
 
 function this.LoadFovaInfo()
-  InfCore.Log("InfSoldierFace.LoadFovaInfo")
+  InfCore.Log("InfSoldierFaceAndBody.LoadFovaInfo")
   this.fovaInfos={}
   if not InfCore.files.fovaInfo then
     return
@@ -185,11 +185,11 @@ function this.LoadFovaInfo()
 
   local fovaInfoFiles=InfCore.GetFileList(InfCore.files.fovaInfo,".lua")
   for i,fileName in ipairs(fovaInfoFiles)do
-    InfCore.Log("InfSoldierFace.LoadFovaInfo: "..fileName)
+    InfCore.Log("InfSoldierFaceAndBody.LoadFovaInfo: "..fileName)
     local box=false
     local fovaInfo=InfCore.LoadSimpleModule(InfCore.paths.fovaInfo,fileName,box)
     if fovaInfo==nil then
-      InfCore.Log("ERROR: InfSoldierFace.LoadFovaInfo: fovaInfo "..fileName.." ==nil")
+      InfCore.Log("ERROR: InfSoldierFaceAndBody.LoadFovaInfo: fovaInfo "..fileName.." ==nil")
     else
       this.fovaInfos[fileName]=fovaInfo
     end
@@ -210,7 +210,7 @@ function this.CheckDefinition(definition,fovaTypes,definitionName)
       if fovaName==EnemyFova.INVALID_FOVA_VALUE then
 
       elseif not this[fovaTypeName][fovaName] then
-        InfCore.Log("WARNING: InfSoldierFace.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
+        InfCore.Log("WARNING: InfSoldierFaceAndBody.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
         definitionOK=false
         break
       end
@@ -223,7 +223,7 @@ end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
 --IN/OUT Solder2FaceAndBodyData
 function this.Setup(faceAndBodyData)
-  InfCore.LogFlow"InfSoldierFace.SetupFova:"
+  InfCore.LogFlow"InfSoldierFaceAndBody.SetupFova:"
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData pre setup")
   end
@@ -258,7 +258,7 @@ function this.Setup(faceAndBodyData)
       local fovaName=InfUtil.GetFileName(fovaInfo[1])
       local existing=this[fovaTypeName][fovaName]
       if existing~=nil then
-        InfCore.Log("InfSoldierFace.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
+        InfCore.Log("InfSoldierFaceAndBody.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
       end
       this[fovaTypeName][fovaName]=fovaIndex-1--tex shift from lua indexed (from 1), to fova indexed (from 0)
     end
@@ -276,7 +276,7 @@ end
 --CALLER: Solder2FaceAndBodyData
 --IN/OUT Solder2FaceAndBodyData.lua
 function this.SetupFaceFova(faceAndBodyData)
-  InfCore.LogFlow"InfSoldierFace.SetupFaceFova"
+  InfCore.LogFlow"InfSoldierFaceAndBody.SetupFaceFova"
   local genders={
     MALE=0,
     FEMALE=1,
@@ -380,7 +380,7 @@ function this.SetupFaceFova(faceAndBodyData)
   end
 
   if this.debugModule then
-    InfCore.PrintInspect(this,"InfSoldierFace")
+    InfCore.PrintInspect(this,"InfSoldierFaceAndBody")
     InfCore.PrintInspect(faceAndBodyData,"faceAndBodyData")
   end
 end
