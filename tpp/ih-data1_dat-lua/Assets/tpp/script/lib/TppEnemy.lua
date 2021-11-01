@@ -236,7 +236,7 @@ this.subTypeOfCpTable={
     mafr_27_30_lrrp=true
   }
 }--subTypeOfCpTable
---tex subTypeOfCp is also added to by IH via missionTable.enemy.cpSubTypes in OnAllocate. 
+--tex subTypeOfCp is also added to by IH via missionTable.enemy.cpSubTypes in OnAllocate.
 --used by GetCpSubType, AssignSoldiersToCP, IH RandomizeCpSubTypeTable
 this.subTypeOfCp={}
 this.subTypeOfCpDefault={}--tex added
@@ -248,6 +248,7 @@ for subType,cp in pairs(this.subTypeOfCpTable)do
 end
 local TppEnemyBodyId=TppEnemyBodyId or{}
 this.childBodyIdTable={TppEnemyBodyId.chd0_v00,TppEnemyBodyId.chd0_v01,TppEnemyBodyId.chd0_v02,TppEnemyBodyId.chd0_v03,TppEnemyBodyId.chd0_v05,TppEnemyBodyId.chd0_v06,TppEnemyBodyId.chd0_v07,TppEnemyBodyId.chd0_v08,TppEnemyBodyId.chd0_v09,TppEnemyBodyId.chd0_v10,TppEnemyBodyId.chd0_v11}
+--Returned via GetBodyId, which is ADDON via InfBodyInfo
 this.bodyIdTable={
   SOVIET_A={
     ASSAULT={TppEnemyBodyId.svs0_rfl_v00_a,TppEnemyBodyId.svs0_rfl_v00_a,TppEnemyBodyId.svs0_rfl_v01_a,TppEnemyBodyId.svs0_mcg_v00_a},
@@ -317,7 +318,7 @@ this.bodyIdTable={
   SKULL_CYPR={ASSAULT={TppEnemyBodyId.wss0_main0_v00}},
   SKULL_AFGH={ASSAULT={TppEnemyBodyId.wss4_main0_v00}},
   CHILD={ASSAULT=this.childBodyIdTable}
-}
+}--bodyIdTable
 --tex ADDON via IH InfWeaponIdTable
 this.weaponIdTable={
   SOVIET_A={
@@ -638,7 +639,7 @@ end
 function this.SetUpSoldierTypes(soldierTypes)
   if this.debugModule then--tex>
     InfCore.PrintInspect(soldierTypes,"TppEnemy.SetUpSoldierTypes")
-  end--<  
+  end--<
   for subTypes,soldierNames in pairs(soldierTypes)do
     this._SetUpSoldierTypes(subTypes,soldierNames)
   end
@@ -991,9 +992,9 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   end--<
 
   weaponIdTable=InfWeaponIdTable.GetWeaponIdTable()--tex TppEnemy.weaponIdTable override by addon>\
-  
+
   soldierWeaponIdTable=this.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
-  
+
   return soldierWeaponIdTable
 end
 --tex split out from GetWeaponIdTable
@@ -1182,34 +1183,15 @@ end
 --  return primary,secondary,tertiary
 --end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
-  --tex> GetBodyId customSoldierType
-  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
-  local bodyInfo=nil
-  if isFemale then
-    bodyInfo=InfEneFova.GetFemaleBodyInfo()
-  else
-    bodyInfo=InfEneFova.GetMaleBodyInfo()
-  end
-  if bodyInfo then
-    local bodyId=InfEneFova.bodiesForMap[bodyInfo.bodyType]
-    if bodyId and type(bodyId)=="table"then
-      --tex KLUDGE TODO
-      math.randomseed(soldierId)
-      math.random()
-      math.random()
-      math.random()
-
-      bodyId=bodyId[math.random(#bodyId)]
-    end
-    --InfCore.Log("GetBodyId "..soldierId.." bodyId:"..tostring(bodyId).." isFemale="..tostring(isFemale))--tex DEBUG
-    if bodyId then
-      return bodyId
-    end
-  end
-  --<
   local bodyId
   local bodyIdTable={}
   --InfCore.Log("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
+--  -- tex REWORKED TODO: handle WILDCARD some other way if you want to change to this
+--  local soldierTypeName=InfEneFova.SoldierTypeNameForType(soldierType)
+--  local subTypes=InfEneFova.soldierSubTypesForTypeName[soldierTypeName]
+--  bodyIdTable=this.bodyIdTable[soldierSubType] or this.bodyIdTable[subTypes[1]] or this.bodyIdTable.SOVIET_A--tex 1st entry of soldierSubTypesForTypeName is default for that type
+--  --<
+  
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
     if soldierSubType=="SOVIET_B"then
@@ -1247,8 +1229,53 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
     bodyIdTable=this.bodyIdTable.SOVIET_A
   end
   if bodyIdTable==nil then
+    if this.debugModule then--tex> DEBUGNOW
+      InfCore.Log("WARNING: TppEnemy.GetBodyId: bodyIdTable==nil "..tostring(soldierId).." "..tostring(soldierType).." "..tostring(soldierSubType))
+    end--<
     return nil
   end
+
+  --DEBUGNOW TEST shifting this from top hasnt broken wildcard soldiers (for that matter how did I handle wildcard soldiers when a bodyInfo was being used?)
+  --tex> GetBodyId customSoldierType
+  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
+  local bodyInfo=nil
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then   
+    if bodyInfo.bodyIdTable and bodyInfo.bodyIdTable[bodyInfo.name] then
+      if this.debugModule then--tex> DEBUGNOW
+        InfCore.Log("TppEnemy.GetBodyId: found bodyIdTable for bodyInfo. isFemale:"..tostring(isFemale).." "..tostring(bodyInfo.name).." "..tostring(soldierId).." "..tostring(soldierType).." "..tostring(soldierSubType))
+      end--<
+      bodyIdTable=bodyInfo.bodyIdTable[bodyInfo.name]
+    else
+      if this.debugModule then--tex> DEBUGNOW
+        InfCore.Log("TppEnemy.GetBodyId: no bodyIdTable for bodyInfo, choosing random bodyId. isFemale:"..tostring(isFemale).." "..tostring(bodyInfo.name).." "..tostring(soldierId).." "..tostring(soldierType).." "..tostring(soldierSubType))
+      end--<
+      --tex just choose random
+      local bodyId=InfEneFova.bodiesForMap[bodyInfo.bodyType]
+      if bodyId and type(bodyId)=="table"then
+        --tex KLUDGE TODO
+        math.randomseed(soldierId)
+        math.random()
+        math.random()
+        math.random()
+
+        bodyId=bodyId[math.random(#bodyId)]
+      end
+      --InfCore.Log("GetBodyId "..soldierId.." bodyId:"..tostring(bodyId).." isFemale="..tostring(isFemale))--tex DEBUG
+      if bodyId then
+        return bodyId
+      end
+    end
+  end--if bodyInfo
+  --<
+  
+  if this.debugModule then--tex> DEBUGNOW
+    InfCore.PrintInspect(soldierPowerSettings,"soldierPowerSettings")
+  end--<
 
   local _GetBodyId=function(selection,loadoutBodies)
     if#loadoutBodies==0 then
@@ -1256,20 +1283,53 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
     end
     return loadoutBodies[(selection%#loadoutBodies)+1]--NMC: looks like it uses the solider id to 'randomly'(ie each solider id is uniqe) choose (assuming theres multiple bodies in the input list)
   end
+  
+--  --tex REWORKED
+--  TODO need to get rid of mvars.ene_soldierLrrp check by adding RADIO to soldierPowerSettings if you want to change to this
+--  only real benefit of this method would be it extends _OB to the other power types
+--  local bodyPowerOrder={
+--    "ARMOR",
+--    "RADIO",
+--    "MISSILE",
+--    "SHIELD",
+--    "SNIPER",
+--    "SHOTGUN",
+--    "MG",
+--    "ASSAULT",
+--  }--bodyPowerOrder
+--  -
+
+--  --tex defaults to ASSAULT if the table has it, reguardless of soldierPowerSettings
+--  if bodyIdTable.ASSAULT then
+--    if soldierPowerSettings.OB and bodyIdTable.ASSAULT_OB then
+--      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT_OB)
+--    else
+--      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
+--    end
+--  end
+--  local bodyChosen=""--DEBUG
+--  for i,power in ipairs(bodyPowerOrder)do
+--    if soldierPowerSettings[power] and bodyIdTable[power]then
+--      bodyChosen=power
+--      if soldierPowerSettings.OB and bodyIdTable[power.."_OB"] then
+--        bodyId=_GetBodyId(soldierId,bodyIdTable[power.."_OB"])
+--        break
+--      else
+--        bodyId=_GetBodyId(soldierId,bodyIdTable[power])
+--        break
+--      end
+--    end
+--  end--for bodyPowerOrder
 
   if soldierPowerSettings.ARMOR and bodyIdTable.ARMOR then
-    return _GetBodyId(soldierId,bodyIdTable.ARMOR)
-  end
-  if(mvars.ene_soldierLrrp[soldierId]or soldierPowerSettings.RADIO)and bodyIdTable.RADIO then
-    return _GetBodyId(soldierId,bodyIdTable.RADIO)
-  end
-  if soldierPowerSettings.MISSILE and bodyIdTable.MISSILE then
-    return _GetBodyId(soldierId,bodyIdTable.MISSILE)
-  end
-  if soldierPowerSettings.SHIELD and bodyIdTable.SHIELD then
-    return _GetBodyId(soldierId,bodyIdTable.SHIELD)
-  end
-  if soldierPowerSettings.SNIPER and bodyIdTable.SNIPER then
+    bodyId=_GetBodyId(soldierId,bodyIdTable.ARMOR)
+  elseif(mvars.ene_soldierLrrp[soldierId]or soldierPowerSettings.RADIO)and bodyIdTable.RADIO then
+    bodyId=_GetBodyId(soldierId,bodyIdTable.RADIO)
+  elseif soldierPowerSettings.MISSILE and bodyIdTable.MISSILE then
+    bodyId=_GetBodyId(soldierId,bodyIdTable.MISSILE)
+  elseif soldierPowerSettings.SHIELD and bodyIdTable.SHIELD then
+    bodyId=_GetBodyId(soldierId,bodyIdTable.SHIELD)
+  elseif soldierPowerSettings.SNIPER and bodyIdTable.SNIPER then
     bodyId=_GetBodyId(soldierId,bodyIdTable.SNIPER)
   elseif soldierPowerSettings.SHOTGUN and bodyIdTable.SHOTGUN then
     if soldierPowerSettings.OB and bodyIdTable.SHOTGUN_OB then
@@ -1290,9 +1350,86 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
       bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
     end
   end
-  --InfCore.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
+  if this.debugModule then--tex>
+    InfCore.Log("TppEnemy.GetBodyId: soldier:"..tostring(soldierId).." soldiertype:"..tostring(soldierType).." soldierSubType:"..tostring(soldierSubType).. " bodyId:".. tostring(bodyId))--tex DEBUG
+  end--<
   return bodyId
-end
+end--GetBodyId
+--function this.GetBodyIdORIG(soldierId,soldierType,soldierSubType,soldierPowerSettings)
+--  local bodyId
+--  local bodyIdTable={}
+--  if soldierType==EnemyType.TYPE_SOVIET then
+--    bodyIdTable=this.bodyIdTable.SOVIET_A
+--    if soldierSubType=="SOVIET_B"then
+--      bodyIdTable=this.bodyIdTable.SOVIET_B
+--    end
+--  elseif soldierType==EnemyType.TYPE_PF then
+--    bodyIdTable=this.bodyIdTable.PF_A
+--    if soldierSubType=="PF_B"then
+--      bodyIdTable=this.bodyIdTable.PF_B
+--    elseif soldierSubType=="PF_C"then
+--      bodyIdTable=this.bodyIdTable.PF_C
+--    end
+--  elseif soldierType==EnemyType.TYPE_DD then
+--    bodyIdTable=this.bodyIdTable.DD_A
+--    if soldierSubType=="DD_FOB"then
+--      bodyIdTable=this.bodyIdTable.DD_FOB
+--    elseif soldierSubType=="DD_PW"then
+--      bodyIdTable=this.bodyIdTable.DD_PW
+--    end
+--  elseif soldierType==EnemyType.TYPE_SKULL then
+--    if this.bodyIdTable[soldierSubType]then
+--      bodyIdTable=this.bodyIdTable[soldierSubType]else
+--      bodyIdTable=this.bodyIdTable.SKULL_AFGH
+--    end
+--  elseif soldierType==EnemyType.TYPE_CHILD then
+--    bodyIdTable=this.bodyIdTable.CHILD
+--  else
+--    bodyIdTable=this.bodyIdTable.SOVIET_A
+--  end
+--  if bodyIdTable==nil then
+--    return nil
+--  end
+--  local SelectBodyId=function(selection,loadoutBodies)
+--    if#loadoutBodies==0 then
+--      return loadoutBodies[1]
+--    end
+--    return loadoutBodies[(selection%#loadoutBodies)+1]
+--  end
+--  if soldierPowerSettings.ARMOR and bodyIdTable.ARMOR then
+--    return SelectBodyId(soldierId,bodyIdTable.ARMOR)
+--  end
+--  if(mvars.ene_soldierLrrp[soldierId]or soldierPowerSettings.RADIO)and bodyIdTable.RADIO then
+--    return SelectBodyId(soldierId,bodyIdTable.RADIO)
+--  end
+--  if soldierPowerSettings.MISSILE and bodyIdTable.MISSILE then
+--    return SelectBodyId(soldierId,bodyIdTable.MISSILE)
+--  end
+--  if soldierPowerSettings.SHIELD and bodyIdTable.SHIELD then
+--    return SelectBodyId(soldierId,bodyIdTable.SHIELD)
+--  end
+--  if soldierPowerSettings.SNIPER and bodyIdTable.SNIPER then
+--    bodyId=SelectBodyId(soldierId,bodyIdTable.SNIPER)elseif soldierPowerSettings.SHOTGUN and bodyIdTable.SHOTGUN then
+--    if soldierPowerSettings.OB and bodyIdTable.SHOTGUN_OB then
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.SHOTGUN_OB)
+--    else
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.SHOTGUN)
+--    end
+--  elseif soldierPowerSettings.MG and bodyIdTable.MG then
+--    if soldierPowerSettings.OB and bodyIdTable.MG_OB then
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.MG_OB)
+--    else
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.MG)
+--    end
+--  elseif bodyIdTable.ASSAULT then
+--    if soldierPowerSettings.OB and bodyIdTable.ASSAULT_OB then
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.ASSAULT_OB)
+--    else
+--      bodyId=SelectBodyId(soldierId,bodyIdTable.ASSAULT)
+--    end
+--  end
+--  return bodyId
+--end--GetBodyIdORIG
 --tex just a face override, not a get current face
 function this.GetFaceId(soldierId,soldierType,subTypeName,soldierConfig)
   --tex> GetFaceId customSoldierType
@@ -2684,7 +2821,7 @@ function this.OnAllocate(missionTable)
           this._SetUpSoldierTypes(soldierType,cpSoldiers)
         end
       else--<
-      this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
+        this.SetUpSoldierTypes(missionTable.enemy.soldierTypes)
       end
     end
     if missionTable.enemy.cpTypes then--tex>
@@ -2698,12 +2835,12 @@ function this.OnAllocate(missionTable)
           this.subTypeOfCp[cpName]=subType
           this.subTypeOfCpDefault[cpName]=subType--tex added
         end
-      else
-        for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
-          this.subTypeOfCp[cpName]=subType
-          this.subTypeOfCpDefault[cpName]=subType--tex added
-        end
-      end--if type cpSubTypes
+    else
+      for cpName,subType in pairs(missionTable.enemy.cpSubTypes)do
+        this.subTypeOfCp[cpName]=subType
+        this.subTypeOfCpDefault[cpName]=subType--tex added
+      end
+    end--if type cpSubTypes
     end--<
     InfMainTpp.RandomizeCpSubTypeTable(missionTable)--tex
   end
@@ -3272,7 +3409,7 @@ function this.DefineSoldiers(soldierDefine)
     InfCore.PrintInspect(mvars.ene_soldierIDList,"mvars.ene_soldierIDList")
     InfCore.PrintInspect(mvars.ene_cpList,"mvars.ene_cpList")
     --InfCore.PrintInspect(mvars.ene_baseCpList,"mvars.ene_baseCpList")
-    --InfCore.PrintInspect(mvars.ene_outerBaseCpList,"mvars.ene_outerBaseCpList")    
+    --InfCore.PrintInspect(mvars.ene_outerBaseCpList,"mvars.ene_outerBaseCpList")
     InfCore.PrintInspect(mvars.ene_holdTimes,"mvars.ene_holdTimes")
     InfCore.PrintInspect(mvars.ene_sleepTimes,"mvars.ene_sleepTimes")
     InfCore.PrintInspect(mvars.lrrpTravelPlan,"mvars.lrrpTravelPlan")
@@ -3326,7 +3463,7 @@ function this.SetUpSoldiers()
         if cpType then
           setCpType={id="SetCpType",type=cpType}
         end
-      --<
+        --<
       elseif(missionId==10150 or missionId==10151)or missionId==11151 then
         setCpType={id="SetCpType",type=CpType.TYPE_AMERICA}
       elseif TppLocation.IsAfghan()then
@@ -3339,9 +3476,9 @@ function this.SetUpSoldiers()
       if this.debugModule then--tex>
         if setCpType==nil then
           InfCore.Log("WARNING: SetUpSoldiers setCpType==nil")
-        else
-          InfCore.Log("SetUpSoldiers "..cpId.." SetCpType:"..setCpType.type)
-        end
+      else
+        InfCore.Log("SetUpSoldiers "..cpId.." SetCpType:"..setCpType.type)
+      end
       end--<
       if setCpType then
         GameObject.SendCommand(cpId,setCpType)
@@ -6253,10 +6390,10 @@ function this._AnnouncePhaseChange(cpId,phase)
   if mvars.cpAnounceLangIds then--tex> set via missionScript _enemy
     if type(mvars.cpAnounceLangIds)~="table"then
       cpLangId=mvars.cpAnounceLangIds
-    else
-      cpLangId=mvars.cpAnounceLangIds[cpId]
-    end
-    --InfCore.Log("TppEnemy._AnnouncePhaseChange cpAnounceLangIds cpLangId "..tostring(cpId).." "..tostring(cpLangId))--DEBUG
+  else
+    cpLangId=mvars.cpAnounceLangIds[cpId]
+  end
+  --InfCore.Log("TppEnemy._AnnouncePhaseChange cpAnounceLangIds cpLangId "..tostring(cpId).." "..tostring(cpLangId))--DEBUG
   end
   if cpLangId==nil then--<
     local cpSubType=this.GetCpSubType(cpId)
