@@ -13,6 +13,9 @@
 --tex DEBUGNOW GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 
 local this={}
+
+this.debugModule=false
+
 --REF bodyInfo addon, just an all parameters rather than valid example
 --this={
 --  infoType="BODYINFO",
@@ -1387,7 +1390,7 @@ function this.LoadBodyInfos()
     bodyInfo.name=bodyType--tex standard with other ih info formats
     if bodyInfo.bodyIds==nil or bodyInfo.bodyIdTable then
       local bodyIdTable=bodyInfo.bodyIdTable or TppEnemy.bodyIdTable
-      bodyInfo.bodyIds=this.GatherBodyIds(bodyInfo.soldierSubType,bodyIdTable)--DEBUGNOW need to handle multiple soldiertypes
+      bodyInfo.bodyIds=this.GatherBodyIds(bodyInfo.name,bodyIdTable)--DEBUGNOW need to handle multiple soldiertypes
     end
   end--for bodyInfos
 end--LoadBodyInfos
@@ -1411,6 +1414,11 @@ end--GatherBodyIds
 
 function this.PostAllModulesLoad()
   this.LoadBodyInfos()
+  if this.debugModule then
+    InfCore.Log("InfBodyInfo")
+    InfCore.PrintInspect(this.bodyInfo,"bodyInfo")
+    InfCore.PrintInspect(this.bodies,"bodies names")
+  end
 end
 
 return this
