@@ -78,7 +78,7 @@ IvarProc.MissionModeIvars(
     range=Ivars.switchRange,
     settingNames="set_switch",
   },
-  {"FREE","MISSION",}
+  {"FREE","MISSION",}--TODO "MB_ALL",}
 )
 
 --WIP TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
@@ -409,6 +409,7 @@ this.revengeMenu={
     "InfRevengeIvars.revengeSystemMenu",
     "InfEquip.customEquipMenu",
     "Ivars.customSoldierTypeFREE",
+    "Ivars.customSoldierTypeMISSION",
     "InfRevengeIvars.ResetRevenge",
     "InfMenuCommandsTpp.DEBUG_PrintRevengePoints",
     "Ivars.changeCpSubTypeFREE",
@@ -522,6 +523,7 @@ this.langStrings={
     applyPowersToOuterBase="Apply enemy prep to guard posts",
     applyPowersToLrrp="Apply enemy prep to patrol soldiers",
     allowHeavyArmorFREE="Allow heavy armor in free roam (may have issues)",
+    allowHeavyArmorMB_ALL="Allow heavy armor in MB",
     allowHeavyArmorMISSION="Allow heavy armor in all missions (may have issues)",
     disableMissionsWeaponRestriction="Disable weapon restrictions in certain missions",
     disableNoStealthCombatRevengeMission="Allow Enemy Prep change from free roam",
