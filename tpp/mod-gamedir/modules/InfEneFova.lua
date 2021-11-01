@@ -7,7 +7,7 @@ this.debugModule=false
 --
 this.inf_wildCardMaleFaceList={}
 this.inf_wildCardFemaleFaceList={}
-this.bodiesForMap={}
+this.bodiesForMap={}--[currentMale/FemaleBodyId name]={<bodyIds>}--tex filtered or limit managed bodyInfo.bodyIds for mission (keyed by bodyInfo name)
 this.isFemaleSoldierId={}--DEBUGNOW tex better of as a svar?
 
 function this.PostModuleReload(prevModule)
@@ -1592,15 +1592,14 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
       return
   end
 
-  local allBodyIds=bodyInfo.bodyIds
-  if #allBodyIds==0 then
+  if #bodyInfo.bodyIds==0 then
     --InfCore.Log("InfEneFova.SetupBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
     return
   end
 
   --tex filter to developed
-  local bodyIds={}
-  for i,bodyId in pairs(allBodyIds)do
+  local filteredBodyIds={}
+  for i,bodyId in pairs(bodyInfo.bodyIds)do
     local addBodyId=Ivars.skipDevelopChecks:Is(1)
     local camoType=InfBodyInfo.bodyIdToCamoType[bodyId]
     if not camoType then
@@ -1624,22 +1623,22 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
       end
     end
     if addBodyId then
-      bodyIds[#bodyIds+1]=bodyId
+      filteredBodyIds[#filteredBodyIds+1]=bodyId
     end
   end
   --tex default to 1st if none
-  if #bodyIds==0 then
-    bodyIds[#bodyIds+1]=allBodyIds[1]
+  if #filteredBodyIds==0 then
+    filteredBodyIds[#filteredBodyIds+1]=bodyInfo.bodyIds[1]
   end
 
   --tex used to manage a limit on bodies for bodytypes that have a large amount
-  if maxBodies==nil or maxBodies==0 or maxBodies>=#bodyIds then
-    this.bodiesForMap[bodyInfo.bodyType]=bodyIds
+  if maxBodies==nil or maxBodies==0 or maxBodies>=#filteredBodyIds then
+    this.bodiesForMap[bodyInfo.bodyType]=filteredBodyIds
   else
     InfMain.RandomSetToLevelSeed()
     local bodiesForType={}
     local bodyBag=InfUtil.ShuffleBag:New()
-    bodyBag:Fill(bodyIds)
+    bodyBag:Fill(filteredBodyIds)
     for i=1,maxBodies do
       bodiesForType[#bodiesForType+1]=bodyBag:Next()
     end
@@ -1649,8 +1648,8 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
 
   if this.debugModule then
     InfCore.Log("InfEneFova.SetupBodies for "..bodyInfo.bodyType)
-    InfCore.PrintInspect(allBodyIds,"allBodyIds")
-    InfCore.PrintInspect(bodyIds,"bodyIds")
+    InfCore.PrintInspect(bodyInfo.bodyIds,"all bodyIds")
+    InfCore.PrintInspect(filteredBodyIds,"filtered bodyIds")
     InfCore.PrintInspect(this.bodiesForMap,"bodiesForMap")
   end
 
@@ -1690,7 +1689,7 @@ this.enemySubTypes={
   "PF_C",
   "CHILD_A",
 }
-
+--tex default/fallback for a type is 1st entry
 this.soldierSubTypesForTypeName={
   TYPE_DD={
     "DD_A",
