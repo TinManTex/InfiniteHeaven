@@ -1,4 +1,6 @@
 --InfPlayerParts.lua
+--DEPENDENCY: IHHook
+--namespace CharacterFova
 --tex extending vars.player* character select system via IHHook
 --see InfFova for documentation on existing character values
 --notes before i forget

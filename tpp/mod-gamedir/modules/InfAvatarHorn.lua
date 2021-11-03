@@ -1,5 +1,6 @@
 --InfAvatarHorn.lua
---DEPENDANCY: IHHook
+--DEPENDENCY: IHHook
+--namespace CharacterFova
 --Implements extending avatar horn fpk/fv2s via IHHook
 --Loads info files from MGS_TPP\mod\avatarHorns
 

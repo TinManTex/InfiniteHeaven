@@ -1,5 +1,6 @@
 --InfBionicHand.lua
---DEPENDANCY: IHHook
+--DEPENDENCY: IHHook
+--namespace CharacterFova
 --Implements extending bionic hand fpk/fv2s / vars.playerHand via IHHook
 --Loads info files from MGS_TPP\mod\bionicHands
 
