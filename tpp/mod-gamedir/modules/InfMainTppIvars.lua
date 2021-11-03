@@ -47,6 +47,7 @@ this.registerIvars={
   "quietRadioMode",
   "telopMode",
   "mbUnlockGoalDoors",
+  "playerHandTypeDirect",
   "playerHandEquip",
   "cam_disableCameraAnimations",
 }
@@ -559,6 +560,29 @@ IvarProc.MissionModeIvars(
 --  end,
 --}
 
+this.cpTypeNames = {
+  "TYPE_SOVIET",--=0, 
+  "TYPE_AMERICA",--=1,
+  "TYPE_AFRIKAANS",--=2,
+}  
+
+IvarProc.MissionModeIvars(
+  this,
+  "changeCpType",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={
+      "DEFAULT",
+      "TYPE_SOVIET",--=0, 
+      "TYPE_AMERICA",--=1,
+      "TYPE_AFRIKAANS",--=2,
+    },
+    settingNames="changeCpTypeSettingsNames",
+  },
+  {"FREE","MISSION","MB_ALL",}
+)
+
+
 IvarProc.MissionModeIvars(
   this,
   "changeCpSubType",
@@ -585,16 +609,13 @@ local playerHandTypes={
   "KILL_ROCKET",--5
 }
 
---tex driven by playerHandEquip
---this.playerHandType={
---  --save=IvarProc.CATEGORY_EXTERNAL,
---  range={min=0,max=1000},
---  OnChange=function(self,setting)
---    if setting>0 then--TODO: add off/default/noset setting
---      vars.playerHandType=setting
---    end
---  end,
---}
+this.playerHandTypeDirect={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=255},
+  OnChange=function(self,setting)
+    vars.playerHandType=setting
+  end,
+}
 
 --TppEquip.
 local playerHandEquipTypes={
@@ -627,7 +648,7 @@ this.playerHandEquip={
   settingsTable=playerHandEquipIds,
   --settingNames="set_",
   OnSelect=function(self)
-  -- self:Set(vars.playerHandEquip,true)
+  -- self:Set(vars.handEquip,true)
   end,
   OnChange=function(self,setting)
     if setting>0 then--TODO: add off/default/noset setting
@@ -940,6 +961,10 @@ this.langStrings={
     disableXrayMarkers="Disable Xray marking",
     quietRadioMode="Quiets MB radio track",
     playerSettingsMenu="Player settings menu", 
+    changeCpTypeMISSION="Force CP type in Missions",
+    changeCpTypeFREE="Force CP type in Free Roam",
+    changeCpTypeMB_ALL="Force CP type in MB",
+    changeCpTypeSettingsNames={"Default","Soviet","American","Afrikaans"},
     changeCpSubTypeFREE="Random CP subtype in free roam",
     changeCpSubTypeMISSION="Random CP subtype in missions",
     disableRetry="Disable retry on mission fail",
@@ -992,6 +1017,9 @@ this.langStrings={
       disableSupportMenuMenu="Disables mission support menus in iDroid",
       ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.",
       fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",
+      changeCpTypeMISSION="Changes Command Post Type, which controls the language spoken by CP and HQ.\nWARNING: Will break subtitles.\nWARNING: some CP types don't have responses for certain soldier call-ins for different languages.",
+      --changeCpTypeFREE="Force CP type in Free Roam",
+      --changeCpTypeMB_ALL="Force CP type in MB",
       changeCpSubTypeFREE="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
       changeCpSubTypeMISSION="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
       mbPrioritizeFemale="By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base",

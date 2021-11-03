@@ -399,7 +399,7 @@ this.registerMenus={
   "revengeCustomMenu",
 }
 
-this.revengeMenu={
+this.revengeMenu={--SEO enemy prep
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.revengeModeFREE",
@@ -412,8 +412,12 @@ this.revengeMenu={
     "Ivars.customSoldierTypeMISSION",
     "InfRevengeIvars.ResetRevenge",
     "InfMenuCommandsTpp.DEBUG_PrintRevengePoints",
+    "Ivars.changeCpTypeFREE",
+    "Ivars.changeCpTypeMISSION",
+    "Ivars.changeCpTypeMB_ALL",
     "Ivars.changeCpSubTypeFREE",
     "Ivars.changeCpSubTypeMISSION",
+    "Ivars.changeCpSubTypeMB_ALL",
     "Ivars.enableInfInterrogation",
   }
 }

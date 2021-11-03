@@ -3480,6 +3480,14 @@ function this.SetUpSoldiers()
         InfCore.Log("SetUpSoldiers "..cpId.." SetCpType:"..setCpType.type)
       end
       end--<
+      --tex>--DEBUGNOW
+      local changeCpType=IvarProc.GetForMission("changeCpType",vars.missionCode)
+      if changeCpType>0 then
+        --tex CpType enum from 0, ivar settings 0 == "DEFAULT"
+        InfCore.Log("TppEnemy.SetUpSoldiers: changeCpType: "..InfMainTppIvars.cpTypeNames[changeCpType])
+        setCpType={id="SetCpType",type=changeCpType-1}
+      end
+      --<
       if setCpType then
         GameObject.SendCommand(cpId,setCpType)
       end
