@@ -1,5 +1,56 @@
 Infinite Heaven changelog
 
+r258 - 
+InfBodyInfo / custom enemy soldier addon system:
+Added support for bodyIdTable ala TppEnemy. Currently just a single entry rather than multiple soldierSubTypes like TppEnemy.
+
+customSoldierTypeMISSION="Custom soldier type in Missions", "WARNING: Unique soldiers in the mission are likely to either be the default body from the selected custom soldier type, or have visual issues if there isn't one."
+
+changeCpTypeMISSION,FREE,MB_ALL="Force CP type in *",
+"Default","Soviet","American","Afrikaans"}
+"Changes Command Post Type, which controls the language spoken by CP and HQ. 
+WARNING: Will break subtitles. 
+WARNING: some CP types don't have responses for certain soldier call-ins for different languages.",
+
+Thanks Wolbacia, Your401kPlan for poking away making bodyInfo addons and other soldier replacements leading to these improvments.
+
+InfModelProc renamed InfSoldierFace, moved to \modules
+
+Soldier parameters:
+Added in-mission menu. Changes to soldier params apply on map load or checkpoint reset.
+
+InfProgression:
+Gathers existing progression options.
+
+repopAARadars "Repopulate AA Radars", "Number of mission completes before destroyed Anti Air Radars are rebuilt."
+
+Starting on foot with no given rotation will point you toward center of map instead of always 0 degrees.
+
+InfGameEvent:
+gameEventChanceMB/"MB event random trigger chance" split into individual chances for the different event types.
+
+InfChimera: 
+Now writes out TppEquip enums for parts, and comments what parts var name is.
+Load now actually loads from specified file instead of just loading them at start, so you can edit the file manually and re-load it.
+
+fix: Free roam addons no longer added to missions list, should fix a progression calculation issue.
+
+InfTransition:
+Simple mission transistion system via switches.
+
+Quests:
+Shooting practice quests can be made for non mtbs locations.
+
+InfProgression:
+Moved a bunch of existing progression related options to module.
+
+API: Mission Addon
+missionInfo .hideMission : 
+Does not add mission to idroid mission selection.
+Mission/task completion will not be saved for the mission.
+Does not count toward installed mission limit.
+Can still be loaded via IH mission load command, or by lua ReserveMissionClear or by transition system.
+
 r257 - 2021-08-04
 InfCamHook moved to IHHook r16 installation.
 
