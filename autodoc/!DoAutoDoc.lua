@@ -2,7 +2,7 @@
 print"!DoAutoDoc.lua"
 
 print"running loadLDT"
-local LoadLDT=dofile('../MockFoxLua/loadLDT.lua')
+local LoadLDT=dofile('D:/GitHub/MockFox/MockFoxLua//loadLDT.lua')
 LoadLDT.Load{
   gameId="tpp",
   --tex MockFox host stuff
