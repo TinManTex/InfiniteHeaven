@@ -94,7 +94,7 @@ this.names={
   "SILVER_BANDANA",
 }--names
 
-this.ivarPrefix="snake_faceFova"
+this.ivarPrefix="character_snakeFace"
 
 function this.PostAllModulesLoad(isReload)
   if not IHH then
@@ -103,7 +103,7 @@ function this.PostAllModulesLoad(isReload)
 
   this.LoadInfos()
 
-  local value=Ivars.snake_faceFova:Get()
+  local value=Ivars.character_snakeFace:Get()
   if value+1>#this.names then
     value=0
   end
@@ -112,7 +112,7 @@ function this.PostAllModulesLoad(isReload)
     local info=this.infos[name]
     this.SetOverrideValues(nil,nil,info)
   end
-  Ivars.snake_faceFova:OnChange(value)
+  Ivars.character_snakeFace:OnChange(value)
 end--PostAllModulesLoad
 
 function this.LoadInfos()
@@ -148,10 +148,10 @@ function this.ClearOverrideValues(hornLevel,faceEquipId,info)
 end--ClearOverrideValues
 
 this.registerIvars={
-  "snake_faceFova",
+  "character_snakeFace",
 }
 
-this.snake_faceFova={
+this.character_snakeFace={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
   OnSelect=function(self)
@@ -176,5 +176,15 @@ this.snake_faceFova={
   end,
 }--ivar
 
+this.langStrings={
+  eng={
+    character_snakeFace="Snake Face fova",
+  },
+  help={
+    eng={
+      character_snakeFace=[[Selects snakeFace addon (in MGS_TPP\mod\snakeFaces). Overrides Snakes face, including horn level/banada]],
+    },
+  }
+}--langStrings
 
 return this

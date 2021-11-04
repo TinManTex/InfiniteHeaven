@@ -42,7 +42,7 @@ this.names={
   "HORN_2",
 }--names
 
-this.ivarPrefix="horn_fova"
+this.ivarPrefix="character_avatarHorn"
 
 this.AvatarHornType={
   "HORN_0",
@@ -61,7 +61,7 @@ function this.PostAllModulesLoad(isReload)
 
   this.LoadInfos()
 
-  local value=Ivars.horn_fova:Get()
+  local value=Ivars.character_avatarHorn:Get()
   if value+1>#this.names then
     value=0
   end
@@ -70,7 +70,7 @@ function this.PostAllModulesLoad(isReload)
     local info=this.infos[name]
     this.SetOverrideValues(nil,info)
   end
-  Ivars.horn_fova:OnChange(value)
+  Ivars.character_avatarHorn:OnChange(value)
 end--PostAllModulesLoad
 
 function this.LoadInfos()
@@ -106,10 +106,10 @@ function this.ClearOverrideValues(hornType,info)
 end--ClearOverrideValues
 
 this.registerIvars={
-  "horn_fova",
+  "character_avatarHorn",
 }
 
-this.horn_fova={
+this.character_avatarHorn={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
   OnSelect=function(self)
@@ -133,5 +133,16 @@ this.horn_fova={
     end
   end,
 }--ivar
+
+this.langStrings={
+  eng={
+    character_avatarHorn="Avatar Horn fova",
+  },
+  help={
+    eng={
+      character_avatarHorn=[[Selects avatarHorn addon (in MGS_TPP\mod\avatarHorns).]],
+    },
+  }
+}--langStrings
 
 return this

@@ -78,7 +78,7 @@ this.names={
   "SILVER",--7
 }
 
-this.ivarPrefix="hand_fova"
+this.ivarPrefix="character_bionicHand"
 
 this.PlayerHandType={
   "NONE",--0
@@ -116,7 +116,7 @@ function this.PostAllModulesLoad(isReload)
   --    end
   --  --end--for PlayerHandType
 
-  local value=Ivars.hand_fova:Get()
+  local value=Ivars.character_bionicHand:Get()
   if value+1>#this.names then
     value=0
   end
@@ -125,7 +125,7 @@ function this.PostAllModulesLoad(isReload)
     local info=this.infos[name]
     this.SetOverrideValues(nil,info)
   end
-  Ivars.hand_fova:OnChange(value)
+  Ivars.character_bionicHand:OnChange(value)
 end--PostAllModulesLoad
 
 function this.LoadInfos()
@@ -161,11 +161,11 @@ function this.ClearOverrideValues(handType,info)
 end--ClearOverrideValues
 
 this.registerIvars={
-  "hand_fova",
+  "character_bionicHand",
 }
 
 --CULL old/alternate style where I had ivar for each handtype
---hand_fova<handType> ivars
+--character_bionicHand<handType> ivars
 --for i,handType in ipairs(this.PlayerHandType)do
 --  --DEBUGNOW if handType~="NONE"then
 --    local ivarName=this.ivarPrefix..handType
@@ -204,7 +204,7 @@ this.registerIvars={
 --end--for this.PlayerHandType
 
 
-this.hand_fova={
+this.character_bionicHand={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
   OnSelect=function(self)
@@ -232,9 +232,15 @@ this.hand_fova={
   end,
 }--ivar
 
---lang help
---hand_fovaNONE="Applies to playerParts addon that apply bionic hand when the underlying playerParts doesn't. ie any of the normal Snake player parts applied over MGS1 playerPartsType",
-
---DEBUGNOW ivars in character menu
+this.langStrings={
+  eng={
+    character_bionicHand="Bionic Hand fova",
+  },
+  help={
+    eng={
+      character_bionicHand=[[Selects bionicHand addon (in MGS_TPP\mod\bionicHands). Overrides whatever bionic hand is displayed.]],
+    },
+  }
+}--langStrings
 
 return this
