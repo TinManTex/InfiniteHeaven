@@ -1,7 +1,7 @@
 --InfMenuCommands.lua
 local this={}
 --tex lines kinda blurry between Commands and Ivars, currently commands arent saved/have no gvar associated
---NOTE: tablesetup at end sets up every table in this with an OnChange as a menu command
+--For the majority of Commands you just provide a function, with a capitalized name, but you can also provide other menuItem paramters in table before with non capitalized name, ex menuOffItem, resetSettingsItem
 --LOCALOPT:
 local InfCore=InfCore
 local InfMain=InfMain
@@ -656,11 +656,8 @@ end
 --< menu commands
 
 function this.PostAllModulesLoad()
-  this.BuildCommandItems()
+  --this.BuildCommandItems() tex: moved to InfMenuDefs PostAllModulesLoad
 end
---TABLESETUP: MenuCommands
---tex commands are just functions, but the menu system currently only works on options, so build out options for commands
---TODO: have menu system work off commands direct
 this.commandItems={}
 
 local OPTIONTYPE_COMMAND="COMMAND"
@@ -695,6 +692,7 @@ end
 
 --IN/SIDE: InfMenuDefs
 --OUT/SIDE: this.commandItems
+--Builds menuItems for the commands
 function this.BuildCommandItems()
   InfCore.LogFlow("InfMenuCommands.BuildCommandItems")
   InfUtil.ClearTable(this.commandItems)

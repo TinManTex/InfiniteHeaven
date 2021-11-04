@@ -373,16 +373,19 @@ function this.SetupMenuDefs()
     end
   end
 
-  --tex remove items that requiresIHHook (not strictly only menus, but good enough place as any to do it) DEBUGNOW
+  --tex remove items that requiresIHHook (not strictly only menus, but good enough place as any to do it)
+  --GOTCHA: really work for command options since they dont have metadata, authors will need to provide param ala resetSettingsItem
   local hasIHHook=IHH~=nil
   local function ShouldKeep(array, i, j)
     local optionRef=array[i]
-    local option=InfMenu.GetOptionFromRef(optionRef)
-    if option then
-      --DEBUGNOW wont really work for command options since they dont have metadata?
-      if option.requiresIHHook and not hasIHHook then
-        InfCore.Log("InfMenuDefs.SetupMenuDefs requiresIHHook. Removing "..option.name)
-        return false
+    if optionRef~="InfMenuCommands.GoBackItem" and optionRef~="InfMenuCommands.ResetSettingsItem" and optionRef~="InfMenuCommands.MenuOffItem"then--WORKAROUND: not sure why its complaining about these
+      local option=InfMenu.GetOptionFromRef(optionRef)
+      if option then
+
+        if option.requiresIHHook and not hasIHHook then
+          InfCore.Log("InfMenuDefs.SetupMenuDefs requiresIHHook. Removing "..option.name)
+          return false
+        end
       end
     end
     return true
@@ -445,6 +448,7 @@ function this.SetupMenuDefs()
 end--SetupMenuDefs
 
 function this.PostAllModulesLoad()
+  InfMenuCommands.BuildCommandItems()--tex execing here rather than in InfMenuCommands so they can be up and running for requiresIHH check which uses GetOptionFromRef
   this.SetupMenuDefs()
 end
 
