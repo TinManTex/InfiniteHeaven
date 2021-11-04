@@ -911,6 +911,8 @@ this.skipDevelopChecks={
 this.registerMenus={
   "appearanceMenu",
   "appearanceDebugMenu",
+  "characterMenu",
+  "characterDebugMenu",
   "fovaModMenu",
 }
 
@@ -975,6 +977,45 @@ this.appearanceDebugMenu={
     "InfFovaIvars.fovaModMenu",
   }
 }
+--IHHook character system override stuff
+
+--DEBUGNOW where do i want this menu or options?
+this.characterMenu={
+  parentRefs={"InfFovaIvars.appearanceMenu",},
+  requiresIHHook=true,
+  options={
+    "InfPlayerParts.character_playerPartsForPlayerType",
+    "InfPlayerCamo.character_playerCamoForPlayerParts",
+    "InfSnakeFace.character_snakeFace",
+    "InfAvatarHorn.character_avatarHorn",
+    "InfBionicHand.character_bionicHand",
+  }
+}--characterMenu
+this.characterDebugMenu={
+  requiresIHHook=true,
+  options={
+    --DEBUGNOW
+    "Ivars.playerTypeDirect",
+    "Ivars.playerPartsTypeDirect",
+    "Ivars.playerCamoTypeDirect",
+    "Ivars.playerFaceIdDirect",
+    "Ivars.playerFaceEquipIdDirect",
+    "InfPlayerParts.character_playerParts",
+    "InfPlayerCamo.character_playerCamo",
+    --"Ivars.character_overrideCharacterSystem",--DEBUG
+    --"Ivars.character_playerPartsNeedHead",--DEBUG
+    --"Ivars.character_playerPartsNeedHand",--DEBUG
+    --"Ivars.playerHandEquip",
+    --"Ivars.playerHandTypeDirect",--DEBUG
+    --
+    "InfPlayerParts.character_playerPartsForPlayerType",
+    "InfPlayerCamo.character_playerCamoForPlayerParts",
+    "InfSnakeFace.character_snakeFace",
+    "InfAvatarHorn.character_avatarHorn",
+    "InfBionicHand.character_bionicHand",
+  }
+}--characterDebugMenu
+--< character system
 --< menu defs
 this.langStrings={
   eng={
@@ -1000,6 +1041,7 @@ this.langStrings={
     playerFaceFilterSettings={"Show all","Headgear (cosmetic)","Unique","Head fova mods"},
     no_developed_camo="No developed camos found for suit",
     fob_locked_warning="WARNING: Pause menu disabled, may cause other issues",
+    characterMenu="Character Fova Menu",
   },
   help={
     eng={
