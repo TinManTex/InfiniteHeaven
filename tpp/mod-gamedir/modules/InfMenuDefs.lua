@@ -94,6 +94,7 @@ this.debugMenu={
     "InfMenuCommands.ShowMissionCode",
     "InfMenuCommands.ShowLangCode",
     "InfFovaIvars.appearanceDebugMenu",
+    "InfFovaIvars.characterDebugMenu",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
@@ -115,6 +116,7 @@ this.debugInMissionMenu={
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
     "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig",
     "InfFovaIvars.appearanceDebugMenu",
+    "InfFovaIvars.characterDebugMenu",
     --"InfMenuCommandsTpp.DEBUG_ChangePhase",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOn",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOff",
@@ -137,7 +139,7 @@ this.debugInMissionMenu={
     "InfCamera.ShowFreeCamPosition",
     "InfMenuCommands.ShowPosition",
     "InfMenuCommands.CheckPointSave",
-  --"InfMenuCommands.DEBUG_ClearAnnounceLog",
+    --"InfMenuCommands.DEBUG_ClearAnnounceLog",
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
   }
@@ -156,7 +158,7 @@ this.objectListsMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.warpToListPosition",
-    "Ivars.warpToListObject",    
+    "Ivars.warpToListObject",
     "Ivars.setCamToListObject",
   }
 }
@@ -369,6 +371,28 @@ function this.SetupMenuDefs()
         end
       end
     end
+  end
+
+  --tex remove items that requiresIHHook (not strictly only menus, but good enough place as any to do it) DEBUGNOW
+  local hasIHHook=IHH~=nil
+  local function ShouldKeep(array, i, j)
+    local optionRef=array[i]
+    local option=InfMenu.GetOptionFromRef(optionRef)
+    if option then
+      --DEBUGNOW wont really work for command options since they dont have metadata?
+      if option.requiresIHHook and not hasIHHook then
+        InfCore.Log("InfMenuDefs.SetupMenuDefs requiresIHHook. Removing "..option.name)
+        return false
+      end
+    end
+    return true
+  end
+
+  if not hasIHHook and not isMockFox then--tex ASSUMPTION isMockFox running AutoDoc
+    InfCore.LogFlow("InfMenuDefs.SetupMenuDefs checking for requiresIHHook entries")
+    for n,menu in pairs(this.allMenus) do
+      InfUtil.ArrayRemove(menu.options,ShouldKeep)
+    end--for allMenus
   end
 
   --tex for search DEBUGNOW, need some kind of context filter (safespace/inmission)
