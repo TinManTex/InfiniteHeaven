@@ -132,7 +132,7 @@ this.materialTypeNames={
 }
 this.materialTypes=Tpp.Enum(this.materialTypeNames)
 
---tex could just use InfFova.playerCamoTypes, but having here so it doesnt have that dependancy
+--tex could just use InfFova.playerCamoTypes, but having here so it doesnt have that dependency
 this.playerCamoTypes={
   "OLIVEDRAB",--0
   "SPLITTER",--1

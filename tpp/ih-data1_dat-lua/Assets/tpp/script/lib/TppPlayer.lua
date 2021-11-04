@@ -310,6 +310,7 @@ function this.FailSafeInitialPositionForFreePlay()
   end
 end
 --<
+--NMC usually called in mission _sequence MissionPrepare
 function this.RegisterTemporaryPlayerType(playerSetting)
   --tex allow player character for the few missions that override it
   if Ivars.useSoldierForDemos:Is(1) then

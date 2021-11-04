@@ -26,10 +26,10 @@ this.reserveSoldierCounts={
 
 this.packages={
   [30010]={
-    "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk",--DEPENDANCY mission fox2 Soldier2GameObject totalCount
+    "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk",--DEPENDENCY mission fox2 Soldier2GameObject totalCount
   },
   [30020]={
-    "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk"--DEPENDANCY mission fox2 Soldier2GameObject totalCount
+    "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk"--DEPENDENCY mission fox2 Soldier2GameObject totalCount
   },
 }
 

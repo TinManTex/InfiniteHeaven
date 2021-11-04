@@ -664,7 +664,7 @@ end
 this.commandItems={}
 
 local OPTIONTYPE_COMMAND="COMMAND"
-local IsTable=function(checkType)return type(checkType)=="table" end--tex removed dependancy on Tpp.IsTypeTable
+local IsTable=function(checkType)return type(checkType)=="table" end--tex removed dependency on Tpp.IsTypeTable
 local IsFunction=function(checkType)return type(checkType)=="function" end
 local switchRange={max=1,min=0,increment=1}
 --tex add menu items for plain functions
@@ -686,7 +686,7 @@ function this.BuildCommandItem(Command,name)
     menuItem.optionType=OPTIONTYPE_COMMAND
     menuItem.name=itemName
     menuItem.default=0
-    ivars[itemName]=menuItem.default--tex DEBUGNOW TODO remove command dependancy on ivar/switching
+    ivars[itemName]=menuItem.default--tex DEBUGNOW TODO remove command dependency on ivar/switching
     menuItem.range=switchRange--DEBUGNOW settings-no-range
     menuItem.OnChange=Command
   end

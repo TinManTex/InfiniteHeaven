@@ -265,7 +265,7 @@ function this.Setup(faceAndBodyData)
   end
 
   this.SetupFaceFova(faceAndBodyData)
-  this.SetupBodyFova(faceAndBodyData)--FLOW DEPENDANCY InfBodyInfo relies on TppEnemyBodyId being set by the time it does its PostAllModulesLoaded
+  this.SetupBodyFova(faceAndBodyData)--FLOW DEPENDENCY InfBodyInfo relies on TppEnemyBodyId being set by the time it does its PostAllModulesLoaded
 
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData post setup")

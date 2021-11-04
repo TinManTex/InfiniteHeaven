@@ -140,7 +140,6 @@ function this.SetMenuLine(fullText,text)
       elseif currentOption.settings then
         ExtCmd('SelectCombo',menuSetting,currentSetting)
       elseif currentSetting then--tex just a straight value
-        --DEBUGNOW
         ExtCmd('ClearCombo',menuSetting)
         ExtCmd('AddToCombo',menuSetting,currentSetting)
         ExtCmd('SelectCombo',menuSetting,0)
