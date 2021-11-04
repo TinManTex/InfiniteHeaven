@@ -4400,6 +4400,7 @@ this.character_playerCamoForPlayerParts={
     table.insert(self.settings,"OFF")
     --for infoName,playerCamoInfo in pairs(this.infos)do
     for i,infoName in ipairs(this.names)do
+      if infoName~="OFF"then
       local playerCamoInfo=this.infos[infoName]
       if playerCamoInfo then
 
@@ -4414,6 +4415,7 @@ this.character_playerCamoForPlayerParts={
           end--if ==partsTypeName
         end--if ==playerTypeName
       end--if playerCamoInfo
+      end
     end--for names
     IvarProc.SetSettings(self,self.settings)
 
@@ -4454,11 +4456,11 @@ this.character_playerCamoForPlayerParts={
 
 this.langStrings={
   eng={
-  --character_playerCamo="PlayerCamo select",
+    character_playerCamoForPlayerParts="Character Camo",
   },
   help={
     eng={
-      character_playerCamo="Selects character addon (in MGS_TPP\mod\playerCamos). Overrides the existing vars.player* / sortie character select.",
+      character_playerCamoForPlayerParts=[[Selects playerCamo addon (in MGS_TPP\mod\playerCamo). Overrides the existing vars.playerCamo / sortie character camo select.]],
     },
   }
 }--langStrings

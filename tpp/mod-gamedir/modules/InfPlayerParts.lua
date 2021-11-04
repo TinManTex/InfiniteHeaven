@@ -686,7 +686,7 @@ function this.SetCharacterOverride(name)
     IHH.SetOverrideCharacterSystem(false)
     --tex theres an "OFF" entry that will clear the paths, but not strictly nessesary since those funcs are gated by overrideCharacterSystem
   end
-  
+
   local info=this.infos[name]
   if info==nil then
     InfCore.Log("WARNING: InfPlayerParts.SetCharacterOverride could not find info for "..tostring(name))
@@ -804,21 +804,24 @@ this.character_playerPartsForPlayerType={
     local playerTypeName=InfFova.playerTypes[playerType+1]
 
     InfUtil.ClearArray(self.settings)
+    table.insert(self.settings,"OFF")
     --for partsInfoName,partsInfo in pairs(this.infos)do
     for i,partsInfoName in ipairs(this.names)do
-      local partsInfo=this.infos[partsInfoName]
-      if partsInfo then
-        if partsInfo.playerTypeName==nil or partsInfo.playerTypeName==playerTypeName then
-          if type(partsInfo.partsFpk)~="string"then
-            InfCore.Log("WARNING: character_playerPartsForPlayerType "..partsInfoName.." partsFpk~=string")--DEBUGNOW
-          else
-            table.insert(self.settings,partsInfoName)
+      if partsInfoName~="OFF"then
+        local partsInfo=this.infos[partsInfoName]
+        if partsInfo then
+          if partsInfo.playerTypeName==nil or partsInfo.playerTypeName==playerTypeName then
+            if type(partsInfo.partsFpk)~="string"then
+              InfCore.Log("WARNING: character_playerPartsForPlayerType "..partsInfoName.." partsFpk~=string")--DEBUGNOW
+            else
+              table.insert(self.settings,partsInfoName)
+            end
           end
-        end
-      end--if partsInfo
+        end--if partsInfo
+      end
     end--for names
     --table.sort(self.settings)
-    table.insert(self.settings,1,"OFF")
+
     IvarProc.SetSettings(self,self.settings)
 
     --tex this ivar not saved, so find the actual setting
@@ -897,51 +900,14 @@ this.character_playerPartsNeedHand={
   end,
 }
 
-this.registerMenus={
-  "characterMenu",
-}
---DEBUGNOW
-this.characterMenu={
-  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
-  options={
-    --DEBUGNOW
-    "Ivars.playerTypeDirect",
-    "Ivars.playerPartsTypeDirect",
-    "Ivars.playerCamoTypeDirect",
-    "Ivars.playerFaceIdDirect",
-    "Ivars.playerFaceEquipIdDirect",
-    "Ivars.character_playerParts",
-    "Ivars.character_playerCamo",--InfPlayerCamo
-    --"Ivars.character_overrideCharacterSystem",--DEBUG
-    --"Ivars.character_playerPartsNeedHead",--DEBUG
-    --"Ivars.character_playerPartsNeedHand",--DEBUG
-    --"Ivars.playerHandEquip",
-    --"Ivars.playerHandTypeDirect",--DEBUG
-    --
-    "Ivars.character_playerPartsForPlayerType",
-    "Ivars.character_playerCamoForPlayerParts",--InfPlayerCamo
-    "Ivars.snake_faceFova",--InfSnakeFace
-    "Ivars.horn_fova",--InfAvatarHorn
-    "Ivars.hand_fova",--InfBionicArm
-  }
-}
---CULL
---for i,handType in ipairs(InfBionicHand.PlayerHandType)do
---  local ivarName="Ivars."..InfBionicHand.ivarPrefix..handType
---  table.insert(this.characterMenu.options,ivarName)
---end--for PlayerHandType
---for i,handType in ipairs(InfAvatarHorn.AvatarHornType)do
---  local ivarName="Ivars."..InfAvatarHorn.ivarPrefix..handType
---  table.insert(this.characterMenu.options,ivarName)
---end--for AvatarHornType
 
 this.langStrings={
   eng={
-  --character_playerParts="PlayerParts select",
+    character_playerPartsForPlayerType="Character Suit",
   },
   help={
     eng={
-      character_playerParts="Selects playerParts addon (in MGS_TPP\mod\playerParts). Overrides the existing vars.player* / sortie character select.",
+      character_playerPartsForPlayerType=[[Selects playerParts addon (in MGS_TPP\mod\playerParts). Overrides the existing vars.player* / sortie character select.]],
     },
   }
 }--langStrings
