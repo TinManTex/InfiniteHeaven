@@ -345,7 +345,9 @@ function this.SetupMenuDefs()
     -- end
     end
   end
+end--SetupMenuDefs
 
+function this.PostSetupMenuDefs()
   --VALIDATE
   InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: validate")
   for n,item in pairs(this) do
@@ -378,14 +380,11 @@ function this.SetupMenuDefs()
   local hasIHHook=IHH~=nil
   local function ShouldKeep(array, i, j)
     local optionRef=array[i]
-    if optionRef~="InfMenuCommands.GoBackItem" and optionRef~="InfMenuCommands.ResetSettingsItem" and optionRef~="InfMenuCommands.MenuOffItem"then--WORKAROUND: not sure why its complaining about these
-      local option=InfMenu.GetOptionFromRef(optionRef)
-      if option then
-
-        if option.requiresIHHook and not hasIHHook then
-          InfCore.Log("InfMenuDefs.SetupMenuDefs requiresIHHook. Removing "..option.name)
-          return false
-        end
+    local option=InfMenu.GetOptionFromRef(optionRef)
+    if option then
+      if option.requiresIHHook and not hasIHHook then
+        InfCore.Log("InfMenuDefs.SetupMenuDefs requiresIHHook. Removing "..option.name)
+        return false
       end
     end
     return true
@@ -424,32 +423,16 @@ function this.SetupMenuDefs()
   if this.debugModule then
     InfCore.PrintInspect(this.allItems,"InfMenuDefs.allItems")
   end
+end--PostSetupMenuDefs
 
-
-  --CULL
-  --  for i,module in ipairs(InfModules) do
-  --    if module.registerMenus then
-  --      for j,name in ipairs(module.registerMenus)do
-  --        local menuDef=module[name]
-  --        if not menuDef then
-  --        elseif this.IsMenu(menuDef) then
-  --          for k,optionRef in ipairs(menuDef.options)do
-  --            local option,name=InfCore.GetStringRef(optionRef)
-  --            this.allItems[#this.allItems+1]=optionRef
-  --          end
-  --        end
-  --      end
-  --    end
-  --  end
-
+function this.PostAllModulesLoad()
+  this.SetupMenuDefs()
+  InfMenuCommands.BuildCommandItems()--tex execing here rather than in InfMenuCommands so they can be up and running for requiresIHH check which uses GetOptionFromRef
+  this.PostSetupMenuDefs()--tex more flow fiddling for requiresIHH
+  
   if this.debugModule then
     InfCore.PrintInspect(this,"InfMenuDefs")
   end
-end--SetupMenuDefs
-
-function this.PostAllModulesLoad()
-  InfMenuCommands.BuildCommandItems()--tex execing here rather than in InfMenuCommands so they can be up and running for requiresIHH check which uses GetOptionFromRef
-  this.SetupMenuDefs()
-end
+end--PostAllModulesLoad
 
 return this
