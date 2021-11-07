@@ -10,7 +10,7 @@
 
 --TODO: figure out interaction between vars.playerHandType and vars.handEquip (handequip actually seems to be the driver)
 
---REF TODO info
+--REF example info
 --local this={
 --  infoType="BIONICHAND",
 --  description="NORMAL hook hand",
@@ -27,42 +27,42 @@ local IHH=IHH
 this.infos={
   --tex vanilla
   NONE={
-    vanillaHandType=PlayerHandType.NONE,--tex vanillaHandType for reference, not used for addons
+    handTypeName="NONE",--tex vanillaHandType for reference, not used for addons
     fpkPath="",--tex DEBUGNOW "" doesn't really work as a NONE option for other hand types since IHHook is using "" as fall-back to vanilla value instead. a kludge is to give valid fpkPath and invalid fv2Path
     fv2Path="",
   },
   NORMAL={
-    vanillaHandType=PlayerHandType.NORMAL,
+    handTypeName="NORMAL",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm0_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm0_v00.fv2",
   },
   STUN_ARM={
-    vanillaHandType=PlayerHandType.STUN_ARM,
+    handTypeName="STUN_ARM",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm3_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm3_v00.fv2",
   },
   JEHUTY={
-    vanillaHandType=PlayerHandType.JEHUTY,
+    handTypeName="JEHUTY",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm4_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm4_v00.fv2",
   },
   STUN_ROCKET={
-    handType=PlayerHandType.STUN_ROCKET,
+    handTypeName="STUN_ROCKET",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm2_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm2_v00.fv2",
   },
   KILL_ROCKET={
-    handType=PlayerHandType.KILL_ROCKET,
+    handTypeName="KILL_ROCKET",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm1_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm1_v00.fv2",
   },
   GOLD={
-    handType=PlayerHandType.GOLD,
+    handTypeName="GOLD",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm6_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm6_v00.fv2",
   },
   SILVER={
-    handType=PlayerHandType.SILVER,
+    handTypeName="SILVER",
     fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm7_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm7_v00.fv2",
   },
@@ -209,6 +209,14 @@ this.character_bionicHand={
   settings=this.names,
   OnSelect=function(self)
 
+  end,
+  GetSettingText=function(self,setting)
+    if setting==0 then return "Off" end
+  
+    local infoNameSetting=self.settings[setting+1]
+    local info=this.infos[infoNameSetting]
+    InfCore.Log("getsettingtext infoname "..tostring(infoNameSetting))--DEBUGNOW
+    return info.description or infoNameSetting or "WARNING: invalid value"
   end,
   OnChange=function(self,setting)
     if not IHH then

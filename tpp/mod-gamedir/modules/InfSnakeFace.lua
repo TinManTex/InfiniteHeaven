@@ -157,6 +157,14 @@ this.character_snakeFace={
   OnSelect=function(self)
 
   end,
+  GetSettingText=function(self,setting)
+    if setting==0 then return "Off" end
+  
+    local infoNameSetting=self.settings[setting+1]
+    local info=this.infos[infoNameSetting]
+    InfCore.Log("getsettingtext infoname "..tostring(infoNameSetting))--DEBUGNOW
+    return info.description or infoNameSetting or "WARNING: invalid value"
+  end,
   OnChange=function(self,setting)
     if not IHH then
     --DEBUGNOW

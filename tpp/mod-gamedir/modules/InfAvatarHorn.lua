@@ -4,6 +4,15 @@
 --Implements extending avatar horn fpk/fv2s via IHHook
 --Loads info files from MGS_TPP\mod\avatarHorns
 
+--REF example avatarHornInfo
+--local this={
+--  description="Horn level 0",
+--  hornLevel=0,--optional. level of horn [0-2] it's intended to represent. currently unused
+--  fpkPath="/Assets/tpp/pack/player/avatar/hone/plfova_avm_hone_v00.fpk",
+--  fv2Path="/Assets/tpp/fova/chara/avm/avm_hone_v00.fv2",
+--}--this
+--return this
+
 --REF exe/IHHook LoadAvatarOgreHorn*
 
 local this={}
@@ -13,23 +22,26 @@ local IHH=IHH
 this.infos={
   NO_HORN={
     description="No horn",
-    --KLUDGE: ihhook treats "" as use the defaults rather than path64 = 0 / NONE, but providing a non existant fpk will hang the system
+    --KLUDGE: ihhook treats "" as 'use the defaults' rather than path64 = 0 / NONE, but providing a non existant fpk will hang the system
     --however invalid fv2 wont
     fpkPath="/Assets/tpp/pack/player/avatar/hone/plfova_avm_hone_v00.fpk",
     fv2Path="NONE",
   },
   HORN_0={
     description="Horn level 0",
+    hornLevel=0,
     fpkPath="/Assets/tpp/pack/player/avatar/hone/plfova_avm_hone_v00.fpk",
     fv2Path="/Assets/tpp/fova/chara/avm/avm_hone_v00.fv2",
   },
   HORN_1={
     description="Horn level 1",
+    hornLevel=1,
     fpkPath="/Assets/tpp/pack/player/avatar/hone/plfova_avm_hone_v01.fpk",
     fv2Path="/Assets/tpp/fova/chara/avm/avm_hone_v01.fv2",
   },
   HORN_2={
     description="Horn level 2",
+    hornLevel=2,
     fpkPath="/Assets/tpp/pack/player/avatar/hone/plfova_avm_hone_v02.fpk",
     fv2Path="/Assets/tpp/fova/chara/avm/avm_hone_v02.fv2",
   },
@@ -114,6 +126,14 @@ this.character_avatarHorn={
   settings=this.names,
   OnSelect=function(self)
 
+  end,
+  GetSettingText=function(self,setting)
+    if setting==0 then return "Off" end
+  
+    local infoNameSetting=self.settings[setting+1]
+    local info=this.infos[infoNameSetting]
+    InfCore.Log("getsettingtext infoname "..tostring(infoNameSetting))--DEBUGNOW
+    return info.description or infoNameSetting or "WARNING: invalid value"
   end,
   OnChange=function(self,setting)
     if not IHH then
