@@ -532,8 +532,8 @@ this.infos={
   --tex see SNEAKING_SUIT_GZ_DD_MALE
   --tex includes BB head and arm, so no playerType restriction
   SNEAKING_SUIT_GZ_BIGBOSS={
-    name="SNEAKING_SUIT_GZ_DD_MALE",
-    description="SV-Sneaking suit (GZ) DD Male",
+    name="SNEAKING_SUIT_GZ_BIGBOSS",
+    description="SV-Sneaking suit (GZ) BigBoss",
     partsTypeName="SNEAKING_SUIT",
     partsFpk="/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk",
     partsParts="/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts",
@@ -578,7 +578,7 @@ this.vanillaNames={
   "GOLD_AVATAR",
   "SILVER_SNAKE",
   "SILVER_AVATAR",
-  "AVATAR_EDIT_MAN",
+  --"AVATAR_EDIT_MAN",--tex problematic
   "MGS3_SNAKE",
   "MGS3_AVATAR",
   "MGS3_DD_MALE",
@@ -635,33 +635,8 @@ function this.PostAllModulesLoad(isReload)
 
   this.LoadInfos()
 
-  local value=Ivars.character_playerParts:Get()
-  if value+1>#this.names then
-    InfCore.Log("WARNING: character_playerParts > max")
-    ivars.character_playerParts=0
-  elseif value>0 then
-    local name=this.names[value+1]
-    local partsInfo=this.infos[name]
-    if partsInfo==nil then
-      InfCore.Log("ERROR: character_playerParts nil for "..tostring(name))
-    else
-      local playerType=vars.playerType
-      local playerTypeName=InfFova.playerTypes[playerType+1]
-      InfCore.Log("playerTypeName: "..tostring(playerTypeName))--DEBUGNOW
-      if partsInfo.playerTypeName and partsInfo.playerTypeName~=playerTypeName then
-        InfCore.Log("WARNING: character_playerParts does not match playerType")
-        ivars.character_playerParts=0
-      else
-        IHH.SetOverrideCharacterSystem(true)
-        this.SetOverrideValues(partsInfo)
-        --DEBUGNOW don't know how I'd enforce this if something else changes playerType
-        if partsInfo.playerType then
-        --DEBUGNOW vars.playerType=partsInfo.playerType
-        end
-      end
-    end
-  end
-  --DEBUGNOW Ivars.character_playerParts:OnChange(partInfoIdx-1)
+  local setting=Ivars.character_playerParts:Get()
+  this.ApplyInfo(setting)
 
   if this.debugModule then
     InfCore.Log("InfPlayerParts")
@@ -748,13 +723,41 @@ function this.RefreshParts()
   --tex KLUDGE force a change so the override values/functions are called TODO: see if you can find the function monitoring vars change
   --tex try and guard against breaking the playerparts system by rapidly changing it (doesnt really work, i think is always true during game)
   if PlayerInfo.OrCheckStatus and PlayerInfo.OrCheckStatus{ PlayerStatus.PARTS_ACTIVE, } then
-    if vars.playerCamoType==0 then
+    if vars.playerCamoType==1 then
       vars.playerCamoType=1
     else
       vars.playerCamoType=0
     end
   end
 end--RefreshParts
+
+function this.ApplyInfo(setting)
+  if setting+1>#this.names then
+    InfCore.Log("WARNING: character_playerParts > max")
+    ivars.character_playerParts=0
+    setting=0
+  end
+  if setting==0 then
+    IHH.SetOverrideCharacterSystem(false)
+  else
+    local name=this.names[setting+1]
+    local partsInfo=this.infos[name]
+    if partsInfo==nil then
+      InfCore.Log("ERROR: character_playerParts nil for "..tostring(name))
+    else
+      local playerType=vars.playerType
+      local playerTypeName=InfFova.playerTypes[playerType+1]
+      InfCore.Log("playerTypeName: "..tostring(playerTypeName))--DEBUGNOW
+      if partsInfo.playerTypeName and partsInfo.playerTypeName~=playerTypeName then
+        InfCore.Log("WARNING: character_playerParts does not match playerType")
+        ivars.character_playerParts=0
+      else
+        IHH.SetOverrideCharacterSystem(true)
+        this.SetOverrideValues(partsInfo)
+      end
+    end
+  end
+end--ApplyInfo
 
 this.registerIvars={
   "character_playerParts",
@@ -766,35 +769,22 @@ this.registerIvars={
 --DEBUGNOW player parts system tends to hang if you change it too quick
 --either guard against with PlayerInfo.OrCheckStatus{ PlayerStatus.PARTS_ACTIVE, }
 --or change this to OnActivate
+--tex underlying playerPartsInfo selection, not really surfaced to user,
+--using character_playerPartsForPlayerType instead which sets this
+--TODO: could replace this with string of playerPartsInfo
 this.character_playerParts={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
   OnChange=function(self,setting)
-    if not IHH then
-    --DEBUGNOW
-    else
-      if setting==0 then
-        IHH.SetOverrideCharacterSystem(false)
-      else
-        IHH.SetOverrideCharacterSystem(true)
-        local name=self.settings[setting+1]
-        local info=this.infos[name]
-        this.SetOverrideValues(info)
-        --DEBUGNOW don't know how I'd enforce this if something else changes playerType
-        if info.playerType then
-        --DEBUGNOW vars.playerType=info.playerType
-        end
-      end
-
-      this.RefreshParts()--KLUDGE
-    end
+    this.ApplyInfo(setting)
+    this.RefreshParts()--KLUDGE
   end,
 }--character_playerParts
 --tex WORKAROUND, since the ivar system is tied pretty hard to its value
 --you cant really supply a filtered view and have it chang and save
 --so instead have a seperate ivar that does filter, and just applies/sets the actual value
 this.character_playerPartsForPlayerType={
-  --save=IvarProc.CATEGORY_EXTERNAL,
+  --save=IvarProc.CATEGORY_EXTERNAL,--tex no save since its just filtered select for the above ivar
   settings={"OFF"},--DYNAMIC
   OnSelect=function(self)
     local partsInfoIndex=Ivars.character_playerParts:Get()
@@ -839,6 +829,11 @@ this.character_playerPartsForPlayerType={
     --InfCore.Log
     end
   end,
+  GetSettingText=function(self,setting)
+    local infoNameSetting=self.settings[setting+1]
+    local info=this.infos[infoNameSetting]
+    return info.description or infoNameSetting or "WARNING: invalid value"
+  end,
   OnChange=function(self,setting)
     --DEBUGNOW do better
     local infoNameSetting=self.settings[setting+1]
@@ -861,7 +856,7 @@ this.character_playerPartsForPlayerType={
 
 --DEBUG
 this.character_overrideCharacterSystem={
-  save=IvarProc.CATEGORY_EXTERNAL,
+  --save=IvarProc.CATEGORY_EXTERNAL,--tex ivar is only for debugging
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
@@ -874,7 +869,7 @@ this.character_overrideCharacterSystem={
   end,
 }
 this.character_playerPartsNeedHead={
-  save=IvarProc.CATEGORY_EXTERNAL,
+  --save=IvarProc.CATEGORY_EXTERNAL,--tex ivar is only for debugging
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)
@@ -887,7 +882,7 @@ this.character_playerPartsNeedHead={
   end,
 }
 this.character_playerPartsNeedHand={
-  save=IvarProc.CATEGORY_EXTERNAL,
+  --save=IvarProc.CATEGORY_EXTERNAL,--tex ivar is only for debugging
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function(self,setting)

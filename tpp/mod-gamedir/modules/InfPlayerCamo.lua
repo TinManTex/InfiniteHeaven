@@ -4282,20 +4282,16 @@ function this.PostAllModulesLoad(isReload)
     return
   end
 
-  --DEBUGNOW this.LoadInfos()
-  --DEBUGNOW
-  local value=Ivars.character_playerCamo:Get()
-  if value+1>#this.names then
-    value=0
-  end
-  if value>0 then
-    IHH.SetOverrideCharacterSystem(true)--DEBUGNOW
-    local name=this.names[value+1]
-    local info=this.infos[name]
-    this.SetOverrideValues(info)
-  end
-  Ivars.character_playerCamo:OnChange(value)
+  this.LoadInfos()
+
+  local setting=Ivars.character_playerCamo:Get()
+  this.ApplyInfo(setting)
 end--PostAllModulesLoad
+
+function this.SetOverrideValues(characterInfo)
+  IHH.SetPlayerCamoFpkPath(characterInfo.camoFpk)
+  IHH.SetPlayerCamoFv2Path(characterInfo.camoFv2)
+end--SetOverrideValues
 
 --currently unused
 --TODO: camo.playerPartsInfoName > current playerParts check?
@@ -4304,7 +4300,7 @@ function this.SetCharacterOverride(name)
   --InfCore.Log("WARNING: InfPlayerCamo.SetCharacterOverride OFF")
   --tex theres an "OFF" entry that will clear the paths
   end
-  
+
   local info=this.infos[name]
   if info==nil then
     InfCore.Log("WARNING: InfPlayerCamo.SetCharacterOverride could not find info for "..tostring(name))
@@ -4313,10 +4309,23 @@ function this.SetCharacterOverride(name)
   end
 end--SetCharacterOverride
 
-function this.SetOverrideValues(characterInfo)
-  IHH.SetPlayerCamoFpkPath(characterInfo.camoFpk)
-  IHH.SetPlayerCamoFv2Path(characterInfo.camoFv2)
-end--SetOverrideValues
+function this.ApplyInfo(setting)
+  if setting+1>#this.names then
+    
+    setting=0
+  end
+  if not IHH then
+  else
+    if setting==0 then
+    --IHH.SetOverrideCharacterSystem(false)
+    else
+      IHH.SetOverrideCharacterSystem(true)--DEBUGNOW
+      local name=this.names[setting+1]
+      local info=this.infos[name]
+      this.SetOverrideValues(info)
+    end
+  end
+end--ApplyInfo
 
 --Loads \mod\characters\*.lua into this.infos
 function this.LoadInfos()
@@ -4345,46 +4354,33 @@ this.registerIvars={
   "character_playerCamo",
   "character_playerCamoForPlayerParts",
 }
---DEBUGNOW player parts system tends to hang if you change it too quick
---either guard against with PlayerInfo.OrCheckStatus{ PlayerStatus.PARTS_ACTIVE, }
---or change this to OnActivate
+
+--tex underlying playerCamoInfo selection, not really surfaced to user,
+--using character_playerCamoForPlayerParts instead which sets this
+--TODO: could replace this with string of playerCamoInfo
 this.character_playerCamo={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
   OnChange=function(self,setting)
-    if not IHH then
-    --DEBUGNOW
-    else
-      if setting==0 then
-      --IHH.SetOverrideCharacterSystem(false)
-      else
-        IHH.SetOverrideCharacterSystem(true)--DEBUGNOW
-        local name=self.settings[setting+1]
-        local info=this.infos[name]
-        this.SetOverrideValues(info)
-        --DEBUGNOW don't know how I'd enforce this if something else changes playerType
-        if info.playerType then
-        -- vars.playerType=info.playerType
-        end
-      end
-
+    this.ApplyInfo(setting)
+    if setting~=0 then
       InfPlayerParts.RefreshParts()--KLUDGE
     end
   end,
 }--character_playerCamo
 this.character_playerCamoForPlayerParts={
-  --save=IvarProc.CATEGORY_EXTERNAL,
+  --save=IvarProc.CATEGORY_EXTERNAL,--tex no save since its just filtered select for the above ivar
   settings={"OFF"},
   OnSelect=function(self)
     local partsInfoIdx=Ivars.character_playerParts:Get()
-    local partsInfoName=InfPlayerParts.names[partsInfoIdx+1]
-    local partsInfo=InfPlayerParts.infos[partsInfoName]
-    if partsInfoName=="OFF"then
+    local currentPartsInfoName=InfPlayerParts.names[partsInfoIdx+1]
+    local currentPartsInfo=InfPlayerParts.infos[currentPartsInfoName]
+    if currentPartsInfoName=="OFF"then
       return
     end
 
-    if partsInfo==nil then
-      InfCore.Log("ERROR: character_playerCamoForPlayerParts partsInfo==nil for "..tostring(partsInfoName))
+    if currentPartsInfo==nil then
+      InfCore.Log("ERROR: character_playerCamoForPlayerParts partsInfo==nil for "..tostring(currentPartsInfoName))
       return
     end
 
@@ -4394,28 +4390,20 @@ this.character_playerCamoForPlayerParts={
     local playerType=vars.playerType
     local playerTypeName=InfFova.playerTypes[playerType+1]
 
-    InfCore.Log("----- character_playerCamoForPlayerParts partsInfoName:"..tostring(partsInfoName).." camoInfoName:"..tostring(camoInfoName).." playerTypeName:"..tostring(playerTypeName))--DEBUGNOW
+    InfCore.Log("----- character_playerCamoForPlayerParts partsInfoName:"..tostring(currentPartsInfoName).." camoInfoName:"..tostring(camoInfoName).." playerTypeName:"..tostring(playerTypeName))--DEBUGNOW
 
     InfUtil.ClearArray(self.settings)
     table.insert(self.settings,"OFF")
     --for infoName,playerCamoInfo in pairs(this.infos)do
     for i,infoName in ipairs(this.names)do
       if infoName~="OFF"then
-      local playerCamoInfo=this.infos[infoName]
-      if playerCamoInfo then
-
-        local partsInfoN=InfPlayerParts.infos[playerCamoInfo.partsInfoName]
-        if partsInfoN.playerTypeName==nil or partsInfoN.playerTypeName==playerTypeName then
-          if partsInfoN.partsTypeName==partsInfo.partsTypeName then
-            if type(playerCamoInfo.camoFpk)~="string"then
-              InfCore.Log("WARNING: character_playerCamoForPlayerParts "..infoName.." camoFpk~=string")--DEBUGNOW
-            else
-              table.insert(self.settings,infoName)
-            end
-          end--if ==partsTypeName
-        end--if ==playerTypeName
-      end--if playerCamoInfo
-      end
+        local playerCamoInfo=this.infos[infoName]
+        if playerCamoInfo then
+          if playerCamoInfo.partsInfoName==currentPartsInfoName then
+            table.insert(self.settings,infoName)
+          end
+        end--if playerCamoInfo
+      end--~=OFF
     end--for names
     IvarProc.SetSettings(self,self.settings)
 
@@ -4433,6 +4421,11 @@ this.character_playerCamoForPlayerParts={
     --tex since this ivar doesnt save will default to 0 anyway
     --InfCore.Log
     end
+  end,
+  GetSettingText=function(self,setting)
+    local infoNameSetting=self.settings[setting+1]
+    local info=this.infos[infoNameSetting]
+    return info.description or infoNameSetting or "WARNING: invalid value"
   end,
   OnChange=function(self,setting)
     --DEBUGNOW do better
