@@ -866,7 +866,6 @@ this.playerSettingsMenu={
     "Ivars.hero_dontAddOgrePoints",
     "Ivars.hero_heroPointsSubstractOgrePoints",
     "Ivars.useSoldierForDemos",
-    "InfFovaIvars.appearanceMenu",
   }
 }
 
