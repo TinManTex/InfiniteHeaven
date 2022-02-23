@@ -116,7 +116,7 @@ this.debugOnUpdate={
 this.log_SetFlushLevel={
   inMission=true,
   nonConfig=true,
-  usesIHH=true,
+  requiresIHHook=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"trace","debug","info","warn","error","critical","off"},
   default=InfCore.level_warn,
@@ -700,9 +700,9 @@ function this.PostAllModulesLoad()
       for j,name in pairs(module.registerIvars)do
         local ivarDef=module[name]
         if not ivarDef then
-          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..tostring(name).." in "..module.name)
         elseif not this.IsIvar(ivarDef) then
-          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..name.." in "..module.name.." is not an Ivar.")
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..tostring(name).." in "..module.name.." is not an Ivar.")
         else
           --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
           --tex set them to nonconfig by default so to not trip up AutoDoc
