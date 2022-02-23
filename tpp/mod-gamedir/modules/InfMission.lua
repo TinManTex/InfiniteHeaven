@@ -638,9 +638,9 @@ function this.AddInMissions()
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
       
       local startPos=missionInfo.startPos and missionInfo.startPos.pos or missionInfo.startPos
-      local rotY=missionInfo.startPos and missionInfo.startPos[4] or missionInfo.startPos.rotY
-      startPos[4]=rotY--NO_BOX_MISSION_START_POSITION format of {x,y,z,rotY} but using for NO_HELICOPTER_MISSION_START_POSITION (which had no rotY in vanilla) as well to be consistant
       if startPos then
+        local rotY=startPos[4] or startPos.rotY
+        startPos[4]=rotY--NO_BOX_MISSION_START_POSITION format of {x,y,z,rotY} but using for NO_HELICOPTER_MISSION_START_POSITION (which had no rotY in vanilla) as well to be consistant
         TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=startPos
       end
       --tex TODO: add to format
