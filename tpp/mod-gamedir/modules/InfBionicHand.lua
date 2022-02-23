@@ -116,18 +116,16 @@ function this.PostAllModulesLoad(isReload)
   --    end
   --  --end--for PlayerHandType
 
-  local value=Ivars.character_bionicHand:Get()
-  if value+1>#this.names then
-    value=0
-  end
-  if value>0 then
-    local name=this.names[value+1]
-    local info=this.infos[name]
-    this.SetOverrideValues(nil,info)
-  end
-  Ivars.character_bionicHand:OnChange(value)
+  local setting=Ivars.character_bionicHand:Get()
+  this.ApplyInfo(setting)
 end--PostAllModulesLoad
-
+function this.OnAllocate(missionTable)
+  if InfMain.IsOnlineMission(vars.missionCode) then
+    this.ClearOverrideValues(nil,nil)
+  else
+  --DEBUGNOW reapply?
+  end
+end--OnAllocate
 function this.LoadInfos()
   InfCore.LogFlow("InfBionicHand.LoadInfos")
 
@@ -154,11 +152,30 @@ function this.SetOverrideValues(handType,info)
   IHH.SetBionicHandFpkPath(handType,info.fpkPath)
   IHH.SetBionicHandFv2Path(handType,info.fv2Path)
 end--SetOverrideValues
-function this.ClearOverrideValues(handType,info)
+function this.ClearOverrideValues(handType)
   --tex IHHook reverts to vanilla if set paths are "" empty string
   IHH.SetBionicHandFpkPath(handType,"")
   IHH.SetBionicHandFv2Path(handType,"")
 end--ClearOverrideValues
+function this.ApplyInfo(setting)
+  if not IHH then
+    return
+  end
+  if setting+1>#this.names then
+    setting=0
+  end
+  if setting==0 then
+    this.ClearOverrideValues()
+  else
+    local name=self.settings[setting+1]
+    local info=this.infos[name]
+    --DEBUGNOW if info.handType and info.handType~=self.handType then
+    --  this.ClearOverrideValues(self.handType)
+    --else
+    this.SetOverrideValues(nil,info)
+    --end
+  end
+end--ApplyInfo
 
 this.registerIvars={
   "character_bionicHand",
@@ -212,30 +229,16 @@ this.character_bionicHand={
   end,
   GetSettingText=function(self,setting)
     if setting==0 then return "Off" end
-  
+
     local infoNameSetting=self.settings[setting+1]
     local info=this.infos[infoNameSetting]
     InfCore.Log("getsettingtext infoname "..tostring(infoNameSetting))--DEBUGNOW
     return info.description or infoNameSetting or "WARNING: invalid value"
   end,
   OnChange=function(self,setting)
-    if not IHH then
-    --DEBUGNOW
-    else
-      if setting==0 then
-        this.ClearOverrideValues(self.handType)
-      else
-        local name=self.settings[setting+1]
-        local info=this.infos[name]
-        --DEBUGNOW if info.handType and info.handType~=self.handType then
-        --  this.ClearOverrideValues(self.handType)
-        --else
-        this.SetOverrideValues(self.handType,info)
-        --end
-      end
-      if vars.playerType==0 or vars.playerType==3 then--SNAKE,AVATAR
-        InfPlayerParts.RefreshParts()--KLUDGE
-      end
+    this.ApplyInfo(setting)
+    if vars.playerType==0 or vars.playerType==3 then--SNAKE,AVATAR
+      InfPlayerParts.RefreshParts()--KLUDGE
     end
   end,
 }--ivar

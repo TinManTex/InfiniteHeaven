@@ -635,9 +635,6 @@ function this.PostAllModulesLoad(isReload)
 
   this.LoadInfos()
 
-  local setting=Ivars.character_playerParts:Get()
-  this.ApplyInfo(setting)
-
   if this.debugModule then
     InfCore.Log("InfPlayerParts")
     InfCore.PrintInspect(this.infos,"infos")
@@ -649,8 +646,21 @@ function this.OnAllocate(missionTable)
   if InfMain.IsOnlineMission(vars.missionCode) then
     IHH.SetOverrideCharacterSystem(false)
   else
-  --DEBUGNOW reapply?
+    --DEBUGNOW reapply?
+    local setting=Ivars.character_playerParts:Get()
+    this.ApplyInfo(setting)
   end
+  --DEBUGNOW
+ -- IHH.SetOverrideCharacterSystem(true)
+  local partsInfo={
+    name="MGS1",
+    description="MGS1 Solid Snake",
+    partsTypeName="MGS1",
+    partsFpk="/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
+    partsParts="/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
+  }
+ -- IHH.SetPlayerPartsFpkPath(partsInfo.partsFpk)
+ -- IHH.SetPlayerPartsPartsPath(partsInfo.partsParts)
 end--OnAllocate
 
 --currently UNUSED
@@ -676,7 +686,9 @@ end--SetCharacterOverride
 function this.SetOverrideValues(partsInfo)
   local playerTypeName=partsInfo.playerTypeName
   local playerType=partsInfo.playerTypeName and PlayerType[partsInfo.playerTypeName] or 255
+  local playerPartsType=vars.playerPartsType--DEBUGNOW partsInfo.name=="OFF" and 255 or
   IHH.SetPlayerTypeForPartsType(playerType)
+  IHH.SetPlayerPartsTypeForPartsType(playerPartsType)
   IHH.SetPlayerPartsFpkPath(partsInfo.partsFpk)
   IHH.SetPlayerPartsPartsPath(partsInfo.partsParts)
   IHH.SetSkinToneFv2Path(partsInfo.skinToneFv2)
@@ -720,18 +732,23 @@ end--LoadInfos
 --end--GetInfo
 
 function this.RefreshParts()
+  InfCore.LogFlow"InfPlayerParts.RefreshParts"--DEBUGNOW
   --tex KLUDGE force a change so the override values/functions are called TODO: see if you can find the function monitoring vars change
   --tex try and guard against breaking the playerparts system by rapidly changing it (doesnt really work, i think is always true during game)
   if PlayerInfo.OrCheckStatus and PlayerInfo.OrCheckStatus{ PlayerStatus.PARTS_ACTIVE, } then
     if vars.playerCamoType==1 then
-      vars.playerCamoType=1
+      vars.playerCamoType=2
     else
-      vars.playerCamoType=0
+      vars.playerCamoType=1
     end
   end
 end--RefreshParts
 
 function this.ApplyInfo(setting)
+  if not IHH then
+    return
+  end
+
   if setting+1>#this.names then
     InfCore.Log("WARNING: character_playerParts > max")
     ivars.character_playerParts=0
@@ -777,7 +794,7 @@ this.character_playerParts={
   settings=this.names,
   OnChange=function(self,setting)
     this.ApplyInfo(setting)
-    this.RefreshParts()--KLUDGE
+    this.RefreshParts()--KLUDGE--DEBUGNOW 
   end,
 }--character_playerParts
 --tex WORKAROUND, since the ivar system is tied pretty hard to its value

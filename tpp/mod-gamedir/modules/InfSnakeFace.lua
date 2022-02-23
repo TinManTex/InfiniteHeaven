@@ -103,18 +103,16 @@ function this.PostAllModulesLoad(isReload)
 
   this.LoadInfos()
 
-  local value=Ivars.character_snakeFace:Get()
-  if value+1>#this.names then
-    value=0
-  end
-  if value>0 then
-    local name=this.names[value+1]
-    local info=this.infos[name]
-    this.SetOverrideValues(nil,nil,info)
-  end
-  Ivars.character_snakeFace:OnChange(value)
+  local setting=Ivars.character_snakeFace:Get()
+  this.ApplyInfo(setting)
 end--PostAllModulesLoad
-
+function this.OnAllocate(missionTable)
+  if InfMain.IsOnlineMission(vars.missionCode) then
+    this.ClearOverrideValues(nil,nil)
+  else
+  --DEBUGNOW reapply?
+  end
+end--OnAllocate
 function this.LoadInfos()
   InfCore.LogFlow("InfSnakeFace.LoadInfos")
 
@@ -146,6 +144,21 @@ function this.ClearOverrideValues(hornLevel,faceEquipId,info)
   IHH.SetSnakeFaceFpkPath("")
   IHH.SetSnakeFaceFv2Path("")
 end--ClearOverrideValues
+function this.ApplyInfo(setting)
+  if not IHH then
+    return
+  end
+  if setting+1>#this.names then
+    setting=0
+  end
+  if setting==0 then
+    this.ClearOverrideValues()
+  elseif setting>0 then
+    local name=this.names[setting+1]
+    local info=this.infos[name]
+    this.SetOverrideValues(nil,nil,info)
+  end
+end--ApplyInfo
 
 this.registerIvars={
   "character_snakeFace",
@@ -159,27 +172,16 @@ this.character_snakeFace={
   end,
   GetSettingText=function(self,setting)
     if setting==0 then return "Off" end
-  
+
     local infoNameSetting=self.settings[setting+1]
     local info=this.infos[infoNameSetting]
     InfCore.Log("getsettingtext infoname "..tostring(infoNameSetting))--DEBUGNOW
     return info.description or infoNameSetting or "WARNING: invalid value"
   end,
   OnChange=function(self,setting)
-    if not IHH then
-    --DEBUGNOW
-    else
-      if setting==0 then
-        this.ClearOverrideValues(nil,nil)
-      else
-        local name=self.settings[setting+1]
-        local info=this.infos[name]
-        this.SetOverrideValues(nil,nil,info)
-      end
-
-      if vars.playerType==0 then--SNAKE
-        InfPlayerParts.RefreshParts()--KLUDGE
-      end
+    this.ApplyInfo(setting)
+    if vars.playerType==0 then--SNAKE
+      InfPlayerParts.RefreshParts()--KLUDGE
     end
   end,
 }--ivar

@@ -84,7 +84,13 @@ function this.PostAllModulesLoad(isReload)
   end
   Ivars.character_avatarHorn:OnChange(value)
 end--PostAllModulesLoad
-
+function this.OnAllocate(missionTable)
+  if InfMain.IsOnlineMission(vars.missionCode) then
+    this.ClearOverrideValues(nil,nil)
+  else
+  --DEBUGNOW reapply?
+  end
+end--OnAllocate
 function this.LoadInfos()
   InfCore.LogFlow("InfAvatarHorn.LoadInfos")
 
@@ -116,7 +122,21 @@ function this.ClearOverrideValues(hornType,info)
   IHH.SetAvatarHornFpkPath(hornType,"")
   IHH.SetAvatarHornFv2Path(hornType,"")
 end--ClearOverrideValues
-
+function this.ApplyInfo(setting)
+  if not IHH then
+    return
+  end
+  if setting+1>#this.names then
+    setting=0
+  end
+  if setting==0 then
+    this.ClearOverrideValues()
+  else
+    local name=this.names[setting+1]
+    local info=this.infos[name]
+    this.SetOverrideValues(nil,info)
+  end
+end--ApplyInfo
 this.registerIvars={
   "character_avatarHorn",
 }
@@ -129,27 +149,16 @@ this.character_avatarHorn={
   end,
   GetSettingText=function(self,setting)
     if setting==0 then return "Off" end
-  
+
     local infoNameSetting=self.settings[setting+1]
     local info=this.infos[infoNameSetting]
     InfCore.Log("getsettingtext infoname "..tostring(infoNameSetting))--DEBUGNOW
     return info.description or infoNameSetting or "WARNING: invalid value"
   end,
   OnChange=function(self,setting)
-    if not IHH then
-    --DEBUGNOW
-    else
-      if setting==0 then
-        this.ClearOverrideValues(self.hornType)
-      else
-        local name=self.settings[setting+1]
-        local info=this.infos[name]
-        this.SetOverrideValues(nil,info)
-      end
-
-      if vars.playerType==3 then--AVATAR
-        InfPlayerParts.RefreshParts()--KLUDGE
-      end
+    this.ApplyInfo(setting)
+    if vars.playerType==3 then--AVATAR
+      InfPlayerParts.RefreshParts()--KLUDGE
     end
   end,
 }--ivar
