@@ -1126,8 +1126,12 @@ else
 
   --tex currently no hard depedancy on IHHook
   if _IHHook then 
-    if _IHHook ~= this.hookVersion then
+    if _IHHook < this.hookVersion then
       this.Log("ERROR: IHHook version mismatch. IHHook version: "..tostring(_IHHook)..". Required version "..this.hookVersion,false,true);
+    elseif _IHHook > this.hookVersion then
+      this.Log("WARNING: IHHook version mismatch. IHHook version: "..tostring(_IHHook)..". Requested version "..this.hookVersion,false,true);
+      this.Log("While IH will run on this version of IHHook fine, it may mean there's a more up to date version of IH available",false,true);
+      this.Log("Check the 'Compatable IHHook version' on the IH nexus description page or readme",false,true);
     else
       this.Log("IHHook version "..tostring(_IHHook))
     end
