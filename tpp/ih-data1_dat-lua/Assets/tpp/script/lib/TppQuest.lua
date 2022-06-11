@@ -1298,6 +1298,12 @@ function this.SpecialMissionStartSetting(missionClearType)
   end
 end
 --tex REWORKED only vanilla use was list of questNames 
+--IN:
+--allowedQuests="<questName>"
+--allowedQuests={<questName>,...}
+--allowedQuests={<questName>=true,...}
+--OUT: mvars.qst_canActiveQuestList = {[<questName>]=true,...}
+--checked via CanActiveQuestInMission
 function this.RegisterCanActiveQuestListInMission(allowedQuests)
   if allowedQuests then
     local quests=mvars.qst_canActiveQuestList or {}
