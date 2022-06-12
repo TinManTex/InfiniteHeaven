@@ -417,7 +417,7 @@ this.revengeMenu={--SEO enemy prep
     "Ivars.changeCpTypeMB_ALL",
     "Ivars.changeCpSubTypeFREE",
     "Ivars.changeCpSubTypeMISSION",
-    "Ivars.changeCpSubTypeMB_ALL",
+    --"Ivars.changeCpSubTypeMB_ALL",--TODO
     "Ivars.enableInfInterrogation",
   }
 }
