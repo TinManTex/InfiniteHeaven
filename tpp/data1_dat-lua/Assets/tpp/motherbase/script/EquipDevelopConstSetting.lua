@@ -56,7 +56,7 @@ local this={}
 --   p01=TppEquip.EQP_IT_CBox_CLB_C_G01
 
 --name,description,long name are in: \Assets\tpp\lang\ui\tpp_weapon.eng.lng2
-
+--parameter names up to p33 are from mgos EquipDevelopSetting.lua
 this.descriptiveParamToParamName={
   equipDevelopID="p00",
   equipID="p01",
