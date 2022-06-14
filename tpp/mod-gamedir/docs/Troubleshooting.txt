@@ -36,7 +36,7 @@ SnakeBite > Mods > File Menu > Open Game directory.
 
 The files:
 MGS_TPP\snakebite.xml
-MGS_TPP\ihhook_log.txt
+MGS_TPP\ihhook_log.txt (If you have IHHook installed)
 The entire MGS_TPP\mod folder (as this contains the ih_save as well as debug logs).
 
 Whole SnakBite folder\Logs\ folder
