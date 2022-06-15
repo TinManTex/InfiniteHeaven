@@ -22,7 +22,7 @@ local debugModules={
   --'InfMenuDefs',
   'IvarProc',
   --  'InfNPC',
-  --'InfModelProc',--GOTCHA: is loaded before this module, so you'll have to manually set debugMode in the file
+  --'InfSoldierFaceAndBody',--GOTCHA: is loaded before this module, so you'll have to manually set debugMode in the file
   'InfQuest',
   'TppQuest',
   --  'TppQuest',
@@ -35,7 +35,7 @@ local debugModules={
   --'InfSoldier',
   --'InfEneFova',
   --'InfMission',
-  --'InfNPC',
+  'InfNPC',
   'InfMainTpp',
   'Ivars',
   'TppEnemy',
@@ -52,6 +52,11 @@ local debugModules={
   'InfChimera',
   'InfEneFova',
   'InfTransition',
+  'TppSave',
+  'InfProgression',
+  'InfPlayerParts',
+  'InfPlayerCamo',
+  'InfBodyInfo',
 }
 
 local this={}
@@ -236,10 +241,12 @@ function this.PostAllModulesLoad()
     "/Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua",
     "/Assets/tpp/script/lib/Tpp.lua",
     "/Assets/tpp/script/lib/InfInit.lua",
+    "/Assets/tpp/script/ih/InfInit.lua",
     "/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk",
     "/Assets/tpp/pack/mission2/init/init.fpk",
     "/Assets/tpp/pack/blurgespurgen.fpk",
     "/Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters",
+    "/Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua",
     "hurrrg",
   }
   for i,fileName in ipairs(fileNamesTest)do
@@ -337,6 +344,7 @@ function this.SetDebugModules()
     if not module then
       InfCore.Log("WARNING: IHDebugVars.SetDebugModules module "..tostring(moduleName).."==nil")
     else
+      InfCore.Log("IHDebugVars.SetDebugModules "..tostring(moduleName))
       module.debugModule=true
     end
   end
@@ -1051,7 +1059,7 @@ local increment=1
 this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
-  InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
+  InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count,true,true)
 
   InfCore.DebugPrint("index1:"..index1)
   InfCore.DebugPrint("toggle1:"..tostring(toggle1))
@@ -1061,7 +1069,90 @@ this.DEBUG_SomeShiz=function()
   end
   toggle1=not toggle1
 
+  InfCore.PrintInspect(vars.playerType,"playerType")
+  InfCore.PrintInspect(vars.playerPartsType,"playerPartsType")
+  InfCore.PrintInspect(vars.playerCamoType,"playerCamoType")
+  InfCore.PrintInspect(vars.playerFaceId,"playerFaceId")
+  InfCore.PrintInspect(vars.playerFaceEquipId,"playerFaceEquipId")
+  InfCore.PrintInspect(vars.playerHandType,"playerHandType")
+  InfCore.PrintInspect(vars.handEquip,"handEquip")
+  InfCore.PrintInspect(vars.playerSkillId,"playerSkillId")
 
+
+  --  --DEBUGNOW TESTING
+  --  local handInfo={
+  --    description="unifiedHands",
+  --    fpkPath="/Assets/tpp/pack/player/fova/plfova_sna0_arm3_v00_uni.fpk",
+  --    fv2Path="/Assets/tpp/fova/chara/sna/sna0_arm3_v00.fv2",
+  --  }
+  --  local handType=PlayerHandType.STUN_ARM
+  --  InfCore.PrintInspect(handType,"PlayerHandType.STUN_ARM")
+  --  --hand=2
+  --  IHH.SetOverrideHandSystem(true)
+  --  IHH.SetBionicHandFpkPath(handType,handInfo.fpkPath)
+  --  IHH.SetBionicHandFv2Path(handType,handInfo.fv2Path)
+
+
+  if true then return end
+  IHTearDown.DumpModules({buildFromScratch=false})
+
+  if true then return end
+  if IHH then
+    --    IHH.SetPlayerPartsFpk(PlayerType.SNAKE,InfFova.PlayerPartsType.MGS1,"/Assets/tpp/pack/player/parts/plparts_ninja.fpk")
+    --    IHH.SetPlayerPartsPart(PlayerType.SNAKE,InfFova.PlayerPartsType.MGS1,"/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts")
+    --    --IHH.SetPlayerPartsFpk(PlayerType.AVATAR,InfFova.PlayerPartsType.MGS1,"/Assets/tpp/pack/player/parts/plparts_ninja.fpk")
+    --    --IHH.SetPlayerPartsPart(PlayerType.AVATAR,InfFova.PlayerPartsType.MGS1,"/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts")
+    --
+    --    IHH.SetPlayerPartsFpk(PlayerType.DD_MALE,28,"/Assets/tpp/pack/player/parts/plparts_ocelot.fpk")
+    --    IHH.SetPlayerPartsPart(PlayerType.DD_MALE,28,"/Assets/tpp/parts/chara/ooc/ooc0_main1_def_v00.parts")
+    --    IHH.SetPlayerPartsFpk(PlayerType.AVATAR,28,"/Assets/tpp/pack/player/parts/plparts_ocelot.fpk")
+    --    IHH.SetPlayerPartsPart(PlayerType.AVATAR,28,"/Assets/tpp/parts/chara/ooc/ooc0_main1_def_v00.parts")
+
+    IHH.SetPlayerPartsFpk(PlayerType.DD_MALE,24,"/Assets/tpp/pack/player/parts/plparts_dd_male_svs.fpk")
+    IHH.SetPlayerPartsPart(PlayerType.DD_MALE,24,"/Assets/tpp/parts/chara/sna/dds5_svs0_ply_v00.parts")
+
+    local svsPartsInfo={
+      description="Soviet",
+      fpkPath="/Assets/tpp/pack/player/parts/plparts_dd_male_svs.fpk",
+      partsPath="/Assets/tpp/parts/chara/sna/dds5_svs0_ply_v00.parts"
+    }
+
+
+
+    local svsPartsInfo={
+      description="Soviet",
+      fpkPath="/Assets/tpp/pack/player/parts/plparts_dd_male.fpk",
+      partsPath="/Assets/tpp/parts/chara/sna/dds5_main0_ply_v00.parts"
+    }
+
+
+    local playerPartsInfo=svsPartsInfo
+    IHH.SetPlayerPartsFpkPath(playerPartsInfo.fpkPath)
+    IHH.SetPlayerPartsPartsPath(playerPartsInfo.partsPath)
+  end
+
+
+  if true then return end
+
+  if toggle1 then
+    TppSoundDaemon.PostEvent("sfx_m_fulton_heli_success","Loading")
+  else
+    TppSoundDaemon.PostEvent("sfx_m_heli_fly_return","Loading")
+  end
+  if true then return end
+  --mvars.helispacePlayerTransform.pos =
+  -- mvars.helispacePlayerTransform.rotY =
+
+  TppPlayer.Warp{
+    pos = mvars.helispacePlayerTransform.pos,
+    rotY = mvars.helispacePlayerTransform.rotY
+  }
+
+
+  --InfCore.Log"zzzzzzzzt"
+  --InfProgression.RepopAntiAirRadar()
+
+  if true then return end
 
   local markerName="ly003_cl04_npc0000|cl04pl2_q30210|Marker_shootingPractice"
 
@@ -1514,7 +1605,52 @@ local index2Min=300
 local index2Max=334
 local index2=index2Min
 this.DEBUG_SomeShiz2=function()
-  InfCore.Log("---DEBUG_SomeShiz2---")
+  InfCore.Log("---DEBUG_SomeShiz2---",true,true)
+
+
+  Gimmick.StoreSaveDataPermanentGimmickForMissionClear()
+  Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
+
+  if true then return end
+
+  --REF
+  --this.SAVE_SLOT={
+  --  GLOBAL=0,
+  --  CHECK_POINT=1,
+  --  RETRY=2,
+  --  MB_MANAGEMENT=3,
+  --  QUEST=4,
+  --  MISSION_START=5,
+  --  CHECK_POINT_RESTARTABLE=6,
+  --  CONFIG=7,
+  --  SAVING=8,
+  --  CONFIG_SAVE=9,
+  --  PERSONAL=10,
+  --  PERSONAL_SAVE=11,
+  --  MGO=12,
+  --  MGO_SAVE=13
+  --}
+
+  local varName="totalNeutralizeCount"
+  local value = TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.GLOBAL, "gvars", varName )
+
+  InfCore.PrintInspect(value,varName)
+
+  local varsType="gvars"
+  local varName="inf_interCpQuestStatus"
+  local category=TppDefine.SAVE_SLOT.CATEGORY_MISSION
+  local value = TppScriptVars.GetVarValueInSlot(category,varsType,varName)
+  InfCore.PrintInspect(value,varName)
+
+  local varsType="gvars"
+  local varName="initAmmoStockIds"
+  local category=TppDefine.SAVE_SLOT.CATEGORY_MISSION
+  local value = TppScriptVars.GetVarValueInSlot(category,varsType,varName)
+  InfCore.PrintInspect(value,varName)
+
+
+
+  if true then return end
 
   local varsSize=#this.weaponCategories*this.SLOTS_PER_CATEROGRY*this.PARTS_COUNT
   for i=0,varsSize-1 do
@@ -1645,9 +1781,12 @@ local index3Max=10
 local index3=index3Min
 local toggle3=false
 this.DEBUG_SomeShiz3=function()
-  InfCore.Log("---DEBUG_SomeShiz3---")
+  InfCore.Log("---DEBUG_SomeShiz3---",true,true)
+  local camoFv2Path="/Asset/stpp/fova/chara/svs/svs0_unq_v09.fv2"--
+  local fovaFile=camoFv2Path
+  Player.ApplyFormVariationWithFile(fovaFile)
 
-
+  if true then return end
 
   local routes={
     --      "rt_slopedWest_d_0000_sub",
