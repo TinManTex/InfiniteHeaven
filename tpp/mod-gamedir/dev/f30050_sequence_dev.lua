@@ -5,7 +5,7 @@
 --DEBUGNOW
 if false then 
   local fileName="f30050_sequence_dev.lua"
-  return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.debug,fileName)end)
+  return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.dev,fileName)end)
 end
 InfCore.Log("f30050_sequence_dev")--DEBUG 
 
@@ -468,10 +468,8 @@ function this.OnLoad()
       "Seq_Demo_Wait_Loading_Sortie",
       "Seq_Demo_Play_Sortie",
       
-      --tex INTERIOR>
-      "Seq_Demo_Interior",
-      "Seq_Game_Interior",
-      --<    
+      
+      "Seq_Game_Interior",--tex INTERIOR
   }--sequenceNameList
 
 
@@ -641,7 +639,6 @@ this.saveVarsList = {
   isRequestToDropCbox				= false,
   isVisibleBrokenHanger			= false,
   isLeaveBattleHanger				= false,
-  isLeaveInterior           =false,--tex DEBUGNOW
   requestPlayAfterDemoRadioIndex	= 0,
   isPazRoomStart					= false,
   isPlayedAfterDeathFactory		= false,
@@ -992,12 +989,6 @@ function this.OnEndMissionPrepareSequence()
     TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_close", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
     svars.isLeaveBattleHanger = false
   end
-  
-  if svars.isLeaveInterior then--tex> DEBUGNOW need switch id
-    svars.isLeaveInterior = false
-    InfInterior.PlayExteriorDoorClose()
-  end--<
-
 end
 
 
@@ -1284,12 +1275,9 @@ function this.Messages()
               end
               TppSequence.SetNextSequence("Seq_Game_PazRoomOnLeave")
             elseif gameObjectName == StrCode32("gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001") then
-              --tex DEBUGNOW ORIG REVERT once you have your own switch system
-              --this.PushSwitchOnLeaveBattleHanger()
-              
-              InfInterior.PushSwitchOnLeave(gameObjectId, gameObjectName, name, switchFlag)--tex DEBUGNOW INTERIOR
+              this.PushSwitchOnLeaveBattleHanger()
             else--tex> TODO: have InfInterior catch SwitchGimmick msg directly
-              InfInterior.PushSwitchOnLeave(gameObjectId, gameObjectName, name, switchFlag)
+              --WIP InfInterior.PushSwitchOnLeave(gameObjectId, gameObjectName, name, switchFlag)
             end--<
           end,
         },
@@ -1347,10 +1335,10 @@ function this.Messages()
                 end
               end
             end
-            --tex> TODO: have InfInterior catch PlayerSwitchStart msg directly
-            if InfInterior.PlayerSwitchStart(playerGameObjectId, switchGameObjectId) then
-              return
-            end--<
+            --tex> INTERIOR TODO: have InfInterior catch PlayerSwitchStart msg directly. this isn't actually being used currently
+            --WIP if InfInterior.PlayerSwitchStart(playerGameObjectId, switchGameObjectId) then
+              --return
+            --end--<
           end,
         },
         {
@@ -1470,17 +1458,13 @@ sequences.Seq_Demo_SetupCluster = {
       return
     end
     
-    --tex INTERIOR>
-    --tex DEBUGNOW cant quite figure the exec flow on this, trace Seq_Demo_SetupCluster back.
-    --cause as it currently stands PushSwitchOnEnterInterior sets seq to Seq_Demo_Interior on its TppMission.Reload OnEndFadeOut
-    --so this would mean it goes into Seq_Demo_Interior again after it's reloaded, ok that makes more sense
-    --still, figure out flow for Seq_Demo_SetupCluster
-    if gvars.f30050_missionPackIndex==STAGE_PACK_INDEX.INTERIOR then
-      InfCore.Log"Seq_Demo_SetupCluster STAGE_PACK_INDEX.INTERIOR"--DEBUGNOW
-      InfInterrior.WarpToInterior()--tex DEBUGNOW need info on what switch or interior it is
-      TppSequence.SetNextSequence("Seq_Demo_Interior")
-      return
-    end
+    --tex INTERIOR> CULL only called if demo played/not needed?
+--    if gvars.f30050_missionPackIndex==STAGE_PACK_INDEX.INTERIOR then
+--      InfCore.Log"Seq_Demo_SetupCluster STAGE_PACK_INDEX.INTERIOR"--DEBUGNOW
+--      InfInterrior.WarpToInterior()--tex DEBUGNOW need info on what switch or interior it is
+--      TppSequence.SetNextSequence("Seq_Game_Interior")
+--      return
+--    end
     --<
 
     if demoName and (not this.IsRideOnHeliDemo(demoName) )then
@@ -2093,16 +2077,13 @@ sequences.Seq_Game_MainGame = {
               end
 
               if gameObjectName == StrCode32("ly003_cl02_item0000|cl02pl0_uq_0020_gim_onlymb2|gntn_swtc001_vrtn001_gim_n0000|srt_gntn_swtc001_vrtn001") then
-                --tex DEBUGNOW ORIG REVERT once you have your own switch system
-                --this.PushSwitchOnEnterBattleHanger()
-                
-                InfInterior.PushSwitchOnEnterInterior(gameObjectId, gameObjectName, name, switchFlag)--tex INTERIOR DEBUGNOW
+                this.PushSwitchOnEnterBattleHanger()
                 return
               end
               --tex INTERIOR> DEBUGNOW have InfInterior catch the message directly
-              if InfInterior.PushSwitchOnEnterInterior(gameObjectId, gameObjectName, name, switchFlag) then
-                return
-              end--<
+              --WIPif InfInterior.PushSwitchOnEnter(gameObjectId, gameObjectName, name, switchFlag) then
+              --  return
+              --end--<
             end,
           },
           {
@@ -3818,44 +3799,15 @@ function this.DisableHueyInBattleHanger()
   end
 end
 
---tex DEBUGNOW INTERIOR>
---DEBUGNOW can probably roll this right into Seq_Game_Interior
-sequences.Seq_Demo_Interior = {
-  --tex DEBUGNOW CULL can probably cull all these messages
---  Messages = function( self )
---    return blahblah
---  end,--Messages
-  OnEnter = function()
-    InfCore.LogFlow("Enter Seq_Demo_Interior")--DEBUGNOW
-    InfInterior.SetupInterior()--DEBUGNOW
-
-    TppSequence.SetNextSequence("Seq_Game_Interior")
-
-    --DEBUGNOW
---    local playerPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
---    local soundPos = playerPos + Quat.RotationY( vars.playerRotY ):Rotate( Vector3(0.794681, 0, 0.831533) )
---    TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_close", soundPos, 'Loading')
-    --DEBUGNOW
-    TppUiCommand.RegistInfoTypingText( "lang",  5, "area_demo_battle_gear" )
-    TppUiCommand.ShowInfoTypingText()
-  end,
-  OnLeave = function()
-    --DEBUGNOW
-    InfInterior.SetPlayerInitialPositionInInterior()--tex DEBUGNOW need info on what interior
-    svars.restartClusterId = MotherBaseStage.GetCurrentCluster()--DEBUGNOW
-    TppMission.UpdateCheckPoint{checkPoint = "CHK_BattleHanger"}--DEBUGNOW
-  end,
-}--Seq_Demo_Interior
-
+--tex INTERIOR>
 sequences.Seq_Game_Interior = {
   Messages = function( self )
     return
       StrCode32Table {
         UI = {
           {
-            msg = "EndFadeIn", sender = "OnEnterInterior",
+            msg = "EndFadeIn",sender="OnEnterInterior",
             func = function ()
-              --DEBUGNOW this.HueyLookSnake()
             end,
           }
         },
@@ -3863,26 +3815,13 @@ sequences.Seq_Game_Interior = {
   end,--Messages
   OnEnter = function()
     InfCore.LogFlow("Enter Seq_Game_Interior")
-    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"OnEnterInterior")
-    --DEBUGNOW TppMain.EnableAllGameStatus()
-    InfInterior.SetupInterior()--DEBUGNOW again? thise was set on Seq_Demo_
-
-    --DEBUGNOW InfInterior.SetupPadMaskInInterior()
+    --WIP InfInterior.SetupInterior()
   end,
   OnLeave = function()
-    --DEBUGNOW undoes SetupInterior
-    TppWeather.CancelForceRequestWeather()
-
-   --DEBUGNOW  Player.ResetPadMask{settingName = "Interior"}
-
-   --DEBUGNOW  TppUiStatusManager.UnsetStatus( "EquipHud" ,"INVALID")
-   --DEBUGNOW  TppUiStatusManager.UnsetStatus( "EquipPanel","INVALID")
-  --DEBUGNOW   TppUI.UnsetOverrideFadeInGameStatus()
-  --DEBUGNOW   this.SetEnableQuestUI(true)
+    --WIP InfInterior.UnSetupInterior()
   end,
 }--Seq_Game_Interior
 --< INTERIOR
-
 
 sequences.Seq_Demo_RewardAfterDemo = {
   OnEnter = function()
