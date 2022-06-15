@@ -11,8 +11,8 @@ local IvarProc=IvarProc
 local pairs=pairs
 local ipairs=ipairs
 
-this.debugModule=true--DEBUGNOW
-this.debugSave=true--DEBUGNOW
+this.debugModule=false
+this.debugSave=false
 
 --tex the engine breaks down the quest name in some cases to the last 6 characters (ie q30010), or just the numbers
 --see TppQuest GetQuestNameId, GetQuestName
@@ -101,13 +101,14 @@ function this.AddMissionPacks(missionCode,packPaths)
 end--AddMissionPacks
 
 function this.MissionPrepare()
-  local allowedQuests={}
-  for questName,questInfo in pairs(this.ihQuestsInfo)do
-    if questInfo.allowInStoryMissions then
-      allowedQuests[questName]=true
-    end
-  end--for ihQuestsInfo
-  TppQuest.RegisterCanActiveQuestListInMission(allowedQuests)
+--CULL handled more completely by rlcs InfMissionQuest
+--  local allowedQuests={}
+--  for questName,questInfo in pairs(this.ihQuestsInfo)do
+--    if questInfo.allowInStoryMissions then
+--      allowedQuests[questName]=true
+--    end
+--  end--for ihQuestsInfo
+--  TppQuest.RegisterCanActiveQuestListInMission(allowedQuests)
 end--MissionPrepare
 
 --tex see InfEquip.LoadEquipTable for notes
@@ -188,7 +189,8 @@ end
 --    "EQP_WP_EX_hg_010",
 --    "EQP_WP_West_ar_050",
 --  },
---  allowInStoryMissions=true,--allow quest during story mission (still follows the normal quest selection rules)--TODO needs more work to filter out quests not in mission area --DEBUGNOW TEST
+--  -- CULL allowInStoryMissions=true,--allow quest during story mission (still follows the normal quest selection rules)--TODO needs more work to filter out quests not in mission area --DEBUGNOW TEST
+--  enableInMissions={10033,10041},--Enables quest in story missions. if Ivar enableMissionQuest. handled by rlcs InfMissionQuest
 --  allowInWarGames=true,--by default quests are blocked on mb wargames, this is to allow the quest during wargames
 --  --required for shooting practice quests, but can be used to keep stuff resident before/after quest pack has been loaded/unloaded 
 --  --TODO: not a good idea for afgh/mafr sized maps though, really need to build additional system on top of map block loading/unloading

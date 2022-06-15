@@ -142,6 +142,7 @@
 --      returnRoute="lz_citadelSouth_S0000|rt_rtn_citadelSouth_S_0000",
 --    },
 --  },--lzInfo
+--  enableQuests={"lab_q39011","lab_q80700","lab_q10700"},--Enables quests in story missions. if Ivar enableMissionQuest. handled by rlcs InfMissionQuest
 --}--this
 --
 --return this
