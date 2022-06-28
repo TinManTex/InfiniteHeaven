@@ -19,7 +19,7 @@ local InfCore=this
 
 this.modVersion=257
 this.modName="Infinite Heaven"
-this.hookVersion=16--tex for version check
+this.hookVersion=17--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
