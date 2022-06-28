@@ -3,7 +3,6 @@
   "Name": "Infinite Heaven",
   "Author": "tinmantex",
   "Website": "http://www.nexusmods.com/metalgearsolidvtpp/mods/45/",
-  "projectPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release",
   "luaPackFilesPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\fpkd-combined-lua",
   "externalLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih\\GameDir\\mod",
   "modulesLuaPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih\\GameDir\\mod\\modules",
@@ -11,11 +10,10 @@
   "modPackPaths": [
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\data1_dat-lua-ih",
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\fpk-mod",
-    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp\\fpk-mod-ih",
+    "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\fpk-mod-ih",
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih",
     "D:\\GitHub\\IHExt\\makebite"
   ],
-  "otherMgsvsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\mgsv-mods",
   "docsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih\\GameDir\\mod\\docs",
   "makebiteBuildPath": "C:\\Projects\\MGS\\build\\infiniteheaven\\makebite-release",
   "buildPath": "C:\\Projects\\MGS\\build\\infiniteheaven",
@@ -23,7 +21,6 @@
   "modFileName": "Infinite Heaven",
   "readMeFileName": "Readme.txt",
   "copyDocsToBuild": true,
-  "cleanDat": false,
   "copyEngLng2sToOtherLangCodes": true,
   "compileModPackFiles": true,
   "fileTypesToCompile": {
