@@ -1,4 +1,5 @@
 --InfPlayerCamo.lua
+--WIP: kinda stopped after I fell off IH dev in nov 21 (and zip was doing something similar)
 --DEPENDENCY: IHHook
 --namespace CharacterFova
 --tex extending vars.player* character select system via IHHook
@@ -4289,8 +4290,8 @@ function this.PostAllModulesLoad(isReload)
 end--PostAllModulesLoad
 
 function this.SetOverrideValues(characterInfo)
-  IHH.SetPlayerCamoFpkPath(characterInfo.camoFpk)
-  IHH.SetPlayerCamoFv2Path(characterInfo.camoFv2)
+  IhkCharacter.SetPlayerCamoFpkPath(characterInfo.camoFpk)
+  IhkCharacter.SetPlayerCamoFv2Path(characterInfo.camoFv2)
 end--SetOverrideValues
 
 --currently unused
@@ -4317,9 +4318,9 @@ function this.ApplyInfo(setting)
   if not IHH then
   else
     if setting==0 then
-    --IHH.SetOverrideCharacterSystem(false)
+    --IhkCharacter.SetOverrideCharacterSystem(false)
     else
-      IHH.SetOverrideCharacterSystem(true)--DEBUGNOW
+      IhkCharacter.SetOverrideCharacterSystem(true)--DEBUGNOW
       local name=this.names[setting+1]
       local info=this.infos[name]
       this.SetOverrideValues(info)

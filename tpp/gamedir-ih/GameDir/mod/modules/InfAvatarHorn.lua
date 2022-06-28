@@ -1,4 +1,5 @@
 --InfAvatarHorn.lua
+--WIP: kinda stopped after I fell off IH dev in nov 21 (and zip was doing something similar)
 --DEPENDENCY: IHHook
 --namespace CharacterFova
 --Implements extending avatar horn fpk/fv2s via IHHook
@@ -114,13 +115,13 @@ function this.LoadInfos()
 end--LoadInfos
 
 function this.SetOverrideValues(hornType,info)
-  IHH.SetAvatarHornFpkPath(hornType,info.fpkPath)
-  IHH.SetAvatarHornFv2Path(hornType,info.fv2Path)
+  IhkCharacter.SetAvatarHornFpkPath(hornType,info.fpkPath)
+  IhkCharacter.SetAvatarHornFv2Path(hornType,info.fv2Path)
 end--SetOverrideValues
 function this.ClearOverrideValues(hornType,info)
   --tex IHHook reverts to vanilla if set paths are "" empty string
-  IHH.SetAvatarHornFpkPath(hornType,"")
-  IHH.SetAvatarHornFv2Path(hornType,"")
+  IhkCharacter.SetAvatarHornFpkPath(hornType,"")
+  IhkCharacter.SetAvatarHornFv2Path(hornType,"")
 end--ClearOverrideValues
 function this.ApplyInfo(setting)
   if not IHH then

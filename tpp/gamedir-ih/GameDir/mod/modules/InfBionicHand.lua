@@ -1,4 +1,5 @@
 --InfBionicHand.lua
+--WIP: kinda stopped after I fell off IH dev in nov 21 (and zip was doing something similar)
 --DEPENDENCY: IHHook
 --namespace CharacterFova
 --Implements extending bionic hand fpk/fv2s / vars.playerHand via IHHook
@@ -149,13 +150,13 @@ function this.LoadInfos()
 end--LoadInfos
 --handType UNUSED, is for alternate per hand type ivars
 function this.SetOverrideValues(handType,info)
-  IHH.SetBionicHandFpkPath(handType,info.fpkPath)
-  IHH.SetBionicHandFv2Path(handType,info.fv2Path)
+  IhkCharacter.SetBionicHandFpkPath(handType,info.fpkPath)
+  IhkCharacter.SetBionicHandFv2Path(handType,info.fv2Path)
 end--SetOverrideValues
 function this.ClearOverrideValues(handType)
   --tex IHHook reverts to vanilla if set paths are "" empty string
-  IHH.SetBionicHandFpkPath(handType,"")
-  IHH.SetBionicHandFv2Path(handType,"")
+  IhkCharacter.SetBionicHandFpkPath(handType,"")
+  IhkCharacter.SetBionicHandFv2Path(handType,"")
 end--ClearOverrideValues
 function this.ApplyInfo(setting)
   if not IHH then

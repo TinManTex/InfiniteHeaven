@@ -1,4 +1,5 @@
 --InfSnakeFace.lua
+--WIP: kinda stopped after I fell off IH dev in nov 21 (and zip was doing something similar)
 --DEPENDENCY: IHHook
 --namespace CharacterFova
 --Implements extending avatar horn fpk/fv2s via IHHook
@@ -136,13 +137,13 @@ function this.LoadInfos()
 end--LoadInfos
 
 function this.SetOverrideValues(hornLevel,faceEquipId,info)
-  IHH.SetSnakeFaceFpkPath(info.fpkPath)
-  IHH.SetSnakeFaceFv2Path(info.fv2Path)
+  IhkCharacter.SetSnakeFaceFpkPath(info.fpkPath)
+  IhkCharacter.SetSnakeFaceFv2Path(info.fv2Path)
 end--SetOverrideValues
 function this.ClearOverrideValues(hornLevel,faceEquipId,info)
   --tex IHHook reverts to vanilla if set paths are "" empty string
-  IHH.SetSnakeFaceFpkPath("")
-  IHH.SetSnakeFaceFv2Path("")
+  IhkCharacter.SetSnakeFaceFpkPath("")
+  IhkCharacter.SetSnakeFaceFv2Path("")
 end--ClearOverrideValues
 function this.ApplyInfo(setting)
   if not IHH then

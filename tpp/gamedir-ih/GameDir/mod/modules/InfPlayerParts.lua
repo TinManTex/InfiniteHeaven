@@ -1,4 +1,5 @@
 --InfPlayerParts.lua
+--WIP: kinda stopped after I fell off IH dev in nov 21 (and zip was doing something similar)
 --DEPENDENCY: IHHook
 --namespace CharacterFova
 --tex extending vars.player* character select system via IHHook
@@ -644,14 +645,14 @@ end--PostAllModulesLoad
 
 function this.OnAllocate(missionTable)
   if InfMain.IsOnlineMission(vars.missionCode) then
-    IHH.SetOverrideCharacterSystem(false)
+    IhkCharacter.SetOverrideCharacterSystem(false)
   else
     --DEBUGNOW reapply?
     local setting=Ivars.character_playerParts:Get()
     this.ApplyInfo(setting)
   end
   --DEBUGNOW
- -- IHH.SetOverrideCharacterSystem(true)
+ -- IhkCharacter.SetOverrideCharacterSystem(true)
   local partsInfo={
     name="MGS1",
     description="MGS1 Solid Snake",
@@ -659,8 +660,8 @@ function this.OnAllocate(missionTable)
     partsFpk="/Assets/tpp/pack/player/parts/plparts_mgs1.fpk",
     partsParts="/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts",
   }
- -- IHH.SetPlayerPartsFpkPath(partsInfo.partsFpk)
- -- IHH.SetPlayerPartsPartsPath(partsInfo.partsParts)
+ -- IhkCharacter.SetPlayerPartsFpkPath(partsInfo.partsFpk)
+ -- IhkCharacter.SetPlayerPartsPartsPath(partsInfo.partsParts)
 end--OnAllocate
 
 --currently UNUSED
@@ -668,7 +669,7 @@ end--OnAllocate
 function this.SetCharacterOverride(name)
   if name=="OFF"then
     --InfCore.Log("WARNING: InfPlayerParts.SetCharacterOverride OFF")
-    IHH.SetOverrideCharacterSystem(false)
+    IhkCharacter.SetOverrideCharacterSystem(false)
     --tex theres an "OFF" entry that will clear the paths, but not strictly nessesary since those funcs are gated by overrideCharacterSystem
   end
 
@@ -687,13 +688,13 @@ function this.SetOverrideValues(partsInfo)
   local playerTypeName=partsInfo.playerTypeName
   local playerType=partsInfo.playerTypeName and PlayerType[partsInfo.playerTypeName] or 255
   local playerPartsType=vars.playerPartsType--DEBUGNOW partsInfo.name=="OFF" and 255 or
-  IHH.SetPlayerTypeForPartsType(playerType)
-  IHH.SetPlayerPartsTypeForPartsType(playerPartsType)
-  IHH.SetPlayerPartsFpkPath(partsInfo.partsFpk)
-  IHH.SetPlayerPartsPartsPath(partsInfo.partsParts)
-  IHH.SetSkinToneFv2Path(partsInfo.skinToneFv2)
-  IHH.SetUseHeadForPlayerParts(partsInfo.needHead)
-  IHH.SetUseBionicHandForPlayerParts(partsInfo.needBionicHand)
+  IhkCharacter.SetPlayerTypeForPartsType(playerType)
+  IhkCharacter.SetPlayerPartsTypeForPartsType(playerPartsType)
+  IhkCharacter.SetPlayerPartsFpkPath(partsInfo.partsFpk)
+  IhkCharacter.SetPlayerPartsPartsPath(partsInfo.partsParts)
+  IhkCharacter.SetSkinToneFv2Path(partsInfo.skinToneFv2)
+  IhkCharacter.SetUseHeadForPlayerParts(partsInfo.needHead)
+  IhkCharacter.SetUseBionicHandForPlayerParts(partsInfo.needBionicHand)
 end--SetOverrideValues
 
 --Loads \mod\playerParts\*.lua into this.infos
@@ -755,7 +756,7 @@ function this.ApplyInfo(setting)
     setting=0
   end
   if setting==0 then
-    IHH.SetOverrideCharacterSystem(false)
+    IhkCharacter.SetOverrideCharacterSystem(false)
   else
     local name=this.names[setting+1]
     local partsInfo=this.infos[name]
@@ -769,7 +770,7 @@ function this.ApplyInfo(setting)
         InfCore.Log("WARNING: character_playerParts does not match playerType")
         ivars.character_playerParts=0
       else
-        IHH.SetOverrideCharacterSystem(true)
+        IhkCharacter.SetOverrideCharacterSystem(true)
         this.SetOverrideValues(partsInfo)
       end
     end
@@ -881,7 +882,7 @@ this.character_overrideCharacterSystem={
     --DEBUGNOW
     else
       local enable=setting==1
-      IHH.SetOverrideCharacterSystem(enable)
+      IhkCharacter.SetOverrideCharacterSystem(enable)
     end
   end,
 }
@@ -894,7 +895,7 @@ this.character_playerPartsNeedHead={
     --DEBUGNOW
     else
       local enable=setting==1
-      IHH.SetUseHeadForPlayerParts(enable)
+      IhkCharacter.SetUseHeadForPlayerParts(enable)
     end
   end,
 }
@@ -907,7 +908,7 @@ this.character_playerPartsNeedHand={
     --DEBUGNOW add lang warn
     else
       local enable=setting==1
-      IHH.SetUseBionicHandForPlayerParts(enable)
+      IhkCharacter.SetUseBionicHandForPlayerParts(enable)
     end
   end,
 }
