@@ -94,6 +94,10 @@ this.MISSION_GUARANTEE_GMP={
   [11115]=35e4,
   [10230]=23e4
 }
+--NMC <missioncode>_sequence.missionObjectiveDefine taskNo to idroid mission task UI index, since for some missions some taskNos aren consecutive
+--and because otherwise _sequence.missionObjectiveDefine data is only available when mission is loaded.
+--passed to UI via TppUiCommand.RegisterMbMissionListFunction >> TppResult.GetMbMissionListParameterTable
+--DYNAMIC: ADDON: added to by InfMission
 this.MISSION_TASK_LIST={
   [10010]={0,1},
   [10020]={0,1,2,3,4,5},
