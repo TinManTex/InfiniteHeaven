@@ -1,5 +1,11 @@
 -- DOBUILD: 1
 -- TppGVars.lua
+-- gvars are TppScriptVars, which are saved to the game save
+-- wheres svars is for mission specific vars, gvars is for global/game persistant save vars.
+-- (and mvars are not scriptvars/are just plain lua vars used for mission vars that aren't saved)
+-- gvars are accessed directly with gvars.<name> and arrays gvars.<name>[index]
+-- but to dump them wholesale see mockfox IHTearDown DumpSaveVars for the ins and outs 
+-- since Inspects method of dumping them wont get you pretty data
 -- GOTCHA: setting a TYPE_BOOL scriptvar to 0 will set it to true
 local this={}
 this.DeclareGVarsTable={
