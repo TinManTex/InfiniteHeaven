@@ -46,7 +46,7 @@
 --  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
 --  weatherProbabilities={-- see TppWeather.weatherProbabilitiesTable
 --    {TppDefine.WEATHER.SUNNY,80},
---    {TppDefine.WEATHER.CLOUDY,20}  
+--    {TppDefine.WEATHER.CLOUDY,20}
 --  },
 --  extraWeatherProbabilities={-- see TppWeather.extraWeatherProbabilitiesTable
 --    {TppDefine.WEATHER.RAINY,50},
@@ -126,10 +126,10 @@
 --    DisableSelectSortieTimeFromMissionPreparetion=true,  -- Only ASAP as deployment time option
 --  },
 --  defaultDropRoute="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",--tex story missions only (not free roam), not exactly sure how/what its used for, but it's in TppDefine.DEFAULT_DROP_ROUTE
---  --tex DEBUGNOW debating whether to have this here or in locationInfo to save duplication, 
+--  --tex DEBUGNOW debating whether to have this here or in locationInfo to save duplication,
 --  --TppLandingZoneData is defined in mission pack fox2 so author would be duplicating anyhoo
 --  --but using this to build TppLandingZone MissionLandingZoneTable which is pretty much all the lzs dumped in for managing disabling the lzs in idroid
---  --tex see also comment above InfLZ.lzInfo for the breakdown of what the data is from 
+--  --tex see also comment above InfLZ.lzInfo for the breakdown of what the data is from
 --  lzInfo={
 --    ["lz_bridge_S0000|lz_bridge_S_0000"]={
 --      approachRoute="lz_bridge_S0000|rt_apr_bridge_S_0000",
@@ -517,7 +517,7 @@ function this.LoadMissionDefs()
     local missionInfo=InfCore.LoadSimpleModule(InfCore.paths.missions,fileName)
     if missionInfo then
       missionInfo.missionPacks=missionInfo.missionPacks or missionInfo.packs--tex PATCHUP: RENAMED packs
-    
+
       local missionCode=missionInfo.missionCode--TYPE
       if not missionCode then
         InfCore.Log("WARNING: could not find missionCode on "..fileName)
@@ -550,7 +550,7 @@ function this.AddInLocations()
       InfCore.Log("WARNING: Could nof find locationName for "..locationId)
     else
       locationInfo.locationPacks=locationInfo.locationPacks or locationInfo.packs--tex PATCHUP: RENAMED packs
-    
+
       InfCore.Log("Adding location: "..locationName.." "..locationId)
       if TppDefine.LOCATION_ID[locationName] then
         InfCore.Log("WARNING: location already defined "..locationId)
@@ -559,7 +559,7 @@ function this.AddInLocations()
       if locationInfo.locationPacks then
         TppMissionList.locationPackTable[locationId]=locationInfo.locationPacks
       end
-      
+
       --KLUDGE may not be accurate, but just stand-in until InfMain.BuildCpPositions kicks in and gets actually positions from the cp entities
       local locationNameLower=string.lower(locationName)
       local cpPositions=InfMain.cpPositions[locationNameLower] or {}
@@ -574,7 +574,7 @@ function this.AddInLocations()
         end--for townParameter
       end--if locationMapParams townParameter
 
-      InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)      
+      InfQuest.AddLocationQuestAreas(locationId,locationInfo.questAreas)
       InfWeather.AddWeatherProbabilities(locationName,locationInfo)
     end
   end
@@ -608,7 +608,7 @@ function this.AddInMissions()
 
   InfCore.Log("InfMission.AddInMissions: Adding missionInfos")
   local rebuildLzTables=false
-  
+
   for missionCode,missionInfo in pairs(this.missionInfo)do
     InfCore.Log("Adding mission: "..missionCode)
 
@@ -637,7 +637,7 @@ function this.AddInMissions()
       local locationMissions=TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location] or {}
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
-      
+
       local startPos=missionInfo.startPos and missionInfo.startPos.pos or missionInfo.startPos
       if startPos then
         local rotY=startPos[4] or startPos.rotY
@@ -651,7 +651,7 @@ function this.AddInMissions()
         InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
         TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
       end
-      if missionInfo.noBoxMissionStartPosition then--tex shouldn't really be used, use startPos instead 
+      if missionInfo.noBoxMissionStartPosition then--tex shouldn't really be used, use startPos instead
         TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
       else
         if missionInfo.isNoOrderBoxMission and startPos then
@@ -712,12 +712,12 @@ function this.AddInMissions()
           InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(),heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
         end
       end--if missionInfo heliLandPoint
- 
-      if missionInfo.lzInfo then  
+
+      if missionInfo.lzInfo then
         rebuildLzTables=true
         this.AddLzInfo(missionInfo)
       end
-      
+
       if missionInfo.defaultDropRoute then
         if TppMission.IsStoryMission(missionCode)then
           TppDefine.DEFAULT_DROP_ROUTE[missionCode]=missionInfo.defaultDropRoute
@@ -739,15 +739,15 @@ function this.AddInMissions()
 end--AddInMissions
 function this.AddLzInfo(missionInfo)
   --DEBUGNOW currently only MissionLandingZoneTable as aacrGimmicks not worked out yet
-  --REF 
+  --REF
   --TppLandingZone.locInfo={
   --  afgh={
   --    MissionLandingZoneTable={
-  --      {aprLandingZoneName="lz_bridge_S0000|lz_bridge_S_0000",drpLandingZoneName="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",missionList={10040}},       
+  --      {aprLandingZoneName="lz_bridge_S0000|lz_bridge_S_0000",drpLandingZoneName="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",missionList={10040}},
   local locationNameLower=string.lower(missionInfo.location)
   for lzName,lzInfo in pairs(missionInfo.lzInfo)do
     InfLZ.lzInfo[lzName]=lzInfo
-  
+
     TppLandingZone.locInfo[locationNameLower]=TppLandingZone.locInfo[locationNameLower] or {MissionLandingZoneTable={},ConnectLandingZoneTable={}}
     local missionLandingZoneTable=TppLandingZone.locInfo[locationNameLower].MissionLandingZoneTable
     local currentLzEntry
@@ -757,7 +757,7 @@ function this.AddLzInfo(missionInfo)
         currentLzEntry=lzEntry
         break
       end
-    end--for missionLandingZoneTable          
+    end--for missionLandingZoneTable
     --DEBUGNOW validate that drpLandingZoneName matches?
     if not currentLzEntry then
       --GOTCHA: aprLandingZoneName is lzName (not route), while drpLandingZoneName is droproute (for that lz)
@@ -859,7 +859,7 @@ function this.LoadLibraries()
     end
   end
   table.sort(this.missionIds)
-  
+
   this.RegisterMissions()
 
   this.freeMissionIds={}
@@ -872,7 +872,7 @@ function this.LoadLibraries()
   for missionCode,missionInfo in pairs(this.missionInfo)do
     if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) and not missionInfo.hideMission then
       table.insert(this.freeMissionIds,missionCode)
-      
+
       local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
       if locationId==nil then
         InfCore.Log("ERROR: InfMission.LoadLibraries: locationId==nil for missionInfo.location:"..tostring(missionInfo.location))
@@ -1223,7 +1223,7 @@ function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
   if InfMain.IsOnlineMission(vars.missionCode)then
     return nil
   end
-  
+
   local weaponIdTable
   local missionInfo=this.missionInfo[vars.missionCode]
   if missionInfo then
@@ -1234,10 +1234,10 @@ function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
       if weaponIdTable==nil then
         InfCore.Log("WARNING: InfMission.GetWeaponIdTable: could not find weaponIdTable["..missionInfo.weaponIdTable.."]")
       end
-    elseif type(weaponIdTable)=="table" then 
+    elseif type(weaponIdTable)=="table" then
       --LEGACY: initial implementation missionInfo.weaponIdTable was just a soldieSubType weaponIdTable
       if weaponIdTable.NORMAL or weaponIdTable.STRONG then
-        --will just use weaponIdTable
+      --will just use weaponIdTable
       else
         --assuming its a full weaponIdTable
         weaponIdTable=TppEnemy.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
