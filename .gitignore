@@ -1,25 +1,25 @@
 #Infinite Heaven .gitignore
 #gamedir\mod\strings is a bunch of txt strings from https://github.com/TinManTex/mgsv-lookup-strings that IH uses sor it's StrCodeToString function for debugging
-/*/mod-gamedir/strings/*
+/*/gamedir-ih/GameDir/mod/strings/*
 
 #my build tool currently puts a copy of the .mgsv in the gameid folder
 /*/*.mgsv
 
 #runtime generated files
-/*/mod-gamedir/ih_log.txt
-/*/mod-gamedir/ih_log_prev.txt
-/*/mod-gamedir/ih_toextcmds.txt
-/*/mod-gamedir/ih_tomgsvcmds.txt
-/*/mod-gamedir/ih_files.txt
-/*/mod-gamedir/ih_unknownMessages.txt
-/*/mod-gamedir/ih_unknownStr32.txt
-/*/mod-gamedir/saves/ih_save.lua
-/*/mod-gamedir/saves/ih_save_prev.lua
-/*/mod-gamedir/saves/ih_priority_staff.lua
+/*/gamedir-ih/GameDir/mod/ih_log.txt
+/*/gamedir-ih/GameDir/mod/ih_log_prev.txt
+/*/gamedir-ih/GameDir/mod/ih_toextcmds.txt
+/*/gamedir-ih/GameDir/mod/ih_tomgsvcmds.txt
+/*/gamedir-ih/GameDir/mod/ih_files.txt
+/*/gamedir-ih/GameDir/mod/ih_unknownMessages.txt
+/*/gamedir-ih/GameDir/mod/ih_unknownStr32.txt
+/*/gamedir-ih/GameDir/mod/saves/ih_save.lua
+/*/gamedir-ih/GameDir/mod/saves/ih_save_prev.lua
+/*/gamedir-ih/GameDir/mod/saves/ih_priority_staff.lua
 
 
 #LDT lua development tools metadata
 /.metadata/*
 *.meta
-tpp/mod-gamedir/IHExt.exe
-tpp/mod-gamedir/cmd_stderr.txt
+tpp/gamedir-ih/GameDir/mod/IHExt.exe
+tpp/gamedir-ih/GameDir/mod/cmd_stderr.txt
