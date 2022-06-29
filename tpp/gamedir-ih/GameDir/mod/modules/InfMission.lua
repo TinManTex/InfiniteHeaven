@@ -816,6 +816,7 @@ function this.RegisterMissions()
       local missionIndex=this.missionListSlotIndices[freeSlot]
       freeSlot=freeSlot+1
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
+      InfCore.Log("InfMission.RegisterMissions: "..missionCode.." missionIndex:"..missionIndex)
     end--not IsVanillaMission
   end--for missionIds
   TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess
@@ -1030,7 +1031,7 @@ function this.SetupAddonStateGVars()
 
   --tex clear gvars for mission slots being used for addon missions (see RegisterMissions missionListSlotIndices) first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
-    InfCore.Log("Clearing "..missionListIndex)
+    --InfCore.Log("Clearing "..missionListIndex)
     for i, name in ipairs(gvarFlagNames)do
       gvars[name][missionListIndex]=false
     end
@@ -1172,6 +1173,7 @@ function this.ReadSaveStates()
         InfCore.Log("InfMission.ReadSaveStates: Could not find missionIndex for "..name.." "..missionInfo.missionCode..". Clearing")
         table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
       else
+        InfCore.Log("InfMission.ReadSaveStates: Setting state gvars for "..name.." missionIndex:"..missionIndex)
         for i,gvarFlagName in ipairs(gvarFlagNames)do
           gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or false
         end
