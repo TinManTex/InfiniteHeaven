@@ -1742,7 +1742,6 @@ function this.UpdateStorySequence(params)
       gvars.continueTipsCount=1
     end
   end
-  InfMission.OpenMissions()--tex WORKAROUND story system too much of a hassle at the moment DEBUGNOW
   return updateSequence
 end
 function this.UpdateStorySequenceOnMissionClear(missionId)
