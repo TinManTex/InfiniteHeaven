@@ -999,8 +999,9 @@ function this.RemoveInvalidTasks()
       end
     end
   end
-
-  InfCore.PrintInspect(inspectTable,"inspectTable") --debug inspect
+  if this.debugModule then
+    InfCore.PrintInspect(inspectTable,"inspectTable") --debug inspect
+  end
 end--RemoveInvalidTasks
 
 --tex mission state gvar names
