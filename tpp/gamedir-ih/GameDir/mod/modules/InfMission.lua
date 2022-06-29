@@ -1032,9 +1032,8 @@ function this.OpenMissions()
       gvars[name][missionListIndex]=false
     end
 
-    --tex see _GetLastCompletedFlagIndex how to index ui_isTaskLastComleted
     for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
-      local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+      local missionTaskIndex=missionListIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
       --tex <r237 BUG: (though discovered in r233, why didnt I fix till 237? who knows)
       --gvars.ui_isTaskLastComleted[missionListIndex-1]=0--GOTCHA TppScriptVars of TYPE_BOOL being set to 0 sets value to true
       --this resulted in trashing some of the users ui_isTaskLastComleted data, a symptom of which being incorrect percentage completion
