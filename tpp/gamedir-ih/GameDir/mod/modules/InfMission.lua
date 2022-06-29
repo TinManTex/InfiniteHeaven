@@ -1003,7 +1003,8 @@ function this.RemoveInvalidTasks()
   InfCore.PrintInspect(inspectTable,"inspectTable") --debug inspect
 end--RemoveInvalidTasks
 
---tex pretty much all gvars that are indexed by MISSION_COUNT_MAX
+--tex mission state gvar names
+--pretty much all gvars that are indexed by MISSION_COUNT_MAX
 --REF TODO
 --{name="res_bestRank",type=TppScriptVars.TYPE_UINT8,arraySize=TppDefine.MISSION_COUNT_MAX,value=(TppDefine.MISSION_CLEAR_RANK.E+1),save=true,category=TppScriptVars.CATEGORY_MISSION},
 --{name="ui_isTaskLastComleted",arraySize=TppDefine.MISSION_COUNT_MAX*TppDefine.MAX_MISSION_TASK_COUNT,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},--tex was arraySize=#TppDefine.MISSION_LIST*TppDefine.MAX_MISSION_TASK_COUNT   
