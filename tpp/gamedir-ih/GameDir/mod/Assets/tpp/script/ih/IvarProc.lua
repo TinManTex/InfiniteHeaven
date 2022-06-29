@@ -1275,14 +1275,15 @@ local tableHeaderFmt="this.%s={"
 
 local Format=string.format
 local sub=string.sub
+local tonumber=tonumber
 function this.BuildTableText(tableName,sourceTable,saveTextList)
-  saveTextList[#saveTextList+1]=Format(tableHeaderFmt,tableName)
+  saveTextList[#saveTextList+1]=Format(tableHeaderFmt,tableName)--tex TODO guard against tableName 1st char is a number like bleow
   for k,v in pairs(sourceTable)do
     local keyLine=""
     if type(k)=="number" then
       keyLine=Format(saveLineKeyNumber,k)
-    elseif type(sub(k, 1, 1))=="number" then--tex first char is number
-      keyLine=Format(saveLineKeyExplicitString,k)
+    --elseif tonumber(sub(k, 1, 1))~=nil then--tex first char is number TODO TEST
+    --  keyLine=Format(saveLineKeyExplicitString,k)
     else
       keyLine=Format(saveLineKeyOther,k)
     end
