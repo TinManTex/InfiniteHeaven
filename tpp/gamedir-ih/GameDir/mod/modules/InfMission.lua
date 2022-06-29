@@ -80,7 +80,7 @@
 --  startPos={-11.788,8.483,165.559},--NO_HELICOPTER_MISSION_START_POSITION entry -  player spawn pos for non heli ride missions
 --  missionGuaranteeGMP=120000, --TppResult.MISSION_GUARANTEE_GMP - base gmp for mission on mission clear
 --  noAddVolunteers=false,--dont add any volunteer staff on mission complete
---  missionTaskList={0,2,3,4,5,6},--TppResult.MISSION_TASK_LIST - Haven't worked out exactly what this is
+--  missionTaskList={0,2,3,4,5,6},--see TppResult.MISSION_TASK_LIST - <missioncode>_sequence.missionObjectiveDefine taskNo to idroid mission task UI index, also used to numerate the valid tasks
 --  noArmorForMission=true,--TppEneFova.noArmorForMission - disallow heavy armor in the mission
 --  missionArmorType={TppDefine.AFR_ARMOR.TYPE_RC},--TppEneFova.missionArmorType - Armor type for pfs in mafr
 --  missionHostageInfos={count=1,lang=RENlang2,overlap=true},--TppEneFova.missionHostageInfos - for the mission hostage generation system
@@ -676,8 +676,6 @@ function this.AddInMissions()
         TppTerminal.noAddVolunteerMissions[missionCode]=true
       end
 
-      --tex TppResult.MISSION_TASK_LIST, but not totally sure what it is yet, passed to UI via TppUiCommand.RegisterMbMissionListFunction >> TppResult.GetMbMissionListParameterTable
-      --TODO find when GetMbMissionListParameterTable actually called, I see I hooked it at some point, I presume to do just that lol
       if missionInfo.missionTaskList then
         TppResult.MISSION_TASK_LIST[missionCode]=missionInfo.missionTaskList
       end
@@ -944,12 +942,69 @@ function this.GetMapMissionParameter(missionCode)
   end
 end
 
---str_missionOpenPermission ? DEBUGNOW
+--rlcs RemoveInvalidTasks
+--FIXUP BADATA
+--tex also fixes <r237 BUG, see SetupAddonMissionStates
+--fix any invalid ui_isTaskLastComleted tasks as defined by MISSION_TASK_LIST
+--symptom of the invalid data is incorrect mission task completion percentage
+function this.RemoveInvalidTasks()
+  InfCore.Log("Removing invalid tasks")
+
+  local inspectTable={}--debug inspect
+
+  for missionIndex=0, TppDefine.MISSION_COUNT_MAX-1 do
+    --Checking mission
+    local missionCode = TppDefine.MISSION_LIST[missionIndex+1]
+
+    if tonumber(missionCode) then
+      inspectTable[tonumber(missionCode)]={} --debug inspect
+    end
+
+    for taskIndex=0, TppDefine.MAX_MISSION_TASK_COUNT-1 do
+      --Checking the task of the mission
+      local globalTaskIndexStart = missionIndex*TppDefine.MAX_MISSION_TASK_COUNT
+      local globalTaskIndex = globalTaskIndexStart + taskIndex
+
+      --Checking if the task is valid against TppResult.MISSION_TASK_LIST
+      local validTask=false
+      local taskTable=TppResult.MISSION_TASK_LIST[tonumber(missionCode)]
+      if Tpp.IsTypeTable(taskTable) then
+        for taskListIndex, validTaskIndex in ipairs(taskTable) do
+          if taskIndex==validTaskIndex then
+            -- TppResult.MISSION_TASK_LIST[missionCode]={} table contains the task index, task is valid
+            validTask=true
+            break
+          end
+        end
+      end
+      if validTask==false then
+        if gvars.ui_isTaskLastComleted[globalTaskIndex]==true then  
+          --Did not pass validity check through TppResult.MISSION_TASK_LIST, resetting task
+          gvars.ui_isTaskLastComleted[globalTaskIndex]=false
+        end
+      end
+
+      if tonumber(missionCode) then
+        inspectTable[tonumber(missionCode)][taskIndex+1]={ --debug inspect
+          internalIndex=taskIndex, --0 thru 7 task index
+          flag=gvars.ui_isTaskLastComleted[globalTaskIndex], --true or false - cleared or not
+          valid=validTask, --true or false - valid on MISSION_TASK_LIST or not
+          globalIndex=globalTaskIndex, --0 thru 511 index
+        }
+      end
+    end
+  end
+
+  InfCore.PrintInspect(inspectTable,"inspectTable") --debug inspect
+end--RemoveInvalidTasks
+
 local gvarFlagNames={
+  "str_missionOpenPermission",
   "str_missionOpenFlag",
   "str_missionNewOpenFlag",
   "str_missionClearedFlag",
 }
+
 
 --CALLER: TppStory.UpdateStorySequence
 --IN/SIDE: this.missionListSlotIndices
@@ -958,68 +1013,22 @@ function this.OpenMissions()
 
   --DEBUGNOW limit to only run once
 
-
-
-  -- PATCHUP: BADDATA:
-  --<r233 BUG:
-  --for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
-  --local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
-  --tex this resulted in trashing some of the users ui_isTaskLastComleted data (the indices listed in badIndexes)
-  --with the GOTCHA of TppScriptVars of TYPE_BOOL being set to 0 setting them to true
-  --gvars.ui_isTaskLastComleted[missionListIndex-1]=0
-  --end
-
-  --tex fix is checking if missionTaskIndexes that aren't ever set in vanilla game have been set and clearing those
-  --will still potentially leave some users with some valid tasks that they hadn't actually completed set as completed
-  --but there's no heuristic I'm happy with to figure that out
-
-  --tex from missionListSlotIndices (shifted-1 to gvar indices) at the time of the below bug
-  --which was built from missing_number_missions, and #mission_list > max_mission (62,63)
-  local badIndexes={
-    39,--invalid task
-    41,
-    43,
-    46,--invalid task
-    49,
-    50,
-    51,
-    53,
-    55,--invalid task
-    57,
-    60,
-    62,
-    63,--invalid task
-  }
-  --tex Dump values at badIndexes
-  for i,badIndex in ipairs(badIndexes)do
-    local value=gvars.ui_isTaskLastComleted[badIndex]
-    InfCore.Log("badIndex: "..badIndex..": "..tostring(value))
-  end
-
-  --tex actual fix, may need to be reconsidered if we start repurposing vanilla mission slots
-  --notes on what is actual bad data (ie missionTaskIndexes set to true that aren't actually valid tasks for that mission in vanilla game)
-  --figured out by diffing a normal 100% save with a corrupted 100% save
-  local badTasksIndexes={
-    39,
-    46,
-    55,
-    63,
-  }
-  for i,badIndex in ipairs(badTasksIndexes)do
-    gvars.ui_isTaskLastComleted[badIndex]=false
-  end
+  this.RemoveInvalidTasks()
 
   --tex close all missing number missions and > vanilla missions first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
     InfCore.Log("Clearing "..missionListIndex)
-    gvars.str_missionOpenPermission[missionListIndex-1]=false
-    gvars.str_missionOpenFlag[missionListIndex-1]=false
-    gvars.str_missionNewOpenFlag[missionListIndex-1]=false
-    gvars.str_missionClearedFlag[missionListIndex-1]=false
+    for i, name in ipairs(gvarFlagNames)do
+      gvars[name][missionListIndex-1]=false
+    end
 
     --tex see _GetLastCompletedFlagIndex how to index ui_isTaskLastComleted
     for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
       local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+      --tex <r237 BUG: (though discovered in r233, why didnt I fix till 237? who knows)
+      --gvars.ui_isTaskLastComleted[missionListIndex-1]=0--GOTCHA TppScriptVars of TYPE_BOOL being set to 0 sets value to true
+      --this resulted in trashing some of the users ui_isTaskLastComleted data, a symptom of which being incorrect percentage completion
+      
       gvars.ui_isTaskLastComleted[missionTaskIndex]=false
     end
   end
