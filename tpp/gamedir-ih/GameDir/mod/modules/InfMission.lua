@@ -787,13 +787,13 @@ function this.RegisterMissions()
   --so am reusing the MISSING_NUMBER_MISSION_LIST which is flyk and some uncompleted extreme/subsidence of other missions
   --
   --plus the 2 actual free missionlist slots
-  this.missionListSlotIndices={}--tex need it for OpenMissions
+  this.missionListSlotIndices={}
   for i,missionCodeStr in ipairs(TppDefine.MISSING_NUMBER_MISSION_LIST)do
-    local missionIndex=TppDefine.MISSION_ENUM[missionCodeStr]+1
+    local missionIndex=TppDefine.MISSION_ENUM[missionCodeStr]
     table.insert(this.missionListSlotIndices,missionIndex)
   end
 
-  for i=#TppDefine.MISSION_LIST+1,TppDefine.MISSION_COUNT_MAX do
+  for i=#TppDefine.MISSION_LIST,TppDefine.MISSION_COUNT_MAX-1 do
     table.insert(this.missionListSlotIndices,i)
   end
   table.sort(this.missionListSlotIndices)
@@ -806,13 +806,13 @@ function this.RegisterMissions()
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist vanill")
   end
 
-  local freeSlot=0
+  local freeSlot=1
   for i,missionCode in ipairs(this.missionIds)do
-    if freeSlot==#this.missionListSlotIndices then
+    if freeSlot>#this.missionListSlotIndices then
       InfCore.Log("WARNING: No free MISSION_LIST slots")
       break
     else--if not this.IsVanillaMission(missionCode)then--tex OVERKILL, shouldn't be in missionIds in the first place
-      local missionIndex=this.missionListSlotIndices[freeSlot+1]
+      local missionIndex=this.missionListSlotIndices[freeSlot]
       freeSlot=freeSlot+1
       TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
     end--not IsVanillaMission
@@ -1019,7 +1019,7 @@ function this.OpenMissions()
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
     InfCore.Log("Clearing "..missionListIndex)
     for i, name in ipairs(gvarFlagNames)do
-      gvars[name][missionListIndex-1]=false
+      gvars[name][missionListIndex]=false
     end
 
     --tex see _GetLastCompletedFlagIndex how to index ui_isTaskLastComleted
