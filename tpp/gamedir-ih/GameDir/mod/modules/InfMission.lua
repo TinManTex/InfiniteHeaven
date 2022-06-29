@@ -186,7 +186,7 @@ this.debugModule=true--DEBUGNOW
 
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
-this.missionNames={}--tex see LoadMissionDefs
+this.missionNames={}--tex see LoadMissionDefs TODO: not really useful since missionInfo isn't indexed by missionName like questinfo is
 this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonStateGVars(), story missions only not free roam missions
 this.missionListSlotIndices={}--tex MISSION_LIST indexes that can be reusued for addon missions
 this.freeMissionIds={}--tex free roam missions
@@ -522,6 +522,7 @@ function this.LoadMissionDefs()
       if not missionCode then
         InfCore.Log("WARNING: could not find missionCode on "..fileName)
       else
+        missionInfo.name=missionName
         missionNames[#missionNames+1]=missionName
 
         if missionsInfo[missionCode] then
@@ -1011,10 +1012,11 @@ end--RemoveInvalidTasks
 --{name="rnk_missionBestScore",type=TppScriptVars.TYPE_UINT32,value=0,arraySize=TppDefine.MISSION_COUNT_MAX,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
 --{name="rnk_missionBestScoreUsedLimitEquip",type=TppScriptVars.TYPE_UINT32,value=0,arraySize=TppDefine.MISSION_COUNT_MAX,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
 local gvarFlagNames={
-  "str_missionOpenPermission",
-  "str_missionOpenFlag",
-  "str_missionNewOpenFlag",
-  "str_missionClearedFlag",
+  --TppStory
+  "str_missionOpenPermission",--PermitMissionOpen
+  "str_missionOpenFlag",--SetMissionOpenFlag
+  "str_missionNewOpenFlag",--SetMissionNewOpenFlag
+  "str_missionClearedFlag",--UpdateMissionCleardFlag
 }
 
 --CALLER: TppStory.UpdateStorySequence
@@ -1043,68 +1045,195 @@ function this.SetupAddonStateGVars()
     end
   end
 
-  --tex TODO: save/restore mission flags
+  this.ReadSaveStates()
 
-  for i,missionCode in ipairs(this.missionIds)do
-    InfCore.Log("Opening "..missionCode)
-    TppStory.PermitMissionOpen(missionCode)
-    TppStory.SetMissionOpenFlag(missionCode,true)
-    --TppStory.MissionOpen(missionCode)
-  end
+--CULL open all reguardless
+--  for i,missionCode in ipairs(this.missionIds)do
+--    InfCore.Log("Opening "..missionCode)
+--    TppStory.PermitMissionOpen(missionCode)
+--    TppStory.SetMissionOpenFlag(missionCode,true)
+--    --TppStory.MissionOpen(missionCode)
+--  end
 end--SetupAddonStateGVars
 
---tex set missionCleared gvars from ih_save state
---IN/SIDE: ih_save
---REF ih_save
---this.missionStates={
---  <mission name>=<bitfield of mission cleared gvar states>,
---}
-function this.ReadSaveStates() --DEBUGNOW uhh not called from anywhere? did I even implement this?
-  InfCore.LogFlow"InfMission.ReadSaveStates"
+--saving/loading addon mission gvars that need to be juggled since they are reusing mission slots
+--tex currently only loads ih_mission_states once on session
+--but saves to is on every game save
+--the mission gvars keep doing their thing normally after the initial set by ih
+--
+--
+this.debugSave=true--DEBUGNOW
 
-  if ih_save==nil then
-    local errorText="ReadSaveStates Error: ih_save==nil"
-    InfCore.Log(errorText,true,true)
-    return
+this.isSaveDirty=true
+
+this.saveName="ih_mission_states.lua"
+
+--tex don't lose existing on modulereload
+ih_mission_states=ih_mission_states or {}
+
+function this.Save(newSave)
+  InfCore.LogFlow"InfMission.Save"
+  local ih_states=ih_mission_states
+
+  local isDirty=this.GetCurrentStates()
+  if isDirty then
+    if this.debugSave then
+      InfCore.Log("missionStates isDirty")
+    end
+
+    local saveTextList={
+      "-- "..this.saveName,
+      "-- save states for addon missions.",
+      "local this={}",
+    }
+    for name,state in pairs(ih_states)do
+      IvarProc.BuildTableText(name,state,saveTextList)
+    end
+
+    saveTextList[#saveTextList+1]="return this"
+    IvarProc.WriteSave(saveTextList,this.saveName)
   end
 
-  local saveStates=ih_save.missionStates
+  if this.debugSave then
+    InfCore.PrintInspect(ih_states,"states")
+  end
+end--Save
+--GOTCHA: not module 'LoadSave' because we only really want to load once on , as gvars handles reverting state
+function this.LoadStates()
+  InfCore.LogFlow"InfMission.LoadStates"
+  local saveName=this.saveName
+  local filePath=InfCore.paths.saves..saveName
+  local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
+  if ih_save_chunk==nil then
+    local errorText="LoadStates Error: loadfile error: "..tostring(loadError)
+    InfCore.Log(errorText,false,true)
+    return nil
+  end
 
-  if saveStates==nil then
-    InfCore.Log"ReadSaveStates: ih_save.missionStates==nil"
+  local sandboxEnv={}
+  if setfenv then
+    setfenv(ih_save_chunk,sandboxEnv)
+  end
+  local ih_save=ih_save_chunk()
+
+  if ih_save==nil then
+    local errorText="LoadStates Error: ih_save==nil"
+    InfCore.Log(errorText,true,true)
+
+    return nil
+  end
+
+  if type(ih_save)~="table"then
+    local errorText="LoadStates Error: ih_save==table"
+    InfCore.Log(errorText,true,true)
+
+    return nil
+  end
+
+  ih_mission_states=ih_save
+  if this.debugSave then
+    InfCore.PrintInspect(ih_mission_states,"ih_mission_states")
+  end
+end--LoadStates
+
+--tex set mission status gvars from ih save state
+--IN/SIDE: ih_mission_states
+--REF ih_mission_states
+--ih_mission_states={
+--  33001_afc0={--TODO VERIFY
+--    str_missionClearedFlag=true,
+--    ...
+--  },
+--  ...
+--}
+
+function this.ReadSaveStates()
+  InfCore.LogFlow"InfMission.ReadSaveStates"
+  local ih_states=ih_mission_states
+
+  if ih_states==nil then
+    local errorText="ERROR: ReadSaveStates: ih_mission_states==nil"
+    InfCore.Log(errorText,true,true)
     return {}
   end
 
-  if type(saveStates)~="table" then
-    local errorText="ReadSaveStates Error: ih_save.missionStates type~=table"
-    InfCore.Log(errorText,true,true)
-    return
+  if this.debugSave then
+    InfCore.PrintInspect(ih_states,"states pre read")
   end
 
-  for name,saveState in pairs(saveStates)do
-  --DEBUGNOW
+  local clearStates={}
+  for name,state in pairs(ih_states) do
+    local missionIndex=TppDefine.MISSION_ENUM[name]
+    if not missionIndex then
+      InfCore.Log("InfMission.ReadSaveStates: Could not find missionIndex for "..name)
+      table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
+    else
+      for i,gvarFlagName in ipairs(gvarFlagNames)do
+        gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or false
+      end
+    end
+  end--for ih_states
+
+  for i,name in ipairs(clearStates)do
+    ih_states[name]=nil
   end
 
-  return saveStates
-end
+  --tex open up new missions
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    local name=missionInfo.name
+    if not ih_states[name] then
+      local missionIndex=TppDefine.MISSION_ENUM[name]
+      if missionIndex then
+        TppStory.SetMissionNewOpenFlag(missionCode,true)
+      end
+    end
+  end--for missionInfo
 
-local saveStates={}--tex cache of last to compare against for isdirty
---CALLER: IvarProc.BuildSaveText
-function this.GetCurrentSaveStates()
+  if this.debugSave then
+    for name,state in pairs(ih_states) do
+      InfCore.Log(name)
+      local missionIndex=TppDefine.MISSION_ENUM[name]
+      if not missionIndex then
+      else
+        for i,gvarFlagName in ipairs(gvarFlagNames)do
+          local value=tostring(gvars[gvarFlagName][missionIndex])
+          InfCore.Log(gvarFlagName.."="..value)
+        end
+      end
+    end--for states
+  end
+end--ReadSaveStates
 
+function this.GetCurrentStates()
+  local MISSION_ENUM=TppDefine.MISSION_ENUM
   local gvars=gvars
-  local bor=bit.bor
+  local ih_states=ih_mission_states
 
   local isSaveDirty=false
 
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    local name=missionInfo.name
+    local missionIndex=MISSION_ENUM[name]
+    if not missionIndex then
+      InfCore.Log("ERROR: InfMission.GetCurrentStates: Could not find missionIndex for "..name,false,true)
+    else
+      local states=ih_states[name] or {}
 
+      for i,gvarFlagName in ipairs(gvarFlagNames) do
+        local gvarValue=gvars[gvarFlagName][missionIndex]
+        if states[gvarFlagName]~=gvarValue then
+          isSaveDirty=true
+          states[gvarFlagName]=gvarValue
+        end
+      end
 
-  if isSaveDirty then
-    return saveStates
-  end
+      ih_states[name]=states
+    end
+  end--for missionInfo
 
-  return nil
-end
+  return isSaveDirty
+end--GetCurrentStates
+--< save/load stuff
 
 function this.GetLocationInfo(locationCode)
   --locationCode=locationCode or vars.locationCode
