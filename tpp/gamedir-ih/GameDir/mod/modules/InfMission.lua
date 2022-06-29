@@ -902,6 +902,11 @@ function this.LoadLibraries()
   end
 end--LoadLibraries
 
+function this.OnStartTitle()
+  --tex since registermissions is run before the first game save/gvar load
+  this.OpenMissions()
+end
+
 --CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
 function this.GetMapLocationParameter(locationId)
   InfCore.LogFlow("InfMission.GetMapLocationParameter "..tostring(locationId))
