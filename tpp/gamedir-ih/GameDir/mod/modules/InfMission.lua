@@ -764,8 +764,8 @@ function this.AddLzInfo(missionInfo)
       table.insert(missionLandingZoneTable,currentLzEntry)
     end
 
-    if TppMission.IsStoryMission(missionCode)then
-      InfUtil.InsertUniqueInList(currentLzEntry.missionList,missionCode)
+    if TppMission.IsStoryMission(missionInfo.missionCode)then
+      InfUtil.InsertUniqueInList(currentLzEntry.missionList,missionInfo.missionCode)
     else
       --tex KLUDGE need something open, so just slap in early mission
       --a solution would be to - if IsFreeRoam then for all storymission in that location add
