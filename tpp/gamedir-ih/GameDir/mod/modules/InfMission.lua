@@ -1025,7 +1025,7 @@ function this.OpenMissions()
 
   this.RemoveInvalidTasks()
 
-  --tex close all missing number missions and > vanilla missions first so its ok if user uninstalls mission
+  --tex clear gvars for mission slots being used for addon missions (see RegisterMissions missionListSlotIndices) first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
     InfCore.Log("Clearing "..missionListIndex)
     for i, name in ipairs(gvarFlagNames)do
