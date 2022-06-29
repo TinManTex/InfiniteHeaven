@@ -513,7 +513,7 @@ function this.LoadMissionDefs()
   for i,fileName in ipairs(missionFiles)do
     InfCore.Log("InfMission.LoadMissionDefs: "..fileName)
 
-    local missionName=InfUtil.StripExt(fileName)
+    local missionName=InfUtil.StripExt(fileName)    
     local missionInfo=InfCore.LoadSimpleModule(InfCore.paths.missions,fileName)
     if missionInfo then
       missionInfo.missionPacks=missionInfo.missionPacks or missionInfo.packs--tex PATCHUP: RENAMED packs
@@ -782,6 +782,7 @@ end--AddLzInfo
 --OUT/SIDE: this.missionListSlotIndices
 --OUT/SIDE: TppDefine.MISSION_LIST, TppDefine.MISSION_ENUM
 function this.RegisterMissions()
+  InfCore.LogFlow("InfMission.RegisterMissions")
   --tex WORKAROUND exe/ui seems to have same limit as TppDefine.MISSION_COUNT_MAX
   --but there's issues with mission completed rank not matching and seemingly no lua>ui way to set it
   --unlike the rest of the information via Mission.RegisterMissionCodeList, the gmp and task completion via TppResult.GetMbMissionListParameterTable
@@ -815,13 +816,14 @@ function this.RegisterMissions()
     else--if not this.IsVanillaMission(missionCode)then--tex OVERKILL, shouldn't be in missionIds in the first place
       local missionIndex=this.missionListSlotIndices[freeSlot]
       freeSlot=freeSlot+1
-      TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
-      InfCore.Log("InfMission.RegisterMissions: "..missionCode.." missionIndex:"..missionIndex)
+      TppDefine.MISSION_LIST[missionIndex+1]=tostring(missionCode)--GOTCHA: MISSION_LIST 1based, MISSION_ENUM 0based
+      InfCore.Log("MISSION_LIST[missionIndex:"..missionIndex.."]="..missionCode)
     end--not IsVanillaMission
   end--for missionIds
   TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess
 
   if this.debugModule then
+    InfCore.PrintInspect(TppDefine.MISSION_ENUM,"MISSION_ENUM")--DEBUGNOW
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist modded")
     InfCore.PrintInspect(#TppDefine.MISSION_LIST,"#missionlist")
   end
@@ -1048,13 +1050,23 @@ function this.SetupAddonStateGVars()
 
   this.ReadSaveStates()
 
---CULL open all reguardless
---  for i,missionCode in ipairs(this.missionIds)do
---    InfCore.Log("Opening "..missionCode)
---    TppStory.PermitMissionOpen(missionCode)
---    TppStory.SetMissionOpenFlag(missionCode,true)
---    --TppStory.MissionOpen(missionCode)
---  end
+  local ih_states=ih_mission_states
+  for missionCode,missionInfo in pairs(this.missionInfo)do  
+    --tex open missions. TODO: story progress support
+    InfCore.Log("Opening "..missionCode)
+    TppStory.PermitMissionOpen(missionCode)
+    TppStory.SetMissionOpenFlag(missionCode,true)
+    --TppStory.MissionOpen(missionCode)
+      
+    --tex flag new missions  
+    local name=missionInfo.name
+    if not ih_states[name] then
+      local missionIndex=TppDefine.MISSION_ENUM[tostring(missionCode)]
+      if missionIndex then
+        TppStory.SetMissionNewOpenFlag(missionCode,true)
+      end
+    end
+  end--for missionInfo
 end--SetupAddonStateGVars
 
 --saving/loading addon mission gvars that need to be juggled since they are reusing mission slots
@@ -1184,17 +1196,6 @@ function this.ReadSaveStates()
   for i,name in ipairs(clearStates)do
     ih_states[name]=nil
   end
-
-  --tex open up new missions
-  for missionCode,missionInfo in pairs(this.missionInfo)do
-    local name=missionInfo.name
-    if not ih_states[name] then
-      local missionIndex=TppDefine.MISSION_ENUM[tostring(missionCode)]
-      if missionIndex then
-        TppStory.SetMissionNewOpenFlag(missionCode,true)
-      end
-    end
-  end--for missionInfo
 end--ReadSaveStates
 
 function this.GetCurrentStates()
