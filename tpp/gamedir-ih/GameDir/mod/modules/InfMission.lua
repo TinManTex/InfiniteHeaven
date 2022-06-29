@@ -1140,7 +1140,7 @@ end--LoadStates
 --IN/SIDE: ih_mission_states
 --REF ih_mission_states
 --ih_mission_states={
---  33001_afc0={--TODO VERIFY
+--  13005_afgh={
 --    str_missionClearedFlag=true,
 --    ...
 --  },
@@ -1212,6 +1212,7 @@ function this.GetCurrentStates()
         InfCore.Log("InfMission.GetCurrentStates: Could not find missionIndex for "..name.." "..missionCode,false,true)
       end
     else
+      InfCore.Log("InfMission.GetCurrentStates: "..name.." "..missionCode.." missionIndex:"..missionIndex)
       local states=ih_states[name] or {}
 
       for i,gvarFlagName in ipairs(gvarFlagNames) do
