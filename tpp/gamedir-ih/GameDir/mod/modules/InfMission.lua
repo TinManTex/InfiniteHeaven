@@ -842,8 +842,7 @@ function this.LoadLibraries()
     return
   end
 
-  InfCore.LogFlow("InfMission SetupMissions")
-
+  this.LoadStates()
   this.LoadLocationDefs()
   this.LoadMissionDefs()
 
@@ -1072,7 +1071,6 @@ this.saveName="ih_mission_states.lua"
 ih_mission_states=ih_mission_states or {}
 
 function this.Save(newSave)
-  InfCore.LogFlow"InfMission.Save"
   local ih_states=ih_mission_states
 
   local isDirty=this.GetCurrentStates()
@@ -1146,7 +1144,7 @@ end--LoadStates
 --  },
 --  ...
 --}
-
+--tex TODO: give user options whether to clear old entries or not (ditto InfQuest)
 function this.ReadSaveStates()
   InfCore.LogFlow"InfMission.ReadSaveStates"
   local ih_states=ih_mission_states
@@ -1158,20 +1156,26 @@ function this.ReadSaveStates()
   end
 
   if this.debugSave then
-    InfCore.PrintInspect(ih_states,"states pre read")
+    InfCore.PrintInspect(ih_states,"states")
   end
 
   local clearStates={}
   for name,state in pairs(ih_states) do
-    local missionIndex=TppDefine.MISSION_ENUM[name]
-    if not missionIndex then
-      InfCore.Log("InfMission.ReadSaveStates: Could not find missionIndex for "..name)
-      table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
+    local missionInfo=this.missionInfo[name]
+    if not missionInfo then
+        InfCore.Log("InfMission.ReadSaveStates: Could not find missionInfo for "..name..". Clearing")
+        table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)        
     else
-      for i,gvarFlagName in ipairs(gvarFlagNames)do
-        gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or false
+      local missionIndex=TppDefine.MISSION_ENUM[tostring(missionInfo.missionCode)]
+      if not missionIndex then
+        InfCore.Log("InfMission.ReadSaveStates: Could not find missionIndex for "..name.." "..missionInfo.missionCode..". Clearing")
+        table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
+      else
+        for i,gvarFlagName in ipairs(gvarFlagNames)do
+          gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or false
+        end
       end
-    end
+    end--if missionInfo
   end--for ih_states
 
   for i,name in ipairs(clearStates)do
@@ -1182,26 +1186,12 @@ function this.ReadSaveStates()
   for missionCode,missionInfo in pairs(this.missionInfo)do
     local name=missionInfo.name
     if not ih_states[name] then
-      local missionIndex=TppDefine.MISSION_ENUM[name]
+      local missionIndex=TppDefine.MISSION_ENUM[tostring(missionCode)]
       if missionIndex then
         TppStory.SetMissionNewOpenFlag(missionCode,true)
       end
     end
   end--for missionInfo
-
-  if this.debugSave then
-    for name,state in pairs(ih_states) do
-      InfCore.Log(name)
-      local missionIndex=TppDefine.MISSION_ENUM[name]
-      if not missionIndex then
-      else
-        for i,gvarFlagName in ipairs(gvarFlagNames)do
-          local value=tostring(gvars[gvarFlagName][missionIndex])
-          InfCore.Log(gvarFlagName.."="..value)
-        end
-      end
-    end--for states
-  end
 end--ReadSaveStates
 
 function this.GetCurrentStates()
@@ -1213,9 +1203,9 @@ function this.GetCurrentStates()
 
   for missionCode,missionInfo in pairs(this.missionInfo)do
     local name=missionInfo.name
-    local missionIndex=MISSION_ENUM[name]
+    local missionIndex=MISSION_ENUM[tostring(missionCode)]
     if not missionIndex then
-      InfCore.Log("ERROR: InfMission.GetCurrentStates: Could not find missionIndex for "..name,false,true)
+      InfCore.Log("ERROR: InfMission.GetCurrentStates: Could not find missionIndex for "..name.." "..missionCode,false,true)
     else
       local states=ih_states[name] or {}
 
