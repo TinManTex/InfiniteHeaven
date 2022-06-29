@@ -1003,13 +1003,18 @@ function this.RemoveInvalidTasks()
   InfCore.PrintInspect(inspectTable,"inspectTable") --debug inspect
 end--RemoveInvalidTasks
 
+--tex pretty much all gvars that are indexed by MISSION_COUNT_MAX
+--REF TODO
+--{name="res_bestRank",type=TppScriptVars.TYPE_UINT8,arraySize=TppDefine.MISSION_COUNT_MAX,value=(TppDefine.MISSION_CLEAR_RANK.E+1),save=true,category=TppScriptVars.CATEGORY_MISSION},
+--{name="ui_isTaskLastComleted",arraySize=TppDefine.MISSION_COUNT_MAX*TppDefine.MAX_MISSION_TASK_COUNT,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},--tex was arraySize=#TppDefine.MISSION_LIST*TppDefine.MAX_MISSION_TASK_COUNT   
+--{name="rnk_missionBestScore",type=TppScriptVars.TYPE_UINT32,value=0,arraySize=TppDefine.MISSION_COUNT_MAX,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
+--{name="rnk_missionBestScoreUsedLimitEquip",type=TppScriptVars.TYPE_UINT32,value=0,arraySize=TppDefine.MISSION_COUNT_MAX,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
 local gvarFlagNames={
   "str_missionOpenPermission",
   "str_missionOpenFlag",
   "str_missionNewOpenFlag",
   "str_missionClearedFlag",
 }
-
 
 --CALLER: TppStory.UpdateStorySequence
 --IN/SIDE: this.missionListSlotIndices
