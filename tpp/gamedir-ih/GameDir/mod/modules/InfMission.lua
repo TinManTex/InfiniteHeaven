@@ -187,7 +187,7 @@ this.debugModule=true--DEBUGNOW
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
 this.missionNames={}--tex see LoadMissionDefs
-this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonSaveVars(), story missions only not free roam missions
+this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonStateGVars(), story missions only not free roam missions
 this.missionListSlotIndices={}--tex MISSION_LIST indexes that can be reusued for addon missions
 this.freeMissionIds={}--tex free roam missions
 
@@ -904,7 +904,7 @@ end--LoadLibraries
 
 function this.OnStartTitle()
   --tex since registermissions is run before the first game save/gvar load
-  this.SetupAddonSaveVars()
+  this.SetupAddonStateGVars()
 end
 
 --CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
@@ -1018,8 +1018,8 @@ local gvarFlagNames={
 
 --CALLER: TppStory.UpdateStorySequence
 --IN/SIDE: this.missionListSlotIndices
-function this.SetupAddonSaveVars()
-  InfCore.LogFlow("InfMission.SetupAddonSaveVars")
+function this.SetupAddonStateGVars()
+  InfCore.LogFlow("InfMission.SetupAddonStateGVars")
 
   --DEBUGNOW limit to only run once
 
@@ -1050,7 +1050,7 @@ function this.SetupAddonSaveVars()
     TppStory.SetMissionOpenFlag(missionCode,true)
     --TppStory.MissionOpen(missionCode)
   end
-end--SetupAddonSaveVars
+end--SetupAddonStateGVars
 
 --tex set missionCleared gvars from ih_save state
 --IN/SIDE: ih_save
