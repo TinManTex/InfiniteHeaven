@@ -513,7 +513,11 @@ function this.LoadMissionDefs()
   for i,fileName in ipairs(missionFiles)do
     InfCore.Log("InfMission.LoadMissionDefs: "..fileName)
 
-    local missionName=InfUtil.StripExt(fileName)    
+    local missionName=InfUtil.StripExt(fileName) 
+    --tex WORKAROUND: first char is number (ex Ventos Yellow Asset, anything else following my original naming style), which gives BuildTableText issues
+    if tonumber(string.sub(missionName, 1, 1))~=nil then
+      missionName="m"..missionName
+    end   
     local missionInfo=InfCore.LoadSimpleModule(InfCore.paths.missions,fileName)
     if missionInfo then
       missionInfo.missionPacks=missionInfo.missionPacks or missionInfo.packs--tex PATCHUP: RENAMED packs
