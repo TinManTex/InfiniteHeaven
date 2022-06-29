@@ -187,8 +187,8 @@ this.debugModule=true--DEBUGNOW
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
 this.missionNames={}--tex see LoadMissionDefs
-this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions(), story missions only not free roam missions
-this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
+this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonSaveVars(), story missions only not free roam missions
+this.missionListSlotIndices={}--tex MISSION_LIST indexes that can be reusued for addon missions
 this.freeMissionIds={}--tex free roam missions
 
 --tex addon mission added in LoadLibraries,
@@ -904,7 +904,7 @@ end--LoadLibraries
 
 function this.OnStartTitle()
   --tex since registermissions is run before the first game save/gvar load
-  this.OpenMissions()
+  this.SetupAddonSaveVars()
 end
 
 --CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
@@ -1018,12 +1018,12 @@ local gvarFlagNames={
 
 --CALLER: TppStory.UpdateStorySequence
 --IN/SIDE: this.missionListSlotIndices
-function this.OpenMissions()
-  InfCore.LogFlow("InfMission.OpenMissions")
+function this.SetupAddonSaveVars()
+  InfCore.LogFlow("InfMission.SetupAddonSaveVars")
 
   --DEBUGNOW limit to only run once
 
-  this.RemoveInvalidTasks()
+  this.RemoveInvalidTasks()--FIXUP ui_isTaskLastComleted
 
   --tex clear gvars for mission slots being used for addon missions (see RegisterMissions missionListSlotIndices) first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
@@ -1050,7 +1050,7 @@ function this.OpenMissions()
     TppStory.SetMissionOpenFlag(missionCode,true)
     --TppStory.MissionOpen(missionCode)
   end
-end
+end--SetupAddonSaveVars
 
 --tex set missionCleared gvars from ih_save state
 --IN/SIDE: ih_save
