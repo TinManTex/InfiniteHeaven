@@ -1205,7 +1205,9 @@ function this.GetCurrentStates()
     local name=missionInfo.name
     local missionIndex=MISSION_ENUM[tostring(missionCode)]
     if not missionIndex then
-      InfCore.Log("ERROR: InfMission.GetCurrentStates: Could not find missionIndex for "..name.." "..missionCode,false,true)
+      if this.debugSave then
+        InfCore.Log("InfMission.GetCurrentStates: Could not find missionIndex for "..name.." "..missionCode,false,true)
+      end
     else
       local states=ih_states[name] or {}
 
