@@ -179,6 +179,7 @@ function this.UpdateOpenRanking()
     gvars.rnk_isOpen[key]=isOpen
   end
 end
+--tex OVERRIDE: In InfMission, this is kjp records server stuff, so bypassing this for non vanilla missionCodes
 function this.RegistMissionClearRankingResult(usedRankLimitedItem,missionCode,totalScore)
   local missionBoardId
   if usedRankLimitedItem then
