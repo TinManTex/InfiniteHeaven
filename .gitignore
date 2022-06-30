@@ -21,5 +21,11 @@
 #LDT lua development tools metadata
 /.metadata/*
 *.meta
+
 tpp/gamedir-ih/GameDir/mod/IHExt.exe
 tpp/gamedir-ih/GameDir/mod/cmd_stderr.txt
+
+#ignore IHHook install since I symlink the mod folder
+/*/gamedir-ih/GameDir/mod/fonts/*
+/*/gamedir-ih/GameDir/mod/docs/IHHook/*
+/*/gamedir-ih/GameDir/mod/guiStyles/Default.lua
