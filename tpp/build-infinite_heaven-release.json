@@ -43,7 +43,7 @@
     ".lng.xml": true,
     ".lng2.xml": true,
   },
-  "copyLuaPackFiles": true,
+  "copyLuaFpkdFiles": true,
   "copyModPackFolders": true,
   "copyExternalLuaToInternal": true,
   "copyModulesToInternal": false,
