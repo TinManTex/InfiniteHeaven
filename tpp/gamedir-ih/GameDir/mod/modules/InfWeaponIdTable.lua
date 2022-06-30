@@ -85,7 +85,7 @@ function this.GetWeaponIdTable()
   end
   local addonIndex=IvarProc.GetForMission("weaponTableGlobal",vars.missionCode)
   if addonIndex==0 then--DEBUGNOW do we need to do EnabledForMission if we're doing this?
-    return TweaponIdTable
+    return weaponIdTable
   end
   local addonName=this.addonsNames[addonIndex+1]
   if addonName==nil then
