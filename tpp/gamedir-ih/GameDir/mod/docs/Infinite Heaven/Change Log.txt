@@ -1,6 +1,15 @@
 Infinite Heaven changelog
 
 r258 - 
+InfMission: Mission Addons completion, tasks, best rankings support, saved to mod\saves\ih_mission_states.lua
+
+Invalid mission task save data clearing improved - thanks cap.
+
+InfMissionQuest: 
+Side ops in missions menu
+enableMissionQuest="Enable side ops in missions" - "Enable side ops in missions using a hand-picked selection of side ops in specific story missions."
+- thanks cap
+
 InfBodyInfo / custom enemy soldier addon system:
 Added support for bodyIdTable ala TppEnemy. Currently just a single entry rather than multiple soldierSubTypes like TppEnemy.
 
