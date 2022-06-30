@@ -1,11 +1,13 @@
 --IHDebugVars.lua
---tex turnin on debug crud and running some quick test code on allmodulesload
+--tex for turning on .debugModules and a trashbag of debugging or testing stuff as I develop
 --as well as supplying my dev menu
 
---tex GOTCHA: some modules have some debug logging gated behind a if this.debugModule condition.
+--tex GOTCHA: TODO: some modules have some debug logging gated behind a if this.debugModule condition.
 --PostAllModulesLoad below will set debugModule to true for the modules named in this list.
 --this however won't catch modules that use this.debugModule while loading,
 --or stuff that the module has run before PostAllModulesLoad
+--only real way round that would be to push .debugModules outside the module (like this list, but would need to be loaded before anything), 
+--and have modules check that instead
 --TODO: a runtime debugAllModules Ivar (don't forget vanilla modules too)
 local debugModules={
   'TppMain',
