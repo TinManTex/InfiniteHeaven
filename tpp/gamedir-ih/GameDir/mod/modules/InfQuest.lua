@@ -793,8 +793,6 @@ this.saveName="ih_quest_states.lua"
 ih_quest_states=ih_quest_states or {}--DEBUGNOW
 
 function this.Save(newSave)
-  InfCore.LogFlow"InfQuest.Save"
-
   local isDirty=this.GetCurrentStates() or InfShootingPractice.saveDirty
   if isDirty then
     if this.debugSave then
@@ -924,7 +922,6 @@ function this.ReadSaveStates()
   end
 end--ReadSaveStates
 
---CALLER: IvarProc.BuildSaveText
 function this.GetCurrentStates()
   local QUEST_INDEX=TppDefine.QUEST_INDEX
   local gvars=gvars
