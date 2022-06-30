@@ -1,10 +1,6 @@
 -- InfMainTppIvars.lua
 local this={}
 
-this.ivarsPersist={
-  mbRepopDiamondCountdown=4,
-}
-
 this.registerIvars={
   "playerHealthScale",
   "mbEnableLethalActions",
@@ -48,12 +44,10 @@ this.registerIvars={
   "tertiaryWeaponOsp",
   "randomizeMineTypes",
   "additionalMineFields",
-  "repopulateRadioTapes",
   "quietRadioMode",
   "telopMode",
   "mbUnlockGoalDoors",
-  "mbForceBattleGearDevelopLevel",
-  "mbCollectionRepop",
+  "playerHandTypeDirect",
   "playerHandEquip",
   "cam_disableCameraAnimations",
 }
@@ -516,12 +510,6 @@ this.quietRadioMode={
   end,
 }--quietRadioMode
 
-this.repopulateRadioTapes={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-
 this.telopMode={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
@@ -530,17 +518,6 @@ this.telopMode={
 
 --motherbase
 this.mbUnlockGoalDoors={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
-}
-
-this.mbForceBattleGearDevelopLevel={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=5,min=0,increment=1},
-}
-
-this.mbCollectionRepop={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
@@ -583,6 +560,29 @@ IvarProc.MissionModeIvars(
 --  end,
 --}
 
+this.cpTypeNames = {
+  "TYPE_SOVIET",--=0, 
+  "TYPE_AMERICA",--=1,
+  "TYPE_AFRIKAANS",--=2,
+}  
+
+IvarProc.MissionModeIvars(
+  this,
+  "changeCpType",
+  {
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={
+      "DEFAULT",
+      "TYPE_SOVIET",--=0, 
+      "TYPE_AMERICA",--=1,
+      "TYPE_AFRIKAANS",--=2,
+    },
+    settingNames="changeCpTypeSettingsNames",
+  },
+  {"FREE","MISSION","MB_ALL",}
+)
+
+
 IvarProc.MissionModeIvars(
   this,
   "changeCpSubType",
@@ -609,16 +609,13 @@ local playerHandTypes={
   "KILL_ROCKET",--5
 }
 
---tex driven by playerHandEquip
---this.playerHandType={
---  --save=IvarProc.CATEGORY_EXTERNAL,
---  range={min=0,max=1000},
---  OnChange=function(self,setting)
---    if setting>0 then--TODO: add off/default/noset setting
---      vars.playerHandType=setting
---    end
---  end,
---}
+this.playerHandTypeDirect={
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  range={min=0,max=255},
+  OnChange=function(self,setting)
+    vars.playerHandType=setting
+  end,
+}
 
 --TppEquip.
 local playerHandEquipTypes={
@@ -651,7 +648,7 @@ this.playerHandEquip={
   settingsTable=playerHandEquipIds,
   --settingNames="set_",
   OnSelect=function(self)
-  -- self:Set(vars.playerHandEquip,true)
+  -- self:Set(vars.handEquip,true)
   end,
   OnChange=function(self,setting)
     if setting>0 then--TODO: add off/default/noset setting
@@ -827,20 +824,6 @@ this.enemyPatrolMenu={
   }
 }
 
-this.progressionMenu={
-  parentRefs={"InfMenuDefs.safeSpaceMenu"},
-  options={
-    "InfResources.resourceScaleMenu",
-    "Ivars.repopulateRadioTapes",
-    "InfMenuCommandsTpp.UnlockPlayableAvatar",
-    "InfMenuCommandsTpp.UnlockWeaponCustomization",
-    "InfMenuCommandsTpp.ResetPaz",
-    "InfMenuCommandsTpp.ReturnQuiet",
-    "InfMenuCommandsTpp.ShowQuietReunionMissionCount",
-  --"InfQuest.ForceAllQuestOpenFlagFalse",
-  }
-}
-
 this.motherBaseMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
@@ -883,7 +866,6 @@ this.playerSettingsMenu={
     "Ivars.hero_dontAddOgrePoints",
     "Ivars.hero_heroPointsSubstractOgrePoints",
     "Ivars.useSoldierForDemos",
-    "InfFovaIvars.appearanceMenu",
   }
 }
 
@@ -937,10 +919,6 @@ this.langStrings={
     miscInMissionMenu="Misc menu",
     motherBaseMenu="Mother Base menu",
     playerHealthScale="Player life scale",
-    unlockPlayableAvatar="Unlock playable avatar",
-    returnQuiet="Return Quiet after mission 45",
-    quiet_already_returned="Quiet has already returned.",
-    quiet_return="Quiet has returned.",
     forceSoldierSubType="Force enemy CP sub type",
     primaryWeaponOsp="Primary weapon OSP",
     secondaryWeaponOsp="Secondary weapon OSP",
@@ -982,6 +960,10 @@ this.langStrings={
     disableXrayMarkers="Disable Xray marking",
     quietRadioMode="Quiets MB radio track",
     playerSettingsMenu="Player settings menu", 
+    changeCpTypeMISSION="Force CP type in Missions",
+    changeCpTypeFREE="Force CP type in Free Roam",
+    changeCpTypeMB_ALL="Force CP type in MB",
+    changeCpTypeSettingsNames={"Default","Soviet","American","Afrikaans"},
     changeCpSubTypeFREE="Random CP subtype in free roam",
     changeCpSubTypeMISSION="Random CP subtype in missions",
     disableRetry="Disable retry on mission fail",
@@ -991,15 +973,12 @@ this.langStrings={
     enemyPatrolMenu="Patrols and deployments menu",
     disableWorldMarkers="Disable world markers",
     playerRestrictionsInMissionMenu="Player restrictions menu",
-    mbCollectionRepop="Repopulate plants and diamonds",
     heliSpaceFlagsMenu="Mission-prep features menu",
     markersMenu="Marking display menu",
     startOnFootFREE="Start free roam on foot",
     startOnFootMISSION="Start missions on foot",
     startOnFootMB_ALL="Start Mother base on foot",
     onFootSettingsNames={"Off","All but assault LZs","All LZs"},
-    resetPaz="Reset Paz state to beginning",
-    paz_reset="Paz reset",
     quietMoveToLastMarker="Quiet move to last marker",
     buddy_not_quiet="Current buddy is not Quiet",
     cpAlertOnVehicleFulton="CP alert on vehicle fulton",
@@ -1007,13 +986,11 @@ this.langStrings={
     disableHerbSearch="Disable Intel team herb spotting (requires game restart)",
     restart_required=" will apply on next game restart",
     cant_find_quiet="Can't find Quiet",
-    repopulateRadioTapes="Repopulate music tape radios",
     randomizeMineTypes="Randomize minefield mine types",
     additionalMineFields="Enable additional minefields",
     dontOverrideFreeLoadout="Keep equipment Free<>Mission",
     mbqfEnableSoldiers="Force enable Quaranine platform soldiers",
     mbEnableLethalActions="Allow lethal actions",
-    progressionMenu="Progression menu",
     disableOutOfBoundsChecks="Disable out of bounds checks",
     disableKillChildSoldierGameOver="Disable game over on killing child soldier",
     disableGameOver="Disable game over",
@@ -1021,7 +998,6 @@ this.langStrings={
     itemLevelMenu="Item level menu",
     itemLevelIntScope="Int-Scope level",
     itemLevelIDroid="IDroid level",
-    mbForceBattleGearDevelopLevel="Force BattleGear built level",
     dropCurrentEquip="Drop current equip",
     markersInMissionMenu="Markers menu",
     heliSpace_SkipMissionPreparetion="Skip mission prep",
@@ -1040,17 +1016,16 @@ this.langStrings={
       disableSupportMenuMenu="Disables mission support menus in iDroid",
       ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.",
       fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",
+      changeCpTypeMISSION="Changes Command Post Type, which controls the language spoken by CP and HQ.\nWARNING: Will break subtitles.\nWARNING: some CP types don't have responses for certain soldier call-ins for different languages.",
+      --changeCpTypeFREE="Force CP type in Free Roam",
+      --changeCpTypeMB_ALL="Force CP type in MB",
       changeCpSubTypeFREE="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
       changeCpSubTypeMISSION="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
       mbPrioritizeFemale="By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base",
       markersMenu="Toggles for marking in main view. Does not effect marking on iDroid map",
       heliSpaceFlagsMenu="Only affects the mission-prep screen, not the in-mission equivalents.",
-      unlockPlayableAvatar="Unlock avatar before mission 46",
-      unlockWeaponCustomization="Unlock without having to complete legendary gunsmith missions",
-      returnQuiet="Instantly return Quiet, runs same code as the Reunion mission 11 replay.",
       mbEnableBuddies="Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.",
       quietMoveToLastMarker="Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.",
-      mbCollectionRepop="Regenerates plants on Zoo platform and diamonds on Mother base over time.",
       randomizeMineTypes="Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.",
       additionalMineFields="In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.",
       disableSpySearch="Stops the Intel teams enemy spotting audio notification and indication on the idroid map.",
@@ -1059,7 +1034,6 @@ this.langStrings={
       dontOverrideFreeLoadout="Prevents equipment and weapons being reset when going between free-roam and missions.",
       mbqfEnableSoldiers="Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.",
       mbEnableLethalActions="Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.",
-      mbForceBattleGearDevelopLevel="Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.",
       heliSpace_SkipMissionPreparetion="Go straight to mission, skipping the mission prep screen.",
       heliSpace_NoBuddyMenuFromMissionPreparetion="Prevents selection of buddies during mission prep.",
       heliSpace_NoVehicleMenuFromMissionPreparetion="WARNING: Selecting a vehicle if the mission does not have player vehicle support means there will be no vehicle recovered on mission exit (effecively losing the vehicle you attempted to deploy).",

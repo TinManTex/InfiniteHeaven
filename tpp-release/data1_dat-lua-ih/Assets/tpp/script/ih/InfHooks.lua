@@ -14,13 +14,13 @@ this.debugHooksEnabled=false
 --can also isolate your hook function in a pcall to isolate it crashing from impacting the original function
 this.hookFuncs={
   TppSave={
---CULL
---    VarRestoreOnMissionStart=function()
---      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
---      this.TppSave.VarRestoreOnMissionStart()
---      --post-hook
---      IvarProc.OnLoadVarsFromSlot()
---    end,
+    --CULL
+    --    VarRestoreOnMissionStart=function()
+    --      InfCore.LogFlow("InfHook TppSave.VarRestoreOnMissionStart")
+    --      this.TppSave.VarRestoreOnMissionStart()
+    --      --post-hook
+    --      IvarProc.OnLoadVarsFromSlot()
+    --    end,
     VarRestoreOnContinueFromCheckPoint=function()
       InfCore.LogFlow("InfHook TppSave.VarRestoreOnContinueFromCheckPoint")
       this.TppSave.VarRestoreOnContinueFromCheckPoint()
@@ -28,7 +28,10 @@ this.hookFuncs={
       IvarProc.OnLoadVarsFromSlot()
     end,
     DoSave=function(saveParams,force)
-      InfCore.LogFlow("InfHook TppSave.DoSave")
+      InfCore.LogFlow("InfHook TppSave.DoSave force:"..tostring(force))--tex dosave is either through the following Save<bleh>Data functions directly(rarely, you see the logging of that function directly above if it is) or enqued by the same functions (where youll see the function names logged higher up) to happen next Update > ProcessSaveQueue or OnAllocate > WaitingAllEnqueuedSaveOnStartMission 
+      if TppSave.debugModule then
+        InfCore.PrintInspect(saveParams,"TppSave.DoSave saveParams")
+      end
       local saveResult=this.TppSave.DoSave(saveParams,force)
 
       --OFF IvarProc.OnSave(saveParams,force)--tex hookin on this level catches savepersonaldata called in init_sequence can throw spanner in works for some of the stuff we want to do during load, so hooking
@@ -63,7 +66,7 @@ this.hookFuncs={
       local currentId=svars.seq_sequence
       local prevName=""
       if currentId then
-        prevName=TppSequence.GetSequenceNameWithIndex(currentId) 
+        prevName=TppSequence.GetSequenceNameWithIndex(currentId)
       end
       InfCore.Log("TppSequence.SetNextSequence from "..prevName.." to "..sequenceName)
       this.TppSequence.SetNextSequence(sequenceName,params)
@@ -139,7 +142,7 @@ this.debugPCallHooks={
     FadeIn=true,
     FadeOut=true,
   },
-}
+}--debugPCallHooks
 
 function this.GetFunction(moduleName,functionName)
   local originalModule=_G[moduleName]

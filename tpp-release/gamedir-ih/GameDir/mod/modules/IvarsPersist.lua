@@ -1,4 +1,5 @@
 --IvarsPersist.lua
+--Intially loaded in InfInit
 --tex persistant/across mission vars ala gvars
 --live values in igvars{} (global)
 --DEBUGNOW: BuildSaveText doesnt support strings? (needs to add quotes)
@@ -29,6 +30,15 @@ function this.PostAllModulesLoad()
     end
   end
 
+  this.PopulateIgvars()
+
+  if this.debugModule then
+    InfCore.PrintInspect(this,"IvarsPersist")
+    InfCore.PrintInspect(igvars,"igvars")
+  end
+end
+
+function this.PopulateIgvars()
   --tex populate igvars if the var isn't already there
   for name,value in pairs(this)do
     local valueType=type(value)
@@ -41,12 +51,7 @@ function this.PostAllModulesLoad()
       end
     end
   end
-
-  if this.debugModule then
-    InfCore.PrintInspect(this,"IvarsPersist")
-    InfCore.PrintInspect(igvars,"igvars")
-  end
-end
+end--PopulateIgvars
 
 --CULL
 --CALLER: InfInit --tex due to current execution flow cant have this update on module load since it will overwrite saved.

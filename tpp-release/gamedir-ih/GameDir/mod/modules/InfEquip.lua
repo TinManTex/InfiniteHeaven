@@ -1966,7 +1966,7 @@ end
 --  EQP_IT_CBox_WR={"pickable_item_cardboardbox_",1},
 --}
 --tex truck items
-local pickables={
+this.pickables={
   afgh={--WORKAROUND
     "pickable_ih_0000",--EQP_WP_East_ms_020--4283898693--cgm 25
     --"pickable_ih_0001",--EQP_WP_EX_sr_000--2090616205--molotok-68 grade 9
@@ -2009,10 +2009,12 @@ function this.PutEquipOnTrucks()
   if Ivars.putEquipOnTrucks:Is(0) then
     return
   end
+  
+  InfCore.LogFlow"InfEquip.PutEquipOnTrucks"
 
   InfMain.RandomSetToLevelSeed()
   local locationName=TppLocation.GetLocationName()
-  local pickableBag=InfUtil.ShuffleBag:New(pickables[locationName])
+  local pickableBag=InfUtil.ShuffleBag:New(this.pickables[locationName])
   local pickableCount=pickableBag:Count()
 
   if InfVehicle.inf_patrolVehicleInfo then

@@ -1,3 +1,4 @@
+
 IH feature quest support for location addons
 
 Bug: No sideop location tab for anything but the vanilla locs + All
@@ -36,7 +37,7 @@ Example in the GNTN locationInfo:
   --tex defines quest areas for location, see TppQuestList.questList
   questAreas={
     {
-      areaName="gntn",--tex just a single area since location is so small
+      areaName="prison",--tex small location so just one area. good enough name? (if you change it then update your gntn example sideop) 
       --xMin,yMin,xMax,yMax, in smallblock coords. see Tpp.CheckBlockArea      
       loadArea={106,104,110,107},
       activeArea={107,105,109,106},

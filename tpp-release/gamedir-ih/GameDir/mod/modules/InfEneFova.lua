@@ -7,7 +7,7 @@ this.debugModule=false
 --
 this.inf_wildCardMaleFaceList={}
 this.inf_wildCardFemaleFaceList={}
-this.bodiesForMap={}
+this.bodiesForMap={}--[currentMale/FemaleBodyId name]={<bodyIds>}--tex filtered or limit managed bodyInfo.bodyIds for mission (keyed by bodyInfo name)
 this.isFemaleSoldierId={}--DEBUGNOW tex better of as a svar?
 
 function this.PostModuleReload(prevModule)
@@ -1581,114 +1581,6 @@ function this.ApplyCustomBodyPowers(soldierId,powerSettings)
   end--<
 end
 
---Soldier2FaceAndBodyData.faceDefinition indexes for
---DEBUGNOW TODO: make so faceDefinition is built from the ivars on startup (just apply same to both so if player loading game with face set you don't have to worry about saving current used mod face slot)
-this.faceModSlots={
-  512,
-  513,
-}
-this.currentFaceIdSlot=1
-function this.ApplyFaceFova()
-  if vars.playerType~=PlayerType.DD_MALE and vars.playerType~=PlayerType.DD_FEMALE then
-    InfMenu.PrintLangId"setting_only_for_dd"
-    return
-  end
-
-  local noFova=EnemyFova.INVALID_FOVA_VALUE
-  local faceDefinitions=Soldier2FaceAndBodyData.faceDefinition
-
-  --tex since the engine only applies face if vars.playerFaceId changes to a different id I'm just cyling between a couple of faceDefinition entries
-  --index in faceDefinition
-
-
-  local faceFova=Ivars.faceFovaDirect:Get()
-  local faceDecoFova=Ivars.faceDecoFovaDirect:Get()
-  local hairFova=Ivars.hairFovaDirect:Get()
-  local hairDecoFova=Ivars.hairDecoFovaDirect:Get()
-  local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
-
-  local uiTextureName=""
-
-  local unknown1=Ivars.faceFovaUnknown1:Get()
-  local unknown2=Ivars.faceFovaUnknown2:Get()
-  local unknown3=Ivars.faceFovaUnknown3:Get()
-  local unknown4=Ivars.faceFovaUnknown4:Get()
-  local unknown5=Ivars.faceFovaUnknown5:Get()
-  local unknown6=Ivars.faceFovaUnknown6:Get()
-  local unknown7=Ivars.faceFovaUnknown7:Get()
-  local unknown8=Ivars.faceFovaUnknown8:Get()
-  local unknown9=Ivars.faceFovaUnknown9:Get()
-  local unknown10=Ivars.faceFovaUnknown10:Get()
-
-  local currentSlotIndex=this.faceModSlots[this.currentFaceIdSlot]
-  local currentFaceId=faceDefinitions[currentSlotIndex][1]
-
-  local newFace={
-    currentFaceId,
-    unknown1,
-    gender,
-    unknown2,
-    faceFova,
-    faceDecoFova,
-    hairFova,
-    hairDecoFova,
-    unknown3,
-    unknown4,
-    unknown5,
-    uiTextureName,
-    unknown6,
-    unknown7,
-    unknown8,
-    unknown9,
-    unknown10,
-  }
-
-  faceDefinitions[currentSlotIndex]=newFace
-
-  --tex GOTCHA crashes after repeated calls, wouldnt really trust it even after one
-  TppSoldierFace.SetFaceFovaDefinitionTable{table=faceDefinitions,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
-
-  vars.playerFaceId=currentFaceId
-
-  if this.currentFaceIdSlot==1 then
-    this.currentFaceIdSlot=2
-  else
-    this.currentFaceIdSlot=1
-  end
-end
-
-function this.PrintFaceInfo(faceId)
-  local faceAndBodyData=Soldier2FaceAndBodyData
-  for i,faceDef in ipairs(faceAndBodyData.faceDefinition)do
-    if faceDef[1]==faceId then
-      local faceInfoString=""
-      for i,fovaType in ipairs(InfModelProc.fovaTypes)do
-        local index=faceDef[InfEneFova.faceDefinitionParams[fovaType]]
-        local fovaInfo=faceAndBodyData[fovaType][index]
-        local name
-        if fovaInfo then
-          name=InfUtil.GetFileName(fovaInfo[1])
-        elseif index==EnemyFova.INVALID_FOVA_VALUE then
-          name="nil_fova"
-        else
-          name=index
-        end
-
-        local fovaInfoExt=InfEneFova[fovaType][name]
-        local description=name
-        if fovaInfoExt and fovaInfoExt.description then
-          description=description..":"..fovaInfoExt.description
-        end
-
-        faceInfoString=faceInfoString..fovaType..":"..description..", "
-      end
-
-      InfCore.Log(faceInfoString,true)
-      break
-    end
-  end
-end
-
 --In: bodyIds
 --In/Out: bodies
 --SIDE:this.bodiesForMap
@@ -1700,15 +1592,14 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
       return
   end
 
-  local allBodyIds=bodyInfo.bodyIds
-  if #allBodyIds==0 then
+  if #bodyInfo.bodyIds==0 then
     --InfCore.Log("InfEneFova.SetupBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
     return
   end
 
   --tex filter to developed
-  local bodyIds={}
-  for i,bodyId in pairs(allBodyIds)do
+  local filteredBodyIds={}
+  for i,bodyId in pairs(bodyInfo.bodyIds)do
     local addBodyId=Ivars.skipDevelopChecks:Is(1)
     local camoType=InfBodyInfo.bodyIdToCamoType[bodyId]
     if not camoType then
@@ -1732,22 +1623,22 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
       end
     end
     if addBodyId then
-      bodyIds[#bodyIds+1]=bodyId
+      filteredBodyIds[#filteredBodyIds+1]=bodyId
     end
   end
   --tex default to 1st if none
-  if #bodyIds==0 then
-    bodyIds[#bodyIds+1]=allBodyIds[1]
+  if #filteredBodyIds==0 then
+    filteredBodyIds[#filteredBodyIds+1]=bodyInfo.bodyIds[1]
   end
 
   --tex used to manage a limit on bodies for bodytypes that have a large amount
-  if maxBodies==nil or maxBodies==0 or maxBodies>=#bodyIds then
-    this.bodiesForMap[bodyInfo.bodyType]=bodyIds
+  if maxBodies==nil or maxBodies==0 or maxBodies>=#filteredBodyIds then
+    this.bodiesForMap[bodyInfo.bodyType]=filteredBodyIds
   else
     InfMain.RandomSetToLevelSeed()
     local bodiesForType={}
     local bodyBag=InfUtil.ShuffleBag:New()
-    bodyBag:Fill(bodyIds)
+    bodyBag:Fill(filteredBodyIds)
     for i=1,maxBodies do
       bodiesForType[#bodiesForType+1]=bodyBag:Next()
     end
@@ -1757,8 +1648,8 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
 
   if this.debugModule then
     InfCore.Log("InfEneFova.SetupBodies for "..bodyInfo.bodyType)
-    InfCore.PrintInspect(allBodyIds,"allBodyIds")
-    InfCore.PrintInspect(bodyIds,"bodyIds")
+    InfCore.PrintInspect(bodyInfo.bodyIds,"all bodyIds")
+    InfCore.PrintInspect(filteredBodyIds,"filtered bodyIds")
     InfCore.PrintInspect(this.bodiesForMap,"bodiesForMap")
   end
 
@@ -1798,7 +1689,7 @@ this.enemySubTypes={
   "PF_C",
   "CHILD_A",
 }
-
+--tex default/fallback for a type is 1st entry
 this.soldierSubTypesForTypeName={
   TYPE_DD={
     "DD_A",

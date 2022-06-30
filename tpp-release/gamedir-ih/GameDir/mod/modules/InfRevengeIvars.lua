@@ -78,7 +78,7 @@ IvarProc.MissionModeIvars(
     range=Ivars.switchRange,
     settingNames="set_switch",
   },
-  {"FREE","MISSION",}
+  {"FREE","MISSION",}--TODO "MB_ALL",}
 )
 
 --WIP TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
@@ -387,6 +387,11 @@ IvarProc.MinMaxIvar(
   }
 )
 --<custom revenge config
+this.ResetRevenge=function()
+  TppRevenge.ResetRevenge()
+  TppRevenge._SetUiParameters()
+  InfMenu.PrintLangId"revenge_reset"
+end
 --< ivar defs
 this.registerMenus={
   "revengeMenu",
@@ -394,7 +399,7 @@ this.registerMenus={
   "revengeCustomMenu",
 }
 
-this.revengeMenu={
+this.revengeMenu={--SEO enemy prep
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "Ivars.revengeModeFREE",
@@ -404,10 +409,15 @@ this.revengeMenu={
     "InfRevengeIvars.revengeSystemMenu",
     "InfEquip.customEquipMenu",
     "Ivars.customSoldierTypeFREE",
-    "InfMenuCommandsTpp.ResetRevenge",
+    "Ivars.customSoldierTypeMISSION",
+    "InfRevengeIvars.ResetRevenge",
     "InfMenuCommandsTpp.DEBUG_PrintRevengePoints",
+    "Ivars.changeCpTypeFREE",
+    "Ivars.changeCpTypeMISSION",
+    "Ivars.changeCpTypeMB_ALL",
     "Ivars.changeCpSubTypeFREE",
     "Ivars.changeCpSubTypeMISSION",
+    --"Ivars.changeCpSubTypeMB_ALL",--TODO
     "Ivars.enableInfInterrogation",
   }
 }
@@ -517,6 +527,7 @@ this.langStrings={
     applyPowersToOuterBase="Apply enemy prep to guard posts",
     applyPowersToLrrp="Apply enemy prep to patrol soldiers",
     allowHeavyArmorFREE="Allow heavy armor in free roam (may have issues)",
+    allowHeavyArmorMB_ALL="Allow heavy armor in MB",
     allowHeavyArmorMISSION="Allow heavy armor in all missions (may have issues)",
     disableMissionsWeaponRestriction="Disable weapon restrictions in certain missions",
     disableNoStealthCombatRevengeMission="Allow Enemy Prep change from free roam",

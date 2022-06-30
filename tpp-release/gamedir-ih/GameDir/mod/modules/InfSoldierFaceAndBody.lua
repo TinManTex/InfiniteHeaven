@@ -1,6 +1,12 @@
--- InfModelProc.lua --TODO bad name, rename
+-- InfSoldierFaceAndBody.lua
+-- extends TppSoldierFaceAndBodyData face fovas and definitions / vars.playerFaceId, enemy and staff faceIds
+
+-- extends TppSoldierFaceAndBodyData eneny body fovas and bodyIds--TODO: split out body stuffto InfSoldierBod
+-- See also InfBodyInfo
+
 -- SYNC: DEBUGNOW to some external document explaining fova addons (collate this, Solder2FaceAndBodyData, InfBodyInfo comments, and the mgo head, us ih body addon stuff)
 -- Loads addons in \mod\fovaInfo which add face or body fova entries to Solder2FaceAndBodyData
+-- TODO split this too?
 -- See: Mgo headgear fova mod r1
 -- and: US Soldier - IH body addon (or caplags version)
 -- on the IH nexus page for working examples
@@ -32,7 +38,7 @@ this.fovaInfos={}
 --which means you can't really guarantee on a static, persistant faceId since you don't know what headFovas your user might have installed.
 --You can however get the faceId assigned for the game session using TppEnemyFaceId.<head definition entry name>
 
---See mod\core\InfModelProc.lua when IH is installed for the implementation of the system and the newest version of these notes.
+--See mod\modules\InfSoldierFaceAndBody.lua when IH is installed for the implementation of the system and the newest version of these notes.
 
 --REF mod\fovaInfo\example_head_fovaInfo
 --local this={
@@ -63,7 +69,8 @@ this.fovaInfos={}
 --      --actual texture is /Assets/tpp/ui/texture/StaffImage/<uiTextureName>_<n = 0-2>.ftex (.<1-3>.ftexs etc)
 --    },
 --  },
---}
+--}--this
+--return this
 
 --REF mod\fovaInfo\uss0_main0
 --local this={
@@ -97,7 +104,7 @@ this.fovaInfos={}
 --      bodyFova="uss0_main0_v04.fv2",
 --    },
 --  },
---}
+--}--this
 --return this
 
 local bodyFovaLimit=366
@@ -108,23 +115,24 @@ this.bodyFova={}
 --TODO also integrate fv2 info from external fovainfo modules
 --tex cleared in .Setup
 --EnemyFova.INVALID_FOVA_VALUE=32767
+local INVALID_FOVA_VALUE=32767
 this.faceFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 this.faceDecoFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 this.hairFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 this.hairDecoFova={
-  [32767]=32767,
+  [INVALID_FOVA_VALUE]=INVALID_FOVA_VALUE,
 }
 
 this.headDefinitions={}--headInfo headDefinitions entries
 this.faceDefinitions={}--Entries for Solder2FaceAndBodyData.faceDefinition
 
-this.hasFaceFova=false
+this.hasFaceFova=false--tex for Ivar playerFaceId
 --
 this.fovaTypes={
   "faceFova",
@@ -154,11 +162,11 @@ local faceDefEnum={
   "faceDecoFova",
   "hairFova",
   "hairDecoFova",
-  "unk3",
-  "unk4",
+  "eyeFova",
+  "skinFova",
   "unk5",
   "uiTextureName",
-  "unk6",
+  "uiTextureCount",
   "unk7",
   "unk8",
   "unk9",
@@ -169,7 +177,7 @@ for i, name in ipairs(faceDefEnum)do
 end
 
 function this.LoadFovaInfo()
-  InfCore.Log("InfModelProc.LoadFovaInfo")
+  InfCore.Log("InfSoldierFaceAndBody.LoadFovaInfo")
   this.fovaInfos={}
   if not InfCore.files.fovaInfo then
     return
@@ -177,11 +185,11 @@ function this.LoadFovaInfo()
 
   local fovaInfoFiles=InfCore.GetFileList(InfCore.files.fovaInfo,".lua")
   for i,fileName in ipairs(fovaInfoFiles)do
-    InfCore.Log("InfModelProc.LoadFovaInfo: "..fileName)
+    InfCore.Log("InfSoldierFaceAndBody.LoadFovaInfo: "..fileName)
     local box=false
     local fovaInfo=InfCore.LoadSimpleModule(InfCore.paths.fovaInfo,fileName,box)
     if fovaInfo==nil then
-      InfCore.Log("ERROR: InfModelProc.LoadFovaInfo: fovaInfo "..fileName.." ==nil")
+      InfCore.Log("ERROR: InfSoldierFaceAndBody.LoadFovaInfo: fovaInfo "..fileName.." ==nil")
     else
       this.fovaInfos[fileName]=fovaInfo
     end
@@ -202,7 +210,7 @@ function this.CheckDefinition(definition,fovaTypes,definitionName)
       if fovaName==EnemyFova.INVALID_FOVA_VALUE then
 
       elseif not this[fovaTypeName][fovaName] then
-        InfCore.Log("WARNING: InfModelProc.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
+        InfCore.Log("WARNING: InfSoldierFaceAndBody.CheckDefinition: invalid definition "..definitionName..", could not find "..fovaTypeName.."."..fovaName)
         definitionOK=false
         break
       end
@@ -215,7 +223,7 @@ end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
 --IN/OUT Solder2FaceAndBodyData
 function this.Setup(faceAndBodyData)
-  InfCore.LogFlow"InfModelProc.SetupFova:"
+  InfCore.LogFlow"InfSoldierFaceAndBody.SetupFova:"
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData pre setup")
   end
@@ -250,14 +258,14 @@ function this.Setup(faceAndBodyData)
       local fovaName=InfUtil.GetFileName(fovaInfo[1])
       local existing=this[fovaTypeName][fovaName]
       if existing~=nil then
-        InfCore.Log("InfModelProc.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
+        InfCore.Log("InfSoldierFaceAndBody.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
       end
       this[fovaTypeName][fovaName]=fovaIndex-1--tex shift from lua indexed (from 1), to fova indexed (from 0)
     end
   end
 
   this.SetupFaceFova(faceAndBodyData)
-  this.SetupBodyFova(faceAndBodyData)
+  this.SetupBodyFova(faceAndBodyData)--FLOW DEPENDENCY InfBodyInfo relies on TppEnemyBodyId being set by the time it does its PostAllModulesLoaded
 
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData post setup")
@@ -268,7 +276,7 @@ end
 --CALLER: Solder2FaceAndBodyData
 --IN/OUT Solder2FaceAndBodyData.lua
 function this.SetupFaceFova(faceAndBodyData)
-  InfCore.LogFlow"InfModelProc.SetupFaceFova"
+  InfCore.LogFlow"InfSoldierFaceAndBody.SetupFaceFova"
   local genders={
     MALE=0,
     FEMALE=1,
@@ -329,11 +337,11 @@ function this.SetupFaceFova(faceAndBodyData)
               this.faceDecoFova[headDefinition.faceDecoFova] or oldFace[faceDefEnum.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
               this.hairFova[headDefinition.hairFova] or oldFace[faceDefEnum.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
               this.hairDecoFova[headDefinition.hairDecoFova] or oldFace[faceDefEnum.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-              headDefinition.unk3 or oldFace[faceDefEnum.unk3] or 0,
-              headDefinition.unk4 or oldFace[faceDefEnum.unk4] or 0,
+              headDefinition.eyeFova or headDefinition.unk3 or oldFace[faceDefEnum.eyeFova] or 0,
+              headDefinition.skinFova or headDefinition.unk4 or oldFace[faceDefEnum.skinFova] or 0,
               headDefinition.unk5 or oldFace[faceDefEnum.unk5] or 0,
               headDefinition.uiTextureName or oldFace[faceDefEnum.uiTextureName] or "",
-              headDefinition.unk6 or oldFace[faceDefEnum.unk6] or 1,
+              headDefinition.uiTextureCount or headDefinition.unk6 or oldFace[faceDefEnum.uiTextureCount] or 1,
               headDefinition.unk7 or oldFace[faceDefEnum.unk7] or 0,
               headDefinition.unk8 or oldFace[faceDefEnum.unk8] or 0,
               headDefinition.unk9 or oldFace[faceDefEnum.unk9] or 0,
@@ -372,7 +380,7 @@ function this.SetupFaceFova(faceAndBodyData)
   end
 
   if this.debugModule then
-    InfCore.PrintInspect(this,"InfModelProc")
+    InfCore.PrintInspect(this,"InfSoldierFaceAndBody")
     InfCore.PrintInspect(faceAndBodyData,"faceAndBodyData")
   end
 end

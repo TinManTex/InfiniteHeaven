@@ -218,7 +218,7 @@ local questInfoTable={
   --[[155]]{questName="mtbs_q42060",questId="mtbs_q42060",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Spy,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
   --[[156]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
   --[[157]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE},
-}
+}--questInfoTable
 
 --TABLESETUP
 --tex various lookup tables>
@@ -368,7 +368,7 @@ this.questCompleteLangIds={--tex made module local
   mtbs_q42060="quest_target_eliminate",
   mtbs_q42070="quest_target_eliminate",
   mtbs_q42010="quest_target_eliminate"
-}
+}--questCompleteLangIds
 local keyItems={
   tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,
   field_q80020=TppMotherBaseManagementConst.PHOTO_1007,
@@ -1297,10 +1297,35 @@ function this.SpecialMissionStartSetting(missionClearType)
     TppMission.SetIsStartFromFreePlay()
   end
 end
+--tex REWORKED only vanilla use was list of questNames 
+--IN:
+--allowedQuests="<questName>"
+--allowedQuests={<questName>,...}
+--allowedQuests={<questName>=true,...}
+--OUT: mvars.qst_canActiveQuestList = {[<questName>]=true,...}
+--checked via CanActiveQuestInMission
 function this.RegisterCanActiveQuestListInMission(allowedQuests)
-  mvars.qst_canActiveQuestList=allowedQuests
-end
-
+  if allowedQuests then
+    local quests=mvars.qst_canActiveQuestList or {}
+    mvars.qst_canActiveQuestList=quests
+  
+    if type(allowedQuests)=="table"then
+      for k,v in pairs(allowedQuests)do
+        if type(v)=="string"then--tex original usage as a list
+          quests[v]=true
+        else
+          quests[k]=true
+        end
+      end--for allowedQuests
+    elseif type(allowedQuests)=="string"then
+      quests[allowedQuests]=true
+    end--if table
+  end--if allowedQuests
+end--RegisterCanActiveQuestListInMission
+--ORIG
+--function this.RegisterCanActiveQuestListInMission(allowedQuests)
+--  mvars.qst_canActiveQuestList=allowedQuests
+--end
 --NMC CALLER: quest script OnAllocate
 function this.RegisterQuestStepList(questStepNames)
   if not IsTypeTable(questStepNames)then
@@ -1377,6 +1402,7 @@ function this.SetNextQuestStep(questStep)
   end
 end
 function this.ClearWithSave(clearType,questName)
+  InfCore.LogFlow("TppQuest.ClearWithSave "..tostring(clearType).." "..tostring(questName))--tex
   if not questName then
     questName=this.GetCurrentQuestName()
   end
@@ -1418,7 +1444,8 @@ function this.ClearWithSaveMtbsDDQuest()
   this.UpdateRepopFlag(questIndex)
   this.Save()
 end
-function this.Clear(questName,keepAlive)--tex added keepAlive
+--tex added keepAlive
+function this.Clear(questName,keepAlive)
   if questName==nil then
     questName=this.GetCurrentQuestName()
     if questName==nil then
@@ -2433,6 +2460,9 @@ function this.UpdateOpenQuest()
 end
 --tex heavily REWORKED --PCall InfHooked
 --CALLER: TppMain.OnInitialize
+--GOTCHA: once player has completed most quests the system then mostly relies on repoping quests, which is driven by UpdateRepopFlag/UpdateRepopFlagImpl.
+--however with vanilla code this is mainly only called on quest completion. This means with some IH quest selection options the whole list could get stuck in a none-selected state.
+--though in most of those cases IH runs UpdateRepopFlagImpl on changing its options anyway, and IH reroll also calls it.
 function this.UpdateActiveQuest(updateFlags)
   if not mvars.qst_questList then
     InfCore.LogFlow("TppMain.UpdateActiveQuest return: not mvars.qst_questList")--tex DEBUGNOW
@@ -2451,33 +2481,14 @@ function this.UpdateActiveQuest(updateFlags)
     InfCore.Log("UpdateActiveQuest: selectionCategory:"..tostring(selectionCategory))--tex DEBUG
     InfCore.Log("UpdateActiveQuest: selectionCategoryEnum:"..tostring(selectionCategoryEnum))--tex DEBUG
 
-    local enabledCategories={}
-    local ivarPrefix="sideops_"
-    for i,categoryName in ipairs(this.QUEST_CATEGORIES)do
-      local ivarName=ivarPrefix..categoryName
-      local categoryEnum=this.QUEST_CATEGORIES_ENUM[categoryName]
-      local enabled=false
-      local ivar=Ivars[ivarName]
-      --tex the per-category ivars default to 1/enabled
-      if ivar then--tex ADDON doesnt have an ivar
-        enabled=Ivars[ivarName]:Get()==1
-        InfCore.Log(ivarName.."="..tostring(enabled))
-      end
-
-      --tex selectionmode overrides individual selection categories filter
-      if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
-        enabled=true
-      end
-
-      enabledCategories[categoryEnum]=enabled
-    end
+    local enabledCategories=InfQuest.GetEnabledCategories(selectionCategoryEnum)--REF enabledCategories[categoryEnum]=enabled
     if this.debugModule then
       InfCore.PrintInspect(enabledCategories,"enabledCategories")
     end
     --<
     
     local selectedQuestCount=0
-    local forcedQuest=InfQuest.GetForced()--tex
+    local forcedQuests=InfQuest.GetForced()--tex
     for i,areaQuests in ipairs(mvars.qst_questList)do
       --ORPHAN local RENsomeTable={}
       local questList={}
@@ -2485,8 +2496,9 @@ function this.UpdateActiveQuest(updateFlags)
       local nonStoryQuests={}
       local repopQuests={}
       --tex forcedquests>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
-      local unlockedName=forcedQuest and forcedQuest[areaQuests.areaName] or nil
+      local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
       if unlockedName then
+        InfCore.Log("TppQuest.UpdateActiveQuest unlockedName:"..unlockedName)--
         for j,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
@@ -2508,6 +2520,10 @@ function this.UpdateActiveQuest(updateFlags)
             if blockQuest then
               InfCore.Log("blocked Quest "..questName)
             end
+            if this.debugModule then--tex>
+              local checkedQuest=not CheckQuestFunc or CheckQuestFunc()
+              InfCore.Log(questName.." selection states: checkedQuest:"..tostring(checkedQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
+            end--<
             if this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc())and not blockQuest then--tex added blockQuest
               local questInfo=this.GetSideOpsInfo(questName)--tex category filtering>
               if not questInfo or enabledCategories[questInfo.category] then
@@ -2702,11 +2718,13 @@ function this.CanActiveQuestInMission(missionCode,questName)
     return true
   else
     if mvars.qst_canActiveQuestList then
-      for i,_questName in ipairs(mvars.qst_canActiveQuestList)do
-        if _questName==questName then
-          return true
-        end
-      end
+      return mvars.qst_canActiveQuestList[questName]--tex changed to key,bool table
+    --ORIG
+--      for i,_questName in ipairs(mvars.qst_canActiveQuestList)do
+--        if _questName==questName then
+--          return true
+--        end
+--      end
     end
     return false
   end
@@ -2878,8 +2896,9 @@ function this.UpdateClearFlag(questIndex,clear,keepAlive)--tex added keepAlive
   end
   if not keepAlive then--tex added bypass
   gvars.qst_questActiveFlag[questIndex]=false
+  end
 end
-end
+--CALLER: Clear
 function this.UpdateRepopFlag(questIndex)
   gvars.qst_questRepopFlag[questIndex]=false
   local questAreaTable=this.GetCurrentQuestTable()
@@ -2890,6 +2909,7 @@ function this.UpdateRepopFlag(questIndex)
 end
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
+    InfCore.LogFlow"TppQuest.UpdateRepopFlagImpl"--tex
     local forceRepop=Ivars.unlockSideOps:Is()>0--tex
     local numOpen=0
     for n,questInfo in ipairs(locationQuests.infoList)do
@@ -2901,20 +2921,32 @@ function this.UpdateRepopFlagImpl(locationQuests)
         if this.IsRepop(questName)or not this.IsCleard(questName)then
           local CheckQuestFunc=checkQuestFuncs[questName]
           if(CheckQuestFunc==nil)or CheckQuestFunc()then
+            if this.debugModule then--tex>
+              InfCore.Log("TppQuest.UpdateRepopFlagImpl:"..questName.." IsRepop and CheckQuest")
+            end--<
             return
           end
         end
       end
     end
-    if numOpen<=1 and(not TppLocation.IsMotherBase())then
+    if numOpen<=1 and(not TppLocation.IsMotherBase())then--NMC tex dont know what this is trying to protect against, RETAILBUG? either way it seems like a flaw in not catching mtbs quests when in afgh/mafr helispace
+      if this.debugModule then--tex>
+        InfCore.Log("TppQuest.UpdateRepopFlagImpl numOpen<=1 and(not TppLocation.IsMotherBase()) returning")
+      end--<
       return
     end
     for n,questInfo in ipairs(locationQuests.infoList)do
       if this.IsCleard(questInfo.name)and((not questInfo.isOnce) or forceRepop) then--tex added forceRepop
+        if this.debugModule then--tex>
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop true")
+      end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
       end
       local CheckQuestFunc=checkQuestFuncs[questInfo.name]
       if CheckQuestFunc and(not CheckQuestFunc())then
+        if this.debugModule then--tex>
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop false")
+        end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
       end
     end
@@ -3259,23 +3291,29 @@ function this._ChangeToEnable(instanceName,makerType,gameObjectId,identification
     end
   end
 end
+--CALLER: quest script msg QuestStarted
 function this.SetQuestShootingPractice()
   TppSoundDaemon.PostEvent"sfx_s_training_ready_go"
   GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
   this.StopTimer"TimerShootingPracticeRetryConfirm"
   if Ivars.quest_enableShootingPracticeRetry:Is(0) then--tex--tex added bypass
-  this.HideShootingPracticeStartUi()
+    this.HideShootingPracticeStartUi()
   end
   mvars.qst_isShootingPracticeStarted=true
   GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut"})
 end
+--CALLER: TimerShootingPracticeStart -^
 function this.StartShootingPractice()
   this.UpdateShootingPracticeUi()
   InfShootingPractice.OverrideShootingPracticeTime()--tex
   TppUiCommand.StartDisplayTimer(mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec)
   TppGimmick.StartQuestShootingPractice()
   TppGimmick.SetQuestSootingTargetInvincible(false)
-  f30050_sound.SetScene_ShootingRange()
+  --tex REWORKED
+  if mvars.snd_bgmList and mvars.snd_bgmList.bgm_shooting_range then
+    TppSound.SetSceneBGM("bgm_shooting_range")
+  end
+  --ORIG --f30050_sound.SetScene_ShootingRange()
   TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"
   Player.SetInfiniteAmmoFromScript(true)
 end
@@ -3366,8 +3404,14 @@ end
 function this.ShowShootingPracticeGroundUi(offsetType,startUiPosition)
   mvars.qst_shootingPracticeStartUiPos=startUiPosition or mvars.qst_shootingPracticeStartUiPos
   mvars.qst_shootingPracticeOffsetType=offsetType or mvars.qst_shootingPracticeOffsetType
+
+  if mvars.qst_shootingPracticeOffsetType==nil then--tex> using startUiPos instead if no offsetType so it can be used in other locations than mtbs
+    local pos=mvars.qst_shootingPracticeStartUiPos or {0,0,0}
+    TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
+  else--<
   local pos,rotY=mtbs_cluster.GetPosAndRotY(mvars.qst_shootingPracticeOffsetType,"plnt0",mvars.qst_shootingPracticeStartUiPos,0)
   TppUiCommand.SetMbStageSpot("show",Vector3(pos[1],pos[2],pos[3]))
+end
 end
 --CALLERS: ShowShootingPracticeStartUi ^, Quest script LandingFromHeli
 --tex added markerName

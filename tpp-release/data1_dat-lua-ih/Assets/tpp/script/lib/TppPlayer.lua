@@ -200,7 +200,7 @@ function this.SetNoOrderBoxMissionStartPosition(pos,rotY)
   gvars.ply_missionStartPosForNoOrderBox[0]=pos[1]
   gvars.ply_missionStartPosForNoOrderBox[1]=pos[2]
   gvars.ply_missionStartPosForNoOrderBox[2]=pos[3]
-  gvars.ply_missionStartRotForNoOrderBox=rotY
+  gvars.ply_missionStartRotForNoOrderBox=pos[4] or rotY or 0--tex was =rotY
 end
 function this.SetNoOrderBoxMissionStartPositionToCurrentPosition()
   gvars.ply_useMissionStartPosForNoOrderBox=true
@@ -214,7 +214,7 @@ function this.SetMissionStartPosition(pos,rotY)
   gvars.ply_missionStartPos[0]=pos[1]
   gvars.ply_missionStartPos[1]=pos[2]
   gvars.ply_missionStartPos[2]=pos[3]
-  gvars.ply_missionStartRot=rotY
+  gvars.ply_missionStartRot=pos[4] or rotY or 0--tex was =rotY
 end
 function this.ResetMissionStartPosition()
   gvars.ply_useMissionStartPos=false
@@ -267,12 +267,12 @@ function this.SetInitialPositionToCurrentPosition()
   vars.initialPlayerPosZ=vars.playerPosZ
   vars.initialPlayerRotY=vars.playerRotY
 end
-function this.SetInitialPosition(position,rotation)
+function this.SetInitialPosition(pos,rotY)
   vars.initialPlayerFlag=PlayerFlag.USE_VARS_FOR_INITIAL_POS
-  vars.initialPlayerPosX=position[1]
-  vars.initialPlayerPosY=position[2]
-  vars.initialPlayerPosZ=position[3]
-  vars.initialPlayerRotY=rotation
+  vars.initialPlayerPosX=pos[1]
+  vars.initialPlayerPosY=pos[2]
+  vars.initialPlayerPosZ=pos[3]
+  vars.initialPlayerRotY=pos[4] or rotY or 0--tex was =rotY
 end
 function this.SetInitialPositionFromMissionStartPosition()
   if gvars.ply_useMissionStartPos then
@@ -310,6 +310,7 @@ function this.FailSafeInitialPositionForFreePlay()
   end
 end
 --<
+--NMC usually called in mission _sequence MissionPrepare
 function this.RegisterTemporaryPlayerType(playerSetting)
   --tex allow player character for the few missions that override it
   if Ivars.useSoldierForDemos:Is(1) then
@@ -2336,9 +2337,9 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
   local mbSupportFultonSectionSuccess=this.mbSectionRankSuccessTable[mbSupportFultonRank]or 0
   mbSupportFultonSectionSuccess=Ivars.fultonMbSupportScale:Scale(mbSupportFultonSectionSuccess)--tex
 
-  local weatherPenalty=this.fultonWeatherSuccessTable[vars.weather]or 0--tex gave weatherSuccessMod its own local for clarity
+  local weatherPenalty=this.fultonWeatherSuccessTable[vars.weather]or 0--tex gave weatherPenalty its own local for clarity
   --NMC: REF vanilla ranges of values
-  --weatherSuccessMod: -70 to 0
+  --weatherPenalty: -70 to 0
   --mbSupportFultonSectionSuccess: 0 to 60
   --since this is capped to 0 means SECTION_FUNC_ID_SUPPORT_FULTON sole purpose is to counter weather
   local fultonInWeatherPenalty=weatherPenalty+mbSupportFultonSectionSuccess
@@ -2409,7 +2410,7 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
   --  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
   --    percentage=0
   --  end--<
-  if Tpp.IsFultonContainer(targetId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
+  if Tpp.IsFultonContainer(targetId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness TODO DOCUMENT what am I actually doing here?
     percentage=0
   end--<
 

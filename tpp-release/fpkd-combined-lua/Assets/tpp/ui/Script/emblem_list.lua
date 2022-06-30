@@ -1,3 +1,10 @@
+--tex NMC so there's acually a couple of copies of this
+--patch \Assets\tpp\pack\mbdvc\mb_child_window_emblem.fpkd
+--  \Assets\tpp\ui\Script\emblem_list.lua
+--and
+--data1 \Assets\tpp\ui\Script\emblem_list.lua
+
+--easiest to copy or merge from the fpkd version to the data1 copy
 emblem_list = {
 
 	
@@ -67,9 +74,10 @@ emblem_list = {
 				{ tag = 'base50', saveIndex = 49, langId = 'emblem_base_50', hidden = true, category = 1, low = '/Assets/tpp/ui/texture/Emblem/base/ui_emb_base_50_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/base/ui_emb_base_50_h_alp.ftex' },
 				{ tag = 'base51', saveIndex = 50, langId = 'emblem_base_51', hidden = true, category = 2, low = '/Assets/tpp/ui/texture/Emblem/emblem_event_1_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/emblem_clear_alp.ftex.ftex' },
 				{ tag = 'base52', saveIndex = 51, langId = 'emblem_base_52', hidden = true, category = 2, low = '/Assets/tpp/ui/texture/Emblem/emblem_event_2_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/emblem_clear_alp.ftex.ftex' },
+				{ tag = 'base53', saveIndex = 52, langId = 'emblem_base_53', hidden = true, category = 2, low = '/Assets/tpp/ui/texture/Emblem/emblem_event_3_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/emblem_clear_alp.ftex.ftex' },
 			}
 		}
-	end,
+	end,--GetFrameParameters
 
 	
 	GetFrontParameters = function()
@@ -273,9 +281,39 @@ emblem_list = {
 				{ tag = 'front7061', saveIndex = 221, langId = 'emblem_front_7061', hidden = true, category = 4, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_7061_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_7061_h_alp.ftex' },
 				{ tag = 'front7062', saveIndex = 222, langId = 'emblem_front_7062', hidden = true, category = 4, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_7062_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_7062_h_alp.ftex' },
 				{ tag = 'front7063', saveIndex = 223, langId = 'emblem_front_7063', hidden = true, category = 4, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_7063_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_7063_h_alp.ftex' },
+				{ tag = 'front8000', saveIndex = 224, langId = 'emblem_front_8000', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8000_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8000_h_alp.ftex' },
+				{ tag = 'front8001', saveIndex = 225, langId = 'emblem_front_8001', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8001_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8001_h_alp.ftex' },
+				{ tag = 'front8002', saveIndex = 226, langId = 'emblem_front_8002', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8002_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8002_h_alp.ftex' },
+				{ tag = 'front8003', saveIndex = 227, langId = 'emblem_front_8003', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8003_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8003_h_alp.ftex' },
+				{ tag = 'front8004', saveIndex = 228, langId = 'emblem_front_8004', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8004_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8004_h_alp.ftex' },
+				{ tag = 'front8010', saveIndex = 229, langId = 'emblem_front_8010', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8010_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8010_h_alp.ftex' },
+				{ tag = 'front8011', saveIndex = 230, langId = 'emblem_front_8011', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8011_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8011_h_alp.ftex' },
+				{ tag = 'front8012', saveIndex = 231, langId = 'emblem_front_8012', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8012_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8012_h_alp.ftex' },
+				{ tag = 'front8013', saveIndex = 232, langId = 'emblem_front_8013', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8013_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8013_h_alp.ftex' },
+				{ tag = 'front8014', saveIndex = 233, langId = 'emblem_front_8014', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8014_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8014_h_alp.ftex' },
+				{ tag = 'front8015', saveIndex = 234, langId = 'emblem_front_8015', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8015_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8015_h_alp.ftex' },
+				{ tag = 'front8016', saveIndex = 235, langId = 'emblem_front_8016', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8016_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8016_h_alp.ftex' },
+				{ tag = 'front8017', saveIndex = 236, langId = 'emblem_front_8017', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8017_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8017_h_alp.ftex' },
+				{ tag = 'front8018', saveIndex = 237, langId = 'emblem_front_8018', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8018_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8018_h_alp.ftex' },
+				{ tag = 'front8019', saveIndex = 238, langId = 'emblem_front_8019', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8019_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8019_h_alp.ftex' },
+				{ tag = 'front8025', saveIndex = 239, langId = 'emblem_front_8025', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8025_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8025_h_alp.ftex' },
+				{ tag = 'front8026', saveIndex = 240, langId = 'emblem_front_8026', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8026_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8026_h_alp.ftex' },
+				{ tag = 'front8027', saveIndex = 241, langId = 'emblem_front_8027', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8027_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8027_h_alp.ftex' },
+				{ tag = 'front8028', saveIndex = 242, langId = 'emblem_front_8028', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8028_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8028_h_alp.ftex' },
+				{ tag = 'front8029', saveIndex = 243, langId = 'emblem_front_8029', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8029_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8029_h_alp.ftex' },
+				{ tag = 'front8005', saveIndex = 244, langId = 'emblem_front_8005', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8005_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8005_h_alp.ftex' },
+				{ tag = 'front8006', saveIndex = 245, langId = 'emblem_front_8006', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8006_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8006_h_alp.ftex' },
+				{ tag = 'front8007', saveIndex = 246, langId = 'emblem_front_8007', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8007_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8007_h_alp.ftex' },
+				{ tag = 'front8008', saveIndex = 247, langId = 'emblem_front_8008', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8008_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8008_h_alp.ftex' },
+				{ tag = 'front8009', saveIndex = 248, langId = 'emblem_front_8009', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8009_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8009_h_alp.ftex' },
+				{ tag = 'front8030', saveIndex = 249, langId = 'emblem_front_8030', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8030_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8030_h_alp.ftex' },
+				{ tag = 'front8031', saveIndex = 250, langId = 'emblem_front_8031', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8031_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8031_h_alp.ftex' },
+				{ tag = 'front8032', saveIndex = 251, langId = 'emblem_front_8032', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8032_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8032_h_alp.ftex' },
+				{ tag = 'front8033', saveIndex = 252, langId = 'emblem_front_8033', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8033_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8033_h_alp.ftex' },
+				{ tag = 'front8034', saveIndex = 253, langId = 'emblem_front_8034', hidden = true, category = 3, low = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8034_l_alp.ftex', high = '/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_8034_h_alp.ftex' },
 			}
 		}
-	end,
+	end,--GetFrontParameters
 
 	
 	
@@ -569,7 +607,7 @@ emblem_list = {
 				
 			}
 		}
-	end,
+	end,--GetWordParameters
 
 	
 	GetColorParameters2 = function()
@@ -713,7 +751,7 @@ emblem_list = {
 				{ 64, 46, 47 },
 			},
 		}
-	end,
+	end,--GetColorParameters2
 
 	
 	GetColorParameters = function()
@@ -723,4 +761,4 @@ emblem_list = {
 		}
 	end,
 
-}
+}--emblem_list

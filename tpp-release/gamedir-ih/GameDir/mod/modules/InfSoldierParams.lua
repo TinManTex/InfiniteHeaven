@@ -115,7 +115,7 @@ this.registerMenus={
 }
 
 this.soldierParamsMenu={
-  parentRefs={"InfMenuDefs.safeSpaceMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.soldierParamsProfile",
     "Ivars.soldierHealthScale",
@@ -143,6 +143,7 @@ this.langStrings={
   },
   help={
     eng={
+      soldierParamsProfile="Any of the following option only apply on map load or checkpoint restart.",
       soldierParamsProfile="Turn this on to enable the life, sight and hearing enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).",
       soldierHealthScale="0% will kill off all enemies",
       soldierSightDistScale="A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.",
@@ -539,6 +540,7 @@ function this.SoldierParametersMod()
   this.ApplyHealthIvarsToSoldierParams()
   this.ApplySightIvarsToSoldierParams()
   this.ApplyHearingIvarsToSoldierParams()
+  InfCore.LogFlow"InfSoldierParams.SoldierParametersMod ReloadSoldier2ParameterTables"
   TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParameters)
 end
 

@@ -27,10 +27,10 @@ this.registerIvars={
   "hairDecoFovaDirect",
   "faceFovaUnknown1",
   "faceFovaUnknown2",
-  "faceFovaUnknown3",
-  "faceFovaUnknown4",
+  "eyeFova",
+  "skinFova",
   "faceFovaUnknown5",
-  "faceFovaUnknown6",
+  "uiTextureCount",
   "faceFovaUnknown7",
   "faceFovaUnknown8",
   "faceFovaUnknown9",
@@ -113,28 +113,12 @@ this.playerType={
 this.playerTypeDirect={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
-  settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
-    PlayerType.SNAKE,
-    PlayerType.AVATAR,
-    PlayerType.DD_MALE,
-    PlayerType.DD_FEMALE,
-  },
-  playerTypeToSetting={
-    --    [PlayerType.SNAKE]=0,
-    --    [PlayerType.AVATAR]=1,
-    --    [PlayerType.DD_MALE]=2,
-    --    [PlayerType.DD_FEMALE]=3,
-    [0]=0,
-    [1]=2,
-    [2]=3,
-    [3]=1,
-  },
+  range={min=0,max=255},
   OnSelect=function(self)
-    ivars[self.name]=self.playerTypeToSetting[vars.playerType]
+    ivars[self.name]=vars.playerType
   end,
   OnActivate=function(self,setting)
-  --self:OnChange(setting,setting)
+    vars.playerType=setting
   end,
 }
 
@@ -145,7 +129,7 @@ local playerPartsTypeSettings={
   "NAKED",--7,
   "SNEAKING_SUIT_TPP",--8,
   "SNEAKING_SUIT",--2,
-  "SNEAKING_SUIT_BB",--25
+  "SNEAKING_SUIT_BB",--30--GOTCHA: overflow
   "BATTLEDRESS",--9
   "PARASITE",--10
   "LEATHER",--11
@@ -213,19 +197,20 @@ this.playerPartsType={
 
     vars.playerPartsType=partsType
 
-    Ivars.playerCamoType:OnSelect()--tex sort out camo type too
+    Ivars.playerCamoType:OnSelect()--tex sort out camo type too, as the exe doesnt seem to change on camotype change, not playerpartstype change
   end,
 }
 
 this.playerPartsTypeDirect={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=100},
+  range={min=0,max=255},
   OnSelect=function(self)
     ivars[self.name]=vars.playerPartsType
   end,
   OnActivate=function(self,setting)
     vars.playerPartsType=setting
+    --vars.playerCamoType=0--DEBUGNOW
   end,
 }
 
@@ -282,7 +267,7 @@ this.playerCamoType={
 --tex for DEBUG, just exploring direct value
 this.playerCamoTypeDirect={
   inMission=true,
-  range={min=0,max=1000},
+  range={min=0,max=255},
   OnSelect=function(self)
     self:SetDirect(vars.playerCamoType)
   end,
@@ -359,14 +344,14 @@ this.playerFaceId={
     local faceId=faceDef[1]
 
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
-      if not InfModelProc.hasFaceFova then
+      if not InfSoldierFaceAndBody.hasFaceFova then
         return InfLangProc.LangString"no_head_fovas"
       end
     end
 
-    local headDefinitionName=InfModelProc.headDefinitions[faceId]
+    local headDefinitionName=InfSoldierFaceAndBody.headDefinitions[faceId]
     if headDefinitionName then
-      local headDefinition=InfModelProc.headDefinitions[headDefinitionName]
+      local headDefinition=InfSoldierFaceAndBody.headDefinitions[headDefinitionName]
       local desciption=headDefinition.description or headDefinitionName
       return "faceId:"..faceId.." - "..desciption
     end
@@ -577,7 +562,7 @@ this.faceFova={
     self.range.max=#settingsTable-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 
@@ -618,7 +603,7 @@ this.faceDecoFova={
     self.range.max=#settingsTable-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 this.hairFova={
@@ -654,7 +639,7 @@ this.hairFova={
     self.range.max=#settingsTable-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 this.hairDecoFova={
@@ -671,7 +656,7 @@ this.hairDecoFova={
     self.range.max=#Soldier2FaceAndBodyData.hairDecoFova-1
   end,
   OnActivate=function(self)
-  --InfEneFova.ApplyFaceFova()
+  --this.ApplyFaceFova()
   end,
 }
 --<
@@ -689,7 +674,7 @@ this.faceFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceDecoFovaDirect={
@@ -705,7 +690,7 @@ this.faceDecoFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.hairFovaDirect={
@@ -721,7 +706,7 @@ this.hairFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.hairDecoFovaDirect={
@@ -737,7 +722,7 @@ this.hairDecoFovaDirect={
     return InfUtil.GetFileName(path)
   end,
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 
@@ -746,7 +731,7 @@ this.faceFovaUnknown1={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=50},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown2={
@@ -754,23 +739,23 @@ this.faceFovaUnknown2={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
-this.faceFovaUnknown3={
+this.eyeFova={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=4},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
-this.faceFovaUnknown4={
+this.skinFova={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=4},
+  range={min=0,max=5},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown5={
@@ -778,15 +763,15 @@ this.faceFovaUnknown5={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=1},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
-this.faceFovaUnknown6={
+this.uiTextureCount={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown7={
@@ -794,7 +779,7 @@ this.faceFovaUnknown7={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown8={
@@ -802,7 +787,7 @@ this.faceFovaUnknown8={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown9={
@@ -810,7 +795,7 @@ this.faceFovaUnknown9={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=303},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 this.faceFovaUnknown10={
@@ -818,7 +803,7 @@ this.faceFovaUnknown10={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=3},
   OnActivate=function(self)
-    InfEneFova.ApplyFaceFova()
+    this.ApplyFaceFova()
   end,
 }
 --
@@ -926,6 +911,8 @@ this.skipDevelopChecks={
 this.registerMenus={
   "appearanceMenu",
   "appearanceDebugMenu",
+  "characterMenu",
+  "characterDebugMenu",
   "fovaModMenu",
 }
 
@@ -939,7 +926,7 @@ this.fovaModMenu={
 
 this.appearanceMenu={
   nonConfig=true,
-  parentRefs={"InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
+  parentRefs={"InfMenuDefs.safeSpaceMenu","InfMenuDefs.inMissionMenu","InfMenuDefs.inDemoMenu"},
   options={
     "Ivars.playerType",
     "Ivars.playerPartsType",
@@ -979,10 +966,10 @@ this.appearanceDebugMenu={
 
     "Ivars.faceFovaUnknown1",
     "Ivars.faceFovaUnknown2",
-    "Ivars.faceFovaUnknown3",
-    "Ivars.faceFovaUnknown4",
+    "Ivars.eyeFova",
+    "Ivars.skinFova",
     "Ivars.faceFovaUnknown5",
-    "Ivars.faceFovaUnknown6",
+    "Ivars.uiTextureCount",
     "Ivars.faceFovaUnknown7",
     "Ivars.faceFovaUnknown8",
     "Ivars.faceFovaUnknown9",
@@ -990,6 +977,45 @@ this.appearanceDebugMenu={
     "InfFovaIvars.fovaModMenu",
   }
 }
+--IHHook character system override stuff
+
+--DEBUGNOW where do i want this menu or options?
+this.characterMenu={
+  parentRefs={"InfFovaIvars.appearanceMenu",},
+  requiresIHHook=true,
+  options={
+    "InfPlayerParts.character_playerPartsForPlayerType",
+    "InfPlayerCamo.character_playerCamoForPlayerParts",
+    "InfSnakeFace.character_snakeFace",
+    "InfAvatarHorn.character_avatarHorn",
+    "InfBionicHand.character_bionicHand",
+  }
+}--characterMenu
+this.characterDebugMenu={
+  requiresIHHook=true,
+  options={
+    --DEBUGNOW
+    "Ivars.playerTypeDirect",
+    "Ivars.playerPartsTypeDirect",
+    "Ivars.playerCamoTypeDirect",
+    "Ivars.playerFaceIdDirect",
+    "Ivars.playerFaceEquipIdDirect",
+    "InfPlayerParts.character_playerParts",
+    "InfPlayerCamo.character_playerCamo",
+    --"Ivars.character_overrideCharacterSystem",--DEBUG
+    --"Ivars.character_playerPartsNeedHead",--DEBUG
+    --"Ivars.character_playerPartsNeedHand",--DEBUG
+    --"Ivars.playerHandEquip",
+    --"Ivars.playerHandTypeDirect",--DEBUG
+    --
+    "InfPlayerParts.character_playerPartsForPlayerType",
+    "InfPlayerCamo.character_playerCamoForPlayerParts",
+    "InfSnakeFace.character_snakeFace",
+    "InfAvatarHorn.character_avatarHorn",
+    "InfBionicHand.character_bionicHand",
+  }
+}--characterDebugMenu
+--< character system
 --< menu defs
 this.langStrings={
   eng={
@@ -1015,6 +1041,7 @@ this.langStrings={
     playerFaceFilterSettings={"Show all","Headgear (cosmetic)","Unique","Head fova mods"},
     no_developed_camo="No developed camos found for suit",
     fob_locked_warning="WARNING: Pause menu disabled, may cause other issues",
+    characterMenu="Character Fova Menu",
   },
   help={
     eng={
@@ -1023,5 +1050,114 @@ this.langStrings={
     },
   },
 }
+
+--tex for face fova ivars
+--Soldier2FaceAndBodyData.faceDefinition indexes for
+--DEBUGNOW TODO: make so faceDefinition is built from the ivars on startup (just apply same to both so if player loading game with face set you don't have to worry about saving current used mod face slot)
+this.faceModSlots={
+  512,
+  513,
+}
+this.currentFaceIdSlot=1
+function this.ApplyFaceFova()
+  if vars.playerType~=PlayerType.DD_MALE and vars.playerType~=PlayerType.DD_FEMALE then
+    InfMenu.PrintLangId"setting_only_for_dd"
+    return
+  end
+
+  local noFova=EnemyFova.INVALID_FOVA_VALUE
+  local faceDefinitions=Soldier2FaceAndBodyData.faceDefinition
+
+  --tex since the engine only applies face if vars.playerFaceId changes to a different id I'm just cyling between a couple of faceDefinition entries
+  --index in faceDefinition
+
+
+  local faceFova=Ivars.faceFovaDirect:Get()
+  local faceDecoFova=Ivars.faceDecoFovaDirect:Get()
+  local hairFova=Ivars.hairFovaDirect:Get()
+  local hairDecoFova=Ivars.hairDecoFovaDirect:Get()
+  local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
+
+  local uiTextureName=""
+
+  local unknown1=Ivars.faceFovaUnknown1:Get()
+  local unknown2=Ivars.faceFovaUnknown2:Get()
+  local eyeFova=Ivars.eyeFova:Get()
+  local skinFova=Ivars.skinFova:Get()
+  local unknown5=Ivars.faceFovaUnknown5:Get()
+  local uiTextureCount=Ivars.uiTextureCount:Get()
+  local unknown7=Ivars.faceFovaUnknown7:Get()
+  local unknown8=Ivars.faceFovaUnknown8:Get()
+  local unknown9=Ivars.faceFovaUnknown9:Get()
+  local unknown10=Ivars.faceFovaUnknown10:Get()
+
+  local currentSlotIndex=this.faceModSlots[this.currentFaceIdSlot]
+  local currentFaceId=faceDefinitions[currentSlotIndex][1]
+
+  local newFace={
+    currentFaceId,
+    unknown1,
+    gender,
+    unknown2,
+    faceFova,
+    faceDecoFova,
+    hairFova,
+    hairDecoFova,
+    eyeFova,
+    skinFova,
+    unknown5,
+    uiTextureName,
+    uiTextureCount,
+    unknown7,
+    unknown8,
+    unknown9,
+    unknown10,
+  }
+
+  faceDefinitions[currentSlotIndex]=newFace
+
+  --tex GOTCHA crashes after repeated calls, wouldnt really trust it even after one
+  TppSoldierFace.SetFaceFovaDefinitionTable{table=faceDefinitions,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
+
+  vars.playerFaceId=currentFaceId
+
+  if this.currentFaceIdSlot==1 then
+    this.currentFaceIdSlot=2
+  else
+    this.currentFaceIdSlot=1
+  end
+end--ApplyFaceFova
+
+function this.PrintFaceInfo(faceId)
+  local faceAndBodyData=Soldier2FaceAndBodyData
+  for i,faceDef in ipairs(faceAndBodyData.faceDefinition)do
+    if faceDef[1]==faceId then
+      local faceInfoString=""
+      for i,fovaType in ipairs(InfSoldierFaceAndBody.fovaTypes)do
+        local index=faceDef[InfEneFova.faceDefinitionParams[fovaType]]
+        local fovaInfo=faceAndBodyData[fovaType][index]
+        local name
+        if fovaInfo then
+          name=InfUtil.GetFileName(fovaInfo[1])
+        elseif index==EnemyFova.INVALID_FOVA_VALUE then
+          name="nil_fova"
+        else
+          name=index
+        end
+
+        local fovaInfoExt=InfEneFova[fovaType][name]
+        local description=name
+        if fovaInfoExt and fovaInfoExt.description then
+          description=description..":"..fovaInfoExt.description
+        end
+
+        faceInfoString=faceInfoString..fovaType..":"..description..", "
+      end
+
+      InfCore.Log(faceInfoString,true)
+      break
+    end
+  end
+end--PrintFaceInfo
 
 return this

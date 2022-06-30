@@ -1,6 +1,9 @@
 -- InfWeaponIdTable.lua
 --Implements weaponIdTable addon loading
 --see \mod\devmodules\weaponIdTables\example.lua
+--Ivar weaponTableGlobal* in InfEquip
+--Actual use/return of weaponIdTable in TppEnemy.GetWeaponIdTable which also handled mission addon overriding of weaponIdTable.
+
 --REF IH Feature custom weapon table.txt
 --TODO validate addon on load
 --validate it has all the base soldiertypes
@@ -12,13 +15,24 @@ this.debugModule=false
 this.addons={}
 this.addonsNames={}
 
+this.vanillaTableNames={
+  DD=true,
+  SOVIET_A=true,
+  SOVIET_B=true,
+  PF_A=true,
+  PF_B=true,
+  PF_C=true,
+  SKULL=true,
+  CHILD=true,
+}--vanillaTableNames
+
 function this.PostAllModulesLoad()
   this.addons={}
   this.addonsNames={}
   
   this.addons.DEFAULT={
     description="Default",
-    weaponIdTable=TppEnemy.weaponIdTable,
+    weaponIdTable=TppEnemy.weaponIdTable,--InfUtil.CopyTable(TppEnemy.weaponIdTable),--: would cause issues if reloading scripts, but refencing TppEnemy.weaponIdTable would cause issues if I replace it outright
   }
 
   this.LoadWeaponIdTables()

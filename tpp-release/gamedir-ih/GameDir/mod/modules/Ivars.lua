@@ -1,5 +1,6 @@
 -- Ivars.lua
 --tex Ivar system
+--Intially loaded in InfInit
 --Property system used by IH menu and code to provide modifyable and savable settings.
 --Ivars can be defined in other IH modules and their names added to <module>.registerIvars, these will actually be built in to the Ivars module.
 
@@ -96,7 +97,7 @@ this.debugFlow={
   nonConfig=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
-  settingNames="set_switch",
+  settingNames="set_switch",  
   allowOnline=true,
 }
 
@@ -115,7 +116,7 @@ this.debugOnUpdate={
 this.log_SetFlushLevel={
   inMission=true,
   nonConfig=true,
-  usesIHH=true,
+  requiresIHHook=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"trace","debug","info","warn","error","critical","off"},
   default=InfCore.level_warn,
@@ -554,7 +555,7 @@ end
 
 --ivar system setup>
 --gvars setup
-function this.DeclareVars()
+function this.DeclareGVars()
   local varTable={}
   --varTable={
   --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
@@ -608,6 +609,10 @@ function this.DeclareVars()
   }
   for i,gvar in ipairs(arrays)do
     varTable[#varTable+1]=gvar
+  end
+  
+  if this.debugModule then
+    InfCore.PrintInspect(varTable,"Ivars varTable")
   end
 
   return varTable
@@ -695,9 +700,9 @@ function this.PostAllModulesLoad()
       for j,name in pairs(module.registerIvars)do
         local ivarDef=module[name]
         if not ivarDef then
-          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..name.." in "..module.name)
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..tostring(name).." in "..module.name)
         elseif not this.IsIvar(ivarDef) then
-          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..name.." in "..module.name.." is not an Ivar.")
+          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..tostring(name).." in "..module.name.." is not an Ivar.")
         else
           --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
           --tex set them to nonconfig by default so to not trip up AutoDoc

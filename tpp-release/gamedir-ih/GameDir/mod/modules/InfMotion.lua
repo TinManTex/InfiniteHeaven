@@ -486,10 +486,6 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-     return
-  end
-
   for i,packPath in ipairs(this.packages) do
     packPaths[#packPaths+1]=packPath
   end

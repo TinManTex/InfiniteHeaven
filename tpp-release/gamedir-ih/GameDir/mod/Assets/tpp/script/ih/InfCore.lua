@@ -19,7 +19,7 @@ local InfCore=this
 
 this.modVersion=257
 this.modName="Infinite Heaven"
-this.hookVersion=16--tex for version check
+this.hookVersion=17--tex for version check
 
 this.gameId="TPP"
 this.gameDirectory="MGS_TPP"
@@ -1082,11 +1082,11 @@ this.gamePath=GetGamePath()
 if isMockFox then
   print("InfCore.gamePath:"..tostring(this.gamePath))
 end
---tex full paths of each subfolder of mod
+--tex full paths of each subfolder of MGS_TPP\mod (and mod itself), no subfolders of subfolders
 this.paths={
   mod=this.gamePath..this.modSubPath.."/",
 }
---tex filenames by subfolder name
+--tex filenames (incl extension) by subfolder name
 this.files={
   mod={},
 }
@@ -1126,8 +1126,12 @@ else
 
   --tex currently no hard depedancy on IHHook
   if _IHHook then 
-    if _IHHook ~= this.hookVersion then
+    if _IHHook < this.hookVersion then
       this.Log("ERROR: IHHook version mismatch. IHHook version: "..tostring(_IHHook)..". Required version "..this.hookVersion,false,true);
+    elseif _IHHook > this.hookVersion then
+      this.Log("WARNING: IHHook version mismatch. IHHook version: "..tostring(_IHHook)..". Requested version "..this.hookVersion,false,true);
+      this.Log("While IH will run on this version of IHHook fine, it may mean there's a more up to date version of IH available",false,true);
+      this.Log("Check the 'Compatable IHHook version' on the IH nexus description page or readme",false,true);
     else
       this.Log("IHHook version "..tostring(_IHHook))
     end

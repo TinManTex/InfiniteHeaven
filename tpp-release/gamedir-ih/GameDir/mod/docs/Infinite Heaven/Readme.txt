@@ -1,8 +1,8 @@
 = Infinite heaven =
-r255 - 2021-08-04
+r257 - 2021-08-04
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
-Compatable IHHook version: r15b
+Compatable IHHook version: r17 or later
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features, as well as providing addon systems to support other mods.
 

@@ -217,10 +217,15 @@ function this.OnInitializeBottom(missionTable)
 end
 
 --CALLER: TppMissionList.GetMissionPackagePath
---IN/OUT packPath
+--IN/OUT packPath  
+--tex GOTCHA: will need another method if want to add missionpacks earlier than title
 function this.AddMissionPacks(missionCode,packPaths)
   InfCore.LogFlow("InfMain.AddMissionPacks "..missionCode)
   if this.IsOnlineMission(missionCode)then
+    return
+  end
+
+  if not this.IsPastTitle(missionCode) then
     return
   end
 
@@ -1075,27 +1080,6 @@ this.baseNames={
     "ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp",
   },
 }
-
---DEBUGNOW
-function this.BuildBaseNames(soldierDefine)
-  local baseNames={}
-  for cpName,soldierList in pairs(soldierDefine)do
-    local cpId=GetGameObjectId(cpName)
-    if cpId==NULL_ID then
-    else
-      if string.sub(cpName,-4)=="lrrp"then
-      end
-      local cpType=string.sub(cpName,-2)
-      if cpType=="ob"then
-        baseNames[cpId]=cpName
-      end
-      if cpType=="cp"then
-        baseNames[cpId]=cpName
-      end
-    end--if cpId
-  end--for soldierDefine
-  return baseNames
-end--BuildBaseNames
 
 --tex in the mission soldierDefine tables there's a bunch of empty _lrrp cps that I'm repurposing
 local lrrpInd="_lrrp"

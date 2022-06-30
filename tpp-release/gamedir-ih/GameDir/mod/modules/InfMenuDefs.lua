@@ -94,6 +94,7 @@ this.debugMenu={
     "InfMenuCommands.ShowMissionCode",
     "InfMenuCommands.ShowLangCode",
     "InfFovaIvars.appearanceDebugMenu",
+    "InfFovaIvars.characterDebugMenu",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
@@ -115,6 +116,7 @@ this.debugInMissionMenu={
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
     "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig",
     "InfFovaIvars.appearanceDebugMenu",
+    "InfFovaIvars.characterDebugMenu",
     --"InfMenuCommandsTpp.DEBUG_ChangePhase",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOn",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOff",
@@ -137,7 +139,7 @@ this.debugInMissionMenu={
     "InfCamera.ShowFreeCamPosition",
     "InfMenuCommands.ShowPosition",
     "InfMenuCommands.CheckPointSave",
-  --"InfMenuCommands.DEBUG_ClearAnnounceLog",
+    --"InfMenuCommands.DEBUG_ClearAnnounceLog",
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
   }
@@ -156,7 +158,7 @@ this.objectListsMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "Ivars.warpToListPosition",
-    "Ivars.warpToListObject",    
+    "Ivars.warpToListObject",
     "Ivars.setCamToListObject",
   }
 }
@@ -343,7 +345,9 @@ function this.SetupMenuDefs()
     -- end
     end
   end
+end--SetupMenuDefs
 
+function this.PostSetupMenuDefs()
   --VALIDATE
   InfCore.LogFlow("InfMenuDefs.SetupMenuDefs: validate")
   for n,item in pairs(this) do
@@ -369,6 +373,28 @@ function this.SetupMenuDefs()
         end
       end
     end
+  end
+
+  --tex remove items that requiresIHHook (not strictly only menus, but good enough place as any to do it)
+  --GOTCHA: really work for command options since they dont have metadata, authors will need to provide param ala resetSettingsItem
+  local hasIHHook=IHH~=nil
+  local function ShouldKeep(array, i, j)
+    local optionRef=array[i]
+    local option=InfMenu.GetOptionFromRef(optionRef)
+    if option then
+      if option.requiresIHHook and not hasIHHook then
+        InfCore.Log("InfMenuDefs.SetupMenuDefs requiresIHHook. Removing "..option.name)
+        return false
+      end
+    end
+    return true
+  end
+
+  if not hasIHHook and not isMockFox then--tex ASSUMPTION isMockFox running AutoDoc
+    InfCore.LogFlow("InfMenuDefs.SetupMenuDefs checking for requiresIHHook entries")
+    for n,menu in pairs(this.allMenus) do
+      InfUtil.ArrayRemove(menu.options,ShouldKeep)
+    end--for allMenus
   end
 
   --tex for search DEBUGNOW, need some kind of context filter (safespace/inmission)
@@ -397,31 +423,16 @@ function this.SetupMenuDefs()
   if this.debugModule then
     InfCore.PrintInspect(this.allItems,"InfMenuDefs.allItems")
   end
-
-
-  --CULL
-  --  for i,module in ipairs(InfModules) do
-  --    if module.registerMenus then
-  --      for j,name in ipairs(module.registerMenus)do
-  --        local menuDef=module[name]
-  --        if not menuDef then
-  --        elseif this.IsMenu(menuDef) then
-  --          for k,optionRef in ipairs(menuDef.options)do
-  --            local option,name=InfCore.GetStringRef(optionRef)
-  --            this.allItems[#this.allItems+1]=optionRef
-  --          end
-  --        end
-  --      end
-  --    end
-  --  end
-
-  if this.debugModule then
-    InfCore.PrintInspect(this,"InfMenuDefs")
-  end
-end--SetupMenuDefs
+end--PostSetupMenuDefs
 
 function this.PostAllModulesLoad()
   this.SetupMenuDefs()
-end
+  InfMenuCommands.BuildCommandItems()--tex execing here rather than in InfMenuCommands so they can be up and running for requiresIHH check which uses GetOptionFromRef
+  this.PostSetupMenuDefs()--tex more flow fiddling for requiresIHH
+  
+  if this.debugModule then
+    InfCore.PrintInspect(this,"InfMenuDefs")
+  end
+end--PostAllModulesLoad
 
 return this

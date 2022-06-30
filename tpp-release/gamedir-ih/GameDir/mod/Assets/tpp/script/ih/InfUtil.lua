@@ -20,6 +20,26 @@ function this.MergeArray(array1,array2)
   end
 end
 
+--https://stackoverflow.com/questions/12394841/safely-remove-items-from-an-array-table-while-iterating
+--array to iterate and remove from
+--fnKeep: Return true to keep the value, or false to discard it
+function this.ArrayRemove(array, fnKeep)
+  local j, n = 1, #array;
+  for i=1,n do
+    if (fnKeep(array, i, j)) then
+      -- Move i's kept value to j's position, if it's not already there.
+      if (i ~= j) then
+        array[j] = array[i];
+        array[i] = nil;
+      end
+      j = j + 1; -- Increment position of where we'll place the next kept value.
+    else
+      array[i] = nil;
+    end
+  end
+  return array;
+end--ArrayRemove
+
 function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
   local next=next
   if next(checkTable)==nil then
@@ -55,18 +75,18 @@ function this.CopyList(sourceList)
   return newList
 end
 function this.CopyTable(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in next, orig, nil do
-            copy[this.CopyTable(orig_key)] = this.CopyTable(orig_value)
-        end
-        setmetatable(copy, this.CopyTable(getmetatable(orig)))
-    else -- number, string, boolean, etc
-        copy = orig
+  local orig_type = type(orig)
+  local copy
+  if orig_type == 'table' then
+    copy = {}
+    for orig_key, orig_value in next, orig, nil do
+      copy[this.CopyTable(orig_key)] = this.CopyTable(orig_value)
     end
-    return copy
+    setmetatable(copy, this.CopyTable(getmetatable(orig)))
+  else -- number, string, boolean, etc
+    copy = orig
+  end
+  return copy
 end--CopyTable
 
 function this.SwapEntry(sourceTable,sourceKey,destKey)
@@ -85,7 +105,7 @@ function this.RandomizeArray(array)
   if #array==0 then
     return array
   end
-  
+
   local randomizedArray={}
   local size=#array
   for i=1,size do
@@ -327,7 +347,7 @@ function this.GenerateNameList(fmt,num,list)
   return list
 end
 
---tex index 0 based 
+--tex index 0 based
 function this.From3Dto1D(x,y,z,xMax,yMax)
   return (z*xMax*yMax)+(y*xMax)+x
 end--From3Dto1D
@@ -339,9 +359,15 @@ function this.From1Dto3D(idx,xMax,yMax)
   local x=math.floor(idx%xMax)
   return x,y,z
 end--From1Dto3D
---tex index 0 based 
+--tex index 0 based
 function this.From2Dto1D(x,y,xMax)
   return (y*xMax)+x
 end--From3Dto1D
+--{x,y,z} vectors
+function this.YawTowardsLookPos(pos,lookPos)
+  local dirVec=Vector3(lookPos[1]-pos[1],0,lookPos[3]-pos[3])
+  dirVec=dirVec:Normalize()
+  return TppMath.RadianToDegree(foxmath.Atan2(dirVec:GetX(),dirVec:GetZ()))
+end
 
 return this

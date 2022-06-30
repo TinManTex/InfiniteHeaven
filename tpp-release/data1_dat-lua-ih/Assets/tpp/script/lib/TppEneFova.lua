@@ -1336,7 +1336,7 @@ function fovaSetupFuncs.default(locationName,missionId)
     TppSoldierFace.OverwriteMissionFovaData{face=face}
   end
 end
---tex>
+--tex> Utility func for Mission addons
 function this.SetupFovaForLocation(locationName,missionId)
   fovaSetupFuncs[locationName](locationName,missionId)
 end

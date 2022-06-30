@@ -2,13 +2,15 @@
 -- tex implements various mission selection options
 -- and IH location and mission addon systems
 
+--TODO: call validateweaponIdtable on load
+
 --REF location addon module <GameDir>\mod\locations\ >
 --reference of all entries rather than a sane example
 --local this={
 --  description="Jade Forest",
 --  locationName="AFC0",
 --  locationId=101,
---  packs={"/Assets/mgo/pack/location/afc0/afc0.fpk"},-- TppMissionList.locationPackTable entry
+--  packs={"/Assets/mgo/pack/location/afc0/afc0.fpk"},-- TppMissionList.locationPackTable entry RENAMED was: packs
 --  locationMapParams={-- \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd \ mbdvc_map_location_parameter.lua entry
 --    stageSize=556*1,
 --    scrollMaxLeftUpPosition=Vector3(-255,0,-275),
@@ -44,7 +46,7 @@
 --  requestTppBuddy2BlockController=true,--tex not sure, see TppLocation.SetBuddyBlock and its caller TppMissionList.GetLocationPackagePath
 --  weatherProbabilities={-- see TppWeather.weatherProbabilitiesTable
 --    {TppDefine.WEATHER.SUNNY,80},
---    {TppDefine.WEATHER.CLOUDY,20}  
+--    {TppDefine.WEATHER.CLOUDY,20}
 --  },
 --  extraWeatherProbabilities={-- see TppWeather.extraWeatherProbabilitiesTable
 --    {TppDefine.WEATHER.RAINY,50},
@@ -61,7 +63,8 @@
 --  description="Jade Forest",-- Description for IH menu.
 --  missionCode=12020,
 --  location="AFC0",
---  packs=function(missionCode) -- TppMissionList.missionPackTable entry, can be table of fpk names or function of packlist adding calls.
+--  hideMission=false,--doesn't add mission to idroid/internal mission list (so no mission completion/ranking saved). Still loadable via Load addon mission, or TppMission.ReserveMissionClear, or Transistion system
+--  missionPacks=function(missionCode) -- TppMissionList.missionPackTable entry, can be table of fpk names or function of packlist adding calls. RENAMED was: packs
 --    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
 --    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s13000/s13000_area.fpk"
 --  end,
@@ -76,7 +79,8 @@
 --  enableOOB=true,-- Enable the mission out of bound system
 --  startPos={-11.788,8.483,165.559},--NO_HELICOPTER_MISSION_START_POSITION entry -  player spawn pos for non heli ride missions
 --  missionGuaranteeGMP=120000, --TppResult.MISSION_GUARANTEE_GMP - base gmp for mission on mission clear
---  missionTaskList={0,2,3,4,5,6},--TppResult.MISSION_TASK_LIST - Haven't worked out exactly what this is
+--  noAddVolunteers=false,--dont add any volunteer staff on mission complete
+--  missionTaskList={0,2,3,4,5,6},--see TppResult.MISSION_TASK_LIST - <missioncode>_sequence.missionObjectiveDefine taskNo to idroid mission task UI index, also used to numerate the valid tasks
 --  noArmorForMission=true,--TppEneFova.noArmorForMission - disallow heavy armor in the mission
 --  missionArmorType={TppDefine.AFR_ARMOR.TYPE_RC},--TppEneFova.missionArmorType - Armor type for pfs in mafr
 --  missionHostageInfos={count=1,lang=RENlang2,overlap=true},--TppEneFova.missionHostageInfos - for the mission hostage generation system
@@ -93,6 +97,7 @@
 --    },
 --    -- Order box points when mission is highlighted in free mode
 --    missionStartPoint = {Vector3(-218.07,328.03,395.86),Vector3(-381.54,294.27,910.16),},
+--    --GOTCHA: heli routeIds need to be unique across all locations
 --    heliLandPoint = {
 --      {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
 --      {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
@@ -100,16 +105,18 @@
 --    },
 --  },
 --  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
---  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable
---    NORMAL={
---      HANDGUN=TppEquip.EQP_WP_East_hg_010,
---      SMG=TppEquip.EQP_WP_East_sm_010,
---      ASSAULT=TppEquip.EQP_WP_East_ar_010,
---      SNIPER=TppEquip.EQP_WP_East_sr_011,
---      SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
---      MG=TppEquip.EQP_WP_East_mg_010,
---      MISSILE=TppEquip.EQP_WP_East_ms_010,
---      SHIELD=TppEquip.EQP_SLD_SV
+--  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable, see also InfWeaponIdTable for IH global weaponIdTable override
+--    PF_A={
+--      NORMAL={
+--        HANDGUN=TppEquip.EQP_WP_East_hg_010,
+--        SMG=TppEquip.EQP_WP_East_sm_010,
+--        ASSAULT=TppEquip.EQP_WP_East_ar_010,
+--        SNIPER=TppEquip.EQP_WP_East_sr_011,
+--        SHOTGUN=TppEquip.EQP_WP_Com_sg_011,
+--        MG=TppEquip.EQP_WP_East_mg_010,
+--        MISSILE=TppEquip.EQP_WP_East_ms_010,
+--        SHIELD=TppEquip.EQP_SLD_SV
+--      },
 --    },
 --  },
 --  heliSpaceFlags={-- Sortie/mission prep screen feature flags
@@ -119,10 +126,10 @@
 --    DisableSelectSortieTimeFromMissionPreparetion=true,  -- Only ASAP as deployment time option
 --  },
 --  defaultDropRoute="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",--tex story missions only (not free roam), not exactly sure how/what its used for, but it's in TppDefine.DEFAULT_DROP_ROUTE
---  --tex DEBUGNOW debating whether to have this here or in locationInfo to save duplication, 
+--  --tex DEBUGNOW debating whether to have this here or in locationInfo to save duplication,
 --  --TppLandingZoneData is defined in mission pack fox2 so author would be duplicating anyhoo
 --  --but using this to build TppLandingZone MissionLandingZoneTable which is pretty much all the lzs dumped in for managing disabling the lzs in idroid
---  --tex see also comment above InfLZ.lzInfo for the breakdown of what the data is from 
+--  --tex see also comment above InfLZ.lzInfo for the breakdown of what the data is from
 --  lzInfo={
 --    ["lz_bridge_S0000|lz_bridge_S_0000"]={
 --      approachRoute="lz_bridge_S0000|rt_apr_bridge_S_0000",
@@ -135,6 +142,7 @@
 --      returnRoute="lz_citadelSouth_S0000|rt_rtn_citadelSouth_S_0000",
 --    },
 --  },--lzInfo
+--  enableQuests={"lab_q39011","lab_q80700","lab_q10700"},--Enables quests in story missions. if Ivar enableMissionQuest. handled by rlcs InfMissionQuest
 --}--this
 --
 --return this
@@ -144,19 +152,25 @@ local missionInfoFormat={
   description="string",
   missionCode="number",
   location="string",
+  hideMission="boolean",
   --packs={"table","function"},--tex OFF till I make validate support multiple data types for a key
   fovaSetupFunc="function",
   enableOOB="boolean",
   startPos="table",
   missionGuaranteeGMP="number",
+  noAddVolunteers="boolean",
   missionTaskList="table",
   noArmorForMission="boolean",
   missionArmorType="table",
   missionHostageInfos="table",
   orderBoxList="table",
   orderBoxBlockList="table",
+  missionMapParams="table",
+  orderBoxBlockList="table",
   --weaponIdTable={"string","table"}
   heliSpaceFlags="table",
+  defaultDropRoute="string",
+  lzInfo="table",
 }
 
 local heliSpaceFlagNames={
@@ -172,9 +186,10 @@ this.debugModule=true--DEBUGNOW
 
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
-this.missionNames={}--tex see LoadMissionDefs
-this.missionIds={}--tex used by Ivar loadAddonMission and OpenMissions()
-this.missionListSlotIndices={}--tex need it for OpenMissions, setup in RegisterMissions
+this.missionNames={}--tex see LoadMissionDefs TODO: not really useful since missionInfo isn't indexed by missionName like questinfo is
+this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonStateGVars(), story missions only not free roam missions
+this.missionListSlotIndices={}--tex MISSION_LIST indexes that can be reusued for addon missions
+this.freeMissionIds={}--tex free roam missions
 
 --tex addon mission added in LoadLibraries,
 this.freeMissionForLocation={
@@ -226,8 +241,8 @@ this.loadAddonMission={
   settings={"NONE"},--DYNAMIC
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
-    for i,missionCode in pairs(InfMission.missionIds)do
-      self.settings[#self.settings+1]=tostring(missionCode)
+    for missionCode,missionInfo in pairs(this.missionInfo)do
+      table.insert(self.settings,tostring(missionCode))
     end
     table.sort(self.settings)
     IvarProc.SetSettings(self,self.settings)
@@ -276,6 +291,7 @@ function this.PostModuleReload(prevModule)
   this.missionIds=prevModule.missionIds
   this.missionInfo=prevModule.missionInfo
   this.missionListSlotIndices=prevModule.missionListSlotIndices
+  this.freeMissionIds=prevModule.freeMissionIds
   this.freeMissionForLocation=prevModule.freeMissionForLocation
 end
 
@@ -497,13 +513,21 @@ function this.LoadMissionDefs()
   for i,fileName in ipairs(missionFiles)do
     InfCore.Log("InfMission.LoadMissionDefs: "..fileName)
 
-    local missionName=InfUtil.StripExt(fileName)
+    local missionName=InfUtil.StripExt(fileName) 
+    --tex FIXUP WORKAROUND: first char is number (ex Ventos Yellow Asset, anything else following my original naming style), which gives BuildTableText issues
+    --could go all fancy and missioncodestring it with story, free, but whatever
+    if tonumber(string.sub(missionName, 1, 1))~=nil then
+      missionName="m"..missionName
+    end   
     local missionInfo=InfCore.LoadSimpleModule(InfCore.paths.missions,fileName)
     if missionInfo then
+      missionInfo.missionPacks=missionInfo.missionPacks or missionInfo.packs--tex PATCHUP: RENAMED packs
+
       local missionCode=missionInfo.missionCode--TYPE
       if not missionCode then
         InfCore.Log("WARNING: could not find missionCode on "..fileName)
       else
+        missionInfo.name=missionName
         missionNames[#missionNames+1]=missionName
 
         if missionsInfo[missionCode] then
@@ -531,15 +555,17 @@ function this.AddInLocations()
     if not locationName then
       InfCore.Log("WARNING: Could nof find locationName for "..locationId)
     else
+      locationInfo.locationPacks=locationInfo.locationPacks or locationInfo.packs--tex PATCHUP: RENAMED packs
+
       InfCore.Log("Adding location: "..locationName.." "..locationId)
       if TppDefine.LOCATION_ID[locationName] then
         InfCore.Log("WARNING: location already defined "..locationId)
       end
       TppDefine.LOCATION_ID[locationName]=locationId
-      if locationInfo.packs then
-        TppMissionList.locationPackTable[locationId]=locationInfo.packs
+      if locationInfo.locationPacks then
+        TppMissionList.locationPackTable[locationId]=locationInfo.locationPacks
       end
-      
+
       --KLUDGE may not be accurate, but just stand-in until InfMain.BuildCpPositions kicks in and gets actually positions from the cp entities
       local locationNameLower=string.lower(locationName)
       local cpPositions=InfMain.cpPositions[locationNameLower] or {}
@@ -588,7 +614,7 @@ function this.AddInMissions()
 
   InfCore.Log("InfMission.AddInMissions: Adding missionInfos")
   local rebuildLzTables=false
-  
+
   for missionCode,missionInfo in pairs(this.missionInfo)do
     InfCore.Log("Adding mission: "..missionCode)
 
@@ -606,8 +632,8 @@ function this.AddInMissions()
       end
 
       --tex TODO: check it has a valid location
-      if missionInfo.packs then
-        TppMissionList.missionPackTable[missionCode]=missionInfo.packs
+      if missionInfo.missionPacks then
+        TppMissionList.missionPackTable[missionCode]=missionInfo.missionPacks
       end
 
       --tex LOCATION_HAVE_MISSION_LIST is in a pretty bad layout of
@@ -618,10 +644,12 @@ function this.AddInMissions()
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
 
-      if missionInfo.startPos then
-        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=missionInfo.startPos
+      local startPos=missionInfo.startPos and missionInfo.startPos.pos or missionInfo.startPos
+      if startPos then
+        local rotY=startPos[4] or startPos.rotY
+        startPos[4]=rotY--NO_BOX_MISSION_START_POSITION format of {x,y,z,rotY} but using for NO_HELICOPTER_MISSION_START_POSITION (which had no rotY in vanilla) as well to be consistant
+        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=startPos
       end
-
       --tex TODO: add to format
       --tex indicates that theres no free roam mission box start (there are 7 of these in vanilla)
       --see also AddOrderBoxInfoToFreeRoam
@@ -629,8 +657,12 @@ function this.AddInMissions()
         InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
         TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
       end
-      if missionInfo.noBoxMissionStartPosition then
+      if missionInfo.noBoxMissionStartPosition then--tex shouldn't really be used, use startPos instead
         TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
+      else
+        if missionInfo.isNoOrderBoxMission and startPos then
+          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=startPos
+        end
       end
 
       --tex TODO
@@ -645,9 +677,11 @@ function this.AddInMissions()
       if missionInfo.missionGuaranteeGMP then
         TppResult.MISSION_GUARANTEE_GMP[missionCode]=missionInfo.missionGuaranteeGMP
       end
+      --tex dont add volunteers on mission clear
+      if missionInfo.noAddVolunteers then
+        TppTerminal.noAddVolunteerMissions[missionCode]=true
+      end
 
-      --tex TppResult.MISSION_TASK_LIST, but not totally sure what it is yet, passed to UI via TppUiCommand.RegisterMbMissionListFunction >> TppResult.GetMbMissionListParameterTable
-      --TODO find when GetMbMissionListParameterTable actually called, I see I hooked it at some point, I presume to do just that lol
       if missionInfo.missionTaskList then
         TppResult.MISSION_TASK_LIST[missionCode]=missionInfo.missionTaskList
       end
@@ -679,51 +713,15 @@ function this.AddInMissions()
           --tex heliLandPoint.point is ui point and .startPoint is the start of the route (according to caplag eyeballing a mission), as he's used it in gntn as the ground point without any issues I guess the game either doesn't use it, or it warps to route start which would make it moot anyhoo
           --using startPoint for custom missions to allow the author some more control over the startOnFoot point.
           --DEBUGNOW this means I can't use AddLzPointsFromMissionParameters yet (because its using .point)
-          InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(), heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
+          InfLZ.groundStartPositions[1][routeIdStr32]={pos={heliLandPoint.startPoint:GetX(),heliLandPoint.startPoint:GetY(),heliLandPoint.startPoint:GetZ()}}
         end
       end--if missionInfo heliLandPoint
-      --DEBUGNOW currently only MissionLandingZoneTable as aacrGimmicks not worked out yet
-      --REF 
-      --TppLandingZone.locInfo={
-      --  afgh={
-      --    MissionLandingZoneTable={
-      --      {aprLandingZoneName="lz_bridge_S0000|lz_bridge_S_0000",drpLandingZoneName="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",missionList={10040}},
-      if missionInfo.lzInfo then      
-        rebuildLzTables=true       
-        local locationNameLower=string.lower(missionInfo.location)
-        for lzName,lzInfo in pairs(missionInfo.lzInfo)do
-          InfLZ.lzInfo[lzName]=lzInfo
-        
-          TppLandingZone.locInfo[locationNameLower]=TppLandingZone.locInfo[locationNameLower] or {MissionLandingZoneTable={},ConnectLandingZoneTable={}}
-          local missionLandingZoneTable=TppLandingZone.locInfo[locationNameLower].MissionLandingZoneTable
-          local currentLzEntry
-          --tex find any existing entry for lz DEBUGNOW slow
-          for lzName,lzEntry in pairs(missionLandingZoneTable)do
-            if lzEntry.aprLandingZoneName==lzName then
-              currentLzEntry=lzEntry
-              break
-            end
-          end--for missionLandingZoneTable          
-          --DEBUGNOW validate that drpLandingZoneName matches?
-          if not currentLzEntry then
-            --GOTCHA: aprLandingZoneName is lzName (not route), while drpLandingZoneName is droproute (for that lz)
-            currentLzEntry={aprLandingZoneName=lzName,drpLandingZoneName=lzInfo.dropRoute,missionList={}}
-            table.insert(missionLandingZoneTable,currentLzEntry)
-          end
 
-          if TppMission.IsStoryMission(missionCode)then
-            InfUtil.InsertUniqueInList(currentLzEntry.missionList,missionCode)
-          else
-            --tex KLUDGE need something open, so just slap in early mission
-            --a solution would be to - if IsFreeRoam then for all storymission in that location add
-            InfUtil.InsertUniqueInList(currentLzEntry.missionList,10020)
-          end
-          if this.debugModule then
-            InfCore.PrintInspect(currentLzEntry,"currentLzEntry")
-          end
-        end--for lzInfo
-      end--if lzInfo
-      
+      if missionInfo.lzInfo then
+        rebuildLzTables=true
+        this.AddLzInfo(missionInfo)
+      end
+
       if missionInfo.defaultDropRoute then
         if TppMission.IsStoryMission(missionCode)then
           TppDefine.DEFAULT_DROP_ROUTE[missionCode]=missionInfo.defaultDropRoute
@@ -742,26 +740,67 @@ function this.AddInMissions()
   if this.debugModule then
     InfCore.PrintInspect(this.missionInfo,"missionInfo")
   end
-end
+end--AddInMissions
+function this.AddLzInfo(missionInfo)
+  --DEBUGNOW currently only MissionLandingZoneTable as aacrGimmicks not worked out yet
+  --REF
+  --TppLandingZone.locInfo={
+  --  afgh={
+  --    MissionLandingZoneTable={
+  --      {aprLandingZoneName="lz_bridge_S0000|lz_bridge_S_0000",drpLandingZoneName="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",missionList={10040}},
+  local locationNameLower=string.lower(missionInfo.location)
+  for lzName,lzInfo in pairs(missionInfo.lzInfo)do
+    InfLZ.lzInfo[lzName]=lzInfo
+
+    TppLandingZone.locInfo[locationNameLower]=TppLandingZone.locInfo[locationNameLower] or {MissionLandingZoneTable={},ConnectLandingZoneTable={}}
+    local missionLandingZoneTable=TppLandingZone.locInfo[locationNameLower].MissionLandingZoneTable
+    local currentLzEntry
+    --tex find any existing entry for lz DEBUGNOW slow
+    for lzName,lzEntry in pairs(missionLandingZoneTable)do
+      if lzEntry.aprLandingZoneName==lzName then
+        currentLzEntry=lzEntry
+        break
+      end
+    end--for missionLandingZoneTable
+    --DEBUGNOW validate that drpLandingZoneName matches?
+    if not currentLzEntry then
+      --GOTCHA: aprLandingZoneName is lzName (not route), while drpLandingZoneName is droproute (for that lz)
+      currentLzEntry={aprLandingZoneName=lzName,drpLandingZoneName=lzInfo.dropRoute,missionList={}}
+      table.insert(missionLandingZoneTable,currentLzEntry)
+    end
+
+    if TppMission.IsStoryMission(missionInfo.missionCode)then
+      InfUtil.InsertUniqueInList(currentLzEntry.missionList,missionInfo.missionCode)
+    else
+      --tex KLUDGE need something open, so just slap in early mission
+      --a solution would be to - if IsFreeRoam then for all storymission in that location add
+      InfUtil.InsertUniqueInList(currentLzEntry.missionList,10020)
+    end
+    if this.debugModule then
+      InfCore.PrintInspect(currentLzEntry,"currentLzEntry")
+    end
+  end--for lzInfo
+end--AddLzInfo
 
 --tex register missions with UI/TPP Mission system
 --IN/SIDE: this.missionIds
 --OUT/SIDE: this.missionListSlotIndices
 --OUT/SIDE: TppDefine.MISSION_LIST, TppDefine.MISSION_ENUM
 function this.RegisterMissions()
+  InfCore.LogFlow("InfMission.RegisterMissions")
   --tex WORKAROUND exe/ui seems to have same limit as TppDefine.MISSION_COUNT_MAX
   --but there's issues with mission completed rank not matching and seemingly no lua>ui way to set it
   --unlike the rest of the information via Mission.RegisterMissionCodeList, the gmp and task completion via TppResult.GetMbMissionListParameterTable
   --so am reusing the MISSING_NUMBER_MISSION_LIST which is flyk and some uncompleted extreme/subsidence of other missions
   --
   --plus the 2 actual free missionlist slots
-  this.missionListSlotIndices={}--tex need it for OpenMissions
+  this.missionListSlotIndices={}
   for i,missionCodeStr in ipairs(TppDefine.MISSING_NUMBER_MISSION_LIST)do
-    local missionIndex=TppDefine.MISSION_ENUM[missionCodeStr]+1
+    local missionIndex=TppDefine.MISSION_ENUM[missionCodeStr]
     table.insert(this.missionListSlotIndices,missionIndex)
   end
 
-  for i=#TppDefine.MISSION_LIST+1,TppDefine.MISSION_COUNT_MAX do
+  for i=#TppDefine.MISSION_LIST,TppDefine.MISSION_COUNT_MAX-1 do
     table.insert(this.missionListSlotIndices,i)
   end
   table.sort(this.missionListSlotIndices)
@@ -774,22 +813,22 @@ function this.RegisterMissions()
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist vanill")
   end
 
-  local freeSlot=0
+  local freeSlot=1
   for i,missionCode in ipairs(this.missionIds)do
-    if freeSlot==#this.missionListSlotIndices then
+    if freeSlot>#this.missionListSlotIndices then
       InfCore.Log("WARNING: No free MISSION_LIST slots")
       break
     else--if not this.IsVanillaMission(missionCode)then--tex OVERKILL, shouldn't be in missionIds in the first place
-      if not TppMission.IsFreeMission(missionCode) then
-        local missionIndex=this.missionListSlotIndices[freeSlot+1]
-        freeSlot=freeSlot+1
-        TppDefine.MISSION_LIST[missionIndex]=tostring(missionCode)
-      end--not IsFreeMission
+      local missionIndex=this.missionListSlotIndices[freeSlot]
+      freeSlot=freeSlot+1
+      TppDefine.MISSION_LIST[missionIndex+1]=tostring(missionCode)--GOTCHA: MISSION_LIST 1based, MISSION_ENUM 0based
+      InfCore.Log("MISSION_LIST[missionIndex:"..missionIndex.."]="..missionCode)
     end--not IsVanillaMission
   end--for missionIds
   TppDefine.MISSION_ENUM=TppDefine.Enum(TppDefine.MISSION_LIST)--tex DEBUGNOW TODO look at what else uses MISSION_ENUM and how it might be affected if it varies over sessions, MISSION_LIST too I guess
 
   if this.debugModule then
+    InfCore.PrintInspect(TppDefine.MISSION_ENUM,"MISSION_ENUM")--DEBUGNOW
     InfCore.PrintInspect(TppDefine.MISSION_LIST,"missionlist modded")
     InfCore.PrintInspect(#TppDefine.MISSION_LIST,"#missionlist")
   end
@@ -811,8 +850,7 @@ function this.LoadLibraries()
     return
   end
 
-  InfCore.LogFlow("InfMission SetupMissions")
-
+  this.LoadStates()
   this.LoadLocationDefs()
   this.LoadMissionDefs()
 
@@ -822,13 +860,15 @@ function this.LoadLibraries()
 
   this.missionIds={}--clear
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    if not this.IsVanillaMission(missionCode)then
+    if not this.IsVanillaMission(missionCode) and not TppMission.IsFreeMission(missionCode) and not missionInfo.hideMission then
       table.insert(this.missionIds,missionCode)
     end
   end
   table.sort(this.missionIds)
 
+  this.RegisterMissions()
 
+  this.freeMissionIds={}
   this.freeMissionForLocation={
     [TppDefine.LOCATION_ID.AFGH]=30010,
     [TppDefine.LOCATION_ID.MAFR]=30020,
@@ -836,23 +876,23 @@ function this.LoadLibraries()
   --OFF [TppDefine.LOCATION_ID.MTBS]=30050,
   }
   for missionCode,missionInfo in pairs(this.missionInfo)do
-    if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) then
+    if not this.IsVanillaMission(missionCode) and TppMission.IsFreeMission(missionCode) and not missionInfo.hideMission then
+      table.insert(this.freeMissionIds,missionCode)
+
       local locationId=TppDefine.LOCATION_ID[missionInfo.location]--DEBUGNOW
       if locationId==nil then
         InfCore.Log("ERROR: InfMission.LoadLibraries: locationId==nil for missionInfo.location:"..tostring(missionInfo.location))
       else
-      if this.freeMissionForLocation[locationId] then
-        if this.freeMissionForLocation[locationId]~=missionCode then
-          InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has a different free mission defined")
-        end
-      else
-        this.freeMissionForLocation[locationId]=missionCode
+        if this.freeMissionForLocation[locationId] then
+          if this.freeMissionForLocation[locationId]~=missionCode then
+            InfCore.Log("WARNING: InfMission.LoadLibraries: freeMissionForLocation["..locationId.."] already has a different free mission defined")
+          end
+        else
+          this.freeMissionForLocation[locationId]=missionCode
         end--if freeMissionForLocation
       end--if locationId
     end
   end--for missionInfo
-
-  this.RegisterMissions()
 
   this.UpdateChangeLocationMenu()
 
@@ -869,6 +909,11 @@ function this.LoadLibraries()
     InfCore.PrintInspect(this.freeMissionForLocation,"freeMissionForLocation")
   end
 end--LoadLibraries
+
+function this.OnStartTitle()
+  --tex since registermissions is run before the first game save/gvar load
+  this.SetupAddonStateGVars()
+end
 
 --CALLER: mbdvc_map_location_parameter.GetMapLocationParameter --tex cant patch in to script since it seems mbdvc_map_location_parameter is torn down/reloaded so instead called from mbdvc_map_location_parameter
 function this.GetMapLocationParameter(locationId)
@@ -910,148 +955,316 @@ function this.GetMapMissionParameter(missionCode)
   end
 end
 
---str_missionOpenPermission ? DEBUGNOW
+--rlcs RemoveInvalidTasks
+--FIXUP BADATA
+--tex also fixes <r237 BUG, see SetupAddonMissionStates
+--fix any invalid ui_isTaskLastComleted tasks as defined by MISSION_TASK_LIST
+--symptom of the invalid data is incorrect mission task completion percentage
+function this.RemoveInvalidTasks()
+  InfCore.Log("Removing invalid tasks")
+
+  local inspectTable={}--debug inspect
+
+  for missionIndex=0, TppDefine.MISSION_COUNT_MAX-1 do
+    --Checking mission
+    local missionCode = TppDefine.MISSION_LIST[missionIndex+1]
+
+    if tonumber(missionCode) then
+      inspectTable[tonumber(missionCode)]={} --debug inspect
+    end
+
+    for taskIndex=0, TppDefine.MAX_MISSION_TASK_COUNT-1 do
+      --Checking the task of the mission
+      local globalTaskIndexStart = missionIndex*TppDefine.MAX_MISSION_TASK_COUNT
+      local globalTaskIndex = globalTaskIndexStart + taskIndex
+
+      --Checking if the task is valid against TppResult.MISSION_TASK_LIST
+      local validTask=false
+      local taskTable=TppResult.MISSION_TASK_LIST[tonumber(missionCode)]
+      if Tpp.IsTypeTable(taskTable) then
+        for taskListIndex, validTaskIndex in ipairs(taskTable) do
+          if taskIndex==validTaskIndex then
+            -- TppResult.MISSION_TASK_LIST[missionCode]={} table contains the task index, task is valid
+            validTask=true
+            break
+          end
+        end
+      end
+      if validTask==false then
+        if gvars.ui_isTaskLastComleted[globalTaskIndex]==true then  
+          --Did not pass validity check through TppResult.MISSION_TASK_LIST, resetting task
+          gvars.ui_isTaskLastComleted[globalTaskIndex]=false
+        end
+      end
+
+      if tonumber(missionCode) then
+        inspectTable[tonumber(missionCode)][taskIndex+1]={ --debug inspect
+          internalIndex=taskIndex, --0 thru 7 task index
+          flag=gvars.ui_isTaskLastComleted[globalTaskIndex], --true or false - cleared or not
+          valid=validTask, --true or false - valid on MISSION_TASK_LIST or not
+          globalIndex=globalTaskIndex, --0 thru 511 index
+        }
+      end
+    end
+  end
+  if this.debugModule then
+    InfCore.PrintInspect(inspectTable,"inspectTable") --debug inspect
+  end
+end--RemoveInvalidTasks
+
+--tex mission state gvar names
+--pretty much all gvars that are indexed by MISSION_COUNT_MAX
 local gvarFlagNames={
-  "str_missionOpenFlag",
-  "str_missionNewOpenFlag",
-  "str_missionClearedFlag",
+  --TppStory
+  "str_missionOpenPermission",--PermitMissionOpen
+  "str_missionOpenFlag",--SetMissionOpenFlag
+  "str_missionNewOpenFlag",--SetMissionNewOpenFlag
+  "str_missionClearedFlag",--UpdateMissionCleardFlag
+  "res_bestRank",--see TppResult.SetBestRank,GetBestRank
+  "rnk_missionBestScore",--tex should be cautious with rnk_ stuff since its kjp server rank records stuff, in the case of these gvars see RegistMissionClearRankingResult
+  "rnk_missionBestScoreUsedLimitEquip",
+}
+--REF
+--{name="ui_isTaskLastComleted",arraySize=TppDefine.MISSION_COUNT_MAX*TppDefine.MAX_MISSION_TASK_COUNT,type=TppScriptVars.TYPE_BOOL --tex handled seperatly due to the 2d>1d indexing 
+--tex could look up TppGvars.DeclareGVarsTable value, but would have to iterate whole table since its not keyed
+--Assuming bool/false if type not given
+local gvarFlagDefaults={
+  res_bestRank=TppDefine.MISSION_CLEAR_RANK.E+1,
+  rnk_missionBestScore=0,
+  rnk_missionBestScoreUsedLimitEquip=0,
 }
 
 --CALLER: TppStory.UpdateStorySequence
 --IN/SIDE: this.missionListSlotIndices
-function this.OpenMissions()
-  InfCore.LogFlow("InfMission.OpenMissions")
+function this.SetupAddonStateGVars()
+  InfCore.LogFlow("InfMission.SetupAddonStateGVars")
 
   --DEBUGNOW limit to only run once
 
 
 
-  -- PATCHUP: BADDATA:
-  --<r233 BUG:
-  --for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
-  --local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
-  --tex this resulted in trashing some of the users ui_isTaskLastComleted data (the indices listed in badIndexes)
-  --with the GOTCHA of TppScriptVars of TYPE_BOOL being set to 0 setting them to true
-  --gvars.ui_isTaskLastComleted[missionListIndex-1]=0
-  --end
-
-  --tex fix is checking if missionTaskIndexes that aren't ever set in vanilla game have been set and clearing those
-  --will still potentially leave some users with some valid tasks that they hadn't actually completed set as completed
-  --but there's no heuristic I'm happy with to figure that out
-
-  --tex from missionListSlotIndices (shifted-1 to gvar indices) at the time of the below bug
-  --which was built from missing_number_missions, and #mission_list > max_mission (62,63)
-  local badIndexes={
-    39,--invalid task
-    41,
-    43,
-    46,--invalid task
-    49,
-    50,
-    51,
-    53,
-    55,--invalid task
-    57,
-    60,
-    62,
-    63,--invalid task
-  }
-  --tex Dump values at badIndexes
-  for i,badIndex in ipairs(badIndexes)do
-    local value=gvars.ui_isTaskLastComleted[badIndex]
-    InfCore.Log("badIndex: "..badIndex..": "..tostring(value))
-  end
-
-  --tex actual fix, may need to be reconsidered if we start repurposing vanilla mission slots
-  --notes on what is actual bad data (ie missionTaskIndexes set to true that aren't actually valid tasks for that mission in vanilla game)
-  --figured out by diffing a normal 100% save with a corrupted 100% save
-  local badTasksIndexes={
-    39,
-    46,
-    55,
-    63,
-  }
-  for i,badIndex in ipairs(badTasksIndexes)do
-    gvars.ui_isTaskLastComleted[badIndex]=false
-  end
-
-  --tex close all missing number missions and > vanilla missions first so its ok if user uninstalls mission
+  --tex clear gvars for mission slots being used for addon missions (see RegisterMissions missionListSlotIndices) first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
-    InfCore.Log("Clearing "..missionListIndex)
-    gvars.str_missionOpenPermission[missionListIndex-1]=false
-    gvars.str_missionOpenFlag[missionListIndex-1]=false
-    gvars.str_missionNewOpenFlag[missionListIndex-1]=false
-    gvars.str_missionClearedFlag[missionListIndex-1]=false
+    --InfCore.Log("Clearing "..missionListIndex)
+    for i, name in ipairs(gvarFlagNames)do
+      gvars[name][missionListIndex]=gvarFlagDefaults[name] or false
+    end
 
-    --tex see _GetLastCompletedFlagIndex how to index ui_isTaskLastComleted
     for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
-      local missionTaskIndex=(missionListIndex-1)*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+      local missionTaskIndex=missionListIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+      --tex <r237 BUG: (though discovered in r233, why didnt I fix till 237? who knows)
+      --gvars.ui_isTaskLastComleted[missionListIndex-1]=0--GOTCHA TppScriptVars of TYPE_BOOL being set to 0 sets value to true
+      --this resulted in trashing some of the users ui_isTaskLastComleted data, a symptom of which being incorrect percentage completion
+      
       gvars.ui_isTaskLastComleted[missionTaskIndex]=false
     end
   end
 
-  --tex TODO: save/restore mission flags
-
-  for i,missionCode in ipairs(this.missionIds)do
+  this.ReadSaveStates()  
+  
+  local ih_states=ih_mission_states
+  for missionCode,missionInfo in pairs(this.missionInfo)do  
+    --tex open missions. TODO: story progress support
     InfCore.Log("Opening "..missionCode)
     TppStory.PermitMissionOpen(missionCode)
     TppStory.SetMissionOpenFlag(missionCode,true)
     --TppStory.MissionOpen(missionCode)
-  end
-end
+      
+    --tex flag new missions  
+    local name=missionInfo.name
+    if not ih_states[name] then
+      local missionIndex=TppDefine.MISSION_ENUM[tostring(missionCode)]
+      if missionIndex then
+        TppStory.SetMissionNewOpenFlag(missionCode,true)
+      end
+    end
+  end--for missionInfo  
+  
+  this.RemoveInvalidTasks()--FIXUP ui_isTaskLastComleted
+end--SetupAddonStateGVars
 
---tex set missionCleared gvars from ih_save state
---IN/SIDE: ih_save
---REF ih_save
---this.missionStates={
---  <mission name>=<bitfield of mission cleared gvar states>,
---}
-function this.ReadSaveStates() --DEBUGNOW uhh not called from anywhere? did I even implement this?
-  InfCore.LogFlow"InfMission.ReadSaveStates"
+--saving/loading addon mission gvars that need to be juggled since they are reusing mission slots
+--tex currently only loads ih_mission_states once on session
+--but saves to is on every game save
+--the mission gvars keep doing their thing normally after the initial set by ih
+--
+--
+this.debugSave=true--DEBUGNOW
+
+this.isSaveDirty=true
+
+this.saveName="ih_mission_states.lua"
+
+--tex don't lose existing on modulereload
+ih_mission_states=ih_mission_states or {}
+
+function this.Save(newSave)
+  local ih_states=ih_mission_states
+
+  local isDirty=this.GetCurrentStates()
+  if isDirty then
+    if this.debugSave then
+      InfCore.Log("missionStates isDirty")
+    end
+--CULL
+--    local saveTextList={
+--      "-- "..this.saveName,
+--      "-- save states for addon missions.",
+--      "local this={}",
+--    }
+--    for name,state in pairs(ih_states)do
+--      IvarProc.BuildTableText(name,state,saveTextList)
+--    end
+--
+--    saveTextList[#saveTextList+1]="return this"
+
+    local saveTextList={
+      "-- "..this.saveName,
+      "-- save states for addon missions.",
+      "local this="..InfInspect.Inspect(ih_states),
+      "return this"
+    }
+    IvarProc.WriteSave(saveTextList,this.saveName)
+  end
+
+  if this.debugSave then
+    InfCore.PrintInspect(ih_states,"states")
+  end
+end--Save
+--GOTCHA: not module 'LoadSave' because we only really want to load once on , as gvars handles reverting state
+function this.LoadStates()
+  InfCore.LogFlow"InfMission.LoadStates"
+  local saveName=this.saveName
+  local filePath=InfCore.paths.saves..saveName
+  local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
+  if ih_save_chunk==nil then
+    local errorText="LoadStates Error: loadfile error: "..tostring(loadError)
+    InfCore.Log(errorText,false,true)
+    return nil
+  end
+
+  local sandboxEnv={}
+  if setfenv then
+    setfenv(ih_save_chunk,sandboxEnv)
+  end
+  local ih_save=ih_save_chunk()
 
   if ih_save==nil then
-    local errorText="ReadSaveStates Error: ih_save==nil"
+    local errorText="LoadStates Error: ih_save==nil"
     InfCore.Log(errorText,true,true)
-    return
+
+    return nil
   end
 
-  local saveStates=ih_save.missionStates
+  if type(ih_save)~="table"then
+    local errorText="LoadStates Error: ih_save==table"
+    InfCore.Log(errorText,true,true)
 
-  if saveStates==nil then
-    InfCore.Log"ReadSaveStates: ih_save.missionStates==nil"
+    return nil
+  end
+
+  ih_mission_states=ih_save
+  if this.debugSave then
+    InfCore.PrintInspect(ih_mission_states,"ih_mission_states")
+  end
+end--LoadStates
+
+--tex set mission status gvars from ih save state
+--IN/SIDE: ih_mission_states
+--REF ih_mission_states
+--ih_mission_states={
+--  13005_afgh={
+--    str_missionClearedFlag=true,
+--    ...
+--  },
+--  ...
+--}
+--tex TODO: give user options whether to clear old entries or not (ditto InfQuest)
+function this.ReadSaveStates()
+  InfCore.LogFlow"InfMission.ReadSaveStates"
+  local ih_states=ih_mission_states
+
+  if ih_states==nil then
+    local errorText="ERROR: ReadSaveStates: ih_mission_states==nil"
+    InfCore.Log(errorText,true,true)
     return {}
   end
 
-  if type(saveStates)~="table" then
-    local errorText="ReadSaveStates Error: ih_save.missionStates type~=table"
-    InfCore.Log(errorText,true,true)
-    return
+  if this.debugSave then
+    InfCore.PrintInspect(ih_states,"states")
   end
 
-  for name,saveState in pairs(saveStates)do
-  --DEBUGNOW
+  local clearStates={}
+  for name,state in pairs(ih_states) do
+    local missionInfo=this.missionInfo[name]
+    if not missionInfo then
+        InfCore.Log("InfMission.ReadSaveStates: Could not find missionInfo for "..name..". Clearing")
+        table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)        
+    else
+      local missionIndex=TppDefine.MISSION_ENUM[tostring(missionInfo.missionCode)]
+      if not missionIndex then
+        InfCore.Log("InfMission.ReadSaveStates: Could not find missionIndex for "..name.." "..missionInfo.missionCode..". Clearing")
+        table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
+      else
+        InfCore.Log("InfMission.ReadSaveStates: Setting state gvars for "..name.." missionIndex:"..missionIndex)
+        for i,gvarFlagName in ipairs(gvarFlagNames)do
+          gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or gvarFlagDefaults[gvarFlagName] or false
+        end
+        
+        if state.ui_isTaskLastComleted then
+          for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+            local missionTaskIndex=missionIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+            --DEBUGNOW gvars.ui_isTaskLastComleted[missionTaskIndex]=state.ui_isTaskLastComleted[taskIndex+1]
+          end
+        end--if ui_isTaskLastComleted
+      end--if missionIndex
+    end--if missionInfo
+  end--for ih_states
+
+  for i,name in ipairs(clearStates)do
+    ih_states[name]=nil
   end
+end--ReadSaveStates
 
-  return saveStates
-end
-
-local saveStates={}--tex cache of last to compare against for isdirty
---CALLER: IvarProc.BuildSaveText
-function this.GetCurrentSaveStates()
-
+function this.GetCurrentStates()
+  local MISSION_ENUM=TppDefine.MISSION_ENUM
   local gvars=gvars
-  local bor=bit.bor
+  local ih_states=ih_mission_states
 
   local isSaveDirty=false
 
+  for missionCode,missionInfo in pairs(this.missionInfo)do
+    local name=missionInfo.name
+    local missionIndex=MISSION_ENUM[tostring(missionCode)]
+    if not missionIndex then
+      if this.debugSave then
+        InfCore.Log("InfMission.GetCurrentStates: Could not find missionIndex for "..name.." "..missionCode,false,true)
+      end
+    else
+      InfCore.Log("InfMission.GetCurrentStates: "..name.." "..missionCode.." missionIndex:"..missionIndex)
+      local states=ih_states[name] or {}
 
+      for i,gvarFlagName in ipairs(gvarFlagNames) do
+        local gvarValue=gvars[gvarFlagName][missionIndex]
+        if states[gvarFlagName]~=gvarValue then
+          isSaveDirty=true
+          states[gvarFlagName]=gvarValue
+        end
+      end
+      
+      states.ui_isTaskLastComleted=states.ui_isTaskLastComleted or {}
+      for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+        local missionTaskIndex=missionIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+        states.ui_isTaskLastComleted[taskIndex+1]=gvars.ui_isTaskLastComleted[missionTaskIndex]
+      end
 
-  if isSaveDirty then
-    return saveStates
-  end
+      ih_states[name]=states
+    end
+  end--for missionInfo
 
-  return nil
-end
+  return isSaveDirty
+end--GetCurrentStates
+--< save/load stuff
 
 function this.GetLocationInfo(locationCode)
   --locationCode=locationCode or vars.locationCode
@@ -1183,9 +1396,8 @@ function this.ValidateWeaponIdTable(weaponIdTable)
 end
 
 --CALLER: TppEnemy.GetWeaponIdTable
---IN/SIDE vars.missionCode
---GOTCHA: this function is called a lot (on each soldier) so any logging will spam.
---GOTCHA: missioninfo weaponIdTable is a actually weaponIdTable soldier type sub table, not a full table like TppEnemy.weaponIdTable
+--returns soldier type weaponIdTable
+--GOTCHA: soldierType==EnemyType, soldierSubType==string
 function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
   if InfMain.IsOnlineMission(vars.missionCode)then
     return nil
@@ -1195,19 +1407,25 @@ function this.GetSoldierWeaponIdTable(soldierType,soldierSubType)
   local missionInfo=this.missionInfo[vars.missionCode]
   if missionInfo then
     weaponIdTable=missionInfo.weaponIdTable
+    --tex key is just a soldierSubType string to lookup the base weaponIdTable
     if type(weaponIdTable)=="string" then
       weaponIdTable=TppEnemy.weaponIdTable[weaponIdTable]
       if weaponIdTable==nil then
         InfCore.Log("WARNING: InfMission.GetWeaponIdTable: could not find weaponIdTable["..missionInfo.weaponIdTable.."]")
       end
     elseif type(weaponIdTable)=="table" then
-      this.ValidateWeaponIdTable(weaponIdTable)--DEBUGNOW just do it on load instead, maybe set a valid flag to check so we can return nil, or just nil the entry on fail
-      --tex pass through, it will return at the end
+      --LEGACY: initial implementation missionInfo.weaponIdTable was just a soldieSubType weaponIdTable
+      if weaponIdTable.NORMAL or weaponIdTable.STRONG then
+      --will just use weaponIdTable
+      else
+        --assuming its a full weaponIdTable
+        weaponIdTable=TppEnemy.GetSoldierWeaponIdTable(weaponIdTable,soldierType,soldierSubType)
+      end
     else
       weaponIdTable=nil
     end
   end--if missionInfo
-  --InfCore.PrintInspect(weaponIdTable,"InfMission weaponIdTable")--DEBUG
+
   return weaponIdTable
 end--GetSoldierWeaponIdTable
 --
@@ -1435,5 +1653,28 @@ function this.GetMissionCodes()
   --    "65416",--tgs_2014
   }
 end
+
+--tex HOOK OVERRIDE: this is kjp records server stuff, so bypassing this for non vanilla missionCodes
+--even though it's likely to just return RankingBordId.NONE for any non vanilla missions anyway, might as well be (beleatedly) thorough
+--SYNC TppRanking.RegistMissionClearRankingResult
+function this.RegistMissionClearRankingResult(usedRankLimitedItem,missionCode,totalScore)
+  --tex>
+  if this.vanillaMissions[missionCode] then
+    return
+  end
+  --<
+  local missionBoardId
+  if usedRankLimitedItem then
+    missionBoardId=RecordRanking.GetMissionLimitBordId(missionCode)
+  else
+    missionBoardId=RecordRanking.GetMissionBordId(missionCode)
+  end
+  if missionBoardId==RankingBordId.NONE then
+    return
+  end
+  mvars.rnk_missionClearRankingResult={missionBoardId,totalScore}
+end
+TppRanking.RegistMissionClearRankingResult=this.RegistMissionClearRankingResult--tex doing it here rather than in TppRanking since TppRanking has no other edits/I'm not adding it at this late stage till I see if any other mods use it
+
 
 return this

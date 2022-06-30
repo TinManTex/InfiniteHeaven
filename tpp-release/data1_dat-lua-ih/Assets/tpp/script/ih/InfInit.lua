@@ -69,9 +69,9 @@ if InfCore and not InfCore.modDirFail then
 
   --InfCore.PrintInspect(evars)--DEBUG
   --tex needs to be up for Soldier2FaceAndBodyData
-  InfCore.LoadLibrary"/Assets/tpp/script/ih/InfModelProc.lua"
+  InfCore.LoadExternalModule"InfSoldierFaceAndBody"
 
-  InfCore.PCall(InfModelProc.LoadFovaInfo)
+  InfCore.PCall(InfSoldierFaceAndBody.LoadFovaInfo)
 
   InfCore.Log"InfInit.lua done"
 end

@@ -2,7 +2,7 @@
 -- Soldier2FaceAndBodyData.lua
 -- The soldier face system is used by ai soldiers and hostages and player as DD soldier, soldier body system is used by ai soldiers and hostages.
 -- Infinite Heaven includes two systems for adding to these entries, so editing it yourself should be unnessesary (and if the system doesn't cover the feature you want contact me)
--- see \Assets\tpp\script\ih\InfModelProc.lua for head fova addons - faceFova, faceDecoFova, hairFova, hairDecoFova
+-- see InfSoldierFaceAndBody for head fova addons - faceFova, faceDecoFova, hairFova, hairDecoFova
 -- and headDefinitions which pull them all together to generate or modify a faceDefinition.
 -- and \mod\modules\InfBodyInfo.lua which handles the soldier body fova addons -
 -- FLOW: The actual loading/initialization of the fpks seems to be in-engine between GetMissionPackagePath and OnAllocate
@@ -72,7 +72,7 @@ this.faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fpk"},--56,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fpk"},--57,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fpk"},--58,--<
-}
+}--faceFova
 --face textures
 this.faceDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fpk"},--0,
@@ -136,7 +136,7 @@ this.faceDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f001.fpk"},--58,--caucasian,red hair,tatoo white and black ddog emblem
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f002.fpk"},--59,--caucasian,brown hair,tatoo black fox (fox logo fox)
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fpk"},--60,--caucasian,white hair,tatoo white skull
-}
+}--faceDecoFova
 --hair meshes
 this.hairFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c000.fpk"},--0,
@@ -154,7 +154,7 @@ this.hairFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c105.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c105.fpk"},--12,female,bun
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c106.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c106.fpk"},--13,female,afro textured very short
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c107.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c107.fpk"},--14,appears to be duplicate of 13? not referenced anywhere i can see
-}
+}--hairFova
 --hair textures
 this.hairDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fpk"},--0,
@@ -182,7 +182,7 @@ this.hairDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f001.fpk"},--22,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fpk"},--23,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fpk"},--24,
-}
+}--hairDecoFova
 --NMC: see also bodyDefinition table below and TppEnemyBodyId.lua
 --{"FV2 PATH","FOVA FPK PATH"}, bodyDefinition index, bodyId, TppEnemyBodyId, Notes...
 --if TppEnemyBodyId not given it's likely the same as the fv2 file name
@@ -437,7 +437,7 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/plh/plh0_v05.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--213,355,,
   {"/Assets/tpp/fova/chara/plh/plh0_v06.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--214,356,,
   {"/Assets/tpp/fova/chara/plh/plh0_v07.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--215,357,,
-  --ocellot
+  --ocelot
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},--216,370,,normal
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},--217,371,,glasses
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},--218,372,,??
@@ -528,7 +528,7 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dlh/dlh1_enem0_f_v10.fv2","/Assets/tpp/pack/fova/chara/dlh/dlh0_plym0_v10.fpk"},
   {"/Assets/tpp/fova/chara/dlh/dlh1_enem0_v11.fv2","/Assets/tpp/pack/fova/chara/dlh/dlh0_plym0_v11.fpk"},
   {"/Assets/tpp/fova/chara/dlh/dlh1_enem0_f_v11.fv2","/Assets/tpp/pack/fova/chara/dlh/dlh0_plym0_v11.fpk"},--<
-}
+}--bodyFova
 
 local no=EnemyFova.INVALID_FOVA_VALUE
 this.faceDefinition={
@@ -541,16 +541,45 @@ this.faceDefinition={
   --unknown unk1: ranges male: 0,1,2,3,16,17,18,19,48,50, female: 32,34,35,48,50, -- dd headgears (both gender) 16
   --for males initially appears to be race (see InfEneFova .RACE) when in the range 0-3, but then what is above that?
   
-  --unk3 and unk4 can both be set to INVALID_FOVA_VALUE suggesting theyre an index into some fova table
+  --eyeFova (was unk3)
+  --matches skinTone fv2 (may need to reclasify it) for the playerPartsType
+  --which matches fv2 Variable Data enum 0x6e
+  --https://metalgearmodding.fandom.com/wiki/FV2#Variable_Data_Section
+  --and referenced by exe 0x140ae8560 (1.0.15.3) LoadPlayerPartsSkinToneFv2 / IHHook
+  --vanilla texures: /Assets/tpp/common_source/chara/human/Pictures/cm_iris0_c00_bsm.ftex etc
+  --can be INVALID_FOVA_VALUE
+  --GOTCHA: VERIFY nothing to do directly with faceFova definition, which its reference to eye is because those fv2s they are to attach eye model
+  
+  --skinFova (was unk4)
+  --matches skinTone fv2 for the playerPartsType
+  --which matches fv2 Variable Data enum 0x64
+  --https://metalgearmodding.fandom.com/wiki/FV2#Variable_Data_Section
+  --and referenced by exe 0x140ae8560 (1.0.15.3) LoadPlayerPartsSkinToneFv2 / IHHook
+  --can be INVALID_FOVA_VALUE
+  --enum - texure suffix - note
+  --0 - w0 - light white
+  --1 - y0 - 'yellow' hispanic/arab/asian
+  --2 - w1 - pink white
+  --3 - b0 - light brown/black
+  --4 - b1 - dark black
+  --5 zombie
+  --oddly other race enums (TppMotherBaseManagementConst, TppDefine.QUEST_RACE_TYPE are different (but consistant with each other), don't include secondary white type)
+  --DJDialga1 note: higher values can be used and will apply proper skintone fv2 that has the entries
+  --TODO: see if the same deal with eyeFova
 
-  --unk6 range {0,1,3}, 3 seems common face, 1 unique, 0?
-  --unk6->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
+  --idroid staff texture:
+  --/Assets/tpp/ui/texture/StaffImage/<uiTextureName>_<0-uiTextureCount>.ftex 
+  --(as indicated by SetFaceFovaDefinitionTable .uiTexBasePath)
+  --TODO: not sure how the mb_staff_face_ texures are assigned
 
-  --changing faceFova and also unknown1 (other params currently untested) changes voice
---{n,50, 1, 1,58,60,13,24, 4, 4, 1,N/A          , 3,303,303,303,3}--maximums (from values)
---{n,50, 1, 1,58,no,no,no,no,no, 1,N/A          , 3,303,303,303,3}--actual maximums (no=EnemyFova.INVALID_FOVA_VALUE)
---{n,       50,     1,   1,      58,          60,      13,          24,   4,   4,   1,N/A          ,   3, 303, 303, 303,    3}--maximums
---{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
+  --unk7->unk10 are all zeroed past face 303, maximums do show those at 303 but DOC faceFova.ods spreadsheet shows that not all values in that 0-303 range are used uniquely
+  
+  --changing faceFova and also unk1 (other params currently untested) changes voice
+--{n,50, 1, 1,58,60,13,24, 4, 4, 1,N/A          , 3,303,303,303,3},--maximums (from values)
+--{n,50, 1, 1,58,no,no,no,no,no, 1,N/A          , 3,303,303,303,3},--actual maximums (no=EnemyFova.INVALID_FOVA_VALUE)
+--{n,       50,     1,   1,      58,          60,      13,          24,      4,       4,   1,          N/A,             3, 303, 303, 303,    3},--maximums
+--#     1,   2,     3,   4,       5,           6,       7,           8,      9,      10,  11,           12,            13,  14,  15,  16,   17,
+--{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,eyeFova,skinFova,unk5,uiTextureName,uiTextureCount,unk7,unk8,unk9,unk10},--notes
   {  0, 0, 0, 0, 3, 0,no,no, 0, 0, 0,"ui_face_000", 3,  4,  2,  6,3},--male>
   {  1, 0, 0, 0, 1, 0,no,no, 3, 0, 0,"ui_face_001", 3,  4,  1,  0,2},
   {  2, 0, 0, 0, 2, 0,no,no, 1, 0, 0,"ui_face_002", 3,  4,  9, 10,3},
@@ -1066,12 +1095,13 @@ this.faceDefinition={
   {688, 0, 0, 0,44,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex Hideo TODO: find hideo ui texture name
   --{689, 0, 0, 0,45,no,no,no, 0, 0, 0,"ui_face_687", 1,  0,  0,  0,0},--tex not-a-snail dude? same as 623 but all-in one I guess.
   --<
-  --tex slots for run-time face modding, see InfEneFova.ApplyFaceFova >
+  --tex slots for run-time face modding, see InfFovaIvars.ApplyFaceFova >
   {689, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
   {690, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
---{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
+--{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,eyeFova,skinFova,unk5,uiTextureName,uiTextureCount,unk7,unk8,unk9,unk10},--notes
+--#     1,   2,     3,   4,       5,           6,       7,           8,      9,      10,  11,           12,            13,  14,  15,  16,   17,
 --<
-}
+}--faceDefinition
 
 --{faceId,?type name,?type index},--
 this.modFaceFova={
@@ -1093,7 +1123,7 @@ this.modFaceFova={
   {565,"Balaclava",16,""},
   {566,"Balaclava",17,""},
   {567,"Balaclava",18,""},
-}
+}--modFaceFova
 
 --maps TppEnemyBodyId to bodyFova table index (see above)
 --{bodyId,bodyFova, isArmor? or something else common to armor?}--TppEnemyBodyId, further notes
@@ -1398,7 +1428,7 @@ this.bodyDefinition={
   {451,297,0},
   {452,298,0},
   {453,299,0},--<
-}
+}--bodyDefinition
 
 --{bodyId,?type name,?type index,?},--body description (from body id),type description
 this.modBodyFova={
@@ -1451,7 +1481,7 @@ this.modBodyFova={
   {272,"CapType",52,""},--pf unique,red beret
   {273,"CapType",20,""},--soviet unique,red beret
   {275,"CapType",52,""},--pf unique,red beret
-}
+}--modBodyFova
 
 this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
 --OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
@@ -1466,7 +1496,7 @@ if TppSoldierFace~=nil then
     bodyFova={table=this.bodyFova,maxCount=301}--RETAILPATCH 1.0.11 increased from 256
   }
   --tex maxCounts may be increased in below functions
-  InfCore.PCall(InfModelProc.Setup,this)--tex
+  InfCore.PCall(InfSoldierFaceAndBody.Setup,this)--tex
 
   TppSoldierFace.SetFovaFileTable(this.fovaFileTable)
 

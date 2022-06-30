@@ -4,6 +4,8 @@
 local this={}
 
 local TppDefine=TppDefine
+local TppQuest=TppQuest
+local TppLocation=TppLocation
 local InfCore=InfCore
 local IvarProc=IvarProc
 local pairs=pairs
@@ -18,7 +20,9 @@ this.debugSave=false
 --I'm not sure if anything before that has any signifincance, many have quest_ as the prefix, others have the quest area name.
 --Because of this restriction any mod authors that want to build a sideop will have to notify me so to not collide with others
 --questNameFmt="q3%04d"--tex currently straddling between 30010 : Little Lost Sheep and 39010 : Legendary Brown Bear
---tex current questIds claimed
+--tex current questIds claimed: https://metalgearmodding.fandom.com/wiki/Custom_Side-Ops_List
+
+--CULL out of date, use wiki instead tex: notes on how they reserved still useful for me to track down the original messages to me
 --q30100 - q30102--IH mb quests
 --q30103--IH quest example
 --q30104-q30154--morbidslinky sideops pack
@@ -32,7 +36,11 @@ this.debugSave=false
 --q30600-q30699--amars464 (via discord) (currently made 12)
 --q31069-q31099--jackwall (via nexus message)
 --q31100-q31199--Adam_Online (discord) - Tales from Mother Base sidop collection on nexus.
+--q35648-q34651--ventos - boss sheep
 --q36660-q36760--ventos
+
+
+
 
 --GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 157 vanilla quests.
 --this is governing the qst_* gvars that hold the quest states (see TppGvars).
@@ -53,8 +61,8 @@ end
 function this.LoadLibraries()
   this.LoadStates()
   this.LoadQuestDefs()
-    this.RegisterQuests()
-  end
+  this.RegisterQuests()
+end
 
 function this.OnStartTitle()
   --tex since registerquests is run before the first game save/gvar load
@@ -68,25 +76,40 @@ function this.OnAllocate(missionTable)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
+  local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
+  local locationId=TppDefine.LOCATION_ID[locationName]
 
   for questName,questInfo in pairs(this.ihQuestsInfo)do
-    if TppQuest.IsActive(questName) then
-      if questInfo.missionPackList and questInfo.missionPackList[missionCode]then
-        local packs=questInfo.missionPackList[missionCode]
-        if missionCode==30050 then --DEBUGNOW
-          packs=packs[vars.mbLayoutCode] or packs[0]
-        end
-        for i,packPath in ipairs(packs)do
-          packPaths[#packPaths+1]=packPath
-        end
-      end--if questInfo.missionPackList
-    end--if IsActive
+    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--tex PATCHUP: RENAMED missionPackList
+  
+    if questInfo.missionPacks then
+      if questInfo.locationId==locationId then
+        if TppQuest.CanActiveQuestInMission(missionCode,questName)then
+          if TppQuest.IsActive(questName) then
+            local packs=questInfo.missionPacks[missionCode] or questInfo.missionPacks--tex LEGACY: don't actually need to push packs into [missionCode] subtable now that I'm filtering by location and CanActiveQuestInMission
+            if locationName=="MTBS" then
+              packs=packs[vars.mbLayoutCode] or packs[0]
+            end
+            for i,packPath in ipairs(packs)do
+              packPaths[#packPaths+1]=packPath
+            end
+          end--if IsActive
+        end--if CanActiveQuestInMission
+      end
+    end--if questInfo.missionPacks
   end--for ihQuestsInfo
 end--AddMissionPacks
 
+function this.MissionPrepare()
+--CULL handled more completely by rlcs InfMissionQuest
+--  local allowedQuests={}
+--  for questName,questInfo in pairs(this.ihQuestsInfo)do
+--    if questInfo.allowInStoryMissions then
+--      allowedQuests[questName]=true
+--    end
+--  end--for ihQuestsInfo
+--  TppQuest.RegisterCanActiveQuestListInMission(allowedQuests)
+end--MissionPrepare
 
 --tex see InfEquip.LoadEquipTable for notes
 --CULL, now in InfEquip.LoadEquipTable
@@ -136,9 +159,11 @@ function this.AllwaysOpenQuest()
   return true
 end
 
---REF questDef
--- ih_quest_q30103.lua --file name must have q%05u format as suffix.
+--REF questDef questInfo
+--all options rather than sane example
+---- ih_quest_q30103.lua --file name must have q%05u format as suffix.
 --local this={
+--  questId=30103,--TODO
 --  questPackList={
 --    "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
 --    "/Assets/tpp/pack/mission2/ih/ddr1_main0_mdl.fpk",--model pack, edit the partsType in the TppHostage2Parameter in the quest .fox2 to match, see InfBodyInfo.lua for different body types.
@@ -147,7 +172,7 @@ end
 --      gender="FEMALE",
 --      count=1,
 --    }
---  },
+--  },--questPackList
 --  locationId=TppDefine.LOCATION_ID.AFGH,
 --  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.
 --  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
@@ -164,8 +189,42 @@ end
 --    "EQP_WP_EX_hg_010",
 --    "EQP_WP_West_ar_050",
 --  },
+--  -- CULL allowInStoryMissions=true,--allow quest during story mission (still follows the normal quest selection rules)--TODO needs more work to filter out quests not in mission area --DEBUGNOW TEST
+--  enableInMissions={10033,10041},--Enables quest in story missions. if Ivar enableMissionQuest. handled by rlcs InfMissionQuest
 --  allowInWarGames=true,--by default quests are blocked on mb wargames, this is to allow the quest during wargames
---}
+--  --required for shooting practice quests, but can be used to keep stuff resident before/after quest pack has been loaded/unloaded 
+--  --TODO: not a good idea for afgh/mafr sized maps though, really need to build additional system on top of map block loading/unloading
+--  missionPacks={
+--    "/Assets/tpp/pack/mission2/void/quest/q30211_void_shootingpractice_start.fpk",
+--  },--missionPacks
+--}--this
+--return this
+
+--Example shooting quest on mother base
+--local this={
+--    questId=30210,
+--    questPackList={
+--        "/Assets/tpp/pack/mission2/quest/mtbs/Medical/quest_q30210.fpk",
+--    },
+--    locationId=TppDefine.LOCATION_ID.MTBS,
+--    areaName="MtbsMedical",--quest area, is 'Mtbs<cluster name>'
+--    clusterName="Medical",--https://metalgearmodding.fandom.com/wiki/MotherBase_Clusters
+--    plntId=TppDefine.PLNT_DEFINE.Common2,--platform id. can just be the number 0-3, with 0 being the unique 'main' platform of the cluster
+--    category=TppQuest.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE,
+--    questCompleteLangId="quest_target_eliminate",
+--    canOpenQuest=function(questName)--whether quest can be active
+--        local isMbLayout3=InfQuest.CanOpenIsMbLayout3()--only built layout for mbLayout 3
+--        local questPlntIsDeveloped=InfQuest.CanOpenPlntIsDeveloped(questName)--uses the clusterName and plntId to check if its been built
+--        return isMbLayout3 and questPlntIsDeveloped
+--    end,
+--    questRank=TppDefine.QUEST_RANK.I,
+--    --shooting practice quests need a marker and geotrap to start the quest which needs to be resident on mission load
+--    missionPacks={
+--        [3]={"/Assets/tpp/pack/mission2/free/f30050/f30050_ly003_q30210.fpk",}--mb layout, if only [0] entry will use pack for all layouts 
+--    },--missionPacks
+--    startTrapName="ly003_cl04_npc0000|cl04pl2_q30210|trap_shootingPractice_start",--entity name, in layout fpkd fox2
+--    startMarkerName="ly003_cl04_npc0000|cl04pl2_q30210|Marker_shootingPractice",--entity name, in layout fpkd fox2
+--}--this
 --return this
 
 --REF questCompleteLangId =
@@ -181,7 +240,6 @@ end
 --tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
 --if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
 
-
 local blockQuests={
   tent_q99040=true, -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
   sovietBase_q99020=true,-- 82, make contact with emmeric
@@ -194,8 +252,11 @@ function this.BlockQuest(questName)
     --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
     local questInfo=this.ihQuestsInfo[questName]
     if not questInfo or not questInfo.allowInWargames then
-    return true
-  end
+      if this.debugModule then
+        InfCore.Log("BlockQuest "..questName.." IsMbEvent")
+      end
+      return true
+    end
   end
 
   if blockQuests[questName] then
@@ -220,9 +281,6 @@ function this.BlockQuest(questName)
   return false
 end
 
---tex <areaName>=<questName>
-local forcedQuests={}
-
 local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
   InfCore.LogFlow("InfQuest.GetForced")
@@ -232,11 +290,8 @@ function this.GetForced()
     return nil
   end
 
+  local forcedQuests={}--tex <areaName>=<questName>
   local forcedCount=0
-  --tex Clear
-  for areaName,forceCount in pairs(forcedQuests)do
-    forcedQuests[areaName]=nil
-  end
 
   local questTable=TppQuest.GetQuestInfoTable()
 
@@ -250,10 +305,10 @@ function this.GetForced()
       if unlockedArea==nil then
         InfCore.Log("ERROR: InfQuest.GetForced questAreaNameTable[] nil for "..unlockedName)
       else
-      forcedQuests[unlockedArea]=unlockedName
-      forcedCount=forcedCount+1
-      InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
-    end
+        forcedQuests[unlockedArea]=unlockedName
+        forcedCount=forcedCount+1
+        InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
+      end
     end--if unlockedName
   end--if unlockSideOpNumber <=#questTable
 
@@ -266,7 +321,30 @@ function this.GetForced()
 
     return forcedQuests
   end
+end--GetForced
+function this.GetEnabledCategories(selectionCategoryEnum)
+  local enabledCategories={}
+  local ivarPrefix="sideops_"
+  for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
+    local ivarName=ivarPrefix..categoryName
+    local categoryEnum=TppQuest.QUEST_CATEGORIES_ENUM[categoryName]
+    local enabled=true
+    local ivar=Ivars[ivarName]
+    --tex the per-category ivars default to 1/enabled
+    if ivar then--tex ADDON doesnt have an ivar
+      enabled=ivar:Get()==1
+      InfCore.Log(ivarName.."="..tostring(enabled))
+    end
+
+    --tex selectionmode overrides individual selection categories filter
+    if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
+      enabled=true
+    end
+
+    enabledCategories[categoryEnum]=enabled
 end
+  return enabledCategories
+end--GetEnabledCategories
 
 local gvarFlagNames={
   "qst_questOpenFlag",
@@ -426,6 +504,8 @@ function this.RegisterQuests()
 
   for i,questName in ipairs(this.ihQuestNames)do
     local questInfo=this.ihQuestsInfo[questName]
+    
+    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--PATCHUP: LEGACY: missionPackList renamed (only initial release of mtbs_medical_plnt2_shootingpractice should have this, unless someone in the community started using it since) 
 
     --tex find existing or new
     local questIndex
@@ -572,11 +652,11 @@ end
 function this.SetupInstalledQuestsState()
   InfCore.LogFlow"InfQuest.SetupInstalledQuestsState"
   if not this.questStatesLoaded then
-  --tex clear quest gvars range as matter of course and rely on ih_save.questStates to restore them
-  this.ClearGvarFlagsAddonRange()--DEBUGNOW TESTS
-  --complete addon quest, quit and see if its still completed next session
-  --then uninstall it, run game, reinstall it, run game, see if its cleared
-  --
+    --tex clear quest gvars range as matter of course and rely on ih_save.questStates to restore them
+    this.ClearGvarFlagsAddonRange()--DEBUGNOW TESTS
+    --complete addon quest, quit and see if its still completed next session
+    --then uninstall it, run game, reinstall it, run game, see if its cleared
+    --
     this.questStatesLoaded=true
   end
 
@@ -612,7 +692,7 @@ end
 function this.QuestBlockOnInitialize(questScript)
 
 end
-function this.QuestBlockOnInitializeBottom(questScript)  
+function this.QuestBlockOnInitializeBottom(questScript)
   InfCore.LogFlow("InfQuest.QuestBlockOnInitializeBottom")
   InfShootingPractice.QuestBlockOnInitializeBottom(questScript)
 end--QuestBlockOnInitializeBottom
@@ -713,14 +793,12 @@ this.saveName="ih_quest_states.lua"
 ih_quest_states=ih_quest_states or {}--DEBUGNOW
 
 function this.Save(newSave)
-  InfCore.LogFlow"InfQuest.Save"
-
   local isDirty=this.GetCurrentStates() or InfShootingPractice.saveDirty
   if isDirty then
     if this.debugSave then
       InfCore.Log("questStates isDirty")
     end
-    
+
     InfShootingPractice.saveDirty=false--DEBUGNOW TODO better
 
     local saveTextList={
@@ -802,11 +880,11 @@ function this.ReadSaveStates()
 
   local clearStates={}
   for questName,questStates in pairs(ih_quest_states) do
-        local questIndex=TppDefine.QUEST_INDEX[questName]
-        if not questIndex then
-          InfCore.Log("InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
-          table.insert(clearStates,questName)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
-        else
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if not questIndex then
+      InfCore.Log("InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
+      table.insert(clearStates,questName)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)
+    else
       for i,gvarFlagName in ipairs(gvarFlagNames)do
         gvars[gvarFlagName][questIndex]=questStates[gvarFlagName] or false
       end
@@ -844,7 +922,6 @@ function this.ReadSaveStates()
   end
 end--ReadSaveStates
 
---CALLER: IvarProc.BuildSaveText
 function this.GetCurrentStates()
   local QUEST_INDEX=TppDefine.QUEST_INDEX
   local gvars=gvars
@@ -861,13 +938,13 @@ function this.GetCurrentStates()
       for i,gvarFlagName in ipairs(gvarFlagNames) do
         local gvarValue=gvars[gvarFlagName][questIndex]
         if questStates[gvarFlagName]~=gvarValue then
-        isSaveDirty=true
+          isSaveDirty=true
           questStates[gvarFlagName]=gvarValue
-    end
-  end
+        end
+      end
 
       ih_quest_states[questName]=questStates
-  end
+    end
   end--for ihQuestNames
 
   return isSaveDirty
@@ -910,6 +987,7 @@ function this.DisableLandingZones()
 end
 
 function this.UpdateActiveQuest()
+  InfCore.LogFlow("InfQuest.UpdateActiveQuest")
   for i=0,TppDefine.QUEST_MAX-1 do
     gvars.qst_questRepopFlag[i]=false
   end

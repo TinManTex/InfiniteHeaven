@@ -15,6 +15,12 @@ local roamEventNames={
   "CRASHLAND",
   "LOST_COMS",
 }
+local mbEventNames={
+  "TRAINING",
+  "INVASION",
+  "ZOMBIE_DD",
+  "ZOMBIE_OBLITERATION",
+}
 local eventIvarPrefix="gameevent_chance"
 
 this.registerIvars={
@@ -129,7 +135,7 @@ this.mbEnableFultonAddStaff={
   settingNames="set_switch",
 }
 --<NONUSER
-
+--CULL
 IvarProc.MissionModeIvars(
   this,
   "gameEventChance",
@@ -140,22 +146,20 @@ IvarProc.MissionModeIvars(
   },
   {"MB",}
 )
---CULL
-this.selectEvent={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"NONE"},--DYNAMIC
-  OnSelect=function(self)
-    local settings=InfGameEvent.GetEventNames()
-    IvarProc.SetSettings(self,settings)
-  end,
-  OnActivate=function(self,setting)
-    InfMenu.PrintLangId"event_forced"
-    InfGameEvent.forceEvent=self.settings[setting+1]
-  end,
-}
 
 --
 for i,eventName in ipairs(roamEventNames)do
+  local ivarName=eventIvarPrefix..eventName
+  local ivar={
+    save=IvarProc.CATEGORY_EXTERNAL,
+    range=Ivars.percentRange,
+    isPercent=true,
+    default=0,
+  }
+  this[ivarName]=ivar
+  table.insert(this.registerIvars,ivarName)
+end
+for i,eventName in ipairs(mbEventNames)do
   local ivarName=eventIvarPrefix..eventName
   local ivar={
     save=IvarProc.CATEGORY_EXTERNAL,
@@ -196,13 +200,15 @@ this.registerMenus={
 this.eventsMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
-    --CULL
-    --"InfGameEvent.ForceGameEvent",
-    --"Ivars.gameEventChanceFREE",
-    "Ivars.gameEventChanceMB",
+    --"Ivars.gameEventChanceMB",--CULL
   }
 }
 for i,eventName in ipairs(roamEventNames)do
+  local ivarName="Ivars."..eventIvarPrefix..eventName
+  table.insert(this.eventsMenu.options,ivarName)
+end
+--DEBUGNOW
+for i,eventName in ipairs(mbEventNames)do
   local ivarName="Ivars."..eventIvarPrefix..eventName
   table.insert(this.eventsMenu.options,ivarName)
 end
@@ -213,9 +219,12 @@ this.langStrings={
     gameevent_chanceHUNTED="Hunted event chance",
     gameevent_chanceCRASHLAND="Crashland event chance",
     gameevent_chanceLOST_COMS="Lost Coms event chance",
+    gameevent_chanceTRAINING="DD Training wargame event chance",
+    gameevent_chanceINVASION="Invasion event chance",
+    gameevent_chanceZOMBIE_DD="DD Infection event chance",
+    gameevent_chanceZOMBIE_OBLITERATION="Zombie Obliteration event chance",
     event_announce="Event: %s",--event name
     event_forced="Event will start on next MB visit or Free Roam",
-    forceGameEvent="Trigger random IH event",
     gameEventChanceMB="MB event random trigger chance",
     gameEventChanceFREE="Free roam event random trigger chance",
     events_mb={
@@ -238,7 +247,11 @@ this.langStrings={
       gameevent_chanceHUNTED="Chance to start event Hunted on starting free roam. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. ",
       gameevent_chanceCRASHLAND="Chance to start event Crashland on starting free roam. Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.",
       gameevent_chanceLOST_COMS="Chance to start event Lost-coms on starting free roam. Disables most mother base support menus and disables all heli landing zones except from main bases/towns. ",
-       forceGameEvent=[[Events are temporary combinations of IH settings for free roam and mother base.
+      gameevent_chanceTRAINING="Chance to randomly trigger DD Training wargame on returning to MB.",
+      gameevent_chanceINVASION="Chance to randomly trigger an Invasion event on returning to MB.",
+      gameevent_chanceZOMBIE_DD="Chance to randomly trigger DD Infection outbreak on returning to MB.",
+      gameevent_chanceZOMBIE_OBLITERATION="Chance to randomly trigger Zombie Obliteration (non DD) on returning to MB.",
+      eventsMenu=[[Events are temporary combinations of IH settings for free roam and mother base.
 Free roam events (can stack): 
 Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
 Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
@@ -265,10 +278,6 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if missionCode < 5 then
-    return
-  end
-  
   --GOTCHA: mb only
   if not InfMainTpp.IsMbEvent(missionCode) then
     return
@@ -383,7 +392,7 @@ function this.DisableLzs()
     InfLZ.DisableLzsWithinDist(TppLandingZone.missionLzs[locationName],startPos,disableLzsFromStartDistance,missionCode)
   end
 end
-
+--tex may roll multiple events
 function this.GenerateRoamEvent(missionCode)
   this.inf_enabledEvents={}
   
@@ -406,6 +415,7 @@ function this.GenerateRoamEvent(missionCode)
     if this.debugModule then
       InfCore.Log("InfGameEvent numEvents chosen == 0")
     end
+    InfMain.RandomResetToOsTime()  
     return
   end
   
@@ -509,6 +519,13 @@ local warGames={
 }
 local warGamesEnum=Tpp.Enum(warGames)
 
+local invasions={
+  "SOVIET_INVASION",
+  "COYOTE_INVASION",
+  "XOF_INVASION",
+  "FEMME_FATALE",
+}
+--UNUSED
 local warGamesBaseTypes={
   TRAINING="TRAINING",
   SOVIET_INVASION="INVASION",
@@ -602,7 +619,7 @@ local warGameSettings={
     enableWalkerGearsMB=0,
   },
 }
-
+--tex currently all mb events are wargames, so only one is chosen
 function this.GenerateWarGameEvent(missionCode)
   --InfCore.PCallDebug(function()--DEBUG 
   if not igvars.inf_event then
@@ -628,40 +645,45 @@ function this.GenerateWarGameEvent(missionCode)
   if gvars.mbFreeDemoPlayNextIndex and gvars.mbFreeDemoPlayNextIndex~=0 then
     return
   end
-  
-  local eventChance=Ivars.gameEventChanceMB:Get()
-  if eventChance==0 and not this.forceEvent then
-    return
-  end
-  
-  InfMain.RandomSetToLevelSeed()
-  local rnd=math.random(100)
-  InfCore.Log("InfGameEvent eventChance:"..eventChance.." rndChance:"..rnd)--DEBUGNOW
-  if rnd>eventChance then
-    return
-  end
-  InfMain.RandomResetToOsTime()
-  
-
-  igvars.inf_event=true
-
-  this.inf_enabledEvents={}
 
   InfMain.RandomSetToLevelSeed()
-  local warGame=warGames[math.random(#warGames)]
-  InfMain.RandomResetToOsTime()
   
-  if this.forceEvent then
-    if type(this.forceEvent)=="string" then
-      if warGamesEnum[this.forceEvent] then
-        warGame=this.forceEvent
+  local enabledEvents={}
+  local numEvents=0
+  for i,eventName in ipairs(mbEventNames) do
+    local eventChance=Ivars[eventIvarPrefix..eventName]:Get()
+    if eventChance>0 then
+      local rnd=math.random(100)
+      InfCore.Log("eventName eventChance:"..eventChance.." rndChance:"..rnd)--DEBUGNOW
+      if rnd<=eventChance then
+        table.insert(enabledEvents,eventName)
+        numEvents=numEvents+1
       end
     end
   end
+ 
+  if numEvents==0 then
+    if this.debugModule then
+      InfCore.Log("InfGameEvent numEvents chosen == 0")
+    end
+    InfMain.RandomResetToOsTime()  
+    return
+  end
+  
+  igvars.inf_event=true
+
+  this.inf_enabledEvents={}--tex currently only used for free events
+
+  local warGame=enabledEvents[math.random(#enabledEvents)]
+  --tex KLUDGE: ivars/event chances based on 
+  local wargameBaseType=warGame
+  if warGame=="INVASION" then
+    warGame=invasions[math.random(#invasions)]
+  end
+
   InfCore.Log("InfGameEvent.GenerateWarGameEvent: "..tostring(warGame))
   --local warGame="TRAINING"--DEBUG
   this.inf_enabledEvents[warGame]=true
-  local wargameBaseType=warGamesBaseTypes[warGame]
 
   local warGameNames=InfLangProc.LangTable"events_mb"
   --tex ugh, TODO better
@@ -682,6 +704,8 @@ function this.GenerateWarGameEvent(missionCode)
   --Ivars.revengeModeMB_ALL:Set("CUSTOM",true)
   --tex for now just useing enemy prep levels (set via warGames table)
   --end)--
+  
+  InfMain.RandomResetToOsTime() 
 end--GenerateWarGameEvent
 
 function this.GetEventNames()
@@ -693,11 +717,6 @@ function this.GetEventNames()
     eventNames[#eventNames+1]=eventName
   end
   return eventNames
-end
---CULL
-function this.ForceGameEvent()
-  InfMenu.PrintLangId"event_forced"
-  this.forceEvent=true
 end
 
 --TUNE

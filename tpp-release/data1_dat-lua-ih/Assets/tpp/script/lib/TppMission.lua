@@ -329,6 +329,7 @@ function this.SelectNextMissionHeliStartRoute(missionCode,heliRoute,startFobSnea
     gvars.heli_missionStartRoute=heliRoute
   end
 end
+--CALLER: msg="MbDvcActHeliLandStartPos"
 function this.SetHelicopterMissionStartPosition(set,x,y,z)
   if set==1 then
     mvars.mis_helicopterMissionStartPosition={x,y,z}
@@ -628,6 +629,7 @@ function this.ExecuteOnReturnToMissionCallback()
     OnReturnToMission=this.systemCallbacks.OnReturnToMission
   end
   if OnReturnToMission then
+    InfCore.LogFlow"TppMission.ExecuteOnReturnToMissionCallback"--tex
     TppMain.DisablePause()
     Player.SetPause()
     TppUiStatusManager.ClearStatus"AnnounceLog"
@@ -729,6 +731,7 @@ function this.ExecuteMissionAbort()
   this.LoadForMissionAbort()
 end
 function this.VarSaveForMissionAbort()
+  InfCore.LogFlow"TppMission.VarSaveForMissionAbort"--tex
   if this.IsFOBMission(vars.missionCode)then
     if(vars.fobSneakMode==FobMode.MODE_SHAM)then
       mvars.mis_abortWithSave=false
@@ -779,6 +782,7 @@ function this.VarSaveForMissionAbort()
       gvars.mis_nextMissionStartRouteForEmergency=mvars.mis_nextMissionStartRouteForAbort
     end
   end
+  Ivars.prevMissionCode=vars.missionCode--tex added
   vars.missionCode=mvars.mis_nextMissionCodeForAbort
   mvars.mis_abortCurrentMissionCode=missionCode
   if this.IsFOBMission(vars.missionCode)then
@@ -794,6 +798,7 @@ function this.VarSaveForMissionAbort()
       end
     end
   end
+  InfCore.Log("Updated vars.locationCode:"..tostring(vars.locationCode).." vars.missionCode:"..tostring(vars.missionCode).." Ivars.prevMissionCode:"..tostring(Ivars.prevMissionCode))--tex
   TppTerminal.ClearStaffNewIcon(isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission)
   TppEnemy.ClearDDParameter()
   if(not this.IsFOBMission(missionCode)and not this.IsFreeMission(missionCode))and not this.IsHelicopterSpace(missionCode)then
@@ -1034,7 +1039,10 @@ end
 function this.GetMissionClearState()
   return gvars.mis_missionClearState
 end
+--GOTCHA: vars.mbLayoutCode, vars.mbClusterId changes immediatly here
 function this.ReserveMissionClear(missionClearInfo)
+  InfCore.LogFlow("TppMission.missionClearInfo")--DEBUGNOW
+  InfCore.PrintInspect(missionClearInfo,"missionClearInfo")--tex DEBUGNOW
   if svars.mis_isDefiniteGameOver then
     return false
   end
@@ -1301,8 +1309,8 @@ function this.ExecuteMissionFinalize()
   local waitOnLoadingTipsEnd
   local currentMissionCode=vars.missionCode
   local currentLocationCode=vars.locationCode
-  local isHeliSpace,nextIsHeliSpace
-  local isFreeMission,nextIsFreeMission
+  local fromHeliSpace,nextIsHeliSpace
+  local fromFreeMission,nextIsFreeMission
   local isMotherBase--tex
   local isZoo--tex
   if not(mvars.mis_isInterruptMissionEnd or(not TppSave.CanSaveMbMangementData()))then--RETAILPATCH 1070
@@ -1313,9 +1321,11 @@ function this.ExecuteMissionFinalize()
     TppSave.VarSave(currentMissionCode,true)
     TppSave.SaveGameData(currentMissionCode,nil,nil,nil,true)
   end
+  InfCore.LogFlow("TppMission.ExecuteMissionFinalize mis_nextMissionCodeForMissionClear:"..tostring(gvars.mis_nextMissionCodeForMissionClear))--DEBUGNOW
+  InfCore.LogFlow("TppMission.ExecuteMissionFinalize mvars.heli_missionStartRoute:"..tostring(mvars.heli_missionStartRoute))--DEBUGNOW
   if gvars.mis_nextMissionCodeForMissionClear~=missionClearCodeNone then
-    isHeliSpace=this.IsHelicopterSpace(vars.missionCode)
-    isFreeMission=this.IsFreeMission(vars.missionCode)
+    fromHeliSpace=this.IsHelicopterSpace(vars.missionCode)
+    fromFreeMission=this.IsFreeMission(vars.missionCode)
     nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
     nextIsFreeMission=this.IsFreeMission(gvars.mis_nextMissionCodeForMissionClear)
     isMotherBase=TppLocation.IsMotherBase()--tex
@@ -1343,7 +1353,8 @@ function this.ExecuteMissionFinalize()
     Ivars.prevMissionCode=vars.missionCode--tex added
     vars.locationCode=mvars.mis_nextLocationCode
     vars.missionCode=gvars.mis_nextMissionCodeForMissionClear
-    InfCore.Log("Updated locationCode:"..tostring(vars.locationCode).." missionCode:"..tostring(vars.missionCode).." prevMissionCode:"..tostring(Ivars.prevMissionCode))--tex
+    --GOTCHA: mbLayoutCode, mbLayoutCode changes immediatly on ReserveMissionClear
+    InfCore.Log("Updated vars.locationCode:"..tostring(vars.locationCode).." vars.missionCode:"..tostring(vars.missionCode).." Ivars.prevMissionCode:"..tostring(Ivars.prevMissionCode))--tex
   else
     if not mvars.mis_isInterruptMissionEnd then
       Tpp.DEBUG_Fatal"Not defined next missionId!!"
@@ -1351,8 +1362,8 @@ function this.ExecuteMissionFinalize()
       return
     end
   end
-  TppTerminal.ClearStaffNewIcon(isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission)
-  if isHeliSpace then
+  TppTerminal.ClearStaffNewIcon(fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission)
+  if fromHeliSpace then
     TppClock.SetTimeFromHelicopterSpace(mvars.mis_selectedDeployTime,currentLocationCode,vars.locationCode)
     if TppSave.CanSaveMbMangementData()then
       TppTerminal.ReserveMissionStartMbSync()
@@ -1373,7 +1384,7 @@ function this.ExecuteMissionFinalize()
     TppUiCommand.LoadoutSetItemEquipInfoInMission{slotIndex=2,equipId=TppEquip.EQP_IT_TimeCigarette,level=1}
     TppUiCommand.LoadoutSetItemEquipInfoInMission{slotIndex=3,equipId=TppEquip.EQP_IT_Nvg,level=1}
   end
-  if(not isHeliSpace)then
+  if(not fromHeliSpace)then
     --tex added dontOverrideFreeLoadout bypass
     if Ivars.dontOverrideFreeLoadout:Is(0) then
       if this.IsMbFreeMissions(gvars.mis_nextMissionCodeForMissionClear)then
@@ -1383,21 +1394,25 @@ function this.ExecuteMissionFinalize()
       end
     end
   end
-  if not(isHeliSpace and nextIsFreeMission)then
+  if not(fromHeliSpace and nextIsFreeMission)then
     TppUiCommand.RemovedAllUserMarker()
   end
   if nextIsHeliSpace then
     TppUiCommand.LoadoutSetReturnHelicopter()
   end
-  if not isHeliSpace and not isFreeMission then
-    TppGimmick.DecrementCollectionRepopCount()
+  if not fromHeliSpace and not fromFreeMission then
+    TppGimmick.DecrementCollectionRepopCount()--NMC handles repopulating stuff like plants and diamonds
+    --NMC apart from saving the state of permanent gimmicks, the destructable radios and dishes and such
+    --RESEARCH: is it weapon emplacements too?
+    --one of these (guessing FromMissionAfterClear) handles resetting/repairing them after 5 calls of the function
+    --does not reset AA radars
     Gimmick.StoreSaveDataPermanentGimmickForMissionClear()
     Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
+    InfCore.PCallDebug(InfProgression.RepopFromMission)--tex    
   end
-  if isFreeMission then
-    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear, thus the isBleh vars
-    InfMainTpp.MbCollectionRepop(isMotherBase,isZoo)--tex isFreeVersion IH repop since -^-
-    Gimmick.StoreSaveDataPermanentGimmickFromMission()
+  if fromFreeMission then
+    Gimmick.StoreSaveDataPermanentGimmickFromMission()    
+    InfCore.PCallDebug(InfProgression.RepopFromFree,isMotherBase,isZoo)--tex
   end
   local lockStaffForMission={
     [10091]=function()
@@ -1440,8 +1455,8 @@ function this.ExecuteMissionFinalize()
   if vars.missionCode==10115 then
     RENoffline=true
   end
-  local locationChange=(vars.locationCode~=currentLocationCode)
-  if not isHeliSpace then
+  local locationChanged=(vars.locationCode~=currentLocationCode)
+  if not fromHeliSpace then
     TppTerminal.AddStaffsFromTempBuffer(nil,RENoffline)
   end
   TppClock.SaveMissionStartClock()
@@ -1449,7 +1464,7 @@ function this.ExecuteMissionFinalize()
   TppBuddyService.SetVarsMissionStart()
   TppBuddyService.BuddyMissionInit()
   TppRevenge.SaveMissionStartMineArea()
-  TppMain.ReservePlayerLoadingPosition(TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,nil,locationChange)
+  TppMain.ReservePlayerLoadingPosition(TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,nil,locationChanged)
   TppWeather.OnEndMissionPrepareFunction()
   this.VarResetOnNewMission()
   if not this.IsFOBMission(vars.missionCode)then
@@ -3040,9 +3055,9 @@ function this.SetFobPlayerStartPoint()
   local locatorName=""
   if TppNetworkUtil.IsHost()==false then
     locatorName="player_locator_clst"..(cluster.."_plnt0_df0")
-    local pos,rot=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
+    local pos,rotY=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
     if pos then
-      TppPlayer.SetInitialPosition(pos,rot)
+      TppPlayer.SetInitialPosition(pos,rotY)
       return true
     end
     return false
@@ -3098,6 +3113,7 @@ function this.EstablishedMissionClear()
   this.systemCallbacks.OnEstablishMissionClear(svars.mis_missionClearType)
 end
 function this.OnMissionGameEndFadeOutFinish()
+  InfCore.LogFlow"TppMission.OnMissionGameEndFadeOutFinish"--tex
   local nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
   if not nextIsHeliSpace then
     this.ReserveMissionStartRecoverSoundDemo()
@@ -3120,6 +3136,7 @@ function this.OnMissionGameEndFadeOutFinish()
   end
 end
 function this.OnMissionGameEndFadeOutFinish2nd()
+  InfCore.LogFlow"TppMission.OnMissionGameEndFadeOutFinish2nd"--tex
   InfMain.OnMissionGameEndTop()--tex
   TppUiStatusManager.ClearStatus"GmpInfo"
   TppStory.UpdateStorySequence{updateTiming="OnMissionClear",missionId=this.GetMissionID()}
@@ -3473,6 +3490,7 @@ function this.DisableObjective(objectiveDefine)
   end
 end
 function this.VarSaveOnUpdateCheckPoint(saveBusy)
+  InfCore.LogFlow"TppMission.VarSaveOnUpdateCheckPoint"--tex
   gvars.isNewGame=false
   TppTerminal.OnRecoverByHelicopterOnCheckPoint()
   TppTerminal.AddStaffsFromTempBuffer(true)

@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppMissionList.lua
+--tex changed a bunch of direct bodyId values to TppEnemyBodyId 
 local this={}
 
 --tex moved from local to this
@@ -133,7 +134,7 @@ this.missionPackTable[10020]=function(missionCode)
     local bodyTable={{TppEnemyBodyId.oce0_main0_v00,1},{TppEnemyBodyId.oce0_main0_v01,1}}
     TppEneFova.AddUniquePackage{type="hostage",body=bodyTable}
     do
-      local settings={{type="enemy",name="sol_enemyBase_0014",faceId=635,bodyId=273}}
+      local settings={{type="enemy",name="sol_enemyBase_0014",faceId=635,bodyId=TppEnemyBodyId.svs0_unq_v009}}
       TppEneFova.AddUniqueSettingPackage(settings)
     end
   end
@@ -192,9 +193,9 @@ this.missionPackTable[10041]=function(missionCode)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   do
     local settings={
-      {type="enemy",name="sol_vip_field",faceId=637,bodyId=268},
-      {type="enemy",name="sol_vip_village",faceId=638,bodyId=269},
-      {type="enemy",name="sol_vip_enemyBase",faceId=639,bodyId=270}
+      {type="enemy",name="sol_vip_field",faceId=637,bodyId=TppEnemyBodyId.svs0_unq_v070},
+      {type="enemy",name="sol_vip_village",faceId=638,bodyId=TppEnemyBodyId.svs0_unq_v071},
+      {type="enemy",name="sol_vip_enemyBase",faceId=639,bodyId=TppEnemyBodyId.svs0_unq_v072}
     }
     TppEneFova.AddUniqueSettingPackage(settings)
   end
@@ -215,10 +216,10 @@ this.missionPackTable[10044]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_WAV)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   do
-    local s={{606,1,1,0}}
-    local p={{258,1},{TppEnemyBodyId.svs0_unq_v080,1}}
+    local faceEntry={{606,1,1,0}}
+    local bodyEntry={{258,1},{TppEnemyBodyId.svs0_unq_v080,1}}
     if TppSoldierFace.OverwriteMissionFovaData~=nil then
-      TppSoldierFace.OverwriteMissionFovaData{face=s,body=p}
+      TppSoldierFace.OverwriteMissionFovaData{face=faceEntry,body=bodyEntry}
     end
   end
 end
@@ -232,7 +233,7 @@ this.missionPackTable[10052]=function(missionCode)
   do
     local settings={
       {type="hostage",name="hos_target_0000",faceId=607,bodyId=200},
-      {type="enemy",name="sol_s10052_transportVehicle_0000",faceId=608,bodyId=263}
+      {type="enemy",name="sol_s10052_transportVehicle_0000",faceId=608,bodyId=TppEnemyBodyId.svs0_unq_v100}
     }
     TppEneFova.AddUniqueSettingPackage(settings)
   end
@@ -310,7 +311,7 @@ this.missionPackTable[10086]=function(missionCode)
       {type="hostage",name="hos_mis_0001",faceId=611,bodyId=111},
       {type="hostage",name="hos_mis_0002",faceId=612,bodyId=111},
       {type="hostage",name="hos_mis_0003",faceId="female",bodyId=113},
-      {type="enemy",name="sol_interpreter",faceId=609,bodyId=255},
+      {type="enemy",name="sol_interpreter",faceId=609,bodyId=TppEnemyBodyId.pfs0_unq_v150},
       {type="enemy",name="sol_interrogator",faceId=629,bodyId=TppEnemyBodyId.pfs0_unq_v155}
     }
     TppEneFova.AddUniqueSettingPackage(settings)
@@ -347,7 +348,7 @@ this.missionPackTable[10121]=function(missionCode)
   do
     local settings={
       {type="enemy",name="sol_pfCamp_vip_0001",faceId=617,bodyId=TppEnemyBodyId.pfa0_v00_b},
-      {type="enemy",name="sol_pfCamp_vip_guard",faceId=618,bodyId=254}
+      {type="enemy",name="sol_pfCamp_vip_guard",faceId=618,bodyId=TppEnemyBodyId.pfs0_unq_v280}
     }
     TppEneFova.AddUniqueSettingPackage(settings)
   end
@@ -382,7 +383,7 @@ this.missionPackTable[10100]=function(missionCode)
   do
     local INVALID_FOVA_VALUE=EnemyFova.INVALID_FOVA_VALUE
     local settings={
-      {type="enemy",name="sol_target_0000",faceId=616,bodyId=251},
+      {type="enemy",name="sol_target_0000",faceId=616,bodyId=TppEnemyBodyId.pfs0_unq_v250},
       {type="hostage",name="hos_diamond_0000",faceId=INVALID_FOVA_VALUE,bodyId=130},
       {type="hostage",name="hos_diamond_0001",faceId=INVALID_FOVA_VALUE,bodyId=131},
       {type="hostage",name="hos_diamond_0002",faceId=INVALID_FOVA_VALUE,bodyId=132},
@@ -424,8 +425,8 @@ this.missionPackTable[10195]=function(missionCode)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   do
     local settings={
-      {type="enemy",name="sol_dealer",faceId=614,bodyId=250},
-      {type="enemy",name="sol_vip",faceId=615,bodyId=256}}
+      {type="enemy",name="sol_dealer",faceId=614,bodyId=TppEnemyBodyId.pfs0_unq_v210},
+      {type="enemy",name="sol_vip",faceId=615,bodyId=TppEnemyBodyId.pfs0_unq_v220}}
     TppEneFova.AddUniqueSettingPackage(settings)
   end
 end
@@ -480,7 +481,7 @@ this.missionPackTable[10211]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   do
-    local settings={{type="enemy",name="sol_mis_0000",faceId=620,bodyId=253}}
+    local settings={{type="enemy",name="sol_mis_0000",faceId=620,bodyId=TppEnemyBodyId.pfs0_unq_v360}}
     TppEneFova.AddUniqueSettingPackage(settings)
   end
 end
@@ -607,7 +608,7 @@ this.missionPackTable[10093]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   do
-    local settings={{type="enemy",name="sol_vip_0000",faceId=649,bodyId=272}}
+    local settings={{type="enemy",name="sol_vip_0000",faceId=649,bodyId=TppEnemyBodyId.pfs0_unq_v440}}
     TppEneFova.AddUniqueSettingPackage(settings)
   end
 end
@@ -622,7 +623,7 @@ this.missionPackTable[10171]=function(missionCode)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK))
   do
-    local settings={{type="enemy",name="sol_pfCamp_vip",faceId=645,bodyId=267}}
+    local settings={{type="enemy",name="sol_pfCamp_vip",faceId=645,bodyId=TppEnemyBodyId.pfs0_unq_v450}}
     TppEneFova.AddUniqueSettingPackage(settings)
   end
 end
@@ -725,9 +726,9 @@ this.missionPackTable[30050]=function(missionCode)
       isUseMBDemoStage=true
       TppDemo.SetNextMBDemo(nil)
     end
-    --tex INTERIOR>
+    --tex INTERIOR> WIP
     if TppPackList.IsMissionPackLabel"Interior" then
-      InfInterior.AddInteriorMissionPacks(missionCode)    
+      --InfInterior.AddInteriorMissionPacks(missionCode)    
       gvars.f30050_missionPackIndex=3--tex f30050_sequence STAGE_PACK_INDEX.INTERIOR
     --<
     elseif TppPackList.IsMissionPackLabel"BattleHanger"or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())then  

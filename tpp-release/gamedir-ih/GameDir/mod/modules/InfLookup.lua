@@ -469,6 +469,7 @@ function this.BuildGameClassEnumNameLookup(gameClassName,enumNames)
 end
 
 --tex assumes gameclass has lua readable enum names like TppDamage, and not whatever index fancyness gameclasses like ScritBlock do
+--GOTCHA: filter is exact match prefix, ie must match from start of string
 function this.BuildDirectGameClassEnumLookup(gameClassName,filter,exclude)
   InfCore.LogFlow("InfLookup.BuildGameClassEnumNameLookup: "..gameClassName.." "..tostring(filter))
 
@@ -496,9 +497,9 @@ function this.BuildDirectGameClassEnumLookup(gameClassName,filter,exclude)
         end
       end
     
-      if string.find(k,filter)~=nil and not doExclude then
+      if string.find(k,filter)==1 and not doExclude then
         if enumToName[v] then
-            InfCore.Log("WARNING: InfLookup.BuildDirectGameClassEnumLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
+          InfCore.Log("WARNING: InfLookup.BuildDirectGameClassEnumLookup: "..k.." with enum "..v.." is same as ".. enumToName[v])--DEBUG
           enumToName[v]=enumToName[v].."|"..k
         else
           enumToName[v]=k
@@ -892,7 +893,7 @@ this.TppDamage={
 
 this.tppEquipPrefix={  
   equipId="EQP",--tex couple of exceptions for just using this prefix, EQP_TYPE_, EQP_BLOCK_ trample on some equipIds, and EQP_ also includes some of the following prefixes
-  supportWeapon="SWP",--DEBUGNOW matches for WP
+  supportWeapon="SWP",
   weaponId="WP",
   --tex in chimera parts order
   reciever="RC",
@@ -1831,7 +1832,7 @@ function this.LoadGameObjectNames()
   if this.debugModule then
     InfCore.PrintInspect(this.lookups,"InfLookups.lookups")
     --InfCore.PrintInspect(this,"InfLookups")--DEBUGNOW
-end
+  end
 end
 --CALLER: InfMain.OnIntializeTop, since it needs gameobjects to have been loaded
 --Actual names (re)loaded in PostAllModulesLoad

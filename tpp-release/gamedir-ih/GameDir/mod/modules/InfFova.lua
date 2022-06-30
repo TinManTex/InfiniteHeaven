@@ -15,6 +15,7 @@ this.playerTypes={
   "LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
   "OCELOT",--5
   "QUIET",--6
+--"MAX",--255--sinces underlying variable is a byte
 }
 
 this.fobLocked={
@@ -23,47 +24,80 @@ this.fobLocked={
 }
 
 --tex indexed by vars.playerType
+--LoadPlayerFacialMotion* vanilla handles DD_MALE,DD_FEMALE,OCELOT,QUIET
+--and the rest default to player2_facial_snake.fpk/TppPlayer2Facial.mtar
+--LoadPlayerFacialMotion*s only param is playerType
+--TODO: facialhelispace
 this.playerTypesInfo={
   {
     name="SNAKE",
     description="Snake",
     playerType=0,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_snake.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar",
+    },
   },
   {
     name="DD_MALE",
     description="DD Male",
     playerType=1,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_dd_male.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_ddm_facial.mtar",
+    },
   },
   {
     name="DD_FEMALE",
     description="DD Female",
     playerType=2,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_dd_female.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_ddf_facial.mtar",
+    },
   },
   {
     name="AVATAR",
     description="Avatar",
     playerType=3,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_snake.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar",
+    },
   },
   {
     name="LIQUID",
     description="LIQUID",
     playerType=4,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_snake.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar",
+    },
   },
   {
     name="OCELOT",
     description="Ocelot",
     playerType=5,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_ocelot.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_ocelot_facial.mtar",
+    },
   },
   {
     name="QUIET",
     description="Quiet",
     playerType=6,
+    facialMotion={
+      fpk="/Assets/tpp/pack/player/motion/player2_facial_quiet.fpk",
+      mtar="/Assets/tpp/motion/mtar/player2/player2_quiet_facial.mtar",
+    },
   },
-}
+}--playerTypesInfo
 
 --tex vars.playerParts drives which plparts fpk is used
 --\chunk0_dat\Assets\tpp\pack\player\parts\plparts*.fpk
---corresponding to PlayerPartsType enum
+--corresponding to PlayerPartsType enum, which isn't actually filled out beyond the first few entries,
+--so cribbing names from PlayerCamoType
 --tex indexed by vars.playerPartsType
 this.playerPartsTypes={
   "NORMAL",--0,
@@ -94,32 +128,33 @@ this.playerPartsTypes={
   "SWIMWEAR_H",--25
   "OCELOT",--26
   "QUIET",--27
-  --tex unknown, see playerPartsTypesInfo, own names
-  "NORMAL2",--24
-  "NORMAL_SCARF2",--25
-  "SNEAKING_SUIT_BB",--26
-  "HOSPITAL2",--27
-  "MGS12",--27
-  "NINJA2",--28
-  "RAIDEN2",--29
-  "NAKED2",--30
-  "SNEAKING_SUIT_TPP2",--31
-  "BATTLEDRESS2",--32
-  "PARASITE_SUIT2",--33
-  "LEATHER_JACKET2",--34
---    35-blank, hang model system
-}
+  --tex var can overflow and repeat for a bit before hanging. since array exe side is playertype/playerparts, basically will overflow from one playertype to start of next, except for DD_FEM which overflows to snake camo array
+  "NORMAL2",--28
+  "NORMAL_SCARF2",--29
+  "SNEAKING_SUIT_BB",--30 --TODO and see how this is coming about, I guess snake head interacting with the parts type overflow
+  "HOSPITAL2",
+  "MGS12",
+  "NINJA2",
+  "RAIDEN2",
+  "NAKED2",
+  "SNEAKING_SUIT_TPP2",
+  "BATTLEDRESS2",
+  "PARASITE_SUIT2",
+  "LEATHER_JACKET2",
+--"MAX",--255--sinces underlying variable is a byte, exe might actually be using this as non value
+}--playerPartsTypes
 
---tex replacing engines PlayerPartsType since > 23 not covered
+--tex replacing engines PlayerPartsType since > 27 not covered
 this.PlayerPartsType=InfUtil.EnumFrom0(this.playerPartsTypes)
 
 --tex table indexed by vars.playerParts/PlayerPartsType enum
---plPartsName doubles for checks to which playertype supports the partstype
---if no camoTypes then try PlayerCamoType[name]
+--plPartsName doubles for checks to which playertype supports the partstype.
+--if camoTypes is nil then tries PlayerCamoType[playerPartsName]
 
---plPartsName: fpk name from \chunk0_dat\Assets\tpp\pack\player\parts\
+--see InfPlayerParts for the partsFpk/Fv2 paths
+
 this.playerPartsTypesInfo={
-  {--0 -- uses set camo type
+  {--0 -- uses set camo type ---selected in ui for camo type: Standard
     name="NORMAL",
     description="Standard fatigues",
     playerParts=0,
@@ -130,11 +165,13 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_dd_male",
       DD_FEMALE="plparts_dd_female",
     },
+    --tex if nil then will just assume theres a single camo with the same id as partsTypeName
+    --DEBUGNOW am I actually using these for anything other than reference?
     camoTypes={
-      COMMON=true,
+      COMMON=true,--WORKAROUND: table filled out after common is defined in playerCamoTypesCommon
     },
   },
-  {--1--uses set camo type
+  {--1--uses set camo type --selected in ui for camo type: Scarf
     name="NORMAL_SCARF",
     description="Fatigues with scarf",
     playerParts=1,
@@ -158,11 +195,11 @@ this.playerPartsTypesInfo={
     },
     camoTypes={
       "SNEAKING_SUIT_GZ",
-    }
+    },
   },
-  {--3-- crash on avatar
+  {--3-- crash on avatar, probably because IsHeadNeededForPartsTypeAndAvatar has an extra return true for needHead for some reason
     name="HOSPITAL",
-    description="Hospital Prolog snake",
+    description="Hospital Prologue snake",
     playerParts=3,
     plPartsName={
       SNAKE="plparts_hospital",
@@ -181,7 +218,7 @@ this.playerPartsTypesInfo={
     },
     camoTypes={
       "SOLIDSNAKE",
-    }
+    },
   },
   {--5,--unlock
     name="NINJA",
@@ -207,7 +244,7 @@ this.playerPartsTypesInfo={
       DD_FEMALE="plparts_raiden",
     },
   },
-  {--7--uses set camo type?
+  {--7--uses set camo type? --selected in ui for camo type: Naked
     name="NAKED",
     description="Naked fatigues",
     playerParts=7,
@@ -266,7 +303,7 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_leather",
       AVATAR="plparts_leather",
     --DD_MALE=--no arm and eyes
-    }
+    },
   },
   {--12,--unlock
     name="GOLD",
@@ -276,8 +313,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_gold",
       AVATAR="plparts_gold", --gold body and normal avatar head, neat
-    --DD_MALE=--invis/hang model sys
-    --DD_FEMALE=--invis/hang model sys
     },
   },
   {--13,--unlock, when AVATAR, gold body and normal avatar head, neat
@@ -288,8 +323,6 @@ this.playerPartsTypesInfo={
     plPartsName={
       SNAKE="plparts_silver",
       AVATAR="plparts_silver", --gold body and normal avatar head, neat
-    --DD_MALE=--invis/hang model sys
-    --DD_FEMALE=--invis/hang model sys
     },
   },
   {--14
@@ -299,7 +332,7 @@ this.playerPartsTypesInfo={
       SNAKE="plparts_avatar_man",
     },
   },
-  --DLC TODO: find out pack names, find a have-this check
+  --DLC
   {--15
     name="MGS3",
     description="Fatigues (NS)",
@@ -344,7 +377,7 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_dld0_plym0_def_v00",
     },
   },
-  {--19
+  {--19 --selected in ui for Jumpsuit (EVA): Standard
     name="EVA_CLOSE",
     description="Jumpsuit (EVA)",
     playerParts=19,
@@ -353,7 +386,7 @@ this.playerPartsTypesInfo={
       DD_FEMALE="plparts_dle0_plyf0_def_v00",
     },
   },
-  {--20
+  {--20 --selected in ui for Jumpsuit (EVA) : Naked
     name="EVA_OPEN",
     description="Jumpsuit open (EVA)",
     playerParts=20,
@@ -362,16 +395,16 @@ this.playerPartsTypesInfo={
       DD_FEMALE="plparts_dle1_plyf0_def_v00",
     },
   },
-  {--21
+  {--21 --selected in ui for Sneaking Suit (TB) : Standard
     name="BOSS_CLOSE",
     description="Sneaking Suit (TB)",
     playerParts=21,
     developId=19085,
     plPartsName={
-      DD_FEMALE="plparts_dle0_plyf0_def_v00",--TODO: ASSUMPTION same model as eva just fova for different texture
+      DD_FEMALE="plparts_dlc0_plyf0_def_v00",
     },
   },
-  {--22
+  {--22 -selected in ui for Sneaking Suit (TB) : Naked
     name="BOSS_OPEN",
     description="Sneaking Suit open (TB)",
     playerParts=22,
@@ -453,6 +486,9 @@ this.playerPartsTypesInfo={
     },
   },
   {--26
+    --tex while exe does fill out other player types to be their defaults,
+    --it doesnt include the actual ocelot parts paths since it just returns them directly
+    --on playerType rather than using the playerPartsType[playerType] array
     name="OCELOT",
     description="Ocelot",
     playerParts=26,
@@ -460,11 +496,9 @@ this.playerPartsTypesInfo={
     plPartsName={
       OCELOT="plparts_ocelot",
     },
-    camoTypes={
-      "OCELOT",
-    },
   },
   {--27
+    --tex same deal as ocelot
     name="QUIET",
     description="Quiet",
     playerParts=27,
@@ -472,13 +506,10 @@ this.playerPartsTypesInfo={
     plPartsName={
       QUIET="plparts_quiet",
     },
-    camoTypes={
-      "QUIET",
-    },
   },
 
-  --tex following enum names are unknown, currently just named after what appears with vars.playerParts set to the numerical value
-  --24 onward>>
+  --tex following are actually playerParts overflow, currently just named after what appears with vars.playerParts set to the numerical value
+  --28 onward>>
   --appear to be the DD soldier, but most no head even when set to DD_MALE
   --changes depending on playerType
   --SNAKE,AVATAR show male versions (of those models that have them),
@@ -486,13 +517,13 @@ this.playerPartsTypesInfo={
   --DD_FEMALE crashes game
   --What on earth is the engine doing with these lol.
   --names aren't valid PlayerPartsType
-  {--24 no actual scarf, does not respond to vars.playerCamoType
+  {--28 no actual scarf, does not respond to vars.playerCamoType
     name="NORMAL2",
   },
-  {--25 no actual scarf, does not respond to vars.playerCamoType
+  {--29 no actual scarf, does not respond to vars.playerCamoType
     name="NORMAL_SCARF2",
   },
-  {--26 Shows snakes head reguardless of SNAKE or AVATAR
+  {--30 Shows snakes head reguardless of SNAKE or AVATAR
     name="SNEAKING_SUIT_BB",--tex own name
     description="Big Boss SV-Sneaking suit",--tex actual GZ Snake, not Venom in GZ suit
     playerParts=26,
@@ -527,10 +558,11 @@ this.playerPartsTypesInfo={
   {--no head, hand when
     name="LEATHER_JACKET2",
   },
---    35> invisible/hang model system
-}
+--    > invisible/hang model system
+}--playerPartsTypesInfo
 
---tex currently reference only
+
+--tex
 --info on plparts fpk / model id
 --searching for first section of modelid (ex sna1) will get more hits
 this.plPartsInfo={
@@ -578,7 +610,7 @@ this.plPartsInfo={
   plparts_dle1_plyf0_def_v00={modelId="dle1_plyf0"},
   plparts_ocelot={modelId="ooc0_main1"},
   plparts_quiet={modelId="quip_main0_def0"},
-}
+}--plPartsInfo
 
 --tex TODO: build reverse lookup table if nessesary
 
@@ -707,7 +739,11 @@ this.playerCamoTypes={
   "SWIMWEAR_H_C46",--,IRON BLUE
   "SWIMWEAR_H_C48",--,RED RUST
   "SWIMWEAR_H_C53",--114,MUD
-}--SYNC player2_camout_param
+
+  "OCELOT",--115,
+  "QUIET",--116,
+--"MAX",--255--sinces underlying variable is a byte
+}--playerCamoTypes--SYNC player2_camouf_param
 
 --tex camos that apply to partsType NORMAL,NORMAL_SCARF,NAKED
 this.playerCamoTypesCommon={
@@ -771,10 +807,23 @@ this.playerCamoTypesCommon={
   "C58",--76,BIRCH LEAF TWO-TONE
   "C59",--77,STONE TWO-TONE
   "C60",--78,KHAKI URBAN TWO-TONE
-}
+}--playerCamoTypesCommon
+
+--EXEC, WORKAROUND: alternate would just to be to shift this above playerPartsTypesInfo
+for i,playerPartsInfo in ipairs(this.playerPartsTypesInfo)do
+  if playerPartsInfo.camoTypes and playerPartsInfo.camoTypes.COMMON then
+    playerPartsInfo.camoTypes=this.playerCamoTypesCommon
+  end
+end
 
 --tex ASSUMPTION currently if no playerTypes, assume ALL
+--(or rather use playerPartsType to figure out what playerTypes allowed since there's more exceptions with SCARF and NAKED)
 --see 'Camo fovas' below for explanation of fovaCamoId
+--could be fancy and build the fpk and fv2 paths via the player parts modelName + fovaCamoId
+--but just going to explicitly put them out, which reflects the arrays LoadPlayerCammoFpk/Fv2 anyway
+--and is clearer for it I'm going to allow overloading/extending that
+--GOTCHA: playerParts that have no camo/variants still have a playerCamoType, but no actual camo fpk/fv2 returned
+--so don't use info.playerParts..<playerType>.fpk as a check, use .<playerType> itself (and check if table vs bool if actually using .<playerType> entry)
 this.playerCamoTypesInfo={
   {
     name="OLIVEDRAB",
@@ -912,11 +961,13 @@ this.playerCamoTypesInfo={
   {
     name="REALTREE", --OFF --does not set
     playerCamoType=11,
-  },
+  --exe NORMAL array entry is 0
+  },--REALTREE
   {
     name="INVISIBLE", --OFF --does not set
     playerCamoType=12,
-  },
+  --exe NORMAL array entry is 0
+  },--INVISIBLE
   {
     name="BLACK",
     description="Black Ocelot",
@@ -931,6 +982,9 @@ this.playerCamoTypesInfo={
   },
   --
   {
+  --DEBUGNOW exe has mystery unmatched hashes for (unique for) SNAKE/AVATAR, DD_MALE, DD_FEMALE
+  --is more weird because the other no-camo types (SNEAKING_SUIT_TPP for ex) just have value 0 in their camo path arrays
+  --see InfPlayerCamo
     name="SNEAKING_SUIT_GZ",
     description="SV-Sneaking suit (GZ)",
     playerCamoType=14,
@@ -942,7 +996,7 @@ this.playerCamoTypesInfo={
       SNAKE=true,
       AVATAR=true,
     }
-  },
+  },--SNEAKING_SUIT_GZ
   {
     name="SNEAKING_SUIT_TPP",
     description="Sneaking suit (TPP)",
@@ -955,7 +1009,7 @@ this.playerCamoTypesInfo={
       SNAKE=true,
       AVATAR=true,
     }
-  },
+  },--SNEAKING_SUIT_TPP
   {
     name="BATTLEDRESS",
     desciprion="Battle Dress",
@@ -1671,7 +1725,12 @@ this.playerCamoTypesInfo={
     },
   },
   ---------------------
-
+  --tex SNAKE/AVATAR exe entries are all default fatigues (as is the playerParts)
+  --even though it doesnt look up the table for swimwear
+  --"/Assets/tpp/pack/player/fova/plfova_sna0_main1_c00.fpk",--DEFAULT
+  --"/Assets/tpp/fova/chara/sna/sna0_main1_c00.fv2",--DEFAULT
+  --tex the actual fpk/fv2s seem to be the same between DD_MALE/DD_FEMALE
+  --and the same between SWIMWEAR,SWIMWEAR_H,SWIMWEAR_G
   {
     name="SWIMWEAR_C00",
     description="Olive Drab",
@@ -2152,7 +2211,7 @@ this.playerCamoTypesInfo={
     },
     playerTypes={
       OCELOT=true,
-    }
+    },
   },
   {
     name="QUIET",
@@ -2164,11 +2223,13 @@ this.playerCamoTypesInfo={
     },
     playerTypes={
       QUIET=true,
-    }
+    },
   },
-}
+}--playerCamoTypesInfo
 
 --REF Camo fovas
+--Just see InfPlayerCamo for the paths filled out
+
 --<id> == two digit fova common camo id (see playerCamoTypesInfo .fovaCamoId and plPartsInfo .modelId above)
 --swimsuits have their own ids
 --id can be cribbed from p08 in EquipDevelopConstSetting
@@ -2200,11 +2261,11 @@ this.playerCamoTypesInfo={
 
 
 --retail 1.10 swimwear camos
---in /0/00.dat /Assets/tpp/pack/player/fova
+--in /0/00.dat
+--/Assets/tpp/pack/player/fova
 --plfova_cmf0_main0_def_v<swimsuit camoId>.fpk/d
 --ex-plfova_cmf0_main0_def_v46.fpk
 --fova files \Assets\tpp\fova\chara\dlf\cmf0_main0_def_v<swimsuit camo id>.fv2
-
 
 --tex there doesn't seem to be any enum for this
 this.playerFaceEquipId={
@@ -2217,21 +2278,22 @@ this.playerFaceEquipId={
 }
 
 this.playerFaceEquipIdInfo={
-  {
+  {--0
     name="NONE",
     description="None",
     playerFaceEquipId=0,
   },
-  {
-    name="BANDANA",--1--snake,normal,scarf,naked,leather jacket
+  {--1
+    name="BANDANA",
     description="Bandana",
     playerFaceEquipId=1,
     playerTypes={
       [PlayerType.SNAKE]=true,
       [PlayerType.AVATAR]=true,
     },
+  --playerPartsTypes=normal,scarf,naked,leather jacket
   },
-  {
+  {--2
     name="INFINITY_BANDANA",
     description="Infinity Bandana",
     playerFaceEquipId=2,
@@ -2240,35 +2302,117 @@ this.playerFaceEquipIdInfo={
       [PlayerType.AVATAR]=true,
     },
   },
-  {
-    name="BALACLAVA",--normal,swimsuit
+  {--3
+    name="BALACLAVA",
     description="Balaclava",
     playerFaceEquipId=3,
     playerTypes={
       [PlayerType.DD_MALE]=true,
       [PlayerType.DD_FEMALE]=true,
     },
+  --playerPartsTypes=normal,swimsuit
   },
-  {
-    name="SP_HEADGEAR",--Blacktop,sneaking suits,battledress,swimsuit
+  {--4
+    name="SP_HEADGEAR",--Blacktop
     description="SP-Headgear",
     playerFaceEquipId=4,
     playerTypes={
       [PlayerType.DD_MALE]=true,
       [PlayerType.DD_FEMALE]=true,
     },
+  --playerPartsTypes=sneaking suits,battledress,swimsuit
   },
-  {
-    name="HP_HEADGEAR",--Greentop,sneaking suits,battledress
+  {--5
+    name="HP_HEADGEAR",--Greentop
     description="HP-Headgear",
     playerFaceEquipId=5,
     playerTypes={
       [PlayerType.DD_MALE]=true,
       [PlayerType.DD_FEMALE]=true,
     },
+  --playerPartsTypes=sneaking suits,battledress
   },
+}--playerFaceEquipIdInfo
+
+--tex from LoadPlayerSnakeFaceFpk,Fv2
+--indexed by playerFaceId, but bandanas (playerFaceEquipId 1,2) = playerFaceId + 3
+--TODO: figure out where playerFaceId chosen for snake
+--TODO: document GOLD,SILVER from LoadPlayerSnakeFaceFpk which is tied up in logic
+--face3 only used in \Assets\tpp\pack\mission2\story\s10280\s10280_d12.fpk
+this.snakeFaceInfo={
+  {--0
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face0_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face0_v00.fv2",
+  },
+  {--1
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face1_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face1_v00.fv2",
+  },
+  {--2
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face2_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face2_v00.fv2",
+  },
+  {--3
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face4_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face4_v00.fv2",
+  },
+  {--4
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face5_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face5_v00.fv2",
+  },
+  {--5
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_face6_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_face6_v00.fv2",
+  },
+}--snakeFaceInfo
+
+--tex TODO mockfox doesnt dump the enum complete? only NONE,NORMAL, the enum is actually complete though so this is currently only for REF
+this.PlayerHandType={
+  "NONE",--0
+  "NORMAL",--1
+  "STUN_ARM",--2
+  "JEHUTY",--3
+  "STUN_ROCKET",--4
+  "KILL_ROCKET",--5
+  "GOLD",--6
+  "SILVER",--7
 }
 
+--tex from exe LoadPlayerBionicArm*, driven by vars.playerHandType
+this.playerHandTypes={
+  {--0--NONE
+    fpk=0,
+    fv2=0,
+  },
+  {--1--NORMAL
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm0_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm0_v00.fv2",
+  },
+  {--2--STUN_ARM
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm3_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm3_v00.fv2",
+  },
+  {--3--JEHUTY
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm4_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm4_v00.fv2",
+  },
+  {--4--STUN_ROCKET
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm2_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm2_v00.fv2",
+  },
+  {--5--KILL_ROCKET
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm1_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm1_v00.fv2",
+  },
+  {--6--GOLD
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm6_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm6_v00.fv2",
+  },
+  {--7--SILVER
+    fpk="/Assets/tpp/pack/player/fova/plfova_sna0_arm7_v00.fpk",
+    fv2="/Assets/tpp/fova/chara/sna/sna0_arm7_v00.fv2",
+  },
+}--playerHandTypes
 
 --tex mostly for IH ivars to differentiate some features
 this.playerTypeGroup={
@@ -2338,7 +2482,6 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
   return playerPartsTypes
 end
 
-
 function this.GetCamoTypes(partsTypeName)
   local InfFova=this
   local partsType=InfFova.PlayerPartsType[partsTypeName]
@@ -2362,7 +2505,7 @@ function this.GetCamoTypes(partsTypeName)
     return
   end
 
-  local playerCamoTypes={}
+  local playerCamoTypes=partsTypeInfo.camoTypes or {}
 
   if partsTypeInfo.camoTypes==nil then
     local camoType=PlayerCamoType[partsTypeName]
@@ -2370,15 +2513,6 @@ function this.GetCamoTypes(partsTypeName)
       table.insert(playerCamoTypes,partsTypeName)
     else
       InfCore.Log("WARNING: PlayerCamoType nil for "..partsTypeName)--DEBUG
-      table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
-    end
-  else
-    if partsTypeInfo.camoTypes.COMMON then
-      playerCamoTypes=InfFova.playerCamoTypesCommon
-    elseif partsTypeInfo.camoTypes[1] then--tex ASSUMPTION list of camotype names
-      playerCamoTypes=partsTypeInfo.camoTypes
-    else
-      InfCore.Log("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   end

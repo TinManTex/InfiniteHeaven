@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppVarInit.lua
+-- tex TODO: apart from flow logging (which could be handled by hooking), only really doing a manual StartTitle hook, which could also be done via InfHooks
 local this={}
 --ORPHAN local IsTypeFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
@@ -203,6 +204,7 @@ function this.InitializeOnNewGame()
   this.InitializeAllPlatformForNewGame()
 end
 function this.InitializeForNewMission(missionTable)
+  InfCore.LogFlow"TppVarInit.InitializeForNewMission"--tex
   TppSave.VarRestoreOnMissionStart()
   TppStory.DisableMissionNewOpenFlag(vars.missionCode)
   TppClock.RestoreMissionStartClock()

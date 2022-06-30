@@ -3,6 +3,7 @@
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 --tex the state of the antiairradar gimmicks controls whether the assaultLz is available
+--TODO DYNAMIC ADDON add mission addon support you'll also have to change how you go about adding the InfProgression.ivarsPersist / dataSetPath32ToAacr
 this.aacrGimmickInfo={--tex was local
   cliffTown_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/afgh/block_large/cliffTown/afgh_cliffTown_gimmick.fox2"},
   commFacility_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/afgh/block_large/commFacility/afgh_commFacility_asset.fox2"},
@@ -21,7 +22,7 @@ this.aacrGimmickInfo={--tex was local
   pfCamp_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/mafr/block_large/pfCamp/mafr_pfCamp_gimmick.fox2"},
   savannah_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/mafr/block_large/savannah/mafr_savannah_gimmick.fox2"},
   swamp_aacr001={type=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,locatorName="afgh_antn006_gim_n0000|srt_afgh_antn006",dataSetName="/Assets/tpp/level/location/mafr/block_large/swamp/mafr_swamp_gimmick.fox2"}
-}
+}--aacrGimmickInfo
 --tex as nasanhak points out some of these var names are misleading
 --aprLandingZoneName is the lz name (TppLandingZoneData entity name), which uses approach route by default,
 --drpLandingZoneName is the drop route (fancy route from mission start) for the same lz
@@ -300,7 +301,7 @@ function this.IsAssaultDropLandingZone(heliRouteS32)
   local drpLz=mvars.ldz_assaultDropLandingZoneTable[heliRouteS32]
   return drpLz
 end
---IsAACRGimmickBroken
+--is really IsAACRGimmickBroken
 function this.IsBrokenGimmick(gimmickId)
   local gimmickInfo=this.aacrGimmickInfo[gimmickId]
   if gimmickInfo==nil then
