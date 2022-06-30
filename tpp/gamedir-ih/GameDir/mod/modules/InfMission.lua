@@ -1654,4 +1654,27 @@ function this.GetMissionCodes()
   }
 end
 
+--tex HOOK OVERRIDE: this is kjp records server stuff, so bypassing this for non vanilla missionCodes
+--even though it's likely to just return RankingBordId.NONE for any non vanilla missions anyway, might as well be (beleatedly) thorough
+--SYNC TppRanking.RegistMissionClearRankingResult
+function this.RegistMissionClearRankingResult(usedRankLimitedItem,missionCode,totalScore)
+  --tex>
+  if this.vanillaMissions[missionCode] then
+    return
+  end
+  --<
+  local missionBoardId
+  if usedRankLimitedItem then
+    missionBoardId=RecordRanking.GetMissionLimitBordId(missionCode)
+  else
+    missionBoardId=RecordRanking.GetMissionBordId(missionCode)
+  end
+  if missionBoardId==RankingBordId.NONE then
+    return
+  end
+  mvars.rnk_missionClearRankingResult={missionBoardId,totalScore}
+end
+TppRanking.RegistMissionClearRankingResult=this.RegistMissionClearRankingResult--tex doing it here rather than in TppRanking since TppRanking has no other edits/I'm not adding it at this late stage till I see if any other mods use it
+
+
 return this
