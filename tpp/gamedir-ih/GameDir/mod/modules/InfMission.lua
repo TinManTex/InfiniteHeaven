@@ -1014,17 +1014,24 @@ end--RemoveInvalidTasks
 
 --tex mission state gvar names
 --pretty much all gvars that are indexed by MISSION_COUNT_MAX
---REF TODO
---{name="res_bestRank",type=TppScriptVars.TYPE_UINT8,arraySize=TppDefine.MISSION_COUNT_MAX,value=(TppDefine.MISSION_CLEAR_RANK.E+1),save=true,category=TppScriptVars.CATEGORY_MISSION},
---{name="ui_isTaskLastComleted",arraySize=TppDefine.MISSION_COUNT_MAX*TppDefine.MAX_MISSION_TASK_COUNT,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},--tex was arraySize=#TppDefine.MISSION_LIST*TppDefine.MAX_MISSION_TASK_COUNT   
---{name="rnk_missionBestScore",type=TppScriptVars.TYPE_UINT32,value=0,arraySize=TppDefine.MISSION_COUNT_MAX,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
---{name="rnk_missionBestScoreUsedLimitEquip",type=TppScriptVars.TYPE_UINT32,value=0,arraySize=TppDefine.MISSION_COUNT_MAX,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
 local gvarFlagNames={
   --TppStory
   "str_missionOpenPermission",--PermitMissionOpen
   "str_missionOpenFlag",--SetMissionOpenFlag
   "str_missionNewOpenFlag",--SetMissionNewOpenFlag
   "str_missionClearedFlag",--UpdateMissionCleardFlag
+  "res_bestRank",--see TppResult.SetBestRank,GetBestRank
+  "rnk_missionBestScore",--tex should be cautious with rnk_ stuff since its kjp server rank records stuff, in the case of these gvars see RegistMissionClearRankingResult
+  "rnk_missionBestScoreUsedLimitEquip",
+}
+--REF
+--{name="ui_isTaskLastComleted",arraySize=TppDefine.MISSION_COUNT_MAX*TppDefine.MAX_MISSION_TASK_COUNT,type=TppScriptVars.TYPE_BOOL --tex handled seperatly due to the 2d>1d indexing 
+--tex could look up TppGvars.DeclareGVarsTable value, but would have to iterate whole table since its not keyed
+--Assuming bool/false if type not given
+local gvarFlagDefaults={
+  res_bestRank=TppDefine.MISSION_CLEAR_RANK.E+1,
+  rnk_missionBestScore=0,
+  rnk_missionBestScoreUsedLimitEquip=0,
 }
 
 --CALLER: TppStory.UpdateStorySequence
@@ -1034,13 +1041,13 @@ function this.SetupAddonStateGVars()
 
   --DEBUGNOW limit to only run once
 
-  this.RemoveInvalidTasks()--FIXUP ui_isTaskLastComleted
+
 
   --tex clear gvars for mission slots being used for addon missions (see RegisterMissions missionListSlotIndices) first so its ok if user uninstalls mission
   for i,missionListIndex in ipairs(this.missionListSlotIndices)do
     --InfCore.Log("Clearing "..missionListIndex)
     for i, name in ipairs(gvarFlagNames)do
-      gvars[name][missionListIndex]=false
+      gvars[name][missionListIndex]=gvarFlagDefaults[name] or false
     end
 
     for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
@@ -1053,8 +1060,8 @@ function this.SetupAddonStateGVars()
     end
   end
 
-  this.ReadSaveStates()
-
+  this.ReadSaveStates()  
+  
   local ih_states=ih_mission_states
   for missionCode,missionInfo in pairs(this.missionInfo)do  
     --tex open missions. TODO: story progress support
@@ -1071,7 +1078,9 @@ function this.SetupAddonStateGVars()
         TppStory.SetMissionNewOpenFlag(missionCode,true)
       end
     end
-  end--for missionInfo
+  end--for missionInfo  
+  
+  this.RemoveInvalidTasks()--FIXUP ui_isTaskLastComleted
 end--SetupAddonStateGVars
 
 --saving/loading addon mission gvars that need to be juggled since they are reusing mission slots
@@ -1097,17 +1106,24 @@ function this.Save(newSave)
     if this.debugSave then
       InfCore.Log("missionStates isDirty")
     end
+--CULL
+--    local saveTextList={
+--      "-- "..this.saveName,
+--      "-- save states for addon missions.",
+--      "local this={}",
+--    }
+--    for name,state in pairs(ih_states)do
+--      IvarProc.BuildTableText(name,state,saveTextList)
+--    end
+--
+--    saveTextList[#saveTextList+1]="return this"
 
     local saveTextList={
       "-- "..this.saveName,
       "-- save states for addon missions.",
-      "local this={}",
+      "local this="..InfInspect.Inspect(ih_states),
+      "return this"
     }
-    for name,state in pairs(ih_states)do
-      IvarProc.BuildTableText(name,state,saveTextList)
-    end
-
-    saveTextList[#saveTextList+1]="return this"
     IvarProc.WriteSave(saveTextList,this.saveName)
   end
 
@@ -1192,9 +1208,16 @@ function this.ReadSaveStates()
       else
         InfCore.Log("InfMission.ReadSaveStates: Setting state gvars for "..name.." missionIndex:"..missionIndex)
         for i,gvarFlagName in ipairs(gvarFlagNames)do
-          gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or false
+          gvars[gvarFlagName][missionIndex]=state[gvarFlagName] or gvarFlagDefaults[gvarFlagName] or false
         end
-      end
+        
+        if state.ui_isTaskLastComleted then
+          for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+            local missionTaskIndex=missionIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+            --DEBUGNOW gvars.ui_isTaskLastComleted[missionTaskIndex]=state.ui_isTaskLastComleted[taskIndex+1]
+          end
+        end--if ui_isTaskLastComleted
+      end--if missionIndex
     end--if missionInfo
   end--for ih_states
 
@@ -1227,6 +1250,12 @@ function this.GetCurrentStates()
           isSaveDirty=true
           states[gvarFlagName]=gvarValue
         end
+      end
+      
+      states.ui_isTaskLastComleted=states.ui_isTaskLastComleted or {}
+      for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
+        local missionTaskIndex=missionIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
+        states.ui_isTaskLastComleted[taskIndex+1]=gvars.ui_isTaskLastComleted[missionTaskIndex]
       end
 
       ih_states[name]=states
