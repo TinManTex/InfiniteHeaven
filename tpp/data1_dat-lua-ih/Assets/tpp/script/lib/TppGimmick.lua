@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 -- TppGimmick.lua
---tex TODO: if you pull this into the build then integrate workaround in InfQuest.OnActivateQuest
+--tex TODO: if you pull this into the build then integrate workaround in InfQuest.OnActivateQuest --tex uhh, what?
 local this={}
 local StrCode32=Fox.StrCode32
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -453,17 +453,17 @@ function this.SetUpIdentifierTable(identifierTable)
     local locatorIdentifiers=gimmicksOfType[StrCode32(locatorName)]
     locatorIdentifiers[Fox.PathFileNameCode32(dataSetName)]=identifier
   end
-  
+
   --STRUCTURE
---   mvars.gim_identifierTable={
---    [gimmick game object type index / gimmickInfo.type]={
---      [StrCode32(locatorName)]={
---        Fox.PathFileNameCode32(dataSetName)]=identifier,
---        ..
---      },
---      ...
---    },
---   }
+  --   mvars.gim_identifierTable={
+  --    [gimmick game object type index / gimmickInfo.type]={
+  --      [StrCode32(locatorName)]={
+  --        Fox.PathFileNameCode32(dataSetName)]=identifier,
+  --        ..
+  --      },
+  --      ...
+  --    },
+  --   }
 end
 --afgh_gimmick.gimmickBreakConnectTable / mafr_...
 --REF {swamp_antn001 = "swamp_mchn001",...}
@@ -988,16 +988,17 @@ function this.SetQuestInvisibleGimmick(questMarkSetIndex,setInvisible,skipCheck)
     end
   end
 end
---TYPO: Sooting. 
+--TYPO: Sooting.
 --GOTCHA: invincible not invisible
 --GOTCHA: hardcoded instance name
+--tex REWORKED
 function this.SetQuestSootingTargetInvincible(setInvincible)
   InfCore.LogFlow"TppGimmick.SetQuestSootingTargetInvincible"
   if mvars.gim_questTargetList and mvars.gim_questTargetList[1] then
     local instanceName=mvars.gim_permanentGimmickName or "mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev"
     local dataSetName=mvars.gim_questTargetList[1].dataSetName
     Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,instanceName,dataSetName,setInvincible)
-end
+  end
 end--SetQuestSootingTargetInvincible
 --ORIG
 --function this.SetQuestSootingTargetInvincible(setInvincible)
