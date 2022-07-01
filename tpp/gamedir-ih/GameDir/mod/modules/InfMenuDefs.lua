@@ -61,6 +61,7 @@ this.systemMenu={
     --"Ivars.langOverride",
     "Ivars.loadAddonMission",
     "Ivars.ihMissionsPercentageCount",
+    "InfAutoDoc.RunAutoDoc",
     "InfMenuCommands.ResetAllSettingsItem",
   },
 }

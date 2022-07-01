@@ -304,40 +304,40 @@ function this.AutoDoc(outputFolder,profilesFolder,FeaturesHeader,featuresOutputN
   InfCore.Log("FeaturesHeader:")
   for i,section in pairs(FeaturesHeader)do
     if section.title then
-    table.insert(textTable,section.title)
-    local underLineLength=string.len(section.title)
-    local underLine=CharacterLine("=",underLineLength)
-    table.insert(textTable,underLine)
-    table.insert(textTable,"")
-
-    table.insert(htmlTable,[[<div id="menu">]])
-    table.insert(htmlTable,string.format([[<div id="menuTitle">%s</div>]],section.title))
-    for i,line in ipairs(section)do
-      if type(line)=="table" then
-        if line.link then
-          table.insert(textTable,line[1])
-          table.insert(textTable,"[url="..line.link.."]"..line.link.."[/url]")
-
-          table.insert(htmlTable,string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]))
-        elseif line.featureDescription then
-          table.insert(textTable,string.format(line.featureDescription))
-          table.insert(textTable,string.format(line.featureHelp))
-
-          table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],EscapeHtml(line.featureDescription)))
-          table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],EscapeHtml(line.featureHelp)))
-        end
-      else
-        table.insert(textTable,line)
-
-        line=EscapeHtml(line)
-        table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],line))
-      end
+      table.insert(textTable,section.title)
+      local underLineLength=string.len(section.title)
+      local underLine=CharacterLine("=",underLineLength)
+      table.insert(textTable,underLine)
       table.insert(textTable,"")
+  
+      table.insert(htmlTable,[[<div id="menu">]])
+      table.insert(htmlTable,string.format([[<div id="menuTitle">%s</div>]],section.title))
+      for i,line in ipairs(section)do
+        if type(line)=="table" then
+          if line.link then
+            table.insert(textTable,line[1])
+            table.insert(textTable,"[url="..line.link.."]"..line.link.."[/url]")
+  
+            table.insert(htmlTable,string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]))
+          elseif line.featureDescription then
+            table.insert(textTable,string.format(line.featureDescription))
+            table.insert(textTable,string.format(line.featureHelp))
+  
+            table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],EscapeHtml(line.featureDescription)))
+            table.insert(htmlTable,string.format([[<div id="itemHelp">%s</div>]],EscapeHtml(line.featureHelp)))
+          end
+        else
+          table.insert(textTable,line)
+  
+          line=EscapeHtml(line)
+          table.insert(htmlTable,string.format([[<div id="menuItem">%s</div>]],line))
+        end
+        table.insert(textTable,"")
+      end
+  
+      table.insert(htmlTable,[[</div>]])
+      table.insert(htmlTable,"<br/>")
     end
-
-    table.insert(htmlTable,[[</div>]])
-    table.insert(htmlTable,"<br/>")
-  end
   end
 
   --  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
@@ -458,7 +458,7 @@ function this.AutoDoc(outputFolder,profilesFolder,FeaturesHeader,featuresOutputN
   textFile:close()
   htmlFile:close()
   profileFile:close()
-
+  
   InfCore.Log"--autodoc done--"
 end--AutoDoc
 
