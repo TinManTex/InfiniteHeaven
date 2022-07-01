@@ -1,3 +1,4 @@
+--tex used for AutoDoc to create Features and Options documents
 local this={
   {
     title="Infinite Heaven features",
