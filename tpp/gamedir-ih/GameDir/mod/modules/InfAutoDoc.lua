@@ -1,7 +1,15 @@
 -- DOBUILD: 0
 -- InfAutoDoc.lua
 -- Builds the features documentation by iterating Infinite Heavens menu modules
--- See the main function AutoDoc, the last function
+-- See the main function AutoDoc
+-- TODO: list autoDoc vars on ivars/menus
+--overrides useful for stuff that gets set dynamically
+-- ivars:
+--TODO: implement
+-- autoDoc={
+--  description="",--override
+--  settingNames={}--override
+--  }
 local this={}
 
 --LOCALOPT
@@ -364,26 +372,6 @@ function this.AutoDoc(outputFolder,profilesFolder,FeaturesHeader,featuresOutputN
 
   table.insert(profileTable,"\tprofile={")
 
-  --patchup TODO remove any dependancies in Ivars, check these
-  --tex TODO provide more descriptive lists?
-  --Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
-  --DEBUGNOW
-  if not isMockFox and gameId=="tpp" then
-    Ivars.fovaSelection.description="<Character model description>"
-    Ivars.fovaSelection.settingNames={"<Fova selection>"}
-    Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
-    Ivars.playerFaceEquipId.settingNames={"<Headgear for DD type>"}
-    Ivars.playerPartsType.settingNames={"<Suits for player type>"}
-    Ivars.playerCamoType.settings={"<Camos for player type>"}
-    Ivars.selectProfile.settingNames={"<Profile name>"}
-    Ivars.faceFovaDirect.GetSettingText=nil
-    Ivars.faceDecoFovaDirect.GetSettingText=nil
-    Ivars.hairFovaDirect.GetSettingText=nil
-    Ivars.hairDecoFovaDirect.GetSettingText=nil
-    Ivars.playerFaceId.GetSettingText=nil
-    Ivars.playerFaceId.settingNames={"<Face Id for player type and face filter>"}
-  end
-
   local menu=InfMenuDefs.safeSpaceMenu.options
   local skipItems=true
   local safeSpaceMenus={}
@@ -466,8 +454,9 @@ end--AutoDoc
 function this.RunAutoDoc()
   InfCore.Log("RunAutoDoc start",true,true)
   
-  local profilesFolder=InfCore.gamePath..InfCore.modSubPath.."/profiles/"
   local docsFolder=InfCore.gamePath..InfCore.modSubPath.."/docs/Infinite Heaven/"
+  local profilesFolder=InfCore.gamePath..InfCore.modSubPath.."/profiles/"
+
   local featuresOutputName="Features and Options"
 
   local FeaturesHeaderChunk=LoadFile(docsFolder.."FeaturesHeader.lua")
@@ -475,7 +464,7 @@ function this.RunAutoDoc()
   
   --InfCore.PrintInspect(FeaturesHeader,"FeaturesHeader dump")--DEBUG
 
-  this.AutoDoc(profilesFolder,docsFolder,FeaturesHeader,featuresOutputName)
+  this.AutoDoc(docsFolder,profilesFolder,FeaturesHeader,featuresOutputName)
   InfCore.Log("RunAutoDoc done",true,true)
 end
 
