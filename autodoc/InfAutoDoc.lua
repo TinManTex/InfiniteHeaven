@@ -48,7 +48,7 @@ local function GetSettingText(option)
       --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
       for i,settingName in ipairs(settingNames)do
         if type(settingName)~="string" then
-          print("WARNING: type settingName ~= string for option "..tostring(option.name))
+          InfCore.Log("WARNING: type settingName ~= string for option "..tostring(option.name))
         else
         settingText=settingText..settingName..", "
         end
@@ -66,7 +66,7 @@ local function GetSettingText(option)
     end
   elseif IsFunc(option.GetSettingText) then
     if option:GetSettingText(0)==nil then
-      print("option:GetSettingText(0)==nil for "..option.name)--DEBUG
+      InfCore.Log("option:GetSettingText(0)==nil for "..option.name)--DEBUG
       settingText="nil"
     else
       settingText=tostring(option:GetSettingText(0))
@@ -96,11 +96,11 @@ local function GetSettingText(option)
 end
 
 local function GatherMenus(currentMenu,skipItems,menus,menuNames)
-  --print("GatherMenus:")
+  --InfCore.Log("GatherMenus:")
   for i,itemRef in ipairs(currentMenu)do
     local item=InfMenu.GetOptionFromRef(itemRef)
     if item==nil then
-      print("WARNING: InfAutoDoc.GatherMenus: item==nil for itemRef: "..tostring(itemRef))
+      InfCore.Log("WARNING: InfAutoDoc.GatherMenus: item==nil for itemRef: "..tostring(itemRef))
     else
       if skipItems and skipItemsList[item.name] then
       else
@@ -124,7 +124,7 @@ local function IsForProfileAutoDoc(item,currentMenu,priorMenus,priorItems)
   end
 
   if item==nil then
-    print("WARNING: InfAutoDoc.IsForProfileAutoDoc: item==nil")
+    InfCore.Log("WARNING: InfAutoDoc.IsForProfileAutoDoc: item==nil")
     return false
   end
 
@@ -186,16 +186,16 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     table.insert(htmlTable,[[<div id="menuItem">]])
 
     if item==nil then
-      print("WARNING: InfAutoDoc.PrintMenuSingle: item==nil for itemRef:"..tostring(itemRef))
+      InfCore.Log("WARNING: InfAutoDoc.PrintMenuSingle: item==nil for itemRef:"..tostring(itemRef))
     else
 
       if skipItems and skipItemsList[item.name] then
 
       else
         --DEBUG
-        --      print("name:"..item.name)
-        --      print("desc:"..tostring(item.description))
-        --      print("langstr:"..tostring(InfLangProc.LangString(item.name)))
+        --      InfCore.Log("name:"..item.name)
+        --      InfCore.Log("desc:"..tostring(item.description))
+        --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name)))
         local settingDescription=item.description or InfLangProc.LangString(item.name)
         local indexDisplayLine=i..": "
 
@@ -285,8 +285,8 @@ local function EscapeHtml(line)
   return line
 end
 
-function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputName)
-  print("AutoDoc:")
+function this.AutoDoc(outputFolder,profilesFolder,FeaturesHeader,featuresOutputName)
+  InfCore.Log("AutoDoc:")
 
   local textTable={}
   local htmlTable={}
@@ -301,8 +301,9 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
   table.insert(htmlTable,"</head>")
   table.insert(htmlTable,"<body>")
 
-  print("FeaturesHeader:")
+  InfCore.Log("FeaturesHeader:")
   for i,section in pairs(FeaturesHeader)do
+    if section.title then
     table.insert(textTable,section.title)
     local underLineLength=string.len(section.title)
     local underLine=CharacterLine("=",underLineLength)
@@ -337,6 +338,7 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
     table.insert(htmlTable,[[</div>]])
     table.insert(htmlTable,"<br/>")
   end
+  end
 
   --  local headerFilePath=projectFolder.."!modlua\\InfProfiles\\ProfilesHeader.txt"
   --  local headerFile=io.open(headerFilePath)
@@ -366,7 +368,7 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
   --tex TODO provide more descriptive lists?
   --Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   --DEBUGNOW
-  if gameId=="tpp" then
+  if not isMockFox and gameId=="tpp" then
     Ivars.fovaSelection.description="<Character model description>"
     Ivars.fovaSelection.settingNames={"<Fova selection>"}
     Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
@@ -387,14 +389,14 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
   local safeSpaceMenus={}
   local safeSpaceMenuNames={}
 
-  print("GatherMenus safeSpace:")
+  InfCore.Log("GatherMenus safeSpace:")
   GatherMenus(menu,skipItems,safeSpaceMenus,safeSpaceMenuNames)
   --InfCore.PrintInspect(safeSpaceMenus)
   table.insert(safeSpaceMenus,1,InfMenuDefs.safeSpaceMenu)
 
   local priorItems={}
 
-  print("PrintMenuSingle safeSpace:")
+  InfCore.Log("PrintMenuSingle safeSpace:")
   local menuCount=1
   for i,menu in ipairs(safeSpaceMenus)do
     PrintMenuSingle(nil,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
@@ -404,14 +406,14 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
 
   table.insert(textTable,"===============")
   table.insert(textTable,"")
-  print("GatherMenus inMissionMenu:")
+  InfCore.Log("GatherMenus inMissionMenu:")
   menu=InfMenuDefs.inMissionMenu.options
   local inMissionMenus={}
   local inMissionMenuNames={}
   GatherMenus(menu,skipItems,inMissionMenus,inMissionMenuNames)
   table.insert(inMissionMenus,1,InfMenuDefs.inMissionMenu)
   --InfCore.PrintInspect(inMissionMenus)
-  print("PrintMenuSingle inMissionMenus:")
+  InfCore.Log("PrintMenuSingle inMissionMenus:")
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
     PrintMenuSingle(safeSpaceMenus,menu,priorItems,skipItems,menuCount,textTable,htmlTable,profileTable)
@@ -436,35 +438,56 @@ function this.AutoDoc(projectFolder,outputFolder,FeaturesHeader,featuresOutputNa
   table.insert(profileTable,"")
   table.insert(profileTable,"return this")
 
-  print("Writing output:")
+  InfCore.Log("Writing output:")
   local textFilePath=outputFolder..featuresOutputName..".txt"
-  print("io.open: "..textFilePath)
+  InfCore.Log("io.open: "..textFilePath)
   local textFile=io.open(textFilePath,"w")
 
   local htmlFilePath=outputFolder..featuresOutputName..".html"
-  print("io.open: "..htmlFilePath)
+  InfCore.Log("io.open: "..htmlFilePath)
   local htmlFile=io.open(htmlFilePath,"w")
 
-  local profileFilePath=projectFolder.."mod-gamedir\\profiles\\All_Options_Example.lua"
-  print("io.open: "..profileFilePath)
+  local profileFilePath=profilesFolder.."All_Options_Example.lua"
+  InfCore.Log("io.open: "..profileFilePath)
   local profileFile=io.open(profileFilePath,"w")
-
-  local profileFilePath=projectFolder.."mod-gamedir-release\\profiles\\All_Options_Example.lua"
-  print("io.open: "..profileFilePath)
-  --DEBGUNOW local profileFileRelease=io.open(profileFilePath,"w")
 
   textFile:write(table.concat(textTable,nl))
   htmlFile:write(table.concat(htmlTable,nl))
   profileFile:write(table.concat(profileTable,nl))
-  --DEBGUNOW profileFileRelease:write(table.concat(profileTable,nl))
-
 
   textFile:close()
   htmlFile:close()
   profileFile:close()
-  --DEBGUNOW profileFileRelease:close()
 
-  print"--autodoc done--"
+  InfCore.Log"--autodoc done--"
 end--AutoDoc
+
+--tex in InfMenuDefs.systemMenu
+function this.RunAutoDoc()
+  InfCore.Log("RunAutoDoc start",true,true)
+  
+  local profilesFolder=InfCore.gamePath..InfCore.modSubPath.."/profiles/"
+  local docsFolder=InfCore.gamePath..InfCore.modSubPath.."/docs/Infinite Heaven/"
+  local featuresOutputName="Features and Options"
+
+  local FeaturesHeaderChunk=LoadFile(docsFolder.."FeaturesHeader.lua")
+  local FeaturesHeader=FeaturesHeaderChunk()
+  
+  --InfCore.PrintInspect(FeaturesHeader,"FeaturesHeader dump")--DEBUG
+
+  this.AutoDoc(profilesFolder,docsFolder,FeaturesHeader,featuresOutputName)
+  InfCore.Log("RunAutoDoc done",true,true)
+end
+
+this.langStrings={
+  eng={
+    runAutoDoc="Run AutoDoc",
+  },
+  help={
+    eng={
+      runAutoDoc="AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files.",
+    },
+  },
+}--langStrings
 
 return this
