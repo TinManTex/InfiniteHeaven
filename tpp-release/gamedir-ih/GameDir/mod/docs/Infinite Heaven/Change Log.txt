@@ -1,6 +1,15 @@
 Infinite Heaven changelog
 
-r258 - 
+r258 - 2022-07-01
+InfMission: Mission Addons completion, tasks, best rankings support, saved to mod\saves\ih_mission_states.lua
+
+Invalid mission task save data clearing improved - thanks cap.
+
+InfMissionQuest: 
+Side ops in missions menu
+enableMissionQuest="Enable side ops in missions" - "Enable side ops in missions using a hand-picked selection of side ops in specific story missions."
+- thanks cap
+
 InfBodyInfo / custom enemy soldier addon system:
 Added support for bodyIdTable ala TppEnemy. Currently just a single entry rather than multiple soldierSubTypes like TppEnemy.
 
@@ -10,7 +19,7 @@ changeCpTypeMISSION,FREE,MB_ALL="Force CP type in *",
 "Default","Soviet","American","Afrikaans"}
 "Changes Command Post Type, which controls the language spoken by CP and HQ. 
 WARNING: Will break subtitles. 
-WARNING: some CP types don't have responses for certain soldier call-ins for different languages.",
+WARNING: some CP types don't have responses for certain soldier call-ins for different languages."
 
 Thanks Wolbacia, Your401kPlan for poking away making bodyInfo addons and other soldier replacements leading to these improvments.
 

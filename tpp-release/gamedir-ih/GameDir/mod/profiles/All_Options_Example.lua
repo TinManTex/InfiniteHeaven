@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r256
+-- Defaults / example of all profile options for IH r258
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -73,11 +73,17 @@ local this={
 		mbDemoOverrideWeather=0,--{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather
 		--Debug menu
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
+		--characterDebugMenu
+		playerFaceIdDirect=0,--{ 0-730 } -- 
 		--Enemy Prep menu
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
 		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode
 		revengeModeMB_ALL=0,--{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode
-		customSoldierTypeFREE=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED } -- Custom soldier type in Free roam
+		customSoldierTypeFREE=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- Custom soldier type in Free roam
+		customSoldierTypeMISSION=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- Custom soldier type in Missions
+		changeCpTypeFREE=0,--{ DEFAULT, TYPE_SOVIET, TYPE_AMERICA, TYPE_AFRIKAANS } -- Force CP type in Free Roam
+		changeCpTypeMISSION=0,--{ DEFAULT, TYPE_SOVIET, TYPE_AMERICA, TYPE_AFRIKAANS } -- Force CP type in Missions
+		changeCpTypeMB_ALL=0,--{ DEFAULT, TYPE_SOVIET, TYPE_AMERICA, TYPE_AFRIKAANS } -- Force CP type in MB
 		changeCpSubTypeFREE=0,--{ 0-1 } -- Random CP subtype in free roam
 		changeCpSubTypeMISSION=0,--{ 0-1 } -- Random CP subtype in missions
 		enableInfInterrogation=0,--{ 0-1 } -- IH interrogation in free roam
@@ -194,10 +200,13 @@ local this={
 		disableReinforceHeliPullOut=0,--{ 0-1 } -- Disable reinforce heli pull-out
 		enableSoldiersWithVehicleReinforce=0,--{ 0-1 } -- Soldier reinforce with all vehicle reinforce types
 		--Events menu
-		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
 		gameevent_chanceHUNTED=0,--{ 0-100 } -- Hunted event chance (percentage)
 		gameevent_chanceCRASHLAND=0,--{ 0-100 } -- Crashland event chance (percentage)
 		gameevent_chanceLOST_COMS=0,--{ 0-100 } -- Lost Coms event chance (percentage)
+		gameevent_chanceTRAINING=0,--{ 0-100 } -- DD Training wargame event chance (percentage)
+		gameevent_chanceINVASION=0,--{ 0-100 } -- Invasion event chance (percentage)
+		gameevent_chanceZOMBIE_DD=0,--{ 0-100 } -- DD Infection event chance (percentage)
+		gameevent_chanceZOMBIE_OBLITERATION=0,--{ 0-100 } -- Zombie Obliteration event chance (percentage)
 		--Skulls event menu
 		parasite_enableEventFREE=0,--{ 0-1 } -- Enable Skull attacks in Free roam
 		parasite_enabledARMOR=1,--{ 0-1 } -- Allow armor skulls
@@ -272,7 +281,7 @@ local this={
 		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMB_ALL=0,--{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for MB
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
-		customSoldierTypeMB_ALL=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED } -- DD Suit
+		customSoldierTypeMB_ALL=0,--{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER } -- DD Suit
 		customSoldierTypeFemaleMB_ALL=0,--{ OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		supportHeliPatrolsMB=0,--{ 0-3 } -- NPC support heli patrols in MB
@@ -382,6 +391,7 @@ local this={
 		hero_heroPointsSubstractOgrePoints=0,--{ 0-1 } -- Hero points subtract demon points
 		--Progression menu
 		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
+		repopAARadars=0,--{ 0-100 } -- Repopulate AA Radars
 		--Resource scale menu
 		enableResourceScale=0,--{ 0-1 } -- Enable resource amount scales
 		resourceScaleMaterial=100,--{ 10-1000 } -- Material case scale (percentage)
@@ -420,6 +430,9 @@ local this={
 		sideops_ELIMINATE_TANK_UNIT=1,--{ 0-1 } -- Eliminate tank unit
 		sideops_ELIMINATE_PUPPETS=1,--{ 0-1 } -- Eliminate wandering puppets
 		sideops_TARGET_PRACTICE=1,--{ 0-1 } -- Target practice
+		--Side ops in missions menu
+		enableMissionQuest=0,--{ 0-1 } -- Enable side ops in missions
+		forceEnableMissionAllQuest=0,--{ 0-1 } -- Force use all side ops in missions
 		--Soldier parameters menu
 		soldierParamsProfile=0,--{ 0-1 } -- Enable soldier parameter settings
 		soldierHealthScale=100,--{ 0-900 } -- Soldier life scale (percentage)

@@ -34,11 +34,11 @@ Pause and restart cutscenes.
 Pressing <Change Stance> when a cutscene is playing will toggle pause/resume. Pressing <Reload> will restart the cutscene.
 
 Quick menu commands.
-(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
+(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 
 Settings save file.
-IH writes its settings to ih_save.lua in the MGS_TPPmodsaves folder.
+IH writes its settings to ih_save.lua in the MGS_TPPmodsaves folder.
 While the file is editable, editing an inMission save is likely to cause issues.
 
 Profiles.
@@ -51,7 +51,7 @@ New sideops for Mother Base.
 (Optional Files) Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
 
 IHHook proxy dll
-Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
+Installed seperately. For extending IHs capabilities (similar concept to SKSE), and providing a dear-Imgui version of IH menu (to supersede IHExt).
 
 
 Menu, Options and Settings
@@ -84,29 +84,30 @@ Menu item type symbols:
 Some settings apply when selected or just set the value when the a feature is triggered by another command or during mission load.
 See ReadMe or Features and Options for more info.
 
-3: Cam - AroundCam menu
-4: Cam - PlayCam menu
-5: Cam - Player Cam hook menu
-6: Customize menu
-7: Cutscenes menu
-8: Debug menu
-9: Enemy Prep menu
-10: Enemy phases menu
-11: Enemy reinforcements menu
-12: Events menu
-13: Fulton menu
-14: Mission-prep features menu
-15: Mother Base menu
-16: Patrols and deployments menu
-17: Player restrictions menu
-18: Player settings menu
-19: Progression menu
-20: RouteSet menu
-21: Side ops menu
-22: Soldier parameters menu
-23: Support heli menu
-24: Time scale menu
-25: Weather menu
+3: Appearance menu
+4: Cam - AroundCam menu
+5: Cam - PlayCam menu
+6: Cam - Player Cam hook menu
+7: Customize menu
+8: Cutscenes menu
+9: Debug menu
+10: Enemy Prep menu
+11: Enemy phases menu
+12: Enemy reinforcements menu
+13: Events menu
+14: Fulton menu
+15: Mission-prep features menu
+16: Mother Base menu
+17: Patrols and deployments menu
+18: Player restrictions menu
+19: Player settings menu
+20: Progression menu
+21: RouteSet menu
+22: Side ops menu
+23: Soldier parameters menu
+24: Support heli menu
+25: Time scale menu
+26: Weather menu
 
 IH system menu
 --------------
@@ -121,7 +122,7 @@ Automatically enable mouse cursor when IHMenu opens. The cursor can also be sepe
 Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.
 6: UI Style Editor : 0-1
 Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
-7: Select profile : <Profile name>
+7: Select profile : All_Options_Example.lua, CustomPrep_Max.lua, CustomPrep_Min.lua, CustomPrep_Wide.lua, Fulton_Heaven.lua, MotherBase_Heaven.lua, Parasite_Hard.lua, Revenge_Heaven.lua, Subsistence_Bounder.lua, Subsistence_Game.lua, Subsistence_Pure.lua
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
 8: Set profile options to game defaults : 0-1
 Sets the options described in the selected profile to their default setting.
@@ -133,9 +134,41 @@ Shortcut key combinations to activate IH features. See Infinite Heaven readme or
 Start the game in offline mode, this also removes the connect option from the pause menu.
 12: Skip startup logos : Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-13: Load addon mission : NONE
+13: Load addon mission : 
 14: Include addon missions in completion percentage : Off, On
-15: Reset all IH settings : 0-1
+15: Run AutoDoc : 0-1
+AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files.
+16: Reset all IH settings : 0-1
+
+Appearance menu
+---------------
+1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET
+Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
+2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, SWIMWEAR_G, SWIMWEAR_H, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN, OCELOT, QUIET
+3: Camo type : 
+4: Headgear : None
+5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
+6: Face : Only for DD soldiers
+7: Skip developed checks : Off, On
+Allows items that haven't been developed to be selected.
+8: Load avatar : None Found
+Load avatar from MGS_TPP\mod\avatars
+9: Save avatar : New
+Save avatar to MGS_TPP\mod\avatars
+10: Print face info : 0-1
+11: Print appearance info : 0-1
+12: Form Variation menu
+13: Character Fova Menu
+
+Form Variation menu
+- Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
+-------------------
+1: Use selected fova : Off, On
+2: fovaSelection : 0-255
+3: Print current body info : 0-1
+
+Character Fova Menu
+-------------------
 
 Cam - AroundCam menu
 --------------------
@@ -292,7 +325,7 @@ Cutscenes menu
 1: Use selected soldier in all cutscenes and missions : Off, On
 2: MB cutscene play mode : Default, Play selected, Cutscenes disabled
 Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base
-3: Select MB cutscene (REQ: Play selected) : <Cutscene ids>
+3: Select MB cutscene (REQ: Play selected) : GoToMotherBaseAfterQuietBattle, ArrivedMotherBaseAfterQuietBattle, ArrivedMotherBaseFromDeathFactory, ArrivedMotherBaseLiquid, QuietReceivesPersecution, TheGreatEscapeLiquid, ParasiticWormCarrierKill, AnableDevBattleGear, DevelopedBattleGear1, QuietHasFriendshipWithChild, QuietOnHeliInRain, InterrogateQuiet, DecisionHuey, EntrustDdog, DdogComeToGet, DdogGoWithMe, HappyBirthDayWithQuiet, HappyBirthDay, AttackedFromOtherPlayer_KnowWhereFrom, AttackedFromOtherPlayer_UnknowWhereFrom, QuietWishGoMission, NuclearEliminationCeremony, ForKeepNuclearElimination, SacrificeOfNuclearElimination, MoraleOfMBIsLow, EliLookSnake, LiquidAndChildSoldier, OcelotIsPupilOfSnake, CodeTalkerSunBath, LongTimeNoSee_DdogSuperHighLikability, LongTimeNoSee_DdogHighLikability, LongTimeNoSee_DdogLowLikability, LongTimeNoSee_DdogPup, LongTimeNoSee_DDSoldier, SnakeHasBadSmell_000, SnakeHasBadSmell_001, SnakeHasBadSmell_WithoutQuiet, PazPhantomPain1, PazPhantomPain2, PazPhantomPain4, PazPhantomPain4_jp, DetailsNuclearDevelop, EndingSacrificeOfNuclear, DevelopedBattleGear2, DevelopedBattleGear4, DevelopedBattleGear5, ArrivedMotherBaseChildren
 4: Force allow actions : Off, On
 Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.
 5: Override time : Cutscene default, Current, Custom
@@ -309,7 +342,7 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
 6: Reload IH modules : 0-1
 7: copyLogToPrev : 0-1
 8: printPressedButtons : Off, On
@@ -318,19 +351,20 @@ Logs some script execution flow, requires Debug IH mode to be on.
 11: Show missionCode : 0-1
 12: Show game language code : 0-1
 13: appearanceDebugMenu
-14: Disable mission intro credits : Off, On
-15: manualMissionCode : 
-16: manualSequence : NONE
+14: characterDebugMenu
+15: Disable mission intro credits : Off, On
+16: manualMissionCode : 
+17: manualSequence : NONE
 
 appearanceDebugMenu
 -------------------
-1: faceFovaDirect : 0-1000
-2: faceDecoFovaDirect : 0-1000
-3: hairFovaDirect : 0-1000
-4: hairDecoFovaDirect : 0-1000
-5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-6: playerPartsTypeDirect : 0-100
-7: playerCamoTypeDirect : 0-1000
+1: faceFovaDirect : cm_m0_h0_v000_eye0.fv2
+2: faceDecoFovaDirect : cm_w000_m.fv2
+3: hairFovaDirect : cm_hair_c000.fv2
+4: hairDecoFovaDirect : cm_hair_c000_c000.fv2
+5: playerTypeDirect : 0-255
+6: playerPartsTypeDirect : 0-255
+7: playerCamoTypeDirect : 0-255
 8: playerFaceIdDirect : 0-730
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : 0-1
@@ -341,22 +375,23 @@ appearanceDebugMenu
 15: hairDecoFova : Only for DD soldiers
 16: faceFovaUnknown1 : 0-50
 17: faceFovaUnknown2 : 0-1
-18: faceFovaUnknown3 : 0-4
-19: faceFovaUnknown4 : 0-4
+18: eyeFova : 0-4
+19: skinFova : 0-5
 20: faceFovaUnknown5 : 0-1
-21: faceFovaUnknown6 : 0-3
+21: uiTextureCount : 0-3
 22: faceFovaUnknown7 : 0-303
 23: faceFovaUnknown8 : 0-303
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
 
-Form Variation menu
-- Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
--------------------
-1: Use selected fova : Off, On
-2: <Character model description> : <Fova selection>
-3: Print current body info : 0-1
+characterDebugMenu
+------------------
+1: playerTypeDirect : 0-255
+2: playerPartsTypeDirect : 0-255
+3: playerCamoTypeDirect : 0-255
+4: playerFaceIdDirect : 0-730
+5: playerFaceEquipIdDirect : 0-100
 
 Enemy Prep menu
 - Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.
@@ -368,17 +403,25 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED
+7: Custom soldier type in Free roam : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
 Override the soldier type of enemy soldiers in Free Roam.
 New soldier types can be added via the bodyInfo addon system.
-8: Reset enemy preparedness levels : 0-1
+8: Custom soldier type in Missions : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
+WARNING: Unique soldiers in the mission are likely to either be the default body from the selected custom soldier, or have visual issues if there isn't one.
+9: Reset enemy preparedness levels : 0-1
 Resets enemy prep levels to 0
-9: Print enemy prep levels : 0-1
-10: Random CP subtype in free roam : Off, On
+10: Print enemy prep levels : 0-1
+11: Force CP type in Free Roam : Default, Soviet, American, Afrikaans
+12: Force CP type in Missions : Default, Soviet, American, Afrikaans
+Changes Command Post Type, which controls the language spoken by CP and HQ.
+WARNING: Will break subtitles.
+WARNING: some CP types don't have responses for certain soldier call-ins for different languages.
+13: Force CP type in MB : Default, Soviet, American, Afrikaans
+14: Random CP subtype in free roam : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
-11: Random CP subtype in missions : Off, On
+15: Random CP subtype in missions : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
-12: IH interrogation in free roam : Off, On
+16: IH interrogation in free roam : Off, On
 Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
 
 Custom prep menu
@@ -562,16 +605,34 @@ Since the enemy heli reinforce feature re-uses the sideops heli, enabling this w
 Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.
 
 Events menu
+- Events are temporary combinations of IH settings for free roam and mother base.
+Free roam events (can stack): 
+Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
+Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
+Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
+MB events (only one active): 
+DD Training wargame, 
+Soviet attack, 
+Rogue Coyote attack, 
+XOF attack, 
+DD Infection outbreak, 
+Zombie Obliteration (non DD)
 -----------
-1: MB event random trigger chance : 0-100%
-Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
-2: Hunted event chance : 0-100%
+1: Hunted event chance : 0-100%
 Chance to start event Hunted on starting free roam. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
-3: Crashland event chance : 0-100%
+2: Crashland event chance : 0-100%
 Chance to start event Crashland on starting free roam. Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.
-4: Lost Coms event chance : 0-100%
+3: Lost Coms event chance : 0-100%
 Chance to start event Lost-coms on starting free roam. Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
-5: Skulls event menu
+4: DD Training wargame event chance : 0-100%
+Chance to randomly trigger DD Training wargame on returning to MB.
+5: Invasion event chance : 0-100%
+Chance to randomly trigger an Invasion event on returning to MB.
+6: DD Infection event chance : 0-100%
+Chance to randomly trigger DD Infection outbreak on returning to MB.
+7: Zombie Obliteration event chance : 0-100%
+Chance to randomly trigger Zombie Obliteration (non DD) on returning to MB.
+8: Skulls event menu
 
 Skulls event menu
 -----------------
@@ -688,7 +749,7 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED
+4: DD Suit : OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
 New body types can be added via the bodyInfo addon system.
 5: DD Suit female : OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE
 New body types can be added via the bodyInfo addon system.
@@ -897,39 +958,25 @@ Actions that usually add demon points don't.
 6: Hero points subtract demon points : Off, On
 Actions that add hero points subtract the same amount of demon points
 7: Use selected soldier in all cutscenes and missions : Off, On
-8: Appearance menu
-
-Appearance menu
----------------
-1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET
-Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
-2: Suit type : <Suits for player type>
-3: Camo type : <Camos for player type>
-4: Headgear : <Headgear for DD type>
-5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
-6: Face : <Face Id for player type and face filter>
-7: Skip developed checks : Off, On
-Allows items that haven't been developed to be selected.
-8: Load avatar : None Found
-Load avatar from MGS_TPP\mod\avatars
-9: Save avatar : New
-Save avatar to MGS_TPP\mod\avatars
-10: Print face info : 0-1
-11: Print appearance info : 0-1
-12: Form Variation menu
 
 Progression menu
 ----------------
 1: Resource scale menu
 2: Repopulate music tape radios : Off, On
-3: Unlock playable avatar : 0-1
+3: Repopulate plants and diamonds : Off, On
+Regenerates plants on Zoo platform and diamonds on Mother base over time.
+4: Repopulate AA Radars : 0-100
+Number of mission completes before destroyed Anti Air Radars are rebuilt.
+5: Force BattleGear built level : 0-5
+Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.
+6: Unlock playable avatar : 0-1
 Unlock avatar before mission 46
-4: Unlock weapon customization : 0-1
+7: Unlock weapon customization : 0-1
 Unlock without having to complete legendary gunsmith missions
-5: Reset Paz state to beginning : 0-1
-6: Return Quiet after mission 45 : 0-1
+8: Reset Paz state to beginning : 0-1
+9: Return Quiet after mission 45 : 0-1
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-7: showQuietReunionMissionCount : 0-1
+10: showQuietReunionMissionCount : 0-1
 
 Resource scale menu
 -------------------
@@ -977,6 +1024,7 @@ Since the enemy heli reinforce feature re-uses the sideops heli, enabling this w
 Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.
 10: Set Shooting Practice caution time to best time : Off, On
 Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.
+11: Side ops in missions menu
 
 Sideops category filter menu
 - Filters selection of sideops per category, Sideop selection mode will override this.
@@ -996,6 +1044,14 @@ Sideops category filter menu
 13: Eliminate tank unit : Off, On
 14: Eliminate wandering puppets : Off, On
 15: Target practice : Off, On
+
+Side ops in missions menu
+- Change settings related to side ops in story missions.
+-------------------------
+1: Enable side ops in missions : Off, On
+Enable side ops in missions using a hand-picked selection of side ops in specific story missions.
+2: Force use all side ops in missions : Off, On
+WARNING: The side ops enabled with this option can cause instability or simply won't be clearable. Enables all side ops to be included in all story missions when using the 'Enable side ops in missions' setting.
 
 Soldier parameters menu
 -----------------------
@@ -1110,10 +1166,11 @@ See ReadMe or Features and Options for more info.
 20: Object lists menu
 21: Player restrictions menu
 22: RouteSet menu
-23: Staff menu
-24: Support heli menu
-25: Time scale menu
-26: Weather menu
+23: Soldier parameters menu
+24: Staff menu
+25: Support heli menu
+26: Time scale menu
+27: Weather menu
 
 IH system menu
 - See IH system menu while in ACC for full options.
@@ -1136,11 +1193,11 @@ Appearance menu
 ---------------
 1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET
 Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
-2: Suit type : <Suits for player type>
-3: Camo type : <Camos for player type>
-4: Headgear : <Headgear for DD type>
+2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, SWIMWEAR_G, SWIMWEAR_H, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN, OCELOT, QUIET
+3: Camo type : 
+4: Headgear : None
 5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
-6: Face : <Face Id for player type and face filter>
+6: Face : Only for DD soldiers
 7: Skip developed checks : Off, On
 Allows items that haven't been developed to be selected.
 8: Load avatar : None Found
@@ -1150,17 +1207,21 @@ Save avatar to MGS_TPP\mod\avatars
 10: Print face info : 0-1
 11: Print appearance info : 0-1
 12: Form Variation menu
+13: Character Fova Menu
 
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
 -------------------
 1: Use selected fova : Off, On
-2: <Character model description> : <Fova selection>
+2: fovaSelection : 0-255
 3: Print current body info : 0-1
+
+Character Fova Menu
+-------------------
 
 Buddy menu
 ----------
-1: Buddy Equipment : No buddy set
+1: Buddy Equipment : Naked
 Buddy equiment is changed to selected setting when &ltAction&gt is pressed.
 2: Quiet move to last marker : 0-1
 Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
@@ -1298,7 +1359,7 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
 6: Reload IH modules : 0-1
 7: copyLogToPrev : 0-1
 8: selectedCp : no cp for setting
@@ -1306,34 +1367,35 @@ Logs some script execution flow, requires Debug IH mode to be on.
 10: setSelectedCpToMarkerClosestCp : 0-1
 11: dEBUG_ShowRevengeConfig : 0-1
 12: appearanceDebugMenu
-13: printPressedButtons : Off, On
-14: printOnBlockChange : Off, On
-15: Disable game over : Off, On
-16: Disable game over on killing child soldier : Off, On
-17: Disable out of bounds checks : Off, On
-18: setAllFriendly : 0-1
-19: setAllZombie : 0-1
-20: dEBUG_ToggleParasiteEvent : 0-1
-21: resetStageBlockPosition : 0-1
-22: setStageBlockPositionToMarkerClosest : 0-1
-23: Set stage position to camera : 0-1
-24: Show freecam position : 0-1
-25: Show position : 0-1
-26: checkPointSave : 0-1
-27: manualMissionCode : 
-28: manualSequence : NONE
-29: debugPrintMenu
-30: debugStuffMenu
+13: characterDebugMenu
+14: printPressedButtons : Off, On
+15: printOnBlockChange : Off, On
+16: Disable game over : Off, On
+17: Disable game over on killing child soldier : Off, On
+18: Disable out of bounds checks : Off, On
+19: setAllFriendly : 0-1
+20: setAllZombie : 0-1
+21: dEBUG_ToggleParasiteEvent : 0-1
+22: resetStageBlockPosition : 0-1
+23: setStageBlockPositionToMarkerClosest : 0-1
+24: Set stage position to camera : 0-1
+25: Show freecam position : 0-1
+26: Show position : 0-1
+27: checkPointSave : 0-1
+28: manualMissionCode : 
+29: manualSequence : NONE
+30: debugPrintMenu
+31: debugStuffMenu
 
 appearanceDebugMenu
 -------------------
-1: faceFovaDirect : 0-1000
-2: faceDecoFovaDirect : 0-1000
-3: hairFovaDirect : 0-1000
-4: hairDecoFovaDirect : 0-1000
-5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-6: playerPartsTypeDirect : 0-100
-7: playerCamoTypeDirect : 0-1000
+1: faceFovaDirect : cm_m0_h0_v000_eye0.fv2
+2: faceDecoFovaDirect : cm_w000_m.fv2
+3: hairFovaDirect : cm_hair_c000.fv2
+4: hairDecoFovaDirect : cm_hair_c000_c000.fv2
+5: playerTypeDirect : 0-255
+6: playerPartsTypeDirect : 0-255
+7: playerCamoTypeDirect : 0-255
 8: playerFaceIdDirect : 0-730
 9: playerFaceEquipIdDirect : 0-100
 10: Print face info : 0-1
@@ -1344,15 +1406,23 @@ appearanceDebugMenu
 15: hairDecoFova : Only for DD soldiers
 16: faceFovaUnknown1 : 0-50
 17: faceFovaUnknown2 : 0-1
-18: faceFovaUnknown3 : 0-4
-19: faceFovaUnknown4 : 0-4
+18: eyeFova : 0-4
+19: skinFova : 0-5
 20: faceFovaUnknown5 : 0-1
-21: faceFovaUnknown6 : 0-3
+21: uiTextureCount : 0-3
 22: faceFovaUnknown7 : 0-303
 23: faceFovaUnknown8 : 0-303
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
+
+characterDebugMenu
+------------------
+1: playerTypeDirect : 0-255
+2: playerPartsTypeDirect : 0-255
+3: playerCamoTypeDirect : 0-255
+4: playerFaceIdDirect : 0-730
+5: playerFaceEquipIdDirect : 0-100
 
 debugPrintMenu
 - Dump various things to log
@@ -1454,8 +1524,8 @@ Closes menu and plays current selected motion.
 Object lists menu
 -----------------
 1: warpToListPosition : no positions
-2: warpToListObject : Player nil
-3: setCamToListObject : Player nil
+2: warpToListObject : Player nil for GetPosition
+3: setCamToListObject : Player nil for GetPosition
 4: Objects menu
 5: Positions menu
 6: Routes menu
@@ -1543,6 +1613,22 @@ Each routeSet for a CP has a number of groups of routes, this will change the or
 Each routeSet for a CP has a number of groups of routes, this will change the order within the group.
 7: Randomize RouteSet now : 0-1
 Randomize current routeset right now. (Use the command in-mission).
+
+Soldier parameters menu
+-----------------------
+1: Enable soldier parameter settings : Off, On
+Turn this on to enable the life, sight and hearing enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).
+2: Soldier life scale : 0-900%
+0% will kill off all enemies
+3: Soldier sight scale : 0-400%
+A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log&gtAll tab)' to see exact values.
+4: Soldier night sight scale : 0-400%
+5: Soldier hearing distance scale : 0-400%
+6: Soldier item drop chance : 0-100%
+Chance soldier will drop an item when eliminated.
+7: Print health param table (look in iDroid Log>All tab) : 0-1
+8: Print sight param table (look in iDroid Log>All tab) : 0-1
+9: Print hearing distance table (look in iDroid Log>All tab) : 0-1
 
 Staff menu
 ----------
