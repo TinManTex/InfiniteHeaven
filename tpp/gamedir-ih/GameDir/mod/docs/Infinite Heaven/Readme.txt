@@ -1,5 +1,5 @@
 = Infinite heaven =
-r257 - 2021-08-04
+r258 - 2022-07-01
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r17 or later
@@ -22,140 +22,69 @@ Recent changes/additions
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
-r257 - 2021-08-04
-InfCamHook moved to IHHook r16 installation.
+r258 - 2022-07-01
+InfMission: Mission Addons completion, tasks, best rankings support, saved to mod\saves\ih_mission_states.lua
 
-fix: MB GameEvents always triggering on any chance but 0 - thanks Adchap for the report
+Invalid mission task save data clearing improved - thanks cap.
 
-fix: Sideop remaining active on clear on non Shooting Practice sideops while Shooting Practice Retry enabled - thanks countfuzzball for the report
+InfMissionQuest: 
+Side ops in missions menu
+enableMissionQuest="Enable side ops in missions" - "Enable side ops in missions using a hand-picked selection of side ops in specific story missions."
+- thanks cap
 
-InfEmblem:
-"Load emblem","Load emblem from MGS_TPP\\mod\\emblems . After loading emblem you must go to the normal Customize emblem system and OK it for it to reapply it. It will also regenerate it next time game is started."
-"Save emblem","Save emblem to MGS_TPP\\mod\\emblems"
-(via Customize menu)
-[youtube]VyEj1cPbKX4[/youtube]
-https://youtu.be/VyEj1cPbKX4
+InfBodyInfo / custom enemy soldier addon system:
+Added support for bodyIdTable ala TppEnemy. Currently just a single entry rather than multiple soldierSubTypes like TppEnemy.
 
-InfChimera:
-Chimera is MGSVs weapon cusomization system, this menu lets you save/load from the Customize > Weapons idroid menu
-"Weapon category","Changes which weapon category the slots refer to."
-"Load to slot 1","Load chimera from MGS_TPP\\mod\\chimeras to spcified slot"
-"Save from slot 1","Save chimera of specified slot for to MGS_TPP\\mod\\chimeras "
-"Clear slot"
-(via Customize menu)
-[youtube]K3khMmt9S7I[/youtube]
-https://youtu.be/K3khMmt9S7I
+customSoldierTypeMISSION="Custom soldier type in Missions", "WARNING: Unique soldiers in the mission are likely to either be the default body from the selected custom soldier type, or have visual issues if there isn't one."
 
-Save name input for Avatar, Emblem, and Chimera requires IHHook r16.
+changeCpTypeMISSION,FREE,MB_ALL="Force CP type in *",
+"Default","Soviet","American","Afrikaans"}
+"Changes Command Post Type, which controls the language spoken by CP and HQ. 
+WARNING: Will break subtitles. 
+WARNING: some CP types don't have responses for certain soldier call-ins for different languages."
 
-Customize menu
-Avatar, Emblem, and Chimera
+Thanks Wolbacia, Your401kPlan for poking away making bodyInfo addons and other soldier replacements leading to these improvments.
 
-r256 - 2021-07-20
-fix: Custom soldier type RANDOM hanging on load if it chose off-by-1 lowest value.
+InfModelProc renamed InfSoldierFace, moved to \modules
 
-fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
+Soldier parameters:
+Added in-mission menu. Changes to soldier params apply on map load or checkpoint reset.
 
-fulton_recoverCritical "Extraction recover critical", "Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay."
-(via Fulton menu)
-[youtube]oGiF4KpNo-Y[/youtube]
-https://youtu.be/oGiF4KpNo-Y
+InfProgression:
+Gathers existing progression options.
 
-"Load avatar", "Load avatar from MGS_TPP\\mod\\avatars"
-"Save avatar", "Save avatar to MGS_TPP\\mod\\avatars"
-(Via Appearance menu)
-Must be in ACC
-[youtube]W3enynh89CI[/youtube]
-https://youtu.be/W3enynh89CI
+repopAARadars "Repopulate AA Radars", "Number of mission completes before destroyed Anti Air Radars are rebuilt."
 
-r256 - 2021-07-20
-fix: disableCamText - Around mode Disable mode text feedback now saves setting - thanks caplag for pointing it out.
+Starting on foot with no given rotation will point you toward center of map instead of always 0 degrees.
 
-fulton_recoverCritical "Extraction recover critical", "Requires Extraction team option enabled. Extraction team will recover critically shot soldiers (ie 'dead' soldiers). Depending on medical section success. This lets you play with more lethal weapons while still keeping up with the recruitment gameplay."
-(via Fulton menu)
-[youtube]oGiF4KpNo-Y[/youtube]
-https://youtu.be/oGiF4KpNo-Y
+InfGameEvent:
+gameEventChanceMB/"MB event random trigger chance" split into individual chances for the different event types.
 
-"Load avatar", "Load avatar from MGS_TPP\\mod\\avatars"
-"Save avatar", "Save avatar to MGS_TPP\\mod\\avatars"
-(Via Appearance menu)
-Must be in ACC
-[youtube]W3enynh89CI[/youtube]
-https://youtu.be/W3enynh89CI
+InfChimera: 
+Now writes out TppEquip enums for parts, and comments what parts var name is.
+Load now actually loads from specified file instead of just loading them at start, so you can edit the file manually and re-load it.
 
-r255 - 2021-07-09
-fix: hang with Random cp subtype in addon missions.
+fix: Free roam addons no longer added to missions list, should fix a progression calculation issue.
 
-customSoldierType: added RANDOM option
-GOTCHA: if you were using customSoldierType prior to this update it will be set to the previous body type till you set it again.
+InfTransition:
+Simple mission transistion system via switches.
 
-Events: 
-Free roam events now work for free roam addon locations
-Free roam event options changed from Allow-on/off to percentage chances.
+Quests:
+Shooting practice quests can be made for non mtbs locations.
 
-r254 - 2021-06-22
-fix: hang on exit fob due to IH not handling heroicPoint as string - thanks William for your report and log.
+InfProgression:
+Moved a bunch of existing progression related options to module.
 
-fix: Some Custom soldier types having silent voices in mafr
-
-r253 - 2021-06-15
-InfFulton:
-Fulton menu (in ACC)
-fulton_autoFultonFREE, fulton_autoFultonMISSION - Extraction team in Free Roam/Missions
-"Extraction team will recover enemies you have neutralized after you've traveled some distance from them (usually to next command post). 
-This lets you do low/no fulton runs without having to sacrifice the recruitment side of gameplay.
-[youtube]NQiXzE6PL2s[/youtube]
-https://youtu.be/NQiXzE6PL2s
-
-fultonVariationRange - "Fulton success variation","Subtracts the percentage from fulton success in a periodic fashion."
-fultonVariationInvRate="Fulton variation inv rate","Inverse rate (higher slower) of fulton variation cycle"
-
-InfInterrogation:
-fix: Inter cp stash interrogation quests would just endlessly loop between some paired soldiers as the array for advancement state was too small - thanks William for your reports.
-
-r252 - 2021-06-05
-InfShootingPractice:
-Support for new Shooting Practice sideops, as the vanilla SP sidops use online saves which can't be added to, IH SP sideops save to ih_quest_states in mod\saves instead.
-Will display best time when entering the start marker since it likewise can't use the ranking ui.
-
-quest_enableShootingPracticeRetry - "Enable Shooting Practice Retry" - "Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again."
-quest_setShootingPracticeCautionTimeToBestTime - "Set Shooting Practice caution time to best time" - "Sets the caution time/time when the timer turns red to the current best time so you have a clearer idea when going for best time."
-[youtube]gX3O0pauMOA[/youtube]
-https://youtu.be/gX3O0pauMOA
-
-Sideop shown can be downloaded in optional files.
-
-InfHero: 
-moved SetDemon, RemoveDemon from InfMainTppIvars
-hero_dontSubtractHeroPoints "Don't subtract hero points" - "Actions that usually subtract hero points don't." 
-hero_dontAddOgrePoints - "Don't add demon points" - "Actions that usually add demon points don't."
-hero_heroPointsSubstractOgrePoints - "Hero points subtract demon points" - "Actions that add hero points subtract the same amount of demon points"
-Thanks TheFluffyPlatypus for the queries.
-
-updateStageBlockLoadPositionToCameraPosition - "Update stage position with camera" (via Cam - AroundCam) Replaces the one-off SetStageBlockPositionToFreeCam command.
-"Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.
-
-fix: selecting a quest referencing a missing questArea would error out the quest selection
-
-Refactor save system: quest states moved from ih_save to ih_quest_states, users will lose completion status for installed addon sideops.
-
-Debugging: PrintOnMessage to after resendcount check so less message logging spam, and more accurate indication of when message is being sent.
-
-Quest addon system: questInfo allowInWargames to allow quest on mb to be active during wargames.
-
-r251
-WarGames: Added FOB phase background music during wargames - thanks Body Damage, and others for the suggestion.
-
-disableKillChildSoldierGameOver - "Disable game over on killing child soldier" (via player restictions menu menu) - thanks CFWMagic for showing a clear example when updating the stand alone mod.
-
-Skull Events
-Moved to its own menu (via the Events menu)
-A bajillion settings for the event settings and the parameters for the skulls and zombies in the event exposed.
-Now (should) work for Free roam addon missions (does on Caplags gntn - US Naval Prison Facility)
-[youtube]zE49gPHU3uE[/youtube]
-https://youtu.be/zE49gPHU3uE
+API: Mission Addon
+missionInfo .hideMission : 
+Does not add mission to idroid mission selection.
+Mission/task completion will not be saved for the mission.
+Does not count toward installed mission limit.
+Can still be loaded via IH mission load command, or by lua ReserveMissionClear or by transition system.
 
 See Change Log.txt for more detail.
+Or the github repo commits:
+https://github.com/TinManTex/InfiniteHeaven/
 
 Disclaimer:
 ------------------------------
