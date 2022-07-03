@@ -15,9 +15,6 @@ FOB mode automatically uses defaults/unmodified, this does not affect saved sett
 Abort to ACC from title continue
 At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking Continue will load ACC instead of continuing mission.
 
-Manually trigger Skulls attack on Quarantine platform.
-After you have captured some Skulls attack them in their cages to trigger an attack.
-
 Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen.
 The entries will show as a white square with '---' as the text. WARNING: Do not equip these on FOB as there is an equipment check.
 
@@ -158,7 +155,6 @@ Save avatar to MGS_TPP\mod\avatars
 10: Print face info : 0-1
 11: Print appearance info : 0-1
 12: Form Variation menu
-13: Character Fova Menu
 
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
@@ -166,9 +162,6 @@ Form Variation menu
 1: Use selected fova : Off, On
 2: fovaSelection : 0-255
 3: Print current body info : 0-1
-
-Character Fova Menu
--------------------
 
 Cam - AroundCam menu
 --------------------
@@ -351,10 +344,9 @@ Logs some script execution flow, requires Debug IH mode to be on.
 11: Show missionCode : 0-1
 12: Show game language code : 0-1
 13: appearanceDebugMenu
-14: characterDebugMenu
-15: Disable mission intro credits : Off, On
-16: manualMissionCode : 
-17: manualSequence : NONE
+14: Disable mission intro credits : Off, On
+15: manualMissionCode : 
+16: manualSequence : NONE
 
 appearanceDebugMenu
 -------------------
@@ -384,14 +376,6 @@ appearanceDebugMenu
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
-
-characterDebugMenu
-------------------
-1: playerTypeDirect : 0-255
-2: playerPartsTypeDirect : 0-255
-3: playerCamoTypeDirect : 0-255
-4: playerFaceIdDirect : 0-730
-5: playerFaceEquipIdDirect : 0-100
 
 Enemy Prep menu
 - Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.
@@ -1207,7 +1191,6 @@ Save avatar to MGS_TPP\mod\avatars
 10: Print face info : 0-1
 11: Print appearance info : 0-1
 12: Form Variation menu
-13: Character Fova Menu
 
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
@@ -1215,9 +1198,6 @@ Form Variation menu
 1: Use selected fova : Off, On
 2: fovaSelection : 0-255
 3: Print current body info : 0-1
-
-Character Fova Menu
--------------------
 
 Buddy menu
 ----------
@@ -1367,25 +1347,24 @@ Logs some script execution flow, requires Debug IH mode to be on.
 10: setSelectedCpToMarkerClosestCp : 0-1
 11: dEBUG_ShowRevengeConfig : 0-1
 12: appearanceDebugMenu
-13: characterDebugMenu
-14: printPressedButtons : Off, On
-15: printOnBlockChange : Off, On
-16: Disable game over : Off, On
-17: Disable game over on killing child soldier : Off, On
-18: Disable out of bounds checks : Off, On
-19: setAllFriendly : 0-1
-20: setAllZombie : 0-1
-21: dEBUG_ToggleParasiteEvent : 0-1
-22: resetStageBlockPosition : 0-1
-23: setStageBlockPositionToMarkerClosest : 0-1
-24: Set stage position to camera : 0-1
-25: Show freecam position : 0-1
-26: Show position : 0-1
-27: checkPointSave : 0-1
-28: manualMissionCode : 
-29: manualSequence : NONE
-30: debugPrintMenu
-31: debugStuffMenu
+13: printPressedButtons : Off, On
+14: printOnBlockChange : Off, On
+15: Disable game over : Off, On
+16: Disable game over on killing child soldier : Off, On
+17: Disable out of bounds checks : Off, On
+18: setAllFriendly : 0-1
+19: setAllZombie : 0-1
+20: dEBUG_ToggleParasiteEvent : 0-1
+21: resetStageBlockPosition : 0-1
+22: setStageBlockPositionToMarkerClosest : 0-1
+23: Set stage position to camera : 0-1
+24: Show freecam position : 0-1
+25: Show position : 0-1
+26: checkPointSave : 0-1
+27: manualMissionCode : 
+28: manualSequence : NONE
+29: debugPrintMenu
+30: debugStuffMenu
 
 appearanceDebugMenu
 -------------------
@@ -1415,14 +1394,6 @@ appearanceDebugMenu
 24: faceFovaUnknown9 : 0-303
 25: faceFovaUnknown10 : 0-3
 26: Form Variation menu
-
-characterDebugMenu
-------------------
-1: playerTypeDirect : 0-255
-2: playerPartsTypeDirect : 0-255
-3: playerCamoTypeDirect : 0-255
-4: playerFaceIdDirect : 0-730
-5: playerFaceEquipIdDirect : 0-100
 
 debugPrintMenu
 - Dump various things to log
@@ -1536,7 +1507,7 @@ Objects menu
 ------------
 1: Add marked objects to list : 0-1
 Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.
-2: Add lookup list : 
+2: Add lookup list : accPilot, anml_BuddyPuppy, anml_MotherDog, anml_NoAnimal, anml_Zebra, anml_bear, anml_goat, anml_jackal, anml_nubian, anml_quest, anml_rat, anml_wolf, buddies, characters, charactersInMb, charactersInPrologue, cpNamesafgh, cpNamesmafr, cpNamesmbqf, cpNamesmtbs, helis, hos_quest, ihBirdNames, ihHeliEnemyHeli, ihHeliUTH, ihHostageNames, ihWalkerList, ih_hostage, itm_Mine_quest, itm_revDecoy, itm_revMine, mbCps, mbVehicleNames, otherHeli, parasiteARMOR, parasiteCAMO, parasiteMIST, pickable_ih, pickable_quest, player_locator, reinforceDriver, reinforceSoldiers, reserveSoldierNames, sol_quest, tppCorpseGameObjectLocator, veh_lv, veh_trc, vehicle_quest, wkr_WalkerGear
 Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.
 3: Clear Objects List : 0-1
 Clears Objects List

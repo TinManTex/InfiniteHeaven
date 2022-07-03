@@ -73,8 +73,6 @@ local this={
 		mbDemoOverrideWeather=0,--{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather
 		--Debug menu
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
-		--characterDebugMenu
-		playerFaceIdDirect=0,--{ 0-730 } -- 
 		--Enemy Prep menu
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
 		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode

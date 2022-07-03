@@ -95,7 +95,7 @@ this.debugMenu={
     "InfMenuCommands.ShowMissionCode",
     "InfMenuCommands.ShowLangCode",
     "InfFovaIvars.appearanceDebugMenu",
-    "InfFovaIvars.characterDebugMenu",
+    --OFF: TODO: "InfFovaIvars.characterDebugMenu",
     "Ivars.telopMode",--tex TODO move, odd one out, mission/presentation?
     "Ivars.manualMissionCode",
     "Ivars.manualSequence",
@@ -117,7 +117,7 @@ this.debugInMissionMenu={
     "InfMenuCommands.SetSelectedCpToMarkerClosestCp",
     "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig",
     "InfFovaIvars.appearanceDebugMenu",
-    "InfFovaIvars.characterDebugMenu",
+    --OFF: TODO: "InfFovaIvars.characterDebugMenu",
     --"InfMenuCommandsTpp.DEBUG_ChangePhase",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOn",
     --"InfMenuCommandsTpp.DEBUG_KeepPhaseOff",
