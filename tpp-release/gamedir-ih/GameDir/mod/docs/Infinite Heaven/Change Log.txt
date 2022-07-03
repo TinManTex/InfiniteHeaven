@@ -1,6 +1,9 @@
 Infinite Heaven changelog
 
-r258 - 2022-07-01
+r258 - 2022-07-04
+Run AutoDoc", "AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files."
+via IH system menu. 
+
 InfMission: Mission Addons completion, tasks, best rankings support, saved to mod\saves\ih_mission_states.lua
 
 Invalid mission task save data clearing improved - thanks cap.

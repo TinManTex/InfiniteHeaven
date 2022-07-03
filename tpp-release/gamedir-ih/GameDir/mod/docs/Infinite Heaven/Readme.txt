@@ -1,5 +1,5 @@
 = Infinite heaven =
-r258 - 2022-07-01
+r258 - 2022-07-04
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r17 or later
@@ -23,6 +23,9 @@ NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
 r258 - 2022-07-01
+Run AutoDoc", "AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files."
+via IH system menu. 
+
 InfMission: Mission Addons completion, tasks, best rankings support, saved to mod\saves\ih_mission_states.lua
 
 Invalid mission task save data clearing improved - thanks cap.
