@@ -16,10 +16,6 @@ local this={
       featureHelp="At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking Continue will load ACC instead of continuing mission.",
     },
     {
-      featureDescription="Manually trigger Skulls attack on Quarantine platform.",
-      featureHelp="After you have captured some Skulls attack them in their cages to trigger an attack."
-    },
-    {
       featureDescription="Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen.",
       featureHelp="The entries will show as a white square with '---' as the text. WARNING: Do not equip these on FOB as there is an equipment check."
     },
@@ -27,7 +23,7 @@ local this={
       featureDescription="Manually trigger Skulls attack on Quarantine platform.",
       featureHelp="After you have captures some Skulls attack the in their cages to trigger an attack."
     },
-     {
+    {
       featureDescription="Toggle Disable pull-out in support heli.",
       featureHelp="Pressing <Change Stance> while support heli will toggle Disable pull-out. If changing from pull-out to pull-out disabled you'll still have to exit and enter the heli, but while pull-out is disabled pressing it will cause heli to pull-out."
     },
