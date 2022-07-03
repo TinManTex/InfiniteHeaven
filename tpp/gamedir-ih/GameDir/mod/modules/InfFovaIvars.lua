@@ -157,6 +157,9 @@ local playerPartsTypeSettings={
 this.playerPartsType={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
+  autoDoc={
+    settingNames={"<Face Id for player type and face filter>"}
+  },
   settings=playerPartsTypeSettings,--DYNAMIC
   GetSettingText=function(self,setting)
     local InfFova=InfFova
@@ -283,6 +286,9 @@ this.playerFaceEquipId={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=100},--DYNAMIC
   settingsTable={0},--DYNAMIC
+  autoDoc={
+    settingNames={"<Headgear for DD type>"},
+  },
   GetSettingText=function(self,setting)
     local faceEquipId=self.settingsTable[setting+1]
     local faceEquipInfo=InfFova.playerFaceEquipIdInfo[faceEquipId+1]
@@ -838,6 +844,10 @@ this.fovaSelection={
   nonConfig=true,--tex too dependant on installed mods/dynamic settings
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=255},--DYNAMIC limits max fovas TODO consider
+  autoDoc={
+    description="<Character model description>",
+    settingNames={"<Fova selection>"},
+  },
   OnSelect=function(self)
     local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
     if modelDescription then
@@ -911,8 +921,8 @@ this.skipDevelopChecks={
 this.registerMenus={
   "appearanceMenu",
   "appearanceDebugMenu",
-  "characterMenu",
-  "characterDebugMenu",
+  --OFF TODO: "characterMenu",
+  --OFF TODO: "characterDebugMenu",
   "fovaModMenu",
 }
 
