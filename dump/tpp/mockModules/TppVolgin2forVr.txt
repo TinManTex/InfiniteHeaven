@@ -1,7 +1,0 @@
-TppVolgin2forVr={
-  ATTACK_MESSAGE_TYPE_CHARGE_RELEASE = 1,
-  ATTACK_MESSAGE_TYPE_CHARGE_START = 0,
-  ATTACK_MESSAGE_TYPE_GAME_OVER_1 = 5,
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,4 +1,0 @@
-StringId={
-  numberKeys = { -285212672, -285212671 },
-  stringKeys = { "IsEqual32", "IsEqual", "__index", "__newindex" }
-}

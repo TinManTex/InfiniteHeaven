@@ -1,7 +1,0 @@
-TppTrap={
-  DebugUpdate = true,
-  InitializeVariableTraps = true,
-  OnAllocate = true,
-  RestoreVariableTrapState = true,
-  lua = true
-}

@@ -1,6 +1,0 @@
-VoiceSettingMenu={
-  IsOpenVoiceSettingMenu = "<function>",
-  OpenVoiceSettingMenu = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

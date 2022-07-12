@@ -1,9 +1,0 @@
-TppGameSequence={
-  GetGameTitleName = true,
-  GetInstance = true,
-  GetTargetArea = true,
-  GetTargetPlatform = true,
-  LoadResidentBlock = true,
-  RequestGameSetup = true,
-  SetSystemBlockSize = true
-}

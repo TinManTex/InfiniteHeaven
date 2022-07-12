@@ -1,6 +1,0 @@
-TppNoiseAreaBody2=<1>{
-  __index = <function 1>,
-  __newindex = <function 2>,
-  _className = "TppNoiseAreaBody2",
-  <metatable> = <table 1>
-}

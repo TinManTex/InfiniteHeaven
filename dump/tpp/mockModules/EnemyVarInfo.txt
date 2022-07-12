@@ -1,4 +1,0 @@
-EnemyVarInfo={
-  __index = "<function>",
-  __newindex = "<function>"
-}

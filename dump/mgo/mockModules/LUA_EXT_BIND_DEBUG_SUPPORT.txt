@@ -1,5 +1,0 @@
-LUA_EXT_BIND_DEBUG_SUPPORT={
-  __index = "<function>",
-  __newindex = "<function>",
-  dump = "<function>"
-}

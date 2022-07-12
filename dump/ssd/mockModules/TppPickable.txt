@@ -1,6 +1,0 @@
-TppPickable={
-  OnAllocate = "<function>",
-  StartToCreateFromLocators = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

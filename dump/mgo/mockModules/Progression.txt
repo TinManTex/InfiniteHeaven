@@ -1,9 +1,0 @@
-Progression={
-  Config = "<function>",
-  DEBUG_GivePurchase = "<function>",
-  DEBUG_GiveUnlock = "<function>",
-  GetUnlockValue = "<function>",
-  HasEquipUnlock = "<function>",
-  HasUnlock = "<function>",
-  ResetSavedXP = "<function>"
-}

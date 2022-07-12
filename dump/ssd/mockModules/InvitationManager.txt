@@ -1,7 +1,0 @@
-InvitationManager={
-  EnableMessage = "<function>",
-  IsAccepted = "<function>",
-  ResetAccept = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

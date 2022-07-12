@@ -1,5 +1,0 @@
-LuxuryBlockController={
-  AddList = "<function>",
-  GetSmallBlockIndices = "<function>",
-  Init = "<function>"
-}

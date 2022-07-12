@@ -1,8 +1,0 @@
-Popup={
-  SELECT_OK = 1,
-  TYPE_ONE_BUTTON = 1,
-  TYPE_ONE_CANCEL_BUTTON = 3,
-  TYPE_TWO_BUTTON = 2,
-  __index = "<function>",
-  __newindex = "<function>"
-}

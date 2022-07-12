@@ -1,5 +1,0 @@
-HighSpeedCamera={
-  RequestEvent = <function 1>,
-  RequestToCancel = <function 2>,
-  RequestToCancelAll = <function 3>
-}

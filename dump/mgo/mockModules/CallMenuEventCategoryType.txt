@@ -1,4 +1,0 @@
-CallMenuEventCategoryType={
-  __index = "<function>",
-  __newindex = "<function>"
-}

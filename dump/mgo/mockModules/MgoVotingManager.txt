@@ -1,5 +1,0 @@
-MgoVotingManager={
-  Config = "<function>",
-  Create = "<function>",
-  Vote = "<function>"
-}

@@ -1,3 +1,0 @@
-MgoActorBlockControllerService={
-  SetBlockInfo = <function 1>
-}

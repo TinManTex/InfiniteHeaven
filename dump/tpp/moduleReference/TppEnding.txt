@@ -1,5 +1,0 @@
-TppEnding={
-  SetEndsFile = true,
-  Start = true,
-  Stop = true
-}

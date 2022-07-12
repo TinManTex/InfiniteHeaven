@@ -1,9 +1,0 @@
-MgoCharacterData={
-  CONNECTION_CHECK_IDLE = true,
-  CONNECTION_CHECK_LOCAL = true,
-  IsLoaded = true,
-  LoadComplete = true,
-  SetOffline = true,
-  UpdateAvatarDataBeforeAvatarEdit = true,
-  UpdateCharacterDataAfterAvatarEdit = true
-}

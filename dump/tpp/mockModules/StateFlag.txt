@@ -1,6 +1,0 @@
-StateFlag={
-  DYING_LIFE = 1,
-  ZOMBIE = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,7 +1,0 @@
-CrewRole={
-  BOY_NO_CHAIR = 5,
-  REEVE_10010 = 2,
-  REEVE_INJURY = 3,
-  __index = "<function>",
-  __newindex = "<function>"
-}

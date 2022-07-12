@@ -1,4 +1,0 @@
-SsdFarmingAnimal={
-  Appear = "<function>",
-  Disappear = "<function>"
-}

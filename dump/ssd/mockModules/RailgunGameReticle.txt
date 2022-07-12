@@ -1,4 +1,0 @@
-RailgunGameReticle={
-  __index = "<function>",
-  __newindex = "<function>"
-}

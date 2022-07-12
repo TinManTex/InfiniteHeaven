@@ -1,6 +1,0 @@
-DataSetFile2={
-  Save = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "DataSetFile2"
-}

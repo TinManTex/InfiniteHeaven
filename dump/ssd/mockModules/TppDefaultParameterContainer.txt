@@ -1,7 +1,0 @@
-TppDefaultParameterContainer={
-  AddParam = "<function>",
-  GetParam = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TppDefaultParameterContainer"
-}

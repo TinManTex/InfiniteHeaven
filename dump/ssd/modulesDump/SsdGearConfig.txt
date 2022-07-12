@@ -1,4 +1,0 @@
-SsdGearConfig={
-  Colors = <function 1>,
-  Gears = <function 2>
-}

@@ -1,9 +1,0 @@
-TppSystemUtility=<1>{
-  ConfigDefaultPadAssigns = <function 1>,
-  GetCurrentGameMode = <function 2>,
-  SetCurrentGameMode = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  _className = "TppSystemUtility",
-  <metatable> = <table 1>
-}

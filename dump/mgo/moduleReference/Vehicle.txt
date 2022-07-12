@@ -1,5 +1,0 @@
-Vehicle={
-  LoadCarry = true,
-  SaveCarry = true,
-  type = true
-}

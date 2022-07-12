@@ -1,7 +1,0 @@
-PresetRadio=<1>{
-  [-285212672] = 4,
-  [14095799] = <function 1>,
-  __index = <function 2>,
-  __newindex = <function 3>,
-  <metatable> = <table 1>
-}

@@ -1,6 +1,0 @@
-DefenceTelopSystem={
-  RequestOpen = "<function>",
-  SetInfo = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,6 +1,0 @@
-TppGameStatus={
-  IsSet = "<function>",
-  IsSetBy = "<function>",
-  Reset = "<function>",
-  Set = "<function>"
-}

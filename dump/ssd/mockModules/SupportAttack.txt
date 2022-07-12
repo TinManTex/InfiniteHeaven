@@ -1,3 +1,0 @@
-SupportAttack={
-  [""] = 0
-}

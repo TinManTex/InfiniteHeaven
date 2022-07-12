@@ -1,8 +1,0 @@
-ResultSystem={
-  OpenBaseDefenseResult = "<function>",
-  OpenCoopResult = "<function>",
-  OpenPopupResult = "<function>",
-  RequestClose = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -15,7 +15,7 @@ local this={}
 --You get patches when you log into server (or just after that, happens only once per game session)
 
 --TppMotherBaseManagement.RegFlwDev{
---  p50=0,--index of develop item defined by order of TppMotherBaseManagement.RegCstDev calls
+--  p50=0,--index of develop item defined by order of EquipDevelopConstSetting / TppMotherBaseManagement.RegCstDev calls
 --nasanhak combo of p51 and p52 creates the dev chain for an item/weapon - can be customized but if not careful, may break development menu tabs/game in subtle ways
 --  p51=0,--derivationIndex--nasanhak order of dev of item chains, from 0
 --  p52=1,--developRank2--grade, grade 0 doesnt show in dev pages
@@ -1039,6 +1039,15 @@ this.equipDevTable={
 --<
 }--equipDevTable
 
+--example coarse modding
+--local dParam=this.descriptiveParamToParamName
+--for i,entry in ipairs(this.equipDevTable)do
+--  entry[dParam.developTimeMinute]=1--set value
+--  --or
+--  entry.p71=1--set value
+--end
+
+--Acually apply entries
 for i,entry in ipairs(this.equipDevTable)do
   TppMotherBaseManagement.RegFlwDev(entry)
 end

@@ -1,4 +1,0 @@
-BulletGuardArmorMessageFlag={
-  BROKEN_HELMET = true,
-  IS_HIT_ARMOR = true
-}

@@ -1,8 +1,0 @@
-ObjectBrush=<1>{
-  [-285212672] = 4,
-  [27110454] = <function 1>,
-  [157698658] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

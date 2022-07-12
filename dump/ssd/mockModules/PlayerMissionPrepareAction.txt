@@ -1,4 +1,0 @@
-PlayerMissionPrepareAction={
-  __index = "<function>",
-  __newindex = "<function>"
-}

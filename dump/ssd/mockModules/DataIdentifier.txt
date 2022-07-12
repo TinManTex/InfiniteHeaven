@@ -1,7 +1,0 @@
-DataIdentifier={
-  GetDataBodyWithIdentifier = "<function>",
-  GetDataWithIdentifier = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "DataIdentifier"
-}

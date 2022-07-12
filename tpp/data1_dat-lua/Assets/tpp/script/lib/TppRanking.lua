@@ -6,10 +6,18 @@ this.IS_ONCE={false,true,true,true,true,false,false,false,true,true,false,false,
 this.UPDATE_ORDER={true,false,false,false,false,true,true,true,false,false,true,true,true,true,true,true,true,true,true,true}
 this.ANNOUNCE_LOG_TYPE={NONE=0,TIME=1,DISTANCE=2,NUMBER=3}
 this.SHOW_ANNOUNCE_LOG={this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.DISTANCE,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.DISTANCE,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME}
+--NMC: indexed by TppDefine.RANKING_ENUM
 this.OPEN_CONDITION={
-  true,
-  10043,10036,10033,10041,10044,10054,10052,10086,
-  function()
+  true,--"TotalTacticalTakeDownCount",
+  10043,--"XPersonMarkingTime",
+  10036,--"FirstHeadShotTime",
+  10033,--"FirstHeadShotTimeTranq",
+  10041,--"FirstCommandPostAnnihilateTime",
+  10044,--"CboxGlidingDistance",
+  10054,--"MechaNeutralizeCount",
+  10052,--"LongestBirdShotDistance",
+  10086,--"XPersonPerfectStealthCQCNeutralizeTime",
+  function()--"XRocketArmNeutralizeTime",
     if gvars.rnk_isOpen[TppDefine.RANKING_ENUM.XRocketArmNeutralizeTime]then
       return true
     end
@@ -19,16 +27,18 @@ this.OPEN_CONDITION={
       return false
     end
   end,
-  10115,10115,10151,
-  TppQuest.ShootingPracticeOpenCondition.Command,
-  TppQuest.ShootingPracticeOpenCondition.Develop,
-  TppQuest.ShootingPracticeOpenCondition.Support,
-  TppQuest.ShootingPracticeOpenCondition.BaseDev,
-  TppQuest.ShootingPracticeOpenCondition.Medical,
-  TppQuest.ShootingPracticeOpenCondition.Spy,
-  TppQuest.ShootingPracticeOpenCondition.Combat
+  10115,--"FobSneakingGoalCount",
+  10115,--"FobDefenceSucceedCount",
+  10151,--"NuclearDisposeCount",
+  TppQuest.ShootingPracticeOpenCondition.Command,--"mtbs_q42010",
+  TppQuest.ShootingPracticeOpenCondition.Develop,--"mtbs_q42020",
+  TppQuest.ShootingPracticeOpenCondition.Support,--"mtbs_q42030",
+  TppQuest.ShootingPracticeOpenCondition.BaseDev,--"mtbs_q42040",
+  TppQuest.ShootingPracticeOpenCondition.Medical,--"mtbs_q42050",
+  TppQuest.ShootingPracticeOpenCondition.Spy,--"mtbs_q42060",
+  TppQuest.ShootingPracticeOpenCondition.Combat--"mtbs_q42070"
 }
-local freeRoamMissions={[30010]=true,[30020]=true,[30050]=true}
+local freeRoamMissions={[30010]=true,[30020]=true,[30050]=true}--tex TODO: addon support?
 --NMC: indexed by TppDefine.RANKING_ENUM
 this.EXCLUDE_MISSION_LIST={
   false,--"TotalTacticalTakeDownCount",
@@ -169,6 +179,7 @@ function this.UpdateOpenRanking()
     gvars.rnk_isOpen[key]=isOpen
   end
 end
+--tex OVERRIDE: In InfMission, this is kjp records server stuff, so bypassing this for non vanilla missionCodes
 function this.RegistMissionClearRankingResult(usedRankLimitedItem,missionCode,totalScore)
   local missionBoardId
   if usedRankLimitedItem then

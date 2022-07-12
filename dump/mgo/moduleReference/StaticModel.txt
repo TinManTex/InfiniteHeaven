@@ -1,3 +1,0 @@
-StaticModel={
-  GetByName = true
-}

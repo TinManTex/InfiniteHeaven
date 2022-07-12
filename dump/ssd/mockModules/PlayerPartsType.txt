@@ -1,9 +1,0 @@
-PlayerPartsType={
-  AVATAR_EDIT_MAN = 2,
-  AVATAR_EDIT_WOMAN = 3,
-  AVATAR_MAN = 0,
-  AVATAR_WOMAN = 1,
-  NORMAL = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

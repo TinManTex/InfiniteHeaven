@@ -1,7 +1,0 @@
-MiningMachinePlacementSystem={
-  Register = "<function>",
-  Start = "<function>",
-  Unregister = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

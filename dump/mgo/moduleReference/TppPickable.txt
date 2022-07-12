@@ -1,5 +1,0 @@
-TppPickable={
-  ClearAllDroppedInstance = true,
-  OnAllocate = true,
-  StartToCreateFromLocators = true
-}

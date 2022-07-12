@@ -1,9 +1,0 @@
-GenderMenuResult=<1>{
-  [-285212672] = 4,
-  [7405042] = <function 1>,
-  [38195617] = <function 2>,
-  [234491376] = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  <metatable> = <table 1>
-}

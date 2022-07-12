@@ -1,4 +1,0 @@
-TppEffectWeatherParameterMediator={
-  RestoreDefaultParameters = true,
-  SetParameters = true
-}

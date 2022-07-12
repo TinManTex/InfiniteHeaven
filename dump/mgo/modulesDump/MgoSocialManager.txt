@@ -1,3 +1,0 @@
-MgoSocialManager={
-  CheckAndHandleInvite = <function 1>
-}

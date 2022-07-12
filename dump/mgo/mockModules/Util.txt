@@ -1,8 +1,0 @@
-Util={
-  ClearInterval = "<function>",
-  ClearIntervalAll = "<function>",
-  LuaNumberToUInt32 = "<function>",
-  SetInterval = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

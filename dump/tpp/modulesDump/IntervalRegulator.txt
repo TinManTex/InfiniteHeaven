@@ -1,9 +1,0 @@
-IntervalRegulator=<1>{
-  IsReady = <function 1>,
-  SetInterval = <function 2>,
-  __call = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  _className = "IntervalRegulator",
-  <metatable> = <table 1>
-}

@@ -1,9 +1,0 @@
-BaseBgmSelect=<1>{
-  [-285212672] = 4,
-  [7628054] = <function 1>,
-  [15875427] = <function 2>,
-  [152294910] = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  <metatable> = <table 1>
-}

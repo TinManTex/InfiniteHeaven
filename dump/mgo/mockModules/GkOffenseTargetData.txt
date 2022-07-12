@@ -1,8 +1,0 @@
-GkOffenseTargetData={
-  GetAttackerHandle = "<function>",
-  GetKeyName = "<function>",
-  __call = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "GkOffenseTargetData"
-}

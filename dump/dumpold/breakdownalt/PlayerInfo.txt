@@ -1,5 +1,0 @@
-PlayerInfo={
-  AndCheckStatus = <function 1>,
-  GetLocalPlayerIndex = <function 2>,
-  OrCheckStatus = <function 3>
-}

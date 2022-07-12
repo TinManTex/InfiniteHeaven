@@ -1,9 +1,0 @@
-Installer={
-  GetInstallResult = "<function>",
-  INSTALL_RESULT_NOSPACE = 2,
-  IsCheckingInstallation = "<function>",
-  IsInstalled = "<function>",
-  StartCheckingInstallation = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

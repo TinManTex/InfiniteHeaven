@@ -1,6 +1,0 @@
-Demo={
-  DisableCharacterIntetrp = "<function>",
-  DisableTempCamera = "<function>",
-  EnableCharacterInterpolation = "<function>",
-  EnableTempCamera = "<function>"
-}

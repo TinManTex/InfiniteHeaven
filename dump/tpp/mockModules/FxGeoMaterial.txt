@@ -1,7 +1,0 @@
-FxGeoMaterial={
-  ClearCache = "<function>",
-  CreateExtraCache = "<function>",
-  CreateInfoManager = "<function>",
-  DestroyInfoManager = "<function>",
-  RemoveExtraCache = "<function>"
-}

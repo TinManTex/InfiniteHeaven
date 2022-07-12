@@ -1,8 +1,0 @@
-PlayerRetryFlag=<1>{
-  [-285212672] = 4,
-  [19066902] = <function 1>,
-  [96953989] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

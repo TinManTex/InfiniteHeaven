@@ -1,4 +1,0 @@
-PresetRadio={
-  __index = "<function>",
-  __newindex = "<function>"
-}

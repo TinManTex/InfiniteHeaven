@@ -1,6 +1,0 @@
-SoundPlayerAnimEvent={
-  SetupPlayerFootStep = true,
-  SetupPlayerRattleSuit = true,
-  SetupPlayerRattleWeapon = true,
-  SetupPlayerType = true
-}

@@ -1,6 +1,0 @@
-SoundPlayerAnimEvent={
-  SetupPlayerFootStep = "<function>",
-  SetupPlayerRattleSuit = "<function>",
-  SetupPlayerRattleWeapon = "<function>",
-  SetupPlayerType = "<function>"
-}

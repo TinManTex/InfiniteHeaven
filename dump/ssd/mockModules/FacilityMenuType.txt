@@ -1,9 +1,0 @@
-FacilityMenuType={
-  BATTLE_PACK = 70,
-  CRAFT_GADGET = 22,
-  CREW_MANAGEMENT = 42,
-  EVENT_LIST = 69,
-  ORDER_LIST = 43,
-  __index = "<function>",
-  __newindex = "<function>"
-}

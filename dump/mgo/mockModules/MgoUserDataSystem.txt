@@ -1,3 +1,0 @@
-MgoUserDataSystem={
-  GetRankXp = "<function>"
-}

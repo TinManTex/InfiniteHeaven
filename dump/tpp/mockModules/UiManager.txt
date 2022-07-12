@@ -1,9 +1,0 @@
-UiManager={
-  DumpEntryUig = "<function>",
-  ResetScrollDebugPrint = "<function>",
-  ScrollDownDebugPrint = "<function>",
-  ScrollUpDebugPrint = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "UiManager"
-}

@@ -1,5 +1,0 @@
-Trophy={
-  TrophyDiskCheck = true,
-  TrophyInstall = true,
-  TrophyUnlock = true
-}

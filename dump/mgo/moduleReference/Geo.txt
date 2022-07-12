@@ -1,5 +1,0 @@
-Geo={
-  GeoLuaEnableTriggerTrap = true,
-  GeoLuaSetDebugCollisionColor = true,
-  GeoLuaSetDebugMaterialColor = true
-}

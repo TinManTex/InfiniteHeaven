@@ -1,8 +1,0 @@
-TppEyelidFilterStateManager=<1>{
-  GetInstance = <function 1>,
-  SetEventStatus = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "TppEyelidFilterStateManager",
-  <metatable> = <table 1>
-}

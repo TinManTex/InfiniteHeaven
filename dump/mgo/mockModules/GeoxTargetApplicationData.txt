@@ -1,5 +1,0 @@
-GeoxTargetApplicationData={
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "GeoxTargetApplicationData"
-}

@@ -1,3 +1,0 @@
-TppColoringSystem={
-  GetAdditionalColoringPackFilePaths = true
-}

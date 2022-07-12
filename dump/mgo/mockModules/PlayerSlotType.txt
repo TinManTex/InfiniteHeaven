@@ -1,5 +1,0 @@
-PlayerSlotType={
-  ITEM = 4,
-  __index = "<function>",
-  __newindex = "<function>"
-}

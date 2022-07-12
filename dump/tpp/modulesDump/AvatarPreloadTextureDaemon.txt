@@ -1,5 +1,0 @@
-AvatarPreloadTextureDaemon={
-  CheckBlendTexLoaded = <function 1>,
-  PreloadRequestForLocalPlayer = <function 2>,
-  ResetTexture = <function 3>
-}

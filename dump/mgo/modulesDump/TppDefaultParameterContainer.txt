@@ -1,8 +1,0 @@
-TppDefaultParameterContainer=<1>{
-  AddParam = <function 1>,
-  GetParam = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "TppDefaultParameterContainer",
-  <metatable> = <table 1>
-}

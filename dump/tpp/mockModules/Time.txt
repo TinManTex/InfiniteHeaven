@@ -1,7 +1,0 @@
-Time={
-  GetDeltaGameTime = "<function>",
-  GetFrameTime = "<function>",
-  GetRawElapsedTimeSinceStartUp = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

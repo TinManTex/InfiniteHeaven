@@ -1,6 +1,0 @@
-TppSystem={
-  BGM_PHASE_ALERT = true,
-  BGM_PHASE_SNEAK_1 = true,
-  BGM_PHASE_SNEAK_2 = true,
-  BGM_PHASE_SNEAK_3 = true
-}

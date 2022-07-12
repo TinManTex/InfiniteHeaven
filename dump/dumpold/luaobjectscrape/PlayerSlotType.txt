@@ -1,7 +1,0 @@
-PlayerSlotType={
-  ITEM = true,
-  PRIMARY_1 = true,
-  PRIMARY_2 = true,
-  SECONDARY = true,
-  SUPPORT = true
-}

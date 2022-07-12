@@ -1,7 +1,0 @@
-Geo={
-  DumpFilePath = "<function>",
-  GeoLuaEnableTriggerTrap = "<function>",
-  RegisterMaterial = "<function>",
-  RegisterTexture = "<function>",
-  UnregisterMaterial = "<function>"
-}

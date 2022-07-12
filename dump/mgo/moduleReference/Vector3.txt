@@ -1,4 +1,0 @@
-Vector3={
-  Add = true,
-  Scale = true
-}

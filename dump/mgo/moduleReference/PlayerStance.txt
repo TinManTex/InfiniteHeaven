@@ -1,3 +1,0 @@
-PlayerStance={
-  STAND = true
-}

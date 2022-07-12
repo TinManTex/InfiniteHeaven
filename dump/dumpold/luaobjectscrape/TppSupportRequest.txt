@@ -1,8 +1,0 @@
-TppSupportRequest={
-  GetCallBuddyGmpCost = true,
-  GetCallRescueHeliGmpCost = true,
-  GetCrashRescueHeliGmpCost = true,
-  RegisterSupportAttackGmpCostTable = true,
-  RequestDropBullet = true,
-  RequestSupportAttack = true
-}

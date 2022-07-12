@@ -1,8 +1,0 @@
-EntityClassDictionary=<1>{
-  GetCategoryList = <function 1>,
-  GetClassNameList = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "EntityClassDictionary",
-  <metatable> = <table 1>
-}

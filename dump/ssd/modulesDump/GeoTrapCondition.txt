@@ -1,7 +1,0 @@
-GeoTrapCondition=<1>{
-  AddConditionParam = <function 1>,
-  __index = <function 2>,
-  __newindex = <function 3>,
-  _className = "GeoTrapCondition",
-  <metatable> = <table 1>
-}

@@ -1,4 +1,0 @@
-FobResult={
-  __index = "<function>",
-  __newindex = "<function>"
-}

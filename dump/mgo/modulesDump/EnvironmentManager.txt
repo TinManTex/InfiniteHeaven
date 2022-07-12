@@ -1,8 +1,0 @@
-EnvironmentManager=<1>{
-  IsEditMode = <function 1>,
-  SetEditMode = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "EnvironmentManager",
-  <metatable> = <table 1>
-}

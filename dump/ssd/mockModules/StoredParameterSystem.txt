@@ -1,5 +1,0 @@
-StoredParameterSystem={
-  StoreInit = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

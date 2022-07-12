@@ -43,6 +43,7 @@ function this.MakeDefaultMissionAreaPackPath(missionCode)
     return packPath
   end
 end
+--tex NMC not going to extend this to mission addon system since its better for thr mod author to know the packs they're loading/and they have full flexibility already
 function this.AddLocationCommonScriptPack(missionCode)
   local locationName=TppLocation.GetLocationName()
   if locationName=="afgh"then
@@ -57,6 +58,7 @@ function this.AddLocationCommonScriptPack(missionCode)
     this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_SCRIPT)
   end
 end
+--tex NMC not going to extend this to mission addon system since its better for thr mod author to know the packs they're loading/and they have full flexibility already
 function this.AddLocationCommonMissionAreaPack(missionCode)
   local locationName=TppLocation.GetLocationName()
   if locationName=="afgh"then
@@ -176,6 +178,7 @@ end
 --GOTCHA: only returns addon missions after TppMission.AddInLocations is exec
 --GOTCHA: returns uppercase
 --SEO GetLocationNameForMissionCode (actual function is mispelled v)
+--LocationForMission
 function this.GetLocationNameFormMissionCode(missionCode)
   local locationName
   for location,missions in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST)do

@@ -1,8 +1,0 @@
-IntervalRegulator={
-  IsReady = "<function>",
-  SetInterval = "<function>",
-  __call = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "IntervalRegulator"
-}

@@ -1,4 +1,0 @@
-FoxFadeIo={
-  Create = true,
-  FadeOut = true
-}

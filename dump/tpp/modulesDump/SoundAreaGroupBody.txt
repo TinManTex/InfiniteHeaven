@@ -1,9 +1,0 @@
-SoundAreaGroupBody=<1>{
-  CancelParameter = <function 1>,
-  OverwriteParameter = <function 2>,
-  SetActive = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  _className = "SoundAreaGroupBody",
-  <metatable> = <table 1>
-}

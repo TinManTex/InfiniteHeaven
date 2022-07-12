@@ -1,4 +1,0 @@
-Demo={
-  EnableTempCamera = true,
-  --no, from comment-- playerPartsType = true
-}

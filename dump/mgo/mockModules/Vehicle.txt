@@ -1,3 +1,0 @@
-Vehicle={
-  type = "<table>"
-}

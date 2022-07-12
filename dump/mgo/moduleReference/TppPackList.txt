@@ -1,7 +1,0 @@
-TppPackList={
-  GetLocationNameFormMissionCode = true,
-  IsMissionPackLabelList = true,
-  SetDefaultMissionPackLabelName = true,
-  SetMissionPackLabelName = true,
-  lua = true
-}

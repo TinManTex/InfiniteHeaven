@@ -1,4 +1,5 @@
 --TppEnemyFaceId.lua
+--DYNAMIC: ADDON: added to by IH InfSoldierFaceAndBody
 local this={
   --HMT=DD greentop
   svs_balaclava=550,  --[M][---][---][---] Balaclava

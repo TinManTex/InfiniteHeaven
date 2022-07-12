@@ -1,7 +1,0 @@
-GameOverMenuSystem={
-  RequestClose = "<function>",
-  RequestOpen = "<function>",
-  SetType = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

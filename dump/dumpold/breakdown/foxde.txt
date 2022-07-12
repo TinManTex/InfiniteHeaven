@@ -1,4 +1,0 @@
-foxde={
-  numberKeys = { -285212672, -285212671 },
-  stringKeys = { "Print", "Assert", "__index", "__newindex" }
-}

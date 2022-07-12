@@ -1,4 +1,0 @@
-SsdMatching={
-  __index = "<function>",
-  __newindex = "<function>"
-}

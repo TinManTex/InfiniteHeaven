@@ -1,4 +1,0 @@
-TppDebug={
-  _scriptInstanceId = "<userdata: userdata: 000000007FBC17D8>",
-  _scriptPath = "TppDebug"
-}

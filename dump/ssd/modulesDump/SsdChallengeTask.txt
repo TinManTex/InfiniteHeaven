@@ -1,9 +1,0 @@
-SsdChallengeTask=<1>{
-  [-285212672] = 4,
-  [7345765] = <function 1>,
-  [192396351] = <function 2>,
-  [231548903] = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  <metatable> = <table 1>
-}

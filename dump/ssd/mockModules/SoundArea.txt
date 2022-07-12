@@ -1,4 +1,0 @@
-SoundArea={
-  DeleteAdditionalAreaMember = "<function>",
-  SetAdditionalAreaMember = "<function>"
-}

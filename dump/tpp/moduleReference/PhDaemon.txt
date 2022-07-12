@@ -1,8 +1,0 @@
-PhDaemon={
-  GetInstance = true,
-  SetMaxRigidBodyNum = true,
-  SetMemorySize = true,
-  SetUpdateDtMax = true,
-  SetWorldMax = true,
-  SetWorldMin = true
-}

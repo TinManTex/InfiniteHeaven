@@ -1,4 +1,0 @@
-VoiceCommand={
-  SetVoiceEventType = true,
-  SetVoiceTypePriority = true
-}

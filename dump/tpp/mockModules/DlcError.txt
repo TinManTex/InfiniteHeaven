@@ -1,6 +1,0 @@
-DlcError={
-  E_NETWORK = 1,
-  E_OK = 0,
-  __index = "<function>",
-  __newindex = "<function>"
-}

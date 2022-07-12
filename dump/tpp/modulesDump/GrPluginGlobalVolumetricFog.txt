@@ -1,8 +1,0 @@
-GrPluginGlobalVolumetricFog=<1>{
-  SwitchMethod = <function 1>,
-  __call = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  _className = "GrPluginGlobalVolumetricFog",
-  <metatable> = <table 1>
-}

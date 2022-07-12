@@ -1,8 +1,0 @@
-DefenceTelopType={
-  Abort = 4,
-  Complete = 2,
-  Failure = 3,
-  Start = 1,
-  __index = "<function>",
-  __newindex = "<function>"
-}

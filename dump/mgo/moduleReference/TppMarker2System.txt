@@ -1,3 +1,0 @@
-TppMarker2System={
-  CreateMarker2System = true
-}

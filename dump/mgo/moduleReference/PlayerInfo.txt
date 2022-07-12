@@ -1,7 +1,0 @@
-PlayerInfo={
-  AndCheckStatus = true,
-  CanSpawnAtBuddy = true,
-  GetLocalPlayerIndex = true,
-  IsValidBuddySpawnInfo = true,
-  OrCheckStatus = true
-}

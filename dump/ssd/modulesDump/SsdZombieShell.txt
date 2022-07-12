@@ -1,3 +1,0 @@
-SsdZombieShell={
-  ReloadParameterTables = <function 1>
-}

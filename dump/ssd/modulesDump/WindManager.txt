@@ -1,9 +1,0 @@
-WindManager=<1>{
-  GetInstance = <function 1>,
-  RestartTimer = <function 2>,
-  __call = <function 3>,
-  __index = <function 4>,
-  __newindex = <function 5>,
-  _className = "WindManager",
-  <metatable> = <table 1>
-}

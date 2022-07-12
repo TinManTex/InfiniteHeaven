@@ -1,4 +1,0 @@
-EnemySubType={
-  __index = "<function>",
-  __newindex = "<function>"
-}

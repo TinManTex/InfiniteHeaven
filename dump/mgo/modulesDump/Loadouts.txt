@@ -1,3 +1,0 @@
-Loadouts={
-  SetupDefaultLoadoutToChar = <function 1>
-}

@@ -1,3 +1,0 @@
-SsdZombieWCS={
-  ReloadParameterTables = "<function>"
-}

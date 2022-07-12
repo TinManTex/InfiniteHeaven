@@ -1,3 +1,0 @@
-SsdZombieDash={
-  ReloadParameterTables = <function 1>
-}

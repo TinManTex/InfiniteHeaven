@@ -1,9 +1,0 @@
-UiDaemon={
-  ClearDrawPriorityTable = true,
-  GetInstance = true,
-  SetDrawPriorityTable = true,
-  SetExecLuaFile = true,
-  SetFontTypeTransTable = true,
-  SetPrefetchTexture = true,
-  SetPrefetchTextureTable = true
-}

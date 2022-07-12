@@ -1,4 +1,0 @@
-NeutralizeFobCause={
-  __index = "<function>",
-  __newindex = "<function>"
-}

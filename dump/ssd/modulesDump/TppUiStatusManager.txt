@@ -1,7 +1,0 @@
-TppUiStatusManager={
-  CheckStatus = <function 1>,
-  ClearAllStatus = <function 2>,
-  ClearStatus = <function 3>,
-  SetStatus = <function 4>,
-  UnsetStatus = <function 5>
-}

@@ -1,3 +1,0 @@
-TppPauseMenu={
-  SetIgnoreActorPause = true
-}

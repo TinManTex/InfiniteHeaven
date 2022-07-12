@@ -1,5 +1,6 @@
 --ChimeraPartsPackageTable.lua
 --see https://metalgearmodding.fandom.com/wiki/Chimera_Package_Table for more info
+--TODO: document how all the tables after packageInfos are indexed 
 local this={}--tex made local
 -- was TppEquip.ReloadChimeraPartsInfoTable{--<table>
 this.chimeraPartsInfoTable={    

@@ -1,6 +1,0 @@
-WearEquip={
-  GAS_MASK = true,
-  HELMET = true,
-  NVG = true,
-  SOFT_ARMOR = true
-}

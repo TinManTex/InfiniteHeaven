@@ -4,6 +4,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//tex for an idea of what this script is trying to help with:
+//https://metalgearmodding.fandom.com/wiki/Route_findings#Relaxed_Idle_Act_and_Caution_Idle_Act_.5Bevent_node.5D
+
+//copy script into unity foxkit project somewhere
+//add it to a unity game object
+//or edit both foxkits CreateRouteSetEditor CreateNewNode and RouteNodeEvent CreateNewNodeEvent and add
+//go.AddComponent<EventParamHelper>();//tex
+//before the function return
+
+//Script will calculate p1 short which is the soldier facing angle for most events (when aim target type isn't a specific point or route) 
+//from the yaw angle of the gameobject its attached to, however it will only update when another field in the inspector is updated
+//I usually just click the IsEdge checkbox a couple of time (if script is it will automatically set it to the correct setting so you can just click it once)
+
 //tex Only really deals with  AimTargetType / params 0 - 4,
 //and only aimTargetType > param0 not visa versa
 
@@ -29,12 +42,12 @@ public class EventParamHelper : MonoBehaviour
         StringToStr32,
     }
 
-    public bool IsEdge = false;
+    public bool IsNode = false;
     public bool UseAimTargetUnkHiFlag = false;
     public RouteAimTargetType AimTargetType;
     
     //TODO: not actually sure what the 0x1000000 flag indicates, is only on nodes not edges
-    uint aimTargetUnkIsEdgeLowFlag = 0x1;
+    uint aimTargetUnkIsNodeLowFlag = 0x1;
     uint aimTargetUnkHiFlag = 0x1000000;
 
 
@@ -99,7 +112,12 @@ public class EventParamHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.hasChanged)
+        {
+            transform.hasChanged = false;
+            //Debug.Log("transform.hasChanged");
+            OnValidate();
+        }
     }
 
     private uint StrCode32(string inputString)
@@ -157,11 +175,11 @@ public class EventParamHelper : MonoBehaviour
 
         if (routeEdgeEvent != null)
         {
-            IsEdge = true;
+            IsNode = false;
         }
         if (routeNodeEvent != null)
         {
-            IsEdge = false;
+            IsNode = true;
         }
         //
         if (copyFromRouteParams)
@@ -170,11 +188,11 @@ public class EventParamHelper : MonoBehaviour
 
             if (Params == null)
             {
-                Debug.Log("EventParamHelper.OnValidate: Params == null");
+                Debug.Log("EventParamHelper: Component isn't attached to a route Edge or Node");
             }
             else
             {
-                //Param0 = Params[0].ToString();//DEBUGNOW
+                //Param0 = Params[0].ToString();//
                 //Param1 = Params[1].ToString();
                 Param2 = Params[2].ToString();
                 Param3 = Params[3].ToString();
@@ -232,12 +250,19 @@ public class EventParamHelper : MonoBehaviour
         }
 
         // No edge events in vanilla frts use unk 0x100000 high flag TODO: but conversely do all nodes use high? if not then which ones?
-        if (IsEdge) UseAimTargetUnkHiFlag = false;
+        if (!IsNode)
+        {
+            if (UseAimTargetUnkHiFlag)
+            {
+                Debug.Log("EventParamHelper this flag only appears on RouteNodes");
+            }
+            UseAimTargetUnkHiFlag = false;
+        }
 
         uint aimTargetValue = (uint)AimTargetType;
-        if (IsEdge)
+        if (IsNode)
         {
-            aimTargetValue += aimTargetUnkIsEdgeLowFlag;
+            aimTargetValue += aimTargetUnkIsNodeLowFlag;
         }
         if (UseAimTargetUnkHiFlag)
         {
@@ -250,7 +275,14 @@ public class EventParamHelper : MonoBehaviour
         P1Short0FromYaw = GetShortRotation();
 
         uint RIGHT = 0xFFFF;
+        if (IsNode)
+		{
         Param1Uint = (uint)((P1Short0FromYaw << 16) | (P1Short1WaitTime & RIGHT));
+		}
+		else
+		{
+			Param1Uint = 0;
+		}
 
         //if (P1ShortsToParam1)
         //{
@@ -282,7 +314,7 @@ public class EventParamHelper : MonoBehaviour
 
             if (Params == null)
             {
-                Debug.Log("EventParamHelper.OnValidate: Params == null");
+                Debug.Log("EventParamHelper: Component isn't attached to a route Edge or Node");
             }
             else 
             {

@@ -1,9 +1,0 @@
-TppEnding={
-  EndEndingBlackRadio = "<function>",
-  SetDebugForceRawTimeSync = "<function>",
-  SetDebugJumpTime = "<function>",
-  SetEndsFile = "<function>",
-  Start = "<function>",
-  StartEndingBlackRadio = "<function>",
-  Stop = "<function>"
-}

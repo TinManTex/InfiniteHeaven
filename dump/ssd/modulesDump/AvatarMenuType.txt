@@ -1,8 +1,0 @@
-AvatarMenuType=<1>{
-  [-285212672] = 4,
-  [132114037] = <function 1>,
-  [247621460] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

@@ -1,5 +1,0 @@
-TppLiquid2={
-  LIQUID_PHASE_STARTED_FIGHT = 2,
-  __index = "<function>",
-  __newindex = "<function>"
-}

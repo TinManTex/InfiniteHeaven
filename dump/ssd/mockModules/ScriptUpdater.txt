@@ -1,5 +1,0 @@
-ScriptUpdater={
-  Create = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

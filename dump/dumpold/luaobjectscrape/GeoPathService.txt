@@ -1,7 +1,0 @@
-GeoPathService={
-  BindEdgeTag = true,
-  BindNodeTag = true,
-  RegisterEdgeTag = true,
-  RegisterNodeTag = true,
-  RegisterPathTag = true
-}

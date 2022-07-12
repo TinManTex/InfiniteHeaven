@@ -1,3 +1,0 @@
-Quat={
-  RotationY = true
-}

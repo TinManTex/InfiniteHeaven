@@ -13,6 +13,22 @@ Currently for your personal research and archiving purposes, I retain control ov
 
 Assets that are duplicates or modifications of MGSV assets may only be used in MGSV.
 
-Actual Infinite Heaven mod in tpp (dev version) and tpp-release. Mod is built by seperate program mgsv_buildmod which is still in private repo since it's still pretty bespoke mess. You can get a rough idea on what it does by looking at tpp\build-infinite_heaven.json
+Rough layout:
+tpp,tpp-release:
+Actual Infinite Heaven mod 
+
+foxkitutils:
+Various Unity util scripts and the IHook<>Game IPC scripts
+
+nongamelua:
+mostly just (ancient) bespoke random scripts to process certain things into other things.
+
+autodoc:
+Builds the IH 'Features and Options' documents by using MockFox to load IH and process the menus.
+
+Infinite Heaven mod is built via a seperate program mgsv_buildmod 
+https://github.com/TinManTex/mgsv_buildmod
+Using either tpp\build-infinite_heaven.json for dev build (with the futher kink of not including the GameDir\mod folder since I symlink that to the MGS_TPP folder on my machine)
+or tpp\build-infinite_heaven-release.json for release build.
 
 Only recently (Oct 2021) started using the Issues system to track TODOs

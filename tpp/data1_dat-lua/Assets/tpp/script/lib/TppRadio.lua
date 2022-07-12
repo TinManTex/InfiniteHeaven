@@ -163,17 +163,18 @@ function this.RequestBlackTelephoneRadio(radioName)
   SubtitlesCommand.SetIsEnabledUiPrioStrong(true)
   this.playingBlackTelInfo={radioGroups=radioGroups,radioName=radioName,[StrCode32(radioName)]=true}
 end
-function this.SetBlackTelephoneDisplaySetting(e)
-  if not e then
+function this.SetBlackTelephoneDisplaySetting(radioName)
+  if not radioName then
     return
   end
   if not mvars.rad_blackTelephoneDisplaySetting then
     return
   end
-  local e=mvars.rad_blackTelephoneDisplaySetting[e]
-  if e then
-    for a,e in ipairs(e)do
-      TppUiCommand.BlackRadioCommand(e[1],e[2],e[3],e[4])
+  --<missioncode>_radio.blackTelephoneDisplaySetting.<language>
+  local blackTelephoneDisplaySetting=mvars.rad_blackTelephoneDisplaySetting[radioName]
+  if blackTelephoneDisplaySetting then
+    for i,displaySetting in ipairs(blackTelephoneDisplaySetting)do
+      TppUiCommand.BlackRadioCommand(displaySetting[1],displaySetting[2],displaySetting[3],displaySetting[4])
     end
   end
 end
@@ -377,14 +378,14 @@ function this.OnAllocate(subScripts)
   mvars.rad_gameOverRadioTable={}
   mvars.rad_commonRadioTable={}
   mvars.rad_commonRadioDelayTable={}
-  for e,a in pairs(this.COMMON_GAME_OVER_RADIO_LIST)do
-    mvars.rad_gameOverRadioTable[e]=a
+  for gameOverRadioType,radioName in pairs(this.COMMON_GAME_OVER_RADIO_LIST)do
+    mvars.rad_gameOverRadioTable[gameOverRadioType]=radioName
   end
-  for e,a in pairs(this.COMMON_RADIO_LIST)do
-    mvars.rad_commonRadioTable[e]=a
+  for commonRadioType,radioName in pairs(this.COMMON_RADIO_LIST)do
+    mvars.rad_commonRadioTable[commonRadioType]=radioName
   end
-  for e,a in pairs(this.COMMON_RADIO_DELAY_LIST)do
-    mvars.rad_commonRadioDelayTable[e]=a
+  for commonRadioType,delay in pairs(this.COMMON_RADIO_DELAY_LIST)do
+    mvars.rad_commonRadioDelayTable[commonRadioType]=delay
   end
   local radio=subScripts.radio
   if not radio then
@@ -392,14 +393,14 @@ function this.OnAllocate(subScripts)
   end
   local gameOverRadioTable=radio.gameOverRadioTable
   if gameOverRadioTable then
-    for e,a in pairs(gameOverRadioTable)do
-      mvars.rad_gameOverRadioTable[e]=a
+    for gameOverRadioType,radioName in pairs(gameOverRadioTable)do
+      mvars.rad_gameOverRadioTable[gameOverRadioType]=radioName
     end
   end
   local debugRadioLineTable=radio.debugRadioLineTable
   if debugRadioLineTable then
-    for a,e in pairs(debugRadioLineTable)do
-      mvars.rad_debugRadioLineTable[a]=e
+    for debugRadioType,e in pairs(debugRadioLineTable)do
+      mvars.rad_debugRadioLineTable[debugRadioType]=e
     end
   end
   if IsTable(radio.radioList)then
@@ -417,15 +418,15 @@ function this.OnAllocate(subScripts)
   local blackTelephoneDisplaySetting=radio.blackTelephoneDisplaySetting
   if IsTable(blackTelephoneDisplaySetting)then
     mvars.rad_blackTelephoneDisplaySetting={}
-    for n,e in pairs(blackTelephoneDisplaySetting)do
-      if not IsTable(e.Japanese)then
+    for radioName,settingForRadioName in pairs(blackTelephoneDisplaySetting)do
+      if not IsTable(settingForRadioName.Japanese)then
       end
-      if not IsTable(e.English)then
+      if not IsTable(settingForRadioName.English)then
       end
       if TppGameSequence.GetTargetArea()=="Japan"then
-        mvars.rad_blackTelephoneDisplaySetting[n]=e.Japanese
+        mvars.rad_blackTelephoneDisplaySetting[radioName]=settingForRadioName.Japanese
       else
-        mvars.rad_blackTelephoneDisplaySetting[n]=e.English
+        mvars.rad_blackTelephoneDisplaySetting[radioName]=settingForRadioName.English
       end
     end
   end
@@ -440,11 +441,11 @@ function this.Init()
   if mvars.rad_intelRadioList then
     TppRadioCommand.RegisterEspionageRadioTable(mvars.rad_intelRadioList)
   end
-  local noOptionalRadioTable={
+  local noOptionalRadioTable={--tex TODO: make ADDONable / missionInfo option
     [10010]=true,[10020]=true,[10030]=true,[10050]=true,[10115]=true,[10140]=true,[10151]=true,[10230]=true,[10240]=true,[10260]=true,[10280]=true,
     [30050]=true,[30150]=true,[30250]=true,[40010]=true,[40020]=true,[40050]=true,[50050]=true,[6e4]=true}
-  local a=noOptionalRadioTable[vars.missionCode]
-  if a then
+  local noOptionalRadio=noOptionalRadioTable[vars.missionCode]
+  if noOptionalRadio then
   else
     this.EnableCommonOptionalRadio(true)
   end
@@ -457,46 +458,49 @@ function this.OnReload(missionTable)
     this.playingBlackTelInfo=playingBlackTelInfo
   end
 end
-function this.CommonMakeRadioList(e)
-  local t={}
-  local d={}
-  for r,e in pairs(e)do
-    if type(r)=="number"then
-      local r
+--<missionCode>_radio.radioList--radioName, or table of radioName and playOnce param
+--<missionCode>_radio.optionalRadioList--simple array of radioNames
+function this.CommonMakeRadioList(radioList)
+  local radioNameS32ToRadioName={}--these StrCode to string lookups are also commonly labled as Inv ie Inverse lookup lists
+  local playOnceList={}
+  for k,v in pairs(radioList)do
+    if type(k)=="number"then
+      local radioName
       local playOnce
-      if IsTable(e)then
-        if not IsString(e[1])then
+      if IsTable(v)then
+        if not IsString(v[1])then
         else
-          r=e[1]
-          playOnce=e.playOnce
+          radioName=v[1]
+          playOnce=v.playOnce
         end
-      elseif IsString(e)then
-        r=e
+      elseif IsString(v)then
+        radioName=v
         playOnce=false
       end
-      t[StrCode32(r)]=r
-      d[r]=playOnce
+      radioNameS32ToRadioName[StrCode32(radioName)]=radioName
+      playOnceList[radioName]=playOnce
     end
   end
-  return t,d
+  return radioNameS32ToRadioName,playOnceList
 end
-function this.RegisterRadioList(o)
-  for n,e in pairs(o)do
-    if IsTable(e)then
-      mvars.rad_radioList[n]={}
-      for i,e in pairs(e)do
-        local r=type(i)
-        if r=="number"then
-          mvars.rad_radioList[n]=e
-        elseif r=="string"and IsTable(e)then
-          mvars.rad_debugRadioLineTable[i]=e
+--<missionCode>_radio.radioList--radioName, or table of radioName and playOnce param
+function this.RegisterRadioList(radioList)
+  for k,v in pairs(radioList)do
+    if IsTable(v)then
+      mvars.rad_radioList[k]={}
+      for k2,v2 in pairs(v)do
+        local keyType=type(k2)
+        if keyType=="number"then--array index
+          mvars.rad_radioList[k]=v2--=radioName
+        elseif keyType=="string"and IsTable(v2)then
+          mvars.rad_debugRadioLineTable[k2]=v2
         end
       end
     else
-      mvars.rad_radioList[n]=e
+      mvars.rad_radioList[k]=v
     end
   end
-  mvars.rad_radioInvList,mvars.rad_radioPlayOnceList=this.CommonMakeRadioList(o)
+  mvars.rad_radioInvList,mvars.rad_radioPlayOnceList=this.CommonMakeRadioList(radioList)
 end
 function this.AddDebugRadioLineTable(e)
   if not Tpp.IsTypeTable(e)then
@@ -506,9 +510,10 @@ function this.AddDebugRadioLineTable(e)
     mvars.rad_debugRadioLineTable[e]=a
   end
 end
+--<missionCode>_radio.optionalRadioList
 function this.RegisterOptionalRadioList(radioList)
-  for a,e in pairs(radioList)do
-    mvars.rad_optionalRadioList[a]=e
+  for i,radioName in pairs(radioList)do
+    mvars.rad_optionalRadioList[i]=radioName
   end
   mvars.rad_optionalRadioInvList,mvars.rad_optionalRadioPlayOnceList=this.CommonMakeRadioList(radioList)
 end
@@ -520,13 +525,14 @@ function this.RegisterIntelRadioList(radioList)
     mvars.rad_intelRadioList[a]=e
   end
 end
-function this.OverwriteCommonRadioTable(e)
-  if not IsTable(e)then
+--<missionCode>_radio.commonRadioTable
+function this.OverwriteCommonRadioTable(commonRadioTable)
+  if not IsTable(commonRadioTable)then
     return
   end
-  for n,e in pairs(e)do
-    if(IsString(e)or IsTable(e))or IsFunc(e)then
-      mvars.rad_commonRadioTable[n]=e
+  for commonRadioType,radioNameOrIgnore in pairs(commonRadioTable)do
+    if(IsString(radioNameOrIgnore)or IsTable(radioNameOrIgnore))or IsFunc(radioNameOrIgnore)then
+      mvars.rad_commonRadioTable[commonRadioType]=radioNameOrIgnore
     end
   end
 end

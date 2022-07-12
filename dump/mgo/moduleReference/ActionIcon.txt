@@ -1,6 +1,0 @@
-ActionIcon={
-  ACTION = true,
-  INTEL = true,
-  INTEL_NG = true,
-  TRAINING = true
-}

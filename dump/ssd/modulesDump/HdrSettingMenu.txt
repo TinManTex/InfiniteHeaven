@@ -1,8 +1,0 @@
-HdrSettingMenu=<1>{
-  [-285212672] = 4,
-  [7628054] = <function 1>,
-  [45658120] = <function 2>,
-  __index = <function 3>,
-  __newindex = <function 4>,
-  <metatable> = <table 1>
-}

@@ -1,5 +1,0 @@
-QuarkSystem={
-  COMPILER_STATE_WAITING_TO_LOAD = true,
-  GetCompilerState = true,
-  PostRequestToLoad = true
-}

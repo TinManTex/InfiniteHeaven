@@ -1,9 +1,0 @@
-GameConfig={
-  ApplyAllConfig = true,
-  GetCameraLRIsReversed = true,
-  GetCameraUDIsReversed = true,
-  GetStealthAssistEnabled = true,
-  Reset = true,
-  SetCameraUDIsReversed = true,
-  SetStealthAssistEnabled = true
-}

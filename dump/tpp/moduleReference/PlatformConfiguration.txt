@@ -1,3 +1,0 @@
-PlatformConfiguration={
-  SetShareScreenEnabled = true
-}

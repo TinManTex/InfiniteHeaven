@@ -1,4 +1,0 @@
-Util={
-  __index = "<function>",
-  __newindex = "<function>"
-}

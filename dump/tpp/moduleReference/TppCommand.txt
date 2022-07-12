@@ -1,3 +1,0 @@
-TppCommand={
-  Weather = true
-}

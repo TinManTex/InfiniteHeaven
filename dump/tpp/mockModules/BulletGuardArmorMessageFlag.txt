@@ -1,6 +1,0 @@
-BulletGuardArmorMessageFlag={
-  BROKEN_HELMET = 2,
-  IS_HIT_ARMOR = 1,
-  __index = "<function>",
-  __newindex = "<function>"
-}

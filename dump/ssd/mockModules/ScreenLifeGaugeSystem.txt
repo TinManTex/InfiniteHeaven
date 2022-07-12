@@ -1,6 +1,0 @@
-ScreenLifeGaugeSystem={
-  Close = "<function>",
-  RequestOpen = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

@@ -1,4 +1,0 @@
-TppCyprusBlockControl={
-  IsCyprusLoading = true,
-  SetCyprusStep = true
-}

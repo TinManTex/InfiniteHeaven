@@ -1,3 +1,0 @@
-LuxuryBlockController={
-  AddList = true
-}

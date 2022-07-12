@@ -1,4 +1,0 @@
-Matrix4={
-  RotTranslation = true,
-  Translation = true
-}

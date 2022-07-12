@@ -1,7 +1,0 @@
-StageBlockCurrentPositionSetter={
-  DisablePosition = "<function>",
-  SetEnable = "<function>",
-  SetPosition = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

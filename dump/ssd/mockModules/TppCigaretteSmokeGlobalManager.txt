@@ -1,9 +1,0 @@
-TppCigaretteSmokeGlobalManager={
-  GetInstance = "<function>",
-  ResetInitAlphaRate = "<function>",
-  SetBaseColorSmoke = "<function>",
-  SetInitAlphaRate = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TppCigaretteSmokeGlobalManager"
-}

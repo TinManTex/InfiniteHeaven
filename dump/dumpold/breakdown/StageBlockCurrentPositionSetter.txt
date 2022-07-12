@@ -1,4 +1,0 @@
-StageBlockCurrentPositionSetter={
-  numberKeys = { 143846675, -285212672, 87560036, 80171496, 143846671, -285212671 },
-  stringKeys = { "__index", "__newindex" }
-}

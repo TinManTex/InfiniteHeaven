@@ -1,9 +1,0 @@
-TppNetworkUtil={
-  IsHost = true,
-  IsSessionConnect = true,
-  StartDebugSession = true,
-  StartNetSynchronizer = true,
-  StopDebugSession = true,
-  SyncedExecute = true,
-  SyncedExecuteSessionIndex = true
-}

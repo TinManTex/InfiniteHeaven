@@ -1,4 +1,0 @@
-CyprusMissionController={
-  numberKeys = { 29151772, 113922819, 198758036, 118209490, 62648174, -285212672, 118218052, -285212671, 205835 },
-  stringKeys = { "__newindex", "__index" }
-}

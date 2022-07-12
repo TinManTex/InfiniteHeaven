@@ -1,8 +1,0 @@
-GearType={
-  BASE = 2,
-  CHEST = 1,
-  EYES = 3,
-  HEAD = 0,
-  __index = "<function>",
-  __newindex = "<function>"
-}

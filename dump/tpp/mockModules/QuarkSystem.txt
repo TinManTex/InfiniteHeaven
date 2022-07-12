@@ -1,7 +1,0 @@
-QuarkSystem={
-  COMPILER_STATE_WAITING_TO_LOAD = 3,
-  GetCompilerState = "<function>",
-  PostRequestToLoad = "<function>",
-  __index = "<function>",
-  __newindex = "<function>"
-}

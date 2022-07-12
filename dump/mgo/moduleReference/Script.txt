@@ -1,6 +1,0 @@
-Script={
-  GetScript = true,
-  IsLoadingLibrary = true,
-  LoadLibrary = true,
-  LoadLibraryAsync = true
-}

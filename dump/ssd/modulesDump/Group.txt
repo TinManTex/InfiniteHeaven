@@ -1,7 +1,0 @@
-Group=<1>{
-  GetMembers = <function 1>,
-  __index = <function 2>,
-  __newindex = <function 3>,
-  _className = "Group",
-  <metatable> = <table 1>
-}

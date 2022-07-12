@@ -1,5 +1,0 @@
-DataBody={
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "DataBody"
-}

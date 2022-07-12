@@ -1,7 +1,0 @@
-Camera={
-  GetTransform = "<function>",
-  SetTransform = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "Camera"
-}

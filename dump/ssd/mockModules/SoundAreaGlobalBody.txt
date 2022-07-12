@@ -1,7 +1,0 @@
-SoundAreaGlobalBody={
-  CancelParameter = "<function>",
-  OverwriteParameter = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "SoundAreaGlobalBody"
-}

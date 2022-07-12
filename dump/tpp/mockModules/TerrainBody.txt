@@ -1,8 +1,0 @@
-TerrainBody={
-  GetNumBlocksHeight = "<function>",
-  GetNumBlocksWidth = "<function>",
-  GetSize = "<function>",
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "TerrainBody"
-}

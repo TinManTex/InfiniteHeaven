@@ -1,4 +1,0 @@
-TppGameMode={
-  numberKeys = { -285212672, 148636841, -285212671 },
-  stringKeys = { "__index", "__newindex" }
-}

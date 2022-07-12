@@ -14,7 +14,7 @@ local this={}
 --p02=TppMbDev.EQP_DEV_TYPE_Shotgun,--equipDevelopTypeID
 --p03=0,--baseEquipDevelopId --Prerequisite Item ID
 --p04=0,--skill //Specialist/staff skill requirement (handgun specialist, cybernetics specialist, etc)
---p05=65535,--bluePrintId //Design requirements - 65535, TppMotherBaseManagementConst.DESIGN_2000,
+--p05=65535,--bluePrintId/databaseId //Design requirements - 65535, TppMotherBaseManagementConst.DESIGN_2000,
 --p06="name_wp_4040",--langEquipName //Item name (displayed in iDroid)
 --p07="info_wp_4040",--langEquipInfo //Item description (displayed in iDroid)
 --p08="/Assets/tpp/ui/texture/EquipIcon/npc/ui_wp_com_sg_020_alp",--iconFtexPath //Item picture (displayed in iDroid)
@@ -56,7 +56,7 @@ local this={}
 --   p01=TppEquip.EQP_IT_CBox_CLB_C_G01
 
 --name,description,long name are in: \Assets\tpp\lang\ui\tpp_weapon.eng.lng2
-
+--parameter names up to p33 are from mgos EquipDevelopSetting.lua
 this.descriptiveParamToParamName={
   equipDevelopID="p00",
   equipID="p01",
@@ -85,7 +85,7 @@ this.descriptiveParamToParamName={
   langEquipRealName="p30",
   isResultRankLimited="p31",
   isCustomEnable="p32",
-  isColorChangeEnable="p33",
+  isColorChangeEnable="p33",--last mgo param name
   unk34="p34",
   isSecurityStaffEquip="p35",
   unk36="p36",
@@ -1055,8 +1055,62 @@ for n,developSetting in ipairs(this.equipDevTable)do
 end
 --<
 
-for i,developSetting in ipairs(this.equipDevTable)do
-  TppMotherBaseManagement.RegCstDev(developSetting)
+--DEBUGNOW WIP
+local numParams=36--SYNC
+local pNameToDesc={}
+for dParam,param in pairs(this.descriptiveParamToParamName)do
+  pNameToDesc[param]=dParam
+end
+
+function this.BuildCSVLines(equipDevTable)
+  local lines={}
+
+  local key=""
+  for p=1,numParams do
+    local pName=string.format('p%02d,',p)
+    --key=key..pName..","
+    key=key..pNameToDesc[pName]..','--tex descriptive param name
+  end--for numParams
+  table.insert(lines,key)
+  
+  for i,developEntry in ipairs(equipDevTable)do
+    local line=""
+    for p=1,numParams do
+      local pName=string.format('p%02d,',p)
+      local value=developEntry[pName]
+      if type(value)=="string"then
+        line=line..'"'..value..'",'
+      else
+        line=line..tostring(value)..','
+      end
+    end--for numParams
+    table.insert(lines,line)
+  end--for equipDevTable
+  
+  return lines
+end--BuildCSVLines
+--tex could change this so it's overwrite/overload instead of whole table replace
+function this.ReadCSVLines(lines)
+  local devTable={}
+  for i,line in ipairs(lines)do
+    local values=InfUtil.Split(line,',')
+    local entry={}
+    for p=1,numParams do
+      local pName=string.format('p%02d,',p)
+      local value=values[p]
+      if value==nil then
+        InfCore.Log("ERROR: ReadCSVLines entry "..i.." param "..p.." is nil")
+      else
+        entry[pName]=value
+      end
+    end--for numParams
+    table.insert(devTable,entry)
+  end--for lines
+  return devTable
+end--GetCSVLines
+
+for i,developEntry in ipairs(this.equipDevTable)do
+  TppMotherBaseManagement.RegCstDev(developEntry)
 end
 --this={}--tex clear if not doing any run-time analysis and if you want to free up some memory
 

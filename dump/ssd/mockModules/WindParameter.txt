@@ -1,5 +1,0 @@
-WindParameter={
-  __index = "<function>",
-  __newindex = "<function>",
-  _className = "WindParameter"
-}

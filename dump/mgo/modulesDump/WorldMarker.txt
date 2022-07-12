@@ -1,8 +1,0 @@
-WorldMarker={
-  CreateMarkerControl = <function 1>,
-  DisableMarker = <function 2>,
-  EnableMarker = <function 3>,
-  SetAdditionalFlag = <function 4>,
-  SetPosition = <function 5>,
-  SetUserData = <function 6>
-}

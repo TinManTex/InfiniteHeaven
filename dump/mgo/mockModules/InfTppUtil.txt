@@ -1,8 +1,0 @@
-InfTppUtil={
-  IsDemoPlaying = "<function>",
-  IsGameObjectType = "<function>",
-  ResetObjectPool = "<function>",
-  RunOnAllObjects = "<function>",
-  _scriptInstanceId = "<userdata: userdata: 000000000B0B6C20>",
-  _scriptPath = "InfTppUtil"
-}

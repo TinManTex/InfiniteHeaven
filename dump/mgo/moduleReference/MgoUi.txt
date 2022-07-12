@@ -1,4 +1,0 @@
-MgoUi={
-  CreateController = true,
-  PreLoad = true
-}

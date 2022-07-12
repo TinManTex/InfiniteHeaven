@@ -1,3 +1,0 @@
-FoxGameFrame={
-  SetGameFrameWaitType = true
-}

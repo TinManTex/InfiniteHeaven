@@ -1,3 +1,0 @@
-SsdZombiePack={
-  ReloadParameterTables = <function 1>
-}
