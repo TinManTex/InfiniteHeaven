@@ -1,6 +1,10 @@
 Infinite Heaven changelog
 
-r258 - 2022-07-04
+r258 - 2022-07-13
+IHHook ver r17
+
+InfCamHook: moved from IHHook install to IH.
+
 Run AutoDoc", "AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files."
 via IH system menu. 
 

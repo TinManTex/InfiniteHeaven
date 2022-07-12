@@ -3,7 +3,7 @@
 
 -- InfQuickMenuDefs
 -- When enabled via the 'Enable Quick menu'/enableQuickMenu option or forceEnable below, 
--- activate by holding <Switch Zoom> (V key or RStick click) + the key/button for the defined command.
+-- activate by holding <Call Radio> (Q key or Left bumper) + the key/button for the defined command.
 
 --If you want to edit this it may be better to copy off to InfQuickMenuDefs_User.lua 
 --so it doesn't get overwritten on new IH versions, 

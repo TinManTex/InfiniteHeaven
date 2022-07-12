@@ -1,5 +1,5 @@
 = Infinite heaven =
-r258 - 2022-07-04
+r258 - 2022-07-13
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatable IHHook version: r17 or later
@@ -22,7 +22,11 @@ Recent changes/additions
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
-r258 - 2022-07-01
+r258 - 2022-07-13
+IHHook ver r17
+
+InfCamHook: moved from IHHook install to IH.
+
 Run AutoDoc", "AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files."
 via IH system menu. 
 
@@ -147,7 +151,7 @@ Quick Menu:
 A way to quickly trigger certain Infinite Heaven commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 
-When enabled hold the <Switch Zoom> (V key or RStick click) button then hold one of the following:
+When enabled hold the <Call Radio> (Q key or Left bumper) button then hold one of the following:
 
 <Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
 <Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but necesary to activate the inter landingzone ride on heli)
