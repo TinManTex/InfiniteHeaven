@@ -1,10 +1,13 @@
 --InfPositions.lua
 --Commands to manage positions list used for other commands as well as saving and loading from file.
+--Search for this.positions in this file or InfPositions.positions in others for uses of the positions list
+
 local this={}
 
 --STATE
-this.positions={}
-local list=this.positions
+this.positions={
+--REF {x,y,z,yaw}--yaw currently unused
+}
 
 local fileName="positions_list.txt"
 
@@ -41,7 +44,7 @@ this.langStrings={
       addMarkerPositions="Adds current user markers to positions list, positions list can be written to file with Write Positons List command.",
       writePositions="Writes Positions List to files in MGS_TPP\\mod\\",
       clearPositions="Clears Positions List",
-      loadPositions="Loads positions from MGS_TPP\\mod\\positions_lua.txt",
+      loadPositions="Loads positions from MGS_TPP\\mod\\positions.txt",
       selectListPosition="Selects a position from positions list, mostly just used to browse positions at the moment.",--DEBUGNOW
     },
   },
@@ -164,9 +167,10 @@ function this.LoadPositions()
   end
 
   --GOTCHA: different save format (see writepositions) than positions list TODO: choose one or other
+  --Currently just x,y,z,yaw, per line, yaw currently unused
   InfUtil.ClearArray(this.positions)
   for i,coords in ipairs(lines)do
-    local split=InfUtil.Split(lines,",")
+    local split=InfUtil.Split(coords,",")
     this.positions[#this.positions+1]=split
   end
 
