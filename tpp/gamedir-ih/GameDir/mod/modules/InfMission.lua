@@ -186,7 +186,7 @@ this.debugModule=true--DEBUGNOW
 
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
-this.missionNames={}--tex see LoadMissionDefs TODO: not really useful since missionInfo isn't indexed by missionName like questinfo is
+this.missionNames={--[["<missionName>"=missionInfo]]}--tex see LoadMissionDefs missionInfo is indexed by missionCode
 this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonStateGVars(), story missions only not free roam missions
 this.missionListSlotIndices={}--tex MISSION_LIST indexes that can be reusued for addon missions
 this.freeMissionIds={}--tex free roam missions
@@ -528,7 +528,7 @@ function this.LoadMissionDefs()
         InfCore.Log("WARNING: could not find missionCode on "..fileName)
       else
         missionInfo.name=missionName
-        missionNames[#missionNames+1]=missionName
+        missionNames[missionName]=missionInfo
 
         if missionsInfo[missionCode] then
           InfCore.Log("WARNING: Existing missionInfo already found for "..missionCode)
@@ -1196,7 +1196,7 @@ function this.ReadSaveStates()
 
   local clearStates={}
   for name,state in pairs(ih_states) do
-    local missionInfo=this.missionInfo[name]
+    local missionInfo=this.missionNames[name]
     if not missionInfo then
         InfCore.Log("InfMission.ReadSaveStates: Could not find missionInfo for "..name..". Clearing")
         table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)        
@@ -1214,7 +1214,7 @@ function this.ReadSaveStates()
         if state.ui_isTaskLastComleted then
           for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
             local missionTaskIndex=missionIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
-            --DEBUGNOW gvars.ui_isTaskLastComleted[missionTaskIndex]=state.ui_isTaskLastComleted[taskIndex+1]
+            gvars.ui_isTaskLastComleted[missionTaskIndex]=state.ui_isTaskLastComleted[taskIndex+1]
           end
         end--if ui_isTaskLastComleted
       end--if missionIndex
