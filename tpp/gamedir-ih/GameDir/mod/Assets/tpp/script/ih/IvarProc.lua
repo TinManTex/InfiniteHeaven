@@ -1110,7 +1110,7 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   local lang=InfLang.eng
   local helpLang=InfLang.help.eng
 
-  local saveLineFormatStr="\t\t%s=%s,--%s -- %s -- %s"
+  local saveLineFormatStr="\t\t%s=%s, --[[%s -- %s -- %s]]"
   local saveText={}
   saveText[#saveText+1]="local this={"
   saveText[#saveText+1]="\tdescription=\""..profile.description.."\","
