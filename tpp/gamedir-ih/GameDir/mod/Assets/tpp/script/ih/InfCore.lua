@@ -737,7 +737,7 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     Script.LoadLibrary("/Assets/tpp/script/ih/"..moduleName..".lua")
     module=_G[moduleName]
     if not module then
-      InfCore.Log("InfCore.LoadExternalModule: ERROR: module"..moduleName.."not in globals",false,true)
+      InfCore.Log("InfCore.LoadExternalModule: ERROR: module "..moduleName.." not in globals",false,true)
       return nil
     end
   end--if internal or external
