@@ -1,7 +1,12 @@
--- DOBUILD: 0
 -- InfAutoDoc.lua
 -- Builds the features documentation by iterating Infinite Heavens menu modules
 -- See the main function AutoDoc
+
+--InfAutoDoc has been around forever to build the Features and Options documents, but has been shifted into IH (well returned since it started as an IH command)
+--as of r258 due to a change in the IH dev layout that would take a bunch more work to work around.
+--That does add a couple of hoops to jump to an IH release, but it removes the need to run it through an external lua distro.
+--Basically have to do a release build, run it off that, and copy the modified files (docs /Features and Options txt html and profiles/All_Options_Example.lua) back over the repo versions.
+--And as a bonus you can run it to add any mod added menus/options to the docs.
 -- TODO: list autoDoc vars on ivars/menus
 --overrides useful for stuff that gets set dynamically
 -- ivars:
@@ -252,7 +257,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
             table.insert(profileLine,",")
 
             local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
-            table.insert(profileLine,"--")
+            table.insert(profileLine,"--[[")
             if item.settings then
               table.insert(profileLine,"{ ")
               for i,setting in ipairs(item.settings)do
@@ -274,6 +279,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
             if item.isPercent then
               table.insert(profileLine," (percentage)")
             end
+            table.insert(profileLine,"]]")
             table.insert(profileTable,table.concat(profileLine))
 
             priorItems[item.name]=true
