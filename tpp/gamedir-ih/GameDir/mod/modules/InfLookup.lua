@@ -672,7 +672,8 @@ function this.AddToStr32StringLookup(strCode32List)
   end
 end
 
---tex returns string or strCode
+--tex returns matching string or the input strCode if no string found
+--lookup filled by mod\strings, and uses of InfCore.StrCode32
 --isStrCode on guaranteed strcodes to add that code to unknowns (this function is also used in a blanket fashion in PrintOnMessage with potential non-strcodes)
 function this.StrCode32ToString(strCode,isStrCode)
   if strCode==nil then
@@ -1629,7 +1630,15 @@ this.messageSignatures={
       {argName="weatherType",argType="weatherType"},
     },
   },
-}
+}--messageSignatures
+
+--tex actually add the message names to strcode32 lookup since there's some messages only subscribed in specific missions, but still called all the time
+--note: this will still only catch those you have a signature for, so the actual solution is to throw strings from mgsv-lookup-strings repo (ex tpp-lua.txt) into mod\strings 
+for objectType, messages in pairs(this.messageSignatures)do
+  for messageName, messageArgs in pairs(messages)do
+    InfCore.StrCode32(messageName)--tex adds to InfCore.str32ToString which is verified strcode lookups
+  end
+end
 
 --
 function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
