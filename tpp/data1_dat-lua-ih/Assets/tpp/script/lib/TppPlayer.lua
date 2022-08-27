@@ -2233,7 +2233,7 @@ function this.Init(missionTable)
     return
   end
   if TppMission.IsMissionStart()then
-    if((vars.missionCode==30010)or(vars.missionCode==30020))and(Player.IsVarsCurrentItemCBox())then
+    if((vars.missionCode==30010)or(vars.missionCode==30020))and(Player.IsVarsCurrentItemCBox())then--NMC why is this? TODO add addon support? 
     else
       vars.currentItemIndex=currentItemIndex
     end
@@ -2706,7 +2706,8 @@ function this.WarpByCboxDelivery()
     return
   end
   TppGameStatus.Set("TppPlayer.WarpByCboxDelivery","S_IS_BLACK_LOADING")
-  if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+  --tex ORIG if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+  if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then--tex enable for addon free roam missions TODO rethink, enable for wargames?
     TppQuest.DeactivateCurrentQuestBlock()
     TppQuest.ClearBlockStateRequest()
   end
@@ -2761,7 +2762,8 @@ function this.UpdateDeliveryWarp()
     mvars.ply_deliveryWarpState=this.DELIVERY_WARP_STATE.START_FADE_IN
     TppSoundDaemon.ResetMute"Loading"
     TppGameStatus.Reset("TppPlayer.WarpByCboxDelivery","S_IS_BLACK_LOADING")
-    if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+    --tex ORIG if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+    if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then--tex enable for addon free roam missions TODO rethink, enable for wargames?
       TppQuest.InitializeQuestLoad()
       TppQuest.InitializeQuestActiveStatus()
     end

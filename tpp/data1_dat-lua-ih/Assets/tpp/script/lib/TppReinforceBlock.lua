@@ -441,7 +441,7 @@ function this._OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestL
 
   --tex WORKAROUND just force this shit, in vanilla missions that use super reinforce this is called via "RequestAppearReinforce"/_OnRequestAppearReinforce via engine, however in free mode this doesnt seem fire consistantly suggesting there's some condition stopping it
   --it does however break normal vehicle reinforcements (so they're blocked in SelectReinforceType for free roam)
-  local isFree=vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE
+  local isFree=TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode)--tex TODO rethink, enable for wargames?
   if Ivars.forceReinforceRequest:Is(1) or isFree then
     if reinforceType==this.REINFORCE_TYPE.HELI then
       --      InfCore.DebugPrint"_OnRequestLoadReinforce forcing StartReinforce"--DEBUG

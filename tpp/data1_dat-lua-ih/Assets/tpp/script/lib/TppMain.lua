@@ -572,7 +572,8 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   this.SetMessageFunction(missionTable)
   TppQuest.UpdateActiveQuest()
   TppDevelopFile.OnMissionCanStart()
-  if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+  --tex ORIG if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+  if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then--tex enable for addon free roam missions TODO rethink, enable for wargames?
     if TppQuest.IsActiveQuestHeli()then
       TppEnemy.ReserveQuestHeli()
     end

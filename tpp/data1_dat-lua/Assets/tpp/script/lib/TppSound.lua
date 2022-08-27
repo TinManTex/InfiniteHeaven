@@ -144,7 +144,8 @@ function this.DeclareSVars()
     nil}
 end
 function this.OnAllocate(missionTable)
-  if(vars.missionCode==30010)or(vars.missionCode==30020)then
+  --tex ORIG if(vars.missionCode==30010)or(vars.missionCode==30020)then
+  if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then--tex enable for addon free roam missions. TODO: this file is not in build. TODO rethink, enable for wargames?
     mvars.snd_bgmList={}
     mvars.snd_bgmList.bgm_heliStart={start="Play_bgm_sideop_start",finish="Stop_bgm_sideop_start"}
   end
