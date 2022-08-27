@@ -793,7 +793,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       else
         faceIdPool=maleFaceIdPool
       end
-      if #faceIdPool==0 then
+      if faceIdPool==nil or #faceIdPool==0 then
         InfCore.Log("#faceIdPool too small, aborting",true)--DEBUG
         break
       end
