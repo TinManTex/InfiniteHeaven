@@ -65,7 +65,7 @@ end
 
 function this.CopyList(sourceList)
   if #sourceList==0 then
-    return
+    return {}
   end
 
   local newList={}
