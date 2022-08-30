@@ -43,7 +43,7 @@ this.REINFORCE_FPK={
       [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk","/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"}
     }--<
   }
-}
+}--REINFORCE_FPK
 this.REINFORCE_VEHICLE_NAME="reinforce_vehicle_0000"
 this.REINFORCE_DRIVER_SOLDIER_NAME="reinforce_soldier_driver"
 this.REINFORCE_SOLDIER_NAMES={"reinforce_soldier_0000","reinforce_soldier_0001","reinforce_soldier_0002","reinforce_soldier_0003"}
@@ -67,7 +67,14 @@ function this.GetFpk(reinforceType,pfcType,coloringType)--NMC: basically parses 
   if Tpp.IsTypeTable(fpkTableForReinforceType)then
     local locationString=TppLocation.GetLocationName()--tex REWORKED>
     locationString=locationString or ""
-    locationString=string.upper(locationString)--<
+    locationString=string.upper(locationString)
+    --WORKAROUND default for addons, TODO really want proper addon support though 
+    if reinforceType==this.REINFORCE_TYPE.HELI then
+      if fpkTableForReinforceType[locationString]==nil then
+        locationString="AFGH"
+      end
+    end
+    --<
     --ORIG
     --    local locationString=""
     --    if TppLocation.IsAfghan()then
@@ -75,7 +82,7 @@ function this.GetFpk(reinforceType,pfcType,coloringType)--NMC: basically parses 
     --    elseif TppLocation.IsMiddleAfrica()then
     --      locationString="MAFR"
     --    end
-    local fpkOrTable=fpkTableForReinforceType[pfcType]or fpkTableForReinforceType[locationString]
+    local fpkOrTable=fpkTableForReinforceType[pfcType]or fpkTableForReinforceType[locationString]--NMC only REINFORCE_TYPE.HELI has locationString entries
     if Tpp.IsTypeTable(fpkOrTable)then
       coloringType=coloringType or"_DEFAULT"
       if fpkOrTable[coloringType]then
@@ -86,7 +93,7 @@ function this.GetFpk(reinforceType,pfcType,coloringType)--NMC: basically parses 
     end
     if fpkOrTable then
       fpkTableForReinforceType=fpkOrTable
-    else--tex NMC I don't get what case this is trying to catch
+    else--tex NMC I don't get what case this is trying to catch, the only table sub entries in REINFORCE_FPK are PF and HELI which are handled above
       InfCore.Log("WARNING: TppReinforceBlock.GetFpk: could not find fpk path")--tex DEBUG
       local r=""
       for i,n in pairs(fpkTableForReinforceType)do
