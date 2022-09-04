@@ -1160,10 +1160,31 @@ function this.Lookup(lookupType,value)
   else
     if lookupType~="number" then
       InfCore.Log("WARNING: InfLookup.Lookup: no lookup of type "..lookupType)
+    elseif lookupType == nil then
+      InfCore.Log("WARNING: InfLookup.Lookup: lookupType was nil for "..value)
     end
   end
   return lookedupValue
 end
+
+this.alertFuncs={
+  any=function()
+    return true
+  end,
+  notZero=function(x)
+    return x ~= 0
+  end,
+  neitherZeroNorNullId=function(x)
+    return x ~= 0 and x ~= NULL_ID
+  end,
+  notNullId=function(x)
+    return x ~= NULL_ID
+  end,
+}
+
+this.signatureTypes={
+  none={},
+}
 
 --tex message signatures for PrintOnMessage/Ivars.debugMessages
 -- {
@@ -1192,6 +1213,46 @@ this.messageSignatures={
       {argName="clusterIndex",argType="number"},
     },
   },
+  Demo={
+    Play={
+      {argName="playId",argType="str32"},
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    PlayEnd={
+      -- fires after Finish
+      {argName="playId",argType="str32"},
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    Playing={
+      -- fires after Start
+      {argName="playId",argType="str32"},
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    PlayInit={
+      -- fires before Play
+      {argName="playId",argType="str32"},
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    Start={
+      -- fires after Play
+      {argName="playId",argType="str32"},
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    Finish={
+      -- fires after FinishMotion
+      {argName="playId",argType="str32"}, -- playId
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    FinishMotion={
+      -- fires [some time] after Playing
+      {argName="playId",argType="str32"}, -- playId
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
+    visibleOnNPC={
+      {argName="playId",argType="str32"}, -- playId
+      {argName="npcLocator",argType="str32"}, -- npc locator
+    },
+  },
   GameObject={
     ArrivedAtLandingZoneSkyNav={--SupportHeli
       {argName="heliId",argType="gameId"},
@@ -1210,6 +1271,33 @@ this.messageSignatures={
     BreakGimmickBurglarAlarm={
       {argName="attackerId",argType="gameId"},--VERIFY is gameId
     },
+    BuddyAppear={
+      -- on the sortie prep menu, is only the buddyLocatorId and appears to only run for:
+      --  BuddyDogGameObjectLocator
+      --  BuddyQuietGameObjectLocator
+      {argName="buddyLocatorId",argType="gameId"},
+    },
+    BuddyArrived={
+      -- buddy arrived at the correct spot
+      {argName="buddyId",argType="gameId"}, -- quiet's instance
+      {argName="unk1",argType="gameId",argAlert=this.alertFuncs.notZero}, -- ??? the player?
+    },
+    BuddyEspionage={
+      {argName="buddyId",argType="gameId"}, -- quiet's instance
+      {argName="outpostName",argType="str32"},
+      {argName="unk",argType="gameId"}, -- the outpost?
+    },
+    BulletGuardArmor={
+      {argName="gameId",argType="gameId"},
+      {argName="guardAmount",argType="number"}, --ej TODO VERIFY
+      {argName="attackerId",argType="gameId"}, --ej TODO VERIFY: player?
+      {argName="unknown",argType="number",argAlert=function(x) return x~=1 and x~=3 end}, --ej TODO VERIFYw
+      --[[
+        1 = ignored, flinched
+        ...
+        3 = helmet bounced off
+      ]]
+    },
     BurglarAlarmTrap={
       {argName="bAlarmId",argType="gimmickId"},--VERIFY is gameId
       {argName="bAlarmHash",argType="str32"},--tex from ly<layout>.lua .itemTable.stolenAlarms
@@ -1219,9 +1307,17 @@ this.messageSignatures={
     CalledFromStandby={--SupportHeli
       {argName="gameId",argType="gameId"},
     },
+    CancelReinforce={
+      {argName="cpId",argType="cpId"}
+    },
     Carried={--carry soldier/hostage
       {argName="gameId",argType="gameId"},
       {argName="carryState",argType="carryState"},
+    },
+    ChangeLife={ --ej HASH-CONFIRMED
+      -- when your buddy gets hurt, specifically quiet
+      {argName="buddyId",argType="gameId"}, -- quiet's instance
+      {argName="lifeValue",argType="number"}, -- for quiet goes down from 100
     },
     ChangePhase={
       {argName="cpId",argType="cpId"},
@@ -1231,6 +1327,20 @@ this.messageSignatures={
     ChangePhaseForAnnounce={
       {argName="cpId",argType="cpId"},
       {argName="phase",argType="phase"},
+    },
+    CheckEventDoorNgIcon={
+      -- called every tick when you are standing in a trap with a prompt to lockpick a door
+      -- ensures that there are no conditions that should trigger a subsequent prompt to show
+      -- a "Not Good" [X] on top of the icon, indicating you cannot do it now
+
+      -- happens during shining lights, and also when you rescue the children from the diamond mine
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gameId"}, --ej TODO VERIFY
+    },
+    CommandPostAnnihilated={
+      {argName="cpId",argType="cpId"},
+      {argName="arg1",argType="number",argAlert=function(x) return x~=1 end},-- 1?
+      {argName="arg2",argType="number",argAlert=function(x) return x~=1 end},-- 1?
     },
     Conscious={
       {argName="gameId",argType="gameId"},
@@ -1260,35 +1370,50 @@ this.messageSignatures={
       {argName="heliId",argType="gameId"},
       {argName="landingZone",argType="str32"},
     },
+    DiscoveredObject={
+      {argName="gameObjectId",argType="gameId"}, -- discovered object
+      {argName="discovererId",argType="gameId",argAlert=this.alertFuncs.notZero}, -- player, usually
+    },
+    DiscoveryHostage={
+      {argName="hostageId",argType="gameId"}, -- the hostage being checked for
+      {argName="soldierId",argType="gameId"}, -- the soldier looking for the hostage
+    },
     Down={
       {argName="downedId",argType="gameId"},--tex when soldier downed
     },
+    Dying={--ej when soldier critically wounded
+      {argName="soldierId",argType="gameId"},
+    },
+    DyingAll={
+      -- when all 4 skulls in a group are eliminated
+      {argName="enemyId",argType="gameId"},
+    },
+    EndInvestigate={
+      {argName="cpId",argType="cpId"},
+      {argName="phase",argType="phase"},
+    },
+    EspionageBoxGimmickOnGround={
+      {argName="gimmickId",argType="gameId"}, --44032/3/4
+      {argName="unk1",argType="str32"},
+      {argName="unk2",argType="str32"},
+      -- always 2777582117?
+    },
+    EventGimmickFinish={
+      -- called when transitioning between the battlegear hangar and motherbase
+      {argName="unk1",argType="gameId",argAlert=this.alertFuncs.any},
+      {argName="locator",argType="str32"},
+      {argName="unk2",argType="str32",argAlert=this.alertFuncs.any},
+    },
     Fulton={
       {argName="gameId",argType="gameId"},
-      {argName="gimmickInstanceOrAnimalId",argType="number"},
+      {argName="gimmickInstanceOrAnimalId",argType="number"}, -- TODO: lookup
       {argName="gimmickDataSet",argType="dataSetPath32"},
       {argName="staffIdOrResourceId",argType="number"},--TODO:
     },
     FultonInfo={
       {argName="gameId",argType="gameId"},
-      {argName="fultonedPlayerIndex",argType="number"},
+      {argName="fultonedPlayerIndex",argType="gameId"},
       {argName="reduceThisContainer",argType="number"},--boolAsNumber
-    },
-    LandedAtLandingZone={--SupportHeli
-      {argName="heliId",argType="gameId"},
-      {argName="landingZone",argType="str32"},
-    },
-    Neutralize={
-      {argName="gameId",argType="gameId"},
-      {argName="attackerId",argType="gameId"},
-      {argName="neutralizeType",argType="neutralizeType"},
-      {argName="neutralizeCause",argType="neutralizeCause"},
-    },
-    NeutralizeFob={
-      {argName="gameId",argType="gameId"},
-      {argName="attackerId",argType="gameId"},
-      {argName="neutralizeType",argType="neutralizeType"},
-      {argName="neutralizeFobCause",argType="neutralizeFobCause"},
     },
     HeadShot={
       {argName="gameId",argType="gameId"},
@@ -1301,6 +1426,16 @@ this.messageSignatures={
       {argName="attacker",argType="attackId"},
       {argName="attackerId",argType="gameId"},
       {argName="distance",argType="number"},
+    },
+    HeliDoorClosed={
+      {argName="gameId",argType="gameId"},--helicopter whose door is closing
+    },
+    Holdup={
+      {argName="gameId",argType="gameId"},-- victim being held up
+    },
+    InAnimalLocator={
+      {argName="animalId",argType="number"},--ej TODO what do the numbers mean: 66 = Gray Wolf
+      {argName="gameId",argType="gameId"},--ej player, usually
     },
     InSight={--tex when heli spots player
       {argName="heliId",argType="gameId"},
@@ -1317,6 +1452,60 @@ this.messageSignatures={
       {argName="strCodeName",argType="str32"},
       {argName="index",argType="number"},
     },
+    InterrogateSetMarker={--ej doesn't seem to indicate what he marked?
+      {argName="soldierId",argType="gameId"},
+    },
+    LandedAtLandingZone={--SupportHeli
+      {argName="heliId",argType="gameId"},
+      {argName="landingZone",argType="str32"},
+    },
+    LostContainer={
+      -- when an NPC notices a container disappeared
+      -- also fired during an FOB event
+      {argName="noticerId",argType="gameId"}, -- in the 39446/39445 range?
+      {argName="locator",argType="str32"},
+    },
+    LostControl={--attack heli
+      {argName="heliId",argType="gameId"},
+      {argName="sequenceName",argType="str32"}, -- Start = begin spinout, End = explosion
+      {argName="attackerId",argType="gameId",argAlert=this.alertFuncs.notZero}, --potentially not just the player
+    },
+    LostHostage={
+      {argName="gameId",argType="gameId"}, -- the hostage who was discovered missing
+    },
+    MapUpdate={--ej doesn't seem to indicate what he is telling you about
+      {argName="soldierId",argType="gameId"},
+    },
+    MonologueEnd={
+      {argName="gameId",argType="gameId"},
+      {argName="monologueId",argType="str32"},
+      {argName="unknown",argType="number",argAlert=function(x) return x~=1 end},
+    },
+    Neutralize={
+      {argName="gameId",argType="gameId"},
+      {argName="attackerId",argType="gameId"},
+      {argName="neutralizeType",argType="neutralizeType"},
+      {argName="neutralizeCause",argType="neutralizeCause"},
+    },
+    NeutralizeFob={
+      {argName="gameId",argType="gameId"},
+      {argName="attackerId",argType="gameId"},
+      {argName="neutralizeType",argType="neutralizeType"},
+      {argName="neutralizeFobCause",argType="neutralizeFobCause"},
+    },
+    NoticeVehicleInvalid={
+      -- fired when vehicle that noticed us is no longer loaded, like when loading from checkpoint
+      -- unsure if it fires for anything other than walker gears (2304X)
+      {argName="gameId",argType="gameId"},
+    },
+    PlayerHideHorse={
+      {argName="playerIndex",argType="gameId"},
+    },
+    PlayerIsWithinRange={
+      {argName="gameId",argType="gameId"}, -- inquiring gameId
+      {argName="areaName",argType="str32"}, -- "CheckRange400"
+      {argName="radius",argType="number"}, -- the range from the point to check
+    },
     RadioEnd={--tex fired by soldier calling via radio? in mission script msgs they mostly have variables/comments saying 'conversation'
       {argName="gameId",argType="gameId"},--tex gamobjectid of what soldier is reporting on? is player in the case of soldier reporting spotted player to cp
       {argName="cpId",argType="cpId"},--tex cp theyre calling? calling from?
@@ -1328,6 +1517,23 @@ this.messageSignatures={
     },
     RequestLoadReinforce={--tex prior call for super reinforce
       {argName="reinforceCpId",argType="cpId"},
+    },
+    Restraint={
+      -- whenever a soldier gets taken 
+      -- note: fires every time any parameter changes
+      {argName="soldierId",argType="gameId"},--ej victim
+      {argName="releaseType",argType="number"},--boolAsNumber 0 = idle, 1 = moving / throwing
+      {argName="restraintType",argType="number"},--ej TODO TYPEDEF
+      -- 0 & 0 == regular hold
+      -- 1 & 1 == human shield 
+      -- 1 & 2 == throw flip / shove into wall
+      -- 1 & 3 == execution
+      -- 1 & 4 == choke-out
+      -- 1 & 5 == punch combo
+    },
+    Returned={
+      -- usually when a 
+      {argName="gameId",argType="gameId"},
     },
     RouteEventFaild={--tex AI route event failed
       {argName="gameId",argType="gameId"},
@@ -1348,8 +1554,19 @@ this.messageSignatures={
       {argName="actionId",argType="str32"},
       {argName="commandId",argType="str32"},
     },
+    StartInvestigate={
+      {argName="cpId",argType="cpId"},
+      {argName="phase",argType="phase"},--ej TODO VERIFY
+    },
     StartedCombat={--enemy heli, skulls
       {argName="unk0",argType="gameId"},--tex assuming gameId from the look of it, but it wasn't picking up enemy heli, is it attacker or attacked?
+    },
+    StartedDiscovery={
+      -- after a mist scull StartedSearch
+      -- initiates reflex mode
+      -- all skulls will call this after one spots you
+      {argName="enemyId",argType="gameId"},
+      {argName="phaseName",argType="str32"}, -- str32:1907917584
     },
     StartedMoveToLandingZone={--SupportHeli
       {argName="gameId",argType="gameId"},
@@ -1358,11 +1575,46 @@ this.messageSignatures={
     StartedPullingOut={--SupportHeli
       {argName="gameId",argType="gameId"},
     },
+    StartedSearch={
+      -- when a mist skull initiates a search for the player from idle?
+      -- only one skull needs to call this
+      {argName="enemyId",argType="gameId"},
+      {argName="phaseName",argType="str32"}, -- Normal
+    },
+    StartedSmokeAction={
+      -- when mist skulls shoot out a bunch of smoke bombs
+      {argName="enemyId",argType="gameId"},
+      {argName="phaseName",argType="str32"}, -- Fog
+    },
     SwitchGimmick={
       {argName="gameId",argType="gameId"},
       {argName="locatorName",argType="str32"},
       {argName="dataSetName",argType="dataSetPath32"},
       {argName="switchFlag",argType="number"},--tex 0,1,255 state of switch. 0 seems to be off, 1 is on? 255 is 'broken' (used to trigger buzz sound on mfinda oilfield switch)
+    },
+    TapCqc={
+      {argName="gameId",argType="gameId"},
+      {argName="attackerId",argType="gameId",argAlert=this.alertFuncs.notZero},--ej usually the player,
+    },
+    TapFoundPlayerInAlert={
+      {argName="gameId",argType="gameId"}, --soldier that spotted player
+    },
+    TapHeadShotFar={
+      {argName="gameId",argType="gameId"}, --victim
+      {argName="attackerId",argType="gameId",argAlert=this.alertFuncs.notZero},--ej usually the player,
+    },
+    TapHeadShotNear={
+      {argName="gameId",argType="gameId"}, --victim
+    },
+    TapHoldup={
+      -- fired after Holdup, but not every time Holdup is fired?
+      -- maybe only if they're upright
+      {argName="gameId",argType="gameId"},
+      {argName="attackerId",argType="gameId",argAlert=this.alertFuncs.notZero},--ej usually the player,
+    },
+    TapRocketArm={--ej knocked over while mid-flight
+      {argName="gameId",argType="gameId"},
+      {argName="attackerId",argType="gameId",argAlert=this.alertFuncs.notZero},--ej usually the player,
     },
     Unconscious={
       {argName="gameId",argType="gameId"},
@@ -1377,9 +1629,23 @@ this.messageSignatures={
       {argName="vehicleId",argType="gameId"},
       {argName="vehicleActionType",argType="vehicleActionType"},
     },
+    VehicleBroken={
+      {argName="vehicleId",argType="gameId"},
+      {argName="sequenceName",argType="str32"}, -- Start = begin breakdown, End = explosion
+    },
     VehicleDisappeared={
       {argName="gameId",argType="gameId"},--vehicle gameid
     --{argName="unk1",argType="str32"}, --tex UNKNOWN s10052 == "CanNotMove", otherwise doesn't seem to be set in most calls TODO test that mission to see if it actually does
+    },
+    VehicleTrouble={
+      {argName="gameId",argType="gameId"},--vehicle gameid
+      {argName="reason",argType="str32"},
+      -- 2117880453 = FultonStart (abducted)
+      -- 1936681293 = CanNotMove (tires shot)
+    },
+    WalkerGearBroken={
+      {argName="gameId",argType="gameId"},--vehicle gameid
+      {argName="sequenceName",argType="str32"}, -- Start = begin breakdown, End = explosion; 5 seconds between usually
     },
     WarningGimmick={--tex on ir sensor trigger
       {argName="irSensorId",argType="gimmickId"},--TODO can't seem to get any hits for str32 or TppGimmick.GetGameObjectId > gameObjectId name
@@ -1396,6 +1662,37 @@ this.messageSignatures={
       {argName="markedBy",argType="str32"},--tex alias: identificationCode --what set the marker, "Player" or ? buddy or ??, TODO arg not present some times?
     },
   },
+  Mission={
+    OnAddTacticalActionPoint={
+      {argName="gameId",argType="gameId"},--victim id
+      {argName="reason",argType="str32"},
+      -- "TapCqc"
+      -- "TapHeadShotFar"
+    },
+  },
+  MotherBaseManagement={
+    ChangedStaffListTab={
+      {argName="tabId",argType="number"},--TODO tabId to name
+      --[[
+         0 = Waiting Room
+         1 = Combat Unit
+         2 = R&D Team
+         3 = Base Development Unit
+         4 = Support Unit
+         5 = Intel Unit
+         6 = Medical Team
+         7 = Security Team
+         8 = Sickbay
+         9 = Brig
+          ...
+        12 = All Staff
+        13 = KIA/Former
+          ...
+        15 = Brig (FOB)
+      ]]
+    },
+    MbDvcActOpenDevelopWeapon=this.signatureTypes.none,
+  },
   MotherBaseStage={
     MotherBaseCurrentClusterLoadStart={
       {argName="clusterId",argType="number"},--TODO clusterid to name, but would still want to present the number
@@ -1407,13 +1704,32 @@ this.messageSignatures={
       {argName="clusterId",argType="number"},--TODO clusterid to name, but would still want to present the number
     },
   },
+  Network={
+    StartLogin={
+      {argName="playerIndex",argType="gameId"},
+    },
+    EndLogin=this.signatureTypes.none,
+  },
   Placed={
     OnActivatePlaced={
       {argName="equipId",argType="equipId"},
       {argName="index",argType="number"},
     },
+    OnBreakPlaced={
+      {argName="gameId",argType="gameId"},--instigator
+      {argName="equipId",argType="equipId"},--the item the placed item was
+      {argName="index",argType="number"},--ej TODO where does this come from
+      {argName="isPlacedByPlayer",argType="number",argAlert=this.alertFuncs.notZero},--boolAsNumber
+      -- 1 when placed by player
+      -- 0 when found on map
+    },
   },
   Player={
+    AdjustFulton={
+      -- when the player/target adjust angle to begin a fulton animation 
+      {argName="playerIndex",argType="gameId"},
+      {argName="gameId",argType="gameId"},
+    },
     CalcFultonPercent={--tex TODO: only first two arg appear? test to see if gimmick args do actually show when next to container or some other gimmick
       {argName="playerIndex",argType="gameId"},--tex assumed
       {argName="gameId",argType="gameId"},
@@ -1428,83 +1744,273 @@ this.messageSignatures={
     --          {argName="gimmickDataSet",argType="number"},--TODO:
     --          {argName="stafforResourceId",argType="number"},--TODO:
     },
+    CallMenuMessage_HideCallMenu={
+      {argName="playerIndex",argType="gameId"},
+    },
+    CallMenuMessage_ShowCallMenu={
+      {argName="playerIndex",argType="gameId"},
+    },
     CBoxSlideEnd={
-      {argName="gameId",argType="gameId"},--tex player instance I guess
+      {argName="playerIndex",argType="gameId"},
       {argName="distance",argType="number"},--tex distance of slide
     },
+    CqcContinuePass={
+      -- when someone investigates you in a box and you don't CQC them (opportunity no longer available)
+      -- possibly any other fleeting CQC event, not sure which
+      --ej TODO TEST MORE
+      {argName="playerIndex",argType="gameId"},
+    },
+    CqcHoldStart={
+      {argName="playerIndex",argType="gameId"},
+      {argName="gameId",argType="gameId"},--victim
+    },
     Dead={
-      {argName="playerId",argType="gameId"},
+      {argName="playerIndex",argType="gameId"},
       {argName="deathType",argType="str32"},
+    },
+    DemoSkipped={
+      {argName="playerIndex",argType="gameId"},
+    },
+    DogBiteConnect={
+      -- when a jackal/wolf/??? lunges at you and bites
+      {argName="playerIndex",argType="gameId"},
+      {argName="dogId",argType="gameId"}, --the dog that intitiated the attack
     },
     DirectMotion={--tex after Player.RequestToPlayDirectMotion is called
       {argName="animName",argType="str32"},
       {argName="animStage",argType="str32"},
-      {argName="arg2",argType="number"},--tex UNKNOWN
+      --[[
+        usually, in order:
+          Start
+          ??? 1351137991
+          PlayEnd
+          End
+      ]]
+      {argName="isFinished",argType="number"},--boolAsNumber
+      -- normally 0, only 1 for when "End" is fired
+    },
+    EndCarryAction={
+      -- player forced to drop something (via death)
+      {argName="playerIndex",argType="gameId"},
+    },
+    EnableCQC={
+      -- when you get a prompt to CQC nearby targets
+      {argName="playerIndex",argType="gameId"},
     },
     Enter={--tex mission zones
       {argName="zoneType",argType="str32"},--tex outerZone,innerZone,hotZone
     },
+    Exit={
+      {argName="zoneType",argType="str32"},--tex fallDeath
+      -- hotZone
+    },
+    FinishOpeningDemoOnHeli={
+      {argName="playerIndex",argType="gameId"},
+    },
+    FinishReflexMode={
+      {argName="playerIndex",argType="gameId"},
+    },
+    HostageUnlock={
+      {argName="playerIndex",argType="gameId"},
+      {argName="hostageId",argType="gameId"},
+    },
+    IconClimbOnShown={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notNullId},
+      {argName="climbState",argType="number",argAlert=function(x) return x < 0 or x > 1 end},
+      -- 0 = climbing down a crack
+      -- 1 = climbing   up a crack
+    },
+    IconCrawlStealthShown={
+      {argName="playerIndex",argType="gameId"},
+      {argName="unknownId",argType="gameId",argAlert=this.alertFuncs.notNullId},-- appears as NULL_ID
+    },
     IconFultonShown={
-      {argName="gameId",argType="gameId"},--tex player instance I guess
+      {argName="playerIndex",argType="gameId"},
       {argName="targetObjectId",argType="gameId"},
       {argName="isContainer",argType="number"},--boolAsNumber
       {argName="isNuclear",argType="number"},--boolAsNumber
     },
+    IconMBCBoxShown={
+      {argName="playerIndex",argType="gameId"},
+    },
+    IconToiletOnShown={
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gimmickId"},
+      -- equal to NULL_ID when removing a body from the toilet
+      -- equal to NULL_ID when carrying a body to the toilet, fires again & switches to toilet instance ID after loading body inside
+    },
+    IconRideHelicopterStartShown={
+      {argName="playerIndex",argType="gameId"},
+    },
     IconSwitchShown={
-      {argName="gameId",argType="gameId"},--tex player instance I guess
+      {argName="playerIndex",argType="gameId"},
       {argName="gimmickId",argType="gimmickId"},
       {argName="locatorNameS32",argType="str32"},
       {argName="dataSetPath32",argType="dataSetPath32"},
     },
+    IconTBoxOnShown={
+      -- same carry conditions as IconToiletOnShown
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gimmickId"},
+    },
+    LandingFromHeli={
+      {argName="playerIndex",argType="gameId"},
+    },
+    LookingTarget={
+      {argName="locatorNameS32",argType="str32"},
+      {argName="targetId",argType="gameId"},
+    },
+    NearVehicle={-- doesn't specify which vehicle
+      {argName="playerIndex",argType="gameId"},
+    },
     OnAmmoLessInMagazine={
-      {argName="unk0",argType="number"},--TODO
-      {argName="unk1",argType="number"},--TODO
-      {argName="equipId",argType="equipId"},--VERIFY
+      {argName="playerIndex",argType="gameId"},
+      {argName="belongsToPlayer",argType="number"},
+      --0 primaryHip, 1 primaryBack, 2 secondary, 3 = item (grenade/etc)
+      --boolAsNumber: 1 for DD weapon, 0 for found weapon, both yellow (chimera?)
+      {argName="equipId",argType="equipId"},
+      --873 for player sniper
+      --24 for found KABARGA-83 (equipId:EQP_WP_Com_sg_020)
+    },
+    OnAmmoStackEmpty={
+      -- identical arguments to OnAmmoLessInMagazine, please depend on that
+      {argName="playerIndex",argType="gameId"},
+      {argName="belongsToPlayer",argType="number"},
+      -- slot 
+      {argName="equipId",argType="equipId"}, -- TODO: find slot? WEAPONSLOT.HIP
+    },
+    OnBehind={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnBinocularsMode={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnComeOutSupplyCbox={
+      -- individual item requested via development menu
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnCrawl={
+      {argName="playerIndex",argType="gameId"},--ej assumed
+    },
+    OnElude={
+      -- whenever you hop a fence
+      {argName="playerIndex",argType="gameId"},
     },
     OnEquipHudClosed={
-      {argName="playerIndex",argType="number"},--tex TODO VERIFY
+      {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
       {argName="equipType",argType="equipType"},
     },
     OnEquipItem={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
     },
     OnEquipWeapon={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
       {argName="slot",argType="number"},--tex TODO VERIFY, build lookup
     },
     OnPickUpCollection={
-      {argName="playerId",argType="number"},
+      {argName="playerId",argType="gameId"},
       {argName="resourceId",argType="number"},--tex TODO
       {argName="resourceType",argType="resourceType"},
       {argName="langId",argType="str32"},
     },
     OnPickUpPlaced={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
       {argName="itemIndex",argType="number"},--TODO
       {argName="isPlayers",argType="number"},--boolAsNumber
     },
+    OnPickUpSupplyCbox={
+      -- the kind that has a weapon inside
+      {argName="playerIndex",argType="gameId"},
+    },
     OnPickUpWeapon={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
       {argName="pickupNumber",argType="number"},--blueprint number or casset number or ? VERIFY doesnt seem to directly match countRaw on the TppPickableLocatorParameter as arg3 was returning 60 for a rawcount 1
     },
+    OnPlayerElude={
+      -- whenever you hop a fence
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnPlayerGatling={
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gameId"},
+    },
+    OnPlayerHeliHatchOpen={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnPlayerMachineGun={
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gameId"},
+    },
+    OnPlayerMortar={
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gameId"},
+    },
+    OnPlayerPipeAction={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnPlayerSearchLight={
+      -- player begins operating search light
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gameId"},
+    },
+    OnPlayerStaminaOut={
+      {argName="playerIndex",argType="gameId"},
+      {argName="unk1",argType="number",argAlert=function(x) return x~=1 end}, --1 = self-inflicted?
+    },
+    OnPlayerToilet={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnPlayerTrashBox={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnVehicleDrive={
+      {argName="playerIndex",argType="gameId"},
+      {argName="vehicleId",argType="gameId"}, --2560X?
+    },
     OnVehicleRide_Start={
-      {argName="playerId",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="rideFlag",argType="number"},--0== get on, 1 == get off ?
       {argName="vehicleId",argType="gameId"},
     },
+    OnWalkerGearDrive={
+      {argName="playerIndex",argType="gameId"},
+      {argName="walkerGearId",argType="gameId"},--BuddyWalkerGearGameObjectLocator or gameId
+    },
+    PlayerCureComplete={
+      -- fires when the cure is finished
+      {argName="playerIndex",argType="gameId"},
+    },
+    PlayerCureCompleteMotEnd={
+      -- fires after PlayerCureComplete when control regained
+      {argName="playerIndex",argType="gameId"},
+    },
+    PlayerCureStart={
+      -- fires after the QTE button pressed
+      {argName="playerIndex",argType="gameId"},
+    },
     PlayerDamaged={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="attackId",argType="attackId"},
       {argName="attackerId",argType="gameId"},
     },
     PlayerFulton={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="targetId",argType="gameId"},
+    },
+    PlayerFultoned={
+      {argName="playerIndex",argType="gameId"},
+      {argName="targetId",argType="gameId"}, --ej TODO VERIFY, assumed, was equal to playerIndex when self-fulton container extraction
+      {argName="unknown1",argType="number",argAlert=this.alertFuncs.notZero}, --boolAsNumber --ej TODO VERIFY, assumed: was 1 when self-fulton container extraction 
+      {argName="unknown2",argType="number",argAlert=this.alertFuncs.notZero}, --boolAsNumber --ej TODO VERIFY, assumed: was 0 when self-fulton container extraction
+    },
+    PlayerHeliGetOff={
+      {argName="playerIndex",argType="gameId"},
+      {argName="departingHeliId",argType="gameId"},
     },
     PlayerHoldWeapon={
       {argName="equipId",argType="equipId"},
@@ -1512,29 +2018,69 @@ this.messageSignatures={
       {argName="hasGunLight",argType="number"},--tex TODO: boolAsNumber?
       {argName="isSheild",argType="number"},
     },
+    PlayerHurt={
+      -- upon critical injuries
+      {argName="playerIndex",argType="gameId"},
+    },
+    PlayerLifeLessThanHalf={
+      {argName="playerIndex",argType="gameId"},
+    },
+    PlayerShowerEnd={
+      {argName="playerIndex",argType="gameId"},
+    },
     PlayerSwitchStart={
-      {argName="playerId",argType="gameId"},
-      {argName="switchId",argType="gameId"},
+      {argName="playerIndex",argType="gameId"},
+      {argName="gimmickId",argType="gameId"},
+    },
+    PressedCarryIcon={
+      {argName="playerIndex",argType="gameId"},
+      {argName="targetId",argType="gameId"},
     },
     PressedFultonIcon={
-      {argName="playerIndex",argType="number"},
+      {argName="playerIndex",argType="gameId"},
       {argName="targetId",argType="gameId"},
-      {argName="unk2",argType="number"},--TODO
-      {argName="unk3",argType="number"},--TODO
+      {argName="unk2",argType="number",argAlert=this.alertFuncs.notZero},--TODO
+      -- 1 on a wormhole container
+
+      {argName="unk3",argType="number",argAlert=this.alertFuncs.notZero},--TODO
+    },
+    PressedFultonNgIcon={
+      -- when you fill up the fulton hold action but you ain't got no fultons left
+      {argName="playerIndex",argType="gameId"},
+      {argName="targetId",argType="gameId"},
     },
     PutMarkerWithBinocle={
       {argName="x",argType="number"},
       {argName="y",argType="number"},
       {argName="z",argType="number"},
     },
+    RideHelicopter={
+      {argName="playerIndex",argType="gameId"},
+    },
     SetMarkerBySearch={--tex object was marked by looking at it
       {argName="typeIndex",argType="typeIndex"},
+    },
+    SetWetEffect={
+      {argName="playerIndex",argType="gameId"},
+    },
+    StartCarryIdle={
+      {argName="playerIndex",argType="gameId"},
+    },
+    StartPlayerBrainFilter={--ej target hurts us a lot, TODO find out what that means
+      {argName="playerIndex",argType="gameId"},
+      {argName="targetId",argType="gameId"},
+    },
+    SuppressorIsBroken={
+      {argName="playerIndex",argType="gameId"},
+    },
+    WarpEnd={
+      {argName="playerIndex",argType="gameId"},
     },
   },
   Radio={
     EspionageRadioCandidate={--tex seems to be when you look at something that has a radio/call message
       {argName="gameId",argType="gameId"},
-      {argName="unk1",argType="number"},--tex UNKNOWN TODO label argType unknown to run through the same multi lookup as no signature
+      {argName="unk1",argType="radioTargetId"},--tex UNKNOWN TODO label argType unknown to run through the same multi lookup as no signature
     },
     Start={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
@@ -1560,9 +2106,45 @@ this.messageSignatures={
       {argName="status",argType="number"},--tex TODO
     },
   },
+  SupportAttack={
+    OnRequested={
+      -- only fired when requested via iDROID
+      {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+      {argName="strikeId",   argType="number"},--ej TODO TYPEDEF
+      --[[
+        1 = bombardment
+        2 = smoke
+        3 = sleep
+        4 = chaff
+        5 = weather modification (weather request type never specified here???) [always S rank?]
+      ]]
+      {argName="strikeGrade",argType="number"},--ej TODO TYPEDEF
+      --[[
+        ... G = 0?
+        ... F = 1?
+        E = 2
+        D = 3
+        ... C = 4?
+        ... B = 5?
+        ... A = 6?
+        S = 7
+      ]]
+      },
+  },
   Terminal={
+    MbDvcActCallRescueHeli={
+      -- MISSIONS > HELICOPTER > PICK UP
+      {argName="gameId",argType="gameId"},--NULL_ID
+      {argName="gameId",argType="gameId"},--calling player
+    },
+    MbDvcActCallBuddy={
+      {argName="unk1",argType="number",argAlert=function(x) return x~=4 end},
+      -- 2 = D-Dog upon deployment 
+      -- 4 = D-Horse, dismounted me from him
+      {argName="focusedGameId",argType="gameId",argAlert=this.alertFuncs.notZero}, --the player?!
+    },
     MbDvcActFocusMapIcon={
-      {argName="focusedGameId",argType="gameId"},
+      {argName="focusedGameId",argType="gameId",argAlert=this.alertFuncs.notZero},
     },
     MbDvcActHeliLandStartPos={
       {argName="set",argType="number"},--boolAsNumber
@@ -1570,11 +2152,26 @@ this.messageSignatures={
       {argName="y",argType="number"},
       {argName="z",argType="number"},
     },
+    MbDvcActSelectCboxDelivery={
+      {argName="gameId",argType="gameId"},-- the location the player was moved to
+    },
+    MbDvcActSelectItemDropPoint={
+      {argName="focusedGameId",argType="gameId",argAlert=this.alertFuncs.notZero}, -- where did this string come from
+      -- when deployed on self once was 431?
+    },
     MbDvcActSelectLandPoint={
       {argName="nextMissionId",argType="number"},
       {argName="routeName",argType="str32"},--landingZone??
       {argName="layoutCode",argType="number"},
       {argName="clusterId",argType="number"},
+    },
+    MbDvcActSelectNonActiveMenu={
+      -- i've only seen this during DIAMOND DOGS, fires when [NO IMAGE] visible 
+      {argName="menuName",argType="str32"}, --MSN_DROP
+    },
+    MbDvcActWatchPhoto={
+      -- i've only seen this during DIAMOND DOGS
+      {argName="photoId",argType="number",argAlert=function(x)return x~=255 end}, -- what is this about
     },
   },
   Timer={
@@ -1596,6 +2193,17 @@ this.messageSignatures={
     },
   },
   UI={
+    BonusPopupClose={
+      {argName="popupId",argType="popupId"},
+    },
+    BonusPopupAllClose={
+      {argName="popupId",argType="popupId"},
+    },
+    EndAnnounceLog=this.signatureTypes.none,
+    EndDlcAnnounce={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+    },
     EndFadeOut={
       {argName="fadeInName",argType="str32"},
       {argName="unk1",argType="number"},--tex UNKNOWN
@@ -1604,6 +2212,70 @@ this.messageSignatures={
       {argName="fadeInName",argType="str32"},
       {argName="unk1",argType="number"},--tex UNKNOWN
     },
+    EndMissionTelopDisplay={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    EndMissionTelopFadeIn={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    EndMissionTelopFadeOut={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    EndMissionTelopHalfFadeOut={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    EndMissionTelopRadioStop={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    EndTelopCast={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    GameOverOpen={
+      {argName="duration",argType="number"}--astronomically large 1.4746996089218e+014
+    },
+    GameOverContinue={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero},
+      {argName="unknown1",argType="number",argAlert=this.alertFuncs.notZero},
+
+    },
+    GameOverFadeIn={
+      -- why is this number so fucking huge
+      -- it is always matched up with the argument of "GameOverOpen"
+      -- so maybe some variety 
+      {argName="fadeSpeed",argType="number"}, --147469960892180.0, 1.4746996089218e+014
+    },
+    MissionPreparationAbort=this.signatureTypes.none,
+    MissionPrep_ChangeEditTarget={
+      {argName="target",argType="str32"},
+      -- MissionPrep_FocusTarget_None
+      -- MissionPrep_FocusTarget_Weapon
+        -- MissionPrep_FocusTarget_PrimaryWeapon
+          -- MissionPrep_FocusTarget_PrimaryWeapon_HIP
+          -- MissionPrep_FocusTarget_PrimaryWeapon_BACK
+        -- MissionPrep_FocusTarget_SecondaryWeapon
+          -- MissionPrep_FocusTarget_SecondaryWeapon_WEAPON
+          -- MissionPrep_FocusTarget_SecondaryWeapon_ARM
+        -- MissionPrep_FocusTarget_SupportWeapon
+        -- MissionPrep_FocusTarget_Item
+      -- MissionPrep_FocusTarget_Vehicle
+      -- MissionPrep_FocusTarget_Player
+      -- MissionPrep_FocusTarget_None
+        -- MissionPrep_FocusTarget_BuddyHorsew
+    },
+    MissionPrep_ChangeItem=this.signatureTypes.none,
+    MissionPrep_ChangeSlot=this.signatureTypes.none,
+    MissionPrep_End=this.signatureTypes.none,
+    MissionPrep_EndItemSelect=this.signatureTypes.none,
+    MissionPrep_EndSlotSelect=this.signatureTypes.none,
+    MissionPrep_EnterWeaponChangeMenu={
+      {argName="target",argType="str32"},
+      -- MissionPrep_FocusTarget_Player
+    },
+    MissionPrep_ExitWeaponChangeMenu=this.signatureTypes.none,
+    MissionPrep_StartItemSelect=this.signatureTypes.none,
+    MissionPrep_StartSlotSelect=this.signatureTypes.none,
+    MissionPrep_StartSortieTimeSelect=this.signatureTypes.none,
+    --MissionPreparationAbort
     PopupClose={
       {argName="popupId",argType="popupId"},
       {argName="unk1",argType="number"},--tex UNKNOWN, haven't seen any value but 0 yet
@@ -1614,8 +2286,20 @@ this.messageSignatures={
     QuestAreaAnnounceText={
       {argName="questId",argType="number"},--tex TODO questId to name lookup
     },
+    ShowTelopCast=this.signatureTypes.none,
+    StartAnnounceLog={
+      {argName="locationName",argType="str32"},
+      -- CenterLarge
+    },
+    StartTelopCast={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
+    },
+    TelopTypingEnd=this.signatureTypes.none,
     TitleMenu={
       {argName="action",argType="str32"},
+    },
+    TitleMenuReady={
+      {argName="playerIndex",argType="gameId",argAlert=this.alertFuncs.notZero}
     },
   },
   Weather={
@@ -1632,6 +2316,474 @@ this.messageSignatures={
   },
 }--messageSignatures
 
+this.messageAssumptions={
+  Radio={
+    name="Radio",
+    messages={
+      [2719725902]={
+        name="DynamicRadioStart",
+        signature={
+          {argName="unk1",argType="str32"},--ej TODO VERIFY
+          -- these clearly relate to some sort of radio sequence
+          -- idk how they're different from the other telops
+
+          -- example values:
+          -- 2964234252 = lecture during mission 22 retake platform
+          -- 187995122  = mission failure due to killing a MB staff before allowed on shining lights
+          -- not related to hostages dying:
+          -- 275624682  = when find masked soldier in shining lights 
+          -- 2096570881 = keep exploring during shining lights
+          -- 1334185636
+        },
+      },
+      [1809879683]={
+        -- called with the same argument as StaffDiedHostageKilled, usually 3-7 seconds later
+        name="DynamicRadioEnd",
+        signature={
+          {argName="unk1",argType="str32"},--ej TODO VERIFY
+        },
+      },
+    },
+  },
+  Terminal={
+    name="Terminal",
+    messages={
+      [1336082019]={
+        name="PlayerHeliTaxiSelectedDestination",
+        signature={
+          {argName="unk1",argType="gameId"},--ej TODO VERIFY what is this why is it like this
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+        }
+      },
+      [4275806845]={
+        -- only after bombardment support via the idroid
+        name="ImmediatelyAfterSelectingBombardmentSupport",
+        signature={
+          {argName="unk1",argType="number"},--ej TODO VERIFY 
+          -- 1 = bombardment
+          -- 3 = sleeping gas
+          -- pretty much just indicates what happened
+          -- must be some indirection for the inf-scope one?
+
+        }
+      },
+    }
+  },
+  MotherBaseManagement={
+    name="MotherBaseManagement",
+    messages={
+      [4080112078]={
+        -- 4 of these happened 3 seconds apart not sure what else it could be
+        name="DeploymentCompleted",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+        }
+      },
+      [497211464]={
+        name="DevelopmentCompleted",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+        }
+      },
+      [2865828198]={
+        name="MotherBaseUpdate",
+        signature={
+          {argName="mbEventId",argType="number"},--ej TODO VERIFY: FIND SOME ENUM
+          -- 2 = prisoner has died (sideop cancelled)?
+          --[[
+            1: extraction arrived at motherbase
+            6: extraction received
+            5: sideop list updated
+          ]]
+        }
+      },
+      [1625350245]={
+        name="MotherBaseEvents",
+        signature={
+          {argName="unk1",argType="number"},--ej TODO VERIFY
+          {argName="unk2",argType="number"},--ej TODO VERIFY
+          {argName="unk3",argType="number"},--ej TODO verify
+          {argName="unk4",argType="number"},--ej TODO VERIFY
+        }
+      }
+    }
+  },
+  Network={
+    name="Network",
+    messages={
+      [3581811033]={
+        name="NetworkUpdate",
+        signature={
+          {argName="unk1",argType="number"},--ej TODO VERIFY
+          {argName="unk2",argType="number"},--ej TODO VERIFY
+          {argName="unk3",argType="number"},--ej TODO verify
+        },
+      },
+    },
+  },
+  Nt={
+    name="Nt",
+    messages={
+      [2334271666]={
+        name="NtUpdate",
+        signature={
+          {argName="unk1",argType="number"},--ej TODO VERIFY
+          {argName="unk2",argType="number"},--ej TODO VERIFY
+          {argName="unk3",argType="number"},--ej TODO verify
+        },
+      },
+    },
+  },
+  SupplyCbox={
+    name="SupplyCbox",
+    messages={
+      [3768843497]={ 
+        -- when the box becomes a real one and explodes into supplies
+        name="DeliveryBoxResupplyCreated",
+        signature={
+          {argName="boxGameId",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [2414690884]={ 
+        -- when the box becomes a real one and explodes into supplies
+        name="DeliveryBoxLoadoutCreated",
+        signature={
+          {argName="boxGameId",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+    },
+  },
+  GameObject={
+    name="GameObject",
+    messages={
+      [3468216400]={
+        -- every time a soldier shoots a weapon in shining lights
+        -- but only when it happens on-camera
+        name="ScriptWeaponShot",
+        signature={
+          {argName="soldierId",argType="gameId"},
+        },
+      },
+      [450758143]={
+        name="SpawnReinforcementsFOB",
+        signature={
+          {argName="soldierId",argType="gameId"},
+        },
+      },
+      [313390177] = {
+        -- sometimes fired without CqcGunSteal ever firing?
+        name="CqcGunStolen",
+        signature={
+          {argName="victimId",argType="gameId"},
+          {argName="slot",argType="number"}, --ej TODO VERIFY
+        }
+      },
+      [3311396607]={ -- when the soldier does anything other than tell you to fuck off
+        name="InterrogateSoldierEnd",
+        signature={
+          {argName="soldierId",argType="gameId"},
+        },
+      },
+      [2185647124]={ -- shoot a bird and make them fall out of the sky
+        name="BirdDisabled",
+        signature={
+          {argName="birdId",argType="gameId"},
+          {argName="distanceFromPlayer",argType="number"}, --ej TODO VERIFY
+        },
+      },
+      [4049779088]={
+        -- a suspcious helicopter is shining their light right at you
+        name="HelicopterSeesYouAndIsSuspicious",
+        signature={
+          {argName="helicopterId",argType="gameId"},
+          {argName="unk1",argType="gameId"}, --ej TODO VERIFY: 65535
+        },
+      },
+    }
+  },
+  UI={
+    name="UI",
+    messages={
+      [1946843289]={
+        name="EndTelopDownloadGzRecruits",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY, may also be a hash for the position
+        },
+      },
+      [3188684021]={
+        name="ShowTitleCredit",
+        signature={
+          {argName="creditHash",argType="str32"},--ej TODO VERIFY, may also be a hash for the position
+        },
+      },
+      [948921710]={
+        name="Customize_StartSlotSelect",
+        signature={
+          {argName="purposeHash",argType="str32"},--ej TODO VERIFY
+          -- for base customization: Customize_Target_Vehicle
+          -- for d-walker: arg0=4175754393
+          -- for d-dog: Customize_Target_BuddyDog
+        },
+      },
+      [399331582]={
+        -- fires after Customize_ChangePart, entering into the menu399331582
+        name="Customize_ChangeEditTarget",
+        signature={
+          {argName="purposeHash",argType="str32"},--ej TODO VERIFY
+        },
+      },
+      [1809607257]={
+        -- fired at the end of most customization sessions (D-Dog, Mother Base)
+        name="Customize_EndItemSelect",
+        signature={
+          {argName="purposeHash",argType="str32"},--ej TODO VERIFY
+          -- for base customization: Customize_Target_Vehicle
+        },
+      },
+      [2281090964]={
+        -- probably something to do with setting the next UI popup confirmation, same as TitleScreenHighlightMetalGearOnline
+        name="TitleScreenUnhighlightMetalGearOnline",
+        signature={
+          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+        },
+      },
+      [3775668277]={
+        name="TitleScreenHighlightMetalGearOnline",
+        signature={
+          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+        },
+      },
+      [117313536]={
+        name="HideTitleCredit",
+        signature={
+          {argName="creditHash",argType="str32"},--ej TODO VERIFY, may also be a hash for the position
+        },
+      },
+      [4107358660]={
+        name="DispFobResultGmpGet",
+        signature={
+          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+        },
+      },
+      [3956781774]={
+        name="DispFobResultHeroismGet",
+        signature={
+          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+        },
+      },
+      [1527893626]={
+        name="DispFobResultEspionageScoreGet",
+        signature={
+          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+        },
+      },
+      [1684944454]={
+        name="DispFobResultMissionScore",
+        signature={
+          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+        },
+      },
+    },
+  },
+  Player={
+    name="Player",
+    messages={
+      [2987965439]={
+        -- plays during snap to helicopter first person
+        name="OnFirstPerson",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [1419934966]={
+        -- fires every time the player enters a NgIcon trap volume
+        name="PlayerCheckEventDoorNgIconFail",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [838860623]={
+        -- fires when the player is granted input prior to opening the helicopter door
+        -- and again after pressing the wormhole prompt
+        name="PlayerAllowInputFOBIntro",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+          {argName="unknownGameId",argType="gameId"},--usually NULL_ID
+        },
+      },
+      [3691348800]={
+        -- 2nd event after entering a shower,
+        -- also plays during the shower cutscene with quiet
+        name="OnPlayerShower",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [2766584503]={
+        -- 2nd event after entering a shower,
+        -- also plays during the shower cutscene with quiet
+        name="PlayerShowerStart",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },i
+      },
+      [583818078]={
+        -- when you initially light up the time cigarette
+        name="TimeCigaretteBegin",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [3367663002]={
+        -- when the time speed up effect begins after the camera zoom
+        name="TimeCigaretteSpeedupStart",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [1144333753]={
+        -- when you press the button to unequip the cigarette
+        name="TimeCigaretteCancel",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [32226917]={
+        -- ui reactivating after using time cigarette
+        name="TimeCigaretteComplete",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [1076192754]={
+        name="PlayerSitIdleInHelicopterMotherBase",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [4119053966]={
+        -- fired when you have control after being pounced, in regular time, when you finally kick a jackal off of you
+        -- D-Dog also can provoke this when he protects you
+        name="JackalFoughtOffPlayer",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+          {argName="jackalId",argType="gameId"},
+        },
+      },
+      [2533923076]={
+        -- fired right when a jackal lunges at you
+        -- reflex/slowmo only happens the first time
+        name="JackalPouncePlayer",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+          {argName="jackalId",argType="gameId"},
+        },
+      },
+      [3073853049]={
+        -- fired with boardStatus = 0 upon entry
+        -- fired with boardStatus = 1 upon exit
+        name="BoardWalkerGear", 
+        signature={
+          {argName="playerIndex",argType="gameId"},
+          {argName="boardStatus",argType="number"},
+          --0 == begin
+          --1 == complete
+        },
+      },
+      [4117713728]={
+        -- fired with exitStatus = 0 and then exitStatus = 1 within a frame of each-other
+        -- fired with exitStatus = 0 on the same frame as BoardWalkerGear(..., 1)
+        name="ExitWalkerGear",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+          {argName="exitStatus",argType="number"},
+          --0 == begin
+          --1 == complete
+        },
+      },
+      [2311886128]={ --ej TODO VERIFY
+        -- either the 3/4th health warning 
+        -- or just the red damage indicator
+        name="HideDirectionalDamageIndicatorRed",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [3136097041]={
+        -- no corresponding event for dismount
+        name="PlayerMountPipe",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+        },
+      },
+      [4225550632]={ --climbing a ladder, every tick there is a ladder input
+        name="LadderClimbMotion",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [2614541283]={
+        name="BeginClimbCrack",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [3038279949]={
+        name="CqcThrowFlip",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+          {argName="victimId",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [221977019]={
+        name="CqcChainThrow",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO verify
+          {argName="sequenceCount",argType="number"},-- fires for the first time at 1, as the 2nd person thrown
+          {argName="victimId",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [3169422578]={
+        -- CQC close range notice reflex, for when you enter range of a
+        -- wandering puppet to notice you
+        name="CqcWanderingPuppetChargeBegin",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+          {argName="victimId",argType="gameId"},--ej usually 65535
+        },
+      },
+      [3434378852]={
+        -- if the prompt for CqcWanderingPuppetChargeBegin is hit successfully
+        -- may only applied to wandering puppets
+        name="CqcRightHookPunch",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+          {argName="victimId",argType="gameId"},--ej usually 65535
+        },
+      },
+      [545199978]={
+        name="CqcStealGun",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+          {argName="victimId",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [2307345963]={ -- when player closes idroid
+        name="PlayerMbDvcClose",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+        },
+      },
+      [2990447840]={ --when player opens idroid
+        name="PlayerMbDvcOpen",
+        signature={
+          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY: sometimes a 2nd argument that is 1
+        },
+      },
+    }
+  }
+}--messageAssumptions
+
 --tex actually add the message names to strcode32 lookup since there's some messages only subscribed in specific missions, but still called all the time
 --note: this will still only catch those you have a signature for, so the actual solution is to throw strings from mgsv-lookup-strings repo (ex tpp-lua.txt) into mod\strings 
 for objectType, messages in pairs(this.messageSignatures)do
@@ -1640,9 +2792,8 @@ for objectType, messages in pairs(this.messageSignatures)do
   end
 end
 
---
-function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
-  --InfCore.PCall(function(sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
+function this.PrintOnMessage(sender,messageId,...)
+  --InfCore.PCall(function(sender,messageId,...)--DEBUG
 
   local senderStr=this.StrCode32ToString(sender,true)
   local messageIdStr=this.StrCode32ToString(messageId,true)
@@ -1658,24 +2809,36 @@ function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
     InfCore.unknownMessages[senderStr][messageIdStr]=true
   end
 
-  local args={arg0,arg1,arg2,arg3}
-
   local senderSignatures=this.messageSignatures[senderStr]
   if senderSignatures then
     local signature=senderSignatures[messageIdStr]
+
     if signature then
-      this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
+      this.PrintMessageSignature(senderStr,messageIdStr,signature,...)
       return
     end
   end
 
-  this.PrintMessage(senderStr,messageIdStr,args)
+  local assumption=this.messageAssumptions[senderStr]
+  if assumption then
+    local assSenderStr = "{?}"..assumption.name or senderStr
+    local assumptionMessage=assumption.messages[messageIdStr]
+
+    if assumptionMessage then
+      local assMessageIdStr = "{?}"..assumptionMessage.name or messageIdStr
+      local assumptionSignature=assumptionMessage.signature
+      this.PrintMessageSignature(assSenderStr,assMessageIdStr,assumptionSignature,...)
+      return
+    end
+  end
+
+  this.PrintMessage(senderStr,messageIdStr,...)
   --end,sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
 end
 
 --tex print message and just attempt to throw a bunch of lookups at the args
 --most times they won't be right, but when it does can let you figure out what the arg is
-function this.PrintMessage(senderStr,messageIdStr,args)
+function this.PrintMessage(senderStr,messageIdStr,...)
   local lookupTypes={
     "str32",
     "gameId",
@@ -1689,7 +2852,8 @@ function this.PrintMessage(senderStr,messageIdStr,args)
 
   local hasArgs=false
   local argsString=""
-  for i,arg in ipairs(args)do
+  for i=1,select("#",...) do
+    local arg = select(i,...)
     local argNum=i-1
     local argPreStr="arg"..argNum.."="
     local argValue=""
@@ -1700,8 +2864,8 @@ function this.PrintMessage(senderStr,messageIdStr,args)
         local lookupReturns={}--tex possible number/id collisions, so return all
         lookupReturns[#lookupReturns+1]=arg
         --tex KLUDGE too many collisions on low numbers, pretty arbitrary cut-off point though.
-        if arg>10 then
-          for i,lookupType in ipairs(lookupTypes)do
+        if arg>-math.huge then --ej HEHE
+          for _,lookupType in ipairs(lookupTypes)do
             local lookup=this.lookups[lookupType]
             local lookupReturn=this.Lookup(lookupType,arg)
             if lookupReturn then
@@ -1733,15 +2897,17 @@ function this.PrintMessage(senderStr,messageIdStr,args)
 end
 
 --tex TODO: if arg is type str32 and it returns as unknown note it.
-function this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
+function this.PrintMessageSignature(senderStr,messageIdStr,signature,...)
   --ASSUMPTION: if message has any args they are contiguous (none nil)
-  if #signature<#args then
+  if #signature<select("#",...) then
     InfCore.Log("WARNING: InfLookup.PrintMessageSignature: incomplete signature? #signature<#args")
   end
 
   local hasArgs=false
   local argsString=""
-  for i,arg in ipairs(args)do
+  local argLimit = math.max(select("#",...), select("#",signature))
+  for i=1, argLimit do
+    local arg = select(i,...)
     local argNum=i-1
     local argDef=signature[i]
     if arg~=nil then
@@ -1752,6 +2918,9 @@ function this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
         local argTypeSuff=""
         if argDef.argName~=argDef.argType or lookupValue==nil then--tex KLUDGE
           argTypeSuff=" ("..argDef.argType..")"
+        end
+        if argDef.argAlert and argDef.argAlert(arg) then
+          InfCore.Log("ALERT: InfLookup.PrintMessageSignature: interesting value for ["..senderStr.."=>"..messageIdStr.."()] on arg"..tostring(argNum)..":"..tostring(arg))
         end
         if lookupValue then
           lookupValue=arg..":"..lookupValue
