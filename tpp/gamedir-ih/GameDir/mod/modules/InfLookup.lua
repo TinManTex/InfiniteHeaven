@@ -862,6 +862,7 @@ end
 this.HeadshotMessageFlag={
   headshotMessageFlag=this.BuildGameClassEnumNameLookup("HeadshotMessageFlag",
     {--are bitflags,
+      "NONE", --0
       "IS_TRANQ_HANDGUN",--1
       "IS_JUST_UNCONSCIOUS",--2
       "NEUTRALIZE_DONE",--4
@@ -871,6 +872,21 @@ this.HeadshotMessageFlag={
 
 this.HeadshotMessageFlag.headshotMessageFlags=function(flag)
   return this.GenericFlagWrangler(flag, this.HeadshotMessageFlag.headshotMessageFlag)
+end
+
+this.DamageMessageFlag={
+  damageMessageFlag=this.BuildGameClassEnumNameLookup("DamageMessageFlag",
+    {--are bitflags, sorta
+      "NONE", --0
+      "IS_BULLET_HIT_ARMOR", --1
+      "BROKEN_HELMET", --2
+      "IS_LIFE_DAMAGE", --4
+    }
+  ),
+}
+
+this.DamageMessageFlag.damageMessageFlags=function(flag)
+  return this.GenericFlagWrangler(flag, this.DamageMessageFlag.damageMessageFlag)
 end
 
 this.DeadMessageFlag={
@@ -895,6 +911,7 @@ end
 this.BulletGuardArmorMessageFlag={
   bulletGuardArmorMessageFlag=this.BuildGameClassEnumNameLookup("BulletGuardArmorMessageFlag",
     {--are bitflags, sorta
+      "NONE", --0
       "IS_HIT_ARMOR", --1
       "BROKEN_HELMET", --2
     }
@@ -1275,6 +1292,7 @@ this.weatherTypeNames={
 
 local gameClasses={
   "BulletGuardArmorMessageFlag",
+  "DamageMessageFlag",
   "DeadMessageFlag",
   "HeadshotMessageFlag",
   "NeutralizeCause",
@@ -1428,9 +1446,13 @@ this.lookups={
   supportStrikeId=this.supportStrikes,
   gradeId=this.gradeIds,
   staffTabId=this.staffTabIds,
+  boolAsNumber={[0]="false",[1]="true"},
   genericFlags=function(n) return DumpFlagsString(DumpFlags(n)) end,
   binaryFlags=DumpFlagBinSeq,
   gimmickInstanceOrAnimalId=function(val)
+    if val == nil then
+      return nil
+    end
     if val == NULL_ID then
       -- we abducted a human
       return "NULL_ID"
@@ -1478,6 +1500,9 @@ end
 this.alertFuncs={
   any=function()
     return true
+  end,
+  radioGapSeeker=function(x)
+    return this.radioTargets[x] == nil
   end,
   notNil=function(x)
     return x ~= nil
@@ -1540,6 +1565,9 @@ this.messageSignatures={
     },
   },
   Demo={
+    crtnburn=this.signatureTypes.demoSimple,
+    crtnhide=this.signatureTypes.demoSimple,
+    BattleFx_on=this.signatureTypes.demoSimple,
     hrtwvdng={
       {argName="playId",argType="str32"},
     },
@@ -1552,11 +1580,15 @@ this.messageSignatures={
     hrtwvnmb={
       {argName="playId",argType="str32"},
     },
+    start_endroll01=this.signatureTypes.demoSimple,
+    start_endroll02=this.signatureTypes.demoSimple,
     -- following events from CLOAKED IN DARKNESS
     nwvocn=this.signatureTypes.demoSimple,
     nwvocn02=this.signatureTypes.demoSimple,
     qwvocn=this.signatureTypes.demoSimple,
     SetQuietKillGame=this.signatureTypes.demoSimple,
+    radio_on=this.signatureTypes.demoSimple,
+    radio_off=this.signatureTypes.demoSimple,
     -- following events are from TRUTH
     --[3210671346]=this.signatureTypes.demoSimple,
     --[2982900371]=this.signatureTypes.demoSimple,
@@ -1654,6 +1686,9 @@ this.messageSignatures={
     p21_020010_iconon01=this.signatureTypes.demoSimple,
     p21_020010_hospwall_brk_on=this.signatureTypes.demoSimple,
     p21_020010_breakTunnel=this.signatureTypes.demoSimple,
+    p31_040130_DemoEnd_hyu=this.signatureTypes.demoSimple,
+    p31_0400140_Player_setpos01=this.signatureTypes.demoSimple,
+    p31_0400140_Player_setpos02=this.signatureTypes.demoSimple,
     -- birthday cutscenes:
     p51_010270_001_HBDbox_on=this.signatureTypes.demoSimple, 
     DisablePhantomRoom={
@@ -1708,6 +1743,10 @@ this.messageSignatures={
     },
   },
   GameObject={
+    AimedFromPlayer={ -- when the children in White Mamba are aimed at at via scope or readied weapon
+      {argName="gameId",argType="gameId"},
+      {argName="playerIndex",argType="gameId"},
+    },
     AntiSniperNoticed=this.signatureTypes.none,--FOB
     --ej ^^^ supposedly when binocular men peep you
     ArrivedAtLandingZoneSkyNav={--SupportHeli
@@ -1817,8 +1856,11 @@ this.messageSignatures={
     Damage={--On Damage
       {argName="damagedId",argType="gameId"},--object that took damage
       {argName="attackId",argType="attackId"},
-      {argName="attackerId",argType="gameId"},
-      {argName="unk3",argType="binaryFlags",argCanBeNil=true,argAlert=function(x) return not InfUtil.FindInTable({0, 4, "nil"}, x, true) end},--tex UNKNOWN: no use cases I can see
+      {argName="attackerId",argType="gameId",argCanBeNil=true},
+      --[[
+        similar to below, attacks on skulls frequently refuse to attribute to a particular player
+      ]]
+      {argName="damageMessageFlag",argType="damageMessageFlags",argCanBeNil=true},
       --[[
         nil = helicopters/birds/some bound hostages don't give a shit
           0 = typical non-"DMG" damage (ZZZ/STN/---)
@@ -1831,7 +1873,7 @@ this.messageSignatures={
       --tex still unsure if some calls to messages have more args than others, while most Dead msg reesponse functions only care about thr first two args, and the only msg calls ive seen logged only have
       --but then you have TppResult Dead - function(gameId,attackerId,playerPhase,deadMessageFlag)
       {argName="gameId",argType="gameId"},
-      {argName="attackerId",argType="gameId"},
+      {argName="attackerId",argType="gameId",argCanBeNil=true},--apparently Sahelanthropus is the only thing that ignores this
       {argName="phase",argType="phase",argCanBeNil=true},--occurs as nil during FOB (global phase?)
       {argName="deadMessageFlag",argType="deadMessageFlags",argCanBeNil=true},
       --[[
@@ -1984,6 +2026,16 @@ this.messageSignatures={
       {argName="heliId",argType="gameId"},
       {argName="landingZone",argType="str32"},
     },
+    LiquidChangePhase={
+      {argName="gameId",argType="gameId"}, --the liquid
+      {argName="phase",argType="phase"}, --the liquid phase
+    },
+    LiquidEnterCombatPhaseTwo={
+      {argName="gameId",argType="gameId"}, --the liquid
+    },
+    LiquidPutInHeli={
+      {argName="gameId",argType="gameId"}, --the liquid
+    },
     LostContainer={
       -- when an NPC notices a container disappeared
       -- also fired during an FOB event
@@ -1997,6 +2049,7 @@ this.messageSignatures={
     },
     LostHostage={
       {argName="gameId",argType="gameId"}, -- the hostage who was discovered missing
+      {argName="unknown2",argType="number",argAlert=this.alertFuncs.any}, -- sometimes zero, sometimes nil?
     },
     MapUpdate={--ej doesn't seem to indicate what he is telling you about
       {argName="soldierId",argType="gameId"},
@@ -2058,6 +2111,13 @@ this.messageSignatures={
       {argName="vehicleId",argType="gameId"},
       {argName="unknown3",argType="str32",argAlert=this.alertFuncs.any},
     },
+    PlayerGetAway={ --ej: i've only ever seen InMission after wandering away from Malik
+      -- also fires after you put Malik into a helicopter and fly away with them?!
+      {argName="gameId",argType="gameId"}, -- the gameobject you're getting away from, after PlayerGetNear
+    },
+    PlayerGetNear={ --ej: i've only ever seen InMission after wandering near Malik
+      {argName="gameId",argType="gameId"}, -- the gameobject you're getting near, required for PlayerGetAway
+    },
     PlayerHideHorse={
       {argName="playerIndex",argType="gameId"},
     },
@@ -2106,6 +2166,11 @@ this.messageSignatures={
     ReinforceRespawn={--tex on each normal reinforce soldier respawn
       {argName="soldierId",argType="gameId"},
     },
+    ReportDiscoveryHostage={
+      -- when someone is guarding a hostage but they ain't there no more
+      {argName="hostageId",argType="gameId"},
+      {argName="reporterId",argType="gameId"},
+    },
     RequestLoadReinforce={--tex prior call for super reinforce
       {argName="reinforceCpId",argType="cpId"},
     },
@@ -2135,11 +2200,74 @@ this.messageSignatures={
       {argName="routeId",argType="str32"},--tex TODO gather route names
       {argName="failureType",argType="routeEventFailedType"},
     },
+    RoutePoint={ -- only ever seen during White Mamba, not sure why; happens right as the mission loads
+      -- occurs during VOICES, pretty much constantly as volgin walks around looking for you
+      {argName="gameId",argType="gameId"},
+      {argName="routeId",argType="str32",argAlert=this.alertFuncs.any},
+      --[[
+        rts_s10120_d_TppLiquid2
+        rts_vol_sneak
+      ]]
+      {argName="routeNodeIndexOrParam",argType="number",argAlert=this.alertFuncs.notZero},
+    },
     RoutePoint2={--tex fire by Route Event 'SendMessage', and some other unknown Route Events
       {argName="gameId",argType="gameId"},--tex gameId of agent on route VERIFY because SendEvent param3 is a str32 game object name.
       {argName="routeId",argType="str32"},--tex TODO gather route names
       {argName="routeNodeIndexOrParam",argType="str32"},--tex --tex SendMessage event  param 8(from 0), VERIFY what it is on events that param is 0
       {argName="messageId",argType="str32"},--tex SendMessage event  param 7(from 0)
+    },
+    SahelanAllDead={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    Sahelan1stRailGun={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanBlastDamageToWeakPoint={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanChangePhase={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+      {argName="phase",argType="phase"},
+      -- TppSahelan2.SAHELAN2_PHASE_*
+      -- you would never fucking guess this enum with a gun to your head
+
+    },
+    SahelanEnableHeliAttack={
+      --ej guess: allows sally to attack the support helicopter?
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanGrenadeExplosion={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanPartsBroken={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+      {argName="partId",argType="number"}, --[[
+         3 = torso
+         5 = ??? near the head
+         7 = right leg?
+         8 = left leg?
+         9 = ??? near the head
+        10 = radome orb
+        11 = dick flame thrower?
+      ]]
+    },
+    SahelanPatrolMissile={
+      -- during HELLBOUND when the funny exploding things sweep around with the IR-SENSORs
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanReturned1stRailGun={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanStopped={
+      -- when you're taking off in the support heli
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanVulcunStartToHeli={
+      -- if the funny pills see the helicopter during HELLBOUND
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
+    },
+    SahelanVulcunStopToHeli={
+      {argName="gameId",argType="gameId"}, -- the Sahelanthropus
     },
     SaluteRaiseMorale={
       {argName="saluter",argType="gameId"},
@@ -2219,9 +2347,11 @@ this.messageSignatures={
     },
     Unconscious={
       {argName="gameId",argType="gameId"},
-      {argName="attackerId",argType="gameId"},
+      {argName="attackerId",argType="gameId",argCanBeNil=true},
       -- can sometimes be nil if the player warped them with the Jehuty
-      {argName="phase",argType="phase"},
+      -- is nil for things like skulls or Eli
+      {argName="phase",argType="phase",argCanBeNil=true},
+      -- if attackerId is nil, then this will be as well, generally
     },
     Unlocked={
       {argName="hostageId",argType="gameId"},
@@ -2249,16 +2379,39 @@ this.messageSignatures={
       -- 2117880453 = FultonStart (abducted)
       -- 1936681293 = CanNotMove (tires shot)
     },
+    VolginAttack={
+      {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
+      {argName="volginAttackChargeState",argType="number"}, -- only ever seen as 1
+      -- TppVolgin2.VOLGIN_ATTACK_CHARGE_*
+      --[[
+        0 = begin?
+        1 = end? 3 seconds later
+      ]]
+    },
     VolginChangePhase={
       {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
-      {argName="phase",argType="number"}, -- only ever seen as 1
+      {argName="phase",argType="number"}, -- only ever seen as 1 unless you reload checkpoint after the tunnel collapses
+      -- TppVolgin2.VOLGIN_PHASE_*
+      VOLGIN_PHASE_SNEAK = 0,
     },
     VolginDamagedByType={
       {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
-      {argName="phase",argType="number",argAlert=this.alertFuncs.notZero}, --ej TODO VERIFY damage type? player? 
+      {argName="volginDamagedType",argType="number",argAlert=this.alertFuncs.notZero}, --ej TODO build lookup
+      -- TppVolgin2.VOLGIN_DAMAGED_TYPE_*
+    },
+    VolginDestroyedFactoryWall={ -- during VOICES
+      {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
+    },
+    VolginDestroyedTunnel={
+      {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
     },
     VolginGameOverAttackSuccess={
       {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
+    },
+    VolginLifeStatusChanged={
+      {argName="gameId",argType="gameId"}, -- the volgin (can there be several?)
+      {argName="volginLifeStatusType",argType="number"}, --ej TODO build lookup
+      -- TppVolgin2.VOLGIN_LIFE_STATUS_*
     },
     WalkerGearBroken={
       {argName="gameId",argType="gameId"},--vehicle gameid
@@ -2302,6 +2455,12 @@ this.messageSignatures={
     },
   },
   MotherBaseManagement={
+    -- AssignedStaff [section,amount] 
+    AssignedStaff={
+      {argName="section",argType="staffSectionId"}, --ej TODO: typedef
+      -- TppMotherBaseManagementConst.SECTION_SEPARATION
+      {argName="amount",argType="number"},
+    },
     ChangedStaffListTab={
       {argName="tabId",argType="staffTabId"},
     },
@@ -2342,6 +2501,7 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="playerIndex",argType="gameId"},
     },
+    -- NoticeSneakSupportedMotherBase, via TppTerminal
     EndLogin=this.signatureTypes.none,
     StartLogin={
       {argName="playerIndex",argType="gameId"},
@@ -2401,6 +2561,10 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="gameId",argType="gameId"},--victim
     },
+    CqcHoldReleseChild={ -- when a child soldier slips out of a Restraint
+      {argName="playerIndex",argType="gameId"},
+      {argName="gameId",argType="gameId"},--victim
+    },
     Dead={
       {argName="playerIndex",argType="gameId"},
       {argName="deathType",argType="str32"},
@@ -2451,6 +2615,9 @@ this.messageSignatures={
       {argName="zoneType",argType="str32"},--tex fallDeath
       -- hotZone
     },
+    FinishMovingOnRoute={
+      {argName="routeName",argType="str32"}, -- fires on SkullFace walk
+    },
     FinishMovingToPosition={
       {argName="playerIndex",argType="str32"},
       {argName="state",argType="str32"}, -- fires in cyprus with just "failure"
@@ -2464,7 +2631,12 @@ this.messageSignatures={
     FireSkullFace={
       -- when on your back, firing at Volgin, probably other times as well
       {argName="playerIndex",argType="gameId"},
-      {argName="unknown",argType="number",argAlert=this.alertFuncs.notZero},-- 
+      {argName="unknown",argType="number",argAlert=this.alertFuncs.notZero},-- the times shot in sequence? 
+    },
+    GetIntel={ 
+      -- fires during HELLBOUND
+      -- begin intel scanning cutscene
+      {argName="intelName",argType="str32"},
     },
     HostageUnlock={
       {argName="playerIndex",argType="gameId"},
@@ -2518,6 +2690,10 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="gimmickId",argType="gimmickId",argAlert=this.alertFuncs.notNullId},
       --ej always NULL_ID even if it is a prompt from the portable wormhole revive / the entry wormhole during scripted missions
+    },
+    IntelIconInDisplay={
+      {argName="intelName",argType="str32"},
+      {argName="unknown2",argType="number",argAlert=this.alertFuncs.any},
     },
     IntoWormhole={
       -- when player begins wormhole warp from helicopter
@@ -2710,9 +2886,12 @@ this.messageSignatures={
       {argName="targetId",argType="gameId",argCanBeNil=true}, --[[
         was nil when self-fulton (non-wormhole)
         assumed: was equal to playerIndex when self-fulton container extraction (wormhole)
+        was 6261210180837704 when extracted via resource similar to (gimmickInstanceOrAnimalId)
       ]]
-      {argName="unknown1",argType="number",argAlert=this.alertFuncs.notZero}, --boolAsNumber --ej TODO VERIFY, assumed: was 1 when self-fulton container extraction (wormhole?)
-      {argName="unknown2",argType="number",argAlert=this.alertFuncs.notZero}, --boolAsNumber --ej TODO VERIFY, assumed: was 0 when self-fulton container extraction (wormhole?)
+      {argName="unknown1",argType="number",argAlert=this.alertFuncs.any}, --boolAsNumber --ej TODO VERIFY, assumed: was 1 when self-fulton container extraction (wormhole?)
+      -- 1 when wormhole extracted on resource
+      {argName="unknown2",argType="number",argAlert=this.alertFuncs.any}, --boolAsNumber --ej TODO VERIFY, assumed: was 0 when self-fulton container extraction (wormhole?)
+      -- 0 when wormhole extracted on resource
     },
     PlayerHeliGetOff={
       {argName="playerIndex",argType="gameId"},
@@ -2777,6 +2956,9 @@ this.messageSignatures={
       {argName="y",argType="number"},
       {argName="z",argType="number"},
     },
+    QuestStarted={
+      {argName="questId",argType="str32"},
+    },
     Respawn={
       -- fires after WarpEnd and UI.RespawnClose
       {argName="phaseName",argType="str32"},
@@ -2785,8 +2967,19 @@ this.messageSignatures={
         End
       ]]
     },
+    Ride_WalkerGear={ -- the one in HELLBOUND
+      {argName="rideName",argType="str32"} -- "RideMetal"
+    },
     RideHelicopter={
       {argName="playerIndex",argType="gameId"},
+    },
+    RideHelicopterWithHuman={
+      -- for some reason does not even bother referencing the human
+      {argName="playerIndex",argType="gameId"},
+      {argName="heliId",argType="gameId"}, -- the helicopter?
+    },
+    RideOk={
+      {argName="unknown1",argType="str32"},
     },
     SetMarkerBySearch={--tex object was marked by looking at it
       {argName="typeIndex",argType="typeIndex"},
@@ -2804,6 +2997,9 @@ this.messageSignatures={
     SuppressorIsBroken={
       {argName="playerIndex",argType="gameId"},
     },
+    Volgin_Start={
+      {argName="volgin",argType="str32"}, -- 1808862749:Volgin
+    },
     WarpEnd={
       {argName="playerIndex",argType="gameId"},
     },
@@ -2811,20 +3007,24 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
     },
+    ZombBiteConnect={
+      {argName="playerIndex",argType="gameId"},
+      {argName="zombieId",argType="gameId",argAlert=this.alertFuncs.notNullId}, -- i would assume it to be a zombie, but, is usually NULL_ID
+    },
   },
   Radio={
     EspionageRadioCandidate={
 	    -- when you look at something that has a radio/call message
 	    -- sometimes, the call message can be overridden by a mission and may not fire
       {argName="gameId",argType="gameId"},
-      {argName="radioTargetId",argType="radioTargetId"},
+      {argName="radioTargetId",argType="radioTargetId",argAlert=this.radioTargets.radioGapSeeker},
     },
     EspionageRadioPlay={
       -- when the radioTargetId is -1 (INVALID),
       -- this is what picks up from there to play the radio context?
       {argName="radioGroupName32",argType="str32"}, --ej TODO some sort of script
       {argName="targetId",argType="gameId"},
-      {argName="gameId",argType="gameId",argAlert=this.alertFuncs.notNullId}, --ej TODO: INVALID_ID for some reason
+      {argName="radioTargetId",argType="radioTargetId",argAlert=this.radioTargets.radioGapSeeker},
     },
     Start={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
@@ -2891,6 +3091,7 @@ this.messageSignatures={
       {argName="y",argType="number"},
       {argName="z",argType="number"},
     },
+    MbDvcActOpenHeliCall=this.signatureTypes.none,
     MbDvcActOpenMenu=this.signatureTypes.none,
     MbDvcActOpenMissionList=this.signatureTypes.none,
     MbDvcActOpenStaffList=this.signatureTypes.none,
@@ -2900,12 +3101,8 @@ this.messageSignatures={
       {argName="gameId",argType="gameId"},-- the location the player was moved to
     },
     MbDvcActSelectItemDropPoint={
-      -- 431 is loadout?
-      -- equal to vars.supCboxEquipId 
-      -- TppEquip.EQP_AB_PrimaryCommon
-      -- TppEquip.WP_SP_hg_020
-      {argName="focusedGameId",argType="gameId",argAlert=this.alertFuncs.notZero}, -- where did this string come from
-      -- when deployed on self once was 431?
+      -- equal to vars.supCboxEquipId == TppEquip.EQP_AB_PrimaryCommon (431)???
+      {argName="equipId",argType="equipId",argAlert=function(x) return x ~= vars.supCboxEquipId end},
     },
     MbDvcActSelectLandPoint={
       {argName="nextMissionId",argType="number"},
@@ -2971,6 +3168,7 @@ this.messageSignatures={
     BonusPopupAllClose={
       {argName="popupId",argType="popupId"},
     },
+    ConfigurationUpdated=this.signatureTypes.none, -- when you equip a chicken or chick hat
     Customize_End=this.signatureTypes.none,
     Customize_ChangePart={
       {argName="thingHash",argType="str32"},
@@ -2994,6 +3192,7 @@ this.messageSignatures={
       {argName="timeRemaining",argType="number"},
       {argName="timeElapsed",argType="number"},
     },
+    DisplayTimerTimeUp=this.signatureTypes.none,
     EmblemEditEnd=this.signatureTypes.ui,
     EndAnnounceLog=this.signatureTypes.none,
     EndDlcAnnounce={
@@ -3017,6 +3216,7 @@ this.messageSignatures={
     EndReloginSync=this.signatureTypes.ui,
     EndResultBlockLoad=this.signatureTypes.none,
     EndTelopCast=this.signatureTypes.ui,
+    GameOverAbortMissionGoToAcc=this.signatureTypes.none,
     GameOverOpen={
       {argName="fadeInName",argType="str32"},
     },
@@ -3084,6 +3284,7 @@ this.messageSignatures={
     PauseMenuAbortMission=this.signatureTypes.none,
     PauseMenuAbortMissionGoToAcc=this.signatureTypes.none,
     PauseMenuCheckpoint=this.signatureTypes.none,
+    PauseMenuGotoMGO=this.signatureTypes.ui,
     PauseMenuRestart=this.signatureTypes.none,
     PauseMenuRestartFromHelicopter=this.signatureTypes.none, --ej: how did i even do this, why does it distinguish a difference?
     PauseMenuReturnToTitle=this.signatureTypes.none,
@@ -3116,6 +3317,7 @@ this.messageSignatures={
       {argName="locationName",argType="str32"},
       -- CenterLarge
     },
+    StartMGO=this.signatureTypes.ui, -- from the title screen
     StartTelopCast=this.signatureTypes.ui,
     StartMissionTelopBgFadeOut=this.signatureTypes.none,-- fires between StartMissionTelop(FadeIn|FadeOut)
     StartMissionTelopFadeIn=this.signatureTypes.none,
@@ -3151,6 +3353,17 @@ this.messageSignatures={
 }--messageSignatures
 
 this.messageAssumptions={
+  [451394533]={
+    name="Heroism",
+    messages={
+      OnAddTacticalActionPoint={
+        signature={
+          {argName="gameId",argType="gameId"},
+          {argName="eventName",argType="str32"}, -- TapHeadShotFar, etc
+        },
+      },
+    },
+  },
   Radio={
     messages={
       [2719725902]={
@@ -3180,6 +3393,14 @@ this.messageAssumptions={
   },
   Terminal={
     messages={
+      [1972763954]={
+        name="MbDvcActHeliGoHere",
+        signature=this.signatureTypes.none,
+      },
+      [2888288908]={
+        name="MbDvcActHeliDismiss",
+        signature=this.signatureTypes.none,
+      },
       [1336082019]={
         name="PlayerHeliTaxiSelectedDestination",
         signature={
@@ -3231,10 +3452,10 @@ this.messageAssumptions={
       [1625350245]={
         name="MotherBaseEvents",
         signature={
-          {argName="unk1",argType="number"},--ej TODO VERIFY
-          {argName="unk2",argType="number"},--ej TODO VERIFY
-          {argName="unk3",argType="number"},--ej TODO verify
-          {argName="unk4",argType="number"},--ej TODO VERIFY
+          {argName="unk1",argType="guess"},--ej TODO VERIFY
+          {argName="unk2",argType="guess"},--ej TODO VERIFY
+          {argName="unk3",argType="guess"},--ej TODO verify
+          {argName="unk4",argType="guess"},--ej TODO VERIFY
         }
       }
     }
@@ -3334,6 +3555,22 @@ this.messageAssumptions={
       },
     }
   },
+  Demo={
+    messages={
+      [993613272]={
+        name="AfterWhereDoTheBeesSleep",
+        signature=this.signatureTypes.demoSimple,
+      },
+      [1560936471]={
+        name="DuringAfricaFacility",
+        signature=this.signatureTypes.demoSimple,
+      },
+      [580071290]={
+        name="DuringAfricaFacility2",
+        signature=this.signatureTypes.demoSimple,
+      },
+    },
+  },
   UI={
     messages={
       [3548619023]={
@@ -3432,6 +3669,17 @@ this.messageAssumptions={
   },
   Player={
     messages={
+      [1061149313]={
+        -- machete cqc disarm counter:
+          -- the front stab, back-elbow maneuver
+          -- the air-drop slice, 
+          -- the air-drop slice [with pipe]
+        name="CqcLiquidEvade",
+        signature={
+          {argName="playerIndex",argType="gameId"},
+          {argName="gameId",argType="gameId"}, -- the liquid
+        },
+      },
       [3205930904]={
         name="WhatHappenedHere",
         signature={
@@ -3578,6 +3826,13 @@ this.messageAssumptions={
           {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
         },
       },
+      [2819912508]={
+        name="CqcMacheteBackstab",
+        signature={
+          {argName="playerIndex",argType="gameId"},-- the player
+          {argName="victimId",argType="gameId"}, -- usually a Skull 
+        },
+      },
       [3038279949]={
         name="CqcThrowFlip",
         signature={
@@ -3637,8 +3892,20 @@ this.messageAssumptions={
 --tex actually add the message names to strcode32 lookup since there's some messages only subscribed in specific missions, but still called all the time
 --note: this will still only catch those you have a signature for, so the actual solution is to throw strings from mgsv-lookup-strings repo (ex tpp-lua.txt) into mod\strings 
 for objectType, messages in pairs(this.messageSignatures)do
-  for messageName, messageArgs in pairs(messages)do
+  InfCore.StrCode32(objectType)
+  for messageName, messageArgs in pairs(messages) do
     InfCore.StrCode32(messageName)--tex adds to InfCore.str32ToString which is verified strcode lookups
+  end
+end
+
+for objectType, messages in pairs(this.messageSignatures)do
+  if type(objectType)~="number" then
+    InfCore.StrCode32(objectType)
+  end
+  for messageName, messageArgs in pairs(messages) do
+    if type(messageName)~="number" then
+      InfCore.StrCode32(messageName)
+    end
   end
 end
 
