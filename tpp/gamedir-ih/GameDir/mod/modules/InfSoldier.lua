@@ -700,6 +700,7 @@ local weaponPowers={
 }
 
 --ASSUMPTION, ordered after vehicle cpdefines have been modified
+--GOTCHA: face list requires WildCardFovaFaces to be called in fova setup func TODO: rethink
 --IN/OUT: soldierPool,soldierDefine,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings
 --IN-SIDE: InfEneFova.inf_wildCardFemaleFaceList,InfEneFova.inf_wildCardMaleFaceList
 --IN-SIDE: this.numWildCards
@@ -757,6 +758,16 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
   local numFemales=0
   local maleFaceIdPool=InfUtil.CopyList(InfEneFova.inf_wildCardMaleFaceList)
   local femaleFaceIdPool=InfUtil.CopyList(InfEneFova.inf_wildCardFemaleFaceList)
+  
+  --tex WildCardFovaFaces not called or some other problem
+  if #maleFaceIdPool==0 and this.numWildCards.MALE>0 then
+    InfCore.Log("WARNING: #maleFaceIdPool==0 and this.numWildCards.MALE>0")
+    return
+  end
+  if #femaleFaceIdPool==0 and  this.numWildCards.FEMALE>0 then
+    InfCore.Log("WARNING: #femaleFaceIdPool==0 and this.numWildCards.FEMALE>0")
+    return  
+  end
   --InfCore.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
   --  InfCore.DebugPrint"ene_wildCardFaceList"--DEBUG >
   --  InfCore.PrintInspect(InfEneFova.inf_wildCardFaceList)--<
