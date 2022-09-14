@@ -1068,6 +1068,7 @@ end
 --messages are re-sent until they hit a resend count, and only then is the message actually sent to those subscribed to the messages
 --pretty much always defaults to 1/the second time the message is resent (except for Fulton and VehicleBroken which is on the first send)
 --can only assume this is to give a frame leeway of the code that fires the message/avoid race conditions
+--WAS: function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
 function this.OnMessage(missionTable,sender,messageId,...)
   local mvars=mvars--LOCALOPT
   local strLogTextEmpty=""
