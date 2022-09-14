@@ -1068,7 +1068,7 @@ end
 --messages are re-sent until they hit a resend count, and only then is the message actually sent to those subscribed to the messages
 --pretty much always defaults to 1/the second time the message is resent (except for Fulton and VehicleBroken which is on the first send)
 --can only assume this is to give a frame leeway of the code that fires the message/avoid race conditions
-function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
+function this.OnMessage(missionTable,sender,messageId,...)
   local mvars=mvars--LOCALOPT
   local strLogTextEmpty=""
   --ORPHAN local T
@@ -1090,29 +1090,27 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
   end
   if InfCore.debugMode and Ivars.debugMessages:Is(1)then--tex>
     if InfLookup then
-      InfCore.PCall(InfLookup.PrintOnMessage,sender,messageId,arg0,arg1,arg2,arg3)
+      InfCore.PCall(InfLookup.PrintOnMessage,sender,messageId,...)
   end
   end--<
   for i=1,onMessageTableSize do
-    local strLogText=strLogTextEmpty
-    InfCore.PCallDebug(onMessageTable[i],sender,messageId,arg0,arg1,arg2,arg3,strLogText)--tex wrapped in pcall
+    InfCore.PCallDebug(onMessageTable[i],sender,messageId,...)--tex wrapped in pcall
   end
   --missionTable modules _messageExecTable s
   for i=1,messageExecTableSize do
-    local strLogText=strLogTextEmpty
-    InfCore.PCallDebug(DoMessage,messageExecTable[i],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)--tex wrapped in pcall
+    InfCore.PCallDebug(DoMessage,messageExecTable[i],CheckMessageOption,sender,messageId,...)--tex wrapped in pcall
   end
   if OnlineChallengeTask then--RETAILPATCH 1090>
-    InfCore.PCallDebug(OnlineChallengeTask.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
+    InfCore.PCallDebug(OnlineChallengeTask.OnMessage,sender,messageId,...)--tex wrapped in pcall
   end--<
   if mvars.loc_locationCommonTable then
-    InfCore.PCallDebug(mvars.loc_locationCommonTable.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
+    InfCore.PCallDebug(mvars.loc_locationCommonTable.OnMessage,sender,messageId,...)--tex wrapped in pcall
   end
   if mvars.order_box_script then
-    InfCore.PCallDebug(mvars.order_box_script.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
+    InfCore.PCallDebug(mvars.order_box_script.OnMessage,sender,messageId,...)--tex wrapped in pcall
   end
   if mvars.animalBlockScript and mvars.animalBlockScript.OnMessage then
-    InfCore.PCallDebug(mvars.animalBlockScript.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
+    InfCore.PCallDebug(mvars.animalBlockScript.OnMessage,sender,messageId,...)--tex wrapped in pcall
   end
   if this.debugModule and InfCore.debugMode and Ivars.debugMessages:Is(1)then--tex>
     InfCore.LogFlow("OnMessage Bottom")--tex DEBUGNOW

@@ -29,3 +29,6 @@ tpp/gamedir-ih/GameDir/mod/cmd_stderr.txt
 /*/gamedir-ih/GameDir/mod/fonts/*
 /*/gamedir-ih/GameDir/mod/docs/IHHook/*
 /*/gamedir-ih/GameDir/mod/guiStyles/Default.lua
+
+#vscode
+.vscode/*

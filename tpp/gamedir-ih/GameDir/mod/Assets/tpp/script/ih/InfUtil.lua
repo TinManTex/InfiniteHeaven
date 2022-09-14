@@ -89,11 +89,54 @@ function this.CopyTable(orig)
   return copy
 end--CopyTable
 
+-- https://stackoverflow.com/a/1283608
+function this.MergeTable(t1, t2)
+  for k,v in pairs(t2) do
+      if type(v) == "table" then
+          if type(t1[k] or false) == "table" then
+            this.MergeTable(t1[k] or {}, t2[k] or {})
+          else
+              t1[k] = v
+          end
+      else
+          t1[k] = v
+      end
+  end
+  return t1
+end
+
+-- adpted from lume.find here: https://github.com/rxi/lume/blob/master/lume.lua
+function this.FindInTable(t, value)
+  local iter = nil
+  if type(t) == "table" and t[1] ~= nil then
+    iter = ipairs
+  elseif type(t) == "table" then
+    iter = pairs
+  end
+
+  for k, v in iter(t) do
+    if v == value then return k end
+  end
+  return nil
+end
+
 function this.SwapEntry(sourceTable,sourceKey,destKey)
   local currentEntry=sourceTable[sourceKey]
   sourceTable[sourceKey]=sourceTable[destKey]
   sourceTable[destKey]=currentEntry
 end--SwapEntry
+
+-- Fisher-Yates shuffle, produces new table
+-- via: https://stackoverflow.com/a/68486276
+function this.ShuffleArray(array)
+  local s = {}
+  for i = 1, #array do s[i] = array[i] end
+  for i = #array, 2, -1 do
+      local j = math.random(i)
+      s[i], s[j] = s[j], s[i]
+  end
+  return s
+end
 
 --DEBUGNOW is destructive to input table TODO better
 function this.RandomizeArray(array)
