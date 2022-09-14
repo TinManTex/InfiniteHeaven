@@ -1,5 +1,3 @@
--- DOBUILD: 1
--- DEBUGNOW DEBUGGING included via symlink
 -- TppPackList.lua
 local this={}
 local StrCode32=Fox.StrCode32
