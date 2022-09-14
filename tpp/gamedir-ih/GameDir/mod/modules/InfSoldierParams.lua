@@ -1,5 +1,6 @@
 -- InfSoldierParams.lua
 -- DEPS: gvars, TppSoldier2, Tpp
+-- See Assets\tpp\level_asset\chara\enemy\Soldier2ParemeterTables
 local this={}
 
 local IsTable=Tpp.IsTypeTable
