@@ -174,7 +174,7 @@ end
 --    }
 --  },--questPackList
 --  locationId=TppDefine.LOCATION_ID.AFGH,
---  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.
+--  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuestList. areaName (or TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.)
 --  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
 --  iconPos=Vector3(489.741,321.901,1187.506),--position of the quest area circle in idroid
 --  radius=4,--radius of the quest area circle
