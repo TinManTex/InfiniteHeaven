@@ -2354,14 +2354,12 @@ function this.IsInsideArea(areaType,locationAreaQuestTable,blockIndexX,blockInde
     if areaExtents==nil then
       return
     end
-    InfCore.LogFlow("TppQuest. testing IsInsideArea in location: "..areaType.." blockIndexX:"..tostring(blockIndexX)..", blockIndexY:"..tostring(blockIndexY)..", clusterId:"..tostring(clusterId))--DEBUGNOW
     
     local inBlockArea=Tpp.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
     if this.debugModule then--tex>
-      InfCore.LogFlow("TppQuest.IsInsideArea:"..tostring(inBlockArea))
+      InfCore.LogFlow("TppQuest. IsInsideArea in location: "..areaType.." blockIndexX:"..tostring(blockIndexX)..", blockIndexY:"..tostring(blockIndexY)..", clusterId:"..tostring(clusterId).." inBlockArea=" ..tostring(inBlockArea))
     end--tex
     return inBlockArea
-    --tex DEBUGNOW was just: return Tpp.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
   end
 end
 function this.GetCurrentQuestTable()
@@ -2910,7 +2908,9 @@ function this.UpdateRepopFlag(questIndex)
 end
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
-    InfCore.LogFlow"TppQuest.UpdateRepopFlagImpl"--tex
+    if this.debugModule then--tex>
+      InfCore.LogFlow"TppQuest.UpdateRepopFlagImpl"--tex
+    end--<
     local forceRepop=Ivars.unlockSideOps:Is()>0--tex
     local numOpen=0
     for n,questInfo in ipairs(locationQuests.infoList)do

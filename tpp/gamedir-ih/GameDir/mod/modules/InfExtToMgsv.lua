@@ -128,7 +128,9 @@ function this.ProcessMenuCommands()
   end
 
   for i,message in ipairs(messages)do
-    InfCore.Log("Process menuMessage: "..message)--DEBUGNOW
+    if this.debugModule then
+      InfCore.Log("Process menuMessage: "..message)
+    end
     if message:len()>0 then
       message="1|"..message--WORKAROUND: commands still expect my IPC accounting with messageID at the start
       local args=Split(message,'|')

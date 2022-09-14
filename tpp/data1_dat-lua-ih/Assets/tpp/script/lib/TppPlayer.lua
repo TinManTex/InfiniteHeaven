@@ -2422,7 +2422,9 @@ function this.MakeFultonRecoverSucceedRatio(playerIndex,gameId,gimmickInstanceOr
     percentage=forcePercent
   end
 
-  InfCore.Log("MakeFultonRecoverSucceedRatio percentage:"..tostring(percentage))--DEBUGNOW
+  if this.debugModule then--tex>
+    InfCore.Log("MakeFultonRecoverSucceedRatio percentage:"..tostring(percentage))
+  end--<
 
   return percentage
 
