@@ -85,11 +85,13 @@ function this.OnAllocate(missionTable)
   this.DisableGameStatus()
   this.EnablePause()
   TppClock.Stop()
+  InfCore.LogFlow"moduleUpdateFuncs cleared"--tex
   moduleUpdateFuncs={}
   numModuleUpdateFuncs=0
   --ORPHAN: debugUpdateFuncs={}
   --ORPHAN: numDebugUpdateFuncs=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
+  InfCore.LogFlow"TppSave.WaitingAllEnqueuedSaveOnStartMission"--tex only call so logging it here rather than hook/log the actual function
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFOBMissionFlag()
@@ -97,6 +99,7 @@ function this.OnAllocate(missionTable)
   else
     TppGameStatus.Reset("Mission","S_IS_ONLINE")
   end
+  InfCore.LogFlow"Mission.Start"--tex
   Mission.Start()
   TppMission.WaitFinishMissionEndPresentation()
   TppMission.DisableInGameFlag()
@@ -584,13 +587,17 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   InfCore.LogFlow("OnInitialize Bottom "..vars.missionCode)--tex
   --end,missionTable)--tex DEBUG
 end
+--CALLER: OnInitialize (near bottom), OnReload
+--moduleUpdateFuncs also cleared at top of OnAllocate, but missionScriptOnUpdateFuncs not cleared then? 
 function this.SetUpdateFunction(missionTable)
+  InfCore.LogFlow"TppMain.SetUpdateFunction"--tex
   moduleUpdateFuncs={}
   numModuleUpdateFuncs=0
   missionScriptOnUpdateFuncs={}
   numOnUpdate=0
   --ORPHAN: debugUpdateFuncs={}
   --ORPHAN: numDebugUpdateFuncs=0
+  InfCore.LogFlow"moduleUpdateFuncs set"--tex
   moduleUpdateFuncs={
     InfMain.UpdateBegin,--tex
     TppMission.Update,
@@ -611,18 +618,21 @@ function this.SetUpdateFunction(missionTable)
   end
 end
 function this.OnEnterMissionPrepare()
+  InfCore.LogFlow"TppMain.OnEnterMissionPrepare"--tex
   if TppMission.IsMissionStart()then
     TppScriptBlock.PreloadSettingOnMissionStart()
   end
   TppScriptBlock.ReloadScriptBlock()
 end
 function this.OnTextureLoadingWaitStart()
+  InfCore.LogFlow"TppMain.OnTextureLoadingWaitStart"--tex
   if not TppMission.IsHelicopterSpace(vars.missionCode)then
     StageBlockCurrentPositionSetter.SetEnable(false)
   end
   gvars.canExceptionHandling=true
 end
 function this.OnMissionStartSaving()
+  InfCore.LogFlow"TppMain.OnMissionStartSaving"--tex
 end
 --CALLER: TppSequence Seq_Mission_Prepare.OnUpdate END_SAVING_FILE
 function this.OnMissionCanStart()
@@ -669,6 +679,7 @@ function this.OnMissionCanStart()
 end
 --CALLER: TppSequence. Seq_Mission_Prepare OnLeave
 function this.OnMissionGameStart(sequenceName)
+  InfCore.LogFlow"TppMain.OnMissionGameStart"--tex
   TppClock.Start()
   if not gvars.ini_isTitleMode then
     PlayRecord.RegistPlayRecord"MISSION_START"
@@ -718,7 +729,7 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,fromFreeMission)
       TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,0)
       TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
     end
-    this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)--tex calls SetInitialPosition,SetMissionStartPosition
+    this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)--tex calls SetInitialPosition,SetMissionStartPosition, to basically just override the above with the IH start on ground pos
   else--no heli start
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     local noHeliMissionStartPos=TppDefine.NO_HELICOPTER_MISSION_START_POSITION[vars.missionCode]
@@ -765,7 +776,7 @@ local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
   end--^
   if HasHeliRoute() then--tex startOnFoot mb zoo/qntn transfer, heliLandPoint>
     InfCore.LogFlow("LoadingPositionToFree HasHeliRoute")--DEBUGNOW
-    this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)--tex calls SetInitialPosition,SetMissionStartPosition
+    this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)--tex calls SetInitialPosition,SetMissionStartPosition, to basically just override the above with the IH start on ground pos
   elseif fromFreeMission then--tex shouldn't happen in vanilla, but we supporting it for more map transitions
     InfCore.LogFlow("LoadingPositionToFree !HasHeliRoute")--DEBUGNOW
     if mvars.mis_transitionMissionStartPosition then
@@ -784,6 +795,7 @@ local function LoadingPositionToFree(nextIsFreeMission,fromFreeMission)
 end--LoadingPositionToFree
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromFreeToMB()
+  InfCore.LogFlow"LoadingPositionFromFreeToMB"--tex
   if HasHeliRoute() then
     --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
@@ -799,6 +811,7 @@ local function LoadingPositionFromFreeToMB()
 end--LoadingPositionFromFreeToMB
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
+  InfCore.LogFlow"LoadingPositionFromFree"--tex
   if mvars.mis_transitionMissionStartPosition then--tex>
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     TppPlayer.SetInitialPosition(mvars.mis_transitionMissionStartPosition,0)
@@ -843,6 +856,7 @@ end--LoadingPositionFromFree
 local loadPositionFuncs={}
 --
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+  InfCore.LogFlow("loadPositionFuncs MISSION_FINALIZE")--tex
   if nextIsHeliSpace then
     LoadingPositionToHeliSpace()
   elseif fromHeliSpace then
@@ -854,6 +868,7 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
   elseif fromFreeMission then
     LoadingPositionFromFree(nextIsFreeMission,fromFreeMission)
   else
+    InfCore.LogFlow"LoadingPositionNone"--tex TODO: when is this actually hit?
     --NMC not free mission
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
@@ -864,6 +879,7 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
 end--loadPositionFuncs MISSION_FINALIZE<
 --
 loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+  InfCore.LogFlow("loadPositionFuncs MISSION_ABORT")--tex
   TppPlayer.ResetInitialPosition()
   --tex TODO:[a] ResetMissionStartPosition? only if safe for below
   TppHelicopter.ResetMissionStartHelicopterRoute()
@@ -898,44 +914,64 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT]=function(missionLoa
   end--abortWithSave
 end--loadPositionFuncs MISSION_ABORT<
 --
-loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
-loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)end
---tex start on foot >
+loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+  InfCore.LogFlow("loadPositionFuncs MISSION_RESTART")--tex
+end
+loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT]=function(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+  InfCore.LogFlow("loadPositionFuncs CONTINUE_FROM_CHECK_POINT")--tex
+end
+--tex IH start on foot >
 function this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)
+  InfCore.LogFlow"TppMain.SetStartOnFootPosition"
   local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
   local isAssaultLz=TppLandingZone.IsAssaultDropLandingZone(gvars.heli_missionStartRoute)
-  local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
+  local startOnFoot=InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
   local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or fromFreeMission)
-  if startOnFoot then
-    InfCore.LogFlow"SetStartOnFootPosition"
+  if not startOnFoot then
+    InfCore.Log("startOnFoot not set")--tex just info rather than a warning, a normal start position should have already been set before calling SetStartOnFootPosition
+  elseif not groundStartPosition then
+    InfCore.Log("no groundStartPosition found for heli_missionStartRoute:"..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--tex as above
+  else
+    local pos=groundStartPosition.pos
+    InfCore.PrintInspect(groundStartPosition,"groundStartPosition")--DEBUG
+    if pos==nil then
+      InfCore.Log("ERROR: TppMain SetStartOnFootPosition pos==nil for "..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--
+      return
+    elseif type(pos)~="table"then
+      InfCore.Log("ERROR: TppMain SetStartOnFootPosition pos type not table for "..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--
+      return
+    end
+
+    local rotY=groundStartPosition.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest cp center    
+    if groundStartPosition.rotY==nil then
+      --tex point toward lookPos
+      local lookPos={0,0,0}--tex DEBUGNOW or closest CP (are entities loaded at this point in execution?), and precompute if possible
+      pos[4]=InfUtil.YawTowardsLookPos(pos,lookPos)--tex SetInitialPosition uses [4] as rotY
+    end
+    
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     --TppHelicopter.ResetMissionStartHelicopterRoute()
     if not isMbFree then
       --tex WORKAROUND mission timers fix see TppMission.IsStartFromHelispace note
       igvars.mis_isGroundStart=true
     end
-    local pos=groundStartPosition.pos
-    InfCore.PrintInspect(groundStartPosition,"groundStartPosition")--DEBUG
-    local rotY=groundStartPosition.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest cp center
-    if pos==nil then
-      InfCore.Log("ERROR: TppMain LoadingPositionFromHeliSpace pos==nil for "..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--
-    elseif groundStartPosition.rotY==nil then
-      --tex point toward lookPos
-      local lookPos={0,0,0}--tex DEBUGNOW or closest CP (are entities loaded at this point in execution?), and precompute if possible
-      pos[4]=InfUtil.YawTowardsLookPos(pos,lookPos)
-    end
     mvars.mis_helicopterMissionStartPosition=pos
     TppPlayer.SetInitialPosition(pos,0)
     TppPlayer.SetMissionStartPosition(pos,0)
+    InfCore.PrintInspect(pos,"SetStartOnFootPosition")
   end--<
 end--SetStartOnFootPosition--<
 --NMC: tex most commonly only called with just missionLoadType, so the params are really just specific to the call with the missionLoadType that actually passes them in.
 function this.ReservePlayerLoadingPosition(missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
+  InfCore.LogFlow("ReservePlayerLoadingPosition")--tex
   igvars.mis_isGroundStart=false--tex WORKAROUND
   this.DisableGameStatus()
   loadPositionFuncs[missionLoadType](missionLoadType,fromHeliSpace,fromFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)--tex broke out from this functions
   if fromHeliSpace and isLocationChange then
-    Mission.AddLocationFinalizer(function()this.StageBlockCurrentPosition()end)
+    Mission.AddLocationFinalizer(function()
+      InfCore.LogFlow"Mission fromHeliSpace and isLocationChange LocationFinalizer"--tex
+      this.StageBlockCurrentPosition()
+    end)
   else
     this.StageBlockCurrentPosition()
   end
