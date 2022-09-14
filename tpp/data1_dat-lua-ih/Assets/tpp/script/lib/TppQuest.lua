@@ -1766,6 +1766,7 @@ return InfCore.PCallDebug(function(questList)--DEBUGNOW
   return mvars.qst_questList
   end,questList)--tex PCall DEBUGNOW
 end--RegisterQuestList
+--questPackList either TppQuestList.questList or TppMbFreeDemo.demoBlockList
 function this.RegisterQuestPackList(questPackList,blockName)
   if not IsTypeTable(questPackList)then
     return
@@ -3243,32 +3244,50 @@ function this.IsActiveQuestHeli()
   return false
 end
 -- NMC: messages for trap_preDeactiveQuestArea_<areaName> traps in <missionCode>_sequence.fox2
+--tex REWORKED to support addons
 function this.DeactiveQuestAreaTrapMessages()
   if Ivars.quest_useAltForceFulton:Get()==1 then--tex>
     return {}
   end--<
-
   local deactiveQuestAreaTrapMessages={}
-  local areaList={}
-  local missionCode=TppMission.GetMissionID()
   --RETAILBUG: this means wont fire for sideops in story missions, but there only seems to be one sideop active during them anyway (see CanActiveQuestInMission)
-  if missionCode==30010 then
-    areaList=afgAreaList
-  elseif missionCode==30020 then
-    areaList=mafrAreaList
-  else
-    return
-  end
-  for i,areaName in ipairs(areaList)do
-    local trapName=this.GetTrapName(areaName)
-    local message={msg="Exit",sender=trapName,
-      func=function(e,e)
-        TppEnemy.CheckDeactiveQuestAreaForceFulton()
-      end}
-    table.insert(deactiveQuestAreaTrapMessages,message)
-  end
+  if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then--tex enable for addon free roam missions TODO rethink, enable for wargames?
+    for i,areaInfo in ipairs(TppQuestList.questList)do
+      if areaInfo.locationId==vars.locationCode then
+        local trapName=this.GetTrapName(areaInfo.areaName)
+        local message={msg="Exit",sender=trapName,
+          func=function(trapNameS32,gameId)
+            TppEnemy.CheckDeactiveQuestAreaForceFulton()
+          end}
+        table.insert(deactiveQuestAreaTrapMessages,message)     
+      end--if locationId
+    end--for questList
+  end--if isfreemission
   return deactiveQuestAreaTrapMessages
-end
+end--DeactiveQuestAreaTrapMessages
+--ORIG
+--function this.DeactiveQuestAreaTrapMessages()
+--  local deactiveQuestAreaTrapMessages={}
+--  local areaList={}
+--  local missionCode=TppMission.GetMissionID()
+--  --RETAILBUG: this means wont fire for sideops in story missions, but there only seems to be one sideop active during them anyway (see CanActiveQuestInMission)
+--  if missionCode==30010 then
+--    areaList=afgAreaList
+--  elseif missionCode==30020 then
+--    areaList=mafrAreaList
+--  else
+--    return
+--  end
+--  for i,areaName in ipairs(areaList)do
+--    local trapName=this.GetTrapName(areaName)
+--    local message={msg="Exit",sender=trapName,
+--      func=function(trapNameS32,gameId)
+--        TppEnemy.CheckDeactiveQuestAreaForceFulton()
+--      end}
+--    table.insert(deactiveQuestAreaTrapMessages,message)
+--  end
+--  return deactiveQuestAreaTrapMessages
+--end
 function this.GetTrapName(areaName)
   return"trap_preDeactiveQuestArea_"..areaName
 end
