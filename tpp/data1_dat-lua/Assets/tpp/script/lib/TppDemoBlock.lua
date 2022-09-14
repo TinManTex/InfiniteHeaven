@@ -1,4 +1,5 @@
 --TppDemoBlock.lua
+--Called from demo_block.lua
 local this={}
 local GetCurrentScriptBlockId=ScriptBlock.GetCurrentScriptBlockId
 local GetScriptBlockState=ScriptBlock.GetScriptBlockState

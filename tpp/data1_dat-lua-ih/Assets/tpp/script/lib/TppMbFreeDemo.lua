@@ -722,6 +722,7 @@ this.demoOptions={
   PazPhantomPain4_jp=this._PazPhantomPain4Settings
 }
 function this.PlayMtbsEventDemo(params)
+  InfCore.PrintInspect(params,"TppMbFreeDemo.PlayMtbsEventDemo")--tex 
   if not Tpp.IsTypeTable(params)then
   end
   local demoName=params.demoName

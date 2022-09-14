@@ -5085,9 +5085,9 @@ function this.SetupQuestEnemy()
   TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=questCp,locatorSetName=questLocatorSetName}
 end
 
---CALLER: mtbs_enemy.OnAllocateDemoBlock
+--CALLER: Quest script .OnAllocate, mtbs_enemy.OnAllocateDemoBlock
 function this.OnAllocateQuest(body,face,setHostage)
-
+  InfCore.LogFlow("TppEnemy.OnAllocateQuest")--tex
   local function SetAndConvertExtendFova(body,face)
     local fovaSetType="SetNone"
     if IsTypeTable(face)and IsTypeTable(body)then

@@ -33,8 +33,8 @@ this.hookFuncs={
         InfCore.PrintInspect(saveParams,"TppSave.DoSave saveParams")
       end
       local saveResult=this.TppSave.DoSave(saveParams,force)
-
       --OFF IvarProc.OnSave(saveParams,force)--tex hookin on this level catches savepersonaldata called in init_sequence can throw spanner in works for some of the stuff we want to do during load, so hooking
+      InfCore.LogFlow("InfHook TppSave.DoSave done")--tex just to make it clear that function completed and not an issue, since this is often one of the last things logged on load hangs.
       return saveResult
     end,
     SaveGameData=function(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
@@ -62,6 +62,14 @@ this.hookFuncs={
   --  end,
   },
   TppSequence={
+    RegisterSequenceTable=function(sequences)--tex hooking just for debugging at the moment, since TppSequence not in buils, also since it builds mvars.seq_sequenceTable could futz with that if needs be
+      InfCore.LogFlow("InfHook TppSequence.RegisterSequenceTable")
+      this.TppSequence.RegisterSequenceTable(sequences)
+      if TppSequence.debugModule then
+        InfCore.PrintInspect(mvars.seq_sequenceNames,"mvars.seq_sequenceNames")
+        InfCore.PrintInspect(sequences,"<mission>_sequence sequences")
+      end
+    end,
     SetNextSequence=function(sequenceName,params)
       local currentId=svars.seq_sequence
       local prevName=""

@@ -242,6 +242,7 @@ local heliColors={
   [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
   [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
 }
+--NMC only called in TppMissionList missionPackTable functions
 function this.GetEnemyColoringPack(heliColoringType)
   return heliColors[heliColoringType].pack
 end
