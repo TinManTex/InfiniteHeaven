@@ -1741,7 +1741,7 @@ this.messageSignatures={
       {argName="playId",argType="str32"}, -- playId
       {argName="npcLocator",argType="str32"}, -- npc locator
     },
-  },
+  },--Demo
   GameObject={
     AimedFromPlayer={ -- when the children in White Mamba are aimed at at via scope or readied weapon
       {argName="gameId",argType="gameId"},
@@ -1931,6 +1931,9 @@ this.messageSignatures={
       {argName="locator",argType="str32"},
       {argName="unk2",argType="str32",argAlert=this.alertFuncs.any},
     },
+    FobReinforceRespawn={--[450758143]
+      {argName="soldierId",argType="gameId"},
+    },
     Fulton={
       {argName="gameId",argType="gameId"},
       {argName="gimmickInstanceOrAnimalId",argType="gimmickInstanceOrAnimalId",argCanBeNil=true,this.alertFuncs.notNil},
@@ -2075,6 +2078,11 @@ this.messageSignatures={
       -- fired when vehicle that noticed us is no longer loaded, like when loading from checkpoint
       -- unsure if it fires for anything other than walker gears (2304X)
       {argName="gameId",argType="gameId"},
+    },
+    OutSight={--[4049779088]
+      -- a suspcious helicopter is shining their light right at you
+      {argName="helicopterId",argType="gameId"},
+      {argName="unk1",argType="gameId"}, --ej TODO VERIFY: 65535
     },
     PazGotPicture={
       {argName="pazLocatorId",argType="gameId"},
@@ -2279,6 +2287,11 @@ this.messageSignatures={
       {argName="actionId",argType="str32"},
       {argName="commandId",argType="str32"},
     },
+    SpecialActionSuicide={--[3468216400]
+      -- every time a soldier shoots a weapon in shining lights
+      -- but only when it happens on-camera
+      {argName="soldierId",argType="gameId"},
+    },
     StartInvestigate={
       {argName="cpId",argType="cpId"},
       {argName="phase",argType="phase"},--ej TODO VERIFY
@@ -2423,7 +2436,7 @@ this.messageSignatures={
       {argName="irDataSet",argType="dataSetPath32"},
       {argName="triggerer",argType="gameId"},--tex who tripped sensor
     },
-  },
+  },--GameObject
   Marker={
     ChangeToEnable={
       {argName="instanceName",argType="str32"},
@@ -2447,9 +2460,9 @@ this.messageSignatures={
   },
   Mission={
     GameOverByCrime=this.signatureTypes.none,-- shooting a UAV on your own FOB during security cam settings
-    OnAddTacticalActionPoint={
+    OnAddTacticalActionPoint={--tex see bottom of TppResult.AddTacticalActionPoint where it manually fires the message
       {argName="gameId",argType="gameId"},--victim id
-      {argName="reason",argType="str32"},
+      {argName="tacticalTakeDownType",argType="str32"},
       -- "TapCqc"
       -- "TapHeadShotFar"
     },
@@ -2565,6 +2578,10 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="gameId",argType="gameId"},--victim
     },
+    CqcThrowAction={--[3038279949]
+      {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+      {argName="victimId",argType="gameId"},--ej TODO VERIFY
+    },
     Dead={
       {argName="playerIndex",argType="gameId"},
       {argName="deathType",argType="str32"},
@@ -2664,7 +2681,7 @@ this.messageSignatures={
     IconOk={
       --when handing Paz the pictures, 
       {argName="purposeHash",argType="str32"},
-      -- 3205930904???
+      -- 3205930904???--thats str32 of "" an empty string
     },
     IconToiletOnShown={
       {argName="playerIndex",argType="gameId"},
@@ -2707,6 +2724,9 @@ this.messageSignatures={
       {argName="locatorNameS32",argType="str32"},
       {argName="targetId",argType="gameId"},
     },
+    MBTerminalSleep={--[2307345963] -- when player closes idroid
+      {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+    },
     NearVehicle={-- doesn't specify which vehicle
       {argName="playerIndex",argType="gameId"},
     },
@@ -2748,6 +2768,9 @@ this.messageSignatures={
     OnBinocularsMode={
       {argName="playerIndex",argType="gameId"},
     },
+    OnClimb={--[2614541283]--Begin climbing crack
+      {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+    },
     OnComeOutSupplyCbox={
       -- individual item requested via development menu
       {argName="playerIndex",argType="gameId"},
@@ -2778,6 +2801,9 @@ this.messageSignatures={
     OnInjury={
       {argName="playerIndex",argType="gameId"},
     },
+    OnLadder={--[4225550632] --climbing a ladder, every tick there is a ladder input
+      {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
+    },
     OnPickUpCollection={
       {argName="playerIndex",argType="gameId"},
       {argName="resourceId",argType="number"},--tex TODO
@@ -2798,6 +2824,10 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="equipId",argType="equipId"},
       {argName="pickupNumber",argType="number"},--blueprint number or casset number or ? VERIFY doesnt seem to directly match countRaw on the TppPickableLocatorParameter as arg3 was returning 60 for a rawcount 1
+    },
+    OnPipe={--[3136097041]
+      -- no corresponding event for dismount
+      {argName="playerIndex",argType="gameId"},
     },
     OnPlayerElude={
       -- whenever you hop a fence
@@ -2837,6 +2867,11 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
     },
     OnPlayerTrashBox={
+      {argName="playerIndex",argType="gameId"},
+    },
+    OnRefresh={--[2766584503]
+      -- 2nd event after entering a shower,
+      -- also plays during the shower cutscene with quiet
       {argName="playerIndex",argType="gameId"},
     },
     OnVehicleDrive={
@@ -3011,7 +3046,7 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="zombieId",argType="gameId",argAlert=this.alertFuncs.notNullId}, -- i would assume it to be a zombie, but, is usually NULL_ID
     },
-  },
+  },--Player
   Radio={
     EspionageRadioCandidate={
 	    -- when you look at something that has a radio/call message
@@ -3034,7 +3069,7 @@ this.messageSignatures={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
       {argName="unk1",argType="number"},--tex UNKNOWN
     },
-  },
+  },--Radio
   Sound={
     ChangeBgmPhase={
       {argName="bgmPhase",argType="bgmPhase"},
@@ -3121,7 +3156,7 @@ this.messageSignatures={
       {argName="photoId",argType="number",argAlert=function(x)return x~=255 end},
       -- 255 == no photo (during DIAMOND DOGS)
     },
-  },
+  },--Terminal
   Throwing={
     NotifyStartWarningFlare={
       {argName="x",argType="number"},
@@ -3237,8 +3272,8 @@ this.messageSignatures={
       {argName="fadeInName",argType="str32"},
     },
     GameOverReturnToTitle=this.signatureTypes.none,
-    HideTelopCast={
-      {argName="locationName",argType="str32"}, -- TODO: what is this
+    HideTelopCast={--[117313536]
+      {argName="creditHash",argType="str32"},--ej TODO VERIFY, may also be a hash for the position
       --[[
         CenterLarge
       ]]
@@ -3310,8 +3345,11 @@ this.messageSignatures={
       {argName="unk1",argType="number"}, -- matches number from corresponding RespawnChange
       -- remainder: nil
     },
-    ShowTelopCast={
-      {argName="locationName",argType="str32"},
+    SelectMGO={--[3775668277]--on title screen
+      {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
+    },
+    ShowTelopCast={--[3188684021]
+      {argName="creditHash",argType="str32"},--ej TODO VERIFY, may also be a hash for the position,
     },
     StartAnnounceLog={
       {argName="locationName",argType="str32"},
@@ -3335,7 +3373,7 @@ this.messageSignatures={
     TppEndingMainStaffStart=this.signatureTypes.none,
     WorldMarkerAboutErase=this.signatureTypes.none,-- when you get into a yellow FOM during a mission
     WormHoleTimerTimeUp=this.signatureTypes.none,-- when the invader's wormhole is no longer available as a retreat target
-  },
+  },--UI
   Weather={
     ChangeWeather={
       {argName="weatherType",argType="weatherType"},
@@ -3354,17 +3392,6 @@ this.messageSignatures={
 --signatures where the sender or messageId str is unknown
 --name is to give some idea of what the sender / messageId is about
 this.messageAssumptions={
-  [451394533]={
-    name="Heroism",
-    messages={
-      OnAddTacticalActionPoint={
-        signature={
-          {argName="gameId",argType="gameId"},
-          {argName="eventName",argType="str32"}, -- TapHeadShotFar, etc
-        },
-      },
-    },
-  },
   Radio={
     messages={
       [2719725902]={
@@ -3391,7 +3418,7 @@ this.messageAssumptions={
         },
       },
     },
-  },
+  },--Radio
   Terminal={
     messages={
       [1972763954]={
@@ -3422,7 +3449,7 @@ this.messageAssumptions={
         }
       },
     }
-  },
+  },--Terminal
   MotherBaseManagement={
     messages={
       [4080112078]={
@@ -3460,7 +3487,7 @@ this.messageAssumptions={
         }
       }
     }
-  },
+  },--MotherBaseManagement
   Network={
     messages={
       [3581811033]={
@@ -3511,20 +3538,6 @@ this.messageAssumptions={
   },
   GameObject={
     messages={
-      [3468216400]={
-        -- every time a soldier shoots a weapon in shining lights
-        -- but only when it happens on-camera
-        name="ScriptWeaponShot",
-        signature={
-          {argName="soldierId",argType="gameId"},
-        },
-      },
-      [450758143]={
-        name="SpawnReinforcementsFOB",
-        signature={
-          {argName="soldierId",argType="gameId"},
-        },
-      },
       [313390177] = {
         -- sometimes fired without CqcGunSteal ever firing?
         name="CqcGunStolen",
@@ -3546,16 +3559,8 @@ this.messageAssumptions={
           {argName="distanceFromPlayer",argType="number"}, --ej TODO VERIFY
         },
       },
-      [4049779088]={
-        -- a suspcious helicopter is shining their light right at you
-        name="HelicopterSeesYouAndIsSuspicious",
-        signature={
-          {argName="helicopterId",argType="gameId"},
-          {argName="unk1",argType="gameId"}, --ej TODO VERIFY: 65535
-        },
-      },
     }
-  },
+  },--GameObject
   Demo={
     messages={
       [993613272]={
@@ -3571,7 +3576,7 @@ this.messageAssumptions={
         signature=this.signatureTypes.demoSimple,
       },
     },
-  },
+  },--Demo
   UI={
     messages={
       [3548619023]={
@@ -3591,12 +3596,6 @@ this.messageAssumptions={
         name="EndTelopDownloadGzRecruitsAndShowAnimalsWeCaught ",
         signature={
           {argName="playerIndex",argType="gameId"},--ej TODO VERIFY, may also be a hash for the position
-        },
-      },
-      [3188684021]={
-        name="ShowTitleCredit",
-        signature={
-          {argName="creditHash",argType="str32"},--ej TODO VERIFY, may also be a hash for the position
         },
       },
       [948921710]={
@@ -3630,18 +3629,6 @@ this.messageAssumptions={
           {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
         },
       },
-      [3775668277]={
-        name="TitleScreenHighlightMetalGearOnline",
-        signature={
-          {argName="playerIndex",argType="gameId"}, --ej TODO VERIFY? not most of the UI events use playerIndex
-        },
-      },
-      [117313536]={
-        name="HideTitleCredit",
-        signature={
-          {argName="creditHash",argType="str32"},--ej TODO VERIFY, may also be a hash for the position
-        },
-      },
       [4107358660]={
         name="DispFobResultGmpGet",
         signature={
@@ -3667,7 +3654,7 @@ this.messageAssumptions={
         },
       },
     },
-  },
+  },--UI
   Player={
     messages={
       [1061149313]={
@@ -3681,7 +3668,7 @@ this.messageAssumptions={
           {argName="gameId",argType="gameId"}, -- the liquid
         },
       },
-      [3205930904]={
+      [3205930904]={--tex this is weird, 3205930904 is str32 "" an empty string
         name="WhatHappenedHere",
         signature={
           {argName="playerIndex",argType="gameId"},
@@ -3714,14 +3701,6 @@ this.messageAssumptions={
         -- 2nd event after entering a shower,
         -- also plays during the shower cutscene with quiet
         name="OnPlayerShower",
-        signature={
-          {argName="playerIndex",argType="gameId"},
-        },
-      },
-      [2766584503]={
-        -- 2nd event after entering a shower,
-        -- also plays during the shower cutscene with quiet
-        name="PlayerShowerStartButNotReal",
         signature={
           {argName="playerIndex",argType="gameId"},
         },
@@ -3808,37 +3787,11 @@ this.messageAssumptions={
           {argName="playerIndex",argType="gameId"},
         },
       },
-      [3136097041]={
-        -- no corresponding event for dismount
-        name="PlayerMountPipe",
-        signature={
-          {argName="playerIndex",argType="gameId"},
-        },
-      },
-      [4225550632]={ --climbing a ladder, every tick there is a ladder input
-        name="LadderClimbMotion",
-        signature={
-          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
-        },
-      },
-      [2614541283]={
-        name="BeginClimbCrack",
-        signature={
-          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
-        },
-      },
       [2819912508]={
         name="CqcMacheteBackstab",
         signature={
           {argName="playerIndex",argType="gameId"},-- the player
           {argName="victimId",argType="gameId"}, -- usually a Skull 
-        },
-      },
-      [3038279949]={
-        name="CqcThrowFlip",
-        signature={
-          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
-          {argName="victimId",argType="gameId"},--ej TODO VERIFY
         },
       },
       [221977019]={
@@ -3874,12 +3827,6 @@ this.messageAssumptions={
           {argName="victimId",argType="gameId"},--ej TODO VERIFY
         },
       },
-      [2307345963]={ -- when player closes idroid
-        name="PlayerMbDvcClose",
-        signature={
-          {argName="playerIndex",argType="gameId"},--ej TODO VERIFY
-        },
-      },
       [2990447840]={ --when player opens idroid
         name="PlayerMbDvcOpen",
         signature={
@@ -3887,7 +3834,7 @@ this.messageAssumptions={
         },
       },
     }
-  }
+  }--Player
 }--messageAssumptions
 
 --tex actually add the message names to strcode32 lookup since there's some messages only subscribed in specific missions, but still called all the time
