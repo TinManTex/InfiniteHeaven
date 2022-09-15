@@ -1163,7 +1163,7 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
   if this.debugModule and InfCore.debugMode and Ivars.debugMessages:Is(1)then--tex>
     local perfTime=os.clock()-perfStart
     if perfTime>0 then
-      InfCore.LogFlow("OnMessage Bottom: perfTime:"..perfTime)--tex
+      InfCore.LogFlow("OnMessage Bottom: perfTime:"..perfTime)--tex having it always Log can be useful to get an idea if the message is calling a bunch of stuff, but I'll gate it behind perftime for now, since messages that are going through functions that are also flow logged are also likely to be heavy anyway
     end
   end--<
 end
