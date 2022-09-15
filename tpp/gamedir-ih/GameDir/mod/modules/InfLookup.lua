@@ -3351,7 +3351,8 @@ this.messageSignatures={
     },
   },
 }--messageSignatures
-
+--signatures where the sender or messageId str is unknown
+--name is to give some idea of what the sender / messageId is about
 this.messageAssumptions={
   [451394533]={
     name="Heroism",
@@ -3928,72 +3929,6 @@ this.watchedIdentities = {
   "Terminal.MbDvcActOpenTop",
 }
 
--- do not leave the following block uncommented during bootup or else it won't
--->
---[[
-local realLog = InfCore.Log
-InfQuest.debugModule = false 
-local fuckThesePhrases = {
-  "TppLocation.GetLocationName",
-  "InfQuest.DisableLandingZones",
-  "mission_main > TppMain.OnChangeSVars",
-  "TppSequence.OnChangeSVars",
-  "TppUI.OnChangeSVars",
-  "TppMission.OnChangeSVars",
-  "TppMain.OnChangeSVars done",
-  "MakeFultonRecoverSucceedRatio",
-  "TppQuest.SetNextQuestStep",
-  "InfHook TppSave.DoSave",
-  "InfMission.Save",
-  "InfMBStaff.Save",
-  "InfLookup.Save",
-  "IvarProc.SaveEvars",
-  "IvarProc.SaveAll",
-  "InfHook TppSave.SaveGameData",
-  "TppQuest.UpdateRepopFlagImpl",
-  "TppQuest.SetNextQuestStep",
-  "TppQuest.ClearWithSave",
-  "TppTerminal.AddTempStaffFulton",
-  "TppTerminal.AddStaffsFromTempBuffer",
-  "TppEnemy.CheckQuestAllTarget",
-  "HookPre TppScriptBlock.DeactivateScriptBlockState",
-  "HookPre TppScriptBlock.SaveScriptBlockId",
-  "HookPre TppScriptBlock.Load",
-  "TppQuest. testing IsInsideArea",
-  "TppQuest.UpdateQuestBlockStateAtNotLoaded",
-  "HookPre TppQuest.UnloadCurrentQuestBlock",
-  "HookPre TppScriptBlock.Unload",
-  "Process menuMessage",
-  "TppRevenge.SetRevengePoint",
-  "TppMain.OnMissionCanStart",
-  "TppLocation.ActivateBlock",
-  "InfMain.OnMissionCanStartBottom",
-  "GuantanamoAsset.OnMissionCanStart",
-  "InfEquip.OnMissionCanStart",
-  "InfEquip.PutEquipOnTrucks",
-  "InfGameEvent.OnMissionCanStart",
-  "InfMainTpp.OnMissionCanStart",
-  "InfMBVisit.OnMissionCanStart",
-  "InfNPCHeli.OnMissionCanStart",
-  "InfParasite.OnMissionCanStart",
-  "InfParasite InitEvent",
-  "InfParasite.SetupParasites",
-  "InfProgression.OnMissionCanStart",
-  "RlcSnow.OnMissionCanStart",
-  "TppQuest.QuestBlockOnTerminate",
-  "TppQuest.ExecuteSystemCallback",
-  "HookPre TppScriptBlock.FinalizeScriptBlockState",
-}
-
-InfCore.Log = function(x,y,z)
-  for _, phrase in ipairs(fuckThesePhrases) do
-    if string.find(x, phrase) then return end
-  end
-  realLog(x, y, z)
-end
-]]
---<
-
 local function serType(dat)
   local t = type(dat)
   if t == "string" then
@@ -4006,10 +3941,12 @@ local function serType(dat)
     return "/!\\HELP:"..tostring(dat)
   end
 end
-
+--treats args as varargs, even though the rest of the existing uses are pretty solid with the contract
+--works out because there's no strLogText like rest of OnMessage calls in TppMain.OnMessage to mess up the lua varargs magic 
+--TODO: give example of printed messages / document legendize stuff (like the ! and ? for unknown/assumption messages)
+--StringifyArg already has its output documented
 function this.PrintOnMessage(sender,messageId,...)
   --InfCore.PCall(function(sender,messageId,...)--DEBUG
-
   local senderStr=this.StrCode32ToString(sender,true)
   local messageIdStr=this.StrCode32ToString(messageId,true)
   local assSenderStr = senderStr
@@ -4037,7 +3974,7 @@ function this.PrintOnMessage(sender,messageId,...)
       return
     end
   end
-
+  
   local assumption=this.messageAssumptions[senderStr]
   if assumption then
     if assumption.name ~= nil and assSenderStr ~= assumption.name then
@@ -4102,7 +4039,8 @@ function this.StringifyArg(arg, argDef)
 
   return argTypeDat .. argDat, postComments
 end
-
+--tex just attempt to throw a bunch of lookups at the args
+--most times they won't be right, but when it does can let you figure out what the arg is
 function this.GuessArgType(arg)
   local argValue=""
 
@@ -4135,8 +4073,9 @@ function this.GuessArgType(arg)
 
   return argValue
 end
-
+--CULL pre ej rework
 --[[
+function this.PrintMessage(senderStr,messageIdStr,...)
   local lookupTypes={
     "str32",
     "gameId",
@@ -4147,14 +4086,6 @@ end
     "equipType",
   --"time",
   }
-  ]]
---tex print message and just attempt to throw a bunch of lookups at the args
---most times they won't be right, but when it does can let you figure out what the arg is
---[[
-function this.PrintMessage(senderStr,messageIdStr,...)
-  -- fuck spammy messages killing my log
-  local identity = senderStr .. "." .. messageIdStr
-
 
   local hasArgs=true
   local argsString=""
@@ -4178,7 +4109,6 @@ function this.PrintMessage(senderStr,messageIdStr,...)
 end
 ]]
 
---tex TODO: if arg is type str32 and it returns as unknown note it.
 function this.PrintMessageSignature(senderStr,messageIdStr,signature,...)
   local identity = senderStr .. "." .. messageIdStr
   if InfUtil.FindInTable(this.bannedIdentities, identity) then return end
@@ -4235,7 +4165,7 @@ function this.PrintMessageSignature(senderStr,messageIdStr,signature,...)
   end
 
   InfCore.Log("OnMessage[".. badge .. "]: " .. messageInfoString)
-end
+end--PrintMessageSignature
 
 function this.OnShowAnnounceLog(announceId,param1,param2)
   if Ivars.debugMessages:Is(1) then
