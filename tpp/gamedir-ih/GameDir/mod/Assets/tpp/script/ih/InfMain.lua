@@ -143,6 +143,11 @@ function this.MissionPrepare()
   if this.IsOnlineMission(vars.missionCode)then
     return
   end
+  
+  --tex WORKAROUND: TppSequence is not in build
+  if Ivars.debugOnUpdate:Is(1) then
+    TppMission.RegisterMissionSystemCallback{OnUpdateWhileMissionPrepare=this.OnUpdateWhileMissionPrepare}
+  end
 
   this.CallOnModules("MissionPrepare")
   if IHH then
@@ -521,7 +526,69 @@ this.abortToAcc=false--tex
 function this.IsPastTitle(missionCode)
   return missionCode>5 and missionCode<65535
 end
+--tex WORKAROUND: currently just replicating Seq_Mission_Prepare.OnUpdate and logging progress since TppSequence is not in build
+--as this is called using TppMission SystemCallBack 
+--though a lot of it is already logged via the TppMain calls is does
+--currently gated by debugOnUpdate - TODO: debugLoadingOnUpdate/debugMissionPrepareUpdate or something
+--(see this.MissionPrepare)
+--Seq_Mission_Prepare is first sequence (prepended to mission _sequence sequences), set in TppSequence.Init
+--and essentially the loading progression
 
+local IsEndedMBMgmtSyncControl=TppMotherBaseManagement.IsEndedSyncControl
+local MissionCanStart=TppMission.CanStart
+local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+function this.OnUpdateWhileMissionPrepare()
+  local textureLoadedRate=Mission.GetTextureLoadedRate()
+  if mvars.seq_skipTextureLoadingWait then
+    textureLoadedRate=1
+  end
+
+  if not IsEndedMBMgmtSyncControl() then
+    InfCore.Log("OnUpdateWhileMissionPrepare not TppMotherBaseManagement.IsEndedSyncControl")--tex 
+    return
+  end
+
+  if not MissionCanStart() then
+    InfCore.Log("OnUpdateWhileMissionPrepare not TppMission.CanStart")--tex 
+    return
+  end
+
+  local maxTextureLoadWaitStartTime=30
+  local maxTextureLoadedRate=.35  
+  local continueMissionPrepare=false
+  --tex timing may be a bit hinky due to stuff being set in actual Seq_Mission_Prepare.OnUpdate
+  local textureLoadStartDelta=GetElapsedTime()-mvars.seq_textureLoadWaitStartTime
+  local textureLoadWaitTimeLeft=maxTextureLoadWaitStartTime-textureLoadStartDelta
+  if(textureLoadedRate>maxTextureLoadedRate)or(textureLoadWaitTimeLeft<0)then
+    continueMissionPrepare=true
+  end
+  
+  if not continueMissionPrepare then
+    InfCore.Log("TppSequence Seq_Mission_Prepare.OnUpdate not continueMissionPrepare")--tex DEBUGNOW
+    InfCore.Log("textureLoadedRate:"..textureLoadedRate.." textureLoadWaitTimeLeft:"..textureLoadWaitTimeLeft)
+    return
+  end
+  --GOTCHA: textureLoadedRate gets set to 0 somewhere past this point so it gets caught back into continueMissionPrepare for a while
+  
+  --tex the TppMain calls that are logged should handle most logging since there no blocking of the stage advancement past this point
+    
+  --tex trying to think my way through replicating Seq_Mission_Prepare.OnUpdate since the call to this callback it near the top of that
+  --and at about this equivalent point Seq_Mission_Prepare.OnUpdate jumps through a few states (and continueMissionPrepare if SkipTextureLoadingWait) in one frame
+  --so I can't really give it the proper order, so this will fire before
+  --TppMain.OnTextureLoadingWaitStart
+  --TppMain.OnMissionStartSaving
+  --TppMain.OnMissionCanStart
+  --when its usually checked after OnMissionCanStart
+  if(mvars.seq_missionPrepareState<TppSequence.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
+    if TppUiCommand.IsEndLoadingTips()then
+      InfCore.Log("TppSequence Seq_Mission_Prepare.OnUpdate TppUiCommand.IsEndLoadingTips")
+    else
+      if gvars.waitLoadingTipsEnd then
+        InfCore.Log("TppSequence Seq_Mission_Prepare.OnUpdate gvars.waitLoadingTipsEnd true: TppUiCommand.PermitEndLoadingTips()")
+      end
+    end
+  end
+end--OnUpdateWhileMissionPrepare
 --IN/OUT SIDE: currentchecks
 function this.UpdateExecChecks(currentChecks)
   local missionCode=vars.missionCode
@@ -1437,11 +1504,14 @@ end
 
 --tex runs a function on all IH modules, used as the main message/event propogation to ih modules
 function this.CallOnModules(functionName,...)
+  InfCore.LogFlow("InfMain.CallOnModules: "..functionName)
   local clock=os.clock
   for i,module in ipairs(InfModules) do
     if IsFunc(module[functionName]) then
       local startTime=clock()
-      InfCore.LogFlow(module.name.."."..functionName..":")
+      if this.debugModule then
+        InfCore.LogFlow(module.name.."."..functionName..":")
+      end
       InfCore.PCallDebug(module[functionName],...)
       local endTime=clock()-startTime
       --InfCore.Log("Run in "..endTime)--tex DEBUG
