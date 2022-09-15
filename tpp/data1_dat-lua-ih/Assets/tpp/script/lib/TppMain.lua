@@ -1123,12 +1123,22 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
   end--<
   if currentResendCount<resendCount then
     return Mission.ON_MESSAGE_RESULT_RESEND--NMC: tex was 1 when dumped, don't think it changes, but who knows
-  end
+  end  
+  local perfStart=0--tex profiling
   if InfCore.debugMode and Ivars.debugMessages:Is(1)then--tex>
     if InfLookup then
+      perfStart=os.clock()
       InfCore.PCall(InfLookup.PrintOnMessage,sender,messageId,arg0,arg1,arg2,arg3)
-  end
+      --tex PerfTest, might as well see how heavy this is.
+      if this.debugModule and InfCore.debugMode and Ivars.debugMessages:Is(1)then
+        local perfTime=os.clock()-perfStart 
+        if perfTime>0 then
+          InfCore.LogFlow("InfLookup.PrintOnMessage perfTime:"..perfTime)--tex
+        end
+      end
+    end
   end--<
+  perfStart=os.clock()--tex the rest
   for i=1,onMessageTableSize do
     local strLogText=strLogTextEmpty
     InfCore.PCallDebug(onMessageTable[i],sender,messageId,arg0,arg1,arg2,arg3,strLogText)--tex wrapped in pcall
@@ -1151,7 +1161,10 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
     InfCore.PCallDebug(mvars.animalBlockScript.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
   end
   if this.debugModule and InfCore.debugMode and Ivars.debugMessages:Is(1)then--tex>
-    InfCore.LogFlow("OnMessage Bottom")--tex DEBUGNOW
+    local perfTime=os.clock()-perfStart
+    if perfTime>0 then
+      InfCore.LogFlow("OnMessage Bottom: perfTime:"..perfTime)--tex
+    end
   end--<
 end
 function this.OnTerminate(missionTable)
