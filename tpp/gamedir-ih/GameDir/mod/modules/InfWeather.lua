@@ -1,4 +1,6 @@
 -- InfWeather.lua
+-- weather and sky param ivars
+-- as well as weather support for location addons
 local this={}
 
 --tex hooking TppWeather for the moment since there's other mods out for it
@@ -17,6 +19,7 @@ function this.SetDefaultWeatherProbabilities()
   locationName=string.upper(locationName) 
   --DEBUGNOW and per mission too?
   local weatherProbabilities=this.weatherProbabilitiesTable[locationName]
+  --tex fall back to vanilla weather
   if weatherProbabilities==nil then
     TppWeather_SetDefaultWeatherProbabilities()
     return
@@ -40,7 +43,7 @@ function this.SetDefaultWeatherProbabilities()
     InfCore.PrintInspect(weatherProbabilities,locationName.." extraWeatherProbabilities")
   end
 end--SetDefaultWeatherProbabilities
-TppWeather.SetDefaultWeatherProbabilities=this.SetDefaultWeatherProbabilities
+TppWeather.SetDefaultWeatherProbabilities=this.SetDefaultWeatherProbabilities--HOOK OVERRIDE
 
 --CALLER: InfMission.AddInLocations
 --GOTCHA: no checks to see if it tramples an previously added entry
