@@ -12,6 +12,11 @@ this.extraWeatherProbabilitiesTable={
   NONE={},
 }
 
+function this.PostModuleReload(prevModule)
+  this.weatherProbabilitiesTable=prevModule.weatherProbabilitiesTable
+  this.extraWeatherProbabilitiesTable=prevModule.extraWeatherProbabilitiesTable
+end
+
 local TppWeather_SetDefaultWeatherProbabilities=TppWeather.SetDefaultWeatherProbabilities
 function this.SetDefaultWeatherProbabilities()
   InfCore.LogFlow"InfWeather.SetDefaultWeatherProbabilities"
