@@ -927,10 +927,18 @@ function this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)
   local isAssaultLz=TppLandingZone.IsAssaultDropLandingZone(gvars.heli_missionStartRoute)
   local startOnFoot=InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
   local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or fromFreeMission)
+  local isMbDemo=gvars.mbFreeDemoPlayNextIndex~=0 and vars.missionCode==30050--tex see ForceGoToMbFreeIfExistMbDemo for how it decides to force demo 
+  --GOTCHA: mbFreeDemoPlayNextIndex will still be set if you IH ESC abort to ACC
   if not startOnFoot then
     InfCore.Log("startOnFoot not set")--tex just info rather than a warning, a normal start position should have already been set before calling SetStartOnFootPosition
   elseif not groundStartPosition then
     InfCore.Log("no groundStartPosition found for heli_missionStartRoute:"..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--tex as above
+  elseif isMbDemo then
+    --tex WORKAROUND: some mission ends hang with the ih start on foot, seems to be mostly forced mbdemos that are relying on needing player in heli triggering its specfic traps
+    --TODO: there might potentially be other cases, 
+    --most normal mission starts are fine since they can be started on foot normally via free roam (TODO check the following start on foot setup is the same as normal)
+    --but there might be other unique mission to mission starts that also rely on heli traps
+    InfCore.Log("isMbDemo, skipping startOnFoot")
   else
     local pos=groundStartPosition.pos
     InfCore.PrintInspect(groundStartPosition,"groundStartPosition")--DEBUG
