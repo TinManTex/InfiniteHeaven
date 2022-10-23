@@ -14,7 +14,7 @@
     "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih",
     "D:\\GitHub\\IHExt\\makebite"
   ],
-  "docsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih\\GameDir\\mod\\docs",
+  "docsPath": "C:\\Projects\\MGS\\InfiniteHeaven\\tpp-release\\gamedir-ih\\GameDir\\mod\\docs\\Infinite Heaven",
   "makebiteBuildPath": "C:\\Projects\\MGS\\build\\infiniteheaven\\makebite-release",
   "buildPath": "C:\\Projects\\MGS\\build\\infiniteheaven",
   "gamePath": "C:\\Games\\Steam\\steamapps\\common\\MGS_TPP",
@@ -48,7 +48,7 @@
   "copyExternalLuaToInternal": true,
   "copyModulesToInternal": false,
   "makeMod": true,
-  "uninstallExistingMod": true,
-  "installMod": true,
+  "uninstallExistingMod": false,
+  "installMod": false,
   "waitEnd": true
 }
