@@ -605,8 +605,9 @@ this.missionModeChecks={
   MB=this.MissionCheckMb,
   MB_ALL=this.MissionCheckMbAll,
 }
---tex Creates <ivarName><missionMode> ex someIvarNameMB,someIvarNameFREE
---and adds them to Ivars, as well as Ivars.missionModeIvars for IsForMission,EnabledForMission support
+--tex Creates variants of ivars for each mission mode: <ivarName><missionMode> ex someIvarNameMB,someIvarNameFREE in module
+--and adds the to module registerIvars
+--as well as module.missionModeIvars for IsForMission,EnabledForMission support
 --USAGE
 --IvarProc.MissionModeIvars(
 --  Ivars,--module
