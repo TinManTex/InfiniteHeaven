@@ -146,7 +146,7 @@ function this.MissionPrepare()
   
   --tex WORKAROUND: TppSequence is not in build
   if Ivars.debugOnUpdate:Is(1) then
-    TppMission.RegisterMissionSystemCallback{OnUpdateWhileMissionPrepare=this.OnUpdateWhileMissionPrepare}
+    TppMission.RegisterMissionSystemCallback{OnUpdateWhileMissionPrepare=this.OnUpdateWhileMissionPrepare}--tex this only works out because the callback isnt used anywhere else
   end
 
   this.CallOnModules("MissionPrepare")
