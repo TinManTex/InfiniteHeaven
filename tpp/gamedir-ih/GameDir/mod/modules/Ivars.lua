@@ -728,6 +728,7 @@ function this.RegisterIvars(ivarTable,ivarNames)
 end--RegisterIvars
 
 --missionModeIvarsNames: missionModeIvarsNames table created by IvarProc.MissionModeIvars
+--IN: this[ivarName]
 --OUT/SIDE: this.missionModeIvars[ivarName]
 function this.RegisterMissionModeIvars(missionModeIvarsNames)
   for name,ivarNames in pairs(missionModeIvarsNames)do
