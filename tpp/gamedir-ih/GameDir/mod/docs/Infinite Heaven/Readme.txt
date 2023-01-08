@@ -2,13 +2,15 @@
 r258 - 2022-07-13
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
-Compatable IHHook version: r17 or later
+Compatible IHHook version: r17 or later
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features, as well as providing addon systems to support other mods.
 
 Addon systems include allowing custom sidops, missions, enemy soldier types.
 
 Has several hundred toggleable options ranging from Subsistence mode for all missions, replay side-ops, Mother base invasions with multiple attack helicopters, Skull attacks in Free roam, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
+
+It is recommended to use IHHook, which is a script extender and graphical menu, alongside IH.
 
 Full Infinite Heaven features and options:
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
