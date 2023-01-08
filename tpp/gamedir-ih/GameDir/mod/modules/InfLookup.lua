@@ -15,18 +15,6 @@ local StrCode32=Fox.StrCode32
 local type=type
 local tostring=tostring
 
--- temporarily hiding this here because fuck rebuilding
-InfUtil.FindInTable = function(t, value, stringifyForNil)
-  for _, v in pairs(t) do
-    if stringifyForNil then
-      if tostring(v) == tostring(value) then return true end
-    else
-      if v == value then return true end
-    end
-  end
-  return false
-end
-
 this.debugModule=false
 
 this.str32ToString={}--tex what the <module>.DEBUG_StrCode32ToString tables are loaded into as well as mod\strings\*.txt, migrates into InfCore.str32ToString if this.StrCode32ToString gets any hits.
