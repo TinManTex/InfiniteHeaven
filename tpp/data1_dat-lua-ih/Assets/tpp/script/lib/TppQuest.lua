@@ -3251,6 +3251,7 @@ function this.DeactiveQuestAreaTrapMessages()
   end--<
   local deactiveQuestAreaTrapMessages={}
   --RETAILBUG: this means wont fire for sideops in story missions, but there only seems to be one sideop active during them anyway (see CanActiveQuestInMission)
+  --TODO: revisit in light of caplags enable sideops in story missions feature
   if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then--tex enable for addon free roam missions TODO rethink, enable for wargames?
     for i,areaInfo in ipairs(TppQuestList.questList)do
       if areaInfo.locationId==vars.locationCode then
