@@ -1,4 +1,20 @@
 Infinite Heaven changelog
+Just notable changes, see github commits for full
+
+r259 -
+Fix: InfPositions Loadposistions, thanks cap for fix.
+Fix: ih_mission_states not restoring, thanks cap for report.
+Fix: Start missions on foot hang on mission end if MB demo triggered. Thanks OldBoss for the report and save files.
+Fix: profiles breaking due to help strings with newlines. thanks EntranceJew for the report.
+InfLookup: A lot of Message signatures, and general message logging rework from EntranceJew
+Debugging: Bunch of flow logging to get a better understanding of infinite loading screen, though the answer there is most often just 'the exe is loading stuff and it didn't like something aboout one of the data files'
+Fix: InfWeather losing addon weather info on script reload, thanks EntranceJew for the report. 
+
+Mission Addons: various features that were limited to vanilla freeroam now work in addons.
+
+Some loading logging, probably won't catch much since most load hangs will be inside exe and lua will just be waiting for TppMission.CanStart which will never come.
+
+InfMotion: motionWarpToOrig, Warp to original position after play. Since some animations move player position through geometry this may help to recover - thanks caplag for implementation.
 
 r258 - 2022-07-13
 IHHook ver r17
