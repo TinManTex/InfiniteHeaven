@@ -929,7 +929,7 @@ function this.GetLocationPackagePath(locationId)
   end
   TppLocation.SetBuddyBlock(locationId)
   InfCore.PrintInspect(packPath,"locationPackPaths")--tex DEBUG
-  InfCore.Log("Note: If the log halts here there's likel an issue loading one of the above packs")--tex
+  InfCore.Log("Note: If the log halts here there's likely an issue loading one of the above packs (turn on debugging to list the packs)")--tex
   return packPath
 end
 --CALLER: engine during Mission.LoadMission, set via SetMissionPackagePathFunc -v-
@@ -946,7 +946,7 @@ function this.GetMissionPackagePath(missionCode)
   end
   InfCore.PCallDebug(InfMain.AddMissionPacks,missionCode,packPaths)--tex DEBUGNOW
   InfCore.PrintInspect(packPaths,"missionPackPaths")--tex DEBUG
-  InfCore.Log("Note: If the log halts here there's likely an issue loading one of the above packs")--tex
+  InfCore.Log("Note: If the log halts here there's likely an issue loading one of the above packs (turn on debugging to list the packs)")--tex
   return packPaths
 end
 --EXEC
