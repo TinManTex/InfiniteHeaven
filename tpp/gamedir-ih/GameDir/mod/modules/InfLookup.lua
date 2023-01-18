@@ -2592,7 +2592,7 @@ this.messageSignatures={
       {argName="playerIndex",argType="gameId"},
       {argName="dogId",argType="gameId"}, --the dog that intitiated the attack
     },
-    DirectMotion={--tex after Player.RequestToPlayDirectMotion is called
+    DirectMotion={--tex after Player.RequestToPlayDirectMotion is called  TODO clarify, is it called on anim start? anim end? is it called repeatedly for each animstage?
       {argName="animName",argType="str32"},
       {argName="animStage",argType="str32"},
       --[[
