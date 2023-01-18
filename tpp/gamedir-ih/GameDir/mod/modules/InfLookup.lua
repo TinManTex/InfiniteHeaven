@@ -1469,6 +1469,11 @@ for i,gameClass in ipairs(gameClasses)do
 end
 
 function this.Lookup(lookupType,value)
+  --tex Handled elsewhere
+  if lookupType=="guess"then
+    return nil
+  end
+
   local lookedupValue=nil
   local lookup=this.lookups[lookupType]
   if type(lookup)=="function" then
