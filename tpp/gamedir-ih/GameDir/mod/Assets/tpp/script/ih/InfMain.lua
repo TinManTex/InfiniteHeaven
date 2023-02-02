@@ -1386,6 +1386,7 @@ function this.DebugModeEnable(enable)
   local prevMode=InfCore.debugMode
 
   if enable then
+    InfCore.logLevel=InfCore.level_trace
     InfCore.Log("DebugModeEnable:"..tostring(enable),false)
     if InfHooks then
       InfCore.PCall(InfHooks.SetupDebugHooks)
@@ -1394,9 +1395,13 @@ function this.DebugModeEnable(enable)
       IHDebugVars.AddDevMenus()
     end
   else
+    InfCore.logLevel=InfCore.level_warn
     InfCore.Log("Further non critical logging disabled while debugMode is off")
   end
+
   if IHH then
+    --tex TODO: play nice with log_SetFlushLevel
+    IHH.Log_SetFlushLevel(InfCore.logLevel)
     IHH.Log_Flush()
   end
   InfCore.debugMode=enable
