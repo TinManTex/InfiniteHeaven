@@ -695,7 +695,9 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     local sucess
     sucess,module=pcall(require,moduleName)
     if not sucess then
-      InfCore.Log("ERROR: "..module,false,true)
+      if not IHH then--tex ihhook already logs the error to ih_log (as well as its ihh_log)
+        InfCore.Log("InfCore.LoadExternalModule ERROR: "..module,false,InfCore.level_error)
+      end
       --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
       if InfCore.doneStartup and not skipPrint then
         InfCore.Log("Could not load module "..moduleName)
