@@ -63,8 +63,6 @@ local stringType="string"
 local functionType="function"
 
 --tex logging
-this.logLevel=nil
-
 this.logLevels = {
   [0]="trace",
   [1]="debug",
@@ -74,17 +72,22 @@ this.logLevels = {
   [5]="critical",
   [6]="off",
 }
+this.level_trace=0--tex since ipairs is from 1
 for level,name in ipairs(this.logLevels)do
   this["level_"..name]=level
+  -- this.logLevels[name]=level--tex folding it back in/giving it lookup would be nicer, but adds another level of indirection for something thats called often
 end
 
+this.logLevel=this.level_trace--SYNC: ihhooks default tex starts at lowish level/verbose, then switches down to warn only unless debugmode on (in InfMain.DebugModeEnable)
+
 function this.Log(message,announceLog,level)
-  local levelType = type(level)--KLUDGE LEGACY
-  if level and levelType=="number" then
-    if level>this.logLevel then
-      return
+  if level==nil then--tex the majority of InfCore.Log calls don't have level param set (log levels were only added after IHHook started dev)
+    level=this.level_info
+  elseif type(level)=="boolean" then--tex LEGACY level was bool forceLog
+    level=this.level_warn--tex so give it to the log level non debugMode is at so it should always log
     end
-  elseif not this.debugMode and not level then--LEGACY level == force
+
+  if level<this.logLevel then
     return
   end
 
@@ -93,21 +96,16 @@ function this.Log(message,announceLog,level)
   end
 
   if IHH then
-    if levelType~="number"then
-      level=this.level_info
-    end
     IHH.Log(level,message)
     return
   end
 
   --tex lua side log
+  --TODO: match ihhooks no timestamp unless option turned on
   local elapsedTime=GetElapsedTime()
-  local levelStr = ""
-  if levelType=="number" then
-    levelStr = this.logLevel[level]
-  end
+  local levelStr=this.logLevels[level]
 
-  local line="|"..elapsedTime.."|"..levelStr..message
+  local line="|"..elapsedTime.."|"..levelStr..": "..message
   this.log[#this.log+1]=line
 
   if isMockFox and luaPrintIHLog then
@@ -115,8 +113,9 @@ function this.Log(message,announceLog,level)
   end
 
   this.WriteLog(this.logFilePath,this.log)
-end
+end--Log
 
+--tex TODO convert to log level trace
 function this.LogFlow(message)
   if not this.debugMode then
     return false
@@ -128,30 +127,6 @@ function this.LogFlow(message)
   --  local stackInfo=debug.getinfo(stackLevel,"n")
   --  this.Log(tostring(stackInfo.name).."| "..message)
   this.Log(message)
-end
-
-function this.LogTrace(message,announceLog)
-  this.Log(message,announceLog,this.level_trace)
-end
-
-function this.LogDebug(message,announceLog)
-  this.Log(message,announceLog,this.level_debug)
-end
-
-function this.LogInfo(message,announceLog)
-  this.Log(message,announceLog,this.level_info)
-end
-
-function this.LogWarn(message,announceLog)
-  this.Log(message,announceLog,this.level_warn)
-end
-
-function this.LogError(message,announceLog)
-  this.Log(message,announceLog,this.level_error)
-end
-
-function this.LogCritical(message,announceLog)
-  this.Log(message,announceLog,this.level_critical)
 end
 
 function this.ClearLog()
@@ -1075,8 +1050,6 @@ this.prev="_prev"
 --end
 
 --EXEC
-this.logLevel=this.logLevels.info
-
 --package.path=""--DEBUG kill path for fallback testing
 this.gamePath=GetGamePath()
 if isMockFox then
