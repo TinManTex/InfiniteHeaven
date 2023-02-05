@@ -80,18 +80,60 @@ end
 
 this.logLevel=this.level_trace--SYNC: ihhooks default tex starts at lowish level/verbose, then switches down to warn only unless debugmode on (in InfMain.DebugModeEnable)
 
-function this.Log(message,announceLog,level)
-  if level==nil then--tex the majority of InfCore.Log calls don't have level param set (log levels were only added after IHHook started dev)
-    level=this.level_info
-  elseif type(level)=="boolean" then--tex LEGACY level was bool forceLog
-    level=this.level_warn--tex so give it to the log level non debugMode is at so it should always log
-    end
-
-  if level<this.logLevel then
+function this.Log(message,announceLog,forceLog)
+  if not this.debugMode and not forceLog then
     return
   end
 
   if announceLog then
+    this.DebugPrint(message)
+  end
+
+  if IHH then
+    IHH.Log(this.level_info,message)
+    return
+  end
+
+  --tex legacy/non ihhook lua-side log
+  local elapsedTime=GetElapsedTime()
+
+  local line="|"..elapsedTime.."|"..message
+  this.log[#this.log+1]=line
+
+  if isMockFox and luaPrintIHLog then
+    print(line)
+  end
+
+  this.WriteLog(this.logFilePath,this.log)
+end
+
+--tex WIP handling of log levels
+--string message: message to log
+--int level: logLevel as above, can use InfCore.level_<level name> as enum
+--will default to level_info if nil
+--WAS bool announceLog, see handling below for note on change
+--bool forceLog: force logging reguardless of current logLevel - mostly used for user initiated logging of stuff like positions and other dev stuff
+--TODO: still need to decide where to slap level into this, if and what order to have the legacy params
+function this.LogWip(message,level,forceLog,announceLog)
+  if level==nil then--tex the majority of InfCore.Log calls don't have level param set (log levels were only added after IHHook started dev)
+    level=this.level_info
+  elseif type(level)=="boolean" then--tex LEGACY level was bool announceLog, now warn and error are automatically announceLogged
+    if level==true then
+      level=this.level_warn--tex this fallback is close to the old behaviour
+    else
+      level=this.level_info
+    end
+    InfCore.Log("Developers: InfCore.Log announceLog bool is depreciated, either set to InfCore.level_warn or level_error to also announceLog this message, or manually do a DebugPrint/announcelog with your message.",InfCore.level_warn)
+    --TODO: DEBUG_Where to help user locate the call?
+    end
+
+  if level<this.logLevel and not forceLog then
+    return
+  end
+
+  --tex level_error, level_warn gets announcelogged to notify the user
+  --TODO: this.announceLogLevel counterpart to logLevel, would only really useful for warn, error, off since anything lower would kill from spam
+  if announceLog or level==4 or level==3 then
     this.DebugPrint(message)
   end
 
@@ -696,7 +738,7 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     sucess,module=pcall(require,moduleName)
     if not sucess then
       if not IHH then--tex ihhook already logs the error to ih_log (as well as its ihh_log)
-        InfCore.Log("InfCore.LoadExternalModule ERROR: "..module,false,InfCore.level_error)
+        InfCore.Log("InfCore.LoadExternalModule ERROR: "..module,false,true)
       end
       --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
       if InfCore.doneStartup and not skipPrint then
