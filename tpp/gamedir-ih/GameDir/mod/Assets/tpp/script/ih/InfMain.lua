@@ -1382,6 +1382,7 @@ function this.DisplayFox32(foxString)
   TppUiCommand.AnnounceLogView("string :"..foxString .. "="..str32)
 end
 
+--CALLERs: InfMain.OnAllocateTop, InfMain.PostAllModulesLoad, Ivar debugMode, all with enable param being current Ivar debugMode setting
 function this.DebugModeEnable(enable)
   local prevMode=InfCore.debugMode
 
@@ -1401,7 +1402,7 @@ function this.DebugModeEnable(enable)
 
   if IHH then
     --tex TODO: play nice with log_SetFlushLevel
-    IHH.Log_SetFlushLevel(InfCore.logLevel)
+    --IHH.Log_SetFlushLevel(InfCore.logLevel)--TODO: only when shifted to .Log with level param (see LogWIP)
     IHH.Log_Flush()
   end
   InfCore.debugMode=enable
