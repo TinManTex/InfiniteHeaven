@@ -1473,7 +1473,7 @@ function this.LoadAllSave()
     end
   end
 end
-
+--CALLERS: InfInit load exec, LoadAllSave above -^- (which resolves to TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint)
 --SIDE: ih_save (global module)
 function this.LoadEvars()
   InfCore.LogFlow"IvarProc.LoadEvars"
