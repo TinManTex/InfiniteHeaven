@@ -747,6 +747,8 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
       if not IHH then--tex ihhook already logs the error to ih_log (as well as its ihh_log)
         InfCore.Log("InfCore.LoadExternalModule ERROR: "..module,false,true)
       end
+      this.DebugPrint(module)--tex since we cant roll it into the above Log call
+      
       --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
       if InfCore.doneStartup and not skipPrint then
         InfCore.Log("Could not load module "..moduleName)
@@ -755,7 +757,7 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     elseif type(module)=="table" then
       _G[moduleName]=module
     else
-      InfCore.Log("InfCore.LoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module),false,true)
+      InfCore.Log("InfCore.LoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module),true,true)
       return nil
     end
   else--tex load internal
@@ -763,13 +765,13 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     Script.LoadLibrary("/Assets/tpp/script/ih/"..moduleName..".lua")
     module=_G[moduleName]
     if not module then
-      InfCore.Log("InfCore.LoadExternalModule: ERROR: module "..moduleName.." not in globals",false,true)
+      InfCore.Log("InfCore.LoadExternalModule: ERROR: module "..moduleName.." not in globals",true,true)
       return nil
     end
   end--if internal or external
   
   if not module then
-    InfCore.Log("ERROR: !module for "..moduleName)
+    InfCore.Log("ERROR: !module for "..moduleName,true,true)
   end
 
   if isReload and module then
