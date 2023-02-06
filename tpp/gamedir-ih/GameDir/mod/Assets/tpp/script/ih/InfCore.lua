@@ -5,8 +5,10 @@ local pcall=pcall
 local type=type
 local open=io.open
 local tostring=tostring
+local table=table
 local concat=table.concat
 local string=string
+local unpack=unpack
 --CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
 local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 --tex not gonna change at runtime so can cache
@@ -301,47 +303,44 @@ function this.DebugPrint(message,...)
 
   TppUiCommand.AnnounceLogView(message)
 end
-
+--tex GOTCHA: Unlike regular pcall handles returns of a successful call like a normal call, or nil on fail
 function this.PCall(func,...)
-  if func==nil then
-    this.Log("PCall func == nil")
-    return
-  elseif type(func)~=functionType then
-    this.Log("PCall func~=function")
-    return
-  end
-
-  local sucess,result=pcall(func,...)
+  local result={pcall(func,...)}--tex NOTE: though this packs multiple returns into an array, you can't guarantee iterating via ipairs since a return value might be nil (ie non contiguous array)
+  local sucess=table.remove(result,1)
   if not sucess then
-    this.Log("ERROR:"..result,false,true)
-    this.Log("caller:"..this.DEBUG_Where(2),false,true)
-    return
+    --tex do we want to do trace dump immediately, before anything happens to stack?
+    --though really you're supposed to use xpcall if you want an accurate stack dump, but that's even more of a pain to use
+    --NOTE: because of this, source line number is actually of function in line prior, as the first is the debug.traceback() call
+    --NOTE: traceback is heavy perf (but then if you're erroring that's not really a consideration)
+    local trace = debug.traceback() 
+  
+    local err=result[1]--tex on pcall fail only the error string in result[1] will exist
+
+    if not IHH then--tex ihhook hooks pcall to log the error
+      InfCore.Log("PCall: ERROR: "..err,false,true)
+    end
+    this.DebugPrint("PCall: ERROR: "..err)--tex since we cant roll it into the above Log call
+
+    --tex TODO toggle this with a 'verbose' setting
+    InfCore.Log("trace: "..tostring(trace),false,true)
+    --tex simpler/alernative to full stack trace, but usually just returns 'tail call' for anything PCalled
+    --InfCore.Log("caller:"..this.DEBUG_Where(2))
+
+    return--tex all current uses of InfCore.PCall with returns expect nil on fail
+    --DEBUGNOW ej was saying some of the stuff he was trying to do has an issue with that?
+    --https://github.com/TinManTex/InfiniteHeaven/issues/41
+    --return sucess,err
   else
-    return result
+    return unpack(result)--returns multi return values
   end
-end
+end--PCall
 
 --tex as above but intended to pass through unless debugmode on
 function this.PCallDebug(func,...)
-  --  if func==nil then
-  --    this.Log("PCallDebug func == nil")
-  --    return
-  --  elseif type(func)~=functionType then
-  --    this.Log("PCallDebug func~=function")
-  --    return
-  --  end
-
   if not this.debugMode then
     return func(...)
-  end
-
-  local sucess, result=pcall(func,...)
-  if not sucess then
-    this.Log("ERROR:"..result,false,true)
-    this.Log("caller:"..this.DEBUG_Where(2),false,true)
-    return
   else
-    return result
+    return this.PCall(func,...)
   end
 end
 
