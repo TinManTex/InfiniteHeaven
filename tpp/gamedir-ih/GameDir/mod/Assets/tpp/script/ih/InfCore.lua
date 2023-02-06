@@ -303,7 +303,7 @@ function this.DebugPrint(message,...)
 
   TppUiCommand.AnnounceLogView(message)
 end
---tex GOTCHA: Unlike regular pcall handles returns of a successful call like a normal call, or nil on fail
+--tex GOTCHA: Unlike regular pcall, handles returns of a successful call like a normal call, or nil on fail
 function this.PCall(func,...)
   local result={pcall(func,...)}--tex NOTE: though this packs multiple returns into an array, you can't guarantee iterating via ipairs since a return value might be nil (ie non contiguous array)
   local sucess=table.remove(result,1)
