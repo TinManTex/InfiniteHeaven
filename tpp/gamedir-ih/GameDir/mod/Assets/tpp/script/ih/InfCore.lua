@@ -569,6 +569,14 @@ function this.WriteToExtTxt()
 end
 
 --tex altered from Tpp.DEBUG_Where
+--GOTCHA: still using debug_wheres stackLevel+1
+--stack levels (with the +1 this func gives, still don't understand kjps reasoning with that):
+-- -1 the debug.getinfo call itself
+--0 Debug_Where
+--1 the line that calls Debug_Where
+--2 the function that calls Debug_Where (thus the common usage of DEBUG_Where(2))
+--problem is when code gets fancy and is pcalling or something will likely just return the caller name as tail call
+--at that point its better to just do a whole debug.traceback
 function this.DEBUG_Where(stackLevel)
   --tex MoonSharp does not support
   if debug==nil or debug.getinfo==nil then
