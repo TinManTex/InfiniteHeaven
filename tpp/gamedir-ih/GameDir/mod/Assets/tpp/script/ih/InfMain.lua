@@ -626,8 +626,8 @@ function this.UpdateExecChecks(currentChecks)
 
   return currentChecks
 end
-
-function this.UpdateBegin(missionTable)
+--CALLER: TppMain.OnUpdate (1st entry in moduleUpdateFuncs)
+function this.UpdateTop(missionTable)
   if IHH then
     IHH.OnUpdate(missionTable)
   end
@@ -635,7 +635,8 @@ end
 
 this.startTime=0
 this.updateTimes={}--DEBUG
-function this.Update(missionTable)
+--CALLER: TppMain.OnUpdate (last entry in moduleUpdateFuncs)
+function this.UpdateBottom(missionTable)
   local InfMenu=InfMenu
   if this.IsOnlineMission(vars.missionCode) then
     return
@@ -717,6 +718,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   --  end
 
   InfCore.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
+  --DEBUG ExecUpdateFunc(currentChecks,currentTime,execChecks,execState)
 
   if updateRate>0 then
     if execState==nil then

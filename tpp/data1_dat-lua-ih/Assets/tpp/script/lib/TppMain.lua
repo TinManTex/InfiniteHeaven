@@ -599,14 +599,14 @@ function this.SetUpdateFunction(missionTable)
   --ORPHAN: numDebugUpdateFuncs=0
   InfCore.LogFlow"moduleUpdateFuncs set"--tex
   moduleUpdateFuncs={
-    InfMain.UpdateBegin,--tex
+    InfMain.UpdateTop,--tex
     TppMission.Update,
     TppSequence.Update,
     TppSave.Update,
     TppDemo.Update,
     TppPlayer.Update,
     TppMission.UpdateForMissionLoad,
-    InfMain.Update,--tex
+    InfMain.UpdateBottom,--tex
   }
   numModuleUpdateFuncs=#moduleUpdateFuncs
 
