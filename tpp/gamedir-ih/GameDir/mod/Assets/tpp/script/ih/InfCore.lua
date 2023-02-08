@@ -303,10 +303,14 @@ function this.DebugPrint(message,...)
 
   TppUiCommand.AnnounceLogView(message)
 end
+
 --tex GOTCHA: Unlike regular pcall, handles returns of a successful call like a normal call, or nil on fail
+--GOTCHA: but at the cost of more stuff falling into tail calls/function names being eaten when viewing stack dump
+--real solution aparently is to disable tail calls in interpreterwhen debugging, but that's rocket surgery since its in the exe
 function this.PCall(func,...)
   local result={pcall(func,...)}--tex NOTE: though this packs multiple returns into an array, you can't guarantee iterating via ipairs since a return value might be nil (ie non contiguous array)
   local sucess=table.remove(result,1)
+
   if not sucess then
     --tex do we want to do trace dump immediately, before anything happens to stack?
     --though really you're supposed to use xpcall if you want an accurate stack dump, but that's even more of a pain to use
@@ -323,7 +327,7 @@ function this.PCall(func,...)
 
     --tex TODO toggle this with a 'verbose' setting
     InfCore.Log("trace: "..tostring(trace),false,true)
-    --tex simpler/alernative to full stack trace, but usually just returns 'tail call' for anything PCalled
+    --tex simpler/alernative to full stack trace, see DEBUG_Where for explanation of why stack level 2 (really 3)
     --InfCore.Log("caller:"..this.DEBUG_Where(2))
 
     return--tex all current uses of InfCore.PCall with returns expect nil on fail
@@ -331,9 +335,35 @@ function this.PCall(func,...)
     --https://github.com/TinManTex/InfiniteHeaven/issues/41
     --return sucess,err
   else
-    return unpack(result)--returns multi return values
+    return unpack(result)--returns multi return values--GOTCHA: this setup means in stack dump function will disapear into tail call (assuming this is somewhere in exec of an outer pcall fail)
   end
 end--PCall
+
+--tex: (pre 259 style) only handles single return, but name doesnt disapear into tail call on stack dump
+--function this.PCallSingle(func,...)
+--  local sucess,result=pcall(func,...)
+--  if not sucess then
+--    --tex do we want to do trace dump immediately, before anything happens to stack?
+--    --though really you're supposed to use xpcall if you want an accurate stack dump, but that's even more of a pain to use
+--    --NOTE: because of this, source line number is actually of function in line prior, as the first is the debug.traceback() call
+--    --NOTE: traceback is heavy perf (but then if you're erroring that's not really a consideration)
+--    local trace = debug.traceback() 
+--
+--    if not IHH then--tex ihhook hooks pcall to log the error
+--      InfCore.Log("PCall: ERROR: "..result,false,true)
+--    end
+--    this.DebugPrint("PCall: ERROR: "..result)--tex since we cant roll it into the above Log call
+--
+--    --tex TODO toggle this with a 'verbose' setting
+--    InfCore.Log("trace: "..tostring(trace),false,true)
+--    --tex simpler/alernative to full stack trace, see DEBUG_Where for explanation of why stack level 2 (really 3)
+--    --InfCore.Log("caller:"..this.DEBUG_Where(2))
+--
+--    return--tex all current uses of InfCore.PCall with returns expect nil on fail
+--  else
+--    return result
+--  end
+--end--PCall
 
 --tex as above but intended to pass through unless debugmode on
 function this.PCallDebug(func,...)
@@ -343,6 +373,18 @@ function this.PCallDebug(func,...)
     return this.PCall(func,...)
   end
 end
+--tex (pre 259 style) single return, but name doesnt disapear into tail call on stack dump
+--function this.PCallDebugSingle(func,...)
+--  local result
+--  if not this.debugMode then
+--    result=func(...)--tex avoid tail call
+--    return result
+--  else
+--    --tex avoid tail call
+--    result=this.PCallSingle(func,...)
+--    return result 
+--  end
+--end
 
 local emptyTable={}
 function this.PrintInspect(var,options)
@@ -357,7 +399,7 @@ function this.PrintInspect(var,options)
   end
   this.Log(ins,options.announceLog)
 end
-
+--tex duplicated from InfUtil because I need it before its up
 --tex NMC from lua wiki
 function this.Split(self,sep)
   local sep = sep or " "
