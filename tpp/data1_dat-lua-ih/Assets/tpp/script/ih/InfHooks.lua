@@ -202,7 +202,7 @@ function this.RemoveHook(moduleName,functionName)
     end
   end
 end
-
+--UNUSED
 function this.CreatePreHookShim(moduleName,functionName,hookFunction)
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
   if originalModule and originalFunction then
@@ -214,8 +214,7 @@ function this.CreatePreHookShim(moduleName,functionName,hookFunction)
   end
   return nil
 end
-
-
+--UNUSED
 --tex GOTCHA doesn't handle multiple return
 function this.CreatePostHookDebugShim(moduleName,functionName,hookFunction)
   local flowFmt="HookPost %s.%s(%s)"
@@ -240,6 +239,7 @@ function this.CreatePostHookDebugShim(moduleName,functionName,hookFunction)
 end
 
 --tex for wrapping a function in PCall and giving an LogFlow call
+--GOTCHA: this tail call setup means names will be eaten in stack dump
 function this.CreateDebugWrap(moduleName,functionName)
   local flowFmt="HookPre %s.%s(%s)"
   local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
@@ -247,6 +247,7 @@ function this.CreateDebugWrap(moduleName,functionName)
     local ShimFunction=function(...)
       local argsStrings={}
       local arg={...}
+      --tex TODO: wont iterate fully if a param value is nil
       for i,v in ipairs(arg) do
         argsStrings[#argsStrings+1]=tostring(v)
       end
