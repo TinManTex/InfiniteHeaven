@@ -102,7 +102,7 @@ local function GetSettingText(option)
       settingText="DEBUGNOW GetSettingsText no decent output found"--DEBUG TODO
     end
   end
-  if option.usesIHH then
+  if option.requiresIHHook then
     settingText=settingText.." [Requires IHHook]"
   end
   return settingText
@@ -174,7 +174,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     table.insert(profileTable,"\t\t--"..menuDisplayName)
   end
   
-  if menu.usesIHH then
+  if menu.requiresIHHook then
     --table.insert(textTable," [Requires IHHook]")
     --table.insert(htmlTable," [Requires IHHook]")
   end
