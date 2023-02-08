@@ -195,7 +195,8 @@ function this.GetSetting(previousIndex,previousMenuOptions)
       if type(option.GetSettingText)=="function" then
         local min,max=IvarProc.GetRange(option)
         for i=min,max do
-          table.insert(menuSettings,tostring(option:GetSettingText(i)))
+          local settingText=InfCore.PCallDebug(option.GetSettingText,option,i)
+          table.insert(menuSettings,tostring(settingText))
         end
       elseif option.settingNames then
         if type(option.settingNames)=="table" then
@@ -527,12 +528,17 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     settingText=": ERROR: ivar==nil"
   elseif IsFunc(option.GetSettingText) then
     optionSeperator=itemIndicators.equals
-    settingText=tostring(option:GetSettingText(currentSetting))
+    settingText=InfCore.PCallDebug(option.GetSettingText,option,currentSetting)
+    if settingText==nil then
+      settingText=" WARNING: GetSettingText nil"
+      InfCore.Log(settingText.." for option "..option.name,false,true)
+    end
+    settingText=tostring(settingText)
   elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
     optionSeperator=itemIndicators.equals
     if currentSetting < 0 or currentSetting > #option.settingNames-1 then
       settingText=" WARNING: current setting out of settingNames bounds"
-      InfCore.Log(settingText.." for "..option.name)
+      InfCore.Log(settingText.." for option "..option.name)
       InfCore.PrintInspect(option.settingNames,option.name..".settingNames")
     else
       settingText=option.settingNames[currentSetting+1]
@@ -770,7 +776,7 @@ end
 --  local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
 --  return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
 --end
---tex called directly from InfMain.Update
+--tex called directly from InfMain.UpdateBottom
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local InfMenuDefs=InfMenuDefs
 
