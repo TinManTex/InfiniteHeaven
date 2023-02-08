@@ -1044,12 +1044,12 @@ function this.OnUpdate(missionTable)
   local missionScriptOnUpdateFuncs=missionScriptOnUpdateFuncs
   --ORPHAN: local debugUpdateFuncs=debugUpdateFuncs
   --tex
-  if InfCore.debugOnUpdate then
+  if InfCore.debugMode and InfCore.debugOnUpdate then
     for i=1,numModuleUpdateFuncs do
-      InfCore.PCallDebug(moduleUpdateFuncs[i],missionTable)--tex added missionTable param
+      InfCore.PCall(moduleUpdateFuncs[i],missionTable)--tex added missionTable param
     end
     for i=1,numOnUpdate do
-      InfCore.PCallDebug(missionScriptOnUpdateFuncs[i])
+      InfCore.PCall(missionScriptOnUpdateFuncs[i])
     end
     --ORIG>
   else
