@@ -1352,8 +1352,21 @@ this.faceDefinitionParams=Tpp.Enum{
 }
 
 function this.GetFovaName(fovaType,fovaIndex)
-  local faceDecoName=Soldier2FaceAndBodyData[fovaType][fovaIndex]
-  return InfUtil.GetFileName(faceDecoName)
+  if fovaIndex==EnemyFova.INVALID_FOVA_VALUE then
+    return "NONE"
+  end
+
+  local fovaEntry=Soldier2FaceAndBodyData[fovaType][fovaIndex]
+
+  local fovaName
+  if fovaEntry==nil then
+    fovaName="WARNING: Could not find fovaIndex"
+    InfCore.Log(fovaName.." "..tostring(fovaIndex).." for fovaType:"..fovaType)
+  else
+    fovaName=InfUtil.GetFileName(fovaEntry[1])
+  end
+
+  return fovaName
 end
 
 --DEBUGNOW TODO convert to by-bodtytype and key off customsoldiertype bodytype
