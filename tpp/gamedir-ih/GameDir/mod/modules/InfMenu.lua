@@ -87,7 +87,7 @@ end
 
 --IN/SIDE: InfMenuCommands.commandItems
 function this.GetOptionFromRef(optionRef)
-  local option,name=InfCore.GetStringRef(optionRef)
+  local option,name,moduleName=InfCore.GetStringRef(optionRef)
   if option then
     if type(option)=="function" then
       local itemName=InfMenuCommands.ItemNameForFunctionName(name)
@@ -97,6 +97,12 @@ function this.GetOptionFromRef(optionRef)
       end
       return commandItem
     else
+      if option.name==nil then
+        --tex while GetStringRef will catch this if the ref is to Ivars module, since if it's not added to registerVars it wont have been built and migrated there
+        --if the stringref points to a module with the base ivar def it will be happy, which will cause problems down the line
+        --while we cant really do much to protect against that here, this is a good single point to warn
+        InfCore.Log("WARNING: InfMenu.GetOptionFromRef option.name==nil for ".. optionRef..". Likely wasn't added to registerIvars",false,true)
+      end
       return option
     end
   end
@@ -485,6 +491,13 @@ local itemIndicators={
 }
 
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
+  if option.name==nil then
+    local err="WARNING: option.name==nil for optionIndex "..optionIndex
+    InfCore.Log(err,true,true)
+    --InfCore.PrintInspect(option,"option")
+    return err
+  end
+  
   local currentSetting=ivars[option.name]
 
   --REF
