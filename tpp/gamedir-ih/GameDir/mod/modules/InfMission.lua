@@ -1132,14 +1132,21 @@ function this.Save(newSave)
   end
 end--Save
 --GOTCHA: not module 'LoadSave' because we only really want to load once on , as gvars handles reverting state
+--OUT: ih_mission_states
 function this.LoadStates()
   InfCore.LogFlow"InfMission.LoadStates"
   local saveName=this.saveName
   local filePath=InfCore.paths.saves..saveName
+  if not InfCore.FileExists(filePath) then
+    InfCore.Log(filePath.." does not exist. (File is only created if addon missions installed)",false,true);
+    return nil
+  end
+  
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil then
     local errorText="LoadStates Error: loadfile error: "..tostring(loadError)
     InfCore.Log(errorText,false,true)
+    InfCore.Log("You can ignore this error if you have no addon missions installed, and saves/ih_mission_states does not exist.",false,true)
     return nil
   end
 
