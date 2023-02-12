@@ -37,7 +37,11 @@ this.buttonMasks={
   ACTION=5,
   MOVE_ACTION=5,
   JUMP=5,
+  RIDE_ON=5,
+  RIDE_OFF=5,
+  CQC_KNIFE_KILL=5,
   RELOAD=6,
+  CARRY=6,
   STOCK=7,--tex recenter cam
   ZOOM_CHANGE=7,
   VEHICLE_CHANGE_SIGHT=7,
@@ -72,6 +76,15 @@ this.buttonMasks={
   UNKNOWN11=28,
   UNKNOWN12=29,
   UNKNOWN13=30,
+  
+  --tex Also in PlayerPad, for PlayerVars.leftStickDirect, rightbleh
+  --don't where triggers are, wouldnt think scannedButtonsDirect
+  STICK_L=0,
+  STICK_R=1,
+  TRIGGER_BREAK=0,
+  TRIGGER_ACCEL=1,
+  TRIGGER_L=0,
+  TRIGGER_R=1,
 --MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
 }
 this.NONE=0
