@@ -234,9 +234,10 @@ function this.PrintMarkerGameObject(index)
     InfCore.Log("status:"..tostring(status).." lifeStatus:"..tostring(lifeStatus))
     --tex state bitflag (not just an enum) so use bitops bit. lib
     --REF
-    --StateFlag.DYING_LIFE
+    --StateFlag.
+      --NONE = 0,
       --DYING_LIFE = 1,
-      --2??
+      --HELI_RECOVERED = 2,
       --ZOMBIE = 4,
     local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
     InfCore.Log("stateFlag:"..tostring(stateFlag))
