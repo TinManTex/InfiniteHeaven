@@ -1,7 +1,17 @@
 --InfMBStaff.lua
+--tex for saving mbs staffid
+--TODO: VERIFY feature working
+--ex
+--[16368353832909]=true,
+--[5.7851078131189e+015]=true,
+--[5.3151040400756e+015]=true,
+--SetupStaffList only finds the non e notation staffid 16368353832909
+--staffid is a double or something, and the conversion/saving isnt catching?
+--or is it simply GetOutOnMotherBaseStaffs doesn't return all staff on cluster? 
+--(though several different loads, and a location change between gives same issue)
 local this={}
 
-this.isSaveDirty=true
+this.isSaveDirty=false
 
 this.saveName="ih_priority_staff.lua"
 
@@ -29,7 +39,7 @@ function this.Save()
     return
   end
 
-  if vars.missionCode~=30050 and not this.isSaveDirty then
+  if vars.missionCode~=30050 then
     return
   end
 
@@ -37,12 +47,18 @@ function this.Save()
   local saveName=this.saveName
   local saveTextList=this.BuildSaveText(saveName)
   IvarProc.WriteSave(saveTextList,saveName)
+  this.isSaveDirty=false
 end
-
+--OUT: ih_priority_staff
 function this.LoadSave()
   InfCore.LogFlow"InfMBStaff.LoadSave"
   local saveName=this.saveName
   local filePath=InfCore.paths.saves..saveName
+  if not InfCore.FileExists(filePath) then
+    InfCore.Log(filePath.." does not exist. (File is only created if MB priority staff feature used)",false,true);
+    return nil
+  end
+  
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil then
     local errorText="LoadSave Error: loadfile error: "..tostring(loadError)
@@ -102,6 +118,7 @@ function this.AddPlayerStaff()
       staffIds[staffId]=true
     end
   end
+  this.isSaveDirty=true
 end
 
 function this.RemovePlayerStaff()
