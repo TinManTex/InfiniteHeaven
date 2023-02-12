@@ -2,6 +2,10 @@
 -- which means InfButtons (and other Inf stuff using GetElapsed) wont really respond during slowmo
 -- unfortunately os.time only resturns in seconds which isn't enough granularity
 -- currently using os.clock, GOTCHA: os.clock wraps at ~4,294 seconds
+--GOTCHA: TODO RESEARCH: I there may be some game states where PlayerVars.scannedButtonsDirect is not updated by the exe, yet normal calls to lua Update continue
+--most clear example being when doing player 'warp to latest marker' (before code was changed to close menu, disable that WORKAROUND to test) via activating via pressing right menu.
+--button.RIGHT on PlayerVars.scannedButtonsDirect will remain set, but lua updates continue, which will repeatedly trigger the menu option via InfMenu.Update till scannedButtonsDirect is updated again after TppPlayer.Warp is done 
+--one solution would be to see if there's some unique flag/status set during TppPlayer.Warp to check, ideally something generic/that covers other states so that you can skip InfMenu.Update while its on
 -- NODEPS
 local this={}
 --LOCALOPT:
