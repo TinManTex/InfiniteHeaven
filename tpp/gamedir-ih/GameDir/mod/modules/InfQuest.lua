@@ -785,21 +785,19 @@ end
 --but saves to is on every game save
 --the qst_ gvars keep doing their thing normally after the initial set by ih
 --
-this.isSaveDirty=true
+this.isSaveDirty=false--tex GOTCHA: actually used for external module to flag (currently only InfShootingPractice)
 
 this.saveName="ih_quest_states.lua"
 
 --tex don't lose existing on modulereload
-ih_quest_states=ih_quest_states or {}--DEBUGNOW
+ih_quest_states=ih_quest_states or {}
 
 function this.Save(newSave)
-  local isDirty=this.GetCurrentStates() or InfShootingPractice.saveDirty
-  if isDirty then
+  local isSaveDirty=this.isSaveDirty or this.GetCurrentStates()--tex see gotcha on this.isSaveDirty
+  if isSaveDirty then
     if this.debugSave then
       InfCore.Log("questStates isDirty")
     end
-
-    InfShootingPractice.saveDirty=false--DEBUGNOW TODO better
 
     local saveTextList={
       "-- "..this.saveName,
@@ -812,6 +810,7 @@ function this.Save(newSave)
 
     saveTextList[#saveTextList+1]="return this"
     IvarProc.WriteSave(saveTextList,this.saveName)
+    this.isSaveDirty=false
   end
 
   if this.debugSave then
@@ -823,6 +822,11 @@ function this.LoadStates()
   InfCore.LogFlow"InfQuest.LoadStates"
   local saveName=this.saveName
   local filePath=InfCore.paths.saves..saveName
+  if not InfCore.FileExists(filePath) then
+    InfCore.Log(filePath.." does not exist. (File is only created if addon quests installed)",false,true);
+    return nil
+  end
+  
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil then
     local errorText="LoadStates Error: loadfile error: "..tostring(loadError)
