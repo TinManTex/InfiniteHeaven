@@ -681,7 +681,6 @@ this.registerMenus={
   "heliSpaceFlagsMenu",
   "markersMenu",
   "enemyPatrolMenu",
-  "progressionMenu",
   "motherBaseMenu",
   "playerSettingsMenu",
   "ospMenu",

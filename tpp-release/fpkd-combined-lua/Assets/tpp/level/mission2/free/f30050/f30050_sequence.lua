@@ -805,7 +805,11 @@ function this.SetupStaffList()
   for i = 1, MAX_STAFF_NUM_ON_CLUSTER do
     for j = TppMotherBaseManagementConst.SECTION_COMBAT, TppMotherBaseManagementConst.SECTION_SECURITY do
       local staffId = staffList[j][1]
-      if staffId then
+      if staffId then        
+        --tex just debugging to see if all prioity staff are accounted for>
+        if InfMBStaff.IsPriorityStaff(staffId) then
+          InfCore.Log("SetupStaffList command cluster found priority staff "..staffId)--tex DEBUG
+        end--<
         table.insert( commandStaffList, staffId )
         table.remove( staffList[j], 1 )
       end
@@ -826,7 +830,7 @@ function this.SetupStaffList()
       if InfMBStaff.IsPriorityStaff(staffId) then
         table.remove(staffListOnCluster,i)
         table.insert(priorityStaffForCluster,staffId)
-        InfCore.Log("SetupStaffList found priority staff "..staffId)--tex DEBUG
+        InfCore.Log("SetupStaffList cluster "..clusterIndex.. " found priority staff "..staffId)--tex DEBUG
       end
     end
 

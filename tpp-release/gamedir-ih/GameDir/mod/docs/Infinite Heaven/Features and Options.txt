@@ -261,28 +261,28 @@ Cam - Player Cam hook menu
 - Uses IHHook to adjust the player camera focal length.
  Same method as the FOV mod d3d11.dll
 --------------------------
-1: Enable Player Cam hook : Off, On
-2: FocalLength Normal : 0.01-3500
+1: Enable Player Cam hook : Off, On [Requires IHHook]
+2: FocalLength Normal : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-3: FocalLength Aiming : 0.01-3500
+3: FocalLength Aiming : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-4: FocalLength Hiding : 0.01-3500
+4: FocalLength Hiding : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-5: FocalLength CQC : 0.01-3500
+5: FocalLength CQC : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-6: Apply FOV : 1-179
+6: Apply FOV : 1-179 [Requires IHHook]
 Applies FOV(degrees) proportionally to the different cam mode focal lengths.
 
 Customize menu
@@ -335,7 +335,7 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]
 6: Reload IH modules : 0-1
 7: copyLogToPrev : 0-1
 8: printPressedButtons : Off, On
@@ -1306,28 +1306,28 @@ Cam - Player Cam hook menu
 - Uses IHHook to adjust the player camera focal length.
  Same method as the FOV mod d3d11.dll
 --------------------------
-1: Enable Player Cam hook : Off, On
-2: FocalLength Normal : 0.01-3500
+1: Enable Player Cam hook : Off, On [Requires IHHook]
+2: FocalLength Normal : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-3: FocalLength Aiming : 0.01-3500
+3: FocalLength Aiming : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-4: FocalLength Hiding : 0.01-3500
+4: FocalLength Hiding : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-5: FocalLength CQC : 0.01-3500
+5: FocalLength CQC : 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
 Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
-6: Apply FOV : 1-179
+6: Apply FOV : 1-179 [Requires IHHook]
 Applies FOV(degrees) proportionally to the different cam mode focal lengths.
 
 Debug stuff menu
@@ -1339,7 +1339,7 @@ Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
-5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off
+5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]
 6: Reload IH modules : 0-1
 7: copyLogToPrev : 0-1
 8: selectedCp : no cp for setting
@@ -1487,9 +1487,11 @@ Holds motion, requires stop motion to stop.
 Repeat motion at end, some animations don't support this.
 5: Close menu on Playing motion : Off, On
 6: Print motion name on play : Off, On
-7: Stop motion : 0-1
+7: Warp to original position after play : Off, On
+Since some animations move player position through geometry this may help to recover
+8: Stop motion : 0-1
 Use to stop motions with motion hold or motion repeat.
-8: Play motion : 0-1
+9: Play motion : 0-1
 Closes menu and plays current selected motion.
 
 Object lists menu
@@ -1507,7 +1509,7 @@ Objects menu
 ------------
 1: Add marked objects to list : 0-1
 Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.
-2: Add lookup list : accPilot, anml_BuddyPuppy, anml_MotherDog, anml_NoAnimal, anml_Zebra, anml_bear, anml_goat, anml_jackal, anml_nubian, anml_quest, anml_rat, anml_wolf, buddies, characters, charactersInMb, charactersInPrologue, cpNamesafgh, cpNamesmafr, cpNamesmbqf, cpNamesmtbs, helis, hos_quest, ihBirdNames, ihHeliEnemyHeli, ihHeliUTH, ihHostageNames, ihWalkerList, ih_hostage, itm_Mine_quest, itm_revDecoy, itm_revMine, mbCps, mbVehicleNames, otherHeli, parasiteARMOR, parasiteCAMO, parasiteMIST, pickable_ih, pickable_quest, player_locator, reinforceDriver, reinforceSoldiers, reserveSoldierNames, sol_quest, tppCorpseGameObjectLocator, veh_lv, veh_trc, vehicle_quest, wkr_WalkerGear
+2: Add lookup list : 
 Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.
 3: Clear Objects List : 0-1
 Clears Objects List
@@ -1529,7 +1531,7 @@ Clears Positions List
 4: Write Positions List : 0-1
 Writes Positions List to files in MGS_TPP\mod\
 5: Load positions from file : 0-1
-Loads positions from MGS_TPP\mod\positions_lua.txt
+Loads positions from MGS_TPP\mod\positions.txt
 6: Select position : 
 Selects a position from positions list, mostly just used to browse positions at the moment.
 

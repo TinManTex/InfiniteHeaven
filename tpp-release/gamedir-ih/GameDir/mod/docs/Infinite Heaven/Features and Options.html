@@ -453,26 +453,26 @@
 <div id="menuHelp">Uses IHHook to adjust the player camera focal length.<br/> Same method as the FOV mod d3d11.dll</div>
 </div>
 <div id="menuItem">
-<div>1: Enable Player Cam hook : Off, On</div>
+<div>1: Enable Player Cam hook : Off, On [Requires IHHook]</div>
 </div>
 <div id="menuItem">
-<div>2: FocalLength Normal : 0.01-3500</div>
+<div>2: FocalLength Normal : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>3: FocalLength Aiming : 0.01-3500</div>
+<div>3: FocalLength Aiming : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>4: FocalLength Hiding : 0.01-3500</div>
+<div>4: FocalLength Hiding : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>5: FocalLength CQC : 0.01-3500</div>
+<div>5: FocalLength CQC : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>6: Apply FOV : 1-179</div>
+<div>6: Apply FOV : 1-179 [Requires IHHook]</div>
 <div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal lengths.</div>
 </div>
 <div id="menuItem">
@@ -603,7 +603,7 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]</div>
 </div>
 <div id="menuItem">
 <div>6: Reload IH modules : 0-1</div>
@@ -2976,26 +2976,26 @@
 <div id="menuHelp">Uses IHHook to adjust the player camera focal length.<br/> Same method as the FOV mod d3d11.dll</div>
 </div>
 <div id="menuItem">
-<div>1: Enable Player Cam hook : Off, On</div>
+<div>1: Enable Player Cam hook : Off, On [Requires IHHook]</div>
 </div>
 <div id="menuItem">
-<div>2: FocalLength Normal : 0.01-3500</div>
+<div>2: FocalLength Normal : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>3: FocalLength Aiming : 0.01-3500</div>
+<div>3: FocalLength Aiming : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>4: FocalLength Hiding : 0.01-3500</div>
+<div>4: FocalLength Hiding : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>5: FocalLength CQC : 0.01-3500</div>
+<div>5: FocalLength CQC : 0.01-3500 [Requires IHHook]</div>
 <div id="itemHelp">Only updates after changing cam mode.<br/>Focal lengths between modes not equivalent (some other factor being applied)<br/>Lower focal length = wider FOV,<br/>Higher focal length = lower FOV</div>
 </div>
 <div id="menuItem">
-<div>6: Apply FOV : 1-179</div>
+<div>6: Apply FOV : 1-179 [Requires IHHook]</div>
 <div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal lengths.</div>
 </div>
 <div id="menuItem">
@@ -3024,7 +3024,7 @@
 <div>4: debugOnUpdate : Off, On</div>
 </div>
 <div id="menuItem">
-<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off</div>
+<div>5: log_SetFlushLevel : trace, debug, info, warn, error, critical, off [Requires IHHook]</div>
 </div>
 <div id="menuItem">
 <div>6: Reload IH modules : 0-1</div>
@@ -3429,11 +3429,15 @@
 <div>6: Print motion name on play : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Stop motion : 0-1</div>
+<div>7: Warp to original position after play : Off, On</div>
+<div id="itemHelp">Since some animations move player position through geometry this may help to recover</div>
+</div>
+<div id="menuItem">
+<div>8: Stop motion : 0-1</div>
 <div id="itemHelp">Use to stop motions with motion hold or motion repeat.</div>
 </div>
 <div id="menuItem">
-<div>8: Play motion : 0-1</div>
+<div>9: Play motion : 0-1</div>
 <div id="itemHelp">Closes menu and plays current selected motion.</div>
 </div>
 <div id="menuItem">
@@ -3483,7 +3487,7 @@
 <div id="itemHelp">Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.</div>
 </div>
 <div id="menuItem">
-<div>2: Add lookup list : accPilot, anml_BuddyPuppy, anml_MotherDog, anml_NoAnimal, anml_Zebra, anml_bear, anml_goat, anml_jackal, anml_nubian, anml_quest, anml_rat, anml_wolf, buddies, characters, charactersInMb, charactersInPrologue, cpNamesafgh, cpNamesmafr, cpNamesmbqf, cpNamesmtbs, helis, hos_quest, ihBirdNames, ihHeliEnemyHeli, ihHeliUTH, ihHostageNames, ihWalkerList, ih_hostage, itm_Mine_quest, itm_revDecoy, itm_revMine, mbCps, mbVehicleNames, otherHeli, parasiteARMOR, parasiteCAMO, parasiteMIST, pickable_ih, pickable_quest, player_locator, reinforceDriver, reinforceSoldiers, reserveSoldierNames, sol_quest, tppCorpseGameObjectLocator, veh_lv, veh_trc, vehicle_quest, wkr_WalkerGear</div>
+<div>2: Add lookup list : </div>
 <div id="itemHelp">Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.</div>
 </div>
 <div id="menuItem">
@@ -3530,7 +3534,7 @@
 </div>
 <div id="menuItem">
 <div>5: Load positions from file : 0-1</div>
-<div id="itemHelp">Loads positions from MGS_TPP\mod\positions_lua.txt</div>
+<div id="itemHelp">Loads positions from MGS_TPP\mod\positions.txt</div>
 </div>
 <div id="menuItem">
 <div>6: Select position : </div>

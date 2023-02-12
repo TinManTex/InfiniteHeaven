@@ -102,7 +102,7 @@ local function GetSettingText(option)
       settingText="DEBUGNOW GetSettingsText no decent output found"--DEBUG TODO
     end
   end
-  if option.usesIHH then
+  if option.requiresIHHook then
     settingText=settingText.." [Requires IHHook]"
   end
   return settingText
@@ -174,7 +174,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     table.insert(profileTable,"\t\t--"..menuDisplayName)
   end
   
-  if menu.usesIHH then
+  if menu.requiresIHHook then
     --table.insert(textTable," [Requires IHHook]")
     --table.insert(htmlTable," [Requires IHHook]")
   end
@@ -257,7 +257,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
             table.insert(profileLine,",")
 
             local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
-            table.insert(profileLine,"--")
+            table.insert(profileLine,"--[[")
             if item.settings then
               table.insert(profileLine,"{ ")
               for i,setting in ipairs(item.settings)do
@@ -279,6 +279,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
             if item.isPercent then
               table.insert(profileLine," (percentage)")
             end
+            table.insert(profileLine,"]]")
             table.insert(profileTable,table.concat(profileLine))
 
             priorItems[item.name]=true

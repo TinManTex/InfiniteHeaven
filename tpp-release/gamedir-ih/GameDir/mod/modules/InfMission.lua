@@ -186,7 +186,7 @@ this.debugModule=true--DEBUGNOW
 
 this.locationInfo={}--locationInfo[locationId]=locationInfo
 this.missionInfo={}--missionInfo[missionCode]=missionInfo
-this.missionNames={}--tex see LoadMissionDefs TODO: not really useful since missionInfo isn't indexed by missionName like questinfo is
+this.missionNames={--[["<missionName>"=missionInfo]]}--tex see LoadMissionDefs missionInfo is indexed by missionCode
 this.missionIds={}--tex used by Ivar loadAddonMission and SetupAddonStateGVars(), story missions only not free roam missions
 this.missionListSlotIndices={}--tex MISSION_LIST indexes that can be reusued for addon missions
 this.freeMissionIds={}--tex free roam missions
@@ -528,7 +528,7 @@ function this.LoadMissionDefs()
         InfCore.Log("WARNING: could not find missionCode on "..fileName)
       else
         missionInfo.name=missionName
-        missionNames[#missionNames+1]=missionName
+        missionNames[missionName]=missionInfo
 
         if missionsInfo[missionCode] then
           InfCore.Log("WARNING: Existing missionInfo already found for "..missionCode)
@@ -1132,14 +1132,21 @@ function this.Save(newSave)
   end
 end--Save
 --GOTCHA: not module 'LoadSave' because we only really want to load once on , as gvars handles reverting state
+--OUT: ih_mission_states
 function this.LoadStates()
   InfCore.LogFlow"InfMission.LoadStates"
   local saveName=this.saveName
   local filePath=InfCore.paths.saves..saveName
+  if not InfCore.FileExists(filePath) then
+    InfCore.Log(filePath.." does not exist. (File is only created if addon missions installed)",false,true);
+    return nil
+  end
+  
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil then
     local errorText="LoadStates Error: loadfile error: "..tostring(loadError)
     InfCore.Log(errorText,false,true)
+    InfCore.Log("You can ignore this error if you have no addon missions installed, and saves/ih_mission_states does not exist.",false,true)
     return nil
   end
 
@@ -1196,7 +1203,7 @@ function this.ReadSaveStates()
 
   local clearStates={}
   for name,state in pairs(ih_states) do
-    local missionInfo=this.missionInfo[name]
+    local missionInfo=this.missionNames[name]
     if not missionInfo then
         InfCore.Log("InfMission.ReadSaveStates: Could not find missionInfo for "..name..". Clearing")
         table.insert(clearStates,name)--tex dont propogate it (also cant delete from table you're iterating, so actual clear ias after the loop)        
@@ -1214,7 +1221,7 @@ function this.ReadSaveStates()
         if state.ui_isTaskLastComleted then
           for taskIndex=0,TppDefine.MAX_MISSION_TASK_COUNT-1 do
             local missionTaskIndex=missionIndex*TppDefine.MAX_MISSION_TASK_COUNT+taskIndex
-            --DEBUGNOW gvars.ui_isTaskLastComleted[missionTaskIndex]=state.ui_isTaskLastComleted[taskIndex+1]
+            gvars.ui_isTaskLastComleted[missionTaskIndex]=state.ui_isTaskLastComleted[taskIndex+1]
           end
         end--if ui_isTaskLastComleted
       end--if missionIndex
