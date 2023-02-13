@@ -1102,7 +1102,7 @@ function this.Save(newSave)
   local ih_states=ih_mission_states
 
   local isSaveDirty=this.isSaveDirty or this.GetCurrentStates()--tex nothing else currently sets isSaveDirty, but keeping it the same as InfQuest
-  if this.isSaveDirty then
+  if isSaveDirty then
     if this.debugSave then
       InfCore.Log("missionStates isDirty")
     end
