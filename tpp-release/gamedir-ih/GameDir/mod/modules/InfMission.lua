@@ -1091,7 +1091,7 @@ end--SetupAddonStateGVars
 --
 this.debugSave=true--DEBUGNOW
 
-this.isSaveDirty=true
+this.isSaveDirty=false
 
 this.saveName="ih_mission_states.lua"
 
@@ -1101,8 +1101,8 @@ ih_mission_states=ih_mission_states or {}
 function this.Save(newSave)
   local ih_states=ih_mission_states
 
-  local isDirty=this.GetCurrentStates()
-  if isDirty then
+  local isSaveDirty=this.isSaveDirty or this.GetCurrentStates()--tex nothing else currently sets isSaveDirty, but keeping it the same as InfQuest
+  if isSaveDirty then
     if this.debugSave then
       InfCore.Log("missionStates isDirty")
     end
@@ -1125,6 +1125,7 @@ function this.Save(newSave)
       "return this"
     }
     IvarProc.WriteSave(saveTextList,this.saveName)
+    this.isSaveDirty=false
   end
 
   if this.debugSave then
@@ -1232,11 +1233,15 @@ function this.ReadSaveStates()
     ih_states[name]=nil
   end
 end--ReadSaveStates
-
+--returns isDirty
+--OUT/SIDE: ih_mission_states
 function this.GetCurrentStates()
   local MISSION_ENUM=TppDefine.MISSION_ENUM
   local gvars=gvars
   local ih_states=ih_mission_states
+  if this.debugModule then
+    InfCore.PrintInspect(ih_mission_states,"GetCurrentStates: pre ih_mission_states")
+  end
 
   local isSaveDirty=false
 
@@ -1268,6 +1273,10 @@ function this.GetCurrentStates()
       ih_states[name]=states
     end
   end--for missionInfo
+  
+  if this.debugModule then
+    InfCore.PrintInspect(ih_mission_states,"GetCurrentStates: post ih_mission_states")
+  end
 
   return isSaveDirty
 end--GetCurrentStates
