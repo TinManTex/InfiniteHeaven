@@ -1233,11 +1233,15 @@ function this.ReadSaveStates()
     ih_states[name]=nil
   end
 end--ReadSaveStates
-
+--returns isDirty
+--OUT/SIDE: ih_mission_states
 function this.GetCurrentStates()
   local MISSION_ENUM=TppDefine.MISSION_ENUM
   local gvars=gvars
   local ih_states=ih_mission_states
+  if this.debugModule then
+    InfCore.PrintInspect(ih_mission_states,"GetCurrentStates: pre ih_mission_states")
+  end
 
   local isSaveDirty=false
 
@@ -1269,6 +1273,10 @@ function this.GetCurrentStates()
       ih_states[name]=states
     end
   end--for missionInfo
+  
+  if this.debugModule then
+    InfCore.PrintInspect(ih_mission_states,"GetCurrentStates: post ih_mission_states")
+  end
 
   return isSaveDirty
 end--GetCurrentStates
