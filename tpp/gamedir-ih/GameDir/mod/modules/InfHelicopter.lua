@@ -2,6 +2,10 @@
 -- tex support heli stuff
 -- CONTROLSET: (not really, should probably be formalized)
 --  <STANCE> hol: open door (mission start) or toggle pull out
+
+--RequestHeliLzToLastMarkerAlt / "Support heli to marker" sends heli to nearest custom single point route, see this.packages
+--TODO: addon support (and guide on creating the hover routes)
+
 local this={}
 
 --LOCALOPT
@@ -250,10 +254,10 @@ this.langStrings={
 
 this.packages={
   afgh={
-    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_afgh.fpk",
+    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_afgh.fpk",--tex for RequestHeliLzToLastMarkerAlt
   },
   mafr={
-    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_mafr.fpk",
+    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_mafr.fpk",--tex for RequestHeliLzToLastMarkerAlt
   },
 }
 
@@ -527,7 +531,7 @@ this.RequestHeliLzToLastMarker=function()
   InfMenu.MenuOff()
 end
 
---tex SetForceRoute on support to IH hover route, which is simple one node route
+--tex SetForceRoute on support to IH hover route, which is simple one node route (see this.packages)
 --TODO: either support heli ignores the route speed an uses it's own (likely since heli speed can be upgraded),
 --or just an edge isnt enough for speed (tried with MoveFast, VehicleMoveFast, CautionDash all listed on heli routes)
 InfMenuCommands.requestHeliLzToLastMarkerAlt={
@@ -548,6 +552,13 @@ this.RequestHeliLzToLastMarkerAlt=function()
     return
   end
 
+  --tex mtbs already has heli taxi system
+  local locationName=TppLocation.GetLocationName()
+  if locationName~="afgh" and locationName~="mafr" then
+    InfMenu.PrintLangId"not_for_location"
+    return
+  end
+
   --tex heli is expecting something during mission start
   --exit heli action will not appear
   --if force player exit from heli, forceroute enable false will not work
@@ -563,12 +574,6 @@ this.RequestHeliLzToLastMarkerAlt=function()
 
   --DEBUGNOW if supportheli getusingroute == mis_startroute ?
   --
-
-  local locationName=TppLocation.GetLocationName()
-  if locationName~="afgh" and locationName~="mafr" then
-    InfMenu.PrintLangId"not_for_location"
-    return
-  end
 
   local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
   InfCore.Log("RequestHeliLzToLastMarkerAlt: lastMarkerIndex:"..lastMarkerIndex)--DEBUGNOW
@@ -607,6 +612,7 @@ this.RequestHeliLzToLastMarkerAlt=function()
   --  end
 
   --tex ih hover route name is lz name with _hover suffix
+  --these are single point routes I created for each lz, see this.packages
   closestRoute=lzName.."_hover"
 
   --DEBUGNOW
