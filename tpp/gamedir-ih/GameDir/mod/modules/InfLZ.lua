@@ -845,11 +845,9 @@ function this.GetClosestLz(position)
         local lzPos=coords.pos
         if lzPos==nil then
           InfCore.Log("ERROR: GetClosestLz coords.pos==nil for "..dropLzName,true,true)
-          return
         elseif not(#lzPos==3 or #lzPos==4) then--tex should only be 3 {x,y,z}, but then I've pushed in yaw to 4 before on a groundPositions reference, so might as well give leeway against me doing it again
           InfCore.Log("ERROR: GetClosestLz #coords.pos~=3 or 4 for "..dropLzName,true,true)
           InfCore.PrintInspect(coords.pos,dropLzName.." coords.pos")
-          return
         else
           local distSqr=TppMath.FindDistance(position,lzPos)
           if distSqr<closestDist then

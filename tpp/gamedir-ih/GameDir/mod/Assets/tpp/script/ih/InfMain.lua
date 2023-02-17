@@ -966,19 +966,17 @@ function this.GetClosestCp(position)
   for cpName,cpPosition in pairs(cpPositions)do
     if cpPosition==nil then
       InfCore.Log("ERROR: GetClosestCp cpPosition==nil for "..tostring(cpName),true,true)
-      return
     elseif #cpPosition~=3 then
       InfCore.Log("ERROR: GetClosestCp #cpPosition~=3 for "..tostring(cpName),true,true)
       InfCore.PrintInspect(cpPosition,cpName.." cpPosition")
-      return
     else
       local distSqr=FindDistance(position,cpPosition)
-    --InfCore.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
-    if distSqr<closestDist then
-      closestDist=distSqr
-      closestCp=cpName
-      closestPosition=cpPosition
-    end
+      --InfCore.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
+      if distSqr<closestDist then
+        closestDist=distSqr
+        closestCp=cpName
+        closestPosition=cpPosition
+      end
     end--if cpPos ok
   end--for cpPositions
   --InfCore.DebugPrint("Closest cp "..InfLangProc.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
