@@ -1,7 +1,7 @@
 Infinite Heaven changelog
 Just notable changes, see github commits for full
 
-r259 -
+r259 - 2023-02-16
 Fix: InfPositions Loadposistions, thanks cap for fix.
 Fix: ih_mission_states not restoring, thanks cap for report.
 Fix: Start missions on foot hang on mission end if MB demo triggered. This is an anchient bug that has unfortunately likely been around almost as long as IH itself. Thanks OldBoss for the report and save files.
@@ -11,17 +11,23 @@ Debugging: Bunch of flow logging to get a better understanding of infinite loadi
 Fix: InfWeather losing addon weather info on script reload, thanks EntranceJew for the report.
 Fix: appearanceDebugMenu fova ivars fix. They still don't do anything, but they were breaking the menu. And due to the exe crash issue after applying several times it's still of limited use. Thanks retali8 for the report.
 Fix: 'Warp to last user marker' and Warp body to FreeCam position remove announcelog spam that queues when warping - Thanks SinovialVermin8 for the report
-Fix: Don't try to load ih_mission_states if file doesn't exist. Was no real issue, just logged an error that could be confusing to users. ih_mission_states is only created if mission addons are installed anyway.
 
-InfMBStaff: ih_priority_staff.lua save now only created if MB priority staff feature used.
-
-ivars GettSettingText calls wrapped in PCallDebug, and log a warning to make it easier to track down broken functions (and not have them break the menu).
+InfMotion|Motions menu > motionWarpToOrig|"Warp to original position after play". Since some animations move player position through geometry this may help to recover - thanks caplag for implementation.
 
 Mission Addons: various features that were limited to vanilla freeroam now work in addons.
 
+IH Saves: ih_mission_states, ih_quest_states, ih_priority_staff now only save if the related features are used. So possibly slight better performance when saving.
+Existing files will still hang around even if they have no meaningful data in them though.
+Are also now checked to see if they exist first before loading them, so no potentially confusing error message it used to log when trying to load them reguardless.
+
+Debugging and dev stuff:
+ivars GettSettingText calls wrapped in PCallDebug, and log a warning to make it easier to track down broken functions (and not have them break the menu).
+
 Some loading logging, probably won't catch much since most load hangs will be inside exe and lua will just be waiting for TppMission.CanStart which will never come.
 
-InfMotion: motionWarpToOrig, Warp to original position after play. Since some animations move player position through geometry this may help to recover - thanks caplag for implementation.
+InfCore.PCall correct multi returns - thanks EntranceJew for the method.
+
+PCall and LoadExternalModule announceLogs errors.
 
 r258 - 2022-07-13
 IHHook ver r17
