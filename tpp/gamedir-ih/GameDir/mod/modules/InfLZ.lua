@@ -834,29 +834,30 @@ function this.GetClosestLz(position)
     TppLandingZone.assaultLzs[locationName] or {},
     TppLandingZone.missionLzs[locationName] or {},
   }
-  --if this.debugModule then
-    InfCore.PrintInspect(lzTables,"lzTables")--DEBUGNOW
-  --end
+  if this.debugModule then
+    InfCore.PrintInspect(lzTables,"GetClosestLz lzTables")
+  end
   for i,lzTable in ipairs(lzTables)do
     for dropLzName,aprLzName in pairs(lzTable)do
-      InfCore.Log("GetClosestLz dropLzName:"..tostring(dropLzName))--DEBUGNOW
+      --InfCore.Log("GetClosestLz dropLzName:"..tostring(dropLzName))
       local coords=this.GetGroundStartPosition(StrCode32(dropLzName))
       if coords then
-        local cpPos=coords.pos
-        if cpPos==nil then
-          InfCore.Log("coords.pos==nil for "..dropLzName,true,true)
+        local lzPos=coords.pos
+        if lzPos==nil then
+          InfCore.Log("ERROR: GetClosestLz coords.pos==nil for "..dropLzName,true,true)
           return
-        elseif #cpPos~=3 then
-          InfCore.Log("#coords.pos~=3 for "..dropLzName,true,true)
+        elseif not(#lzPos==3 or #lzPos==4) then--tex should only be 3 {x,y,z}, but then I've pushed in yaw to 4 before on a groundPositions reference, so might as well give leeway against me doing it again
+          InfCore.Log("ERROR: GetClosestLz #coords.pos~=3 or 4 for "..dropLzName,true,true)
+          InfCore.PrintInspect(coords.pos,dropLzName.." coords.pos")
           return
-        end
-
-        local distSqr=TppMath.FindDistance(position,cpPos)
-        if distSqr<closestDist then
-          closestDist=distSqr
-          closestRoute=dropLzName
-          closestPosition=cpPos
-        end
+        else
+          local distSqr=TppMath.FindDistance(position,lzPos)
+          if distSqr<closestDist then
+            closestDist=distSqr
+            closestRoute=dropLzName
+            closestPosition=lzPos
+          end
+        end--if cpPos data ok
       end--if coords
     end--for lzTable
   end--for lzTables
