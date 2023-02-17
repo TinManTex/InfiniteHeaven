@@ -937,6 +937,7 @@ function this.BuildCpPositions(soldierDefine)
     end--~="quest_cp"
   end--for ene_cpList
 end--BuildCpPositions
+local FindDistance=TppMath.FindDistance
 function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   position=position or playerPos
@@ -953,21 +954,22 @@ function this.GetClosestCp(position)
   local closestPosition=nil
   for cpName,cpPosition in pairs(cpPositions)do
     if cpPosition==nil then
-      InfCore.DebugPrint("cpPosition==nil for "..tostring(cpName))
+      InfCore.Log("ERROR: GetClosestCp cpPosition==nil for "..tostring(cpName),true,true)
       return
     elseif #cpPosition~=3 then
-      InfCore.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
+      InfCore.Log("ERROR: GetClosestCp #cpPosition~=3 for "..tostring(cpName),true,true)
+      InfCore.PrintInspect(cpPosition,cpName.." cpPosition")
       return
-    end
-
-    local distSqr=TppMath.FindDistance(position,cpPosition)
+    else
+      local distSqr=FindDistance(position,cpPosition)
     --InfCore.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
     if distSqr<closestDist then
       closestDist=distSqr
       closestCp=cpName
       closestPosition=cpPosition
     end
-  end
+    end--if cpPos ok
+  end--for cpPositions
   --InfCore.DebugPrint("Closest cp "..InfLangProc.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
   local cpId=GetGameObjectId(closestCp)
   if cpId and cpId~=NULL_ID then
@@ -975,7 +977,7 @@ function this.GetClosestCp(position)
   else
     return
   end
-end
+end--GetClosestCp
 --<cp stuff
 
 --actionflags
