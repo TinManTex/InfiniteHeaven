@@ -917,24 +917,35 @@ this.cpPositions={
 }--cpPositions
 --CALLER: InfMain.OnInitializeTop
 --OUT/SIDE: this.cpPositions
+--tex TODO: consider, this adds lrrp cps
+local stringfind=string.find
 function this.BuildCpPositions(soldierDefine)
   InfCore.LogFlow("InfMain.BuildCpPositions")
   local locationName=TppLocation.GetLocationName()
   this.cpPositions[locationName]=this.cpPositions[locationName] or {}
 
   for cpName,cpDefine in pairs(soldierDefine)do
+    if not stringfind(cpName,"_lrrp") then
     if cpName~="quest_cp"then--tex DEBUGNOW check pos isn't 0,0,0 instead?
       local cpId=GetGameObjectId(cpName)
       if not cpId or cpId==NULL_ID then
-        InfCore.Log("WARNING: InfMain.BuildCpPositions: cpId==NULL_ID for cpName:"..tostring(cpName))
+          InfCore.Log("WARNING: InfMain.BuildCpPositions: cpId==NULL_ID for soldierDefine cpName:"..tostring(cpName))
       else
         local cpPos=SendCommand(cpId,{id="GetCpPosition"})
         if this.debugModule then
-          InfCore.PrintInspect(cpPos,"cpPos for "..cpName)
+            local existingPos=this.cpPositions[locationName][cpName]
+            if existingPos then
+              local existPosStr=InfInspect.Inspect(existingPos)
+              local newPostStr=InfInspect.Inspect(cpPos)
+              InfCore.Log("cpPos for "..cpName.." replacing existing "..existPosStr.." with "..newPostStr)
+            else
+              InfCore.PrintInspect(cpPos,"cpPos for "..cpName.." no existing in cpPositions")
+            end
         end
         this.cpPositions[locationName][cpName]=cpPos
       end--if cpId
     end--~="quest_cp"
+    end--if not _lrrp
   end--for ene_cpList
 end--BuildCpPositions
 local FindDistance=TppMath.FindDistance
