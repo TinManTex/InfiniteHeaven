@@ -949,14 +949,24 @@ function this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)
       InfCore.Log("ERROR: TppMain SetStartOnFootPosition pos type not table for "..InfLookup.StrCode32ToString(gvars.heli_missionStartRoute))--
       return
     end
-
-    local rotY=groundStartPosition.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest cp center    
-    if groundStartPosition.rotY==nil then
-      --tex point toward lookPos
-      local lookPos={0,0,0}--tex DEBUGNOW or closest CP (are entities loaded at this point in execution?), and precompute if possible
-      pos[4]=InfUtil.YawTowardsLookPos(pos,lookPos)--tex SetInitialPosition uses [4] as rotY
-    end
     
+    --tex BUG SIDESTEP: I used to stuff rotY into pos[4], which since groundStartPosition.pos is table from InfLZ groundStartPositions would bump it from {x,y,z}, to {x,y,z,yaw}, 
+    --which would be fine if I hadn't had some data format guards specifically checking for exactly 3 components (in GetClosestLZ). 
+    --so apart from fixing that, now using seperate rotY
+    
+    --tex TODO: fill out actuall decent rotYs for groundPositions, 
+    --or to closest cp center (are entities loaded at this point in execution? Otherwise there is GetClosestCp which covers vanilla)
+    --precompute if possible (where InfLZ groundStartPositions is set up), but then GetClosesCp should get actual cp positons at runtime when cp entities are up?
+    
+    --is currently defaulting to yawing towards center/0,0,0 of map
+    --oddly I think this is often less confusing than starting player with yaw 0 everywhere
+    --or to nearest cp pos which might not actually be a good line of sight
+    --and sometimes even less confusing that pointing toward a hand picked view
+    --mainly because I think player eventually builds up a mental model of the map bounds and kind of groks where the center is no matter where they are
+    --at least thats kind of how it works for me, and this kind of worked out this way for similar things in my old quakewars mods which was also a big playspace
+    local lookPos={0,0,0}
+    local rotY=groundStartPosition.rotY or InfUtil.YawTowardsLookPos(pos,lookPos)
+   
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     --TppHelicopter.ResetMissionStartHelicopterRoute()
     if not isMbFree then
@@ -964,8 +974,8 @@ function this.SetStartOnFootPosition(fromFreeMission,nextIsFreeMission)
       igvars.mis_isGroundStart=true
     end
     mvars.mis_helicopterMissionStartPosition=pos
-    TppPlayer.SetInitialPosition(pos,0)
-    TppPlayer.SetMissionStartPosition(pos,0)
+    TppPlayer.SetInitialPosition(pos,rotY)
+    TppPlayer.SetMissionStartPosition(pos,rotY)
     InfCore.PrintInspect(pos,"SetStartOnFootPosition")
   end--<
 end--SetStartOnFootPosition--<
