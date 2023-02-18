@@ -568,7 +568,7 @@ function this.GetSettingSuffix(option)
   
   return ""
 end--GetSettingSuffix
---DEBUGNOW: optionNameOnly,noItemIndicator not currently used
+--Gets full options and settings line for use in both the legacy/announcelog menu, and for the IHExt/IHHook menu items/options list
 function this.GetOptionAndSettingText(optionIndex,option)
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex
@@ -594,11 +594,14 @@ function this.GetOptionAndSettingText(optionIndex,option)
   --5:SomeOption = 3:SomeSetting
   --2:SomeOption >! 3:SomeActivateSetting
   --3:SomeOption <> 2:SomeSettingWithOnChange
-  --8:Command >>
-  --2:Menu >
+  --8:SomeCommand >>
+  --2:SomeMenu >
   --9:Go back >>
   --3:Do and close >]
-  --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+  --optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+  --ex ['4: ' optionIndexText]['SomeOption' optionText][' = ' optionSeperator]['' settingIndex]['102' settingText]['%' settingSuffix]
+  --with settingIndex being empty string in that case because it's for an option with a direct number value instead of a number of different identified settings
+  --otherwise would be something like ['2:' settingIndex]
 
   local optionIndexText=this.GetOptionIndexText(optionIndex)
   local optionText=this.GetOptionText(option)
@@ -611,7 +614,7 @@ function this.GetOptionAndSettingText(optionIndex,option)
 end--GetSettingText
 --For IHExt/IHHook menu 'menuLine' which is just below the options list and above 'menuSetting' text/combo box
 function this.GetMenuLineText(optionIndex,option)
-  --REF: menuLine: is pretty much normal option and setting text, minus the actual setting text
+  --REF: menuLine: is pretty much normal option and setting text (see GetOptionAndSettingText for REF), minus the actual setting text
   --keeping the settingSuffix since the line below menuLine is menuSetting(s) which is plain value for if you're typing to enter value
   --TODO rethink that
   --menuLine:     4:SomeOption = %
