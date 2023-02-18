@@ -234,12 +234,12 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         else
           local settingText=GetSettingsText(item) 
           
-          local settingsDisplayText=optionIndexText..optionText.." : "..settingText
-          table.insert(textTable,settingsDisplayText)
+          local optionAndSettingText=optionIndexText..optionText.." : "..settingText
+          table.insert(textTable,optionAndSettingText)
 
-          settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
-          settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
-          table.insert(htmlTable,string.format([[<div>%s</div>]],settingsDisplayText))
+          optionAndSettingText=string.gsub(optionAndSettingText,"<","&lt")
+          optionAndSettingText=string.gsub(optionAndSettingText,">","&gt")
+          table.insert(htmlTable,string.format([[<div>%s</div>]],optionAndSettingText))
           --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,itemIndexText..settingDescription))
 
           local helpLangString=InfLang.help.eng[item.name]
