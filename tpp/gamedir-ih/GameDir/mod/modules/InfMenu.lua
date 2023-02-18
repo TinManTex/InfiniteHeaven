@@ -516,14 +516,14 @@ end--GetOptionIndicator
 --tex TODO should just be GetSettingText, and current GetSettingText should be GetOptionText or something
 function this.GetSettingTextSingle(option,setting)
   local settingText=""
-  if option.isMenuOff then
+  if setting==nil then
+    settingText=": ERROR: setting==nil"
+  elseif option.isMenuOff then
     settingText=""
   elseif option.optionType=="COMMAND" then
     settingText=""
   elseif option.optionType=="MENU" then
     settingText=""
-  elseif setting==nil then
-    settingText=": ERROR: ivar==nil"
   elseif IsFunc(option.GetSettingText) then
     settingText=InfCore.PCallDebug(option.GetSettingText,option,setting)
     if settingText==nil then
