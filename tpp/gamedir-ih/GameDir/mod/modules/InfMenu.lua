@@ -569,7 +569,7 @@ function this.GetSettingSuffix(option)
   return ""
 end--GetSettingSuffix
 --DEBUGNOW: optionNameOnly,noItemIndicator not currently used
-function this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
+function this.GetOptionAndSettingText(optionIndex,option)
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex
     InfCore.Log(err,true,true)
@@ -602,15 +602,10 @@ function this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIn
 
   local optionIndexText=this.GetOptionIndexText(optionIndex)
   local optionText=this.GetOptionText(option)
-  local optionSeperator=noItemIndicator and "" or this.GetOptionIndicator(option)
+  local optionSeperator=this.GetOptionIndicator(option)
   local settingIndex=this.GetSettingIndex(option,currentSetting)
   local settingText=this.GetSettingTextSingle(option,currentSetting)
   local settingSuffix=this.GetSettingSuffix(option)
-
-  if settingTextOnly then
-    settingIndex=""
-    settingText=""
-  end
 
   return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 end--GetSettingText
