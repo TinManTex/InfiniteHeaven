@@ -490,31 +490,28 @@ local itemIndicators={
   on_change=" <> ",
 }
 function this.GetOptionIndicator(option)
-  local optionIndicator=""
   if option.isMenuOff then
-    optionIndicator=itemIndicators.command_menu_off
+    return itemIndicators.command_menu_off
   elseif option.optionType=="COMMAND" then
-    optionIndicator=itemIndicators.command
+    return itemIndicators.command
   elseif option.optionType=="MENU" then
-    optionIndicator=itemIndicators.menu
+    return itemIndicators.menu
   --elseif option.isMode then
-  --  optionSeperator=itemIndicators.mode
+  --  return itemIndicators.mode
   --DEBUGNOW see if there's any ivars with both OnActivate and OnChange
   elseif option.OnActivate then
-     optionIndicator=itemIndicators.activate
+     return itemIndicators.activate
   elseif option.OnChange then
-    optionIndicator=itemIndicators.on_change      
+    return itemIndicators.on_change      
   elseif IsFunc(option.GetSettingText) then
-    optionIndicator=itemIndicators.equals
+    return itemIndicators.equals
   elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
-    optionIndicator=itemIndicators.equals
+    return itemIndicators.equals
   elseif option.settingNames then
-    optionIndicator=itemIndicators.equals
+    return itemIndicators.equals
   else
-    optionIndicator=itemIndicators.equals
+    return itemIndicators.equals
   end
-  
-  return optionIndicator
 end--GetOptionIndicator
 --DEBUGNOW: optionNameOnly not currently used?
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
