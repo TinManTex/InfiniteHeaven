@@ -555,7 +555,7 @@ function this.GetSettingText(option,setting)
     else
       settingText=option.settingNames[setting+1]
     end
-  elseif option.settingNames then
+  elseif option.settingNames then--tex just a string langTable id
     settingText=InfLangProc.LangTableString(option.settingNames,setting+1)
   else
     settingText=tostring(setting)
