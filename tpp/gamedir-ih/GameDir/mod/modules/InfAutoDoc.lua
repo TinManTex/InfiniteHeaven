@@ -252,49 +252,11 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
           end
 
           if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
-            local profileLine={}
-            table.insert(profileLine,"\t\t"..item.name.."=")
-            --InfCore.Log("profileline --- "..item.name)--DEBUG
-            if item.settings then
-              local setting=item.settings[item.default+1]
-              if setting and setting~="DEFAULT" and setting~="OFF" then
-                table.insert(profileLine,"\""..setting.."\"")
-              else
-                table.insert(profileLine,item.default)
-              end
-            else
-              table.insert(profileLine,item.default)
-            end
-            table.insert(profileLine,",")
-
-            local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
-            table.insert(profileLine,"--[[")
-            if item.settings then
-              table.insert(profileLine,"{ ")
-              for i,setting in ipairs(item.settings)do
-                table.insert(profileLine,setting)
-                if i~=#item.settings then
-                  table.insert(profileLine,", ")
-                end
-              end
-              table.insert(profileLine," }")
-            else
-              table.insert(profileLine,"{ ")
-              table.insert(profileLine,item.range.min.."-"..item.range.max)
-              table.insert(profileLine," }")
-            end
-            if not item.save then
-              table.insert(profileLine," -- Non-save")
-            end
-            table.insert(profileLine," -- "..optionName)
-            if item.isPercent then
-              table.insert(profileLine," (percentage)")
-            end
-            table.insert(profileLine,"]]")
+            local profileLine=this.GetProfileLine(item)
             table.insert(profileTable,table.concat(profileLine))
-
+          
             priorItems[item.name]=true
-          end
+          end--if IsForProfileAutoDoc
         end
       end
     end
@@ -302,6 +264,49 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
   end
   table.insert(htmlTable,"</div>")--id=menu
 end
+
+function this.GetProfileLine(item)
+  local profileLine={}
+  table.insert(profileLine,"\t\t"..item.name.."=")
+  --InfCore.Log("profileline --- "..item.name)--DEBUG
+  if item.settings then
+    local setting=item.settings[item.default+1]
+    if setting and setting~="DEFAULT" and setting~="OFF" then
+      table.insert(profileLine,"\""..setting.."\"")
+    else
+      table.insert(profileLine,item.default)
+    end
+  else
+    table.insert(profileLine,item.default)
+  end
+  table.insert(profileLine,",")
+
+  local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
+  table.insert(profileLine,"--[[")
+  if item.settings then
+    table.insert(profileLine,"{ ")
+    for i,setting in ipairs(item.settings)do
+      table.insert(profileLine,setting)
+      if i~=#item.settings then
+        table.insert(profileLine,", ")
+      end
+    end
+    table.insert(profileLine," }")
+  else
+    table.insert(profileLine,"{ ")
+    table.insert(profileLine,item.range.min.."-"..item.range.max)
+    table.insert(profileLine," }")
+  end
+  if not item.save then
+    table.insert(profileLine," -- Non-save")
+  end
+  table.insert(profileLine," -- "..optionName)
+  if item.isPercent then
+    table.insert(profileLine," (percentage)")
+  end
+  table.insert(profileLine,"]]")
+  return profileLine
+end--GetProfileLine
 
 local function EscapeHtml(line)
   line=string.gsub(line,"<","&lt")
