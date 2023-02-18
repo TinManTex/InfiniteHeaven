@@ -497,6 +497,13 @@ function this.GetOptionIndicator(option)
     optionIndicator=itemIndicators.command
   elseif option.optionType=="MENU" then
     optionIndicator=itemIndicators.menu
+  --elseif option.isMode then
+  --  optionSeperator=itemIndicators.mode
+  --DEBUGNOW see if there's any ivars with both OnActivate and OnChange
+  elseif option.OnActivate then
+     optionIndicator=itemIndicators.activate
+  elseif option.OnChange then
+    optionIndicator=itemIndicators.on_change      
   elseif IsFunc(option.GetSettingText) then
     optionIndicator=itemIndicators.equals
   elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
@@ -506,20 +513,6 @@ function this.GetOptionIndicator(option)
   else
     optionIndicator=itemIndicators.equals
   end
-  --KLUDGE
-  if optionIndicator==itemIndicators.equals then
-    --if option.isMode then
-    --  optionSeperator=itemIndicators.mode
-
-    --DEBUGNOW see if there's any ivars with both
-    if option.OnActivate then
-      if not option.noActivateText then
-        optionIndicator=itemIndicators.activate
-      end
-    elseif option.OnChange then
-      optionIndicator=itemIndicators.on_change
-    end
-  end  
   
   return optionIndicator
 end--GetOptionIndicator
