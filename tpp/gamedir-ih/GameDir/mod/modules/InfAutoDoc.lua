@@ -79,11 +79,13 @@ local function GetSettingsText(option)
       --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
     end
   elseif IsFunc(option.GetSettingText) then
-    if option:GetSettingText(0)==nil then
-      InfCore.Log("option:GetSettingText(0)==nil for "..option.name)--DEBUG
+    --tex TODO: output whole range instead of just first
+    local i=0
+    if option:GetSettingText(i)==nil then
+      InfCore.Log("option:GetSettingText("..i..")==nil for "..option.name)--DEBUG
       settingText="nil"
     else
-      settingText=tostring(option:GetSettingText(0))
+      settingText=tostring(option:GetSettingText(i))
     end
   elseif option.isPercent then
     if option.range then
