@@ -536,14 +536,14 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   --3:Do and close >]
   --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 
-  local itemIndex=""
+  local itemIndexText=""
   local optionText=""
   local optionSeperator=""
   local settingIndex=""
   local settingText=""
   local settingSuffix=""
 
-  itemIndex=optionIndex..":"
+  itemIndexText=optionIndex..":"
   optionText = option.description or InfLangProc.LangString(option.name)
   
   if not noItemIndicator then
@@ -597,9 +597,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     if optionSeperator==itemIndicators.equals then
       optionSeperator=itemIndicators.colon
     end
-    fullSettingText=itemIndex..optionText..optionSeperator
+    fullSettingText=itemIndexText..optionText..optionSeperator
   else
-    fullSettingText=itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+    fullSettingText=itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
   end
 
   return fullSettingText
