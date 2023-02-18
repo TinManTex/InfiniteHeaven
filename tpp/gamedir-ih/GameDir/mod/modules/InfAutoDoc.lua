@@ -49,7 +49,8 @@ local function CharacterLine(character,length)
 end
 
 --WORKAROUND TODO REDO
-local function GetSettingText(option)
+--gathers all the settings (but not the preceding setting text)
+local function GetSettingsText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
   if settingNames then
@@ -204,30 +205,40 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
 
       if skipItems and skipItemsList[item.name] then
 
-      else
+      else        
         --DEBUG
         --      InfCore.Log("name:"..item.name)
         --      InfCore.Log("desc:"..tostring(item.description))
-        --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name)))
-        local settingDescription=item.description or InfLangProc.LangString(item.name)
-        local indexDisplayLine=i..": "
+        --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name))) 
+        
+        --tex see InfMenu.GetSettingText for how option and setting usually displayed
+        local itemIndexText=""
+        local optionText=""
+        local optionSeperator=""
+        local settingIndex=""
+        local settingText=""--tex really settingsText, but keeping naming the same as InfMenu.GetSettingText for easier comparison
+        local settingSuffix=""  
+       
+        itemIndexText=i..": "
+        optionText=item.description or InfLangProc.LangString(item.name)
 
-        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
+        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],itemIndexText))
 
         if IsMenu(item) then
           menuCount=menuCount+1
 
-          table.insert(textTable,indexDisplayLine..settingDescription)
-          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription))
+          table.insert(textTable,itemIndexText..optionText)
+          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],itemIndexText,item.name,optionText))
         else
-          local settingText=GetSettingText(item)--DEBUG WORKAROUND InfMenu.GetSettingText(i,item)
-          table.insert(textTable,indexDisplayLine..settingDescription.." : "..settingText)
+          local settingText=GetSettingsText(item) 
+          
+          local settingsDisplayText=itemIndexText..optionText.." : "..settingText
+          table.insert(textTable,settingsDisplayText)
 
-          local settingsDisplayText=settingDescription.." : "..settingText
           settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
           settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
-          table.insert(htmlTable,string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText))
-          --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription))
+          table.insert(htmlTable,string.format([[<div>%s</div>]],settingsDisplayText))
+          --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,itemIndexText..settingDescription))
 
           local helpLangString=InfLang.help.eng[item.name]
           if helpLangString then
