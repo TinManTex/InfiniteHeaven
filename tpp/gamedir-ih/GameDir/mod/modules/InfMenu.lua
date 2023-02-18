@@ -611,7 +611,7 @@ function this.GetOptionAndSettingText(optionIndex,option)
   local settingSuffix=this.GetSettingSuffix(option)
 
   return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
-end--GetSettingText
+end--GetOptionAndSettingText
 --For IHExt/IHHook menu 'menuLine' which is just below the options list and above 'menuSetting' text/combo box
 function this.GetMenuLineText(optionIndex,option)
   --tex GetOptionFromRef warning should give more info
