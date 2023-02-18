@@ -585,7 +585,10 @@ function this.GetOptionAndSettingText(optionIndex,option)
   if option.optionType=="MENU" then
     currentSetting=0
   end
-  
+  --DEBUGNOW tex how/where to guard this properly
+  --will be nil for .optionType=="MENU", 
+  --and where menu optionRef is pointing to an ivar in a module that hasn't been set up/not added to registerIvars
+  --could you do a all menus sweep for this (assuming they havent also forgotten to registerMenus the menu lol)?
   if currentSetting==nil then
     InfCore.Log("ERROR: ivars["..option.name.."]==nil",true,true)
   end
