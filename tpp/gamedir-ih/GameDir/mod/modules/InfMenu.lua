@@ -564,7 +564,7 @@ function this.GetSettingSuffix(option)
   
   return ""
 end--GetSettingSuffix
---DEBUGNOW: optionNameOnly not currently used?
+--DEBUGNOW: optionNameOnly,noItemIndicator not currently used
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex
@@ -608,17 +608,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     settingText=""
   end
 
-  local fullSettingText=""
-  if optionNameOnly then
-    if optionSeperator==itemIndicators.equals then
-      optionSeperator=itemIndicators.colon
-    end
-    fullSettingText=itemIndexText..optionText..optionSeperator
-  else
-    fullSettingText=itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
-  end
-
-  return fullSettingText
+  return itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 end--GetSettingText
 
 function this.DisplaySetting(optionIndex)      
