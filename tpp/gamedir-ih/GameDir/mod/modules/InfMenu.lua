@@ -478,7 +478,11 @@ function this.DisplayCurrentMenu()
     InfCore.WriteToExtTxt()
   end  
 end--DisplayCurrentMenu
-
+--tex no actual logic, but keeping it consitant with the rest of the below functions
+--optionIndex: index of option in options list of menu its in
+function this.GetOptionIndexText(optionIndex)
+  return optionIndex..":"
+end--
 function this.GetOptionText(option)
   return option.description or InfLangProc.LangString(option.name) or ""
 end--GetOptionText
@@ -596,7 +600,7 @@ function this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIn
   --3:Do and close >]
   --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 
-  local itemIndexText=optionIndex..":"
+  local optionIndexText=this.GetOptionIndexText(optionIndex)
   local optionText=this.GetOptionText(option)
   local optionSeperator=noItemIndicator and "" or this.GetOptionIndicator(option)
   local settingIndex=this.GetSettingIndex(option,currentSetting)
@@ -608,7 +612,7 @@ function this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIn
     settingText=""
   end
 
-  return itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+  return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 end--GetSettingText
 --For IHExt/IHHook menu 'menuLine' which is just below the options list and above 'menuSetting' text/combo box
 function this.GetMenuLineText(optionIndex,option)
@@ -618,14 +622,14 @@ function this.GetMenuLineText(optionIndex,option)
   --menuLine:     4:SomeOption = %
   --menuSetting:  40
 
-    local itemIndexText=optionIndex..":"
+    local optionIndexText=this.GetOptionIndexText(optionIndex)
     local optionText=this.GetOptionText(option)
     local optionSeperator=this.GetOptionIndicator(option)
     local settingIndex=""
     local settingText=""
     local settingSuffix=this.GetSettingSuffix(option)
 
-    return itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+    return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 end--GetMenuLineText
 
 function this.DisplaySetting(optionIndex)      
