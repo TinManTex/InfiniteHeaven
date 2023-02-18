@@ -528,8 +528,7 @@ function this.GetSettingIndex(option,setting)
     return ""
   end
 end--GetSettingIndex
---tex TODO should just be GetSettingText, and current GetSettingText should be GetOptionText or something
-function this.GetSettingTextSingle(option,setting)
+function this.GetSettingText(option,setting)
   local settingText=""
   if option.isMenuOff then
     settingText=""
@@ -562,7 +561,7 @@ function this.GetSettingTextSingle(option,setting)
     settingText=tostring(setting)
   end
   return settingText
-end--GetSettingTextSingle
+end--GetSettingText
 function this.GetSettingSuffix(option)
   if option.isPercent then
     return "%"
@@ -608,7 +607,7 @@ function this.GetOptionAndSettingText(optionIndex,option)
   local optionText=this.GetOptionText(option)
   local optionSeperator=this.GetOptionIndicator(option)
   local settingIndex=this.GetSettingIndex(option,currentSetting)
-  local settingText=this.GetSettingTextSingle(option,currentSetting)
+  local settingText=this.GetSettingText(option,currentSetting)
   local settingSuffix=this.GetSettingSuffix(option)
 
   return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
