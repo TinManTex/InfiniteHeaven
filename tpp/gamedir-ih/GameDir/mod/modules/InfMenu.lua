@@ -513,6 +513,39 @@ function this.GetOptionIndicator(option)
     return itemIndicators.equals
   end
 end--GetOptionIndicator
+--tex TODO should just be GetSettingText, and current GetSettingText should be GetOptionText or something
+function this.GetSettingTextSingle(option,currentSetting)
+  local settingText=""
+  if option.isMenuOff then
+    settingText=""
+  elseif option.optionType=="COMMAND" then
+    settingText=""
+  elseif option.optionType=="MENU" then
+    settingText=""
+  elseif currentSetting==nil then
+    settingText=": ERROR: ivar==nil"
+  elseif IsFunc(option.GetSettingText) then
+    settingText=InfCore.PCallDebug(option.GetSettingText,option,currentSetting)
+    if settingText==nil then
+      settingText=" WARNING: GetSettingText nil"
+      InfCore.Log(settingText.." for option "..option.name,false,true)
+    end
+    settingText=tostring(settingText)
+  elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
+    if currentSetting < 0 or currentSetting > #option.settingNames-1 then
+      settingText=" WARNING: current setting out of settingNames bounds"
+      InfCore.Log(settingText.." for option "..option.name)
+      InfCore.PrintInspect(option.settingNames,option.name..".settingNames")
+    else
+      settingText=option.settingNames[currentSetting+1]
+    end
+  elseif option.settingNames then
+    settingText=InfLangProc.LangTableString(option.settingNames,currentSetting+1)
+  else
+    settingText=tostring(currentSetting)
+  end
+  return settingText
+end--GetSettingTextSingle
 --DEBUGNOW: optionNameOnly not currently used?
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   if option.name==nil then
@@ -550,34 +583,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     optionSeperator=this.GetOptionIndicator(option)
   end
 
-  if option.isMenuOff then
-    settingText=""
-  elseif option.optionType=="COMMAND" then
-    settingText=""
-  elseif option.optionType=="MENU" then
-    settingText=""
-  elseif currentSetting==nil then
-    settingText=": ERROR: ivar==nil"
-  elseif IsFunc(option.GetSettingText) then
-    settingText=InfCore.PCallDebug(option.GetSettingText,option,currentSetting)
-    if settingText==nil then
-      settingText=" WARNING: GetSettingText nil"
-      InfCore.Log(settingText.." for option "..option.name,false,true)
-    end
-    settingText=tostring(settingText)
-  elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
-    if currentSetting < 0 or currentSetting > #option.settingNames-1 then
-      settingText=" WARNING: current setting out of settingNames bounds"
-      InfCore.Log(settingText.." for option "..option.name)
-      InfCore.PrintInspect(option.settingNames,option.name..".settingNames")
-    else
-      settingText=option.settingNames[currentSetting+1]
-    end
-  elseif option.settingNames then
-    settingText=InfLangProc.LangTableString(option.settingNames,currentSetting+1)
-  else
-    settingText=tostring(currentSetting)
-  end
+  settingText=this.GetSettingTextSingle(option,currentSetting)
 
   if option.isPercent then
     settingSuffix="%"
