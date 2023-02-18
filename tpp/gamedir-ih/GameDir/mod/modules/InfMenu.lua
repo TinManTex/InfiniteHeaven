@@ -516,6 +516,14 @@ function this.GetOptionIndicator(option)
     return itemIndicators.equals
   end
 end--GetOptionIndicator
+function this.GetSettingIndex(option,currentSetting)
+  --tex TODO: rethink complicated conditions
+  if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
+    return tostring(currentSetting)..":"
+  else
+    return ""
+  end
+end--GetSettingIndex
 --tex TODO should just be GetSettingText, and current GetSettingText should be GetOptionText or something
 function this.GetSettingTextSingle(option,setting)
   local settingText=""
@@ -588,27 +596,12 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   --3:Do and close >]
   --itemIndex..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 
-  local itemIndexText=""
-  local optionText=""
-  local optionSeperator=""
-  local settingIndex=""
-  local settingText=""
-  local settingSuffix=""
-
-  itemIndexText=optionIndex..":"
-  optionText=this.GetOptionText(option)
-  
-  if not noItemIndicator then
-    optionSeperator=this.GetOptionIndicator(option)
-  end
-
-  settingText=this.GetSettingTextSingle(option,currentSetting)
-
-  settingSuffix=this.GetSettingSuffix(option)
-
-  if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
-    settingIndex=tostring(currentSetting)..":"
-  end
+  local itemIndexText=optionIndex..":"
+  local optionText=this.GetOptionText(option)
+  local optionSeperator=noItemIndicator and "" or this.GetOptionIndicator(option)
+  local settingIndex=this.GetSettingIndex(option,currentSetting)
+  local settingText=this.GetSettingTextSingle(option,currentSetting)
+  local settingSuffix=this.GetSettingSuffix(option)
 
   if settingTextOnly then
     settingIndex=""
