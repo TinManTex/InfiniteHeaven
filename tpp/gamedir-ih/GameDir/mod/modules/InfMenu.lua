@@ -610,6 +610,23 @@ function this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIn
 
   return itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 end--GetSettingText
+--For IHExt/IHHook menu 'menuLine' which is just below the options list and above 'menuSetting' text/combo box
+function this.GetMenuLineText(optionIndex,option)
+  --REF: menuLine: is pretty much normal option and setting text, minus the actual setting text
+  --keeping the settingSuffix since the line below menuLine is menuSetting(s) which is plain value for if you're typing to enter value
+  --TODO rethink that
+  --menuLine:     4:SomeOption = %
+  --menuSetting:  40
+
+    local itemIndexText=optionIndex..":"
+    local optionText=this.GetOptionText(option)
+    local optionSeperator=this.GetOptionIndicator(option)
+    local settingIndex=""
+    local settingText=""
+    local settingSuffix=this.GetSettingSuffix(option)
+
+    return itemIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+end--GetMenuLineText
 
 function this.DisplaySetting(optionIndex)      
   local optionRef=this.currentMenuOptions[optionIndex]
@@ -626,10 +643,7 @@ function this.DisplaySetting(optionIndex)
       InfMgsvToExt.SetMenuLine(optionAndSettingText,optionAndSettingText)
     else
       local optionAndSettingText=this.GetOptionAndSettingText(optionIndex,option)
-      local optionNameOnly=false
-      local noItemIndicator=false
-      local settingTextOnly=true
-      local menuLineText=this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
+      local menuLineText=this.GetMenuLineText(optionIndex,option)
       InfMgsvToExt.SetMenuLine(optionAndSettingText,menuLineText)
     end
     --InfCore.Log("DisplaySetting",false,true)--DEBUG
