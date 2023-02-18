@@ -217,9 +217,9 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         local optionIndex=i
         local option=item
         
-        local optionIndexText=this.GetOptionIndexText(optionIndex)
-        local optionText=this.GetOptionText(option)
-        local optionSeperator=""
+        local optionIndexText=InfMenu.GetOptionIndexText(optionIndex)
+        local optionText=InfMenu.GetOptionText(option)
+        local optionSeperator=InfMenu.GetOptionIndicator(option)
         local settingIndex=""
         local settingText=""--tex really settingsText, but keeping naming the same as InfMenu.GetSettingText for easier comparison
         local settingSuffix=""  
@@ -234,7 +234,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         else
           local settingText=GetSettingsText(item) 
           
-          local optionAndSettingText=optionIndexText..optionText.." : "..settingText
+          local optionAndSettingText=optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
           table.insert(textTable,optionAndSettingText)
 
           optionAndSettingText=string.gsub(optionAndSettingText,"<","&lt")
