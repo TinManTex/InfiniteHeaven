@@ -531,14 +531,16 @@ end--GetSettingIndex
 --tex TODO should just be GetSettingText, and current GetSettingText should be GetOptionText or something
 function this.GetSettingTextSingle(option,setting)
   local settingText=""
-  if setting==nil then
-    settingText=": ERROR: setting==nil"
-  elseif option.isMenuOff then
+  if option.isMenuOff then
     settingText=""
   elseif option.optionType=="COMMAND" then
     settingText=""
   elseif option.optionType=="MENU" then
     settingText=""
+  elseif setting==nil then
+    --tex this is very specifically at this point because MENU options dont have an ivar entry (I think commands might, but we don't need their setting)
+    --see option.name==nil warning in GetOptionFromRef for other reason this could be hit
+    settingText=": ERROR: setting==nil"
   elseif IsFunc(option.GetSettingText) then
     settingText=InfCore.PCallDebug(option.GetSettingText,option,setting)
     if settingText==nil then
