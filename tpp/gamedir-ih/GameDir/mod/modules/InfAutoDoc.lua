@@ -50,34 +50,32 @@ end
 
 --WORKAROUND TODO REDO
 --gathers all the settings (but not the preceding setting text)
+--TODO: get closer to InfMenu.GetSettingText
+--TODO: option.settingNamesDoc
+--TODO: search workspace for options that have OnSelect, add settingNamesDoc to 
 local function GetSettingsText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
-  if settingNames then
-    if settingNames=="set_do" then--KLUDGE WORKAROUND
-      return "(Command)"
-    end
-    --tex old style direct non localized table
-    if IsTable(settingNames) then
-      --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
-      for i,settingName in ipairs(settingNames)do
-        if type(settingName)~="string" then
-          InfCore.Log("WARNING: type settingName ~= string for option "..tostring(option.name))
-        else
-        settingText=settingText..settingName..", "
-        end
+  --tex old style direct non localized table
+  if settingNames and IsTable(settingNames) then
+    --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
+    for i,settingName in ipairs(settingNames)do
+      if type(settingName)~="string" then
+        InfCore.Log("WARNING: type settingName ~= string for option "..tostring(option.name))
+      else
+      settingText=settingText..settingName..", "
       end
+    end
 
-      settingText=string.sub(settingText,1,#settingText-2)
-    else
-      local settingTable=InfLangProc.LangTable(settingNames)
-      --settingText=InfInspect.Inspect(settingTable)
-      for i,settingName in ipairs(settingTable)do
-        settingText=settingText..settingName..", "
-      end
-      settingText=string.sub(settingText,1,#settingText-2)
-      --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
+    settingText=string.sub(settingText,1,#settingText-2)
+  elseif settingNames then
+    local settingTable=InfLangProc.LangTable(settingNames)
+    --settingText=InfInspect.Inspect(settingTable)
+    for i,settingName in ipairs(settingTable)do
+      settingText=settingText..settingName..", "
     end
+    settingText=string.sub(settingText,1,#settingText-2)
+    --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
   elseif IsFunc(option.GetSettingText) then
     --tex TODO: output whole range instead of just first
     local i=0
