@@ -56,9 +56,10 @@ end
 local function GetSettingsText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
-  --tex old style direct non localized table
-  if settingNames and IsTable(settingNames) then
-    --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
+  if option.settingNamesDoc then
+    settingText=InfLangProc.LangString(option.settingNamesDoc)
+  elseif settingNames and IsTable(settingNames) then  --tex old style direct non localized table, or the settings themselves, 
+  --normally GetSettingText would before this, but that's a lot more complicated since you need to OnSelect them first if its doing something dynamic
     for i,settingName in ipairs(settingNames)do
       if type(settingName)~="string" then
         InfCore.Log("WARNING: type settingName ~= string for option "..tostring(option.name))
@@ -68,23 +69,24 @@ local function GetSettingsText(option)
     end
 
     settingText=string.sub(settingText,1,#settingText-2)
-  elseif settingNames then
+  elseif settingNames then--tex just a string langTable id
     local settingTable=InfLangProc.LangTable(settingNames)
     --settingText=InfInspect.Inspect(settingTable)
     for i,settingName in ipairs(settingTable)do
       settingText=settingText..settingName..", "
     end
     settingText=string.sub(settingText,1,#settingText-2)
+    --tex OFF rethink
     --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
-  elseif IsFunc(option.GetSettingText) then
-    --tex TODO: output whole range instead of just first
-    local i=0
-    if option:GetSettingText(i)==nil then
-      InfCore.Log("option:GetSettingText("..i..")==nil for "..option.name)--DEBUG
-      settingText="nil"
-    else
-      settingText=tostring(option:GetSettingText(i))
-    end
+--  elseif IsFunc(option.GetSettingText) then
+--    --tex TODO: output whole range instead of just first
+--    local i=0
+--    if option:GetSettingText(i)==nil then
+--      InfCore.Log("option:GetSettingText("..i..")==nil for "..option.name)--DEBUG
+--      settingText="nil"
+--    else
+--      settingText=tostring(option:GetSettingText(i))
+--    end
   elseif option.isPercent then
     if option.range then
       settingText=option.range.min.."-"..option.range.max.."%"
@@ -107,7 +109,7 @@ local function GetSettingsText(option)
     settingText=settingText.." [Requires IHHook]"
   end
   return settingText
-end
+end--GetSettingsText
 
 local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   --InfCore.Log("GatherMenus:")
