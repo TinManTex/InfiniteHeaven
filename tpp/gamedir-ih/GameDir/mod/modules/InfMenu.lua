@@ -450,7 +450,7 @@ end
 --tex display settings
 function this.DisplayCurrentSetting()
   if this.menuOn then
-    this.DisplaySetting(this.currentIndex,false)
+    this.DisplaySetting(this.currentIndex)
   end
 end
 
@@ -470,7 +470,7 @@ function this.DisplayCurrentMenu()
         if option.OnSelect then
           option:OnSelect(ivars[option.name])
         end
-        settingText=this.GetSettingText(optionIndex,option,false,false)
+        settingText=this.GetSettingText(optionIndex,option)
       end
       InfCore.ExtCmd('AddToTable','menuItems',settingText)
     end
@@ -556,6 +556,12 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   end
   
   local currentSetting=ivars[option.name]
+  --DEBUGNOW tex any other option types that dont ivars?
+  --TODO: should commit to either everything having ivars, or make it clear what doesnt 
+  if option.optionType=="MENU" then
+    currentSetting=0
+  end
+  
   if currentSetting==nil then
     InfCore.Log("ERROR: ivars["..option.name.."]==nil",true,true)
   end
@@ -614,17 +620,22 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   return fullSettingText
 end--GetSettingText
 
-function this.DisplaySetting(optionIndex,optionNameOnly)
+function this.DisplaySetting(optionIndex)      
   local optionRef=this.currentMenuOptions[optionIndex]
   local option=this.GetOptionFromRef(optionRef)
 
   local settingText=optionIndex..":"..optionRef.." not found"
+  if option==nil then
+    InfCore.Log("ERROR: InfMenu.DisplaySetting: "..settingText,true,true)
+  end
+  
   if InfCore.IHExtRunning() then
     if option==nil then
       InfCore.ExtCmd('ClearCombo','menuSetting')
       InfMgsvToExt.SetMenuLine(settingText,settingText)
     else
-      local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
+      local settingText=this.GetSettingText(optionIndex,option)
+      local optionNameOnly=false
       local noItemIndicator=false
       local settingTextOnly=true
       local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
@@ -636,7 +647,7 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
 
     if option==nil then
     else
-      settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
+      settingText=this.GetSettingText(optionIndex,option)
     end
     TppUiCommand.AnnounceLogDelayTime(0)
     TppUiCommand.AnnounceLogView(settingText)
