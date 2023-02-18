@@ -516,10 +516,10 @@ function this.GetOptionIndicator(option)
     return itemIndicators.equals
   end
 end--GetOptionIndicator
-function this.GetSettingIndex(option,currentSetting)
+function this.GetSettingIndex(option,setting)
   --tex TODO: rethink complicated conditions
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
-    return tostring(currentSetting)..":"
+    return tostring(setting)..":"
   else
     return ""
   end
