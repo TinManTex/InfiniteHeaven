@@ -463,16 +463,16 @@ function this.DisplayCurrentMenu()
     for optionIndex=1,#this.currentMenuOptions do
       local optionRef=this.currentMenuOptions[optionIndex]
       local option=this.GetOptionFromRef(optionRef)
-      local settingText=optionIndex..":"..optionRef.." not found"
+      local optionAndSettingText=optionIndex..":"..optionRef.." not found"
       if option==nil then
         InfCore.ExtCmd('ClearCombo','menuSetting')
       else
         if option.OnSelect then
           option:OnSelect(ivars[option.name])
         end
-        settingText=this.GetSettingText(optionIndex,option)
+        optionAndSettingText=this.GetOptionAndSettingText(optionIndex,option)
       end
-      InfCore.ExtCmd('AddToTable','menuItems',settingText)
+      InfCore.ExtCmd('AddToTable','menuItems',optionAndSettingText)
     end
     --InfCore.Log("Gomenu",false,true)--DEBUG
     InfCore.WriteToExtTxt()
@@ -565,7 +565,7 @@ function this.GetSettingSuffix(option)
   return ""
 end--GetSettingSuffix
 --DEBUGNOW: optionNameOnly,noItemIndicator not currently used
-function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
+function this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex
     InfCore.Log(err,true,true)
@@ -615,22 +615,22 @@ function this.DisplaySetting(optionIndex)
   local optionRef=this.currentMenuOptions[optionIndex]
   local option=this.GetOptionFromRef(optionRef)
 
-  local settingText=optionIndex..":"..optionRef.." not found"
+  local optionAndSettingText=optionIndex..":"..optionRef.." not found"
   if option==nil then
-    InfCore.Log("ERROR: InfMenu.DisplaySetting: "..settingText,true,true)
+    InfCore.Log("ERROR: InfMenu.DisplaySetting: "..optionAndSettingText,true,true)
   end
   
   if InfCore.IHExtRunning() then
     if option==nil then
       InfCore.ExtCmd('ClearCombo','menuSetting')
-      InfMgsvToExt.SetMenuLine(settingText,settingText)
+      InfMgsvToExt.SetMenuLine(optionAndSettingText,optionAndSettingText)
     else
-      local settingText=this.GetSettingText(optionIndex,option)
+      local optionAndSettingText=this.GetOptionAndSettingText(optionIndex,option)
       local optionNameOnly=false
       local noItemIndicator=false
       local settingTextOnly=true
-      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
-      InfMgsvToExt.SetMenuLine(settingText,menuLineText)
+      local menuLineText=this.GetOptionAndSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
+      InfMgsvToExt.SetMenuLine(optionAndSettingText,menuLineText)
     end
     --InfCore.Log("DisplaySetting",false,true)--DEBUG
     InfCore.WriteToExtTxt()
@@ -638,10 +638,10 @@ function this.DisplaySetting(optionIndex)
 
     if option==nil then
     else
-      settingText=this.GetSettingText(optionIndex,option)
+      optionAndSettingText=this.GetOptionAndSettingText(optionIndex,option)
     end
     TppUiCommand.AnnounceLogDelayTime(0)
-    TppUiCommand.AnnounceLogView(settingText)
+    TppUiCommand.AnnounceLogView(optionAndSettingText)
   end
   this.lastDisplay=GetElapsedTime()
 end
