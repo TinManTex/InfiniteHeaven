@@ -546,6 +546,13 @@ function this.GetSettingTextSingle(option,setting)
   end
   return settingText
 end--GetSettingTextSingle
+function this.GetSettingSuffix(option)
+  if option.isPercent then
+    return "%"
+  end
+  
+  return ""
+end--GetSettingSuffix
 --DEBUGNOW: optionNameOnly not currently used?
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   if option.name==nil then
@@ -594,9 +601,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
 
   settingText=this.GetSettingTextSingle(option,currentSetting)
 
-  if option.isPercent then
-    settingSuffix="%"
-  end
+  settingSuffix=this.GetSettingSuffix(option)
 
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
     settingIndex=tostring(currentSetting)..":"
