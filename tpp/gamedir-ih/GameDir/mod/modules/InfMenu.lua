@@ -514,7 +514,7 @@ function this.GetOptionIndicator(option)
   end
 end--GetOptionIndicator
 --tex TODO should just be GetSettingText, and current GetSettingText should be GetOptionText or something
-function this.GetSettingTextSingle(option,currentSetting)
+function this.GetSettingTextSingle(option,setting)
   local settingText=""
   if option.isMenuOff then
     settingText=""
@@ -522,27 +522,27 @@ function this.GetSettingTextSingle(option,currentSetting)
     settingText=""
   elseif option.optionType=="MENU" then
     settingText=""
-  elseif currentSetting==nil then
+  elseif setting==nil then
     settingText=": ERROR: ivar==nil"
   elseif IsFunc(option.GetSettingText) then
-    settingText=InfCore.PCallDebug(option.GetSettingText,option,currentSetting)
+    settingText=InfCore.PCallDebug(option.GetSettingText,option,setting)
     if settingText==nil then
       settingText=" WARNING: GetSettingText nil"
       InfCore.Log(settingText.." for option "..option.name,false,true)
     end
     settingText=tostring(settingText)
   elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
-    if currentSetting < 0 or currentSetting > #option.settingNames-1 then
+    if setting < 0 or setting > #option.settingNames-1 then
       settingText=" WARNING: current setting out of settingNames bounds"
       InfCore.Log(settingText.." for option "..option.name)
       InfCore.PrintInspect(option.settingNames,option.name..".settingNames")
     else
-      settingText=option.settingNames[currentSetting+1]
+      settingText=option.settingNames[setting+1]
     end
   elseif option.settingNames then
-    settingText=InfLangProc.LangTableString(option.settingNames,currentSetting+1)
+    settingText=InfLangProc.LangTableString(option.settingNames,setting+1)
   else
-    settingText=tostring(currentSetting)
+    settingText=tostring(setting)
   end
   return settingText
 end--GetSettingTextSingle
