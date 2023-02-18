@@ -572,6 +572,7 @@ function this.GetSettingSuffix(option)
 end--GetSettingSuffix
 --Gets full options and settings line for use in both the legacy/announcelog menu, and for the IHExt/IHHook menu items/options list
 function this.GetOptionAndSettingText(optionIndex,option)
+  --tex GetOptionFromRef warning should give more info
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex
     InfCore.Log(err,true,true)
@@ -619,20 +620,28 @@ function this.GetOptionAndSettingText(optionIndex,option)
 end--GetSettingText
 --For IHExt/IHHook menu 'menuLine' which is just below the options list and above 'menuSetting' text/combo box
 function this.GetMenuLineText(optionIndex,option)
+  --tex GetOptionFromRef warning should give more info
+  if option.name==nil then
+    local err="WARNING: option.name==nil for optionIndex "..optionIndex
+    InfCore.Log(err,true,true)
+    --InfCore.PrintInspect(option,"option")
+    return err
+  end
+
   --REF: menuLine: is pretty much normal option and setting text (see GetOptionAndSettingText for REF), minus the actual setting text
   --keeping the settingSuffix since the line below menuLine is menuSetting(s) which is plain value for if you're typing to enter value
   --TODO rethink that
   --menuLine:     4:SomeOption = %
   --menuSetting:  40
 
-    local optionIndexText=this.GetOptionIndexText(optionIndex)
-    local optionText=this.GetOptionText(option)
-    local optionSeperator=this.GetOptionIndicator(option)
-    local settingIndex=""
-    local settingText=""
-    local settingSuffix=this.GetSettingSuffix(option)
+  local optionIndexText=this.GetOptionIndexText(optionIndex)
+  local optionText=this.GetOptionText(option)
+  local optionSeperator=this.GetOptionIndicator(option)
+  local settingIndex=""
+  local settingText=""
+  local settingSuffix=this.GetSettingSuffix(option)
 
-    return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+  return optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
 end--GetMenuLineText
 
 function this.DisplaySetting(optionIndex)      
