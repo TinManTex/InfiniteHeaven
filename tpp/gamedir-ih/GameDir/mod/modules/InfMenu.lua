@@ -489,7 +489,41 @@ local itemIndicators={
   activate=" >! ",
   on_change=" <> ",
 }
+function this.GetOptionIndicator(option)
+  local optionIndicator=""
+  if option.isMenuOff then
+    optionIndicator=itemIndicators.command_menu_off
+  elseif option.optionType=="COMMAND" then
+    optionIndicator=itemIndicators.command
+  elseif option.optionType=="MENU" then
+    optionIndicator=itemIndicators.menu
+  elseif IsFunc(option.GetSettingText) then
+    optionIndicator=itemIndicators.equals
+  elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
+    optionIndicator=itemIndicators.equals
+  elseif option.settingNames then
+    optionIndicator=itemIndicators.equals
+  else
+    optionIndicator=itemIndicators.equals
+  end
+  --KLUDGE
+  if optionIndicator==itemIndicators.equals then
+    --if option.isMode then
+    --  optionSeperator=itemIndicators.mode
 
+    --DEBUGNOW see if there's any ivars with both
+    if option.OnActivate then
+      if not option.noActivateText then
+        optionIndicator=itemIndicators.activate
+      end
+    elseif option.OnChange then
+      optionIndicator=itemIndicators.on_change
+    end
+  end  
+  
+  return optionIndicator
+end--GetOptionIndicator
+--DEBUGNOW: optionNameOnly not currently used?
 function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingTextOnly)
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex
@@ -521,26 +555,20 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
 
   itemIndex=optionIndex..":"
   optionText = option.description or InfLangProc.LangString(option.name)
+  
+  if not noItemIndicator then
+    optionSeperator=this.GetOptionIndicator(option)
+  end
 
   if option.isMenuOff then
-    if not noItemIndicator then
-      optionSeperator=itemIndicators.command_menu_off
-    end
     settingText=""
   elseif option.optionType=="COMMAND" then
-    if not noItemIndicator then
-      optionSeperator=itemIndicators.command
-    end
     settingText=""
   elseif option.optionType=="MENU" then
-    if not noItemIndicator then
-      optionSeperator=itemIndicators.menu
-    end
     settingText=""
   elseif currentSetting==nil then
     settingText=": ERROR: ivar==nil"
   elseif IsFunc(option.GetSettingText) then
-    optionSeperator=itemIndicators.equals
     settingText=InfCore.PCallDebug(option.GetSettingText,option,currentSetting)
     if settingText==nil then
       settingText=" WARNING: GetSettingText nil"
@@ -548,7 +576,6 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     end
     settingText=tostring(settingText)
   elseif IsTable(option.settingNames) then--tex direct table of names (like mbSelectedDemo) or the fallback - settings table
-    optionSeperator=itemIndicators.equals
     if currentSetting < 0 or currentSetting > #option.settingNames-1 then
       settingText=" WARNING: current setting out of settingNames bounds"
       InfCore.Log(settingText.." for option "..option.name)
@@ -557,25 +584,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
       settingText=option.settingNames[currentSetting+1]
     end
   elseif option.settingNames then
-    optionSeperator=itemIndicators.equals
     settingText=InfLangProc.LangTableString(option.settingNames,currentSetting+1)
   else
-    optionSeperator=itemIndicators.equals
     settingText=tostring(currentSetting)
-  end
-  --KLUDGE
-  if optionSeperator==itemIndicators.equals then
-    --if option.isMode then
-    --  optionSeperator=itemIndicators.mode
-
-    --DEBUGNOW see if there's any ivars with both
-    if option.OnActivate then
-      if not option.noActivateText then
-        optionSeperator=itemIndicators.activate
-      end
-    elseif option.OnChange then
-      optionSeperator=itemIndicators.on_change
-    end
   end
 
   if option.isPercent then
@@ -602,7 +613,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   end
 
   return fullSettingText
-end
+end--GetSettingText
 
 function this.DisplaySetting(optionIndex,optionNameOnly)
   local optionRef=this.currentMenuOptions[optionIndex]
