@@ -214,14 +214,14 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name))) 
         
         --tex see InfMenu.GetSettingText for how option and setting usually displayed
-        local itemIndexText=""
+        local optionIndexText=""
         local optionText=""
         local optionSeperator=""
         local settingIndex=""
         local settingText=""--tex really settingsText, but keeping naming the same as InfMenu.GetSettingText for easier comparison
         local settingSuffix=""  
        
-        itemIndexText=i..": "
+        optionIndexText=i..": "
         optionText=item.description or InfLangProc.LangString(item.name)
 
         --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],itemIndexText))
@@ -229,12 +229,12 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         if IsMenu(item) then
           menuCount=menuCount+1
 
-          table.insert(textTable,itemIndexText..optionText)
-          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],itemIndexText,item.name,optionText))
+          table.insert(textTable,optionIndexText..optionText)
+          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],optionIndexText,item.name,optionText))
         else
           local settingText=GetSettingsText(item) 
           
-          local settingsDisplayText=itemIndexText..optionText.." : "..settingText
+          local settingsDisplayText=optionIndexText..optionText.." : "..settingText
           table.insert(textTable,settingsDisplayText)
 
           settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
