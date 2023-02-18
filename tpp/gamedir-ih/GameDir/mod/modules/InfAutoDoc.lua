@@ -214,17 +214,17 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name))) 
         
         --tex see InfMenu.GetSettingText for how option and setting usually displayed
-        local optionIndexText=""
-        local optionText=""
+        local optionIndex=i
+        local option=item
+        
+        local optionIndexText=this.GetOptionIndexText(optionIndex)
+        local optionText=this.GetOptionText(option)
         local optionSeperator=""
         local settingIndex=""
         local settingText=""--tex really settingsText, but keeping naming the same as InfMenu.GetSettingText for easier comparison
         local settingSuffix=""  
-       
-        optionIndexText=i..": "
-        optionText=item.description or InfLangProc.LangString(item.name)
 
-        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],itemIndexText))
+        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],optionIndexText))
 
         if IsMenu(item) then
           menuCount=menuCount+1
