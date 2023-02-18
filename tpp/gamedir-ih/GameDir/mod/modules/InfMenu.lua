@@ -556,6 +556,9 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   end
   
   local currentSetting=ivars[option.name]
+  if currentSetting==nil then
+    InfCore.Log("ERROR: ivars["..option.name.."]==nil",true,true)
+  end
 
   --REF
   --1:SomeOption = 102
@@ -590,7 +593,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   end
 
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
-    settingIndex=currentSetting..":"
+    settingIndex=tostring(currentSetting)..":"
   end
 
   if settingTextOnly then
