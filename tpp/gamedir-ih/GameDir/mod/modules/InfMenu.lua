@@ -669,7 +669,7 @@ function this.DisplaySetting(optionIndex)
   end
   this.lastDisplay=GetElapsedTime()
 end
---tex display all
+--tex display all UNUSED CULL 
 function this.DisplaySettings()
   for i=1,#this.currentMenuOptions do
     this.DisplaySetting(i)
