@@ -479,6 +479,9 @@ function this.DisplayCurrentMenu()
   end  
 end--DisplayCurrentMenu
 
+function this.GetOptionText(option)
+  return option.description or InfLangProc.LangString(option.name) or ""
+end--GetOptionText
 local itemIndicators={
   equals=" = ",
   colon=" :",
@@ -593,7 +596,7 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
   local settingSuffix=""
 
   itemIndexText=optionIndex..":"
-  optionText = option.description or InfLangProc.LangString(option.name)
+  optionText=this.GetOptionText(option)
   
   if not noItemIndicator then
     optionSeperator=this.GetOptionIndicator(option)
