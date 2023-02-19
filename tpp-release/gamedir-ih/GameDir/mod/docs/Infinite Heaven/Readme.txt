@@ -1,5 +1,5 @@
 = Infinite heaven =
-r259 - 2023-01-18
+r259 - 2023-02-18
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatible IHHook version: r17 or later
@@ -10,7 +10,8 @@ Addon systems include allowing custom sidops, missions, enemy soldier types.
 
 Has several hundred toggleable options ranging from Subsistence mode for all missions, replay side-ops, Mother base invasions with multiple attack helicopters, Skull attacks in Free roam, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
-It is recommended to use IHHook, which is a script extender and graphical menu, alongside IH.
+It is highly recommended to use IHHook, which is a script extender and graphical menu that has mouse and keyboard support, alongside IH.
+[url=https://www.nexusmods.com/metalgearsolidvtpp/mods/1226]IHHook on NexusMods[/url]
 
 Full Infinite Heaven features and options:
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
@@ -24,18 +25,34 @@ Recent changes/additions
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
-r259 - 2023-01-18
+r259 - 2023-02-18
 Fix: InfPositions Loadposistions, thanks cap for fix.
 Fix: ih_mission_states not restoring, thanks cap for report.
-Fix: Start missions on foot hang on mission end if MB demo triggered. Thanks OldBoss for the report and save files.
+Fix: Start missions on foot hang on mission end if MB demo triggered. This is an anchient bug that has unfortunately likely been around almost as long as IH itself. Thanks OldBoss for the report and save files.
 Fix: profiles breaking due to help strings with newlines. thanks EntranceJew for the report.
 InfLookup: A lot of Message signatures, and general message logging rework from EntranceJew
 Debugging: Bunch of flow logging to get a better understanding of infinite loading screen, though the answer there is most often just 'the exe is loading stuff and it didn't like something aboout one of the data files'
-Fix: InfWeather losing addon weather info on script reload, thanks EntranceJew for the report. 
+Fix: InfWeather losing addon weather info on script reload, thanks EntranceJew for the report.
+Fix: appearanceDebugMenu fova ivars fix. They still don't do anything, but they were breaking the menu. And due to the exe crash issue after applying several times it's still of limited use. Thanks retali8 for the report.
+Fix: 'Warp to last user marker' and Warp body to FreeCam position remove announcelog spam that queues when warping - Thanks SinovialVermin8 for the report
+Fix: 'Support heli to marker' failing with '#coords.pos~=3' warning. Seems feature was broken as of last version - thanks Dr Solus for the report.
+
+InfMotion|Motions menu > motionWarpToOrig|"Warp to original position after play". Since some animations move player position through geometry this may help to recover - thanks caplag for implementation.
 
 Mission Addons: various features that were limited to vanilla freeroam now work in addons.
 
-InfMotion: motionWarpToOrig, Warp to original position after play. Since some animations move player position through geometry this may help to recover - thanks caplag for implementation.
+IH Saves: ih_mission_states, ih_quest_states, ih_priority_staff now only save if the related features are used. So possibly slight better performance when saving.
+Existing files will still hang around even if they have no meaningful data in them though.
+Are also now checked to see if they exist first before loading them, so no potentially confusing error message it used to log when trying to load them reguardless.
+
+Debugging and dev stuff:
+ivars GettSettingText calls wrapped in PCallDebug, and log a warning to make it easier to track down broken functions (and not have them break the menu).
+
+Some loading logging, probably won't catch much since most load hangs will be inside exe and lua will just be waiting for TppMission.CanStart which will never come.
+
+InfCore.PCall correct multi returns - thanks EntranceJew for the method.
+
+PCall and LoadExternalModule announceLogs errors.
 
 See Change Log.txt for more detail.
 Or the github repo commits:
@@ -54,14 +71,20 @@ or
 
 Usage:
 ------------------------------
-
-Infinite Heaven menu:
-
+Opening the Infinite Heaven menu:
 While in ACC Heli (Safe-space menu), or in-mission (In-mission menu)
 Press and hold <Switch Zoom> (V key or RStick click) then press <Dash> (shift key or LStick click) to toggle the mod menu when in the ACC or in-mission.
 
+Or hold <Evade> (Space key or X button)
+This can be disabled (via IH system menu > Disable hold menu toggle) if it interferes with your play, the above key combo will still work.
 
-The menu system will display the current
+Also, if IHHook is installed, press F3 key.
+
+Using the menu:
+If you do not have IHHook installed, or IHExt enabled, Infinite Heaven menu will use the Announce Log on the lower left, which is very limited due to its update rate.
+While the menu it will repeatedly show just the current menu option.
+
+Description of menu items:
 [#]: [Option name] [Effect/ item type symbol] [Setting value or description] 
 Example:
 4: Mobility level = 2:Grade 2

@@ -917,26 +917,38 @@ this.cpPositions={
 }--cpPositions
 --CALLER: InfMain.OnInitializeTop
 --OUT/SIDE: this.cpPositions
+--tex TODO: consider, this adds lrrp cps
+local stringfind=string.find
 function this.BuildCpPositions(soldierDefine)
   InfCore.LogFlow("InfMain.BuildCpPositions")
   local locationName=TppLocation.GetLocationName()
   this.cpPositions[locationName]=this.cpPositions[locationName] or {}
 
   for cpName,cpDefine in pairs(soldierDefine)do
+    if not stringfind(cpName,"_lrrp") then
     if cpName~="quest_cp"then--tex DEBUGNOW check pos isn't 0,0,0 instead?
       local cpId=GetGameObjectId(cpName)
       if not cpId or cpId==NULL_ID then
-        InfCore.Log("WARNING: InfMain.BuildCpPositions: cpId==NULL_ID for cpName:"..tostring(cpName))
+          InfCore.Log("WARNING: InfMain.BuildCpPositions: cpId==NULL_ID for soldierDefine cpName:"..tostring(cpName))
       else
         local cpPos=SendCommand(cpId,{id="GetCpPosition"})
         if this.debugModule then
-          InfCore.PrintInspect(cpPos,"cpPos for "..cpName)
+            local existingPos=this.cpPositions[locationName][cpName]
+            if existingPos then
+              local existPosStr=InfInspect.Inspect(existingPos)
+              local newPostStr=InfInspect.Inspect(cpPos)
+              InfCore.Log("cpPos for "..cpName.." replacing existing "..existPosStr.." with "..newPostStr)
+            else
+              InfCore.PrintInspect(cpPos,"cpPos for "..cpName.." no existing in cpPositions")
+            end
         end
         this.cpPositions[locationName][cpName]=cpPos
       end--if cpId
     end--~="quest_cp"
+    end--if not _lrrp
   end--for ene_cpList
 end--BuildCpPositions
+local FindDistance=TppMath.FindDistance
 function this.GetClosestCp(position)
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   position=position or playerPos
@@ -953,21 +965,20 @@ function this.GetClosestCp(position)
   local closestPosition=nil
   for cpName,cpPosition in pairs(cpPositions)do
     if cpPosition==nil then
-      InfCore.DebugPrint("cpPosition==nil for "..tostring(cpName))
-      return
+      InfCore.Log("ERROR: GetClosestCp cpPosition==nil for "..tostring(cpName),true,true)
     elseif #cpPosition~=3 then
-      InfCore.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
-      return
-    end
-
-    local distSqr=TppMath.FindDistance(position,cpPosition)
-    --InfCore.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
-    if distSqr<closestDist then
-      closestDist=distSqr
-      closestCp=cpName
-      closestPosition=cpPosition
-    end
-  end
+      InfCore.Log("ERROR: GetClosestCp #cpPosition~=3 for "..tostring(cpName),true,true)
+      InfCore.PrintInspect(cpPosition,cpName.." cpPosition")
+    else
+      local distSqr=FindDistance(position,cpPosition)
+      --InfCore.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
+      if distSqr<closestDist then
+        closestDist=distSqr
+        closestCp=cpName
+        closestPosition=cpPosition
+      end
+    end--if cpPos ok
+  end--for cpPositions
   --InfCore.DebugPrint("Closest cp "..InfLangProc.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
   local cpId=GetGameObjectId(closestCp)
   if cpId and cpId~=NULL_ID then
@@ -975,7 +986,7 @@ function this.GetClosestCp(position)
   else
     return
   end
-end
+end--GetClosestCp
 --<cp stuff
 
 --actionflags

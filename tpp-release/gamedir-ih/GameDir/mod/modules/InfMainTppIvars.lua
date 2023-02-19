@@ -647,9 +647,9 @@ this.playerHandEquip={
 
   settingsTable=playerHandEquipIds,
   --settingNames="set_",
-  OnSelect=function(self)
+  --OnSelect=function(self)
   -- self:Set(vars.handEquip,true)
-  end,
+  --end,
   OnChange=function(self,setting)
     if setting>0 then--TODO: add off/default/noset setting
       --DEBUG OFF vars.playerHandType=handEquipTypeToHandType[playerHandEquipTypes[setting]]
