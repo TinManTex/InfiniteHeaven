@@ -21,6 +21,9 @@ IH Saves: ih_mission_states, ih_quest_states, ih_priority_staff now only save if
 Existing files will still hang around even if they have no meaningful data in them though.
 Are also now checked to see if they exist first before loading them, so no potentially confusing error message it used to log when trying to load them reguardless.
 
+InfAutoDoc:
+Features and Options docs using same option type indicator as menus. Commands no longer show a 0-1 range.
+
 Debugging and dev stuff:
 ivars GettSettingText calls wrapped in PCallDebug, and log a warning to make it easier to track down broken functions (and not have them break the menu).
 
