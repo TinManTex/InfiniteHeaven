@@ -56,7 +56,13 @@ end
 local function GetSettingsText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
-  if option.settingNamesDoc then
+  if option.isMenuOff then
+    settingText=""
+  elseif option.optionType=="COMMAND" then
+    settingText=""
+  elseif option.optionType=="MENU" then
+    settingText=""
+  elseif option.settingNamesDoc then
     settingText=InfLangProc.LangString(option.settingNamesDoc)
   elseif settingNames and IsTable(settingNames) then  --tex old style direct non localized table, or the settings themselves, 
   --normally GetSettingText would before this, but that's a lot more complicated since you need to OnSelect them first if its doing something dynamic
