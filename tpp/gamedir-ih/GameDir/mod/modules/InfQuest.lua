@@ -76,6 +76,10 @@ function this.OnAllocate(missionTable)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
+  if TppMission.IsHelicopterSpace(vars.missionCode) then
+    return
+  end
+
   local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
   local locationId=TppDefine.LOCATION_ID[locationName]
 
@@ -86,9 +90,12 @@ function this.AddMissionPacks(missionCode,packPaths)
       if questInfo.locationId==locationId then
         if TppQuest.CanActiveQuestInMission(missionCode,questName)then
           if TppQuest.IsActive(questName) then
+            if this.debugModule then
+              InfCore.PrintInspect(questInfo,"InfQuest AddMissionPacks questInfo "..questName.." missionCode:"..missionCode.." locationName:"..locationName.." locationId:"..locationId)
+            end
             local packs=questInfo.missionPacks[missionCode] or questInfo.missionPacks--tex LEGACY: don't actually need to push packs into [missionCode] subtable now that I'm filtering by location and CanActiveQuestInMission
             if locationName=="MTBS" then
-              packs=packs[vars.mbLayoutCode] or packs[0]
+              packs=packs[vars.mbLayoutCode] or packs[0] or packs
             end
             for i,packPath in ipairs(packs)do
               packPaths[#packPaths+1]=packPath
