@@ -4522,7 +4522,7 @@ sequences.Seq_Demo_SahelanFalling = {
 		
 		StageBlockCurrentPositionSetter.SetEnable( false )
 		
-		Player.UnSetPause()
+		Player.UnSetPause()--RETAILBUG: TYPO: function name is actually Player.UnsetPause
 	end,
 }
 

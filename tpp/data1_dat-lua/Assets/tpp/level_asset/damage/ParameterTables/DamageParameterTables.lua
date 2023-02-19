@@ -40,6 +40,7 @@ this.parameterNames={
   "staminaDamage",--idx:31, ex:0, --[[ Non-Lethal Damage Value ]]
   "impactForce",--idx:32, ex:300, --[[ Impact Force ]
 }--parameterNames
+--GOTCHA: Tpp not loaded at this point, so manually enum it
 this.parameterEnum={}
 for i,parameterName in ipairs(this.parameterNames)do
   this.parameterEnum[parameterName]=i

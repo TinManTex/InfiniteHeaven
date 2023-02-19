@@ -55,10 +55,10 @@ function this.RegisterSequenceTable(sequences)
     return
   end
   mvars.seq_sequenceTable=Tpp.MergeTable(sequences,baseSequences,true)
-  local s={}
-  for t,n in ipairs(mvars.seq_sequenceNames)do
-    if sequences[n]==nil then
-      sequences[n]=s
+  local emptyTable={}
+  for idx,name in ipairs(mvars.seq_sequenceNames)do
+    if sequences[name]==nil then
+      sequences[name]=emptyTable
     end
   end
 end
@@ -253,9 +253,9 @@ baseSequences.Seq_Mission_Prepare={
       TppUI.ShowAccessIconContinue()
     end
     TppMission.ExecuteSystemCallback"OnUpdateWhileMissionPrepare"
-    local r=30
-    local d=.35
-    local isScannedAorB=false
+    local maxTextureLoadWaitStartTime=30
+    local maxTextureLoadedRate=.35
+    local continueMissionPrepare=false
     local RENAMEsomebool=false
     local textureLoadedRate=Mission.GetTextureLoadedRate()
     local missionCanStart=TppMission.CanStart()
@@ -264,7 +264,7 @@ baseSequences.Seq_Mission_Prepare={
       textureLoadedRate=1
     end
     local textureLoadStartDelta=0
-    local t=r
+    local textureLoadWaitTimeLeft=maxTextureLoadWaitStartTime
     local currentTime=Time.GetRawElapsedTimeSinceStartUp()
     local canStartTimeDelta=currentTime-mvars.seq_canMissionStartWaitStartTime
     if(missionCanStart==false)and(canStartTimeDelta>canStartTimespan)then
@@ -291,35 +291,38 @@ baseSequences.Seq_Mission_Prepare={
         mvars.seq_textureLoadWaitStartTime=currentTime
       end
       textureLoadStartDelta=Time.GetRawElapsedTimeSinceStartUp()-mvars.seq_textureLoadWaitStartTime
-      t=r-textureLoadStartDelta
-      if(textureLoadedRate>d)or(t<0)then
-        isScannedAorB=true
+      textureLoadWaitTimeLeft=maxTextureLoadWaitStartTime-textureLoadStartDelta
+      if(textureLoadedRate>maxTextureLoadedRate)or(textureLoadWaitTimeLeft<0)then
+        continueMissionPrepare=true
       end
-      if mvars.seq_forceStopWhileNotPressedPad then
-        isScannedAorB=DebugPad.IsScannedAorB()
-        if isScannedAorB then
+      if mvars.seq_forceStopWhileNotPressedPad then--NMC never set? guess it was some debugging thing?
+        continueMissionPrepare=DebugPad.IsScannedAorB()
+        if continueMissionPrepare then
           mvars.seq_forceStopWhileNotPressedPad=false
         end
       end
     end
-    if not isScannedAorB then
+    if not continueMissionPrepare then
       return
     end
+    --GOTCHA: textureLoadedRate gets set to 0 somewhere past this point so it gets caught back into continueMissionPrepare for a while
     if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
       mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_SAVING_FILE
       TppMain.OnMissionStartSaving()
     end
     if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_SAVING_FILE)then
       mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.END_SAVING_FILE
-      if t<0 then
+      if textureLoadWaitTimeLeft<0 then
       end
       TppMain.OnMissionCanStart()
+      --NMC something else has ended loading tips, TppUi.FadeIn > FadeFunction.CallFadeIn maybe?
       if TppUiCommand.IsEndLoadingTips()then
         TppUI.FinishLoadingTips()
         TimerStart("Timer_WaitStartingGame",waitStartTime)
       else
         if gvars.waitLoadingTipsEnd then
           mvars.seq_nowWaitingPushEndLoadingTips=true
+          --NMC I think this enables the Continue button
           TppUiCommand.PermitEndLoadingTips()
         else
           TppUI.FinishLoadingTips()

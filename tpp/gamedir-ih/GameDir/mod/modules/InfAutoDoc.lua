@@ -1,7 +1,12 @@
--- DOBUILD: 0
 -- InfAutoDoc.lua
 -- Builds the features documentation by iterating Infinite Heavens menu modules
 -- See the main function AutoDoc
+
+--InfAutoDoc has been around forever to build the Features and Options documents, but has been shifted into IH (well returned since it started as an IH command)
+--as of r258 due to a change in the IH dev layout that would take a bunch more work to work around.
+--That does add a couple of hoops to jump to an IH release, but it removes the need to run it through an external lua distro.
+--Basically have to do a release build, run it off that, and copy the modified files (docs /Features and Options txt html and profiles/All_Options_Example.lua) back over the repo versions.
+--And as a bonus you can run it to add any mod added menus/options to the docs.
 -- TODO: list autoDoc vars on ivars/menus
 --overrides useful for stuff that gets set dynamically
 -- ivars:
@@ -44,41 +49,50 @@ local function CharacterLine(character,length)
 end
 
 --WORKAROUND TODO REDO
-local function GetSettingText(option)
+--gathers all the settings (but not the preceding setting text)
+--TODO: get closer to InfMenu.GetSettingText
+--TODO: option.settingNamesDoc
+--TODO: search workspace for options that have OnSelect, add settingNamesDoc to 
+local function GetSettingsText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
-  if settingNames then
-    if settingNames=="set_do" then--KLUDGE WORKAROUND
-      return "(Command)"
-    end
-    --tex old style direct non localized table
-    if IsTable(settingNames) then
-      --DEBUG OFF TODO settingText=option.setting..":"..settingNames[option.setting+1]
-      for i,settingName in ipairs(settingNames)do
-        if type(settingName)~="string" then
-          InfCore.Log("WARNING: type settingName ~= string for option "..tostring(option.name))
-        else
-        settingText=settingText..settingName..", "
-        end
+  if option.isMenuOff then
+    settingText=""
+  elseif option.optionType=="COMMAND" then
+    settingText=""
+  elseif option.optionType=="MENU" then
+    settingText=""
+  elseif option.settingNamesDoc then
+    settingText=InfLangProc.LangString(option.settingNamesDoc)
+  elseif settingNames and IsTable(settingNames) then  --tex old style direct non localized table, or the settings themselves, 
+  --normally GetSettingText would before this, but that's a lot more complicated since you need to OnSelect them first if its doing something dynamic
+    for i,settingName in ipairs(settingNames)do
+      if type(settingName)~="string" then
+        InfCore.Log("WARNING: type settingName ~= string for option "..tostring(option.name))
+      else
+      settingText=settingText..settingName..", "
       end
+    end
 
-      settingText=string.sub(settingText,1,#settingText-2)
-    else
-      local settingTable=InfLangProc.LangTable(settingNames)
-      --settingText=InfInspect.Inspect(settingTable)
-      for i,settingName in ipairs(settingTable)do
-        settingText=settingText..settingName..", "
-      end
-      settingText=string.sub(settingText,1,#settingText-2)
-      --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
+    settingText=string.sub(settingText,1,#settingText-2)
+  elseif settingNames then--tex just a string langTable id
+    local settingTable=InfLangProc.LangTable(settingNames)
+    --settingText=InfInspect.Inspect(settingTable)
+    for i,settingName in ipairs(settingTable)do
+      settingText=settingText..settingName..", "
     end
-  elseif IsFunc(option.GetSettingText) then
-    if option:GetSettingText(0)==nil then
-      InfCore.Log("option:GetSettingText(0)==nil for "..option.name)--DEBUG
-      settingText="nil"
-    else
-      settingText=tostring(option:GetSettingText(0))
-    end
+    settingText=string.sub(settingText,1,#settingText-2)
+    --tex OFF rethink
+    --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
+--  elseif IsFunc(option.GetSettingText) then
+--    --tex TODO: output whole range instead of just first
+--    local i=0
+--    if option:GetSettingText(i)==nil then
+--      InfCore.Log("option:GetSettingText("..i..")==nil for "..option.name)--DEBUG
+--      settingText="nil"
+--    else
+--      settingText=tostring(option:GetSettingText(i))
+--    end
   elseif option.isPercent then
     if option.range then
       settingText=option.range.min.."-"..option.range.max.."%"
@@ -97,11 +111,11 @@ local function GetSettingText(option)
       settingText="DEBUGNOW GetSettingsText no decent output found"--DEBUG TODO
     end
   end
-  if option.usesIHH then
+  if option.requiresIHHook then
     settingText=settingText.." [Requires IHHook]"
   end
   return settingText
-end
+end--GetSettingsText
 
 local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   --InfCore.Log("GatherMenus:")
@@ -169,7 +183,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
     table.insert(profileTable,"\t\t--"..menuDisplayName)
   end
   
-  if menu.usesIHH then
+  if menu.requiresIHHook then
     --table.insert(textTable," [Requires IHHook]")
     --table.insert(htmlTable," [Requires IHHook]")
   end
@@ -199,30 +213,40 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
 
       if skipItems and skipItemsList[item.name] then
 
-      else
+      else        
         --DEBUG
         --      InfCore.Log("name:"..item.name)
         --      InfCore.Log("desc:"..tostring(item.description))
-        --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name)))
-        local settingDescription=item.description or InfLangProc.LangString(item.name)
-        local indexDisplayLine=i..": "
+        --      InfCore.Log("langstr:"..tostring(InfLangProc.LangString(item.name))) 
+        
+        --tex see InfMenu.GetSettingText for how option and setting usually displayed
+        local optionIndex=i
+        local option=item
+        
+        local optionIndexText=InfMenu.GetOptionIndexText(optionIndex)
+        local optionText=InfMenu.GetOptionText(option)
+        local optionSeperator=InfMenu.GetOptionIndicator(option)
+        local settingIndex=""
+        local settingText=""--tex really settingsText, but keeping naming the same as InfMenu.GetSettingText for easier comparison
+        local settingSuffix=""  
 
-        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
+        --table.insert(htmlTable,string.format([[<div id="itemIndex">%s</div>]],optionIndexText))
 
         if IsMenu(item) then
           menuCount=menuCount+1
 
-          table.insert(textTable,indexDisplayLine..settingDescription)
-          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription))
+          table.insert(textTable,optionIndexText..optionText)
+          table.insert(htmlTable,string.format([[<div>%s<a href="#%s">%s</a></div>]],optionIndexText,item.name,optionText))
         else
-          local settingText=GetSettingText(item)--DEBUG WORKAROUND InfMenu.GetSettingText(i,item)
-          table.insert(textTable,indexDisplayLine..settingDescription.." : "..settingText)
+          local settingText=GetSettingsText(item) 
+          
+          local optionAndSettingText=optionIndexText..optionText..optionSeperator..settingIndex..settingText..settingSuffix
+          table.insert(textTable,optionAndSettingText)
 
-          local settingsDisplayText=settingDescription.." : "..settingText
-          settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
-          settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
-          table.insert(htmlTable,string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText))
-          --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription))
+          optionAndSettingText=string.gsub(optionAndSettingText,"<","&lt")
+          optionAndSettingText=string.gsub(optionAndSettingText,">","&gt")
+          table.insert(htmlTable,string.format([[<div>%s</div>]],optionAndSettingText))
+          --table.insert(htmlTable,string.format([[<div id="%s">%s</div>]],item.name,itemIndexText..settingDescription))
 
           local helpLangString=InfLang.help.eng[item.name]
           if helpLangString then
@@ -236,48 +260,11 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
           end
 
           if IsForProfileAutoDoc(item,menu,priorMenus,priorItems) then
-            local profileLine={}
-            table.insert(profileLine,"\t\t"..item.name.."=")
-            --InfCore.Log("profileline --- "..item.name)--DEBUG
-            if item.settings then
-              local setting=item.settings[item.default+1]
-              if setting and setting~="DEFAULT" and setting~="OFF" then
-                table.insert(profileLine,"\""..setting.."\"")
-              else
-                table.insert(profileLine,item.default)
-              end
-            else
-              table.insert(profileLine,item.default)
-            end
-            table.insert(profileLine,",")
-
-            local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
-            table.insert(profileLine,"--")
-            if item.settings then
-              table.insert(profileLine,"{ ")
-              for i,setting in ipairs(item.settings)do
-                table.insert(profileLine,setting)
-                if i~=#item.settings then
-                  table.insert(profileLine,", ")
-                end
-              end
-              table.insert(profileLine," }")
-            else
-              table.insert(profileLine,"{ ")
-              table.insert(profileLine,item.range.min.."-"..item.range.max)
-              table.insert(profileLine," }")
-            end
-            if not item.save then
-              table.insert(profileLine," -- Non-save")
-            end
-            table.insert(profileLine," -- "..optionName)
-            if item.isPercent then
-              table.insert(profileLine," (percentage)")
-            end
+            local profileLine=this.GetProfileLine(item)
             table.insert(profileTable,table.concat(profileLine))
-
+          
             priorItems[item.name]=true
-          end
+          end--if IsForProfileAutoDoc
         end
       end
     end
@@ -285,6 +272,49 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
   end
   table.insert(htmlTable,"</div>")--id=menu
 end
+
+function this.GetProfileLine(item)
+  local profileLine={}
+  table.insert(profileLine,"\t\t"..item.name.."=")
+  --InfCore.Log("profileline --- "..item.name)--DEBUG
+  if item.settings then
+    local setting=item.settings[item.default+1]
+    if setting and setting~="DEFAULT" and setting~="OFF" then
+      table.insert(profileLine,"\""..setting.."\"")
+    else
+      table.insert(profileLine,item.default)
+    end
+  else
+    table.insert(profileLine,item.default)
+  end
+  table.insert(profileLine,",")
+
+  local optionName=InfLang.eng[item.name] or InfLang.help.eng[item.name] or ""
+  table.insert(profileLine,"--[[")
+  if item.settings then
+    table.insert(profileLine,"{ ")
+    for i,setting in ipairs(item.settings)do
+      table.insert(profileLine,setting)
+      if i~=#item.settings then
+        table.insert(profileLine,", ")
+      end
+    end
+    table.insert(profileLine," }")
+  else
+    table.insert(profileLine,"{ ")
+    table.insert(profileLine,item.range.min.."-"..item.range.max)
+    table.insert(profileLine," }")
+  end
+  if not item.save then
+    table.insert(profileLine," -- Non-save")
+  end
+  table.insert(profileLine," -- "..optionName)
+  if item.isPercent then
+    table.insert(profileLine," (percentage)")
+  end
+  table.insert(profileLine,"]]")
+  return profileLine
+end--GetProfileLine
 
 local function EscapeHtml(line)
   line=string.gsub(line,"<","&lt")

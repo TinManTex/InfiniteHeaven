@@ -2042,6 +2042,7 @@ function this.OnAbortMissionPreparation()
   gvars.heli_missionStartRoute=0
 end
 function this.WaitFinishMissionEndPresentation()
+  InfCore.LogFlow"TppMission.WaitFinishMissionEndPresentation"--tex
   while(not TppUiCommand.IsEndMissionTelop())do
     if TppUiCommand.KeepMissionStartTelopBg then
       TppUiCommand.KeepMissionStartTelopBg(false)
@@ -3201,7 +3202,7 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   TppRanking.SendCurrentRankingScore()
   do
     local missionCode=this.GetMissionID()
-    local allowFree=(missionCode==30010 or missionCode==30020) and Ivars.disableNoStealthCombatRevengeMission:Is(1)--tex
+    local allowFree=(TppMission.IsFreeMission(missionCode) and not TppMission.IsMbFreeMissions(missionCode)) and Ivars.disableNoStealthCombatRevengeMission:Is(1)--tex
     if(not this.IsFOBMission(missionCode)and (not this.IsFreeMission(missionCode) or allowFree))and not this.IsHelicopterSpace(missionCode)then--tex added allowFree
       TppRevenge.ReduceRevengePointOnMissionClear(missionCode)
     end
@@ -3747,6 +3748,7 @@ end
 function this.GetNextMissionCodeForMissionClear()
   return gvars.mis_nextMissionCodeForMissionClear
 end
+--CALLER: init and helispace
 function this.AlwaysMissionCanStart()
   mvars.mis_alwaysMissionCanStart=true
 end
@@ -3797,19 +3799,21 @@ function this.ForceGoToMbFreeIfExistMbDemo()
   if not clearType[missionClearType]then
     return
   end
-  local forceDemoName=TppStory.GetForceMBDemoNameOrRadioList"forceMBDemo"
-  if forceDemoName then
-    TppDemo.SetNextMBDemo(forceDemoName)
-    if TppDefine.MB_FREEPLAY_RIDEONHELI_DEMO_DEFINE[forceDemoName]~=nil then
+  local forcedDemoName=TppStory.GetForceMBDemoNameOrRadioList"forceMBDemo"
+  if forcedDemoName then
+    InfCore.LogFlow("ForceGoToMbFreeIfExistMbDemo forcedDemoName:"..tostring(forcedDemoName))--tex
+    TppDemo.SetNextMBDemo(forcedDemoName)
+    if TppDefine.MB_FREEPLAY_RIDEONHELI_DEMO_DEFINE[forcedDemoName]~=nil then
       this.SetNextMissionStartHeliRoute"ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr"
     end
     this.SetNextMissionCodeForMissionClear(TppDefine.SYS_MISSION_ID.MTBS_FREE)
     this.SeizeReliefVehicleOnForceGoToMb()
   end
-  local n=TppStory.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=forceDemoName})
-  if n then
-    TppRadio.SaveRewardEndRadioList(n)
-    if n[1]=="f6000_rtrg0310"then--PATCHUP:
+  local forcedBlackTelephoneList=TppStory.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=forcedDemoName})
+  if forcedBlackTelephoneList then
+    InfCore.LogFlow("ForceGoToMbFreeIfExistMbDemo forcedBlackTelephoneName:"..tostring(forcedBlackTelephoneList[1]))--tex
+    TppRadio.SaveRewardEndRadioList(forcedBlackTelephoneList)
+    if forcedBlackTelephoneList[1]=="f6000_rtrg0310"then--PATCHUP:
       this.SetNextMissionCodeForMissionClear(TppDefine.SYS_MISSION_ID.MAFR_HELI)
     else
       this.SetNextMissionCodeForMissionClear(TppDefine.SYS_MISSION_ID.MTBS_FREE)

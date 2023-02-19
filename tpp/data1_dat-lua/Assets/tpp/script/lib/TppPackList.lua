@@ -175,11 +175,12 @@ function this.GetMissionTypeAndMissionName(missionCode)
 end
 --NMC tex this is pretty jank, but works with custom locations since IH patches LOCATION_HAVE_MISSION_LIST
 --however his lumps mbqf missions as MTBS
---GOTCHA: only returns addon missions after TppMission.AddInLocations is exec
+--GOTCHA: only returns addon missions after InfMission.AddInLocations is exec (which is via loadlibraries, so you probably wont be calling it before that), see also TppLocation.GetLocationName
 --GOTCHA: returns uppercase
 --SEO GetLocationNameForMissionCode (actual function is mispelled v)
 --LocationForMission
 function this.GetLocationNameFormMissionCode(missionCode)
+  --InfCore.LogFlow("TppPackList.GetLocationNameFormMissionCode:"..tostring(missionCode))--tex DEBUGGING the above issue, verifying its not called before AddInLocations
   local locationName
   for location,missions in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST)do
     for i,mission in pairs(missions)do

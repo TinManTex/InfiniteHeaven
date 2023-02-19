@@ -109,7 +109,16 @@ this.WarpToLastUserMarker=function()
     --InfCore.DebugPrint("lastMarkerIndex==nil")
     InfMenu.PrintLangId"no_marker_found"
   else
-    this.PrintUserMarker(lastMarkerIndex)
+    if this.debugModule then
+      this.PrintUserMarker(lastMarkerIndex)
+    end
+    --tex WORKAROUND: scannedButtonDirect seemingly doesnt get updated while TppPlayer.Warp is running
+    --so if this command is activated via menu buttons it will repeatedly be activated as InfMenu.Update will still be being called 
+    --while it's not so much of a deal with IHHook/IHExt, using IH announcelog menu it will queue up a lot of spam that will take a while to clear once the warp is done
+    --InfCore.Log("warp repeat test")--DEBUG
+    if InfMenu.menuOn and ivars.enableIHExt==0 and IHH==nil then
+      InfMenu.MenuOff()
+    end
     this.WarpToUserMarker(lastMarkerIndex)
   end
 end
@@ -225,9 +234,10 @@ function this.PrintMarkerGameObject(index)
     InfCore.Log("status:"..tostring(status).." lifeStatus:"..tostring(lifeStatus))
     --tex state bitflag (not just an enum) so use bitops bit. lib
     --REF
-    --StateFlag.DYING_LIFE
+    --StateFlag.
+      --NONE = 0,
       --DYING_LIFE = 1,
-      --2??
+      --HELI_RECOVERED = 2,
       --ZOMBIE = 4,
     local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
     InfCore.Log("stateFlag:"..tostring(stateFlag))
@@ -404,7 +414,9 @@ function this.WarpToUserMarker(index)
     end
   end
 
-  InfCore.DebugPrint(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
+  if this.debugModule then
+    InfCore.Log(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ(),true)
+  end
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 

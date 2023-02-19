@@ -29,6 +29,7 @@ this.registerIvars={
   "motionRepeat",
   "motionCloseMenuOnPlay",
   "motionPrintOnPlay",
+  "motionWarpToOrig",
 }
 
 --menu command
@@ -109,6 +110,12 @@ this.motionPrintOnPlay={
   settingNames="set_switch"
 }
 
+this.motionWarpToOrig={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch"
+}
+
 --<
 this.registerMenus={
   "motionsMenu",
@@ -123,6 +130,7 @@ this.motionsMenu={
     "Ivars.motionRepeat",
     "Ivars.motionCloseMenuOnPlay",
     "Ivars.motionPrintOnPlay",
+    "Ivars.motionWarpToOrig",
     "InfMotion.StopMotion",
     "InfMotion.PlayCurrentMotionCommand",
   }
@@ -138,6 +146,7 @@ this.langStrings={
     motionRepeat="Repeat motion",
     motionCloseMenuOnPlay="Close menu on Playing motion",
     motionPrintOnPlay="Print motion name on play",
+    motionWarpToOrig="Warp to original position after play",
     stopMotion="Stop motion",
     playCurrentMotionCommand="Play motion",
   },
@@ -148,6 +157,7 @@ this.langStrings={
       motionGaniIndex="Press <Action> to play the selected animation.",
       motionHold="Holds motion, requires stop motion to stop.",
       motionRepeat="Repeat motion at end, some animations don't support this.",
+      motionWarpToOrig="Since some animations move player position through geometry this may help to recover",
       stopMotion="Use to stop motions with motion hold or motion repeat.",
       playCurrentMotionCommand="Closes menu and plays current selected motion.",
     },
@@ -442,10 +452,19 @@ function this.PlayCurrentMotion()
   --      false
   --    }
   --  }
+  if Ivars.motionWarpToOrig:Is(1)then
+    if not this.playerPos then
+      this.playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY}
+    end
+  end
 end--PlayCurrentMotion
 
 function this.StopMotion()
   Player.RequestToStopDirectMotion()
+  if this.playerPos then
+    TppPlayer.Warp{pos={this.playerPos[1],this.playerPos[2],this.playerPos[3]},rotY=this.playerPos[4]}
+    this.playerPos=nil
+  end
 end
 
 --Commands for quick menu
@@ -489,6 +508,36 @@ function this.AddMissionPacks(missionCode,packPaths)
   for i,packPath in ipairs(this.packages) do
     packPaths[#packPaths+1]=packPath
   end
+end
+
+function this.Messages()
+	return Tpp.StrCode32Table{
+		Player = {
+      {
+        msg="DirectMotion",--after Player.RequestToPlayDirectMotion is called
+        func=function(animName,animStage,isFinished)
+          if Ivars.motionWarpToOrig:Is(1) then
+            if not Ivars.motionHold:Is(1) then
+              if isFinished==1 then
+                if this.playerPos then
+                  TppPlayer.Warp{pos={this.playerPos[1],this.playerPos[2],this.playerPos[3]},rotY=this.playerPos[4]}
+                  this.playerPos=nil
+                end
+              end
+            end
+          end
+        end
+      },
+		},
+	}
+end
+
+function this.OnMessage(sender, messageId, arg0, arg1, arg2, arg3, strLogText)
+	Tpp.DoMessage(this.messageExecTable, TppMission.CheckMessageOption, sender, messageId, arg0, arg1, arg2, arg3, strLogText)
+end
+
+function this.Init(missionTable)
+	this.messageExecTable = Tpp.MakeMessageExecTable(this.Messages())
 end
 
 return this

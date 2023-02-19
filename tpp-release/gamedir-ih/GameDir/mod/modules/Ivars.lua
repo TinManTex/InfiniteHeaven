@@ -49,7 +49,13 @@ this.isSaveDirty=true--tex start dirty so BuildSaveText actually builds initial 
 
 --tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
 this.missionModeIvarsNames={}
-this.missionModeIvars={}
+--tex built via RegisterMissionModeIvars
+this.missionModeIvars={
+  --[missionModeIvarsName]={
+  --  <missionMode Ivar>
+  --  ...
+  --}
+}
 
 this.profiles={}
 --
@@ -680,7 +686,7 @@ function this.BuildIvar(name,ivar)
     end
   end--is ivar
   return ivar
-end
+end--BuildIvar
 
 function this.SetupIvars()
   InfCore.LogFlow("Ivars.SetupIvars")
@@ -689,20 +695,16 @@ function this.SetupIvars()
   end
 end
 
-function this.PostAllModulesLoad()
-  InfCore.LogFlow("Adding module Ivars")
-  --tex add module ivars to this
-  for i,module in ipairs(InfModules) do
-    if module.registerIvars and module~=Ivars then
-      if this.debugModule then
-        InfCore.PrintInspect(module.registerIvars,module.name..".registerIvars")
-      end
-      for j,name in pairs(module.registerIvars)do
-        local ivarDef=module[name]
+--ivarTable: table that has ivars in it. ex: a module
+--ivarNames: list of names of the ivar in the ivarTable ex module.registerIvars
+--OUT/SIDE: this[ivarName]
+function this.RegisterIvars(ivarTable,ivarNames)
+  for j,name in pairs(ivarNames)do
+    local ivarDef=ivarTable[name]
         if not ivarDef then
-          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..tostring(name).." in "..module.name)
+      InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..tostring(name).." in "..ivarTable.name)
         elseif not this.IsIvar(ivarDef) then
-          InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..tostring(name).." in "..module.name.." is not an Ivar.")
+      InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..tostring(name).." in "..ivarTable.name.." is not an Ivar.")
         else
           --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
           --tex set them to nonconfig by default so to not trip up AutoDoc
@@ -714,32 +716,50 @@ function this.PostAllModulesLoad()
           --          if ivarDef.noDoc~=false then
           --            ivarDef.noDoc=true
           --          end
+      --tex kinda hinky, the ivar itself is built out from whatever definition it has in its ivarTable,
+      --then a reference added to this (Ivars) module so all Ivars can be accessed by Ivars.<ivar name>
           this[name]=this.BuildIvar(name,ivarDef)
           if type(ivarDef.Init)=="function"then
             ivarDef:Init()
           end
         end--if ivar
       end--for module.registerIvars
-    end--if module.registerIvars
-  end--for InfModules
+end--RegisterIvars
 
-  --tex fill actual references in missionModeIvars now that the ivars are actually here
-  for i,module in ipairs(InfModules) do
-    if module.missionModeIvarsNames then
-      if this.debugModule then
-        InfCore.PrintInspect(module.missionModeIvarsNames,module.name..".missionModeIvarsNames")
-      end
-      for name,ivarNames in pairs(module.missionModeIvarsNames)do
+--missionModeIvarsNames: missionModeIvarsNames table created by IvarProc.MissionModeIvars
+--IN: this[ivarName]
+--OUT/SIDE: this.missionModeIvars[ivarName]
+function this.RegisterMissionModeIvars(missionModeIvarsNames)
+  for name,ivarNames in pairs(missionModeIvarsNames)do
         this.missionModeIvars[name]={}
         for i,ivarName in ipairs(ivarNames)do
           local ivar=this[ivarName]
           if not ivar then
-            InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find missionMode Ivar ".. ivarName.." from "..module.name)
+        InfCore.Log("WARNING: Ivars.RegisterMissionModeIvars: could not find missionMode Ivar ".. ivarName)
           else
             table.insert(this.missionModeIvars[name],ivar)
           end
         end--for ivarNames
       end--for module.missionModeIvarsNames
+end--RegisterMissionModeIvars
+
+function this.PostAllModulesLoad()
+  InfCore.LogFlow("Adding module Ivars")
+  --tex add module ivars to this
+  for i,module in ipairs(InfModules) do
+    if module.registerIvars and module~=Ivars then
+      if this.debugModule then
+        InfCore.PrintInspect(module.registerIvars,"RegisterIvars: "..module.name)
+      end
+      this.RegisterIvars(module,module.registerIvars)
+    end--if module.registerIvars
+
+    --tex fill actual references in missionModeIvars now that the ivars are actually added to this (Ivars)
+    if module.missionModeIvarsNames then
+      if this.debugModule then
+        InfCore.PrintInspect(module.missionModeIvarsNames,"RegisterMissionModeIvars: "..module.name)
+      end
+      this.RegisterMissionModeIvars(module.missionModeIvarsNames)
     end--if module.missionModeIvarsNames
   end--for InfModules
 
@@ -802,7 +822,7 @@ function this.PostAllModulesLoad()
       evars[name]=nil
     end
   end
-end
+end--PostAllModulesLoad
 --<
 
 --EXEC

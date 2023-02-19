@@ -94,7 +94,7 @@ this.MISSION_GUARANTEE_GMP={
   [11115]=35e4,
   [10230]=23e4
 }
---NMC <missioncode>_sequence.missionObjectiveDefine taskNo to idroid mission task UI index, since for some missions some taskNos aren consecutive
+--NMC <missioncode>_sequence.missionObjectiveDefine taskNo to idroid mission task UI index, since for some missions some taskNos arent consecutive
 --and because otherwise _sequence.missionObjectiveDefine data is only available when mission is loaded.
 --passed to UI via TppUiCommand.RegisterMbMissionListFunction >> TppResult.GetMbMissionListParameterTable
 --DYNAMIC: ADDON: added to by InfMission
@@ -138,7 +138,7 @@ this.MISSION_TASK_LIST={
   [10240]={0,1},
   [10260]={0,1,2,3,4},
   [10280]={0,1}
-}
+}--MISSION_TASK_LIST
 this.HARD_MISSION_LIST={11043,11041,11054,11085,11082,11090,11036,11033,11050,11091,11195,11211,11140,11200,11080,11171,11121,11115,11130,11044,11052,11151}
 for i,missionCode in ipairs(this.HARD_MISSION_LIST)do
   local isMissingNumberMission=TppDefine.MISSING_NUMBER_MISSION_ENUM[tostring(missionCode)]
@@ -610,7 +610,15 @@ function this.SetRankTable(tankTable)
   end
   mvars.res_rankTable=tankTable
 end
-this.saveCountTable={{"bestScoreTime","scoreTime"},{"bestScoreAlert","alertCount"},{"bestScoreKill","killCount"},{"bestScoreHostage","hostageCount"},{"bestScoreGameOver","failedCount"},{"bestScoreGameOver","timeParadoxCount"},{"bestScoreTacticalActionPoint","tacticalActionPoint"}}
+this.saveCountTable={
+  {"bestScoreTime","scoreTime"},
+  {"bestScoreAlert","alertCount"},
+  {"bestScoreKill","killCount"},
+  {"bestScoreHostage","hostageCount"},
+  {"bestScoreGameOver","failedCount"},
+  {"bestScoreGameOver","timeParadoxCount"},
+  {"bestScoreTacticalActionPoint","tacticalActionPoint"}
+}
 function this.SaveBestCount()
   local svars=svars
   for a,e in pairs(this.saveCountTable)do
@@ -662,7 +670,7 @@ function this.CalcBaseScore()
   end
   return baseScore,clearRank
 end
-local a=1/1e3
+local inverseOneK=1/1e3
 local minute=60
 local max=(minute*60)*5
 local s10054Max=(minute*60)*.25
@@ -676,7 +684,7 @@ function this.CalcTimeScore(baseScore,clearRank)
   local svars=svars
   local rankEnum=TppDefine.MISSION_CLEAR_RANK_LIST[clearRank]
   local clearRankScoreTime=mvars.res_missionScoreTable.baseTime[rankEnum]
-  local a=clearRankScoreTime-(svars.bestScoreTime*a)
+  local a=clearRankScoreTime-(svars.bestScoreTime*inverseOneK)
   if a<0 then
     a=0
   end
@@ -732,26 +740,26 @@ this.eachScoreLimit={bestScoreHeadShotBonusScore=100,bestScoreNeutralizeBonusSco
 function this.CalcEachScore()
   local svars=svars
   for bestScoreCategory,varNames in pairs(this.calcScoreTable)do
-    local s
+    local varValue2
     if varNames.vars then
-      s=vars[varNames.vars]
+      varValue2=vars[varNames.vars]
     else
-      s=svars[varNames[2]]
+      varValue2=svars[varNames[2]]
     end
-    svars[bestScoreCategory]=this.CalcScore(s,mvars.res_scoreTable[varNames[1]],mvars.res_missionScoreTable[varNames[3]],this.eachScoreLimit[bestScoreCategory])--RETAILPATCH 1070 eachScoreLimit added
+    svars[bestScoreCategory]=this.CalcScore(varValue2,mvars.res_scoreTable[varNames[1]],mvars.res_missionScoreTable[varNames[3]],this.eachScoreLimit[bestScoreCategory])--RETAILPATCH 1070 eachScoreLimit added
   end
   if not this.IsUsedChickCap()then
     for bestScoreCategory,varNames in pairs(this.bonusScoreTable)do
-      local a
+      local varNameArray
       if IsTypeTable(varNames[1])then
-        a=varNames[1]
+        varNameArray=varNames[1]
       else
-        a={varNames[1]}
+        varNameArray={varNames[1]}
       end
-      local s=true
-      for a,e in ipairs(a)do
-        if svars[e]>0 then
-          s=false
+      local hasValue=true
+      for i,varName in ipairs(varNameArray)do
+        if svars[varName]>0 then
+          hasValue=false
           break
         end
       end
@@ -759,7 +767,7 @@ function this.CalcEachScore()
       if varNames[3]then
         bonusMissionClearTimeRatio=mvars.res_bonusMissionClearTimeRatio
       end
-      if s and(not isUsedChickCap)then--RETAILBUG: TODO:
+      if hasValue and(not isUsedChickCap)then--RETAILBUG: TODO:
         svars[bestScoreCategory]=mvars.res_scoreTable[varNames[2]]*bonusMissionClearTimeRatio
       end
     end
@@ -821,8 +829,27 @@ function this.CalcHitRatioBonusScore(shootHitCountInMission,playerShootCountInMi
   t=math.ceil(t)
   return t
 end
-this.playScoreList={"bestScoreTimeScore","bestScoreTakeHitCountScore","bestScoreTacticalActionPointScore","bestScoreHeadShotBonusScore","bestScoreHitRatioBonusScore","bestScoreNeutralizeBonusScore","bestScoreMarkingCountScore","bestScoreInterrogateScore","bestScoreHostageScore"}
-this.bounusScoreList={"bestScoreBounusScore","bestScoreBounusScore2","bestScoreNoRetryScore","bestScoreKillScore","bestScoreNoReflexScore","bestScoreAlertScore","bestScorePerfectStealthNoKillBonusScore","bestScoreNoTraceBonusScore"}
+this.playScoreList={
+  "bestScoreTimeScore",
+  "bestScoreTakeHitCountScore",
+  "bestScoreTacticalActionPointScore",
+  "bestScoreHeadShotBonusScore",
+  "bestScoreHitRatioBonusScore",
+  "bestScoreNeutralizeBonusScore",
+  "bestScoreMarkingCountScore",
+  "bestScoreInterrogateScore",
+  "bestScoreHostageScore"
+}
+this.bounusScoreList={
+  "bestScoreBounusScore",
+  "bestScoreBounusScore2",
+  "bestScoreNoRetryScore",
+  "bestScoreKillScore",
+  "bestScoreNoReflexScore",
+  "bestScoreAlertScore",
+  "bestScorePerfectStealthNoKillBonusScore",
+  "bestScoreNoTraceBonusScore"
+}
 local maxScore=999999
 local minScore=-999999
 function this.CalcTotalScore()

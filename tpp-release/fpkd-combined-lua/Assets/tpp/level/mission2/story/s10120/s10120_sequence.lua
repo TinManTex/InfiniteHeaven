@@ -1116,7 +1116,7 @@ sequences.Seq_Game_LiquidFight = {
 				{
 					msg = "RoutePoint2",
 					func = function (gameObjectId, routeId ,routeNode, messageId )
-						if messageId == StrCode32( "ShootAtPlayerOnBoat" ) then--DEBUGNOW RETAILBUG if theres no StrCode32l then this will never run (more specifically should error out. TODO test mission.
+						if messageId == StrCode32( "ShootAtPlayerOnBoat" ) then--DEBUGNOW RETAILBUG (see declaration of StrCode32) if theres no StrCode32l then this will never run (more specifically should error out. TODO test mission.
 							Fox.Log("Set command ai")
 							local command = { id="SetCommandAi", commandType = CommandAi.LIQUID_ASSIST, }
 							GameObject.SendCommand( gameObjectId, command )							

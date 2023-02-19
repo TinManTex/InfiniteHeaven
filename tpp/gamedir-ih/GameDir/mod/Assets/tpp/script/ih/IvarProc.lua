@@ -168,7 +168,8 @@ function this.SetDirect(self,setting)
   ivars[self.name]=setting
   Ivars.isSaveDirty=true
 end
-
+--CALLERS: ivar:Set, ivar being changed via menu (via various InfMenu calls)
+--which also includes 'command' type ivars which are really just switch options that the value doesnt matter, since they just care about running their OnChanged
 function this.SetSetting(self,setting,noSave)
   --InfCore.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   if self==nil then
@@ -605,8 +606,9 @@ this.missionModeChecks={
   MB=this.MissionCheckMb,
   MB_ALL=this.MissionCheckMbAll,
 }
---tex Creates <ivarName><missionMode> ex someIvarNameMB,someIvarNameFREE
---and adds them to Ivars, as well as Ivars.missionModeIvars for IsForMission,EnabledForMission support
+--tex Creates variants of ivars for each mission mode: <ivarName><missionMode> ex someIvarNameMB,someIvarNameFREE in module
+--and adds the to module registerIvars
+--as well as module.missionModeIvars for IsForMission,EnabledForMission support
 --USAGE
 --IvarProc.MissionModeIvars(
 --  Ivars,--module
@@ -677,7 +679,8 @@ function this.GetForMission(ivarList,missionCode)
     if ivar.MissionCheck==nil then
       InfCore.Log("WARNING: GetForMission on "..ivar.name.." which has no MissionCheck func")
     elseif ivar:MissionCheck(missionId) then
-      return ivar:Get()
+      local ret=ivar:Get()
+      return ret
     end
   end
   return 0
@@ -697,7 +700,8 @@ function this.GetSettingNameForMission(ivarList,missionCode)
     if ivar.MissionCheck==nil then
       InfCore.Log("WARNING: GetForMission on "..ivar.name.." which has no MissionCheck func")
     elseif ivar:MissionCheck(missionId) then
-      return ivar:GetSettingName()
+      local settingName=ivar:GetSettingName()
+      return settingName
     end
   end
   return 0--DEBUGNOW think this through, return default setting name or nil?
@@ -1110,7 +1114,7 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   local lang=InfLang.eng
   local helpLang=InfLang.help.eng
 
-  local saveLineFormatStr="\t\t%s=%s,--%s -- %s -- %s"
+  local saveLineFormatStr="\t\t%s=%s, --[[%s -- %s -- %s]]"
   local saveText={}
   saveText[#saveText+1]="local this={"
   saveText[#saveText+1]="\tdescription=\""..profile.description.."\","
@@ -1472,7 +1476,7 @@ function this.LoadAllSave()
     end
   end
 end
-
+--CALLERS: InfInit load exec, LoadAllSave above -^- (which resolves to TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint)
 --SIDE: ih_save (global module)
 function this.LoadEvars()
   InfCore.LogFlow"IvarProc.LoadEvars"

@@ -112,9 +112,9 @@ function this._OnReload()
   this.SetupMessages()
 end
 function this.OnReload()
-  local n=TppMission.IsHelicopterSpace(vars.missionCode)
-  local i=TppMission.IsFreeMission(vars.missionCode)
-  if(n or i)and(vars.missionCode~=30050)then
+  local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
+  local isFreeMission=TppMission.IsFreeMission(vars.missionCode)
+  if(isHeliSpace or isFreeMission)and(vars.missionCode~=30050)then
     this.SetupMessages()
   else
     this.messageExecTable=nil
@@ -239,28 +239,28 @@ function this.OnExitCpIntelTrap(n)
   this._UnregisterOptionRadio"f2000_oprg0155"
 end
 function this.TryPandemicStart()
-  local n=false
+  local tryPandemicStart=false
   if not TppTerminal.IsNeedPlayPandemicTutorialRadio()then
-    return n
+    return tryPandemicStart
   end
-  local i=TppMission.IsHelicopterSpace(vars.missionCode)
-  local o=TppMission.IsFreeMission(vars.missionCode)
+  local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
+  local isFreeMission=TppMission.IsFreeMission(vars.missionCode)
   if not TppMotherBaseManagement.IsPandemicEventMode()then
     TppTerminal.StartPandemicEvent()
-    n=true
+    tryPandemicStart=true
   end
   if TppMotherBaseManagement.IsPandemicEventMode()then
     if not TppRadio.IsPlayed"f2000_rtrg9010"then
-      if i then
+      if isHeliSpace then
         this._PlayRadio(this.PANDEMIC_RADIO.START_CONTINED_IN_HELI)
-        n=true
+        tryPandemicStart=true
       end
     end
   end
   if TppDemo.IsPlayedMBEventDemo"QuietReceivesPersecution"then
     TppCassette.Acquire{cassetteList={"tp_c_00000_16"},pushReward=true}
   end
-  return n
+  return tryPandemicStart
 end
 local i=.85
 local a=.2

@@ -77,8 +77,8 @@ local this={
 		revengeModeFREE=0,--[[{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode]]
 		revengeModeMISSION=0,--[[{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode]]
 		revengeModeMB_ALL=0,--[[{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode]]
-		customSoldierTypeFREE=0,--[[{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, PF_ALL_TEST } -- Custom soldier type in Free roam]]
-		customSoldierTypeMISSION=0,--[[{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, PF_ALL_TEST } -- Custom soldier type in Missions]]
+		customSoldierTypeFREE=0,--[[{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED, PF_ALL_TEST } -- Custom soldier type in Free roam]]
+		customSoldierTypeMISSION=0,--[[{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED, PF_ALL_TEST } -- Custom soldier type in Missions]]
 		changeCpTypeFREE=0,--[[{ DEFAULT, TYPE_SOVIET, TYPE_AMERICA, TYPE_AFRIKAANS } -- Force CP type in Free Roam]]
 		changeCpTypeMISSION=0,--[[{ DEFAULT, TYPE_SOVIET, TYPE_AMERICA, TYPE_AFRIKAANS } -- Force CP type in Missions]]
 		changeCpTypeMB_ALL=0,--[[{ DEFAULT, TYPE_SOVIET, TYPE_AMERICA, TYPE_AFRIKAANS } -- Force CP type in MB]]
@@ -264,6 +264,27 @@ local this={
 		fultonSleepPenalty=0,--[[{ 0-100 } -- Target sleeping penalty]]
 		fultonHoldupPenalty=10,--[[{ 0-100 } -- Target holdup penalty]]
 		fultonHostageHandling=0,--[[{ DEFAULT, ZERO } -- Hostage handling]]
+		--Guantanamo Asset Menu
+		Gntn_SirenType="mtbs",--[[{ mtbs, gntn } -- Alert siren type]]
+		Gntn_ResetWatchtowers=0,--[[{ 0-1 } -- Reset watchtowers]]
+		Gntn_ResetAntiAirGuns=0,--[[{ 0-1 } -- Reset anti-air emplacements]]
+		Gntn_ResetSearchlights=0,--[[{ 0-1 } -- Reset searchlights]]
+		Gntn_ResetSwitches=0,--[[{ 0-1 } -- Reset switches]]
+		Gntn_LockDoors=0,--[[{ 0-1 } -- Lock doors]]
+		Gntn_ResetDestuctibles=0,--[[{ 0-1 } -- Reset destructibles]]
+		Gntn_ToggleLamps=1,--[[{ 0-1 } -- Enable alarm lamps]]
+		--Guantanamo Enemy Menu
+		Gntn_UseCoatFovaOnGuantanamo=1,--[[{ 0-1 } -- Use raincoat in Guantanamo]]
+		Gntn_UseReinforceFovaOnGuantanamo=1,--[[{ 0-1 } -- Use reinforce fova in Guantanamo]]
+		Gntn_ReinforceHeliType="Krokodil",--[[{ Blackfoot, Krokodil } -- Reinforce Heli Type]]
+		--Guantanamo Patchups
+		Gntn_TimePatchup=1,--[[{ 0-1 } -- Enable time patchup]]
+		--GuantanamoTravelMenu
+		Gntn_TravelTypeWest="Normal",--[[{ None, Normal, One-way, Random } -- ]]
+		Gntn_TravelTypeEast="Normal",--[[{ None, Normal, One-way, Random } -- ]]
+		--Marines Custom Soldier Type Menu
+		Gntn_UseCoatWithCustomSoldierType=0,--[[{ 0-1 } -- Raincoat with custom soldier]]
+		Gntn_UseReinforceWithCustomSoldierType=0,--[[{ 0-1 } -- Reinforce fova with custom soldier]]
 		--Mission-prep features menu
 		heliSpace_SkipMissionPreparetionFREE=0,--[[{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Free Roam]]
 		heliSpace_SkipMissionPreparetionMISSION=0,--[[{ DEFAULT, FALSE, TRUE } -- Skip mission prep for Story Mission]]
@@ -279,7 +300,7 @@ local this={
 		heliSpace_DisableSelectSortieTimeFromMissionPreparetionMB_ALL=0,--[[{ DEFAULT, FALSE, TRUE } -- Disable select-sortie time for MB]]
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--[[{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)]]
-		customSoldierTypeMB_ALL=0,--[[{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, PF_ALL_TEST } -- DD Suit]]
+		customSoldierTypeMB_ALL=0,--[[{ OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, MARINES_A, MARINES_B, MARINES_MIXED, PF_ALL_TEST } -- DD Suit]]
 		customSoldierTypeFemaleMB_ALL=0,--[[{ OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female]]
 		mbDDHeadGear=0,--[[{ 0-1 } -- DD Head gear]]
 		supportHeliPatrolsMB=0,--[[{ 0-3 } -- NPC support heli patrols in MB]]

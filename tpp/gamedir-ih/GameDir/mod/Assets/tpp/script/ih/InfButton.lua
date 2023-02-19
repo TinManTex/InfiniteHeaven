@@ -2,6 +2,10 @@
 -- which means InfButtons (and other Inf stuff using GetElapsed) wont really respond during slowmo
 -- unfortunately os.time only resturns in seconds which isn't enough granularity
 -- currently using os.clock, GOTCHA: os.clock wraps at ~4,294 seconds
+--GOTCHA: TODO RESEARCH: I there may be some game states where PlayerVars.scannedButtonsDirect is not updated by the exe, yet normal calls to lua Update continue
+--most clear example being when doing player 'warp to latest marker' (before code was changed to close menu, disable that WORKAROUND to test) via activating via pressing right menu.
+--button.RIGHT on PlayerVars.scannedButtonsDirect will remain set, but lua updates continue, which will repeatedly trigger the menu option via InfMenu.Update till scannedButtonsDirect is updated again after TppPlayer.Warp is done 
+--one solution would be to see if there's some unique flag/status set during TppPlayer.Warp to check, ideally something generic/that covers other states so that you can skip InfMenu.Update while its on
 -- NODEPS
 local this={}
 --LOCALOPT:
@@ -33,7 +37,11 @@ this.buttonMasks={
   ACTION=5,
   MOVE_ACTION=5,
   JUMP=5,
+  RIDE_ON=5,
+  RIDE_OFF=5,
+  CQC_KNIFE_KILL=5,
   RELOAD=6,
+  CARRY=6,
   STOCK=7,--tex recenter cam
   ZOOM_CHANGE=7,
   VEHICLE_CHANGE_SIGHT=7,
@@ -68,6 +76,15 @@ this.buttonMasks={
   UNKNOWN11=28,
   UNKNOWN12=29,
   UNKNOWN13=30,
+  
+  --tex Also in PlayerPad, for PlayerVars.leftStickDirect, rightbleh
+  --don't where triggers are, wouldnt think scannedButtonsDirect
+  STICK_L=0,
+  STICK_R=1,
+  TRIGGER_BREAK=0,
+  TRIGGER_ACCEL=1,
+  TRIGGER_L=0,
+  TRIGGER_R=1,
 --MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
 }
 this.NONE=0

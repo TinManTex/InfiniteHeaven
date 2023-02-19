@@ -6,7 +6,7 @@ local this={}
 local floor=math.floor
 local format=string.format
 
-this.saveDirty=true
+--this.saveDirty=false--tex OFF saves via InfQuest/ih_quest_states
 
 function this.Init()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -236,7 +236,7 @@ function this.UpdateShootingPracticeClearTime(questName,leftTime)
     --else
     TppRanking._ShowScoreTimeAnnounceLog(leftTime)
     
-    this.saveDirty=true--TODO better
+    InfQuest.saveDirty=true
     questState.scoreTime=leftTime
     ih_quest_states[questName]=questState
   end

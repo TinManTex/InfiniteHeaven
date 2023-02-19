@@ -236,7 +236,14 @@ end
 
 this.WarpToCamPos=function()
   local warpPos=this.ReadPosition"FreeCam"
-  InfCore.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+  if this.debugModule then
+    InfCore.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+  end
+  --tex WORKAROUND: see WORKAROUND in InfUserMarker.WarpToLastUserMarker
+  --otherwise would probably still keep the debugprint above to provide feedback in case the user is repeatedly WarpToCamPos and wondering why camera hasnt moved (you're already there dude)
+  if InfMenu.menuOn and ivars.enableIHExt==0 and IHH==nil then
+    InfMenu.MenuOff()
+  end
   TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 
@@ -547,7 +554,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   this.DoControlSet(currentChecks)
-
+  
   if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1)then
     local currentCamName=this.GetCurrentCamName()
     local movePosition=this.ReadPosition(currentCamName)

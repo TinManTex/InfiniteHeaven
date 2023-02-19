@@ -2,6 +2,10 @@
 -- tex support heli stuff
 -- CONTROLSET: (not really, should probably be formalized)
 --  <STANCE> hol: open door (mission start) or toggle pull out
+
+--RequestHeliLzToLastMarkerAlt / "Support heli to marker" sends heli to nearest custom single point route, see this.packages
+--TODO: addon support (and guide on creating the hover routes)
+
 local this={}
 
 --LOCALOPT
@@ -250,10 +254,10 @@ this.langStrings={
 
 this.packages={
   afgh={
-    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_afgh.fpk",
+    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_afgh.fpk",--tex for RequestHeliLzToLastMarkerAlt
   },
   mafr={
-    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_mafr.fpk",
+    "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_mafr.fpk",--tex for RequestHeliLzToLastMarkerAlt
   },
 }
 
@@ -316,6 +320,10 @@ function this.Init()
   --if TppMission.IsMbFreeMissions(vars.missionCode) then--TEST no aparent result on initial testing, in-engine pullout check must be overriding
   --  TppUiStatusManager.UnsetStatus( "MbMap", "BLOCK_TAXI_CHANGE_LOCATION" )
   --end
+  
+  --tex clear RequestHeliLzToLastMarkerAlt stuff
+  this.requestedRoute=nil
+  this.trackForceRoute=0
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
@@ -523,13 +531,14 @@ this.RequestHeliLzToLastMarker=function()
   InfMenu.MenuOff()
 end
 
---tex SetForceRoute on support to IH hover route, which is simple one node route
+--tex SetForceRoute on support to IH hover route, which is simple one node route (see this.packages)
 --TODO: either support heli ignores the route speed an uses it's own (likely since heli speed can be upgraded),
 --or just an edge isnt enough for speed (tried with MoveFast, VehicleMoveFast, CautionDash all listed on heli routes)
 InfMenuCommands.requestHeliLzToLastMarkerAlt={
   isMenuOff=true,
 }
 this.RequestHeliLzToLastMarkerAlt=function()
+  InfCore.LogFlow"RequestHeliLzToLastMarkerAlt"
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")
   if heliId==NULL_ID then
     InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
@@ -540,6 +549,13 @@ this.RequestHeliLzToLastMarkerAlt=function()
   if not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
     InfMenu.PrintLangId"must_be_in_helicopter"
     InfMenu.MenuOff()
+    return
+  end
+
+  --tex mtbs already has heli taxi system
+  local locationName=TppLocation.GetLocationName()
+  if locationName~="afgh" and locationName~="mafr" then
+    InfMenu.PrintLangId"not_for_location"
     return
   end
 
@@ -559,12 +575,6 @@ this.RequestHeliLzToLastMarkerAlt=function()
   --DEBUGNOW if supportheli getusingroute == mis_startroute ?
   --
 
-  local locationName=TppLocation.GetLocationName()
-  if locationName~="afgh" and locationName~="mafr" then
-    InfMenu.PrintLangId"not_for_location"
-    return
-  end
-
   local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
   InfCore.Log("RequestHeliLzToLastMarkerAlt: lastMarkerIndex:"..lastMarkerIndex)--DEBUGNOW
   local closestRoute
@@ -580,17 +590,18 @@ this.RequestHeliLzToLastMarkerAlt=function()
 
   if closestRoute==nil then
     InfMenu.PrintLangId"no_lz_found"
+    InfCore.Log("RequestHeliLzToLastMarkerAlt no lz found")
     return
   end
 
   local lzName=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
   if lzName==nil then
     InfMenu.PrintLangId"no_lz_found"
-    InfCore.Log("lzName==nil")
+    InfCore.Log("RequestHeliLzToLastMarkerAlt lzName==nil no lz found")
     return
   end
 
-  InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),this.debugModule)--DEBUG
+  InfCore.Log("RequestHeliLzToLastMarkerAlt Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),this.debugModule)--DEBUG
   --  local lzInfo=InfLZ.lzInfo[lzName]
   --  if not lzInfo then
   --    InfCore.Log("no lzInfo for "..tostring(lzName))
@@ -601,6 +612,7 @@ this.RequestHeliLzToLastMarkerAlt=function()
   --  end
 
   --tex ih hover route name is lz name with _hover suffix
+  --these are single point routes I created for each lz, see this.packages
   closestRoute=lzName.."_hover"
 
   --DEBUGNOW

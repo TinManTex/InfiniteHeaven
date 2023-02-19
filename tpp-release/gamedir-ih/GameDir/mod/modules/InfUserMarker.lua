@@ -1,7 +1,7 @@
 --InfUserMarker.lua
---tex various feature using usermarkers 
---description of in game usermarkers feature/behaviour: 
---the square map markers that a player can place up to on a map, 
+--tex various feature using usermarkers
+--description of in game usermarkers feature/behaviour:
+--the square map markers that a player can place up to on a map,
 --when there's 5 the 'oldest' gets removed.
 --they are labeled A-Z, wrapping back to A after Z has been placed.
 --player can remove a user marker by clicking on it, therefore they aren't a contiguous set
@@ -10,17 +10,17 @@
 --they are saved/loaded (ie they will still be there on a new session, however they remain the same on a checkpoint /mission restart)
 --they are cleared on returning to ACC, however remain if placed in acc on the current location (acc actually has afgh mafr and mb locations)
 --RESEARCH: do they remain on free roam to mission and visa versa
---RESEARCH: a way to test maybe would be to go from free roam to mission without changing and seeing if markers still there, then doing that again after manually setting userMarkerLocationId to something 
+--RESEARCH: a way to test maybe would be to go from free roam to mission without changing and seeing if markers still there, then doing that again after manually setting userMarkerLocationId to something
 --the data for them seem to be in vars.userMarker*
 --the arrays are [maxUserMarkers - 5] elements
---arrays are 0 indexed, compacted on removes (ie later elements are moved up), 
+--arrays are 0 indexed, compacted on removes (ie later elements are moved up),
 --so current max index is vars.userMarkerSaveCount-1
 --and it's also the most recently added (I'm pretty sure? lol)
 --'unset'/removed entries have valid zeroed/default values
 --userMarkerAddFlag[] - number - a flag to track when it was added?
 --RETAILBUG: maybe (or there's actual reason for the differing behaviour).
 --When usermarkers are placed via binoculars then this increments up to 26 (0 = marker not set) then wraps.
---kind of makes sense, means addFlag maps to letter, prevents eventual overflow, 
+--kind of makes sense, means addFlag maps to letter, prevents eventual overflow,
 --QUESTION: but then how do they figure out what the oldest marker was (when then need to remove it).
 --When usermarkers are placed via the map addFlag just keeps getting incremented without wrapping *shrug*
 --QUESTION: then how do they figure out the letter for the marker?
@@ -109,7 +109,16 @@ this.WarpToLastUserMarker=function()
     --InfCore.DebugPrint("lastMarkerIndex==nil")
     InfMenu.PrintLangId"no_marker_found"
   else
-    this.PrintUserMarker(lastMarkerIndex)
+    if this.debugModule then
+      this.PrintUserMarker(lastMarkerIndex)
+    end
+    --tex WORKAROUND: scannedButtonDirect seemingly doesnt get updated while TppPlayer.Warp is running
+    --so if this command is activated via menu buttons it will repeatedly be activated as InfMenu.Update will still be being called 
+    --while it's not so much of a deal with IHHook/IHExt, using IH announcelog menu it will queue up a lot of spam that will take a while to clear once the warp is done
+    --InfCore.Log("warp repeat test")--DEBUG
+    if InfMenu.menuOn and ivars.enableIHExt==0 and IHH==nil then
+      InfMenu.MenuOff()
+    end
     this.WarpToUserMarker(lastMarkerIndex)
   end
 end
@@ -225,9 +234,10 @@ function this.PrintMarkerGameObject(index)
     InfCore.Log("status:"..tostring(status).." lifeStatus:"..tostring(lifeStatus))
     --tex state bitflag (not just an enum) so use bitops bit. lib
     --REF
-    --StateFlag.DYING_LIFE
+    --StateFlag.
+      --NONE = 0,
       --DYING_LIFE = 1,
-      --2??
+      --HELI_RECOVERED = 2,
       --ZOMBIE = 4,
     local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
     InfCore.Log("stateFlag:"..tostring(stateFlag))
@@ -257,12 +267,12 @@ function this.PrintMarkerGameObject(index)
           "solTravelName",
           "solTravelStepIndex",
         }--soldierSvarName
-    
---DEBUGNOW these are seperate? have to iterate to find matching solOptName?
---    {name="solOptName",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
---    {name="solOptParam1",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
---    {name="solOptParam2",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-   
+
+        --DEBUGNOW these are seperate? have to iterate to find matching solOptName?
+        --    {name="solOptName",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+        --    {name="solOptParam1",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+        --    {name="solOptParam2",arraySize=TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+
         InfCore.Log("Soldier svar index:"..tostring(svarIndex))
         InfCore.Log("solCpRoute:"..InfLookup.StrCode32ToString(svars.solCpRoute[svarIndex]))
         InfCore.Log("solScriptSneakRoute:"..InfLookup.StrCode32ToString(svars.solScriptSneakRoute[svarIndex]))--tex DEBUGNOW not sure why these arent finding their strings
@@ -288,7 +298,7 @@ end
 --  if vars.userMarkerSaveCount==nil or vars.userMarkerSaveCount==0 then
 --    return 0
 --  end
---  
+--
 --  --tex find 'last added' in repect to how userMarker works described in above notes
 --  --there may be a better way to do this, but I b bad math
 --  --grab all the markerFlags
@@ -404,7 +414,9 @@ function this.WarpToUserMarker(index)
     end
   end
 
-  InfCore.DebugPrint(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
+  if this.debugModule then
+    InfCore.Log(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ(),true)
+  end
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 

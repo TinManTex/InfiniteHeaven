@@ -37,9 +37,10 @@ end
 --<
 
 --tex REWORKED:
---GOTCHA: this wont return addon locations before it's setup during InfMisison.AddInLocations
+--GOTCHA: this wont return addon locations before it's setup during InfMission.AddInLocations (which is via loadlibraries, so you probably wont be calling it before that)
+--see also TppPackList.GetLocationNameFormMissionCode
 function this.GetLocationName(locationCode)
-  InfCore.LogFlow"TppLocation.GetLocationName"--tex DEBUGNOW
+  --InfCore.LogFlow("TppLocation.GetLocationName "..tostring(locationCode))--tex DEBUGGING the above issue, verifying its not called before AddInLocations
   local locationCode=locationCode or vars.locationCode
   return this.locationNames[locationCode]
 end

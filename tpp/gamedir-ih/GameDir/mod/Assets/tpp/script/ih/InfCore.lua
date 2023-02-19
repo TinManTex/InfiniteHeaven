@@ -5,8 +5,10 @@ local pcall=pcall
 local type=type
 local open=io.open
 local tostring=tostring
+local table=table
 local concat=table.concat
 local string=string
+local unpack=unpack
 --CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
 local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 --tex not gonna change at runtime so can cache
@@ -17,7 +19,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=257
+this.modVersion=259
 this.modName="Infinite Heaven"
 this.hookVersion=17--tex for version check
 
@@ -63,8 +65,6 @@ local stringType="string"
 local functionType="function"
 
 --tex logging
-this.logLevel=nil
-
 this.logLevels = {
   [0]="trace",
   [1]="debug",
@@ -74,17 +74,16 @@ this.logLevels = {
   [5]="critical",
   [6]="off",
 }
+this.level_trace=0--tex since ipairs is from 1
 for level,name in ipairs(this.logLevels)do
   this["level_"..name]=level
+  -- this.logLevels[name]=level--tex folding it back in/giving it lookup would be nicer, but adds another level of indirection for something thats called often
 end
 
-function this.Log(message,announceLog,level)
-  local levelType = type(level)--KLUDGE LEGACY
-  if level and levelType=="number" then
-    if level>this.logLevel then
-      return
-    end
-  elseif not this.debugMode and not level then--LEGACY level == force
+this.logLevel=this.level_trace--SYNC: ihhooks default tex starts at lowish level/verbose, then switches down to warn only unless debugmode on (in InfMain.DebugModeEnable)
+
+function this.Log(message,announceLog,forceLog)
+  if not this.debugMode and not forceLog then
     return
   end
 
@@ -93,21 +92,14 @@ function this.Log(message,announceLog,level)
   end
 
   if IHH then
-    if levelType~="number"then
-      level=this.level_info
-    end
-    IHH.Log(level,message)
+    IHH.Log(this.level_info,message)
     return
   end
 
-  --tex lua side log
+  --tex legacy/non ihhook lua-side log
   local elapsedTime=GetElapsedTime()
-  local levelStr = ""
-  if levelType=="number" then
-    levelStr = this.logLevel[level]
-  end
 
-  local line="|"..elapsedTime.."|"..levelStr..message
+  local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
 
   if isMockFox and luaPrintIHLog then
@@ -117,6 +109,57 @@ function this.Log(message,announceLog,level)
   this.WriteLog(this.logFilePath,this.log)
 end
 
+--tex WIP handling of log levels
+--string message: message to log
+--int level: logLevel as above, can use InfCore.level_<level name> as enum
+--will default to level_info if nil
+--WAS bool announceLog, see handling below for note on change
+--bool forceLog: force logging reguardless of current logLevel - mostly used for user initiated logging of stuff like positions and other dev stuff
+--TODO: still need to decide where to slap level into this, if and what order to have the legacy params
+function this.LogWip(message,level,forceLog,announceLog)
+  if level==nil then--tex the majority of InfCore.Log calls don't have level param set (log levels were only added after IHHook started dev)
+    level=this.level_info
+  elseif type(level)=="boolean" then--tex LEGACY level was bool announceLog, now warn and error are automatically announceLogged
+    if level==true then
+      level=this.level_warn--tex this fallback is close to the old behaviour
+    else
+      level=this.level_info
+    end
+    InfCore.Log("Developers: InfCore.Log announceLog bool is depreciated, either set to InfCore.level_warn or level_error to also announceLog this message, or manually do a DebugPrint/announcelog with your message.",InfCore.level_warn)
+    --TODO: DEBUG_Where to help user locate the call?
+    end
+
+  if level<this.logLevel and not forceLog then
+    return
+  end
+
+  --tex level_error, level_warn gets announcelogged to notify the user
+  --TODO: this.announceLogLevel counterpart to logLevel, would only really useful for warn, error, off since anything lower would kill from spam
+  if announceLog or level==4 or level==3 then
+    this.DebugPrint(message)
+  end
+
+  if IHH then
+    IHH.Log(level,message)
+    return
+  end
+
+  --tex lua side log
+  --TODO: match ihhooks no timestamp unless option turned on
+  local elapsedTime=GetElapsedTime()
+  local levelStr=this.logLevels[level]
+
+  local line="|"..elapsedTime.."|"..levelStr..": "..message
+  this.log[#this.log+1]=line
+
+  if isMockFox and luaPrintIHLog then
+    print(line)
+  end
+
+  this.WriteLog(this.logFilePath,this.log)
+end--Log
+
+--tex TODO convert to log level trace
 function this.LogFlow(message)
   if not this.debugMode then
     return false
@@ -128,30 +171,6 @@ function this.LogFlow(message)
   --  local stackInfo=debug.getinfo(stackLevel,"n")
   --  this.Log(tostring(stackInfo.name).."| "..message)
   this.Log(message)
-end
-
-function this.LogTrace(message,announceLog)
-  this.Log(message,announceLog,this.level_trace)
-end
-
-function this.LogDebug(message,announceLog)
-  this.Log(message,announceLog,this.level_debug)
-end
-
-function this.LogInfo(message,announceLog)
-  this.Log(message,announceLog,this.level_info)
-end
-
-function this.LogWarn(message,announceLog)
-  this.Log(message,announceLog,this.level_warn)
-end
-
-function this.LogError(message,announceLog)
-  this.Log(message,announceLog,this.level_error)
-end
-
-function this.LogCritical(message,announceLog)
-  this.Log(message,announceLog,this.level_critical)
 end
 
 function this.ClearLog()
@@ -285,48 +304,87 @@ function this.DebugPrint(message,...)
   TppUiCommand.AnnounceLogView(message)
 end
 
+--tex GOTCHA: Unlike regular pcall, handles returns of a successful call like a normal call, or nil on fail
+--GOTCHA: but at the cost of more stuff falling into tail calls/function names being eaten when viewing stack dump
+--real solution aparently is to disable tail calls in interpreterwhen debugging, but that's rocket surgery since its in the exe
 function this.PCall(func,...)
-  if func==nil then
-    this.Log("PCall func == nil")
-    return
-  elseif type(func)~=functionType then
-    this.Log("PCall func~=function")
-    return
-  end
+  local result={pcall(func,...)}--tex NOTE: though this packs multiple returns into an array, you can't guarantee iterating via ipairs since a return value might be nil (ie non contiguous array)
+  local sucess=table.remove(result,1)
 
-  local sucess,result=pcall(func,...)
   if not sucess then
-    this.Log("ERROR:"..result,false,true)
-    this.Log("caller:"..this.DEBUG_Where(2),false,true)
-    return
+    --tex do we want to do trace dump immediately, before anything happens to stack?
+    --though really you're supposed to use xpcall if you want an accurate stack dump, but that's even more of a pain to use
+    --NOTE: because of this, source line number is actually of function in line prior, as the first is the debug.traceback() call
+    --NOTE: traceback is heavy perf (but then if you're erroring that's not really a consideration)
+    local trace = debug.traceback() 
+  
+    local err=result[1]--tex on pcall fail only the error string in result[1] will exist
+
+    if not IHH then--tex ihhook hooks pcall to log the error
+      InfCore.Log("PCall: ERROR: "..err,false,true)
+    end
+    this.DebugPrint("PCall: ERROR: "..err)--tex since we cant roll it into the above Log call
+
+    --tex TODO toggle this with a 'verbose' setting
+    InfCore.Log("trace: "..tostring(trace),false,true)
+    --tex simpler/alernative to full stack trace, see DEBUG_Where for explanation of why stack level 2 (really 3)
+    --InfCore.Log("caller:"..this.DEBUG_Where(2))
+
+    return--tex all current uses of InfCore.PCall with returns expect nil on fail
+    --DEBUGNOW ej was saying some of the stuff he was trying to do has an issue with that?
+    --https://github.com/TinManTex/InfiniteHeaven/issues/41
+    --return sucess,err
   else
-    return result
+    return unpack(result)--returns multi return values--GOTCHA: this setup means in stack dump function will disapear into tail call (assuming this is somewhere in exec of an outer pcall fail)
   end
-end
+end--PCall
+
+--tex: (pre 259 style) only handles single return, but name doesnt disapear into tail call on stack dump
+--function this.PCallSingle(func,...)
+--  local sucess,result=pcall(func,...)
+--  if not sucess then
+--    --tex do we want to do trace dump immediately, before anything happens to stack?
+--    --though really you're supposed to use xpcall if you want an accurate stack dump, but that's even more of a pain to use
+--    --NOTE: because of this, source line number is actually of function in line prior, as the first is the debug.traceback() call
+--    --NOTE: traceback is heavy perf (but then if you're erroring that's not really a consideration)
+--    local trace = debug.traceback() 
+--
+--    if not IHH then--tex ihhook hooks pcall to log the error
+--      InfCore.Log("PCall: ERROR: "..result,false,true)
+--    end
+--    this.DebugPrint("PCall: ERROR: "..result)--tex since we cant roll it into the above Log call
+--
+--    --tex TODO toggle this with a 'verbose' setting
+--    InfCore.Log("trace: "..tostring(trace),false,true)
+--    --tex simpler/alernative to full stack trace, see DEBUG_Where for explanation of why stack level 2 (really 3)
+--    --InfCore.Log("caller:"..this.DEBUG_Where(2))
+--
+--    return--tex all current uses of InfCore.PCall with returns expect nil on fail
+--  else
+--    return result
+--  end
+--end--PCall
 
 --tex as above but intended to pass through unless debugmode on
 function this.PCallDebug(func,...)
-  --  if func==nil then
-  --    this.Log("PCallDebug func == nil")
-  --    return
-  --  elseif type(func)~=functionType then
-  --    this.Log("PCallDebug func~=function")
-  --    return
-  --  end
-
   if not this.debugMode then
     return func(...)
-  end
-
-  local sucess, result=pcall(func,...)
-  if not sucess then
-    this.Log("ERROR:"..result,false,true)
-    this.Log("caller:"..this.DEBUG_Where(2),false,true)
-    return
   else
-    return result
+    return this.PCall(func,...)
   end
 end
+--tex (pre 259 style) single return, but name doesnt disapear into tail call on stack dump
+--function this.PCallDebugSingle(func,...)
+--  local result
+--  if not this.debugMode then
+--    result=func(...)--tex avoid tail call
+--    return result
+--  else
+--    --tex avoid tail call
+--    result=this.PCallSingle(func,...)
+--    return result 
+--  end
+--end
 
 local emptyTable={}
 function this.PrintInspect(var,options)
@@ -341,7 +399,7 @@ function this.PrintInspect(var,options)
   end
   this.Log(ins,options.announceLog)
 end
-
+--tex duplicated from InfUtil because I need it before its up
 --tex NMC from lua wiki
 function this.Split(self,sep)
   local sep = sep or " "
@@ -553,6 +611,14 @@ function this.WriteToExtTxt()
 end
 
 --tex altered from Tpp.DEBUG_Where
+--GOTCHA: still using debug_wheres stackLevel+1
+--stack levels (with the +1 this func gives, still don't understand kjps reasoning with that):
+-- -1 the debug.getinfo call itself
+--0 Debug_Where
+--1 the line that calls Debug_Where
+--2 the function that calls Debug_Where (thus the common usage of DEBUG_Where(2))
+--problem is when code gets fancy and is pcalling or something will likely just return the caller name as tail call
+--at that point its better to just do a whole debug.traceback
 function this.DEBUG_Where(stackLevel)
   --tex MoonSharp does not support
   if debug==nil or debug.getinfo==nil then
@@ -720,7 +786,11 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     local sucess
     sucess,module=pcall(require,moduleName)
     if not sucess then
-      InfCore.Log("ERROR: "..module,false,true)
+      if not IHH then--tex ihhook already logs the error to ih_log (as well as its ihh_log)
+        InfCore.Log("InfCore.LoadExternalModule ERROR: "..module,false,true)
+      end
+      this.DebugPrint(module)--tex since we cant roll it into the above Log call
+      
       --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
       if InfCore.doneStartup and not skipPrint then
         InfCore.Log("Could not load module "..moduleName)
@@ -729,7 +799,7 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     elseif type(module)=="table" then
       _G[moduleName]=module
     else
-      InfCore.Log("InfCore.LoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module),false,true)
+      InfCore.Log("InfCore.LoadExternalModule: ERROR: "..tostring(moduleName).. " is type "..type(module),true,true)
       return nil
     end
   else--tex load internal
@@ -737,13 +807,13 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
     Script.LoadLibrary("/Assets/tpp/script/ih/"..moduleName..".lua")
     module=_G[moduleName]
     if not module then
-      InfCore.Log("InfCore.LoadExternalModule: ERROR: module"..moduleName.."not in globals",false,true)
+      InfCore.Log("InfCore.LoadExternalModule: ERROR: module "..moduleName.." not in globals",true,true)
       return nil
     end
   end--if internal or external
   
   if not module then
-    InfCore.Log("ERROR: !module for "..moduleName)
+    InfCore.Log("ERROR: !module for "..moduleName,true,true)
   end
 
   if isReload and module then
@@ -1075,8 +1145,6 @@ this.prev="_prev"
 --end
 
 --EXEC
-this.logLevel=this.logLevels.info
-
 --package.path=""--DEBUG kill path for fallback testing
 this.gamePath=GetGamePath()
 if isMockFox then

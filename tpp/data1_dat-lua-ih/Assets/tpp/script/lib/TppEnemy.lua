@@ -1469,7 +1469,7 @@ function this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,soldierConfig
   end
   if bodyInfo then
     local wantDDHeadGearMB=Ivars.mbDDHeadGear:Is(1) and Ivars.mbDDHeadGear:MissionCheck()
-    local wantDDHeadGearFREE=true and (vars.missionCode==30010 or vars.missionCode==30020)
+    local wantDDHeadGearFREE=TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode)
     local wantHeadgear=(wantDDHeadGearMB or wantDDHeadGearFREE) and (soldierConfig.HELMET or soldierConfig.GAS_MASK or soldierConfig.NVG)
     --InfCore.Log("GetBalaclavaFaceId:"..tostring(wantDDHeadGearMB)..tostring(wantDDHeadGearFREE)..tostring(wantHeadgear)..tostring(wantDDHeadGearMB)..tostring(bodyInfo.useDDHeadgear))--DEBUG
     if wantHeadgear and bodyInfo and bodyInfo.useDDHeadgear then
@@ -3551,7 +3551,7 @@ function this.AssignSoldiersToCP()
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
       if mvars.ene_lrrpTravelPlan[cpId]then
         SendCommand(soldierId,{id="SetLrrp",travelPlan=mvars.ene_lrrpTravelPlan[cpId]})
-        local dontSet=Ivars.applyPowersToLrrp:Is()>0 or (mvars.ene_lrrpVehicle[cpId] and Ivars.vehiclePatrolProfile:Is()>0 and vars.missionCode==30010 or vars.missionCode==30020)--tex
+        local dontSet=Ivars.applyPowersToLrrp:Is()>0 or (mvars.ene_lrrpVehicle[cpId] and Ivars.vehiclePatrolProfile:Is()>0 and vars.missionCode==30010 or vars.missionCode==30020)--tex TODO: addon support? what am I actually doing here?
         if not dontSet then--tex bypassing, handling with more finess by assiging RADIO in _ApplyRevengeToCp
           mvars.ene_soldierLrrp[soldierId]=true--NMC it's sole purpose seems to be to indicate for RADIO body, TODO could probably remove from GetBodyId, restore this without bypass, and let my code handle default of all lrrp (foot and vehicle) set RADIO
         end
@@ -5085,9 +5085,9 @@ function this.SetupQuestEnemy()
   TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=questCp,locatorSetName=questLocatorSetName}
 end
 
---CALLER: mtbs_enemy.OnAllocateDemoBlock
+--CALLER: Quest script .OnAllocate, mtbs_enemy.OnAllocateDemoBlock
 function this.OnAllocateQuest(body,face,setHostage)
-
+  InfCore.LogFlow("TppEnemy.OnAllocateQuest")--tex
   local function SetAndConvertExtendFova(body,face)
     local fovaSetType="SetNone"
     if IsTypeTable(face)and IsTypeTable(body)then

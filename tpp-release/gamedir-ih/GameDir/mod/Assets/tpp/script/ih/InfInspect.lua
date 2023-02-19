@@ -1,5 +1,7 @@
 -- FILE: InfInspect.lua
 -- NMC
+-- Original name inspect.lua
+-- https://github.com/kikito/inspect.lua
 -- DESC: Debug functions for inspecting lua.
 
 --tex usage local stringout = InfInspect.Inspect(sometable) InfCore.Log(stringout) -- cant do (someotherstring .. stringout), must be by itself
