@@ -1252,20 +1252,25 @@ function this.IsOpenLocation(locationId)
   end
   return true
 end
-local checkQuestFuncs={}
-function checkQuestFuncs.mtbs_wait_quiet()
+--tex NMC extra check whether quest should repop (UpdateRepopFlagImpl) or be in the running in UpdateActiveQuest at all
+--InfQuest/addon support via IH questInfo .canActiveQuest
+local canActiveQuestChecks={}
+function this.GetCanActiveQuestChecksTable()--tex expose for InfQuest> 
+  return canActiveQuestChecks
+end--<
+function canActiveQuestChecks.mtbs_wait_quiet()
   return TppStory.CanArrivalQuietInMB()
 end
-function checkQuestFuncs.Mtbs_child_dog()
+function canActiveQuestChecks.Mtbs_child_dog()
   local canSortieDDog=TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
   local notDDogGoWithMe=not TppStory.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
   return(not canSortieDDog)and notDDogGoWithMe
 end
-function checkQuestFuncs.Mtbs_ddog_walking()
+function canActiveQuestChecks.Mtbs_ddog_walking()
   local e=TppBuddyService.IsDeadBuddyType(BuddyType.DOG)
   return(not e)
 end
-function checkQuestFuncs.cliffTown_q99080()
+function canActiveQuestChecks.cliffTown_q99080()
   local t=TppMotherBaseManagement.IsExistStaff{uniqueTypeId=110}
   local e=TppStory.IsMissionCleard(10240)
   return t or e
@@ -2516,16 +2521,16 @@ function this.UpdateActiveQuest(updateFlags)
           if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
             --NMC: -v- some list of conditions, not as big as the 't' list
-            local CheckQuestFunc=checkQuestFuncs[questName]
+            local CanActiveQuest=canActiveQuestChecks[questName]
             local blockQuest=InfQuest.BlockQuest(questName)--tex
             if blockQuest then
               InfCore.Log("blocked Quest "..questName)
             end
             if this.debugModule then--tex>
-              local checkedQuest=not CheckQuestFunc or CheckQuestFunc()
-              InfCore.Log(questName.." selection states: checkedQuest:"..tostring(checkedQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
+              local canActiveQuest=not CanActiveQuest or CanActiveQuest()
+              InfCore.Log(questName.." selection states: canActiveQuest:"..tostring(canActiveQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
             end--<
-            if this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc())and not blockQuest then--tex added blockQuest
+            if this.IsOpen(questName)and(not CanActiveQuest or CanActiveQuest(questName))and not blockQuest then--tex added blockQuest, added questName param to CanActiveQuest
               local questInfo=this.GetSideOpsInfo(questName)--tex category filtering>
               if not questInfo or enabledCategories[questInfo.category] then
                 --<
@@ -2665,8 +2670,8 @@ end--UpdateActiveQuest
 --        local questIndex=TppDefine.QUEST_INDEX[questName]
 --        if questIndex then
 --          gvars.qst_questActiveFlag[questIndex]=false
---          local CheckQuestFunc=checkQuestFuncs[questName]
---          if this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc())then
+--          local CanActiveQuest=canActiveQuestChecks[questName]
+--          if this.IsOpen(questName)and(not CanActiveQuest or CanActiveQuest())then
 --            if not this.IsCleard(questName)then
 --              if info.isStory then
 --                table.insert(storyQuests,questName)
@@ -2924,8 +2929,8 @@ function this.UpdateRepopFlagImpl(locationQuests)
           numOpen=numOpen+1
         end
         if this.IsRepop(questName)or not this.IsCleard(questName)then
-          local CheckQuestFunc=checkQuestFuncs[questName]
-          if(CheckQuestFunc==nil)or CheckQuestFunc()then
+          local CanActiveQuest=canActiveQuestChecks[questName]
+          if(CanActiveQuest==nil)or CanActiveQuest(questName)then--tex NMC if CanActiveQuest() true, tex added questName param to CanActiveQuest
             if this.debugModule then--tex>
               InfCore.Log("TppQuest.UpdateRepopFlagImpl:"..questName.." IsRepop and CheckQuest")
             end--<
@@ -2947,8 +2952,8 @@ function this.UpdateRepopFlagImpl(locationQuests)
       end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
       end
-      local CheckQuestFunc=checkQuestFuncs[questInfo.name]
-      if CheckQuestFunc and(not CheckQuestFunc())then
+      local CanActiveQuest=canActiveQuestChecks[questInfo.name]
+      if CanActiveQuest and(not CanActiveQuest(questInfo.name))then--tex NMC if CanActiveQuest() false, tex added questName param to CanActiveQuest
         if this.debugModule then--tex>
           InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop false")
         end--<
