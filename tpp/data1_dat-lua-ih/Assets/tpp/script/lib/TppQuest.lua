@@ -1142,7 +1142,7 @@ this.ShootingPracticeOpenCondition={
   Combat=canOpenQuestChecks.mtbs_q42070
 }
 
-function this.GetCanOpenQuestTable()--tex>
+function this.GetCanOpenQuestTable()--tex expose for InfQuest> 
   return canOpenQuestChecks
 end--<
 
@@ -1462,7 +1462,7 @@ function this.Clear(questName,keepAlive)
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,questName)
   this.CheckClearBounus(questIndex,questName)
   this.UpdateClearFlag(questIndex,true,keepAlive)--tex added keepAlive
-  if not keepAlive then--tex added bypass DEBUGNOW
+  if not keepAlive then--tex added bypass DEBUGNOW why?
   this.UpdateRepopFlag(questIndex)
   end
   this.CheckAllClearBounus()
@@ -2469,7 +2469,9 @@ function this.UpdateActiveQuest(updateFlags)
   end
   InfCore.LogFlow("TppQuest.UpdateActiveQuest "..vars.missionCode)--tex DEBUGNOW
   if this.NeedUpdateActiveQuest(updateFlags)then
-    InfCore.LogFlow("NeedUpdateActiveQuest")--tex DEBUGNOW
+  	if this.debugModule then--tex>
+    	InfCore.Log("NeedUpdateActiveQuest true")
+    end--<
     this.UpdateOpenQuest()
 
     --tex get enabled sideops categories>
@@ -2487,7 +2489,7 @@ function this.UpdateActiveQuest(updateFlags)
     --<
     
     local selectedQuestCount=0
-    local forcedQuests=InfQuest.GetForced()--tex
+    local forcedQuests=InfQuest.GetForced()--tex really only singular {[forcedQuestArea]=<forcedQuestName>}
     for i,areaQuests in ipairs(mvars.qst_questList)do
       --ORPHAN local RENsomeTable={}
       local questList={}
@@ -2624,6 +2626,7 @@ function this.UpdateActiveQuest(updateFlags)
       end
     end
   else
+    --tex NMC just reactivate a recently failed quest?
     for i=0,9,1 do
       if gvars.qst_failedIndex[i]~=-1 then
         local failedIndex=gvars.qst_failedIndex[i]
@@ -2906,6 +2909,7 @@ function this.UpdateRepopFlag(questIndex)
   end
   this.UpdateRepopFlagImpl(questAreaTable)
 end
+--tex NMC DEBUGNOW really dont understand this logic
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
     if this.debugModule then--tex>
@@ -2925,7 +2929,7 @@ function this.UpdateRepopFlagImpl(locationQuests)
             if this.debugModule then--tex>
               InfCore.Log("TppQuest.UpdateRepopFlagImpl:"..questName.." IsRepop and CheckQuest")
             end--<
-            return
+            return--tex NMC DEBUGNOW uhh why are we bailing on whole function on success
           end
         end
       end
@@ -3009,6 +3013,7 @@ function this.CheckAllClearMineQuest()
     TppTrophy.Unlock(16,TppHero.MINE_QUEST_ALL_CLEAR.heroicPoint,TppHero.MINE_QUEST_ALL_CLEAR.ogrePoint)
   end
 end
+--tex NMC gates most of UpdateActiveQuest
 function this.NeedUpdateActiveQuest(updateFlags)
   if not this.CanOpenSideOpsList()then
     return false
@@ -3023,7 +3028,6 @@ function this.NeedUpdateActiveQuest(updateFlags)
     return false
   end
 
-  --tex TODO add fix for if all quests disabled (is it all open, or active false that messes it up?)
   return true
 end
 function this.CanOpenSideOpsList()
