@@ -3028,7 +3028,7 @@ function this.NeedUpdateActiveQuest(updateFlags)
     return false
   end
 
-  if TppMission.IsStoryMission(vars.missionCode) then
+  if TppMission.IsStoryMission(vars.missionCode) and (not InfMissionQuest.IsAnyMissionQuest()) then--tex added IsAnyMissionQuest
     InfCore.Log"TppQuest.NeedUpdateActiveQuest false: IsStoryMission"--DEBUGNOW
     return false
   end

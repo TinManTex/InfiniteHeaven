@@ -55,6 +55,8 @@ this.langStrings={
   }
 }
 
+this.hasAnyAddonQuestForMissions=false
+
 function this.IsEnableMissionQuest()
   if Ivars.enableMissionQuest:Is(1) then
     return true
@@ -68,6 +70,12 @@ function this.IsEnableForceAllQuest()
   end
   return false
 end
+
+--tex for NeedUpdateActiveQuest
+function this.IsAnyMissionQuest()
+  --tex forceEnableMissionAllQuest is already gated by enableMissionQuest
+  return Ivars.enableMissionQuest:Is(1) or this.hasAnyAddonQuestForMissions
+end--
 
 this.MISSION_QUEST_LIST={
   --[[ [10020]={--PHANTOM LIMBS - miller is unavoidable on the radio
@@ -457,6 +465,11 @@ function this.AddToMissionQuestTable(missionCode,questName)
   end
   if not alreadyContainsQuest and isValidQuest then
     table.insert(this.MISSION_QUEST_LIST[missionCode],questName)
+  end
+  --tex for NeedUpdateActiveQuest
+  --ASSUMPTION: only calling AddToMissionQuestTable when adding addon quest/not vanilla (vanilla should aready be in this.MISSION_QUEST_LIST
+  if isValidQuest then
+    this.hasAnyAddonQuestForMissions=true
   end
 end
 
