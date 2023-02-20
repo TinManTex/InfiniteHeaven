@@ -425,6 +425,7 @@ end
 function this.Init(missionTable)
   if this.GetMissionQuestList(vars.missionCode) then
     if missionTable.enemy then
+      --stuff that story missions might not have defined that quests need
       missionTable.enemy.soldierDefine=missionTable.enemy.soldierDefine or{}
       missionTable.enemy.soldierDefine.quest_cp=missionTable.enemy.soldierDefine.quest_cp or this.MISSION_QUEST_ENEMY.soldierDefine.quest_cp
       missionTable.enemy.routeSets=missionTable.enemy.routeSets or{}
