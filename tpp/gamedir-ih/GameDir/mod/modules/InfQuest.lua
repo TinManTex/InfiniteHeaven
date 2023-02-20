@@ -188,7 +188,14 @@ end
 --  radius=4,--radius of the quest area circle
 --  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
 --  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
---  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest is open or not
+--  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest can open/is unlocked for consideration to be active, is one way, all quests start closed and run this to see if they open, but are never closed again
+--  canActiveQuest=function(questName) --, optional. all quests repop by default (are available to repeat), returning false will stop it from being considered for selection. use it if you need something after the initial canOpenQuest
+--    --tex disable quest if not dirty enough TODO: actually figure out how long dirty time is
+--    if vars.passageSecondsSinceOutMB<dirtyTime then
+--      return false 
+--    end
+--    return true
+--  end, 
 --  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
 --  disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
 --    "lz_lab_S0000|lz_lab_S_0000",
@@ -514,6 +521,7 @@ function this.RegisterQuests()
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
   local openQuestCheckTable=TppQuest.GetCanOpenQuestTable()
+  local canActiveQuestChecks=TppQuest.GetCanActiveQuestChecksTable()
 
   InfMain.RandomSetToLevelSeed()
 
@@ -556,7 +564,8 @@ function this.RegisterQuests()
       questInfo.questPackList.faceIdList=InfCore.PCallDebug(InfEneFova.GetRandomFaces,randomFaceListIH.gender,randomFaceListIH.count)
     end
     this.AddToQuestInfoTable(questInfoTable,TppQuest.QUESTTABLE_INDEX,questName,questInfo)
-    openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest
+    openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest--tex always checked so cant be nil
+    canActiveQuestChecks[questName]=questInfo.canActiveQuest--tex can be nil (is assumed true)
 
     TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
     --tex -^- this goes through TppQuest.ShowAnnounceLog > TppUI.ShowAnnounceLog so hits the imho silly TppUI.ANNOUNCE_LOG_TYPE indirect
