@@ -162,7 +162,8 @@ function this.CanOpenPlntIsDeveloped(questName)
   local questInfo=this.ihQuestsInfo[questName]
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>=(questInfo.plntId+1)
 end
-function this.AllwaysOpenQuest()
+--tex default for canOpenQuest
+function this.AllwaysOpenQuest(questName)
   return true
 end
 
@@ -287,7 +288,9 @@ function this.BlockQuest(questName)
 
   return false
 end
-
+--tex for UpdateActiveQuest
+-- returns {[forcedQuestArea]=<forcedQuestName>}--only one entry
+--because there can only be one sidop unlocked per area, but currently only forcing one sideop
 local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
 function this.GetForced()
   InfCore.LogFlow("InfQuest.GetForced")
@@ -359,6 +362,11 @@ local gvarFlagNames={
   "qst_questClearedFlag",
   "qst_questActiveFlag",
 }
+--tex REF for SEO: if searching for any of the below you should also search gvarFlagNames in this module to see them also being used
+--gvars.qst_questOpenFlag--see note above
+--gvars.qst_questRepopFlag--see note above
+--gvars.qst_questClearedFlag--see note above
+--gvars.qst_questActiveFlag--see note above
 
 --tex clear range above vanilla quests
 function this.ClearGvarFlagsAddonRange()
@@ -460,7 +468,7 @@ function this.AddToQuestList(questList,questAreaNameTable,questName,questInfo)
       end
 
       questAreaNameTable[questName]=questInfo.areaName
-      infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}
+      infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}--tex DEBUGNOW add isStory, isOnce support?
 
       break
     end
