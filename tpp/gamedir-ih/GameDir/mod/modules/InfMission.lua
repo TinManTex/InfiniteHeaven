@@ -227,6 +227,7 @@ this.manualSequence={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   settings={"NONE"},--DYNAMIC
+  settingNamesDoc=[[<seq_sequenceNames>]],
   OnSelect=function(self)
     IvarProc.SetSettings(self,mvars.seq_sequenceNames)--tex GOTCHA, combines string array and Tpp.Enum
   end,
@@ -239,6 +240,7 @@ this.manualSequence={
 this.loadAddonMission={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   settings={"NONE"},--DYNAMIC
+  settingNamesDoc="<Addon mission names>",
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
     for missionCode,missionInfo in pairs(this.missionInfo)do
@@ -1097,6 +1099,17 @@ this.saveName="ih_mission_states.lua"
 
 --tex don't lose existing on modulereload
 ih_mission_states=ih_mission_states or {}
+
+--CALLER: InitializeOnNewGame
+--TODO: delete file outright
+function this.ClearSave()
+  --tex only bother saving if there was something in previous
+  if next(ih_mission_states)~=nil then
+    this.isSaveDirty=true
+  end
+  --tex clear
+  ih_mission_states={}
+end--ClearSave
 
 function this.Save(newSave)
   local ih_states=ih_mission_states

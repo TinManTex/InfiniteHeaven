@@ -816,6 +816,16 @@ this.saveName="ih_quest_states.lua"
 --tex don't lose existing on modulereload
 ih_quest_states=ih_quest_states or {}
 
+--CALLER: MakeNewGameSaveData
+--TODO: delete file outright
+function this.ClearSave()
+  --tex only bother saving if there was something in previous
+  if next(ih_quest_states)~=nil then
+    this.isSaveDirty=true
+  end
+  --tex clear
+  ih_quest_states={}
+end--ClearSave
 function this.Save(newSave)
   local isSaveDirty=this.isSaveDirty or this.GetCurrentStates()--tex see gotcha on this.isSaveDirty
   if isSaveDirty then
