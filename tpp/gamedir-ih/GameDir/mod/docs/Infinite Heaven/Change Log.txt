@@ -6,6 +6,14 @@ Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelat
 
 Clear ancillary ih saves on new game.
 
+InfQuest:
+unlockSideOps="Unlock Sideops mode" split into quest_forceOpen="Force Open" and quest_forceRepop="Force replayble".
+
+sideOpsSelectionMode: 
+Renamed to quest_selectForArea.
+Categories removed, use the Sideops category filter menu instead. 
+'Random Addon' setting added to prioritize Addon sideops.
+
 r259 - 2023-02-18
 Fix: InfPositions Loadposistions, thanks cap for fix.
 Fix: ih_mission_states not restoring, thanks cap for report.

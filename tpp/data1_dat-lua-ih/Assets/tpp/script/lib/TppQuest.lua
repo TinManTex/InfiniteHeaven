@@ -2480,15 +2480,16 @@ function this.UpdateActiveQuest(updateFlags)
     this.UpdateOpenQuest()
 
     --tex get enabled sideops categories>
-    local selectionMode=Ivars.sideOpsSelectionMode:Get()
-    local selectionCategory=Ivars.sideOpsSelectionMode:GetSettingName(selectionMode)
-    local selectionCategoryEnum=this.QUEST_CATEGORIES_ENUM[selectionCategory]--tex GOTCHA: selectionCategoryEnum can be nil (see selectionCategory)
-    InfCore.Log("UpdateActiveQuest: selectionMode:"..tostring(selectionMode))--tex DEBUG
-    InfCore.Log("UpdateActiveQuest: selectionCategory:"..tostring(selectionCategory))--tex DEBUG
-    InfCore.Log("UpdateActiveQuest: selectionCategoryEnum:"..tostring(selectionCategoryEnum))--tex DEBUG
+    local selectionMode=Ivars.quest_selectForArea:Get()
+    local selectionType=Ivars.quest_selectForArea:GetSettingName(selectionMode)
+    local selectionCategoryEnum=this.QUEST_CATEGORIES_ENUM[selectionType]--tex GOTCHA: selectionCategoryEnum can be nil (see selectionCategory)
 
-    local enabledCategories=InfQuest.GetEnabledCategories(selectionCategoryEnum)--REF enabledCategories[categoryEnum]=enabled
+    local enabledCategories=InfQuest.GetEnabledCategories()--REF enabledCategories[categoryEnum]=enabled
     if this.debugModule then
+      InfCore.Log("UpdateActiveQuest: selectionMode:"..tostring(selectionMode))--tex DEBUG
+      InfCore.Log("UpdateActiveQuest: selectionType:"..tostring(selectionType))--tex DEBUG
+      InfCore.Log("UpdateActiveQuest: selectionCategoryEnum:"..tostring(selectionCategoryEnum))--tex DEBUG
+
       InfCore.PrintInspect(enabledCategories,"enabledCategories")
     end
     --<
@@ -2496,11 +2497,15 @@ function this.UpdateActiveQuest(updateFlags)
     local selectedQuestCount=0
     local forcedQuests=InfQuest.GetForced()--tex really only singular {[forcedQuestArea]=<forcedQuestName>}
     for i,areaQuests in ipairs(mvars.qst_questList)do
-      --ORPHAN local RENsomeTable={}
-      local questList={}
+      --tex NMC: activable candidates for the are, split into priorities
       local storyQuests={}
       local nonStoryQuests={}
       local repopQuests={}
+      --tex for selectionMode ADDON_RANDOM, subset of above>
+      local storyAddonQuests={}
+      local nonStoryAddonQuests={}
+      local repopAddonQuests={}      
+      --<
       --tex forcedquests>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
       local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
       if unlockedName then
@@ -2537,14 +2542,20 @@ function this.UpdateActiveQuest(updateFlags)
                 if not this.IsCleard(questName)then
                   if info.isStory then
                     table.insert(storyQuests,questName)
-                    table.insert(questList,questName)--tex
+                    if InfQuest and InfQuest.ihQuestsInfo[questName] then--tex>
+                      table.insert(storyAddonQuests,questName)
+                    end--<
                   else
                     table.insert(nonStoryQuests,questName)
-                    table.insert(questList,questName)--tex
+                    if InfQuest and InfQuest.ihQuestsInfo[questName] then--tex>
+                      table.insert(nonStoryAddonQuests,questName)
+                    end--<
                   end
                 elseif this.IsRepop(questName) then
                   table.insert(repopQuests,questName)
-                  table.insert(questList,questName)--tex
+                  if InfQuest and InfQuest.ihQuestsInfo[questName] then--tex>
+                    table.insert(repopAddonQuests,questName)
+                  end--<
                 end
               end
             end --<quest open
@@ -2556,60 +2567,74 @@ function this.UpdateActiveQuest(updateFlags)
           InfCore.PrintInspect(storyQuests,"storyQuests")
           InfCore.PrintInspect(nonStoryQuests,"nonStoryQuests")
           InfCore.PrintInspect(repopQuests,"repopQuests")
+ 
+          InfCore.PrintInspect(storyAddonQuests,"storyAddonQuests")
+          InfCore.PrintInspect(nonStoryAddonQuests,"nonStoryAddonQuests")
+          InfCore.PrintInspect(repopAddonQuests,"repopAddonQuests")         
         end--<
         
-        --tex now that we've gatherered all candidate quests for the area, we need to select one 
+        --tex NMC now that we've gatherered all candidate quests for the area, we need to select one, using the lists as priority order
         local selectedQuest=nil
-        --tex filter quests for area to specific category
-        if selectionCategoryEnum~=nil then--tex get past RANDOM
-          local categoryQuests={}
-          for j,questName in ipairs(questList)do
-            local questInfo=this.GetSideOpsInfo(questName)
-            if not questInfo then
-            --InfCore.DebugPrint("no questInfo for "..questName)--DEBUG
-            else
-              if questInfo.category==selectionCategoryEnum then
-                --InfCore.DebugPrint(questName.." questCategoryEnum:"..tostring(questCategoryEnum).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
-                categoryQuests[#categoryQuests+1]=questName
-              end
-              if selectionCategory=="ADDON_QUEST" then--tex doesnt work by category tag
-                if InfQuest and InfQuest.ihQuestsInfo[questName] then
-                  categoryQuests[#categoryQuests+1]=questName
-              end
+        --DEBUGNOW CULL
+--        --tex filter quests for area to specific category
+--        if selectionCategoryEnum~=nil then--tex get past RANDOM
+--          local categoryQuests={}
+--          for j,questName in ipairs(questList)do
+--            local questInfo=this.GetSideOpsInfo(questName)
+--            if not questInfo then
+--            --InfCore.DebugPrint("no questInfo for "..questName)--DEBUG
+--            else
+--              if questInfo.category==selectionCategoryEnum then
+--                --InfCore.DebugPrint(questName.." questCategoryEnum:"..tostring(questCategoryEnum).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
+--                categoryQuests[#categoryQuests+1]=questName
+--              end
+--              if selectionCategory=="ADDON_QUEST" then--tex doesnt work by category tag
+--                if InfQuest and InfQuest.ihQuestsInfo[questName] then
+--                  categoryQuests[#categoryQuests+1]=questName
+--                end
+--              end
+--            end
+--          end
+--          if #categoryQuests>0 then
+--            InfMain.RandomSetToLevelSeed()
+--            selectedQuest=categoryQuests[math.random(#categoryQuests)]
+--            InfMain.RandomResetToOsTime()
+--          end
+--        end
+        --tex quest_selectForArea>
+        local lists={
+          storyQuests,
+          nonStoryQuests,
+          repopQuests
+        }
+        --NOTE: still prioritizes vanilla uncompleted if no addon quest found for the prior list
+        if selectionType=="ADDON_RANDOM" then
+          lists={
+            storyAddonQuests,
+            storyQuests,
+            nonStoryAddonQuests,
+            nonStoryQuests,
+            repopAddonQuests,
+            repopQuests
+          }
+        end
+        if selectionType=="RANDOM" or selectionType=="RANDOM_ADDON" then
+          InfMain.RandomSetToLevelSeed()
+          for j,list in ipairs(lists) do
+            if selectedQuest==nil then
+              if #list>0 then
+                selectedQuest=list[math.random(#list)]
+                break
               end
             end
-          end
-          if #categoryQuests>0 then
-            InfMain.RandomSetToLevelSeed()
-            selectedQuest=categoryQuests[math.random(#categoryQuests)]
-            InfMain.RandomResetToOsTime()
-          end
-        end
-        if Ivars.sideOpsSelectionMode:Is"RANDOM" then
-          InfMain.RandomSetToLevelSeed()
-          if #questList>0 then
-            local lists={
-              storyQuests,
-              nonStoryQuests,
-              repopQuests
-            }
-            for j,list in ipairs(lists) do
-              if selectedQuest==nil then
-                if #list>0 then
-                  selectedQuest=list[math.random(#list)]
-                  break
-                end
-              end
-            end--for lists
-          end--if #questList
+          end--for lists
           InfMain.RandomResetToOsTime()
-        end--if RANDOM
+        end--if RANDOM<
 
-        --tex NMC select first in first list found
         if not selectedQuest then
           for j,questNames in ipairs{storyQuests,nonStoryQuests,repopQuests}do
             if not selectedQuest then--tex NMC with below -v- doubles as a nil check for empty list
-              selectedQuest=questNames[1]
+              selectedQuest=questNames[1]--tex NMC select first in first list found
               --tex TODO: surely should be able to just break; here, find out what the behaviour is when iterating multiple tables as in this instance
             end
           end
