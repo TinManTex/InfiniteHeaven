@@ -2557,6 +2557,8 @@ function this.UpdateActiveQuest(updateFlags)
           InfCore.PrintInspect(nonStoryQuests,"nonStoryQuests")
           InfCore.PrintInspect(repopQuests,"repopQuests")
         end--<
+        
+        --tex now that we've gatherered all candidate quests for the area, we need to select one 
         local selectedQuest=nil
         --tex filter quests for area to specific category
         if selectionCategoryEnum~=nil then--tex get past RANDOM
@@ -2603,9 +2605,10 @@ function this.UpdateActiveQuest(updateFlags)
           InfMain.RandomResetToOsTime()
         end--if RANDOM
 
+        --tex NMC select first in first list found
         if not selectedQuest then
           for j,questNames in ipairs{storyQuests,nonStoryQuests,repopQuests}do
-            if not selectedQuest then
+            if not selectedQuest then--tex NMC with below -v- doubles as a nil check for empty list
               selectedQuest=questNames[1]
               --tex TODO: surely should be able to just break; here, find out what the behaviour is when iterating multiple tables as in this instance
             end
