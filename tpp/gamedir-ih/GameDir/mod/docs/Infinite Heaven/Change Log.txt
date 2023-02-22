@@ -2,7 +2,9 @@ Infinite Heaven changelog
 Just notable changes, see github commits for full
 
 r260 - 
-Fix: quest adding their missionPacks in helispace.
+Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
+
+Clear ancillary ih saves on new game.
 
 r259 - 2023-02-18
 Fix: InfPositions Loadposistions, thanks cap for fix.

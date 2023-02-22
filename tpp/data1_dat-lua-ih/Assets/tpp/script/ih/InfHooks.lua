@@ -37,6 +37,12 @@ this.hookFuncs={
       InfCore.LogFlow("InfHook TppSave.DoSave done")--tex just to make it clear that function completed and not an issue, since this is often one of the last things logged on load hangs.
       return saveResult
     end,
+    --tex all DoSave or EnqueSave (which triggers DoSave
+    MakeNewGameSaveData=function(acquirePrivilegeInTitleScreen)
+      InfCore.LogFlow("InfHook TppSave.MakeNewGameSaveData acquirePrivilegeInTitleScreen:"..tostring(acquirePrivilegeInTitleScreen))
+      IvarProc.MakeNewGameSaveData(acquirePrivilegeInTitleScreen)
+      this.TppSave.MakeNewGameSaveData(acquirePrivilegeInTitleScreen)
+    end,
     SaveGameData=function(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
       InfCore.LogFlow("InfHook TppSave.SaveGameData")
       IvarProc.OnSave(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)--tex don't know if want before or after
@@ -85,7 +91,7 @@ this.hookFuncs={
       InfShootingPractice.UpdateShootingPracticeClearTime(questNameAsRankingCategory,scoreTime)
     end,
   },--TppRanking
-}
+}--hookFuncs
 
 this.debugPCallHooks={
   TppAnimal={
