@@ -934,16 +934,17 @@ function this.ReadSaveStates()
   end
 
   --tex open up new quests
-  for i,questName in ipairs(this.ihQuestNames)do
-    if not ih_quest_states[questName] then
-      local questIndex=TppDefine.QUEST_INDEX[questName]
-      if not questIndex then
-        InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
-      else
-        gvars.qst_questOpenFlag[questIndex]=true
-      end
-    end
-  end--for ihQuestNames
+--CULL, DEBUGNOW UpdateOpenQuest should handle it, but that needs a UpdateActiveQuest call?
+--  for i,questName in ipairs(this.ihQuestNames)do
+--    if not ih_quest_states[questName] then
+--      local questIndex=TppDefine.QUEST_INDEX[questName]
+--      if not questIndex then
+--        InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
+--      else
+--        gvars.qst_questOpenFlag[questIndex]=true
+--      end
+--    end
+--  end--for ihQuestNames
 
   if this.debugSave then
     for questName,questStates in pairs(ih_quest_states) do
