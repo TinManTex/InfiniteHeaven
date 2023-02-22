@@ -2598,10 +2598,10 @@ function this.UpdateActiveQuest(updateFlags)
                   break
                 end
               end
-            end
-          end
+            end--for lists
+          end--if #questList
           InfMain.RandomResetToOsTime()
-        end
+        end--if RANDOM
 
         if not selectedQuest then
           for j,questNames in ipairs{storyQuests,nonStoryQuests,repopQuests}do
