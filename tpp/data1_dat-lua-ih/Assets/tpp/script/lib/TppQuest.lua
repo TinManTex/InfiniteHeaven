@@ -2646,7 +2646,7 @@ function this.UpdateActiveQuest(updateFlags)
   for i=0,9,1 do
     gvars.qst_failedIndex[i]=-1
   end
-  TppUiCommand.SetSideOpsListUpdate()
+  TppUiCommand.SetSideOpsListUpdate()--tex NMC see GetSideOpsListTable for what's actually shown
   for i,questName in ipairs(setLockedTanQuests)do
     if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
       TppMotherBaseManagement.SetLockedTanFlag{locked=true}
