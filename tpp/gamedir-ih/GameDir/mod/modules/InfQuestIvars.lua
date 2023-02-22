@@ -2,7 +2,8 @@
 local this={}
 
 this.registerIvars={
-  "unlockSideOps",
+  "quest_forceOpen",
+  "quest_forceRepop",
   "unlockSideOpNumber",
   "sideOpsSelectionMode",
   "showAllOpenSideopsOnUi",
@@ -14,11 +15,23 @@ local function UpdateActiveQuest()
   InfQuest.UpdateActiveQuest()
 end
 
-this.unlockSideOps={
+this.quest_forceOpen={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"OFF","REPOP","OPEN"},
   OnChange=UpdateActiveQuest,
 }
+this.quest_forceRepop={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.quest_useAltForceFulton={--DEBUGNOW
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
 this.unlockSideOpNumber={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=157},--DYNAMIC, DEBUGNOW: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
@@ -135,7 +148,8 @@ this.sideOpsMenu={
   options={
     "InfQuest.RerollQuestSelection",
     "Ivars.unlockSideOpNumber",
-    "Ivars.unlockSideOps",
+    "Ivars.quest_forceOpen",
+    "Ivars.quest_forceRepop",
     "Ivars.sideOpsSelectionMode",
     "InfQuestIvars.sideOpsCategoryMenu",
     "Ivars.showAllOpenSideopsOnUi",
@@ -175,8 +189,8 @@ end
 this.langStrings={
   eng={
     sideOpsMenu="Side ops menu",
-    unlockSideOps="Unlock Sideops mode",
-    unlockSideOpsSettings={"Off","Force Replayable","Force Open"},
+    quest_forceOpen="Force Open",
+    quest_forceRepop="Force replayble",
     unlockSideOpNumber="Open specific sideop #",
     sideOpsCategoryMenu="Sideops category filter menu",
     sideops_STORY="Story/unique",
@@ -222,7 +236,8 @@ this.langStrings={
   },
   help={
     eng={
-      unlockSideOps="Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.",
+      quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
+      quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
       sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.",
       sideOpsCategoryMenu="Filters selection of sideops per category, Sideop selection mode will override this.",
       showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",

@@ -2806,20 +2806,19 @@ function this.SwitchActiveQuest(questName)
 end
 function this.IsRepop(questName)
   --tex>force repop
-  if Ivars.unlockSideOps:Is()>0 then
+  if Ivars.quest_forceRepop:Is(1) then
     return true
-  end
-  --<
+  end--<
   local questIndex=TppDefine.QUEST_INDEX[questName]
   if questIndex then
     return gvars.qst_questRepopFlag[questIndex]
   end
 end
 function this.IsOpen(questName)
-  --tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
-  if Ivars.unlockSideOps:Is"OPEN" then
+  --tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed>
+  if Ivars.quest_forceOpen:Is(1) then
     return true
-  end
+  end--<
   local questIndex=TppDefine.QUEST_INDEX[questName]
   if questIndex then
     return gvars.qst_questOpenFlag[questIndex]
@@ -2920,7 +2919,7 @@ function this.UpdateRepopFlagImpl(locationQuests)
     if this.debugModule then--tex>
       InfCore.LogFlow"TppQuest.UpdateRepopFlagImpl"--tex
     end--<
-    local forceRepop=Ivars.unlockSideOps:Is()>0--tex
+    local forceRepop=Ivars.quest_forceRepop:Is(1)-tex
     local numOpen=0
     for n,questInfo in ipairs(locationQuests.infoList)do
       local questName=questInfo.name
