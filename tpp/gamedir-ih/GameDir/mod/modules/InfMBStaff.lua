@@ -20,7 +20,7 @@ ih_priority_staff=ih_priority_staff or {
   staffIds={}
 }
 
---CALLER: InitializeOnNewGame
+--CALLER: MakeNewGameSaveData
 --TODO: delete file outright
 function this.ClearSave()
   --tex only bother saving if there was something in previous

@@ -1100,7 +1100,7 @@ this.saveName="ih_mission_states.lua"
 --tex don't lose existing on modulereload
 ih_mission_states=ih_mission_states or {}
 
---CALLER: InitializeOnNewGame
+--CALLER: MakeNewGameSaveData
 --TODO: delete file outright
 function this.ClearSave()
   --tex only bother saving if there was something in previous
