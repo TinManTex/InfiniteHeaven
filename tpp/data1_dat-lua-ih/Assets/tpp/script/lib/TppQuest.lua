@@ -53,9 +53,8 @@ this.QUEST_CATEGORIES={
   "ELIMINATE_TANK_UNIT",--14
   "ELIMINATE_PUPPETS",--15
   "TARGET_PRACTICE",--7,0,0,7
-  "ADDON_QUEST",--tex meta category
 }
-this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)
+this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)--tex from 0
 --NMC: see http://metalgearmodding.wikia.com/wiki/MissionCodes#Side_Ops.2FQuests (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
 --actual GetQuestNameId. lang ids for quests are name_<questId>, info_<questId>
 --index preceding the info (ie --[[001]]) is the sideop number in idroid
@@ -2484,18 +2483,12 @@ function this.UpdateActiveQuest(updateFlags)
     end--<
     this.UpdateOpenQuest()
 
-    --tex get enabled sideops categories>
-    local selectionMode=Ivars.quest_selectForArea:Get()
-    local selectionType=Ivars.quest_selectForArea:GetSettingName(selectionMode)
-
-    local enabledCategories=InfQuest.GetEnabledCategories()--REF enabledCategories[categoryEnum]=enabled
-    if this.debugModule then
-      InfCore.Log("UpdateActiveQuest: selectionMode:"..tostring(selectionMode))--tex DEBUG
-      InfCore.Log("UpdateActiveQuest: selectionType:"..tostring(selectionType))--tex DEBUG
-
+    if this.debugModule then--tex >
+      local selectForArea=Ivars.quest_selectForArea:GetSettingName()
+      InfCore.Log("UpdateActiveQuest: selectForArea:"..tostring(selectForArea))--tex DEBUG
+      local enabledCategories=InfQuest.GetEnabledCategories()--tex LEGACY now doing category selection in BlockQuest, leaving this here for debug
       InfCore.PrintInspect(enabledCategories,"enabledCategories")
-    end
-    --<
+    end--<
     
     local activeQuestCount=0
     local forcedQuests=InfQuest.GetForced()--tex REF {[forcedQuestArea]=<forcedQuestName>,...}
@@ -2526,7 +2519,7 @@ function this.UpdateActiveQuest(updateFlags)
           if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
             local CanActiveQuest=canActiveQuestChecks[questName]
-            local blockQuest=InfQuest.BlockQuest(questName)--tex
+            local blockQuest=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
             if blockQuest then
               InfCore.Log("blocked Quest "..questName)
             end
@@ -2535,11 +2528,6 @@ function this.UpdateActiveQuest(updateFlags)
               InfCore.Log(questName.." selection states: canActiveQuest:"..tostring(canActiveQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
             end--<
             if this.IsOpen(questName)and(not CanActiveQuest or CanActiveQuest(questName))and not blockQuest then--tex added blockQuest, added questName param to CanActiveQuest
-              --tex category filtering>
-              local questInfo=this.GetSideOpsInfo(questName)
-              local isAddon=InfQuest.ihQuestsInfo[questName]
-              if not questInfo or enabledCategories[questInfo.category] then
-                --<
                 if not this.IsCleard(questName)then
                   if info.isStory then
                     table.insert(storyQuests,questName)
@@ -2548,11 +2536,11 @@ function this.UpdateActiveQuest(updateFlags)
                   end
                 elseif this.IsRepop(questName) then
                   table.insert(repopQuests,questName)
-                  if isAddon then--tex>
+                  local isAddon=InfQuest.ihQuestsInfo[questName]--tex> 
+                  if isAddon then
                     table.insert(repopAddonQuests,questName)
                   end--<
                 end--if cleared or repop
-              end--if category
             end --<quest open
           end --<questindex
         end --<for infolist
@@ -2576,7 +2564,7 @@ function this.UpdateActiveQuest(updateFlags)
             end
           end--for uncleared quests
 
-        if not activateQuest then
+          if not activateQuest then
             --tex quest_selectForArea
             local repopLists={repopQuests}      
             if selectionType=="RANDOM_ADDON" then
@@ -2589,8 +2577,8 @@ function this.UpdateActiveQuest(updateFlags)
                   activateQuest=questNames[1]
                 else--tex ASSUMPTION: "RANDOM","RANDOM_ADDON". be more specific if you add anything else to quest_selectForArea
                   activateQuest=questNames[math.random(#questNames)]
-          end
-        end
+                end
+              end
             end--for lists
             InfMain.RandomResetToOsTime()--tex technically changing the seed here even if defaults on, but whatever
           end--if not selectedQuest

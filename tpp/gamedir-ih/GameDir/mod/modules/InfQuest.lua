@@ -260,7 +260,8 @@ local blockQuests={
   sovietBase_q99020=true,-- 82, make contact with emmeric
 }
 
---block quests>
+--block quests> aka (not CanActiveQuestIH())
+--return true if this quest should not be selected for Active
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
   if InfMainTpp.IsMbEvent() then
@@ -280,8 +281,27 @@ function this.BlockQuest(questName)
     end
   end
 
-  --TODO instead of faffing about in tppquest to filter categories just filter here
+  --tex instead of faffing about in tppquest to filter categories just filter here as it already calls BlockQuest
+  local questInfo=TppQuest.GetSideOpsInfo(questName)
+  if questInfo==nil then--tex hidden quest, dont block
+    return false
+  end
 
+  --tex catergory selection menu / InfQuestIvars quest_categorySelection_  --DEBUGNOW TODO profile UpdateActiveQuest with this and without (and profile UpdateActiveQuest ORIG vs ih UpdateActiveQuest while you're at it)
+  local categoryName=TppQuest.QUEST_CATEGORIES[questInfo.category+1]  
+  local ivarName=InfQuestIvars.categoryIvarPrefix..categoryName
+  local ivar=Ivars[ivarName]
+  
+  local categorySetting=ivar:GetSettingName()
+  local isAddon=InfQuest.ihQuestsInfo[questName]
+  --REF {"ALL","NONE","ADDON_ONLY"},
+  if categorySetting=="NONE" then
+    return true
+  elseif categorySetting=="ADDON_ONLY" and not isAddon then
+    return true
+  end
+  --<
+ 
   --tex block heli quests to allow super reinforce
   if Ivars.enableHeliReinforce:Is(1) then
     --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
@@ -339,27 +359,24 @@ function this.GetForced()
     return forcedQuests
   end
 end--GetForced
-function this.GetEnabledCategories(selectionCategoryEnum)
+--tex for UpdateActiveQuest / InfQuestIvars sideOpsCategoryMenu quest category selection
+--returns {[QUEST_CATEGORIES_ENUM]="ALL"|"NONE"|"ADDON_ONLY",...}
+--DEPRECIATED: only used for debugging. 
+--the original approach was to run this to gather all the category settings, then compare that in the quest list loops, 
+--but it's not really that much slower to look up the single ivar for each quest from within the loop
+function this.GetEnabledCategories()
   local enabledCategories={}
-  local ivarPrefix="sideops_"
+  local ivarPrefix=InfQuestIvars.categoryIvarPrefix
   for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
     local ivarName=ivarPrefix..categoryName
     local categoryEnum=TppQuest.QUEST_CATEGORIES_ENUM[categoryName]
-    local enabled=true
     local ivar=Ivars[ivarName]
-    --tex the per-category ivars default to 1/enabled
-    if ivar then--tex ADDON doesnt have an ivar
-      enabled=ivar:Get()==1
-      InfCore.Log(ivarName.."="..tostring(enabled))
+    if not ivar then
+      InfCore.Log("ERROR: GetEnabledCategories could not find selection ivar for category "..categoryName)
+    else
+      enabledCategories[categoryEnum]=ivar:GetSettingName()
     end
-
-    --tex selectionmode overrides individual selection categories filter
-    if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
-      enabled=true
-    end
-
-    enabledCategories[categoryEnum]=enabled
-end
+  end--for QUEST_CATEGORIES
   return enabledCategories
 end--GetEnabledCategories
 
