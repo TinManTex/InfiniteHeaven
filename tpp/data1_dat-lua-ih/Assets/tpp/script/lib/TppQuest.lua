@@ -59,6 +59,10 @@ this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)
 --NMC: see http://metalgearmodding.wikia.com/wiki/MissionCodes#Side_Ops.2FQuests (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
 --actual GetQuestNameId. lang ids for quests are name_<questId>, info_<questId>
 --index preceding the info (ie --[[001]]) is the sideop number in idroid
+--see TppQuestList for the other main quest info tables, or see InfQuest to see the various stuff it pushes to get a quest added, or just search the questName through code to see what turns up
+--Use GetSideOpsInfo(questName) to get entry
+--NOTE: some quests are hidden, dont have entries here: waterway_q99010 (Quiet fight), Mtbs_child_dog (sideop that controlls puppy ddog), mtbs_q99060 (paz)
+--they are in TppQuestList ordered by priority, and will set clear flag when done
 --tex added categories-v-
 local questInfoTable={
   --[[001]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
@@ -2389,6 +2393,7 @@ function this.GetQuestIndex(questName)
     return
   end
 end
+--tex NMC GOTCHA: some quests are hidden, dont have questInfo (see Note at top of questInfoTable)
 function this.GetSideOpsInfo(questName)
   --tex modified
   local questTableIndex=this.QUESTTABLE_INDEX[questName]
@@ -2809,7 +2814,7 @@ function this.IsActive(questName)
     return gvars.qst_questActiveFlag[questIndex]
   end
 end
-function this.IsCleard(questName)
+function this.IsCleard(questName)--TYPO
   local questIndex=TppDefine.QUEST_INDEX[questName]
   if questIndex then
     return gvars.qst_questClearedFlag[questIndex]
