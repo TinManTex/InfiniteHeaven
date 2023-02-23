@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- TppQuestList.lua
 local this={}
+--tex NMC NOTE: that story and hidden quests (waterway_q99010, Mtbs_child_dog, mtbs_q99060) are (except for one case) ordered first, so if not yet completed will take priority of the base game selection of first in list found
 this.questList={--see lso mvars.qst_questList
   {locationId=TppDefine.LOCATION_ID.AFGH,
     areaName="tent",
