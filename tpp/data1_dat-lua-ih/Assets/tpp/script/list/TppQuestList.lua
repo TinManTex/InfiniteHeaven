@@ -2,6 +2,7 @@
 -- TppQuestList.lua
 local this={}
 --tex NMC NOTE: that story and hidden quests (waterway_q99010, Mtbs_child_dog, mtbs_q99060) are (except for one case) ordered first, so if not yet completed will take priority of the base game selection of first in list found
+--isOnce true means not repopable (see UpdateRepopFlagImpl)
 this.questList={--see lso mvars.qst_questList
   {locationId=TppDefine.LOCATION_ID.AFGH,
     areaName="tent",
@@ -192,7 +193,7 @@ this.questList={--see lso mvars.qst_questList
       
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsCommand",clusterName="Command",
     infoList={
-      {name="Mtbs_child_dog",invokeStepName="QStep_Start"},
+      {name="Mtbs_child_dog",invokeStepName="QStep_Start"},--hidden quest GOTCHA: manually sets RepopFlag false aka isOnce on demo DdogGoWithMe OnEnd
       {name="mtbs_q42010",invokeStepName="QStep_Start"}
     }},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsCombat",clusterName="Combat",
