@@ -2497,7 +2497,7 @@ function this.UpdateActiveQuest(updateFlags)
       local storyQuests={}
       local nonStoryQuests={}
       local repopQuests={}
-      local repopAddonQuests={}--tex for selectionMode RANDOM_ADDON, subset of above<     
+      local repopAddonQuests={}--tex for selectForArea RANDOM_ADDON, subset of above    
       --tex forcedquests>  add quest then skip area that unlocked op is in. 
       --GOTCHA: since this is outright override it could cause issues blocking story/hidden quests 
       local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
@@ -2565,31 +2565,32 @@ function this.UpdateActiveQuest(updateFlags)
           end--for uncleared quests
 
           if not activateQuest then
-            --tex quest_selectForArea
+            local selectForArea=Ivars.quest_selectForArea:GetSettingName()--tex REF "FIRST_FOUND"|"RANDOM"|"RANDOM_ADDON"
             local repopLists={repopQuests}      
-            if selectionType=="RANDOM_ADDON" then
+            if selectForArea=="RANDOM_ADDON" then
               repopLists={repopAddonQuests,repopQuests}
             end
             InfMain.RandomSetToLevelSeed()
             for j,questNames in ipairs(repopLists) do
               if not activateQuest and #questNames>0 then
-                if selectionType=="FIRST_FOUND"then--tex default
+                if selectForArea=="FIRST_FOUND"then--tex default
                   activateQuest=questNames[1]
                 else--tex ASSUMPTION: "RANDOM","RANDOM_ADDON". be more specific if you add anything else to quest_selectForArea
                   activateQuest=questNames[math.random(#questNames)]
                 end
               end
-            end--for lists
+            end--for repop quests
             InfMain.RandomResetToOsTime()--tex technically changing the seed here even if defaults on, but whatever
           end--if not selectedQuest
         end--if selectedCount>0
 
         if activateQuest then
-          InfCore.Log("areaName:"..areaQuests.areaName.." selectedQuest:"..activateQuest)--tex DEBUG
+          InfCore.Log("areaName:"..areaQuests.areaName.." activateQuest:"..activateQuest)--tex DEBUG
           gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[activateQuest]]=true
           activeQuestCount=activeQuestCount+1--tex 
         else
-          InfCore.Log("UpdateActiveQuest "..vars.missionCode.." did not select a quest for area "..areaQuests.areaName)--tex
+          --tex covered by "UpdateActiveQuest selected" selectedCount log above
+          --InfCore.Log("UpdateActiveQuest "..vars.missionCode.." did not activate a quest for area "..areaQuests.areaName)--tex
         end
       end--not forcedquest
     end-- for areaQuests in questlist
