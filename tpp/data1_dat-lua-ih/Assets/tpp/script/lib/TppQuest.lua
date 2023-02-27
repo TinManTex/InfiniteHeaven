@@ -1149,17 +1149,17 @@ function this.GetCanOpenQuestTable()--tex expose for InfQuest>
   return canOpenQuestChecks
 end--<
 
---NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction
+--NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction. Actual quest selection in UpdateActiveQuest
 function this.GetSideOpsListTable()
   InfCore.LogFlow("InfQuest.GetSideOpsListTable")--tex DEBUG
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
     local clearedNotActive={}--tex
-    for i,questInfo in ipairs(questInfoTable)do
+    for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL
       local questName=questInfo.questName
       local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)
       local isCleard=this.IsCleard(questName)
-      local showAllOpen=this.IsOpen(questName) and Ivars.showAllOpenSideopsOnUi:Is(1) --tex added ivar bypass
+      local showAllOpen=this.IsOpen(questName) and Ivars.quest_showOnUiMode:Is"ALL_OPEN" --tex added ivar bypass
       if questInfo and(isActiveOnMBTerminal or isCleard or showAllOpen)then--tex added showOpen
         questInfo.index=i
         questInfo.isActive=isActiveOnMBTerminal
@@ -1175,8 +1175,9 @@ function this.GetSideOpsListTable()
     --tex manage ui entry limit>
     local maxUIQuests=192
     local overCount=#sideOpsListTable-maxUIQuests
-    InfCore.Log("overCount:"..overCount)--tex DEBUG
     if overCount>0 then
+      InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+      InfCore.Log("overCount:"..overCount)--tex DEBUG      
       --tex TODO user message?
       InfMain.RandomSetToLevelSeed()
 
@@ -1191,15 +1192,15 @@ function this.GetSideOpsListTable()
             break
           end
         end
-      end
+      end--for overCount
       InfMain.RandomResetToOsTime()
-    end
+    end--if overCount
     if #sideOpsListTable>maxUIQuests then
-      InfCore.Log("WARNING: sidopList > maxUiQuests",true)--tex TODO lang
+      InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
     end
     InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
     --<
-  end
+  end--if CanOpenSideOpsList
 
   --NMC wut.
   --they can't just # off the table they're getting?
@@ -1211,7 +1212,7 @@ function this.GetSideOpsListTable()
   --    InfCore.LogFlow("TppQuest.GetSideOpsListTable"--tex DEBUG
   --    InfCore.PrintInspect(sideOpsListTable)--tex DEBUG
   return sideOpsListTable
-end
+end--GetSideOpsListTable
 function this.GetBounusGMP(questName)
   local rank=TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]
   if rank then
@@ -1219,9 +1220,11 @@ function this.GetBounusGMP(questName)
   end
   return 0
 end
+--UNUSED?
 function this.RegisterForceDeactiveOnMBTerminal(questName)
   mvars.qst_forceDeactiveOnMBTerminal=questName
 end
+--tex NMC but this is. mostly to disable during demos
 function this.RegisterClusterForceDeactiveOnMBTerminal(clusterId)
   mvars.qst_forceDeactiveClusterOnMBTerminal=clusterId
 end
