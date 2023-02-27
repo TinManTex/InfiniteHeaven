@@ -9,6 +9,7 @@ this.registerIvars={
   "showAllOpenSideopsOnUi",
   "ihSideopsPercentageCount",
   "quest_useAltForceFulton",
+  "quest_setIsOnceToRepop",
 }
 
 local function UpdateActiveQuest()
@@ -26,6 +27,16 @@ this.quest_forceRepop={
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=UpdateActiveQuest,
+}
+
+this.quest_setIsOnceToRepop={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,setting)
+    InfQuest.SetIsOnceOff(setting==1)
+    InfQuest.UpdateActiveQuest()
+  end,
 }
 
 this.quest_useAltForceFulton={--DEBUGNOW
@@ -117,6 +128,7 @@ this.sideOpsMenu={
     "Ivars.unlockSideOpNumber",
     "Ivars.quest_forceOpen",
     "Ivars.quest_forceRepop",
+    "Ivars.quest_setIsOnceToRepop",
     "Ivars.quest_selectForArea",
     "InfQuestIvars.sideOpsCategoryMenu",
     "Ivars.showAllOpenSideopsOnUi",
@@ -126,7 +138,7 @@ this.sideOpsMenu={
     "Ivars.quest_setShootingPracticeCautionTimeToBestTime",
     --"Ivars.quest_setShootingPracticeTimeLimitToBestTime",--OFF UpdateShootingPracticeClearTime not working out
   }
-}
+}--sideOpsMenu
 
 --GENERATED
 this.sideOpsCategoryMenu={
@@ -154,7 +166,8 @@ this.langStrings={
   eng={
     sideOpsMenu="Side ops menu",
     quest_forceOpen="Force Open",
-    quest_forceRepop="Force replayble",
+    quest_forceRepop="Force Repop",
+    quest_setIsOnceToRepop="Repop one-time sideops",
     unlockSideOpNumber="Open specific sideop #",
     sideOpsCategoryMenu="Sideops category selection menu",
     quest_categorySelection_STORY="Story/unique",
@@ -193,6 +206,7 @@ this.langStrings={
       unlockSideOpNumber="WARNING: This can override important story or hidden progression sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
+      quest_setIsOnceToRepop="Lets you force story and one-time sideops to be replayable.",
       quest_selectForArea="Sideops are broken into areas to stop overlap, this setting lets you control the choice which sideop will be selected to be Active for the area. 'Random Addon' will prioritize Addon sideops first. All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repeat sideops.",
       sideOpsCategoryMenu="Per category selection of which sidops can be Active.",
       showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",

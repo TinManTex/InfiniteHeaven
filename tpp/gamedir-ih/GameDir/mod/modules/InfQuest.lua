@@ -75,6 +75,9 @@ function this.OnAllocate(missionTable)
   end
 
   this.FixFlags()
+  
+  local setIsOnceOff=Ivars.quest_setIsOnceToRepop:Get()==1
+  this.SetIsOnceOff(setIsOnceOff)
 end--OnAllocate
 
 function this.AddMissionPacks(missionCode,packPaths)
@@ -256,6 +259,52 @@ end
 --"quest_extract_animal",--"Animal Extracted [%d/%d]"--tex added by IH
 --tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
 --if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
+
+--REF DEBUGNOW CULL once youve built your list, decide whether to keep the notes here or put them in TppQuestList (dont like putting IH related notes in base game lua though)
+-- isOnce quests that definitately should stay so/not be bypassed by the ih repeatable ivar DEBUGNOW
+--local isOnceStrict={
+--  --tex hidden/specifically managed quests, see TppQuestList for notes on these
+--  waterway_q99010=true,--tex DEBUGNOW look through how this is handling flags and clearing and think if its worth letting
+--  mtbs_q99060=true,
+--  Mtbs_child_dog=true,
+--  --other isOnces
+--DEBUGNOW TODO fill this out
+--}--isOnceStrict
+
+--CALLER: Ivars.quest_setIsOnceToRepop, this.OnAllocate (with ivar setting)
+--IN: Ivars.quest_setIsOnceToRepop
+--IN/OUT: TppQuest.questList questInfo
+--tex Only sets isOnce on those quests that had it set in vanilla (identified by my additional defaultIsOnce)
+--tex used to either change qst_questRepopFlag, or gate other functions with quest_forceRepop (still there for debugging)
+--but that's a headache to get head around
+--this approach modifies the runtime data of TppQuest, flipping isOnce, which lets vanilla code just do its thing
+function this.SetIsOnceOff(setIsOnceOff)
+  for i,locationInfo in ipairs(TppQuestList.questList)do
+    for j,questInfo in ipairs(locationInfo.infoList)do
+      if not questInfo.strictIsOnce then--tex some quests really shouldnt repeat
+        if setIsOnceOff then
+          if questInfo.isOnce then
+            if this.debugModule then
+              InfCore.Log("InfQuest.SetIsOnceOff: forcing isOnce off "..questInfo.name)
+            end
+            questInfo.isOnce=false
+          end
+        else
+          if questInfo.defaultIsOnce and questInfo.isOnce==false then
+            if this.debugModule then
+              InfCore.Log("InfQuest.SetIsOnceOff: setting isOnce back on "..questInfo.name)
+            end
+            questInfo.isOnce=true
+          end  
+        end--if setIsOnceOff
+      end--not isOnceStrict
+    end--for area infoList
+  end--for questList
+  --DEBUGNOW
+  if this.debugModule then
+    InfCore.PrintInspect(TppQuestList.questList,"TppQuestList.questList bluuuuuuuuurg")
+  end
+end--SetIsOnce
 
 local blockQuests={
   tent_q99040=true, -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
