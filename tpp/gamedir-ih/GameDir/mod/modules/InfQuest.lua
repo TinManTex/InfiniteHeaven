@@ -73,7 +73,9 @@ function this.OnAllocate(missionTable)
   if missionTable.enemy then
   --CULL this.LoadEquipTable()
   end
-end
+
+  this.FixFlags()
+end--OnAllocate
 
 function this.AddMissionPacks(missionCode,packPaths)
   if TppMission.IsHelicopterSpace(vars.missionCode) then
@@ -701,16 +703,6 @@ function this.SetupInstalledQuestsState()
     this.questStatesLoaded=true
   end
 
-  --this.DEBUG_PrintQuestClearedFlags()      f
-  --tex clear quest gvars as matter of course
-  --CULL
-  --  for i,questName in ipairs(this.ihQuestNames)do
-  --    local questIndex=TppDefine.QUEST_INDEX[questName]
-  --    for i,gvarName in ipairs(gvarFlagNames)do
-  --      gvars[gvarName][questIndex]=false
-  --    end
-  --  end
-
   --tex restore any saved quest gvars from ih_save state
   this.ReadSaveStates()
 
@@ -1044,9 +1036,6 @@ end
 
 function this.UpdateActiveQuest()
   InfCore.LogFlow("InfQuest.UpdateActiveQuest")
-  for i=0,TppDefine.QUEST_MAX-1 do
-    gvars.qst_questRepopFlag[i]=false
-  end
 
   for i,areaQuests in ipairs(TppQuestList.questList)do
     TppQuest.UpdateRepopFlagImpl(areaQuests)
@@ -1067,6 +1056,162 @@ function this.GetScript(scriptName)
     return questScript
   end
 end
+--tex FIXUP try and fix any flags I may have messed up in older (pre r260) IH versions where I was doing dumb things with flags
+function this.FixFlags()
+  --tex UpdateRepopFlagImpl with ih force repop ivar (bypassed IsRepop and isOnce) used to set qst_questRepopFlag true which could posibly have activated some of the hidden or specially managed quests
+  for i,locationAreaInfo in ipairs(TppQuestList.questList)do
+    for j,questInfo in ipairs(locationAreaInfo.infoList)do
+      local questName=questInfo.name
+      if TppQuest.IsRepop(questInfo.name) then
+        --local isHiddenQuest=TppQuest.GetSideOpsInfo(questName)==nil
+        if questInfo.isOnceStrict and TppQuest.IsCleard(questName) then--tex only really an issue with the hidden/managed quests, which are now flagged with isOnceStrict DEBUGNOW think this through, review isOnceStricts once you've expanded them for set isonce false ivar
+          local questIndex=TppQuest.GetQuestIndex(questName)
+          gvars.qst_questRepopFlag[questIndex]=false
+          gvars.qst_questActiveFlag[questIndex]=false
+        end
+      end
+    end--for infoList
+  end--for questList
+  
+  --tex from old ReadSaveStates 
+  --DEBUGNOW FIX while ClearGvarFlagsAddonRange will close it, and the normal updateopen will sort out new quests, 
+  --but existing ih_quest_states from before this -v- was removed may still have open saved/restore it
+  --only really an issue for addon quests that had a specific open condition that should be false at the time the user is playing, ala mb plat development
+  --a manual fix is to just delete ih_save_states
+  --cant think of a good way to detect at the moment
+  --REF CULL
+  --  for i,questName in ipairs(this.ihQuestNames)do
+--    if not ih_quest_states[questName] then
+--      local questIndex=TppDefine.QUEST_INDEX[questName]
+--      if not questIndex then
+--        InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
+--      else
+--        gvars.qst_questOpenFlag[questIndex]=true
+--      end
+--    end
+--  end--for ihQuestNames
+
+--tex InfPuppy ivar mbEnablePuppy OnChange used to flip the open flag for Mtbs_child_dog
+--REF CULL
+--  OnChange=function(self,setting)
+--    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+--    if setting==0 then
+--      gvars.qst_questRepopFlag[puppyQuestIndex]=false
+--      gvars.qst_questOpenFlag[puppyQuestIndex]=false
+--    else
+--      local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+--      gvars.qst_questRepopFlag[puppyQuestIndex]=true
+--      gvars.qst_questOpenFlag[puppyQuestIndex]=true
+--    end
+--    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
+--    TppQuest.UpdateActiveQuest()
+--  end, 
+
+  --tex the fix. open should be automatically fixed? VERIFY
+  --Mtbs_child_dog isnt isOnce, but has canActiveQuestChecks to prevent it replaying after DDogGoWithMe demo, 
+  --which also sets its repop to false (DEBUGNOW but does UpdateRepopFlagImpl repop it?) 
+  if TppQuest.IsCleard("Mtbs_child_dog") and TppQuest.IsRepop("Mtbs_child_dog") then
+    InfCore.Log("InfQuest.FixFlags fixing Mtbs_child_dog",true,true)
+    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+    gvars.qst_questRepopFlag[puppyQuestIndex]=false
+    gvars.qst_questActiveFlag[puppyQuestIndex]=false
+  end
+  
+  --InfQuest.UpdateActiveQuest used to set qst_questRepopFlag false for all quests, which may have been cause of all quests disabled bug.
+  --REF
+--function this.UpdateActiveQuest()
+--  InfCore.LogFlow("InfQuest.UpdateActiveQuest")
+--  for i=0,TppDefine.QUEST_MAX-1 do
+--    gvars.qst_questRepopFlag[i]=false
+--  end
+--
+--  for i,areaQuests in ipairs(TppQuestList.questList)do
+--    TppQuest.UpdateRepopFlagImpl(areaQuests)
+--  end
+--  TppQuest.UpdateActiveQuest()
+--
+--  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
+--end
+
+  --tex the fix
+  --a manual fix is to just do reroll sideops command (in mtbs to catch UpdateRepopFlagImpl weird exclusion condition) 
+--CULL simple approach 
+--  local allRepopFalse=true
+--  for i=0,TppDefine.QUEST_MAX-1 do
+--    if gvars.qst_questRepopFlag[i]==true then
+--      allRepopFalse=false
+--      break
+--    end
+--  end--for QUEST_MAX
+--  
+--  if allRepopFalse then
+--    InfCore.Log("WARNING: InfQuest.FixFlags: All repop flags false",true,true)
+--    for i,locationInfo in ipairs(TppQuestList.questList)do
+--      TppQuest.UpdateRepopFlagImpl(locationInfo)
+--    end
+--  end
+  --tex DEBUGNOW but may trigger more than
+  --tex only vanilla? and leaving out the MtbsPaz for good measure 
+  --might possibly want this as a general fix of no repops, but would need to be sure it doesnt run outside of normal conditions
+  --otherwise a manual fix is ivar quest_updateRepopMode 'allways' with InfQuest.UpdateActiveQuest should unstick it
+  local checkAreas={
+  --afgh
+    tent=true,
+    field=true,
+    ruins=true,
+    waterway=true,
+    cliffTown=true,
+    commFacility=true,
+    sovietBase=true,
+    fort=true,
+    citadel=true,
+    --mafr
+    outland=true,
+    pfCamp=true,
+    savannah=true,
+    hill=true,
+    banana=true,
+    diamond=true,
+    lab=true,
+    --mtbs
+    MtbsCommand=true,
+    MtbsCombat=true,
+    MtbsDevelop=true,
+    MtbsMedical=true,
+    MtbsSupport=true,
+    MtbsSpy=true,
+    MtbsBaseDev=true,
+    --MtbsPaz=true,
+  }--checkAreas
+  for i,locationQuests in ipairs(TppQuestList.questList)do
+    if checkAreas[locationQuests.areaName] then
+      local noQuestsActivableForArea=true
+      local numRepopable=0
+      for j,questInfo in ipairs(locationQuests.infoList)do
+        local questName=questInfo.name
+        if TppQuest.IsOpen(questName) then
+          if TppQuest.IsCleard(questName) and not questInfo.isOnceDefault then
+            --DEBUGNOW canActiveQuestChecks isnt actually exposed so cant check here, but am doing WantUpdateRepop below anyway
+            numRepopable=numRepopable+1
+          end
+        end--if IsOpen
+        
+        --tex isrepop means we aint got the bug
+        if TppQuest.IsRepop(questName)then
+          noQuestsActivableForArea=false
+          break
+        end
+      end--for infoList
+      if numRepopable>0 and noQuestsActivableForArea then
+        if TppQuest.NeedUpdateRepop(locationQuests) then--tex DEBUGNOW it might not update not going to update anyhoo, so squelch warning by prerunning the WantUpdateRepop
+          InfCore.Log("WARNING: InfQuest.FixFlags: noQuestsActivableForArea for "..locationQuests.areaName,true,true)
+          TppQuest.UpdateRepopFlagImpl(locationQuests)
+        end
+      end--if noQuestsActivableForArea
+    end--if not skipArea
+  end--for questList
+  --<
+end--FixFlags
 
 --Commands
 --DEBUG, UNUSED

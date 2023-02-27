@@ -18,19 +18,20 @@ this.registerIvars={
 this.mbEnablePuppy={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={"OFF","MISSING_EYE","NORMAL_EYES"},
-  OnChange=function(self,setting)
-    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
-    if setting==0 then
-      gvars.qst_questRepopFlag[puppyQuestIndex]=false
-      gvars.qst_questOpenFlag[puppyQuestIndex]=false
-    else
-      local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
-      gvars.qst_questRepopFlag[puppyQuestIndex]=true
-      gvars.qst_questOpenFlag[puppyQuestIndex]=true
-    end
-    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
-    TppQuest.UpdateActiveQuest()
-  end,
+--  OnChange=function(self,setting)
+--tex DEBUGNOW CULL dont mess with puppy quest DEBUGNOW figure out how to fix the flags if using this has messed with them DEBUGNOW see if DdogGoWithMe and other demos still work and show puppy (dont know how they enable Mtbs_child_dog
+--    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+--    if setting==0 then
+--      gvars.qst_questRepopFlag[puppyQuestIndex]=false
+--      gvars.qst_questOpenFlag[puppyQuestIndex]=false
+--    else
+--      local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+--      gvars.qst_questRepopFlag[puppyQuestIndex]=true
+--      gvars.qst_questOpenFlag[puppyQuestIndex]=true
+--    end
+--    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
+--    TppQuest.UpdateActiveQuest()
+--  end,
   MissionCheck=IvarProc.MissionCheckMb,
 }
 --<
@@ -41,7 +42,7 @@ this.langStrings={
   },
   help={
     eng={
-      mbEnablePuppy="Note: The training side-op on the command platform will be disabled while this is active.",
+      mbEnablePuppy="Note: Requires you to actually get and complete the base game ddog puppy sequence.",
     },
   }
 }
@@ -52,6 +53,11 @@ function this.Init()
   end
 
   if InfMainTpp.IsMbEvent() then
+    return
+  end
+  
+  --tex base game ddog pup is handled by quest system
+  if not TppQuest.IsCleard"Mtbs_child_dog" then
     return
   end
 
@@ -70,6 +76,11 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 
   if InfMainTpp.IsMbEvent(missionCode) then
+    return
+  end
+  
+  --tex base game ddog pup is handled by quest system
+  if not TppQuest.IsCleard"Mtbs_child_dog" then
     return
   end
 
