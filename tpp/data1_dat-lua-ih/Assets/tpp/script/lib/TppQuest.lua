@@ -1149,31 +1149,59 @@ function this.GetCanOpenQuestTable()--tex expose for InfQuest>
   return canOpenQuestChecks
 end--<
 
---NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction. Actual quest selection in UpdateActiveQuest
+local showModes={--tex> to organize ivar quest_showOnUiMode. see actual use in GetSideOpsListTable for what they do
+  --DEFAULT
+  ONLY_ACTIVE_OR_CLEARED={
+    showActive=true,
+    showCleared=true,
+  },
+  ONLY_ACTIVE={
+    showActive=true,
+    showCleared=false,
+  },
+  ALL_ACTIVABLE={--DEBUGNOW Implement. TODO better name?
+    showActivable=true,
+    showActive=true,--tex activable list will include whatever will be Active anyway
+    showCleared=false,
+  },
+  ALL_OPEN={
+    showActive=true,
+    showCleared=true,
+    showAllOpen=true,
+  },
+}--showModes<
+--tex REWORKED
+--tex NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction. Actual quest selection in UpdateActiveQuest
+--vanilla behaviour is to just show current Active or Cleared quests. So that meant you could have multiple uncompleted quests for an area and it would only show the one  
 function this.GetSideOpsListTable()
   InfCore.LogFlow("InfQuest.GetSideOpsListTable")--tex DEBUG
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
+    local showMode=Ivars.quest_showOnUiMode:GetSettingName()
+    local showSettings=showModes[showMode]
+  
     local clearedNotActive={}--tex
     for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL
       local questName=questInfo.questName
-      local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)
+      local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
       local isCleard=this.IsCleard(questName)
-      local showAllOpen=this.IsOpen(questName) and Ivars.quest_showOnUiMode:Is"ALL_OPEN" --tex added ivar bypass
-      if questInfo and(isActiveOnMBTerminal or isCleard or showAllOpen)then--tex added showOpen
+      local showActive=isActiveOnMBTerminal and showSettings.showActive--tex cant imagine why you would not want to show active, but here for completion>
+      local showCleared=isCleard and showSettings.showCleared--tex
+      local showAllOpen=this.IsOpen(questName) and showSettings.showAllOpen--<
+      if questInfo and(showActive or showCleared or showAllOpen)then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
         questInfo.index=i
-        questInfo.isActive=isActiveOnMBTerminal
-        questInfo.isCleard=isCleard
+        questInfo.isActive=isActiveOnMBTerminal--tex NMC shows hilighed on ui? VERIFY it just affects ui and theres no other logic working on the variable
+        questInfo.isCleard=isCleard--tex NMC show greyed out on ui? controls checkmark? VERIFY as above
         questInfo.gmp=this.GetBounusGMP(questName)
         table.insert(sideOpsListTable,questInfo)
         if isCleard and not isActiveOnMBTerminal then --tex>
           table.insert(clearedNotActive,questInfo)
         end--<
       end
-    end
+    end--for questInfoTable
 
     --tex manage ui entry limit>
-    local maxUIQuests=192
+    local maxUIQuests=192--tex theres 157 ui quests (this questInfoTable) DEBUGNOW RE VERIFY maxUIQuests, where did I come up with this, though I would have documented it somewhere but can't find
     local overCount=#sideOpsListTable-maxUIQuests
     if overCount>0 then
       InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
@@ -1182,16 +1210,18 @@ function this.GetSideOpsListTable()
       InfMain.RandomSetToLevelSeed()
 
       for i=1,overCount do
-        local randomIndex=math.random(#clearedNotActive)
-        local removeEntry=clearedNotActive[randomIndex]
-        table.remove(clearedNotActive,randomIndex)
-        for j,sideopEntry in ipairs(sideOpsListTable)do
-          if sideopEntry==removeEntry then
-            table.remove(sideOpsListTable,j)
-            InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
-            break
-          end
-        end
+        if #clearedNotActive>0 then
+          local randomIndex=math.random(#clearedNotActive)
+          local removeEntry=clearedNotActive[randomIndex]
+          table.remove(clearedNotActive,randomIndex)
+          for j,sideopEntry in ipairs(sideOpsListTable)do
+            if sideopEntry==removeEntry then
+              table.remove(sideOpsListTable,j)
+              InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
+              break
+            end
+          end--for sideOpsListTable
+        end--if #clearedNotActive
       end--for overCount
       InfMain.RandomResetToOsTime()
     end--if overCount
@@ -1213,6 +1243,26 @@ function this.GetSideOpsListTable()
   --    InfCore.PrintInspect(sideOpsListTable)--tex DEBUG
   return sideOpsListTable
 end--GetSideOpsListTable
+--ORIG
+--function this.GetSideOpsListTable()
+--  local sideOpsListTable={}
+--  if this.CanOpenSideOpsList()then
+--    for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL
+--      local questName=questInfo.questName
+--      local isActive=this.IsActiveOnMBTerminal(questInfo)
+--      local isCleard=this.IsCleard(questName)
+--      if questInfo and(isActive or isCleard)then
+--        questInfo.index=i
+--        questInfo.isActive=isActive
+--        questInfo.isCleard=isCleard
+--        questInfo.gmp=this.GetBounusGMP(questName)
+--        table.insert(sideOpsListTable,questInfo)
+--      end--if <conditions for adding>
+--    end--for questInfoTable
+--  end--if CanOpenSideOpsList
+--  table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
+--  return sideOpsListTable
+--end--GetSideOpsListTable
 function this.GetBounusGMP(questName)
   local rank=TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]
   if rank then

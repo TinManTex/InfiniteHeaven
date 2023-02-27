@@ -7,7 +7,7 @@ this.registerIvars={
   "unlockSideOpNumber",
   "quest_updateRepopMode",
   "quest_selectForArea",
-  "showAllOpenSideopsOnUi",
+  "quest_showOnUiMode",
   "ihSideopsPercentageCount",
   "quest_useAltForceFulton",
   "quest_setIsOnceToRepop",
@@ -102,10 +102,16 @@ this.quest_selectForArea={
   OnChange=UpdateActiveQuest,
 }
 
-this.showAllOpenSideopsOnUi={
+this.quest_showOnUiMode={
   save=IvarProc.CATEGORY_EXTERNAL,
-  range=Ivars.switchRange,
-  settingNames="set_switch",
+  settings={
+    "ONLY_ACTIVE_OR_CLEARED",--DEFAULT
+    "ONLY_ACTIVE",--only actual active quests
+    --DEBUGNOW "ALL_ACTIVABLE",--current candidates for active in UpdateActiveQuest, --DEBUGNOW TODO
+    "ALL_OPEN",--same as old showAllOpenSideopsOnUi
+  },
+  settingNames="quest_showOnUiModeSettingNames",
+  OnChange=UpdateActiveQuest,
 }
 
 this.ihSideopsPercentageCount={
@@ -142,7 +148,7 @@ this.sideOpsMenu={
     "Ivars.quest_setIsOnceToRepop",
     "Ivars.quest_selectForArea",
     "InfQuestIvars.sideOpsCategoryMenu",
-    "Ivars.showAllOpenSideopsOnUi",
+    "Ivars.quest_showOnUiMode",
     "Ivars.enableHeliReinforce",
     "Ivars.ihSideopsPercentageCount",
     "Ivars.quest_enableShootingPracticeRetry",
@@ -223,7 +229,13 @@ this.langStrings={
     },
     ihSideopsPercentageCount="Include add-on sideops in completion percentage",
     rerollQuestSelection="Reroll sideops selection",
-    showAllOpenSideopsOnUi="Show all open sideops",
+    quest_showOnUiMode="Show on UI mode",
+    quest_showOnUiModeSettingNames={
+      "Only Active or Cleared (Default)",
+      "Only Active",
+      --"Only Activable",--DEBUGNOW
+      "All Open",
+    },
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
   },
   help={
@@ -239,7 +251,12 @@ The default 'None left' will only repopulate sideops when there are no other unc
 'Random Addon' will prioritize Addon sideops first. 
 All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.]],
       sideOpsCategoryMenu="Per category selection of which sidops can be Active.",
-      showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",
+      quest_showOnUiMode=[[Chooses what sideops are shown on the idroid UI.
+"Only Active or Cleared (Default)" - the default behavior. Note it doesn't include all uncleared, so if there's multiple Uncleared but not Active sideops they won't show.
+"Only Active" - only the current Active sideops, no Cleared sideops.
+"All Open" - Will try and show all Open sideops.
+There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.]],
+--DEBUGNOW add above when implemented: "Only Activable" - Only shows those sideops in the selection for being Activated (which includes Active).
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
     },
   }
