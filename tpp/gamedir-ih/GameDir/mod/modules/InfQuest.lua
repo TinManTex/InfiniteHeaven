@@ -589,7 +589,7 @@ function this.RegisterQuests()
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
   local openQuestCheckTable=TppQuest.GetCanOpenQuestTable()
-  local canActiveQuestChecks=TppQuest.GetCanActiveQuestChecksTable()
+  local canActiveQuestChecks=TppQuest.GetCanActiveQuestTable()
 
   InfMain.RandomSetToLevelSeed()
 
@@ -1264,7 +1264,7 @@ function this.FixFlags()
         local questName=questInfo.name
         if TppQuest.IsOpen(questName) then
           if TppQuest.IsCleard(questName) and not questInfo.isOnceDefault then
-            local CanActiveQuest=TppQuest.GetCanActiveQuestChecks()[questName]
+            local CanActiveQuest=TppQuest.GetCanActiveQuestTable()[questName]
             if not CanActiveQuest or CanActiveQuest(questInfo.name)then
               numRepopable=numRepopable+1
             end

@@ -1311,7 +1311,7 @@ end
 --tex NMC extra check whether quest should repop (UpdateRepopFlagImpl) or be in the running in UpdateActiveQuest at all
 --InfQuest/addon support via IH questInfo .canActiveQuest
 local canActiveQuestChecks={}
-function this.GetCanActiveQuestChecksTable()--tex expose for InfQuest> 
+function this.GetCanActiveQuestTable()--tex expose for InfQuest> 
   return canActiveQuestChecks
 end--<
 function canActiveQuestChecks.mtbs_wait_quiet()
