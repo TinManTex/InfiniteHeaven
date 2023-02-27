@@ -2518,7 +2518,49 @@ function this.UpdateOpenQuest()
       gvars.qst_questOpenFlag[questIndex]=true
     end
   end
-end
+end  
+--tex returns lists of activable candidates for the area, split into priorities
+--broken out from UpdateActiveQuest
+--areaQuestsList: TppQuestList.questList[areaInfoIdx].infoList
+function this.SelectActivableQuests(areaQuestsList)--ForArea
+  local storyQuests={}
+  local nonStoryQuests={}
+  local repopQuests={}
+  local repopAddonQuests={}--tex for selectForArea RANDOM_ADDON, subset of above    
+  
+  for j,info in ipairs(areaQuestsList)do
+    local questName=info.name
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if questIndex then       
+      local CanActiveQuest=canActiveQuestChecks[questName]
+      local blockQuest=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
+      if blockQuest then
+        InfCore.Log("blocked Quest "..questName)
+      end
+      if this.debugModule then--tex>
+        local canActiveQuest=not CanActiveQuest or CanActiveQuest()
+        InfCore.Log(questName.." selection states: canActiveQuest:"..tostring(canActiveQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
+      end--<
+      if this.IsOpen(questName)and(not CanActiveQuest or CanActiveQuest(questName))and not blockQuest then--tex added blockQuest, added questName param to CanActiveQuest
+        if not this.IsCleard(questName)then
+          if info.isStory then
+            table.insert(storyQuests,questName)
+          else
+            table.insert(nonStoryQuests,questName)
+          end
+        elseif this.IsRepop(questName) then
+          table.insert(repopQuests,questName)
+          local isAddon=InfQuest.ihQuestsInfo[questName]--tex> 
+          if isAddon then
+            table.insert(repopAddonQuests,questName)
+          end--<
+        end--if cleared or repop
+      end --<quest open
+    end --<questindex
+  end --<for infolist
+  return storyQuests,nonStoryQuests,repopQuests,repopAddonQuests
+end--SelectActivableQuests 
+
 --tex heavily REWORKED --PCall InfHooked
 --CALLER: TppMain.OnInitialize
 --GOTCHA: once player has completed most quests the system then mostly relies on repoping quests, which is driven by UpdateRepopFlag/UpdateRepopFlagImpl.
@@ -2564,41 +2606,8 @@ function this.UpdateActiveQuest(updateFlags)
         --<forcedquests
       else
         --tex NMC: activable candidates for the area, split into priorities
-        local storyQuests={}
-        local nonStoryQuests={}
-        local repopQuests={}
-        local repopAddonQuests={}--tex for selectForArea RANDOM_ADDON, subset of above    
-        
-        for j,info in ipairs(areaQuests.infoList)do
-          local questName=info.name
-          local questIndex=TppDefine.QUEST_INDEX[questName]
-          if questIndex then       
-            local CanActiveQuest=canActiveQuestChecks[questName]
-            local blockQuest=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
-            if blockQuest then
-              InfCore.Log("blocked Quest "..questName)
-            end
-            if this.debugModule then--tex>
-              local canActiveQuest=not CanActiveQuest or CanActiveQuest()
-              InfCore.Log(questName.." selection states: canActiveQuest:"..tostring(canActiveQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
-            end--<
-            if this.IsOpen(questName)and(not CanActiveQuest or CanActiveQuest(questName))and not blockQuest then--tex added blockQuest, added questName param to CanActiveQuest
-              if not this.IsCleard(questName)then
-                if info.isStory then
-                  table.insert(storyQuests,questName)
-                else
-                  table.insert(nonStoryQuests,questName)
-                end
-              elseif this.IsRepop(questName) then
-                table.insert(repopQuests,questName)
-                local isAddon=InfQuest.ihQuestsInfo[questName]--tex> 
-                if isAddon then
-                  table.insert(repopAddonQuests,questName)
-                end--<
-              end--if cleared or repop
-            end --<quest open
-          end --<questindex
-        end --<for infolist
+        local storyQuests,nonStoryQuests,repopQuests,repopAddonQuests=this.SelectActivableQuests(areaQuests.infoList)    
+
         local selectedCount=#storyQuests+#nonStoryQuests+#repopQuests--tex>
         InfCore.Log("UpdateActiveQuest selected "..selectedCount.." quest candidates out of "..#areaQuests.infoList.." for area "..areaQuests.areaName)
         if this.debugModule then
