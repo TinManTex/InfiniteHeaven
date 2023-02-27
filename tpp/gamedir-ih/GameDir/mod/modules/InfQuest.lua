@@ -1264,9 +1264,11 @@ function this.FixFlags()
         local questName=questInfo.name
         if TppQuest.IsOpen(questName) then
           if TppQuest.IsCleard(questName) and not questInfo.isOnceDefault then
-            --DEBUGNOW canActiveQuestChecks isnt actually exposed so cant check here, but am doing WantUpdateRepop below anyway
-            numRepopable=numRepopable+1
-          end
+            local CanActiveQuest=TppQuest.GetCanActiveQuestChecks()[questName]
+            if not CanActiveQuest or CanActiveQuest(questInfo.name)then
+              numRepopable=numRepopable+1
+            end
+          end--if cleared and not isOnceDefault
         end--if IsOpen
         
         --tex isrepop means we aint got the bug
