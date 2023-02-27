@@ -2929,10 +2929,12 @@ end--NeedUpdateRepop
 --otherwise repop every quest in area that can be
 --which results in (UpdateActiveQuest) quest selection being whittled down as they are completed, then refreshing with repops. rince and repeat.
 --GOTCHA: quest_forceRepop (though that ivar has now been relegated to debug) will bail this (is this good or bad?), but forced isOnce wont have flags touched (good)
+--IN:Ivars.quest_updateRepopMode--tex switch between default behaviour of only repopping if no other quests left, or allways repopping 
+--OUT:gvars.qst_questRepopFlag
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
     InfCore.LogFlow("TppQuest.UpdateRepopFlagImpl area:"..tostring(locationQuests.areaName))--tex
-    if not this.NeedUpdateRepop(locationQuests) then
+    if not this.NeedUpdateRepop(locationQuests) and Ivars.quest_updateRepopMode:Get()==0 then--tex added quest_updateRepopMode bypass GOTCHA: if you add any other modes than 'ALLWAYS'
       return
     end
 

@@ -5,6 +5,7 @@ this.registerIvars={
   "quest_forceOpen",
   "quest_forceRepop",
   "unlockSideOpNumber",
+  "quest_updateRepopMode",
   "quest_selectForArea",
   "showAllOpenSideopsOnUi",
   "ihSideopsPercentageCount",
@@ -26,6 +27,16 @@ this.quest_forceRepop={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
+  OnChange=UpdateActiveQuest,
+}
+
+this.quest_updateRepopMode={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  settings={
+    "NONE_LEFT",
+    "ALLWAYS",
+  },
+  settingNames="quest_updateRepopModeSettingNames",
   OnChange=UpdateActiveQuest,
 }
 
@@ -127,6 +138,7 @@ this.sideOpsMenu={
   options={
     "InfQuest.RerollQuestSelection",
     "Ivars.unlockSideOpNumber",
+    "Ivars.quest_updateRepopMode",
     "Ivars.quest_setIsOnceToRepop",
     "Ivars.quest_selectForArea",
     "InfQuestIvars.sideOpsCategoryMenu",
@@ -175,6 +187,11 @@ this.langStrings={
     sideOpsMenu="Side ops menu",
     quest_forceOpen="Force Open",
     quest_forceRepop="Force Repop",
+    quest_updateRepopMode="Repop mode",
+    quest_updateRepopModeSettingNames={
+      "On none left",
+      "Allways",
+    },
     quest_setIsOnceToRepop="Repop one-time sideops",
     unlockSideOpNumber="Open specific sideop #",
     sideOpsCategoryMenu="Sideops category selection menu",
@@ -214,8 +231,13 @@ this.langStrings={
       unlockSideOpNumber="WARNING: This can override important story or hidden progression sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
+      quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are refreshed. The update is run for the sideop area of a quest you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
+The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.
+'Allways' will refresh repeatable quests every time the update is called.]],
       quest_setIsOnceToRepop="Lets you force story and one-time sideops to be replayable.",
-      quest_selectForArea="Sideops are broken into areas to stop overlap, this setting lets you control the choice which sideop will be selected to be Active for the area. 'Random Addon' will prioritize Addon sideops first. All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repeat sideops.",
+      quest_selectForArea=[[Sideops are broken into areas to stop overlap, this setting lets you control the choice which sideop will be selected to be Active for the area.
+'Random Addon' will prioritize Addon sideops first. 
+All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repeat sideops.]],
       sideOpsCategoryMenu="Per category selection of which sidops can be Active.",
       showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
