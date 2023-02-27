@@ -13,7 +13,7 @@ Lets you choose the behaviour of how repeatable sideops are refreshed.
 The update is run for the sideop area of a quest you just finished, 
 or for all areas when changing many of the IH sideops options or rerolling sideops. 
 The default behaviour 'On none left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed. 
-'Allways' will refresh repeatable quests every time the update is called.",
+'Allways' will refresh repeatable quests every time the update is called.
 
 quest_setIsOnceToRepop="Repop one-time sideops"
 "Lets you force story and one-time sideops to be replayable."
@@ -23,9 +23,9 @@ quest_selectForArea="Selection for Area mode"
 Renamed from sideOpsSelectionMode
 Categories removed, use the Sideops category filter menu instead. 
 'Random Addon' setting added to prioritize Addon sideops.
-Sideops are broken into areas to stop overlap, this setting lets you control the choice which sideop will be selected to be Active for the area.
+Sideops are broken into areas to stop overlap, this setting lets you control the choice which repop sideop will be selected to be Active for the area.
 'Random Addon' will prioritize Addon sideops first.
-All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repeat sideops.
+All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.
 
 Sideops selection menu:
 ivars renamed from sideop_<CATEGORY> to quest_categoryFilter_<CATEGORY>
@@ -37,7 +37,7 @@ Could also cause the all sideops disabled bug.
 A manual fix is to run "Reroll sideops selection" with "Repop mode" set to Allways.
 
 Quest Addon questInfo: 
-Added canActiveQuest=function(questName) --, optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. use it if you need something after the initial canOpenQuest.
+Added canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
 
 r259 - 2023-02-18
 Fix: InfPositions Loadposistions, thanks cap for fix.
