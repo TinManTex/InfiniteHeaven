@@ -235,9 +235,9 @@ this.langStrings={
 The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.
 'Allways' will refresh repeatable quests every time the update is called.]],
       quest_setIsOnceToRepop="Lets you force story and one-time sideops to be replayable.",
-      quest_selectForArea=[[Sideops are broken into areas to stop overlap, this setting lets you control the choice which sideop will be selected to be Active for the area.
+      quest_selectForArea=[[Sideops are broken into areas to stop overlap, this option lets you control the choice which repop sideop will be selected to be Active for the area.
 'Random Addon' will prioritize Addon sideops first. 
-All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repeat sideops.]],
+All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.]],
       sideOpsCategoryMenu="Per category selection of which sidops can be Active.",
       showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
