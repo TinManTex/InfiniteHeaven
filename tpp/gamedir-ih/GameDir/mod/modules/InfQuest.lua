@@ -1018,7 +1018,9 @@ function this.ReadSaveStates()
     end--for ih_quest_states
   end
 end--ReadSaveStates
-
+--IN: gvars.qst_quest*Flags
+--IN: ih_quest_states
+--OUT: ih_quest_states
 function this.GetCurrentStates()
   local QUEST_INDEX=TppDefine.QUEST_INDEX
   local gvars=gvars
@@ -1102,10 +1104,12 @@ function this.DisableLandingZones()
     end
   end
 end
-
+--tex called by various IH ivars OnChange
 function this.UpdateActiveQuest()
   InfCore.LogFlow("InfQuest.UpdateActiveQuest")
 
+  --tex UpdateRepopFlag is only usually called on quest clear with that quests questarea
+  --the only worysome area is MtbsPaz, but the quest there isOnced and now also quarded with strictIsOnce
   for i,areaQuests in ipairs(TppQuestList.questList)do
     TppQuest.UpdateRepopFlagImpl(areaQuests)
   end
