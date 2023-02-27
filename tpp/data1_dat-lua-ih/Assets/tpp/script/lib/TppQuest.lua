@@ -21,7 +21,7 @@ local missionTypes=TppDefine.Enum{"MISSION","FREE","HELI"}
 local QUEST_STATUS_TYPES=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
 local afgAreaList={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
 local mafrAreaList={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
-local mtbsAreaList={"MtbsCommand","MtbsCombat","MtbsDevelop","MtbsMedical","MtbsSupport","MtbsSpy","MtbsBaseDev","MtbsPaz"}--tex
+local mtbsAreaList={"MtbsCommand","MtbsCombat","MtbsDevelop","MtbsMedical","MtbsSupport","MtbsSpy","MtbsBaseDev","MtbsPaz"}--tex added UNUSED GOTCHA: MtbsPaz?
 local shootingPracticeMarkers={
   Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",
   Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
@@ -2886,54 +2886,73 @@ function this.UpdateRepopFlag(questIndex)
   end
   this.UpdateRepopFlagImpl(questAreaTable)
 end
---tex NMC DEBUGNOW really dont understand this logic
+--tex NMC: broken out from UpdateRepopFlagImpl
+--returns false if there's any activable quests
+function this.NeedUpdateRepop(locationQuests)
+  local numRepopable=0
+  for n,questInfo in ipairs(locationQuests.infoList)do
+    local questName=questInfo.name
+    if this.IsOpen(questName)then
+      if not questInfo.isOnce then
+        numRepopable=numRepopable+1
+      end
+      if this.IsRepop(questName)or not this.IsCleard(questName)then
+        local CanActiveQuest=canActiveQuestChecks[questName]
+        if(CanActiveQuest==nil)or CanActiveQuest(questName)then--tex NMC if CanActiveQuest() true, tex added questName param to CanActiveQuest
+          if this.debugModule then--tex>
+            InfCore.Log("TppQuest.NeedUpdateRepop:"..questName.." is uncleared or already repop. Not repoping other quests. returning false.")
+          end--<
+          return false--tex NMC bail if theres a quest candidate to Active
+        end
+      end--if IsRepop or not IsCleard
+    end--if IsOpen
+  end--for infoList
+  --tex NMC dont quit understand what this is guarding against. seems like a basic skip out early
+  --and I understand why you'd bail on 0, but why on 1 repopable?
+  --but cant see any non mb areas that have only 1 or 0 repopables. citadel has two.
+  --MB areas by default only usually have one quest (a shooting prac), 
+  --so the IsMotherBase check means those mb areas wont actually repop unless on mb (or helispace mb)
+  if numRepopable<=1 and(not TppLocation.IsMotherBase())then
+    if this.debugModule then--tex>
+      InfCore.Log("TppQuest.NeedUpdateRepop numRepopable<=1 and(not TppLocation.IsMotherBase()) returning false")
+    end--<
+    return false
+  end
+  
+  return true
+end--NeedUpdateRepop
+--CALLER: UpdateRepopFlag < Clear
+--locationQuests = TppQuestList.questList[<some area index>]
+--tex NMC Called on a quest clear with the locationQuests table of the area that quest is in
+--NOTE: the quest that was just cleared will have had qst_questRepopFlag set false, see above -^-
+--will do nothing if there's other quests already Activable (not WantUpdateRepop)
+--otherwise repop every quest in area that can be
+--which results in (UpdateActiveQuest) quest selection being whittled down as they are completed, then refreshing with repops. rince and repeat.
+--GOTCHA: quest_forceRepop (though that ivar has now been relegated to debug) will bail this (is this good or bad?), but forced isOnce wont have flags touched (good)
 function this.UpdateRepopFlagImpl(locationQuests)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
-    if this.debugModule then--tex>
-      InfCore.LogFlow"TppQuest.UpdateRepopFlagImpl"--tex
-    end--<
-    local forceRepop=Ivars.quest_forceRepop:Is(1)-tex
-    local numOpen=0
-    for n,questInfo in ipairs(locationQuests.infoList)do
-      local questName=questInfo.name
-      if this.IsOpen(questName)then
-        if not questInfo.isOnce or forceRepop then--tex added forcerepop
-          numOpen=numOpen+1
-        end
-        if this.IsRepop(questName)or not this.IsCleard(questName)then
-          local CanActiveQuest=canActiveQuestChecks[questName]
-          if(CanActiveQuest==nil)or CanActiveQuest(questName)then--tex NMC if CanActiveQuest() true, tex added questName param to CanActiveQuest
-            if this.debugModule then--tex>
-              InfCore.Log("TppQuest.UpdateRepopFlagImpl:"..questName.." IsRepop and CheckQuest")
-            end--<
-            return--tex NMC DEBUGNOW uhh why are we bailing on whole function on success
-          end
-        end
-      end
-    end
-    if numOpen<=1 and(not TppLocation.IsMotherBase())then--NMC tex dont know what this is trying to protect against, RETAILBUG? either way it seems like a flaw in not catching mtbs quests when in afgh/mafr helispace
-      if this.debugModule then--tex>
-        InfCore.Log("TppQuest.UpdateRepopFlagImpl numOpen<=1 and(not TppLocation.IsMotherBase()) returning")
-      end--<
+    InfCore.LogFlow("TppQuest.UpdateRepopFlagImpl area:"..tostring(locationQuests.areaName))--tex
+    if not this.NeedUpdateRepop(locationQuests) then
       return
     end
+
     for n,questInfo in ipairs(locationQuests.infoList)do
-      if this.IsCleard(questInfo.name)and((not questInfo.isOnce) or forceRepop) then--tex added forceRepop
+      if this.IsCleard(questInfo.name)and(not questInfo.isOnce) then
         if this.debugModule then--tex>
-          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop true")
-      end--<
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." setting repop true")
+        end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
       end
       local CanActiveQuest=canActiveQuestChecks[questInfo.name]
       if CanActiveQuest and(not CanActiveQuest(questInfo.name))then--tex NMC if CanActiveQuest() false, tex added questName param to CanActiveQuest
         if this.debugModule then--tex>
-          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." repop false")
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." not CanActiveQuest() so setting repop false")
         end--<
         gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
-      end
-    end
+      end--if not CanQuest
+    end--for infoList
   end,locationQuests)--tex pcall wrap
-end
+end--UpdateRepopFlagImpl
 function this.CheckAllClearBounus()
   if gvars.qst_allQuestCleared then
     TppTrophy.UnlockOnAllQuestClear()
