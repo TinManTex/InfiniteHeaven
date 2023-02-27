@@ -194,8 +194,8 @@ end
 --  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
 --  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
 --  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest can open/is unlocked for consideration to be active, is one way, all quests start closed and run this to see if they open, but are never closed again
---  canActiveQuest=function(questName) --, optional. all quests repop by default (are available to repeat), returning false will stop it from being considered for selection. use it if you need something after the initial canOpenQuest
---    --tex disable quest if not dirty enough TODO: actually figure out how long dirty time is
+--  canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
+--    --tex canActiveQuest example: disable quest if not dirty enough TODO: actually figure out how long dirty time is
 --    if vars.passageSecondsSinceOutMB<dirtyTime then
 --      return false 
 --    end
