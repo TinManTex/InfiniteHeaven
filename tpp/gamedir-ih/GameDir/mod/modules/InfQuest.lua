@@ -1047,6 +1047,26 @@ function this.GetCurrentStates()
   return isSaveDirty
 end--GetCurrentStates
 
+function this.DebugCurrentFlags()
+  local allStates={}
+  for i,questName in ipairs(TppDefine.QUEST_DEFINE)do
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if not questIndex then
+      InfCore.Log("ERROR: InfQuest.DebugCurrentFlags: Could not find questIndex for "..questName,false,true)
+    else      
+      local questStates={}
+      allStates[questName]=questStates
+      questStates.index=questIndex
+      for i,gvarFlagName in ipairs(gvarFlagNames) do
+        local gvarValue=gvars[gvarFlagName][questIndex]
+        questStates[gvarFlagName]=gvarValue
+      end
+    end--if questIndex
+  end--for ihQuestNames
+  
+  return allStates
+end--DebugCurrentFlags
+
 --CALLER: TppLandingZone.OnMissionCanStart
 function this.DisableLandingZones()
   InfCore.LogFlow("InfQuest.DisableLandingZones:")
@@ -1278,5 +1298,11 @@ this.RerollQuestSelection=function()
 
   InfQuest.UpdateActiveQuest()
 end
+
+function this.PrintCurrentFlags()
+  local currentFlags=this.DebugCurrentFlags()
+  InfCore.PrintInspect(currentFlags,"InfQuest.DebugCurrentFlags")
+  InfCore.DebugPrint("PrintCurrentFlags to Log")
+end--PrintCurrentFlags
 
 return this
