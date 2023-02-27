@@ -2546,31 +2546,33 @@ function this.UpdateActiveQuest(updateFlags)
     local activeQuestCount=0
     local forcedQuests=InfQuest.GetForced()--tex REF {[forcedQuestArea]=<forcedQuestName>,...}
     for i,areaQuests in ipairs(mvars.qst_questList)do--tex TppQuestList.questList
-      --tex NMC: activable candidates for the area, split into priorities
-      local storyQuests={}
-      local nonStoryQuests={}
-      local repopQuests={}
-      local repopAddonQuests={}--tex for selectForArea RANDOM_ADDON, subset of above    
+      --tex NMC clear current active quests
+      for j,info in ipairs(areaQuests.infoList)do
+        local questName=info.name
+        local questIndex=TppDefine.QUEST_INDEX[questName]
+        if questIndex then
+          gvars.qst_questActiveFlag[questIndex]=false
+        end
+      end--for infoList
+      
       --tex forcedquests>  add quest then skip area that unlocked op is in. 
       --GOTCHA: since this is outright override it could cause issues blocking story/hidden quests 
       local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
       if unlockedName then
         InfCore.Log("TppQuest.UpdateActiveQuest unlockedName:"..unlockedName)--
-        for j,info in ipairs(areaQuests.infoList)do--tex still gotta clear
-          local questName=info.name
-          local questIndex=TppDefine.QUEST_INDEX[questName]
-          if questIndex then
-            gvars.qst_questActiveFlag[questIndex]=false
-          end
-        end
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
         --<forcedquests
       else
+        --tex NMC: activable candidates for the area, split into priorities
+        local storyQuests={}
+        local nonStoryQuests={}
+        local repopQuests={}
+        local repopAddonQuests={}--tex for selectForArea RANDOM_ADDON, subset of above    
+        
         for j,info in ipairs(areaQuests.infoList)do
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
-          if questIndex then
-            gvars.qst_questActiveFlag[questIndex]=false
+          if questIndex then       
             local CanActiveQuest=canActiveQuestChecks[questName]
             local blockQuest=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
             if blockQuest then
