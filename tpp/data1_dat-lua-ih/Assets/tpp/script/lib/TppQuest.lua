@@ -1218,7 +1218,7 @@ function this.GetSideOpsListTable()
       local showAllOpen=this.IsOpen(questName) and showSettings.showAllOpen
       local showActivable=isActivable[questName] and showSettings.showActivable--<
       if questInfo and(showActive or showCleared or showActivable or showAllOpen)then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
-        questInfo.index=i
+        questInfo.index=i--tex NMC: the number on the ui for the quest entry, the order of the entries is the order of sideOpsListTable (ie the order you're adding them to the table here -v-)
         questInfo.isActive=isActiveOnMBTerminal--tex NMC controls hilighted on ui
         questInfo.isCleard=isCleard--tex NMC controls checkmark
         questInfo.gmp=this.GetBounusGMP(questName)
@@ -1270,7 +1270,7 @@ function this.GetSideOpsListTable()
   table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
   if this.debugModule then--tex>
     InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable")--tex DEBUG  
-    --InfQuest.DEBUGTweakSideopsList(sideOpsListTable)--tex experiment with the table
+    InfQuest.DEBUGTweakSideopsList(sideOpsListTable)--tex experiment with the table DEBUGNOW
   end--<
   
   return sideOpsListTable
