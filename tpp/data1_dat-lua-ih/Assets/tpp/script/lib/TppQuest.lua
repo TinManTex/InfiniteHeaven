@@ -55,13 +55,18 @@ this.QUEST_CATEGORIES={
   "TARGET_PRACTICE",--7,0,0,7
 }
 this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)--tex from 0
+--tex NMC: this is the main info for the UI for normal full player playable quests (see note below about hidden quests)
+--a few more variables are added in GetSideOpsListTable
+--also see TppQuestList for per quest area info
 --NMC: see http://metalgearmodding.wikia.com/wiki/MissionCodes#Side_Ops.2FQuests (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
 --actual GetQuestNameId. lang ids for quests are name_<questId>, info_<questId>
 --index preceding the info (ie --[[001]]) is the sideop number in idroid
 --see TppQuestList for the other main quest info tables, or see InfQuest to see the various stuff it pushes to get a quest added, or just search the questName through code to see what turns up
 --Use GetSideOpsInfo(questName) to get entry
---NOTE: some quests are hidden, dont have entries here: waterway_q99010 (Quiet fight), Mtbs_child_dog (sideop that controlls puppy ddog), mtbs_q99060 (paz)
+--NOTE: some quests are hidden which use the quest system more as a framework to do some stuff, that dont have entries in this table: 
+--waterway_q99010 (Quiet fight), Mtbs_child_dog (sideop that controlls puppy ddog), mtbs_q99060 (paz)
 --they are in TppQuestList ordered by priority, and will set clear flag when done
+--tex ADDON modified by InfQuest to set up addon quests
 --tex added categories-v-
 local questInfoTable={
   --[[001]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5,category=this.QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
@@ -1149,8 +1154,28 @@ function this.GetCanOpenQuestTable()--tex expose for InfQuest>
   return canOpenQuestChecks
 end--<
 
+--tex>
+--returns {[questName]=true} -- for Activable quests (candidates for Active in UpdateActiveQuest)
+function this.GetAllIsActivable()
+  local allActivable={}
+
+  for i,areaQuests in ipairs(mvars.qst_questList)do--tex TppQuestList.questList
+    local storyQuests,nonStoryQuests,repopQuests,repopAddonQuests=this.SelectActivableQuests(areaQuests.infoList)    
+    for j,questNames in ipairs{storyQuests,nonStoryQuests,repopQuests}do--tex skipping repopAddonQuests since its a subset, otherwise woudl just {this.SelectActivableQuests(areaQuests.infoList)}
+      for k,questName in ipairs(questNames)do
+        allActivable[questName]=true
+      end--for questNames
+    end--for ActivableQuests lists
+  end--for questList
+
+  return allActivable
+end--GetAllIsActivable<
+
 local showModes={--tex> to organize ivar quest_showOnUiMode. see actual use in GetSideOpsListTable for what they do
-  --DEFAULT
+  --tex The vanilla behavior of showing current Active and Cleared lets you see past progression/completion,
+  --though since uncleared quests do have priority, one will be selected for Active
+  --if there's multiple uncleared for an area they will not be shown, 
+  --which gives you less of an idea of future progression
   ONLY_ACTIVE_OR_CLEARED={
     showActive=true,
     showCleared=true,
@@ -1159,9 +1184,9 @@ local showModes={--tex> to organize ivar quest_showOnUiMode. see actual use in G
     showActive=true,
     showCleared=false,
   },
-  ALL_ACTIVABLE={--DEBUGNOW Implement. TODO better name?
+  ALL_ACTIVABLE={
     showActivable=true,
-    showActive=true,--tex activable list will include whatever will be Active anyway
+    showActive=true,--tex activable list should include whatever will be Active anyway, but for consistancy
     showCleared=false,
   },
   ALL_OPEN={
@@ -1178,21 +1203,26 @@ function this.GetSideOpsListTable()
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
     local showMode=Ivars.quest_showOnUiMode:GetSettingName()
-    local showSettings=showModes[showMode]
-  
+    local showSettings=showModes[showMode]  
     local clearedNotActive={}--tex
-    for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL
+    local isActivable={}--tex>
+    if showMode=="ALL_ACTIVABLE" then
+      isActivable=this.GetAllIsActivable()
+    end--<
+    for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL. Does not include hidden quest
       local questName=questInfo.questName
       local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
       local isCleard=this.IsCleard(questName)
       local showActive=isActiveOnMBTerminal and showSettings.showActive--tex cant imagine why you would not want to show active, but here for completion>
       local showCleared=isCleard and showSettings.showCleared--tex
-      local showAllOpen=this.IsOpen(questName) and showSettings.showAllOpen--<
-      if questInfo and(showActive or showCleared or showAllOpen)then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
+      local showAllOpen=this.IsOpen(questName) and showSettings.showAllOpen
+      local showActivable=isActivable[questName] and showSettings.showActivable--<
+      if questInfo and(showActive or showCleared or showActivable or showAllOpen)then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
         questInfo.index=i
-        questInfo.isActive=isActiveOnMBTerminal--tex NMC shows hilighed on ui? VERIFY it just affects ui and theres no other logic working on the variable
-        questInfo.isCleard=isCleard--tex NMC show greyed out on ui? controls checkmark? VERIFY as above
+        questInfo.isActive=isActiveOnMBTerminal--tex NMC controls hilighted on ui
+        questInfo.isCleard=isCleard--tex NMC controls checkmark
         questInfo.gmp=this.GetBounusGMP(questName)
+        --tex NMC Note that its using the actual questInfoTable entries, so ui uses the other values
         table.insert(sideOpsListTable,questInfo)
         if isCleard and not isActiveOnMBTerminal then --tex>
           table.insert(clearedNotActive,questInfo)
@@ -1201,14 +1231,13 @@ function this.GetSideOpsListTable()
     end--for questInfoTable
 
     --tex manage ui entry limit>
-    local maxUIQuests=192--tex theres 157 ui quests (this questInfoTable) DEBUGNOW RE VERIFY maxUIQuests, where did I come up with this, though I would have documented it somewhere but can't find
+    local maxUIQuests=192--tex I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
     local overCount=#sideOpsListTable-maxUIQuests
     if overCount>0 then
       InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
       InfCore.Log("overCount:"..overCount)--tex DEBUG      
-      --tex TODO user message?
-      InfMain.RandomSetToLevelSeed()
 
+      InfMain.RandomSetToLevelSeed()
       for i=1,overCount do
         if #clearedNotActive>0 then
           local randomIndex=math.random(#clearedNotActive)
@@ -1239,8 +1268,12 @@ function this.GetSideOpsListTable()
   --or they could just get the last entry right?
   --but then they'd have to already know the table size...
   table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
-  --    InfCore.LogFlow("TppQuest.GetSideOpsListTable"--tex DEBUG
-  --    InfCore.PrintInspect(sideOpsListTable)--tex DEBUG
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable")--tex DEBUG
+  end--<
+  
+  InfQuest.DEBUGTweakSideopsList(sideOpsListTable)--DEBUGNOW
+  
   return sideOpsListTable
 end--GetSideOpsListTable
 --ORIG
@@ -2460,6 +2493,7 @@ function this.GetSideOpsInfo(questName)
   --  end
   return nil
 end
+--UNUSED
 function this.IsShowSideOpsList(t)
   return this.GetSideOpsInfo()~=nil
 end

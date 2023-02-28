@@ -32,6 +32,7 @@ Replaces "Show all open sideops"
 Chooses what sideops are shown on the idroid UI.
 "Only Active or Cleared (Default)" - the default behavior. Note it doesn't include uncleared, so if there's multiple Uncleared but not Active sideops they won't show.
 "Only Active" - only the current Active sideops, no Cleared sideops.
+"All Activable" - Only shows those sideops in the selection for being Activated (which includes Active).
 "All Open" - Will try and show all Open sideops.
 There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
 

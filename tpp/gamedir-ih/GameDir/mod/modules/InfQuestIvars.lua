@@ -106,9 +106,9 @@ this.quest_showOnUiMode={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings={
     "ONLY_ACTIVE_OR_CLEARED",--DEFAULT
-    "ONLY_ACTIVE",--only actual active quests
-    --DEBUGNOW "ALL_ACTIVABLE",--current candidates for active in UpdateActiveQuest, --DEBUGNOW TODO
-    "ALL_OPEN",--same as old showAllOpenSideopsOnUi
+    "ONLY_ACTIVE",
+    "ALL_ACTIVABLE",
+    "ALL_OPEN",
   },
   settingNames="quest_showOnUiModeSettingNames",
   OnChange=UpdateActiveQuest,
@@ -233,7 +233,7 @@ this.langStrings={
     quest_showOnUiModeSettingNames={
       "Only Active or Cleared (Default)",
       "Only Active",
-      --"Only Activable",--DEBUGNOW
+      "All Activable",
       "All Open",
     },
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
@@ -254,9 +254,9 @@ All selection is still prioritized by uncompleted story sideops, then other unco
       quest_showOnUiMode=[[Chooses what sideops are shown on the idroid UI.
 "Only Active or Cleared (Default)" - the default behavior. Note it doesn't include all uncleared, so if there's multiple Uncleared but not Active sideops they won't show.
 "Only Active" - only the current Active sideops, no Cleared sideops.
+"All Activable" - Only shows those sideops in the selection for being Activated (which includes Active).
 "All Open" - Will try and show all Open sideops.
 There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.]],
---DEBUGNOW add above when implemented: "Only Activable" - Only shows those sideops in the selection for being Activated (which includes Active).
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
     },
   }
