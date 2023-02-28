@@ -56,6 +56,8 @@ this.quest_useAltForceFulton={--DEBUGNOW
   settingNames="set_switch",
 }
 --tex works off questInfoTable so it's only player playable quests.
+--but ignores Open, and any other selection criteria
+--See InfQuest.GetForced < TppQuest.UpdateActiveQuest
 this.quest_forceQuestNumber={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=157},--DYNAMIC, DEBUGNOW: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
