@@ -1310,5 +1310,40 @@ function this.PrintCurrentFlags()
   InfCore.PrintInspect(currentFlags,"InfQuest.DebugCurrentFlags")
   InfCore.DebugPrint("PrintCurrentFlags to Log")
 end--PrintCurrentFlags
+--CALLER: TppQuest.GetSideOpsListTable
+function this.DEBUGTweakSideopsList(sideOpsListTable)
+  InfCore.LogFlow"InfQuest.DEBUGTweakSideopsList"
+--tex verify isActive, isCleard do what they do
+--result: yes they do (hilight and checkmark)
+ -- for i,questInfo in ipairs(sideopsList)do
+--    questInfo.isActive=true--tex NMC controls hilighted on ui
+--    questInfo.isCleard=false--tex NMC controls checkmark
+    --questInfo.gmp=this.GetBounusGMP(questName)
+ -- end
+
+  --tex verify max ui entries, 
+  --resulte: yes its 192
+--  local start=#sideopsList
+--  for i=1,200 do
+--    local questInfoCopy={}
+--    for k,v in pairs(sideopsList[1])do
+--      questInfoCopy[k]=v
+--    end
+--    questInfoCopy.index=start+i
+--    table.insert(sideopsList,questInfoCopy)
+--  end
+
+  --tex test .index vs sideOpsListTable order
+  --result: index is the number in the ui, order of entries is sideOpsListTable order
+--  local index=#sideOpsListTable
+--  for i,questInfo in ipairs(sideOpsListTable)do
+--    questInfo.index=index
+--    index=index-1
+--  end
+  
+  InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable post tweaked")--tex DEBUG  
+
+  return sideOpsListTable
+end--DEBUGTweakSideopsList
 
 return this
