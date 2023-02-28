@@ -8,6 +8,8 @@ Clear ancillary ih saves on new game.
 
 InfQuest / IH Sideops menu:
 
+Renamed unlockSideOpNumber to quest_forceQuestNumber, just an internal name change to be more consistant and accurate. 
+
 quest_updateRepopMode="Repop mode": "On none left"|"Allways"
 Lets you choose the behaviour of how repeatable sideops are refreshed. 
 The update is run for the sideop area of a quest you just finished, 

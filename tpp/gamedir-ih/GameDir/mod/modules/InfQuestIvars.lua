@@ -4,7 +4,7 @@ local this={}
 this.registerIvars={
   "quest_forceOpen",
   "quest_forceRepop",
-  "unlockSideOpNumber",
+  "quest_forceQuestNumber",
   "quest_updateRepopMode",
   "quest_selectForArea",
   "quest_showOnUiMode",
@@ -56,7 +56,7 @@ this.quest_useAltForceFulton={--DEBUGNOW
   settingNames="set_switch",
 }
 --tex works off questInfoTable so it's only player playable quests.
-this.unlockSideOpNumber={
+this.quest_forceQuestNumber={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=157},--DYNAMIC, DEBUGNOW: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
   GetSettingText=function(self,setting)
@@ -74,7 +74,7 @@ this.unlockSideOpNumber={
     IvarProc.SetMaxToList(self,TppQuest.GetQuestInfoTable(),indexFrom1)
   end,
   OnChange=UpdateActiveQuest,
-}--unlockSideOpNumber
+}--quest_forceQuestNumber
 
 --tex create sideOpsCategoryMenu / quest category selection ivars see UpdateActiveQuest  
 this.categoryIvarPrefix="quest_categorySelection_"
@@ -143,7 +143,7 @@ this.sideOpsMenu={
   parentRefs={"InfMenuDefs.safeSpaceMenu"},
   options={
     "InfQuest.RerollQuestSelection",
-    "Ivars.unlockSideOpNumber",
+    "Ivars.quest_forceQuestNumber",
     "Ivars.quest_setIsOnceToRepop",
     "Ivars.quest_selectForArea",
     "Ivars.quest_updateRepopMode",
@@ -199,7 +199,7 @@ this.langStrings={
       "Allways",
     },
     quest_setIsOnceToRepop="Repop one-time sideops",
-    unlockSideOpNumber="Open specific sideop #",
+    quest_forceQuestNumber="Force specific sideop #",
     sideOpsCategoryMenu="Sideops category selection menu",
     quest_categorySelection_STORY="Story/unique",
     quest_categorySelection_EXTRACT_INTERPRETER="Extract interpreter",
@@ -240,7 +240,7 @@ this.langStrings={
   },
   help={
     eng={
-      unlockSideOpNumber="Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.",
+      quest_forceQuestNumber="WARNING: This allows opening a sideop outside of normal progression. Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
       quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are refreshed. The update is run for the sideop area of a quest you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.

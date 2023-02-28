@@ -369,7 +369,7 @@ end
 --tex for UpdateActiveQuest
 -- returns {[forcedQuestArea]=<forcedQuestName>}--only one entry
 --because there can only be one sidop unlocked per area, but currently only forcing one sideop
-local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
+local printUnlockedFmt="quest_forceQuestNumber:%u %s %s"
 function this.GetForced()
   InfCore.LogFlow("InfQuest.GetForced")
   --tex TODO: need to get intended mission code
@@ -384,9 +384,9 @@ function this.GetForced()
   local questTable=TppQuest.GetQuestInfoTable()
 
   --tex find name and area for unlocksideop
-  local unlockSideOpNumber=Ivars.unlockSideOpNumber:Get()
-  if unlockSideOpNumber>0 and unlockSideOpNumber<=#questTable then
-    local unlockedName=questTable[unlockSideOpNumber].questName
+  local forceQuestNumber=Ivars.quest_forceQuestNumber:Get()
+  if forceQuestNumber>0 and forceQuestNumber<=#questTable then
+    local unlockedName=questTable[forceQuestNumber].questName
     local unlockedArea=nil
     if unlockedName~=nil then
       unlockedArea=TppQuestList.questAreaNameTable[unlockedName]
@@ -395,10 +395,10 @@ function this.GetForced()
       else
         forcedQuests[unlockedArea]=unlockedName
         forcedCount=forcedCount+1
-        InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
+        InfCore.Log(string.format(printUnlockedFmt,forceQuestNumber,unlockedName,unlockedArea))
       end
     end--if unlockedName
-  end--if unlockSideOpNumber <=#questTable
+  end--if forceQuestNumber <=#questTable
 
   if forcedCount==0 then
     return nil
