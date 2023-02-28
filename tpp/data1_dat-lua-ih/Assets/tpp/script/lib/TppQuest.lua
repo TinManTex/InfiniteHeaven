@@ -1269,10 +1269,9 @@ function this.GetSideOpsListTable()
   --but then they'd have to already know the table size...
   table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
   if this.debugModule then--tex>
-    InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable")--tex DEBUG
+    InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable")--tex DEBUG  
+    --InfQuest.DEBUGTweakSideopsList(sideOpsListTable)--tex experiment with the table
   end--<
-  
-  InfQuest.DEBUGTweakSideopsList(sideOpsListTable)--DEBUGNOW
   
   return sideOpsListTable
 end--GetSideOpsListTable
