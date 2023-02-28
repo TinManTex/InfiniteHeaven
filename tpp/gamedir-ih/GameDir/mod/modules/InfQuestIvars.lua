@@ -55,7 +55,7 @@ this.quest_useAltForceFulton={--DEBUGNOW
   range=Ivars.switchRange,
   settingNames="set_switch",
 }
-
+--tex works off questInfoTable so it's only player playable quests.
 this.unlockSideOpNumber={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={max=157},--DYNAMIC, DEBUGNOW: AutoDoc won't pull an accurate count, also this wont update till actually selected meaning profile wont be able to set to new sideops.
@@ -144,9 +144,9 @@ this.sideOpsMenu={
   options={
     "InfQuest.RerollQuestSelection",
     "Ivars.unlockSideOpNumber",
-    "Ivars.quest_updateRepopMode",
     "Ivars.quest_setIsOnceToRepop",
     "Ivars.quest_selectForArea",
+    "Ivars.quest_updateRepopMode",
     "InfQuestIvars.sideOpsCategoryMenu",
     "Ivars.quest_showOnUiMode",
     "Ivars.enableHeliReinforce",
@@ -240,12 +240,13 @@ this.langStrings={
   },
   help={
     eng={
-      unlockSideOpNumber="WARNING: This can override important story or hidden progression sideops.",
+      unlockSideOpNumber="Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
       quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are refreshed. The update is run for the sideop area of a quest you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
 The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.
-'Allways' will refresh repeatable quests every time the update is called.]],
+'Allways' will refresh repeatable quests every time the update is called.
+Best use with Select for Area mode set to Random.]],
       quest_setIsOnceToRepop="Lets you force story and one-time sideops to be replayable.",
       quest_selectForArea=[[Sideops are broken into areas to stop overlap, this option lets you control the choice which repop sideop will be selected to be Active for the area.
 'Random Addon' will prioritize Addon sideops first. 
