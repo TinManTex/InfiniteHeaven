@@ -8,7 +8,7 @@ this.registerIvars={
   "quest_updateRepopMode",
   "quest_selectForArea",
   "quest_showOnUiMode",
-  "ihSideopsPercentageCount",
+  "quest_addonsCountForCompletion",
   "quest_useAltForceFulton",
   "quest_setIsOnceToRepop",
 }
@@ -114,7 +114,7 @@ this.quest_showOnUiMode={
   OnChange=UpdateActiveQuest,
 }
 
-this.ihSideopsPercentageCount={
+this.quest_addonsCountForCompletion={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
@@ -150,7 +150,7 @@ this.sideOpsMenu={
     "InfQuestIvars.sideOpsCategoryMenu",
     "Ivars.quest_showOnUiMode",
     "Ivars.enableHeliReinforce",
-    "Ivars.ihSideopsPercentageCount",
+    "Ivars.quest_addonsCountForCompletion",
     "Ivars.quest_enableShootingPracticeRetry",
     "Ivars.quest_setShootingPracticeCautionTimeToBestTime",
     --"Ivars.quest_setShootingPracticeTimeLimitToBestTime",--OFF UpdateShootingPracticeClearTime not working out
@@ -227,7 +227,7 @@ this.langStrings={
       "Random",
       "Random Addon",
     },
-    ihSideopsPercentageCount="Include add-on sideops in completion percentage",
+    quest_addonsCountForCompletion="Include add-on sideops in completion percentage",
     rerollQuestSelection="Reroll sideops selection",
     quest_showOnUiMode="Show on UI mode",
     quest_showOnUiModeSettingNames={

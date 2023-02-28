@@ -3078,10 +3078,10 @@ function this.CalcQuestClearedCount()
   for n,questInfo in ipairs(questInfoTable)do
     local questName=questInfo.questName
     local questIndex=TppDefine.QUEST_INDEX[questName]
-    --tex ihSideopsPercentageCount>
+    --tex quest_addonsCountForCompletion>
     local isIHQuest=InfQuest~=nil and InfQuest.ihQuestsInfo[questName]~=nil
-    local countIHQuest=Ivars.ihSideopsPercentageCount:Is(1)
-    if not isIHQuest or (isIHQuest and countIHQuest) then
+    local addonsCountForCompletion=Ivars.quest_addonsCountForCompletion:Is(1)
+    if not isIHQuest or (isIHQuest and addonsCountForCompletion) then
       --<
       if gvars.qst_questClearedFlag[questIndex]then
         clearedCount=clearedCount+1
