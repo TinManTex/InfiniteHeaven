@@ -1199,7 +1199,8 @@ local showModes={--tex> to organize ivar quest_showOnUiMode. see actual use in G
 --tex NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction. Actual quest selection in UpdateActiveQuest
 --vanilla behaviour is to just show current Active or Cleared quests. So that meant you could have multiple uncompleted quests for an area and it would only show the one  
 function this.GetSideOpsListTable()
-  InfCore.LogFlow("InfQuest.GetSideOpsListTable")--tex DEBUG
+  return InfCore.PCallDebug(function()--tex wrap in pcall to protect debug addons CanActiveQuest (via GetAllIsActivable > SelectActivableQuests)
+  InfCore.LogFlow("TppQuest.GetSideOpsListTable")--tex
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
     local showMode=Ivars.quest_showOnUiMode:GetSettingName()
@@ -1274,6 +1275,7 @@ function this.GetSideOpsListTable()
   end--<
   
   return sideOpsListTable
+  end)--tex PCallDebug
 end--GetSideOpsListTable
 --ORIG
 --function this.GetSideOpsListTable()
