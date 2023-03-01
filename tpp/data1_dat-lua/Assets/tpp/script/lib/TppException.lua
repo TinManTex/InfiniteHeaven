@@ -1,8 +1,21 @@
+--TppException.lua
 local this={}
 this.MGO_INVITATION_CANCEL_POPUP_ID=5010
 this.CLOSE_INIVITATION_CANCEL_POPUP_INTERVAL=1.5
 this.PROCESS_STATE=Tpp.Enum{"EMPTY","START","SHOW_DIALOG","SUSPEND","FINISH"}
-this.TYPE=Tpp.Enum{"INVITATION_ACCEPT","DISCONNECT_FROM_PSN","DISCONNECT_FROM_KONAMI","DISCONNECT_FROM_NETWORK","SESSION_DISCONNECT_FROM_HOST","SIGNIN_USER_CHANGED","INVITATION_PATCH_DLC_CHECKING","INVITATION_PATCH_DLC_ERROR","INVITATION_ACCEPT_BY_OTHER","INVITATION_ACCEPT_WITHOUT_SIGNIN","WAIT_MGO_CHUNK_INSTALLATION"}
+this.TYPE=Tpp.Enum{
+  "INVITATION_ACCEPT",
+  "DISCONNECT_FROM_PSN",
+  "DISCONNECT_FROM_KONAMI",
+  "DISCONNECT_FROM_NETWORK",
+  "SESSION_DISCONNECT_FROM_HOST",
+  "SIGNIN_USER_CHANGED",
+  "INVITATION_PATCH_DLC_CHECKING",
+  "INVITATION_PATCH_DLC_ERROR",
+  "INVITATION_ACCEPT_BY_OTHER",
+  "INVITATION_ACCEPT_WITHOUT_SIGNIN",
+  "WAIT_MGO_CHUNK_INSTALLATION"
+}
 this.GAME_MODE=Tpp.Enum{"TPP","TPP_FOB","MGO"}
 this.OnEndExceptionDialog={}
 this.mgoInvitationUpdateCount=0
@@ -142,14 +155,14 @@ function this.OnEndExceptionDialogForMgoInvitationAccept()
   if select==Popup.SELECT_OK then
     PatchDlc.StartCheckingPatchDlc()
     if PatchDlc.IsCheckingPatchDlc()then
-      local n=this.GetCurrentGameMode()
-      this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_CHECKING,n)
+      local currentGameMod=this.GetCurrentGameMode()
+      this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_CHECKING,currentGameMod)
     else
       if PatchDlc.DoesExistPatchDlc()then
         this.CheckMgoChunkInstallation()
       else
-        local n=this.GetCurrentGameMode()
-        this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_ERROR,n)
+        local currentGameMod=this.GetCurrentGameMode()
+        this.Enqueue(this.TYPE.INVITATION_PATCH_DLC_ERROR,currentGameMod)
       end
     end
   else
@@ -182,7 +195,8 @@ function this.CheckMgoChunkInstallation()
   end
 end
 function this.GoToMgoByInivitaion()
-  TppPause.RegisterPause"GoToMGO"TppGameStatus.Set("GoToMGO","S_DISABLE_PLAYER_PAD")
+  TppPause.RegisterPause"GoToMGO"
+  TppGameStatus.Set("GoToMGO","S_DISABLE_PLAYER_PAD")
   this.isNowGoingToMgo=true
   this.fadeOutRemainTimeForGoToMgo=TppUI.FADE_SPEED.FADE_HIGHSPEED
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,"GoToMgoByInivitaion",nil,{setMute=true})
@@ -314,45 +328,45 @@ function this.GetCurrentGameMode()
     end
   end
 end
-function this.Enqueue(n,t)
-  if not this.TYPE[n]then
+function this.Enqueue(exceptionType,gameMode)
+  if not this.TYPE[exceptionType]then
     return
   end
-  local o=gvars.exc_exceptionQueueDepth
-  local i=gvars.exc_exceptionQueueDepth+1
-  if i>=TppDefine.EXCEPTION_QUEUE_MAX then
+  local currentQueueDepth=gvars.exc_exceptionQueueDepth
+  local nextQueueDepth=gvars.exc_exceptionQueueDepth+1
+  if nextQueueDepth>=TppDefine.EXCEPTION_QUEUE_MAX then
     return
   end
-  if(gvars.exc_processingExecptionType==n)then
+  if(gvars.exc_processingExecptionType==exceptionType)then
     return
   end
-  if this.HasQueue(n,t)then
+  if this.HasQueue(exceptionType,gameMode)then
     return
   end
-  gvars.exc_exceptionQueueDepth=i
-  gvars.exc_exceptionQueue[o]=n
-  gvars.exc_queueGameMode[o]=t
+  gvars.exc_exceptionQueueDepth=nextQueueDepth
+  gvars.exc_exceptionQueue[currentQueueDepth]=exceptionType
+  gvars.exc_queueGameMode[currentQueueDepth]=gameMode
 end
-function this.Dequeue(e)
-  local e=e or 0
-  if e>gvars.exc_exceptionQueueDepth then
+function this.Dequeue(startDepth)
+  local startQueueDepth=startDepth or 0
+  if startQueueDepth>gvars.exc_exceptionQueueDepth then
     return
   end
-  local o=gvars.exc_exceptionQueue[e]
-  local t=gvars.exc_queueGameMode[e]
-  local n=gvars.exc_exceptionQueueDepth
-  for e=e,(n-1)do
-    gvars.exc_exceptionQueue[e]=gvars.exc_exceptionQueue[e+1]
-    gvars.exc_queueGameMode[e]=gvars.exc_queueGameMode[e+1]
+  local exceptionQueue=gvars.exc_exceptionQueue[startQueueDepth]
+  local queueGameMode=gvars.exc_queueGameMode[startQueueDepth]
+  local exceptionQueueDepth=gvars.exc_exceptionQueueDepth
+  for i=startQueueDepth,(exceptionQueueDepth-1)do
+    gvars.exc_exceptionQueue[i]=gvars.exc_exceptionQueue[i+1]
+    gvars.exc_queueGameMode[i]=gvars.exc_queueGameMode[i+1]
   end
-  gvars.exc_exceptionQueue[n]=0
-  gvars.exc_queueGameMode[n]=0
-  gvars.exc_exceptionQueueDepth=n-1
-  return o,t
+  gvars.exc_exceptionQueue[exceptionQueueDepth]=0
+  gvars.exc_queueGameMode[exceptionQueueDepth]=0
+  gvars.exc_exceptionQueueDepth=exceptionQueueDepth-1
+  return exceptionQueue,queueGameMode
 end
-function this.HasQueue(t,n)
-  for e=0,gvars.exc_exceptionQueueDepth do
-    if(gvars.exc_exceptionQueue[e]==t)and((n==nil)or(gvars.exc_queueGameMode[e]==n))then
+function this.HasQueue(exceptionType,gameMode)
+  for i=0,gvars.exc_exceptionQueueDepth do
+    if(gvars.exc_exceptionQueue[i]==exceptionType)and((gameMode==nil)or(gvars.exc_queueGameMode[i]==gameMode))then
       return true
     end
   end
@@ -395,7 +409,7 @@ function this.Update()
         if not n then
           n=true
           Mission.SwitchApplication"mgo"
-          end
+        end
       end
     end
     return
