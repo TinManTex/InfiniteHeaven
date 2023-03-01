@@ -65,11 +65,11 @@ this.quest_forceQuestNumber={
     local questName=TppQuest.QUESTTABLE_INDEX[setting] or "OFF"
     return questName
   end,
-  SkipValues=function(self,newSetting)
-    local questName=TppQuest.QUESTTABLE_INDEX[newSetting]
-    --InfCore.DebugPrint(questName)--DEBUG
-    return InfQuest.BlockQuest(questName)
-  end,
+--  SkipValues=function(self,newSetting)
+--    local questName=TppQuest.QUESTTABLE_INDEX[newSetting]
+--    --InfCore.DebugPrint(questName)--DEBUG
+--    return InfQuest.BlockQuest(questName)
+--  end,
   OnSelect=function(self,setting)
     --range 0==OFF - #questInfoTable
     local indexFrom1=true
