@@ -6,6 +6,8 @@ Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelat
 
 Clear ancillary ih saves on new game.
 
+Fix: Repop of sideop 144 tent_q99040 "Secure the Remains of the Man on Fire" arival on quaranteen platform leaving player stuck in helipad.
+
 InfQuest / IH Sideops menu:
 
 Renamed unlockSideOpNumber to quest_forceQuestNumber, just an internal name change to be more consistant and accurate. Though you will have to set the setting again.

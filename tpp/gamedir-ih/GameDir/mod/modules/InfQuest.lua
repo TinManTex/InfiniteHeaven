@@ -73,8 +73,9 @@ function this.OnAllocate(missionTable)
   if missionTable.enemy then
   --CULL this.LoadEquipTable()
   end
-
-  this.FixFlags()
+  
+  this.OnAllocateQuestPatchup(missionTable)
+  this.FixFlags()  
   
   local setIsOnceOff=Ivars.quest_setIsOnceToRepop:Get()==1
   this.SetIsOnceOff(setIsOnceOff)
@@ -307,8 +308,7 @@ function this.SetIsOnceOff(setIsOnceOff)
 end--SetIsOnce
 
 local blockQuests={
-  tent_q99040=true, -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
-  sovietBase_q99020=true,-- 82, make contact with emmeric
+  sovietBase_q99020=true,-- 82, make contact with emmeric. is just a trigger for a mission
 }
 
 --block quests> aka (not CanActiveQuestIH())
@@ -1341,9 +1341,39 @@ function this.DEBUGTweakSideopsList(sideOpsListTable)
 --    index=index-1
 --  end
   
-  InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable post tweaked")--tex DEBUG  
+  --InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable post tweaked")--tex DEBUG  
 
   return sideOpsListTable
 end--DEBUGTweakSideopsList
+
+function this.OnAllocateQuestPatchup(missionTable)
+  InfCore.LogFlow"OnAllocateQuestPatchup"
+  if vars.missionCode==30010 then
+    this.qst_volginQuestDone=false
+    InfCore.Log("tent_q99040 repop f30250 demo play fix")
+    missionTable.demo.PlayRecoverVolgin=this.PlayRecoverVolgin
+  end
+end--OnAllocateQuestPatchup
+--tex tent_q99040 repop f30250 demo play fix
+this.qst_volginQuestDone=false
+--f30010_demo function replacement
+--CALLER: 30010_sequence.sequences.Seq_Demo_RecoverVolgin
+function this.PlayRecoverVolgin( startFunc, endFunc )
+  InfCore.Log("InfQuest.PlayRecoverVolgin ***** f30010_demo:PlayRecoverVolgin *****")
+  TppDemo.Play("Demo_RecoverVolgin",
+    {
+      onStart = function() 
+        startFunc()
+        InfCore.Log("InfQuest.PlayRecoverVolgin demo OnStart")
+        this.qst_volginQuestDone=true
+      end,
+      onEnd = function() endFunc() end,
+    },
+    {
+      useDemoBlock = false,
+      finishFadeOut = true
+    }
+  )
+end--PlayRecoverVolgin
 
 return this
