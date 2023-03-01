@@ -503,7 +503,7 @@ end
 this.DEFAULT_SOLIDER2_COMMON_PACKAGE=StrCode32"default"
 this.SOLIDER2_COMMON_PACK_PREREQUISITES={s10150_special={"mission_block"},s10151_special={"mission_block"},s10151_ending={"mission_block"}}
 this.AFR_ARMOR={TYPE_CFA=1,TYPE_ZRS=2,TYPE_RC=3}
-this.QUEST_DEFINE={
+this.QUEST_DEFINE={--NMC if you need a list of valid player quests use TppQuest questInfoTable instead of this
   "waterway_q99010",
   "waterway_q99012",
   "sovietBase_q99020",
@@ -671,7 +671,7 @@ this.QUEST_DEFINE={
   "mtbs_q42060",
   "mtbs_q42070",
   "mtbs_return_quiet"
-}
+}--QUEST_DEFINE
 this.NUM_VANILLA_QUEST_DEFINES=167--tex added
 this.QUEST_RANDOM_FACE_DEFINE={
   "quest_q20015",
