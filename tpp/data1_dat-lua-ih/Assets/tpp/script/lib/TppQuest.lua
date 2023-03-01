@@ -3014,7 +3014,7 @@ function this.NeedUpdateRepop(locationQuests)
       end--if IsRepop or not IsCleard
     end--if IsOpen
   end--for infoList
-  --tex NMC dont quit understand what this is guarding against. seems like a basic skip out early
+  --tex NMC dont quite understand what this is guarding against. seems like a basic skip out early
   --and I understand why you'd bail on 0, but why on 1 repopable?
   --but cant see any non mb areas that have only 1 or 0 repopables. citadel has two.
   --MB areas by default only usually have one quest (a shooting prac), 
