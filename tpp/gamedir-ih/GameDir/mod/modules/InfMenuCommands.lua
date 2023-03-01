@@ -287,7 +287,7 @@ this.DEBUG_buddyCycle=function()
 end
 
 this.ForceRegenSeed=function()
-  InfMain.RegenSeed(40010)
+  InfMain.RegenSeed(40010,40010)
 end
 
 
