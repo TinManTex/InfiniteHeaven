@@ -261,17 +261,6 @@ end
 --tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
 --if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
 
---REF DEBUGNOW CULL once youve built your list, decide whether to keep the notes here or put them in TppQuestList (dont like putting IH related notes in base game lua though)
--- isOnce quests that definitately should stay so/not be bypassed by the ih repeatable ivar DEBUGNOW
---local isOnceStrict={
---  --tex hidden/specifically managed quests, see TppQuestList for notes on these
---  waterway_q99010=true,--tex DEBUGNOW look through how this is handling flags and clearing and think if its worth letting
---  mtbs_q99060=true,
---  Mtbs_child_dog=true,
---  --other isOnces
---DEBUGNOW TODO fill this out
---}--isOnceStrict
-
 --CALLER: Ivars.quest_setIsOnceToRepop, this.OnAllocate (with ivar setting)
 --IN: Ivars.quest_setIsOnceToRepop
 --IN/OUT: TppQuest.questList questInfo
@@ -299,7 +288,7 @@ function this.SetIsOnceOff(setIsOnceOff)
             questInfo.isOnce=true
           end  
         end--if setIsOnceOff
-      end--not isOnceStrict
+      end--not strictIsOnce
     end--for area infoList
   end--for questList
   if this.debugModule then
@@ -1138,7 +1127,7 @@ function this.FixFlags()
       local questName=questInfo.name
       if TppQuest.IsRepop(questInfo.name) then
         --local isHiddenQuest=TppQuest.GetSideOpsInfo(questName)==nil
-        if questInfo.isOnceStrict and TppQuest.IsCleard(questName) then--tex only really an issue with the hidden/managed quests, which are now flagged with isOnceStrict DEBUGNOW think this through, review isOnceStricts once you've expanded them for set isonce false ivar
+        if questInfo.strictIsOnce and TppQuest.IsCleard(questName) then--tex only really an issue with the hidden/managed quests, which are now flagged with strictIsOnce DEBUGNOW think this through, review strictIsOnce once you've expanded them for set isonce false ivar
           local questIndex=TppQuest.GetQuestIndex(questName)
           gvars.qst_questRepopFlag[questIndex]=false
           gvars.qst_questActiveFlag[questIndex]=false
