@@ -297,7 +297,7 @@ function this.SetIsOnceOff(setIsOnceOff)
 end--SetIsOnce
 
 local blockQuests={
-  sovietBase_q99020=true,-- 82, make contact with emmeric. is just a trigger for a mission
+  --sovietBase_q99020=true,-- 82, make contact with emmeric. is just a trigger for a mission --CULL either move to strictIsOnce or some other more consistant method
 }
 
 --block quests> aka (not CanActiveQuestIH())
