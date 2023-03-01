@@ -2815,7 +2815,15 @@ function this.IsImportant(questName)
   end
   return false
 end
-local specialQuestList={waterway_q99012="waterway",tent_q99040="tent",tent_q20910="tent",sovietBase_q20912="waterway",fort_q20911="fort"}
+--NMC: just checks that player isnt in the area
+local specialQuestList={
+  waterway_q99012="waterway",--150 - Secure Quiet - NMC OpenAndActivateSpecialQuest never actually called with this?
+  tent_q99040="tent",--144 - Secure the Remains of the Man on Fire
+  --NMC > called in one go
+  tent_q20910="tent",--148 Search for the Escaped Children 04
+  sovietBase_q20912="waterway",-- Search for the Escaped Children 03
+  fort_q20911="fort"--Search for the Escaped Children 05
+}
 function this.OpenAndActivateSpecialQuest(questNames)
   local opened=true
   for i,questName in ipairs(questNames)do
