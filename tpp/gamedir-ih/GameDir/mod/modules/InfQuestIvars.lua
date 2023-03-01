@@ -258,7 +258,7 @@ All selection is still prioritized by uncompleted story sideops, then other unco
 "Only Active or Cleared (Default)" - the default behavior. Note it doesn't include all uncleared, so if there's multiple Uncleared but not Active sideops they won't show.
 "Only Active" - only the current Active sideops, no Cleared sideops.
 "All Activable" - Only shows those sideops in the selection for being Activated (which includes Active).
-"All Open" - Will try and show all Open sideops.
+"All Open" - Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression.
 There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.]],
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
     },
