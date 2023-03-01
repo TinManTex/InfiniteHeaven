@@ -245,7 +245,7 @@ this.langStrings={
       quest_forceQuestNumber="WARNING: This allows opening a sideop outside of normal progression. Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
-      quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are refreshed. The update is run for the sideop area of a quest you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
+      quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are repopulated. The update is run for the sideop area of a quest you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
 The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.
 'Allways' will refresh repeatable quests every time the update is called.
 Best use with Select for Area mode set to Random.]],
