@@ -1099,20 +1099,6 @@ function this.DisableLandingZones()
     end
   end
 end
---tex called by various IH ivars OnChange
-function this.UpdateActiveQuest()
-  InfCore.LogFlow("InfQuest.UpdateActiveQuest")
-
-  --tex UpdateRepopFlag is only usually called on quest clear with that quests questarea
-  --the only worysome area is MtbsPaz, but the quest there isOnced and now also quarded with strictIsOnce
-  for i,areaQuests in ipairs(TppQuestList.questList)do
-    local forceUpdate=true
-    TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)
-  end
-  TppQuest.UpdateActiveQuest()
-
-  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
-end
 
 --tex called from quest script to have the external quest defintion script as the quest script
 function this.GetScript(scriptName)
@@ -1294,12 +1280,22 @@ this.ForceAllQuestOpenFlagFalse=function()
   TppQuest.UpdateActiveQuest()
   InfMenu.PrintLangId"done"
 end
-
+--tex called by various IH ivars OnChange, and a Command in itself
 this.RerollQuestSelection=function()
-  InfMain.RegenSeed(vars.missionCode,vars.missionCode)
+  InfCore.LogFlow("InfQuest.RerollQuestSelection")
+  
+  InfMain.RegenSeed(vars.missionCode,vars.missionCode)--tex DEBUGNOW whats my reasoning here?
+  
+  --tex UpdateRepopFlag (which calls UpdateRepopFlagImpl) is only usually called on quest clear with that quests questarea
+  --the only worysome area is MtbsPaz, but the quest there isOnced and now also guarded with strictIsOnce
+  for i,areaQuests in ipairs(TppQuestList.questList)do
+    local forceUpdate=true
+    TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)
+  end
+  TppQuest.UpdateActiveQuest()
 
-  InfQuest.UpdateActiveQuest()
-end
+  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
+end--RerollQuestSelection
 
 function this.PrintCurrentFlags()
   local currentFlags=this.DebugCurrentFlags()

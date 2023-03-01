@@ -13,21 +13,21 @@ this.registerIvars={
   "quest_setIsOnceToRepop",
 }
 
-local function UpdateActiveQuest()
-  InfQuest.UpdateActiveQuest()
+local function RerollQuestSelection()
+  InfQuest.RerollQuestSelection()
 end
 
 this.quest_forceOpen={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=UpdateActiveQuest,
+  OnChange=RerollQuestSelection,
 }
 this.quest_forceRepop={
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
   settingNames="set_switch",
-  OnChange=UpdateActiveQuest,
+  OnChange=RerollQuestSelection,
 }
 
 this.quest_updateRepopMode={
@@ -37,7 +37,7 @@ this.quest_updateRepopMode={
     "ALLWAYS",
   },
   settingNames="quest_updateRepopModeSettingNames",
-  OnChange=UpdateActiveQuest,
+  OnChange=RerollQuestSelection,
 }
 
 this.quest_setIsOnceToRepop={
@@ -46,7 +46,7 @@ this.quest_setIsOnceToRepop={
   settingNames="set_switch",
   OnChange=function(self,setting)
     InfQuest.SetIsOnceOff(setting==1)
-    InfQuest.UpdateActiveQuest()
+    InfQuest.RerollQuestSelection()
   end,
 }
 
@@ -75,7 +75,7 @@ this.quest_forceQuestNumber={
     local indexFrom1=true
     IvarProc.SetMaxToList(self,TppQuest.GetQuestInfoTable(),indexFrom1)
   end,
-  OnChange=UpdateActiveQuest,
+  OnChange=RerollQuestSelection,
 }--quest_forceQuestNumber
 
 --tex create sideOpsCategoryMenu / quest category selection ivars see UpdateActiveQuest  
@@ -87,7 +87,7 @@ for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
     settings={"ALL","NONE","ADDON_ONLY"},
     settingNames="quest_categorySelectionSettingNames",
     categoryName=categoryName,
-    OnChange=UpdateActiveQuest,
+    OnChange=RerollQuestSelection,
   }
   this[ivarName]=ivar
   this.registerIvars[#this.registerIvars+1]=ivarName
@@ -101,7 +101,7 @@ this.quest_selectForArea={
     "RANDOM_ADDON",
   },
   settingNames="quest_selectForAreaSettingNames",
-  OnChange=UpdateActiveQuest,
+  OnChange=RerollQuestSelection,
 }
 
 this.quest_showOnUiMode={
@@ -113,7 +113,7 @@ this.quest_showOnUiMode={
     "ALL_OPEN",
   },
   settingNames="quest_showOnUiModeSettingNames",
-  OnChange=UpdateActiveQuest,
+  OnChange=RerollQuestSelection,
 }
 
 this.quest_addonsCountForCompletion={
@@ -242,6 +242,7 @@ this.langStrings={
   },
   help={
     eng={
+      rerollQuestSelection="Note: You may not see any change unless you use 'Selection for Area mode' set to Random. Many of the other IH sideop options allready run this after you change them.",
       quest_forceQuestNumber="WARNING: This allows opening a sideop outside of normal progression. Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
