@@ -223,7 +223,7 @@ function this.UpdateScoreTime(rankingCategory)
   this.UpdateScore(rankingCategory,svars.scoreTime)
 end
 --CALLER: quest script on clear
---HOOKED: (InfHooks) > InfShootingPractice.UpdateShootingPracticeClearTime
+--HOOKED: REPLACEMENT: (InfHooks) InfShootingPractice.UpdateShootingPracticeClearTime
 function this.UpdateShootingPracticeClearTime(questNameAsRankingCategory,scoreTime)
   this.UpdateScore(questNameAsRankingCategory,scoreTime)
 end
