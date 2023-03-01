@@ -403,7 +403,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     end
   end
 end
-
+local allQuestNames
 function this.GetMissionQuestList(missionCode)
   this.AddAddonQuestsToMissionQuestTable()
   this.AddAddonMissionQuestListToMissionQuestTable()
@@ -417,7 +417,15 @@ function this.GetMissionQuestList(missionCode)
     missionCode=TppMission.GetNormalMissionCodeFromHardMission(missionCode)
   end
   if this.IsEnableForceAllQuest() then
-    return TppDefine.QUEST_DEFINE
+    --tex KLUDGE
+    if allQuestNames==nil then
+      allQuestNames={}
+      for i,questInfo in ipairs(TppQuest.GetQuestInfoTable())do
+        table.insert(allQuestNames,questInfo.questName)
+      end
+    end
+    return allQuestNames
+    --tex CULL dont use, questInfoTable -^- instead since the list of ui/playable quests. return TppDefine.QUEST_DEFINE
   end
   return this.MISSION_QUEST_LIST[missionCode]
 end
