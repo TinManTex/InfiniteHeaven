@@ -3038,10 +3038,11 @@ end--NeedUpdateRepop
 --GOTCHA: quest_forceRepop (though that ivar has now been relegated to debug) will bail this (is this good or bad?), but forced isOnce wont have flags touched (good)
 --IN:Ivars.quest_updateRepopMode--tex switch between default behaviour of only repopping if no other quests left, or allways repopping 
 --OUT:gvars.qst_questRepopFlag
-function this.UpdateRepopFlagImpl(locationQuests)
+--tex added allwaysUpdate
+function this.UpdateRepopFlagImpl(locationQuests,allwaysUpdate)
   InfCore.PCallDebug(function(locationQuests)--tex wrapped in pcall
     InfCore.LogFlow("TppQuest.UpdateRepopFlagImpl area:"..tostring(locationQuests.areaName))--tex
-    if not this.NeedUpdateRepop(locationQuests) and Ivars.quest_updateRepopMode:Get()==0 then--tex added quest_updateRepopMode bypass GOTCHA: if you add any other modes than 'ALLWAYS'
+    if not this.NeedUpdateRepop(locationQuests) and not allwaysUpdate and not Ivars.quest_updateRepopMode:Get()==0 then--tex added quest_updateRepopMode bypass GOTCHA: if you add any other modes than 'ALLWAYS'
       return
     end
 

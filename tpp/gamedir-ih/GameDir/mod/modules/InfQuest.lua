@@ -280,6 +280,7 @@ end
 --but that's a headache to get head around
 --this approach modifies the runtime data of TppQuest, flipping isOnce, which lets vanilla code just do its thing
 function this.SetIsOnceOff(setIsOnceOff)
+  InfCore.LogFlow("InfQuest.SetIsOnceOff "..tostring(setIsOnceOff))
   for i,locationInfo in ipairs(TppQuestList.questList)do
     for j,questInfo in ipairs(locationInfo.infoList)do
       if not questInfo.strictIsOnce then--tex some quests really shouldnt repeat
@@ -301,9 +302,8 @@ function this.SetIsOnceOff(setIsOnceOff)
       end--not isOnceStrict
     end--for area infoList
   end--for questList
-  --DEBUGNOW
   if this.debugModule then
-    InfCore.PrintInspect(TppQuestList.questList,"TppQuestList.questList bluuuuuuuuurg")
+    InfCore.PrintInspect(TppQuestList.questList,"TppQuestList.questList post SetIsOnceOff")
   end
 end--SetIsOnce
 
@@ -1111,7 +1111,8 @@ function this.UpdateActiveQuest()
   --tex UpdateRepopFlag is only usually called on quest clear with that quests questarea
   --the only worysome area is MtbsPaz, but the quest there isOnced and now also quarded with strictIsOnce
   for i,areaQuests in ipairs(TppQuestList.questList)do
-    TppQuest.UpdateRepopFlagImpl(areaQuests)
+    local forceUpdate=true
+    TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)
   end
   TppQuest.UpdateActiveQuest()
 
