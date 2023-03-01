@@ -327,7 +327,7 @@ function this.BlockQuest(questName)
     return false
   end
 
-  --tex catergory selection menu / InfQuestIvars quest_categorySelection_  --DEBUGNOW TODO profile UpdateActiveQuest with this and without (and profile UpdateActiveQuest ORIG vs ih UpdateActiveQuest while you're at it)
+  --tex category selection menu / InfQuestIvars quest_categorySelection_
   local categoryName=TppQuest.QUEST_CATEGORIES[questInfo.category+1]  
   local ivarName=InfQuestIvars.categoryIvarPrefix..categoryName
   local ivar=Ivars[ivarName]
