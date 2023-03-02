@@ -1171,54 +1171,48 @@ function this.GetAllIsActivable()
   return allActivable
 end--GetAllIsActivable<
 
-local showModes={--tex> to organize ivar quest_showOnUiMode. see actual use in GetSideOpsListTable for what they do
-  --tex The vanilla behavior of showing current Active and Cleared lets you see past progression/completion,
-  --though since uncleared quests do have priority, one will be selected for Active
-  --if there's multiple uncleared for an area they will not be shown, 
-  --which gives you less of an idea of future progression
-  ONLY_ACTIVE_OR_CLEARED={
-    showActive=true,
-    showCleared=true,
-  },
-  ONLY_ACTIVE={
-    showActive=true,
-    showCleared=false,
-  },
-  ALL_ACTIVABLE={
-    showActivable=true,
-    showActive=true,--tex activable list should include whatever will be Active anyway, but for consistancy
-    showCleared=false,
-  },
-  ALL_OPEN={
-    showActive=true,
-    showCleared=true,
-    showAllOpen=true,
-  },
-}--showModes<
 --tex REWORKED
 --tex NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction. Actual quest selection in UpdateActiveQuest
---vanilla behaviour is to just show current Active or Cleared quests. So that meant you could have multiple uncompleted quests for an area and it would only show the one  
+--tex The vanilla behavior just show current Active and Cleared, which lets you see past progression/completion,
+--though since uncleared quests do have priority, one will be selected for Active
+--so if there's multiple uncleared for an area they will not be shown, 
+--which gives you less of an idea of future progression
+--the rework lets you have individual settings for many more quest conditions
+--see showOnUiFlagsForQuest -v-
 function this.GetSideOpsListTable()
   return InfCore.PCallDebug(function()--tex wrap in pcall to protect debug addons CanActiveQuest (via GetAllIsActivable > SelectActivableQuests)
   InfCore.LogFlow("TppQuest.GetSideOpsListTable")--tex
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
-    local showMode=Ivars.quest_showOnUiMode:GetSettingName()
-    local showSettings=showModes[showMode]  
     local clearedNotActive={}--tex
+    local showSettings=InfQuestIvars.GetShowOnUiSettings()--tex>
     local isActivable={}--tex>
-    if showMode=="ALL_ACTIVABLE" then
+    if showSettings.Activable then
       isActivable=this.GetAllIsActivable()
     end--<
     for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL. Does not include hidden quest
       local questName=questInfo.questName
       local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
       local isCleard=this.IsCleard(questName)
-      local showActive=isActiveOnMBTerminal and showSettings.showActive--tex cant imagine why you would not want to show active, but here for completion>
-      local showCleared=isCleard and showSettings.showCleared--tex
-      local showAllOpen=this.IsOpen(questName) and showSettings.showAllOpen
-      local showActivable=isActivable[questName] and showSettings.showActivable--<
-      if questInfo and(showActive or showCleared or showActivable or showAllOpen)then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
+      
+      local questFlags={
+        Active=isActiveOnMBTerminal,
+        Cleared=isCleard,
+        Uncleared=not isCleard,
+        Activable=isActivable[questName],
+        Open=this.IsOpen(questName),
+      }--showOnUiFlagsForQuest
+      if this.debugModule then--tex>
+        InfCore.PrintInspect(questFlags,questName.." questFlags")
+      end--<
+      local showQuest=false
+      for flagName,showSetting in pairs(showSettings)do
+        if showSetting and questFlags[flagName] then
+          showQuest=true
+          break
+        end
+      end--for showSettings
+      if questInfo and showQuest then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
         questInfo.index=i--tex NMC: the number on the ui for the quest entry, the order of the entries is the order of sideOpsListTable (ie the order you're adding them to the table here -v-)
         questInfo.isActive=isActiveOnMBTerminal--tex NMC controls hilighted on ui
         questInfo.isCleard=isCleard--tex NMC controls checkmark

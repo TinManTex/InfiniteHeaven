@@ -7,7 +7,6 @@ this.registerIvars={
   "quest_forceQuestNumber",
   "quest_updateRepopMode",
   "quest_selectForArea",
-  "quest_showOnUiMode",
   "quest_addonsCountForCompletion",
   "quest_useAltForceFulton",
   "quest_setIsOnceToRepop",
@@ -104,17 +103,39 @@ this.quest_selectForArea={
   OnChange=RerollQuestSelection,
 }
 
-this.quest_showOnUiMode={
-  save=IvarProc.CATEGORY_EXTERNAL,
-  settings={
-    "ONLY_ACTIVE_OR_CLEARED",--DEFAULT
-    "ONLY_ACTIVE",
-    "ALL_ACTIVABLE",
-    "ALL_OPEN",
-  },
-  settingNames="quest_showOnUiModeSettingNames",
-  OnChange=RerollQuestSelection,
-}
+--quest_showOnUi
+this.showOnUiFlags={
+  "Active",--tex cant imagine why you would not want to show active, but here for completion
+  "Cleared",
+  "Uncleared",
+  "Activable",
+  --"Addon",
+  --"Repop",--tex OFF not interesting in of itself, Activable is better
+  --category stuff is better in actual quest_categorySelection than just in the ui
+  "Open",
+}--showOnUiFlags
+
+--tex generate showOnUiMenu / show on ui flags ivars see TppQuest.GetSideOpsListTable 
+this.showOnUiIvarPrefix="quest_showOnUi_"
+for i,name in ipairs(this.showOnUiFlags)do
+  local ivarName=this.showOnUiIvarPrefix..name
+  local ivar={
+    save=IvarProc.CATEGORY_EXTERNAL,
+    --DEBUGNOW
+    --settings={"Hide","Show"},
+    --settingNames="quest_showOnUiFlagSettingNames",
+    range=Ivars.switchRange,
+    settingNames="set_switch",
+    flagName=name,
+    --tex OnChange=RerollQuestSelection--OFF doesnt change quest selection, ui updates when idroid opened
+  }
+  this[ivarName]=ivar
+  this.registerIvars[#this.registerIvars+1]=ivarName
+end--for showOnUiFlags
+
+--tex vanilla defaults
+this.quest_showOnUi_Active.default=1
+this.quest_showOnUi_Cleared.default=1
 
 this.quest_addonsCountForCompletion={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -138,6 +159,7 @@ this.quest_useAltForceFulton={--DEBUGNOW
 this.registerMenus={
   "sideOpsMenu",
   "sideOpsCategoryMenu",
+  "showOnUiMenu",
   "debugQuestsMenu",
 }
 
@@ -150,7 +172,7 @@ this.sideOpsMenu={
     "Ivars.quest_selectForArea",
     "Ivars.quest_updateRepopMode",
     "InfQuestIvars.sideOpsCategoryMenu",
-    "Ivars.quest_showOnUiMode",
+    "InfQuestIvars.showOnUiMenu",
     "Ivars.enableHeliReinforce",
     "Ivars.quest_addonsCountForCompletion",
     "Ivars.quest_enableShootingPracticeRetry",
@@ -188,8 +210,33 @@ function this.GenerateMenus()
     local ivarName=this.categoryIvarPrefix..categoryName
     table.insert(this.sideOpsCategoryMenu.options,"Ivars."..ivarName)
   end
+  --
+  this.showOnUiMenu={
+    options={
+    }
+  }
+
+  for i,name in ipairs(this.showOnUiFlags)do
+    local ivarName=this.showOnUiIvarPrefix..name
+    table.insert(this.showOnUiMenu.options,"Ivars."..ivarName)
+  end
+  
 end--GenerateMenus
 --<
+--IN: showOnUi Ivars
+function this.GetShowOnUiSettings()
+  local showOnUiSettings={}
+  for i,name in ipairs(this.showOnUiFlags)do
+    local ivarName=this.showOnUiIvarPrefix..name
+    local ivar=Ivars[ivarName]
+    showOnUiSettings[name]=ivar:Get()==1
+  end--for showOnUiFlags
+  if this.debugModule then
+    InfCore.PrintInspect(showOnUiSettings,"InfQuestIvars.GetShowOnUiSettings")
+  end
+  return showOnUiSettings
+end--GetShowOnUiSettings
+
 this.langStrings={
   eng={
     sideOpsMenu="Side ops menu",
@@ -231,13 +278,12 @@ this.langStrings={
     },
     quest_addonsCountForCompletion="Include add-on sideops in completion percentage",
     rerollQuestSelection="Reroll sideops selection",
-    quest_showOnUiMode="Show on UI mode",
-    quest_showOnUiModeSettingNames={
-      "Only Active or Cleared (Default)",
-      "Only Active",
-      "All Activable",
-      "All Open",
-    },
+    showOnUiMenu="Show on UI menu",
+    quest_showOnUi_Active="Active",
+    quest_showOnUi_Cleared="Cleared",
+    quest_showOnUi_Uncleared="Uncleared",
+    quest_showOnUi_Activable="Activable",
+    quest_showOnUi_Open="Open",
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
   },
   help={
@@ -246,21 +292,28 @@ this.langStrings={
       quest_forceQuestNumber="WARNING: This allows opening a sideop outside of normal progression. Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.",
       quest_forceOpen="Lets you force sideops open sideops before the usual progression.",
       quest_forceRepop="Lets you force story and one-time sideops to be replayable.",
-      quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are repopulated. The update is run for the sideop area of a quest you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
+      quest_updateRepopMode=[[Lets you choose the behaviour of how repeatable sideops are repopulated. The update is run for the sideop area of a sideop you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
 The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.
-'Allways' will refresh repeatable quests every time the update is called.
+'Allways' will refresh repeatable sideops every time the update is called.
 Best use with Select for Area mode set to Random.]],
       quest_setIsOnceToRepop="Lets you force story and one-time sideops to be replayable.",
       quest_selectForArea=[[Sideops are broken into areas to stop overlap, this option lets you control the choice which repop sideop will be selected to be Active for the area.
 'Random Addon' will prioritize Addon sideops first. 
 All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.]],
       sideOpsCategoryMenu="Per category selection of which sidops can be Active.",
-      quest_showOnUiMode=[[Chooses what sideops are shown on the idroid UI.
-"Only Active or Cleared (Default)" - the default behavior. Note it doesn't include all uncleared, so if there's multiple Uncleared but not Active sideops they won't show.
-"Only Active" - only the current Active sideops, no Cleared sideops.
-"All Activable" - Only shows those sideops in the selection for being Activated (which includes Active).
-"All Open" - Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression.
-There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.]],
+      showOnUiMenu=[[Settings for what sideops to show on the idroid sideops list.
+The vanilla behavior just shows current Active and Cleared sideops, which lets you see past progression/completion,
+Though since uncleared sideops do have priority, one will be selected for Active.
+So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.
+These option give you individual control for showing sideops depending on their conditions.
+For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.
+There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
+See the notes for each option for more info.]],
+      quest_showOnUi_Active="Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide.",
+      quest_showOnUi_Cleared="Default is Show. Quests that have been completed.",
+      quest_showOnUi_Uncleared="Quests that have not been completed.",
+      quest_showOnUi_Activable="Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings.",
+      quest_showOnUi_Open="Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed.",
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
     },
   }
