@@ -554,7 +554,7 @@ function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,ques
     plntId=questInfo.plntId,
     iconPos=questInfo.iconPos,
     radius=questInfo.radius,
-    category=questInfo.category,
+    category=questInfo.category or TppQuest.QUEST_CATEGORIES_ENUM.NO_CATEGORY
   }
 
   --tex get existing index (if user manually reloading scripts in-game), or add new (on first call/startup).

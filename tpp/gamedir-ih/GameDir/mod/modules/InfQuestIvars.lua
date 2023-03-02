@@ -250,6 +250,7 @@ this.langStrings={
     quest_setIsOnceToRepop="Repop one-time sideops",
     quest_forceQuestNumber="Force specific sideop #",
     sideOpsCategoryMenu="Sideops category selection menu",
+    quest_categorySelection_NO_CATEGORY="No category assigned",
     quest_categorySelection_STORY="Story/unique",
     quest_categorySelection_EXTRACT_INTERPRETER="Extract interpreter",
     quest_categorySelection_BLUEPRINT="Secure blueprint",
