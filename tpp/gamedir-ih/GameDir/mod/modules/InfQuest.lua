@@ -41,10 +41,99 @@ this.debugSave=false
 
 
 
-
 --GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla QUEST_DEFINE entries (though some of theose are incomplete/non existing quests), 
 --so without managment on 83 additional quests.
 --main issue is this is governing the qst_* gvars that hold the quest states (see TppGvars).
+
+
+--REF questDef questInfo
+--all options rather than sane example
+---- ih_quest_q30103.lua --file name must have q%05u format as suffix.
+--local this={
+--  questId=30103,--TODO
+--  questPackList={
+--    "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
+--    "/Assets/tpp/pack/mission2/ih/ddr1_main0_mdl.fpk",--model pack, edit the partsType in the TppHostage2Parameter in the quest .fox2 to match, see InfBodyInfo.lua for different body types.
+--    "/Assets/tpp/pack/mission2/quest/ih/ih_example_quest.fpk",--quest fpk
+--    randomFaceListIH={--for hostage isFaceRandom, see TppQuestList
+--      gender="FEMALE",
+--      count=1,
+--    }
+--  },--questPackList
+--  locationId=TppDefine.LOCATION_ID.AFGH,
+--  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuestList. areaName (or TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.)
+--  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
+--  iconPos=Vector3(489.741,321.901,1187.506),--position of the quest area circle in idroid
+--  radius=4,--radius of the quest area circle
+--  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
+--  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
+--  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest can open/is unlocked for consideration to be active, is one way, all quests start closed and run this to see if they open, but are never closed again
+--  canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
+--    --tex canActiveQuest example: disable quest if not dirty enough TODO: actually figure out how long dirty time is
+--    if vars.passageSecondsSinceOutMB<dirtyTime then
+--      return false 
+--    end
+--    return true
+--  end, 
+--  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
+--  disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
+--    "lz_lab_S0000|lz_lab_S_0000",
+--  },
+--  requestEquipIds={--equipIds of TppPickable weapons in the quest.
+--    "EQP_WP_EX_hg_010",
+--    "EQP_WP_West_ar_050",
+--  },
+--  -- CULL allowInStoryMissions=true,--allow quest during story mission (still follows the normal quest selection rules)--TODO needs more work to filter out quests not in mission area --DEBUGNOW TEST
+--  enableInMissions={10033,10041},--Enables quest in story missions. if Ivar enableMissionQuest. handled by rlcs InfMissionQuest
+--  allowInWarGames=true,--by default quests are blocked on mb wargames, this is to allow the quest during wargames
+--  --required for shooting practice quests, but can be used to keep stuff resident before/after quest pack has been loaded/unloaded 
+--  --TODO: not a good idea for afgh/mafr sized maps though, really need to build additional system on top of map block loading/unloading
+--  missionPacks={
+--    "/Assets/tpp/pack/mission2/void/quest/q30211_void_shootingpractice_start.fpk",
+--  },--missionPacks
+--}--this
+--return this
+
+--Example shooting quest on mother base
+--local this={
+--    questId=30210,
+--    questPackList={
+--        "/Assets/tpp/pack/mission2/quest/mtbs/Medical/quest_q30210.fpk",
+--    },
+--    locationId=TppDefine.LOCATION_ID.MTBS,
+--    areaName="MtbsMedical",--quest area, is 'Mtbs<cluster name>'
+--    clusterName="Medical",--https://metalgearmodding.fandom.com/wiki/MotherBase_Clusters
+--    plntId=TppDefine.PLNT_DEFINE.Common2,--platform id. can just be the number 0-3, with 0 being the unique 'main' platform of the cluster
+--    category=TppQuest.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE,
+--    questCompleteLangId="quest_target_eliminate",
+--    canOpenQuest=function(questName)--whether quest can be active
+--        local isMbLayout3=InfQuest.CanOpenIsMbLayout3()--only built layout for mbLayout 3
+--        local questPlntIsDeveloped=InfQuest.CanOpenPlntIsDeveloped(questName)--uses the clusterName and plntId to check if its been built
+--        return isMbLayout3 and questPlntIsDeveloped
+--    end,
+--    questRank=TppDefine.QUEST_RANK.I,
+--    --shooting practice quests need a marker and geotrap to start the quest which needs to be resident on mission load
+--    missionPacks={
+--        [3]={"/Assets/tpp/pack/mission2/free/f30050/f30050_ly003_q30210.fpk",}--mb layout, if only [0] entry will use pack for all layouts 
+--    },--missionPacks
+--    startTrapName="ly003_cl04_npc0000|cl04pl2_q30210|trap_shootingPractice_start",--entity name, in layout fpkd fox2
+--    startMarkerName="ly003_cl04_npc0000|cl04pl2_q30210|Marker_shootingPractice",--entity name, in layout fpkd fox2
+--}--this
+--return this
+
+--REF questCompleteLangId =
+--"quest_extract_elite",--Highly-Skilled Soldier Extracted [%d/%d]"
+--"quest_defeat_armor",--"Heavy Infantry Eliminated [%d/%d]"
+--"quest_defeat_zombie",--"Wandering Puppet Eliminated [%d/%d]"
+--"quest_extract_hostage","Prisoner Extracted [%d/%d]"
+--"quest_defeat_armor_vehicle","Armored Vehicle Unit Eliminated [%d/%d]"
+--"quest_defeat_tunk","Tank Unit Eliminated [%d/%d]"
+--"quest_target_eliminate","Target Destroyed [%d/%d]"
+--"mine_quest_log",--"Mine Cleared [%d/%d]"
+--"quest_extract_animal",--"Animal Extracted [%d/%d]"--tex added by IH
+--tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
+--if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
+
 
 --tex see LoadQuestDefs,
 this.ihQuestNames={}
@@ -173,94 +262,6 @@ end
 function this.AllwaysOpenQuest(questName)
   return true
 end
-
---REF questDef questInfo
---all options rather than sane example
----- ih_quest_q30103.lua --file name must have q%05u format as suffix.
---local this={
---  questId=30103,--TODO
---  questPackList={
---    "/Assets/tpp/pack/mission2/ih/ih_hostage_base.fpk",--base hostage pack
---    "/Assets/tpp/pack/mission2/ih/ddr1_main0_mdl.fpk",--model pack, edit the partsType in the TppHostage2Parameter in the quest .fox2 to match, see InfBodyInfo.lua for different body types.
---    "/Assets/tpp/pack/mission2/quest/ih/ih_example_quest.fpk",--quest fpk
---    randomFaceListIH={--for hostage isFaceRandom, see TppQuestList
---      gender="FEMALE",
---      count=1,
---    }
---  },--questPackList
---  locationId=TppDefine.LOCATION_ID.AFGH,
---  areaName="field",--tex use the 'Show position' command in the debug menu to print the quest area you are in to ih_log.txt, see TppQuestList. areaName (or TppQuest. afgAreaList,mafrAreaList,mtbsAreaList.)
---  --If areaName doesn't match the area the iconPos is in the quest fpk will fail to load (even though the Commencing Sideop message will trigger fine).
---  iconPos=Vector3(489.741,321.901,1187.506),--position of the quest area circle in idroid
---  radius=4,--radius of the quest area circle
---  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
---  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
---  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest can open/is unlocked for consideration to be active, is one way, all quests start closed and run this to see if they open, but are never closed again
---  canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
---    --tex canActiveQuest example: disable quest if not dirty enough TODO: actually figure out how long dirty time is
---    if vars.passageSecondsSinceOutMB<dirtyTime then
---      return false 
---    end
---    return true
---  end, 
---  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
---  disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
---    "lz_lab_S0000|lz_lab_S_0000",
---  },
---  requestEquipIds={--equipIds of TppPickable weapons in the quest.
---    "EQP_WP_EX_hg_010",
---    "EQP_WP_West_ar_050",
---  },
---  -- CULL allowInStoryMissions=true,--allow quest during story mission (still follows the normal quest selection rules)--TODO needs more work to filter out quests not in mission area --DEBUGNOW TEST
---  enableInMissions={10033,10041},--Enables quest in story missions. if Ivar enableMissionQuest. handled by rlcs InfMissionQuest
---  allowInWarGames=true,--by default quests are blocked on mb wargames, this is to allow the quest during wargames
---  --required for shooting practice quests, but can be used to keep stuff resident before/after quest pack has been loaded/unloaded 
---  --TODO: not a good idea for afgh/mafr sized maps though, really need to build additional system on top of map block loading/unloading
---  missionPacks={
---    "/Assets/tpp/pack/mission2/void/quest/q30211_void_shootingpractice_start.fpk",
---  },--missionPacks
---}--this
---return this
-
---Example shooting quest on mother base
---local this={
---    questId=30210,
---    questPackList={
---        "/Assets/tpp/pack/mission2/quest/mtbs/Medical/quest_q30210.fpk",
---    },
---    locationId=TppDefine.LOCATION_ID.MTBS,
---    areaName="MtbsMedical",--quest area, is 'Mtbs<cluster name>'
---    clusterName="Medical",--https://metalgearmodding.fandom.com/wiki/MotherBase_Clusters
---    plntId=TppDefine.PLNT_DEFINE.Common2,--platform id. can just be the number 0-3, with 0 being the unique 'main' platform of the cluster
---    category=TppQuest.QUEST_CATEGORIES_ENUM.TARGET_PRACTICE,
---    questCompleteLangId="quest_target_eliminate",
---    canOpenQuest=function(questName)--whether quest can be active
---        local isMbLayout3=InfQuest.CanOpenIsMbLayout3()--only built layout for mbLayout 3
---        local questPlntIsDeveloped=InfQuest.CanOpenPlntIsDeveloped(questName)--uses the clusterName and plntId to check if its been built
---        return isMbLayout3 and questPlntIsDeveloped
---    end,
---    questRank=TppDefine.QUEST_RANK.I,
---    --shooting practice quests need a marker and geotrap to start the quest which needs to be resident on mission load
---    missionPacks={
---        [3]={"/Assets/tpp/pack/mission2/free/f30050/f30050_ly003_q30210.fpk",}--mb layout, if only [0] entry will use pack for all layouts 
---    },--missionPacks
---    startTrapName="ly003_cl04_npc0000|cl04pl2_q30210|trap_shootingPractice_start",--entity name, in layout fpkd fox2
---    startMarkerName="ly003_cl04_npc0000|cl04pl2_q30210|Marker_shootingPractice",--entity name, in layout fpkd fox2
---}--this
---return this
-
---REF questCompleteLangId =
---"quest_extract_elite",--Highly-Skilled Soldier Extracted [%d/%d]"
---"quest_defeat_armor",--"Heavy Infantry Eliminated [%d/%d]"
---"quest_defeat_zombie",--"Wandering Puppet Eliminated [%d/%d]"
---"quest_extract_hostage","Prisoner Extracted [%d/%d]"
---"quest_defeat_armor_vehicle","Armored Vehicle Unit Eliminated [%d/%d]"
---"quest_defeat_tunk","Tank Unit Eliminated [%d/%d]"
---"quest_target_eliminate","Target Destroyed [%d/%d]"
---"mine_quest_log",--"Mine Cleared [%d/%d]"
---"quest_extract_animal",--"Animal Extracted [%d/%d]"--tex added by IH
---tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
---if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
 
 --CALLER: Ivars.quest_setIsOnceToRepop, this.OnAllocate (with ivar setting)
 --IN: Ivars.quest_setIsOnceToRepop
