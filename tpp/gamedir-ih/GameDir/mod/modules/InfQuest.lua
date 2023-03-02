@@ -1165,9 +1165,9 @@ function this.FixFlags()
   --tex the fix. open should be automatically fixed? VERIFY
   --Mtbs_child_dog isnt isOnce, but has canActiveQuestChecks to prevent it replaying after DDogGoWithMe demo, 
   --which also sets its repop to false (DEBUGNOW but does UpdateRepopFlagImpl repop it?) 
-  if TppQuest.IsCleard("Mtbs_child_dog") and TppQuest.IsRepop("Mtbs_child_dog") then
-    InfCore.Log("InfQuest.FixFlags fixing Mtbs_child_dog",true,true)
-    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+  local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+  if TppQuest.IsCleard("Mtbs_child_dog") and gvars.qst_questRepopFlag[puppyQuestIndex] then
+    InfCore.Log("InfQuest.FixFlags fixing Mtbs_child_dog",true,true) 
     gvars.qst_questRepopFlag[puppyQuestIndex]=false
     gvars.qst_questActiveFlag[puppyQuestIndex]=false
   end
@@ -1191,6 +1191,7 @@ function this.FixFlags()
   --tex the fix
   --a manual fix is to just do reroll sideops command (in mtbs to catch UpdateRepopFlagImpl weird exclusion condition) 
 --CULL simple approach 
+--if TppQuest.CanOpenSideOpsList()then  
 --  local allRepopFalse=true
 --  for i=0,TppDefine.QUEST_MAX-1 do
 --    if gvars.qst_questRepopFlag[i]==true then
@@ -1202,9 +1203,11 @@ function this.FixFlags()
 --  if allRepopFalse then
 --    InfCore.Log("WARNING: InfQuest.FixFlags: All repop flags false",true,true)
 --    for i,locationInfo in ipairs(TppQuestList.questList)do
---      TppQuest.UpdateRepopFlagImpl(locationInfo)
+--      local forceUpdate=true
+--      TppQuest.UpdateRepopFlagImpl(locationInfo,forceUpdate)
 --    end
 --  end
+--end--CanOpenSideOpsList
   --tex DEBUGNOW but may trigger more than
   --tex only vanilla? and leaving out the MtbsPaz for good measure 
   --might possibly want this as a general fix of no repops, but would need to be sure it doesnt run outside of normal conditions
@@ -1238,35 +1241,68 @@ function this.FixFlags()
     MtbsBaseDev=true,
     --MtbsPaz=true,
   }--checkAreas
-  for i,locationQuests in ipairs(TppQuestList.questList)do
-    if checkAreas[locationQuests.areaName] then
-      local noQuestsActivableForArea=true
-      local numRepopable=0
-      for j,questInfo in ipairs(locationQuests.infoList)do
-        local questName=questInfo.name
-        if TppQuest.IsOpen(questName) then
-          if TppQuest.IsCleard(questName) and not questInfo.isOnceDefault then
-            local CanActiveQuest=TppQuest.GetCanActiveQuestTable()[questName]
-            if not CanActiveQuest or CanActiveQuest(questInfo.name)then
-              numRepopable=numRepopable+1
-            end
-          end--if cleared and not isOnceDefault
-        end--if IsOpen
-        
-        --tex isrepop means we aint got the bug
-        if TppQuest.IsRepop(questName)then
-          noQuestsActivableForArea=false
-          break
-        end
-      end--for infoList
-      if numRepopable>0 and noQuestsActivableForArea then
-        if TppQuest.NeedUpdateRepop(locationQuests) then--tex DEBUGNOW it might not update not going to update anyhoo, so squelch warning by prerunning the WantUpdateRepop
-          InfCore.Log("WARNING: InfQuest.FixFlags: noQuestsActivableForArea for "..locationQuests.areaName,true,true)
-          TppQuest.UpdateRepopFlagImpl(locationQuests)
-        end
-      end--if noQuestsActivableForArea
-    end--if not skipArea
-  end--for questList
+  --
+  --DEBUGNOW alt, more generic of below
+  --tex some of the stuff I'm using for detection kind of assumes its mid game
+--  if TppQuest.CanOpenSideOpsList()then          
+--    --DEBUGNOW tex just seeing if its hitting in unexpected situations for now
+--    if this.debugModule then
+--     --TODO: build a list of
+
+--      for i,areaQuests in ipairs(TppQuestList.questList)do
+--        if checkAreas[areaQuests.areaName] then
+--          local noQuestsActivableForArea=true
+--          local numRepopable=0
+--          local otherPlayable=0
+--          for j,questInfo in ipairs(areaQuests.infoList)do
+--            local dontBlock=true
+--            local storyQuests,nonStoryQuests,repopQuests,repopAddonQuests=TppQuest.SelectActivableQuests(areaQuests.infoList,dontBlock)    
+--            local activableQuests=#storyQuests+#nonStoryQuests+#repopQuests
+--            if activableQuests==0 then
+--              if TppQuest.NeedUpdateRepop(areaQuests) then
+--    
+--                InfCore.Log("WARNING: InfQuest.FixFlags: noQuestsActivableForArea for "..areaQuests.areaName,false,true)
+--                local forceUpdate=true
+--                --DEBUGNOW TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)    
+--              end
+--            end
+--          end--if noQuestsActivableForArea
+--        end--if checkAreas
+--      end--for questList
+--    end--if debugModule  
+--  end --CanOpenSideOpsList
+  
+  --
+--  for i,areaQuests in ipairs(TppQuestList.questList)do
+--    if checkAreas[areaQuests.areaName] then
+--      local noQuestsActivableForArea=true
+--      local numRepopable=0
+--      for j,questInfo in ipairs(areaQuests.infoList)do
+--        local questName=questInfo.name
+--        if TppQuest.IsOpen(questName) then
+--          if TppQuest.IsCleard(questName) and not questInfo.isOnceDefault then
+--            local CanActiveQuest=TppQuest.GetCanActiveQuestTable()[questName]
+--            if not CanActiveQuest or CanActiveQuest(questInfo.name)then
+--              numRepopable=numRepopable+1
+--            end
+--          end--if cleared and not isOnceDefault
+--        end--if IsOpen
+--        
+--        --tex isrepop means we aint got the bug
+--        if TppQuest.IsRepop(questName)then
+--          noQuestsActivableForArea=false
+--          break
+--        end
+--      end--for infoList
+--      if numRepopable>0 and noQuestsActivableForArea then
+--        if TppQuest.NeedUpdateRepop(areaQuests) then--tex DEBUGNOW it might not update not going to update anyhoo, so squelch warning by prerunning the WantUpdateRepop
+--          InfCore.Log("WARNING: InfQuest.FixFlags: noQuestsActivableForArea for "..areaQuests.areaName,true,true)
+--          local forceUpdate=true
+--          TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)
+--        end
+--      end--if noQuestsActivableForArea
+--    end--if checkAreas
+--  end--for questList
   --<
 end--FixFlags
 
