@@ -2551,7 +2551,7 @@ end
 --tex returns lists of activable candidates for the area, split into priorities
 --broken out from UpdateActiveQuest
 --areaQuestsList: TppQuestList.questList[areaInfoIdx].infoList
-function this.SelectActivableQuests(areaQuestsList)--ForArea
+function this.SelectActivableQuests(areaQuestsList,dontBlock)--ForArea
   local storyQuests={}
   local nonStoryQuests={}
   local repopQuests={}
@@ -2562,7 +2562,7 @@ function this.SelectActivableQuests(areaQuestsList)--ForArea
     local questIndex=TppDefine.QUEST_INDEX[questName]
     if questIndex then       
       local CanActiveQuest=canActiveQuestChecks[questName]
-      local blockQuest=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
+      local blockQuest=InfQuest.BlockQuest(questName) and not dontBlock--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
       if blockQuest then
         InfCore.Log("blocked Quest "..questName)
       end
