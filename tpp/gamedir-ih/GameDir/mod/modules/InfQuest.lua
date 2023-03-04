@@ -584,11 +584,11 @@ function this.RegisterQuests()
 
   InfMain.RandomSetToLevelSeed()
 
+  local removeQuests={}--tex quests that arent valid to add
+
   for i,questName in ipairs(this.ihQuestNames)do
     local questInfo=this.ihQuestsInfo[questName]
     
-    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--PATCHUP: LEGACY: missionPackList renamed (only initial release of mtbs_medical_plnt2_shootingpractice should have this, unless someone in the community started using it since) 
-
     --tex find existing or new
     local questIndex
     for i,_questName in ipairs(QUEST_DEFINE)do
@@ -602,15 +602,30 @@ function this.RegisterQuests()
     end
     
     InfCore.Log("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
+    
+    local doRegister=true
+    
     if questIndex>TppDefine.QUEST_MAX-1 then
       --tex the only main issue I can see currently with being > QUEST_MAX is gvars qst_quest*Flags. scriptvar arrays dont seem to complain (at least not visibly) when going above their arraySize, and return nil over.
       InfCore.Log("ERROR: InfQuest.RegisterQuests: questIndex>TppDefine.QUEST_MAX. Currently save states only work for 83 additional addon quests.",true,true)--DEBUGNOW is announcelog up when this is called?
     end
     
+    --tex since quest info is defined by TppDefine.LOCATION_ID this will be nil if its for a location addon that hasn't been installed
+    --TODO: would be better as string so can compare against actually nil questInfo.locationId, and print for debugging?
+    if questInfo.locationId==nil then
+      InfCore.Log("ERROR: InfQuest.RegisterQuests: questInfo.locationId==nil, Location for quest not installed?",true,true)--DEBUGNOW is announcelog up when this is called?
+      doRegister=false
+    end
+    
     if this.debugModule then
-      InfCore.PrintInspect(questInfo,{varName="questInfo"})
+      InfCore.PrintInspect(questInfo,"questInfo")
     end
 
+    if not doRegister then
+      table.insert(removeQuests,questName)
+    else
+    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--PATCHUP: LEGACY: missionPackList renamed (only initial release of mtbs_medical_plnt2_shootingpractice should have this, unless someone in the community started using it since) 
+        
     TppDefine.QUEST_DEFINE[questIndex]=questName
     TppDefine.QUEST_INDEX=TppDefine.Enum(TppDefine.QUEST_DEFINE)
     --InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
@@ -646,9 +661,24 @@ function this.RegisterQuests()
         table.insert(TppDefine.QUEST_HELI_DEFINE,questName)
       end
     end
-  end
+    end--if doRegister
+  end--for ihQuestNames
 
   InfMain.RandomResetToOsTime()
+
+  if this.debugModule then
+    InfCore.PrintInspect(removeQuests,"removeQuests")
+  end
+  for i,questName in ipairs(removeQuests)do
+    for j,_questName in ipairs(this.ihQuestNames)do
+      if questName==_questName then
+        table.remove(this.ihQuestNames,j)
+        break
+      end
+    end--for this.ihQuestNames
+    
+    this.ihQuestsInfo[questName]=nil
+  end--for removeQuests
 
   InfCore.Log("numUiQuests:"..#questInfoTable)
 
