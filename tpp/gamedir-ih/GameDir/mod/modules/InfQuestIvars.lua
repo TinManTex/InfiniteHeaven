@@ -104,15 +104,16 @@ this.quest_selectForArea={
 }
 
 --quest_showOnUi
+--tex in sort order
 this.showOnUiFlags={
   "Active",--tex cant imagine why you would not want to show active, but here for completion
-  "Cleared",
-  "Uncleared",
   "Activable",
-  --"Addon",
+  "Uncleared",
+  "Cleared",
+  "Open",
+  --"Addon",--tex OFF best sorted by filtering actual active selection
   --"Repop",--tex OFF not interesting in of itself, Activable is better
   --category stuff is better in actual quest_categorySelection than just in the ui
-  "Open",
 }--showOnUiFlags
 
 --tex generate showOnUiMenu / show on ui flags ivars see TppQuest.GetSideOpsListTable 
@@ -229,7 +230,7 @@ function this.GetShowOnUiSettings()
   for i,name in ipairs(this.showOnUiFlags)do
     local ivarName=this.showOnUiIvarPrefix..name
     local ivar=Ivars[ivarName]
-    showOnUiSettings[name]=ivar:Get()==1
+    showOnUiSettings[name]=ivar:Get()
   end--for showOnUiFlags
   if this.debugModule then
     InfCore.PrintInspect(showOnUiSettings,"InfQuestIvars.GetShowOnUiSettings")

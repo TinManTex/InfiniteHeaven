@@ -1155,23 +1155,6 @@ function this.GetCanOpenQuestTable()--tex expose for InfQuest>
   return canOpenQuestChecks
 end--<
 
---tex>
---returns {[questName]=true} -- for Activable quests (candidates for Active in UpdateActiveQuest)
-function this.GetAllIsActivable()
-  local allActivable={}
-
-  for i,areaQuests in ipairs(mvars.qst_questList)do--tex TppQuestList.questList
-    local storyQuests,nonStoryQuests,repopQuests,repopAddonQuests=this.SelectActivableQuests(areaQuests.infoList)    
-    for j,questNames in ipairs{storyQuests,nonStoryQuests,repopQuests}do--tex skipping repopAddonQuests since its a subset, otherwise woudl just {this.SelectActivableQuests(areaQuests.infoList)}
-      for k,questName in ipairs(questNames)do
-        allActivable[questName]=true
-      end--for questNames
-    end--for ActivableQuests lists
-  end--for questList
-
-  return allActivable
-end--GetAllIsActivable<
-
 --tex REWORKED
 --tex NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction. Actual quest selection in UpdateActiveQuest
 --tex The vanilla behavior just show current Active and Cleared, which lets you see past progression/completion,
@@ -1187,28 +1170,27 @@ function this.GetSideOpsListTable()
   if this.CanOpenSideOpsList()then
     local clearedNotActive={}--tex
     local showSettings=InfQuestIvars.GetShowOnUiSettings()--tex>
-    local isActivable={}--tex>
-    if showSettings.Activable then
-      isActivable=this.GetAllIsActivable()
-    end--<
     for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL. Does not include hidden quest
       local questName=questInfo.questName
-
+      --tex showOnUi flags
       questInfo.Active=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
       questInfo.Cleared=this.IsCleard(questName)
       questInfo.Uncleared=not this.IsCleard(questName)
       questInfo.Open=this.IsOpen(questName)
+      --tex some more conditions, currently only used to eval Activable
       questInfo.Blocked=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
       questInfo.CanActiveQuest=this.CanActiveQuest(questName)
       questInfo.Repop=this.IsRepop(questName)
-      questInfo.Addon=InfQuest.ihQuestsInfo[questName]~=nil
-      questInfo.questArea=TppQuestList.questAreaNameTable[questInfo.questName]--tex DEBUGNOW this should be done at load
       --tex DEBUGNOW SYNC: SelectActivableQuests < UpdateActiveQuest
       questInfo.Activable=questInfo.Open and questInfo.CanActiveQuest and (not questInfo.Blocked) and ((not questInfo.Cleared) or questInfo.Repop)
       
+      questInfo.Addon=InfQuest.ihQuestsInfo[questName]~=nil--tex UNUSED
+      
+      questInfo.questArea=TppQuestList.questAreaNameTable[questInfo.questName]--tex DEBUGNOW this should be done at load
+    
       local showQuest=false
       for flagName,showSetting in pairs(showSettings)do
-        if showSetting and questInfo[flagName] then
+        if showSetting~=0 and questInfo[flagName] then
           showQuest=true
           break
         end
