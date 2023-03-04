@@ -1369,9 +1369,53 @@ function this.PrintCurrentFlags()
   InfCore.PrintInspect(currentFlags,"InfQuest.DebugCurrentFlags")
   InfCore.DebugPrint("PrintCurrentFlags to Log")
 end--PrintCurrentFlags
---CALLER: TppQuest.GetSideOpsListTable
+--CALLER: TppQuest.GetSideOpsListTable if TppQuest.debugModule
 function this.DEBUGTweakSideopsList(sideOpsListTable)
   InfCore.LogFlow"InfQuest.DEBUGTweakSideopsList"
+  
+  if #sideOpsListTable==0 then
+    return sideOpsListTable
+  end
+  
+  --tex GOTCHA: GetSideOpsListTable adds {allSideOpsNum=#questInfoTable} as last entry  
+  --make sure you add it back before return
+  local allSideOpsNum=table.remove(sideOpsListTable,#sideOpsListTable)
+  
+  --tex testing sideopslisttable
+  for k,v in pairs(sideOpsListTable)do
+    if v==nil then
+      InfCore.Log("ERROR: v nil for "..tostring(k))
+    end
+  end
+  
+  for i,questInfo in pairs(sideOpsListTable)do
+    if questInfo==nil then
+      InfCore.Log("ERROR: questInfo nil for "..tostring(i))
+    end
+  end
+  
+  local questInfoKeyNames={
+    "questName",
+    "questId",
+    "locationId",
+    --"iconPos",--TODO: mtbs quests dont have this
+    --"radius",--TODO: mtbs quests dont have this
+    "category",--IH
+    --GetSideOpsListTable>
+    "index",
+    "isActive",
+    "isCleard",
+    "gmp",
+  }
+  for i,questInfo in ipairs(sideOpsListTable)do
+    for j,keyName in ipairs(questInfoKeyNames)do
+      if questInfo[keyName]==nil then
+        InfCore.Log("ERROR: "..tostring(questInfo.questName).." questInfo."..keyName.."==nil")
+        InfCore.PrintInspect(questInfo,"questInfo")
+      end
+    end
+  end--for sideOpsListTable
+  
 --tex verify isActive, isCleard do what they do
 --result: yes they do (hilight and checkmark)
  -- for i,questInfo in ipairs(sideopsList)do
@@ -1400,7 +1444,13 @@ function this.DEBUGTweakSideopsList(sideOpsListTable)
 --    index=index-1
 --  end
   
-  --InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable post tweaked")--tex DEBUG  
+--testing sideopsListTable< 
+ 
+	--tex adding back
+  table.insert(sideOpsListTable,allSideOpsNum)
+  
+  --tex function already guarded by TppQuest debugModule
+  InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable post tweaked")--tex DEBUG  
 
   return sideOpsListTable
 end--DEBUGTweakSideopsList
