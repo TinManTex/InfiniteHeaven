@@ -36,6 +36,7 @@ this.prevMissionType=missionTypes.HELI
 --NOTES:(incomplete)--total num in that category, afgh num, mafr num, mb num, lang string
 --SYNC Ivars.QUEST_CATEGORIES
 this.QUEST_CATEGORIES={
+  "NO_CATEGORY",--tex default given during load if addon info catergory nil
   "STORY",--11,7,2,2
   "EXTRACT_INTERPRETER",--4,2,2
   "BLUEPRINT",--6,4,2,Secure blueprint
@@ -1192,37 +1193,40 @@ function this.GetSideOpsListTable()
     end--<
     for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL. Does not include hidden quest
       local questName=questInfo.questName
-      local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
-      local isCleard=this.IsCleard(questName)
+
+      questInfo.Active=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
+      questInfo.Cleared=this.IsCleard(questName)
+      questInfo.Uncleared=not this.IsCleard(questName)
+      questInfo.Open=this.IsOpen(questName)
+      questInfo.Blocked=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
+      questInfo.CanActiveQuest=this.CanActiveQuest(questName)
+      questInfo.Repop=this.IsRepop(questName)
+      questInfo.Addon=InfQuest.ihQuestsInfo[questName]~=nil
+      questInfo.questArea=TppQuestList.questAreaNameTable[questInfo.questName]--tex DEBUGNOW this should be done at load
+      --tex DEBUGNOW SYNC: SelectActivableQuests < UpdateActiveQuest
+      questInfo.Activable=questInfo.Open and questInfo.CanActiveQuest and (not questInfo.Blocked) and ((not questInfo.Cleared) or questInfo.Repop)
       
-      local questFlags={
-        Active=isActiveOnMBTerminal,
-        Cleared=isCleard,
-        Uncleared=not isCleard,
-        Activable=isActivable[questName],
-        Open=this.IsOpen(questName),
-      }--showOnUiFlagsForQuest
-      if this.debugModule then--tex>
-        InfCore.PrintInspect(questFlags,questName.." questFlags")
-      end--<
       local showQuest=false
       for flagName,showSetting in pairs(showSettings)do
-        if showSetting and questFlags[flagName] then
+        if showSetting and questInfo[flagName] then
           showQuest=true
           break
         end
       end--for showSettings
       if questInfo and showQuest then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
         questInfo.index=i--tex NMC: the number on the ui for the quest entry, the order of the entries is the order of sideOpsListTable (ie the order you're adding them to the table here -v-)
-        questInfo.isActive=isActiveOnMBTerminal--tex NMC controls hilighted on ui
-        questInfo.isCleard=isCleard--tex NMC controls checkmark
+        questInfo.isActive=questInfo.Active--tex NMC controls hilighted on ui
+        questInfo.isCleard=questInfo.Cleared--tex NMC controls checkmark
         questInfo.gmp=this.GetBounusGMP(questName)
         --tex NMC Note that its using the actual questInfoTable entries, so ui uses the other values
         table.insert(sideOpsListTable,questInfo)
-        if isCleard and not isActiveOnMBTerminal then --tex>
+        if questInfo.Cleared and not questInfo.Active then --tex>
           table.insert(clearedNotActive,questInfo)
         end--<
       end
+      if this.debugModule then--tex>
+        InfCore.PrintInspect(questInfo,questName.." questInfo showQuest:"..tostring(showQuest))
+      end--<
     end--for questInfoTable
 
     --tex manage ui entry limit>
@@ -1341,6 +1345,13 @@ end
 local canActiveQuestChecks={}
 function this.GetCanActiveQuestTable()--tex expose for InfQuest> 
   return canActiveQuestChecks
+end--<
+function this.CanActiveQuest(questName)--tex>
+  local CanActiveQuestFunc=canActiveQuestChecks[questName]
+  if CanActiveQuestFunc then 
+    return CanActiveQuestFunc(questName)
+  end
+  return true
 end--<
 function canActiveQuestChecks.mtbs_wait_quiet()
   return TppStory.CanArrivalQuietInMB()
@@ -2567,10 +2578,9 @@ function this.SelectActivableQuests(areaQuestsList,dontBlock)--ForArea
         InfCore.Log("blocked Quest "..questName)
       end
       if this.debugModule then--tex>
-        local canActiveQuest=not CanActiveQuest or CanActiveQuest()
-        InfCore.Log(questName.." selection states: canActiveQuest:"..tostring(canActiveQuest).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
+        InfCore.Log(questName.." selection states: canActiveQuest:"..tostring(this.CanActiveQuest(questName)).." IsOpen:"..tostring(this.IsOpen(questName)).." IsCleared:"..tostring(this.IsCleard(questName)).." IsRepop:"..tostring(this.IsRepop(questName)).." isStory:"..tostring(info.isStory).." isOnce:"..tostring(info.isOnce))
       end--<
-      if this.IsOpen(questName)and(not CanActiveQuest or CanActiveQuest(questName))and not blockQuest then--tex added blockQuest, added questName param to CanActiveQuest
+      if this.IsOpen(questName)and this.CanActiveQuest(questName)and not blockQuest then--tex added blockQuest, added questName param to CanActiveQuest
         if not this.IsCleard(questName)then
           if info.isStory then
             table.insert(storyQuests,questName)
