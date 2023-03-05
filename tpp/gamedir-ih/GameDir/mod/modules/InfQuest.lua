@@ -288,6 +288,11 @@ function this.SetIsOnceOff(setIsOnceOff)
               InfCore.Log("InfQuest.SetIsOnceOff: setting isOnce back on "..questInfo.name)
             end
             questInfo.isOnce=true
+            --tex UpdateRepopFlagImpl understandably doesn't take into account turning off repop of isOnce because it never set on in the first place
+            --yes, despite 'touching flags bad', it's actually nessesary and considered this time
+            if TppQuest.IsCleard(questInfo.name) and questInfo.isOnce then
+              gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
+            end
           end  
         end--if setIsOnceOff
       end--not strictIsOnce
