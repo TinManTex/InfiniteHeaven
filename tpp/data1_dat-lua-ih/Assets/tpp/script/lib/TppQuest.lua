@@ -1326,7 +1326,7 @@ function this.IsOpenLocation(locationId)
   return true
 end
 --tex NMC extra check whether quest should repop (UpdateRepopFlagImpl) or be in the running in UpdateActiveQuest at all
---InfQuest/addon support via IH questInfo .canActiveQuest
+--InfQuest/addon support via IH questAddon .canActiveQuest
 local canActiveQuestChecks={}
 function this.GetCanActiveQuestTable()--tex expose for InfQuest> 
   return canActiveQuestChecks
@@ -1813,13 +1813,13 @@ return InfCore.PCallDebug(function(questList)--DEBUGNOW
       --IH adds an empty infolist to a new area so dot have to worry about it being nil
       --tex was: return
     end
-    for infoIndex,questInfo in ipairs(infoList)do
-      if not IsTypeString(questInfo.name)then
-        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeString(questInfo.name)")--tex 
+    for infoIndex,questListInfo in ipairs(infoList)do
+      if not IsTypeString(questListInfo.name)then
+        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeString(questListInfo.name)")--tex 
         return
       end
-      if not IsTypeString(questInfo.invokeStepName)then
-        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeString(questInfo.invokeStepName)")--tex 
+      if not IsTypeString(questListInfo.invokeStepName)then
+        InfCore.Log("ERROR: TppQuest.RegisterQuestList return: not IsTypeString(questListInfo.invokeStepName)")--tex 
         return
       end
     end
@@ -1841,8 +1841,8 @@ return InfCore.PCallDebug(function(questList)--DEBUGNOW
   InfCore.LogFlow("TppQuest.RegisterQuestList set mvars.qst_questList")--tex
   mvars.qst_questList=questList
   for areaIndex=1,numAreas do
-    for infoIndex,questInfo in ipairs(questList[areaIndex].infoList)do
-      local questName=questInfo.name
+    for infoIndex,questListInfo in ipairs(questList[areaIndex].infoList)do
+      local questName=questListInfo.name
       if StrCode32(questName)==gvars.qst_currentQuestName then
         this.SetCurrentQuestName(questName)
       end
@@ -1851,7 +1851,7 @@ return InfCore.PCallDebug(function(questList)--DEBUGNOW
   return mvars.qst_questList
   end,questList)--tex PCall DEBUGNOW
 end--RegisterQuestList
---questPackList either TppQuestList.questList or TppMbFreeDemo.demoBlockList
+--questPackList either TppQuestList.questPackList or TppMbFreeDemo.demoBlockList
 function this.RegisterQuestPackList(questPackList,blockName)
   if not IsTypeTable(questPackList)then
     return
@@ -1859,9 +1859,9 @@ function this.RegisterQuestPackList(questPackList,blockName)
   blockName=blockName or defaultQuestBlockName
   local isMotherBase=TppLocation.IsMotherBase()
   local fpkList={}
-  for questName,questInfo in pairs(questPackList)do
+  for questName,questPackInfo in pairs(questPackList)do
     fpkList[questName]={}
-    for k,packPathOrFova in pairs(questInfo)do
+    for k,packPathOrFova in pairs(questPackInfo)do
       if type(packPathOrFova)=="number"then--NMC shouldn't this be type(k)==number?, otherwise what number values are added?
         table.insert(fpkList[questName],packPathOrFova)
       elseif k=="faceIdList"then
@@ -2039,12 +2039,12 @@ function this.DebugUpdate()
       local areaInfo=mvars.qst_questList[areaIndex]
       if areaInfo then
         Print(NewContext,string.format("AreaName = %s",areaInfo.areaName))
-        local questInfo=areaInfo.infoList[selectQuestIndex]
-        if questInfo then
-          Print(NewContext,string.format("name = %s",questInfo.name))
-          Print(NewContext,string.format("invokeStepName = %s",questInfo.invokeStepName))
-          if questInfo.clusterName then
-            DebutTextPrint(NewContext,string.format("clusterName  =%s",questInfo.clusterName))
+        local questListInfo=areaInfo.infoList[selectQuestIndex]
+        if questListInfo then
+          Print(NewContext,string.format("name = %s",questListInfo.name))
+          Print(NewContext,string.format("invokeStepName = %s",questListInfo.invokeStepName))
+          if questListInfo.clusterName then
+            DebutTextPrint(NewContext,string.format("clusterName  =%s",questListInfo.clusterName))
           else
             local function PrintAreaInfo(printContext,areaType,bounds)
               local Print=(nil).Print
@@ -2059,10 +2059,10 @@ function this.DebugUpdate()
               end
             end
           end
-          Print(NewContext,"IsOpen : "..tostring(this.IsOpen(questInfo.name)))
-          Print(NewContext,"IsCleard : "..tostring(this.IsCleard(questInfo.name)))
-          Print(NewContext,"IsRepop : "..tostring(this.IsRepop(questInfo.name)))
-          Print(NewContext,"IsActive : "..tostring(this.IsActive(questInfo.name)))
+          Print(NewContext,"IsOpen : "..tostring(this.IsOpen(questListInfo.name)))
+          Print(NewContext,"IsCleard : "..tostring(this.IsCleard(questListInfo.name)))
+          Print(NewContext,"IsRepop : "..tostring(this.IsRepop(questListInfo.name)))
+          Print(NewContext,"IsActive : "..tostring(this.IsActive(questListInfo.name)))
         else
           Print(NewContext,"No define quest. index: "..tostring(selectQuestIndex))
         end
@@ -2088,16 +2088,16 @@ function this.DebugUpdate()
     if areaIndex>0 and selectQuestIndex>0 then
       local areaInfo=mvars.qst_questList[areaIndex]
       if areaInfo then
-        local questInfo=areaInfo.infoList[selectQuestIndex]
-        if questInfo then
-          local questIndex=TppDefine.QUEST_INDEX[questInfo.name]
+        local questListInfo=areaInfo.infoList[selectQuestIndex]
+        if questListInfo then
+          local questIndex=TppDefine.QUEST_INDEX[questListInfo.name]
           gvars.qst_questOpenFlag[questIndex]=mvars.debug.updateOpenFlagSelectQuest
           gvars.qst_questClearedFlag[questIndex]=mvars.debug.updateClearFlagSelectQuest
           gvars.qst_questActiveFlag[questIndex]=mvars.debug.updateActiveFlagSelectQuest
           if mvars.debug.updateActiveFlagSelectQuest then
-            for _questIndex,_questInfo in pairs(areaInfo.infoList)do
-              if _questInfo.name~=questInfo.name then
-                local questIndex=TppDefine.QUEST_INDEX[_questInfo.name]
+            for _questIndex,_questListInfo in pairs(areaInfo.infoList)do
+              if _questListInfo.name~=questListInfo.name then
+                local questIndex=TppDefine.QUEST_INDEX[_questListInfo.name]
                 gvars.qst_questActiveFlag[questIndex]=false
               end
             end
@@ -2355,8 +2355,8 @@ function this.ClearBlockStateRequest()
 end
 function this.Invoke()
   local currentQuestName=this.GetCurrentQuestName()
-  local areaQuestTable,questInfo=this.GetQuestTable(currentQuestName)
-  local invokeStepName=questInfo.invokeStepName
+  local areaQuestTable,questListInfo=this.GetQuestTable(currentQuestName)
+  local invokeStepName=questListInfo.invokeStepName
   this.SetNextQuestStep(invokeStepName)
 end
 function this.SetNewQuestAndLoadQuestBlock(questName)
@@ -2414,8 +2414,8 @@ function this.SearchQuestFromAllSpecifiedArea(areaType,blockIndexX,blockIndexY,c
     local locationAreaQuestTable=mvars.qst_questList[i]--TppQuestList .questList
     if this.IsInsideArea(areaType,locationAreaQuestTable,blockIndexX,blockIndexY,clusterIndex)then
       --OFF ORPHAN local n={}
-      for n,questInfo in ipairs(locationAreaQuestTable.infoList)do
-        local questForArea=questInfo.name
+      for n,questListInfo in ipairs(locationAreaQuestTable.infoList)do
+        local questForArea=questListInfo.name
         if this.IsActive(questForArea)then
           return questForArea
         end
@@ -2454,9 +2454,9 @@ function this.GetQuestTable(questName)
   local numAreas=#mvars.qst_questList
   for areaIndex=1,numAreas do
     local areaQuestTable=mvars.qst_questList[areaIndex]
-    for i,questInfo in ipairs(areaQuestTable.infoList)do
-      if questInfo.name==questName then
-        return areaQuestTable,questInfo
+    for i,questListInfo in ipairs(areaQuestTable.infoList)do
+      if questListInfo.name==questName then
+        return areaQuestTable,questListInfo
       end
     end
   end
@@ -2986,10 +2986,10 @@ end
 --returns false if there's any activable quests
 function this.NeedUpdateRepop(locationQuests)
   local numRepopable=0
-  for n,questInfo in ipairs(locationQuests.infoList)do
-    local questName=questInfo.name
+  for n,questListInfo in ipairs(locationQuests.infoList)do
+    local questName=questListInfo.name
     if this.IsOpen(questName)then
-      if not questInfo.isOnce then
+      if not questListInfo.isOnce then
         numRepopable=numRepopable+1
       end
       if this.IsRepop(questName)or not this.IsCleard(questName)then
@@ -3035,19 +3035,19 @@ function this.UpdateRepopFlagImpl(locationQuests,allwaysUpdate)
       return
     end
 
-    for n,questInfo in ipairs(locationQuests.infoList)do
-      if this.IsCleard(questInfo.name)and(not questInfo.isOnce) then
+    for n,questListInfo in ipairs(locationQuests.infoList)do
+      if this.IsCleard(questListInfo.name)and(not questListInfo.isOnce) then
         if this.debugModule then--tex>
-          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." setting repop true")
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questListInfo.name.." setting repop true")
         end--<
-        gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
+        gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questListInfo.name]]=true
       end
-      local CanActiveQuest=canActiveQuestChecks[questInfo.name]
-      if CanActiveQuest and(not CanActiveQuest(questInfo.name))then--tex NMC if CanActiveQuest() false, tex added questName param to CanActiveQuest
+      local CanActiveQuest=canActiveQuestChecks[questListInfo.name]
+      if CanActiveQuest and(not CanActiveQuest(questListInfo.name))then--tex NMC if CanActiveQuest() false, tex added questName param to CanActiveQuest
         if this.debugModule then--tex>
-          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questInfo.name.." not CanActiveQuest() so setting repop false")
+          InfCore.Log("InfQuest.UpdateRepopFlagImpl "..questListInfo.name.." not CanActiveQuest() so setting repop false")
         end--<
-        gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
+        gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questListInfo.name]]=false
       end--if not CanQuest
     end--for infoList
   end,locationQuests)--tex pcall wrap

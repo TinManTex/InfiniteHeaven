@@ -3,7 +3,7 @@
 --implements quests in story missions, either through a hand-picked selection of which ones work, or ivar to force them
 --also adds addon missionInfo support ex:
 --enableQuests={"lab_q39011","lab_q80700","lab_q10700"},
---and addon questInfo support ex:
+--and questAddon support ex:
 --enableInMissions={10033,10041},
 --See also: TppQuest.RegisterCanActiveQuestListInMission/CanActiveQuestInMission
 
@@ -494,12 +494,12 @@ function this.AddAddonQuestsToMissionQuestTable()
   if not InfQuest.ihQuestsInfo then
     return
   end
-  for questName, questInfo in pairs(InfQuest.ihQuestsInfo) do
-    if questInfo.enableInMissions then
-      if not Tpp.IsTypeTable(questInfo.enableInMissions) then
-        questInfo.enableInMissions={questInfo.enableInMissions}
+  for questName, questAddon in pairs(InfQuest.ihQuestsInfo) do
+    if questAddon.enableInMissions then
+      if not Tpp.IsTypeTable(questAddon.enableInMissions) then
+        questAddon.enableInMissions={questAddon.enableInMissions}
       end
-      for index, missionCode in ipairs(questInfo.enableInMissions) do
+      for index, missionCode in ipairs(questAddon.enableInMissions) do
         this.AddToMissionQuestTable(missionCode,questName)
       end
     end
