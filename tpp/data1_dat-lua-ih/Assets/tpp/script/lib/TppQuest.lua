@@ -36,7 +36,6 @@ this.prevMissionType=missionTypes.HELI
 --NOTES:(incomplete)--total num in that category, afgh num, mafr num, mb num, lang string
 --SYNC Ivars.QUEST_CATEGORIES
 this.QUEST_CATEGORIES={
-  "NO_CATEGORY",--tex default given during load if addon info catergory nil
   "STORY",--11,7,2,2
   "EXTRACT_INTERPRETER",--4,2,2
   "BLUEPRINT",--6,4,2,Secure blueprint
@@ -54,7 +53,8 @@ this.QUEST_CATEGORIES={
   "ELIMINATE_TANK_UNIT",--14
   "ELIMINATE_PUPPETS",--15
   "TARGET_PRACTICE",--7,0,0,7
-}
+  "NO_CATEGORY",--tex default given during load if addon info catergory nil, bucking tradition of having something like this first because this list is also used as (ih) category sort order
+}--QUEST_CATEGORIES
 this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)--tex from 0
 --tex NMC: this is the main info for the UI for normal full player playable quests (see note below about hidden quests)
 --a few more variables are added in GetSideOpsListTable
@@ -1181,8 +1181,9 @@ function this.GetSideOpsListTable()
       questInfo.Blocked=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
       questInfo.CanActiveQuest=this.CanActiveQuest(questName)
       questInfo.Repop=this.IsRepop(questName)
-      --tex DEBUGNOW SYNC: SelectActivableQuests < UpdateActiveQuest
-      questInfo.Activable=questInfo.Open and questInfo.CanActiveQuest and (not questInfo.Blocked) and ((not questInfo.Cleared) or questInfo.Repop)
+      --tex SYNC: SelectActivableQuests < UpdateActiveQuest
+      --tex DEBUGNOW Activable in all other uses includes Active, but excluding there to make sort clearer 
+      questInfo.Activable=questInfo.Open and questInfo.CanActiveQuest and (not questInfo.Blocked) and ((not questInfo.Cleared) or questInfo.Repop) and not questInfo.Active
       
       questInfo.Addon=InfQuest.ihQuestsInfo[questName]~=nil--tex UNUSED
       
@@ -1195,13 +1196,15 @@ function this.GetSideOpsListTable()
           break
         end
       end--for showSettings
-      if questInfo and showQuest then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
+      --tex DEBUGNOW think IsOpen through, at the moment it's guard non open un cleared, all the rest of the flags already required to be open to have gotten themselves set (cleared, active etc).
+      if questInfo and questInfo.Open and showQuest then--tex REWORKED was (isActiveOnMBTerminal or isCleard)
         questInfo.index=i--tex NMC: the number on the ui for the quest entry, the order of the entries is the order of sideOpsListTable (ie the order you're adding them to the table here -v-)
         questInfo.isActive=questInfo.Active--tex NMC controls hilighted on ui
         questInfo.isCleard=questInfo.Cleared--tex NMC controls checkmark
         questInfo.gmp=this.GetBounusGMP(questName)
         --tex NMC Note that its using the actual questInfoTable entries, so ui uses the other values
         table.insert(sideOpsListTable,questInfo)
+        --tex TODO: target not activable first, then fall back to this if you run out?
         if questInfo.Cleared and not questInfo.Active then --tex>
           table.insert(clearedNotActive,questInfo)
         end--<
