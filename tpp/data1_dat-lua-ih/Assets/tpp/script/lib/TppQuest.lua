@@ -1162,17 +1162,17 @@ end--<
 --so if there's multiple uncleared for an area they will not be shown, 
 --which gives you less of an idea of future progression
 --the rework lets you have individual settings for many more quest conditions
---see showOnUiFlagsForQuest -v-
+--see uiShow flags -v-
 function this.GetSideOpsListTable()
   return InfCore.PCallDebug(function()--tex wrap in pcall to protect debug addons CanActiveQuest (via GetAllIsActivable > SelectActivableQuests)
   InfCore.LogFlow("TppQuest.GetSideOpsListTable")--tex
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
     local clearedNotActive={}--tex
-    local showSettings=InfQuestIvars.GetShowOnUiSettings()--tex>
-    for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL. Does not include hidden quest
+    local showSettings=InfQuestIvars.GetUiShowSettings()--tex>
+    for i,questInfo in ipairs(questInfoTable)do--tex NMC MODULE LOCAL. Does not include hidden quests
       local questName=questInfo.questName
-      --tex showOnUi flags
+      --tex uiShow flags
       questInfo.Active=this.IsActiveOnMBTerminal(questInfo)--tex also checks IsActive
       questInfo.Cleared=this.IsCleard(questName)
       questInfo.Uncleared=not this.IsCleard(questName)
@@ -1191,7 +1191,7 @@ function this.GetSideOpsListTable()
     
       local showQuest=false
       for flagName,showSetting in pairs(showSettings)do
-        if showSetting~=0 and questInfo[flagName] then
+        if showSetting and questInfo[flagName] then
           showQuest=true
           break
         end

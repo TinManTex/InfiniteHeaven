@@ -103,40 +103,38 @@ this.quest_selectForArea={
   OnChange=RerollQuestSelection,
 }
 
---quest_showOnUi
+--quest_uiShow
 --tex in sort order
-this.showOnUiFlags={
+this.uiShowFlags={
   "Active",--tex cant imagine why you would not want to show active, but here for completion
   "Activable",
   "Uncleared",
-  "Cleared",
+  "Cleared", 
   "Open",
   --"Addon",--tex OFF best sorted by filtering actual active selection
   --"Repop",--tex OFF not interesting in of itself, Activable is better
-  --category stuff is better in actual quest_categorySelection than just in the ui
-}--showOnUiFlags
+  --per category stuff is better in actual quest_categorySelection than just in the ui
+  --"category",
+}--uiShowFlags
 
 --tex generate showOnUiMenu / show on ui flags ivars see TppQuest.GetSideOpsListTable 
-this.showOnUiIvarPrefix="quest_showOnUi_"
-for i,name in ipairs(this.showOnUiFlags)do
-  local ivarName=this.showOnUiIvarPrefix..name
+this.uiShowIvarPrefix="quest_uiShow_"
+for i,name in ipairs(this.uiShowFlags)do
+  local ivarName=this.uiShowIvarPrefix..name
   local ivar={
     save=IvarProc.CATEGORY_EXTERNAL,
-    --DEBUGNOW
-    --settings={"Hide","Show"},
-    --settingNames="quest_showOnUiFlagSettingNames",
-    range=Ivars.switchRange,
-    settingNames="set_switch",
+    settings={"Hide","Show"},
+    --settingNames="quest_uiShowSettings",
     flagName=name,
     --tex OnChange=RerollQuestSelection--OFF doesnt change quest selection, ui updates when idroid opened
   }
   this[ivarName]=ivar
   this.registerIvars[#this.registerIvars+1]=ivarName
-end--for showOnUiFlags
+end--for uiShowFlags
 
 --tex vanilla defaults
-this.quest_showOnUi_Active.default=1
-this.quest_showOnUi_Cleared.default=1
+this.quest_uiShow_Active.default=1
+this.quest_uiShow_Cleared.default=1
 
 this.quest_addonsCountForCompletion={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -217,26 +215,26 @@ function this.GenerateMenus()
     }
   }
 
-  for i,name in ipairs(this.showOnUiFlags)do
-    local ivarName=this.showOnUiIvarPrefix..name
+  for i,name in ipairs(this.uiShowFlags)do
+    local ivarName=this.uiShowIvarPrefix..name
     table.insert(this.showOnUiMenu.options,"Ivars."..ivarName)
   end
   
 end--GenerateMenus
 --<
---IN: showOnUi Ivars
-function this.GetShowOnUiSettings()
-  local showOnUiSettings={}
-  for i,name in ipairs(this.showOnUiFlags)do
-    local ivarName=this.showOnUiIvarPrefix..name
+--IN: uiShow Ivars
+function this.GetUiShowSettings()
+  local uiShowSettings={}
+  for i,flagName in ipairs(this.uiShowFlags)do
+    local ivarName=this.uiShowIvarPrefix..flagName
     local ivar=Ivars[ivarName]
-    showOnUiSettings[name]=ivar:Get()
-  end--for showOnUiFlags
+    uiShowSettings[flagName]=ivar:Get()==1
+  end--for uiShowFlags
   if this.debugModule then
-    InfCore.PrintInspect(showOnUiSettings,"InfQuestIvars.GetShowOnUiSettings")
+    InfCore.PrintInspect(uiShowSettings,"InfQuestIvars.GetUiShowSettings")
   end
-  return showOnUiSettings
-end--GetShowOnUiSettings
+  return uiShowSettings
+end--GetUiShowSettings
 
 this.langStrings={
   eng={
@@ -281,11 +279,11 @@ this.langStrings={
     quest_addonsCountForCompletion="Include add-on sideops in completion percentage",
     rerollQuestSelection="Reroll sideops selection",
     showOnUiMenu="Show on UI menu",
-    quest_showOnUi_Active="Active",
-    quest_showOnUi_Cleared="Cleared",
-    quest_showOnUi_Uncleared="Uncleared",
-    quest_showOnUi_Activable="Activable",
-    quest_showOnUi_Open="Open",
+    quest_uiShow_Active="Active",
+    quest_uiShow_Cleared="Cleared",
+    quest_uiShow_Uncleared="Uncleared",
+    quest_uiShow_Activable="Activable",
+    quest_uiShow_Open="Open",
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
   },
   help={
@@ -311,11 +309,11 @@ These option give you individual control for showing sideops depending on their 
 For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.
 There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
 See the notes for each option for more info.]],
-      quest_showOnUi_Active="Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide.",
-      quest_showOnUi_Cleared="Default is Show. Quests that have been completed.",
-      quest_showOnUi_Uncleared="Quests that have not been completed.",
-      quest_showOnUi_Activable="Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings.",
-      quest_showOnUi_Open="Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed.",
+      quest_uiShow_Active="Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide.",
+      quest_uiShow_Cleared="Default is Show. Quests that have been completed.",
+      questuiShow_Uncleared="Quests that have not been completed.",
+      quest_uiShow_Activable="Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings.",
+      quest_uiShow_Open="Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed.",
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
     },
   }
