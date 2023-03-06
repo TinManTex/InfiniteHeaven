@@ -1902,7 +1902,7 @@ function this.OnDeactivate(questTable)
   end
 end
 --CALLER: TppMain.OnInitialize, near top
---NMC TppQuestList.questList
+--questList==TppQuestList.questList
 function this.RegisterQuestList(questList)
 return InfCore.PCallDebug(function(questList)--DEBUGNOW
   InfCore.LogFlow("TppQuest.RegisterQuestList")--tex
