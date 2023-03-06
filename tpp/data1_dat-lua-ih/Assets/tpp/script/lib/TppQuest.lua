@@ -1214,34 +1214,7 @@ function this.GetSideOpsListTable()
       end--<
     end--for questInfoTable
 
-    --tex manage ui entry limit>
-    local maxUIQuests=192--tex I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
-    local overCount=#sideOpsListTable-maxUIQuests
-    if overCount>0 then
-      InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
-      InfCore.Log("overCount:"..overCount)--tex DEBUG      
-
-      InfMain.RandomSetToLevelSeed()
-      for i=1,overCount do
-        if #clearedNotActive>0 then
-          local randomIndex=math.random(#clearedNotActive)
-          local removeEntry=clearedNotActive[randomIndex]
-          table.remove(clearedNotActive,randomIndex)
-          for j,sideopEntry in ipairs(sideOpsListTable)do
-            if sideopEntry==removeEntry then
-              table.remove(sideOpsListTable,j)
-              InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
-              break
-            end
-          end--for sideOpsListTable
-        end--if #clearedNotActive
-      end--for overCount
-      InfMain.RandomResetToOsTime()
-    end--if overCount
-    if #sideOpsListTable>maxUIQuests then
-      InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
-    end
-    InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
+    this.ManageUiLimit(sideOpsListTable)--tex
     
     this.SortSideopsList(sideOpsListTable)--tex
     --<
@@ -1282,6 +1255,37 @@ end--GetSideOpsListTable
 --  table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
 --  return sideOpsListTable
 --end--GetSideOpsListTable
+--OUT: sideOpsListTable
+function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
+  local maxUIQuests=192--tex I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
+  local overCount=#sideOpsListTable-maxUIQuests
+  if overCount>0 then
+    InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+    InfCore.Log("overCount:"..overCount)--tex DEBUG      
+
+    InfMain.RandomSetToLevelSeed()
+    for i=1,overCount do
+      if #clearedNotActive>0 then
+        local randomIndex=math.random(#clearedNotActive)
+        local removeEntry=clearedNotActive[randomIndex]
+        table.remove(clearedNotActive,randomIndex)
+        for j,sideopEntry in ipairs(sideOpsListTable)do
+          if sideopEntry==removeEntry then
+            table.remove(sideOpsListTable,j)
+            InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
+            break
+          end
+        end--for sideOpsListTable
+      end--if #clearedNotActive
+    end--for overCount
+    InfMain.RandomResetToOsTime()
+  end--if overCount
+  if #sideOpsListTable>maxUIQuests then
+    InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+  end
+  InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
+end--ManageUiLimit
+
 --tex sorts various flags of sideopsList questInfos depending on IH showOnUiMenu/ (InfQuestIvars) settings>
 --OUT:sideOpsListTable
 function this.SortSideopsList(sideOpsListTable)
