@@ -2529,7 +2529,7 @@ function this.DeactivateCurrentQuestBlock()
   TppScriptBlock.DeactivateScriptBlockState(blockId)
 end
 function this.SearchQuestFromAllSpecifiedArea(areaType,blockIndexX,blockIndexY,clusterIndex)
-  local numAreas=#mvars.qst_questList
+  local numAreas=#mvars.qst_questList--TppQuest.questList
   for i=1,numAreas do
     local locationAreaQuestTable=mvars.qst_questList[i]--TppQuestList .questList
     if this.IsInsideArea(areaType,locationAreaQuestTable,blockIndexX,blockIndexY,clusterIndex)then
@@ -2571,7 +2571,7 @@ function this.GetCurrentQuestTable()
   return mvars.qst_currentQuestTable
 end
 function this.GetQuestTable(questName)
-  local numAreas=#mvars.qst_questList
+  local numAreas=#mvars.qst_questList--TppQuest.questList
   for areaIndex=1,numAreas do
     local areaQuestTable=mvars.qst_questList[areaIndex]
     for i,questListInfo in ipairs(areaQuestTable.infoList)do
@@ -2731,7 +2731,7 @@ function this.UpdateActiveQuest(updateFlags)
     
     local activeQuestCount=0
     local forcedQuests=InfQuest.GetForced()--tex REF {[forcedQuestArea]=<forcedQuestName>,...}
-    for i,areaQuests in ipairs(mvars.qst_questList)do--tex TppQuestList.questList
+    for i,areaQuests in ipairs(mvars.qst_questList)do--TppQuestList.questList
       --tex NMC clear current active quests
       for j,info in ipairs(areaQuests.infoList)do
         local questName=info.name
