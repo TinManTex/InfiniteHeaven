@@ -1188,6 +1188,23 @@ function this.GetSideOpsListTable()
       questInfo.Addon=InfQuest.ihQuestsInfo[questName]~=nil--tex UNUSED
       
       questInfo.questArea=TppQuestList.questAreaNameTable[questInfo.questName]--tex DEBUGNOW this should be done at load
+      local areaQuestTable,questListInfo=this.GetQuestTable(questInfo.questName)--TppQuestList.questList
+      --tex for sort, just sorting by x (in this case loadArea block minX) would an ok tour through the areas (if the map wasnt rotated),
+      --though not so much with areas with equal x, so would also have to compare by y
+      --but my KLUDGE is using xCenter instead since for vanilla at least width of areas differ for same minX, 
+      --may run into trouble for addon missions if they have uniform areas 
+      --TODO: another approach might to be to get the center of all the quests in the area (but would have to do as a post step after sideoplist done fill, before sort)
+      --just be: find mins maxs of all questInfo iconpos, then center (but again mtbs doesnt have)
+      
+      if areaQuestTable.loadArea then
+        questInfo.questAreaX=areaQuestTable.loadArea[1]+((areaQuestTable.loadArea[3]-areaQuestTable.loadArea[1])*0.5)
+      else      
+      --texfallback to areaName for missing loadArea (mtbs areas which use cluster)
+        questInfo.questAreaX=questInfo.questArea
+      end
+      --OFF pure minX,minY
+      --questInfo.questAreaX=areaQuestTable.loadArea and areaQuestTable.loadArea[1] or questInfo.questArea
+      --questInfo.questAreaY=areaQuestTable.loadArea and areaQuestTable.loadArea[3] or questInfo.questArea
     
       local showQuest=false
       for flagName,showSetting in pairs(showSettings)do
@@ -1328,6 +1345,7 @@ function this.SortSideopsList(sideOpsListTable)
 --    "category",
 --    "locationId",
 --    "questArea",
+--    "questAreaX",
   }
   
   local sortAscend={

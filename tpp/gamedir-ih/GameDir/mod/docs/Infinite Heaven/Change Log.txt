@@ -37,7 +37,7 @@ All selection is still prioritized by uncompleted story sideops, then other unco
 
 "Show on UI menu"
 Replaces "Show all open sideops"
-Settings for what sideops to show and how they should be sorted on the idroid sideops list.
+Settings for what sideops to show and how they should be sorted depedending on various parameters for sideops on the idroid sideops list.
 The vanilla behavior just shows current Active and Cleared sideops, in index order, which lets you see past progression/completion,
 Though since uncleared sideops do have priority, one will be selected for Active.
 So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.
@@ -64,7 +64,7 @@ quest_uiSort_Activable="Sort Activable" - Top|Bottom
 quest_uiSort_Open="Sort Open" - Top|Bottom
 quest_uiSort_category="Sort by Category" - Ascending|Descending - "The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first."
 quest_uiSort_locationId="Sort by Location" - Ascending|Descending -
-quest_uiSort_questArea="Sort by sideop area" - Ascending|Descending -"Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. Currently the sort is just by the area name alphabetically, so scrolling though different area may jump around the map a bit. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location."
+quest_uiSort_questArea="Sort by sideop area" - Ascending|Descending -"Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location."
 
 
 Sideops selection menu:

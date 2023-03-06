@@ -145,7 +145,8 @@ this.uiSortFlags={
   "Open",
   "category",
   "locationId",
-  "questArea",
+  --"questArea",--areaName
+  "questAreaX",
 }--uiShowFlags
 
 this.uiSortIvarPrefix="quest_uiSort_"
@@ -348,7 +349,7 @@ this.langStrings={
     quest_uiSort_Open="Sort Open",
     quest_uiSort_category="Sort by Category",
     quest_uiSort_locationId="Sort by Location",
-    quest_uiSort_questArea="Sort by sideop area name",
+    quest_uiSort_questAreaX="Sort by sideop area",
     quest_uiSortSettings={"None","Ascending","Descending"},
     quest_uiSortBoolSettings={"None","Top","Bottom"},
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
@@ -394,7 +395,7 @@ Since the final sort is by sideop index (the number on the left of the entry in 
 --      quest_uiSort_Open="Sort Open",
       quest_uiSort_category="The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.",
       --quest_uiSort_locationId="Sort by Location",
-      quest_uiSort_questArea="Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. Currently the sort is just by the area name alphabetically, so scrolling though different area may jump around the map a bit. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.",
+      quest_uiSort_questAreaX="Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.",
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
     },--(help) eng
   }--help
