@@ -104,7 +104,6 @@ this.quest_selectForArea={
 }
 
 --quest_uiShow
---tex in sort order
 this.uiShowFlags={
   "Active",--tex cant imagine why you would not want to show active, but here for completion
   "Activable",
@@ -119,13 +118,13 @@ this.uiShowFlags={
 
 --tex generate showOnUiMenu / show on ui flags ivars see TppQuest.GetSideOpsListTable 
 this.uiShowIvarPrefix="quest_uiShow_"
-for i,name in ipairs(this.uiShowFlags)do
-  local ivarName=this.uiShowIvarPrefix..name
+for i,showFlagName in ipairs(this.uiShowFlags)do
+  local ivarName=this.uiShowIvarPrefix..showFlagName
   local ivar={
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"Hide","Show"},
-    --settingNames="quest_uiShowSettings",
-    flagName=name,
+    settingNames="quest_uiShowSettings",
+    flagName=showFlagName,
     --tex OnChange=RerollQuestSelection--OFF doesnt change quest selection, ui updates when idroid opened
   }
   this[ivarName]=ivar
@@ -135,6 +134,40 @@ end--for uiShowFlags
 --tex vanilla defaults
 this.quest_uiShow_Active.default=1
 this.quest_uiShow_Cleared.default=1
+
+--uiSortFlags
+--tex in sort order
+this.uiSortFlags={
+  "Active",
+  "Activable",
+  "Uncleared",
+  "Cleared", 
+  "Open",
+  "category",
+  "locationId",
+  "questArea",
+}--uiShowFlags
+
+this.uiSortIvarPrefix="quest_uiSort_"
+for i,sortFlagName in ipairs(this.uiSortFlags)do
+  local ivarName=this.uiSortIvarPrefix..sortFlagName
+  local ivar={
+    save=IvarProc.CATEGORY_EXTERNAL,
+    settings={"None","Ascending","Descending"},
+    settingNames="quest_uiSortSettings",
+    flagName=sortFlagName,
+    --tex OnChange=RerollQuestSelection--OFF doesnt change quest selection, ui updates when idroid opened
+  }
+  --tex see if it's a bool (just iter uiShowFlags rather than make more data)
+  for i,showFlagName in ipairs(this.uiShowFlags)do
+    if showFlagName==sortFlagName then
+      ivar.settingNames="quest_uiSortBoolSettings"
+      break
+    end
+  end--for uiShowFlags
+  this[ivarName]=ivar
+  this.registerIvars[#this.registerIvars+1]=ivarName
+end--for uiShowFlags
 
 this.quest_addonsCountForCompletion={
   save=IvarProc.CATEGORY_EXTERNAL,
@@ -219,22 +252,45 @@ function this.GenerateMenus()
     local ivarName=this.uiShowIvarPrefix..name
     table.insert(this.showOnUiMenu.options,"Ivars."..ivarName)
   end
+
+  for i,name in ipairs(this.uiSortFlags)do
+    local ivarName=this.uiSortIvarPrefix..name
+    table.insert(this.showOnUiMenu.options,"Ivars."..ivarName)
+  end
   
 end--GenerateMenus
 --<
 --IN: uiShow Ivars
+--IN: uiShowFlags
+--IN: uiShowIvarPrefix
 function this.GetUiShowSettings()
-  local uiShowSettings={}
+  local settings={}
   for i,flagName in ipairs(this.uiShowFlags)do
     local ivarName=this.uiShowIvarPrefix..flagName
     local ivar=Ivars[ivarName]
-    uiShowSettings[flagName]=ivar:Get()==1
+    settings[flagName]=ivar:Get()==1--bool
   end--for uiShowFlags
   if this.debugModule then
-    InfCore.PrintInspect(uiShowSettings,"InfQuestIvars.GetUiShowSettings")
+    InfCore.PrintInspect(settings,"InfQuestIvars.GetUiShowSettings")
   end
-  return uiShowSettings
+  return settings
 end--GetUiShowSettings
+
+--IN: uiSort Ivars
+--IN: uiSortFlags
+--IN: uiSortIvarPrefix
+function this.GetUiSortSettings()
+  local settings={}
+  for i,flagName in ipairs(this.uiSortFlags)do
+    local ivarName=this.uiSortIvarPrefix..flagName
+    local ivar=Ivars[ivarName]
+    settings[flagName]=ivar:Get()
+  end--for uiShowFlags
+  if this.debugModule then
+    InfCore.PrintInspect(settings,"InfQuestIvars.GetUiSortSettings")
+  end
+  return settings
+end--GetUiSortSettings
 
 this.langStrings={
   eng={
@@ -279,13 +335,24 @@ this.langStrings={
     quest_addonsCountForCompletion="Include add-on sideops in completion percentage",
     rerollQuestSelection="Reroll sideops selection",
     showOnUiMenu="Show on UI menu",
-    quest_uiShow_Active="Active",
-    quest_uiShow_Cleared="Cleared",
-    quest_uiShow_Uncleared="Uncleared",
-    quest_uiShow_Activable="Activable",
-    quest_uiShow_Open="Open",
+    quest_uiShow_Active="Show Active",
+    quest_uiShow_Cleared="Show Cleared",
+    quest_uiShow_Uncleared="Show Uncleared",
+    quest_uiShow_Activable="Show Activable",
+    quest_uiShow_Open="Show Open",
+    quest_uiShowSettings={"Hide","Show"},
+    quest_uiSort_Active="Sort Active",
+    quest_uiSort_Cleared="Sort Cleared",
+    quest_uiSort_Uncleared="Sort Uncleared",
+    quest_uiSort_Activable="Sort Activable",
+    quest_uiSort_Open="Sort Open",
+    quest_uiSort_category="Sort by Category",
+    quest_uiSort_locationId="Sort by Location",
+    quest_uiSort_questArea="Sort by sideop area name",
+    quest_uiSortSettings={"None","Ascending","Descending"},
+    quest_uiSortBoolSettings={"None","Top","Bottom"},
     forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
-  },
+  },--eng
   help={
     eng={
       rerollQuestSelection="Note: You may not see any change unless you use 'Selection for Area mode' set to Random. Many of the other IH sideop options allready run this after you change them.",
@@ -301,22 +368,36 @@ Best use with Select for Area mode set to Random.]],
 'Random Addon' will prioritize Addon sideops first. 
 All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.]],
       sideOpsCategoryMenu="Per category selection of which sidops can be Active.",
-      showOnUiMenu=[[Settings for what sideops to show on the idroid sideops list.
-The vanilla behavior just shows current Active and Cleared sideops, which lets you see past progression/completion,
+      showOnUiMenu=[[Settings for what sideops to show and how they should be sorted depedending on various parameters for sideops on the idroid sideops list.
+The vanilla behavior just shows current Active and Cleared sideops, in index order, which lets you see past progression/completion,
 Though since uncleared sideops do have priority, one will be selected for Active.
 So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.
 These option give you individual control for showing sideops depending on their conditions.
 For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.
 There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
-See the notes for each option for more info.]],
+See the notes for each option for more info.
+Sorting:
+Sorting will proceed through all flags that have a sorting setting (not set to None). So sort is in respect to the option above it.
+None: Will not apply any specific sort, so will just be in index order, but may be moved around if other flags sort it.
+The other settings, Top, Bottom or Ascending, Descending depending on the flag type, will sort as the settings suggest, but in relation to the prior flags.
+Since the final sort is by sideop index (the number on the left of the entry in the sideop list) you can use that to see where the list sections from one sorted flag type to the next.
+]],
       quest_uiShow_Active="Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide.",
       quest_uiShow_Cleared="Default is Show. Quests that have been completed.",
       questuiShow_Uncleared="Quests that have not been completed.",
       quest_uiShow_Activable="Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings.",
       quest_uiShow_Open="Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed.",
+--      quest_uiSort_Active="Sort Active",
+--      quest_uiSort_Cleared="Sort Cleared",
+--      quest_uiSort_Uncleared="Sort Uncleared",
+--      quest_uiSort_Activable="Sort Activable",
+--      quest_uiSort_Open="Sort Open",
+      quest_uiSort_category="The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.",
+      --quest_uiSort_locationId="Sort by Location",
+      quest_uiSort_questArea="Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. Currently the sort is just by the area name alphabetically, so scrolling though different area may jump around the map a bit. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.",
       debugQuestsMenu="WARNING: don't use these unless you know exactly what they do.",
-    },
-  }
+    },--(help) eng
+  }--help
 }--langStrings
 
 return this

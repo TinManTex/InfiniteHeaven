@@ -37,20 +37,35 @@ All selection is still prioritized by uncompleted story sideops, then other unco
 
 "Show on UI menu"
 Replaces "Show all open sideops"
-Settings for what sideops to show on the idroid sideops list.
-The vanilla behavior just shows current Active and Cleared sideops, which lets you see past progression/completion,
+Settings for what sideops to show and how they should be sorted on the idroid sideops list.
+The vanilla behavior just shows current Active and Cleared sideops, in index order, which lets you see past progression/completion,
 Though since uncleared sideops do have priority, one will be selected for Active.
 So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.
 These option give you individual control for showing sideops depending on their conditions.
 For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.
 There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
 See the notes for each option for more info.
+Sorting:
+Sorting will proceed through all flags that have a sorting setting (not set to None). So sort is in respect to the option above it.
+None: Will not apply any specific sort, so will just be in index order, but may be moved around if other flags sort it.
+The other settings, Top, Bottom or Ascending, Descending depending on the flag type, will sort as the settings suggest, but in relation to the prior flags.
+Since the final sort is by sideop index (the number on the left of the entry in the sideop list) you can use that to see where the list sections from one sorted flag type to the next.
 
-quest_showOnUi_Active="Active" - "Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide."
-quest_showOnUi_Cleared="Cleared" - "Default is Show. Quests that have been completed."
-quest_showOnUi_Uncleared="Uncleared" - "Quests that have not been completed."
-quest_showOnUi_Activable="Activable" - Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings."
-quest_showOnUi_Open="Open" - "Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed."
+quest_uiShow_Active="Active" - "Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide."
+quest_uiShow_Cleared="Cleared" - "Default is Show. Quests that have been completed."
+quest_uiShow_Uncleared="Uncleared" - "Quests that have not been completed."
+quest_uiShow_Activable="Activable" - Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings."
+quest_uiShow_Open="Open" - "Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed."
+
+quest_uiSort_Active="Sort Active" - Top|Bottom
+quest_uiSort_Cleared="Sort Cleared" - Top|Bottom
+quest_uiSort_Uncleared="Sort Uncleared" - Top|Bottom
+quest_uiSort_Activable="Sort Activable" - Top|Bottom
+quest_uiSort_Open="Sort Open" - Top|Bottom
+quest_uiSort_category="Sort by Category" - Ascending|Descending - "The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first."
+quest_uiSort_locationId="Sort by Location" - Ascending|Descending -
+quest_uiSort_questArea="Sort by sideop area" - Ascending|Descending -"Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. Currently the sort is just by the area name alphabetically, so scrolling though different area may jump around the map a bit. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location."
+
 
 Sideops selection menu:
 ivars renamed from sideop_<CATEGORY> to quest_categoryFilter_<CATEGORY>

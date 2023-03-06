@@ -1242,6 +1242,8 @@ function this.GetSideOpsListTable()
       InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
     end
     InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
+    
+    this.SortSideopsList(sideOpsListTable)--tex
     --<
   end--if CanOpenSideOpsList
 
@@ -1280,6 +1282,121 @@ end--GetSideOpsListTable
 --  table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
 --  return sideOpsListTable
 --end--GetSideOpsListTable
+--tex sorts various flags of sideopsList questInfos depending on IH showOnUiMenu/ (InfQuestIvars) settings>
+--OUT:sideOpsListTable
+function this.SortSideopsList(sideOpsListTable)
+
+--REF usual pattern for multi condition sorting:
+--bool CompareData(a, b)
+--   if (a.PrimaryCondition < b.PrimaryCondition) return true--true is sort a before b
+--   if (b.PrimaryCondition < a.PrimaryCondition) return false
+--   // a=b for primary condition, go to secondary
+--
+--   if (a.SecondaryCondition < b.SecondaryCondition) return true
+--   if (b.SecondaryCondition < a.SecondaryCondition) return false
+--
+--   // ...
+--
+--   return false
+ 
+--tex SortByFlags instead puts the list of condition/flag names that we actually want to sort in a list and iterates that
+--so each flag will fall through to the next if equal
+--it also handles ascending or descending order, which for boolean values just means put on top or bottom of any false/non sorted flags
+--or for number/alpha flags actually ascending or descending order (assuming the flags are on every entry)
+
+
+--the default/initial (ie no) sort is just by the internal questInfoTable, which does group them by category, but addon quests are added to the end.
+--questInfoTable list is where it gets its quest index shown left of the quest name.
+
+--category sort default uses this, ih sort uses the order seen in !!!! menu, which puts Story quests first, it also sorts addon quests into their categories
+ 
+  local showSettings=InfQuestIvars.GetUiShowSettings()
+  local sortSettings=InfQuestIvars.GetUiSortSettings()
+
+  local groupByAreaSettings={"NO","BEFORE_QUEST_FLAGS","AFTER_QUEST_FLAGS"}--DEBUGNOW
+
+  local sortByFlags={
+  --tex manual testing by adding/removing entries (disable the ivar settings below though)
+--    "Active",
+--    "Activable",
+--    "Uncleared",
+--    "Cleared",
+--    "Open",
+--    "category",
+--    "locationId",
+--    "questArea",
+  }
+  
+  local sortAscend={
+    --tex manual testing by adding/removing entries (disable the ivar settings below though)
+--    Active=true,    
+--    Activable=true,
+--    Uncleared=true,
+--    Cleared=true,
+--    Open=true,
+--    category=true,
+--    locationId=true,
+--    questArea=true,
+  }
+  
+  --REF
+--      settings={
+--      "None",
+--      "Ascending",--DEBUGNOW --for boolean flags (Active,Uncleared etc) this sorts by either top or bottom of its sort. For numerical and alphabetical it sorts in expected ascending or descending order.
+--      "Descending"
+--    },
+  --tex fill them out using the per flag ivar settings
+  for i,flagName in ipairs(InfQuestIvars.uiSortFlags)do
+    if sortSettings[flagName]~=0 and sortSettings[flagName]~=Ivars.quest_uiSort_Active.enum.None then
+      table.insert(sortByFlags,flagName)
+      sortAscend[flagName]=(sortSettings[flagName]==Ivars.quest_uiSort_Active.enum.Ascending)--bool
+    end
+  end--for uiShowFlags
+  
+  if this.debugModule then
+    InfCore.PrintInspect(sortByFlags,"SortSideopsList sortByFlags")
+    InfCore.PrintInspect(sortAscend,"SortSideopsList sortAscend")
+  end
+   
+--IN:sortByFlags - array of flag names to sort by, in order
+--IN:sortAscend - {[flagName]=<bool ascending/descending>,...}what direction to sort
+  local function SortByFlags(questInfoA, questInfoB)
+    for i,flagName in ipairs(sortByFlags)do
+      local flagA=questInfoA[flagName]
+      local flagB=questInfoB[flagName]
+      if flagA==nil then
+        InfCore.Log("ERROR: SortByFlags flagA."..flagName.."==nil",true,true)
+        return false
+      end
+      if flagB==nil then
+        InfCore.Log("ERROR: SortByFlags flagB."..flagName.."==nil",true,true)
+        return false
+      end        
+      --tex bit of brain gymnasics, a flag being true means its important and we want it sorted first, 
+      --but since acending numerical sort gets lowest number, with false (or nil) being higher.
+      if type(flagA)=="boolean" then
+        flagA=flagA and 0 or 1
+      end
+      if type(flagB)=="boolean" then 
+        flagB=flagB and 0 or 1 
+      end
+      
+      if flagA < flagB then 
+        InfCore.Log("SortByFlags sortAscend: "..questInfoA.questName.."."..flagName.."="..tostring(flagA).." < "..questInfoB.questName.."."..flagName.."="..tostring(flagB).." returning true")--DEBUGNOW
+        return  (sortAscend[flagName]==true)
+      end--tex true is sort A before B, so ascending numbers and alpha (via < comparison)
+      if flagA > flagB then
+        InfCore.Log("SortByFlags sortAscend: "..questInfoA.questName.."."..flagName.."="..tostring(flagA).." > "..questInfoB.questName.."."..flagName.."="..tostring(flagB).." returning false")--DEBUGNOW 
+        return  not (sortAscend[flagName]==true) --false if sortAscend true if not
+      end
+      --tex equal flag values fall through the above, so carry on to the next type of flag in sortOrder
+    end--for sortOrder
+       
+    return questInfoA.index < questInfoB.index
+  end--SortByFlags  
+
+  table.sort(sideOpsListTable,SortByFlags)
+end--SortSideopsList<
 function this.GetBounusGMP(questName)
   local rank=TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]
   if rank then
