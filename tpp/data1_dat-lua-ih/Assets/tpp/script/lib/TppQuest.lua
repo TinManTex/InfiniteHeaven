@@ -1214,7 +1214,7 @@ function this.GetSideOpsListTable()
       end--<
     end--for questInfoTable
 
-    this.ManageUiLimit(sideOpsListTable)--tex
+    this.ManageUiLimit(sideOpsListTable,clearedNotActive)--tex
     
     this.SortSideopsList(sideOpsListTable)--tex
     --<
@@ -1263,7 +1263,7 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
     InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
     InfCore.Log("overCount:"..overCount)--tex DEBUG      
 
-    InfMain.RandomSetToLevelSeed()
+    --tex since its just ui dont need to set random seed
     for i=1,overCount do
       if #clearedNotActive>0 then
         local randomIndex=math.random(#clearedNotActive)
@@ -1278,7 +1278,6 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
         end--for sideOpsListTable
       end--if #clearedNotActive
     end--for overCount
-    InfMain.RandomResetToOsTime()
   end--if overCount
   if #sideOpsListTable>maxUIQuests then
     InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
