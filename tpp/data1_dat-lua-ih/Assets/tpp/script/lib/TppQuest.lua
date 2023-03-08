@@ -1178,7 +1178,7 @@ function this.GetSideOpsListTable()
       questInfo.Uncleared=not this.IsCleard(questName)
       questInfo.Open=this.IsOpen(questName)
       --tex some more conditions, currently only used to eval Activable
-      questInfo.Blocked=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
+      questInfo.Blocked=InfQuest.BlockQuest(questName)--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_category_ 
       questInfo.CanActiveQuest=this.CanActiveQuest(questName)
       questInfo.Repop=this.IsRepop(questName)
       --tex SYNC: SelectActivableQuests < UpdateActiveQuest
@@ -2696,7 +2696,7 @@ function this.SelectActivableQuests(areaQuestsList,dontBlock)--ForArea
     local questIndex=TppDefine.QUEST_INDEX[questName]
     if questIndex then       
       local CanActiveQuest=canActiveQuestChecks[questName]
-      local blockQuest=InfQuest.BlockQuest(questName) and not dontBlock--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_categorySelection_ 
+      local blockQuest=InfQuest.BlockQuest(questName) and not dontBlock--tex IH reasons to block quest, including catergory selection menu / InfQuestIvars quest_category_ 
       if blockQuest then
         InfCore.Log("blocked Quest "..questName)
       end

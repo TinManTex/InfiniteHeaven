@@ -78,13 +78,13 @@ this.quest_forceQuestNumber={
 }--quest_forceQuestNumber
 
 --tex create sideOpsCategoryMenu / quest category selection ivars see UpdateActiveQuest  
-this.categoryIvarPrefix="quest_categorySelection_"
+this.categoryIvarPrefix="quest_category_"
 for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
   local ivarName=this.categoryIvarPrefix..categoryName
   local ivar={
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"ALL","NONE","ADDON_ONLY"},
-    settingNames="quest_categorySelectionSettingNames",
+    settingNames="quest_categorySettings",
     categoryName=categoryName,
     OnChange=RerollQuestSelection,
   }
@@ -99,7 +99,7 @@ this.quest_selectForArea={
     "RANDOM",
     "RANDOM_ADDON",
   },
-  settingNames="quest_selectForAreaSettingNames",
+  settingNames="quest_selectForAreaSettings",
   OnChange=RerollQuestSelection,
 }
 
@@ -112,7 +112,7 @@ this.uiShowFlags={
   "Open",
   --"Addon",--tex OFF best sorted by filtering actual active selection
   --"Repop",--tex OFF not interesting in of itself, Activable is better
-  --per category stuff is better in actual quest_categorySelection than just in the ui
+  --per category stuff is better in actual quest_category than just in the ui
   --"category",
 }--uiShowFlags
 
@@ -306,29 +306,29 @@ this.langStrings={
     quest_setIsOnceToRepop="Repop one-time sideops",
     quest_forceQuestNumber="Force specific sideop #",
     sideOpsCategoryMenu="Sideops category selection menu",
-    quest_categorySelection_NO_CATEGORY="No category assigned",
-    quest_categorySelection_STORY="Story/unique",
-    quest_categorySelection_EXTRACT_INTERPRETER="Extract interpreter",
-    quest_categorySelection_BLUEPRINT="Secure blueprint",
-    quest_categorySelection_EXTRACT_HIGHLY_SKILLED="Extract highly-skilled soldier",
-    quest_categorySelection_PRISONER="Prisoner extraction",
-    quest_categorySelection_CAPTURE_ANIMAL="Capture animals",
-    quest_categorySelection_WANDERING_SOLDIER="Extract wandering Mother Base soldier",
-    quest_categorySelection_DDOG_PRISONER="Unlucky Dog",
-    quest_categorySelection_ELIMINATE_HEAVY_INFANTRY="Eliminate heavy infantry",
-    quest_categorySelection_MINE_CLEARING="Mine clearing",
-    quest_categorySelection_ELIMINATE_ARMOR_VEHICLE="Eliminate the armored vehicle unit",
-    quest_categorySelection_EXTRACT_GUNSMITH="Extract the Legendary Gunsmith",
-    quest_categorySelection_ELIMINATE_TANK_UNIT="Eliminate tank unit",
-    quest_categorySelection_ELIMINATE_PUPPETS="Eliminate wandering puppets",
-    quest_categorySelection_TARGET_PRACTICE="Target practice",
-    quest_categorySelectionSettingNames={
+    quest_category_NO_CATEGORY="No category assigned",
+    quest_category_STORY="Story/unique",
+    quest_category_EXTRACT_INTERPRETER="Extract interpreter",
+    quest_category_BLUEPRINT="Secure blueprint",
+    quest_category_EXTRACT_HIGHLY_SKILLED="Extract highly-skilled soldier",
+    quest_category_PRISONER="Prisoner extraction",
+    quest_category_CAPTURE_ANIMAL="Capture animals",
+    quest_category_WANDERING_SOLDIER="Extract wandering Mother Base soldier",
+    quest_category_DDOG_PRISONER="Unlucky Dog",
+    quest_category_ELIMINATE_HEAVY_INFANTRY="Eliminate heavy infantry",
+    quest_category_MINE_CLEARING="Mine clearing",
+    quest_category_ELIMINATE_ARMOR_VEHICLE="Eliminate the armored vehicle unit",
+    quest_category_EXTRACT_GUNSMITH="Extract the Legendary Gunsmith",
+    quest_category_ELIMINATE_TANK_UNIT="Eliminate tank unit",
+    quest_category_ELIMINATE_PUPPETS="Eliminate wandering puppets",
+    quest_category_TARGET_PRACTICE="Target practice",
+    quest_categorySettings={
       "All",
       "None",
       "Addon only"
     },
     quest_selectForArea="Selection for Area mode",
-    quest_selectForAreaSettingNames={
+    quest_selectForAreaSettings={
       "First found (default)",
       "Random",
       "Random Addon",

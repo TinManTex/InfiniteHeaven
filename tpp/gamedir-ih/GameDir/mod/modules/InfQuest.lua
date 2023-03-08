@@ -334,7 +334,7 @@ function this.BlockQuest(questName)
     return false
   end
 
-  --tex category selection menu / InfQuestIvars quest_categorySelection_
+  --tex category selection menu / InfQuestIvars quest_category_
   local categoryName=TppQuest.QUEST_CATEGORIES[questInfo.category+1]  
   local ivarName=InfQuestIvars.categoryIvarPrefix..categoryName
   local ivar=Ivars[ivarName]
