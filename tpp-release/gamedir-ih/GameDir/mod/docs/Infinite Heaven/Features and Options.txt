@@ -117,7 +117,7 @@ Shows help text for some options.
 Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2
 5:Disable hold menu toggle = Off, On
 Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.
-6:UI Style Editor >> 
+6:UI Style Editor >>  [Requires IHHook]
 Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
 7:Select profile >! All_Options_Example.lua, CustomPrep_Max.lua, CustomPrep_Min.lua, CustomPrep_Wide.lua, Fulton_Heaven.lua, MotherBase_Heaven.lua, Parasite_Hard.lua, Revenge_Heaven.lua, Subsistence_Bounder.lua, Subsistence_Game.lua, Subsistence_Pure.lua
 Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
@@ -131,7 +131,7 @@ Shortcut key combinations to activate IH features. See Infinite Heaven readme or
 Start the game in offline mode, this also removes the connect option from the pause menu.
 12:Skip startup logos = Off, On
 Stops the konami/kjp/fox/nvidia logos from showing.
-13:Load addon mission >! 
+13:Load addon mission >! <Addon mission names>
 14:Include addon missions in completion percentage <> Off, On
 15:Run AutoDoc >> 
 AutoDoc creates the Features and Options txt and html in docs folder, and profiles/All_Options_Example based on the current menus and options, including any added by other mod IH modules. It will overwrite any existing files.
@@ -346,7 +346,8 @@ Logs some script execution flow, requires Debug IH mode to be on.
 13:appearanceDebugMenu
 14:Disable mission intro credits = Off, On
 15:manualMissionCode >! 
-16:manualSequence >! NONE
+16:manualSequence >! <seq_sequenceNames>
+17:debugQuestsMenu
 
 appearanceDebugMenu
 -------------------
@@ -378,6 +379,15 @@ appearanceDebugMenu
 26:applyFaceFova >> 
 27:applyCurrentFovaFace >> 
 28:Form Variation menu
+
+debugQuestsMenu
+- WARNING: don't use these unless you know exactly what they do.
+---------------
+1:Force Open <> Off, On
+Lets you force sideops open sideops before the usual progression.
+2:Force Repop <> Off, On
+Lets you force story and one-time sideops to be replayable.
+3:printCurrentFlags >> 
 
 Enemy Prep menu
 - Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.
@@ -538,11 +548,11 @@ In the game many bases have several mine fields but by default only one is enabl
 Custom soldier equip menu
 - Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation
 -------------------------
-1:Global soldier weapon table in FreeRoam = DEFAULT
+1:Global soldier weapon table in FreeRoam = <list of \mod\weaponIdTables>
 Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.
-2:Global soldier weapon table in Missions = DEFAULT
+2:Global soldier weapon table in Missions = <list of \mod\weaponIdTables>
 Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.
-3:Global soldier weapon table in MB = DEFAULT
+3:Global soldier weapon table in MB = <list of \mod\weaponIdTables>
 Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.
 4:Enemy use custom weapon table in free roam = Off, On
 5:Enemy use custom equip table in missions = Off, On
@@ -789,8 +799,8 @@ Show characters menu
 --------------------
 1:Enable Ocelot = Off, On
 Enables Ocelot to roam the command platform.
-2:Puppy DDog <> Off, Missing eye, Normal eyes
-Note: The training side-op on the command platform will be disabled while this is active.
+2:Puppy DDog = Off, Missing eye, Normal eyes
+Note: Requires you to actually get and complete the base game ddog puppy sequence.
 3:Show Code Talker = Off, On
 4:Show Eli = Off, On
 5:Show Huey = Off, On
@@ -995,41 +1005,86 @@ Randomize current routeset right now. (Use the command in-mission).
 Side ops menu
 -------------
 1:Reroll sideops selection >> 
-2:Open specific sideop # <> 0-157
-3:Unlock Sideops mode <> Off, Force Replayable, Force Open
-Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.
-4:Sideop selection mode <> Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets, Addon sideop
-Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.
-5:Sideops category filter menu
-6:Show all open sideops = Off, On
-Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.
-7:Force enable enemy heli reinforce (disables heli sideops) <> Off, On
+Note: You may not see any change unless you use 'Selection for Area mode' set to Random. Many of the other IH sideop options allready run this after you change them.
+2:Force specific sideop # <> 0-157
+WARNING: This allows opening a sideop outside of normal progression. Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.
+3:Repop one-time sideops <> Off, On
+Lets you force story and one-time sideops to be replayable.
+4:Selection for Area mode <> First found (default), Random, Random Addon
+Sideops are broken into areas to stop overlap, this option lets you control the choice which repop sideop will be selected to be Active for the area.
+'Random Addon' will prioritize Addon sideops first. 
+All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.
+5:Repop mode <> On none left, Allways
+Lets you choose the behaviour of how repeatable sideops are repopulated. The update is run for the sideop area of a sideop you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.
+The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.
+'Allways' will refresh repeatable sideops every time the update is called.
+Best use with Select for Area mode set to Random.
+6:Sideops category selection menu
+7:Show on UI menu
+8:Force enable enemy heli reinforce (disables heli sideops) <> Off, On
 Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.
-8:Include add-on sideops in completion percentage <> Off, On
-9:Enable Shooting Practice Retry = Off, On
+9:Include add-on sideops in completion percentage <> Off, On
+10:Enable Shooting Practice Retry = Off, On
 Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.
-10:Set Shooting Practice caution time to best time = Off, On
+11:Set Shooting Practice caution time to best time = Off, On
 Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.
-11:Side ops in missions menu
+12:Side ops in missions menu
 
-Sideops category filter menu
-- Filters selection of sideops per category, Sideop selection mode will override this.
-----------------------------
-1:Story/unique <> Off, On
-2:Extract interpreter <> Off, On
-3:Secure blueprint <> Off, On
-4:Extract highly-skilled soldier <> Off, On
-5:Prisoner extraction <> Off, On
-6:Capture animals <> Off, On
-7:Extract wandering Mother Base soldier <> Off, On
-8:Unlucky Dog <> Off, On
-9:Eliminate heavy infantry <> Off, On
-10:Mine clearing <> Off, On
-11:Eliminate the armored vehicle unit <> Off, On
-12:Extract the Legendary Gunsmith <> Off, On
-13:Eliminate tank unit <> Off, On
-14:Eliminate wandering puppets <> Off, On
-15:Target practice <> Off, On
+Sideops category selection menu
+- Per category selection of which sidops can be Active.
+-------------------------------
+1:Story/unique <> All, None, Addon only
+2:Extract interpreter <> All, None, Addon only
+3:Secure blueprint <> All, None, Addon only
+4:Extract highly-skilled soldier <> All, None, Addon only
+5:Prisoner extraction <> All, None, Addon only
+6:Capture animals <> All, None, Addon only
+7:Extract wandering Mother Base soldier <> All, None, Addon only
+8:Unlucky Dog <> All, None, Addon only
+9:Eliminate heavy infantry <> All, None, Addon only
+10:Mine clearing <> All, None, Addon only
+11:Eliminate the armored vehicle unit <> All, None, Addon only
+12:Extract the Legendary Gunsmith <> All, None, Addon only
+13:Eliminate tank unit <> All, None, Addon only
+14:Eliminate wandering puppets <> All, None, Addon only
+15:Target practice <> All, None, Addon only
+16:No category assigned <> All, None, Addon only
+
+Show on UI menu
+- Settings for what sideops to show and how they should be sorted depedending on various parameters for sideops on the idroid sideops list.
+The vanilla behavior just shows current Active and Cleared sideops, in index order, which lets you see past progression/completion,
+Though since uncleared sideops do have priority, one will be selected for Active.
+So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.
+These option give you individual control for showing sideops depending on their conditions.
+For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.
+There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
+See the notes for each option for more info.
+Sorting:
+Sorting will proceed through all flags that have a sorting setting (not set to None). So sort is in respect to the option above it.
+None: Will not apply any specific sort, so will just be in index order, but may be moved around if other flags sort it.
+The other settings, Top, Bottom or Ascending, Descending depending on the flag type, will sort as the settings suggest, but in relation to the prior flags.
+Since the final sort is by sideop index (the number on the left of the entry in the sideop list) you can use that to see where the list sections from one sorted flag type to the next.
+
+---------------
+1:Show Active = Hide, Show
+Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide.
+2:Show Activable = Hide, Show
+Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings.
+3:Show Uncleared = Hide, Show
+4:Show Cleared = Hide, Show
+Default is Show. Quests that have been completed.
+5:Show Open = Hide, Show
+Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed.
+6:Sort Active = None, Top, Bottom
+7:Sort Activable = None, Top, Bottom
+8:Sort Uncleared = None, Top, Bottom
+9:Sort Cleared = None, Top, Bottom
+10:Sort Open = None, Top, Bottom
+11:Sort by Category = None, Ascending, Descending
+The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.
+12:Sort by Location = None, Ascending, Descending
+13:Sort by sideop area = None, Ascending, Descending
+Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.
 
 Side ops in missions menu
 - Change settings related to side ops in story missions.
@@ -1170,7 +1225,7 @@ Shows help text for some options.
 Automatically enable mouse cursor when IHMenu opens. The cursor can also be seperately toggled with F2
 5:Disable hold menu toggle = Off, On
 Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.
-6:UI Style Editor >> 
+6:UI Style Editor >>  [Requires IHHook]
 Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.
 7:Enable Quick Menu = Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
@@ -1364,7 +1419,7 @@ Logs some script execution flow, requires Debug IH mode to be on.
 25:Show position >> 
 26:checkPointSave >> 
 27:manualMissionCode >! 
-28:manualSequence >! NONE
+28:manualSequence >! <seq_sequenceNames>
 29:debugPrintMenu
 30:debugStuffMenu
 

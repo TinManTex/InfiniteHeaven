@@ -157,7 +157,7 @@
 <div id="itemHelp">Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.</div>
 </div>
 <div id="menuItem">
-<div>6:UI Style Editor &gt&gt </div>
+<div>6:UI Style Editor &gt&gt  [Requires IHHook]</div>
 <div id="itemHelp">Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.</div>
 </div>
 <div id="menuItem">
@@ -185,7 +185,7 @@
 <div id="itemHelp">Stops the konami/kjp/fox/nvidia logos from showing.</div>
 </div>
 <div id="menuItem">
-<div>13:Load addon mission &gt! </div>
+<div>13:Load addon mission &gt! &ltAddon mission names&gt</div>
 </div>
 <div id="menuItem">
 <div>14:Include addon missions in completion percentage &lt&gt Off, On</div>
@@ -636,7 +636,10 @@
 <div>15:manualMissionCode &gt! </div>
 </div>
 <div id="menuItem">
-<div>16:manualSequence &gt! NONE</div>
+<div>16:manualSequence &gt! &ltseq_sequenceNames&gt</div>
+</div>
+<div id="menuItem">
+<div>17:<a href="#debugQuestsMenu">debugQuestsMenu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -731,6 +734,28 @@
 </div>
 <div id="menuItem">
 <div>28:<a href="#fovaModMenu">Form Variation menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="debugQuestsMenu">debugQuestsMenu</div>
+<div id="menuHelp">WARNING: don't use these unless you know exactly what they do.</div>
+</div>
+<div id="menuItem">
+<div>1:Force Open &lt&gt Off, On</div>
+<div id="itemHelp">Lets you force sideops open sideops before the usual progression.</div>
+</div>
+<div id="menuItem">
+<div>2:Force Repop &lt&gt Off, On</div>
+<div id="itemHelp">Lets you force story and one-time sideops to be replayable.</div>
+</div>
+<div id="menuItem">
+<div>3:printCurrentFlags &gt&gt </div>
 </div>
 <div id="menuItem">
 </div>
@@ -1157,15 +1182,15 @@
 <div id="menuHelp">Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation</div>
 </div>
 <div id="menuItem">
-<div>1:Global soldier weapon table in FreeRoam = DEFAULT</div>
+<div>1:Global soldier weapon table in FreeRoam = &ltlist of \mod\weaponIdTables&gt</div>
 <div id="itemHelp">Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.</div>
 </div>
 <div id="menuItem">
-<div>2:Global soldier weapon table in Missions = DEFAULT</div>
+<div>2:Global soldier weapon table in Missions = &ltlist of \mod\weaponIdTables&gt</div>
 <div id="itemHelp">Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.</div>
 </div>
 <div id="menuItem">
-<div>3:Global soldier weapon table in MB = DEFAULT</div>
+<div>3:Global soldier weapon table in MB = &ltlist of \mod\weaponIdTables&gt</div>
 <div id="itemHelp">Base soldier weapon table, either the games default or an addon table. Combined soldier weapon table builds from this.</div>
 </div>
 <div id="menuItem">
@@ -1754,8 +1779,8 @@
 <div id="itemHelp">Enables Ocelot to roam the command platform.</div>
 </div>
 <div id="menuItem">
-<div>2:Puppy DDog &lt&gt Off, Missing eye, Normal eyes</div>
-<div id="itemHelp">Note: The training side-op on the command platform will be disabled while this is active.</div>
+<div>2:Puppy DDog = Off, Missing eye, Normal eyes</div>
+<div id="itemHelp">Note: Requires you to actually get and complete the base game ddog puppy sequence.</div>
 </div>
 <div id="menuItem">
 <div>3:Show Code Talker = Off, On</div>
@@ -2290,42 +2315,47 @@
 </div>
 <div id="menuItem">
 <div>1:Reroll sideops selection &gt&gt </div>
+<div id="itemHelp">Note: You may not see any change unless you use 'Selection for Area mode' set to Random. Many of the other IH sideop options allready run this after you change them.</div>
 </div>
 <div id="menuItem">
-<div>2:Open specific sideop # &lt&gt 0-157</div>
+<div>2:Force specific sideop # &lt&gt 0-157</div>
+<div id="itemHelp">WARNING: This allows opening a sideop outside of normal progression. Unlocks the sideop with the quest number that shows in the UI. Since the sideops shown in the UI are limited, try 'Show on UI mode' and other filtering settings to show other sideops.</div>
 </div>
 <div id="menuItem">
-<div>3:Unlock Sideops mode &lt&gt Off, Force Replayable, Force Open</div>
-<div id="itemHelp">Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.</div>
+<div>3:Repop one-time sideops &lt&gt Off, On</div>
+<div id="itemHelp">Lets you force story and one-time sideops to be replayable.</div>
 </div>
 <div id="menuItem">
-<div>4:Sideop selection mode &lt&gt Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets, Addon sideop</div>
-<div id="itemHelp">Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.</div>
+<div>4:Selection for Area mode &lt&gt First found (default), Random, Random Addon</div>
+<div id="itemHelp">Sideops are broken into areas to stop overlap, this option lets you control the choice which repop sideop will be selected to be Active for the area.<br/>'Random Addon' will prioritize Addon sideops first. <br/>All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.</div>
 </div>
 <div id="menuItem">
-<div>5:<a href="#sideOpsCategoryMenu">Sideops category filter menu</a></div>
+<div>5:Repop mode &lt&gt On none left, Allways</div>
+<div id="itemHelp">Lets you choose the behaviour of how repeatable sideops are repopulated. The update is run for the sideop area of a sideop you just finished, or for all areas when changing many of the IH sideops options or rerolling sideops.<br/>The default 'None left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed.<br/>'Allways' will refresh repeatable sideops every time the update is called.<br/>Best use with Select for Area mode set to Random.</div>
 </div>
 <div id="menuItem">
-<div>6:Show all open sideops = Off, On</div>
-<div id="itemHelp">Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.</div>
+<div>6:<a href="#sideOpsCategoryMenu">Sideops category selection menu</a></div>
 </div>
 <div id="menuItem">
-<div>7:Force enable enemy heli reinforce (disables heli sideops) &lt&gt Off, On</div>
+<div>7:<a href="#showOnUiMenu">Show on UI menu</a></div>
+</div>
+<div id="menuItem">
+<div>8:Force enable enemy heli reinforce (disables heli sideops) &lt&gt Off, On</div>
 <div id="itemHelp">Since the enemy heli reinforce feature re-uses the sideops heli, enabling this will disable sideops that have a heli in them so that the reinforce can use it.</div>
 </div>
 <div id="menuItem">
-<div>8:Include add-on sideops in completion percentage &lt&gt Off, On</div>
+<div>9:Include add-on sideops in completion percentage &lt&gt Off, On</div>
 </div>
 <div id="menuItem">
-<div>9:Enable Shooting Practice Retry = Off, On</div>
+<div>10:Enable Shooting Practice Retry = Off, On</div>
 <div id="itemHelp">Does not hide the starting point when Shooting Practice starts or finishes, and allows you to cancel while in progress and start again.</div>
 </div>
 <div id="menuItem">
-<div>10:Set Shooting Practice caution time to best time = Off, On</div>
+<div>11:Set Shooting Practice caution time to best time = Off, On</div>
 <div id="itemHelp">Sets the caution time/time when the timer turns red to the current best time (rounded up to the second) so you have a clearer idea when going for best time.</div>
 </div>
 <div id="menuItem">
-<div>11:<a href="#missionQuestMenu">Side ops in missions menu</a></div>
+<div>12:<a href="#missionQuestMenu">Side ops in missions menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2335,53 +2365,112 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="sideOpsCategoryMenu">Sideops category filter menu</div>
-<div id="menuHelp">Filters selection of sideops per category, Sideop selection mode will override this.</div>
+<div id="sideOpsCategoryMenu">Sideops category selection menu</div>
+<div id="menuHelp">Per category selection of which sidops can be Active.</div>
 </div>
 <div id="menuItem">
-<div>1:Story/unique &lt&gt Off, On</div>
+<div>1:Story/unique &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>2:Extract interpreter &lt&gt Off, On</div>
+<div>2:Extract interpreter &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>3:Secure blueprint &lt&gt Off, On</div>
+<div>3:Secure blueprint &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>4:Extract highly-skilled soldier &lt&gt Off, On</div>
+<div>4:Extract highly-skilled soldier &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>5:Prisoner extraction &lt&gt Off, On</div>
+<div>5:Prisoner extraction &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>6:Capture animals &lt&gt Off, On</div>
+<div>6:Capture animals &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>7:Extract wandering Mother Base soldier &lt&gt Off, On</div>
+<div>7:Extract wandering Mother Base soldier &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>8:Unlucky Dog &lt&gt Off, On</div>
+<div>8:Unlucky Dog &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>9:Eliminate heavy infantry &lt&gt Off, On</div>
+<div>9:Eliminate heavy infantry &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>10:Mine clearing &lt&gt Off, On</div>
+<div>10:Mine clearing &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>11:Eliminate the armored vehicle unit &lt&gt Off, On</div>
+<div>11:Eliminate the armored vehicle unit &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>12:Extract the Legendary Gunsmith &lt&gt Off, On</div>
+<div>12:Extract the Legendary Gunsmith &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>13:Eliminate tank unit &lt&gt Off, On</div>
+<div>13:Eliminate tank unit &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>14:Eliminate wandering puppets &lt&gt Off, On</div>
+<div>14:Eliminate wandering puppets &lt&gt All, None, Addon only</div>
 </div>
 <div id="menuItem">
-<div>15:Target practice &lt&gt Off, On</div>
+<div>15:Target practice &lt&gt All, None, Addon only</div>
+</div>
+<div id="menuItem">
+<div>16:No category assigned &lt&gt All, None, Addon only</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="showOnUiMenu">Show on UI menu</div>
+<div id="menuHelp">Settings for what sideops to show and how they should be sorted depedending on various parameters for sideops on the idroid sideops list.<br/>The vanilla behavior just shows current Active and Cleared sideops, in index order, which lets you see past progression/completion,<br/>Though since uncleared sideops do have priority, one will be selected for Active.<br/>So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.<br/>These option give you individual control for showing sideops depending on their conditions.<br/>For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.<br/>There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.<br/>See the notes for each option for more info.<br/>Sorting:<br/>Sorting will proceed through all flags that have a sorting setting (not set to None). So sort is in respect to the option above it.<br/>None: Will not apply any specific sort, so will just be in index order, but may be moved around if other flags sort it.<br/>The other settings, Top, Bottom or Ascending, Descending depending on the flag type, will sort as the settings suggest, but in relation to the prior flags.<br/>Since the final sort is by sideop index (the number on the left of the entry in the sideop list) you can use that to see where the list sections from one sorted flag type to the next.<br/></div>
+</div>
+<div id="menuItem">
+<div>1:Show Active = Hide, Show</div>
+<div id="itemHelp">Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide.</div>
+</div>
+<div id="menuItem">
+<div>2:Show Activable = Hide, Show</div>
+<div id="itemHelp">Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings.</div>
+</div>
+<div id="menuItem">
+<div>3:Show Uncleared = Hide, Show</div>
+</div>
+<div id="menuItem">
+<div>4:Show Cleared = Hide, Show</div>
+<div id="itemHelp">Default is Show. Quests that have been completed.</div>
+</div>
+<div id="menuItem">
+<div>5:Show Open = Hide, Show</div>
+<div id="itemHelp">Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed.</div>
+</div>
+<div id="menuItem">
+<div>6:Sort Active = None, Top, Bottom</div>
+</div>
+<div id="menuItem">
+<div>7:Sort Activable = None, Top, Bottom</div>
+</div>
+<div id="menuItem">
+<div>8:Sort Uncleared = None, Top, Bottom</div>
+</div>
+<div id="menuItem">
+<div>9:Sort Cleared = None, Top, Bottom</div>
+</div>
+<div id="menuItem">
+<div>10:Sort Open = None, Top, Bottom</div>
+</div>
+<div id="menuItem">
+<div>11:Sort by Category = None, Ascending, Descending</div>
+<div id="itemHelp">The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.</div>
+</div>
+<div id="menuItem">
+<div>12:Sort by Location = None, Ascending, Descending</div>
+</div>
+<div id="menuItem">
+<div>13:Sort by sideop area = None, Ascending, Descending</div>
+<div id="itemHelp">Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2697,7 +2786,7 @@
 <div id="itemHelp">Disables the legacy hold &ltEVADE&gt to open menu, the two button menu combo &ltZOOM_CHANGE&gt + &ltDASH&gt will still work.</div>
 </div>
 <div id="menuItem">
-<div>6:UI Style Editor &gt&gt </div>
+<div>6:UI Style Editor &gt&gt  [Requires IHHook]</div>
 <div id="itemHelp">Toggles the IMGui Style Editor to load, change and save the style for IHHook IMGUI.</div>
 </div>
 <div id="menuItem">
@@ -3099,7 +3188,7 @@
 <div>27:manualMissionCode &gt! </div>
 </div>
 <div id="menuItem">
-<div>28:manualSequence &gt! NONE</div>
+<div>28:manualSequence &gt! &ltseq_sequenceNames&gt</div>
 </div>
 <div id="menuItem">
 <div>29:<a href="#debugPrintMenu">debugPrintMenu</a></div>
