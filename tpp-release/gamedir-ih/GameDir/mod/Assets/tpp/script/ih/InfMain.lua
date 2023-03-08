@@ -764,6 +764,8 @@ function this.DoControlSet(currentChecks)
 end
 
 function this.RegenSeed(currentMission,nextMission)
+  local currentMission=currentMission or vars.missionCode
+  local nextMission=nextMission or vars.missionCode
   --tex hard to find a line to draw in the sand between one mission and the next, so i'm just going for if you've gone to acc then that you're new levelseed set
   -- this does mean that free roam<>mission wont get a change though, but that may be useful in some circumstances
   if this.IsHelicopterSpace(nextMission) and currentMission>5 then

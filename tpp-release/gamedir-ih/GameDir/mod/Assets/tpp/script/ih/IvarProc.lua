@@ -794,6 +794,11 @@ end
 function this.OnSave(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
   InfCore.PCallDebug(this.SaveAll)
 end
+--CALLER: TppSave.MakeNewGameSaveData (via InfHooks)
+function this.MakeNewGameSaveData(acquirePrivilegeInTitleScreen)
+  InfMain.CallOnModules"ClearSave"
+  InfCore.PCallDebug(this.SaveAll)
+end
 
 --CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
 function this.OnLoadVarsFromSlot()

@@ -51,7 +51,7 @@ function this.PlayOpening()
 		{ useDemoBlock = true, finishFadeOut = true, isExecMissionClear = true, fadeSpeed = TppUI.FADE_SPEED.FADE_HIGHESTSPEED }
 	)
 end
-
+--tex OVERLOAD replaced in InfQuest.OnAllocateQuestPatchup
 function this.PlayRecoverVolgin( startFunc, endFunc )
 	Fox.Log("***** f30010_demo:PlayRecoverVolgin *****")
 	TppDemo.Play("Demo_RecoverVolgin",

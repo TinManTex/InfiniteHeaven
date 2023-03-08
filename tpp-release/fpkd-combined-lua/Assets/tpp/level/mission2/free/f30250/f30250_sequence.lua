@@ -130,7 +130,7 @@ function this.Messages()
         {
           msg = "Dead",
           func = function(gameObjectId)
-            if TppGameObject.GetTypeIndex(gameObjectId)==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+            if GameObject.GetTypeIndex(gameObjectId)==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
               if Ivars.mbNonStaff:Is(0) then
                 TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
               end
@@ -140,7 +140,7 @@ function this.Messages()
         {
           msg = "Dying",
           func = function(gameObjectId)
-            if TppGameObject.GetTypeIndex(gameObjectId)==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+            if GameObject.GetTypeIndex(gameObjectId)==TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
               if Ivars.mbNonStaff:Is(0) then
                 TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
               end
@@ -202,6 +202,7 @@ sequences.Seq_Demo_RecoverVolgin = {
       TppMain.EnableGameStatus()
       TppSequence.SetNextSequence("Seq_Game_MainGame")
     end
+    InfQuest.qst_volginQuestDone=false--tex tent_q99040 repop f30250 demo play fix reset
   end,
 
   OnLeave = function()
@@ -292,6 +293,13 @@ function this.UnsetEmergencyAsset()
 end
 
 function this.isRecoverVolginDemoPlay()
+  --tex PATCHUP repopped tent_q99040 fix>
+  --InfCore.Log("isRecoverVolginDemoPlay InfQuest.qst_volginQuestDone:"..tostring(InfQuest.qst_volginQuestDone))
+  --qst_volginQuestDone added by PATCHUP in InfQuest.OnAllocateQuestPatchup > PlayRecoverVolgin  
+  if gvars.qst_volginQuestCleared and TppQuest.IsCleard("tent_q99040") and InfQuest.qst_volginQuestDone then
+    return true
+  end--<
+  
   if gvars.qst_volginQuestCleared and TppQuest.IsCleard("tent_q99040") == false then
     return true
   else

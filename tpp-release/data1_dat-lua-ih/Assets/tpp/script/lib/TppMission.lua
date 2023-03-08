@@ -1612,6 +1612,9 @@ end
 function this.SetFOBMissionFlag()
   Mission.SetMissionFlags(bit.bor(Mission.MISSION_FLAGS_FOB,Mission.MISSION_FLAGS_MB))
 end
+--tex NMC: confusing, but seems to be after mission loaded and a checkpoint has been triggered (which all lzs and mission start positions should have?)
+--but is also true in helispace after continue from title?
+--TODO: figure it out properly
 function this.IsMissionStart()
   if gvars.sav_varRestoreForContinue then
     return false
@@ -1620,7 +1623,7 @@ function this.IsMissionStart()
   end
 end
 function this.IsSysMissionId(missionCode)
-  local e
+  --ORPHAN local e
   for i,_missionCode in pairs(TppDefine.SYS_MISSION_ID)do
     if missionCode==_missionCode then
       return true

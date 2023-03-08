@@ -135,7 +135,7 @@ function this.ScaleResourceTables()
   TppMotherBaseManagement.RegisterContainerParam(this.scaledContainerParams)
 
   if this.debugModule then
-    for i,scaleType in ipairs(Ivars.resourceScaleTypes) do
+    for i,scaleType in ipairs(this.resourceScaleTypes) do
       local resourceScale=Ivars["resourceScale"..scaleType]:Get()/100
       InfCore.Log("resourceScale"..scaleType.."="..tostring(resourceScale))
     end

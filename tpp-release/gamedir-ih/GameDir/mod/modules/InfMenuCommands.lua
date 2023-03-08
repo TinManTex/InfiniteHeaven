@@ -54,10 +54,15 @@ end
 --commands
 
 --IHMenu
+this.showStyleEditor={
+  requiresIHHook=true,
+}
 this.ShowStyleEditor=function()
   InfCore.MenuCmd'ToggleStyleEditor'
 end
-
+this.showImguiDemo={
+  requiresIHHook=true,
+}
 this.ShowImguiDemo=function()
   InfCore.MenuCmd'ToggleImguiDemo'
 end
@@ -282,7 +287,7 @@ this.DEBUG_buddyCycle=function()
 end
 
 this.ForceRegenSeed=function()
-  InfMain.RegenSeed(40010)
+  InfMain.RegenSeed(40010,40010)
 end
 
 

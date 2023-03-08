@@ -84,13 +84,13 @@ function this.SetForceFultonPercent(gameId,percentage)
   mvars.ply_forceFultonPercent[gameId]=percentage
 end
 function this.ForceChangePlayerToSnake(basic)
-  if Ivars.useSoldierForDemos:Is(1) then--tex catch more cases the isSnakeOnly in demo didn't catch
+  if Ivars.useSoldierForDemos:Is(1) then--tex catch more cases the isSnakeOnly in demo didn't catch>
     if not InfMain.IsOnlineMission(vars.missionCode) then--tex 50050 sequence calls this a couple of times, I can't reason it out as being a meaningful change but I don't want to change default behaviour
       if not (vars.missionCode==10240) then-- and DemoDaemon.IsDemoPlaying()) then--tex demo not actually playing at that point aparently --tex PATCHUP: stop stupid sexy snake player body/snake head for shining lights funeral scene
         return
+      end
     end
-  end
-  end--
+  end--<
   vars.playerType=PlayerType.SNAKE
   if basic then
     vars.playerPartsType=PlayerPartsType.NORMAL
@@ -122,38 +122,39 @@ function this.ForceChangePlayerFromOcelot()
     vars.playerType=vars.sortiePrepPlayerType
     vars.playerFaceId=vars.sortiePrepPlayerFaceId
     Player.ResetDirtyEffect()
-    --tex>
-    if not TppMission.IsHelicopterSpace(vars.missionCode) then
+    if not TppMission.IsHelicopterSpace(vars.missionCode) then--tex>
       TppGameStatus.Reset("heli_common_sequence.lua", "S_IS_SORTIE_PREPARATION")
-    end
-    --<
+    end--<
   end
 end
 --<
-function this.CheckRotationSetting(a)
-  if not IsTypeTable(a)then
+--NMC: only used in s10020 to detect
+--settings = table of pitch yaw and ranges to check and func to exec when done so 
+--(this is just the setup function, actually checked and execed CheckRotation)
+function this.CheckRotationSetting(settings)
+  if not IsTypeTable(settings)then
     return
   end
   local mvars=mvars
   mvars.ply_checkDirectionList={}
   mvars.ply_checkRotationResult={}
-  local function n(a,t,e)
-    if e>=-180 and e<180 then
-      a[t]=e
+  local function AddEntry(checkListEntry,keyName,value)
+    if value>=-180 and value<180 then
+      checkListEntry[keyName]=value
     end
   end
-  for t,a in pairs(a)do
-    if IsTypeFunc(a.func)then
-      mvars.ply_checkDirectionList[t]={}
-      mvars.ply_checkDirectionList[t].func=a.func
-      local o=a.directionX or 0
-      local i=a.directionY or 0
-      local r=a.directionRangeX or 0
-      local a=a.directionRangeY or 0
-      n(mvars.ply_checkDirectionList[t],"directionX",o)
-      n(mvars.ply_checkDirectionList[t],"directionY",i)
-      n(mvars.ply_checkDirectionList[t],"directionRangeX",r)
-      n(mvars.ply_checkDirectionList[t],"directionRangeY",a)
+  for i,checkSetting in pairs(settings)do
+    if IsTypeFunc(checkSetting.func)then
+      mvars.ply_checkDirectionList[i]={}
+      mvars.ply_checkDirectionList[i].func=checkSetting.func
+      local directionX=checkSetting.directionX or 0
+      local directionY=checkSetting.directionY or 0
+      local directionRangeX=checkSetting.directionRangeX or 0
+      local directionRangeY=checkSetting.directionRangeY or 0
+      AddEntry(mvars.ply_checkDirectionList[i],"directionX",directionX)
+      AddEntry(mvars.ply_checkDirectionList[i],"directionY",directionY)
+      AddEntry(mvars.ply_checkDirectionList[i],"directionRangeX",directionRangeX)
+      AddEntry(mvars.ply_checkDirectionList[i],"directionRangeY",directionRangeY)
     else
       return
     end
@@ -164,11 +165,11 @@ function this.CheckRotation()
   if mvars.ply_checkDirectionList==nil then
     return
   end
-  for n,t in pairs(mvars.ply_checkDirectionList)do
-    local e=this._CheckRotation(t.directionX,t.directionRangeX,t.directionY,t.directionRangeY,n)
-    if e~=mvars.ply_checkRotationResult[n]then
-      mvars.ply_checkRotationResult[n]=e
-      mvars.ply_checkDirectionList[n].func(e)
+  for n,checkSetting in pairs(mvars.ply_checkDirectionList)do
+    local isFacingSetting=this._CheckRotation(checkSetting.directionX,checkSetting.directionRangeX,checkSetting.directionY,checkSetting.directionRangeY,n)
+    if isFacingSetting~=mvars.ply_checkRotationResult[n]then
+      mvars.ply_checkRotationResult[n]=isFacingSetting
+      mvars.ply_checkDirectionList[n].func(isFacingSetting)
     end
   end
 end
@@ -2943,7 +2944,7 @@ function this._IsControlModeValid(a)
   end
   return true
 end
-function this._CheckRotation(x,rangeX,y,rangeY,e)
+function this._CheckRotation(x,rangeX,y,rangeY,entryIndex)
   --ORPHAN local mvars=mvars
   local rotX=vars.playerCameraRotation[0]
   local rotY=vars.playerCameraRotation[1]

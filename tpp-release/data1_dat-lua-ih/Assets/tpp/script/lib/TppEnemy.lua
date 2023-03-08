@@ -6103,6 +6103,9 @@ end
 --NMC Called from quest script on various elimination msgs, or on quest deactivate
 --cant see any calls using param5
 function this.CheckQuestAllTarget(questType,messageId,gameId,questDeactivate,param5)
+  if this.debugModule then--tex this function called enough at runtime that I don't want to bog it down with concatting, so guard in debugModule
+    InfCore.LogFlow("TppEnemy.CheckQuestAllTarget(questType:"..tostring(questType)..",messageId:"..tostring(messageId)..",gameId:"..tostring(gameId)..",questDeactivate:"..tostring(questDeactivate)..",param5:"..tostring(param5)..")")--tex
+  end--<
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local deactivating=questDeactivate or false
   local _param5=param5 or false
@@ -6116,7 +6119,7 @@ function this.CheckQuestAllTarget(questType,messageId,gameId,questDeactivate,par
   local countIncreased=true
   local RENAMEsomeBool=false
   local currentQuestName=TppQuest.GetCurrentQuestName()
-  if TppQuest.IsEnd(currentQuestName)then
+  if TppQuest.IsEnd(currentQuestName)then--NMC ==QStep_ClearStr
     return clearType
   end
   if mvars.ene_questTargetList[gameId]then
