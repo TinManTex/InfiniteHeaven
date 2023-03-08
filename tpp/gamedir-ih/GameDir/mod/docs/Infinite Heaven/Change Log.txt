@@ -1,14 +1,18 @@
 Infinite Heaven changelog
 Just notable changes, see github commits for full
 
-r260 - 
+r260 - 2023-03-08
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
-Clear ancillary ih saves on new game.
-
-Fix: Repop of sideop 144 tent_q99040 "Secure the Remains of the Man on Fire" arival on quaranteen platform leaving player stuck in helipad.
+Fix: Repop of sideop 144 tent_q99040 "Secure the Remains of the Man on Fire" arival on quarantine platform leaving player stuck in helipad.
 
 Fix: Infinite load screen when IH startOnFoot used when force go to mb on quest clear > demo play. Another case of the prior fix in r259 for start on foot, which Repop of sideop 144 is also a case of. 
+
+Fix: Several bugs setting quest flags incorrectly. Could result in some of the hidden/managed quests activating or not. 
+Could also cause the all sideops disabled bug.
+A manual fix is to run "Reroll sideops selection" with "Repop mode" set to Allways.
+
+Ancillary ih saves (addon mission and quest states) are now cleared on new game.
 
 InfQuest / IH Sideops menu:
 
@@ -66,15 +70,10 @@ quest_uiSort_category="Sort by Category" - Ascending|Descending - "The base game
 quest_uiSort_locationId="Sort by Location" - Ascending|Descending -
 quest_uiSort_questArea="Sort by sideop area" - Ascending|Descending -"Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location."
 
-
 Sideops selection menu:
-ivars renamed from sideop_<CATEGORY> to quest_categoryFilter_<CATEGORY>
+ivars renamed from sideop_<CATEGORY> to quest_category_<CATEGORY>
 Settings changed from OFF, ON to "ALL","NONE","ADDON_ONLY"
 This lets you have per catergory selection of only Addon sidops.
-
-Fix: Several bugs setting quest flags incorrectly. Could result in some of the hidden/managed quests activating or not. 
-Could also cause the all sideops disabled bug.
-A manual fix is to run "Reroll sideops selection" with "Repop mode" set to Allways.
 
 Quest Addon questInfo: 
 Added canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
