@@ -388,6 +388,7 @@ function this.GetForced()
       unlockedArea=TppQuestList.questAreaNameTable[unlockedName]
       if unlockedArea==nil then
         InfCore.Log("ERROR: InfQuest.GetForced questAreaNameTable[] nil for "..unlockedName)
+        InfCore.Log("No location or area for the quest installed?")
       else
         forcedQuests[unlockedArea]=unlockedName
         forcedCount=forcedCount+1
