@@ -143,10 +143,10 @@ this.uiSortFlags={
   "Uncleared",
   "Cleared", 
   "Open",
-  "category",
   "locationId",
   --"questArea",--areaName
   "questAreaX",
+  "category",
 }--uiShowFlags
 
 this.uiSortIvarPrefix="quest_uiSort_"

@@ -139,7 +139,7 @@ this.GetTableSetting=function(self)
   end
   return returnValue
 end
-
+--UNUSED
 function this.GetSettingNameDirect(self,setting)
   if not self.settings then
     InfCore.Log("GetSettingNameDirect no settings for "..self.name)
