@@ -2686,8 +2686,10 @@ end
 --broken out from UpdateActiveQuest
 --areaQuestsList: TppQuestList.questList[areaInfoIdx].infoList
 function this.SelectActivableQuests(areaQuestsList,dontBlock)--ForArea
+  --uncleared
   local storyQuests={}
   local nonStoryQuests={}
+  --cleared
   local repopQuests={}
   local repopAddonQuests={}--tex for selectForArea RANDOM_ADDON, subset of above    
   
@@ -2783,7 +2785,8 @@ function this.UpdateActiveQuest(updateFlags)
         --tex NMC now that we've gatherered all candidate quests for the area, we need to select one, using the lists as priority order
         local activateQuest=nil
         if selectedCount>0 then
-          --tex NOTE: even for random selection type this still prioritizes vanilla uncompleted to avoid issues with progression and hidden quests
+          --tex NOTE: these are uncleared, so it still prioritizes vanilla uncleared to avoid issues with progression and hidden quests
+          --and on repop they'll be randomed (if the setting is on) like you'd want to anyway
           for j,questNames in ipairs{storyQuests,nonStoryQuests}do--tex was {storyQuests,nonStoryQuests,repopQuests}
             if not activateQuest then--tex NMC with below -v- doubles as a nil check for empty list
               activateQuest=questNames[1]--tex NMC select first in first list found
