@@ -139,7 +139,7 @@ this.GetTableSetting=function(self)
   end
   return returnValue
 end
-
+--UNUSED
 function this.GetSettingNameDirect(self,setting)
   if not self.settings then
     InfCore.Log("GetSettingNameDirect no settings for "..self.name)
@@ -792,6 +792,11 @@ end
 
 --CALLER: TppSave.SaveGameData (via InfHooks)
 function this.OnSave(missionCode,needIcon,doSaveFunc,reserveNextMissionStartSave,isCheckPoint)
+  InfCore.PCallDebug(this.SaveAll)
+end
+--CALLER: TppSave.MakeNewGameSaveData (via InfHooks)
+function this.MakeNewGameSaveData(acquirePrivilegeInTitleScreen)
+  InfMain.CallOnModules"ClearSave"
   InfCore.PCallDebug(this.SaveAll)
 end
 

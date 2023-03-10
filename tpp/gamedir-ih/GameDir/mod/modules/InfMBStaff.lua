@@ -20,6 +20,19 @@ ih_priority_staff=ih_priority_staff or {
   staffIds={}
 }
 
+--CALLER: MakeNewGameSaveData
+--TODO: delete file outright
+function this.ClearSave()
+  --tex only bother saving if there was something in previous
+  if next(ih_priority_staff.staffIds)~=nil then
+    this.isSaveDirty=true
+  end
+  --tex clear
+  ih_priority_staff={
+    staffIds={}
+  }
+end--ClearSave
+
 function this.BuildSaveText(saveName)
   local saveTextList={
     "-- "..saveName,

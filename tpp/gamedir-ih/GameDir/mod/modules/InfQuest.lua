@@ -41,125 +41,12 @@ this.debugSave=false
 
 
 
+--GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla QUEST_DEFINE entries (though some of theose are incomplete/non existing quests), 
+--so without managment on 83 additional quests.
+--main issue is this is governing the qst_* gvars that hold the quest states (see TppGvars).
 
---GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 157 vanilla quests.
---this is governing the qst_* gvars that hold the quest states (see TppGvars).
 
---tex see LoadQuestDefs,
-this.ihQuestNames={}
---tex see LoadQuestDefs, RegisterQuests
---k=questName,v=questDef module
-this.ihQuestsInfo={}
-
-function this.PostModuleReload(prevModule)
-  this.ihQuestNames=prevModule.ihQuestNames
-  this.ihQuestsInfo=prevModule.ihQuestsInfo
-  this.messageExecTable=prevModule.messageExecTable
-  --DEBUGNOW this.LoadLibraries()--TODO: see that stuff in RegisterQuests isnt additive/go pear shaped with multiple calls
-end
-
-function this.LoadLibraries()
-  this.LoadStates()
-  this.LoadQuestDefs()
-  this.RegisterQuests()
-end
-
-function this.OnStartTitle()
-  --tex since registerquests is run before the first game save/gvar load
-  this.SetupInstalledQuestsState()
-end
-
-function this.OnAllocate(missionTable)
-  if missionTable.enemy then
-  --CULL this.LoadEquipTable()
-  end
-end
-
-function this.AddMissionPacks(missionCode,packPaths)
-  local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
-  local locationId=TppDefine.LOCATION_ID[locationName]
-
-  for questName,questInfo in pairs(this.ihQuestsInfo)do
-    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--tex PATCHUP: RENAMED missionPackList
-  
-    if questInfo.missionPacks then
-      if questInfo.locationId==locationId then
-        if TppQuest.CanActiveQuestInMission(missionCode,questName)then
-          if TppQuest.IsActive(questName) then
-            local packs=questInfo.missionPacks[missionCode] or questInfo.missionPacks--tex LEGACY: don't actually need to push packs into [missionCode] subtable now that I'm filtering by location and CanActiveQuestInMission
-            if locationName=="MTBS" then
-              packs=packs[vars.mbLayoutCode] or packs[0]
-            end
-            for i,packPath in ipairs(packs)do
-              packPaths[#packPaths+1]=packPath
-            end
-          end--if IsActive
-        end--if CanActiveQuestInMission
-      end
-    end--if questInfo.missionPacks
-  end--for ihQuestsInfo
-end--AddMissionPacks
-
-function this.MissionPrepare()
---CULL handled more completely by rlcs InfMissionQuest
---  local allowedQuests={}
---  for questName,questInfo in pairs(this.ihQuestsInfo)do
---    if questInfo.allowInStoryMissions then
---      allowedQuests[questName]=true
---    end
---  end--for ihQuestsInfo
---  TppQuest.RegisterCanActiveQuestListInMission(allowedQuests)
-end--MissionPrepare
-
---tex see InfEquip.LoadEquipTable for notes
---CULL, now in InfEquip.LoadEquipTable
---function this.LoadEquipTable()
---  if not TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsStoryMission(vars.missionCode) then
---    return
---  end
---
---  local equipLoadTable={}
---
---  for questName,questInfo in pairs(this.ihQuestsInfo)do
---    if TppQuest.IsActive(questName) then
---      if questInfo.requestEquipIds then
---        InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
---        for n,equipName in ipairs(questInfo.requestEquipIds)do
---          local equipId=TppEquip[equipName]
---          if equipId==nil then
---            InfCore.Log("ERROR InfQuest.LoadEquipTable: requestEquipIds "..questName.."  could not find equipId "..tostring(equipId))
---          else
---            equipLoadTable[#equipLoadTable+1]=equipId
---          end
---        end
---      end
---    end
---  end
---
---  if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
---    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
---  end
---end
---tex some basic 'CanOpen' functions
-function this.CanOpenClusterGrade0(questName)
-  local questInfo=this.ihQuestsInfo[questName]
-  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>0
-end
---tex mother base mbLayout changes from 0-3 depending on the plnts built off command
---so if you don't want to mess around with having to work out positions for all the layouts you can just limit it to this
---(through the player will have to have developed mb to that point before
-function this.CanOpenIsMbLayout3(questName)
-  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Command+1)>=4
-end
-function this.CanOpenPlntIsDeveloped(questName)
-  local questInfo=this.ihQuestsInfo[questName]
-  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questInfo.clusterName]+1)>=(questInfo.plntId+1)
-end
-function this.AllwaysOpenQuest()
-  return true
-end
-
---REF questDef questInfo
+--REF questAddon
 --all options rather than sane example
 ---- ih_quest_q30103.lua --file name must have q%05u format as suffix.
 --local this={
@@ -180,7 +67,14 @@ end
 --  radius=4,--radius of the quest area circle
 --  category=TppQuest.QUEST_CATEGORIES_ENUM.PRISONER,--Category for the IH selection/filtering options.
 --  questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
---  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest is open or not
+--  canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest can open/is unlocked for consideration to be active, is one way, all quests start closed and run this to see if they open, but are never closed again
+--  canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
+--    --tex canActiveQuest example: disable quest if not dirty enough TODO: actually figure out how long dirty time is
+--    if vars.passageSecondsSinceOutMB<dirtyTime then
+--      return false 
+--    end
+--    return true
+--  end, 
 --  questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
 --  disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
 --    "lz_lab_S0000|lz_lab_S_0000",
@@ -240,18 +134,187 @@ end
 --tex NOTE: questCompleteLangId is a misnomer, it's actually an announceLogId for the TppUI.ANNOUNCE_LOG_TYPE announceLogId>langId table.
 --if the announceLogId isn't found IH essentially use your questCompleteLangId as a direct langId
 
+
+--tex see LoadQuestDefs,
+this.ihQuestNames={}
+--tex see LoadQuestDefs, RegisterQuests
+--k=questName,v=questDef module
+this.ihQuestsInfo={}
+
+function this.PostModuleReload(prevModule)
+  this.ihQuestNames=prevModule.ihQuestNames
+  this.ihQuestsInfo=prevModule.ihQuestsInfo
+  this.messageExecTable=prevModule.messageExecTable
+  --DEBUGNOW this.LoadLibraries()--TODO: see that stuff in RegisterQuests isnt additive/go pear shaped with multiple calls
+end
+
+function this.LoadLibraries()
+  this.LoadStates()
+  this.LoadQuestDefs()
+  this.RegisterQuests()
+end
+
+function this.OnStartTitle()
+  --tex since registerquests is run before the first game save/gvar load
+  this.SetupInstalledQuestsState()
+end
+
+function this.OnAllocate(missionTable)
+  if missionTable.enemy then
+  --CULL this.LoadEquipTable()
+  end
+  
+  this.OnAllocateQuestPatchup(missionTable)
+  this.FixFlags()  
+  
+  local setIsOnceOff=Ivars.quest_setIsOnceToRepop:Get()==1
+  this.SetIsOnceOff(setIsOnceOff)
+end--OnAllocate
+
+function this.AddMissionPacks(missionCode,packPaths)
+  if TppMission.IsHelicopterSpace(vars.missionCode) then
+    return
+  end
+
+  local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
+  local locationId=TppDefine.LOCATION_ID[locationName]
+
+  for questName,questAddon in pairs(this.ihQuestsInfo)do
+    questAddon.missionPacks=questAddon.missionPacks or questAddon.missionPackList--tex PATCHUP: RENAMED missionPackList
+  
+    if questAddon.missionPacks then
+      if questAddon.locationId==locationId then
+        if TppQuest.CanActiveQuestInMission(missionCode,questName)then
+          if TppQuest.IsActive(questName) then
+            if this.debugModule then
+              InfCore.PrintInspect(questAddon,"InfQuest AddMissionPacks questAddon "..questName.." missionCode:"..missionCode.." locationName:"..locationName.." locationId:"..locationId)
+            end
+            local packs=questAddon.missionPacks[missionCode] or questAddon.missionPacks--tex LEGACY: don't actually need to push packs into [missionCode] subtable now that I'm filtering by location and CanActiveQuestInMission
+            if locationName=="MTBS" then
+              packs=packs[vars.mbLayoutCode] or packs[0] or packs
+            end
+            for i,packPath in ipairs(packs)do
+              packPaths[#packPaths+1]=packPath
+            end
+          end--if IsActive
+        end--if CanActiveQuestInMission
+      end
+    end--if questAddon.missionPacks
+  end--for ihQuestsInfo
+end--AddMissionPacks
+
+function this.MissionPrepare()
+--CULL handled more completely by rlcs InfMissionQuest
+--  local allowedQuests={}
+--  for questName,questAddon in pairs(this.ihQuestsInfo)do
+--    if questAddon.allowInStoryMissions then
+--      allowedQuests[questName]=true
+--    end
+--  end--for ihQuestsInfo
+--  TppQuest.RegisterCanActiveQuestListInMission(allowedQuests)
+end--MissionPrepare
+
+--tex see InfEquip.LoadEquipTable for notes
+--CULL, now in InfEquip.LoadEquipTable
+--function this.LoadEquipTable()
+--  if not TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsStoryMission(vars.missionCode) then
+--    return
+--  end
+--
+--  local equipLoadTable={}
+--
+--  for questName,questAddon in pairs(this.ihQuestsInfo)do
+--    if TppQuest.IsActive(questName) then
+--      if questAddon.requestEquipIds then
+--        InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
+--        for n,equipName in ipairs(questAddon.requestEquipIds)do
+--          local equipId=TppEquip[equipName]
+--          if equipId==nil then
+--            InfCore.Log("ERROR InfQuest.LoadEquipTable: requestEquipIds "..questName.."  could not find equipId "..tostring(equipId))
+--          else
+--            equipLoadTable[#equipLoadTable+1]=equipId
+--          end
+--        end
+--      end
+--    end
+--  end
+--
+--  if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
+--    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+--  end
+--end
+--tex some basic 'CanOpen' functions
+function this.CanOpenClusterGrade0(questName)
+  local questAddon=this.ihQuestsInfo[questName]
+  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questAddon.clusterName]+1)>0
+end
+--tex mother base mbLayout changes from 0-3 depending on the plnts built off command
+--so if you don't want to mess around with having to work out positions for all the layouts you can just limit it to this
+--(through the player will have to have developed mb to that point before
+function this.CanOpenIsMbLayout3(questName)
+  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Command+1)>=4
+end
+function this.CanOpenPlntIsDeveloped(questName)
+  local questAddon=this.ihQuestsInfo[questName]
+  return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE[questAddon.clusterName]+1)>=(questAddon.plntId+1)
+end
+--tex default for canOpenQuest
+function this.AllwaysOpenQuest(questName)
+  return true
+end
+
+--CALLER: Ivars.quest_setIsOnceToRepop, this.OnAllocate (with ivar setting)
+--IN: Ivars.quest_setIsOnceToRepop
+--IN/OUT: TppQuest.questList questListInfo
+--tex Only sets isOnce on those quests that had it set in vanilla (identified by my additional defaultIsOnce)
+--tex used to either change qst_questRepopFlag, or gate other functions with quest_forceRepop (still there for debugging)
+--but that's a headache to get head around
+--this approach modifies the runtime data of TppQuest, flipping isOnce, which lets vanilla code just do its thing
+function this.SetIsOnceOff(setIsOnceOff)
+  InfCore.LogFlow("InfQuest.SetIsOnceOff "..tostring(setIsOnceOff))
+  for i,locationInfo in ipairs(TppQuestList.questList)do
+    for j,questListInfo in ipairs(locationInfo.infoList)do
+      if not questListInfo.strictIsOnce then--tex some quests really shouldnt repeat
+        if setIsOnceOff then
+          if questListInfo.isOnce then
+            if this.debugModule then
+              InfCore.Log("InfQuest.SetIsOnceOff: forcing isOnce off "..questListInfo.name)
+            end
+            questListInfo.isOnce=false
+          end
+        else
+          if questListInfo.defaultIsOnce and questListInfo.isOnce==false then
+            if this.debugModule then
+              InfCore.Log("InfQuest.SetIsOnceOff: setting isOnce back on "..questListInfo.name)
+            end
+            questListInfo.isOnce=true
+            --tex UpdateRepopFlagImpl understandably doesn't take into account turning off repop of isOnce because it never set on in the first place
+            --yes, despite 'touching flags bad', it's actually nessesary and considered this time
+            if TppQuest.IsCleard(questListInfo.name) and questListInfo.isOnce then
+              gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questListInfo.name]]=false
+            end
+          end  
+        end--if setIsOnceOff
+      end--not strictIsOnce
+    end--for area infoList
+  end--for questList
+  if this.debugModule then
+    InfCore.PrintInspect(TppQuestList.questList,"TppQuestList.questList post SetIsOnceOff")
+  end
+end--SetIsOnce
+
 local blockQuests={
-  tent_q99040=true, -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
-  sovietBase_q99020=true,-- 82, make contact with emmeric
+  --sovietBase_q99020=true,-- 82, make contact with emmeric. is just a trigger for a mission --CULL either move to strictIsOnce or some other more consistant method
 }
 
---block quests>
+--block quests> aka (not CanActiveQuestIH())
+--return true if this quest should not be selected for Active
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
   if InfMainTpp.IsMbEvent() then
     --InfCore.Log("BlockQuest on event "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG
-    local questInfo=this.ihQuestsInfo[questName]
-    if not questInfo or not questInfo.allowInWargames then
+    local questAddon=this.ihQuestsInfo[questName]
+    if not questAddon or not questAddon.allowInWargames then
       if this.debugModule then
         InfCore.Log("BlockQuest "..questName.." IsMbEvent")
       end
@@ -265,8 +328,27 @@ function this.BlockQuest(questName)
     end
   end
 
-  --TODO instead of faffing about in tppquest to filter categories just filter here
+  --tex instead of faffing about in tppquest to filter categories just filter here as it already calls BlockQuest
+  local questInfo=TppQuest.GetSideOpsInfo(questName)
+  if questInfo==nil then--tex hidden quest, dont block
+    return false
+  end
 
+  --tex category selection menu / InfQuestIvars quest_category_
+  local categoryName=TppQuest.QUEST_CATEGORIES[questInfo.category+1]  
+  local ivarName=InfQuestIvars.categoryIvarPrefix..categoryName
+  local ivar=Ivars[ivarName]
+  
+  local categorySetting=ivar:GetSettingName()
+  local isAddon=InfQuest.ihQuestsInfo[questName]
+  --REF {"ALL","NONE","ADDON_ONLY"},
+  if categorySetting=="NONE" then
+    return true
+  elseif categorySetting=="ADDON_ONLY" and not isAddon then
+    return true
+  end
+  --<
+ 
   --tex block heli quests to allow super reinforce
   if Ivars.enableHeliReinforce:Is(1) then
     --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
@@ -280,8 +362,10 @@ function this.BlockQuest(questName)
 
   return false
 end
-
-local printUnlockedFmt="unlockSideOpNumber:%u %s %s"
+--tex for UpdateActiveQuest
+-- returns {[forcedQuestArea]=<forcedQuestName>}--only one entry
+--because there can only be one sidop unlocked per area, but currently only forcing one sideop
+local printUnlockedFmt="quest_forceQuestNumber:%u %s %s"
 function this.GetForced()
   InfCore.LogFlow("InfQuest.GetForced")
   --tex TODO: need to get intended mission code
@@ -296,21 +380,22 @@ function this.GetForced()
   local questTable=TppQuest.GetQuestInfoTable()
 
   --tex find name and area for unlocksideop
-  local unlockSideOpNumber=Ivars.unlockSideOpNumber:Get()
-  if unlockSideOpNumber>0 and unlockSideOpNumber<=#questTable then
-    local unlockedName=questTable[unlockSideOpNumber].questName
+  local forceQuestNumber=Ivars.quest_forceQuestNumber:Get()
+  if forceQuestNumber>0 and forceQuestNumber<=#questTable then
+    local unlockedName=questTable[forceQuestNumber].questName
     local unlockedArea=nil
     if unlockedName~=nil then
       unlockedArea=TppQuestList.questAreaNameTable[unlockedName]
       if unlockedArea==nil then
         InfCore.Log("ERROR: InfQuest.GetForced questAreaNameTable[] nil for "..unlockedName)
+        InfCore.Log("No location or area for the quest installed?")
       else
         forcedQuests[unlockedArea]=unlockedName
         forcedCount=forcedCount+1
-        InfCore.Log(string.format(printUnlockedFmt,unlockSideOpNumber,unlockedName,unlockedArea))
+        InfCore.Log(string.format(printUnlockedFmt,forceQuestNumber,unlockedName,unlockedArea))
       end
     end--if unlockedName
-  end--if unlockSideOpNumber <=#questTable
+  end--if forceQuestNumber <=#questTable
 
   if forcedCount==0 then
     return nil
@@ -322,27 +407,24 @@ function this.GetForced()
     return forcedQuests
   end
 end--GetForced
-function this.GetEnabledCategories(selectionCategoryEnum)
+--tex for UpdateActiveQuest / InfQuestIvars sideOpsCategoryMenu quest category selection
+--returns {[QUEST_CATEGORIES_ENUM]="ALL"|"NONE"|"ADDON_ONLY",...}
+--DEPRECIATED: only used for debugging. 
+--the original approach was to run this to gather all the category settings, then compare that in the quest list loops, 
+--but it's not really that much slower to look up the single ivar for each quest from within the loop
+function this.GetEnabledCategories()
   local enabledCategories={}
-  local ivarPrefix="sideops_"
+  local ivarPrefix=InfQuestIvars.categoryIvarPrefix
   for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
     local ivarName=ivarPrefix..categoryName
     local categoryEnum=TppQuest.QUEST_CATEGORIES_ENUM[categoryName]
-    local enabled=true
     local ivar=Ivars[ivarName]
-    --tex the per-category ivars default to 1/enabled
-    if ivar then--tex ADDON doesnt have an ivar
-      enabled=ivar:Get()==1
-      InfCore.Log(ivarName.."="..tostring(enabled))
+    if not ivar then
+      InfCore.Log("ERROR: GetEnabledCategories could not find selection ivar for category "..categoryName)
+    else
+      enabledCategories[categoryEnum]=ivar:GetSettingName()
     end
-
-    --tex selectionmode overrides individual selection categories filter
-    if selectionCategoryEnum and categoryEnum==selectionCategoryEnum then
-      enabled=true
-    end
-
-    enabledCategories[categoryEnum]=enabled
-end
+  end--for QUEST_CATEGORIES
   return enabledCategories
 end--GetEnabledCategories
 
@@ -352,6 +434,11 @@ local gvarFlagNames={
   "qst_questClearedFlag",
   "qst_questActiveFlag",
 }
+--tex REF for SEO: if searching for any of the below you should also search gvarFlagNames in this module to see them also being used
+--gvars.qst_questOpenFlag--see note above
+--gvars.qst_questRepopFlag--see note above
+--gvars.qst_questClearedFlag--see note above
+--gvars.qst_questActiveFlag--see note above
 
 --tex clear range above vanilla quests
 function this.ClearGvarFlagsAddonRange()
@@ -432,10 +519,10 @@ end
 --    {name="quest_q30100",invokeStepName="QStep_Start"},
 --TppQuestList.questAreaNameTable
 --tex just grinding through arrays since too many lookup tables are a pain to manage and this is a once-on-load, or on user command function.
-function this.AddToQuestList(questList,questAreaNameTable,questName,questInfo)
+function this.AddToQuestList(questList,questAreaNameTable,questName,AddToQuestList)
   for i,areaQuests in ipairs(questList)do
-    if areaQuests.locationId==questInfo.locationId
-      and areaQuests.areaName==questInfo.areaName then
+    if areaQuests.locationId==AddToQuestList.locationId
+      and areaQuests.areaName==AddToQuestList.areaName then
 
       local infoList=areaQuests.infoList
 
@@ -452,28 +539,28 @@ function this.AddToQuestList(questList,questAreaNameTable,questName,questInfo)
         infoListIndex=#infoList+1
       end
 
-      questAreaNameTable[questName]=questInfo.areaName
-      infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}
+      questAreaNameTable[questName]=AddToQuestList.areaName
+      infoList[infoListIndex]={name=questName,invokeStepName="QStep_Start"}--tex DEBUGNOW add isStory, isOnce support?
 
       break
     end
   end
-end
+end--AddToQuestList
 
 --REF TppQuest.questInfoTable={
 --  --[[XXX]]{questName="quest_q30100",questId="quest_q30100",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},--tex
 --  --[[XXX]]{questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
 --IN/OUT: questInfoTable,questTableIndexes
-function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,questInfo)
+function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,questAddon)
   local addQuestInfo={
     questName=questName,
     questId=questName,
-    locationId=questInfo.locationId,
-    clusterId=TppDefine.CLUSTER_DEFINE[questInfo.clusterName],
-    plntId=questInfo.plntId,
-    iconPos=questInfo.iconPos,
-    radius=questInfo.radius,
-    category=questInfo.category,
+    locationId=questAddon.locationId,
+    clusterId=TppDefine.CLUSTER_DEFINE[questAddon.clusterName],
+    plntId=questAddon.plntId,
+    iconPos=questAddon.iconPos,
+    radius=questAddon.radius,
+    category=questAddon.category or TppQuest.QUEST_CATEGORIES_ENUM.NO_CATEGORY
   }
 
   --tex get existing index (if user manually reloading scripts in-game), or add new (on first call/startup).
@@ -499,14 +586,15 @@ function this.RegisterQuests()
 
   local questInfoTable=TppQuest.GetQuestInfoTable()
   local openQuestCheckTable=TppQuest.GetCanOpenQuestTable()
+  local canActiveQuestChecks=TppQuest.GetCanActiveQuestTable()
 
   InfMain.RandomSetToLevelSeed()
 
-  for i,questName in ipairs(this.ihQuestNames)do
-    local questInfo=this.ihQuestsInfo[questName]
-    
-    questInfo.missionPacks=questInfo.missionPacks or questInfo.missionPackList--PATCHUP: LEGACY: missionPackList renamed (only initial release of mtbs_medical_plnt2_shootingpractice should have this, unless someone in the community started using it since) 
+  local removeQuests={}--tex quests that arent valid to add
 
+  for i,questName in ipairs(this.ihQuestNames)do
+    local questAddon=this.ihQuestsInfo[questName]
+    
     --tex find existing or new
     local questIndex
     for i,_questName in ipairs(QUEST_DEFINE)do
@@ -518,49 +606,85 @@ function this.RegisterQuests()
     if not questIndex then
       questIndex=#QUEST_DEFINE+1
     end
-
+    
     InfCore.Log("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
+    
+    local doRegister=true
+    
+    if questIndex>TppDefine.QUEST_MAX-1 then
+      --tex the only main issue I can see currently with being > QUEST_MAX is gvars qst_quest*Flags. scriptvar arrays dont seem to complain (at least not visibly) when going above their arraySize, and return nil over.
+      InfCore.Log("ERROR: InfQuest.RegisterQuests: questIndex>TppDefine.QUEST_MAX. Currently save states only work for 83 additional addon quests.",true,true)--DEBUGNOW is announcelog up when this is called?
+    end
+    
+    --tex since quest info is defined by TppDefine.LOCATION_ID this will be nil if its for a location addon that hasn't been installed
+    --TODO: would be better as string so can compare against actually nil questAddon.locationId, and print for debugging?
+    if questAddon.locationId==nil then
+      InfCore.Log("ERROR: InfQuest.RegisterQuests: questAddon.locationId==nil, Location for quest not installed?",true,true)--DEBUGNOW is announcelog up when this is called?
+      doRegister=false
+    end
+    
     if this.debugModule then
-      InfCore.PrintInspect(questInfo,{varName="questInfo"})
+      InfCore.PrintInspect(questAddon,"questAddon")
     end
 
+    if not doRegister then
+      table.insert(removeQuests,questName)
+    else
+    questAddon.missionPacks=questAddon.missionPacks or questAddon.missionPackList--PATCHUP: LEGACY: missionPackList renamed (only initial release of mtbs_medical_plnt2_shootingpractice should have this, unless someone in the community started using it since) 
+        
     TppDefine.QUEST_DEFINE[questIndex]=questName
     TppDefine.QUEST_INDEX=TppDefine.Enum(TppDefine.QUEST_DEFINE)
     --InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
-    TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]=questInfo.questRank
+    TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]=questAddon.questRank
     --InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)--DEBUG
 
-    if questInfo.questPackList.randomFaceList then
+    if questAddon.questPackList.randomFaceList then
       table.insert(TppDefine.QUEST_RANDOM_FACE_DEFINE,questName)
       TppDefine.QUEST_RANDOM_FACE_INDEX=TppDefine.Enum(TppDefine.QUEST_RANDOM_FACE_DEFINE)
       --InfCore.PrintInspect(TppDefine.QUEST_RANDOM_FACE_INDEX)
     end
     --tex WORKAROUND, cant do in TppQuest.RegisterQuestPackList since it's already using random inside its loop
-    local randomFaceListIH=questInfo.questPackList.randomFaceListIH
+    local randomFaceListIH=questAddon.questPackList.randomFaceListIH
     if randomFaceListIH then
-      questInfo.questPackList.faceIdList=InfCore.PCallDebug(InfEneFova.GetRandomFaces,randomFaceListIH.gender,randomFaceListIH.count)
+      questAddon.questPackList.faceIdList=InfCore.PCallDebug(InfEneFova.GetRandomFaces,randomFaceListIH.gender,randomFaceListIH.count)
     end
-    this.AddToQuestInfoTable(questInfoTable,TppQuest.QUESTTABLE_INDEX,questName,questInfo)
-    openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest
+    this.AddToQuestInfoTable(questInfoTable,TppQuest.QUESTTABLE_INDEX,questName,questAddon)
+    openQuestCheckTable[questName]=questAddon.canOpenQuest or this.AllwaysOpenQuest--tex always checked so cant be nil
+    canActiveQuestChecks[questName]=questAddon.canActiveQuest--tex can be nil (is assumed true)
 
-    TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
+    TppQuest.questCompleteLangIds[questName]=questAddon.questCompleteLangId
     --tex -^- this goes through TppQuest.ShowAnnounceLog > TppUI.ShowAnnounceLog so hits the imho silly TppUI.ANNOUNCE_LOG_TYPE indirect
     --so I'll just patch it in if it doesnt exist
-    if not TppUI.ANNOUNCE_LOG_TYPE[questInfo.questCompleteLangId] then
-      TppUI.ANNOUNCE_LOG_TYPE[questInfo.questCompleteLangId]=questInfo.questCompleteLangId
+    if not TppUI.ANNOUNCE_LOG_TYPE[questAddon.questCompleteLangId] then
+      TppUI.ANNOUNCE_LOG_TYPE[questAddon.questCompleteLangId]=questAddon.questCompleteLangId
     end
 
-    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaNameTable,questName,questInfo)
-    TppQuestList.questPackList[questName]=questInfo.questPackList
+    this.AddToQuestList(TppQuestList.questList,TppQuestList.questAreaNameTable,questName,questAddon)
+    TppQuestList.questPackList[questName]=questAddon.questPackList
 
-    if questInfo.hasEnemyHeli then
+    if questAddon.hasEnemyHeli then
       if not InfUtil.FindInList(TppDefine.QUEST_HELI_DEFINE,questName) then
         table.insert(TppDefine.QUEST_HELI_DEFINE,questName)
       end
     end
-  end
+    end--if doRegister
+  end--for ihQuestNames
 
   InfMain.RandomResetToOsTime()
+
+  if this.debugModule then
+    InfCore.PrintInspect(removeQuests,"removeQuests")
+  end
+  for i,questName in ipairs(removeQuests)do
+    for j,_questName in ipairs(this.ihQuestNames)do
+      if questName==_questName then
+        table.remove(this.ihQuestNames,j)
+        break
+      end
+    end--for this.ihQuestNames
+    
+    this.ihQuestsInfo[questName]=nil
+  end--for removeQuests
 
   InfCore.Log("numUiQuests:"..#questInfoTable)
 
@@ -659,16 +783,6 @@ function this.SetupInstalledQuestsState()
     --
     this.questStatesLoaded=true
   end
-
-  --this.DEBUG_PrintQuestClearedFlags()      f
-  --tex clear quest gvars as matter of course
-  --CULL
-  --  for i,questName in ipairs(this.ihQuestNames)do
-  --    local questIndex=TppDefine.QUEST_INDEX[questName]
-  --    for i,gvarName in ipairs(gvarFlagNames)do
-  --      gvars[gvarName][questIndex]=false
-  --    end
-  --  end
 
   --tex restore any saved quest gvars from ih_save state
   this.ReadSaveStates()
@@ -792,6 +906,16 @@ this.saveName="ih_quest_states.lua"
 --tex don't lose existing on modulereload
 ih_quest_states=ih_quest_states or {}
 
+--CALLER: MakeNewGameSaveData
+--TODO: delete file outright
+function this.ClearSave()
+  --tex only bother saving if there was something in previous
+  if next(ih_quest_states)~=nil then
+    this.isSaveDirty=true
+  end
+  --tex clear
+  ih_quest_states={}
+end--ClearSave
 function this.Save(newSave)
   local isSaveDirty=this.isSaveDirty or this.GetCurrentStates()--tex see gotcha on this.isSaveDirty
   if isSaveDirty then
@@ -900,16 +1024,17 @@ function this.ReadSaveStates()
   end
 
   --tex open up new quests
-  for i,questName in ipairs(this.ihQuestNames)do
-    if not ih_quest_states[questName] then
-      local questIndex=TppDefine.QUEST_INDEX[questName]
-      if not questIndex then
-        InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
-      else
-        gvars.qst_questOpenFlag[questIndex]=true
-      end
-    end
-  end--for ihQuestNames
+--CULL, DEBUGNOW UpdateOpenQuest should handle it, but that needs a UpdateActiveQuest call?
+--  for i,questName in ipairs(this.ihQuestNames)do
+--    if not ih_quest_states[questName] then
+--      local questIndex=TppDefine.QUEST_INDEX[questName]
+--      if not questIndex then
+--        InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
+--      else
+--        gvars.qst_questOpenFlag[questIndex]=true
+--      end
+--    end
+--  end--for ihQuestNames
 
   if this.debugSave then
     for questName,questStates in pairs(ih_quest_states) do
@@ -925,7 +1050,9 @@ function this.ReadSaveStates()
     end--for ih_quest_states
   end
 end--ReadSaveStates
-
+--IN: gvars.qst_quest*Flags
+--IN: ih_quest_states
+--OUT: ih_quest_states
 function this.GetCurrentStates()
   local QUEST_INDEX=TppDefine.QUEST_INDEX
   local gvars=gvars
@@ -954,6 +1081,26 @@ function this.GetCurrentStates()
   return isSaveDirty
 end--GetCurrentStates
 
+function this.DebugCurrentFlags()
+  local allStates={}
+  for i,questName in ipairs(TppDefine.QUEST_DEFINE)do
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if not questIndex then
+      InfCore.Log("ERROR: InfQuest.DebugCurrentFlags: Could not find questIndex for "..questName,false,true)
+    else      
+      local questStates={}
+      allStates[questName]=questStates
+      questStates.index=questIndex
+      for i,gvarFlagName in ipairs(gvarFlagNames) do
+        local gvarValue=gvars[gvarFlagName][questIndex]
+        questStates[gvarFlagName]=gvarValue
+      end
+    end--if questIndex
+  end--for ihQuestNames
+  
+  return allStates
+end--DebugCurrentFlags
+
 --CALLER: TppLandingZone.OnMissionCanStart
 function this.DisableLandingZones()
   InfCore.LogFlow("InfQuest.DisableLandingZones:")
@@ -975,11 +1122,11 @@ function this.DisableLandingZones()
     return lz
   end
 
-  for questName,questInfo in pairs(this.ihQuestsInfo)do
+  for questName,questAddon in pairs(this.ihQuestsInfo)do
     if TppQuest.IsActive(questName) then
-      if questInfo.disableLzs then
+      if questAddon.disableLzs then
         InfCore.Log("DisableLandingZones IsActive:"..questName)
-        for i,lz in ipairs(questInfo.disableLzs) do
+        for i,lz in ipairs(questAddon.disableLzs) do
           local otherRoute=FindMatchLZ(lz)
           InfCore.Log("otherRoute "..tostring(otherRoute))
           TppUiCommand.AddDisabledLandPoint(otherRoute)
@@ -988,20 +1135,6 @@ function this.DisableLandingZones()
       end
     end
   end
-end
-
-function this.UpdateActiveQuest()
-  InfCore.LogFlow("InfQuest.UpdateActiveQuest")
-  for i=0,TppDefine.QUEST_MAX-1 do
-    gvars.qst_questRepopFlag[i]=false
-  end
-
-  for i,areaQuests in ipairs(TppQuestList.questList)do
-    TppQuest.UpdateRepopFlagImpl(areaQuests)
-  end
-  TppQuest.UpdateActiveQuest()
-
-  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
 end
 
 --tex called from quest script to have the external quest defintion script as the quest script
@@ -1015,6 +1148,200 @@ function this.GetScript(scriptName)
     return questScript
   end
 end
+--tex FIXUP try and fix any flags I may have messed up in older (pre r260) IH versions where I was doing dumb things with flags
+function this.FixFlags()
+  --tex UpdateRepopFlagImpl with ih force repop ivar (bypassed IsRepop and isOnce) used to set qst_questRepopFlag true which could posibly have activated some of the hidden or specially managed quests
+  for i,locationAreaInfo in ipairs(TppQuestList.questList)do
+    for j,questListInfo in ipairs(locationAreaInfo.infoList)do
+      local questName=questListInfo.name
+      if TppQuest.IsRepop(questListInfo.name) then
+        --local isHiddenQuest=TppQuest.GetSideOpsInfo(questName)==nil
+        if questListInfo.strictIsOnce and TppQuest.IsCleard(questName) then--tex only really an issue with the hidden/managed quests, which are now flagged with strictIsOnce DEBUGNOW think this through, review strictIsOnce once you've expanded them for set isonce false ivar
+          local questIndex=TppQuest.GetQuestIndex(questName)
+          gvars.qst_questRepopFlag[questIndex]=false
+          gvars.qst_questActiveFlag[questIndex]=false
+        end
+      end
+    end--for infoList
+  end--for questList
+  
+  --tex from old ReadSaveStates 
+  --DEBUGNOW FIX while ClearGvarFlagsAddonRange will close it, and the normal updateopen will sort out new quests, 
+  --but existing ih_quest_states from before this -v- was removed may still have open saved/restore it
+  --only really an issue for addon quests that had a specific open condition that should be false at the time the user is playing, ala mb plat development
+  --a manual fix is to just delete ih_save_states
+  --cant think of a good way to detect at the moment
+  --REF CULL
+  --  for i,questName in ipairs(this.ihQuestNames)do
+--    if not ih_quest_states[questName] then
+--      local questIndex=TppDefine.QUEST_INDEX[questName]
+--      if not questIndex then
+--        InfCore.Log("ERROR: InfQuest.ReadSaveStates: Could not find questIndex for "..questName)
+--      else
+--        gvars.qst_questOpenFlag[questIndex]=true
+--      end
+--    end
+--  end--for ihQuestNames
+
+--tex InfPuppy ivar mbEnablePuppy OnChange used to flip the open flag for Mtbs_child_dog
+--REF CULL
+--  OnChange=function(self,setting)
+--    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+--    if setting==0 then
+--      gvars.qst_questRepopFlag[puppyQuestIndex]=false
+--      gvars.qst_questOpenFlag[puppyQuestIndex]=false
+--    else
+--      local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+--      gvars.qst_questRepopFlag[puppyQuestIndex]=true
+--      gvars.qst_questOpenFlag[puppyQuestIndex]=true
+--    end
+--    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
+--    TppQuest.UpdateActiveQuest()
+--  end, 
+
+  --tex the fix. open should be automatically fixed? VERIFY
+  --Mtbs_child_dog isnt isOnce, but has canActiveQuestChecks to prevent it replaying after DDogGoWithMe demo, 
+  --which also sets its repop to false (DEBUGNOW but does UpdateRepopFlagImpl repop it?) 
+  local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog 
+  if TppQuest.IsCleard("Mtbs_child_dog") and gvars.qst_questRepopFlag[puppyQuestIndex] then
+    InfCore.Log("InfQuest.FixFlags fixing Mtbs_child_dog",true,true) 
+    gvars.qst_questRepopFlag[puppyQuestIndex]=false
+    gvars.qst_questActiveFlag[puppyQuestIndex]=false
+  end
+  
+  --InfQuest.UpdateActiveQuest used to set qst_questRepopFlag false for all quests, which may have been cause of all quests disabled bug.
+  --REF
+--function this.UpdateActiveQuest()
+--  InfCore.LogFlow("InfQuest.UpdateActiveQuest")
+--  for i=0,TppDefine.QUEST_MAX-1 do
+--    gvars.qst_questRepopFlag[i]=false
+--  end
+--
+--  for i,areaQuests in ipairs(TppQuestList.questList)do
+--    TppQuest.UpdateRepopFlagImpl(areaQuests)
+--  end
+--  TppQuest.UpdateActiveQuest()
+--
+--  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
+--end
+
+  --tex the fix
+  --a manual fix is to just do reroll sideops command (in mtbs to catch UpdateRepopFlagImpl weird exclusion condition) 
+--CULL simple approach 
+--if TppQuest.CanOpenSideOpsList()then  
+--  local allRepopFalse=true
+--  for i=0,TppDefine.QUEST_MAX-1 do
+--    if gvars.qst_questRepopFlag[i]==true then
+--      allRepopFalse=false
+--      break
+--    end
+--  end--for QUEST_MAX
+--  
+--  if allRepopFalse then
+--    InfCore.Log("WARNING: InfQuest.FixFlags: All repop flags false",true,true)
+--    for i,locationInfo in ipairs(TppQuestList.questList)do
+--      local forceUpdate=true
+--      TppQuest.UpdateRepopFlagImpl(locationInfo,forceUpdate)
+--    end
+--  end
+--end--CanOpenSideOpsList
+  --tex DEBUGNOW but may trigger more than
+  --tex only vanilla? and leaving out the MtbsPaz for good measure 
+  --might possibly want this as a general fix of no repops, but would need to be sure it doesnt run outside of normal conditions
+  --otherwise a manual fix is ivar quest_updateRepopMode 'allways' with InfQuest.UpdateActiveQuest should unstick it
+  local checkAreas={
+  --afgh
+    tent=true,
+    field=true,
+    ruins=true,
+    waterway=true,
+    cliffTown=true,
+    commFacility=true,
+    sovietBase=true,
+    fort=true,
+    citadel=true,
+    --mafr
+    outland=true,
+    pfCamp=true,
+    savannah=true,
+    hill=true,
+    banana=true,
+    diamond=true,
+    lab=true,
+    --mtbs
+    MtbsCommand=true,
+    MtbsCombat=true,
+    MtbsDevelop=true,
+    MtbsMedical=true,
+    MtbsSupport=true,
+    MtbsSpy=true,
+    MtbsBaseDev=true,
+    --MtbsPaz=true,
+  }--checkAreas
+  --
+  --DEBUGNOW alt, more generic of below
+  --tex some of the stuff I'm using for detection kind of assumes its mid game
+--  if TppQuest.CanOpenSideOpsList()then          
+--    --DEBUGNOW tex just seeing if its hitting in unexpected situations for now
+--    if this.debugModule then
+--     --TODO: build a list of
+
+--      for i,areaQuests in ipairs(TppQuestList.questList)do
+--        if checkAreas[areaQuests.areaName] then
+--          local noQuestsActivableForArea=true
+--          local numRepopable=0
+--          local otherPlayable=0
+--          for j,questListInfo in ipairs(areaQuests.infoList)do
+--            local dontBlock=true
+--            local storyQuests,nonStoryQuests,repopQuests,repopAddonQuests=TppQuest.SelectActivableQuests(areaQuests.infoList,dontBlock)    
+--            local activableQuests=#storyQuests+#nonStoryQuests+#repopQuests
+--            if activableQuests==0 then
+--              if TppQuest.NeedUpdateRepop(areaQuests) then
+--    
+--                InfCore.Log("WARNING: InfQuest.FixFlags: noQuestsActivableForArea for "..areaQuests.areaName,false,true)
+--                local forceUpdate=true
+--                --DEBUGNOW TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)    
+--              end
+--            end
+--          end--if noQuestsActivableForArea
+--        end--if checkAreas
+--      end--for questList
+--    end--if debugModule  
+--  end --CanOpenSideOpsList
+  
+  --
+--  for i,areaQuests in ipairs(TppQuestList.questList)do
+--    if checkAreas[areaQuests.areaName] then
+--      local noQuestsActivableForArea=true
+--      local numRepopable=0
+--      for j,questListInfo in ipairs(areaQuests.infoList)do
+--        local questName=questListInfo.name
+--        if TppQuest.IsOpen(questName) then
+--          if TppQuest.IsCleard(questName) and not questListInfo.isOnceDefault then
+--            local CanActiveQuest=TppQuest.GetCanActiveQuestTable()[questName]
+--            if not CanActiveQuest or CanActiveQuest(questListInfo.name)then
+--              numRepopable=numRepopable+1
+--            end
+--          end--if cleared and not isOnceDefault
+--        end--if IsOpen
+--        
+--        --tex isrepop means we aint got the bug
+--        if TppQuest.IsRepop(questName)then
+--          noQuestsActivableForArea=false
+--          break
+--        end
+--      end--for infoList
+--      if numRepopable>0 and noQuestsActivableForArea then
+--        if TppQuest.NeedUpdateRepop(areaQuests) then--tex DEBUGNOW it might not update not going to update anyhoo, so squelch warning by prerunning the WantUpdateRepop
+--          InfCore.Log("WARNING: InfQuest.FixFlags: noQuestsActivableForArea for "..areaQuests.areaName,true,true)
+--          local forceUpdate=true
+--          TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)
+--        end
+--      end--if noQuestsActivableForArea
+--    end--if checkAreas
+--  end--for questList
+  --<
+end--FixFlags
 
 --Commands
 --DEBUG, UNUSED
@@ -1026,11 +1353,142 @@ this.ForceAllQuestOpenFlagFalse=function()
   TppQuest.UpdateActiveQuest()
   InfMenu.PrintLangId"done"
 end
-
+--tex called by various IH ivars OnChange, and a Command in itself
 this.RerollQuestSelection=function()
-  InfMain.RegenSeed(vars.missionCode,vars.missionCode)
+  InfCore.LogFlow("InfQuest.RerollQuestSelection")
+  
+  InfMain.RegenSeed(vars.missionCode,vars.missionCode)--tex DEBUGNOW whats my reasoning here?
+  
+  --tex UpdateRepopFlag (which calls UpdateRepopFlagImpl) is only usually called on quest clear with that quests questarea
+  --the only worysome area is MtbsPaz, but the quest there isOnced and now also guarded with strictIsOnce
+  for i,areaQuests in ipairs(TppQuestList.questList)do
+    local forceUpdate=true
+    TppQuest.UpdateRepopFlagImpl(areaQuests,forceUpdate)
+  end
+  TppQuest.UpdateActiveQuest()
 
-  InfQuest.UpdateActiveQuest()
-end
+  TppLandingZone.OnMissionCanStart()--tex redo disable lzs
+end--RerollQuestSelection
+
+function this.PrintCurrentFlags()
+  local currentFlags=this.DebugCurrentFlags()
+  InfCore.PrintInspect(currentFlags,"InfQuest.DebugCurrentFlags")
+  InfCore.DebugPrint("PrintCurrentFlags to Log")
+end--PrintCurrentFlags
+--CALLER: TppQuest.GetSideOpsListTable if TppQuest.debugModule
+function this.DEBUGTweakSideopsList(sideOpsListTable)
+  InfCore.LogFlow"InfQuest.DEBUGTweakSideopsList"
+  
+  if #sideOpsListTable==0 then
+    return sideOpsListTable
+  end
+  
+  --tex GOTCHA: GetSideOpsListTable adds {allSideOpsNum=#questInfoTable} as last entry  
+  --make sure you add it back before return
+  local allSideOpsNum=table.remove(sideOpsListTable,#sideOpsListTable)
+  
+  --tex testing sideopslisttable
+  for k,v in pairs(sideOpsListTable)do
+    if v==nil then
+      InfCore.Log("ERROR: v nil for "..tostring(k))
+    end
+  end
+  
+  for i,questInfo in pairs(sideOpsListTable)do
+    if questInfo==nil then
+      InfCore.Log("ERROR: questInfo nil for "..tostring(i))
+    end
+  end
+  
+  local questInfoKeyNames={
+    "questName",
+    "questId",
+    "locationId",
+    --"iconPos",--TODO: mtbs quests dont have this
+    --"radius",--TODO: mtbs quests dont have this
+    "category",--IH
+    --GetSideOpsListTable>
+    "index",
+    "isActive",
+    "isCleard",
+    "gmp",
+  }
+  for i,questInfo in ipairs(sideOpsListTable)do
+    for j,keyName in ipairs(questInfoKeyNames)do
+      if questInfo[keyName]==nil then
+        InfCore.Log("ERROR: "..tostring(questInfo.questName).." questInfo."..keyName.."==nil")
+        InfCore.PrintInspect(questInfo,"questInfo")
+      end
+    end
+  end--for sideOpsListTable
+  
+--tex verify isActive, isCleard do what they do
+--result: yes they do (hilight and checkmark)
+ -- for i,questInfo in ipairs(sideopsList)do
+--    questInfo.isActive=true--tex NMC controls hilighted on ui
+--    questInfo.isCleard=false--tex NMC controls checkmark
+    --questInfo.gmp=this.GetBounusGMP(questName)
+ -- end
+
+  --tex verify max ui entries, 
+  --resulte: yes its 192
+--  local start=#sideopsList
+--  for i=1,200 do
+--    local questInfoCopy={}
+--    for k,v in pairs(sideopsList[1])do
+--      questInfoCopy[k]=v
+--    end
+--    questInfoCopy.index=start+i
+--    table.insert(sideopsList,questInfoCopy)
+--  end
+
+  --tex test .index vs sideOpsListTable order
+  --result: index is the number in the ui, order of entries is sideOpsListTable order
+--  local index=#sideOpsListTable
+--  for i,questInfo in ipairs(sideOpsListTable)do
+--    questInfo.index=index
+--    index=index-1
+--  end
+  
+--testing sideopsListTable< 
+ 
+	--tex adding back
+  table.insert(sideOpsListTable,allSideOpsNum)
+  
+  --tex function already guarded by TppQuest debugModule
+  InfCore.PrintInspect(sideOpsListTable,"TppQuest.GetSideOpsListTable post tweaked")--tex DEBUG  
+
+  return sideOpsListTable
+end--DEBUGTweakSideopsList
+
+function this.OnAllocateQuestPatchup(missionTable)
+  InfCore.LogFlow"OnAllocateQuestPatchup"
+  if vars.missionCode==30010 then
+    this.qst_volginQuestDone=false
+    InfCore.Log("tent_q99040 repop f30250 demo play fix")
+    missionTable.demo.PlayRecoverVolgin=this.PlayRecoverVolgin
+  end
+end--OnAllocateQuestPatchup
+--tex tent_q99040 repop f30250 demo play fix
+this.qst_volginQuestDone=false
+--f30010_demo function replacement
+--CALLER: 30010_sequence.sequences.Seq_Demo_RecoverVolgin
+function this.PlayRecoverVolgin( startFunc, endFunc )
+  InfCore.Log("InfQuest.PlayRecoverVolgin ***** f30010_demo:PlayRecoverVolgin *****")
+  TppDemo.Play("Demo_RecoverVolgin",
+    {
+      onStart = function() 
+        startFunc()
+        InfCore.Log("InfQuest.PlayRecoverVolgin demo OnStart")
+        this.qst_volginQuestDone=true
+      end,
+      onEnd = function() endFunc() end,
+    },
+    {
+      useDemoBlock = false,
+      finishFadeOut = true
+    }
+  )
+end--PlayRecoverVolgin
 
 return this

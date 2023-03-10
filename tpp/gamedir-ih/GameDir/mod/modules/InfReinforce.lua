@@ -26,7 +26,7 @@ this.enableHeliReinforce={--tex chance of heli being chosen for a reinforce, als
   range=Ivars.switchRange,
   settingNames="set_switch",
   OnChange=function()
-    InfQuest.UpdateActiveQuest()--tex update since quests may have changed
+    InfQuest.RerollQuestSelection()--tex update since quests may have changed
   end,
 }
 

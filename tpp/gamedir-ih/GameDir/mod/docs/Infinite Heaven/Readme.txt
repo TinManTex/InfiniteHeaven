@@ -1,5 +1,5 @@
 = Infinite heaven =
-r259 - 2023-02-18
+r260 - 2023-03-10
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatible IHHook version: r17 or later
@@ -24,6 +24,83 @@ Recent changes/additions
 ------------------------------
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
+
+r260 - 2023-03-10
+Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
+
+Fix: Repop of sideop 144 tent_q99040 "Secure the Remains of the Man on Fire" arival on quarantine platform leaving player stuck in helipad.
+
+Fix: Infinite load screen when IH startOnFoot used when force go to mb on quest clear > demo play. Another case of the prior fix in r259 for start on foot, which Repop of sideop 144 is also a case of. 
+
+Fix: Several bugs setting quest flags incorrectly. Could result in some of the hidden/managed quests activating or not. 
+Could also cause the all sideops disabled bug.
+A manual fix is to run "Reroll sideops selection" with "Repop mode" set to Allways.
+
+Ancillary ih saves (addon mission and quest states) are now cleared on new game.
+
+InfQuest / IH Sideops menu:
+[youtube]2UUXDfMfrso[/youtube]
+https://youtu.be/2UUXDfMfrso
+
+Renamed unlockSideOpNumber to quest_forceQuestNumber, just an internal name change to be more consistant and accurate. Though you will have to set the setting again.
+
+Renamed ihSideopsPercentageCount to quest_addonsCountForCompletion, just an internal name change to be more consistant and accurate. Though you will have to set the setting again.
+
+quest_updateRepopMode="Repop mode": "On none left"|"Allways"
+Lets you choose the behaviour of how repeatable sideops are refreshed. 
+The update is run for the sideop area of a quest you just finished, 
+or for all areas when changing many of the IH sideops options or rerolling sideops. 
+The default behaviour 'On none left' will only repopulate sideops when there are no other uncompleted sideops, and all other repeatable sideops have been completed. 
+'Allways' will refresh repeatable quests every time the update is called.
+
+quest_setIsOnceToRepop="Repop one-time sideops"
+"Lets you force story and one-time sideops to be replayable."
+Replaces "Unlock Sideops mode".
+
+quest_selectForArea="Selection for Area mode"
+Renamed from sideOpsSelectionMode
+Categories removed, use the Sideops category filter menu instead. 
+'Random Addon' setting added to prioritize Addon sideops.
+Sideops are broken into areas to stop overlap, this setting lets you control the choice which repop sideop will be selected to be Active for the area.
+'Random Addon' will prioritize Addon sideops first.
+All selection is still prioritized by uncompleted story sideops, then other uncompleted sideops, then repop sideops selected by this option.
+
+"Show on UI menu"
+Replaces "Show all open sideops"
+Settings for what sideops to show and how they should be sorted depedending on various parameters for sideops on the idroid sideops list.
+The vanilla behavior just shows current Active and Cleared sideops, in index order, which lets you see past progression/completion,
+Though since uncleared sideops do have priority, one will be selected for Active.
+So if there's multiple uncleared for an area they will not be shown, which gives you less of an idea of future progression.
+These option give you individual control for showing sideops depending on their conditions.
+For a given sideop multiple of the underlying conditions may be true at one time and either depend on your progress through the game, or from other IH settings.
+There is however a limit of 192 entries for the sideop list (there's 157 sideops in the base game), which some settings might push over if you have addon sideops, in which case some Cleared entries be randomly dropped from the list.
+See the notes for each option for more info.
+Sorting:
+Sorting will proceed through all flags that have a sorting setting (not set to None). So sort is in respect to the option above it.
+None: Will not apply any specific sort, so will just be in index order, but may be moved around if other flags sort it.
+The other settings, Top, Bottom or Ascending, Descending depending on the flag type, will sort as the settings suggest, but in relation to the prior flags.
+Since the final sort is by sideop index (the number on the left of the entry in the sideop list) you can use that to see where the list sections from one sorted flag type to the next.
+
+quest_uiShow_Active="Active" - "Default is Show. Sideops that are Active are the ones actually currently in play and start when you arrive in the sideop area. Independent of Cleared. You normally wouldn't set this setting to Hide."
+quest_uiShow_Cleared="Cleared" - "Default is Show. Quests that have been completed."
+quest_uiShow_Uncleared="Uncleared" - "Quests that have not been completed."
+quest_uiShow_Activable="Activable" - Only shows those sideops in the selection for being Activated (which includes Active). Usually the best setting to show what sideops are being considered depending on all the underlying conditions and IH settings."
+quest_uiShow_Open="Open" - "Will try and show all Open sideops, which is usually every sideop as soon as they are introduced through game progression. Most likely to hit the UI limit entries when a lot of addon sideops are installed."
+
+quest_uiSort_Active="Sort Active" - Top|Bottom
+quest_uiSort_Cleared="Sort Cleared" - Top|Bottom
+quest_uiSort_Uncleared="Sort Uncleared" - Top|Bottom
+quest_uiSort_Activable="Sort Activable" - Top|Bottom
+quest_uiSort_Open="Sort Open" - Top|Bottom
+quest_uiSort_category="Sort by Category" - Ascending|Descending - "The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first."
+quest_uiSort_locationId="Sort by Location" - Ascending|Descending -
+quest_uiSort_questArea="Sort by sideop area" - Ascending|Descending -"Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location."
+
+Sideops selection menu:
+ivars renamed from sideop_<CATEGORY> to quest_category_<CATEGORY>
+Settings changed from OFF, ON to "ALL","NONE","ADDON_ONLY"
+This lets you have per catergory selection of only Addon sidops.
+
 
 r259 - 2023-02-18
 Fix: InfPositions Loadposistions, thanks cap for fix.

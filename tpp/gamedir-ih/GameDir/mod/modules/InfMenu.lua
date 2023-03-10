@@ -571,6 +571,13 @@ function this.GetSettingSuffix(option)
 end--GetSettingSuffix
 --Gets full options and settings line for use in both the legacy/announcelog menu, and for the IHExt/IHHook menu items/options list
 function this.GetOptionAndSettingText(optionIndex,option)
+  if this.debugModule then
+    if option and option.name then
+      InfCore.Log("InfMenu.GetOptionAndSettingText("..tostring(optionIndex)..',"'..option.name..'")')
+    end
+    --InfCore.PrintInspect(option,"InfMenu.GetOptionAndSettingText "..tostring(optionIndex))
+  end
+
   --tex GetOptionFromRef warning should give more info
   if option.name==nil then
     local err="WARNING: option.name==nil for optionIndex "..optionIndex

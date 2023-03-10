@@ -26,9 +26,9 @@ this.PERF_CHECK_TYPE=Tpp.Enum{"OnUpdate","OnMessage","OnEnter"}
 local perfCheckTimes={}
 local unk2Table={}
 local perfCheckTimesStrings={}
-local unk4Num=2
-local unk5Num=0
-local unk6Num=0
+local onUpdateMaxDeltaSampleTime=2
+local onUpdateCurrent=0
+local onUpdateMaxDelta=0
 local ApendArray=Tpp.ApendArray
 local IsTypeTable=Tpp.IsTypeTable
 local IsTimerActive=GkEventTimerManager.IsTimerActive
@@ -752,8 +752,8 @@ function this.DEBUG_OnReload(missionTable)
   perfCheckTimes={}
   unk2Table={}
   perfCheckTimesStrings={}
-  unk5Num=0
-  unk6Num=0
+  onUpdateCurrent=0
+  onUpdateMaxDelta=0
   this.PERF_CHECK_TYPE=Tpp.Enum(this.PERF_CHECK_TYPE)
   local strCode32List={}
   Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
@@ -860,7 +860,7 @@ function this.DebugUpdate()
   end
   if mvarsDebug.showDebugPerfCheck then
     Print(newContext,{.5,.5,1},"LuaSystem DBG.showPerf")
-    for t,e in pairs(perfCheckTimesStrings)do
+    for t,e in pairs(perfCheckTimesStrings)do--MODULE LOCAL
       Print(newContext," perf["..(this.PERF_CHECK_TYPE[t]..("] = "..e)))
     end
   end
@@ -998,24 +998,24 @@ function this.DebugUpdate()
     end
   end
 end
-function this.ShowMessageTable(r,o,a)
+function this.ShowMessageTable(newContext,messageName,messageTable)
   local DebugPrint=(nil).Print
-  DebugPrint(r,{.5,1,.5},o)
-  if a==nil then
+  DebugPrint(newContext,{.5,1,.5},messageName)
+  if messageTable==nil then
     return
   end
-  for o,a in pairs(a)do
-    local o=DEBUG_StrCode32ToString(o)
-    if a then
-      for t,a in pairs(a)do
-        local t=DEBUG_StrCode32ToString(t)
-        if a.func then
-          DebugPrint(r,{1,1,1},o..(" : "..(t..(" : "..tostring(a.func)))))
+  for mtStr32,mtvTable in pairs(messageTable)do
+    local mtString=DEBUG_StrCode32ToString(mtStr32)
+    if mtvTable then
+      for mtvSubTableStr32,messageInfo in pairs(mtvTable)do
+        local mtvSubTableString=DEBUG_StrCode32ToString(mtvSubTableStr32)
+        if messageInfo.func then
+          DebugPrint(newContext,{1,1,1},mtString..(" : "..(mtvSubTableString..(" : "..tostring(messageInfo.func)))))
         end
-        local a=a.sender
-        if a then
-          for n,a in pairs(a)do
-            DebugPrint(r,{1,1,1},o..(" : "..(t..(" : Sender = "..(DEBUG_StrCode32ToString(n)..(" : "..tostring(a)))))))
+        local senderTable=messageInfo.sender
+        if senderTable then
+          for senderStr32,a in pairs(senderTable)do
+            DebugPrint(newContext,{1,1,1},mtString..(" : "..(mtvSubTableString..(" : Sender = "..(DEBUG_StrCode32ToString(senderStr32)..(" : "..tostring(a)))))))
           end
         end
       end
@@ -1029,36 +1029,36 @@ function this.PerfCheckStart(perCheckTypeEnum)
   end
   if(perCheckTypeEnum==this.PERF_CHECK_TYPE.OnUpdate)then
     if(perfCheckTimes[this.PERF_CHECK_TYPE.OnUpdate]~=nil)then
-      unk5Num=unk5Num+(os.clock()-perfCheckTimes[this.PERF_CHECK_TYPE.OnUpdate])
+      onUpdateCurrent=onUpdateCurrent+(os.clock()-perfCheckTimes[this.PERF_CHECK_TYPE.OnUpdate])
     end
   end
   perfCheckTimes[perCheckTypeEnum]=os.clock()
 end
-function this.PerfCheckEnd(perCheckTypeEnum,r)
+function this.PerfCheckEnd(perCheckTypeEnum,unkP2String)
   local mvars=mvars
   local this=this
   if((perCheckTypeEnum<=0)and(perCheckTypeEnum>#this.PERF_CHECK_TYPE))then
     return
   end
-  local p=r or""
-  local r=0
+  local unkL1String=unkP2String or""
+  local currentDelta=0
   local perfDelta=os.clock()-perfCheckTimes[perCheckTypeEnum]
   if(perCheckTypeEnum==this.PERF_CHECK_TYPE.OnUpdate)then
-    if(unk5Num<unk4Num)then
-      if(perfDelta>unk6Num)then
-        unk6Num=perfDelta
+    if(onUpdateCurrent<onUpdateMaxDeltaSampleTime)then
+      if(perfDelta>onUpdateMaxDelta)then
+        onUpdateMaxDelta=perfDelta
       end
     else
-      unk5Num=0
-      unk6Num=perfDelta
+      onUpdateCurrent=0
+      onUpdateMaxDelta=perfDelta
     end
-    r=unk6Num
+    currentDelta=onUpdateMaxDelta
   else
-    r=perfDelta
+    currentDelta=perfDelta
   end
-  perfCheckTimesStrings[perCheckTypeEnum]=string.format("%4.2f",r*1e3)..("ms."..p)
+  perfCheckTimesStrings[perCheckTypeEnum]=string.format("%4.2f",currentDelta*1e3)..("ms."..unkL1String)
   if mvars.debug and mvars.debug.showDebugPerfCheck then
-    if(r>1/60)then
+    if(currentDelta>1/60)then
     else
       if(perCheckTypeEnum~=this.PERF_CHECK_TYPE.OnUpdate)then
       end

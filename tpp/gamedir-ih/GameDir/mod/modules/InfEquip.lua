@@ -1520,6 +1520,7 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"DEFAULT"},--DYNAMIC via addon
+    settingNamesDoc=[[<list of \mod\weaponIdTables>]],
     OnSelect=function(self)
       IvarProc.SetSettings(self,InfWeaponIdTable.addonsNames)
     end,
@@ -1748,11 +1749,11 @@ function this.LoadEquipTable()
   if InfQuest then
     if TppMission.IsFreeMission(vars.missionCode) or TppMission.IsStoryMission(vars.missionCode) then--tex TODO theres a quests allowed for mission function or table somewhere.
       local equipCount=0
-      for questName,questInfo in pairs(InfQuest.ihQuestsInfo)do
+      for questName,questAddon in pairs(InfQuest.ihQuestsInfo)do
         if TppQuest.IsActive(questName) then
-          if questInfo.requestEquipIds then
+          if questAddon.requestEquipIds then
             InfCore.Log("InfQuest.LoadEquipTable IsActive:"..questName)
-            for n,equipName in ipairs(questInfo.requestEquipIds)do
+            for n,equipName in ipairs(questAddon.requestEquipIds)do
               local equipId=TppEquip[equipName]
               if equipId==nil then
                 InfCore.Log("InfQuest.LoadEquipTable: requestEquipIds ERROR: "..questName.."  could not find equipId "..tostring(equipId))

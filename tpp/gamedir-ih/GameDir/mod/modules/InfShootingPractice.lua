@@ -26,9 +26,9 @@ function this.Messages()
     "ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|trap_shootingPractice_start",--Spy
     "ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|trap_shootingPractice_start",--BaseDev
   }
-  for questName,questInfo in pairs(InfQuest.ihQuestsInfo)do
-    if questInfo.startTrapName then
-      table.insert(shootingPracticeTrapNames,questInfo.startTrapName)
+  for questName,questAddon in pairs(InfQuest.ihQuestsInfo)do
+    if questAddon.startTrapName then
+      table.insert(shootingPracticeTrapNames,questAddon.startTrapName)
     end
   end
 
@@ -198,8 +198,8 @@ end--PrintShootingPracticeBestTime
 --leftTime in ms
 --'best times' are actually time-left in respect to the starting time limit
 function this.UpdateShootingPracticeClearTime(questName,leftTime)
-  local questInfo=InfQuest.ihQuestsInfo[questName]
-  if not questInfo then
+  local questAddon=InfQuest.ihQuestsInfo[questName]
+  if not questAddon then
     --tex vanilla shootingpractice, since those are backed up by the whole ui and leaderboards don't really want to poke at that at the moment
     TppRanking.UpdateScore(questName,leftTime)
   else
@@ -240,7 +240,7 @@ function this.UpdateShootingPracticeClearTime(questName,leftTime)
     questState.scoreTime=leftTime
     ih_quest_states[questName]=questState
   end
-  end--if not questInfo
+  end--if not questAddon
 end--UpdateShootingPracticeClearTime
 
 --CALLER: TppQuest.StartShootingPractice

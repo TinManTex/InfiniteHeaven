@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r259
+-- Defaults / example of all profile options for IH r260
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -73,6 +73,9 @@ local this={
 		mbDemoOverrideWeather=0,--[[{ DEFAULT, CURRENT, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY, POURING } -- Override weather]]
 		--Debug menu
 		telopMode=0,--[[{ 0-1 } -- Disable mission intro credits]]
+		--debugQuestsMenu
+		quest_forceOpen=0,--[[{ 0-1 } -- Force Open]]
+		quest_forceRepop=0,--[[{ 0-1 } -- Force Repop]]
 		--Enemy Prep menu
 		revengeModeFREE=0,--[[{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode]]
 		revengeModeMISSION=0,--[[{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode]]
@@ -405,29 +408,44 @@ local this={
 		routeset_randomizePriority=0,--[[{ 0-1 } -- Randomize group priority]]
 		routeset_randomizeGroups=0,--[[{ 0-1 } -- Randomize group routes]]
 		--Side ops menu
-		unlockSideOpNumber=0,--[[{ 0-157 } -- Open specific sideop #]]
-		unlockSideOps=0,--[[{ OFF, REPOP, OPEN } -- Unlock Sideops mode]]
-		sideOpsSelectionMode=0,--[[{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS, ADDON_QUEST } -- Sideop selection mode]]
-		showAllOpenSideopsOnUi=0,--[[{ 0-1 } -- Show all open sideops]]
-		ihSideopsPercentageCount=0,--[[{ 0-1 } -- Include add-on sideops in completion percentage]]
+		quest_forceQuestNumber=0,--[[{ 0-157 } -- Force specific sideop #]]
+		quest_setIsOnceToRepop=0,--[[{ 0-1 } -- Repop one-time sideops]]
+		quest_selectForArea="FIRST_FOUND",--[[{ FIRST_FOUND, RANDOM, RANDOM_ADDON } -- Selection for Area mode]]
+		quest_updateRepopMode="NONE_LEFT",--[[{ NONE_LEFT, ALLWAYS } -- Repop mode]]
+		quest_addonsCountForCompletion=0,--[[{ 0-1 } -- Include add-on sideops in completion percentage]]
 		quest_enableShootingPracticeRetry=0,--[[{ 0-1 } -- Enable Shooting Practice Retry]]
 		quest_setShootingPracticeCautionTimeToBestTime=0,--[[{ 0-1 } -- Set Shooting Practice caution time to best time]]
-		--Sideops category filter menu
-		sideops_STORY=1,--[[{ 0-1 } -- Story/unique]]
-		sideops_EXTRACT_INTERPRETER=1,--[[{ 0-1 } -- Extract interpreter]]
-		sideops_BLUEPRINT=1,--[[{ 0-1 } -- Secure blueprint]]
-		sideops_EXTRACT_HIGHLY_SKILLED=1,--[[{ 0-1 } -- Extract highly-skilled soldier]]
-		sideops_PRISONER=1,--[[{ 0-1 } -- Prisoner extraction]]
-		sideops_CAPTURE_ANIMAL=1,--[[{ 0-1 } -- Capture animals]]
-		sideops_WANDERING_SOLDIER=1,--[[{ 0-1 } -- Extract wandering Mother Base soldier]]
-		sideops_DDOG_PRISONER=1,--[[{ 0-1 } -- Unlucky Dog]]
-		sideops_ELIMINATE_HEAVY_INFANTRY=1,--[[{ 0-1 } -- Eliminate heavy infantry]]
-		sideops_MINE_CLEARING=1,--[[{ 0-1 } -- Mine clearing]]
-		sideops_ELIMINATE_ARMOR_VEHICLE=1,--[[{ 0-1 } -- Eliminate the armored vehicle unit]]
-		sideops_EXTRACT_GUNSMITH=1,--[[{ 0-1 } -- Extract the Legendary Gunsmith]]
-		sideops_ELIMINATE_TANK_UNIT=1,--[[{ 0-1 } -- Eliminate tank unit]]
-		sideops_ELIMINATE_PUPPETS=1,--[[{ 0-1 } -- Eliminate wandering puppets]]
-		sideops_TARGET_PRACTICE=1,--[[{ 0-1 } -- Target practice]]
+		--Sideops category selection menu
+		quest_category_STORY="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Story/unique]]
+		quest_category_EXTRACT_INTERPRETER="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Extract interpreter]]
+		quest_category_BLUEPRINT="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Secure blueprint]]
+		quest_category_EXTRACT_HIGHLY_SKILLED="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Extract highly-skilled soldier]]
+		quest_category_PRISONER="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Prisoner extraction]]
+		quest_category_CAPTURE_ANIMAL="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Capture animals]]
+		quest_category_WANDERING_SOLDIER="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Extract wandering Mother Base soldier]]
+		quest_category_DDOG_PRISONER="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Unlucky Dog]]
+		quest_category_ELIMINATE_HEAVY_INFANTRY="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Eliminate heavy infantry]]
+		quest_category_MINE_CLEARING="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Mine clearing]]
+		quest_category_ELIMINATE_ARMOR_VEHICLE="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Eliminate the armored vehicle unit]]
+		quest_category_EXTRACT_GUNSMITH="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Extract the Legendary Gunsmith]]
+		quest_category_ELIMINATE_TANK_UNIT="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Eliminate tank unit]]
+		quest_category_ELIMINATE_PUPPETS="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Eliminate wandering puppets]]
+		quest_category_TARGET_PRACTICE="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- Target practice]]
+		quest_category_NO_CATEGORY="ALL",--[[{ ALL, NONE, ADDON_ONLY } -- No category assigned]]
+		--Show on UI menu
+		quest_uiShow_Active="Show",--[[{ Hide, Show } -- Show Active]]
+		quest_uiShow_Activable="Hide",--[[{ Hide, Show } -- Show Activable]]
+		quest_uiShow_Uncleared="Hide",--[[{ Hide, Show } -- Show Uncleared]]
+		quest_uiShow_Cleared="Show",--[[{ Hide, Show } -- Show Cleared]]
+		quest_uiShow_Open="Hide",--[[{ Hide, Show } -- Show Open]]
+		quest_uiSort_Active="None",--[[{ None, Ascending, Descending } -- Sort Active]]
+		quest_uiSort_Activable="None",--[[{ None, Ascending, Descending } -- Sort Activable]]
+		quest_uiSort_Uncleared="None",--[[{ None, Ascending, Descending } -- Sort Uncleared]]
+		quest_uiSort_Cleared="None",--[[{ None, Ascending, Descending } -- Sort Cleared]]
+		quest_uiSort_Open="None",--[[{ None, Ascending, Descending } -- Sort Open]]
+		quest_uiSort_category="None",--[[{ None, Ascending, Descending } -- Sort by Category]]
+		quest_uiSort_locationId="None",--[[{ None, Ascending, Descending } -- Sort by Location]]
+		quest_uiSort_questAreaX="None",--[[{ None, Ascending, Descending } -- Sort by sideop area]]
 		--Side ops in missions menu
 		enableMissionQuest=0,--[[{ 0-1 } -- Enable side ops in missions]]
 		forceEnableMissionAllQuest=0,--[[{ 0-1 } -- Force use all side ops in missions]]
