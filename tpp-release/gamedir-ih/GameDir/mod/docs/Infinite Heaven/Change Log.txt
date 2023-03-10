@@ -1,7 +1,7 @@
 Infinite Heaven changelog
 Just notable changes, see github commits for full
 
-r260 - 2023-03-08
+r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
 Fix: Repop of sideop 144 tent_q99040 "Secure the Remains of the Man on Fire" arival on quarantine platform leaving player stuck in helipad.
@@ -15,6 +15,8 @@ A manual fix is to run "Reroll sideops selection" with "Repop mode" set to Allwa
 Ancillary ih saves (addon mission and quest states) are now cleared on new game.
 
 InfQuest / IH Sideops menu:
+[youtube]2UUXDfMfrso[/youtube]
+https://youtu.be/2UUXDfMfrso
 
 Renamed unlockSideOpNumber to quest_forceQuestNumber, just an internal name change to be more consistant and accurate. Though you will have to set the setting again.
 

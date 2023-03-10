@@ -1,5 +1,5 @@
 = Infinite heaven =
-r260 - 2023-03-08
+r260 - 2023-03-10
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatible IHHook version: r17 or later
@@ -25,7 +25,7 @@ Recent changes/additions
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
-r260 - 2023-03-08
+r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
 Fix: Repop of sideop 144 tent_q99040 "Secure the Remains of the Man on Fire" arival on quarantine platform leaving player stuck in helipad.
@@ -39,6 +39,8 @@ A manual fix is to run "Reroll sideops selection" with "Repop mode" set to Allwa
 Ancillary ih saves (addon mission and quest states) are now cleared on new game.
 
 InfQuest / IH Sideops menu:
+[youtube]2UUXDfMfrso[/youtube]
+https://youtu.be/2UUXDfMfrso
 
 Renamed unlockSideOpNumber to quest_forceQuestNumber, just an internal name change to be more consistant and accurate. Though you will have to set the setting again.
 
@@ -99,8 +101,6 @@ ivars renamed from sideop_<CATEGORY> to quest_category_<CATEGORY>
 Settings changed from OFF, ON to "ALL","NONE","ADDON_ONLY"
 This lets you have per catergory selection of only Addon sidops.
 
-Quest Addon questInfo: 
-Added canActiveQuest=function(questName) --Optional. All quests repop by default (are available to repeat), returning false will stop it from being considered for selection. Use this if you need to stop the quest from Active selection after the initial canOpenQuest.
 
 r259 - 2023-02-18
 Fix: InfPositions Loadposistions, thanks cap for fix.
