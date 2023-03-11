@@ -2161,7 +2161,7 @@ local skipLogCallBack={
 --<
 function this.ExecuteSystemCallback(callbackName,arg1)
   --tex> DEBUG
-  if ivars.debugFlow then
+  if ivars.debugFlow>0 then
     if not skipLogCallBack[callbackName] then
       InfCore.LogFlow("TppMission.ExecuteSystemCallback:"..callbackName.."("..tostring(arg1)..")")
     end

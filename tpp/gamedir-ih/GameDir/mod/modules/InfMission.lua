@@ -930,7 +930,7 @@ end
 function this.AddGlobalLocationParameters(globalLocationParameters)
   InfCore.LogFlow"InfMission.AddGlobalLocationParameters"
   local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
-  local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
+  local enableHerbSearch=Ivars.disableHerbSearch:Is(1)--tex
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationParams=locationInfo.globalLocationMapParams
     if locationParams then
@@ -939,7 +939,7 @@ function this.AddGlobalLocationParameters(globalLocationParameters)
         locationParams.isSpySearchEnable=enableSpySearch
       end
       if locationParams.isHerbSearchEnable ~=nil then
-        locationParams.isHerbSearchEnable=enableSpySearch
+        locationParams.isHerbSearchEnable=enableHerbSearch
       end
       table.insert(globalLocationParameters,locationParams)
     end

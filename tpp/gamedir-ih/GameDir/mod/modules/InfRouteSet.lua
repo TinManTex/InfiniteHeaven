@@ -434,12 +434,14 @@ function this.Messages()
 end--Messages
 
 function this.OnPhaseChange(cpGameObjectId,phase,oldPhase)
+  if ivars.routeset_randomizeOnPhaseChange==0 then
+    return
+  end  
+  
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if not ivars.routeset_randomizeOnPhaseChange then
-    return
-  end
+
   --tex this is called for every OnPhaseChange, so will be brutal for something like InfEnemyPhase or events that trigger a bunch of phasechange
   --DEBUGNOW TODO
   local cpName=InfLookup.CpNameForCpId(cpGameObjectId)
@@ -453,23 +455,27 @@ function this.OnPhaseChange(cpGameObjectId,phase,oldPhase)
 end--OnPhaseChange
 
 function this.ShiftChangeAtMorning(sender,time)
+  if ivars.routeset_randomizeOnShiftChange==0 then
+    return
+  end
+
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if Ivars.routeset_randomizeOnShiftChange:Get()==0 then
-    return
-  end
+
   InfCore.Log("InfRouteSet.ShiftChangeAtMorning")
   this.RandomizeCurrentRouteSet()
 end--ShiftChangeAtMorning
 
 function this.ShiftChangeAtNight(sender,time)
+  if ivars.routeset_randomizeOnShiftChange==0 then
+    return
+  end
+
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if Ivars.routeset_randomizeOnShiftChange:Get()==0 then
-    return
-  end
+
   InfCore.Log("InfRouteSet.ShiftChangeAtNight")
   this.RandomizeCurrentRouteSet()
 end--ShiftChangeAtNight
@@ -478,12 +484,14 @@ end--ShiftChangeAtNight
 --tex GOTCHA: while there's no midgnight routes ("sneak_midnight etc") they take the night routeType and create a shift anyway?
 --see TppEnemy._MakeShiftChangeUnit, search 'midnight'
 function this.ShiftChangeAtMidNight(sender,time)
+  if ivars.routeset_randomizeOnShiftChange==0 then
+    return
+  end
+
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if Ivars.routeset_randomizeOnShiftChange:Get()==0 then
-    return
-  end
+
   InfCore.Log("InfRouteSet.ShiftChangeAtMidNight")
   --this.RandomizeCurrentRouteSet()--tex DEBUGNOW don't know if I want to given that night shift is at ~18:00
 end--ShiftChangeAtMidNight

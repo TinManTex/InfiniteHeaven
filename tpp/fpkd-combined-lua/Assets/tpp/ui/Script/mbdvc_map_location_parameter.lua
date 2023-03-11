@@ -226,7 +226,7 @@ mbdvc_map_location_parameter = {
 	GetGlobalLocationParameter = function()
 	 InfCore.LogFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
 	 local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
-   local enableHerbSearch=Ivars.disableHerbSearch~=nil and Ivars.disableHerbSearch:Get() or true--tex disableHerbSearch hasnt been added to Ivars when GetGlobalLocationParameter is first called 
+   local enableHerbSearch=Ivars.disableHerbSearch~=nil and Ivars.disableHerbSearch:Is(1) or true--tex disableHerbSearch hasnt been added to Ivars when GetGlobalLocationParameter is first called 
 	 local globalLocationParameters={--tex was just return the table
 	   --notes from caplag
 			{	

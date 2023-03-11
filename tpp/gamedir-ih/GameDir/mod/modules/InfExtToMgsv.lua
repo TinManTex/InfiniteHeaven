@@ -21,7 +21,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if IHH then
   --tex always run if IHH DEBUGNOW
   else
-    if not ivars.enableIHExt then
+    if ivars.enableIHExt==0 then
       return
     end
 
