@@ -2611,6 +2611,8 @@ function this.ChangeSleepTime(cpName,sleepTime)
 end
 --CALLERS: some story missions
 --(sic)
+--NMC Used to put group into routeSets fixedShiftChangeGroup during mission
+--there doesn't seem to be a function to remove them
 function this.NoShifhtChangeGruopSetting(cpName,groupName)
   local cpId=GetGameObjectId(cpName)
   if cpId==NULL_ID then
@@ -3709,7 +3711,7 @@ end
 --CALLER: RouteSelector
 function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
   --InfCore.Log("GetCurrentRouteSetType: routeTypeStr32: "..InfLookup.StrCode32ToString(routeTypeStr32).. " phase: "..tostring(phase).." cpId: "..tostring(cpId))--tex DEBUG
-  local RouteSetTypeForTime=function(cpId,timeOfDay)
+  local SneakRouteSetTypeForTime=function(cpId,timeOfDay)
     if not timeOfDay then
       timeOfDay=TppClock.GetTimeOfDayIncludeMidNight()
     end
@@ -3739,18 +3741,18 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
       return"sleep"
     end
     if phase==this.PHASE.SNEAK then
-      routeSetType=RouteSetTypeForTime(cpId,routeTypeTag)
+      routeSetType=SneakRouteSetTypeForTime(cpId,routeTypeTag)
     else
       routeSetType="caution"
     end
   else
     if phase==this.PHASE.SNEAK then
-      routeSetType=RouteSetTypeForTime(cpId)
+      routeSetType=SneakRouteSetTypeForTime(cpId)
     else
       routeSetType="caution"
     end
   end
-  --tex REF old r129 bug
+  --tex REF old r129 bug caused by me messing up deminning
   --CULL
   --  if routeTypeStr32 then
   --    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]--tex bug was here with local assignment of var with same name clobbering the outer one, thus not passing out of scope
@@ -3840,52 +3842,52 @@ function this.GetPrioritizedRouteTable(cpId,routeGroupsForRouteType,routeSetsPri
   return routeList
 end--GetPrioritizedRouteTable
 --NMC called from engine with different cpids. Set up in SetUpCommandPost. Seems like it initially called right then. DEBUGNOW then at what other points?
---see mvars.ene_routeSets, which is a transformed <mission script>_enemy.routeSets and mvars.ene_routeSetsPriority for the main drivers of these functions
+--see mvars.ene_routeSets via UpdateRouteSet, which is a transformed <mission script>_enemy.routeSets and mvars.ene_routeSetsPriority for the main drivers of these functions
 --and RegisterRouteSet, ChangeRouteSets
 --the params are a mess because kjp tried to jam a lot of different concerns into them
 function this.RouteSelector(cpId,tagOrRouteTypeS32,tagOrSysPhaseOrGroup32)
   if this.debugModule then--tex>
     InfCore.LogFlow("TppEnemy.RouteSelector: cpId:"..InfLookup.CpNameForCpId(cpId).." tagOrRouteTypeS32:"..InfLookup.StrCode32ToString(tagOrRouteTypeS32).." tagOrSysPhaseOrGroup32:"..tostring(InfLookup.StrCode32ToString(tagOrSysPhaseOrGroup32)))
   end--<
-  local routeSetForCp=mvars.ene_routeSets[cpId]
+  local routeSetForCp=mvars.ene_routeSets[cpId]--see UpdateRouteSet
   if routeSetForCp==nil then
     return{"dummyRoute"}
   end
   if tagOrSysPhaseOrGroup32==StrCode32"immediately"then
     if tagOrRouteTypeS32==StrCode32"old"then
-      local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-      return this.GetPrioritizedRouteTable(cpId,mvars.ene_routeSetsTemporary[cpId][currentRouteSetType],mvars.ene_routeSetsPriorityTemporary)
+      local routeSetTypeForCpPhase=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
+      if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForCpPhase) end--tex
+      return this.GetPrioritizedRouteTable(cpId,mvars.ene_routeSetsTemporary[cpId][routeSetTypeForCpPhase],mvars.ene_routeSetsPriorityTemporary)--NMC rsTemporary is set with prior ene_routeSetsPriority during ChangeRouteSets
     else
-      local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
+      local routeSetTypeForCpPhase=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
+      if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForCpPhase) end--tex
+      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[routeSetTypeForCpPhase],mvars.ene_routeSetsPriority)
     end
   end
   if tagOrSysPhaseOrGroup32==StrCode32"SYS_Sneak"then
-    local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.PHASE.SNEAK,cpId)
-    if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority,tagOrSysPhaseOrGroup32)
+    local routeSetTypeForSneak=this.GetCurrentRouteSetType(nil,this.PHASE.SNEAK,cpId)
+    if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForSneak) end--tex
+    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[routeSetTypeForSneak],mvars.ene_routeSetsPriority,tagOrSysPhaseOrGroup32)
   end
   if tagOrSysPhaseOrGroup32==StrCode32"SYS_Caution"then
-    local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.PHASE.CAUTION,cpId)
-    if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority,tagOrSysPhaseOrGroup32)
+    local routeSetTypeForCaution=this.GetCurrentRouteSetType(nil,this.PHASE.CAUTION,cpId)
+    if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForCaution) end--tex
+    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[routeSetTypeForCaution],mvars.ene_routeSetsPriority,tagOrSysPhaseOrGroup32)
   end
-  local currentRouteSetType=this.GetCurrentRouteSetType(tagOrRouteTypeS32,this.GetPhaseByCPID(cpId),cpId)
-  if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-  local routesForGroup=routeSetForCp[currentRouteSetType][tagOrSysPhaseOrGroup32]
+  local routeSetTypeForRouteTypeForPhase=this.GetCurrentRouteSetType(tagOrRouteTypeS32,this.GetPhaseByCPID(cpId),cpId)
+  if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForRouteTypeForPhase) end--tex
+  local routesForGroup=routeSetForCp[routeSetTypeForRouteTypeForPhase][tagOrSysPhaseOrGroup32]
   if routesForGroup then
     return routesForGroup
   else
-    if currentRouteSetType=="hold"then
-      local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
+    if routeSetTypeForRouteTypeForPhase=="hold"then
+      local routeSetTypeForCpPhase=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
+      if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForCpPhase) end--tex
+      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[routeSetTypeForCpPhase],mvars.ene_routeSetsPriority)
     else
-      local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      if this.debugModule then InfCore.Log("currentRouteSetType:"..currentRouteSetType) end--tex
-      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
+      local routeSetTypeForCpPhase=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
+      if this.debugModule then InfCore.Log("currentRouteSetType:"..routeSetTypeForCpPhase) end--tex
+      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[routeSetTypeForCpPhase],mvars.ene_routeSetsPriority)
     end
   end
 end--RouteSelector
@@ -3996,6 +3998,9 @@ function this.SetUpCommandPost()
   if not IsTypeTable(mvars.ene_soldierIDList)then
     return
   end
+  if this.debugModule then--tex>
+    InfCore.LogFlow"TppEnemy.SetUpCommandPost"
+  end--<
   for cpId,cpName in pairs(mvars.ene_cpList)do
     SendCommand(cpId,{id="SetRouteSelector",func=this.RouteSelector})
   end
@@ -4007,6 +4012,7 @@ function this.RegisterRouteAnimation()
   end
 end
 --CALLERS: RegisterRouteSet, ChangeRouteSets
+--routeSets: <mission>_enemy.routeSets | some mission specific routeSets (ChangeRouteSets)
 --IN/SIDE: mvars.loc_locationCommonRouteSet
 --OUT/SIDE mvars.ene_routeSetsDefine
 --GOTCHA: isn't a pure merge, some aspects of the merging routeset will override the current
@@ -4084,10 +4090,17 @@ function this.MergeRouteSetDefine(routeSets)
   end
 end--MergeRouteSetDefine
 --CALLER: RegisterRouteSet, ChangeRouteSets
---routeSets = mvars.ene_routeSetsDefine, some mission alternate routeset
+--routeSets = mvars.ene_routeSetsDefine | some mission alternate routeset
 --see afgh_routeSets - afgh_citadel_cp for example of commented routeSet
---SIDE/IN: ene_noShiftChangeGroupSetting
---SIDE/IN/OUT: mvars. ene_routeSets, ene_routeSetsFixedShiftChange, ene_routeSetsPriority
+--IN: mvars.ene_noShiftChangeGroupSetting
+--IN/OUT:
+--mvars.ene_routeSets: just transformed routeSets cpName to cpId, groupName to S32:
+--  ene_routeSets[cpId][routeSetType][StrCode32(groupName)][routeIndex]=route
+--mvars.ene_routeSetsPriority: is just a enum to S32 of groupName from routeSets .priority (just a list of groupNames in priority order) 
+--  ene_routeSetsPriority[cpId][i]=StrCode32(routeSet.priority[i])
+--mvars.ene_routeSetsFixedShiftChange: 
+--  ene_routeSetsFixedShiftChange[cpId][StrCode32(routeSet.fixedShiftChangeGroup[i])]=i
+
 --used by RouteSelector and GetPrioritizedRouteTable
 function this.UpdateRouteSet(routeSets)
   InfCore.LogFlow("TppEnemy.UpdateRouteSet")--tex DEBUG
@@ -4161,7 +4174,7 @@ function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
   end
 end
 --CALLER: _MakeShiftChangeUnit
-function this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+function this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priorityIndex,holdGroupS32Routes,sleepGroupS32Routes,priorityGroupNameS32,hasSleepGroup,fixedShiftChangeRouteSet)
   local remainingPriorities=(numPriorities-priorityIndex)+1--tex remaining priorities
   local currentPriority=priorityIndex
   if fixedShiftChangeRouteSet[priorityGroupsS32[priorityIndex]]then
@@ -4181,48 +4194,49 @@ function this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priority
       end
     end
     remainingPriorities=remainingPriorities-numRemainingFixedShift
-    local a=remainingPriorities
-    local i=0
-    local fixedShiftPriority=fixedShiftChangeRouteSet[priorityGroupsS32[a]]
+    local priorityGroupIdx=remainingPriorities
+    local fixedShiftGroupsAdded=0
+    local fixedShiftPriority=fixedShiftChangeRouteSet[priorityGroupsS32[priorityGroupIdx]]
     while fixedShiftPriority do
-      i=i+1
-      a=a-1
-      fixedShiftPriority=fixedShiftChangeRouteSet[priorityGroupsS32[a]]
+      fixedShiftGroupsAdded=fixedShiftGroupsAdded+1
+      priorityGroupIdx=priorityGroupIdx-1
+      fixedShiftPriority=fixedShiftChangeRouteSet[priorityGroupsS32[priorityGroupIdx]]
     end
-    remainingPriorities=remainingPriorities-i
+    remainingPriorities=remainingPriorities-fixedShiftGroupsAdded
   end
   local remainingGroup=priorityGroupsS32[remainingPriorities]
-  local holdGroup="default"
-  if hold[groupNameStr32]then
-    holdGroup=groupNameStr32
+  local holdGroupName="default"
+  if holdGroupS32Routes[priorityGroupNameS32]then
+    holdGroupName=priorityGroupNameS32
   end
-  local sleepGroup=nil
-  if isSleep then
-    sleepGroup="default"
-    if sleep[groupNameStr32]then
-      sleepGroup=groupNameStr32
+  local sleepGroupName=nil
+  if hasSleepGroup then
+    sleepGroupName="default"
+    if sleepGroupS32Routes[priorityGroupNameS32]then
+      sleepGroupName=priorityGroupNameS32
     end
   end
   local currentGroup=priorityGroupsS32[currentPriority]
-  return remainingGroup,holdGroup,sleepGroup,currentGroup
+  return remainingGroup,holdGroupName,sleepGroupName,currentGroup
 end--_GetShiftChangeRouteGroup
 --Creates a shiftchangeunit that's used by _InsertShiftChangeUnit to transform-insert into mvars.ene_shiftChangeTable
 --CALLER: MakeShiftChangeTable while iterating over priorityGroupsS32, and passing in priorityIndex
-function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,insertPos,fixedShiftChangeRouteSet)
-  if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][groupNameStr32]then
+function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,priorityGroupNameS32,holdGroupS32Routes,hasSleepGroup,sleepGroupS32Routes,hasMidnightGroup,numPriorityGroups,priorityIndex,insertPos,fixedShiftChangeRouteSet)
+  if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][priorityGroupNameS32]then
     return nil
   end
-  local remainingGroup,holdGroup,sleepGroup,currentGroup=this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local remainingGroup,holdGroupS32orDefault,sleepGroupS32orDefault,currentGroup=this._GetShiftChangeRouteGroup(priorityGroupsS32,numPriorityGroups,priorityIndex,holdGroupS32Routes,sleepGroupS32Routes,priorityGroupNameS32,hasSleepGroup,fixedShiftChangeRouteSet)
   local shiftChangeUnit={}
   for shiftName,existingShiftChangeUnit in pairs(mvars.ene_shiftChangeTable[cpId])do
     shiftChangeUnit[shiftName]={}
   end
-  if(holdGroup~="default")or(IsTypeTable(hold[StrCode32"default"])and next(hold[StrCode32"default"]))then
+  --NMC: if holdGroupS32orDefault is not string "default" or holdGroupS32orDefault.S32"default" not empty
+  if(holdGroupS32orDefault~="default")or(IsTypeTable(holdGroupS32Routes[StrCode32"default"])and next(holdGroupS32Routes[StrCode32"default"]))then
     shiftChangeUnit.shiftAtNight.start={"day",remainingGroup}
-    shiftChangeUnit.shiftAtNight.hold={"hold",holdGroup}
+    shiftChangeUnit.shiftAtNight.hold={"hold",holdGroupS32orDefault}
     shiftChangeUnit.shiftAtNight.holdTime=mvars.ene_holdTimes[cpId]
     shiftChangeUnit.shiftAtNight.goal={"night",currentGroup}
-    shiftChangeUnit.shiftAtMorning.hold={"hold",holdGroup}
+    shiftChangeUnit.shiftAtMorning.hold={"hold",holdGroupS32orDefault}
     shiftChangeUnit.shiftAtMorning.holdTime=mvars.ene_holdTimes[cpId]
     shiftChangeUnit.shiftAtMorning.goal={"day",currentGroup}
   else
@@ -4230,11 +4244,12 @@ function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,is
     shiftChangeUnit.shiftAtNight.goal={"night",currentGroup}
     shiftChangeUnit.shiftAtMorning.goal={"day",currentGroup}
   end
-  if isSleep then
+  if hasSleepGroup then
     shiftChangeUnit.shiftAtMidNight.start={"night",remainingGroup}
-    shiftChangeUnit.shiftAtMidNight.hold={"sleep",holdGroup}
+    shiftChangeUnit.shiftAtMidNight.hold={"sleep",holdGroupS32orDefault}--tex NMC RETAILBUG ? why not sleepGroup?
     shiftChangeUnit.shiftAtMidNight.holdTime=mvars.ene_sleepTimes[cpId]
-    if isMidnight then
+    --tex NMC: why is midnight shift require hasSleepGroup? midnight (or rather sneak_midnight) shift doesnt seem to be used in vanilla anyway
+    if hasMidnightGroup then
       shiftChangeUnit.shiftAtMidNight.goal={"midnight",currentGroup}
     else
       shiftChangeUnit.shiftAtMidNight.goal={"night",remainingGroup}
@@ -4246,22 +4261,20 @@ function this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,is
   return shiftChangeUnit
 end--_MakeShiftChangeUnit
 --makes ene_shiftChangeTable based on routeset .hold and .sleep (see _MakeShiftChangeUnit -^-)
---USER: ShiftChangeByTime (mvars.ene_shiftChangeTable)
---IN/SIDE: mvars.ene_routeSetsPriority, mvars.ene_routeSets
---OUT/SIDE: mvars.ene_shiftChangeTable
 --CALLERS: called pretty much whenever routeset is set up (but not for changeroutesets?)
---REF --groups are actually StrCode32 in live table
---afgh_enemyBase_cp
---mvars.ene_shiftChangeTable[cpId]={
+--USER: ShiftChangeByTime (mvars.ene_shiftChangeTable)
+--IN: mvars.ene_routeSetsPriority, mvars.ene_routeSets
+--OUT: mvars.ene_shiftChangeTable[cpId]={
 --  shiftAtNight={
 --    [1]={--insertPos*2-1
---      [1]={"day","groupE"},-- shiftChangeUnit .start -- {shiftName, groupName}
---      [2]={"hold","default"},-- shiftChangeUnit .goal
+--      [1]={"day",S32"groupE"},-- shiftChangeUnit .start -- {shiftName, groupName}
+--      [2]={"hold",S32"default"},-- shiftChangeUnit .goal
 --      holdTime=60,
 --    },
 --    [2]={--insertPos*2
---      [1]={"hold","default"},-- shiftChangeUnit .start
---      [2]={"night","groupA"},-- shiftChangeUnit .goal
+--      [1]={"hold",S32"default"},-- shiftChangeUnit .start
+--      [2]={"night",S32"groupA"},-- shiftChangeUnit .goal
+--      "dummy",
 --    },
 --    ...
 function this.MakeShiftChangeTable()
@@ -4270,27 +4283,27 @@ function this.MakeShiftChangeTable()
     if not IsTypeTable(priorityGroupsS32)then
       return
     end
-    local isSleep=false
-    local isMidnight=false
+    local hasSleepGroup=false
+    local hasMidnightGroup=false
     if next(mvars.ene_routeSets[cpId].sleep)then
       mvars.ene_shiftChangeTable[cpId]={shiftAtNight={},shiftAtMorning={},shiftAtMidNight={}}
-      isSleep=true
+      hasSleepGroup=true
       if next(mvars.ene_routeSets[cpId].sneak_midnight)then
-        isMidnight=true
+        hasMidnightGroup=true
       end
     else
       mvars.ene_shiftChangeTable[cpId]={shiftAtNight={},shiftAtMorning={}}
     end
-    local hold=mvars.ene_routeSets[cpId].hold
-    local sleep=nil
-    if isSleep then
-      sleep=mvars.ene_routeSets[cpId].sleep
+    local holdGroupS32Routes=mvars.ene_routeSets[cpId].hold
+    local sleepGroupS32Routes=nil
+    if hasSleepGroup then
+      sleepGroupS32Routes=mvars.ene_routeSets[cpId].sleep
     end
     local insertPos=1
-    local numPriorities=#priorityGroupsS32
-    for priorityIndex,groupNameStr32 in ipairs(priorityGroupsS32)do
+    local numPriorityGroups=#priorityGroupsS32
+    for priorityIndex,priorityGroupNameS32 in ipairs(priorityGroupsS32)do
       local shiftChangeUnit
-      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorityGroupsS32,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
+      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorityGroupsS32,priorityGroupNameS32,holdGroupS32Routes,hasSleepGroup,sleepGroupS32Routes,hasMidnightGroup,numPriorityGroups,priorityIndex,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
       if shiftChangeUnit then
         this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
         insertPos=insertPos+1
@@ -6476,7 +6489,7 @@ function this._IsRouteSetTypeValid(routeSetType)
   if(routeSetType==nil or type(routeSetType)~="string")then
     return false
   end
-  for t,t in paris(this.ROUTE_SET_TYPES)do--RETAILBUG: type
+  for t,t in paris(this.ROUTE_SET_TYPES)do--RETAILBUG: typo, i'll never forget Paris
     if(routeSetType==this.ROUTE_SET_TYPES[i])then--RETAILBUG: bad index
       return true
   end
