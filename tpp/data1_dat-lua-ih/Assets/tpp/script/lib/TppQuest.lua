@@ -1277,7 +1277,9 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
   local maxUIQuests=192--tex I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
   local overCount=#sideOpsListTable-maxUIQuests
   if overCount>0 then
-    InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+    --tex TODO: some meaninful way of notifying user, indicating that it's not a big deal (unless there ever comes a time when theres more than 192 quest areas installed at one time lol)
+    --and to point them towards the UI show options, or the category options.
+    InfCore.Log("WARNING: #sidopList > maxUiQuests",false,true)--tex TODO lang
     InfCore.Log("overCount:"..overCount)--tex DEBUG      
 
     --tex since its just ui dont need to set random seed
@@ -1297,7 +1299,7 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
     end--for overCount
   end--if overCount
   if #sideOpsListTable>maxUIQuests then
-    InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+    InfCore.Log("WARNING: #sidopList > maxUiQuests",false,true)--tex TODO lang
   end
   InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
 end--ManageUiLimit
