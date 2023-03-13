@@ -3766,13 +3766,13 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
   --      return"sleep"
   --    end
   --    if phase==this.PHASE.SNEAK then
-  --      routeSetType=RouteSetTypeForTime(cpId,routeSetType)
+  --      routeSetType=SneakRouteSetTypeForTime(cpId,routeSetType)
   --    else
   --      routeSetType="caution"
   --    end
   --  else
   --    if phase==this.PHASE.SNEAK then
-  --      routeSetType=RouteSetTypeForTime(cpId)
+  --      routeSetType=SneakRouteSetTypeForTime(cpId)
   --    else
   --      routeSetType="caution"
   --    end
