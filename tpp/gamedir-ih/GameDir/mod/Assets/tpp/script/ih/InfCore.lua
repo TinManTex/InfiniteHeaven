@@ -164,7 +164,7 @@ function this.LogFlow(message)
   if not this.debugMode then
     return false
   end
-  if ivars and not ivars.debugFlow then
+  if ivars and ivars.debugFlow==0 then
     return
   end
   --  local stackLevel=2
