@@ -14,6 +14,16 @@ AroundCam (FreeCam):
 When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
 Fix: hang if on when Abort mission.
 
+API: addon missionInfo
+clearExistingMissionStartSettings - only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 
+noBoxMissionHeliRoute / NO_ORDER_FIX_HELICOPTER_ROUTE support, requires isNoOrderBoxMission to be set
+
+clearMissionStartHeliRoute is to give actual support for NO_HELICOPTER_ROUTE_MISSION_LIST, before it was just riding on the assumption that if the addon author gave a startPos they wouldn't have heli routes/starts set up, this gives the same support as the base game for those missions.
+
+isNoOrderBoxMission, likewise giving explicit setting for NO_ORDER_BOX_MISSION
+
+- thanks caplag for the suggestions
+
 r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
