@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- TppDefine.lua
 -- tex modfying some values via other modules
+-- most of the location and mission data added to via InfMission with addons.
 InfCore.Log"Load TppDefine.lua"--tex --DEBUG
 local this={}
 
@@ -268,6 +269,7 @@ this.MISSION_LIST={
   "11151",--62
   nil
 }
+--tex ADDON all this mission stuff -^--v- managed by InfMission for addon locations and missions, see the addon locationInfo, missionInfo examples commented in the header of InfMission
 this.MISSION_ENUM=this.Enum(this.MISSION_LIST)
 if Mission.RegisterMissionCodeList then
   Mission.RegisterMissionCodeList{codeList=this.MISSION_LIST}
@@ -282,7 +284,7 @@ this.NO_ORDER_BOX_MISSION_ENUM=this.Enum(this.NO_ORDER_BOX_MISSION_LIST)
 this.NO_ORDER_FIX_HELICOPTER_ROUTE={[10240]="rt_drp_mbqf_N",[10260]="drp_s10260"}
 this.NO_HELICOPTER_ROUTE_MISSION_LIST={"10010","10020","10030","10050","11050","10070","10080","11080","10140","11140","10150","10151","11151","10240","10280"}
 this.NO_HELICOPTER_ROUTE_ENUM=this.Enum(this.NO_HELICOPTER_ROUTE_MISSION_LIST)
---tex NMC used in LoadingPositionFromHeliSpace,LoadingPositionToFree if no heli_missionStartRoute. ADDON added to via InfMission
+--tex NMC used in LoadingPositionFromHeliSpace,LoadingPositionToFree if no heli_missionStartRoute.
 this.NO_HELICOPTER_MISSION_START_POSITION={
   [10010]={-39.127,106.175,-1719.5},
   [10050]={-1820.706,348.982,-146.444},
