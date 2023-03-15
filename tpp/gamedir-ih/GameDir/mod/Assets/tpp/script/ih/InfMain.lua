@@ -324,8 +324,10 @@ function this.AbortMissionTop(abortInfo)
   --InfCore.Log("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
 
+  this.CallOnModules("AbortMissionTop",abortInfo)
+
   if InfGameEvent then
-    InfGameEvent.DisableEvent()--DEBUGNOW: InfMainTpp
+    InfGameEvent.DisableEvent()--DEBUGNOW: InfMainTpp TODO move into AbortMissionTop
   end
 end
 
@@ -1499,7 +1501,7 @@ function this.LoadExternalModules(isReload)
   InfCore.LogFlow("PostAllModulesLoad")--DEBUG
   InfCore.PCallDebug(this.PostAllModulesLoad)
   --NOTE: On first load only InfMain has been loaded at this point, so can't reference other IH lib modules.
-  this.CallOnModules("PostAllModulesLoad")
+  this.CallOnModules("PostAllModulesLoad",isReload)
 
   --tex profiles
   local ret=InfCore.PCall(IvarProc.SetupInfProfiles)
