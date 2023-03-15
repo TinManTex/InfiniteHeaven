@@ -183,7 +183,7 @@ function this.WriteObjects()
 
   InfCore.Log(#list..[[ entries written to MGS_TPP\mod\]]..fileName,true,true)
 end
-
+--tex UNUSED
 function this.LoadObjectNames()
   InfCore.Log("InfObjects.LoadObjectNames:")
 
