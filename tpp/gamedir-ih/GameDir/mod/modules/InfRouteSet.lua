@@ -528,14 +528,18 @@ function this.RandomizeRouteSet(routeSets)
     for cpOrLrrp,routeSet in pairs(routeSets)do
       routeSet.priority=InfUtil.RandomizeArray(routeSet.priority)
 
-      routeSet.fixedShiftChangeGroup=InfUtil.RandomizeArray(routeSet.fixedShiftChangeGroup)
+      if routeSet.fixedShiftChangeGroup then
+        routeSet.fixedShiftChangeGroup=InfUtil.RandomizeArray(routeSet.fixedShiftChangeGroup)
+      end
     end
   end--if routeset_randomizePriority
 
   if Ivars.routeset_randomizeGroups:Get()==1 then
     --tex ok, so it's not technically a group
     --    for cpOrLrrp,routeSet in pairs(routeSets)do
-    --      routeSet.outofrain=this.RandomizeArray(routeSet.outofrain)
+    --      if routeSet.outofrain then
+    --        routeSet.outofrain=this.RandomizeArray(routeSet.outofrain)
+    --      end
     --    end
     --
     --    --tex randomize each group
