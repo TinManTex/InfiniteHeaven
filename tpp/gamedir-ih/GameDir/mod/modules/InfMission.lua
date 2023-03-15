@@ -28,7 +28,7 @@
 --    sectionFuncRankForToilet  = 4,
 --    sectionFuncRankForCrack   = 6,
 --    isSpySearchEnable = true,
---    isHerbSearchEnable = true,
+--    isHerbSearchEnable = true,--tex IH will automatically patch in support for disableHerbSearch
 --
 --    spySearchRadiusMeter = {  40.0, 40.0, 35.0, 30.0, 25.0, 20.0, 15.0, 10.0, },
 --    spySearchIntervalSec = {  420.0,  420.0,  360.0,  300.0,  240.0,  180.0,  120.0,  60.0, },
@@ -929,16 +929,15 @@ end
 --DEBUGNOW TEST PCallDebug these functions?-^--v-
 function this.AddGlobalLocationParameters(globalLocationParameters)
   InfCore.LogFlow"InfMission.AddGlobalLocationParameters"
-  local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
-  local enableHerbSearch=Ivars.disableHerbSearch:Is(1)--tex
+  local enableHerbSearch=Ivars.disableHerbSearch:Is(0)--tex patches in IH disableHerbSearch support (if they have locationParams.isHerbSearchEnable set)
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationParams=locationInfo.globalLocationMapParams
     if locationParams then
       locationParams.locationId=locationId
-      if locationParams.isSpySearchEnable~=nil then
-        locationParams.isSpySearchEnable=enableSpySearch
+      if locationParams.isSpySearchEnable then
+        locationParams.isSpySearchEnable=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
       end
-      if locationParams.isHerbSearchEnable ~=nil then
+      if locationParams.isHerbSearchEnable then
         locationParams.isHerbSearchEnable=enableHerbSearch
       end
       table.insert(globalLocationParameters,locationParams)

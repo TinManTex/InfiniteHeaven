@@ -222,11 +222,37 @@ mbdvc_map_location_parameter = {
     return mapParams or mbdvc_map_location_parameter.locationParameters[locationId] or mbdvc_map_location_parameter.locationParameters.default
 	end,
 
-	--NMC: called on idroid map tab open?
+	--tex NMC: called on idroid map tab open? nope
+	--several calls, but the script is torn down each time as the pack its in is unloaded? VERIFY
+	--TODO Narrow down further
+	--first call -- InfMission not up yet.
+	--info: TppLocation.lua
+  --info: mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
+  --info: mbdvc_map_location_parameter.GetLocationParameter 65534
+  --info: TppLandingZone.lua
+	--second call
+  --info: TppMain.OnChangeSVars done
+  --info: mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+  --info: InfMission.AddGlobalLocationParameters
+  --info: mbdvc_map_location_parameter.GetLocationParameter 1
+  --info: InfMission.GetMapLocationParameter 1
+  --info: TppSequence.SetNextSequence from Seq_Demo_SetSavedLanguage to Seq_Demo_StartCheckNecessaryStorageSpace
+	
+	--third call
+  --info: TppMain.OnChangeSVars done
+  --info: init_sequence CreateOrLoadSaveData
+  --info: OnMessage[]: UI.PopupClose(--[[popupId:~:LOADING_SAVE_DATA]] 1200, --[[unk1:number:]] 0, nil, nil)
+  --info: mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+  --info: InfMission.AddGlobalLocationParameters
+  --info: init_sequence CreateOrLoadSaveData success
+  --info: TppSequence.SetNextSequence from Seq_Demo_CreateOrLoadSaveData to Seq_Demo_LogInKonamiServer
+
+	--any later?
+	
 	GetGlobalLocationParameter = function()
 	 InfCore.LogFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
 	 local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
-   local enableHerbSearch=Ivars.disableHerbSearch~=nil and Ivars.disableHerbSearch:Is(1) or true--tex disableHerbSearch hasnt been added to Ivars when GetGlobalLocationParameter is first called 
+   local enableHerbSearch=Ivars.disableHerbSearch~=nil and Ivars.disableHerbSearch:Is(0) or true--tex disableHerbSearch hasnt been added to Ivars when GetGlobalLocationParameter is first called 
 	 local globalLocationParameters={--tex was just return the table
 	   --notes from caplag
 			{	
@@ -236,9 +262,9 @@ mbdvc_map_location_parameter = {
 				sectionFuncRankForToilet	= 2, 
 				sectionFuncRankForCrack		= 4, 
 				-- Enable enemy FOM:
-				isSpySearchEnable = enableSpySearch,--tex was true
+				isSpySearchEnable = enableSpySearch,--tex was true. Addon authorts should just set as true (if they want the feature) in their locationInfo addon globalLocationMapParams 
 				-- Enable herb marking:
-				isHerbSearchEnable = enableHerbSearch,--tex was true
+				isHerbSearchEnable = enableHerbSearch,--tex was true. as above
 				-- Distance at which enemy FOM will be marked, each corresponding to Intel level:
 				spySearchRadiusMeter = {	40.0,	40.0,	35.0,	30.0,	25.0,	20.0,	15.0,	10.0, },
 				-- Intervals between enemy FOM updates, corresponding to Intel level:
@@ -267,7 +293,7 @@ mbdvc_map_location_parameter = {
 			},
 		}--globalLocationParameters
 		
-		if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter is torn down/reloaded
+		if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter (mb_dvc_top.fpk) is torn down/reloaded
       InfCore.PCallDebug(InfMission.AddGlobalLocationParameters,globalLocationParameters)
     end--<
 
