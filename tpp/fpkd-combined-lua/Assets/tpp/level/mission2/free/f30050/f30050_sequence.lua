@@ -2128,7 +2128,7 @@ sequences.Seq_Game_MainGame = {
             func = function()
               if not TppQuest.IsActive("mtbs_q99011")
                 and TppStory.CanArrivalQuietInMB(false)
-                and (not isPlayedAfterDeathFactory) then
+                and (not isPlayedAfterDeathFactory) then--RETAILBUG TYPO should be svars.isPlayedAfterDeathFactory
                 GameObject.SendCommand( { type="TppMbQuiet", index=0 }, { id="StartWakeUp", isLoop=true, isAll=false } )
               end
             end,
