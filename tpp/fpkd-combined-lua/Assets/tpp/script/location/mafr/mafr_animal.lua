@@ -1,6 +1,6 @@
 -- DOBUILD: 0
 -- ORIGINALQAR: chunk0
--- PACKPATH: \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd
+-- PACKPATH: \Assets\tpp\pack\location\mafr\mafr_script.fpkd
 local mafr_animal = {}
 
 
