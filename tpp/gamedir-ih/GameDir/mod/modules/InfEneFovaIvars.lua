@@ -12,7 +12,9 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"NONE"},--DYNAMIC via addon
-    Init=function(self)
+    --tex the ivar.settings only used for range max really, 
+    --all uses of the ivar should get the value and test against InfBodyInfo directly
+    OnSelect=function(self)
       IvarProc.SetSettings(self,InfBodyInfo.bodies.MALE)
     end,
     GetSettingText=function(self,setting)
