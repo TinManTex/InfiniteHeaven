@@ -225,6 +225,7 @@ this.registerIvars={
 this.character_bionicHand={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
+  settingNamesDoc=[[<list of \mod\bionicHand>]],
   OnSelect=function(self)
 
   end,

@@ -133,6 +133,7 @@ this.buddyChangeEquipVar={
   nonConfig=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   range={max=0},--DYNAMIC
+  settingNamesDoc="<Equipment for current buddy>",
   GetSettingText=BuddyVarGetSettingText,
   OnSelect=BuddyVarOnSelect,
   OnActivate=BuddyVarOnActivate,
