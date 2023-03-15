@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 -- TppQuest.lua
-
+InfCore.LogFlow"Load TppQuest.lua"--tex DEBUG
 local this={}
 local maxSteps=256
 local defaultStepNumber=0

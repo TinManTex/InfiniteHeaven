@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+InfCore.LogFlow"Load TppTelop.lua"--tex DEBUG
 local this={}
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString

@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 --tex REWORKED
+InfCore.LogFlow"Load TppLandingZone.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 --tex the state of the antiairradar gimmicks controls whether the assaultLz is available

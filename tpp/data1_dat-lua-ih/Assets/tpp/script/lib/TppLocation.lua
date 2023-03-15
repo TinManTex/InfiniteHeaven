@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 --TppLocation.lua
-InfCore.LogFlow"TppLocation.lua"--tex DEBUG
+InfCore.LogFlow"Load TppLocation.lua"--tex DEBUG
 local this={}
 local StrCode32=Fox.StrCode32
 

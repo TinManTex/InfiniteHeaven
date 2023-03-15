@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppEneFova.lua
+InfCore.LogFlow"Load TppEneFova.lua"--tex DEBUG
 local this={}
 local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
 local RENlang0=0

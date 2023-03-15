@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- TppGimmick.lua
 --tex TODO: if you pull this into the build then integrate workaround in InfQuest.OnActivateQuest --tex uhh, what?
+InfCore.LogFlow"Load TppGimmick.lua"--tex DEBUG
 local this={}
 local StrCode32=Fox.StrCode32
 local GetTypeIndex=GameObject.GetTypeIndex
