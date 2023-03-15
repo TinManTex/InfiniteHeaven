@@ -1,5 +1,7 @@
 --InfCamera.lua
 --tex really just SetAroundCameraManualModeParams, drivein in freecam mode by updating the target position in relation to previous diven by pressed direction
+--TODO: whole thing needs a rework, was initially just a more generalized AroundCam, but then just left it as FreeCam when PlayCam was added, since that has better following and more options.
+--so either commit to original idea or cull the alternate cam modes and simplify.
 local this={}
 --LOCALOPT
 local InfMain=InfMain
@@ -7,8 +9,9 @@ local IsDemoPaused=DemoDaemon.IsDemoPaused
 local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 local Vector3=Vector3
 local Ivars=Ivars
-local SetCameraParams=Player.SetAroundCameraManualModeParams
-local UpdateCameraParams=Player.UpdateAroundCameraManualModeParams
+local SetAroundCameraManualModeParams=Player.SetAroundCameraManualModeParams
+local UpdateAroundCameraManualModeParams=Player.UpdateAroundCameraManualModeParams
+local StageBlockCurrentPositionSetter_SetPosition=StageBlockCurrentPositionSetter.SetPosition
 
 this.moveUpButton=InfButton.DASH
 this.moveDownButton=InfButton.ZOOM_CHANGE
@@ -41,6 +44,7 @@ this.registerIvars={
   --tex ivars in camIvarPrefixes registered below
 }
 
+--tex module active ivar, not user facing
 this.adjustCameraUpdate={
   inMission=true,
   nonConfig=true,
@@ -49,10 +53,13 @@ this.adjustCameraUpdate={
   settingNames="set_switch",
   isMode=true,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
-  OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,
+  OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,--tex UNUSED?
   OnChange=function(self,setting)
+    InfCore.LogFlow("InfCamera ivar adjustCameraUpdate.OnChange:"..setting)
     if Ivars.warpPlayerUpdate and Ivars.warpPlayerUpdate:Is(1) then--TODO rethink
       self:SetDirect(0)
+      this.OnDectivateCameraAdjust()
+      Ivars.cameraMode:Set(0)
       InfMenu.PrintLangId"other_control_active"
       return
     end
@@ -65,37 +72,60 @@ this.adjustCameraUpdate={
       --      else
       InfMenu.PrintLangId"cam_mode_on"
       --InfMain.ResetCamDefaults()
-      InfCamera.OnActivateCameraAdjust()
+      this.OnActivateCameraAdjust()
       Ivars.cameraMode:Set(1)
       --end
     else
       InfMenu.PrintLangId"cam_mode_off"
-      InfCamera.OnDectivateCameraAdjust()
+      this.OnDectivateCameraAdjust()
       Ivars.cameraMode:Set(0)
     end
     
-    InfMain.usingAltCamera=setting==1
-
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()--TODO only restore those that menu disables that this doesnt
       InfMenu.MenuOff()
     end
   end,
 }
-
+--tex was planned for a lot of modes, but now is just OFF, FreeCam
+--currently the sole controller of Player.SetAroundCameraManualMode in this module
 this.cameraMode={
   inMission=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"DEFAULT","CAMERA"},--"PLAYER","CAMERA"},
-  OnChange=function(self)
-    if self:Is"DEFAULT" then
-      Player.SetAroundCameraManualMode(false)
-    else
-      Player.SetAroundCameraManualMode(true)
-      InfCamera.UpdateCameraManualMode()
+  OnChange=function(self,setting)
+    local active=setting~=0--tex not off
+    
+    Player.SetAroundCameraManualMode(active)
+    
+    if active then
+      --KLUDGE if cam at 0,0,0 set to player pos
+      local currentCamName=this.GetCurrentCamName()
+      local currentCamPos=this.ReadPosition(currentCamName)
+      --InfCore.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
+      if currentCamPos:GetX()==0 and currentCamPos:GetY()==0 and currentCamPos:GetZ()==0 then
+        local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+        this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)
+      end
+    
+      this.UpdateCameraManualMode()
     end
+    
+    if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1) then
+      StageBlockCurrentPositionSetter.SetEnable(active)
+    end
+
+    InfMain.usingAltCamera=active
   end,
 }
+
+--tex GOTCHA: if adjustCameraUpdate is on then these will be set via Update which will call UpdateCameraManualMode to do them in one go
+--so we're guarding against that
+function this.UpdateCameraManualModeFromMenu()
+  if ivars.cameraMode~=0 and ivars.adjustCameraUpdate==0 then
+    this.UpdateCameraManualMode()
+  end
+end
 
 this.updateStageBlockLoadPositionToCameraPosition={--DEBUGNOW addlang, add a warning about player falling through world if terrain is unloaded?
   inMission=true,
@@ -104,7 +134,7 @@ this.updateStageBlockLoadPositionToCameraPosition={--DEBUGNOW addlang, add a war
   settingNames="set_switch",
   OnChange=function(self,setting)
     local enable=setting==1
-    if not enable or Ivars.adjustCameraUpdate:Get()~=0 then
+    if Ivars.cameraMode:Is(1) then
       StageBlockCurrentPositionSetter.SetEnable(enable)
     end
   end,
@@ -151,6 +181,7 @@ for i,camName in ipairs(this.camNames) do
     save=IvarProc.CATEGORY_EXTERNAL,
     default=21,
     range={max=10000,min=0.1,increment=1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
 
   this["focusDistance"..camName]={
@@ -158,6 +189,7 @@ for i,camName in ipairs(this.camNames) do
     save=IvarProc.CATEGORY_EXTERNAL,
     default=8.175,
     range={max=1000,min=0.01,increment=0.1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
 
   this["aperture"..camName]={
@@ -165,6 +197,7 @@ for i,camName in ipairs(this.camNames) do
     save=IvarProc.CATEGORY_EXTERNAL,
     default=1.875,
     range={max=100,min=0.001,increment=0.1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
 
   this["distance"..camName]={
@@ -172,6 +205,7 @@ for i,camName in ipairs(this.camNames) do
     save=IvarProc.CATEGORY_EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
 
   this["positionX"..camName]={
@@ -180,6 +214,7 @@ for i,camName in ipairs(this.camNames) do
     default=0,
     range={max=100000,min=-100000,increment=1},
     noBounds=true,
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
   this["positionY"..camName]={
     inMission=true,
@@ -187,6 +222,7 @@ for i,camName in ipairs(this.camNames) do
     default=0,
     range={max=100000,min=-100000,increment=1},
     noBounds=true,
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
   this["positionZ"..camName]={
     inMission=true,
@@ -194,6 +230,7 @@ for i,camName in ipairs(this.camNames) do
     default=0,
     range={max=100000,min=-100000,increment=1},
     noBounds=true,
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
 
   this["targetInterpTime"..camName]={
@@ -201,24 +238,28 @@ for i,camName in ipairs(this.camNames) do
     save=IvarProc.CATEGORY_EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
   this["rotationLimitMinX"..camName]={
     inMission=true,
     save=IvarProc.CATEGORY_EXTERNAL,
     default=-90,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=0,min=-90,increment=1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
   this["rotationLimitMaxX"..camName]={
     inMission=true,
     save=IvarProc.CATEGORY_EXTERNAL,
     default=90,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=90,min=0,increment=1},
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
   this["alphaDistance"..camName]={
     inMission=true,
     save=IvarProc.CATEGORY_EXTERNAL,
     default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=10,min=0,increment=0.1},--0--.1,--3--.5,1,3
+    OnChange=this.UpdateCameraManualModeFromMenu,
   }
 
 
@@ -232,6 +273,8 @@ this.ResetCameraToPlayerPos=function()
   local currentCamName=this.GetCurrentCamName()
   local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)
+  
+  this.UpdateCameraManualModeFromMenu()
 end
 
 this.WarpToCamPos=function()
@@ -270,6 +313,7 @@ end
 --quickmenu commands
 this.ToggleCamMode=function()
   InfMenu.PrintLangId"freecam_non_adjust"
+  InfCore.LogFlow"ToggleCamMode"
   if Ivars.cameraMode:Is(0) then
     Ivars.cameraMode:Set(1)
   else
@@ -279,6 +323,7 @@ end
 
 this.ToggleFreeCam=function()
   --InfCore.DebugPrint"quickmenu RELOAD"--DEBUG
+  InfCore.LogFlow"ToggleFreeCam"
   if Ivars.adjustCameraUpdate:Is(0) then
     Ivars.adjustCameraUpdate:Set(1)
   else
@@ -322,10 +367,10 @@ this.langStrings={
     adjustCameraUpdate="Adjust-cam [Mode]",
     cam_mode_on="Adjust-cam mode on",
     cam_mode_off="Adjust-cam mode off",
-    moveScale="Cam speed scale",
-    cameraMode="Camera mode",
-    cameraModeSettings={"Default","Free cam"},--"Player","Free cam"},
-    cam_aroundcamMenu="Cam - AroundCam menu",
+    moveScale="Cam move speed scale",
+    cameraMode="AroundCam mode",
+    cameraModeSettings={"Off","Free cam"},--"Player","Free cam"},
+    cam_aroundcamMenu="Cam - AroundCam (FreeCam) menu",
     focal_length_mode="Focal length mode",
     aperture_mode="Aperture mode",
     focus_distance_mode="Focus distance mode",
@@ -336,7 +381,7 @@ this.langStrings={
     other_control_active="Another control mode is active",
     cannot_edit_default_cam="Cannot adjust Camera mode Default",
     distance_mode="Distance mode",
-    disableCamText="Disable mode text feedback",
+    disableCamText="Disable Adjust-cam text",
     resetCameraToPlayerPos="Reset camera position to player",
     warpToCamPos="Warp body to FreeCam position",
     showFreeCamPosition="Show freecam position",
@@ -347,7 +392,7 @@ this.langStrings={
   help={
     eng={
       cam_aroundMenu="Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
-      adjustCameraUpdate=[[
+      adjustCameraUpdate=[[Turning this on sets AroundCam mode to Free cam, and lets you use keys/buttons to adjust the options.
   Move cam with normal move keys 
 
   <Dash>(Shift or Left stick click) to move up
@@ -369,9 +414,12 @@ this.langStrings={
   Or hold <Binocular> and press the above to reset that setting.
 
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
-    },
-    setStageBlockPositionToFreeCam="Sets the map loading position to the free cam position.",
-    updateStageBlockLoadPositionToCameraPosition="Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.",
+      cameraMode="Lets you turn on freecam, if Adjust-cam mode is off ",
+      moveScale="Movement speed scale when in Adjust-cam mode",
+      setStageBlockPositionToFreeCam="Sets the map loading position to the free cam position.",
+      updateStageBlockLoadPositionToCameraPosition="Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.",
+      disableCamText="Disables Adjust-cams repeating announce log of the current 'hold button to adjust' settings.",
+    },--eng
   }
 }--langStrings
 
@@ -458,6 +506,13 @@ function this.UpdateCameraManualMode()
   local alphaDistance=Ivars["alphaDistance"..currentCamName]
 
   local movePosition=this.ReadPosition(currentCamName)
+  
+  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1)then
+    local currentCamName=this.GetCurrentCamName()
+    local movePosition=this.ReadPosition(currentCamName)
+    StageBlockCurrentPositionSetter_SetPosition(movePosition:GetX(),movePosition:GetZ())   
+  end
+  
   --WIP
   --  if Ivars.cameraMode:Is"PLAYER" then
   --    SetCameraParams{
@@ -485,7 +540,7 @@ function this.UpdateCameraManualMode()
   --  useShakeParam=,--bool true,false--only used once skullface drive
   --    }
   --  else
-  SetCameraParams{
+  SetAroundCameraManualModeParams{
     target=movePosition,
     distance=cameraDistance:Get(),
     focalLength=focalLength:Get(),
@@ -498,23 +553,13 @@ function this.UpdateCameraManualMode()
     alphaDistance=alphaDistance:Get(),
   }
   -- end
-  UpdateCameraParams()
+  UpdateAroundCameraManualModeParams()
 end--UpdateCameraManualMode
 
 function this.OnActivateCameraAdjust()
-  --KLUDGE
-  local currentCamName=this.GetCurrentCamName()
-  local currentCamPos=this.ReadPosition(currentCamName)
-  --InfCore.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
-  if currentCamPos:GetX()==0 and currentCamPos:GetY()==0 and currentCamPos:GetZ()==0 then
-    local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-    this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)
-  end
+
   --this.DisableAction(Ivars.adjustCameraUpdate.disableActions)--tex OFF not really needed, padmask is sufficient
   Player.SetPadMask(InfMain.allButCamPadMask)
-  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1)then
-    StageBlockCurrentPositionSetter.SetEnable(true)
-  end
 end
 
 function this.OnDectivateCameraAdjust()
@@ -522,11 +567,11 @@ function this.OnDectivateCameraAdjust()
   Player.ResetPadMask {
     settingName = "allButCam",
   }
-  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1) then
-    StageBlockCurrentPositionSetter.SetEnable(false)
-  end
 end
 
+--tex gated by adjustCameraUpdate (see this.active)
+--update cam ivars using keys, then update aroundcam with them
+--changing the cam ivars via the menu not use this update, they update aroundcam directly (assuming cameraMode not off)
 function this.Update(currentChecks,currentTime,execChecks,execState)
   --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
   local Ivars=Ivars
@@ -539,14 +584,8 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       return
     end
   end
-
-  if Ivars.adjustCameraUpdate:Is(0) then
-    if Ivars.cameraMode:Is()>0 then
-      this.UpdateCameraManualMode()
-    end
-    return
-  end
-
+ 
+  --tex Default, ie off.
   if Ivars.cameraMode:Is(0) then
     --OFF    InfMenu.PrintLangId"cannot_edit_default_cam"
     Ivars.adjustCameraUpdate:Set(0)
@@ -555,12 +594,6 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   this.DoControlSet(currentChecks)
   
-  if Ivars.updateStageBlockLoadPositionToCameraPosition:Is(1)then
-    local currentCamName=this.GetCurrentCamName()
-    local movePosition=this.ReadPosition(currentCamName)
-    StageBlockCurrentPositionSetter.SetPosition(movePosition:GetX(),movePosition:GetZ())   
-  end
-
   this.UpdateCameraManualMode()
   --end,currentChecks,currentTime,execChecks,execState)--DEBUG
 end--Update
@@ -746,5 +779,12 @@ function this.DoControlSet(currentChecks)
   return movePosition
   --end,currentChecks)--DEBUG
 end--DoControlSet
+
+--tex: DEBUGNOW any other mission changes we need to catch
+function this.AbortMissionTop(abortInfo)
+  --tex game doesnt like cam being on during mission change DEBUGNOW figure out what exactly
+  --just firing without check so we get cameraMode turned off reguardless
+  Ivars.adjustCameraUpdate:Set(0)
+end
 
 return this

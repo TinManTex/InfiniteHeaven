@@ -10,6 +10,10 @@ Fix: "Custom soldier type in Free/Mission" resetting to off after game is next r
 
 Fix: Some cases of Player Cam hook (FOV) not applying.
 
+AroundCam (FreeCam):
+When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
+Fix: hang if on when Abort mission.
+
 r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
