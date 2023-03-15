@@ -8,6 +8,8 @@ thanks caplag for a related report.
 
 Fix: "Custom soldier type in Free/Mission" resetting to off after game is next restarted - thanks Spectral for the report and troubleshooting files.
 
+Fix: Some cases of Player Cam hook (FOV) not applying.
+
 r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
