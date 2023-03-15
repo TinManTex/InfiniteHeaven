@@ -111,6 +111,8 @@ function this.OnAllocateTop(missionTable)
   if gvars.isContinueFromTitle then
     this.isContinueFromTitle=true
   end
+  
+  this.usingAltCamera=false
 
   this.CallOnModules("OnAllocateTop",missionTable)
   if IHH then
