@@ -24,39 +24,13 @@ this.debugModule=false
 --  --tex new bodyIds are added by fovaInfo addons with bodyFova, bodyDefinition entries. See InfSoldierFaceAndBody
 --  --tex if bodyId nil then will fall back to normal GetBodyId (which relies on soldierSubType),
 --  --if bodyIds is an array (like this example) bodyId is chosen randomly
---  bodyIds={
---    TppEnemyBodyId.pfs0_rfl_v00_a,
---    TppEnemyBodyId.pfs0_rfl_v01_a,
---    TppEnemyBodyId.pfs0_mcg_v00_a,
---    TppEnemyBodyId.pfs0_snp_v00_a,
---    TppEnemyBodyId.pfs0_rdo_v00_a,
---    TppEnemyBodyId.pfs0_rfl_v00_b,
---    TppEnemyBodyId.pfs0_rfl_v01_b,
---    TppEnemyBodyId.pfs0_mcg_v00_b,
---    TppEnemyBodyId.pfs0_snp_v00_b,
---    TppEnemyBodyId.pfs0_rdo_v00_b,
---    TppEnemyBodyId.pfs0_rfl_v00_c,
---    TppEnemyBodyId.pfs0_rfl_v01_c,
---    TppEnemyBodyId.pfs0_mcg_v00_c,
---    TppEnemyBodyId.pfs0_snp_v00_c,
---    TppEnemyBodyId.pfs0_rdo_v00_c,
---    TppEnemyBodyId.pfa0_v00_b,
---    TppEnemyBodyId.pfa0_v00_c,
---    TppEnemyBodyId.pfa0_v00_a,
---    TppEnemyBodyId.pfs0_unq_v210,
---    TppEnemyBodyId.pfs0_unq_v250,
---    TppEnemyBodyId.pfs0_unq_v360,
---    TppEnemyBodyId.pfs0_unq_v280,
---    TppEnemyBodyId.pfs0_unq_v150,
---    TppEnemyBodyId.pfs0_unq_v220,
---    TppEnemyBodyId.pfs0_unq_v140,
---    TppEnemyBodyId.pfs0_unq_v241,
---    TppEnemyBodyId.pfs0_unq_v242,
---    TppEnemyBodyId.pfs0_unq_v450,
---    TppEnemyBodyId.pfs0_unq_v440,
---    TppEnemyBodyId.pfs0_unq_v155,
+--  --NOTE: old bodyInfo version has bodyIds={TppEnemyBodyId.pfs0_rfl_v01_a,} etc, where the TppEnemyBodyId bodyId entries are numbers not strings. 
+--  bodyIdNames={
+--    "pfs0_rfl_v00_a",
+--    "pfa0_v00_c",
+--    "pfs0_unq_v210",
 --  },--bodyIds
---  --TppEnemy.bodyIdTable style table, NOTE: if using this don't need the above bodyIds (as it will be built from bodyIdTable anyway)
+--  --TppEnemy.bodyIdTable style table, NOTE: if using this don't need the above bodyIdNames (as it will be built from bodyIdTable anyway)
 --  bodyIdTable={
 --tex hope to eventually support multiple subTypes per body like the base game does, but for now just one entry as the bodyInfo name
 --    SOME_ENEMY={
