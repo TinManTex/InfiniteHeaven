@@ -1388,6 +1388,32 @@ function this.LoadBodyInfos()
     bodyType=bodyInfo.bodyType or bodyInfo.name or bodyType
     bodyInfo.bodyType=bodyType--LEGACY TODO cull once you've changed code to .name
     bodyInfo.name=bodyType--tex standard with other ih info formats
+     
+    if bodyInfo.bodyIds and bodyInfo.bodyIdNames then
+      InfCore.Log("ERROR: InfBodyInfo.LoadBodyInfos: bodyInfo has both .bodyIds and .bodyIdNames",false,true)--tex author warning
+    end
+    
+    --tex PATCHUP: MUTATION: new (post r261) bodyInfos should have bodyInfo.bodyNames entries instead (which in hindsight I should have implemented my example as from the start)  
+    if bodyInfo.bodyIds and #bodyInfo.bodyIds>0 then
+      if type(bodyInfo.bodyIds[1])=="string" then--ASSUMPTION: if first entry is string, then this is a list of strings
+        bodyInfo.bodyIdNames=bodyInfo.bodyIds
+        bodyInfo.bodyIds={}
+      end
+    end
+    
+    if bodyInfo.bodyIdNames then
+      for i,bodyIdName in ipairs(bodyInfo.bodyIdNames)do
+        if TppEnemyBodyId[bodyIdName]==nil then
+          InfCore.Log("WARNING: InfBodyInfo.LoadBodyInfos: could not find TppEnemyBodyId."..bodyIdName,false,true)
+          InfCore.PrintInspect(bodyInfo,"bodyInfo")
+        else
+          table.insert(bodyInfo.bodyIds,TppEnemyBodyId[bodyIdName])
+        end
+      end--for bodyIdNames
+    end--bodyIdNames
+   
+    --tex DEBUGNOW see if theres any released addons that use this.
+    --DEBUGNOW handle string bodyIds
     if bodyInfo.bodyIds==nil or bodyInfo.bodyIdTable then
       local bodyIdTable=bodyInfo.bodyIdTable or TppEnemy.bodyIdTable
       bodyInfo.bodyIds=this.GatherBodyIds(bodyInfo.name,bodyIdTable)--DEBUGNOW need to handle multiple soldiertypes

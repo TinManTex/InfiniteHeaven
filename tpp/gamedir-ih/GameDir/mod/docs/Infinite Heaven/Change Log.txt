@@ -6,7 +6,9 @@ Fix: disableHerbSearch possibly not working correctly.
 Fix: Randomize RouteSets being called despite individual options being off (though not if main setting was off).
 thanks caplag for a related report.
 
-Fix: "Custom soldier type in Free/Mission" resetting to off after game is next restarted - thanks Spectral for the report and troubleshooting files.
+Fix: "Custom soldier type in Free/Mission" resetting to off after game is next restarted. Was broken as of r247 - thanks Spectral for the report and troubleshooting files. 
+
+Fix: enemy soldier type addons with multiple bodies not working, was broken as of r258 - thanks Spectral for the report
 
 Fix: Some cases of Player Cam hook (FOV) not applying.
 
