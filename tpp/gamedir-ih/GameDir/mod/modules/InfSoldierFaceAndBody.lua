@@ -109,8 +109,8 @@ this.fovaInfos={}
 
 local bodyFovaLimit=366--LIMIT
 
+--tex fova index lookups by fv2 - this[fovaTypeName][fovaName]=fovaIndex, see TABLESETUP in Setup()
 this.bodyFova={}
---tex fova index lookups by fv2 - this[fovaTypeName][fovaName]=fovaIndex, TABLESETUP in Setup()
 --TODO put lookups in InfEneFova instead, merge or shift the current tables there
 --TODO also integrate fv2 info from external fovainfo modules
 --tex cleared in .Setup
@@ -223,7 +223,7 @@ end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
 --IN/OUT Solder2FaceAndBodyData
 function this.Setup(faceAndBodyData)
-  InfCore.LogFlow"InfSoldierFaceAndBody.SetupFova:"
+  InfCore.LogFlow"InfSoldierFaceAndBody.Setup:"
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData pre setup")
   end
@@ -252,15 +252,23 @@ function this.Setup(faceAndBodyData)
     end
   end
 
-  --tex build fova file name lookup to fova index tables
+  --tex TABLESETUP build fova file name lookup to fova index tables
   for i,fovaTypeName in ipairs(this.fovaTypes) do
     for fovaIndex,fovaInfo in ipairs(faceAndBodyData[fovaTypeName]) do
+      --tex uses 'filename of fovaInfo entries as an id, 
+      --ex bodyFova{   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v210.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v00.fpk"},--116,250,,black beret, glases, black vest, red shirt, tan pants, fingerless gloves, white hands
+      --fovaInfo[1] == "/Assets/tpp/fova/chara/pfs/pfs0_unq_v210.fv2"
+      --fileName/fovaName == "pfs0_unq_v210.fv2"
       local fovaName=InfUtil.GetFileName(fovaInfo[1])
       local existing=this[fovaTypeName][fovaName]
       if existing~=nil then
         InfCore.Log("InfSoldierFaceAndBody.Setup: "..fovaTypeName.."."..fovaName.." already has index "..existing)
       end
       this[fovaTypeName][fovaName]=fovaIndex-1--tex shift from lua indexed (from 1), to fova indexed (from 0)
+      if this.debugModule then
+        InfCore.Log("Added faceAndBodyData fova table lookup: this["..fovaTypeName.."]["..fovaName.."]="..fovaIndex-1)
+        InfCore.PrintInspect(fovaInfo,"fovaIndex points to")
+      end
     end
   end
 
@@ -270,6 +278,9 @@ function this.Setup(faceAndBodyData)
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData post setup")
     InfCore.Log("#faceAndBodyData.bodyFova:"..#faceAndBodyData.bodyFova)
+    for i,fovaTypeName in ipairs(this.fovaTypes) do
+      InfCore.PrintInspect(this[fovaTypeName],"this."..fovaTypeName.." set up")
+    end
   end
 end
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files
@@ -411,25 +422,25 @@ end
 --tex Adds body fova info to Solder2FaceAndBodyData
 --IN/OUT Solder2FaceAndBodyData.lua
 function this.SetupBodyFova(faceAndBodyData)
-  InfCore.LogFlow("InfEneBodyFova.Setup:")
+  InfCore.LogFlow("InfEneBodyFova.SetupBodyFova:")
 
   this.bodyDefinitions={}
 
   for moduleName,module in pairs(this.fovaInfos)do
-    local bodyDefinitions=module.bodyDefinitions
-    if bodyDefinitions then
+    if module.bodyDefinitions then
       local definitionIndex=#faceAndBodyData.bodyDefinition
       local currentBodyId=faceAndBodyData.bodyDefinition[definitionIndex][1]
       InfCore.Log("#bodyDefinitions:"..definitionIndex.." start bodyId:"..currentBodyId)--DEBUG
-      for definitionName,definition in pairs(bodyDefinitions)do
+      for definitionName,definition in pairs(module.bodyDefinitions)do
         if this.CheckDefinition(definition,this.bodyFovaTypes,definitionName) then
+          --tex add to faceAndBodyData.bodyDefinition
           currentBodyId=currentBodyId+1
           definitionIndex=definitionIndex+1
-          local currentBodyFova=this.bodyFova[definition.bodyFova]
+          local bodyFovaId=this.bodyFova[definition.bodyFova]--tex GOTCHA: definition.bodyFova really fovaName/bodyFovaName ex "svs0_rfl_v00_a.fv2"
           local isArmor=definition.isArmor or 0
           local newBody={
             currentBodyId,
-            currentBodyFova,
+            bodyFovaId,
             isArmor
           }
           faceAndBodyData.bodyDefinition[definitionIndex]=newBody
