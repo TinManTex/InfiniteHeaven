@@ -846,7 +846,7 @@ end--AddLzInfo
 --OUT/SIDE: TppDefine.MISSION_LIST, TppDefine.MISSION_ENUM
 function this.RegisterMissions()
   InfCore.LogFlow("InfMission.RegisterMissions")
-  --tex WORKAROUND exe/ui seems to have same limit as TppDefine.MISSION_COUNT_MAX
+  --tex LIMIT WORKAROUND exe/ui seems to have same limit as TppDefine.MISSION_COUNT_MAX
   --but there's issues with mission completed rank not matching and seemingly no lua>ui way to set it
   --unlike the rest of the information via Mission.RegisterMissionCodeList, the gmp and task completion via TppResult.GetMbMissionListParameterTable
   --so am reusing the MISSING_NUMBER_MISSION_LIST which is flyk and some uncompleted extreme/subsidence of other missions

@@ -1274,7 +1274,7 @@ end--GetSideOpsListTable
 --end--GetSideOpsListTable
 --OUT: sideOpsListTable
 function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
-  local maxUIQuests=192--tex I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
+  local maxUIQuests=192--tex LIMIT I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
   local overCount=#sideOpsListTable-maxUIQuests
   if overCount>0 then
     --tex TODO: some meaninful way of notifying user, indicating that it's not a big deal (unless there ever comes a time when theres more than 192 quest areas installed at one time lol)

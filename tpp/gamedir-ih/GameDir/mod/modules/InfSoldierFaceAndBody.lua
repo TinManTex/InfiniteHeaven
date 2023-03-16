@@ -12,7 +12,7 @@
 -- on the IH nexus page for working examples
 -- Soldier entities enemies and staff on mb (but not when playing that staff) use body addon, which can also used for customSoldierType ((see the IH body addon example and modules/InfBodyInfo.lua)
 --tex: these functions are kinda verbose in debugMode so developers can debug their fova addons
---GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
+--LIMIT GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
 --dont know if its for bodyDefinition or bodyFova count though.
 --seems to be vanilla count + 64 = 366
 --TODO: figure out what limits to the other entries are
@@ -107,7 +107,7 @@ this.fovaInfos={}
 --}--this
 --return this
 
-local bodyFovaLimit=366
+local bodyFovaLimit=366--LIMIT
 
 this.bodyFova={}
 --tex fova index lookups by fv2 - this[fovaTypeName][fovaName]=fovaIndex, TABLESETUP in Setup()
