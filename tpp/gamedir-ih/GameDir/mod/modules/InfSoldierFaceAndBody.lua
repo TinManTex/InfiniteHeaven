@@ -40,7 +40,7 @@ this.fovaInfos={}
 
 --See mod\modules\InfSoldierFaceAndBody.lua when IH is installed for the implementation of the system and the newest version of these notes.
 
---REF mod\fovaInfo\example_head_fovaInfo
+--REF mod\fovaInfo\example_head_fovaInfo - adding head/faces
 --local this={
 --  faceFova={
 --    {"/Assets/tpp/fova/common_source/chara/cm_head/face/example_face1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/example_face1.fpk"},
@@ -72,7 +72,7 @@ this.fovaInfos={}
 --}--this
 --return this
 
---REF mod\fovaInfo\uss0_main0
+--REF mod\fovaInfo\uss0_main0 - adds bodyIds
 --local this={
 --  bodyFova={
 --    {"/Assets/tpp/fova/chara/uss/uss0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/uss/uss0_main0_v00.fpk"},

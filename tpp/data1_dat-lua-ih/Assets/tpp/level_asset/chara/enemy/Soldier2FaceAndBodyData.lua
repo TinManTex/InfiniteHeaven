@@ -7,7 +7,7 @@
 -- and \mod\modules\InfBodyInfo.lua which handles the soldier body fova addons -
 -- FLOW: The actual loading/initialization of the fpks seems to be in-engine between GetMissionPackagePath and OnAllocate
 -- (which can be tested by referening a non existant fpk, game loading will halt like it does for non existing mission pack fpks).
---GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
+--LIMIT: GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
 --dont know if its for bodyDefinition or bodyFova count though.
 --seems to be vanilla count + 64 = 366
 local this={}
@@ -184,10 +184,8 @@ this.hairDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fpk"},--24,
 }--hairDecoFova
 --NMC: see also bodyDefinition table below and TppEnemyBodyId.lua
---{"FV2 PATH","FOVA FPK PATH"}, bodyDefinition index, bodyId, TppEnemyBodyId, Notes...
---if TppEnemyBodyId not given it's likely the same as the fv2 file name
---In a lot of cases TppEnemyBodyId aren't used and the bodyId is used directly
---and in some cases the mapping is incorrect (see note on pfs0_dds0_v00 below)
+--{"FV2 PATH","FOVA FPK PATH"},--bodyDefinition index, bodyId, TppEnemyBodyId, Notes...
+--if TppEnemyBodyId not noted it's likely the same as the fv2 file name
 this.bodyFova={
   --SOVIET see TppEnemy.bodyIdTable
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--0,0,,
@@ -1125,8 +1123,10 @@ this.modFaceFova={
   {567,"Balaclava",18,""},
 }--modFaceFova
 
---maps TppEnemyBodyId to bodyFova table index (see above)
---{bodyId,bodyFova, isArmor? or something else common to armor?}--TppEnemyBodyId, further notes
+--tex NMC maps bodyId to bodyFova table index (bodyFovaId) (see above)
+--NOTE: the indexing of bodyDefinition itself doesnt seem to be used? only the bodyId in the bodyDef entry itself? (see TppEnemyBodyId)
+--don't know why bodyIds aren't contiguous
+--{bodyId,bodyFovaId, isArmor? or something else common to armor?}--TppEnemyBodyId, further notes
 this.bodyDefinition={
   {0,0,0},
   {1,1,0},
