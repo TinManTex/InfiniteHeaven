@@ -1,16 +1,22 @@
 --InfBodyInfo.lua
 --tex used to define soldier body info for IH soldier type change (via customSoldierType option) or addon missions (TODO actually document how to do so)
+
 --bodyInfo table can be used as a reference if you want to look up what game chara models are (mostly look at partsPath)
 
 --Also handles \mod\bodyInfo\ addons.
 
---Actual implementation scattered across InfEneFova and InfSoldierFaceAndBody, search InfBodyInfo, GetMaleBodyInfo
+--Actual implementation scattered across 
+--InfEneFova 
+--InfSoldierFaceAndBody - adds bodyIdNames/bodyIds to Soldier2FaceAndBodyData via fovaInfo addons
+--search InfBodyInfo, InfEneFova.GetMaleBodyInfo for uses of bodyInfo
+
+
 
 --GOTCHA: note from Warm Wallaby: option hasFace disable notification about staff morale (on MTBS) because game treat soldier like a enemy (soldiers doen't have face fova)
 --https://discord.com/channels/364177293133873153/364177950805065732/902560368314961970
 --TODO: document how hasface/balaclavaIds work
 
---tex DEBUGNOW GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
+--tex LIMIT DEBUGNOW GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 
 local this={}
 
@@ -1388,6 +1394,7 @@ function this.LoadBodyInfos()
    
     --tex DEBUGNOW see if theres any released addons that use this.
     --DEBUGNOW handle string bodyIds
+    --DEBUGNOW bodyInfo.name vs soldierSubType used on my builtins that fallback to TppEnemy.bodyIdTable
     if bodyInfo.bodyIds==nil or bodyInfo.bodyIdTable then
       local bodyIdTable=bodyInfo.bodyIdTable or TppEnemy.bodyIdTable
       bodyInfo.bodyIds=this.GatherBodyIds(bodyInfo.name,bodyIdTable)--DEBUGNOW need to handle multiple soldiertypes
