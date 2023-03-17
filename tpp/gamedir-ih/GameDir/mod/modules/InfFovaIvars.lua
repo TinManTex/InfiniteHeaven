@@ -340,6 +340,17 @@ this.playerFaceId={
         return InfLangProc.LangString"only_for_dd_soldier"
     end
 
+    if Ivars.playerFaceFilter:Is"FOVAMOD" then
+      if not InfSoldierFaceAndBody.hasFaceFova then
+        return InfLangProc.LangString"no_head_fovas"
+      end
+    end
+        
+    --tex possible if hasFaceFova but they are all overwriteFaceIds
+    if #self.settingsTable==0 then
+      return "No faceIds found for current filter"
+    end
+
     local faceDefId=self.settingsTable[setting+1]
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     if faceDef==nil then
@@ -348,13 +359,6 @@ this.playerFaceId={
       return err
     end
     local faceId=faceDef[1]
-
-    if Ivars.playerFaceFilter:Is"FOVAMOD" then
-      if not InfSoldierFaceAndBody.hasFaceFova then
-        return InfLangProc.LangString"no_head_fovas"
-      end
-    end
-
     local headDefinitionName=InfSoldierFaceAndBody.headDefinitions[faceId]
     if headDefinitionName then
       local headDefinition=InfSoldierFaceAndBody.headDefinitions[headDefinitionName]
@@ -365,21 +369,14 @@ this.playerFaceId={
     end,self,setting)--DEBUG
   end,
   OnSelect=function(self)
-    --DEBUGNOW what am I doing here?
-    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
+    --tex only dd
+    if not InfFova.playerTypeGroup.DD[vars.playerType] then
       self:SetDirect(0)
-      self.settingsTable={0}
+      self.settingsTable={}
       self.range.max=0
       return
     end
-
-    --CULL
-    --    local faceModSlots={}
-    --    for i,slot in ipairs(InfEneFova.faceModSlots)do
-    --      local faceId=Soldier2FaceAndBodyData.faceDefinition[slot][1]
-    --      faceModSlots[faceId]=true
-    --    end
-
+    
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
     local settingsTable={}
 
@@ -390,19 +387,16 @@ this.playerFaceId={
       local faceId=entry[1]
       if (isUpperLimit and faceId>=filter) or (isDirect and filter[faceId]) then
         if entry[InfEneFova.faceDefinitionParams.gender]==gender then
-          --CULLif not faceModSlots[faceId] then
           table.insert(settingsTable,faceDefinitionIndex)
-          --end
         end
       end
     end
 
-    --InfCore.PrintInspect(settingsTable,"settingsTable")--DEBUG
-
     if #settingsTable==0 then
       self:SetDirect(0)
-      self.settingsTable={0}
+      self.settingsTable={}
       self.range.max=0
+      InfCore.Log("InfFovaIvars.playerFaceId:OnSelect #settingsTable==0, returning")--DEBUG
       return
     end
 
@@ -489,9 +483,9 @@ this.playerFaceFilter={
       [686]=true,--female tatoo skull white white hair
     },
 
-    FOVAMOD=691,--SYNC Soldier2FaceAndBodyData.highestVanillaFaceId,
-  },
-}
+    FOVAMOD=Soldier2FaceAndBodyData.highestVanillaFaceId+3,--tex I add hideo and 2 slots for the manual facedefinition thing
+  },--settingsTable
+}--playerFaceFilter
 
 this.playerFaceIdDirect={
   inMission=true,
