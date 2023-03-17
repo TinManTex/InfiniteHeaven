@@ -1107,15 +1107,15 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
 
   --tex> ddsuit headgear
   if IvarProc.EnabledForMission("customSoldierType",missionId) then
-    for faceId, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
-      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    for faceIdName, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
+      table.insert(faces,{TppEnemyFaceId[faceIdName],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     end
 
     if missionId==30250 then
       mtbsFaceSetupFuncs[missionId](faces)
     end
-    --<
-  else
+    TppSoldierFace.OverwriteMissionFovaData{face=faces}
+  else--<
     --tex REWORKED r195
     if mtbsFaceSetupFuncs[missionId] then
       mtbsFaceSetupFuncs[missionId](faces)
@@ -1127,9 +1127,9 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
       table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
       table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     end
+    TppSoldierFace.OverwriteMissionFovaData{face=faces}
   end-- face stuff
-
-  TppSoldierFace.OverwriteMissionFovaData{face=faces}
+  
   local bodies={}
   --tex> ddsuit bodies
   local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
@@ -1260,8 +1260,8 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   local faces={}
   --tex headgear, faces on mb are handled by f30050_sequence.RegisterFovaFpk
   --TODO: dont add headgear if bodyInfo is non ddheadgear (check both genders)
-  for faceId, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
-    table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  for faceIdName, headGearInfo in pairs(InfEneFova.ddHeadGearInfo) do
+    table.insert(faces,{TppEnemyFaceId[faceIdName],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
   end
 
   if missionId==30250 then
