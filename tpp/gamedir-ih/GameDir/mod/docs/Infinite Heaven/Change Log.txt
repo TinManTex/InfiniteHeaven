@@ -12,6 +12,8 @@ Fix: enemy soldier type addons with multiple bodies not working, was broken as o
 
 Fix: Some cases of Player Cam hook (FOV) not applying.
 
+Fix: InfSoldierFaceAndBody not retaining its data on script reload. Affected Apearance menu > Face option when Filter set to Head fova addons.
+
 AroundCam (FreeCam):
 When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
 Fix: hang if on when Abort mission.

@@ -475,6 +475,20 @@ function this.SetupBodyFova(faceAndBodyData)
   end
 end
 
+--tex since loading at setup is pre all modules load we need to keep existing stuff around
+function this.PostModuleReload(prevModule)
+  this.headDefinitions=prevModule.headDefinitions
+  this.faceDefinitions=prevModule.faceDefinitions
+
+  this.hasFaceFova=prevModule.hasFaceFova
+  
+  this.fovaInfos=prevModule.fovaInfos
+  
+  for i,fovaTypeName in ipairs(this.fovaTypes) do
+    this[fovaTypeName]=prevModule[fovaTypeName]
+  end
+end--PostModuleReload
+
 --tex return Soldier2FaceAndBodyData .faceDefinition index for a given faceId , or -1 if not found
 function this.FindFaceDefForFaceId(faceAndBodyData,faceId)
   for index,faceDef in ipairs(faceAndBodyData.faceDefinition) do
