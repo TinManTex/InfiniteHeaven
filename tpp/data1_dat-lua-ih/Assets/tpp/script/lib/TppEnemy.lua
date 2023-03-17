@@ -1248,12 +1248,12 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
   if bodyInfo then   
     if bodyInfo.bodyIdTable and bodyInfo.bodyIdTable[bodyInfo.name] then
       if this.debugModule then--tex> DEBUGNOW
-        InfCore.Log("TppEnemy.GetBodyId: found bodyIdTable for bodyInfo. isFemale:"..tostring(isFemale).." "..tostring(bodyInfo.name).." "..tostring(soldierId).." "..tostring(soldierType).." "..tostring(soldierSubType))
+        InfCore.Log("TppEnemy.GetBodyId: found bodyIdTable for bodyInfo. isFemale:"..tostring(isFemale).." "..tostring(bodyInfo.name).." soldierId:"..tostring(soldierId).." soldierType:"..tostring(soldierType).." soldierSubType:"..tostring(soldierSubType))
       end--<
       bodyIdTable=bodyInfo.bodyIdTable[bodyInfo.name]
     else
       if this.debugModule then--tex> DEBUGNOW
-        InfCore.Log("TppEnemy.GetBodyId: no bodyIdTable for bodyInfo, choosing random bodyId. isFemale:"..tostring(isFemale).." "..tostring(bodyInfo.name).." "..tostring(soldierId).." "..tostring(soldierType).." "..tostring(soldierSubType))
+        InfCore.Log("TppEnemy.GetBodyId: no bodyIdTable for bodyInfo, choosing random bodyId. isFemale:"..tostring(isFemale).." "..tostring(bodyInfo.name).." soldierId:"..tostring(soldierId).." soldierType:"..tostring(soldierType).." soldierSubType:"..tostring(soldierSubType))
       end--<
       --tex just choose random
       local bodyId=InfEneFova.bodiesForMap[bodyInfo.bodyType]
@@ -1266,7 +1266,9 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
 
         bodyId=bodyId[math.random(#bodyId)]
       end
-      --InfCore.Log("GetBodyId "..soldierId.." bodyId:"..tostring(bodyId).." isFemale="..tostring(isFemale))--tex DEBUG
+      if this.debugModule then
+        InfCore.Log("GetBodyId soldierId:"..soldierId.." bodyId:"..tostring(bodyId).." isFemale="..tostring(isFemale))--tex DEBUG--DEBUGNOW
+      end
       if bodyId then
         return bodyId
       end
