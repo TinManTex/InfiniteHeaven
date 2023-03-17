@@ -395,7 +395,7 @@ function this.PrintInspect(var,options)
   local varName=options.varName or options
   local ins=InfInspect.Inspect(var)
   if type(varName)=="string" then
-    ins=varName.."="..ins
+    ins=varName.."="..ins.."--"..varName.." <end"
   end
   this.Log(ins,options.announceLog)
 end
