@@ -26,6 +26,10 @@ isNoOrderBoxMission, likewise giving explicit setting for NO_ORDER_BOX_MISSION
 
 - thanks caplag for the suggestions
 
+API: LoadExternalModule: Don't reload module if prevModule and not isReload.
+This was causing the early InfInit LoadExternalModuled modules Ivars,IvarsPersist and InfSoldierFaceAndBody to be reloaded. 
+In the case of InfSoldierFaceAndBody it would loose all its data since those functions were called manually rather than PostAllModulesLoad.
+
 r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 
