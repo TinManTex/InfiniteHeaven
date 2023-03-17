@@ -2,7 +2,7 @@
 -- TppEneFova.lua
 InfCore.LogFlow"Load TppEneFova.lua"--tex DEBUG
 local this={}
-local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
+local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255 LIMIT
 local RENlang0=0
 local RENlang1=1
 local RENlang2=2
@@ -715,24 +715,9 @@ function fovaSetupFuncs.afgh(locationName,missionId)
 
   local bodyInfo=InfEneFova.GetMaleBodyInfo(missionId)--tex>
   if bodyInfo then
-    local faces={}
-    --TODO: dont add headgear if bodyInfo is non ddheadgear (check both genders)
-    for faceId, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
-      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    end
-    TppSoldierFace.OverwriteMissionFovaData{face=faces}--,additionalMode=true}
-
-    local bodies={}
-    InfEneFova.SetupBodies(bodyInfo,bodies)
-    if #bodies>0 then
-      TppSoldierFace.OverwriteMissionFovaData{body=bodies}
-    end
-
-    if bodyInfo.partsPath then
-      TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
-    end
-    --<
-  else
+    InfEneFova.FovaSetupFaces(missionId,bodyInfo)
+    InfEneFova.FovaSetupBodies(missionId,bodyInfo)
+  else--<
     --NMC all svs0 main bodies
     local bodies={
       {0,MAX_REALIZED_COUNT},
@@ -814,24 +799,9 @@ function fovaSetupFuncs.mafr(locationName,missionId)
 
   local bodyInfo=InfEneFova.GetMaleBodyInfo(missionId)--tex>
   if bodyInfo then
-    local faces={}
-    --TODO: dont add headgear if bodyInfo is non ddheadgear (check both genders)
-    for faceId, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
-      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    end
-    TppSoldierFace.OverwriteMissionFovaData{face=faces}--,additionalMode=true}
-
-    local bodies={}
-    InfEneFova.SetupBodies(bodyInfo,bodies)
-    if #bodies>0 then
-      TppSoldierFace.OverwriteMissionFovaData{body=bodies}
-    end
-
-    if bodyInfo.partsPath then
-      TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
-    end
-    --<
-  else
+    InfEneFova.FovaSetupFaces(missionId,bodyInfo)
+    InfEneFova.FovaSetupBodies(missionId,bodyInfo)
+  else--<
     --NMC all pfs0 main bodies
     local bodies={
       {50,MAX_REALIZED_COUNT},

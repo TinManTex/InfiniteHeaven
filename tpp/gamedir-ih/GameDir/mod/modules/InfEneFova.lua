@@ -1369,6 +1369,34 @@ function this.GetFovaName(fovaType,fovaIndex)
   return fovaName
 end
 
+--CALLER: fovaSetupFuncs.afgh/mafr
+--ASSUMPTION: called after main faces setup (additionalMode)
+--tex basic setup for missions fovaSetupFunc
+function this.FovaSetupFaces(missionCode,bodyInfo)
+  local faces={}
+  if bodyInfo and bodyInfo.useDDHeadgear then
+    for faceId,faceInfo in pairs(this.ddHeadGearInfo) do
+      table.insert(faces,{TppEnemyFaceId[faceId],EnemyFova.MAX_REALIZED_COUNT,EnemyFova.MAX_REALIZED_COUNT,0})
+    end
+  end--if useDDHeadgear
+  if #faces>0 then
+    TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
+  end
+end--FovaSetupFaces
+--CALLER: fovaSetupFuncs.afgh/mafr
+--tex basic setup for missions fovaSetupFunc
+function this.FovaSetupBodies(missionCode,bodyInfo)
+  local bodies={}
+  this.SetupBodies(bodyInfo,bodies)
+  if #bodies>0 then
+    TppSoldierFace.OverwriteMissionFovaData{body=bodies}
+  end
+
+  if bodyInfo.partsPath then
+    TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
+  end
+end--FovaSetupBodies
+
 --DEBUGNOW TODO convert to by-bodtytype and key off customsoldiertype bodytype
 this.wildCardBodyTable={
   afgh={
