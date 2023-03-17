@@ -1482,7 +1482,7 @@ this.modBodyFova={
   {275,"CapType",52,""},--pf unique,red beret
 }--modBodyFova
 
-this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
+this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob, technically its 687, but I add hideo, and a couple of slots for the (broken) manual facedefinition thing --SYNC Ivars.playerFaceFilter
 --OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
 
 --tex shifted from after table definitions
