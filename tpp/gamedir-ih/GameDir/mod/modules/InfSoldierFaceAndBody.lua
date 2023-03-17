@@ -23,8 +23,6 @@ local this={}
 --STATE
 this.debugModule=false
 
---tex TODO: not really proc if holding this state
-this.fovaInfos={}
 --tex: headFova (these lua files, in mod\fovaInfo) notes:
 --headDefinitions: IH uses each entry to either modifiy or add a new faceDefinition in Solder2FaceAndBodyData .faceDefinition
 --(https://github.com/TinManTex/mgsv-deminified-lua/blob/master/data1/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua)
@@ -109,6 +107,8 @@ this.fovaInfos={}
 
 local bodyFovaLimit=366--LIMIT
 
+this.fovaInfos={}
+
 --tex fova index lookups by fv2 - this[fovaTypeName][fovaName]=fovaIndex, see TABLESETUP in Setup()
 this.bodyFova={}
 --TODO put lookups in InfEneFova instead, merge or shift the current tables there
@@ -175,7 +175,7 @@ local faceDefEnum={
 for i, name in ipairs(faceDefEnum)do
   faceDefEnum[name]=i
 end
-
+--CALLER: InfInit
 function this.LoadFovaInfo()
   InfCore.Log("InfSoldierFaceAndBody.LoadFovaInfo")
   this.fovaInfos={}
@@ -380,21 +380,21 @@ function this.SetupFaceFova(faceAndBodyData)
 
   --tex update fova counts for TppSoldierFace.SetFovaFileTable
   if this.debugModule then
-    InfCore.PrintInspect(faceAndBodyData.fovaFileTable)
+    InfCore.PrintInspect(faceAndBodyData.fovaFileTable,"faceAndBodyData.fovaFileTable pre ")
   end
   for i,fovaTypeName in ipairs(this.faceFovaTypes) do
     local defaultCount=faceAndBodyData.fovaFileTable[fovaTypeName].maxCount
     faceAndBodyData.fovaFileTable[fovaTypeName].maxCount=math.max(defaultCount,#faceAndBodyData[fovaTypeName]+1)
   end
   if this.debugModule then
-    InfCore.PrintInspect(faceAndBodyData.fovaFileTable)
+    InfCore.PrintInspect(faceAndBodyData.fovaFileTable,"faceAndBodyData.fovaFileTable post")
   end
 
   if this.debugModule then
     InfCore.PrintInspect(this,"InfSoldierFaceAndBody")
     InfCore.PrintInspect(faceAndBodyData,"faceAndBodyData")
   end
-end
+end--SetupFaceFova
 
 -- bodies
 
