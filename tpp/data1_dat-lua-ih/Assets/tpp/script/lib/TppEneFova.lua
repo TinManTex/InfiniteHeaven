@@ -1107,12 +1107,12 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
 
   --tex> ddsuit headgear
   if IvarProc.EnabledForMission("customSoldierType",missionId) then
+    --tex uhh, what's the play here?
+    if mtbsFaceSetupFuncs[missionId] then
+      mtbsFaceSetupFuncs[missionId](faces)
+    end
     for faceIdName, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
       table.insert(faces,{TppEnemyFaceId[faceIdName],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    end
-
-    if missionId==30250 then
-      mtbsFaceSetupFuncs[missionId](faces)
     end
     TppSoldierFace.OverwriteMissionFovaData{face=faces}
   else--<
