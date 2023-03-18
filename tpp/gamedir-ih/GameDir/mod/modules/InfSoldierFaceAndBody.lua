@@ -1,7 +1,7 @@
 -- InfSoldierFaceAndBody.lua
--- extends TppSoldierFaceAndBodyData face fovas and definitions / vars.playerFaceId, enemy and staff faceIds
+-- extends Soldier2FaceAndBodyData face fovas and definitions / vars.playerFaceId, enemy and staff faceIds
 
--- extends TppSoldierFaceAndBodyData eneny body fovas and bodyIds--TODO: split out body stuffto InfSoldierBod
+-- extends Soldier2FaceAndBodyData eneny body fovas and bodyIds--TODO: split out body stuffto InfSoldierBod
 -- See also InfBodyInfo
 
 -- SYNC: DEBUGNOW to some external document explaining fova addons (collate this, Solder2FaceAndBodyData, InfBodyInfo comments, and the mgo head, us ih body addon stuff)
@@ -152,29 +152,39 @@ this.faceFovaTypes={
 this.bodyFovaTypes={
   "bodyFova",
 }
-
-local faceDefEnum={
-  "currentFaceId",
-  "unk1",
-  "gender",
-  "unk2",
-  "faceFova",
-  "faceDecoFova",
-  "hairFova",
-  "hairDecoFova",
-  "eyeFova",
-  "skinFova",
-  "unk5",
-  "uiTextureName",
-  "uiTextureCount",
-  "unk7",
-  "unk8",
-  "unk9",
-  "unk10"
+--tex fovaInfo keys that have multiple fovaDefinitions in them, which might have fova entries
+this.definitionsTypes={
+  "headDefinitions",
+  "bodyDefinitions",
 }
-for i, name in ipairs(faceDefEnum)do
-  faceDefEnum[name]=i
-end
+
+--tex I'm manually indexing these enums so that I can keep legacy ones and add new names if their purpose is clarified.
+local faceDefEnum={
+  faceId=1,
+  unk1=2,
+  gender=3,
+  unk2=4,
+  faceFova=5,
+  faceDecoFova=6,
+  hairFova=7,
+  hairDecoFova=8,
+  eyeFova=9,
+  skinFova=10,
+  unk5=11,
+  uiTextureName=12,
+  uiTextureCount=13,
+  unk7=14,
+  unk8=15,
+  unk9=16,
+  unk10=17
+}--faceDefEnum
+
+local bodyDefEnum={
+  bodyId=1,
+  bodyFovaId=2,
+  unk3=3,--isArmor? or something else common to armor?
+}
+
 --CALLER: InfInit
 function this.LoadFovaInfo()
   InfCore.Log("InfSoldierFaceAndBody.LoadFovaInfo")
@@ -235,24 +245,22 @@ function this.Setup(faceAndBodyData)
     }
   end
 
-  --tex add fova entries from fovaInfos
+  --tex add fova entries from fovaInfos to faceAndBodyData
   --tex TODO validate
   for moduleName,module in pairs(this.fovaInfos)do
     for i,fovaTypeName in ipairs(this.fovaTypes) do
-      local localFova=faceAndBodyData[fovaTypeName]
       local moduleFova=module[fovaTypeName]
       if moduleFova then
-        for i,fovaInfo in ipairs(moduleFova)do
-          local fovaIndex=#localFova+1
-          if type(fovaInfo)=="table" then
-            localFova[fovaIndex]=fovaInfo
+        for i,fovaPathInfo in ipairs(moduleFova)do
+          if type(fovaPathInfo)=="table" then
+          	table.insert(faceAndBodyData[fovaTypeName],fovaPathInfo)
           end
-        end
-      end
-    end
-  end
-
-  --tex TABLESETUP build fova file name lookup to fova index tables
+        end--for module fovaType table
+      end--if module fovaType table
+    end--for fovaTypes
+  end--for fovaInfos
+   
+  --tex TABLESETUP build fova file name lookup to fova index tables (this[fovaTypeName][fovaName])
   for i,fovaTypeName in ipairs(this.fovaTypes) do
     for fovaIndex,fovaInfo in ipairs(faceAndBodyData[fovaTypeName]) do
       --tex uses 'filename of fovaInfo entries as an id, 
@@ -269,8 +277,8 @@ function this.Setup(faceAndBodyData)
         InfCore.Log("Added faceAndBodyData fova table lookup: this["..fovaTypeName.."]["..fovaName.."]="..fovaIndex-1)
         InfCore.PrintInspect(fovaInfo,"fovaIndex points to")
       end
-    end
-  end
+    end--for faceAndBodyData[fovaTypeName]
+  end--for fovaType
 
   this.SetupFaceFova(faceAndBodyData)
   this.SetupBodyFova(faceAndBodyData)--FLOW DEPENDENCY InfBodyInfo relies on TppEnemyBodyId being set by the time it does its PostAllModulesLoaded
@@ -438,16 +446,16 @@ function this.SetupBodyFova(faceAndBodyData)
           definitionIndex=definitionIndex+1
           local bodyFovaId=this.bodyFova[definition.bodyFova]--tex GOTCHA: definition.bodyFova really fovaName/bodyFovaName ex "svs0_rfl_v00_a.fv2"
           local isArmor=definition.isArmor or 0
-          local newBody={
+          local newBodyDef={
             currentBodyId,
             bodyFovaId,
             isArmor
           }
-          faceAndBodyData.bodyDefinition[definitionIndex]=newBody
+          faceAndBodyData.bodyDefinition[definitionIndex]=newBodyDef
           TppEnemyBodyId[definitionName]=currentBodyId
 
           definition.bodyId=currentBodyId
-          definition.bodyDefinitionIndex=definitionIndex
+          --CULL definition.bodyDefinitionIndex=definitionIndex
 
           this.bodyDefinitions[definitionName]=definition
           this.bodyDefinitions[currentBodyId]=definitionName
@@ -473,7 +481,7 @@ function this.SetupBodyFova(faceAndBodyData)
     InfCore.PrintInspect(TppEnemyBodyId,"TppEnemyBodyId")
     InfCore.Log("#bodyDefinition:"..#faceAndBodyData.bodyDefinition..", #bodyFova:"..#faceAndBodyData.bodyFova)
   end
-end
+end--SetupBodyFova
 
 --tex since loading at setup is pre all modules load we need to keep existing stuff around
 function this.PostModuleReload(prevModule)
