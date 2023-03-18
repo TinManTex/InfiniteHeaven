@@ -159,7 +159,7 @@ this.definitionsTypes={
 }
 
 --tex I'm manually indexing these enums so that I can keep legacy ones and add new names if their purpose is clarified.
-local faceDefEnum={
+this.faceDefEnum={
   faceId=1,
   unk1=2,
   gender=3,
@@ -179,7 +179,7 @@ local faceDefEnum={
   unk10=17
 }--faceDefEnum
 
-local bodyDefEnum={
+this.bodyDefEnum={
   bodyId=1,
   bodyFovaId=2,
   unk3=3,--isArmor? or something else common to armor?
@@ -349,22 +349,22 @@ function this.SetupFaceFova(faceAndBodyData)
           if definitionIndex~=-1 then
             local newFace={
               currentFaceId,
-              headDefinition.unk1 or oldFace[faceDefEnum.unk1] or 0,
-              genders[headDefinition.gender] or oldFace[faceDefEnum.gender] or 0,
-              headDefinition.unk2 or oldFace[faceDefEnum.unk2] or 0,
-              this.faceFova[headDefinition.faceFova] or oldFace[faceDefEnum.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
-              this.faceDecoFova[headDefinition.faceDecoFova] or oldFace[faceDefEnum.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-              this.hairFova[headDefinition.hairFova] or oldFace[faceDefEnum.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
-              this.hairDecoFova[headDefinition.hairDecoFova] or oldFace[faceDefEnum.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
-              headDefinition.eyeFova or headDefinition.unk3 or oldFace[faceDefEnum.eyeFova] or 0,
-              headDefinition.skinFova or headDefinition.unk4 or oldFace[faceDefEnum.skinFova] or 0,
-              headDefinition.unk5 or oldFace[faceDefEnum.unk5] or 0,
-              headDefinition.uiTextureName or oldFace[faceDefEnum.uiTextureName] or "",
-              headDefinition.uiTextureCount or headDefinition.unk6 or oldFace[faceDefEnum.uiTextureCount] or 1,
-              headDefinition.unk7 or oldFace[faceDefEnum.unk7] or 0,
-              headDefinition.unk8 or oldFace[faceDefEnum.unk8] or 0,
-              headDefinition.unk9 or oldFace[faceDefEnum.unk9] or 0,
-              headDefinition.unk10 or oldFace[faceDefEnum.unk10] or 0,
+              headDefinition.unk1 or oldFace[this.faceDefEnum.unk1] or 0,
+              genders[headDefinition.gender] or oldFace[this.faceDefEnum.gender] or 0,
+              headDefinition.unk2 or oldFace[this.faceDefEnum.unk2] or 0,
+              this.faceFova[headDefinition.faceFova] or oldFace[this.faceDefEnum.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
+              this.faceDecoFova[headDefinition.faceDecoFova] or oldFace[this.faceDefEnum.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+              this.hairFova[headDefinition.hairFova] or oldFace[this.faceDefEnum.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
+              this.hairDecoFova[headDefinition.hairDecoFova] or oldFace[this.faceDefEnum.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+              headDefinition.eyeFova or headDefinition.unk3 or oldFace[this.faceDefEnum.eyeFova] or 0,
+              headDefinition.skinFova or headDefinition.unk4 or oldFace[this.faceDefEnum.skinFova] or 0,
+              headDefinition.unk5 or oldFace[this.faceDefEnum.unk5] or 0,
+              headDefinition.uiTextureName or oldFace[this.faceDefEnum.uiTextureName] or "",
+              headDefinition.uiTextureCount or headDefinition.unk6 or oldFace[this.faceDefEnum.uiTextureCount] or 1,
+              headDefinition.unk7 or oldFace[this.faceDefEnum.unk7] or 0,
+              headDefinition.unk8 or oldFace[this.faceDefEnum.unk8] or 0,
+              headDefinition.unk9 or oldFace[this.faceDefEnum.unk9] or 0,
+              headDefinition.unk10 or oldFace[this.faceDefEnum.unk10] or 0,
             }--newFace
             if InfCore.debugMode then
               InfCore.PrintInspect(oldFace,"oldFace")
