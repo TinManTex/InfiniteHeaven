@@ -237,6 +237,9 @@ function this.Setup(faceAndBodyData)
   if this.debugModule then
     InfCore.PrintInspect(faceAndBodyData,"Soldier2FaceAndBodyData pre setup")
   end
+  
+  this.CheckFaceAndBodyData(faceAndBodyData)
+  this.BuildTppEnemyBodyId(faceAndBodyData,TppEnemyBodyId)--DEBUGNOW
 
   --tex clear this state
   for i,fovaTypeName in ipairs(this.fovaTypes) do
@@ -482,6 +485,84 @@ function this.SetupBodyFova(faceAndBodyData)
     InfCore.Log("#bodyDefinition:"..#faceAndBodyData.bodyDefinition..", #bodyFova:"..#faceAndBodyData.bodyFova)
   end
 end--SetupBodyFova
+
+function this.CheckFaceAndBodyData(faceAndBodyData)
+  InfCore.LogFlow("InfSoldierFaceAndBody.CheckFaceAndBodyData")
+  --tex verify bodyFovas have a bodyDefinition
+  for bodyFovaIndex,bodyFova in ipairs(faceAndBodyData.bodyFova)do
+    local hasBodyDefinition=0
+    for j,bodyDefinition in ipairs(faceAndBodyData.bodyDefinition)do
+      if bodyDefinition[this.bodyDefEnum.bodyFovaId]==bodyFovaIndex-1 then--tex bodyFovaId is from 0
+        hasBodyDefinition=hasBodyDefinition+1
+      end--for bodyFovaId
+    end--for bodyDefinition
+    
+    if hasBodyDefinition==0 then
+       InfCore.Log("No bodyDefinition for bodyFova["..bodyFovaIndex.."]")
+       InfCore.PrintInspect(bodyFova,"bodyFova") 
+    elseif hasBodyDefinition>1 then
+      InfCore.Log("More than 1 bodyDefinition for bodyFova["..bodyFovaIndex.."]")
+      InfCore.PrintInspect(bodyFova,"bodyFova") 
+    end--if hasBodyDefinition
+  end--for bodyFova
+end--CheckFaceAndBodyData
+
+function this.BuildTppEnemyBodyId(faceAndBodyData,currentEnemyBodyIdTable)
+  InfCore.LogFlow("InfSoldierFaceAndBody.BuildTppEnemyBodyId:")
+  local ignoreKeys={
+    _scriptInstanceId=true,
+    _scriptPath=true,
+  }
+  
+  local newEnemyBodyIdTable={}
+  for bodyDefinitionIndex,bodyDefinition in ipairs(faceAndBodyData.bodyDefinition)do
+    --{bodyId,bodyFovaId, isArmor? or something else common to armor?}
+    local bodyFovaIndex=bodyDefinition[this.bodyDefEnum.bodyFovaId]+1--GOTCHA: bodyFovaId is from 0
+    local bodyFova=faceAndBodyData.bodyFova[bodyFovaIndex]
+    if bodyFova==nil then
+      InfCore.Log("ERROR: InfSoldierFaceAndBody.BuildTppEnemyBodyId: could not find bodyFova for bodyDefinition["..bodyDefinitionIndex.."]",true,true)
+      InfCore.PrintInspect(bodyDefinition,"bodyDefinition")
+    else   
+      local fv2Name=InfUtil.GetFileName(bodyFova[1])
+      local bodyIdName=InfUtil.StripExt(fv2Name)
+      local bodyId=bodyDefinition[this.bodyDefEnum.bodyId]
+      if newEnemyBodyIdTable[bodyIdName]~=nil then
+        InfCore.Log("WARNING: Existing entry in newEnemyBodyIdTable found: "..bodyIdName.."="..tostring(newEnemyBodyIdTable[bodyIdName]))
+        InfCore.PrintInspect(bodyDefinition,"...for bodyDefinition["..bodyDefinitionIndex.."]")
+      else
+        newEnemyBodyIdTable[bodyIdName]=bodyId
+      end--if newEnemyBodyIdTable[bodyIdName]
+    end--if bodyFova
+  end--for faceAndBodyData
+  
+  --DEBUGNOW tex compare new vs current
+  for bodyIdName,bodyId in pairs(newEnemyBodyIdTable)do
+    if currentEnemyBodyIdTable[bodyIdName]==nil then
+      InfCore.Log("New addition from newEnemyBodyIdTable: "..bodyIdName.."="..bodyId)
+    elseif currentEnemyBodyIdTable[bodyIdName]~=bodyId then
+      InfCore.Log("Existing entry doesnt match new:")
+      InfCore.Log("currentEnemyBodyIdTable: "..bodyIdName.."="..currentEnemyBodyIdTable[bodyIdName])
+      InfCore.Log("    newEnemyBodyIdTable: "..bodyIdName.."="..bodyId)
+    else
+    
+    end--if currentEnemyBodyIdTable[bodyIdName]
+  end--for newEnemyBodyIdTable
+
+  --tex compare current vs new
+  for bodyIdName,bodyId in pairs(currentEnemyBodyIdTable)do
+    if not ignoreKeys[bodyIdName]then
+      if newEnemyBodyIdTable[bodyIdName]==nil then
+        InfCore.Log("InfSoldierFaceAndBody.BuildTppEnemyBodyId: newEnemyBodyIdTable does not have entry for existing bodyIdName:"..bodyIdName)
+      --tex mismatching bodyIds covered above
+      end--if newEnemyBodyIdTable[bodyIdName]
+    end-- if not ignoreKeys
+  end--for currentEnemyBodyIdTable  
+  
+  --DEBUGNOW
+
+  
+  InfCore.PrintInspect(newEnemyBodyIdTable,"newEnemyBodyIdTable")--DEBUGNOW
+end--BuildTppEnemyBodyId
 
 --tex since loading at setup is pre all modules load we need to keep existing stuff around
 function this.PostModuleReload(prevModule)
