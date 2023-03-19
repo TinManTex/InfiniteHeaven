@@ -1098,10 +1098,6 @@ end
 --but 10240 does a TppMission.Reload with locationCode = TppDefine.LOCATION_ID.MBQF when you reach the door which loads the interior,
 --which does fovaSetupFuncs.mbqf instead
 function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs.Mb
-  if TppMission.IsHelicopterSpace(missionId)then
-    return
-  end
-  
   if not InfMain.IsOnlineMission(missionId)then--tex EnabledForMission should cover, but whatever>
     --tex just to an alternate fovaSetupFunc entirely
     if IvarProc.EnabledForMission("customSoldierType",missionId) then--tex>
@@ -1111,6 +1107,10 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
     return
   end--<
   
+  if TppMission.IsHelicopterSpace(missionId)then
+    return
+  end
+    
   --face setup
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   local faces={}
@@ -1248,10 +1248,10 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
     end
 
     if maleBodyInfo then
-      InfEneFova.SetupBodies(maleBodyInfo,bodies,maleBodyMax)
+      InfEneFova.GetFovaBodies(maleBodyInfo,bodies,maleBodyMax)
     end
     if femaleBodyInfo then
-      InfEneFova.SetupBodies(femaleBodyInfo,bodies,femaleBodyMax)
+      InfEneFova.GetFovaBodies(femaleBodyInfo,bodies,femaleBodyMax)
     end
 
     if this.debugModule then
