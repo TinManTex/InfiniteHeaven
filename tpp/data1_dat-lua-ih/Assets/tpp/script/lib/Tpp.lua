@@ -36,7 +36,7 @@ local InfCore=InfCore--tex
 --it's listed (though usually empty) in mission _enemy scripts, and actually used in main location scripts
 --see also _requireList at bottom of this file
 this.requires={
-  "/Assets/tpp/script/ih/InfRequiresStart.lua",--tex
+  "/Assets/tpp/script/ih/InfRequiresStart.lua",--tex really only just to log when .requires is actually doing stuff
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
   "/Assets/tpp/script/lib/TppSave.lua",
