@@ -74,16 +74,16 @@ local this={
   dds0_main1_v01=141,
   dds3_main0_v00=142,
   dds5_main0_v00=143,
-  dds5_main0_v01=144,
-  dds5_main0_v02=145,
+  dds5_main0_v01=144,--tex NMC incomplete fovaPathInfo, fv2 used in demos, cant see any usage of bodyId either through this or as direct id.
+  dds5_main0_v02=145,--tex as above
 
-  ddr0_main0_v00=146,
+  ddr0_main0_v00=146,--tex NMC fovaSetupFuncs.mbqf/shining lights>
   ddr0_main0_v01=147,
   ddr0_main0_v02=148,
 
   ddr0_main1_v00=149,
   ddr0_main1_v01=150,
-  ddr0_main1_v02=151,
+  ddr0_main1_v02=151,--tex NMC incomplete fovaPathInfo, though is in ddr0 pack. direct reference to bodyId in fovaSetupFuncs.mbqf
   ddr0_main1_v03=152,
   ddr0_main1_v04=153,
 
@@ -92,24 +92,24 @@ local this={
   ddr1_main0_v02=156,
 
   ddr1_main1_v00=157,
-  ddr1_main1_v01=158,
-  ddr1_main1_v02=159,
+  ddr1_main1_v01=158,--<
+  ddr1_main1_v02=159,--?
 
-  dds3_main0_v01=160,
-  dds5_main0_v03=161,
-  dds6_main0_v00=162,
+  dds3_main0_v01=160,--tex NMC incomplete fovaPathInfo, direct refrence in mtbs_enemy.SetupSortieSoldierFovaForMemoryDump ?
+  dds5_main0_v03=161,--as above, but no direct refs
+  dds6_main0_v00=162,--tex NMC incomplete fovaPathInfo, and fv2 doesnt exist
   dds6_main0_v01=163,
   dds8_main0_v00=164,
-  dds8_main0_v01=165,
+  dds8_main0_v01=165,--tex NMC incomplete fovaPathInfo, and fv2 doesnt exist
 
-  ddr0_main0_v03=166,
-  ddr0_main0_v04=167,
+  ddr0_main0_v03=166,--tex NMC incomplete fovaPathInfo, fv2 in s10240 shining lights, no direct references?
+  ddr0_main0_v04=167,--tex NMC as above
 
-  ddr0_main1_v05=168,
-  ddr0_main1_v06=169,
+  ddr0_main1_v05=168,--tex NMC as above
+  ddr0_main1_v06=169,--tex NMC as above
 
-  dds3_main0_v02=170,
-  dds8_main0_v02=171,
+  dds3_main0_v02=170,--tex NMC incomplete fovaPathInfo,
+  dds8_main0_v02=171,--tex NMC fv2 file doesnt exist?
 
   dds4_enem0_def=172,
   dds4_enef0_def=173,
@@ -126,8 +126,8 @@ local this={
   dle1_plyf0_def=184,
 
   wss4_main0_v00=190,
-  wss4_main0_v01=191,
-  wss4_main0_v02=192,
+  wss4_main0_v01=191,--tex NMC incomplete fovaPathInfo
+  wss4_main0_v02=192,--as above
   wss0_main0_v00=195,
   wss3_main0_v00=196,
 
@@ -169,25 +169,25 @@ local this={
   pfs0_unq_v155=275,
   --RETAILBUG pfs and svs dds are swapped (svs is 280>289, pfs is 290>299), like a lot of bugs overlooked because it wasn't used (TppDefine.QUEST_BODY_ID_LIST was used instead)
   --lost msf soldiers mafr
-  pfs0_dds0_v00=280,
-  pfs0_dds0_v01=281,
+  pfs0_dds0_v00=280,--
+  pfs0_dds0_v01=281,--
   pfs0_dds0_v02=282,
   pfs0_dds0_v03=283,
   pfs0_dds0_v04=284,
   pfs0_dds0_v05=285,
   pfs0_dds0_v06=286,
-  pfs0_dds0_v07=287,
-  pfs0_dds0_v08=288,
-  pfs0_dds0_v09=289,
+  pfs0_dds0_v07=287,--
+  pfs0_dds0_v08=288,--
+  pfs0_dds0_v09=289,--
   --lost msf soldiers afgh
   svs0_dds0_v00=290,
   svs0_dds0_v01=291,
-  svs0_dds0_v02=292,
-  svs0_dds0_v03=293,
-  svs0_dds0_v04=294,
-  svs0_dds0_v05=295,
+  svs0_dds0_v02=292,--
+  svs0_dds0_v03=293,--
+  svs0_dds0_v04=294,--
+  svs0_dds0_v05=295,--
   svs0_dds0_v06=296,
-  svs0_dds0_v07=297,
+  svs0_dds0_v07=297,--
   svs0_dds0_v08=298,
   svs0_dds0_v09=299,
   --cyprus hospital patients
@@ -226,8 +226,8 @@ local this={
   ptn0_v32=332,
   ptn0_v33=333,
   ptn0_v34=334,
-  ptn1_v00=335,
-  ptn2_v00=336,
+  ptn1_v00=335,--tex NMC incomplete fovaPathInfo. fv2 does not exist
+  ptn2_v00=336,--as above
   --cyprus hospital nurses
   nrs0_v00=340,
   nrs0_v01=341,
