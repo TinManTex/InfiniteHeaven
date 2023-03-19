@@ -1098,7 +1098,6 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
       fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
       return
     end--if customSoldier<
-    return
   end--<
   
   if TppMission.IsHelicopterSpace(missionId)then
@@ -1184,6 +1183,7 @@ end--fovaSetupFuncs.mtbs
 
 --tex >ASSUMPTION customSoldierType true
 function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
+  InfCore.LogFlow"fovaSetupFuncs.mtbsCustomBody"
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
@@ -1203,6 +1203,7 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
     --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
     mtbsFaceSetupFuncs[50050](faces)
   elseif mtbsFaceSetupFuncs[missionId] then
+    InfCore.LogFlow("mtbsFaceSetupFuncs["..missionId.."]")
     mtbsFaceSetupFuncs[missionId](faces)
   else
     for faceId=0,35 do
