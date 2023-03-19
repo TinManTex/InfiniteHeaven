@@ -1101,48 +1101,122 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
-
-  if missionId==10240 then--tex WORKAROUND>
-    fovaSetupFuncs.mbqf(locationName,missionId)
+  
+  if not InfMain.IsOnlineMission(missionId)then--tex EnabledForMission should cover, but whatever>
+    --tex just to an alternate fovaSetupFunc entirely
+    if IvarProc.EnabledForMission("customSoldierType",missionId) then--tex>
+      fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
+      return
+    end--if customSoldier<
+    return
   end--<
-
+  
   --face setup
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   local faces={}
   local ddSuit=TppEnemy.GetDDSuit()
 
-  --tex> ddsuit headgear
-  if IvarProc.EnabledForMission("customSoldierType",missionId) then
-    --tex uhh, what's the play here?
-    if mtbsFaceSetupFuncs[missionId] then
-      mtbsFaceSetupFuncs[missionId](faces)
+  --tex REWORKED r195
+  if mtbsFaceSetupFuncs[missionId] then
+    mtbsFaceSetupFuncs[missionId](faces)
+  else
+    for faceId=0,35 do
+      table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     end
-    for faceIdName, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
-      table.insert(faces,{TppEnemyFaceId[faceIdName],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    end
-    TppSoldierFace.OverwriteMissionFovaData{face=faces}
-  else--<
-    --tex REWORKED r195
-    if mtbsFaceSetupFuncs[missionId] then
-      mtbsFaceSetupFuncs[missionId](faces)
+    table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  end
+  TppSoldierFace.OverwriteMissionFovaData{face=faces}
+
+  local bodies={} 
+  if TppMission.IsFOBMission(missionId) then
+    if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
+      bodies={{TppEnemyBodyId.dds4_enem0_def,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds4_enef0_def,MAX_REALIZED_COUNT}}
+    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+      bodies={{TppEnemyBodyId.dds5_enem0_def,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds5_enef0_def,MAX_REALIZED_COUNT}}
+    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+      bodies={{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT}}
     else
-      for faceId=0,35 do
-        table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-      end
-      table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-      table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-      table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      bodies={{TppEnemyBodyId.dds5_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds6_main0_v00,MAX_REALIZED_COUNT}}
     end
-    TppSoldierFace.OverwriteMissionFovaData{face=faces}
-  end-- face stuff
+    --RETAILPATCH 1.10>
+    if TppMotherBaseManagement.GetMbsClusterSecurityIsEquipSwimSuit()then
+      local securitySwimSuitGrade=TppMotherBaseManagement.GetMbsClusterSecuritySwimSuitGrade()
+      bodies={{securitySwimSuitBodies.female[securitySwimSuitGrade],MAX_REALIZED_COUNT},{securitySwimSuitBodies.male[securitySwimSuitGrade],MAX_REALIZED_COUNT}}
+    end
+    --<
+  else
+    bodies={{TppEnemyBodyId.dds3_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds8_main0_v00,MAX_REALIZED_COUNT}}
+  end
+  TppSoldierFace.OverwriteMissionFovaData{body=bodies}
+
+  --not ddogs, shining lights
+  if not(missionId==10030 or missionId==10240)then
+    if TppMission.IsFOBMission(missionId) then
+      if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
+        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"}
+      elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"}
+      elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+      else
+        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"}
+      end
+      --RETAILPATCH 1.0.11>
+      if TppMotherBaseManagement.GetMbsClusterSecurityIsEquipSwimSuit()then
+        local swimSuitInfo=TppMotherBaseManagement.GetMbsClusterSecuritySwimSuitInfo()
+        local partsPath
+        if swimSuitInfo==TppMotherBaseManagementConst.SWIM_SUIT_TYPE_1 then
+          partsPath="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts"
+        elseif swimSuitInfo==TppMotherBaseManagementConst.SWIM_SUIT_TYPE_2 then
+          partsPath="/Assets/tpp/parts/chara/dlg/dlg0_enem0_def_f_v00.parts"
+        elseif swimSuitInfo==TppMotherBaseManagementConst.SWIM_SUIT_TYPE_3 then
+          partsPath="/Assets/tpp/parts/chara/dlh/dlh0_enem0_def_f_v00.parts"
+        end
+        TppSoldier2.SetExtendPartsInfo{type=1,path=partsPath}
+      end
+      --<
+      --not M22 retake platform
+    elseif missionId~=10115 and missionId~=11115 then
+      TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"}
+    end
+  end
+  TppSoldierFace.SetSoldierUseHairFova(true)
+end--fovaSetupFuncs.mtbs
+
+--tex >ASSUMPTION customSoldierType true
+function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
+  if TppMission.IsHelicopterSpace(missionId)then
+    return
+  end
+
+  --face setup
+  TppSoldierFace.SetSoldierOutsideFaceMode(false)
   
-  local bodies={}
-  --tex> ddsuit bodies
   local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
   local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)
+ 
+  local faces={}
+  --tex headgear
+  --faces on mb are handled by f30050_sequence.RegisterFovaFpk DEBUGNOW figure out this comment
+  --DEBUGNOW figure out if this the right move
+  if mtbsFaceSetupFuncs[missionId] then
+    mtbsFaceSetupFuncs[missionId](faces)
+  end
+  TppSoldierFace.OverwriteMissionFovaData{face=faces}
+
+  InfEneFova.FovaSetupFaces(missionId,maleBodyInfo)--tex is additionalMode
+  InfEneFova.FovaSetupFaces(missionId,femaleBodyInfo)--tex DEBUGNOW can additionalMode handle twice? 
+  
+  --body stuff
+  local bodies={}
   if maleBodyInfo or femaleBodyInfo then
     if maleBodyInfo and maleBodyInfo.partsPath then
       TppSoldier2.SetDefaultPartsPath(maleBodyInfo.partsPath)
+    end
+    if femaleBodyInfo and femaleBodyInfo.partsPath then
+      --tex female uses extendparts
+      TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
     end
 
     --tex manage body limit (see InfBodyInfo GOTCHA)
@@ -1186,116 +1260,13 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
       InfCore.Log("maleBodyMax:"..maleBodyMax.." femaleBodyMax:"..femaleBodyMax)
       InfCore.PrintInspect(InfEneFova.bodiesForMap,"InfEneFova.bodiesForMap")
     end
-    --<
-  elseif TppMission.IsFOBMission(missionId) then
-    if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
-      bodies={{TppEnemyBodyId.dds4_enem0_def,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds4_enef0_def,MAX_REALIZED_COUNT}}
-    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-      bodies={{TppEnemyBodyId.dds5_enem0_def,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds5_enef0_def,MAX_REALIZED_COUNT}}
-    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-      bodies={{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT}}
-    else
-      bodies={{TppEnemyBodyId.dds5_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds6_main0_v00,MAX_REALIZED_COUNT}}
-    end
-    --RETAILPATCH 1.10>
-    if TppMotherBaseManagement.GetMbsClusterSecurityIsEquipSwimSuit()then
-      local securitySwimSuitGrade=TppMotherBaseManagement.GetMbsClusterSecuritySwimSuitGrade()
-      bodies={{securitySwimSuitBodies.female[securitySwimSuitGrade],MAX_REALIZED_COUNT},{securitySwimSuitBodies.male[securitySwimSuitGrade],MAX_REALIZED_COUNT}}
-    end
-    --<
-  else
-    bodies={{TppEnemyBodyId.dds3_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds8_main0_v00,MAX_REALIZED_COUNT}}
-  end
+  end--if maleBodyInfo or femaleBodyInfo then
+
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
-
-  --tex> dd suit SetExtendPartsInfo
-  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo()
-  if femaleBodyInfo then
-    --tex only female uses extendparts
-    if femaleBodyInfo.partsPath then
-      TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
-    end
-    --<
-    --not ddogs, shining lights
-  elseif not(missionId==10030 or missionId==10240)then
-    if TppMission.IsFOBMission(missionId) then
-      if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
-        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"}
-      elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"}
-      elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-      else
-        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"}
-      end
-      --RETAILPATCH 1.0.11>
-      if TppMotherBaseManagement.GetMbsClusterSecurityIsEquipSwimSuit()then
-        local swimSuitInfo=TppMotherBaseManagement.GetMbsClusterSecuritySwimSuitInfo()
-        local partsPath
-        if swimSuitInfo==TppMotherBaseManagementConst.SWIM_SUIT_TYPE_1 then
-          partsPath="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts"
-        elseif swimSuitInfo==TppMotherBaseManagementConst.SWIM_SUIT_TYPE_2 then
-          partsPath="/Assets/tpp/parts/chara/dlg/dlg0_enem0_def_f_v00.parts"
-        elseif swimSuitInfo==TppMotherBaseManagementConst.SWIM_SUIT_TYPE_3 then
-          partsPath="/Assets/tpp/parts/chara/dlh/dlh0_enem0_def_f_v00.parts"
-        end
-        TppSoldier2.SetExtendPartsInfo{type=1,path=partsPath}
-      end
-      --<
-      --not M22 retake platform
-    elseif missionId~=10115 and missionId~=11115 then
-      TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"}
-    end
-  end
+      
   TppSoldierFace.SetSoldierUseHairFova(true)
-end
+end--fovaSetupFuncs.mtbsCustomBody<
 
---tex >ASSUMPTION customSoldierType true WIP UNUSED
-function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
-  if TppMission.IsHelicopterSpace(missionId)then
-    return
-  end
-
-  if missionId==10240 then--tex WORKAROUND>
-    fovaSetupFuncs.mbqf(locationName,missionId)
-  end--<
-
-  --face setup
-  TppSoldierFace.SetSoldierOutsideFaceMode(false)
-  TppSoldierFace.SetSoldierUseHairFova(true)
-
-  local faces={}
-  --tex headgear, faces on mb are handled by f30050_sequence.RegisterFovaFpk
-  --TODO: dont add headgear if bodyInfo is non ddheadgear (check both genders)
-  for faceIdName, headGearInfo in pairs(InfEneFova.ddHeadGearInfo) do
-    table.insert(faces,{TppEnemyFaceId[faceIdName],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  end
-
-  if missionId==30250 then
-    mtbsFaceSetupFuncs[missionId](faces)
-  end
-  TppSoldierFace.OverwriteMissionFovaData{face=faces}
-
-  --tex bodies
-  local bodies={}
-  local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
-  if maleBodyInfo then
-    InfEneFova.SetupBodies(maleBodyInfo,bodies,InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER)
-    if maleBodyInfo.partsPath then
-      TppSoldier2.SetDefaultPartsPath(maleBodyInfo.partsPath)
-    end
-  end
-
-  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo()
-  if femaleBodyInfo then
-    InfEneFova.SetupBodies(femaleBodyInfo,bodies,InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER)
-    --tex only female uses extendparts
-    if femaleBodyInfo.partsPath then
-      TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
-    end
-  end
-  TppSoldierFace.OverwriteMissionFovaData{body=bodies}
-end
---<
 function fovaSetupFuncs.cypr(locationName,missionId)
   local faces={}
   for e=0,5 do
