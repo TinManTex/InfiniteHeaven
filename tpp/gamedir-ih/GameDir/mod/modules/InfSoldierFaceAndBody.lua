@@ -489,6 +489,7 @@ end--SetupBodyFova
 function this.CheckFaceAndBodyData(faceAndBodyData)
   InfCore.LogFlow("InfSoldierFaceAndBody.CheckFaceAndBodyData")
   --tex verify bodyFovas have a bodyDefinition
+  --there are no cases of these in vanilla faceAndBodyData
   for bodyFovaIndex,bodyFova in ipairs(faceAndBodyData.bodyFova)do
     local hasBodyDefinition=0
     for j,bodyDefinition in ipairs(faceAndBodyData.bodyDefinition)do
@@ -505,7 +506,36 @@ function this.CheckFaceAndBodyData(faceAndBodyData)
       InfCore.PrintInspect(bodyFova,"bodyFova") 
     end--if hasBodyDefinition
   end--for bodyFova
+  
+  --tex TODO same for other fovas vs headefintion
+   
+  --tex OFF just for curiosity, see where fv2 name vs fpk name mismatch (see comments in the function)
+  if this.debugModule then
+    --this.CheckFovaTypes(faceAndBodyData)
+  end
 end--CheckFaceAndBodyData
+
+function this.CheckFovaTypes(faceAndBodyData)
+  for i,fovaTypeName in ipairs(this.fovaTypes)do
+    local fovaTable=faceAndBodyData[fovaTypeName]
+    for j,fovaPathInfo in ipairs(fovaTable)do
+      --tex in vanilla fovaPathInfo[1] never empty, 
+      --but theres a few incomplete fovaPathInfo[2] with empty "" 
+      if fovaPathInfo[1]==nil or fovaPathInfo[1]=="" then
+        InfCore.PrintInspect(fovaPathInfo,"fovaPathInfo[1] empty")
+      elseif fovaPathInfo[2]==nil or fovaPathInfo[2]=="" then
+        InfCore.PrintInspect(fovaPathInfo,"fovaPathInfo[2] empty")
+      else           
+        local fv2Name=InfUtil.GetFileName(fovaPathInfo[1])
+        local fpkName=InfUtil.GetFileName(fovaPathInfo[2])
+        if InfUtil.StripExt(fv2Name)~=InfUtil.StripExt(fpkName)then
+          --tex not too interesting, already know that theres fpks that bundle multiple fv2s
+          InfCore.PrintInspect(fovaPathInfo,"fovaPathInfo fileName mismatch")
+        end
+      end--if fovaPathInfo[] empty
+    end--for fovaTable
+  end--for fovaTypes
+end--CheckFovaTypes
 
 function this.BuildTppEnemyBodyId(faceAndBodyData,currentEnemyBodyIdTable)
   InfCore.LogFlow("InfSoldierFaceAndBody.BuildTppEnemyBodyId:")
