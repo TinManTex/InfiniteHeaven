@@ -32,6 +32,9 @@ local NULL_ID=GameObject.NULL_ID
 local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local InfCore=InfCore--tex
+--tex NMC not sure how the script .requires entry works (beyond the hint towards the usual concept and lua require function)
+--it's listed (though usually empty) in mission _enemy scripts, and actually used in main location scripts
+--see also _requireList at bottom of this file
 this.requires={
   "/Assets/tpp/script/ih/InfRequiresStart.lua",--tex
   "/Assets/tpp/script/lib/TppDefine.lua",
@@ -895,6 +898,7 @@ function this.DEBUG_SetPreference(entityName,property,value)
 end
 --NMC _requirelist adds a number of calls from TppMain on the libs
 --DeclareSVars, Init, OnReload, OnChangeSVars, OnMessage
+--tex InfInitMain inserts InfMain to end
 this._requireList={}
 do
   for t,libPath in ipairs(this.requires)do
