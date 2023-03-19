@@ -925,10 +925,10 @@ function fovaSetupFuncs.mbqf(locationName,missionId)
 end--fovaSetupFuncs.mbqf
 
 
---tex REWORKED
+--tex REWORKED, all these broken out of fovaSetupFuncs.mtbs
+--tex NMC normal mb faces are set up by f30050_sequence SetupStaffList / RegisterFovaFpk
 local mtbsFaceSetupFuncs={}
 
---tex broken out from fovaSetupFuncs.mtbs
 --GOTCHA: original code is if IsFOBMission, but there arent any other 50k range missions
 mtbsFaceSetupFuncs[50050]=function(faces)
   local ddSuit=TppEnemy.GetDDSuit()
@@ -1039,10 +1039,9 @@ mtbsFaceSetupFuncs[50050]=function(faces)
   for i,faceDef in ipairs(balaclavas)do
     table.insert(faces,faceDef)
   end
-end
+end--mtbsFaceSetupFuncs[50050]
 
---tex mbqf, broken out from fovaSetupFuncs.mtbs
---tex NMC normal mb faces are set up by f30050_sequence SetupStaffList / RegisterFovaFpk
+--tex mbqf freeroam
 mtbsFaceSetupFuncs[30250]=function(faces)
   local securityStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}
   --local numStaff=#securityStaff--UNUSED
@@ -1063,9 +1062,9 @@ mtbsFaceSetupFuncs[30250]=function(faces)
     table.insert(faces,{faceId,faceCount,faceCount,0})
   end
   table.insert(faces,{TppEnemyFaceId.dds_balaclava6,numSoldiers,numSoldiers,0})
-end
+end--mtbsFaceSetupFuncs[30250]
 
---Mission 43: shining lights
+--Mission 43: shining lights, external, interior is handled by fovaSetupFuncs.mbqf
 mtbsFaceSetupFuncs[10240]=function(faces)
   faces={
     {1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
@@ -1084,7 +1083,7 @@ mtbsFaceSetupFuncs[10240]=function(faces)
     {18,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0}
   }
   table.insert(faces,{TppEnemyFaceId.dds_balaclava6,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-end
+end--mtbsFaceSetupFuncs[10240]
 
 --Mission 2: Diamond Dogs
 mtbsFaceSetupFuncs[10030]=function(faces)
