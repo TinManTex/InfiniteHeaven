@@ -687,7 +687,7 @@ fovaSetupFuncs[30020]=function(locationName,missionId)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs6_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs6_main0_def_v00PartsAfricaFree,bodyId=TppEnemyBodyId.prs6_main0_v00}
 end
-function fovaSetupFuncs.afgh(locationName,missionId)
+function fovaSetupFuncs.afgh(locationName,missionId)--tex was fovaSetupFuncs.Afghan
   if missionId==10010 then
     return
   end
@@ -758,8 +758,8 @@ function fovaSetupFuncs.afgh(locationName,missionId)
 
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs2_main0_def_v00PartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
-end
-function fovaSetupFuncs.mafr(locationName,missionId)
+end--fovaSetupFuncs.afgh
+function fovaSetupFuncs.mafr(locationName,missionId)--tex NMC was fovaSetupFuncs.Africa
   local isMoreVariationMode=0
   if TppSoldierFace.IsMoreVariationMode~=nil then
     isMoreVariationMode=TppSoldierFace.IsMoreVariationMode()
@@ -851,8 +851,8 @@ function fovaSetupFuncs.mafr(locationName,missionId)
 
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
-end
-function fovaSetupFuncs.mbqf(locationName,missionId)
+end--fovaSetupFuncs.mafr
+function fovaSetupFuncs.mbqf(locationName,missionId)--tex NMC was fovaSetupFuncs.Mbqf
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   local faces={}
@@ -919,7 +919,7 @@ function fovaSetupFuncs.mbqf(locationName,missionId)
   TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00.parts"}
   TppSoldierFace.OverwriteMissionFovaData{face=faces,body=bodies}
   TppSoldierFace.SetSoldierUseHairFova(true)
-end
+end--fovaSetupFuncs.mbqf
 
 
 --tex REWORKED
@@ -1091,7 +1091,7 @@ mtbsFaceSetupFuncs[10030]=function(faces)
   table.insert(faces,{TppEnemyFaceId.dds_balaclava0,this.S10030_useBalaclavaNum,this.S10030_useBalaclavaNum,0})
 end
 
-function fovaSetupFuncs.mtbs(locationName,missionId)
+function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs.Mb
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
