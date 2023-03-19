@@ -852,7 +852,10 @@ function fovaSetupFuncs.mafr(locationName,missionId)--tex NMC was fovaSetupFuncs
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end--fovaSetupFuncs.mafr
-function fovaSetupFuncs.mbqf(locationName,missionId)--tex NMC was fovaSetupFuncs.Mbqf
+--tex NMC was fovaSetupFuncs.Mbqf
+--GOTCHA: locationCode 55 mbqf is only during 10240 interior (see the second , all other vanilla external missions are 50 mtbs
+--see s10240_sequence > Seq_Demo_GoToDoor >  TppMission.Reload 
+function fovaSetupFuncs.mbqf(locationName,missionId)
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   local faces={}
@@ -902,19 +905,19 @@ function fovaSetupFuncs.mbqf(locationName,missionId)--tex NMC was fovaSetupFuncs
   table.insert(faces,{TppEnemyFaceId.dds_balaclava7,2,2,0})
 
   local bodies={
-    {146,MAX_REALIZED_COUNT},
-    {147,MAX_REALIZED_COUNT},
-    {148,MAX_REALIZED_COUNT},
-    {149,MAX_REALIZED_COUNT},
-    {150,MAX_REALIZED_COUNT},
-    {151,1},
-    {152,MAX_REALIZED_COUNT},
-    {153,MAX_REALIZED_COUNT},
-    {154,MAX_REALIZED_COUNT},
-    {155,MAX_REALIZED_COUNT},
-    {156,MAX_REALIZED_COUNT},
-    {157,MAX_REALIZED_COUNT},
-    {158,MAX_REALIZED_COUNT}
+    {146,MAX_REALIZED_COUNT},--ddr0_main0_v00
+    {147,MAX_REALIZED_COUNT},--ddr0_main0_v01
+    {148,MAX_REALIZED_COUNT},--ddr0_main0_v02
+    {149,MAX_REALIZED_COUNT},--ddr0_main1_v00
+    {150,MAX_REALIZED_COUNT},--ddr0_main1_v01
+    {151,1},                 --ddr0_main1_v02
+    {152,MAX_REALIZED_COUNT},--ddr0_main1_v03
+    {153,MAX_REALIZED_COUNT},--ddr0_main1_v04
+    {154,MAX_REALIZED_COUNT},--ddr1_main0_v00
+    {155,MAX_REALIZED_COUNT},--ddr1_main0_v01
+    {156,MAX_REALIZED_COUNT},--ddr1_main0_v02
+    {157,MAX_REALIZED_COUNT},--ddr1_main1_v00
+    {158,MAX_REALIZED_COUNT} --ddr1_main1_v01
   }
   TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00.parts"}
   TppSoldierFace.OverwriteMissionFovaData{face=faces,body=bodies}
@@ -1042,15 +1045,15 @@ end
 --tex NMC normal mb faces are set up by f30050_sequence SetupStaffList / RegisterFovaFpk
 mtbsFaceSetupFuncs[30250]=function(faces)
   local securityStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}
-  --local e=#securityStaff
+  --local numStaff=#securityStaff--UNUSED
   local numSoldiers=7--tex shifted constant from below, number of soldiers on ward (see f30250_enemy.lua)
   local faceCounts={}
   for n,staffId in pairs(securityStaff)do
-    local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
-    if faceCounts[faceId]==nil then
-      faceCounts[faceId]=1
+    local staffFaceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
+    if faceCounts[staffFaceId]==nil then
+      faceCounts[staffFaceId]=1
     else
-      faceCounts[faceId]=faceCounts[faceId]+1
+      faceCounts[staffFaceId]=faceCounts[staffFaceId]+1
     end
     if n==numSoldiers then
       break
@@ -1090,7 +1093,11 @@ mtbsFaceSetupFuncs[10030]=function(faces)
   end
   table.insert(faces,{TppEnemyFaceId.dds_balaclava0,this.S10030_useBalaclavaNum,this.S10030_useBalaclavaNum,0})
 end
-
+--tex NMC all TppDefine.LOCATION_HAVE_MISSION_LIST come through here,
+-- those with a fovaSetupFunc (10115,11115) call that first
+--MTBS={10030,10115,11115,10240,30050,30150,30250,40050,50050,65030},--NOTE: that includes zoo and mbqf missions.
+--but 10240 does a TppMission.Reload with locationCode = TppDefine.LOCATION_ID.MBQF when you reach the door which loads the interior,
+--which does fovaSetupFuncs.mbqf instead
 function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs.Mb
   if TppMission.IsHelicopterSpace(missionId)then
     return

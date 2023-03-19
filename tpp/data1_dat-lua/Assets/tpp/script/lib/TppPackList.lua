@@ -174,7 +174,8 @@ function this.GetMissionTypeAndMissionName(missionCode)
   return missionTypeName,missionCodeName
 end
 --NMC tex this is pretty jank, but works with custom locations since IH patches LOCATION_HAVE_MISSION_LIST
---however his lumps mbqf missions as MTBS
+--GOTCHA: locationName returned is in ALLCAPS
+--GOTCHA: this returns 10240 as MTBS even though for the start/external its loc 50/mtbs, but its internal is 55/mbqf
 --GOTCHA: only returns addon missions after InfMission.AddInLocations is exec (which is via loadlibraries, so you probably wont be calling it before that), see also TppLocation.GetLocationName
 --GOTCHA: returns uppercase
 --SEO GetLocationNameForMissionCode (actual function is mispelled v)
