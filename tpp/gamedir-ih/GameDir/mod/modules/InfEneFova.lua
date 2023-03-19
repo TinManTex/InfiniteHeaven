@@ -1385,9 +1385,10 @@ function this.FovaSetupFaces(missionCode,bodyInfo)
 end--FovaSetupFaces
 --CALLER: fovaSetupFuncs.afgh/mafr
 --tex basic setup for missions fovaSetupFunc
+--DEBUGNOW only primary/SetDefaultPartsPath
 function this.FovaSetupBodies(missionCode,bodyInfo)
   local bodies={}
-  this.SetupBodies(bodyInfo,bodies)
+  this.GetFovaBodies(bodyInfo,bodies)
   if #bodies>0 then
     TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   end
@@ -1484,7 +1485,7 @@ function this.WildCardFovaBodies(bodies)
     this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
     local bodyInfo=this.GetFemaleWildCardBodyInfo()
     if bodyInfo then
-      this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
+      this.GetFovaBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
       if bodyInfo.partsPath then
         TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
       end
@@ -1625,15 +1626,14 @@ end
 --In: bodyIds
 --In/Out: bodies
 --SIDE:this.bodiesForMap
---TODO: rename to GetBodies adter verifying no addons using it
-function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
+function this.GetFovaBodies(bodyInfo,bodies,maxBodies,bodyCount)
   InfCore.PCallDebug(function(bodyInfo,bodies,maxBodies,bodyCount)--DEBUG
     if bodyInfo.bodyIds==nil then
       return
   end
   --tex since bodyIds are fovas, single models dont have bodyIds
   if #bodyInfo.bodyIds==0 then
-    --InfCore.Log("InfEneFova.SetupBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
+    --InfCore.Log("InfEneFova.GetFovaBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
     return
   end
 
@@ -1696,7 +1696,7 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
   end
   
   if this.debugModule then
-    InfCore.Log("InfEneFova.SetupBodies for "..bodyInfo.bodyType)
+    InfCore.Log("InfEneFova.GetFovaBodies for "..bodyInfo.bodyType)
     InfCore.PrintInspect(bodyInfo.bodyIds,"all bodyIds")
     InfCore.PrintInspect(filteredBodyIds,"filtered bodyIds")
     InfCore.PrintInspect(this.bodiesForMap,"bodiesForMap")
@@ -1704,7 +1704,11 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
   end
 
   end,bodyInfo,bodies,maxBodies,bodyCount)--DEBUG
-end--SetupBodies
+end--GetFovaBodies
+
+--LEGACY: pre r261
+--tex TODO: remove after verifying no addons using it
+this.SetupBodies=this.GetFovaBodies
 
 local allowHeavyArmorStr="allowHeavyArmor"
 function this.ForceArmor(missionCode)
