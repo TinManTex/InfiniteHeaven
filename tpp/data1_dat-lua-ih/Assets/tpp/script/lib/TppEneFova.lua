@@ -1111,7 +1111,10 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
   local ddSuit=TppEnemy.GetDDSuit()
 
   --tex REWORKED r195
-  if mtbsFaceSetupFuncs[missionId] then
+  if TppMission.IsFOBMission(missionId)then
+    --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
+    mtbsFaceSetupFuncs[50050](faces)
+  elseif mtbsFaceSetupFuncs[missionId] then
     mtbsFaceSetupFuncs[missionId](faces)
   else
     for faceId=0,35 do
@@ -1195,7 +1198,11 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   --tex headgear
   --faces on mb are handled by f30050_sequence.RegisterFovaFpk DEBUGNOW figure out this comment
   --tex TODO: make sure balaclava stuff plays nice with InfEneFova headgear / FovaSetupFaces (when you actually overhaul that)
-  if mtbsFaceSetupFuncs[missionId] then
+  --tex mtbsCustomBody wont even be called when fobmission, but just keeping in sync with fovaSetupFuncs.mtbs
+  if TppMission.IsFOBMission(missionId)then
+    --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
+    mtbsFaceSetupFuncs[50050](faces)
+  elseif mtbsFaceSetupFuncs[missionId] then
     mtbsFaceSetupFuncs[missionId](faces)
   else
     for faceId=0,35 do
