@@ -1991,11 +1991,16 @@ return InfCore.PCallDebug(function(questList)--DEBUGNOW
   return mvars.qst_questList
   end,questList)--tex PCall DEBUGNOW
 end--RegisterQuestList
---questPackList either TppQuestList.questPackList or TppMbFreeDemo.demoBlockList
+--questPackList either TppQuestList.questPackList or (via TppMbFreeDemo.UpdatePackList) TppMbFreeDemo.demoBlockList, f30050demo_fovaPackList (which I think mb in general uses to load its soldier faces? see f30050_sequence.RegisterFovaFpk), and others 
 function this.RegisterQuestPackList(questPackList,blockName)
   if not IsTypeTable(questPackList)then
     return
   end
+  if this.debugModule then--tex>
+    InfCore.Log("TppQuest.RegisterQuestPackList "..tostring(blockName))
+    InfCore.PrintInspect(questPackList,"questPackList")
+    --tex more logging at bottom
+  end--<
   blockName=blockName or defaultQuestBlockName
   local isMotherBase=TppLocation.IsMotherBase()
   local fpkList={}
