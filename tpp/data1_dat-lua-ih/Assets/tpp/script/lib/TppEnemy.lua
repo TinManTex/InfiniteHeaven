@@ -3387,6 +3387,15 @@ function this.DefineSoldiers(soldierDefine)
       mvars.ene_holdTimes[cpId]=this.DEFAULT_HOLD_TIME
       mvars.ene_sleepTimes[cpId]=this.DEFAULT_SLEEP_TIME
       mvars.ene_soldierIDList[cpId]={}
+
+      --REF cpName,cpDefine      
+      --  afgh_01_13_lrrp = {
+      --    [1]="sol_01_13_0000",
+      --    [2]="sol_01_13_0001",
+      --    lrrpTravelPlan  = "travelArea2_01",
+      --    lrrpVehicle   = "veh_trc_0000",
+      --  },
+
       if cpDefine.lrrpTravelPlan then
         mvars.ene_lrrpTravelPlan[cpId]=cpDefine.lrrpTravelPlan
       end
@@ -3400,14 +3409,17 @@ function this.DefineSoldiers(soldierDefine)
         else
           local soldierId=GetGameObjectId(v)
           if soldierId==NULL_ID then
+            InfCore.Log("WARNING: TppEnemy.DefineSoldiers soldierId==NULL_ID for cpDefine:"..tostring(cpName).." soldierName:"..tostring(v))--tex
           else
-            mvars.ene_soldierIDList[cpId][soldierId]=v--tex changed to v/soldier name (so can be used as a soldierId>soldierName lookup, all other references to ene_soldierIDList[cpId]/soldierIdList now 'soldierName' from 'cpDefineIndex'.
-            --ORIG mvars.ene_soldierIDList[cpId][soldierId]=k--NMC as far as I can see this value was never referenced in vanilla, I don't see how knowing the cpDefine index of a soldier would have been useful anyway
-          end
-        end
-      end
-    end
-  end
+            --tex NOTE: pre r261 I changed ene_soldierIDList itself from [cpId][soldierId]=k (cpDefine index) to [cpId][soldierId]=v (soldierName)
+            --r261+ it's back to original cpDefine index          
+            --tex NMC see TppRevenge.SetEnableSoldierLocatorList NOTE for more wondering about the point of having cpDefine index
+            mvars.ene_soldierIDList[cpId][soldierId]=k
+          end--if soldierId
+        end--if k string or not
+      end--for cpDefing
+    end--if cpId
+  end--for soldierDefine
 
   if this.debugModule then  --tex>
     InfCore.PrintInspect(mvars.ene_soldierDefine,"mvars.ene_soldierDefine")
@@ -3546,7 +3558,7 @@ function this.AssignSoldiersToCP()
     local cp=mvars.ene_cpList[cpId]
     local cpSubType=subTypeOfCp[cp]
     local isChild=false
-    for soldierId,soldierName in pairs(soldierIds)do
+    for soldierId,cpDefineIndex in pairs(soldierIds)do
       --      if Ivars.forceSoldierSubType:EnabledForMission() then--tex> WIP TODO: Why is this hanging FOB?
       --        --InfCore.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
       --        --   gvars.soldierTypeForced[soldierId]=true
@@ -4824,7 +4836,7 @@ function this.FultonRecoverOnMissionGameEnd()
   TppHelicopter.SetNewestPassengerTable()
   TppTerminal.OnRecoverByHelicopterAlreadyGetPassengerList()
   for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
-    for soldierId,soldierName in pairs(soldierIds)do
+    for soldierId,cpDefineIndex in pairs(soldierIds)do
       if CloserToPlayerThanDistSqr(distSqr,playerPosition,soldierId)and(not this.IsQuestNpc(soldierId))then
         this.AutoFultonRecoverNeutralizedTarget(soldierId,isHeli)
       end
@@ -4875,7 +4887,7 @@ function this.ChangeRouteUsingGimmick(route,unkP2,gameId,unkP3)
   if(gimmickId~=nil)and TppGimmick.IsBroken{gimmickId=gimmickId}then
     local cpId
     for _cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
-      if soldierIds[gameId]then
+      if soldierIds[gameId]then--tex NMC is cpDefineIndex, puzzled. but cant ever see this being nil or false. see NOTE in TppRevenge.SetEnableSoldierLocatorList
         cpId=_cpId
         break
       end
@@ -5628,7 +5640,7 @@ function this.SetupActivateQuestEnemy(enemyList)
           end
         end
         if cpId then
-          for soldierId,soldierName in pairs(mvars.ene_soldierIDList[cpId])do
+          for soldierId,cpDefineIndex in pairs(mvars.ene_soldierIDList[cpId])do
             local enemyDef={enemyName=soldierId,isDisable=enemyDef.isDisable}
             SetupEnemyDef(enemyDef,true,loadedFaceIndex)
           end
@@ -5989,7 +6001,7 @@ function this.SetupTerminateQuestEnemy(enemyList)
           end
         end
         if setCpId then
-          for soldierId,soldierName in pairs(mvars.ene_soldierIDList[setCpId])do
+          for soldierId,cpDefineIndex in pairs(mvars.ene_soldierIDList[setCpId])do
             local setupInfo={enemyName=soldierId,isZombie=setupInfo.isZombie,isMsf=setupInfo.isMsf,isDisable=setupInfo.isDisable}
             SetupEnemy(setupInfo,true)
           end

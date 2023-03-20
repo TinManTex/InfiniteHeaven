@@ -1800,44 +1800,83 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
   end--for TppEnemy.POWER_SETTINGS
   InfMain.RandomResetToOsTime()--tex added
   return cpConfig
-end
+end--CreateCpConfig
 
 --tex broken out from _ApplyRevengeToCp, for mb
---IN/OUT: soldierIds
-function this.SetEnableSoldierLocatorList(cpId,plant,soldierIds)
+--cpSoldierIds: mvars.ene_soldierIDList[cpId]
+--IN: mtbs_enemy.cpNameToClsterIdList: set in mtbs_enemy._SetClusterParam
+--IN: mvars.mbSoldier_enableSoldierLocatorList: set in mtbs_enemy.SetDisableSoldierUserSettings, SetSoldierForDemo and GetSoldierForQuest
+--PARAM/RETURN: cpSoldierIds
+function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
   local zero=0
   local cpName=mvars.ene_cpList[cpId]
+
+  --REF  cpNameToClsterIdList={
+  --  ["ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp"] = 1,
+  --  ["ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp"] = 2,
+  
+  --REF mbSoldier_enableSoldierLocatorList={
+  --[1]={--clusterId
+  --  "ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|sol_plnt0_0000",--soldier locator name 
+  
   if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
-    local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
-    if clusterIdList then
-      soldierIds={}
-      local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
+    local clusterId=mtbs_enemy.cpNameToClsterIdList[cpName]
+    if clusterId then
+      cpSoldierIds={}--tex NMC GOTCHA param table newed, so you need to return it
+      local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterId]
       for n,soldierName in ipairs(soldierLocators)do
-        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))
+        --REF soldierName="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|sol_plnt0_0000"
+        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))--tex NMC GOTCHA: means mb soldiers want to keep this format name, at least plnt, don't know about anything else yet DEBUGNOW it also means my additional sol_ih_nnnn arent hitting this
         if soldierPlant~=nil and soldierPlant==plant then
           local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-          soldierIds[soldierId]=soldierName--tex was zero, see note in TppEnemy.DefineSoldiers
-        end
-      end
-    end
+          --tex NMC NOTE puzzled. I don't see what this is achieving. 
+          --setting to 0 it isnt removing them, so it's not for the cpSoldierIds==nil check
+          
+          --cpSoldierIds only use after this is to fill up soldierIdForConfigIdTable
+          --but that's with soldierIds, so setting to 0 doesn't stop it from being added
+          
+          --in lua 0 isn't false so you can check it like that, but then that's a GOTCHA that a developer might have missed
+          --TppEnemy.ChangeRouteUsingGimmick is the only check like that
+          
+          --but as the above is setting cpSoldierIds to new table it doesn't propogate back to mvars.ene_cpList[cpId] table anyway 
+          
+          --mvars.ene_cpList[cpId][soldierId]=cpDefine Index (where cpDefine is <missioncode>enemy.soldierDefine define)
+          --so setting to 0 in theory would push it out of ipairs lookups, except these are as values/never looked up in that manner.
+          cpSoldierIds[soldierId]=zero--tex NMC pre r261 I was setting this to soldierName in line with changes in TppEnemy.DefineSoldiers (see NOTE), r261+ it has been restored to original behaviour
   end
-end
+      end--for soldierLocators
+    end--if clusterId
+  end--if enableSoldierLocatorList~=nil
+  return cpSoldierIds
+end--SetEnableSoldierLocatorList
 
 --CALLER: SetUpEnemy
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
 function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
+  InfCore.PCallDebug(function(cpId,revengeConfig,plant)--DEBUGNOW
+  if this.debugModule then--tex>
+    InfCore.LogFlow("_ApplyRevengeToCp ".." cpId:"..tostring(cpId).." plant:"..tostring(plant))
+  end--<
+
   local revengeConfigCp={}--tex> -v- all changed from using revengeConfig to revengeConfigCp, GOTCHA: be wary of what you're modifying since other stuff reads the original revengeconfig and your changes wont be reflected
   for k,v in pairs(revengeConfig)do
     revengeConfigCp[k]=v
   end--<
 
-  local soldierIds=mvars.ene_soldierIDList[cpId]
+  local cpSoldierIds=mvars.ene_soldierIDList[cpId]--tex NMC used to fill out soldierIdForConfigIdTable, which is 
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds")--DEBUGNOW trying to figure out what SetEnableSoldierLocatorList is up to
+  end--<
   local soldierIdForConfigIdTable={}
   local totalSoldierCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-    this.SetEnableSoldierLocatorList(cpId,soldierIds)--tex broken out for clarity
+    cpSoldierIds=this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)--tex NMC broken out for clarity--DEBUGNOW figure out how pre r261 bug of this doing nothing affected things
+    if this.debugModule then--tex
+      InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds post SetEnableSoldierLocatorList")--DEBUGNOW
+    end--<
   end
-  if soldierIds==nil then
+  --tex NMC the above doesn't nil cpSoldierIds so I don't know why it couldn't have been directly after cpSoldierIds is set
+  if cpSoldierIds==nil then
     return
   end
 
@@ -1860,7 +1899,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   --OFF unused local outerBaseSoldierTable={}
   --OFF unused local lrrpSoldierTable={}--tex added, was combined with above
 
-  for soldierId,soldierName in pairs(soldierIds)do
+  for soldierId,soldierName in pairs(cpSoldierIds)do
     table.insert(soldierIdForConfigIdTable,soldierId)
     totalSoldierCount=totalSoldierCount+1
     if missionPowerSoldiers[soldierId]then
@@ -1877,9 +1916,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     end
   end
 
-  if totalSoldierCount==0 then--tex> early out
-    return
-  end--<
+--DEBUGNOW CULL?
+--  if totalSoldierCount==0 then--tex> early out DEBUGNOW sure about this?
+--    return
+--  end--<
 
   --tex limit armor, see 'limit armor' in _CreateRevengeConfig>
   if isLrrpCp or isOuterBaseCp then
@@ -2260,16 +2300,17 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
       TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
     end
   end
-end
+  end,cpId,revengeConfig,plant)--tex PCallDebug DEBUGNOW
+end--_ApplyRevengeToCp
 --ORIG
---function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
+--function this._ApplyRevengeToCp(cpId,revengeConfig,plantNum)
 --  local GetGameObjectId=GameObject.GetGameObjectId
 --
 --  local soldierIds=mvars.ene_soldierIDList[cpId]
 --  local soldierIdForConfigIdTable={}
 --  local totalSoldierCount=0
 --  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
---    local r=0
+--    local zero=0
 --    local cpName=mvars.ene_cpList[cpId]
 --    if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
 --      local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
@@ -2280,7 +2321,7 @@ end
 --          local RENsomeMbSomethingId=tonumber(string.sub(soldierName,-6,-6))
 --          if RENsomeMbSomethingId~=nil and RENsomeMbSomethingId==RENsomeMBcounter then
 --            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
---            soldierIds[soldierId]=r
+--            soldierIds[soldierId]=zero
 --          end
 --        end
 --      end
