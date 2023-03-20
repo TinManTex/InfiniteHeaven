@@ -1060,7 +1060,7 @@ end--mtbsFaceSetupFuncs[30250]
 
 --Mission 43: shining lights, external, interior is handled by fovaSetupFuncs.mbqf
 mtbsFaceSetupFuncs[10240]=function(faces)
-  faces={
+  local facesList={
     {1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
     {2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
     {3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
@@ -1076,6 +1076,9 @@ mtbsFaceSetupFuncs[10240]=function(faces)
     {17,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
     {18,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0}
   }
+  for i,faceEntry in ipairs(facesList)do
+    table.insert(faces,faceEntry)
+  end 
   table.insert(faces,{TppEnemyFaceId.dds_balaclava6,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
 end--mtbsFaceSetupFuncs[10240]
 
