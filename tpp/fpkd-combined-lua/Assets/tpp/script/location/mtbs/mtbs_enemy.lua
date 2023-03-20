@@ -2,7 +2,7 @@
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
 -- mtbs_enemy.lua
-local FACE_SOLDIER_NUM = 36
+local FACE_SOLDIER_NUM = 36--LIMIT
 
 local mtbs_enemy = {}
 local StrCode32 = Fox.StrCode32
@@ -24,7 +24,7 @@ mtbs_enemy.plntNameDefine = {
   "plnt0","plnt1","plnt2","plnt3",
 }
 mtbs_enemy.cpNameToClsterIdList = {}
-mtbs_enemy.useUiSetting = true
+mtbs_enemy.useUiSetting = true--tex NMC f30050_enemy sets false, 10115 sets false. Seems to be whether to use FOB settings
 
 
 
@@ -946,14 +946,14 @@ mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants,
   end
   return retRouteList
 end
-
+--CALLERS: InitEnemy, UpdateEnableSoldier < f30050_sequence.SetupStaffList
 mtbs_enemy.SetDisableSoldierUserSettings = function()
   if not mvars.mbSoldier_enableSoldierLocatorList then
     mvars.mbSoldier_enableSoldierLocatorList = {}
   end
   mvars.mbSoldier_enableSoldierLocatorList[mvars.mbSoldier_currentClusterId] = {}
   local enableSoldierCount = 0
-  local maxSolNum = 100
+  local maxSolNum = 100--LIMIT tex NMC a bit magic numbery being burried here in the function tex TODO: see if this plays nice with ih additional soldiers
   local staffIdIndex = 1
   local staffIdList = mtbs_enemy.GetSecurityStaffIdList( mvars.mbSoldier_currentClusterId )
   if staffIdList then
