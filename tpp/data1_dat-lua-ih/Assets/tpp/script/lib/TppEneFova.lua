@@ -1133,6 +1133,9 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
     InfCore.LogFlow("mtbsFaceSetupFuncs.default")
     mtbsFaceSetupFuncs.default(faces)
   end
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(faces,"faces")
+  end--<
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
 
   local bodies={} 
@@ -1156,6 +1159,9 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
   else
     bodies={{TppEnemyBodyId.dds3_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds8_main0_v00,MAX_REALIZED_COUNT}}
   end
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(bodies,"bodies")
+  end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
 
   --not ddogs, shining lights
@@ -1204,13 +1210,13 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
   local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)
  
-  local faces={}
-  --tex headgear
+  --tex mission specific faces/headgear
   --faces on mb are handled by f30050_sequence.RegisterFovaFpk DEBUGNOW figure out this comment
   --tex TODO: make sure balaclava stuff plays nice with InfEneFova headgear / FovaSetupFaces (when you actually overhaul that)
   --tex mtbsCustomBody wont even be called when fobmission, but just keeping in sync with fovaSetupFuncs.mtbs
+  local faces={}  
   if TppMission.IsFOBMission(missionId)then
-    --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
+    --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has been 50050 
     mtbsFaceSetupFuncs[50050](faces)
   elseif mtbsFaceSetupFuncs[missionId] then
     InfCore.LogFlow("mtbsFaceSetupFuncs["..missionId.."]")
@@ -1219,10 +1225,14 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
     InfCore.LogFlow("mtbsFaceSetupFuncs.default")
     mtbsFaceSetupFuncs.default(faces)
   end
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(faces,"faces")
+  end--<
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
 
+  --tex headgear
   InfEneFova.FovaSetupFaces(missionId,maleBodyInfo)--tex is additionalMode
-  InfEneFova.FovaSetupFaces(missionId,femaleBodyInfo)--tex DEBUGNOW can additionalMode handle twice? 
+  --InfEneFova.FovaSetupFaces(missionId,femaleBodyInfo)--tex DEBUGNOW can additionalMode handle twice? would want to merge, stop dupes anyway
   
   --body stuff
   local bodies={}
