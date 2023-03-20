@@ -1089,6 +1089,16 @@ mtbsFaceSetupFuncs[10030]=function(faces)
   end
   table.insert(faces,{TppEnemyFaceId.dds_balaclava0,this.S10030_useBalaclavaNum,this.S10030_useBalaclavaNum,0})
 end
+
+mtbsFaceSetupFuncs.default=function(faces)
+  for faceId=0,35 do
+    table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  end
+  table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+end
+--mtbsFaceSetupFuncs end<
 --tex NMC all TppDefine.LOCATION_HAVE_MISSION_LIST come through here,
 -- those with a fovaSetupFunc (10115,11115) call that first
 --MTBS={10030,10115,11115,10240,30050,30150,30250,40050,50050,65030},--NOTE: that includes zoo and mbqf missions.
@@ -1117,14 +1127,11 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
     --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
     mtbsFaceSetupFuncs[50050](faces)
   elseif mtbsFaceSetupFuncs[missionId] then
+    InfCore.LogFlow("mtbsFaceSetupFuncs["..missionId.."]")
     mtbsFaceSetupFuncs[missionId](faces)
   else
-    for faceId=0,35 do
-      table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    end
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    InfCore.LogFlow("mtbsFaceSetupFuncs.default")
+    mtbsFaceSetupFuncs.default(faces)
   end
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
 
@@ -1209,12 +1216,8 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
     InfCore.LogFlow("mtbsFaceSetupFuncs["..missionId.."]")
     mtbsFaceSetupFuncs[missionId](faces)
   else
-    for faceId=0,35 do
-      table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    end
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    InfCore.LogFlow("mtbsFaceSetupFuncs.default")
+    mtbsFaceSetupFuncs.default(faces)
   end
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
 
