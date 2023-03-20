@@ -1802,10 +1802,12 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
   return cpConfig
 end--CreateCpConfig
 
---tex broken out from _ApplyRevengeToCp, for mb
+--tex broken out from _ApplyRevengeToCp, for mb only
+--filters mvars.mbSoldier_enableSoldierLocatorList > soldiers on plant
+--GOTCHA: requires soldierNames to have plnt num 
 --cpSoldierIds: mvars.ene_soldierIDList[cpId]
 --IN: mtbs_enemy.cpNameToClsterIdList: set in mtbs_enemy._SetClusterParam
---IN: mvars.mbSoldier_enableSoldierLocatorList: set in mtbs_enemy.SetDisableSoldierUserSettings, SetSoldierForDemo and GetSoldierForQuest
+--IN: mvars.mbSoldier_enableSoldierLocatorList: set in mtbs_enemy.SetDisableSoldierUserSettings, SetSoldierForDemo
 --PARAM/RETURN: cpSoldierIds
 function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
   local zero=0
@@ -1822,6 +1824,10 @@ function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
   if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
     local clusterId=mtbs_enemy.cpNameToClsterIdList[cpName]
     if clusterId then
+      if this.debugModule then--tex>
+        InfCore.Log("TppRevenge.SetEnableSoldierLocatorList: cpId:"..tostring(cpId).." plant:"..tostring(plant))
+        InfCore.PrintInspect(mvars.mbSoldier_enableSoldierLocatorList,"mvars.mbSoldier_enableSoldierLocatorList")
+      end--<
       cpSoldierIds={}--tex NMC GOTCHA param table newed, so you need to return it
       local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterId]
       for n,soldierName in ipairs(soldierLocators)do
@@ -1842,7 +1848,21 @@ function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
           
           --mvars.ene_cpList[cpId][soldierId]=cpDefine Index (where cpDefine is <missioncode>enemy.soldierDefine define)
           --so setting to 0 in theory would push it out of ipairs lookups, except these are as values/never looked up in that manner.
+          
+          --or maybe I'm overthinking thinks and the above clear is to just have mbSoldier_enableSoldierLocatorList be the only soldiers for the cp, 
+          --or here more specicially filters mbSoldier_enableSoldierLocatorList to just the soldiers on the plant.
+          --and 0 is just a non nil/entry exists value since they don't have cpDefineIndex for mbSoldier_enableSoldierLocatorList, and dont use cpDefineIndex anyway.
+          --so that just brings the question to what is the purpose of mbSoldier_enableSoldierLocatorList
           cpSoldierIds[soldierId]=zero--tex NMC pre r261 I was setting this to soldierName in line with changes in TppEnemy.DefineSoldiers (see NOTE), r261+ it has been restored to original behaviour
+        else
+          --tex> WORKAROUND: just lump in the additional ih soldiers
+          --it does mean that _ApplyRevengeToCp will be run on the same soldiers multiple times, but the pre r261 bug was doing that anyway for all soldiers in the cluster
+          --TODO: decide if I want to rename the ih soldiers to fit the naming scheme instead and remove the workaround, would have to match additional soldiers application though
+          --REF soldierName="sol_ih_0139"
+          if string.find(soldierName,"sol_ih_") then
+            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+            cpSoldierIds[soldierId]=zero
+          end--<
   end
       end--for soldierLocators
     end--if clusterId
@@ -1863,13 +1883,15 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     revengeConfigCp[k]=v
   end--<
 
-  local cpSoldierIds=mvars.ene_soldierIDList[cpId]--tex NMC used to fill out soldierIdForConfigIdTable, which is 
+  local cpSoldierIds=mvars.ene_soldierIDList[cpId]--tex NMC used to fill out soldierIdForConfigIdTable
   if this.debugModule then--tex>
     InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds")--DEBUGNOW trying to figure out what SetEnableSoldierLocatorList is up to
   end--<
   local soldierIdForConfigIdTable={}
   local totalSoldierCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+    --tex NMC overwrites cpSoldierIds with just mvars.mbSoldier_enableSoldierLocatorList > soldiers on plant 
+    --in mb _ApplyRevengeToCp is called for each plantNum of a cluster
     cpSoldierIds=this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)--tex NMC broken out for clarity--DEBUGNOW figure out how pre r261 bug of this doing nothing affected things
     if this.debugModule then--tex
       InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds post SetEnableSoldierLocatorList")--DEBUGNOW
