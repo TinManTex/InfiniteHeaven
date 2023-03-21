@@ -701,11 +701,12 @@ function this.DisablePowerSettings(loadout)
     mvars.ene_disablePowerSettings.SHIELD=true
   end
 end
+--settings==missionTable.enemy.soldierPersonalAbilitySettings
 function this.SetUpPersonalAbilitySettings(settings)
   mvars.ene_missionSoldierPersonalAbilitySettings=settings
 end
 function this.ApplyPersonalAbilitySettingsOnInitialize()
-  local abilitySettings=mvars.ene_missionSoldierPersonalAbilitySettings
+  local abilitySettings=mvars.ene_missionSoldierPersonalAbilitySettings--is missionTable.enemy.soldierPersonalAbilitySettings
   for soldierName,soldierAbilitySettings in pairs(abilitySettings)do
     local soldierId=GetGameObjectId(soldierName)
     if soldierId==NULL_ID then
