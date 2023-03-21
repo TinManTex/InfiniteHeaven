@@ -1915,10 +1915,17 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     return
   end
   
+  --tex NMC converting soldierNames to soldierId lookup, just used as a bool check, single use below
   local missionPowerSoldiers={}
   for soldierName,missionPowerSetting in pairs(mvars.ene_missionSoldierPowerSettings)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
     missionPowerSoldiers[soldierId]=missionPowerSetting
+  end
+  --tex NMC converting soldierNames to soldierId lookup, just used as a bool check, single use at end of function
+  local missionAbilitySoldiers={}
+  for soldierName,missionAbilitySetting in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
+    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+    missionAbilitySoldiers[soldierId]=missionAbilitySetting
   end
   
   local isOuterBaseCp=mvars.ene_outerBaseCpList[cpId]
@@ -2286,15 +2293,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     TppEnemy.ApplyPowerSetting(soldierId,soldierConfig)
   end--for cpConfig
-  
-  --tex NMC is just a lookup since ene_missionSoldierPersonalAbilitySettings only has soldierNames, not ids
-  --shifted from the top since this is its only use
-  local missionAbilitySoldiers={}
-  for soldierName,missionAbilitySetting in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
-    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-    missionAbilitySoldiers[soldierId]=missionAbilitySetting
-  end
-        
+       
   --tex NMC if soldier doesn't have mission specific settings 
   --(mvars.ene_missionSoldierPersonalAbilitySettings < missionTable.enemy.soldierPersonalAbilitySettings, which is applied via ApplyPersonalAbilitySettingsOnInitialize)
   --then apply them from soldierConfig
