@@ -190,7 +190,41 @@ function this.SetCustomRevengeUiParameters()
 end
 
 --CALLER: TppRevenge._ApplyRevengeToCp
-function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,originalSettingsTable)
+--REF balanceTypes={
+--  "ARMOR",
+--  "HELMET",
+--  "NVG",
+--  "GAS_MASK",
+--}
+--REF revengeConfig={
+--  ARMOR = 1,
+--  ASSAULT = "15%",
+--  BLACK_SUPER_REINFORCE = true,
+--  CAMERA = "100%",
+--  FULTON_HIGH = true,
+--  GAS_MASK = "99%",
+--  GUN_LIGHT = "36%",
+--  HELMET = "3%",
+--  HOLDUP_HIGH = true,
+--  MG = "20%",
+--  MINE = "61%",
+--  MISSILE = "10%",
+--  NVG = "84%",
+--  REINFORCE_COUNT = 5,
+--  SHIELD = "10%",
+--  SHOTGUN = "20%",
+--  SMG = "20%",
+--  SNIPER = "10%",
+--  SOFT_ARMOR = "46%",
+--  STRONG_MISSILE = true,
+--  STRONG_SNIPER = true,
+--  STRONG_WEAPON = true
+--}
+--PARAM/OUT: originalSettingsTable, found balanceTypes, as percentages
+--Sums up any balanceTypes (as percentages) vs totalSoldierCount, this way you can see if a selection of power types is over 100% subscription
+function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount)
+  local ballancePowersAsPercent={}
+
   local sumBalance=0
   local numBalance=0
 
@@ -206,7 +240,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
         end
         if totalSoldierCount~=0 then
           percentage=(powerSetting/totalSoldierCount)*100
-          originalSettingsTable[powerType]=percentage
+          ballancePowersAsPercent[powerType]=percentage
           numBalance=numBalance+1
           sumBalance=sumBalance+percentage
           --InfCore.DebugPrint("powerType:"..powerType.." powerSetting:"..tostring(powerSetting).." numtopercentage:"..percentage)--DEBUG
@@ -214,7 +248,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
       elseif Tpp.IsTypeString(powerSetting)then
         if powerSetting:sub(-1)=="%"then
           percentage=powerSetting:sub(1,-2)+0
-          originalSettingsTable[powerType]=percentage
+          ballancePowersAsPercent[powerType]=percentage
           numBalance=numBalance+1
           sumBalance=sumBalance+percentage
           --InfCore.DebugPrint("powerType:"..powerType.." powerSetting:"..powerSetting.." stringtopercentage:"..percentage)--DEBUG
@@ -223,11 +257,12 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
     end--if powersetting
   end--for balanceGearTypes
 
-  return numBalance,sumBalance,originalSettingsTable
+  return numBalance,sumBalance,ballancePowersAsPercent
 end--GetSumBalance
 
---CALLER: TppRevenge._ApplyRevengeToCp
-function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,revengeConfig)
+--CALLER: TppRevenge._ApplyRevengeToCp,BalanceWeaponPowers
+--PARAM/RETURN: revengeConfig
+function this.BalancePowers(numBalance,reservePercent,balancePowersAsPercent,revengeConfig)
   if numBalance==0 then
     InfCore.DebugPrint"BalancePowers numballance==0"
     return
@@ -241,7 +276,7 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
     --TODO: bump up on an individual power basis biased by those that have higher original requested percentage
     local aboveBalance=numBalance
     local underflow=0
-    for powerType,percentage in pairs(originalSettingsTable) do
+    for powerType,percentage in pairs(balancePowersAsPercent) do
       if percentage < balancePercent then
         underflow=underflow+(balancePercent-percentage)
         aboveBalance=aboveBalance-1
@@ -255,10 +290,10 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
     -- underflow=0
     --end
 
-    --tex distribute underflow in ballanceGearType order
-    for powerType,percentage in pairs(originalSettingsTable) do
+    --tex distribute underflow in ballanceGearType order --DEBUGNOW huh? pairs isnt ordered
+    for powerType,percentage in pairs(balancePowersAsPercent) do
       if percentage>balancePercent then
-        local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
+        local toOriginalPercent=balancePowersAsPercent[powerType]-balancePercent
         local bump=math.min(underflow,toOriginalPercent)
         underflow=underflow-bump
         -- InfCore.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
@@ -371,17 +406,17 @@ local function BalanceWeaponPowers(revengeConfigCp,totalSoldierCount)
   local sumBalance=0
   local numBalance=0
 
-  local originalWeaponSettings={}
+  local ballancePowersAsPercent={}
 
-  numBalance,sumBalance,originalWeaponSettings=this.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
+  numBalance,sumBalance,ballancePowersAsPercent=this.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,ballancePowersAsPercent)
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-  --      InfCore.PrintInspect(originalWeaponSettings)
+  --      InfCore.PrintInspect(ballancePowersAsPercent,"BalanceWeaponPowers ballancePowersAsPercent")
   --    end--<
 
   if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
     local reservePercent=0--tex TODO: reserve some for assault? or handle that
-    revengeConfigCp=this.BalancePowers(numBalance,reservePercent,originalWeaponSettings,revengeConfigCp)
+    revengeConfigCp=this.BalancePowers(numBalance,reservePercent,ballancePowersAsPercent,revengeConfigCp)
   end
 
   if smgForced then

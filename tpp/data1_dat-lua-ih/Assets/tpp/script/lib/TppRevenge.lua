@@ -2084,10 +2084,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   
   InfRevenge.ModRevengeConfigCp(revengeConfigCp,totalSoldierCount,isLrrpCp,isOuterBaseCp)--tex
 
-  local sumBalance=0
   local numBalance=0
+  local sumBalance=0
   if InfRevenge then
-    local originalHeadGearSettings={}--tex
+    local ballancePowersAsPercent={}--tex
     if (Ivars.allowHeadGearCombo:Is(1) or Ivars.balanceHeadGear:Is(1)) then
       local balanceGearTypes={--tex>
         "ARMOR",
@@ -2095,13 +2095,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         "NVG",
         "GAS_MASK",
       }
-
-      numBalance,sumBalance,originalHeadGearSettings=InfRevenge.GetSumBalance(balanceGearTypes,revengeConfigCp,totalSoldierCount,originalHeadGearSettings)
+      --tex figure out what the combined types as percentage vs totalSoldierCount
+      numBalance,sumBalance,ballancePowersAsPercent=InfRevenge.GetSumBalance(balanceGearTypes,revengeConfigCp,totalSoldierCount)
     end
 
     if (Ivars.balanceHeadGear:Is(1) and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold) then--tex> only need to balance if oversubscribed
       local reservePercent=0
-      revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,originalHeadGearSettings,revengeConfigCp)
+      revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,ballancePowersAsPercent,revengeConfigCp)
     end
   end--if InfRevenge
   --<
