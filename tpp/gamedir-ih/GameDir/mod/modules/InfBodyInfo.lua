@@ -1378,11 +1378,12 @@ function this.LoadBodyInfos()
     if bodyInfo.bodyIds and #bodyInfo.bodyIds>0 then
       if type(bodyInfo.bodyIds[1])=="string" then--ASSUMPTION: if first entry is string, then this is a list of strings
         bodyInfo.bodyIdNames=bodyInfo.bodyIds
-        bodyInfo.bodyIds={}
+        bodyInfo.bodyIds=nil
       end
     end
     
     if bodyInfo.bodyIdNames then
+      bodyInfo.bodyIds={}
       for i,bodyIdName in ipairs(bodyInfo.bodyIdNames)do
         if TppEnemyBodyId[bodyIdName]==nil then
           InfCore.Log("WARNING: InfBodyInfo.LoadBodyInfos: could not find TppEnemyBodyId."..bodyIdName,false,true)
