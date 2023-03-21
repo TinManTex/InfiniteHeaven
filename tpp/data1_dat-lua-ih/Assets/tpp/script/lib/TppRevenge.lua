@@ -1809,7 +1809,7 @@ end--CreateCpConfig
 --IN: mtbs_enemy.cpNameToClsterIdList: set in mtbs_enemy._SetClusterParam
 --IN: mvars.mbSoldier_enableSoldierLocatorList: set in mtbs_enemy.SetDisableSoldierUserSettings, SetSoldierForDemo
 --PARAM/RETURN: cpSoldierIds
-function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
+local function SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
   local zero=0
   local cpName=mvars.ene_cpList[cpId]
 
@@ -1871,6 +1871,73 @@ function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
   return cpSoldierIds
 end--SetEnableSoldierLocatorList
 
+--tex NMC broken out from _ApplyRevengeToCp
+--TODO: soldierConfig ability to level lookup (*_SPECIAL == "sp" etc)
+local function GetPersonalAbilitySettings(soldierConfig)
+  local personalAbilitySettings={}
+  do
+    local stealthLevel
+    if soldierConfig.STEALTH_SPECIAL then
+      stealthLevel="sp"
+    elseif soldierConfig.STEALTH_HIGH then
+      stealthLevel="high"
+    elseif soldierConfig.STEALTH_LOW then
+      stealthLevel="low"
+    end
+    personalAbilitySettings.notice=stealthLevel
+    personalAbilitySettings.cure=stealthLevel
+    personalAbilitySettings.reflex=stealthLevel
+  end
+  do
+    local combatLevel
+    if soldierConfig.COMBAT_SPECIAL then
+      combatLevel="sp"
+    elseif soldierConfig.COMBAT_HIGH then
+      combatLevel="high"
+    elseif soldierConfig.COMBAT_LOW then
+      combatLevel="low"
+    end
+    personalAbilitySettings.shot=combatLevel
+    personalAbilitySettings.grenade=combatLevel
+    personalAbilitySettings.reload=combatLevel
+    personalAbilitySettings.hp=combatLevel
+  end
+  do
+    local speedLevel
+    if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
+      speedLevel="sp"
+    elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
+      speedLevel="high"
+    elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
+      speedLevel="low"
+    end
+    personalAbilitySettings.speed=speedLevel
+  end
+  do
+    local fultonLevel
+    if soldierConfig.FULTON_SPECIAL then
+      fultonLevel="sp"
+    elseif soldierConfig.FULTON_HIGH then
+      fultonLevel="high"
+    elseif soldierConfig.FULTON_LOW then
+      fultonLevel="low"
+    end
+    personalAbilitySettings.fulton=fultonLevel
+  end
+  do
+    local holdupLevel
+    if soldierConfig.HOLDUP_SPECIAL then
+      holdupLevel="sp"
+    elseif soldierConfig.HOLDUP_HIGH then
+      holdupLevel="high"
+    elseif soldierConfig.HOLDUP_LOW then
+      holdupLevel="low"
+    end
+    personalAbilitySettings.holdup=holdupLevel
+  end
+  return personalAbilitySettings
+end--GetPersonalAbilitySettings
+
 --CALLER: SetUpEnemy
 --revengeConfig: mvars.revenge_revengeConfig < _CreateRevengeConfig: singular revenge config for mission
 --IN: mvars:
@@ -1908,7 +1975,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     --tex NMC overwrites cpSoldierIds with just mvars.mbSoldier_enableSoldierLocatorList > soldiers on plant 
     --in mb _ApplyRevengeToCp is called for each plantNum of a cluster
-    cpSoldierIds=this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)--tex NMC broken out for clarity--DEBUGNOW figure out how pre r261 bug of this doing nothing affected things
+    cpSoldierIds=SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)--tex NMC broken out for clarity--DEBUGNOW figure out how pre r261 bug of this doing nothing affected things
     if this.debugModule then--tex
       InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds post SetEnableSoldierLocatorList")--DEBUGNOW
     end--<
@@ -2302,81 +2369,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     if missionAbilitySoldiers[soldierId]==nil then
-      local personalAbilitySettings=this.GetPersonalAbilitySettings()
+      local personalAbilitySettings=GetPersonalAbilitySettings(soldierConfig)
       TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
     end--if not missionAbilitySoldier
   end--for cpConfig
   
   end,cpId,revengeConfig,plant)--tex PCallDebug DEBUGNOW
 end--_ApplyRevengeToCp
-
---tex NMC broken out from _ApplyRevengeToCp
---TODO: soldierConfig ability to level lookup (*_SPECIAL == "sp" etc)
-function this.GetPersonalAbilitySettings(soldierConfig)
-  local personalAbilitySettings={}
-  do
-    local stealthLevel
-    if soldierConfig.STEALTH_SPECIAL then
-      stealthLevel="sp"
-    elseif soldierConfig.STEALTH_HIGH then
-      stealthLevel="high"
-    elseif soldierConfig.STEALTH_LOW then
-      stealthLevel="low"
-    end
-    personalAbilitySettings.notice=stealthLevel
-    personalAbilitySettings.cure=stealthLevel
-    personalAbilitySettings.reflex=stealthLevel
-  end
-  do
-    local combatLevel
-    if soldierConfig.COMBAT_SPECIAL then
-      combatLevel="sp"
-    elseif soldierConfig.COMBAT_HIGH then
-      combatLevel="high"
-    elseif soldierConfig.COMBAT_LOW then
-      combatLevel="low"
-    end
-    personalAbilitySettings.shot=combatLevel
-    personalAbilitySettings.grenade=combatLevel
-    personalAbilitySettings.reload=combatLevel
-    personalAbilitySettings.hp=combatLevel
-  end
-  do
-    local speedLevel
-    if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
-      speedLevel="sp"
-    elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
-      speedLevel="high"
-    elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
-      speedLevel="low"
-    end
-    personalAbilitySettings.speed=speedLevel
-  end
-  do
-    local fultonLevel
-    if soldierConfig.FULTON_SPECIAL then
-      fultonLevel="sp"
-    elseif soldierConfig.FULTON_HIGH then
-      fultonLevel="high"
-    elseif soldierConfig.FULTON_LOW then
-      fultonLevel="low"
-    end
-    personalAbilitySettings.fulton=fultonLevel
-  end
-  do
-    local holdupLevel
-    if soldierConfig.HOLDUP_SPECIAL then
-      holdupLevel="sp"
-    elseif soldierConfig.HOLDUP_HIGH then
-      holdupLevel="high"
-    elseif soldierConfig.HOLDUP_LOW then
-      holdupLevel="low"
-    end
-    personalAbilitySettings.holdup=holdupLevel
-  end
-  return personalAbilitySettings
-end--GetPersonalAbilitySettings
-
 --ORIG
 --function this._ApplyRevengeToCp(cpId,revengeConfig,plantNum)
 --  local GetGameObjectId=GameObject.GetGameObjectId
