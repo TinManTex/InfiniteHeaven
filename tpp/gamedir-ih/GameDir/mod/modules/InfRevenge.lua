@@ -224,8 +224,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
   end--for balanceGearTypes
 
   return numBalance,sumBalance,originalSettingsTable
-end
-
+end--GetSumBalance
 
 --CALLER: TppRevenge._ApplyRevengeToCp
 function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,revengeConfig)
@@ -269,7 +268,175 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
     --InfCore.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." balancePercent:"..balancePercent)--DEBUG
   end--if numbalance
   return revengeConfig--tex already been edited in-place, but this is clearer
-end--function
+end--BalancePowers
+--OUT: revengeConfigCp
+local function RandomizeSmallCpPowers(revengeConfigCp,totalSoldierCount)
+  local smallCpBalanceLimit=5--tex TODO magic number
+  if totalSoldierCount > smallCpBalanceLimit then
+    return
+  end
+
+  --powertype={min,max}
+    local smallCpBallanceList={
+      ARMOR={0,totalSoldierCount},
+      SNIPER={0,1},
+      SHIELD={0,totalSoldierCount},--totalSoldierCount/2},
+      MISSILE={0,totalSoldierCount},
+      MG={0,totalSoldierCount},
+      SHOTGUN={0,totalSoldierCount},
+    }
+    InfMain.RandomSetToLevelSeed()
+    for powerType,range in pairs(smallCpBallanceList) do
+      if revengeConfigCp[powerType] then
+        local currentSetting=revengeConfigCp[powerType]
+        if not Tpp.IsTypeNumber(currentSetting)then
+          currentSetting=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
+        end
+
+        revengeConfigCp[powerType]=math.random(range[1],math.min(currentSetting,range[2]))
+        if revengeConfigCp[powerType]==0 then
+          revengeConfigCp[powerType]=nil
+        end
+      end
+    end
+    InfMain.RandomResetToOsTime()
+end--RandomizeSmallCpPowers
+--tex WIP>
+--OUT: revengeConfigCp
+local function BalanceWeaponPowers(revengeConfigCp,totalSoldierCount)
+  local balanceWeaponTypes={--tex>
+    "SNIPER",
+    "SHOTGUN",
+    "MG",
+    "SMG",
+    "ASSAULT",
+  }
+
+  --tex TODO: need a way to account for the shield force applying SMGs when smgs is also set?? or does this not actually happen
+  --      local smgTypes={
+  --        --"SMG",
+  --        "SHIELD",--tex this is forced in TppEnemy.ApplyPowerSetting
+  --        --"MISSILE",--TODO: need to include if allowMissileWeaponsCombo is off
+  --      }
+  --      local totalSmgs=0
+  --      for n, powerType in ipairs(smgTypes) do
+  --        totalSmgs=totalSmgs+this._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
+  --      end
+  local powerType="SMG"
+  local totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
+
+  local smgForced=revengeConfigCp.SHIELD and revengeConfigCp.SMG==nil
+  if smgForced then
+    local powerType="SHIELD"
+    totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
+    revengeConfigCp.SMG=totalSmgs
+    --    elseif revengeConfigCp.MISSILE and not revengeConfigCp.SMG then
+    --      local powerType="MISSILE"
+    --      local totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
+    --      revengeConfigCp.SMG=totalSmgs
+    --
+    --      if Ivars.allowMissileWeaponsCombo:Is(0) then
+    --        smgForced=true
+    --      end
+  end--if smgForced
+
+  --  local wantedWeapons={}
+  --  for n,powerType in pairs(balanceWeaponTypes)do
+  --    wantedWeapons[powerType]=0
+  --  end
+  --
+  --  local totalWanted=0
+  --  for n,powerType in pairs(balanceWeaponTypes)do
+  --    local wanted=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
+  --    totalWanted=totalWanted+wanted
+  --    wantedWeapons[powerType]=wanted
+  --  end
+
+  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+  --      InfCore.DebugPrint("totalSoldierCount:" .. totalSoldierCount.." totalWanted weapons:"..totalWanted)
+  --      InfCore.PrintInspect(wantedWeapons)--DEBUG
+  --    end--
+
+  --    if revengeConfigCp.SMG==nil then
+  --      revengeConfigCp.SMG=1
+  --    end
+  --
+  --    local numTypes=0
+  --    for n,powerType in pairs(balanceWeaponTypes)do
+  --      numTypes=numTypes+1
+  --    end
+
+  revengeConfigCp.ASSAULT="10%"
+
+  local sumBalance=0
+  local numBalance=0
+
+  local originalWeaponSettings={}
+
+  numBalance,sumBalance,originalWeaponSettings=this.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
+
+  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
+  --      InfCore.PrintInspect(originalWeaponSettings)
+  --    end--<
+
+  if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
+    local reservePercent=0--tex TODO: reserve some for assault? or handle that
+    revengeConfigCp=this.BalancePowers(numBalance,reservePercent,originalWeaponSettings,revengeConfigCp)
+  end
+
+  if smgForced then
+    revengeConfigCp.SHIELD=revengeConfigCp.SMG
+    revengeConfigCp.SMG=nil--tex don't want CreateCpConfig to actually assign since these will be forced in TppEnemy.ApplyPowerSetting
+  end
+
+  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
+  --      InfCore.DebugPrint("revengeConfig")
+  --      InfCore.PrintInspect(revengeConfig)
+  --      InfCore.DebugPrint("revengeConfigCp")
+  --      InfCore.PrintInspect(revengeConfigCp)
+  --    end--<
+end--BalanceWeaponPowers
+
+--CALLER: TppRevenge._ApplyRevengeToCp
+--OUT: revengeConfigCp
+function this.ModRevengeConfigCp(revengeConfigCp,totalSoldierCount,isLrrpCp,isOuterBaseCp)
+  --tex limit armor, see 'limit armor' in _CreateRevengeConfig>
+  if isLrrpCp or isOuterBaseCp then
+    if revengeConfigCp.ARMOR then
+      if IvarProc.EnabledForMission"allowHeavyArmor" or IvarProc.EnabledForMission"revengeMode" then
+        revengeConfigCp.ARMOR=false
+      end
+    end
+  end
+
+  if Ivars.enableMgVsShotgunVariation:Is(1) then
+    local setting=revengeConfigCp.MG_OR_SHOTGUN or 0
+    if setting~=0 then
+      InfMain.RandomSetToLevelSeed()
+      local mgShottyLoadouts={
+        {MG=setting,SHOTGUN=nil},
+        {MG=nil,SHOTGUN=setting},
+        {MG=math.floor(setting/2),SHOTGUN=math.floor(setting/2)},
+      }
+      local powerTable=mgShottyLoadouts[math.random(1,3)]
+      for powerType,setting in pairs(powerTable)do
+        revengeConfigCp[powerType]=setting
+      end
+
+      InfMain.RandomResetToOsTime()
+    end
+  end--enableMgVsShotgunVariation<
+
+  if Ivars.randomizeSmallCpPowers:Is(1) then
+    RandomizeSmallCpPowers(revengeConfigCp,totalSoldierCount)
+  end--randomizeSmallCpPowers<
+
+  if Ivars.balanceWeaponPowers:Is(1) then
+    BalanceWeaponPowers(revengeConfigCp,totalSoldierCount)
+  end--balanceWeaponPowers
+  
+  
+end--ModRevengeConfigCp
 
 
 return this
