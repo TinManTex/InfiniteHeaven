@@ -1872,7 +1872,7 @@ function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
 end--SetEnableSoldierLocatorList
 
 --CALLER: SetUpEnemy
---INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
+--revengeConfig: mvars.revenge_revengeConfig < _CreateRevengeConfig: singular revenge config for mission
 --IN: mvars:
 --ene_soldierIDList, 
 --mbSoldier_enableSoldierLocatorList, 
@@ -1890,8 +1890,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     local cpName=mvars.ene_cpList[cpId]
     InfCore.LogFlow("_ApplyRevengeToCp cpId:"..tostring(cpId).." "..tostring(cpName).." plant:"..tostring(plant))
   end--<
-
-  local revengeConfigCp={}--tex> -v- all changed from using revengeConfig to revengeConfigCp, GOTCHA: be wary of what you're modifying since other stuff reads the original revengeconfig and your changes wont be reflected
+  
+  --tex> -v- changed from using revengeConfig to revengeConfigCp
+  --GOTCHA: though the point of this to have cp revenge config seperate,
+  --it does mean the changes in this function wont be reflected to uses of mvars.revenge_revengeConfig
+  local revengeConfigCp={}
   for k,v in pairs(revengeConfig)do
     revengeConfigCp[k]=v
   end--<
