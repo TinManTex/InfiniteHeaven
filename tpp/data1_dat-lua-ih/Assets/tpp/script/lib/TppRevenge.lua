@@ -1932,7 +1932,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   local isLrrpCp=mvars.ene_lrrpTravelPlan[cpId]--tex added, was below
   local isLrrpVehicleCp=mvars.ene_lrrpVehicle[cpId]--tex added
 
-  local powerElimOrChildSoldierTable={}
+  local powerElimOrChildSoldierTable={}--tex NMC [soldierConfigIndex]=bool, single use in CreateCpConfig
   --OFF unused local outerBaseSoldierTable={}
   --OFF unused local lrrpSoldierTable={}--tex added, was combined with above
 
