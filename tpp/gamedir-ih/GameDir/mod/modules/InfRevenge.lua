@@ -438,5 +438,54 @@ function this.ModRevengeConfigCp(revengeConfigCp,totalSoldierCount,isLrrpCp,isOu
   
 end--ModRevengeConfigCp
 
+--tex fix issues with RADIO body
+--OUT: cpConfig
+function this.FixRadioBody(cpConfig,soldierIdForConfigIdTable,isLrrpVehicleCp,isLrrpCp)
+  local applyPowersToLrrp=Ivars.applyPowersToLrrp:Is()>0
+  local isVehiclePatrols=Ivars.vehiclePatrolProfile:EnabledForMission()
+  for soldierConfigId,soldierConfig in ipairs(cpConfig)do
+    local soldierId=soldierIdForConfigIdTable[soldierConfigId]
+    local addRadio=false
+
+    --DEBUGNOW what am actually doing here? I'm only adding?   
+    --GetBodyId has
+    --elseif(mvars.ene_soldierLrrp[soldierId]or soldierPowerSettings.RADIO)and bodyIdTable.RADIO then
+    --so are there any hits there (aparently not or I'd have handled it?)
+    --do I need to change GetBodyId to only rely on RADIO not just all ene_soldierLrrp (while maintaining vanilla behavor)
+    --I'm kind of doing that by adding it to llrps below, but I'm gating it with ih applyPowersToLrrp
+    
+    --tex DEBUGNOW what does isLrrpVehicleCp cover, do vanilla lrrp vehicle soldiers have RADIO? 
+    --tex the radio light fx shows through enclosed vehicles like tanks
+    if isLrrpVehicleCp and isVehiclePatrols then
+      local vehicleInfo=InfVehicle.inf_patrolVehicleInfo[isLrrpVehicleCp]
+      if vehicleInfo then
+        local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
+        if baseTypeInfo and not baseTypeInfo.enclosed then
+          addRadio=true
+        end
+      end
+    end
+
+    --tex DEBUGNOW what's this doing vs vanilla behavior?
+    if isLrrpCp and applyPowersToLrrp then
+      if not isLrrpVehicleCp then--tex should be set above
+        addRadio=true
+      end
+      if addRadio then
+        --tex shield is fine, ARMOR probably wouldn't be, but getbodyid returns armor before radio so moot
+        --soft_armor is fine for PFCs
+        if soldierConfig.SOFT_ARMOR then
+          if TppEnemy.GetSoldierType(soldierId)==EnemyType.TYPE_SOVIET then
+            addRadio=false
+          end
+        end
+      end
+    end
+
+    if addRadio then
+      soldierConfig.RADIO=true
+    end
+  end--< for cpConfig
+end--FixRadioBody
 
 return this

@@ -2167,42 +2167,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     InfCore.PrintInspect(unfulfilledPowers,"unfulfilledPowers")
   end--<
 
-  --tex fix issues with RADIO body>
-  local applyPowersToLrrp=Ivars.applyPowersToLrrp:Is()>0
-  local isVehiclePatrols=Ivars.vehiclePatrolProfile:EnabledForMission()
-  for soldierConfigId,soldierConfig in ipairs(cpConfig)do
-    local soldierId=soldierIdForConfigIdTable[soldierConfigId]
-    local addRadio=false
-
-    if isLrrpVehicleCp and isVehiclePatrols then
-      local vehicleInfo=InfVehicle.inf_patrolVehicleInfo[isLrrpVehicleCp]
-      if vehicleInfo then
-        local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
-        if baseTypeInfo and not baseTypeInfo.enclosed then
-          addRadio=true
-        end
-      end
-    end
-
-    if isLrrpCp and applyPowersToLrrp then
-      if not isLrrpVehicleCp then--tex should be set above
-        addRadio=true
-      end
-      if addRadio then
-        --tex shield is fine, ARMOR probably wouldn't be, but getbodyid returns armor before radio so moot
-        --soft_armor is fine for PFCs
-        if soldierConfig.SOFT_ARMOR then
-          if TppEnemy.GetSoldierType(soldierId)==EnemyType.TYPE_SOVIET then
-            addRadio=false
-          end
-        end
-      end
-    end
-
-    if addRadio then
-      soldierConfig.RADIO=true
-    end
-  end--< for cpConfig
+  InfRevenge.FixRadioBody(cpConfig,soldierIdForConfigIdTable,isLrrpVehicleCp,isLrrpCp)--tex fix issues with RADIO body
 
   if this.debugModule then--tex>
     InfCore.PrintInspect(cpConfig,"cpConfig pre apply")
