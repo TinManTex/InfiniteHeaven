@@ -62,8 +62,8 @@ this.langStrings={
     mbDDHeadGearSettings={"Off","Current prep"},
     customSoldierTypeFREE="Custom soldier type in Free roam",
     customSoldierTypeMISSION="Custom soldier type in Missions",
-    customSoldierTypeMB_ALL="DD Suit",
-    customSoldierTypeFemaleMB_ALL="DD Suit female",
+    customSoldierTypeMB_ALL="Custom DD type in MB",
+    customSoldierTypeFemaleMB_ALL="Custom DD female type in MB",
     setting_only_for_dd="This setting is only for DD soliders",
   },
   help={
