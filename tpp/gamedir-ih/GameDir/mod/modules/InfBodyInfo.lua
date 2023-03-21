@@ -166,7 +166,8 @@ this.bodyInfo={
   TIGER={--DDS, FOB default
     description="Fatigues - Tiger",
     bodyIds={TppEnemyBodyId.dds5_main0_v00},
-    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",--tex TODO also dds5_main0_v00?
+    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
+    --TODO from 10115 partsPathHostage="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
     soldierSubType="DD_FOB",
     useDDHeadgear=true,
@@ -707,7 +708,7 @@ this.bodyInfo={
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit3.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT3,
     soldierSubType="DD_FOB",
   },
-  PRISONER_AFGH={
+  PRISONER_AFGH={--vanil ref
     bodyIds={
       TppEnemyBodyId.prs2_main0_v00,
       TppEnemyBodyId.prs2_main0_v01,
@@ -736,7 +737,7 @@ this.bodyInfo={
     partsPath="/Assets/tpp/parts/chara/prs/prs4_main0_def_v00.parts",
   --\chunk2_dat\Assets\tpp\pack\mission2\story\s10040\s10040_area_fpkd
   },
-  PRISONER_MAFR={
+  PRISONER_MAFR={--vanil ref
     bodyIds={TppEnemyBodyId.prs5_main0_v00},
     partsPath="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
     partsPathHostage="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
