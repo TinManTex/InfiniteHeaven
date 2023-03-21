@@ -2037,6 +2037,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   for k,v in pairs(revengeConfig)do
     revengeConfigCp[k]=v
   end--<
+  
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(revengeConfigCp,"revengeConfigCp")--tex to compare against post ModRevengeConfigCp
+  end--<
 
   local powerComboExclusionList={
     ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
@@ -2101,6 +2105,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     end
   end--if InfRevenge
   --<
+  
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(revengeConfigCp,"revengeConfigCp post ModRevengeConfigCp")
+  end--<
 
   local unfulfilledPowers={}--tex>
   local addConfigFlags={}
@@ -2152,19 +2160,12 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     local gearConfigFlags={
       HEADGEAR_COMBO=true
     }
-    cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)--tex now function
+    cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)
   end--if allowHeadGearCombo<
 
-  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --      --if not InfUtil.IsTableEmpty(unfulfilledPowers) then
-  --      InfCore.DebugPrint"unfulfilledPowers:"
-  --      InfCore.PrintInspect(unfulfilledPowers)
-  --      --end--
-  --    end--<
-  --
-  --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --    InfCore.PrintInspect(cpConfig)
-  --  end--<
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(unfulfilledPowers,"unfulfilledPowers")
+  end--<
 
   --tex fix issues with RADIO body>
   local applyPowersToLrrp=Ivars.applyPowersToLrrp:Is()>0
