@@ -745,7 +745,7 @@ end
 
 function this.SetUpMBZombie()
   for cpName,soldierNameList in pairs(mvars.ene_soldierDefine) do
-    for i,soldierName in pairs(soldierNameList) do
+    for i,soldierName in ipairs(soldierNameList) do
       local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
       if gameObjectId~=NULL_ID then
         this.SetZombie(gameObjectId)
