@@ -1978,19 +1978,8 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         revengeConfigCp.ARMOR=false
       end
     end
-  end
-  --<
+  end--<
 
-  local cpConfig={}--NMC: the main point of the function, per soldier powers configs
-  for soldierConfigId=1,totalSoldierCount do
-    if isOuterBaseCp then
-      cpConfig[soldierConfigId]={OB=true}
-    elseif isLrrpCp then--tex>
-      cpConfig[soldierConfigId]={LRRP=true}
-    else--<
-      cpConfig[soldierConfigId]={}
-    end
-  end
   local powerComboExclusionList={
     ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
     SOFT_ARMOR={"ARMOR"},
@@ -2201,7 +2190,17 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   if Ivars.allowMissileWeaponsCombo:Is(1) then
     addConfigFlags={MISSILE_COMBO=true}
   end--<
-
+  
+  local cpConfig={}--NMC: the main point of the function, per soldier powers configs
+  for soldierConfigId=1,totalSoldierCount do
+    if isOuterBaseCp then
+      cpConfig[soldierConfigId]={OB=true}
+    elseif isLrrpCp then--tex>
+      cpConfig[soldierConfigId]={LRRP=true}
+    else--<
+      cpConfig[soldierConfigId]={}
+    end
+  end
   if this.debugModule then--tex>
     InfCore.PrintInspect(cpConfig,"cpConfig pre CreateCpConfig")
   end--<
