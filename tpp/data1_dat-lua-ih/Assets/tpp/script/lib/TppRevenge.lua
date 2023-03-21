@@ -2135,7 +2135,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     InfCore.PrintInspect(cpConfig,"cpConfig post CreateCpConfig")
   end--<
 
-  --tex> rerun CreateCpConfig without headgear restrictions
+  --tex> rerun CreateCpConfig without headgear restrictions DEBUGNOW why I doing like this?
   if (Ivars.allowHeadGearCombo:Is(1) and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold) then
     if vars.missionCode~=30050 then
       local headGearComboExclusions={
@@ -2147,6 +2147,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         powerComboExclusionList[powerType]=excludeList
       end
     else
+      --DEBUGNOW ddHeadGear
       local headGearComboExclusionsDD={
         HELMET={"ARMOR"},
         GAS_MASK={"ARMOR"},
