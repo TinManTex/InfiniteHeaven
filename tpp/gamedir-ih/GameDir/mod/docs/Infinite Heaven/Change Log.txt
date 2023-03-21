@@ -14,6 +14,17 @@ Fix: Some cases of Player Cam hook (FOV) not applying.
 
 Fix: InfSoldierFaceAndBody not retaining its data on script reload. Affected Apearance menu > Face option when Filter set to Head fova addons.
 
+Fix: bug SetEnableSoldierLocatorList mbSoldier_enableSoldierLocatorList never applied
+
+Fix: Back in the dark ages I changed mvars.ene_soldierIDList itself from its original [cpId][soldierId]=cpDefine index to [cpId][soldierId]=soldierName as the value didnt seem to be used anywhere, and I wanted a lookup. Didn't really end up using it much, it was better to just iterate soldierDefine again, so its been reverted.
+(and API/dev warning I guess if anyone was using it as its modified form in their scripts)
+
+Fix: TppRevenge.SetEnableSoldierLocatorList (actually broken out by IH from _ApplyRevengeToCp) not applying in MB. Don't think it affected anything since it failed in a way that it was still applying revenge for all soliders in a cluster, just that it was applying multiple times (with exact same values).
+See the NOTE: in SetEnableSoldierLocatorList for my puzzlement about it.     
+
+Motherbase menu > 'DD Suit', 'DD Suit female' renamed 'Custom DD type in MB' in line with 'Custom Soldier type in mission/free'. 
+The underlying Ivars already were named customSoldierTypeMB_ALL, so you shouln't have to re-set the setting.
+
 AroundCam (FreeCam):
 When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
 Fix: hang if on when Abort mission.
