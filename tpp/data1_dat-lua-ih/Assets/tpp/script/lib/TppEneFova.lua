@@ -1099,6 +1099,7 @@ mtbsFaceSetupFuncs.default=function(faces)
   table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
 end
 --mtbsFaceSetupFuncs end<
+
 --tex NMC all TppDefine.LOCATION_HAVE_MISSION_LIST come through here,
 -- those with a fovaSetupFunc (10115,11115) call that first
 --MTBS={10030,10115,11115,10240,30050,30150,30250,40050,50050,65030},--NOTE: that includes zoo and mbqf missions.
@@ -1122,13 +1123,18 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
   local faces={}
   local ddSuit=TppEnemy.GetDDSuit()
 
-  --tex REWORKED r195
+  --tex REWORKED r195, r261
   if TppMission.IsFOBMission(missionId)then
     --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
     mtbsFaceSetupFuncs[50050](faces)
   elseif mtbsFaceSetupFuncs[missionId] then
     InfCore.LogFlow("mtbsFaceSetupFuncs["..missionId.."]")
     mtbsFaceSetupFuncs[missionId](faces)
+  --tex could throw empty funcs into mtbsFaceSetupFuncs, but this makes it more explicit
+  elseif missionId==30050 then
+  --tex NMC normal mb faces are set up by f30050_sequence SetupStaffList / RegisterFovaFpk
+  elseif missionId==30150 then
+  --tex no soldiers in vanilla
   else
     InfCore.LogFlow("mtbsFaceSetupFuncs.default")
     mtbsFaceSetupFuncs.default(faces)
@@ -1198,30 +1204,35 @@ function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs
 end--fovaSetupFuncs.mtbs
 
 --tex >ASSUMPTION customSoldierType true
+--in theory (DEBUGNOW needs testing) this is set up for independant male and female (customSoldierType, customSoldierTypeFemale) with fallbacks to default mb dds setup
+--though its currently gated in fovaSetupFuncs.mtbs by customSoldierType
 function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   InfCore.LogFlow"fovaSetupFuncs.mtbsCustomBody"
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
+  
+  local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
+  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)  
 
   --face setup
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   
-  local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
-  local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)
- 
+  local faces={}
   --tex mission specific faces/headgear
-  --faces on mb are handled by f30050_sequence.RegisterFovaFpk DEBUGNOW figure out this comment
-  --tex TODO: make sure balaclava stuff plays nice with InfEneFova headgear / FovaSetupFaces (when you actually overhaul that)
   --tex mtbsCustomBody wont even be called when fobmission, but just keeping in sync with fovaSetupFuncs.mtbs
-  local faces={}  
   if TppMission.IsFOBMission(missionId)then
-    --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has been 50050 
+    --tex just to keep vanilla behavior, even though the only fob mission from release to 1.0.15.3 has bee 50050 
     mtbsFaceSetupFuncs[50050](faces)
   elseif mtbsFaceSetupFuncs[missionId] then
     InfCore.LogFlow("mtbsFaceSetupFuncs["..missionId.."]")
     mtbsFaceSetupFuncs[missionId](faces)
-  else
+  --tex could throw empty funcs into mtbsFaceSetupFuncs, but this makes it more explicit
+  elseif missionId==30050 then
+  --tex NMC normal mb faces are set up by f30050_sequence SetupStaffList / RegisterFovaFpk
+  elseif missionId==30150 then
+  --tex no soldiers in vanilla
+  else  
     InfCore.LogFlow("mtbsFaceSetupFuncs.default")
     mtbsFaceSetupFuncs.default(faces)
   end
@@ -1230,66 +1241,86 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   end--<
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
 
-  --tex headgear
+  --tex headgear TODO: overhaul, and make sure it plays nice with the above
   InfEneFova.FovaSetupFaces(missionId,maleBodyInfo)--tex is additionalMode
   --InfEneFova.FovaSetupFaces(missionId,femaleBodyInfo)--tex DEBUGNOW can additionalMode handle twice? would want to merge, stop dupes anyway
+ 
+  --parts setup
+  if maleBodyInfo and maleBodyInfo.partsPath then
+    TppSoldier2.SetDefaultPartsPath(maleBodyInfo.partsPath)
+  else
+    --tex vanilla non fob fovaSetupFuncs.mtbs doesn't actually SetDefaultPartsPath
+    --perhaps dds5 is set internally, or its in a fox2 somewhere?
+    --TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
+  end
   
-  --body stuff
-  local bodies={}
-  if maleBodyInfo or femaleBodyInfo then
-    if maleBodyInfo and maleBodyInfo.partsPath then
-      TppSoldier2.SetDefaultPartsPath(maleBodyInfo.partsPath)
-    end
-    if femaleBodyInfo and femaleBodyInfo.partsPath then
+  if femaleBodyInfo and femaleBodyInfo.partsPath then
+    --tex only female uses extendparts
+    TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
+  else
+    local noFemaleMission={
+      [10030]=true,--ddogs
+      [10240]=true,--shining lights
+      [10115]=true,--M22 retake platform
+      [11115]=true,--M22 retake platform hard
+    }
+    if not noFemaleMission[missionId]then
       --tex female uses extendparts
-      TppSoldier2.SetExtendPartsInfo{type=1,path=femaleBodyInfo.partsPath}
+      TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"}
     end
+  end
 
-    --tex manage body limit (see InfBodyInfo GOTCHA)
-    local maxBodies=InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER
-    local halfMax=maxBodies/2
-    local maleBodyCount=0
-    local femaleBodyCount=0
-    if maleBodyInfo and maleBodyInfo.bodyIds then
-      maleBodyCount=#maleBodyInfo.bodyIds
-    end
-    if femaleBodyInfo and femaleBodyInfo.bodyIds then
-      femaleBodyCount=#femaleBodyInfo.bodyIds
-    end
+  --tex manage body limit -v- DEBUGNOW figure it out (and CULL copy of this comment in InfBodyInfo)
+  --tex LIMIT GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
+  local maxBodies=InfMainTpp.MAX_STAFF_NUM_ON_CLUSTER
+  local halfMax=maxBodies/2
+  local maleBodyCount=0
+  local femaleBodyCount=0
+  if maleBodyInfo and maleBodyInfo.bodyIds then
+    maleBodyCount=#maleBodyInfo.bodyIds
+  end
+  if femaleBodyInfo and femaleBodyInfo.bodyIds then
+    femaleBodyCount=#femaleBodyInfo.bodyIds
+  end
 
-    local maleBodyMax=maleBodyCount
-    local femaleBodyMax=femaleBodyCount
-    --ASSUMPTION: maxbodies is even
-    if maleBodyCount+femaleBodyCount>maxBodies then
-      maleBodyMax=math.min(maleBodyCount,halfMax)
-      femaleBodyMax=math.min(femaleBodyCount,halfMax)
-      if maleBodyMax<halfMax then
-        local underFlow=halfMax-maleBodyCount
-        femaleBodyMax=femaleBodyMax+underFlow
-      end
-      if femaleBodyMax<halfMax then
-        local underFlow=halfMax-femaleBodyCount
-        maleBodyMax=maleBodyMax+underFlow
-      end
+  local maleBodyMax=maleBodyCount
+  local femaleBodyMax=femaleBodyCount
+  --ASSUMPTION: maxbodies is even
+  if maleBodyCount+femaleBodyCount>maxBodies then
+    maleBodyMax=math.min(maleBodyCount,halfMax)
+    femaleBodyMax=math.min(femaleBodyCount,halfMax)
+    if maleBodyMax<halfMax then
+      local underFlow=halfMax-maleBodyCount
+      femaleBodyMax=femaleBodyMax+underFlow
     end
+    if femaleBodyMax<halfMax then
+      local underFlow=halfMax-femaleBodyCount
+      maleBodyMax=maleBodyMax+underFlow
+    end
+  end
 
-    if maleBodyInfo then
-      InfEneFova.GetFovaBodies(maleBodyInfo,bodies,maleBodyMax)
-    end
-    if femaleBodyInfo then
-      InfEneFova.GetFovaBodies(femaleBodyInfo,bodies,femaleBodyMax)
-    end
+  --body setup
+  local bodies={}
+  if maleBodyInfo then
+    InfEneFova.GetFovaBodies(maleBodyInfo,bodies,maleBodyMax)
+  else
+    table.insert(bodies,{TppEnemyBodyId.dds3_main0_v00,MAX_REALIZED_COUNT})
+  end
+  if femaleBodyInfo then
+    InfEneFova.GetFovaBodies(femaleBodyInfo,bodies,femaleBodyMax)
+  else
+    table.insert(bodies,{TppEnemyBodyId.dds8_main0_v00,MAX_REALIZED_COUNT})
+  end
 
-    if this.debugModule then
-      InfCore.Log("maxBodies:"..maxBodies.." halfMax:"..halfMax)
-      InfCore.Log("maleBodyCount:"..maleBodyCount.." femaleBodyCount:"..femaleBodyCount)
-      InfCore.Log("maleBodyMax:"..maleBodyMax.." femaleBodyMax:"..femaleBodyMax)
-      InfCore.PrintInspect(InfEneFova.bodiesForMap,"InfEneFova.bodiesForMap")
-    end
-  end--if maleBodyInfo or femaleBodyInfo then
+  if this.debugModule then
+    InfCore.Log("maxBodies:"..maxBodies.." halfMax:"..halfMax)
+    InfCore.Log("maleBodyCount:"..maleBodyCount.." femaleBodyCount:"..femaleBodyCount)
+    InfCore.Log("maleBodyMax:"..maleBodyMax.." femaleBodyMax:"..femaleBodyMax)
+    InfCore.PrintInspect(InfEneFova.bodiesForMap,"InfEneFova.bodiesForMap")
+  end
 
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
-      
+
   TppSoldierFace.SetSoldierUseHairFova(true)
 end--fovaSetupFuncs.mtbsCustomBody<
 
@@ -1709,7 +1740,9 @@ function this.ApplyUniqueSetting()
   end
 end
 function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalaclava)
-  --InfCore.Log("ApplyMTBSUniqueSetting: start:"..soldierId)--tex DEBUG
+  if this.debugModule then--tex>
+    InfCore.Log("ApplyMTBSUniqueSetting: soldierId:"..tostring(soldierId).." faceId:"..tostring(faceId).." useBalaclava:"..tostring(useBalaclava).." forceNoBalaclava:"..tostring(forceNoBalaclava))--tex DEBUG
+  end--<
   local bodyId=0
   local balaclavaFaceId=EnemyFova.INVALID_FOVA_VALUE
   local ddSuit=TppEnemy.GetDDSuit()
@@ -1958,6 +1991,9 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   if forceNoBalaclava then
     balaclavaFaceId=EnemyFova.NOT_USED_FOVA_VALUE
   end
+  if this.debugModule then--tex>
+    InfCore.Log("ChangeFova: faceId:"..tostring(faceId).." bodyId:"..tostring(bodyId).." balaclavaFaceId:"..tostring(balaclavaFaceId).." isFemale:"..tostring(isFemale))
+  end--<
   local command={id="ChangeFova",faceId=faceId,bodyId=bodyId,balaclavaFaceId=balaclavaFaceId}
   GameObject.SendCommand(soldierId,command)
 end
