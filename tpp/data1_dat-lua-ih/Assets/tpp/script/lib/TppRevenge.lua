@@ -1850,9 +1850,10 @@ function this.SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
           --so setting to 0 in theory would push it out of ipairs lookups, except these are as values/never looked up in that manner.
           
           --or maybe I'm overthinking thinks and the above clear is to just have mbSoldier_enableSoldierLocatorList be the only soldiers for the cp, 
-          --or here more specicially filters mbSoldier_enableSoldierLocatorList to just the soldiers on the plant.
+          --or here more specicially filters mbSoldier_enableSoldierLocatorList to just the soldiers on the plant as in mb _ApplyRevengeToCp is called per cp>per plant
           --and 0 is just a non nil/entry exists value since they don't have cpDefineIndex for mbSoldier_enableSoldierLocatorList, and dont use cpDefineIndex anyway.
-          --so that just brings the question to what is the purpose of mbSoldier_enableSoldierLocatorList
+          --so that just brings the question to what is the purpose of mbSoldier_enableSoldierLocatorList. 
+          --I think it's just a combination of the different soldier setup in mb vs normal missions due to demos, fob and normal mb
           cpSoldierIds[soldierId]=zero--tex NMC pre r261 I was setting this to soldierName in line with changes in TppEnemy.DefineSoldiers (see NOTE), r261+ it has been restored to original behaviour
         else
           --tex> WORKAROUND: just lump in the additional ih soldiers
@@ -1875,7 +1876,8 @@ end--SetEnableSoldierLocatorList
 function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   InfCore.PCallDebug(function(cpId,revengeConfig,plant)--DEBUGNOW
   if this.debugModule then--tex>
-    InfCore.LogFlow("_ApplyRevengeToCp ".." cpId:"..tostring(cpId).." plant:"..tostring(plant))
+    local cpName=mvars.ene_cpList[cpId]
+    InfCore.LogFlow("_ApplyRevengeToCp cpId:"..tostring(cpId).." "..tostring(cpName).." plant:"..tostring(plant))
   end--<
 
   local revengeConfigCp={}--tex> -v- all changed from using revengeConfig to revengeConfigCp, GOTCHA: be wary of what you're modifying since other stuff reads the original revengeconfig and your changes wont be reflected
@@ -1901,7 +1903,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   if cpSoldierIds==nil then
     return
   end
-
+  
   local missionPowerSoldiers={}
   for soldierName,missionPowerSetting in pairs(mvars.ene_missionSoldierPowerSettings)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
@@ -1937,11 +1939,21 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     --tex OFF unused lrrpSoldierTable[totalSoldierCount]=true--tex was combined in above outerBase table
     end
   end
-
---DEBUGNOW CULL?
---  if totalSoldierCount==0 then--tex> early out DEBUGNOW sure about this?
---    return
+  
+  --CULL
+--  if this.debugModule then--tex> DEBUG confirming nothing happening on totalSoldierCount==0 past this point
+--    if totalSoldierCount==0 then
+--      local cpName=mvars.ene_cpList[cpId]
+--      InfCore.Log("cp:"..tostring(cpId).." "..tostring(cpName).." totalSoldierCount==0 ----------")--DEBUGNOW
+--    end
 --  end--<
+
+  --tex> early out if there's no soldiers to apply to 
+  --I reviewed the rest of the function and confirmed its not doing anything when 0 soldiers
+  --don't know why kjp didnt do this themselves.
+  if totalSoldierCount==0 then
+    return
+  end--<
 
   --tex limit armor, see 'limit armor' in _CreateRevengeConfig>
   if isLrrpCp or isOuterBaseCp then
@@ -2174,7 +2186,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     addConfigFlags={MISSILE_COMBO=true}
   end--<
 
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpConfig,"cpConfig pre CreateCpConfig")
+  end--<
   cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpConfig,"cpConfig post CreateCpConfig")
+  end--<
 
   --tex> rerun CreateCpConfig without headgear restrictions
   if (Ivars.allowHeadGearCombo:Is(1) and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold) then
@@ -2253,6 +2271,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     --< for cpConfig
   end
   --<
+  
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpConfig,"cpConfig pre apply")
+  end--<
 
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
