@@ -19,7 +19,9 @@ Fix: Back in the dark ages I changed mvars.ene_soldierIDList itself from its ori
 (and API/dev warning I guess if anyone was using it as its modified form in their scripts)
 
 Fix: TppRevenge.SetEnableSoldierLocatorList (actually broken out by IH from _ApplyRevengeToCp) not applying in MB. Don't think it affected anything since it failed in a way that it was still applying revenge for all soliders in a cluster, just that it was applying multiple times (with exact same values).
-See the NOTE: in SetEnableSoldierLocatorList for my puzzlement about it.     
+See the NOTE: in SetEnableSoldierLocatorList for my puzzlement about it.
+
+Fix: Custom DD female type no longer dependant on Custom DD (male) type being set. Either of them will default to normal DD mb body if setting is OFF. 
 
 Motherbase menu > 'DD Suit', 'DD Suit female' renamed 'Custom DD type in MB' in line with 'Custom Soldier type in mission/free'. 
 The underlying Ivars already were named customSoldierTypeMB_ALL, so you shouln't have to re-set the setting.
