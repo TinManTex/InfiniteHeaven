@@ -1,20 +1,19 @@
 Infinite Heaven changelog
 Just notable changes, see github commits for full
 
-r261 - 
+r261 - 2023-03-22
 Fix: disableHerbSearch possibly not working correctly.
+
 Fix: Randomize RouteSets being called despite individual options being off (though not if main setting was off).
 thanks caplag for a related report.
 
 Fix: "Custom soldier type in Free/Mission" resetting to off after game is next restarted. Was broken as of r247 - thanks Spectral for the report and troubleshooting files. 
 
-Fix: enemy soldier type addons with multiple bodies not working, was broken as of r258 - thanks Spectral for the report
+Fix: enemy soldier type addons with multiple bodies not working, was broken as of r258 - thanks Spectral for the report.
 
 Fix: Some cases of Player Cam hook (FOV) not applying.
 
 Fix: InfSoldierFaceAndBody not retaining its data on script reload. Affected Apearance menu > Face option when Filter set to Head fova addons.
-
-Fix: bug SetEnableSoldierLocatorList mbSoldier_enableSoldierLocatorList never applied
 
 Fix: Back in the dark ages I changed mvars.ene_soldierIDList itself from its original [cpId][soldierId]=cpDefine index to [cpId][soldierId]=soldierName as the value didnt seem to be used anywhere, and I wanted a lookup. Didn't really end up using it much, it was better to just iterate soldierDefine again, so its been reverted.
 (and API/dev warning I guess if anyone was using it as its modified form in their scripts)
@@ -27,9 +26,10 @@ The underlying Ivars already were named customSoldierTypeMB_ALL, so you shouln't
 
 AroundCam (FreeCam):
 When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
-Fix: hang if on when Abort mission.
 
-API: addon missionInfo
+Fix: FreeCam hang if on when Abort mission.
+
+API: addon missionInfo (See notes in InfMission)
 clearExistingMissionStartSettings - only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 
 noBoxMissionHeliRoute / NO_ORDER_FIX_HELICOPTER_ROUTE support, requires isNoOrderBoxMission to be set
 
