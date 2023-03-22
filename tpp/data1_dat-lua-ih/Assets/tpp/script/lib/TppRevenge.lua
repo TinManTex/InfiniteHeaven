@@ -1442,6 +1442,7 @@ this.weaponRevengeStrengths={
 }
 local NORMAL="NORMAL"
 local STRONG="STRONG"
+--revengeConfig: mvars.revenge_revengeConfig
 function this.GetWeaponStrengths(revengeConfig)
   local weaponStrengths={}
   for weaponName,strengthKey in pairs(this.weaponRevengeStrengths)do
@@ -1465,12 +1466,14 @@ local weaponTypes={
   "MISSILE",
 }
 --CALLER: OnAllocate > DecideRevenge
---config=mvars.revenge_revengeConfig
+--revengeConfig=mvars.revenge_revengeConfig
+--IN: mvars.ene_missionRequiresPowerSettings
+--OUT: mvars.revenge_loadedEquip
 --tex DEBUGNOW bugged on fob handgun? (since r176 Aug 2016 ouch) I probably just need to add to weaponTypes, but should work through the code properly to see what I was doing
-function this._AllocateResources(config)
+function this._AllocateResources(revengeConfig)
   InfCore.Log("_AllocateResources")--tex
   if this.debugModule then--tex>
-    InfCore.PrintInspect(config,"config")
+    InfCore.PrintInspect(revengeConfig,"revengeConfig")
   end--<
   mvars.revenge_loadedEquip={}
   local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
@@ -1495,7 +1498,7 @@ function this._AllocateResources(config)
   end--<
   local restrictWeaponTable={}
   if not useAllWeapons then
-    if not config.SHIELD or config.MISSILE then
+    if not revengeConfig.SHIELD or revengeConfig.MISSILE then
       if not missionRequiresSettings.SHIELD then
         restrictWeaponTable.SHIELD=true
         disablePowerSettings.SHIELD=true
@@ -1507,7 +1510,7 @@ function this._AllocateResources(config)
       end
     end
     if defaultSoldierType~=EnemyType.TYPE_DD then
-      if config.SHOTGUN then
+      if revengeConfig.SHOTGUN then
         if not missionRequiresSettings.MG then
           restrictWeaponTable.MG=true
           disablePowerSettings.MG=true
@@ -1526,7 +1529,7 @@ function this._AllocateResources(config)
   end
 
   weaponIdTable.STRONG=weaponIdTable.STRONG or weaponIdTable.NORMAL
-  local weaponStrengths=this.GetWeaponStrengths(mvars.revenge_revengeConfig)--tex
+  local weaponStrengths=this.GetWeaponStrengths(revengeConfig)--tex
   for i,weaponName in ipairs(weaponTypes)do
     if disablePowerSettings[weaponName]then
     elseif restrictWeaponTable[weaponName]then
