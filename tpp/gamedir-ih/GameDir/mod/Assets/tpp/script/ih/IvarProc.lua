@@ -287,7 +287,8 @@ function this.SetSettings(self,list,indexFrom1)
 
 --  if self.settingsCount~=#list then
 --    InfCore.Log("IvarProc.SetSettings settings count changed")
-    if self:Get()>#list then
+    if self:Get()>#list-1 then
+      InfCore.Log("WARNING: IvarProc.SetSettings: current setting out of bounds, setting to 0",true,true)
       self:Set(0)
     end
     self.enum=this.Enum(self.enum,list,indexFrom1)
