@@ -262,24 +262,25 @@ end--GetSumBalance
 
 --CALLER: TppRevenge._ApplyRevengeToCp,BalanceWeaponPowers
 --PARAM/RETURN: revengeConfig
+--tex tries to ballance revengConfig powers listed in balancePowersAsPercent
 function this.BalancePowers(numBalance,reservePercent,balancePowersAsPercent,revengeConfig)
   if numBalance==0 then
     InfCore.DebugPrint"BalancePowers numballance==0"
     return
   end
-
+  
   local balancePercent=0
   if numBalance>0 then
     local maxPercent=100-reservePercent
-    balancePercent=maxPercent/numBalance
-    --tex bump up the balance percent from those that are under
+    balancePercent=maxPercent/numBalance--tex start with an even allocation for all the powers as a rough target
+    --tex build up a pool from those under balancePercent
     --TODO: bump up on an individual power basis biased by those that have higher original requested percentage
-    local aboveBalance=numBalance
+    --local aboveBalance=numBalance
     local underflow=0
-    for powerType,percentage in pairs(balancePowersAsPercent) do
-      if percentage < balancePercent then
-        underflow=underflow+(balancePercent-percentage)
-        aboveBalance=aboveBalance-1
+    for powerType,powerPercent in pairs(balancePowersAsPercent) do
+      if powerPercent < balancePercent then
+        underflow=underflow+(balancePercent-powerPercent)
+        --aboveBalance=aboveBalance-1
       end
     end
 
@@ -290,14 +291,17 @@ function this.BalancePowers(numBalance,reservePercent,balancePowersAsPercent,rev
     -- underflow=0
     --end
 
-    --tex distribute underflow in ballanceGearType order --DEBUGNOW huh? pairs isnt ordered
-    for powerType,percentage in pairs(balancePowersAsPercent) do
-      if percentage>balancePercent then
-        local toOriginalPercent=balancePowersAsPercent[powerType]-balancePercent
+    --tex distribute underflow in ballanceGearType order --DEBUGNOW huh? pairs isnt ordered, and balanceTypes isnt currently a param, or was this supposed to be labeled TODO?
+    --alternative would be to sort by highest percentage so those get bump first
+    for powerType,powerPercent in pairs(balancePowersAsPercent) do
+      --tex is too high
+      if powerPercent>balancePercent then
+        local toOriginalPercent=powerPercent-balancePercent
         local bump=math.min(underflow,toOriginalPercent)
         underflow=underflow-bump
+        local ballancedPower=balancePercent+bump
         -- InfCore.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
-        revengeConfig[powerType]=tostring(balancePercent+bump).."%"
+        revengeConfig[powerType]=tostring(ballancedPower).."%"
       end
     end
     --InfCore.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." balancePercent:"..balancePercent)--DEBUG
