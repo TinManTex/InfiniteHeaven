@@ -395,7 +395,7 @@ function this.PrintInspect(var,options)
   local varName=options.varName or options
   local ins=InfInspect.Inspect(var)
   if type(varName)=="string" then
-    local ins=varName.."=" ..ins
+    ins=varName.."=" ..ins
 --tex TODO perf test on large strings
 --    local pre=varName.."=" 
 --    local post=""
