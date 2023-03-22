@@ -3444,10 +3444,10 @@ function this.SetUpSoldiers()
     local cpId=GetGameObjectId(cpName)
     if cpId==NULL_ID then
     else
-      if string.sub(cpName,-4)=="lrrp"then
+      if string.sub(cpName,-4)=="lrrp"then--GOTCHA: ene_soldierDefine lrrp cps need to have 'lrrp' at the end of their name
         SendCommand(cpId,{id="SetLrrpCp"})
       end
-      local cpType=string.sub(cpName,-2)
+      local cpType=string.sub(cpName,-2)--GOTCHA: ene_soldierDefine outer base cps need to have 'ob' at the end of their name
       if cpType=="ob"then
         GameObject.SendCommand(cpId,{id="SetOuterBaseCp"})
         mvars.ene_outerBaseCpList[cpId]=true

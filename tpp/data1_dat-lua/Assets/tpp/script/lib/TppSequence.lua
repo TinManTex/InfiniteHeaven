@@ -39,7 +39,9 @@ function this.RegisterSequences(sequenceNames)
   for t=1,#sequenceNames do
     local endIndex=this.SYS_SEQUENCE_LENGTH+t
     _sequenceNames[endIndex]=sequenceNames[t]
-    local sequenceType=string.sub(sequenceNames[t],5,8)
+    --REF { "Seq_Game_FreePlay"
+    --    "Seq_Demo_RecoverVolgin",}
+    local sequenceType=string.sub(sequenceNames[t],5,8)--GOTCHA: demo sequence names need to start with Seq_Demo (or atually the 5-8th chars need to be 'Demo')
     if sequenceType=="Demo"then
       mvars.seq_demoSequneceList[endIndex]=true
     end

@@ -440,7 +440,7 @@ local RateFromCategoryString=function(categoryString)
   if categoryString==nil then
     return 0
   end
-  return(categoryString:sub(1,-2)+0)/100
+  return(categoryString:sub(1,-2)+0)/100--REF "20%" > 0.2
 end
 function this.GetMineRate()
   return RateFromCategoryString(mvars.revenge_revengeConfig.MINE)
