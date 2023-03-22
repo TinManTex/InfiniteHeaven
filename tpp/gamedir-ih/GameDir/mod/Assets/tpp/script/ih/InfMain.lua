@@ -327,10 +327,6 @@ function this.AbortMissionTop(abortInfo)
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
 
   this.CallOnModules("AbortMissionTop",abortInfo)
-
-  if InfGameEvent then
-    InfGameEvent.DisableEvent()--DEBUGNOW: InfMainTpp TODO move into AbortMissionTop
-  end
 end
 
 --CALLERS TppMission.MissionFinalize/OnEndMissionReward < called from in sequence when decided mission is ended

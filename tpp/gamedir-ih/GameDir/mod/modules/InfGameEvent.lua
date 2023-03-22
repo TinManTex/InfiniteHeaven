@@ -290,6 +290,10 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 end
 
+function this.AbortMissionTop(abortInfo)
+  this.DisableEvent()
+end
+
 function this.DisableEvent()
   --tex missions events enabled in
   if vars.missionCode==30050 or IvarProc.MissionCheckFree() then
