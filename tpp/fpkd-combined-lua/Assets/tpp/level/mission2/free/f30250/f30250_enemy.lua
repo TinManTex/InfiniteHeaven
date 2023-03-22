@@ -208,6 +208,9 @@ this.SetAllEnabled = function()
         break
       end
     end
+    if IvarProc.EnabledForMission"customSoldierType" then--tex>
+      InfMain.RandomSetToLevelSeed()
+    end--<
     for index, enemyId in ipairs( this.soldierDefine.mbqf_mtbs_cp ) do
       local gameObjectId = GetGameObjectId( enemyId )
       if index <= mvars.mbStaffCount then
@@ -219,6 +222,9 @@ this.SetAllEnabled = function()
         this.SetEnabled( gameObjectId, false )
       end
     end
+    if IvarProc.EnabledForMission"customSoldierType" then--tex>
+      InfMain.RandomResetToOsTime()
+    end--<
   else
     for i, enemyId in ipairs( this.soldierDefine.mbqf_mtbs_cp ) do
       local gameObjectId = GetGameObjectId( enemyId )
