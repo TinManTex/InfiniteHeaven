@@ -395,7 +395,14 @@ function this.PrintInspect(var,options)
   local varName=options.varName or options
   local ins=InfInspect.Inspect(var)
   if type(varName)=="string" then
-    ins=varName.."="..ins.."--"..varName.." <end"
+    local ins=varName.."=" ..ins
+--tex TODO perf test on large strings
+--    local pre=varName.."=" 
+--    local post=""
+--    if ins:len()>500 then--tex magic number
+--      post="--"..varName.." <end"
+--    end
+--    ins=table.concat({varName,"=",ins,post})
   end
   this.Log(ins,options.announceLog)
 end
