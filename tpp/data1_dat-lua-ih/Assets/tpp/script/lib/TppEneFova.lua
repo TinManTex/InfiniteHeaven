@@ -1108,10 +1108,11 @@ end
 function fovaSetupFuncs.mtbs(locationName,missionId)--tex NMC was fovaSetupFuncs.Mb
   if not InfMain.IsOnlineMission(missionId)then--tex EnabledForMission should cover, but whatever>
     --tex just to an alternate fovaSetupFunc entirely
-    if IvarProc.EnabledForMission("customSoldierType",missionId) then--tex>
+    if IvarProc.EnabledForMission("customSoldierType",missionId) 
+      or IvarProc.EnabledForMission("customSoldierTypeFemale",missionId) then
       fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
       return
-    end--if customSoldier<
+    end
   end--<
   
   if TppMission.IsHelicopterSpace(missionId)then
