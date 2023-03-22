@@ -31,6 +31,11 @@ function this.LangString(langId)
     --TppUiCommand.AnnounceLogView("no langstring for " .. languageCode)
     langString=InfLang.eng[langId]
   end
+  
+  --DEBUGNOW
+  if type(langString)=="table"then
+    InfCore.Log('WARNING: InfLangProc.LangString("'..tostring(langId)..'") is a table')
+  end
 
   if langString==nil or langString=="" then
     --TppUiCommand.AnnounceLogView"PrintLangId langString empty"

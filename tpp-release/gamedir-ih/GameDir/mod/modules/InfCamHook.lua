@@ -59,7 +59,8 @@ this.camhook_enable={
       return
     end
     
-    hookEnabled=setting==1
+    hookEnabled=setting==1--MODULE LOCAL
+    this.UpdateCamHookFromIvars()
     IHH.SetCamHook(setting)
   end,
 }--camhook_enable
@@ -133,7 +134,7 @@ this.camhook_ApplyFOV={
         ivar:Set(newFocalLength)
       end--if ivar
     end--for camModes
-    InfMenu.DisplayCurrentMenu()--DEBUGNOW
+    InfMenu.DisplayCurrentMenu()--tex update the rest of the menu since the ivars value changed
   end,--OnActivate
 }--camhook_ApplyFOV
 
@@ -162,7 +163,7 @@ end--CalculateFocalLength
 
 this.langStrings={
   eng={
-    camhookMenu="Cam - Player Cam hook menu",
+    camhookMenu="Cam - Player Cam hook (FOV) menu",
     camhook_enable="Enable Player Cam hook",
     camhook_focalLength_NORMAL="FocalLength Normal",
     camhook_focalLength_AIMING="FocalLength Aiming",
@@ -177,7 +178,7 @@ this.langStrings={
       camhook_focalLength_AIMING="Only updates after changing cam mode.\nFocal lengths between modes not equivalent (some other factor being applied)\nLower focal length = wider FOV,\nHigher focal length = lower FOV",
       camhook_focalLength_HIDING="Only updates after changing cam mode.\nFocal lengths between modes not equivalent (some other factor being applied)\nLower focal length = wider FOV,\nHigher focal length = lower FOV",
       camhook_focalLength_CQC="Only updates after changing cam mode.\nFocal lengths between modes not equivalent (some other factor being applied)\nLower focal length = wider FOV,\nHigher focal length = lower FOV",
-      camhook_ApplyFOV="Applies FOV(degrees) proportionally to the different cam mode focal lengths."
+      camhook_ApplyFOV="Applies FOV(degrees) proportionally to the different cam mode focal length options."
     },
   },
 }--langStrings
@@ -187,6 +188,16 @@ function this.PostAllModulesLoad()
     return
   end
 
+  this.UpdateCamHookFromIvars()
+  --tex this.Update() handles enabling
+end--PostAllModulesLoad
+
+function this.UpdateCamHookFromIvars()
+  if not IHH then
+    return
+  end
+
+  InfCore.Log("InfCamHook.UpdateCamHookFromIvars")
   for i,camMode in ipairs(this.camModes)do
     local ivarName="camhook_focalLength_"..camMode
     local ivar=Ivars[ivarName]
@@ -195,14 +206,8 @@ function this.PostAllModulesLoad()
       local focalLength=ivar:Get()
       IHH.UpdateCamHook(camMode,focalLength)
     end
-  end
---DEBUGNOW
---  if Ivars.camhook_enable:Get()~=0 then
---    InfCore.Log("InfCamHook Enabling CamHook")
---    hookEnabled=true
---    IHH.SetCamHook(1)
---  end
-end--PostAllModulesLoad
+  end  
+end--UpdateCamHookFromIvars
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
   if not IHH then
@@ -210,13 +215,14 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   if currentChecks.pastTitle==false or currentChecks.inDemo or currentChecks.inSafeSpace or currentChecks.usingAltCamera then
-    if hookEnabled and ivars.camhook_enable==1 then
+    if hookEnabled and ivars.camhook_enable==1 then--MODULE LOCAL
       hookEnabled=false
       IHH.SetCamHook(0)
     end
   else
-    if not hookEnabled and ivars.camhook_enable==1 then
+    if not hookEnabled and ivars.camhook_enable==1 then--MODULE LOCAL
       hookEnabled=true
+      this.UpdateCamHookFromIvars()
       IHH.SetCamHook(1)
     end
   end

@@ -593,9 +593,9 @@ function this.ObjectNameForGameIdList(findId,list,objectType)
   for n,name in ipairs(list)do
     local gameId=NULL_ID
     if objectType then
-      gameId=GetGameObjectId(objectType,name)
+      gameId=InfCore.GetGameObjectId(objectType,name)
     else
-      gameId=GetGameObjectId(name)
+      gameId=InfCore.GetGameObjectId(name)
     end
     if gameId~=NULL_ID then
       if gameId==findId then
@@ -605,19 +605,6 @@ function this.ObjectNameForGameIdList(findId,list,objectType)
   end
 end
 --returns name or nil
-
-function this.GameObjectNameFromSoldierIDList(findId)
-  if mvars.ene_soldierIDList then
-    for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
-      for soldierId,soldierName in pairs(soldierIds)do
-        if soldierId==findId then
-          local cpName=mvars.ene_cpList[cpId]
-          return soldierName,cpName
-        end
-      end
-    end
-  end
-end
 
 function this.ObjectNameForGameId(findId,objectType)
   if findId==0 then
@@ -638,9 +625,14 @@ function this.ObjectNameForGameId(findId,objectType)
   end
 
   if not objectType or objectType=="TppSoldier2" then
-    local objectName=this.GameObjectNameFromSoldierIDList(findId)
-    if objectName then
-      return objectName
+    --tex TODO: build lookup
+    if mvars.ene_soldierDefine then
+      for cpName,cpDefine in pairs(mvars.ene_soldierDefine)do
+        local objectName=this.ObjectNameForGameIdList(findId,cpDefine,"TppSoldier2")
+        if objectName then
+          return objectName
+        end
+      end
     end
   end
 
@@ -4201,15 +4193,15 @@ function this.BuildSoldierSvarIndexes()
   InfUtil.ClearTable(this.soldierSvarIndexes)
   local soldierNames={}
 
-  local soldierNames={}
-  if mvars.ene_soldierIDList then
-    for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
-      for soldierId,soldierName in pairs(soldierIds)do
+
+  if mvars.ene_soldierDefine then
+    for cpName,cpDefine in pairs(mvars.ene_soldierDefine)do
+      for i,soldierName in ipairs(cpDefine)do
         soldierNames[Fox.StrCode32(soldierName)]=soldierName
       end
     end
   end
-
+  
   local fmt="sol_quest_%04d"
   local num=8
   for i=0,num-1 do

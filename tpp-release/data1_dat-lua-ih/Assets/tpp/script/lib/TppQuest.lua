@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 -- TppQuest.lua
-
+InfCore.LogFlow"Load TppQuest.lua"--tex DEBUG
 local this={}
 local maxSteps=256
 local defaultStepNumber=0
@@ -1274,10 +1274,12 @@ end--GetSideOpsListTable
 --end--GetSideOpsListTable
 --OUT: sideOpsListTable
 function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
-  local maxUIQuests=192--tex I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
+  local maxUIQuests=192--tex LIMIT I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
   local overCount=#sideOpsListTable-maxUIQuests
   if overCount>0 then
-    InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+    --tex TODO: some meaninful way of notifying user, indicating that it's not a big deal (unless there ever comes a time when theres more than 192 quest areas installed at one time lol)
+    --and to point them towards the UI show options, or the category options.
+    InfCore.Log("WARNING: #sidopList > maxUiQuests",false,true)--tex TODO lang
     InfCore.Log("overCount:"..overCount)--tex DEBUG      
 
     --tex since its just ui dont need to set random seed
@@ -1297,7 +1299,7 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
     end--for overCount
   end--if overCount
   if #sideOpsListTable>maxUIQuests then
-    InfCore.Log("WARNING: #sidopList > maxUiQuests",true,true)--tex TODO lang
+    InfCore.Log("WARNING: #sidopList > maxUiQuests",false,true)--tex TODO lang
   end
   InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
 end--ManageUiLimit
@@ -1989,11 +1991,16 @@ return InfCore.PCallDebug(function(questList)--DEBUGNOW
   return mvars.qst_questList
   end,questList)--tex PCall DEBUGNOW
 end--RegisterQuestList
---questPackList either TppQuestList.questPackList or TppMbFreeDemo.demoBlockList
+--questPackList either TppQuestList.questPackList or (via TppMbFreeDemo.UpdatePackList) TppMbFreeDemo.demoBlockList, f30050demo_fovaPackList (which I think mb in general uses to load its soldier faces? see f30050_sequence.RegisterFovaFpk), and others 
 function this.RegisterQuestPackList(questPackList,blockName)
   if not IsTypeTable(questPackList)then
     return
   end
+  if this.debugModule then--tex>
+    InfCore.Log("TppQuest.RegisterQuestPackList "..tostring(blockName))
+    InfCore.PrintInspect(questPackList,"questPackList")
+    --tex more logging at bottom
+  end--<
   blockName=blockName or defaultQuestBlockName
   local isMotherBase=TppLocation.IsMotherBase()
   local fpkList={}

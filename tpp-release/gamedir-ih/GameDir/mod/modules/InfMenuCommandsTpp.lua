@@ -202,7 +202,7 @@ this.DEBUG_PrintCpPowerSettings=function()
   if Ivars.selectedCp:Is()>0 then
     local soldierList=mvars.ene_soldierIDList[Ivars.selectedCp:Get()]
     if soldierList then
-      for soldierId,n in pairs(soldierList)do
+      for soldierId,cpDefineIndex in pairs(soldierList)do
         InfCore.PrintInspect(mvars.ene_soldierPowerSettings[soldierId])
       end
     end

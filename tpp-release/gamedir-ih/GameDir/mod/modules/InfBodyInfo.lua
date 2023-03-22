@@ -1,20 +1,28 @@
 --InfBodyInfo.lua
 --tex used to define soldier body info for IH soldier type change (via customSoldierType option) or addon missions (TODO actually document how to do so)
+
 --bodyInfo table can be used as a reference if you want to look up what game chara models are (mostly look at partsPath)
 
 --Also handles \mod\bodyInfo\ addons.
 
---Actual implementation scattered across InfEneFova and InfSoldierFaceAndBody, search InfBodyInfo, GetMaleBodyInfo
+--Actual implementation scattered across 
+--InfEneFova 
+--InfSoldierFaceAndBody - adds bodyIdNames/bodyIds to Soldier2FaceAndBodyData via fovaInfo addons
+--search InfBodyInfo, InfEneFova.GetMaleBodyInfo for uses of bodyInfo
+
+
 
 --GOTCHA: note from Warm Wallaby: option hasFace disable notification about staff morale (on MTBS) because game treat soldier like a enemy (soldiers doen't have face fova)
 --https://discord.com/channels/364177293133873153/364177950805065732/902560368314961970
 --TODO: document how hasface/balaclavaIds work
 
---tex DEBUGNOW GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
+--tex LIMIT DEBUGNOW GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 
 local this={}
 
 this.debugModule=false
+
+--DEBUGNOW tex some of this is going to be reworked post r261
 
 --REF bodyInfo addon, just an all parameters rather than valid example
 --this={
@@ -24,103 +32,12 @@ this.debugModule=false
 --  --tex new bodyIds are added by fovaInfo addons with bodyFova, bodyDefinition entries. See InfSoldierFaceAndBody
 --  --tex if bodyId nil then will fall back to normal GetBodyId (which relies on soldierSubType),
 --  --if bodyIds is an array (like this example) bodyId is chosen randomly
---  bodyIds={
---    TppEnemyBodyId.pfs0_rfl_v00_a,
---    TppEnemyBodyId.pfs0_rfl_v01_a,
---    TppEnemyBodyId.pfs0_mcg_v00_a,
---    TppEnemyBodyId.pfs0_snp_v00_a,
---    TppEnemyBodyId.pfs0_rdo_v00_a,
---    TppEnemyBodyId.pfs0_rfl_v00_b,
---    TppEnemyBodyId.pfs0_rfl_v01_b,
---    TppEnemyBodyId.pfs0_mcg_v00_b,
---    TppEnemyBodyId.pfs0_snp_v00_b,
---    TppEnemyBodyId.pfs0_rdo_v00_b,
---    TppEnemyBodyId.pfs0_rfl_v00_c,
---    TppEnemyBodyId.pfs0_rfl_v01_c,
---    TppEnemyBodyId.pfs0_mcg_v00_c,
---    TppEnemyBodyId.pfs0_snp_v00_c,
---    TppEnemyBodyId.pfs0_rdo_v00_c,
---    TppEnemyBodyId.pfa0_v00_b,
---    TppEnemyBodyId.pfa0_v00_c,
---    TppEnemyBodyId.pfa0_v00_a,
---    TppEnemyBodyId.pfs0_unq_v210,
---    TppEnemyBodyId.pfs0_unq_v250,
---    TppEnemyBodyId.pfs0_unq_v360,
---    TppEnemyBodyId.pfs0_unq_v280,
---    TppEnemyBodyId.pfs0_unq_v150,
---    TppEnemyBodyId.pfs0_unq_v220,
---    TppEnemyBodyId.pfs0_unq_v140,
---    TppEnemyBodyId.pfs0_unq_v241,
---    TppEnemyBodyId.pfs0_unq_v242,
---    TppEnemyBodyId.pfs0_unq_v450,
---    TppEnemyBodyId.pfs0_unq_v440,
---    TppEnemyBodyId.pfs0_unq_v155,
+--  --NOTE: old bodyInfo version (pre r261) has bodyIds={TppEnemyBodyId.pfs0_rfl_v01_a,} etc, where the TppEnemyBodyId bodyId entries are numbers not strings. 
+--  bodyIdNames={
+--    "pfs0_rfl_v00_a",
+--    "pfa0_v00_c",
+--    "pfs0_unq_v210",
 --  },--bodyIds
---  --TppEnemy.bodyIdTable style table, NOTE: if using this don't need the above bodyIds (as it will be built from bodyIdTable anyway)
---  bodyIdTable={
---tex hope to eventually support multiple subTypes per body like the base game does, but for now just one entry as the bodyInfo name
---    SOME_ENEMY={
---      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_mcg_v00_a},
---      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a,TppEnemyBodyId.pfs0_mcg_v00_a},
---      SNIPER={TppEnemyBodyId.pfs0_snp_v00_a},
---      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_a},
---      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a},
---      MG={TppEnemyBodyId.pfs0_mcg_v00_a},
---      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_a},
---      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_a},
---      ARMOR={TppEnemyBodyId.pfa0_v00_b},
---      RADIO={TppEnemyBodyId.pfs0_rdo_v00_a}
---    },
---DEBUGNOW
---    SOME_ENEMY_A={
---      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_mcg_v00_a},
---      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a,TppEnemyBodyId.pfs0_mcg_v00_a},
---      SNIPER={TppEnemyBodyId.pfs0_snp_v00_a},
---      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_a},
---      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a},
---      MG={TppEnemyBodyId.pfs0_mcg_v00_a},
---      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_a},
---      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_a},
---      ARMOR={TppEnemyBodyId.pfa0_v00_b},
---      RADIO={TppEnemyBodyId.pfs0_rdo_v00_a}
---    },
---    SOME_ENEMY_B={
---      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_mcg_v00_b},
---      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b,TppEnemyBodyId.pfs0_mcg_v00_b},
---      SNIPER={TppEnemyBodyId.pfs0_snp_v00_b},
---      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_b},
---      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b},
---      MG={TppEnemyBodyId.pfs0_mcg_v00_b},
---      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_b},
---      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_b},
---      ARMOR={TppEnemyBodyId.pfa0_v00_a},
---      RADIO={TppEnemyBodyId.pfs0_rdo_v00_b}
---    },
---    SOME_ENEMY_C={
---      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_mcg_v00_c},
---      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c,TppEnemyBodyId.pfs0_mcg_v00_c},
---      SNIPER={TppEnemyBodyId.pfs0_snp_v00_c},
---      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_c},
---      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c},
---      MG={TppEnemyBodyId.pfs0_mcg_v00_c},
---      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_c},
---      SHIELD={TppEnemyBodyId.pfs0_rfl_v01_c},
---      ARMOR={TppEnemyBodyId.pfa0_v00_c},
---      RADIO={TppEnemyBodyId.pfs0_rdo_v00_c}
---    },
---    SOME_ENEMY_D={
---      ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_mcg_v00_b},
---      ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b,TppEnemyBodyId.pfs0_mcg_v00_b},
---      SNIPER={TppEnemyBodyId.pfs0_snp_v00_c},
---      SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_c},
---      SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c},
---      MG={TppEnemyBodyId.pfs0_mcg_v00_c},
---      MISSILE={TppEnemyBodyId.pfs0_rfl_v00_c},
---      SHIELD={TppEnemyBodyId.pfs0_rfl_v00_b},
---      ARMOR={TppEnemyBodyId.pfa0_v00_c},
---      RADIO={TppEnemyBodyId.pfs0_rdo_v00_c}
---    },
---  },--bodyIdTable
 --  soldierType="DD",--base game EnemyType "TYPE_", since there's still a lot of things tied up to the base games values DEBUGNOW TODO implement and document
 --  soldierSubType="DD_FOB",--tex base game subType, since there's still a lot of things tied up to the base games values DEBUGNOW TODO document what
 --  --tex map your own soldier(Sub)Types to baseType
@@ -186,7 +103,8 @@ this.bodyInfo={
   TIGER={--DDS, FOB default
     description="Fatigues - Tiger",
     bodyIds={TppEnemyBodyId.dds5_main0_v00},
-    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",--tex TODO also dds5_main0_v00?
+    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
+    --TODO from 10115 partsPathHostage="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
     soldierSubType="DD_FOB",
     useDDHeadgear=true,
@@ -727,7 +645,7 @@ this.bodyInfo={
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit3.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT3,
     soldierSubType="DD_FOB",
   },
-  PRISONER_AFGH={
+  PRISONER_AFGH={--vanil ref
     bodyIds={
       TppEnemyBodyId.prs2_main0_v00,
       TppEnemyBodyId.prs2_main0_v01,
@@ -756,7 +674,7 @@ this.bodyInfo={
     partsPath="/Assets/tpp/parts/chara/prs/prs4_main0_def_v00.parts",
   --\chunk2_dat\Assets\tpp\pack\mission2\story\s10040\s10040_area_fpkd
   },
-  PRISONER_MAFR={
+  PRISONER_MAFR={--vanil ref
     bodyIds={TppEnemyBodyId.prs5_main0_v00},
     partsPath="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
     partsPathHostage="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
@@ -1388,6 +1306,34 @@ function this.LoadBodyInfos()
     bodyType=bodyInfo.bodyType or bodyInfo.name or bodyType
     bodyInfo.bodyType=bodyType--LEGACY TODO cull once you've changed code to .name
     bodyInfo.name=bodyType--tex standard with other ih info formats
+     
+    if bodyInfo.bodyIds and bodyInfo.bodyIdNames then
+      InfCore.Log("ERROR: InfBodyInfo.LoadBodyInfos: bodyInfo has both .bodyIds and .bodyIdNames",false,true)--tex author warning
+    end
+    
+    --tex PATCHUP: MUTATION: new (post r261) bodyInfos should have bodyInfo.bodyNames entries instead (which in hindsight I should have implemented my example as from the start)  
+    if bodyInfo.bodyIds and #bodyInfo.bodyIds>0 then
+      if type(bodyInfo.bodyIds[1])=="string" then--ASSUMPTION: if first entry is string, then this is a list of strings
+        bodyInfo.bodyIdNames=bodyInfo.bodyIds
+        bodyInfo.bodyIds=nil
+      end
+    end
+    
+    if bodyInfo.bodyIdNames then
+      bodyInfo.bodyIds={}
+      for i,bodyIdName in ipairs(bodyInfo.bodyIdNames)do
+        if TppEnemyBodyId[bodyIdName]==nil then
+          InfCore.Log("WARNING: InfBodyInfo.LoadBodyInfos: could not find TppEnemyBodyId."..bodyIdName,false,true)
+          InfCore.PrintInspect(bodyInfo,"bodyInfo")
+        else
+          table.insert(bodyInfo.bodyIds,TppEnemyBodyId[bodyIdName])
+        end
+      end--for bodyIdNames
+    end--bodyIdNames
+   
+    --tex DEBUGNOW see if theres any released addons that use this.
+    --DEBUGNOW handle string bodyIds
+    --DEBUGNOW bodyInfo.name vs soldierSubType used on my builtins that fallback to TppEnemy.bodyIdTable
     if bodyInfo.bodyIds==nil or bodyInfo.bodyIdTable then
       local bodyIdTable=bodyInfo.bodyIdTable or TppEnemy.bodyIdTable
       bodyInfo.bodyIds=this.GatherBodyIds(bodyInfo.name,bodyIdTable)--DEBUGNOW need to handle multiple soldiertypes

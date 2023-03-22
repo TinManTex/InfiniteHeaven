@@ -19,7 +19,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=260
+this.modVersion=261
 this.modName="Infinite Heaven"
 this.hookVersion=17--tex for version check
 
@@ -164,7 +164,7 @@ function this.LogFlow(message)
   if not this.debugMode then
     return false
   end
-  if ivars and not ivars.debugFlow then
+  if ivars and ivars.debugFlow==0 then
     return
   end
   --  local stackLevel=2
@@ -395,7 +395,14 @@ function this.PrintInspect(var,options)
   local varName=options.varName or options
   local ins=InfInspect.Inspect(var)
   if type(varName)=="string" then
-    ins=varName.."="..ins
+    local ins=varName.."=" ..ins
+--tex TODO perf test on large strings
+--    local pre=varName.."=" 
+--    local post=""
+--    if ins:len()>500 then--tex magic number
+--      post="--"..varName.." <end"
+--    end
+--    ins=table.concat({varName,"=",ins,post})
   end
   this.Log(ins,options.announceLog)
 end
@@ -768,14 +775,17 @@ end
 --tex TODO bit of a misnomer now that they can be loaded internally
 --IN/SIDE: InfModules.externalModules
 function this.LoadExternalModule(moduleName,isReload,skipPrint)
-  this.Log("LoadExternalModule "..tostring(moduleName).." isReload:"..tostring(isReload))
+  InfCore.Log("LoadExternalModule "..tostring(moduleName).." isReload:"..tostring(isReload))
   local prevModule=_G[moduleName]
-  if isReload then
-    if prevModule and prevModule.PreModuleReload then
+  if prevModule then
+    if not isReload then
+      InfCore.Log("Module "..moduleName.." already loaded and not isReload, so will not reload it",true)
+      return
+    elseif prevModule.PreModuleReload then
       InfCore.Log(moduleName..".PreModuleReload")
       InfCore.PCallDebug(prevModule.PreModuleReload)
     end
-  end
+  end--if prevModule
 
   local module=nil
   local scriptPath=InfCore.gamePath..InfCore.modSubPath.."/modules/"..moduleName..".lua"
@@ -814,15 +824,16 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
   
   if not module then
     InfCore.Log("ERROR: !module for "..moduleName,true,true)
+    return
   end
 
-  if isReload and module then
+  if isReload then
     if InfMain then
       InfMain.PostModuleReloadMain(module,prevModule)
     end
     if module.PostModuleReload then
       InfCore.Log(moduleName..".PostModuleReload")
-      InfCore.PCallDebug(module.PostModuleReload,prevModule)
+      InfCore.PCallDebug(module.PostModuleReload,prevModule,isReload)
     end
   end
 

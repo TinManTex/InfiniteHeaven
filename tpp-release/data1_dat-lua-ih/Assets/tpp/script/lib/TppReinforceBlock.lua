@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+InfCore.LogFlow"Load TppReinforceBlock.lua"--tex DEBUG
 local this={}
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex

@@ -7,6 +7,7 @@
 -- but to dump them wholesale see mockfox IHTearDown DumpSaveVars for the ins and outs 
 -- since Inspects method of dumping them wont get you pretty data
 -- GOTCHA: setting a TYPE_BOOL scriptvar to 0 will set it to true
+InfCore.LogFlow"Load TppGVars.lua"
 local this={}
 this.DeclareGVarsTable={
   {name="ini_isReturnToTitle",type=TppScriptVars.TYPE_BOOL,value=false,save=false},

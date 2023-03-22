@@ -12,7 +12,9 @@ IvarProc.MissionModeIvars(
   {
     save=IvarProc.CATEGORY_EXTERNAL,
     settings={"NONE"},--DYNAMIC via addon
-    Init=function(self)
+    --tex the ivar.settings only used for range max really, 
+    --all uses of the ivar should get the value and test against InfBodyInfo directly
+    OnSelect=function(self)
       IvarProc.SetSettings(self,InfBodyInfo.bodies.MALE)
     end,
     GetSettingText=function(self,setting)
@@ -60,8 +62,8 @@ this.langStrings={
     mbDDHeadGearSettings={"Off","Current prep"},
     customSoldierTypeFREE="Custom soldier type in Free roam",
     customSoldierTypeMISSION="Custom soldier type in Missions",
-    customSoldierTypeMB_ALL="DD Suit",
-    customSoldierTypeFemaleMB_ALL="DD Suit female",
+    customSoldierTypeMB_ALL="Custom DD type in MB",
+    customSoldierTypeFemaleMB_ALL="Custom DD female type in MB",
     setting_only_for_dd="This setting is only for DD soliders",
   },
   help={

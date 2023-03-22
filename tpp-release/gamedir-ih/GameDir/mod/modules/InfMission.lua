@@ -28,7 +28,7 @@
 --    sectionFuncRankForToilet  = 4,
 --    sectionFuncRankForCrack   = 6,
 --    isSpySearchEnable = true,
---    isHerbSearchEnable = true,
+--    isHerbSearchEnable = true,--tex IH will automatically patch in support for disableHerbSearch
 --
 --    spySearchRadiusMeter = {  40.0, 40.0, 35.0, 30.0, 25.0, 20.0, 15.0, 10.0, },
 --    spySearchIntervalSec = {  420.0,  420.0,  360.0,  300.0,  240.0,  180.0,  120.0,  60.0, },
@@ -59,6 +59,7 @@
 
 --REF mission addon module aka missionInfo, <GameDir>\mod\missions\ >
 --reference of all entries rather than a sane example
+--most of the ALL_CAPS, or other code looking reference in the comment after an entry below is a reference to the base game data structure the option is adding to.
 --local this={
 --  description="Jade Forest",-- Description for IH menu.
 --  missionCode=12020,
@@ -77,17 +78,33 @@
 --    TppSoldierFace.OverwriteMissionFovaData{face=faces}}
 --  end,
 --  enableOOB=true,-- Enable the mission out of bound system
---  startPos={-11.788,8.483,165.559},--NO_HELICOPTER_MISSION_START_POSITION entry -  player spawn pos for non heli ride missions
+--  startPos={-11.788,8.483,165.559},--TppDefine.NO_HELICOPTER_MISSION_START_POSITION entry -  player spawn pos for non heli ride mission starts
 --  missionGuaranteeGMP=120000, --TppResult.MISSION_GUARANTEE_GMP - base gmp for mission on mission clear
 --  noAddVolunteers=false,--dont add any volunteer staff on mission complete
 --  missionTaskList={0,2,3,4,5,6},--see TppResult.MISSION_TASK_LIST - <missioncode>_sequence.missionObjectiveDefine taskNo to idroid mission task UI index, also used to numerate the valid tasks
 --  noArmorForMission=true,--TppEneFova.noArmorForMission - disallow heavy armor in the mission
 --  missionArmorType={TppDefine.AFR_ARMOR.TYPE_RC},--TppEneFova.missionArmorType - Armor type for pfs in mafr
 --  missionHostageInfos={count=1,lang=RENlang2,overlap=true},--TppEneFova.missionHostageInfos - for the mission hostage generation system
+--  --tex mission start options, you can start off developing a mission addon with just providing a startPos (see above)>
+--  --but if you want to support some of the different mission start features the base game missions have these are the options
+--  --terms-wise the game kind of assumes that most missions will be started by chosing a heli route from idroid
+--  --you can see some setup there in missionMapParams heliLandPoint
+--  --otherwise its considered a NO_HELICOPTER_MISSION_START, mission addons use this mode by default if you only provide the startPos and no other options below
+--  clearExistingMissionStartSettings=true,--only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 
+--  clearMissionStartHeliRoute=true,--this will clear any heli route chosen for mission start, to clear way for startPos to work --TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST
+--  --An orderBox is the mission orders box that appears when chosing a mission from the idroid,
+--  --while in the free roam of the same location
+--  --for a mission without order box (without this and without orderBoxList it will be considered a NO_HELICOPTER_MISSION)>
+--  --in the base game all isNoHeliStartMission
+--  --(or more acuratly all missions that have entries in NO_HELICOPTER_ROUTE_MISSION_LIST also have entries in NO_ORDER_BOX_MISSION_LIST)
+--  isNoOrderBoxMission=true,--mission will use startPos as start position --TppDefine.NO_ORDER_BOX_MISSION_LIST,NO_ORDER_BOX_MISSION_ENUM
+--  heliRouteForNoBoxMission="rt_drp_mbqf_N",--tex will use heli with this route instead of starting on ground at startPos --TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE
 --  orderBoxList = { -- <mission>_sequence.missionStartPosition.orderBoxList -- TODO description
 --    "box_s13000_00",
 --    "box_s13000_01",
 --  },
+--  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
+--  --<
 --  missionMapParams={--mbdvc_map_mission_parameter.missionParameters
 --    missionArea2 = {
 --      { name="trig_innerZone", vertices={ Vector3(-1130.04,180.00,859.60),Vector3(-748.37,180.00,1241.27),Vector3(-475.96,180.00,968.86),Vector3(-225.87,180.00,1218.95),Vector3(152.35,180.00,840.77),Vector3(152.35,180.00,-89.97),Vector3(-479.32,180.00,-89.97),Vector3(-857.62,180.00,288.33),Vector3(-857.62,180.00,587.19), },  },
@@ -104,7 +121,6 @@
 --      {point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},
 --    },
 --  },
---  orderBoxBlockList = { "/Assets/tpp/pack/mission2/story/s13000/s13000_order_box.fpk" } --<free roam mission>_orderBoxList.lua TODO description
 --  weaponIdTable={-- alternatively a string of the TppEnemy.weaponIdTable ex weaponIdTable="SOVIET_A",   IMPLEMENTATION: GetWeaponIdTable, see also InfWeaponIdTable for IH global weaponIdTable override
 --    PF_A={
 --      NORMAL={
@@ -125,7 +141,7 @@
 --    NoVehicleMenuFromMissionPreparetion=true,            -- No vehicle select in the sortie
 --    DisableSelectSortieTimeFromMissionPreparetion=true,  -- Only ASAP as deployment time option
 --  },
---  defaultDropRoute="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",--tex story missions only (not free roam), not exactly sure how/what its used for, but it's in TppDefine.DEFAULT_DROP_ROUTE
+--  defaultDropRoute="lz_drp_bridge_S0000|rt_drp_bridge_S_0000",--tex story missions only (not free roam), --TppDefine.DEFAULT_DROP_ROUTE not exactly sure how/what its used for (disapears into exe via TppUiCommand.RegisterDefaultLandPoint)
 --  --tex DEBUGNOW debating whether to have this here or in locationInfo to save duplication,
 --  --TppLandingZoneData is defined in mission pack fox2 so author would be duplicating anyhoo
 --  --but using this to build TppLandingZone MissionLandingZoneTable which is pretty much all the lzs dumped in for managing disabling the lzs in idroid
@@ -163,6 +179,10 @@ local missionInfoFormat={
   noArmorForMission="boolean",
   missionArmorType="table",
   missionHostageInfos="table",
+  clearExistingMissionStartSettings="boolean",
+  clearMissionStartHeliRoute="boolean",
+  isNoOrderBoxMission="boolean",
+  heliRouteForNoBoxMission="string",
   orderBoxList="table",
   orderBoxBlockList="table",
   missionMapParams="table",
@@ -646,34 +666,65 @@ function this.AddInMissions()
       InfUtil.InsertUniqueInList(locationMissions,missionCode)
       TppDefine.LOCATION_HAVE_MISSION_LIST[missionInfo.location]=locationMissions
 
+      --tex mission start stuff:
+      if missionInfo.clearExistingMissionStartSettings then --DEBUGNOW name a bit unweildy
+        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=nil
+        TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=nil
+        
+        --DEBUGNOW move to InfUtil
+        local function RemoveFromArray(array,valueToRemove)
+          --tex find
+          local foundIndex
+          for i,v in ipairs(array)do
+            if v==valueToRemove then
+              foundIndex=i
+              break
+            end
+          end--for array
+          if foundIndex then
+            table.remove(array,foundIndex)
+          end
+        end--RemoveFromArray
+        
+        RemoveFromArray(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
+        RemoveFromArray(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST,tostring(missionCode))
+        --DEBUGNOW
+            InfCore.PrintInspect(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST,"zzz TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST")   
+    InfCore.PrintInspect(TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE,"zzzTppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE")   
+        --tex the enums are rebuilt just after for missionInfos loop   
+      end
+      --the 'loadingposition' code in the vanilla game is pretty twisty, but it basically boils down to:
+      --assuming missions will start with a heli route, most likely given by chosing lz in idroid.
+      --otherwise its either a start on foot via NO_HELICOPTER_MISSION_START_POSITION
+      --or via a free roam > mission via the intel 'order(s) box'
+      --or maybe its a mission that might otherwise have started by orderbox but isn't, then its a no order box mission (start)
       local startPos=missionInfo.startPos and missionInfo.startPos.pos or missionInfo.startPos
       if startPos then
         local rotY=startPos[4] or startPos.rotY
         startPos[4]=rotY--NO_BOX_MISSION_START_POSITION format of {x,y,z,rotY} but using for NO_HELICOPTER_MISSION_START_POSITION (which had no rotY in vanilla) as well to be consistant
-        TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=startPos
-      end
-      --tex TODO: add to format
+        if not missionInfo.isNoOrderBoxMission then
+          TppDefine.NO_HELICOPTER_MISSION_START_POSITION[missionCode]=startPos
+        elseif not missionInfo.heliRouteForNoBoxMission then
+          --noBoxMissionStartPosition
+          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=startPos
+        end
+      end--if startPos
       --tex indicates that theres no free roam mission box start (there are 7 of these in vanilla)
       --see also AddOrderBoxInfoToFreeRoam
       if missionInfo.isNoOrderBoxMission then--tex these are awkwardly worded, it's alway a struggle to decide whether to chose a nicer new name or keep it closer to what it's called in the vanilla data.
         InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_BOX_MISSION_LIST,tostring(missionCode))
-        TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
-      end
-      if missionInfo.noBoxMissionStartPosition then--tex shouldn't really be used, use startPos instead
-        TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=missionInfo.noBoxMissionStartPosition
-      else
-        if missionInfo.isNoOrderBoxMission and startPos then
-          TppDefine.NO_BOX_MISSION_START_POSITION[missionCode]=startPos
-        end
       end
 
-      --tex TODO
-      --  TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE--tex only used for two missions (of the 7 no box mission starts)
+      if missionInfo.heliRouteForNoBoxMission then
+        --tex only used for two vanilla missions (of the 7 no box mission starts)
+        InfUtil.InsertUniqueInList(TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE,missionInfo.heliRouteForNoBoxMission)
+      end
 
-      --tex pretty much just clears gvars.heli_missionStartRoute, TODO: how does this interact with NO_HELICOPTER_MISSION_START_POSITION?
-      --tex TODO: add to (but allow via a param)
-      --TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST
-      --TppDefine.NO_HELICOPTER_ROUTE_ENUM=TppDefine.Enum(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST)
+      --tex pretty much just clears gvars.heli_missionStartRoute
+      --Seems to just be to clear any selected heliroute for NO_HELICOPTER_MISSION_START_POSITION
+      if missionInfo.clearMissionStartHeliRoute then
+        InfUtil.InsertUniqueInList(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST,tostring(missionCode))
+      end
 
       --tex base gmp for mission on mission clear
       if missionInfo.missionGuaranteeGMP then
@@ -732,6 +783,11 @@ function this.AddInMissions()
       --DEBUGNOW there's also isDefault on some mbdvc_map_mbstage_parameter routes?
     end--if validate
   end--for missionInfo
+  
+  --tex rebuild enums, TppDefine.Enum always returns a new table (unlike Tpp.Enum which modifies input table)
+  TppDefine.NO_HELICOPTER_ROUTE_ENUM=TppDefine.Enum(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST)
+  TppDefine.NO_ORDER_BOX_MISSION_ENUM=TppDefine.Enum(TppDefine.NO_ORDER_BOX_MISSION_LIST)
+    
   if rebuildLzTables then
     if this.debugModule then
       InfCore.PrintInspect(TppLandingZone.locInfo,"TppLandingZone.locInfo")--DEBUGNOW
@@ -790,7 +846,7 @@ end--AddLzInfo
 --OUT/SIDE: TppDefine.MISSION_LIST, TppDefine.MISSION_ENUM
 function this.RegisterMissions()
   InfCore.LogFlow("InfMission.RegisterMissions")
-  --tex WORKAROUND exe/ui seems to have same limit as TppDefine.MISSION_COUNT_MAX
+  --tex LIMIT WORKAROUND exe/ui seems to have same limit as TppDefine.MISSION_COUNT_MAX
   --but there's issues with mission completed rank not matching and seemingly no lua>ui way to set it
   --unlike the rest of the information via Mission.RegisterMissionCodeList, the gmp and task completion via TppResult.GetMbMissionListParameterTable
   --so am reusing the MISSING_NUMBER_MISSION_LIST which is flyk and some uncompleted extreme/subsidence of other missions
@@ -907,6 +963,10 @@ function this.LoadLibraries()
     InfCore.PrintInspect(TppDefine.LOCATION_ID,"TppDefine.LOCATION_ID")
     InfCore.PrintInspect(TppDefine.LOCATION_HAVE_MISSION_LIST,"TppDefine.LOCATION_HAVE_MISSION_LIST")
     InfCore.PrintInspect(TppDefine.NO_HELICOPTER_MISSION_START_POSITION,"TppDefine.NO_HELICOPTER_MISSION_START_POSITION")
+    InfCore.PrintInspect(TppDefine.NO_ORDER_BOX_MISSION_LIST,"TppDefine.NO_ORDER_BOX_MISSION_LIST")
+    --TppDefine.NO_ORDER_BOX_MISSION_ENUM
+    InfCore.PrintInspect(TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST,"TppDefine.NO_HELICOPTER_ROUTE_MISSION_LIST")   
+    InfCore.PrintInspect(TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE,"TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE")   
     --InfCore.PrintInspect(mbdvc_map_location_parameter,"mbdvc_map_location_parameter")
     InfCore.PrintInspect(this.freeMissionForLocation,"freeMissionForLocation")
   end
@@ -929,17 +989,16 @@ end
 --DEBUGNOW TEST PCallDebug these functions?-^--v-
 function this.AddGlobalLocationParameters(globalLocationParameters)
   InfCore.LogFlow"InfMission.AddGlobalLocationParameters"
-  local enableSpySearch=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
-  local enableHerbSearch=Ivars.disableHerbSearch:Get()--tex
+  local enableHerbSearch=Ivars.disableHerbSearch:Is(0)--tex patches in IH disableHerbSearch support (if they have locationParams.isHerbSearchEnable set)
   for locationId,locationInfo in pairs(this.locationInfo)do
     local locationParams=locationInfo.globalLocationMapParams
     if locationParams then
       locationParams.locationId=locationId
-      if locationParams.isSpySearchEnable~=nil then
-        locationParams.isSpySearchEnable=enableSpySearch
+      if locationParams.isSpySearchEnable then
+        locationParams.isSpySearchEnable=true--tex IH uses a different method to globally enable/disable, see disableSpySearch ivar
       end
-      if locationParams.isHerbSearchEnable ~=nil then
-        locationParams.isHerbSearchEnable=enableSpySearch
+      if locationParams.isHerbSearchEnable then
+        locationParams.isHerbSearchEnable=enableHerbSearch
       end
       table.insert(globalLocationParameters,locationParams)
     end

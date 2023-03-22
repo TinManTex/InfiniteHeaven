@@ -14,7 +14,7 @@ this.soldierPool={}
 this.emptyCpPool={}
 this.lrrpDefines={}--tex from AddLrrps
 
-this.MAX_STAFF_NUM_ON_CLUSTER=18--DYNAMIC onallocate
+this.MAX_STAFF_NUM_ON_CLUSTER=18--DYNAMIC onallocate--LIMIT
 
 --reserve soldierpool
 --tex number of soldier locators in fox2s
@@ -274,7 +274,7 @@ function this.OnDamage(gameId,attackId,attackerId)
               SendCommand(cpId,command)
               break
             end
-        end--if cp not phase
+          end--if cp not phase
         end--for soldieridlist
       end--attackisvehicle
     end--gvar

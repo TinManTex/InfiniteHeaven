@@ -295,6 +295,7 @@ for i=0,#this.slots-1 do
     --save=IvarProc.CATEGORY_EXTERNAL,
     slot=i,--0 indexed
     settings={"None found"},--DYNAMIC
+    settingNamesDoc=[[<list of \mod\chimeras>]],
     default=0,
     OnSelect=function(self)
       InfUtil.ClearArray(self.settings)
@@ -329,6 +330,7 @@ for i=0,#this.slots-1 do
     --save=IvarProc.CATEGORY_EXTERNAL,
     slot=i,--0 indexed
     settings={"New",},--DYNAMIC
+    settingNamesDoc=[[New,<list of \mod\bionicHand>]],
     OnSelect=function(self)
       InfUtil.ClearArray(self.settings)
       local category=ivars.chimera_weaponCategory

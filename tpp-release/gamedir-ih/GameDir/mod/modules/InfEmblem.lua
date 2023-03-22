@@ -146,6 +146,7 @@ end--TppSave
 this.emblem_load={
   --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"None found"},--DYNAMIC
+  settingNamesDoc=[[<list of \mod\emblems>]],
   default=0,
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
@@ -168,6 +169,7 @@ this.emblem_load={
 this.emblem_save={
   --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"New",},--DYNAMIC
+  settingNamesDoc=[[New,<list of \mod\bionicHand>]],
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
     for i,name in ipairs(this.names)do

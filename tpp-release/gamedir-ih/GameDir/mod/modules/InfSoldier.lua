@@ -525,17 +525,16 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
   if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
     return
   end
-
+  
   if InfMain.IsContinue() then
     return
   end
 
   InfMain.RandomSetToLevelSeed()
 
-
   local locationName=TppLocation.GetLocationName()
   local baseNames=InfMain.baseNames[locationName]
-  local halfBases=math.ceil(#baseNames/2)
+  local halfBases=math.ceil(#baseNames/2)  
   
   if baseNames==nil or #baseNames<2 then
     InfCore.Log("InfSoldier.AddLrrps baseNames==nil or #baseNames<2, returning")

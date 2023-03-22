@@ -2,15 +2,19 @@
 -- Soldier2FaceAndBodyData.lua
 -- The soldier face system is used by ai soldiers and hostages and player as DD soldier, soldier body system is used by ai soldiers and hostages.
 -- Infinite Heaven includes two systems for adding to these entries, so editing it yourself should be unnessesary (and if the system doesn't cover the feature you want contact me)
--- see InfSoldierFaceAndBody for head fova addons - faceFova, faceDecoFova, hairFova, hairDecoFova
--- and headDefinitions which pull them all together to generate or modify a faceDefinition.
--- and \mod\modules\InfBodyInfo.lua which handles the soldier body fova addons -
+-- see InfSoldierFaceAndBody which processes fovaInfo addons (mod\modules\fovaInfo)
+-- which allow head/faceId additions and soldier bodyId additions (via this faceDefinition and bodyDefinition)
 -- FLOW: The actual loading/initialization of the fpks seems to be in-engine between GetMissionPackagePath and OnAllocate
 -- (which can be tested by referening a non existant fpk, game loading will halt like it does for non existing mission pack fpks).
---GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
+--LIMIT: GOTCHA: There seems to be a limit to the number of additions for body fovas, which manifests in fovas past that not applying
 --dont know if its for bodyDefinition or bodyFova count though.
 --seems to be vanilla count + 64 = 366
+
+--terms: (though using the term fova here may run into clashes with discussing fova/FormVariation more in general)
+--fovaType: faceFova,faceDecoFova etc. may also refer to the tables of the type
+--fovaPathInfo: the {fv2 path,fpk path} entry of fovaType table
 local this={}
+
 --face meshes
 this.faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk"},--0,--males>
@@ -183,11 +187,10 @@ this.hairDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fpk"},--23,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fpk"},--24,
 }--hairDecoFova
---NMC: see also bodyDefinition table below and TppEnemyBodyId.lua
---{"FV2 PATH","FOVA FPK PATH"}, bodyDefinition index, bodyId, TppEnemyBodyId, Notes...
---if TppEnemyBodyId not given it's likely the same as the fv2 file name
---In a lot of cases TppEnemyBodyId aren't used and the bodyId is used directly
---and in some cases the mapping is incorrect (see note on pfs0_dds0_v00 below)
+--tex NMC: see also bodyDefinition table below and TppEnemyBodyId.lua
+--{"FV2 PATH","FOVA FPK PATH"},--bodyDefinition index, bodyId, TppEnemyBodyId, Notes...
+--if TppEnemyBodyId not noted it's likely the same as the fv2 file name
+--tex while all the other fovaTypes have one fv2 per fpk, with same name, bodyFova often bundled multiple fv2s in one fpk
 this.bodyFova={
   --SOVIET see TppEnemy.bodyIdTable
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--0,0,,
@@ -256,8 +259,8 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dds/dds0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},--58,141,,DD_PW,10115 Retake the plat,Mosquito
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds3_main0_v00.fpk"},--59,142,,DD_A default/drab
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v00.fpk"},--60,143,,DD_FOB Tiger
-  {"/Assets/tpp/fova/chara/dds/dds5_main0_v01.fv2",""},--61,144,,
-  {"/Assets/tpp/fova/chara/dds/dds5_main0_v02.fv2",""},--62,145,,
+  {"/Assets/tpp/fova/chara/dds/dds5_main0_v01.fv2",""},--61,144,,note missing pack path. has (unused?) bodyDefintion/bodyId/TppEnemyBodyId. fv2 is included in some mission demo packs (<missioncode>_d*).there is a dds5_main0_v01.fpk, and entry that refs dds5_main0_v04.fv2 points to it?
+  {"/Assets/tpp/fova/chara/dds/dds5_main0_v02.fv2",""},--62,145,,as above, but there is no dds5_main0_v02.fpk
   --dd researcher/labcoat male
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--63,146,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--64,147,,
@@ -265,7 +268,7 @@ this.bodyFova={
 
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--66,149,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--67,150,,
-  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v02.fv2",""},--68,151,,
+  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v02.fv2",""},--68,151,,note missing pack path, though it is actually in ddr0_main0_v00.fpk like the others. has direct reference in fovaSetupFuncs.mbqf (for shining in lights?), but that wouldnt work unless the fv2 was loaded in another pack? 
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v03.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--69,152,,
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v04.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--70,153,,
   --female
@@ -277,26 +280,26 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dds/ddr1_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--75,158,,
   {"/Assets/tpp/fova/chara/dds/ddr1_main1_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},--76,159,,
 
-  {"/Assets/tpp/fova/chara/dds/dds3_main0_v01.fv2",""},--77,160,,
-  {"/Assets/tpp/fova/chara/dds/dds5_main0_v03.fv2",""},--78,161,,
+  {"/Assets/tpp/fova/chara/dds/dds3_main0_v01.fv2",""},--77,160,,note missing pack path. has (unused?) bodyDefintion/bodyId/TppEnemyBodyId. fv2 is included in some mission demo packs (<missioncode>_d*)
+  {"/Assets/tpp/fova/chara/dds/dds5_main0_v03.fv2",""},--78,161,,as above
   {"/Assets/tpp/fova/chara/dds/dds6_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds6_main0_v00.fpk"},--79,162,,
-  {"/Assets/tpp/fova/chara/dds/dds6_main0_v01.fv2",""},--80,163,,
+  {"/Assets/tpp/fova/chara/dds/dds6_main0_v01.fv2",""},--80,163,,note missing pack path. fv2 doesnt exist?
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds8_main0_v00.fpk"},--81,164,,
-  {"/Assets/tpp/fova/chara/dds/dds8_main0_v01.fv2",""},--82,165,,
+  {"/Assets/tpp/fova/chara/dds/dds8_main0_v01.fv2",""},--82,165,,note missing pack path. fv2 doesnt exist?
 
-  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v03.fv2",""},--83,166,,
-  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v04.fv2",""},--84,167,,
+  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v03.fv2",""},--83,166,,note missing pack path. fv2 in s10240 shining lights
+  {"/Assets/tpp/fova/chara/dds/ddr0_main0_v04.fv2",""},--84,167,,as above
 
-  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v05.fv2",""},--85,168,,
-  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v06.fv2",""},--86,169,,
+  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v05.fv2",""},--85,168,,as above
+  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v06.fv2",""},--86,169,,as above
 
-  {"/Assets/tpp/fova/chara/dds/dds3_main0_v02.fv2",""},--87,170,,
-  {"/Assets/tpp/fova/chara/dds/dds8_main0_v02.fv2",""},--88,171,,
+  {"/Assets/tpp/fova/chara/dds/dds3_main0_v02.fv2",""},--87,170,,note missing pack path. has (unused?) bodyDefintion/bodyId/TppEnemyBodyId. fv2 is included in some mission demo packs (<missioncode>_d*) 
+  {"/Assets/tpp/fova/chara/dds/dds8_main0_v02.fv2",""},--88,171,,fv2 file doesnt exist?
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--89,172,dds4_enem0_def,
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--90,173,dds4_enef0_def,
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--91,174,dds5_enem0_def,
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--92,175,dds5_enef0_def,
-  {"/Assets/tpp/fova/chara/dds/dds5_main0_v04.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v01.fpk"},--93,176,,
+  {"/Assets/tpp/fova/chara/dds/dds5_main0_v04.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v01.fpk"},--93,176,,uhh, why is this pointing to dds5_main0_v01.fpk?
   {"/Assets/tpp/fova/chara/dla/dla0_plym0_v00.fv2","/Assets/tpp/pack/fova/chara/dla/dla0_plym0_v00.fpk"},--94,177,dla0_plym0_def,
   {"/Assets/tpp/fova/chara/dla/dla1_plym0_v00.fv2","/Assets/tpp/pack/fova/chara/dla/dla1_plym0_v00.fpk"},--95,178,dla1_plym0_def,
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--96,179,dlb0_plym0_def,
@@ -307,8 +310,8 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/dle/dle1_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dle/dle1_plyf0_v00.fpk"},--101,184,dle1_plyf0_def,
   --wss XOF
   {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00.fpk"},--102,190,,--10150 : Mission 30 - Skull Face, SKULL_AFGH
-  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2",""},--103,191,
-  {"/Assets/tpp/fova/chara/wss/wss4_main0_v02.fv2",""},--104,192,
+  {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2",""},--103,191,note missing pack path. has (unused?) bodyDefintion/bodyId/TppEnemyBodyId. fv2 is included in some mission demo packs (<missioncode>_d*) 
+  {"/Assets/tpp/fova/chara/wss/wss4_main0_v02.fv2",""},--104,192,as above
   {"/Assets/tpp/fova/chara/wss/wss0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss0_main0_v00.fpk"},--105,195,,--prologue gas mask xof
   {"/Assets/tpp/fova/chara/wss/wss3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss3_main0_v00.fpk"},--106,196,,--unused?
   --prisoners
@@ -414,8 +417,8 @@ this.bodyFova={
   {"/Assets/tpp/fova/chara/ptn/ptn0_v33.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--194,333,,
   {"/Assets/tpp/fova/chara/ptn/ptn0_v34.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--195,334,,
 
-  {"/Assets/tpp/fova/chara/ptn/ptn1_v00.fv2",""},--196,335,,
-  {"/Assets/tpp/fova/chara/ptn/ptn2_v00.fv2",""},--197,336,,
+  {"/Assets/tpp/fova/chara/ptn/ptn1_v00.fv2",""},--196,335,,fv2 does not exist
+  {"/Assets/tpp/fova/chara/ptn/ptn2_v00.fv2",""},--197,336,,as above
   --cyprus hospital nurses
   {"/Assets/tpp/fova/chara/nrs/nrs0_v00.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},--198,340,,
   {"/Assets/tpp/fova/chara/nrs/nrs0_v01.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},--199,341,,
@@ -1125,8 +1128,10 @@ this.modFaceFova={
   {567,"Balaclava",18,""},
 }--modFaceFova
 
---maps TppEnemyBodyId to bodyFova table index (see above)
---{bodyId,bodyFova, isArmor? or something else common to armor?}--TppEnemyBodyId, further notes
+--tex NMC maps bodyId to bodyFova table index (bodyFovaId) (see above)
+--NOTE: the indexing of bodyDefinition itself doesnt seem to be used? only the bodyId in the bodyDef entry itself? (see TppEnemyBodyId)
+--don't know why bodyIds aren't contiguous
+--{bodyId,bodyFovaId, isArmor? or something else common to armor?}--TppEnemyBodyId, further notes
 this.bodyDefinition={
   {0,0,0},
   {1,1,0},
@@ -1483,7 +1488,7 @@ this.modBodyFova={
   {275,"CapType",52,""},--pf unique,red beret
 }--modBodyFova
 
-this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob --SYNC Ivars.playerFaceFilter
+this.highestVanillaFaceId=688--tex the highest faceid unmodded for sanity checking on fob, technically its 687, but I add hideo, and a couple of slots for the (broken) manual facedefinition thing --SYNC Ivars.playerFaceFilter
 --OFF this.MAX_FACEID=688--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
 
 --tex shifted from after table definitions
