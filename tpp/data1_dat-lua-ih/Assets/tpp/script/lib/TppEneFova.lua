@@ -1316,6 +1316,7 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
     InfCore.Log("maxBodies:"..maxBodies.." halfMax:"..halfMax)
     InfCore.Log("maleBodyCount:"..maleBodyCount.." femaleBodyCount:"..femaleBodyCount)
     InfCore.Log("maleBodyMax:"..maleBodyMax.." femaleBodyMax:"..femaleBodyMax)
+    InfCore.PrintInspect(bodies,"bodies")
     InfCore.PrintInspect(InfEneFova.bodiesForMap,"InfEneFova.bodiesForMap")
   end
 
@@ -1750,50 +1751,48 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     local faceTypeList=TppSoldierFace.CheckFemale{face={faceId}}
     return faceTypeList and faceTypeList[1]==1
   end
-  local isFemale=IsFemale(faceId)--tex>
+  local isFemale=IsFemale(faceId)--tex customSoldierType>
   InfEneFova.SetFemaleSoldier(soldierId,isFemale)--<
-  --tex set bodyid >
-  if IvarProc.EnabledForMission("customSoldierType") then
+  local bodyInfo=nil
+  if isFemale then
+    bodyInfo=InfEneFova.GetFemaleBodyInfo()
+  else
+    bodyInfo=InfEneFova.GetMaleBodyInfo()
+  end
+  if bodyInfo then
     local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
     --DEBUG
     if not powerSettings then
       InfCore.Log("ApplyMTBSUniqueSetting: No powersettings for soldierId:"..soldierId)
     end
-    local bodyInfo=nil
+
     if isFemale then
-      bodyInfo=InfEneFova.GetFemaleBodyInfo()
-    else
-      bodyInfo=InfEneFova.GetMaleBodyInfo()
+      GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
     end
-    if bodyInfo then
-      if isFemale then
-        GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
-      end
 
-      if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId
-        local soldierType=TppEnemy.GetSoldierType(soldierId)
-        local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
-        powerSettings=powerSettings or {}
-        bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-        --InfCore.Log("bodyid:".. tostring(bodyId))--tex DEBUG
-      end
+    if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId  --DEBUGNOW what am i doing here? it isn't set to anything but 0 at this point
+      local soldierType=TppEnemy.GetSoldierType(soldierId)
+      local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
+      powerSettings=powerSettings or {}
+      bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
+      --InfCore.Log("bodyid:".. tostring(bodyId))--tex DEBUG
+    end
 
-      if bodyInfo.hasFace then
-        faceId=EnemyFova.NOT_USED_FOVA_VALUE
-      end
+    if bodyInfo.hasFace then
+      faceId=EnemyFova.NOT_USED_FOVA_VALUE
+    end
 
-      InfEneFova.ApplyCustomBodyPowers(soldierId,powerSettings)
+    InfEneFova.ApplyCustomBodyPowers(soldierId,powerSettings)
 
-      if not bodyInfo.helmetOnly then
-        if this.IsUseGasMaskInFOB() then
-          TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
-        end
-        --tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
-        --      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
-        --        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
-        --      end
+    --tex headgear
+    if not bodyInfo.helmetOnly then
+      if this.IsUseGasMaskInFOB() then
+        TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
       end
-      --if is customSoldierType<
+      --tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
+      --      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
+      --        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
+      --      end
     end
 
     if Ivars.mbDDHeadGear:Is(0) then
