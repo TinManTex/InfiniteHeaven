@@ -1835,7 +1835,7 @@ local function SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
       local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterId]
       for n,soldierName in ipairs(soldierLocators)do
         --REF soldierName="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|sol_plnt0_0000"
-        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))--tex NMC GOTCHA: means mb soldiers want to keep this format name, at least plnt, don't know about anything else yet DEBUGNOW it also means my additional sol_ih_nnnn arent hitting this
+        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))--tex NMC GOTCHA: means mb soldiers want to keep this format name, at least plnt, don't know about anything else yet
         if soldierPlant~=nil and soldierPlant==plant then
           local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
           --tex NMC NOTE puzzled. I don't see what this is achieving.
@@ -1859,7 +1859,7 @@ local function SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
           --I think it's just a combination of the different soldier setup in mb vs normal missions due to demos, fob and normal mb
           cpSoldierIds[soldierId]=zero--tex NMC pre r261 I was setting this to soldierName in line with changes in TppEnemy.DefineSoldiers (see NOTE), r261+ it has been restored to original behaviour
         else
-          --tex> WORKAROUND: just lump in the additional ih soldiers
+          --tex> WORKAROUND: ih additional soldier names dont match the above format, so just lumping in all of them for now 
           --it does mean that _ApplyRevengeToCp will be run on the same soldiers multiple times, but the pre r261 bug was doing that anyway for all soldiers in the cluster
           --TODO: decide if I want to rename the ih soldiers to fit the naming scheme instead and remove the workaround, would have to match additional soldiers application though
           --REF soldierName="sol_ih_0139"
