@@ -208,7 +208,7 @@ this.SetAllEnabled = function()
         break
       end
     end
-    if IvarProc.EnabledForMission"customSoldierType" then--tex>
+    if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
       InfMain.RandomSetToLevelSeed()
     end--<
     for index, enemyId in ipairs( this.soldierDefine.mbqf_mtbs_cp ) do
@@ -222,7 +222,7 @@ this.SetAllEnabled = function()
         this.SetEnabled( gameObjectId, false )
       end
     end
-    if IvarProc.EnabledForMission"customSoldierType" then--tex>
+    if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
       InfMain.RandomResetToOsTime()
     end--<
   else
