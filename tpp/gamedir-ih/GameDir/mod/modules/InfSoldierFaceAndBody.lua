@@ -105,7 +105,7 @@ this.debugModule=false
 --}--this
 --return this
 
-local bodyFovaLimit=366--LIMIT
+local BODY_FOVA_LIMIT=366--LIMIT
 
 this.fovaInfos={}
 
@@ -474,7 +474,7 @@ function this.SetupBodyFova(faceAndBodyData)
     fileTableInfo.maxCount=math.max(defaultCount,#faceAndBodyData[fovaTypeName]+1)
   end
 
-  if #faceAndBodyData.bodyFova>=bodyFovaLimit then
+  if #faceAndBodyData.bodyFova>=BODY_FOVA_LIMIT then
     InfCore.Log("WARNING: SetupBodyFova: hit bodyFova limit, too many additional body fovaInfos installed",false,true)
   end
 
