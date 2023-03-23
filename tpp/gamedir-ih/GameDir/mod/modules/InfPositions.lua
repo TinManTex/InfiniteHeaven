@@ -97,11 +97,8 @@ function this.AddMarkerPositions()
   local addedCount=0
   for index=0,vars.userMarkerSaveCount-1 do
     local markerPos=InfUserMarker.GetMarkerPosition(index)
-    local x=markerPos:GetX()
-    local y=markerPos:GetY()
-    local z=markerPos:GetZ()
     addedCount=addedCount+1
-    table.insert(this.positions,{x,y,z})
+    table.insert(this.positions,markerPos)
   end
 
   local addedString = addedCount.." positions added to list"

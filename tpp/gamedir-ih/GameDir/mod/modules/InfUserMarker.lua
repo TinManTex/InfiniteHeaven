@@ -155,9 +155,10 @@ function this.PrintUserMarker(index)
   --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
 
   local markerPos=this.GetMarkerPosition(index)
-  local x=markerPos:GetX()
-  local y=markerPos:GetY()
-  local z=markerPos:GetZ()
+  if markerPos==nil then
+    InfCore.Log("GetMarkerPosition nil for marker index "..tostring(index),true)
+    return
+  end
   local letter="A"
   local addFlag=nil
   if vars.userMarkerAddFlag then
@@ -168,8 +169,8 @@ function this.PrintUserMarker(index)
   if vars.userMarkerGameObjId then
     gameId=vars.userMarkerGameObjId[index]
   end
-  local closestCp=InfMain.GetClosestCp{x,y,z}
-  local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
+  local closestCp=InfMain.GetClosestCp(markerPos)
+  local posString=string.format("%.2f,%.2f,%.2f",markerPos[1],markerPos[2],markerPos[3])
   local message="userMarker "..index.." : letter="..tostring(letter)..", pos="..posString..", addFlag="..tostring(addFlag)..", gameId="..tostring(gameId).." closestCp:"..tostring(closestCp)
   InfCore.Log(message)
   InfCore.DebugPrint(message)
@@ -345,6 +346,7 @@ end
 --  return highestMarkerIndex
 --end
 
+--returns position {x,y,z}
 function this.GetMarkerPosition(index)
   if vars.userMarkerSaveCount==0 then
     return
@@ -354,36 +356,44 @@ function this.GetMarkerPosition(index)
   end
 
   local markerPos
-
   if vars.userMarkerGameObjId then
     local gameId=vars.userMarkerGameObjId[index]
     if gameId~=NULL_ID then
-      markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-    end
-
-    if markerPos==nil then
-      if gameId~=NULL_ID then
-        InfCore.Log("InfUserMarker.GetMarkerPosition: GetPosition==nil for gameObject "..gameId)
+      --DEBUGNOW figure out what gameobjects support GetPosition, and what format position they return
+      --Soldier, hostage (TppDefine.HOSTAGE_GM_TYPE[typeIndex]), ocellot -- Vector3
+      --TppHeli2/support heli - Vector3
+      markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})--returns Vector3
+      if this.debugModule then
+        local typeIndex=GameObject.GetTypeIndex(gameId)
+        local gameObjectTypeStr=tostring(InfLookup.TppGameObject.typeIndex[typeIndex])
+        InfCore.Log("InfUserMarker.GetMarkerPosition markerGameObjId: "..tostring(gameId).." typeIndex:"..gameObjectTypeStr)
+        InfCore.PrintInspect(markerPos,"GetPosition:")
       end
-      markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
-    end
-  elseif InfCore.gameId=="SSD" then
-    local locationSuffix=""
+      if markerPos then
+        markerPos=InfTppUtil.PosOfType(InfTppUtil.posTypes.PosArray,markerPos)
+      end
+    end--gameId
+  end--if userMarkerGameObjId
 
-    local locationName=TppLocation.GetLocationName()
-    if locationName=="mafr" then
-      locationSuffix="_mafr"
-    end
-
-    local x=vars["ssdMarker_User_posX"..locationSuffix][index]
-    local y=vars["ssdMarker_User_posY"..locationSuffix][index]
-    local z=vars["ssdMarker_User_posZ"..locationSuffix][index]
-    markerPos=Vector3(x,y,z)
+  if markerPos==nil then
+    markerPos={vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index]}
   end
+--  elseif InfCore.gameId=="SSD" then
+--    local locationSuffix=""
+--
+--    local locationName=TppLocation.GetLocationName()
+--    if locationName=="mafr" then
+--      locationSuffix="_mafr"
+--    end
+--
+--    local x=vars["ssdMarker_User_posX"..locationSuffix][index]
+--    local y=vars["ssdMarker_User_posY"..locationSuffix][index]
+--    local z=vars["ssdMarker_User_posZ"..locationSuffix][index]
+--    markerPos={x,y,z}
+--  end
 
   return markerPos
-end
-
+end--GetMarkerPosition
 
 function this.WarpToUserMarker(index)
   if vars.userMarkerSaveCount==0 then
@@ -397,7 +407,7 @@ function this.WarpToUserMarker(index)
     InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: could not find marker")--DEBUGNOW
     return
   end
-  if markerPos:GetX()==0 and markerPos:GetY()==0 and markerPos:GetZ()==0 then
+  if markerPos[1]==0 and markerPos[2]==0 and markerPos[3]==0 then
     InfCore.Log("WARNING: InfUserMarker.WarpToUserMarker: markerPos=0,0,0",true)--DEBUGNOW
     return
   end
@@ -415,10 +425,19 @@ function this.WarpToUserMarker(index)
   end
 
   if this.debugModule then
-    InfCore.Log(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ(),true)
+    InfCore.Log(InfLangProc.LangString"warped_to_marker".." "..index..":".. markerPos[1]..",".. markerPos[2].. ","..markerPos[3],true)
   end
-  TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-end
+  
+  markerPos[2]=markerPos[2]+offSetUp
+  local rotY=vars.playerCameraRotation[1]
+  
+  local warperId=0--player
+  if vars.playerVehicleGameObjectId~=GameObject.NULL_ID then
+    warperId=vars.playerVehicleGameObjectId
+	end
+  
+	TppPlayer.Warp{pos=markerPos,rotY=rotY}
+end--WarpToUserMarker
 
 function this.Init()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())

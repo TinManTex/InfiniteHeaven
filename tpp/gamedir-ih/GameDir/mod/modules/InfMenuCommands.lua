@@ -176,7 +176,7 @@ this.SetSelectedCpToMarkerClosestCp=function()
   end
   local markerPos=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
 
-  local cpName=InfMain.GetClosestCp{markerPos:GetX(),markerPos:GetY(),markerPos:GetZ()}
+  local cpName=InfMain.GetClosestCp(markerPos)
   if not cpName then
     InfCore.Log("Could not find cp",false,true)
     return
