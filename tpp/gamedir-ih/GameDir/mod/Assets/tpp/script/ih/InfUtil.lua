@@ -353,9 +353,6 @@ function this.EnumFrom0(enumNames,enumTable)
   if type(enumNames)~="table"then
     return
   end
-  if#enumNames==0 then
-    return
-  end
   enumTable=enumTable or {}
   for i=1,#enumNames do
     enumTable[enumNames[i]]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
@@ -365,9 +362,6 @@ end--EnumFrom0
 --as above but enums start at 1
 function this.EnumFrom1(enumNames,enumTable)
   if type(enumNames)~="table"then
-    return
-  end
-  if#enumNames==0 then
     return
   end  
   enumTable=enumTable or {}
