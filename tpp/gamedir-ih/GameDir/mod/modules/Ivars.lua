@@ -20,7 +20,7 @@
 
 --REF TODO: ref of ivar with all vars and methods
 
---requires InfUtil
+--load requires InfUtil
 
 local this={}
 
