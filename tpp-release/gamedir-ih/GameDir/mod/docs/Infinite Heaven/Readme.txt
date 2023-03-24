@@ -26,6 +26,10 @@ NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
 r261 - 2023-03-24
+'Warp to latest marker' now works when driving vehicle or walker gear.
+[youtube]FVc0bw9ooFs[/youtube]
+https://youtu.be/FVc0bw9ooFs
+
 Fix: disableHerbSearch possibly not working correctly.
 
 Fix: Randomize RouteSets being called despite individual options being off (though not if main setting was off).
@@ -54,8 +58,6 @@ AroundCam (FreeCam):
 When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
 
 Fix: FreeCam hang if on when Abort mission.
-
-'Warp to latest marker' now works when driving vehicle or walker gear.
 
 API: addon missionInfo (See notes in InfMission)
 clearExistingMissionStartSettings - only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 

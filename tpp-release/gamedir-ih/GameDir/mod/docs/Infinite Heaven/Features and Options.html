@@ -61,13 +61,13 @@
 <div>3:<a href="#appearanceMenu">Appearance menu</a></div>
 </div>
 <div id="menuItem">
-<div>4:<a href="#cam_aroundcamMenu">Cam - AroundCam menu</a></div>
+<div>4:<a href="#cam_aroundcamMenu">Cam - AroundCam (FreeCam) menu</a></div>
 </div>
 <div id="menuItem">
 <div>5:<a href="#playCamMenu">Cam - PlayCam menu</a></div>
 </div>
 <div id="menuItem">
-<div>6:<a href="#camhookMenu">Cam - Player Cam hook menu</a></div>
+<div>6:<a href="#camhookMenu">Cam - Player Cam hook (FOV) menu</a></div>
 </div>
 <div id="menuItem">
 <div>7:<a href="#customizeMenu">Customize menu</a></div>
@@ -221,7 +221,7 @@
 <div>4:Headgear &lt&gt 0-100</div>
 </div>
 <div id="menuItem">
-<div>5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova mods</div>
+<div>5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova addons</div>
 </div>
 <div id="menuItem">
 <div>6:Face &lt&gt 0-0</div>
@@ -231,11 +231,11 @@
 <div id="itemHelp">Allows items that haven't been developed to be selected.</div>
 </div>
 <div id="menuItem">
-<div>8:Load avatar &gt! None Found</div>
+<div>8:Load avatar &gt! &ltlist of \mod\avatars&gt</div>
 <div id="itemHelp">Load avatar from MGS_TPP\mod\avatars</div>
 </div>
 <div id="menuItem">
-<div>9:Save avatar &gt! New</div>
+<div>9:Save avatar &gt! New,&ltlist of \mod\avatars&gt</div>
 <div id="itemHelp">Save avatar to MGS_TPP\mod\avatars</div>
 </div>
 <div id="menuItem">
@@ -275,14 +275,15 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="cam_aroundcamMenu">Cam - AroundCam menu</div>
+<div id="cam_aroundcamMenu">Cam - AroundCam (FreeCam) menu</div>
 </div>
 <div id="menuItem">
 <div>1:Adjust-cam [Mode] &lt&gt Off, On</div>
-<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+<div id="itemHelp">Turning this on sets AroundCam mode to Free cam, and lets you use keys/buttons to adjust the options.<br/>  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
 </div>
 <div id="menuItem">
-<div>2:Camera mode &lt&gt Default, Free cam</div>
+<div>2:AroundCam mode &lt&gt Off, Free cam</div>
+<div id="itemHelp">Lets you turn on freecam, if Adjust-cam mode is off </div>
 </div>
 <div id="menuItem">
 <div>3:Reset camera position to player &gt&gt </div>
@@ -292,45 +293,48 @@
 </div>
 <div id="menuItem">
 <div>5:Update stage position with camera &lt&gt Off, On</div>
+<div id="itemHelp">Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.</div>
 </div>
 <div id="menuItem">
-<div>6:positionXFreeCam = -100000-100000</div>
+<div>6:positionXFreeCam &lt&gt -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7:positionYFreeCam = -100000-100000</div>
+<div>7:positionYFreeCam &lt&gt -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>8:positionZFreeCam = -100000-100000</div>
+<div>8:positionZFreeCam &lt&gt -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>9:Cam speed scale = 0.01-10</div>
+<div>9:Cam move speed scale = 0.01-10</div>
+<div id="itemHelp">Movement speed scale when in Adjust-cam mode</div>
 </div>
 <div id="menuItem">
-<div>10:focalLengthFreeCam = 0.1-10000</div>
+<div>10:focalLengthFreeCam &lt&gt 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>11:focusDistanceFreeCam = 0.01-1000</div>
+<div>11:focusDistanceFreeCam &lt&gt 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>12:apertureFreeCam = 0.001-100</div>
+<div>12:apertureFreeCam &lt&gt 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>13:distanceFreeCam = 0-100</div>
+<div>13:distanceFreeCam &lt&gt 0-100</div>
 </div>
 <div id="menuItem">
-<div>14:targetInterpTimeFreeCam = 0-100</div>
+<div>14:targetInterpTimeFreeCam &lt&gt 0-100</div>
 </div>
 <div id="menuItem">
-<div>15:rotationLimitMinXFreeCam = -90-0</div>
+<div>15:rotationLimitMinXFreeCam &lt&gt -90-0</div>
 </div>
 <div id="menuItem">
-<div>16:rotationLimitMaxXFreeCam = 0-90</div>
+<div>16:rotationLimitMaxXFreeCam &lt&gt 0-90</div>
 </div>
 <div id="menuItem">
-<div>17:alphaDistanceFreeCam = 0-10</div>
+<div>17:alphaDistanceFreeCam &lt&gt 0-10</div>
 </div>
 <div id="menuItem">
-<div>18:Disable mode text feedback = Off, On</div>
+<div>18:Disable Adjust-cam text = Off, On</div>
+<div id="itemHelp">Disables Adjust-cams repeating announce log of the current 'hold button to adjust' settings.</div>
 </div>
 <div id="menuItem">
 <div>19:Show freecam position &gt&gt </div>
@@ -449,7 +453,7 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="camhookMenu">Cam - Player Cam hook menu</div>
+<div id="camhookMenu">Cam - Player Cam hook (FOV) menu</div>
 <div id="menuHelp">Uses IHHook to adjust the player camera focal length.<br/> Same method as the FOV mod d3d11.dll</div>
 </div>
 <div id="menuItem">
@@ -473,7 +477,7 @@
 </div>
 <div id="menuItem">
 <div>6:Apply FOV &lt&gt 1-179 [Requires IHHook]</div>
-<div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal lengths.</div>
+<div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal length options.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -490,19 +494,19 @@
 <div>1:<a href="#chimeraMenu">Chimera menu</a></div>
 </div>
 <div id="menuItem">
-<div>2:Load emblem &gt! None found</div>
+<div>2:Load emblem &gt! &ltlist of \mod\emblems&gt</div>
 <div id="itemHelp">Load emblem from MGS_TPP\mod\emblems . After loading emblem you must go to the normal Customize emblem system and OK it for it to reapply it. It will also regenerate it next time game is started.</div>
 </div>
 <div id="menuItem">
-<div>3:Save emblem &gt! New</div>
+<div>3:Save emblem &gt! New,&ltlist of \mod\bionicHand&gt</div>
 <div id="itemHelp">Save emblem to MGS_TPP\mod\emblems</div>
 </div>
 <div id="menuItem">
-<div>4:Load avatar &gt! None Found</div>
+<div>4:Load avatar &gt! &ltlist of \mod\avatars&gt</div>
 <div id="itemHelp">Load avatar from MGS_TPP\mod\avatars</div>
 </div>
 <div id="menuItem">
-<div>5:Save avatar &gt! New</div>
+<div>5:Save avatar &gt! New,&ltlist of \mod\avatars&gt</div>
 <div id="itemHelp">Save avatar to MGS_TPP\mod\avatars</div>
 </div>
 <div id="menuItem">
@@ -519,24 +523,24 @@
 <div id="itemHelp">Changes which weapon category the slots refer to.</div>
 </div>
 <div id="menuItem">
-<div>2:Load to slot 1 &gt! None found</div>
+<div>2:Load to slot 1 &gt! &ltlist of \mod\chimeras&gt</div>
 <div id="itemHelp">Load chimera from MGS_TPP\mod\chimeras to specified slot</div>
 </div>
 <div id="menuItem">
-<div>3:Load to slot 2 &gt! None found</div>
+<div>3:Load to slot 2 &gt! &ltlist of \mod\chimeras&gt</div>
 </div>
 <div id="menuItem">
-<div>4:Load to slot 3 &gt! None found</div>
+<div>4:Load to slot 3 &gt! &ltlist of \mod\chimeras&gt</div>
 </div>
 <div id="menuItem">
-<div>5:Save from slot 1 &gt! New</div>
+<div>5:Save from slot 1 &gt! New,&ltlist of \mod\bionicHand&gt</div>
 <div id="itemHelp">Save chimera of specified slot for to MGS_TPP\mod\chimeras </div>
 </div>
 <div id="menuItem">
-<div>6:Save from slot 2 &gt! New</div>
+<div>6:Save from slot 2 &gt! New,&ltlist of \mod\bionicHand&gt</div>
 </div>
 <div id="menuItem">
-<div>7:Save from slot 3 &gt! New</div>
+<div>7:Save from slot 3 &gt! New,&ltlist of \mod\bionicHand&gt</div>
 </div>
 <div id="menuItem">
 <div>8:Clear slot &gt! SLOT1, SLOT2, SLOT3</div>
@@ -788,11 +792,11 @@
 <div>6:<a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>7:Custom soldier type in Free roam = OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
+<div>7:Custom soldier type in Free roam = NONE</div>
 <div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam.<br/>New soldier types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
-<div>8:Custom soldier type in Missions = OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
+<div>8:Custom soldier type in Missions = NONE</div>
 <div id="itemHelp">WARNING: Unique soldiers in the mission are likely to either be the default body from the selected custom soldier, or have visual issues if there isn't one.</div>
 </div>
 <div id="menuItem">
@@ -1653,11 +1657,11 @@
 <div>3:MB Equip Range Type (MB Prep mode FOB only) = Short-range, Medium-range, Long-range, Random range</div>
 </div>
 <div id="menuItem">
-<div>4:DD Suit = OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER</div>
+<div>4:Custom DD type in MB = NONE</div>
 <div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
-<div>5:DD Suit female = OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE</div>
+<div>5:Custom DD female type in MB = OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE</div>
 <div id="itemHelp">New body types can be added via the bodyInfo addon system.</div>
 </div>
 <div id="menuItem">
@@ -1890,6 +1894,8 @@
 <div id="menuItem">
 <div>13:Force BattleGear built level = 0-5</div>
 <div id="itemHelp">Changes the build state of BattleGear in it's hangar, 0 is use the regular story progression.</div>
+</div>
+<div id="menuItem">
 </div>
 <div id="menuItem">
 </div>
@@ -2462,15 +2468,15 @@
 <div>10:Sort Open = None, Top, Bottom</div>
 </div>
 <div id="menuItem">
-<div>11:Sort by Category = None, Ascending, Descending</div>
-<div id="itemHelp">The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.</div>
+<div>11:Sort by Location = None, Ascending, Descending</div>
 </div>
 <div id="menuItem">
-<div>12:Sort by Location = None, Ascending, Descending</div>
-</div>
-<div id="menuItem">
-<div>13:Sort by sideop area = None, Ascending, Descending</div>
+<div>12:Sort by sideop area = None, Ascending, Descending</div>
 <div id="itemHelp">Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.</div>
+</div>
+<div id="menuItem">
+<div>13:Sort by Category = None, Ascending, Descending</div>
+<div id="itemHelp">The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2702,13 +2708,13 @@
 <div>9:<a href="#buddyMenu">Buddy menu</a></div>
 </div>
 <div id="menuItem">
-<div>10:<a href="#cam_aroundcamMenu">Cam - AroundCam menu</a></div>
+<div>10:<a href="#cam_aroundcamMenu">Cam - AroundCam (FreeCam) menu</a></div>
 </div>
 <div id="menuItem">
 <div>11:<a href="#playCamMenu">Cam - PlayCam menu</a></div>
 </div>
 <div id="menuItem">
-<div>12:<a href="#camhookMenu">Cam - Player Cam hook menu</a></div>
+<div>12:<a href="#camhookMenu">Cam - Player Cam hook (FOV) menu</a></div>
 </div>
 <div id="menuItem">
 <div>13:<a href="#debugInMissionMenu">Debug stuff menu</a></div>
@@ -2817,7 +2823,7 @@
 <div>4:Headgear &lt&gt 0-100</div>
 </div>
 <div id="menuItem">
-<div>5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova mods</div>
+<div>5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova addons</div>
 </div>
 <div id="menuItem">
 <div>6:Face &lt&gt 0-0</div>
@@ -2827,11 +2833,11 @@
 <div id="itemHelp">Allows items that haven't been developed to be selected.</div>
 </div>
 <div id="menuItem">
-<div>8:Load avatar &gt! None Found</div>
+<div>8:Load avatar &gt! &ltlist of \mod\avatars&gt</div>
 <div id="itemHelp">Load avatar from MGS_TPP\mod\avatars</div>
 </div>
 <div id="menuItem">
-<div>9:Save avatar &gt! New</div>
+<div>9:Save avatar &gt! New,&ltlist of \mod\avatars&gt</div>
 <div id="itemHelp">Save avatar to MGS_TPP\mod\avatars</div>
 </div>
 <div id="menuItem">
@@ -2874,7 +2880,7 @@
 <div id="buddyMenu">Buddy menu</div>
 </div>
 <div id="menuItem">
-<div>1:Buddy Equipment &gt! 0-0</div>
+<div>1:Buddy Equipment &gt! &ltEquipment for current buddy&gt</div>
 <div id="itemHelp">Buddy equiment is changed to selected setting when &ltAction&gt is pressed.</div>
 </div>
 <div id="menuItem">
@@ -2893,14 +2899,15 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="cam_aroundcamMenu">Cam - AroundCam menu</div>
+<div id="cam_aroundcamMenu">Cam - AroundCam (FreeCam) menu</div>
 </div>
 <div id="menuItem">
 <div>1:Adjust-cam [Mode] &lt&gt Off, On</div>
-<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+<div id="itemHelp">Turning this on sets AroundCam mode to Free cam, and lets you use keys/buttons to adjust the options.<br/>  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
 </div>
 <div id="menuItem">
-<div>2:Camera mode &lt&gt Default, Free cam</div>
+<div>2:AroundCam mode &lt&gt Off, Free cam</div>
+<div id="itemHelp">Lets you turn on freecam, if Adjust-cam mode is off </div>
 </div>
 <div id="menuItem">
 <div>3:Reset camera position to player &gt&gt </div>
@@ -2910,45 +2917,48 @@
 </div>
 <div id="menuItem">
 <div>5:Update stage position with camera &lt&gt Off, On</div>
+<div id="itemHelp">Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.</div>
 </div>
 <div id="menuItem">
-<div>6:positionXFreeCam = -100000-100000</div>
+<div>6:positionXFreeCam &lt&gt -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>7:positionYFreeCam = -100000-100000</div>
+<div>7:positionYFreeCam &lt&gt -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>8:positionZFreeCam = -100000-100000</div>
+<div>8:positionZFreeCam &lt&gt -100000-100000</div>
 </div>
 <div id="menuItem">
-<div>9:Cam speed scale = 0.01-10</div>
+<div>9:Cam move speed scale = 0.01-10</div>
+<div id="itemHelp">Movement speed scale when in Adjust-cam mode</div>
 </div>
 <div id="menuItem">
-<div>10:focalLengthFreeCam = 0.1-10000</div>
+<div>10:focalLengthFreeCam &lt&gt 0.1-10000</div>
 </div>
 <div id="menuItem">
-<div>11:focusDistanceFreeCam = 0.01-1000</div>
+<div>11:focusDistanceFreeCam &lt&gt 0.01-1000</div>
 </div>
 <div id="menuItem">
-<div>12:apertureFreeCam = 0.001-100</div>
+<div>12:apertureFreeCam &lt&gt 0.001-100</div>
 </div>
 <div id="menuItem">
-<div>13:distanceFreeCam = 0-100</div>
+<div>13:distanceFreeCam &lt&gt 0-100</div>
 </div>
 <div id="menuItem">
-<div>14:targetInterpTimeFreeCam = 0-100</div>
+<div>14:targetInterpTimeFreeCam &lt&gt 0-100</div>
 </div>
 <div id="menuItem">
-<div>15:rotationLimitMinXFreeCam = -90-0</div>
+<div>15:rotationLimitMinXFreeCam &lt&gt -90-0</div>
 </div>
 <div id="menuItem">
-<div>16:rotationLimitMaxXFreeCam = 0-90</div>
+<div>16:rotationLimitMaxXFreeCam &lt&gt 0-90</div>
 </div>
 <div id="menuItem">
-<div>17:alphaDistanceFreeCam = 0-10</div>
+<div>17:alphaDistanceFreeCam &lt&gt 0-10</div>
 </div>
 <div id="menuItem">
-<div>18:Disable mode text feedback = Off, On</div>
+<div>18:Disable Adjust-cam text = Off, On</div>
+<div id="itemHelp">Disables Adjust-cams repeating announce log of the current 'hold button to adjust' settings.</div>
 </div>
 <div id="menuItem">
 <div>19:Show freecam position &gt&gt </div>
@@ -3067,7 +3077,7 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="camhookMenu">Cam - Player Cam hook menu</div>
+<div id="camhookMenu">Cam - Player Cam hook (FOV) menu</div>
 <div id="menuHelp">Uses IHHook to adjust the player camera focal length.<br/> Same method as the FOV mod d3d11.dll</div>
 </div>
 <div id="menuItem">
@@ -3091,7 +3101,7 @@
 </div>
 <div id="menuItem">
 <div>6:Apply FOV &lt&gt 1-179 [Requires IHHook]</div>
-<div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal lengths.</div>
+<div id="itemHelp">Applies FOV(degrees) proportionally to the different cam mode focal length options.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -3174,6 +3184,7 @@
 </div>
 <div id="menuItem">
 <div>23:Set stage position to camera &gt&gt </div>
+<div id="itemHelp">Sets the map loading position to the free cam position.</div>
 </div>
 <div id="menuItem">
 <div>24:Show freecam position &gt&gt </div>
@@ -3588,7 +3599,7 @@
 <div id="itemHelp">Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.</div>
 </div>
 <div id="menuItem">
-<div>2:Add lookup list &gt! </div>
+<div>2:Add lookup list &gt! &ltlookup list names&gt</div>
 <div id="itemHelp">Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.</div>
 </div>
 <div id="menuItem">
