@@ -82,9 +82,9 @@ Some settings apply when selected or just set the value when the a feature is tr
 See ReadMe or Features and Options for more info.
 
 3:Appearance menu
-4:Cam - AroundCam menu
+4:Cam - AroundCam (FreeCam) menu
 5:Cam - PlayCam menu
-6:Cam - Player Cam hook menu
+6:Cam - Player Cam hook (FOV) menu
 7:Customize menu
 8:Cutscenes menu
 9:Debug menu
@@ -144,13 +144,13 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 2:Suit type <> NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, SWIMWEAR_G, SWIMWEAR_H, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN, OCELOT, QUIET
 3:Camo type <> 
 4:Headgear <> 0-100
-5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova mods
+5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova addons
 6:Face <> 0-0
 7:Skip developed checks = Off, On
 Allows items that haven't been developed to be selected.
-8:Load avatar >! None Found
+8:Load avatar >! <list of \mod\avatars>
 Load avatar from MGS_TPP\mod\avatars
-9:Save avatar >! New
+9:Save avatar >! New,<list of \mod\avatars>
 Save avatar to MGS_TPP\mod\avatars
 10:Print face info >> 
 11:Print appearance info >> 
@@ -163,9 +163,10 @@ Form Variation menu
 2:fovaSelection <> 0-255
 3:Print current body info >> 
 
-Cam - AroundCam menu
---------------------
+Cam - AroundCam (FreeCam) menu
+------------------------------
 1:Adjust-cam [Mode] <> Off, On
+Turning this on sets AroundCam mode to Free cam, and lets you use keys/buttons to adjust the options.
   Move cam with normal move keys 
 
   &ltDash&gt(Shift or Left stick click) to move up
@@ -187,23 +188,27 @@ Cam - AroundCam menu
   Or hold &ltBinocular&gt and press the above to reset that setting.
 
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
-2:Camera mode <> Default, Free cam
+2:AroundCam mode <> Off, Free cam
+Lets you turn on freecam, if Adjust-cam mode is off 
 3:Reset camera position to player >> 
 4:Warp body to FreeCam position >> 
 5:Update stage position with camera <> Off, On
-6:positionXFreeCam = -100000-100000
-7:positionYFreeCam = -100000-100000
-8:positionZFreeCam = -100000-100000
-9:Cam speed scale = 0.01-10
-10:focalLengthFreeCam = 0.1-10000
-11:focusDistanceFreeCam = 0.01-1000
-12:apertureFreeCam = 0.001-100
-13:distanceFreeCam = 0-100
-14:targetInterpTimeFreeCam = 0-100
-15:rotationLimitMinXFreeCam = -90-0
-16:rotationLimitMaxXFreeCam = 0-90
-17:alphaDistanceFreeCam = 0-10
-18:Disable mode text feedback = Off, On
+Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.
+6:positionXFreeCam <> -100000-100000
+7:positionYFreeCam <> -100000-100000
+8:positionZFreeCam <> -100000-100000
+9:Cam move speed scale = 0.01-10
+Movement speed scale when in Adjust-cam mode
+10:focalLengthFreeCam <> 0.1-10000
+11:focusDistanceFreeCam <> 0.01-1000
+12:apertureFreeCam <> 0.001-100
+13:distanceFreeCam <> 0-100
+14:targetInterpTimeFreeCam <> 0-100
+15:rotationLimitMinXFreeCam <> -90-0
+16:rotationLimitMaxXFreeCam <> 0-90
+17:alphaDistanceFreeCam <> 0-10
+18:Disable Adjust-cam text = Off, On
+Disables Adjust-cams repeating announce log of the current 'hold button to adjust' settings.
 19:Show freecam position >> 
 
 Cam - PlayCam menu
@@ -257,10 +262,10 @@ Unknown
 24:Collision check <> Off, On
 Checks between camera and target and moves camera in if there is something in the way.
 
-Cam - Player Cam hook menu
+Cam - Player Cam hook (FOV) menu
 - Uses IHHook to adjust the player camera focal length.
  Same method as the FOV mod d3d11.dll
---------------------------
+--------------------------------
 1:Enable Player Cam hook <> Off, On [Requires IHHook]
 2:FocalLength Normal <> 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
@@ -283,19 +288,19 @@ Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
 6:Apply FOV <> 1-179 [Requires IHHook]
-Applies FOV(degrees) proportionally to the different cam mode focal lengths.
+Applies FOV(degrees) proportionally to the different cam mode focal length options.
 
 Customize menu
 - Options for saving/loading to items in the idroid Customize menu
 --------------
 1:Chimera menu
-2:Load emblem >! None found
+2:Load emblem >! <list of \mod\emblems>
 Load emblem from MGS_TPP\mod\emblems . After loading emblem you must go to the normal Customize emblem system and OK it for it to reapply it. It will also regenerate it next time game is started.
-3:Save emblem >! New
+3:Save emblem >! New,<list of \mod\bionicHand>
 Save emblem to MGS_TPP\mod\emblems
-4:Load avatar >! None Found
+4:Load avatar >! <list of \mod\avatars>
 Load avatar from MGS_TPP\mod\avatars
-5:Save avatar >! New
+5:Save avatar >! New,<list of \mod\avatars>
 Save avatar to MGS_TPP\mod\avatars
 
 Chimera menu
@@ -303,14 +308,14 @@ Chimera menu
 ------------
 1:Weapon category = HANDGGUN, SMG, ASSAULT, SHOTGUN, GRENADELAUNCHER, SNIPER, MG, MISSILE
 Changes which weapon category the slots refer to.
-2:Load to slot 1 >! None found
+2:Load to slot 1 >! <list of \mod\chimeras>
 Load chimera from MGS_TPP\mod\chimeras to specified slot
-3:Load to slot 2 >! None found
-4:Load to slot 3 >! None found
-5:Save from slot 1 >! New
+3:Load to slot 2 >! <list of \mod\chimeras>
+4:Load to slot 3 >! <list of \mod\chimeras>
+5:Save from slot 1 >! New,<list of \mod\bionicHand>
 Save chimera of specified slot for to MGS_TPP\mod\chimeras 
-6:Save from slot 2 >! New
-7:Save from slot 3 >! New
+6:Save from slot 2 >! New,<list of \mod\bionicHand>
+7:Save from slot 3 >! New,<list of \mod\bionicHand>
 8:Clear slot >! SLOT1, SLOT2, SLOT3
 
 Cutscenes menu
@@ -399,10 +404,10 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4:Custom prep menu
 5:Prep system menu
 6:Custom soldier equip menu
-7:Custom soldier type in Free roam = OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
+7:Custom soldier type in Free roam = NONE
 Override the soldier type of enemy soldiers in Free Roam.
 New soldier types can be added via the bodyInfo addon system.
-8:Custom soldier type in Missions = OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
+8:Custom soldier type in Missions = NONE
 WARNING: Unique soldiers in the mission are likely to either be the default body from the selected custom soldier, or have visual issues if there isn't one.
 9:Reset enemy preparedness levels >> 
 Resets enemy prep levels to 0
@@ -745,9 +750,9 @@ Mother Base menu
 1:Mother base prep mode <> Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2:Custom soldier equip menu
 3:MB Equip Range Type (MB Prep mode FOB only) = Short-range, Medium-range, Long-range, Random range
-4:DD Suit = OFF, RANDOM, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER
+4:Custom DD type in MB = NONE
 New body types can be added via the bodyInfo addon system.
-5:DD Suit female = OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE
+5:Custom DD female type in MB = OFF, RANDOM, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE
 New body types can be added via the bodyInfo addon system.
 6:DD Head gear = Off, Current prep
 7:NPC support heli patrols in MB = 0-3
@@ -1080,11 +1085,11 @@ Will try and show all Open sideops, which is usually every sideop as soon as the
 8:Sort Uncleared = None, Top, Bottom
 9:Sort Cleared = None, Top, Bottom
 10:Sort Open = None, Top, Bottom
-11:Sort by Category = None, Ascending, Descending
-The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.
-12:Sort by Location = None, Ascending, Descending
-13:Sort by sideop area = None, Ascending, Descending
+11:Sort by Location = None, Ascending, Descending
+12:Sort by sideop area = None, Ascending, Descending
 Each main location of the game (Afgh, Africa) is sectioned into about 8 sideops areas to stop overlap and manage loading. You can look at the sideop index to clarify where the list goes from one area to the next (the numbers within an area will be increasing, then be lower for the first sideop in another area). You may want to use in combination with Sort by Location.
+13:Sort by Category = None, Ascending, Descending
+The base game sideops are more or less ordered by category already, however addon sideops are added to the end, this sorts by a similar order but puts Story sideops first.
 
 Side ops in missions menu
 - Change settings related to side ops in story missions.
@@ -1194,9 +1199,9 @@ See ReadMe or Features and Options for more info.
 7:IH system menu
 8:Appearance menu
 9:Buddy menu
-10:Cam - AroundCam menu
+10:Cam - AroundCam (FreeCam) menu
 11:Cam - PlayCam menu
-12:Cam - Player Cam hook menu
+12:Cam - Player Cam hook (FOV) menu
 13:Debug stuff menu
 14:Enemy phases menu
 15:Fulton success menu
@@ -1237,13 +1242,13 @@ Change main player type. WARNING: Ocelot and Quiet player types have side effect
 2:Suit type <> NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, SWIMWEAR_G, SWIMWEAR_H, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN, OCELOT, QUIET
 3:Camo type <> 
 4:Headgear <> 0-100
-5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova mods
+5:Filter faces = Show all, Headgear (cosmetic), Unique, Head fova addons
 6:Face <> 0-0
 7:Skip developed checks = Off, On
 Allows items that haven't been developed to be selected.
-8:Load avatar >! None Found
+8:Load avatar >! <list of \mod\avatars>
 Load avatar from MGS_TPP\mod\avatars
-9:Save avatar >! New
+9:Save avatar >! New,<list of \mod\avatars>
 Save avatar to MGS_TPP\mod\avatars
 10:Print face info >> 
 11:Print appearance info >> 
@@ -1258,16 +1263,17 @@ Form Variation menu
 
 Buddy menu
 ----------
-1:Buddy Equipment >! 0-0
+1:Buddy Equipment >! <Equipment for current buddy>
 Buddy equiment is changed to selected setting when &ltAction&gt is pressed.
 2:Quiet move to last marker >] 
 Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
 3:Quiets MB radio track <> [Autoplay], Heavens Divide, Koi no Yokushiryoku, Gloria, Kids In America, Rebel Yell, The Final Countdown, Nitrogen, Take On Me, Ride A White Horse, Maneater, A Phantom Pain, Only Time Will Tell, Behind the Drapery, Love Will Tear Us Apart, All the Sun Touches, TRUE, Take The DW, Friday Im In Love, Midnight Mirage, Dancing With Tears In My Eyes, The Tangerine, Planet Scape, How 'bout them zombies ey, Snake Eater, 204863, You Spin Me Round, Quiet Life, She Blinded Me With Science, Dormant Stream, Too Shy, Peace Walker
 Changes the music track of the radio played in Quiets cell on the medical platform in mother base.
 
-Cam - AroundCam menu
---------------------
+Cam - AroundCam (FreeCam) menu
+------------------------------
 1:Adjust-cam [Mode] <> Off, On
+Turning this on sets AroundCam mode to Free cam, and lets you use keys/buttons to adjust the options.
   Move cam with normal move keys 
 
   &ltDash&gt(Shift or Left stick click) to move up
@@ -1289,23 +1295,27 @@ Cam - AroundCam menu
   Or hold &ltBinocular&gt and press the above to reset that setting.
 
   Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position
-2:Camera mode <> Default, Free cam
+2:AroundCam mode <> Off, Free cam
+Lets you turn on freecam, if Adjust-cam mode is off 
 3:Reset camera position to player >> 
 4:Warp body to FreeCam position >> 
 5:Update stage position with camera <> Off, On
-6:positionXFreeCam = -100000-100000
-7:positionYFreeCam = -100000-100000
-8:positionZFreeCam = -100000-100000
-9:Cam speed scale = 0.01-10
-10:focalLengthFreeCam = 0.1-10000
-11:focusDistanceFreeCam = 0.01-1000
-12:apertureFreeCam = 0.001-100
-13:distanceFreeCam = 0-100
-14:targetInterpTimeFreeCam = 0-100
-15:rotationLimitMinXFreeCam = -90-0
-16:rotationLimitMaxXFreeCam = 0-90
-17:alphaDistanceFreeCam = 0-10
-18:Disable mode text feedback = Off, On
+Sets the map loading position to the free cam position as it moves. Warning: As the LOD changes away from player position your player may fall through the terrain.
+6:positionXFreeCam <> -100000-100000
+7:positionYFreeCam <> -100000-100000
+8:positionZFreeCam <> -100000-100000
+9:Cam move speed scale = 0.01-10
+Movement speed scale when in Adjust-cam mode
+10:focalLengthFreeCam <> 0.1-10000
+11:focusDistanceFreeCam <> 0.01-1000
+12:apertureFreeCam <> 0.001-100
+13:distanceFreeCam <> 0-100
+14:targetInterpTimeFreeCam <> 0-100
+15:rotationLimitMinXFreeCam <> -90-0
+16:rotationLimitMaxXFreeCam <> 0-90
+17:alphaDistanceFreeCam <> 0-10
+18:Disable Adjust-cam text = Off, On
+Disables Adjust-cams repeating announce log of the current 'hold button to adjust' settings.
 19:Show freecam position >> 
 
 Cam - PlayCam menu
@@ -1359,10 +1369,10 @@ Unknown
 24:Collision check <> Off, On
 Checks between camera and target and moves camera in if there is something in the way.
 
-Cam - Player Cam hook menu
+Cam - Player Cam hook (FOV) menu
 - Uses IHHook to adjust the player camera focal length.
  Same method as the FOV mod d3d11.dll
---------------------------
+--------------------------------
 1:Enable Player Cam hook <> Off, On [Requires IHHook]
 2:FocalLength Normal <> 0.01-3500 [Requires IHHook]
 Only updates after changing cam mode.
@@ -1385,7 +1395,7 @@ Focal lengths between modes not equivalent (some other factor being applied)
 Lower focal length = wider FOV,
 Higher focal length = lower FOV
 6:Apply FOV <> 1-179 [Requires IHHook]
-Applies FOV(degrees) proportionally to the different cam mode focal lengths.
+Applies FOV(degrees) proportionally to the different cam mode focal length options.
 
 Debug stuff menu
 ----------------
@@ -1415,6 +1425,7 @@ Logs some script execution flow, requires Debug IH mode to be on.
 21:resetStageBlockPosition >> 
 22:setStageBlockPositionToMarkerClosest >> 
 23:Set stage position to camera >> 
+Sets the map loading position to the free cam position.
 24:Show freecam position >> 
 25:Show position >> 
 26:checkPointSave >> 
@@ -1568,7 +1579,7 @@ Objects menu
 ------------
 1:Add marked objects to list >> 
 Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.
-2:Add lookup list >! 
+2:Add lookup list >! <lookup list names>
 Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.
 3:Clear Objects List >> 
 Clears Objects List

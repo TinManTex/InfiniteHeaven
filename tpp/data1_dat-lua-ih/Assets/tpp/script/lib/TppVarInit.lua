@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- TppVarInit.lua
 -- tex TODO: apart from flow logging (which could be handled by hooking), only really doing a manual StartTitle hook, which could also be done via InfHooks
+InfCore.LogFlow"Load TppVarInit.lua"--tex DEBUG
 local this={}
 --ORPHAN local IsTypeFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable

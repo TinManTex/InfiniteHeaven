@@ -1,6 +1,7 @@
 -- DOBUILD: 1
 -- TppDefine.lua
 -- tex modfying some values via other modules
+-- most of the location and mission data added to via InfMission with addons.
 InfCore.Log"Load TppDefine.lua"--tex --DEBUG
 local this={}
 
@@ -268,6 +269,7 @@ this.MISSION_LIST={
   "11151",--62
   nil
 }
+--tex ADDON all this mission stuff -^--v- managed by InfMission for addon locations and missions, see the addon locationInfo, missionInfo examples commented in the header of InfMission
 this.MISSION_ENUM=this.Enum(this.MISSION_LIST)
 if Mission.RegisterMissionCodeList then
   Mission.RegisterMissionCodeList{codeList=this.MISSION_LIST}
@@ -282,7 +284,7 @@ this.NO_ORDER_BOX_MISSION_ENUM=this.Enum(this.NO_ORDER_BOX_MISSION_LIST)
 this.NO_ORDER_FIX_HELICOPTER_ROUTE={[10240]="rt_drp_mbqf_N",[10260]="drp_s10260"}
 this.NO_HELICOPTER_ROUTE_MISSION_LIST={"10010","10020","10030","10050","11050","10070","10080","11080","10140","11140","10150","10151","11151","10240","10280"}
 this.NO_HELICOPTER_ROUTE_ENUM=this.Enum(this.NO_HELICOPTER_ROUTE_MISSION_LIST)
---tex NMC used in LoadingPositionFromHeliSpace,LoadingPositionToFree if no heli_missionStartRoute. ADDON added to via InfMission
+--tex NMC used in LoadingPositionFromHeliSpace,LoadingPositionToFree if no heli_missionStartRoute.
 this.NO_HELICOPTER_MISSION_START_POSITION={
   [10010]={-39.127,106.175,-1719.5},
   [10050]={-1820.706,348.982,-146.444},
@@ -317,7 +319,7 @@ this.NO_BOX_MISSION_START_POSITION[11151]=this.NO_BOX_MISSION_START_POSITION[101
 this.EMERGENCY_MISSION_LIST={10115,50050}
 this.EMERGENCY_MISSION_ENUM=this.Enum(this.EMERGENCY_MISSION_LIST)
 --NMC probably would have been better to have it as [missioncode]=location
---It also lumps in mbqf (locationCode 55) mission into MTBS
+--NOTE: mbqf missions are actually mtbs (locationCode 50), it's only the interior of 10240 shining in lights thats 55 mbqf.
 --Used in TppPackList.GetLocationNameFormMissionCode
 --and added to by IH in InfMission.AddInMissions
 --Also see and TppLocation.GetLocationName
@@ -922,8 +924,8 @@ this.QUEST_RANK_TABLE={
   [this.QUEST_INDEX.mtbs_q42070]=this.QUEST_RANK.I
 }
 this.QUEST_BODY_ID_LIST={
-  AFGH_ARMOR=49,
-  MAFR_ARMOR=109,
+  AFGH_ARMOR=49,--sva0_v00_a
+  MAFR_ARMOR=109,--pfa0_v00_a
   Q20910=207,--chd2_v02
   Q20911=208,--chd2_v03
   Q20912=209,--chd2_v04
@@ -936,16 +938,16 @@ this.QUEST_BODY_ID_LIST={
   Q99070=110,--prs2_main0_v00
   Q99071=264,--pfs0_unq_v140
   Q99072=110,--prs2_main0_v00
-  MSF_01=280,--
-  MSF_02=281,--
-  MSF_03=292,--
-  MSF_04=293,--
-  MSF_05=294,--
-  MSF_06=295,--
-  MSF_07=286,--
-  MSF_08=297,--
-  MSF_09=288,--
-  MSF_10=289,--
+  MSF_01=280,--pfs0_dds0_v00--tex NMC I've listed these as the bugged TppEnemyBodyId bodyIdName (see the RETAILBUG in there), until I can lookup the correct via bodydef > fovaindex, could just assume pfs svs are swapped, theres other issues with their fovainfo anyway
+  MSF_02=281,--pfs0_dds0_v01
+  MSF_03=292,--svs0_dds0_v02
+  MSF_04=293,--svs0_dds0_v03
+  MSF_05=294,--svs0_dds0_v04
+  MSF_06=295,--svs0_dds0_v05
+  MSF_07=286,--pfs0_dds0_v06
+  MSF_08=297,--svs0_dds0_v07
+  MSF_09=288,--pfs0_dds0_v08
+  MSF_10=289,--pfs0_dds0_v09
   Q99080_01=373,--prs7_main0_v00
   Q99080_02=374,--prs7_main0_v01
   MAFR_ARMOR_ZRS=TppEnemyBodyId.pfa0_v00_a,

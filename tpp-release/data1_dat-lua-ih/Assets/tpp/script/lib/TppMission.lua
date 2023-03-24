@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppMission.lua
+InfCore.LogFlow"Load TppMission.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc
@@ -2161,7 +2162,7 @@ local skipLogCallBack={
 --<
 function this.ExecuteSystemCallback(callbackName,arg1)
   --tex> DEBUG
-  if ivars.debugFlow then
+  if ivars.debugFlow>0 then
     if not skipLogCallBack[callbackName] then
       InfCore.LogFlow("TppMission.ExecuteSystemCallback:"..callbackName.."("..tostring(arg1)..")")
     end

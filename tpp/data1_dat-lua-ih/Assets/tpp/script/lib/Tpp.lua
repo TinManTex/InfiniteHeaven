@@ -32,8 +32,11 @@ local NULL_ID=GameObject.NULL_ID
 local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local InfCore=InfCore--tex
+--tex NMC not sure how the script .requires entry works (beyond the hint towards the usual concept and lua require function)
+--it's listed (though usually empty) in mission _enemy scripts, and actually used in main location scripts
+--see also _requireList at bottom of this file
 this.requires={
-  "/Assets/tpp/script/ih/InfRequiresStart.lua",--tex
+  "/Assets/tpp/script/ih/InfRequiresStart.lua",--tex really only just to log when .requires is actually doing stuff
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
   "/Assets/tpp/script/lib/TppSave.lua",
@@ -895,11 +898,12 @@ function this.DEBUG_SetPreference(entityName,property,value)
 end
 --NMC _requirelist adds a number of calls from TppMain on the libs
 --DeclareSVars, Init, OnReload, OnChangeSVars, OnMessage
+--tex InfInitMain inserts InfMain to end
 this._requireList={}
 do
   for t,libPath in ipairs(this.requires)do
     local split=this.SplitString(libPath,"/")
-    local libName=string.sub(split[#split],1,#split[#split]-4)
+    local libName=string.sub(split[#split],1,#split[#split]-4)--tex NMC libName is filename, then strip '.lua'
     local disallow={TppMain=true,TppDemoBlock=true,mafr_luxury_block_list=true}
     if not disallow[libName]then
       this._requireList[#this._requireList+1]=libName

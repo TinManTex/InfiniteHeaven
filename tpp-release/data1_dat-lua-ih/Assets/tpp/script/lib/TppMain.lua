@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppMain.lua
+InfCore.LogFlow"Load TppMain.lua"--tex DEBUG
 local this={}
 local ApendArray=Tpp.ApendArray
 --ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString

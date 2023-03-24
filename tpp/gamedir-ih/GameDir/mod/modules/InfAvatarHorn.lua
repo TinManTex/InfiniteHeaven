@@ -145,6 +145,7 @@ this.registerIvars={
 this.character_avatarHorn={
   save=IvarProc.CATEGORY_EXTERNAL,
   settings=this.names,
+  settingNamesDoc=[[<list of \mod\avatarHorns>]],
   OnSelect=function(self)
 
   end,

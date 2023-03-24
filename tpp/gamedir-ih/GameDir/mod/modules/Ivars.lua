@@ -20,6 +20,7 @@
 
 --REF TODO: ref of ivar with all vars and methods
 
+--load requires InfUtil
 
 local this={}
 
@@ -654,7 +655,7 @@ function this.BuildIvar(name,ivar)
       end
     else
       ivar.default=ivar.default or 0
-      ivar.enum=IvarProc.Enum(ivar.enum,ivar.settings)
+      ivar.enum=InfUtil.EnumFrom0(ivar.settings)
       --      for name,enum in ipairs(ivar.enum) do
       --        ivar[name]=false
       --        if enum==ivar.default then
@@ -667,7 +668,7 @@ function this.BuildIvar(name,ivar)
 
     ivar.IsDefault=IvarProc.OptionIsDefault
     ivar.Is=IvarProc.OptionIsSetting
-    ivar.Get=IvarProc.OptionIsSetting
+    ivar.Get=IvarProc.OptionIsSetting--GOTCHA: usage: 0 is true in lua, so use Is(0) or 1, or Get()==0 etc
     ivar.Set=IvarProc.SetSetting
     ivar.SetDirect=IvarProc.SetDirect
     ivar.Reset=IvarProc.ResetSetting
@@ -721,6 +722,7 @@ function this.RegisterIvars(ivarTable,ivarNames)
       this[name]=this.BuildIvar(name,ivarDef)
 
       if type(ivarDef.Init)=="function"then
+        --tex GOTCHA: since Ivars is early in modules list (RegisterIvars is initially called via PostAllModulesLoad) any modules that do set up in PostAllModulesLoad wont be done 
         ivarDef:Init()
       end
     end--if ivar

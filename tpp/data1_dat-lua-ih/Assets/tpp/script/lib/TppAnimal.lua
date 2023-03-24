@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppAnimal.lua
+InfCore.LogFlow"Load TppAnimal.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local IsFunc=Tpp.IsTypeFunc

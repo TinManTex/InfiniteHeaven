@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 --TppLocation.lua
-InfCore.LogFlow"TppLocation.lua"--tex DEBUG
+InfCore.LogFlow"Load TppLocation.lua"--tex DEBUG
 local this={}
 local StrCode32=Fox.StrCode32
 
@@ -13,7 +13,7 @@ this.locationIdForName={
   cypr=30,
   gntn=40,
   mtbs=50,
-  mbqf=55,
+  mbqf=55,--GOTCHA: only for 10240 shining in lights interior, exterior is always 50 mtbs
   ombs=45,
   hlsp=60,
   flyk=70,

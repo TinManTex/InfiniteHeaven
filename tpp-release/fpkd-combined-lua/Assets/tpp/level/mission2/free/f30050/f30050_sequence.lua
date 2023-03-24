@@ -2,11 +2,12 @@
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050.fpkd
 --f30050_sequence.lua
+InfCore.LogFlow"f30050_sequence Top"
 --DEBUGNOW
-if false then 
+if false then--tex>
   local fileName="f30050_sequence_dev.lua"
   return InfCore.PCall(function()return InfCore.LoadSimpleModule(InfCore.paths.dev,fileName)end)
-end
+end--<
 
 local this = {}
 local StrCode32 = Fox.StrCode32
@@ -768,7 +769,8 @@ function this.IsFemale( staffId )
   local faceTypeList = TppSoldierFace.CheckFemale{ face={faceId  } }
   return faceTypeList and faceTypeList[1] == 1
 end
-
+--tex NMC mostly to set up mvars.f30050_staffIdList which is used in RegisterFovaFpk
+--and do some other setup at the end of function.
 function this.SetupStaffList()
   InfCore.LogFlow("SetupStaffList")--tex DEBUG
   --tex made local to module --OFF local MAX_STAFF_NUM_ON_CLUSTER = 18
@@ -822,7 +824,7 @@ function this.SetupStaffList()
   local _SetupStaffIdOnCluster = function(staffListOnCluster, clusterIndex)
     mvars.f30050_staffIdList[clusterIndex+1] = {}
 
-    --tex priotiry staff>
+    --tex priority staff>
     local numFemales=0
     local priorityStaffForCluster={}
     for i=#staffListOnCluster,1,-1 do
@@ -1089,6 +1091,9 @@ end
 
 local MAX_STAFF_NUM_IN_CLUSTER = MAX_STAFF_NUM_ON_CLUSTER--tex was 18
 --tex OFF unused local MAX_FACE_NUM_IN_CLUSTER = 18
+--IN: mvars.f30050_soldierStaffIdList: SetupStaffList
+--IN: mvars.f30050_soldierListFovaApplyPriority: mtbs_enemy.SetupSoldierListFovaApplyPriority, SetSoldierForDemo
+--OUT: fovaPackList > mvars.f30050demo_fovaPackList (via f30050_demo.RegisterFovaPack)
 this.RegisterFovaFpk = function( clusterId )
   Fox.Log("RegisterFovaFpk! clusterId:" ..tostring(clusterId) )
   if clusterId >= 7 then
@@ -1148,7 +1153,7 @@ this.RegisterFovaFpk = function( clusterId )
     Tpp.ApendArray( fovaPackList, TppSoldierFace.GetFaceFpkFileCodeList{ face={TppEnemyFaceId.dds_balaclava5, TppEnemyFaceId.dds_balaclava2} } )
   end
 
-  if Ivars.mbNonStaff:Is(1) then--tex>
+  if Ivars.mbNonStaff:Is(1) then--tex> for wargames, set up list of non staff/enemy faces
     mvars.f30050_soldierStaffIdList={}
     local securityStaffFaceIds={}
     InfMain.RandomSetToLevelSeed()
@@ -1171,7 +1176,7 @@ this.RegisterFovaFpk = function( clusterId )
     mvars.f30050_soldierBalaclavaLocatorList={}
     mvars.f30050_soldierBalaclavaFaceIdList={}
   end--<
-
+  --tex NMC just some kjp debugging func
   if TppEnemy.MB_SET_FEMALE_ALL_STAFF or TppEnemy.MB_SET_MEMORY_DUMP then
     local securityStaffFaceIds = {}
     if TppEnemy.MB_SET_FEMALE_ALL_STAFF then
@@ -1184,12 +1189,13 @@ this.RegisterFovaFpk = function( clusterId )
     mvars.f30050_soldierBalaclavaLocatorList = {}
     mvars.f30050_soldierBalaclavaFaceIdList = {}--RETAILBUG even though is just used for debug, was f30050_soldierBalaclavaLocatorList which is already above
   end
+  --tex NMC GetFaceFpkFileCodeList is also how quests load their faces in RegisterQuestPackList
   local faceFovaFpk = TppSoldierFace.GetFaceFpkFileCodeList{ face=mvars.f30050_soldierFaceIdList, deco = mvars.f30050_soldierBalaclavaFaceIdList, useHair=true }
   if faceFovaFpk then
     Tpp.ApendArray( fovaPackList, faceFovaFpk )
   end
-  f30050_demo.RegisterFovaPack( fovaPackList )
-end
+  f30050_demo.RegisterFovaPack( fovaPackList )--tex NMC just sets mvars.f30050demo_fovaPackList
+end--RegisterFovaFpk
 
 --tex>
 local gameOverKillTypes={

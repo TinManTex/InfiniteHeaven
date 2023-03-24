@@ -21,7 +21,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if IHH then
   --tex always run if IHH DEBUGNOW
   else
-    if not ivars.enableIHExt then
+    if ivars.enableIHExt==0 then
       return
     end
 
@@ -427,7 +427,7 @@ function this.GetUserMarkerPos(args)
   local markerIndex=tonumber(args[3])
   local markerPos=InfUserMarker.GetMarkerPosition(markerIndex)
   if markerPos then
-    InfCore.ExtCmd('UserMarkerPos',markerIndex,markerPos:GetX(),markerPos:GetY(),markerPos:GetZ())
+    InfCore.ExtCmd('UserMarkerPos',markerIndex,markerPos[1],markerPos[2],markerPos[3])
   end
 end
 

@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppHero.lua
+InfCore.LogFlow"Load TppHero.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local Code32Table=Tpp.Code32Table

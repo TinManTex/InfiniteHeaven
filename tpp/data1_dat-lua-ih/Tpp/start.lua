@@ -678,11 +678,12 @@ if Script.LoadLibrary then
     LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"
   end
   Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
+  --tex NMC Tpp.lua is loading its .requires list of most of the other tpp /lib/ scripts here (well really above, but it's after Tpp.lua script itself has loaded)
   while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
     yield()
   end
   Script.LoadLibrary"/Assets/tpp/script/ih/InfInitMain.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
+  Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"--tex NMC this is part of Tpp.requires, so not sure why its rolling again. maybe it doesnt seem to reference other Tpplibs VERIFY?
   Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
   Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then

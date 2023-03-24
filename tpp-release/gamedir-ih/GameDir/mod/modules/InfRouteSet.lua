@@ -1,7 +1,13 @@
 --InfRouteSet.lua
 --Implements routeSet randomization
---see afgh_routeSets, TppEnemy.RouteSelector for info on routesets
---and ene_shiftChangeTable, TppEnemy.MakeShiftChangeTable
+
+--see afgh_routeSets for a commented routeset
+--afgh_routesets (and mafr equivalent) is the base generic routeset that is merged with the mission routeset (if the cp has USE_COMMON_ROUTE_SETS = true)
+--via TppEnemy.RegisterRouteSet, UpdateRouteSet which transforms it into the runtime data version mvars.ene_routeSets a bunch of other mvars 
+--(mostly for optimization using cpIds str32ing stuff and building up enum/index lookups)
+
+--See TppEnemy.RouteSelector, GetPrioritizedRouteTable for the function that ultimately chooses a routeset
+--See ene_shiftChangeTable, TppEnemy.MakeShiftChangeTable
 
 --The basic gist is that a routeset for a CP is number of groups of routes (for a given route type, sneak_day/night, caution etc).
 --The actual list for the route type is created by working through the groups in a group priority order untill all routes are listed.
@@ -434,12 +440,14 @@ function this.Messages()
 end--Messages
 
 function this.OnPhaseChange(cpGameObjectId,phase,oldPhase)
+  if ivars.routeset_randomizeOnPhaseChange==0 then
+    return
+  end  
+  
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if not ivars.routeset_randomizeOnPhaseChange then
-    return
-  end
+
   --tex this is called for every OnPhaseChange, so will be brutal for something like InfEnemyPhase or events that trigger a bunch of phasechange
   --DEBUGNOW TODO
   local cpName=InfLookup.CpNameForCpId(cpGameObjectId)
@@ -453,23 +461,27 @@ function this.OnPhaseChange(cpGameObjectId,phase,oldPhase)
 end--OnPhaseChange
 
 function this.ShiftChangeAtMorning(sender,time)
+  if ivars.routeset_randomizeOnShiftChange==0 then
+    return
+  end
+
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if Ivars.routeset_randomizeOnShiftChange:Get()==0 then
-    return
-  end
+
   InfCore.Log("InfRouteSet.ShiftChangeAtMorning")
   this.RandomizeCurrentRouteSet()
 end--ShiftChangeAtMorning
 
 function this.ShiftChangeAtNight(sender,time)
+  if ivars.routeset_randomizeOnShiftChange==0 then
+    return
+  end
+
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if Ivars.routeset_randomizeOnShiftChange:Get()==0 then
-    return
-  end
+
   InfCore.Log("InfRouteSet.ShiftChangeAtNight")
   this.RandomizeCurrentRouteSet()
 end--ShiftChangeAtNight
@@ -478,12 +490,14 @@ end--ShiftChangeAtNight
 --tex GOTCHA: while there's no midgnight routes ("sneak_midnight etc") they take the night routeType and create a shift anyway?
 --see TppEnemy._MakeShiftChangeUnit, search 'midnight'
 function this.ShiftChangeAtMidNight(sender,time)
+  if ivars.routeset_randomizeOnShiftChange==0 then
+    return
+  end
+
   if not IvarProc.EnabledForMission"routeset_randomizeRouteSets" then
     return
   end
-  if Ivars.routeset_randomizeOnShiftChange:Get()==0 then
-    return
-  end
+
   InfCore.Log("InfRouteSet.ShiftChangeAtMidNight")
   --this.RandomizeCurrentRouteSet()--tex DEBUGNOW don't know if I want to given that night shift is at ~18:00
 end--ShiftChangeAtMidNight
@@ -514,14 +528,18 @@ function this.RandomizeRouteSet(routeSets)
     for cpOrLrrp,routeSet in pairs(routeSets)do
       routeSet.priority=InfUtil.RandomizeArray(routeSet.priority)
 
-      routeSet.fixedShiftChangeGroup=InfUtil.RandomizeArray(routeSet.fixedShiftChangeGroup)
+      if routeSet.fixedShiftChangeGroup then
+        routeSet.fixedShiftChangeGroup=InfUtil.RandomizeArray(routeSet.fixedShiftChangeGroup)
+      end
     end
   end--if routeset_randomizePriority
 
   if Ivars.routeset_randomizeGroups:Get()==1 then
     --tex ok, so it's not technically a group
     --    for cpOrLrrp,routeSet in pairs(routeSets)do
-    --      routeSet.outofrain=this.RandomizeArray(routeSet.outofrain)
+    --      if routeSet.outofrain then
+    --        routeSet.outofrain=this.RandomizeArray(routeSet.outofrain)
+    --      end
     --    end
     --
     --    --tex randomize each group

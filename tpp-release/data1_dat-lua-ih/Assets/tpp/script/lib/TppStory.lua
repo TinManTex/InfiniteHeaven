@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+InfCore.LogFlow"Load TppStory.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 this.storySequenceTable={}

@@ -1350,7 +1350,7 @@ this.faceDefinitionParams=Tpp.Enum{
   "unknown9",
   "unknown10",
 }
-
+--CALLER: InfFovaIvars.GetSettingTextFova
 function this.GetFovaName(fovaType,fovaIndex)
   if fovaIndex==EnemyFova.INVALID_FOVA_VALUE then
     return "NONE"
@@ -1368,6 +1368,35 @@ function this.GetFovaName(fovaType,fovaIndex)
 
   return fovaName
 end
+
+--CALLER: fovaSetupFuncs.afgh/mafr
+--ASSUMPTION: called after main faces setup (additionalMode)
+--tex basic setup for missions fovaSetupFunc
+function this.FovaSetupFaces(missionCode,bodyInfo)
+  local faces={}
+  if bodyInfo and bodyInfo.useDDHeadgear then
+    for faceId,faceInfo in pairs(this.ddHeadGearInfo) do
+      table.insert(faces,{TppEnemyFaceId[faceId],EnemyFova.MAX_REALIZED_COUNT,EnemyFova.MAX_REALIZED_COUNT,0})
+    end
+  end--if useDDHeadgear
+  if #faces>0 then
+    TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
+  end
+end--FovaSetupFaces
+--CALLER: fovaSetupFuncs.afgh/mafr
+--tex basic setup for missions fovaSetupFunc
+--DEBUGNOW only primary/SetDefaultPartsPath
+function this.FovaSetupBodies(missionCode,bodyInfo)
+  local bodies={}
+  this.GetFovaBodies(bodyInfo,bodies)
+  if #bodies>0 then
+    TppSoldierFace.OverwriteMissionFovaData{body=bodies}
+  end
+
+  if bodyInfo.partsPath then
+    TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
+  end
+end--FovaSetupBodies
 
 --DEBUGNOW TODO convert to by-bodtytype and key off customsoldiertype bodytype
 this.wildCardBodyTable={
@@ -1456,7 +1485,7 @@ function this.WildCardFovaBodies(bodies)
     this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
     local bodyInfo=this.GetFemaleWildCardBodyInfo()
     if bodyInfo then
-      this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
+      this.GetFovaBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
       if bodyInfo.partsPath then
         TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
       end
@@ -1597,16 +1626,14 @@ end
 --In: bodyIds
 --In/Out: bodies
 --SIDE:this.bodiesForMap
---CALLER: InfEneFova.fovaSetupFuncs or equivalent load point.
-local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
-function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
+function this.GetFovaBodies(bodyInfo,bodies,maxBodies,bodyCount)
   InfCore.PCallDebug(function(bodyInfo,bodies,maxBodies,bodyCount)--DEBUG
     if bodyInfo.bodyIds==nil then
       return
   end
-
+  --tex since bodyIds are fovas, single models dont have bodyIds
   if #bodyInfo.bodyIds==0 then
-    --InfCore.Log("InfEneFova.SetupBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
+    --InfCore.Log("InfEneFova.GetFovaBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
     return
   end
 
@@ -1644,10 +1671,12 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
     filteredBodyIds[#filteredBodyIds+1]=bodyInfo.bodyIds[1]
   end
 
-  --tex used to manage a limit on bodies for bodytypes that have a large amount
-  if maxBodies==nil or maxBodies==0 or maxBodies>=#filteredBodyIds then
+  --tex used to manage the maximum bodies to return (on bodies for bodytypes that have more than the requested amount)
+  if maxBodies==nil or maxBodies==0 or maxBodies>=#filteredBodyIds then  
+    --tex just get all
     this.bodiesForMap[bodyInfo.bodyType]=filteredBodyIds
   else
+    --tex chose only #maxBodies
     InfMain.RandomSetToLevelSeed()
     local bodiesForType={}
     local bodyBag=InfUtil.ShuffleBag:New()
@@ -1659,21 +1688,27 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
     InfMain.RandomResetToOsTime()
   end
 
-  if this.debugModule then
-    InfCore.Log("InfEneFova.SetupBodies for "..bodyInfo.bodyType)
-    InfCore.PrintInspect(bodyInfo.bodyIds,"all bodyIds")
-    InfCore.PrintInspect(filteredBodyIds,"filtered bodyIds")
-    InfCore.PrintInspect(this.bodiesForMap,"bodiesForMap")
-  end
-
-  local realizeCount=bodyCount or MAX_REALIZED_COUNT--tex VERIFY don't think I've seen this anything but MAX_REALIZED_COUNT
+  local realizeCount=bodyCount or EnemyFova.MAX_REALIZED_COUNT--tex VERIFY don't think I've seen this anything but MAX_REALIZED_COUNT
 
   for n,bodyId in ipairs(this.bodiesForMap[bodyInfo.bodyType])do
     local bodyEntry={bodyId,realizeCount}
     bodies[#bodies+1]=bodyEntry
   end
+  
+  if this.debugModule then
+    InfCore.Log("InfEneFova.GetFovaBodies for "..bodyInfo.bodyType)
+    InfCore.PrintInspect(bodyInfo.bodyIds,"all bodyIds")
+    InfCore.PrintInspect(filteredBodyIds,"filtered bodyIds")
+    InfCore.PrintInspect(this.bodiesForMap,"bodiesForMap")
+    InfCore.PrintInspect(bodies,"bodies")
+  end
+
   end,bodyInfo,bodies,maxBodies,bodyCount)--DEBUG
-end
+end--GetFovaBodies
+
+--LEGACY: pre r261
+--tex TODO: remove after verifying no addons using it
+this.SetupBodies=this.GetFovaBodies
 
 local allowHeavyArmorStr="allowHeavyArmor"
 function this.ForceArmor(missionCode)
@@ -1787,5 +1822,13 @@ function this.SetFemaleSoldier(soldierId,isFemale)
   --InfCore.Log("SetFemaleSoldier "..tostring(soldierId).." "..tostring(isFemale))--DEBUG
   this.isFemaleSoldierId[soldierId]=isFemale
 end
+
+--tex just time saving for the specific case of the kludge mb random seed setup for outside ApplyMTBSUniqueSetting, may ditch this if I rework the system
+function this.IsCustomSoldierTypeEnabled(missionCode)
+  if IvarProc.EnabledForMission("customSoldierType",missionCode) or IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    return true
+  end
+  return false
+end--IsCustomSoldierTypeEnabled
 
 return this

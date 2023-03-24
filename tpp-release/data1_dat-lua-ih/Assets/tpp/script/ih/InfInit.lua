@@ -10,14 +10,16 @@ if IHH then
   IHH.Init()
 end
 
-local corePath="./mod/Assets/tpp/script/ih/InfCore.lua"
+local modSubPath="mod"
+local corePath="/Assets/tpp/script/ih/InfCore"
+
 local exists=true
 if IHH then
-  exists=IHH.FileExists(corePath)--WORKAROUND: now that IHHook is catching errors we want to skip just blindly require ing
+  exists=IHH.FileExists("./"..modSubPath..corePath..".lua")--WORKAROUND: now that IHHook is catching errors we want to skip just blindly require ing
 end
 if exists then
   --tex try loading external first. messy, but it's chicken and egg, once InfCore is up and running it has tidier functions that could do this
-  local sucess,ret=pcall(require,"mod/Assets/tpp/script/ih/InfCore")--GOTCHA modPath. relying on default package.paths having game dir DEBUGNOW if IHH then could use gamepath
+  local sucess,ret=pcall(require,modSubPath..corePath)--GOTCHA modPath. relying on default package.paths having game dir DEBUGNOW if IHH then could use gamepath
   if sucess then
     InfCore=ret
     InfCore.Log("Loaded InfCore externally")
@@ -33,14 +35,13 @@ if not exists then
   if IHH then
     --IHH.Log(5,ret)--level_critical
   end
-  Script.LoadLibrary"/Assets/tpp/script/ih/InfCore.lua"
+  Script.LoadLibrary(corePath..".lua")
   InfCore.Log("Loaded InfCore internally")
 end
 
 if InfCore and not InfCore.modDirFail then
   InfCore.LoadLibrary"/Assets/tpp/script/ih/InfInspect.lua"
   InfCore.LoadLibrary"/Assets/tpp/script/ih/InfUtil.lua"
-  InfCore.LoadLibrary"/Assets/tpp/script/ih/InfTppUtil.lua"
 
   --STATE GLOBAL
   ivars={}

@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 --TppRevenge.lua
+InfCore.LogFlow"Load TppRevenge.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32 --tex was Fox.StrCode32
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -439,7 +440,7 @@ local RateFromCategoryString=function(categoryString)
   if categoryString==nil then
     return 0
   end
-  return(categoryString:sub(1,-2)+0)/100
+  return(categoryString:sub(1,-2)+0)/100--REF "20%" > 0.2
 end
 function this.GetMineRate()
   return RateFromCategoryString(mvars.revenge_revengeConfig.MINE)
@@ -1205,11 +1206,11 @@ function this.SelectReinforceType()
     local locationName=TppLocation.GetLocationName(vars.locationCode)
     local reinforceVehicleTypes=reinforceVehiclesForLocation[string.upper(locationName)]
     --ORIG
---    if TppLocation.IsAfghan()then
---      reinforceVehicleTypes=reinforceVehiclesForLocation.AFGH
---    elseif TppLocation.IsMiddleAfrica()then
---      reinforceVehicleTypes=reinforceVehiclesForLocation.MAFR
---    end
+    --    if TppLocation.IsAfghan()then
+    --      reinforceVehicleTypes=reinforceVehiclesForLocation.AFGH
+    --    elseif TppLocation.IsMiddleAfrica()then
+    --      reinforceVehicleTypes=reinforceVehiclesForLocation.MAFR
+    --    end
   end
   if canUseReinforceHeli then
     InfCore.Log("SelectReinforceType canuseReinforceHeli")--tex DEBUG
@@ -1441,6 +1442,7 @@ this.weaponRevengeStrengths={
 }
 local NORMAL="NORMAL"
 local STRONG="STRONG"
+--revengeConfig: mvars.revenge_revengeConfig
 function this.GetWeaponStrengths(revengeConfig)
   local weaponStrengths={}
   for weaponName,strengthKey in pairs(this.weaponRevengeStrengths)do
@@ -1464,12 +1466,14 @@ local weaponTypes={
   "MISSILE",
 }
 --CALLER: OnAllocate > DecideRevenge
---config=mvars.revenge_revengeConfig
+--revengeConfig=mvars.revenge_revengeConfig
+--IN: mvars.ene_missionRequiresPowerSettings
+--OUT: mvars.revenge_loadedEquip
 --tex DEBUGNOW bugged on fob handgun? (since r176 Aug 2016 ouch) I probably just need to add to weaponTypes, but should work through the code properly to see what I was doing
-function this._AllocateResources(config)
+function this._AllocateResources(revengeConfig)
   InfCore.Log("_AllocateResources")--tex
   if this.debugModule then--tex>
-    InfCore.PrintInspect(config,"config")
+    InfCore.PrintInspect(revengeConfig,"revengeConfig")
   end--<
   mvars.revenge_loadedEquip={}
   local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
@@ -1494,7 +1498,7 @@ function this._AllocateResources(config)
   end--<
   local restrictWeaponTable={}
   if not useAllWeapons then
-    if not config.SHIELD or config.MISSILE then
+    if not revengeConfig.SHIELD or revengeConfig.MISSILE then
       if not missionRequiresSettings.SHIELD then
         restrictWeaponTable.SHIELD=true
         disablePowerSettings.SHIELD=true
@@ -1506,7 +1510,7 @@ function this._AllocateResources(config)
       end
     end
     if defaultSoldierType~=EnemyType.TYPE_DD then
-      if config.SHOTGUN then
+      if revengeConfig.SHOTGUN then
         if not missionRequiresSettings.MG then
           restrictWeaponTable.MG=true
           disablePowerSettings.MG=true
@@ -1525,7 +1529,7 @@ function this._AllocateResources(config)
   end
 
   weaponIdTable.STRONG=weaponIdTable.STRONG or weaponIdTable.NORMAL
-  local weaponStrengths=this.GetWeaponStrengths(mvars.revenge_revengeConfig)--tex
+  local weaponStrengths=this.GetWeaponStrengths(revengeConfig)--tex
   for i,weaponName in ipairs(weaponTypes)do
     if disablePowerSettings[weaponName]then
     elseif restrictWeaponTable[weaponName]then
@@ -1533,12 +1537,12 @@ function this._AllocateResources(config)
       local weaponStrength=weaponStrengths[weaponName]
       local weaponId=weaponIdTable[weaponStrength][weaponName] or weaponIdTable.NORMAL[weaponName]
       if weaponId==nil then
-      --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
+        --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
         InfCore.Log("WARNING: _AllocateResources: weaponidTable "..weaponName.." is nil")--DEBUG
       elseif Tpp.IsTypeTable(weaponId)then--tex custom weapon table handling
         for i,weaponId in ipairs(weaponId)do
           loadWeaponIds[weaponId]=true
-        end
+      end
       else
         loadWeaponIds[weaponId]=true--tex NMC only used as a bool so custom weapon table having multiple per category isnt a problem
       end
@@ -1612,7 +1616,7 @@ end--_AllocateResources
 --    restrictWeaponTable[powerType]=nil
 --    disablePowerSettings[powerType]=nil
 --  end
---  
+--
 --  do
 --    local baseWeaponTypes={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
 --    local baseWeaponIdTable=weaponIdTable.NORMAL
@@ -1631,7 +1635,7 @@ end--_AllocateResources
 --      end
 --    end--if baseWeaponIdTable
 --  end--do
---  
+--
 --  if not disablePowerSettings.MISSILE and not restrictWeaponTable.MISSILE then
 --    local missileWeaponIdTable={}
 --    if this.IsUsingStrongMissile()and weaponIdTable.STRONG then
@@ -1658,7 +1662,7 @@ end--_AllocateResources
 --      mvars.revenge_loadedEquip.SNIPER=sniperWeaponId
 --    end
 --  end
---  
+--
 --  do
 --    local primary,secondary,tertiary=TppEnemy.GetWeaponId(NULL_ID,{})
 --    TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
@@ -1799,52 +1803,190 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
   end--for TppEnemy.POWER_SETTINGS
   InfMain.RandomResetToOsTime()--tex added
   return cpConfig
-end
+end--CreateCpConfig
 
---tex broken out from _ApplyRevengeToCp, for mb
---IN/OUT: soldierIds
-function this.SetEnableSoldierLocatorList(cpId,plant,soldierIds)
+--tex broken out from _ApplyRevengeToCp, for mb only
+--filters mvars.mbSoldier_enableSoldierLocatorList > soldiers on plant
+--GOTCHA: requires soldierNames to have plnt num
+--cpSoldierIds: mvars.ene_soldierIDList[cpId]
+--IN: mtbs_enemy.cpNameToClsterIdList: set in mtbs_enemy._SetClusterParam
+--IN: mvars.mbSoldier_enableSoldierLocatorList: set in mtbs_enemy.SetDisableSoldierUserSettings, SetSoldierForDemo
+--PARAM/RETURN: cpSoldierIds
+local function SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)
   local zero=0
   local cpName=mvars.ene_cpList[cpId]
+
+  --REF  cpNameToClsterIdList={
+  --  ["ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp"] = 1,
+  --  ["ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp"] = 2,
+
+  --REF mbSoldier_enableSoldierLocatorList={
+  --[1]={--clusterId
+  --  "ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|sol_plnt0_0000",--soldier locator name
+
   if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
-    local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
-    if clusterIdList then
-      soldierIds={}
-      local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
+    local clusterId=mtbs_enemy.cpNameToClsterIdList[cpName]
+    if clusterId then
+      if this.debugModule then--tex>
+        InfCore.Log("TppRevenge.SetEnableSoldierLocatorList: cpId:"..tostring(cpId).." plant:"..tostring(plant))
+        InfCore.PrintInspect(mvars.mbSoldier_enableSoldierLocatorList,"mvars.mbSoldier_enableSoldierLocatorList")
+      end--<
+      cpSoldierIds={}--tex NMC GOTCHA param table newed, so you need to return it
+      local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterId]
       for n,soldierName in ipairs(soldierLocators)do
-        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))
+        --REF soldierName="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|sol_plnt0_0000"
+        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))--tex NMC GOTCHA: means mb soldiers want to keep this format name, at least plnt, don't know about anything else yet
         if soldierPlant~=nil and soldierPlant==plant then
           local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-          soldierIds[soldierId]=soldierName--tex was zero, see note in TppEnemy.DefineSoldiers
+          --tex NMC NOTE puzzled. I don't see what this is achieving.
+          --setting to 0 it isnt removing them, so it's not for the cpSoldierIds==nil check
+
+          --cpSoldierIds only use after this is to fill up soldierIdForConfigIdTable
+          --but that's with soldierIds, so setting to 0 doesn't stop it from being added
+
+          --in lua 0 isn't false so you can check it like that, but then that's a GOTCHA that a developer might have missed
+          --TppEnemy.ChangeRouteUsingGimmick is the only check like that
+
+          --but as the above is setting cpSoldierIds to new table it doesn't propogate back to mvars.ene_cpList[cpId] table anyway
+
+          --mvars.ene_cpList[cpId][soldierId]=cpDefine Index (where cpDefine is <missioncode>enemy.soldierDefine define)
+          --so setting to 0 in theory would push it out of ipairs lookups, except these are as values/never looked up in that manner.
+
+          --or maybe I'm overthinking thinks and the above clear is to just have mbSoldier_enableSoldierLocatorList be the only soldiers for the cp,
+          --or here more specicially filters mbSoldier_enableSoldierLocatorList to just the soldiers on the plant as in mb _ApplyRevengeToCp is called per cp>per plant
+          --and 0 is just a non nil/entry exists value since they don't have cpDefineIndex for mbSoldier_enableSoldierLocatorList, and dont use cpDefineIndex anyway.
+          --so that just brings the question to what is the purpose of mbSoldier_enableSoldierLocatorList.
+          --I think it's just a combination of the different soldier setup in mb vs normal missions due to demos, fob and normal mb
+          cpSoldierIds[soldierId]=zero--tex NMC pre r261 I was setting this to soldierName in line with changes in TppEnemy.DefineSoldiers (see NOTE), r261+ it has been restored to original behaviour
+        else
+          --tex> WORKAROUND: ih additional soldier names dont match the above format, so just lumping in all of them for now 
+          --it does mean that _ApplyRevengeToCp will be run on the same soldiers multiple times, but the pre r261 bug was doing that anyway for all soldiers in the cluster
+          --TODO: decide if I want to rename the ih soldiers to fit the naming scheme instead and remove the workaround, would have to match additional soldiers application though
+          --REF soldierName="sol_ih_0139"
+          if string.find(soldierName,"sol_ih_") then
+            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+            cpSoldierIds[soldierId]=zero
+          end--<
         end
-      end
+      end--for soldierLocators
+    end--if clusterId
+  end--if enableSoldierLocatorList~=nil
+  return cpSoldierIds
+end--SetEnableSoldierLocatorList
+
+--tex NMC broken out from _ApplyRevengeToCp
+--TODO: soldierConfig ability to level lookup (*_SPECIAL == "sp" etc)
+local function GetPersonalAbilitySettings(soldierConfig)
+  local personalAbilitySettings={}
+  do
+    local stealthLevel
+    if soldierConfig.STEALTH_SPECIAL then
+      stealthLevel="sp"
+    elseif soldierConfig.STEALTH_HIGH then
+      stealthLevel="high"
+    elseif soldierConfig.STEALTH_LOW then
+      stealthLevel="low"
     end
+    personalAbilitySettings.notice=stealthLevel
+    personalAbilitySettings.cure=stealthLevel
+    personalAbilitySettings.reflex=stealthLevel
   end
-end
+  do
+    local combatLevel
+    if soldierConfig.COMBAT_SPECIAL then
+      combatLevel="sp"
+    elseif soldierConfig.COMBAT_HIGH then
+      combatLevel="high"
+    elseif soldierConfig.COMBAT_LOW then
+      combatLevel="low"
+    end
+    personalAbilitySettings.shot=combatLevel
+    personalAbilitySettings.grenade=combatLevel
+    personalAbilitySettings.reload=combatLevel
+    personalAbilitySettings.hp=combatLevel
+  end
+  do
+    local speedLevel
+    if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
+      speedLevel="sp"
+    elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
+      speedLevel="high"
+    elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
+      speedLevel="low"
+    end
+    personalAbilitySettings.speed=speedLevel
+  end
+  do
+    local fultonLevel
+    if soldierConfig.FULTON_SPECIAL then
+      fultonLevel="sp"
+    elseif soldierConfig.FULTON_HIGH then
+      fultonLevel="high"
+    elseif soldierConfig.FULTON_LOW then
+      fultonLevel="low"
+    end
+    personalAbilitySettings.fulton=fultonLevel
+  end
+  do
+    local holdupLevel
+    if soldierConfig.HOLDUP_SPECIAL then
+      holdupLevel="sp"
+    elseif soldierConfig.HOLDUP_HIGH then
+      holdupLevel="high"
+    elseif soldierConfig.HOLDUP_LOW then
+      holdupLevel="low"
+    end
+    personalAbilitySettings.holdup=holdupLevel
+  end
+  return personalAbilitySettings
+end--GetPersonalAbilitySettings
 
 --CALLER: SetUpEnemy
---INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
+--revengeConfig: mvars.revenge_revengeConfig < _CreateRevengeConfig: singular revenge config for mission
+--IN: mvars:
+--ene_soldierIDList,
+--mbSoldier_enableSoldierLocatorList,
+--ene_missionSoldierPowerSettings
+--ene_missionSoldierPersonalAbilitySettings
+--ene_outerBaseCpList: just as a bool
+--ene_lrrpTravelPlan: just as a bool
+--ene_lrrpVehicle: just as a bool
+--ene_eliminateTargetList: just as a bool
+--a whole heap of ivars
+--tex REWORKED
 function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
-  local revengeConfigCp={}--tex> -v- all changed from using revengeConfig to revengeConfigCp, GOTCHA: be wary of what you're modifying since other stuff reads the original revengeconfig and your changes wont be reflected
-  for k,v in pairs(revengeConfig)do
-    revengeConfigCp[k]=v
+  InfCore.PCallDebug(function(cpId,revengeConfig,plant)--DEBUGNOW
+    if this.debugModule then--tex>
+      local cpName=mvars.ene_cpList[cpId]
+      InfCore.LogFlow("_ApplyRevengeToCp cpId:"..tostring(cpId).." "..tostring(cpName).." plant:"..tostring(plant))
   end--<
 
-  local soldierIds=mvars.ene_soldierIDList[cpId]
+  local cpSoldierIds=mvars.ene_soldierIDList[cpId]--tex NMC used to fill out soldierIdForConfigIdTable
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds")--DEBUGNOW trying to figure out what SetEnableSoldierLocatorList is up to
+  end--<
   local soldierIdForConfigIdTable={}
   local totalSoldierCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-    this.SetEnableSoldierLocatorList(cpId,soldierIds)--tex broken out for clarity
+    --tex NMC overwrites cpSoldierIds with just mvars.mbSoldier_enableSoldierLocatorList > soldiers on plant
+    --in mb _ApplyRevengeToCp is called for each plantNum of a cluster
+    cpSoldierIds=SetEnableSoldierLocatorList(cpId,plant,cpSoldierIds)--tex NMC broken out for clarity--DEBUGNOW figure out how pre r261 bug of this doing nothing affected things
+    if this.debugModule then--tex
+      InfCore.PrintInspect(cpSoldierIds,"cpSoldierIds post SetEnableSoldierLocatorList")--DEBUGNOW
+    end--<
   end
-  if soldierIds==nil then
+  --tex NMC the above doesn't nil cpSoldierIds so I don't know why it couldn't have been directly after cpSoldierIds is set
+  if cpSoldierIds==nil then
     return
   end
 
+  --tex NMC converting soldierNames to soldierId lookup, just used as a bool check, single use below
   local missionPowerSoldiers={}
   for soldierName,missionPowerSetting in pairs(mvars.ene_missionSoldierPowerSettings)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
     missionPowerSoldiers[soldierId]=missionPowerSetting
   end
+  --tex NMC converting soldierNames to soldierId lookup, just used as a bool check, single use at end of function
   local missionAbilitySoldiers={}
   for soldierName,missionAbilitySetting in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
@@ -1855,11 +1997,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   local isLrrpCp=mvars.ene_lrrpTravelPlan[cpId]--tex added, was below
   local isLrrpVehicleCp=mvars.ene_lrrpVehicle[cpId]--tex added
 
-  local powerElimOrChildSoldierTable={}
+  local powerElimOrChildSoldierTable={}--tex NMC [soldierConfigIndex]=bool, single use in CreateCpConfig
   --OFF unused local outerBaseSoldierTable={}
   --OFF unused local lrrpSoldierTable={}--tex added, was combined with above
 
-  for soldierId,soldierName in pairs(soldierIds)do
+  for soldierId,soldierName in pairs(cpSoldierIds)do
     table.insert(soldierIdForConfigIdTable,soldierId)
     totalSoldierCount=totalSoldierCount+1
     if missionPowerSoldiers[soldierId]then
@@ -1876,30 +2018,33 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     end
   end
 
-  if totalSoldierCount==0 then--tex> early out
+  --CULL
+  --  if this.debugModule then--tex> DEBUG confirming nothing happening on totalSoldierCount==0 past this point
+  --    if totalSoldierCount==0 then
+  --      local cpName=mvars.ene_cpList[cpId]
+  --      InfCore.Log("cp:"..tostring(cpId).." "..tostring(cpName).." totalSoldierCount==0 ----------")--DEBUGNOW
+  --    end
+  --  end--<
+
+  --tex> early out if there's no soldiers to apply to
+  --I reviewed the rest of the function and confirmed its not doing anything when 0 soldiers
+  --don't know why kjp didnt do this themselves.
+  if totalSoldierCount==0 then
     return
   end--<
 
-  --tex limit armor, see 'limit armor' in _CreateRevengeConfig>
-  if isLrrpCp or isOuterBaseCp then
-    if revengeConfigCp.ARMOR then
-      if IvarProc.EnabledForMission"allowHeavyArmor" or IvarProc.EnabledForMission"revengeMode" then
-        revengeConfigCp.ARMOR=false
-      end
-    end
-  end
-  --<
+  --tex> -v- changed from using revengeConfig to revengeConfigCp
+  --GOTCHA: though the point of this to have cp revenge config seperate,
+  --it does mean the changes in this function wont be reflected to uses of mvars.revenge_revengeConfig
+  local revengeConfigCp={}
+  for k,v in pairs(revengeConfig)do
+    revengeConfigCp[k]=v
+  end--<
+  
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(revengeConfigCp,"revengeConfigCp")--tex to compare against post ModRevengeConfigCp
+  end--<
 
-  local cpConfig={}--NMC: the main point of the function
-  for soldierConfigId=1,totalSoldierCount do
-    if isOuterBaseCp then
-      cpConfig[soldierConfigId]={OB=true}
-    elseif isLrrpCp then--tex>
-      cpConfig[soldierConfigId]={LRRP=true}
-    else--<
-      cpConfig[soldierConfigId]={}
-    end
-  end
   local powerComboExclusionList={
     ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
     SOFT_ARMOR={"ARMOR"},
@@ -1938,154 +2083,14 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   for powerType,excludeList in pairs(weaponBalanceComboExclusionList) do
     powerComboExclusionList[powerType]=excludeList
   end
-  end--<
+  end--allowMissileWeaponsCombo<
+  
+  InfRevenge.ModRevengeConfigCp(revengeConfigCp,totalSoldierCount,isLrrpCp,isOuterBaseCp)--tex
 
-  if Ivars.enableMgVsShotgunVariation:Is(1) then--tex>
-    local setting=revengeConfigCp.MG_OR_SHOTGUN or 0
-    if setting~=0 then
-      InfMain.RandomSetToLevelSeed()
-      local mgShottyLoadouts={
-        {MG=setting,SHOTGUN=nil},
-        {MG=nil,SHOTGUN=setting},
-        {MG=math.floor(setting/2),SHOTGUN=math.floor(setting/2)},
-      }
-      local powerTable=mgShottyLoadouts[math.random(1,3)]
-      for powerType,setting in pairs(powerTable)do
-        revengeConfigCp[powerType]=setting
-      end
-
-      InfMain.RandomResetToOsTime()
-    end
-  end--<
-
-
-  local smallCpBalanceLimit=5--tex> WIP TODO magic number
-  if Ivars.randomizeSmallCpPowers:Is(1) and totalSoldierCount <= smallCpBalanceLimit then
-    --powertype={min,max}
-    local smallCpBallanceList={
-      ARMOR={0,totalSoldierCount},
-      SNIPER={0,1},
-      SHIELD={0,totalSoldierCount},--totalSoldierCount/2},
-      MISSILE={0,totalSoldierCount},
-      MG={0,totalSoldierCount},
-      SHOTGUN={0,totalSoldierCount},
-    }
-    InfMain.RandomSetToLevelSeed()
-    for powerType,range in pairs(smallCpBallanceList) do
-      if revengeConfigCp[powerType] then
-        local currentSetting=revengeConfigCp[powerType]
-        if not Tpp.IsTypeNumber(currentSetting)then
-          currentSetting=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
-        end
-
-        revengeConfigCp[powerType]=math.random(range[1],math.min(currentSetting,range[2]))
-        if revengeConfigCp[powerType]==0 then
-          revengeConfigCp[powerType]=nil
-        end
-      end
-    end
-    InfMain.RandomResetToOsTime()
-  end--<
-
-  if Ivars.balanceWeaponPowers:Is(1) then--tex WIP
-    local balanceWeaponTypes={--tex>
-      "SNIPER",
-      "SHOTGUN",
-      "MG",
-      "SMG",
-      "ASSAULT",
-    }
-
-  --tex TODO: need a way to account for the shield force applying SMGs when smgs is also set?? or does this not actually happen
-  --      local smgTypes={
-  --        --"SMG",
-  --        "SHIELD",--tex this is forced in TppEnemy.ApplyPowerSetting
-  --        --"MISSILE",--TODO: need to include if allowMissileWeaponsCombo is off
-  --      }
-  --      local totalSmgs=0
-  --      for n, powerType in ipairs(smgTypes) do
-  --        totalSmgs=totalSmgs+this._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
-  --      end
-  local powerType="SMG"
-  local totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
-
-  local smgForced=revengeConfigCp.SHIELD and revengeConfigCp.SMG==nil
-  if smgForced then
-    local powerType="SHIELD"
-    totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
-    revengeConfigCp.SMG=totalSmgs
-    --    elseif revengeConfigCp.MISSILE and not revengeConfigCp.SMG then
-    --      local powerType="MISSILE"
-    --      local totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
-    --      revengeConfigCp.SMG=totalSmgs
-    --
-    --      if Ivars.allowMissileWeaponsCombo:Is(0) then
-    --        smgForced=true
-    --      end
-  end
-
-  local wantedWeapons={}
-  for n,powerType in pairs(balanceWeaponTypes)do
-    wantedWeapons[powerType]=0
-  end
-
-  local totalWanted=0
-  for n,powerType in pairs(balanceWeaponTypes)do
-    local wanted=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
-    totalWanted=totalWanted+wanted
-    wantedWeapons[powerType]=wanted
-  end
-
-  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --      InfCore.DebugPrint("totalSoldierCount:" .. totalSoldierCount.." totalWanted weapons:"..totalWanted)
-  --      InfCore.PrintInspect(wantedWeapons)--DEBUG
-  --    end--
-
-  --    if revengeConfigCp.SMG==nil then
-  --      revengeConfigCp.SMG=1
-  --    end
-  --
-  --    local numTypes=0
-  --    for n,powerType in pairs(balanceWeaponTypes)do
-  --      numTypes=numTypes+1
-  --    end
-
-  revengeConfigCp.ASSAULT="10%"
-
-  local sumBalance=0
   local numBalance=0
-  if InfRevenge then
-    local originalWeaponSettings={}
-
-    numBalance,sumBalance,originalWeaponSettings=InfRevenge.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
-
-    --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-    --      InfCore.PrintInspect(originalWeaponSettings)
-    --    end--<
-
-    if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
-      local reservePercent=0--tex TODO: reserve some for assault? or handle that
-      revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,originalWeaponSettings,revengeConfigCp)
-    end
-  end
-
-  if smgForced then
-    revengeConfigCp.SHIELD=revengeConfigCp.SMG
-    revengeConfigCp.SMG=nil--tex don't want CreateCpConfig to actually assign since these will be forced in TppEnemy.ApplyPowerSetting
-  end
-
-  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-  --      InfCore.DebugPrint("revengeConfig")
-  --      InfCore.PrintInspect(revengeConfig)
-  --      InfCore.DebugPrint("revengeConfigCp")
-  --      InfCore.PrintInspect(revengeConfigCp)
-  --    end--<
-  end--balanceWeaponPowers
-
   local sumBalance=0
-  local numBalance=0
   if InfRevenge then
-    local originalHeadGearSettings={}--tex
+    local ballancePowersAsPercent={}--tex
     if (Ivars.allowHeadGearCombo:Is(1) or Ivars.balanceHeadGear:Is(1)) then
       local balanceGearTypes={--tex>
         "ARMOR",
@@ -2093,16 +2098,20 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         "NVG",
         "GAS_MASK",
       }
-
-      numBalance,sumBalance,originalHeadGearSettings=InfRevenge.GetSumBalance(balanceGearTypes,revengeConfigCp,totalSoldierCount,originalHeadGearSettings)
+      --tex figure out what the combined types as percentage vs totalSoldierCount
+      numBalance,sumBalance,ballancePowersAsPercent=InfRevenge.GetSumBalance(balanceGearTypes,revengeConfigCp,totalSoldierCount)
     end
 
     if (Ivars.balanceHeadGear:Is(1) and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold) then--tex> only need to balance if oversubscribed
       local reservePercent=0
-      revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,originalHeadGearSettings,revengeConfigCp)
+      revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,ballancePowersAsPercent,revengeConfigCp)
     end
-  end
+  end--if InfRevenge
   --<
+  
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(revengeConfigCp,"revengeConfigCp post ModRevengeConfigCp")
+  end--<
 
   local unfulfilledPowers={}--tex>
   local addConfigFlags={}
@@ -2111,9 +2120,25 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     addConfigFlags={MISSILE_COMBO=true}
   end--<
 
+  local cpConfig={}--NMC: the main point of the function, per soldier powers configs
+  for soldierConfigId=1,totalSoldierCount do
+    if isOuterBaseCp then
+      cpConfig[soldierConfigId]={OB=true}
+    elseif isLrrpCp then--tex>
+      cpConfig[soldierConfigId]={LRRP=true}
+    else--<
+      cpConfig[soldierConfigId]={}
+    end
+  end
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpConfig,"cpConfig pre CreateCpConfig")
+  end--<
   cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpConfig,"cpConfig post CreateCpConfig")
+  end--<
 
-  --tex> rerun CreateCpConfig without headgear restrictions
+  --tex> rerun CreateCpConfig without headgear restrictions DEBUGNOW why I doing like this?
   if (Ivars.allowHeadGearCombo:Is(1) and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold) then
     if vars.missionCode~=30050 then
       local headGearComboExclusions={
@@ -2125,6 +2150,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         powerComboExclusionList[powerType]=excludeList
       end
     else
+      --DEBUGNOW ddHeadGear
       local headGearComboExclusionsDD={
         HELMET={"ARMOR"},
         GAS_MASK={"ARMOR"},
@@ -2138,137 +2164,43 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     local gearConfigFlags={
       HEADGEAR_COMBO=true
     }
-    cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)--tex now function
+    cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)
+  end--if allowHeadGearCombo<
+
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(unfulfilledPowers,"unfulfilledPowers")
   end--<
 
-  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --      --if not InfUtil.IsTableEmpty(unfulfilledPowers) then
-  --      InfCore.DebugPrint"unfulfilledPowers:"
-  --      InfCore.PrintInspect(unfulfilledPowers)
-  --      --end--
-  --    end--<
-  --
-  --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --    InfCore.PrintInspect(cpConfig)
-  --  end--<
+  InfRevenge.FixRadioBody(cpConfig,soldierIdForConfigIdTable,isLrrpVehicleCp,isLrrpCp)--tex fix issues with RADIO body
 
-  --tex fix issues with RADIO body>
-  local applyPowersToLrrp=Ivars.applyPowersToLrrp:Is()>0
-  local isVehiclePatrols=Ivars.vehiclePatrolProfile:EnabledForMission()
-  for soldierConfigId,soldierConfig in ipairs(cpConfig)do
-    local soldierId=soldierIdForConfigIdTable[soldierConfigId]
-    local addRadio=false
-
-    if isLrrpVehicleCp and isVehiclePatrols then
-      local vehicleInfo=InfVehicle.inf_patrolVehicleInfo[isLrrpVehicleCp]
-      if vehicleInfo then
-        local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
-        if baseTypeInfo and not baseTypeInfo.enclosed then
-          addRadio=true
-        end
-      end
-    end
-
-    if isLrrpCp and applyPowersToLrrp then
-      if not isLrrpVehicleCp then--tex should be set above
-        addRadio=true
-      end
-      if addRadio then
-        --tex shield is fine, ARMOR probably wouldn't be, but getbodyid returns armor before radio so moot
-        --soft_armor is fine for PFCs
-        if soldierConfig.SOFT_ARMOR then
-          if TppEnemy.GetSoldierType(soldierId)==EnemyType.TYPE_SOVIET then
-            addRadio=false
-          end
-        end
-      end
-    end
-
-    if addRadio then
-      soldierConfig.RADIO=true
-    end
-    --< for cpConfig
-  end
-  --<
+  if this.debugModule then--tex>
+    InfCore.PrintInspect(cpConfig,"cpConfig pre apply")
+  end--<
 
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     TppEnemy.ApplyPowerSetting(soldierId,soldierConfig)
+
+    --tex NMC if soldier doesn't have mission specific settings
+    --(mvars.ene_missionSoldierPersonalAbilitySettings < missionTable.enemy.soldierPersonalAbilitySettings, which is applied via ApplyPersonalAbilitySettingsOnInitialize)
+    --then apply them from soldierConfig
     if missionAbilitySoldiers[soldierId]==nil then
-      local personalAbilitySettings={}
-      do
-        local stealthLevel
-        if soldierConfig.STEALTH_SPECIAL then
-          stealthLevel="sp"
-        elseif soldierConfig.STEALTH_HIGH then
-          stealthLevel="high"
-        elseif soldierConfig.STEALTH_LOW then
-          stealthLevel="low"
-        end
-        personalAbilitySettings.notice=stealthLevel
-        personalAbilitySettings.cure=stealthLevel
-        personalAbilitySettings.reflex=stealthLevel
-      end
-      do
-        local combatLevel
-        if soldierConfig.COMBAT_SPECIAL then
-          combatLevel="sp"
-        elseif soldierConfig.COMBAT_HIGH then
-          combatLevel="high"
-        elseif soldierConfig.COMBAT_LOW then
-          combatLevel="low"
-        end
-        personalAbilitySettings.shot=combatLevel
-        personalAbilitySettings.grenade=combatLevel
-        personalAbilitySettings.reload=combatLevel
-        personalAbilitySettings.hp=combatLevel
-      end
-      do
-        local speedLevel
-        if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
-          speedLevel="sp"
-        elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
-          speedLevel="high"
-        elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
-          speedLevel="low"
-        end
-        personalAbilitySettings.speed=speedLevel
-      end
-      do
-        local fultonLevel
-        if soldierConfig.FULTON_SPECIAL then
-          fultonLevel="sp"
-        elseif soldierConfig.FULTON_HIGH then
-          fultonLevel="high"
-        elseif soldierConfig.FULTON_LOW then
-          fultonLevel="low"
-        end
-        personalAbilitySettings.fulton=fultonLevel
-      end
-      do
-        local holdupLevel
-        if soldierConfig.HOLDUP_SPECIAL then
-          holdupLevel="sp"
-        elseif soldierConfig.HOLDUP_HIGH then
-          holdupLevel="high"
-        elseif soldierConfig.HOLDUP_LOW then
-          holdupLevel="low"
-        end
-        personalAbilitySettings.holdup=holdupLevel
-      end
+      local personalAbilitySettings=GetPersonalAbilitySettings(soldierConfig)
       TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
-    end
-  end
-end
+    end--if not missionAbilitySoldier
+  end--for cpConfig
+
+  end,cpId,revengeConfig,plant)--tex PCallDebug DEBUGNOW
+end--_ApplyRevengeToCp
 --ORIG
---function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
+--function this._ApplyRevengeToCp(cpId,revengeConfig,plantNum)
 --  local GetGameObjectId=GameObject.GetGameObjectId
 --
 --  local soldierIds=mvars.ene_soldierIDList[cpId]
 --  local soldierIdForConfigIdTable={}
 --  local totalSoldierCount=0
 --  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
---    local r=0
+--    local zero=0
 --    local cpName=mvars.ene_cpList[cpId]
 --    if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
 --      local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
@@ -2279,7 +2211,7 @@ end
 --          local RENsomeMbSomethingId=tonumber(string.sub(soldierName,-6,-6))
 --          if RENsomeMbSomethingId~=nil and RENsomeMbSomethingId==RENsomeMBcounter then
 --            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
---            soldierIds[soldierId]=r
+--            soldierIds[soldierId]=zero
 --          end
 --        end
 --      end

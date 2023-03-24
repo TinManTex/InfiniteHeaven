@@ -286,6 +286,7 @@ this.motherBaseShowAssetsMenu={
     "Ivars.hideMortarsMB",
     "Ivars.mbUnlockGoalDoors",
     "Ivars.mbForceBattleGearDevelopLevel",
+    "Ivars.mbReplayBattleGearDemo",
   }
 }
 

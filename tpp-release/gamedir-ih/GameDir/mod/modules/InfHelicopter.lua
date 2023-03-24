@@ -505,7 +505,6 @@ this.RequestHeliLzToLastMarker=function()
     InfMenu.PrintLangId"no_marker_found"
   else
     local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
 
     local closestRoute=InfLZ.GetClosestLz(markerPostion)
     if closestRoute==nil then
@@ -583,8 +582,6 @@ this.RequestHeliLzToLastMarkerAlt=function()
     return
   else
     local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-    markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
-
     closestRoute=InfLZ.GetClosestLz(markerPostion)
   end
 

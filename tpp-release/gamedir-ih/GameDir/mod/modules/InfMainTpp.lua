@@ -14,7 +14,7 @@ this.soldierPool={}
 this.emptyCpPool={}
 this.lrrpDefines={}--tex from AddLrrps
 
-this.MAX_STAFF_NUM_ON_CLUSTER=18--DYNAMIC onallocate
+this.MAX_STAFF_NUM_ON_CLUSTER=18--DYNAMIC onallocate--LIMIT
 
 --reserve soldierpool
 --tex number of soldier locators in fox2s
@@ -274,7 +274,7 @@ function this.OnDamage(gameId,attackId,attackerId)
               SendCommand(cpId,command)
               break
             end
-        end--if cp not phase
+          end--if cp not phase
         end--for soldieridlist
       end--attackisvehicle
     end--gvar
@@ -614,36 +614,8 @@ function this.SetSubsistenceSettings()
   end
 end
 
+
 --UTIL TODO: maybe actually move to util
---try and unify warping a bit, pos is {x,y,z}
-function this.WarpHostage(gameObjectName,pos,rotY)
-  local gameObjectId=GameObject.GetGameObjectId(gameObjectName)
-  if gameObjectId~=GameObject.NULL_ID then
-    local command={id="Warp",degRotationY=rotY,position=Vector3(pos[1],pos[2],pos[3])}
-    GameObject.SendCommand(gameObjectId,command)
-  end
-end
-
-function this.WarpPlayer(gameObjectName,pos,rotY)
-  TppPlayer.Warp{pos=pos,rotY=rotY}
-end
-
-function this.WarpVehicle(gameObjectName,pos,rotY)
-  local gameObjectId=GameObject.GetGameObjectId(gameObjectName)
-  if gameObjectId~=GameObject.NULL_ID then
-    local command={id="SetPosition",position=Vector3(pos[1],pos[2],pos[3]),rotY=rotY}
-    GameObject.SendCommand(gameObjectId,command)
-  end
-end
-
-function this.WarpWalkerGear(gameObjectName,pos,rotY)
-  local gameObjectId=GameObject.GetGameObjectId("TppCommonWalkerGear2",gameObjectName)
-  if gameObjectId~=GameObject.NULL_ID then
-    local command={id="SetPosition",pos=pos,rotY=rotY}
-    GameObject.SendCommand(gameObjectId,command)
-  end
-end
-
 function this.WarpRat(gameObjectName,pos,rotY)
   local gameObjectId={type="TppRat",index=0}
   local route=""

@@ -1,6 +1,56 @@
 Infinite Heaven changelog
 Just notable changes, see github commits for full
 
+r261 - 2023-03-24
+'Warp to latest marker' now works when driving vehicle or walker gear.
+[youtube]FVc0bw9ooFs[/youtube]
+https://youtu.be/FVc0bw9ooFs
+
+Fix: disableHerbSearch possibly not working correctly.
+
+Fix: Randomize RouteSets being called despite individual options being off (though not if main setting was off).
+thanks caplag for a related report.
+
+Fix: "Custom soldier type in Free/Mission" resetting to off after game is next restarted. Was broken as of r247 - thanks Spectral for the report and troubleshooting files. 
+
+Fix: enemy soldier type addons with multiple bodies not working, was broken as of r258 - thanks Spectral for the report.
+
+Fix: Some cases of Player Cam hook (FOV) not applying.
+
+Fix: InfSoldierFaceAndBody not retaining its data on script reload. Affected Apearance menu > Face option when Filter set to Head fova addons.
+
+Fix: Back in the dark ages I changed mvars.ene_soldierIDList itself from its original [cpId][soldierId]=cpDefine index to [cpId][soldierId]=soldierName as the value didnt seem to be used anywhere, and I wanted a lookup. Didn't really end up using it much, it was better to just iterate soldierDefine again, so its been reverted.
+(and API/dev warning I guess if anyone was using it as its modified form in their scripts)
+
+Fix: TppRevenge.SetEnableSoldierLocatorList (actually broken out by IH from _ApplyRevengeToCp) not applying in MB. Don't think it affected anything since it failed in a way that it was still applying revenge for all soliders in a cluster, just that it was applying multiple times (with exact same values).
+See the NOTE: in SetEnableSoldierLocatorList for my puzzlement about it.
+
+Fix: Custom DD female type no longer dependant on Custom DD (male) type being set. Either of them will default to normal DD mb body if setting is OFF.
+
+Motherbase menu > 'DD Suit', 'DD Suit female' renamed 'Custom DD type in MB' in line with 'Custom Soldier type in mission/free'. 
+The underlying Ivars already were named customSoldierTypeMB_ALL, so you shouln't have to re-set the setting.
+
+AroundCam (FreeCam):
+When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
+
+Fix: FreeCam hang if on when Abort mission.
+
+API: addon missionInfo (See notes in InfMission)
+clearExistingMissionStartSettings - only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 
+noBoxMissionHeliRoute / NO_ORDER_FIX_HELICOPTER_ROUTE support, requires isNoOrderBoxMission to be set
+
+clearMissionStartHeliRoute is to give actual support for NO_HELICOPTER_ROUTE_MISSION_LIST, before it was just riding on the assumption that if the addon author gave a startPos they wouldn't have heli routes/starts set up, this gives the same support as the base game for those missions.
+
+isNoOrderBoxMission, likewise giving explicit setting for NO_ORDER_BOX_MISSION
+
+- thanks caplag for the suggestions
+
+API: LoadExternalModule: Don't reload module if prevModule and not isReload.
+This was causing the early InfInit LoadExternalModuled modules Ivars,IvarsPersist and InfSoldierFaceAndBody to be reloaded. 
+In the case of InfSoldierFaceAndBody it would loose all its data since those functions were called manually rather than PostAllModulesLoad.
+
+API: InfUserMarker.GetMarkerPosition return type changed from Vector3 to {x,y,z} as it's more commonly used through other IH functions.
+
 r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.
 

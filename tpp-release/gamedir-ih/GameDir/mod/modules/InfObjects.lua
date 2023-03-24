@@ -77,7 +77,8 @@ this.selectListObject={
 }
 
 this.addObjectLookupList={
-  settings={},--DYNAMIC
+  settings={"empty"},--DYNAMIC
+  settingNamesDoc="<lookup list names>",
   GetSettingText=function(self,setting)
     local listName=InfLookup.objectNameListsEnum[setting+1]
     if listName==nil then
@@ -182,7 +183,7 @@ function this.WriteObjects()
 
   InfCore.Log(#list..[[ entries written to MGS_TPP\mod\]]..fileName,true,true)
 end
-
+--tex UNUSED
 function this.LoadObjectNames()
   InfCore.Log("InfObjects.LoadObjectNames:")
 

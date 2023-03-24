@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+InfCore.LogFlow"Load TppMbFreeDemo.lua"--tex DEBUG
 local this={}
 --ORPHAN local StrCode32=Fox.StrCode32
 --ORPHAN local StrCode32Table=Tpp.StrCode32Table

@@ -41,9 +41,9 @@ this.debugSave=false
 
 
 
---GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla QUEST_DEFINE entries (though some of theose are incomplete/non existing quests), 
+--LIMIT GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla QUEST_DEFINE entries (though some of theose are incomplete/non existing quests), 
 --so without managment on 83 additional quests.
---main issue is this is governing the qst_* gvars that hold the quest states (see TppGvars).
+--main issue is this is governing the qst_* gvars that hold the quest states (see TppGvars, RegisterQuests >TppDefine.QUEST_MAX LIMIT comment).
 
 
 --REF questAddon
@@ -612,7 +612,7 @@ function this.RegisterQuests()
     local doRegister=true
     
     if questIndex>TppDefine.QUEST_MAX-1 then
-      --tex the only main issue I can see currently with being > QUEST_MAX is gvars qst_quest*Flags. scriptvar arrays dont seem to complain (at least not visibly) when going above their arraySize, and return nil over.
+      --tex LIMIT the only main issue I can see currently with being > QUEST_MAX is gvars qst_quest*Flags. scriptvar arrays dont seem to complain (at least not visibly) when going above their arraySize, and return nil over.
       InfCore.Log("ERROR: InfQuest.RegisterQuests: questIndex>TppDefine.QUEST_MAX. Currently save states only work for 83 additional addon quests.",true,true)--DEBUGNOW is announcelog up when this is called?
     end
     

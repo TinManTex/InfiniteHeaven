@@ -180,6 +180,7 @@ end--TppSaveAndReload
 this.avatar_load={
 --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"None Found"},--DYNAMIC
+  settingNamesDoc=[[<list of \mod\avatars>]],
   default=0,
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
@@ -207,6 +208,7 @@ this.avatar_load={
 this.avatar_save={
 --save=IvarProc.CATEGORY_EXTERNAL,
   settings={"New",},--DYNAMIC
+  settingNamesDoc=[[New,<list of \mod\avatars>]],
   OnSelect=function(self)
     InfUtil.ClearArray(self.settings)
     for i,name in ipairs(this.names)do

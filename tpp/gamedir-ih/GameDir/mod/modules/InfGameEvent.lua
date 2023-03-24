@@ -290,6 +290,10 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 end
 
+function this.AbortMissionTop(abortInfo)
+  this.DisableEvent()
+end
+
 function this.DisableEvent()
   --tex missions events enabled in
   if vars.missionCode==30050 or IvarProc.MissionCheckFree() then
@@ -745,7 +749,7 @@ end
 
 function this.SetUpMBZombie()
   for cpName,soldierNameList in pairs(mvars.ene_soldierDefine) do
-    for i,soldierName in pairs(soldierNameList) do
+    for i,soldierName in ipairs(soldierNameList) do
       local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
       if gameObjectId~=NULL_ID then
         this.SetZombie(gameObjectId)

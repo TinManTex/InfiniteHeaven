@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppClock.lua
+InfCore.LogFlow"Load TppClock.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local t=(1/60)/60

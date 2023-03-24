@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- TppPlayer.lua
+InfCore.LogFlow"Load TppPlayer.lua"--tex DEBUG
 local this={}
 local StrCode32=InfCore.StrCode32--tex
 local IsTypeFunc=Tpp.IsTypeFunc
