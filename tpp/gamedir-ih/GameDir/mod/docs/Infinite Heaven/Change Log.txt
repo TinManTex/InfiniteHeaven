@@ -1,7 +1,7 @@
 Infinite Heaven changelog
 Just notable changes, see github commits for full
 
-r261 - 2023-03-22
+r261 - 2023-03-24
 Fix: disableHerbSearch possibly not working correctly.
 
 Fix: Randomize RouteSets being called despite individual options being off (though not if main setting was off).
