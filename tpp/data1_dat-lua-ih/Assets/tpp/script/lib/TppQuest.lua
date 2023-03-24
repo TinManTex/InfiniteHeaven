@@ -1298,7 +1298,7 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
       end--if #clearedNotActive
     end--for overCount
   end--if overCount
-  if #sideOpsListTable>MAX_UI_QUESTS then
+  if #sideOpsListTable>this.MAX_UI_QUESTS then
     InfCore.Log("WARNING: #sidopList > maxUiQuests",false,true)--tex TODO lang
   end
   InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
