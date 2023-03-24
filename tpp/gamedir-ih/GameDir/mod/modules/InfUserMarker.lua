@@ -370,7 +370,7 @@ function this.GetMarkerPosition(index)
         InfCore.PrintInspect(markerPos,"GetPosition:")
       end
       if markerPos then
-        markerPos=InfTppUtil.PosOfType(InfTppUtil.posTypes.PosArray,markerPos)
+        markerPos=TppMath.Vector3toTable(markerPos)
       end
     end--gameId
   end--if userMarkerGameObjId
