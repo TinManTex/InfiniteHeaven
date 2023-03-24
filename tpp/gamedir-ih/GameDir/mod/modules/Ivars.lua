@@ -20,6 +20,7 @@
 
 --REF TODO: ref of ivar with all vars and methods
 
+--requires InfUtil
 
 local this={}
 
@@ -654,7 +655,7 @@ function this.BuildIvar(name,ivar)
       end
     else
       ivar.default=ivar.default or 0
-      ivar.enum=IvarProc.Enum(ivar.enum,ivar.settings)
+      ivar.enum=InfUtil.EnumFrom0(ivar.settings)
       --      for name,enum in ipairs(ivar.enum) do
       --        ivar[name]=false
       --        if enum==ivar.default then
