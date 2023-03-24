@@ -179,6 +179,6 @@ function this.DoControlSet(currentChecks)
     
     InfTppUtil.Warp(warperId,TppMath.Vector3toTable(warpPos),rotY)
   end
-end
+end--DoControlSet
 
 return this
