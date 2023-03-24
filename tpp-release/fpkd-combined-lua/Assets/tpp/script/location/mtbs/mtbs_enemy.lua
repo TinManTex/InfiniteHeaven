@@ -773,7 +773,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
     return 0
   end
 
-  if IvarProc.EnabledForMission"customSoldierType" then--tex>
+  if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
     InfMain.RandomSetToLevelSeed()
   end--<
 
@@ -808,7 +808,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
     mtbs_enemy.SetupSortieSoldierFovaForMemoryDump( clusterId )
   end
 
-  if IvarProc.EnabledForMission"customSoldierType" then--tex>
+  if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
     InfMain.RandomResetToOsTime()
   end--<
 
@@ -2078,7 +2078,7 @@ mtbs_enemy.OnActivateDemoBlock = function()
   local faceIdList = mvars.f30050_soldierFaceIdListPriority
   local normalFaceSoldierNum = #mvars.f30050_soldierFaceIdList
   local faceIdListIndex = 1
-  if IvarProc.EnabledForMission"customSoldierType" then--tex>
+  if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
     InfMain.RandomSetToLevelSeed()
   end--<
   for _, solName in ipairs( mvars.f30050_soldierListFovaApplyPriority[clusterId] ) do
@@ -2100,7 +2100,7 @@ mtbs_enemy.OnActivateDemoBlock = function()
     end
     faceIdListIndex = faceIdListIndex + 1
   end
-  if IvarProc.EnabledForMission"customSoldierType" then--tex>
+  if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
     InfMain.RandomResetToOsTime()
   end--<
   mtbs_enemy.SetEnableSoldierInCluster( clusterId, true )
@@ -2117,13 +2117,13 @@ mtbs_enemy.OnDeactivateDemoBlock = function(clusterId)
   end
 
   mtbs_enemy._SetAssetsTable(clusterId)
-  if IvarProc.EnabledForMission"customSoldierType" then--tex>
+  if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
     InfMain.RandomSetToLevelSeed()
   end--<
   for _, solName in ipairs( mvars.f30050_soldierListFovaApplyPriority[clusterId] ) do
     TppEneFova.ApplyMTBSUniqueSetting( GetGameObjectId("TppSoldier2", solName), 22, false , false )
   end
-  if IvarProc.EnabledForMission"customSoldierType" then--tex>
+  if InfEneFova.IsCustomSoldierTypeEnabled() then--tex>
     InfMain.RandomResetToOsTime()
   end--<
   mtbs_enemy.SetEnableSoldierInCluster( clusterId, false )

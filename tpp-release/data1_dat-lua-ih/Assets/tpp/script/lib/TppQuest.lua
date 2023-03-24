@@ -1272,10 +1272,10 @@ end--GetSideOpsListTable
 --  table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
 --  return sideOpsListTable
 --end--GetSideOpsListTable
---OUT: sideOpsListTable
+--OUT: sideOpsListTable  
+this.MAX_UI_QUESTS=192--tex LIMIT I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
 function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
-  local maxUIQuests=192--tex LIMIT I verified this limit again in 2023. NOTE: theres 157 ui quests (this questInfoTable).
-  local overCount=#sideOpsListTable-maxUIQuests
+  local overCount=#sideOpsListTable-this.MAX_UI_QUESTS
   if overCount>0 then
     --tex TODO: some meaninful way of notifying user, indicating that it's not a big deal (unless there ever comes a time when theres more than 192 quest areas installed at one time lol)
     --and to point them towards the UI show options, or the category options.
@@ -1298,7 +1298,7 @@ function this.ManageUiLimit(sideOpsListTable,clearedNotActive)
       end--if #clearedNotActive
     end--for overCount
   end--if overCount
-  if #sideOpsListTable>maxUIQuests then
+  if #sideOpsListTable>this.MAX_UI_QUESTS then
     InfCore.Log("WARNING: #sidopList > maxUiQuests",false,true)--tex TODO lang
   end
   InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG

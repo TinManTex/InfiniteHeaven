@@ -20,6 +20,7 @@
 
 --REF TODO: ref of ivar with all vars and methods
 
+--load requires InfUtil
 
 local this={}
 
@@ -103,7 +104,7 @@ this.debugFlow={
   nonConfig=true,
   save=IvarProc.CATEGORY_EXTERNAL,
   range=Ivars.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
   allowOnline=true,
 }
 
@@ -612,11 +613,11 @@ function this.DeclareGVars()
 
   local arrays={
     --REF {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-  }
+    }
   for i,gvar in ipairs(arrays)do
     varTable[#varTable+1]=gvar
   end
-  
+
   if this.debugModule then
     InfCore.PrintInspect(varTable,"Ivars varTable")
   end
@@ -654,7 +655,7 @@ function this.BuildIvar(name,ivar)
       end
     else
       ivar.default=ivar.default or 0
-      ivar.enum=IvarProc.Enum(ivar.enum,ivar.settings)
+      ivar.enum=InfUtil.EnumFrom0(ivar.settings)
       --      for name,enum in ipairs(ivar.enum) do
       --        ivar[name]=false
       --        if enum==ivar.default then
@@ -667,7 +668,7 @@ function this.BuildIvar(name,ivar)
 
     ivar.IsDefault=IvarProc.OptionIsDefault
     ivar.Is=IvarProc.OptionIsSetting
-    ivar.Get=IvarProc.OptionIsSetting
+    ivar.Get=IvarProc.OptionIsSetting--GOTCHA: usage: 0 is true in lua, so use Is(0) or 1, or Get()==0 etc
     ivar.Set=IvarProc.SetSetting
     ivar.SetDirect=IvarProc.SetDirect
     ivar.Reset=IvarProc.ResetSetting
@@ -701,29 +702,31 @@ end
 function this.RegisterIvars(ivarTable,ivarNames)
   for j,name in pairs(ivarNames)do
     local ivarDef=ivarTable[name]
-        if not ivarDef then
+    if not ivarDef then
       InfCore.Log("WARNING: Ivars.PostAllModulesLoad: could not find "..tostring(name).." in "..ivarTable.name)
-        elseif not this.IsIvar(ivarDef) then
+    elseif not this.IsIvar(ivarDef) then
       InfCore.Log("WARNING: Ivars.PostAllModulesLoad: "..tostring(name).." in "..ivarTable.name.." is not an Ivar.")
-        else
-          --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
-          --tex set them to nonconfig by default so to not trip up AutoDoc
-          --DEBUGNOW
-          --          if ivarDef.nonConfig~=false then--tex unless we specficially want it to be for config
-          --            ivarDef.nonConfig=true
-          --          end
-          --
-          --          if ivarDef.noDoc~=false then
-          --            ivarDef.noDoc=true
-          --          end
+    else
+      --InfCore.Log("Ivars.PostAllModulesLoad: Adding Ivar "..name.." from "..module.name)
+      --tex set them to nonconfig by default so to not trip up AutoDoc
+      --DEBUGNOW
+      --          if ivarDef.nonConfig~=false then--tex unless we specficially want it to be for config
+      --            ivarDef.nonConfig=true
+      --          end
+      --
+      --          if ivarDef.noDoc~=false then
+      --            ivarDef.noDoc=true
+      --          end
       --tex kinda hinky, the ivar itself is built out from whatever definition it has in its ivarTable,
       --then a reference added to this (Ivars) module so all Ivars can be accessed by Ivars.<ivar name>
-          this[name]=this.BuildIvar(name,ivarDef)
-          if type(ivarDef.Init)=="function"then
-            ivarDef:Init()
-          end
-        end--if ivar
-      end--for module.registerIvars
+      this[name]=this.BuildIvar(name,ivarDef)
+
+      if type(ivarDef.Init)=="function"then
+        --tex GOTCHA: since Ivars is early in modules list (RegisterIvars is initially called via PostAllModulesLoad) any modules that do set up in PostAllModulesLoad wont be done 
+        ivarDef:Init()
+      end
+    end--if ivar
+  end--for module.registerIvars
 end--RegisterIvars
 
 --missionModeIvarsNames: missionModeIvarsNames table created by IvarProc.MissionModeIvars
@@ -731,16 +734,16 @@ end--RegisterIvars
 --OUT/SIDE: this.missionModeIvars[ivarName]
 function this.RegisterMissionModeIvars(missionModeIvarsNames)
   for name,ivarNames in pairs(missionModeIvarsNames)do
-        this.missionModeIvars[name]={}
-        for i,ivarName in ipairs(ivarNames)do
-          local ivar=this[ivarName]
-          if not ivar then
+    this.missionModeIvars[name]={}
+    for i,ivarName in ipairs(ivarNames)do
+      local ivar=this[ivarName]
+      if not ivar then
         InfCore.Log("WARNING: Ivars.RegisterMissionModeIvars: could not find missionMode Ivar ".. ivarName)
-          else
-            table.insert(this.missionModeIvars[name],ivar)
-          end
-        end--for ivarNames
-      end--for module.missionModeIvarsNames
+      else
+        table.insert(this.missionModeIvars[name],ivar)
+      end
+    end--for ivarNames
+  end--for module.missionModeIvarsNames
 end--RegisterMissionModeIvars
 
 function this.PostAllModulesLoad()

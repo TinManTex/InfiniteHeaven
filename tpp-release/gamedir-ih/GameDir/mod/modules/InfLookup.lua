@@ -49,8 +49,11 @@ function this.PostModuleReload(prevModule)
   this.soldierSvarIndexes=prevModule.soldierSvarIndexes
   
   --GOTCHA: generated lookups need to be restored too else they'll point to the empty ones from the newly loaded module
-  this.lookups.subtitleId=this.subtitleId32ToString
-  this.lookups.dataSetPath32=this.path32ToDataSetName
+  this.lookups.subtitleId=prevModule.subtitleId32ToString
+  this.lookups.dataSetPath32=prevModule.path32ToDataSetName
+  
+  this.objectNameLists=prevModule.objectNameLists
+  this.objectNameListsEnum=prevModule.objectNameListsEnum
 end
 
 function this.PostAllModulesLoad()
@@ -194,11 +197,8 @@ this.gameObjectClass={
   "TppHostageUnique",
   "TppHostageUnique2",
   "TppHuey2",
-  "TppJackal",
   "TppLiquid2",
   "TppMantis2",
-  "TppMarkerLocatorSystem",
-  "TppNubian",
   "TppOcelot2",
   "TppOtherHeli2",
   "TppParasite2",

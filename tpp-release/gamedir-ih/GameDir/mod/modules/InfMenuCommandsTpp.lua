@@ -322,7 +322,7 @@ function this.QuietMoveToLastMarker()
     if gameId==NULL_ID then
       InfMenu.PrintLangId"cant_find_quiet"
     else
-      SendCommand(gameId,{id="MoveToPosition",position=moveToPosition,rotationY=rotationY})--,index=99,disableAim=true})
+      SendCommand(gameId,{id="MoveToPosition",position=Vector3(moveToPosition),rotationY=rotationY})--,index=99,disableAim=true})
     end
   end
   InfMenu.MenuOff()

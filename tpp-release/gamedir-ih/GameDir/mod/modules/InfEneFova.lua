@@ -1823,4 +1823,12 @@ function this.SetFemaleSoldier(soldierId,isFemale)
   this.isFemaleSoldierId[soldierId]=isFemale
 end
 
+--tex just time saving for the specific case of the kludge mb random seed setup for outside ApplyMTBSUniqueSetting, may ditch this if I rework the system
+function this.IsCustomSoldierTypeEnabled(missionCode)
+  if IvarProc.EnabledForMission("customSoldierType",missionCode) or IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    return true
+  end
+  return false
+end--IsCustomSoldierTypeEnabled
+
 return this

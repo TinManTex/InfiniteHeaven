@@ -282,15 +282,18 @@ function this.SetMaxToList(self,list,indexFrom1)--DEBUGNOW trying to shift to ra
   end
 end
 
-function this.SetSettings(self,list,indexFrom1)
+function this.SetSettings(self,list)
   self.settings=list
 
 --  if self.settingsCount~=#list then
 --    InfCore.Log("IvarProc.SetSettings settings count changed")
-    if self:Get()>#list then
+    local currentSetting=self:Get()
+    if currentSetting>#list-1 then
+      --tex note this will also trip from setsettings with an empty list
+      InfCore.Log("WARNING: IvarProc.SetSettings: "..tostring(self.name).." current setting:"..tostring(currentSetting).." out of bounds for #list:"..#list..", setting to 0",true,true)
       self:Set(0)
     end
-    self.enum=this.Enum(self.enum,list,indexFrom1)
+    self.enum=InfUtil.EnumFrom0(list)
     self.settingNames=list--DEBUGNOW rethink
 --    self.settingsCount=#list
 --  end
@@ -501,27 +504,7 @@ function this.Vector3Ivar(module,name,ivarSettings,dontSetIvars)
     [ZName]=Z,
   }
 end--Vector3Ivar
---tex yes, yet another Enum function, not Tpp.Enum or TppDefine.Enum
---this lets you choose the index base, and also the table to add to, 
---so you can pass in the same table to save performance from it creating a new each time
-function this.Enum(enumTable,enumNames,indexFrom1)
-  enumTable=enumTable or {}
-  if type(enumNames)~="table"then
-    return
-  end
-  local indexShift=1--tex default to index from 0 since the majority of ivars are.
-  if indexFrom1 then
-    indexShift=0
-  end
 
-  for i,enumName in ipairs(enumNames)do
-    enumTable[enumName]=i-indexShift--tex lua tables indexed from 1
-  end
-  --  if indexFrom1 then--DEBUGNOW think this through
-  --    enumTable[0]="OFF"
-  --  end
-  return enumTable
-end--Enum
 function this.GetVector3(ivar)
   if ivar.vec3Ivars==nil then
     InfCore.Log("ERROR: IvarProc.GetVector3: "..ivar.name..".vec3Ivars==nil")

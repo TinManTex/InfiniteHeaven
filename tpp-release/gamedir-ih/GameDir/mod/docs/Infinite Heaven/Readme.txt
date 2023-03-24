@@ -1,5 +1,5 @@
 = Infinite heaven =
-r261 - 2023-03-22
+r261 - 2023-03-24
 by tin man tex
 For MGSV version 1.15 (in title screen), 1.0.15.3 in exe
 Compatible IHHook version: r17 or later
@@ -25,7 +25,7 @@ Recent changes/additions
 NOTE: IHHook which adds the imgui menu and other supporting feature to Infinite Heaven has been split to it's own installation and nexus page: 
 https://www.nexusmods.com/metalgearsolidvtpp/mods/1226/
 
-r261 - 2023-03-22
+r261 - 2023-03-24
 Fix: disableHerbSearch possibly not working correctly.
 
 Fix: Randomize RouteSets being called despite individual options being off (though not if main setting was off).
@@ -43,7 +43,9 @@ Fix: Back in the dark ages I changed mvars.ene_soldierIDList itself from its ori
 (and API/dev warning I guess if anyone was using it as its modified form in their scripts)
 
 Fix: TppRevenge.SetEnableSoldierLocatorList (actually broken out by IH from _ApplyRevengeToCp) not applying in MB. Don't think it affected anything since it failed in a way that it was still applying revenge for all soliders in a cluster, just that it was applying multiple times (with exact same values).
-See the NOTE: in SetEnableSoldierLocatorList for my puzzlement about it.     
+See the NOTE: in SetEnableSoldierLocatorList for my puzzlement about it.
+
+Fix: Custom DD female type no longer dependant on Custom DD (male) type being set. Either of them will default to normal DD mb body if setting is OFF.
 
 Motherbase menu > 'DD Suit', 'DD Suit female' renamed 'Custom DD type in MB' in line with 'Custom Soldier type in mission/free'. 
 The underlying Ivars already were named customSoldierTypeMB_ALL, so you shouln't have to re-set the setting.
@@ -52,6 +54,8 @@ AroundCam (FreeCam):
 When AroundCam on, but with Adjust-mode off, changing settings via will now update AroundCam.
 
 Fix: FreeCam hang if on when Abort mission.
+
+'Warp to latest marker' now works when driving vehicle or walker gear.
 
 API: addon missionInfo (See notes in InfMission)
 clearExistingMissionStartSettings - only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 
@@ -66,6 +70,8 @@ isNoOrderBoxMission, likewise giving explicit setting for NO_ORDER_BOX_MISSION
 API: LoadExternalModule: Don't reload module if prevModule and not isReload.
 This was causing the early InfInit LoadExternalModuled modules Ivars,IvarsPersist and InfSoldierFaceAndBody to be reloaded. 
 In the case of InfSoldierFaceAndBody it would loose all its data since those functions were called manually rather than PostAllModulesLoad.
+
+API: InfUserMarker.GetMarkerPosition return type changed from Vector3 to {x,y,z} as it's more commonly used through other IH functions.
 
 r260 - 2023-03-10
 Fix: quest adding their missionPacks in helispace - thanks CapLag for an unrelated report that made me test something related.

@@ -514,7 +514,8 @@ end
 function this.ExecuteBackGroundLoad(demoId)
   if mvars.dem_reservedDemoLoadPosition then
     this.SetStageBlockLoadPosition(mvars.dem_reservedDemoLoadPosition)
-    this.SetPlayerWarpAndPause(mvars.dem_reservedDemoLoadPosition)
+    InfCore.Log("ERROR: RETAILBUG: TppDemo.ExecuteBackGroundLoad: demoId:"..tostring(demoId).." dem_reservedDemoLoadPosition")--tex DEBUGNOW confirm this isnt actually issue in vanilla
+    this.SetPlayerWarpAndPause(mvars.dem_reservedDemoLoadPosition)--RETAILBUG: function does not exist, but is never hit in vanilla because ReserveInTheBackGround is never called with demoflags.position (which sets mvars.dem_reservedDemoLoadPosition)
     mvars.dem_DoneBackGroundLoading=true
   else
     local a,position,rotQuat=DemoDaemon.GetStartPosition(demoId,"Player")

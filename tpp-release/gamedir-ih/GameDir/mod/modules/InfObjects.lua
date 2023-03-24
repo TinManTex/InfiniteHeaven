@@ -77,7 +77,7 @@ this.selectListObject={
 }
 
 this.addObjectLookupList={
-  settings={},--DYNAMIC
+  settings={"empty"},--DYNAMIC
   settingNamesDoc="<lookup list names>",
   GetSettingText=function(self,setting)
     local listName=InfLookup.objectNameListsEnum[setting+1]
