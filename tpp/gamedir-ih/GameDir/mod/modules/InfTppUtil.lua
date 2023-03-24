@@ -97,21 +97,28 @@ end
 --tex general warp function for gameobjects that have warp/position commands
 --gameObjectId: object that you want to warp to pos, 0 for player
 --pos: {x,y,z,rotY}
---rotY: if nil will try pos[4] 
+--rotY: if nil will try pos[4]
+--TODO test hostage
+--TODO verify rotY needs to be degrees or rads for each. is rads for vehicle, player?
 function this.Warp(gameObjectId,pos,rotY)
   rotY=rotY or pos[4] or 0
   
   local typeIndex=GameObject.GetTypeIndex(gameObjectId)   
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PLAYER2 then
     --tex TppPlayer.Warp only allows #pos==3 (so no tacked on rotY)
-    rotY=foxmath.NormalizeRadian(foxmath.DegreeToRadian(rotY))--tex really?
+    rotY=foxmath.NormalizeRadian(foxmath.DegreeToRadian(rotY))
     local command={id="WarpAndWaitBlock",pos=pos,rotY=rotY}
     GameObject.SendCommand(gameObjectId,command)
   elseif typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
-    pos=TppMath.Vector3toTable(pos)
+    pos=Vector3(pos[1],pos[2],pos[3])
+    rotY=foxmath.NormalizeRadian(foxmath.DegreeToRadian(rotY))
     GameObject.SendCommand(gameObjectId,{id="SetPosition",position=pos,rotY=rotY})
   elseif typeIndex==TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2 or TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2 then--tex buddy walker or enemy walker
+    rotY=foxmath.NormalizeRadian(foxmath.DegreeToRadian(rotY))
     GameObject.SendCommand(gameObjectId,{id="SetPosition",pos=pos,rotY=rotY})
+  elseif typeIndex==TppDefine.HOSTAGE_GM_TYPE[typeIndex] then
+    pos=Vector3(pos[1],pos[2],pos[3])
+    GameObject.SendCommand(gameObjectId,{id="Warp",degRotationY=rotY,position=pos})
   else
     local typeName=InfLookup.TppGameObject.typeIndex[typeIndex]
     InfCore.Log("WARNING: InfTppUtil.Warp: does not support gameObject type:"..tostring(typeName),true)
