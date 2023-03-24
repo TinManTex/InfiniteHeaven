@@ -347,39 +347,36 @@ function this.StripExt(fileName)
   return string.sub(fileName,1,lastPos-1)
 end
 
-function this.EnumFrom0(nameTable)
-  if nameTable==nil then
+--enumNames: array of enum names in enum order
+--enumTable: optional. will add enums to enumTable instead of returning new table. (so you can pass in same table as enumNames to add to that)
+function this.EnumFrom0(enumNames,enumTable)
+  if type(enumNames)~="table"then
     return
   end
-  if type(nameTable)~="table"then
+  if#enumNames==0 then
     return
   end
-  if#nameTable==0 then
-    return
-  end
-  local enumTable={}
-  for i=1,#nameTable do
-    enumTable[nameTable[i]]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
+  enumTable=enumTable or {}
+  for i=1,#enumNames do
+    enumTable[enumNames[i]]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
   end
   return enumTable
-end
-
-function this.EnumFrom1(nameTable)
-  if nameTable==nil then
+end--EnumFrom0
+--as above but enums start at 1
+function this.EnumFrom1(enumNames,enumTable)
+  if type(enumNames)~="table"then
     return
   end
-  if type(nameTable)~="table"then
+  if#enumNames==0 then
     return
-  end
-  if#nameTable==0 then
-    return
-  end
+  end  
+  enumTable=enumTable or {}
   local enumTable={}
-  for i=1,#nameTable do
-    enumTable[nameTable[i]]=i
+  for i=1,#enumNames do
+    enumTable[enumNames[i]]=i
   end
   return enumTable
-end
+end--EnumFrom1
 
 function this.GenerateNameList(fmt,num,list)
   local list=list or {}
