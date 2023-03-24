@@ -31,6 +31,8 @@ When AroundCam on, but with Adjust-mode off, changing settings via will now upda
 
 Fix: FreeCam hang if on when Abort mission.
 
+'Warp to latest marker' now works when driving vehicle or walker gear.
+
 API: addon missionInfo (See notes in InfMission)
 clearExistingMissionStartSettings - only for use when overriding a vanilla mission, clears all the mission start data so the following options you set can work cleanly 
 noBoxMissionHeliRoute / NO_ORDER_FIX_HELICOPTER_ROUTE support, requires isNoOrderBoxMission to be set
