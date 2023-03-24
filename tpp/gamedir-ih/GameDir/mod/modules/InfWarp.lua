@@ -167,7 +167,17 @@ function this.DoControlSet(currentChecks)
     local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
     local playerMoveDir=rotYQuat:Rotate(vMoveDir)
     local warpPos=currentPos+playerMoveDir
-    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+    --OFF TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+    
+    --tex TODO: something not right about vehicle warp
+    local rotY=vars.playerCameraRotation[1]
+    
+    local warperId=0--player
+    if vars.playerVehicleGameObjectId~=GameObject.NULL_ID then
+      warperId=vars.playerVehicleGameObjectId
+    end
+    
+    InfTppUtil.Warp(warperId,TppMath.Vector3toTable(warpPos),rotY)
   end
 end
 
