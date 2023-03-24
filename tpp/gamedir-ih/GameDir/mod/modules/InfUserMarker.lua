@@ -99,10 +99,6 @@ this.langStrings={
 
 --Commands
 this.WarpToLastUserMarker=function()
-  if vars.playerVehicleGameObjectId~=NULL_ID then
-    return
-  end
-
   -- InfCore.DebugPrint"Warping to newest marker"
   local lastMarkerIndex=this.GetLastAddedUserMarkerIndex()
   if lastMarkerIndex==nil then
@@ -436,7 +432,7 @@ function this.WarpToUserMarker(index)
     warperId=vars.playerVehicleGameObjectId
 	end
   
-	TppPlayer.Warp{pos=markerPos,rotY=rotY}
+  InfTppUtil.Warp(warperId,markerPos,rotY)
 end--WarpToUserMarker
 
 function this.Init()
